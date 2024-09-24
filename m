@@ -1,1974 +1,233 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E86CF9C79
-	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 11:55:13 +0000 (UTC)
-Received: from mail-yb1-f174.google.com (mail-yb1-f174.google.com [209.85.219.174])
- by mx.groups.io with SMTP id smtpd.web10.11956.1727178912655011125
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BF1A6CF9C6B
+	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 12:03:23 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.66])
+ by mx.groups.io with SMTP id smtpd.web11.12067.1727179400796125752
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Sep 2024 04:55:12 -0700
+ Tue, 24 Sep 2024 05:03:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=b01RGCpM;
- spf=pass (domain: baylibre.com, ip: 209.85.219.174, mailfrom: tgamblin@baylibre.com)
-Received: by mail-yb1-f174.google.com with SMTP id 3f1490d57ef6-e1a9e4fa5aaso4813773276.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 04:55:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727178911; x=1727783711; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=UA8bd5v5UhPJutJbve16W3wVyBZ6CD+Z3skJV94ZkDY=;
-        b=b01RGCpMYYLyvm/b7khxDUII1L/hyvI+iUSKfEU7LcgBuzJx8fj7KZskUZ+O43OHtn
-         +HeUj0voPz81Lis8442cGtpmyy5FVj6nDDCUiRxyNQNMMiAKIk3l8YzSxxDEataBicIY
-         K4XrowCpHwtPOSZ9wmDwlDwIzWPs99X3+GEb9XdL6mo2SveQbYY/jaujWjvu+p5exHT5
-         nTgc0vSqf1IfSRSRjQqbxiv+5162OgQaA+wbgyL5tOY0uCbGL6gWT3JOq/8EMphgcvGC
-         FNYw3HmJ4CrJ3TROw8BcgD9MuYUC5cN4kRwyDXmfjg/7JN+PKJzW7N6dWSgjMI55St2q
-         9d+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727178911; x=1727783711;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=UA8bd5v5UhPJutJbve16W3wVyBZ6CD+Z3skJV94ZkDY=;
-        b=vXw3hVuF4G2/JRHlzVIkyoVwORon9y05dRt4x7jFXgGau5avA/I/ncSfHhY5U5QrdA
-         /6Kg9FEKqDs3wh42wg6jkaHlM29ZTFHasJhi2RWehQQZWic85sMhws3W6zyACjyMLRqF
-         aNEHQ1zVBloeApb5af3yM//MEd2UAoBpc8r6rjsykVaMchgiAtO+a+/zifecGdxUpKIk
-         wZqAStMSHD5hiKazVubZMALGdlPwStirGKx2OwD37Qbxu26iOIz0KVbJcEX1Cd881PN7
-         +XyXM0t3x7xQPyqlBppUBex/v7+yR98NwKEk6aCtmSrDVbwYiYmlwrnuzT5U37AEc5gf
-         bxOg==
-X-Gm-Message-State: AOJu0YwbRXNIVBdkF+PpcFoFrFBCc0Gnmn2j82zQfxl4RDXS9MCYZcxE
-	5eoTJtibxfPn43fuCed0/FXkvhfovefcTcCct+6nUOxgrWOFVY5eamL4Ug/DVcwMgQIujgFnjR4
-	+dak=
-X-Google-Smtp-Source: AGHT+IGIiaUkbFRsEEDLq18NSKxfdVrntMUq1IQPw5JfV9AJjzMpMNlhNNPfHhnCTtySzIusO7nccA==
-X-Received: by 2002:a05:6902:2b8e:b0:e13:c854:2a2 with SMTP id 3f1490d57ef6-e2250c290ddmr12515505276.11.1727178910031;
-        Tue, 24 Sep 2024 04:55:10 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45b525456d3sm5553611cf.13.2024.09.24.04.55.09
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 04:55:09 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 6/6] patchtest: use black to format libraries
-Date: Tue, 24 Sep 2024 07:55:03 -0400
-Message-Id: <20240924115503.1599651-7-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20240924115503.1599651-1-tgamblin@baylibre.com>
-References: <20240924115503.1599651-1-tgamblin@baylibre.com>
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=ibRqyqAZ;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=ibRqyqAZ;
+ spf=pass (domain: arm.com, ip: 40.107.21.66, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=oZenE9uwx9Q8InZvjyUO8gVpFT9LB3qub0YGli5d1zi5bS1EBqkLfXi3RpeJX9uQymsujQqkIoUjCbItJTLKxKYJtD15sl0Bi8/JL1g9+C0v9qDGRWt6cRM/Hm1NrEy+kU/ooLt9daQzaunWTFK8l5lGGsGtImuFWgd4w8OxJhWmuHkMgRx9+N9+m6qxR8w6v5n235+1OiOIV1a+to/5pP7kSPlK5l4Lo/SXxlj7k+Z7qn+CFK8TCgUQsxcTzg1txZOFKr39jMctfB7dLKPvLqVtpSezuPmGuR3tmlDmM9BLWJ7oCq5SilhrHSgxt3JqD8wLU23HbB8h/CXkhCkKIg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rdJC4BpVMUeRqjrKHcm+bcdH/raTanCEYtcina5eGmQ=;
+ b=xMMV11FEcaIfq1WqCt/V6+nRSbfNprimhd7SdEj5TrMW66jNuCTFltQUU/SWkEXNcKBAjBunDSncQAhdT3/JT3SXVO2X1a8MgIum9CqRhe/fY9ONiC4VKZaoE9BC6962Qle669MIrhQ161eR8HWG7DR38Npt4XwJ7EsfnCueCXVkA+a2gcg+qwOd9HWCwWWXdq1u3TsTrWB0yOIlEpnpVsDMGyw+2KkzPC7hNqG3nnUZbWGAnq6RiiPxWz6TIUUPBpJ8AcuudzfpK3wmAtvGmJqeG7cHnX6yqNealwJG8pJ0MXG31QlMNlM1aUFDWeo8Sd9jlS2wgI800vCdK+3aZw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rdJC4BpVMUeRqjrKHcm+bcdH/raTanCEYtcina5eGmQ=;
+ b=ibRqyqAZDjbdhDUbk4UcsUd6p+fI4wemXJJc/Wn3w04Ha0qwIqsCD/6oLVXe8rnUqqM2YOmzJ0EYoULsBM9MqBk5c+jh3dPOaecKUNCyxA58ZKVy9nggkV9sc2KXZ0ub9ztS/PDhsvl/OUOSSHF3RmycwEvnzLcPpehMn/3IhHQ=
+Received: from DU7P191CA0022.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:54e::22)
+ by PAWPR08MB10118.eurprd08.prod.outlook.com (2603:10a6:102:368::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.12; Tue, 24 Sep
+ 2024 12:03:11 +0000
+Received: from DB1PEPF000509FA.eurprd03.prod.outlook.com
+ (2603:10a6:10:54e:cafe::c6) by DU7P191CA0022.outlook.office365.com
+ (2603:10a6:10:54e::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25 via Frontend
+ Transport; Tue, 24 Sep 2024 12:03:11 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DB1PEPF000509FA.mail.protection.outlook.com (10.167.242.36) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8005.15
+ via Frontend Transport; Tue, 24 Sep 2024 12:03:10 +0000
+Received: ("Tessian outbound f9d5b330f2e0:v465"); Tue, 24 Sep 2024 12:03:08 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 72760b0b8d758bb8
+X-TessianGatewayMetadata: Ju+f6Iy7cQ7T9IHhYUjbJTr2BZiaxAcCaBaNbaXOVVutO9+L09J0y1xoVZUB2naBzGGQPv2s35zB6Y/1+EdW4CSqTFMVt//SiVPpTO+6VlHtfwZBpGCYx9NzI/fX2A36uL4B6yMJCSw+mWHsUZCCohfXAfjwmTJ3tpEoaXWPK0U=
+X-CR-MTA-TID: 64aa7808
+Received: from L177812e56d4d.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 31FE7DAB-8C69-43CF-96F0-468221DE3B07.1;
+	Tue, 24 Sep 2024 12:03:02 +0000
+Received: from EUR05-AM6-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L177812e56d4d.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 24 Sep 2024 12:03:02 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=VRxHwZ0b4E9sa+P4N5yS3Oy1t9k6+evUIwvMYvc8Za+EGSUyYjPHlUEDThpro8dWkwMqU26BVvTmqosCqBzfKNbGmKw0X9c8E2HLiPF2YES095617qEyCmXm6VsUN++2d8ohWt8N10gauQFUbKtmgaBpEkDzr6vCajg91PzwQwidhGBD5WvtaWhDbFEuYdIFKbuDXbuN3AN91cvevkGmkVqOIeuN++8nwL1GgyZQu5AFh/WmCp3qe8wY5Edfugmh3aZXXpz2R+NlDELr/93NbO01bJOUGuJOo5ydo6Mef+K4MFRusCflZnszgyu9vhJdJ2VoHrUs67111RHs4HG+ww==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rdJC4BpVMUeRqjrKHcm+bcdH/raTanCEYtcina5eGmQ=;
+ b=uBoOq8QENonr0k+l31G8TFdCJs25WlnhiadGr9h1WLLUwIMeIhnxRN3EuompMnT2byPlwWfHwwXU73pSVL2M8PedokVeCcRubNeZ3xESRTwibNzMGLi+GIVhar/CQ+fP8xu5hp5Bp8TUPOL8AH97rfigQiZHysa5OZflArUCxuCzp01Sjiyy0f4eFYAKXCZvfqSgY9unuGllXfO7UgbEKy9kplfPFm9EDEvJv2vEXV5rzKNrS/4Ch2OvRAmxOK/8w5wwgm/ddX47SoaouD+dCO9YpKMcYOds9rgL5G0/QIOCUVMw5OmWXfGX9CKwnRfZvCHsiz0QCcCbviYqNiUzsA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rdJC4BpVMUeRqjrKHcm+bcdH/raTanCEYtcina5eGmQ=;
+ b=ibRqyqAZDjbdhDUbk4UcsUd6p+fI4wemXJJc/Wn3w04Ha0qwIqsCD/6oLVXe8rnUqqM2YOmzJ0EYoULsBM9MqBk5c+jh3dPOaecKUNCyxA58ZKVy9nggkV9sc2KXZ0ub9ztS/PDhsvl/OUOSSHF3RmycwEvnzLcPpehMn/3IhHQ=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by DU0PR08MB8930.eurprd08.prod.outlook.com (2603:10a6:10:465::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.13; Tue, 24 Sep
+ 2024 12:02:55 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%6]) with mapi id 15.20.8005.010; Tue, 24 Sep 2024
+ 12:02:55 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "Yogita.Urade@windriver.com" <Yogita.Urade@windriver.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][PATCH 1/1] ruby: upgrade 3.3.4 -> 3.3.5
+Thread-Topic: [OE-core][PATCH 1/1] ruby: upgrade 3.3.4 -> 3.3.5
+Thread-Index: AQHbDnVBo07BUzRlaEmgyinXjIDX37Jm1mqA
+Date: Tue, 24 Sep 2024 12:02:55 +0000
+Message-ID: <F774386C-4210-4156-8369-B108AC441399@arm.com>
+References: <20240924113031.2229409-1-yogita.urade@windriver.com>
+In-Reply-To: <20240924113031.2229409-1-yogita.urade@windriver.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3776.700.51)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|DU0PR08MB8930:EE_|DB1PEPF000509FA:EE_|PAWPR08MB10118:EE_
+X-MS-Office365-Filtering-Correlation-Id: e7e844c0-9ab8-41bb-351a-08dcdc90dbd4
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?a2orREhMd3R3a211bXo3d3JwR0JzcUlOMWswMjJpQVNvejVQcXFwSWMwSlNp?=
+ =?utf-8?B?aUgzK3AzYmN6aGZUTkZlZFdka3JLa2N6aDNTMU52anJ6Z2cvWDhlOGo0RGtZ?=
+ =?utf-8?B?OWhWN1had3ZqNGY1eHFseGtsVHdWQ2VJWmcrMWVaa0VvRm9ETUFYRUh5MTVa?=
+ =?utf-8?B?VWpzR1hxS0dVTGk1Q1ZUd3JNK0pKM0dCTjZRNGM1VFd4Z1lscEV3ODZnSGRD?=
+ =?utf-8?B?S1ZkZmlGV0F2RXMrRGVpTFI1TUticHlFek9pUEVkR3g4dWN1cnpuTmYxQ29z?=
+ =?utf-8?B?aFYvcXJId3dybHI5QjNsUU9FU0gxZ2RCcDZuZ01Ub0p3V1Q5S1dPSFZEWUNK?=
+ =?utf-8?B?aXhTYTMxRU5vb1RkbmNyVm9BT25JSm1STEx3b3FudVRwTjliTHhNU0l0Slhu?=
+ =?utf-8?B?eWMxZ3FZU0xsUCtNVnphQW8yaW4wc0ZKallkT2VDQ3JKdlc0UE54WE5BRVg4?=
+ =?utf-8?B?a0dudklkb0pBTDd6SncwS0ZsMFRDMGIvWkE0VnozM2FlV1RjZFpPMXVyL0dN?=
+ =?utf-8?B?bWJPOUpJc1pyVmhkbzZDRFIrKzQ4VkJzTXNBcys3aEVDTVd1ZDVHNzg3ZFph?=
+ =?utf-8?B?ZnNhcytkRUhvZHFtQ2ZKM0lHRDE3eGtvU0UzY01iZWF5cTlVdzJ4ZFRCZXdI?=
+ =?utf-8?B?blVVUlUzbjBEZzlnYncveTVJWVZ0WjJRVUZYcWhwSFJiTkxXWW01bXAyVjB0?=
+ =?utf-8?B?R1I0NFk3YTVwRGpkRHc2OGdsbkxuSzVuaVFZL01jR213dlE1TWVFY3Zvdzlr?=
+ =?utf-8?B?WHFSNnMvWHMyeVp4TWtvVkoyY25TRjkzUXN6SEE1MUVudk9TakZOMlZLVWhQ?=
+ =?utf-8?B?RWc2Z0xET0xwTUZMT2ZuOGFJdUlrZ0h0V00wTDNwdEdvc0ZSYnBQdTl0NTBT?=
+ =?utf-8?B?ZkpFb21NVXd4S1c1TklQUm5lUitYNDlKOGpOb1lid0FZSEdOQW1nUTVLK0hn?=
+ =?utf-8?B?R3dwcmxJKzQxUHZudHYzUnpyUTJlSGJlcnpmSEQ5eVBIQkUxcWliejk5b3Bw?=
+ =?utf-8?B?N0hyc0Y0cy83dG9rZmF5ckw2YllGc1YzLzA0QnpJWXpWdm96QU1PNldSVGhZ?=
+ =?utf-8?B?UmwzZmFPVjM3WWxlMWt1MXU4S3Nla0NRdGEvdjVHSzZyQTFVQlE3MGJRZnJ3?=
+ =?utf-8?B?elJsNDhFL05neGxmeVhJdXhsN0ZEbFhVYis1SFFaSE9ZdkprakF0UmQ5SDZt?=
+ =?utf-8?B?OFBFQmMwY2EvVDJFR3A1Wm5XeGdaNnl4b0xyMm5QZS9oZTA2SFI0UERRV1hl?=
+ =?utf-8?B?bUNHd3EyUnlrUWhDakhPZE8rVUdtY1JPSzlGYlJzd3BjdFNHa3UralBmRkZt?=
+ =?utf-8?B?VkZ4bXVRS2FmZ1NRNitCY0ppb1dyT1BQK0xZWEMyeW9VbXpmQTBhNHlOUy9Q?=
+ =?utf-8?B?a3NoUWs2ekJldk9rOXhGUHB2dHZPYm1SY2dnRXltdE9ET2RLeEtuSnI4bXJ2?=
+ =?utf-8?B?eTdCSWR0U2tlM05ERlNvSWdjdGZnTzhKbTNhSmxWeG5DWkJpOElsc3lqTVk3?=
+ =?utf-8?B?N0o4WDBMUDlJR3h3YTZOUGN3MUszVXdKLys5c2pPclBSK0YyNGR1dkt5a1VC?=
+ =?utf-8?B?MjdSSmZwWldFY1hlTE16NGhkbGVJdXpDbWcxN1FSdHlrbExrcXJ6d0NBbEls?=
+ =?utf-8?B?WTM4cDJDeXVJNU1iN3Y2OXdIYjdKVU92K0k3N2ZLMkRXQkpheUxPS2xDMkdY?=
+ =?utf-8?B?TWJSazBlNnZtY1dVSkFkZG40TjhuV3V1dlVBVzh0VVNiS3FUK01JUW5xZXJR?=
+ =?utf-8?B?eStYdE1MQlhMNUQ2Qzd6NStqRUVFNHRRZ1VRS1doWmF3M3k3OXQwb2lRYnlq?=
+ =?utf-8?B?dVdKbFVCM1dZTmFNV2k0Y251ZHR1VXNyWDNOYjVpWDk5MnZ4dUF3TUNFbG9S?=
+ =?utf-8?B?YU5YcGdldGVsbDE2cXBUR1JmbENBTUlzb1d5ZHF3VDBkUWc9PQ==?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <D6EE6DAA25410243B8CFBA074B5E4DD8@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8930
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: 
+ ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB1PEPF000509FA.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	b661d18b-bb78-4390-7674-08dcdc90d327
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|82310400026|35042699022|1800799024|36860700013|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Vy9rZVZNMXlNR0dqbGdCczUxL2xZK0lEWFovZk94Z3RXNEU3NklTWGEwaGM1?=
+ =?utf-8?B?aU83WmhBcWk1NFVyWDNZZjlaQVVpUWUvTkd0bEU2VTZzTk5KSlJsamJpWDRq?=
+ =?utf-8?B?K05JMlhxbXNWbUxITUN6bXFEQTIxWlRNQmptZFRKak5uVlZIRHI1QnNueE1J?=
+ =?utf-8?B?QW9UZDVCY0dGNEM0ejhjNFI0c2NZQmZBUHdJS2RibUUrVlNQcVUrK1k2S2t5?=
+ =?utf-8?B?WW5RRDZ1bm9IVzd4UEVtd2hCRWRZYlhkMzIycDJ0MnpDM3NVN09DWW1Odng4?=
+ =?utf-8?B?c1Bja3lVVjZ1eVpWZFlxUnpxUHNvYzgxUFBJb2dCcURmMFBlQWdnQS9zZkJB?=
+ =?utf-8?B?TjZSTGRRY0NyZFIrUnJnYVc4VWJXU1ZLTEF6dVpMWWNtczhHT1FpNFEyZXNS?=
+ =?utf-8?B?TlRQOC9ZZ1ptU1c1KzdMSTlGR0RsRXVCMWg4MVJrUmNubzJNaGJ3QWpUUG9k?=
+ =?utf-8?B?VjBHYmdQTjNlRmRTK3ZHRUpjL3JpRVE4Yys3K0NOWTFTb2Q0cWpLYWJBOFpT?=
+ =?utf-8?B?UDRNaXZOOERqMXNmWEU5eS9XV1NFSVdWSnVndStXR21sTk1aRHJRQnNrdHl6?=
+ =?utf-8?B?emJ0Q01VNGNES2JvVXExMG5KbFRZeEd6RVVSVzdTS0JQYUlvN3RqRmxoUXZp?=
+ =?utf-8?B?aCtTc0VIVFo5Y29MRGhVcHpveXJhak85KzluT1hBaE52T1FrZ2ZTbi9tb21k?=
+ =?utf-8?B?QkRVMXVYL3NtYmZlREpyWWlIMEliK2lnN3lQTm03cUxpY1hTQ2ZOdzJZNkZl?=
+ =?utf-8?B?MDhYVmJ1RFJ5Wm9hd25LMGdZRHFnR1VmaU5TRXp6bk1wY2VZU1g1Z214L2p2?=
+ =?utf-8?B?K0kxdEJlUkgrVGl2UEZDemtzbWxWWmVZWFRDUUtLUTMybHNLZHF5bzRKOHFY?=
+ =?utf-8?B?OWh4SUVEeUtCdlljQi9FMWRLM1JLcCtYaXRrTVE2WEJwaHBXa2RkYXpZckM3?=
+ =?utf-8?B?dm82VG5TVDc0Qm5xR2NJWlVCUEhsekcxekRkcEliVW94R2xQVk53SHh3SGpt?=
+ =?utf-8?B?dFQ0Y1h1NU9LUkVxZEtwZUJ1Skc3WlF6cTB2QTBUUURJd2d6U2lIK0dxOVQ1?=
+ =?utf-8?B?OElVSVh0Yk0vSGIzQ1ZZRVB0b1FKT3pielQ3eE94WGY0RjVqWFVXWVg4YlVo?=
+ =?utf-8?B?WFJFczVTL3c0WVJ0TmoxU1Nzd0JMUmd0MjkwVVFWMWxzN0duRGREcXRLUGhC?=
+ =?utf-8?B?dEdPekk0dEVOR3ArQWtWVUVncnFNSWZiblljd1F0ckVuTEwvbVV4eVRNdVNM?=
+ =?utf-8?B?a2R5elJzN3Z2NXpCSE4reUNwdHhvSnJ5Zk5FMGNMU2lxZDRKaTRHMDBRdTNm?=
+ =?utf-8?B?cHI5V2xQNnIyZEhPaFdSYXhOY3NVVC9oUld5YmVSZkNtNjBoNklLSnBJc0VC?=
+ =?utf-8?B?bFZWcDdkNHo4STBvaW42QUoxTHFrNU1PUDVrTnFibXF0M1dvSkpmeTJnNnpU?=
+ =?utf-8?B?a1U0OGUxSjZEQ04wNDVTVzBpUHhEZ0RsSHBrdXd6VER6MWNkM2l6cmVmc2FB?=
+ =?utf-8?B?QW1tam00dFFQcXl1QU80SE9xL2RPd3lWWDlyYlBDcDFqYVhCTVhVYThkaDBT?=
+ =?utf-8?B?TzdpLzZaT2VvbWg1Y2pBdjNTb3RxeGZiYTM1eUprSGd1ekloaEx5c1dCM2pn?=
+ =?utf-8?B?aVViNjFHWkJYa2ZkTTF2ZFFWYlE2NW9ZQzBWa3U4UWFYeWxDL1NFQW05SUxZ?=
+ =?utf-8?B?TUNpczRBa2Z4VWRqMlBwRWF3dUlmQWR1ZUlCL0hVU1lYYlM4ckdiRjROYUdz?=
+ =?utf-8?B?WUJGRjV5U0dobFlVaTExQXNZTEFGN3MrbVZhY0NjMXUraE5aM2MwWEMyd0ZY?=
+ =?utf-8?B?RnVUUEkxRng2cDhmck1FTkdscTNYRnRQL3dCZGVvZ2FvSC9oVUx6blMwUWEy?=
+ =?utf-8?B?ejR0SjRXdk9wb1QralVWRVI1dmh3LzN6RXJUYVJ0bHpPYnNPL3pKeVJINlJO?=
+ =?utf-8?Q?9IhUUjn8MWDAUm9nx7wEFWvyYP2Mig1A?=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(82310400026)(35042699022)(1800799024)(36860700013)(376014);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 12:03:10.0974
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e7e844c0-9ab8-41bb-351a-08dcdc90dbd4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509FA.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR08MB10118
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 11:55:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204856
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 12:03:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204857
 
-Black makes things easier to read.
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/lib/patchtest/mbox.py                    |  44 +++---
- meta/lib/patchtest/patchtest_parser.py        | 106 ++++++++-----
- meta/lib/patchtest/patchtest_patterns.py      |  84 ++++++----
- meta/lib/patchtest/repo.py                    |  32 ++--
- meta/lib/patchtest/selftest/selftest          |  92 ++++++++---
- meta/lib/patchtest/tests/base.py              |  86 ++++++-----
- meta/lib/patchtest/tests/test_mbox.py         | 144 +++++++++++++-----
- meta/lib/patchtest/tests/test_metadata.py     |  94 ++++++++----
- meta/lib/patchtest/tests/test_patch.py        |  39 +++--
- .../lib/patchtest/tests/test_python_pylint.py |  45 ++++--
- scripts/patchtest                             | 113 +++++++++-----
- scripts/patchtest-get-branch                  |  54 ++++---
- scripts/patchtest-send-results                |  66 +++++---
- 13 files changed, 660 insertions(+), 339 deletions(-)
-
-diff --git a/meta/lib/patchtest/mbox.py b/meta/lib/patchtest/mbox.py
-index 1d95819b7ae..aad07356f1f 100644
---- a/meta/lib/patchtest/mbox.py
-+++ b/meta/lib/patchtest/mbox.py
-@@ -13,11 +13,12 @@
- import email
- import re
- 
-+
- # From: https://stackoverflow.com/questions/59681461/read-a-big-mbox-file-with-python
- class MboxReader:
-     def __init__(self, filepath):
--        self.handle = open(filepath, 'rb')
--        assert self.handle.readline().startswith(b'From ')
-+        self.handle = open(filepath, "rb")
-+        assert self.handle.readline().startswith(b"From ")
- 
-     def __enter__(self):
-         return self
-@@ -32,24 +33,26 @@ class MboxReader:
-         lines = []
-         while True:
-             line = self.handle.readline()
--            if line == b'' or line.startswith(b'From '):
--                yield email.message_from_bytes(b''.join(lines))
--                if line == b'':
-+            if line == b"" or line.startswith(b"From "):
-+                yield email.message_from_bytes(b"".join(lines))
-+                if line == b"":
-                     break
-                 lines = []
-                 continue
-             lines.append(line)
- 
-+
- class Patch:
-     def __init__(self, data):
--        self.author = data['From']
--        self.to = data['To']
--        self.cc = data['Cc']
--        self.subject = data['Subject']
--        self.split_body = re.split('---', data.get_payload(), maxsplit=1)
-+        self.author = data["From"]
-+        self.to = data["To"]
-+        self.cc = data["Cc"]
-+        self.subject = data["Subject"]
-+        self.split_body = re.split("---", data.get_payload(), maxsplit=1)
-         self.commit_message = self.split_body[0]
-         self.diff = self.split_body[1]
- 
-+
- class PatchSeries:
-     def __init__(self, filepath):
-         with MboxReader(filepath) as mbox:
-@@ -78,8 +81,8 @@ class PatchSeries:
-         branch, branches, valid_branches = None, [], []
- 
-         if fullprefix:
--            prefix = fullprefix.strip('[]')
--            branches = [ b.strip() for b in prefix.split(',')]
-+            prefix = fullprefix.strip("[]")
-+            branches = [b.strip() for b in prefix.split(",")]
-             valid_branches = [b for b in branches if PatchSeries.valid_branch(b)]
- 
-         if len(valid_branches):
-@@ -89,20 +92,21 @@ class PatchSeries:
-         # found, then assume there was no branch tag in the subject line
-         # and that the patch targets master
-         if branch is not None:
--            return branch.split(']')[0]
-+            return branch.split("]")[0]
-         else:
-             return "master"
- 
-     @staticmethod
-     def valid_branch(branch):
--        """ Check if branch is valid name """
-+        """Check if branch is valid name"""
-         lbranch = branch.lower()
- 
--        invalid  = lbranch.startswith('patch') or \
--                   lbranch.startswith('rfc') or \
--                   lbranch.startswith('resend') or \
--                   re.search(r'^v\d+', lbranch) or \
--                   re.search(r'^\d+/\d+', lbranch)
-+        invalid = (
-+            lbranch.startswith("patch")
-+            or lbranch.startswith("rfc")
-+            or lbranch.startswith("resend")
-+            or re.search(r"^v\d+", lbranch)
-+            or re.search(r"^\d+/\d+", lbranch)
-+        )
- 
-         return not invalid
--
-diff --git a/meta/lib/patchtest/patchtest_parser.py b/meta/lib/patchtest/patchtest_parser.py
-index 2a11cb76c23..f1fef143245 100644
---- a/meta/lib/patchtest/patchtest_parser.py
-+++ b/meta/lib/patchtest/patchtest_parser.py
-@@ -19,6 +19,7 @@ import argparse
- default_testdir = os.path.abspath(os.path.dirname(__file__) + "/tests")
- default_repodir = os.path.abspath(os.path.dirname(__file__) + "/../../..")
- 
-+
- class PatchtestParser(object):
-     """Abstract the patchtest argument parser"""
- 
-@@ -33,46 +34,69 @@ class PatchtestParser(object):
- 
-         target_patch_group = parser.add_mutually_exclusive_group(required=True)
- 
--        target_patch_group.add_argument('--patch', metavar='PATCH', dest='patch_path',
--                            help='The patch to be tested')
--
--        target_patch_group.add_argument('--directory', metavar='DIRECTORY', dest='patch_path',
--                            help='The directory containing patches to be tested')
--
--        parser.add_argument('--repodir', metavar='REPO',
--                            default=default_repodir,
--                            help="Name of the repository where patch is merged")
--
--        parser.add_argument('--testdir', metavar='TESTDIR',
--                            default=default_testdir,
--                            help="Directory where test cases are located")
--
--        parser.add_argument('--top-level-directory', '-t',
--                            dest='topdir',
--                            default=None,
--                            help="Top level directory of project (defaults to start directory)")
--
--        parser.add_argument('--pattern', '-p',
--                            dest='pattern',
--                            default='test*.py',
--                            help="Pattern to match test files")
--
--        parser.add_argument('--base-branch', '-b',
--                            dest='basebranch',
--                            help="Branch name used by patchtest to branch from. By default, it uses the current one.")
--
--        parser.add_argument('--base-commit', '-c',
--                            dest='basecommit',
--                            help="Commit ID used by patchtest to branch from. By default, it uses HEAD.")
--
--        parser.add_argument('--debug', '-d',
--                            action='store_true',
--                            help='Enable debug output')
--
--        parser.add_argument('--log-results', 
--                            action='store_true', 
--                            help='Enable logging to a file matching the target patch name with ".testresult" appended')
--
-+        target_patch_group.add_argument(
-+            "--patch", metavar="PATCH", dest="patch_path", help="The patch to be tested"
-+        )
-+
-+        target_patch_group.add_argument(
-+            "--directory",
-+            metavar="DIRECTORY",
-+            dest="patch_path",
-+            help="The directory containing patches to be tested",
-+        )
-+
-+        parser.add_argument(
-+            "--repodir",
-+            metavar="REPO",
-+            default=default_repodir,
-+            help="Name of the repository where patch is merged",
-+        )
-+
-+        parser.add_argument(
-+            "--testdir",
-+            metavar="TESTDIR",
-+            default=default_testdir,
-+            help="Directory where test cases are located",
-+        )
-+
-+        parser.add_argument(
-+            "--top-level-directory",
-+            "-t",
-+            dest="topdir",
-+            default=None,
-+            help="Top level directory of project (defaults to start directory)",
-+        )
-+
-+        parser.add_argument(
-+            "--pattern",
-+            "-p",
-+            dest="pattern",
-+            default="test*.py",
-+            help="Pattern to match test files",
-+        )
-+
-+        parser.add_argument(
-+            "--base-branch",
-+            "-b",
-+            dest="basebranch",
-+            help="Branch name used by patchtest to branch from. By default, it uses the current one.",
-+        )
-+
-+        parser.add_argument(
-+            "--base-commit",
-+            "-c",
-+            dest="basecommit",
-+            help="Commit ID used by patchtest to branch from. By default, it uses HEAD.",
-+        )
-+
-+        parser.add_argument(
-+            "--debug", "-d", action="store_true", help="Enable debug output"
-+        )
-+
-+        parser.add_argument(
-+            "--log-results",
-+            action="store_true",
-+            help='Enable logging to a file matching the target patch name with ".testresult" appended',
-+        )
- 
-         return parser
--
-diff --git a/meta/lib/patchtest/patchtest_patterns.py b/meta/lib/patchtest/patchtest_patterns.py
-index 8c2e192fc9f..f332a070e5d 100644
---- a/meta/lib/patchtest/patchtest_patterns.py
-+++ b/meta/lib/patchtest/patchtest_patterns.py
-@@ -17,23 +17,23 @@ inappropriate = pyparsing.CaselessLiteral("Inappropriate")
- submitted = pyparsing.CaselessLiteral("Submitted")
- 
- # word related
--nestexpr = pyparsing.nestedExpr(opener='[', closer=']')
-+nestexpr = pyparsing.nestedExpr(opener="[", closer="]")
- inappropriateinfo = pyparsing.Literal("Inappropriate") + nestexpr
- submittedinfo = pyparsing.Literal("Submitted") + nestexpr
- word = pyparsing.Word(pyparsing.alphas)
--worddot = pyparsing.Word(pyparsing.alphas+".")
-+worddot = pyparsing.Word(pyparsing.alphas + ".")
- 
- # metadata
- 
--metadata_lic = 'LICENSE'
--invalid_license = 'PATCHTESTINVALID'
--metadata_chksum = 'LIC_FILES_CHKSUM'
--license_var  = 'LICENSE'
--closed   = 'CLOSED'
--lictag_re  = pyparsing.AtLineStart("License-Update:")
-+metadata_lic = "LICENSE"
-+invalid_license = "PATCHTESTINVALID"
-+metadata_chksum = "LIC_FILES_CHKSUM"
-+license_var = "LICENSE"
-+closed = "CLOSED"
-+lictag_re = pyparsing.AtLineStart("License-Update:")
- lic_chksum_added = pyparsing.AtLineStart("+" + metadata_chksum)
- lic_chksum_removed = pyparsing.AtLineStart("-" + metadata_chksum)
--add_mark = pyparsing.Regex('\\+ ')
-+add_mark = pyparsing.Regex("\\+ ")
- patch_max_line_length = 200
- metadata_src_uri = "SRC_URI"
- metadata_summary = "SUMMARY"
-@@ -42,20 +42,20 @@ cve_status_var = "CVE_STATUS"
- endcommit_messages_regex = re.compile(
-     r"\(From \w+-\w+ rev:|(?<!\S)Signed-off-by|(?<!\S)---\n"
- )
--patchmetadata_regex = re.compile(
--    r"-{3} \S+|\+{3} \S+|@{2} -\d+,\d+ \+\d+,\d+ @{2} \S+"
--)
-+patchmetadata_regex = re.compile(r"-{3} \S+|\+{3} \S+|@{2} -\d+,\d+ \+\d+,\d+ @{2} \S+")
- 
- # mbox
--auh_email = 'auh@yoctoproject.org'
-+auh_email = "auh@yoctoproject.org"
- 
--invalid_submitters = [pyparsing.Regex("^Upgrade Helper.+"),
--            pyparsing.Regex(auh_email),
--            pyparsing.Regex("uh@not\.set"),
--            pyparsing.Regex("\S+@example\.com")]
-+invalid_submitters = [
-+    pyparsing.Regex("^Upgrade Helper.+"),
-+    pyparsing.Regex(auh_email),
-+    pyparsing.Regex("uh@not\.set"),
-+    pyparsing.Regex("\S+@example\.com"),
-+]
- 
--mbox_bugzilla = pyparsing.Regex('\[\s?YOCTO.*\]')
--mbox_bugzilla_validation = pyparsing.Regex('\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]')
-+mbox_bugzilla = pyparsing.Regex("\[\s?YOCTO.*\]")
-+mbox_bugzilla_validation = pyparsing.Regex("\[(\s?YOCTO\s?#\s?(\d+)\s?,?)+\]")
- mbox_revert_shortlog_regex = pyparsing.Regex('Revert\s+".*"')
- mbox_shortlog_maxlength = 90
- 
-@@ -67,30 +67,56 @@ upstream_status_regex = pyparsing.AtLineStart("+" + "Upstream-Status")
- 
- # shortlog
- 
--shortlog_target = pyparsing.OneOrMore(pyparsing.Word(pyparsing.printables.replace(':','')))
-+shortlog_target = pyparsing.OneOrMore(
-+    pyparsing.Word(pyparsing.printables.replace(":", ""))
-+)
- shortlog_summary = pyparsing.OneOrMore(pyparsing.Word(pyparsing.printables))
- shortlog = line_start + shortlog_target + colon + shortlog_summary + line_end
- 
- # signed-off-bys
- 
--email_pattern = pyparsing.Regex(r"(?P<user>[A-Za-z0-9._%+-]+)@(?P<hostname>[A-Za-z0-9.-]+)\.(?P<domain>[A-Za-z]{2,})")
-+email_pattern = pyparsing.Regex(
-+    r"(?P<user>[A-Za-z0-9._%+-]+)@(?P<hostname>[A-Za-z0-9.-]+)\.(?P<domain>[A-Za-z]{2,})"
-+)
- 
- signed_off_by_prefix = pyparsing.Literal("Signed-off-by:")
--signed_off_by_name = pyparsing.Regex('\S+.*(?= <)')
-+signed_off_by_name = pyparsing.Regex("\S+.*(?= <)")
- signed_off_by_email = lessthan + email_pattern + greaterthan
--signed_off_by = pyparsing.AtLineStart(signed_off_by_prefix + signed_off_by_name + signed_off_by_email)
--patch_signed_off_by = pyparsing.AtLineStart("+" + signed_off_by_prefix + signed_off_by_name + signed_off_by_email)
-+signed_off_by = pyparsing.AtLineStart(
-+    signed_off_by_prefix + signed_off_by_name + signed_off_by_email
-+)
-+patch_signed_off_by = pyparsing.AtLineStart(
-+    "+" + signed_off_by_prefix + signed_off_by_name + signed_off_by_email
-+)
- 
- # upstream-status
- 
--upstream_status_literal_valid_status = ["Pending", "Backport", "Denied", "Inappropriate", "Submitted"]
--upstream_status_nonliteral_valid_status = ["Pending", "Backport", "Denied", "Inappropriate [reason]", "Submitted [where]"]
-+upstream_status_literal_valid_status = [
-+    "Pending",
-+    "Backport",
-+    "Denied",
-+    "Inappropriate",
-+    "Submitted",
-+]
-+upstream_status_nonliteral_valid_status = [
-+    "Pending",
-+    "Backport",
-+    "Denied",
-+    "Inappropriate [reason]",
-+    "Submitted [where]",
-+]
- 
- upstream_status_valid_status = pyparsing.Or(
-     [pyparsing.Literal(status) for status in upstream_status_literal_valid_status]
- )
- 
- upstream_status_prefix = pyparsing.Literal("Upstream-Status")
--upstream_status = line_start + upstream_status_prefix + colon + upstream_status_valid_status
--upstream_status_inappropriate_info = line_start + upstream_status_prefix + colon + inappropriateinfo
--upstream_status_submitted_info = line_start + upstream_status_prefix + colon + submittedinfo
-+upstream_status = (
-+    line_start + upstream_status_prefix + colon + upstream_status_valid_status
-+)
-+upstream_status_inappropriate_info = (
-+    line_start + upstream_status_prefix + colon + inappropriateinfo
-+)
-+upstream_status_submitted_info = (
-+    line_start + upstream_status_prefix + colon + submittedinfo
-+)
-diff --git a/meta/lib/patchtest/repo.py b/meta/lib/patchtest/repo.py
-index 8ec8f68a0bc..89ef2c2a5a4 100644
---- a/meta/lib/patchtest/repo.py
-+++ b/meta/lib/patchtest/repo.py
-@@ -12,10 +12,11 @@ import git
- import os
- import mbox
- 
-+
- class PatchTestRepo(object):
- 
-     # prefixes used for temporal branches/stashes
--    prefix = 'patchtest'
-+    prefix = "patchtest"
- 
-     def __init__(self, patch, repodir, commit=None, branch=None):
-         self.repodir = repodir
-@@ -28,23 +29,27 @@ class PatchTestRepo(object):
-         valid_patch_branch = None
-         if self.patch.branch in self.repo.branches:
-             valid_patch_branch = self.patch.branch
--            
-+
-         # Target Commit
-         # Priority (top has highest priority):
-         #    1. commit given at cmd line
-         #    2. branch given at cmd line
-         #    3. branch given at the patch
-         #    3. current HEAD
--        self._commit = self._get_commitid(commit) or \
--          self._get_commitid(branch) or \
--          self._get_commitid(valid_patch_branch) or \
--          self._get_commitid('HEAD')
-+        self._commit = (
-+            self._get_commitid(commit)
-+            or self._get_commitid(branch)
-+            or self._get_commitid(valid_patch_branch)
-+            or self._get_commitid("HEAD")
-+        )
- 
-         self._workingbranch = "%s_%s" % (PatchTestRepo.prefix, os.getpid())
- 
-         # create working branch. Use the '-B' flag so that we just
-         # check out the existing one if it's there
--        self.repo.git.execute(['git', 'checkout', '-B', self._workingbranch, self._commit])
-+        self.repo.git.execute(
-+            ["git", "checkout", "-B", self._workingbranch, self._commit]
-+        )
- 
-         self._patchmerged = False
- 
-@@ -52,7 +57,10 @@ class PatchTestRepo(object):
-         self._patchcanbemerged = True
-         try:
-             # Make sure to get the absolute path of the file
--            self.repo.git.execute(['git', 'apply', '--check', os.path.abspath(self.patch.path)], with_exceptions=True)
-+            self.repo.git.execute(
-+                ["git", "apply", "--check", os.path.abspath(self.patch.path)],
-+                with_exceptions=True,
-+            )
-         except git.exc.GitCommandError as ce:
-             self._patchcanbemerged = False
- 
-@@ -76,10 +84,12 @@ class PatchTestRepo(object):
- 
-     def merge(self):
-         if self._patchcanbemerged:
--            self.repo.git.execute(['git', 'am', '--keep-cr', os.path.abspath(self.patch.path)])
-+            self.repo.git.execute(
-+                ["git", "am", "--keep-cr", os.path.abspath(self.patch.path)]
-+            )
-             self._patchmerged = True
- 
-     def clean(self):
--        self.repo.git.execute(['git', 'checkout', self.current_branch])
--        self.repo.git.execute(['git', 'branch', '-D', self._workingbranch])
-+        self.repo.git.execute(["git", "checkout", self.current_branch])
-+        self.repo.git.execute(["git", "branch", "-D", self._workingbranch])
-         self._patchmerged = False
-diff --git a/meta/lib/patchtest/selftest/selftest b/meta/lib/patchtest/selftest/selftest
-index 6fad50ce616..9df6ecf7c68 100755
---- a/meta/lib/patchtest/selftest/selftest
-+++ b/meta/lib/patchtest/selftest/selftest
-@@ -11,18 +11,33 @@ import subprocess
- import sys
- 
- currentdir = os.path.dirname(os.path.abspath(__file__))
--patchesdir = os.path.join(currentdir, 'files')
--topdir     = os.path.dirname(currentdir)
--parentdir  = os.path.dirname(topdir)
-+patchesdir = os.path.join(currentdir, "files")
-+topdir = os.path.dirname(currentdir)
-+parentdir = os.path.dirname(topdir)
- 
- # path to the repo root
- repodir = os.path.dirname(os.path.dirname(parentdir))
- 
--def print_results(passcount, failcount, skipcount, xpasscount, xfailcount, xskipcount, errorcount):
--    total = passcount + skipcount + failcount + xpasscount + xfailcount + xskipcount + errorcount
--    print("============================================================================")
-+
-+def print_results(
-+    passcount, failcount, skipcount, xpasscount, xfailcount, xskipcount, errorcount
-+):
-+    total = (
-+        passcount
-+        + skipcount
-+        + failcount
-+        + xpasscount
-+        + xfailcount
-+        + xskipcount
-+        + errorcount
-+    )
-+    print(
-+        "============================================================================"
-+    )
-     print("Testsuite summary for %s" % os.path.basename(topdir))
--    print("============================================================================")
-+    print(
-+        "============================================================================"
-+    )
-     print("# TOTAL: %s" % str(total))
-     print("# XPASS: %s" % str(xpasscount))
-     print("# XFAIL: %s" % str(xfailcount))
-@@ -31,19 +46,29 @@ def print_results(passcount, failcount, skipcount, xpasscount, xfailcount, xskip
-     print("# FAIL: %s" % str(failcount))
-     print("# SKIP: %s" % str(skipcount))
-     print("# ERROR: %s" % str(errorcount))
--    print("============================================================================")
-+    print(
-+        "============================================================================"
-+    )
-+
- 
- # Once the tests are in oe-core, we can remove the testdir param and use os.path.dirname to get relative paths
- def test(root, patch):
-     res = True
-     patchpath = os.path.abspath(os.path.join(root, patch))
--    
--    cmd     = 'patchtest --repodir %s --testdir %s/tests --patch %s' % (repodir, topdir, patchpath)
--    results = subprocess.check_output(cmd, stderr=subprocess.STDOUT, universal_newlines=True, shell=True)
-+
-+    cmd = "patchtest --repodir %s --testdir %s/tests --patch %s" % (
-+        repodir,
-+        topdir,
-+        patchpath,
-+    )
-+    results = subprocess.check_output(
-+        cmd, stderr=subprocess.STDOUT, universal_newlines=True, shell=True
-+    )
- 
-     return results
- 
--if __name__ == '__main__':
-+
-+if __name__ == "__main__":
-     passcount = 0
-     failcount = 0
-     skipcount = 0
-@@ -53,31 +78,47 @@ if __name__ == '__main__':
-     errorcount = 0
- 
-     results = None
--        
-+
-     for root, dirs, patches in os.walk(patchesdir):
-         for patch in patches:
-             results = test(root, patch)
- 
--            a = patch.split('.')
-+            a = patch.split(".")
-             klass, testname = a[0], a[1]
-             expected_result = a[-1]
--            testid          = ".%s.%s" % (klass,testname)
-+            testid = ".%s.%s" % (klass, testname)
- 
-             for resultline in results.splitlines():
-                 if testid in resultline:
--                    result, _ = resultline.split(':', 1)
-+                    result, _ = resultline.split(":", 1)
- 
-                     if expected_result.upper() == "FAIL" and result.upper() == "FAIL":
-                         xfailcount = xfailcount + 1
--                        print("XFAIL: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-+                        print(
-+                            "XFAIL: %s (file: %s)"
-+                            % (testid.strip("."), os.path.basename(patch))
-+                        )
-                     elif expected_result.upper() == "PASS" and result.upper() == "PASS":
-                         xpasscount = xpasscount + 1
--                        print("XPASS: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-+                        print(
-+                            "XPASS: %s (file: %s)"
-+                            % (testid.strip("."), os.path.basename(patch))
-+                        )
-                     elif expected_result.upper() == "SKIP" and result.upper() == "SKIP":
-                         xskipcount = xskipcount + 1
--                        print("XSKIP: %s (file: %s)" % (testid.strip("."), os.path.basename(patch)))
-+                        print(
-+                            "XSKIP: %s (file: %s)"
-+                            % (testid.strip("."), os.path.basename(patch))
-+                        )
-                     else:
--                        print("%s: %s (%s)" % (result.upper(), testid.strip("."), os.path.basename(patch)))
-+                        print(
-+                            "%s: %s (%s)"
-+                            % (
-+                                result.upper(),
-+                                testid.strip("."),
-+                                os.path.basename(patch),
-+                            )
-+                        )
-                         if result.upper() == "PASS":
-                             passcount = passcount + 1
-                         elif result.upper() == "FAIL":
-@@ -85,10 +126,15 @@ if __name__ == '__main__':
-                         elif result.upper() == "SKIP":
-                             skipcount = skipcount + 1
-                         else:
--                            print("Bad result on test %s against %s" % (testid.strip("."), os.path.basename(patch)))
-+                            print(
-+                                "Bad result on test %s against %s"
-+                                % (testid.strip("."), os.path.basename(patch))
-+                            )
-                             errorcount = errorcount + 1
-                     break
-             else:
--                print ("No test for=%s" % patch)
-+                print("No test for=%s" % patch)
- 
--    print_results(passcount, failcount, skipcount, xpasscount, xfailcount, xskipcount, errorcount)
-+    print_results(
-+        passcount, failcount, skipcount, xpasscount, xfailcount, xskipcount, errorcount
-+    )
-diff --git a/meta/lib/patchtest/tests/base.py b/meta/lib/patchtest/tests/base.py
-index 919ca136bb4..a0e29e7f53c 100644
---- a/meta/lib/patchtest/tests/base.py
-+++ b/meta/lib/patchtest/tests/base.py
-@@ -26,40 +26,43 @@ Commit = collections.namedtuple(
-     "Commit", ["author", "subject", "commit_message", "shortlog", "payload"]
- )
- 
--Commit = collections.namedtuple('Commit', ['author', 'subject', 'commit_message', 'shortlog', 'payload'])
- 
- class PatchtestOEError(Exception):
-     """Exception for handling patchtest-oe errors"""
-+
-     def __init__(self, message, exitcode=1):
-         super().__init__(message)
-         self.exitcode = exitcode
- 
-+
- class Base(unittest.TestCase):
-     # if unit test fails, fail message will throw at least the following JSON: {"id": <testid>}
- 
-     @staticmethod
-     def msg_to_commit(msg):
-         payload = msg.get_payload()
--        return Commit(subject=msg['subject'].replace('\n', ' ').replace('  ', ' '),
--                      author=msg.get('From'),
--                      shortlog=Base.shortlog(msg['subject']),
--                      commit_message=Base.commit_message(payload),
--                      payload=payload)
-+        return Commit(
-+            subject=msg["subject"].replace("\n", " ").replace("  ", " "),
-+            author=msg.get("From"),
-+            shortlog=Base.shortlog(msg["subject"]),
-+            commit_message=Base.commit_message(payload),
-+            payload=payload,
-+        )
- 
-     @staticmethod
-     def commit_message(payload):
-         commit_message = payload.__str__()
-         match = patchtest_patterns.endcommit_messages_regex.search(payload)
-         if match:
--            commit_message = payload[:match.start()]
-+            commit_message = payload[: match.start()]
-         return commit_message
- 
-     @staticmethod
-     def shortlog(shlog):
-         # remove possible prefix (between brackets) before colon
--        start = shlog.find(']', 0, shlog.find(':'))
-+        start = shlog.find("]", 0, shlog.find(":"))
-         # remove also newlines and spaces at both sides
--        return shlog[start + 1:].replace('\n', '').strip()
-+        return shlog[start + 1 :].replace("\n", "").strip()
- 
-     @classmethod
-     def setUpClass(cls):
-@@ -68,7 +71,7 @@ class Base(unittest.TestCase):
-         cls.mbox = mailbox.mbox(PatchtestParser.repo.patch.path)
- 
-         # Patch may be malformed, so try parsing it
--        cls.unidiff_parse_error = ''
-+        cls.unidiff_parse_error = ""
-         cls.patchset = None
-         try:
-             cls.patchset = unidiff.PatchSet.from_filename(
-@@ -81,7 +84,7 @@ class Base(unittest.TestCase):
-         # Easy to iterate list of commits
-         cls.commits = []
-         for msg in cls.mbox:
--            if msg['subject'] and msg.get_payload():
-+            if msg["subject"] and msg.get_payload():
-                 cls.commits.append(Base.msg_to_commit(msg))
- 
-         cls.setUpClassLocal()
-@@ -99,38 +102,36 @@ class Base(unittest.TestCase):
-         pass
- 
-     def fail(self, issue, fix=None, commit=None, data=None):
--        """ Convert to a JSON string failure data"""
--        value = {'id': self.id(),
--                 'issue': issue}
-+        """Convert to a JSON string failure data"""
-+        value = {"id": self.id(), "issue": issue}
- 
-         if fix:
--            value['fix'] = fix
-+            value["fix"] = fix
-         if commit:
--            value['commit'] = {'subject': commit.subject,
--                               'shortlog': commit.shortlog}
-+            value["commit"] = {"subject": commit.subject, "shortlog": commit.shortlog}
- 
-         # extend return value with other useful info
-         if data:
--            value['data'] = data
-+            value["data"] = data
- 
-         return super(Base, self).fail(json.dumps(value))
- 
-     def skip(self, issue, data=None):
--        """ Convert the skip string to JSON"""
--        value = {'id': self.id(),
--                 'issue': issue}
-+        """Convert the skip string to JSON"""
-+        value = {"id": self.id(), "issue": issue}
- 
-         # extend return value with other useful info
-         if data:
--            value['data'] = data
-+            value["data"] = data
- 
-         return super(Base, self).skipTest(json.dumps(value))
- 
-     def shortid(self):
--        return self.id().split('.')[-1]
-+        return self.id().split(".")[-1]
- 
-     def __str__(self):
--        return json.dumps({'id': self.id()})
-+        return json.dumps({"id": self.id()})
-+
- 
- class Metadata(Base):
-     @classmethod
-@@ -154,19 +155,20 @@ class Metadata(Base):
-             if scripts_path not in sys.path:
-                 sys.path.insert(0, scripts_path)
-             import scriptpath
-+
-             scriptpath.add_bitbake_lib_path()
-             import bb.tinfoil
-         except ImportError:
--            raise PatchtestOEError('Could not import tinfoil module')
-+            raise PatchtestOEError("Could not import tinfoil module")
- 
-         orig_cwd = os.path.abspath(os.curdir)
- 
-         # Load tinfoil
-         tinfoil = None
-         try:
--            builddir = os.environ.get('BUILDDIR')
-+            builddir = os.environ.get("BUILDDIR")
-             if not builddir:
--                logger.warn('Bitbake environment not loaded?')
-+                logger.warn("Bitbake environment not loaded?")
-                 return tinfoil
-             os.chdir(builddir)
-             tinfoil = bb.tinfoil.Tinfoil()
-@@ -174,7 +176,9 @@ class Metadata(Base):
-         except bb.tinfoil.TinfoilUIException as te:
-             if tinfoil:
-                 tinfoil.shutdown()
--            raise PatchtestOEError('Could not prepare properly tinfoil (TinfoilUIException)')
-+            raise PatchtestOEError(
-+                "Could not prepare properly tinfoil (TinfoilUIException)"
-+            )
-         except Exception as e:
-             if tinfoil:
-                 tinfoil.shutdown()
-@@ -194,7 +198,7 @@ class Metadata(Base):
-             pn_native = None
-             for _path, _pn in data:
-                 if path in _path:
--                    if 'native' in _pn:
-+                    if "native" in _pn:
-                         # store the native PN but look for the non-native one first
-                         pn_native = _pn
-                     else:
-@@ -208,9 +212,9 @@ class Metadata(Base):
-                 # on renames (usually upgrades), we need to check (FILE) base names
-                 # because the unidiff library does not provided the new filename, just the modified one
-                 # and tinfoil datastore, once the patch is merged, will contain the new filename
--                path_basename = path.split('_')[0]
-+                path_basename = path.split("_")[0]
-                 for _path, _pn in data:
--                    _path_basename = _path.split('_')[0]
-+                    _path_basename = _path.split("_")[0]
-                     if path_basename == _path_basename:
-                         pn = _pn
-             return pn
-@@ -223,7 +227,11 @@ class Metadata(Base):
- 
-         # get metadata filename additions, modification and removals
-         for patch in patchset:
--            if patch.path.endswith('.bb') or patch.path.endswith('.bbappend') or patch.path.endswith('.inc'):
-+            if (
-+                patch.path.endswith(".bb")
-+                or patch.path.endswith(".bbappend")
-+                or patch.path.endswith(".inc")
-+            ):
-                 if patch.is_added_file:
-                     added_paths.append(
-                         os.path.join(
-@@ -243,10 +251,14 @@ class Metadata(Base):
-                         )
-                     )
- 
--        data = cls.tinfoil.cooker.recipecaches[''].pkg_fn.items()
-+        data = cls.tinfoil.cooker.recipecaches[""].pkg_fn.items()
- 
--        added = [find_pn(data,path) for path in added_paths]
--        modified = [find_pn(data,path) for path in modified_paths]
--        removed = [find_pn(data,path) for path in removed_paths]
-+        added = [find_pn(data, path) for path in added_paths]
-+        modified = [find_pn(data, path) for path in modified_paths]
-+        removed = [find_pn(data, path) for path in removed_paths]
- 
--        return [a for a in added if a], [m for m in modified if m], [r for r in removed if r]
-+        return (
-+            [a for a in added if a],
-+            [m for m in modified if m],
-+            [r for r in removed if r],
-+        )
-diff --git a/meta/lib/patchtest/tests/test_mbox.py b/meta/lib/patchtest/tests/test_mbox.py
-index c0f9970686a..22e4001613f 100644
---- a/meta/lib/patchtest/tests/test_mbox.py
-+++ b/meta/lib/patchtest/tests/test_mbox.py
-@@ -12,40 +12,73 @@ import re
- import subprocess
- from patchtest_parser import PatchtestParser
- 
-+
- def headlog():
-     output = subprocess.check_output(
-         "cd %s; git log --pretty='%%h#%%aN#%%cD:#%%s' -1" % PatchtestParser.repodir,
-         universal_newlines=True,
--        shell=True
--        )
--    return output.split('#')
-+        shell=True,
-+    )
-+    return output.split("#")
-+
- 
- class TestMbox(base.Base):
- 
-     # base paths of main yocto project sub-projects
-     paths = {
--        'oe-core': ['meta-selftest', 'meta-skeleton', 'meta', 'scripts'],
--        'bitbake': ['bitbake'],
--        'documentation': ['documentation'],
--        'poky': ['meta-poky','meta-yocto-bsp'],
--        'oe': ['meta-gpe', 'meta-gnome', 'meta-efl', 'meta-networking', 'meta-multimedia','meta-initramfs', 'meta-ruby', 'contrib', 'meta-xfce', 'meta-filesystems', 'meta-perl', 'meta-webserver', 'meta-systemd', 'meta-oe', 'meta-python']
--        }
--
--    # scripts folder is a mix of oe-core and poky, most is oe-core code except:
--    poky_scripts = ['scripts/yocto-bsp', 'scripts/yocto-kernel', 'scripts/yocto-layer', 'scripts/lib/bsp']
--
--    Project = collections.namedtuple('Project', ['name', 'listemail', 'gitrepo', 'paths'])
--
--    bitbake = Project(name='Bitbake', listemail='bitbake-devel@lists.openembedded.org', gitrepo='http://git.openembedded.org/bitbake/', paths=paths['bitbake'])
--    doc     = Project(name='Documentantion', listemail='yocto@yoctoproject.org', gitrepo='http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/', paths=paths['documentation'])
--    poky    = Project(name='Poky', listemail='poky@yoctoproject.org', gitrepo='http://git.yoctoproject.org/cgit/cgit.cgi/poky/', paths=paths['poky'])
--    oe      = Project(name='oe', listemail='openembedded-devel@lists.openembedded.org', gitrepo='http://git.openembedded.org/meta-openembedded/', paths=paths['oe'])
--
-+        "oe-core": ["meta-selftest", "meta-skeleton", "meta", "scripts"],
-+        "bitbake": ["bitbake"],
-+        "documentation": ["documentation"],
-+        "poky": ["meta-poky", "meta-yocto-bsp"],
-+        "oe": [
-+            "meta-filesystems",
-+            "meta-gnome",
-+            "meta-initramfs",
-+            "meta-multimedia",
-+            "meta-networking",
-+            "meta-oe",
-+            "meta-perl",
-+            "meta-python",
-+            "meta-webserver",
-+            "meta-xfce",
-+        ],
-+    }
-+
-+    Project = collections.namedtuple(
-+        "Project", ["name", "listemail", "gitrepo", "paths"]
-+    )
-+
-+    bitbake = Project(
-+        name="Bitbake",
-+        listemail="bitbake-devel@lists.openembedded.org",
-+        gitrepo="http://git.openembedded.org/bitbake/",
-+        paths=paths["bitbake"],
-+    )
-+    doc = Project(
-+        name="Documentantion",
-+        listemail="yocto@yoctoproject.org",
-+        gitrepo="http://git.yoctoproject.org/cgit/cgit.cgi/yocto-docs/",
-+        paths=paths["documentation"],
-+    )
-+    poky = Project(
-+        name="Poky",
-+        listemail="poky@yoctoproject.org",
-+        gitrepo="http://git.yoctoproject.org/cgit/cgit.cgi/poky/",
-+        paths=paths["poky"],
-+    )
-+    oe = Project(
-+        name="oe",
-+        listemail="openembedded-devel@lists.openembedded.org",
-+        gitrepo="http://git.openembedded.org/meta-openembedded/",
-+        paths=paths["oe"],
-+    )
- 
-     def test_signed_off_by_presence(self):
-         for commit in self.commits:
-             # skip those patches that revert older commits, these do not required the tag presence
--            if patchtest_patterns.mbox_revert_shortlog_regex.search_string(commit.shortlog):
-+            if patchtest_patterns.mbox_revert_shortlog_regex.search_string(
-+                commit.shortlog
-+            ):
-                 continue
-             if not patchtest_patterns.signed_off_by.search_string(commit.payload):
-                 self.fail(
-@@ -57,7 +90,7 @@ class TestMbox(base.Base):
-         for commit in self.commits:
-             shortlog = commit.shortlog
-             if not shortlog.strip():
--                self.skip('Empty shortlog, no reason to execute shortlog format test')
-+                self.skip("Empty shortlog, no reason to execute shortlog format test")
-             else:
-                 # no reason to re-check on revert shortlogs
-                 if shortlog.startswith('Revert "'):
-@@ -65,13 +98,15 @@ class TestMbox(base.Base):
-                 try:
-                     patchtest_patterns.shortlog.parseString(shortlog)
-                 except pyparsing.ParseException as pe:
--                    self.fail('Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"',
--                              commit=commit)
-+                    self.fail(
-+                        'Commit shortlog (first line of commit message) should follow the format "<target>: <summary>"',
-+                        commit=commit,
-+                    )
- 
-     def test_shortlog_length(self):
-         for commit in self.commits:
-             # no reason to re-check on revert shortlogs
--            shortlog = re.sub('^(\[.*?\])+ ', '', commit.shortlog)
-+            shortlog = re.sub("^(\[.*?\])+ ", "", commit.shortlog)
-             if shortlog.startswith('Revert "'):
-                 continue
-             l = len(shortlog)
-@@ -113,38 +148,63 @@ class TestMbox(base.Base):
-         for commit in self.commits:
-             match = project_regex.search_string(commit.subject)
-             if match:
--                self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists',
--                          commit=commit)
-+                self.fail(
-+                    "Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists",
-+                    commit=commit,
-+                )
- 
-         for patch in self.patchset:
--            folders = patch.path.split('/')
-+            folders = patch.path.split("/")
-             base_path = folders[0]
-             for project in [self.bitbake, self.doc, self.oe, self.poky]:
--                if base_path in  project.paths:
--                    self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists',
--                              data=[('Suggested ML', '%s [%s]' % (project.listemail, project.gitrepo)),
--                                    ('Patch\'s path:', patch.path)])
-+                if base_path in project.paths:
-+                    self.fail(
-+                        "Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists",
-+                        data=[
-+                            (
-+                                "Suggested ML",
-+                                "%s [%s]" % (project.listemail, project.gitrepo),
-+                            ),
-+                            ("Patch's path:", patch.path),
-+                        ],
-+                    )
- 
-             # check for poky's scripts code
--            if base_path.startswith('scripts'):
-+            if base_path.startswith("scripts"):
-                 for poky_file in self.poky_scripts:
-                     if patch.path.startswith(poky_file):
--                        self.fail('Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists',
--                                  data=[('Suggested ML', '%s [%s]' % (self.poky.listemail, self.poky.gitrepo)),('Patch\'s path:', patch.path)])
-+                        self.fail(
-+                            "Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists",
-+                            data=[
-+                                (
-+                                    "Suggested ML",
-+                                    "%s [%s]"
-+                                    % (self.poky.listemail, self.poky.gitrepo),
-+                                ),
-+                                ("Patch's path:", patch.path),
-+                            ],
-+                        )
- 
-     def test_mbox_format(self):
-         if self.unidiff_parse_error:
--            self.fail('Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am',
--                      data=[('Diff line',self.unidiff_parse_error)])
-+            self.fail(
-+                "Series has malformed diff lines. Create the series again using git-format-patch and ensure it applies using git am",
-+                data=[("Diff line", self.unidiff_parse_error)],
-+            )
- 
-     def test_commit_message_presence(self):
-         for commit in self.commits:
-             if not commit.commit_message.strip():
--                self.fail('Please include a commit message on your patch explaining the change', commit=commit)
-+                self.fail(
-+                    "Please include a commit message on your patch explaining the change",
-+                    commit=commit,
-+                )
- 
-     def test_bugzilla_entry_format(self):
-         for commit in self.commits:
--            if not patchtest_patterns.mbox_bugzilla.search_string(commit.commit_message):
-+            if not patchtest_patterns.mbox_bugzilla.search_string(
-+                commit.commit_message
-+            ):
-                 self.skip("No bug ID found")
-             elif not patchtest_patterns.mbox_bugzilla_validation.search_string(
-                 commit.commit_message
-@@ -158,7 +218,11 @@ class TestMbox(base.Base):
-         for commit in self.commits:
-             for invalid in patchtest_patterns.invalid_submitters:
-                 if invalid.search_string(commit.author):
--                    self.fail('Invalid author %s. Resend the series with a valid patch author' % commit.author, commit=commit)
-+                    self.fail(
-+                        "Invalid author %s. Resend the series with a valid patch author"
-+                        % commit.author,
-+                        commit=commit,
-+                    )
- 
-     def test_non_auh_upgrade(self):
-         for commit in self.commits:
-diff --git a/meta/lib/patchtest/tests/test_metadata.py b/meta/lib/patchtest/tests/test_metadata.py
-index 2dee80b0023..b6b62a65884 100644
---- a/meta/lib/patchtest/tests/test_metadata.py
-+++ b/meta/lib/patchtest/tests/test_metadata.py
-@@ -14,19 +14,20 @@ from patchtest_parser import PatchtestParser
- # Data store commonly used to share values between pre and post-merge tests
- PatchTestDataStore = collections.defaultdict(str)
- 
-+
- class TestMetadata(base.Metadata):
- 
-     def test_license_presence(self):
-         if not self.added:
--            self.skip('No added recipes, skipping test')
-+            self.skip("No added recipes, skipping test")
- 
-         # TODO: this is a workaround so we can parse the recipe not
-         # containing the LICENSE var: add some default license instead
-         # of INVALID into auto.conf, then remove this line at the end
--        auto_conf = os.path.join(os.environ.get('BUILDDIR'), 'conf', 'auto.conf')
--        open_flag = 'w'
-+        auto_conf = os.path.join(os.environ.get("BUILDDIR"), "conf", "auto.conf")
-+        open_flag = "w"
-         if os.path.exists(auto_conf):
--            open_flag = 'a'
-+            open_flag = "a"
-         with open(auto_conf, open_flag) as fd:
-             for pn in self.added:
-                 fd.write('LICENSE ??= "%s"\n' % patchtest_patterns.invalid_license)
-@@ -40,43 +41,44 @@ class TestMetadata(base.Metadata):
-                 break
- 
-         # remove auto.conf line or the file itself
--        if open_flag == 'w':
-+        if open_flag == "w":
-             os.remove(auto_conf)
-         else:
--            fd = open(auto_conf, 'r')
-+            fd = open(auto_conf, "r")
-             lines = fd.readlines()
-             fd.close()
--            with open(auto_conf, 'w') as fd:
--                fd.write(''.join(lines[:-1]))
-+            with open(auto_conf, "w") as fd:
-+                fd.write("".join(lines[:-1]))
- 
-         if no_license:
--            self.fail('Recipe does not have the LICENSE field set.')
-+            self.fail("Recipe does not have the LICENSE field set.")
- 
-     def test_lic_files_chksum_presence(self):
-         if not self.added:
--            self.skip('No added recipes, skipping test')
-+            self.skip("No added recipes, skipping test")
- 
-         for pn in self.added:
-             rd = self.tinfoil.parse_recipe(pn)
--            pathname = rd.getVar('FILE')
-+            pathname = rd.getVar("FILE")
-             # we are not interested in images
--            if '/images/' in pathname:
-+            if "/images/" in pathname:
-                 continue
-             lic_files_chksum = rd.getVar(patchtest_patterns.metadata_chksum)
-             if rd.getVar(patchtest_patterns.license_var) == patchtest_patterns.closed:
-                 continue
-             if not lic_files_chksum:
-                 self.fail(
--                    "%s is missing in newly added recipe" % patchtest_patterns.metadata_chksum
-+                    "%s is missing in newly added recipe"
-+                    % patchtest_patterns.metadata_chksum
-                 )
- 
-     def test_lic_files_chksum_modified_not_mentioned(self):
-         if not self.modified:
--            self.skip('No modified recipes, skipping test')
-+            self.skip("No modified recipes, skipping test")
- 
-         for patch in self.patchset:
-             # for the moment, we are just interested in metadata
--            if patch.path.endswith('.patch'):
-+            if patch.path.endswith(".patch"):
-                 continue
-             payload = str(patch)
-             if patchtest_patterns.lic_chksum_added.search_string(
-@@ -84,15 +86,19 @@ class TestMetadata(base.Metadata):
-             ) or patchtest_patterns.lic_chksum_removed.search_string(payload):
-                 # if any patch on the series contain reference on the metadata, fail
-                 for commit in self.commits:
--                    if patchtest_patterns.lictag_re.search_string(commit.commit_message):
-+                    if patchtest_patterns.lictag_re.search_string(
-+                        commit.commit_message
-+                    ):
-                         break
-                 else:
--                    self.fail('LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message')
-+                    self.fail(
-+                        'LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message'
-+                    )
- 
-     def test_max_line_length(self):
-         for patch in self.patchset:
-             # for the moment, we are just interested in metadata
--            if patch.path.endswith('.patch'):
-+            if patch.path.endswith(".patch"):
-                 continue
-             payload = str(patch)
-             for line in payload.splitlines():
-@@ -101,7 +107,10 @@ class TestMetadata(base.Metadata):
-                     if current_line_length > patchtest_patterns.patch_max_line_length:
-                         self.fail(
-                             "Patch line too long (current length %s, maximum is %s)"
--                            % (current_line_length, patchtest_patterns.patch_max_line_length),
-+                            % (
-+                                current_line_length,
-+                                patchtest_patterns.patch_max_line_length,
-+                            ),
-                             data=[
-                                 ("Patch", patch.path),
-                                 ("Line", "%s ..." % line[0:80]),
-@@ -113,12 +122,12 @@ class TestMetadata(base.Metadata):
-         if not PatchtestParser.repo.canbemerged:
-             self.skip("Patch cannot be merged")
-         if not self.modified:
--            self.skip('No modified recipes, skipping pretest')
-+            self.skip("No modified recipes, skipping pretest")
- 
-         # get the proper metadata values
-         for pn in self.modified:
-             # we are not interested in images
--            if 'core-image' in pn:
-+            if "core-image" in pn:
-                 continue
-             rd = self.tinfoil.parse_recipe(pn)
-             PatchTestDataStore[
-@@ -130,12 +139,12 @@ class TestMetadata(base.Metadata):
-         if not PatchtestParser.repo.canbemerged:
-             self.skip("Patch cannot be merged")
-         if not self.modified:
--            self.skip('No modified recipes, skipping pretest')
-+            self.skip("No modified recipes, skipping pretest")
- 
-         # get the proper metadata values
-         for pn in self.modified:
-             # we are not interested in images
--            if 'core-image' in pn:
-+            if "core-image" in pn:
-                 continue
-             rd = self.tinfoil.parse_recipe(pn)
-             PatchTestDataStore[
-@@ -144,14 +153,27 @@ class TestMetadata(base.Metadata):
- 
-         for pn in self.modified:
-             pretest_src_uri = PatchTestDataStore[
--                "pre%s-%s-%s" % (self.shortid(), patchtest_patterns.metadata_src_uri, pn)
-+                "pre%s-%s-%s"
-+                % (self.shortid(), patchtest_patterns.metadata_src_uri, pn)
-             ].split()
-             test_src_uri = PatchTestDataStore[
-                 "%s-%s-%s" % (self.shortid(), patchtest_patterns.metadata_src_uri, pn)
-             ].split()
- 
--            pretest_files = set([os.path.basename(patch) for patch in pretest_src_uri if patch.startswith('file://')])
--            test_files    = set([os.path.basename(patch) for patch in test_src_uri    if patch.startswith('file://')])
-+            pretest_files = set(
-+                [
-+                    os.path.basename(patch)
-+                    for patch in pretest_src_uri
-+                    if patch.startswith("file://")
-+                ]
-+            )
-+            test_files = set(
-+                [
-+                    os.path.basename(patch)
-+                    for patch in test_src_uri
-+                    if patch.startswith("file://")
-+                ]
-+            )
- 
-             # check if files were removed
-             if len(test_files) < len(pretest_files):
-@@ -169,16 +191,18 @@ class TestMetadata(base.Metadata):
-                 # TODO: we are not taking into account  renames, so test may raise false positives
-                 not_removed = filesremoved_from_usr_uri - filesremoved_from_patchset
-                 if not_removed:
--                    self.fail('Patches not removed from tree. Remove them and amend the submitted mbox',
--                              data=[('Patch', f) for f in not_removed])
-+                    self.fail(
-+                        "Patches not removed from tree. Remove them and amend the submitted mbox",
-+                        data=[("Patch", f) for f in not_removed],
-+                    )
- 
-     def test_summary_presence(self):
-         if not self.added:
--            self.skip('No added recipes, skipping test')
-+            self.skip("No added recipes, skipping test")
- 
-         for pn in self.added:
-             # we are not interested in images
--            if 'core-image' in pn:
-+            if "core-image" in pn:
-                 continue
-             rd = self.tinfoil.parse_recipe(pn)
-             summary = rd.getVar(patchtest_patterns.metadata_summary)
-@@ -186,7 +210,8 @@ class TestMetadata(base.Metadata):
-             # "${PN} version ${PN}-${PR}" is the default, so fail if default
-             if summary.startswith("%s version" % pn):
-                 self.fail(
--                    "%s is missing in newly added recipe" % patchtest_patterns.metadata_summary
-+                    "%s is missing in newly added recipe"
-+                    % patchtest_patterns.metadata_summary
-                 )
- 
-     def test_cve_check_ignore(self):
-@@ -200,7 +225,7 @@ class TestMetadata(base.Metadata):
-             self.skip("No modified recipes or older target branch, skipping test")
-         for pn in self.modified:
-             # we are not interested in images
--            if 'core-image' in pn:
-+            if "core-image" in pn:
-                 continue
-             rd = self.tinfoil.parse_recipe(pn)
-             cve_check_ignore = rd.getVar(patchtest_patterns.cve_check_ignore_var)
-@@ -208,5 +233,8 @@ class TestMetadata(base.Metadata):
-             if cve_check_ignore is not None:
-                 self.fail(
-                     "%s is deprecated and should be replaced by %s"
--                    % (patchtest_patterns.cve_check_ignore_var, patchtest_patterns.cve_status_var)
-+                    % (
-+                        patchtest_patterns.cve_check_ignore_var,
-+                        patchtest_patterns.cve_status_var,
-+                    )
-                 )
-diff --git a/meta/lib/patchtest/tests/test_patch.py b/meta/lib/patchtest/tests/test_patch.py
-index d08b8a50192..6f4799e3ead 100644
---- a/meta/lib/patchtest/tests/test_patch.py
-+++ b/meta/lib/patchtest/tests/test_patch.py
-@@ -10,6 +10,7 @@ import os
- import patchtest_patterns
- import pyparsing
- 
-+
- class TestPatch(base.Base):
- 
-     @classmethod
-@@ -17,7 +18,7 @@ class TestPatch(base.Base):
-         cls.newpatches = []
-         # get just those relevant patches: new software patches
-         for patch in cls.patchset:
--            if patch.path.endswith('.patch') and patch.is_added_file:
-+            if patch.path.endswith(".patch") and patch.is_added_file:
-                 cls.newpatches.append(patch)
- 
-         cls.mark = str(patchtest_patterns.signed_off_by_prefix).strip('"')
-@@ -27,21 +28,27 @@ class TestPatch(base.Base):
- 
-     def setUp(self):
-         if self.unidiff_parse_error:
--            self.skip('Parse error %s' % self.unidiff_parse_error)
-+            self.skip("Parse error %s" % self.unidiff_parse_error)
- 
--        self.valid_status = ", ".join(patchtest_patterns.upstream_status_nonliteral_valid_status)
-+        self.valid_status = ", ".join(
-+            patchtest_patterns.upstream_status_nonliteral_valid_status
-+        )
-         self.standard_format = "Upstream-Status: <Valid status>"
- 
-         # we are just interested in series that introduce CVE patches, thus discard other
-         # possibilities: modification to current CVEs, patch directly introduced into the
-         # recipe, upgrades already including the CVE, etc.
--        new_cves = [p for p in self.patchset if p.path.endswith('.patch') and p.is_added_file]
-+        new_cves = [
-+            p for p in self.patchset if p.path.endswith(".patch") and p.is_added_file
-+        ]
-         if not new_cves:
--            self.skip('No new CVE patches introduced')
-+            self.skip("No new CVE patches introduced")
- 
-     def test_upstream_status_presence_format(self):
-         if not TestPatch.newpatches:
--            self.skip("There are no new software patches, no reason to test Upstream-Status presence/format")
-+            self.skip(
-+                "There are no new software patches, no reason to test Upstream-Status presence/format"
-+            )
- 
-         for newpatch in TestPatch.newpatches:
-             payload = newpatch.__str__()
-@@ -91,7 +98,9 @@ class TestPatch(base.Base):
-                             )
-                     else:
-                         try:
--                            patchtest_patterns.upstream_status.parseString(line.lstrip("+"))
-+                            patchtest_patterns.upstream_status.parseString(
-+                                line.lstrip("+")
-+                            )
-                         except pyparsing.ParseException as pe:
-                             self.fail(
-                                 "Upstream-Status is in incorrect format",
-@@ -104,7 +113,10 @@ class TestPatch(base.Base):
- 
-     def test_signed_off_by_presence(self):
-         if not TestPatch.newpatches:
--            self.skip("There are no new software patches, no reason to test %s presence" % PatchSignedOffBy.mark)
-+            self.skip(
-+                "There are no new software patches, no reason to test %s presence"
-+                % PatchSignedOffBy.mark
-+            )
- 
-         for newpatch in TestPatch.newpatches:
-             payload = newpatch.__str__()
-@@ -114,7 +126,10 @@ class TestPatch(base.Base):
-                 if TestPatch.prog.search_string(payload):
-                     break
-             else:
--                self.fail('A patch file has been added without a Signed-off-by tag: \'%s\'' % os.path.basename(newpatch.path))
-+                self.fail(
-+                    "A patch file has been added without a Signed-off-by tag: '%s'"
-+                    % os.path.basename(newpatch.path)
-+                )
- 
-     def test_cve_tag_format(self):
-         for commit in TestPatch.commits:
-@@ -127,5 +142,7 @@ class TestPatch(base.Base):
-                         tag_found = True
-                         break
-                 if not tag_found:
--                    self.fail('Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX"',
--                              commit=commit)
-+                    self.fail(
-+                        'Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX"',
-+                        commit=commit,
-+                    )
-diff --git a/meta/lib/patchtest/tests/test_python_pylint.py b/meta/lib/patchtest/tests/test_python_pylint.py
-index ec9129bc796..11b5c84fa03 100644
---- a/meta/lib/patchtest/tests/test_python_pylint.py
-+++ b/meta/lib/patchtest/tests/test_python_pylint.py
-@@ -12,9 +12,9 @@ import pylint.lint as lint
- 
- 
- class PyLint(base.Base):
--    pythonpatches  = []
-+    pythonpatches = []
-     pylint_pretest = {}
--    pylint_test    = {}
-+    pylint_test = {}
-     pylint_options = " -E --disable='E0611, E1101, F0401, E0602' --msg-template='L:{line} F:{module} I:{msg}'"
- 
-     @classmethod
-@@ -22,26 +22,32 @@ class PyLint(base.Base):
-         # get just those patches touching python files
-         cls.pythonpatches = []
-         for patch in cls.patchset:
--            if patch.path.endswith('.py'):
-+            if patch.path.endswith(".py"):
-                 if not patch.is_removed_file:
-                     cls.pythonpatches.append(patch)
- 
-     def setUp(self):
-         if self.unidiff_parse_error:
--            self.skip('Python-unidiff parse error')
-+            self.skip("Python-unidiff parse error")
-         if not PyLint.pythonpatches:
--            self.skip('No python related patches, skipping test')
-+            self.skip("No python related patches, skipping test")
- 
-     def pretest_pylint(self):
-         for pythonpatch in self.pythonpatches:
-             if pythonpatch.is_modified_file:
-                 pylint_output = StringIO()
-                 reporter = TextReporter(pylint_output)
--                lint.Run([self.pylint_options, pythonpatch.path], reporter=reporter, exit=False)
-+                lint.Run(
-+                    [self.pylint_options, pythonpatch.path],
-+                    reporter=reporter,
-+                    exit=False,
-+                )
-                 for line in pylint_output.readlines():
--                    if not '*' in line:
-+                    if not "*" in line:
-                         if line.strip():
--                            self.pylint_pretest[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
-+                            self.pylint_pretest[line.strip().split(" ", 1)[0]] = (
-+                                line.strip().split(" ", 1)[1]
-+                            )
- 
-     def test_pylint(self):
-         for pythonpatch in self.pythonpatches:
-@@ -53,13 +59,22 @@ class PyLint(base.Base):
-                 path = pythonpatch.path
-             pylint_output = StringIO()
-             reporter = TextReporter(pylint_output)
--            lint.Run([self.pylint_options, pythonpatch.path], reporter=reporter, exit=False)
-+            lint.Run(
-+                [self.pylint_options, pythonpatch.path], reporter=reporter, exit=False
-+            )
-             for line in pylint_output.readlines():
--                    if not '*' in line:
--                        if line.strip():
--                            self.pylint_test[line.strip().split(' ',1)[0]] = line.strip().split(' ',1)[1]
-+                if not "*" in line:
-+                    if line.strip():
-+                        self.pylint_test[line.strip().split(" ", 1)[0]] = (
-+                            line.strip().split(" ", 1)[1]
-+                        )
- 
-         for issue in self.pylint_test:
--             if self.pylint_test[issue] not in self.pylint_pretest.values():
--                 self.fail('Errors in your Python code were encountered. Please check your code with a linter and resubmit',
--                           data=[('Output', 'Please, fix the listed issues:'), ('', issue + ' ' + self.pylint_test[issue])])
-+            if self.pylint_test[issue] not in self.pylint_pretest.values():
-+                self.fail(
-+                    "Errors in your Python code were encountered. Please check your code with a linter and resubmit",
-+                    data=[
-+                        ("Output", "Please, fix the listed issues:"),
-+                        ("", issue + " " + self.pylint_test[issue]),
-+                    ],
-+                )
-diff --git a/scripts/patchtest b/scripts/patchtest
-index 9218db232a7..99ce2f79131 100755
---- a/scripts/patchtest
-+++ b/scripts/patchtest
-@@ -20,7 +20,10 @@ import unittest
- sys.path.insert(0, os.path.dirname(os.path.realpath(__file__)))
- 
- # Include patchtest library
--sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), '../meta/lib/patchtest'))
-+sys.path.insert(
-+    0,
-+    os.path.join(os.path.dirname(os.path.realpath(__file__)), "../meta/lib/patchtest"),
-+)
- 
- from patchtest_parser import PatchtestParser
- from repo import PatchTestRepo
-@@ -33,16 +36,18 @@ logger.setLevel(logging.INFO)
- info = logger.info
- error = logger.error
- 
-+
- def getResult(patch, mergepatch, logfile=None):
- 
-     class PatchTestResult(unittest.TextTestResult):
--        """ Patchtest TextTestResult """
--        shouldStop  = True
-+        """Patchtest TextTestResult"""
-+
-+        shouldStop = True
-         longMessage = False
- 
--        success     = 'PASS'
--        fail        = 'FAIL'
--        skip        = 'SKIP'
-+        success = "PASS"
-+        fail = "FAIL"
-+        skip = "SKIP"
- 
-         def startTestRun(self):
-             # let's create the repo already, it can be used later on
-@@ -53,9 +58,9 @@ def getResult(patch, mergepatch, logfile=None):
-                 "patch": patch,
-             }
- 
--            self.repo_error    = False
--            self.test_error    = False
--            self.test_failure  = False
-+            self.repo_error = False
-+            self.test_error = False
-+            self.test_failure = False
- 
-             try:
-                 self.repo = PatchtestParser.repo = PatchTestRepo(**repoargs)
-@@ -74,39 +79,58 @@ def getResult(patch, mergepatch, logfile=None):
-             logger.error(traceback.print_exc())
- 
-         def addFailure(self, test, err):
--            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
--            "Signed-off-by").replace("upstream status",
--            "Upstream-Status").replace("non auh",
--            "non-AUH").replace("presence format", "presence")
-+            test_description = (
-+                test.id()
-+                .split(".")[-1]
-+                .replace("_", " ")
-+                .replace("cve", "CVE")
-+                .replace("signed off by", "Signed-off-by")
-+                .replace("upstream status", "Upstream-Status")
-+                .replace("non auh", "non-AUH")
-+                .replace("presence format", "presence")
-+            )
-             self.test_failure = True
--            fail_str = '{}: {}: {} ({})'.format(self.fail,
--            test_description, json.loads(str(err[1]))["issue"],
--            test.id())
-+            fail_str = "{}: {}: {} ({})".format(
-+                self.fail, test_description, json.loads(str(err[1]))["issue"], test.id()
-+            )
-             print(fail_str)
-             if logfile:
-                 with open(logfile, "a") as f:
-                     f.write(fail_str + "\n")
- 
-         def addSuccess(self, test):
--            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
--            "Signed-off-by").replace("upstream status",
--            "Upstream-Status").replace("non auh",
--            "non-AUH").replace("presence format", "presence")
--            success_str = '{}: {} ({})'.format(self.success,
--            test_description, test.id())
-+            test_description = (
-+                test.id()
-+                .split(".")[-1]
-+                .replace("_", " ")
-+                .replace("cve", "CVE")
-+                .replace("signed off by", "Signed-off-by")
-+                .replace("upstream status", "Upstream-Status")
-+                .replace("non auh", "non-AUH")
-+                .replace("presence format", "presence")
-+            )
-+            success_str = "{}: {} ({})".format(
-+                self.success, test_description, test.id()
-+            )
-             print(success_str)
-             if logfile:
-                 with open(logfile, "a") as f:
-                     f.write(success_str + "\n")
- 
-         def addSkip(self, test, reason):
--            test_description = test.id().split('.')[-1].replace('_', ' ').replace("cve", "CVE").replace("signed off by",
--            "Signed-off-by").replace("upstream status",
--            "Upstream-Status").replace("non auh",
--            "non-AUH").replace("presence format", "presence")
--            skip_str = '{}: {}: {} ({})'.format(self.skip,
--            test_description, json.loads(str(reason))["issue"],
--            test.id())
-+            test_description = (
-+                test.id()
-+                .split(".")[-1]
-+                .replace("_", " ")
-+                .replace("cve", "CVE")
-+                .replace("signed off by", "Signed-off-by")
-+                .replace("upstream status", "Upstream-Status")
-+                .replace("non auh", "non-AUH")
-+                .replace("presence format", "presence")
-+            )
-+            skip_str = "{}: {}: {} ({})".format(
-+                self.skip, test_description, json.loads(str(reason))["issue"], test.id()
-+            )
-             print(skip_str)
-             if logfile:
-                 with open(logfile, "a") as f:
-@@ -122,6 +146,7 @@ def getResult(patch, mergepatch, logfile=None):
- 
-     return PatchTestResult
- 
-+
- def _runner(resultklass, prefix=None):
-     # load test with the corresponding prefix
-     loader = unittest.TestLoader()
-@@ -145,29 +170,31 @@ def _runner(resultklass, prefix=None):
-         result = runner.run(suite)
-     except:
-         logger.error(traceback.print_exc())
--        logger.error('patchtest: something went wrong')
-+        logger.error("patchtest: something went wrong")
-         return 1
-     if result.test_failure or result.test_error:
--        return 1 
-+        return 1
- 
-     return 0
- 
-+
- def run(patch, logfile=None):
--    """ Load, setup and run pre and post-merge tests """
-+    """Load, setup and run pre and post-merge tests"""
-     # Get the result class and install the control-c handler
-     unittest.installHandler()
- 
-     # run pre-merge tests, meaning those methods with 'pretest' as prefix
-     premerge_resultklass = getResult(patch, False, logfile)
--    premerge_result = _runner(premerge_resultklass, 'pretest')
-+    premerge_result = _runner(premerge_resultklass, "pretest")
- 
-     # run post-merge tests, meaning those methods with 'test' as prefix
-     postmerge_resultklass = getResult(patch, True, logfile)
--    postmerge_result = _runner(postmerge_resultklass, 'test')
-+    postmerge_result = _runner(postmerge_resultklass, "test")
- 
-     print_result_message(premerge_result, postmerge_result)
-     return premerge_result or postmerge_result
- 
-+
- def print_result_message(preresult, postresult):
-     print("----------------------------------------------------------------------\n")
-     if preresult == 2 and postresult == 2:
-@@ -182,6 +209,7 @@ def print_result_message(preresult, postresult):
-         logger.info("OK: patchtest: All patchtests passed")
-     print("----------------------------------------------------------------------\n")
- 
-+
- def main():
-     tmp_patch = False
-     patch_path = PatchtestParser.patch_path
-@@ -192,20 +220,25 @@ def main():
-     git_status = os.popen("(cd %s && git status)" % PatchtestParser.repodir).read()
-     status_matches = ["Changes not staged for commit", "Changes to be committed"]
-     if any([match in git_status for match in status_matches]):
--        logger.error("patchtest: there are uncommitted changes in the target repo that would be overwritten. Please commit or restore them before running patchtest")
-+        logger.error(
-+            "patchtest: there are uncommitted changes in the target repo that would be overwritten. Please commit or restore them before running patchtest"
-+        )
-         return 1
- 
-     if os.path.isdir(patch_path):
--        patch_list = [os.path.join(patch_path, filename) for filename in sorted(os.listdir(patch_path))]
-+        patch_list = [
-+            os.path.join(patch_path, filename)
-+            for filename in sorted(os.listdir(patch_path))
-+        ]
-     else:
-         patch_list = [patch_path]
- 
-     for patch in patch_list:
-         if os.path.getsize(patch) == 0:
--            logger.error('patchtest: patch is empty')
-+            logger.error("patchtest: patch is empty")
-             return 1
- 
--        logger.info('Testing patch %s' % patch)
-+        logger.info("Testing patch %s" % patch)
- 
-         if log_results:
-             log_path = patch + ".testresult"
-@@ -221,7 +254,8 @@ def main():
-             if tmp_patch:
-                 os.remove(patch)
- 
--if __name__ == '__main__':
-+
-+if __name__ == "__main__":
-     ret = 1
- 
-     # Parse the command line arguments and store it on the PatchtestParser namespace
-@@ -239,6 +273,7 @@ if __name__ == '__main__':
-         ret = main()
-     except Exception:
-         import traceback
-+
-         traceback.print_exc(5)
- 
-     sys.exit(ret)
-diff --git a/scripts/patchtest-get-branch b/scripts/patchtest-get-branch
-index c6e242f8b68..7ddb79cbb5a 100755
---- a/scripts/patchtest-get-branch
-+++ b/scripts/patchtest-get-branch
-@@ -18,16 +18,17 @@ import git
- 
- re_prefix = re.compile(r"(\[.*\])", re.DOTALL)
- 
-+
- def get_branch(filepath_repo, filepath_mbox, default_branch):
-     branch = None
- 
-     # get all remotes branches
--    gitbranches = git.Git(filepath_repo).branch('-a').splitlines()
-+    gitbranches = git.Git(filepath_repo).branch("-a").splitlines()
- 
-     # from gitbranches, just get the names
--    branches = [b.split('/')[-1] for b in gitbranches]
-+    branches = [b.split("/")[-1] for b in gitbranches]
- 
--    subject = ' '.join(mailbox.mbox(filepath_mbox)[0]['subject'].splitlines())
-+    subject = " ".join(mailbox.mbox(filepath_mbox)[0]["subject"].splitlines())
- 
-     # we expect that patches will have somewhere between one and three
-     # consecutive sets of square brackets with tokens inside, e.g.:
-@@ -42,23 +43,23 @@ def get_branch(filepath_repo, filepath_mbox, default_branch):
-     # Or they may contain both:
-     # [PATCH v2 3/4]
-     # In any case, we want mprefix to contain all of these tokens so
--    # that we can search for branch names within them. 
--    mprefix = re.findall(r'\[.*?\]', subject)
-+    # that we can search for branch names within them.
-+    mprefix = re.findall(r"\[.*?\]", subject)
-     found_branch = None
-     if mprefix:
-         # Iterate over the tokens and compare against the branch list to
-         # figure out which one the patch is targeting
-         for token in mprefix:
--             stripped = token.lower().strip('[]')
--             if default_branch in stripped:
--                 found_branch = default_branch
--                 break
--             else:
--                 for branch in branches:
--                     # ignore branches named "core"
--                     if branch != "core" and stripped.rfind(branch) != -1:
--                         found_branch = token.split(' ')[0].strip('[]')
--                         break
-+            stripped = token.lower().strip("[]")
-+            if default_branch in stripped:
-+                found_branch = default_branch
-+                break
-+            else:
-+                for branch in branches:
-+                    # ignore branches named "core"
-+                    if branch != "core" and stripped.rfind(branch) != -1:
-+                        found_branch = token.split(" ")[0].strip("[]")
-+                        break
- 
-     # if there's no mprefix content or no known branches were found in
-     # the tokens, assume the target is master
-@@ -67,15 +68,26 @@ def get_branch(filepath_repo, filepath_mbox, default_branch):
- 
-     return (subject, found_branch)
- 
--if __name__ == '__main__':
-+
-+if __name__ == "__main__":
- 
-     parser = argparse.ArgumentParser()
--    parser.add_argument('repo', metavar='REPO', help='Main repository')
--    parser.add_argument('mbox', metavar='MBOX', help='mbox filename')
--    parser.add_argument('--default-branch', metavar='DEFAULT_BRANCH', default='master', help='Use this branch if no one is found')
--    parser.add_argument('--separator', '-s', metavar='SEPARATOR', default=' ', help='Char separator for output data')
-+    parser.add_argument("repo", metavar="REPO", help="Main repository")
-+    parser.add_argument("mbox", metavar="MBOX", help="mbox filename")
-+    parser.add_argument(
-+        "--default-branch",
-+        metavar="DEFAULT_BRANCH",
-+        default="master",
-+        help="Use this branch if no one is found",
-+    )
-+    parser.add_argument(
-+        "--separator",
-+        "-s",
-+        metavar="SEPARATOR",
-+        default=" ",
-+        help="Char separator for output data",
-+    )
-     args = parser.parse_args()
- 
-     subject, branch = get_branch(args.repo, args.mbox, args.default_branch)
-     print("branch: %s" % branch)
--
-diff --git a/scripts/patchtest-send-results b/scripts/patchtest-send-results
-index 8a3dadbd111..875388bf842 100755
---- a/scripts/patchtest-send-results
-+++ b/scripts/patchtest-send-results
-@@ -10,7 +10,7 @@
- # Copyright (C) 2023 BayLibre Inc.
- #
- # SPDX-License-Identifier: GPL-2.0-only
--# 
-+#
- 
- import argparse
- import boto3
-@@ -33,19 +33,36 @@ under 'Yocto Project Subprojects'). For more information on specific
- failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
- you!"""
- 
--def has_a_failed_test(raw_results):
--    return any(raw_result.split(':')[0] == "FAIL" for raw_result in raw_results.splitlines())
- 
--parser = argparse.ArgumentParser(description="Send patchtest results to a submitter for a given patch")
--parser.add_argument("-p", "--patch", dest="patch", required=True, help="The patch file to summarize")
--parser.add_argument("-d", "--debug", dest="debug", required=False, action='store_true', help="Print raw email headers and content, but don't actually send it")
-+def has_a_failed_test(raw_results):
-+    return any(
-+        raw_result.split(":")[0] == "FAIL" for raw_result in raw_results.splitlines()
-+    )
-+
-+
-+parser = argparse.ArgumentParser(
-+    description="Send patchtest results to a submitter for a given patch"
-+)
-+parser.add_argument(
-+    "-p", "--patch", dest="patch", required=True, help="The patch file to summarize"
-+)
-+parser.add_argument(
-+    "-d",
-+    "--debug",
-+    dest="debug",
-+    required=False,
-+    action="store_true",
-+    help="Print raw email headers and content, but don't actually send it",
-+)
- args = parser.parse_args()
- 
- if not os.path.exists(args.patch):
-     print(f"Patch '{args.patch}' not found - did you provide the right path?")
-     sys.exit(1)
- elif not os.path.exists(args.patch + ".testresult"):
--    print(f"Found patch '{args.patch}' but '{args.patch}.testresult' was not present. Have you run patchtest on the patch?")
-+    print(
-+        f"Found patch '{args.patch}' but '{args.patch}.testresult' was not present. Have you run patchtest on the patch?"
-+    )
-     sys.exit(1)
- 
- result_file = args.patch + ".testresult"
-@@ -57,17 +74,17 @@ with open(result_file, "r") as f:
- # we know these patch files will only contain a single patch, so only
- # worry about the first element for getting the subject
- mbox = mailbox.mbox(args.patch)
--mbox_subject = mbox[0]['subject']
-+mbox_subject = mbox[0]["subject"]
- subject_line = f"Patchtest results for {mbox_subject}"
- 
- # extract the submitter email address and use it as the reply address
- # for the results
--reply_address = mbox[0]['from']
-+reply_address = mbox[0]["from"]
- 
- # extract the message ID and use that as the in-reply-to address
- # TODO: This will need to change again when patchtest can handle a whole
- # series at once
--in_reply_to = mbox[0]['Message-ID']
-+in_reply_to = mbox[0]["Message-ID"]
- 
- # the address the results email is sent from
- from_address = "patchtest@automation.yoctoproject.org"
-@@ -77,24 +94,35 @@ cc_address = "openembedded-core@lists.openembedded.org"
- 
- if has_a_failed_test(testresult):
-     reply_contents = None
--    if len(max(open(result_file, 'r'), key=len)) > 220:
-+    if len(max(open(result_file, "r"), key=len)) > 220:
-         warning = "Tests failed for the patch, but the results log could not be processed due to excessive result line length."
-         reply_contents = greeting + warning + suggestions
-     else:
-         reply_contents = greeting + testresult + suggestions
- 
--    ses_client = boto3.client('ses', region_name='us-west-2')
-+    ses_client = boto3.client("ses", region_name="us-west-2")
- 
-     # Construct the headers for the email. We only want to reply
-     # directly to the tested patch, so make In-Reply-To and References
-     # the same value.
--    raw_data = 'From: ' + from_address + '\nTo: ' + reply_address + \
--        '\nCC: ' + cc_address + '\nSubject:' + subject_line + \
--        '\nIn-Reply-To:' + in_reply_to + \
--        '\nReferences:' + in_reply_to + \
--        '\nMIME-Version: 1.0" + \
--        "\nContent-type: Multipart/Mixed;boundary="NextPart"\n\n--NextPart\nContent-Type: text/plain\n\n' + \
--        reply_contents + '\n\n--NextPart'
-+    raw_data = (
-+        "From: "
-+        + from_address
-+        + "\nTo: "
-+        + reply_address
-+        + "\nCC: "
-+        + cc_address
-+        + "\nSubject:"
-+        + subject_line
-+        + "\nIn-Reply-To:"
-+        + in_reply_to
-+        + "\nReferences:"
-+        + in_reply_to
-+        + '\nMIME-Version: 1.0" + \
-+        "\nContent-type: Multipart/Mixed;boundary="NextPart"\n\n--NextPart\nContent-Type: text/plain\n\n'
-+        + reply_contents
-+        + "\n\n--NextPart"
-+    )
- 
-     if args.debug:
-         print(f"RawMessage: \n\n{raw_data}")
--- 
-2.39.5
-
+T24gMjQgU2VwIDIwMjQsIGF0IDEyOjMwLCBVcmFkZSwgWW9naXRhIHZpYSBsaXN0cy5vcGVuZW1i
+ZWRkZWQub3JnIDxZb2dpdGEuVXJhZGU9d2luZHJpdmVyLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQu
+b3JnPiB3cm90ZToNCj4gDQo+IEZyb206IFlvZ2l0YSBVcmFkZSA8eW9naXRhLnVyYWRlQHdpbmRy
+aXZlci5jb20+DQo+IA0KPiBJbmNsdWRlcyBmaXggZm9yIENWRS0yMDI0LTQxMTIzICYgQ1ZFLTIw
+MjQtNDE5NDYNCg0KVGhpcyBjYXVzZXMgYSBsb3Qgb2YgbmV3IGZpbGVzIHRvIGFwcGVhciBpbiAv
+dXNyL2JpbjoNCg0KcGFja2FnZXMvY29ydGV4YTU3LXBva3ktbGludXgvcnVieS9ydWJ5OiBGSUxF
+TElTVDogYWRkZWQgIi91c3IvYmluL3Jicy5sb2NrIC91c3IvYmluL3JkYmcubG9jayAvdXNyL2Jp
+bi9zeW50YXhfc3VnZ2VzdC5sb2NrIC91c3IvYmluL3Jkb2MubG9jayAvdXNyL2Jpbi9yYWtlLmxv
+Y2sgL3Vzci9iaW4vZXJiLmxvY2sgL3Vzci9iaW4vYnVuZGxlLmxvY2sgL3Vzci9iaW4vYnVuZGxl
+ci5sb2NrIC91c3IvYmluL2lyYi5sb2NrIC91c3IvYmluL3JhY2MubG9jayAvdXNyL2Jpbi90eXBl
+cHJvZi5sb2NrICAvdXNyL2Jpbi9yaS5sb2Nr4oCdDQoNCklzIHRoaXMgaW50ZW50aW9uYWw/IEl0
+IGRvZXNu4oCZdCBzZWVtIHJpZ2h0IHRoYXQgdGhlc2UgLmxvY2sgZmlsZXMgd2lsbCBiZSBpbiAk
+YmluZGlyLg0KDQpSb3Nz
 
