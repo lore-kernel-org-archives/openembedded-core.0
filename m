@@ -1,183 +1,135 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03AB3CF9C6B
-	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 07:31:42 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.8290.1727163099699725160
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C5D2CF9C71
+	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 07:52:22 +0000 (UTC)
+Received: from mail-lj1-f173.google.com (mail-lj1-f173.google.com [209.85.208.173])
+ by mx.groups.io with SMTP id smtpd.web11.8477.1727164339191911542
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Sep 2024 00:31:39 -0700
+ Tue, 24 Sep 2024 00:52:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=h46mKHQP;
- spf=pass (domain: mvista.com, ip: 209.85.215.175, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7db299608e7so3250884a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 00:31:39 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=GzoDx849;
+ spf=pass (domain: linaro.org, ip: 209.85.208.173, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f173.google.com with SMTP id 38308e7fff4ca-2f75129b3a3so51885201fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 00:52:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1727163099; x=1727767899; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ns1K1a3rviAeMYCwQwbRCcD/3taLUvZyR3T0j8UqrUk=;
-        b=h46mKHQPMTOYEiMplarJELwdDIuWDjjJm3B3SZTb6Xd4xmnkDwGQQ+z5xL1o8s4Uyj
-         WAU28yqSYQuE/HY9rCzd2c4wC6yREeXoraZ5ke7Jh0hOlw3e4iaSOgJIzBv8Ou0XTH0I
-         iMgC5cxu3iIKh1WWO2ukigBtIWCXHlhtuyo/U=
+        d=linaro.org; s=google; t=1727164337; x=1727769137; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=PCHh55wW8djyDLLWKAErpQrZRRbzKGMrBBaLPngdSaA=;
+        b=GzoDx849e/siUuviJc38/TxQ+ha5XWhcdbNGnKMwT8npNuGJPB/LAUpLPkasgH139K
+         SwxHRrHFLmHF889sMOYmLo+TXbprb5ZwzUXgZ1pmwd4RWIn2BsZR8TXbUfkiiIT1prMd
+         yZ8Gx9Xg0hJo7ul8G7DUGqY8DhbPoHymmAzZUzWAzxucKI8bTd5kIBs83u+3fSr+IV6M
+         Dp2Ixf6t6bezgc4YfvmJ/oaJ5PkJzAjfQSjH2TL6+19A5sT42DVn/3fM8/4WI48bvjcv
+         8/Sure33oNozySgjaPiI4/uiOYdnxFdqny9qPlVDFbCrhtVaAiV/8XmjmMp85tXO7Mmb
+         WpTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727163099; x=1727767899;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ns1K1a3rviAeMYCwQwbRCcD/3taLUvZyR3T0j8UqrUk=;
-        b=vYqF4WuAaYYpJIwA2J2n9a2D64uxH20ZRLgrGw7bAZR/Im/Q+XrWnqmcJfUMdOk8bF
-         4TQFv+W8ebfIF/1pz6K5gPCQ7DNoMPvbblyLHIzf4Aggqi5ukoFeQEJXWdd8D0D8ldOZ
-         Sc9HSKna2lsgYjK9GGripJYZIaSZrezJxbSW/kNp2/cOWbOJMRGZ5sRJt8eOh8weOqtA
-         K3/yAvKmQ5/TAnpW2DImccwwAqr6xFy0DwKYd611iyco2rxn6rAortFJjOsHwyYTwI17
-         llLxyanCsrJtzAww0XhxfEolQ0NSk2jZT147R961YJsbinbaScXAo+peYqm8Hi4xCBlJ
-         ukgQ==
-X-Gm-Message-State: AOJu0YzGR9yYshfuTxKSY5mpBGZMTcZv+q0dXVGX4RAPCKgY4xv3ZKCv
-	CS+UL+Lei02y+LodKoEQx74yWmrGSkYkQxhda608WQJumrQt6aG0F6QmMuYgiRPW/ALULjIoZm4
-	1
-X-Google-Smtp-Source: AGHT+IE5IN0nqlr/bpFB4/qGrN+UX3mm5TAQxuIHAUfZrtPWKIhx0SLfoeBD5oJUXQTm80+L8gp20A==
-X-Received: by 2002:a05:6a20:98a:b0:1d1:1795:4ee5 with SMTP id adf61e73a8af0-1d30a926875mr15025063637.3.1727163098639;
-        Tue, 24 Sep 2024 00:31:38 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([43.249.234.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20af17dff20sm5554595ad.159.2024.09.24.00.31.36
+        d=1e100.net; s=20230601; t=1727164337; x=1727769137;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PCHh55wW8djyDLLWKAErpQrZRRbzKGMrBBaLPngdSaA=;
+        b=A+VpjlUU+2mZHE3x3I75wwzKEvHlSnVA+O6n55ove+ZhCLGusxX3ODvp6rdH1D8vgT
+         An5VVOaioz9d9sUr9LG+V2yIbeH/PTxT19GafNMFUG2YMYC17zjpY0/yVEHw8LCvavtA
+         3jZCxIZG4yAb/WRgu2NdwCD+yyDqq79kAfJD/YI+XsRV0lTkWOy4LXD2BMDjuq5b5hpR
+         7o1OgGOciYwlWVTw3OKoiCb0Pf8sSj7fAkG6K/SiHT2kdYI3vluPfVoOrPK5tjPl+h1v
+         ubxSTp9JO57G0aPpV8Mfe/XeGJdICKdgPrF79BA3LImTx5xPVj7fgS43R5HOW61hJJsE
+         Wf/g==
+X-Gm-Message-State: AOJu0Yw4oM8+N5tzQfn15dVgQbscGkTe8P+aD2zt1c39LYrso6rh1ZRl
+	QhIdLIZzmAVv9pVLoeeuneUKE5KUTLPUltuFZ/8vnzpJiVPta0aVmQr1gLpTbtw=
+X-Google-Smtp-Source: AGHT+IH1H+zhzzBC+yXZhyjyoBgLgDUiUtYweCyBsg2xBDQZ9u0Rb8MZ8tdczA0OUcyD3Kjen2tbsQ==
+X-Received: by 2002:a2e:9111:0:b0:2f7:5c58:cc7c with SMTP id 38308e7fff4ca-2f7cb358051mr55658051fa.44.1727164337054;
+        Tue, 24 Sep 2024 00:52:17 -0700 (PDT)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2f8d284d101sm1339231fa.66.2024.09.24.00.52.13
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Sep 2024 00:31:38 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] webkitgtk: Security fix CVE-2024-40779
-Date: Tue, 24 Sep 2024 13:01:31 +0530
-Message-Id: <20240924073131.652188-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        Tue, 24 Sep 2024 00:52:15 -0700 (PDT)
+Date: Tue, 24 Sep 2024 10:52:11 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: liezhi.yang@windriver.com
+Cc: openembedded-core@lists.openembedded.org, david.reyna@windriver.com
+Subject: Re: [OE-core] [PATCH 0/2] proposal: Append VENDOR_REVISION to PR for
+ CVE scanners
+Message-ID: <ZvJvq2MtzI_0BPMd@nuoska>
+References: <cover.1726821150.git.liezhi.yang@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1726821150.git.liezhi.yang@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 07:31:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204836
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 07:52:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204837
 
-Upstream-Status: Backport from https://github.com/WebKit/WebKit/commit/2fe5ae29a5f6434ef456afe9673a4f400ec63848
+Hi,
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../webkit/webkitgtk/CVE-2024-40779.patch     | 92 +++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.44.1.bb  |  1 +
- 2 files changed, 93 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
+On Fri, Sep 20, 2024 at 01:53:13AM -0700, Robert Yang via lists.openembedded.org wrote:
+> From: Robert Yang <liezhi.yang@windriver.com>
+> 
+> The VENDOR_REVISION is for cve scanners to know the CVEs have been fixed in a
+> lower version, CVE scanners such as Trivy can know the CVEs have been fixed in
+> a higher version, but it can't know the CVE is fixed in a lower version without
+> a helper, we have the following ways to set the helper:
+> 1) Use PR server
+>    This doesn't work since the server updates PR for any changes.
+> 
+> 2) Update PR manually when add a CVE patch
+>    This is doesn't work either since:
+>    - This is very trivial and people may forget to update the PR
+>    - The PR may be updated for other reasons except CVE patches
+> 
+> So we need a specific part such as VENDOR_REVISION for cve scanners.
+> The VENDOR_REVISION is designed as part of PR:
+>   PR:append = ".vr51"
+> - ".vr51": The VENDOR_REVISION
+> - "vr": Vendor Revision, can be set to other values such as oe or poky
+> - "51": Convert from DISTRO_VERSION (Yocto 5.1), it can be customized with
+>         a function defined in GET_CURRENT_VENDOR_REVISION.
+> - The VENDOR_REVISION will only append to the recipes which have patches
+> 
+> There are two bbclasses to manage the VENDOR_REVISION automatically:
+> - gen-vendor-revision.bbclass: This is used for generating VENDOR_REVISION
+>   automatically, and save all the recipes' VENDOR_REVISION in
+>   vendor-revision.conf, it is like:
+>   VENDOR_REVISION[meta_recipes-support_libssh2_libssh2_1.11.0.bb] ??= '${VENDOR_REVISION_PREFIX}51 \
+>    CVE-2023-48795:CVE-2023-48795.patch:b6c68cd1f0631180914ff112ac0c29c4 \
+>    notcve:0001-disable-DSA-by-default.patch:61b6368d4a969d187805393d8b8fee85'
+> 
+>   And in the second release such as Yocto 5.1.1, the bbclass will update the
+>   vr51 to vr511 when both of the following 2 conditions are met:
+>   - The DISTRO VERSION is updated, for example, from 5.1 to 5.1.1
+>   - The recipe's patches are changed (Patches added, removed or updated),
+>     otherwise, it will still be "51" when Yocto updated to 5.1.1, this can avoid
+>     unnecessary PR bump.
+> 
+> - enable-vendor-revision.bbclass: Append VENDOR_REVISION to PR
+>   After the VR is appended, the rpm package is like:
+>   openssl-3.3.1-r0.vr51.core2_64.rpm
+> 
+>   There is no change if the recipe doesn't have patches, for example:
+>   base-files-3.0.14-r0.qemux86_64.rpm
+> 
+> Check the comments in the header of gen-vendor-revision.bbclass for more details.
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
-new file mode 100644
-index 0000000000..1a7e27dcb6
---- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
-@@ -0,0 +1,92 @@
-+From 2fe5ae29a5f6434ef456afe9673a4f400ec63848 Mon Sep 17 00:00:00 2001
-+From: Jean-Yves Avenard <jya@apple.com>
-+Date: Fri, 14 Jun 2024 16:08:19 -0700
-+Subject: [PATCH] Cherry-pick 272448.1085@safari-7618.3.10-branch
-+ (ff52ff7cb64e). https://bugs.webkit.org/show_bug.cgi?id=275431
-+
-+HeapBufferOverflow in computeSampleUsingLinearInterpolation
-+https://bugs.webkit.org/show_bug.cgi?id=275431
-+rdar://125617812
-+
-+Reviewed by Youenn Fablet.
-+
-+Add boundary check.
-+This is a copy of blink code for that same function.
-+https://source.chromium.org/chromium/chromium/src//main:third_party/blink/renderer/modules/webaudio/audio_buffer_source_handler.cc;l=336-341
-+
-+* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt: Added.
-+* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html: Added.
-+* Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp:
-+(WebCore::AudioBufferSourceNode::renderFromBuffer):
-+
-+Canonical link: https://commits.webkit.org/274313.347@webkitglib/2.44
-+
-+Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2fe5ae29a5f6434ef456afe9673a4f400ec63848]
-+CVE: CVE-2024-40779
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ ...er-sourcenode-resampler-crash-expected.txt |  1 +
-+ ...udiobuffer-sourcenode-resampler-crash.html | 25 +++++++++++++++++++
-+ .../webaudio/AudioBufferSourceNode.cpp        |  6 +++++
-+ 3 files changed, 32 insertions(+)
-+ create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
-+ create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
-+
-+diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
-+new file mode 100644
-+index 00000000..654ddf7f
-+--- /dev/null
-++++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
-+@@ -0,0 +1 @@
-++This test passes if it does not crash.
-+diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
-+new file mode 100644
-+index 00000000..5fb2dd8c
-+--- /dev/null
-++++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
-+@@ -0,0 +1,25 @@
-++<html>
-++<head>
-++    <script>
-++        async function main() {
-++            var ctx = new AudioContext();
-++            var src = new AudioBufferSourceNode(ctx);
-++            src.buffer = ctx.createBuffer(1, 8192, 44100);
-++            src.start(undefined, 0.5);
-++            src.playbackRate.value = -1;
-++            src.connect(ctx.destination, 0, 0);
-++            if (window.testRunner)
-++                testRunner.notifyDone();
-++        }
-++    </script>
-++</head>
-++<body onload="main()">
-++    <p>This test passes if it does not crash.</p>
-++    <script>
-++    if (window.testRunner) {
-++        testRunner.waitUntilDone();
-++        testRunner.dumpAsText();
-++    }
-++    </script>
-++</body>
-++</html>
-+diff --git a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
-+index 42f2779e..7963fb9f 100644
-+--- a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
-++++ b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
-+@@ -343,6 +343,12 @@ bool AudioBufferSourceNode::renderFromBuffer(AudioBus* bus, unsigned destination
-+             if (readIndex2 >= maxFrame)
-+                 readIndex2 = m_isLooping ? minFrame : readIndex;
-+ 
-++            // Final sanity check on buffer access.
-++            // FIXME: as an optimization, try to get rid of this inner-loop check and
-++            // put assertions and guards before the loop.
-++            if (readIndex >= bufferLength || readIndex2 >= bufferLength)
-++                break;
-++
-+             // Linear interpolation.
-+             for (unsigned i = 0; i < numberOfChannels; ++i) {
-+                 float* destination = destinationChannels[i];
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
-index c4a3c464c1..29f834ee9b 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch \
-            file://0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch \
-            file://0002-More-dynamicDowncast-adoption-in-platform-code.patch \
-+           file://CVE-2024-40779.patch \
-            "
- SRC_URI[sha256sum] = "425b1459b0f04d0600c78d1abb5e7edfa3c060a420f8b231e9a6a2d5d29c5561"
- 
--- 
-2.25.1
+This is very much backwards, like Alex mentioned as well.
 
+There is no need for this. If CVEs are fixed with patches, then those patches will
+mark the specific version and patch applied as not affected by the CVE.
+The classes export this data. If anyone feeds this data to external tooling, then
+the CVE patch status is a critical detail which must be exported and imported into
+the tools as well. Otherwiser the external tooling is not really up for the job.
+
+I've seen several commercial tools not managing the patch status at all. IMO these
+tools are broken and can't be used to manage secure patches of real products
+which have to apply CVE patches and can't always update SW versions.
+
+When managing a yocto based Linux distro, IMO, the tooling is already there
+to handle CVEs etc. External tools frequently cause more pain than actually
+improve things.
+
+Cheers,
+
+-Mikko
 
