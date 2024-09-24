@@ -1,219 +1,108 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44051CF9C6B
-	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 11:30:43 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.59])
- by mx.groups.io with SMTP id smtpd.web11.11507.1727177435807239200
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 37542CF9C6B
+	for <webhook@archiver.kernel.org>; Tue, 24 Sep 2024 11:31:03 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.11527.1727177457057570929
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Sep 2024 04:30:36 -0700
+ Tue, 24 Sep 2024 04:30:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=ECtF0PhU;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=ECtF0PhU;
- spf=pass (domain: arm.com, ip: 40.107.22.59, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=k/JehuUPd8F8YN83PG79y8xfZkPikzitL3DKUcC53VMB/mEg9UcyYn7WLqD/+l86SdbquQYAjXJqhM7DM5EYC7v4Rw4bNOAqEobjRak+wyl6Ah9neHXS0fvtX0W2AgRkzvA+FchtkTodHp4IhloMJwHDQzR41kzPqHfmdO8Jkn6psUjTQr5LJ3zDWqs0vNSlBCV4x/h0ia3AblCmx16xuXizjyF1WAQqExE9/MFhndvTEmKrBguXbCx2xp2pOMF6txUmTzBnKQWJvIduwYfEMemd1FxmWx4eMKYiPmXn9xkiKpZGsv+F7gf/K7TgeeYaJD7KmPYuUPPxI5eidOnbQA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SNlTQFjztaa8YSD2AI9K7cpwx/WmmfJfH50dFM8Sn8I=;
- b=WXaUTm9GMcuyNBNUPO/3G3PgoB4rmAjQBpcbIx9lYCfThYDItwBB7+ezHUc8HgYQ0PqkpvC1WBHmTsAEm5NfQ7QF1TDYlc18+o++YCSMCeuiUcNiAFO2DpRPzgO3fyRmZV0iQyUOHtVmJwGv5CJd9gyEjDwcGYZfnSXfXdocDZD3ybX2BR+47XG+099c1HR6NjFp6b1OlrSpEJwqYWlq6QnW098R2wxuq03XIEKIIAlc4YojDKQLN3gzFnTJ7ze0xQciNaX7j8YL9HbNLqxmEK8FVpWdI38xcJzwB1jt9nAN9mC0Kebp4Fk5wHJw7XLPDtc1tIEqbrkNg0AYiqTY7w==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SNlTQFjztaa8YSD2AI9K7cpwx/WmmfJfH50dFM8Sn8I=;
- b=ECtF0PhUda5xnF5VhohncCHfcqFJy6fwNnJOZ1YRiVtRP2LN2NpvNMDXwcsZ/n/I8lZAeeUkS5DdLnQGwSFP8mh3yrFjn0JxEsAu3brD1TEAXULVDw3He1uP2q+5gKCEB098DxOiEi34cDGdm8gR/be0+rALrjIRMtZXAxtFFQQ=
-Received: from AS4P189CA0003.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5d7::8)
- by AM7PR08MB5462.eurprd08.prod.outlook.com (2603:10a6:20b:10b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.13; Tue, 24 Sep
- 2024 11:30:30 +0000
-Received: from AMS0EPF0000019B.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d7:cafe::4c) by AS4P189CA0003.outlook.office365.com
- (2603:10a6:20b:5d7::8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.27 via Frontend
- Transport; Tue, 24 Sep 2024 11:30:29 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AMS0EPF0000019B.mail.protection.outlook.com (10.167.16.247) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7918.13
- via Frontend Transport; Tue, 24 Sep 2024 11:30:28 +0000
-Received: ("Tessian outbound e9f81699740c:v465"); Tue, 24 Sep 2024 11:30:28 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: d378e910c33736c1
-X-TessianGatewayMetadata: KaPb7CegTowsHveG5BD0UkIH0RApg1HF3ILjZQWMUqm/1cMleCnf6RXE+eM6gyoGAc0nmCDwznvwKerIdRjEQO+n2cJZpfJdr9trAlr1GHpCmdYvh8sReU9NXoZiLDbNzxEUVWggAx00I5diabFvb1LaCD3tGg2lzr+HpAYUyWE=
-X-CR-MTA-TID: 64aa7808
-Received: from L3e5471931f35.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 1504B67B-5F5A-4235-98B3-D59190772648.1;
-	Tue, 24 Sep 2024 11:30:22 +0000
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L3e5471931f35.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 24 Sep 2024 11:30:22 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=C4VRZTu4TEOqAkY5AugViuH8t8GZ6OzpzRu/aw64e36YWceAjKJgxf7V6wQlgPKDS7M4ZZcLbOQdtlpyqrC248kw1r/OG+y1mG1FeXaRh9k60Vl8aQINiyhEQiaKI/PGt5z6RPVH9jydCjUw8lK1vVaaoM/1myUHwTV8C1nz2tZqSKASMZL7ryZCpnpz0/XVLk2Z6gP/plrf+3IgVkDqF4Lih6s6eiewNnlTGpBd8D2S+mX8wv+wu3+VPjj10ZwymMpelpIbTfaJQd0PXhtoEgUFoju6/IHEDBjx/C+HsJve8K2QP9nsFOawU7i9w3RKcVSWPmAxn4BNV+mPS6VMLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SNlTQFjztaa8YSD2AI9K7cpwx/WmmfJfH50dFM8Sn8I=;
- b=gkhkeSIzuOp0/DIoUkBHdXnqsGaIUtfoeNkC25YVe4jwca+nv9HrJAavf0DQ3cRUhSm+166dFQcXTW7vGA81XzJtv1CGnFs0QDBFjFrEXCyWR5iDuUrkMFzE7C6GZjACKjVQpxKV0ePsLSEbZpCfKedleUmI806E6T5YkO6atr01LWRkxbcQExMl0vxFqyIQSKgT7Jx+l+cg0COorUbdgI1MYgYWBueuMcjGn0zy7DfFeBkWqJ3Bgsc1gCuTf4LItAIMBVW5DYCySChDGA3X1fE+jd2Fhk08EAGogz8Bi3O9PRjGRr0wgdAK3iGM9Qh8/s1qeWKhE50jxxjx01oumA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SNlTQFjztaa8YSD2AI9K7cpwx/WmmfJfH50dFM8Sn8I=;
- b=ECtF0PhUda5xnF5VhohncCHfcqFJy6fwNnJOZ1YRiVtRP2LN2NpvNMDXwcsZ/n/I8lZAeeUkS5DdLnQGwSFP8mh3yrFjn0JxEsAu3brD1TEAXULVDw3He1uP2q+5gKCEB098DxOiEi34cDGdm8gR/be0+rALrjIRMtZXAxtFFQQ=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by AM9PR08MB6099.eurprd08.prod.outlook.com (2603:10a6:20b:286::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.13; Tue, 24 Sep
- 2024 11:30:15 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%6]) with mapi id 15.20.8005.010; Tue, 24 Sep 2024
- 11:30:15 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "aleksandar.nikolic010@gmail.com" <aleksandar.nikolic010@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 4/4] scripts/install-buildtools: Update to
- 4.0.21
-Thread-Topic: [OE-core] [PATCH 4/4] scripts/install-buildtools: Update to
- 4.0.21
-Thread-Index: AQHbDZcqcHLoqlW6WEGiVxvGy35cULJlFH6AgAF/FgCAADtwAA==
-Date: Tue, 24 Sep 2024 11:30:15 +0000
-Message-ID: <289C5BB3-5EEC-4C28-B85C-F4148FE5DE41@arm.com>
-References: 
- <CANPvuRktR9NbXAzFOJsusgctrXcmeHxoHpXO5882+tNsgyJvwQ@mail.gmail.com>
- <15848.1727164640820287502@lists.openembedded.org>
-In-Reply-To: <15848.1727164640820287502@lists.openembedded.org>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3776.700.51)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|AM9PR08MB6099:EE_|AMS0EPF0000019B:EE_|AM7PR08MB5462:EE_
-X-MS-Office365-Filtering-Correlation-Id: 03c35574-7fdf-4886-fd45-08dcdc8c4aba
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?NXgvtR4O1J6H6ciFBnFMIW9M13fPRvbARMlT4wio8BjUeDolHHttozhIP532?=
- =?us-ascii?Q?zj8GjCcTbIo6OZiSVBrxF0fqDZnLOalfc4SeDhEyfLCyIZUI7xq+4YUP/XIi?=
- =?us-ascii?Q?TRYn6pYl5iiCNl1pP+x2r4u2tPurooXGSXOSTN0ZV2NljJ2VA9L3dTDjtSgY?=
- =?us-ascii?Q?dOj2wkU5swsKHhR783cVwd4QCitf8HRe+jBnh5Ql9obAPnHmlEP+5l6GY0dL?=
- =?us-ascii?Q?ZceG2Cqlf3y6Rc4q2Bc3BT3r35lg9FVK/h2wusASENmVUaCUuWsULUzfby2+?=
- =?us-ascii?Q?OMLV8oH0oiGpitUxmrvNItAblMz1SS6246/9+ypAakOd+hr138B45KINdHXx?=
- =?us-ascii?Q?PvEcmgAjJvLd62YfJbrfBAY5ulMCB5Xx5sEFuk9Cx7kh6OYS3xMiwHa38aUs?=
- =?us-ascii?Q?u6LMMkAjyofFU5zvEjhweSocAq7ab1QJD8JqWQS15wpQG6qziMYgaRk7d5oP?=
- =?us-ascii?Q?MzS4wrLwOUasCABWyhhFa5v+pCpHvZB9MXgI9EOvSxQWlD8fh8kE7KQcMky5?=
- =?us-ascii?Q?lHUfVGjfaZBA8OSEithMQyvgk55WgwZf5o7nGqy7D2CvVJ1ibmZJRpI8kxqJ?=
- =?us-ascii?Q?ZRpqmfvGpSnhKMZ4QwmnxfHs2CXIIHoXvFZR0z6CftsJsUPwNzy310U+gOZ2?=
- =?us-ascii?Q?M5AJTFFlagInrT9sLULtS1MDONsT71mreoFRAH8N3aPnUXDuB9BW0Z6yegQZ?=
- =?us-ascii?Q?HqQLD1Pqz67E0gEiK+XL6co48dRX/Kuzq5bNTVlEfcsYWjL9R1NZYcGfMNV4?=
- =?us-ascii?Q?gw8JV7T6PF3EHlaeaA6Zj8djcAFqttoVNM/EqmFDxNN9+WrU+Yz7IYEKrKM3?=
- =?us-ascii?Q?b3bpiqTZWRs3fzCy3hxwI09OJ4T6oRDZkbAyalbtAlvcXReb4Y/F59hV8QLd?=
- =?us-ascii?Q?LW1sZ2mod2KajBE+UeVBVZsndfIS3E444SvS2E9OIjdnLJjUbJh5G4xAf5a2?=
- =?us-ascii?Q?zV0ouSArRlyRl4Ps4Xj9PPvJRhi4iEJPkpaLylPShm6OC/6qkRux+ZPHMBPn?=
- =?us-ascii?Q?fLFIAg4btBeB2jFBsRoSdCDklV2aQflMTlILMDvczijiIb9oDfeRv+dNJv5g?=
- =?us-ascii?Q?KI6IF91Wg4jROeS+Qtcg3IGAV654QMrkhrcXa40V3TRYRtlmcv8wgD3L6YHH?=
- =?us-ascii?Q?Piz6UdwoUlEMB09bITENZRPuC46zVMW12I0qD774odH7L0/7Z8/IFdD/qQ73?=
- =?us-ascii?Q?vRD7cjPD7QWrUr9DuaesN1G+HkHIf3ZOzhlUMUgLB5AUUxO5IqMJIKk99DDG?=
- =?us-ascii?Q?u7FnxkBgFk/hvXvQLNpr1lyCiut26Dk37CdZsCBZnLH2ADK/r2VKUElKzOeY?=
- =?us-ascii?Q?P5Pwcm4gnWzx6/sAMtaKlnsVlsGlFg6+83WNxupiGovLaGWZGR+nG8RV9Qy9?=
- =?us-ascii?Q?Xcu9tBn0lof9RBbPPWpm3KV6JogTqdCA0f5HvvtOCGH65PD4rg=3D=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <1F889F1E90B1EB4DAA488C155CC6474C@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=999746e38d=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48O5A319003750
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 11:30:56 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41um6hgg6k-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 11:30:56 +0000 (GMT)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Tue, 24 Sep 2024 04:30:53 -0700
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][PATCH 1/1] ruby: upgrade 3.3.4 -> 3.3.5
+Date: Tue, 24 Sep 2024 11:30:31 +0000
+Message-ID: <20240924113031.2229409-1-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR08MB6099
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender: 
- ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF0000019B.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	00771549-f3b6-484b-9742-08dcdc8c42b0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|35042699022|1800799024|376014|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?s/RbYT9ssDcI7/MvaQj471sfoJjW43uLOzwmLwtkV08TH+DZRl1sbOyAhy8i?=
- =?us-ascii?Q?uI0IhBISDszgAXWcEQnvOXnqXEwekMwCHaTdlKOpEGZ66AS8VD4Nd00gH5Jd?=
- =?us-ascii?Q?TVV+Jw+9kcr90URE0wNkfV6f4KP2JNav3qho8n4o4iZr0yORnP4S/wQSyQHq?=
- =?us-ascii?Q?MCPLghoUPqeHt0q3gvrrPhdZRfeO6gWfZap5/e5wMqUIfIUj66dbthF8Xoce?=
- =?us-ascii?Q?MbLNEZ+o5uK/D3GPqgS4BbULvVnES9nvWNh3+eDby4x/0ZPLAk/4BwLMOBQx?=
- =?us-ascii?Q?q2EmXFghjriGbUQgusSUs5FivaV2VFg571pkc9y8BbtcXoSXTfVC2qCpPIxB?=
- =?us-ascii?Q?POkYk0Er4QTLnCZpSmB9WZirr4DLk/0fTv3GTq3GicxK2WTVLdZJTDaERtF9?=
- =?us-ascii?Q?wd2rd61FoyeLCJauYjhDU7pAaJEZI1thVZFZbKlByjnq6Ew/kzGyggbtYEUI?=
- =?us-ascii?Q?dufeQaYqBnU/iflDmo09AfWuM8RTufery1uQx2patCjlReoJqp6iDwiFfbFD?=
- =?us-ascii?Q?qEUlG+M4d7gsoJOnXYMRzM2PIbEnnX5T1P6JRudGTtJVAKUZADdnLfoNhE9O?=
- =?us-ascii?Q?ahA8RAgsE+gaNl8mhEeMOA8rcAXo3tmzQkSwlIWpncY/okskgiKVgh6REYgA?=
- =?us-ascii?Q?tSkcMet/0DA3nccXLTXzMQdhlq7DmIPwwAxKUJOrkEL32PkVz1k4E0vH23es?=
- =?us-ascii?Q?LHnLV9QQNbpujeyLuECipG0DKEZ/3ReGMZ1mbT0Is4F+mmD2RbP3K3GrTojq?=
- =?us-ascii?Q?OSR7tnH1WIwfxvO7+B5KpdER0mriQ68jLytYyew9BkXlU6AjfMAGQCPx9F0/?=
- =?us-ascii?Q?gBWnoVZgY8cPBETZeLHSkTjbUpJz7+P98WsAIRgQFZg+AWS+eKAhSP44OW5S?=
- =?us-ascii?Q?FuiVGPJ9k5j4SAzzqDBaXkKasWvGCliayEoTvmG2M7o6p/ndqON2aeUqX6dV?=
- =?us-ascii?Q?cGzGES8pdJ6O6UBgyMGkDTsetx/on9tAs4NWGMd+od/F2XSMfzTg8n4DWaJO?=
- =?us-ascii?Q?KRD/9N/KxFJf9wpBblBJp+Mi4w6Si9HGQPH45L5tWxyy05QZNqm/1yg2PS/m?=
- =?us-ascii?Q?Yk7lbd0ZoUB54qlvG36Gf5Cw+pu6/Tu/BFDQu5udQUb+w9ito4cuL7dU3BGL?=
- =?us-ascii?Q?K/5ik6nquiSyq/tpfKVdIqdlx+jrJX46dc7+HlZFHH9WbAGzXlCTWBGJLE5+?=
- =?us-ascii?Q?Wxosn2tAoBsD11YP3v06zGt6bok3KpemUy+jk130irNy+AiXZjzJrqfsMYPA?=
- =?us-ascii?Q?8RP01ZYEAau/e9ifo0e0H/2uGCkDP2ScozcdGtxHJ5GLtW9JG/dmf6e36Pq6?=
- =?us-ascii?Q?cOvKjQHE6jbncLO8EISM2q6Aso0mClve/3ak9pJ7hp/+hQUfOyLrdjSpL51q?=
- =?us-ascii?Q?TyQxdknKETj3EvQGGBpQFnkkxClf?=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(35042699022)(1800799024)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2024 11:30:28.6599
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 03c35574-7fdf-4886-fd45-08dcdc8c4aba
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF0000019B.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR08MB5462
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: 3nloNYs69Pj4Vwg5leFF7kdVmhN-Cn5F
+X-Authority-Analysis: v=2.4 cv=bas5U/PB c=1 sm=1 tr=0 ts=66f2a2f0 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=EaEq8P2WXUwA:10 a=t7CeM3EgAAAA:8 a=hTYxuiHq812G3__dMOUA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: 3nloNYs69Pj4Vwg5leFF7kdVmhN-Cn5F
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-24_02,2024-09-24_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 bulkscore=0
+ mlxscore=0 adultscore=0 lowpriorityscore=0 suspectscore=0 malwarescore=0
+ mlxlogscore=999 clxscore=1011 priorityscore=1501 spamscore=0 phishscore=0
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2408220000 definitions=main-2409240081
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 11:30:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204845
+ <openembedded-core@lists.openembedded.org>; Tue, 24 Sep 2024 11:31:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204846
 
-On 24 Sep 2024, at 08:57, Aleksandar Nikolic via lists.openembedded.org <al=
-eksandar.nikolic010=3Dgmail.com@lists.openembedded.org> wrote:
->    I was thinking since 4.1 (and higher versions) are EOL and since this =
-is the kirkstone branch, the buildtools should also reflect the latest avai=
-lable release on the kirkstone branch, which is 4.0.21. But I am not really=
- sure what's the right solution here, if someone else could chime in, I'd b=
-e thankful.
+From: Yogita Urade <yogita.urade@windriver.com>
 
-If these patches are for a stable branch then please make that obvious by p=
-utting [kirkstone] in the subject.
+Includes fix for CVE-2024-41123 & CVE-2024-41946
 
-Ross=
+Changelog
+=========
+d3ab7be8ca merge revision(s) 657f4b99f61: [Backport #20667]
+c69d59e9b2 Sync tool/lib/core_assertions.rb from master
+cf9a6c2b63 merge revision(s) a3562c2a0abf1c2bdd1d50377b4f929580782594: [Backport #20701]
+d83b5633b1 merge revision(s) 992596fb7af18a7f472589a607d0eb3fbb03b49a: [Backport #20344]
+b210c86a02 merge revision(s) 97449338d6cb42d9dd7c9ca61550616e7e6b6ef6: [Backport #20649]
+6a4e79533b merge revision(s) 1870505f478cc75993b296b7144a45137ace6937: [Backport #20651]
+e0e23e7d5e merge revision(s) 29500e30346: [Backport #20667]
+7b954e7bc6 Allow failures in Travis ppc64le and s390x
+937964f346 Merge URI-0.13.1 for Ruby 3.3 (#11466)
+ac8d50e52e [Backport 3.3] [Bug #20691] Fix use-after-free in WeakKeyMap#clear (#11443)
+8657de70aa [Backport 3.3] [Bug #20688] Fix use-after-free for WeakMap and WeakKeyMap (#11439)
+9ae91eb2aa Backport warning feature for bundled gems from master (#11420)
+66312ad913 Re-initialize vm->ractor.sched.lock after fork (#11372)
+4d11a0960d Added bootstrap job for release workflow
+65cca99b30 parse.y: const_decl_path don't replace destination node by a literal (#11314)
+f85c7deacc Update RubyGems 3.5.16 and Bundler 2.5.16 for Ruby 3.3 (#11252)
+0922afa95b [Bug #20654] Fix floor and ceil when ndigits is large (#11277)
+ce565cd4b8 [Bug #20653] Fix memory leak in String#start_with? when regexp times out (#11255)
+6d744837ab [Bug #20088] Fix ARCH_FLAG for cross compiling
+7571ad42f4 [Bug #20650] Fix memory leak in Regexp capture group when timeout (#11244)
+4667f8ec10 bundled_gems.rb: Add a fast path (#11221)
+425e468d25 [Backport #20633] Fix the condition for `atomic_signal_fence` (#11166)
+3427a1679a retry on cancelling of `getaddrinfo` (#11131)
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+---
+ meta/recipes-devtools/ruby/{ruby_3.3.4.bb => ruby_3.3.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/ruby/{ruby_3.3.4.bb => ruby_3.3.5.bb} (98%)
+
+diff --git a/meta/recipes-devtools/ruby/ruby_3.3.4.bb b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
+similarity index 98%
+rename from meta/recipes-devtools/ruby/ruby_3.3.4.bb
+rename to meta/recipes-devtools/ruby/ruby_3.3.5.bb
+index ebff4136c9..7b531e2b10 100644
+--- a/meta/recipes-devtools/ruby/ruby_3.3.4.bb
++++ b/meta/recipes-devtools/ruby/ruby_3.3.5.bb
+@@ -47,7 +47,7 @@ do_configure:prepend() {
+ 
+ DEPENDS:append:libc-musl = " libucontext"
+ 
+-SRC_URI[sha256sum] = "fe6a30f97d54e029768f2ddf4923699c416cdbc3a6e96db3e2d5716c7db96a34"
++SRC_URI[sha256sum] = "3781a3504222c2f26cb4b9eb9c1a12dbf4944d366ce24a9ff8cf99ecbce75196"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+-- 
+2.40.0
+
 
