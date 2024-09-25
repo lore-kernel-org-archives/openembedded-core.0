@@ -1,158 +1,99 @@
-Return-Path: <yogesh.tyagi@intel.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41064C369B1
-	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 09:13:16 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
- by mx.groups.io with SMTP id smtpd.web10.11141.1727255588933546950
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57642C369B5
+	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 09:33:16 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.11398.1727256793841848657
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Sep 2024 02:13:09 -0700
+ Wed, 25 Sep 2024 02:33:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Cq8bKSDt;
- spf=pass (domain: intel.com, ip: 198.175.65.14, mailfrom: yogesh.tyagi@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727255589; x=1758791589;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yKxUIPiwQ3nJ7pS8mr/PiKo1srLufhelAHvc2gGfDVQ=;
-  b=Cq8bKSDtIXy9iuVcMNvuEmxrArlWRUtHJ3ltTtJ1gwtjvNeQu0EesE2r
-   p6QBt6AKLuOuVUJ0Njvj7w/CNEfrr8mhQd9sD9a6nuEL6BlQfunF8GST3
-   a+hUxHMhjElGNp1u1/Y4DFgMfFO5zePYbcJ/0hOBzu69+L9xcnDTdV74j
-   7ota9iGUvrn6Wtq7loFhT82iOYcZWPvzSnX1bnR7xFsfuAo9gWWZVamrU
-   yAQbSGKmE0yNvWT9/EUYz2VHexhec7aZZ2LXK47NRHOZou/T2cD7Dbghi
-   7Y9lZZPk1h7PPLE7EnLXf33n6IG3poGkmTRKkJAgT2ZUj/mQM47jivn6K
-   g==;
-X-CSE-ConnectionGUID: sXjD034iSyy7XVs8YTZRWQ==
-X-CSE-MsgGUID: 6U1oVT7CS8mpqfOMS5VvbA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="30082307"
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="30082307"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 02:13:08 -0700
-X-CSE-ConnectionGUID: XnD4Lx8QRgGZ/aOB3c24uQ==
-X-CSE-MsgGUID: MRHSqs2bQvWHo53o8e1vGw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
-   d="scan'208";a="75810329"
-Received: from ytyagi-desk.iind.intel.com ([10.49.15.7])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 02:13:07 -0700
-From: Yogesh Tyagi <yogesh.tyagi@intel.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH] tbb-native: Fix build with gcc-13
-Date: Wed, 25 Sep 2024 14:42:56 +0530
-Message-ID: <20240925091256.1382361-1-yogesh.tyagi@intel.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OQUqw0Td;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=eaTbSQs8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019228870ece-9cd79143-09b2-4da9-86a0-5ada8c279d2a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1727256792; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=HYFJxpSd4eZAlYKntODeHk3TxTwjXerCWXA/493bDzE=;
+	b=OQUqw0TdlQy6qsdGGQXRgkaNjk8nCBQP0cSVrbNf56oJsA76j6YgMmN298ZJYd7N
+	+CTRDG0NC5+ryYJMbqQdFporthP794MnG3ncggBTB0//ET0ufYvIuevkBACmgx+Q5Zg
+	0eB7gbQ5JU8NckvJDNgBCHdhY2dYzpmaYvfEf13s=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1727256792;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=HYFJxpSd4eZAlYKntODeHk3TxTwjXerCWXA/493bDzE=;
+	b=eaTbSQs8sHApw4cq7iZpGZJ94D70z1BrIPQ3LSwOsEfpAqEe/kKwt4khO5K1bSGn
+	vmRC9zMNnasy/ASj8yLt9amcUjQ5SZe+mfMV5Qqt7xEvB0WUv1pb3N548VyFBvh4rC6
+	o2y8/U9szlzf02BFtVem34s36ogqOGlMGxK31wtk=
+From: patchtest@automation.yoctoproject.org
+To: Yogesh Tyagi <yogesh.tyagi@intel.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [scarthgap][PATCH] tbb-native: Fix build with gcc-13
+In-Reply-To: <20240925091256.1382361-1-yogesh.tyagi@intel.com>
+References: <20240925091256.1382361-1-yogesh.tyagi@intel.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019228870ece-9cd79143-09b2-4da9-86a0-5ada8c279d2a-000000@us-west-2.amazonses.com>
+Date: Wed, 25 Sep 2024 09:33:12 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.09.25-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 09:13:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204944
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 09:33:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204945
 
-* Fixes following stringop-overflow warning with gcc-13:
+--NextPart
+Content-Type: text/plain
 
-In file included from /usr/include/c++/13/atomic:41,
-                 from /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/../../include/oneapi/tbb/detail/_utils.h:22,
-                 from /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/task_dispatcher.h:20,
-                 from /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/arena.cpp:17:
-In member function ‘void std::__atomic_base<_IntTp>::store(__int_type, std::memory_order) [with _ITp = bool]’,
-    inlined from ‘void std::atomic<bool>::store(bool, std::memory_order)’ at /usr/include/c++/13/atomic:104:20,
-    inlined from ‘void tbb::detail::r1::concurrent_monitor_base<Context>::notify_one_relaxed() [with Context = long unsigned int]’ at /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/concurrent_monitor.h:293:53:
-/usr/include/c++/13/bits/atomic_base.h:481:25: error: ‘void __atomic_store_1(volatile void*, unsigned char, int)’ writing 1 byte into a region of size 0 overflows the destination [-Werror=stringop-overflow=]
-  481 |         __atomic_store_n(&_M_i, __i, int(__m));
-      |         ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
-compilation terminated due to -Wfatal-errors.
-cc1plus: all warnings being treated as errors
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-(cherry picked from commit e131071769ee3df51b56b053ba6bfa06ae9eff25)
-
-Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
 ---
- ...suppress-new-GCC-12-13-warnings-1192.patch | 57 +++++++++++++++++++
- meta-oe/recipes-support/tbb/tbb_2021.11.0.bb  |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch
+Testing patch /home/patchtest/share/mboxes/scarthgap-tbb-native-Fix-build-with-gcc-13.patch
 
-diff --git a/meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch b/meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch
-new file mode 100644
-index 0000000000..489f011b84
---- /dev/null
-+++ b/meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch
-@@ -0,0 +1,57 @@
-+From e131071769ee3df51b56b053ba6bfa06ae9eff25 Mon Sep 17 00:00:00 2001
-+From: Dmitri Mokhov <dmitri.n.mokhov@intel.com>
-+Date: Mon, 11 Sep 2023 10:35:07 -0500
-+Subject: [PATCH] Fix/suppress new GCC 12/13 warnings (#1192)
-+
-+Upstream-Status: Backport [https://github.com/oneapi-src/oneTBB/commit/e131071769ee3df51b56b053ba6bfa06ae9eff25]
-+Signed-off-by: Dmitri Mokhov <dmitri.n.mokhov@intel.com>
-+---
-+ .../oneapi/tbb/detail/_concurrent_unordered_base.h   |  2 +-
-+ src/tbb/concurrent_monitor.h                         | 12 +++++++++++-
-+ 2 files changed, 12 insertions(+), 2 deletions(-)
-+
-+diff --git a/include/oneapi/tbb/detail/_concurrent_unordered_base.h b/include/oneapi/tbb/detail/_concurrent_unordered_base.h
-+index ade91c33..40829208 100644
-+--- a/include/oneapi/tbb/detail/_concurrent_unordered_base.h
-++++ b/include/oneapi/tbb/detail/_concurrent_unordered_base.h
-+@@ -921,7 +921,7 @@ private:
-+             node_allocator_traits::deallocate(dummy_node_allocator, node, 1);
-+         } else {
-+             // GCC 11.1 issues a warning here that incorrect destructor might be called for dummy_nodes
-+-            #if (__TBB_GCC_VERSION >= 110100 && __TBB_GCC_VERSION < 130000 ) && !__clang__ && !__INTEL_COMPILER
-++            #if (__TBB_GCC_VERSION >= 110100 && __TBB_GCC_VERSION < 140000 ) && !__clang__ && !__INTEL_COMPILER
-+             volatile
-+             #endif
-+             value_node_ptr val_node = static_cast<value_node_ptr>(node);
-+diff --git a/src/tbb/concurrent_monitor.h b/src/tbb/concurrent_monitor.h
-+index 3d20ef5b..3e5c4beb 100644
-+--- a/src/tbb/concurrent_monitor.h
-++++ b/src/tbb/concurrent_monitor.h
-+@@ -1,5 +1,5 @@
-+ /*
-+-    Copyright (c) 2005-2021 Intel Corporation
-++    Copyright (c) 2005-2023 Intel Corporation
-+ 
-+     Licensed under the Apache License, Version 2.0 (the "License");
-+     you may not use this file except in compliance with the License.
-+@@ -290,7 +290,17 @@ public:
-+             n = my_waitset.front();
-+             if (n != end) {
-+                 my_waitset.remove(*n);
-++
-++// GCC 12.x-13.x issues a warning here that to_wait_node(n)->my_is_in_list might have size 0, since n is
-++// a base_node pointer. (This cannot happen, because only wait_node pointers are added to my_waitset.)
-++#if (__TBB_GCC_VERSION >= 120100 && __TBB_GCC_VERSION < 140000 ) && !__clang__ && !__INTEL_COMPILER
-++#pragma GCC diagnostic push
-++#pragma GCC diagnostic ignored "-Wstringop-overflow"
-++#endif
-+                 to_wait_node(n)->my_is_in_list.store(false, std::memory_order_relaxed);
-++#if (__TBB_GCC_VERSION >= 120100 && __TBB_GCC_VERSION < 140000 ) && !__clang__ && !__INTEL_COMPILER
-++#pragma GCC diagnostic pop
-++#endif
-+             }
-+         }
-+ 
-+-- 
-+2.43.0
-+
-diff --git a/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb b/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb
-index f834726bd6..318cd87643 100644
---- a/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb
-+++ b/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb
-@@ -16,6 +16,7 @@ BRANCH = "onetbb_2021"
- SRCREV = "8b829acc65569019edb896c5150d427f288e8aba"
- SRC_URI = "git://github.com/oneapi-src/oneTBB.git;protocol=https;branch=${BRANCH} \
-             file://0001-hwloc_detection.cmake-remove-cross-compiation-check.patch \
-+            file://0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch \
- "
- S = "${WORKDIR}/git"
- 
--- 
-2.43.0
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
