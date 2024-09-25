@@ -1,144 +1,99 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58447C369AC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5FBCEC369AB
 	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 06:50:05 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web10.9328.1727246991269165170
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.9258.1727246998411057408
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Sep 2024 23:49:58 -0700
+ Tue, 24 Sep 2024 23:49:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=hT5nkneA;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1727246998; x=1758782998;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=NQmulzUscWS7spBkUm7946J7ot65+i/NkMcojeXhro4=;
-  b=hT5nkneAw1iGMWFGuEXRX9p8h03TRjuffcghaj6dfOSm8lFTOMMyBPeW
-   TAkvlx2Vs7se0KsZEWirtKGLf1nSUX5l0Gn5gbT2PF5DiRbJmI8ks1GBA
-   y+Ja/itYfbQpYfhjdUsqJdejM8BZnWSDudb6rGMuznS/m5XgSmjeyJYo2
-   MOI88b/FvLjisuaa0cLoJDndCTLYRc8+Gx73Avyrqscsxt40ILUCQ7mNM
-   Chb0skZB15Kvduf18gZ8D+ukwxPqV5l4Ul66z9/aAF0WSqUulRw76zuhS
-   hdEEVHRXwKyPmLHusCpiWsscsnitxa9DfrcD9kh64JIVxD5mbi0pT6aMG
-   Q==;
-X-CSE-ConnectionGUID: qn8nKxcgSk+PjKDI0REFEg==
-X-CSE-MsgGUID: DqdSrxo3RFu+v8WSfwdgYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="162724327"
-X-IronPort-AV: E=Sophos;i="6.10,256,1719846000"; 
-   d="scan'208";a="162724327"
-Received: from unknown (HELO oym-r1.gw.nic.fujitsu.com) ([210.162.30.89])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 15:49:57 +0900
-Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
-	by oym-r1.gw.nic.fujitsu.com (Postfix) with ESMTP id 343CCC1615
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 15:49:55 +0900 (JST)
-Received: from kws-ab4.gw.nic.fujitsu.com (kws-ab4.gw.nic.fujitsu.com [192.51.206.22])
-	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id D9D00D8BC1
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 15:49:48 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab4.gw.nic.fujitsu.com (Postfix) with ESMTP id 6A5C56B5C3
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 15:49:48 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 1B9E71A01EC;
-	Wed, 25 Sep 2024 14:49:48 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 42/47] strace: upgrade 6.10 -> 6.11
-Date: Wed, 25 Sep 2024 14:49:15 +0800
-Message-Id: <1727246960-20665-42-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1727246960-20665-1-git-send-email-wangmy@fujitsu.com>
-References: <1727246960-20665-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28686.005
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28686.005
-X-TMASE-Result: 10--3.932100-10.000000
-X-TMASE-MatchedRID: /gZnudouedqjz0nOeth/yTo39wOA02LhaZATGA5/BXi+f7ap9DJaDQLt
-	Av8b4f0oODNmrpv+Kxw2EqJn2nY8hiNvqM5/miSs8t4fUUGeErRMkOX0UoduuWAN6i+va16uIUt
-	KH5AJM9ki+t+0AiFaYrVnVnu9zwYN9c0SSBk6D848o3fwIs8rQQYAPqHoVmYRkuyxm/kBYPmjxY
-	yRBa/qJcFwgTvxipFa9xS3mVzWUuDxMZjMz3w2b4ifUW+wH8GJ9PqF4eLO+WJRAku8QCqYzx1hO
-	YpQ8ZDv+ZCxJmNcb0knFGadG8UmIMSbetXd9f0Jvz0iSr2ZiR1grdztsycWWku/kTKv9giuqwOH
-	O1Fdn0Kb4tj0DvxRUIs9ro6z1cfchCFNTbTJJtE=
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G2DFYqlr;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=CkC/Vr1l;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019227f197c4-f1bd1afb-7680-4be7-87c9-1a0cf4c50792-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1727246997; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=/eMQWRt3MU01IlSfRAKRqCW081vpIq/NcM3GXifIcFY=;
+	b=G2DFYqlrNqj9Wl8mp1oA8S5P1Rw5iqR4gdnVL/zut1h5HbTwpKasHKPm0uLp8+nX
+	xVsGuB79KBe2GD0edy1yf7nkDwTPw0pn6Ydd/auJ8VNcsnw25Xpae9cS1PLkPuJKQBZ
+	GPkMQDup/tslw5l5MlSGYoiKb+INyaQA+Ka02v9o=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1727246997;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=/eMQWRt3MU01IlSfRAKRqCW081vpIq/NcM3GXifIcFY=;
+	b=CkC/Vr1lgOfM8b2QtcktuPvVFivRCaU03P2fjgW3EuUs+sbahmDw0N66251gCKVh
+	06RZ28MCKT6pMTJ+vXWrzGK2HzWt7nNTygL57Snhqddulkmzm07QZN6rQqyrCwD08tz
+	+gp6q8KiXxqrhjmoovI2Uc0qfoQwTSZrWrCXq0og=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH v3] systemd-boot: Enable on RISCV
+In-Reply-To: <20240925063527.3154248-1-raj.khem@gmail.com>
+References: <20240925063527.3154248-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019227f197c4-f1bd1afb-7680-4be7-87c9-1a0cf4c50792-000000@us-west-2.amazonses.com>
+Date: Wed, 25 Sep 2024 06:49:57 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.09.25-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 06:50:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204941
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204942
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+--NextPart
+Content-Type: text/plain
 
-Makefile-ptest.patch
-refreshed for 6.11
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
- Improvements
-=============
-  * Implemented decoding of uretprobe syscall.
-  * Implemented decoding of WDIOC_GETSUPPORT and WDIOC_SETOPTIONS ioctl
-    commands.
-  * Enhanced decoding of unknown ioctl commands in non-abbreviated mode
-    by printing the contents of the ioctl argument buffer in hexadecimal format.
-  * Updated decoding of listmount, statmount, and statx syscalls.
-  * Updated lists of ETHTOOL_*, IORING_*, IPPROTO_*, RWF_*, STATX_*, and V4L2_*
-    constants.
-  * Updated lists of ioctl commands from Linux 6.11.
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/recipes-devtools/strace/strace/Makefile-ptest.patch    | 6 +++---
- .../strace/{strace_6.10.bb => strace_6.11.bb}               | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/strace/{strace_6.10.bb => strace_6.11.bb} (96%)
+Testing patch /home/patchtest/share/mboxes/v3-systemd-boot-Enable-on-RISCV.patch
 
-diff --git a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-index b5c9d2e004..a78c86f6a1 100644
---- a/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-+++ b/meta/recipes-devtools/strace/strace/Makefile-ptest.patch
-@@ -1,4 +1,4 @@
--From 3a10dcdd5d8def52fc096ed59e8d0f32ee0c2d42 Mon Sep 17 00:00:00 2001
-+From 593bea35a044b55222a71737ca8455c2359817d1 Mon Sep 17 00:00:00 2001
- From: Gabriel Barbu <gabriel.barbu@enea.com>
- Date: Thu, 25 Jul 2013 15:28:33 +0200
- Subject: [PATCH] strace: Add ptest
-@@ -13,7 +13,7 @@ Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-  1 file changed, 20 insertions(+)
- 
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 378146b..f2529a6 100644
-+index e1254c3..149570d 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
- @@ -18,6 +18,7 @@ SIZEOF_LONG = @SIZEOF_LONG@
-@@ -24,7 +24,7 @@ index 378146b..f2529a6 100644
-  AM_CFLAGS = $(WARN_CFLAGS)
-  bundled_CPPFLAGS =
-  if USE_BUNDLED_HEADERS
--@@ -901,3 +902,22 @@ BUILT_SOURCES = ksysent.h
-+@@ -903,3 +904,22 @@ BUILT_SOURCES = ksysent.h
-  CLEANFILES = ksysent.h
-  
-  include ../src/scno.am
-diff --git a/meta/recipes-devtools/strace/strace_6.10.bb b/meta/recipes-devtools/strace/strace_6.11.bb
-similarity index 96%
-rename from meta/recipes-devtools/strace/strace_6.10.bb
-rename to meta/recipes-devtools/strace/strace_6.11.bb
-index a534fccd4f..d98b5fdec9 100644
---- a/meta/recipes-devtools/strace/strace_6.10.bb
-+++ b/meta/recipes-devtools/strace/strace_6.11.bb
-@@ -15,7 +15,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
-            file://0002-tests-Replace-off64_t-with-off_t.patch \
-            "
--SRC_URI[sha256sum] = "765ec71aa1de2fe37363c1e40c7b7669fc1d40c44bb5d38ba8e8cd82c4edcf07"
-+SRC_URI[sha256sum] = "83262583a3529f02c3501aa8b8ac772b4cbc03dc934e98bab6e4883626e283a5"
- 
- inherit autotools ptest
- 
--- 
-2.34.1
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
