@@ -1,114 +1,158 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <yogesh.tyagi@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1386AC369AB
-	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 08:40:46 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web11.10628.1727253642773902978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41064C369B1
+	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 09:13:16 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+ by mx.groups.io with SMTP id smtpd.web10.11141.1727255588933546950
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Sep 2024 01:40:43 -0700
+ Wed, 25 Sep 2024 02:13:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I0Hly4v7;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f75c6ed397so68219221fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 01:40:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727253641; x=1727858441; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=J3hSLWFopzHsM0b3FNMSQ9thblY7VH5ngi3nCy2IiVM=;
-        b=I0Hly4v7uWfNYNRsdOld42YSj33pOZYnAVKV9u6WrRqPtnYYEMyfs4s7Wll3huqoI9
-         66hoVTDXjkSB6E3Uhw5U2oBJE0g6wvxCDeBNMsHIy5GKm6MX9HYp9+VaV8PKaooltDg4
-         yf/km+/e0oKmB77Ml4oCls4E2q6zWHUPR54IkM5HKCh955isSwr8hl1gjvGNVocCddoB
-         ZmsSX2HEsv7Mp3YQvRVZJhhYs7DyaAnZWp2M9t67gLF54m9R4cfnRJe/CvFweksQTVi7
-         XGt672u1qg9am04OG5aZmWi3eW4puuh3WUA2m/7bALi/ernuFdhP8lFQ0Xh7WXmOoGtT
-         Ivaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727253641; x=1727858441;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=J3hSLWFopzHsM0b3FNMSQ9thblY7VH5ngi3nCy2IiVM=;
-        b=xJFdbQfcnEV0/Mc/pDzXTjiM8U9Uk28lFd0mw3FhbGzrqoebLYMQA3kH8f6JSr/su8
-         obS3kVYM4GzuyyL5jAletrlJkJwRltmInABYKA2umZyntofjIhVnLk/Zm/SQ105rRbD9
-         E6CQi3UWaoWdmp7b2uCdokY/fxLwkSc+4DCBn5B7hKHGmcDqwXuadJka2n4knwORs4jC
-         e915d4IFF0Bgv3YOnH7k7+pxZnR4R3i7btkdzlBOFciT+bG00MQ3SFPkzcU4SzxEFox2
-         OoagQ6D1SEmmcKBG24MaGMmfCPnYPo5mdA/baq/raGllfrPhZ7FsZBi85xwv+VACeLgJ
-         W8ww==
-X-Gm-Message-State: AOJu0Yyc45FLFUoLAcwESynE0HfVDvmPQt8d/ADAMGde3vdNgyaiXqlz
-	0s9sDmovu3NdNvZUMO/pYnT+n0oWG3LzxNHuZAMzcg7T/DHc7UxQGX6rf/IQsGCaIHuuLugMuT+
-	+S6Z5cfP67TUageaOofAD5QVqUbk=
-X-Google-Smtp-Source: AGHT+IGLBWYTvy0kLfWrMFh1I33yqMaeH0TLwxDJc+ENcQAYmQE7UAP7BjOysRFE8cWNMb/SqtQELVDItBXpJvdSIwo=
-X-Received: by 2002:a05:651c:19a5:b0:2f7:500c:2212 with SMTP id
- 38308e7fff4ca-2f915fdb910mr12084381fa.10.1727253640279; Wed, 25 Sep 2024
- 01:40:40 -0700 (PDT)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=Cq8bKSDt;
+ spf=pass (domain: intel.com, ip: 198.175.65.14, mailfrom: yogesh.tyagi@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1727255589; x=1758791589;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=yKxUIPiwQ3nJ7pS8mr/PiKo1srLufhelAHvc2gGfDVQ=;
+  b=Cq8bKSDtIXy9iuVcMNvuEmxrArlWRUtHJ3ltTtJ1gwtjvNeQu0EesE2r
+   p6QBt6AKLuOuVUJ0Njvj7w/CNEfrr8mhQd9sD9a6nuEL6BlQfunF8GST3
+   a+hUxHMhjElGNp1u1/Y4DFgMfFO5zePYbcJ/0hOBzu69+L9xcnDTdV74j
+   7ota9iGUvrn6Wtq7loFhT82iOYcZWPvzSnX1bnR7xFsfuAo9gWWZVamrU
+   yAQbSGKmE0yNvWT9/EUYz2VHexhec7aZZ2LXK47NRHOZou/T2cD7Dbghi
+   7Y9lZZPk1h7PPLE7EnLXf33n6IG3poGkmTRKkJAgT2ZUj/mQM47jivn6K
+   g==;
+X-CSE-ConnectionGUID: sXjD034iSyy7XVs8YTZRWQ==
+X-CSE-MsgGUID: 6U1oVT7CS8mpqfOMS5VvbA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11205"; a="30082307"
+X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
+   d="scan'208";a="30082307"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 02:13:08 -0700
+X-CSE-ConnectionGUID: XnD4Lx8QRgGZ/aOB3c24uQ==
+X-CSE-MsgGUID: MRHSqs2bQvWHo53o8e1vGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.10,256,1719903600"; 
+   d="scan'208";a="75810329"
+Received: from ytyagi-desk.iind.intel.com ([10.49.15.7])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2024 02:13:07 -0700
+From: Yogesh Tyagi <yogesh.tyagi@intel.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [scarthgap][PATCH] tbb-native: Fix build with gcc-13
+Date: Wed, 25 Sep 2024 14:42:56 +0530
+Message-ID: <20240925091256.1382361-1-yogesh.tyagi@intel.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <1727246960-20665-1-git-send-email-wangmy@fujitsu.com> <1727246960-20665-44-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1727246960-20665-44-git-send-email-wangmy@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 25 Sep 2024 10:40:28 +0200
-Message-ID: <CANNYZj_0rt2LEV4SOgexT36rbBQ0edBFVZm+q048xV7_vUzjEA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 44/47] systemd: upgrade 256.5 -> 256.6
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 08:40:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204943
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 09:13:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204944
 
-systemd-boot-native should be renamed at the same time.
+* Fixes following stringop-overflow warning with gcc-13:
 
+In file included from /usr/include/c++/13/atomic:41,
+                 from /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/../../include/oneapi/tbb/detail/_utils.h:22,
+                 from /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/task_dispatcher.h:20,
+                 from /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/arena.cpp:17:
+In member function ‘void std::__atomic_base<_IntTp>::store(__int_type, std::memory_order) [with _ITp = bool]’,
+    inlined from ‘void std::atomic<bool>::store(bool, std::memory_order)’ at /usr/include/c++/13/atomic:104:20,
+    inlined from ‘void tbb::detail::r1::concurrent_monitor_base<Context>::notify_one_relaxed() [with Context = long unsigned int]’ at /poky/build/tmp/work/x86_64-linux/tbb-native/2021.11.0/git/src/tbb/concurrent_monitor.h:293:53:
+/usr/include/c++/13/bits/atomic_base.h:481:25: error: ‘void __atomic_store_1(volatile void*, unsigned char, int)’ writing 1 byte into a region of size 0 overflows the destination [-Werror=stringop-overflow=]
+  481 |         __atomic_store_n(&_M_i, __i, int(__m));
+      |         ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~
+compilation terminated due to -Wfatal-errors.
+cc1plus: all warnings being treated as errors
 
-Alex
+(cherry picked from commit e131071769ee3df51b56b053ba6bfa06ae9eff25)
 
-On Wed, 25 Sept 2024 at 08:50, wangmy via lists.openembedded.org
-<wangmy=fujitsu.com@lists.openembedded.org> wrote:
->
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../systemd/{systemd-boot_256.5.bb => systemd-boot_256.6.bb}    | 0
->  meta/recipes-core/systemd/systemd.inc                           | 2 +-
->  .../recipes-core/systemd/{systemd_256.5.bb => systemd_256.6.bb} | 0
->  3 files changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-core/systemd/{systemd-boot_256.5.bb => systemd-boot_256.6.bb} (100%)
->  rename meta/recipes-core/systemd/{systemd_256.5.bb => systemd_256.6.bb} (100%)
->
-> diff --git a/meta/recipes-core/systemd/systemd-boot_256.5.bb b/meta/recipes-core/systemd/systemd-boot_256.6.bb
-> similarity index 100%
-> rename from meta/recipes-core/systemd/systemd-boot_256.5.bb
-> rename to meta/recipes-core/systemd/systemd-boot_256.6.bb
-> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-> index 83dcd65a83..d6a3332efe 100644
-> --- a/meta/recipes-core/systemd/systemd.inc
-> +++ b/meta/recipes-core/systemd/systemd.inc
-> @@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
->  LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
->                      file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
->
-> -SRCREV = "b45730389ba025489ec8d445bc91534fef515c28"
-> +SRCREV = "230f5613c97175985f878580ef2f5f1937963da6"
->  SRCBRANCH = "v256-stable"
->  SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
->
-> diff --git a/meta/recipes-core/systemd/systemd_256.5.bb b/meta/recipes-core/systemd/systemd_256.6.bb
-> similarity index 100%
-> rename from meta/recipes-core/systemd/systemd_256.5.bb
-> rename to meta/recipes-core/systemd/systemd_256.6.bb
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#204937): https://lists.openembedded.org/g/openembedded-core/message/204937
-> Mute This Topic: https://lists.openembedded.org/mt/108643638/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Yogesh Tyagi <yogesh.tyagi@intel.com>
+---
+ ...suppress-new-GCC-12-13-warnings-1192.patch | 57 +++++++++++++++++++
+ meta-oe/recipes-support/tbb/tbb_2021.11.0.bb  |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch
+
+diff --git a/meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch b/meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch
+new file mode 100644
+index 0000000000..489f011b84
+--- /dev/null
++++ b/meta-oe/recipes-support/tbb/tbb/0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch
+@@ -0,0 +1,57 @@
++From e131071769ee3df51b56b053ba6bfa06ae9eff25 Mon Sep 17 00:00:00 2001
++From: Dmitri Mokhov <dmitri.n.mokhov@intel.com>
++Date: Mon, 11 Sep 2023 10:35:07 -0500
++Subject: [PATCH] Fix/suppress new GCC 12/13 warnings (#1192)
++
++Upstream-Status: Backport [https://github.com/oneapi-src/oneTBB/commit/e131071769ee3df51b56b053ba6bfa06ae9eff25]
++Signed-off-by: Dmitri Mokhov <dmitri.n.mokhov@intel.com>
++---
++ .../oneapi/tbb/detail/_concurrent_unordered_base.h   |  2 +-
++ src/tbb/concurrent_monitor.h                         | 12 +++++++++++-
++ 2 files changed, 12 insertions(+), 2 deletions(-)
++
++diff --git a/include/oneapi/tbb/detail/_concurrent_unordered_base.h b/include/oneapi/tbb/detail/_concurrent_unordered_base.h
++index ade91c33..40829208 100644
++--- a/include/oneapi/tbb/detail/_concurrent_unordered_base.h
+++++ b/include/oneapi/tbb/detail/_concurrent_unordered_base.h
++@@ -921,7 +921,7 @@ private:
++             node_allocator_traits::deallocate(dummy_node_allocator, node, 1);
++         } else {
++             // GCC 11.1 issues a warning here that incorrect destructor might be called for dummy_nodes
++-            #if (__TBB_GCC_VERSION >= 110100 && __TBB_GCC_VERSION < 130000 ) && !__clang__ && !__INTEL_COMPILER
+++            #if (__TBB_GCC_VERSION >= 110100 && __TBB_GCC_VERSION < 140000 ) && !__clang__ && !__INTEL_COMPILER
++             volatile
++             #endif
++             value_node_ptr val_node = static_cast<value_node_ptr>(node);
++diff --git a/src/tbb/concurrent_monitor.h b/src/tbb/concurrent_monitor.h
++index 3d20ef5b..3e5c4beb 100644
++--- a/src/tbb/concurrent_monitor.h
+++++ b/src/tbb/concurrent_monitor.h
++@@ -1,5 +1,5 @@
++ /*
++-    Copyright (c) 2005-2021 Intel Corporation
+++    Copyright (c) 2005-2023 Intel Corporation
++ 
++     Licensed under the Apache License, Version 2.0 (the "License");
++     you may not use this file except in compliance with the License.
++@@ -290,7 +290,17 @@ public:
++             n = my_waitset.front();
++             if (n != end) {
++                 my_waitset.remove(*n);
+++
+++// GCC 12.x-13.x issues a warning here that to_wait_node(n)->my_is_in_list might have size 0, since n is
+++// a base_node pointer. (This cannot happen, because only wait_node pointers are added to my_waitset.)
+++#if (__TBB_GCC_VERSION >= 120100 && __TBB_GCC_VERSION < 140000 ) && !__clang__ && !__INTEL_COMPILER
+++#pragma GCC diagnostic push
+++#pragma GCC diagnostic ignored "-Wstringop-overflow"
+++#endif
++                 to_wait_node(n)->my_is_in_list.store(false, std::memory_order_relaxed);
+++#if (__TBB_GCC_VERSION >= 120100 && __TBB_GCC_VERSION < 140000 ) && !__clang__ && !__INTEL_COMPILER
+++#pragma GCC diagnostic pop
+++#endif
++             }
++         }
++ 
++-- 
++2.43.0
++
+diff --git a/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb b/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb
+index f834726bd6..318cd87643 100644
+--- a/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb
++++ b/meta-oe/recipes-support/tbb/tbb_2021.11.0.bb
+@@ -16,6 +16,7 @@ BRANCH = "onetbb_2021"
+ SRCREV = "8b829acc65569019edb896c5150d427f288e8aba"
+ SRC_URI = "git://github.com/oneapi-src/oneTBB.git;protocol=https;branch=${BRANCH} \
+             file://0001-hwloc_detection.cmake-remove-cross-compiation-check.patch \
++            file://0001-Fix-suppress-new-GCC-12-13-warnings-1192.patch \
+ "
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.43.0
+
 
