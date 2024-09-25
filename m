@@ -1,189 +1,264 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E992ACF58C3
-	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 13:33:07 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.16309.1727271179720977186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE05FCF9C6B
+	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 13:37:37 +0000 (UTC)
+Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.57])
+ by mx.groups.io with SMTP id smtpd.web11.16404.1727271447829475626
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Sep 2024 06:32:59 -0700
+ Wed, 25 Sep 2024 06:37:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=9998803d16=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48P5MKVO032061
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 06:32:59 -0700
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2041.outbound.protection.outlook.com [104.47.57.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41um552289-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 06:32:59 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=jVrL97bh;
+ spf=pass (domain: cherry.de, ip: 40.107.249.57, mailfrom: quentin.schulz@cherry.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wpS39wcU2f3jRMiE9tegyzw1Ug0zEIUn3WCLQ/CygYKsBfj3YQfSdnQrUmXqApisOhm3BVtL+8IUSb9aOl+dHEOBH4xiCIStt0ZqfkW8+jhTj9hqY9CMebK4hF9WsEse2d/gcVz82kDa3FT9bkV608+ZEcQ06CWc12SGHi0b0mlDDECEsqKdk5Y8bUclvuFzFCg0ps2eglrayIVBeggj4SmcQEAd/4VUInVeNdef0HkelSok6nza+N0FjMVWfBVE95oYALYkL3CCANKoSxa75QYOJjZ9XIBMFekrwv9+V+5XXJPqJ1lGyb3bIUiWia5CxNNyPmTy4WvXpVzS+b6GVQ==
+ b=SVCW6UXXVDKDyUmVcPWe63RH84ATaytSnXh/ICZa6j+4P59WqGTChQzu7dHi/O52TajT8fmWm+SIktyqDtxtEMY1Q6Sza6CNhNDTVQR7NsoNMPGJvu7MwCBuLlnGtG9LgYpbcoJTaOR0ticuAdTq3QcOPRBQcVTDqvKMEqXT4GKtZ4q8BLkBF+GerV7TVzwUD8OUeubEAC4pSXhIv7mSN20GtYArKbA6jHb7/qpu/CEFUPg4Ldnq7ADX7zzmqn9Q3jApuNj1P4u5zKB6wPzWrGtk+TgFark8phKXKfSH2XXEDeKWGzRA0o3rNysC8BMVyvQv3mwI8PS1L7nwAmTeLQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rz0ProHhEzMfeh5myyhd9CiiR4tR0A3JZqFJ+YAp4kE=;
- b=ReclzunAmztXDWwO2qTc2Pfkt3lkFyQze5w3lucLTp6tLG1Md8BmRWnZj/Jx6851FRv07FqXrTZEnj3m+zSLqR2shlyTKgStKzsUWpPggCZM7qRML5X6RV5NO7zY1UjeE9NdL7WRYctFkVRFzbCzfq2ED7twQldWPdi7X3LnIFjSXhtRAXSdfnRzyoE8623wPZcvXvIrWMhctmFnYOHDSvLKVWDVmZgi9DNTu2a0V8advMuOJEMUbpI6pQANSNwagL80Dv/ExJ5vuwuuESs7nI7hXZV1IRhM6Lp3L0TboED9txXOE7J/fOHxqaW64mQYYEh0W4DtX9+qMVm47ZWb7A==
+ bh=4rZz9NJIa8vfXhtzM5WX2lNAWfITHc430ZqtbSmh33Q=;
+ b=dgct28WkwF4T2IMBDxMPLa3cUGj846OhtwCekMF6KGN6zvlyjGhSJOKiYcjPCRbC1NqKa3YzaOuOp7IdMNCXWTX4hDQp78IzazwDnbuwwESWHKSV3qSxg8FzhD6MORnD6CNzGxDuLDOaVzD4adaxZ3MG7mIGHAkosKgk7CFA/etVyuyByl8Uvh7/m6O5daorl1cTOQdo0jZ0g/rLlHRePLz3SPqsu9GtbXqT2l7CXJ9qIRyAhqd0oP+hQiq7kXckVOg7EkfD+cYtPCUxYpcW7/7+za8oONYX31Cl4dWzje7YYTS4r5+JS2Z1xcZ3VbtMYRQ+Z/PN4wNy1SjYGuJorQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com (2603:10b6:a03:302::11)
- by BL3PR11MB6460.namprd11.prod.outlook.com (2603:10b6:208:3bf::21) with
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4rZz9NJIa8vfXhtzM5WX2lNAWfITHc430ZqtbSmh33Q=;
+ b=jVrL97bhktXekHAw1bRbiucpQT057MFQ4Tc4QOAfVhkjqM22qyS4mK4zks0h2qu99qxncZnRGkfzS/z58lLogJUei3v8+k67FFS3Yu6iQE38XjGMPcMbQxHQOdxuePlhfxv/xFbu5A4+hpBHxNhcyjObUFRlvQ3qCN9SxjlY88I=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
+ by DBBPR04MB7676.eurprd04.prod.outlook.com (2603:10a6:10:20e::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28; Wed, 25 Sep
- 2024 13:32:55 +0000
-Received: from SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f]) by SJ0PR11MB5648.namprd11.prod.outlook.com
- ([fe80::c784:dce5:4b7b:54f%5]) with mapi id 15.20.7982.022; Wed, 25 Sep 2024
- 13:32:55 +0000
-From: Deepesh.Varatharajan@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Naveen.Gowda@windriver.com, Shivaprasad.Moodalappa@windriver.com,
-        Sundeep.Kokkonda@windriver.com
-Subject: [scarthgap][PATCH v2] binutils: stable 2.42 branch updates
-Date: Wed, 25 Sep 2024 06:32:38 -0700
-Message-ID: <20240925133238.1013647-1-Deepesh.Varatharajan@windriver.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: DS7PR03CA0026.namprd03.prod.outlook.com
- (2603:10b6:5:3b8::31) To SJ0PR11MB5648.namprd11.prod.outlook.com
- (2603:10b6:a03:302::11)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Wed, 25 Sep
+ 2024 13:37:20 +0000
+Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
+ ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
+ ([fe80::d379:5378:b1:cea%2]) with mapi id 15.20.7918.024; Wed, 25 Sep 2024
+ 13:37:19 +0000
+Message-ID: <bd0c9228-ac33-4334-ba40-5d739951b14d@cherry.de>
+Date: Wed, 25 Sep 2024 15:37:18 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 1/5] linux-yocto-dev: bump to v6.11
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+CC: richard.purdie@linuxfoundation.org,
+ openembedded-core@lists.openembedded.org
+References: <cover.1723399246.git.bruce.ashfield@gmail.com>
+ <e1eea6c3ea87aebfdaabf5a987a7290d7e9a4485.1723399246.git.bruce.ashfield@gmail.com>
+ <4a44e457-b17b-41c6-8e10-18d9fbea4a88@cherry.de>
+ <CADkTA4NqO5uGBJu7Oe79vurUss8cPBUW7wqVF+wRcj25WEf4vQ@mail.gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <CADkTA4NqO5uGBJu7Oe79vurUss8cPBUW7wqVF+wRcj25WEf4vQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: FR4P281CA0382.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:f7::20) To AM9PR04MB8906.eurprd04.prod.outlook.com
+ (2603:10a6:20b:409::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5648:EE_|BL3PR11MB6460:EE_
-X-MS-Office365-Filtering-Correlation-Id: cf64e187-6ab9-4fd7-3c74-08dcdd668ff6
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|DBBPR04MB7676:EE_
+X-MS-Office365-Filtering-Correlation-Id: d0f8a7a3-6eba-4e93-ad20-08dcdd672d82
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|52116014|366016|38350700014;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|10070799003|1800799024|376014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?lcViB/7s4ZRt+yJ5O7Aim87K4r7LMGkimWgKL4nCZcJ/Iat8Wi0rBwfFNrir?=
- =?us-ascii?Q?I9vQ487mcd55NBq2cLX/NSV/l7Z5mtFuMTFkNFdUk9dCdJ3bJKol354ng5Cb?=
- =?us-ascii?Q?CwKRdIlei9TZuSIesPdhEqXDN7QQRLo7qyy4LUidcFJ300ydazv77E64XnDP?=
- =?us-ascii?Q?ZZ+kawj5xXRN+O9arQWqkMDOGczUNljcy8yiD/XX9x5d46qWLL442yNLL9by?=
- =?us-ascii?Q?diXorHXdgqtiK6zh7VS1Jb7OLY+t6ramXoa/sLhzon7L1Q+KSTBakfsiqUpI?=
- =?us-ascii?Q?jt/BJbj4K92MbOxnTFriuV1MD6TlzBsntTCSBRAHSyxf1hK9mpOOG3IrvNBn?=
- =?us-ascii?Q?juaLjPgTEOvOM1SssjRf5OhqQpW1R6gME0O2ZZNUXjj3+XBiTlmi9UidAEVC?=
- =?us-ascii?Q?x2i24RquCNYebotCmXRzJi/8XaDo9SOV0z5/50Uim3kNI7hu3nKQVCu4foxv?=
- =?us-ascii?Q?wWQCamkC+qUumIuMjxDxL0GLvHZ/3BHZivhs8M8jxg8QBb1Gd9MEoulU6UJ3?=
- =?us-ascii?Q?1/jl/ctb5cCUFD9ONI4brZlWH9GcJppMPcQqJI2K1tKvi+DvRXzb8XZ6gyEF?=
- =?us-ascii?Q?2QFfnlo3LDqYlFUU5a3WXLjxtvw/bRVPBCEHW5CWu6JorDY2tg0E38E6gRRw?=
- =?us-ascii?Q?Rl/yRL3JVSMc/d3pvnjMyuo9O6kGS3HQ030/weaHSClzLbHV7PmgAOJecAU6?=
- =?us-ascii?Q?ha6m0NB7C6AX3NAZilzQF/rpWKQrLm1g7EIxnn223aoo/weqngu/5C+1ZmQl?=
- =?us-ascii?Q?VtO8dS4rA4iOuEDMD1kFv5tFQGvmpi9fBDvMVBM1r3SbRjtPi7/NAbczXbQD?=
- =?us-ascii?Q?+oADdfZpMQFJrn+A9dKmTmezWaJFA51D9J/a6uWz4WF28BE6hTJGIs9vDekf?=
- =?us-ascii?Q?6dKxMbpiwcBkp1yPpJEWYun8ktPZ0WLT8Qfg4iQPjOsX2Dhke/a64rHnmQNz?=
- =?us-ascii?Q?bZgc0QJvs0cUjb31NoSCSWCTdUv7uY/aH3qWlTuOAMUeVBjKzgY1085l3+5w?=
- =?us-ascii?Q?NuHJSXguFl1s3WBCzmWUWqYxvO7K9fCoQ8bIwzYEM85LqGcR1Xc5/6/8FLT3?=
- =?us-ascii?Q?5d53JHi0Na5ii+IUO5ktgMADjyB1QW/sUIstu1NVAuSPC92BsH5AjApRWs/7?=
- =?us-ascii?Q?q8jYOQg2Z4B9GKz2rjok9OEVdz3+l4oWD2r1MxHCoYsLdXjRag/K/khB4Aj7?=
- =?us-ascii?Q?tXXpYI36uXlH1vmK7oNyOstcQHE3e5LRz5ZFpd1ihirfe2VHKxvvi5zVQwnN?=
- =?us-ascii?Q?+oGP6jSmpArZMm7/zypBF1/EhHaByN0SKzmWoa0gDEvxgUZgjhWo0fPy0Sjj?=
- =?us-ascii?Q?soo4FT1+ULX/uru+uG2dT06pyngm8zAjC7Gm7tWjrfOQKzPKwiUC9d0WQIxQ?=
- =?us-ascii?Q?i5474ogUzgri63eYQTtfOKi0E3CrPQjfwcQDWhm9oNq1BOrGHg=3D=3D?=
+	=?us-ascii?Q?zedtobilBpNl/jMq+yxuJRbTxbLTsCBTnPq54saax4QcY5Z4B4RWXBtirSId?=
+ =?us-ascii?Q?DtV9fjs8wuP2q4lbda21NB9kyLac8A4fzX2h5z6u1OsNwAxb4YtPG7EUTHTS?=
+ =?us-ascii?Q?Y4NQfzfcdnlAYEh7yq7RBgTauTXM/HQBJh23W/yTGhhxz+z2B3wFaM4j0kZF?=
+ =?us-ascii?Q?L5maWh9FT3TLz/4sSJwFuqstPmbBodeWziQQkxKFNS7XHhITiBA7awuFvf7C?=
+ =?us-ascii?Q?oBzpUKEQ1b+3+FWZhuaakQSPr6Ik/leimpwUnHuTN0g7E0jbnMtUEF3p/eL2?=
+ =?us-ascii?Q?uqhtJJDQSeB3gsMIGc9L69assbsiHguYPBMEBIhkVstpnwAdZAb1PxO93Xvz?=
+ =?us-ascii?Q?9yu+kUwEPAPX8enBizKMrmjHg/mOytHMPHD53TlyfYYr/RXp0Jj8i3MpW0zS?=
+ =?us-ascii?Q?U6pzRaFUYbvOVpkWIgZ3Fxyx9QzCYBblpBn3Sh3z72JAvtoh2qNhSQv4KyLy?=
+ =?us-ascii?Q?7PSliFGmX0AzGrc54k8GV2ErX3wX9gzXAtBtETSF3aI6CDPYO8WXNfJJvSAR?=
+ =?us-ascii?Q?uJsQl/ECwXOyd/FGJKA3SbKqpXeeCxdXIqBWq8WJyHtWK4RgkPkMnaWql+Ec?=
+ =?us-ascii?Q?FgrHlhNGf/VfNWL7r9n1W5H0TfgwWs0JKBl3aXUDchvMkdX0UU4PfJ5PlZ8H?=
+ =?us-ascii?Q?kO55v3kPbRfx3RtL63I1aVi/74QooEnF8L5naQMt+y7j9CHxTw978t/c5mWl?=
+ =?us-ascii?Q?yRnjGzwubA9d17/mnkPMySbU2b58FkDY7mpjz4nHF5s09TrF6XPueuesqALg?=
+ =?us-ascii?Q?aqZpcvhVETHrohFpyWX49ZRJrVqCq4cEXnJi8jaldItANSDIimdFM7L1fz37?=
+ =?us-ascii?Q?qp4yLxIW+xovZi1r4q0KhQv3mz8GEIF3gh55+YwIXm6ifX/BqPdN7j0xin/g?=
+ =?us-ascii?Q?QkIeG/i0jvgJXh6b5NrPGqfWg/tDiXAoH7LBDxWfZlxBvAacu+M3x/pwSmsa?=
+ =?us-ascii?Q?OGrkVZf0m3Aj209mYEIhgd8lsicOZGk0jBBl6nx6Gi96KWjdYuKm1+20sbRl?=
+ =?us-ascii?Q?ylAU28E6jAFUM39PEluIvJN7c3QTk/+N6VfkbyvsDhdmeMfr0BQOZSEsE8Yu?=
+ =?us-ascii?Q?nYogQab9JgujL+b1TPYs/o7L6jtYhaQ0zkd7mqeUzjR9DBLbi8GYI14qSVh1?=
+ =?us-ascii?Q?8DIvQtCBseIba9vZW1xZsXw2LnMo8X7DLk61YEfv4Kp8hVtPoqCzvxlirGJK?=
+ =?us-ascii?Q?nTLjjkZ8Db9MBGqSEw7C7/YjCFPu5aQcM5CZmcrsbpz3qGGl8qIMZGroSVA?=
+ =?us-ascii?Q?=3D?=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5648.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(376014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?5xAzhTwwhsMiJPifUiEHNWna53gRa0IagJ7mU8QSp2hSHcFJkZu5OFfy8hDQ?=
- =?us-ascii?Q?oOb4wPlxRauUkbvAsvq7Dvr0q7TvEsdAQn/MJc2be8e1+VK/Up4FTzjoUhQC?=
- =?us-ascii?Q?ztJQFTn1PEwl9g7v5Gr08edT+kaLCTZ4HLGuiAPwG6dQZxMiRDFTFvANEUQc?=
- =?us-ascii?Q?0DNLlJCWdXdcQUV/gmr3ElPOiIwl1KVufcvXjZhOgoIns9c1BQJaSgHDbroR?=
- =?us-ascii?Q?n09E3bJ6biYrxYuxltw9QWIagP6sEJIcUtJVpYbIWPRmhnLDiJw63TeUZ5GS?=
- =?us-ascii?Q?e3uA15ZDfz4TcoiljJWBUCk97C4xa1cyzA0oXrMKWBartDYojKlgq/0a/tWR?=
- =?us-ascii?Q?Ny5Ri8uAgIcTQ5J5q59aBfdjci27DkvVEJ+/8LqqjWRV22JNRJ9c9Gj0tQcB?=
- =?us-ascii?Q?4wibxA/i2rj6rF7cHJIiAaMVzq6x63ibceduuyuS1VrPvfhfzLv5omGeSiWv?=
- =?us-ascii?Q?Tfy6jtSzczWGjs4Qywb2G02lJTo0qQo2cdB/2lsfB/4rXEWZdy2UOHshOrla?=
- =?us-ascii?Q?muy6KwTDEGGS6QUBbyXRz8jwH1hhxQAiCDqAYU/mRbDCPV+2Q2N+MAxzkwQa?=
- =?us-ascii?Q?6dYrMsGOS05NlDUnyYrGIsIKl3bBIpROOq3484MPbzqkSaP3w6Ce8MkLivIx?=
- =?us-ascii?Q?ILfWyUcG2z6//Ppai9t2yr2pNmAXpzGspJ9OWgPVk2pNgEpMF//65+j1A9Bk?=
- =?us-ascii?Q?D0Ny2VREKmfxsJzbdLKVVdEsjwZQQJrq7Cx0SRrQdV0G5KrDE5DAEF8v+ZIX?=
- =?us-ascii?Q?XjohlR0OfSoZv7o4cnO/8Fa8Dio8MGRCZ9oiZdhWHYAc1QWgCAD34VgKnNf7?=
- =?us-ascii?Q?y4e5dETTVPozB/mVASjuYnvHFyQg9mfBELoX2B2FykAk+Bq7s0NMkB1B+qVC?=
- =?us-ascii?Q?Q6ubaFKMSHrtTzRim/c8b/uN5ww8GCmK8IbjrHYVmvmu+BXJu2dtMXOlAa4e?=
- =?us-ascii?Q?QRuXXT0fgpQYJ799dhqzdk7kzPgWulFnOZOBkWGR6JmIsc+97y/jtsSsbpKH?=
- =?us-ascii?Q?9QBgKXjvo2xkTXT+kAMg1k18xs5hkECaFavRFqJzI9eEoV/Jp4kEcGWq32yt?=
- =?us-ascii?Q?1vtMqHiFx1EpiCHD17OB3SuM5jEDhGBZ/oXi6HRwUCQHs+S/0rPTVhSF+RxT?=
- =?us-ascii?Q?nTHMjDafrWzs4wb4SujUb2MsGbwcuKcRPEBTfl2sjONrAAwt606djbztdE3o?=
- =?us-ascii?Q?uSd/OElwZ871Gh0w7MKwUI3KcLPexgvpe6RlQL0JULIaPOzkKh4PNcnOHtVh?=
- =?us-ascii?Q?S7OFgI89+n6xeN+oySBQ/LezVaZlLXyUxg0X5wqAYwR5oU/KPs7yeRCLtRrz?=
- =?us-ascii?Q?LlhTrYi2e02hL8h0+q/LM37Hfep8CwI0hCagNchCZxp21iiTWBsTivFG8G1M?=
- =?us-ascii?Q?kDs2NtFvUbqCiNklLaE+Px9g2vUsVynK2ZD0FGLZbZP0HEO88DUeCNzKxJRZ?=
- =?us-ascii?Q?x5lrW8QeNQ8VrsJMWe5pLnZSZRteRDJxwRz2KgAD/90o4IE4Sr248FvHttYT?=
- =?us-ascii?Q?YeN6JZ0f3J1YuebzAfn92MmcA9KWi7zr/hwUMfJSF2bPJMr6wbE90QT7eZhm?=
- =?us-ascii?Q?k7m7cbOgatKtUQ6CNWQsZjmpESOh+F2k/pwgIVDezRT1P2C0IbvpkMSzD1eN?=
- =?us-ascii?Q?wXFjlm0EvE4t/yP02B3PixA=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: cf64e187-6ab9-4fd7-3c74-08dcdd668ff6
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5648.namprd11.prod.outlook.com
+	=?us-ascii?Q?ZqWCzsf9634hrsXlcDw8o918gUj9VO9t+PtxeNrkLnvlCmjJlafbkvnWf+ZX?=
+ =?us-ascii?Q?2mPRN8jlcrVa08vSYBFklzPlIp6NtgsXjBdoNJ64BppHySIyi4KovtqvXBjO?=
+ =?us-ascii?Q?QVKzYKaSjUsUxqglYp3iYwdsdNXBndH9fZYkAZNcqfSb53Q57BzTFhAbNz+U?=
+ =?us-ascii?Q?sFGqeZDd2xn9PNNXUy5QX1lYXIgrGoh9CLwaCf+EZDsx3Qki1et7HfIQFA8/?=
+ =?us-ascii?Q?rn4AlKRo9owVudxEUUp+x5Ge/XjgFuvyBDVuSNPTTsCxyEiT9AwefNmj8qN/?=
+ =?us-ascii?Q?rcp21RpO1vtNWO/d51iBLCnLNVjF9iodq/F+8+WlQOaZL0+p6ufCh62WraXT?=
+ =?us-ascii?Q?X5n0WdjqFfKCZeaQcRxGezwPxn0ID0jMHpzZL0qgLbirQZWxFsXjddsH4GpF?=
+ =?us-ascii?Q?tyVn+I+kZGimSQT80zHS1WFasxGfLcWS0lstHWrXvtygWDEYuFIkxEawHacI?=
+ =?us-ascii?Q?P1LQYYdK5/qFa8yDZ2mOQ91kEfSqsBABekt54kLhRRCIrMlMZUrDudCKTMXA?=
+ =?us-ascii?Q?6Z/F4Dqv1Q8bg74Cmzfj0gZGLrzoYL4bDr95v59PCy4pcj4X9D08sUxGGLob?=
+ =?us-ascii?Q?AcK3Y2piPSJkbIgxVgjlb93ikSidN2GgR4+8Q2HJISqpCHOQOx8XyhHOokWJ?=
+ =?us-ascii?Q?Q/i1PFQBbDB03f5lL7ij43kGpQBhIXHeAli+5Q5Y6atXfCLlcW5CXIDnb6NB?=
+ =?us-ascii?Q?Q8CQsI4dwrraeEmCMYUhqDSCNT2x/1CzNTHffCEKJTZDvGvpS23PXtWOcnX5?=
+ =?us-ascii?Q?zgThASU/jUko80VK8z/k4rvSGGM7EFAPqkp17Y6hbKgoM2EeIZ2wf/LhET0q?=
+ =?us-ascii?Q?tY2uYGUBrY9a1ghghW1BN2LxcMOLtEnkM5O1H7FWZa2PSnC+QthDbvKl4LCz?=
+ =?us-ascii?Q?ug72A0FMnunL/yKxAxbhy+6ovkhFghmartSJOvCNEnW+kvkY7g+bcYV2pdoU?=
+ =?us-ascii?Q?BjRv4AdyY0BrHDYZ+/RgW4B5jBtYWS7FBEfZbtgg+8Pe17G8nNvvmWLJspX0?=
+ =?us-ascii?Q?UGsDc5hDG/FudJx4ie8P2Cau9G8MkthuPv5/dISb5qw5eX0+sW1PVGOWoMz9?=
+ =?us-ascii?Q?me5ZvdOkJOGIVfBl5fJfjt48P3gBswdLo2HNxnS6dbJFye6MPSc1FOGivuqr?=
+ =?us-ascii?Q?3s+V5F+m4BCoJN8UWMvZ03JggwZT3LLd6bNFeWOishodzw7xWhCY1CZ/GZzl?=
+ =?us-ascii?Q?vwJ/sIbupK3O5x+z4A9A+Si7Zv/QN4qlmLhN9Oid9yi0CJvPdJtzo417iCwE?=
+ =?us-ascii?Q?/6P2BvY7/dMhh2/6efnTvGDFFi1Zx6qfmFNTnT+qqEAbGHU7LPS/w0x9gquG?=
+ =?us-ascii?Q?Mi50e0RoAnrEnw+wWyrbuIqbxWadU7jX7KM2gVwB9FjfVwx+o3b0tFcIz4ya?=
+ =?us-ascii?Q?3L/8e1I+syZ/Gs3CjAcpjK7lGFmDj67Mc7vEzfk1+xU6vczfVMQRq9MkgXdX?=
+ =?us-ascii?Q?IlMKCr2duYDPEQ7VAKbjpTYMibcaFe/Chz9pzCnZ/MAlDKPi9i2cvrigmozM?=
+ =?us-ascii?Q?irFZ3bAZ1oFknjy4RF6CuLLmfE77nMTFBD0frNV6iH8Z5TQ83v2d0QX7WwId?=
+ =?us-ascii?Q?EAjNaVRnd7+lrpU4hqdD0435m9PPpknUx/d7hcZhaflQtbpFxQBorAOPRAGv?=
+ =?us-ascii?Q?He4/N/sqhrQt3iVxWmpax6k=3D?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: d0f8a7a3-6eba-4e93-ad20-08dcdd672d82
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 13:32:55.2673
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 13:37:19.6654
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NLaULOvUDS5g3qjs1u1TqSyUMlu1af3uD6mkJZ7mglfXxZhDmrMRq9QG5FIXSZ1zAiW72lQjJu011WyU3JAsZF7WL5dF0sIS2CUdvr5lARy6mXjZrh5GKwiqkYjZ6ZRF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR11MB6460
-X-Authority-Analysis: v=2.4 cv=Z/q+H2RA c=1 sm=1 tr=0 ts=66f4110b cx=c_pps a=7V8mf9/socFTThwl5N0qNQ==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=EaEq8P2WXUwA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=CCpqsmhAAAAA:8 a=WyqX61epEs_fYRVEAk8A:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=ul9cdbp4aOFLsgKbc677:22
-X-Proofpoint-ORIG-GUID: hT_QIh4mo1-8C_LjIiTqaTDrbjR3HQNO
-X-Proofpoint-GUID: hT_QIh4mo1-8C_LjIiTqaTDrbjR3HQNO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-25_04,2024-09-25_02,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=902 phishscore=0
- priorityscore=1501 suspectscore=0 clxscore=1015 mlxscore=0 malwarescore=0
- impostorscore=0 lowpriorityscore=0 adultscore=0 spamscore=0 bulkscore=0
- classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2408220000 definitions=main-2409250096
+X-MS-Exchange-CrossTenant-UserPrincipalName: IpbzgE2PxwsI60KCFyolcS3oIdS/vJh0hMguSptu62kImxEPdy9gIrNgnuhpIsybKejQoCk6o9Em6Ab3DV14OTpxAnnVp5Lmc9wFa/mP1Nw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7676
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 13:33:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204956
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 13:37:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204957
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Hi Bruce,
 
-Below commits on binutils-2.42 stable branch are updated.
+On 9/24/24 4:11 PM, Bruce Ashfield wrote:
+> On Tue, Sep 24, 2024 at 9:02=E2=80=AFAM Quentin Schulz <quentin.schulz@ch=
+erry.de>
+> wrote:
+>=20
+>> Hi Bruce,
+>>
+>> On 8/11/24 8:04 PM, Bruce Ashfield via lists.openembedded.org wrote:
+>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>>
+>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>> ---
+>>>    meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
+>>>    1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+>> b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+>>> index 0097fec7b2..292897ce43 100644
+>>> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+>>> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+>>> @@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
+>>>    # provide this .inc to set specific revisions
+>>>    include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+>>>
+>>> -KBRANCH =3D "v6.10/standard/base"
+>>> +KBRANCH =3D "v6.11/standard/base"
+>>>    KMETA =3D "kernel-meta"
+>>>
+>>>    SRC_URI =3D "git://
+>> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name=3Dmach=
+ine;protocol=3Dhttps
+>> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D=
+;name=3Dmachine;protocol=3Dhttps>
+>> \
+>>> @@ -28,7 +28,7 @@ SRC_URI =3D "git://
+>> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name
+>> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D=
+;name>
+>>>    SRCREV_machine ?=3D
+>> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
+>> "linux-yocto-dev", "${AUTOREV}",
+>> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+>>>    SRCREV_meta ?=3D
+>> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
+>> "linux-yocto-dev", "${AUTOREV}",
+>> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+>>>
+>>> -LINUX_VERSION ?=3D "6.10"
+>>> +LINUX_VERSION ?=3D "6.11"
+>>>    LINUX_VERSION_EXTENSION ?=3D "-yoctodev-${LINUX_KERNEL_TYPE}"
+>>>    PV =3D "${LINUX_VERSION}+git"
+>>>
+>>
+>> I haven't tried to compile linux-yocto-dev but I have my own v6.11-rc6
+>> based kernel recipe.
+>>
+>> It failed to build on Scarthgap because I was missing coreutils-native
+>> (specifically truncate binary) because CONFIG_KALLSYMS was enabled. This
+>> comes from
+>>
+>> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commi=
+t/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95
+>>
+>> It seems there are some config fragments in linux-yocto-cache
+>> (ktypes/base/base.cfg) with it, so maybe we want to always add the
+>> dependency (or is there a way to add a build time dependency from an
+>> .scc file?).
+>>
+>=20
+>=20
+> Interesting!
+>=20
+> I build linux-yocto-dev nightly, so I can confidently say that this isn't
+> being seen with the reference recipe.
+>=20
+> I also do have KALLSYMS in the default .config, so I've worked through th=
+e
+> same new commit and enabling option.
+>=20
+> I get truncate in my kernel builds via hosttools, so the dependency
+> wasn't/isn't needed.
+>=20
 
-8a6764d35e5 libctf: fix ref leak of names of newly-inserted non-root-visible types
-d9ddfab9be2 ld: Move foo before delete in dl5.cc
-3e92ae5088c ld: Avoid folding new and delete pairs
+truncate isn't in HOSTTOOLS in any release yet, just master.
 
-Results before updates as below:
+c.f.=20
+https://git.openembedded.org/openembedded-core/commit/?id=3D522000ce5c4f020=
+1cbe42d7826b6a8489ed10117
 
-No. of expected passes            302
-No. of unexpected failures        2
-No. of untested testcases         1
-No. of unsupported tests          7
+This means people won't be able to build 6.11 and later with=20
+CONFIG_KALLSYMS enabled in Scarthgap and earlier releases...
 
-Results after updates as below:
+... unless we backport this patch to still supported releases?
 
-No. of expected passes            302
-No. of unexpected failures        2
-No. of untested testcases         1
-No. of unsupported tests          7
+BTW, I could reproduce on Scarthgap by checking out poky in its=20
+scarthgap branch, then running `git checkout origin/master --=20
+meta/recipes-kernel/linux/linux-yocto-dev.bb`, then adding=20
+`PREFERRED_PROVIDER_virtual/kernel=3D"linux-yocto-dev"` to conf/local.conf=
+=20
+and then running `MACHINE=3Dqemuarm64 bitbake linux-yocto-dev` from either=
+=20
+a kas-container (4.3.2) or Debian Bullseye.
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
----
- meta/recipes-devtools/binutils/binutils-2.42.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> If we do add the dependency, it is best done in the kernel recipes
+> themselves, as they are versioned and we'll only pull it in when needed.
+> Eventually, it migrates to a common dependency as all kernels gain the
+> requirement over time.
+>=20
+> That being said, I'd rather not add coreutils as a dependency until I kno=
+w
+> it is really required.
+>=20
+> If you try building linux-yocto-dev on that same build machine, can you s=
+ee
+> if truncate is present in devshell ? I'm not seeing an obvious path throu=
+gh
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index 24efe495ec..5d5ba3d6dc 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -20,7 +20,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
- 
- CVE_STATUS[CVE-2023-25584] = "cpe-incorrect: Applies only for version 2.40 and earlier"
- 
--SRCREV ?= "71ef12cbf140a637e4ea4e2239ee5daedc8640de"
-+SRCREV ?= "8a6764d35e5c15d78de8aef8f27af3eefd9d7544"
- BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=https"
- SRC_URI = "\
-      ${BINUTILS_GIT_URI} \
--- 
-2.43.0
+Sadly, kas-container doesn't allow me to run -c devshell :/ (well it=20
+does, but then does nothing :) ).
 
+truncate is available within the container though.
+
+Cheers,
+Quentin
 
