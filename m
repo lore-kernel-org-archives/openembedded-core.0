@@ -1,99 +1,94 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B4BC369CC
-	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 11:03:47 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.13071.1727262224382089948
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C6B3C369D6
+	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 12:01:07 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.14112.1727265657612185571
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Sep 2024 04:03:44 -0700
+ Wed, 25 Sep 2024 05:00:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RvadLAgR;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=zjupsw1I;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019228d9ecc3-6729b0f6-32cb-48e5-a8f5-baa64ca6c329-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1727262223; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=s2Gcc+zPRg8j8Nwxa+K0IF0o9E8OfllNwYWTZlSkKd0=;
-	b=RvadLAgRpUi3B0Poq0Zgnw+piuJbveximY6H7cTGKPgmMW7rERYUhmwq+PDqdxMK
-	UyI5/ZdEcOMqqEVL6xhUHEVvDNMAEMwNlQIO4F1UKligONWqT1Y5t+NxnyoHBz3yvJD
-	LtnnSsJvk+bGByjTrwk1D7HEF28N7VZdsUrtyoto=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1727262223;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=s2Gcc+zPRg8j8Nwxa+K0IF0o9E8OfllNwYWTZlSkKd0=;
-	b=zjupsw1IqYzY7l1gJQ1Hpn+QjXAa3azvbzOtvssxKKSiXDQXJF3EL7rWDya1Lvyx
-	YKYo5v4wfpUszBcV2I3SQEeoWdvUv2bDcJtE/MKdG4b3c5J3fuXw36RAw5emfGT+McC
-	mCpC44KJUos4tix9K0sHaqsXVkNzchKSVtA2V31w=
-From: patchtest@automation.yoctoproject.org
-To: =?utf-8?q?Ulrich_=C3=96lmann?= <u.oelmann@pengutronix.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] initramfs-framework: init: fix typo
-In-Reply-To: <20240925105334.2190168-1-u.oelmann@pengutronix.de>
-References: <20240925105334.2190168-1-u.oelmann@pengutronix.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019228d9ecc3-6729b0f6-32cb-48e5-a8f5-baa64ca6c329-000000@us-west-2.amazonses.com>
-Date: Wed, 25 Sep 2024 11:03:43 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.25-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WlTOJjK8;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5356bb55224so8986111e87.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 05:00:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727265656; x=1727870456; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EnjGi3n2TFrJrz6/xxuf0o+l4G6eHkCGaeb6FB8t3P0=;
+        b=WlTOJjK8bp08QgOMgotFWHRd2d+xTDwfdH6ndsoF0Q2sZ8cmOQ8cpqbhD7ar5kLVU2
+         YLSuABFP3TrRR4ls6SIakX0LKfeUUilg6sa1QPwTsQl26UnnNTCHg6GaKGG6LOo5vHtO
+         wYixcRGSCT4rz6yjcLgpIs1HufEiCuTMtapakcbjOK3dCqjIIVt798NJpOKZAzLaEaXu
+         KtaNanbUDfXkMfUbmG4cYYO7SgnSxbkRORf5BuyEGW4QpkO+5F6t5DVgJCBMz6x7AMTe
+         yPHhoQibfv1yc+GtO+DoOmPzUqU5VEXKQg9h08NPfNDwAEsCuDtN4nZeRU2mHH1+HM9D
+         n2ig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727265656; x=1727870456;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EnjGi3n2TFrJrz6/xxuf0o+l4G6eHkCGaeb6FB8t3P0=;
+        b=GA2BBHUp48UoibqC72IaEENdYkFaBU88vXk/K0pH7WpaEt3hj0F+rMbmV8K9Egg+vx
+         p/VBskV5CzRR0jCrb4wH8eygbjNav80GKmvkCGvBUAcJk+Fw13ksxptt28j6AK1niocK
+         Pz7xcZmcMopAioykaHjlr5Lza50CiIlkTCOKiXjmQQbCtA5rpTcZEEHQP1q6E7CEiTUj
+         vi5ZVlnzbIZcwmXWJcOutDyD72yxSfahG18o80WgX6m4wAIuM42o00M5flYSCXPG9aBP
+         9aGvKSG+1qSM0iNMXS7dgJDLf7MYHMP3/mGwzVfGSq4di8YaY0V2BmT6muk8+4/Zdx0w
+         NZyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWqswyY9Io2x+/8yfpGyXaBmCKiVVOggZlqRE8Kf4UBcSYwHvEG1nkm8jXn5IQCdJGtFmKWTJ4IKaiT9MJ+JU/APg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwbbENShbG0qZxpMynVZj1aV4RdIHLq0FCQ5paNtUfq7G5XSptr
+	Vd9L/vxIH6IUyYP0Zo9cWLrfFGPIFwqAqhqo213QVY9QIPHmCbXyMP95Uf3GztWUMXRLQ5rz8t2
+	7+CQOTps+KWu0/97q+6q3Rg5ayQs=
+X-Google-Smtp-Source: AGHT+IFR9DEd9zFAp9VXWJe2B4MINPO7sTYgazkIYxj4uEFIn9U4I5Rvvl43jtwbK44LvPpZmkIprRpSUeE4NoSZkUE=
+X-Received: by 2002:a05:6512:1151:b0:535:6033:265f with SMTP id
+ 2adb3069b0e04-5387756633emr1420009e87.58.1727265655434; Wed, 25 Sep 2024
+ 05:00:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240813031628.1123492-1-tim.orling@konsulko.com>
+ <20240814225104ed116094@mail.local> <CAOyo-85dM7t_uByZ12qPh9haZmOHiKFTRnyfhMmp2u9oCzYoHA@mail.gmail.com>
+ <a11cc259b50cbc7edb9daf959ae92e107f363144.camel@linuxfoundation.org>
+In-Reply-To: <a11cc259b50cbc7edb9daf959ae92e107f363144.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 25 Sep 2024 14:00:43 +0200
+Message-ID: <CANNYZj-KdJNX8g=RKeEhWtSnC-1jk9P5wPik6Js9NM5VYPyxHw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] python3-cryptography{-vectors}: upgrade 42.0.8
+ -> 43.0.0
+To: richard.purdie@linuxfoundation.org
+Cc: tim.orling@konsulko.com, Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 11:03:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204947
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 12:01:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204948
 
---NextPart
-Content-Type: text/plain
+On Thu, 15 Aug 2024 at 10:08, Richard Purdie via
+lists.openembedded.org
+<richard.purdie=linuxfoundation.org@lists.openembedded.org> wrote:
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+> They don't look that different. The RECORD file changed and the lines
+> look to have changed ordering as I think the same lines are there,
+> e.g.:
+>
+> cryptography/hazmat/primitives/hashes.py,sha256=EvDIJBhj83Z7f-
+> oHbsA0TzZLFSDV_Yv8hQRdM4o8FD0,5091
+>
+> and
+>
+> cryptography/hazmat/primitives/hashes.py,sha256=EvDIJBhj83Z7f-
+> oHbsA0TzZLFSDV_Yv8hQRdM4o8FD0,5091
+>
+> but different ordering.
+>
+> So the question is what is writing that file and is it doing it based
+> on something like "ls" output which just lists the order on disk? If
+> that is true you can thrown a sort in somewhere...
 
----
-Testing patch /home/patchtest/share/mboxes/initramfs-framework-init-fix-typo.patch
+Note that neither is sorted. I just built this with the in-progress
+python 3.13 update, and with that the entries do seem to be sorted, so
+it seems the problem will disappear with that update.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
