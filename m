@@ -1,264 +1,452 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE05FCF9C6B
-	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 13:37:37 +0000 (UTC)
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (EUR02-DB5-obe.outbound.protection.outlook.com [40.107.249.57])
- by mx.groups.io with SMTP id smtpd.web11.16404.1727271447829475626
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19915CF9C6C
+	for <webhook@archiver.kernel.org>; Wed, 25 Sep 2024 13:57:38 +0000 (UTC)
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
+ by mx.groups.io with SMTP id smtpd.web11.16800.1727272652468787737
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Sep 2024 06:37:28 -0700
+ Wed, 25 Sep 2024 06:57:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=jVrL97bh;
- spf=pass (domain: cherry.de, ip: 40.107.249.57, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SVCW6UXXVDKDyUmVcPWe63RH84ATaytSnXh/ICZa6j+4P59WqGTChQzu7dHi/O52TajT8fmWm+SIktyqDtxtEMY1Q6Sza6CNhNDTVQR7NsoNMPGJvu7MwCBuLlnGtG9LgYpbcoJTaOR0ticuAdTq3QcOPRBQcVTDqvKMEqXT4GKtZ4q8BLkBF+GerV7TVzwUD8OUeubEAC4pSXhIv7mSN20GtYArKbA6jHb7/qpu/CEFUPg4Ldnq7ADX7zzmqn9Q3jApuNj1P4u5zKB6wPzWrGtk+TgFark8phKXKfSH2XXEDeKWGzRA0o3rNysC8BMVyvQv3mwI8PS1L7nwAmTeLQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4rZz9NJIa8vfXhtzM5WX2lNAWfITHc430ZqtbSmh33Q=;
- b=dgct28WkwF4T2IMBDxMPLa3cUGj846OhtwCekMF6KGN6zvlyjGhSJOKiYcjPCRbC1NqKa3YzaOuOp7IdMNCXWTX4hDQp78IzazwDnbuwwESWHKSV3qSxg8FzhD6MORnD6CNzGxDuLDOaVzD4adaxZ3MG7mIGHAkosKgk7CFA/etVyuyByl8Uvh7/m6O5daorl1cTOQdo0jZ0g/rLlHRePLz3SPqsu9GtbXqT2l7CXJ9qIRyAhqd0oP+hQiq7kXckVOg7EkfD+cYtPCUxYpcW7/7+za8oONYX31Cl4dWzje7YYTS4r5+JS2Z1xcZ3VbtMYRQ+Z/PN4wNy1SjYGuJorQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4rZz9NJIa8vfXhtzM5WX2lNAWfITHc430ZqtbSmh33Q=;
- b=jVrL97bhktXekHAw1bRbiucpQT057MFQ4Tc4QOAfVhkjqM22qyS4mK4zks0h2qu99qxncZnRGkfzS/z58lLogJUei3v8+k67FFS3Yu6iQE38XjGMPcMbQxHQOdxuePlhfxv/xFbu5A4+hpBHxNhcyjObUFRlvQ3qCN9SxjlY88I=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
- by DBBPR04MB7676.eurprd04.prod.outlook.com (2603:10a6:10:20e::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Wed, 25 Sep
- 2024 13:37:20 +0000
-Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
- ([fe80::d379:5378:b1:cea%2]) with mapi id 15.20.7918.024; Wed, 25 Sep 2024
- 13:37:19 +0000
-Message-ID: <bd0c9228-ac33-4334-ba40-5d739951b14d@cherry.de>
-Date: Wed, 25 Sep 2024 15:37:18 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 1/5] linux-yocto-dev: bump to v6.11
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-CC: richard.purdie@linuxfoundation.org,
- openembedded-core@lists.openembedded.org
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VfHVq8CW;
+ spf=pass (domain: gmail.com, ip: 209.85.216.52, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2d87176316eso730734a91.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 06:57:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727272652; x=1727877452; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G8oCFpGwhPqgVUiQuvSbTQE3jlz4RTmvgVFIAZW/TBk=;
+        b=VfHVq8CW1sfzSc+Cl94+WR2o5IRD2YQ2nvFOWbICYIWeRXT7chLaB9S6IggY7n8sEt
+         e7+OxC/FcFwvusat2HT9x0yEOG7Zo5d4+uFwNgH6MPqGA2JLxVxiSjTqS75iDU5ny+WY
+         iEOYsJ9yvbh/Fb+wv55fmHTvVX+gljogsofhvQWYAK8mLsmaAHkG2onol+SlrjPY+HwW
+         kE+/gywV89Qs9isqfTT/Yqw81akY3A/tUv0fDfvXHjb6YsR9JctI/uP0fBkFPvEcBHSj
+         hcgKDD+V3zPb5O2aFsJ+mhlM6cZIrO7Xnt20KbWnZHSHRZrAn2FmIydh0zmQCrzZZLGg
+         Azqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727272652; x=1727877452;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G8oCFpGwhPqgVUiQuvSbTQE3jlz4RTmvgVFIAZW/TBk=;
+        b=giIMwLTNe6tR3mb9A+ixEglcmfpBQQTFhU9i4qyNEihcvhsTJTuaIp5HJICWjl/UU1
+         7L3IUUE40111ForXD1xX/PS+9XctwJm7cIDCSbSAVb0PSbMS7UVovbecRLBnJH1IUgx1
+         CPxPXvdbFuylXDCyN5KegxpmAreQbDVhHZ4c05x1blZOrAiVw//kDBWdJn1XZHKn9Zwq
+         xgCnTJhb3PodyBg8M3K9MCmRTWOhdCXy6aa/jlMslNJab832eq5LXHlwgK6Ke59B5apL
+         8WRnRermTKELRlnw9KRQHqo/yoxfZeKPEaB8UjaYiKY6SIrN7vrePXgGY3MncFsew/TY
+         tRIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUa65FZ70n5I53MUGY55+Rqwz4rMGk72SsU/cBmVItKhAQKBllRuWd1NlqpHh1jdl304ZYOMG1iKcqiDmR81NPW7A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxNfRdZ+ObJKo+tz7iXgT6khLMmOEPD/aNeUoJ4OcmpOPQdh3tF
+	3m26Cr1X6M7piPTyYBkhRHwtbXodejdoKqOEf3SRO777Vc/Zi2IKU2+fzeouCHVt6HJiLDDIZ9m
+	WHn5aR84Wo4kb34/peKlOL0r026w=
+X-Google-Smtp-Source: AGHT+IEwxWRXt+2kU9pU6rAZk96l6y8cXc9K8wviz8gj74A1BdnLjcAMKHS8FP7FRw2UMmr66kgprO8/o5TezGyVGgU=
+X-Received: by 2002:a17:90b:4ace:b0:2d8:85fc:464c with SMTP id
+ 98e67ed59e1d1-2e05682f720mr10772501a91.11.1727272651527; Wed, 25 Sep 2024
+ 06:57:31 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1723399246.git.bruce.ashfield@gmail.com>
  <e1eea6c3ea87aebfdaabf5a987a7290d7e9a4485.1723399246.git.bruce.ashfield@gmail.com>
- <4a44e457-b17b-41c6-8e10-18d9fbea4a88@cherry.de>
- <CADkTA4NqO5uGBJu7Oe79vurUss8cPBUW7wqVF+wRcj25WEf4vQ@mail.gmail.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <CADkTA4NqO5uGBJu7Oe79vurUss8cPBUW7wqVF+wRcj25WEf4vQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR4P281CA0382.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:f7::20) To AM9PR04MB8906.eurprd04.prod.outlook.com
- (2603:10a6:20b:409::9)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|DBBPR04MB7676:EE_
-X-MS-Office365-Filtering-Correlation-Id: d0f8a7a3-6eba-4e93-ad20-08dcdd672d82
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|10070799003|1800799024|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?zedtobilBpNl/jMq+yxuJRbTxbLTsCBTnPq54saax4QcY5Z4B4RWXBtirSId?=
- =?us-ascii?Q?DtV9fjs8wuP2q4lbda21NB9kyLac8A4fzX2h5z6u1OsNwAxb4YtPG7EUTHTS?=
- =?us-ascii?Q?Y4NQfzfcdnlAYEh7yq7RBgTauTXM/HQBJh23W/yTGhhxz+z2B3wFaM4j0kZF?=
- =?us-ascii?Q?L5maWh9FT3TLz/4sSJwFuqstPmbBodeWziQQkxKFNS7XHhITiBA7awuFvf7C?=
- =?us-ascii?Q?oBzpUKEQ1b+3+FWZhuaakQSPr6Ik/leimpwUnHuTN0g7E0jbnMtUEF3p/eL2?=
- =?us-ascii?Q?uqhtJJDQSeB3gsMIGc9L69assbsiHguYPBMEBIhkVstpnwAdZAb1PxO93Xvz?=
- =?us-ascii?Q?9yu+kUwEPAPX8enBizKMrmjHg/mOytHMPHD53TlyfYYr/RXp0Jj8i3MpW0zS?=
- =?us-ascii?Q?U6pzRaFUYbvOVpkWIgZ3Fxyx9QzCYBblpBn3Sh3z72JAvtoh2qNhSQv4KyLy?=
- =?us-ascii?Q?7PSliFGmX0AzGrc54k8GV2ErX3wX9gzXAtBtETSF3aI6CDPYO8WXNfJJvSAR?=
- =?us-ascii?Q?uJsQl/ECwXOyd/FGJKA3SbKqpXeeCxdXIqBWq8WJyHtWK4RgkPkMnaWql+Ec?=
- =?us-ascii?Q?FgrHlhNGf/VfNWL7r9n1W5H0TfgwWs0JKBl3aXUDchvMkdX0UU4PfJ5PlZ8H?=
- =?us-ascii?Q?kO55v3kPbRfx3RtL63I1aVi/74QooEnF8L5naQMt+y7j9CHxTw978t/c5mWl?=
- =?us-ascii?Q?yRnjGzwubA9d17/mnkPMySbU2b58FkDY7mpjz4nHF5s09TrF6XPueuesqALg?=
- =?us-ascii?Q?aqZpcvhVETHrohFpyWX49ZRJrVqCq4cEXnJi8jaldItANSDIimdFM7L1fz37?=
- =?us-ascii?Q?qp4yLxIW+xovZi1r4q0KhQv3mz8GEIF3gh55+YwIXm6ifX/BqPdN7j0xin/g?=
- =?us-ascii?Q?QkIeG/i0jvgJXh6b5NrPGqfWg/tDiXAoH7LBDxWfZlxBvAacu+M3x/pwSmsa?=
- =?us-ascii?Q?OGrkVZf0m3Aj209mYEIhgd8lsicOZGk0jBBl6nx6Gi96KWjdYuKm1+20sbRl?=
- =?us-ascii?Q?ylAU28E6jAFUM39PEluIvJN7c3QTk/+N6VfkbyvsDhdmeMfr0BQOZSEsE8Yu?=
- =?us-ascii?Q?nYogQab9JgujL+b1TPYs/o7L6jtYhaQ0zkd7mqeUzjR9DBLbi8GYI14qSVh1?=
- =?us-ascii?Q?8DIvQtCBseIba9vZW1xZsXw2LnMo8X7DLk61YEfv4Kp8hVtPoqCzvxlirGJK?=
- =?us-ascii?Q?nTLjjkZ8Db9MBGqSEw7C7/YjCFPu5aQcM5CZmcrsbpz3qGGl8qIMZGroSVA?=
- =?us-ascii?Q?=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ZqWCzsf9634hrsXlcDw8o918gUj9VO9t+PtxeNrkLnvlCmjJlafbkvnWf+ZX?=
- =?us-ascii?Q?2mPRN8jlcrVa08vSYBFklzPlIp6NtgsXjBdoNJ64BppHySIyi4KovtqvXBjO?=
- =?us-ascii?Q?QVKzYKaSjUsUxqglYp3iYwdsdNXBndH9fZYkAZNcqfSb53Q57BzTFhAbNz+U?=
- =?us-ascii?Q?sFGqeZDd2xn9PNNXUy5QX1lYXIgrGoh9CLwaCf+EZDsx3Qki1et7HfIQFA8/?=
- =?us-ascii?Q?rn4AlKRo9owVudxEUUp+x5Ge/XjgFuvyBDVuSNPTTsCxyEiT9AwefNmj8qN/?=
- =?us-ascii?Q?rcp21RpO1vtNWO/d51iBLCnLNVjF9iodq/F+8+WlQOaZL0+p6ufCh62WraXT?=
- =?us-ascii?Q?X5n0WdjqFfKCZeaQcRxGezwPxn0ID0jMHpzZL0qgLbirQZWxFsXjddsH4GpF?=
- =?us-ascii?Q?tyVn+I+kZGimSQT80zHS1WFasxGfLcWS0lstHWrXvtygWDEYuFIkxEawHacI?=
- =?us-ascii?Q?P1LQYYdK5/qFa8yDZ2mOQ91kEfSqsBABekt54kLhRRCIrMlMZUrDudCKTMXA?=
- =?us-ascii?Q?6Z/F4Dqv1Q8bg74Cmzfj0gZGLrzoYL4bDr95v59PCy4pcj4X9D08sUxGGLob?=
- =?us-ascii?Q?AcK3Y2piPSJkbIgxVgjlb93ikSidN2GgR4+8Q2HJISqpCHOQOx8XyhHOokWJ?=
- =?us-ascii?Q?Q/i1PFQBbDB03f5lL7ij43kGpQBhIXHeAli+5Q5Y6atXfCLlcW5CXIDnb6NB?=
- =?us-ascii?Q?Q8CQsI4dwrraeEmCMYUhqDSCNT2x/1CzNTHffCEKJTZDvGvpS23PXtWOcnX5?=
- =?us-ascii?Q?zgThASU/jUko80VK8z/k4rvSGGM7EFAPqkp17Y6hbKgoM2EeIZ2wf/LhET0q?=
- =?us-ascii?Q?tY2uYGUBrY9a1ghghW1BN2LxcMOLtEnkM5O1H7FWZa2PSnC+QthDbvKl4LCz?=
- =?us-ascii?Q?ug72A0FMnunL/yKxAxbhy+6ovkhFghmartSJOvCNEnW+kvkY7g+bcYV2pdoU?=
- =?us-ascii?Q?BjRv4AdyY0BrHDYZ+/RgW4B5jBtYWS7FBEfZbtgg+8Pe17G8nNvvmWLJspX0?=
- =?us-ascii?Q?UGsDc5hDG/FudJx4ie8P2Cau9G8MkthuPv5/dISb5qw5eX0+sW1PVGOWoMz9?=
- =?us-ascii?Q?me5ZvdOkJOGIVfBl5fJfjt48P3gBswdLo2HNxnS6dbJFye6MPSc1FOGivuqr?=
- =?us-ascii?Q?3s+V5F+m4BCoJN8UWMvZ03JggwZT3LLd6bNFeWOishodzw7xWhCY1CZ/GZzl?=
- =?us-ascii?Q?vwJ/sIbupK3O5x+z4A9A+Si7Zv/QN4qlmLhN9Oid9yi0CJvPdJtzo417iCwE?=
- =?us-ascii?Q?/6P2BvY7/dMhh2/6efnTvGDFFi1Zx6qfmFNTnT+qqEAbGHU7LPS/w0x9gquG?=
- =?us-ascii?Q?Mi50e0RoAnrEnw+wWyrbuIqbxWadU7jX7KM2gVwB9FjfVwx+o3b0tFcIz4ya?=
- =?us-ascii?Q?3L/8e1I+syZ/Gs3CjAcpjK7lGFmDj67Mc7vEzfk1+xU6vczfVMQRq9MkgXdX?=
- =?us-ascii?Q?IlMKCr2duYDPEQ7VAKbjpTYMibcaFe/Chz9pzCnZ/MAlDKPi9i2cvrigmozM?=
- =?us-ascii?Q?irFZ3bAZ1oFknjy4RF6CuLLmfE77nMTFBD0frNV6iH8Z5TQ83v2d0QX7WwId?=
- =?us-ascii?Q?EAjNaVRnd7+lrpU4hqdD0435m9PPpknUx/d7hcZhaflQtbpFxQBorAOPRAGv?=
- =?us-ascii?Q?He4/N/sqhrQt3iVxWmpax6k=3D?=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: d0f8a7a3-6eba-4e93-ad20-08dcdd672d82
-X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2024 13:37:19.6654
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IpbzgE2PxwsI60KCFyolcS3oIdS/vJh0hMguSptu62kImxEPdy9gIrNgnuhpIsybKejQoCk6o9Em6Ab3DV14OTpxAnnVp5Lmc9wFa/mP1Nw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBBPR04MB7676
+ <4a44e457-b17b-41c6-8e10-18d9fbea4a88@cherry.de> <CADkTA4NqO5uGBJu7Oe79vurUss8cPBUW7wqVF+wRcj25WEf4vQ@mail.gmail.com>
+ <bd0c9228-ac33-4334-ba40-5d739951b14d@cherry.de>
+In-Reply-To: <bd0c9228-ac33-4334-ba40-5d739951b14d@cherry.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Wed, 25 Sep 2024 09:57:17 -0400
+Message-ID: <CADkTA4Mk8wCpLGTEeYZXOp2OFEM2FObwU28bKK3gN=huD_6a+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] linux-yocto-dev: bump to v6.11
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000d320880622f200e8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 13:37:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204957
+ <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 13:57:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204958
 
-Hi Bruce,
+--000000000000d320880622f200e8
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 9/24/24 4:11 PM, Bruce Ashfield wrote:
-> On Tue, Sep 24, 2024 at 9:02=E2=80=AFAM Quentin Schulz <quentin.schulz@ch=
-erry.de>
-> wrote:
->=20
->> Hi Bruce,
->>
->> On 8/11/24 8:04 PM, Bruce Ashfield via lists.openembedded.org wrote:
->>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>>
->>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->>> ---
->>>    meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
->>>    1 file changed, 2 insertions(+), 2 deletions(-)
->>>
->>> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb
->> b/meta/recipes-kernel/linux/linux-yocto-dev.bb
->>> index 0097fec7b2..292897ce43 100644
->>> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
->>> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
->>> @@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
->>>    # provide this .inc to set specific revisions
->>>    include recipes-kernel/linux/linux-yocto-dev-revisions.inc
->>>
->>> -KBRANCH =3D "v6.10/standard/base"
->>> +KBRANCH =3D "v6.11/standard/base"
->>>    KMETA =3D "kernel-meta"
->>>
->>>    SRC_URI =3D "git://
->> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name=3Dmach=
-ine;protocol=3Dhttps
->> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D=
-;name=3Dmachine;protocol=3Dhttps>
->> \
->>> @@ -28,7 +28,7 @@ SRC_URI =3D "git://
->> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name
->> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D=
-;name>
->>>    SRCREV_machine ?=3D
->> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
->> "linux-yocto-dev", "${AUTOREV}",
->> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
->>>    SRCREV_meta ?=3D
->> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
->> "linux-yocto-dev", "${AUTOREV}",
->> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
->>>
->>> -LINUX_VERSION ?=3D "6.10"
->>> +LINUX_VERSION ?=3D "6.11"
->>>    LINUX_VERSION_EXTENSION ?=3D "-yoctodev-${LINUX_KERNEL_TYPE}"
->>>    PV =3D "${LINUX_VERSION}+git"
->>>
->>
->> I haven't tried to compile linux-yocto-dev but I have my own v6.11-rc6
->> based kernel recipe.
->>
->> It failed to build on Scarthgap because I was missing coreutils-native
->> (specifically truncate binary) because CONFIG_KALLSYMS was enabled. This
->> comes from
->>
->> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commi=
-t/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95
->>
->> It seems there are some config fragments in linux-yocto-cache
->> (ktypes/base/base.cfg) with it, so maybe we want to always add the
->> dependency (or is there a way to add a build time dependency from an
->> .scc file?).
->>
->=20
->=20
-> Interesting!
->=20
-> I build linux-yocto-dev nightly, so I can confidently say that this isn't
-> being seen with the reference recipe.
->=20
-> I also do have KALLSYMS in the default .config, so I've worked through th=
-e
-> same new commit and enabling option.
->=20
-> I get truncate in my kernel builds via hosttools, so the dependency
-> wasn't/isn't needed.
->=20
+On Wed, Sep 25, 2024 at 9:37=E2=80=AFAM Quentin Schulz <quentin.schulz@cher=
+ry.de>
+wrote:
 
-truncate isn't in HOSTTOOLS in any release yet, just master.
+> Hi Bruce,
+>
+> On 9/24/24 4:11 PM, Bruce Ashfield wrote:
+> > On Tue, Sep 24, 2024 at 9:02=E2=80=AFAM Quentin Schulz <quentin.schulz@=
+cherry.de
+> >
+> > wrote:
+> >
+> >> Hi Bruce,
+> >>
+> >> On 8/11/24 8:04 PM, Bruce Ashfield via lists.openembedded.org wrote:
+> >>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >>>
+> >>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >>> ---
+> >>>    meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
+> >>>    1 file changed, 2 insertions(+), 2 deletions(-)
+> >>>
+> >>> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >> b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >>> index 0097fec7b2..292897ce43 100644
+> >>> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >>> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >>> @@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
+> >>>    # provide this .inc to set specific revisions
+> >>>    include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+> >>>
+> >>> -KBRANCH =3D "v6.10/standard/base"
+> >>> +KBRANCH =3D "v6.11/standard/base"
+> >>>    KMETA =3D "kernel-meta"
+> >>>
+> >>>    SRC_URI =3D "git://
+> >>
+> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name=3Dmachi=
+ne;protocol=3Dhttps
+> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D;=
+name=3Dmachine;protocol=3Dhttps>
+> >> <
+> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D;n=
+ame=3Dmachine;protocol=3Dhttps
+> >
+> >> \
+> >>> @@ -28,7 +28,7 @@ SRC_URI =3D "git://
+> >> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name
+> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D;=
+name>
+> >> <
+> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D;n=
+ame
+> >
+> >>>    SRCREV_machine ?=3D
+> >> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
+> >> "linux-yocto-dev", "${AUTOREV}",
+> >> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+> >>>    SRCREV_meta ?=3D
+> >> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
+> >> "linux-yocto-dev", "${AUTOREV}",
+> >> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+> >>>
+> >>> -LINUX_VERSION ?=3D "6.10"
+> >>> +LINUX_VERSION ?=3D "6.11"
+> >>>    LINUX_VERSION_EXTENSION ?=3D "-yoctodev-${LINUX_KERNEL_TYPE}"
+> >>>    PV =3D "${LINUX_VERSION}+git"
+> >>>
+> >>
+> >> I haven't tried to compile linux-yocto-dev but I have my own v6.11-rc6
+> >> based kernel recipe.
+> >>
+> >> It failed to build on Scarthgap because I was missing coreutils-native
+> >> (specifically truncate binary) because CONFIG_KALLSYMS was enabled. Th=
+is
+> >> comes from
+> >>
+> >>
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95
+> >>
+> >> It seems there are some config fragments in linux-yocto-cache
+> >> (ktypes/base/base.cfg) with it, so maybe we want to always add the
+> >> dependency (or is there a way to add a build time dependency from an
+> >> .scc file?).
+> >>
+> >
+> >
+> > Interesting!
+> >
+> > I build linux-yocto-dev nightly, so I can confidently say that this isn=
+'t
+> > being seen with the reference recipe.
+> >
+> > I also do have KALLSYMS in the default .config, so I've worked through
+> the
+> > same new commit and enabling option.
+> >
+> > I get truncate in my kernel builds via hosttools, so the dependency
+> > wasn't/isn't needed.
+> >
+>
+> truncate isn't in HOSTTOOLS in any release yet, just master.
+>
+> c.f.
+>
+> https://git.openembedded.org/openembedded-core/commit/?id=3D522000ce5c4f0=
+201cbe42d7826b6a8489ed10117
+>
+> This means people won't be able to build 6.11 and later with
+> CONFIG_KALLSYMS enabled in Scarthgap and earlier releases...
+>
+> ... unless we backport this patch to still supported releases?
+>
+> BTW, I could reproduce on Scarthgap by checking out poky in its
+> scarthgap branch, then running `git checkout origin/master --
+> meta/recipes-kernel/linux/linux-yocto-dev.bb`, then adding
+> `PREFERRED_PROVIDER_virtual/kernel=3D"linux-yocto-dev"` to conf/local.con=
+f
+> and then running `MACHINE=3Dqemuarm64 bitbake linux-yocto-dev` from eithe=
+r
+> a kas-container (4.3.2) or Debian Bullseye.
+>
 
-c.f.=20
+Right. I only target linux-yocto-dev at the latest master where we do all
+our testing. The support matrix of ever newer kernels against the older
+releases can get complicated, but we can at least say a given release
+supports the reference kernels + the reference -dev kernel version.
+
+Anything more we do on a case by case basis.
+
+I'd go with that simple host tool addition, rather than adding
+coreutils-native
+as a dependency.
+
+I have a patch locally that can test hosttools and if truncate is missing
+conditionally add the dependency. That balances the speed vs supporting
+non-default host configuration.
+
+Bruce
+
+
+>
+> > If we do add the dependency, it is best done in the kernel recipes
+> > themselves, as they are versioned and we'll only pull it in when needed=
+.
+> > Eventually, it migrates to a common dependency as all kernels gain the
+> > requirement over time.
+> >
+> > That being said, I'd rather not add coreutils as a dependency until I
+> know
+> > it is really required.
+> >
+> > If you try building linux-yocto-dev on that same build machine, can you
+> see
+> > if truncate is present in devshell ? I'm not seeing an obvious path
+> through
+>
+> Sadly, kas-container doesn't allow me to run -c devshell :/ (well it
+> does, but then does nothing :) ).
+>
+> truncate is available within the container though.
+>
+> Cheers,
+> Quentin
+>
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await thee
+at its end
+- "Use the force Harry" - Gandalf, Star Trek II
+
+--000000000000d320880622f200e8
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
+t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
+r" class=3D"gmail_attr">On Wed, Sep 25, 2024 at 9:37=E2=80=AFAM Quentin Sch=
+ulz &lt;<a href=3D"mailto:quentin.schulz@cherry.de">quentin.schulz@cherry.d=
+e</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>Hi Bruce,<br>
+<br>
+On 9/24/24 4:11 PM, Bruce Ashfield wrote:<br>
+&gt; On Tue, Sep 24, 2024 at 9:02=E2=80=AFAM Quentin Schulz &lt;<a href=3D"=
+mailto:quentin.schulz@cherry.de" target=3D"_blank">quentin.schulz@cherry.de=
+</a>&gt;<br>
+&gt; wrote:<br>
+&gt; <br>
+&gt;&gt; Hi Bruce,<br>
+&gt;&gt;<br>
+&gt;&gt; On 8/11/24 8:04 PM, Bruce Ashfield via <a href=3D"http://lists.ope=
+nembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org<=
+/a> wrote:<br>
+&gt;&gt;&gt; From: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmai=
+l.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; Signed-off-by: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashf=
+ield@gmail.com" target=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
+&gt;&gt;&gt; ---<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 meta/recipes-kernel/linux/<a href=3D"http://linux=
+-yocto-dev.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a> =
+| 4 ++--<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<b=
+r>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux=
+-yocto-dev.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><=
+br>
+&gt;&gt; b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" =
+rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><br>
+&gt;&gt;&gt; index 0097fec7b2..292897ce43 100644<br>
+&gt;&gt;&gt; --- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-=
+dev.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><br>
+&gt;&gt;&gt; +++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-=
+dev.bb" rel=3D"noreferrer" target=3D"_blank">linux-yocto-dev.bb</a><br>
+&gt;&gt;&gt; @@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc=
+<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 # provide this .inc to set specific revisions<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 include recipes-kernel/linux/linux-yocto-dev-revi=
+sions.inc<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; -KBRANCH =3D &quot;v6.10/standard/base&quot;<br>
+&gt;&gt;&gt; +KBRANCH =3D &quot;v6.11/standard/base&quot;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 KMETA =3D &quot;kernel-meta&quot;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 SRC_URI =3D &quot;git://<br>
+&gt;&gt; <a href=3D"http://git.yoctoproject.org/linux-yocto-dev.git;branch=
+=3D$%7BKBRANCH%7D;name=3Dmachine;protocol=3Dhttps" rel=3D"noreferrer" targe=
+t=3D"_blank">git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};n=
+ame=3Dmachine;protocol=3Dhttps</a><br>
+&gt;&gt; &lt;<a href=3D"http://git.yoctoproject.org/linux-yocto-dev.git;bra=
+nch=3D$%7BKBRANCH%7D;name=3Dmachine;protocol=3Dhttps" rel=3D"noreferrer" ta=
+rget=3D"_blank">http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%=
+7BKBRANCH%7D;name=3Dmachine;protocol=3Dhttps</a>&gt;<br>
+&gt;&gt; \<br>
+&gt;&gt;&gt; @@ -28,7 +28,7 @@ SRC_URI =3D &quot;git://<br>
+&gt;&gt; <a href=3D"http://git.yoctoproject.org/linux-yocto-dev.git;branch=
+=3D$%7BKBRANCH%7D;name" rel=3D"noreferrer" target=3D"_blank">git.yoctoproje=
+ct.org/linux-yocto-dev.git;branch=3D${KBRANCH};name</a><br>
+&gt;&gt; &lt;<a href=3D"http://git.yoctoproject.org/linux-yocto-dev.git;bra=
+nch=3D$%7BKBRANCH%7D;name" rel=3D"noreferrer" target=3D"_blank">http://git.=
+yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7D;name</a>&gt;<b=
+r>
+&gt;&gt;&gt;=C2=A0 =C2=A0 SRCREV_machine ?=3D<br>
+&gt;&gt; &#39;${@oe.utils.conditional(&quot;PREFERRED_PROVIDER_virtual/kern=
+el&quot;,<br>
+&gt;&gt; &quot;linux-yocto-dev&quot;, &quot;${AUTOREV}&quot;,<br>
+&gt;&gt; &quot;29594404d7fe73cd80eaa4ee8c43dcc53970c60e&quot;, d)}&#39;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 SRCREV_meta ?=3D<br>
+&gt;&gt; &#39;${@oe.utils.conditional(&quot;PREFERRED_PROVIDER_virtual/kern=
+el&quot;,<br>
+&gt;&gt; &quot;linux-yocto-dev&quot;, &quot;${AUTOREV}&quot;,<br>
+&gt;&gt; &quot;29594404d7fe73cd80eaa4ee8c43dcc53970c60e&quot;, d)}&#39;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;&gt; -LINUX_VERSION ?=3D &quot;6.10&quot;<br>
+&gt;&gt;&gt; +LINUX_VERSION ?=3D &quot;6.11&quot;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 LINUX_VERSION_EXTENSION ?=3D &quot;-yoctodev-${LI=
+NUX_KERNEL_TYPE}&quot;<br>
+&gt;&gt;&gt;=C2=A0 =C2=A0 PV =3D &quot;${LINUX_VERSION}+git&quot;<br>
+&gt;&gt;&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; I haven&#39;t tried to compile linux-yocto-dev but I have my own v=
+6.11-rc6<br>
+&gt;&gt; based kernel recipe.<br>
+&gt;&gt;<br>
+&gt;&gt; It failed to build on Scarthgap because I was missing coreutils-na=
+tive<br>
+&gt;&gt; (specifically truncate binary) because CONFIG_KALLSYMS was enabled=
+. This<br>
+&gt;&gt; comes from<br>
+&gt;&gt;<br>
+&gt;&gt; <a href=3D"https://git.kernel.org/pub/scm/linux/kernel/git/torvald=
+s/linux.git/commit/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95" rel=3D"n=
+oreferrer" target=3D"_blank">https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git/commit/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95<=
+/a><br>
+&gt;&gt;<br>
+&gt;&gt; It seems there are some config fragments in linux-yocto-cache<br>
+&gt;&gt; (ktypes/base/base.cfg) with it, so maybe we want to always add the=
+<br>
+&gt;&gt; dependency (or is there a way to add a build time dependency from =
+an<br>
+&gt;&gt; .scc file?).<br>
+&gt;&gt;<br>
+&gt; <br>
+&gt; <br>
+&gt; Interesting!<br>
+&gt; <br>
+&gt; I build linux-yocto-dev nightly, so I can confidently say that this is=
+n&#39;t<br>
+&gt; being seen with the reference recipe.<br>
+&gt; <br>
+&gt; I also do have KALLSYMS in the default .config, so I&#39;ve worked thr=
+ough the<br>
+&gt; same new commit and enabling option.<br>
+&gt; <br>
+&gt; I get truncate in my kernel builds via hosttools, so the dependency<br=
+>
+&gt; wasn&#39;t/isn&#39;t needed.<br>
+&gt; <br>
+<br>
+truncate isn&#39;t in HOSTTOOLS in any release yet, just master.<br>
+<br>
+c.f. <br>
+<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3D5220=
+00ce5c4f0201cbe42d7826b6a8489ed10117" rel=3D"noreferrer" target=3D"_blank">=
 https://git.openembedded.org/openembedded-core/commit/?id=3D522000ce5c4f020=
-1cbe42d7826b6a8489ed10117
+1cbe42d7826b6a8489ed10117</a><br>
+<br>
+This means people won&#39;t be able to build 6.11 and later with <br>
+CONFIG_KALLSYMS enabled in Scarthgap and earlier releases...<br>
+<br>
+... unless we backport this patch to still supported releases?<br>
+<br>
+BTW, I could reproduce on Scarthgap by checking out poky in its <br>
+scarthgap branch, then running `git checkout origin/master -- <br>
+meta/recipes-kernel/linux/<a href=3D"http://linux-yocto-dev.bb" rel=3D"nore=
+ferrer" target=3D"_blank">linux-yocto-dev.bb</a>`, then adding <br>
+`PREFERRED_PROVIDER_virtual/kernel=3D&quot;linux-yocto-dev&quot;` to conf/l=
+ocal.conf <br>
+and then running `MACHINE=3Dqemuarm64 bitbake linux-yocto-dev` from either =
+<br>
+a kas-container (4.3.2) or Debian Bullseye.<br></blockquote><div><br></div>=
+<div><div class=3D"gmail_default" style=3D"font-size:small">Right. I only t=
+arget linux-yocto-dev at the latest master where we do all</div><div class=
+=3D"gmail_default" style=3D"font-size:small">our testing. The support matri=
+x of ever newer kernels against the older</div><div class=3D"gmail_default"=
+ style=3D"font-size:small">releases can get complicated, but we can at leas=
+t say a given release</div><div class=3D"gmail_default" style=3D"font-size:=
+small">supports the reference kernels=C2=A0+ the reference -dev kernel vers=
+ion.</div><div class=3D"gmail_default" style=3D"font-size:small"><br></div>=
+<div class=3D"gmail_default" style=3D"font-size:small">Anything more we do =
+on a case by case basis.</div><div class=3D"gmail_default" style=3D"font-si=
+ze:small"><br></div></div><div class=3D"gmail_default" style=3D"font-size:s=
+mall">I&#39;d go with that simple host tool addition, rather than adding co=
+reutils-native</div><div class=3D"gmail_default" style=3D"font-size:small">=
+as a dependency.</div><div class=3D"gmail_default" style=3D"font-size:small=
+"><br></div><div class=3D"gmail_default" style=3D"font-size:small">I have a=
+ patch locally that can test hosttools and if truncate is missing</div><div=
+ class=3D"gmail_default" style=3D"font-size:small">conditionally add the de=
+pendency. That balances the speed vs supporting</div><div class=3D"gmail_de=
+fault" style=3D"font-size:small">non-default host configuration.</div><div =
+class=3D"gmail_default" style=3D"font-size:small"><br></div><div class=3D"g=
+mail_default" style=3D"font-size:small">Bruce</div><div>=C2=A0</div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; If we do add the dependency, it is best done in the kernel recipes<br>
+&gt; themselves, as they are versioned and we&#39;ll only pull it in when n=
+eeded.<br>
+&gt; Eventually, it migrates to a common dependency as all kernels gain the=
+<br>
+&gt; requirement over time.<br>
+&gt; <br>
+&gt; That being said, I&#39;d rather not add coreutils as a dependency unti=
+l I know<br>
+&gt; it is really required.<br>
+&gt; <br>
+&gt; If you try building linux-yocto-dev on that same build machine, can yo=
+u see<br>
+&gt; if truncate is present in devshell ? I&#39;m not seeing an obvious pat=
+h through<br>
+<br>
+Sadly, kas-container doesn&#39;t allow me to run -c devshell :/ (well it <b=
+r>
+does, but then does nothing :) ).<br>
+<br>
+truncate is available within the container though.<br>
+<br>
+Cheers,<br>
+Quentin<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature">- =
+Thou shalt not follow the NULL pointer, for chaos and madness await thee at=
+ its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star Trek II<br><b=
+r></div></div>
 
-This means people won't be able to build 6.11 and later with=20
-CONFIG_KALLSYMS enabled in Scarthgap and earlier releases...
-
-... unless we backport this patch to still supported releases?
-
-BTW, I could reproduce on Scarthgap by checking out poky in its=20
-scarthgap branch, then running `git checkout origin/master --=20
-meta/recipes-kernel/linux/linux-yocto-dev.bb`, then adding=20
-`PREFERRED_PROVIDER_virtual/kernel=3D"linux-yocto-dev"` to conf/local.conf=
-=20
-and then running `MACHINE=3Dqemuarm64 bitbake linux-yocto-dev` from either=
-=20
-a kas-container (4.3.2) or Debian Bullseye.
-
-> If we do add the dependency, it is best done in the kernel recipes
-> themselves, as they are versioned and we'll only pull it in when needed.
-> Eventually, it migrates to a common dependency as all kernels gain the
-> requirement over time.
->=20
-> That being said, I'd rather not add coreutils as a dependency until I kno=
-w
-> it is really required.
->=20
-> If you try building linux-yocto-dev on that same build machine, can you s=
-ee
-> if truncate is present in devshell ? I'm not seeing an obvious path throu=
-gh
-
-Sadly, kas-container doesn't allow me to run -c devshell :/ (well it=20
-does, but then does nothing :) ).
-
-truncate is available within the container though.
-
-Cheers,
-Quentin
+--000000000000d320880622f200e8--
 
