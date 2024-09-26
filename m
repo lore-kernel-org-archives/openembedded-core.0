@@ -2,28 +2,28 @@ Return-Path: <Yash.Shinde@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB54BCDE008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA36ECDE007
 	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 13:35:16 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.43139.1727357708484821194
+ by mx.groups.io with SMTP id smtpd.web10.43138.1727357707957730150
  for <openembedded-core@lists.openembedded.org>;
  Thu, 26 Sep 2024 06:35:08 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=9999e03b0d=yash.shinde@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48QBOSuO030228
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 48QBOSuN030228
 	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 13:35:07 GMT
 Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2174.outbound.protection.outlook.com [104.47.56.174])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41um4xkf5g-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 41um4xkf5g-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 13:35:07 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 13:35:06 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ubMDHj+/I2BK4CFtFKmsJpQGp56825M/4Nd9mdAd6ENA5X/H3YmlcDZdwnK54OyO4732lKjxao7mGM1Wn9UenJTQd8V2/ot1jWd5bxOqd1lVk8IqHqpFtjrmdXDPIiCtdIfTfpvfhncGk6WAwW0GJsDyJzw6kbnZCCd+RU5VAnNhwsNg5mwEVIO/F1Pb3clPxmKLCjqPjitcD7kzJ8giWHPIhufzHenD04bGFw2bLtnp0U54gXqcrckNoGBg/JZisNDFmMLBsLQlCkcUwZ45pGrl69UuLoKX4TWCe9pn/n3hS3+tfc1m887xnzFOLSYh83gTbdAiMA+zQv8XvQx3JQ==
+ b=Km+6RBtID4GSKYidYhico/Zd0tYgkPgHOSTdlFk8g6rWNI0qbb3snPr765iRKApC+zAEnnLu0KZ58z51uEgjpuaDj2PqFXyE6IwpXBDm9DZrl4J123eEesS+9WB/63ze0KgBTRID8mMsuEuLXSPmC71HuPJcbjQVaiXHlBwMaIItq5hBAVIbsIcOHkpjWXWjJ18/FVXEtvJ8axauZnyP4odTm2BDDnoNu1P2kICM5QvxHusOvhIzPI5it70n7KIxfKNfWUxBOBukr4w0urltiWNJ8l6QgKW2kLDTZ7STMInPpDNaTBNvyLZ5i1OJAJwzBbVxCcXlk66xccuc00rQZw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1B7n5Fo/lPtAjLEPbYTdVcSwIdTKU+Hj59+G9Uv7aPc=;
- b=rauVk8MtBd6yoe4xu4veDvTvPdqCTLvxGF4EbHhHMrPmWyKsh7EyrVYUw8/X9Y1Kh18oMVidvTWPE5vTNmCnu1v0Ji+yMaWmsEH75DfyYwynPratlGJnsJAxNYgbTtAaDZiTKewJCUdvGondmPuIQvYZ3J8ykLahP7xvKLdg49snZu071rxg/aVYNz79JHDbWTguzK7W0KLER4MgtN69Vs4aBKi0tL05MSmlTiCrpF0BRCvS3ZrqIFYQkI+RmhlMnHugaAWniu0J6t3c8r84j+G6WNA5l12SCEa4Mbh99M5EQ7H/OWqcA1PaGn2twGWs+ygrlrKcF4/C/QHST8j/RA==
+ bh=fN8AQoD4Evp1vwR1GNTHEQt1DWMNoHXI6+DHcaiHYso=;
+ b=SS4gsxftw09vaq91pCvbN4/f2lwthkqi97xVZoz3I4rSBbS8L9VcdXy0Z6HJs8FzU9l7jeh40nL/9YhteJyNsnCQMW6OWMF660r847Vk7J3OkGBeYpzLaog8jV+st2aNjVQVmSSbjobuquiRYWr16h4oDFPwE1no2nYGoHlM+3WhB3FV8RXXKKaUoJQ13mtymjC4B0cIBubUGDpmu8N1tdJqnG8turJb/mbn3MvQFIS03011LGlv99t+4D1iaV0O7J+/I5rFDgHUK+Yutq8zqi6g6pn2/K/8ZCsEUAJ1xc6VUoe1RmXw2TzUguFXTMOdTVSL2VsSnk103lpKEda44g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -31,22 +31,20 @@ Received: from PH7PR11MB7593.namprd11.prod.outlook.com (2603:10b6:510:27f::9)
  by DS0PR11MB6445.namprd11.prod.outlook.com (2603:10b6:8:c6::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.25; Thu, 26 Sep
- 2024 13:35:04 +0000
+ 2024 13:35:02 +0000
 Received: from PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc]) by PH7PR11MB7593.namprd11.prod.outlook.com
  ([fe80::2688:e731:421b:5ebc%5]) with mapi id 15.20.7982.022; Thu, 26 Sep 2024
- 13:35:04 +0000
+ 13:35:02 +0000
 From: yash.shinde@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
         Sundeep.Kokkonda@windriver.com, SunilKumar.Dora@windriver.com
-Subject: [PATCH 2/2] rust: Upgrade 1.80.0->1.80.1
-Date: Thu, 26 Sep 2024 06:34:49 -0700
-Message-ID: <20240926133449.1159940-2-yash.shinde@windriver.com>
+Subject: [PATCH 1/2] rust: Upgrade 1.79.0->1.80.0
+Date: Thu, 26 Sep 2024 06:34:48 -0700
+Message-ID: <20240926133449.1159940-1-yash.shinde@windriver.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20240926133449.1159940-1-yash.shinde@windriver.com>
-References: <20240926133449.1159940-1-yash.shinde@windriver.com>
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-ClientProxiedBy: SJ0PR05CA0055.namprd05.prod.outlook.com
  (2603:10b6:a03:33f::30) To PH7PR11MB7593.namprd11.prod.outlook.com
@@ -54,148 +52,549 @@ X-ClientProxiedBy: SJ0PR05CA0055.namprd05.prod.outlook.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PH7PR11MB7593:EE_|DS0PR11MB6445:EE_
-X-MS-Office365-Filtering-Correlation-Id: 27cf7589-4092-46f3-61e9-08dcde300764
+X-MS-Office365-Filtering-Correlation-Id: 37b2ee71-6739-499c-6b18-08dcde3005f0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
 	BCL:0;ARA:13230040|52116014|376014|366016|1800799024|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?hkz+m9afZ4h8rxduQaO+VSOnC0Kg9cHEURLjO6P7MHJuXrkefK3KvMSTyYka?=
- =?us-ascii?Q?1qipGtuh+ulRC3E2S24II1/yctVr6/SXH5pJbnQoA1m4VdcvEFmhCH+SF89/?=
- =?us-ascii?Q?xhHJD9yjeRpyF83FwIIHWor3pnoR3TXamjhXbM7Agv4cHZDgK/dfLzeJ9JbD?=
- =?us-ascii?Q?EMYc3yZnyWi+PIjjnxG115LoNUAjy1LuvxYajaljL8kkONWSvu4XMV02EQ9u?=
- =?us-ascii?Q?G//XOIsAfVD2AAIjEOl9XoUSLarb2t1VlB5h+w/XDjrK4vVtKpfmtbxnGWiT?=
- =?us-ascii?Q?dANeU0nGXicZJx0CayoK308S8ZpGzC09YdDI0rW0BzyeBg5lk0it7qAwhBYG?=
- =?us-ascii?Q?vil9NRwOVJ4zbebxBSkwCcppJEvSRTicLY+2k6RvD++pI01ZvRQArEnacC+O?=
- =?us-ascii?Q?QBm72CA1+NC/s8YK0mv08bSsOj7VfgI5fn5/grj2+a0O7hv1IV17luC9ZN5V?=
- =?us-ascii?Q?s/OVsxkNl9s+nAVyMvQ1icYI6f5bRBI0WmMCym7hOyhMWU8UUwENQVldX/Jn?=
- =?us-ascii?Q?Vvz4t0B5qdWpY3+EH1ZRhjgC9C+et1xQoZaVeZi1vNh+dGXBO8y5YTiqA9RA?=
- =?us-ascii?Q?gPqnrnBbOedZ6CjZ3E6ixEyOm/VTYH6Q6G7Ee75bcWsw/Tsz5GiK0F5ZyCwr?=
- =?us-ascii?Q?eLq7mr6Z4vq8wjE5UslNtmylGDBWR49AjRKkK6l0IBU8YRaXEo1C8oquzx7Q?=
- =?us-ascii?Q?X/HJPuHoO9Vv4ltv2or5FViLflE09SibD90YBVHrc3lxY7EtHp2ukiwYekX0?=
- =?us-ascii?Q?pXJSUPOqGVEO7c8lGN65fAPHc7HUHbokzsVhlLK+O9xdh9fajWc/MYTj/EWx?=
- =?us-ascii?Q?iFXrnd1d7OxCKW90MXUI79Oy+US23aOT/IjTKfA3H96yXv12ORpmE8I11DRE?=
- =?us-ascii?Q?/Ontkkq91FSdTitUsnot3AnxHntbWSDy1MGMymN+/fkluiAtE0AndPhV9ce4?=
- =?us-ascii?Q?RFti10tUBe6VKQtuNp7b5eR4fmpPL0XLhXOaSB/sLqaVOQi5ZqQav+sCyjru?=
- =?us-ascii?Q?D64iCKH2nggXj3iNNq9zPbf/G5sTMRoiBSG6fYRIUN9e4y0Czppr65hYQp5I?=
- =?us-ascii?Q?IOAWf6B6XmJrz45on5qATM0I9TM+u8iOXZdhfA+aIxWRXeFdVXmqKFlRVAZG?=
- =?us-ascii?Q?tA/Xn7u9kC03n3JsufP/i6T3srmizDmCu2kegO0S/UlISm+imL8t7k8K6hXY?=
- =?us-ascii?Q?WXTIXMd+C/mbeW93gQgZ6F/qivHprIz4lmMTtFpfkDU28RZsrMiOMf1BfLxX?=
- =?us-ascii?Q?1xrc1cOCiJvm1TvaAFJNp+27RzYzJRR4S019yaywog=3D=3D?=
+	=?us-ascii?Q?0aAaiQhnZ7kPSlmDkGmtbb+fWGpKSiFeK/9qqiZzx3I2Z4Mu5TLUqVmgCcVR?=
+ =?us-ascii?Q?YGeqCqg9423JULUEXfffoWBcfRjqhBWmeDVkOmxTKJr8sAUNd/0rQ3r2Akk8?=
+ =?us-ascii?Q?MB5Q1IA79A1Zcd1xWfL3dkTtGip1CjguF+WlrcpTzeskA6M5b4+eOcm9uHzk?=
+ =?us-ascii?Q?gTU5gn1FISlmWdCzPI7p2Tk1kHt+knfQVdf9eZiBuP2xOjAKGBYj2rdvhw3n?=
+ =?us-ascii?Q?hhE9QazOymszS+VIdJS7Ry0IUXeFsQwJcSI1awH1CIF/dyRwDAsXj41iA4rz?=
+ =?us-ascii?Q?qzWoqhtHqcFfl1Lk/LAyr1m15DAmUaR17FwPyzD6DTJKVdXQT6/FLFA1NBlV?=
+ =?us-ascii?Q?2UEThTF7n5N3Yf4RH+S9aT4UfLaCIouVCufHlcbdqOdweZu7PJrPgEGetvvT?=
+ =?us-ascii?Q?4SwC+kSFAt5IYsp7ho/lLma5N6x5ldxY/8YwycJpuMf8S0XRe86VRf9amLhv?=
+ =?us-ascii?Q?VIkSTHHv9S9kOoAJ9+DLiRJplPGQPxxygqabksiU07l34m7jVA0UN8HyTzEw?=
+ =?us-ascii?Q?J5xWuP0A/drHaOYkIEejcUpoHLb9oqDMTN8PUzKCxRkAz6g4eOatJANJYkHu?=
+ =?us-ascii?Q?K551ssz+6di5aaFTl4Wzq1s8gG9sQWCFzMgM/9zAdTA99QGZy40XgfZfvTAB?=
+ =?us-ascii?Q?13nMsdEODPYxAc9226UbrOuxGn4afw+XZUhGpI4AIuD3DZwYRMspql6OgMQN?=
+ =?us-ascii?Q?EJamQ9g8+Gn0bNtgDfqNrhqeHJen03GmAQK8f/KgSfMMA2Ur8tvMLqUuRo/k?=
+ =?us-ascii?Q?b0Y6Izf7IdA5G11M5r4PuKgz4mZy4kcbJYt1dOllOae2N65oKXjRRv86ZRwb?=
+ =?us-ascii?Q?bj5Z8imXUtP4f9CN7LRecvEnrpsxK8IvIEGVQTd9AxEjb8sTaOx+BLTwHsR5?=
+ =?us-ascii?Q?JPjZ2fc3Py7U2bvSZ/jgc5CawiRMlpIjCr531TXf695W+DgLNecnqit9G6Zt?=
+ =?us-ascii?Q?7n0OnS6E/swwYZ3+rt8agHUtCP8EEkHcKMKgplQ3PDrSC88tc47H+zHoOpOr?=
+ =?us-ascii?Q?7y+52mwPsMvHmlEeWlt8sT6A9D/tLcLtHBEecVaxcicpuI3LvXkBlKcSdo9D?=
+ =?us-ascii?Q?NUzZPlOaGsl6jn9YHPG6aMlio8NRAk4I3JBfRZDwMdu8U6TchMVFJYnh7DM/?=
+ =?us-ascii?Q?3qcy4KvU0og0bQ0BzJ2Omye9R8CE9MOqyX0eNY4AA//A0DxUwWMH3ziw1Wkw?=
+ =?us-ascii?Q?cXNhKa+XjBRHA95eno0F1w6jbDUH6KGh/7dJryk+9zEGnu+x2ez3Dew76iyu?=
+ =?us-ascii?Q?fWHIiYRV7CSddA7cJfnKkc1oWk5e1V8oQM4TvXXbbw=3D=3D?=
 X-Forefront-Antispam-Report: 
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7593.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(376014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?jyAPPPDYGq1JK8Y4zIhSNHYkHquWukWBzL7wQWPTTG132Zeo+l0D5mnBoaMA?=
- =?us-ascii?Q?HsKhqvHpZNdXPhXpPk9TrBcbKD2lTos2MN7A+zrvoNQQgHTbfgbZ2Z3Rcq+i?=
- =?us-ascii?Q?UoG9EhaXkTeujf79lFnMZ6c3wwB0WN8AQHK/fLqCFVKqWMZIHwHN+szhhBcl?=
- =?us-ascii?Q?BTcbkZrq7Wmx5kxxmbETWutCp0Q76UUE91QAtc5Nw0rf/A6w7iRn6xiw7psB?=
- =?us-ascii?Q?o9kQHWlw4A6Swn0TrrreeJg4kFzWUZh/prQBo4KCU9y+LU/OjtXNYJtby/ga?=
- =?us-ascii?Q?AKjdKoM0ghr8bSDKsGIrpfTYWNsXuGvbzj0TLz+dVWn+ZHQxXKDlF+8R+mMj?=
- =?us-ascii?Q?kdhODhkVgr7DdoMjTS02J9be/uCRyjxX+jrDepPmpFVm8uGw3QKVlhjvefyj?=
- =?us-ascii?Q?Ptq1kPV4CE1Vzbgh9DZsCP2MoXRpFjNBEDndg0M63bDPzBAwA8w6yl3pKYQo?=
- =?us-ascii?Q?b1vMX2VbhfP3sC4YKTWil5M9XmtaU9uJD2zSOJ6JmYH9qdORd2Y0+wDF+jx8?=
- =?us-ascii?Q?YHImWncwsFPmaUPOPbNxeufhNEW5W7ZQUM857mq9CkdHYXO7XkpepZBNaWZ2?=
- =?us-ascii?Q?uC7ywxtJol2a1VBvlaOxCDZbjF7UE5ge5Koqy/2T/8nHexyK+DNBN01iwtWy?=
- =?us-ascii?Q?BsHQ7teghqxMnUDdmXqp1/PUflrE9x/5M/xumxA5xhh2khmFnUWsrH1XsLvS?=
- =?us-ascii?Q?a96jf/MIkZ2sAnMW8ARhxdAuq5aVCt/V1+lVo4mA3T5eFOYAKvjunNRNeVYM?=
- =?us-ascii?Q?XXuoh47sMIQDz9QSSifEEV9tzdBOy1np3QTP1wx5QodhWR3JFDd1xbs2GVKs?=
- =?us-ascii?Q?v2jPuEmxAzmUKXI3+ZJCY7ua8OU/sb/kComqZmsZbWHsaEy8LKRICLD57xUn?=
- =?us-ascii?Q?dvkOY5tv4jJEYRfPfI7gMp5JcMV055mNfvApNb2VaHerY0TXDJq64XcnCwKf?=
- =?us-ascii?Q?GoOFnn7w+QHFx7CO8RWNv+CzrE/2flqdklAUdH/4nzuxmMVOdBOF/AKYdFvC?=
- =?us-ascii?Q?UUMGkCGn4AKI2SyXyXnAh9eeFdIH7bdsHUmp4qbTwJIgk/B17gFcJYHGcfyQ?=
- =?us-ascii?Q?Rzv+f/sbjIiXq3O/g4Xz11XFafbZ2kEfF7WPM3+vDuDiWYldV4VfZ6/whWOa?=
- =?us-ascii?Q?kP2LNjRY4DQpjcvOqMvBQraViLKPpl4rOckoybA/kYi5TJPjI9AGwg+CBDZG?=
- =?us-ascii?Q?9RQjIVBnWqXywo7v0ZMYSrki1qR7/Y2mHPYq4m594T0dgwssE5r5mbSA7OAY?=
- =?us-ascii?Q?zm11biwa/n1kdVaVYuwH573+6Jm55LjJXc3L99dqdkV5fia7XLwQJ5L+uAok?=
- =?us-ascii?Q?toUD3B+41gKA7ywCCe3/NnZ4XCGVFQvJZzr/M3X+vJj3bvgNnucSZnSf66X6?=
- =?us-ascii?Q?xt0fWLK4FVJ+q5HT5PW5N+nGeLMiIMxBkCm+L0psnDRHvl8ozAn37Z6IVLP+?=
- =?us-ascii?Q?bOmJZj+MsXcS6osMIICPqwZ89HYhFv0HkFAbWEZt7Z7eARm0k5xXbvK2Zubn?=
- =?us-ascii?Q?iJNZEasl7XSUaGDhh9SPLmaRdg0G2KEzc+Hkt84oz3eT0FrZ0akjRLJ7VoKH?=
- =?us-ascii?Q?lH6jtkKtrqjCD5v+hVXBqX4cpeErTJM37zkU1Xu/AG9VEpcwayKHqtFYJhsx?=
- =?us-ascii?Q?jg=3D=3D?=
+	=?us-ascii?Q?pxLy01men2YMnG3cTDE7E5ifmuDmOmuo2s6n8dMAnYRziJu42463+RhQJW66?=
+ =?us-ascii?Q?56HMB5fxQ3EF5pCeFxEYrJC15Jm7naxt4ToQlDHZp4ns0aqdF4lWgMYI9cF8?=
+ =?us-ascii?Q?equWNEuEITtmJXu1iX9V7iVIUz3gBG13h1PB5MJ65iawChS531CGHmEz1+dw?=
+ =?us-ascii?Q?83BxPeW9egGNRdfihJWZ/ShZyA8pvcKztLeHRQy9pVpZEOJOzTZCKkUJERfH?=
+ =?us-ascii?Q?s3ajoaXjgRBw7ku1rW531yQzYBbQBDLGo8RcPbHBRhJGXYsCzp/wtAv9DO7o?=
+ =?us-ascii?Q?TPJXboDc4rxUZolhtizVJbFcmB4OOi9xVQEvaiSxUngZ6/zgyuNCYE+Khu+p?=
+ =?us-ascii?Q?Kt7rpDsATKwrY7DM0H/+o8/fo0cS2WcTx465GXn674eI3km0wCdC6EVlJGO5?=
+ =?us-ascii?Q?2uGfg5YAhhiHqJt5GnSMpzLKiNeEPvVOL0JOKmH69rvgrXW2KPcxCR/DR4Es?=
+ =?us-ascii?Q?iuhkH5qHQ6Yb6ju+rvqud7wrMdT3zHelIZb+/AR1bot7ksnq/9adzPhkNyZd?=
+ =?us-ascii?Q?IZlWF4lWdvpAH+UCk1oZzWR0q0HszH5SJcLfMa1ccYa569/JQtCfTXrGVQHi?=
+ =?us-ascii?Q?GXWaI9wEWUl/DwG+qCn5Mxp0I2t49Zqhe8xoEvyzh/7WpDVcQyQ33vFTEe5H?=
+ =?us-ascii?Q?pqde9v6WTXFguLl+Nt8t2Ztn099SYIQp9OzjCiahHxpsGlqeOrR8ouVXET+w?=
+ =?us-ascii?Q?TlsduLx1hJW60Jbbk7V1oOn7r/hTGqv8zHB9oT/mGXvqX/vcE3jpTrMsvs/h?=
+ =?us-ascii?Q?npD79ZVxlmO5s1ESazMAnTf37l5A+lQXlEm9iMZeoTFY8L7yUgsac/HtOYgx?=
+ =?us-ascii?Q?7vczZrooDh55gqCO2dmIfUet90SuyDchwYU3x++dxD+E2Arx2/uE43bD3LUy?=
+ =?us-ascii?Q?jUm7To1b77d/xMUeOYLTExKviwzCepXIF+PMxooNeCuqjJ3fJi3snzKFkrJH?=
+ =?us-ascii?Q?pCefHRvxENkLO1WCY+ZDJcR8sXCiMoiC4eDUcaotwqBf42xvlqIBwkQ0mvpS?=
+ =?us-ascii?Q?/4B32BqsMHsv+ZvdCekUv1QUks9mLZn9yjipiSnf3nfye9yQLyMuTmDPTGy2?=
+ =?us-ascii?Q?AnaLehPuOCZI1YJVlENjqAEGuUUL2QDukJon/4I3Dl+b1Z1PtO1NWDoTQYRi?=
+ =?us-ascii?Q?LFsoFOFBps6QoF5TQPOxRw4aiC73rdO5kC7hVUniocmtvVWmPg0eahkVyOpB?=
+ =?us-ascii?Q?/sVvfPohO0d3UKPZAGMaM+H1QnjFFNbDaq2RQTlj6csN0FMtGpaJfFqDUjjy?=
+ =?us-ascii?Q?BN9anFZzjfdAqfVSeLO6zWGjwPyoJqly3jzn3BKBVpTk7qIdi0R1FvjtpG66?=
+ =?us-ascii?Q?vMX5dC6g6fBb3WnRES0s9oVry8BtZ1vYqqtW4aDb3fG1HlpQ1ZNluIUlLuws?=
+ =?us-ascii?Q?o8jqaW+bg9tjrUjRgvVWqehvzk3BpuC131ZGu0/OWXhDDogCbIaohUOe7oE9?=
+ =?us-ascii?Q?bR5MK67y8WYJu6jdz7gHQqY933doZiJcUlaa552uLqf50Dz7qjeRFuOD5nGT?=
+ =?us-ascii?Q?KgookJSeXdJ6ThvmXvHnwHjaNJFIkdmSSbCk1mCmkt8bBt2udK7hZcKTz3AV?=
+ =?us-ascii?Q?tcQsJ+ckqWQa5erLOvLRN+A9nFS8bRryPosBMSQKoe+o8fwRA1ZKvQ3wYJQz?=
+ =?us-ascii?Q?5g=3D=3D?=
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 27cf7589-4092-46f3-61e9-08dcde300764
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37b2ee71-6739-499c-6b18-08dcde3005f0
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7593.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 13:35:04.4863
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 13:35:02.0579
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Ny8xMCNk2Umlv8ynTQWag3UL9rFZxBz8mcrb7+z9NS3/i+E6ugTEomFsOGgphiXpe6EsCUzBdgDW9lPLMdiikTnSFM3+4wSbIZbwL78bVi8=
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5e0lqYfhSOKA4SH8zpqO3qK9bK/QLtEXYBXhIN+tSaq8HS/OEgg3aTDVA3SiU34daw9Pf6jS/hydgKJrqDQMkctNq4FZdOi2lUJA2Ulk7ho=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6445
-X-Proofpoint-ORIG-GUID: OfIL-NnpMVk_ObZG14Aezu81l7HkrWA3
-X-Authority-Analysis: v=2.4 cv=e+1USrp/ c=1 sm=1 tr=0 ts=66f5630b cx=c_pps a=yF+kfS/uWKtSACHbTM5LMQ==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=EaEq8P2WXUwA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=ei4SEBeUAAAA:8 a=QD9Qtey2zKJs_bIMlh0A:9
- a=t0EB5k7lhMAKNYPM:21 a=Qixl1SizjlQA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=8zIOOLb7Ym0NljyPXbuS:22
-X-Proofpoint-GUID: OfIL-NnpMVk_ObZG14Aezu81l7HkrWA3
+X-Proofpoint-ORIG-GUID: kGB4OJmnDpJrPC5egR9VH834hAcejUpJ
+X-Authority-Analysis: v=2.4 cv=e+1USrp/ c=1 sm=1 tr=0 ts=66f5630a cx=c_pps a=yF+kfS/uWKtSACHbTM5LMQ==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=EaEq8P2WXUwA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=ei4SEBeUAAAA:8 a=6kxRq5Nu6ERL56ps6fAA:9
+ a=Ohuo-sdro4PwUcRb:21 a=ftWJbRMW6gsA:10 a=FdTzh2GWekK77mhwV6Dw:22 a=8zIOOLb7Ym0NljyPXbuS:22
+X-Proofpoint-GUID: kGB4OJmnDpJrPC5egR9VH834hAcejUpJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-26_04,2024-09-26_01,2024-09-02_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 clxscore=1015
  spamscore=0 lowpriorityscore=0 impostorscore=0 mlxscore=0 phishscore=0
- malwarescore=0 bulkscore=0 suspectscore=0 mlxlogscore=773
+ malwarescore=0 bulkscore=0 suspectscore=0 mlxlogscore=999
  priorityscore=1501 classifier=spam authscore=0 adjust=0 reason=mlx
  scancount=1 engine=8.21.0-2408220000 definitions=main-2409260094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 13:35:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204985
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204984
 
-From: Yash Shinde <yash.shinde@windriver.com>
+From: Sunil Dora <SunilKumar.Dora@windriver.com>
 
-https://blog.rust-lang.org/2024/08/08/Rust-1.80.1.html
+https://blog.rust-lang.org/2024/07/25/Rust-1.80.0.html
 
+Signed-off-by: Sunil Dora <SunilKumar.Dora@windriver.com>
 Signed-off-by: Yash Shinde <Yash.Shinde@windriver.com>
 ---
- meta/recipes-devtools/rust/{cargo_1.80.0.bb => cargo_1.80.1.bb} | 0
- .../rust/{libstd-rs_1.80.0.bb => libstd-rs_1.80.1.bb}           | 0
- ...t-cross-canadian_1.80.0.bb => rust-cross-canadian_1.80.1.bb} | 0
- .../rust/{rust-llvm_1.80.0.bb => rust-llvm_1.80.1.bb}           | 0
- meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
- meta/recipes-devtools/rust/{rust_1.80.0.bb => rust_1.80.1.bb}   | 0
- 6 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/rust/{cargo_1.80.0.bb => cargo_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{libstd-rs_1.80.0.bb => libstd-rs_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-cross-canadian_1.80.0.bb => rust-cross-canadian_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-llvm_1.80.0.bb => rust-llvm_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{rust_1.80.0.bb => rust_1.80.1.bb} (100%)
+ meta/conf/distro/include/tcmode-default.inc   |  2 +-
+ .../rust/{cargo_1.79.0.bb =3D> cargo_1.80.0.bb} |  0
+ ...epro-issue-fix-with-cc-crate-hashmap.patch | 12 +--
+ ...ibstd-rs_1.79.0.bb =3D> libstd-rs_1.80.0.bb} |  0
+ ....79.0.bb =3D> rust-cross-canadian_1.80.0.bb} |  0
+ ...ust-llvm_1.79.0.bb =3D> rust-llvm_1.80.0.bb} |  0
+ meta/recipes-devtools/rust/rust-snapshot.inc  | 78 +++++++++----------
+ meta/recipes-devtools/rust/rust-source.inc    |  2 +-
+ .../rust/{rust_1.79.0.bb =3D> rust_1.80.0.bb}   |  0
+ 9 files changed, 47 insertions(+), 47 deletions(-)
+ rename meta/recipes-devtools/rust/{cargo_1.79.0.bb =3D> cargo_1.80.0.bb} (=
+100%)
+ rename meta/recipes-devtools/rust/{libstd-rs_1.79.0.bb =3D> libstd-rs_1.80=
+.0.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-cross-canadian_1.79.0.bb =3D> rust=
+-cross-canadian_1.80.0.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust-llvm_1.79.0.bb =3D> rust-llvm_1.80=
+.0.bb} (100%)
+ rename meta/recipes-devtools/rust/{rust_1.79.0.bb =3D> rust_1.80.0.bb} (10=
+0%)
 
-diff --git a/meta/recipes-devtools/rust/cargo_1.80.0.bb b/meta/recipes-devtools/rust/cargo_1.80.1.bb
+diff --git a/meta/conf/distro/include/tcmode-default.inc b/meta/conf/distro=
+/include/tcmode-default.inc
+index 1d2771239e..b8f0ba2b5f 100644
+--- a/meta/conf/distro/include/tcmode-default.inc
++++ b/meta/conf/distro/include/tcmode-default.inc
+@@ -24,7 +24,7 @@ GLIBCVERSION ?=3D "2.40%"
+ LINUXLIBCVERSION ?=3D "6.10%"
+ QEMUVERSION ?=3D "9.0%"
+ GOVERSION ?=3D "1.22%"
+-RUSTVERSION ?=3D "1.79%"
++RUSTVERSION ?=3D "1.80%"
+=20
+ PREFERRED_VERSION_gcc ?=3D "${GCCVERSION}"
+ PREFERRED_VERSION_gcc-cross-${TARGET_ARCH} ?=3D "${GCCVERSION}"
+diff --git a/meta/recipes-devtools/rust/cargo_1.79.0.bb b/meta/recipes-devt=
+ools/rust/cargo_1.80.0.bb
 similarity index 100%
-rename from meta/recipes-devtools/rust/cargo_1.80.0.bb
-rename to meta/recipes-devtools/rust/cargo_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.80.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.80.1.bb
+rename from meta/recipes-devtools/rust/cargo_1.79.0.bb
+rename to meta/recipes-devtools/rust/cargo_1.80.0.bb
+diff --git a/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-crate=
+-hashmap.patch b/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-c=
+rate-hashmap.patch
+index 164f2eb87c..dedfbff497 100644
+--- a/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-crate-hashma=
+p.patch
++++ b/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-crate-hashma=
+p.patch
+@@ -110,8 +110,8 @@ Signed-off-by: Harish Sadineni <Harish.Sadineni@windriv=
+er.com>
+ -{"files":{"Cargo.toml":"ad60f12609a272a3d052258f9521807fd627181125e84dd98=
+8ddb2b2e7dfedf6","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
+d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba9=
+6f1c7917dd6be0713f88305dbda397","README.md":"f1ddbede208a5b78333a25dac0a759=
+8e678e9b601a7d99a791069bddaf180dfe","src/command_helpers.rs":"3ef95bdcd79a4=
+3406fdab275d8a8f45ba787876399b54df34068955ec0109e69","src/lib.rs":"71e55cf1=
+8e32dab3b9feae2add4ff57932a10084cc5aad4680c12eb3a91ed124","src/parallel/asy=
+nc_executor.rs":"4ce24435fff6b6555b43fee042c16bd65d4150d0346567f246b9190d85=
+b45983","src/parallel/job_token.rs":"0676c3177b5be9d7ede483bf4bd45c5ca0f551=
+1073e4d1c9f181a0bc83db05dc","src/parallel/mod.rs":"aaffed5ad3dc0d28641533ab=
+0d6f522bf34a059d4b1a239dc4d217cb5d58e232","src/parallel/stderr.rs":"a2d18ba=
+3f2e04deb9047ece9ab7ca5452d9a76b515afbe20a76307e31597f34b","src/tool.rs":"1=
+72cfcbecd7c6a363ea841a48a10a75b0a01e83b83c0691107c601598b68dedf","src/windo=
+ws/com.rs":"be1564756c9f3ef1398eafeed7b54ba610caba28e8f6258d28a997737ebf953=
+5","src/windows/find_tools.rs":"f6f391294511c376c3ce10ac2fd29967fe6f21d256d=
+9575d8733c1c7cb1befde","src/windows/mod.rs":"42f1ad7fee35a17686b003e6aa520d=
+3d1940d47d2f531d626e9ae0c48ba49005","src/windows/registry.rs":"c521b72c825e=
+8095843e73482ffa810ed066ad8bb9f86e6db0c5c143c171aba1","src/windows/setup_co=
+nfig.rs":"754439cbab492afd44c9755abcbec1a41c9b2c358131cee2df13c0e996dbbec8"=
+,"src/windows/vs_instances.rs":"76e3cee74b5fd38ddaf533bba11fe401667c50dda5f=
+9d064099840893eaa7587","src/windows/winapi.rs":"250d51c1826d1a2329e9889dd9f=
+058cfce253dbf2a678b076147c6cdb5db046c","src/windows/windows_sys.rs":"f6b90b=
+87f23e446284bde86749b53858c0d37b8a43515ed8d0e90b1ac8cf7771"},"package":"8cd=
+6604a82acf3039f1144f54b8eb34e91ffba622051189e71b781822d5ee1f5"}
+ \ No newline at end of file
+ +{"files":{"Cargo.toml":"ad60f12609a272a3d052258f9521807fd627181125e84dd98=
+8ddb2b2e7dfedf6","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
+d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba9=
+6f1c7917dd6be0713f88305dbda397","README.md":"f1ddbede208a5b78333a25dac0a759=
+8e678e9b601a7d99a791069bddaf180dfe","src/command_helpers.rs":"0977a08e49a78=
+e4065858e650a7e92151806e247b542b87cbbeee96a9177153c","src/lib.rs":"71e55cf1=
+8e32dab3b9feae2add4ff57932a10084cc5aad4680c12eb3a91ed124","src/parallel/asy=
+nc_executor.rs":"4ce24435fff6b6555b43fee042c16bd65d4150d0346567f246b9190d85=
+b45983","src/parallel/job_token.rs":"0676c3177b5be9d7ede483bf4bd45c5ca0f551=
+1073e4d1c9f181a0bc83db05dc","src/parallel/mod.rs":"aaffed5ad3dc0d28641533ab=
+0d6f522bf34a059d4b1a239dc4d217cb5d58e232","src/parallel/stderr.rs":"a2d18ba=
+3f2e04deb9047ece9ab7ca5452d9a76b515afbe20a76307e31597f34b","src/tool.rs":"1=
+72cfcbecd7c6a363ea841a48a10a75b0a01e83b83c0691107c601598b68dedf","src/windo=
+ws/com.rs":"be1564756c9f3ef1398eafeed7b54ba610caba28e8f6258d28a997737ebf953=
+5","src/windows/find_tools.rs":"f6f391294511c376c3ce10ac2fd29967fe6f21d256d=
+9575d8733c1c7cb1befde","src/windows/mod.rs":"42f1ad7fee35a17686b003e6aa520d=
+3d1940d47d2f531d626e9ae0c48ba49005","src/windows/registry.rs":"c521b72c825e=
+8095843e73482ffa810ed066ad8bb9f86e6db0c5c143c171aba1","src/windows/setup_co=
+nfig.rs":"754439cbab492afd44c9755abcbec1a41c9b2c358131cee2df13c0e996dbbec8"=
+,"src/windows/vs_instances.rs":"76e3cee74b5fd38ddaf533bba11fe401667c50dda5f=
+9d064099840893eaa7587","src/windows/winapi.rs":"250d51c1826d1a2329e9889dd9f=
+058cfce253dbf2a678b076147c6cdb5db046c","src/windows/windows_sys.rs":"f6b90b=
+87f23e446284bde86749b53858c0d37b8a43515ed8d0e90b1ac8cf7771"},"package":"8cd=
+6604a82acf3039f1144f54b8eb34e91ffba622051189e71b781822d5ee1f5"}
+---- a/vendor/cc-1.0.92/src/command_helpers.rs
+-+++ b/vendor/cc-1.0.92/src/command_helpers.rs
++--- a/vendor/cc-1.0.97/src/command_helpers.rs
+++++ b/vendor/cc-1.0.97/src/command_helpers.rs
+ @@ -1,11 +1,9 @@
+  //! Miscellaneous helpers for running commands
+=20=20
+@@ -158,9 +158,9 @@ Signed-off-by: Harish Sadineni <Harish.Sadineni@windriv=
+er.com>
+=20=20
+          match obj.parent() {
+              Some(s) =3D> fs::create_dir_all(s)?,
+---- a/vendor/cc-1.0.92/.cargo-checksum.json=20
+-+++ b/vendor/cc-1.0.92/.cargo-checksum.json=20
++--- a/vendor/cc-1.0.97/.cargo-checksum.json=20
+++++ b/vendor/cc-1.0.97/.cargo-checksum.json=20
+ @@ -1 +1 @@
+--{"files":{"Cargo.toml":"3874a391e743987dfdb8719b2fedf6ea9bfd83d13a465b0c1=
+4cf25251f639799","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
+d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba9=
+6f1c7917dd6be0713f88305dbda397","README.md":"f1ddbede208a5b78333a25dac0a759=
+8e678e9b601a7d99a791069bddaf180dfe","src/command_helpers.rs":"15afbc35930a5=
+a53f00d74a8910cff35caeb5511c26642cffe5630377aced901","src/detect_compiler_f=
+amily.c":"72903b91d7a28f49b39e7d730f4c9c4bb39fb901948fa1279cd08abf392f5a29"=
+,"src/lib.rs":"4b65bc0145f64942ed8f480ab93068e85620968d28de200f06553160dec5=
+975e","src/parallel/async_executor.rs":"4ce24435fff6b6555b43fee042c16bd65d4=
+150d0346567f246b9190d85b45983","src/parallel/job_token.rs":"0676c3177b5be9d=
+7ede483bf4bd45c5ca0f5511073e4d1c9f181a0bc83db05dc","src/parallel/mod.rs":"a=
+affed5ad3dc0d28641533ab0d6f522bf34a059d4b1a239dc4d217cb5d58e232","src/paral=
+lel/stderr.rs":"a2d18ba3f2e04deb9047ece9ab7ca5452d9a76b515afbe20a76307e3159=
+7f34b","src/target_info.rs":"3e6cf011d4fe52065db2716277661342eb8ab9f2516fda=
+4c551d0dc0fe0d9c87","src/tempfile.rs":"47a58e904ac07da6682004b5b615dc83250b=
+253a8d3e8ba1b9bcaf6cdf4fd142","src/tool.rs":"b48a7a0efbeb24dc4ccdb4326583ef=
+074e69c670330681a5be9d5c19492e5f96","src/windows/com.rs":"be1564756c9f3ef13=
+98eafeed7b54ba610caba28e8f6258d28a997737ebf9535","src/windows/find_tools.rs=
+":"dcaa6224a0b00298c1421ade505cec31268ee6c477d982a08ed0a3433681c3f6","src/w=
+indows/mod.rs":"42f1ad7fee35a17686b003e6aa520d3d1940d47d2f531d626e9ae0c48ba=
+49005","src/windows/registry.rs":"c521b72c825e8095843e73482ffa810ed066ad8bb=
+9f86e6db0c5c143c171aba1","src/windows/setup_config.rs":"754439cbab492afd44c=
+9755abcbec1a41c9b2c358131cee2df13c0e996dbbec8","src/windows/vs_instances.rs=
+":"76e3cee74b5fd38ddaf533bba11fe401667c50dda5f9d064099840893eaa7587","src/w=
+indows/winapi.rs":"250d51c1826d1a2329e9889dd9f058cfce253dbf2a678b076147c6cd=
+b5db046c","src/windows/windows_sys.rs":"5a440eb39d8a0c176b66177e87531867977=
+93bc5d7896292c408fb44c12dfed3"},"package":"2678b2e3449475e95b0aa6f9b506a28e=
+61b3dc8996592b983695e8ebb58a8b41"}
++-{"files":{"Cargo.toml":"5c15212a19ab7432d834b92cc7f6af9461c860fbaf2a756cd=
+a9b6f40d7b0e845","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
+d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba9=
+6f1c7917dd6be0713f88305dbda397","README.md":"f1ddbede208a5b78333a25dac0a759=
+8e678e9b601a7d99a791069bddaf180dfe","src/command_helpers.rs":"15afbc35930a5=
+a53f00d74a8910cff35caeb5511c26642cffe5630377aced901","src/detect_compiler_f=
+amily.c":"72903b91d7a28f49b39e7d730f4c9c4bb39fb901948fa1279cd08abf392f5a29"=
+,"src/lib.rs":"d805931c886be881ed685c3f75b104e96068c4a7e51f48c9a304b3fdebcf=
+dcda","src/parallel/async_executor.rs":"4ce24435fff6b6555b43fee042c16bd65d4=
+150d0346567f246b9190d85b45983","src/parallel/job_token.rs":"352a0295c965c68=
+4904329d334f3b9889db3a9c3f201701f8db44e4d00e00515","src/parallel/mod.rs":"b=
+d9c1334d17d138c281961c690b8d8118a2d6295a7d6cd7296826255436fa063","src/paral=
+lel/stderr.rs":"a2d18ba3f2e04deb9047ece9ab7ca5452d9a76b515afbe20a76307e3159=
+7f34b","src/target_info.rs":"342be00f6215e161d8163e272a2945bb9f52f171648e15=
+e11d46800a73186955","src/tempfile.rs":"47a58e904ac07da6682004b5b615dc83250b=
+253a8d3e8ba1b9bcaf6cdf4fd142","src/tool.rs":"b48a7a0efbeb24dc4ccdb4326583ef=
+074e69c670330681a5be9d5c19492e5f96","src/windows/com.rs":"be1564756c9f3ef13=
+98eafeed7b54ba610caba28e8f6258d28a997737ebf9535","src/windows/find_tools.rs=
+":"06aaf9d6247f407cb6077c68d0c9469f64a098eda2222059e7400588e7e05f6a","src/w=
+indows/mod.rs":"42f1ad7fee35a17686b003e6aa520d3d1940d47d2f531d626e9ae0c48ba=
+49005","src/windows/registry.rs":"c521b72c825e8095843e73482ffa810ed066ad8bb=
+9f86e6db0c5c143c171aba1","src/windows/setup_config.rs":"754439cbab492afd44c=
+9755abcbec1a41c9b2c358131cee2df13c0e996dbbec8","src/windows/vs_instances.rs=
+":"76e3cee74b5fd38ddaf533bba11fe401667c50dda5f9d064099840893eaa7587","src/w=
+indows/winapi.rs":"250d51c1826d1a2329e9889dd9f058cfce253dbf2a678b076147c6cd=
+b5db046c","src/windows/windows_sys.rs":"5a440eb39d8a0c176b66177e87531867977=
+93bc5d7896292c408fb44c12dfed3"},"package":"099a5357d84c4c61eb35fc8eafa9a79a=
+902c2f76911e5747ced4e032edd8d9b4"}
+ \ No newline at end of file
+-+{"files":{"Cargo.toml":"3874a391e743987dfdb8719b2fedf6ea9bfd83d13a465b0c1=
+4cf25251f639799","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
+d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba9=
+6f1c7917dd6be0713f88305dbda397","README.md":"f1ddbede208a5b78333a25dac0a759=
+8e678e9b601a7d99a791069bddaf180dfe","src/command_helpers.rs":"edff7d8ad5d6f=
+7064ea1ec9ec816f055f87cbe0cd8d505687a67fd544ad7eb11","src/detect_compiler_f=
+amily.c":"72903b91d7a28f49b39e7d730f4c9c4bb39fb901948fa1279cd08abf392f5a29"=
+,"src/lib.rs":"4b65bc0145f64942ed8f480ab93068e85620968d28de200f06553160dec5=
+975e","src/parallel/async_executor.rs":"4ce24435fff6b6555b43fee042c16bd65d4=
+150d0346567f246b9190d85b45983","src/parallel/job_token.rs":"0676c3177b5be9d=
+7ede483bf4bd45c5ca0f5511073e4d1c9f181a0bc83db05dc","src/parallel/mod.rs":"a=
+affed5ad3dc0d28641533ab0d6f522bf34a059d4b1a239dc4d217cb5d58e232","src/paral=
+lel/stderr.rs":"a2d18ba3f2e04deb9047ece9ab7ca5452d9a76b515afbe20a76307e3159=
+7f34b","src/target_info.rs":"3e6cf011d4fe52065db2716277661342eb8ab9f2516fda=
+4c551d0dc0fe0d9c87","src/tempfile.rs":"47a58e904ac07da6682004b5b615dc83250b=
+253a8d3e8ba1b9bcaf6cdf4fd142","src/tool.rs":"b48a7a0efbeb24dc4ccdb4326583ef=
+074e69c670330681a5be9d5c19492e5f96","src/windows/com.rs":"be1564756c9f3ef13=
+98eafeed7b54ba610caba28e8f6258d28a997737ebf9535","src/windows/find_tools.rs=
+":"dcaa6224a0b00298c1421ade505cec31268ee6c477d982a08ed0a3433681c3f6","src/w=
+indows/mod.rs":"42f1ad7fee35a17686b003e6aa520d3d1940d47d2f531d626e9ae0c48ba=
+49005","src/windows/registry.rs":"c521b72c825e8095843e73482ffa810ed066ad8bb=
+9f86e6db0c5c143c171aba1","src/windows/setup_config.rs":"754439cbab492afd44c=
+9755abcbec1a41c9b2c358131cee2df13c0e996dbbec8","src/windows/vs_instances.rs=
+":"76e3cee74b5fd38ddaf533bba11fe401667c50dda5f9d064099840893eaa7587","src/w=
+indows/winapi.rs":"250d51c1826d1a2329e9889dd9f058cfce253dbf2a678b076147c6cd=
+b5db046c","src/windows/windows_sys.rs":"5a440eb39d8a0c176b66177e87531867977=
+93bc5d7896292c408fb44c12dfed3"},"package":"2678b2e3449475e95b0aa6f9b506a28e=
+61b3dc8996592b983695e8ebb58a8b41"}
+++{"files":{"Cargo.toml":"5c15212a19ab7432d834b92cc7f6af9461c860fbaf2a756cd=
+a9b6f40d7b0e845","LICENSE-APACHE":"a60eea817514531668d7e00765731449fe14d059=
+d3249e0bc93b36de45f759f2","LICENSE-MIT":"378f5840b258e2779c39418f3f2d7b2ba9=
+6f1c7917dd6be0713f88305dbda397","README.md":"f1ddbede208a5b78333a25dac0a759=
+8e678e9b601a7d99a791069bddaf180dfe","src/command_helpers.rs":"edff7d8ad5d6f=
+7064ea1ec9ec816f055f87cbe0cd8d505687a67fd544ad7eb11","src/detect_compiler_f=
+amily.c":"72903b91d7a28f49b39e7d730f4c9c4bb39fb901948fa1279cd08abf392f5a29"=
+,"src/lib.rs":"d805931c886be881ed685c3f75b104e96068c4a7e51f48c9a304b3fdebcf=
+dcda","src/parallel/async_executor.rs":"4ce24435fff6b6555b43fee042c16bd65d4=
+150d0346567f246b9190d85b45983","src/parallel/job_token.rs":"352a0295c965c68=
+4904329d334f3b9889db3a9c3f201701f8db44e4d00e00515","src/parallel/mod.rs":"b=
+d9c1334d17d138c281961c690b8d8118a2d6295a7d6cd7296826255436fa063","src/paral=
+lel/stderr.rs":"a2d18ba3f2e04deb9047ece9ab7ca5452d9a76b515afbe20a76307e3159=
+7f34b","src/target_info.rs":"342be00f6215e161d8163e272a2945bb9f52f171648e15=
+e11d46800a73186955","src/tempfile.rs":"47a58e904ac07da6682004b5b615dc83250b=
+253a8d3e8ba1b9bcaf6cdf4fd142","src/tool.rs":"b48a7a0efbeb24dc4ccdb4326583ef=
+074e69c670330681a5be9d5c19492e5f96","src/windows/com.rs":"be1564756c9f3ef13=
+98eafeed7b54ba610caba28e8f6258d28a997737ebf9535","src/windows/find_tools.rs=
+":"06aaf9d6247f407cb6077c68d0c9469f64a098eda2222059e7400588e7e05f6a","src/w=
+indows/mod.rs":"42f1ad7fee35a17686b003e6aa520d3d1940d47d2f531d626e9ae0c48ba=
+49005","src/windows/registry.rs":"c521b72c825e8095843e73482ffa810ed066ad8bb=
+9f86e6db0c5c143c171aba1","src/windows/setup_config.rs":"754439cbab492afd44c=
+9755abcbec1a41c9b2c358131cee2df13c0e996dbbec8","src/windows/vs_instances.rs=
+":"76e3cee74b5fd38ddaf533bba11fe401667c50dda5f9d064099840893eaa7587","src/w=
+indows/winapi.rs":"250d51c1826d1a2329e9889dd9f058cfce253dbf2a678b076147c6cd=
+b5db046c","src/windows/windows_sys.rs":"5a440eb39d8a0c176b66177e87531867977=
+93bc5d7896292c408fb44c12dfed3"},"package":"099a5357d84c4c61eb35fc8eafa9a79a=
+902c2f76911e5747ced4e032edd8d9b4"}
+diff --git a/meta/recipes-devtools/rust/libstd-rs_1.79.0.bb b/meta/recipes-=
+devtools/rust/libstd-rs_1.80.0.bb
 similarity index 100%
-rename from meta/recipes-devtools/rust/libstd-rs_1.80.0.bb
-rename to meta/recipes-devtools/rust/libstd-rs_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.80.0.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.80.1.bb
+rename from meta/recipes-devtools/rust/libstd-rs_1.79.0.bb
+rename to meta/recipes-devtools/rust/libstd-rs_1.80.0.bb
+diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.79.0.bb b/met=
+a/recipes-devtools/rust/rust-cross-canadian_1.80.0.bb
 similarity index 100%
-rename from meta/recipes-devtools/rust/rust-cross-canadian_1.80.0.bb
-rename to meta/recipes-devtools/rust/rust-cross-canadian_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/rust-llvm_1.80.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.80.1.bb
+rename from meta/recipes-devtools/rust/rust-cross-canadian_1.79.0.bb
+rename to meta/recipes-devtools/rust/rust-cross-canadian_1.80.0.bb
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.79.0.bb b/meta/recipes-=
+devtools/rust/rust-llvm_1.80.0.bb
 similarity index 100%
-rename from meta/recipes-devtools/rust/rust-llvm_1.80.0.bb
-rename to meta/recipes-devtools/rust/rust-llvm_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index a7d52d9405..1e9407dee9 100644
+rename from meta/recipes-devtools/rust/rust-llvm_1.79.0.bb
+rename to meta/recipes-devtools/rust/rust-llvm_1.80.0.bb
+diff --git a/meta/recipes-devtools/rust/rust-snapshot.inc b/meta/recipes-de=
+vtools/rust/rust-snapshot.inc
+index e183303ed6..66d777f623 100644
+--- a/meta/recipes-devtools/rust/rust-snapshot.inc
++++ b/meta/recipes-devtools/rust/rust-snapshot.inc
+@@ -4,56 +4,56 @@
+ ## The exact (previous) version that has been used is specified in the sou=
+rce tarball.
+ ## The version is replicated here.
+=20
+-SNAPSHOT_VERSION =3D "1.78.0"
++SNAPSHOT_VERSION =3D "1.79.0"
+=20
+-SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "5173f84a07d4cc6b19f27eda746=
+4999c5886232ce8e54bf61b06617635d43fb9"
+-SRC_URI[clippy-snapshot-aarch64.sha256sum] =3D "086367aa83ea8c30ce41fb6c09=
+7ae6ebdc92363fb1ce8ee9f01d44cafa625f61"
+-SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "66cf114dcd8056a596bf169f=
+824ff95ff1837bc065daaafdbcaa02ce92903304"
+-SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "e0450bef5537e6b0bb82872e9f8=
+37c3b3f6397cc8eba6f53211481c82426e1ce"
++SRC_URI[cargo-snapshot-aarch64.sha256sum] =3D "4ca5e9bd141b0111387ea1aa035=
+5f87eb8d0da52fbc616cefa4ecde4997aa65b"
++SRC_URI[clippy-snapshot-aarch64.sha256sum] =3D "77803cfff2ea0342f26b59eabe=
+c353bc43a1791012aa70855ecfea0fb7ae76ac"
++SRC_URI[rust-std-snapshot-aarch64.sha256sum] =3D "519abf4757fbd8d7e3bb4e4c=
+fdc362ded972c1d95f04675684df2d31e8c0899b"
++SRC_URI[rustc-snapshot-aarch64.sha256sum] =3D "9c847b42b81325d25a9240e33bf=
+03fa8652f5dd321ae90a9a7a58b46bf124b17"
+=20
+-SRC_URI[cargo-snapshot-i686.sha256sum] =3D "472230d0a04c6a2db80671549cb970=
+176299817883dafbffb15c993f5aeaa909"
+-SRC_URI[clippy-snapshot-i686.sha256sum] =3D "1abc63d39850194580c22f998ff14=
+aade2601f7cfc2465cf68828dcfc9d5536d"
+-SRC_URI[rust-std-snapshot-i686.sha256sum] =3D "9e5e02311853354c1540e1b4da6=
+c1686616cea9d3a233c033023f36d950977c0"
+-SRC_URI[rustc-snapshot-i686.sha256sum] =3D "8ba9c213e5daaf08a13c5787a4ea0d=
+7ae8d1e7004126de2b8dc6a6dcd798becd"
++SRC_URI[cargo-snapshot-i686.sha256sum] =3D "57bd43f363ebd399a38aa4ac3b137e=
+9172706770f8b23479f9dd859c6ae779ab"
++SRC_URI[clippy-snapshot-i686.sha256sum] =3D "1d2612c829d946ca8ce32f2beacfd=
+e2c5ebed1fcacb720a58fb8e7786e4c82f2"
++SRC_URI[rust-std-snapshot-i686.sha256sum] =3D "158294f7c424ef75d84046b573f=
+225c15d531745cc79d416a18c11aa8253830e"
++SRC_URI[rustc-snapshot-i686.sha256sum] =3D "4695a6eb66252d519510ca0a859803=
+fff3a5041f71004404df0ccc9fbf0298d5"
+=20
+-SRC_URI[cargo-snapshot-loongarch64.sha256sum] =3D "fabe8c461fb87eff8bdf784=
+5fca7051c5dc6e46da4dc6b3023c90efc7d7bd918"
+-SRC_URI[clippy-snapshot-loongarch64.sha256sum] =3D "d9366b69bd41673bccd761=
+7c2f3fe6a1cdd478fda407c7d9fda0021e33deb825"
+-SRC_URI[rust-std-snapshot-loongarch64.sha256sum] =3D "9f5dc7bfd8602a594157=
+d04c480fb74804a3cdd9b77f46202e289a546af7c846"
+-SRC_URI[rustc-snapshot-loongarch64.sha256sum] =3D "9f19f781cdfa51f5e8b5406=
+02a6a07d45ab5f2e063a86af6177625ecf9d79358"
++SRC_URI[cargo-snapshot-loongarch64.sha256sum] =3D "354d498a8e36abe6ebd7bd8=
+59c8c7e7f02b029aa1897b9b60a87e9902ebb1079"
++SRC_URI[clippy-snapshot-loongarch64.sha256sum] =3D "88eab562705d56a246a09f=
+2897cbae9e37a66dc3cc2cab52c781cd78024f2b52"
++SRC_URI[rust-std-snapshot-loongarch64.sha256sum] =3D "88730b1b0d9c5252e041=
+ed1fc2375d7292dc45132bcc8b6214490c578de240d3"
++SRC_URI[rustc-snapshot-loongarch64.sha256sum] =3D "f39a604e1a5a5ba1c7342c9=
+d98c9952b5ba252cda4b55cc6ae7bd6fca72f3889"
+=20
+-SRC_URI[cargo-snapshot-powerpc.sha256sum] =3D "3d73d16f1b7c4aaf53e6d9ac6d0=
+4586c60698b0c2c793c55585b0234f75d247d"
+-SRC_URI[clippy-snapshot-powerpc.sha256sum] =3D "f9b0d7ac6bdd26b678201d068f=
+8777df5fdc7f524602f73eff54c7e8a5844892"
+-SRC_URI[rust-std-snapshot-powerpc.sha256sum] =3D "4ac9958386c4225b14f8e628=
+1dd64a2b00d5db32c5b336fac137c7c729df25a0"
+-SRC_URI[rustc-snapshot-powerpc.sha256sum] =3D "33bbd45416ce00f2e21073ebcef=
+8668575a3955189c85a13172bf5f5750e00ef"
++SRC_URI[cargo-snapshot-powerpc.sha256sum] =3D "2a55e97ce512c27a012720bb2a0=
+cd86554c1d734b5cb91b98f58af167cc0fde1"
++SRC_URI[clippy-snapshot-powerpc.sha256sum] =3D "1ae0bbe5835d9461a12f22d509=
+787e6c11aac8335c677152a57a04f8d22cf755"
++SRC_URI[rust-std-snapshot-powerpc.sha256sum] =3D "6aa2f351bc7dccb544781f4f=
+ecddb5ef67e05bb310c84e0106d968231384d9f4"
++SRC_URI[rustc-snapshot-powerpc.sha256sum] =3D "3b9a8067e97dd269a27fe91be16=
+3e046e85b47973f5d512c3368c49d332dacb1"
+=20
+-SRC_URI[cargo-snapshot-powerpc64.sha256sum] =3D "271e121aa1324d37d2bd65021=
+7256a792ed387af4b14df0b2757ba22dab50ee5"
+-SRC_URI[clippy-snapshot-powerpc64.sha256sum] =3D "53294b52155bb320570dd125=
+e58b07ee3a0cb35e47a33716b3561d1751ccc538"
+-SRC_URI[rust-std-snapshot-powerpc64.sha256sum] =3D "303e3533e72099d4f0a1d5=
+c2f31c68ef93b3a3ef8af5d36773eac394f920fb22"
+-SRC_URI[rustc-snapshot-powerpc64.sha256sum] =3D "338299628336aa97e6d2f30b5=
+d3c4beaf78038f1e1347a378cbbf80d02a461ea"
++SRC_URI[cargo-snapshot-powerpc64.sha256sum] =3D "1e2ffcc41a2083be2f4733d53=
+4d5ee0e05fc2ace1f21033792a4e2497cbbfbe4"
++SRC_URI[clippy-snapshot-powerpc64.sha256sum] =3D "0bceeb8dc5b48e5ea9cff67c=
+dcf8488fe2afe44d7e75ca04669c7c0c2e02a0df"
++SRC_URI[rust-std-snapshot-powerpc64.sha256sum] =3D "af95929af71494ee3e6988=
+ead07204ea05b6f2b729cdb1ffcc26db75e47bf318"
++SRC_URI[rustc-snapshot-powerpc64.sha256sum] =3D "2295d50425ed5dfb028560ac0=
+f9a611212d8deb43791a1d199419043157ab95e"
+=20
+-SRC_URI[cargo-snapshot-powerpc64le.sha256sum] =3D "b58d7e61fb36295ebd0a092=
+42e292c7bc4fa24fc189aa285b6e266263f356316"
+-SRC_URI[clippy-snapshot-powerpc64le.sha256sum] =3D "5b2b621b79a7635d5670bc=
+17d992f6a0bff0e153b6629fdd501a08cf0df7b126"
+-SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] =3D "117a01afab9d4c6e39bc=
+32b57f8a4b9ad8d693869dde0c52fa51a6ec05eaab8b"
+-SRC_URI[rustc-snapshot-powerpc64le.sha256sum] =3D "45ba3091f9f17abfb01d0c0=
+3c87e8de33f0a210aefbdb007905dbf6cfba8590d"
++SRC_URI[cargo-snapshot-powerpc64le.sha256sum] =3D "bec32adad9f2cd1650ed24e=
+e82fccf7329c68243cdef7cef1e720ccaea097dab"
++SRC_URI[clippy-snapshot-powerpc64le.sha256sum] =3D "6bb12041b6171e80598c0c=
+04eb7e9bd07ab4fb4d654a9289618e3288a4d2f6c8"
++SRC_URI[rust-std-snapshot-powerpc64le.sha256sum] =3D "3b5d53d70837d5ec942e=
+c41a8da37ed932bbdc1e53f78dc54e218db458701588"
++SRC_URI[rustc-snapshot-powerpc64le.sha256sum] =3D "3b144840f179114cde30789=
+09370bfb6928153d0ae303ac9848622c57cee3578"
+=20
+-SRC_URI[cargo-snapshot-riscv64gc.sha256sum] =3D "fc3fda5412f2b1a53c6a3fe6c=
+0a98864d50eac8c63e9b38383085abad6487e3b"
+-SRC_URI[clippy-snapshot-riscv64gc.sha256sum] =3D "44745c59092bc449b0338ab6=
+788eb0b2a6d5ad382224fe1ba1017931ebb6e6dc"
+-SRC_URI[rust-std-snapshot-riscv64gc.sha256sum] =3D "e5d0e1e532f4ca4656d971=
+c4301e87cbcd571daeffd7830b1d02055f95bdaca6"
+-SRC_URI[rustc-snapshot-riscv64gc.sha256sum] =3D "6925c93e4b5b21e37b27aed77=
+23cdd6da317eec3f06f86fb0e5be868f58ea052"
++SRC_URI[cargo-snapshot-riscv64gc.sha256sum] =3D "83e28f3e02cce4a9d19841bcb=
+40ec0c8ad4e9af9fb215c39876028e6e9e6baf1"
++SRC_URI[clippy-snapshot-riscv64gc.sha256sum] =3D "fbc978db4be2e6fdb1dbcb3c=
+a00ee54c44dafd08930738f1c6aa7ae249685a34"
++SRC_URI[rust-std-snapshot-riscv64gc.sha256sum] =3D "2b8af4060acb10f347c66a=
+3477ae92151beba12192590ea40723dcf9b1f7f5b2"
++SRC_URI[rustc-snapshot-riscv64gc.sha256sum] =3D "1b952b8cd597060ac07bbe99c=
+ea382651ca6eee4ac2abe0a90303ccf2278e60e"
+=20
+-SRC_URI[cargo-snapshot-s390x.sha256sum] =3D "59da021df10c62786d33bc6b186a7=
+d1114f788bebcd09f0dd323032fad2f7f5d"
+-SRC_URI[clippy-snapshot-s390x.sha256sum] =3D "1a5542ac30cbcfb15512aba2d53b=
+30dd8835058514085067bbcf7c938c05b79e"
+-SRC_URI[rust-std-snapshot-s390x.sha256sum] =3D "aee53a0a04fb44c95b9aa6217c=
+5483113e1f67fa595dea6fdcbbbd72826e729b"
+-SRC_URI[rustc-snapshot-s390x.sha256sum] =3D "1f458a0b3b947d78d50c67b16bb68=
+e8528cb71d52a7021c3b1652b5f9004c40b"
++SRC_URI[cargo-snapshot-s390x.sha256sum] =3D "5663e6ea018a13f1c87ac74de2678=
+29952ea979fbe5f8ee5c1c3531e25d1749c"
++SRC_URI[clippy-snapshot-s390x.sha256sum] =3D "c00bd892e0f29bbc2514f87c7521=
+210ced8c175a41eee0a428e19a6ef157779f"
++SRC_URI[rust-std-snapshot-s390x.sha256sum] =3D "d70e710a5138871e8d972f195c=
+ed9f7aa639ccef23a87fa03cc527d2b9c3cd36"
++SRC_URI[rustc-snapshot-s390x.sha256sum] =3D "ef4b494fb7356b6e88a69b71378c0=
+4ae0f4a3c264adae84c9d4f3a1314eaa2b4"
+=20
+-SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "f8aacf7a101eb10dc000b8bf26de=
+90a9d0ce678d02ccf70430ed20dd31ecec6b"
+-SRC_URI[clippy-snapshot-x86_64.sha256sum] =3D "b15184ba6078dd7976f06239a25=
+8313a96de2677b37e4c560779cf7f261c3ee5"
+-SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "95aece42a336f237c5bac5c5d=
+9aca051b7f0bd3e6a64fb3c5828e6d0d3af2e8c"
+-SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "3994971e5923716d54e4b574ce23=
+8f04c4e20cda03990670f7cc3f87d36e5499"
++SRC_URI[cargo-snapshot-x86_64.sha256sum] =3D "07fcadd27b645ad58ff4dae5ef16=
+6fd730311bbae8f25f6640fe1bfd2a1f3c3c"
++SRC_URI[clippy-snapshot-x86_64.sha256sum] =3D "3fb282ee97626e4f25c4f6faac3=
+997859b89f13983dd6fa111e25182dfcb91fa"
++SRC_URI[rust-std-snapshot-x86_64.sha256sum] =3D "2c914483c0882d44af2e50a18=
+1cbd2c953d672d50b31aa669ee2346cade1f108"
++SRC_URI[rustc-snapshot-x86_64.sha256sum] =3D "a04cf42022d0a5faf01c31082bfb=
+1dde9c38409f0ca6da90a3e40faa03e797ae"
+=20
+-SRC_URI[rust-std-snapshot-i586.sha256sum] =3D "c119866af24c91108d34267e248=
+86ad90fd8784edfdfd0d36c64013b06974f71"
++SRC_URI[rust-std-snapshot-i586.sha256sum] =3D "9c38f2cd4c19196fcf113166237=
+ab03512bf19ce5a7f13c3bfe0e5cc3317eb44"
+=20
+-SRC_URI[rust-std-snapshot-sparc64.sha256sum] =3D "7e158a16f733844975e65090=
+b07706596401719bd3f5aca44da9f98fb3c11b04"
++SRC_URI[rust-std-snapshot-sparc64.sha256sum] =3D "f7c7a73a8e5640f9d5aca6b2=
+6866b4da08cf3d3509ed1c4184309fb868acbff2"
+=20
+ SRC_URI +=3D " \
+     ${RUST_DIST_SERVER}/dist/${RUST_STD_SNAPSHOT}.tar.xz;name=3Drust-std-s=
+napshot-${RUST_BUILD_ARCH};subdir=3Drust-snapshot-components \
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devt=
+ools/rust/rust-source.inc
+index becaf2b8ac..a7d52d9405 100644
 --- a/meta/recipes-devtools/rust/rust-source.inc
 +++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -10,7 +10,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://rust-oe-selftest.patch;patchdir=${RUSTSRC} \
-             file://repro-issue-fix-with-cc-crate-hashmap.patch;patchdir=${RUSTSRC} \
+@@ -10,7 +10,7 @@ SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${R=
+UST_VERSION}-src.tar.xz;n
+             file://rust-oe-selftest.patch;patchdir=3D${RUSTSRC} \
+             file://repro-issue-fix-with-cc-crate-hashmap.patch;patchdir=3D=
+${RUSTSRC} \
  "
--SRC_URI[rust.sha256sum] = "0b9ca1e2e45b8a5f0b58db140af0dc92f8311faeb0ad883c5b71a72c02dc6e80"
-+SRC_URI[rust.sha256sum] = "6ab79b70dc57737a1de378f212fcf8852d67fe6cf272d122a15b3ea13be77947"
- 
- RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
- 
-diff --git a/meta/recipes-devtools/rust/rust_1.80.0.bb b/meta/recipes-devtools/rust/rust_1.80.1.bb
+-SRC_URI[rust.sha256sum] =3D "ab826e84b8d48ec6eda3370065034dea8c006f6a946d7=
+8a9ba12bcb50e6d3c7a"
++SRC_URI[rust.sha256sum] =3D "0b9ca1e2e45b8a5f0b58db140af0dc92f8311faeb0ad8=
+83c5b71a72c02dc6e80"
+=20
+ RUSTSRC =3D "${WORKDIR}/rustc-${RUST_VERSION}-src"
+=20
+diff --git a/meta/recipes-devtools/rust/rust_1.79.0.bb b/meta/recipes-devto=
+ols/rust/rust_1.80.0.bb
 similarity index 100%
-rename from meta/recipes-devtools/rust/rust_1.80.0.bb
-rename to meta/recipes-devtools/rust/rust_1.80.1.bb
--- 
+rename from meta/recipes-devtools/rust/rust_1.79.0.bb
+rename to meta/recipes-devtools/rust/rust_1.80.0.bb
+--=20
 2.43.0
 
 
