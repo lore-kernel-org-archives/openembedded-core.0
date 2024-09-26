@@ -1,96 +1,186 @@
-Return-Path: <jdmason@kudzu.us>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EAFCDE00D
-	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 15:03:27 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web10.45850.1727363001959732988
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61819CDE014
+	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 15:13:07 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web10.46137.1727363585911435535
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Sep 2024 08:03:22 -0700
+ Thu, 26 Sep 2024 08:13:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=tF/CYpcp;
- spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.161.47, mailfrom: jdmason@kudzu.us)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5da6865312eso541478eaf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 08:03:21 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YnWITQKp;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2f761461150so17402991fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 08:13:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1727363001; x=1727967801; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mWSsd+981Nma1h3TzaYxiOd//m4Y/PKOW3/FnRGRDbA=;
-        b=tF/CYpcpN43mbn6O/6i2DS45abQWf23N+aWNoTOpqRJuKAvHzh8j2gyCChyvv3LUxY
-         hTWF+Zduu5CtSe4kR+kTzbCl9/KQZjAmzpftcVkt2kjCInWqyul4Uq4hzWsU2IsK+uyM
-         ujBrliq7KJWeVeJV+6RI2Z1nk0vAzncu8th/C7Nf+izoiL88ADZSsNhT2FB84y2MJQTN
-         ViZ5eMjJhro5PxAaUDuD375WYY+CP9zuSG2HRs6c671r+O4kl3IuRXep0ErbxujF9jVZ
-         X27PbFb1QG3/65uBwSMnw8HVlURG5udrKCpiQq85J3ijzqiBVsQ80XjqYjJUa+AKyPOh
-         MhFQ==
+        d=gmail.com; s=20230601; t=1727363584; x=1727968384; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=hq603KqnvbGnGWre+JIuQ4a1ubhPZmHiI2Y8XeFUNhg=;
+        b=YnWITQKpVVD3HM5Bu2vV6RAvLQ5/WTffyiAY7esRrM9SWJqtyJdQqZlgoIScZF+G49
+         fdwRt/+6jAwT6s3l5DThCbtrF3KOlklkuZEed1ZpymTzR5PQJz1BuNvaYzr/JI1/aBGy
+         hKxJFmQcBZtxTTBtdxZLhTRDmy763FqTkOyg8bOVLYDcyEwtweoRJS/6bTrW5iUTH1IL
+         IyUHKMxIUYxSnDhgQcag0yDIXV6bsHLITn2fadR9zTgnQ/F2dJ1K5ITftLzUcqAsmtF2
+         UH2kSCWiwvFNkF+DtpfHM8wf+kEyn2Nr4V7UWm/yRwCZt5UisJai6zuD/hj5QoCUL8t2
+         3IXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727363001; x=1727967801;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mWSsd+981Nma1h3TzaYxiOd//m4Y/PKOW3/FnRGRDbA=;
-        b=YBtYXc/iUTJgncIBZRSAeWJAChFrXb2Eir1gBQWqxJmH69m9x9xyS+eW/VIUAF7iv/
-         G7PjHTd9Cw4vQSczD5wc06jf4KAIJXtqqcCRNUqZJmKlJk8YGsg0Zxe3ZeOIgG2uiUVQ
-         MWiPsZs5OppS48a6itZ9zkW6NiwR1iYTHCH3bVVXUOVEZRd+0nJJOpioBH1kOrpdSPkd
-         dCpXgisIDMNLd9oQEwD2lSHw9iRpRwb0BGgNP1ADlSIwkHh250DLN9WXoV92ErIxNL2J
-         dbqsCjcJjutsRo9aMfx9JCNYEMYNJjfNBy8lmdRJhPi1zTDTUS/GsfatodR0RoQvnln1
-         1eOA==
-X-Gm-Message-State: AOJu0Yz5EoJTutUAKdKjmhkqrwMvHe61shxSjl6RZv3nSlX72ofDsqfo
-	jLJRCUZNp6jNzMMYikL7k23crz6WInOmTd1NPn1RdtvIv+7Fiv9b7hj4VoqfwSdAHeavEiE/WZN
-	7yR32ciIrebtU/ikRSIIzIGL3E8BWWd/yJR8iuGim6CtoSG0=
-X-Google-Smtp-Source: AGHT+IEuOwQwcXtpl9HQtI2QQ0JijYULTxbdc32EC7GYimAK8p5v3oozUMRI6n/3S7fzZ9LIJjWX0VGhBsljeROxOVo=
-X-Received: by 2002:a05:6870:1b1a:b0:277:ecd2:7b7 with SMTP id
- 586e51a60fabf-287109c9cdamr145903fac.7.1727363000845; Thu, 26 Sep 2024
- 08:03:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1727363584; x=1727968384;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hq603KqnvbGnGWre+JIuQ4a1ubhPZmHiI2Y8XeFUNhg=;
+        b=tnqTeN4CkfRBopeMYbpMKSzNAiMmdz8BlhC/zqxEJKdA2ZffzcyLagIwJ59R7GPnr+
+         j9Vbga/pa8rKL5WgCXRzPTe0klQ/yd8uAyXfsXdMzJJALW4uZ3Yq3kkyZaZlkCZxtnOf
+         ApqUxBZOW4EL8DSaZ8yAbmEL4soUHZfRVgXuNGTCKDRoKRBWBrPB0xzZfl4B0SzZ/yHs
+         mnscrYXzWZen+4kolMLGlB+NT2vV7R2Cc+7fugMMQywpZrmIPlWisJeIXcEz3FQa+cg5
+         5sBhAzNTWMC/FXLLKL9SquhAwemQ/pfa+1zunOpVehFiY0uEolKin3EDBB5RDVGwizs+
+         fa/g==
+X-Gm-Message-State: AOJu0Yz0jHBU6cu8S1MVcOmOAe6Jz+KVNlkbc1D+baGHYcFIvA2NtZ4X
+	EgvWs1DBfBAZXoqLUfW/AxG7WsjyI349auwGwSRY5FbilXyNihLrMN4mOafcHAvjThRuxQo6D+i
+	N5lmdTdcIoAHkH+daPE6uRG7mzk0=
+X-Google-Smtp-Source: AGHT+IEPOmirDPl45GOMWkEq51i8Q5H9oMfQnBFk+82zW6DaOJXOu2PXxiZqxAh/q7kBoJeR2eLl6RoyaY3T72ebIZQ=
+X-Received: by 2002:a05:6512:31d2:b0:535:6baa:8c5d with SMTP id
+ 2adb3069b0e04-53870497a75mr5459982e87.20.1727363583821; Thu, 26 Sep 2024
+ 08:13:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20240920184135.789227-1-jdmason@kudzu.us> <984F8D25-7B5A-4071-B020-FBF267575ACC@arm.com>
-In-Reply-To: <984F8D25-7B5A-4071-B020-FBF267575ACC@arm.com>
-From: Jon Mason <jdmason@kudzu.us>
-Date: Thu, 26 Sep 2024 11:03:09 -0400
-Message-ID: <CAPoiz9xNehHDeFnp0qaMYs6tJvsiONtvGTycybwrx2eRMrnZXQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v3] default-distrovars: Have KERNEL_CONSOLE
- reference SERIAL_CONSOLES
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20240926091731.2008047-1-claus.stovgaard@gmail.com>
+ <CANNYZj-sjrT+a0aWfraw0OZDx-J5wTznYTnZwS9=hAPW_ZLoxQ@mail.gmail.com> <1499318433b026e195265907f2b39987bf0c0fcc.camel@gmail.com>
+In-Reply-To: <1499318433b026e195265907f2b39987bf0c0fcc.camel@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 26 Sep 2024 17:12:52 +0200
+Message-ID: <CANNYZj_vu2A9WOObG9ZG2P7O-=h9tnZaJ19+d6F5qDW0g9UJtg@mail.gmail.com>
+Subject: Re: [OE-core] [master][scarthgap][PATCH] lib/oe/package-manager:
+ optimize install_complementary
+To: claus.stovgaard@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 15:03:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204990
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 15:13:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204991
 
-On Tue, Sep 24, 2024 at 7:35=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
-rote:
+Hello,
+
+the headline should be 'return early from install_complementary if
+glob is either None or an empty string'.
+
+I prefer a shorter condition.
+
+Alex
+
+On Thu, 26 Sept 2024 at 17:01, <claus.stovgaard@gmail.com> wrote:
+>
+> Hi Alex
+>
+> Would a better headline be "don't handle empty glob"
 >
 >
+> Also a small question.
 >
-> > On 20 Sep 2024, at 19:41, Jon Mason via lists.openembedded.org <jdmason=
-=3Dkudzu.us@lists.openembedded.org> wrote:
+> Looking at the getVar code - It seems that it can return None in some
+> specific situations.
+>
+> So it might be more clear to do
+>
+> if globs is None or globs == "":
+>     return
+>
+> The optimizing part is that the install_complementary normally does.
+>
+>
+> if globs is None:
+>     globs = ""
+>
+> if globs is None:
+>     return
+>
+>
+> do work, where if glob is empty string, it does not matter.
+> (Involve creating installed_pkgs file, and process it with oe-pkgdata-
+> util but with empty glob, so it will never return anything, just spend
+> time on each line in the file, and create a empty list of packages,
+> where it will call install of those)
+>
+>
+> So the change optimize by removing the work on an empty string.
+>
+> What is your take.
+>
+> Do you like "don't handle empty glob" as headline, and what do you
+> prefer
+>
+> if globs is None or globs == "":
+>     return
+>
+> vs
+>
+> if not globs:
+>     return
+>
+>
+> /Claus
+>
+>
+> On Thu, 2024-09-26 at 11:51 +0200, Alexander Kanavin wrote:
+> > 'optimize install_complementary' really doesn't match what the commit
+> > contains, please be more specific.
 > >
-> > --- a/scripts/lib/wic/canned-wks/mkefidisk.wks
-> > +++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
-> > @@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=3Dext4 --l=
-abel platform --align 1024
+> > Alex
 > >
-> > part swap --ondisk sda --size 44 --label swap1 --fstype=3Dswap
-> >
-> > -bootloader --ptable gpt --timeout=3D5 --append=3D"rootfstype=3Dext4 co=
-nsole=3DttyS0,115200 console=3Dtty0"
-> > +bootloader --ptable gpt --timeout=3D5 --append=3D"rootfstype=3Dext4 co=
-nsole=3D${KERNEL_CONSOLE} console=3Dtty0=E2=80=9D
+> > On Thu, 26 Sept 2024 at 11:17, Claus Stovgaard via
+> > lists.openembedded.org
+> > <claus.stovgaard=gmail.com@lists.openembedded.org> wrote:
+> > >
+> > > We are rewriting the globs variable, so it can't be None, but
+> > > rather a
+> > > string. E.g. the lines above.
+> > >
+> > > if globs is None:
+> > >     globs = self.d.getVar('IMAGE_INSTALL_COMPLEMENTARY')
+> > >
+> > > As globs is now a string, we need to test for empty string instead
+> > > of
+> > > compare with None.
+> > >
+> > > Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+> > > ---
+> > >  meta/lib/oe/package_manager/__init__.py | 2 +-
+> > >  1 file changed, 1 insertion(+), 1 deletion(-)
+> > >
+> > > diff --git a/meta/lib/oe/package_manager/__init__.py
+> > > b/meta/lib/oe/package_manager/__init__.py
+> > > index d3b2317894..1d923c436e 100644
+> > > --- a/meta/lib/oe/package_manager/__init__.py
+> > > +++ b/meta/lib/oe/package_manager/__init__.py
+> > > @@ -365,7 +365,7 @@ class PackageManager(object,
+> > > metaclass=ABCMeta):
+> > >                  for complementary_linguas in
+> > > (self.d.getVar('IMAGE_LINGUAS_COMPLEMENTARY') or "").split():
+> > >                      globs += (" " + complementary_linguas) % lang
+> > >
+> > > -        if globs is None:
+> > > +        if not globs:
+> > >              return
+> > >
+> > >          # we need to write the list of installed packages to a
+> > > file because the
+> > > --
+> > > 2.45.2
+> > >
+> > >
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > Links: You receive all messages sent to this group.
+> > > View/Reply Online (#204970):
+> > > https://lists.openembedded.org/g/openembedded-core/message/204970
+> > > Mute This Topic:
+> > > https://lists.openembedded.org/mt/108664320/1686489
+> > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > Unsubscribe:
+> > > https://lists.openembedded.org/g/openembedded-core/unsub [
+> > > alex.kanavin@gmail.com]
+> > > -=-=-=-=-=-=-=-=-=-=-=-
+> > >
 >
-> My understanding was the .wks files had to be .wks.in for variable expans=
-ion to happen.  Can you confirm that this is actually just an idiom and the=
- expansions happen always?
-
-Always?  No.  Can I confirm it works in my handful of tests?  Yes.
-
-Thanks,
-Jon
-
->
-> Ross
 
