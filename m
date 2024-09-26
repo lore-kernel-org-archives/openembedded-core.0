@@ -1,184 +1,336 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5798CC369DE
-	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 12:26:16 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.66.14])
- by mx.groups.io with SMTP id smtpd.web10.41159.1727353569232394382
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82F05CF58C8
+	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 12:34:46 +0000 (UTC)
+Received: from mail-qk1-f175.google.com (mail-qk1-f175.google.com [209.85.222.175])
+ by mx.groups.io with SMTP id smtpd.web10.41332.1727354084824354953
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Sep 2024 05:26:09 -0700
+ Thu, 26 Sep 2024 05:34:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=jzatN8HF;
- spf=pass (domain: axis.com, ip: 52.101.66.14, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FzuWaL2du4CP5X0CQ+pC2BWvcMs6XNS4RZ4rjg29IJ8+r4f5omP292iJVatfM4KNjWV801nWpDqeO7oVtk88HpK8VrxfH5Kxcx6xveZK9Bf26bZs97QZs3244B4LU9/0M+Ljps5hgXVUExW53Ldo/Dm0llXBnyR92iWRoX07l+2asBQieX/miv0sjjhdykaKD7AXJzKoQFqEmQCnGU8dVb3rHXXtuHWgJoP67jNev2oC/yYK2YyQgIex/MuyRFrjE5OAbRxKM5Yt84e2+zciRkNotlm04v9ZfZUGzWr04OYpHTogh2Az4NFIKxecq8ayc7ZFxeayJ/I+0oZbEbqvEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MTgT+0zow25D9/sVnOg9E6UneTFFBxmWN0ePbv+7dYM=;
- b=Ci508esbIG31DdCP/XMbL+fmTAr6XuE6OelUO/RUR2kFZt3OTqQwSBnQk5HREqG+Tl/cPi73gtVqC+4rRCYzxMMqJMnJzD6tNHtfQ/JZlHPJuCskDsqGuR074676V+hoPTjvbzjqv+hx4HzzZSqPw4gx5E3Dky5xMviaZi2JxDDMgxZqJvhzLYNbpR0aUPcg/5u7YJ6iJdLxsLZinahCal1P8i6B8yS1IHs5q43R22Jf0NQGxQjHN7GPcqeIJaTA3+1WnBp641wujpQKvduKgTM05j+dRLtUPUFMegEDHE8O6LtTY/k0Zstzsb/+8qWCvuO3xaOPbvWlNNL6INH22g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MTgT+0zow25D9/sVnOg9E6UneTFFBxmWN0ePbv+7dYM=;
- b=jzatN8HFmXP0FsAdvj7XGViS7pEhLZKjL14UX2nNH96cNsKHdOKbShBfp2xWSA7OKbUTX1KVh5Gk8+d/uBw/cdk6Cq4KR8Ze/CwYfg+hO09d6+ygXLfowjxzjylfyLfahOdo1o3CgsGvPqRXR9ltkcrH3Rww8yZLunEmyHWdXMw=
-Received: from DB8PR09CA0012.eurprd09.prod.outlook.com (2603:10a6:10:a0::25)
- by GV1PR02MB11081.eurprd02.prod.outlook.com (2603:10a6:150:200::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.21; Thu, 26 Sep
- 2024 12:26:02 +0000
-Received: from DU6PEPF0000B61E.eurprd02.prod.outlook.com
- (2603:10a6:10:a0:cafe::50) by DB8PR09CA0012.outlook.office365.com
- (2603:10a6:10:a0::25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.28 via Frontend
- Transport; Thu, 26 Sep 2024 12:26:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU6PEPF0000B61E.mail.protection.outlook.com (10.167.8.133) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8005.15 via Frontend Transport; Thu, 26 Sep 2024 12:26:02 +0000
-Received: from se-mail01w.axis.com (10.20.40.7) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 26 Sep
- 2024 14:26:01 +0200
-Received: from se-intmail02x.se.axis.com (10.0.5.60) by se-mail01w.axis.com
- (10.20.40.7) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Thu, 26 Sep 2024 14:26:01 +0200
-Received: from saur.se.axis.com (saur.se.axis.com [10.92.3.10])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id B3EC71B1
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 14:26:01 +0200 (CEST)
-Received: from saur.se.axis.com (localhost [127.0.0.1])
-	by saur.se.axis.com (8.17.1/8.15.2) with ESMTPS id 48QCQ1WX1711821
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 14:26:01 +0200
-Received: (from pkj@localhost)
-	by saur.se.axis.com (8.17.1/8.17.1/Submit) id 48QCQ18U1711820
-	for openembedded-core@lists.openembedded.org; Thu, 26 Sep 2024 14:26:01 +0200
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [styhead][PATCH] image.bbclass: Don't catch and ignore unexpected exceptions in image_qa
-Date: Thu, 26 Sep 2024 14:25:59 +0200
-Message-ID: <20240926122559.1711799-1-pkj@axis.com>
-X-Mailer: git-send-email 2.40.1
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=b0ZBkSaP;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.175, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f175.google.com with SMTP id af79cd13be357-7a9acc6f22dso82649485a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 05:34:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727354083; x=1727958883; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ls0mCwaWbuGA5ExwV3+iD0PtPrRbnLR1ZCf6WUMZonk=;
+        b=b0ZBkSaPO6N4Ue37EKc0dpVg/RC9P2mMQEy5kgIIf5rQu2ndJqK0sLXtkpzSddL6Bj
+         xwFRIS/u1k4moLTBaBfSJXCPlsYeVvaC4j8+Y0PNXTdnEboasbbtQekdJi4uEZvQYdRZ
+         5REP2VumNj/3Wo5oH7bZWGoTetPQIJ9u+IJkiBNs9rz7mg3LngS9nqK372kcrVplw2sr
+         HlwQ9AIKUzcHR94u5QbF3OPTJMN1o4DlSm4aZzOiraOOfCjqkAmrU7CQ/5cZxRCegiat
+         4w1ySvwl2bPQNziqz+NcU5w+HMs8sZQZF3oL/aHH7e5MvbF9KYNpafuiprX1H/TEW3AQ
+         pO5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727354083; x=1727958883;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ls0mCwaWbuGA5ExwV3+iD0PtPrRbnLR1ZCf6WUMZonk=;
+        b=L/I9WDx33su/slLRq9xod7gt2gpQ4VafJfrSjBdDnhUtOHp2tmnXkZNusU3jvdZ0Dy
+         luwjQAt0qP5vjSLft6sye4wpMzaovcrrthRLKmj2b3lILvKctMVux5fpDNLqcFxjskPX
+         wcW+dk6+PAraA4V4xirbDae8TmN5n7oNN846qnCVx//dxRA9c7j/WBhCkqCQlkbIu8OZ
+         I+BCZQwcQYnagu1E6T9wEjCYeqhPESWoivMYOWJnwvpDSw0Zdg6hc3ppTMYjkSYaWPJO
+         LjNDXl0+uzM8ci9MRgaQylY8uTbgt5eEky8LUNEZr02K5MZXVHt6srKrlCbNM6ijlBym
+         6b8Q==
+X-Gm-Message-State: AOJu0YzAlr7ItXXVBAES6E9kXmyzlpdOlIstzUhG9bviOfsNGYTeGYPn
+	1LGjz2k1T4OpbPWFToaAXNZJCnGDk8bqecywFMpQtfccCJFvVkqbu/EgM3vVAHKEfk043wFMGtm
+	XIG8=
+X-Google-Smtp-Source: AGHT+IHbtTzNLQsjfe083IEW3zAxPnew05cM4oQCa/qa1PoHAxdFM8iD9NiofklwmGv7Y31G6F9Vmw==
+X-Received: by 2002:a05:620a:1aa0:b0:7a9:ad11:9feb with SMTP id af79cd13be357-7ace7401790mr828330785a.24.1727354083468;
+        Thu, 26 Sep 2024 05:34:43 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7acde5cb946sm275815685a.98.2024.09.26.05.34.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Sep 2024 05:34:42 -0700 (PDT)
+Message-ID: <ce5f35a6-f37b-450a-893a-b11f301ca97f@baylibre.com>
+Date: Thu, 26 Sep 2024 08:34:41 -0400
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF0000B61E:EE_|GV1PR02MB11081:EE_
-X-MS-Office365-Filtering-Correlation-Id: aba241be-e514-46cf-4361-08dcde266287
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?leWvPGc/P6Ba9R/K7gdyXRYJ54P35Kr6X6ERhyuYc0K9s70NezGUlxajliv2?=
- =?us-ascii?Q?cFKX2d6VzphoSdPtgSbmxasBFAvjybCVwy8hhYAP6qqv0VBlZy4SQ3lkC9fm?=
- =?us-ascii?Q?Sa/V3gS9VaFLuxToiKBKMaS9wM8FPTA27U4xXVGudAu40KZR9qB4lBQMsSDC?=
- =?us-ascii?Q?Vx45qymmcCNf7LCNHCf8bHl1AKVhHJfUwoDKNHcBSqGcZQaHwGYJy+BXYLMx?=
- =?us-ascii?Q?KMICf5hFP64wktfoKyLst237MhHpzTU5QPD5xe+Qg1OiHczUl+wdSI/+fWtg?=
- =?us-ascii?Q?cdCBx8hC4WV7rl4BTcDmyzP8WlHaHreqbAMF3ubZFhEUMzy0fNQrBfUHZlfF?=
- =?us-ascii?Q?6HM+wAKf1Jd/e2R6Ltiq87n5+occLFE0P8e0xvSTRUtS4bQP3UY9Hx8PlEr1?=
- =?us-ascii?Q?+UWA9zlzx1/YKAmWcSlWttCHldG+j/VR6dHg5bQKHSPIXIhVwSSRctHXEgcM?=
- =?us-ascii?Q?iTkOuTTrYOgEYZkC+N13xH4lQOwm/AXycEcloB/D8XTFC90yh8Bg9SAg/pW7?=
- =?us-ascii?Q?kYaAQpgzc1LllG7h0RaLpRRez/wDqrCE+iCIiS3kf2prhD1RKXh4/c/qPs+H?=
- =?us-ascii?Q?1sw5GdCxi6yX54/XfN1G5+LJfTkVoBtJJpPqPPCX1Jj0V8jNkcjgY1M9z4Aw?=
- =?us-ascii?Q?USt6Dep1nPw2cc/uQv+TXlg56xrP7VDCmtYCK7UVEXvR14I1Q0QqKM1Xcbih?=
- =?us-ascii?Q?Hfca6HikoEpJ8V9OKYfohAaw5IP3yNNFhrL1LkUs3jNDGb9XbAjHfx1409k3?=
- =?us-ascii?Q?LqM+WsMxyPQOPiu1vl3jWmfbQRCpp16QU1clN93QlYi1vwhxcbRCLyELplfA?=
- =?us-ascii?Q?0d55SgcerFoc9Vs4cMWD4xMZOxdsa4smTsmaV9Top6DtnTAYfa6cJQMtoUI9?=
- =?us-ascii?Q?wATc/8osy0ir3ttsyEEg7WufbEDrgM/PDI5sl0qpsWx0FJ+2a7qxIRmySLWW?=
- =?us-ascii?Q?KJ64lkWT449rir2ML00OYuEoJzFaVPP+PTRGpxG+6hH5P54G8TBBJy7Wgdj1?=
- =?us-ascii?Q?FcFVszVX/ob/S8c41wQBYJCSMvKdRSocolaSrFqyrf3ita+etFpeFOOhNUfX?=
- =?us-ascii?Q?mVme/f41BT0fIBug6wj6wr6DJw2PCUiA13sjTDXdz3Y5HkvvPJbCWAjnSjVs?=
- =?us-ascii?Q?fgNHagRghulYMMe5V4RXSxZ7mgWkOIWby/AYucBi2O5Fi4rBK66yMDTFfQ5/?=
- =?us-ascii?Q?HsIrx3e5OiegzEF7/Cx7Am19HdbmCr+NY5wFq0+ODVgq/DmGFklpkprzkeuB?=
- =?us-ascii?Q?BZQupCglXm5pToLqyHjBmHT2GKlFMH0wm1tlSutSOThZgAYjbgyfwKBmgx7I?=
- =?us-ascii?Q?vKY6HsEM7VSQpYtp5ooSzLydWCmVtFC2m9z08ncRj4RGo0HffzpgU8JKKvNP?=
- =?us-ascii?Q?pkMNNcFrZwtsNmg16oixfqTwnIJd?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Sep 2024 12:26:02.2141
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aba241be-e514-46cf-4361-08dcde266287
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU6PEPF0000B61E.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR02MB11081
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 4/4 v2] python3-dtc: upgrade 1.7.0 -> 1.7.1
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20240924150001.2586819-1-tgamblin@baylibre.com>
+ <20240924150001.2586819-4-tgamblin@baylibre.com>
+ <5E176A0E-4995-428E-AF5A-F625EF7A2000@arm.com>
+ <457AF752-98B2-4032-8720-DD0EA976DFF8@arm.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <457AF752-98B2-4032-8720-DD0EA976DFF8@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 12:26:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204982
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 12:34:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204983
 
-After commit 905e224849fbbed1719e0add231b00e2d570b3b4 (image_qa: fix
-error handling), any unexpected exceptions in do_image_qa() would result
-in a variable being set, but never used, effectively hiding the error.
 
-Drop the catch for Exception and let any such exceptions pass through.
-
-Also update the description of do_image_qa() to explain that the called
-functions are expected to call oe.qa.handle_error() themselves, and that
-the support for oe.utils.ImageQAFailed is deprecated and will be removed
-in the next major release of OE-Core.
-
-[ YOCTO #15601 ]
-
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/classes-recipe/image.bbclass | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
-
-diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.=
-bbclass
-index 834ae03f3c..793b550bfb 100644
---- a/meta/classes-recipe/image.bbclass
-+++ b/meta/classes-recipe/image.bbclass
-@@ -324,14 +324,19 @@ addtask do_image_complete_setscene
- # IMAGE_QA_COMMANDS +=3D " \
- #     image_check_everything_ok \
- # "
-+#
- # This task runs all functions in IMAGE_QA_COMMANDS after the rootfs
- # construction has completed in order to validate the resulting image.
- #
- # The functions should use ${IMAGE_ROOTFS} to find the unpacked rootfs
- # directory, which if QA passes will be the basis for the images.
- #
--# The functions should use oe.utils.ImageQAFailed(description, name) to ra=
-ise
--# errors. The name must be listed in ERROR_QA or WARN_QA to prompt.
-+# The functions are expected to call oe.qa.handle_error() to report any
-+# problems. Alternatively, they can raise
-+# oe.utils.ImageQAFailed(description, name), in which case the name
-+# needs to be present in either ERROR_QA or WARN_QA for the message to
-+# show. Raising ImageQAFailed is deprecated and will be removed in the
-+# next major release of OE Core.
- fakeroot python do_image_qa () {
-     from oe.utils import ImageQAFailed
-=20
-@@ -343,8 +348,6 @@ fakeroot python do_image_qa () {
-         except oe.utils.ImageQAFailed as e:
-             qamsg =3D 'Image QA function %s failed: %s\n' % (e.name, e.des=
-cription)
-             oe.qa.handle_error(e.name, qamsg, d)
--        except Exception as e:
--            qamsg =3D qamsg + '\tImage QA function %s failed: %s\n' % (cmd=
-, e)
-=20
-     oe.qa.exit_if_errors(d)
- }
+On 2024-09-26 07:51, Ross Burton wrote:
+> I suspect the problem is the rebase of the symbol visibility patch went wrong?
+Possibly. I'll take another look.
+>
+> Ross
+>
+>> On 26 Sep 2024, at 12:50, Ross Burton <ross.burton@arm.com> wrote:
+>>
+>> This breaks meta-virt, which uses python3-dtc in its build:
+>>
+>> Traceback (most recent call last):
+>> File "[...]/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/bin/lopper", line 8, in <module>
+>> sys.exit(main())
+>> ^^^^^^
+>> File "[...]/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/lopper/__main__.py", line 220, in main
+>> import lopper.fdt
+>> File "[...]/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/lopper/fdt.py", line 46, in <module>
+>> import libfdt
+>> File "[...]/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/libfdt.py", line 12, in <module>
+>> import _libfdt
+>> ImportError: [...]/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/_libfdt.cpython-312-x86_64-linux-gnu.so: undefined symbol: fdt_get_symbol
+>>
+>> Ross
+>>
+>>> On 24 Sep 2024, at 16:00, Trevor Gamblin via lists.openembedded.org <tgamblin=baylibre.com@lists.openembedded.org> wrote:
+>>>
+>>> Patch '0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch'
+>>> had to be adjusted to apply on the latest version.
+>>>
+>>> Changelog:
+>>>
+>>> 99031e3 (tag: v1.7.1, origin/master, origin/main, origin/HEAD, master) Bump version to v1.7.1
+>>> 3d5e376 setup: Move setting of srcdir down to the bottom
+>>> e277553 setup: Collect top-level code together
+>>> 7e5a889 setup: Move version and full_description into a function
+>>> 78b6a85 Tidy up some pylint warnings
+>>> 3501d37 Require Python 3
+>>> bcd02b5 fdtoverlay: remove wrong singular article in a comment
+>>> 84b056a checks: relax graph checks for overlays
+>>> 1df7b04 pylibfdt/Makefile.pylibfdt: use project's flags to compile the extension
+>>> 61e88fd libfdt: overlay: Fix phandle overwrite check for new subtrees
+>>> 49d3089 meson: fix installation with meson-python
+>>> d54aaf9 pylibfdt: clean up python build directory
+>>> ab86f1e pylibfdt: add VERSION.txt to Python sdist
+>>> 7b8a30e pylibfdt: fix Python version
+>>> ff4f17e pylibfdt/Makefile.pylibfdt: fix Python library being rebuild during install
+>>> 9e313b1 pylibfdt/meson.build: fix Python library being rebuilt during install
+>>> d598fc3 tests/run_tests.sh: fix Meson library path being dropped
+>>> b98239d tests/meson.build: fix python and yaml tests not running
+>>> c17d76a checks: Check the overall length of "interrupt-map"
+>>> ae26223 libfdt: overlay: Refactor overlay_fixup_phandle
+>>> 4dd831a libfdt: tests: Update test case for overlay_bad_fixup
+>>> e6d2942 tests: Remove two_roots and named_root from LIBTREE_TESTS_L and add all dtb filenames generated by dumptrees to TESTS_TREES_L in Makefile.tests
+>>> 855c934 tests: fix tests broken under Meson
+>>> 4fd3f4f github: enforce testing pylibfdt and yaml support
+>>> 9ca7d62 meson: split run-tests by type
+>>> bb51223 meson: fix dependencies of tests
+>>> e819006 meson: fix pylibfdt missing dependency on libfdt
+>>> 8221238 pylibfdt: fix get_mem_rsv for newer Python versions
+>>> 1fad065 libfdt: overlay: ensure that existing phandles are not overwritten
+>>> b0aacd0 github: add windows/msys CI build
+>>> ae97d97 github: Don't accidentally suppress test errors
+>>> 057a7db github: Display meson test logs on failure
+>>> 92b5d4e pylibfdt: Remove some apparently deprecated options from setup.py
+>>> 417e329 github: Update to newer checkout action
+>>> 5e6cefa fix MinGW format attribute
+>>> 24f6001 libfdt: Simplify adjustment of values for local fixups
+>>> da39ee0 libfdt: rework shared/static libraries
+>>> a669223 Makefile: do not hardcode the `install` program path
+>>> 3fbfdd0 libfdt: fix duplicate meson target
+>>> dcef5f8 tests: use correct pkg-config when cross compiling
+>>> 0b8026f meson: allow building from shallow clones
+>>> 95c74d7 treesource: Restore string list output when no type markers
+>>> 2283dd7 libfdt: fdt_path_offset_namelen: Reject empty path
+>>> 79b9e32 libfdt: fdt_get_alias_namelen: Validate aliases
+>>> 52157f1 pylibfdt: Support boolean properties
+>>> d774337 dtc: fix missing string in usage_opts_help
+>>> ad8bf9f libfdt: Fix fdt_appendprop_addrrange documentation
+>>> 6c5e189 github: add workflow for Meson builds
+>>> a3dc9f0 libfdt: rename libfdt-X.Y.Z.so to libfdt.so.X.Y.Z
+>>> 3501994 workflows: build: remove setuptools_scm hack
+>>> cd3e230 pylibfdt: use fallback version in tarballs
+>>> 0f58645 move release version into VERSION.txt
+>>> 3816595 libfdt: add missing version symbols
+>>> 5e98b59 editorconfig: use tab indentation for version.lds
+>>> d030a89 tests: generate dtbs in Meson build directory
+>>> 8d8372b tests: fix use of deprecated meson methods
+>>> 761114e pylibtfdt: fix use of deprecated meson method
+>>> bf6377a meson: set minimum Meson version to 0.56.0
+>>> 4c68e4b libfdt: fix library version to match project version
+>>> bdc5c87 meson: allow disabling tests
+>>> f088e38 Makefile: allow to install libfdt without building executables
+>>> 6df5328 Fix use of <ctype.h> functions
+>>> ccf1f62 libfdt: Fix a typo in libfdt.h
+>>> 71a8b8e libfdt: meson: Fix linking on macOS linker
+>>> 589d8c7 dtc: Add an option to generate __local_fixups__ and __fixups__
+>>> e836466 CI: Add build matrix with multiple Linux distributions
+>>> 3b02a94 dtc: Correct invalid dts output with mixed phandles and integers
+>>> d488895 tests: Add additional tests for device graph checks
+>>> ea3b9a1 checks: Fix crash in graph_child_address if 'reg' cell size != 1
+>>> b2b9671 livetree: fix off-by-one in propval_cell_n() bounds check
+>>> ab481e4 Add definition for a GitHub Actions CI job
+>>> c88038c Drop obsolete/broken CI definitions
+>>> 0ac8b30 yaml: Depend on libyaml >= 0.2.3
+>>> f1657b2 tests: Add test cases for bad endpoint node and remote-endpoint prop checks
+>>> 44bb89c checks: Fix segmentation fault in check_graph_node
+>>> 60bcf1c improve documentation for fdt_path_offset()
+>>> a6f997b add fdt_get_symbol() and fdt_get_symbol_namelen() functions
+>>> 18f5ec1 use fdt_path_getprop_namelen() in fdt_get_alias_namelen()
+>>> df09327 add fdt_path_getprop_namelen() helper
+>>> 129bb4b doc: dt-object-internal: Fix a typo
+>>> 390f481 fdtoverlay: Drop a a repeated article
+>>> 9f8b382 manual: Fix and improve documentation about -@
+>>> 2cdf93a fdtoverlay: Fix usage string to not mention "<type>"
+>>> 72fc810 build-sys: add -Wwrite-strings
+>>> 083ab26 tests: fix leaks spotted by ASAN
+>>> 6f8b28f livetree: fix leak spotted by ASAN
+>>> fd68bb8 Make name_node() xstrdup its name argument
+>>> 4718189 Delay xstrdup() of node and property names coming from a flat tree
+>>> 0b842c3 Make build_property() xstrdup its name argument
+>>> 9cceabe checks: correct I2C 10-bit address check
+>>> 0d56145 yamltree.c: fix -Werror=discarded-qualifiers & -Werror=cast-qual
+>>> 61fa22b checks: make check.data const
+>>> 7a1d72a checks.c: fix check_msg() leak
+>>> ee57999 checks.c: fix heap-buffer-overflow
+>>> 44c9b73 tests: fix -Wwrite-strings
+>>> 5b60f51 srcpos.c: fix -Wwrite-strings
+>>> 32174a6 meson: Fix cell overflow tests when running from meson
+>>> 64a907f meson.build: bump version to 1.7.0
+>>> e3cde06 Add -Wsuggest-attribute=format warning, correct warnings thus generated
+>>> 4182182 Use #ifdef NO_VALGRIND
+>>> 71c19f2 Do not redefine _GNU_SOURCE if already set
+>>>
+>>> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>>> ---
+>>> v2 adds my signoff to the carried patch, which was adjusted to apply on
+>>> v1.7.1.
+>>>
+>>> ...erlay-make-overlay_get_target-public.patch | 25 +++++++++++--------
+>>> ...hon3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} |  2 +-
+>>> 2 files changed, 15 insertions(+), 12 deletions(-)
+>>> rename meta/recipes-devtools/python/{python3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} (94%)
+>>>
+>>> diff --git a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
+>>> index a2df482e3aa..70dd93f7471 100644
+>>> --- a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
+>>> +++ b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
+>>> @@ -1,4 +1,4 @@
+>>> -From 4d4703e0199fb3556c37694e4d951785abca22fd Mon Sep 17 00:00:00 2001
+>>> +From 20b224b8ab1837778dfd0e7171643a5d26675f95 Mon Sep 17 00:00:00 2001
+>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>> Date: Wed, 19 Jan 2022 12:46:42 -0500
+>>> Subject: [PATCH] Revert "libfdt: overlay: make overlay_get_target() public"
+>>> @@ -7,6 +7,9 @@ This reverts commit 45f3d1a095dd3440578d5c6313eba555a791f3fb.
+>>>
+>>> Upstream-Status: Inappropriate [embedded specific]
+>>>
+>>> +Adjust to apply on v1.7.1.
+>>> +
+>>> +Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>>> ---
+>>> libfdt/fdt_overlay.c | 29 ++++++++++++++++++++++-------
+>>> libfdt/libfdt.h      | 18 ------------------
+>>> @@ -14,7 +17,7 @@ Upstream-Status: Inappropriate [embedded specific]
+>>> 3 files changed, 22 insertions(+), 26 deletions(-)
+>>>
+>>> diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
+>>> -index 5c0c398..d217e79 100644
+>>> +index 28b667f..e6e9382 100644
+>>> --- a/libfdt/fdt_overlay.c
+>>> +++ b/libfdt/fdt_overlay.c
+>>> @@ -40,22 +40,37 @@ static uint32_t overlay_get_target_phandle(const void *fdto, int fragment)
+>>> @@ -59,7 +62,7 @@ index 5c0c398..d217e79 100644
+>>>   if (path)
+>>>   ret = fdt_path_offset(fdt, path);
+>>>   else
+>>> -@@ -621,7 +636,7 @@ static int overlay_merge(void *fdt, void *fdto)
+>>> +@@ -848,7 +863,7 @@ static int overlay_merge(void *fdt, void *fdto)
+>>>   if (overlay < 0)
+>>>   return overlay;
+>>>
+>>> @@ -68,7 +71,7 @@ index 5c0c398..d217e79 100644
+>>>   if (target < 0)
+>>>   return target;
+>>>
+>>> -@@ -764,7 +779,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+>>> +@@ -991,7 +1006,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+>>>   return -FDT_ERR_BADOVERLAY;
+>>>
+>>>   /* get the target of the fragment */
+>>> @@ -77,7 +80,7 @@ index 5c0c398..d217e79 100644
+>>>   if (ret < 0)
+>>>   return ret;
+>>>   target = ret;
+>>> -@@ -786,7 +801,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+>>> +@@ -1013,7 +1028,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+>>>
+>>>   if (!target_path) {
+>>>   /* again in case setprop_placeholder changed it */
+>>> @@ -87,10 +90,10 @@ index 5c0c398..d217e79 100644
+>>>   return ret;
+>>>   target = ret;
+>>> diff --git a/libfdt/libfdt.h b/libfdt/libfdt.h
+>>> -index a7f432c..7f117e8 100644
+>>> +index 0677fea..c72337b 100644
+>>> --- a/libfdt/libfdt.h
+>>> +++ b/libfdt/libfdt.h
+>>> -@@ -2116,24 +2116,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
+>>> +@@ -2184,24 +2184,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
+>>>   */
+>>> int fdt_overlay_apply(void *fdt, void *fdto);
+>>>
+>>> @@ -116,7 +119,7 @@ index a7f432c..7f117e8 100644
+>>> /* Debugging / informational functions                                */
+>>> /**********************************************************************/
+>>> diff --git a/libfdt/version.lds b/libfdt/version.lds
+>>> -index cbce5d4..7ab85f1 100644
+>>> +index 989cd89..ae5f8c6 100644
+>>> --- a/libfdt/version.lds
+>>> +++ b/libfdt/version.lds
+>>> @@ -77,7 +77,6 @@ LIBFDT_1.2 {
+>>> @@ -124,9 +127,9 @@ index cbce5d4..7ab85f1 100644
+>>>   fdt_setprop_inplace_namelen_partial;
+>>>   fdt_create_with_flags;
+>>> - fdt_overlay_target_offset;
+>>> + fdt_get_symbol;
+>>> + fdt_get_symbol_namelen;
+>>>   local:
+>>> - *;
+>>> - };
+>>> -- 
+>>> -2.19.1
+>>> +2.39.5
+>>>
+>>> diff --git a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
+>>> similarity index 94%
+>>> rename from meta/recipes-devtools/python/python3-dtc_1.7.0.bb
+>>> rename to meta/recipes-devtools/python/python3-dtc_1.7.1.bb
+>>> index 85e48d46942..269095bd8c9 100644
+>>> --- a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb
+>>> +++ b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
+>>> @@ -14,7 +14,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+>>>
+>>> LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
+>>>
+>>> -SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
+>>> +SRCREV = "99031e3a4a6e479466ae795790b44727434ca27d"
+>>>
+>>> S = "${WORKDIR}/git"
+>>>
+>>> -- 
+>>> 2.39.5
+>>>
+>>>
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>> Links: You receive all messages sent to this group.
+>>> View/Reply Online (#204876): https://lists.openembedded.org/g/openembedded-core/message/204876
+>>> Mute This Topic: https://lists.openembedded.org/mt/108629987/6875888
+>>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ross.burton@arm.com]
+>>> -=-=-=-=-=-=-=-=-=-=-=-
+>>>
 
