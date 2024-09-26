@@ -1,110 +1,82 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD1A5CCFA0A
-	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 00:21:02 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web11.31668.1727310059142385093
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C925CCFA15
+	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 04:50:04 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web11.35721.1727326183356752689
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Sep 2024 17:20:59 -0700
+ Wed, 25 Sep 2024 21:49:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=XMGgxc99;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1727310059; x=1758846059;
-  h=from:to:cc:subject:date:message-id;
-  bh=ZcZBXdvcKkkUw3QrEnFV2B9BW5vXiQnztEw1asHntGs=;
-  b=XMGgxc99cYT07Xi1JxjBrwzXzJip3sYPFQNi+u6EHJPd2zjoO/aHUx5p
-   pDOyjjNGvZCxiibO/AHEXvGOR44ftibcwF6wPQR1TuxI/R3gVoPaML9mo
-   WPcgfazCD/A4YuPAoTGAhi1m/+EgPU++g+XjjW1RRqZf254QM1MHy2ah/
-   5UoUfpUloOq+PioP71O/tnU5L0QpRe0DY+p5H6aRohkSRvdckHyK2fQ59
-   v8XDuW1rGq1o/yK78L/s9mMo07oDJ6COeYTrslfrdGW4ucftfHBHyJg3W
-   og6jfI43cm3Ykyz2IHXvyZtYlin/UkcCw6fl3uQqRcWTsvgLHxG7dJ2ds
-   w==;
-X-CSE-ConnectionGUID: nn3tL0CzSDql+r35R+RE/w==
-X-CSE-MsgGUID: Tl1RkrYXQPy/CpvyferqHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11206"; a="174844629"
-X-IronPort-AV: E=Sophos;i="6.10,258,1719846000"; 
-   d="scan'208";a="174844629"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 09:20:56 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 665C3C68EA
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 09:20:54 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id A0819D5095
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 09:20:53 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 15B6C2007AA92
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 09:20:53 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 93D941A000A;
-	Thu, 26 Sep 2024 08:20:52 +0800 (CST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=T/dkzyO2;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-718e285544fso471768b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Sep 2024 21:49:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727326182; x=1727930982; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=A87wFZcZsbgf2btZ6RnFO0FcfeaONnaRQXKYGQZFOpk=;
+        b=T/dkzyO2mW8JNi/iKrxDEFOWuUdMpY0Wk/Mki5N4DLpogCWMFLXpdrlkkPM4CtMtwn
+         SbUAqC5c7BFvTZHOsBQQqEwfM6bnVaqTqJkYckNICbjsUA52WEJQuBBkeYxnw/Xbt6QN
+         jrFHtTEci/X8Tf8qzqIRC9lZmPo3dAqzDrKb6/TbRnTBRbHHhdQP4Fd+IqQsd3fE/xxF
+         RDoaMzJBvoK67h8v6BC2sLF67TMBas2tmOM7PFw9CVW5JhrHUvb4BpQ/QnA1LieApjXt
+         BbseuEN9qlCONB3OCMrOmiw0vYs6CUbRIO7OiZ+UV7L7cqr0z4VY/G0a15tCRnStAqeg
+         5l+A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727326182; x=1727930982;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=A87wFZcZsbgf2btZ6RnFO0FcfeaONnaRQXKYGQZFOpk=;
+        b=ZC92IW/z5IvBPckgTsokh83eOfXSfmk3e/JJm0R7Oj6FqlHW8Trq7HXlxlBavP8SVC
+         2oszkz3eOlbm1tMwIu+qcsl+PnVatYldnTbQENyeCrsm0QmvbTBVsFeCv5jJ3aowDy2b
+         LjLAGr6xiLY1Lw282rN+eRdeCgy5VDN/TtbX7ntAxfPWFZBinhI77XMIQqOhbd+1qCJB
+         eSVcgHlUBTKqiqCViJVnVwFQshjhHQmNaX0OMWcWNICqs0r0uQ1XBvDlxFG5O2wWOJ7K
+         bVhnUVq9CvipkQ+ftrdNLWejLrN+VqkNUbRYOX7cvbQ4Bdo8EHZrDqIEKI3aQ2O/9tYA
+         +tsw==
+X-Gm-Message-State: AOJu0YyLv/CccyiHoBCFr4A9KqkwvrDannCubc0FgdgfbbmJhntmj1eV
+	NRr3hNN9TXfqDBOJVwnmk22FMoI1sUW65lEEbJkBqEQ7GYu5TyCak/r9HAjR
+X-Google-Smtp-Source: AGHT+IF3jgH/NY8hsvl+UQ6WkfZS4hp7PeAms/g/IAL0H+4Q5Y3x+2kHA+9MqmqwpR+YqjKPO9pDLg==
+X-Received: by 2002:a05:6a00:8d6:b0:717:8ab1:7bac with SMTP id d2e1a72fcca58-71b0ac5267dmr7172906b3a.20.1727326182517;
+        Wed, 25 Sep 2024 21:49:42 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::c743])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71afc844ecfsm3489394b3a.68.2024.09.25.21.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Sep 2024 21:49:42 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [PATCH] [OE-core] [PATCH v2] systemd: upgrade 256.5 -> 256.6
-Date: Thu, 26 Sep 2024 08:20:47 +0800
-Message-Id: <1727310047-26871-1-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28688.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28688.003
-X-TMASE-Result: 10--0.963600-10.000000
-X-TMASE-MatchedRID: 6e3s/u+cBDSjz0nOeth/yQPZZctd3P4Bqqq9awALpxCysPB8dBBorQec
-	3JTmkn8uJMPD8FR5f58boCivyaDEErVQ6XPWwtdyEXjPIvKd74CYkAyCbA7KVws5GlXF672zo8W
-	MkQWv6iUoTQl7wNH8PuTCMddcL/gjxlblqLlYqXJpafilHtbssY/Rg3m3y7+4UInP60jGh3jT/e
-	xRm+lgTEJPpxvi3U2sSSVH3gFc1T80/M34nCVpgJ2uOgbrzuiKHjvYKUl77tb+v9v52ZIoWjoAf
-	389xF3XFSk9HhUZnw7OGIWnws4LoyHWPYzouJUy
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH] efivar: Drop addend to PV
+Date: Wed, 25 Sep 2024 21:49:38 -0700
+Message-ID: <20240926044938.3885631-1-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.46.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 00:21:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204966
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 04:50:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204967
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+We are at exact PR release point 39, drop the appends to PV
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...ystemd-boot-native_256.5.bb => systemd-boot-native_256.6.bb} | 0
- .../systemd/{systemd-boot_256.5.bb => systemd-boot_256.6.bb}    | 0
- meta/recipes-core/systemd/systemd.inc                           | 2 +-
- .../recipes-core/systemd/{systemd_256.5.bb => systemd_256.6.bb} | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_256.5.bb => systemd-boot-native_256.6.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_256.5.bb => systemd-boot_256.6.bb} (100%)
- rename meta/recipes-core/systemd/{systemd_256.5.bb => systemd_256.6.bb} (100%)
+ meta/recipes-bsp/efivar/efivar_39.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_256.5.bb b/meta/recipes-core/systemd/systemd-boot-native_256.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot-native_256.5.bb
-rename to meta/recipes-core/systemd/systemd-boot-native_256.6.bb
-diff --git a/meta/recipes-core/systemd/systemd-boot_256.5.bb b/meta/recipes-core/systemd/systemd-boot_256.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_256.5.bb
-rename to meta/recipes-core/systemd/systemd-boot_256.6.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 83dcd65a83..d6a3332efe 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
-                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+diff --git a/meta/recipes-bsp/efivar/efivar_39.bb b/meta/recipes-bsp/efivar/efivar_39.bb
+index aab319be91a..fe213326a4c 100644
+--- a/meta/recipes-bsp/efivar/efivar_39.bb
++++ b/meta/recipes-bsp/efivar/efivar_39.bb
+@@ -11,7 +11,6 @@ SRC_URI = "git://github.com/rhinstaller/efivar.git;branch=main;protocol=https \
+            file://0001-docs-do-not-build-efisecdb-manpage.patch \
+            "
+ SRCREV = "c47820c37ac26286559ec004de07d48d05f3308c"
+-PV .= "+39+git"
  
--SRCREV = "b45730389ba025489ec8d445bc91534fef515c28"
-+SRCREV = "230f5613c97175985f878580ef2f5f1937963da6"
- SRCBRANCH = "v256-stable"
- SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH}"
+ S = "${WORKDIR}/git"
  
-diff --git a/meta/recipes-core/systemd/systemd_256.5.bb b/meta/recipes-core/systemd/systemd_256.6.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd_256.5.bb
-rename to meta/recipes-core/systemd/systemd_256.6.bb
--- 
-2.34.1
-
 
