@@ -1,186 +1,96 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <jdmason@kudzu.us>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51F7BCDE010
-	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 15:01:47 +0000 (UTC)
-Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
- by mx.groups.io with SMTP id smtpd.web10.45799.1727362905797931281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50EAFCDE00D
+	for <webhook@archiver.kernel.org>; Thu, 26 Sep 2024 15:03:27 +0000 (UTC)
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+ by mx.groups.io with SMTP id smtpd.web10.45850.1727363001959732988
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Sep 2024 08:01:46 -0700
+ Thu, 26 Sep 2024 08:03:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NQkfyTZ8;
- spf=pass (domain: gmail.com, ip: 209.85.218.46, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-a8d0d0aea3cso150706366b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 08:01:45 -0700 (PDT)
+ dkim=pass header.i=@kudzu-us.20230601.gappssmtp.com header.s=20230601 header.b=tF/CYpcp;
+ spf=none, err=permanent DNS error (domain: kudzu.us, ip: 209.85.161.47, mailfrom: jdmason@kudzu.us)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5da6865312eso541478eaf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 08:03:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727362904; x=1727967704; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xBDTLaRBE19Dx1/kn/fze9OqqbTM0//dFojb+KdA/QQ=;
-        b=NQkfyTZ8XsbbYg2xvsA7M0yQuBCdQf2K23BMbHs11AUlF1pFnA3m4ZDqaw41g+l+fm
-         TcRbDrj9rcDzWTIGttRZ3777y1FIBS+xVZDJlAAY1WUmTN2Mlz8kjWuuIR8k05n4Mqhs
-         jyLSwwP44guLM/l3k6q5uJxM7a7EOfKwAyq/s3z6Q0HPV11hvp7hi4Cy/9XIIt+W38xO
-         TYyMT/i0j6Kzbdp3gImgZUkzdq+wKBgAK/iPyXmGB/ejWq46qZKwTIWi9eeSuWgU0W0s
-         0Dig3z50mAGWjdXXUIOO4q1akm1o1syjxeoQfSiGgG9ayeGoFgm6vkDN5H18U5rRzhtb
-         Frgw==
+        d=kudzu-us.20230601.gappssmtp.com; s=20230601; t=1727363001; x=1727967801; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mWSsd+981Nma1h3TzaYxiOd//m4Y/PKOW3/FnRGRDbA=;
+        b=tF/CYpcpN43mbn6O/6i2DS45abQWf23N+aWNoTOpqRJuKAvHzh8j2gyCChyvv3LUxY
+         hTWF+Zduu5CtSe4kR+kTzbCl9/KQZjAmzpftcVkt2kjCInWqyul4Uq4hzWsU2IsK+uyM
+         ujBrliq7KJWeVeJV+6RI2Z1nk0vAzncu8th/C7Nf+izoiL88ADZSsNhT2FB84y2MJQTN
+         ViZ5eMjJhro5PxAaUDuD375WYY+CP9zuSG2HRs6c671r+O4kl3IuRXep0ErbxujF9jVZ
+         X27PbFb1QG3/65uBwSMnw8HVlURG5udrKCpiQq85J3ijzqiBVsQ80XjqYjJUa+AKyPOh
+         MhFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727362904; x=1727967704;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=xBDTLaRBE19Dx1/kn/fze9OqqbTM0//dFojb+KdA/QQ=;
-        b=rZDQroOWWlAVbC7KdUpLF593CxzVa8IZq/K6JAAwH/NKZRcy0fGgTZQlytu0sFZOJQ
-         IB7Qvwn9JKd+Xiryz2NlGY6dFxdkcvekf5vaoxBfqJhMPTqZ1ojqcz+00YuzzbNWBpLV
-         NJyiNvkUtpQrkZH36qwGdgJJ6csJKENLS88rNCAuaAhlW27Rg0JcVnQlH9TITYb32mhe
-         ksgWzcV6OMilyrDmbEGWL5hEGzUQ4rz04yWWd8rKuYobPBu0DYqao8RoV1/R7iIfUrPI
-         ZNdaPqux/njJuDRydQWiysa2Q8o9zpn/gJYkvs+msKZ1xjBfn6fpdK55im8RDaZW2yBq
-         iJRg==
-X-Gm-Message-State: AOJu0Yy+D9d20SF9/R9Qk/UEa2FW+4FYAGwUVry0DWcREl3uGvpPlTIS
-	DBLNHJjrH2NB1IokVBMMUGAs9myF+ElF+qK1/UoZFOBoXiPqqhl4
-X-Google-Smtp-Source: AGHT+IHyBDFEir0hZhSZkBfFjUE5yxJCEHASsAqr4xekT2tw5szXg3RBkK78mzvp8nzwNtsTHqPkeg==
-X-Received: by 2002:a17:907:36c1:b0:a86:7924:11bd with SMTP id a640c23a62f3a-a93a05fff3amr653830466b.41.1727362903416;
-        Thu, 26 Sep 2024 08:01:43 -0700 (PDT)
-Received: from [192.168.101.51] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c2997507sm6480366b.204.2024.09.26.08.01.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Sep 2024 08:01:42 -0700 (PDT)
-Message-ID: <1499318433b026e195265907f2b39987bf0c0fcc.camel@gmail.com>
-Subject: Re: [OE-core] [master][scarthgap][PATCH] lib/oe/package-manager:
- optimize install_complementary
-From: claus.stovgaard@gmail.com
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Thu, 26 Sep 2024 17:01:41 +0200
-In-Reply-To: <CANNYZj-sjrT+a0aWfraw0OZDx-J5wTznYTnZwS9=hAPW_ZLoxQ@mail.gmail.com>
-References: <20240926091731.2008047-1-claus.stovgaard@gmail.com>
-	 <CANNYZj-sjrT+a0aWfraw0OZDx-J5wTznYTnZwS9=hAPW_ZLoxQ@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1727363001; x=1727967801;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mWSsd+981Nma1h3TzaYxiOd//m4Y/PKOW3/FnRGRDbA=;
+        b=YBtYXc/iUTJgncIBZRSAeWJAChFrXb2Eir1gBQWqxJmH69m9x9xyS+eW/VIUAF7iv/
+         G7PjHTd9Cw4vQSczD5wc06jf4KAIJXtqqcCRNUqZJmKlJk8YGsg0Zxe3ZeOIgG2uiUVQ
+         MWiPsZs5OppS48a6itZ9zkW6NiwR1iYTHCH3bVVXUOVEZRd+0nJJOpioBH1kOrpdSPkd
+         dCpXgisIDMNLd9oQEwD2lSHw9iRpRwb0BGgNP1ADlSIwkHh250DLN9WXoV92ErIxNL2J
+         dbqsCjcJjutsRo9aMfx9JCNYEMYNJjfNBy8lmdRJhPi1zTDTUS/GsfatodR0RoQvnln1
+         1eOA==
+X-Gm-Message-State: AOJu0Yz5EoJTutUAKdKjmhkqrwMvHe61shxSjl6RZv3nSlX72ofDsqfo
+	jLJRCUZNp6jNzMMYikL7k23crz6WInOmTd1NPn1RdtvIv+7Fiv9b7hj4VoqfwSdAHeavEiE/WZN
+	7yR32ciIrebtU/ikRSIIzIGL3E8BWWd/yJR8iuGim6CtoSG0=
+X-Google-Smtp-Source: AGHT+IEuOwQwcXtpl9HQtI2QQ0JijYULTxbdc32EC7GYimAK8p5v3oozUMRI6n/3S7fzZ9LIJjWX0VGhBsljeROxOVo=
+X-Received: by 2002:a05:6870:1b1a:b0:277:ecd2:7b7 with SMTP id
+ 586e51a60fabf-287109c9cdamr145903fac.7.1727363000845; Thu, 26 Sep 2024
+ 08:03:20 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240920184135.789227-1-jdmason@kudzu.us> <984F8D25-7B5A-4071-B020-FBF267575ACC@arm.com>
+In-Reply-To: <984F8D25-7B5A-4071-B020-FBF267575ACC@arm.com>
+From: Jon Mason <jdmason@kudzu.us>
+Date: Thu, 26 Sep 2024 11:03:09 -0400
+Message-ID: <CAPoiz9xNehHDeFnp0qaMYs6tJvsiONtvGTycybwrx2eRMrnZXQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3] default-distrovars: Have KERNEL_CONSOLE
+ reference SERIAL_CONSOLES
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 15:01:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204989
+ <openembedded-core@lists.openembedded.org>; Thu, 26 Sep 2024 15:03:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/204990
 
-Hi Alex
+On Tue, Sep 24, 2024 at 7:35=E2=80=AFAM Ross Burton <Ross.Burton@arm.com> w=
+rote:
+>
+>
+>
+> > On 20 Sep 2024, at 19:41, Jon Mason via lists.openembedded.org <jdmason=
+=3Dkudzu.us@lists.openembedded.org> wrote:
+> >
+> > --- a/scripts/lib/wic/canned-wks/mkefidisk.wks
+> > +++ b/scripts/lib/wic/canned-wks/mkefidisk.wks
+> > @@ -8,4 +8,4 @@ part / --source rootfs --ondisk sda --fstype=3Dext4 --l=
+abel platform --align 1024
+> >
+> > part swap --ondisk sda --size 44 --label swap1 --fstype=3Dswap
+> >
+> > -bootloader --ptable gpt --timeout=3D5 --append=3D"rootfstype=3Dext4 co=
+nsole=3DttyS0,115200 console=3Dtty0"
+> > +bootloader --ptable gpt --timeout=3D5 --append=3D"rootfstype=3Dext4 co=
+nsole=3D${KERNEL_CONSOLE} console=3Dtty0=E2=80=9D
+>
+> My understanding was the .wks files had to be .wks.in for variable expans=
+ion to happen.  Can you confirm that this is actually just an idiom and the=
+ expansions happen always?
 
-Would a better headline be "don't handle empty glob"
+Always?  No.  Can I confirm it works in my handful of tests?  Yes.
 
+Thanks,
+Jon
 
-Also a small question.
-
-Looking at the getVar code - It seems that it can return None in some
-specific situations.
-
-So it might be more clear to do
-
-if globs is None or globs =3D=3D "":
-    return
-
-The optimizing part is that the install_complementary normally does.
-
-
-if globs is None:
-    globs =3D ""
-
-if globs is None:
-    return
-
-
-do work, where if glob is empty string, it does not matter.
-(Involve creating installed_pkgs file, and process it with oe-pkgdata-
-util but with empty glob, so it will never return anything, just spend
-time on each line in the file, and create a empty list of packages,
-where it will call install of those)
-
-
-So the change optimize by removing the work on an empty string.
-
-What is your take.
-
-Do you like "don't handle empty glob" as headline, and what do you
-prefer
-
-if globs is None or globs =3D=3D "":
-    return
-
-vs
-
-if not globs:
-    return
-
-
-/Claus
-
-
-On Thu, 2024-09-26 at 11:51 +0200, Alexander Kanavin wrote:
-> 'optimize install_complementary' really doesn't match what the commit
-> contains, please be more specific.
->=20
-> Alex
->=20
-> On Thu, 26 Sept 2024 at 11:17, Claus Stovgaard via
-> lists.openembedded.org
-> <claus.stovgaard=3Dgmail.com@lists.openembedded.org> wrote:
-> >=20
-> > We are rewriting the globs variable, so it can't be None, but
-> > rather a
-> > string. E.g. the lines above.
-> >=20
-> > if globs is None:
-> > =C2=A0=C2=A0=C2=A0 globs =3D self.d.getVar('IMAGE_INSTALL_COMPLEMENTARY=
-')
-> >=20
-> > As globs is now a string, we need to test for empty string instead
-> > of
-> > compare with None.
-> >=20
-> > Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
-> > ---
-> > =C2=A0meta/lib/oe/package_manager/__init__.py | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/lib/oe/package_manager/__init__.py
-> > b/meta/lib/oe/package_manager/__init__.py
-> > index d3b2317894..1d923c436e 100644
-> > --- a/meta/lib/oe/package_manager/__init__.py
-> > +++ b/meta/lib/oe/package_manager/__init__.py
-> > @@ -365,7 +365,7 @@ class PackageManager(object,
-> > metaclass=3DABCMeta):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 for complementary_linguas in
-> > (self.d.getVar('IMAGE_LINGUAS_COMPLEMENTARY') or "").split():
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 globs +=3D (" " + compl=
-ementary_linguas) % lang
-> >=20
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if globs is None:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not globs:
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # we need to write the=
- list of installed packages to a
-> > file because the
-> > --
-> > 2.45.2
-> >=20
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#204970):
-> > https://lists.openembedded.org/g/openembedded-core/message/204970
-> > Mute This Topic:
-> > https://lists.openembedded.org/mt/108664320/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> > alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
-
+>
+> Ross
 
