@@ -2,75 +2,80 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92635CEBF7B
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 07:08:22 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web10.63583.1727420898403113012
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E045CEBF7E
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 07:13:12 +0000 (UTC)
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.web10.63630.1727421184894397088
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Sep 2024 00:08:18 -0700
+ Fri, 27 Sep 2024 00:13:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=dI/qVVKo;
- spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2053a0bd0a6so18305215ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 00:08:18 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=dWyCVQbB;
+ spf=pass (domain: mvista.com, ip: 209.85.210.172, mailfrom: hprajapati@mvista.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71b0d1c74bbso1316625b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 00:13:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1727420898; x=1728025698; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1727421184; x=1728025984; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NzcIcK+jY0x640IC5JwVfdyYeL7jsM23udBtflC0S4g=;
-        b=dI/qVVKowsQA5kn2AQkWQNQmOdus13K+Rjo5DfG4K6zYnAocwt7Q5r2yVQIxZ/c45u
-         L0AYXhg7jlqSKwz/jxlEeXP7/mXvx2OKEXkhPaIgsz1nSRw7rnbx8aZREGOhrJ+Xl3U2
-         wtp0uwetZTquLAd0v+EJDDiwaeL50+110R3JY=
+        bh=F/q2NeTfyczaxuryq5t5T9YSf1tkB9br4ttck0+HSbk=;
+        b=dWyCVQbBix5sNfOHYKFM+FfaikR6bS78RId32RDRt2srhXKZ0siJgNDUA4k5vZTJm1
+         1/gXhKBMJWb+rLuSYTdyxJmdT6IHcQVJCXEzGLW59LRuAZNBhEDiHM+4tCE4JxVxyQSK
+         zgJ7jNe4wUuqiIw3W8tyTXufPmWiL2nT0CgaY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727420898; x=1728025698;
+        d=1e100.net; s=20230601; t=1727421184; x=1728025984;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NzcIcK+jY0x640IC5JwVfdyYeL7jsM23udBtflC0S4g=;
-        b=tulaEhDCfPe26vBLhyYHGHiJ1aqjjv2X6aQsAP7LxbGPHcGv3vm0ytCIRbNKqTpFc5
-         8yu3Mmrfr+uVeoq0R5cCiKgPJOdjLZWVX5Rte0LajyPFFYFWGHRa/4Y3U8yk4j0P+2kD
-         G+e9RL6bIlAg34W7sxhVGejhJPko3wqaO16C9sKPzCWngq7fuGbHxntzfHlONpyn3b4d
-         XRS0dpysoAWNz/bdVw1atuBA0o8s1rUfotFcYGO6a0IE1KcH/6ohx1/X2Q7oTQffZOjk
-         aIGdbCNrydxsCe/x3h0fF57EKkAyukIN4fSVbFCcluoCHIDYmMJMG+wTOnku2eeVNp0M
-         76YA==
-X-Gm-Message-State: AOJu0Yxu0Vf1YXIPmK9LKSpu+27p084zRwytwk0Gf5+ooKMNjkxrTdpy
-	A6POpbVjX/N3LS+ExNmREnsh4Cu+zl9qrB4MOkHUUODWiINTO4lQfmjakbxgBdgCVjAR5AqmIgR
-	t
-X-Google-Smtp-Source: AGHT+IFZT9ic79qXqi14dUf0XJKzlji/dBCxsMi26+Q0muWTLEKHD93xybIrHPI4YaH6AP+PkNUfpA==
-X-Received: by 2002:a17:903:22d2:b0:206:d66d:a30d with SMTP id d9443c01a7336-20b36be583emr34843895ad.6.1727420897483;
-        Fri, 27 Sep 2024 00:08:17 -0700 (PDT)
+        bh=F/q2NeTfyczaxuryq5t5T9YSf1tkB9br4ttck0+HSbk=;
+        b=a4UmFdWCzibI+eg7I+xwZUJ5G8E8eTqjijCBg7ZMkcNM/trVazQN8fg87pPCCNJJVM
+         qMpiSbTo47OpDxNWrBafxg72vyNrJhu78oMcGqokX5lmDGl9Ob//s+F29eH9ZbyiKx9c
+         5yoBZhSFc5/RRkFfQNmDorm9G3wzN/ExCrSdlJU+Lc0ijlCsx1BsSm4nMsvHMII96bMm
+         osaKWvpsZVnI8XwVapgxb8FiYrRBleeZk7Tt9cz0zPBdc06txGJ10g1RNuik+S+QY+d8
+         9Jo3Mv/J+jm98RqowciSVMTu+63mlg6k5aj9Vg6gjPQ3Cg06a0pH0JMWaVq0MZkKVWHk
+         31jg==
+X-Gm-Message-State: AOJu0Yxi7nU2m51NCgaav9/fJcgTW/j1ec2k2VQPrUKvLlY+EZ4nA0W8
+	FEOcFf820CnVHwexO9u5QQE+b01+/Kp6TL9az1ecJ5w6nuHdHbBH4FvRdp7kTa1fXdCIKveqWCa
+	h
+X-Google-Smtp-Source: AGHT+IHN4So/XynnLwVKZpx6V53xHm/my4iStOB4HjGto5FV2eRWNuYiA8bK1tY6W2ctg/0HczsH3A==
+X-Received: by 2002:a05:6a00:3986:b0:714:2d05:60df with SMTP id d2e1a72fcca58-71b25f7746fmr2766509b3a.15.1727421183883;
+        Fri, 27 Sep 2024 00:13:03 -0700 (PDT)
 Received: from MVIN00016.mvista.com ([150.129.170.215])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37db314asm8071435ad.117.2024.09.27.00.08.15
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b26538812sm945293b3a.218.2024.09.27.00.13.02
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 00:08:17 -0700 (PDT)
+        Fri, 27 Sep 2024 00:13:03 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv2] webkitgtk: upgrade 2.44.1 -> 2.44.3
-Date: Fri, 27 Sep 2024 12:38:09 +0530
-Message-Id: <20240927070809.45823-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCHv3] webkitgtk: upgrade 2.44.1 -> 2.44.3
+Date: Fri, 27 Sep 2024 12:42:56 +0530
+Message-Id: <20240927071256.46145-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 07:08:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205007
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 07:13:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205008
 
-Remove CVE-2024-40779.patch which already fix in this upgraded version.
+Remove below patches which already fix in this upgraded version.
+
+1. CVE-2024-40779.patch
+2. 0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
  ...able-to-control-macro-__PAS_ALWAYS_I.patch |  6 +-
  ...spection.cmake-prefix-variables-obta.patch |  2 +-
+ ...fic-declarations-in-FELighting.h-unn.patch | 44 ---------
  ...d5e22213fdaca2a29ec3400c927d710a37a8.patch |  2 +-
  .../webkit/webkitgtk/CVE-2024-40779.patch     | 92 -------------------
  .../webkit/webkitgtk/no-musttail-arm.patch    |  6 +-
  .../webkit/webkitgtk/reproducibility.patch    |  2 +-
  .../webkit/webkitgtk/t6-not-declared.patch    | 12 +--
  ...ebkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} |  7 +-
- 8 files changed, 16 insertions(+), 113 deletions(-)
+ 9 files changed, 16 insertions(+), 157 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
  rename meta/recipes-sato/webkit/{webkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} (95%)
 
@@ -107,6 +112,56 @@ index 8e29ce17ed..dda20a7b25 100644
  From: Alexander Kanavin <alex.kanavin@gmail.com>
  Date: Tue, 27 Oct 2015 16:02:19 +0200
  Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
+deleted file mode 100644
+index 6ffe0a9454..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
++++ /dev/null
+@@ -1,44 +0,0 @@
+-From dbd1a59b239b3902e717fdeb063883dbb0b06ee9 Mon Sep 17 00:00:00 2001
+-From: Adrian Perez de Castro <aperez@igalia.com>
+-Date: Sun, 26 May 2024 14:24:35 -0700
+-Subject: [PATCH 1/2] Remove ARM-specific declarations in FELighting.h unneeded
+- after 272873@main
+-
+-Unreviewed build fix.
+-
+-* Source/WebCore/platform/graphics/filters/FELighting.h: Remove unneeded
+-  declarations for the getPowerCoefficients() and platformApplyNeon()
+-  functions, which are now defined elsewhere; and were causing a build
+-  failure due to usage of the protected LightingData type.
+-
+-Canonical link: https://commits.webkit.org/279334@main
+-
+-Backport this patch for fixing following compile error:
+-webkitgtk-2.44.1/Source/WebCore/platform/graphics/filters/FELighting.h:73:41: error: 'LightingData' does not name a type 
+-   73 |     inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
+-
+-Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/36d1b5d7c0ef9a733ee8055b1f35b1d24435d538]
+-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+----
+- Source/WebCore/platform/graphics/filters/FELighting.h | 5 -----
+- 1 file changed, 5 deletions(-)
+-
+-diff --git a/Source/WebCore/platform/graphics/filters/FELighting.h b/Source/WebCore/platform/graphics/filters/FELighting.h
+-index 4efab920..dcd80b6f 100644
+---- a/Source/WebCore/platform/graphics/filters/FELighting.h
+-+++ b/Source/WebCore/platform/graphics/filters/FELighting.h
+-@@ -68,11 +68,6 @@ protected:
+- 
+-     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
+- 
+--#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
+--    static int getPowerCoefficients(float exponent);
+--    inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
+--#endif
+--
+-     Color m_lightingColor;
+-     float m_surfaceScale;
+-     float m_diffuseConstant;
+--- 
+-2.25.1
+-
 diff --git a/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch b/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
 index 76bcb3df99..0d8976c502 100644
 --- a/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
