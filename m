@@ -2,77 +2,77 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A20CEBF7B
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 07:06:32 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.63554.1727420791037548937
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 92635CEBF7B
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 07:08:22 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.63583.1727420898403113012
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Sep 2024 00:06:31 -0700
+ Fri, 27 Sep 2024 00:08:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=P35ZiFTS;
- spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20afdad26f5so23224045ad.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 00:06:30 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=dI/qVVKo;
+ spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2053a0bd0a6so18305215ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 00:08:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1727420790; x=1728025590; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1727420898; x=1728025698; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=oawzdDOA3X7xGrUeBmC+7obQlqRyNdpWbEM6wy+cTpI=;
-        b=P35ZiFTSpBCjyi6df94HJBWDOL45gsoW0G2opUskQGqLRsFAX5xVsadITVURmt+waP
-         zslI0b/ZchK2bKzBMbBQnaBM15LbirWrGOCZRBaVCdvzwAvHp2XDrZaif7qq0h/QTJaP
-         B5eFlI8X+jQUhIcDBKhipdKUzE46pzG0xQ4is=
+        bh=NzcIcK+jY0x640IC5JwVfdyYeL7jsM23udBtflC0S4g=;
+        b=dI/qVVKowsQA5kn2AQkWQNQmOdus13K+Rjo5DfG4K6zYnAocwt7Q5r2yVQIxZ/c45u
+         L0AYXhg7jlqSKwz/jxlEeXP7/mXvx2OKEXkhPaIgsz1nSRw7rnbx8aZREGOhrJ+Xl3U2
+         wtp0uwetZTquLAd0v+EJDDiwaeL50+110R3JY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727420790; x=1728025590;
+        d=1e100.net; s=20230601; t=1727420898; x=1728025698;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oawzdDOA3X7xGrUeBmC+7obQlqRyNdpWbEM6wy+cTpI=;
-        b=GFUFMska0M5/1w/GxkE59mBZne8hS7/cGHjEf9mm7oAZhiTjIDkKUTrESsn3/sqzbq
-         eIjG/g9A4JQUMd2u3hHCbweQ/mDLY7p8GEzM7bBRlFLWfp6yVbdne1CEjKo6eyKEhBTZ
-         dxnFqG+ynnbFZ5WnWnLyqzYcr1LsW6SixSwtDPH1o2eOlPDmY0N3r0IadbRq2zl32fwa
-         mw25colXa2uoAfhm9PU2iJXCZy+rj7LoMjFVJSLCgwZ9ljMaI1YrkYxgeSU8EqOvYtKD
-         Ww7llqmLZ0dTsm0GituCcBBHMjoYv419iyqamNFgYaeEwBewvTbOd/FVC7eiUstL5+Cq
-         PH6w==
-X-Gm-Message-State: AOJu0YwXuqXoW0SZ4JkRcCQQORRnZJUpIfo4h9P06eKHyfMLHwfs5mvr
-	Tlg+6Ftw1vPtfWH0Fi+Q8e0qYtzBNYvqyZ0+K33GmuSF+zN+DvePjtzIFfLckuM5s7eUFh30aJW
-	4
-X-Google-Smtp-Source: AGHT+IEG06Rtj/NL4jFdRi7O+hLlytV7MzUva11KaKgqIvNMvE4AcDrEp13kIPccwr4tAZdEligFiw==
-X-Received: by 2002:a17:902:cf07:b0:207:2697:da17 with SMTP id d9443c01a7336-20b36ec8a90mr40352375ad.23.1727420789932;
-        Fri, 27 Sep 2024 00:06:29 -0700 (PDT)
+        bh=NzcIcK+jY0x640IC5JwVfdyYeL7jsM23udBtflC0S4g=;
+        b=tulaEhDCfPe26vBLhyYHGHiJ1aqjjv2X6aQsAP7LxbGPHcGv3vm0ytCIRbNKqTpFc5
+         8yu3Mmrfr+uVeoq0R5cCiKgPJOdjLZWVX5Rte0LajyPFFYFWGHRa/4Y3U8yk4j0P+2kD
+         G+e9RL6bIlAg34W7sxhVGejhJPko3wqaO16C9sKPzCWngq7fuGbHxntzfHlONpyn3b4d
+         XRS0dpysoAWNz/bdVw1atuBA0o8s1rUfotFcYGO6a0IE1KcH/6ohx1/X2Q7oTQffZOjk
+         aIGdbCNrydxsCe/x3h0fF57EKkAyukIN4fSVbFCcluoCHIDYmMJMG+wTOnku2eeVNp0M
+         76YA==
+X-Gm-Message-State: AOJu0Yxu0Vf1YXIPmK9LKSpu+27p084zRwytwk0Gf5+ooKMNjkxrTdpy
+	A6POpbVjX/N3LS+ExNmREnsh4Cu+zl9qrB4MOkHUUODWiINTO4lQfmjakbxgBdgCVjAR5AqmIgR
+	t
+X-Google-Smtp-Source: AGHT+IFZT9ic79qXqi14dUf0XJKzlji/dBCxsMi26+Q0muWTLEKHD93xybIrHPI4YaH6AP+PkNUfpA==
+X-Received: by 2002:a17:903:22d2:b0:206:d66d:a30d with SMTP id d9443c01a7336-20b36be583emr34843895ad.6.1727420897483;
+        Fri, 27 Sep 2024 00:08:17 -0700 (PDT)
 Received: from MVIN00016.mvista.com ([150.129.170.215])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37d8ecf3sm8051105ad.82.2024.09.27.00.06.27
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37db314asm8071435ad.117.2024.09.27.00.08.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 00:06:29 -0700 (PDT)
+        Fri, 27 Sep 2024 00:08:17 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] webkitgtk: upgrade 2.44.1 -> 2.44.3
-Date: Fri, 27 Sep 2024 12:36:21 +0530
-Message-Id: <20240927070621.45665-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCHv2] webkitgtk: upgrade 2.44.1 -> 2.44.3
+Date: Fri, 27 Sep 2024 12:38:09 +0530
+Message-Id: <20240927070809.45823-1-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 07:06:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205006
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 07:08:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205007
 
 Remove CVE-2024-40779.patch which already fix in this upgraded version.
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- ...able-to-control-macro-__PAS_ALWAYS_I.patch |   6 +-
- ...spection.cmake-prefix-variables-obta.patch |   2 +-
- ...d5e22213fdaca2a29ec3400c927d710a37a8.patch |   2 +-
- .../webkit/webkitgtk/CVE-2024-40779.patch     |  92 ---------
- .../webkit/webkitgtk/no-musttail-arm.patch    |   6 +-
- .../webkit/webkitgtk/reproducibility.patch    |   2 +-
- .../webkit/webkitgtk/t6-not-declared.patch    |  12 +-
- meta/recipes-sato/webkit/webkitgtk_2.44.3.bb  | 174 ++++++++++++++++++
- 8 files changed, 188 insertions(+), 108 deletions(-)
+ ...able-to-control-macro-__PAS_ALWAYS_I.patch |  6 +-
+ ...spection.cmake-prefix-variables-obta.patch |  2 +-
+ ...d5e22213fdaca2a29ec3400c927d710a37a8.patch |  2 +-
+ .../webkit/webkitgtk/CVE-2024-40779.patch     | 92 -------------------
+ .../webkit/webkitgtk/no-musttail-arm.patch    |  6 +-
+ .../webkit/webkitgtk/reproducibility.patch    |  2 +-
+ .../webkit/webkitgtk/t6-not-declared.patch    | 12 +--
+ ...ebkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} |  7 +-
+ 8 files changed, 16 insertions(+), 113 deletions(-)
  delete mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
- create mode 100644 meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
+ rename meta/recipes-sato/webkit/{webkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} (95%)
 
 diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
 index a819e22127..a19008a41f 100644
@@ -281,186 +281,35 @@ index d4720e4f28..064925dace 100644
       struct StackPointerScope {
           StackPointerScope(CLoopStack& stack)
 -
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-new file mode 100644
-index 0000000000..90fb7a1d42
---- /dev/null
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
+similarity index 95%
+rename from meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
+index 29f834ee9b..90fb7a1d42 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
 +++ b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-@@ -0,0 +1,174 @@
-+SUMMARY = "WebKit web rendering engine for the GTK+ platform"
-+HOMEPAGE = "https://www.webkitgtk.org/"
-+BUGTRACKER = "https://bugs.webkit.org/"
-+
-+LICENSE = "BSD-2-Clause & LGPL-2.0-or-later"
-+LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d84286dda758da57bd691 \
-+                    file://Source/WebCore/LICENSE-APPLE;md5=4646f90082c40bcf298c285f8bab0b12 \
-+                    file://Source/WebCore/LICENSE-LGPL-2;md5=36357ffde2b64ae177b2494445b79d21 \
-+                    file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 \
-+                    "
-+
-+SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-+           file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
-+           file://reproducibility.patch \
-+           file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
-+           file://no-musttail-arm.patch \
-+           file://t6-not-declared.patch \
-+           file://30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch \
-+           "
+@@ -16,11 +16,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
+            file://no-musttail-arm.patch \
+            file://t6-not-declared.patch \
+            file://30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch \
+-           file://0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch \
+-           file://0002-More-dynamicDowncast-adoption-in-platform-code.patch \
+-           file://CVE-2024-40779.patch \
+            "
+-SRC_URI[sha256sum] = "425b1459b0f04d0600c78d1abb5e7edfa3c060a420f8b231e9a6a2d5d29c5561"
 +SRC_URI[sha256sum] = "dc82d042ecaca981a4852357c06e5235743319cf10a94cd36ad41b97883a0b54"
-+
-+inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
-+
-+ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
-+REQUIRED_DISTRO_FEATURES = "opengl"
-+
-+CVE_PRODUCT = "webkitgtk webkitgtk\+"
-+
-+DEPENDS += " \
-+          ruby-native \
-+          gperf-native \
-+          unifdef-native \
-+          cairo \
-+          harfbuzz \
-+          jpeg \
-+          atk \
-+          libwebp \
-+          gtk4 \
-+          libxslt \
-+          libtasn1 \
-+          libnotify \
-+          gstreamer1.0 \
-+          gstreamer1.0-plugins-base \
-+          glib-2.0-native \
-+          gettext-native \
-+          "
-+
-+PACKAGECONFIG_SOUP ?= "soup3"
-+PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
-+                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl-or-es', '', d)} \
-+                   enchant \
-+                   libsecret \
-+                   ${PACKAGECONFIG_SOUP} \
-+                  "
-+
-+PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
-+PACKAGECONFIG[angle] = "-DUSE_ANGLE_WEBGL=ON,-DUSE_ANGLE_WEBGL=OFF"
-+PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
-+PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
-+PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
-+PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
-+PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/egl"
-+PACKAGECONFIG[opengl] = "-DENABLE_GRAPHICS_CONTEXT_GL=ON,-DENABLE_GRAPHICS_CONTEXT_GL=OFF,virtual/egl"
-+PACKAGECONFIG[opengl-or-es] = "-DUSE_OPENGL_OR_ES=ON,-DUSE_OPENGL_OR_ES=OFF"
-+PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
-+PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
-+PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
-+PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
-+PACKAGECONFIG[systemd] = "-DUSE_SYSTEMD=ON,-DUSE_SYSTEMD=off,systemd"
-+PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=Release,,"
-+PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
-+PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
-+PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
-+PACKAGECONFIG[journald] = "-DENABLE_JOURNALD_LOG=ON,-DENABLE_JOURNALD_LOG=OFF,systemd"
-+PACKAGECONFIG[avif] = "-DUSE_AVIF_LOG=ON,-DUSE_AVIF=OFF,libavif"
-+PACKAGECONFIG[media-recorder] = "-DENABLE_MEDIA_RECORDER=ON,-DENABLE_MEDIA_RECORDER=OFF,gstreamer1.0-plugins-bad"
-+PACKAGECONFIG[jpegxl] = "-DUSE_JPEGXL=ON,-DUSE_JPEGXL=OFF,libjxl"
-+PACKAGECONFIG[backtrace] = "-DUSE_LIBBACKTRACE=ON,-DUSE_LIBBACKTRACE=OFF,libbacktrace"
-+PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
-+
-+EXTRA_OECMAKE = " \
-+                 -DPORT=GTK \
-+                 ${@oe.utils.vartrue('GI_DATA_ENABLED', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
-+                 ${@oe.utils.vartrue('GIDOCGEN_ENABLED', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
-+                 ${@oe.utils.vartrue('DEBUG_BUILD', '-DWEBKIT_NO_INLINE_HINTS=ON', '-DWEBKIT_NO_INLINE_HINTS=OFFF', d)} \
-+                 -DENABLE_MINIBROWSER=ON \
-+                 -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
-+                 -DUSE_GTK4=ON \
-+                 -DCMAKE_EXPORT_COMPILE_COMMANDS=OFF \
-+                 "
-+
-+# Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size of the
-+# debug symbols (4.3GB to 700M at time of writing)
+ 
+ inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
+ 
+@@ -96,7 +93,7 @@ EXTRA_OECMAKE = " \
+ 
+ # Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size of the
+ # debug symbols (4.3GB to 700M at time of writing)
+-DEBUG_FLAGS:append = "${@oe.utils.vartrue('DEBUG_BUILD', '', ' -g1', d)}"
 +DEBUG_LEVELFLAG = "-g1"
-+
-+# Javascript JIT is not supported on ARC
-+EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
-+# By default 25-bit "medium" calls are used on ARC
-+# which is not enough for binaries larger than 32 MiB
-+CFLAGS:append:arc = " -mlong-calls"
-+CXXFLAGS:append:arc = " -mlong-calls"
-+
-+# Needed for non-mesa graphics stacks when x11 is disabled
-+CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
-+
-+# Javascript JIT is not supported on powerpc
-+EXTRA_OECMAKE:append:powerpc = " -DENABLE_JIT=OFF "
-+EXTRA_OECMAKE:append:powerpc64 = " -DENABLE_JIT=OFF "
-+
-+# ARM JIT code does not build on ARMv4/5/6 anymore
-+EXTRA_OECMAKE:append:armv4 = " -DENABLE_JIT=OFF "
-+EXTRA_OECMAKE:append:armv5 = " -DENABLE_JIT=OFF "
-+EXTRA_OECMAKE:append:armv6 = " -DENABLE_JIT=OFF "
-+
-+EXTRA_OECMAKE:append:mipsarch = " -DUSE_LD_GOLD=OFF "
-+EXTRA_OECMAKE:append:powerpc = " -DUSE_LD_GOLD=OFF "
-+
-+# JIT and gold linker does not work on RISCV
-+EXTRA_OECMAKE:append:riscv32 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
-+EXTRA_OECMAKE:append:riscv64 = " -DUSE_LD_GOLD=OFF"
-+
-+# JIT not supported on MIPS either
-+EXTRA_OECMAKE:append:mipsarch = " -DENABLE_JIT=OFF -DENABLE_C_LOOP=ON "
-+
-+# JIT not supported on X32
-+# An attempt was made to upstream JIT support for x32 in
-+# https://bugs.webkit.org/show_bug.cgi?id=100450, but this was closed as
-+# unresolved due to limited X32 adoption.
-+EXTRA_OECMAKE:append:x86-x32 = " -DENABLE_JIT=OFF "
-+
-+SECURITY_CFLAGS:remove:aarch64 = "-fpie"
-+SECURITY_CFLAGS:append:aarch64 = " -fPIE"
-+
-+FILES:${PN} += "${libdir}/webkitgtk-*/injected-bundle/*.so"
-+
-+RRECOMMENDS:${PN} += "ca-certificates shared-mime-info"
-+
-+# http://errors.yoctoproject.org/Errors/Details/20370/
-+ARM_INSTRUCTION_SET:armv4 = "arm"
-+ARM_INSTRUCTION_SET:armv5 = "arm"
-+ARM_INSTRUCTION_SET:armv6 = "arm"
-+
-+# https://bugzilla.yoctoproject.org/show_bug.cgi?id=9474
-+# https://bugs.webkit.org/show_bug.cgi?id=159880
-+# JSC JIT can build on ARMv7 with -marm, but doesn't work on runtime.
-+# Upstream only tests regularly the JSC JIT on ARMv7 with Thumb2 (-mthumb).
-+ARM_INSTRUCTION_SET:armv7a = "thumb"
-+ARM_INSTRUCTION_SET:armv7r = "thumb"
-+ARM_INSTRUCTION_SET:armv7ve = "thumb"
-+
-+# ANGLE requires SSE support as of webkit 2.40.x on 32 bit x86
-+COMPATIBLE_HOST:x86 = "${@bb.utils.contains_any('TUNE_FEATURES', 'core2 corei7', '.*', 'null', d)}"
-+
-+# introspection inside qemu-arm hangs forever on musl/arm builds
-+# therefore disable GI_DATA
-+GI_DATA_ENABLED:libc-musl:armv7a = "False"
-+GI_DATA_ENABLED:libc-musl:armv7ve = "False"
-+
-+# Can't be built with ccache
-+CCACHE_DISABLE = "1"
-+
-+PACKAGE_PREPROCESS_FUNCS += "src_package_preprocess"
-+src_package_preprocess () {
-+        # Trim build paths from comments in generated sources to ensure reproducibility
-+        sed -i -e "s,${WORKDIR},,g" \
-+            ${B}/JavaScriptCore/DerivedSources/*.h \
-+            ${B}/JavaScriptCore/DerivedSources/yarr/*.h \
-+            ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
-+            ${B}/WebCore/DerivedSources/*.cpp \
-+            ${B}/WebKitGTK/DerivedSources/webkit/*.cpp
-+}
-+
+ 
+ # Javascript JIT is not supported on ARC
+ EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
 -- 
 2.25.1
 
