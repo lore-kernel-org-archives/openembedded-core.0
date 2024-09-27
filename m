@@ -1,464 +1,319 @@
-Return-Path: <quaresma.jose@gmail.com>
+Return-Path: <Bhabu.Bindu@kpit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E432CEBF89
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 08:52:03 +0000 (UTC)
-Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
- by mx.groups.io with SMTP id smtpd.web11.64825.1727427116708511178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E062CCEBF8F
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 10:27:43 +0000 (UTC)
+Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.90])
+ by mx.groups.io with SMTP id smtpd.web11.66086.1727432856210094763
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Sep 2024 01:51:56 -0700
+ Fri, 27 Sep 2024 03:27:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cjw2OL3z;
- spf=pass (domain: gmail.com, ip: 209.85.217.54, mailfrom: quaresma.jose@gmail.com)
-Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-49bc7387371so758805137.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 01:51:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727427116; x=1728031916; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=/g3izF9XPD2V5VW1SFKDfHSFikqmnhebN1hzkaLHEno=;
-        b=Cjw2OL3z9a6AQlib7F8luPtXYlMxZtaJDQjSRAu2ePpjtFzKpp22lp6KVz85AyJ8D8
-         8zPjiPJXRgUNqDkqaE1cQ/V8pqi7UUHcvH7YoITai/XkYdUf7h1YJDGTaTq8xw02nZSs
-         gFTZty52BBMF5CkZ+gsDujr6e0Q6bnibcqAvbs+/x6nkPMYuCbIwbU8g/Fo3LhnzjleJ
-         3aAG9ArypWj3N2P7+/ZG8C5BT5qIiSLy6amIeoeDx/fAs/mODeTRtb3V+wXM3833lT/D
-         2CK3IDegRgxRnmpMGxgn2G72dk+5v6A5aFmvZteffH4VallsPCjRonhgjWxUEy6Vw8Hs
-         pYRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727427116; x=1728031916;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=/g3izF9XPD2V5VW1SFKDfHSFikqmnhebN1hzkaLHEno=;
-        b=nbuddevNAuklRUZCYnQpjWoSYzHJP4dUM2fy01KjX15Co1YR8dWiaSXn7rBZ1+8wt7
-         8cisuPHbdvU694Lx8EdPSpS10byhdwTr+YT14+hDvJER4ZCzUUyST+LRylzjyicA3NQ8
-         LhkKx5kYxcgswHYNPROxVzfhJh05DhUdmg6IqEmfVz8aEwOwqKmLeQuF5cRDSTozY/9+
-         uVIQi6Ra+/Y/eCgTLL+CFTdjwJE4z1J425DtmFc+IvxTs+Tkx5nNEpvr1Kt/zW0JbLQw
-         azGiMQvIEWILktEXUr1mn63Yv4UP3VmoNnl0j7+q2giVdcsoly3qaJSbywPLb+SID3Co
-         ajXA==
-X-Gm-Message-State: AOJu0YxzHCf+c4qb3Htz5emdTSVsLO8MWpRiBrCbITJHsX8fjhMeei/B
-	ay/KOOcs9N/EMUynwbycnESoyykwrcNg5RpwkqZ6+kfP/+3VC88C0k9R0KnkiJhtp/VFvw0arfH
-	XDXsLwYr6smd70Aq2+Yotntrtxn4tPpi5+OA=
-X-Google-Smtp-Source: AGHT+IFCQjgIfFuFr2ApY5+RzqrVI8U5zqWGKhMte6y5l0Zs29/GcpvDDzc/3sCK3nnLp5ImNML8Y5YpXWbUyvCSInU=
-X-Received: by 2002:a05:6102:6c9:b0:48f:380a:ca90 with SMTP id
- ada2fe7eead31-4a2d7ffd989mr2845741137.18.1727427115432; Fri, 27 Sep 2024
- 01:51:55 -0700 (PDT)
+ dkim=pass header.i=@kpit.com header.s=selector1 header.b=tWJmRcZX;
+ spf=pass (domain: kpit.com, ip: 52.101.225.90, mailfrom: bhabu.bindu@kpit.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DAVUrtAz1arbZ84Hp0ThVm+W2lRqcNwQlv5TqynPMDNX9uHKaRoj95mRqJ5YysV8Xij6wr0WmLva74RtxmFMG3xxFmotZmy9+BdFCuPuLn4Eqi8OASBPUAqRMto98xBL3jhIbNbalXHMXdzeqQ3UM/lXpF+nKQ5v1sQme4R6Zw2F15DEIYJUewB7vwzrKgFCpDxnyjdxSBwuJ6bm1t18IzA3r/qkU+Gk5de4WMiAC80ErySVqD3zT49qkRo96Bdz3OM0bdYCsabgAfWsn7jVzDjdkKTZrpTx8pCVAbRZA04Dm7gLRdgj54aHBzhC3ZSONKVQiwy+JMw1W8Zw7/TVxg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2DycwpnS0gV2EWYNMFJw0HSL3PFX9gi5m2rXWBJdYdk=;
+ b=OE1MGzElV4xjGjCUVfk7i9OZQ+EmU4v+f4j/hAJfPqLEjqYAbMPmKswwTlmv0w5gh93F8Rj/MkcKG+9W5CyhMe8sQAZH1TIpBGgddAh+Zq+zjHJ5bO8FfQ2z7c/zuqT3TiQqXgiGzoQZrE6EvmbdhIr/jrEZE0PMJuRQHhuKfemWnQjywuKzyYUnZnAFMmat4fBaSYWaK6ff711+TDGe6nL4UDhGIOp+D0/anJrZQYCCJPHIgs99k/grQ8QGfXbHOB2h22zi+Vbj0mI9lwsQzNua4KbeEd+MXY0LrPDvUgqVij/kselwQzvj2MVmSLKG2EvJAMP/0t5xjjFZtHhzHQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=kpit.com; dmarc=pass action=none header.from=kpit.com;
+ dkim=pass header.d=kpit.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kpit.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2DycwpnS0gV2EWYNMFJw0HSL3PFX9gi5m2rXWBJdYdk=;
+ b=tWJmRcZXSMi0CHpvSPOnAT2AeDsj69NKOfSpMaIAs5/61siL5v4nEGI6EMY1dlfTxqbxeSJij14jW1maIhyznOiclL14ZKeVdbd+qgTyBCN66wxs51DF0SpYeNKvML2pEYOgAMQ5gyavfeAXW1opFt+/zOkhQzGS1SfeSfS56NA=
+Received: from MA0PR01MB9793.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:ee::13)
+ by PN0PR01MB6028.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:64::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.8; Fri, 27 Sep
+ 2024 10:27:24 +0000
+Received: from MA0PR01MB9793.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::65dc:8806:aaf7:ebc7]) by MA0PR01MB9793.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::65dc:8806:aaf7:ebc7%4]) with mapi id 15.20.8005.010; Fri, 27 Sep 2024
+ 10:27:24 +0000
+From: Bhabu Bindu <Bhabu.Bindu@kpit.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Nikhil R <Nikhil.R@kpit.com>, Bhabu Bindu <bindudaniel1996@gmail.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>,
+	Marta Rybczynska <rybczynska@gmail.com>, "raj.khem@gmail.com"
+	<raj.khem@gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] xz: Update LICENSE variable for xz
+ packages
+Thread-Topic: [OE-core][kirkstone][PATCH] xz: Update LICENSE variable for xz
+ packages
+Thread-Index: AQHan6XNt/eh2JON302tN4KuOoHwkbGKVgwAgFCdNACAkVvO8A==
+Date: Fri, 27 Sep 2024 10:27:24 +0000
+Message-ID: 
+ <MA0PR01MB97936D2CC0A90C2D422A36B8956B2@MA0PR01MB9793.INDPRD01.PROD.OUTLOOK.COM>
+References: <20240506110846.125652-1-nikhil.r@kpit.com>
+	 <CAApg2=TB81yXyxpt8kEaoHB-SCoJ8753w77FWby2m8Qj-nDEig@mail.gmail.com>
+ <ad9e2853a23d17dda7fc499525054009590aff53.camel@linuxfoundation.org>
+In-Reply-To: 
+ <ad9e2853a23d17dda7fc499525054009590aff53.camel@linuxfoundation.org>
+Accept-Language: en-GB, en-US
+Content-Language: en-GB
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=kpit.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: MA0PR01MB9793:EE_|PN0PR01MB6028:EE_
+x-ms-office365-filtering-correlation-id: 70734852-1d81-4663-2e8f-08dcdedefa40
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?jNHcxpdTELkbZV4n0SRrSTSXLynOFhe36JR/eEd14j8SXMoOPql78h2Ms65H?=
+ =?us-ascii?Q?Hz6d7hVvuE1uUq0EBfMej2YRA7m42YrY8pW73PezzyOLJKEs9YQKF3wY060A?=
+ =?us-ascii?Q?FlE0+8JPeW0ToOIsxFKyXmeGhNCUY4OnvD94UohERpIAAWrsfv0LJQbDHivx?=
+ =?us-ascii?Q?lwKI/htGY5G0TSVRsypThWXaJhjZ+TY0A7F+M3GzVh8jJlYVOPq6cofbdD5U?=
+ =?us-ascii?Q?zgRt2Y//sqQDFjEYg4SbqFxI61FDDV4q1kLMAQ707ZxhkKISd7R7QcCHnPAd?=
+ =?us-ascii?Q?ZS5/Fdzitj6cSEhujsUmrVRKzmoi4fV3kWzwF3w74wcEJ0RcKpj4/L6mIrvk?=
+ =?us-ascii?Q?LeFQLPHts0RnbralvSa4o+pcbcUq1eCr+f3RzF/AZkFrTeuCbMSSMe6QUzSi?=
+ =?us-ascii?Q?pBpO7m/m0PXimS7ZLigOW+zytbSORy7aWRvPavr8Y2oOAzpnJYxE7fCXVlQk?=
+ =?us-ascii?Q?WK4WXAa57/c/5shKPz/+xy8D07aER5jFM6dewz02Uaqn/mCCXhkeCfDwMInQ?=
+ =?us-ascii?Q?Bwr4BhJb8V+69AHvX6sHJwnN6LVpNKhDyMcFY1odN0ntCrKfdIqHKokVb17r?=
+ =?us-ascii?Q?aNarYR05Eh3OQGsOF/UZl42h5Hae5xhcUkk1/lFBfcSxWBspgyhjlRrklEDx?=
+ =?us-ascii?Q?q+dDbqUS8H/0F09uBPDa7nqaPKNJuw17YHH5UH2WfEbe8FjcaOeqquF56Q2o?=
+ =?us-ascii?Q?ijSwfto5/n8hvxQ/yqexh6FdOz88QyhhJOaAxpx9ArBXiV+0plAp6zgp/1ii?=
+ =?us-ascii?Q?C7UOzxUf9zz2Tjv/3ayOdh+i737iVDtHZI2c9Q/Z1a17uSxYofmarqCeyGYx?=
+ =?us-ascii?Q?rNfkuWcCszDReCOsGSSmySc1cWahfDsgJmiVamXvKZMCd5FPoZ1/aNS6DPru?=
+ =?us-ascii?Q?v8T7ZrDjnr+VQlRT5A/8x0Rei4hI/so4+BOx4N/xF8nS5F+4KLqH9bQXr+Uc?=
+ =?us-ascii?Q?4a79TrutVNsT2TTF2Bo7uQ9oZJADc6crYmfH+0EAsirWTDZ1PiIqwvu8hObU?=
+ =?us-ascii?Q?XM6p3bhYyBFtFjfqgXkqmD8N2SWxCh8Rpp67+gxsyMp2p2jjP5g3kwE8zPVb?=
+ =?us-ascii?Q?6JYyZxmpewWrIHcPSIbQ5Z0KsH3SsYYk7NomXUEO8/v2z81NKJVzuDwn5F58?=
+ =?us-ascii?Q?i07oYmnllBqFpqiJsMkck7A5XVuSruFLOi6O8uYzMMeaaoDaCrK0bnUiGZl0?=
+ =?us-ascii?Q?5Y18cmW+DJ1G6xoqbdUyLiqBHaZec3AeY0Ko10ygP7iX6iZ8NeshLH2MOAc2?=
+ =?us-ascii?Q?1QcNLt+VsYsSj1ofEbalsTGfmIjxN7qfvHE0cK+5Ng=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA0PR01MB9793.INDPRD01.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?lTtkLoLBhG3zmpL7pdeKmBSmhRVGzNQnBfoqPeE/a7j7VLn1voKj6B33PFuK?=
+ =?us-ascii?Q?rMB6drrfQAqPe14dqV6O3HqRjilTqOcjfrAsqAaFmSngKJhc4/w6rdKfFSRf?=
+ =?us-ascii?Q?bv+9MeQ6pteJRaa+v5Jmz0JwkQuQEp5NF1zDBsXXc+MpvF0e818JG6eZRrrs?=
+ =?us-ascii?Q?I1sIeFDdF65j01wb18bqYxbyAVVyXShH8lvvA2+TmjgV8X7SHgu2k3q7MLDB?=
+ =?us-ascii?Q?UzwyWcCFzUiW7G5z1j7mfIEJdZ8RWyo8xULMSjSVKq7TS/aVWDesm+s0QCjZ?=
+ =?us-ascii?Q?9RMorFTHEoHgkZmcZ/6vujzU64i2kxk4G8CiKykbQnY8EH4MdeSn4o8B2jG3?=
+ =?us-ascii?Q?HxEOqmuk2tly6XZIF5Hw2+TnltIL+wFvDv0az93DgNUQL6LnGAlXT+cr9LD8?=
+ =?us-ascii?Q?aMEqu5n87LllxMaQLisJslfdjvVLmuUT1sxmgMk7gA6xXvtTMpGJmDn3xS0P?=
+ =?us-ascii?Q?vP2Nol3vItr0me7S1yiyaNXLIiwXI/mXpS3ZL8uIYjvTimx11M8bkYPmMm/s?=
+ =?us-ascii?Q?d43XSlEC5kLA3uredRrqxaWqQflkM9fajN39/QSAZjXAWYmLY0T51ZohjWxU?=
+ =?us-ascii?Q?ylYs/fpCOHgdaimWWAgnq2biT1e63x+O3WnazCnd/JzSatomRM9MbbY5gRjj?=
+ =?us-ascii?Q?xkCIKf/EZW0Uy58zvTz47ad5PKQcviLylhuQ8cupCWs/NoMpqk0PCwCXtxWZ?=
+ =?us-ascii?Q?Oav9gFTLVZBv3pcu8LiNJZCGFTJ4RsCuxUAw6Vd0CqYB1iZvWB59i+5ESA50?=
+ =?us-ascii?Q?co+NkzUhIdkm8++JEI3bULAq8PRc1/RbnC/t/3h4pjvvXvt0JIpr7D10cQt6?=
+ =?us-ascii?Q?9jZ+WXsrcBDbCNHKD/5Y1XDZpoIHFIAB+LlrOH9fx9IV1X4dL23LPKeph80w?=
+ =?us-ascii?Q?k9ECd7pRHxVVTOvwtTH4sj03gG+946qRJ2Z3ch21/IJRaAg0evG0au3YSCub?=
+ =?us-ascii?Q?LIqXgchjZLnDFa9jcBPyGKjgimHee/hgk720kXrx9Kzvt3t92C1oqlxGxrYg?=
+ =?us-ascii?Q?EBuTUxFq1XTqEBU+zHLhCRNkb6mNqeDxK1xnY4t5JMYx8zVdzzVcS8K+sy8q?=
+ =?us-ascii?Q?GHt1XDOz59EdqPS0PEaX5RrMN+jchEAKh2WsVVkRfwwQSWBkSQ1NM0MZjuJk?=
+ =?us-ascii?Q?hNcenYh1r3GMHmbM9eklkGKF4Kj7tuXVqsZEGrlhdRT38GfD+mLcyZGGYY37?=
+ =?us-ascii?Q?/q8fBR/8YFbK2fweYE6UJABWAMX35/0k6YDrh4F0nI1DGWa+88UP/5Q7unoG?=
+ =?us-ascii?Q?T0SSIzYBnDSwWYHvY7t2IDTNp2mfrOxNISn717iLEt9DQerEbUDG+fUxHRRI?=
+ =?us-ascii?Q?bmmc8nzCmA6ShsJXvfnnnJ7hGbkGxV0wrYARgCG7eTZZ262PCv1G2cF3uU0a?=
+ =?us-ascii?Q?Exrx2vi/3sRjGbBRAIVxH0zT+MA8xG/+j+HN7k7HZ4dAv/2/F/Ge/jcDAR/g?=
+ =?us-ascii?Q?b2+KXDRBqt24J/XpAVPxud9MjPmiol2tNC8gwwwi/eL6+ITIlAayiIpRrMQr?=
+ =?us-ascii?Q?MScwLMZmiA19grWpzmr2lHseeibZ6YZKVTBSU/+12fLae6FWD3U/zXOgvF5c?=
+ =?us-ascii?Q?FpG8m5//9sYEL6xYMzk=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_MA0PR01MB97936D2CC0A90C2D422A36B8956B2MA0PR01MB9793INDP_"
 MIME-Version: 1.0
-References: <918f936e-68b2-449d-9521-3507c25f0a8b@electromag.com.au>
-In-Reply-To: <918f936e-68b2-449d-9521-3507c25f0a8b@electromag.com.au>
-From: Jose Quaresma <quaresma.jose@gmail.com>
-Date: Fri, 27 Sep 2024 09:51:36 +0100
-Message-ID: <CANPvuRmnake=1PpTVhmuJBV0euZSCfPy1vS=Q7t4cCgo91qTsQ@mail.gmail.com>
-Subject: Re: [OE-core] scarthgap: kernel build failure
-To: preid@electromag.com.au
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009743c0062315f70b"
+X-OriginatorOrg: kpit.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: MA0PR01MB9793.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70734852-1d81-4663-2e8f-08dcdedefa40
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2024 10:27:24.1849
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3539451e-b46e-4a26-a242-ff61502855c7
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g1vvhEvvYdJ6Npuau60VzIOWhjfP3Z1d2tW2i5nEIj7EYhcv9duwUx2BY+w0OkGi
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB6028
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 08:52:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205009
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 10:27:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205010
 
---0000000000009743c0062315f70b
-Content-Type: text/plain; charset="UTF-8"
+--_000_MA0PR01MB97936D2CC0A90C2D422A36B8956B2MA0PR01MB9793INDP_
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-Phil Reid via lists.openembedded.org <preid=3D
-electromag.com.au@lists.openembedded.org> escreveu (sexta, 27/09/2024 =C3=
-=A0(s)
-01:59):
+Hello ,
 
-> G'day All,
->
->
-> Just started migrating our layer to scarthgap and ran into an issue
-> building the kernel.
-> We maintian a local git repo with a custom branch with all our patches an=
-d
-> build from that.
-> So no KMETA layer. In addition we're building a couple of kernels and
-> packaging them into the image.
-> We're using linux-dummy kernel for the image and then building the kernel
-> using bitbake.
-> Possibly the problem is we're doing something the wrong(tm) way.
->
->
-> Anyway after migrating we get the following when building a kernel.
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> NOTE: Executing Tasks
-> ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: A KBUILD_DEFCONFIG
-> 'socfpga_defconfig' was specified, but not present in the source tree
-> (/home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linu=
-x-tst/6.6.52+git/kernel-source/arch/arm/configs/)
-> ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme:
-> ExecutionError('/home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-lin=
-ux-gnueabi/linux-tst/6.6.52+git/temp/run.do_kernel_configme.8888',
-> 1, None, None)
-> ERROR: Logfile of failure stored in:
-> /home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux=
--tst/6.6.52+git/temp/log.do_kernel_configme.8888
-> ERROR: Task
-> (/home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/linux-tst_6=
-.6.bb:do_kernel_configme)
-> failed with exit code '1'
-> NOTE: Tasks Summary: Attempted 989 tasks of which 973 didn't need to be
-> rerun and 1 failed.
-> NOTE: Writing buildhistory
-> NOTE: Writing buildhistory took: 1 seconds
->
-> Summary: 1 task failed:
->
->  /home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/linux-tst_6=
-.6.bb:
-> do_kernel_configme
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
->
->
-> I've managed to trace the change in behaviour to a change in
-> archiver.bbclass.
-> Reverting the change to is_work_shared and everything is happy.
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclas=
-s
-> index 9d286224d6..9bac870449 100644
-> --- a/meta/classes/archiver.bbclass
-> +++ b/meta/classes/archiver.bbclass
-> @@ -472,9 +472,10 @@ def create_diff_gz(d, src_orig, src, ar_outdir):
->           os.chdir(cwd)
->
->   def is_work_shared(d):
-> -    sharedworkdir =3D os.path.join(d.getVar('TMPDIR'), 'work-shared')
-> -    sourcedir =3D os.path.realpath(d.getVar('S'))
-> -    return sourcedir.startswith(sharedworkdir)
-> +    pn =3D d.getVar('PN')
-> +    return pn.startswith('gcc-source') or \
-> +        bb.data.inherits_class('kernel', d) or \
-> +        (bb.data.inherits_class('kernelsrc', d) and
-> d.expand("${TMPDIR}/work-shared") in d.getVar('S'))
->
+The LICENSE variable for xz package is updated, and this change is already =
+part of scarthgap and master branch.
 
-Looks like the issue comes from the archiver.bbclass but you may be misled
-by that very fact.
-Can you try to build the kernel without the archiver?
+May I know when this change will be part of kirkstone.
+https://lists.openembedded.org/g/openembedded-core/message/199040
 
-INHERIT:remove =3D "archiver"
+Best Regards,
+Bindu B
+________________________________
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+Sent: 27 June 2024 04:06
+To: rybczynska@gmail.com <rybczynska@gmail.com>; nikhilar2410@gmail.com <ni=
+khilar2410@gmail.com>
+Cc: OE-core <openembedded-core@lists.openembedded.org>; Bhabu Bindu <Bhabu.=
+Bindu@kpit.com>; Nikhil R <Nikhil.R@kpit.com>; Bhabu Bindu <bindudaniel1996=
+@gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] xz: Update LICENSE variable for xz=
+ packages
 
-This just confirms if there are no more problems.
-If everything is fine, the problem is really with the archiver.bbclass.
-However, I use the archiver.bbclass daily with several bsp in my distro and
-I have no problems.
+Caution: This email originated from outside of the KPIT. Do not click links=
+ or open attachments unless you recognize the sender and know the content i=
+s safe.
 
-Jose
+On Mon, 2024-05-06 at 17:32 +0200, Marta Rybczynska via
+lists.openembedded.org wrote:
+> I'm not a copyright lawyer, but from what I understand public domain
+> is not a licence. For a discussion
+> see https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fw=
+iki.spdx.org%2Fview%2FLegal_Team%2FDecisions%2FDealing_with_Publ&data=3D05%=
+7C02%7Cbhabu.bindu%40kpit.com%7C2ea7b1fb245347fc31ec08dc96306b75%7C3539451e=
+b46e4a26a242ff61502855c7%7C0%7C0%7C638550382007188689%7CUnknown%7CTWFpbGZsb=
+3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7=
+C%7C%7C&sdata=3D71LsYBUvsIlOxDGTkkZKVRvHkWrn0mxAx6Vu9wzZqPs%3D&reserved=3D0=
+<https://wiki.spdx.org/view/Legal_Team/Decisions/Dealing_with_Publ>
+> ic_Domain_within_SPDX_Files
+>
+> The next version of xz will be 0BSD so the statement will change too.
 
+I did check into this a bit. We do have a "placeholder" license file in
+our common-licenses directory so PD is accepted in our license fields
+but there is no SPDX PD license identifier for the reasons linked to
+above, each wording is different. PD means different things in
+different locations too.
 
+Switching to 0BSD probably makes things easier!
 
->
->   # Run do_unpack and do_patch
->   python do_unpack_and_patch() {
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
->
->
->
->
-> And here's a small reproducer kernel bb.
-> I've tested this with cyclone5 machine.
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D
-> KBRANCH ?=3D "v6.6/standard/base"
->
-> require recipes-kernel/linux/linux-yocto.inc
->
-> # CVE exclusions
-> include recipes-kernel/linux/cve-exclusion.inc
-> include recipes-kernel/linux/cve-exclusion_6.6.inc
->
-> # board specific branches
-> SRCREV_machine ?=3D "561bbd55f91a8e94576ca3fbf35a0c99ff70d4b2"
->
-> SRC_URI =3D "git://
-> git.yoctoproject.org/linux-yocto.git;name=3Dmachine;branch=3D${KBRANCH};p=
-rotocol=3Dhttps
-> <http://git.yoctoproject.org/linux-yocto.git;name=3Dmachine;branch=3D$%7B=
-KBRANCH%7D;protocol=3Dhttps>
-> "
->
-> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7e=
-46"
-> LINUX_VERSION ?=3D "6.6.52"
->
-> PV =3D "${LINUX_VERSION}+git"
->
-> KCONF_BSP_AUDIT_LEVEL =3D "1"
->
-> COMPATIBLE_MACHINE =3D "^(qemux86-64|cyclone5)$"
->
-> # Functionality flags
-> KERNEL_FEATURES:append =3D " ${KERNEL_EXTRA_FEATURES}"
->
-> KERNEL_PACKAGE_NAME          =3D "kernel-tst"
->
-> KBUILD_DEFCONFIG:qemux86-64  =3D "x86_64_defconfig"
-> KCONFIG_MODE:qemux86-64      =3D "--alldefconfig"
->
-> KBUILD_DEFCONFIG:cyclone5    =3D "socfpga_defconfig"
-> KCONFIG_MODE:cyclone5        =3D "--alldefconfig"
->
-> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
->
->
-> The key trigger here I think is:
-> - PREFERRED_PROVIDER_virtual/kernel is not equal to the kernel package.
-> - KERNEL_PACKAGE_NAME is not equal to kernel
->
-> And therefore the source doesn't end up in work-shared.
-> But something somewhere expects the kernel-source folder to be in
-> work-shared
-> and ends up deleting the kernel-source folder
->
-> After do_patch the kernel-source still contains the source files.
-> The git checkout folder has gone by this step.
->
-> Then during do_unpack_and_patch the kernel-source folder is cleaned of al=
-l
-> files.
-> They've been moved to archiver-work/git
->
-> And after that kernel-source is empty.
->
->
-> So is the method we're using to build the kernel still supported?
-> Or are we doing something wrong...
->
->
->
-> --
-> Regards
-> Phil Reid
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#205001):
-> https://lists.openembedded.org/g/openembedded-core/message/205001
-> Mute This Topic: https://lists.openembedded.org/mt/108679274/5052612
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> quaresma.jose@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+For now, mentioning PD in the LICENSE field would match other recipes.
 
---=20
-Best regards,
+Cheers,
 
-Jos=C3=A9 Quaresma
+Richard
 
---0000000000009743c0062315f70b
-Content-Type: text/html; charset="UTF-8"
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print, retain copy, disseminate, distribute, o=
+r use this message or any part thereof. If you receive this message in erro=
+r, please notify the sender immediately and delete all copies of this messa=
+ge. KPIT Technologies Ltd. does not accept any liability for virus infected=
+ mails.
+
+--_000_MA0PR01MB97936D2CC0A90C2D422A36B8956B2MA0PR01MB9793INDP_
+Content-Type: text/html; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">Phil Reid via <a href=3D"http://lists=
-.openembedded.org">lists.openembedded.org</a> &lt;preid=3D<a href=3D"mailto=
-:electromag.com.au@lists.openembedded.org">electromag.com.au@lists.openembe=
-dded.org</a>&gt; escreveu (sexta, 27/09/2024 =C3=A0(s) 01:59):<br></div><bl=
-ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
-t:1px solid rgb(204,204,204);padding-left:1ex">G&#39;day All,<br>
-<br>
-<br>
-Just started migrating our layer to scarthgap and ran into an issue buildin=
-g the kernel.<br>
-We maintian a local git repo with a custom branch with all our patches and =
-build from that.<br>
-So no KMETA layer. In addition we&#39;re building a couple of kernels and p=
-ackaging them into the image.<br>
-We&#39;re using linux-dummy kernel for the image and then building the kern=
-el using bitbake.<br>
-Possibly the problem is we&#39;re doing something the wrong(tm) way.<br>
-<br>
-<br>
-Anyway after migrating we get the following when building a kernel.<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D<br>
-NOTE: Executing Tasks<br>
-ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: A KBUILD_DEFCONFIG &#39;=
-socfpga_defconfig&#39; was specified, but not present in the source tree (/=
-home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux-ts=
-t/6.6.52+git/kernel-source/arch/arm/configs/)<br>
-ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: ExecutionError(&#39;/hom=
-e/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux-tst/6=
-.6.52+git/temp/run.do_kernel_configme.8888&#39;, 1, None, None)<br>
-ERROR: Logfile of failure stored in: /home/preid/dev/v2024.09/tmp-glibc/wor=
-k/cyclone5-emit-linux-gnueabi/linux-tst/6.6.52+git/temp/log.do_kernel_confi=
-gme.8888<br>
-ERROR: Task (/home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/l=
-inux-tst_6.6.bb:do_kernel_configme) failed with exit code &#39;1&#39;<br>
-NOTE: Tasks Summary: Attempted 989 tasks of which 973 didn&#39;t need to be=
- rerun and 1 failed.<br>
-NOTE: Writing buildhistory<br>
-NOTE: Writing buildhistory took: 1 seconds<br>
-<br>
-Summary: 1 task failed:<br>
-=C2=A0 =C2=A0/home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/l=
-inux-tst_6.6.bb:do_kernel_configme<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D<br>
-<br>
-<br>
-I&#39;ve managed to trace the change in behaviour to a change in archiver.b=
-bclass.<br>
-Reverting the change to is_work_shared and everything is happy.<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D<br>
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass<=
-br>
-index 9d286224d6..9bac870449 100644<br>
---- a/meta/classes/archiver.bbclass<br>
-+++ b/meta/classes/archiver.bbclass<br>
-@@ -472,9 +472,10 @@ def create_diff_gz(d, src_orig, src, ar_outdir):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.chdir(cwd)<br>
-<br>
-=C2=A0 def is_work_shared(d):<br>
--=C2=A0 =C2=A0 sharedworkdir =3D os.path.join(d.getVar(&#39;TMPDIR&#39;), &=
-#39;work-shared&#39;)<br>
--=C2=A0 =C2=A0 sourcedir =3D os.path.realpath(d.getVar(&#39;S&#39;))<br>
--=C2=A0 =C2=A0 return sourcedir.startswith(sharedworkdir)<br>
-+=C2=A0 =C2=A0 pn =3D d.getVar(&#39;PN&#39;)<br>
-+=C2=A0 =C2=A0 return pn.startswith(&#39;gcc-source&#39;) or \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.data.inherits_class(&#39;kernel&#39;, d) or=
- \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 (bb.data.inherits_class(&#39;kernelsrc&#39;, d=
-) and d.expand(&quot;${TMPDIR}/work-shared&quot;) in d.getVar(&#39;S&#39;))=
-<br></blockquote><div><br></div><div>Looks like the issue comes from the ar=
-chiver.bbclass=C2=A0but you may be misled by that very fact.</div><div>Can =
-you try to build the kernel without=C2=A0the archiver?<br><br>INHERIT:remov=
-e =3D &quot;archiver&quot;<br><br>This just confirms=C2=A0if there are no m=
-ore problems.</div><div>If everything is fine, the problem is really with t=
-he archiver.bbclass.</div><div>However, I use the archiver.bbclass daily wi=
-th several bsp in my distro and I have no problems.<br><br>Jose</div><div><=
-br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
-:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
 >
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Hello ,<br>
 <br>
-=C2=A0 # Run do_unpack and do_patch<br>
-=C2=A0 python do_unpack_and_patch() {<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D<br>
+The LICENSE variable for xz package is updated, and this change is already =
+part of scarthgap and master branch.<br>
 <br>
+May I know when this change will be part of kirkstone.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/19904=
+0" id=3D"LPlnk546351">https://lists.openembedded.org/g/openembedded-core/me=
+ssage/199040</a></div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
 <br>
+</div>
+<div id=3D"Signature">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Best Regards,<br>
+Bindu B</div>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Richard Purdie &lt;ri=
+chard.purdie@linuxfoundation.org&gt;<br>
+<b>Sent:</b> 27 June 2024 04:06<br>
+<b>To:</b> rybczynska@gmail.com &lt;rybczynska@gmail.com&gt;; nikhilar2410@=
+gmail.com &lt;nikhilar2410@gmail.com&gt;<br>
+<b>Cc:</b> OE-core &lt;openembedded-core@lists.openembedded.org&gt;; Bhabu =
+Bindu &lt;Bhabu.Bindu@kpit.com&gt;; Nikhil R &lt;Nikhil.R@kpit.com&gt;; Bha=
+bu Bindu &lt;bindudaniel1996@gmail.com&gt;<br>
+<b>Subject:</b> Re: [OE-core][kirkstone][PATCH] xz: Update LICENSE variable=
+ for xz packages</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText">Caution: This email originated from outside of the=
+ KPIT. Do not click links or open attachments unless you recognize the send=
+er and know the content is safe.<br>
 <br>
-<br>
-And here&#39;s a small reproducer kernel bb.<br>
-I&#39;ve tested this with cyclone5 machine.<br>
-<br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D<br>
-KBRANCH ?=3D &quot;v6.6/standard/base&quot;<br>
-<br>
-require recipes-kernel/linux/linux-yocto.inc<br>
-<br>
-# CVE exclusions<br>
-include recipes-kernel/linux/cve-exclusion.inc<br>
-include recipes-kernel/linux/cve-exclusion_6.6.inc<br>
-<br>
-# board specific branches<br>
-SRCREV_machine ?=3D &quot;561bbd55f91a8e94576ca3fbf35a0c99ff70d4b2&quot;<br=
->
-<br>
-SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-yocto.=
-git;name=3Dmachine;branch=3D$%7BKBRANCH%7D;protocol=3Dhttps" rel=3D"norefer=
-rer" target=3D"_blank">git.yoctoproject.org/linux-yocto.git;name=3Dmachine;=
-branch=3D${KBRANCH};protocol=3Dhttps</a>&quot;<br>
-<br>
-LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedc=
-d7e46&quot;<br>
-LINUX_VERSION ?=3D &quot;6.6.52&quot;<br>
-<br>
-PV =3D &quot;${LINUX_VERSION}+git&quot;<br>
-<br>
-KCONF_BSP_AUDIT_LEVEL =3D &quot;1&quot;<br>
-<br>
-COMPATIBLE_MACHINE =3D &quot;^(qemux86-64|cyclone5)$&quot;<br>
-<br>
-# Functionality flags<br>
-KERNEL_FEATURES:append =3D &quot; ${KERNEL_EXTRA_FEATURES}&quot;<br>
-<br>
-KERNEL_PACKAGE_NAME=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;kernel-tst&=
-quot;<br>
-<br>
-KBUILD_DEFCONFIG:qemux86-64=C2=A0 =3D &quot;x86_64_defconfig&quot;<br>
-KCONFIG_MODE:qemux86-64=C2=A0 =C2=A0 =C2=A0 =3D &quot;--alldefconfig&quot;<=
+On Mon, 2024-05-06 at 17:32 +0200, Marta Rybczynska via<br>
+lists.openembedded.org wrote:<br>
+&gt; I'm not a copyright lawyer, but from what I understand public domain<b=
+r>
+&gt; is not a licence. For a discussion<br>
+&gt; see <a href=3D"https://wiki.spdx.org/view/Legal_Team/Decisions/Dealing=
+_with_Publ">
+https://apc01.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwiki.sp=
+dx.org%2Fview%2FLegal_Team%2FDecisions%2FDealing_with_Publ&amp;data=3D05%7C=
+02%7Cbhabu.bindu%40kpit.com%7C2ea7b1fb245347fc31ec08dc96306b75%7C3539451eb4=
+6e4a26a242ff61502855c7%7C0%7C0%7C638550382007188689%7CUnknown%7CTWFpbGZsb3d=
+8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%=
+7C%7C&amp;sdata=3D71LsYBUvsIlOxDGTkkZKVRvHkWrn0mxAx6Vu9wzZqPs%3D&amp;reserv=
+ed=3D0</a><br>
+&gt; ic_Domain_within_SPDX_Files<br>
+&gt;<br>
+&gt; The next version of xz will be 0BSD so the statement will change too.<=
 br>
 <br>
-KBUILD_DEFCONFIG:cyclone5=C2=A0 =C2=A0 =3D &quot;socfpga_defconfig&quot;<br=
->
-KCONFIG_MODE:cyclone5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;--alldefconfig&q=
-uot;<br>
+I did check into this a bit. We do have a &quot;placeholder&quot; license f=
+ile in<br>
+our common-licenses directory so PD is accepted in our license fields<br>
+but there is no SPDX PD license identifier for the reasons linked to<br>
+above, each wording is different. PD means different things in<br>
+different locations too.<br>
 <br>
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+Switching to 0BSD probably makes things easier!<br>
 <br>
+For now, mentioning PD in the LICENSE field would match other recipes.<br>
 <br>
+Cheers,<br>
 <br>
-The key trigger here I think is:<br>
-- PREFERRED_PROVIDER_virtual/kernel is not equal to the kernel package.<br>
-- KERNEL_PACKAGE_NAME is not equal to kernel<br>
+Richard<br>
 <br>
-And therefore the source doesn&#39;t end up in work-shared.<br>
-But something somewhere expects the kernel-source folder to be in work-shar=
-ed<br>
-and ends up deleting the kernel-source folder<br>
-<br>
-After do_patch the kernel-source still contains the source files.<br>
-The git checkout folder has gone by this step.<br>
-<br>
-Then during do_unpack_and_patch the kernel-source folder is cleaned of all =
-files.<br>
-They&#39;ve been moved to archiver-work/git<br>
-<br>
-And after that kernel-source is empty.<br>
-<br>
-<br>
-So is the method we&#39;re using to build the kernel still supported?<br>
-Or are we doing something wrong...<br>
-<br>
-<br>
-<br>
--- <br>
-Regards<br>
-Phil Reid<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#205001): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/205001" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/205001</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/108679274/505=
-2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/108679274/5052612</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
-arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
-gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
-iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
-div>
+</div>
+</span></font></div>
+This message contains information that may be privileged or confidential an=
+d is the property of the KPIT Technologies Ltd. It is intended only for the=
+ person to whom it is addressed. If you are not the intended recipient, you=
+ are not authorized to read, print,
+ retain copy, disseminate, distribute, or use this message or any part ther=
+eof. If you receive this message in error, please notify the sender immedia=
+tely and delete all copies of this message. KPIT Technologies Ltd. does not=
+ accept any liability for virus
+ infected mails.
+</body>
+</html>
 
---0000000000009743c0062315f70b--
+--_000_MA0PR01MB97936D2CC0A90C2D422A36B8956B2MA0PR01MB9793INDP_--
 
