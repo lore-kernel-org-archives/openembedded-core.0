@@ -1,371 +1,464 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E045CEBF7E
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 07:13:12 +0000 (UTC)
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
- by mx.groups.io with SMTP id smtpd.web10.63630.1727421184894397088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E432CEBF89
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 08:52:03 +0000 (UTC)
+Received: from mail-vs1-f54.google.com (mail-vs1-f54.google.com [209.85.217.54])
+ by mx.groups.io with SMTP id smtpd.web11.64825.1727427116708511178
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Sep 2024 00:13:04 -0700
+ Fri, 27 Sep 2024 01:51:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=dWyCVQbB;
- spf=pass (domain: mvista.com, ip: 209.85.210.172, mailfrom: hprajapati@mvista.com)
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-71b0d1c74bbso1316625b3a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 00:13:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cjw2OL3z;
+ spf=pass (domain: gmail.com, ip: 209.85.217.54, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-vs1-f54.google.com with SMTP id ada2fe7eead31-49bc7387371so758805137.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 01:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1727421184; x=1728025984; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F/q2NeTfyczaxuryq5t5T9YSf1tkB9br4ttck0+HSbk=;
-        b=dWyCVQbBix5sNfOHYKFM+FfaikR6bS78RId32RDRt2srhXKZ0siJgNDUA4k5vZTJm1
-         1/gXhKBMJWb+rLuSYTdyxJmdT6IHcQVJCXEzGLW59LRuAZNBhEDiHM+4tCE4JxVxyQSK
-         zgJ7jNe4wUuqiIw3W8tyTXufPmWiL2nT0CgaY=
+        d=gmail.com; s=20230601; t=1727427116; x=1728031916; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=/g3izF9XPD2V5VW1SFKDfHSFikqmnhebN1hzkaLHEno=;
+        b=Cjw2OL3z9a6AQlib7F8luPtXYlMxZtaJDQjSRAu2ePpjtFzKpp22lp6KVz85AyJ8D8
+         8zPjiPJXRgUNqDkqaE1cQ/V8pqi7UUHcvH7YoITai/XkYdUf7h1YJDGTaTq8xw02nZSs
+         gFTZty52BBMF5CkZ+gsDujr6e0Q6bnibcqAvbs+/x6nkPMYuCbIwbU8g/Fo3LhnzjleJ
+         3aAG9ArypWj3N2P7+/ZG8C5BT5qIiSLy6amIeoeDx/fAs/mODeTRtb3V+wXM3833lT/D
+         2CK3IDegRgxRnmpMGxgn2G72dk+5v6A5aFmvZteffH4VallsPCjRonhgjWxUEy6Vw8Hs
+         pYRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727421184; x=1728025984;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1727427116; x=1728031916;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=F/q2NeTfyczaxuryq5t5T9YSf1tkB9br4ttck0+HSbk=;
-        b=a4UmFdWCzibI+eg7I+xwZUJ5G8E8eTqjijCBg7ZMkcNM/trVazQN8fg87pPCCNJJVM
-         qMpiSbTo47OpDxNWrBafxg72vyNrJhu78oMcGqokX5lmDGl9Ob//s+F29eH9ZbyiKx9c
-         5yoBZhSFc5/RRkFfQNmDorm9G3wzN/ExCrSdlJU+Lc0ijlCsx1BsSm4nMsvHMII96bMm
-         osaKWvpsZVnI8XwVapgxb8FiYrRBleeZk7Tt9cz0zPBdc06txGJ10g1RNuik+S+QY+d8
-         9Jo3Mv/J+jm98RqowciSVMTu+63mlg6k5aj9Vg6gjPQ3Cg06a0pH0JMWaVq0MZkKVWHk
-         31jg==
-X-Gm-Message-State: AOJu0Yxi7nU2m51NCgaav9/fJcgTW/j1ec2k2VQPrUKvLlY+EZ4nA0W8
-	FEOcFf820CnVHwexO9u5QQE+b01+/Kp6TL9az1ecJ5w6nuHdHbBH4FvRdp7kTa1fXdCIKveqWCa
-	h
-X-Google-Smtp-Source: AGHT+IHN4So/XynnLwVKZpx6V53xHm/my4iStOB4HjGto5FV2eRWNuYiA8bK1tY6W2ctg/0HczsH3A==
-X-Received: by 2002:a05:6a00:3986:b0:714:2d05:60df with SMTP id d2e1a72fcca58-71b25f7746fmr2766509b3a.15.1727421183883;
-        Fri, 27 Sep 2024 00:13:03 -0700 (PDT)
-Received: from MVIN00016.mvista.com ([150.129.170.215])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b26538812sm945293b3a.218.2024.09.27.00.13.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 00:13:03 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCHv3] webkitgtk: upgrade 2.44.1 -> 2.44.3
-Date: Fri, 27 Sep 2024 12:42:56 +0530
-Message-Id: <20240927071256.46145-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        bh=/g3izF9XPD2V5VW1SFKDfHSFikqmnhebN1hzkaLHEno=;
+        b=nbuddevNAuklRUZCYnQpjWoSYzHJP4dUM2fy01KjX15Co1YR8dWiaSXn7rBZ1+8wt7
+         8cisuPHbdvU694Lx8EdPSpS10byhdwTr+YT14+hDvJER4ZCzUUyST+LRylzjyicA3NQ8
+         LhkKx5kYxcgswHYNPROxVzfhJh05DhUdmg6IqEmfVz8aEwOwqKmLeQuF5cRDSTozY/9+
+         uVIQi6Ra+/Y/eCgTLL+CFTdjwJE4z1J425DtmFc+IvxTs+Tkx5nNEpvr1Kt/zW0JbLQw
+         azGiMQvIEWILktEXUr1mn63Yv4UP3VmoNnl0j7+q2giVdcsoly3qaJSbywPLb+SID3Co
+         ajXA==
+X-Gm-Message-State: AOJu0YxzHCf+c4qb3Htz5emdTSVsLO8MWpRiBrCbITJHsX8fjhMeei/B
+	ay/KOOcs9N/EMUynwbycnESoyykwrcNg5RpwkqZ6+kfP/+3VC88C0k9R0KnkiJhtp/VFvw0arfH
+	XDXsLwYr6smd70Aq2+Yotntrtxn4tPpi5+OA=
+X-Google-Smtp-Source: AGHT+IFCQjgIfFuFr2ApY5+RzqrVI8U5zqWGKhMte6y5l0Zs29/GcpvDDzc/3sCK3nnLp5ImNML8Y5YpXWbUyvCSInU=
+X-Received: by 2002:a05:6102:6c9:b0:48f:380a:ca90 with SMTP id
+ ada2fe7eead31-4a2d7ffd989mr2845741137.18.1727427115432; Fri, 27 Sep 2024
+ 01:51:55 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <918f936e-68b2-449d-9521-3507c25f0a8b@electromag.com.au>
+In-Reply-To: <918f936e-68b2-449d-9521-3507c25f0a8b@electromag.com.au>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Fri, 27 Sep 2024 09:51:36 +0100
+Message-ID: <CANPvuRmnake=1PpTVhmuJBV0euZSCfPy1vS=Q7t4cCgo91qTsQ@mail.gmail.com>
+Subject: Re: [OE-core] scarthgap: kernel build failure
+To: preid@electromag.com.au
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000009743c0062315f70b"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 07:13:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205008
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 08:52:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205009
 
-Remove below patches which already fix in this upgraded version.
+--0000000000009743c0062315f70b
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-1. CVE-2024-40779.patch
-2. 0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
+Phil Reid via lists.openembedded.org <preid=3D
+electromag.com.au@lists.openembedded.org> escreveu (sexta, 27/09/2024 =C3=
+=A0(s)
+01:59):
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- ...able-to-control-macro-__PAS_ALWAYS_I.patch |  6 +-
- ...spection.cmake-prefix-variables-obta.patch |  2 +-
- ...fic-declarations-in-FELighting.h-unn.patch | 44 ---------
- ...d5e22213fdaca2a29ec3400c927d710a37a8.patch |  2 +-
- .../webkit/webkitgtk/CVE-2024-40779.patch     | 92 -------------------
- .../webkit/webkitgtk/no-musttail-arm.patch    |  6 +-
- .../webkit/webkitgtk/reproducibility.patch    |  2 +-
- .../webkit/webkitgtk/t6-not-declared.patch    | 12 +--
- ...ebkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} |  7 +-
- 9 files changed, 16 insertions(+), 157 deletions(-)
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} (95%)
+> G'day All,
+>
+>
+> Just started migrating our layer to scarthgap and ran into an issue
+> building the kernel.
+> We maintian a local git repo with a custom branch with all our patches an=
+d
+> build from that.
+> So no KMETA layer. In addition we're building a couple of kernels and
+> packaging them into the image.
+> We're using linux-dummy kernel for the image and then building the kernel
+> using bitbake.
+> Possibly the problem is we're doing something the wrong(tm) way.
+>
+>
+> Anyway after migrating we get the following when building a kernel.
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> NOTE: Executing Tasks
+> ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: A KBUILD_DEFCONFIG
+> 'socfpga_defconfig' was specified, but not present in the source tree
+> (/home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linu=
+x-tst/6.6.52+git/kernel-source/arch/arm/configs/)
+> ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme:
+> ExecutionError('/home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-lin=
+ux-gnueabi/linux-tst/6.6.52+git/temp/run.do_kernel_configme.8888',
+> 1, None, None)
+> ERROR: Logfile of failure stored in:
+> /home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux=
+-tst/6.6.52+git/temp/log.do_kernel_configme.8888
+> ERROR: Task
+> (/home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/linux-tst_6=
+.6.bb:do_kernel_configme)
+> failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 989 tasks of which 973 didn't need to be
+> rerun and 1 failed.
+> NOTE: Writing buildhistory
+> NOTE: Writing buildhistory took: 1 seconds
+>
+> Summary: 1 task failed:
+>
+>  /home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/linux-tst_6=
+.6.bb:
+> do_kernel_configme
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>
+> I've managed to trace the change in behaviour to a change in
+> archiver.bbclass.
+> Reverting the change to is_work_shared and everything is happy.
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclas=
+s
+> index 9d286224d6..9bac870449 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -472,9 +472,10 @@ def create_diff_gz(d, src_orig, src, ar_outdir):
+>           os.chdir(cwd)
+>
+>   def is_work_shared(d):
+> -    sharedworkdir =3D os.path.join(d.getVar('TMPDIR'), 'work-shared')
+> -    sourcedir =3D os.path.realpath(d.getVar('S'))
+> -    return sourcedir.startswith(sharedworkdir)
+> +    pn =3D d.getVar('PN')
+> +    return pn.startswith('gcc-source') or \
+> +        bb.data.inherits_class('kernel', d) or \
+> +        (bb.data.inherits_class('kernelsrc', d) and
+> d.expand("${TMPDIR}/work-shared") in d.getVar('S'))
+>
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-index a819e22127..a19008a41f 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
-@@ -1,4 +1,4 @@
--From 575b848a3b3c14280679db80d0d518922c83d62a Mon Sep 17 00:00:00 2001
-+From 99a21305ae683a216e9299e5dbdd763190a8cfe3 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Fri, 11 Aug 2023 14:20:48 +0800
- Subject: [PATCH] Add a variable to control macro
-@@ -57,10 +57,10 @@ index 5d5fb38c..a554f700 100644
-  #else
-  #define __PAS_ALWAYS_INLINE_BUT_NOT_INLINE
- diff --git a/Source/cmake/WebKitCompilerFlags.cmake b/Source/cmake/WebKitCompilerFlags.cmake
--index 9b2fecf9..7cdc2b6a 100644
-+index 0732785e..4879ec40 100644
- --- a/Source/cmake/WebKitCompilerFlags.cmake
- +++ b/Source/cmake/WebKitCompilerFlags.cmake
--@@ -453,3 +453,10 @@ endif ()
-+@@ -452,3 +452,10 @@ endif ()
-  
-  # FIXME: Enable pre-compiled headers for all ports <https://webkit.org/b/139438>
-  set(CMAKE_DISABLE_PRECOMPILE_HEADERS ON)
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-index 8e29ce17ed..dda20a7b25 100644
---- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
-@@ -1,4 +1,4 @@
--From 6348f91c29e2350ad3fec5264aa57dd4994d4583 Mon Sep 17 00:00:00 2001
-+From d1f6a1b6a1298f6ef2f1677e9996aa60a002134a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Tue, 27 Oct 2015 16:02:19 +0200
- Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch b/meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
-deleted file mode 100644
-index 6ffe0a9454..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
-+++ /dev/null
-@@ -1,44 +0,0 @@
--From dbd1a59b239b3902e717fdeb063883dbb0b06ee9 Mon Sep 17 00:00:00 2001
--From: Adrian Perez de Castro <aperez@igalia.com>
--Date: Sun, 26 May 2024 14:24:35 -0700
--Subject: [PATCH 1/2] Remove ARM-specific declarations in FELighting.h unneeded
-- after 272873@main
--
--Unreviewed build fix.
--
--* Source/WebCore/platform/graphics/filters/FELighting.h: Remove unneeded
--  declarations for the getPowerCoefficients() and platformApplyNeon()
--  functions, which are now defined elsewhere; and were causing a build
--  failure due to usage of the protected LightingData type.
--
--Canonical link: https://commits.webkit.org/279334@main
--
--Backport this patch for fixing following compile error:
--webkitgtk-2.44.1/Source/WebCore/platform/graphics/filters/FELighting.h:73:41: error: 'LightingData' does not name a type 
--   73 |     inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
--
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/36d1b5d7c0ef9a733ee8055b1f35b1d24435d538]
--Signed-off-by: Changqing Li <changqing.li@windriver.com>
-----
-- Source/WebCore/platform/graphics/filters/FELighting.h | 5 -----
-- 1 file changed, 5 deletions(-)
--
--diff --git a/Source/WebCore/platform/graphics/filters/FELighting.h b/Source/WebCore/platform/graphics/filters/FELighting.h
--index 4efab920..dcd80b6f 100644
----- a/Source/WebCore/platform/graphics/filters/FELighting.h
--+++ b/Source/WebCore/platform/graphics/filters/FELighting.h
--@@ -68,11 +68,6 @@ protected:
-- 
--     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
-- 
---#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
---    static int getPowerCoefficients(float exponent);
---    inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
---#endif
---
--     Color m_lightingColor;
--     float m_surfaceScale;
--     float m_diffuseConstant;
---- 
--2.25.1
--
-diff --git a/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch b/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
-index 76bcb3df99..0d8976c502 100644
---- a/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
-@@ -1,4 +1,4 @@
--From 1523e00a2a76e285262c8aa3721b5d99f3f2d612 Mon Sep 17 00:00:00 2001
-+From 2ee948191de1c561b72ebf462605376cfb3ce7af Mon Sep 17 00:00:00 2001
- From: Thomas Devoogdt <thomas.devoogdt@barco.com>
- Date: Mon, 16 Jan 2023 17:03:30 +0100
- Subject: [PATCH] REGRESSION(257865@main): B3Validate.cpp: fix
-diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
-deleted file mode 100644
-index 1a7e27dcb6..0000000000
---- a/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
-+++ /dev/null
-@@ -1,92 +0,0 @@
--From 2fe5ae29a5f6434ef456afe9673a4f400ec63848 Mon Sep 17 00:00:00 2001
--From: Jean-Yves Avenard <jya@apple.com>
--Date: Fri, 14 Jun 2024 16:08:19 -0700
--Subject: [PATCH] Cherry-pick 272448.1085@safari-7618.3.10-branch
-- (ff52ff7cb64e). https://bugs.webkit.org/show_bug.cgi?id=275431
--
--HeapBufferOverflow in computeSampleUsingLinearInterpolation
--https://bugs.webkit.org/show_bug.cgi?id=275431
--rdar://125617812
--
--Reviewed by Youenn Fablet.
--
--Add boundary check.
--This is a copy of blink code for that same function.
--https://source.chromium.org/chromium/chromium/src//main:third_party/blink/renderer/modules/webaudio/audio_buffer_source_handler.cc;l=336-341
--
--* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt: Added.
--* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html: Added.
--* Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp:
--(WebCore::AudioBufferSourceNode::renderFromBuffer):
--
--Canonical link: https://commits.webkit.org/274313.347@webkitglib/2.44
--
--Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2fe5ae29a5f6434ef456afe9673a4f400ec63848]
--CVE: CVE-2024-40779
--Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-----
-- ...er-sourcenode-resampler-crash-expected.txt |  1 +
-- ...udiobuffer-sourcenode-resampler-crash.html | 25 +++++++++++++++++++
-- .../webaudio/AudioBufferSourceNode.cpp        |  6 +++++
-- 3 files changed, 32 insertions(+)
-- create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
-- create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
--
--diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
--new file mode 100644
--index 00000000..654ddf7f
----- /dev/null
--+++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
--@@ -0,0 +1 @@
--+This test passes if it does not crash.
--diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
--new file mode 100644
--index 00000000..5fb2dd8c
----- /dev/null
--+++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
--@@ -0,0 +1,25 @@
--+<html>
--+<head>
--+    <script>
--+        async function main() {
--+            var ctx = new AudioContext();
--+            var src = new AudioBufferSourceNode(ctx);
--+            src.buffer = ctx.createBuffer(1, 8192, 44100);
--+            src.start(undefined, 0.5);
--+            src.playbackRate.value = -1;
--+            src.connect(ctx.destination, 0, 0);
--+            if (window.testRunner)
--+                testRunner.notifyDone();
--+        }
--+    </script>
--+</head>
--+<body onload="main()">
--+    <p>This test passes if it does not crash.</p>
--+    <script>
--+    if (window.testRunner) {
--+        testRunner.waitUntilDone();
--+        testRunner.dumpAsText();
--+    }
--+    </script>
--+</body>
--+</html>
--diff --git a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
--index 42f2779e..7963fb9f 100644
----- a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
--+++ b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
--@@ -343,6 +343,12 @@ bool AudioBufferSourceNode::renderFromBuffer(AudioBus* bus, unsigned destination
--             if (readIndex2 >= maxFrame)
--                 readIndex2 = m_isLooping ? minFrame : readIndex;
-- 
--+            // Final sanity check on buffer access.
--+            // FIXME: as an optimization, try to get rid of this inner-loop check and
--+            // put assertions and guards before the loop.
--+            if (readIndex >= bufferLength || readIndex2 >= bufferLength)
--+                break;
--+
--             // Linear interpolation.
--             for (unsigned i = 0; i < numberOfChannels; ++i) {
--                 float* destination = destinationChannels[i];
---- 
--2.25.1
--
-diff --git a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-index 8ce37a01cc..793be48df2 100644
---- a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
-@@ -1,4 +1,4 @@
--From a9c874f7418cefbe78f7cd26505ae495cb59bbcf Mon Sep 17 00:00:00 2001
-+From 31dca9601888f2a539dfb22693ffd62c22ee8912 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Fri, 12 Jan 2024 09:21:39 -0800
- Subject: [PATCH] clang/arm: Do not use MUST_TAIL_CALL
-@@ -16,10 +16,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/Source/WTF/wtf/Compiler.h b/Source/WTF/wtf/Compiler.h
--index 0ea5cb76..c5480dbc 100644
-+index 449ca502..daac29d7 100644
- --- a/Source/WTF/wtf/Compiler.h
- +++ b/Source/WTF/wtf/Compiler.h
--@@ -284,7 +284,7 @@
-+@@ -321,7 +321,7 @@
-  /* MUST_TAIL_CALL */
-  
-  #if !defined(MUST_TAIL_CALL) && defined(__cplusplus) && defined(__has_cpp_attribute)
-diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-index 93a431a0b1..d614a1ee4f 100644
---- a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
-@@ -1,4 +1,4 @@
--From d096b945113ddecaf33062296e20b6d5a007cab3 Mon Sep 17 00:00:00 2001
-+From cb5458b5d15aafa3543a47a33975609026d45d32 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Mon, 3 Jan 2022 14:18:34 +0000
- Subject: [PATCH] webkitgtk: Add reproducibility fix
-diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-index d4720e4f28..064925dace 100644
---- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-+++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
-@@ -1,10 +1,9 @@
--From 3d5373575695b293b8559155431d0079a6153aff Mon Sep 17 00:00:00 2001
-+From 36c092723ec6d4908039341c9d157db8ab1c0a59 Mon Sep 17 00:00:00 2001
- From: Michael Catanzaro <mcatanzaro@redhat.com>
- Date: Mon, 5 Feb 2024 11:00:49 -0600
--Subject: [PATCH] =?UTF-8?q?[GTK]=20[2.42.5]=20LowLevelInterpreter.cpp:339:?=
-- =?UTF-8?q?21:=20error:=20=E2=80=98t6=E2=80=99=20was=20not=20declared=20in?=
-- =?UTF-8?q?=20this=20scope=20https://bugs.webkit.org/show=5Fbug.cgi=3Fid?=
-- =?UTF-8?q?=3D268739?=
-+Subject: [PATCH] =?UTF-8?q?LowLevelInterpreter.cpp:339:21:=20error:=20?=
-+ =?UTF-8?q?=E2=80=98t6=E2=80=99=20was=20not=20declared=20in=20this=20scope?=
-+ =?UTF-8?q?=20https://bugs.webkit.org/show=5Fbug.cgi=3Fid=3D268739?=
- MIME-Version: 1.0
- Content-Type: text/plain; charset=UTF-8
- Content-Transfer-Encoding: 8bit
-@@ -22,7 +21,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 2 deletions(-)
- 
- diff --git a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
--index 5064ead6cd2e7..9a2e2653b1219 100644
-+index 75cecbbd..b1020ea4 100644
- --- a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
- +++ b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
- @@ -336,8 +336,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
-@@ -34,4 +33,3 @@ index 5064ead6cd2e7..9a2e2653b1219 100644
-  
-      struct StackPointerScope {
-          StackPointerScope(CLoopStack& stack)
--
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-similarity index 95%
-rename from meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
-rename to meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-index 29f834ee9b..90fb7a1d42 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.44.1.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-@@ -16,11 +16,8 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
-            file://no-musttail-arm.patch \
-            file://t6-not-declared.patch \
-            file://30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch \
--           file://0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch \
--           file://0002-More-dynamicDowncast-adoption-in-platform-code.patch \
--           file://CVE-2024-40779.patch \
-            "
--SRC_URI[sha256sum] = "425b1459b0f04d0600c78d1abb5e7edfa3c060a420f8b231e9a6a2d5d29c5561"
-+SRC_URI[sha256sum] = "dc82d042ecaca981a4852357c06e5235743319cf10a94cd36ad41b97883a0b54"
- 
- inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
- 
-@@ -96,7 +93,7 @@ EXTRA_OECMAKE = " \
- 
- # Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size of the
- # debug symbols (4.3GB to 700M at time of writing)
--DEBUG_FLAGS:append = "${@oe.utils.vartrue('DEBUG_BUILD', '', ' -g1', d)}"
-+DEBUG_LEVELFLAG = "-g1"
- 
- # Javascript JIT is not supported on ARC
- EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
--- 
-2.25.1
+Looks like the issue comes from the archiver.bbclass but you may be misled
+by that very fact.
+Can you try to build the kernel without the archiver?
 
+INHERIT:remove =3D "archiver"
+
+This just confirms if there are no more problems.
+If everything is fine, the problem is really with the archiver.bbclass.
+However, I use the archiver.bbclass daily with several bsp in my distro and
+I have no problems.
+
+Jose
+
+
+
+>
+>   # Run do_unpack and do_patch
+>   python do_unpack_and_patch() {
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+>
+>
+>
+>
+> And here's a small reproducer kernel bb.
+> I've tested this with cyclone5 machine.
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
+> KBRANCH ?=3D "v6.6/standard/base"
+>
+> require recipes-kernel/linux/linux-yocto.inc
+>
+> # CVE exclusions
+> include recipes-kernel/linux/cve-exclusion.inc
+> include recipes-kernel/linux/cve-exclusion_6.6.inc
+>
+> # board specific branches
+> SRCREV_machine ?=3D "561bbd55f91a8e94576ca3fbf35a0c99ff70d4b2"
+>
+> SRC_URI =3D "git://
+> git.yoctoproject.org/linux-yocto.git;name=3Dmachine;branch=3D${KBRANCH};p=
+rotocol=3Dhttps
+> <http://git.yoctoproject.org/linux-yocto.git;name=3Dmachine;branch=3D$%7B=
+KBRANCH%7D;protocol=3Dhttps>
+> "
+>
+> LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedcd7e=
+46"
+> LINUX_VERSION ?=3D "6.6.52"
+>
+> PV =3D "${LINUX_VERSION}+git"
+>
+> KCONF_BSP_AUDIT_LEVEL =3D "1"
+>
+> COMPATIBLE_MACHINE =3D "^(qemux86-64|cyclone5)$"
+>
+> # Functionality flags
+> KERNEL_FEATURES:append =3D " ${KERNEL_EXTRA_FEATURES}"
+>
+> KERNEL_PACKAGE_NAME          =3D "kernel-tst"
+>
+> KBUILD_DEFCONFIG:qemux86-64  =3D "x86_64_defconfig"
+> KCONFIG_MODE:qemux86-64      =3D "--alldefconfig"
+>
+> KBUILD_DEFCONFIG:cyclone5    =3D "socfpga_defconfig"
+> KCONFIG_MODE:cyclone5        =3D "--alldefconfig"
+>
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>
+>
+> The key trigger here I think is:
+> - PREFERRED_PROVIDER_virtual/kernel is not equal to the kernel package.
+> - KERNEL_PACKAGE_NAME is not equal to kernel
+>
+> And therefore the source doesn't end up in work-shared.
+> But something somewhere expects the kernel-source folder to be in
+> work-shared
+> and ends up deleting the kernel-source folder
+>
+> After do_patch the kernel-source still contains the source files.
+> The git checkout folder has gone by this step.
+>
+> Then during do_unpack_and_patch the kernel-source folder is cleaned of al=
+l
+> files.
+> They've been moved to archiver-work/git
+>
+> And after that kernel-source is empty.
+>
+>
+> So is the method we're using to build the kernel still supported?
+> Or are we doing something wrong...
+>
+>
+>
+> --
+> Regards
+> Phil Reid
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#205001):
+> https://lists.openembedded.org/g/openembedded-core/message/205001
+> Mute This Topic: https://lists.openembedded.org/mt/108679274/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--=20
+Best regards,
+
+Jos=C3=A9 Quaresma
+
+--0000000000009743c0062315f70b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Phil Reid via <a href=3D"http://lists=
+.openembedded.org">lists.openembedded.org</a> &lt;preid=3D<a href=3D"mailto=
+:electromag.com.au@lists.openembedded.org">electromag.com.au@lists.openembe=
+dded.org</a>&gt; escreveu (sexta, 27/09/2024 =C3=A0(s) 01:59):<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">G&#39;day All,<br>
+<br>
+<br>
+Just started migrating our layer to scarthgap and ran into an issue buildin=
+g the kernel.<br>
+We maintian a local git repo with a custom branch with all our patches and =
+build from that.<br>
+So no KMETA layer. In addition we&#39;re building a couple of kernels and p=
+ackaging them into the image.<br>
+We&#39;re using linux-dummy kernel for the image and then building the kern=
+el using bitbake.<br>
+Possibly the problem is we&#39;re doing something the wrong(tm) way.<br>
+<br>
+<br>
+Anyway after migrating we get the following when building a kernel.<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D<br>
+NOTE: Executing Tasks<br>
+ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: A KBUILD_DEFCONFIG &#39;=
+socfpga_defconfig&#39; was specified, but not present in the source tree (/=
+home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux-ts=
+t/6.6.52+git/kernel-source/arch/arm/configs/)<br>
+ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: ExecutionError(&#39;/hom=
+e/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux-tst/6=
+.6.52+git/temp/run.do_kernel_configme.8888&#39;, 1, None, None)<br>
+ERROR: Logfile of failure stored in: /home/preid/dev/v2024.09/tmp-glibc/wor=
+k/cyclone5-emit-linux-gnueabi/linux-tst/6.6.52+git/temp/log.do_kernel_confi=
+gme.8888<br>
+ERROR: Task (/home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/l=
+inux-tst_6.6.bb:do_kernel_configme) failed with exit code &#39;1&#39;<br>
+NOTE: Tasks Summary: Attempted 989 tasks of which 973 didn&#39;t need to be=
+ rerun and 1 failed.<br>
+NOTE: Writing buildhistory<br>
+NOTE: Writing buildhistory took: 1 seconds<br>
+<br>
+Summary: 1 task failed:<br>
+=C2=A0 =C2=A0/home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/l=
+inux-tst_6.6.bb:do_kernel_configme<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+<br>
+I&#39;ve managed to trace the change in behaviour to a change in archiver.b=
+bclass.<br>
+Reverting the change to is_work_shared and everything is happy.<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D<br>
+diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass<=
+br>
+index 9d286224d6..9bac870449 100644<br>
+--- a/meta/classes/archiver.bbclass<br>
++++ b/meta/classes/archiver.bbclass<br>
+@@ -472,9 +472,10 @@ def create_diff_gz(d, src_orig, src, ar_outdir):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 os.chdir(cwd)<br>
+<br>
+=C2=A0 def is_work_shared(d):<br>
+-=C2=A0 =C2=A0 sharedworkdir =3D os.path.join(d.getVar(&#39;TMPDIR&#39;), &=
+#39;work-shared&#39;)<br>
+-=C2=A0 =C2=A0 sourcedir =3D os.path.realpath(d.getVar(&#39;S&#39;))<br>
+-=C2=A0 =C2=A0 return sourcedir.startswith(sharedworkdir)<br>
++=C2=A0 =C2=A0 pn =3D d.getVar(&#39;PN&#39;)<br>
++=C2=A0 =C2=A0 return pn.startswith(&#39;gcc-source&#39;) or \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bb.data.inherits_class(&#39;kernel&#39;, d) or=
+ \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 (bb.data.inherits_class(&#39;kernelsrc&#39;, d=
+) and d.expand(&quot;${TMPDIR}/work-shared&quot;) in d.getVar(&#39;S&#39;))=
+<br></blockquote><div><br></div><div>Looks like the issue comes from the ar=
+chiver.bbclass=C2=A0but you may be misled by that very fact.</div><div>Can =
+you try to build the kernel without=C2=A0the archiver?<br><br>INHERIT:remov=
+e =3D &quot;archiver&quot;<br><br>This just confirms=C2=A0if there are no m=
+ore problems.</div><div>If everything is fine, the problem is really with t=
+he archiver.bbclass.</div><div>However, I use the archiver.bbclass daily wi=
+th several bsp in my distro and I have no problems.<br><br>Jose</div><div><=
+br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin=
+:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"=
+>
+<br>
+=C2=A0 # Run do_unpack and do_patch<br>
+=C2=A0 python do_unpack_and_patch() {<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D<br>
+<br>
+<br>
+<br>
+<br>
+And here&#39;s a small reproducer kernel bb.<br>
+I&#39;ve tested this with cyclone5 machine.<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D<br>
+KBRANCH ?=3D &quot;v6.6/standard/base&quot;<br>
+<br>
+require recipes-kernel/linux/linux-yocto.inc<br>
+<br>
+# CVE exclusions<br>
+include recipes-kernel/linux/cve-exclusion.inc<br>
+include recipes-kernel/linux/cve-exclusion_6.6.inc<br>
+<br>
+# board specific branches<br>
+SRCREV_machine ?=3D &quot;561bbd55f91a8e94576ca3fbf35a0c99ff70d4b2&quot;<br=
+>
+<br>
+SRC_URI =3D &quot;git://<a href=3D"http://git.yoctoproject.org/linux-yocto.=
+git;name=3Dmachine;branch=3D$%7BKBRANCH%7D;protocol=3Dhttps" rel=3D"norefer=
+rer" target=3D"_blank">git.yoctoproject.org/linux-yocto.git;name=3Dmachine;=
+branch=3D${KBRANCH};protocol=3Dhttps</a>&quot;<br>
+<br>
+LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D6bc538ed5bd9a7fc9398086aedc=
+d7e46&quot;<br>
+LINUX_VERSION ?=3D &quot;6.6.52&quot;<br>
+<br>
+PV =3D &quot;${LINUX_VERSION}+git&quot;<br>
+<br>
+KCONF_BSP_AUDIT_LEVEL =3D &quot;1&quot;<br>
+<br>
+COMPATIBLE_MACHINE =3D &quot;^(qemux86-64|cyclone5)$&quot;<br>
+<br>
+# Functionality flags<br>
+KERNEL_FEATURES:append =3D &quot; ${KERNEL_EXTRA_FEATURES}&quot;<br>
+<br>
+KERNEL_PACKAGE_NAME=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;kernel-tst&=
+quot;<br>
+<br>
+KBUILD_DEFCONFIG:qemux86-64=C2=A0 =3D &quot;x86_64_defconfig&quot;<br>
+KCONFIG_MODE:qemux86-64=C2=A0 =C2=A0 =C2=A0 =3D &quot;--alldefconfig&quot;<=
+br>
+<br>
+KBUILD_DEFCONFIG:cyclone5=C2=A0 =C2=A0 =3D &quot;socfpga_defconfig&quot;<br=
+>
+KCONFIG_MODE:cyclone5=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;--alldefconfig&q=
+uot;<br>
+<br>
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+<br>
+<br>
+<br>
+The key trigger here I think is:<br>
+- PREFERRED_PROVIDER_virtual/kernel is not equal to the kernel package.<br>
+- KERNEL_PACKAGE_NAME is not equal to kernel<br>
+<br>
+And therefore the source doesn&#39;t end up in work-shared.<br>
+But something somewhere expects the kernel-source folder to be in work-shar=
+ed<br>
+and ends up deleting the kernel-source folder<br>
+<br>
+After do_patch the kernel-source still contains the source files.<br>
+The git checkout folder has gone by this step.<br>
+<br>
+Then during do_unpack_and_patch the kernel-source folder is cleaned of all =
+files.<br>
+They&#39;ve been moved to archiver-work/git<br>
+<br>
+And after that kernel-source is empty.<br>
+<br>
+<br>
+So is the method we&#39;re using to build the kernel still supported?<br>
+Or are we doing something wrong...<br>
+<br>
+<br>
+<br>
+-- <br>
+Regards<br>
+Phil Reid<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#205001): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/205001" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/205001</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/108679274/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/108679274/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
+
+--0000000000009743c0062315f70b--
 
