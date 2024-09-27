@@ -2,84 +2,129 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F879CDD1A5
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 12:56:24 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.web11.68334.1727441781386081435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 796F7CDD1AD
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 13:12:24 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.web11.68752.1727442743749870765
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Sep 2024 05:56:21 -0700
+ Fri, 27 Sep 2024 06:12:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GedZiMvy;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.173, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-6e23aa29408so14909467b3.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 05:56:21 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yKd3ddCQ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.128.169, mailfrom: steve@sakoman.com)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6e20a8141c7so21649607b3.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 06:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727441780; x=1728046580; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727442743; x=1728047543; darn=lists.openembedded.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FOxM7H2jTuhDiGnniiyfzYyf5WLi9zrTXpSLaO9iE6U=;
-        b=GedZiMvyeDM9c/i03qBZ89NMyYNyLqVAPURpizKISXw7GtH82TZykIM7MV5EO1Gj4l
-         oCFgwNZrEsSEMvSoVEKIT4k1KYLvnjJ+2KKBTlxK/DvFZpPjXOyhPd9qgBljl2hHe/Vz
-         YcbkRvG4DsQk3mB2oz0Jj5SHnA/VehPJnzcT/MoF6B4Rztkvf8T+eIQ47IE/TJVwFdN0
-         i3RQiadJ9FXiBqRH7YrK/rJeMUJOqV16ieKDZiTI1CxGGoV5YzgcDIPukZoedJYHHoJg
-         jph0UDpwY/omob+H1ManqIG8qAujAccNmSr4WZPLUM1PSflbKAYmLSpXrbkro+DzVGQl
-         teVQ==
+        bh=cgV3pLLQjSJP4HaB2MqnU7tYZ+0LpKvr97uJeCLPBNI=;
+        b=yKd3ddCQfMkmsCyQrHytlequzNwTMt/1aXHe5vG8n/uEEKyb/9OswR2T3YTzChRBB1
+         qRlg6/PFcqzrfNwH5Iz5OkmiF9R52wXtwr5/bokMlWAB0rsiomuei+96iT+GkbnotTnb
+         5oLiMpMbqFRQFPSPFerdE2sFcxLm2JfWcgjs888gupJbbHWhauKlA9C97xop2BGTcOq2
+         tvCOqLNqnZCkDTFB9KDLkZLm402Aexp07w+sHJBiODiKu1lAg1ukXuVOr6lhy+xKis7T
+         atXNQIPT+2g9AYHjumw+ZQE3lBjurMGrTk2zfHoSM2JBd6ghgB8z7qrNFyRdFa7qrYcK
+         iFKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727441780; x=1728046580;
+        d=1e100.net; s=20230601; t=1727442743; x=1728047543;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FOxM7H2jTuhDiGnniiyfzYyf5WLi9zrTXpSLaO9iE6U=;
-        b=i7tthfe3EgmM4+KeZe/NGH4kZ8gj6At2wAJFAs7UDf37yqTyv/fV9/pnwRwTM/sl9g
-         P+Q2RVqmKvQARIYeF8Cs64F7QwNaXSRy/znrZTsXDVCpBcai3ePwJepjz7T9T20x9YMh
-         j7zfzYfBD+0ujhUEOE7F7BxATftB5GoCE1FvyVgts61HR2tOaLp+IqzPTSDBJZiHO66/
-         tvX/k4iV2WZ+5fFarCplbljNi7mXAECOPa4Tw41D5mPfkDATnniS70YnGGWirb11gMwE
-         fLbe1NcBXdo7dlGHxZfUBvEpHUF7PhEgvVePT3jY0UC01smK6CCuELvlfWCN0gsXCLzw
-         07lQ==
-X-Gm-Message-State: AOJu0Yyy2h4SBbe05Qj8e+KbB1k9+AEJUGw0yrxeQC2V9Us0Upp1shaE
-	pE9Xok6J70mx7B9NGwcIv0T8W9pZQIKx0rCy19haMUPMlSnrr5OxFHzFKubRx7hyPMh0Ry7yUtx
-	/SUfsx8Z88+6ZYF8hOwG/zC4Q/kbZ2BKxSDX3D0GWwJIKPMQU
-X-Google-Smtp-Source: AGHT+IEaY5SrLyCCfCte8XcmwSb07Cdy1aGoLiw2HfP8+fXfr0jA5QTFU9Lb2mtYuWuDX+hKvmChYbTyDXlo2EuHDgY=
-X-Received: by 2002:a05:690c:7203:b0:664:74cd:5548 with SMTP id
- 00721157ae682-6e22ed804ddmr49870407b3.1.1727441780565; Fri, 27 Sep 2024
- 05:56:20 -0700 (PDT)
+        bh=cgV3pLLQjSJP4HaB2MqnU7tYZ+0LpKvr97uJeCLPBNI=;
+        b=nICZC04hBeKneLoB2H7/XH46itYAyuXHZUPIJY1E8pBoJzBa8pUnFSpXT3zGyjX5nI
+         jKs4yrgBwuZc/l9o3XvXTXlo8tnQ6+aOHPtpMKipd+fkGJi0D/Rb7ZhPh3OBNfYNNXJl
+         XBwwPKXCDVCRngZWM0YasFiWBIH1Enu6LfsQmi90tedQRZzrcN4D3/UPHyap9mCqQDCL
+         HkifhPi1kae3HmfwBdOCKi+d0XMuK3i2kDnVPUGamYimO9ESvOXNR96QaJYKDQaq5nxM
+         U2WTDkvpPEXZflPatVnT0i/0ULSVN6KePaPSxAd0TtPlcuWV60+Lfxf2TpfOx0PIW5cx
+         r55w==
+X-Gm-Message-State: AOJu0YxFpbF5IYVz2rD63OTBNGTF9bZLUAAJT7EVK4lcqhxwFsaww4k1
+	cHZQ6DB/1e2SbjKzuBOmTYJLb0F8Y2fUxEOQ9Twgur8JdiBs59i507TkED3wn1f0s8IGrvF4Awv
+	8AhJlLM5eCksBSoTAPnp2rPCAkeeb0Fv/fk7eng==
+X-Google-Smtp-Source: AGHT+IGoS6cEk358nFbFAHXVjqwOOvcuO9s2zoRpjvD4bHKNS8lQkIrOsO3fNvAMZKLfOmHJDLXfQdifB5D+EJD1Uqw=
+X-Received: by 2002:a05:690c:3188:b0:6e2:83b:94ed with SMTP id
+ 00721157ae682-6e2475722admr19422517b3.15.1727442742933; Fri, 27 Sep 2024
+ 06:12:22 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAMKF1sp+X4DJ1WRoBMiCf2OCA8dGqDmf6-Vh1VfYsemTOdfM8w@mail.gmail.com>
- <29158.1727328870312994691@lists.openembedded.org>
-In-Reply-To: <29158.1727328870312994691@lists.openembedded.org>
+References: <20240924064159.54094-1-nikhilr5@kpit.com>
+In-Reply-To: <20240924064159.54094-1-nikhilr5@kpit.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Fri, 27 Sep 2024 05:56:09 -0700
-Message-ID: <CAOSpxdYM8XVLTVWg6jkZrGPmPG1MVfQMH17aASKgHOK+6zLGgQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] glibc: stable 2.35 branch updates
-To: Deepthi.Hemraj@windriver.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Fri, 27 Sep 2024 06:12:12 -0700
+Message-ID: <CAOSpxdbDo_KnWr+E9cY_d3GZ9Rqgo-HoCv69F7Ks_7sv3-CCxA@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH] ffmpeg: Ignore CVE-2023-46407
+To: nikhil.r@kpit.com
+Cc: openembedded-core@lists.openembedded.org, nikhilr5@kpit.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 12:56:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205020
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 13:12:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205021
 
-On Wed, Sep 25, 2024 at 10:34=E2=80=AFPM Hemraj, Deepthi via
-lists.openembedded.org
-<Deepthi.Hemraj=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> The test case nptl/tst-thread-affinity-sched is an additional failure and=
- represents a regression
+Since this is an error in the CVE database you should send an email to
+cpe_dictionary@nist.gov requesting that they correct the error.
+Please provide supporting information in the request.
 
-I will add this to my test queue, but we should deal with the
-regression before I can merge this.
+This is our preferred solution.
+
+Thanks!
 
 Steve
 
+On Mon, Sep 23, 2024 at 11:42=E2=80=AFPM Nikhil via lists.openembedded.org
+<nikhil.r=3Dkpit.com@lists.openembedded.org> wrote:
+>
+> From: Nikhil R <nikhil.r@kpit.com>
+>
+> Ignore CVE-2023-46407 as Vulnerable code
+> introduced later than 5.0.1 version
+>
+> Introduced by:
+> https://github.com/FFmpeg/FFmpeg/commit/f7ac3512f5b5cb8eb149f37300b43461d=
+8e93af3
+>
+> Debian link: https://security-tracker.debian.org/tracker/CVE-2023-46407
+>
+> Signed-off-by: Nikhil R <nikhil.r@kpit.com>
+> ---
+>  meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipe=
+s-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+> index 1295d5cdf1..c0121edc7d 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+> @@ -39,6 +39,10 @@ SRC_URI[sha256sum] =3D "ef2efae259ce80a240de48ec85ecb0=
+62cecca26e4352ffb3fda562c21a
+>  # https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2023-39018
+>  CVE_CHECK_IGNORE +=3D "CVE-2023-39018"
+>
+> +# CVE-2023-46407 was introduced in 6.1 version of ffmpeg
+> +# Vulnerable code introduced later than 5.0.1 Version
+> +CVE_CHECK_IGNORE +=3D "CVE-2023-46407"
+> +
+>  # Build fails when thumb is enabled: https://bugzilla.yoctoproject.org/s=
+how_bug.cgi?id=3D7717
+>  ARM_INSTRUCTION_SET:armv4 =3D "arm"
+>  ARM_INSTRUCTION_SET:armv5 =3D "arm"
+> --
+> 2.25.1
+>
+> This message contains information that may be privileged or confidential =
+and is the property of the KPIT Technologies Ltd. It is intended only for t=
+he person to whom it is addressed. If you are not the intended recipient, y=
+ou are not authorized to read, print, retain copy, disseminate, distribute,=
+ or use this message or any part thereof. If you receive this message in er=
+ror, please notify the sender immediately and delete all copies of this mes=
+sage. KPIT Technologies Ltd. does not accept any liability for virus infect=
+ed mails.
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#204968): https://lists.openembedded.org/g/openembedde=
-d-core/message/204968
-> Mute This Topic: https://lists.openembedded.org/mt/108647219/3620601
+> View/Reply Online (#204835): https://lists.openembedded.org/g/openembedde=
+d-core/message/204835
+> Mute This Topic: https://lists.openembedded.org/mt/108624121/3620601
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
 eve@sakoman.com]
