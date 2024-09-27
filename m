@@ -1,99 +1,99 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8149CCDD1CE
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 16:08:35 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.73084.1727453314266239838
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51A5CCDD1D3
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 18:26:46 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web11.76148.1727461597702000607
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Sep 2024 09:08:34 -0700
+ Fri, 27 Sep 2024 11:26:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TtHJ8O9+;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xJ0uHjII;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010192343db991-fcdc83d8-8161-4796-841c-a4b197b3be14-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1727453313; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=rNqdLQJRDQBtCHya0fVZovIt1ncWlehwKne2We34cGM=;
-	b=TtHJ8O9+y8FEU/gFALj9YV63r5qlMAyNNa7/yL3o8fh6HjRuqAB6ZjtRGS/MfXXX
-	6y2HHqIsSnb2LewkZ62UBNcPOE4pPyGjFvcTrMeZ1tgc+nR8NnW87PFIeefwICs+LEO
-	Jf8A3fvq7yFXTteg2QQHNtpai2TJ2/jSatH5Jung=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1727453313;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=rNqdLQJRDQBtCHya0fVZovIt1ncWlehwKne2We34cGM=;
-	b=xJ0uHjIIp4rQQ+so410hGFVBw71qv4iudYR0+DxWwMys1tmR6lhM7FRfht7p68YP
-	VF1iCLwgBv0Iu/oVXAbvxEOW+L5iwEZt1BbV9HAyY+qiFgAdhKCzmoURcQkatARe1Ec
-	eqb8cvGQ0finW5G9b10RY7/j9SHn1N5DiCk6OQNc=
-From: patchtest@automation.yoctoproject.org
-To: Joshua Watt <jpewhacker@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH 4/4] Add script to make SPDX bindings
-In-Reply-To: <20240927155247.1012846-5-JPEWhacker@gmail.com>
-References: <20240927155247.1012846-5-JPEWhacker@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010192343db991-fcdc83d8-8161-4796-841c-a4b197b3be14-000000@us-west-2.amazonses.com>
-Date: Fri, 27 Sep 2024 16:08:33 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.09.27-54.240.27.30
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=V5L+n+Jw;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fabe5c8c26so4896671fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 11:26:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727461595; x=1728066395; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DoC9uWg1RHbDr8uVd+8K/KG0t1T5oPx0A1LJvtB8LR8=;
+        b=V5L+n+JwOgZ7GUKXeLJ6gqBsmzsMwLdhuIMu1XQQ138U/EfQcBacbrxS0n7L6jJhPY
+         mczWgHRbJ4ElwKMMXYFfpHu1C5uqcQF9gK7vZ24gbpMVHwO8AbYiJAsqDOCgFM42e2YX
+         YRL+8I8rVaNBJxdvdlpCeab5LRDUJph/Vku0ZnWy+1RkPap4aAJHebCf7BlGjgtF17tL
+         t/LJbL98nPFnk20auc6ZKXS3AS2P9Y26iZ/5v8K05S86g9kYx3js268YK1c1TtcVwvAv
+         68NyceTx1vNqIiudi2zLvgs1XKERD8UiteLWk+h4uNgJYwuwNwKXjlXMz4JlZMRxAGev
+         l7qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727461595; x=1728066395;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DoC9uWg1RHbDr8uVd+8K/KG0t1T5oPx0A1LJvtB8LR8=;
+        b=DAZ/OpAEjVHfiPbC0xVwpYYScNd1qhm4VlYMTsHTGcDhk0euGVdZz/bguTL6t3mUmx
+         PMzqqKVJp+GTCd1GGUGvN4z0Ldme9HdxNLLdokMZuntgM0M4VinUXDavCAVnLR77sjPV
+         asa6xC2V8KuRj0qKmkyMIPNUNqNQJZxDOWd+OnQkwStyS7L/R/7N2onlJb4kHvsX2coz
+         mTcM5Pq1foZVbMVHV/fBekpKVDhTyOl0sRDoxdCNY5FZDd2pvtUirw/32NWAL3DBU1ng
+         MFbw4pgni/wzmViQ+3TMEXbm0yrpVQKnmdHX53dcyDXXgj/tN/PGpYddrIbEFRuvsdmt
+         qslA==
+X-Gm-Message-State: AOJu0YwAmLDJ4butAuKNC/Gxa31Z3htAep2JBXo0/HHn2mt7A08cxO8v
+	khHi4BelJsCbCkNaCUOhBrvSihtUSpzwWTS77IPrd0K+cx+PnCeeC3SCke22RwHRrj3Vqyyz0wR
+	6u1L8KIYDD/j0m8mwXD8MXBqZVWw=
+X-Google-Smtp-Source: AGHT+IEkKTn8Qm6x43F/8mqV4fHkA0aLYE2ivXucA/38mfV51rZXwkyIDXEbHjkB+T6kC38/tk1xctaWwRD9Fg+Mc0Y=
+X-Received: by 2002:a05:6512:eaa:b0:52f:cffd:39f9 with SMTP id
+ 2adb3069b0e04-5389fc43e5cmr3183259e87.24.1727461595058; Fri, 27 Sep 2024
+ 11:26:35 -0700 (PDT)
+MIME-Version: 1.0
+References: <20240927155247.1012846-1-JPEWhacker@gmail.com>
+ <20240927155247.1012846-4-JPEWhacker@gmail.com> <979D8C4D-0437-49EB-A5EA-8FAD50B65488@arm.com>
+In-Reply-To: <979D8C4D-0437-49EB-A5EA-8FAD50B65488@arm.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Fri, 27 Sep 2024 12:26:22 -0600
+Message-ID: <CAJdd5Ga+_PO_TTy1ZC_JihaOZ5Ui21_hJ3d25=ai202s1YdDzQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 3/4] create-spdx-3.0: Upgrade to SPDX 3.0.1
+To: ross.burton@arm.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 16:08:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205038
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 18:26:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205039
 
---NextPart
-Content-Type: text/plain
+On Fri, Sep 27, 2024 at 10:02=E2=80=AFAM Ross Burton via
+lists.openembedded.org <ross.burton=3Darm.com@lists.openembedded.org>
+wrote:
+>
+> On 27 Sep 2024, at 16:51, Joshua Watt via lists.openembedded.org <JPEWhac=
+ker=3Dgmail.com@lists.openembedded.org> wrote:
+> >
+> > Upgrades the SPDX 3.0 implementation from 3.0.0 -> 3.0.1. This version
+> > introduced some breaking changes. Effectively, 3.0.0 was a pre-release
+> > version that we do not need to support any longer.
+>
+> This sounds=E2=80=A6 important.
+>
+> Should we ram this into styhead for the 5.1 release? Would upgrading to 3=
+.0.1 in a styhead point release be reasonable if not? Or should this stay i=
+n master and not touch styhead?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Per discussion with Richard, we don't want to hold up the release for
+this, but it will need to be backported to styhead. I don't have a
+preference if that is before or after the release
 
----
-Testing patch /home/patchtest/share/mboxes/4-4-Add-script-to-make-SPDX-bindings.patch
-
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-SKIP: test target mailing list: Series merged, no reason to check other mailing lists (test_mbox.TestMbox.test_target_mailing_list)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+>
+> Cheers,
+> Ross
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#205035): https://lists.openembedded.org/g/openembedde=
+d-core/message/205035
+> Mute This Topic: https://lists.openembedded.org/mt/108688994/3616693
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [JP=
+EWhacker@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
