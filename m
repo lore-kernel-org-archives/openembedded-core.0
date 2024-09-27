@@ -2,57 +2,57 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 51675CDD1C3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5268BCDD1C2
 	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 15:53:05 +0000 (UTC)
-Received: from mail-oo1-f50.google.com (mail-oo1-f50.google.com [209.85.161.50])
- by mx.groups.io with SMTP id smtpd.web11.72634.1727452380094099629
+Received: from mail-oa1-f50.google.com (mail-oa1-f50.google.com [209.85.160.50])
+ by mx.groups.io with SMTP id smtpd.web11.72632.1727452377058655007
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Sep 2024 08:53:00 -0700
+ Fri, 27 Sep 2024 08:52:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ik6TS4JS;
- spf=pass (domain: gmail.com, ip: 209.85.161.50, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f50.google.com with SMTP id 006d021491bc7-5e1c49f9b9aso961402eaf.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 08:53:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C8AAuUKi;
+ spf=pass (domain: gmail.com, ip: 209.85.160.50, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f50.google.com with SMTP id 586e51a60fabf-2689e7a941fso1253268fac.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 08:52:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727452378; x=1728057178; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1727452376; x=1728057176; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=6SC3IBKw2/HElcbd3h80mLrnWXCPS+iRd0gpYsjLw6Y=;
-        b=ik6TS4JSxlR7+CD2ymZjLzYveyMrp+v0gYQxV7wE83bRb9xZOcaoqmnd+WxvxXf9Dn
-         33GdBHX8L0xDzZ06xwEFPHDQbuJu9MMlHkq8GAcz99uWIAHueBSBKFxoAniI72Kj2bhm
-         tdMtdcdTiTAJMjCtznBPNF8vuT+M80oOjglnj3Gbgh9qcJGrUQGl51giNmDv18IwpoTi
-         lipQbs5ZGLkbLw/+IJrr8gZvUudvUt7VWITc6MzJSvT7YlJZXPffJvTsyFbY6mK7qjFp
-         VeJ2QAZUcbML4xOLhgTHSHdn4J0zjiY/irCtyoaZXmmU9DD/+i/8VGSGv2r7v8v/U5yA
-         H3rw==
+        bh=7EUHNiEsnq0FRcyo4xGIj4wCxrU5oWuKetqwJTf1wEs=;
+        b=C8AAuUKixGTzwAoR/TDWPBrvjI590NUMc52qPblt+rF9XSn87GTCjHwKdlGcrFT1Pr
+         1tVdQMDFaWVnS4eqwDY6ftjWfzqYvSYSxdjog0nGPKgtQHZBe2VgQuHF3FRHjm/poDQ4
+         fYRYvc8V62E6Th0KgNOrhvNBQG8Sb8t0dLoYy9qBNuLRRErccqqTx6maEjmPUYAiB3n4
+         ZfVoI1P46H+4Jgt2LgNi53vlIjxODD2aJNdhjF4Nn8m9FgOxXl8uj7PzHJ5w7S9Z3Mvu
+         mKgPszq3H4NK6ecZ/95WY6Xf/Rcnq7pCZMzL0ftbEfnvjSLndTWpvLfglp2EuFrZPAfZ
+         aCjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727452378; x=1728057178;
+        d=1e100.net; s=20230601; t=1727452376; x=1728057176;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=6SC3IBKw2/HElcbd3h80mLrnWXCPS+iRd0gpYsjLw6Y=;
-        b=nl6WdkJUZDsHleF3CPFkgDXecA5ahmwHOgVq9xRAkd1S58GOF0wGJ3F8GeeMfUTqk5
-         F2MCBNbi5I/MBzxzqHJP79Stmh82Eis+rxALTz9P6j1Al4oTldDOblJNDzd/shxjscGA
-         M3oYbuTiB50kZhHbmld3nzZoTsHSrPYMd33zssL80Eey+I07V6BMHyNYdMbB041kxVXv
-         6uAEnhqlUsvr2PXX/XRJ2ZY/6ryYM4IhW+RpEcXoNtYxzh/ltxtkEqSVV05gq1VQvbA/
-         bfTd2KWxsyBCeoUUdID17YK5TmjmOCLlTxMYQvZ7QWWDg0gj1HDAFmvABEcaVmZuwM46
-         l5Cg==
-X-Gm-Message-State: AOJu0YzapeEQYtLQaZJZ1+fAyWOOGeR9/i5vJ6Dap8pSPbcqHbN6kSNc
-	4JwoopULNC6S9V3do4FIezjdwnWmjIQw2z7GFfXmSRRc8qntzr/XEKUtMg==
-X-Google-Smtp-Source: AGHT+IEuo14aNAwpyiT9HaiVHkjVDmM1D9oNq/hNYuslPp/JFrPvkBcE5MpEvfEdrYjwca824zILSg==
-X-Received: by 2002:a05:6870:9123:b0:260:eb3a:1b2 with SMTP id 586e51a60fabf-287109f601fmr3071981fac.7.1727452378693;
-        Fri, 27 Sep 2024 08:52:58 -0700 (PDT)
+        bh=7EUHNiEsnq0FRcyo4xGIj4wCxrU5oWuKetqwJTf1wEs=;
+        b=fsEGZaCqd+aUkBalN/GPTOOr95KzeH/88liUc9TKOLdBz5vIxxE0pS1c8hjcnMTh7r
+         tbLMUyIgifVRQR/Bvj2m5bUZjWyxxsy/gb/PauWlNZBUPvRMdCuYVWTsfO0ycALbZ5qm
+         h0iQyiWPyj8QqsyeeQ5EQK3WoGxSQ19EvXSMPAagVY0l/0KqxsYpEtF2T+AUR4gYq1Ap
+         HCCucUpVUfYKEEioq9mA3JXwMvtviPam2tAcbR4zrTcTXJQZtn/X44e5e/XdMHrAtK8x
+         GMd1NtLCaKKA/YChgTNSZ2MIjlLFe/bb4HarJj+sto55LnlpSCvOqz9F6BPC2uenuUyv
+         mHcg==
+X-Gm-Message-State: AOJu0YyqLPaizLG/Cm2vfteMB1Wz3ukwZnu4zMkdAV6sRVU4EaDOw1Ra
+	MI/wIygj9jBPQZj5HVdlBXByptDfVZbwVNsYyAeAwJFyhb4J6O7wgOf2kA==
+X-Google-Smtp-Source: AGHT+IEYCFjRPHIPZ7krXbCsIx1TophEBb2srwx3fM8cCTpyKsol9oSPuZEqTHvmAbS4b9gcadXZ1Q==
+X-Received: by 2002:a05:6870:d3c7:b0:27c:52a1:f2fd with SMTP id 586e51a60fabf-28710bd282amr2941487fac.37.1727452375578;
+        Fri, 27 Sep 2024 08:52:55 -0700 (PDT)
 Received: from localhost.localdomain ([2601:282:4300:19e0::8a23])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2870f778f1bsm698589fac.1.2024.09.27.08.52.55
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2870f778f1bsm698589fac.1.2024.09.27.08.52.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Sep 2024 08:52:57 -0700 (PDT)
+        Fri, 27 Sep 2024 08:52:54 -0700 (PDT)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 2/4] spdx 3.0: Map gitsm URI to git
-Date: Fri, 27 Sep 2024 09:51:55 -0600
-Message-ID: <20240927155247.1012846-3-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH 1/4] spdx 3.0: Find local sources when searching for debug sources
+Date: Fri, 27 Sep 2024 09:51:54 -0600
+Message-ID: <20240927155247.1012846-2-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.46.0
 In-Reply-To: <20240927155247.1012846-1-JPEWhacker@gmail.com>
 References: <20240927155247.1012846-1-JPEWhacker@gmail.com>
@@ -62,120 +62,144 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 15:53:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205032
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205031
 
-"gitsm" is not a recognized URI protocol (outside of bitbake), so map it
-to "git" when writing. This should be OK since we report all of the
-submodule source code (if enabled), and it's still possible for 3rd
-party analyzers to determine that submodules are in use by looking at
-.gitmodules.
-
-The code to do the mapping is moved to a common location so it covers
-SPDX 2.2 also
-
-[YOCTO #15582]
+Include the local files when searching for matching debug sources
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/classes/create-spdx-2.2.bbclass | 11 +----------
- meta/lib/oe/spdx30_tasks.py          | 13 +++----------
- meta/lib/oe/spdx_common.py           | 20 +++++++++++++++++++-
- 3 files changed, 23 insertions(+), 21 deletions(-)
+ meta/lib/oe/spdx30_tasks.py | 59 ++++++++++++++++++++-----------------
+ 1 file changed, 32 insertions(+), 27 deletions(-)
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index 795ba1a8826..cd1d6819bf7 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -354,15 +354,6 @@ def add_download_packages(d, doc, recipe):
-             if f.type == "file":
-                 continue
- 
--            uri = f.type
--            proto = getattr(f, "proto", None)
--            if proto is not None:
--                uri = uri + "+" + proto
--            uri = uri + "://" + f.host + f.path
--
--            if f.method.supports_srcrev():
--                uri = uri + "@" + f.revisions[name]
--
-             if f.method.supports_checksum(f):
-                 for checksum_id in CHECKSUM_LIST:
-                     if checksum_id.upper() not in oe.spdx.SPDXPackage.ALLOWED_CHECKSUMS:
-@@ -377,7 +368,7 @@ def add_download_packages(d, doc, recipe):
-                     c.checksumValue = expected_checksum
-                     package.checksums.append(c)
- 
--            package.downloadLocation = uri
-+            package.downloadLocation = oe.spdx_common.fetch_data_to_uri(f, name)
-             doc.packages.append(package)
-             doc.add_relationship(doc, "DESCRIBES", package)
-             # In the future, we might be able to do more fancy dependencies,
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 70d1bc7e8ae..1ae13b4af82 100644
+index 6a2858c6654..70d1bc7e8ae 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -379,22 +379,15 @@ def add_download_files(d, objset):
-                     inputs.add(file)
+@@ -119,7 +119,9 @@ def add_license_expression(d, objset, license_expression, license_data):
+     )
+     spdx_license_expression = " ".join(convert(l) for l in lic_split)
  
-             else:
--                uri = fd.type
--                proto = getattr(fd, "proto", None)
--                if proto is not None:
--                    uri = uri + "+" + proto
--                uri = uri + "://" + fd.host + fd.path
+-    return objset.new_license_expression(spdx_license_expression, license_data, license_text_map)
++    return objset.new_license_expression(
++        spdx_license_expression, license_data, license_text_map
++    )
+ 
+ 
+ def add_package_files(
+@@ -202,6 +204,7 @@ def get_package_sources_from_debug(
+         return False
+ 
+     debug_search_paths = [
++        Path(d.getVar("SPDXWORK")),
+         Path(d.getVar("PKGD")),
+         Path(d.getVar("STAGING_DIR_TARGET")),
+         Path(d.getVar("STAGING_DIR_NATIVE")),
+@@ -286,8 +289,24 @@ def collect_dep_objsets(d, build):
+     return dep_objsets, dep_builds
+ 
+ 
+-def collect_dep_sources(dep_objsets):
+-    sources = {}
++def index_sources_by_hash(sources, dest):
++    for s in sources:
++        if not isinstance(s, oe.spdx30.software_File):
++            continue
++
++        if s.software_primaryPurpose != oe.spdx30.software_SoftwarePurpose.source:
++            continue
++
++        for v in s.verifiedUsing:
++            if v.algorithm == oe.spdx30.HashAlgorithm.sha256:
++                if not v.hashValue in dest:
++                    dest[v.hashValue] = s
++                break
++        else:
++            bb.fatal(f"No SHA256 found for {s.name}")
++
++
++def collect_dep_sources(dep_objsets, dest):
+     for objset in dep_objsets:
+         # Don't collect sources from native recipes as they
+         # match non-native sources also.
+@@ -307,26 +326,7 @@ def collect_dep_sources(dep_objsets):
+             if e.relationshipType != oe.spdx30.RelationshipType.hasInputs:
+                 continue
+ 
+-            for to in e.to:
+-                if not isinstance(to, oe.spdx30.software_File):
+-                    continue
 -
--                if fd.method.supports_srcrev():
--                    uri = uri + "@" + fd.revisions[name]
+-                if (
+-                    to.software_primaryPurpose
+-                    != oe.spdx30.software_SoftwarePurpose.source
+-                ):
+-                    continue
 -
-                 dl = objset.add(
-                     oe.spdx30.software_Package(
-                         _id=objset.new_spdxid("source", str(download_idx + 1)),
-                         creationInfo=objset.doc.creationInfo,
-                         name=file_name,
-                         software_primaryPurpose=primary_purpose,
--                        software_downloadLocation=uri,
-+                        software_downloadLocation=oe.spdx_common.fetch_data_to_uri(
-+                            fd, name
-+                        ),
-                     )
+-                for v in to.verifiedUsing:
+-                    if v.algorithm == oe.spdx30.HashAlgorithm.sha256:
+-                        sources[v.hashValue] = to
+-                        break
+-                else:
+-                    bb.fatal(
+-                        "No SHA256 found for %s in %s" % (to.name, objset.doc.name)
+-                    )
+-
+-    return sources
++            index_sources_by_hash(e.to, dest)
+ 
+ 
+ def add_download_files(d, objset):
+@@ -511,18 +511,21 @@ def create_spdx(d):
+     source_files = add_download_files(d, build_objset)
+     build_inputs |= source_files
+ 
+-    recipe_spdx_license = add_license_expression(d, build_objset, d.getVar("LICENSE"), license_data)
++    recipe_spdx_license = add_license_expression(
++        d, build_objset, d.getVar("LICENSE"), license_data
++    )
+     build_objset.new_relationship(
+         source_files,
+         oe.spdx30.RelationshipType.hasConcludedLicense,
+         [recipe_spdx_license],
+     )
+ 
++    dep_sources = {}
+     if oe.spdx_common.process_sources(d) and include_sources:
+         bb.debug(1, "Adding source files to SPDX")
+         oe.spdx_common.get_patched_src(d)
+ 
+-        build_inputs |= add_package_files(
++        files = add_package_files(
+             d,
+             build_objset,
+             spdx_workdir,
+@@ -535,6 +538,8 @@ def create_spdx(d):
+             ignore_top_level_dirs=["temp"],
+             archive=None,
+         )
++        build_inputs |= files
++        index_sources_by_hash(files, dep_sources)
+ 
+     dep_objsets, dep_builds = collect_dep_objsets(d, build)
+     if dep_builds:
+@@ -555,7 +560,7 @@ def create_spdx(d):
+     # TODO: Handle native recipe output
+     if not is_native:
+         bb.debug(1, "Collecting Dependency sources files")
+-        sources = collect_dep_sources(dep_objsets)
++        collect_dep_sources(dep_objsets, dep_sources)
+ 
+         bb.build.exec_func("read_subpackage_metadata", d)
+ 
+@@ -726,7 +731,7 @@ def create_spdx(d):
+ 
+             if include_sources:
+                 debug_sources = get_package_sources_from_debug(
+-                    d, package, package_files, sources, source_hash_cache
++                    d, package, package_files, dep_sources, source_hash_cache
                  )
- 
-diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-index dfe90f96cf9..1ea55419aeb 100644
---- a/meta/lib/oe/spdx_common.py
-+++ b/meta/lib/oe/spdx_common.py
-@@ -42,7 +42,6 @@ def is_work_shared_spdx(d):
- 
- 
- def load_spdx_license_data(d):
--
-     with open(d.getVar("SPDX_LICENSES"), "r") as f:
-         data = json.load(f)
-         # Transform the license array to a dictionary
-@@ -225,3 +224,22 @@ def get_patched_src(d):
-             bb.utils.mkdirhier(spdx_workdir)
-     finally:
-         d.setVar("WORKDIR", workdir)
-+
-+
-+def fetch_data_to_uri(fd, name):
-+    """
-+    Translates a bitbake FetchData to a string URI
-+    """
-+    uri = fd.type
-+    # Map gitsm to git, since gitsm:// is not a valid URI protocol
-+    if uri == "gitsm":
-+        uri = "git"
-+    proto = getattr(fd, "proto", None)
-+    if proto is not None:
-+        uri = uri + "+" + proto
-+    uri = uri + "://" + fd.host + fd.path
-+
-+    if fd.method.supports_srcrev():
-+        uri = uri + "@" + fd.revisions[name]
-+
-+    return uri
+                 debug_source_ids |= set(
+                     oe.sbom30.get_element_link_id(d) for d in debug_sources
 -- 
 2.46.0
 
