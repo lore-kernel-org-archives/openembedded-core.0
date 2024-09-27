@@ -1,154 +1,99 @@
-Return-Path: <preid@electromag.com.au>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE322CEBF66
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 00:59:10 +0000 (UTC)
-Received: from anchovy1.45ru.net.au (anchovy1.45ru.net.au [203.30.46.145])
- by mx.groups.io with SMTP id smtpd.web10.59164.1727398745155426250
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6EFFCEBF67
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 01:18:10 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web10.59423.1727399889610790097
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Sep 2024 17:59:06 -0700
+ Thu, 26 Sep 2024 18:18:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: electromag.com.au, ip: 203.30.46.145, mailfrom: preid@electromag.com.au)
-Received: (qmail 29135 invoked by uid 5089); 27 Sep 2024 00:59:03 -0000
-Received: by simscan 1.2.0 ppid: 28980, pid: 28981, t: 0.8229s
-         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950 spam: 3.1.4
-Received: from unknown (HELO ?10.1.1.111?) (preid@electromag.com.au@203.221.104.202)
-  by anchovy3.45ru.net.au with ESMTPA; 27 Sep 2024 00:59:01 -0000
-Message-ID: <918f936e-68b2-449d-9521-3507c25f0a8b@electromag.com.au>
-Date: Fri, 27 Sep 2024 08:59:05 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: openembedded-core@lists.openembedded.org
-Content-Language: en-AU
-From: Phil Reid <preid@electromag.com.au>
-Subject: scarthgap: kernel build failure
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=N771sz0f;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=dRVFq3vQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010192310e86e5-dead12fa-f954-445e-b2b1-dadf7efdb3b4-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1727399888; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=XXb61x/BzapgA2eQl9ZMwmoqrOB90rmP5CGefdgIZv4=;
+	b=N771sz0f2x7Z0egXVyFgw7DoYDSBLJlffj6F2/xWGr5q2ekeg1nZ40O1BJncK8GU
+	UvuS3La0LRbp2B7re4W1B/H4t3Ns1Mgj/dJbw943/5uzaptJZo+xmRDkk9gYBUtuEIf
+	LU+yeFFO+E91IByQ6WGRCXuYXNCGY2RLSWj7pDpg=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1727399888;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=XXb61x/BzapgA2eQl9ZMwmoqrOB90rmP5CGefdgIZv4=;
+	b=dRVFq3vQ7a2VLZaY1TPxfktYxsgC6IjMJoH/qP5vuAlrSwGYQ86vtlScu5T4XASa
+	hIJ33clZZFEsRft82RV52dSmTVzlkRhzZiePKYJKS1q4YM2ySy+wObvAf6xSW/mSKGF
+	VKfq0WxBNDpeuHsS6PV6yEnxNJzDX7A0Jxyagba4=
+From: patchtest@automation.yoctoproject.org
+To: Phil Reid <preid@electromag.com.au>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for scarthgap: kernel build failure
+In-Reply-To: <918f936e-68b2-449d-9521-3507c25f0a8b@electromag.com.au>
+References: <918f936e-68b2-449d-9521-3507c25f0a8b@electromag.com.au>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010192310e86e5-dead12fa-f954-445e-b2b1-dadf7efdb3b4-000000@us-west-2.amazonses.com>
+Date: Fri, 27 Sep 2024 01:18:08 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.09.27-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 00:59:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205001
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 01:18:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205002
 
-G'day All,
+--NextPart
+Content-Type: text/plain
 
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Just started migrating our layer to scarthgap and ran into an issue building the kernel.
-We maintian a local git repo with a custom branch with all our patches and build from that.
-So no KMETA layer. In addition we're building a couple of kernels and packaging them into the image.
-We're using linux-dummy kernel for the image and then building the kernel using bitbake.
-Possibly the problem is we're doing something the wrong(tm) way.
-  
+---
+Testing patch /home/patchtest/share/mboxes/scarthgap-kernel-build-failure.patch
 
-Anyway after migrating we get the following when building a kernel.
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
-================================
-NOTE: Executing Tasks
-ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: A KBUILD_DEFCONFIG 'socfpga_defconfig' was specified, but not present in the source tree (/home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux-tst/6.6.52+git/kernel-source/arch/arm/configs/)
-ERROR: linux-tst-6.6.52+git-r0 do_kernel_configme: ExecutionError('/home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux-tst/6.6.52+git/temp/run.do_kernel_configme.8888', 1, None, None)
-ERROR: Logfile of failure stored in: /home/preid/dev/v2024.09/tmp-glibc/work/cyclone5-emit-linux-gnueabi/linux-tst/6.6.52+git/temp/log.do_kernel_configme.8888
-ERROR: Task (/home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/linux-tst_6.6.bb:do_kernel_configme) failed with exit code '1'
-NOTE: Tasks Summary: Attempted 989 tasks of which 973 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
-Summary: 1 task failed:
-   /home/preid/dev/v2024.09/layers/meta-emit/recipes/emit-linux/linux-tst_6.6.bb:do_kernel_configme
-================================
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
+---
 
-I've managed to trace the change in behaviour to a change in archiver.bbclass.
-Reverting the change to is_work_shared and everything is happy.
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-================================
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 9d286224d6..9bac870449 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -472,9 +472,10 @@ def create_diff_gz(d, src_orig, src, ar_outdir):
-          os.chdir(cwd)
-  
-  def is_work_shared(d):
--    sharedworkdir = os.path.join(d.getVar('TMPDIR'), 'work-shared')
--    sourcedir = os.path.realpath(d.getVar('S'))
--    return sourcedir.startswith(sharedworkdir)
-+    pn = d.getVar('PN')
-+    return pn.startswith('gcc-source') or \
-+        bb.data.inherits_class('kernel', d) or \
-+        (bb.data.inherits_class('kernelsrc', d) and d.expand("${TMPDIR}/work-shared") in d.getVar('S'))
-  
-  # Run do_unpack and do_patch
-  python do_unpack_and_patch() {
-================================
+--NextPart
 
 
-
-
-And here's a small reproducer kernel bb.
-I've tested this with cyclone5 machine.
-
-================================
-KBRANCH ?= "v6.6/standard/base"
-
-require recipes-kernel/linux/linux-yocto.inc
-
-# CVE exclusions
-include recipes-kernel/linux/cve-exclusion.inc
-include recipes-kernel/linux/cve-exclusion_6.6.inc
-
-# board specific branches
-SRCREV_machine ?= "561bbd55f91a8e94576ca3fbf35a0c99ff70d4b2"
-
-SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH};protocol=https"
-
-LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
-LINUX_VERSION ?= "6.6.52"
-
-PV = "${LINUX_VERSION}+git"
-
-KCONF_BSP_AUDIT_LEVEL = "1"
-
-COMPATIBLE_MACHINE = "^(qemux86-64|cyclone5)$"
-
-# Functionality flags
-KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
-
-KERNEL_PACKAGE_NAME          = "kernel-tst"
-
-KBUILD_DEFCONFIG:qemux86-64  = "x86_64_defconfig"
-KCONFIG_MODE:qemux86-64      = "--alldefconfig"
-
-KBUILD_DEFCONFIG:cyclone5    = "socfpga_defconfig"
-KCONFIG_MODE:cyclone5        = "--alldefconfig"
-
-=========================
-
-
-The key trigger here I think is:
-- PREFERRED_PROVIDER_virtual/kernel is not equal to the kernel package.
-- KERNEL_PACKAGE_NAME is not equal to kernel
-
-And therefore the source doesn't end up in work-shared.
-But something somewhere expects the kernel-source folder to be in work-shared
-and ends up deleting the kernel-source folder
-
-After do_patch the kernel-source still contains the source files.
-The git checkout folder has gone by this step.
-
-Then during do_unpack_and_patch the kernel-source folder is cleaned of all files.
-They've been moved to archiver-work/git
-
-And after that kernel-source is empty.
-
-
-So is the method we're using to build the kernel still supported?
-Or are we doing something wrong...
-
-
-
--- 
-Regards
-Phil Reid
-  
+--NextPart--
 
