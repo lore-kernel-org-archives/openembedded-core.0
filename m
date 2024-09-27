@@ -1,252 +1,467 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37F6FCEBF6D
-	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 02:27:41 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
- by mx.groups.io with SMTP id smtpd.web11.60620.1727404050932650269
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95A20CEBF7B
+	for <webhook@archiver.kernel.org>; Fri, 27 Sep 2024 07:06:32 +0000 (UTC)
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web10.63554.1727420791037548937
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Sep 2024 19:27:31 -0700
+ Fri, 27 Sep 2024 00:06:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=B1nKifcn;
- spf=pass (domain: intel.com, ip: 198.175.65.10, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1727404052; x=1758940052;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=bfMlKUCqcnbVKjntAgQ44SM8c0/7PD1X/ZHoUebPNI8=;
-  b=B1nKifcnZeVQfmx6eM5LgKTVn2YbmNx/f8jes0YGIIR76ce0Jvv0wGtO
-   nWnagEUz+XKIOSzMq5oANOM2j9o3bU+bIHgrdf0+vSqRNiZUfyeQpSa7B
-   tGln4SlbHqFKft/rRk+/dUXn/t3YEGimK8hrFEuGG/aNFVByx7FsH5c+j
-   QbAIblSTU4WC6zXdygozViczYTZdISK6mmFc063L9VwGWowEI0h6gUwTt
-   fTOEsOLJpWHk7QQ38jJJtL6VfrB82V05/jdlYtVHWXpg8qTJoTzo4tsT3
-   dPhcL3X9TExmvHDoUu4PovePAFWXMVO0l/963mKueH3lfy7gJ3q8OdqPE
-   A==;
-X-CSE-ConnectionGUID: sQijewaVQWKynVSLlE1uRA==
-X-CSE-MsgGUID: CuK3vhCaTFiGuNxJD9EGOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11207"; a="44008016"
-X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="44008016"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2024 19:27:29 -0700
-X-CSE-ConnectionGUID: Zlq5iEpFS/SywiLyuMDscA==
-X-CSE-MsgGUID: brIa26nQRU2nS1zjoDrK7g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.11,157,1725346800"; 
-   d="scan'208";a="77322902"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa004.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Sep 2024 19:27:28 -0700
-Received: from orsmsx610.amr.corp.intel.com (10.22.229.23) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 26 Sep 2024 19:27:28 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- orsmsx610.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 26 Sep 2024 19:27:28 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 26 Sep 2024 19:27:27 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eybb4o+rY7sXBNHrtNUD6MKixg25ZOHuYrWLmjwNMiHQvVDdGwu5ZuWW+vFfCo6/wB2pN/N5puC4iasEj2MLzZXytVT6NyDeJV/OyD6XVM/2LxNSrKGzi/0JAWxEM58Zg1Wc7DC5lyEw6n93Y4zH+VlpdS6fj3wZ517VvjLLdWvoVOKjySfoTD4vQTlTvY80/uYgYDtVSk+i5cb5hMhoBBEjRalvMVaJ+1X64Yjs2lY4K5MwQtzwzl+Re41lZZWVPeC7cLtw5SLqtzOEqcc76CiG4wjaoS91nrq9k6dZ6UOMgl485NfkyEiiwr6VcLQiJH5k5+dpVJ4tvhiolNdWEg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zTrLAHrNNzTTMcU8/JWxcNTpB/BKamM1dNnYbJodkeQ=;
- b=E2WTSlRloJf4tOSPfQD35SFhaTtzZhA0ZLovCX2RQxt7Pa3QbXGzI0qKjiUkESJidHRy+bRArIeCSxVk7bKjTwuRCyv/HjJrFwuOuGbt7dVpoptaCuGeFnmAbDtuNcEQBkhrXR9gMVfsQqgr0dbFnjgSj4iPi2FDXSDTtRkO/mUKRBfsLwyLjCy5gbQFdzocHYT6HL4y04Ji6zLpnAvVWVEBc6KPZL6gIot4zTtBJ3g4MWyKuVP2kCAC/UZlo/Tt32U55/G7euOlGuAe7ItRQ8LGCiEpH2RN/b9L7vLn/HlzuMkZ/4QeL97RZVgwMn52B9up7Tsf+IyUsauhRdUGOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from IA1PR11MB7753.namprd11.prod.outlook.com (2603:10b6:208:421::19)
- by CH0PR11MB8144.namprd11.prod.outlook.com (2603:10b6:610:18d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.21; Fri, 27 Sep
- 2024 02:27:25 +0000
-Received: from IA1PR11MB7753.namprd11.prod.outlook.com
- ([fe80::82c8:53e:89e4:43e8]) by IA1PR11MB7753.namprd11.prod.outlook.com
- ([fe80::82c8:53e:89e4:43e8%6]) with mapi id 15.20.7982.022; Fri, 27 Sep 2024
- 02:27:25 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>,
-	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-5.0.4.rc3)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-5.0.4.rc3)
-Thread-Index: AQHbEGPIxLAcA7K9r06kbfAQ8OfHz7Jq5Iwg
-Date: Fri, 27 Sep 2024 02:27:25 +0000
-Message-ID: <IA1PR11MB7753429F7EFF7F802E2193EDA16B2@IA1PR11MB7753.namprd11.prod.outlook.com>
-References: <0101019230758073-d0f599c5-884b-48cd-bed3-7ed67d2ec5b0-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101019230758073-d0f599c5-884b-48cd-bed3-7ed67d2ec5b0-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA1PR11MB7753:EE_|CH0PR11MB8144:EE_
-x-ms-office365-filtering-correlation-id: 9a919cd0-2a23-4c3a-7cae-08dcde9becd4
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|1800799024|4022899009|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?UZtHMUWn9aYPMUv3DeNLqhwEc0fY/H/xzI/B6KyiTfhnVVQyyqQ2xwbQEv5B?=
- =?us-ascii?Q?ZC7RDwn7xGeP+iG43mgwkq1ADZE9W6elYRC1BziFiZ4SGcCUFhq6WksFp3SQ?=
- =?us-ascii?Q?orR9s+lGmqluLHnJc+/770hr0x/TNpR9S/nkuHLHF4HXv2bb2N6ChU7LdJP7?=
- =?us-ascii?Q?W6veOFdHTJ8B/oezoAV1K7qbLfuFw28Ox8shQ1CG3FMQ36RjgkuVBQJQATH/?=
- =?us-ascii?Q?uulu+z38S+cEYp8RpqaY6Z4NhBtDiNWpgC6BGkJGaLYc5LTDfEDttZYy1DxO?=
- =?us-ascii?Q?zulV/kZJigvKtgwDW/SwqxzklQWyuil0zqVL7nzA1i8tlawPvz13/nfa0oRd?=
- =?us-ascii?Q?z9LTy+EJ0yH+NtewlDTTynQ9FkEM+YqJ5gIotMd8qhGPUnZRDt34X2b5J0Sq?=
- =?us-ascii?Q?5X6KSPNpScUUDwMUrUG7tchaykpJQvfePbQbOBosVz6aLwuLjK7nAjQA1nfP?=
- =?us-ascii?Q?wab4hmpAj+D4lh50SeJGlOgWXaw5Sl5N9W+c9coqbZ8E0XgJ7uSTTiRRdfC/?=
- =?us-ascii?Q?lP9/i90J/7rEAG+5RtaeRxSoIznT0Z44hAB4sdNcfAoyjDQEKwQ0axOud3Tm?=
- =?us-ascii?Q?YFELdC0fSOljxB95cYKsEIBmA4t63UwEypSet+XvN+vCNEPJE4gMxOpCAi40?=
- =?us-ascii?Q?FE09ecFWPUl7HLTzlRONwU4ffxz5pgDH1xy6lpgh4fzLKyUYeTcb4lG8TGAR?=
- =?us-ascii?Q?DyqOgkGQ0kr2rnJzfx5VqciYPUfDyHKsZwkukyXeDsxeFgJ3JrNMDQHEnBuy?=
- =?us-ascii?Q?ja8966sHh+f5DJretjK1HHK+ck1cmv/fBI+Ng8fuwuw7ufGg5x0n7WgZzzUu?=
- =?us-ascii?Q?goiOuAnhtKRkQoL5usWM6JtclfMMFnQPewmqdZYRsSu4OdbU5R3ycxOwpZyN?=
- =?us-ascii?Q?9JasW3n0y7ZZefGeQFRYt2n7SQnGp70cfl6+qBNXzdMoDdY84exmKzOOTEPf?=
- =?us-ascii?Q?HnMFBiO1+r2HIwlShVmnAK0+CZj1pQRoyUVYovs0gekEY4TlfNbuR7y75Ola?=
- =?us-ascii?Q?f49gbo7LyttlQIPJW8+VbEIvnknxUTO7Qpyf5HnaBNVlL07W0treLZE3IEue?=
- =?us-ascii?Q?OXlSf+LjzCh2LS15Rr4muQEpolGpD0o/eYn/lZIJ/21gW0ty+u0E6gc9xPzi?=
- =?us-ascii?Q?g/B6B6TMUZAvRqR7CU6M9ATgZ+d2Ukduq9o3c+hh/STdWzajnDufTlR2jKz4?=
- =?us-ascii?Q?vSSbWLdkJJ2FmfL3dJLDsF6BUyA+64zsBkoV/DCTg4htG/QbTkKDW08Zk8on?=
- =?us-ascii?Q?lBAdCz3qiJj+coULdfV4DmCwOUBKwhQe/21tFezl25jdR4PIA1mQDgqnfREw?=
- =?us-ascii?Q?9Nc=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR11MB7753.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(4022899009)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?bLNetSKc1ykWwAijQQJYZszb+uJ7CbLeTi7rdohRjJ2O/KjY2b7apVeUM3yV?=
- =?us-ascii?Q?yhjGIzcrw5/5SvzZdngOHEH0kYg+m5/ih4vzjUqqBSAHVe6pBHvGpYbJLGjr?=
- =?us-ascii?Q?sFgl8f7D/chz9aCXS9lZEqzpIdwUkLN71oEymcl1h0Km3ZxPtFyD8quQJhYk?=
- =?us-ascii?Q?OYpXrtSBjm8CSyOQGRuUChHoFbkL765D+ZB+q4EdpPEyg6F2FaGwSgOk5F5q?=
- =?us-ascii?Q?/ZuVFOznXgVg32Zy7vUFMEWT8pufEE0yEjxocpzgXKz3Nc4C2ZHaOSgSYXH/?=
- =?us-ascii?Q?8GMO7/rws9+42EGmAM4+jUbZxv3GbdInxoG5UfYNDC3o0Ku6HA+Utcle4Jjj?=
- =?us-ascii?Q?LcZ2FjAY65Ht8+hsNPfmxUVhHBwd+cIZzXP5bGv0iRpMqWzogkDFtT55cquR?=
- =?us-ascii?Q?lu4TLQu5QxefNWagGHcTnsy48OXXpkE5MMm7NaaWvkPyEkoqPj7tNg30yeNR?=
- =?us-ascii?Q?jngoEdYroENTD7DeqP+MDq1zZFyiGV3DqQibmC8SQ5J6h4c2uzmbD6nrDOIx?=
- =?us-ascii?Q?zws/SpDB6u+olZVrS/c0azaW3qV/RteEpCUvcAIJ3CYxDlYzVogRpvVcjX46?=
- =?us-ascii?Q?0twUT5WvOuvM7it+KPz+kjNrUmHYvj06CJ52J6L0b6RthO+uAQTKFMkGqCdy?=
- =?us-ascii?Q?IaOumlpe9ayqco8DoMSEMJ2i9K3kn/KRMaXzaeYcjovzGnYamrwqazuMg9v0?=
- =?us-ascii?Q?QvmWoORw6/GpEH8ccFCq9dxXz1i248s9zluKo36B34TMoGTd57pv6VBaUoNY?=
- =?us-ascii?Q?TZ2WdjlTpK0kk1FWrFZyT8dWQHfJFCBGcoKKRe/013y5zTRDgaW+IaqeSs7C?=
- =?us-ascii?Q?QGu4AXJwKVmF5j06Xyi1Ik2o1meAdLwYUALS2d02kyn2TySZitUMo3P3lPWn?=
- =?us-ascii?Q?TqFqSwV+KO9Y+TAZG/io1i/4eR9T8GsevpNquc87VSLyg5/IEYRvAcJraxZb?=
- =?us-ascii?Q?DPQ1dR+rVas3SON/LID3QZV6DMbL5CrRT7NiNszetUgCDUGSxwFVauRU0Wam?=
- =?us-ascii?Q?gBmls765RFW/hySRslVKlVlpqVFmrgA0CIXNqedq3EvLtWM5fb3QWO9O5A5w?=
- =?us-ascii?Q?xyzNDn9c0rzqeJeHoRvXPg7lWuM0HrZOZ9BAlojtkavGv1LAYo+FHlIgzvwy?=
- =?us-ascii?Q?pvAG+RuWOoOTqH2n1jzyyG4wzDKYbFEysWSTHf3Pdzf/rZIjfBmohqcJtamT?=
- =?us-ascii?Q?GxJkCEFWLGLJgEJ8HfurpFPfIpmXVraIpAUmTPSfOGRSRA2dVFvzJTeRCipx?=
- =?us-ascii?Q?kkzZ5T1gLC2YansRCRjODzpD8D0lVebOXcoza2RAIMXSZDIN3SJCkQ95NT8w?=
- =?us-ascii?Q?gMlxGo0bcUUNFhd2z/Vl6ld5yXq1IqIvnLkpOqfF8YXM6HzLp0aQzJuvLSUi?=
- =?us-ascii?Q?KRSAEzKFcnOnzvEnINGE+9QxqItj57yBT6p5rJ+q7AFrkFwwWukO2xoCMTIb?=
- =?us-ascii?Q?GfdQS1A5SleeVIZi7IlZyMVY8tKUh74n0T36S0QcoSTgSL5LL8j3bOFJ3s5j?=
- =?us-ascii?Q?LScIB+yhSb4FL3LvgJMSrZ1LM84nNuco4uojHWe8lsv4EN6Kc4TxWNZzpMaU?=
- =?us-ascii?Q?GNWBRN3u+m4U1PjYbyQszYhClCVVQnLKKqlOk31d?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@mvista.com header.s=google header.b=P35ZiFTS;
+ spf=pass (domain: mvista.com, ip: 209.85.214.172, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-20afdad26f5so23224045ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 00:06:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1727420790; x=1728025590; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=oawzdDOA3X7xGrUeBmC+7obQlqRyNdpWbEM6wy+cTpI=;
+        b=P35ZiFTSpBCjyi6df94HJBWDOL45gsoW0G2opUskQGqLRsFAX5xVsadITVURmt+waP
+         zslI0b/ZchK2bKzBMbBQnaBM15LbirWrGOCZRBaVCdvzwAvHp2XDrZaif7qq0h/QTJaP
+         B5eFlI8X+jQUhIcDBKhipdKUzE46pzG0xQ4is=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727420790; x=1728025590;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oawzdDOA3X7xGrUeBmC+7obQlqRyNdpWbEM6wy+cTpI=;
+        b=GFUFMska0M5/1w/GxkE59mBZne8hS7/cGHjEf9mm7oAZhiTjIDkKUTrESsn3/sqzbq
+         eIjG/g9A4JQUMd2u3hHCbweQ/mDLY7p8GEzM7bBRlFLWfp6yVbdne1CEjKo6eyKEhBTZ
+         dxnFqG+ynnbFZ5WnWnLyqzYcr1LsW6SixSwtDPH1o2eOlPDmY0N3r0IadbRq2zl32fwa
+         mw25colXa2uoAfhm9PU2iJXCZy+rj7LoMjFVJSLCgwZ9ljMaI1YrkYxgeSU8EqOvYtKD
+         Ww7llqmLZ0dTsm0GituCcBBHMjoYv419iyqamNFgYaeEwBewvTbOd/FVC7eiUstL5+Cq
+         PH6w==
+X-Gm-Message-State: AOJu0YwXuqXoW0SZ4JkRcCQQORRnZJUpIfo4h9P06eKHyfMLHwfs5mvr
+	Tlg+6Ftw1vPtfWH0Fi+Q8e0qYtzBNYvqyZ0+K33GmuSF+zN+DvePjtzIFfLckuM5s7eUFh30aJW
+	4
+X-Google-Smtp-Source: AGHT+IEG06Rtj/NL4jFdRi7O+hLlytV7MzUva11KaKgqIvNMvE4AcDrEp13kIPccwr4tAZdEligFiw==
+X-Received: by 2002:a17:902:cf07:b0:207:2697:da17 with SMTP id d9443c01a7336-20b36ec8a90mr40352375ad.23.1727420789932;
+        Fri, 27 Sep 2024 00:06:29 -0700 (PDT)
+Received: from MVIN00016.mvista.com ([150.129.170.215])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20b37d8ecf3sm8051105ad.82.2024.09.27.00.06.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Sep 2024 00:06:29 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] webkitgtk: upgrade 2.44.1 -> 2.44.3
+Date: Fri, 27 Sep 2024 12:36:21 +0530
+Message-Id: <20240927070621.45665-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA1PR11MB7753.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9a919cd0-2a23-4c3a-7cae-08dcde9becd4
-X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Sep 2024 02:27:25.4320
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: dswjgXWI4iwOOv5sdKJMVy262KKf+fh319yBpKq6il7X/i5+pGLpI0DQfK4ziA4K42HEcQoqH+T32D5IWF5rpw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH0PR11MB8144
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 02:27:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205005
+ <openembedded-core@lists.openembedded.org>; Fri, 27 Sep 2024 07:06:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205006
 
-Hi all,
-=20
-Intel and WR YP QA is planning for QA execution for YP build yocto-5.0.4.rc=
-3. We are planning to execute following tests for this cycle:
-=20
-OEQA-manual tests for following module:
-1. OE-Core
-2. BSP-hw
-=20
-Runtime auto test for following platforms:
-	1. MinnowBoard Turbot - 32bit
-	2. Alder Lake-S (12th Generation Intel(r) Core(tm) Processors)
-	3. Raptor Lake-P (13th Generation Intel(r) Core(tm) Processors)
-	4. Meteor Lake-P (14th Generation Intel(r) Core(tm) Processors)
-	5. Beaglebone
-=20
-=20
-ETA for completion: Wednesday, 2nd October 2024.
-=20
-Best regards,
-Jing Hui
+Remove CVE-2024-40779.patch which already fix in this upgraded version.
 
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ ...able-to-control-macro-__PAS_ALWAYS_I.patch |   6 +-
+ ...spection.cmake-prefix-variables-obta.patch |   2 +-
+ ...d5e22213fdaca2a29ec3400c927d710a37a8.patch |   2 +-
+ .../webkit/webkitgtk/CVE-2024-40779.patch     |  92 ---------
+ .../webkit/webkitgtk/no-musttail-arm.patch    |   6 +-
+ .../webkit/webkitgtk/reproducibility.patch    |   2 +-
+ .../webkit/webkitgtk/t6-not-declared.patch    |  12 +-
+ meta/recipes-sato/webkit/webkitgtk_2.44.3.bb  | 174 ++++++++++++++++++
+ 8 files changed, 188 insertions(+), 108 deletions(-)
+ delete mode 100644 meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
 
-> -----Original Message-----
-> From: qa-build-notification@lists.yoctoproject.org <qa-build-
-> notification@lists.yoctoproject.org> On Behalf Of Pokybuild User
-> Sent: Friday, September 27, 2024 6:31 AM
-> To: yocto@lists.yoctoproject.org
-> Cc: qa-build-notification@lists.yoctoproject.org
-> Subject: [qa-build-notification] QA notification for completed autobuilde=
-r
-> build (yocto-5.0.4.rc3)
->=20
->=20
->     A build flagged for QA (yocto-5.0.4.rc3) was completed on the autobui=
-lder
-> and is available at:
->=20
->=20
->         https://autobuilder.yocto.io/pub/releases/yocto-5.0.4.rc3
->=20
->=20
->     Build URL:
-> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7360
->=20
->     Build hash information:
->=20
->     bitbake: d251668d9a7a8dd25bd8767efb30d6d9ff8b1ad3
-> meta-agl: 6debcd5420b798dd8c0b3052620cc5d8f3bcbff7
-> meta-arm: 1947c000299c0330e8a866996505221a14c0e1ea
-> meta-aws: 1bc413ef26efe835d7c2f68859cc36ebd4233903
-> meta-clang: 2b7433611d80f6d0ee1b04156fa91fc73d3c2665
-> meta-intel: c2bc8e27e9cc83654a23e8d89525fd9b1e781eb6
-> meta-mingw: acbba477893ef87388effc4679b7f40ee49fc852
-> meta-openembedded: 735ae0310870ffce07ce0c55c4f87c20ac161ff9
-> meta-virtualization: 66ee8d268db25a9f2848bda6858c284c745f549f
-> oecore: f888dd911529a828820799a7a1b75dfd3a44847c
-> poky: 2034fc38eb4e63984d9bd6b260aa1bf95ce562e4
->=20
->=20
->=20
-> This is an automated message from the Yocto Project Autobuilder
-> Git: git://git.yoctoproject.org/yocto-autobuilder2
-> Email: richard.purdie@linuxfoundation.org
->=20
->=20
->=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#468): https://lists.yoctoproject.org/g/qa-build-
-> notification/message/468
-> Mute This Topic: https://lists.yoctoproject.org/mt/108677431/6424044
-> Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-> Unsubscribe: https://lists.yoctoproject.org/g/qa-build-
-> notification/leave/13581802/6424044/1746813897/xyzzy
-> [jing.hui.tham@intel.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
+index a819e22127..a19008a41f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
+@@ -1,4 +1,4 @@
+-From 575b848a3b3c14280679db80d0d518922c83d62a Mon Sep 17 00:00:00 2001
++From 99a21305ae683a216e9299e5dbdd763190a8cfe3 Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Fri, 11 Aug 2023 14:20:48 +0800
+ Subject: [PATCH] Add a variable to control macro
+@@ -57,10 +57,10 @@ index 5d5fb38c..a554f700 100644
+  #else
+  #define __PAS_ALWAYS_INLINE_BUT_NOT_INLINE
+ diff --git a/Source/cmake/WebKitCompilerFlags.cmake b/Source/cmake/WebKitCompilerFlags.cmake
+-index 9b2fecf9..7cdc2b6a 100644
++index 0732785e..4879ec40 100644
+ --- a/Source/cmake/WebKitCompilerFlags.cmake
+ +++ b/Source/cmake/WebKitCompilerFlags.cmake
+-@@ -453,3 +453,10 @@ endif ()
++@@ -452,3 +452,10 @@ endif ()
+  
+  # FIXME: Enable pre-compiled headers for all ports <https://webkit.org/b/139438>
+  set(CMAKE_DISABLE_PRECOMPILE_HEADERS ON)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+index 8e29ce17ed..dda20a7b25 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+@@ -1,4 +1,4 @@
+-From 6348f91c29e2350ad3fec5264aa57dd4994d4583 Mon Sep 17 00:00:00 2001
++From d1f6a1b6a1298f6ef2f1677e9996aa60a002134a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 27 Oct 2015 16:02:19 +0200
+ Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
+diff --git a/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch b/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
+index 76bcb3df99..0d8976c502 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch
+@@ -1,4 +1,4 @@
+-From 1523e00a2a76e285262c8aa3721b5d99f3f2d612 Mon Sep 17 00:00:00 2001
++From 2ee948191de1c561b72ebf462605376cfb3ce7af Mon Sep 17 00:00:00 2001
+ From: Thomas Devoogdt <thomas.devoogdt@barco.com>
+ Date: Mon, 16 Jan 2023 17:03:30 +0100
+ Subject: [PATCH] REGRESSION(257865@main): B3Validate.cpp: fix
+diff --git a/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch b/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
+deleted file mode 100644
+index 1a7e27dcb6..0000000000
+--- a/meta/recipes-sato/webkit/webkitgtk/CVE-2024-40779.patch
++++ /dev/null
+@@ -1,92 +0,0 @@
+-From 2fe5ae29a5f6434ef456afe9673a4f400ec63848 Mon Sep 17 00:00:00 2001
+-From: Jean-Yves Avenard <jya@apple.com>
+-Date: Fri, 14 Jun 2024 16:08:19 -0700
+-Subject: [PATCH] Cherry-pick 272448.1085@safari-7618.3.10-branch
+- (ff52ff7cb64e). https://bugs.webkit.org/show_bug.cgi?id=275431
+-
+-HeapBufferOverflow in computeSampleUsingLinearInterpolation
+-https://bugs.webkit.org/show_bug.cgi?id=275431
+-rdar://125617812
+-
+-Reviewed by Youenn Fablet.
+-
+-Add boundary check.
+-This is a copy of blink code for that same function.
+-https://source.chromium.org/chromium/chromium/src//main:third_party/blink/renderer/modules/webaudio/audio_buffer_source_handler.cc;l=336-341
+-
+-* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt: Added.
+-* LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html: Added.
+-* Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp:
+-(WebCore::AudioBufferSourceNode::renderFromBuffer):
+-
+-Canonical link: https://commits.webkit.org/274313.347@webkitglib/2.44
+-
+-Upstream-Status: Backport [https://github.com/WebKit/WebKit/commit/2fe5ae29a5f6434ef456afe9673a4f400ec63848]
+-CVE: CVE-2024-40779
+-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+----
+- ...er-sourcenode-resampler-crash-expected.txt |  1 +
+- ...udiobuffer-sourcenode-resampler-crash.html | 25 +++++++++++++++++++
+- .../webaudio/AudioBufferSourceNode.cpp        |  6 +++++
+- 3 files changed, 32 insertions(+)
+- create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
+- create mode 100644 LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
+-
+-diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
+-new file mode 100644
+-index 00000000..654ddf7f
+---- /dev/null
+-+++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash-expected.txt
+-@@ -0,0 +1 @@
+-+This test passes if it does not crash.
+-diff --git a/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
+-new file mode 100644
+-index 00000000..5fb2dd8c
+---- /dev/null
+-+++ b/LayoutTests/webaudio/crashtest/audiobuffer-sourcenode-resampler-crash.html
+-@@ -0,0 +1,25 @@
+-+<html>
+-+<head>
+-+    <script>
+-+        async function main() {
+-+            var ctx = new AudioContext();
+-+            var src = new AudioBufferSourceNode(ctx);
+-+            src.buffer = ctx.createBuffer(1, 8192, 44100);
+-+            src.start(undefined, 0.5);
+-+            src.playbackRate.value = -1;
+-+            src.connect(ctx.destination, 0, 0);
+-+            if (window.testRunner)
+-+                testRunner.notifyDone();
+-+        }
+-+    </script>
+-+</head>
+-+<body onload="main()">
+-+    <p>This test passes if it does not crash.</p>
+-+    <script>
+-+    if (window.testRunner) {
+-+        testRunner.waitUntilDone();
+-+        testRunner.dumpAsText();
+-+    }
+-+    </script>
+-+</body>
+-+</html>
+-diff --git a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
+-index 42f2779e..7963fb9f 100644
+---- a/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
+-+++ b/Source/WebCore/Modules/webaudio/AudioBufferSourceNode.cpp
+-@@ -343,6 +343,12 @@ bool AudioBufferSourceNode::renderFromBuffer(AudioBus* bus, unsigned destination
+-             if (readIndex2 >= maxFrame)
+-                 readIndex2 = m_isLooping ? minFrame : readIndex;
+- 
+-+            // Final sanity check on buffer access.
+-+            // FIXME: as an optimization, try to get rid of this inner-loop check and
+-+            // put assertions and guards before the loop.
+-+            if (readIndex >= bufferLength || readIndex2 >= bufferLength)
+-+                break;
+-+
+-             // Linear interpolation.
+-             for (unsigned i = 0; i < numberOfChannels; ++i) {
+-                 float* destination = destinationChannels[i];
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
+index 8ce37a01cc..793be48df2 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/no-musttail-arm.patch
+@@ -1,4 +1,4 @@
+-From a9c874f7418cefbe78f7cd26505ae495cb59bbcf Mon Sep 17 00:00:00 2001
++From 31dca9601888f2a539dfb22693ffd62c22ee8912 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Fri, 12 Jan 2024 09:21:39 -0800
+ Subject: [PATCH] clang/arm: Do not use MUST_TAIL_CALL
+@@ -16,10 +16,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Source/WTF/wtf/Compiler.h b/Source/WTF/wtf/Compiler.h
+-index 0ea5cb76..c5480dbc 100644
++index 449ca502..daac29d7 100644
+ --- a/Source/WTF/wtf/Compiler.h
+ +++ b/Source/WTF/wtf/Compiler.h
+-@@ -284,7 +284,7 @@
++@@ -321,7 +321,7 @@
+  /* MUST_TAIL_CALL */
+  
+  #if !defined(MUST_TAIL_CALL) && defined(__cplusplus) && defined(__has_cpp_attribute)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+index 93a431a0b1..d614a1ee4f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+@@ -1,4 +1,4 @@
+-From d096b945113ddecaf33062296e20b6d5a007cab3 Mon Sep 17 00:00:00 2001
++From cb5458b5d15aafa3543a47a33975609026d45d32 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Mon, 3 Jan 2022 14:18:34 +0000
+ Subject: [PATCH] webkitgtk: Add reproducibility fix
+diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+index d4720e4f28..064925dace 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+@@ -1,10 +1,9 @@
+-From 3d5373575695b293b8559155431d0079a6153aff Mon Sep 17 00:00:00 2001
++From 36c092723ec6d4908039341c9d157db8ab1c0a59 Mon Sep 17 00:00:00 2001
+ From: Michael Catanzaro <mcatanzaro@redhat.com>
+ Date: Mon, 5 Feb 2024 11:00:49 -0600
+-Subject: [PATCH] =?UTF-8?q?[GTK]=20[2.42.5]=20LowLevelInterpreter.cpp:339:?=
+- =?UTF-8?q?21:=20error:=20=E2=80=98t6=E2=80=99=20was=20not=20declared=20in?=
+- =?UTF-8?q?=20this=20scope=20https://bugs.webkit.org/show=5Fbug.cgi=3Fid?=
+- =?UTF-8?q?=3D268739?=
++Subject: [PATCH] =?UTF-8?q?LowLevelInterpreter.cpp:339:21:=20error:=20?=
++ =?UTF-8?q?=E2=80=98t6=E2=80=99=20was=20not=20declared=20in=20this=20scope?=
++ =?UTF-8?q?=20https://bugs.webkit.org/show=5Fbug.cgi=3Fid=3D268739?=
+ MIME-Version: 1.0
+ Content-Type: text/plain; charset=UTF-8
+ Content-Transfer-Encoding: 8bit
+@@ -22,7 +21,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 2 deletions(-)
+ 
+ diff --git a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+-index 5064ead6cd2e7..9a2e2653b1219 100644
++index 75cecbbd..b1020ea4 100644
+ --- a/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+ +++ b/Source/JavaScriptCore/llint/LowLevelInterpreter.cpp
+ @@ -336,8 +336,6 @@ JSValue CLoop::execute(OpcodeID entryOpcodeID, void* executableAddress, VM* vm,
+@@ -34,4 +33,3 @@ index 5064ead6cd2e7..9a2e2653b1219 100644
+  
+      struct StackPointerScope {
+          StackPointerScope(CLoopStack& stack)
+-
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
+new file mode 100644
+index 0000000000..90fb7a1d42
+--- /dev/null
++++ b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
+@@ -0,0 +1,174 @@
++SUMMARY = "WebKit web rendering engine for the GTK+ platform"
++HOMEPAGE = "https://www.webkitgtk.org/"
++BUGTRACKER = "https://bugs.webkit.org/"
++
++LICENSE = "BSD-2-Clause & LGPL-2.0-or-later"
++LIC_FILES_CHKSUM = "file://Source/JavaScriptCore/COPYING.LIB;md5=d0c6d6397a5d84286dda758da57bd691 \
++                    file://Source/WebCore/LICENSE-APPLE;md5=4646f90082c40bcf298c285f8bab0b12 \
++                    file://Source/WebCore/LICENSE-LGPL-2;md5=36357ffde2b64ae177b2494445b79d21 \
++                    file://Source/WebCore/LICENSE-LGPL-2.1;md5=a778a33ef338abbaf8b8a7c36b6eec80 \
++                    "
++
++SRC_URI = "https://www.webkitgtk.org/releases/${BPN}-${PV}.tar.xz \
++           file://0001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch \
++           file://reproducibility.patch \
++           file://0001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch \
++           file://no-musttail-arm.patch \
++           file://t6-not-declared.patch \
++           file://30e1d5e22213fdaca2a29ec3400c927d710a37a8.patch \
++           "
++SRC_URI[sha256sum] = "dc82d042ecaca981a4852357c06e5235743319cf10a94cd36ad41b97883a0b54"
++
++inherit cmake pkgconfig gobject-introspection perlnative features_check upstream-version-is-even gi-docgen
++
++ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
++REQUIRED_DISTRO_FEATURES = "opengl"
++
++CVE_PRODUCT = "webkitgtk webkitgtk\+"
++
++DEPENDS += " \
++          ruby-native \
++          gperf-native \
++          unifdef-native \
++          cairo \
++          harfbuzz \
++          jpeg \
++          atk \
++          libwebp \
++          gtk4 \
++          libxslt \
++          libtasn1 \
++          libnotify \
++          gstreamer1.0 \
++          gstreamer1.0-plugins-base \
++          glib-2.0-native \
++          gettext-native \
++          "
++
++PACKAGECONFIG_SOUP ?= "soup3"
++PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd wayland x11', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11 opengl', 'webgl opengl', '', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', 'webgl gles2', d)} \
++                   ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'opengl-or-es', '', d)} \
++                   enchant \
++                   libsecret \
++                   ${PACKAGECONFIG_SOUP} \
++                  "
++
++PACKAGECONFIG[wayland] = "-DENABLE_WAYLAND_TARGET=ON,-DENABLE_WAYLAND_TARGET=OFF,wayland libwpe wpebackend-fdo wayland-native"
++PACKAGECONFIG[angle] = "-DUSE_ANGLE_WEBGL=ON,-DUSE_ANGLE_WEBGL=OFF"
++PACKAGECONFIG[x11] = "-DENABLE_X11_TARGET=ON,-DENABLE_X11_TARGET=OFF,virtual/libx11 libxcomposite libxdamage libxrender libxt"
++PACKAGECONFIG[geoclue] = "-DENABLE_GEOLOCATION=ON,-DENABLE_GEOLOCATION=OFF,geoclue"
++PACKAGECONFIG[enchant] = "-DENABLE_SPELLCHECK=ON,-DENABLE_SPELLCHECK=OFF,enchant2"
++PACKAGECONFIG[gles2] = "-DENABLE_GLES2=ON,-DENABLE_GLES2=OFF,virtual/libgles2"
++PACKAGECONFIG[webgl] = "-DENABLE_WEBGL=ON,-DENABLE_WEBGL=OFF,virtual/egl"
++PACKAGECONFIG[opengl] = "-DENABLE_GRAPHICS_CONTEXT_GL=ON,-DENABLE_GRAPHICS_CONTEXT_GL=OFF,virtual/egl"
++PACKAGECONFIG[opengl-or-es] = "-DUSE_OPENGL_OR_ES=ON,-DUSE_OPENGL_OR_ES=OFF"
++PACKAGECONFIG[libsecret] = "-DUSE_LIBSECRET=ON,-DUSE_LIBSECRET=OFF,libsecret"
++PACKAGECONFIG[libhyphen] = "-DUSE_LIBHYPHEN=ON,-DUSE_LIBHYPHEN=OFF,libhyphen"
++PACKAGECONFIG[woff2] = "-DUSE_WOFF2=ON,-DUSE_WOFF2=OFF,woff2"
++PACKAGECONFIG[openjpeg] = "-DUSE_OPENJPEG=ON,-DUSE_OPENJPEG=OFF,openjpeg"
++PACKAGECONFIG[systemd] = "-DUSE_SYSTEMD=ON,-DUSE_SYSTEMD=off,systemd"
++PACKAGECONFIG[reduce-size] = "-DCMAKE_BUILD_TYPE=MinSizeRel,-DCMAKE_BUILD_TYPE=Release,,"
++PACKAGECONFIG[lcms] = "-DUSE_LCMS=ON,-DUSE_LCMS=OFF,lcms"
++PACKAGECONFIG[soup2] = "-DUSE_SOUP2=ON,-DUSE_SOUP2=OFF,libsoup-2.4,,,soup3"
++PACKAGECONFIG[soup3] = ",,libsoup,,,soup2"
++PACKAGECONFIG[journald] = "-DENABLE_JOURNALD_LOG=ON,-DENABLE_JOURNALD_LOG=OFF,systemd"
++PACKAGECONFIG[avif] = "-DUSE_AVIF_LOG=ON,-DUSE_AVIF=OFF,libavif"
++PACKAGECONFIG[media-recorder] = "-DENABLE_MEDIA_RECORDER=ON,-DENABLE_MEDIA_RECORDER=OFF,gstreamer1.0-plugins-bad"
++PACKAGECONFIG[jpegxl] = "-DUSE_JPEGXL=ON,-DUSE_JPEGXL=OFF,libjxl"
++PACKAGECONFIG[backtrace] = "-DUSE_LIBBACKTRACE=ON,-DUSE_LIBBACKTRACE=OFF,libbacktrace"
++PACKAGECONFIG[gamepad] = "-DENABLE_GAMEPAD=ON,-DENABLE_GAMEPAD=OFF,libmanette"
++
++EXTRA_OECMAKE = " \
++                 -DPORT=GTK \
++                 ${@oe.utils.vartrue('GI_DATA_ENABLED', '-DENABLE_INTROSPECTION=ON', '-DENABLE_INTROSPECTION=OFF', d)} \
++                 ${@oe.utils.vartrue('GIDOCGEN_ENABLED', '-DENABLE_DOCUMENTATION=ON', '-DENABLE_DOCUMENTATION=OFF', d)} \
++                 ${@oe.utils.vartrue('DEBUG_BUILD', '-DWEBKIT_NO_INLINE_HINTS=ON', '-DWEBKIT_NO_INLINE_HINTS=OFFF', d)} \
++                 -DENABLE_MINIBROWSER=ON \
++                 -DENABLE_BUBBLEWRAP_SANDBOX=OFF \
++                 -DUSE_GTK4=ON \
++                 -DCMAKE_EXPORT_COMPILE_COMMANDS=OFF \
++                 "
++
++# Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size of the
++# debug symbols (4.3GB to 700M at time of writing)
++DEBUG_LEVELFLAG = "-g1"
++
++# Javascript JIT is not supported on ARC
++EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
++# By default 25-bit "medium" calls are used on ARC
++# which is not enough for binaries larger than 32 MiB
++CFLAGS:append:arc = " -mlong-calls"
++CXXFLAGS:append:arc = " -mlong-calls"
++
++# Needed for non-mesa graphics stacks when x11 is disabled
++CXXFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'x11', '', '-DEGL_NO_X11=1', d)}"
++
++# Javascript JIT is not supported on powerpc
++EXTRA_OECMAKE:append:powerpc = " -DENABLE_JIT=OFF "
++EXTRA_OECMAKE:append:powerpc64 = " -DENABLE_JIT=OFF "
++
++# ARM JIT code does not build on ARMv4/5/6 anymore
++EXTRA_OECMAKE:append:armv4 = " -DENABLE_JIT=OFF "
++EXTRA_OECMAKE:append:armv5 = " -DENABLE_JIT=OFF "
++EXTRA_OECMAKE:append:armv6 = " -DENABLE_JIT=OFF "
++
++EXTRA_OECMAKE:append:mipsarch = " -DUSE_LD_GOLD=OFF "
++EXTRA_OECMAKE:append:powerpc = " -DUSE_LD_GOLD=OFF "
++
++# JIT and gold linker does not work on RISCV
++EXTRA_OECMAKE:append:riscv32 = " -DUSE_LD_GOLD=OFF -DENABLE_JIT=OFF"
++EXTRA_OECMAKE:append:riscv64 = " -DUSE_LD_GOLD=OFF"
++
++# JIT not supported on MIPS either
++EXTRA_OECMAKE:append:mipsarch = " -DENABLE_JIT=OFF -DENABLE_C_LOOP=ON "
++
++# JIT not supported on X32
++# An attempt was made to upstream JIT support for x32 in
++# https://bugs.webkit.org/show_bug.cgi?id=100450, but this was closed as
++# unresolved due to limited X32 adoption.
++EXTRA_OECMAKE:append:x86-x32 = " -DENABLE_JIT=OFF "
++
++SECURITY_CFLAGS:remove:aarch64 = "-fpie"
++SECURITY_CFLAGS:append:aarch64 = " -fPIE"
++
++FILES:${PN} += "${libdir}/webkitgtk-*/injected-bundle/*.so"
++
++RRECOMMENDS:${PN} += "ca-certificates shared-mime-info"
++
++# http://errors.yoctoproject.org/Errors/Details/20370/
++ARM_INSTRUCTION_SET:armv4 = "arm"
++ARM_INSTRUCTION_SET:armv5 = "arm"
++ARM_INSTRUCTION_SET:armv6 = "arm"
++
++# https://bugzilla.yoctoproject.org/show_bug.cgi?id=9474
++# https://bugs.webkit.org/show_bug.cgi?id=159880
++# JSC JIT can build on ARMv7 with -marm, but doesn't work on runtime.
++# Upstream only tests regularly the JSC JIT on ARMv7 with Thumb2 (-mthumb).
++ARM_INSTRUCTION_SET:armv7a = "thumb"
++ARM_INSTRUCTION_SET:armv7r = "thumb"
++ARM_INSTRUCTION_SET:armv7ve = "thumb"
++
++# ANGLE requires SSE support as of webkit 2.40.x on 32 bit x86
++COMPATIBLE_HOST:x86 = "${@bb.utils.contains_any('TUNE_FEATURES', 'core2 corei7', '.*', 'null', d)}"
++
++# introspection inside qemu-arm hangs forever on musl/arm builds
++# therefore disable GI_DATA
++GI_DATA_ENABLED:libc-musl:armv7a = "False"
++GI_DATA_ENABLED:libc-musl:armv7ve = "False"
++
++# Can't be built with ccache
++CCACHE_DISABLE = "1"
++
++PACKAGE_PREPROCESS_FUNCS += "src_package_preprocess"
++src_package_preprocess () {
++        # Trim build paths from comments in generated sources to ensure reproducibility
++        sed -i -e "s,${WORKDIR},,g" \
++            ${B}/JavaScriptCore/DerivedSources/*.h \
++            ${B}/JavaScriptCore/DerivedSources/yarr/*.h \
++            ${B}/JavaScriptCore/PrivateHeaders/JavaScriptCore/*.h \
++            ${B}/WebCore/DerivedSources/*.cpp \
++            ${B}/WebKitGTK/DerivedSources/webkit/*.cpp
++}
++
+-- 
+2.25.1
 
 
