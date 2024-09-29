@@ -1,89 +1,73 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 435DDCF6493
-	for <webhook@archiver.kernel.org>; Sat, 28 Sep 2024 17:58:56 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.18141.1727546327156485973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A7DFCF6495
+	for <webhook@archiver.kernel.org>; Sun, 29 Sep 2024 11:18:41 +0000 (UTC)
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.web11.30663.1727608713479515322
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Sep 2024 10:58:47 -0700
+ Sun, 29 Sep 2024 04:18:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=lhqgIAlR;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20240928175843e27183a008fabae113-cu0fru@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20240928175843e27183a008fabae113
-        for <openembedded-core@lists.openembedded.org>;
-        Sat, 28 Sep 2024 19:58:43 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=RlLpqmBQYkTR/9rHWzZQLqv79Szn/6iarSa6/D4A8YI=;
- b=lhqgIAlRxpRnvDli/YBXRsY1+gThsKx304WtlFnmPgd3M50UpEEqG3NkrxLMjuUbyQ02py
- 2IvXXsw8fRlcATjU4Df7hY1CTILXdD3U2mZYrJdJrMjU7cOweCc2EzJiTwtNsW8Tqm108U3r
- HaSe8yfPwIYnITLI4oepdpx9TjCMpKe/I3Av9TQcRFV/x7pW73gKvbOT7UV/9zGN/Bypl5b3
- wseGyB4NjBHMHu4mUz5wcEKSermev53BMS1cRh8fS1cFvVZR6POveGeFxZnX+8o4cY9djnvK
- He3tVQH5uQ1CZVK5YlGhZQ/OjZ23RNK6KIqSS9eODdmyouLsCHQsJeug==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH 2/2] wpa-supplicant: Ignore CVE-2024-5290
-Date: Sat, 28 Sep 2024 19:57:41 +0200
-Message-Id: <20240928175741.3750357-2-peter.marko@siemens.com>
-In-Reply-To: <20240928175741.3750357-1-peter.marko@siemens.com>
-References: <20240928175741.3750357-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=G9NeHn+T;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.175, mailfrom: steve@sakoman.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-45812fdcd0aso40497881cf.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Sep 2024 04:18:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727608712; x=1728213512; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7oUsG9aRyyP/ZrDysh3NWCxAzW4jylx3MjSVxp6ab+I=;
+        b=G9NeHn+Tcrk/zeltOA6jpIw6SdC1gUTuHSbr0Kwe5lEa9nIRZ3+JMA7Dn8AXiM9lE0
+         9scmDpTJ0VbRZiIyzowWP5htl3MPktJlzhCj1nPHwQE9SkJUpOI2ugtzZOv4S3jDqn/q
+         87E5rcMHePIw3GDOys7GjIdvilmNMVjU3okh8F7clhJ41OEp9KI5F+4oC5kkj9vD4MCg
+         HxxoUKu1TDDGfkzcoORnaXHoTOVv2j94QbR3/WjoeeckcHcb2Qyz4vD7rOTxNt0qx0uU
+         Z0bhVk3gOeu1keJkjCLNieBrDiRdwUIJKQKIfxqa/SKsCuVX3e6M+JGojoaWktIoCck0
+         wcDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727608712; x=1728213512;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=7oUsG9aRyyP/ZrDysh3NWCxAzW4jylx3MjSVxp6ab+I=;
+        b=j/v+OWNh2e6EmEl5j3lTgxHYZGoxp7aYssJZsex9itTOgyUdh0Kc65DjdcmjHbOU8b
+         3r1gdCaZO35XPUZVt7CKIHa3PTRxHb6yfp9Nqacd9KolgAG6ik7bce6ACBK7aKuAQ20k
+         fS6yVtgif1G0bxtaSDJueCHxSsCVhDQBxwODAy4vxgqQqoKicLCdWbPVSeq9+/f5iUKs
+         UDYhDW1T2vsb85YVOgJLvY+oTwUf9ft8qTGneYddILZLxrzOT5ABBK42o69Jqi2ySC3V
+         76vHI5OLzaV2iikef++GIm8Ih4Jy/tQR0YhCsyHPlsEmcR75HkK6grEtyx+asUAHb8ZU
+         868w==
+X-Gm-Message-State: AOJu0YyveFR9MLdqx24pVv4tl3pS6cr7jz8u4XQBs9Boix15WZISImeE
+	fpg6MlKgouUjDnoxsekFKS4G2TfGGCM9uKLDnt9EM205H5OlaMoQWbVRullABnlsiZ2yek/Q9jV
+	64Js=
+X-Google-Smtp-Source: AGHT+IGKIf5uAhWr5c5jkm1I829WmH5vCc8T6ZK/i3crGAZ+7I7AeP6Ahvh4zE1DhyfLAL1pGnsLtw==
+X-Received: by 2002:a05:622a:11c2:b0:458:2b63:ec41 with SMTP id d75a77b69052e-45c9ed4da27mr125244781cf.30.1727608712254;
+        Sun, 29 Sep 2024 04:18:32 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-45c9f2ea78fsm26518401cf.54.2024.09.29.04.18.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Sep 2024 04:18:31 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 86B021003B0; Sun, 29 Sep 2024 01:18:30 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 29 Sep 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 29 Sep 2024 01:18:30 -1000
+Message-Id: <20240929111830.86B021003B0@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 28 Sep 2024 17:58:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205049
+ <openembedded-core@lists.openembedded.org>; Sun, 29 Sep 2024 11:18:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205050
 
-From: Peter Marko <peter.marko@siemens.com>
+Branch: master
 
-NVD CVE report [1] links Ubuntu bug [2] which has a very good
-description/discussion about this issue.
-It applies only to distros patching wpa-supplicant to allow non-root
-users (e.g. via netdev group) to load modules.
-This is not the case of Yocto.
+New this week: 0 CVEs
 
-Quote:
-So upstream isn't vulnerable as they only expose the dbus interface to
-root. Downstreams like Ubuntu and Chromium added a patch that grants
-access to the netdev group. The patch is the problem, not the upstream
-code IMHO.
+Removed this week: 0 CVEs
 
-There is also a commit [3] associated with this CVE, however that only
-provides build-time configuration to limit paths which can be accessed
-but it acts only as a mitigation for distros which allow non-root users
-to load crafted modules.
+Full list:  Found 0 unpatched CVEs
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2024-5290
-[2] https://bugs.launchpad.net/ubuntu/+source/wpa/+bug/2067613
-[3] https://w1.fi/cgit/hostap/commit/?id=c84388ee4c66bcd310db57489eac4a75fc600747
+Summary of CVE counts by recipe:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index 70f1fd6fc9..696176907c 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -31,6 +31,9 @@ SRC_URI[sha256sum] = "20df7ae5154b3830355f8ab4269123a87affdea59fe74fe9292a91d0d7
- 
- CVE_PRODUCT = "wpa_supplicant"
- 
-+# not-applicable-platform: this only affects Ubuntu and other platforms patching wpa-supplicant
-+CVE_CHECK_IGNORE += "CVE-2024-5290"
-+
- S = "${WORKDIR}/wpa_supplicant-${PV}"
- 
- PACKAGES:prepend = "wpa-supplicant-passphrase wpa-supplicant-cli "
--- 
-2.30.2
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
