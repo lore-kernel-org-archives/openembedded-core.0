@@ -1,104 +1,85 @@
-Return-Path: <purushottam27.kumar@lge.com>
+Return-Path: <shin.matsunaga@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B60BCF6497
-	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 07:31:58 +0000 (UTC)
-Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.web11.49196.1727681515319225524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F162CF6491
+	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 07:36:48 +0000 (UTC)
+Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
+ by mx.groups.io with SMTP id smtpd.web11.49237.1727681801189127078
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Sep 2024 00:31:55 -0700
+ Mon, 30 Sep 2024 00:36:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: purushottam27.kumar@lge.com)
-Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
-	by 156.147.23.52 with ESMTP; 30 Sep 2024 16:31:52 +0900
-X-Original-SENDERIP: 156.147.1.125
-X-Original-MAILFROM: purushottam27.kumar@lge.com
-Received: from unknown (HELO si-rd24bld77.lge.net) (10.221.31.77)
-	by 156.147.1.125 with ESMTP; 30 Sep 2024 16:31:52 +0900
-X-Original-SENDERIP: 10.221.31.77
-X-Original-MAILFROM: purushottam27.kumar@lge.com
-From: Purushottam Choudhary <purushottam27.kumar@lge.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Purushottam Choudhary <purushottam27.kumar@lge.com>
-Subject: [meta-oe][kirkstone][PATCHv2] kmscube: Add patch to fix -int-conversion build error
-Date: Mon, 30 Sep 2024 13:01:49 +0530
-Message-Id: <20240930073149.3209357-1-purushottam27.kumar@lge.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=QKhXvGqY;
+ spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: shin.matsunaga@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1727681801; x=1759217801;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=adZ/dk9U4Vac1OtpsHrm/lpKqar8LdTqfn85yGzujdc=;
+  b=QKhXvGqYx7KmqCNLbO8Rj7E+FFyfjcCxtS0zmHpnObnIVY+MbtoqL99z
+   L7/7p0vJX2IIhvTXEeRGiq237s0Im2ju0YBIV3H5YxFQLKmZOU1I6kNd8
+   rfimgxT0ejOwfr6i1NR8mkvu1LbVKma3hf/nSZLUHNXDne0kkbqwjTj+Q
+   ZnJF040ULEv8wK4eva8khK5MfVOAU1VNPRZb/ittMVAoywe0uZnW7lKs0
+   IcVt2iMQ8pIvs5QkcrC5e+2wI6dSSDevMiRrIcgqRAo+Ntny0Ltu0JtTi
+   WKmz6V/1G1oatLNvgtWeH9M2aZpxEUdGW1ExkWSiMwMkbP031zzBgYwbv
+   A==;
+X-CSE-ConnectionGUID: IcKuIvQYSzqHFhsLTNVLhw==
+X-CSE-MsgGUID: shpv9uM1TgGWVc2sNLoLhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="163216109"
+X-IronPort-AV: E=Sophos;i="6.11,165,1725289200"; 
+   d="scan'208";a="163216109"
+Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
+  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 16:36:38 +0900
+Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
+	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 89E60D424F
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 16:36:36 +0900 (JST)
+Received: from storage.utsfd.cs.fujitsu.co.jp (storage.utsfd.cs.fujitsu.co.jp [10.118.252.123])
+	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id CECCBD4C1D
+	for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 16:36:35 +0900 (JST)
+Received: by storage.utsfd.cs.fujitsu.co.jp (Postfix, from userid 1068)
+	id A1D7F1240E; Mon, 30 Sep 2024 16:36:35 +0900 (JST)
+From: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org,
+	shin.matsunaga@fujitsu.com
+Subject: [PATCH] ffmpeg: Add libswresample to CVE_PRODUCT
+Date: Mon, 30 Sep 2024 16:36:32 +0900
+Message-Id: <20240930073632.23711-1-shin.matsunaga@fujitsu.com>
+X-Mailer: git-send-email 2.35.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 07:31:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205096
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 07:36:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205097
 
-On some platforms, `EGLNativeDisplayType` is an int instead of
-a pointer, in which case the void pointer will raise
-a `-Wint-conversion`.
+Currently, CVE_PRODUCT only detects vulnerabilities where the product is "ffmpeg".
 
-Signed-off-by: Purushottam Choudhary <purushottam27.kumar@lge.com>
+However, there are also vulnerabilities where the product is "libswresample", as shown below.
+https://app.opencve.io/cve/?vendor=ffmpeg&product=libswresample
+
+Therefore, add "libswresample" to CVE_PRODUCT to detect vulnerabilities
+where the product is "libswresample" as well.
+
+Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
 ---
- ...001-common-fix-cast-type-in-init_egl.patch | 34 +++++++++++++++++++
- meta/recipes-graphics/kmscube/kmscube_git.bb  |  6 ++--
- 2 files changed, 38 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch
+ meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch b/meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch
-new file mode 100644
-index 0000000000..50df211d60
---- /dev/null
-+++ b/meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch
-@@ -0,0 +1,34 @@
-+From b2f97f53e01e07a920761e5d3e3ba22898b794a4 Mon Sep 17 00:00:00 2001
-+From: Eric Engestrom <eric@igalia.com>
-+Date: Tue, 24 Sep 2024 17:57:45 +0200
-+Subject: [PATCH] common: fix cast type in init_egl()
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+index 9e60b5cd23..d80fe03794 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+@@ -190,3 +190,5 @@ INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
+ INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
+ INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
+ INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
 +
-+On some platforms, `EGLNativeDisplayType` is an int instead of
-+a pointer, in which case the void pointer will raise
-+a `-Wint-conversion`.
-+
-+Let's cast it to the correct type directly.
-+
-+Closes: https://gitlab.freedesktop.org/mesa/kmscube/-/issues/16
-+        https://gitlab.freedesktop.org/mesa/kmscube/-/merge_requests/57
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/kmscube/-/commit/b2f97f53e01e07a920761e5d3e3ba22898b794a4]
-+
-+Signed-off-by: Purushottam Choudhary <Purushottam27.kumar@lge.com>
-+---
-+ common.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/common.c b/common.c
-+index e52d480..e1e2dcf 100644
-+--- a/common.c
-++++ b/common.c
-+@@ -341,7 +341,7 @@ int init_egl(struct egl *egl, const struct gbm *gbm, int samples)
-+ 		egl->display = egl->eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_KHR,
-+ 				gbm->dev, NULL);
-+ 	} else {
-+-		egl->display = eglGetDisplay((void *)gbm->dev);
-++		egl->display = eglGetDisplay((EGLNativeDisplayType)gbm->dev);
-+ 	}
-+ 
-+ 	if (!eglInitialize(egl->display, &major, &minor)) {
-diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
-index 98f110527e..40c5a14492 100644
---- a/meta/recipes-graphics/kmscube/kmscube_git.bb
-+++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
-@@ -11,8 +11,10 @@ DEPENDS = "virtual/libgles3 virtual/libgles2 virtual/egl libdrm virtual/libgbm"
- LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
- 
- SRCREV = "9f63f359fab1b5d8e862508e4e51c9dfe339ccb0"
--SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https"
--SRC_URI += "file://0001-texturator-Use-correct-GL-extension-header.patch"
-+SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https \
-+           file://0001-texturator-Use-correct-GL-extension-header.patch \
-+           file://0001-common-fix-cast-type-in-init_egl.patch \
-+"
- UPSTREAM_CHECK_COMMITS = "1"
- 
- S = "${WORKDIR}/git"
++CVE_PRODUCT:append = " libswresample"
+-- 
+2.25.1
+
 
