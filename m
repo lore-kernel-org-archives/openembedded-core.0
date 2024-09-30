@@ -1,152 +1,307 @@
-Return-Path: <atharvanandanwar@outlook.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A37CCF6495
-	for <webhook@archiver.kernel.org>; Sun, 29 Sep 2024 22:46:55 +0000 (UTC)
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (NAM12-DM6-obe.outbound.protection.outlook.com [40.92.22.102])
- by mx.groups.io with SMTP id smtpd.web11.42570.1727650006790077669
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19139CF6499
+	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 01:57:36 +0000 (UTC)
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+ by mx.groups.io with SMTP id smtpd.web11.45577.1727661449726316233
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Sep 2024 15:46:46 -0700
+ Sun, 29 Sep 2024 18:57:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@outlook.com header.s=selector1 header.b=IvloLmvA;
- spf=pass (domain: outlook.com, ip: 40.92.22.102, mailfrom: atharvanandanwar@outlook.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GlGW/GMIqKhoM408KJyL9Ri69VwFhAQtaHZPxQG+hJBkkKC31PcqyemFbEugS58AiWP1DRVP0AKJ8DA49pqoNH/KGMsv1W4DLPZxFzsAc1mTDWFqa8JPGG3jFANdnfAstv+StvpuyvOUQ9Aah9YLDNiKvAGSUgBW3VAaLPx8995wZYPUlW78MZcKibPTBgjCTO606lE0Nfd1S6HMibF6kSEiu9CtR8yW9VG/XDzhzpR4QwGycv7EgwrUZxuA34yBxH6/NLBU9smXT+03k33Xl/0rDODoQr1VAwE7Q6j/Z8RI2eWxYAv3xLvdwExEYowGFNSPAfdL75xluvQukxvFHg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ibbCBQNpPZaqboTDK6Yn8KR1qXalIxayOvrXXkrqb8U=;
- b=w5yjPetl1Un8xi14kkyhXkhQQuLMxCfNokSQfRm8TwqvGoQXqaE3AhL9Z/Op/KtIoHWtjDE5LAwiL82w9FikwwmeBZhX0Pf2p0f7taQNKz0dTjFuZZhvvqsjiMIrWv2MGHe7X1PIgo2TpJ4bSkC0VErabi3l6/m83vSjNBSjKnqwJW12pPKW+0ZHhVMTbEsczM01UNewbgaZcjFbSkTCYWQQkH/wSndFDgyBpp7gsyHHPQm8P4x7a66Zd1BnG54D7klAWdRYA/dXY4+Gy5cKluvzZlUJx1zVcELLCvkKHaOiCmMcdqzPbJKoed+PBHn1tUNDNJ84SsLBMTc13gwCxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ibbCBQNpPZaqboTDK6Yn8KR1qXalIxayOvrXXkrqb8U=;
- b=IvloLmvAWXu9q1+9IpE/dvGCaJjUJHwIFzpoZrfMVV0flsYTtHGZEn9erQVsTttTE+tw3St5/UJ6MGBFtoN1IDGB2VphBrKyfu1F7OHZHaTQ8yfaEd70TuNoqkicDaTqhsNUF4GNKHdWi4zsso2v4xVGB88zZievO9SfN1KMyR1GQP6HgBMBo9zfQBo/ZMEfSbzHq5ZiMXxOE8SWjwq20JwndGK5TFZq3AAajm8BwlGZ445l/U5iB1Rs//VcRHv+D1U2gPJ2AfBzIu+yOspuRqyB15h6MD7J5/4zFO0s5Rj/9Mfwj8fUXKcxZPFVKfNuScgCz2ADMNKhQBrDwp2BRA==
-Received: from SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM (2603:10b6:806:3e8::8)
- by EA2P223MB0933.NAMP223.PROD.OUTLOOK.COM (2603:10b6:303:259::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.26; Sun, 29 Sep
- 2024 22:46:44 +0000
-Received: from SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
- ([fe80::654a:203f:c17c:d184]) by SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
- ([fe80::654a:203f:c17c:d184%3]) with mapi id 15.20.8005.024; Sun, 29 Sep 2024
- 22:46:44 +0000
-Message-ID: <SA1P223MB11879950298340E9B6F0DD73CB752@SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM>
-Date: Sun, 29 Sep 2024 17:46:43 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [master][PATCH] meta-toolchain: inherit nopackages
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <SA1P223MB1187C93538CD6219C8C10402CB752@SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM>
- <2bd45ff2788e33784e47a6c3c9d0faab2ca05380.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Atharva Nandanwar <atharvanandanwar@outlook.com>
-In-Reply-To: <2bd45ff2788e33784e47a6c3c9d0faab2ca05380.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: CH2PR07CA0003.namprd07.prod.outlook.com
- (2603:10b6:610:20::16) To SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
- (2603:10b6:806:3e8::8)
-X-Microsoft-Original-Message-ID: <2f8520d8-b2ce-44aa-9f0d-89ce82a0f003@outlook.com>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cr3qqWl3;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2e09ff2d890so3147221a91.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Sep 2024 18:57:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727661449; x=1728266249; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=V6iTAE7WJF8uwvoh7UaFr+qlV9xOVeEB7uHBd+HdNUA=;
+        b=cr3qqWl3HWZLCThsuc5mmMsBNtKB8l0eUqtACN+H3Gmy0LjFlgcNVIMHUqafKZwUKj
+         wwDYOxVCdzmXf3JO6F+P3kYMBVT7PIJh7JWbsJfcNffpUs6qPi1as60U9qSWiZ96DP0J
+         9uatpZAeI0895tKajltHj9pBy8rfesoH2HVaGhWLrJWqYATHEGf3QtFcSneCABJOfwoh
+         xac5uSCR6lLUQK8aGXjnYueaE9jhRCkBJtPOSQ9dVsjMbGBPX9vS7bxufqqldvg+9/6t
+         6Fh+wGhtaJS0Kgj3cDuKdYO0Pm4mbsgaOzrHzWEtLc9suYeI4IMvbY2K/QXNA8eZsMlp
+         XLOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727661449; x=1728266249;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V6iTAE7WJF8uwvoh7UaFr+qlV9xOVeEB7uHBd+HdNUA=;
+        b=VPEiA654JWeR3Hd/IKgHGHquacUutPA0m7f67uTh2NX/ww8H6VTvmhI8hdYJvb9lne
+         1q/I7IZmDGu/2VhhvSLHcjDBX6yasLijmH4DoIzpAxACNvLbZbZew5aIzgkFo7JIoqBm
+         f4mltxsQyeP9RQx6RjdpyjhIXd7IIActGVZ+yhHQ0z2dWcBVxoQidwa5KhSVmTjnqYQv
+         n6O/OOPI0+uvps91DRzI2ytrPvAZeHbqBqij8xVaz1lxcLYVhIaNpcDnga2SY4SqymmV
+         Xrh1MvlgkWpLkAE6QfPQl1gdEFcTAYmuFATir1+lDSysMcJcKPlB9v4tJHXjld15P6tX
+         3vjA==
+X-Gm-Message-State: AOJu0YyYRZyjuUGe94hxlZ25EtgF6oMD4OrV3i9KeQ68ePNfZK4aW7RI
+	P7ieeRfMfnBzpITQ7dI6KNMOv13lPPrzA1lLThzyzDZZNvfKpcmghqjz7rLHOD3vtQHLAP2LPY7
+	YshA=
+X-Google-Smtp-Source: AGHT+IHrurxvcN63/+PqfgNTRG2k6zQS2S7/ok0NONp0sYxxZ7+C2eAYB3cq/FBpI5p0n0eVzKD63w==
+X-Received: by 2002:a17:90b:4004:b0:2d9:dd4a:6a95 with SMTP id 98e67ed59e1d1-2e0b8e927f6mr13058465a91.25.1727661448958;
+        Sun, 29 Sep 2024 18:57:28 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e0d4af744bsm5496070a91.23.2024.09.29.18.57.28
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Sep 2024 18:57:28 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 01/27] curl: fix CVE-2024-8096
+Date: Sun, 29 Sep 2024 18:56:56 -0700
+Message-Id: <6efcd8aea340186df484afc07a2b63a2c2a3af66.1727661284.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1727661284.git.steve@sakoman.com>
+References: <cover.1727661284.git.steve@sakoman.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA1P223MB1187:EE_|EA2P223MB0933:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3880a633-4cc7-495f-4e1c-08dce0d897cc
-X-Microsoft-Antispam: 
-	BCL:0;ARA:14566002|5072599009|8060799006|6090799003|19110799003|461199028|7092599003|15080799006|440099028|3412199025;
-X-Microsoft-Antispam-Message-Info: 
-	9rZgSyWDH77YbeFqW+dNGOaklmL0rLIUvHmZRKYpNVI1BIUldyBnQWeTYAXoxuNHXoxP6XjYPdO4TR9WnJrAgQnM7MCxwUaNzGwLvXVOoqzQNs7SDrZecYaJEb0c2tZZSc9X5BtETvcUV4neRU9lnGPC25ao+5/3xFlYTZ25hqPtRlsQCsV9MFSefBCRpa2oZr17S3uhruAX0foQmnIl6w55G3pbvGlGAFlzkM75iYqHa+v/5QZFzwJlvYKNzJFqYzm9Tz2EV+v2xKwXQdpyBoLc3ivZgf2DdB8kU8Z51q5fF2+r4hAhz+vhifjbGWqs1P2YlRj9nLYVQSMMo9iadVuQEJb1nWJW1Pl44nNw+oerHx2pMW8fiGwFv4KDkPzUfo11dChHve65EqVum/vdYhn12TRdzOD2zqNWWOjjNGX9XDycIlYAr+SzIbtEbwC1GQJqyHrQvoJRfc4nbPUcygJjMqfpcdOMO3F43Dfz+jv/aene6v1hzY6Zxs8ZEUTd/wRLX3ZMa4OgsYM6LNYxaoUpiOXyM4DLfF0kCrDWtv6wYkx7bMxqm8NuSFF7jZHzai0U6sl6cIt9STrpmYvaruiUzFhh1YZXzSHyI2ZUkWESuf3dDJI16ryRSQhGbhk+39NFwJvU+lNhBjyBEBcu/I4XIqtMoG8GJo/zW0hKrk3p+m2LsokIGcH890QrPLNCHWeIN7ZTP0Xu2WLkLoq4I6bx+b5S5O2E2+jt6t7LtcSsYY03VIl2p9ZvWQcaD4uL+pnyme/8v3GvU81GW97kEQ==
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?ltkWyw5id/GPp23BQtm6Qk7UQbkTC6mg14TqA/PG967eI4Zyj0ROPYxrWSxm?=
- =?us-ascii?Q?6iqwRkHUoy/2kTgndY5ZStEBvYbOtJCUbNl0HSuJCfUYQ0RIVyE9I0YBnWn3?=
- =?us-ascii?Q?8nIc9+BJLZjNq0lwrHgm4wE0XFP36Ghee6EXwtL5HWEzyr6YpJIOt3ojWDOs?=
- =?us-ascii?Q?/uy2kQrs4M7/OsL2gei10NB1Rr1RFDgKS0npWE/BbAdMNyd/hG/+MGRURwpJ?=
- =?us-ascii?Q?2C/JWVLHUFYXWg17e99keDqR8yM/5zueCk5TFq9mvvLIUflPPeFAJMQVgnBu?=
- =?us-ascii?Q?GehaiVvJRMgeb3osnp4NDD1le/60XGNtezYez+cnKTHvUpVqN9JWwivs3HoG?=
- =?us-ascii?Q?H7pkyREyMOUavGdCWcHcR+6Kb1TsLOgKmI64lKjdWoAl0C+Wl6bEcgqdgKZV?=
- =?us-ascii?Q?NksGs5Po8XJMeamMMXeqalUmoxoI4/VPNN1EHJqVx9ZLSG+DQmwyg1YGjC9C?=
- =?us-ascii?Q?zNfAX27JLurWFjsJevBgDrzIQti+8hBEXEvdvtnpbxV9yOfn88M68pA46UHq?=
- =?us-ascii?Q?GtJUijYyJzQ/CxhDuEdydAP0BQVMZ8FlCXvdTErOz9neEQV6cdQ/DOdgoIEi?=
- =?us-ascii?Q?EPnR/m3MFCQAJWi9d38UstA0Y+32l5zDvS7mzR9dc8D76MkQYZFjX8MkSeCD?=
- =?us-ascii?Q?kTjgBnt5KfkYMyrJYLKkiMSFE7EN4AjmW5dILLOuapUrEz+dwLZq4NFnw8NS?=
- =?us-ascii?Q?9sDC3yo9UVHixrr98Lt1ylo2cG8ftbmb1nXvJ9/N1to+W5CarBSXm+FwHG5n?=
- =?us-ascii?Q?Q++zG8nYcLZsMLe3DGxY7OrILFXCRTGuAaVFHdkbYvZ0h9CR2fC4oxCH6RFH?=
- =?us-ascii?Q?bYH0U+D3vJw11WsjxKK9Q3MQ7o3aq3w+4OhZvD71aTGz2W2jBsSN6KK0YfIt?=
- =?us-ascii?Q?hqmh53urXSx89Pc9WhY/ll06f8fs8y+EAiheL/54ep/g3jp18yMtmD/HO8HG?=
- =?us-ascii?Q?KBIlPLCbLJwmeNw291LTXWRPaMABmyt+pLYPilo2qRn9Mp9Hs28KUztRznxK?=
- =?us-ascii?Q?8DdBXTDbagCKEn3wyM0hAAeT5wJbgOeUWSDskK/0dw/JvRQjjteVWVb7QXmN?=
- =?us-ascii?Q?Asqfhpl6FVw813nVrCAgTraV8JOkplo57pMqsR+44YSymkv7qguHXf6Q5Tda?=
- =?us-ascii?Q?71xPO0ZLfXITmcnCUl31kdO7cTbkq6Nzh8sTtkCl10L7VoWwkJXOAwI8JVdu?=
- =?us-ascii?Q?6bPJ9ozGfFD0NBHxywzZXsIMdcyswAtnIUa9g1VDOgAmbUjmI4qZG6s5mRSc?=
- =?us-ascii?Q?TzanN420+k993Fx5YOnx?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3880a633-4cc7-495f-4e1c-08dce0d897cc
-X-MS-Exchange-CrossTenant-AuthSource: SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2024 22:46:44.7320
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: EA2P223MB0933
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 29 Sep 2024 22:46:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205061
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 01:57:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205063
 
-On 9/29/24 16:57, Richard Purdie wrote:
-> On Sun, 2024-09-29 at 13:55 -0500, Atharva Nandanwar via
-> lists.openembedded.org wrote:
->> From: Atharva Nandanwar <atharvanandanwar@outlook.com>
->>
->> - buildhistory emits hard error when no files are present in
->> =C2=A0 package-split.
->> - meta-toolchain doesn't install/package any files, hence inheriting
->> =C2=A0 nopackages should allow building this recipe again
->>
->> Signed-off-by: Atharva Nandanwar <atharvanandanwar@outlook.com>
->> ---
->> =C2=A0meta/recipes-core/meta/meta-toolchain.bb | 2 +-
->> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->>
->> diff --git a/meta/recipes-core/meta/meta-toolchain.bb b/meta/recipes-
->> core/meta/meta-toolchain.bb
->> index 260e03934e..c97cc68ad4 100644
->> --- a/meta/recipes-core/meta/meta-toolchain.bb
->> +++ b/meta/recipes-core/meta/meta-toolchain.bb
->> @@ -2,4 +2,4 @@ SUMMARY =3D "Meta package for building a installable
->> toolchain"
->> =C2=A0LICENSE =3D "MIT"
->> =C2=A0
->> =C2=A0
->> -inherit populate_sdk
->> +inherit nopackages populate_sdk
-> This shouldn't be needed on master since:
->=20
-> meta/classes-recipe/populate_sdk_base.bbclass
->=20
-> has:
->=20
-> inherit image-postinst-intercepts image-artifact-names nopackages
->=20
-> Cheers,
->=20
-> Richard
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-That makes sense.
+Upstream-Status: Backport from https://github.com/curl/curl/commit/aeb1a281cab13c7ba791cb104e556b20e713941f
 
-Looks like we need [1] on scarthgap and kirkstone. As the buildhistory patc=
-h made it's way onto those branches.
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../curl/curl/CVE-2024-8096.patch             | 207 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+ 2 files changed, 208 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2024-8096.patch
 
-1 - 29ac598c4f754ce5cee59d3360612f661ad02191
+diff --git a/meta/recipes-support/curl/curl/CVE-2024-8096.patch b/meta/recipes-support/curl/curl/CVE-2024-8096.patch
+new file mode 100644
+index 0000000000..a26a6253c9
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2024-8096.patch
+@@ -0,0 +1,207 @@
++From aeb1a281cab13c7ba791cb104e556b20e713941f Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 20 Aug 2024 16:14:39 +0200
++Subject: [PATCH] gtls: fix OCSP stapling management
++
++Reported-by: Hiroki Kurosawa
++Closes #14642
++ 
++Upstream-Status: Backport [https://github.com/curl/curl/commit/aeb1a281cab13c7ba791cb104e556b20e713941f]
++CVE: CVE-2024-8096
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/vtls/gtls.c | 146 ++++++++++++++++++++++++------------------------
++ 1 file changed, 73 insertions(+), 73 deletions(-)
++
++diff --git a/lib/vtls/gtls.c b/lib/vtls/gtls.c
++index 6eaa6a8..7dd7df8 100644
++--- a/lib/vtls/gtls.c
+++++ b/lib/vtls/gtls.c
++@@ -538,6 +538,13 @@ CURLcode gtls_client_init(struct Curl_easy *data,
++   init_flags |= GNUTLS_NO_TICKETS;
++ #endif
++ 
+++#if defined(GNUTLS_NO_STATUS_REQUEST)
+++  if(!config->verifystatus)
+++    /* Disable the "status_request" TLS extension, enabled by default since
+++       GnuTLS 3.8.0. */
+++    init_flags |= GNUTLS_NO_STATUS_REQUEST;
+++#endif
+++
++   rc = gnutls_init(&gtls->session, init_flags);
++   if(rc != GNUTLS_E_SUCCESS) {
++     failf(data, "gnutls_init() failed: %d", rc);
++@@ -923,104 +930,97 @@ Curl_gtls_verifyserver(struct Curl_easy *data,
++     infof(data, "  server certificate verification SKIPPED");
++ 
++   if(config->verifystatus) {
++-    if(gnutls_ocsp_status_request_is_checked(session, 0) == 0) {
++-      gnutls_datum_t status_request;
++-      gnutls_ocsp_resp_t ocsp_resp;
+++    gnutls_datum_t status_request;
+++    gnutls_ocsp_resp_t ocsp_resp;
+++    gnutls_ocsp_cert_status_t status;
+++    gnutls_x509_crl_reason_t reason;
++ 
++-      gnutls_ocsp_cert_status_t status;
++-      gnutls_x509_crl_reason_t reason;
+++    rc = gnutls_ocsp_status_request_get(session, &status_request);
++ 
++-      rc = gnutls_ocsp_status_request_get(session, &status_request);
+++    if(rc == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
+++      failf(data, "No OCSP response received");
+++      return CURLE_SSL_INVALIDCERTSTATUS;
+++    }
++ 
++-      infof(data, " server certificate status verification FAILED");
+++    if(rc < 0) {
+++      failf(data, "Invalid OCSP response received");
+++      return CURLE_SSL_INVALIDCERTSTATUS;
+++    }
++ 
++-      if(rc == GNUTLS_E_REQUESTED_DATA_NOT_AVAILABLE) {
++-        failf(data, "No OCSP response received");
++-        return CURLE_SSL_INVALIDCERTSTATUS;
++-      }
+++    gnutls_ocsp_resp_init(&ocsp_resp);
++ 
++-      if(rc < 0) {
++-        failf(data, "Invalid OCSP response received");
++-        return CURLE_SSL_INVALIDCERTSTATUS;
++-      }
+++    rc = gnutls_ocsp_resp_import(ocsp_resp, &status_request);
+++    if(rc < 0) {
+++      failf(data, "Invalid OCSP response received");
+++      return CURLE_SSL_INVALIDCERTSTATUS;
+++    }
++ 
++-      gnutls_ocsp_resp_init(&ocsp_resp);
+++    (void)gnutls_ocsp_resp_get_single(ocsp_resp, 0, NULL, NULL, NULL, NULL,
+++                                      &status, NULL, NULL, NULL, &reason);
++ 
++-      rc = gnutls_ocsp_resp_import(ocsp_resp, &status_request);
++-      if(rc < 0) {
++-        failf(data, "Invalid OCSP response received");
++-        return CURLE_SSL_INVALIDCERTSTATUS;
++-      }
+++    switch(status) {
+++    case GNUTLS_OCSP_CERT_GOOD:
+++      break;
++ 
++-      (void)gnutls_ocsp_resp_get_single(ocsp_resp, 0, NULL, NULL, NULL, NULL,
++-                                        &status, NULL, NULL, NULL, &reason);
+++    case GNUTLS_OCSP_CERT_REVOKED: {
+++      const char *crl_reason;
++ 
++-      switch(status) {
++-      case GNUTLS_OCSP_CERT_GOOD:
+++      switch(reason) {
+++      default:
+++      case GNUTLS_X509_CRLREASON_UNSPECIFIED:
+++        crl_reason = "unspecified reason";
++         break;
++ 
++-      case GNUTLS_OCSP_CERT_REVOKED: {
++-        const char *crl_reason;
++-
++-        switch(reason) {
++-          default:
++-          case GNUTLS_X509_CRLREASON_UNSPECIFIED:
++-            crl_reason = "unspecified reason";
++-            break;
++-
++-          case GNUTLS_X509_CRLREASON_KEYCOMPROMISE:
++-            crl_reason = "private key compromised";
++-            break;
++-
++-          case GNUTLS_X509_CRLREASON_CACOMPROMISE:
++-            crl_reason = "CA compromised";
++-            break;
++-
++-          case GNUTLS_X509_CRLREASON_AFFILIATIONCHANGED:
++-            crl_reason = "affiliation has changed";
++-            break;
+++      case GNUTLS_X509_CRLREASON_KEYCOMPROMISE:
+++        crl_reason = "private key compromised";
+++        break;
++ 
++-          case GNUTLS_X509_CRLREASON_SUPERSEDED:
++-            crl_reason = "certificate superseded";
++-            break;
+++      case GNUTLS_X509_CRLREASON_CACOMPROMISE:
+++        crl_reason = "CA compromised";
+++        break;
++ 
++-          case GNUTLS_X509_CRLREASON_CESSATIONOFOPERATION:
++-            crl_reason = "operation has ceased";
++-            break;
+++      case GNUTLS_X509_CRLREASON_AFFILIATIONCHANGED:
+++        crl_reason = "affiliation has changed";
+++        break;
++ 
++-          case GNUTLS_X509_CRLREASON_CERTIFICATEHOLD:
++-            crl_reason = "certificate is on hold";
++-            break;
+++      case GNUTLS_X509_CRLREASON_SUPERSEDED:
+++        crl_reason = "certificate superseded";
+++        break;
++ 
++-          case GNUTLS_X509_CRLREASON_REMOVEFROMCRL:
++-            crl_reason = "will be removed from delta CRL";
++-            break;
+++      case GNUTLS_X509_CRLREASON_CESSATIONOFOPERATION:
+++        crl_reason = "operation has ceased";
+++        break;
++ 
++-          case GNUTLS_X509_CRLREASON_PRIVILEGEWITHDRAWN:
++-            crl_reason = "privilege withdrawn";
++-            break;
+++      case GNUTLS_X509_CRLREASON_CERTIFICATEHOLD:
+++        crl_reason = "certificate is on hold";
+++        break;
++ 
++-          case GNUTLS_X509_CRLREASON_AACOMPROMISE:
++-            crl_reason = "AA compromised";
++-            break;
++-        }
+++      case GNUTLS_X509_CRLREASON_REMOVEFROMCRL:
+++        crl_reason = "will be removed from delta CRL";
+++        break;
++ 
++-        failf(data, "Server certificate was revoked: %s", crl_reason);
+++      case GNUTLS_X509_CRLREASON_PRIVILEGEWITHDRAWN:
+++        crl_reason = "privilege withdrawn";
++         break;
++-      }
++ 
++-      default:
++-      case GNUTLS_OCSP_CERT_UNKNOWN:
++-        failf(data, "Server certificate status is unknown");
+++      case GNUTLS_X509_CRLREASON_AACOMPROMISE:
+++        crl_reason = "AA compromised";
++         break;
++       }
++ 
++-      gnutls_ocsp_resp_deinit(ocsp_resp);
+++      failf(data, "Server certificate was revoked: %s", crl_reason);
+++      break;
+++    }
+++
+++    default:
+++    case GNUTLS_OCSP_CERT_UNKNOWN:
+++      failf(data, "Server certificate status is unknown");
+++      break;
+++    }
++ 
+++    gnutls_ocsp_resp_deinit(ocsp_resp);
+++    if(status != GNUTLS_OCSP_CERT_GOOD)
++       return CURLE_SSL_INVALIDCERTSTATUS;
++-    }
++-    else
++-      infof(data, "  server certificate status verification OK");
++   }
++   else
++     infof(data, "  server certificate status verification SKIPPED");
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 5442d8d4fd..d094604ea1 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -18,6 +18,7 @@ SRC_URI = " \
+     file://CVE-2024-6197.patch \
+     file://CVE-2024-7264-1.patch \
+     file://CVE-2024-7264-2.patch \
++    file://CVE-2024-8096.patch \
+ "
+ SRC_URI[sha256sum] = "6fea2aac6a4610fbd0400afb0bcddbe7258a64c63f1f68e5855ebc0c659710cd"
+ 
+-- 
+2.34.1
 
-Thanks,
---Atharva
 
