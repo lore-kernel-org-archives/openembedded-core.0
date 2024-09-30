@@ -1,102 +1,111 @@
-Return-Path: <foss@0leil.net>
+Return-Path: <purushottam27.kumar@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDF0CF6497
-	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 10:37:10 +0000 (UTC)
-Received: from smtp-bc0a.mail.infomaniak.ch (smtp-bc0a.mail.infomaniak.ch [45.157.188.10])
- by mx.groups.io with SMTP id smtpd.web11.51652.1727692624306215298
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4916CF6499
+	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 11:53:50 +0000 (UTC)
+Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.53])
+ by mx.groups.io with SMTP id smtpd.web11.52793.1727697219506818957
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Sep 2024 03:37:04 -0700
+ Mon, 30 Sep 2024 04:53:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: 0leil.net, ip: 45.157.188.10, mailfrom: foss+yocto@0leil.net)
-Received: from smtp-3-0000.mail.infomaniak.ch (smtp-3-0000.mail.infomaniak.ch [10.4.36.107])
-	by smtp-3-3000.mail.infomaniak.ch (Postfix) with ESMTPS id 4XHHZ61VRZzpFB;
-	Mon, 30 Sep 2024 12:37:02 +0200 (CEST)
-Received: from unknown by smtp-3-0000.mail.infomaniak.ch (Postfix) with ESMTPA id 4XHHZ53nw9zJDT;
-	Mon, 30 Sep 2024 12:37:01 +0200 (CEST)
-From: Quentin Schulz <foss+yocto@0leil.net>
-Date: Mon, 30 Sep 2024 12:36:44 +0200
-Subject: [PATCH scarthgap RFC] bitbake.conf: Add truncate to HOSTTOOLS
+ dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.53, mailfrom: purushottam27.kumar@lge.com)
+Received: from unknown (HELO lgeamrelo02.lge.com) (156.147.1.126)
+	by 156.147.23.53 with ESMTP; 30 Sep 2024 20:53:37 +0900
+X-Original-SENDERIP: 156.147.1.126
+X-Original-MAILFROM: purushottam27.kumar@lge.com
+Received: from unknown (HELO si-rd24bld77.lge.net) (10.221.31.77)
+	by 156.147.1.126 with ESMTP; 30 Sep 2024 20:53:37 +0900
+X-Original-SENDERIP: 10.221.31.77
+X-Original-MAILFROM: purushottam27.kumar@lge.com
+From: Purushottam Choudhary <purushottam27.kumar@lge.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Purushottam Choudhary <purushottam27.kumar@lge.com>
+Subject: [kirkstone][PATCH v3] kmscube: Add patch to fix -int-conversion build error
+Date: Mon, 30 Sep 2024 17:23:32 +0530
+Message-Id: <20240930115332.925080-1-purushottam27.kumar@lge.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240930-6-11-kallsyms-truncate-v1-1-47fc9143fff9@cherry.de>
-X-B4-Tracking: v=1; b=H4sIADt/+mYC/x3MQQqDQAxA0atI1gYmOkjtVcTFYKIN6lQmtljEu
- 3dw+Rb/n2CSVAyexQlJvmr6jhlUFjC8QpwElbOhcpV3be2wQSKcw7LYbzXc0ycOYRfkB3tuR2r
- YE+R4SzLqcY+7/rr+wMnzf2gAAAA=
-To: bruce.ashfield@gmail.com, Ross.Burton@arm.com, 
- openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
- Quentin Schulz <quentin.schulz@cherry.de>
-X-Mailer: b4 0.14.0
-X-Infomaniak-Routing: alpha
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 10:37:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205115
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 11:53:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205116
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On some platforms, `EGLNativeDisplayType` is an int instead of
+a pointer, in which case the void pointer will raise
+a `-Wint-conversion`.
 
-Some wic images need this command. Since it is part of coreutils, it doesn't really
-cost anything to have in HOSTTOOLS and it avoids signifiant build dependencies on
-coreutils-native.
+Add change as a patch instead of updating SRCREV .
+if we update SRCREV might will get compatiblity issue
+with current gstreamer 1.20.7 version because SRCREV brings changes
+which resolves negotiation issues encountered with V4L2 stateless
+hardware video decoders when using kmscube video playback option
+which has gstreamer dependency requirement to 1.22.0
 
-[YOCTO #15571]
-
-(cherry picked from commit 522000ce5c4f0201cbe42d7826b6a8489ed10117)
-[necessary for building Linux kernel >= 6.11 with CONFIG_KALLSYMS, c.f.
- https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1472464c6248575bf2d01c7f076b94704bb32c95]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+Signed-off-by: Purushottam Choudhary <purushottam27.kumar@lge.com>
 ---
-The Linux kernel in its 6.11 release or later, with KALLSYMS config
-enabled, will now fail to build because truncate host tools is
-required, c.f.
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=1472464c6248575bf2d01c7f076b94704bb32c95
+ ...001-common-fix-cast-type-in-init_egl.patch | 34 +++++++++++++++++++
+ meta/recipes-graphics/kmscube/kmscube_git.bb  |  6 ++--
+ 2 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch
 
-but the kernel recipe doesn't depend on coreutils-native, which is too
-big of a dependency for what it brings according to Richard (for the
-original patch destined to wic) and Bruce (as discussed over mailing
-list for the linux-yocto recipe).
-
-Let's backport a patch that was implemented for something else (wic)
-from styhead/master as truncate is pretty much guaranteed to be present
-on the host with hopefully no compatibility issues between
-implementation.
-
-Marked as RFC because it's a "big" change and I don't want the ML to
-just gloss over it without questioning it :)
-
-Note: I'm currently NOT building that kernel in my layer, but it'll come
-at some point next year, though I did hit this issue when doing a very
-quick test with a local tree.
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index ba8bd5f975..78f15b76ae 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -521,7 +521,7 @@ HOSTTOOLS += " \
-     mktemp mv nm objcopy objdump od patch perl pr printf pwd \
-     python3 pzstd ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
-     sha1sum sha224sum sha256sum sha384sum sha512sum \
--    sleep sort split stat strings strip tail tar tee test touch tr true uname \
-+    sleep sort split stat strings strip tail tar tee test touch tr true truncate uname \
-     uniq unzstd wc wget which xargs zstd \
- "
+diff --git a/meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch b/meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch
+new file mode 100644
+index 0000000000..50df211d60
+--- /dev/null
++++ b/meta/recipes-graphics/kmscube/kmscube/0001-common-fix-cast-type-in-init_egl.patch
+@@ -0,0 +1,34 @@
++From b2f97f53e01e07a920761e5d3e3ba22898b794a4 Mon Sep 17 00:00:00 2001
++From: Eric Engestrom <eric@igalia.com>
++Date: Tue, 24 Sep 2024 17:57:45 +0200
++Subject: [PATCH] common: fix cast type in init_egl()
++
++On some platforms, `EGLNativeDisplayType` is an int instead of
++a pointer, in which case the void pointer will raise
++a `-Wint-conversion`.
++
++Let's cast it to the correct type directly.
++
++Closes: https://gitlab.freedesktop.org/mesa/kmscube/-/issues/16
++        https://gitlab.freedesktop.org/mesa/kmscube/-/merge_requests/57
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/mesa/kmscube/-/commit/b2f97f53e01e07a920761e5d3e3ba22898b794a4]
++
++Signed-off-by: Purushottam Choudhary <Purushottam27.kumar@lge.com>
++---
++ common.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/common.c b/common.c
++index e52d480..e1e2dcf 100644
++--- a/common.c
+++++ b/common.c
++@@ -341,7 +341,7 @@ int init_egl(struct egl *egl, const struct gbm *gbm, int samples)
++ 		egl->display = egl->eglGetPlatformDisplayEXT(EGL_PLATFORM_GBM_KHR,
++ 				gbm->dev, NULL);
++ 	} else {
++-		egl->display = eglGetDisplay((void *)gbm->dev);
+++		egl->display = eglGetDisplay((EGLNativeDisplayType)gbm->dev);
++ 	}
++ 
++ 	if (!eglInitialize(egl->display, &major, &minor)) {
+diff --git a/meta/recipes-graphics/kmscube/kmscube_git.bb b/meta/recipes-graphics/kmscube/kmscube_git.bb
+index 98f110527e..40c5a14492 100644
+--- a/meta/recipes-graphics/kmscube/kmscube_git.bb
++++ b/meta/recipes-graphics/kmscube/kmscube_git.bb
+@@ -11,8 +11,10 @@ DEPENDS = "virtual/libgles3 virtual/libgles2 virtual/egl libdrm virtual/libgbm"
+ LIC_FILES_CHKSUM = "file://kmscube.c;beginline=1;endline=23;md5=8b309d4ee67b7315ff7381270dd631fb"
  
-
----
-base-commit: f888dd911529a828820799a7a1b75dfd3a44847c
-change-id: 20240930-6-11-kallsyms-truncate-d8d4d9f16d41
-
-Best regards,
--- 
-Quentin Schulz <quentin.schulz@cherry.de>
-
+ SRCREV = "9f63f359fab1b5d8e862508e4e51c9dfe339ccb0"
+-SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https"
+-SRC_URI += "file://0001-texturator-Use-correct-GL-extension-header.patch"
++SRC_URI = "git://gitlab.freedesktop.org/mesa/kmscube;branch=master;protocol=https \
++           file://0001-texturator-Use-correct-GL-extension-header.patch \
++           file://0001-common-fix-cast-type-in-init_egl.patch \
++"
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+ S = "${WORKDIR}/git"
 
