@@ -2,36 +2,36 @@ Return-Path: <purushottam27.kumar@lge.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6012DCF649D
-	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 07:27:08 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B60BCF6497
+	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 07:31:58 +0000 (UTC)
 Received: from lgeamrelo11.lge.com (lgeamrelo11.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.web11.49152.1727681222482902201
+ by mx.groups.io with SMTP id smtpd.web11.49196.1727681515319225524
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Sep 2024 00:27:02 -0700
+ Mon, 30 Sep 2024 00:31:55 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: purushottam27.kumar@lge.com)
-Received: from unknown (HELO lgeamrelo04.lge.com) (156.147.1.127)
-	by 156.147.23.52 with ESMTP; 30 Sep 2024 16:26:59 +0900
-X-Original-SENDERIP: 156.147.1.127
+Received: from unknown (HELO lgeamrelo01.lge.com) (156.147.1.125)
+	by 156.147.23.52 with ESMTP; 30 Sep 2024 16:31:52 +0900
+X-Original-SENDERIP: 156.147.1.125
 X-Original-MAILFROM: purushottam27.kumar@lge.com
 Received: from unknown (HELO si-rd24bld77.lge.net) (10.221.31.77)
-	by 156.147.1.127 with ESMTP; 30 Sep 2024 16:26:59 +0900
+	by 156.147.1.125 with ESMTP; 30 Sep 2024 16:31:52 +0900
 X-Original-SENDERIP: 10.221.31.77
 X-Original-MAILFROM: purushottam27.kumar@lge.com
 From: Purushottam Choudhary <purushottam27.kumar@lge.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Purushottam Choudhary <purushottam27.kumar@lge.com>
-Subject: [PATCH] kmscube: Add patch to fix -int-conversion build error
-Date: Mon, 30 Sep 2024 12:56:55 +0530
-Message-Id: <20240930072655.3156218-1-purushottam27.kumar@lge.com>
+Subject: [meta-oe][kirkstone][PATCHv2] kmscube: Add patch to fix -int-conversion build error
+Date: Mon, 30 Sep 2024 13:01:49 +0530
+Message-Id: <20240930073149.3209357-1-purushottam27.kumar@lge.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 07:27:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205095
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 07:31:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205096
 
 On some platforms, `EGLNativeDisplayType` is an int instead of
 a pointer, in which case the void pointer will raise
