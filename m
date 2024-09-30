@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63F62CF649D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FF4ACF64A2
 	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 01:58:16 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.web11.45601.1727661491865044752
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.45297.1727661489981324558
  for <openembedded-core@lists.openembedded.org>;
- Sun, 29 Sep 2024 18:58:11 -0700
+ Sun, 29 Sep 2024 18:58:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xHw8oH3f;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.49, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-2e0aded661bso2659931a91.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 29 Sep 2024 18:58:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qj3k7Vtn;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2e0a950e2f2so2904100a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 29 Sep 2024 18:58:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727661491; x=1728266291; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1727661489; x=1728266289; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ro4d7ym1DapVNNfaZMVZ5LNO0EVNACqoD5C45KIRbng=;
-        b=xHw8oH3fjYWHucaf/AcqA4lRUUl94V4OX3jelyOAomRPn05Ksogbua4g4O+kHQ18tG
-         YX50jjl47Tpn0KtZkzwpWYsOH2HQBGITKMYin0UC7NBydH3Ha0769IDZl11GgByUCnwT
-         oYhzvpcdrmE15ped6eyBvC1fm6Sj46LM+Sc6r5oCZhlTiIKmtLwOBL32Y6olSlh0JCbI
-         URK7AdYK/wh1MRLnYHv+mUjAA6CmxCdnIo/1c3sf87o+6o7wTQVUXXLARcvQmIaUu9yx
-         zWGCCeSk6srF5HHlvWrQ07Ek5WsShjKNdfQlcsRPAOGrEnLDiXahZxNNhv1gE8cFoVxh
-         1aUw==
+        bh=Jrutfl3At8q7htEqkf9Lu8+hnaqCFs9fD1wGPNwyoaU=;
+        b=qj3k7Vtn6SF3poMxij9zIXdKV23MS8fvy1Ps8BK0UCQXWLJb0IH9bfE7eqARxmqpAR
+         GSduKZEQS3nkJdR+mFafN/cq/occkNuv10Yy+G0pbWa5yoFeglk1vsqko08lWU6yP6q0
+         NK4iNV1MyA9cU4In49FRQw8ylJoxqekKwOOSERvVl4stzwhN/Uf0cvy1Xs0SvIMM1e5E
+         pu4yGl+VsY4gmnXtt1h47OxZyUfzKcpGAK74uQt0tUS1yzR8sUxyRhRW6hwsNDUFMdgl
+         fPYZRo+xsEtZgyE5o/4/aNkWUlZW27/cvKbfAL9lYjmbvjhyH7uw/t+G7oJn2iyi1Ewt
+         N8uw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727661491; x=1728266291;
+        d=1e100.net; s=20230601; t=1727661489; x=1728266289;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ro4d7ym1DapVNNfaZMVZ5LNO0EVNACqoD5C45KIRbng=;
-        b=IPoLF4OHvjB3c9d0jmK6LHgOc4dPgarTcUr/NOkBapKwHC7i7byjAzVjvTrO4kNQpn
-         HhZomjUSUrpB/DphZQX4JqeiUL4rZWEPBdCTruM5KD6Hw9UKWcTzCcdEtCNsinhO8/C3
-         lMNSPpzh+GEGQLJ/tX+hBCA1wM6rw3oZ8Q9gdxrsMIexO2238GlAav35+8LEKFVRudhE
-         ODb8LzhgsOzBkwyb1ZaXMwbNUJ/V4HaNwpDbMpxtBquy8CeUxN0WVVtv9AzQKg7mWtsx
-         Q2BUErQtwJFYmVIMaJGCfyaHXlq2Nb+iY1OhAjLwBa1F5J8fI1/g21GNEejVH9Y12ds1
-         NoGA==
-X-Gm-Message-State: AOJu0YzVzJKTQyXwk/khFvKjwS+CCw/0jMXmqUCpWABHAGmYp8e7eVbl
-	TWe74aDmiG3PXjtVbQe9kLHeyoNVGO0bea3/kgNYmglRaFVAZrvdgjQPxO+5cuqewEGlfDvqoF4
-	5AZQ=
-X-Google-Smtp-Source: AGHT+IEN8jw7DO6PcqTY/9o/Y+XmCAtZl7fYpm9UNZZdQm1vLgT5Wk3g9pYqefn56gIu50sXB/boFw==
-X-Received: by 2002:a17:90b:1082:b0:2ca:2c4b:476 with SMTP id 98e67ed59e1d1-2e0b89e344amr12810730a91.10.1727661491092;
-        Sun, 29 Sep 2024 18:58:11 -0700 (PDT)
+        bh=Jrutfl3At8q7htEqkf9Lu8+hnaqCFs9fD1wGPNwyoaU=;
+        b=IMZ2Gn9fM+wY7/EOca0kEQd0bFN04N9hAmCRS3cRX7yd2ZUR1zomPeG+omWf0tvySg
+         +zdnso5ejsPtTZN7Y5BbgjIjad1tK5gO97DIaKMVu5vg7S7s6EaccKzqRJI2i1KDoUJm
+         FXjtIs3xX21616qA8zDoGonHmXl0AvH1wA7ymeAVPDCckdRrZOF/9oEl/rRZZ4kmKU4q
+         aNqE5gngorMExul3JdfZyw0ki7vlIjeiZLjPVLQoGpbO1Wm6tj3VfYvdQM9Ib97c8m/h
+         EH/zyrcnrbp4TDlEUaBUFeXMWRtE/O20FeN9Zqj7A+iGniG64oepAirbGWUBKZlt0C9K
+         Bqzw==
+X-Gm-Message-State: AOJu0YyfJSmb3I2L26MlehTtreXn2x89+8nHDuCDTfGsNv605E/TuA8P
+	LppaKfmAH0pTBqaXo3psFfe2ZzdX7NLbZ8Y2Ckl31WsSkR+DYLHLCLUvqSMWWFXCdFClpIr9ifW
+	vKiA=
+X-Google-Smtp-Source: AGHT+IHmgCugaWKVh7gHI7Ocy6GkLRKbqcPXMugyipE81DMy3c+QNyh6pEtSnR4swPENOohrwTJ/Rw==
+X-Received: by 2002:a17:90a:684d:b0:2e0:adb6:d0ab with SMTP id 98e67ed59e1d1-2e0b79765f2mr12451669a91.0.1727661489161;
+        Sun, 29 Sep 2024 18:58:09 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e0d4af744bsm5496070a91.23.2024.09.29.18.58.10
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e0d4af744bsm5496070a91.23.2024.09.29.18.58.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Sep 2024 18:58:10 -0700 (PDT)
+        Sun, 29 Sep 2024 18:58:08 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 25/27] rpm: fix expansion of %_libdir in macros
-Date: Sun, 29 Sep 2024 18:57:20 -0700
-Message-Id: <7c7f95668d270a825c7d3d235ec2b8d4e7eb0b9f.1727661284.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 24/27] pulseaudio, desktop-file-utils: correct freedesktop.org -> www.freedesktop.org SRC_URI
+Date: Sun, 29 Sep 2024 18:57:19 -0700
+Message-Id: <60f411d19a9ea5297911eed64902e1cb65358e35.1727661284.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1727661284.git.steve@sakoman.com>
 References: <cover.1727661284.git.steve@sakoman.com>
@@ -62,122 +62,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 01:58:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205087
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205086
 
-From: Yi Zhao <yi.zhao@eng.windriver.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-There is a patch in oe-core[1] to avoid hardcoded paths in macros. It
-tries to use libdir to expand %_libdir in macros.in. However, in
-upstream commit[2], libdir for macros in CMakeLists.txt is set to
-${prefix}/=LIB=, which causes %_libdir to expand to ${prefix}/=LIB=
-instead of the correct path in the final macros.
+Server's https certificate isn't valid for freedesktop.org without www prefix.
 
-On target:
-$ rpm --showrc | grep _libdir
-[snip]
--13: _libdir    ${prefix}/=LIB=
-[snip]
-
-This also causes %__pkgconfig_path in fileattrs/pkgconfig.attr to become
-an invalid regular expression when building rpm packages. This results a
-warning in log.do_package_write_rpm in all packages:
-
-Warning: Ignoring invalid regular expression ^((${prefix}/=LIB=|usr/share)/pkgconfig/.*.pc|usr/bin/pkg-config)$
-
-Set libdir to ${CMAKE_INSTALL_FULL_LIBDIR} instead of ${prefix}/=LIB= to
-make sure it is expanded to the correct path in macros.
-
-After the patch:
-On target:
-$ rpm --showrc | grep _libdir
-[snip]
--13: _libdir    /usr/lib
-[snip]
-
-[1] https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-[2] https://github.com/rpm-software-management/rpm/commit/d2abb7a48760418aacd7f17c8b64e39c25ca50c9
-
-Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit ae0e217145f45d065124aeb0a7d72a0c25f621ef)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d7ce9da33498869384b26a6fda05c37e7b2c3565)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...et-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch | 53 +++++++++++++++++++
- meta/recipes-devtools/rpm/rpm_4.19.1.1.bb     |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
+ .../desktop-file-utils/desktop-file-utils_0.27.bb               | 2 +-
+ meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb           | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
-new file mode 100644
-index 0000000000..1bd83e7bef
---- /dev/null
-+++ b/meta/recipes-devtools/rpm/files/0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch
-@@ -0,0 +1,53 @@
-+From fea9cea49aa0844de14126e54d05b91ba619427f Mon Sep 17 00:00:00 2001
-+From: Yi Zhao <yi.zhao@windriver.com>
-+Date: Fri, 26 Jul 2024 17:18:30 +0800
-+Subject: [PATCH] CMakeLists.txt: set libdir to ${CMAKE_INSTALL_FULL_LIBDIR} in
-+ macros
-+
-+There is a patch in oe-core[1] to avoid hardcoded paths in macros. It
-+tries to use libdir to expand %_libdir in macros.in. However, in
-+upstream commit[2], libdir for macros in CMakeLists.txt is set to
-+${prefix}/=LIB=, which causes %_libdir to expand to ${prefix}/=LIB=
-+instead of the correct path in the final macros.
-+
-+On target:
-+$ rpm --showrc | grep _libdir
-+[snip]
-+-13: _libdir    ${prefix}/=LIB=
-+[snip]
-+
-+This also causes %__pkgconfig_path in fileattrs/pkgconfig.attr to become
-+an invalid regular expression when building rpm packages. This results a
-+warning in log.do_package_write_rpm in all packages:
-+
-+Warning: Ignoring invalid regular expression ^((${prefix}/=LIB=|usr/share)/pkgconfig/.*.pc|usr/bin/pkg-config)$
-+
-+Set libdir to ${CMAKE_INSTALL_FULL_LIBDIR} instead of ${prefix}/=LIB= to
-+make sure it is expanded to the correct path in macros.
-+
-+[1] https://git.openembedded.org/openembedded-core/tree/meta/recipes-devtools/rpm/files/0001-Do-not-hardcode-lib-rpm-as-the-installation-path-for.patch
-+[2] https://github.com/rpm-software-management/rpm/commit/d2abb7a48760418aacd7f17c8b64e39c25ca50c9
-+
-+Upstream-Status: Inappropriate [oe specific]
-+
-+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
-+---
-+ CMakeLists.txt | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/CMakeLists.txt b/CMakeLists.txt
-+index ed847c09a1..385b5040c6 100644
-+--- a/CMakeLists.txt
-++++ b/CMakeLists.txt
-+@@ -84,7 +84,7 @@ function(makemacros)
-+ 	set(sysconfdir "${CMAKE_INSTALL_FULL_SYSCONFDIR}")
-+ 	set(sharedstatedir "${CMAKE_INSTALL_FULL_SHAREDSTATEDIR}")
-+ 	set(localstatedir "${CMAKE_INSTALL_FULL_LOCALSTATEDIR}")
-+-	set(libdir "\${prefix}/=LIB=")
-++	set(libdir "${CMAKE_INSTALL_FULL_LIBDIR}")
-+ 	set(includedir "\${prefix}/${CMAKE_INSTALL_INCLUDEDIR}")
-+ 	set(oldincludedir "${CMAKE_INSTALL_FULL_OLDINCLUDEDIR}")
-+ 	set(infodir "\${prefix}/${CMAKE_INSTALL_INFODIR}")
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-index 0802f26295..9330323797 100644
---- a/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-@@ -38,6 +38,7 @@ SRC_URI = "git://github.com/rpm-software-management/rpm;branch=rpm-4.19.x;protoc
-            file://0001-build-pack.c-do-not-insert-payloadflags-into-.rpm-me.patch \
-            file://0001-CMakeLists.txt-look-for-lua-with-pkg-config-rather-t.patch \
-            file://0002-rpmio-rpmglob.c-avoid-using-GLOB_BRACE-if-undefined-.patch \
-+           file://0001-CMakeLists.txt-set-libdir-to-CMAKE_INSTALL_FULL_LIBD.patch \
-            "
+diff --git a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
+index 55c88afcc9..5285a6c6ea 100644
+--- a/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
++++ b/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.27.bb
+@@ -7,7 +7,7 @@ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://src/validator.c;beginline=4;endline=27;md5=281e1114ee6c486a1a0a4295986b9416"
  
- PE = "1"
+-SRC_URI = "http://freedesktop.org/software/${BPN}/releases/${BP}.tar.xz"
++SRC_URI = "http://www.freedesktop.org/software/${BPN}/releases/${BP}.tar.xz"
+ SRC_URI[sha256sum] = "a0817df39ce385b6621880407c56f1f298168c040c2032cedf88d5b76affe836"
+ 
+ DEPENDS = "glib-2.0"
+diff --git a/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb b/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb
+index 54c79b4097..6c172b4ec7 100644
+--- a/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb
++++ b/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb
+@@ -1,6 +1,6 @@
+ require pulseaudio.inc
+ 
+-SRC_URI = "http://freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
++SRC_URI = "http://www.freedesktop.org/software/pulseaudio/releases/${BP}.tar.xz \
+            file://0001-client-conf-Add-allow-autospawn-for-root.patch \
+            file://0002-do-not-display-CLFAGS-to-improve-reproducibility-bui.patch \
+            file://volatiles.04_pulse \
 -- 
 2.34.1
 
