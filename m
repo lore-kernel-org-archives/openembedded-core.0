@@ -1,80 +1,88 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3FA55CEBF74
-	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 20:34:04 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.web11.65749.1727728436221835524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0BC76CEB2CB
+	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 22:29:25 +0000 (UTC)
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.68382.1727735357645812386
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Sep 2024 13:33:56 -0700
+ Mon, 30 Sep 2024 15:29:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gWAVIC5l;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-42ca4e0299eso39113025e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 13:33:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gXDFmHFb;
+ spf=pass (domain: gmail.com, ip: 209.85.210.179, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-7193010d386so4225974b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 15:29:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1727728434; x=1728333234; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=TQ53zI/SIzlYObIb4+l9vtQkGc/0UcWECZRJJDtxfNU=;
-        b=gWAVIC5l2UNUdXU7pYkZhyMf/8MO1nay4t6RxxOmQxnhwgtryIunk7sepHwBMsWQOr
-         y95VTayCf+SyVRoZ78t/M0Cy68gW27haqrZOhY0xtzYD6peCx5rsOMud8dE9AnYONHoZ
-         5tHG3gU1dmUkAazkbY9oitvHsoAtZHlQbJWlI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727728434; x=1728333234;
-        h=mime-version:user-agent:content-transfer-encoding:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1727735357; x=1728340157; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=TQ53zI/SIzlYObIb4+l9vtQkGc/0UcWECZRJJDtxfNU=;
-        b=P6g09mc3ajau0O7huBd0S/3HIyJwabzeP6kduWldPsL+VPPR0IBED9a2d+JRgSnAtF
-         bulynOfQLVRzqoaGR8vONIurgUtbfmL6fmhZDvCETZzHR0zQb3B+WKin081AlXqePG+e
-         yMAWoec5quUmHOzEyBR19Fg1S4SgxL8bUS1ro1KlOqFIdp2SM7vVNLcJNRxGlphXSPvZ
-         0J7xIkpA7Q93/+S+c6YFv1PuOaiDlS3usqKXeOpe7g0YCk69ARNckNENGHSMyQK4oUHG
-         H7L6jF+zVqvTMxOPtGS3eFCrqhBFPvxGFv0kVM9FqNmeHLlgyUjJQqQNwJOeQzjSth7H
-         ZeJQ==
-X-Gm-Message-State: AOJu0YzzLMztK68Tf3fbF6HEq+VQngDfwJRSEKG3p1EpDABOQ4V6b+Wv
-	mWVWXBtl3zKEEOgLQhuMhJP7vVXvW8Lgox4bszdVhj20Upp4RJvzkZH4xeO6+Kg4LUa/JeGLJ/u
-	s
-X-Google-Smtp-Source: AGHT+IFT2Jq1oL2MFj+Zsq419JReYNDRvtnhVNsCTTqNDRFBKzyM0J7I/+njAckvIBX1wEn++m1wRA==
-X-Received: by 2002:a05:600c:1c23:b0:42f:4f6:f8f3 with SMTP id 5b1f17b1804b1-42f5840e8a9mr109785895e9.7.1727728434353;
-        Mon, 30 Sep 2024 13:33:54 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:196f:13d7:e9b3:eba1? ([2001:8b0:aba:5f3c:196f:13d7:e9b3:eba1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57e138f4sm115042775e9.34.2024.09.30.13.33.53
+        bh=GGYXCDkJsC/7j4LZ21THWlk06F/KjvJtjnCkcreZ0NA=;
+        b=gXDFmHFbeeIxHrEYuub6/yf4/gyfTGvoc8OrR2J/y/foSDbltphTiI1Kk7Lbf9fFhl
+         E+Kl0FfRl8AvcdlCqWIiruOr3qGrODxeKD/OODeT+7e5IIBJvutks9vpUF49s5ErL5AD
+         Q8s6QKwVk1CzAjfsgyT+zhsHLfFl//7X1ltVDOD4B4CEktJ3uh/N0p182qSehVpiAvCJ
+         ue+kyZvcUmUQLhd5vyIIN4b3xQLq6b6cKuA40Up/3UyAgqJfzjdW3Nw8moNp/taP0hp8
+         Lk9f11VOf1jbSeST1RaziZCZZ8Re2hyxVVa46k3BmLDrID9KHrpdzoZTMuk0dbGTqz1v
+         A9YA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727735357; x=1728340157;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GGYXCDkJsC/7j4LZ21THWlk06F/KjvJtjnCkcreZ0NA=;
+        b=MpNX6GDEyWgmO+F8hTdJElsMQXevruhidtmofpXt24eQQv61SlqigzGUblD9LTiasY
+         Pxr4KQofMbXuOaIG2v/bENDDGkUC2JloQ9LKG+pI5Hrpv456k7ly/9gwzvjbhBFRhwWO
+         a3wLyl7WMI+VMFvvbEfb7sWT1k46163vX+wPM1TsmHx9OPNaVbWkjZdd+2ia243yVXgD
+         EqKg8M1hr/mEnVwa3M+DVBZ7MSoD09Kq680+Zrmdskvkewfd0J+iwL8HThWjvYZABqvf
+         Bpk9964HrHXwVweZnqpgV3qD+oZbWJ2l3rf7nPCHV+QOo5WlHiTwV7/agrBBLlmvknAf
+         sq8A==
+X-Gm-Message-State: AOJu0YzW/gdvB6xKS2csphUltF4mZod1895obiYXvcyfoUJ9XuLNTmDf
+	3+JRiGqC0Gk5gJV4mnP+4boPoin2rdDCA48pR+stdNQxLHVJd+NYaN1qCA==
+X-Google-Smtp-Source: AGHT+IH5pOSm7LTygWD1Sl/srr7JYlLhq6PeRlwwAUPlZGtOK5BG5dgY7RiN9FcEPVljl7evAeOCsA==
+X-Received: by 2002:a05:6a00:10d2:b0:70d:323f:d0c6 with SMTP id d2e1a72fcca58-71b26077721mr21077311b3a.24.1727735356838;
+        Mon, 30 Sep 2024 15:29:16 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::ae14])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264b7dd6sm6774526b3a.46.2024.09.30.15.29.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 13:33:53 -0700 (PDT)
-Message-ID: <97a01f7e4ca0ce655789522f2fe965586ae03fee.camel@linuxfoundation.org>
-Subject: release notes in commit messages
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Cc: Trevor Gamblin <tgamblin@baylibre.com>
-Date: Mon, 30 Sep 2024 21:33:51 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Mon, 30 Sep 2024 15:29:16 -0700 (PDT)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>,
+	Bruce Ashfield <bruce.ashfield@gmail.com>
+Subject: [PATCH 2/2] linux-yocto: Enable l2tp drivers when ptest featuee is on
+Date: Mon, 30 Sep 2024 15:29:13 -0700
+Message-ID: <20240930222913.3981407-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.46.2
+In-Reply-To: <20240930222913.3981407-1-raj.khem@gmail.com>
+References: <20240930222913.3981407-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 20:34:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205125
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 22:29:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205127
 
-Hi All,
+openl2tp ptests from networking layer depend upon these
 
-I wanted to highlight to people that cut and pasting release notes into
-commit messages is annoying a few people:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto_6.10.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-https://github.com/openembedded/openembedded-core/commit/51fb98c6da61ad4faf=
-5b00316e7075f3bbee9bc7#commitcomment-147394200
-
-The issue is that usernames get pinged on the references when this gets
-into github.
-
-There are a number of different perspectives on this but if people
-could trim the usernames out of such commit messages it would be
-helpful. It might be something to teach patchtest?
-
-Cheers,
-
-Richard
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.10.bb b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
+index 87f7794bbef..cee06c22ea3 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
+@@ -66,6 +66,8 @@ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " fe
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
+ # libteam ptests from meta-oe needs it
+ KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/net/team/team.scc", "", d)}"
++# openl2tp tests from meta-networking needs it
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " cgl/cfg/net/l2tp.scc", "", d)}"
+ KERNEL_FEATURES:append:powerpc =" arch/powerpc/powerpc-debug.scc"
+ KERNEL_FEATURES:append:powerpc64 =" arch/powerpc/powerpc-debug.scc"
+ KERNEL_FEATURES:append:powerpc64le =" arch/powerpc/powerpc-debug.scc"
 
