@@ -1,85 +1,100 @@
-Return-Path: <shin.matsunaga@fujitsu.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F162CF6491
-	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 07:36:48 +0000 (UTC)
-Received: from esa8.hc1455-7.c3s2.iphmx.com (esa8.hc1455-7.c3s2.iphmx.com [139.138.61.253])
- by mx.groups.io with SMTP id smtpd.web11.49237.1727681801189127078
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87563CF6491
+	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 07:50:59 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.49031.1727682652118575815
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Sep 2024 00:36:41 -0700
+ Mon, 30 Sep 2024 00:50:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=QKhXvGqY;
- spf=pass (domain: fujitsu.com, ip: 139.138.61.253, mailfrom: shin.matsunaga@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1727681801; x=1759217801;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=adZ/dk9U4Vac1OtpsHrm/lpKqar8LdTqfn85yGzujdc=;
-  b=QKhXvGqYx7KmqCNLbO8Rj7E+FFyfjcCxtS0zmHpnObnIVY+MbtoqL99z
-   L7/7p0vJX2IIhvTXEeRGiq237s0Im2ju0YBIV3H5YxFQLKmZOU1I6kNd8
-   rfimgxT0ejOwfr6i1NR8mkvu1LbVKma3hf/nSZLUHNXDne0kkbqwjTj+Q
-   ZnJF040ULEv8wK4eva8khK5MfVOAU1VNPRZb/ittMVAoywe0uZnW7lKs0
-   IcVt2iMQ8pIvs5QkcrC5e+2wI6dSSDevMiRrIcgqRAo+Ntny0Ltu0JtTi
-   WKmz6V/1G1oatLNvgtWeH9M2aZpxEUdGW1ExkWSiMwMkbP031zzBgYwbv
-   A==;
-X-CSE-ConnectionGUID: IcKuIvQYSzqHFhsLTNVLhw==
-X-CSE-MsgGUID: shpv9uM1TgGWVc2sNLoLhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11210"; a="163216109"
-X-IronPort-AV: E=Sophos;i="6.11,165,1725289200"; 
-   d="scan'208";a="163216109"
-Received: from unknown (HELO oym-r2.gw.nic.fujitsu.com) ([210.162.30.90])
-  by esa8.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2024 16:36:38 +0900
-Received: from oym-m4.gw.nic.fujitsu.com (oym-nat-oym-m4.gw.nic.fujitsu.com [192.168.87.61])
-	by oym-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 89E60D424F
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 16:36:36 +0900 (JST)
-Received: from storage.utsfd.cs.fujitsu.co.jp (storage.utsfd.cs.fujitsu.co.jp [10.118.252.123])
-	by oym-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id CECCBD4C1D
-	for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 16:36:35 +0900 (JST)
-Received: by storage.utsfd.cs.fujitsu.co.jp (Postfix, from userid 1068)
-	id A1D7F1240E; Mon, 30 Sep 2024 16:36:35 +0900 (JST)
-From: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org,
-	shin.matsunaga@fujitsu.com
-Subject: [PATCH] ffmpeg: Add libswresample to CVE_PRODUCT
-Date: Mon, 30 Sep 2024 16:36:32 +0900
-Message-Id: <20240930073632.23711-1-shin.matsunaga@fujitsu.com>
-X-Mailer: git-send-email 2.35.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=eO4TIPy6;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Tve360RF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019241e923a0-1b933701-8e7c-4a06-919a-d0bbf1cf401c-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1727682651; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=4DjRDDjihLCiUqlSGqC12uGDjN+/fXxQVfEwnQXfDCM=;
+	b=eO4TIPy6es4ntQr4NrrpXuHNhnHDAfSsEiPy1OwNs/RwB7DgQgpjjqH9lsvcKzkR
+	10v7ZnIlPssT79xgj8kQl2E+MVRrcWnj70V+XMzSXkjOzqYfXs/AcxRn6O4/F2yvGVS
+	7ryS2vp97le6pkZWnuHFyxWEuI4d/yUAM92IK5Mk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1727682651;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=4DjRDDjihLCiUqlSGqC12uGDjN+/fXxQVfEwnQXfDCM=;
+	b=Tve360RFJYgykkRrL/SuXgyCzgFXAvOojr0xjMTaj2M1+K/r1i0rh9H8tWvFyGi9
+	oes+RsG1I4Dcrb/3lr7XLDhMU7TQiBSJQsOpvBxn//OQ1I86Wt+dFyf7eml/wYKwvaD
+	nWWBYRbjnXJ6w5X4/cwP8xtzq4VPzq2SVamGv4/o=
+From: patchtest@automation.yoctoproject.org
+To: Purushottam Choudhary <purushottam27.kumar@lge.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [meta-oe][kirkstone][PATCHv2] kmscube: Add patch to fix
+ -int-conversion build error
+In-Reply-To: <20240930073149.3209357-1-purushottam27.kumar@lge.com>
+References: <20240930073149.3209357-1-purushottam27.kumar@lge.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019241e923a0-1b933701-8e7c-4a06-919a-d0bbf1cf401c-000000@us-west-2.amazonses.com>
+Date: Mon, 30 Sep 2024 07:50:51 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.09.30-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 07:36:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205097
+ <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 07:50:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205098
 
-Currently, CVE_PRODUCT only detects vulnerabilities where the product is "ffmpeg".
+--NextPart
+Content-Type: text/plain
 
-However, there are also vulnerabilities where the product is "libswresample", as shown below.
-https://app.opencve.io/cve/?vendor=ffmpeg&product=libswresample
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Therefore, add "libswresample" to CVE_PRODUCT to detect vulnerabilities
-where the product is "libswresample" as well.
-
-Signed-off-by: Shinji Matsunaga <shin.matsunaga@fujitsu.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+Testing patch /home/patchtest/share/mboxes/meta-oe-kirkstone-PATCHv2-kmscube-Add-patch-to-fix--int-conversion-build-error.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-index 9e60b5cd23..d80fe03794 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-@@ -190,3 +190,5 @@ INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
- INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
- INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
- INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
-+
-+CVE_PRODUCT:append = " libswresample"
--- 
-2.25.1
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
