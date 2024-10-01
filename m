@@ -1,139 +1,106 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0CE5CCEB2CC
-	for <webhook@archiver.kernel.org>; Mon, 30 Sep 2024 22:29:25 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.68083.1727735356832879762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1C4BCEB2D2
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 00:25:15 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web10.70138.1727742315049253808
  for <openembedded-core@lists.openembedded.org>;
- Mon, 30 Sep 2024 15:29:16 -0700
+ Mon, 30 Sep 2024 17:25:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BVOEyHf/;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71c5df16b10so2869354b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 15:29:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OEeaTMDe;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e07ad50a03so3687940a91.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 17:25:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727735356; x=1728340156; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zvJuAqUk+m6+QA7Cdc6hOXxznpXDhgVlA8i08cd+eKU=;
-        b=BVOEyHf/m70qiOcanvOSODHqPw9bLucBZ9uo1THiBndUTHzYESazu3b5ByIImoFWfQ
-         aGeviPdVQPJorVDslxL/g9l0rkerNe0xJVh91wjLZW6ZSfxTrRbm6CYlsrkpRK3/KBPk
-         OgYqRrD/jZgFDLRYmM2fqjKsgsvg/YBmJopt4ILhhGOJo3wSbXdXyXC6hJpnSR8jLdDW
-         0rMDZ07m7mgIWwW9JFcTXkXbxY9QsdeD+mU1Uo7xHD1+vN2FRnpMgF5KX5/74usXeQZQ
-         bPlzarv/M9l0mOOY5Xk+JNiwQfd3ckRwDUjPGFXIL07jSmFSNyc0+F8YP22exPU6Ry39
-         74MA==
+        d=gmail.com; s=20230601; t=1727742314; x=1728347114; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wlJvPNFd1DAKFvdM/6VehMU7ubH0gIRYKrsmqR4GZR8=;
+        b=OEeaTMDe71RrxvKD9nffENPbMTSivfut0Ff/VWsWaT1AB3r6oPzAeo7indEtBbVxi6
+         2ec+zMbzTt2W4Ux5qC43i6q+Po7r+cRoj5nJSnkGUr6/H5UIXAADpfhm7VGEJhZxDYAl
+         5c2IKRu6sk+kAZFXlrFkyGX3Rvv3mJryJDdO/+Gi6FM6OMvJm0tug4pZfZvzZPyBEpfM
+         B+POdQJjuogrrOcf/ZrQBsciTH7zDRzLmnHY4w2nWxsm5DA2rCvsloN3HFiOOyeOawWi
+         Lhq7jLntZKvawvvtGRn4vylZtGOFEKIFjL4AHgaw5fOc+l01voiqfz4PwROtG1mFpzso
+         gQjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727735356; x=1728340156;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zvJuAqUk+m6+QA7Cdc6hOXxznpXDhgVlA8i08cd+eKU=;
-        b=ZjHF1/2zsTecaU/M3+iHts6lKN1PMYFtHWf0Q1WWLGHe0Vybo0tWSqkAdMbfKM0vgJ
-         fObJQo4E/Vtne28YqH38M56SOnr+L9J3JlW8bNB6eVWPSmU9qDSL+Z3j12S/OBQA2VMo
-         xJISKIA9xXyTlHw2EsO7jk+pFdGoVuURM4ocDCy10V+f+bMB29pNYYgAuHGWzKN94GK3
-         bigZvCWW24aUNcWwV3M04RA44asrnhnogcfR0SU2MnRuQJvYolpvI5bfmp/y3IbvkKYk
-         x8HuS5zQm7IPmhMOxEsjVRcRBZQ4vN1RUYQ6xC8VvSq3EDC48lYmYV3B2O6mi/s6hlLh
-         1GTw==
-X-Gm-Message-State: AOJu0YxvuP1gm2PgVuj8VSBebOAAq29PgvxknkoU6ljh5VBl+W6wnlvw
-	mMEtUGRug16B27usjv5UEamcNwejDS3cwX76LupscPkJzcbMxhyrkd3SgQ==
-X-Google-Smtp-Source: AGHT+IFMUoTf/J/GAKiRmGwyRYVjxDGDceF9XWSeJVGtF+FGhO7temu8gfqUYp4yybCFb6ljrTFI0A==
-X-Received: by 2002:a05:6a00:9a1:b0:70d:2a88:a483 with SMTP id d2e1a72fcca58-71b25daa507mr22768981b3a.0.1727735355993;
-        Mon, 30 Sep 2024 15:29:15 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::ae14])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71b264b7dd6sm6774526b3a.46.2024.09.30.15.29.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Sep 2024 15:29:15 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 1/2] strace: Define sched_attr conditionally
-Date: Mon, 30 Sep 2024 15:29:12 -0700
-Message-ID: <20240930222913.3981407-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.46.2
+        d=1e100.net; s=20230601; t=1727742314; x=1728347114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wlJvPNFd1DAKFvdM/6VehMU7ubH0gIRYKrsmqR4GZR8=;
+        b=MHBNZaq0xTLyd0EBmr5cj1qOrOfbXL4YRBJ6HVkeYnGvEw/f0VhOx6boLZGtLfKnmS
+         IFs0oUKJm+3zYliNgDlVoSHr3AhpKvjTwX4IzmqBhBu+ILIizVHhHBXoWCdFIyfmcMHY
+         4O+2YlzsqrLJrOUdjU50QQBftm7uTJcGsuvc8t4NCQwS+65Mk+SINXz0bcfTp1Vwb/B1
+         GE7v2jizsm23EW1hy/dVk79MNdieZF6VN5/wBZSCGt8jyumue/S4g93FvQT/1jkq+PqQ
+         A04PVVd92ODdbpiYR+mTyf4WLYdbLvKoucVcl0pUxCbZ4jJ+uX7UL4oTT3zxSi6XnDa7
+         vDLA==
+X-Gm-Message-State: AOJu0YwEC0N7udYQqCw87JK5GFafo6OayfvObr6jTQUbbCZq3LnXGDej
+	xApKhPReGqWnGymNbFu+PO3WD4dX9sK72aceJuqgTLRAM9ySPctbY84BnMJnHdaL/OIDu+9G2+y
+	8UV8jKBPfh5a6qABG5zjd8iYw2l8=
+X-Google-Smtp-Source: AGHT+IEpqfJlC7dv4qEyaI1vcJFODET4sV5xNZzZLTGqeS7UGNbwJSUSrlA0eICXky0woMXbvG7CB5pIKwVyphDnrkA=
+X-Received: by 2002:a17:90a:2dcf:b0:2e0:b741:cdc0 with SMTP id
+ 98e67ed59e1d1-2e0b8e8b619mr16008891a91.32.1727742314327; Mon, 30 Sep 2024
+ 17:25:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20240930222913.3981407-1-raj.khem@gmail.com> <20240930222913.3981407-2-raj.khem@gmail.com>
+In-Reply-To: <20240930222913.3981407-2-raj.khem@gmail.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Mon, 30 Sep 2024 20:25:02 -0400
+Message-ID: <CADkTA4MDUGCiO9OAYgEzTAjA7t3HqYzVLKaSFwJkEFN_W+P_KA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] linux-yocto: Enable l2tp drivers when ptest featuee
+ is on
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 30 Sep 2024 22:29:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205126
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 00:25:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205128
 
-So that it does not conflict with glibc 2.41+ newly added definitions
+On Mon, Sep 30, 2024 at 6:29=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
+:
+>
+> openl2tp ptests from networking layer depend upon these
+>
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
- ...e-conditionally-on-SCHED_ATTR_SIZE_V.patch | 49 +++++++++++++++++++
- meta/recipes-devtools/strace/strace_6.11.bb   |  1 +
- 2 files changed, 50 insertions(+)
- create mode 100644 meta/recipes-devtools/strace/strace/0001-sched_attr-Define-conditionally-on-SCHED_ATTR_SIZE_V.patch
+Fine with me!
 
-diff --git a/meta/recipes-devtools/strace/strace/0001-sched_attr-Define-conditionally-on-SCHED_ATTR_SIZE_V.patch b/meta/recipes-devtools/strace/strace/0001-sched_attr-Define-conditionally-on-SCHED_ATTR_SIZE_V.patch
-new file mode 100644
-index 00000000000..b8d57797dfe
---- /dev/null
-+++ b/meta/recipes-devtools/strace/strace/0001-sched_attr-Define-conditionally-on-SCHED_ATTR_SIZE_V.patch
-@@ -0,0 +1,49 @@
-+From d162a1d6b18348955f9989f150c86a68af096362 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Mon, 30 Sep 2024 15:17:16 -0700
-+Subject: [PATCH] sched_attr: Define conditionally on SCHED_ATTR_SIZE_VER0
-+
-+glibc 2.41+ has added [1] definitions for sched_setattr and sched_getattr functions
-+and struct sched_attr. Therefore, it needs to be checked for here as well before
-+defining sched_attr
-+
-+Fixes builds with glibc/trunk
-+
-+In file included from ../../strace-6.11/src/sched.c:14:
-+../../strace-6.11/src/sched_attr.h:16:8: error: redefinition of 'sched_attr'
-+   16 | struct sched_attr {
-+      |        ^
-+/mnt/b/yoe/master/build/tmp/work/core2-64-yoe-linux/strace/6.11/recipe-sysroot/usr/include/linux/sched/types.h:98:8: note: previous definition is here
-+   98 | struct sched_attr {
-+      |        ^
-+
-+[1] https://sourceware.org/git/?p=glibc.git;a=commitdiff;h=21571ca0d70302909cf72707b2a7736cf12190a0;hp=298bc488fdc047da37482f4003023cb9adef78f8
-+
-+Upstream-Status: Submitted [https://github.com/strace/strace/pull/318]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ src/sched_attr.h | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/sched_attr.h b/src/sched_attr.h
-+index 26c53172f..a5b5d94ce 100644
-+--- a/src/sched_attr.h
-++++ b/src/sched_attr.h
-+@@ -11,6 +11,8 @@
-+ 
-+ # include <stdint.h>
-+ 
-++# ifndef SCHED_ATTR_SIZE_VER0
-++
-+ struct sched_attr {
-+ 	uint32_t size;
-+ 	uint32_t sched_policy;
-+@@ -25,6 +27,8 @@ struct sched_attr {
-+ 	uint32_t sched_util_max;
-+ };
-+ 
-++# endif /* SCHED_ATTR_SIZE_VER0 */
-++
-+ # define SCHED_ATTR_MIN_SIZE	48
-+ # ifndef SCHED_ATTR_SIZE_VER1
-+ #  define SCHED_ATTR_SIZE_VER1  56
-diff --git a/meta/recipes-devtools/strace/strace_6.11.bb b/meta/recipes-devtools/strace/strace_6.11.bb
-index d98b5fdec9a..45e1c26627f 100644
---- a/meta/recipes-devtools/strace/strace_6.11.bb
-+++ b/meta/recipes-devtools/strace/strace_6.11.bb
-@@ -14,6 +14,7 @@ SRC_URI = "https://strace.io/files/${PV}/strace-${PV}.tar.xz \
-            file://skip-load.patch \
-            file://0001-configure-Use-autoconf-macro-to-detect-largefile-sup.patch \
-            file://0002-tests-Replace-off64_t-with-off_t.patch \
-+           file://0001-sched_attr-Define-conditionally-on-SCHED_ATTR_SIZE_V.patch \
-            "
- SRC_URI[sha256sum] = "83262583a3529f02c3501aa8b8ac772b4cbc03dc934e98bab6e4883626e283a5"
- 
+Bruce
+
+> ---
+>  meta/recipes-kernel/linux/linux-yocto_6.10.bb | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.10.bb b/meta/recipes=
+-kernel/linux/linux-yocto_6.10.bb
+> index 87f7794bbef..cee06c22ea3 100644
+> --- a/meta/recipes-kernel/linux/linux-yocto_6.10.bb
+> +++ b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
+> @@ -66,6 +66,8 @@ KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DIST=
+RO_FEATURES", "ptest", " fe
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
+est", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
+>  # libteam ptests from meta-oe needs it
+>  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
+est", " features/net/team/team.scc", "", d)}"
+> +# openl2tp tests from meta-networking needs it
+> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
+est", " cgl/cfg/net/l2tp.scc", "", d)}"
+>  KERNEL_FEATURES:append:powerpc =3D" arch/powerpc/powerpc-debug.scc"
+>  KERNEL_FEATURES:append:powerpc64 =3D" arch/powerpc/powerpc-debug.scc"
+>  KERNEL_FEATURES:append:powerpc64le =3D" arch/powerpc/powerpc-debug.scc"
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
