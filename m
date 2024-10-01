@@ -1,109 +1,141 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A7A3CE7CE6
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 07:52:18 +0000 (UTC)
-Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
- by mx.groups.io with SMTP id smtpd.web10.75925.1727769130087571582
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53128CE7CE8
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 08:28:38 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web11.76637.1727771313686334842
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 00:52:10 -0700
+ Tue, 01 Oct 2024 01:28:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y/PWFQQ1;
- spf=pass (domain: gmail.com, ip: 209.85.218.41, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-a8d0d0aea3cso796114166b.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 00:52:09 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=f7/mbqDo;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2facaa16826so19121951fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 01:28:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727769128; x=1728373928; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=wKtmmqN1uYx+nNDCS+5uQEdQg9GfeHzqWsvSR0H/ImY=;
-        b=Y/PWFQQ11YSTmiwaJ3+QNxizOSTcUXXob7g3l8HA+Gfv6n4JtUi3b5OZEbNqCuF8lO
-         lsqUCyTDaUa8HxUYd9NJj1Ed1wTmN/hAppFnIO8OKMpPQQ0Lc7OoaxAWK2q0loe7g8KT
-         PwC0M/B5bZIabS3jQiACW7NBQ1bu9db9geznnElc2h/NiSnGj2jCLpa3in5STzRxU7j2
-         PD0vRe99VFCXTTL7rKf9cy9J8Gurlnez4QqKUH0XQbzgcefYkfjfHgvNjP3zNhn9QP5C
-         sVEthll8Z+4cW7UUAl/xJUQtY4M9OpHPmIAmsjX8RXywEOScXcw+W4k2TvAISslRJVtz
-         IyWg==
+        d=linaro.org; s=google; t=1727771312; x=1728376112; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8rxkS29BLdelHNwlVZULbA2ObRUmv9AiLK/iKgZUQUI=;
+        b=f7/mbqDoPcYVXDBT4Hnhee/L3gbTjMZhk2FGQBLFhWYFFRTAXgNMcC7LEMudA5stof
+         T7p2oT8TQrnNMiCSJ6mZu/UWkAYumVCa98c3+yhtjAeXgqhLwkuS2Fz9wJdxLLE/KEbJ
+         WwNQHMdqg6E9+fYm+t7IY207ArQwfTWJg58vH5/wF4lJimt7P0vWYicJtYo4iTiiKEa3
+         qG8wnJW7u+T1U2IhkjxBVw9ySL8Nugy7LCnMooZtTzEZyxbuRLOflHPwjYs5TAmDoLq/
+         5ZmHeAxsuRfRKgM5c4a2e9miNxfneZQF2qnbw5839wc654w6OYrcVFeoK42TIgmBSg5h
+         3JHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727769128; x=1728373928;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wKtmmqN1uYx+nNDCS+5uQEdQg9GfeHzqWsvSR0H/ImY=;
-        b=VP7twqTUN3CQcUsi/p2+it41/AmkRtxgnIzGOWFjR/nYJMOqJnwiH7RM9Bw7r/uuTy
-         PUhl2UVxqAVlIyIDi5spQxzTW/F7uG9rm5ZQQIDtQ5TvMOomZZsyqx2rMbSoq21zVe6n
-         NNl6/c8wzG305yjLuhXy/lbSitJUvpDW0FUGdzpeFerdthX6C85R4TRSwxzVKYkYQZOH
-         XA5CrCF1idalxiCGknrLzisOjSrL7g61i4EVAz1vckw/isMqmECgJZ05KlBS4Y1Di6Ls
-         QpgwU6XoIp36OhDraimfwKUXhVm9Hm7I79XwEc7RmgixCwkk2n/f+y32l+osBMytK462
-         BXOA==
-X-Gm-Message-State: AOJu0YwBXr0D/kYSiM2UGpgkTEbItZQOlQNwlTiF+02LLiLN7eQU6Ik3
-	um7l8TUfE70fLcy7jihdik/zpKA0TBRbcBq/nt4Q96btxtGPBNfb
-X-Google-Smtp-Source: AGHT+IGheLBnxAcOzP02/f4rzV33PBYzVqx/HoN2YODrPz2uwnCqUvHFIHz9Np5zHuXnBkOigOyYdw==
-X-Received: by 2002:a17:907:6d15:b0:a91:158c:8057 with SMTP id a640c23a62f3a-a93c4aeb8bbmr1602579466b.54.1727769128250;
-        Tue, 01 Oct 2024 00:52:08 -0700 (PDT)
-Received: from [10.9.136.49] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a93c299ac60sm663547366b.221.2024.10.01.00.52.06
+        d=1e100.net; s=20230601; t=1727771312; x=1728376112;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8rxkS29BLdelHNwlVZULbA2ObRUmv9AiLK/iKgZUQUI=;
+        b=BRmf9lAGT8oBd8lJ4LnE2b1kcCplKWch3Yak72/9S9Ijr6CR2r6na43uqPP6eyE6tT
+         unVYyVCEiWAb2o1dEfryYDQiPDPejP6eEZNSl922fKdITy9/V7qzKtXDasvT3li+rD8h
+         zpW1Kfbo3wemyGkggtUbyjeRBJBc2siUUX9gRerRxpevRfGYv024BFc/KUH+kk9jSw34
+         TQWOkbuF0iIsCaN2N2nplrhwToNv+FHIc5nOD3y9Qop1w7OqvUurvwMmvzOFSQc2b4f+
+         lQEfhGAVy4EwcnfJDOLTot9GSwuMpqVi6oLEJqKbgur2hhZKJhN53y/gbPgJoX28AZ9z
+         Sb1w==
+X-Gm-Message-State: AOJu0YxhlDULrcJRstuldWTeuKR/I94TXg5W4akchGWwbivUlyipsTZ/
+	Y7pggRCkGv91HcYTaTJzhDdnZ1mZjCJrRkzmBtXJDLAClDWrvY/pmPhxpwCegk84rTae45Hy34Q
+	/JTY=
+X-Google-Smtp-Source: AGHT+IHTHOOvf1DWkSWWLLsECqXvfkolfUixS0pKmnff6sGYvhkNbttRP1IL1xn4TVzAmFgrizalIQ==
+X-Received: by 2002:a2e:a595:0:b0:2fa:bf3e:ce80 with SMTP id 38308e7fff4ca-2fabf3ed04bmr44196781fa.18.1727771311541;
+        Tue, 01 Oct 2024 01:28:31 -0700 (PDT)
+Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2facb2ce928sm7734221fa.76.2024.10.01.01.28.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 00:52:07 -0700 (PDT)
-Message-ID: <e71402304dc8ca3e5e6fca4ad0e3a554b3a58438.camel@gmail.com>
-Subject: Re: [OE-core] [master][scarthgap][PATCH v2] lib/oe/package-manager:
- return early in install_complementary with empty globs
-From: claus.stovgaard@gmail.com
-To: Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 01 Oct 2024 09:52:06 +0200
-In-Reply-To: <409E410E-1DE7-4294-898A-AF1841D6C3A4@arm.com>
-References: <20240926204001.2245184-1-claus.stovgaard@gmail.com>
-	 <409E410E-1DE7-4294-898A-AF1841D6C3A4@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
+        Tue, 01 Oct 2024 01:28:29 -0700 (PDT)
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v5 00/11] systemd uki support
+Date: Tue,  1 Oct 2024 11:28:10 +0300
+Message-ID: <20241001082821.26115-1-mikko.rapeli@linaro.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 07:52:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205133
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 08:28:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205134
 
-On Mon, 2024-09-30 at 12:33 +0000, Ross Burton wrote:
-> On 26 Sep 2024, at 21:40, Claus Stovgaard via lists.openembedded.org
-> <claus.stovgaard=3Dgmail.com@lists.openembedded.org> wrote:
-> >=20
-> > Return early when globs is either None or an empty string. If globs
-> > is
-> > an empty string from the self.d.getVar, we should skip the reset of
-> > install_complementary, as the result from processing with empty
-> > glob in
-> > oe-pkgdata-util will always be 0 packages to install.
->=20
-> This isn=E2=80=99t right: if the globs are empty then we can skip the
-> processing of the globs, but this function also contains the locale
-> archive generation which is then skipped.
->=20
+These changes enable building systemd uki images which combine
+kernel, kernel command line, initrd and possibly signatures to
+a single UEFI binary. This binary can be booted with UEFI firmware
+and systemd-boot. No grub is needed and UEFI firmware and/or
+systemd-boot provide possibilities for boot menus.
+The uki binary can also be signed for UEFI secure boot
+so the secure boot extends from firmware to kernel and initrd.
+Binding secure boot to full userspace is then easier since for example
+kernel command line and initrd contain the support needed to mount
+encrypted dm-verity etc partitions, and/or create partitions on demand
+with systemd-repart using device specific TPM devices for encryption.
 
-Oh yes - you are correct. I focused to much on the top part, and the
-with loop, so somehow it slipped. Nicely catch.
+Tested on qemuarm64-secureboot machine from meta-arm with changes to
+support secure boot. Slightly different configuration tested on
+multiple arm64 System Ready boards with UEFI firmware, real and firmware
+based TPM devices. Tested with ovmf firmware on x86_64 with selftests but
+without secure boot which seems to be harder to setup in ovmf.
 
-I see 3 options.
+Sadly I see two wic selftests, wic.Wic2.test_rawcopy_plugin_qemu and
+wic.Wic2.test_expand_mbr_image, failing when executing all wic selftests
+on a build machine with zfs filesystem. Will investigate this further.
+The issue seems to be in mkfs.ext4 producing broken filesystem, and partially
+in the tests which don't run the correct rootfs file (.ext4 vs .wic).
+Will debug this further and it is IMO unrelated to these changes since
+they reproduce on pure master branch without this series.
 
-1) drop this patch, and keep doing the extra work.
+v5: drop patch "image_types_wic.bbclass: set systemd-boot and os-release
+    dependency for all archs" since systemd-boot does not support all
+    architectures
 
-2) invert the condition and move the with loop in under this condition
+v4: handle missing runqemu variable from build config, add
+python3-pefile to fast ptest list
 
-3) split the archiving out in seperate method, and then call it after
-install_complementary the places where install_complementary is called
-from. This option is what I belive you refering to below.
+v3: rebased, fixed and added more sefltests, removed wic plugin side uki
+support
 
-What do you think is the best options?
+v2: https://lists.openembedded.org/g/openembedded-core/message/204090
 
-/Claus
+Michelle Lin (1):
+  uki.bbclass: add class for building Unified Kernel Images (UKI)
 
+Mikko Rapeli (10):
+  python3-pefile: add recipe from meta-openembedded
+  maintainers.inc: add python3-pefile
+  systemd-boot-native: add runtime dependency to python3-pefile-native
+  wic bootimg-efi.py: keep timestamps and add debug prints
+  wic bootimg-efi.py: change UKI support from wic plugin to uki.bbclass
+  oeqa selftest uki.py: add tests for uki.bbclass
+  oeqa selftest efibootpartition.py: add TEST_RUNQEMUPARAMS to runqemu
+  oeqa selftest efibootpartition.py: remove systemd-boot from grub-efi
+    test
+  oeqa selftest wic.py: add TEST_RUNQEMUPARAMS to runqemu
+  oeqa selftest wic.py: support UKIs via uki.bbclass
 
-> Ideally this function is tidied up a little as locale archive
-> generation isn=E2=80=99t really related to complementary installation.
->=20
-> Ross
+ meta-selftest/wic/test_efi_plugin.wks         |   5 +-
+ meta/classes-recipe/image_types_wic.bbclass   |   3 +-
+ meta/classes-recipe/uki.bbclass               | 197 ++++++++++++++++++
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../distro/include/ptest-packagelists.inc     |   1 +
+ .../oeqa/selftest/cases/efibootpartition.py   |  11 +-
+ meta/lib/oeqa/selftest/cases/uki.py           | 138 ++++++++++++
+ meta/lib/oeqa/selftest/cases/wic.py           |  58 ++++--
+ .../systemd/systemd-boot-native_256.6.bb      |   2 +
+ .../python/python3-pefile/run-ptest           |   3 +
+ .../python/python3-pefile_2023.2.7.bb         |  28 +++
+ .../wic/canned-wks/efi-uki-bootdisk.wks.in    |   3 +
+ scripts/lib/wic/plugins/source/bootimg-efi.py | 187 +++++------------
+ 13 files changed, 481 insertions(+), 156 deletions(-)
+ create mode 100644 meta/classes-recipe/uki.bbclass
+ create mode 100644 meta/lib/oeqa/selftest/cases/uki.py
+ create mode 100644 meta/recipes-devtools/python/python3-pefile/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-pefile_2023.2.7.bb
+ create mode 100644 scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
+
+-- 
+2.34.1
 
 
