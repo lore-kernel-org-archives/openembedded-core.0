@@ -1,239 +1,127 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 61697CEACDC
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 14:56:20 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.83584.1727794573470709936
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C226CEACE1
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 16:06:40 +0000 (UTC)
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web11.85725.1727798793625490067
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 07:56:13 -0700
+ Tue, 01 Oct 2024 09:06:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=WjKIuaee;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-42cc43454d5so41816495e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 07:56:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=d7zOgxpm;
+ spf=pass (domain: gmail.com, ip: 209.85.160.44, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-27cdb92376aso2817768fac.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 09:06:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1727794572; x=1728399372; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bZOFA8QndNrEcHz8M9FCnQmSOIPP1npugHi1HjUEUwM=;
-        b=WjKIuaee5mnk5ag9IsY8Y0IafGaZ4fksDY8jWuZ6bggibMH42dBmZEOSxs90ZHh3w1
-         4L6Dz2mDU2SGBPSxdkrXYU9RWyUiCyPBdaxjkm6z709nqgaqRqCaTVciCJSMNpsYs2LA
-         viKpCaGjuGhcrgb+W+6I0fA9PRxmFHU96h16M=
+        d=gmail.com; s=20230601; t=1727798793; x=1728403593; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2q1wkUM4hJS8nuLyMySjz9AVzGe2/UXnK7qFYzBPgNM=;
+        b=d7zOgxpm6XnZN0OH95oZkhig0xibmjg21IZu6nnW96vd8ab8yqWB+Db0eFCMdlp+00
+         CdWgwvZgcbyGgedAljUNVCUkE68XGbAvbWZYWteE6WFSO4F1lUXdsTW+FIfhMKs2VMwj
+         MzrbTfPGr0+DI+ruV/ChZNo4ZjNg+EDOqvETN2gBZNQHggEo2mn1CpZQNQ4EApkMNbIq
+         o6zQn28zRef9zENqbEAZ4nOSJods6BZn0rTSAUBCf+QvAbzpYxtMeSadvHyBnATnrkGG
+         FiEgq5M8Y8ZqQ6CFVz8ABtBxAOhH0wV7XM9OQrt2bSC09jCS9qEbEYvPz1rQ61aam6Ed
+         mHHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727794572; x=1728399372;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bZOFA8QndNrEcHz8M9FCnQmSOIPP1npugHi1HjUEUwM=;
-        b=fu+pEPDIzuCKynMziNPxqaffJBsVMpSmtbdlsBj2h/JGGFWWwK9fzGYHJ8lq7Wxfqk
-         PMlcDWPODW8JOhlB+i1L1rXmK9KgqwgHDIdUqAMGE3xr59mQFqMmwZtCN7zdxNkQ8nWS
-         hfi026UUe3OAokt58eKVtdowxrsHbhyS7IzlGYV3qE5lJ5vSrXLQ9L7XhPVjjXOONIYr
-         GNJgsmVWZP7EL0MEq08JVZ8u3ePRTQkPahizq929Cx9znya55Ybw2JV55HsArxB8vbj8
-         +d30R2I/foCidee4x1F5zI3BubIS6xG1+T8wrLcGstcRglvSNH8Meyn6gZAFPhTZR1eG
-         vsvw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGu1PUhhFpsjZHq22NKdqmXnIfb//wb2YizzAw8gkxi8AuwzmzERQ1VtB8YVNhfcIO/9uAc8CCKKr2ojyPDiQtvw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzkep59W2MOPe4gzwEbiiP0cmfyIX2RPGmPTaaxCVOkEwNsUhzw
-	/dC+QeoDdroEVPIcll2MH6kY1FVtXhdRzHi0Yhc9SCTkd5xMbUZHF1Pwc7cYwgA=
-X-Google-Smtp-Source: AGHT+IFHRtuou1BuTIhPjyNhRhzKPtKX4ZkBO91rJGqksH6s4HPb9KqGGKWGm2VvRsx5EE5o7aOPSQ==
-X-Received: by 2002:a05:600c:c0d:b0:425:80d5:b8b2 with SMTP id 5b1f17b1804b1-42f5843a819mr126665885e9.16.1727794571703;
-        Tue, 01 Oct 2024 07:56:11 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:85a4:e3cc:bdf8:640d? ([2001:8b0:aba:5f3c:85a4:e3cc:bdf8:640d])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57de0dfesm133754015e9.11.2024.10.01.07.56.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 07:56:11 -0700 (PDT)
-Message-ID: <99df937c036d57a532b29851ffe7d0055d35d83f.camel@linuxfoundation.org>
-Subject: Re: [yocto] [PATCH v7 0/7] Add barebox bootloader support (and
- testing)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>, Enrico =?ISO-8859-1?Q?J=F6rns?=
-	 <ejo@pengutronix.de>, openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, yocto@pengutronix.de
-Date: Tue, 01 Oct 2024 15:56:10 +0100
-In-Reply-To: <92a6efc1-51a0-4153-b894-581fbe868595@pengutronix.de>
-References: <20240919120640.19714-1-ejo@pengutronix.de>
-	 <b77f2c6737c330ef9ecce325d50a4aaa25b3e536.camel@linuxfoundation.org>
-	 <ee536d88a5b6468b20e37f3daabe4aa63047d1ad.camel@pengutronix.de>
-	 <92a6efc1-51a0-4153-b894-581fbe868595@pengutronix.de>
+        d=1e100.net; s=20230601; t=1727798793; x=1728403593;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2q1wkUM4hJS8nuLyMySjz9AVzGe2/UXnK7qFYzBPgNM=;
+        b=eYtvxTCzOL5Q2pKPPGKloKgjtWrNTIspN5Xww5DnG3OjcbY1a5i+nQlzUiNT7Tw8dq
+         MqM3o/GoZPIRWYr/p8F65VnprwvXCqWLb0+1OlKgppPfubuRLCr6DcinzV0oXBpgKwbO
+         ICevhq+ztcxjqWOPL9q6TeCpIupTk0eIaa/7MLD4ikYquqHhU5NwMVMI/VfToGZwi78P
+         PauNqJcucrv+wfgc8vvNMsM9RW2B4SV/ME1KhIg20YOSDrERKPf/MdbC1Ztl1VhFf+E8
+         aQ3IYeACb592IV4Hv3Cb685XktCpQ+ChVwSAcef/5aPlf2X8Kmk8nvcLv3p2S7aAZDIa
+         8k7g==
+X-Gm-Message-State: AOJu0YxMWolnhPqZuo084fo9GIWUidrCDuHg/qFrVBTdwyBdRqETVfwk
+	NVADx7Cdjvvw0dHMrVNBz5k+qbZ8+pcgSNgG/RhffLs0UM1dZCr+lb6O436YtjVjbF0K4yVt/5B
+	zWinDlQpX95WU6v0TSiOpUvACTbQ=
+X-Google-Smtp-Source: AGHT+IE+nombSPwal1auneeYGf+Nej3yXJK5JiyrWujDVHAz29S5EOxCmpRQScNSX8XKg/7tOz3TqvSDbcDhYfg+VgU=
+X-Received: by 2002:a05:6871:7a6:b0:260:eae3:5ec2 with SMTP id
+ 586e51a60fabf-28710aadb08mr9561822fac.26.1727798792698; Tue, 01 Oct 2024
+ 09:06:32 -0700 (PDT)
+MIME-Version: 1.0
+References: <1727246960-20665-1-git-send-email-wangmy@fujitsu.com> <1727246960-20665-30-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1727246960-20665-30-git-send-email-wangmy@fujitsu.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 1 Oct 2024 09:06:06 -0700
+Message-ID: <CAMKF1spddf1DCpOxw52w-kjibfJCGb+cWRq53b8f079Y5-nxKA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 30/47] python3-pyasn1: upgrade 0.6.0 -> 0.6.1
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 14:56:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205174
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 16:06:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205175
 
-On Tue, 2024-10-01 at 16:35 +0200, Ahmad Fatoum wrote:
-> Hi,
->=20
-> On 20.09.24 12:37, Enrico J=C3=B6rns wrote:
-> > Am Donnerstag, dem 19.09.2024 um 21:56 +0100 schrieb Richard Purdie:
-> > > This looked better in testing, thanks. There was:
-> > >=20
-> > > https://valkyrie.yoctoproject.org/#/builders/23/builds/168/steps/14/l=
-ogs/stdio
-> > >=20
-> > > which is from oe-selftest on an ARM server though :/
-> >=20
-> > Thank you for the test log!>=20
-> > I'll try to figure out why it works in my test setup but doesn't in the=
- autobuilder..
-> > Not sure if I'll have the chance to reproduce it on an ARM host.
->=20
-> I tried reproducing the breakage on a Librecomputer Alta (Cortex-A73/A53)=
- with Debian 12
-> for arm64, but without success. Details below.
->=20
-> I applied this series on top of commit
->=20
-> 4fc8427a6c ("systemd: make home directory readable by systemd-coredump")
->=20
-> > Barebox doesn't seem to boot at all (or output is missing) and U-Boot g=
-ot stuck.
->=20
-> Both barebox' oe-selftest:
->=20
-> =C2=A0 a3f@hass:~/poky/build$ oe-selftest -r barebox -v -v -v -K
-> =C2=A0 [1] 257856
-> =C2=A0 2024-09-27 15:06:52,672 - oe-selftest - INFO - Adding layer librar=
-ies:
-> =C2=A0 2024-09-27 15:06:52,672 - oe-selftest - INFO -=C2=A0 /home/a3f/pok=
-y/meta/lib
-> =C2=A0 2024-09-27 15:06:52,673 - oe-selftest - INFO -=C2=A0 /home/a3f/pok=
-y/meta-yocto-bsp/lib
-> =C2=A0 2024-09-27 15:06:52,674 - oe-selftest - INFO -=C2=A0 /home/a3f/pok=
-y/meta-selftest/lib
-> =C2=A0 2024-09-27 15:06:52,680 - oe-selftest - INFO - Checking base confi=
-guration is valid/parsable
-> =C2=A0 NOTE: Starting bitbake server...
-> =C2=A0 2024-09-27 15:06:59,982 - oe-selftest - INFO - Adding: "include se=
-lftest.inc" in /home/a3f/poky/build-st/conf/local.conf
-> =C2=A0 2024-09-27 15:06:59,983 - oe-selftest - INFO - Adding: "include bb=
-layers.inc" in bblayers.conf
-> =C2=A0 2024-09-27 15:06:59,985 - oe-selftest - INFO - test_boot_barebox (=
-barebox.BareboxTest.test_boot_barebox)
-> =C2=A0 2024-09-27 15:07:00,024 - oe-selftest - DEBUG - Writing to: /home/=
-a3f/poky/build-st/conf/selftest.inc
-> =C2=A0=20
-> =C2=A0 QB_DEFAULT_KERNEL =3D "barebox-dt-2nd.img"
-> =C2=A0 PREFERRED_PROVIDER_virtual/bootloader =3D "barebox"
-> =C2=A0=20
-> =C2=A0=20
-> =C2=A0 2024-09-27 15:23:54,349 - oe-selftest - INFO -=C2=A0 ... ok
-> =C2=A0 2024-09-27 15:23:54,357 - oe-selftest - INFO - -------------------=
----------------------------------------------------
-> =C2=A0 2024-09-27 15:23:54,358 - oe-selftest - INFO - Ran 1 test in 1019.=
-863s
-> =C2=A0 2024-09-27 15:23:54,359 - oe-selftest - INFO - OK
-> =C2=A0 2024-09-27 15:24:08,447 - oe-selftest - INFO - RESULTS:
-> =C2=A0 2024-09-27 15:24:08,450 - oe-selftest - INFO - RESULTS - barebox.B=
-areboxTest.test_boot_barebox: PASSED (1014.37s)
-> =C2=A0 2024-09-27 15:24:08,513 - oe-selftest - INFO - SUMMARY:
-> =C2=A0 2024-09-27 15:24:08,514 - oe-selftest - INFO - oe-selftest () - Ra=
-n 1 test in 1019.866s
-> =C2=A0 2024-09-27 15:24:08,515 - oe-selftest - INFO - oe-selftest - OK - =
-All required tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=
-=3D0)
->=20
-> and U-Boot's conclude successfully:
->=20
-> =C2=A0 a3f@hass:~/poky/build$ oe-selftest -r uboot -v -v -v -K
-> =C2=A0 2024-09-30 10:41:21,225 - oe-selftest - INFO - Adding layer librar=
-ies:
-> =C2=A0 2024-09-30 10:41:21,225 - oe-selftest - INFO -=C2=A0 /home/a3f/pok=
-y/meta/lib
-> =C2=A0 2024-09-30 10:41:21,225 - oe-selftest - INFO -=C2=A0 /home/a3f/pok=
-y/meta-yocto-bsp/lib
-> =C2=A0 2024-09-30 10:41:21,226 - oe-selftest - INFO -=C2=A0 /home/a3f/pok=
-y/meta-selftest/lib
-> =C2=A0 2024-09-30 10:41:21,229 - oe-selftest - INFO - Checking base confi=
-guration is valid/parsable
-> =C2=A0 NOTE: Starting bitbake server...
-> =C2=A0 2024-09-30 10:41:24,120 - oe-selftest - INFO - Adding: "include se=
-lftest.inc" in /home/a3f/poky/build-st/conf/local.conf
-> =C2=A0 2024-09-30 10:41:24,125 - oe-selftest - INFO - Adding: "include bb=
-layers.inc" in bblayers.conf
-> =C2=A0 2024-09-30 10:41:24,131 - oe-selftest - INFO - test_boot_uboot (ub=
-oot.UBootTest.test_boot_uboot)
-> =C2=A0 2024-09-30 10:41:24,214 - oe-selftest - DEBUG - Writing to: /home/=
-a3f/poky/build-st/conf/selftest.inc
-> =C2=A0=20
-> =C2=A0 QB_DEFAULT_BIOS =3D "u-boot.bin"
-> =C2=A0 PREFERRED_PROVIDER_virtual/bootloader =3D "u-boot"
-> =C2=A0=20
-> =C2=A0=20
-> =C2=A0 2024-09-30 10:52:59,680 - oe-selftest - INFO -=C2=A0 ... ok
-> =C2=A0 2024-09-30 10:52:59,692 - oe-selftest - INFO - -------------------=
----------------------------------------------------
-> =C2=A0 2024-09-30 10:52:59,693 - oe-selftest - INFO - Ran 1 test in 696.3=
-74s
-> =C2=A0 2024-09-30 10:52:59,695 - oe-selftest - INFO - OK
-> =C2=A0 2024-09-30 10:53:13,581 - oe-selftest - INFO - RESULTS:
-> =C2=A0 2024-09-30 10:53:13,584 - oe-selftest - INFO - RESULTS - uboot.UBo=
-otTest.test_boot_uboot: PASSED (695.55s)
-> =C2=A0 2024-09-30 10:53:13,647 - oe-selftest - INFO - SUMMARY:
-> =C2=A0 2024-09-30 10:53:13,648 - oe-selftest - INFO - oe-selftest () - Ra=
-n 1 test in 696.378s
-> =C2=A0 2024-09-30 10:53:13,649 - oe-selftest - INFO - oe-selftest - OK - =
-All required tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=
-=3D0)
->=20
->=20
-> > U-Boot log in the failed test says
-> >=20
-> > > U-Boot 2024.07 (Jul 01 2024 - 18:07:18 +0000)
-> > > DRAM:=C2=A0 256 MiB
-> > > Core:=C2=A0 51 devices, 14 uclasses, devicetree: board
-> > > Flash: 64 MiB
-> > > Loading Environment from Flash... *** Warning - bad CRC, using defaul=
-t environment
-> > > In:=C2=A0=C2=A0=C2=A0 serial,usbkbd
-> > > Out:=C2=A0=C2=A0 serial,vidconsole
-> > > Err:=C2=A0=C2=A0 serial,vidconsole
-> > > Bus xhci_pci: Register 8001040 NbrPorts 8
-> > > Starting the controller
-> >=20
-> > While my successful run goes further:
-> >=20
-> > > [...]
-> > > Starting the controller
-> > > USB XHCI 1.00
-> > > scanning bus xhci_pci for devices... 3 USB Device(s) found
-> > > Net:=C2=A0=C2=A0 eth0: virtio-net#32
-> > > ESC[?25h
-> > > Hit any key to stop autoboot:=C2=A0 2
-> >=20
-> > But not sure if this is an issue with USB emulation or something else..=
-.
->=20
-> My successful run looks identical to yours. barebox start up is also
-> successful and uneventful.
->=20
-> Note that barebox' XHCI driver doesn't have PCI support unlike U-Boot, so
-> if the same issue is affecting both barebox and U-Boot breakage in CI,
-> it might not be USB emulation related as barebox doesn't do any
-> USB on that platform...
->=20
-> Is `selftest -r uboot -v -v -v -K` close enough to what the CI server run=
-s
-> or should I try something else to reproduce this?
+On Tue, Sep 24, 2024 at 11:50=E2=80=AFPM wangmy via lists.openembedded.org
+<wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
+>
+> From: Wang Mingyu <wangmy@fujitsu.com>
+>
+> Changelog:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> - Added support for Python 3.13.
+> - Cleaned Python 2-related code.
+> - Removed bdist_wheel universal flag from setup.cfg.
+>
 
-That should have worked. "selftest -r barebox" should also fail.
+This causes a ptest regression on pyasn1-modules recipe from meta-python
 
-The config used on the autobuilder for that can be seen here:
+ERROR: tests/test_rfc5755.py:tests/test_rfc5755.py
+ImportError while importing test module
+'/usr/lib/python3-pyasn1-modules/ptest/tests/test_rfc6032.py'
 
-https://valkyrie.yoctoproject.org/#/builders/23/builds/168/steps/13/logs/st=
-dio
+octets.py has been removed in 0.6.1 release. Fortunately, there is a
+patch for pyasn1-modules
+https://github.com/pyasn1/pyasn1-modules/pull/22
 
-in case the MACHINE value in particular makes a difference.
-
-Cheers,
-
-Richard
-
-
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../python/{python3-pyasn1_0.6.0.bb =3D> python3-pyasn1_0.6.1.bb} | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-devtools/python/{python3-pyasn1_0.6.0.bb =3D> python=
+3-pyasn1_0.6.1.bb} (88%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-pyasn1_0.6.0.bb b/meta/=
+recipes-devtools/python/python3-pyasn1_0.6.1.bb
+> similarity index 88%
+> rename from meta/recipes-devtools/python/python3-pyasn1_0.6.0.bb
+> rename to meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
+> index 7237557f44..3913cb51d2 100644
+> --- a/meta/recipes-devtools/python/python3-pyasn1_0.6.0.bb
+> +++ b/meta/recipes-devtools/python/python3-pyasn1_0.6.1.bb
+> @@ -3,7 +3,7 @@ HOMEPAGE =3D "http://pyasn1.sourceforge.net/"
+>  LICENSE =3D "BSD-2-Clause"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE.rst;md5=3D190f79253908c986e6cacf380=
+c3a5f6d"
+>
+> -SRC_URI[sha256sum] =3D "3a35ab2c4b5ef98e17dfdec8ab074046fbda76e281c5a706=
+ccd82328cfc8f64c"
+> +SRC_URI[sha256sum] =3D "6f580d2bdd84365380830acf45550f2511469f673cb4a5ae=
+3857a3170128b034"
+>
+>  inherit pypi python_setuptools_build_meta ptest
+>
+> --
+> 2.34.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204929): https://lists.openembedded.org/g/openembedde=
+d-core/message/204929
+> Mute This Topic: https://lists.openembedded.org/mt/108643630/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
