@@ -1,312 +1,177 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E12F1CE7CFC
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 09:30:38 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web11.77342.1727775028905444760
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93ACDCE7CFD
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 09:31:18 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.65.58])
+ by mx.groups.io with SMTP id smtpd.web10.76929.1727775075032728873
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 02:30:29 -0700
+ Tue, 01 Oct 2024 02:31:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VdQ9bq86;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5366fd6fdf1so6395929e87.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 02:30:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727775027; x=1728379827; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Mx4zNcYmmf2XEALfnyrTpgIDJPpUGeqRXl+sSZPWePE=;
-        b=VdQ9bq86DtzLoJEl9UV2o9BNxmJc5ri0Mm7pSu1m3SgBJAPm+9vDBedYWoimkd9xgK
-         +AnJ9Elv4sX1QxSbS9ULFv9grfESk3TWWsHdEDPSJRHtKpMXGVViS0HXvRfeyfFd5lCW
-         se3oZjd5qa7h70hXMCHEjrKsOZo7QVzr66aSuSFkKxRe3g1wfXrkYXXytVqfP9jW0Blk
-         j7CVSIRHNQuTDxXsHcXFs3ccCJ0rul0TxbX0Azvd2TUSsTAeoxW7liO3A5iZHGF7Uflg
-         8jqogN/kEw414FluKMSCB44uU0skO0fzA1Or5GP7yPI/Ls+fqNrHP8LumaP95faD9Eh/
-         ZTUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727775027; x=1728379827;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=Mx4zNcYmmf2XEALfnyrTpgIDJPpUGeqRXl+sSZPWePE=;
-        b=KGoc1Yqhb35UZh+cBKIbv5i17O37IiKkGNyrWrM4U01UvdW1YlvVXhe2yLqqPJu9Rt
-         1z3b9tMAe5IlwesnybTOdYytLoX49RIlxpxZ3zQ3M6BvZOIUm+6BVMZk+xlkQFRcL8ik
-         Pv9JyVIg3W4F72AbVPGBquL9t2dIqMQyt3WgDYUZNGH1kkWRUdpFDdjc03RzaQHNkGBh
-         kxH+eMWBsGnRWhNC6LbiKWpDNt5cwPEvb7TsofIHSdLIgGRVVAs1mIGXzcy0AW0AF7VQ
-         fC6FH1wD/qnJ3Ylow4zfTJLx1sam5rjWuDww9vNrEPkG6454KsUezsw1tph22MPVsbMc
-         yi3g==
-X-Gm-Message-State: AOJu0YyZYkms/oLd+yfIzqFDzZDhBMJVy6w1HRVgRjQsAGZG5XDORZMF
-	vMOye6En8k0jI/C5Lw+eW29pYhgmZMInNU9oItourXobNAJqiC0UjIyV5g==
-X-Google-Smtp-Source: AGHT+IGKE8ikICyX/zWnJCSyyWK16OShd0wLOzH0mf/rR7VYYnoEcAMATO+FaGEClK5DViTNyuAcJw==
-X-Received: by 2002:a05:6512:1293:b0:52e:be50:9c55 with SMTP id 2adb3069b0e04-5389fc7fe60mr7975595e87.52.1727775026168;
-        Tue, 01 Oct 2024 02:30:26 -0700 (PDT)
-Received: from [10.9.136.49] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c88240510fsm5876081a12.14.2024.10.01.02.30.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 02:30:25 -0700 (PDT)
-Message-ID: <c4814f59e79459815125609b3f916e3382bb5a66.camel@gmail.com>
-Subject: Re: [RFC][master][PATCH] populate_sdk_base: Add
- SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY
-From: claus.stovgaard@gmail.com
-To: openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
-Date: Tue, 01 Oct 2024 11:30:24 +0200
-In-Reply-To: <20240927132040.200122-1-claus.stovgaard@gmail.com>
-References: <20240927132040.200122-1-claus.stovgaard@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=EIqIIc0U;
+ spf=pass (domain: cherry.de, ip: 52.101.65.58, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gSH0rxD+4s5fGu/1ZP/DaYQfSOnqr7TPeYjRR9nrr8h8Wer2CYTp46FGbxAsgBED8zbcWXdKUOhNZE/FBU/opI70DWoPOdOwovJkxltpEt0e1VByGmm9F59IyU/wDaQDhJXxXMySA1sRBKKArH2v+Q6dVelgYha+gS7I3OYeJiSDXxpeFBPbTUQbbTw3A414Ybc90Dukunput1BtfB/XJ2HbUYxxOJw1JtbfmACucVqzA9j0spsSOP6WDYEAYAelvaKUy/M8Bh/P+YSOBhJYsySPlaZYT5rzEwyS+kqjm60nt23UFd6fr8VaJaXm7vWsbXP3bAxHH8NP8+ATKvV4kw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FYnv8kvj4ENIRr11uSjkYMJvvB8C7D2MPuroixXYvm8=;
+ b=NfWTQsPp5akA+DMLfnO7NLhUbIsePrLYG4oPZarJsW43xLnaxk6v59NFCA3wkqvemTp803jjOMv3CvGIyfy7WndKRjYga9NSLxsvZXR6+CSRcWiLyvbuCxyJZTBWZ6ZEj61QgdGFrUP71uEBjW816dz8IHS5dLw6wvSLBPJ4LFeExkKOjz/JEh0LQCC7Dg1sR6EtMIFRo8pULrD7/J8h20lcJO7K8zbCl6eboBz/wzQ9MKFiukpPZJ4jyfKMxKRgf0Nh8JnRhCDU4CeCVixBHTBcCngx+Sl50AcqQHDD2EcLycVGUA+7WEKgEEQUMKGjKkY1Ho7JkP5DHeqYG+eocQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FYnv8kvj4ENIRr11uSjkYMJvvB8C7D2MPuroixXYvm8=;
+ b=EIqIIc0U1MSuWmrUM+krQWCa0+3s1nFv6j7xK1qvRdOfsf8UwScDdA6xbvghoas72OU8CLQDBSPsWxqLIdXtYOuvN0wYpC4hOPQre40tCnr9e8putBeOiarFYsQJypwPTYi+pcFE9/+VgFqfdAk2E1xzh4lym6dZseCgimDxbK4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from AM9PR04MB8906.eurprd04.prod.outlook.com (2603:10a6:20b:409::9)
+ by DU4PR04MB10766.eurprd04.prod.outlook.com (2603:10a6:10:587::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8005.27; Tue, 1 Oct
+ 2024 09:31:11 +0000
+Received: from AM9PR04MB8906.eurprd04.prod.outlook.com
+ ([fe80::d379:5378:b1:cea]) by AM9PR04MB8906.eurprd04.prod.outlook.com
+ ([fe80::d379:5378:b1:cea%2]) with mapi id 15.20.7918.024; Tue, 1 Oct 2024
+ 09:31:10 +0000
+Message-ID: <2d5a2552-f3d1-4cdf-9262-45768e882e99@cherry.de>
+Date: Tue, 1 Oct 2024 11:31:10 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [kirkstone][PATCH v3] kmscube: Add patch to fix
+ -int-conversion build error
+To: Purushottam Kumar <purushottam27.kumar@lge.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <20240930115332.925080-1-purushottam27.kumar@lge.com>
+ <14d65aee-6981-4c25-a6f1-23022ee5ff6c@cherry.de>
+ <OFF9E4B54E.F92E5435-ON48258BA9.001B96A2-48258BA9.001B96A2@lge.com>
+ <OFF9E4B54E.F92E5435-ON48258BA9.001B96A2-48258BA9.001B96A6@lge.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <OFF9E4B54E.F92E5435-ON48258BA9.001B96A2-48258BA9.001B96A6@lge.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: FR0P281CA0243.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:af::10) To AM9PR04MB8906.eurprd04.prod.outlook.com
+ (2603:10a6:20b:409::9)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM9PR04MB8906:EE_|DU4PR04MB10766:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3e2e8280-b67e-4268-9929-08dce1fbc925
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?Wmp0OHgwUWdFQmJmdWxHR2RzeDJ3bE5rbWwzejN3aHB4QWFSbzV0eno4R0JZ?=
+ =?utf-8?B?djNDZllCTUJkMWFORk9USG0yb2hGQkxxYWpGY2JFSUNDSDdGT1hQbmlNdmNO?=
+ =?utf-8?B?MzlySTZmVG1DL2Zmd0hYSVBTRHpVZndUZ1prRjh3S0RyOFJRK3krSE1WenFT?=
+ =?utf-8?B?V3VZZ1VZRVdQQlBNV0ZjVjJqY1M3TmM3N0NTUWZaM1UvVVErSlBxWlF6Znpu?=
+ =?utf-8?B?UW5VQzgvem1mMWV1YjRORDhad1BmZXFaeC9GY1UxNnRKWDI5R0Y2eDB3cVZm?=
+ =?utf-8?B?bWx2WUR0U3VLN1hSdVdPalBpdE1uRTVCNXRBMjVPQmlnbDRjaHpKS0tjb1Vh?=
+ =?utf-8?B?czRCVnJ6WnNsUDlVUThxNUs5b0hTc2VST3VsOGsvNzlVMC9xTWRiNDE3UmNL?=
+ =?utf-8?B?UzFUc2pGcmpFZXNLSlRyWWNocXhVVjFJRktpSk1la3NYVGhBb3FZaDZHd1F5?=
+ =?utf-8?B?WU5LZzdjZUh2RldZR2R4WXY3a2ZpaUxBZXY4aEN5MDlvUXJkWmJwK0YrTmxm?=
+ =?utf-8?B?TCtaaDRTYkpKR0luMzB3Y1ZlWmdmVW5NSlJPdXRpUExQOUE0bS9WZ1VuVzVu?=
+ =?utf-8?B?dEtGcTA2SE5taHJRMHQ5QU1lNUF3VVFTQU5MQlFDeWswYnZ2dmZzaFlicjJa?=
+ =?utf-8?B?d2FPV0R5SnkyaXd1cWwzWlpsWEF5YytJbjhOK0cyU3A3UDBvUUxXd0hLdXFv?=
+ =?utf-8?B?L1kybnIxVjBUUE5jSWRPd2JyYkpBbStNTkhtaElqVEJuaHI4NW10dGRzVlBv?=
+ =?utf-8?B?V0x1aDI5ZnJla0JSK1dhUUd5OEZSYnFqY3o5bEg0ZDhORmZUb0lGN1BMMnRV?=
+ =?utf-8?B?akVXN1RIUG4wZ1NJeGdqa2RUbEdZakI3aDI1Mkpmcnk1aW9lNnpPNktKTlBV?=
+ =?utf-8?B?YituZkNTazhPbGNvVkU2eUk0SXRHUFUvdEdMQ3R5RHdpNnI1VGhSUXNvcDVX?=
+ =?utf-8?B?RDYyV05Yc3pMc2tpMzlWQVJkcE41SnFlVG5KOVNBdlYySmRYcUZHNkEvOW93?=
+ =?utf-8?B?MTJzVm5xRXJEOWFuKzZjeXM4UXlQaStyYjE3NVZqRlpmREEwejBETG5saEJO?=
+ =?utf-8?B?a2E4elkvdSs1dzJvNlBkemFkeHpWaXQwbUltZGQ5UThHbnh5RE1heEJrckFU?=
+ =?utf-8?B?V3R3Um5FaVgrVmxjRnRQdVNGUk1wUkR0cGhJckgwbkFvUmdqQXA1YWFYemZx?=
+ =?utf-8?B?Q29DaWFEMEk5NHRFdjdYQTFucVE4R1BTaEYxTlRMRjgrcjVSNXplOVBvbkJv?=
+ =?utf-8?B?ZXhoM0luZ0dvbjdpdmgwRE9jWHlDSnRQRlByemlvRGg1VXEzZ3lqYlE0eDd0?=
+ =?utf-8?B?dDhMdFdqd1EvL1gyMGxLK0lTQ3kxUVNibFZ1WEFJallxVW9pSm01bFdQOWo2?=
+ =?utf-8?B?OGc5ZGowK0JtSzZEamxWZVQ3clZNYVUya2dqMXlEd3dRa0RSZEN3R2lrcjZE?=
+ =?utf-8?B?OXBZV1l0MDFNSWhBdHJFYlZqRDVrbzdxQWRvNmdySlQwK3gwUjZ3WDd2SDV3?=
+ =?utf-8?B?bFN0VXd6d091NGNyRDZ4bENTcGp1ZmRNc1ptZkRmQkhzK1FOZlNta0NxQ0J6?=
+ =?utf-8?B?L0pVenI2OTNvNmRPN2NINU95eTU2Nk9rL0NmR291Wk1KMGJGTmc4V3NxUXFz?=
+ =?utf-8?B?QS9GZm5vek40R3I5MmVFSi9zMlpQMDdFTmNvMm5TdnY1RFlvRm5DUGNBaVVP?=
+ =?utf-8?B?Q0Z2YmFVR1JwWS9mUlpZdEpRZEMxY1E2SytMVjV6d2piSFJPS2MvdFp5dHZv?=
+ =?utf-8?Q?Qd+rXi/DuONjWwVDQM=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR04MB8906.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?WG4yWitDeVRnWTlJVm9lakYrZ1E1ZE9NQXVQSnRPQzNPcTNRK1B3S1VFWVlx?=
+ =?utf-8?B?VnFmQng3YzhFenlaaGVTZnlHYndyQzZsTnRlSzF4QzhJN01xUllVZkk0Zkdm?=
+ =?utf-8?B?Z0NPQ2F5NmVKbkdXVjJkZUFmdFFab3RXZGxMUVlLMWhOM3pkUjM1REdPK0pt?=
+ =?utf-8?B?REVDWG9uM0lNNjNkMHVxTkd3N3NVd2NBMFRyTUtDQ0tDb0pHSmdiSERSV1Zm?=
+ =?utf-8?B?STUrRU1uZDNPeUlwa01SK1k0MmJDeFJRdWk1VnJ0bndWaWxZbnQ2S0VqbkdM?=
+ =?utf-8?B?YXRLcGxJZkROL2o2TDltWENZU29aWENWcnA1S2d0SVlZZ09aVnVUYTY2M1Ev?=
+ =?utf-8?B?SnREL3kva0RPRVVPR3FqVFlFekJEL3BvUVhyNm9iMmViMzZVcDcyUTAvNXd0?=
+ =?utf-8?B?ZjdPRDVTMEN4MUJ3eFpvdmdLenl6R0VIelhnYlBHdHU0VHpRcUZzSGdhU1Rm?=
+ =?utf-8?B?WTRwdDdScFVtQmtMNlcwa0N1SU50VWUvZWFNNUJBckNrVEp0dXkwQVdQcU1o?=
+ =?utf-8?B?Ym9DWXlzZlJCeGp1NHJqa0grOVFCait0TFdXRWlTNk9CcFNTZWxKanN0b0FZ?=
+ =?utf-8?B?bFc3cjA2ZFN2dGhmSWVmcnBkZnlLUnlUSlhhUkozN2k0T1FJR1hGa1VsMDI5?=
+ =?utf-8?B?MUwvYkJ2SitYa2FEVUpTMHJsb1g4Y05rZGJMMWlOSkxTYTVWaThNR1BodHpz?=
+ =?utf-8?B?S1RWeFZ5YU92ZEx4MWlobE9XTHhCQlhNbVhBZDdqV2xsaWRoK0ZUdXFEU2hN?=
+ =?utf-8?B?blI0NzdHbVQ1WnJ3K04zdld5eHpBWmsrVFFWVUdhR1JxMHJ2S2hMb2RXd2Er?=
+ =?utf-8?B?dCtyY0lrT3M5aVk1eld2M2hyYTBxc2NBTmZJSmFCaHhQU2FiTS8rNlEyQWgr?=
+ =?utf-8?B?a0ZtMXczWnVkV3ZoZm5PLzZRTVF4SHNrdG5KYldyTEFEby9peDFmUldieUR3?=
+ =?utf-8?B?TnNWcW9nNFB6dVl6VWE2YlBmTFBEdmNyWHRJRWxjWGhUb3p5UG5zOUhPdXJQ?=
+ =?utf-8?B?QURueEdyUktNeU5UZkg2WFo0T3hvSmVvaFFOSmVrRzhNcWp4ckpPRTlUOTFu?=
+ =?utf-8?B?RjUxTWFQV21RVlNZRS8zQ0RiT2RIQ25rWFVNaXlMVVBqOTA2OGNGTGJvcWVL?=
+ =?utf-8?B?dm1jMXRLUDVNZ25uRDQrZmQ4S0s4Vlc4UDMzclFWOS9TZW50UmRrajlOc29n?=
+ =?utf-8?B?T1dDRXJ5M1Y0UGZvcmcxbWRBQXpYTWdDbENEcUhUcDZReHY0M2NZTGNGWCtt?=
+ =?utf-8?B?OXNqUWduZGFKelBCaTA1eUtjcmhtOFREM3JkVVRVaVE2WUpNOXYwTURESkFL?=
+ =?utf-8?B?MHlsYnBHdTA3d2UzUnltS3g2c3lUT3NVdE1BcWNkRHBtY3hJNloyQXB6YndY?=
+ =?utf-8?B?L1I2T0xaTlE2eUNYVm5kMUxpbXBZNUQyWXE3VGJaQUw2VEdTM1ZVT3U5N3Bs?=
+ =?utf-8?B?N0ZORUxHMWxoR2UxcmR3YnMrZ0VjamppbmFZdmZBVUZwSDUvVXZtckpERDJQ?=
+ =?utf-8?B?OVhEaG01ZDY5eTFTQWxoVkdjK0l2V2piZjh3QnFCVmZ1TmFFNW04a3J5bHZl?=
+ =?utf-8?B?WlkrUHV2R0FBNC9Xb1dUbUVZTGVrdlFBaU8yV0lBaCtIcmpzQUNCbkwraFcw?=
+ =?utf-8?B?V0dFeGptbEd5S05FNTJQRTYzWDV1Z3JmZ01tZTQ3dWhEb0txaXVEbXFRdFNs?=
+ =?utf-8?B?WTA3R3hwb3ArcjhjUmpRQWplcGNFaW51U3BtTXQweUpxcmxQYmxacEhvWk8v?=
+ =?utf-8?B?Ungwc2xnREZnWjRWVlNpdU9zeUZtTWtRQ09CSmxGS0hxKytvR1ppcGtQdlhG?=
+ =?utf-8?B?dzg0dCtORlh4YjdzOFQzMzZYRkdGVTB5c0JwSEMxVVYvSWtybUo5V005dGo4?=
+ =?utf-8?B?VksvM0ZNZVdtSXFNVnhGMzk2Q0hQdVdqSHZTOGVJblBBOE82L3QzTGZPQjI3?=
+ =?utf-8?B?VUYzVkFPa3RidjNOTnpXbFdhbnZhUEplTXlnRHJyK09lWGVtMEU3dEhGN0sy?=
+ =?utf-8?B?Vm5HNW5jclZydWxnZFQ5TGJqaFlIVlJHOW5nZ1RpUEh0ZFBvanpPQzhwNzZH?=
+ =?utf-8?B?WFNmZmJRd0xQS1ZRQkcvei9na3FoZzNobGRrNGJHcEp1OTRRNk8yM3MvTnJQ?=
+ =?utf-8?B?WkxzUXhBZEJ5MGl1VjdvQWJHUzZTUnRRaWh5Ujhid0Zmb2dvQ3Qvbk5RYmxs?=
+ =?utf-8?B?SHc9PQ==?=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3e2e8280-b67e-4268-9929-08dce1fbc925
+X-MS-Exchange-CrossTenant-AuthSource: AM9PR04MB8906.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2024 09:31:10.8706
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: bgg5vmPl1xFOYgayUiwY86b9w/+LCUCsn67A12jB3wkkP+L5zekZaCaBGUebEIpXngbaaOwdGNQiiy5Q2ou9K1QLr8k2YMtopSD6GR2Y3eQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10766
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 09:30:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205148
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 09:31:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205149
 
-On Fri, 2024-09-27 at 15:20 +0200, Claus Stovgaard wrote:
-> SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY is a new variable to
-> enable installation of recommended complementary packages in the
-> classic
-> sdk. Use it to get populate_sdk behave like Kirkstone and earlier.
->=20
-> As installing complementary recommended packages is known to cause
-> bugs
-> it was disabled. Though it can be usefull when having dummy packages
-> with DEPENDS to create SDK's. Use this variable with caution.
->=20
-> Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+Hi Purushottam,
 
-I got a comment on IRC about splitting it up into documentation part
-for yocto-doc mailing list and implementation, so will wait some days
-more, and then split it up and send as normal patches if there is no
-other comments.
+On 10/1/24 7:01 AM, Purushottam Kumar wrote:
+> Hi Quentin,
+> 
+> Shall I update the SRCREV to latest and revert below commit change as patch
+> would be fine for kirstone?
+> https://gitlab.freedesktop.org/mesa/kmscube/-/
+> commit/4961a04b4a434aefbd412eb24fb76998036eaaf6 <https://
+> eur02.safelinks.protection.outlook.com/?
+> url=https%3A%2F%2Fgitlab.freedesktop.org%2Fmesa%2Fkmscube%2F-
+> %2Fcommit%2F4961a04b4a434aefbd412eb24fb76998036eaaf6&data=05%7C02%7Cquentin.schulz%40cherry.de%7C38b70b91da2a450fb8ef08dce1d6195c%7C5e0e1b5221b54e7b83bb514ec460677e%7C0%7C0%7C638633556881179123%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C0%7C%7C%7C&sdata=ONuzmhX%2BxeRVXDvncoJ6FIz2%2B2JNuyUWD7NPIMDYQb4%3D&reserved=0>
+> 
+> Or shall I push specific change as a patch instead of updating SRCREV for
+> master, scarthgap and kirkstone?Please suggest. Thanks, Purushottam
+> 
 
+Let's wait for maintainers' opinion on this :) (Steve is the LTS 
+maintainer hence why I mentioned him in my previous answer)
 
-/Claus
-
-
-> ---
-> =C2=A0documentation/ref-manual/variables.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 7 +++++++
-> =C2=A0meta/classes-recipe/populate_sdk_base.bbclass | 1 +
-> =C2=A0meta/conf/documentation.conf=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1 +
-> =C2=A0meta/lib/oe/package_manager/__init__.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 4 ++--
-> =C2=A0meta/lib/oe/package_manager/deb/sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 4 +++-
-> =C2=A0meta/lib/oe/package_manager/ipk/sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 4 +++-
-> =C2=A0meta/lib/oe/package_manager/rpm/sdk.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 6 ++++--
-> =C2=A07 files changed, 21 insertions(+), 6 deletions(-)
->=20
-> diff --git a/documentation/ref-manual/variables.rst
-> b/documentation/ref-manual/variables.rst
-> index 32c9e7407d..44ec6d59a6 100644
-> --- a/documentation/ref-manual/variables.rst
-> +++ b/documentation/ref-manual/variables.rst
-> @@ -7658,6 +7658,13 @@ system and gives an overview of their function
-> and contents.
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 $ bitbake -c popul=
-ate_sdk imagename
-> =C2=A0
-> +=C2=A0=C2=A0 :term:`SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY`
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Set to '0' to install recommended complem=
-entary packages as
-> part of populate_sdk.
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Used to make the clasical sdk behave like=
- Kirkstone and
-> earlier yocto releases.
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Complementary recommended packages was di=
-sabled for default
-> because of long standing
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bugs where RDEPENDS from -dev packages ca=
-uses problems in sdk.
-> Example with conflict
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for main openssh and dropbear packages. U=
-se with caution.
-> +
-> =C2=A0=C2=A0=C2=A0 :term:`SDKMACHINE`
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The machine for which the SDK is bui=
-lt. In other words, the
-> SDK is built
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 such that it runs on the target you =
-specify with the
-> :term:`SDKMACHINE`
-> diff --git a/meta/classes-recipe/populate_sdk_base.bbclass
-> b/meta/classes-recipe/populate_sdk_base.bbclass
-> index 16013d5872..09e9c5b61c 100644
-> --- a/meta/classes-recipe/populate_sdk_base.bbclass
-> +++ b/meta/classes-recipe/populate_sdk_base.bbclass
-> @@ -37,6 +37,7 @@ def complementary_globs(featurevar, d):
-> =C2=A0SDKIMAGE_FEATURES ??=3D "dev-pkgs dbg-pkgs src-pkgs
-> ${@bb.utils.contains('DISTRO_FEATURES', 'api-documentation', 'doc-
-> pkgs', '', d)}"
-> =C2=A0SDKIMAGE_INSTALL_COMPLEMENTARY =3D
-> '${@complementary_globs("SDKIMAGE_FEATURES", d)}'
-> =C2=A0SDKIMAGE_INSTALL_COMPLEMENTARY[vardeps] +=3D "SDKIMAGE_FEATURES"
-> +SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY ??=3D "1"
-> =C2=A0
-> =C2=A0PACKAGE_ARCHS:append:task-populate-sdk =3D " sdk-provides-dummy-
-> target"
-> =C2=A0SDK_PACKAGE_ARCHS +=3D "sdk-provides-dummy-${SDKPKGSUFFIX}"
-> diff --git a/meta/conf/documentation.conf
-> b/meta/conf/documentation.conf
-> index 3f130120c0..84e2fef688 100644
-> --- a/meta/conf/documentation.conf
-> +++ b/meta/conf/documentation.conf
-> @@ -376,6 +376,7 @@ SDK_DIR[doc] =3D "The parent directory used by the
-> OpenEmbedded build system when
-> =C2=A0SDK_NAME[doc] =3D "The base name for SDK output files."
-> =C2=A0SDK_OUTPUT[doc] =3D "The location used by the OpenEmbedded build
-> system when creating SDK output."
-> =C2=A0SDKIMAGE_FEATURES[doc] =3D "Equivalent to IMAGE_FEATURES. However,
-> this variable applies to the SDK generated from an image using the
-> command 'bitbake -c populate_sdk imagename'."
-> +SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY[doc] =3D "Set to
-> something else than '1' to install recommended complementary packages
-> as part of sdk. Used to make populate_sdk behave like Kirkstone and
-> earlier"
-> =C2=A0SDKMACHINE[doc] =3D "Specifies the architecture (i.e. i686 or x86_6=
-4)
-> for which to build SDK and ADT items."
-> =C2=A0SECTION[doc] =3D "The section in which packages should be categoriz=
-ed.
-> Package management utilities can make use of this variable."
-> =C2=A0SELECTED_OPTIMIZATION[doc] =3D "The variable takes the value of
-> FULL_OPTIMIZATION unless DEBUG_BUILD =3D '1'. In this case, the value
-> of DEBUG_OPTIMIZATION is used."
-> diff --git a/meta/lib/oe/package_manager/__init__.py
-> b/meta/lib/oe/package_manager/__init__.py
-> index d3b2317894..50e78c4017 100644
-> --- a/meta/lib/oe/package_manager/__init__.py
-> +++ b/meta/lib/oe/package_manager/__init__.py
-> @@ -344,7 +344,7 @@ class PackageManager(object, metaclass=3DABCMeta):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 "'%s' returned %d:\n%s" %
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 (' '.join(cmd), e.returncode,
-> e.output.decode("utf-8")))
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0 def install_complementary(self, globs=3DNone):
-> +=C2=A0=C2=A0=C2=A0 def install_complementary(self, globs=3DNone,
-> hard_depends_only=3DTrue):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 """
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Install complementary pa=
-ckages based upon the list of
-> currently installed
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 packages e.g. locales, *=
--dev, *-dbg, etc. Note: every
-> backend needs to
-> @@ -399,7 +399,7 @@ class PackageManager(object, metaclass=3DABCMeta):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 bb.note("Installing complementary packages ... %s
-> (skipped already provided packages %s)" % (
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ' '.join(install_pkgs),
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ' '.join(skip_pkgs)))
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 self.install(install_pkgs, hard_depends_only=3DTrue)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 self.install(install_pkgs,
-> hard_depends_only=3Dhard_depends_only)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-except subprocess.CalledProcessError as e:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 bb.fatal("Could not compute complementary packages
-> list. Command "
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 "'%s' returned %d:\n%s" %
-> diff --git a/meta/lib/oe/package_manager/deb/sdk.py
-> b/meta/lib/oe/package_manager/deb/sdk.py
-> index 6f3005053e..6232c47f4a 100644
-> --- a/meta/lib/oe/package_manager/deb/sdk.py
-> +++ b/meta/lib/oe/package_manager/deb/sdk.py
-> @@ -65,7 +65,9 @@ class PkgSdk(Sdk):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.note("Installing TARG=
-ET packages")
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self._populate_sysroot(s=
-elf.target_pm, self.target_manifest)
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_
-> COMPLEMENTARY'))
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hard_depends_only =3D
-> (self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY') =3D=3D
-> '1')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_
-> COMPLEMENTARY'),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hard_=
-depends_only)
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.target_pm.run_pre_p=
-ost_installs()
-> =C2=A0
-> diff --git a/meta/lib/oe/package_manager/ipk/sdk.py
-> b/meta/lib/oe/package_manager/ipk/sdk.py
-> index 3acd55f548..e8663523df 100644
-> --- a/meta/lib/oe/package_manager/ipk/sdk.py
-> +++ b/meta/lib/oe/package_manager/ipk/sdk.py
-> @@ -61,7 +61,9 @@ class PkgSdk(Sdk):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.note("Installing TARG=
-ET packages")
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self._populate_sysroot(s=
-elf.target_pm, self.target_manifest)
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_
-> COMPLEMENTARY'))
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hard_depends_only =3D
-> (self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY') =3D=3D
-> '1')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_
-> COMPLEMENTARY'),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hard_=
-depends_only)
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env_bkp =3D os.environ.c=
-opy()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.environ['PATH'] =3D
-> self.d.expand("${COREBASE}/scripts/nativesdk-intercept") + \
-> diff --git a/meta/lib/oe/package_manager/rpm/sdk.py
-> b/meta/lib/oe/package_manager/rpm/sdk.py
-> index ea79fe050b..a3f505c023 100644
-> --- a/meta/lib/oe/package_manager/rpm/sdk.py
-> +++ b/meta/lib/oe/package_manager/rpm/sdk.py
-> @@ -65,8 +65,10 @@ class PkgSdk(Sdk):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bb.note("Installing TARG=
-ET packages")
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self._populate_sysroot(s=
-elf.target_pm, self.target_manifest)
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_
-> COMPLEMENTARY'))
-> -
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hard_depends_only =3D
-> (self.d.getVar('SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY') =3D=3D
-> '1')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> self.target_pm.install_complementary(self.d.getVar('SDKIMAGE_INSTALL_
-> COMPLEMENTARY'),
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 hard_=
-depends_only)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=20
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 env_bkp =3D os.environ.c=
-opy()
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.environ['PATH'] =3D
-> self.d.expand("${COREBASE}/scripts/nativesdk-intercept") + \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 os.pathsep + os.environ["PATH"]
-
+Cheers,
+Quentin
 
