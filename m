@@ -1,139 +1,83 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D46E3CE7D1E
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 12:47:19 +0000 (UTC)
-Received: from mail-io1-f50.google.com (mail-io1-f50.google.com [209.85.166.50])
- by mx.groups.io with SMTP id smtpd.web11.80748.1727786832329961848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFC9BCE8374
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 12:56:19 +0000 (UTC)
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+ by mx.groups.io with SMTP id smtpd.web10.80506.1727787378400482638
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 05:47:12 -0700
+ Tue, 01 Oct 2024 05:56:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=Ve1KySGF;
- spf=pass (domain: baylibre.com, ip: 209.85.166.50, mailfrom: tgamblin@baylibre.com)
-Received: by mail-io1-f50.google.com with SMTP id ca18e2360f4ac-8324124a172so269109339f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 05:47:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UFhpN6JG;
+ spf=pass (domain: gmail.com, ip: 209.85.167.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5398b2f43b9so3133354e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 05:56:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1727786831; x=1728391631; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:cc:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=EBFTX2lnaKRkbmJFu5GCDimHKxusC0EGfVk0Edv8xFc=;
-        b=Ve1KySGFMPEd+uYS5ptJU268l+SNmnuzJtC4a52znxz7Nwo4Vq1nPhH8rBaC+BooV1
-         1Wi7CCwwlIZvEX5YQDoFabYWid/HRh+nc4JB4g2neYOOaVVvSpGePBYRtaQhzl+0Fb5L
-         ajbNkYBVdB6I4bWXdOMbYeNOnf4oNvGmafvOPDIoNHP2zeOfCuldd3d1JZ9SCeAZLAUY
-         3TwxCUnEmsW+H44z08Ie+wz9r5s0pRBjEHanvxyxrMFtIDO7+C6kvvYHXpnW+dJt1kC9
-         Kh/ygQ1ggstAATIzUTmEInDkIENhlCn8SXGYT1ScUx37oN6z94LV3T8Mxk5xbsJ9Q10Y
-         tedA==
+        d=gmail.com; s=20230601; t=1727787376; x=1728392176; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=fUpIRZa4pj6hibPJ4WvcAth3He5BBB3NjsmRKT/ft8o=;
+        b=UFhpN6JG0PkN5Ov7ulWiJ1LPp1ZH+2P4u+DDF9aUtL5R4S1AMSy1c3TzB5GzzGnHIz
+         YITpWvc3+9BHufj/bEm/siTxfQkEymFDFEnOLuJp+9537b3nqHuAg54PWi4oiQRDO4Br
+         7m+SE5j2kVe0Zzpjx+Jy39S7Z7M46nFq02r1rpKKZW4aMxGPW7eHdvhwTbDHQyhNWuss
+         3Ws3kEN/qghaDBq4xkX3LP7F4Ffx2zceHYdXWi79BgrG5Ss8taHSpPmidWMN58ta5q9c
+         0HknzBIASjl8SACES/J8bD2BRjaBxQcGci75+xE6wrQT6oaC3EDOMGtYbL58kBHTbVzj
+         NfpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727786831; x=1728391631;
-        h=content-transfer-encoding:in-reply-to:cc:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EBFTX2lnaKRkbmJFu5GCDimHKxusC0EGfVk0Edv8xFc=;
-        b=fssCZx1mUUQkHS2DItBxik/9ZDr0gmoC+kalPjZskT1MoGTLATeZxKt+9Q4C6Zkzk7
-         xYIH/EWLJrYkxiomxlso1h/l3Cc0hQyaMnRTooMp6Wmt5v5NOzsBmiaDFOd0Ic5BZTES
-         Is/7kAnKaA3/gpo8BMEumDhOI8/arIK7KYCCeR5t1UKHKlTmCekVgKhkwstLoYLdSxny
-         qINpFUxRYYFnmvr82ztDuI/rszc0+BHqsxp3MxOUubGe9ThZAfOm+tSl/BYsstNkESZ2
-         OxK73En3fRjqh8c1HnTCqSng2QTmHXisnp+DLbXOxVbu5mbokO2q9slILt1Q0wlGUofw
-         gZ6g==
-X-Forwarded-Encrypted: i=1; AJvYcCX2gcdVPYXNsu+SFmhcMXp7dt0YmN32KaK5eErHqXRcQWoGyleDbR5D9A2RjjIAJD4vBjQ0nnRVcQYuOcTAhQ9H1Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyL5Xfc+uUM+XwlwJAXXhL3bXd3hpHd5TV/nvNPERpITNzrfyrM
-	HbB+7AKjad/0oycUUbkHMmKbktsRnAO1o56ulNTxJhimPe8BUHfLL7MnLBwGinCWSsyEEIrjt7r
-	xwGA=
-X-Google-Smtp-Source: AGHT+IHyVL2YalWtFCHKtvIT6lw1w8auoPpjMOxDxyY8aJsoPQ3TIp4zJnSt4J1v3tochynDpSPA/g==
-X-Received: by 2002:a05:6602:6b87:b0:82c:f85a:4dcb with SMTP id ca18e2360f4ac-834931d0945mr1240990239f.6.1727786831411;
-        Tue, 01 Oct 2024 05:47:11 -0700 (PDT)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-834936c8ad2sm278226739f.15.2024.10.01.05.47.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2024 05:47:11 -0700 (PDT)
-Message-ID: <776f425a-eed8-4611-8c90-d79a2b56703f@baylibre.com>
-Date: Tue, 1 Oct 2024 08:47:09 -0400
+        d=1e100.net; s=20230601; t=1727787376; x=1728392176;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fUpIRZa4pj6hibPJ4WvcAth3He5BBB3NjsmRKT/ft8o=;
+        b=f05r0cSR0U7Nxy51ropcmq7S3Is6EjhqlIXkGVCfkiEQjxvrMNZSaG4JIVdlkMIPZe
+         SJwbIbxe8ut66ez+ON7wgxwpX2Ym/G69obJOzgJtOORQWVl3kVaeIvKxGh1xiDULDT7+
+         t/baONqwzwbBmsZQmlWnJWeOYpYltwLbeDp6hKZjMsWPHDuoec/+ax4DoIwyST5dpTVv
+         n3NnS5rO355fg29qTEpKRiuFKZLl0iTEpPik4fN6rIyecmmuvytx2u0sUxDR8rHnl9Eu
+         aT3jqxpvcEVJUUZQ3fdu3klHDHtuFhYe8QHs0W7GYqGYv8mrHoPhzFRUZ+lHxnN39QAC
+         qTQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXwbxwEFJOYjgd49CCglEhuKkk26dkLm5E5y+jeZfbK0rvtlgF0cQtpjig5Vi3QZaok9Wa30GZ7PsNd1NsXaMyxag==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxeuNcxbrAxhgYPQBGErLcb628cd6e7GPfINlH1vktsYaWJMgN4
+	S43nsAwSG3NxF7gjQLFOFcl0YVVNoEd1zWGE/4cDXzq9GXHnemLemZ0fVrnkNZfWI2FqjOKtb5+
+	qIOz3po7xU2P9z/3Vnvmogf+TOb4=
+X-Google-Smtp-Source: AGHT+IFcdqLf+LjlY2eX1UlFtVjHICfH5+zFF6GFrarvOyRxoihPT+oHA0mTYu4GMCeQp+BE309GuUxiPvc0tOCa8LI=
+X-Received: by 2002:a05:6512:280c:b0:539:9155:e8cb with SMTP id
+ 2adb3069b0e04-5399a1eaa48mr1082155e87.0.1727787376219; Tue, 01 Oct 2024
+ 05:56:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][PATCH 6/6] patchtest: use black to format libraries
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
 References: <20240924115503.1599651-1-tgamblin@baylibre.com>
- <20240924115503.1599651-7-tgamblin@baylibre.com>
- <87ee2add3b3814aa41f6e0b6758dee068a1ab54f.camel@linuxfoundation.org>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: Ross Burton <Ross.Burton@arm.com>, tim.orling@konsulko.com
-In-Reply-To: <87ee2add3b3814aa41f6e0b6758dee068a1ab54f.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+ <20240924115503.1599651-7-tgamblin@baylibre.com> <87ee2add3b3814aa41f6e0b6758dee068a1ab54f.camel@linuxfoundation.org>
+ <776f425a-eed8-4611-8c90-d79a2b56703f@baylibre.com>
+In-Reply-To: <776f425a-eed8-4611-8c90-d79a2b56703f@baylibre.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 1 Oct 2024 14:56:04 +0200
+Message-ID: <CANNYZj9+bvOEKxND1JoNeUY+-tsTfWj2qqMGeO09BDFN7+3_eA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 6/6] patchtest: use black to format libraries
+To: tgamblin@baylibre.com
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, Ross Burton <Ross.Burton@arm.com>, 
+	tim.orling@konsulko.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 12:47:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205161
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 12:56:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205163
 
+On Tue, 1 Oct 2024 at 14:47, Trevor Gamblin via lists.openembedded.org
+<tgamblin=baylibre.com@lists.openembedded.org> wrote:
+> Is this a reasonable goal for some distant release? I've CC'd Ross and
+> Tim since they're also doing some Python work. I might bring it up at
+> the weekly today.
 
-On 2024-10-01 07:45, Richard Purdie wrote:
-> On Tue, 2024-09-24 at 07:55 -0400, Trevor Gamblin via lists.openembedded.org wrote:
->> Black makes things easier to read.
->>
->> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
->> ---
->>   meta/lib/patchtest/mbox.py                    |  44 +++---
->>   meta/lib/patchtest/patchtest_parser.py        | 106 ++++++++-----
->>   meta/lib/patchtest/patchtest_patterns.py      |  84 ++++++----
->>   meta/lib/patchtest/repo.py                    |  32 ++--
->>   meta/lib/patchtest/selftest/selftest          |  92 ++++++++---
->>   meta/lib/patchtest/tests/base.py              |  86 ++++++-----
->>   meta/lib/patchtest/tests/test_mbox.py         | 144 +++++++++++++-----
->>   meta/lib/patchtest/tests/test_metadata.py     |  94 ++++++++----
->>   meta/lib/patchtest/tests/test_patch.py        |  39 +++--
->>   .../lib/patchtest/tests/test_python_pylint.py |  45 ++++--
->>   scripts/patchtest                             | 113 +++++++++-----
->>   scripts/patchtest-get-branch                  |  54 ++++---
->>   scripts/patchtest-send-results                |  66 +++++---
->>   13 files changed, 660 insertions(+), 339 deletions(-)
-> I'm a bit nervous about this change for a few reasons. Firstly, it sets
-> a precedent where others will want to do this on other areas of the
-> code and I'm not sure we really want to do that.
->
-> black is quite opinionated and I don't agree with everything it is
-> changing. Some of the code does look more readable before it made
-> changes compared to the end result, particularly around how it is
-> choosing to line wrap the code. Some of the changes are also just
-> rearranging things for little gain such as changing quoting characters.
->
-> I'm therefore in two minds of this. I do want to empower people to
-> maintain code but I don't want to end up forced into taking style
-> changes I really don't agree with :/.
+Can I raise a strong objection? I've been writing python for over 20
+years, and I haven't once been in a situation where formatting would
+affect my ability to form a mental picture of what the code is doing.
+It's by far the most overrated item in various coding guidelines. As
+long as people stay roughly consistent with what is already there, and
+remember to wrap or split long lines, I utterly don't care about
+anything else, and feel it's a waste of time to enforce a particular
+style.
 
-I agree that it may lead to a rush of reformatting efforts that aren't 
-desired. We certainly don't have to take this patch now if you don't 
-want to, although the more minor changes (e.g. the quotations) were 
-actually a bigger part of the draw for me when I ran it.
-
-On the other hand, some experience with using checkpatch.pl in the 
-kernel has me wondering if we should be considering standardizing our 
-formats for Python scripts and modules (over time) anyway. I have no 
-strong preference on which formatter would be best (to be honest, I 
-haven't even tried the others like YAPF or Ruff). Black, however, seems 
-to be the one recommended most, and though it's opinionated it helps 
-keep things consistent (the example above where the string quoting was 
-sometimes single and sometimes double drove me nuts every time I looked 
-at it).
-
-Is this a reasonable goal for some distant release? I've CC'd Ross and 
-Tim since they're also doing some Python work. I might bring it up at 
-the weekly today.
-
-- Trevor
-
->
-> Cheers,
->
-> Richard
->
->
->
->
->
->
+Alex
 
