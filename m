@@ -1,337 +1,184 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <a.fatoum@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 309F9CEACC8
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 14:08:50 +0000 (UTC)
-Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
- by mx.groups.io with SMTP id smtpd.web11.82740.1727791720947165479
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EF4CEACCD
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 14:35:20 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.83409.1727793312210870489
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 07:08:41 -0700
+ Tue, 01 Oct 2024 07:35:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gtg5jsmI;
- spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e26290a13d5so1484552276.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 07:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727791720; x=1728396520; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VKDet0mby0SxiSiKgWcM1top3lYLNZmMewR/3GkkQ68=;
-        b=Gtg5jsmI7q+iOqhrbHeKd1YK395wAJQjBrnQMkbRCZE9EKMO091LySttwsS7RbbDrd
-         SVYN4ZADLZ+gFT3whNpp7zd9Wd5oU8/tIvJZt40ZcJft6zKlle7oTbGfzmg8M6hKQBop
-         IBZKnRVAEY290vUFHC4hzUmiAfeS/DpSNeBLox+JEkIWy1NCj1foplZlRrdqelpBwdru
-         zkmgHh4UtuK3iHNS9M3pkQydqM2v1ziw+OcRcAfmziCM1aFna+uPhB/4yyowv4HcTi0K
-         1ItuU2WeXDjfvpnjR6IAwkg/pJq83tiXuQTC/fcJCqOgyYwL3M6zGw7hcTwu2rzpQDgk
-         kmUw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727791720; x=1728396520;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VKDet0mby0SxiSiKgWcM1top3lYLNZmMewR/3GkkQ68=;
-        b=JrxdkZXRCOBUrZNbJV50QJY3DD3NZa6SKePcCIKfZSUe0LcTfkjtjxYewMFAlRrrnA
-         phK2Q2h8Otrp4oBpvdzXnXoo5HjjfFeUx9qSe9yP0ojEKibz+hk7JPx9rjTMpVGda0bq
-         kbk1YVN1+JIcc6QAWvKkD5cusp42fsJGy17ZgI3p5nBSDPAzJRKefOoO2ROs3MpgTtpJ
-         8DZMihlYML2Uenmw+ZRME0UlsUMxSrJsg/FnpB6Z7pnT8/TP/KnKnvLfTVD2kWcpY9lx
-         DIL5mntfWttwMySq6h9GsppGL36EcnJCP1f8JNEVBJpDzvr6n8X/FPXH9r0VXu65WkcZ
-         VoxQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWAhh/kgBCQUp2dhpJQxIIwXIlHaLbR/yDG6hsoNqf5KZp5hvIvTxQxUm6wgYyCk2RoguZLWl+jFlN9lplQf3bz3w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yylus0Ij9Za3l1l/wcTL6pTfx6dzpOTT2dy4QKW5JY713Lxk+of
-	tg9CeL2cnb+c1BOhdfya/SxI5fpJU0v1mGG4c7d8Mn+/qk+PeI4/o7JTG/jLHRi6QH2TmbDzNVG
-	+JBrGdvYaJ8l0W1RjFvz4ujQ1nbw=
-X-Google-Smtp-Source: AGHT+IHes/OUKZ/X6Ad4eib6R9cV60lQt3sUU23gQfAk76sWF+mUG7i2YkuL+O+ym9VKOVLkfioqGRGcMTvqm0PLnok=
-X-Received: by 2002:a05:690c:281:b0:6dd:bcce:7cd7 with SMTP id
- 00721157ae682-6e247610cfcmr120456957b3.42.1727791719737; Tue, 01 Oct 2024
- 07:08:39 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: a.fatoum@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPV6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1svdy2-0004UB-3S; Tue, 01 Oct 2024 16:35:10 +0200
+Message-ID: <92a6efc1-51a0-4153-b894-581fbe868595@pengutronix.de>
+Date: Tue, 1 Oct 2024 16:35:08 +0200
 MIME-Version: 1.0
-References: <cover.1723399246.git.bruce.ashfield@gmail.com>
- <e1eea6c3ea87aebfdaabf5a987a7290d7e9a4485.1723399246.git.bruce.ashfield@gmail.com>
- <4a44e457-b17b-41c6-8e10-18d9fbea4a88@cherry.de> <CADkTA4NqO5uGBJu7Oe79vurUss8cPBUW7wqVF+wRcj25WEf4vQ@mail.gmail.com>
- <bd0c9228-ac33-4334-ba40-5d739951b14d@cherry.de> <CADkTA4Mk8wCpLGTEeYZXOp2OFEM2FObwU28bKK3gN=huD_6a+w@mail.gmail.com>
- <7422f5a8-b872-4f89-ba10-1bdc642993c2@cherry.de> <CADkTA4O=fOj3QCzV6VzcSxBg49g8b5nVu=DY6zcbT1Z689EwPg@mail.gmail.com>
- <6a946e21-1e4d-43ee-909e-5ae51d1f90d5@cherry.de>
-In-Reply-To: <6a946e21-1e4d-43ee-909e-5ae51d1f90d5@cherry.de>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 1 Oct 2024 10:08:27 -0400
-Message-ID: <CADkTA4PELVd9GnegoW-10BLH3waagWp-etejQ6gM8j9Lx6wVVQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] linux-yocto-dev: bump to v6.11
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: richard.purdie@linuxfoundation.org, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: Re: [yocto] [PATCH v7 0/7] Add barebox bootloader support (and
+ testing)
+To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>,
+ Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, yocto@pengutronix.de
+References: <20240919120640.19714-1-ejo@pengutronix.de>
+ <b77f2c6737c330ef9ecce325d50a4aaa25b3e536.camel@linuxfoundation.org>
+ <ee536d88a5b6468b20e37f3daabe4aa63047d1ad.camel@pengutronix.de>
+Content-Language: en-US
+In-Reply-To: <ee536d88a5b6468b20e37f3daabe4aa63047d1ad.camel@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 14:08:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205170
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 14:35:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205171
 
-On Mon, Sep 30, 2024 at 6:09=E2=80=AFAM Quentin Schulz <quentin.schulz@cher=
-ry.de> wrote:
+Hi,
+
+On 20.09.24 12:37, Enrico Jörns wrote:
+> Am Donnerstag, dem 19.09.2024 um 21:56 +0100 schrieb Richard Purdie:
+>> This looked better in testing, thanks. There was:
+>>
+>> https://valkyrie.yoctoproject.org/#/builders/23/builds/168/steps/14/logs/stdio
+>>
+>> which is from oe-selftest on an ARM server though :/
 >
-> Hi Bruce,
->
-> On 9/25/24 4:23 PM, Bruce Ashfield wrote:
-> > On Wed, Sep 25, 2024 at 10:07=E2=80=AFAM Quentin Schulz <quentin.schulz=
-@cherry.de>
-> > wrote:
-> >
-> >> Hi Bruce,
-> >>
-> >> On 9/25/24 3:57 PM, Bruce Ashfield wrote:
-> >>> On Wed, Sep 25, 2024 at 9:37=E2=80=AFAM Quentin Schulz <quentin.schul=
-z@cherry.de
-> >>>
-> >>> wrote:
-> >>>
-> >>>> Hi Bruce,
-> >>>>
-> >>>> On 9/24/24 4:11 PM, Bruce Ashfield wrote:
-> >>>>> On Tue, Sep 24, 2024 at 9:02=E2=80=AFAM Quentin Schulz <
-> >> quentin.schulz@cherry.de
-> >>>>>
-> >>>>> wrote:
-> >>>>>
-> >>>>>> Hi Bruce,
-> >>>>>>
-> >>>>>> On 8/11/24 8:04 PM, Bruce Ashfield via lists.openembedded.org wrot=
-e:
-> >>>>>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >>>>>>>
-> >>>>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> >>>>>>> ---
-> >>>>>>>      meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
-> >>>>>>>      1 file changed, 2 insertions(+), 2 deletions(-)
-> >>>>>>>
-> >>>>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> >>>>>> b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> >>>>>>> index 0097fec7b2..292897ce43 100644
-> >>>>>>> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> >>>>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> >>>>>>> @@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
-> >>>>>>>      # provide this .inc to set specific revisions
-> >>>>>>>      include recipes-kernel/linux/linux-yocto-dev-revisions.inc
-> >>>>>>>
-> >>>>>>> -KBRANCH =3D "v6.10/standard/base"
-> >>>>>>> +KBRANCH =3D "v6.11/standard/base"
-> >>>>>>>      KMETA =3D "kernel-meta"
-> >>>>>>>
-> >>>>>>>      SRC_URI =3D "git://
-> >>>>>>
-> >>>>
-> >> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name=3Dma=
-chine;protocol=3Dhttps
-> >> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%=
-7D;name=3Dmachine;protocol=3Dhttps>
-> >>>> <
-> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
-D;name=3Dmachine;protocol=3Dhttps
-> >>>
-> >>>>>> <
-> >>>>
-> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
-D;name=3Dmachine;protocol=3Dhttps
-> >>>>>
-> >>>>>> \
-> >>>>>>> @@ -28,7 +28,7 @@ SRC_URI =3D "git://
-> >>>>>> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name
-> >> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%=
-7D;name>
-> >>>> <
-> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
-D;name
-> >>>
-> >>>>>> <
-> >>>>
-> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
-D;name
-> >>>>>
-> >>>>>>>      SRCREV_machine ?=3D
-> >>>>>> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
-> >>>>>> "linux-yocto-dev", "${AUTOREV}",
-> >>>>>> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
-> >>>>>>>      SRCREV_meta ?=3D
-> >>>>>> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
-> >>>>>> "linux-yocto-dev", "${AUTOREV}",
-> >>>>>> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
-> >>>>>>>
-> >>>>>>> -LINUX_VERSION ?=3D "6.10"
-> >>>>>>> +LINUX_VERSION ?=3D "6.11"
-> >>>>>>>      LINUX_VERSION_EXTENSION ?=3D "-yoctodev-${LINUX_KERNEL_TYPE}=
-"
-> >>>>>>>      PV =3D "${LINUX_VERSION}+git"
-> >>>>>>>
-> >>>>>>
-> >>>>>> I haven't tried to compile linux-yocto-dev but I have my own v6.11=
--rc6
-> >>>>>> based kernel recipe.
-> >>>>>>
-> >>>>>> It failed to build on Scarthgap because I was missing coreutils-na=
-tive
-> >>>>>> (specifically truncate binary) because CONFIG_KALLSYMS was enabled=
-.
-> >> This
-> >>>>>> comes from
-> >>>>>>
-> >>>>>>
-> >>>>
-> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
-mit/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95
-> >>>>>>
-> >>>>>> It seems there are some config fragments in linux-yocto-cache
-> >>>>>> (ktypes/base/base.cfg) with it, so maybe we want to always add the
-> >>>>>> dependency (or is there a way to add a build time dependency from =
-an
-> >>>>>> .scc file?).
-> >>>>>>
-> >>>>>
-> >>>>>
-> >>>>> Interesting!
-> >>>>>
-> >>>>> I build linux-yocto-dev nightly, so I can confidently say that this
-> >> isn't
-> >>>>> being seen with the reference recipe.
-> >>>>>
-> >>>>> I also do have KALLSYMS in the default .config, so I've worked thro=
-ugh
-> >>>> the
-> >>>>> same new commit and enabling option.
-> >>>>>
-> >>>>> I get truncate in my kernel builds via hosttools, so the dependency
-> >>>>> wasn't/isn't needed.
-> >>>>>
-> >>>>
-> >>>> truncate isn't in HOSTTOOLS in any release yet, just master.
-> >>>>
-> >>>> c.f.
-> >>>>
-> >>>>
-> >> https://git.openembedded.org/openembedded-core/commit/?id=3D522000ce5c=
-4f0201cbe42d7826b6a8489ed10117
-> >>>>
-> >>>> This means people won't be able to build 6.11 and later with
-> >>>> CONFIG_KALLSYMS enabled in Scarthgap and earlier releases...
-> >>>>
-> >>>> ... unless we backport this patch to still supported releases?
-> >>>>
-> >>>> BTW, I could reproduce on Scarthgap by checking out poky in its
-> >>>> scarthgap branch, then running `git checkout origin/master --
-> >>>> meta/recipes-kernel/linux/linux-yocto-dev.bb`, then adding
-> >>>> `PREFERRED_PROVIDER_virtual/kernel=3D"linux-yocto-dev"` to conf/loca=
-l.conf
-> >>>> and then running `MACHINE=3Dqemuarm64 bitbake linux-yocto-dev` from =
-either
-> >>>> a kas-container (4.3.2) or Debian Bullseye.
-> >>>>
-> >>>
-> >>> Right. I only target linux-yocto-dev at the latest master where we do=
- all
-> >>> our testing. The support matrix of ever newer kernels against the old=
-er
-> >>> releases can get complicated, but we can at least say a given release
-> >>> supports the reference kernels + the reference -dev kernel version.
-> >>>
-> >>> Anything more we do on a case by case basis.
-> >>>
-> >>
-> >> Oh for sure! I wasn't implying we aren't testing appropriately or that
-> >> we need to increase the number of kernels to support per release. Just
-> >> that **some** people (likely me.... :) ) may want to support 6.12 on
-> >> Scarthgap whenever it's out and that will be an issue. The answer to
-> >> that issue could very well be "upstream isn't interested in supporting
-> >> this for already-released versions, just handle this in your layer".
-> >>
-> >> I assume one could simply add HOSTTOOLS +=3D "truncate" in the kernel
-> >> recipe and be done with it? I would be worried to add it globally as i=
-t
-> >> could then break/change other stuff since the host's tool would be use=
-d
-> >> instead of the one in recipe-sysroot-native (is that even true?)?
-> >>
-> >
-> > That would mess with the configuration space from a recipe, and won't
-> > work. It's already gone into use long before the kernel starts to be
-> > parsed and built.
-> >
-> >
-> >>
-> >>> I'd go with that simple host tool addition, rather than adding
-> >>> coreutils-native
-> >>> as a dependency.
-> >>>
-> >>> I have a patch locally that can test hosttools and if truncate is mis=
-sing
-> >>> conditionally add the dependency. That balances the speed vs supporti=
-ng
-> >>> non-default host configuration.
-> >>>
-> >>
-> >> I'm not planning on using linux-yocto for our products so was hoping f=
-or
-> >> a generic solution maybe? If there's one :)
-> >>
-> >
-> > I really push back on polluting kernel.bbclass with any version specifi=
-c
-> > dependencies and changes. It is best handled in the versioned recipes
-> > until it is no longer version specific.
-> >
-> >
-> >>
-> >> I guess adding truncate to HOSTTOOLS in conf/bitbake.conf in an
-> >> already-released version is just not something we want?
-> >>
-> >>
-> > I personally have no issue with it, the tool is tiny and I'd be shocked=
- if
-> > it wasn't on all the supported hosts for the release(s) in question.
-> >
-> > It is far preferable to doing kernel version specific tests and depende=
-ncies
-> > and/or adding coreutils-native unconditionally.
-> >
-> >
-> >
-> >> Just looking for guidance so I know which direction to go in 3/4 month=
-s
-> >> from now when I'll be supporting 6.12 :)
-> >>
-> >
-> > I'd append to HOSTTOOLS in your layer ! Or just copy into your
-> > kernel recipe what I'm about to add to linux-yocto-dev :)
-> >
->
-> Did you send something already? I think I missed it if you did?
->
-> Will send the backport patches as an RFC for scarthgap in any case but
-> I'm still interested to see what you came up with :)
+> Thank you for the test log!> 
+> I'll try to figure out why it works in my test setup but doesn't in the autobuilder..
+> Not sure if I'll have the chance to reproduce it on an ARM host.
 
-I didn't send anything yet, as my test and add coreutils-native as a DEPEND=
-S,
-seemed less ideal than just adding the hosttool to older releases.
-Since anything
-newer will have that hosttool passthrough. There's a number of other tools =
-that
-could get the same treatment (i.e. don't assume they are in hosttools and b=
-uild
-a -native in that case).
+I tried reproducing the breakage on a Librecomputer Alta (Cortex-A73/A53) with Debian 12
+for arm64, but without success. Details below.
 
-That being said, I can definitely send it, and will do so once I'm through =
-some
-other test cycles.
+I applied this series on top of commit
 
-Bruce
+4fc8427a6c ("systemd: make home directory readable by systemd-coredump")
 
->
-> Cheers,
-> Quentin
+> Barebox doesn't seem to boot at all (or output is missing) and U-Boot got stuck.
+
+Both barebox' oe-selftest:
+
+  a3f@hass:~/poky/build$ oe-selftest -r barebox -v -v -v -K
+  [1] 257856
+  2024-09-27 15:06:52,672 - oe-selftest - INFO - Adding layer libraries:
+  2024-09-27 15:06:52,672 - oe-selftest - INFO -  /home/a3f/poky/meta/lib
+  2024-09-27 15:06:52,673 - oe-selftest - INFO -  /home/a3f/poky/meta-yocto-bsp/lib
+  2024-09-27 15:06:52,674 - oe-selftest - INFO -  /home/a3f/poky/meta-selftest/lib
+  2024-09-27 15:06:52,680 - oe-selftest - INFO - Checking base configuration is valid/parsable
+  NOTE: Starting bitbake server...
+  2024-09-27 15:06:59,982 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/a3f/poky/build-st/conf/local.conf
+  2024-09-27 15:06:59,983 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+  2024-09-27 15:06:59,985 - oe-selftest - INFO - test_boot_barebox (barebox.BareboxTest.test_boot_barebox)
+  2024-09-27 15:07:00,024 - oe-selftest - DEBUG - Writing to: /home/a3f/poky/build-st/conf/selftest.inc
+  
+  QB_DEFAULT_KERNEL = "barebox-dt-2nd.img"
+  PREFERRED_PROVIDER_virtual/bootloader = "barebox"
+  
+  
+  2024-09-27 15:23:54,349 - oe-selftest - INFO -  ... ok
+  2024-09-27 15:23:54,357 - oe-selftest - INFO - ----------------------------------------------------------------------
+  2024-09-27 15:23:54,358 - oe-selftest - INFO - Ran 1 test in 1019.863s
+  2024-09-27 15:23:54,359 - oe-selftest - INFO - OK
+  2024-09-27 15:24:08,447 - oe-selftest - INFO - RESULTS:
+  2024-09-27 15:24:08,450 - oe-selftest - INFO - RESULTS - barebox.BareboxTest.test_boot_barebox: PASSED (1014.37s)
+  2024-09-27 15:24:08,513 - oe-selftest - INFO - SUMMARY:
+  2024-09-27 15:24:08,514 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 1019.866s
+  2024-09-27 15:24:08,515 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
+
+and U-Boot's conclude successfully:
+
+  a3f@hass:~/poky/build$ oe-selftest -r uboot -v -v -v -K
+  2024-09-30 10:41:21,225 - oe-selftest - INFO - Adding layer libraries:
+  2024-09-30 10:41:21,225 - oe-selftest - INFO -  /home/a3f/poky/meta/lib
+  2024-09-30 10:41:21,225 - oe-selftest - INFO -  /home/a3f/poky/meta-yocto-bsp/lib
+  2024-09-30 10:41:21,226 - oe-selftest - INFO -  /home/a3f/poky/meta-selftest/lib
+  2024-09-30 10:41:21,229 - oe-selftest - INFO - Checking base configuration is valid/parsable
+  NOTE: Starting bitbake server...
+  2024-09-30 10:41:24,120 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/a3f/poky/build-st/conf/local.conf
+  2024-09-30 10:41:24,125 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
+  2024-09-30 10:41:24,131 - oe-selftest - INFO - test_boot_uboot (uboot.UBootTest.test_boot_uboot)
+  2024-09-30 10:41:24,214 - oe-selftest - DEBUG - Writing to: /home/a3f/poky/build-st/conf/selftest.inc
+  
+  QB_DEFAULT_BIOS = "u-boot.bin"
+  PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
+  
+  
+  2024-09-30 10:52:59,680 - oe-selftest - INFO -  ... ok
+  2024-09-30 10:52:59,692 - oe-selftest - INFO - ----------------------------------------------------------------------
+  2024-09-30 10:52:59,693 - oe-selftest - INFO - Ran 1 test in 696.374s
+  2024-09-30 10:52:59,695 - oe-selftest - INFO - OK
+  2024-09-30 10:53:13,581 - oe-selftest - INFO - RESULTS:
+  2024-09-30 10:53:13,584 - oe-selftest - INFO - RESULTS - uboot.UBootTest.test_boot_uboot: PASSED (695.55s)
+  2024-09-30 10:53:13,647 - oe-selftest - INFO - SUMMARY:
+  2024-09-30 10:53:13,648 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 696.378s
+  2024-09-30 10:53:13,649 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
+
+
+> U-Boot log in the failed test says
+> 
+>> U-Boot 2024.07 (Jul 01 2024 - 18:07:18 +0000)
+>> DRAM:  256 MiB
+>> Core:  51 devices, 14 uclasses, devicetree: board
+>> Flash: 64 MiB
+>> Loading Environment from Flash... *** Warning - bad CRC, using default environment
+>> In:    serial,usbkbd
+>> Out:   serial,vidconsole
+>> Err:   serial,vidconsole
+>> Bus xhci_pci: Register 8001040 NbrPorts 8
+>> Starting the controller
+> 
+> While my successful run goes further:
+> 
+>> [...]
+>> Starting the controller
+>> USB XHCI 1.00
+>> scanning bus xhci_pci for devices... 3 USB Device(s) found
+>> Net:   eth0: virtio-net#32
+>> ESC[?25h
+>> Hit any key to stop autoboot:  2
+> 
+> But not sure if this is an issue with USB emulation or something else...
+
+My successful run looks identical to yours. barebox start up is also
+successful and uneventful.
+
+Note that barebox' XHCI driver doesn't have PCI support unlike U-Boot, so
+if the same issue is affecting both barebox and U-Boot breakage in CI,
+it might not be USB emulation related as barebox doesn't do any
+USB on that platform...
+
+Is `selftest -r uboot -v -v -v -K` close enough to what the CI server runs
+or should I try something else to reproduce this?
+
+Thanks,
+Ahmad
 
 
 
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+> 
+> 
+> Regards, Enrico
+> 
+> 
+>> Cheers,
+>>
+>> Richard
+>>
+> 
+
+
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
