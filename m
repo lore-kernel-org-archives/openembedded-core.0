@@ -1,236 +1,337 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00D4CCEACC5
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 14:00:10 +0000 (UTC)
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (EUR02-VI1-obe.outbound.protection.outlook.com [40.107.241.75])
- by mx.groups.io with SMTP id smtpd.web11.82486.1727791208335375922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 309F9CEACC8
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 14:08:50 +0000 (UTC)
+Received: from mail-yb1-f173.google.com (mail-yb1-f173.google.com [209.85.219.173])
+ by mx.groups.io with SMTP id smtpd.web11.82740.1727791720947165479
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 07:00:08 -0700
+ Tue, 01 Oct 2024 07:08:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=q/+7jHjv;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=q/+7jHjv;
- spf=pass (domain: arm.com, ip: 40.107.241.75, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=pIpCGgElfHPusoB635jQoGf5zDwDONerjc8BWKQiKrY1SPG5fZtA42o4yC2ld30KQT1QkAU507/CZIOv+XGRa7b3uFSc63eurd34lENNpo/vCoSKjdcp9f/aiEjii9skoVeUqz39NasvijiLN9XCwQ3OMk6E7YISZ0V73tqhddzuzVoK/g+Neyh3RDZr17rkACLET2JEEVSmhjmVPH9icfDZd7v0g/fRhrW03GOM1MHvXfMMCXyC6mCi42LHGGI6GMZkn5x/Lcqb+S0nmSe3u7RVl0KmPIm7+KSvHam7JGpamKtDUATfYAS1mzyWhaQSOa4ffOm2m+pOAo2k5qINDw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LG5j4Pkc4z3sP0SiA3nyRxEBh2NrBENbB9Un0gB9GLg=;
- b=a7CDKtcgi5RV/LQ+Xiin8DRGLiaxCpzqSqblGzSLgHZW33vZOjDzcEDyfLSRJiznije30aHpLLX6SdXwnlZ5cciFAzxZpU/hIFYUEV/AQRnG8GWtbx0Iq9V8P2wJF3G1mB3S4era8L+8cMkz924S+bWusfWWb/OmkXKT2kt34bsyspOI9WJythISYVznoXSiz8lu81xmf3JWMASi1Eb7hn82y+zkeW5E86/VKVIskzOzaOWPxa1eBwBTh/axi2lJBAm0nd+ZLCQo1rwwuPyJrQsQKNCt7UVQiakNfEeop9QvvLS/r8ctmWp5UiC8uqO/M3+281Nh7kgNWyNfvfPAhA==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
- dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LG5j4Pkc4z3sP0SiA3nyRxEBh2NrBENbB9Un0gB9GLg=;
- b=q/+7jHjv0lqQJ4yThFRPnPIKoHx063LJH4VbOJnM5W09pwwMTC4PlAWzhWR5i9stcdbRJtyVj3kfqDrfxJuA18K8EwuzXu1BqijkXWEPNRWhMRQq3XL55n2O6tE5EUyHqhopb47Ba3WUICHlIOj6Cer5UB2XrnjbHWfVkILeB0Q=
-Received: from AS9PR05CA0035.eurprd05.prod.outlook.com (2603:10a6:20b:489::17)
- by DU0PR08MB8833.eurprd08.prod.outlook.com (2603:10a6:10:478::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.13; Tue, 1 Oct
- 2024 14:00:02 +0000
-Received: from AMS0EPF000001A9.eurprd05.prod.outlook.com
- (2603:10a6:20b:489:cafe::12) by AS9PR05CA0035.outlook.office365.com
- (2603:10a6:20b:489::17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7982.34 via Frontend
- Transport; Tue, 1 Oct 2024 14:00:02 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
- smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
- client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
- pr=C
-Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
- AMS0EPF000001A9.mail.protection.outlook.com (10.167.16.149) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.7918.13
- via Frontend Transport; Tue, 1 Oct 2024 14:00:01 +0000
-Received: ("Tessian outbound 6c9d48238f96:v473"); Tue, 01 Oct 2024 14:00:01 +0000
-X-CheckRecipientChecked: true
-X-CR-MTA-CID: 8a621a787862a43a
-X-TessianGatewayMetadata: Ir1xduDPPaez/zaWo09piGACzxWj+123LXT8S3zm9qhYzBmkBCYRagqreq61Y/teX8YUr8bwXTfo3N8dIwfMlxJSvDNQ4SCcc5dfLWfc47DAaTWljtAKIOrmFaAdN8MDaVVbhTjQ3qXiaqSALG6IxEk88yk8vGMedv1Jp1+XxG0=
-X-CR-MTA-TID: 64aa7808
-Received: from Lf80c09a91138.1
-	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 42C3DBC2-6EFE-473C-91A5-474191A40FC9.1;
-	Tue, 01 Oct 2024 13:59:55 +0000
-Received: from EUR03-VI1-obe.outbound.protection.outlook.com
-    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id Lf80c09a91138.1
-    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
-    Tue, 01 Oct 2024 13:59:55 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yweL2ZBRI5wOsulO2TiwknVyGJe4foznb/soqtqwGxkeKFl/jUDsgmCzxZCrD1/QkPMhBzOhNVCqmKb3evxCMw6o+25InPKwilgE5HPfOmkbUzCNfQ3Du5ym13YvSlasVugfJe/WPFsgN6k5iXqZICRalldYSg9BPN2qCOrAEeoxy0kA6TCtD02YjLbhpp95MKZ8CIScwkev5DCQKSRzRifmROk5aqyG42Fb4lFCyetDF+gJknpT+cYpf/BNeG+2qZ1HFYjaWtzbJ9cxFfhUVM40N5c1xVtxwJ1M8S3j7AQeFKK+FF86B+RjrWGRlhvlQXsVHHtjdJJv+0ot0mPZlg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LG5j4Pkc4z3sP0SiA3nyRxEBh2NrBENbB9Un0gB9GLg=;
- b=P9We/yk7QiDM3qbokMSJdNAE1X1/AU4AlOAeKxSa0GHzw7iSR2VDPRICbP59zS9Gnlj6NM4WzisT5gH8jZCd6gMevvNcJ95Bf3AIijbjB/5YrXXKyIYdxBdlEF418d9B+cewEqdRJLtbZNo2QV+VjeeWe4/opBH7iauFwM/YfLXiOT3aV8yEAGHZOx5wHeLAuSoVTcuyRaz3dlSPh9JsqwD8zD80YjfCD1tlEBmXtbEyVCsEtGt+rAbowl6iViLMrEUm0URIt21hTk2rn5cGuVSi9fT1IELsWjD2YkPt0yC0tDO6qNZpZX6obv0FCfICqdkwzIJgMMjbRgmwL4hTeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LG5j4Pkc4z3sP0SiA3nyRxEBh2NrBENbB9Un0gB9GLg=;
- b=q/+7jHjv0lqQJ4yThFRPnPIKoHx063LJH4VbOJnM5W09pwwMTC4PlAWzhWR5i9stcdbRJtyVj3kfqDrfxJuA18K8EwuzXu1BqijkXWEPNRWhMRQq3XL55n2O6tE5EUyHqhopb47Ba3WUICHlIOj6Cer5UB2XrnjbHWfVkILeB0Q=
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
- by DB9PR08MB9828.eurprd08.prod.outlook.com (2603:10a6:10:45f::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.15; Tue, 1 Oct
- 2024 13:59:48 +0000
-Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
- ([fe80::9206:40ba:ef7e:729e%3]) with mapi id 15.20.8026.013; Tue, 1 Oct 2024
- 13:59:48 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "liezhi.yang@windriver.com" <liezhi.yang@windriver.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "david.reyna@windriver.com"
-	<david.reyna@windriver.com>
-Subject: Re: [OE-core] [PATCH 0/2] proposal: Append VENDOR_REVISION to PR for
- CVE scanners
-Thread-Topic: [OE-core] [PATCH 0/2] proposal: Append VENDOR_REVISION to PR for
- CVE scanners
-Thread-Index: AQHbCzqU0+6pdSpC5UeaecdprVr3dbJx/diA
-Date: Tue, 1 Oct 2024 13:59:48 +0000
-Message-ID: <0323D68F-8425-4A29-AE58-7219C46DFD94@arm.com>
-References: <cover.1726821150.git.liezhi.yang@windriver.com>
-In-Reply-To: <cover.1726821150.git.liezhi.yang@windriver.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3776.700.51.11.1)
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: 
-	PA4PR08MB7411:EE_|DB9PR08MB9828:EE_|AMS0EPF000001A9:EE_|DU0PR08MB8833:EE_
-X-MS-Office365-Filtering-Correlation-Id: abf95bff-bb7a-4d2b-e728-08dce2215816
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|376014|366016|1800799024|38070700018|3613699012;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?utf-8?B?VmpMUUczc3FtRkV0bW1NMU5aOExNTDY3alIvTWxqS2l3TEFHRjlOVldIcXVh?=
- =?utf-8?B?NFVQQ3h1N1JDVGsrYUhEZDhHNU5IWmswYjhRcWdUUlkxeTV5UFk0MGpseXhn?=
- =?utf-8?B?a2VoWXJnMXRaWGthYkJ0Wk9sQmpIUnR2eDMzQ2xhSnB5UTk2VzJUN0dQQllT?=
- =?utf-8?B?Q1BoQS9nRTVYeW9wVnRzeGkrS0xPNUdFVVRKQ3FCbk0xeGxKUk8ycUJxb0tR?=
- =?utf-8?B?NDlYYWZIWG92K2tzZ0hNZU93cTFCb29DZXNwb01Hb3R2Njh3OFZqb29iYzRv?=
- =?utf-8?B?cTc0ZWFYdGt3N2tiNWNEcUIySmxoNzFXclRRMHBPWXNkSU1tckViVk9NT1dx?=
- =?utf-8?B?M3NDTlQrY0FBSFp5aXZjTzd2OFBkcHM4SXcxeGdGNDBJM3MwMklSOFZTNktk?=
- =?utf-8?B?SU5MUmJRN3ZZRFRJV2lRT1phbkt0MUI4dyt1ME1CMWl2TzFxdTVmSnl0Sncr?=
- =?utf-8?B?UFB1am1lOXpRVCt4TFUyZ0NCa3hqNDNSczA0QzExb04vTVk2cjIyZHNRWWVJ?=
- =?utf-8?B?V3B2YTRTTXd6dUNzUGdhWmRSMG9TSjlQelYrcU1sMW9RRDNhV0RxdkM5ajl4?=
- =?utf-8?B?YWRYWk9MTkF1bVg1eHJsbTlLUmg1TW90dmhSd1MvVGhVVTdiSmVvUERYYk1y?=
- =?utf-8?B?SEdPbkZZTzgvQnNOTncvbmliZmdFMytac3dXRnVvekp6ODdJT1VldkVTQjRh?=
- =?utf-8?B?ZGhIdVAxZkJhYUF3YVUwTzRNb1htOVp2YmtuWkFERUFLa3F5YWpiQ3E3aU9N?=
- =?utf-8?B?alAwYnZMQUhaUEtFQmswdWNxeURIY3BrRVBiZC9PRncxaDd3b1pqNEZPSGFH?=
- =?utf-8?B?UlhDbjlyK2FzQ2hjY1RGN3Znb0ZYWHFoMENhYjFhZWFWVjhzeENJMmdDam1Z?=
- =?utf-8?B?YllpaFcvaWcwM1BNdGt2RHNURXRacUhmeFpmV2l0eWpiZDBDLzdDMnVGQUhQ?=
- =?utf-8?B?RGgzUmJtM0tUT09ZRHhXWEtuVzdBcFl4QjNTbzRZWGM4T0M5azR4UFMvMkRv?=
- =?utf-8?B?cys3UmZJbzhkeG9YcHpUV28rZlJXMmlRM2hwWTdScHRMT0x3dis3d3ROZU42?=
- =?utf-8?B?RHNTakhhcm9ISGdoZy8zVHpIcTNPc0o2Vk9XejFwME10RXViRTEvdmZldDZ0?=
- =?utf-8?B?cS92UmwvYXl3K3Y1L1pBV2xoNDAyYWpVOXgyMXNjekdzOGhYZUptZStPMHZ5?=
- =?utf-8?B?VmE4TVNUMHJzdWUzY1ViQjFmTnVhWnZVd01mcUZJemJxTWUzOUZzcnpRN0Ex?=
- =?utf-8?B?b3J2Znl4d0tJK3BQTndVMzFkNEdVVXJrR0Vjd1ZaeUdPbTBnUUgra0xYcHZs?=
- =?utf-8?B?TXVNYjNwbyt1VTdzZXEyZDcvUU5ybGtRR2RGOEtkUGtVRlRvZVhpN205c3pz?=
- =?utf-8?B?RXNrcGNxRVI2c0M5dGVXUDdTS3Y2ZWE1emY5YjMxSXdmc2dtajBXR0JWOUxW?=
- =?utf-8?B?MXNDR3BOR0Y3dUsyejdZOWRYOGc2TTZ6aFM3WVpwU0l5ZEtPZVhBcElDUzJP?=
- =?utf-8?B?YjRYR09JTTNDcXBCTS84eU5La3lkcjByVGpJQXhMRFhYZ2dRS2Y4b1VsWUxh?=
- =?utf-8?B?azZRV0FTU3NZKzM0SkRjWWtOYXZrQmZoalBrNDFodnBKcTlMS0ttOS9pNU1D?=
- =?utf-8?B?YkthTWRUVmNZZFpWZ2FtRlZPMEJwcVNnanR0eEZySHJNMm9zWFIxTS9UQlhP?=
- =?utf-8?B?Y1YwQTZDN3VrbzIxNWNUR0lGU0RrN1J4V2hSaWRmZ3NRUkRwOXNHQkR4NC9Z?=
- =?utf-8?B?RVR1RnRRdXFKZEJUMFRoVEpSczRiYyszdGV1Q1VjRjJhYmx0ZlU4NnlwME1y?=
- =?utf-8?Q?sVwA5Gsd9DU7u/lcCWnMxQKwrH/thP5ta+G5I=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(38070700018)(3613699012);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CA040627AB441544BE765282B1BF6DDF@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Gtg5jsmI;
+ spf=pass (domain: gmail.com, ip: 209.85.219.173, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yb1-f173.google.com with SMTP id 3f1490d57ef6-e26290a13d5so1484552276.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 07:08:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727791720; x=1728396520; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VKDet0mby0SxiSiKgWcM1top3lYLNZmMewR/3GkkQ68=;
+        b=Gtg5jsmI7q+iOqhrbHeKd1YK395wAJQjBrnQMkbRCZE9EKMO091LySttwsS7RbbDrd
+         SVYN4ZADLZ+gFT3whNpp7zd9Wd5oU8/tIvJZt40ZcJft6zKlle7oTbGfzmg8M6hKQBop
+         IBZKnRVAEY290vUFHC4hzUmiAfeS/DpSNeBLox+JEkIWy1NCj1foplZlRrdqelpBwdru
+         zkmgHh4UtuK3iHNS9M3pkQydqM2v1ziw+OcRcAfmziCM1aFna+uPhB/4yyowv4HcTi0K
+         1ItuU2WeXDjfvpnjR6IAwkg/pJq83tiXuQTC/fcJCqOgyYwL3M6zGw7hcTwu2rzpQDgk
+         kmUw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727791720; x=1728396520;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VKDet0mby0SxiSiKgWcM1top3lYLNZmMewR/3GkkQ68=;
+        b=JrxdkZXRCOBUrZNbJV50QJY3DD3NZa6SKePcCIKfZSUe0LcTfkjtjxYewMFAlRrrnA
+         phK2Q2h8Otrp4oBpvdzXnXoo5HjjfFeUx9qSe9yP0ojEKibz+hk7JPx9rjTMpVGda0bq
+         kbk1YVN1+JIcc6QAWvKkD5cusp42fsJGy17ZgI3p5nBSDPAzJRKefOoO2ROs3MpgTtpJ
+         8DZMihlYML2Uenmw+ZRME0UlsUMxSrJsg/FnpB6Z7pnT8/TP/KnKnvLfTVD2kWcpY9lx
+         DIL5mntfWttwMySq6h9GsppGL36EcnJCP1f8JNEVBJpDzvr6n8X/FPXH9r0VXu65WkcZ
+         VoxQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWAhh/kgBCQUp2dhpJQxIIwXIlHaLbR/yDG6hsoNqf5KZp5hvIvTxQxUm6wgYyCk2RoguZLWl+jFlN9lplQf3bz3w==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yylus0Ij9Za3l1l/wcTL6pTfx6dzpOTT2dy4QKW5JY713Lxk+of
+	tg9CeL2cnb+c1BOhdfya/SxI5fpJU0v1mGG4c7d8Mn+/qk+PeI4/o7JTG/jLHRi6QH2TmbDzNVG
+	+JBrGdvYaJ8l0W1RjFvz4ujQ1nbw=
+X-Google-Smtp-Source: AGHT+IHes/OUKZ/X6Ad4eib6R9cV60lQt3sUU23gQfAk76sWF+mUG7i2YkuL+O+ym9VKOVLkfioqGRGcMTvqm0PLnok=
+X-Received: by 2002:a05:690c:281:b0:6dd:bcce:7cd7 with SMTP id
+ 00721157ae682-6e247610cfcmr120456957b3.42.1727791719737; Tue, 01 Oct 2024
+ 07:08:39 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB9828
-Original-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=arm.com;
-X-EOPAttributedMessage: 0
-X-MS-Exchange-SkipListedInternetSender: 
- ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS0EPF000001A9.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	0e3a3527-6016-4b2e-3a18-08dce2214fe3
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026|35042699022|3613699012;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?c1ZkK3J1ZEpwR0Z3QUJIZWcweXJCR3RjczllbklENFZMdkVJTGtVZUdtbUZt?=
- =?utf-8?B?U2NiUlpOOXRxaGdWSzR1SUtLdXFEOCtyWC85Tk1UNFRGRDJTSk5uZHdEOFli?=
- =?utf-8?B?bnJ2dVB2NXk0TGJlN1NCbXErK1duWXI2TktBVzFIVmNuVnJhNlNuQ3lLK2xE?=
- =?utf-8?B?NEh0OE5XV251bFhVenBTRXZVRVVlblBiN3duMVRyTjZURnNqdHA4dkpvNHdw?=
- =?utf-8?B?azZpWnc4OU5VNUNrZnc5YlQ1NHRjZ2VkVjZ1WXhZS2xHY1hZcm9uYjg4MzJD?=
- =?utf-8?B?S3hVbVRwWDZKTDhkb3RPTlV3RWhackNBLzNTSS9pV2dnTzdTb3ZzOVQ4Y3Nx?=
- =?utf-8?B?d3NJSUlwemRzcmx4QjRRTWg3bCtnc1VJa1dNZ3FQSmNNdXVLZDZ1ZXQ4Y2ZR?=
- =?utf-8?B?S3FKVGZlQUJBNXp1TFd2b3FnbzZYbnhrS3dFOHFEM2VRU1FhTElSajE5T3pi?=
- =?utf-8?B?MkVCUFU3bVlxVGx3enUyNDFVTmhDZ1ZhcXJnNWs5WUkzb0dtaWdUL05hZGZE?=
- =?utf-8?B?bWtGZnlER0ZTd1lSZ2t0LzZhTENSaS9XMWZQMXROekVOTXFPbDFrbDhCNlgy?=
- =?utf-8?B?eUdFQURic0wwSU03SENoV2JmbEcvVERTMk9ac21jNnp6YnNtV1hKYlVKbkhU?=
- =?utf-8?B?VXVmbnBPMWxKbmRidE9IYmdzTTJheGZqMStqamp6WUdzbHpscGlEVWZPcXBa?=
- =?utf-8?B?YnV2UkZBTG9MNThiQnJJK3lTZ2x3eTN6RlhhL1BwcVJPUi9NK3pqSFg5K1g4?=
- =?utf-8?B?eVNTYmZjUU1mQTlDaHJyQis0NTY4eU1RWDNDM3ZnUE1iUk1GSS9xUURXMCth?=
- =?utf-8?B?dFFOZjNtaWV0R2p6bnhPbmptbFF4b0NDcldKc3FFSzZtY0VUOHdGQ1M3T01W?=
- =?utf-8?B?VkNIcHYzSkRsZWR3NkE4cytmRk1uNlVpQWdlR1RCcFJVZDJIdldkYVgwSi91?=
- =?utf-8?B?WksvY0lRaWtlRG5YQjdOUW9HVGN0eWNGaGhKaXRoNE5Qb2pJdkpWeTFIOXRw?=
- =?utf-8?B?M3hwcDFhd1pmMzJYcDdqMzlIdkZPZVliQWRoYTFaNTdaamxFY2ptbVg4M2d2?=
- =?utf-8?B?ZG1HN01aeU9IUkdpQ3ovbmtmenFUbHhWSnBhVVpRcVlzcjJxSFdvcXphVzFC?=
- =?utf-8?B?USt0bWwvanF0SlY3TzdvQ2JYZUQwaCtINGdrd1h0dytEQ2JjVmEvUVpQWXMr?=
- =?utf-8?B?cGRORnhaOERaRWppMmRENWRYbGdXQ1pGdW9tTVBJcVk0SnFWMFZkaU5LOXNp?=
- =?utf-8?B?ZEcwWk5ZQk9JTzROMVp5QlZnRE02Z1VrYzBuZ3pSSVRwdmlxREtPbGF0VFVZ?=
- =?utf-8?B?R09WZ21LaStGbWVzS1dBejNXdDdDN0FueVBoNVNuUWN4cFI0ODdyNkZmSnBD?=
- =?utf-8?B?SysramVCOG96ZGV6Z3ZneGNKZkpNanAvWG5RT3NnMEcxRURLdXZOSVJ4ZEE1?=
- =?utf-8?B?Mk52eE5OeldrQVhVYS91V0lBRThxSjBBY1lYd3ZMcEVSV2pOQ2RCR3JNa1V0?=
- =?utf-8?B?eWp6ZWp0MnltRFBhcUJsL09OSXJtQU55NTJGOXg5bnB2QUpZdmlicndvWWFX?=
- =?utf-8?B?c1ltM0EwaU1nbUdIVVEvb1VYb2xEeHVIajN1L3JUTDNyenB5bkdyZUdiN3hr?=
- =?utf-8?B?RXRGbUx2SlVYS3lsbk9jeUVDWGpkY2lON3JDMmdwM2kwb2lBa0lHbFRwaHpx?=
- =?utf-8?B?a1lMaDk2TitaK2hmbGxWQWdNNXIxN3NMUmM1a05qUHhzaHdIYnRHL3ZWR01r?=
- =?utf-8?B?dXhDazJyK3lzUDZmMm5TeTJCVXNKZkN1T1hUU2Z5UUs3MEo5QmxtcTg3YWxT?=
- =?utf-8?B?MjVBeXpVQWR0UjNBeURDU3NBR3ZLWG5VbmpnNm1wL0VMMHlvQlEya3dZSHky?=
- =?utf-8?B?d0RrL2h4UVRzUU5ndGsydmxKN20xdkl0TDhXOGpUblhFeGc9PQ==?=
-X-Forefront-Antispam-Report: 
-	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026)(35042699022)(3613699012);DIR:OUT;SFP:1101;
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2024 14:00:01.8836
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: abf95bff-bb7a-4d2b-e728-08dce2215816
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF000001A9.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR08MB8833
+References: <cover.1723399246.git.bruce.ashfield@gmail.com>
+ <e1eea6c3ea87aebfdaabf5a987a7290d7e9a4485.1723399246.git.bruce.ashfield@gmail.com>
+ <4a44e457-b17b-41c6-8e10-18d9fbea4a88@cherry.de> <CADkTA4NqO5uGBJu7Oe79vurUss8cPBUW7wqVF+wRcj25WEf4vQ@mail.gmail.com>
+ <bd0c9228-ac33-4334-ba40-5d739951b14d@cherry.de> <CADkTA4Mk8wCpLGTEeYZXOp2OFEM2FObwU28bKK3gN=huD_6a+w@mail.gmail.com>
+ <7422f5a8-b872-4f89-ba10-1bdc642993c2@cherry.de> <CADkTA4O=fOj3QCzV6VzcSxBg49g8b5nVu=DY6zcbT1Z689EwPg@mail.gmail.com>
+ <6a946e21-1e4d-43ee-909e-5ae51d1f90d5@cherry.de>
+In-Reply-To: <6a946e21-1e4d-43ee-909e-5ae51d1f90d5@cherry.de>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 1 Oct 2024 10:08:27 -0400
+Message-ID: <CADkTA4PELVd9GnegoW-10BLH3waagWp-etejQ6gM8j9Lx6wVVQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] linux-yocto-dev: bump to v6.11
+To: Quentin Schulz <quentin.schulz@cherry.de>
+Cc: richard.purdie@linuxfoundation.org, 
+	openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 14:00:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205169
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 14:08:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205170
 
-T24gMjAgU2VwIDIwMjQsIGF0IDA5OjUzLCBSb2JlcnQgWWFuZyB2aWEgbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZyA8bGllemhpLnlhbmc9d2luZHJpdmVyLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
-PiB3cm90ZToNCj4gVGhlIFZFTkRPUl9SRVZJU0lPTiBpcyBmb3IgY3ZlIHNjYW5uZXJzIHRvIGtu
-b3cgdGhlIENWRXMgaGF2ZSBiZWVuIGZpeGVkIGluIGENCj4gbG93ZXIgdmVyc2lvbiwgQ1ZFIHNj
-YW5uZXJzIHN1Y2ggYXMgVHJpdnkgY2FuIGtub3cgdGhlIENWRXMgaGF2ZSBiZWVuIGZpeGVkIGlu
-DQo+IGEgaGlnaGVyIHZlcnNpb24sIGJ1dCBpdCBjYW4ndCBrbm93IHRoZSBDVkUgaXMgZml4ZWQg
-aW4gYSBsb3dlciB2ZXJzaW9uIHdpdGhvdXQNCj4gYSBoZWxwZXIsIHdlIGhhdmUgdGhlIGZvbGxv
-d2luZyB3YXlzIHRvIHNldCB0aGUgaGVscGVyOg0KDQpJIHVuZGVyc3RhbmQgd2hhdCB5b3UncmUg
-dHJ5aW5nIHRvIGRvIGhlcmUsIGJ1dCB0aGUgY2xhc3MgZG9lc27igJl0IGp1c3Qgd29yayBvbiBp
-dHMgb3duIG91dCBvZiB0aGUgYm94LCBhcyB0aGVyZSBuZWVkcyB0byBiZSBmdXJ0aGVyIGNvbmZp
-Z3VyYXRpb24gYW5kIHdvcmtmbG93IHRvIG1ha2UgaXQgYWN0dWFsbHkgdXNlZnVsLCBhbmQgdGhl
-IG9ubHkgdXNlcnMgaXQgaXMgdXNlZnVsIGZvciBhcmUgcGVvcGxlIHdobyBhcmUgbWFpbnRhaW5p
-bmcgYSBiaW5hcnkgZGlzdHJpYnV0aW9uIGFuZCBoYXZlIHN1ZmZpY2llbnQgY2xvdXQgdG8gdXBk
-YXRlIHRoZSBDVkUgdG9vbGluZy4NCg0KSSBzdWdnZXN0IHRoYXQgeW91IGtlZXAgdGhpcyBjbGFz
-cyBpbiB5b3VyIFdpbmQgUml2ZXIgTGludXggbGF5ZXIuDQoNCkNoZWVycywNClJvc3M=
+On Mon, Sep 30, 2024 at 6:09=E2=80=AFAM Quentin Schulz <quentin.schulz@cher=
+ry.de> wrote:
+>
+> Hi Bruce,
+>
+> On 9/25/24 4:23 PM, Bruce Ashfield wrote:
+> > On Wed, Sep 25, 2024 at 10:07=E2=80=AFAM Quentin Schulz <quentin.schulz=
+@cherry.de>
+> > wrote:
+> >
+> >> Hi Bruce,
+> >>
+> >> On 9/25/24 3:57 PM, Bruce Ashfield wrote:
+> >>> On Wed, Sep 25, 2024 at 9:37=E2=80=AFAM Quentin Schulz <quentin.schul=
+z@cherry.de
+> >>>
+> >>> wrote:
+> >>>
+> >>>> Hi Bruce,
+> >>>>
+> >>>> On 9/24/24 4:11 PM, Bruce Ashfield wrote:
+> >>>>> On Tue, Sep 24, 2024 at 9:02=E2=80=AFAM Quentin Schulz <
+> >> quentin.schulz@cherry.de
+> >>>>>
+> >>>>> wrote:
+> >>>>>
+> >>>>>> Hi Bruce,
+> >>>>>>
+> >>>>>> On 8/11/24 8:04 PM, Bruce Ashfield via lists.openembedded.org wrot=
+e:
+> >>>>>>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >>>>>>>
+> >>>>>>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> >>>>>>> ---
+> >>>>>>>      meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++--
+> >>>>>>>      1 file changed, 2 insertions(+), 2 deletions(-)
+> >>>>>>>
+> >>>>>>> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >>>>>> b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >>>>>>> index 0097fec7b2..292897ce43 100644
+> >>>>>>> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >>>>>>> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> >>>>>>> @@ -14,7 +14,7 @@ require recipes-kernel/linux/linux-yocto.inc
+> >>>>>>>      # provide this .inc to set specific revisions
+> >>>>>>>      include recipes-kernel/linux/linux-yocto-dev-revisions.inc
+> >>>>>>>
+> >>>>>>> -KBRANCH =3D "v6.10/standard/base"
+> >>>>>>> +KBRANCH =3D "v6.11/standard/base"
+> >>>>>>>      KMETA =3D "kernel-meta"
+> >>>>>>>
+> >>>>>>>      SRC_URI =3D "git://
+> >>>>>>
+> >>>>
+> >> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name=3Dma=
+chine;protocol=3Dhttps
+> >> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%=
+7D;name=3Dmachine;protocol=3Dhttps>
+> >>>> <
+> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
+D;name=3Dmachine;protocol=3Dhttps
+> >>>
+> >>>>>> <
+> >>>>
+> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
+D;name=3Dmachine;protocol=3Dhttps
+> >>>>>
+> >>>>>> \
+> >>>>>>> @@ -28,7 +28,7 @@ SRC_URI =3D "git://
+> >>>>>> git.yoctoproject.org/linux-yocto-dev.git;branch=3D${KBRANCH};name
+> >> <http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%=
+7D;name>
+> >>>> <
+> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
+D;name
+> >>>
+> >>>>>> <
+> >>>>
+> >> http://git.yoctoproject.org/linux-yocto-dev.git;branch=3D$%7BKBRANCH%7=
+D;name
+> >>>>>
+> >>>>>>>      SRCREV_machine ?=3D
+> >>>>>> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
+> >>>>>> "linux-yocto-dev", "${AUTOREV}",
+> >>>>>> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+> >>>>>>>      SRCREV_meta ?=3D
+> >>>>>> '${@oe.utils.conditional("PREFERRED_PROVIDER_virtual/kernel",
+> >>>>>> "linux-yocto-dev", "${AUTOREV}",
+> >>>>>> "29594404d7fe73cd80eaa4ee8c43dcc53970c60e", d)}'
+> >>>>>>>
+> >>>>>>> -LINUX_VERSION ?=3D "6.10"
+> >>>>>>> +LINUX_VERSION ?=3D "6.11"
+> >>>>>>>      LINUX_VERSION_EXTENSION ?=3D "-yoctodev-${LINUX_KERNEL_TYPE}=
+"
+> >>>>>>>      PV =3D "${LINUX_VERSION}+git"
+> >>>>>>>
+> >>>>>>
+> >>>>>> I haven't tried to compile linux-yocto-dev but I have my own v6.11=
+-rc6
+> >>>>>> based kernel recipe.
+> >>>>>>
+> >>>>>> It failed to build on Scarthgap because I was missing coreutils-na=
+tive
+> >>>>>> (specifically truncate binary) because CONFIG_KALLSYMS was enabled=
+.
+> >> This
+> >>>>>> comes from
+> >>>>>>
+> >>>>>>
+> >>>>
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/com=
+mit/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95
+> >>>>>>
+> >>>>>> It seems there are some config fragments in linux-yocto-cache
+> >>>>>> (ktypes/base/base.cfg) with it, so maybe we want to always add the
+> >>>>>> dependency (or is there a way to add a build time dependency from =
+an
+> >>>>>> .scc file?).
+> >>>>>>
+> >>>>>
+> >>>>>
+> >>>>> Interesting!
+> >>>>>
+> >>>>> I build linux-yocto-dev nightly, so I can confidently say that this
+> >> isn't
+> >>>>> being seen with the reference recipe.
+> >>>>>
+> >>>>> I also do have KALLSYMS in the default .config, so I've worked thro=
+ugh
+> >>>> the
+> >>>>> same new commit and enabling option.
+> >>>>>
+> >>>>> I get truncate in my kernel builds via hosttools, so the dependency
+> >>>>> wasn't/isn't needed.
+> >>>>>
+> >>>>
+> >>>> truncate isn't in HOSTTOOLS in any release yet, just master.
+> >>>>
+> >>>> c.f.
+> >>>>
+> >>>>
+> >> https://git.openembedded.org/openembedded-core/commit/?id=3D522000ce5c=
+4f0201cbe42d7826b6a8489ed10117
+> >>>>
+> >>>> This means people won't be able to build 6.11 and later with
+> >>>> CONFIG_KALLSYMS enabled in Scarthgap and earlier releases...
+> >>>>
+> >>>> ... unless we backport this patch to still supported releases?
+> >>>>
+> >>>> BTW, I could reproduce on Scarthgap by checking out poky in its
+> >>>> scarthgap branch, then running `git checkout origin/master --
+> >>>> meta/recipes-kernel/linux/linux-yocto-dev.bb`, then adding
+> >>>> `PREFERRED_PROVIDER_virtual/kernel=3D"linux-yocto-dev"` to conf/loca=
+l.conf
+> >>>> and then running `MACHINE=3Dqemuarm64 bitbake linux-yocto-dev` from =
+either
+> >>>> a kas-container (4.3.2) or Debian Bullseye.
+> >>>>
+> >>>
+> >>> Right. I only target linux-yocto-dev at the latest master where we do=
+ all
+> >>> our testing. The support matrix of ever newer kernels against the old=
+er
+> >>> releases can get complicated, but we can at least say a given release
+> >>> supports the reference kernels + the reference -dev kernel version.
+> >>>
+> >>> Anything more we do on a case by case basis.
+> >>>
+> >>
+> >> Oh for sure! I wasn't implying we aren't testing appropriately or that
+> >> we need to increase the number of kernels to support per release. Just
+> >> that **some** people (likely me.... :) ) may want to support 6.12 on
+> >> Scarthgap whenever it's out and that will be an issue. The answer to
+> >> that issue could very well be "upstream isn't interested in supporting
+> >> this for already-released versions, just handle this in your layer".
+> >>
+> >> I assume one could simply add HOSTTOOLS +=3D "truncate" in the kernel
+> >> recipe and be done with it? I would be worried to add it globally as i=
+t
+> >> could then break/change other stuff since the host's tool would be use=
+d
+> >> instead of the one in recipe-sysroot-native (is that even true?)?
+> >>
+> >
+> > That would mess with the configuration space from a recipe, and won't
+> > work. It's already gone into use long before the kernel starts to be
+> > parsed and built.
+> >
+> >
+> >>
+> >>> I'd go with that simple host tool addition, rather than adding
+> >>> coreutils-native
+> >>> as a dependency.
+> >>>
+> >>> I have a patch locally that can test hosttools and if truncate is mis=
+sing
+> >>> conditionally add the dependency. That balances the speed vs supporti=
+ng
+> >>> non-default host configuration.
+> >>>
+> >>
+> >> I'm not planning on using linux-yocto for our products so was hoping f=
+or
+> >> a generic solution maybe? If there's one :)
+> >>
+> >
+> > I really push back on polluting kernel.bbclass with any version specifi=
+c
+> > dependencies and changes. It is best handled in the versioned recipes
+> > until it is no longer version specific.
+> >
+> >
+> >>
+> >> I guess adding truncate to HOSTTOOLS in conf/bitbake.conf in an
+> >> already-released version is just not something we want?
+> >>
+> >>
+> > I personally have no issue with it, the tool is tiny and I'd be shocked=
+ if
+> > it wasn't on all the supported hosts for the release(s) in question.
+> >
+> > It is far preferable to doing kernel version specific tests and depende=
+ncies
+> > and/or adding coreutils-native unconditionally.
+> >
+> >
+> >
+> >> Just looking for guidance so I know which direction to go in 3/4 month=
+s
+> >> from now when I'll be supporting 6.12 :)
+> >>
+> >
+> > I'd append to HOSTTOOLS in your layer ! Or just copy into your
+> > kernel recipe what I'm about to add to linux-yocto-dev :)
+> >
+>
+> Did you send something already? I think I missed it if you did?
+>
+> Will send the backport patches as an RFC for scarthgap in any case but
+> I'm still interested to see what you came up with :)
+
+I didn't send anything yet, as my test and add coreutils-native as a DEPEND=
+S,
+seemed less ideal than just adding the hosttool to older releases.
+Since anything
+newer will have that hosttool passthrough. There's a number of other tools =
+that
+could get the same treatment (i.e. don't assume they are in hosttools and b=
+uild
+a -native in that case).
+
+That being said, I can definitely send it, and will do so once I'm through =
+some
+other test cycles.
+
+Bruce
+
+>
+> Cheers,
+> Quentin
+
+
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
