@@ -1,111 +1,102 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC756CE7D0A
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 10:17:58 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.78110.1727777876226444033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57C5FCE7D0D
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 11:45:09 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.web11.79548.1727783104490064720
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 03:17:56 -0700
+ Tue, 01 Oct 2024 04:45:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=kBJsg1/s;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-42e5e1e6d37so48567135e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 03:17:55 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a6x+A/Jb;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-37cd1ccaf71so2674644f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 04:45:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1727777874; x=1728382674; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=UY4thAuTh+bImGrwuBeAr318VV7iFRKGqZgU9zgQDbc=;
-        b=kBJsg1/sWdzYmFFSmXl/wiAdk0kaNv8EvT8HtokgHlurdvf364fyuj9A6QzK7r9yL+
-         pV+2iyErjeYy1lcPi1zOC3I5fMjgcxRaTY1Z+Aaaga6hhsPVMCM84Pb+yPUa3us3Ws6m
-         WUY2XdmvUETuzQUq15M3HEmTtEfJ+kHXjcnwE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727777874; x=1728382674;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=linuxfoundation.org; s=google; t=1727783103; x=1728387903; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UY4thAuTh+bImGrwuBeAr318VV7iFRKGqZgU9zgQDbc=;
-        b=nNMccQopKDKKMLAcayK8b9DKt2Dz1nitZORrEjC868eM8H55gUCSjQOpXcahNenHy1
-         cgaa+IQpDN7zxYUm9rKh3ileIsjrFneA2rXZgh+VgDuVgIxVLh+Glziu3/nk7dm+psgN
-         pA9dGdLHkFaQoDgSZwNnCyuea2h58Sbafdl+v+EqSDA2bCrcrZniRjVGI2RqoTBxin6U
-         wiKhUEQUHyrLer8AUcbsu8JtfDpPRT/42u7jAn6eJ4H7BZvzaLI/m8Hh3LreiaHY4U5P
-         KBu/IYvb11UBnbIi8h9hMpVUgsbCxiBj1OSW3Mqys7QmvZuq2EpGr+P7eBYT1QSrp7C+
-         zNjw==
-X-Gm-Message-State: AOJu0YysSay2OYMGaKjAx7/POSniEgpA93LvTfrG0RGlEPpFBXLHVUsA
-	QULXdFjJV5THLMVZmX6wTYmUpco5Zvhbuz2nC5r04Rwb79cXZ5yt1GpOe1DJGSc=
-X-Google-Smtp-Source: AGHT+IG9rqFSWIgmJNy438jwJmfE0cfAlirHAbdu/4SeGUxWcaidf3ERaiOmjM/a7+UAtH7b6W/Q7g==
-X-Received: by 2002:a05:600c:4e08:b0:42c:bad0:6c1c with SMTP id 5b1f17b1804b1-42f5844b3b4mr120339215e9.18.1727777874491;
-        Tue, 01 Oct 2024 03:17:54 -0700 (PDT)
-Received: from [192.168.0.22] (53.1.159.89.rev.sfr.net. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cd56e6547sm11532578f8f.58.2024.10.01.03.17.53
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Oct 2024 03:17:54 -0700 (PDT)
-Message-ID: <501cb7d9-1112-4ee6-863a-9d90ae7945fc@smile.fr>
-Date: Tue, 1 Oct 2024 12:17:53 +0200
+        bh=kxTXJPBygMKTiB1dOyJh5U3R9m66ZEOOFazbXSMUEj4=;
+        b=a6x+A/JbW7OeX/qadqKcPwv7SjRbl4qpxoftRXIR3UVuLFnzSYnjxxVqnyrYtxRxDk
+         Mf0XvKrlwTZn8Opdeqb1ButoaK75Xm/yfT0XnFsgt+0splA7XsArIdmIqi4kNVpraDF7
+         fdQvKLrCcgJSu7hPdsWqLTBq00iLmPnt+mwBU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727783103; x=1728387903;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=kxTXJPBygMKTiB1dOyJh5U3R9m66ZEOOFazbXSMUEj4=;
+        b=EysXVZT5pvPQi5qhwyZV9w3gp3fVCPYsQx+U5eTVXltsieFBbhDFM1ITcWJ3r6++B1
+         xMgD8d8WLgkkkpw/RKaBTW3SNvMj/mSXrI38Drl7IaD4huKx/xPq4QRagYFcCYcePzCi
+         TdTHCjS935kC/DCgiOYypBsCHO37175SMcuI9g6m/pnH+trjNzbqsRyJaU8yQrSqljJx
+         kysh51mQ6axZr3gkyO2Aea6DRRs5/w74LVtVEyuKoZHJbJRJ+doCZxA9iClcaJGeqPb9
+         edWW27zAGlXj4JFF0hPjL54eC1MRFUCBX061CbXOj/9exk/VOrx+vaTB/rf60+d4VA2j
+         hYUA==
+X-Forwarded-Encrypted: i=1; AJvYcCXUaO2oS2HBQa8Qn1Xvl5BiBI96MB2uRwnsn5VB1axybR9q2djeAnyJ7A2KUzOOf4qyqgNtLhzWT8ZL+m2i272tsA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxS9Oqp4UGbZh66gUl/ARkX+tcIL1yeuyZGsIvjIJ1piC6EyRzw
+	lPJMo/kmg1lgdWe2PBA/6B7sy3iq09bjrOFkAVstzUlURDrePn2OO9URCMMrYh8=
+X-Google-Smtp-Source: AGHT+IGtRLNgvLwvTr6zVzEi7kAFrCKTx5cnFtGbhRrDs+OGOFsaci+Od+8aUfqI2vsR/S3rLEhS3g==
+X-Received: by 2002:adf:cd05:0:b0:374:bd00:d1e with SMTP id ffacd0b85a97d-37cf289c624mr1749522f8f.3.1727783102790;
+        Tue, 01 Oct 2024 04:45:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:85a4:e3cc:bdf8:640d? ([2001:8b0:aba:5f3c:85a4:e3cc:bdf8:640d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f57dd2d3bsm130408885e9.2.2024.10.01.04.45.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Oct 2024 04:45:02 -0700 (PDT)
+Message-ID: <87ee2add3b3814aa41f6e0b6758dee068a1ab54f.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 6/6] patchtest: use black to format libraries
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: tgamblin@baylibre.com, openembedded-core@lists.openembedded.org
+Date: Tue, 01 Oct 2024 12:45:01 +0100
+In-Reply-To: <20240924115503.1599651-7-tgamblin@baylibre.com>
+References: <20240924115503.1599651-1-tgamblin@baylibre.com>
+	 <20240924115503.1599651-7-tgamblin@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] reproducibility: continue testing in case of
- build failure
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-References: <20240930091015.21148-1-yoann.congal@smile.fr>
- <CANNYZj8uwvjD3kLRP_YmsriveP_1kjWQpFzwTRfnoQoU8w5rrA@mail.gmail.com>
- <f6f743c9-89ea-4831-a03c-7b88fa403489@smile.fr>
- <CANNYZj8gk8W-dB2SEq+pJN0vxXkOR2KsH0AiLROK5FKxAi43YA@mail.gmail.com>
- <0e31030d839492e72dbbd06506e8d279fa8f0284.camel@linuxfoundation.org>
- <CANNYZj-JaL92BA-6wmZibVMFBTC691OXvw-AsavYddyMERqg+g@mail.gmail.com>
-Content-Language: en-US
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <CANNYZj-JaL92BA-6wmZibVMFBTC691OXvw-AsavYddyMERqg+g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 10:17:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205156
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 11:45:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205157
 
-Le 01/10/2024 à 11:46, Alexander Kanavin a écrit :
-> On Tue, 1 Oct 2024 at 11:38, Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
->>>> The problem I'm trying to solve here is the reproducibility of
->>>> meta-openembedded. While oe-core world is always buildable, this
->>>> is, sadly, not the case for meta-openembedded layers. In order to
->>>> move forward with its reproducibility, we need to know the
->>>> reproducibility state of as much packages as possible.
->>>>
->>>> Do you think that goal is worth making the code more complex? Do
->>>> you have a suggestion on how to approach this? Making (and keeping)
->>>> meta-oe build every time is the goal, but history shows that it is
->>>> hard [0].
->>>> [0]: https://autobuilder.yoctoproject.org/typhoon/#/builders/155
->>>
->>> The real problem is that meta-oe isn't built in lockstep with oe-core
->>> changes, and regressions slip in all the time, and are fixed after
->>> the
->>> fact through heroic efforts of Khem and others.
->>>
->>> Maybe the new AB setup will allow including meta-oe builds into a-
->>> full?
->>
->> That pushes the problem to me and the core maintainers as we then have
->> to block until meta-oe is fixed as well with all the tracking and push
->> back on patches that involves. Is that really what we want to do?
-> 
-> I'm ok with handling a failing build, if v2 is possible and looks more
-> maintainable than v1.
+T24gVHVlLCAyMDI0LTA5LTI0IGF0IDA3OjU1IC0wNDAwLCBUcmV2b3IgR2FtYmxpbiB2aWEgbGlz
+dHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToKPiBCbGFjayBtYWtlcyB0aGluZ3MgZWFzaWVyIHRv
+IHJlYWQuCj4gCj4gU2lnbmVkLW9mZi1ieTogVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxp
+YnJlLmNvbT4KPiAtLS0KPiDCoG1ldGEvbGliL3BhdGNodGVzdC9tYm94LnB5wqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfMKgIDQ0ICsrKy0tLQo+IMKgbWV0YS9saWIvcGF0
+Y2h0ZXN0L3BhdGNodGVzdF9wYXJzZXIucHnCoMKgwqDCoMKgwqDCoCB8IDEwNiArKysrKysrKy0t
+LS0tCj4gwqBtZXRhL2xpYi9wYXRjaHRlc3QvcGF0Y2h0ZXN0X3BhdHRlcm5zLnB5wqDCoMKgwqDC
+oCB8wqAgODQgKysrKysrLS0tLQo+IMKgbWV0YS9saWIvcGF0Y2h0ZXN0L3JlcG8ucHnCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgMzIgKystLQo+IMKgbWV0YS9saWIv
+cGF0Y2h0ZXN0L3NlbGZ0ZXN0L3NlbGZ0ZXN0wqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA5MiArKysr
+KysrKy0tLQo+IMKgbWV0YS9saWIvcGF0Y2h0ZXN0L3Rlc3RzL2Jhc2UucHnCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCB8wqAgODYgKysrKysrLS0tLS0KPiDCoG1ldGEvbGliL3BhdGNodGVzdC90
+ZXN0cy90ZXN0X21ib3gucHnCoMKgwqDCoMKgwqDCoMKgIHwgMTQ0ICsrKysrKysrKysrKystLS0t
+LQo+IMKgbWV0YS9saWIvcGF0Y2h0ZXN0L3Rlc3RzL3Rlc3RfbWV0YWRhdGEucHnCoMKgwqDCoCB8
+wqAgOTQgKysrKysrKystLS0tCj4gwqBtZXRhL2xpYi9wYXRjaHRlc3QvdGVzdHMvdGVzdF9wYXRj
+aC5wecKgwqDCoMKgwqDCoMKgIHzCoCAzOSArKystLQo+IMKgLi4uL2xpYi9wYXRjaHRlc3QvdGVz
+dHMvdGVzdF9weXRob25fcHlsaW50LnB5IHzCoCA0NSArKysrLS0KPiDCoHNjcmlwdHMvcGF0Y2h0
+ZXN0wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgfCAxMTMgKysrKysrKysrLS0tLS0KPiDCoHNjcmlwdHMvcGF0Y2h0ZXN0LWdldC1icmFuY2jC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHzCoCA1NCArKysrLS0tCj4gwqBzY3Jp
+cHRzL3BhdGNodGVzdC1zZW5kLXJlc3VsdHPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+fMKgIDY2ICsrKysrLS0tCj4gwqAxMyBmaWxlcyBjaGFuZ2VkLCA2NjAgaW5zZXJ0aW9ucygrKSwg
+MzM5IGRlbGV0aW9ucygtKQoKSSdtIGEgYml0IG5lcnZvdXMgYWJvdXQgdGhpcyBjaGFuZ2UgZm9y
+IGEgZmV3IHJlYXNvbnMuIEZpcnN0bHksIGl0IHNldHMKYSBwcmVjZWRlbnQgd2hlcmUgb3RoZXJz
+IHdpbGwgd2FudCB0byBkbyB0aGlzIG9uIG90aGVyIGFyZWFzIG9mIHRoZQpjb2RlIGFuZCBJJ20g
+bm90IHN1cmUgd2UgcmVhbGx5IHdhbnQgdG8gZG8gdGhhdC4KCmJsYWNrIGlzIHF1aXRlIG9waW5p
+b25hdGVkIGFuZCBJIGRvbid0IGFncmVlIHdpdGggZXZlcnl0aGluZyBpdCBpcwpjaGFuZ2luZy4g
+U29tZSBvZiB0aGUgY29kZSBkb2VzIGxvb2sgbW9yZSByZWFkYWJsZSBiZWZvcmUgaXQgbWFkZQpj
+aGFuZ2VzIGNvbXBhcmVkIHRvIHRoZSBlbmQgcmVzdWx0LCBwYXJ0aWN1bGFybHkgYXJvdW5kIGhv
+dyBpdCBpcwpjaG9vc2luZyB0byBsaW5lIHdyYXAgdGhlIGNvZGUuIFNvbWUgb2YgdGhlIGNoYW5n
+ZXMgYXJlIGFsc28ganVzdApyZWFycmFuZ2luZyB0aGluZ3MgZm9yIGxpdHRsZSBnYWluIHN1Y2gg
+YXMgY2hhbmdpbmcgcXVvdGluZyBjaGFyYWN0ZXJzLgoKSSdtIHRoZXJlZm9yZSBpbiB0d28gbWlu
+ZHMgb2YgdGhpcy4gSSBkbyB3YW50IHRvIGVtcG93ZXIgcGVvcGxlIHRvCm1haW50YWluIGNvZGUg
+YnV0IEkgZG9uJ3Qgd2FudCB0byBlbmQgdXAgZm9yY2VkIGludG8gdGFraW5nIHN0eWxlCmNoYW5n
+ZXMgSSByZWFsbHkgZG9uJ3QgYWdyZWUgd2l0aCA6Ly4KCkNoZWVycywKClJpY2hhcmQKCgoKCgoK
 
-I'm working on a v2 with Richard's suggestion about the log file handling.
-I have no problem in taking any other suggestion on how to improve maintainability and keep improving this patch.
 
-Thanks!
--- 
-Yoann Congal
-Smile ECS - Tech Expert
 
