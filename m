@@ -1,142 +1,105 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <louis.rannou@syslinbit.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AC9DCE7CF6
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 08:29:18 +0000 (UTC)
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
- by mx.groups.io with SMTP id smtpd.web11.76653.1727771353474559408
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 819EECE7CF8
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 08:58:28 +0000 (UTC)
+Received: from 17.mo581.mail-out.ovh.net (17.mo581.mail-out.ovh.net [188.165.35.227])
+ by mx.groups.io with SMTP id smtpd.web11.76959.1727773106452233110
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 01:29:13 -0700
+ Tue, 01 Oct 2024 01:58:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=kw75vsp9;
- spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fad5024b8dso15594831fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 01:29:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1727771351; x=1728376151; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YMQTWSW2pxYCYeqvg5XPpJ4xKvMr/05hM5ADcPNUguk=;
-        b=kw75vsp9WhXnBPERb0sexDgUX5TjsoAZ2IgLvcS2vC9urBdrzslFQ6pkANTnMICnpV
-         7gQigrDCwd98dwP176w/Z2CjyhaCxZWpPe6ttErG0YV+9EmuAtjPnpcuE8v3qHDqKk0P
-         ZsSZrEiIXzszvKkN/ZiZQsp2VVBIl5F8xP4KLfM4D65cARggecAE85elSd1r/LjGLmMs
-         I6vpfDep4sPx/RQCC20WkkjAgNbqWXRcDrGh28wWjlxUtRCZ0cBG1u+J8oKSIouU4Yul
-         3XcjiDIcOSXflhfJWVG3CcCeKDZQ9W4IH2SKtQEJ7WSX53QvyfKiLmtLDKCgnEnb+a3e
-         v79Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727771351; x=1728376151;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YMQTWSW2pxYCYeqvg5XPpJ4xKvMr/05hM5ADcPNUguk=;
-        b=Z+aGGbugWT9rmWnq074SotVDaVUo5JVo2peUx8Veawzqw9lCFh7ZlakZ7VSXnN3I9O
-         2u9VbJP0rRC991SQYAtR2s9+FM8ZAW7xMdG6I6FrgYiZFd/wFS0toPehMVVoiPjkNA//
-         F/pU10pfdsMglirwAqc9mlZC2xUljPnWYu6fFTRb4ST/iiZINgnIYkhPNHrWCVeLMqnH
-         ya/wjxNVvLcGNQ6NCkQ6sKedRbmwP3Ewnc90UsVMC3B0Eqasynf4yqOifRAaz4fMR9ya
-         YkW5lUpLucZpPj9SiioqU/cjbuzodAJW2vjgVFOuktxBynYfC9dQAQXDHCjg33Jn+dOj
-         MhXA==
-X-Gm-Message-State: AOJu0YxiNo99BdlsRsmfKwql8aPUUSJcz/heWEXyuiSlWJqL1bje/HoB
-	c9Xp0tML9XYxAehJlk4BbJ7jcYxLjkGbKEp9pGuG23mc9ph/+SImwpSceCSWiSGN901OIrS/PhR
-	hIik=
-X-Google-Smtp-Source: AGHT+IFz9XSNszSQUPDhSvPKF8HXx+kge7br93KEuZoy+fXrttJWyyjnK3YhAH6ecf3/PVMvhn5Mmw==
-X-Received: by 2002:a2e:bc19:0:b0:2fa:c873:45ce with SMTP id 38308e7fff4ca-2fac873471cmr28369461fa.30.1727771351441;
-        Tue, 01 Oct 2024 01:29:11 -0700 (PDT)
-Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2facb2ce928sm7734221fa.76.2024.10.01.01.29.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 01:29:09 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v5 10/11] oeqa selftest wic.py: add TEST_RUNQEMUPARAMS to runqemu
-Date: Tue,  1 Oct 2024 11:28:20 +0300
-Message-ID: <20241001082821.26115-11-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241001082821.26115-1-mikko.rapeli@linaro.org>
-References: <20241001082821.26115-1-mikko.rapeli@linaro.org>
+ dkim=pass header.i=@syslinbit.com header.s=ovhmo4479509-selector1 header.b=CnzHHz/G;
+ spf=softfail (domain: syslinbit.com, ip: 188.165.35.227, mailfrom: louis.rannou@syslinbit.com)
+Received: from director1.ghost.mail-out.ovh.net (unknown [10.108.17.39])
+	by mo581.mail-out.ovh.net (Postfix) with ESMTP id 4XHsKr0kT6z1JbL
+	for <openembedded-core@lists.openembedded.org>; Tue,  1 Oct 2024 08:58:23 +0000 (UTC)
+Received: from ghost-submission-55b549bf7b-jgpcj (unknown [10.110.168.168])
+	by director1.ghost.mail-out.ovh.net (Postfix) with ESMTPS id 8A17D1FEA3;
+	Tue,  1 Oct 2024 08:58:23 +0000 (UTC)
+Received: from syslinbit.com ([37.59.142.102])
+	by ghost-submission-55b549bf7b-jgpcj with ESMTPSA
+	id lcQpCK+5+2bbKgAAjiXYSA
+	(envelope-from <louis.rannou@syslinbit.com>); Tue, 01 Oct 2024 08:58:23 +0000
+Authentication-Results: garm.ovh; auth=pass (GARM-102R00427cdc905-7b2e-42d2-bb35-541ab670edf6,
+                    F4B1DDAC98288D2BF6F90CDA6A624277FECA3AFF) smtp.auth=louis.rannou@syslinbit.com
+X-OVh-ClientIp: 45.81.62.9
+From: Louis Rannou <louis.rannou@syslinbit.com>
+Date: Tue, 01 Oct 2024 10:58:14 +0200
+Subject: [PATCH] qa_image: move image_qa to between image and
+ image_complete
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241001-qa32-v1-1-fdbe8b9fe4f6@syslinbit.com>
+X-B4-Tracking: v=1; b=H4sIAKW5+2YC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIxMDSyMz3cJEYyPdxGTDRBMTYyNjMwNTJaDSgqLUtMwKsDHRsbW1AG0lB+5
+ WAAAA
+X-Change-ID: 20240926-qa32-ac1a44323605
+To: openembedded-core@lists.openembedded.org
+Cc: Louis Rannou <louis.rannou@non.se.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1727773103; l=1445;
+ i=louis.rannou@syslinbit.com; s=20230614; h=from:subject:message-id;
+ bh=Hfw1BdwakClLl7kMdqAz+DZE8Eb0yk2ZxUkwnbHxwpE=;
+ b=BsuWJLgx1gyziArJ9qotcGesVzEWvwX6k8ZoLESOcbC+ZnidPRyORnLJHX9PjkgfDkGTodEzo
+ Qtq/a7rjuHCCaV16M84HNvcQ34dCqFvw5Wxk3cEdoLA9UKbh2EyNFQ1
+X-Developer-Key: i=louis.rannou@syslinbit.com; a=ed25519;
+ pk=QLSK64UNeqThVe2CiH917a68zTpexYuA7iXw6WQ0bbI=
+X-Ovh-Tracer-Id: 13379913020896632129
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: 0
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeeftddrvddujedgtdelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucenucfjughrpefhfffugggtgffkvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcutfgrnhhnohhuuceolhhouhhishdrrhgrnhhnohhusehshihslhhinhgsihhtrdgtohhmqeenucggtffrrghtthgvrhhnpeehteekvdfgkefhkefhheehueekvdegffevtddtfffhhfejgeehgfekgedvkeekvdenucfkphepuddvjedrtddrtddruddpgeehrdekuddriedvrdelpdefjedrheelrddugedvrddutddvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepuddvjedrtddrtddruddpmhgrihhlfhhrohhmpehlohhuihhsrdhrrghnnhhouhesshihshhlihhnsghithdrtghomhdpnhgspghrtghpthhtohepuddprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdpoffvtefjohhsthepmhhoheekuddpmhhouggvpehsmhhtphhouhht
+DKIM-Signature: a=rsa-sha256; bh=euZlrTonqF6XTU/AYqQo0bxrDfxl1K3NugKYtoFxOdw=;
+ c=relaxed/relaxed; d=syslinbit.com; h=From; s=ovhmo4479509-selector1;
+ t=1727773104; v=1;
+ b=CnzHHz/GTDdPNL4fNChmxh2YMxJuG2mDEiHsJmCuLp1Pizm1Bpjf4fALtjBiUifu7a5IeZm7
+ usPjsdFDuyJXXUClR7N+2Zw9XL4WNY/C2yG1t0Dt+PzRuNUCntZIuYF7UHfamwvQ+6pRJ8z9P1z
+ 2ZaNUgLbAWz5zoJgF5XdtIhC/JcteesYnGtGNyAw/q60uAfwULlCmZ1s6tsPD8lZvQ6cKe6nMOL
+ /QOk2lagsj4YYQAczhbC/kVtxwLYS5GI1t0cDRoZ/xQsnNROTO9LhfW5QZ+Sx1+SKNi+4NTuXGz
+ VB8Q1mQDMa+6iQFrGcWxxkuHdBtPVlqGEvIkvJ80Bz//Q==
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 08:29:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205144
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 08:58:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205146
 
-To support "slirp" networking on shared build machines instead
-of tun/tap devices. Users can set
+Commit 62ce334e583ecdf1f93619f4131c0fa5d88d5b02 moved this after image as it was
+noticed that do_image_qa is useless when rm_work is enabled as the rootfs
+directory is deleted before image_qa is called.
 
-TEST_RUNQEMUPARAMS = "slirp"
+However, this pactch made impossible the creation of a dependance from image_qa
+to any image_* task where various types of images are generated. This disabled
+the possibility to test a specific type of image (eg. a FIT image).
 
-in their build/conf/local.conf to run selftests using "slirp"
-networking. The same works for testimage.bbclass and oeqa runtime
-tests.
+As rm_work is called as a postprocess of image_complete, qa_image can be done
+after image as long as it is done before image_complete.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Signed-off-by: Louis Rannou <louis.rannou@non.se.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 16 ++++++++++------
- 1 file changed, 10 insertions(+), 6 deletions(-)
+ meta/classes-recipe/image.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index b616759209..f2a46c965b 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -939,7 +939,8 @@ class Wic2(WicTestCase):
-         bitbake('wic-image-minimal')
-         self.remove_config(config)
+diff --git a/meta/classes-recipe/image.bbclass b/meta/classes-recipe/image.bbclass
+index 00f1d58f23777d40da47d4932140be4779a62ec1..445080c94151e48b23c93530bb7e6e41bb5794c2 100644
+--- a/meta/classes-recipe/image.bbclass
++++ b/meta/classes-recipe/image.bbclass
+@@ -341,7 +341,7 @@ fakeroot python do_image_qa () {
  
--        with runqemu('wic-image-minimal', ssh=False, runqemuparams='nographic') as qemu:
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'wic-image-minimal') or ""
-+        with runqemu('wic-image-minimal', ssh=False, runqemuparams='%s nographic' % (runqemu_params)) as qemu:
-             cmd = "mount | grep '^/dev/' | cut -f1,3 -d ' ' | egrep -c -e '/dev/sda1 /boot' " \
-                   "-e '/dev/root /|/dev/sda2 /' -e '/dev/sda3 /media' -e '/dev/sda4 /mnt'"
-             status, output = qemu.run_serial(cmd)
-@@ -959,8 +960,9 @@ class Wic2(WicTestCase):
-         bitbake('core-image-minimal ovmf')
-         self.remove_config(config)
+     oe.qa.exit_if_errors(d)
+ }
+-addtask do_image_qa after do_rootfs before do_image
++addtask do_image_qa after do_image before do_image_complete
  
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal') or ""
-         with runqemu('core-image-minimal', ssh=False,
--                     runqemuparams='nographic ovmf', image_fstype='wic') as qemu:
-+                     runqemuparams='%s nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
-             cmd = "grep sda. /proc/partitions  |wc -l"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-@@ -1154,8 +1156,9 @@ class Wic2(WicTestCase):
-         bitbake('core-image-minimal-mtdutils')
-         self.remove_config(config)
- 
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal-mtdutils') or ""
-         with runqemu('core-image-minimal-mtdutils', ssh=False,
--                     runqemuparams='nographic', image_fstype='wic') as qemu:
-+                     runqemuparams='%s nographic' % (runqemu_params), image_fstype='wic') as qemu:
-             cmd = "grep sda. /proc/partitions  |wc -l"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-@@ -1214,8 +1217,9 @@ class Wic2(WicTestCase):
-         bitbake('core-image-minimal')
-         self.remove_config(config)
- 
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal') or ""
-         with runqemu('core-image-minimal', ssh=False,
--                     runqemuparams='nographic', image_fstype='wic') as qemu:
-+                     runqemuparams='%s nographic' % (runqemu_params), image_fstype='wic') as qemu:
-             # Check that we have ONLY two /dev/sda* partitions (/boot and /)
-             cmd = "grep sda. /proc/partitions | wc -l"
-             status, output = qemu.run_serial(cmd)
-@@ -1446,8 +1450,8 @@ class Wic2(WicTestCase):
-             os.rename(image_path, image_path + '.bak')
-             os.rename(new_image_path, image_path)
- 
--            # Check if it boots in qemu
--            with runqemu('core-image-minimal', ssh=False, runqemuparams='nographic') as qemu:
-+            runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal') or ""
-+            with runqemu('core-image-minimal', ssh=False, runqemuparams='%s nographic' % (runqemu_params)) as qemu:
-                 cmd = "ls /etc/"
-                 status, output = qemu.run_serial('true')
-                 self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+ SSTATETASKS += "do_image_qa"
+ SSTATE_SKIP_CREATION:task-image-qa = '1'
+
+---
+base-commit: 64c06dd06d747d7b53fb6ae6cf0550e13d63d8f6
+change-id: 20240926-qa32-ac1a44323605
+
+Best regards,
 -- 
-2.34.1
+Louis Rannou <louis.rannou@syslinbit.com>
 
 
