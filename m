@@ -1,184 +1,172 @@
-Return-Path: <a.fatoum@pengutronix.de>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62EF4CEACCD
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 14:35:20 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.83409.1727793312210870489
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 480A8CEACD8
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 14:43:10 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.web11.83594.1727793782085082970
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 07:35:12 -0700
+ Tue, 01 Oct 2024 07:43:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: a.fatoum@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPV6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <a.fatoum@pengutronix.de>)
-	id 1svdy2-0004UB-3S; Tue, 01 Oct 2024 16:35:10 +0200
-Message-ID: <92a6efc1-51a0-4153-b894-581fbe868595@pengutronix.de>
-Date: Tue, 1 Oct 2024 16:35:08 +0200
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=BtSYxRiM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-6dbb24ee34dso48878787b3.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 07:43:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1727793781; x=1728398581; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v8yTZRIBejSp7nqxfLOGHfGjgEn4Nbi03QiLmzInFiQ=;
+        b=BtSYxRiM0xap6qA8sw6NTUAP+U1q64hbvkDVBDvvIIX3aZ+8LbjZpKypjE6BMDdifq
+         gTaeYV5EiXPb9X3feW6KwCjP+aZ60m9E+l/wWC5CQ1Bok/2dnaTcwfMi89Iobg1PkZv3
+         U1pNz0BDmllMm4gzfFV6ZZN+G5JBoAaPpufoqlmuz99rVoiafA/uzifZgua+MFLMhWji
+         TC8DwYXUp+6RBISQy68nQ50YbLs38+PRP9avMWCb6QvGqOWCbLRKUrNjS9W65ReIXr1p
+         BYb9TzZyOphoaWYs5yJAVLnmSnDKNFH9FDXJhRBUyDTKprBUQGv+fKY+HqrSaf8VJbnR
+         BrxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1727793781; x=1728398581;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v8yTZRIBejSp7nqxfLOGHfGjgEn4Nbi03QiLmzInFiQ=;
+        b=JGU9q9oNef+H8/+ZLNV5pX1ifkBhs5tAuon6f/hLm0CexI48mFA8niEWE6kgfo/Q5/
+         vNyKw9cPiwwGtq9JBnOz2+Nm+L5oBUtsH2NfKD8JfLY38Kko3i2R9k1xS2fcSelz6JIH
+         55DQkxfqBAsw9aUP4WY42oHCEZcn4YXXif+J5lCjbCYYmyxyiOx98fMt4/XlwR92Z7Z5
+         celLIV/OsXsUYlms0uUcmjjvELaFxRXlvo9S498BL/Yu/EYspbT/QNh+WXBAafRskVbU
+         yeZyOmT8GDPvGVrq89d4foNdT6SawlhB+FOCzAMQbHHfFzxjVdlnkcywK6d2cGrtgry0
+         eNqg==
+X-Gm-Message-State: AOJu0YxWi+k3s+YmGvywN6KJz8K61hresdk3C9imDNlNpVBr+MTa/ikZ
+	/89c140E/aY1RUbMapwjNouZHqHAi3dDlr4ITf9Zh5GETVHjOl+LCmZMs1Tffoh3CaCFQl30d51
+	QA/q7IrMorgx66U7Fhb4spdddSxmEoRhL
+X-Google-Smtp-Source: AGHT+IFBzikRxT2obnjdx8qO1Npi5EO8POtT9mcxbPbg3abvCF6C69ePYaGfZ+aOj4Z7eCgP4Cxna0dl3k3GuQA+ZjY=
+X-Received: by 2002:a05:690c:d8e:b0:6e2:1336:55d8 with SMTP id
+ 00721157ae682-6e24754a3camr126281427b3.10.1727793781100; Tue, 01 Oct 2024
+ 07:43:01 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: Re: [yocto] [PATCH v7 0/7] Add barebox bootloader support (and
- testing)
-To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>,
- Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, yocto@pengutronix.de
-References: <20240919120640.19714-1-ejo@pengutronix.de>
- <b77f2c6737c330ef9ecce325d50a4aaa25b3e536.camel@linuxfoundation.org>
- <ee536d88a5b6468b20e37f3daabe4aa63047d1ad.camel@pengutronix.de>
-Content-Language: en-US
-In-Reply-To: <ee536d88a5b6468b20e37f3daabe4aa63047d1ad.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+References: <cover.1727069614.git.liezhi.yang@windriver.com> <73daecdd8298f7cc64730877148ea11b3f113bc4.1727069614.git.liezhi.yang@windriver.com>
+In-Reply-To: <73daecdd8298f7cc64730877148ea11b3f113bc4.1727069614.git.liezhi.yang@windriver.com>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 1 Oct 2024 10:42:48 -0400
+Message-ID: <CADkTA4MjcpmOqarUHz2UnNwHZZgRtEB7c18stuuggLb+deu_Ww@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/1] kernelsrc.bbclass: Move virtual/kernel:do_shared_workdir
+ to do_configure
+To: liezhi.yang@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 14:35:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205171
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 14:43:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205172
 
-Hi,
-
-On 20.09.24 12:37, Enrico Jörns wrote:
-> Am Donnerstag, dem 19.09.2024 um 21:56 +0100 schrieb Richard Purdie:
->> This looked better in testing, thanks. There was:
->>
->> https://valkyrie.yoctoproject.org/#/builders/23/builds/168/steps/14/logs/stdio
->>
->> which is from oe-selftest on an ARM server though :/
+On Mon, Sep 23, 2024 at 1:34=E2=80=AFAM Robert Yang via lists.openembedded.=
+org
+<liezhi.yang=3Dwindriver.com@lists.openembedded.org> wrote:
 >
-> Thank you for the test log!> 
-> I'll try to figure out why it works in my test setup but doesn't in the autobuilder..
-> Not sure if I'll have the chance to reproduce it on an ARM host.
+> From: Robert Yang <liezhi.yang@windriver.com>
+>
+> The do_shared_workdir populates build artifacts to
+> work-shared/${MACHINE}/kernel-build-artifacts, which isn't useful for do_=
+patch,
+> make do_patch depend on it will make a lot of recipes compiling which mak=
+es
+> world's do_patch very slow, e.g.:
+>
+> Download sources locally:
+> $ bitbake world --runall=3Dfetch
+>
+> * Before the patch:
+> $ rm -fr sstate-cache/ tmp/; time bitbake world --runall=3Dpatch
+> real    23m31.739s
+> user    0m25.086s
+> sys     0m4.630s
+>
+> * Now
+> $ rm -fr sstate-cache/ tmp/; time bitbake world --runall=3Dpatch
+> real    12m25.650s
+> user    0m35.641s
+> sys     0m5.699s
 
-I tried reproducing the breakage on a Librecomputer Alta (Cortex-A73/A53) with Debian 12
-for arm64, but without success. Details below.
+The motivation for why this is a priority should be included in
+the commit message. It helps us decide if any issues this may
+trigger are worth the risk.
 
-I applied this series on top of commit
+I assume you are doing some sort of source archiving, or
+licensing and all you care about is the patched source
+for this, and not any potentially generated files from the
+build(s) ?
 
-4fc8427a6c ("systemd: make home directory readable by systemd-coredump")
+See below for why I ask.
 
-> Barebox doesn't seem to boot at all (or output is missing) and U-Boot got stuck.
+>
+> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> ---
+>  meta/classes-recipe/kernelsrc.bbclass | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/classes-recipe/kernelsrc.bbclass b/meta/classes-recipe/=
+kernelsrc.bbclass
+> index ecb02dc9edc..f23a1e6bff2 100644
+> --- a/meta/classes-recipe/kernelsrc.bbclass
+> +++ b/meta/classes-recipe/kernelsrc.bbclass
+> @@ -7,8 +7,8 @@
+>  S =3D "${STAGING_KERNEL_DIR}"
+>  deltask do_fetch
+>  deltask do_unpack
+> -do_patch[depends] +=3D "virtual/kernel:do_shared_workdir"
+>  do_patch[noexec] =3D "1"
+> +do_configure[depends] +=3D "virtual/kernel:do_shared_workdir"
 
-Both barebox' oe-selftest:
+From what I can see (bitbake expansion and dependency experts
+can feel free to correct the below):
 
-  a3f@hass:~/poky/build$ oe-selftest -r barebox -v -v -v -K
-  [1] 257856
-  2024-09-27 15:06:52,672 - oe-selftest - INFO - Adding layer libraries:
-  2024-09-27 15:06:52,672 - oe-selftest - INFO -  /home/a3f/poky/meta/lib
-  2024-09-27 15:06:52,673 - oe-selftest - INFO -  /home/a3f/poky/meta-yocto-bsp/lib
-  2024-09-27 15:06:52,674 - oe-selftest - INFO -  /home/a3f/poky/meta-selftest/lib
-  2024-09-27 15:06:52,680 - oe-selftest - INFO - Checking base configuration is valid/parsable
-  NOTE: Starting bitbake server...
-  2024-09-27 15:06:59,982 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/a3f/poky/build-st/conf/local.conf
-  2024-09-27 15:06:59,983 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
-  2024-09-27 15:06:59,985 - oe-selftest - INFO - test_boot_barebox (barebox.BareboxTest.test_boot_barebox)
-  2024-09-27 15:07:00,024 - oe-selftest - DEBUG - Writing to: /home/a3f/poky/build-st/conf/selftest.inc
-  
-  QB_DEFAULT_KERNEL = "barebox-dt-2nd.img"
-  PREFERRED_PROVIDER_virtual/bootloader = "barebox"
-  
-  
-  2024-09-27 15:23:54,349 - oe-selftest - INFO -  ... ok
-  2024-09-27 15:23:54,357 - oe-selftest - INFO - ----------------------------------------------------------------------
-  2024-09-27 15:23:54,358 - oe-selftest - INFO - Ran 1 test in 1019.863s
-  2024-09-27 15:23:54,359 - oe-selftest - INFO - OK
-  2024-09-27 15:24:08,447 - oe-selftest - INFO - RESULTS:
-  2024-09-27 15:24:08,450 - oe-selftest - INFO - RESULTS - barebox.BareboxTest.test_boot_barebox: PASSED (1014.37s)
-  2024-09-27 15:24:08,513 - oe-selftest - INFO - SUMMARY:
-  2024-09-27 15:24:08,514 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 1019.866s
-  2024-09-27 15:24:08,515 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
+There's already an issue with the KERNEL_VERSION / LOCAL_VERSION
+variables, in that they depend on STAGING_KERNEL_BUILDDIR, which
+is populated from the do_shared_workdir. We are moving that population
+later / to a different task with this patch, so those variables are now goi=
+ng to
+be defined at a different point in the build. There's potential risk in tha=
+t.
 
-and U-Boot's conclude successfully:
+Looking at the routines get_kernel* that the variables are using, they
+gracefully return None if the file doesn't exist, so the question is .. wou=
+ld
+an impacted user of the variables notice a potential issue ?
 
-  a3f@hass:~/poky/build$ oe-selftest -r uboot -v -v -v -K
-  2024-09-30 10:41:21,225 - oe-selftest - INFO - Adding layer libraries:
-  2024-09-30 10:41:21,225 - oe-selftest - INFO -  /home/a3f/poky/meta/lib
-  2024-09-30 10:41:21,225 - oe-selftest - INFO -  /home/a3f/poky/meta-yocto-bsp/lib
-  2024-09-30 10:41:21,226 - oe-selftest - INFO -  /home/a3f/poky/meta-selftest/lib
-  2024-09-30 10:41:21,229 - oe-selftest - INFO - Checking base configuration is valid/parsable
-  NOTE: Starting bitbake server...
-  2024-09-30 10:41:24,120 - oe-selftest - INFO - Adding: "include selftest.inc" in /home/a3f/poky/build-st/conf/local.conf
-  2024-09-30 10:41:24,125 - oe-selftest - INFO - Adding: "include bblayers.inc" in bblayers.conf
-  2024-09-30 10:41:24,131 - oe-selftest - INFO - test_boot_uboot (uboot.UBootTest.test_boot_uboot)
-  2024-09-30 10:41:24,214 - oe-selftest - DEBUG - Writing to: /home/a3f/poky/build-st/conf/selftest.inc
-  
-  QB_DEFAULT_BIOS = "u-boot.bin"
-  PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
-  
-  
-  2024-09-30 10:52:59,680 - oe-selftest - INFO -  ... ok
-  2024-09-30 10:52:59,692 - oe-selftest - INFO - ----------------------------------------------------------------------
-  2024-09-30 10:52:59,693 - oe-selftest - INFO - Ran 1 test in 696.374s
-  2024-09-30 10:52:59,695 - oe-selftest - INFO - OK
-  2024-09-30 10:53:13,581 - oe-selftest - INFO - RESULTS:
-  2024-09-30 10:53:13,584 - oe-selftest - INFO - RESULTS - uboot.UBootTest.test_boot_uboot: PASSED (695.55s)
-  2024-09-30 10:53:13,647 - oe-selftest - INFO - SUMMARY:
-  2024-09-30 10:53:13,648 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 696.378s
-  2024-09-30 10:53:13,649 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
+One wonders if they shouldn't just propagate the exception to the caller
+so it could be dealt with, and harder to ignore.
 
+So while it does speed up do_patch, there is a behaviour change in
+when the variables are going to be valid/defined.
 
-> U-Boot log in the failed test says
-> 
->> U-Boot 2024.07 (Jul 01 2024 - 18:07:18 +0000)
->> DRAM:  256 MiB
->> Core:  51 devices, 14 uclasses, devicetree: board
->> Flash: 64 MiB
->> Loading Environment from Flash... *** Warning - bad CRC, using default environment
->> In:    serial,usbkbd
->> Out:   serial,vidconsole
->> Err:   serial,vidconsole
->> Bus xhci_pci: Register 8001040 NbrPorts 8
->> Starting the controller
-> 
-> While my successful run goes further:
-> 
->> [...]
->> Starting the controller
->> USB XHCI 1.00
->> scanning bus xhci_pci for devices... 3 USB Device(s) found
->> Net:   eth0: virtio-net#32
->> ESC[?25h
->> Hit any key to stop autoboot:  2
-> 
-> But not sure if this is an issue with USB emulation or something else...
+Bruce
 
-My successful run looks identical to yours. barebox start up is also
-successful and uneventful.
-
-Note that barebox' XHCI driver doesn't have PCI support unlike U-Boot, so
-if the same issue is affecting both barebox and U-Boot breakage in CI,
-it might not be USB emulation related as barebox doesn't do any
-USB on that platform...
-
-Is `selftest -r uboot -v -v -v -K` close enough to what the CI server runs
-or should I try something else to reproduce this?
-
-Thanks,
-Ahmad
+>  do_package[depends] +=3D "virtual/kernel:do_populate_sysroot"
+>  KERNEL_VERSION =3D "${@get_kernelversion_file("${STAGING_KERNEL_BUILDDIR=
+}")}"
+>  LOCAL_VERSION =3D "${@get_kernellocalversion_file("${STAGING_KERNEL_BUIL=
+DDIR}")}"
+> --
+> 2.25.1
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#204794): https://lists.openembedded.org/g/openembedde=
+d-core/message/204794
+> Mute This Topic: https://lists.openembedded.org/mt/108603063/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
+uce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
 
-
-> 
-> 
-> Regards, Enrico
-> 
-> 
->> Cheers,
->>
->> Richard
->>
-> 
-
-
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
