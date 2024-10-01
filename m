@@ -1,125 +1,96 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B4CDCE7D05
-	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 09:44:48 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.77501.1727775882644953463
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA611CE7D06
+	for <webhook@archiver.kernel.org>; Tue,  1 Oct 2024 09:46:28 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web11.77519.1727775984348167036
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Oct 2024 02:44:43 -0700
+ Tue, 01 Oct 2024 02:46:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XFyVC6mO;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-42e7b7bef42so43216205e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 02:44:42 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZtNyVFJe;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-53997328633so2628736e87.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 02:46:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1727775881; x=1728380681; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/Wj6UYGJ2FogqKgmgEK2deVG+cUdN21fO6zt1UChRD4=;
-        b=XFyVC6mOpLjQHMlTgUsXDXYK83vZx1/qV2XU0Czzw5FQO5UHcBHQYmRrJqEhZCZJG0
-         p1ktyzHvKlgpP8q96qm094Mzghp8GiXF/8fGyJf/6aY/h8vhIjfaHENyl4qKqRnX3ige
-         qT0LFS1ltWCNrHqsLpSl4F2LX2A87Qw8YePUk=
+        d=gmail.com; s=20230601; t=1727775982; x=1728380782; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=oMFzae4xr2FwosPCgnqrzB9+giEcCGfoYz9IZnUotns=;
+        b=ZtNyVFJeHM79gEXrQGoBuElejveZdjHF35ObZs4ue6MJWAjqFwjLmIMcyjAS7zw7es
+         F+4fKGB8fw0IK+0ziju0GXTgDEd2LDtfXs1bqK4NrDIxLrXZfYAfDx0XM4unSeJebXcR
+         wMoMm9Hf/7mSTR9c454LWSHalE0gbwj5O+G9f0EPnJd/U0bPmjdmtOzIfHoI/LtPhRVd
+         OIxJ/JF5GuN0gYYZbJFL1J4Fk+eGP2yMOA8A6GgxY+zMgZ2Ck8N4Ou1TuaFD/ufJ0pRV
+         ipQ3+z2ZM+1ZpkvqgPWDSpH7iLtfKVgC8o8VqBpKLPsWjKfXTEgawN6CgAYu8NJZj+1V
+         jeGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727775881; x=1728380681;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/Wj6UYGJ2FogqKgmgEK2deVG+cUdN21fO6zt1UChRD4=;
-        b=CJX7m3cElJnyftWy2xWVmN8L/qrTWSq9K/IDpw091CSZdWEmplKyP/YLFhn8tBVcYC
-         rQvS9iqawk0v3UK5hUA3uwFdqhtqmgKWiU34/eNZUm8w71F5+affDY2rxGzIftxz3/SM
-         Ds4vVstmEqvUxbeEyjK7tDJ/+qXP857L0VP1fFKTmSHz1kOZtm9HVPJLvFQ91ZTSpQjO
-         QysPaAFKInOD2NJ7nGhGDTICpXsI9Xi23n8Ok/V8K7a+CRPSMxRA72C8J2yIGo/nmfPY
-         nlE+LyDe+pk1k0b17FNxbmZc6O2FRNz9AcKf5QpyH6pZ8XV+WEhmkSts0slOlnDFTjx5
-         PBWw==
-X-Forwarded-Encrypted: i=1; AJvYcCXRuzGOd6MbRFlcZeIcqwqlMw846OElMrzFMbXMbuO69Es8T8MK86MWhN8jRmDfF2aBG8zDco4esxj4p3ALCZIBvA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Ywf0ABetbotufO6ps3toMOUB7WxRvxZyE5JuYBJhxNQRwhhezfA
-	AZc/LYu573+8tqoSdkUoz195FFm0c/hZvxGctA67OLgOU1Od6fd4sZkjeEhgHX/ck0tYmbFvWSq
-	6
-X-Google-Smtp-Source: AGHT+IFPiiWBho1qEewWinD/xGn9j+TOoERPHK2k66NHHvN9Gb+OOgrTULEAyyoJlya+te4pnoPyGw==
-X-Received: by 2002:a05:6000:10c3:b0:374:c8a0:5d05 with SMTP id ffacd0b85a97d-37cd5b10875mr9268508f8f.50.1727775880982;
-        Tue, 01 Oct 2024 02:44:40 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:85a4:e3cc:bdf8:640d? ([2001:8b0:aba:5f3c:85a4:e3cc:bdf8:640d])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37cd5742a23sm11385790f8f.105.2024.10.01.02.44.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Oct 2024 02:44:40 -0700 (PDT)
-Message-ID: <85b15dfd7c6638225bbd73cab5c79524dbe9e8b9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] devtool: modify: don't accidentally override
- existing source tree
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: rhi@pengutronix.de, openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de
-Date: Tue, 01 Oct 2024 10:44:39 +0100
-In-Reply-To: <20240930133007.1184996-1-rhi@pengutronix.de>
-References: <20240930133007.1184996-1-rhi@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        d=1e100.net; s=20230601; t=1727775982; x=1728380782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=oMFzae4xr2FwosPCgnqrzB9+giEcCGfoYz9IZnUotns=;
+        b=vYuckoPTbnoF1vBezIwMqaaoRmObgoiLQjlL8oRSGQPBP4/ZFNasm0zowDSzrZ4w3n
+         lHsVx+XAmZ4mgASUvsDdeBsS5v0niHBldYtamXFNXXVhJpxGYMe/8+IcjcBD3+lM9GZi
+         PPtu97h0faqHP8kFB+HAmAjfJcLY6c5m/wO+c4DSpcdd1st01xfwdN6qR6J/wxbCVioN
+         HM9NpKOj51PVeVz5UyWVAKya92n6ID4diCjBNRX5FFCXZUNT07MqPQL/URy/aouvlosx
+         OkEajhGLlLK/tGc+hXXBjtylt85NCYqRQCPTm97KhJDyJjwJ3fHz4TroAmoZUD4cNydK
+         yEww==
+X-Forwarded-Encrypted: i=1; AJvYcCVUVEDoxxtPTvobAAG2+g4PCRPidXthdP9F7j0DxjC0pvJL3785oYkhvwKRX8rYm72mm0nnWXGcsD37OBXStLhueg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxWg8QgL2J+2k+cXsCQtfsbqm1YShq1UfyTCop+nMykybkkDzXY
+	zjkN9gpRJ7ghNjMd892mYdCs2KW1ykDyT+GbdUP8JdxtLm7EnVeHJe7p83U+SH4pjweUV1ADDf/
+	XC+4bnnzQkkEW9Pmsn8Bg631kLZw=
+X-Google-Smtp-Source: AGHT+IHJa8NdXIxTmBSj5q+Fc6qjG6ryKDwG6EIAUDb5SDZig8pAO/wRVTcVmmFuA5CeLkDfsxUHxnl37ZM7QuwOwPU=
+X-Received: by 2002:a05:6512:3996:b0:539:8f68:e036 with SMTP id
+ 2adb3069b0e04-5398f68e084mr5547581e87.34.1727775982238; Tue, 01 Oct 2024
+ 02:46:22 -0700 (PDT)
 MIME-Version: 1.0
+References: <20240930091015.21148-1-yoann.congal@smile.fr> <CANNYZj8uwvjD3kLRP_YmsriveP_1kjWQpFzwTRfnoQoU8w5rrA@mail.gmail.com>
+ <f6f743c9-89ea-4831-a03c-7b88fa403489@smile.fr> <CANNYZj8gk8W-dB2SEq+pJN0vxXkOR2KsH0AiLROK5FKxAi43YA@mail.gmail.com>
+ <0e31030d839492e72dbbd06506e8d279fa8f0284.camel@linuxfoundation.org>
+In-Reply-To: <0e31030d839492e72dbbd06506e8d279fa8f0284.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 1 Oct 2024 11:46:10 +0200
+Message-ID: <CANNYZj-JaL92BA-6wmZibVMFBTC691OXvw-AsavYddyMERqg+g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] reproducibility: continue testing in case of
+ build failure
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: Yoann Congal <yoann.congal@smile.fr>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 09:44:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205153
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Oct 2024 09:46:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205154
 
-On Mon, 2024-09-30 at 15:30 +0200, Roland Hieber via lists.openembedded.org=
- wrote:
-> The 'srctree' argument might point to an existing source directory, and
-> 'devtool modify' without '--no-extract' given (maybe because of the
-> user's forgetfulness or inexperience) will override its content without
-> futher warning. Catch this accidental use case, and prompt the user to
-> specify '--no-extract' if this source tree should be used.
->=20
-> Signed-off-by: Roland Hieber <rhi@pengutronix.de>
-> ---
-> Note: this patch was developed on kirkstone and will probably also apply
-> on scarthgap.
->=20
-> =C2=A0scripts/lib/devtool/standard.py | 4 ++++
-> =C2=A01 file changed, 4 insertions(+)
->=20
-> diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standa=
-rd.py
-> index b2e1a6ca3a5e..5354f298f598 100644
-> --- a/scripts/lib/devtool/standard.py
-> +++ b/scripts/lib/devtool/standard.py
-> @@ -790,6 +790,10 @@ def modify(args, config, basepath, workspace):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 "not exist or is not a directory" %
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 srctree)
-> =C2=A0
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if not args.no_extract and os=
-.path.isdir(srctree):
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise=
- DevtoolError("Source path %s already exists. Did you mean to "
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "specify --no-extract?" % srctree)
-> +
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 recipefile =3D rd.getVar=
-('FILE')
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 appendfile =3D recipe_to=
-_append(recipefile, config, args.wildcard)
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if os.path.exists(append=
-file):
->=20
+On Tue, 1 Oct 2024 at 11:38, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+> > > The problem I'm trying to solve here is the reproducibility of
+> > > meta-openembedded. While oe-core world is always buildable, this
+> > > is, sadly, not the case for meta-openembedded layers. In order to
+> > > move forward with its reproducibility, we need to know the
+> > > reproducibility state of as much packages as possible.
+> > >
+> > > Do you think that goal is worth making the code more complex? Do
+> > > you have a suggestion on how to approach this? Making (and keeping)
+> > > meta-oe build every time is the goal, but history shows that it is
+> > > hard [0].
+> > > [0]: https://autobuilder.yoctoproject.org/typhoon/#/builders/155
+> >
+> > The real problem is that meta-oe isn't built in lockstep with oe-core
+> > changes, and regressions slip in all the time, and are fixed after
+> > the
+> > fact through heroic efforts of Khem and others.
+> >
+> > Maybe the new AB setup will allow including meta-oe builds into a-
+> > full?
+>
+> That pushes the problem to me and the core maintainers as we then have
+> to block until meta-oe is fixed as well with all the tracking and push
+> back on patches that involves. Is that really what we want to do?
 
-This causes most of the devtool tests to fail:
+I'm ok with handling a failing build, if v2 is possible and looks more
+maintainable than v1.
 
-https://valkyrie.yoctoproject.org/#/builders/48/builds/130/steps/14/logs/st=
-dio
-
-(oe-selftest -r devtool)
-
-This does make me worry that combination of options is used quite commonly.
-
-Cheers,
-
-Richard
-
+Alex
 
