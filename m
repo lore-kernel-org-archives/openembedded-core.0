@@ -1,143 +1,154 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <atharvanandanwar@outlook.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF01ECF6D2C
-	for <webhook@archiver.kernel.org>; Wed,  2 Oct 2024 13:39:44 +0000 (UTC)
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
- by mx.groups.io with SMTP id smtpd.web10.7549.1727876384346525365
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8899BCF6D38
+	for <webhook@archiver.kernel.org>; Wed,  2 Oct 2024 15:20:15 +0000 (UTC)
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (NAM02-SN1-obe.outbound.protection.outlook.com [40.92.44.38])
+ by mx.groups.io with SMTP id smtpd.web10.9998.1727882407756488695
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Oct 2024 06:39:44 -0700
+ Wed, 02 Oct 2024 08:20:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BSGUkE65;
- spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6e2b1b10103so1839647b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Oct 2024 06:39:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1727876383; x=1728481183; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=idv1zMIbQXrJASVBXohYF08ZTAQm20IFj9LtMyGGfnc=;
-        b=BSGUkE65YcEf8bmTr5AAML8Wof64LbISZWLfcheRxWBYmqkiGYMLSPyrTvgth8F+h+
-         6M7VP+HHBsbwD5LYqZ1GrnEvGws32+PjCgqs8SW9U1UnKP7phKQWnWtT0QfMxqhS0mr/
-         IvNvApMXgub8bPtsjbBjcRORr7HSbcN1Bk7vExOx4/fHhMYXlHyPlFJF1ZBIEreiB+iY
-         r+f61ZiYtTjAjlJflReIBRAwniX+7Pcf2hPWbUTa3PP+fhhqZpmhPBHzBSOil03PD1sv
-         L899XUW1zj0ororlspyyG3X1hmintjvflpKqeIZsTUzAItcRgXVp+QCwZio8rknM2dB8
-         st8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1727876383; x=1728481183;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=idv1zMIbQXrJASVBXohYF08ZTAQm20IFj9LtMyGGfnc=;
-        b=xLLwcxwjLP6X1Cr6SA2qvaedI+AQXDvNdG/ODL6SR1o7qX3lCo6xcAuJYlhOUi1rMF
-         7JCN847biUHcnJ7kv/lJqP9555ncjyjhrgnnPygyLC1pQ4pC77gJSeihkdhz5ZZJJcWr
-         STYh8yhvUi4Y8S8ZJfERAiA5xo/q6uCQZvnke+dhomGymKRHP0oTP0wZ6BJuhakasH+7
-         X0ZYtyEsS4nVxg2TEmvxdJzAI4XCIqFpa9CFA0tq1CIwj7m/TaZbH8vwnUuH5colEdds
-         SUAFTpxJaQxdyn//fnBubaUWF39cbfgn4hKCAI6LTZt+Cn+ibS7REhitQkUHEDRVVcVZ
-         DO2A==
-X-Gm-Message-State: AOJu0Ywqe+c9TOVCqyuS+GGOZcLQo0PjkzCWa5zU7Ux03HgVdJxaefaq
-	78KL/Emhp6u9IH6PhBxnl+ksK8m+8E3sJ3ByU+Nz2JedLNrwSCQBiwYWbElN0U2n2zoA1duT11Q
-	XWtwWqw8zRx83unFoYl4c818sZTM=
-X-Google-Smtp-Source: AGHT+IE1v7PU1qS1hM5UkB7WOMhBb3XYWN2uMsDOEtBQb/19g1iBx0MF1odRM1O3BWm8xuWLEYhcr/E9QbL6RJrHlx4=
-X-Received: by 2002:a05:690c:30f:b0:65f:cd49:48e0 with SMTP id
- 00721157ae682-6e2a2e4d374mr31120417b3.31.1727876383316; Wed, 02 Oct 2024
- 06:39:43 -0700 (PDT)
+ dkim=pass header.i=@outlook.com header.s=selector1 header.b=DSnhZDdI;
+ spf=pass (domain: outlook.com, ip: 40.92.44.38, mailfrom: atharvanandanwar@outlook.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QFPmT8hKRREfN0FtmCBg6Sjol2RewmJhFH1yKZpgIe155NhW28fRGOI+t7xJVgJLQn/Y8UnbQ1rLwA70YRg946XlbU1feysQJ5qVhzGfPb+9LeTvl8nzndTrwwbZAuE0ur4LHEhAX6EtyI2epGhCyOMMPxoyGMwEw2onTsYG1uCDvw855HtbZ+m2QOr1wF86ltgVucJBUeLQmo8jd9xSZgSgBnJx+bhTwjBGrBbxJ+61N/Q9SZaRxHilW66P0bU4Vo2uY5fIuqtwDYAl5TMjyVu8pyyAyknzEiNb2iyQUlTlwsDI8sqrli2IygOAT6/uN/KrNDCaX6fMdyUrt4CoYA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FS2MVkhKNi5vs7A7cpaXr5pK+9tqAjyD1EzNAbvQO0k=;
+ b=NBJm8lizhB760nCwAVW2zFtHTJS/SvLqCPWdF7um42ZJ753KVS05ongrx+eG+YbBbQa6Wkk9DWq4+bxhAcAf/Q1tWq1swiljjDol5FjX1n7mlw6jvZ6wdxqhbQ6fYagecEXoTHjDbDILSZE3q5xJPzsiqZQg8ZE6+eQtN7tsIPx9gx/i/RcDsl76EF/nHbUMw40ezkPUzG4xjqg0iuoNIkWbkxBoVBAZXLSWm/0gOsOyzy6jZ1fYxDkjTAOAHn35v9pI8LU5HkSJEcLzBupbtsG6fW3lGcduVFBr20gNyFexmmlDYGpv/gSC57p0a/N2WUokGg+8b8GPe1zLlLa06w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=FS2MVkhKNi5vs7A7cpaXr5pK+9tqAjyD1EzNAbvQO0k=;
+ b=DSnhZDdIAQr4jHdiVqeJlEU6S3sMgmYTBajyPPUd1ZhqRAlq2lOYqDAzWtOujB+H9Zku0JFQTDs+OwGj+bk+mIfSEmrudvGUmWiWbGRK9zGx7rL+jSzdtUZMGrGC0wOScO0LT4NxLec/SdVx+J0wshuWBhR4eDOKd5OzaGBaVg2O6cVQC5Qq3xX8KbT2FIhSFlmCO7++4s8t+qdFvWSrqmbDcTD5uNDg63SRCK3or3tbRRkhf73hUwXwLswnWSMxYrb5i5ROO5qiejFrPivAtp8Xc2TAued/vl4cWTPTvRemorSs5IWdhlsiKcrFmzaZqqqETCMjCyz6LIeMImlHIQ==
+Received: from SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM (2603:10b6:806:3e8::8)
+ by DS7P223MB1268.NAMP223.PROD.OUTLOOK.COM (2603:10b6:8:253::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.16; Wed, 2 Oct
+ 2024 15:20:05 +0000
+Received: from SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
+ ([fe80::654a:203f:c17c:d184]) by SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
+ ([fe80::654a:203f:c17c:d184%3]) with mapi id 15.20.8005.026; Wed, 2 Oct 2024
+ 15:20:04 +0000
+Message-ID: 
+ <SA1P223MB118721766D57F49FEF9EE9A9CB702@SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM>
+Date: Wed, 2 Oct 2024 10:20:02 -0500
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: openembedded-core@lists.openembedded.org
+From: Atharva Nandanwar <atharvanandanwar@outlook.com>
+Subject: [master][RFC PATCH 1/1] buildhistory: print extra information during
+ list pkg files error
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: CH2PR03CA0014.namprd03.prod.outlook.com
+ (2603:10b6:610:59::24) To SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:806:3e8::8)
+X-Microsoft-Original-Message-ID: 
+ <6f3cdb1b-0915-4e54-8bfe-d8a8aa4a1eac@outlook.com>
 MIME-Version: 1.0
-References: <20241002100900.2975523-1-paul@pbarker.dev>
-In-Reply-To: <20241002100900.2975523-1-paul@pbarker.dev>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 2 Oct 2024 09:39:31 -0400
-Message-ID: <CADkTA4NYV5AtcMMZMWfHRO+iR7dbW+QPtf1oBav=EONWET0Bmw@mail.gmail.com>
-Subject: Re: [OE-core] [RFC PATCH] kernel-yocto: Support in-tree config fragments
-To: paul@pbarker.dev
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SA1P223MB1187:EE_|DS7P223MB1268:EE_
+X-MS-Office365-Filtering-Correlation-Id: 353d4fc9-6980-4ec5-612b-08dce2f5b0c1
+X-Microsoft-Antispam: 
+	BCL:0;ARA:14566002|5072599009|19110799003|7092599003|15080799006|461199028|6090799003|8060799006|5062599005|440099028|3412199025;
+X-Microsoft-Antispam-Message-Info: 
+	PQ5Pu4XbV65r9zBUfGkEKTQ2PuEagg3RDf5CcBMlws2OCleOrVMY+vO8OE2qo4Q/AL9fu+o9r4EiNZza1zlQoIWyk+74sAMWEH8hbYjDouBnCJIrQMgQNC/M2aIB7ckfboqQde4OP3pvNBfBlKmYxbOA690ZiueaKDORg5z4GQpKocStFGpe5k4dlclyHPh9qWZoQvLkBYVZ9Qfl2mAQAwDbXPRpsRkzmiY9bqGmdP/T3+EQTJ5DKD3qRiMjdlYOdkHYF/WZDLKQNvOKOiQ9tfbdnlez6yK2NXdQXipTtSKaYWe5qoOOBoiG9vr9KBqDD9hznYB+SnMAA0ju0MKyOLC15GskFiQMiXO4tedVkng1pMzYuf1i/jANUTm+0cwrT9o/KIjWeXwvS94Xb0PaBai8T1dv+7XCToCLARsdrMxQnCb90Vmfzz68JQO6wTDAZk3Qk71ptb6y3lppyBEz/jMFoAk2Qhu+dp72vxpUtWxJF+PbAq4s80wXcOEW5u2gLjlmWE6hjEG/vsQ9J0GVZJPSCulTS2IOf48w5y9uLbPhcxPM3b64BwOZAyj78IoHKsXB0FgjOd6imUwZ04D1V2+CBnRYftAwaHto0rpf/k5Z5r2O98TJrzYDSBlL75/aVfsm99FlypipvKOVeWx6oQbIq+caCU88b47Dhn3hh+LnKLEGHuivOV38itvxa+KbcoFjHJjXpPkWrPh/Ljh4kwx1J9Z5xCw3JVhg7ZVDH5dBsOce46UQVcpjJqOwBhpW14eDIVQK2zt5oEYmKm/+XkZqeXtRtaPWdB17pCqXZA8=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?VWoreXVYeS9mYjQ3ZGhoKzdTSjZzRitaT1pmdFNibmVWdDZseHh5WTBzS01n?=
+ =?utf-8?B?NmJhK25xQjFiUDU5ZUlyK2VycGYrQmdmdE4vLzhEQnJmUkhmQmtGVUxDbzli?=
+ =?utf-8?B?SWphRTNtQVc4TjJiN20ya0NPNjhGS2Z6REduQnVMbFVuYVQwd1l0Mm8wazNy?=
+ =?utf-8?B?cGtVRWVDWCtZMFFJR3pvM1JIcTgwdHRWLzkxaDk2c3hDMHdlM1VjUGVEMWJO?=
+ =?utf-8?B?Zk02SXM2RFlOSjUyUitGSThIeEVva2FrQUdSREM0aDlXSWZNcExGb2UzNHFj?=
+ =?utf-8?B?eGRqVFVha0M1L3RoZEZSQUl0UXBIOHhuTDZnaUZwalJHMS90dG1mNDloMU5R?=
+ =?utf-8?B?UER3K0paNm95WW1kNnkwZXlvTHo3K0Z5ZzhrWlUxb3ZGWm1yS3dBUHlXZFhk?=
+ =?utf-8?B?dnFkZG9XUmNNRnpNUGZFOFVhRk45dHhuQ2VvQzZPVDJuQTVhN1g0eHhPSm5H?=
+ =?utf-8?B?T3lyRkhzbVpzQTcrZkZLNXRGeGNGeEl5bTd1VUdQTjdyNEJMWnprVDJEWGVo?=
+ =?utf-8?B?eURmYWhINUxkMkZuenJUdGRYVnhHVU05RStEcVRVcGV4Q0xoWG9rd2p3cjY4?=
+ =?utf-8?B?eHBpWjN3WmxXdlZNcmFVK1NMbGJnQkRuZEJtbnB4eXVtemhDSitwVDVOcnJP?=
+ =?utf-8?B?djNvUGkzblNhRDlxbjUyNVQydmlkMDdlc0JaalM5bUVac0xmU3lvdm0rUHRy?=
+ =?utf-8?B?VDFCdWNWK3hJeW85YnovVVZPQUllQlM3VFE2elY1RDZIaHdKQUh3NUMyUWtr?=
+ =?utf-8?B?Wk8rKzB1aGhEZzNoZmk2MzdZQW1MNGxrS0UvQ3FoN21kWW96SkpvK3BNZXV5?=
+ =?utf-8?B?NTkxeVVyVE5wdG4rOEZCRmI2c2lHM0tHRnUvWjkyTW9leDA5Um9obCtVaFZ4?=
+ =?utf-8?B?cUlIM29yVllLOWhwZUpvQ1JPSVd5YTNseDR2Y2dHVWk1S3FhRjJ1K214TzFQ?=
+ =?utf-8?B?UjU2VlVlc2NCQmdQTlFVUDBKTkRLYW9sV3RrVXhQM3hKTE1yZnF3Z0thU3hh?=
+ =?utf-8?B?VnpJZ1ovZlJmVDdncHU1di8remlGeExudjM1WHhJSU4rOHdidkNsTXJVc0FG?=
+ =?utf-8?B?eC9EMGZrTjhEL1d4QXhQVDFSRFZ1S3R3T05KQjhsOU9tcnEvSXo5UkhCakhz?=
+ =?utf-8?B?b2J1L3IyZkgrZWFHK0NtanJmcVJDb2ZRUjRSN2FFZ3lPQ3l1cG5HaFA5a0FL?=
+ =?utf-8?B?NHdmcXlQdGZkM29ua0Z6VTF1WGZFMXU5Rjhpcnk4cGg5NVVoTC9lb3BSTXFo?=
+ =?utf-8?B?c3FBcXhGYUJFaTlRdWxxMzhSYkNPazBGQkswV0lxYStncHFNVHFvZFFSTzJm?=
+ =?utf-8?B?N2x3OERBZGNFRkpLQjFuRGYzRnQyNk9JL2hRUzFmTzB3VXRraTNMZ0piY29S?=
+ =?utf-8?B?bVBZNGtpMVNBRDQrUFNiNkM3MG1QcitTSzd0S0ZCT3BjQUxqbTVCbXZzZkJU?=
+ =?utf-8?B?Qkxkcmc1VGhvbUxhcHczWGx6a0VxcStQSVI3Ui9uQmVVTGp1KzBDemtDb051?=
+ =?utf-8?B?Q1F1TCtaQVJrQ2lkaitrc3FJZnFMTXBudU9GWlh1MHVoS1pBUUFEQ1U4UUJq?=
+ =?utf-8?B?cERjNmQ3K0FlOGZyU254ZC82S1RZOUJvamVyd04xbGNEUUJWSWQrMnRCb2pT?=
+ =?utf-8?B?bUFqVG8vcUN1K1NNTkRiWk5EZHdCVEZGbm1hMFVlUzJSMWFoRjdhaHYrMzFV?=
+ =?utf-8?Q?MYcBWnS5LK8Dc8E4rDpx?=
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 353d4fc9-6980-4ec5-612b-08dce2f5b0c1
+X-MS-Exchange-CrossTenant-AuthSource: SA1P223MB1187.NAMP223.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2024 15:20:04.5950
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7P223MB1268
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Oct 2024 13:39:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205201
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Oct 2024 15:20:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205202
 
-On Wed, Oct 2, 2024 at 6:09=E2=80=AFAM Paul Barker via lists.openembedded.o=
-rg
-<paul=3Dpbarker.dev@lists.openembedded.org> wrote:
->
-> [This is currently an RFC as it depends on a separate patch to add
->   support for config fragments with .config file extensions in
->   yocto-kernel-tools:
->   https://lists.yoctoproject.org/g/linux-yocto/message/14431]
->
-> In Linux 6.8, the in-tree rv32_defconfig file for 32-bit RISC-V support
-> was dropped in favour of a Makefile target which combines the RISC-V
-> defconfig with a config fragment '32-bit.config'. So to build for 32-bit
-> RISC-V using the in-tree configuration from an upstream kernel, we need
-> to be able to enable this 32-bit config fragment.
->
-> We can support this via KERNEL_FEATURES if we add the in-tree arch
-> config directory (arch/${ARCH}/configs) to the search path.
+Printing a useful error message while failing should help users understand why
+we fail with this error. As the current error message doesn't directly link to
+needing to inherit nopackages.
 
-Agreed, that this is a more consistent way to bring in these types
-of fragments (versus being hidden under the build/make, etc).
+Previous error message:
+| DEBUG: Executing shell function buildhistory_list_pkg_files
+| find: ".../meta-toolchain/1.0/packages-split/*": No such file or directory
+| WARNING: exit code 1 from a shell command.
+| DEBUG: Python function buildhistory_emit_pkghistory finished
 
-The only issue is that the audit won't react correctly to these
-fragments, so we'll potentially end up with silent failure of them
-to apply and/or options that are not valid, etc.
+New error message:
+| ERROR: meta-toolchain-1.0-r0 do_package: meta-toolchain: ../meta-toolchain/1.0/packages-split is empty.
+| ERROR: meta-toolchain-1.0-r0 do_package: Possible reasons:
+| ERROR: meta-toolchain-1.0-r0 do_package: 1. Recipe doesn't install any files. Inherit nopackages to fix.
+| ERROR: meta-toolchain-1.0-r0 do_package: 2. do_packagedata task wasn't executed.
+| ERROR: meta-toolchain-1.0-r0 do_package: Execution of '../meta-toolchain/1.0/temp/run.buildhistory_list_pkg_files.1003324' failed with exit code 1
 
-Let me queue this patch locally, do some audit testing (and changes
-if necessary) and I'll send it along in my next pull request.
+Signed-off-by: Atharva Nandanwar <atharvanandanwar@outlook.com>
+---
+ meta/classes/buildhistory.bbclass | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-(Same goes for the kern-tools patch).
+diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
+index ce3abaa69d..0e9d5464af 100644
+--- a/meta/classes/buildhistory.bbclass
++++ b/meta/classes/buildhistory.bbclass
+@@ -621,7 +621,13 @@ buildhistory_list_pkg_files() {
+ 	fi
+ 
+ 	# Create individual files-in-package for each recipe's package
+-	pkgdirlist=$(find ${PKGDEST}/* -maxdepth 0 -type d)
++	pkgdirlist=$(find ${PKGDEST}/* -maxdepth 0 -type d || true)
++	if [ -z "${pkgdirlist}" ]; then
++		bberror "${PN}: ${PKGDEST} is empty."
++		bberror "Possible reasons:"
++		bberror "1. Recipe doesn't install any files. Inherit nopackages to fix."
++		bbfatal "2. do_packagedata task wasn't executed."
++	fi
+ 	for pkgdir in $pkgdirlist; do
+ 		pkgname=$(basename $pkgdir)
+ 		outfolder="${BUILDHISTORY_DIR_PACKAGE}/$pkgname"
+-- 
+2.34.1
 
-Bruce
-
->
-> While we're here, let's also add the generic config directory
-> (kernel/configs) to the search path so in-tree config fragments such as
-> 'hardening.config' can be used.
->
-> Signed-off-by: Paul Barker <paul@pbarker.dev>
-> ---
->  meta/classes-recipe/kernel-yocto.bbclass | 3 +++
->  1 file changed, 3 insertions(+)
->
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
-pe/kernel-yocto.bbclass
-> index 6d5c3b6327b6..66602d359404 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -248,6 +248,9 @@ do_kernel_metadata() {
->                  fi
->         done
->
-> +       # allow in-tree config fragments to be used in KERNEL_FEATURES
-> +       includes=3D"$includes -I${S}/arch/${ARCH}/configs -I${S}/kernel/c=
-onfigs"
-> +
->         # expand kernel features into their full path equivalents
->         bsp_definition=3D$(spp ${includes} --find -DKMACHINE=3D${KMACHINE=
-} -DKTYPE=3D${LINUX_KERNEL_TYPE})
->         if [ -z "$bsp_definition" ]; then
-> --
-> 2.39.5
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#205183): https://lists.openembedded.org/g/openembedde=
-d-core/message/205183
-> Mute This Topic: https://lists.openembedded.org/mt/108776739/1050810
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
-uce.ashfield@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
-
-
---
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
