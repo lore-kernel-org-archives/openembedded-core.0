@@ -2,65 +2,65 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF434CFB424
-	for <webhook@archiver.kernel.org>; Sun,  6 Oct 2024 06:57:33 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web11.26975.1728197850325346895
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DF7FFCFB424
+	for <webhook@archiver.kernel.org>; Sun,  6 Oct 2024 06:57:53 +0000 (UTC)
+Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
+ by mx.groups.io with SMTP id smtpd.web10.26956.1728197870229842774
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Oct 2024 23:57:30 -0700
+ Sat, 05 Oct 2024 23:57:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JxG4DWMm;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: martin.jansa@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5c88e45f467so5581202a12.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Oct 2024 23:57:30 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eQvPVLVg;
+ spf=pass (domain: gmail.com, ip: 209.85.208.51, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-5c46c2bf490so2154744a12.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Oct 2024 23:57:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728197849; x=1728802649; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1728197869; x=1728802669; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=h1T3KpAIM2guphguUjiyxTOpOGO+lHykiY2BFbP/vus=;
-        b=JxG4DWMm0T21aCksy5IZgC5x+o1RWxsJd4ywrgE65FQzscnJpBYwrpRJiPC9qxBZ1x
-         wnFV+PFzY/fZJqa6tlG+L+MY/M4hRlePmu6JyGSgqONFmtng3/egHkb841xbCwwWRtdE
-         Pl/UbQtXsK2rAedRDoG+kjb3aE0+499PeyM6bYQW/pBmDHdHpEa6KAbpG5ct4pLkgMNl
-         YRXfkLM8nsGteIY6/m30AZ5q1x+M5eTbf34o8zettReUDBB+kGXHaql5p1AsU5mjJFgb
-         9zg6R97V39yK3R3r2hLT4uq5hn3tKKf04/fsdDoxvcOKP7lRUkYYzObszSCUenVD6uVN
-         Ph9A==
+        bh=yk7zTIrqq2h1z+TDrUpe62gpMgElY05Gp2z+ySZlprE=;
+        b=eQvPVLVgeBTyFXPQXM8acxXxhOMb5ittj2wGCKJJb1wv0w7pPVUmERr/vLzi/uzbXO
+         ZAM456DCb08WLa0hBhYOcleV1BSXkBnTMPxZr1kurtSvwCEjJrSZK7R1x4dkokbzS/Ec
+         ueKaa38UgFkTMNZv7aJE1ZmG5+WRsE3i4L8HVtN5EmnBwCxntJpkG474Bx8Q+A8wkFYQ
+         LQUL4UjKBC/oht4budrzpI0TYjwnLMRIT/QBaImpgeTKiHSh5yfodyMpoSUPaS86mm04
+         PmyW0dzdSBMaLKHHTjSPG2eoI9nq5xEZGiM4xc5XTq6QRB+wEu55c7sMAbGRXuIrRVlm
+         7Jrw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728197849; x=1728802649;
+        d=1e100.net; s=20230601; t=1728197869; x=1728802669;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=h1T3KpAIM2guphguUjiyxTOpOGO+lHykiY2BFbP/vus=;
-        b=gPxV9CgX1cRtPFQjqyMq9LsxM4CECaEPFUqONdA01BbkmjkagFDYL14Ffzgda3P7Vz
-         vxwDXisCT2CAEHJ9l47yQuYQqR9d9aWSzzisPOZYN6ox+gOpMGlnYMV8cK9BJ+nNxVVg
-         hkfNe4heb5koKdN60Pf489bPvtxC9BiMPnkw7P/4hAgehgXoU5t8KrcOVmsfv7frV+TI
-         SvCQKyqQepgLmaECkBh9ydO/UWjIwCUoVuTansKlEpPkigu/eeOpDeQmqvjuiRMWkERx
-         PuzffwLfXevht1XE5VsjEssK78cDJABDrczoRD/P7Ie3XGpLbvTZmCbr2MWIc61NEEIh
-         6LJg==
-X-Gm-Message-State: AOJu0YxNU+hCsHdRcrKuK0iFMTjLXJOD5zjbydDZ3f0rCyvAbbXlLLYg
-	hQdWyHwysuIt5hSBx2VpQ88E5Jp+nbzFDbTVXEHiQhnxqphsMfi/HpKaUw==
-X-Google-Smtp-Source: AGHT+IGLPAJXK5WWJMQ/wcI3/Vchm2OubcTTNA+pwbAqbFEU+S/H30ENLnqSBtuaIS+lT/1Pwd2kUQ==
-X-Received: by 2002:a05:6402:e82:b0:5c4:178a:7162 with SMTP id 4fb4d7f45d1cf-5c8d2fb37cbmr8120305a12.19.1728197848453;
-        Sat, 05 Oct 2024 23:57:28 -0700 (PDT)
+        bh=yk7zTIrqq2h1z+TDrUpe62gpMgElY05Gp2z+ySZlprE=;
+        b=rV6jyfi19Ana2Rl9vT6CnZQlDA4wbqH6nPL20MY4EgOx3paW8frWc68NyjaQkHapiU
+         91Xxp65DeT//vVXliOPycYh8zZ2HJYs+uAbocSHWwtRimTetYLMeQSap08rDZuNnilFI
+         R/m7ObiOGyRTChd9/KW9dtdS4ci4eLx21JXUPtWlGTIgvLqa88KGfS/jl1A0j2EEHfBs
+         iw+GZl76dOdIuPZPVaIxsmqeTcMHxyq8mxopkPUlYamBsgtYCK52UtxiRZnJPMIIuVnu
+         cJob2k4fkXChoeW0mLbAgZqKakVPCwX6nY0UalNVWupGE4xBMi1vXV7NHFL+h/VgM8Ly
+         Xf6A==
+X-Gm-Message-State: AOJu0YwZroqSEPFYP/p82xy8SLytOSYDsYA73oj07cvIJuz0ZKBSZWu5
+	+o/QPwid7JhX6I5qddE3IzP6y7FgJ7lGcsAy5NgbbaFsMOLP4zL46kAhSg==
+X-Google-Smtp-Source: AGHT+IEk4uMolxkfHMuiNEBWL9cUjlqcI0AUsBtLHjc3cYQvfj/zk5Zv/6UGsicypKCIVfeOkxXFeQ==
+X-Received: by 2002:a05:6402:84e:b0:5c8:9f44:a0b2 with SMTP id 4fb4d7f45d1cf-5c8d2e1765fmr12562236a12.5.1728197868348;
+        Sat, 05 Oct 2024 23:57:48 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5c8e05a92c3sm1761448a12.25.2024.10.05.23.57.27
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a994f3806cdsm28386166b.118.2024.10.05.23.57.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Oct 2024 23:57:27 -0700 (PDT)
+        Sat, 05 Oct 2024 23:57:47 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Martin Jansa <martin.jansa@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] meta-world-pkgdata: Inherit nopackages
-Date: Sun,  6 Oct 2024 08:57:23 +0200
-Message-ID: <20241006065723.2926-1-martin.jansa@gmail.com>
+Subject: [kirkstone][PATCH] meta-world-pkgdata: Inherit nopackages
+Date: Sun,  6 Oct 2024 08:57:46 +0200
+Message-ID: <20241006065746.3022-1-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 06:57:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205241
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 06:57:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205242
 
 Since this is a recipe with PACKAGES = "", inherit the nopackages
 class to skip the various packaging functions which wouldn't do anything anyway.
@@ -74,7 +74,7 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-core/meta/meta-world-pkgdata.bb b/meta/recipes-core/meta/meta-world-pkgdata.bb
-index 0438bf6138..954675f383 100644
+index b299861375..96051cdf9d 100644
 --- a/meta/recipes-core/meta/meta-world-pkgdata.bb
 +++ b/meta/recipes-core/meta/meta-world-pkgdata.bb
 @@ -27,6 +27,7 @@ python do_collect_packagedata() {
