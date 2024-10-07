@@ -1,154 +1,96 @@
-Return-Path: <yumx@amazon.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F626CFB45E
-	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 20:09:49 +0000 (UTC)
-Received: from smtp-fw-2101.amazon.com (smtp-fw-2101.amazon.com [72.21.196.25])
- by mx.groups.io with SMTP id smtpd.web10.1679.1728331787128451387
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35001CF886D
+	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 20:38:29 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web10.2429.1728333506958965326
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Oct 2024 13:09:47 -0700
+ Mon, 07 Oct 2024 13:38:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amazon.com header.s=amazon201209 header.b=bTCDY9IY;
- spf=pass (domain: amazon.com, ip: 72.21.196.25, mailfrom: prvs=00353e309=yumx@amazon.com)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RgXdtR0k;
+ spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2facf40737eso53259741fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 13:38:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1728331788; x=1759867788;
-  h=from:to:cc:date:message-id:references:in-reply-to:
-   content-id:content-transfer-encoding:mime-version:subject;
-  bh=1jnrnJltoC2a+zoa3sDFwTdDlUYzsMSNPZN13+GHM+A=;
-  b=bTCDY9IY47LjWg2gnVGVzYpo4ZzNoDfyF3kuZj+spuSXdlRN6Vmj7n4C
-   k3LaJ9r48Gd6VkkquXJ4+NM6tyheh0ofvXwOe8J7SO13OQXzt/+mX/0zj
-   YxbGUDYdt1kLoUh6YUliWH1THWC8l5yq9l1cwsTPTvgnRD8LWt383hT4a
-   4=;
-X-IronPort-AV: E=Sophos;i="6.11,184,1725321600"; 
-   d="scan'208";a="433240176"
-Subject: Re: [OE-core] [PATCH] sstate: remove corrupted artifacts from local mirror
-Thread-Topic: [OE-core] [PATCH] sstate: remove corrupted artifacts from local mirror
-Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
-  by smtp-border-fw-2101.iad2.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2024 20:09:46 +0000
-Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:1253]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.57.100:2525] with esmtp (Farcaster)
- id 824a1a26-3721-4d3d-99a9-cc206e4cc055; Mon, 7 Oct 2024 20:09:45 +0000 (UTC)
-X-Farcaster-Flow-ID: 824a1a26-3721-4d3d-99a9-cc206e4cc055
-Received: from EX19D007UWA004.ant.amazon.com (10.13.138.238) by
- EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Mon, 7 Oct 2024 20:09:42 +0000
-Received: from EX19D020UWC002.ant.amazon.com (10.13.138.147) by
- EX19D007UWA004.ant.amazon.com (10.13.138.238) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1258.34;
- Mon, 7 Oct 2024 20:09:42 +0000
-Received: from EX19D020UWC002.ant.amazon.com ([fe80::25b5:6dfd:9e72:d82]) by
- EX19D020UWC002.ant.amazon.com ([fe80::25b5:6dfd:9e72:d82%5]) with mapi id
- 15.02.1258.034; Mon, 7 Oct 2024 20:09:42 +0000
-From: "Yu, Max" <yumx@amazon.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Sobon, Przemyslaw"
-	<psobon@amazon.com>
-Thread-Index: AQHbFr/MuCFBz7mMgkOu6xs0k0CEV7J7MpyAgAAUPAA=
-Date: Mon, 7 Oct 2024 20:09:42 +0000
-Message-ID: <D3848342-F053-41A2-8334-0B22901E9E23@amazon.com>
-References: <20241005004451.79575-1-yumx@amazon.com>
- <CANNYZj_Z87h02RJuzXVTgpb0eLsJRapWQo4sXySp45uL0B+dkw@mail.gmail.com>
-In-Reply-To: <CANNYZj_Z87h02RJuzXVTgpb0eLsJRapWQo4sXySp45uL0B+dkw@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.106.179.29]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <30E7CA8D967AF848B50D4E8B53535FE9@amazon.com>
-Content-Transfer-Encoding: base64
+        d=gmail.com; s=20230601; t=1728333505; x=1728938305; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=4PvWPm+uX7G05k7BXLTBuUnKNt2wzbjEGQu1kHX1y8I=;
+        b=RgXdtR0kARzNTE2PMl89N2Uf8Vs8lopwvU5cPb+o5jTis79xZytWeUZLBpMhbeiAzN
+         9W13sb8Eg6h6ugzvED26PHWGQa7M/bOsKtC8ftqS+3WBbqq0rKLs1L6lWuv/wQ5AtkC7
+         vGBOCgoKCFL6vEcWlGHLtmKARNXtcsvMSEQhfahPyYUiMqMQDxJel6WOTQkK7HGeL0+d
+         mH9weD2qXmyha6gy2zUtpYzpyfd5iSWbE51gLcsAlOLLtgJO6DupGDJbFpbZK09MyEzm
+         Z7SCFest81ciDTVS6Nokhz4IL+GM7l3qWEpEgsNgOEfaQw92h3ASQpn4ChqoDfpIkAAN
+         pDPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728333505; x=1728938305;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=4PvWPm+uX7G05k7BXLTBuUnKNt2wzbjEGQu1kHX1y8I=;
+        b=SaD0TlPUsC76pceGI1rTZJxlpv+wsF6EQFiKkreJc7z2aIV40lzU3cuZEJ1P/BCc/3
+         +FiXcrxhqkZ1D/LSy91csIbCxPcecUue1fDce7BFaeDKdOZz76Sa+VkJJ9PD32vQcJ5U
+         NgPX7S2lfQ+52NunzUz0x2qjjCOqiKPscfhwQcxOBjsWveL99lGjeEpfnn4ad0+v9tVZ
+         u1bdK96jb6FuWCOexJu8EI1chR078eMPdAB5qDlcL2KHHEun+sX1y3eIaEQJ+WfIWfZw
+         K6LqVYBJk3rWFvDd9xDBZ9fZNdRVv0sBoj70valJcNHxA3uWmWdo2EoL+wRcpggNMOqP
+         dR3A==
+X-Gm-Message-State: AOJu0Yzs8cKZlQfncJnbq5gh/xmnrWJoZly7Mj64Y9MNoZRppRHi+k3J
+	40mU/lj0lydkElX6MwrNGBIA2bqKh054agSatkZMxjKT4sOURnM3X4eAsG7wRSrKbyz1UecotSJ
+	rN93DY5GtyY2ULvV2bSfKoD4kOuU=
+X-Google-Smtp-Source: AGHT+IFfVF0YyzHKJGiArJ/yWhAdZz2+IA9o6l8IyvZ62WNYe73SdQdM+4z1qKfSUMKIyYzhxo7ni5hIkQjCi+ZNI/4=
+X-Received: by 2002:a2e:be28:0:b0:2fa:f5f1:2539 with SMTP id
+ 38308e7fff4ca-2faf5f126bbmr58025031fa.24.1728333504510; Mon, 07 Oct 2024
+ 13:38:24 -0700 (PDT)
 MIME-Version: 1.0
+References: <20241005004451.79575-1-yumx@amazon.com> <CANNYZj_Z87h02RJuzXVTgpb0eLsJRapWQo4sXySp45uL0B+dkw@mail.gmail.com>
+ <D3848342-F053-41A2-8334-0B22901E9E23@amazon.com>
+In-Reply-To: <D3848342-F053-41A2-8334-0B22901E9E23@amazon.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 7 Oct 2024 22:38:12 +0200
+Message-ID: <CANNYZj8T-mNG8ca1iV_Htn12SPVaYt7H8ogCxvkkSGe1yFmAvQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] sstate: remove corrupted artifacts from local mirror
+To: "Yu, Max" <yumx@amazon.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
+	"Sobon, Przemyslaw" <psobon@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 20:09:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205277
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 20:38:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205278
 
-SGkgQWxleCwNCg0KQ29ycnVwdGlvbnMgYXJlIHVuYXZvaWRhYmxlIHBhcnQgb2Ygb3VyIGxpZmUs
-IGRpc2tzIGFuZCBuZXR3b3JrIGNhbiBpbmplY3QgZmFpbHVyZXMgZHVlIHRvIHVucHJlZGljdGFi
-bGUgYW5kIHVua25vd24gcmVhc29ucyBsaWtlIGh0dHBzOi8vd3d3LnNjaWVuY2VkaXJlY3QuY29t
-L3NjaWVuY2UvYXJ0aWNsZS9hYnMvcGlpL1MwMDI2MjcxNDIxMDAzNzIzLiBFdmVuIG11bHRpLWxh
-eWVyIHByb3RlY3Rpb24gaXMgbm90IHBlcmZlY3QgYXMgaXQgZGVwZW5kcyBvbiB3aGVyZSB0aGUg
-ZXJyb3IgaXMgaW5qZWN0ZWQuDQoNCldlIHByb3Bvc2VkIHRoaXMgcGF0Y2ggYXMgaXQgaXMgYWxp
-Z25lZCB3aXRoIGhvdyB3ZSBjdXJyZW50bHkgaGFuZGxlIGluY29ycmVjdCBjaGVja3N1bXM6IGh0
-dHBzOi8vZ2l0aHViLmNvbS95b2N0b3Byb2plY3QvcG9reS9jb21taXQvNjcyYzA3ZGU0YTk2ZWI2
-N2VhYWZiYTA4NzNlY2VkNDRlYzlhZTFhNi4NCg0KRm9yIGNvbnRleHQsIHdlIGhhdmUgYnVpbGRz
-IHJ1bm5pbmcgYXQgYSBsYXJnZSBzY2FsZSwgYWxtb3N0IDI0LzcuIFRoaXMgc2NhbGUgY29udHJp
-YnV0ZXMgdG8gdGhlIGZvbGxvd2luZyBjaGFsbGVuZ2VzOg0KMS4gc3N0YXRlIGNvcnJ1cHRpb24g
-Zm9yIHVzIGhhcHBlbnMgfjEvMTAwMDAgb2YgYnVpbGRzLiBUaGVzZSBhcmUgZXh0cmVtZWx5IGhh
-cmQgdG8gcmVwcm9kdWNlIGFuZCBkZWJ1Zy4uLg0KMi4gd2l0aCBjdXJyZW50IGJlaGF2aW9yIG9m
-IHJldXBsb2FkaW5nIHRoZSBjb3JydXB0ZWQgc3N0YXRlIG9iamVjdCwgd2UgZW5kIHVwIGluIGFu
-IGVuZGxlc3MgbG9vcCBvZiByZWJ1aWxkaW5nIHRoYXQgd2UgY2Fubm90IGJyZWFrLg0KV2UgY29u
-c2lkZXJlZCB0aGlzIHlvY3RvIGJlaGF2aW9yIGFzIGEgYnVnLCBzcGVjaWZpY2FsbHkgYmVjYXVz
-ZSBvZiAjMi4NCg0KSSBoZWFyIHlvdXIgcG9pbnQsIGV2ZW4gdGhvdWdoIGZvbGxvd2luZyB5b3Vy
-IHJlYXNvbmluZyB3ZSBzaG91bGQgZmFpbCB0aGUgZW50aXJlIGJ1aWxkIHJhdGhlciB0aGFuIHJl
-YnVpbGRpbmcgdGhlIHBhY2thZ2VzLiBXZSBjYW4gZXhwbG9yZSBvdGhlciBvcHRpb25zIGxpa2Ug
-cGFyYW1ldGVyaXppbmcgdGhlIGJlaGF2aW9yLCBidXQgaXQgd2lsbCBiZSB2ZXJ5IHVzZWZ1bCB0
-byBiZSBhYmxlIHRvIGJyZWFrIHRoZSBiYWQgbG9vcCBvZiByZWJ1aWxkaW5nIHNvbWVob3cuDQoN
-ClRoYW5rcywNCk1heA0KDQrvu79PbiAxMC83LzI0LCA0OjU4IEFNLCAiQWxleGFuZGVyIEthbmF2
-aW4iIDxhbGV4LmthbmF2aW5AZ21haWwuY29tIDxtYWlsdG86YWxleC5rYW5hdmluQGdtYWlsLmNv
-bT4+IHdyb3RlOg0KDQoNCkNBVVRJT046IFRoaXMgZW1haWwgb3JpZ2luYXRlZCBmcm9tIG91dHNp
-ZGUgb2YgdGhlIG9yZ2FuaXphdGlvbi4gRG8gbm90IGNsaWNrIGxpbmtzIG9yIG9wZW4gYXR0YWNo
-bWVudHMgdW5sZXNzIHlvdSBjYW4gY29uZmlybSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250
-ZW50IGlzIHNhZmUuDQoNCg0KDQoNCg0KDQpJIGRvbid0IHRoaW5rIEkgY2FuIGFncmVlIHdpdGgg
-dGhpcy4gVGhpcyBtZWFucyBzdGFiaWxpdHkgcmVncmVzc2lvbnMNCmluIG9uZSdzIG5ldHdvcmsg
-aW5mcmFzdHJ1Y3R1cmUgd2lsbCBnbyB1bm5vdGljZWQgYW5kIHVuZml4ZWQsIGFuZA0KZ29lcyBj
-b250cmFyeSB0byBzb21lIHBlb3BsZSB3aXNoaW5nIHRvIGtub3cgaW1tZWRpYXRlbHkgd2hlbg0K
-J2NvcnJ1cHRlZCBzc3RhdGUnIG9jY3VycywgYW5kIGZpeCBpdCB0aGVyZSBhbmQgdGhlbi4gU2lt
-aWxhciBwYXRjaGVzDQpoYXZlIGJlZW4gcmVqZWN0ZWQgaW4gdGhlIHBhc3QuDQoNCg0KUGxlYXNl
-IGZpeCB5b3VyIGluZnJhLg0KDQoNCkFsZXgNCg0KDQpPbiBTYXQsIDUgT2N0IDIwMjQgYXQgMDI6
-NDQsIFl1LCBNYXggdmlhIGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCjx5dW14PWFtYXpvbi5jb21A
-bGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8bWFpbHRvOmFtYXpvbi5jb21AbGlzdHMub3BlbmVtYmVk
-ZGVkLm9yZz4+IHdyb3RlOg0KPg0KPiBXZSBvYnNlcnZlIHNzdGF0ZSBjYWNoZSBjb3JydXB0aW9u
-cyBzb21ldGltZXMgd2hpY2ggY2F1c2UgcmVidWlsZHMuIFRoYXQgaXMgbm90DQo+IGEgZmF0YWwg
-ZXJyb3IgYXMgdGhlIHBhY2thZ2UgaGFzIHRvIGJlIHJlYnVpbHQgYW5kIHVwZGF0ZWQgYXJ0aWZh
-Y3QgbmVlZHMgdG8gYmUNCj4gcHVzaGVkIHRvIHJlbW90ZSBzc3RhdGUgY2FjaGUgbWlycm9yLiBD
-dXJyZW50bHksIFlvY3RvIGRvZXMgbm90IGhhbmRsZQ0KPiBjb3JydXB0aW9ucyBwcm9wZXJseSwg
-d2hlcmUgdGhlIGNvcnJ1cHRlZCBhcnRpZmFjdCBpcyBub3QgZGVsZXRlZCBvcg0KPiByZW5hbWVk
-LiBMYXRlciwgYWZ0ZXIgdGhlIHBhY2thZ2UgaXMgYnVpbHQgdGhlIHNhbWUgY29ycnVwdGVkIGFy
-dGlmYWN0IGlzIHB1c2hlZA0KPiB0byByZW1vdGUgbWlycm9yIGFuZCB0aGUgc2FtZSBwcm9jZWR1
-cmUgaXMgY2lyY2xlZCBhZ2FpbiBhbmQgYWdhaW4uDQo+DQo+IFRoaXMgY2hhbmdlIHZlcmlmaWVz
-IHRoZSBvdXRjb21lIG9mIHRoZSB1bnBhY2tpbmcgYWN0aW9uIGFuZCByZW5hbWVzIHRoZQ0KPiBh
-cnRpZmFjdCBpZiBhIGZhdGFsIGVycm9yIG9jY3VycmVkICgidGFyIiB0b29sIHJldHVybnMgZXJy
-b3IgMikuIEluIHN1Y2ggY2FzZSB3ZQ0KPiByZW5hbWUgdGhlIGFydGlmYWN0IHdoYXQgY2F1c2Vz
-IHRoYXQgYSBwcm9wZXIgb25lIGlzIGNyZWF0ZWQgYW5kIHVwbG9hZGVkDQo+IG92ZXJ3cml0aW5n
-IHRoZSBleGlzaXRpbmcgb25lIC0gdGhlIGNvcnJ1cHRlZCBvbmUgLSBpbiB0aGUgcmVtb3RlIG1p
-cnJvci4gVGhhdA0KPiB3YXkgd2UgYnJlYWsgdGhlIGxvb3Agb2YgdXBsb2FkaW5nIGNvcnJ1cHRl
-ZCBmaWxlIGFnYWluIGFuZCBhZ2Fpbi4NCj4NCj4gU3VnZ2VzdGVkLWJ5OiBQcnplbXlzbGF3IFNv
-Ym9uIDxwc29ib25AYW1hem9uLmNvbSA8bWFpbHRvOnBzb2JvbkBhbWF6b24uY29tPj4NCj4gU2ln
-bmVkLW9mZi1ieTogTWF4IFl1IDx5dW14QGFtYXpvbi5jb20gPG1haWx0bzp5dW14QGFtYXpvbi5j
-b20+Pg0KPiAtLS0NCj4gbWV0YS9jbGFzc2VzLWdsb2JhbC9zc3RhdGUuYmJjbGFzcyB8IDcgKysr
-KysrLQ0KPiAxIGZpbGUgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+
-DQo+IGRpZmYgLS1naXQgYS9tZXRhL2NsYXNzZXMtZ2xvYmFsL3NzdGF0ZS5iYmNsYXNzIGIvbWV0
-YS9jbGFzc2VzLWdsb2JhbC9zc3RhdGUuYmJjbGFzcw0KPiBpbmRleCAxMWJiODkyYTQyLi41YTdj
-ZTM1MzQxIDEwMDY0NA0KPiAtLS0gYS9tZXRhL2NsYXNzZXMtZ2xvYmFsL3NzdGF0ZS5iYmNsYXNz
-DQo+ICsrKyBiL21ldGEvY2xhc3Nlcy1nbG9iYWwvc3N0YXRlLmJiY2xhc3MNCj4gQEAgLTkzNyw3
-ICs5MzcsMTIgQEAgc3N0YXRlX3VucGFja19wYWNrYWdlICgpIHsNCj4gWlNURD0icHpzdGQgLXAg
-JHtaU1REX1RIUkVBRFN9Ig0KPiBmaQ0KPg0KPiAtIHRhciAtSSAiJFpTVEQiIC14dnBmICR7U1NU
-QVRFX1BLR30NCj4gKyBpZiAhIHRhciAtSSAiJFpTVEQiIC14dnBmICR7U1NUQVRFX1BLR307IHRo
-ZW4NCj4gKyBlY2hvICJGYXRhbCBlcnJvciBleHRyYWN0aW5nIHNzdGF0ZSBjYWNoZSBhcnRpZmFj
-dHMsIGZpbGUgbWlnaHQgYmUgY29ycnVwdGVkIG9yIHRydW5jYXRlZCwgcmVuYW1pbmciDQo+ICsg
-bXYgJHtTU1RBVEVfUEtHfSAke1NTVEFURV9QS0d9LnVucGFja19lcnJvcg0KPiArIGV4aXQgMg0K
-PiArIGZpDQo+ICsNCj4gIyB1cGRhdGUgLnNpZ2luZm8gYXRpbWUgb24gbG9jYWwvTkZTIG1pcnJv
-ciBpZiBpdCBpcyBhIHN5bWJvbGljIGxpbmsNCj4gWyAhIC1oICR7U1NUQVRFX1BLR30uc2lnaW5m
-byBdIHx8IFsgISAtZSAke1NTVEFURV9QS0d9LnNpZ2luZm8gXSB8fCB0b3VjaCAtYSAke1NTVEFU
-RV9QS0d9LnNpZ2luZm8gMj4vZGV2L251bGwgfHwgdHJ1ZQ0KPiAjIHVwZGF0ZSBlYWNoIHN5bWJv
-bGljIGxpbmsgaW5zdGVhZCBvZiBhbnkgcmVmZXJlbmNlZCBmaWxlDQo+IC0tDQo+IDIuNDAuMQ0K
-Pg0KPg0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiBMaW5rczogWW91IHJlY2VpdmUgYWxs
-IG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gVmlldy9SZXBseSBPbmxpbmUgKCMyMDUy
-MzcpOiBodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS9t
-ZXNzYWdlLzIwNTIzNyA8aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVk
-ZGVkLWNvcmUvbWVzc2FnZS8yMDUyMzc+DQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0
-cy5vcGVuZW1iZWRkZWQub3JnL210LzEwODgyODI2OS8xNjg2NDg5IDxodHRwczovL2xpc3RzLm9w
-ZW5lbWJlZGRlZC5vcmcvbXQvMTA4ODI4MjY5LzE2ODY0ODk+DQo+IEdyb3VwIE93bmVyOiBvcGVu
-ZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIDxtYWlsdG86b3BlbmVt
-YmVkZGVkLWNvcmUrb3duZXJAbGlzdHMub3BlbmVtYmVkZGVkLm9yZz4NCj4gVW5zdWJzY3JpYmU6
-IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3Vi
-IDxodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVuZW1iZWRkZWQtY29yZS91bnN1
-Yj4gW2FsZXgua2FuYXZpbkBnbWFpbC5jb20gPG1haWx0bzphbGV4LmthbmF2aW5AZ21haWwuY29t
-Pl0NCj4gLT0tPS09LT0tPS09LT0tPS09LT0tPS0NCj4NCg0KDQoNCg==
+On Mon, 7 Oct 2024 at 22:09, Yu, Max <yumx@amazon.com> wrote:
+> Corruptions are unavoidable part of our life, disks and network can injec=
+t failures due to unpredictable and unknown reasons like https://www.scienc=
+edirect.com/science/article/abs/pii/S0026271421003723. Even multi-layer pro=
+tection is not perfect as it depends on where the error is injected.
+>
+> We proposed this patch as it is aligned with how we currently handle inco=
+rrect checksums: https://github.com/yoctoproject/poky/commit/672c07de4a96eb=
+67eaafba0873eced44ec9ae1a6.
+>
+> For context, we have builds running at a large scale, almost 24/7. This s=
+cale contributes to the following challenges:
+> 1. sstate corruption for us happens ~1/10000 of builds. These are extreme=
+ly hard to reproduce and debug...
+> 2. with current behavior of reuploading the corrupted sstate object, we e=
+nd up in an endless loop of rebuilding that we cannot break.
+> We considered this yocto behavior as a bug, specifically because of #2.
+>
+> I hear your point, even though following your reasoning we should fail th=
+e entire build rather than rebuilding the packages. We can explore other op=
+tions like parameterizing the behavior, but it will be very useful to be ab=
+le to break the bad loop of rebuilding somehow.
+
+Perhaps you can describe how the issue can be reproduced and observed
+in a local build? (e.g. build something, corrupt sstate for it,
+observe the endless rebuild problem)
+I'd like to understand particularly where in existing code the endless
+cycle would be triggered.
+
+Alex
 
