@@ -1,96 +1,167 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <claus.stovgaard@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35001CF886D
-	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 20:38:29 +0000 (UTC)
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
- by mx.groups.io with SMTP id smtpd.web10.2429.1728333506958965326
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F96ECF8870
+	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 20:39:59 +0000 (UTC)
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+ by mx.groups.io with SMTP id smtpd.web11.2476.1728333594854659246
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Oct 2024 13:38:27 -0700
+ Mon, 07 Oct 2024 13:39:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RgXdtR0k;
- spf=pass (domain: gmail.com, ip: 209.85.208.179, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2facf40737eso53259741fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 13:38:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=C/UR+o8+;
+ spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: claus.stovgaard@gmail.com)
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-5389917ef34so5604228e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 13:39:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728333505; x=1728938305; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4PvWPm+uX7G05k7BXLTBuUnKNt2wzbjEGQu1kHX1y8I=;
-        b=RgXdtR0kARzNTE2PMl89N2Uf8Vs8lopwvU5cPb+o5jTis79xZytWeUZLBpMhbeiAzN
-         9W13sb8Eg6h6ugzvED26PHWGQa7M/bOsKtC8ftqS+3WBbqq0rKLs1L6lWuv/wQ5AtkC7
-         vGBOCgoKCFL6vEcWlGHLtmKARNXtcsvMSEQhfahPyYUiMqMQDxJel6WOTQkK7HGeL0+d
-         mH9weD2qXmyha6gy2zUtpYzpyfd5iSWbE51gLcsAlOLLtgJO6DupGDJbFpbZK09MyEzm
-         Z7SCFest81ciDTVS6Nokhz4IL+GM7l3qWEpEgsNgOEfaQw92h3ASQpn4ChqoDfpIkAAN
-         pDPw==
+        d=gmail.com; s=20230601; t=1728333592; x=1728938392; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nf1v+sTYX1X3toeM8F66N8QImkAA2TRjwVsHZvaY3nA=;
+        b=C/UR+o8+eOdJ+OetpRr9dkpxD1SIPvFYpeS4ayYkLY4eP+ioXux5pxaMWqRxUs8093
+         tb24qiOIRa4eTxbOuPhDmqx0d/Xe2jcmbdWsP/xqj2TYXT67JcsUqiRNDmSI5V3jFk8g
+         99RxaleFqfQHQPNS511YULE70mXQf43DtXDmisMEiNB40kPyR8FrwK8QDXizkJZztUeX
+         wRCvgIPikRC8wz8bggF43mtUmSEo4z3kxHipyVKErsuIylbqw66m4YtGb43RhwK9eeww
+         +Qq+Q6gbKgQ78g8Qx8MKkEW8iAG9CtgQ4T/kU/sP9L0L9rGFotq8rtKYfl4uBEqu5rCc
+         Lr7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728333505; x=1728938305;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4PvWPm+uX7G05k7BXLTBuUnKNt2wzbjEGQu1kHX1y8I=;
-        b=SaD0TlPUsC76pceGI1rTZJxlpv+wsF6EQFiKkreJc7z2aIV40lzU3cuZEJ1P/BCc/3
-         +FiXcrxhqkZ1D/LSy91csIbCxPcecUue1fDce7BFaeDKdOZz76Sa+VkJJ9PD32vQcJ5U
-         NgPX7S2lfQ+52NunzUz0x2qjjCOqiKPscfhwQcxOBjsWveL99lGjeEpfnn4ad0+v9tVZ
-         u1bdK96jb6FuWCOexJu8EI1chR078eMPdAB5qDlcL2KHHEun+sX1y3eIaEQJ+WfIWfZw
-         K6LqVYBJk3rWFvDd9xDBZ9fZNdRVv0sBoj70valJcNHxA3uWmWdo2EoL+wRcpggNMOqP
-         dR3A==
-X-Gm-Message-State: AOJu0Yzs8cKZlQfncJnbq5gh/xmnrWJoZly7Mj64Y9MNoZRppRHi+k3J
-	40mU/lj0lydkElX6MwrNGBIA2bqKh054agSatkZMxjKT4sOURnM3X4eAsG7wRSrKbyz1UecotSJ
-	rN93DY5GtyY2ULvV2bSfKoD4kOuU=
-X-Google-Smtp-Source: AGHT+IFfVF0YyzHKJGiArJ/yWhAdZz2+IA9o6l8IyvZ62WNYe73SdQdM+4z1qKfSUMKIyYzhxo7ni5hIkQjCi+ZNI/4=
-X-Received: by 2002:a2e:be28:0:b0:2fa:f5f1:2539 with SMTP id
- 38308e7fff4ca-2faf5f126bbmr58025031fa.24.1728333504510; Mon, 07 Oct 2024
- 13:38:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728333592; x=1728938392;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nf1v+sTYX1X3toeM8F66N8QImkAA2TRjwVsHZvaY3nA=;
+        b=k0RuJFWknzAjBYzGFggRflX85pzn0aoP9VV8px1ssMvOAiYJuaKLXOfxLQ3Xd2jYme
+         oe+Ew3HYAzRxAH+GVpiSDKMGGDDf79jVd4A2aGaa1BPnb2naCzRnKnfDwPycEF8D1//N
+         i802O41LoA3ThPkkIlGr+Hgd+9ItvBRetil6VsgfEN0GRLXvAV+84KBUE9ED6NkwcD3W
+         qR2L52Qo791VIfmIkwqvRT+rGo2CpSRksPqe4TVSgPqidFEyrxOPLDj3o1ug+od47M+D
+         nUNwIfIiSVNLVfy9NbkyBAsfcHTq3xocHxSr5+ru4YS3cubfqFHcEsCU4kjirw6nDUvO
+         Kh9Q==
+X-Gm-Message-State: AOJu0YxtSyweJtv47dy+cuG+Gnb6FXi8k157nStZbD69c/ZQDWUuCgap
+	sjC0BD1MOok6zMdL6aEVcFuCTSYOM9utatEjMHeMsvkjXP4M1A63dTpuUQ==
+X-Google-Smtp-Source: AGHT+IERU6VhJAo+iPFKTZnp/UguhbgiOyC0PQXEh/GGtUuhJkm1dMHcAcKfbo/O/D5x16zFXGGIJQ==
+X-Received: by 2002:a05:6512:33ce:b0:536:741a:6bad with SMTP id 2adb3069b0e04-539ab85b43cmr6318995e87.12.1728333592144;
+        Mon, 07 Oct 2024 13:39:52 -0700 (PDT)
+Received: from nova.frosteyes.dk (0x57346aa5.static.cust.fastspeed.dk. [87.52.106.165])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff23360sm925194e87.208.2024.10.07.13.39.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 13:39:51 -0700 (PDT)
+From: Claus Stovgaard <claus.stovgaard@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Claus Stovgaard <claus.stovgaard@gmail.com>
+Subject: [master][scarthgap][PATCH v3] lib/oe/package-manager: skip processing installed-pkgs with empty globs
+Date: Mon,  7 Oct 2024 22:39:46 +0200
+Message-ID: <20241007203946.684938-1-claus.stovgaard@gmail.com>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <20241005004451.79575-1-yumx@amazon.com> <CANNYZj_Z87h02RJuzXVTgpb0eLsJRapWQo4sXySp45uL0B+dkw@mail.gmail.com>
- <D3848342-F053-41A2-8334-0B22901E9E23@amazon.com>
-In-Reply-To: <D3848342-F053-41A2-8334-0B22901E9E23@amazon.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 7 Oct 2024 22:38:12 +0200
-Message-ID: <CANNYZj8T-mNG8ca1iV_Htn12SPVaYt7H8ogCxvkkSGe1yFmAvQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sstate: remove corrupted artifacts from local mirror
-To: "Yu, Max" <yumx@amazon.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"Sobon, Przemyslaw" <psobon@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 20:38:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205278
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 20:39:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205279
 
-On Mon, 7 Oct 2024 at 22:09, Yu, Max <yumx@amazon.com> wrote:
-> Corruptions are unavoidable part of our life, disks and network can injec=
-t failures due to unpredictable and unknown reasons like https://www.scienc=
-edirect.com/science/article/abs/pii/S0026271421003723. Even multi-layer pro=
-tection is not perfect as it depends on where the error is injected.
->
-> We proposed this patch as it is aligned with how we currently handle inco=
-rrect checksums: https://github.com/yoctoproject/poky/commit/672c07de4a96eb=
-67eaafba0873eced44ec9ae1a6.
->
-> For context, we have builds running at a large scale, almost 24/7. This s=
-cale contributes to the following challenges:
-> 1. sstate corruption for us happens ~1/10000 of builds. These are extreme=
-ly hard to reproduce and debug...
-> 2. with current behavior of reuploading the corrupted sstate object, we e=
-nd up in an endless loop of rebuilding that we cannot break.
-> We considered this yocto behavior as a bug, specifically because of #2.
->
-> I hear your point, even though following your reasoning we should fail th=
-e entire build rather than rebuilding the packages. We can explore other op=
-tions like parameterizing the behavior, but it will be very useful to be ab=
-le to break the bad loop of rebuilding somehow.
+We can skip processing the installed-pkgs file if globs is empty.
+This is the case if self.d.getVar for IMAGE_INSTALL_COMPLEMENTARY
+returns an empty string. If globs is an empty string the result from
+processing with empty glob in oe-pkgdata-util will always be 0 packages
+to install.
 
-Perhaps you can describe how the issue can be reproduced and observed
-in a local build? (e.g. build something, corrupt sstate for it,
-observe the endless rebuild problem)
-I'd like to understand particularly where in existing code the endless
-cycle would be triggered.
+Instead of return early on this we just skip and still generate the
+locale archive if needed.
 
-Alex
+Signed-off-by: Claus Stovgaard <claus.stovgaard@gmail.com>
+---
+ meta/lib/oe/package_manager/__init__.py | 76 ++++++++++++-------------
+ 1 file changed, 37 insertions(+), 39 deletions(-)
+
+diff --git a/meta/lib/oe/package_manager/__init__.py b/meta/lib/oe/package_manager/__init__.py
+index d3b2317894..2100a97c12 100644
+--- a/meta/lib/oe/package_manager/__init__.py
++++ b/meta/lib/oe/package_manager/__init__.py
+@@ -365,45 +365,43 @@ class PackageManager(object, metaclass=ABCMeta):
+                 for complementary_linguas in (self.d.getVar('IMAGE_LINGUAS_COMPLEMENTARY') or "").split():
+                     globs += (" " + complementary_linguas) % lang
+ 
+-        if globs is None:
+-            return
+-
+-        # we need to write the list of installed packages to a file because the
+-        # oe-pkgdata-util reads it from a file
+-        with tempfile.NamedTemporaryFile(mode="w+", prefix="installed-pkgs") as installed_pkgs:
+-            pkgs = self.list_installed()
+-
+-            provided_pkgs = set()
+-            for pkg in pkgs.values():
+-                provided_pkgs |= set(pkg.get('provs', []))
+-
+-            output = oe.utils.format_pkg_list(pkgs, "arch")
+-            installed_pkgs.write(output)
+-            installed_pkgs.flush()
+-
+-            cmd = ["oe-pkgdata-util",
+-                   "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_pkgs.name,
+-                   globs]
+-            exclude = self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTARY')
+-            if exclude:
+-                cmd.extend(['--exclude=' + '|'.join(exclude.split())])
+-            try:
+-                bb.note('Running %s' % cmd)
+-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+-                stdout, stderr = proc.communicate()
+-                if stderr: bb.note(stderr.decode("utf-8"))
+-                complementary_pkgs = stdout.decode("utf-8")
+-                complementary_pkgs = set(complementary_pkgs.split())
+-                skip_pkgs = sorted(complementary_pkgs & provided_pkgs)
+-                install_pkgs = sorted(complementary_pkgs - provided_pkgs)
+-                bb.note("Installing complementary packages ... %s (skipped already provided packages %s)" % (
+-                    ' '.join(install_pkgs),
+-                    ' '.join(skip_pkgs)))
+-                self.install(install_pkgs, hard_depends_only=True)
+-            except subprocess.CalledProcessError as e:
+-                bb.fatal("Could not compute complementary packages list. Command "
+-                         "'%s' returned %d:\n%s" %
+-                         (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
++        if globs:
++            # we need to write the list of installed packages to a file because the
++            # oe-pkgdata-util reads it from a file
++            with tempfile.NamedTemporaryFile(mode="w+", prefix="installed-pkgs") as installed_pkgs:
++                pkgs = self.list_installed()
++
++                provided_pkgs = set()
++                for pkg in pkgs.values():
++                    provided_pkgs |= set(pkg.get('provs', []))
++
++                output = oe.utils.format_pkg_list(pkgs, "arch")
++                installed_pkgs.write(output)
++                installed_pkgs.flush()
++
++                cmd = ["oe-pkgdata-util",
++                    "-p", self.d.getVar('PKGDATA_DIR'), "glob", installed_pkgs.name,
++                    globs]
++                exclude = self.d.getVar('PACKAGE_EXCLUDE_COMPLEMENTARY')
++                if exclude:
++                    cmd.extend(['--exclude=' + '|'.join(exclude.split())])
++                try:
++                    bb.note('Running %s' % cmd)
++                    proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
++                    stdout, stderr = proc.communicate()
++                    if stderr: bb.note(stderr.decode("utf-8"))
++                    complementary_pkgs = stdout.decode("utf-8")
++                    complementary_pkgs = set(complementary_pkgs.split())
++                    skip_pkgs = sorted(complementary_pkgs & provided_pkgs)
++                    install_pkgs = sorted(complementary_pkgs - provided_pkgs)
++                    bb.note("Installing complementary packages ... %s (skipped already provided packages %s)" % (
++                        ' '.join(install_pkgs),
++                        ' '.join(skip_pkgs)))
++                    self.install(install_pkgs, hard_depends_only=True)
++                except subprocess.CalledProcessError as e:
++                    bb.fatal("Could not compute complementary packages list. Command "
++                            "'%s' returned %d:\n%s" %
++                            (' '.join(cmd), e.returncode, e.output.decode("utf-8")))
+ 
+         if self.d.getVar('IMAGE_LOCALES_ARCHIVE') == '1':
+             target_arch = self.d.getVar('TARGET_ARCH')
+-- 
+2.34.1
+
 
