@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C54EECFB445
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C54CCCFB442
 	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 01:55:19 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.44007.1728266115055948334
+Received: from mail-pj1-f41.google.com (mail-pj1-f41.google.com [209.85.216.41])
+ by mx.groups.io with SMTP id smtpd.web10.44006.1728266113735720576
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Oct 2024 18:55:15 -0700
+ Sun, 06 Oct 2024 18:55:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=GS20/rqN;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7db1f13b14aso3116306a12.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 18:55:15 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hRLwcdcJ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.41, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f41.google.com with SMTP id 98e67ed59e1d1-2e082bf1c7fso2682986a91.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 18:55:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728266114; x=1728870914; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728266113; x=1728870913; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=peFkGyDUGdPjBermcx2yrs9wpBwY6dn9H7pvrZItDr0=;
-        b=GS20/rqNgW0MDihjOW/v8QWNDcy5FidGaT6bqLLN4d/+oulEcGrytG5H9zIR7khLmp
-         conp6bUbaieuMqfnj3cPYxdezpuTFL1ZgZze3QM2G0nzaSkPdBpjjvAz8dxsRxdHjnR/
-         btgeL6hGzdH2JJyxRqe/ITqxns8TN12bYwWDNG2xIjNLU0n5uVIBJdpefGifcI1/sYqd
-         5oIReLuLx00kyBMOnqnnieOibPj/o/gXDKSSGJD3RtsSFQivzix2sMuuqUPLwOapu90x
-         YDC9fT/UAlIwVaQ0IzMJTgmZyHOIyR7j1pN8OO1OBuwj0D+KrA4G5ErfmnViiVB0N5z5
-         Ki6w==
+        bh=1S7Hk/kCVnEm7iRGew4ev6PzgQTcKQmVHNuGd7xwMeI=;
+        b=hRLwcdcJ7PgCjMNiWN0HbRM5xA6IX46t4H5YpeEtSDVeW2o0q6olxKKrjmQkvRhxbm
+         V72+jf59s65NRaGDf6zzMnQSFofWCT3H0YTtSpRxdh1pgaK+InRdyBm7XpnMfKwBCLim
+         0ptWSpavI/jyQyVxyR/E16wdkj3HFwhkt/0SuDf82p6lRbmb2KVJHc9jebXTS+p73zkS
+         Rq6CQcFHIlDjWLpnnZAbZGPrNjLlPYdq2mXfw6yBczi+n34MsrkSde2pavOSJwhNo76c
+         TVld6bX426f70EpRzcKPosvqzkdnMcjJ/C6sLl0eYOypp5xvRxKYZap6R1Bym0yojtOi
+         +dEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728266114; x=1728870914;
+        d=1e100.net; s=20230601; t=1728266113; x=1728870913;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=peFkGyDUGdPjBermcx2yrs9wpBwY6dn9H7pvrZItDr0=;
-        b=lT6ZyEEt5RpgG3KCbjGlPAyILMus6M1ZOck6Bb5tdlaspOr/U+ioS3Lz4p77FS8Dtt
-         Ph0Yb7FMjnXBdjsNdwuxdHnUdQZOphu8iJrvLhesW1M99V+gw8ZOc0T29mmleYWEzOIb
-         TCOxHAgrPjtU9AMZN7THLvojkdyv7VTy8QP+/YcBP1llSJZnW+g1vfvN7R6HFWoHqw/G
-         75cN5LrJdCLjN6jEXm/FYdUTNt9Uk8Kmn6Dl5bLoqGdNFaYPxOiCU1RrY7JGUTqGQ/+N
-         fl7Z0mdJAh0z9G9lKFhiDCY+l7zznOcV9XYD4GO12I1CfYIzcc9EC+Aqp6pHOhKbTsMu
-         OMWg==
-X-Gm-Message-State: AOJu0YyFzXzasIAkrbvPFByOnXrjyxAVZv3cnYALzokiZqTsvfIZskYy
-	TIp4l+x8OU8TXW/lxaONXI7VmVNa6r4gXFbkFLX4hyfR+oqS1cwpU6UswvxYQRulpPLMIJrkn3N
-	vhxY=
-X-Google-Smtp-Source: AGHT+IH56SN84migTcv9pF9BwlQnZRAhjB5VrL6XyAv5YYMHLESa11zXHZff7RiCq3xUNr8BAtsWBA==
-X-Received: by 2002:a17:90a:e593:b0:2c8:6bfa:bbf1 with SMTP id 98e67ed59e1d1-2e1e626bbd4mr13540952a91.23.1728266114288;
-        Sun, 06 Oct 2024 18:55:14 -0700 (PDT)
+        bh=1S7Hk/kCVnEm7iRGew4ev6PzgQTcKQmVHNuGd7xwMeI=;
+        b=JuNUXuzskrgBfVkEjTJY79tQUu6fiZIpJl9O7fGJXN7Zc0SyBOWzjpoSj2/d31UgfY
+         UpNTepXlPdm2V+x6ARAnmJ0KIfpBOauEma7iCmTj87dHpfYh1alUQSa1/L9g9yr75CU1
+         Khr7Gv5qquIYN2y1mER7CecTQbtJDjud/JKqWl6MSgY9eikS1KosDErWle3UCEgpz2qa
+         vC99DsRnlpuUOkCGQtzUOCltkIdyyab88AwuMHPBBsOgTpA3qHhGRyX3etNYXLNoXfOx
+         TxL5WVe+Cp18gSCY6CapYRHGwkGvZm59/sLspj78pC/UXnxldkJ2hGxDoHENwMrzOraM
+         rZUw==
+X-Gm-Message-State: AOJu0YwSLPY+zoKD3IqrTu/oOps01Ffvg26mDDb+zn8jrJ3S+HFanwoD
+	IO3stf9l13ch0BRctavTW0Gad7pT3qssoiouFWlaV/oIVn/5Qm8bpH6bnX/vZ0g7y2N6X7yIc7h
+	nmO8=
+X-Google-Smtp-Source: AGHT+IEMPp+8o9FXtm7IoJYvM4E5UkwHn7iMorREWjbe9skl9M9l8Gw1qLMIeqcdjPpbz2Wuzn3lCg==
+X-Received: by 2002:a17:90a:458b:b0:2d3:d09a:630e with SMTP id 98e67ed59e1d1-2e1e6212e23mr13343924a91.1.1728266112944;
+        Sun, 06 Oct 2024 18:55:12 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20aebb70asm4074938a91.19.2024.10.06.18.55.13
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20aebb70asm4074938a91.19.2024.10.06.18.55.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Oct 2024 18:55:14 -0700 (PDT)
+        Sun, 06 Oct 2024 18:55:12 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/10] wpa-supplicant: Ignore CVE-2024-5290
-Date: Sun,  6 Oct 2024 18:54:56 -0700
-Message-Id: <33548479f66164f486efdb6aeba2de7da2b5b0c9.1728266000.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 02/10] openssh: Mark CVE-2023-51767 as wont-fix
+Date: Sun,  6 Oct 2024 18:54:55 -0700
+Message-Id: <9376c14f367477a8d02df1331908e3df3bd009b6.1728266000.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1728266000.git.steve@sakoman.com>
 References: <cover.1728266000.git.steve@sakoman.com>
@@ -62,50 +62,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 01:55:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205251
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205250
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Khem Raj <raj.khem@gmail.com>
 
-NVD CVE report [1] links Ubuntu bug [2] which has a very good
-description/discussion about this issue.
-It applies only to distros patching wpa-supplicant to allow non-root
-users (e.g. via netdev group) to load modules.
-This is not the case of Yocto.
+(From OE-Core rev: 1b4bada6c003ef743df09283e45953e6d9ea4c5a)
 
-Quote:
-So upstream isn't vulnerable as they only expose the dbus interface to
-root. Downstreams like Ubuntu and Chromium added a patch that grants
-access to the netdev group. The patch is the problem, not the upstream
-code IMHO.
-
-There is also a commit [3] associated with this CVE, however that only
-provides build-time configuration to limit paths which can be accessed
-but it acts only as a mitigation for distros which allow non-root users
-to load crafted modules.
-
-[1] https://nvd.nist.gov/vuln/detail/CVE-2024-5290
-[2] https://bugs.launchpad.net/ubuntu/+source/wpa/+bug/2067613
-[3] https://w1.fi/cgit/hostap/commit/?id=c84388ee4c66bcd310db57489eac4a75fc600747
-
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-connectivity/openssh/openssh_9.6p1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-index 22028ce957..01dc72b385 100644
---- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-+++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
-@@ -32,6 +32,8 @@ PACKAGECONFIG[openssl] = ",,openssl"
+diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+index 3c507cf911..a8ba67e360 100644
+--- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
++++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
+@@ -40,6 +40,7 @@ CVE_STATUS[CVE-2014-9278] = "not-applicable-platform: This CVE is specific to Op
+ Red Hat Enterprise Linux 7 and when running in a Kerberos environment"
  
- CVE_PRODUCT = "wpa_supplicant"
+ CVE_STATUS[CVE-2008-3844] = "not-applicable-platform: Only applies to some distributed RHEL binaries."
++CVE_STATUS[CVE-2023-51767] = "upstream-wontfix: It was demonstrated on modified sshd and does not exist in upstream openssh https://bugzilla.mindrot.org/show_bug.cgi?id=3656#c1."
  
-+CVE_STATUS[CVE-2024-5290] = "not-applicable-platform: this only affects Ubuntu and other platforms patching wpa-supplicant"
-+
- EXTRA_OEMAKE = "'LIBDIR=${libdir}' 'INCDIR=${includedir}' 'BINDIR=${sbindir}'"
+ PAM_SRC_URI = "file://sshd"
  
- do_configure () {
 -- 
 2.34.1
 
