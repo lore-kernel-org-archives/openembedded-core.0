@@ -1,125 +1,84 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 276FBCFB440
-	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 11:57:33 +0000 (UTC)
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
- by mx.groups.io with SMTP id smtpd.web11.51191.1728302250675327763
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30B33CFB43F
+	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 12:10:03 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.51430.1728303001943714669
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Oct 2024 04:57:31 -0700
+ Mon, 07 Oct 2024 05:10:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=knQSEKZi;
- spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2fabe5c8c26so38140841fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 04:57:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728302249; x=1728907049; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gAPGVIUVh9dn2ig7pcRXVRYNyLMOvbwxQYG94BskJFw=;
-        b=knQSEKZi9wMqOIQyOjcM5tva3ncaWPig7El7WWxgy8rGUDR8Om4+bPwbmMnTKzO3Zv
-         vb8YmkOoljzrolyDeRzPUxvdQVgDLuLzT7cEjAbB0Du33OAnGPqpb+GS8W8kzlJYfwXx
-         pZSjtOIq2gRFk3iF2NsENg30RhzxKctz/LeGe/o4vXv3sFz0TluYmhBwqeEejkg5fEOL
-         9P0QBhlhr57KXSkY0M6bwBKzfyT2eqrO/HZAqVRgFgHCyRLtJ+iRPNH8xJ0u+/2LFAfu
-         7oyAbsnzt67os+cEWPO1aQjD9dXBJZIgf6mpT/b0aKWY/rtaovy8X1/c4Pp4wCCEvRDz
-         fMNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728302249; x=1728907049;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gAPGVIUVh9dn2ig7pcRXVRYNyLMOvbwxQYG94BskJFw=;
-        b=CRgFHL5r7fqiMKSaoUaJ6E2T/mkkIFpRpcJiGpFpD/L050+jekDeCepcH4tPQtyeVk
-         3SnAq6LGQRGJqH+801n6Z6Y1m2yDFqZGQ+GxgkHrKiUpoBjDG+nPm06W0GflmB2FJ6yL
-         eiTxU9UaqtL6/y5S0yluznK++tXfYL1vwR2Gbcwviakrol0NKA3cTAgahjGb5z7+c03T
-         Pkv+Iz2ihzHI8VZ0GppqFvow8fR3Pg9ob9G/bj4e/bV/cO1Q6MMoANFtRuQZrb93Q9C5
-         6OirMkkdRQWvyjEyS5Whe4j8ByRfIjoJz/LPIej/OFmJHRrRBOm3kvqaw75M0GajLA8Z
-         Dzig==
-X-Gm-Message-State: AOJu0YzNqkDFKUGNI/UwuYEh0bA2UDmuRv2gcaZBb5OLyUpHNM7pkOHn
-	MxmFQuTykaTsQbbsLcbI3V6Cx22Eb9+WHowZ0CzhP5EhXinCCB72j8NQs80QuCiAedx+mvIWmPl
-	BinCZqt0WUGBzu2c/hOR7GEbcJh8=
-X-Google-Smtp-Source: AGHT+IHJD0dYLgzRoTVHA4uT2we8H09UvEyZvKuArQEEuVhz9CH9WTfu8nD1aWGtbI6MrJ9AtT6NSxvbilPEOODWVh0=
-X-Received: by 2002:a2e:b162:0:b0:2f7:6653:8046 with SMTP id
- 38308e7fff4ca-2faf3c50c27mr43840091fa.25.1728302248529; Mon, 07 Oct 2024
- 04:57:28 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1sxmYq-0004Yy-4h; Mon, 07 Oct 2024 14:10:00 +0200
+Received: from [2a0a:edc0:0:1101:1d::5c] (helo=dude06.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1sxmYp-0007YB-D1; Mon, 07 Oct 2024 14:09:59 +0200
+Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1sxmYp-0047Oa-19;
+	Mon, 07 Oct 2024 14:09:59 +0200
+From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
+To: openembedded-core@lists.openembedded.org
+Cc: yocto@pengutronix.de
+Subject: [PATCH 6/9] busybox: disable defconfig options from unicode.cfg
+Date: Mon,  7 Oct 2024 14:09:47 +0200
+Message-Id: <20241007120950.975803-7-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241007120950.975803-1-ejo@pengutronix.de>
+References: <20241007120950.975803-1-ejo@pengutronix.de>
 MIME-Version: 1.0
-References: <20241005004451.79575-1-yumx@amazon.com>
-In-Reply-To: <20241005004451.79575-1-yumx@amazon.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 7 Oct 2024 13:57:17 +0200
-Message-ID: <CANNYZj_Z87h02RJuzXVTgpb0eLsJRapWQo4sXySp45uL0B+dkw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sstate: remove corrupted artifacts from local mirror
-To: yumx@amazon.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Przemyslaw Sobon <psobon@amazon.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 11:57:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205261
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 12:10:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205262
 
-I don't think I can agree with this. This means stability regressions
-in one's network infrastructure will go unnoticed and unfixed, and
-goes contrary to some people wishing to know immediately when
-'corrupted sstate' occurs, and fix it there and then. Similar patches
-have been rejected in the past.
+Accidentally enabled in
+4335cd24 ("busybox: refresh the defconfig from 1.33.0").
 
-Please fix your infra.
+Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
+---
+ meta/recipes-core/busybox/busybox/defconfig | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-Alex
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
+index 838a46631f..defe60c2ab 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -116,13 +116,13 @@ CONFIG_FEATURE_EDITING_FANCY_PROMPT=y
+ # CONFIG_FEATURE_EDITING_WINCH is not set
+ # CONFIG_FEATURE_EDITING_ASK_TERMINAL is not set
+ # CONFIG_LOCALE_SUPPORT is not set
+-CONFIG_UNICODE_SUPPORT=y
++# CONFIG_UNICODE_SUPPORT is not set
+ # CONFIG_UNICODE_USING_LOCALE is not set
+-CONFIG_FEATURE_CHECK_UNICODE_IN_ENV=y
+-CONFIG_SUBST_WCHAR=63
+-CONFIG_LAST_SUPPORTED_WCHAR=767
+-CONFIG_UNICODE_COMBINING_WCHARS=y
+-CONFIG_UNICODE_WIDE_WCHARS=y
++# CONFIG_FEATURE_CHECK_UNICODE_IN_ENV is not set
++CONFIG_SUBST_WCHAR=0
++CONFIG_LAST_SUPPORTED_WCHAR=0
++# CONFIG_UNICODE_COMBINING_WCHARS is not set
++# CONFIG_UNICODE_WIDE_WCHARS is not set
+ # CONFIG_UNICODE_BIDI_SUPPORT is not set
+ # CONFIG_UNICODE_NEUTRAL_TABLE is not set
+ # CONFIG_UNICODE_PRESERVE_BROKEN is not set
+-- 
+2.39.5
 
-On Sat, 5 Oct 2024 at 02:44, Yu, Max via lists.openembedded.org
-<yumx=amazon.com@lists.openembedded.org> wrote:
->
-> We observe sstate cache corruptions sometimes which cause rebuilds. That is not
-> a fatal error as the package has to be rebuilt and updated artifact needs to be
-> pushed to remote sstate cache mirror. Currently, Yocto does not handle
-> corruptions properly, where the corrupted artifact is not deleted or
-> renamed. Later, after the package is built the same corrupted artifact is pushed
-> to remote mirror and the same procedure is circled again and again.
->
-> This change verifies the outcome of the unpacking action and renames the
-> artifact if a fatal error occurred ("tar" tool returns error 2). In such case we
-> rename the artifact what causes that a proper one is created and uploaded
-> overwriting the exisiting one - the corrupted one - in the remote mirror. That
-> way we break the loop of uploading corrupted file again and again.
->
-> Suggested-by: Przemyslaw Sobon <psobon@amazon.com>
-> Signed-off-by: Max Yu <yumx@amazon.com>
-> ---
->  meta/classes-global/sstate.bbclass | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-> index 11bb892a42..5a7ce35341 100644
-> --- a/meta/classes-global/sstate.bbclass
-> +++ b/meta/classes-global/sstate.bbclass
-> @@ -937,7 +937,12 @@ sstate_unpack_package () {
->                 ZSTD="pzstd -p ${ZSTD_THREADS}"
->         fi
->
-> -       tar -I "$ZSTD" -xvpf ${SSTATE_PKG}
-> +       if ! tar -I "$ZSTD" -xvpf ${SSTATE_PKG}; then
-> +               echo "Fatal error extracting sstate cache artifacts, file might be corrupted or truncated, renaming"
-> +               mv ${SSTATE_PKG} ${SSTATE_PKG}.unpack_error
-> +               exit 2
-> +       fi
-> +
->         # update .siginfo atime on local/NFS mirror if it is a symbolic link
->         [ ! -h ${SSTATE_PKG}.siginfo ] || [ ! -e ${SSTATE_PKG}.siginfo ] || touch -a ${SSTATE_PKG}.siginfo 2>/dev/null || true
->         # update each symbolic link instead of any referenced file
-> --
-> 2.40.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#205237): https://lists.openembedded.org/g/openembedded-core/message/205237
-> Mute This Topic: https://lists.openembedded.org/mt/108828269/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
 
