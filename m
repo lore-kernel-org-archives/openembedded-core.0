@@ -2,107 +2,81 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B70B3CFB443
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6130CFB440
 	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 01:55:19 +0000 (UTC)
-Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
- by mx.groups.io with SMTP id smtpd.web10.44005.1728266110935875724
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.web11.43998.1728266117005447141
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Oct 2024 18:55:11 -0700
+ Sun, 06 Oct 2024 18:55:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dhcevDMq;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e0a5088777so3085391a91.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 18:55:10 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RwJdbOS+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2e192a2fe6cso2882154a91.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 18:55:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728266110; x=1728870910; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zqyz9htqwN/bOAoGHkUF6isLvvXRcgqX34LcG24bBCY=;
-        b=dhcevDMqOXq5c2Q+jdv6NVts+feDdONaTVCIy7KIOla92M1Xn/pWWG9mTDS2OzxXTx
-         XKLVuFvHimebbLtdELK11EmjmQXFCEts23Owy3EvM6j7LqMqETcT1+s5FwJgUDm9zERX
-         96ATQqmHz8bFnY6a0gQKtEGwuaQG10QBTUWFFVRJ7J9gKjRednDD28g93V7Jd/oz7cS3
-         PR+j0j8kjsWQRpSZkzRdphROoXx4zO4YEfX/vzCiWFyrltQW2QQIqZsE/H9cz+FD/j8T
-         sZ379Xj6sbmdrtIO1hIrX5EtikLzg9ohu4Vxxe9eaCRaHk19RgfeqwhKtn/F6OKPqPs9
-         mi9w==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728266116; x=1728870916; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QaV2qeCwLKR4I021RYVBIhSQeFbk9Ajx/A7W83msIu4=;
+        b=RwJdbOS+bYrDcw76JaKc59pzWCUCrmp8ZnzzqzRhJapXsirB2iJQaX9RZyu3mscrgQ
+         uXxwX/vaim7N/MjXqIk3KmtCSW+dah6xQRRZtzWHiw92NlDAL+i5FE7XmWg9vEoinKln
+         geGxThBIcZ1kIcjPzmfi52PAFLRezA9SSWBHfuZQ0Hk5RRZskz6QXix8Iy15VHL/nJ5V
+         e3X/QV7f4hRKwgk6CrhKXElFud+PpaDICZ/SfFEgmRmGYZ9cWFtLQDzHsyEDo6YPzti+
+         lflqXNrp7zCsGO3Y/9VMT9mV2USNZRSaNVxilhT581IzNQzoeP2p8lLAdS3xoiHlT04w
+         g5dQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728266110; x=1728870910;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zqyz9htqwN/bOAoGHkUF6isLvvXRcgqX34LcG24bBCY=;
-        b=i5rLyVFkmpzK2eRTDRjzrC73GTG9VZVtjZynLFO+7ip0gS06f590PCt1rUJbvDrs7w
-         NsromxM2cwc316T0GaoKPF3n0mNNDbCROrD2A6fQ3FXGNW8SOgtbrZPhplzNzADC/ioy
-         ZA3RbWH+d7drKTj2JEGZ9JTSfd2HY4SIx+xiVLs9Jq3gsbspwAsrHDdPtNpSgDCvnY7N
-         Nw8deAYwn61r/kLUeYdQrn5jOHwY7Q1CEP72cwFOT3EWJg38PGR9x0s5uWK1ClWGiEn4
-         p657ZMBkxKPv9vr3XgOUdaQPOcTH/PrZVBpTt90c8UQl4qTJQW5BX8Yz4IoR6jyx/YaY
-         /z+Q==
-X-Gm-Message-State: AOJu0YyJbf57XolEhBxZs+Z4b8H+4Qd3aQrLjhECdXfJMIfYp9xQ3FTB
-	7A36m4onvceH1Kb2wPdFeidWyyc7YstKLuvngWQqz79EfLLgogWZZXg11RItYPvLEFDtPCqpuzj
-	Jb1U=
-X-Google-Smtp-Source: AGHT+IE6PEvyEMdx/RmzxgJ36r3wDO/2ocEvoQg1m/RX0wPFXlcX1b+A/GBm3xofnHovN+wBFgRLUQ==
-X-Received: by 2002:a17:90a:3fcf:b0:2dd:6969:2096 with SMTP id 98e67ed59e1d1-2e1e63676dcmr11511635a91.38.1728266109866;
-        Sun, 06 Oct 2024 18:55:09 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728266116; x=1728870916;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QaV2qeCwLKR4I021RYVBIhSQeFbk9Ajx/A7W83msIu4=;
+        b=WdUfEIpbGZE1uedam3gDcPm+CwSyW1fqCP6scETq8NTvJjR99O4bTHe1XH1k/VT2nN
+         Kz8loRoc9N5wiYgCKOmVhyGcjNu4leVds2D4+8LBezUlPeIsKVqoRBmJPIrrqLdKw+tc
+         U2nN9N5gU9xqV9I9c9v81+rwGfGL7A7f55ez0Fo/qasicUPcpTod9AWYa5CU7vOEhEo9
+         CTi8I9UxSpn47JqqsuuYsmri/q/MKYd35KL8Q0Qe9/a+UB5WIyUM6HQ0T+hZbN65Ufp7
+         subhTiHrXg2EJPF3GvPsOixJj892SayAXyHZHT5Ya5CcNabPWnFy1Aa0UzAHwtPJWMjI
+         QePA==
+X-Gm-Message-State: AOJu0YydSt0rbJeYQeU+cVGKSQYO6Z8ehwzTaQt0rHQays7+z+1ifyl6
+	50gibQxVWP0g+mMh2HLPoNys/8wS03AsnfmSn9ky9YCQVGwraZpyazDYuHnXWfJnBSHIE50yWx3
+	h6oI=
+X-Google-Smtp-Source: AGHT+IH84hlSU9U2w1an51YxKx8TeaUKUgi5Cl50XTYFolUpqnCl1Dpntp5O/TmXnfccbDmXK+c73w==
+X-Received: by 2002:a17:90a:b015:b0:2e0:6cd4:973a with SMTP id 98e67ed59e1d1-2e1e6211a0emr14937106a91.5.1728266115980;
+        Sun, 06 Oct 2024 18:55:15 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20aebb70asm4074938a91.19.2024.10.06.18.55.08
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20aebb70asm4074938a91.19.2024.10.06.18.55.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Oct 2024 18:55:09 -0700 (PDT)
+        Sun, 06 Oct 2024 18:55:15 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/10] Patch review
-Date: Sun,  6 Oct 2024 18:54:53 -0700
-Message-Id: <cover.1728266000.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 04/10] wpa-supplicant: Patch CVE-2024-3596
+Date: Sun,  6 Oct 2024 18:54:57 -0700
+Message-Id: <2352c8a1282b7b11a542eb7a821625580c8395fa.1728266000.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1728266000.git.steve@sakoman.com>
+References: <cover.1728266000.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 01:55:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205248
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205252
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Tuesday, October 8
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Picked patches according to
+http://w1.fi/security/2024-1/hostapd-and-radius-protocol-forgery-attacks.txt
 
-https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7374
+First patch is style commit picked to have a clean cherry-pick of all
+mentioned commits without any conflict.
+Patch CVE-2024-3596_07.patch has hostapd code removed as it is not
+present in wpa-supplicant download tarball.
 
-The following changes since commit 3d894863f442188bad446095bd7fdd82665bb54b:
-
-  makedevs: Fix issue when rootdir of / is given (2024-09-28 05:21:51 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Deepesh Varatharajan (1):
-  glibc: stable 2.39 branch updates.
-
-Hitendra Prajapati (1):
-  webkitgtk: upgrade 2.44.1 -> 2.44.3
-
-Khem Raj (2):
-  gnupg: Document CVE-2022-3219 and mark wontfix
-  openssh: Mark CVE-2023-51767 as wont-fix
-
-Martin Jansa (2):
-  populate_sdk_base: inherit nopackages
-  meta-world-pkgdata: Inherit nopackages
-
-Peter Marko (3):
-  wpa-supplicant: Ignore CVE-2024-5290
-  wpa-supplicant: Patch CVE-2024-3596
-  wpa-supplicant: Patch security advisory 2024-2
-
-Wang Mingyu (1):
-  cryptodev: upgrade 1.13 -> 1.14
-
- meta/classes-recipe/populate_sdk_base.bbclass |   2 +-
- .../openssh/openssh_9.6p1.bb                  |   1 +
- ...valid-Rejected-Groups-element-length.patch |  52 ++++++
- ...valid-Rejected-Groups-element-length.patch |  50 ++++++
- ...id-Rejected-Groups-element-in-the-pa.patch |  38 ++++
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  .../wpa-supplicant/CVE-2024-3596_00.patch     |  82 +++++++++
  .../wpa-supplicant/CVE-2024-3596_01.patch     | 165 ++++++++++++++++++
  .../wpa-supplicant/CVE-2024-3596_02.patch     |  62 +++++++
@@ -112,29 +86,8 @@ Wang Mingyu (1):
  .../wpa-supplicant/CVE-2024-3596_06.patch     |  46 +++++
  .../wpa-supplicant/CVE-2024-3596_07.patch     |  67 +++++++
  .../wpa-supplicant/CVE-2024-3596_08.patch     |  47 +++++
- .../wpa-supplicant/wpa-supplicant_2.10.bb     |  14 ++
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- meta/recipes-core/meta/meta-world-pkgdata.bb  |   1 +
- ...-linux_1.13.bb => cryptodev-linux_1.14.bb} |   0
- ...odule_1.13.bb => cryptodev-module_1.14.bb} |   3 -
- ...-tests_1.13.bb => cryptodev-tests_1.14.bb} |   4 -
- meta/recipes-kernel/cryptodev/cryptodev.inc   |   4 +-
- ...ng-header-file-provided-by-another-p.patch |  25 ---
- ...001-tests-Makefile-do-not-use-Werror.patch |  25 ---
- ...able-to-control-macro-__PAS_ALWAYS_I.patch |   6 +-
- ...spection.cmake-prefix-variables-obta.patch |   2 +-
- ...fic-declarations-in-FELighting.h-unn.patch |  44 -----
- ...icDowncast-adoption-in-platform-code.patch |  65 -------
- ...d5e22213fdaca2a29ec3400c927d710a37a8.patch |   2 +-
- .../webkit/webkitgtk/no-musttail-arm.patch    |   6 +-
- .../webkit/webkitgtk/reproducibility.patch    |   2 +-
- .../webkit/webkitgtk/t6-not-declared.patch    |  12 +-
- ...ebkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} |   6 +-
- meta/recipes-support/gnupg/gnupg_2.4.4.bb     |   1 +
- 33 files changed, 786 insertions(+), 190 deletions(-)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0001-SAE-Check-for-invalid-Rejected-Groups-element-length.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0002-SAE-Check-for-invalid-Rejected-Groups-element-length.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/0003-SAE-Reject-invalid-Rejected-Groups-element-in-the-pa.patch
+ .../wpa-supplicant/wpa-supplicant_2.10.bb     |   9 +
+ 10 files changed, 618 insertions(+)
  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch
  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_01.patch
  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_02.patch
@@ -144,15 +97,690 @@ Wang Mingyu (1):
  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_06.patch
  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_07.patch
  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_08.patch
- rename meta/recipes-kernel/cryptodev/{cryptodev-linux_1.13.bb => cryptodev-linux_1.14.bb} (100%)
- rename meta/recipes-kernel/cryptodev/{cryptodev-module_1.13.bb => cryptodev-module_1.14.bb} (74%)
- rename meta/recipes-kernel/cryptodev/{cryptodev-tests_1.13.bb => cryptodev-tests_1.14.bb} (74%)
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-Disable-installing-header-file-provided-by-another-p.patch
- delete mode 100644 meta/recipes-kernel/cryptodev/files/0001-tests-Makefile-do-not-use-Werror.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0001-Remove-ARM-specific-declarations-in-FELighting.h-unn.patch
- delete mode 100644 meta/recipes-sato/webkit/webkitgtk/0002-More-dynamicDowncast-adoption-in-platform-code.patch
- rename meta/recipes-sato/webkit/{webkitgtk_2.44.1.bb => webkitgtk_2.44.3.bb} (96%)
 
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch
+new file mode 100644
+index 0000000000..7a8197d2b4
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_00.patch
+@@ -0,0 +1,82 @@
++From 945acf3ef06a6c312927da4fa055693dbac432d1 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sat, 2 Apr 2022 16:28:12 +0300
++Subject: [PATCH 1/9] ieee802_11_auth: Coding style cleanup - no string
++ constant splitting
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=945acf3ef06a6c312927da4fa055693dbac432d1]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/ap/ieee802_11_auth.c | 27 +++++++++++++++------------
++ 1 file changed, 15 insertions(+), 12 deletions(-)
++
++diff --git a/src/ap/ieee802_11_auth.c b/src/ap/ieee802_11_auth.c
++index 783ee6dea..47cc625be 100644
++--- a/src/ap/ieee802_11_auth.c
+++++ b/src/ap/ieee802_11_auth.c
++@@ -267,16 +267,16 @@ int hostapd_allowed_address(struct hostapd_data *hapd, const u8 *addr,
++ 		os_get_reltime(&query->timestamp);
++ 		os_memcpy(query->addr, addr, ETH_ALEN);
++ 		if (hostapd_radius_acl_query(hapd, addr, query)) {
++-			wpa_printf(MSG_DEBUG, "Failed to send Access-Request "
++-				   "for ACL query.");
+++			wpa_printf(MSG_DEBUG,
+++				   "Failed to send Access-Request for ACL query.");
++ 			hostapd_acl_query_free(query);
++ 			return HOSTAPD_ACL_REJECT;
++ 		}
++ 
++ 		query->auth_msg = os_memdup(msg, len);
++ 		if (query->auth_msg == NULL) {
++-			wpa_printf(MSG_ERROR, "Failed to allocate memory for "
++-				   "auth frame.");
+++			wpa_printf(MSG_ERROR,
+++				   "Failed to allocate memory for auth frame.");
++ 			hostapd_acl_query_free(query);
++ 			return HOSTAPD_ACL_REJECT;
++ 		}
++@@ -467,19 +467,21 @@ hostapd_acl_recv_radius(struct radius_msg *msg, struct radius_msg *req,
++ 	if (query == NULL)
++ 		return RADIUS_RX_UNKNOWN;
++ 
++-	wpa_printf(MSG_DEBUG, "Found matching Access-Request for RADIUS "
++-		   "message (id=%d)", query->radius_id);
+++	wpa_printf(MSG_DEBUG,
+++		   "Found matching Access-Request for RADIUS message (id=%d)",
+++		   query->radius_id);
++ 
++ 	if (radius_msg_verify(msg, shared_secret, shared_secret_len, req, 0)) {
++-		wpa_printf(MSG_INFO, "Incoming RADIUS packet did not have "
++-			   "correct authenticator - dropped\n");
+++		wpa_printf(MSG_INFO,
+++			   "Incoming RADIUS packet did not have correct authenticator - dropped");
++ 		return RADIUS_RX_INVALID_AUTHENTICATOR;
++ 	}
++ 
++ 	if (hdr->code != RADIUS_CODE_ACCESS_ACCEPT &&
++ 	    hdr->code != RADIUS_CODE_ACCESS_REJECT) {
++-		wpa_printf(MSG_DEBUG, "Unknown RADIUS message code %d to ACL "
++-			   "query", hdr->code);
+++		wpa_printf(MSG_DEBUG,
+++			   "Unknown RADIUS message code %d to ACL query",
+++			   hdr->code);
++ 		return RADIUS_RX_UNKNOWN;
++ 	}
++ 
++@@ -506,8 +508,9 @@ hostapd_acl_recv_radius(struct radius_msg *msg, struct radius_msg *req,
++ 			    msg, RADIUS_ATTR_ACCT_INTERIM_INTERVAL,
++ 			    &info->acct_interim_interval) == 0 &&
++ 		    info->acct_interim_interval < 60) {
++-			wpa_printf(MSG_DEBUG, "Ignored too small "
++-				   "Acct-Interim-Interval %d for STA " MACSTR,
+++			wpa_printf(MSG_DEBUG,
+++				   "Ignored too small Acct-Interim-Interval %d for STA "
+++				   MACSTR,
++ 				   info->acct_interim_interval,
++ 				   MAC2STR(query->addr));
++ 			info->acct_interim_interval = 0;
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_01.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_01.patch
+new file mode 100644
+index 0000000000..dab2eedd6a
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_01.patch
+@@ -0,0 +1,165 @@
++From adac846bd0e258a0aa50750bbd2b411fa0085c46 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sat, 16 Mar 2024 11:11:44 +0200
++Subject: [PATCH 2/9] RADIUS: Allow Message-Authenticator attribute as the
++ first attribute
++
++If a Message-Authenticator attribute was already added to a RADIUS
++message, use that attribute instead of adding a new one when finishing
++message building. This allows the Message-Authenticator attribute to be
++placed as the first attribute in the message.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=adac846bd0e258a0aa50750bbd2b411fa0085c46]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/radius/radius.c | 85 ++++++++++++++++++++++++++++-----------------
++ src/radius/radius.h |  1 +
++ 2 files changed, 54 insertions(+), 32 deletions(-)
++
++diff --git a/src/radius/radius.c b/src/radius/radius.c
++index be16e27b9..2d2e00b5c 100644
++--- a/src/radius/radius.c
+++++ b/src/radius/radius.c
++@@ -364,25 +364,54 @@ void radius_msg_dump(struct radius_msg *msg)
++ }
++ 
++ 
+++u8 * radius_msg_add_msg_auth(struct radius_msg *msg)
+++{
+++	u8 auth[MD5_MAC_LEN];
+++	struct radius_attr_hdr *attr;
+++
+++	os_memset(auth, 0, MD5_MAC_LEN);
+++	attr = radius_msg_add_attr(msg, RADIUS_ATTR_MESSAGE_AUTHENTICATOR,
+++				   auth, MD5_MAC_LEN);
+++	if (!attr) {
+++		wpa_printf(MSG_ERROR,
+++			   "WARNING: Could not add Message-Authenticator");
+++		return NULL;
+++	}
+++
+++	return (u8 *) (attr + 1);
+++}
+++
+++
+++static u8 * radius_msg_auth_pos(struct radius_msg *msg)
+++{
+++	u8 *pos;
+++	size_t alen;
+++
+++	if (radius_msg_get_attr_ptr(msg, RADIUS_ATTR_MESSAGE_AUTHENTICATOR,
+++				    &pos, &alen, NULL) == 0 &&
+++	    alen == MD5_MAC_LEN) {
+++		/* Use already added Message-Authenticator attribute */
+++		return pos;
+++	}
+++
+++	/* Add a Message-Authenticator attribute */
+++	return radius_msg_add_msg_auth(msg);
+++}
+++
+++
++ int radius_msg_finish(struct radius_msg *msg, const u8 *secret,
++ 		      size_t secret_len)
++ {
++ 	if (secret) {
++-		u8 auth[MD5_MAC_LEN];
++-		struct radius_attr_hdr *attr;
+++		u8 *pos;
++ 
++-		os_memset(auth, 0, MD5_MAC_LEN);
++-		attr = radius_msg_add_attr(msg,
++-					   RADIUS_ATTR_MESSAGE_AUTHENTICATOR,
++-					   auth, MD5_MAC_LEN);
++-		if (attr == NULL) {
++-			wpa_printf(MSG_WARNING, "RADIUS: Could not add "
++-				   "Message-Authenticator");
+++		pos = radius_msg_auth_pos(msg);
+++		if (!pos)
++ 			return -1;
++-		}
++ 		msg->hdr->length = host_to_be16(wpabuf_len(msg->buf));
++-		hmac_md5(secret, secret_len, wpabuf_head(msg->buf),
++-			 wpabuf_len(msg->buf), (u8 *) (attr + 1));
+++		if (hmac_md5(secret, secret_len, wpabuf_head(msg->buf),
+++			     wpabuf_len(msg->buf), pos) < 0)
+++			return -1;
++ 	} else
++ 		msg->hdr->length = host_to_be16(wpabuf_len(msg->buf));
++ 
++@@ -398,23 +427,19 @@ int radius_msg_finish(struct radius_msg *msg, const u8 *secret,
++ int radius_msg_finish_srv(struct radius_msg *msg, const u8 *secret,
++ 			  size_t secret_len, const u8 *req_authenticator)
++ {
++-	u8 auth[MD5_MAC_LEN];
++-	struct radius_attr_hdr *attr;
++ 	const u8 *addr[4];
++ 	size_t len[4];
+++	u8 *pos;
++ 
++-	os_memset(auth, 0, MD5_MAC_LEN);
++-	attr = radius_msg_add_attr(msg, RADIUS_ATTR_MESSAGE_AUTHENTICATOR,
++-				   auth, MD5_MAC_LEN);
++-	if (attr == NULL) {
++-		wpa_printf(MSG_ERROR, "WARNING: Could not add Message-Authenticator");
+++	pos = radius_msg_auth_pos(msg);
+++	if (!pos)
++ 		return -1;
++-	}
++ 	msg->hdr->length = host_to_be16(wpabuf_len(msg->buf));
++ 	os_memcpy(msg->hdr->authenticator, req_authenticator,
++ 		  sizeof(msg->hdr->authenticator));
++-	hmac_md5(secret, secret_len, wpabuf_head(msg->buf),
++-		 wpabuf_len(msg->buf), (u8 *) (attr + 1));
+++	if (hmac_md5(secret, secret_len, wpabuf_head(msg->buf),
+++		     wpabuf_len(msg->buf), pos) < 0)
+++		return -1;
++ 
++ 	/* ResponseAuth = MD5(Code+ID+Length+RequestAuth+Attributes+Secret) */
++ 	addr[0] = (u8 *) msg->hdr;
++@@ -442,21 +467,17 @@ int radius_msg_finish_das_resp(struct radius_msg *msg, const u8 *secret,
++ {
++ 	const u8 *addr[2];
++ 	size_t len[2];
++-	u8 auth[MD5_MAC_LEN];
++-	struct radius_attr_hdr *attr;
+++	u8 *pos;
++ 
++-	os_memset(auth, 0, MD5_MAC_LEN);
++-	attr = radius_msg_add_attr(msg, RADIUS_ATTR_MESSAGE_AUTHENTICATOR,
++-				   auth, MD5_MAC_LEN);
++-	if (attr == NULL) {
++-		wpa_printf(MSG_WARNING, "Could not add Message-Authenticator");
+++	pos = radius_msg_auth_pos(msg);
+++	if (!pos)
++ 		return -1;
++-	}
++ 
++ 	msg->hdr->length = host_to_be16(wpabuf_len(msg->buf));
++ 	os_memcpy(msg->hdr->authenticator, req_hdr->authenticator, 16);
++-	hmac_md5(secret, secret_len, wpabuf_head(msg->buf),
++-		 wpabuf_len(msg->buf), (u8 *) (attr + 1));
+++	if (hmac_md5(secret, secret_len, wpabuf_head(msg->buf),
+++		     wpabuf_len(msg->buf), pos) < 0)
+++		return -1;
++ 
++ 	/* ResponseAuth = MD5(Code+ID+Length+RequestAuth+Attributes+Secret) */
++ 	addr[0] = wpabuf_head_u8(msg->buf);
++diff --git a/src/radius/radius.h b/src/radius/radius.h
++index fb8148180..6b9dfbca2 100644
++--- a/src/radius/radius.h
+++++ b/src/radius/radius.h
++@@ -240,6 +240,7 @@ struct wpabuf * radius_msg_get_buf(struct radius_msg *msg);
++ struct radius_msg * radius_msg_new(u8 code, u8 identifier);
++ void radius_msg_free(struct radius_msg *msg);
++ void radius_msg_dump(struct radius_msg *msg);
+++u8 * radius_msg_add_msg_auth(struct radius_msg *msg);
++ int radius_msg_finish(struct radius_msg *msg, const u8 *secret,
++ 		      size_t secret_len);
++ int radius_msg_finish_srv(struct radius_msg *msg, const u8 *secret,
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_02.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_02.patch
+new file mode 100644
+index 0000000000..02e35bd6de
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_02.patch
+@@ -0,0 +1,62 @@
++From 54abb0d3cf35894e7d86e3f7555e95b106306803 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sat, 16 Mar 2024 11:13:32 +0200
++Subject: [PATCH 3/9] RADIUS server: Place Message-Authenticator attribute as
++ the first one
++
++Move the Message-Authenticator attribute to be the first attribute in
++the RADIUS messages. This mitigates certain MD5 attacks against
++RADIUS/UDP.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=54abb0d3cf35894e7d86e3f7555e95b106306803]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/radius/radius_server.c | 15 +++++++++++++++
++ 1 file changed, 15 insertions(+)
++
++diff --git a/src/radius/radius_server.c b/src/radius/radius_server.c
++index e02c21540..fa3691548 100644
++--- a/src/radius/radius_server.c
+++++ b/src/radius/radius_server.c
++@@ -920,6 +920,11 @@ radius_server_encapsulate_eap(struct radius_server_data *data,
++ 		return NULL;
++ 	}
++ 
+++	if (!radius_msg_add_msg_auth(msg)) {
+++		radius_msg_free(msg);
+++		return NULL;
+++	}
+++
++ 	sess_id = htonl(sess->sess_id);
++ 	if (code == RADIUS_CODE_ACCESS_CHALLENGE &&
++ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_STATE,
++@@ -1204,6 +1209,11 @@ radius_server_macacl(struct radius_server_data *data,
++ 		return NULL;
++ 	}
++ 
+++	if (!radius_msg_add_msg_auth(msg)) {
+++		radius_msg_free(msg);
+++		return NULL;
+++	}
+++
++ 	if (radius_msg_copy_attr(msg, request, RADIUS_ATTR_PROXY_STATE) < 0) {
++ 		RADIUS_DEBUG("Failed to copy Proxy-State attribute(s)");
++ 		radius_msg_free(msg);
++@@ -1253,6 +1263,11 @@ static int radius_server_reject(struct radius_server_data *data,
++ 		return -1;
++ 	}
++ 
+++	if (!radius_msg_add_msg_auth(msg)) {
+++		radius_msg_free(msg);
+++		return -1;
+++	}
+++
++ 	os_memset(&eapfail, 0, sizeof(eapfail));
++ 	eapfail.code = EAP_CODE_FAILURE;
++ 	eapfail.identifier = 0;
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_03.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_03.patch
+new file mode 100644
+index 0000000000..c4aa40c811
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_03.patch
+@@ -0,0 +1,37 @@
++From 689a248260c9708e6c92cd8635382725a29e34ca Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sat, 16 Mar 2024 11:16:12 +0200
++Subject: [PATCH 4/9] eapol_test: Move Message-Authenticator attribute to be
++ the first one
++
++Even if this is not strictly speaking necessary for mitigating certain
++RADIUS protocol attacks, be consistent with the RADIUS server behavior
++and move the Message-Authenticator attribute to be the first attribute
++in the message from RADIUS client.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=689a248260c9708e6c92cd8635382725a29e34ca]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ wpa_supplicant/eapol_test.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/wpa_supplicant/eapol_test.c b/wpa_supplicant/eapol_test.c
++index e256ac50e..57082e4b8 100644
++--- a/wpa_supplicant/eapol_test.c
+++++ b/wpa_supplicant/eapol_test.c
++@@ -194,6 +194,9 @@ static void ieee802_1x_encapsulate_radius(struct eapol_test_data *e,
++ 		return;
++ 	}
++ 
+++	if (!radius_msg_add_msg_auth(msg))
+++		goto fail;
+++
++ 	radius_msg_make_authenticator(msg);
++ 
++ 	hdr = (const struct eap_hdr *) eap;
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_04.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_04.patch
+new file mode 100644
+index 0000000000..ce499ce8b6
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_04.patch
+@@ -0,0 +1,52 @@
++From 37fe8e48ab44d44fe3cf5dd8f52cb0a10be0cd17 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sat, 16 Mar 2024 11:22:43 +0200
++Subject: [PATCH 5/9] hostapd: Move Message-Authenticator attribute to be the
++ first one in req
++
++Even if this is not strictly speaking necessary for mitigating certain
++RADIUS protocol attacks, be consistent with the RADIUS server behavior
++and move the Message-Authenticator attribute to be the first attribute
++in the message from RADIUS client in hostapd.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=37fe8e48ab44d44fe3cf5dd8f52cb0a10be0cd17]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/ap/ieee802_11_auth.c | 3 +++
++ src/ap/ieee802_1x.c      | 3 +++
++ 2 files changed, 6 insertions(+)
++
++diff --git a/src/ap/ieee802_11_auth.c b/src/ap/ieee802_11_auth.c
++index 47cc625be..2a950cf7f 100644
++--- a/src/ap/ieee802_11_auth.c
+++++ b/src/ap/ieee802_11_auth.c
++@@ -119,6 +119,9 @@ static int hostapd_radius_acl_query(struct hostapd_data *hapd, const u8 *addr,
++ 		goto fail;
++ 	}
++ 
+++	if (!radius_msg_add_msg_auth(msg))
+++		goto fail;
+++
++ 	os_snprintf(buf, sizeof(buf), RADIUS_ADDR_FORMAT, MAC2STR(addr));
++ 	if (!radius_msg_add_attr(msg, RADIUS_ATTR_USER_NAME, (u8 *) buf,
++ 				 os_strlen(buf))) {
++diff --git a/src/ap/ieee802_1x.c b/src/ap/ieee802_1x.c
++index 753c88335..89e3dd30e 100644
++--- a/src/ap/ieee802_1x.c
+++++ b/src/ap/ieee802_1x.c
++@@ -702,6 +702,9 @@ void ieee802_1x_encapsulate_radius(struct hostapd_data *hapd,
++ 		goto fail;
++ 	}
++ 
+++	if (!radius_msg_add_msg_auth(msg))
+++		goto fail;
+++
++ 	if (sm->identity &&
++ 	    !radius_msg_add_attr(msg, RADIUS_ATTR_USER_NAME,
++ 				 sm->identity, sm->identity_len)) {
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_05.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_05.patch
+new file mode 100644
+index 0000000000..44113afd4a
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_05.patch
+@@ -0,0 +1,51 @@
++From f54157077f799d84ce26bed6ad6b01c4a16e31cf Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sat, 16 Mar 2024 11:26:58 +0200
++Subject: [PATCH 6/9] RADIUS DAS: Move Message-Authenticator attribute to be
++ the first one
++
++Even if this might not be strictly speaking necessary for mitigating
++certain RADIUS protocol attacks, be consistent with the RADIUS server
++behavior and move the Message-Authenticator attribute to be the first
++attribute in the RADIUS DAS responses from hostapd.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=f54157077f799d84ce26bed6ad6b01c4a16e31cf]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/radius/radius_das.c | 10 ++++++++++
++ 1 file changed, 10 insertions(+)
++
++diff --git a/src/radius/radius_das.c b/src/radius/radius_das.c
++index aaa3fc267..8d7c9b4c4 100644
++--- a/src/radius/radius_das.c
+++++ b/src/radius/radius_das.c
++@@ -177,6 +177,11 @@ fail:
++ 	if (reply == NULL)
++ 		return NULL;
++ 
+++	if (!radius_msg_add_msg_auth(reply)) {
+++		radius_msg_free(reply);
+++		return NULL;
+++	}
+++
++ 	if (error) {
++ 		if (!radius_msg_add_attr_int32(reply, RADIUS_ATTR_ERROR_CAUSE,
++ 					       error)) {
++@@ -368,6 +373,11 @@ fail:
++ 	if (!reply)
++ 		return NULL;
++ 
+++	if (!radius_msg_add_msg_auth(reply)) {
+++		radius_msg_free(reply);
+++		return NULL;
+++	}
+++
++ 	if (error &&
++ 	    !radius_msg_add_attr_int32(reply, RADIUS_ATTR_ERROR_CAUSE, error)) {
++ 		radius_msg_free(reply);
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_06.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_06.patch
+new file mode 100644
+index 0000000000..9a284b5261
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_06.patch
+@@ -0,0 +1,46 @@
++From 934b0c3a45ce0726560ccefbd992a9d385c36385 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sat, 16 Mar 2024 11:31:37 +0200
++Subject: [PATCH 7/9] Require Message-Authenticator in Access-Reject even
++ without EAP-Message
++
++Do not allow the exception for missing Message-Authenticator in
++Access-Reject without EAP-Message. While such exception is allowed in
++RADIUS definition, there is no strong reason to maintain this since
++Access-Reject is supposed to include EAP-Message and even if it doesn't,
++discarding Access-Reject will result in the connection not completing.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=934b0c3a45ce0726560ccefbd992a9d385c36385]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/ap/ieee802_1x.c | 11 +----------
++ 1 file changed, 1 insertion(+), 10 deletions(-)
++
++diff --git a/src/ap/ieee802_1x.c b/src/ap/ieee802_1x.c
++index 89e3dd30e..6e7b75128 100644
++--- a/src/ap/ieee802_1x.c
+++++ b/src/ap/ieee802_1x.c
++@@ -1939,16 +1939,7 @@ ieee802_1x_receive_auth(struct radius_msg *msg, struct radius_msg *req,
++ 	}
++ 	sta = sm->sta;
++ 
++-	/* RFC 2869, Ch. 5.13: valid Message-Authenticator attribute MUST be
++-	 * present when packet contains an EAP-Message attribute */
++-	if (hdr->code == RADIUS_CODE_ACCESS_REJECT &&
++-	    radius_msg_get_attr(msg, RADIUS_ATTR_MESSAGE_AUTHENTICATOR, NULL,
++-				0) < 0 &&
++-	    radius_msg_get_attr(msg, RADIUS_ATTR_EAP_MESSAGE, NULL, 0) < 0) {
++-		wpa_printf(MSG_DEBUG,
++-			   "Allowing RADIUS Access-Reject without Message-Authenticator since it does not include EAP-Message");
++-	} else if (radius_msg_verify(msg, shared_secret, shared_secret_len,
++-				     req, 1)) {
+++	if (radius_msg_verify(msg, shared_secret, shared_secret_len, req, 1)) {
++ 		wpa_printf(MSG_INFO,
++ 			   "Incoming RADIUS packet did not have correct Message-Authenticator - dropped");
++ 		return RADIUS_RX_INVALID_AUTHENTICATOR;
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_07.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_07.patch
+new file mode 100644
+index 0000000000..177c6f81e6
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_07.patch
+@@ -0,0 +1,67 @@
++From 58097123ec5ea6f8276b38cb9b07669ec368a6c1 Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sun, 17 Mar 2024 10:42:56 +0200
++Subject: [PATCH 8/9] RADIUS: Require Message-Authenticator attribute in MAC
++ ACL cases
++
++hostapd required Message-Authenticator attribute to be included in EAP
++authentication cases, but that requirement was not in place for MAC ACL
++cases. Start requiring Message-Authenticator attribute for MAC ACL by
++default. Unlike the EAP case, this can still be disabled with
++radius_require_message_authenticator=1 to maintain compatibility with
++some RADIUS servers when used in a network where the connection to such
++a server is secure.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=58097123ec5ea6f8276b38cb9b07669ec368a6c1]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/ap/ap_config.c       |  1 +
++ src/ap/ap_config.h       |  1 +
++ src/ap/ieee802_11_auth.c |  4 +++-
++ 5 files changed, 19 insertions(+), 1 deletion(-)
++
++diff --git a/src/ap/ap_config.c b/src/ap/ap_config.c
++index 86b6e097c..cf497a180 100644
++--- a/src/ap/ap_config.c
+++++ b/src/ap/ap_config.c
++@@ -120,6 +120,7 @@ void hostapd_config_defaults_bss(struct hostapd_bss_config *bss)
++ #endif /* CONFIG_IEEE80211R_AP */
++ 
++ 	bss->radius_das_time_window = 300;
+++	bss->radius_require_message_authenticator = 1;
++ 
++ 	bss->anti_clogging_threshold = 5;
++ 	bss->sae_sync = 5;
++diff --git a/src/ap/ap_config.h b/src/ap/ap_config.h
++index 49cd3168a..22ad617f4 100644
++--- a/src/ap/ap_config.h
+++++ b/src/ap/ap_config.h
++@@ -302,6 +302,7 @@ struct hostapd_bss_config {
++ 	struct hostapd_ip_addr own_ip_addr;
++ 	char *nas_identifier;
++ 	struct hostapd_radius_servers *radius;
+++	int radius_require_message_authenticator;
++ 	int acct_interim_interval;
++ 	int radius_request_cui;
++ 	struct hostapd_radius_attr *radius_auth_req_attr;
++diff --git a/src/ap/ieee802_11_auth.c b/src/ap/ieee802_11_auth.c
++index 2a950cf7f..dab9bcde3 100644
++--- a/src/ap/ieee802_11_auth.c
+++++ b/src/ap/ieee802_11_auth.c
++@@ -474,7 +474,9 @@ hostapd_acl_recv_radius(struct radius_msg *msg, struct radius_msg *req,
++ 		   "Found matching Access-Request for RADIUS message (id=%d)",
++ 		   query->radius_id);
++ 
++-	if (radius_msg_verify(msg, shared_secret, shared_secret_len, req, 0)) {
+++	if (radius_msg_verify(
+++		    msg, shared_secret, shared_secret_len, req,
+++		    hapd->conf->radius_require_message_authenticator)) {
++ 		wpa_printf(MSG_INFO,
++ 			   "Incoming RADIUS packet did not have correct authenticator - dropped");
++ 		return RADIUS_RX_INVALID_AUTHENTICATOR;
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_08.patch b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_08.patch
+new file mode 100644
+index 0000000000..e23d1e0047
+--- /dev/null
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2024-3596_08.patch
+@@ -0,0 +1,47 @@
++From f302d9f9646704cce745734af21d540baa0da65f Mon Sep 17 00:00:00 2001
++From: Jouni Malinen <j@w1.fi>
++Date: Sun, 17 Mar 2024 10:47:58 +0200
++Subject: [PATCH 9/9] RADIUS: Check Message-Authenticator if it is present even
++ if not required
++
++Always check the Message-Authenticator attribute in a received RADIUS
++message if it is present. Previously, this would have been skipped if
++the attribute was not required to be present.
++
++Signed-off-by: Jouni Malinen <j@w1.fi>
++
++CVE: CVE-2024-3596
++Upstream-Status: Backport [https://w1.fi/cgit/hostap/commit/?id=f302d9f9646704cce745734af21d540baa0da65f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/radius/radius.c | 14 ++++++++++++++
++ 1 file changed, 14 insertions(+)
++
++diff --git a/src/radius/radius.c b/src/radius/radius.c
++index 2d2e00b5c..a0e3ce399 100644
++--- a/src/radius/radius.c
+++++ b/src/radius/radius.c
++@@ -879,6 +879,20 @@ int radius_msg_verify(struct radius_msg *msg, const u8 *secret,
++ 		return 1;
++ 	}
++ 
+++	if (!auth) {
+++		u8 *pos;
+++		size_t alen;
+++
+++		if (radius_msg_get_attr_ptr(msg,
+++					    RADIUS_ATTR_MESSAGE_AUTHENTICATOR,
+++					    &pos, &alen, NULL) == 0) {
+++			/* Check the Message-Authenticator attribute since it
+++			 * was included even if we are configured to not
+++			 * require it. */
+++			auth = 1;
+++		}
+++	}
+++
++ 	if (auth &&
++ 	    radius_msg_verify_msg_auth(msg, secret, secret_len,
++ 				       sent_msg->hdr->authenticator)) {
++-- 
++2.30.2
++
+diff --git a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+index 01dc72b385..56c01ede54 100644
+--- a/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
++++ b/meta/recipes-connectivity/wpa-supplicant/wpa-supplicant_2.10.bb
+@@ -19,6 +19,15 @@ SRC_URI = "http://w1.fi/releases/wpa_supplicant-${PV}.tar.gz \
+            file://0002-Fix-removal-of-wpa_passphrase-on-make-clean.patch \
+            file://0001-Install-wpa_passphrase-when-not-disabled.patch \
+            file://0001-PEAP-client-Update-Phase-2-authentication-requiremen.patch \
++           file://CVE-2024-3596_00.patch \
++           file://CVE-2024-3596_01.patch \
++           file://CVE-2024-3596_02.patch \
++           file://CVE-2024-3596_03.patch \
++           file://CVE-2024-3596_04.patch \
++           file://CVE-2024-3596_05.patch \
++           file://CVE-2024-3596_06.patch \
++           file://CVE-2024-3596_07.patch \
++           file://CVE-2024-3596_08.patch \
+            "
+ SRC_URI[sha256sum] = "20df7ae5154b3830355f8ab4269123a87affdea59fe74fe9292a91d0d7e17b2f"
+ 
 -- 
 2.34.1
 
