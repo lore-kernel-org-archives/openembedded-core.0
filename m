@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5222CFB424
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB433CFB443
 	for <webhook@archiver.kernel.org>; Mon,  7 Oct 2024 01:55:29 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.web10.44011.1728266126209000206
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.44004.1728266124573519516
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Oct 2024 18:55:26 -0700
+ Sun, 06 Oct 2024 18:55:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FthUrXwd;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.52, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2e18293a5efso2641461a91.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 18:55:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mxNzPmYX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e0a950e2f2so3253608a91.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 06 Oct 2024 18:55:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728266125; x=1728870925; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728266124; x=1728870924; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/Izn8e2VuXK8B4h3j6ENh6uAuwG36KiNcl/Tf/0vVsg=;
-        b=FthUrXwdhCBvU7EkzU5NO4FrBXLqCh3fgH5Q0UdoWESqkouH715+GhXzVEB+By1Swq
-         j4urhFZHdEHEMDJE242K9U8hOQC98k6T5/kmC+GJYAkg/nYH+WTfwI5+4qI03E4ogKJR
-         wQbijl1LSisv7PINnHkFRC/DSrLTeKqEYSKjxbzvX8OY1fsnBAfL38h/laFuLWgq+paQ
-         ZjkMi57CqZEHrP5Wy3XsMBg1MUWxaj6T93VprfYgcJi+VUsR42nu5bFNKIgm7v1TAn/L
-         /KVAAn8UxMjLgTbCUuv4FDQSB2mb+TFLsqIeRyiFjxjumWNlkXPYTPjXubLlq/rvSpno
-         8pag==
+        bh=JRi4SFc6q2ESPrXh9cujzJd5e3qHsb6+OqH3541S1Vg=;
+        b=mxNzPmYX4WDBund98vyTmQu1GTCMG4WWjXerEEGz2RLrERT7PhNek5CsJ6piQQ4WhK
+         rsixb9+h/YZbuW/9iPr6DHN09HD4hHOwyjlYRGowEDEyMiq8IapFnUyVnMgR9dL2fLZY
+         1lAJJrYL9v2VP9n1FBYH2XlipyIT/iHaAAbUBSnhUMcI8qslw6px4u03UX2TcJiJ2pHd
+         05juGYT/tSnuUp1ljESA04i8L1kUZLg/9GRZNrkpcsNsobOLH2A6E2VbKi6bUpUFqb1V
+         BV/aADaBPpZ+UqspIroGHwYPYdkB9ZClWI3O1LZ373FMulSJkhg/KYv8NYeL4vZLvPW/
+         Z65Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728266125; x=1728870925;
+        d=1e100.net; s=20230601; t=1728266124; x=1728870924;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/Izn8e2VuXK8B4h3j6ENh6uAuwG36KiNcl/Tf/0vVsg=;
-        b=jkTdak6B5CfCFLESTKFdbGFzja+QD7JcXe9DX/fl4nastB4+llMxieZQ/QmtCecHSy
-         cniFnWXg0c7PvUnwDuS7J0/BQYlZ/+wBpp4RZua3In7YydnhPl+eX4tKLY2qLmrh18fw
-         fAyUvNVfBqPILmtlrUz/vh70dQO8DtGQESTnT4QgoDf4yczfWPQorjeVfH2XYBK6KAvd
-         7JqLi/+eUWqqQn8wVPHbUS//HaPfCTbPTGANOeAdXnMKP1lBQH5fkaFQ9JMO0BfBvGow
-         NePn6M96o2/e2mcSbOKT8tZdLHsK4GKJTiJ8iw39GedOpMD4aIyYqcvNJ5X46/Lv/Ens
-         9KUQ==
-X-Gm-Message-State: AOJu0YzVHS2ierMIZMNwimlLQSI9K2bDixY97WA5WCS4y/uBDX122WyR
-	WLCZKtmDoaPH08J0MYTVP9nXxgS5JNFr82TL43eOQuGCK3yPkcY6nF/4+upSK6GTNyx1eRsgHQL
-	dNE4=
-X-Google-Smtp-Source: AGHT+IHWdaOOoq/XQsyLWvVbx1ewbAS3J4pKwrB7JOSt+asy1GjfaoIYm1vmzx3tQC35ZK4O2rSrHg==
-X-Received: by 2002:a17:90b:17c7:b0:2e0:808f:ef9e with SMTP id 98e67ed59e1d1-2e1e631ef86mr12267177a91.26.1728266125431;
-        Sun, 06 Oct 2024 18:55:25 -0700 (PDT)
+        bh=JRi4SFc6q2ESPrXh9cujzJd5e3qHsb6+OqH3541S1Vg=;
+        b=TmkzhSg3i+QZAW5nFXRkje3c4MsuQmusdLq3FlUmxeRAO1Qq+z9xR8ZtxMmRSdwi2N
+         bX0mgIi1W3+s8NLXqrNt1o5YdFlOgW1EyjeJR9RB4qttZlO+sf6ZAd38uZLj2Q8IGhLE
+         SDJSQTUcjM0sy/i3m4CWkw4thi2VSvGccqjnVruwSi1kNDpkNaEmWHw9a1YvyDzrpPdd
+         BGWn9QIHhj28zTDUQf4Y/qXBpiXjRGk4YwTVirFqBRmGM5zpQ9mlH150y5jCq4gGZiNe
+         mVRn6Us2AyQB4f0B8AQ17MINJm4JwINENfiXc8B3XbPosbEsa10fN7oZcpNPgGSG9ROn
+         MDvg==
+X-Gm-Message-State: AOJu0Yynw7/Fd5s0t7A0+8XjnVWiFbBtQdAscucSoWSn0C3qKBtU4QFt
+	VER/By/PB03si2HOV7yfl/as4BnSaraivIuwkpSMJdcw6k4bHhuFGG1DQKCgAyMPQKBQZTs2oxR
+	TqCk=
+X-Google-Smtp-Source: AGHT+IF1Nderqigr+HugB6KylXJvKRIZ1NLKNUrS6gnFxR7/1G9+ujVe1Rz0ZZ0kHY+dWM+mHLcIhw==
+X-Received: by 2002:a17:90a:ad8e:b0:2e0:78a0:55c4 with SMTP id 98e67ed59e1d1-2e1e622723bmr12746989a91.9.1728266123722;
+        Sun, 06 Oct 2024 18:55:23 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20aebb70asm4074938a91.19.2024.10.06.18.55.24
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e20aebb70asm4074938a91.19.2024.10.06.18.55.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Oct 2024 18:55:25 -0700 (PDT)
+        Sun, 06 Oct 2024 18:55:23 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/10] meta-world-pkgdata: Inherit nopackages
-Date: Sun,  6 Oct 2024 18:55:03 -0700
-Message-Id: <5ea3ba00532265165e0d30f6d2eed568f5b5867f.1728266000.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/10] populate_sdk_base: inherit nopackages
+Date: Sun,  6 Oct 2024 18:55:02 -0700
+Message-Id: <2462cceaeec362d85a469ec0668ed92a092e725c.1728266000.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1728266000.git.steve@sakoman.com>
 References: <cover.1728266000.git.steve@sakoman.com>
@@ -62,34 +62,43 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 01:55:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205258
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205257
 
 From: Martin Jansa <martin.jansa@gmail.com>
 
-Since this is a recipe with PACKAGES = "", inherit the nopackages
-class to skip the various packaging functions which wouldn't do anything anyway.
+Since this bbclass sets PACKAGES = "", inherit the nopackages
+class to skip the various packaging functions which wouldn't
+do anything anyway.
 
 This fixes errors from buildhistory changes where packages-split would be empty.
 
+e.g. meta-toolchain build now fails with:
+| DEBUG: Executing shell function buildhistory_list_pkg_files
+| find: ".../meta-toolchain/1.0/packages-split/*": No such file or directory
+| WARNING: exit code 1 from a shell command.
+| DEBUG: Python function buildhistory_emit_pkghistory finished
+
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Atharva Nandanwar <atharvanandanwar@outlook.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-core/meta/meta-world-pkgdata.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-recipe/populate_sdk_base.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/meta/meta-world-pkgdata.bb b/meta/recipes-core/meta/meta-world-pkgdata.bb
-index 0438bf6138..954675f383 100644
---- a/meta/recipes-core/meta/meta-world-pkgdata.bb
-+++ b/meta/recipes-core/meta/meta-world-pkgdata.bb
-@@ -27,6 +27,7 @@ python do_collect_packagedata() {
-     oe.copy_buildsystem.generate_locked_sigs(sigfile, d)
- }
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
+index a103e7b738..5c738dbf2a 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -13,7 +13,7 @@ PACKAGES = ""
+ # SDK processing context.  This class happens to be common to these usages.
+ SPDX_MULTILIB_SSTATE_ARCHS = "${@all_multilib_tune_values(d, 'SSTATE_ARCHS')}"
  
-+inherit nopackages
- deltask do_fetch
- deltask do_unpack
- deltask do_patch
+-inherit image-postinst-intercepts image-artifact-names
++inherit image-postinst-intercepts image-artifact-names nopackages
+ 
+ # Wildcards specifying complementary packages to install for every package that has been explicitly
+ # installed into the rootfs
 -- 
 2.34.1
 
