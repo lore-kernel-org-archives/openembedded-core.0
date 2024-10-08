@@ -1,226 +1,111 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24A44CEFC4C
-	for <webhook@archiver.kernel.org>; Tue,  8 Oct 2024 19:31:24 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.4658.1728415877663184111
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 319F6CF0427
+	for <webhook@archiver.kernel.org>; Tue,  8 Oct 2024 21:04:24 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.272.1728421459374263323
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Oct 2024 12:31:17 -0700
+ Tue, 08 Oct 2024 14:04:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EDFEFDA7
-	for <openembedded-core@lists.openembedded.org>; Tue,  8 Oct 2024 12:31:46 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D155D3F73F
-	for <openembedded-core@lists.openembedded.org>; Tue,  8 Oct 2024 12:31:16 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/10] insane: use oe.cachedpath.CachedPath instead of os.path
-Date: Tue,  8 Oct 2024 20:31:03 +0100
-Message-Id: <20241008193103.2429829-10-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241008193103.2429829-1-ross.burton@arm.com>
-References: <20241008193103.2429829-1-ross.burton@arm.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=d+RAlu6/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d2ddb61c8so1082065f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 14:04:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1728421457; x=1729026257; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=al6LhpI6SbP0vVDJpRQ0Jl5+lHPtoSz6cYd3F8fjN7M=;
+        b=d+RAlu6/ByBcIViNkFkv2wfqs9a00OiYJokI7aSqmJtmOgdN14EQqHQSzqSHULA1A+
+         yomlMpfuu8GeTBtuhyMWvR0QiQEvyBy9zZkoAWewXOMMNXL2B4ytHNs8QjxX4QXi7xSc
+         cN58hgLu4P6KxMOozAXQt+r9n0FZI/EXrpDJ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728421457; x=1729026257;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=al6LhpI6SbP0vVDJpRQ0Jl5+lHPtoSz6cYd3F8fjN7M=;
+        b=OTiGgkfrw9gIOg1z2EpFEGi2Cd8KBGF0FWiLEYYszuR6poooiCYtEJDOJL7itOjisS
+         5O9mD4WEnPbq0dhFtqmzEpQz3/Ne3u54AxE8/K2FFRSzaUqb5b+uMFqYn/2pHv74juwH
+         ov8XWlRgYWkekV7o1j1wu1iVZPqdYcj7mnss1wRgDpsbRGCLzjFt6nG0MP9PzTa7gIm8
+         LGlSaCV43iHTYqYj1a0w/reMFd/8+zQ2ahkLsYXhFm9956d2SGVA239RhlvPEVLz9Drw
+         Wv1WR3tXfsdSjRvb7yTAqdFuEsFcE6R20qZthUpXCArohkpHpbMRZnGvMvDTcw/m4571
+         Yy7A==
+X-Forwarded-Encrypted: i=1; AJvYcCWhY66BZBi3qdlEDorwLrK8nMH9MqJSt3UYlbbdL1KOB9R6ULopTTGlHqqWq3yg5Gwd2VGVQC0dOdpeynkPuhWveQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwfB/NuzUNTN6o7smMgT/dVSmPzo9g2fYjC6OjBGKQtJAcEzskR
+	Uo4WBMnrLRo/hjCx7hJyUMd3Zt1k7A9aAGrjXxOFJxU9szIrsVmpoASmp2umkn0=
+X-Google-Smtp-Source: AGHT+IEB7l9vy/6qvpFl8XxHY+Fyn9xQytKJm/vaI2HmM3s+Mfb5yMJSFEVdih1JUSNpSkJhKm2x+w==
+X-Received: by 2002:adf:e551:0:b0:37d:3705:84e7 with SMTP id ffacd0b85a97d-37d3aa40646mr118222f8f.17.1728421457510;
+        Tue, 08 Oct 2024 14:04:17 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8294:f8ed:764d:9219? ([2001:8b0:aba:5f3c:8294:f8ed:764d:9219])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d1691a47esm8826983f8f.28.2024.10.08.14.04.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 14:04:16 -0700 (PDT)
+Message-ID: <08381e35d278792747069cd8fae141af3dfd31f2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] python3-cryptography{-vectors}: upgrade
+ 42.0.8 -> 43.0.0
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: tim.orling@konsulko.com, Alexandre Belloni
+ <alexandre.belloni@bootlin.com>
+Date: Tue, 08 Oct 2024 22:04:16 +0100
+In-Reply-To: <CANNYZj-rssV8xRfWvq7i7rZJHPfC7zDQRw-T_vMB8TekCJK8Lg@mail.gmail.com>
+References: <20240813031628.1123492-1-tim.orling@konsulko.com>
+	 <20240814225104ed116094@mail.local>
+	 <CAOyo-85dM7t_uByZ12qPh9haZmOHiKFTRnyfhMmp2u9oCzYoHA@mail.gmail.com>
+	 <a11cc259b50cbc7edb9daf959ae92e107f363144.camel@linuxfoundation.org>
+	 <17F87AF6EAFDA641.14701@lists.openembedded.org>
+	 <17F8C2E18D10AF69.31778@lists.openembedded.org>
+	 <CANNYZj-rssV8xRfWvq7i7rZJHPfC7zDQRw-T_vMB8TekCJK8Lg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 19:31:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205310
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 21:04:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205311
 
-The insane QAPATHTESTs make many os.stat() calls, the majority of which
-are redundant with caching as the initial sweep does a stat() on every
-entry to determine if it is a file or a directory, and from then on each
-test that does further stat()s is redundant as the tree doesn't change.
+On Tue, 2024-10-08 at 18:47 +0200, Alexander Kanavin wrote:
+> On Thu, 26 Sept 2024 at 11:58, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> > > > So the question is what is writing that file and is it doing it bas=
+ed
+> > > > on something like "ls" output which just lists the order on disk? I=
+f
+> > > > that is true you can thrown a sort in somewhere...
+> > >=20
+> > > Note that neither is sorted. I just built this with the in-progress
+> > > python 3.13 update, and with that the entries do seem to be sorted, s=
+o
+> > > it seems the problem will disappear with that update.
+> >=20
+> > Sadly this was a premature celebration. This was the case in my local
+> > build, but on the autobuilder (test python 3.13 build) it again fails
+> > in the same non-sorted way:
+> > https://autobuilder.yocto.io/pub/repro-fail/oe-reproducible-20240925-w8=
+kid2em/packages/diff-html/
+>=20
+> I have a fix for this now:
+> https://git.yoctoproject.org/poky-contrib/tree/meta/recipes-devtools/pyth=
+on/python3-installer/0001-src-installer-utils.py-sort-entries-before-writin=
+g-o.patch?h=3Dakanavin/package-version-updates
+>=20
+> Python 3.13 upgrade is still in progress, I need to go over these fails:
+> https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7361
 
-Switch os.stat() and friends (os.path.isfile(), etc) to use a common
-oe.cachedpath.CachedPath() instance that is shared between all of the
-functions, meaning only one stat is done.
+I have patches queued for bitbake to address some of the python 3.13
+issues in our own codebase. Python 3.13 also has issues working with
+pseudo which have just been fixed. Those would affect python3-native
+functionality.
 
-In my test case of ltp:do_package_qa, this reduces the time taken from
-44s to 37s.
+Cheers,
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- meta/classes-global/insane.bbclass | 42 ++++++++++++++++++++----------
- 1 file changed, 28 insertions(+), 14 deletions(-)
-
-diff --git a/meta/classes-global/insane.bbclass b/meta/classes-global/ins=
-ane.bbclass
-index be358f49993..2488be29f5d 100644
---- a/meta/classes-global/insane.bbclass
-+++ b/meta/classes-global/insane.bbclass
-@@ -82,7 +82,9 @@ def package_qa_clean_path(path, d, pkg=3DNone):
-=20
- QAPATHTEST[shebang-size] =3D "package_qa_check_shebang_size"
- def package_qa_check_shebang_size(path, name, d, elf):
--    if elf or os.path.islink(path) or not os.path.isfile(path):
-+    global cpath
-+
-+    if elf or cpath.islink(path) or not cpath.isfile(path):
-         return
-=20
-     try:
-@@ -167,8 +169,8 @@ def package_qa_check_dev(path, name, d, elf):
-     """
-     Check for ".so" library symlinks in non-dev packages
-     """
--
--    if not name.endswith("-dev") and not name.endswith("-dbg") and not n=
-ame.endswith("-ptest") and not name.startswith("nativesdk-") and path.end=
-swith(".so") and os.path.islink(path):
-+    global cpath
-+    if not name.endswith("-dev") and not name.endswith("-dbg") and not n=
-ame.endswith("-ptest") and not name.startswith("nativesdk-") and path.end=
-swith(".so") and cpath.islink(path):
-         oe.qa.handle_error("dev-so", "non -dev/-dbg/nativesdk- package %=
-s contains symlink .so '%s'" % \
-                  (name, package_qa_clean_path(path, d, name)), d)
-=20
-@@ -179,7 +181,8 @@ def package_qa_check_dev_elf(path, name, d, elf):
-     check that the file is not a link and is an ELF object as some recip=
-es
-     install link-time .so files that are linker scripts.
-     """
--    if name.endswith("-dev") and path.endswith(".so") and not os.path.is=
-link(path) and elf:
-+    global cpath
-+    if name.endswith("-dev") and path.endswith(".so") and not cpath.isli=
-nk(path) and elf:
-         oe.qa.handle_error("dev-elf", "-dev package %s contains non-syml=
-ink .so '%s'" % \
-                  (name, package_qa_clean_path(path, d, name)), d)
-=20
-@@ -422,9 +425,9 @@ def package_qa_check_buildpaths(path, name, d, elf):
-     explicitly ignored.
-     """
-     import stat
--
-+    global cpath
-     # Ignore symlinks/devs/fifos
--    mode =3D os.lstat(path).st_mode
-+    mode =3D cpath.lstat(path).st_mode
-     if stat.S_ISLNK(mode) or stat.S_ISBLK(mode) or stat.S_ISFIFO(mode) o=
-r stat.S_ISCHR(mode) or stat.S_ISSOCK(mode):
-         return
-=20
-@@ -469,7 +472,8 @@ def package_qa_check_symlink_to_sysroot(path, name, d=
-, elf):
-     """
-     Check that the package doesn't contain any absolute symlinks to the =
-sysroot.
-     """
--    if os.path.islink(path):
-+    global cpath
-+    if cpath.islink(path):
-         target =3D os.readlink(path)
-         if os.path.isabs(target):
-             tmpdir =3D d.getVar('TMPDIR')
-@@ -760,14 +764,19 @@ def qa_check_staged(path,d):
-                         oe.qa.handle_error("pkgconfig", error_msg, d)
-=20
-             if not skip_shebang_size:
-+                global cpath
-+                cpath =3D oe.cachedpath.CachedPath()
-                 package_qa_check_shebang_size(path, "", d, None)
-+                cpath =3D None
-=20
- # Walk over all files in a directory and call func
- def package_qa_walk(checkfuncs, package, d):
-+    global cpath
-+
-     elves =3D {}
-     for path in pkgfiles[package]:
-             elf =3D None
--            if os.path.isfile(path) and not os.path.islink(path):
-+            if cpath.isfile(path) and not cpath.islink(path):
-                 elf =3D oe.qa.ELFFile(path)
-                 try:
-                     elf.open()
-@@ -915,11 +924,12 @@ def package_qa_check_deps(pkg, pkgdest, d):
-=20
- QAPKGTEST[usrmerge] =3D "package_qa_check_usrmerge"
- def package_qa_check_usrmerge(pkg, d):
-+    global cpath
-     pkgdest =3D d.getVar('PKGDEST')
-     pkg_dir =3D pkgdest + os.sep + pkg + os.sep
-     merged_dirs =3D ['bin', 'sbin', 'lib'] + d.getVar('MULTILIB_VARIANTS=
-').split()
-     for f in merged_dirs:
--        if os.path.exists(pkg_dir + f) and not os.path.islink(pkg_dir + =
-f):
-+        if cpath.exists(pkg_dir + f) and not cpath.islink(pkg_dir + f):
-             msg =3D "%s package is not obeying usrmerge distro feature. =
-/%s should be relocated to /usr." % (pkg, f)
-             oe.qa.handle_error("usrmerge", msg, d)
-             return
-@@ -985,10 +995,11 @@ def package_qa_check_empty_dirs(pkg, d):
-     empty.
-     """
-=20
-+    global cpath
-     pkgd =3D oe.path.join(d.getVar('PKGDEST'), pkg)
-     for dir in (d.getVar('QA_EMPTY_DIRS') or "").split():
-         empty_dir =3D oe.path.join(pkgd, dir)
--        if os.path.exists(empty_dir) and os.listdir(empty_dir):
-+        if cpath.exists(empty_dir) and os.listdir(empty_dir):
-             recommendation =3D (d.getVar('QA_EMPTY_DIRS_RECOMMENDATION:'=
- + dir) or
-                               "but it is expected to be empty")
-             msg =3D "%s installs files in %s, %s" % (pkg, dir, recommend=
-ation)
-@@ -1018,8 +1029,9 @@ HOST_USER_GID :=3D "${@os.getgid()}"
- QAPATHTEST[host-user-contaminated] =3D "package_qa_check_host_user"
- def package_qa_check_host_user(path, name, d, elf):
-     """Check for paths outside of /home which are owned by the user runn=
-ing bitbake."""
-+    global cpath
-=20
--    if not os.path.lexists(path):
-+    if not cpath.lexists(path):
-         return
-=20
-     dest =3D d.getVar('PKGDEST')
-@@ -1029,7 +1041,7 @@ def package_qa_check_host_user(path, name, d, elf):
-         return
-=20
-     try:
--        stat =3D os.lstat(path)
-+        stat =3D cpath.lstat(path)
-     except OSError as exc:
-         import errno
-         if exc.errno !=3D errno.ENOENT:
-@@ -1105,13 +1117,14 @@ python do_package_qa () {
-     if not packages:
-         return
-=20
--    global pkgfiles
-+    global pkgfiles, cpath
-     pkgfiles =3D {}
-+    cpath =3D oe.cachedpath.CachedPath()
-     pkgdest =3D d.getVar('PKGDEST')
-     for pkg in packages:
-         pkgdir =3D os.path.join(pkgdest, pkg)
-         pkgfiles[pkg] =3D []
--        for walkroot, dirs, files in os.walk(pkgdir):
-+        for walkroot, dirs, files in cpath.walk(pkgdir):
-             # Don't walk into top-level CONTROL or DEBIAN directories as=
- these
-             # are temporary directories created by do_package.
-             if walkroot =3D=3D pkgdir:
-@@ -1159,6 +1172,7 @@ python do_package_qa () {
-=20
-     package_qa_check_libdir(d)
-=20
-+    cpath =3D None
-     oe.qa.exit_if_errors(d)
- }
-=20
---=20
-2.34.1
-
+Richard
 
