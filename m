@@ -1,103 +1,82 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50D73CEF15A
-	for <webhook@archiver.kernel.org>; Tue,  8 Oct 2024 11:42:51 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.7063.1728387765546994697
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75BCACEF162
+	for <webhook@archiver.kernel.org>; Tue,  8 Oct 2024 12:27:21 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web10.7905.1728390437830382883
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Oct 2024 04:42:45 -0700
+ Tue, 08 Oct 2024 05:27:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=lXdD/UOq;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-5398a26b64fso5383721e87.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 04:42:45 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QdR8C2VY;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37ccdc0d7f6so3581648f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 05:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728387764; x=1728992564; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=t2skEyw6zFxypG5iguKcRa6kdkiDr/kDj2fB+dTgI30=;
-        b=lXdD/UOqA+rsdnSyEkitHbo43dhNaFUB3ToHsLiqsVEZADew7tmudJ7BAf+DgvQMn2
-         JboPhTpQ77nGnxBIA9Ba03nLpeWMHcEZGbUb4aob1WXkPqz7cqhI97idN6YDW9YgvEWZ
-         TylE+qnEj4woUKAXlD9M1yTh9SmYs1A5L5HUfpzOr04pi8nA98IPEvNSMc4jwf9HhXlh
-         i2YMdvNkTfEFXW397P5RcUV4CBTGxycUjYrorTQmM0TUpBFRIGKxzGDzaQ2JlkYLmEVJ
-         zUwgOpSz1LrfZc32fcjAEBfaxvJ5gpL0maLJ9d6KkYwEJzYj0aBMnoYWMqwIrtlOhN5H
-         HtYg==
+        d=linuxfoundation.org; s=google; t=1728390436; x=1728995236; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8WNLPS2NhWErYZA/j8o/67ApNBc9udtclAAnNl7Ftfo=;
+        b=QdR8C2VYuBqxeZE4uKftbRvnK8YHkpj0OnUb8LetbQFU4tpeAUK0gsnOwX1hGt6Pi6
+         J5kJrpKFMqnCEl/8mbEU5yOaMScEpx4ZZ4o+aQc8Ro68kcXsyJKYH4wJwroGo1bS6086
+         FTWwR9L/BZXl/vulovTf0+uptPIltj5C/RBw4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728387764; x=1728992564;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=t2skEyw6zFxypG5iguKcRa6kdkiDr/kDj2fB+dTgI30=;
-        b=rwnCU9dne6r0410UUM9a8G63qFIf4rqDQKdPN96Mgz/FYN0gH08yemqhRtYpSzj5QL
-         IFCSkzJXZbCaOZYwzvlWdHrqEht+WtfiG9f2h92vjMRXXZGnlXmhfNEZLkxY3pZlqesI
-         whn59M82MM7WIudAC1nxFkBTuSrf+/28BiV1EJtUstcvJOWY4OOHn/+Jhb0f/qp/whuV
-         kojwIn90m9JDXxNWuYCbhfMhgb/uaOfMc0rz6DCMQ/ZpJR3cmUuZBXViMpXWAyhdwo6V
-         zFuB57C88rs2H+tci2xTgtcJylRpyV682ek8Bp6Y0H07arjs1j1ADhv20YdstDSaY+Qn
-         oJzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX3HP3KSMDjFLdqDqYcvIozm4DsKJzb90FbjGI+/psv7Xvc6E18HHyl/N1pdO+26wzLHtWmgzK9+nvhlaaGaKdivQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwIFeZUk3M1TxaWKWuZjXbRHWnSdJ++hpSJVA9TPFdeCWmIkc4V
-	kbH610nXf3xFFI+/xKdEfwfoCF/b5EKOi1zfP2w/sWOLisNF8y70vQa3d8x+IZqxEN0ebQ0NOc/
-	uxh6MNnY0rgT4nXKMDgVKQ+mntcs=
-X-Google-Smtp-Source: AGHT+IGi1AIvvQvKU8wOULjE7WPyciPxS4XCVsP5drO98TjABbsUg2ubzhw9De6feRjUwcEW5bF+McEwh1UDC6N/bes=
-X-Received: by 2002:a05:6512:3b8e:b0:537:a855:7d6f with SMTP id
- 2adb3069b0e04-539ab891f52mr7978100e87.34.1728387763259; Tue, 08 Oct 2024
- 04:42:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728390436; x=1728995236;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8WNLPS2NhWErYZA/j8o/67ApNBc9udtclAAnNl7Ftfo=;
+        b=ClugOoD9+3oCimOQq/A0z2S/UpgMAK2R5KRKrfDlnugbMwzXok4BZJ5zS5dDi4QtIe
+         HxlWuT4JU3W4fwl1wl8nzUqkw4LrqSETlPJi/kmYcr5PibsiVG3+B7Hafh9kj8Gegjcb
+         HOwEdPd3mMETnZjzB1Xu2ZTYg8ub3EEdcpFyjAJbM2xX4lPSic02/2bF/+PpOtLijHaL
+         OOrv5guyyi9KTBqTFB5YwA5uQotaxDBl/z4lCZfHuK4OExqwxmPqN+RBxKhPNVBxdio2
+         TuvO6GUkiJnQpeo2+uuBtlvoFlBRhJJvhmAUaItA+sWuUjBlbzYo/Me6azF+AzCFJacz
+         6QUw==
+X-Gm-Message-State: AOJu0Yy97HCoxqVv5hmD7KEPI4c0aCVQN9yi+Bfw1WL9q7x1+i93Y8R0
+	D4IkgqzqJ6Y7soDRhkOqnIQRtsQSyXOBw88mF1DhsNomI3Z/do6Ro+DK5stFv2k8AtG8x0rdwLX
+	2
+X-Google-Smtp-Source: AGHT+IFrXNmiA/kWR01SnDAv8DnziRXxlIToYzBmABH8R9CoBXWUnzY5bsbY8xuEQ9kSzfPOp88HRQ==
+X-Received: by 2002:a5d:4d44:0:b0:37c:d227:d193 with SMTP id ffacd0b85a97d-37d0e6caeb1mr9156671f8f.10.1728390435399;
+        Tue, 08 Oct 2024 05:27:15 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3f9a:5ae5:8636:3d57])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-42f86b445d2sm126172795e9.36.2024.10.08.05.27.14
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 05:27:14 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] pseudo: Fix envp bug and add posix_spawn wrapper
+Date: Tue,  8 Oct 2024 13:27:14 +0100
+Message-ID: <20241008122714.248948-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20240927132040.200122-1-claus.stovgaard@gmail.com>
- <c3155a29aa855283f3396582c989263d93ded4f3.camel@linuxfoundation.org>
- <2456863182484d2b15f75fe0f67a3473240a3fe6.camel@gmail.com>
- <CANNYZj-Wna0xVjvoX0hJwd9Kg_=yaVB+dNLecBDsjpSayo1zVg@mail.gmail.com> <2b4615fffa3c131e9795255c4884d6b9eea98c86.camel@gmail.com>
-In-Reply-To: <2b4615fffa3c131e9795255c4884d6b9eea98c86.camel@gmail.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 8 Oct 2024 13:42:31 +0200
-Message-ID: <CANNYZj-LcppbLy4bsHH6oRJeK6pPVXgVB_oq1UPik9B5wO2oGg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC][master][PATCH] populate_sdk_base: Add SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY
-To: claus.stovgaard@gmail.com
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 11:42:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205288
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 12:27:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205289
 
-On Tue, 8 Oct 2024 at 13:24, <claus.stovgaard@gmail.com> wrote:
+Fix pseudo with python 3.13 by adding a wrapper for posix_spawn and
+fixing a NULL pointer dereference in envp handling it uncovered. This
+fixes issues on Fedora 41.
 
-> It is a build time dependency as I see it.
->
-> if foo.bb is setting DEPENDS to include "bar baz and qux" to indicate
-> it need it for compilation.
->
-> When foo is added to an image, and we then populate_sdk for this image
-> I expect that the SDK includes the dev packages of bar baz and qux to
-> be able to compile foo with it.
->
-> This has working until now as the SDK installed the recommended
-> packages.
->
-> The key is that process_depchains in package.py make the
-> recommendation. From the comment
->
-> <snip>
-> def process_depchains(pkgfiles, d):
->     """
->     For a given set of prefix and postfix modifiers, make those
-> packages
->     RRECOMMENDS on the corresponding packages for its RDEPENDS.
->
->     Example:  If package A depends upon package B, and A's .bb emits an
->     A-dev package, this would make A-dev Recommends: B-dev.
-> </snip>
->
-> I will start on creating an example on my github account showing the
-> issue better if it is not yet clear.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I still don't understand why the standard SDK population mechanism
-doesn't work for you. It does pull in -dev for everything that is in
-the image, so where does this break down?
-
-Alex
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 7d8f71f65d4..87c62e06780 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+ 
+-SRCREV = "374089f2ed83da4d0d4e58df067142ff99c7eb12"
++SRCREV = "28dcefb809ce95db997811b5662f0b893b9923e0"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git"
+ 
 
