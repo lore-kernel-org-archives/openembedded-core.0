@@ -1,110 +1,110 @@
-Return-Path: <katariina.lounento@vaisala.com>
+Return-Path: <claus.stovgaard@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A37EBCED270
-	for <webhook@archiver.kernel.org>; Tue,  8 Oct 2024 06:33:39 +0000 (UTC)
-Received: from mail.kapsi.fi (mail.kapsi.fi [91.232.154.24])
- by mx.groups.io with SMTP id smtpd.web10.2782.1728369215678686277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B80F0CED272
+	for <webhook@archiver.kernel.org>; Tue,  8 Oct 2024 06:49:09 +0000 (UTC)
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.web10.2960.1728370142953197846
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Oct 2024 23:33:36 -0700
+ Mon, 07 Oct 2024 23:49:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kapsi.fi header.s=20161220 header.b=xEYIq5lm;
- spf=pass (domain: kapsi.fi, ip: 91.232.154.24, mailfrom: hlounent@kapsi.fi)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:
-	Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:Content-Description:
-	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
-	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=WPOtYIAECFO0yvUoHFKhma04sZMLgHdhS+tJ0IILDFQ=; b=xEYIq5lmfNhca2v1cGR5SOG6zV
-	hcpYdsQNjtsTXoJehnNhTnGvg5yqF7ePYgM41qPcdEYuOQisz4FiHu0B24uK7IChPPOuasPj9GqPi
-	+riUuqsp/kYmSeWe8myMMD3clGZ5KKsfs+YZ552YINrrGe0YfQRFn32WPNhBAWCGF2CSbA3vxXZPg
-	6DWPabqgFDp6OIAMWCfN0/EY8iWaa/8nxRXWwPHUJXH1Lzg/Nvk3G4Bggp7eu859lf9LIKVOrfObH
-	cjZU8TkmxxbZPefnCHM12pGqNZPlY9Z3dSkrUjCLPd4OURS7QWhI318Otf+AoXpN6V/6rScfUUAqJ
-	tJwHzHdQ==;
-Received: from 85-156-80-235.elisa-laajakaista.fi ([85.156.80.235] helo=hel-pw07200h.corp.vaisala.com)
-	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <katariina.lounento@vaisala.com>)
-	id 1sy3mn-005aAe-08;
-	Tue, 08 Oct 2024 09:33:33 +0300
-From: katariina.lounento@vaisala.com
-To: openembedded-core@lists.openembedded.org
-Cc: Katariina Lounento <katariina.lounento@vaisala.com>
-Subject: [PATCH] patchtest: add "Inactive-Upstream"
-Date: Tue,  8 Oct 2024 09:33:25 +0300
-Message-ID: <20241008063325.62462-1-katariina.lounento@vaisala.com>
-X-Mailer: git-send-email 2.46.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=gk77hmfQ;
+ spf=pass (domain: gmail.com, ip: 209.85.218.54, mailfrom: claus.stovgaard@gmail.com)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-a86e9db75b9so806747466b.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Oct 2024 23:49:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728370141; x=1728974941; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=C2BH6RsD69S79vuRHM1dhbjvhZRIhJsxl4uOiETMBNE=;
+        b=gk77hmfQtk3xInlKFcV5+CdwklQi7CVCB8e7CSRDltRar4X+ntWJGLhxYEvJ/fA573
+         9dbujqkFBcHh/sZLSieL6Shvc771aoPMyYfpwWBDrOD+c9mpkn92woiy0/+QgjAoiLGL
+         cpYnkLb3dpiCucNd4Q2XDxm9bEFAeC9WKcbqRywjodDztL3vB1uOpHF4u548EyBTTwar
+         S8DCTTsgQ2S37c5c1WrGAZzkXPcfRKv5D99akwVkKW248TUFyI4CTx0GZMTP8d+Gf349
+         jzR8jHeNJ+7wGs7ofRWpI1lThlbyfcmwFlucIEk2ixQqPKKDxWYoUZsK4QhaRpk6EcMp
+         /Uww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728370141; x=1728974941;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=C2BH6RsD69S79vuRHM1dhbjvhZRIhJsxl4uOiETMBNE=;
+        b=HgOLAKIWUOIVWBKIXJwEJtGEq0j6+FyPpo1yOHyzadti0ZKbUURlg7B2NH4qvHRG5F
+         OMVOsEYrHmC2zeaGr8xIyOqjT6de0a3TYw5miAtvWvQbfMkSP6Afh47O1Q9yfg4XGra0
+         M8nR+yKWOYHf64rXzwg7kNvyI/iRvWfwqJgRo3i1MuYeFkOvIj56nBT3O6dXeOtzPGAA
+         t7fu7qy3fZoLv04qluCJIs4Z51gEhRID5SzPQSQWimmyRjLDz5XZeVCyYFmeqLdjpCUM
+         UFc+Fwel5+DibYUobYkTHsAmIno7BGBTGsDURJ+T3dPQHpvH+OW3xLXEJd/1JPrxtF7h
+         yh+w==
+X-Gm-Message-State: AOJu0YyyTo9xGxnfDE1S7XonsQXiL7X2vc8yOomqYsqbppZdXczirQcF
+	KlaWagMJkQWKFMjo7upAq6GIwZToPKUJOgzUMXZIdQbEOaLAbaTGzxPFeA==
+X-Google-Smtp-Source: AGHT+IG3OPbFSMqEf5CONzfQCsQwglz1+EPsR0j8Av3xbUqjHi3jEe9yRkyog785KpcYvnjpovR+VA==
+X-Received: by 2002:a17:906:4fca:b0:a99:399f:cf2b with SMTP id a640c23a62f3a-a99399fd2bamr1012558666b.12.1728370140749;
+        Mon, 07 Oct 2024 23:49:00 -0700 (PDT)
+Received: from [10.9.136.49] ([87.62.83.1])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9957c683d1sm206389266b.203.2024.10.07.23.48.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Oct 2024 23:48:59 -0700 (PDT)
+Message-ID: <f3d65bd45d6af61db2acc391f2c70ffe5a2ccf65.camel@gmail.com>
+Subject: Re: SDK in scarthgap after package_manager: Change complementary
+ package handling to not include soft dependencies
+From: claus.stovgaard@gmail.com
+To: oe-core <openembedded-core@lists.openembedded.org>, Ross Burton
+	 <Ross.Burton@arm.com>
+Cc: Andreas Helbech Kleist <andreaskleist@gmail.com>
+Date: Tue, 08 Oct 2024 08:48:58 +0200
+In-Reply-To: <67e57e55a3535fd6771637fdb8b88c3e732bfedc.camel@gmail.com>
+References: 
+	<CAHirDJ8tUihjou3-4qirjk1vGVTXVrRg+TjKxmu2qvOtj2EVwQ@mail.gmail.com>
+	 <67e57e55a3535fd6771637fdb8b88c3e732bfedc.camel@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.50.2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 85.156.80.235
-X-SA-Exim-Mail-From: katariina.lounento@vaisala.com
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 06:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205282
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 06:49:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205283
 
-From: Katariina Lounento <katariina.lounento@vaisala.com>
+On Thu, 2024-09-19 at 14:09 +0200, claus.stovgaard@gmail.com wrote:
+> Hi Ross.
+>=20
+> As we talked about on oss / yocto dev day, I will just follow up on
+> this mail.
+>=20
+> The thread is located at this link
+> https://lists.openembedded.org/g/openembedded-core/topic/108100662
+>=20
+> And the patch causing the issue
+> https://lists.openembedded.org/g/openembedded-core/message/167303
+>=20
+> The patch makes the NO_RECOMMENDATIONS void, as hard_depends_only is
+> True from the Install method.
+>=20
+> So for rpm --setopt=3Dinstall_weak_deps=3DFalse is always set and the
+> same
+> for ipk / deb with --no-install-recommends.
+>=20
+> We could revert the patch, and change the default
+> for NO_RECOMMENDATIONS. this end with the same default behavoier as
+> now, where recommendations is not installed in the sdk, but add an
+> option for overwriting the NO_RECOMMENDATIONS and get the Kirkstone
+> behavoier back.
+>=20
+> Looking forward to your input
+>=20
+> Regards
+> Claus
+>=20
+>=20
 
-The list of valid statuses (`upstream_status_literal_valid_status`) was
-missing "Inactive-Upstream", which caused patchtest to fail the test
-test_patch.TestPatch.test_upstream_status_presence_format for patches
-containing lines like:
+For those interested - a RFC patch for this issue was submitted
 
-    +Upstream-Status: Inactive-Upstream [lastrelease: 2013 lastcommit: 2013]
+https://lists.openembedded.org/g/openembedded-core/topic/rfc_master_patch/1=
+08685995
 
-with the error:
-
-    FAIL: test Upstream-Status presence: Upstream-Status is in incorrect format (test_patch.TestPatch.test_upstream_status_presence_format)
-
-"Inactive-Upstream" is documented in the Yocto Project and OpenEmbedded
-Contributor Guide [1]:
-
-    Inactive-Upstream [lastcommit: when (and/or) lastrelease: when]
-
-        The upstream is no longer available. This typically means a
-        defunct project where no activity has happened for a long time —
-        measured in years. To make that judgement, it is recommended to
-        look at not only when the last release happened, but also when
-        the last commit happened, and whether newly made bug reports and
-        merge requests since that time receive no reaction. It is also
-        recommended to add to the patch description any relevant links
-        where the inactivity can be clearly seen.
-
-`upstream_status_nonliteral_valid_status` only seems to be used in
-logging and the value was copied verbatim from the aforementioned
-documentation.
-
-After this change all upstream status options documented in [1] are
-covered.
-
-[1] https://docs.yoctoproject.org/5.0.3/contributor-guide/recipe-style-guide.html#patch-upstream-status
-
-Signed-off-by: Katariina Lounento <katariina.lounento@vaisala.com>
----
- meta/lib/patchtest/patchtest_patterns.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/lib/patchtest/patchtest_patterns.py b/meta/lib/patchtest/patchtest_patterns.py
-index 8c2e192fc9..10d23ab77f 100644
---- a/meta/lib/patchtest/patchtest_patterns.py
-+++ b/meta/lib/patchtest/patchtest_patterns.py
-@@ -83,8 +83,8 @@ patch_signed_off_by = pyparsing.AtLineStart("+" + signed_off_by_prefix + signed_
- 
- # upstream-status
- 
--upstream_status_literal_valid_status = ["Pending", "Backport", "Denied", "Inappropriate", "Submitted"]
--upstream_status_nonliteral_valid_status = ["Pending", "Backport", "Denied", "Inappropriate [reason]", "Submitted [where]"]
-+upstream_status_literal_valid_status = ["Pending", "Backport", "Denied", "Inappropriate", "Submitted", "Inactive-Upstream"]
-+upstream_status_nonliteral_valid_status = ["Pending", "Backport", "Denied", "Inappropriate [reason]", "Submitted [where]", "Inactive-Upstream [lastcommit: when (and/or) lastrelease: when]"]
- 
- upstream_status_valid_status = pyparsing.Or(
-     [pyparsing.Literal(status) for status in upstream_status_literal_valid_status]
--- 
-2.46.2
-
+Regards
+Claus
 
