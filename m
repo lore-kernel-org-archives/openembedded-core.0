@@ -1,244 +1,100 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 049F2CEDD80
-	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 11:27:30 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.13918.1728473244031343020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 101F2CEDD85
+	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 11:30:30 +0000 (UTC)
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.web10.11965.1728465629862147246
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Oct 2024 04:27:24 -0700
+ Wed, 09 Oct 2024 02:20:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=VuDpSm3v;
- spf=pass (domain: linaro.org, ip: 209.85.167.51, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53988c54ec8so7847494e87.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 04:27:23 -0700 (PDT)
+ dkim=pass header.i=@dynamicdevices.co.uk header.s=google header.b=B75Itc7I;
+ spf=pass (domain: dynamicdevices.co.uk, ip: 209.85.218.53, mailfrom: ajlennon@dynamicdevices.co.uk)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a994ecf79e7so56078566b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 02:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728473242; x=1729078042; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yhtXH1PwmX7GdMoqKArDXokFfQkHU9pgOSP67q8G0F0=;
-        b=VuDpSm3vS5qWXjnpHqewcz99FZ8WzXnmI3+xG+5pAPE7IOVSfOZr4k4ckqJqe+lKD4
-         1xqJjoMK3BQZt/BxMSJuhXtVusBUEM9a6wOJuTJBrhE/pbkswn46Rt/cFGZ2R8ky6PyR
-         QF3QJRoljY1oomD+OFTg75fmOrSmaTVxTewtdozil6CEDK1ErGaF6ybVevHseoSDgl1g
-         tk871QdaOg8Wz38ptwJTz8hpraMgJIzluBL3vyB+1vvOKM2t/qApm2Wr0dSZJGUR//C0
-         uIamoTCREe/nE9ZMUS040h82kPbLm2pSoFw0TqFURkzF9HxkGbpHWdHsX5goigPOpXGi
-         2tIw==
+        d=dynamicdevices.co.uk; s=google; t=1728465628; x=1729070428; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=1z4ngbRLaX/O0FiHlCCKhRX3ytUJuGaxpdZvOX3WyQ0=;
+        b=B75Itc7Ie4p/tmeJtU4JxQYPzHMY0Q3iTMNF0O2L4PHs35NIoAujMkEAfS4omjVCgu
+         +ICZ1rvnlboyNWUn/Y0BCsaW5VlUfNe/0HqSs5FcMEQ0PS/01Qj2oTDpX3oTNeRFYq1x
+         FOXBqortMr7hWEs4CZe1uVgTM9XLUwcq0ZCLR/Ird2kHtTksZiyp4Ah0f1kHYxnbrc1a
+         tS8vkQh4MaF2QdfFlQGkVt23MpsoayxzSLwo/SHFD2ygu6kquvIpPHNh2CpIqfOsbum9
+         +QNoTgsIL2CygSRk0GCs0ezafjXgCI5N8ITWiupYKyGp8nVOmW/HVnqq6aF+0bMT7Yq6
+         NWTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728473242; x=1729078042;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yhtXH1PwmX7GdMoqKArDXokFfQkHU9pgOSP67q8G0F0=;
-        b=BsM8btuXWtvQj8Fw136ne+rop7Fvg8/VUuLcAyc42y3lpMmrg5jI0OoGv5AFxrQOkG
-         2l9ijQo5GSYDa1biAtOddCck/UjO06c2/nhGnIvCs0cwaFCm3ot22qAOpMYyxG7cVP7A
-         1cBITJ/oA8wgYZRj+VF8wPsLwxJoDOW0rxQ+hOdJhXJb9Fi4iJLyb2d0qMHYWqtMxSco
-         EptZ11NUy+Mol5dWRyULlXNk5mEKDnV08vZAvs/um+8pAzDn/V+ysAmlzwntlcw/cXkT
-         +th8h1waeZwYMMDAXpAqTjDETTHIrfwsO4o8Fzwb5viefPVqWZ4Cjb7AigD/lyA/jOVB
-         XqgQ==
-X-Gm-Message-State: AOJu0YzVIyetnECxiYI7eXmd/l7zgfjpnnFLO08+QL7yMGlQ1TBNsuds
-	paPtaSdRHTyRIvQDHvU8BNZ6S6PUA5w3J2PV0nsP7/8N3Tbl9JK2lSFhzZbvs5Y4zv8ntj5IEOQ
-	3zdQ=
-X-Google-Smtp-Source: AGHT+IFMdpdSK0weqqYIartuRv2elBN2dsn0cAjqZE0InMt6EMiHmeMkPIhEiqtShQca/Uahzy7TNg==
-X-Received: by 2002:a05:6512:1282:b0:534:5453:ecda with SMTP id 2adb3069b0e04-539c489829cmr1319684e87.23.1728473242078;
-        Wed, 09 Oct 2024 04:27:22 -0700 (PDT)
-Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff234e2sm1449220e87.223.2024.10.09.04.27.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 04:27:21 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v6 8/8] oeqa selftest wic.py: support UKIs via uki.bbclass
-Date: Wed,  9 Oct 2024 14:26:34 +0300
-Message-ID: <20241009112634.402123-9-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241009112634.402123-1-mikko.rapeli@linaro.org>
-References: <20241009112634.402123-1-mikko.rapeli@linaro.org>
+        d=1e100.net; s=20230601; t=1728465628; x=1729070428;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=1z4ngbRLaX/O0FiHlCCKhRX3ytUJuGaxpdZvOX3WyQ0=;
+        b=c5ERlKOigdRO+GIAXPYHpBtxsqk9Yk8LfjjIAsicujNIYlURj/NZNztna/ctdQUv/C
+         AQEL9novjx10S6HczBrQ/GVBROZ21XpZvNOlgVWbLn2th+Py96StUsOTJEGBBd7gMXxb
+         D1enVEGUgtV2eSYdrgiDVZwKgDOwihgNEM82ka0zY0sqPx063YtHBKS5QEa1WYnwxQA7
+         Nr/SG6xcXfk4Yq2Kqupf3AdurboEyy3uPHzjY0V9y/bpRpN1Kgz3zYO4MQ4OddvJpyLH
+         YeC1E2v72VqWTzRY6IDRkf1DMYZj15fLyO1OpK2xD9WBEe0lqtAZ+DrPrDVPkhTw30DD
+         aBxQ==
+X-Gm-Message-State: AOJu0YwrnPljBAl2AxAAG62v0KuO6ASLjSfE9fpGtEYHX0O9Vhgi5vZX
+	1D/wyiE+q3u4nobdKVcbdcVhN7dfm/RG1rO6Wr4D/aNyV1EIQu+7xxiXEBGXUuY=
+X-Google-Smtp-Source: AGHT+IHUxotE6sKwM6DeR+kPmJwPfUqjttGcvx1guN6TnsMRGkfaIOQVI1s/pC+PiREDpO7SyeA0xQ==
+X-Received: by 2002:a17:907:94d6:b0:a99:7736:f14 with SMTP id a640c23a62f3a-a998d314e85mr137417466b.52.1728465627985;
+        Wed, 09 Oct 2024 02:20:27 -0700 (PDT)
+Received: from [192.168.0.54] (cpc110923-live30-2-0-cust643.17-2.cable.virginm.net. [86.8.146.132])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99309aa6afsm621059666b.112.2024.10.09.02.20.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Oct 2024 02:20:27 -0700 (PDT)
+Message-ID: <89e10295-dd91-4c85-b28d-dd1214e3d08a@dynamicdevices.co.uk>
+Date: Wed, 9 Oct 2024 10:20:14 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [styhead] gcc 14.2 fails to build for cortexa15t2hf-neon-poky-linux-gnueabi
+To: Khem Raj <raj.khem@gmail.com>, zboszor@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+References: <8d4ad42e-eed1-46c0-a255-2fef4462ae96@gmail.com>
+ <CAMKF1srVfpkFB5fXWg=FmyROvxpciOyYSNWo0e+wutbY8jZGSA@mail.gmail.com>
+From: "Alex J Lennon" <ajlennon@dynamicdevices.co.uk>
+In-Reply-To: <CAMKF1srVfpkFB5fXWg=FmyROvxpciOyYSNWo0e+wutbY8jZGSA@mail.gmail.com>
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 11:27:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205356
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 11:30:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205357
 
-Use label to detect rootfs since UKI with kernel command
-line is generated before rootfs is generated by wic.
 
-Adapt wic tests to build and boot uki.bbclass generated
-UKIs.
+On 08/10/2024 16:00, Khem Raj wrote:
+> On Tue, Oct 8, 2024 at 6:11 AM Zoltan Boszormenyi via
+> lists.openembedded.org <zboszor=gmail.com@lists.openembedded.org>
+> wrote:
+>> Hi,
+>>
+>> I have observed a gcc recipe build failure in the meta-mono CI here under styhead:
+>> https://github.com/DynamicDevices/meta-mono/actions/runs/11232177725/job/31223236463?pr=231#logs
+>>
+> is this failure persistent or one-off ? how much RAM does the build system has ?
+>
+Hi Khem. I can help with the build system:
 
-Keeping one UKI test in wic.py and rest of the UKI features
-are tested with dedicated uki.py test. Add plain non-UKI
-systemd-boot tests to wic suite for aarch64 and x86.
+We build in a docker build container (Ubuntu 22.04) in a Proxmox 
+(7.4-18) container
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta-selftest/wic/test_efi_plugin.wks         |   5 +-
- .../test_efi_plugin_plain_systemd-boot.wks    |   5 +
- meta/lib/oeqa/selftest/cases/wic.py           | 108 ++++++++++++++++--
- 3 files changed, 103 insertions(+), 15 deletions(-)
- create mode 100644 meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks
+ref: https://github.com/DynamicDevices/yocto-ci-build
 
-diff --git a/meta-selftest/wic/test_efi_plugin.wks b/meta-selftest/wic/test_efi_plugin.wks
-index 1603d6c4bb..e876a4be0e 100644
---- a/meta-selftest/wic/test_efi_plugin.wks
-+++ b/meta-selftest/wic/test_efi_plugin.wks
-@@ -1,6 +1,5 @@
- # short-description: This file is used in oe-selftest wic module to test efi plugin
--
--part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,create-unified-kernel-image=true,initrd=${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
--part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" --active --align 1024 --use-uuid
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid --label root
- 
- bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks b/meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks
-new file mode 100644
-index 0000000000..2745c19e85
---- /dev/null
-+++ b/meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks
-@@ -0,0 +1,5 @@
-+# short-description: This file is used in oe-selftest wic module to test efi plugin
-+part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,initrd=${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+
-+bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index f2a46c965b..739682e731 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1292,24 +1292,46 @@ class Wic2(WicTestCase):
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     @OETestTag("runqemu")
-     def test_efi_plugin_unified_kernel_image_qemu(self):
--        """Test efi plugin's Unified Kernel Image feature in qemu"""
--        config = 'IMAGE_FSTYPES = "wic"\n'\
--                 'INITRAMFS_IMAGE = "core-image-minimal-initramfs"\n'\
--                 'WKS_FILE = "test_efi_plugin.wks"\n'\
--                 'MACHINE_FEATURES:append = " efi"\n'
-+        """Test Unified Kernel Image feature in qemu without systemd in initramfs or rootfs"""
-+        config = """
-+# efi firmware must load systemd-boot, not grub
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "test_efi_plugin.wks"
-+
-+# efi, uki and systemd features must be enabled
-+MACHINE_FEATURES:append = " efi"
-+DISTRO_FEATURES_NATIVE:append = " systemd"
-+IMAGE_CLASSES:append:pn-core-image-base = " uki"
-+
-+# uki embeds also an initrd, no systemd or udev
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+
-+# runqemu must not load kernel separately, it's in the uki
-+QB_KERNEL_ROOT = ""
-+QB_DEFAULT_KERNEL = "none"
-+
-+# boot command line provided via uki, not via bootloader
-+UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-+
-+"""
-         self.append_config(config)
--        bitbake('core-image-minimal core-image-minimal-initramfs ovmf')
-+        bitbake('core-image-base ovmf')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        uki_filename = get_bb_var('UKI_FILENAME', 'core-image-base')
-         self.remove_config(config)
- 
--        with runqemu('core-image-minimal', ssh=False,
--                     runqemuparams='nographic ovmf', image_fstype='wic') as qemu:
--            # Check that /boot has EFI bootx64.efi (required for EFI)
--            cmd = "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
-+            # Check that /boot has EFI boot*.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/boot*.efi | wc -l"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '1')
--            # Check that /boot has EFI/Linux/linux.efi (required for Unified Kernel Images auto detection)
--            cmd = "ls /boot/EFI/Linux/linux.efi | wc -l"
-+            # Check that /boot has EFI/Linux/${UKI_FILENAME} (required for Unified Kernel Images auto detection)
-+            cmd = "ls /boot/EFI/Linux/%s | wc -l" % (uki_filename)
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '1')
-@@ -1319,6 +1341,68 @@ class Wic2(WicTestCase):
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '0')
- 
-+    @skipIfNotArch(['aarch64'])
-+    @OETestTag("runqemu")
-+    def test_efi_plugin_plain_systemd_boot_qemu_aarch64(self):
-+        """Test plain systemd-boot in qemu with systemd"""
-+        config = """
-+INIT_MANAGER = "systemd"
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "test_efi_plugin_plain_systemd-boot.wks"
-+
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+"""
-+        self.append_config(config)
-+        bitbake('core-image-base u-boot')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        self.remove_config(config)
-+
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s nographic' % (runqemu_params), image_fstype='wic') as qemu:
-+            # Check that /boot has EFI boot*.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/boot*.efi | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '1')
-+            # Check that boot.conf exists
-+            cmd = "cat /boot/loader/entries/boot.conf"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-+    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-+    @OETestTag("runqemu")
-+    def test_efi_plugin_plain_systemd_boot_qemu_x86(self):
-+        """Test plain systemd-boot to systemd in qemu"""
-+        config = """
-+INIT_MANAGER = "systemd"
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "test_efi_plugin_plain_systemd-boot.wks"
-+
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+"""
-+        self.append_config(config)
-+        bitbake('core-image-base ovmf')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        self.remove_config(config)
-+
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s nographic' % (runqemu_params), image_fstype='wic') as qemu:
-+            # Check that /boot has EFI boot*.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/boot*.efi | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '1')
-+            # Check that boot.conf exists
-+            cmd = "cat /boot/loader/entries/boot.conf"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-     def test_fs_types(self):
-         """Test filesystem types for empty and not empty partitions"""
-         img = 'core-image-minimal'
--- 
-2.34.1
+That Proxmox container has 24GB memory, 8GB swap, 4 cores configured.
 
+>> The meta-mono CI uses the cortexa15t2hf-neon-poky-linux-gnueabi for its ARM32 builds.
+>>
+>> Is it a known issue?
+>>
+>> Thanks in advance,
+>> Zoltán Böszörményi
+>>
+>>
+>> 
+>>
 
