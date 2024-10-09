@@ -1,117 +1,129 @@
-Return-Path: <macpaul.lin@mediatek.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A8ABBCED609
-	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 06:03:37 +0000 (UTC)
-Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
- by mx.groups.io with SMTP id smtpd.web11.9326.1728453808067684605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9E4ECED60E
+	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 06:23:17 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web11.9573.1728454995214625123
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Oct 2024 23:03:28 -0700
+ Tue, 08 Oct 2024 23:23:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=bwrnmSmQ;
- spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: macpaul.lin@mediatek.com)
-X-UUID: 2efb7224860411ef88ecadb115cee93b-20241009
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=L59PDp5VbLtwhmEEyaC047DpV9zIzt8pXS/KiYQvo18=;
-	b=bwrnmSmQP40Q3YmQ9avAtJWE6xMWMQoCiqPtjOhXQiV/Jh0LTqlZqI8cSiw6HPTSRcs1RsW5p8/ld0qmk8jGtm9tBeK4ThnPL0dk9PyepA3itBjX4XW4rqADaot1CvcJH+qI8YLhazsWjLvhcuSzKr5nnngqf881IqlFRUsQUMo=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:1d709db1-b9c4-4cc5-b9df-0caab0bab678,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:6dc6a47,CLOUDID:5853f964-444a-4b47-a99a-591ade3b04b2,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 2efb7224860411ef88ecadb115cee93b-20241009
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 2029641542; Wed, 09 Oct 2024 14:03:19 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 9 Oct 2024 14:03:18 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 9 Oct 2024 14:03:18 +0800
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Alexander Kanavin <alex@linutronix.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Otavio Salvador
-	<otavio@ossystems.com.br>, <openembedded-core@lists.openembedded.org>
-CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
-	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
-	Macpaul Lin <macpaul@gmail.com>
-Subject: [scarthgap][PATCH] linux-firmware: upgrade 20240312 -> 20240909
-Date: Wed, 9 Oct 2024 14:03:12 +0800
-Message-ID: <20241009060312.31815-1-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+ dkim=pass header.i=@linaro.org header.s=google header.b=TYo+fudp;
+ spf=pass (domain: linaro.org, ip: 209.85.208.171, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fada911953so4487081fa.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 08 Oct 2024 23:23:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1728454993; x=1729059793; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=/5upI3+USq18MO18EfIiZUK4Hh5Dt2Xo423iibG1Yyo=;
+        b=TYo+fudp/oRs+KPuwbwPKuterIElYy71ephuR2u8LGZcPmxsnbwRMPbaQijKK9xfAA
+         oJQqFMQKR7Mq5iPNC0jg0ukFsj1QKvE8J5bFr8jivrhlPkS8zQ3Ka8eTvKjKpqWz9XxT
+         uYm6e0Fmdmk+k4KNyO+eoEnvzz2dpuxsrjkYfpemHQbxU3sraC7YgrtVhWy6MJ/mvy2R
+         NPEXp7kFIUlEkGpUrtdoEvhUxDwyqu5S6Mlp1bny3/23sdZw5nHnZNSpGrnYYiZ4Bnvc
+         t4fDgmN9TRG8nJ9Me+38E5k14MhxLuly4iKSIaIEQaRlDIiQcbc4VPH5fv11fiX9kYH0
+         jYDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728454993; x=1729059793;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=/5upI3+USq18MO18EfIiZUK4Hh5Dt2Xo423iibG1Yyo=;
+        b=smsb5OOcync1w8TeW52mjrYkCc4UEBmjS5GyQuvqk0OgvDT3eGkPJgx0hp63O5MPYy
+         96qJDE8t+8IiFBYPV4XibJU/jn9boSugoSDE4eiCabLC5QN5unT9QOrGjPrJcnPetJD7
+         GgnArjKFsHtJtz1i5Zi9PvLUZaPVCwPnSRWBcPoCz6+YKg2iliUX0P3IhA9A81VTmDcq
+         mvDwzToyt55x47dcrSJBOO2kcC6lw+Dy2y8dvgdgCCf8MY/vcuq6q0rm1eYF2vgK9Kxf
+         OCGsj9ruNvhyfO+R48wOPywGIwVNOXQkAdpmcPV2kMVRdeQodAG3kVT8FiBmS3KAeS18
+         gokQ==
+X-Gm-Message-State: AOJu0YyGTx00Eyr3ChVvhgAoyC2iIgvNE8/BhXDcVeaNeDFCLNnArCui
+	Uuv+n+4kNrkTVkJMhNRkLg7ZW2IvKy/VD+pzKeKgHgX3wgOGmZTAE4tU6SdDvTs=
+X-Google-Smtp-Source: AGHT+IGZpkMRZ4eBG0LUCV0FWc+ld/uIxUAecz4LtGRNK85YeM0UXQm+y9U+s7FOCNuWL3j0pExaqQ==
+X-Received: by 2002:a05:6512:b99:b0:539:a353:276b with SMTP id 2adb3069b0e04-539bdb056e9mr1793875e87.23.1728454993208;
+        Tue, 08 Oct 2024 23:23:13 -0700 (PDT)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539aff2346csm1423127e87.210.2024.10.08.23.23.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Oct 2024 23:23:12 -0700 (PDT)
+Date: Wed, 9 Oct 2024 09:23:09 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v5 00/11] systemd uki support
+Message-ID: <ZwYhTe-g2-Qr4BOD@nuoska>
+References: <20241001082821.26115-1-mikko.rapeli@linaro.org>
+ <3171DB81-B36F-4E01-B65F-346841300E69@arm.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+In-Reply-To: <3171DB81-B36F-4E01-B65F-346841300E69@arm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 06:03:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205338
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 06:23:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205339
 
-License-Update: additional files
+Hi,
 
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
----
- ...ux-firmware_20240312.bb => linux-firmware_20240909.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240312.bb => linux-firmware_20240909.bb} (99%)
+On Tue, Oct 08, 2024 at 05:09:16PM +0000, Ross Burton wrote:
+> On 1 Oct 2024, at 09:28, Mikko Rapeli via lists.openembedded.org <mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
+> > These changes enable building systemd uki images which combine
+> > kernel, kernel command line, initrd and possibly signatures to
+> > a single UEFI binary. This binary can be booted with UEFI firmware
+> > and systemd-boot. No grub is needed and UEFI firmware and/or
+> > systemd-boot provide possibilities for boot menus.
+> > The uki binary can also be signed for UEFI secure boot
+> > so the secure boot extends from firmware to kernel and initrd.
+> > Binding secure boot to full userspace is then easier since for example
+> > kernel command line and initrd contain the support needed to mount
+> > encrypted dm-verity etc partitions, and/or create partitions on demand
+> > with systemd-repart using device specific TPM devices for encryption.
+> 
+> Something in here breaks a wic/efi image when I don’t touch anything else.  eg genericarm64 with systemd:
+> 
+> U-Boot 2024.07 (Jul 01 2024 - 18:07:18 +0000)
+> 
+> DRAM:  256 MiB
+> Core:  51 devices, 14 uclasses, devicetree: board
+> Flash: 64 MiB
+> Loading Environment from Flash... *** Warning - bad CRC, using default environment
+> 
+> In:    serial,usbkbd
+> Out:   serial,vidconsole
+> Err:   serial,vidconsole
+> No USB controllers found
+> Net:   eth0: virtio-net#32
+> 
+> starting USB...
+> No USB controllers found
+> Hit any key to stop autoboot:  0
+> Scanning for bootflows in all bootdevs
+> Seq  Method       State   Uclass    Part  Name                      Filename
+> ---  -----------  ------  --------  ----  ------------------------  ----------------
+> Scanning global bootmeth 'efi_mgr':
+> No EFI system partition
+> No EFI system partition
+> Failed to persist EFI variables
+> No EFI system partition
+> Failed to persist EFI variables
+> No EFI system partition
+> Failed to persist EFI variables
+> Missing TPMv2 device for EFI_TCG_PROTOCOL
+>   0  efi_mgr      ready   (none)       0  <NULL>
+> ** Booting bootflow '<NULL>' with efi_mgr
+> Booting: virtio 0
+> No loader found. Configuration files in \loader\entries\*.conf are needed.
+> 
+> Looks like the /boot partition doesn’t have what it should in.
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-index 5819d9287cc8..30c47d772088 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-@@ -82,7 +82,7 @@ LICENSE = "\
- LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
--                    file://LICENSE.amdgpu;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
-+                    file://LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
-                     file://LICENSE.amd-ucode;md5=6ca90c57f7b248de1e25c7f68ffc4698 \
-                     file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
-                     file://LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
-@@ -142,7 +142,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-                     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
-                     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
--                    file://LICENCE.ti-connectivity;md5=c5e02be633f1499c109d1652514d85ec \
-+                    file://LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
-                     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
-                     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
-                     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
-@@ -154,7 +154,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "514da1cd8b363373030f0c16749feb8d"
-+WHENCE_CHKSUM  = "6ae5ffd807c84809977286ad0b37acdb"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -241,7 +241,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "b2327a54ad1897c828008caf63af5ee15469ba723a5016be58f2b44f07bd4b94"
-+SRC_URI[sha256sum] = "943fbd19883cf8eadf89e0b22422549db056557b1ecd30a56400615971369671"
- 
- inherit allarch
- 
--- 
-2.45.2
+Ok sorry about this. I missed meta-yocto-bsp/wic/genericarm64.wks.in setup
+when changing wic uki generation to uki.bbclass. I'll send a fix.
 
+I hope this was the only one.
+
+Cheers,
+
+-Mikko
 
