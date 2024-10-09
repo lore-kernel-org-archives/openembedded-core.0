@@ -1,100 +1,436 @@
-Return-Path: <philip@balister.org>
+Return-Path: <asharma@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 101F2CEDD85
-	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 11:30:30 +0000 (UTC)
-Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
- by mx.groups.io with SMTP id smtpd.web10.11965.1728465629862147246
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E4F0CEDD88
+	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 11:48:30 +0000 (UTC)
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+ by mx.groups.io with SMTP id smtpd.web10.14256.1728474509208609929
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Oct 2024 02:20:30 -0700
+ Wed, 09 Oct 2024 04:48:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@dynamicdevices.co.uk header.s=google header.b=B75Itc7I;
- spf=pass (domain: dynamicdevices.co.uk, ip: 209.85.218.53, mailfrom: ajlennon@dynamicdevices.co.uk)
-Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-a994ecf79e7so56078566b.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 02:20:29 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=U+3FJ8qZ;
+ spf=pass (domain: mvista.com, ip: 209.85.216.44, mailfrom: asharma@mvista.com)
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-2e0894f1b14so4938576a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 04:48:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=dynamicdevices.co.uk; s=google; t=1728465628; x=1729070428; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1z4ngbRLaX/O0FiHlCCKhRX3ytUJuGaxpdZvOX3WyQ0=;
-        b=B75Itc7Ie4p/tmeJtU4JxQYPzHMY0Q3iTMNF0O2L4PHs35NIoAujMkEAfS4omjVCgu
-         +ICZ1rvnlboyNWUn/Y0BCsaW5VlUfNe/0HqSs5FcMEQ0PS/01Qj2oTDpX3oTNeRFYq1x
-         FOXBqortMr7hWEs4CZe1uVgTM9XLUwcq0ZCLR/Ird2kHtTksZiyp4Ah0f1kHYxnbrc1a
-         tS8vkQh4MaF2QdfFlQGkVt23MpsoayxzSLwo/SHFD2ygu6kquvIpPHNh2CpIqfOsbum9
-         +QNoTgsIL2CygSRk0GCs0ezafjXgCI5N8ITWiupYKyGp8nVOmW/HVnqq6aF+0bMT7Yq6
-         NWTg==
+        d=mvista.com; s=google; t=1728474508; x=1729079308; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=npF8pwtQ3nGkGkZF+n3KIu3VPrcTcEV65RKGX0HRCVc=;
+        b=U+3FJ8qZMizmYzd5R7HrkAr7u3Zzkx4bSClwJqh3+G+x136SL67KbXFpvlwhkN4rU3
+         HsTTHRAP3hUCLKS0BLHuiixKH9mZ9lMBexoOgVk525+AMJ9baq4BIoxdLkMuyaud/tfa
+         lfLWGInh/nt1uwHp9kkGIFZj9cp9mOy0ggd+U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728465628; x=1729070428;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1z4ngbRLaX/O0FiHlCCKhRX3ytUJuGaxpdZvOX3WyQ0=;
-        b=c5ERlKOigdRO+GIAXPYHpBtxsqk9Yk8LfjjIAsicujNIYlURj/NZNztna/ctdQUv/C
-         AQEL9novjx10S6HczBrQ/GVBROZ21XpZvNOlgVWbLn2th+Py96StUsOTJEGBBd7gMXxb
-         D1enVEGUgtV2eSYdrgiDVZwKgDOwihgNEM82ka0zY0sqPx063YtHBKS5QEa1WYnwxQA7
-         Nr/SG6xcXfk4Yq2Kqupf3AdurboEyy3uPHzjY0V9y/bpRpN1Kgz3zYO4MQ4OddvJpyLH
-         YeC1E2v72VqWTzRY6IDRkf1DMYZj15fLyO1OpK2xD9WBEe0lqtAZ+DrPrDVPkhTw30DD
-         aBxQ==
-X-Gm-Message-State: AOJu0YwrnPljBAl2AxAAG62v0KuO6ASLjSfE9fpGtEYHX0O9Vhgi5vZX
-	1D/wyiE+q3u4nobdKVcbdcVhN7dfm/RG1rO6Wr4D/aNyV1EIQu+7xxiXEBGXUuY=
-X-Google-Smtp-Source: AGHT+IHUxotE6sKwM6DeR+kPmJwPfUqjttGcvx1guN6TnsMRGkfaIOQVI1s/pC+PiREDpO7SyeA0xQ==
-X-Received: by 2002:a17:907:94d6:b0:a99:7736:f14 with SMTP id a640c23a62f3a-a998d314e85mr137417466b.52.1728465627985;
-        Wed, 09 Oct 2024 02:20:27 -0700 (PDT)
-Received: from [192.168.0.54] (cpc110923-live30-2-0-cust643.17-2.cable.virginm.net. [86.8.146.132])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99309aa6afsm621059666b.112.2024.10.09.02.20.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Oct 2024 02:20:27 -0700 (PDT)
-Message-ID: <89e10295-dd91-4c85-b28d-dd1214e3d08a@dynamicdevices.co.uk>
-Date: Wed, 9 Oct 2024 10:20:14 +0100
+        d=1e100.net; s=20230601; t=1728474508; x=1729079308;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=npF8pwtQ3nGkGkZF+n3KIu3VPrcTcEV65RKGX0HRCVc=;
+        b=e86sHGrULcgaIZzCEgKhd2KOKBETG7Afe6XAIMMWs6nJxjcjigFFtT7RpzZmhiQCG5
+         KPYtpcD/3c5Cav+a6/re2g/rWrKDvjZ6ci24V7QhRJIr65eNyPEscNc+eVhuU7c0LK/+
+         gLyfKrtOC0AjP+2hLyqgvzSHii9UuLmwtwnIdaVby5OIvfroGp03g4LB7+T99if3BHFf
+         gRHGr4GFLyKCeuu5boD7Rw93PMB7pzz0uB5wfZUaCmxb/6WkuuL/uNwxANZV3nMosCsg
+         L0wjLRq47PgJtzZGlz6cNNWz9JcVkRZyBvmH5zamIBDdHlyxt0W1roFOL+gI/XRzCFev
+         qKqQ==
+X-Gm-Message-State: AOJu0Yza/fjqQfgUaPwqJE/i0GGv0SHL8NKKFWQJblDytTJL/KFPxG4w
+	zLCsf5AHQPPQVwOcvNWfFhRqJt5ZTxhlr3BRZfMvepmjk0AyITyQRlXzsQk/GUzg+hmNZg7avNN
+	eKs8=
+X-Google-Smtp-Source: AGHT+IGWcrwJONKZpCoW18xVQqxh4QKiObbH3VAcqy659IwL1ONUAWAvnPJkqmN6hviQSZEEKxK2+A==
+X-Received: by 2002:a17:90a:c78b:b0:2e2:ba35:356e with SMTP id 98e67ed59e1d1-2e2ba35369emr738213a91.17.1728474507879;
+        Wed, 09 Oct 2024 04:48:27 -0700 (PDT)
+Received: from asharma-Latitude-3400 ([223.190.86.96])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e2a55ff9f2sm1436993a91.15.2024.10.09.04.48.25
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Wed, 09 Oct 2024 04:48:27 -0700 (PDT)
+Received: by asharma-Latitude-3400 (sSMTP sendmail emulation); Wed, 09 Oct 2024 17:16:10 +0530
+From: Ashish Sharma <asharma@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ashish Sharma <asharma@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] ghostscript: backport fix for CVE-2024-29508
+Date: Wed,  9 Oct 2024 17:16:09 +0530
+Message-Id: <20241009114609.25716-1-asharma@mvista.com>
+X-Mailer: git-send-email 2.35.7
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [styhead] gcc 14.2 fails to build for cortexa15t2hf-neon-poky-linux-gnueabi
-To: Khem Raj <raj.khem@gmail.com>, zboszor@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-References: <8d4ad42e-eed1-46c0-a255-2fef4462ae96@gmail.com>
- <CAMKF1srVfpkFB5fXWg=FmyROvxpciOyYSNWo0e+wutbY8jZGSA@mail.gmail.com>
-From: "Alex J Lennon" <ajlennon@dynamicdevices.co.uk>
-In-Reply-To: <CAMKF1srVfpkFB5fXWg=FmyROvxpciOyYSNWo0e+wutbY8jZGSA@mail.gmail.com>
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 11:30:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205357
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 11:48:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205358
 
+Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/ghostscript/9.55.0~dfsg1-0ubuntu5.9]
 
-On 08/10/2024 16:00, Khem Raj wrote:
-> On Tue, Oct 8, 2024 at 6:11 AM Zoltan Boszormenyi via
-> lists.openembedded.org <zboszor=gmail.com@lists.openembedded.org>
-> wrote:
->> Hi,
->>
->> I have observed a gcc recipe build failure in the meta-mono CI here under styhead:
->> https://github.com/DynamicDevices/meta-mono/actions/runs/11232177725/job/31223236463?pr=231#logs
->>
-> is this failure persistent or one-off ? how much RAM does the build system has ?
->
-Hi Khem. I can help with the build system:
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
+---
+ .../ghostscript/CVE-2024-29508-2.patch        |  28 ++
+ .../ghostscript/CVE-2024-29508.patch          | 307 ++++++++++++++++++
+ .../ghostscript/ghostscript_9.55.0.bb         |   2 +
+ 3 files changed, 337 insertions(+)
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508-2.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508.patch
 
-We build in a docker build container (Ubuntu 22.04) in a Proxmox 
-(7.4-18) container
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508-2.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508-2.patch
+new file mode 100644
+index 0000000000..14e440517d
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508-2.patch
+@@ -0,0 +1,28 @@
++From d084021e06ba1caa1373fbbcf24a8510f43830ab Mon Sep 17 00:00:00 2001
++From: Ken Sharp <Ken.Sharp@artifex.com>
++Date: Sat, 27 Jan 2024 09:30:30 +0000
++Subject: [PATCH] Coverity IDs 414141 & 414145
++
++These are the same problem reported two different ways. I forgot to
++remove the arguments to errprintf when I removed the format specifiers
++from the string as part of reviewing the pointer printing.
++
++CVE: CVE-2024-29508
++Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/ghostscript/9.55.0~dfsg1-0ubuntu5.9]
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ devices/gdevupd.c | 3 +--
++ 1 file changed, 1 insertion(+), 2 deletions(-)
++
++--- a/devices/gdevupd.c
+++++ b/devices/gdevupd.c
++@@ -1043,8 +1043,7 @@ upd_print_page(gx_device_printer *pdev,
++          errprintf(pdev->memory, "CALL-REJECTED upd_print_page(" PRI_INTPTR "," PRI_INTPTR ")\n",
++              (intptr_t)udev,(intptr_t) out);
++ #else
++-         errprintf(pdev->memory, "CALL-REJECTED upd_print_page\n",
++-             (intptr_t)udev,(intptr_t) out);
+++         errprintf(pdev->memory, "CALL-REJECTED upd_print_page\n");
++ #endif
++ #endif
++ 	 return_error(gs_error_undefined);
+diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508.patch
+new file mode 100644
+index 0000000000..87fd653675
+--- /dev/null
++++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508.patch
+@@ -0,0 +1,307 @@
++Backport of:
++Note: updated to fix compiler warning.
++
++From ff1013a0ab485b66783b70145e342a82c670906a Mon Sep 17 00:00:00 2001
++From: Ken Sharp <Ken.Sharp@artifex.com>
++Date: Thu, 25 Jan 2024 11:53:44 +0000
++Subject: Bug 707510 - review printing of pointers
++
++This is for item 4 of the report, which is addressed by the change in
++gdevpdtb.c. That change uses a fixed name for fonts which have no name
++instead of using the pointer to the address of the font.
++
++The remaining changes are all due to reviewing the use of PRI_INTPTR.
++In general we only use that for debugging purposes but there were a few
++places which were printing pointers arbitrarily, even in a release build.
++
++We really don't want to do that so I've modified the places which were
++printing pointer unconditionally so that they only do so if DEBUG is
++set at compile time, or a specific debug flag is set.
++
++CVE: CVE-2024-29508
++Upstream-Status: Backport [https://launchpad.net/ubuntu/+source/ghostscript/9.55.0~dfsg1-0ubuntu5.9]
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ base/gsfont.c             | 4 ++--
++ base/gsicc_cache.c        | 8 ++++----
++ base/gsmalloc.c           | 4 ++--
++ base/gxclmem.c            | 5 ++---
++ base/gxcpath.c            | 6 +++++-
++ base/gxpath.c             | 8 +++++++-
++ base/szlibc.c             | 4 +++-
++ devices/gdevupd.c         | 7 ++++++-
++ devices/vector/gdevpdtb.c | 4 ++--
++ psi/ialloc.c              | 4 ++--
++ psi/igc.c                 | 6 +++---
++ psi/igcstr.c              | 6 +++---
++ psi/iinit.c               | 6 +++++-
++ psi/imainarg.c            | 5 +++--
++ psi/isave.c               | 4 ++--
++ psi/iutil.c               | 6 +++++-
++ 16 files changed, 56 insertions(+), 31 deletions(-)
++
++--- a/base/gsfont.c
+++++ b/base/gsfont.c
++@@ -778,7 +778,7 @@ gs_purge_font(gs_font * pfont)
++     else if (pdir->scaled_fonts == pfont)
++         pdir->scaled_fonts = next;
++     else {			/* Shouldn't happen! */
++-        lprintf1("purged font "PRI_INTPTR" not found\n", (intptr_t)pfont);
+++        if_debug1m('u', pfont->memory, "purged font "PRI_INTPTR" not found\n", (intptr_t)pfont);
++     }
++ 
++     /* Purge the font from the scaled font cache. */
++--- a/base/gsicc_cache.c
+++++ b/base/gsicc_cache.c
++@@ -149,7 +149,7 @@ icc_linkcache_finalize(const gs_memory_t
++ 
++     while (link_cache->head != NULL) {
++         if (link_cache->head->ref_count != 0) {
++-            emprintf2(mem, "link at "PRI_INTPTR" being removed, but has ref_count = %d\n",
+++            if_debug2m(gs_debug_flag_icc, mem, "link at "PRI_INTPTR" being removed, but has ref_count = %d\n",
++                       (intptr_t)link_cache->head, link_cache->head->ref_count);
++             link_cache->head->ref_count = 0;	/* force removal */
++         }
++@@ -560,7 +560,7 @@ gsicc_findcachelink(gsicc_hashlink_t has
++                 /* that was building it failed to be able to complete building it		*/
++                 /* this is probably a fatal error. MV ???					*/
++                 if (curr->valid == false) {
++-		  emprintf1(curr->memory, "link "PRI_INTPTR" lock released, but still not valid.\n", (intptr_t)curr);	/* Breakpoint here */
+++		  if_debug1m(gs_debug_flag_icc, curr->memory, "link "PRI_INTPTR" lock released, but still not valid.\n", (intptr_t)curr);	/* Breakpoint here */
++                 }
++                 gx_monitor_enter(icc_link_cache->lock);	/* re-enter to loop and check */
++             }
++@@ -587,7 +587,7 @@ gsicc_remove_link(gsicc_link_t *link, co
++     /* NOTE: link->ref_count must be 0: assert ? */
++     gx_monitor_enter(icc_link_cache->lock);
++     if (link->ref_count != 0) {
++-      emprintf2(memory, "link at "PRI_INTPTR" being removed, but has ref_count = %d\n", (intptr_t)link, link->ref_count);
+++      if_debug2m(gs_debug_flag_icc, memory, "link at "PRI_INTPTR" being removed, but has ref_count = %d\n", (intptr_t)link, link->ref_count);
++     }
++     curr = icc_link_cache->head;
++     prev = NULL;
++--- a/base/gsmalloc.c
+++++ b/base/gsmalloc.c
++@@ -419,7 +419,7 @@ gs_heap_resize_string(gs_memory_t * mem,
++                       client_name_t cname)
++ {
++     if (gs_heap_object_type(mem, data) != &st_bytes)
++-        lprintf2("%s: resizing non-string "PRI_INTPTR"!\n",
+++        if_debug2m('a', mem, "%s: resizing non-string "PRI_INTPTR"!\n",
++                  client_name_string(cname), (intptr_t)data);
++     return gs_heap_resize_object(mem, data, new_num, cname);
++ }
++--- a/base/gxclmem.c
+++++ b/base/gxclmem.c
++@@ -490,8 +490,7 @@ memfile_fclose(clist_file_ptr cf, const
++     /* leaks if other users of the memfile don't 'fclose with delete=true */
++     if (f->openlist != NULL || ((f->base_memfile != NULL) && f->base_memfile->is_open)) {
++         /* TODO: do the cleanup rather than just giving an error */
++-        emprintf1(f->memory,
++-                  "Attempt to delete a memfile still open for read: "PRI_INTPTR"\n",
+++        if_debug1(':', "Attempt to delete a memfile still open for read: "PRI_INTPTR"\n",
++                   (intptr_t)f);
++         return_error(gs_error_invalidfileaccess);
++     } else {
++--- a/base/gxcpath.c
+++++ b/base/gxcpath.c
++@@ -172,8 +172,10 @@ gx_cpath_init_contained_shared(gx_clip_p
++ {
++     if (shared) {
++         if (shared->path.segments == &shared->path.local_segments) {
+++#ifdef DEBUG
++             lprintf1("Attempt to share (local) segments of clip path "PRI_INTPTR"!\n",
++                      (intptr_t)shared);
+++#endif
++             return_error(gs_error_Fatal);
++         }
++         *pcpath = *shared;
++@@ -230,8 +232,10 @@ gx_cpath_init_local_shared_nested(gx_cli
++     if (shared) {
++         if ((shared->path.segments == &shared->path.local_segments) &&
++             !safely_nested) {
+++#ifdef DEBUG
++             lprintf1("Attempt to share (local) segments of clip path "PRI_INTPTR"!\n",
++                      (intptr_t)shared);
+++#endif
++             return_error(gs_error_Fatal);
++         }
++         pcpath->path = shared->path;
++--- a/base/gxpath.c
+++++ b/base/gxpath.c
++@@ -137,8 +137,10 @@ gx_path_init_contained_shared(gx_path *
++ {
++     if (shared) {
++         if (shared->segments == &shared->local_segments) {
+++#ifdef DEBUG
++             lprintf1("Attempt to share (local) segments of path "PRI_INTPTR"!\n",
++                      (intptr_t)shared);
+++#endif
++             return_error(gs_error_Fatal);
++         }
++         *ppath = *shared;
++@@ -172,8 +174,10 @@ gx_path_alloc_shared(const gx_path * sha
++     ppath->procs = &default_path_procs;
++     if (shared) {
++         if (shared->segments == &shared->local_segments) {
+++#ifdef DEBUG
++             lprintf1("Attempt to share (local) segments of path "PRI_INTPTR"!\n",
++                      (intptr_t)shared);
+++#endif
++             gs_free_object(mem, ppath, cname);
++             return 0;
++         }
++@@ -203,8 +207,10 @@ gx_path_init_local_shared(gx_path * ppat
++ {
++     if (shared) {
++         if (shared->segments == &shared->local_segments) {
+++#ifdef DEBUG
++             lprintf1("Attempt to share (local) segments of path "PRI_INTPTR"!\n",
++                      (intptr_t)shared);
+++#endif
++             return_error(gs_error_Fatal);
++         }
++         *ppath = *shared;
++--- a/base/szlibc.c
+++++ b/base/szlibc.c
++@@ -110,7 +110,9 @@ s_zlib_free(void *zmem, void *data)
++     gs_free_object(mem, data, "s_zlib_free(data)");
++     for (; ; block = block->next) {
++         if (block == 0) {
+++#ifdef DEBUG
++             lprintf1("Freeing unrecorded data "PRI_INTPTR"!\n", (intptr_t)data);
+++#endif
++             return;
++         }
++         if (block->data == data)
++--- a/devices/gdevupd.c
+++++ b/devices/gdevupd.c
++@@ -1039,8 +1039,13 @@ upd_print_page(gx_device_printer *pdev,
++  */
++    if(!upd || B_OK4GO != (upd->flags & (B_OK4GO | B_ERROR))) {
++ #if UPD_MESSAGES & (UPD_M_ERROR | UPD_M_TOPCALLS)
+++#ifdef DEBUG
++          errprintf(pdev->memory, "CALL-REJECTED upd_print_page(" PRI_INTPTR "," PRI_INTPTR ")\n",
++              (intptr_t)udev,(intptr_t) out);
+++#else
+++         errprintf(pdev->memory, "CALL-REJECTED upd_print_page\n",
+++             (intptr_t)udev,(intptr_t) out);
+++#endif
++ #endif
++ 	 return_error(gs_error_undefined);
++    }
++--- a/devices/vector/gdevpdtb.c
+++++ b/devices/vector/gdevpdtb.c
++@@ -371,7 +371,7 @@ pdf_base_font_alloc(gx_device_pdf *pdev,
++             font_name.size -= SUBSET_PREFIX_SIZE;
++         }
++     } else {
++-        gs_sprintf(fnbuf, ".F" PRI_INTPTR, (intptr_t)copied);
+++        gs_snprintf(fnbuf, sizeof(fnbuf), "Anonymous");
++         font_name.data = (byte *)fnbuf;
++         font_name.size = strlen(fnbuf);
++     }
++--- a/psi/ialloc.c
+++++ b/psi/ialloc.c
++@@ -386,7 +386,7 @@ gs_free_ref_array(gs_ref_memory_t * mem,
++                 size = num_refs * sizeof(ref);
++                 break;
++             default:
++-                lprintf3("Unknown type 0x%x in free_ref_array(%u,"PRI_INTPTR")!",
+++                if_debug3('A', "Unknown type 0x%x in free_ref_array(%u,"PRI_INTPTR")!",
++                          r_type(parr), num_refs, (intptr_t)obj);
++                 return;
++         }
++--- a/psi/igc.c
+++++ b/psi/igc.c
++@@ -1061,7 +1061,7 @@ gc_extend_stack(gc_mark_stack * pms, gc_
++ 
++             if (cp == 0) {	/* We were tracing outside collectible */
++                 /* storage.  This can't happen. */
++-                lprintf1("mark stack overflowed while outside collectible space at "PRI_INTPTR"!\n",
+++                if_debug1('6', "mark stack overflowed while outside collectible space at "PRI_INTPTR"!\n",
++                          (intptr_t)cptr);
++                 gs_abort(pstate->heap);
++             }
++@@ -1290,7 +1290,7 @@ igc_reloc_struct_ptr(const void /*obj_he
++ 
++             if (cp != 0 && cp->cbase <= (byte *)obj && (byte *)obj <cp->ctop) {
++                 if (back > (cp->ctop - cp->cbase) >> obj_back_shift) {
++-                    lprintf2("Invalid back pointer %u at "PRI_INTPTR"!\n",
+++                    if_debug2('6', "Invalid back pointer %u at "PRI_INTPTR"!\n",
++                              back, (intptr_t)obj);
++                     gs_abort(NULL);
++                 }
++--- a/psi/igcstr.c
+++++ b/psi/igcstr.c
++@@ -152,7 +152,7 @@ gc_string_mark(const byte * ptr, uint si
++         return false;
++ #ifdef DEBUG
++     if (ptr - HDR_ID_OFFSET < cp->ctop) {
++-        lprintf4("String pointer "PRI_INTPTR"[%u] outside ["PRI_INTPTR".."PRI_INTPTR")\n",
+++        if_debug4('6', "String pointer "PRI_INTPTR"[%u] outside ["PRI_INTPTR".."PRI_INTPTR")\n",
++                  (intptr_t)ptr - HDR_ID_OFFSET, size, (intptr_t)cp->ctop, (intptr_t)cp->climit);
++         return false;
++     } else if (ptr + size > cp->climit) {	/*
++@@ -171,7 +171,7 @@ gc_string_mark(const byte * ptr, uint si
++         while (ptr - HDR_ID_OFFSET == scp->climit && scp->outer != 0)
++             scp = scp->outer;
++         if (ptr - HDR_ID_OFFSET + size > scp->climit) {
++-            lprintf4("String pointer "PRI_INTPTR"[%u] outside ["PRI_INTPTR".."PRI_INTPTR")\n",
+++            if_debug4('6', "String pointer "PRI_INTPTR"[%u] outside ["PRI_INTPTR".."PRI_INTPTR")\n",
++                      (intptr_t)ptr - HDR_ID_OFFSET, size,
++                      (intptr_t)scp->ctop, (intptr_t)scp->climit);
++             return false;
++--- a/psi/iinit.c
+++++ b/psi/iinit.c
++@@ -395,8 +395,12 @@ zop_init(i_ctx_t *i_ctx_p)
++         if (def->proc != 0) {
++             code = def->proc(i_ctx_p);
++             if (code < 0) {
+++#ifdef DEBUG
++                 lprintf2("op_init proc "PRI_INTPTR" returned error %d!\n",
++                          (intptr_t)def->proc, code);
+++#else
+++                lprintf("op_init proc returned error !\n");
+++#endif
++                 return code;
++             }
++         }
++--- a/psi/imainarg.c
+++++ b/psi/imainarg.c
++@@ -229,7 +229,8 @@ gs_main_init_with_args01(gs_main_instanc
++                 if (gs_debug[':'] && !have_dumped_args) {
++                     int i;
++ 
++-                    dmprintf1(minst->heap, "%% Args passed to instance "PRI_INTPTR": ",
+++                    if (gs_debug_c(gs_debug_flag_init_details))
+++                        dmprintf1(minst->heap, "%% Args passed to instance "PRI_INTPTR": ",
++                               (intptr_t)minst);
++                     for (i=1; i<argc; i++)
++                         dmprintf1(minst->heap, "%s ", argv[i]);
++--- a/psi/isave.c
+++++ b/psi/isave.c
++@@ -487,7 +487,7 @@ alloc_save_change_in(gs_ref_memory_t *me
++     else if (r_is_struct(pcont))
++         cp->offset = (byte *) where - (byte *) pcont->value.pstruct;
++     else {
++-        lprintf3("Bad type %u for save!  pcont = "PRI_INTPTR", where = "PRI_INTPTR"\n",
+++        if_debug3('u', "Bad type %u for save!  pcont = "PRI_INTPTR", where = "PRI_INTPTR"\n",
++                  r_type(pcont), (intptr_t) pcont, (intptr_t) where);
++         gs_abort((const gs_memory_t *)mem);
++     }
++--- a/psi/iutil.c
+++++ b/psi/iutil.c
++@@ -537,7 +537,11 @@ other:
++             break;
++         }
++         /* Internal operator, no name. */
++-        gs_sprintf(buf, "@"PRI_INTPTR, (intptr_t) op->value.opproc);
+++#ifdef DEBUG
+++        gs_snprintf(buf, sizeof(buf), "@"PRI_INTPTR, (intptr_t) op->value.opproc);
+++#else
+++        gs_snprintf(buf, sizeof(buf), "@anonymous_operator", (intptr_t) op->value.opproc);
+++#endif
++         break;
++     }
++     case t_real:
+diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+index 525086e2af..54f0f23da2 100644
+--- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
++++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
+@@ -54,6 +54,8 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
+                 file://CVE-2024-29511-0002.patch \
+                 file://CVE-2024-29509.patch \
+                 file://CVE-2024-29506.patch \
++                file://CVE-2024-29508.patch \
++                file://CVE-2024-29508-2.patch \
+ "
+ 
+ SRC_URI = "${SRC_URI_BASE} \
+-- 
+2.35.7
 
-ref: https://github.com/DynamicDevices/yocto-ci-build
-
-That Proxmox container has 24GB memory, 8GB swap, 4 cores configured.
-
->> The meta-mono CI uses the cortexa15t2hf-neon-poky-linux-gnueabi for its ARM32 builds.
->>
->> Is it a known issue?
->>
->> Thanks in advance,
->> Zoltán Böszörményi
->>
->>
->> 
->>
 
