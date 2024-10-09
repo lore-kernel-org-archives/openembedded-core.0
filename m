@@ -1,117 +1,97 @@
-Return-Path: <macpaul.lin@mediatek.com>
+Return-Path: <a.fatoum@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E77D4CED60F
-	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 06:34:17 +0000 (UTC)
-Received: from mailgw02.mediatek.com (mailgw02.mediatek.com [210.61.82.184])
- by mx.groups.io with SMTP id smtpd.web11.9678.1728455653905964406
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDFABCED610
+	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 06:45:57 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.9808.1728456356996144968
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Oct 2024 23:34:14 -0700
+ Tue, 08 Oct 2024 23:45:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mediatek.com header.s=dk header.b=sXwJliy+;
- spf=pass (domain: mediatek.com, ip: 210.61.82.184, mailfrom: macpaul.lin@mediatek.com)
-X-UUID: 7ddb5b76860811ef8b96093e013ec31c-20241009
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=AeCuheKZAY9xluI64f+SMuKdVJIr0JUGFHCaAsZWX+8=;
-	b=sXwJliy+IamQQG9Pyg2YsUXO/WdwvIuvqWl1WuOJMIKt1tXZftFt+ldT4xgKp2eoCp+NkRg2aZKene5DPx7Eao4KVxAHADobdI71unuHePOniWyIUXiD/MvAjmDroZTuJs92HUzwgK90ad1j7Q/Fdh2au1xWSxXtciegno2YAfE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.41,REQID:a60bb2c9-80be-40bb-81cf-57556777bcd5,IP:0,U
-	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:-25
-X-CID-META: VersionHash:6dc6a47,CLOUDID:9411fc40-8751-41b2-98dd-475503d45150,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
-	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 7ddb5b76860811ef8b96093e013ec31c-20241009
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
-	(envelope-from <macpaul.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 184132449; Wed, 09 Oct 2024 14:34:10 +0800
-Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 9 Oct 2024 14:34:08 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 9 Oct 2024 14:34:08 +0800
-From: Macpaul Lin <macpaul.lin@mediatek.com>
-To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Alexandre Belloni
-	<alexandre.belloni@bootlin.com>, Alexander Kanavin <alex@linutronix.de>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>, Otavio Salvador
-	<otavio@ossystems.com.br>, <openembedded-core@lists.openembedded.org>
-CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
-	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
-	Macpaul Lin <macpaul@gmail.com>
-Subject: [kirkstone][PATCH] linux-firmware: upgrade 20240220 -> 20240909
-Date: Wed, 9 Oct 2024 14:34:05 +0800
-Message-ID: <20241009063405.17864-1-macpaul.lin@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: a.fatoum@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[127.0.0.1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <a.fatoum@pengutronix.de>)
+	id 1syQSI-0000ms-Vq; Wed, 09 Oct 2024 08:45:55 +0200
+Message-ID: <2553e06f-11de-413f-b705-dfa6f19c23a1@pengutronix.de>
+Date: Wed, 9 Oct 2024 08:45:54 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+User-Agent: Mozilla Thunderbird
+Subject: Re: [yocto] [PATCH v7 0/7] Add barebox bootloader support (and
+ testing)
+From: Ahmad Fatoum <a.fatoum@pengutronix.de>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>,
+ openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, yocto@pengutronix.de
+References: <20240919120640.19714-1-ejo@pengutronix.de>
+ <b77f2c6737c330ef9ecce325d50a4aaa25b3e536.camel@linuxfoundation.org>
+ <ee536d88a5b6468b20e37f3daabe4aa63047d1ad.camel@pengutronix.de>
+ <92a6efc1-51a0-4153-b894-581fbe868595@pengutronix.de>
+ <99df937c036d57a532b29851ffe7d0055d35d83f.camel@linuxfoundation.org>
+ <2d49a0a6-b2ed-4615-b23b-85c20af36f14@pengutronix.de>
+ <739cdd73-470e-4fa4-8901-750c246a28bd@pengutronix.de>
+Content-Language: en-US
+In-Reply-To: <739cdd73-470e-4fa4-8901-750c246a28bd@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: a.fatoum@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 06:34:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205340
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 06:45:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205341
 
-License-Update: additional files
+Hello,
 
-Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
----
- ...ux-firmware_20240220.bb => linux-firmware_20240909.bb} | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240220.bb => linux-firmware_20240909.bb} (99%)
+On 04.10.24 12:14, Ahmad Fatoum wrote:
+> On 02.10.24 10:17, Ahmad Fatoum wrote:
+>> I am building for MACHINE = "qemuarm64" already, but something else catches
+>> my eye: QEMU_USE_KVM = 'True'
+>>
+>> I wasn't aware that I need to manually set this. I do this now and it fails
+>> for other reasons: qemu-system-aarch64: KVM does not support GICv3 emulation
+>>
+>> I'll look into how to resolve this and maybe I am lucky and can reproduce
+>> this issue, once KVM is enabled.
+> 
+> Good news: I managed to reproduce this issue and write a few lines long reproducer
+> that I sent in a bug report to the KVM/QEMU development mailing lists:
+> 
+>     https://lore.kernel.org/all/89f184d6-5b61-4c77-9f3b-c0a8f6a75d60@pengutronix.de/
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240220.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20240220.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-index 425b351dc13e..4790434ed98b 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240220.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
-@@ -78,7 +78,7 @@ LICENSE = "\
- LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
-                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
--                    file://LICENSE.amdgpu;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
-+                    file://LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
-                     file://LICENSE.amd-ucode;md5=6ca90c57f7b248de1e25c7f68ffc4698 \
-                     file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
-                     file://LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
-@@ -135,7 +135,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
-                     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
-                     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
--                    file://LICENCE.ti-connectivity;md5=c5e02be633f1499c109d1652514d85ec \
-+                    file://LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
-                     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
-                     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
-                     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
-@@ -147,7 +147,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "a344e6c28970fc7daafa81c10247aeb6"
-+WHENCE_CHKSUM  = "6ae5ffd807c84809977286ad0b37acdb"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -231,7 +231,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "bf0f239dc0801e9d6bf5d5fb3e2f549575632cf4688f4348184199cb02c2bcd7"
-+SRC_URI[sha256sum] = "943fbd19883cf8eadf89e0b22422549db056557b1ecd30a56400615971369671"
- 
- inherit allarch
- 
+TL;DR: Turns out this is not a bug, but a known quirk of KVM and software that
+wishes to run under KVM needs to adapt the instructions it uses to access MMIO
+regions accordingly.
+
+For barebox, I sent a series adding KVM compatibility here:
+https://lore.kernel.org/barebox/20241009060511.4121157-1-a.fatoum@pengutronix.de
+
+For U-Boot, I reported the issue here:
+https://lore.kernel.org/u-boot/2211f9f0-cd7d-4b55-860d-a34c04877e7b@pengutronix.de
+
+> As far as this series here is concerned, both barebox and U-Boot function correctly
+> with KVM disabled, so could we just disable KVM for only the U-Boot/barebox runqemu tests
+> to unblock merge of this series?
+
+I am more certain now that we should disable KVM for bootloader testing.
+Full system tests with Linux are much more demanding, so KVM absolutely
+makes sense there.
+
+In the bootloader however, normal emulation should suffice, especially when
+their upstream isn't KVM-compatible yet anyway.
+
+Cheers,
+Ahmad
+
+
 -- 
-2.45.2
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
 
