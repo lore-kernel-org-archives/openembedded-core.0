@@ -1,110 +1,112 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18CAFCEDD9C
-	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 14:13:11 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.17672.1728483184813866368
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82054CEE32A
+	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 16:17:12 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.21076.1728490622465705032
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Oct 2024 07:13:05 -0700
+ Wed, 09 Oct 2024 09:17:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=g4/UQcDB;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-42cb806623eso65171395e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 07:13:04 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=HJMjjKIZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-20b8be13cb1so76263415ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 09:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728483183; x=1729087983; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=NPpbU/qviouyGTQPIpdQMs78Jt3kd+LuUptPT2C+Ud8=;
-        b=g4/UQcDBHoKTt7tqqlGeHkp34BTKdZMBH5xSjwZqG4wyRHDcUcpvcpLDTpkVE/jXix
-         HqkDL5ZOZrty3081/9pPDWQPHU56v/bxMGfAjejihLoAGIMWlAxVlfHTiWtpEVg+lSRh
-         6X8WfaeIVokIWgKXhaCVsoz3PXRyiNBYCaTwyFiZUM2pLUoIsBN04C/QTpDF7VD4J63G
-         2Hz6HdDhndQWD9B2xaYPOEi8v9Gchhto1PbvmG05uSO8x/uv8zr6xB+2huhEdI5g13NK
-         oUWM+kzabcaLxX6FTKeqXJ8z65xNIfw2pKI3m7b09zibN8vmkEONITGPHm3yM+WZ9H8I
-         yntg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728490622; x=1729095422; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hFlj/TGSf2BQP5ku57Z1mHYgnhAtK3llgRwNyJxKNTE=;
+        b=HJMjjKIZX9gyO6CT5E2l5Yx/89J6iDFOrh3Z+rNgDKeWS1MX7s1xQXsrv3ORf4R4WY
+         4oNx2+PFFmZfb+8GBpflE4Uej8hBJFZFmsecPIF6nGrsS+2ZODHvctowIZYngtjHhCbZ
+         U0dOpJAh1SgFqfAY6voESL1ogAn1yIzn9N5KHzUAMvEIy/3+bvgENDVAlU317EgN9IPJ
+         gUdK9eZuhsqVycSdLghnHXqBVFRi8HqOUOiOL/nRB46zL8Q6jHAeKVcaUG9CPSKjMz7Y
+         LcnA3jGeZVcKSP7TJtQ7ipp3CmPOPFEBZIi4K5WEqZHk3innEE9a97GncrcxJ+nEQWds
+         fgLQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728483183; x=1729087983;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NPpbU/qviouyGTQPIpdQMs78Jt3kd+LuUptPT2C+Ud8=;
-        b=pPvdCu6vxStntkZSqaoPcaDkkf+feD0KrcH22urYnFzChzSSXD5XQSGkztBbDQDEGN
-         t54yRSBRh/siuqkxaknvols+4ytMykh4FfNhg/Ppb4EIF+np/Ie6Zjj80WsD2nqpK5ms
-         apskd5PGshXnOmuiRWU8zMrLSHQNMU1h8QXKYzYTUmkW0uUX9eMbNP+4M9GTkyO53jvx
-         ThBM1XDCCrhYe1Vd7HWVytToDyGijUdH+8aVF1FEPQpIIiEge5+AgZOPJYliJ5V5J250
-         JMF20O5rF0fKROhY6q8MOCknIL4zGvW4G9ZRRHPEgCWIAVi/jddF43BcHkUk9QcwpZyi
-         Bw/A==
-X-Gm-Message-State: AOJu0YxgWdBU4vNmCEdx+TamfgBTp8A/kc9S3O3ms1HvkZIdiHqNfrIv
-	KymFGPDE8l3ucRYJbSg/6kj72E+vsc8H40zBYx5NglLo0Y4XAxFBt7BDfw==
-X-Google-Smtp-Source: AGHT+IHH95g3lGD0UHEOBd0bskrktAilq0O3HNXG3fP4KfLIq6BwXkY1kwddSn5EBR1b6GbLzpfXyg==
-X-Received: by 2002:a05:600c:468a:b0:430:5356:acaf with SMTP id 5b1f17b1804b1-430d70b4121mr23294165e9.32.1728483182836;
-        Wed, 09 Oct 2024 07:13:02 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d32fcd05esm3527590f8f.84.2024.10.09.07.13.02
+        d=1e100.net; s=20230601; t=1728490622; x=1729095422;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hFlj/TGSf2BQP5ku57Z1mHYgnhAtK3llgRwNyJxKNTE=;
+        b=VDHtcc03fgiVlTNcL21Us2HB/UZDV/0kubyNNJ97v5/7Jsfcc3FmDcuJqvxTUu5d3b
+         id5m/oM3uak3hlPDzod6VMk3pXYT8MG42djSjHnXrphLln//sJ1tNOrd+n5MjA/7DQWW
+         eRiU+IhmObjjTBWuSVRRi5xY3T2TiLQEBeBIrNIpTCC0u5bi6EbhFOYWHHW5n+ZOUyd2
+         4N6cZ3XFWB+p+meOhC4P2JGvYv62MWJUEy+FwS4yW2fHbgAGf9RE4Y9IizlP90G7NNbj
+         7TgxJ/MFEeO29E82QELovjuqsVxxnM8oXS1HErDY6Twc9hAlgrZRX3sNee8ay59lCAam
+         OYNA==
+X-Gm-Message-State: AOJu0YySXLFZjMb1SlvwJlPNpVDccEh+4aM30ajw93DWIXoBixiYe2gk
+	ilVo5Gr0hBq7WIEi3GSk1cMW5CJAYA8QrqVQWZi6SS3yfTHbwSz/9FPNCbbJ7YyXNaThkbPbftI
+	j
+X-Google-Smtp-Source: AGHT+IExQorrNZivaMavQ8nXqJ+RZsdt7yZ3tch+7RPk3uOtOKiPinmb/kLrDBaW96B6LiTiZCBNSQ==
+X-Received: by 2002:a17:902:ef43:b0:20b:b40b:3454 with SMTP id d9443c01a7336-20c63598bccmr48797255ad.0.1728490621399;
+        Wed, 09 Oct 2024 09:17:01 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20c13934817sm72545045ad.158.2024.10.09.09.17.00
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 07:13:02 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
+        Wed, 09 Oct 2024 09:17:01 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH] syslinux: Disable error on implicit-function-declaration
-Date: Wed,  9 Oct 2024 16:13:00 +0200
-Message-ID: <20241009141300.1214369-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.47.0
+Subject: [OE-core][kirkstone 0/5] Patch review
+Date: Wed,  9 Oct 2024 09:16:50 -0700
+Message-Id: <cover.1728490465.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 14:13:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205359
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 16:17:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205360
 
-From: Khem Raj <raj.khem@gmail.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Friday, October 11
 
-syslinux has vendored copy of ext2fs/ext2_fs.h but uses ext2fs/ext2fs.h
-from e2fsprogs package, however, ext2fs/ext2fs.h has dependencies on
-ext2fs/ext2_fs.h coming from e2fsprogs package as these both headers
-come from same package, here syslinux uses ext2fs.h from e2fsprogs but
-supplies its own copy of ext2_fs.h which maybe out of sync and that
-results in warnings about implicit implicit-function-declarations
-e.g.
+Passed a-full on autobuilder:
 
-recipe-sysroot/usr/include/ext2fs/ext2fs.h:727:16: error: implicit declaration of function 'ext2fs_has_feature_gdt_csum' [-Wimplicit-function-declaration]
-|   727 |                ext2fs_has_feature_gdt_csum(fs->super);
-|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://autobuilder.yoctoproject.org/typhoon/#/builders/83/builds/7379
 
-ext2fs_has_feature_gdt_csum here comes from newer version of
-ext2fs/ext2_fs.h but missing from vendored copy, hence the warning.
+The following changes since commit 3b646f322b4ffd5ed520f3815ce0726cf225ced2:
 
-With gcc-14 this warning is treated as error by default, which breaks
-the build, so lets treat it as warning only.
+  populate_sdk_base: inherit nopackages (2024-10-01 15:29:08 -0700)
 
-All these functions are never used in syslinux, so functionality-wise we
-are fine.
+are available in the Git repository at:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index 0e4a23c1b4..4b4b6d4b64 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -48,7 +48,7 @@ TARGET_LDFLAGS = ""
- SECURITY_LDFLAGS = ""
- LDFLAGS_SECTION_REMOVAL = ""
- 
--CFLAGS:append = " -DNO_INLINE_FUNCS"
-+CFLAGS:append = " -DNO_INLINE_FUNCS -Wno-error=implicit-function-declaration"
- 
- EXTRA_OEMAKE = " \
- 	BINDIR=${bindir} SBINDIR=${sbindir} LIBDIR=${libdir} \
+Martin Jansa (2):
+  meta-world-pkgdata: Inherit nopackages
+  cdrtools-native: fix build with gcc-14
+
+Massimiliano Minella (1):
+  zstd: fix LICENSE statement
+
+Peter Marko (1):
+  rust: ignore CVE-2024-43402
+
+Vijay Anusuri (1):
+  cups: Backport fix for CVE-2024-47175
+
+ meta/recipes-core/meta/meta-world-pkgdata.bb  |   1 +
+ .../cdrtools/cdrtools-native_3.01.bb          |   6 +-
+ meta/recipes-devtools/rust/rust-source.inc    |   4 +-
+ meta/recipes-extended/cups/cups.inc           |   5 +
+ .../cups/cups/CVE-2024-47175-1.patch          |  73 +++++
+ .../cups/cups/CVE-2024-47175-2.patch          | 148 +++++++++++
+ .../cups/cups/CVE-2024-47175-3.patch          | 116 ++++++++
+ .../cups/cups/CVE-2024-47175-4.patch          | 249 ++++++++++++++++++
+ .../cups/cups/CVE-2024-47175-5.patch          |  37 +++
+ meta/recipes-extended/zstd/zstd_1.5.2.bb      |   2 +-
+ 10 files changed, 637 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-1.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-2.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-3.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-4.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-5.patch
+
 -- 
-2.47.0
+2.34.1
 
 
