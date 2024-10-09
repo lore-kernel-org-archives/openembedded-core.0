@@ -1,99 +1,117 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <macpaul.lin@mediatek.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79970CED60C
-	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 05:49:47 +0000 (UTC)
-Received: from esa5.hc1455-7.c3s2.iphmx.com (esa5.hc1455-7.c3s2.iphmx.com [68.232.139.130])
- by mx.groups.io with SMTP id smtpd.web10.9232.1728452985985030710
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8ABBCED609
+	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 06:03:37 +0000 (UTC)
+Received: from mailgw01.mediatek.com (mailgw01.mediatek.com [60.244.123.138])
+ by mx.groups.io with SMTP id smtpd.web11.9326.1728453808067684605
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Oct 2024 22:49:47 -0700
+ Tue, 08 Oct 2024 23:03:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=LDOY70N8;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.130, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1728452987; x=1759988987;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=pXsSYqePnc69lrjObDBiYV9s+uOr7xsDmE9Hi9uSHnE=;
-  b=LDOY70N84fuu1IAkrKqW/6eezYYBja6XDWrJDfJ3Fs0rSlNc2DRb8Uuq
-   i9i7owvCgCshgjgmSvtkLB9EDwXquWsKwriBTfBj2xy/H5WVeOb2+g8U6
-   rMwqP6SdoHpPS1Pdf3Z+o5BYxNaF4zWF2Ohv/HIyqhXaEkCJsnmBt7CRt
-   vPHwioiqIeM2Jhms3ODbyv7RpTt7RleyWFp2jBevRlv3ytEYYIKHAukH/
-   puGGea/3xjWlyWPkjEnVF8YKwBibPyFCyAmJ0LZuT/7R/AQGrX8GvguRO
-   ++rfs5iinwVaigPBDy7snQZ/SfCBpStTf4G7ye2sRziYKwUZLl1OgOxkB
-   A==;
-X-CSE-ConnectionGUID: kdNyIPCHTtStcZ4WNGj27Q==
-X-CSE-MsgGUID: iE6hfZ5DQ0azfmGhXnTiiw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="175456387"
-X-IronPort-AV: E=Sophos;i="6.11,189,1725289200"; 
-   d="scan'208";a="175456387"
-Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
-  by esa5.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 14:49:44 +0900
-Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id 5B23AC9440
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:42 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id A68A2D3F37
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:41 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 3A13320081311
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:41 +0900 (JST)
-Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id DE4A41A000A;
-	Wed,  9 Oct 2024 13:49:40 +0800 (CST)
-From: wangmy@fujitsu.com
-To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 25/26] xwayland: upgrade 24.1.2 -> 24.1.3
-Date: Wed,  9 Oct 2024 13:49:14 +0800
-Message-Id: <1728452955-25051-25-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1728452955-25051-1-git-send-email-wangmy@fujitsu.com>
-References: <1728452955-25051-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28718.005
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28718.005
-X-TMASE-Result: 10--0.342000-10.000000
-X-TMASE-MatchedRID: S9L8qTrmXfGjz0nOeth/yQPZZctd3P4B1cuIRwt/4MiysPB8dBBorXKn
-	6DBj/gsEIvrftAIhWmJ6eYPYGCVgy3gcxJAgqZ0ZnVTWWiNp+v/Exmr5hqNL1nN03BZlA7M8A6J
-	UWkXudIk6hUOcTonr9IAy6p60ZV62To3UJuRLIoTdB/CxWTRRu+rAZ8KTspSzTAzoYcfJdKXs+8
-	CjZtxAtyto9LRsn4o4ReGZWmJXW9qGgpfwyovI3vqWKZ+be0smdM9SjXjSelWX52wWIa3a7las5
-	bIFV24KiB6mlDKe1V7S/yytHeCN9GXv4CQeNUk7G6qTOwq/n71+3BndfXUhXQ==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+ dkim=pass header.i=@mediatek.com header.s=dk header.b=bwrnmSmQ;
+ spf=pass (domain: mediatek.com, ip: 60.244.123.138, mailfrom: macpaul.lin@mediatek.com)
+X-UUID: 2efb7224860411ef88ecadb115cee93b-20241009
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=L59PDp5VbLtwhmEEyaC047DpV9zIzt8pXS/KiYQvo18=;
+	b=bwrnmSmQP40Q3YmQ9avAtJWE6xMWMQoCiqPtjOhXQiV/Jh0LTqlZqI8cSiw6HPTSRcs1RsW5p8/ld0qmk8jGtm9tBeK4ThnPL0dk9PyepA3itBjX4XW4rqADaot1CvcJH+qI8YLhazsWjLvhcuSzKr5nnngqf881IqlFRUsQUMo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.41,REQID:1d709db1-b9c4-4cc5-b9df-0caab0bab678,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:6dc6a47,CLOUDID:5853f964-444a-4b47-a99a-591ade3b04b2,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:11|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES
+	:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
+X-UUID: 2efb7224860411ef88ecadb115cee93b-20241009
+Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
+	(envelope-from <macpaul.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 2029641542; Wed, 09 Oct 2024 14:03:19 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Wed, 9 Oct 2024 14:03:18 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Wed, 9 Oct 2024 14:03:18 +0800
+From: Macpaul Lin <macpaul.lin@mediatek.com>
+To: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>, Alexandre Belloni
+	<alexandre.belloni@bootlin.com>, Alexander Kanavin <alex@linutronix.de>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Otavio Salvador
+	<otavio@ossystems.com.br>, <openembedded-core@lists.openembedded.org>
+CC: Bear Wang <bear.wang@mediatek.com>, Pablo Sun <pablo.sun@mediatek.com>,
+	Ramax Lo <ramax.lo@mediatek.com>, Macpaul Lin <macpaul.lin@mediatek.com>,
+	Macpaul Lin <macpaul@gmail.com>
+Subject: [scarthgap][PATCH] linux-firmware: upgrade 20240312 -> 20240909
+Date: Wed, 9 Oct 2024 14:03:12 +0800
+Message-ID: <20241009060312.31815-1-macpaul.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 05:49:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205336
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 06:03:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205338
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+License-Update: additional files
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+Signed-off-by: Macpaul Lin <macpaul.lin@mediatek.com>
 ---
- .../xwayland/{xwayland_24.1.2.bb => xwayland_24.1.3.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xwayland/{xwayland_24.1.2.bb => xwayland_24.1.3.bb} (96%)
+ ...ux-firmware_20240312.bb => linux-firmware_20240909.bb} | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240312.bb => linux-firmware_20240909.bb} (99%)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.2.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.3.bb
-similarity index 96%
-rename from meta/recipes-graphics/xwayland/xwayland_24.1.2.bb
-rename to meta/recipes-graphics/xwayland/xwayland_24.1.3.bb
-index a3ece64348..7e817a7241 100644
---- a/meta/recipes-graphics/xwayland/xwayland_24.1.2.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_24.1.3.bb
-@@ -10,7 +10,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5df87950af51ac2c5822094553ea1880"
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
+similarity index 99%
+rename from meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
+rename to meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
+index 5819d9287cc8..30c47d772088 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240312.bb
++++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
+@@ -82,7 +82,7 @@ LICENSE = "\
+ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.adsp_sst;md5=615c45b91a5a4a9fe046d6ab9a2df728 \
+                     file://LICENCE.agere;md5=af0133de6b4a9b2522defd5f188afd31 \
+-                    file://LICENSE.amdgpu;md5=a2589a05ea5b6bd2b7f4f623c7e7a649 \
++                    file://LICENSE.amdgpu;md5=1433dfea38c97a2e563a248a863dcb94 \
+                     file://LICENSE.amd-ucode;md5=6ca90c57f7b248de1e25c7f68ffc4698 \
+                     file://LICENSE.amlogic_vdec;md5=dc44f59bf64a81643e500ad3f39a468a \
+                     file://LICENSE.amphion_vpu;md5=2bcdc00527b2d0542bd92b52aaec2b60 \
+@@ -142,7 +142,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     file://LICENCE.rtlwifi_firmware.txt;md5=00d06cfd3eddd5a2698948ead2ad54a5 \
+                     file://LICENSE.sdma_firmware;md5=51e8c19ecc2270f4b8ea30341ad63ce9 \
+                     file://LICENCE.siano;md5=4556c1bf830067f12ca151ad953ec2a5 \
+-                    file://LICENCE.ti-connectivity;md5=c5e02be633f1499c109d1652514d85ec \
++                    file://LICENCE.ti-connectivity;md5=3b1e9cf54aba8146dad4b735777d406f \
+                     file://LICENCE.ti-keystone;md5=3a86335d32864b0bef996bee26cc0f2c \
+                     file://LICENCE.ueagle-atm4-firmware;md5=4ed7ea6b507ccc583b9d594417714118 \
+                     file://LICENCE.via_vt6656;md5=e4159694cba42d4377a912e78a6e850f \
+@@ -154,7 +154,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
+                     "
+ # WHENCE checksum is defined separately to ease overriding it if
+ # class-devupstream is selected.
+-WHENCE_CHKSUM  = "514da1cd8b363373030f0c16749feb8d"
++WHENCE_CHKSUM  = "6ae5ffd807c84809977286ad0b37acdb"
  
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
--SRC_URI[sha256sum] = "141eb76e7e422a3661c08782c70be40931084755042c04506e0d97dd463ef7d2"
-+SRC_URI[sha256sum] = "dcdb57a66cc9b124c8f936760592628ac4e744a7d7b3179aa86189ad7ea4cb10"
+ # These are not common licenses, set NO_GENERIC_LICENSE for them
+ # so that the license files will be copied from fetched source
+@@ -241,7 +241,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
+ # Pin this to the 20220509 release, override this in local.conf
+ SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
  
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
+-SRC_URI[sha256sum] = "b2327a54ad1897c828008caf63af5ee15469ba723a5016be58f2b44f07bd4b94"
++SRC_URI[sha256sum] = "943fbd19883cf8eadf89e0b22422549db056557b1ecd30a56400615971369671"
+ 
+ inherit allarch
  
 -- 
-2.34.1
+2.45.2
 
 
