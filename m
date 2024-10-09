@@ -1,144 +1,104 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4FACEE35F
-	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 22:37:04 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.web11.30569.1728513415335169822
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AB39CED628
+	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 23:04:25 +0000 (UTC)
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+ by mx.groups.io with SMTP id smtpd.web10.31035.1728515060528603743
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Oct 2024 15:36:55 -0700
+ Wed, 09 Oct 2024 16:04:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=HAImpy1s;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-42cbe624c59so1993675e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 15:36:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=l4rbd7gP;
+ spf=pass (domain: gmail.com, ip: 209.85.160.43, mailfrom: raj.khem@gmail.com)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-287b8444ff3so177097fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 16:04:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728513414; x=1729118214; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1728515060; x=1729119860; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vn4JcM0DBo652Ndv4hSC3BKVBaUK8NhMu6iBnk4mXF0=;
-        b=HAImpy1smPZ+RnXxhkWQesKZ0RkLOoTE3tQMYqPXHSgdNAsDu9nB+gk+nCBLYYu+xO
-         Mjwr8EO/i7GHBPPT4HoXtQo9IU3RGeidvpUOK4VzeYaaklaZTfrVRpiA/64TkArlhZku
-         Ee7v73ZK00DYVvx8QQuakFUEXgY2MoqJ2/Vdc=
+        bh=iULueVNj3P6nqZaw4LupmggiMpa0OB088X61s0NxkEg=;
+        b=l4rbd7gPh9qw5c1AZBtQqflljayPwGIth32zfgv4n5rtyMhY0Lss6Fv1rxPfk4cz1s
+         F1N/XQWi3PU75iR+eYi9iyoUNHOwANWC/TKII1cZZNXfY1UxE3I5X6K8bKjcBgvBOkbM
+         zKIjHaA+SHLCm/rZKFc2+Zk0wqXknRYXF2zJWvdt5w5+VIp7nmftX4hLIYTPdo7q/31U
+         1XuCNyLOz0nSJWuMjUun6GYnNmrqKvnNgN2d9VBrXA7/xT6o5jA+BuLdlN4x5xFQyrbM
+         ftyHHuENwMTdb02aJJpCNM/vT8lyFAmrgYfDuzuBliHLHmePhdxbnyalndXre2x/95eM
+         l37g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728513414; x=1729118214;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=vn4JcM0DBo652Ndv4hSC3BKVBaUK8NhMu6iBnk4mXF0=;
-        b=CxPXp/VDU0AYXPEtN5btHJ1ISaOSExYrpa28JPmYoQkJgK8UisRZUS+T1Q0gX3DKRQ
-         KpZROdcOk+1zL5blNaElwFfEhWWbuCuQ9GUnx6jW67P6oSQLktcw/5Leflo4/57cMq5L
-         ACUqb5BOTYzNPfbYFjbrDWb13TCSMJI0Sm0IooqrlsxlLjokYf2dvsNMFiuogWWTykIR
-         zp5C+CKbRnOedtAKDEUN7Xl8fhpN4QUUZy2cehQI0o/VTtDm1HYZY59pOasoMaYXDvDY
-         NOsDm0+NsmGmGBgkc0BlYjRFGqZN50IN3bltry0MDlcdygI9YZrUq7TVd9xUBOnIjUlU
-         2SSw==
-X-Forwarded-Encrypted: i=1; AJvYcCWDV9KGx6krjilV+aTlJxireBQXSe075VYtOfyB0gllCuT0qFxv0425YVwnMGvtX2wzSEZCNUBVgM98xhQjjX2fEw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy6Bc6srjd+NB2W7tmCXVXOgxytAhPs+dxluyGEwNUreDPENaeD
-	zR5qQqfqqFRoGG2luCXNIfqoc+4qmWNFzHBuWEUPKf653cZBsUk6KbzH9mRzI9ue4mYu2zYzgfQ
-	X
-X-Google-Smtp-Source: AGHT+IGCTUgM7uOA0NeG3H489UjFuivz/1+dnnI/kZ3iD8XplEasP3eWXxlm1cZfEZVaN1Cx1EVJ2g==
-X-Received: by 2002:a05:600c:3b16:b0:426:64a2:5362 with SMTP id 5b1f17b1804b1-430ccf1a8ffmr28621335e9.8.1728513413608;
-        Wed, 09 Oct 2024 15:36:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fb33:4e5d:4941:5018? ([2001:8b0:aba:5f3c:fb33:4e5d:4941:5018])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430ccf5f462sm31738725e9.23.2024.10.09.15.36.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Oct 2024 15:36:52 -0700 (PDT)
-Message-ID: <21828cb8152b762bbc4987312e2dc0c0613c34fb.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v6 0/8] systemd uki support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Date: Wed, 09 Oct 2024 23:36:51 +0100
-In-Reply-To: <17FCDA527F20D203.22523@lists.openembedded.org>
-References: <20241009112634.402123-1-mikko.rapeli@linaro.org>
-	 <17FCDA527F20D203.22523@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1728515060; x=1729119860;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=iULueVNj3P6nqZaw4LupmggiMpa0OB088X61s0NxkEg=;
+        b=VsHBoAkBQUy/myb1wTjejCY/ui1cDPUv3NbGBSA+tpWDfyD2ljENzMreDS0g1tqjf8
+         IsT0FdDSfLCiTjNrLd2aButwABGJhHukNXII4kdQPHctkNu9BpM7UHEe7OwcBA/GgxFT
+         ntqr7HoTtBFwEnBH+vDZp5NFibx1pkEpMFNrRPNPsOz3B1hRzn8LHhc1D/tKH11yDE5f
+         kmXH+bMU/d1l9YYdTZsj3lezxvNd7kxBUSVaLJtUUbbX52t0JbAF8ZacDxWrEBo0ltvG
+         ANfocv+FC6sFM/3BFSreLjVJYQK5BCD++aejjC7qn4xksvzfmD2ajjTcH/Y8iBYgHTuX
+         b0OA==
+X-Gm-Message-State: AOJu0Yz+UoAqRj00bvIolfeuRtm/QJOL2Wu9jzuVJ0My5YcdGZ/ncEII
+	vbC4pctoMroxKdkZjGNE+t5/Vrui9ANb1c2ncQdaSCSVmKYGVV6mL5kBDiYkgbOizbsQuw4WTsU
+	wpDxNvEGaeUQGzpSgrADkF1c4YQI=
+X-Google-Smtp-Source: AGHT+IEH2L/g6C+fR0g7KenUiTFubw2NJJAm9h72GOQjCFCJ//bB5VQ9FstXujrNLmDYOs958iorygGnkTkoDU2ZrO0=
+X-Received: by 2002:a05:6870:224f:b0:261:360:8e26 with SMTP id
+ 586e51a60fabf-28833e30023mr3891986fac.0.1728515059728; Wed, 09 Oct 2024
+ 16:04:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20241009104716.711424-1-ross.burton@arm.com>
+In-Reply-To: <20241009104716.711424-1-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 9 Oct 2024 16:03:53 -0700
+Message-ID: <CAMKF1srfs=2UtG4yZ8F-3K8agBGvy80S7SV=xn=gKweBcyB4Kg@mail.gmail.com>
+Subject: Re: [PATCH 1/2] bitbake.conf: don't force musl on mips to use classic
+ sysv hashing
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 22:37:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205373
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 23:04:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205374
 
-On Wed, 2024-10-09 at 18:53 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Wed, 2024-10-09 at 14:26 +0300, Mikko Rapeli via
-> lists.openembedded.org wrote:
-> > These changes enable building systemd uki images which combine
-> > kernel, kernel command line, initrd and possibly signatures to
-> > a single UEFI binary. This binary can be booted with UEFI firmware
-> > and systemd-boot. No grub is needed and UEFI firmware and/or
-> > systemd-boot provide possibilities for boot menus.
-> > The uki binary can also be signed for UEFI secure boot
-> > so the secure boot extends from firmware to kernel and initrd.
-> > Binding secure boot to full userspace is then easier since for
-> > example
-> > kernel command line and initrd contain the support needed to mount
-> > encrypted dm-verity etc partitions, and/or create partitions on
-> > demand
-> > with systemd-repart using device specific TPM devices for
-> > encryption.
-> >=20
-> > Tested on qemuarm64-secureboot machine from meta-arm with changes
-> > to
-> > support secure boot. Slightly different configuration tested on
-> > multiple arm64 System Ready boards with UEFI firmware, real and
-> > firmware
-> > based TPM devices. Tested with ovmf firmware on x86_64 with
-> > selftests but
-> > without secure boot which seems to be harder to setup in ovmf.
-> >=20
-> > Sadly I see two wic selftests, wic.Wic2.test_rawcopy_plugin_qemu
-> > and
-> > wic.Wic2.test_expand_mbr_image, failing when executing all wic
-> > selftests
-> > on a build machine with zfs filesystem. Will investigate this
-> > further.
-> > The issue seems to be in mkfs.ext4 producing broken filesystem, and
-> > partially
-> > in the tests which don't run the correct rootfs file (.ext4 vs
-> > .wic).
-> > Will debug this further and it is IMO unrelated to these changes
-> > since
-> > they reproduce on pure master branch without this series.
-> >=20
-> > v6: fixed wic refactoring botch which broken non-uki systemd-boot
-> > usage on
-> > =C2=A0=C2=A0=C2=A0 genericarm64 reported by Ross Burton <Ross.Burton@ar=
-m.com>,
-> > added
-> > =C2=A0=C2=A0=C2=A0 selftest to cover this wks usage on x86 and aarch64
-> >=20
-> > v5: drop patch "image_types_wic.bbclass: set systemd-boot and os-
-> > release
-> > =C2=A0=C2=A0=C2=A0 dependency for all archs" since systemd-boot does no=
-t support
-> > all
-> > =C2=A0=C2=A0=C2=A0 architectures
-> >=20
-> > v4: handle missing runqemu variable from build config, add
-> > python3-pefile to fast ptest list
-> >=20
-> > v3: rebased, fixed and added more sefltests, removed wic plugin
-> > side uki
-> > support
-> >=20
-> > v2:
-> > https://lists.openembedded.org/g/openembedded-core/message/204090
-> >=20
->=20
-> This seems to be causing selftest failures unfortunately:
->=20
-> https://valkyrie.yoctoproject.org/#/builders/54/builds/206/steps/14/logs/=
-stdio
+On Wed, Oct 9, 2024 at 3:47=E2=80=AFAM Ross Burton <ross.burton@arm.com> wr=
+ote:
+>
+> This is no longer needed, qemumips with musl generates the expected
+> DT_MIPS_XHASH table as it already does with glibc:
+>
+> Dynamic Section:
+>   NEEDED               libc.so
+>   SONAME               libz.so.1
+>   DT_MIPS_XHASH        0x000001a8
+>
 
-I think something may be broken in master causing that. Not quite sure
-what/when yet.
+I am afraid we can not do this. xhash is supported by toolchain that's
+is correct but
+it also needs to be supported by dynamic linker and musl does not have
+this implemented
 
-Cheers,
-
-Richard
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/conf/bitbake.conf | 2 --
+>  1 file changed, 2 deletions(-)
+>
+> diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> index 3f583668f66..8000baba389 100644
+> --- a/meta/conf/bitbake.conf
+> +++ b/meta/conf/bitbake.conf
+> @@ -636,8 +636,6 @@ ASNEEDED ?=3D "-Wl,--as-needed"
+>
+>  export LDFLAGS =3D "${TARGET_LDFLAGS}"
+>  TARGET_LDFLAGS =3D "-Wl,-O1 ${TARGET_LINK_HASH_STYLE} ${ASNEEDED} ${DEBU=
+G_PREFIX_MAP}"
+> -# mips does not support GNU hash style therefore we override
+> -LINKER_HASH_STYLE:mipsarch:libc-musl =3D "sysv"
+>
+>  # Pass parallel make options to the compile task
+>  EXTRA_OEMAKE:prepend:task-compile =3D "${PARALLEL_MAKE} "
+> --
+> 2.34.1
+>
 
