@@ -2,53 +2,53 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFDA1CF0454
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED08FCF0458
 	for <webhook@archiver.kernel.org>; Wed,  9 Oct 2024 05:49:46 +0000 (UTC)
-Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
- by mx.groups.io with SMTP id smtpd.web11.9176.1728452984868433192
+Received: from esa3.hc1455-7.c3s2.iphmx.com (esa3.hc1455-7.c3s2.iphmx.com [207.54.90.49])
+ by mx.groups.io with SMTP id smtpd.web10.9230.1728452979019762894
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Oct 2024 22:49:45 -0700
+ Tue, 08 Oct 2024 22:49:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=fGgZ8xeL;
- spf=pass (domain: fujitsu.com, ip: 207.54.90.48, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=YPoqYS6X;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.49, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
   t=1728452985; x=1759988985;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=MKLrVnPvNoDPJjU4FRSxHRigPAlK9ch3HpMyNO2xh/A=;
-  b=fGgZ8xeL/3OsO2fId0IgV26CettjiEjy0P3lF2icl580C1U9cdP+xTrB
-   MFttL7n+UxdTO3FiTkmIRv/P2SXcBQlxzMWL/+1rBW4ENnOzX12QqFCki
-   pf2R6s42uksq95y3Vvm4YystWRihsBsOf90OBBxvSZHbQfv+O1PS6Mm/x
-   pFAVr5fpvKNJX1PHDNwcV8F8C/kvvLIFoztXNbCDNiE0a3NVbPtEBlk3E
-   rcbSdFD6J9bqym30f+/cMPUS4+B+mouOElfYXWOXz/H5O2emSzGcay3SC
-   u/d1iFAMVRp0jQLQoXtBnhAbCZQqZaVyId21uVyDAugImstxC88dPL9KI
+  bh=3IVEUQP8zSG98uHAyXKSkQeLYo6Ci9CRDuimJI4V0Ws=;
+  b=YPoqYS6XrV/zWZ092PrbLQZhmDZK7NZhvAROyrvN/ZFGCOmHAf2d3oKY
+   7lAPmWa+HZvyI2C5zfCvIUVf7997z6xJNT8gidsRQ3r5OyoJx5qnbLqZv
+   CSq8aJNzm8sSReEBACNs/mFH/9XIbbYk7GU9Y9kTGTrWNaPM74NOhPhxE
+   /DAJ1LsfsQvv3TAQ1oAvIiXVVL4tEbOetv42Wky0ARqckw4/jILjcM0LL
+   WZbRBKENDs5XZGz10Dk8GXZr4UXWjHGX96AJdC00IWrhuWQyT5eVO8rHM
+   K4ya+WppHJ2jpBsBfetNCtCqsx2VpQrjj3fLvlpHoGMh2W6tOYc6X9vij
    A==;
-X-CSE-ConnectionGUID: ymUx+P58T+GOkW38PNySpQ==
-X-CSE-MsgGUID: Stx0hj/DREmId1M3o1AY8A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="176300789"
+X-CSE-ConnectionGUID: 6Vj+CGVST5u43EcF9HG/fw==
+X-CSE-MsgGUID: rSD2hOm/RWewYSrZuA7o4w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11219"; a="176256749"
 X-IronPort-AV: E=Sophos;i="6.11,189,1725289200"; 
-   d="scan'208";a="176300789"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 14:49:43 +0900
-Received: from yto-m2.gw.nic.fujitsu.com (yto-nat-yto-m2.gw.nic.fujitsu.com [192.168.83.65])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 87B4AC68E7
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:40 +0900 (JST)
+   d="scan'208";a="176256749"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa3.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2024 14:49:44 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 54383CA1E5
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:41 +0900 (JST)
 Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m2.gw.nic.fujitsu.com (Postfix) with ESMTP id CA723D50FD
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:39 +0900 (JST)
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 143BAF670E
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:38 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 69CE020081311
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:39 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id A844D20081319
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Oct 2024 14:49:37 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 18E731A000A;
-	Wed,  9 Oct 2024 13:49:39 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 5543D1A000A;
+	Wed,  9 Oct 2024 13:49:37 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 21/26] shaderc: upgrade 2024.2 -> 2024.3
-Date: Wed,  9 Oct 2024 13:49:10 +0800
-Message-Id: <1728452955-25051-21-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 17/26] python3-pycryptodome(x): upgrade 3.20.0 -> 3.21.0
+Date: Wed,  9 Oct 2024 13:49:06 +0800
+Message-Id: <1728452955-25051-17-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1728452955-25051-1-git-send-email-wangmy@fujitsu.com>
 References: <1728452955-25051-1-git-send-email-wangmy@fujitsu.com>
@@ -56,61 +56,69 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28718.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28718.005
-X-TMASE-Result: 10-2.627200-10.000000
-X-TMASE-MatchedRID: QR1SVCCbVGSjz0nOeth/yUIIxwDaU5mrUuVVTCQr62pvKJIOnnDTt+OU
-	v0mR5zZDqgSVUPKSwnlgz/Pvx4ih562sJVBkgraFsFSKfGPIprVUENBIMyKD0QfxTM57BPHD7v0
-	MlFSLfmlNDQmQ8bbzv+affHI8kAmis1RWeqLGIw4hXJsS++injm5MoGKfGX+6YA3qL69rXq6RY0
-	JyfRdA4ufbYRxKtAGdNprcTIaqJcMQnn4qR0Bq7n1JIA4rhsZ/fS0Ip2eEHnz3IzXlXlpamPoLR
-	4+zsDTthUfR2rvBju6iKXyKQ+XCZtxgm9G6bhWqSR0oWDC0RC6X68+7iEV7lC7Rg5EbV9OgLFMV
-	uwB1eocLvHZs9t2tjQqLAfvs4/4lKMvYo+D55m0yoB4P7dCh9lPJnXL2yNYdkuo847l05tDEzMy
-	Amsz+FHoWLWlXcsZv
+X-TMASE-Result: 10--2.609700-10.000000
+X-TMASE-MatchedRID: k/L/ofNtQd2dsbtv2+OMzH1zro62qhdCN5dqZcIK7Vg0kS9L8/F4KLQt
+	i58C3mP/KqrQ7lLcMnwt/DPtuO0OwdzZGrP764sOP0HVIeixJdDBOVz0Jwcxl0fyM5VfgjG209D
+	6Rw2zIrMPNxz2EvpSIIQdazR8uTaor78SC5iivxwURSScn+QSXt0H8LFZNFG76sBnwpOylLPx41
+	tVSV6BymmS1ciHGQ9r8t3XkQs6vz5Idx1SH+bXR7kCIt02cS+X/bCv8nXRA1kMSwfVqLxzbgxpB
+	/xdAt0cmY2LTFFQdECIHqaUMp7VXtL/LK0d4I30Ze/gJB41STsbqpM7Cr+fvX7cGd19dSFd
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Oct 2024 05:49:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205331
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205330
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
-Changelog:
-===========
-- Update dependencies: Glslang, SPRIV-Tools, SPIRV-Headers
-   - SPIRV-Tools is at v2024.4.rc1
-   - This incorporates a SPIRV-Tools fix which was limiting parallelism.
-     Validator friendly name generation was serializing on a mutex
-     protecting the locale object.
-- During HLSL compilation or any optimizing compile, don't tell the
-  validator to use "friendly names".  This should save time spent in the
-  initial validation step of the optimization recipe.
-- Adapt test golden results to Glslang changes which reorder
-  decorations by object enum value.
-- Fix ndk-build library dependencies: libshaderc_util depends on glslang
-- Use Python 3.12 on Linux CI bots
-- Fix Python 3.12 warnings for string escapes
-
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../shaderc/{shaderc_2024.2.bb => shaderc_2024.3.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/shaderc/{shaderc_2024.2.bb => shaderc_2024.3.bb} (95%)
+ meta/recipes-devtools/python/python3-pycryptodome_3.20.0.bb  | 5 -----
+ meta/recipes-devtools/python/python3-pycryptodome_3.21.0.bb  | 5 +++++
+ ...cryptodomex_3.20.0.bb => python3-pycryptodomex_3.21.0.bb} | 2 +-
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.20.0.bb
+ create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.21.0.bb
+ rename meta/recipes-devtools/python/{python3-pycryptodomex_3.20.0.bb => python3-pycryptodomex_3.21.0.bb} (71%)
 
-diff --git a/meta/recipes-graphics/shaderc/shaderc_2024.2.bb b/meta/recipes-graphics/shaderc/shaderc_2024.3.bb
-similarity index 95%
-rename from meta/recipes-graphics/shaderc/shaderc_2024.2.bb
-rename to meta/recipes-graphics/shaderc/shaderc_2024.3.bb
-index c658e7df05..0948ba28d6 100644
---- a/meta/recipes-graphics/shaderc/shaderc_2024.2.bb
-+++ b/meta/recipes-graphics/shaderc/shaderc_2024.3.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
- LICENSE = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
+diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.20.0.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.20.0.bb
+deleted file mode 100644
+index 6c93c205ac..0000000000
+--- a/meta/recipes-devtools/python/python3-pycryptodome_3.20.0.bb
++++ /dev/null
+@@ -1,5 +0,0 @@
+-require python-pycryptodome.inc
+-inherit python_setuptools_build_meta
+-
+-SRC_URI[sha256sum] = "09609209ed7de61c2b560cc5c8c4fbf892f8b15b1faf7e4cbffac97db1fffda7"
+-
+diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.21.0.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.21.0.bb
+new file mode 100644
+index 0000000000..77664b22a5
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pycryptodome_3.21.0.bb
+@@ -0,0 +1,5 @@
++require python-pycryptodome.inc
++inherit python_setuptools_build_meta
++
++SRC_URI[sha256sum] = "f7787e0d469bdae763b876174cf2e6c0f7be79808af26b1da96f1a64bcf47297"
++
+diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.20.0.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.21.0.bb
+similarity index 71%
+rename from meta/recipes-devtools/python/python3-pycryptodomex_3.20.0.bb
+rename to meta/recipes-devtools/python/python3-pycryptodomex_3.21.0.bb
+index 54578d2850..e5fb000d9b 100644
+--- a/meta/recipes-devtools/python/python3-pycryptodomex_3.20.0.bb
++++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.21.0.bb
+@@ -1,7 +1,7 @@
+ require python-pycryptodome.inc
+ inherit python_setuptools_build_meta
  
--SRCREV = "5dad9194c038702ef20ccabbe4e3c188f2b13cec"
-+SRCREV = "7223dc3d5e34bbcc44f3150546dbfa8a5da58c4c"
- SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main \
-            file://0001-cmake-disable-building-external-dependencies.patch \
-            file://0002-libshaderc_util-fix-glslang-header-file-location.patch \
+-SRC_URI[sha256sum] = "7a710b79baddd65b806402e14766c721aee8fb83381769c27920f26476276c1e"
++SRC_URI[sha256sum] = "222d0bd05381dd25c32dd6065c071ebf084212ab79bab4599ba9e6a3e0009e6c"
+ 
+ FILES:${PN}-tests = " \
+     ${PYTHON_SITEPACKAGES_DIR}/Cryptodome/SelfTest/ \
 -- 
 2.34.1
 
