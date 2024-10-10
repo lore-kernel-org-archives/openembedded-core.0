@@ -1,517 +1,128 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <pavel@zhukoff.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 610DECFC5F1
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 16:06:41 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web10.47521.1728576392692033621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD41FCFC5E9
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 16:50:51 +0000 (UTC)
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+ by mx.groups.io with SMTP id smtpd.web11.49035.1728579050671917871
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 09:06:32 -0700
+ Thu, 10 Oct 2024 09:50:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0268B497
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 09:07:02 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0E8303F58B
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 09:06:31 -0700 (PDT)
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@zhukoff.net header.s=fm2 header.b=ZAg4bpIU;
+ dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=dB7IY1Vt;
+ spf=pass (domain: zhukoff.net, ip: 103.168.172.146, mailfrom: pavel@zhukoff.net)
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.phl.internal (Postfix) with ESMTP id BB2D713804FD;
+	Thu, 10 Oct 2024 12:50:49 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-12.internal (MEProxy); Thu, 10 Oct 2024 12:50:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
+	cc:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1728579049; x=1728665449; bh=ErpyjpVz89M8S/GtUOUNP
+	62Ac+gHGaYfEt3BGHrQat8=; b=ZAg4bpIU+8pFUMcJ0axHA6JZpL0USX23QfuFt
+	sMDcdJEH2Wz89mtTc9vc2oMs9x0jnyMIWHHNz+pWgXGdhuRsncGfvKN01/RWo7NT
+	e7T7NNaiG1DIuRgldMDpIw5KXx0qx3SjgMHALK65O9vQXNVIgFGthn4Akt5CDrmy
+	g5yu4xaqSHlZry4NEd/PiXLWPabbHcY7T50cf27+of29V1+vXXfIF93L1uAW6cHE
+	MZ10mdum7FmNLS/xA1majTkK0IllkrTFnRuWQZKXNUmMDt2taLtFdG9UdoDIHkwZ
+	IdsmA9aBv1OTbwHlMc1EQuUrUpgHV16UP2NQfzPIByARMxdxw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+	fm2; t=1728579049; x=1728665449; bh=ErpyjpVz89M8S/GtUOUNP62Ac+gH
+	GaYfEt3BGHrQat8=; b=dB7IY1VtboFSRPIliQ03tLICtHbEVzVuBIlq1ACTeZBA
+	vqyQBcyRM3v8IZeG1xRx1m68rDXuTiHCggcmq2HN5mCx0jZ8zHM1LKmTUeZooWqw
+	IbzM94xFh+ab+Q70bZlIupBdtn1OX7NYmVZ549hwnMvcTC0sibWCzM54nsTypo9H
+	LIUfsj8PXwW6j2HI9Io7XhDllKP46M0WRrzqWaDkGylQT9RnT6glXQgeVl1kvuQH
+	63wPB/9rlL9vk2e6IlBCvJb1T6Pn+D3UniMeZQbHdmNLZRiueEKGfa8d7f6pfk85
+	8jh+lTrNf2qUoFKu7Qq4zeVo9DQueCcATnAeFkYOJQ==
+X-ME-Sender: <xms:6QUIZwESx8jXGGPEvqrKR8naA5CEQGdFHkOrWhKtI1y5E0mnzzIPZw>
+    <xme:6QUIZ5Ws0RXIcKYWkeilPv1z3WMiWpGyaeWZg3DMWEj9jjS0ruVqc_Y9WNiyDSVVz
+    BKf2gvv4QXWxS2azGQ>
+X-ME-Received: <xmr:6QUIZ6KxEPJxtMpwHcnoo7ibbZT_koGCUqE1UOPn1vY5Km2qlFFUNzJFQKxC2ys3K45DOZ3dPL2EfY0rnsljNiaz5q0>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefhedguddtkecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
+    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvve
+    fufffkofgggfestdekredtredttdenucfhrhhomheprfgrvhgvlhcukghhuhhkohhvuceo
+    phgrvhgvlhesiihhuhhkohhffhdrnhgvtheqnecuggftrfgrthhtvghrnhepkeeiheevvd
+    ejhfevieelteefkeetvdekteeludetheduvefhuefflefgfeeigeevnecuffhomhgrihhn
+    pehsthgpuhhiugdrphifpdhsthgpghhiugdrghhrnecuvehluhhsthgvrhfuihiivgeptd
+    enucfrrghrrghmpehmrghilhhfrhhomhepphgrvhgvlhesiihhuhhkohhffhdrnhgvthdp
+    nhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepohhpvg
+    hnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdho
+    rhhgpdhrtghpthhtohepphgrvhgvlhesiihhuhhkohhffhdrnhgvth
+X-ME-Proxy: <xmx:6QUIZyGa7pKy5L9VUG9CGqizQ5oCE41GTYSvpohvzTW9YtmsjiYIfg>
+    <xmx:6QUIZ2UKwd4fNoRQpl6VygcURZWOPmMZ7lmYynUvBETN8nOlgBcBCA>
+    <xmx:6QUIZ1PHivNN5u_E5Hw9OBf2ZEjbotJcvqUiwfHhO4A3aIR9h-zRuw>
+    <xmx:6QUIZ90BTY4UIlVHLg8urOMi0SKxETQorEjMhaHQLy3zOR4vMZ2Drg>
+    <xmx:6QUIZzgfu5TXWAXzlCRpCRZdYSGtwaR6gHsilgnk34UaSacrU0OYSLhO>
+Feedback-ID: ib94946c9:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 10 Oct 2024 12:50:48 -0400 (EDT)
+From: Pavel Zhukov <pavel@zhukoff.net>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 04/11] oe/elf: don't regenerate machine data on every call
-Date: Thu, 10 Oct 2024 17:06:16 +0100
-Message-Id: <20241010160623.2880937-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241010160623.2880937-1-ross.burton@arm.com>
-References: <20241010160623.2880937-1-ross.burton@arm.com>
+Cc: Pavel Zhukov <pavel@zhukoff.net>
+Subject: [PATCH v2] package_rpm: Check if file exists before open()
+Date: Thu, 10 Oct 2024 18:50:41 +0200
+Message-ID: <20241010165041.22801-1-pavel@zhukoff.net>
+X-Mailer: git-send-email 2.44.2
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 16:06:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205413
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 16:50:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205421
 
-Every time oe.elf.machine_dict() is called a large dictionary is created
-and returned. However, the "arch" package_qa test will call this method
-for every binary in a package, which results in a lot of dictionary
-creation.
+Exception handler tries to read() /etc/passwd file in sysroot
+and if file doesn't exist for any reason then it raises FileNotFoundError
+exception which mask the original source of the problem and makes
+debugging of the issue more difficult.
 
-Concrete exmaple: in running ltp:do_package_qa, the arch test takes 25%
-of the runtime, and opitimising the machine_dict() call to cache the
-generated dictionary reduces the runtime from 57s to 44s.
+Fixes:
+Exception: FileNotFoundError: [Errno 2] No such file or directory:
+'/codebuild/output/src1899304708/src/build/tmp-container/work/core2-64-oe-linux/emqx-bin/4.3.12/recipe-sysroot/etc/passwd'
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
 ---
- meta/lib/oe/elf.py | 264 +++++++++++++++++++++++----------------------
- 1 file changed, 133 insertions(+), 131 deletions(-)
+ meta/classes-global/package_rpm.bbclass | 16 ++++++++++++----
+ 1 file changed, 12 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oe/elf.py b/meta/lib/oe/elf.py
-index eab2349a4fe..e1bc7b89846 100644
---- a/meta/lib/oe/elf.py
-+++ b/meta/lib/oe/elf.py
-@@ -5,141 +5,143 @@
- #
-=20
- def machine_dict(d):
--#           TARGET_OS  TARGET_ARCH   MACHINE, OSABI, ABIVERSION, Little =
-Endian, 32bit?
--    machdata =3D {
--            "darwin9" : {=20
--                        "arm" :       (40,     0,    0,          True,  =
-        32),
--                      },
--            "eabi" : {
--                        "arm" :       (40,     0,    0,          True,  =
-        32),
--                      },
--            "elf" : {
--                        "aarch64" :   (183,    0,    0,          True,  =
-        64),
--                        "aarch64_be" :(183,    0,    0,          False, =
-        64),
--                        "i586" :      (3,      0,    0,          True,  =
-        32),
--                        "i686" :      (3,      0,    0,          True,  =
-        32),
--                        "x86_64":     (62,     0,    0,          True,  =
-        64),
--                        "epiphany":   (4643,   0,    0,          True,  =
-        32),
--                        "lm32":       (138,    0,    0,          False, =
-        32),
--                        "loongarch64":(258,    0,    0,          True,  =
-        64),
--                        "mips":       ( 8,     0,    0,          False, =
-        32),
--                        "mipsel":     ( 8,     0,    0,          True,  =
-        32),
--                        "microblaze":  (189,   0,    0,          False, =
-        32),
--                        "microblazeel":(189,   0,    0,          True,  =
-        32),
--                        "powerpc":    (20,     0,    0,          False, =
-        32),
--                        "riscv32":    (243,    0,    0,          True,  =
-        32),
--                        "riscv64":    (243,    0,    0,          True,  =
-        64),
--                      },
--            "linux" : {=20
--                        "aarch64" :   (183,    0,    0,          True,  =
-        64),
--                        "aarch64_be" :(183,    0,    0,          False, =
-        64),
--                        "arm" :       (40,    97,    0,          True,  =
-        32),
--                        "armeb":      (40,    97,    0,          False, =
-        32),
--                        "powerpc":    (20,     0,    0,          False, =
-        32),
--                        "powerpc64":  (21,     0,    0,          False, =
-        64),
--                        "powerpc64le":  (21,     0,    0,          True,=
-         64),
--                        "i386":       ( 3,     0,    0,          True,  =
-        32),
--                        "i486":       ( 3,     0,    0,          True,  =
-        32),
--                        "i586":       ( 3,     0,    0,          True,  =
-        32),
--                        "i686":       ( 3,     0,    0,          True,  =
-        32),
--                        "x86_64":     (62,     0,    0,          True,  =
-        64),
--                        "ia64":       (50,     0,    0,          True,  =
-        64),
--                        "alpha":      (36902,  0,    0,          True,  =
-        64),
--                        "hppa":       (15,     3,    0,          False, =
-        32),
--                        "loongarch64":(258,    0,    0,          True,  =
-        64),
--                        "m68k":       ( 4,     0,    0,          False, =
-        32),
--                        "mips":       ( 8,     0,    0,          False, =
-        32),
--                        "mipsel":     ( 8,     0,    0,          True,  =
-        32),
--                        "mips64":     ( 8,     0,    0,          False, =
-        64),
--                        "mips64el":   ( 8,     0,    0,          True,  =
-        64),
--                        "mipsisa32r6":   ( 8,  0,    0,          False, =
-        32),
--                        "mipsisa32r6el": ( 8,  0,    0,          True,  =
-        32),
--                        "mipsisa64r6":   ( 8,  0,    0,          False, =
-        64),
--                        "mipsisa64r6el": ( 8,  0,    0,          True,  =
-        64),
--                        "nios2":      (113,    0,    0,          True,  =
-        32),
--                        "riscv32":    (243,    0,    0,          True,  =
-        32),
--                        "riscv64":    (243,    0,    0,          True,  =
-        64),
--                        "s390":       (22,     0,    0,          False, =
-        32),
--                        "sh4":        (42,     0,    0,          True,  =
-        32),
--                        "sparc":      ( 2,     0,    0,          False, =
-        32),
--                        "microblaze":  (189,   0,    0,          False, =
-        32),
--                        "microblazeel":(189,   0,    0,          True,  =
-        32),
--                      },
--            "linux-android" : {
--                        "aarch64" :   (183,    0,    0,          True,  =
-        64),
--                        "i686":       ( 3,     0,    0,          True,  =
-        32),
--                        "x86_64":     (62,     0,    0,          True,  =
-        64),
--                      },
--            "linux-androideabi" : {
--                        "arm" :       (40,    97,    0,          True,  =
-        32),
--                      },
--            "linux-musl" : {=20
--                        "aarch64" :   (183,    0,    0,            True,=
-          64),
--                        "aarch64_be" :(183,    0,    0,            False=
-,         64),
--                        "arm" :       (  40,    97,    0,          True,=
-          32),
--                        "armeb":      (  40,    97,    0,          False=
-,         32),
--                        "powerpc":    (  20,     0,    0,          False=
-,         32),
--                        "powerpc64":  (  21,     0,    0,          False=
-,         64),
--                        "powerpc64le":  (21,     0,    0,          True,=
-         64),
--                        "i386":       (   3,     0,    0,          True,=
-          32),
--                        "i486":       (   3,     0,    0,          True,=
-          32),
--                        "i586":       (   3,     0,    0,          True,=
-          32),
--                        "i686":       (   3,     0,    0,          True,=
-          32),
--                        "x86_64":     (  62,     0,    0,          True,=
-          64),
--                        "mips":       (   8,     0,    0,          False=
-,         32),
--                        "mipsel":     (   8,     0,    0,          True,=
-          32),
--                        "mips64":     (   8,     0,    0,          False=
-,         64),
--                        "mips64el":   (   8,     0,    0,          True,=
-          64),
--                        "microblaze":  (189,     0,    0,          False=
-,         32),
--                        "microblazeel":(189,     0,    0,          True,=
-          32),
--                        "riscv32":    (243,      0,    0,          True,=
-          32),
--                        "riscv64":    (243,      0,    0,          True,=
-          64),
--                        "sh4":        (  42,     0,    0,          True,=
-          32),
--                      },
--            "uclinux-uclibc" : {
--                        "bfin":       ( 106,     0,    0,          True,=
-         32),
--                      },=20
--            "linux-gnueabi" : {
--                        "arm" :       (40,     0,    0,          True,  =
-        32),
--                        "armeb" :     (40,     0,    0,          False, =
-        32),
--                      },
--            "linux-musleabi" : {
--                        "arm" :       (40,     0,    0,          True,  =
-        32),
--                        "armeb" :     (40,     0,    0,          False, =
-        32),
--                      },
--            "linux-gnuspe" : {
--                        "powerpc":    (20,     0,    0,          False, =
-        32),
--                      },
--            "linux-muslspe" : {
--                        "powerpc":    (20,     0,    0,          False, =
-        32),
--                      },
--            "linux-gnu" :       {
--                        "powerpc":    (20,     0,    0,          False, =
-        32),
--                        "sh4":        (42,     0,    0,          True,  =
-        32),
--                      },
--            "linux-gnu_ilp32" :     {
--                        "aarch64" :   (183,    0,    0,          True,  =
-        32),
--                      },
--            "linux-gnux32" :       {
--                        "x86_64":     (62,     0,    0,          True,  =
-        32),
--                      },
--            "linux-muslx32" :       {
--                        "x86_64":     (62,     0,    0,          True,  =
-        32),
--                      },
--            "linux-gnun32" :       {
--                        "mips64":       ( 8,     0,    0,          False=
-,         32),
--                        "mips64el":     ( 8,     0,    0,          True,=
-          32),
--                        "mipsisa64r6":  ( 8,     0,    0,          False=
-,         32),
--                        "mipsisa64r6el":( 8,     0,    0,          True,=
-          32),
--                      },
--        }
-+  # Generating this data is slow, so cache it
-+  if not hasattr(machine_dict, "machdata"):
-+    machine_dict.machdata =3D {
-+      # TARGET_OS  TARGET_ARCH   MACHINE, OSABI, ABIVERSION, Little Endi=
-an, 32bit?
-+      "darwin9" : {=20
-+                  "arm" :       (40,     0,    0,          True,        =
-  32),
-+                },
-+      "eabi" : {
-+                  "arm" :       (40,     0,    0,          True,        =
-  32),
-+                },
-+      "elf" : {
-+                  "aarch64" :   (183,    0,    0,          True,        =
-  64),
-+                  "aarch64_be" :(183,    0,    0,          False,       =
-  64),
-+                  "i586" :      (3,      0,    0,          True,        =
-  32),
-+                  "i686" :      (3,      0,    0,          True,        =
-  32),
-+                  "x86_64":     (62,     0,    0,          True,        =
-  64),
-+                  "epiphany":   (4643,   0,    0,          True,        =
-  32),
-+                  "lm32":       (138,    0,    0,          False,       =
-  32),
-+                  "loongarch64":(258,    0,    0,          True,        =
-  64),
-+                  "mips":       ( 8,     0,    0,          False,       =
-  32),
-+                  "mipsel":     ( 8,     0,    0,          True,        =
-  32),
-+                  "microblaze":  (189,   0,    0,          False,       =
-  32),
-+                  "microblazeel":(189,   0,    0,          True,        =
-  32),
-+                  "powerpc":    (20,     0,    0,          False,       =
-  32),
-+                  "riscv32":    (243,    0,    0,          True,        =
-  32),
-+                  "riscv64":    (243,    0,    0,          True,        =
-  64),
-+                },
-+      "linux" : {=20
-+                  "aarch64" :   (183,    0,    0,          True,        =
-  64),
-+                  "aarch64_be" :(183,    0,    0,          False,       =
-  64),
-+                  "arm" :       (40,    97,    0,          True,        =
-  32),
-+                  "armeb":      (40,    97,    0,          False,       =
-  32),
-+                  "powerpc":    (20,     0,    0,          False,       =
-  32),
-+                  "powerpc64":  (21,     0,    0,          False,       =
-  64),
-+                  "powerpc64le":  (21,     0,    0,          True,      =
-   64),
-+                  "i386":       ( 3,     0,    0,          True,        =
-  32),
-+                  "i486":       ( 3,     0,    0,          True,        =
-  32),
-+                  "i586":       ( 3,     0,    0,          True,        =
-  32),
-+                  "i686":       ( 3,     0,    0,          True,        =
-  32),
-+                  "x86_64":     (62,     0,    0,          True,        =
-  64),
-+                  "ia64":       (50,     0,    0,          True,        =
-  64),
-+                  "alpha":      (36902,  0,    0,          True,        =
-  64),
-+                  "hppa":       (15,     3,    0,          False,       =
-  32),
-+                  "loongarch64":(258,    0,    0,          True,        =
-  64),
-+                  "m68k":       ( 4,     0,    0,          False,       =
-  32),
-+                  "mips":       ( 8,     0,    0,          False,       =
-  32),
-+                  "mipsel":     ( 8,     0,    0,          True,        =
-  32),
-+                  "mips64":     ( 8,     0,    0,          False,       =
-  64),
-+                  "mips64el":   ( 8,     0,    0,          True,        =
-  64),
-+                  "mipsisa32r6":   ( 8,  0,    0,          False,       =
-  32),
-+                  "mipsisa32r6el": ( 8,  0,    0,          True,        =
-  32),
-+                  "mipsisa64r6":   ( 8,  0,    0,          False,       =
-  64),
-+                  "mipsisa64r6el": ( 8,  0,    0,          True,        =
-  64),
-+                  "nios2":      (113,    0,    0,          True,        =
-  32),
-+                  "riscv32":    (243,    0,    0,          True,        =
-  32),
-+                  "riscv64":    (243,    0,    0,          True,        =
-  64),
-+                  "s390":       (22,     0,    0,          False,       =
-  32),
-+                  "sh4":        (42,     0,    0,          True,        =
-  32),
-+                  "sparc":      ( 2,     0,    0,          False,       =
-  32),
-+                  "microblaze":  (189,   0,    0,          False,       =
-  32),
-+                  "microblazeel":(189,   0,    0,          True,        =
-  32),
-+                },
-+      "linux-android" : {
-+                  "aarch64" :   (183,    0,    0,          True,        =
-  64),
-+                  "i686":       ( 3,     0,    0,          True,        =
-  32),
-+                  "x86_64":     (62,     0,    0,          True,        =
-  64),
-+                },
-+      "linux-androideabi" : {
-+                  "arm" :       (40,    97,    0,          True,        =
-  32),
-+                },
-+      "linux-musl" : {=20
-+                  "aarch64" :   (183,    0,    0,            True,      =
-    64),
-+                  "aarch64_be" :(183,    0,    0,            False,     =
-    64),
-+                  "arm" :       (  40,    97,    0,          True,      =
-    32),
-+                  "armeb":      (  40,    97,    0,          False,     =
-    32),
-+                  "powerpc":    (  20,     0,    0,          False,     =
-    32),
-+                  "powerpc64":  (  21,     0,    0,          False,     =
-    64),
-+                  "powerpc64le":  (21,     0,    0,          True,      =
-   64),
-+                  "i386":       (   3,     0,    0,          True,      =
-    32),
-+                  "i486":       (   3,     0,    0,          True,      =
-    32),
-+                  "i586":       (   3,     0,    0,          True,      =
-    32),
-+                  "i686":       (   3,     0,    0,          True,      =
-    32),
-+                  "x86_64":     (  62,     0,    0,          True,      =
-    64),
-+                  "mips":       (   8,     0,    0,          False,     =
-    32),
-+                  "mipsel":     (   8,     0,    0,          True,      =
-    32),
-+                  "mips64":     (   8,     0,    0,          False,     =
-    64),
-+                  "mips64el":   (   8,     0,    0,          True,      =
-    64),
-+                  "microblaze":  (189,     0,    0,          False,     =
-    32),
-+                  "microblazeel":(189,     0,    0,          True,      =
-    32),
-+                  "riscv32":    (243,      0,    0,          True,      =
-    32),
-+                  "riscv64":    (243,      0,    0,          True,      =
-    64),
-+                  "sh4":        (  42,     0,    0,          True,      =
-    32),
-+                },
-+      "uclinux-uclibc" : {
-+                  "bfin":       ( 106,     0,    0,          True,      =
-   32),
-+                },=20
-+      "linux-gnueabi" : {
-+                  "arm" :       (40,     0,    0,          True,        =
-  32),
-+                  "armeb" :     (40,     0,    0,          False,       =
-  32),
-+                },
-+      "linux-musleabi" : {
-+                  "arm" :       (40,     0,    0,          True,        =
-  32),
-+                  "armeb" :     (40,     0,    0,          False,       =
-  32),
-+                },
-+      "linux-gnuspe" : {
-+                  "powerpc":    (20,     0,    0,          False,       =
-  32),
-+                },
-+      "linux-muslspe" : {
-+                  "powerpc":    (20,     0,    0,          False,       =
-  32),
-+                },
-+      "linux-gnu" :       {
-+                  "powerpc":    (20,     0,    0,          False,       =
-  32),
-+                  "sh4":        (42,     0,    0,          True,        =
-  32),
-+                },
-+      "linux-gnu_ilp32" :     {
-+                  "aarch64" :   (183,    0,    0,          True,        =
-  32),
-+                },
-+      "linux-gnux32" :       {
-+                  "x86_64":     (62,     0,    0,          True,        =
-  32),
-+                },
-+      "linux-muslx32" :       {
-+                  "x86_64":     (62,     0,    0,          True,        =
-  32),
-+                },
-+      "linux-gnun32" :       {
-+                  "mips64":       ( 8,     0,    0,          False,     =
-    32),
-+                  "mips64el":     ( 8,     0,    0,          True,      =
-    32),
-+                  "mipsisa64r6":  ( 8,     0,    0,          False,     =
-    32),
-+                  "mipsisa64r6el":( 8,     0,    0,          True,      =
-    32),
-+                },
-+    }
-=20
-     # Add in any extra user supplied data which may come from a BSP laye=
-r, removing the
-     # need to always change this class directly
-     extra_machdata =3D (d and d.getVar("PACKAGEQA_EXTRA_MACHDEFFUNCS" or=
- None) or "").split()
-     for m in extra_machdata:
-         call =3D m + "(machdata, d)"
--        locs =3D { "machdata" : machdata, "d" : d}
--        machdata =3D bb.utils.better_eval(call, locs)
-+        locs =3D { "machdata" : machine_dict.machdata, "d" : d}
-+        machine_dict.machdata =3D bb.utils.better_eval(call, locs)
-=20
--    return machdata
-+  return machine_dict.machdata
---=20
-2.34.1
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index 2e3e4e8c79..cd54d9063f 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -205,14 +205,22 @@ python write_specfile () {
+                 try:
+                     owner = pwd.getpwuid(stat_f.st_uid).pw_name
+                 except Exception as e:
+-                    bb.error("Content of /etc/passwd in sysroot:\n{}".format(
+-                        open(d.getVar("RECIPE_SYSROOT") +"/etc/passwd").read()))
++                    filename = d.getVar('RECIPE_SYSROOT') + '/etc/passwd'
++                    if os.path.exists(filename):
++                        bb.error("Content of /etc/passwd in sysroot:\n{}".format(
++                            open(filename).read()))
++                    else:
++                        bb.error("File {} doesn't exist in sysroot!").format(filename)
+                     raise e
+                 try:
+                     group = grp.getgrgid(stat_f.st_gid).gr_name
+                 except Exception as e:
+-                    bb.error("Content of /etc/group in sysroot:\n{}".format(
+-                        open(d.getVar("RECIPE_SYSROOT") +"/etc/group").read()))
++                    filename = d.getVar("RECIPE_SYSROOT") +"/etc/group"
++                    if os.path.exists(filename):
++                        bb.error("Content of /etc/group in sysroot:\n{}".format(
++                            open(filename).read()))
++                    else:
++                        bb.error("File {} doesn't exists in sysroot!".format(filename))
+                     raise e
+                 return "%attr({:o},{},{}) ".format(mode, owner, group)
+ 
+-- 
+2.44.2
 
 
