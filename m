@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A017D1A42F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 126BBD1A435
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:30 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.53368.1728588954571353066
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.53363.1728588948890684536
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:20 -0700
+ Thu, 10 Oct 2024 12:36:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FxSz2lty;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3Duslxm6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019277ee9ea8-c97d675f-89ad-4884-8ccd-bd4d3b2cc74b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jKSAjYFr;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bBS0tH23;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019277eea743-3b576dd8-d9b1-469a-9260-5ed850c5ba57-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588979;
+	t=1728588982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=eKBT19lB9xnMCulOSKP8QCThV5boqxAvxxWVuXEHwGc=;
-	b=FxSz2lty/twM1Yl1YYLyhW62FCXNc0CduiRjMPFRyt2Wcil39OSXa2PKPcR1EfPQ
-	F1gOWkjOFpHXLONhUK5z7csf4kZeMcDb6APnyAS0pdfQQMLANla+a/lv0BfMg3o7LQk
-	KwJnlaHVSaEJ9pVlyHzcqaNj7g47wg8NxJtANBdI=
+	bh=EY7Y5796AVwwN6R4RoR/revRprRITzSk8fuI1KN+CiE=;
+	b=jKSAjYFr7HbJ6RJi/JVLi442ckHLLMhAKvOJkL04B2YZqehVzVEGlmqzL1H7pPGh
+	q/37O1bRQTAzMwX4icEI9f/Or+aTjgBY9O2KUb1auS5Vlzl2xL2+If0PYQG+ZEYtHZI
+	ooCTz4dLy7PZaEzDuPwJ7s2qMGP72pLD6zzXixQY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588979;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588982;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=eKBT19lB9xnMCulOSKP8QCThV5boqxAvxxWVuXEHwGc=;
-	b=3Duslxm6c0LMdztkKWmhEAjhORXnQMuEMFN0bLZG8qjZoVqcASIx1xaUnvkDHWPE
-	My2lrTCUPDFFkRTeITo1xmgyQfsZ9mGj1Kvc4p6jtEUIeTlgAamGP+DEocFu1uaZ4ay
-	0MgbrGWHdjiDDlh6TaP4JF9vaGBZsAOgtS+d25ag=
-Content-Type: multipart/mixed; boundary="===============5245822410997828857=="
+	bh=EY7Y5796AVwwN6R4RoR/revRprRITzSk8fuI1KN+CiE=;
+	b=bBS0tH23cEDHK6BTcpFR26rJgSlK+0A84RPqFG4xdNkW6BEZ/+NNEcfGEZCnBOl6
+	kAkUoqH5NHFsUx6e0W2zVU12lTku5VISmU54Q9teeUuuDi/xlVFwT5FtMxkGkGSGq4g
+	oWkd+ZUoJK7OL4Jy2O8AjqD2zznpxknZTw9Uwh0Q=
+Content-Type: multipart/mixed; boundary="===============2538871908653792615=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-markdown: upgrading to 3.7 FAILED
-Message-ID: <0101019277ee9ea8-c97d675f-89ad-4884-8ccd-bd4d3b2cc74b-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:36:19 +0000
+Subject: [AUH] openssl: upgrading to 3.3.2 FAILED
+Message-ID: <0101019277eea743-3b576dd8-d9b1-469a-9260-5ed850c5ba57-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:36:22 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.31
+X-SES-Outgoing: 2024.10.10-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205555
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205565
 
---===============5245822410997828857==
+--===============2538871908653792615==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,14 +51,15 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-markdown* to *3.7* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *openssl* to *3.3.2* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade python3-markdown -V 3.7
+Running 'devtool upgrade' for recipe openssl failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1871 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -74,7 +75,7 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:afe78e2fc84804a5b6b5daeaf070805808eaeb9b"
+workspace            = "tmp-auh-upgrades:a54e0787961a3dc78d25ac98f44f7747350e631f"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
@@ -82,7 +83,7 @@ done.
 NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
+NOTE: Writing buildhistory took: 2 seconds
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
@@ -102,29 +103,41 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:afe78e2fc84804a5b6b5daeaf070805808eaeb9b"
+workspace            = "tmp-auh-upgrades:a54e0787961a3dc78d25ac98f44f7747350e631f"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
 done.
 NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+WARNING: tmp-recipetool-w8uuecy0: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-32pzcpg5/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-32pzcpg5/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010020500.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010020500.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  44% |###############                     | ETA:  0:00:00
+Adding changed files:  88% |###############################     | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
 INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
 INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0s0z_3xe/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0s0z_3xe/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0s0z_3xe/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0s0z_3xe/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-0s0z_3xe/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0s0z_3xe/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget -t 2 -T 30 -O /srv/pokybuild/yocto-worker/auh/build/build/downloads/Markdown-3.7.tar.gz.tmp -P /srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-0s0z_3xe/work/temp/log.do_fetch.3180122
-ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz
+INFO: Fetching http://www.openssl.org/source/openssl-3.3.2.tar.gz...
+INFO: Rebasing devtool onto 92d20d049e2de8e8b55a6871c5d65f5cd59ce051
+WARNING: Command 'git rebase 92d20d049e2de8e8b55a6871c5d65f5cd59ce051' failed:
+Auto-merging test/helpers/handshake.c
+CONFLICT (content): Merge conflict in test/helpers/handshake.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-nativesdk onto 92d20d049e2de8e8b55a6871c5d65f5cd59ce051
+WARNING: Command 'git rebase 92d20d049e2de8e8b55a6871c5d65f5cd59ce051' failed:
+Auto-merging test/helpers/handshake.c
+CONFLICT (content): Merge conflict in test/helpers/handshake.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/openssl
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/openssl/openssl_3.3.2.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -132,5 +145,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============5245822410997828857==--
+--===============2538871908653792615==--
 
