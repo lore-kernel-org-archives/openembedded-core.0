@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 735C6CFD302
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9830DCFD312
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:43 +0000 (UTC)
 Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
  by mx.groups.io with SMTP id smtpd.web10.53290.1728588971263123135
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:41 -0700
+ Thu, 10 Oct 2024 12:36:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Ek3A2IUD;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Y22DM8EU;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019277eef1b4-5ce83f61-027f-476e-890c-b8e2306b4361-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=P5Z/hyOq;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=dbqVovvE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019277eef510-2716dcad-db62-4a72-adff-076d161a506f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728589001;
+	t=1728589002;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=M/O3qsCgsw1g/agjpc6rotPbPgUpaVHHN115JdkM85Q=;
-	b=Ek3A2IUDL+YxfT2ySax6ld8Xtq4l98Mghl3ZsAYyzwPJynK5WnIo4XxWTKmXlAcL
-	1kLvxexPM0HIIBTtqxuwa8DxWKDUD10k+Uqrlb+5PPE3zx3cQRyvs/q9iqv4t+GH6Mq
-	S2QJSEgrJKset+qdCb3m/V6XMUR0pTbiSsl0R96k=
+	bh=GashC8aJKOsqiCTEnyfmyppJ70vUPH0dyF8DECck/M8=;
+	b=P5Z/hyOqeC49OgfVuN04oSQDJukHZF4FYIjXUwSnMW0A+MsO9e9TCyPsRMKM9Chd
+	Fl1r8ZVV6ITdC7tYbeUxg5pQRI+YgeMAcGZtao1SBZP4Hi755ikIpH2ppqX9XMRZ9/a
+	xe3qUDmVsuJhlue5tbmROmRgKimxN+wUShoJLSss=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728589001;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728589002;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=M/O3qsCgsw1g/agjpc6rotPbPgUpaVHHN115JdkM85Q=;
-	b=Y22DM8EU3OxZH/niWXX0vnE8tlbephuWXN82ERVUs9mA/rVb+Znycok53xd2Y0T9
-	iXj9xzMrdKJ8z0SDtmYC8cq2BPsoM6ER9de0+IyGsZQwywAgASRVZ1lHRHrZl06Fziz
-	t1vA/Xg/sEeEAvUO4CqMOY/38q+YnZk4Kd18h6Uk=
-Content-Type: multipart/mixed; boundary="===============7612502145204610391=="
+	bh=GashC8aJKOsqiCTEnyfmyppJ70vUPH0dyF8DECck/M8=;
+	b=dbqVovvE9sPR+pjLyE1zC/073e5FvBlOw5jOPqcaxuLJCd4locCqi/Od3kwLgiGa
+	UvNw2ohZ1f/Bp/SPMjZ0MMUkSfJS6/gBGECTzXg4Ug1QMR5jEYJVuqVDMdQKIDN6sC+
+	Kzk1fM1ObKSqchcVCWD7Sc61pU0ah39taGcBqiQo=
+Content-Type: multipart/mixed; boundary="===============2350084996523431083=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] xkeyboard-config: upgrading to 2.43 SUCCEEDED
-Message-ID: <0101019277eef1b4-5ce83f61-027f-476e-890c-b8e2306b4361-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:36:41 +0000
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-setuptools: upgrading to 75.1.0 SUCCEEDED
+Message-ID: <0101019277eef510-2716dcad-db62-4a72-adff-076d161a506f-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:36:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.10.10-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205626
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205627
 
---===============7612502145204610391==
+--===============2350084996523431083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xkeyboard-config* to *2.43* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-setuptools* to *75.1.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-xkeyboard-config-upgrade-2.42-2.43.patch
+    - apply the patch: git am 0001-python3-setuptools-upgrade-72.1.0-75.1.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,47 +72,297 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 90a20f92b85cdd0fa5e38d8fea0259d096ae1944 Mon Sep 17 00:00:00 2001
+From aa1d4a19e642e79fe2c966ecaa0ffd0b76126e52 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 05:29:25 +0000
-Subject: [PATCH] xkeyboard-config: upgrade 2.42 -> 2.43
+Date: Thu, 10 Oct 2024 02:25:23 +0000
+Subject: [PATCH] python3-setuptools: upgrade 72.1.0 -> 75.1.0
 
 ---
- .../{xkeyboard-config_2.42.bb => xkeyboard-config_2.43.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-lib/{xkeyboard-config_2.42.bb => xkeyboard-config_2.43.bb} (92%)
+ ...stutils-sysconfig.py-make-it-possible-to-substite.patch | 7 ++-----
+ ...1-conditionally-do-not-fetch-code-by-easy_install.patch | 4 ++--
+ ...3-setuptools_72.1.0.bb => python3-setuptools_75.1.0.bb} | 2 +-
+ 3 files changed, 5 insertions(+), 8 deletions(-)
+ rename meta/recipes-devtools/python/{python3-setuptools_72.1.0.bb => python3-setuptools_75.1.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.42.bb b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-lib/xkeyboard-config_2.42.bb
-rename to meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb
-index cdc6422d46..7378cf475e 100644
---- a/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.42.bb
-+++ b/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb
-@@ -13,7 +13,7 @@ LICENSE = "MIT & MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=8fc8ae699974c360e2e2e883a63ce264"
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+index 68dca43e21..9a67751654 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch
+@@ -1,4 +1,4 @@
+-From a9f3483b492317959a35886308c31c078e350a35 Mon Sep 17 00:00:00 2001
++From adae4581315bffb327198d55de34c24997c94018 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 11 May 2022 21:41:14 +0200
+ Subject: [PATCH] _distutils/sysconfig.py: make it possible to substite the
+@@ -20,7 +20,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 10 insertions(+), 2 deletions(-)
  
- SRC_URI = "${XORG_MIRROR}/individual/data/xkeyboard-config/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "a6b06ebfc1f01fc505f2f05f265f95f67cc8873a54dd247e3c2d754b8f7e0807"
-+SRC_URI[sha256sum] = "c810f362c82a834ee89da81e34cd1452c99789339f46f6037f4b9e227dd06c01"
+ diff --git a/setuptools/_distutils/sysconfig.py b/setuptools/_distutils/sysconfig.py
+-index 7ebe67687..8039021a8 100644
++index 7ebe676..8039021 100644
+ --- a/setuptools/_distutils/sysconfig.py
+ +++ b/setuptools/_distutils/sysconfig.py
+ @@ -121,6 +121,8 @@ def get_python_inc(plat_specific=False, prefix=None):
+@@ -56,6 +56,3 @@ index 7ebe67687..8039021a8 100644
+          return _posix_lib(standard_lib, libpython, early_prefix, prefix)
+      elif os.name == "nt":
+          if standard_lib:
+--- 
+-2.39.2
+-
+diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+index e227c2889c..966fd603fe 100644
+--- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
++++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.patch
+@@ -1,4 +1,4 @@
+-From 80fe63816eb3bfd1f5b6d354e1f2442805cff4e0 Mon Sep 17 00:00:00 2001
++From 546c8d73a328debaa45fcebd454b43c0feaee2f4 Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Tue, 17 Jul 2018 10:13:38 +0800
+ Subject: [PATCH] conditionally do not fetch code by easy_install
+@@ -14,7 +14,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+  1 file changed, 5 insertions(+)
  
- SECTION = "x11/libs"
- DEPENDS = "util-macros libxslt-native"
+ diff --git a/setuptools/command/easy_install.py b/setuptools/command/easy_install.py
+-index 858fb20..62bd853 100644
++index 36114d4..3249ddf 100644
+ --- a/setuptools/command/easy_install.py
+ +++ b/setuptools/command/easy_install.py
+ @@ -672,6 +672,11 @@ class easy_install(Command):
+diff --git a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb b/meta/recipes-devtools/python/python3-setuptools_75.1.0.bb
+similarity index 95%
+rename from meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
+rename to meta/recipes-devtools/python/python3-setuptools_75.1.0.bb
+index 5a01111934..bc18bd6e46 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_75.1.0.bb
+@@ -13,7 +13,7 @@ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-e
+ SRC_URI += " \
+             file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+ 
+-SRC_URI[sha256sum] = "8d243eff56d095e5817f796ede6ae32941278f542e0f941867cc05ae52b162ec"
++SRC_URI[sha256sum] = "d59a21b17a275fb872a9c3dae73963160ae079f1049ed956880cd7c09b120538"
+ 
+ DEPENDS += "python3"
+ 
 -- 
 2.44.1
 
 
---===============7612502145204610391==
+--===============2350084996523431083==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-setuptools-upgrade-72.1.0-75.1.0.patch"
+
+RnJvbSBhYTFkNGExOWU2NDJlNzlmZTJjOTY2ZWNhYTBmZmQwYjc2MTI2ZTUyIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDI6MjU6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNldHVwdG9vbHM6IHVwZ3JhZGUgNzIuMS4wIC0+IDc1LjEuMAoKLS0tCiAuLi5zdHV0
+aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1YnN0aXRlLnBhdGNoIHwgNyAr
+Ky0tLS0tCiAuLi4xLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0
+YWxsLnBhdGNoIHwgNCArKy0tCiAuLi4zLXNldHVwdG9vbHNfNzIuMS4wLmJiID0+IHB5dGhvbjMt
+c2V0dXB0b29sc183NS4xLjAuYmJ9IHwgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlv
+bnMoKyksIDggZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi97cHl0aG9uMy1zZXR1cHRvb2xzXzcyLjEuMC5iYiA9PiBweXRob24zLXNldHVwdG9vbHNfNzUu
+MS4wLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1w
+b3NzaWJsZS10by1zdWJzdGl0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtX2Rpc3R1dGlscy1zeXNjb25maWcucHktbWFrZS1pdC1w
+b3NzaWJsZS10by1zdWJzdGl0ZS5wYXRjaAppbmRleCA2OGRjYTQzZTIxLi45YTY3NzUxNjU0IDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29s
+cy8wMDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUtdG8tc3Vic3Rp
+dGUucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
+dG9vbHMvMDAwMS1fZGlzdHV0aWxzLXN5c2NvbmZpZy5weS1tYWtlLWl0LXBvc3NpYmxlLXRvLXN1
+YnN0aXRlLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhOWYzNDgzYjQ5MjMxNzk1OWEzNTg4
+NjMwOGMzMWMwNzhlMzUwYTM1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhZGFlNDU4
+MTMxNWJmZmIzMjcxOThkNTVkZTM0YzI0OTk3Yzk0MDE4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IFdl
+ZCwgMTEgTWF5IDIwMjIgMjE6NDE6MTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gX2Rpc3R1dGls
+cy9zeXNjb25maWcucHk6IG1ha2UgaXQgcG9zc2libGUgdG8gc3Vic3RpdGUgdGhlCkBAIC0yMCw3
+ICsyMCw3IEBAIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4QGxpbnV0cm9u
+aXguZGU+CiAgMSBmaWxlIGNoYW5nZWQsIDEwIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0p
+CiAKIGRpZmYgLS1naXQgYS9zZXR1cHRvb2xzL19kaXN0dXRpbHMvc3lzY29uZmlnLnB5IGIvc2V0
+dXB0b29scy9fZGlzdHV0aWxzL3N5c2NvbmZpZy5weQotaW5kZXggN2ViZTY3Njg3Li44MDM5MDIx
+YTggMTAwNjQ0CitpbmRleCA3ZWJlNjc2Li44MDM5MDIxIDEwMDY0NAogLS0tIGEvc2V0dXB0b29s
+cy9fZGlzdHV0aWxzL3N5c2NvbmZpZy5weQogKysrIGIvc2V0dXB0b29scy9fZGlzdHV0aWxzL3N5
+c2NvbmZpZy5weQogQEAgLTEyMSw2ICsxMjEsOCBAQCBkZWYgZ2V0X3B5dGhvbl9pbmMocGxhdF9z
+cGVjaWZpYz1GYWxzZSwgcHJlZml4PU5vbmUpOgpAQCAtNTYsNiArNTYsMyBAQCBpbmRleCA3ZWJl
+Njc2ODcuLjgwMzkwMjFhOCAxMDA2NDQKICAgICAgICAgIHJldHVybiBfcG9zaXhfbGliKHN0YW5k
+YXJkX2xpYiwgbGlicHl0aG9uLCBlYXJseV9wcmVmaXgsIHByZWZpeCkKICAgICAgZWxpZiBvcy5u
+YW1lID09ICJudCI6CiAgICAgICAgICBpZiBzdGFuZGFyZF9saWI6Ci0tLSAKLTIuMzkuMgotCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29s
+cy8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHMvMDAw
+MS1jb25kaXRpb25hbGx5LWRvLW5vdC1mZXRjaC1jb2RlLWJ5LWVhc3lfaW5zdGFsbC5wYXRjaApp
+bmRleCBlMjI3YzI4ODljLi45NjZmZDYwM2ZlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2
+dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy8wMDAxLWNvbmRpdGlvbmFsbHktZG8tbm90
+LWZldGNoLWNvZGUtYnktZWFzeV9pbnN0YWxsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzLzAwMDEtY29uZGl0aW9uYWxseS1kby1ub3Qt
+ZmV0Y2gtY29kZS1ieS1lYXN5X2luc3RhbGwucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDgw
+ZmU2MzgxNmViM2JmZDFmNWI2ZDM1NGUxZjI0NDI4MDVjZmY0ZTAgTW9uIFNlcCAxNyAwMDowMDow
+MCAyMDAxCitGcm9tIDU0NmM4ZDczYTMyOGRlYmFhNDVmY2ViZDQ1NGI0M2MwZmVhZWUyZjQgTW9u
+IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRy
+aXZlci5jb20+CiBEYXRlOiBUdWUsIDE3IEp1bCAyMDE4IDEwOjEzOjM4ICswODAwCiBTdWJqZWN0
+OiBbUEFUQ0hdIGNvbmRpdGlvbmFsbHkgZG8gbm90IGZldGNoIGNvZGUgYnkgZWFzeV9pbnN0YWxs
+CkBAIC0xNCw3ICsxNCw3IEBAIFNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFA
+d2luZHJpdmVyLmNvbT4KICAxIGZpbGUgY2hhbmdlZCwgNSBpbnNlcnRpb25zKCspCiAKIGRpZmYg
+LS1naXQgYS9zZXR1cHRvb2xzL2NvbW1hbmQvZWFzeV9pbnN0YWxsLnB5IGIvc2V0dXB0b29scy9j
+b21tYW5kL2Vhc3lfaW5zdGFsbC5weQotaW5kZXggODU4ZmIyMC4uNjJiZDg1MyAxMDA2NDQKK2lu
+ZGV4IDM2MTE0ZDQuLjMyNDlkZGYgMTAwNjQ0CiAtLS0gYS9zZXR1cHRvb2xzL2NvbW1hbmQvZWFz
+eV9pbnN0YWxsLnB5CiArKysgYi9zZXR1cHRvb2xzL2NvbW1hbmQvZWFzeV9pbnN0YWxsLnB5CiBA
+QCAtNjcyLDYgKzY3MiwxMSBAQCBjbGFzcyBlYXN5X2luc3RhbGwoQ29tbWFuZCk6CmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc183Mi4x
+LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc183
+NS4xLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNzIuMS4wLmJiCnJlbmFtZSB0byBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29sc183NS4xLjAuYmIKaW5k
+ZXggNWEwMTExMTkzNC4uYmMxOGJkNmU0NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLXNldHVwdG9vbHNfNzIuMS4wLmJiCisrKyBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zZXR1cHRvb2xzXzc1LjEuMC5iYgpAQCAtMTMsNyAr
+MTMsNyBAQCBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmUgPSAiIGZpbGU6Ly8wMDAxLWNvbmRp
+dGlvbmFsbHktZG8tbm90LWZldGNoLWNvZGUtYnktZQogU1JDX1VSSSArPSAiIFwKICAgICAgICAg
+ICAgIGZpbGU6Ly8wMDAxLV9kaXN0dXRpbHMtc3lzY29uZmlnLnB5LW1ha2UtaXQtcG9zc2libGUt
+dG8tc3Vic3RpdGUucGF0Y2giCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4ZDI0M2VmZjU2ZDA5
+NWU1ODE3Zjc5NmVkZTZhZTMyOTQxMjc4ZjU0MmUwZjk0MTg2N2NjMDVhZTUyYjE2MmVjIgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gImQ1OWEyMWIxN2EyNzVmYjg3MmE5YzNkYWU3Mzk2MzE2MGFlMDc5
+ZjEwNDllZDk1Njg4MGNkN2MwOWIxMjA1MzgiCiAKIERFUEVORFMgKz0gInB5dGhvbjMiCiAKLS0g
+CjIuNDQuMQoK
+
+--===============2350084996523431083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/xkeyboard-config: PACKAGES: added "xkeyboard-config-locale-fa"
-Changes to packages/core2-64-poky-linux/xkeyboard-config (sysroot):
-  /usr/share/X11/xkb/symbols/fkeys was added
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGSIZE changed from 69913 to 91947 (+32%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: FILELIST: added "/usr/share/X11/xkb/symbols/fkeys"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 10935811 to 8388636 (-23%)
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/setuptools-72.1.0.dist-info -> /usr/lib/python3.12/site-packages/setuptools-75.1.0.dist-info, directory renamed /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__pycache__ -> /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__pycache__, directory renamed /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set -> /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections, removed "/usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0.exe /usr/lib/python3.12/site-packages/setuptools/tests/test_register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/p
+ ackaging/py.typed /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_structures.py /usr/lib/python3.12/site-packages/setuptools/tests/test_upload.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-6.0.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_structures.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/RECORD /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/INSTALLER /usr/lib/python3.12/site-packages/setuptools/_dis
+ tutils/_vendor/packaging/_tokenizer.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/tags.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_itertools.py /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/WHEEL /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0-amd64.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/c
+ ommand/register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__pycache__/register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__init__.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_collections.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_musllinux.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_manylinux.py /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_msvc9compiler.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/requirements.py /usr/lib/python3.12/site-packages/setuptools/_distutils/msvccompiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendo
+ r/packaging/markers.py /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_config.py /usr/lib/python3.12/site-packages/setuptools/command/upload.py /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_msvc14.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/command/upload_docs.py /usr/lib/python3.12/site-packages/setuptools/tests/test_msvc14.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/specifiers.py /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_msvc9compiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-7.1.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/ME
+ TADATA /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/upload_docs.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/version.py /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/command/register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_functools.py /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/REQUESTED /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/utils.py /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/config.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/tags.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__init__.py /usr/lib/python3.12/site
+ -packages/setuptools/command/__pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-8.0.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/msvc9compiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/config.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_parser.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/utils.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_upload.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_elffile.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/requirements.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/upload.py /usr/lib/python3.12/site-packages/setuptools/tests/test_in
+ tegration.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0-amd64.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/markers.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/bcppcompiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/metadata.py /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_integration.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/__init__.cpython-312.pyc /usr/lib/python3
+ .12/site-packages/setuptools/_distutils/tests/__pycache__/test_config.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0-amd64.exe", added "/usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL /usr/lib/python3.12/site-packages/setuptools/config/NOTICE /usr/lib/python3.12/site-packages/setuptools/config/_validate_pyproject/NOTICE /usr/lib/python3.12/site-packages/setuptools/config/distutils.schema.json /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/RECORD /usr/lib/python3.12/site-
+ packages/setuptools/compat/__pycache__/py312.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/config/setuptools.schema.json /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt /usr/lib/python3.12/site-packages/setuptools/compat/py312.py"
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-72.1.0.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-75.1.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py312.py was added
+  /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py312.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/setuptools/config/distutils.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/config/setuptools.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/_validate_pyproject/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/RECORD was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__pycache__ was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__pycache__/__init__.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/py.typed was added
+  /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/upload_docs.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload_docs.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/bcppcompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_collections.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-6.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-7.1.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-8.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_functools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_msvc9compiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/markers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/requirements.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_structures.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/tags.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_integration.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_msvc14.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_integration.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_msvc14.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/RECORD was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/py.typed was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1953,141 +2203,234 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-72.1.0.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-75.1.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py312.py was added
+  /usr/lib/python3.12/site-packages/setuptools/config/distutils.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/config/setuptools.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/_validate_pyproject/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/RECORD was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/py.typed was added
+  /usr/lib/python3.12/site-packages/setuptools/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload_docs.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/bcppcompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_collections.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-6.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-7.1.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-8.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_functools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_integration.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_msvc14.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/RECORD was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/py.typed was removed
 
---===============7612502145204610391==
+--===============2350084996523431083==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/xkeyboard-config: SRC_URI changed from "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.42.tar.xz" to "https://www.x.org/releases//individual/data/xkeyboard-config/xkeyboard-config-2.43.tar.xz"
-packages/core2-64-poky-linux/xkeyboard-config: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config: PACKAGES: added "xkeyboard-config-locale-fa"
-Changes to packages/core2-64-poky-linux/xkeyboard-config (sysroot):
-  /usr/share/X11/xkb/symbols/fkeys was added
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dbg: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dev: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-dev: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGSIZE changed from 41308 to 41984 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-doc: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-doc: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-af: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PKGSIZE changed from 107294 to 109285 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ar: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-az: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGSIZE changed from 111721 to 113509 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-bg: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGSIZE changed from 87297 to 88857 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ca: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-crh: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGSIZE changed from 92198 to 93866 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-cs: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-da: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGSIZE changed from 90962 to 93942 (+3%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-de: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-el: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-en-gb: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-eo: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-es: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fi: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGSIZE changed from 88745 to 90361 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fr: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-fur: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-gl: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGSIZE changed from 99154 to 100859 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-he: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hr: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-hu: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGSIZE changed from 86065 to 87583 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-id: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-it: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ja: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ka: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGSIZE changed from 94059 to 95692 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ko: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ky: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-lt: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nb: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-nl: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGSIZE changed from 87987 to 90511 (+3%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pl: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt-br: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-pt: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGSIZE changed from 90672 to 92251 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ro: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-ru: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-rw: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sk: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGSIZE changed from 69913 to 91947 (+32%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sl: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PKGSIZE changed from 86570 to 89195 (+3%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sq: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sr: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGSIZE changed from 88562 to 90122 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-sv: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGSIZE changed from 88442 to 90022 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-tr: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGSIZE changed from 108744 to 110586 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-uk: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-vi: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGSIZE changed from 90030 to 91518 (+2%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-cn: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-locale-zh-tw: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-src: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-src: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config-staticdev: PV changed from "2.42" to "2.43"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: PKGSIZE changed from 3252196 to 3275487 (+1%)
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: PKGV changed from 2.42 [default] to 2.43 [default]
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: FILELIST: added "/usr/share/X11/xkb/symbols/fkeys"
-packages/core2-64-poky-linux/xkeyboard-config/xkeyboard-config: PV changed from "2.42" to "2.43"
+packages/core2-64-poky-linux/python3-setuptools: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-72.1.0.tar.gz;downloadfilename=setuptools-72.1.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch" to "https://files.pythonhosted.org/packages/source/s/setuptools/setuptools-75.1.0.tar.gz;downloadfilename=setuptools-75.1.0.tar.gz file://0001-_distutils-sysconfig.py-make-it-possible-to-substite.patch"
+packages/core2-64-poky-linux/python3-setuptools: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PKGSIZE changed from 449936 to 451823 (+0%)
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-pkg-resources: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dbg: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-dev: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-doc: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-locale: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-src: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools-staticdev: PV changed from "72.1.0" to "75.1.0"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGSIZE changed from 10935811 to 8388636 (-23%)
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: FILELIST: directory renamed /usr/lib/python3.12/site-packages/setuptools-72.1.0.dist-info -> /usr/lib/python3.12/site-packages/setuptools-75.1.0.dist-info, directory renamed /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set -> /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections, directory renamed /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__pycache__ -> /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__pycache__, removed "/usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/RECORD /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_upload.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/p
+ ackaging/utils.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/tags.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/markers.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_itertools.py /usr/lib/python3.12/site-packages/setuptools/command/upload_docs.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_tokenizer.py /usr/lib/python3.12/site-packages/setuptools/command/register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/version.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0-amd64.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/command/upload.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__
+ pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_structures.py /usr/lib/python3.12/site-packages/setuptools/_distutils/msvc9compiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0-amd64.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0-amd64.exe /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/test_upload.py /usr/lib/python3.12/site-packages/setuptools/_distutils/msvccompiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_manylinux.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_musllinux.py /usr/lib/python3.12/site-packages/setuptools/_d
+ istutils/_vendor/packaging/__init__.py /usr/lib/python3.12/site-packages/setuptools/_distutils/config.py /usr/lib/python3.12/site-packages/setuptools/_distutils/bcppcompiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/markers.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/version.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_integration.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/py.typed /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_itertools.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/INSTALLER /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_v
+ endor/packaging/__pycache__/requirements.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_parser.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/metadata.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_collections.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/__init__.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_config.py /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/WHEEL /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/specifiers.py /usr/lib/python3.12/site-packages/setuptoo
+ ls/_distutils/command/wininst-7.1.exe /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/utils.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/config.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/METADATA /usr/lib/python3.12/site-packages/setuptools/_distutils/_functools.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/metadata.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_elffile.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-8.0.exe /u
+ sr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_msvc9compiler.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-6.0.exe /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_msvc9compiler.py /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__pycache__/register.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/test_integration.py /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_msvc14.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/test_register.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_structures.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.
+ pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0.exe /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/upload_docs.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/upload.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/command/upload.py /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/REQUESTED /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_config.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/tests/test_msvc14.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/requirements.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__init__.py /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/tags.py /usr/lib/python3.12/site-packages/setuptools/_dist
+ utils/_vendor/packaging/__pycache__/_parser.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc", added "/usr/lib/python3.12/site-packages/setuptools/compat/py312.py /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/RECORD /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL /usr/lib/python3.12/site-packages/setuptools/config/_validate_pyproject/NOTICE /usr/lib/python3.12/site-packages/setuptools/config/NOTICE /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER /usr/lib/python3.12/site-packages/setuptools/config/distutils.schema.json /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED /usr/lib/python3.12/site-packages/setuptools/config/set
+ uptools.schema.json /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py312.cpython-312.pyc /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA"
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PKGV changed from 72.1.0 [default] to 75.1.0 [default]
+packages/core2-64-poky-linux/python3-setuptools/python3-setuptools: PV changed from "72.1.0" to "75.1.0"
+Changes to packages/core2-64-poky-linux/python3-setuptools (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-72.1.0.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-75.1.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py312.py was added
+  /usr/lib/python3.12/site-packages/setuptools/compat/__pycache__/py312.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/setuptools/config/distutils.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/config/setuptools.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/_validate_pyproject/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/RECORD was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__pycache__ was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__pycache__/__init__.cpython-312.pyc was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/py.typed was added
+  /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/__pycache__/upload_docs.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload_docs.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/bcppcompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_collections.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__pycache__/register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/__pycache__/upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-6.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-7.1.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-8.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_functools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/bcppcompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_collections.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_functools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/_itertools.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvc9compiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/__pycache__/msvccompiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_config.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_msvc9compiler.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/__pycache__/test_upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_elffile.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_manylinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/markers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/metadata.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_musllinux.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_parser.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/requirements.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/specifiers.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_structures.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/tags.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/_tokenizer.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/utils.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__pycache__/version.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_integration.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_msvc14.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_register.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/__pycache__/test_upload.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_integration.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_msvc14.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/RECORD was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__pycache__ was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__pycache__/__init__.cpython-312.pyc was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/py.typed was removed
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3928,38 +4271,80 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+Changes to packages/x86_64-linux/python3-setuptools-native (sysroot):
+  /usr/lib/python3.12/site-packages/setuptools-72.1.0.dist-info moved to /usr/lib/python3.12/site-packages/setuptools-75.1.0.dist-info
+  /usr/lib/python3.12/site-packages/setuptools/compat/py312.py was added
+  /usr/lib/python3.12/site-packages/setuptools/config/distutils.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/config/setuptools.schema.json was added
+  /usr/lib/python3.12/site-packages/setuptools/config/_validate_pyproject/NOTICE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/INSTALLER was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/LICENSE was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/METADATA was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/RECORD was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/REQUESTED was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/top_level.txt was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco.collections-5.1.0.dist-info/WHEEL was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/__init__.py was added
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/jaraco/collections/py.typed was added
+  /usr/lib/python3.12/site-packages/setuptools/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload_docs.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/bcppcompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_collections.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-10.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-14.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-6.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-7.1.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-8.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0-amd64.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/command/wininst-9.0.exe was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_functools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_itertools.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/msvccompiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_config.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_msvc9compiler.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_elffile.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_manylinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/markers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/metadata.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_musllinux.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_parser.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/py.typed was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/requirements.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/specifiers.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_structures.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/tags.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/_tokenizer.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/utils.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_distutils/_vendor/packaging/version.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_integration.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_msvc14.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_register.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/tests/test_upload.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/INSTALLER was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/METADATA was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/RECORD was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/REQUESTED was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set-4.1.0.dist-info/WHEEL was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/__init__.py was removed
+  /usr/lib/python3.12/site-packages/setuptools/_vendor/ordered_set/py.typed was removed
 
---===============7612502145204610391==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-xkeyboard-config-upgrade-2.42-2.43.patch"
-
-RnJvbSA5MGEyMGY5MmI4NWNkZDBmYTVlMzhkOGZlYTAyNTlkMDk2YWUxOTQ0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDU6Mjk6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
-a2V5Ym9hcmQtY29uZmlnOiB1cGdyYWRlIDIuNDIgLT4gMi40MwoKLS0tCiAuLi4ve3hrZXlib2Fy
-ZC1jb25maWdfMi40Mi5iYiA9PiB4a2V5Ym9hcmQtY29uZmlnXzIuNDMuYmJ9ICAgICAgfCAyICst
-CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
-ZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve3hrZXlib2FyZC1jb25maWdfMi40Mi5iYiA9
-PiB4a2V5Ym9hcmQtY29uZmlnXzIuNDMuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
-cGVzLWdyYXBoaWNzL3hvcmctbGliL3hrZXlib2FyZC1jb25maWdfMi40Mi5iYiBiL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy94b3JnLWxpYi94a2V5Ym9hcmQtY29uZmlnXzIuNDMuYmIKc2ltaWxhcml0
-eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3hr
-ZXlib2FyZC1jb25maWdfMi40Mi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hv
-cmctbGliL3hrZXlib2FyZC1jb25maWdfMi40My5iYgppbmRleCBjZGM2NDIyZDQ2Li43Mzc4Y2Y0
-NzVlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveGtleWJvYXJk
-LWNvbmZpZ18yLjQyLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi94a2V5
-Ym9hcmQtY29uZmlnXzIuNDMuYmIKQEAgLTEzLDcgKzEzLDcgQEAgTElDRU5TRSA9ICJNSVQgJiBN
-SVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT04ZmM4YWU2OTk5NzRj
-MzYwZTJlMmU4ODNhNjNjZTI2NCIKIAogU1JDX1VSSSA9ICIke1hPUkdfTUlSUk9SfS9pbmRpdmlk
-dWFsL2RhdGEveGtleWJvYXJkLWNvbmZpZy8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gImE2YjA2ZWJmYzFmMDFmYzUwNWYyZjA1ZjI2NWY5NWY2N2NjODg3M2E1NGRk
-MjQ3ZTNjMmQ3NTRiOGY3ZTA4MDciCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzgxMGYzNjJjODJh
-ODM0ZWU4OWRhODFlMzRjZDE0NTJjOTk3ODkzMzlmNDZmNjAzN2Y0YjllMjI3ZGQwNmMwMSIKIAog
-U0VDVElPTiA9ICJ4MTEvbGlicyIKIERFUEVORFMgPSAidXRpbC1tYWNyb3MgbGlieHNsdC1uYXRp
-dmUiCi0tIAoyLjQ0LjEKCg==
-
---===============7612502145204610391==--
+--===============2350084996523431083==--
 
