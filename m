@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20D60D24441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41C00D24448
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:54 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.53381.1728588984323271875
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.53367.1728588951632949875
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:44 -0700
+ Thu, 10 Oct 2024 12:36:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XTZjXC9X;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=n4yKy1Uv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019277eefbad-429f9155-3691-4283-bdac-fdcc68aaacb7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=B7GrvQjn;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=m6dWHs+/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019277eefa22-69b56177-b8da-4bd7-8159-31e061c04ca3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1728589003;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rseVYErl4TKIbccLr7czvqhV6FR6xp8URxZUK01S9lw=;
-	b=XTZjXC9X/F67B5Fd0eIiDMxyMpCQbUcuoz3gtHcXigzPc8T+/RkchGztAfcVeK84
-	qBEmp0dKkLmxSDH4tFvMD5oSHGNHetvh8Yfzid+ZK9XmsGfJAA3E4j0+BGA0p1BWV4O
-	rvfj1B4vyWm8yjTas2LgUgFtSMYDxwlYmy7IbyjM=
+	bh=tgdu85THA0m11OXvMnLz8i0eX8NNMkb1D1kPWwJ14/Y=;
+	b=B7GrvQjn2AiPPohFQmGtXz+AmffjSH1KBuETwE3I4PjGLHYhgHfb7WVSyHdtCMQJ
+	LWSFGiLbg/qwEpSPzfPJqYcmz88BaqCwmXdN2M5u7CC5fU5ifsa4L8BBIW6tnS5Hx1F
+	MwwBGcnbBwltivPTUmS4wFykokbilpQTXO0pX95U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728589003;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rseVYErl4TKIbccLr7czvqhV6FR6xp8URxZUK01S9lw=;
-	b=n4yKy1UviLatunaQMp5tRObfHHUMpV52Z9rsOJGZQ46eYovMTW2JG1s4hsuaLAZT
-	jXYFBv0EvR7ft0HJuYRTwd6x4aMvFag8ZKwmXr4Ng0ajb8s3k36n4fKKTk8Bj1ryBeO
-	qx8saj2UXXFylFFjjuFlUe52+7+2FKqiEyxQi3HU=
-Content-Type: multipart/mixed; boundary="===============6206857492747409853=="
+	bh=tgdu85THA0m11OXvMnLz8i0eX8NNMkb1D1kPWwJ14/Y=;
+	b=m6dWHs+/1cdsbRIiu9/SyXYEQaJv6S29MS72G17c03RmU5rDoDbotLjbsd6Xxur4
+	EPscP8DBiiiF2ByYm8sdW9HE3NA5thpu1Hi6YTVEh37ddn+i/DAADUKekaaFMyT9pbb
+	Sl+LRrassGb6g91qOmeOsb62N01MGexv4K8DWubM=
+Content-Type: multipart/mixed; boundary="===============7064363567393210974=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dtc: upgrading to 1.7.1 FAILED
-Message-ID: <0101019277eefbad-429f9155-3691-4283-bdac-fdcc68aaacb7-000000@us-west-2.amazonses.com>
+Subject: [AUH] libpipeline: upgrading to 1.5.8 FAILED
+Message-ID: <0101019277eefa22-69b56177-b8da-4bd7-8159-31e061c04ca3-000000@us-west-2.amazonses.com>
 Date: Thu, 10 Oct 2024 19:36:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.193
+X-SES-Outgoing: 2024.10.10-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205634
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205631
 
---===============6206857492747409853==
+--===============7064363567393210974==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,102 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *dtc* to *1.7.1* has Failed(do_compile).
+that the automatic attempt to upgrade the recipe(s) *libpipeline* to *1.5.8* has Failed (devtool error).
 
 Detailed error information:
 
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-dtc-upgrade-1.7.0-1.7.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 0343edf38692bcc70af1525518b8b00ad44dc754 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 05:33:57 +0000
-Subject: [PATCH] dtc: upgrade 1.7.0 -> 1.7.1
-
----
- meta/recipes-kernel/dtc/{dtc_1.7.0.bb => dtc_1.7.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/dtc/{dtc_1.7.0.bb => dtc_1.7.1.bb} (96%)
-
-diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel/dtc/dtc_1.7.1.bb
-similarity index 96%
-rename from meta/recipes-kernel/dtc/dtc_1.7.0.bb
-rename to meta/recipes-kernel/dtc/dtc_1.7.1.bb
-index 0702fc16df..741bd5e45c 100644
---- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.7.1.bb
-@@ -13,7 +13,7 @@ SRC_URI = " \
-     file://0001-meson.build-bump-version-to-1.7.0.patch \
-     file://0002-meson-allow-building-from-shallow-clones.patch \
- "
--SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
-+SRCREV = "99031e3a4a6e479466ae795790b44727434ca27d"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
--- 
-2.44.1
-
-
---===============6206857492747409853==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-dtc-upgrade-1.7.0-1.7.1.patch"
-
-RnJvbSAwMzQzZWRmMzg2OTJiY2M3MGFmMTUyNTUxOGI4YjAwYWQ0NGRjNzU0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDU6MzM6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-dGM6IHVwZ3JhZGUgMS43LjAgLT4gMS43LjEKCi0tLQogbWV0YS9yZWNpcGVzLWtlcm5lbC9kdGMv
-e2R0Y18xLjcuMC5iYiA9PiBkdGNfMS43LjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9k
-dGMve2R0Y18xLjcuMC5iYiA9PiBkdGNfMS43LjEuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWtlcm5lbC9kdGMvZHRjXzEuNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9k
-dGMvZHRjXzEuNy4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1rZXJuZWwvZHRjL2R0Y18xLjcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5l
-bC9kdGMvZHRjXzEuNy4xLmJiCmluZGV4IDA3MDJmYzE2ZGYuLjc0MWJkNWU0NWMgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvZHRjL2R0Y18xLjcuMC5iYgorKysgYi9tZXRhL3JlY2lw
-ZXMta2VybmVsL2R0Yy9kdGNfMS43LjEuYmIKQEAgLTEzLDcgKzEzLDcgQEAgU1JDX1VSSSA9ICIg
-XAogICAgIGZpbGU6Ly8wMDAxLW1lc29uLmJ1aWxkLWJ1bXAtdmVyc2lvbi10by0xLjcuMC5wYXRj
-aCBcCiAgICAgZmlsZTovLzAwMDItbWVzb24tYWxsb3ctYnVpbGRpbmctZnJvbS1zaGFsbG93LWNs
-b25lcy5wYXRjaCBcCiAiCi1TUkNSRVYgPSAiMDM5YTk5NDE0ZTc3ODMzMmQ4ZjljMDRjYmQzMDcy
-ZTFkY2M2Mjc5OCIKK1NSQ1JFViA9ICI5OTAzMWUzYTRhNmU0Nzk0NjZhZTc5NTc5MGI0NDcyNzQz
-NGNhMjdkIgogCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJ2KD9QPHB2ZXI+XGQrKFwu
-XGQrKSspIgogCi0tIAoyLjQ0LjEKCg==
-
---===============6206857492747409853==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
+Running 'devtool upgrade' for recipe libpipeline failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1873 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 917 .bb files complete (916 cached, 1 parsed). 1871 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
+Loaded 1871 entries from dependency cache.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -162,77 +74,69 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:641fecde612add61ca7b2cd1ebd83e79636fc483"
+workspace            = "tmp-auh-upgrades:302df559f8e4b5551bd78dbf6e554e9dfb2cc799"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 234 Local 222 Mirrors 0 Missed 12 Current 280 (94% match, 97% complete)
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 332 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: Running task 835 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_recipe_qa)
-NOTE: Running task 892 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_write_config)
-NOTE: recipe dtc-1.7.1-r0: task do_recipe_qa: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe dtc-1.7.1-r0: task do_write_config: Started
-NOTE: recipe dtc-1.7.1-r0: task do_write_config: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 482 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe dtc-1.7.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 963 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_fetch)
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 489 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe dtc-1.7.1-r0: task do_fetch: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 494 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 498 of 514 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/bison/bison_3.8.2.bb:do_create_spdx_setscene)
-NOTE: recipe dtc-1.7.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1111 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_unpack)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bison-native-3.8.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe dtc-1.7.1-r0: task do_unpack: Started
-NOTE: recipe bison-native-3.8.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe dtc-1.7.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1112 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_patch)
-NOTE: recipe dtc-1.7.1-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 509 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 513 of 514 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/bison/bison_3.8.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bison-native-3.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bison-native-3.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1362 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1462 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_collect_spdx_deps)
-NOTE: recipe dtc-1.7.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe dtc-1.7.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe dtc-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe dtc-1.7.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe dtc-1.7.1-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1476 tasks of which 1469 didn't need to be rerun and 1 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010053344.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010053344.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (0 cached, 918 parsed). 1872 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/temp/log.do_patch.2846884
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: dtc-1.7.1-r0 do_patch: Applying patch '0001-meson.build-bump-version-to-1.7.0.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/git'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-meson.build-bump-version-to-1.7.0.patch
-patching file meson.build
-Hunk #1 FAILED at 1.
-1 out of 1 hunk FAILED -- rejects in file meson.build
-Patch 0001-meson.build-bump-version-to-1.7.0.patch does not apply (enforce with -f)
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:302df559f8e4b5551bd78dbf6e554e9dfb2cc799"
 
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/temp/log.do_patch.2846884
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_patch) failed with exit code '1'
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-j6wwrph1: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-3ia5lt0z/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-3ia5lt0z/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  30% |##########                          | ETA:  0:00:00
+Adding changed files:  60% |#####################               | ETA:  0:00:00
+Adding changed files:  90% |################################    | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.8.tar.gz...
+INFO: Rebasing devtool onto 61cdc736d77816a5d5371d4ef36e52239e7952e1
+WARNING: Command 'git rebase 61cdc736d77816a5d5371d4ef36e52239e7952e1' failed:
+Auto-merging gl/m4/largefile.m4
+CONFLICT (content): Merge conflict in gl/m4/largefile.m4
 
---===============6206857492747409853==--
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/libpipeline
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libpipeline/libpipeline_1.5.8.bb
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============7064363567393210974==--
 
