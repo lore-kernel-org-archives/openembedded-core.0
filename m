@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D6AFCFB45C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 99DC3CFD2E4
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:53 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.53363.1728588948890684536
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.53355.1728588943421810528
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:35:48 -0700
+ Thu, 10 Oct 2024 12:35:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BxhfB4BR;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=0s4juE0L;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019277ee22f9-cddcf97e-225d-49fd-9c97-faddcf731a33-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S4Mt0/dD;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=nfQQrkOL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019277ee1bd0-4d849122-d4e4-43d9-8623-760793238e60-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588948;
+	t=1728588946;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=P6dQLR8zHgJgnm8K+y78+ogt/h/YrfyiBBWDLS+yFSs=;
-	b=BxhfB4BR1Rb0eTbv8w+Q4PYWp5CFzaKpwVRS12qNhlV/bDeXtcZGxy/WVELu3j8K
-	k9gujjErpu1qYkVgntfLpIaAFZPA8mngvkDml2tIQ/nNN9XTt/kdIJjkhLNPZt4nfLk
-	+/m7iIwgTdnTU2u9t41UC/GXkFsK2CZ/EF1ryfWo=
+	bh=rr5aMDAiR4LE+kuQcydMga4eER3u3BbbQUjCcrQT9bI=;
+	b=S4Mt0/dDAJm19FD+/hZvQ6tfv2CORtg0UspznypYSLUJOmsnnQD8o3b65sTkDBzv
+	zlM1Co8RxYv04eGWa5+5E/9qTExmgPWKlnwQODtH6enyj9/YCBW+reOG3le8IRpm7eV
+	Y/Kh9KyJZXI4fWKfRLcQyhAlgvhGAY1pUyZD0hNw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588948;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588946;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=P6dQLR8zHgJgnm8K+y78+ogt/h/YrfyiBBWDLS+yFSs=;
-	b=0s4juE0LiLmkQRSng29K6/8UR+MuLlmGOY1waR0mhc0EUwmqBSx5vjw/QCAbOuAE
-	IsT3F1MsxRBJWxHUqomPX67mPmG2NZrabP5JWEkz5y1YuE43vMmfUFOh8PXgdPgt4O8
-	tGEOxHvTk/3NP0EA0eEk1PSbT3moXdJ3zwH/Qkvw=
-Content-Type: multipart/mixed; boundary="===============4933953386033540079=="
+	bh=rr5aMDAiR4LE+kuQcydMga4eER3u3BbbQUjCcrQT9bI=;
+	b=nfQQrkOLV97LwGmrryg+7UiUOx7BS7ROsN5Buj6TUAQmCt/MNmxbobOn/x4AUQnl
+	BwHYkeUEFlt8s+2pG93vnqU95EGhnyEpDXuKSXweNz533bJaaZlw5SBxTOneYkFKSnu
+	PIMJ/hstd4fI4bD5MKz9l9sDGmO+Yj6gsa14QUEs=
+Content-Type: multipart/mixed; boundary="===============3152853158937998615=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] tzdata,tzcode-native: upgrading to 2024b,2024b FAILED
-Message-ID: <0101019277ee22f9-cddcf97e-225d-49fd-9c97-faddcf731a33-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:35:48 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] piglit: upgrading to de2113735cf5e3e5af7a8ec4255391b6dba5973b
+ SUCCEEDED
+Message-ID: <0101019277ee1bd0-4d849122-d4e4-43d9-8623-760793238e60-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:35:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.192
+X-SES-Outgoing: 2024.10.10-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205458
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205449
 
---===============4933953386033540079==
+--===============3152853158937998615==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *tzdata,tzcode-native* to *2024b,2024b* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *piglit* to *de2113735cf5e3e5af7a8ec4255391b6dba5973b* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-tzdata-tzcode-native-upgrade-2024a-2024b-2024a-2024b.patch
+    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,150 +73,216 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0d73093ae24a09937d00ac796851a1c4e76c69bd Mon Sep 17 00:00:00 2001
+From 4bf34d1ae226bd33ec9b2347594d0c5f01f2e281 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 9 Oct 2024 23:57:59 +0000
-Subject: [PATCH] tzdata,tzcode-native: upgrade 2024a -> 2024b,2024a -> 2024b
+Date: Thu, 10 Oct 2024 04:55:49 +0000
+Subject: [PATCH] piglit: upgrade to latest revision
 
 ---
- meta/recipes-extended/timezone/timezone.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...keLists.txt-do-not-obtain-wayland-scanner-path-fr.patch | 7 ++-----
+ .../0001-tests-Fix-narrowing-errors-seen-with-clang.patch  | 2 +-
+ ...02-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch | 2 +-
+ ...ts-util-piglit-shader.c-do-not-hardcode-build-pat.patch | 2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb                 | 2 +-
+ 5 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index 4734adcc08..c1cd2922d0 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+index b47e16af6b..afec17f5ed 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+@@ -1,4 +1,4 @@
+-From 8f25cdf54e35ab1a174cabf5078784b8e48bda01 Mon Sep 17 00:00:00 2001
++From 78a9f0afc158b44d1a801efa56e720550983f3e1 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 23 Aug 2024 15:29:45 +0200
+ Subject: [PATCH] CMakeLists.txt: do not obtain wayland-scanner path from
+@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 5 deletions(-)
  
--PV = "2024a"
-+PV = "2024b"
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index d169fb481..8394f5236 100644
++index 73750f67e..8018a1bb7 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+ @@ -211,11 +211,7 @@ if(PIGLIT_USE_WAYLAND)
+@@ -33,6 +33,3 @@ index d169fb481..8394f5236 100644
+  	add_executable(WaylandScannerExe IMPORTED)
+  	set_property(TARGET WaylandScannerExe PROPERTY IMPORTED_LOCATION ${WaylandScannerPath})
+  endif()
+--- 
+-2.39.2
+-
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
+index 08e709b1d0..1646254898 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
+@@ -1,4 +1,4 @@
+-From 77f327909e4a99c64261290cd76e234e10cc64d2 Mon Sep 17 00:00:00 2001
++From 3c66d01bf242749c02753412edccb18e69d57b51 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 3 May 2023 21:59:43 -0700
+ Subject: [PATCH] tests: Fix narrowing errors seen with clang
+diff --git a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+index 70bb55053d..d7231c8b6b 100644
+--- a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
++++ b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+@@ -1,4 +1,4 @@
+-From cb8e4b99fcfe81399e3e6d922156db4a48a39a8e Mon Sep 17 00:00:00 2001
++From bd50898177587ae7f679db704db116d04a6ea744 Mon Sep 17 00:00:00 2001
+ From: Pascal Bach <pascal.bach@siemens.com>
+ Date: Thu, 4 Oct 2018 14:43:17 +0200
+ Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
+diff --git a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+index ce5cbd3ea9..e0116a9beb 100644
+--- a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
++++ b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+@@ -1,4 +1,4 @@
+-From 7d2d23125f1946a7b74f9a427388d469500fcd8d Mon Sep 17 00:00:00 2001
++From 6d44dc2f8cbf55c8585213a532eeb0051ec5b65e Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 10 Nov 2020 17:13:50 +0000
+ Subject: [PATCH] tests/util/piglit-shader.c: do not hardcode build path into
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index fbf20de176..672c2a54ca 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- SRC_URI =" http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -16,5 +16,5 @@ S = "${WORKDIR}/tz"
+-SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
++SRCREV = "de2113735cf5e3e5af7a8ec4255391b6dba5973b"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr"
  
- UPSTREAM_CHECK_URI = "http://www.iana.org/time-zones"
- 
--SRC_URI[tzcode.sha256sum] = "80072894adff5a458f1d143e16e4ca1d8b2a122c9c5399da482cb68cba6a1ff8"
-+SRC_URI[tzcode.sha256sum] = "5e438fc449624906af16a18ff4573739f0cda9862e5ec28d3bcb19cbaed0f672"
- SRC_URI[tzdata.sha256sum] = "0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3"
 -- 
 2.44.1
 
 
---===============4933953386033540079==
+--===============3152853158937998615==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1870 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 917 .bb files complete (915 cached, 2 parsed). 1871 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/bin/glsl-compile-time /usr/lib/piglit/bin/vertexrate", added "/usr/lib/piglit/bin/egl_ext_surface_compression-query /usr/lib/piglit/tests/spec/arb_gpu_shader5/execution/built-in-functions/fs-bitfieldInsert-of-and.shader_test /usr/lib/piglit/bin/egl_ext_surface_compression-image /usr/lib/piglit/tests/cl/program/build/include_test.h /usr/lib/piglit/bin/ext_texture_storage_compression-tex-storage /usr/lib/piglit/tests/spec/arb_bindless_texture/execution/samplers/basic-texture2D-local-var-function-params.shader_test /usr/lib/piglit/tests/spec/glsl-1.10/linker/function-match-implicit-params.shader_test /usr/lib/piglit/bin/egl_ext_surface_compression-create /usr/lib/piglit/tests/spec/glsl-1.50/linker/overloads-linking.shader_test /usr/lib/piglit/bin/shader-io-rate"
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7c4bf5ef7c95a5f197be90abeb63fe0bbbf4aa1d"
+--===============3152853158937998615==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 76 Local 58 Mirrors 0 Missed 18 Current 143 (76% match, 91% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 402 of 708 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzcode-native.bb:do_recipe_qa)
-NOTE: Running task 427 of 708 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_recipe_qa)
-NOTE: recipe tzcode-native-2024b-r0: task do_recipe_qa: Started
-NOTE: recipe tzdata-2024b-r0: task do_recipe_qa: Started
-NOTE: recipe tzcode-native-2024b-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzcode-native.bb:do_recipe_qa unihash changed to f00a8daf88baa45bf4410e18505aee93133144803f6f3da671e02eabf25802e7
-NOTE: recipe tzdata-2024b-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_recipe_qa unihash changed to aaacf4da9ed6c071253f919007b55c8a2992a09ba0882420c7d6319c1fbdee30
-NOTE: Setscene tasks completed
-NOTE: Running task 675 of 708 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch)
-NOTE: Running task 676 of 708 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_fetch)
-NOTE: recipe tzcode-native-2024b-r0: task do_fetch: Started
-NOTE: recipe tzdata-2024b-r0: task do_fetch: Started
-WARNING: tzcode-native-2024b-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2024b.tar.gz;name=tzdata;subdir=tz - will attempt other sources if available
-WARNING: tzcode-native-2024b-r0 do_fetch: Checksum mismatch for local file /srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz
-Cleaning and trying again.
-WARNING: tzcode-native-2024b-r0 do_fetch: Renaming /srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz to /srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz_bad-checksum_70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550
-WARNING: tzdata-2024b-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2024b.tar.gz;name=tzdata;subdir=tz - will attempt other sources if available
-WARNING: tzdata-2024b-r0 do_fetch: Checksum mismatch for local file /srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz
-Cleaning and trying again.
-WARNING: tzdata-2024b-r0 do_fetch: Renaming /srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz to /srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz_bad-checksum_70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550
-NOTE: recipe tzcode-native-2024b-r0: task do_fetch: Failed
-NOTE: recipe tzdata-2024b-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 676 tasks of which 672 didn't need to be rerun and 2 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241009235742.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241009235742.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
+packages/core2-64-poky-linux/piglit/piglit: PKGSIZE changed from 2053881798 to 2054023625 (+0%)
+packages/core2-64-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/bin/vertexrate /usr/lib/piglit/bin/glsl-compile-time", added "/usr/lib/piglit/tests/spec/arb_gpu_shader5/execution/built-in-functions/fs-bitfieldInsert-of-and.shader_test /usr/lib/piglit/bin/ext_texture_storage_compression-tex-storage /usr/lib/piglit/bin/shader-io-rate /usr/lib/piglit/bin/egl_ext_surface_compression-image /usr/lib/piglit/bin/egl_ext_surface_compression-query /usr/lib/piglit/tests/spec/glsl-1.10/linker/function-match-implicit-params.shader_test /usr/lib/piglit/bin/egl_ext_surface_compression-create /usr/lib/piglit/tests/spec/glsl-1.50/linker/overloads-linking.shader_test /usr/lib/piglit/tests/cl/program/build/include_test.h /usr/lib/piglit/tests/spec/arb_bindless_texture/execution/samplers/basic-texture2D-local-var-function-params.shader_test"
+packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+de2113735c
 
-Summary: 2 tasks failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/tzcode-native/2024b/temp/log.do_fetch.1597184
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/tzdata/2024b/temp/log.do_fetch.1597185
-Summary: There were 6 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: tzcode-native-2024b-r0 do_fetch: Checksum failure fetching http://www.iana.org/time-zones/repository/releases/tzdata2024b.tar.gz;name=tzdata;subdir=tz
-ERROR: tzcode-native-2024b-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz\' has sha256 checksum \'70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550\' when \'0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[tzdata.sha256sum] = "70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'http://www.iana.org/time-zones/repository/releases/tzdata2024b.tar.gz;name=tzdata;subdir=tz')
-ERROR: tzdata-2024b-r0 do_fetch: Checksum failure fetching http://www.iana.org/time-zones/repository/releases/tzdata2024b.tar.gz;name=tzdata;subdir=tz
-ERROR: tzdata-2024b-r0 do_fetch: Bitbake Fetcher Error: ChecksumError('Checksum mismatch!\nFile: \'/srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2024b.tar.gz\' has sha256 checksum \'70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550\' when \'0d0434459acbd2059a7a8da1f3304a84a86591f6ed69c6248fffa502b6edffe3\' was expected\nIf this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:\nSRC_URI[tzdata.sha256sum] = "70e754db126a8d0db3d16d6b4cb5f7ec1e04d5f261255e4558a67fe92d39e550"\nOtherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.', 'http://www.iana.org/time-zones/repository/releases/tzdata2024b.tar.gz;name=tzdata;subdir=tz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/tzcode-native/2024b/temp/log.do_fetch.1597184
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/tzdata/2024b/temp/log.do_fetch.1597185
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/timezone/tzdata.bb:do_fetch) failed with exit code '1'
-
---===============4933953386033540079==
+--===============3152853158937998615==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-tzdata-tzcode-native-upgrade-2024a-2024b-2024a-2024b.patch"
+ filename="0001-piglit-upgrade-to-latest-revision.patch"
 
-RnJvbSAwZDczMDkzYWUyNGEwOTkzN2QwMGFjNzk2ODUxYTFjNGU3NmM2OWJkIE1vbiBTZXAgMTcg
+RnJvbSA0YmYzNGQxYWUyMjZiZDMzZWM5YjIzNDc1OTRkMGM1ZjAxZjJlMjgxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgOSBPY3QgMjAyNCAyMzo1Nzo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHR6
-ZGF0YSx0emNvZGUtbmF0aXZlOiB1cGdyYWRlIDIwMjRhIC0+IDIwMjRiLDIwMjRhIC0+IDIwMjRi
-CgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9uZS90aW1lem9uZS5pbmMgfCA0ICsr
-LS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RpbWV6b25lL3RpbWV6b25lLmluYyBiL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9uZS90aW1lem9uZS5pbmMKaW5kZXggNDczNGFkY2Mw
-OC4uYzFjZDI5MjJkMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RpbWV6b25l
-L3RpbWV6b25lLmluYworKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvdGltZXpvbmUvdGltZXpv
-bmUuaW5jCkBAIC02LDcgKzYsNyBAQCBTRUNUSU9OID0gImJhc2UiCiBMSUNFTlNFID0gIlBEICYg
-QlNELTMtQ2xhdXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YzY3
-OWM5ZDZiMDJiYzI3NTdiM2VhZjhmNTNjNDNmYmEiCiAKLVBWID0gIjIwMjRhIgorUFYgPSAiMjAy
-NGIiCiAKIFNSQ19VUkkgPSIgaHR0cDovL3d3dy5pYW5hLm9yZy90aW1lLXpvbmVzL3JlcG9zaXRv
-cnkvcmVsZWFzZXMvdHpjb2RlJHtQVn0udGFyLmd6O25hbWU9dHpjb2RlO3N1YmRpcj10eiBcCiAg
-ICAgICAgICAgIGh0dHA6Ly93d3cuaWFuYS5vcmcvdGltZS16b25lcy9yZXBvc2l0b3J5L3JlbGVh
-c2VzL3R6ZGF0YSR7UFZ9LnRhci5nejtuYW1lPXR6ZGF0YTtzdWJkaXI9dHogXApAQCAtMTYsNSAr
-MTYsNSBAQCBTID0gIiR7V09SS0RJUn0vdHoiCiAKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRw
-Oi8vd3d3LmlhbmEub3JnL3RpbWUtem9uZXMiCiAKLVNSQ19VUklbdHpjb2RlLnNoYTI1NnN1bV0g
-PSAiODAwNzI4OTRhZGZmNWE0NThmMWQxNDNlMTZlNGNhMWQ4YjJhMTIyYzljNTM5OWRhNDgyY2I2
-OGNiYTZhMWZmOCIKK1NSQ19VUklbdHpjb2RlLnNoYTI1NnN1bV0gPSAiNWU0MzhmYzQ0OTYyNDkw
-NmFmMTZhMThmZjQ1NzM3MzlmMGNkYTk4NjJlNWVjMjhkM2JjYjE5Y2JhZWQwZjY3MiIKIFNSQ19V
-UklbdHpkYXRhLnNoYTI1NnN1bV0gPSAiMGQwNDM0NDU5YWNiZDIwNTlhN2E4ZGExZjMzMDRhODRh
-ODY1OTFmNmVkNjljNjI0OGZmZmE1MDJiNmVkZmZlMyIKLS0gCjIuNDQuMQoK
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDQ6NTU6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+aWdsaXQ6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIC4uLmtlTGlzdHMudHh0LWRv
+LW5vdC1vYnRhaW4td2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2ggfCA3ICsrLS0tLS0KIC4u
+Li8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRjaCAg
+fCAyICstCiAuLi4wMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZhcmlh
+YmxlLnBhdGNoIHwgMiArLQogLi4udHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8tbm90LWhhcmRj
+b2RlLWJ1aWxkLXBhdC5wYXRjaCB8IDIgKy0KIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQv
+cGlnbGl0X2dpdC5iYiAgICAgICAgICAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5nZWQsIDYg
+aW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4t
+d2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGln
+bGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4td2F5bGFuZC1zY2Fu
+bmVyLXBhdGgtZnIucGF0Y2gKaW5kZXggYjQ3ZTE2YWY2Yi4uYWZlYzE3ZjVlZCAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1DTWFrZUxpc3RzLnR4
+dC1kby1ub3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtQ01ha2VMaXN0cy50eHQtZG8tbm90
+LW9idGFpbi13YXlsYW5kLXNjYW5uZXItcGF0aC1mci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gOGYyNWNkZjU0ZTM1YWIxYTE3NGNhYmY1MDc4Nzg0YjhlNDhiZGEwMSBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gNzhhOWYwYWZjMTU4YjQ0ZDFhODAxZWZhNTZlNzIwNTUwOTgzZjNl
+MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBGcmksIDIzIEF1ZyAyMDI0IDE1OjI5OjQ1ICswMjAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIENNYWtlTGlzdHMudHh0OiBkbyBub3Qgb2J0YWluIHdheWxhbmQtc2Nh
+bm5lciBwYXRoIGZyb20KQEAgLTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDUgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9DTWFrZUxpc3RzLnR4dCBiL0NN
+YWtlTGlzdHMudHh0Ci1pbmRleCBkMTY5ZmI0ODEuLjgzOTRmNTIzNiAxMDA2NDQKK2luZGV4IDcz
+NzUwZjY3ZS4uODAxOGExYmI3IDEwMDY0NAogLS0tIGEvQ01ha2VMaXN0cy50eHQKICsrKyBiL0NN
+YWtlTGlzdHMudHh0CiBAQCAtMjExLDExICsyMTEsNyBAQCBpZihQSUdMSVRfVVNFX1dBWUxBTkQp
+CkBAIC0zMyw2ICszMywzIEBAIGluZGV4IGQxNjlmYjQ4MS4uODM5NGY1MjM2IDEwMDY0NAogIAlh
+ZGRfZXhlY3V0YWJsZShXYXlsYW5kU2Nhbm5lckV4ZSBJTVBPUlRFRCkKICAJc2V0X3Byb3BlcnR5
+KFRBUkdFVCBXYXlsYW5kU2Nhbm5lckV4ZSBQUk9QRVJUWSBJTVBPUlRFRF9MT0NBVElPTiAke1dh
+eWxhbmRTY2FubmVyUGF0aH0pCiAgZW5kaWYoKQotLS0gCi0yLjM5LjIKLQpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1GaXgtbmFycm93
+aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+cGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1j
+bGFuZy5wYXRjaAppbmRleCAwOGU3MDliMWQwLi4xNjQ2MjU0ODk4IDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmct
+ZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+cGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1j
+bGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzdmMzI3OTA5ZTRhOTljNjQyNjEyOTBj
+ZDc2ZTIzNGUxMGNjNjRkMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gM2M2NmQwMWJm
+MjQyNzQ5YzAyNzUzNDEyZWRjY2IxOGU2OWQ1N2I1MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDMgTWF5IDIw
+MjMgMjE6NTk6NDMgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IEZpeCBuYXJyb3dpbmcg
+ZXJyb3JzIHNlZW4gd2l0aCBjbGFuZwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3BpZ2xpdC9waWdsaXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJT
+LXZhcmlhYmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAw
+Mi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZhcmlhYmxlLnBhdGNoCmlu
+ZGV4IDcwYmI1NTA1M2QuLmQ3MjMxYzhiNmIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9waWdsaXQvcGlnbGl0LzAwMDItY21ha2UtdXNlLXByb3Blci1XQVlMQU5EX0lOQ0xVREVf
+RElSUy12YXJpYWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
+Z2xpdC8wMDAyLWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGNiOGU0Yjk5ZmNmZTgxMzk5ZTNlNmQ5MjIxNTZk
+YjRhNDhhMzlhOGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGJkNTA4OTgxNzc1ODdh
+ZTdmNjc5ZGI3MDRkYjExNmQwNGE2ZWE3NDQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiBEYXRlOiBUaHUsIDQgT2N0
+IDIwMTggMTQ6NDM6MTcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gY21ha2U6IHVzZSBwcm9wZXIg
+V0FZTEFORF9JTkNMVURFX0RJUlMgdmFyaWFibGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8t
+bm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWds
+aXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8tbm90LWhhcmRjb2Rl
+LWJ1aWxkLXBhdC5wYXRjaAppbmRleCBjZTVjYmQzZWE5Li5lMDExNmE5YmViIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAzLXRlc3RzLXV0aWwtcGln
+bGl0LXNoYWRlci5jLWRvLW5vdC1oYXJkY29kZS1idWlsZC1wYXQucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMy10ZXN0cy11dGlsLXBpZ2xpdC1zaGFk
+ZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSA3ZDJkMjMxMjVmMTk0NmE3Yjc0ZjlhNDI3Mzg4ZDQ2OTUwMGZjZDhkIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSA2ZDQ0ZGMyZjhjYmY1NWM4NTg1MjEzYTUzMmVlYjAwNTFlYzViNjVl
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
+a2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBUdWUsIDEwIE5vdiAyMDIwIDE3OjEzOjUwICswMDAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzL3V0aWwvcGlnbGl0LXNoYWRlci5jOiBkbyBub3QgaGFy
+ZGNvZGUgYnVpbGQgcGF0aCBpbnRvCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+cGlnbGl0L3BpZ2xpdF9naXQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xp
+dF9naXQuYmIKaW5kZXggZmJmMjBkZTE3Ni4uNjcyYzJhNTRjYSAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXRfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0g
+ImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9waWdsaXQuZ2l0O3Byb3RvY29sPWh0
+dHBzO2JyYW5jaD1tYQogICAgICAgICAgICAiCiBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEi
+CiAKLVNSQ1JFViA9ICJjMTFjOTM3NGMxNDQ4ZDAxYjMxZTdmNzI0OTIxY2MxZjRlZTJjODRjIgor
+U1JDUkVWID0gImRlMjExMzczNWNmNWUzZTVhZjdhOGVjNDI1NTM5MWI2ZGJhNTk3M2IiCiAjICh3
+aGVuIFBWIGdvZXMgYWJvdmUgMS4wIHJlbW92ZSB0aGUgdHJhaWxpbmcgcikKIFBWID0gIjEuMCtn
+aXRyIgogCi0tIAoyLjQ0LjEKCg==
 
---===============4933953386033540079==--
+--===============3152853158937998615==--
 
