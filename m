@@ -2,57 +2,57 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 34AD4CF07D7
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 08:57:38 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.38958.1728550649742179726
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3460ACF07D8
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 08:57:48 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.38961.1728550657917810573
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 01:57:30 -0700
+ Thu, 10 Oct 2024 01:57:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=VK4Fr66N;
- spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fad100dd9fso9909191fa.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 01:57:29 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=SfKmZyvV;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2facf00b0c7so16783401fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 01:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728550648; x=1729155448; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1728550656; x=1729155456; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=yHK/wJqit9EI4RDs5pqRkRsBKVbzpULM3hajdw6AHGY=;
-        b=VK4Fr66N9o99TjG57E14dV7NN8PPnGtzzUd8hm7a3tb9iFx528d655T2JiUc14O/VY
-         y7ty80XDn733ihNZs17Hm3Ion1e5o2af1M12XruDV683SnL/84rfg3YJaisVtu6Qy2L1
-         cjGW8Q+ykwSdRSfDAEtxjiRvsxtjz/4/hjcKiS2398QlKuqOeVqhAm+hsGtIx9pD87ce
-         btHBNyPgkPTukPFV/3dinrlsIcqUV6d/ijn/dSCWLxx/m7hdwLrMQ72ETF3Aemj08jNq
-         gfPpL0sU0L70Lh/3499tDAM4fAF86M9zGWELUhPOZ1NlasXx+C+Mpg8eu9auBj3YR8F0
-         YAjQ==
+        bh=YMQTWSW2pxYCYeqvg5XPpJ4xKvMr/05hM5ADcPNUguk=;
+        b=SfKmZyvVRAFZ/8sqEhXpnFCXr7v9LW1H4IRsAbzhhusV9usfIqmVP7tgjDEqkRgR4A
+         fvRaS03ckJtHKtQanatvbJ7qkeadBpb9mHxhlk/cU2lkvU+Z5sTM+3C0dBPOhZxANMg1
+         6LPBVSbKRg8gAzAoAi/EmeYTLr7HSG61cxB+ZNA5Au8xAo3SyWJsE313vBmojQ+mHz6M
+         /37XiWz1JwsQ/UUFgVOs+DncRST8VPp5T/zCZ7DVoe6sBt3CxrNns+Y2mnhtD4613vm9
+         MHo76G3ai0+k7kUjwXQll1C5FP6qWp1QKeyKG/vptbBNCRhmX7SXihA/Te0VxChMWHSV
+         jfvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728550648; x=1729155448;
+        d=1e100.net; s=20230601; t=1728550656; x=1729155456;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=yHK/wJqit9EI4RDs5pqRkRsBKVbzpULM3hajdw6AHGY=;
-        b=E7CznegTZ6jvuYy3hkA8EV/cvHoXY1fSvqPhLaijsGn69raoNbP3dA/2ITQF/os84D
-         YqAgP5+pqHxNKknlvE28/xLTxss4NFmRyyD5nwMTFqoz8rJKD6FR4MRg3XhDk4epUfxH
-         ygDIHJGCItv7X6KzM3sL5nTI6tlKgP6NBTSqTIAZWnuoWU85EXVfVVmEEAxIgDJZaJGm
-         W38os6jnGaysBdirDI890czIS/JnZiCEFRDSZ0dCQIlK9t10TJPVGlrJ3xr0O/9b/ehc
-         1FjK+/uL2L31rl8Jg3waaBK3O5AH4l3c80SqeUE8A6oM3GYLtT9N59mFti1bFPOd0zXB
-         FsWQ==
-X-Gm-Message-State: AOJu0YzslN2t3Jd26hHtj6oRx6zSGXseCeB/2cvS+yPVZK/Ym3C6I1BA
-	uPyQxstS5/nJch71Dx20fowF6SOcFlNj2kRLgOP15vIo5HLWdV868bIJIZST5n96Gc1ahfBU/qD
-	pRvg=
-X-Google-Smtp-Source: AGHT+IFPreQ2RxqlKDdiCXq69gaHdKX4S0aFCjI6UeFFFHKwrjsQ248vh4SW2hmYYafZWMRrq0y26Q==
-X-Received: by 2002:a2e:a9a8:0:b0:2fa:cfba:fb7f with SMTP id 38308e7fff4ca-2fb187f36c3mr51454191fa.40.1728550647785;
-        Thu, 10 Oct 2024 01:57:27 -0700 (PDT)
+        bh=YMQTWSW2pxYCYeqvg5XPpJ4xKvMr/05hM5ADcPNUguk=;
+        b=EOht8VJmEgFFR3YOTBKEcYyhYbAApq9jU1rMERwHAnnukfcWZ4jAsxg2ludG9Pq3Mi
+         e4reisX5MH4U5Sk6hlpz8r37A+7nqFHIXXWHLHpicLjkpgIsC+quEzrOsTaRsX62Is7l
+         OZkdRkMkR+Tql9h+YXnGC7n2/3EmgT5deIbS/5fefW1NOxSfjtnGegVUiexhsG7/J7z1
+         ppiRXvPmh50Z44j4gv/JYFOU0zOicqZj63kAsk9j5MAaqVKrijin8RzxVMH13TJzQMLK
+         AjuylhmMLZMNgMlV+NCKqAGVhhdzchro9Oy734qPlcRdjpA2gdCpshDLAVbg9VRDl3Aw
+         Axpg==
+X-Gm-Message-State: AOJu0YwVA90XB9ID46yACpN//6GV4vTDl2hnse0+r5QA8pFoEewZXhq3
+	MwrxpKHp1M/nn0NXIKHC4tIruD4VKdXHCZzATElpG3n+63vRtop5Qka2VBZUY4qhVZbym5ESzLR
+	6gpo=
+X-Google-Smtp-Source: AGHT+IHNIf7kg+VV1fmW+02SIim8LnANRH+X0pFu38yOLngOvyxH7vgScRLtuW/wLYm8D22zQaQycg==
+X-Received: by 2002:a2e:bcc1:0:b0:2f6:6074:db9a with SMTP id 38308e7fff4ca-2fb207cba5fmr9401881fa.7.1728550655915;
+        Thu, 10 Oct 2024 01:57:35 -0700 (PDT)
 Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb2459cb82sm1397621fa.56.2024.10.10.01.57.24
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb2459cb82sm1397621fa.56.2024.10.10.01.57.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 01:57:26 -0700 (PDT)
+        Thu, 10 Oct 2024 01:57:34 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v7 5/8] oeqa selftest efibootpartition.py: add TEST_RUNQEMUPARAMS to runqemu
-Date: Thu, 10 Oct 2024 11:56:44 +0300
-Message-ID: <20241010085647.439990-6-mikko.rapeli@linaro.org>
+Subject: [PATCH v7 7/8] oeqa selftest wic.py: add TEST_RUNQEMUPARAMS to runqemu
+Date: Thu, 10 Oct 2024 11:56:46 +0300
+Message-ID: <20241010085647.439990-8-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241010085647.439990-1-mikko.rapeli@linaro.org>
 References: <20241010085647.439990-1-mikko.rapeli@linaro.org>
@@ -61,46 +61,81 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 08:57:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205394
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 08:57:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205396
 
-TEST_RUNQEMUPARAMS variable is used to add runqemu parameters like
-"slirp" networking. Support this also in selftests so that "slirp"
-networking can be used instead of the tun/tap devices setup which
-is easier to work with on shared build machines.
+To support "slirp" networking on shared build machines instead
+of tun/tap devices. Users can set
+
+TEST_RUNQEMUPARAMS = "slirp"
+
+in their build/conf/local.conf to run selftests using "slirp"
+networking. The same works for testimage.bbclass and oeqa runtime
+tests.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/selftest/cases/efibootpartition.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/wic.py | 16 ++++++++++------
+ 1 file changed, 10 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/efibootpartition.py b/meta/lib/oeqa/selftest/cases/efibootpartition.py
-index fa74103dec..e6d6a91a22 100644
---- a/meta/lib/oeqa/selftest/cases/efibootpartition.py
-+++ b/meta/lib/oeqa/selftest/cases/efibootpartition.py
-@@ -6,7 +6,7 @@
- #
+diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
+index b616759209..f2a46c965b 100644
+--- a/meta/lib/oeqa/selftest/cases/wic.py
++++ b/meta/lib/oeqa/selftest/cases/wic.py
+@@ -939,7 +939,8 @@ class Wic2(WicTestCase):
+         bitbake('wic-image-minimal')
+         self.remove_config(config)
  
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake, runqemu
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_var
- from oeqa.core.decorator.data import skipIfNotMachine
- import oe.types
+-        with runqemu('wic-image-minimal', ssh=False, runqemuparams='nographic') as qemu:
++        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'wic-image-minimal') or ""
++        with runqemu('wic-image-minimal', ssh=False, runqemuparams='%s nographic' % (runqemu_params)) as qemu:
+             cmd = "mount | grep '^/dev/' | cut -f1,3 -d ' ' | egrep -c -e '/dev/sda1 /boot' " \
+                   "-e '/dev/root /|/dev/sda2 /' -e '/dev/sda3 /media' -e '/dev/sda4 /mnt'"
+             status, output = qemu.run_serial(cmd)
+@@ -959,8 +960,9 @@ class Wic2(WicTestCase):
+         bitbake('core-image-minimal ovmf')
+         self.remove_config(config)
  
-@@ -14,10 +14,11 @@ class GenericEFITest(OESelftestTestCase):
-     """EFI booting test class"""
-     @skipIfNotMachine("qemux86-64", "test is qemux86-64 specific currently")
-     def test_boot_efi(self):
--        cmd = "runqemu nographic serial wic ovmf"
-+        image = "core-image-minimal"
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', image) or ""
-+        cmd = "runqemu %s nographic serial wic ovmf" % (runqemu_params)
-         if oe.types.qemu_use_kvm(self.td.get('QEMU_USE_KVM', 0), self.td["TARGET_ARCH"]):
-             cmd += " kvm"
--        image = "core-image-minimal"
++        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal') or ""
+         with runqemu('core-image-minimal', ssh=False,
+-                     runqemuparams='nographic ovmf', image_fstype='wic') as qemu:
++                     runqemuparams='%s nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
+             cmd = "grep sda. /proc/partitions  |wc -l"
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+@@ -1154,8 +1156,9 @@ class Wic2(WicTestCase):
+         bitbake('core-image-minimal-mtdutils')
+         self.remove_config(config)
  
-         self.write_config("""
- EFI_PROVIDER = "systemd-boot"
++        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal-mtdutils') or ""
+         with runqemu('core-image-minimal-mtdutils', ssh=False,
+-                     runqemuparams='nographic', image_fstype='wic') as qemu:
++                     runqemuparams='%s nographic' % (runqemu_params), image_fstype='wic') as qemu:
+             cmd = "grep sda. /proc/partitions  |wc -l"
+             status, output = qemu.run_serial(cmd)
+             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
+@@ -1214,8 +1217,9 @@ class Wic2(WicTestCase):
+         bitbake('core-image-minimal')
+         self.remove_config(config)
+ 
++        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal') or ""
+         with runqemu('core-image-minimal', ssh=False,
+-                     runqemuparams='nographic', image_fstype='wic') as qemu:
++                     runqemuparams='%s nographic' % (runqemu_params), image_fstype='wic') as qemu:
+             # Check that we have ONLY two /dev/sda* partitions (/boot and /)
+             cmd = "grep sda. /proc/partitions | wc -l"
+             status, output = qemu.run_serial(cmd)
+@@ -1446,8 +1450,8 @@ class Wic2(WicTestCase):
+             os.rename(image_path, image_path + '.bak')
+             os.rename(new_image_path, image_path)
+ 
+-            # Check if it boots in qemu
+-            with runqemu('core-image-minimal', ssh=False, runqemuparams='nographic') as qemu:
++            runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-minimal') or ""
++            with runqemu('core-image-minimal', ssh=False, runqemuparams='%s nographic' % (runqemu_params)) as qemu:
+                 cmd = "ls /etc/"
+                 status, output = qemu.run_serial('true')
+                 self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
 -- 
 2.34.1
 
