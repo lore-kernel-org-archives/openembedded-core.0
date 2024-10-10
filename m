@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20A6FCFC616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C3FECFC61B
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.53344.1728588936244469837
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.53355.1728588943421810528
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Oct 2024 12:35:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CGmugKuR;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=26tpEPEk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019277ee2ba8-7cf1854e-f7eb-46c4-b760-a4155ece45ad-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BHEmLkeI;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=gmIsbeRe;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019277ee2976-4f98f201-d993-4e71-b363-b741ed40c17b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1728588950;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pdvsyucOKVZLqzDRj4eNneVDPEMh1fKuLw2aRWWk6pg=;
-	b=CGmugKuRlNu6ffneZ6EfX0JgvXq5PCR9GMRWpF+HFmST33PdoYjbM3zquTnQ1csf
-	RRySOsQYkizyvOzrKZVg+6G4H6KbSuhpuP8TZ3+mcSQS6s57QEcaCPMt4HnXAcpu8ii
-	Ol20ZrC/DFCYhe5EyUxnSQF8bARhduJZ7cTbtueA=
+	bh=wirD6FCF8X6f4ImXvsT9bXFyd24WDdcxVQrdJ2ZuhSk=;
+	b=BHEmLkeIxrB7644KYb03+XKreCaNRwtCi/OxP3vBy71/oeMikTxsWggZ4mbuuLLJ
+	phqbQa6+JDU0CUe3jy8lr5YXV5LkJwF+Xd2aAPrZUCFyyV0/EqUMYNb3bwmbOlNVhUH
+	bZW5DohvcSgl0i0r1wovjnB5hcQBmAOdUz3j49L8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588950;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pdvsyucOKVZLqzDRj4eNneVDPEMh1fKuLw2aRWWk6pg=;
-	b=26tpEPEkrkxChYz9nawtKniQSaVSFAkqzF90KPkW82xjtYkfc/oFNziY0AuJ/rEu
-	zV8sJU3mEkrNnbcqnsYjC7uokkFrcGi7KhFAMKaVI/08O/9DIl1jBcXBx0SduFk42JL
-	eEPxqCfrgNBvRDmPsSN9QQ6iYuRLzgLLwNnVOXf0=
-Content-Type: multipart/mixed; boundary="===============7523727535365379623=="
+	bh=wirD6FCF8X6f4ImXvsT9bXFyd24WDdcxVQrdJ2ZuhSk=;
+	b=gmIsbeRe9BZAgu71GoKvxU9X4bUK7N6wcfOAmhyKCQjTWHZJ6dse4R1xKCloC9u3
+	fxRinGVTempaXApRuhFFRbObXU81L3Ook8/ZF3juVSdkH255ie84OWOF7W7uAxxPNWl
+	T3xtEBRVZNyfBEvVoF0pGuVjhCncmfLgpWC48RjA=
+Content-Type: multipart/mixed; boundary="===============1154389247576592068=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Andrej Valek <andrej.v@skyrain.eu>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] busybox: upgrading to 1.37.0 FAILED
-Message-ID: <0101019277ee2ba8-7cf1854e-f7eb-46c4-b760-a4155ece45ad-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:35:50 +0000
+Subject: [AUH] msmtp: upgrading to 1.8.27 SUCCEEDED
+Message-ID: <0101019277ee2976-4f98f201-d993-4e71-b363-b741ed40c17b-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:35:49 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.30
+X-SES-Outgoing: 2024.10.10-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205464
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205460
 
---===============7523727535365379623==
+--===============1154389247576592068==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,110 +51,147 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *busybox* to *1.37.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *msmtp* to *1.8.27* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-msmtp-upgrade-1.8.26-1.8.27.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe busybox failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1871 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7b892feaaeeadf5a0c6d5b3e62a5eb187651d6f3"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (0 cached, 918 parsed). 1872 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7b892feaaeeadf5a0c6d5b3e62a5eb187651d6f3"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-8ikye883: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-pjk60__l/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-pjk60__l/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  21% |#######                             | ETA:  0:00:00
-Adding changed files:  43% |###############                     | ETA:  0:00:00
-Adding changed files:  65% |#######################             | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Extracting upgraded version source...
-INFO: Fetching https://busybox.net/downloads/busybox-1.37.0.tar.bz2;name=tarball...
-INFO: Rebasing devtool onto 8e0dcd6f78077e117269ecca23728ace21521181
-WARNING: Command 'git rebase 8e0dcd6f78077e117269ecca23728ace21521181' failed:
-Auto-merging editors/awk.c
-CONFLICT (content): Merge conflict in editors/awk.c
-Auto-merging testsuite/awk.tests
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-libc-musl onto 8e0dcd6f78077e117269ecca23728ace21521181
-WARNING: Command 'git rebase 8e0dcd6f78077e117269ecca23728ace21521181' failed:
-Auto-merging editors/awk.c
-CONFLICT (content): Merge conflict in editors/awk.c
-Auto-merging testsuite/awk.tests
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-x86 onto 8e0dcd6f78077e117269ecca23728ace21521181
-WARNING: Command 'git rebase 8e0dcd6f78077e117269ecca23728ace21521181' failed:
-Auto-merging editors/awk.c
-CONFLICT (content): Merge conflict in editors/awk.c
-Auto-merging testsuite/awk.tests
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/busybox
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/busybox/busybox_1.37.0.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7523727535365379623==--
+
+-- >8 --
+From 76c4235f58b7acae07a7342ca4d21183605dd95a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 10 Oct 2024 03:37:07 +0000
+Subject: [PATCH] msmtp: upgrade 1.8.26 -> 1.8.27
+
+---
+ .../recipes-extended/msmtp/{msmtp_1.8.26.bb => msmtp_1.8.27.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/msmtp/{msmtp_1.8.26.bb => msmtp_1.8.27.bb} (91%)
+
+diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.26.bb b/meta/recipes-extended/msmtp/msmtp_1.8.27.bb
+similarity index 91%
+rename from meta/recipes-extended/msmtp/msmtp_1.8.26.bb
+rename to meta/recipes-extended/msmtp/msmtp_1.8.27.bb
+index 13820fe930..3f10be9f5e 100644
+--- a/meta/recipes-extended/msmtp/msmtp_1.8.26.bb
++++ b/meta/recipes-extended/msmtp/msmtp_1.8.27.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
+ UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
+ 
+ SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "6cfc488344cef189267e60aea481f00d4c7e2a59b53c6c659c520a4d121f66d8"
++SRC_URI[sha256sum] = "94030580a63a747faa0a3b9b1b264ae355aad33a4d94b832bfeb5b21633c965e"
+ 
+ inherit gettext autotools update-alternatives pkgconfig
+ 
+-- 
+2.44.1
+
+
+--===============1154389247576592068==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-es"
+
+--===============1154389247576592068==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/msmtp: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-es"
+packages/core2-64-poky-linux/msmtp: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp: SRC_URI changed from "https://marlam.de/msmtp/releases/msmtp-1.8.26.tar.xz" to "https://marlam.de/msmtp/releases/msmtp-1.8.27.tar.xz"
+packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-dbg: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGSIZE changed from 438120 to 462056 (+5%)
+packages/core2-64-poky-linux/msmtp/msmtp-dev: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-dev: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-doc: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGSIZE changed from 116720 to 116721 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGSIZE changed from 36796 to 36941 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGSIZE changed from 34819 to 34965 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGSIZE changed from 37206 to 37679 (+1%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ro: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ro: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ro: PKGSIZE changed from 38108 to 38268 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGSIZE changed from 45057 to 45260 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGSIZE changed from 35126 to 35276 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGSIZE changed from 47268 to 47494 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-src: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-src: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp-src: PKGSIZE changed from 518761 to 520376 (+0%)
+packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/msmtp/msmtp: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
+packages/core2-64-poky-linux/msmtp/msmtp: PV changed from "1.8.26" to "1.8.27"
+
+--===============1154389247576592068==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-msmtp-upgrade-1.8.26-1.8.27.patch"
+
+RnJvbSA3NmM0MjM1ZjU4YjdhY2FlMDdhNzM0MmNhNGQyMTE4MzYwNWRkOTVhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDM6Mzc6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+c210cDogdXBncmFkZSAxLjguMjYgLT4gMS44LjI3CgotLS0KIC4uLi9yZWNpcGVzLWV4dGVuZGVk
+L21zbXRwL3ttc210cF8xLjguMjYuYmIgPT4gbXNtdHBfMS44LjI3LmJifSB8IDIgKy0KIDEgZmls
+ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
+aXBlcy1leHRlbmRlZC9tc210cC97bXNtdHBfMS44LjI2LmJiID0+IG1zbXRwXzEuOC4yNy5iYn0g
+KDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNtdHBfMS44
+LjI2LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yNy5iYgpzaW1p
+bGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAv
+bXNtdHBfMS44LjI2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNt
+dHBfMS44LjI3LmJiCmluZGV4IDEzODIwZmU5MzAuLjNmMTBiZTlmNWUgMTAwNjQ0Ci0tLSBhL21l
+dGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9tc210cF8xLjguMjYuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yNy5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNf
+RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4
+MGQ0N2ZhZTUwNCIKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL21hcmxhbS5kZS9tc210
+cC9kb3dubG9hZC8iCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9tYXJsYW0uZGUvJHtCUE59L3JlbGVh
+c2VzLyR7QlB9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2Y2ZjNDg4MzQ0Y2VmMTg5
+MjY3ZTYwYWVhNDgxZjAwZDRjN2UyYTU5YjUzYzZjNjU5YzUyMGE0ZDEyMWY2NmQ4IgorU1JDX1VS
+SVtzaGEyNTZzdW1dID0gIjk0MDMwNTgwYTYzYTc0N2ZhYTBhM2I5YjFiMjY0YWUzNTVhYWQzM2E0
+ZDk0YjgzMmJmZWI1YjIxNjMzYzk2NWUiCiAKIGluaGVyaXQgZ2V0dGV4dCBhdXRvdG9vbHMgdXBk
+YXRlLWFsdGVybmF0aXZlcyBwa2djb25maWcKIAotLSAKMi40NC4xCgo=
+
+--===============1154389247576592068==--
 
