@@ -1,90 +1,99 @@
-Return-Path: <brgl@bgdev.pl>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A94ECFC5F9
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:10:12 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.52658.1728587408093224749
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B387CFC5FD
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:19:02 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.52792.1728587939301446759
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:10:08 -0700
+ Thu, 10 Oct 2024 12:18:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20230601.gappssmtp.com header.s=20230601 header.b=ktDgWAKH;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.128.45, mailfrom: brgl@bgdev.pl)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43115b31366so10892735e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 12:10:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728587406; x=1729192206; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5w4jNMhf/sydqLPWfbF//F5+xYD8cCPxbHJqU8o6GPo=;
-        b=ktDgWAKHHMWcccRQ8WKjpUXJHcRzv7iPUmoFuxfurnm7ijp5xvX+PNI5ju7h9LLh2B
-         t1nWJj2D77bp92WC/Ip5CHAFBdtpLdb9lu/KSjcFLzTD1S2iYznP/ttoAV4TxbVP366y
-         8bxUrK9rpklM0bujujexVV/aF63BFuzaix+Wvbo3KEhVr/xQ7/WgSiFbCp9cKGa6bUrg
-         HDMl5rl+C5ajhL9L7g/JJyWs+fmkk4W2sNQrWdjT+xUFX/Vf8GxRY1MULa3uMffE3zJV
-         0mlOraeRAlgD9wSnNvdY47b0IH51uLa/Mqf7VXQbD1wdFgeF3dJyQidXlHgRVdhQjHEd
-         yvJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728587406; x=1729192206;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5w4jNMhf/sydqLPWfbF//F5+xYD8cCPxbHJqU8o6GPo=;
-        b=qL0GkbfryikKR9PxBfH7dbPhAG/NzW8GHW9FQZxFL/z3ADXkqD36OsjO1ffP/+B/Fm
-         wQ1fwOAaNF9lnnKXFrqDpeThKaC9e5T1G6hcqxZZjAnXjOEBIywhiwEhPAu260Uj/V7C
-         3ya/TpePwxNYgKqGz9hjNwqigWo6OtU+pq32AQ7XnwjOF6WGZvy5FgqTqlECMM4o/1m2
-         lDIeCoSIRl5Uv8WsBcClKQHa0ctvEw8ptt5X5Kj997IAEBczghdqUVT/RLww8SLMuFsZ
-         Kr9pSgzo4M2EGwXV3PFdWaaO8uILKIeZ971rmZ2Jzw2MFsTn0yvJgEg8vmbxbYAWtlhP
-         JXdw==
-X-Forwarded-Encrypted: i=1; AJvYcCXW/9nE6p3ysSOT7xTKBY7+QNBNdUCL1rUzVDkRtonYzyGnbwQSCU4NQUS+Orj69M4ywRZs/Q131ux8TYJukkkPTQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yy5vWTTeRtuxo1xNtBT5Y9Lc0E5SdZ+rCIsxfRi2M/qxTy3z/jm
-	7/SNI4eXjZkk45t8+VhRWNRRFPZXQ6C07icr9g/Dw5JI+go6Z9hw5u4eiEjgBFA=
-X-Google-Smtp-Source: AGHT+IEYyQ7ZIxjdyLdvQveHpo6vTPKIWEowETdf2x2TtVZdPLFK3C7AtIq3yAldWyjBrht765tb9w==
-X-Received: by 2002:a05:600c:470e:b0:430:5356:ac8e with SMTP id 5b1f17b1804b1-4311dea3938mr234885e9.5.1728587406323;
-        Thu, 10 Oct 2024 12:10:06 -0700 (PDT)
-Received: from brgl-uxlite.home ([2a01:cb1d:dc:7e00:5e5d:bfca:20cc:60ae])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430ccf45d49sm56281515e9.12.2024.10.10.12.10.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 12:10:05 -0700 (PDT)
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-To: Khem Raj <raj.khem@gmail.com>,
-	Bruce Ashfield <bruce.ashfield@gmail.com>,
-	Zang Ruochen <zangruochen@loongson.cn>,
-	openembedded-core@lists.openembedded.org
-Cc: Bartosz Golaszewski <brgl@bgdev.pl>
-Subject: [meta-oe][PATCH] python3-pip: add missing RDEPENDS
-Date: Thu, 10 Oct 2024 21:09:56 +0200
-Message-ID: <20241010190956.34063-1-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ArVhUT7C;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=sdXnngXW;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019277deb976-71ad1e10-9956-45b4-bc14-7263acb28d8f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1728587938; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=MG4C7Na90nhbZW/cH/YAEEZCBI/DCiN4vkU7L+4qy5Y=;
+	b=ArVhUT7CcKDtKJpa7l/BZJOiXCW1Ig+y0zR4CgifZX31AN5jUoo24ryh18BqMdUf
+	mZfCmrFf1fgfRFySgb5OiNIjqKC7d9zvnmsKZ0ugBZVHg4DOZc3XDPlWvJBK4rO/NNP
+	Eo1a3Yovr1Yb09x3xo1k4WkABC/06eDbuLVU7Xno=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728587938;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=MG4C7Na90nhbZW/cH/YAEEZCBI/DCiN4vkU7L+4qy5Y=;
+	b=sdXnngXWm3i76kGAIZP2jwq32XYytPsQCHAuV0WE02cE1UJR02y8ZvlajWOZqho+
+	ZCBMUKt6gl9xrWDpHGLicJLPSCbG6t+gQmRPMXElVIMrTrLrZ9iGl6+AqeoSg4c7I2R
+	iTu0YB6P0FUgQi2XOFfiZ3VpC4+esdZhaOcthOgs=
+From: patchtest@automation.yoctoproject.org
+To: Bartosz Golaszewski <brgl@bgdev.pl>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [meta-oe][PATCH] python3-pip: add missing RDEPENDS
+In-Reply-To: <20241010190956.34063-1-brgl@bgdev.pl>
+References: <20241010190956.34063-1-brgl@bgdev.pl>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <0101019277deb976-71ad1e10-9956-45b4-bc14-7263acb28d8f-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:18:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.10.10-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:10:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205427
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:19:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205428
 
-pip3 package is missing the runtime dependency on tomllib. Add
-python3-modules to the recipe's RDEPENDS.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Bartosz Golaszewski <brgl@bgdev.pl>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-devtools/python/python3-pip_24.2.bb | 1 +
- 1 file changed, 1 insertion(+)
+Testing patch /home/patchtest/share/mboxes/meta-oe-python3-pip-add-missing-RDEPENDS.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pip_24.2.bb b/meta/recipes-devtools/python/python3-pip_24.2.bb
-index 5e1a467990..3019996f07 100644
---- a/meta/recipes-devtools/python/python3-pip_24.2.bb
-+++ b/meta/recipes-devtools/python/python3-pip_24.2.bb
-@@ -34,6 +34,7 @@ RDEPENDS:${PN} = "\
-   python3-io \
-   python3-html \
-   python3-json \
-+  python3-modules \
-   python3-multiprocessing \
-   python3-netserver \
-   python3-setuptools \
--- 
-2.43.0
+FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
