@@ -1,80 +1,135 @@
-Return-Path: <preid@electromag.com.au>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15BCCCF07A6
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 05:25:47 +0000 (UTC)
-Received: from anchovy3.45ru.net.au (anchovy3.45ru.net.au [203.30.46.155])
- by mx.groups.io with SMTP id smtpd.web10.36627.1728537943384824963
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64141CF07AE
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 06:30:57 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.37357.1728541849308035811
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Oct 2024 22:25:44 -0700
+ Wed, 09 Oct 2024 23:30:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: electromag.com.au, ip: 203.30.46.155, mailfrom: preid@electromag.com.au)
-Received: (qmail 28015 invoked by uid 5089); 10 Oct 2024 05:25:41 -0000
-Received: by simscan 1.2.0 ppid: 27815, pid: 27819, t: 0.6220s
-         scanners: regex: 1.2.0 attach: 1.2.0 clamav: 0.88.3/m:40/d:1950 spam: 3.1.4
-X-RBL: $rbltext
-Received: from unknown (HELO PR-7680.localdomain) (preid@electromag.com.au@144.6.137.188)
-  by anchovy2.45ru.net.au with ESMTPA; 10 Oct 2024 05:25:40 -0000
-Received: by PR-7680.localdomain (Postfix, from userid 1000)
-	id B9F421274; Thu, 10 Oct 2024 13:25:44 +0800 (AWST)
-From: Phil Reid <preid@electromag.com.au>
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1symhB-0005vq-6a; Thu, 10 Oct 2024 08:30:45 +0200
+Received: from [2a0a:edc0:0:1101:1d::5c] (helo=dude06.red.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1symhA-000mLT-6V; Thu, 10 Oct 2024 08:30:44 +0200
+Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1symhA-006tna-0R;
+	Thu, 10 Oct 2024 08:30:44 +0200
+From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
-Cc: Phil Reid <preid@electromag.com.au>
-Subject: [OE-core] [PATCH] archiver.bbclass: Fix archiver interaction with kernel recipes
-Date: Thu, 10 Oct 2024 13:25:29 +0800
-Message-ID: <20241010052529.18502-1-preid@electromag.com.au>
-X-Mailer: git-send-email 2.43.0
+Cc: yocto@pengutronix.de,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Ahmad Fatoum <a.fatoum@pengutronix.de>
+Subject: [PATCH v8 5/7] oeqa: support passing custom boot patterns to runqemu
+Date: Thu, 10 Oct 2024 08:29:39 +0200
+Message-Id: <20241010062941.1644325-6-ejo@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241010062941.1644325-1-ejo@pengutronix.de>
+References: <20241010062941.1644325-1-ejo@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 05:25:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205376
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 06:30:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205377
 
-Changes to the logic of is_work_shared where made in
-commit: 5fbb4ca8da4f4f1ea426275c45634802dcb5a575
-"archiver.bbclass: Improve work-shared checking"
+From: Enrico Jorns <ejo@pengutronix.de>
 
-The resuled in a change of the logic (simplifed here) from:
-  inherits(gcc-source) or inherits(kernel) or (inherits(kernelsrc) and srcin(work-shared))
-to just
-  srcin(work-shared)
+This allows defining non-standard patterns from QEMU tests just as they
+are already supported by the testimage.bbclass.
 
-With INHERIT += "archiver" in the local.conf and a kernel recipe that uses
-KERNEL_PACKAGE_NAME. When KERNEL_PACKAGE_NAME is defined the kernel
-source is not placed into work-shared, but the archiver ends up
-deleting the source folder in the work dir, and the build subsequently fails.
+Will allow testing non-Linux shells in QEMU, too (e.g. a U-Boot shell or
+another bootloader shell).
 
-Restore the previous logic while also mainting the referenced commits intent
-to consider all recipes that use work-shared. Logic is now
-  inherits(gcc-source) or inherits(kernel) or srcin(work-shared)
-
-Signed-off-by: Phil Reid <preid@electromag.com.au>
+Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 ---
- meta/classes/archiver.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/targetcontrol.py    | 5 +++--
+ meta/lib/oeqa/utils/commands.py   | 5 +++--
+ meta/lib/oeqa/utils/qemurunner.py | 2 +-
+ 3 files changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 9d286224d6..2112b696ce 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -472,9 +472,12 @@ def create_diff_gz(d, src_orig, src, ar_outdir):
-         os.chdir(cwd)
+diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
+index 6e8b781973..cdf382ee21 100644
+--- a/meta/lib/oeqa/targetcontrol.py
++++ b/meta/lib/oeqa/targetcontrol.py
+@@ -88,7 +88,7 @@ class QemuTarget(BaseTarget):
  
- def is_work_shared(d):
-+    pn = d.getVar('PN')
-     sharedworkdir = os.path.join(d.getVar('TMPDIR'), 'work-shared')
-     sourcedir = os.path.realpath(d.getVar('S'))
--    return sourcedir.startswith(sharedworkdir)
-+    return sourcedir.startswith(sharedworkdir) or \
-+      pn.startswith('gcc-source') or bb.data.inherits_class('kernel', d)
-+
+     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
  
- # Run do_unpack and do_patch
- python do_unpack_and_patch() {
+-    def __init__(self, d, logger, image_fstype=None):
++    def __init__(self, d, logger, image_fstype=None, boot_patterns=None):
+ 
+         import oe.types
+ 
+@@ -141,7 +141,8 @@ class QemuTarget(BaseTarget):
+                             dump_dir = dump_dir,
+                             logger = logger,
+                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
+-                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
++                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()),
++                            boot_patterns = boot_patterns)
+ 
+         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
+         if (self.monitor_dumper):
+diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
+index bf2f49d0c0..ca22d69f29 100644
+--- a/meta/lib/oeqa/utils/commands.py
++++ b/meta/lib/oeqa/utils/commands.py
+@@ -312,7 +312,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
+         f.write('LAYERSERIES_COMPAT_%s = "%s"\n' % (templayername, corenames))
+ 
+ @contextlib.contextmanager
+-def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, discard_writes=True):
++def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, boot_patterns = {}, discard_writes=True):
+     """
+     Starts a context manager for a 'oeqa.targetcontrol.QemuTarget' resource.
+     The underlying Qemu will be booted into a shell when the generator yields
+@@ -330,6 +330,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
+         image_fstype (str): IMAGE_FSTYPE to use
+         launch_cmd (str): directly run this command and bypass automatic runqemu parameter generation
+         overrides (dict): dict of "'<bitbake-variable>': value" pairs that allows overriding bitbake variables
++        boot_patterns (dict): dict of "'<pattern-name>': value" pairs to override default boot patterns, e.g. when not booting Linux
+         discard_writes (boolean): enables qemu -snapshot feature to prevent modifying original image
+     """
+ 
+@@ -361,7 +362,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
+ 
+         logdir = recipedata.getVar("TEST_LOG_DIR")
+ 
+-        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype)
++        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype, boot_patterns=boot_patterns)
+     finally:
+         # We need to shut down tinfoil early here in case we actually want
+         # to run tinfoil-using utilities with the running QEMU instance.
+diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
+index 63fc6f6b53..5c3a8e5999 100644
+--- a/meta/lib/oeqa/utils/qemurunner.py
++++ b/meta/lib/oeqa/utils/qemurunner.py
+@@ -103,7 +103,7 @@ class QemuRunner:
+ 
+         # Only override patterns that were set e.g. login user TESTIMAGE_BOOT_PATTERNS[send_login_user] = "webserver\n"
+         for pattern in accepted_patterns:
+-            if not self.boot_patterns[pattern]:
++            if pattern not in self.boot_patterns or not self.boot_patterns[pattern]:
+                 self.boot_patterns[pattern] = default_boot_patterns[pattern]
+ 
+     def create_socket(self):
 -- 
-2.34.1
+2.39.5
 
 
