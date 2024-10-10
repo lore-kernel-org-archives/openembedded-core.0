@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C3FECFC61B
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:53 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.53355.1728588943421810528
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F22E7CFC610
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:52 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.53356.1728588943585531958
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:35:50 -0700
+ Thu, 10 Oct 2024 12:35:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=BHEmLkeI;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=gmIsbeRe;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019277ee2976-4f98f201-d993-4e71-b363-b741ed40c17b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LE2KUEl6;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=g6k7JVvk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019277ee0dcf-e05b2b3d-d187-4923-b2e8-d60b2ed53272-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588950;
+	t=1728588943;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=wirD6FCF8X6f4ImXvsT9bXFyd24WDdcxVQrdJ2ZuhSk=;
-	b=BHEmLkeIxrB7644KYb03+XKreCaNRwtCi/OxP3vBy71/oeMikTxsWggZ4mbuuLLJ
-	phqbQa6+JDU0CUe3jy8lr5YXV5LkJwF+Xd2aAPrZUCFyyV0/EqUMYNb3bwmbOlNVhUH
-	bZW5DohvcSgl0i0r1wovjnB5hcQBmAOdUz3j49L8=
+	bh=6LxHCyA3GVSH/95QzoW5kzWq5xasVzLrcWdQZKvoD70=;
+	b=LE2KUEl6S8VNVp8Lzq91zDfEBD3B6rQL/PxfNQmPXfhifKSYdVqdY9O7q+cRq6GG
+	lJD0GTWzhR0qxaH7Hoxy3h0YMt7N90t6R35bMocK0F/ILP50GfjNJE4btEBC6sZ7K3z
+	IR2Zu86RwVm5vWE8TuLpAQNTSkIuFFent95OR/tc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588950;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588943;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=wirD6FCF8X6f4ImXvsT9bXFyd24WDdcxVQrdJ2ZuhSk=;
-	b=gmIsbeRe9BZAgu71GoKvxU9X4bUK7N6wcfOAmhyKCQjTWHZJ6dse4R1xKCloC9u3
-	fxRinGVTempaXApRuhFFRbObXU81L3Ook8/ZF3juVSdkH255ie84OWOF7W7uAxxPNWl
-	T3xtEBRVZNyfBEvVoF0pGuVjhCncmfLgpWC48RjA=
-Content-Type: multipart/mixed; boundary="===============1154389247576592068=="
+	bh=6LxHCyA3GVSH/95QzoW5kzWq5xasVzLrcWdQZKvoD70=;
+	b=g6k7JVvkIbMhaXTL5ZE1tQ5wDaVL5GsXTywfj/5xvnISYON4cLtMxaJomAF+qrOG
+	7kn7GXYpZgfs9CasR6oemObTRsywkkt0a5R37MpIaZgPOULJzCEUBy8OUDyba9l/xKb
+	FKGX1kX221xkd9tCldlHIYS9XC8gFhfQP9mNVA+Q=
+Content-Type: multipart/mixed; boundary="===============2741463365044791977=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Denys Dmytriyenko <denis@denix.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] msmtp: upgrading to 1.8.27 SUCCEEDED
-Message-ID: <0101019277ee2976-4f98f201-d993-4e71-b363-b741ed40c17b-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:35:49 +0000
+Subject: [AUH] mtd-utils: upgrading to 2.2.1 SUCCEEDED
+Message-ID: <0101019277ee0dcf-e05b2b3d-d187-4923-b2e8-d60b2ed53272-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:35:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.191
+X-SES-Outgoing: 2024.10.10-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205460
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205441
 
---===============1154389247576592068==
+--===============2741463365044791977==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *msmtp* to *1.8.27* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *mtd-utils* to *2.2.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-msmtp-upgrade-1.8.26-1.8.27.patch
+    - apply the patch: git am 0001-mtd-utils-upgrade-2.2.0-2.2.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,126 +72,101 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 76c4235f58b7acae07a7342ca4d21183605dd95a Mon Sep 17 00:00:00 2001
+From 51a621fe9ec89d8065051a8ba7ea46b36f882e79 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 03:37:07 +0000
-Subject: [PATCH] msmtp: upgrade 1.8.26 -> 1.8.27
+Date: Thu, 10 Oct 2024 01:41:33 +0000
+Subject: [PATCH] mtd-utils: upgrade 2.2.0 -> 2.2.1
 
 ---
- .../recipes-extended/msmtp/{msmtp_1.8.26.bb => msmtp_1.8.27.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/msmtp/{msmtp_1.8.26.bb => msmtp_1.8.27.bb} (91%)
+ meta/recipes-devtools/mtd/mtd-utils_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-extended/msmtp/msmtp_1.8.26.bb b/meta/recipes-extended/msmtp/msmtp_1.8.27.bb
-similarity index 91%
-rename from meta/recipes-extended/msmtp/msmtp_1.8.26.bb
-rename to meta/recipes-extended/msmtp/msmtp_1.8.27.bb
-index 13820fe930..3f10be9f5e 100644
---- a/meta/recipes-extended/msmtp/msmtp_1.8.26.bb
-+++ b/meta/recipes-extended/msmtp/msmtp_1.8.27.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504"
- UPSTREAM_CHECK_URI = "https://marlam.de/msmtp/download/"
+diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+index a40d79c864..3545f8e426 100644
+--- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
++++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
+@@ -11,9 +11,9 @@ inherit autotools pkgconfig update-alternatives
+ DEPENDS = "zlib e2fsprogs util-linux"
+ RDEPENDS:mtd-utils-tests += "bash"
  
- SRC_URI = "https://marlam.de/${BPN}/releases/${BP}.tar.xz"
--SRC_URI[sha256sum] = "6cfc488344cef189267e60aea481f00d4c7e2a59b53c6c659c520a4d121f66d8"
-+SRC_URI[sha256sum] = "94030580a63a747faa0a3b9b1b264ae355aad33a4d94b832bfeb5b21633c965e"
+-PV = "2.2.0"
++PV = "2.2.1"
  
- inherit gettext autotools update-alternatives pkgconfig
+-SRCREV = "31e990c56aba7584cde310685d663bb122f16003"
++SRCREV = "13ec33609213c1dbd75852a09560a707a7f19a5c"
+ SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master"
  
+ S = "${WORKDIR}/git"
 -- 
 2.44.1
 
 
---===============1154389247576592068==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-es"
-
---===============1154389247576592068==
+--===============2741463365044791977==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/msmtp: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp: PACKAGES: added "msmtp-locale-es"
-packages/core2-64-poky-linux/msmtp: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp: SRC_URI changed from "https://marlam.de/msmtp/releases/msmtp-1.8.26.tar.xz" to "https://marlam.de/msmtp/releases/msmtp-1.8.27.tar.xz"
-packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-dbg: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-dbg: PKGSIZE changed from 438120 to 462056 (+5%)
-packages/core2-64-poky-linux/msmtp/msmtp-dev: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-dev: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-doc: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-doc: PKGSIZE changed from 116720 to 116721 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-de: PKGSIZE changed from 36796 to 36941 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-eo: PKGSIZE changed from 34819 to 34965 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-fr: PKGSIZE changed from 37206 to 37679 (+1%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-pt-br: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ro: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ro: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ro: PKGSIZE changed from 38108 to 38268 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ru: PKGSIZE changed from 45057 to 45260 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sr: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-sv: PKGSIZE changed from 35126 to 35276 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-ta: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-locale-uk: PKGSIZE changed from 47268 to 47494 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-src: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-src: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp-src: PKGSIZE changed from 518761 to 520376 (+0%)
-packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp-staticdev: PV changed from "1.8.26" to "1.8.27"
-packages/core2-64-poky-linux/msmtp/msmtp: PKGV changed from 1.8.26 [default] to 1.8.27 [default]
-packages/core2-64-poky-linux/msmtp/msmtp: PV changed from "1.8.26" to "1.8.27"
+packages/core2-64-poky-linux/mtd-utils: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-dbg: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-dbg: PKGSIZE changed from 8228048 to 8225400 (-0%)
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-dbg: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-dev: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-dev: PKGSIZE changed from 38489 to 38504 (+0%)
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-dev: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-doc: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-doc: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-jffs2: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-jffs2: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-locale: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-locale: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-misc: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-misc: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: PKGSIZE changed from 1440713 to 1456112 (+1%)
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: FILELIST: directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/mtd-tests -> /usr/src/debug/mtd-utils/2.2.1/tests/mtd-tests, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/ubi-tests -> /usr/src/debug/mtd-utils/2.2.1/tests/ubi-tests, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/simple -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/simple, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/integrity -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/integrity, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/jittertest -> /usr/src/debug/mtd-utils/2.2.1/tests/jittertest, directory renamed /usr/src/debug/mtd-utils/2.2.0/ubifs-utils/mkfs.ubifs/hashtable -> /usr/src/debug/mtd-utils/2.2.1/ubifs-utils/mkfs.ubifs/hashtable, directory renamed /usr/src/debug/mtd-utils/2.2.0/ubifs-utils/mkfs.ubifs -> /usr/src/debug/mtd-utils/2.2.1/ubifs-utils/mkfs.ubifs, directory renamed /usr/src/debug/mtd-utils
+ /2.2.0/include/mtd -> /usr/src/debug/mtd-utils/2.2.1/include/mtd, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/lib -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/lib, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/utils -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/utils, directory renamed /usr/src/debug/mtd-utils/2.2.0/nor-utils -> /usr/src/debug/mtd-utils/2.2.1/nor-utils, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/checkfs -> /usr/src/debug/mtd-utils/2.2.1/tests/checkfs, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/stress/atoms -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/stress/atoms, directory renamed /usr/src/debug/mtd-utils/2.2.0/misc-utils -> /usr/src/debug/mtd-utils/2.2.1/misc-utils, directory renamed /usr/src/debug/mtd-utils/2.2.0/include/linux -> /usr/src/debug/mtd-utils/2.2.1/include/linux, directory renamed /usr/src/debug/mtd-utils/2.2.0/nand-utils -> /usr/src/debug/mtd-utils/2.2.1/nand-utils, dir
+ ectory renamed /usr/src/debug/mtd-utils/2.2.0/ubi-utils -> /usr/src/debug/mtd-utils/2.2.1/ubi-utils, removed "/usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr_rtime.c /usr/src/debug/mtd-utils/2.2.0/lib/libscan.c /usr/src/debug/mtd-utils/2.2.0/lib/libmtd_legacy.c /usr/src/debug/mtd-utils/2.2.0/lib/libubi.c /usr/src/debug/mtd-utils/2.2.0/include/dictionary.h /usr/src/debug/mtd-utils/2.2.0/include/libmtd.h /usr/src/debug/mtd-utils/2.2.0/lib/libmtd.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/jffs2reader.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr.h /usr/src/debug/mtd-utils/2.2.0/lib/libfec.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/jffs2dump.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr.c /usr/src/debug/mtd-utils/2.2.0/lib/libiniparser.c /usr/src/debug/mtd-utils/2.2.0/include/libfec.h /usr/src/debug/mtd-utils/2.2.0/include/common.h /usr/src/debug/mtd-utils/2.2.0/include/crc32.h /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/sumtool.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils
+ /compr_zlib.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/summary.h /usr/src/debug/mtd-utils/2.2.0/lib/common.c /usr/src/debug/mtd-utils/2.2.0/lib/libcrc32.c /usr/src/debug/mtd-utils/2.2.0/include/libubigen.h /usr/src/debug/mtd-utils/2.2.0/include/libubi.h /usr/src/debug/mtd-utils/2.2.0/include/libiniparser.h /usr/src/debug/mtd-utils/2.2.0/include/libscan.h /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr_lzo.c /usr/src/debug/mtd-utils/2.2.0/lib/libmtd_int.h /usr/src/debug/mtd-utils/2.2.0/lib/libubigen.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/mkfs.jffs2.c /usr/src/debug/mtd-utils/2.2.0/lib/libubi_int.h /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/rbtree.c /usr/src/debug/mtd-utils/2.2.0/lib/dictionary.c /usr/src/debug/mtd-utils/2.2.0/include/xalloc.h /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/rbtree.h", added "/usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr_rtime.c /usr/src/debug/mtd-utils/2.2.1/lib/libscan.c /usr/src/debug/mtd-utils/2.2.1/lib/libmtd_legacy.c /usr/src/debug/mtd-uti
+ ls/2.2.1/lib/libubi.c /usr/src/debug/mtd-utils/2.2.1/include/dictionary.h /usr/src/debug/mtd-utils/2.2.1/include/libmtd.h /usr/src/debug/mtd-utils/2.2.1/lib/libmtd.c /usr/src/debug/mtd-utils/2.2.1/include/list.h /usr/src/debug/mtd-utils/2.2.1/lib/rbtree.c /usr/src/debug/mtd-utils/2.2.1/lib/list_sort.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/jffs2reader.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr.h /usr/src/debug/mtd-utils/2.2.1/lib/libfec.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/jffs2dump.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr.c /usr/src/debug/mtd-utils/2.2.1/lib/libiniparser.c /usr/src/debug/mtd-utils/2.2.1/include/libfec.h /usr/src/debug/mtd-utils/2.2.1/include/common.h /usr/src/debug/mtd-utils/2.2.1/include/crc32.h /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/sumtool.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr_zlib.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/summary.h /usr/src/debug/mtd-utils/2.2.1/lib/common.c /usr/src/debug/mtd-utils/2.2.1/lib/li
+ bcrc32.c /usr/src/debug/mtd-utils/2.2.1/include/libubigen.h /usr/src/debug/mtd-utils/2.2.1/include/libubi.h /usr/src/debug/mtd-utils/2.2.1/include/libiniparser.h /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr_lzo.c /usr/src/debug/mtd-utils/2.2.1/lib/libmtd_int.h /usr/src/debug/mtd-utils/2.2.1/lib/libubigen.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/mkfs.jffs2.c /usr/src/debug/mtd-utils/2.2.1/lib/libubi_int.h /usr/src/debug/mtd-utils/2.2.1/lib/dictionary.c /usr/src/debug/mtd-utils/2.2.1/include/rbtree.h /usr/src/debug/mtd-utils/2.2.1/include/xalloc.h /usr/src/debug/mtd-utils/2.2.1/include/libscan.h"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-staticdev: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-staticdev: PKGSIZE changed from 365684 to 389764 (+7%)
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-staticdev: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-tests: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-tests: PKGSIZE changed from 1420917 to 1412725 (-1%)
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-tests: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-ubifs: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils-ubifs: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+packages/core2-64-poky-linux/mtd-utils/mtd-utils: PV changed from "2.2.0" to "2.2.1"
+packages/core2-64-poky-linux/mtd-utils/mtd-utils: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
 
---===============1154389247576592068==
+--===============2741463365044791977==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-msmtp-upgrade-1.8.26-1.8.27.patch"
+ filename="0001-mtd-utils-upgrade-2.2.0-2.2.1.patch"
 
-RnJvbSA3NmM0MjM1ZjU4YjdhY2FlMDdhNzM0MmNhNGQyMTE4MzYwNWRkOTVhIE1vbiBTZXAgMTcg
+RnJvbSA1MWE2MjFmZTllYzg5ZDgwNjUwNTFhOGJhN2VhNDZiMzZmODgyZTc5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDM6Mzc6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-c210cDogdXBncmFkZSAxLjguMjYgLT4gMS44LjI3CgotLS0KIC4uLi9yZWNpcGVzLWV4dGVuZGVk
-L21zbXRwL3ttc210cF8xLjguMjYuYmIgPT4gbXNtdHBfMS44LjI3LmJifSB8IDIgKy0KIDEgZmls
-ZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9tc210cC97bXNtdHBfMS44LjI2LmJiID0+IG1zbXRwXzEuOC4yNy5iYn0g
-KDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNtdHBfMS44
-LjI2LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yNy5iYgpzaW1p
-bGFyaXR5IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAv
-bXNtdHBfMS44LjI2LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbXNtdHAvbXNt
-dHBfMS44LjI3LmJiCmluZGV4IDEzODIwZmU5MzAuLjNmMTBiZTlmNWUgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC9tc210cC9tc210cF8xLjguMjYuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL21zbXRwL21zbXRwXzEuOC4yNy5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNf
-RklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1kMzIyMzliY2I2NzM0NjNhYjg3NGU4
-MGQ0N2ZhZTUwNCIKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL21hcmxhbS5kZS9tc210
-cC9kb3dubG9hZC8iCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9tYXJsYW0uZGUvJHtCUE59L3JlbGVh
-c2VzLyR7QlB9LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2Y2ZjNDg4MzQ0Y2VmMTg5
-MjY3ZTYwYWVhNDgxZjAwZDRjN2UyYTU5YjUzYzZjNjU5YzUyMGE0ZDEyMWY2NmQ4IgorU1JDX1VS
-SVtzaGEyNTZzdW1dID0gIjk0MDMwNTgwYTYzYTc0N2ZhYTBhM2I5YjFiMjY0YWUzNTVhYWQzM2E0
-ZDk0YjgzMmJmZWI1YjIxNjMzYzk2NWUiCiAKIGluaGVyaXQgZ2V0dGV4dCBhdXRvdG9vbHMgdXBk
-YXRlLWFsdGVybmF0aXZlcyBwa2djb25maWcKIAotLSAKMi40NC4xCgo=
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDE6NDE6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+dGQtdXRpbHM6IHVwZ3JhZGUgMi4yLjAgLT4gMi4yLjEKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL210ZC9tdGQtdXRpbHNfZ2l0LmJiIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNl
+cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9tdGQvbXRkLXV0aWxzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdGQvbXRk
+LXV0aWxzX2dpdC5iYgppbmRleCBhNDBkNzljODY0Li4zNTQ1ZjhlNDI2IDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRkL210ZC11dGlsc19naXQuYmIKKysrIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL210ZC9tdGQtdXRpbHNfZ2l0LmJiCkBAIC0xMSw5ICsxMSw5IEBAIGluaGVy
+aXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyB1cGRhdGUtYWx0ZXJuYXRpdmVzCiBERVBFTkRTID0gInps
+aWIgZTJmc3Byb2dzIHV0aWwtbGludXgiCiBSREVQRU5EUzptdGQtdXRpbHMtdGVzdHMgKz0gImJh
+c2giCiAKLVBWID0gIjIuMi4wIgorUFYgPSAiMi4yLjEiCiAKLVNSQ1JFViA9ICIzMWU5OTBjNTZh
+YmE3NTg0Y2RlMzEwNjg1ZDY2M2JiMTIyZjE2MDAzIgorU1JDUkVWID0gIjEzZWMzMzYwOTIxM2Mx
+ZGJkNzU4NTJhMDk1NjBhNzA3YTdmMTlhNWMiCiBTUkNfVVJJID0gImdpdDovL2dpdC5pbmZyYWRl
+YWQub3JnL210ZC11dGlscy5naXQ7YnJhbmNoPW1hc3RlciIKIAogUyA9ICIke1dPUktESVJ9L2dp
+dCIKLS0gCjIuNDQuMQoK
 
---===============1154389247576592068==--
+--===============2741463365044791977==--
 
