@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BBE2DCFD2E9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB932CFD2EA
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:53 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.53350.1728588940637321485
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.53266.1728588946703167204
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Oct 2024 12:35:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gi1xAgKb;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=y/8r807+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019277ee1de0-544391e9-409e-435d-abd3-eccee374c851-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fpgSnll7;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=rDt99GVc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019277ee1ec2-25feac58-76aa-4389-8f16-73dbef577e5a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1728588947;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=uM+B/rP4djhwxPh53IK6qFSPjwiyJ+wqsYwo3IilWQ4=;
-	b=gi1xAgKbXetJ7tNlnSmiwR8uwv/vHOGpZRs0mn1JLgzCFy640rHOB3KJLvWJltwJ
-	7Ur3p6svbSEU5v5A5rCnAnrsFInBo5nUY5cZ0FN/ESRuFqS6X2oHx3dPvv6bHRVLxsf
-	y7eV2nVVVRhyFAPxGU4bZXefGmg/uHIsqK3JQoBo=
+	bh=ao0ccYwMj+laEvKGZL6hKV+c1cPEt1CIONKXv6v+9YE=;
+	b=fpgSnll7HkRso2SjTay9RvsPyvA8RtXDGFG3joMgE/Z6NtYl/udKsXlC+1SQmhdm
+	+R8VBcMDqHiAnnH/Umnnt1NQY5EavNNQeVnXE3tLyrYXS/sY6+WpSDnK/VXKP+aUU0t
+	5TI9yxNv6DUoZ6MekeAOtiSzmZFsqdXtOMaqKIYU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588947;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=uM+B/rP4djhwxPh53IK6qFSPjwiyJ+wqsYwo3IilWQ4=;
-	b=y/8r807+3ZtGLoxNz9zbzyhX/h/AfuJ5630kbR9ogEjSH15XgykH0SNuY9pinPpQ
-	4ENLHXnl4fT7ZP8uYvPJxtW18A5w+wvG0edx7RUdyV8A1+3fnpnGDTCZXdX5R4zcg2q
-	MtXQAAoa61lJSQe8Cup2qvbRgeFTm6cwT+akqw2E=
-Content-Type: multipart/mixed; boundary="===============6950772411714263114=="
+	bh=ao0ccYwMj+laEvKGZL6hKV+c1cPEt1CIONKXv6v+9YE=;
+	b=rDt99GVcC4GbfjKUOEvQ19NZno+SX0RD/0TOuhLz6FDXm+In+P8RJprN+3LJDNul
+	Eq7H1IADUwOaWE4OLhw8tHemZBqnAfPagSkoPsf3y9yLHEbsvWRm7GvPGJkHIwIYk7b
+	rwfl4fC9BiNNisCZOHQfCrSjFHzoNWYD2/kO3Usk=
+Content-Type: multipart/mixed; boundary="===============8825811968479112989=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-setuptools-rust: upgrading to 1.10.2 SUCCEEDED
-Message-ID: <0101019277ee1de0-544391e9-409e-435d-abd3-eccee374c851-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:35:46 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] cmake,cmake-native: upgrading to 3.30.5,3.30.5 SUCCEEDED
+Message-ID: <0101019277ee1ec2-25feac58-76aa-4389-8f16-73dbef577e5a-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:35:47 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.192
+X-SES-Outgoing: 2024.10.10-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205454
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205453
 
---===============6950772411714263114==
+--===============8825811968479112989==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-setuptools-rust* to *1.10.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *cmake,cmake-native* to *3.30.5,3.30.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-setuptools-rust-upgrade-1.10.1-1.10.2.patch
+    - apply the patch: git am 0001-cmake-cmake-native-upgrade-3.30.2-3.30.5-3.30.2-3.30.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,103 +72,162 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From c126d5a8a718ea2b4a932dee128e148d2de44114 Mon Sep 17 00:00:00 2001
+From 79125cadc0ec11d237012c0b198e9aa08ad34d47 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 13:44:58 +0000
-Subject: [PATCH] python3-setuptools-rust: upgrade 1.10.1 -> 1.10.2
+Date: Thu, 10 Oct 2024 11:36:09 +0000
+Subject: [PATCH] cmake,cmake-native: upgrade 3.30.2 -> 3.30.5,3.30.2 -> 3.30.5
 
 ---
- ...uptools-rust_1.10.1.bb => python3-setuptools-rust_1.10.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-setuptools-rust_1.10.1.bb => python3-setuptools-rust_1.10.2.bb} (90%)
+ .../cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.5.bb}    | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ .../cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch   | 2 +-
+ ...5-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch | 2 +-
+ .../recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.5.bb} | 0
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.5.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.5.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_1.10.1.bb b/meta/recipes-devtools/python/python3-setuptools-rust_1.10.2.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-setuptools-rust_1.10.1.bb
-rename to meta/recipes-devtools/python/python3-setuptools-rust_1.10.2.bb
-index d2881e9101..a58d57ac70 100644
---- a/meta/recipes-devtools/python/python3-setuptools-rust_1.10.1.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.10.2.bb
-@@ -9,7 +9,7 @@ BUGTRACKER = "https://github.com/PyO3/setuptools-rust/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=011cd92e702dd9e6b1a26157b6fd53f5"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.30.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.30.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.30.5.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index b88a4e4bc6..41f169e14c 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+ "
  
--SRC_URI[sha256sum] = "d79035fc54cdf9342e9edf4b009491ecab06c3a652b37c3c137c7ba85547d3e6"
-+SRC_URI[sha256sum] = "5d73e7eee5f87a6417285b617c97088a7c20d1a70fcea60e3bdc94ff567c29dc"
+-SRC_URI[sha256sum] = "46074c781eccebc433e98f0bbfa265ca3fd4381f245ca3b140e7711531d60db2"
++SRC_URI[sha256sum] = "9f55e1a40508f2f29b7e065fa08c29f82c402fa0402da839fffe64a25755a86d"
  
- PYPI_PACKAGE = "setuptools_rust"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
  
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+index 7dc07582da..3f13c7d75f 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+@@ -1,4 +1,4 @@
+-From 5e624d82c2838fec2f41ebec124f74aacff9e61f Mon Sep 17 00:00:00 2001
++From a57f2704804b605eb96e3c62232216a1bbebe400 Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Wed, 28 Dec 2022 17:51:27 +0800
+ Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
+diff --git a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+index 8788cc7964..6dfe877d11 100644
+--- a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
++++ b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+@@ -1,4 +1,4 @@
+-From b97f7dbb2637c6da772833c93bedc8be77520fb9 Mon Sep 17 00:00:00 2001
++From 39bc5511eede8c01e1222856479181c6de00ff1e Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:28:04 -0300
+ Subject: [PATCH] Disable use of ext2fs/ext2_fs.h by cmake's internal
+diff --git a/meta/recipes-devtools/cmake/cmake_3.30.2.bb b/meta/recipes-devtools/cmake/cmake_3.30.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.30.5.bb
 -- 
 2.44.1
 
 
---===============6950772411714263114==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-setuptools-rust (sysroot):
-  /usr/lib/python3.12/site-packages/setuptools_rust-1.10.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools_rust-1.10.2.dist-info
-
---===============6950772411714263114==
+--===============8825811968479112989==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-setuptools-rust-upgrade-1.10.1-1.10.2.patch"
+ filename="0001-cmake-cmake-native-upgrade-3.30.2-3.30.5-3.30.2-3.30.patch"
 
-RnJvbSBjMTI2ZDVhOGE3MThlYTJiNGE5MzJkZWUxMjhlMTQ4ZDJkZTQ0MTE0IE1vbiBTZXAgMTcg
+RnJvbSA3OTEyNWNhZGMwZWMxMWQyMzcwMTJjMGIxOThlOWFhMDhhZDM0ZDQ3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTM6NDQ6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXNldHVwdG9vbHMtcnVzdDogdXBncmFkZSAxLjEwLjEgLT4gMS4xMC4yCgotLS0KIC4u
-LnVwdG9vbHMtcnVzdF8xLjEwLjEuYmIgPT4gcHl0aG9uMy1zZXR1cHRvb2xzLXJ1c3RfMS4xMC4y
-LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtc2V0dXB0b29s
-cy1ydXN0XzEuMTAuMS5iYiA9PiBweXRob24zLXNldHVwdG9vbHMtcnVzdF8xLjEwLjIuYmJ9ICg5
-MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNl
-dHVwdG9vbHMtcnVzdF8xLjEwLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtc2V0dXB0b29scy1ydXN0XzEuMTAuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc2V0dXB0b29scy1y
-dXN0XzEuMTAuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXNldHVwdG9vbHMtcnVzdF8xLjEwLjIuYmIKaW5kZXggZDI4ODFlOTEwMS4uYTU4ZDU3YWM3
-MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXNldHVw
-dG9vbHMtcnVzdF8xLjEwLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXNldHVwdG9vbHMtcnVzdF8xLjEwLjIuYmIKQEAgLTksNyArOSw3IEBAIEJVR1RSQUNL
-RVIgPSAiaHR0cHM6Ly9naXRodWIuY29tL1B5TzMvc2V0dXB0b29scy1ydXN0L2lzc3VlcyIKIExJ
-Q0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MDEx
-Y2Q5MmU3MDJkZDllNmIxYTI2MTU3YjZmZDUzZjUiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJk
-NzkwMzVmYzU0Y2RmOTM0MmU5ZWRmNGIwMDk0OTFlY2FiMDZjM2E2NTJiMzdjM2MxMzdjN2JhODU1
-NDdkM2U2IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjVkNzNlN2VlZTVmODdhNjQxNzI4NWI2MTdj
-OTcwODhhN2MyMGQxYTcwZmNlYTYwZTNiZGM5NGZmNTY3YzI5ZGMiCiAKIFBZUElfUEFDS0FHRSA9
-ICJzZXR1cHRvb2xzX3J1c3QiCiAKLS0gCjIuNDQuMQoK
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTE6MzY6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+bWFrZSxjbWFrZS1uYXRpdmU6IHVwZ3JhZGUgMy4zMC4yIC0+IDMuMzAuNSwzLjMwLjIgLT4gMy4z
+MC41CgotLS0KIC4uLi9jbWFrZS97Y21ha2UtbmF0aXZlXzMuMzAuMi5iYiA9PiBjbWFrZS1uYXRp
+dmVfMy4zMC41LmJifSAgICB8IDAKIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5p
+bmMgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIgKy0KIC4uLi9jbWFrZS9jbWFrZS8wMDAx
+LUNNYWtlTGlzdHMudHh0LWRpc2FibGUtVVNFX05HSFRUUDIucGF0Y2ggICB8IDIgKy0KIC4uLjUt
+RGlzYWJsZS11c2Utb2YtZXh0MmZzLWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFsLS5wYXRj
+aCB8IDIgKy0KIC4uLi9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV8zLjMwLjIuYmIgPT4g
+Y21ha2VfMy4zMC41LmJifSB8IDAKIDUgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAz
+IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97Y21ha2Ut
+bmF0aXZlXzMuMzAuMi5iYiA9PiBjbWFrZS1uYXRpdmVfMy4zMC41LmJifSAoMTAwJSkKIHJlbmFt
+ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtlXzMuMzAuMi5iYiA9PiBjbWFrZV8z
+LjMwLjUuYmJ9ICgxMDAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFr
+ZS9jbWFrZS1uYXRpdmVfMy4zMC4yLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2Nt
+YWtlLW5hdGl2ZV8zLjMwLjUuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfMy4zMC4yLmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UtbmF0aXZlXzMuMzAuNS5iYgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYyBiL21ldGEvcmVj
+aXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKaW5kZXggYjg4YTRlNGJjNi4uNDFmMTY5ZTE0
+YyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYworKysg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCkBAIC0xOSw3ICsxOSw3IEBA
+IENNQUtFX01BSk9SX1ZFUlNJT04gPSAiJHtAJy4nLmpvaW4oZC5nZXRWYXIoJ1BWJykuc3BsaXQo
+Jy4nKVswOjJdKX0iCiBTUkNfVVJJID0gImh0dHBzOi8vY21ha2Uub3JnL2ZpbGVzL3Yke0NNQUtF
+X01BSk9SX1ZFUlNJT059L2NtYWtlLSR7UFZ9LnRhci5neiBcCiAiCiAKLVNSQ19VUklbc2hhMjU2
+c3VtXSA9ICI0NjA3NGM3ODFlY2NlYmM0MzNlOThmMGJiZmEyNjVjYTNmZDQzODFmMjQ1Y2EzYjE0
+MGU3NzExNTMxZDYwZGIyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjlmNTVlMWE0MDUwOGYyZjI5
+YjdlMDY1ZmEwOGMyOWY4MmM0MDJmYTA0MDJkYTgzOWZmZmU2NGEyNTc1NWE4NmQiCiAKIFVQU1RS
+RUFNX0NIRUNLX1JFR0VYID0gImNtYWtlLSg/UDxwdmVyPlxkKyhcLlxkKykrKVwudGFyIgogCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwMS1DTWFrZUxp
+c3RzLnR4dC1kaXNhYmxlLVVTRV9OR0hUVFAyLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2NtYWtlL2NtYWtlLzAwMDEtQ01ha2VMaXN0cy50eHQtZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRj
+aAppbmRleCA3ZGMwNzU4MmRhLi4zZjEzYzdkNzVmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwMS1DTWFrZUxpc3RzLnR4dC1kaXNhYmxlLVVTRV9OR0hU
+VFAyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNN
+YWtlTGlzdHMudHh0LWRpc2FibGUtVVNFX05HSFRUUDIucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1G
+cm9tIDVlNjI0ZDgyYzI4MzhmZWMyZjQxZWJlYzEyNGY3NGFhY2ZmOWU2MWYgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCitGcm9tIGE1N2YyNzA0ODA0YjYwNWViOTZlM2M2MjIzMjIxNmExYmJlYmU0
+MDAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDaGFuZ3FpbmcgTGkgPGNoYW5ncWlu
+Zy5saUB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAyOCBEZWMgMjAyMiAxNzo1MToyNyArMDgw
+MAogU3ViamVjdDogW1BBVENIXSBDTWFrZUxpc3RzLnR4dDogZGlzYWJsZSBVU0VfTkdIVFRQMgpk
+aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDUtRGlzYWJs
+ZS11c2Utb2YtZXh0MmZzLWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFsLS5wYXRjaCBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDA1LURpc2FibGUtdXNlLW9mLWV4dDJm
+cy1leHQyX2ZzLmgtYnktY21ha2Utcy1pbnRlcm5hbC0ucGF0Y2gKaW5kZXggODc4OGNjNzk2NC4u
+NmRmZTg3N2QxMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtl
+LzAwMDUtRGlzYWJsZS11c2Utb2YtZXh0MmZzLWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFs
+LS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwNS1EaXNh
+YmxlLXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwtLnBhdGNoCkBA
+IC0xLDQgKzEsNCBAQAotRnJvbSBiOTdmN2RiYjI2MzdjNmRhNzcyODMzYzkzYmVkYzhiZTc3NTIw
+ZmI5IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzOWJjNTUxMWVlZGU4YzAxZTEyMjI4
+NTY0NzkxODFjNmRlMDBmZjFlIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogT3Rhdmlv
+IFNhbHZhZG9yIDxvdGF2aW9Ab3NzeXN0ZW1zLmNvbS5icj4KIERhdGU6IFRodSwgNSBKdWwgMjAx
+OCAxMDoyODowNCAtMDMwMAogU3ViamVjdDogW1BBVENIXSBEaXNhYmxlIHVzZSBvZiBleHQyZnMv
+ZXh0Ml9mcy5oIGJ5IGNtYWtlJ3MgaW50ZXJuYWwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9jbWFrZS9jbWFrZV8zLjMwLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21h
+a2UvY21ha2VfMy4zMC41LmJiCnNpbWlsYXJpdHkgaW5kZXggMTAwJQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4zMC4yLmJiCnJlbmFtZSB0byBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfMy4zMC41LmJiCi0tIAoyLjQ0LjEKCg==
 
---===============6950772411714263114==
+--===============8825811968479112989==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-setuptools-rust: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/setuptools_rust/setuptools_rust-1.10.1.tar.gz;downloadfilename=setuptools_rust-1.10.1.tar.gz" to "https://files.pythonhosted.org/packages/source/s/setuptools_rust/setuptools_rust-1.10.2.tar.gz;downloadfilename=setuptools_rust-1.10.2.tar.gz"
-packages/core2-64-poky-linux/python3-setuptools-rust: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dbg: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dbg: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dev: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-dev: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-doc: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-doc: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-locale: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-locale: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-src: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-src: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-staticdev: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust-staticdev: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PKGSIZE changed from 157770 to 158264 (+0%)
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PV changed from "1.10.1" to "1.10.2"
-packages/core2-64-poky-linux/python3-setuptools-rust/python3-setuptools-rust: PKGV changed from 1.10.1 [default] to 1.10.2 [default]
-Changes to packages/core2-64-poky-linux/python3-setuptools-rust (sysroot):
-  /usr/lib/python3.12/site-packages/setuptools_rust-1.10.1.dist-info moved to /usr/lib/python3.12/site-packages/setuptools_rust-1.10.2.dist-info
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1051458864 to 1051467456 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-dbg: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-dev: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-dev: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-doc: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-doc: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-locale: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-locale: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-src: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-src: PKGSIZE changed from 10022979 to 10024165 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-src: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake: PKGSIZE changed from 41423617 to 41435493 (+0%)
+packages/core2-64-poky-linux/cmake/cmake: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v3.30/cmake-3.30.2.tar.gz" to "https://cmake.org/files/v3.30/cmake-3.30.5.tar.gz"
+packages/core2-64-poky-linux/cmake: PV changed from "3.30.2" to "3.30.5"
 
---===============6950772411714263114==--
+--===============8825811968479112989==--
 
