@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E190ED0D7AB
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:42 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.53256.1728588943051199225
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02658D0D7AC
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:43 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.53361.1728588948281790444
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:33 -0700
+ Thu, 10 Oct 2024 12:36:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JEaUHjsW;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ka2VMYyq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019277eed29d-a0f5310a-ae96-4606-aefc-42a4dd734687-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iylsiaoN;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=qMjyERLG;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019277eeeb00-aac404cc-9b83-4463-962a-04ad9e7284a1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588993;
+	t=1728588999;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=t/pyUG1vMJV1B1WGOT/lPT0Zrk9D+R2CtTrfj4SSfT8=;
-	b=JEaUHjsW9J5YAD5KN15vg94TG/bWIN6JwzR4dlrmo8MoHjlxQQ0GDyVcebSg6QUq
-	/OGy/cEzunfBLm+gUqrwEngc62jqXr+XQvaN5Bt0G+h/CBljQgUyCBFkN4wSPv+c+eh
-	thB4CnApTkekzSxD3qYCYdubPoycre+KylonmAz8=
+	bh=fdd4PICvERuNufz5nvPtANCUFlIldhCdXtfU1wGCgak=;
+	b=iylsiaoNKjwRZ1g5ak+RdgZ8htuNFRgVJtp0hYPoJCrxm7+S2baA/g/9cwhvdYGE
+	6QWwgI0lDS1Vhv0Dgk1IWhC/8f9NCWR5FHDh9LD/cBjBCkK+8scK6lJFTO0yM8o0lBs
+	HYE1WFWeSHeW8FNO7GL+2b3qhI2yk5jGciasUZio=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588993;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588999;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=t/pyUG1vMJV1B1WGOT/lPT0Zrk9D+R2CtTrfj4SSfT8=;
-	b=ka2VMYyqk6llcEa8uF0TQ/eI4aDERGhwcafKcqjAl0XABW+12Reqmnrv9WQyV41U
-	okQdpex420Tp/ylakSnPzhhNFBnmynKOanlwjH4GCT+XKNGCTSU5L+Opkae4Gs+J+f6
-	FdFSSzyAjrhxLkiqssAOSvRQqhgKMIsebJ1Oo2ng=
-Content-Type: multipart/mixed; boundary="===============6522231170344942759=="
+	bh=fdd4PICvERuNufz5nvPtANCUFlIldhCdXtfU1wGCgak=;
+	b=qMjyERLGSorZZr0QSnRs1qYDc/18uG6vbpDPp0Gas67havQT6JLVF6RlKjHOhD2O
+	VaR4cem/qt07aJ6B994dH7kusr3UIEXP/k9CI72AHrxTiF5E/hleM1cJ3PRAoPPZlw4
+	QnMrgmRlTO5uHuWt0Nq7DYB7jdnFo4dN9qKjwDj4=
+Content-Type: multipart/mixed; boundary="===============8902099455343962985=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-tools: upgrading to 1.3.296.0 FAILED
-Message-ID: <0101019277eed29d-a0f5310a-ae96-4606-aefc-42a4dd734687-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:36:33 +0000
+Subject: [AUH] libproxy: upgrading to 0.5.9 SUCCEEDED
+Message-ID: <0101019277eeeb00-aac404cc-9b83-4463-962a-04ad9e7284a1-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:36:39 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.30
+X-SES-Outgoing: 2024.10.10-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205600
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205619
 
---===============6522231170344942759==
+--===============8902099455343962985==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *spirv-tools* to *1.3.296.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libproxy* to *0.5.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-tools-upgrade-1.3.290.0-1.3.296.0.patch
+    - apply the patch: git am 0001-libproxy-upgrade-0.5.8-0.5.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,161 +72,107 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7c7cacc00691e8d3d3caa915c693af1359e86f1c Mon Sep 17 00:00:00 2001
+From 3ef27418e14155af1456ca34b3ce648c4f69ae29 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 05:01:41 +0000
-Subject: [PATCH] spirv-tools: upgrade 1.3.290.0 -> 1.3.296.0
+Date: Thu, 10 Oct 2024 06:33:59 +0000
+Subject: [PATCH] libproxy: upgrade 0.5.8 -> 0.5.9
 
 ---
- .../spir/{spirv-tools_1.3.290.0.bb => spirv-tools_1.3.296.0.bb} | 2 +-
+ .../libproxy/{libproxy_0.5.8.bb => libproxy_0.5.9.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-tools_1.3.290.0.bb => spirv-tools_1.3.296.0.bb} (97%)
+ rename meta/recipes-support/libproxy/{libproxy_0.5.8.bb => libproxy_0.5.9.bb} (95%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
-similarity index 97%
-rename from meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb
-rename to meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
-index d0f1c387f1..c817af9908 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
-@@ -7,7 +7,7 @@ SECTION = "graphics"
- LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-support/libproxy/libproxy_0.5.8.bb b/meta/recipes-support/libproxy/libproxy_0.5.9.bb
+similarity index 95%
+rename from meta/recipes-support/libproxy/libproxy_0.5.8.bb
+rename to meta/recipes-support/libproxy/libproxy_0.5.9.bb
+index 5dcd7d019b..e6192a6960 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.5.8.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.5.9.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ DEPENDS = "glib-2.0"
  
--SRCREV = "0cfe9e7219148716dfd30b37f4d21753f098707a"
-+SRCREV = "6dcc7e350a0b9871a825414d42329e44b0eb8109"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https \
-            file://0001-update_build_version.py-support-an-envvar-to-force-t.patch \
-            "
+ SRC_URI = "git://github.com/libproxy/libproxy;protocol=https;branch=main"
+-SRCREV = "04c5185729e164dcc2d010177f83b6209769d9e7"
++SRCREV = "77e2a2b88a319974cf099c8eaaaa03030bc4c0d4"
+ S = "${WORKDIR}/git"
+ 
+ inherit meson pkgconfig gobject-introspection vala gi-docgen
 -- 
 2.44.1
 
 
---===============6522231170344942759==
+--===============8902099455343962985==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-tools-upgrade-1.3.290.0-1.3.296.0.patch"
+ filename="0001-libproxy-upgrade-0.5.8-0.5.9.patch"
 
-RnJvbSA3YzdjYWNjMDA2OTFlOGQzZDNjYWE5MTVjNjkzYWYxMzU5ZTg2ZjFjIE1vbiBTZXAgMTcg
+RnJvbSAzZWYyNzQxOGUxNDE1NWFmMTQ1NmNhMzRiM2NlNjQ4YzRmNjlhZTI5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDU6MDE6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cGlydi10b29sczogdXBncmFkZSAxLjMuMjkwLjAgLT4gMS4zLjI5Ni4wCgotLS0KIC4uLi9zcGly
-L3tzcGlydi10b29sc18xLjMuMjkwLjAuYmIgPT4gc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3tzcGlydi10b29sc18xLjMuMjkwLjAuYmIg
-PT4gc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yOTAuMC5iYiBiL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yOTYuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18x
-LjMuMjkwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRv
-b2xzXzEuMy4yOTYuMC5iYgppbmRleCBkMGYxYzM4N2YxLi5jODE3YWY5OTA4IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjMuMjkwLjAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJiCkBA
-IC03LDcgKzcsNyBAQCBTRUNUSU9OID0gImdyYXBoaWNzIgogTElDRU5TRSAgPSAiQXBhY2hlLTIu
-MCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0
-NjU1ZmM4NTRkZGMzYzZiZDU3IgogCi1TUkNSRVYgPSAiMGNmZTllNzIxOTE0ODcxNmRmZDMwYjM3
-ZjRkMjE3NTNmMDk4NzA3YSIKK1NSQ1JFViA9ICI2ZGNjN2UzNTBhMGI5ODcxYTgyNTQxNGQ0MjMy
-OWU0NGIwZWI4MTA5IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9T
-UElSVi1Ub29scy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICBm
-aWxlOi8vMDAwMS11cGRhdGVfYnVpbGRfdmVyc2lvbi5weS1zdXBwb3J0LWFuLWVudnZhci10by1m
-b3JjZS10LnBhdGNoIFwKICAgICAgICAgICAgIgotLSAKMi40NC4xCgo=
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDY6MzM6NTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJwcm94eTogdXBncmFkZSAwLjUuOCAtPiAwLjUuOQoKLS0tCiAuLi4vbGlicHJveHkve2xpYnBy
+b3h5XzAuNS44LmJiID0+IGxpYnByb3h5XzAuNS45LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9saWJwcm94eS97bGlicHJveHlfMC41LjguYmIgPT4gbGlicHJveHlfMC41
+LjkuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJveHkv
+bGlicHJveHlfMC41LjguYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwcm94eS9saWJwcm94
+eV8wLjUuOS5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJwcm94eS9saWJwcm94eV8wLjUuOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGlicHJveHkvbGlicHJveHlfMC41LjkuYmIKaW5kZXggNWRjZDdkMDE5Yi4uZTYx
+OTJhNjk2MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJveHkvbGlicHJv
+eHlfMC41LjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJveHkvbGlicHJveHlf
+MC41LjkuYmIKQEAgLTE0LDcgKzE0LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMgXAogREVQRU5EUyA9ICJn
+bGliLTIuMCIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2xpYnByb3h5L2xpYnByb3h5
+O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgotU1JDUkVWID0gIjA0YzUxODU3MjllMTY0ZGNj
+MmQwMTAxNzdmODNiNjIwOTc2OWQ5ZTciCitTUkNSRVYgPSAiNzdlMmEyYjg4YTMxOTk3NGNmMDk5
+YzhlYWFhYTAzMDMwYmM0YzBkNCIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIGluaGVyaXQgbWVz
+b24gcGtnY29uZmlnIGdvYmplY3QtaW50cm9zcGVjdGlvbiB2YWxhIGdpLWRvY2dlbgotLSAKMi40
+NC4xCgo=
 
---===============6522231170344942759==
+--===============8902099455343962985==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1873 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 917 .bb files complete (916 cached, 1 parsed). 1871 targets, 40 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/libproxy/libproxy: FILELIST: removed "/usr/lib/libproxy.so.0.5.8", added "/usr/lib/libproxy.so.0.5.9"
+Changes to packages/core2-64-poky-linux/libproxy (sysroot):
+  /usr/lib/libproxy.so.1 changed symlink target from libproxy.so.0.5.8 to libproxy.so.0.5.9
+  /usr/lib/libproxy.so.0.5.8 moved to /usr/lib/libproxy.so.0.5.9
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:d6027e6b90eb5989f1aa4e18535a63504e285315"
+--===============8902099455343962985==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 220 Local 208 Mirrors 0 Missed 12 Current 239 (94% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 289 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.290.0.bb:do_create_spdx_setscene)
-NOTE: Running task 723 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_recipe_qa)
-NOTE: recipe spirv-headers-1_1.3.290.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_recipe_qa: Started
-NOTE: recipe spirv-headers-1_1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 422 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 882 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_fetch)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 427 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_fetch: Started
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 434 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_fetch: Succeeded
-NOTE: Running task 891 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_unpack)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 439 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_unpack: Succeeded
-NOTE: Running task 970 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 454 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1209 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1313 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_collect_spdx_deps)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1321 tasks of which 1315 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010050128.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010050128.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+packages/core2-64-poky-linux/libproxy: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: PKGSIZE changed from 149480 to 150224 (+0%)
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: FILELIST: removed "/usr/lib/.debug/libproxy.so.0.5.8", added "/usr/lib/.debug/libproxy.so.0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-dev: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-dev: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-doc: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-doc: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-locale: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-locale: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-src: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-src: PKGSIZE changed from 68655 to 69096 (+1%)
+packages/core2-64-poky-linux/libproxy/libproxy-src: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-staticdev: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-staticdev: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy: FILES: removed "/usr/lib/libproxy/0.5.8/modules", added "/usr/lib/libproxy/0.5.9/modules"
+packages/core2-64-poky-linux/libproxy/libproxy: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy: FILELIST: removed "/usr/lib/libproxy.so.0.5.8", added "/usr/lib/libproxy.so.0.5.9"
+Changes to packages/core2-64-poky-linux/libproxy (sysroot):
+  /usr/lib/libproxy.so.1 changed symlink target from libproxy.so.0.5.8 to libproxy.so.0.5.9
+  /usr/lib/libproxy.so.0.5.8 moved to /usr/lib/libproxy.so.0.5.9
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/temp/log.do_patch.2661345
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: spirv-tools-1_1.3.296.0-r0 do_patch: Applying patch '0001-update_build_version.py-support-an-envvar-to-force-t.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/git'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-update_build_version.py-support-an-envvar-to-force-t.patch
-patching file utils/update_build_version.py
-Hunk #1 FAILED at 24.
-Hunk #2 FAILED at 150.
-2 out of 2 hunks FAILED -- rejects in file utils/update_build_version.py
-Patch 0001-update_build_version.py-support-an-envvar-to-force-t.patch can be reverse-applied
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/temp/log.do_patch.2661345
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch) failed with exit code '1'
-
---===============6522231170344942759==--
+--===============8902099455343962985==--
 
