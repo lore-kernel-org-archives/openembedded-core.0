@@ -1,132 +1,105 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8A72CF11E1
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 12:19:19 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.41798.1728562749843781968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3871ACF11EE
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 13:03:40 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.42657.1728565409115579804
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 05:19:10 -0700
+ Thu, 10 Oct 2024 06:03:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A13QX6e7;
- spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fabc9bc5dfso8181291fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 05:19:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JHnciL4U;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-431160cdbd0so5403795e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 06:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728562748; x=1729167548; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dx6VMnF8xyt1HZkNbttYiNK0HEaBEf/DbK3IwC0F8Gw=;
-        b=A13QX6e7JztxiX1CCtNm5v6tYtIERpuhZQg9qx7EM1Skhm2uzbpUfURv+QlQppDad8
-         G3haGRzF1aP/3rixSEjWg2foYOr0gvZlPxubgvH39wdO8/fahcS+HhlU9AMvWZCVG2P3
-         gV+bX0v0tyad6yA/TLzJ2YREa2sMvHE2KSdwzT7dP9h7Hm1HmKcnLHJCdi34aOMMyXp2
-         i9K+b8uVh1vdhn6Y/cNUIT/LQjOGdTtu3iWczsTFbLT/amqNV26ZIJR87DCksPRAvqYH
-         s7BPs994Kik0OiGkge3N+neAfdv1HMQQPo1rhwjsykbCwS01VY+eQNe9crpEzWtvWE5P
-         uuPA==
+        d=linuxfoundation.org; s=google; t=1728565407; x=1729170207; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2OJgMDufwmxidBghfIfK5U6Xl32B3mlNgStf7NLPMXg=;
+        b=JHnciL4U0LPNhOLYt9JX3+AylpnXpFxZih+uvVGiPXqYydjkKlIXl5T9JORle9W2E6
+         NJ1n+iVPETN+a6fIg2zzgOiNHUMFGfFwWfkp2wYe+GzPGNxDipxFHIZ1IrXAZAOOXsOK
+         1KugY1r7NyoNPjCcwM45w6MpnVSvJiDJO9BMw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728562748; x=1729167548;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dx6VMnF8xyt1HZkNbttYiNK0HEaBEf/DbK3IwC0F8Gw=;
-        b=QZe/XQiuzkzNRiILddVl7AQGGFT6FguCM616oURfMXbvrDMuYYXQnLhqH3Fro5ubJx
-         rrNvt8QDmjK02iI1G2VPC9yZRcSiAzHXTOf7/UlQyHs8xiS3ED40IRI8POIIJ0IkBjjw
-         WnoPqVJA7SKC5fohW3SmnqnLaM0PcWkn1mqJygjAzPlIrV1Yijcionpg8hJR5s7QMHoD
-         anXQ/dCFh6IulTmQ8EArz3uD1ND7FWsVREuTzegrFb/iPEGjqOoEpWGz2jDJ4QJ0WJvB
-         IklWQ3CSC666TrYA8lOzKmR1qJvadsJmIYGx+LSqXD37/fOinB0a0NOQGKqs7dgNTqUM
-         ze8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXCwbBkHU8wBH3eFPXQrqvMLVtzr2eTyaRZKhoSO3zpEoo45VBR/sIwvZOWU/yAjBxG93cpKAE352QQO+OtiHceNw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyHSbGY8iOjYAG/zl/hDQ3Ltn9hnhA+/FRn3nBhnyiO0i29UPof
-	25vWTI7dqL4ViFbKH8jXmlGemE5zT/lYMuV9BGldAu5bs6adY8z8yUPVkvOFPfFwX5U9J/9RzLs
-	osKRzxUxv+boB6Z/QZiCJcw9j9wI=
-X-Google-Smtp-Source: AGHT+IF9J/SzEtjAZJDogSO1ZTP2cP1QuVz5cA+wl3d3Sp8ogirIVSLRQaLyrME+iW22G8WOU6wF6Zx4s0f4LQvo1kE=
-X-Received: by 2002:a05:651c:2105:b0:2ef:2490:46fb with SMTP id
- 38308e7fff4ca-2fb187d1bf0mr32425701fa.37.1728562747413; Thu, 10 Oct 2024
- 05:19:07 -0700 (PDT)
-MIME-Version: 1.0
-References: <a77f128585324bb49c95d2ddd56edb25@amazon.com>
-In-Reply-To: <a77f128585324bb49c95d2ddd56edb25@amazon.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 10 Oct 2024 14:18:55 +0200
-Message-ID: <CANNYZj-hM2bXWt8UBJVdy_gV_9OR9=G4UHEr2CM_397U9V8gew@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sstate: remove corrupted artifacts from local mirror
-To: "Sobon, Przemyslaw" <psobon@amazon.com>
-Cc: "Yu, Max" <yumx@amazon.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1728565407; x=1729170207;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=2OJgMDufwmxidBghfIfK5U6Xl32B3mlNgStf7NLPMXg=;
+        b=ICudiXhKpjijTFL79YV7eOsCh17vZ32z/l4yNcLRgeQgGKqhbHzRE9aVpSm0JWGa09
+         YW1O9w7oGXJ69G0XV/VdRmUJlC+8EIby4wEwLbx4QW1uKYi+zFTss5EVRxevCqh/2kzB
+         TKnPJPSCBNUom+tRL8hUBGNHZ97r6GBR29iDmIKqMgjmHNk/3y950dAxq7w4HNsQxN4b
+         UN/ClXJH7BUTUtYhMba3U6htOJdJ+jMlKkCwCeTW73hMMe6bW04+K1jgl2begZAZWaAf
+         +ob61WrWesBhCYAVvY2q1tJM87ERRGkBlpJJePUKjKE0P50rZoc5bv5+3CAm8xomMrQ5
+         sbZg==
+X-Forwarded-Encrypted: i=1; AJvYcCUOK2Pq+BSk7Wl6mVH0qGHw9WWvAQ3uJxnXy7tliRxCydXbTfm0B+CGvn56T4W9paUNTDdcJrHAjP8VKRPnx7Xr0g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yw0OeD3UFCRgYi21Pt/TiPwqiTVhDEDUPhIJyskUoXEIkFtMflS
+	KR77iW0rvUh3rm4M1jDcZBKFE0FAIDpcUj3z9jfBq2C1rCjHNvEDMjNfF6jm9HQ=
+X-Google-Smtp-Source: AGHT+IE+vrTccMMK6GsFCuXmyaGVqEkGz+UUUe3VLDccgCNewZ9U8BDmufrVLTvUVPfKPFW+HlCcJw==
+X-Received: by 2002:a05:600c:1c19:b0:431:1458:4d78 with SMTP id 5b1f17b1804b1-43115aa529bmr28189515e9.6.1728565407390;
+        Thu, 10 Oct 2024 06:03:27 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a7cf:f342:7de0:8e9a? ([2001:8b0:aba:5f3c:a7cf:f342:7de0:8e9a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311835d7b2sm15984665e9.42.2024.10.10.06.03.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 06:03:26 -0700 (PDT)
+Message-ID: <7a24e8f91d5488a7d6b3fc8a101fe95004d1b436.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/10] ffmpeg: nasm is x86 only, so only
+ DEPEND if x86
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Oct 2024 14:03:26 +0100
+In-Reply-To: <20241008193103.2429829-1-ross.burton@arm.com>
+References: <20241008193103.2429829-1-ross.burton@arm.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 12:19:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205405
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 13:03:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205406
 
-On Tue, 8 Oct 2024 at 20:47, Sobon, Przemyslaw <psobon@amazon.com> wrote:
-> The "only one reporting" does not mean the problem does not exist, it may be
-> just not as big problem for others as for us. Similar problem exist for DRAM
-> memory corruptions? Most of the people don't care about that but for some
-> this is important problem, e.g. when you see 1 OS crash per 10 years it is
-> not a big deal but if you own 10k servers you see 3 crashes per day. That is
-> the scale factor that is important. Max talked about our scale already.
-> Summarizing, the manual work is not a solution for us due to scale.
+On Tue, 2024-10-08 at 20:30 +0100, Ross Burton via lists.openembedded.org w=
+rote:
+> No need to depend on nasm if we're not going to use it.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+> =C2=A0meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb | 3 ++-
+> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipe=
+s-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+> index 9e60b5cd23e..b16bd51dbd7 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+> @@ -46,7 +46,8 @@ ARM_INSTRUCTION_SET:armv6 =3D "arm"
+> =C2=A0# libpostproc was previously packaged from a separate recipe
+> =C2=A0PROVIDES =3D "libav libpostproc"
+> =C2=A0
+> -DEPENDS =3D "nasm-native"
+> +DEPENDS:append:x86 =3D " nasm-native"
+> +DEPENDS:append:x86-64 =3D " nasm-native"
+> =C2=A0
+> =C2=A0inherit autotools pkgconfig
+> =C2=A0
+>=20
 
-But can you say what your scale actually is? How many sstate objects
-are written into the shared cache per day? How often do you see
-corruptions?
+I think something in here is causing:
 
-Basically it helps if you introduce yourselves and your product first,
-as this is I think you first time interacting with the community?
+https://valkyrie.yoctoproject.org/#/builders/99/builds/216/steps/17/logs/st=
+dio
+https://valkyrie.yoctoproject.org/#/builders/89/builds/208/steps/12/logs/st=
+dio
+https://valkyrie.yoctoproject.org/#/builders/7/builds/233/steps/12/logs/std=
+io
 
-> I disagree, we can overwrite bad artifact. Yocto indirectly does that as it has
-> to rebuild the package. This is "by design" behavior. And to be honest, there is
-> no difference between (1) rebuilding the package every time and (2) overwriting
-> sstate cache so any other build can reuse it. Is there any concern around
-> uploading such freshly built artifact?
+and maybe more.
 
-The concern is that your patch does not overwrite the artifact, rather
-it deletes it first, and recreates it later. This creates a time
-window where a cache object exists, and then it doesn't, and then it
-exists again. This will break builds running in parallel in all sorts
-of interesting ways, as sstate is not designed for objects
-disappearing after they've been checked and confirmed to exist by
-bitbake.
+Cheers,
 
-For example, when we do need to test cache deletions (for instance in
-oe-selftest), we make super-sure that this is done on a private small
-test cache that isn't shared with anything, as otherwise there have
-been notoriously strange failures in random places.
-
-The other concern I expressed to Max: this auto-recovery sweeps the
-'flaky hardware' problem under the rug, instead of being loud and
-clear about it. If someone had a perfectly working sstate (and many
-people do, including the yocto upstream), and then it started throwing
-random fails, they're not going to notice it. If someone had very rare
-corruptions and then the rate increased, they're not going to notice
-that either. Except when they start to wonder why builds seem to take
-longer and longer and longer.
-
-> This is random thing, we are not in control of e.g. DRAM bit flip error, they
-> simply happen. To simulate the situation you can inject an error yourself by
-> e.g., overwriting the random byte of the zstd file before it is uploaded.
-
-Yes, I saw it. The key issue is this bit in sstate.bbclass before
-actually creating the sstate archive:
-
-        if sstate_pkg.exists():
-            touch(sstate_pkg)
-            return
-
-If sstate item exists, then it will not be replaced, even if it's been
-determined to be corrupted earlier.
-
-I don't know yet how to best handle this, but I would want to improve
-*reporting* of corrupt sstate before we can decide whether yocto can
-do something about it that doesn't make things worse than they are
-now.
-
-Then you can take the report and run a script that deletes the
-offending items. This all can be automated, and doesn't have to be
-executed manually.
-
-Alex
+Richard
 
