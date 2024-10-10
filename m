@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2DC8D0D785
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:41 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.53381.1728588984323271875
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 735FCD0D79B
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:42 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.53275.1728588954413364594
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:31 -0700
+ Thu, 10 Oct 2024 12:36:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hYDM+HfC;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=G3O04z+M;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019277eeca92-6091f1e4-4d7f-416b-873e-0ad60011e847-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=II7xmM1/;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Cg89SAcg;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019277eee2b4-7549c43c-e005-4abf-bf02-a50886bc8b01-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588991;
+	t=1728588997;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rnpNUZGUeJnN3oCP8yofNsD8VqRM6hODo1Du8CKiP1o=;
-	b=hYDM+HfCH6IjtFrqbTODjm0zk+NF7BZNfdA097nEAIxVGdyy8EEs6XNw1/DjGQAO
-	Vcmh2MRbGZUhoxq4DMvAd2ql8atx3nn8U1N5G1nwnR/kyzqFHlavXto7dDRHGdc4syt
-	eqojsokLY97zS452gzS0mOOGxUwtx55qXGs+a35U=
+	bh=ssVHAvyZxm5IJvRENWavbITBaqX/5kbH0rq0nKCIy88=;
+	b=II7xmM1/jl4h55u8vGcUVnfe6UlGpgzQT1KrTw05E0pya8u8tHwPLNBJiSAiQ3Vd
+	Q6uxK5L55GRYpQHEnkxbzxi+xKIVe3LqsM0wbgvwHhtSP6OC6XTAri1peo6k1ibUygo
+	HDPLAlbyE2/lIhm4MbTyoyRigtuyGpW2Pm4kvPr4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588991;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588997;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rnpNUZGUeJnN3oCP8yofNsD8VqRM6hODo1Du8CKiP1o=;
-	b=G3O04z+M3OBlwJ5neOWyQpqPbKxISR+pzOj3iHn7epIF2MYfusd3d47+kJDQxZdj
-	LysKRxrlWOAKPmX08CbhUduDbS/1TK+wvKVvOTZZ+8DuQ0T5czsi9Lmk+FZjQMP+4nR
-	6K8KUGNlkYZWpp95ittA4Jh8hbITc6dacEqXCn2Y=
-Content-Type: multipart/mixed; boundary="===============3841638141170078655=="
+	bh=ssVHAvyZxm5IJvRENWavbITBaqX/5kbH0rq0nKCIy88=;
+	b=Cg89SAcgUMGtdLny401MvhkrIGgfS2gJdjm0QtTsgcX2a729FbJb6Exc9gHJXBsN
+	2pLMphKErq0rEdDLk/RpxbQgM+La/CHfxIeVeqF66YCZJBVDqWc+ZsZd97BM7c7ntvj
+	WODJLCfIy4hnzxVKsQ1uJlZ7f7fbCVsblBpft7Cw=
+Content-Type: multipart/mixed; boundary="===============0299640501314864261=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Changhyeok Bae <changhyeok.bae@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] ethtool: upgrading to 6.11 SUCCEEDED
-Message-ID: <0101019277eeca92-6091f1e4-4d7f-416b-873e-0ad60011e847-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:36:31 +0000
+Subject: [AUH] harfbuzz: upgrading to 10.0.1 SUCCEEDED
+Message-ID: <0101019277eee2b4-7549c43c-e005-4abf-bf02-a50886bc8b01-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:36:37 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.193
+X-SES-Outgoing: 2024.10.10-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205596
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205613
 
---===============3841638141170078655==
+--===============0299640501314864261==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *ethtool* to *6.11* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *harfbuzz* to *10.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-ethtool-upgrade-6.10-6.11.patch
+    - apply the patch: git am 0001-harfbuzz-upgrade-9.0.0-10.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,530 +72,138 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From a43fe5bcddd2df17590067bdbb9bb80b48ed0ef3 Mon Sep 17 00:00:00 2001
+From 704634fc1fa161241597e01611abb42306ab6a80 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 03:03:45 +0000
-Subject: [PATCH] ethtool: upgrade 6.10 -> 6.11
+Date: Thu, 10 Oct 2024 15:01:47 +0000
+Subject: [PATCH] harfbuzz: upgrade 9.0.0 -> 10.0.1
 
 ---
- .../ethtool/ethtool/avoid_parallel_tests.patch              | 6 +++---
- .../ethtool/{ethtool_6.10.bb => ethtool_6.11.bb}            | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/ethtool/{ethtool_6.10.bb => ethtool_6.11.bb} (93%)
+ .../harfbuzz/{harfbuzz_9.0.0.bb => harfbuzz_10.0.1.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_9.0.0.bb => harfbuzz_10.0.1.bb} (95%)
 
-diff --git a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-index 0fe482545a..c66fad812d 100644
---- a/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-+++ b/meta/recipes-extended/ethtool/ethtool/avoid_parallel_tests.patch
-@@ -1,4 +1,4 @@
--From 74902bef8123b596437587bb48ad9b720cb06f64 Mon Sep 17 00:00:00 2001
-+From dd1fa957dd9381976f72fbd020661f07e6e7dd28 Mon Sep 17 00:00:00 2001
- From: Tudor Florea <tudor.florea@enea.com>
- Date: Wed, 28 May 2014 18:59:54 +0200
- Subject: [PATCH] ethtool: use serial-tests config needed by ptest.
-@@ -14,10 +14,10 @@ Upstream-Status: Inappropriate
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb
+index 01ea6ca86d..3b211251af 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_9.0.0.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
- diff --git a/configure.ac b/configure.ac
--index f6fe260..65a0566 100644
-+index f9f169e..c722480 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.10, netdev@vger.kernel.org)
-+@@ -3,7 +3,7 @@ AC_INIT(ethtool, 6.11, netdev@vger.kernel.org)
-  AC_PREREQ(2.52)
-  AC_CONFIG_MACRO_DIR([m4])
-  AC_CONFIG_SRCDIR([ethtool.c])
-diff --git a/meta/recipes-extended/ethtool/ethtool_6.10.bb b/meta/recipes-extended/ethtool/ethtool_6.11.bb
-similarity index 93%
-rename from meta/recipes-extended/ethtool/ethtool_6.10.bb
-rename to meta/recipes-extended/ethtool/ethtool_6.11.bb
-index 8a7b2607f3..c4808c5856 100644
---- a/meta/recipes-extended/ethtool/ethtool_6.10.bb
-+++ b/meta/recipes-extended/ethtool/ethtool_6.11.bb
-@@ -11,7 +11,7 @@ SRC_URI = "${KERNELORG_MIRROR}/software/network/ethtool/ethtool-${PV}.tar.gz \
-            file://avoid_parallel_tests.patch \
-            "
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "a41b272ceeb920c57263ec851604542d9ec85ee3030506d94662067c7b6ab89e"
++SRC_URI[sha256sum] = "b2cb13bd351904cb9038f907dc0dee0ae07127061242fe3556b2795c4e9748fc"
  
--SRC_URI[sha256sum] = "2b266c45c0fe00e5f5b462ee4e795879fa4247003bf73c5a07a2279d801be058"
-+SRC_URI[sha256sum] = "a8bee475d991939cad182b7dbcf3a1f139aeed8cb0add73d72084cd71d43282b"
- 
- UPSTREAM_CHECK_URI = "https://www.kernel.org/pub/software/network/ethtool/"
+ DEPENDS += "glib-2.0-native"
  
 -- 
 2.44.1
 
 
---===============3841638141170078655==
+--===============0299640501314864261==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-ethtool-upgrade-6.10-6.11.patch"
+ filename="0001-harfbuzz-upgrade-9.0.0-10.0.1.patch"
 
-RnJvbSBhNDNmZTViY2RkZDJkZjE3NTkwMDY3YmRiYjliYjgwYjQ4ZWQwZWYzIE1vbiBTZXAgMTcg
+RnJvbSA3MDQ2MzRmYzFmYTE2MTI0MTU5N2UwMTYxMWFiYjQyMzA2YWI2YTgwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDM6MDM6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-dGh0b29sOiB1cGdyYWRlIDYuMTAgLT4gNi4xMQoKLS0tCiAuLi4vZXRodG9vbC9ldGh0b29sL2F2
-b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoICAgICAgICAgICAgICB8IDYgKysrLS0tCiAuLi4vZXRo
-dG9vbC97ZXRodG9vbF82LjEwLmJiID0+IGV0aHRvb2xfNi4xMS5iYn0gICAgICAgICAgICB8IDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA0IGRlbGV0aW9ucygtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL3tldGh0b29sXzYuMTAuYmIgPT4gZXRo
-dG9vbF82LjExLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9l
-dGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-ZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sL2F2b2lkX3BhcmFsbGVsX3Rlc3RzLnBhdGNoCmluZGV4
-IDBmZTQ4MjU0NWEuLmM2NmZhZDgxMmQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9ldGh0b29sL2V0aHRvb2wvYXZvaWRfcGFyYWxsZWxfdGVzdHMucGF0Y2gKKysrIGIvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbC9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzQ5MDJiZWY4MTIzYjU5NjQzNzU4N2JiNDhhZDliNzIw
-Y2IwNmY2NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZGQxZmE5NTdkZDkzODE5NzZm
-NzJmYmQwMjA2NjFmMDdlNmU3ZGQyOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFR1
-ZG9yIEZsb3JlYSA8dHVkb3IuZmxvcmVhQGVuZWEuY29tPgogRGF0ZTogV2VkLCAyOCBNYXkgMjAx
-NCAxODo1OTo1NCArMDIwMAogU3ViamVjdDogW1BBVENIXSBldGh0b29sOiB1c2Ugc2VyaWFsLXRl
-c3RzIGNvbmZpZyBuZWVkZWQgYnkgcHRlc3QuCkBAIC0xNCwxMCArMTQsMTAgQEAgVXBzdHJlYW0t
-U3RhdHVzOiBJbmFwcHJvcHJpYXRlCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMK
-LWluZGV4IGY2ZmUyNjAuLjY1YTA1NjYgMTAwNjQ0CitpbmRleCBmOWYxNjllLi5jNzIyNDgwIDEw
-MDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiArKysgYi9jb25maWd1cmUuYWMKLUBAIC0zLDcgKzMs
-NyBAQCBBQ19JTklUKGV0aHRvb2wsIDYuMTAsIG5ldGRldkB2Z2VyLmtlcm5lbC5vcmcpCitAQCAt
-Myw3ICszLDcgQEAgQUNfSU5JVChldGh0b29sLCA2LjExLCBuZXRkZXZAdmdlci5rZXJuZWwub3Jn
-KQogIEFDX1BSRVJFUSgyLjUyKQogIEFDX0NPTkZJR19NQUNST19ESVIoW200XSkKICBBQ19DT05G
-SUdfU1JDRElSKFtldGh0b29sLmNdKQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L2V0aHRvb2wvZXRodG9vbF82LjEwLmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2V0aHRvb2wv
-ZXRodG9vbF82LjExLmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRvb2xfNi4xMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2V0aHRvb2wvZXRodG9vbF82LjExLmJiCmluZGV4IDhhN2IyNjA3ZjMuLmM0
-ODA4YzU4NTYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9ldGh0b29sL2V0aHRv
-b2xfNi4xMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZXRodG9vbC9ldGh0b29sXzYu
-MTEuYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSSA9ICIke0tFUk5FTE9SR19NSVJST1J9L3Nv
-ZnR3YXJlL25ldHdvcmsvZXRodG9vbC9ldGh0b29sLSR7UFZ9LnRhci5neiBcCiAgICAgICAgICAg
-IGZpbGU6Ly9hdm9pZF9wYXJhbGxlbF90ZXN0cy5wYXRjaCBcCiAgICAgICAgICAgICIKIAotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjJiMjY2YzQ1YzBmZTAwZTVmNWI0NjJlZTRlNzk1ODc5ZmE0MjQ3
-MDAzYmY3M2M1YTA3YTIyNzlkODAxYmUwNTgiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYThiZWU0
-NzVkOTkxOTM5Y2FkMTgyYjdkYmNmM2ExZjEzOWFlZWQ4Y2IwYWRkNzNkNzIwODRjZDcxZDQzMjgy
-YiIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHBzOi8vd3d3Lmtlcm5lbC5vcmcvcHViL3Nv
-ZnR3YXJlL25ldHdvcmsvZXRodG9vbC8iCiAKLS0gCjIuNDQuMQoK
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTU6MDE6NDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
+YXJmYnV6ejogdXBncmFkZSA5LjAuMCAtPiAxMC4wLjEKCi0tLQogLi4uL2hhcmZidXp6L3toYXJm
+YnV6el85LjAuMC5iYiA9PiBoYXJmYnV6el8xMC4wLjEuYmJ9ICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L3toYXJmYnV6el85LjAuMC5iYiA9PiBoYXJmYnV6el8x
+MC4wLjEuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZi
+dXp6L2hhcmZidXp6XzkuMC4wLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6L2hh
+cmZidXp6XzEwLjAuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfOS4wLjAuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei9oYXJmYnV6el8xMC4wLjEuYmIKaW5kZXggMDFlYTZj
+YTg2ZC4uM2IyMTEyNTFhZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZi
+dXp6L2hhcmZidXp6XzkuMC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6
+ei9oYXJmYnV6el8xMC4wLjEuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAi
+ZmlsZTovL0NPUFlJTkc7bWQ1PWI5ODQyOWI4ZThlM2MyYTY3Y2ZlZjAxZTk5ZTQ4OTNkIFwKICAg
+ICAgICAgICAgICAgICAgICAgIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3du
+bG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE0
+MWIyNzJjZWViOTIwYzU3MjYzZWM4NTE2MDQ1NDJkOWVjODVlZTMwMzA1MDZkOTQ2NjIwNjdjN2I2
+YWI4OWUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjJjYjEzYmQzNTE5MDRjYjkwMzhmOTA3ZGMw
+ZGVlMGFlMDcxMjcwNjEyNDJmZTM1NTZiMjc5NWM0ZTk3NDhmYyIKIAogREVQRU5EUyArPSAiZ2xp
+Yi0yLjAtbmF0aXZlIgogCi0tIAoyLjQ0LjEKCg==
 
---===============3841638141170078655==
+--===============0299640501314864261==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 917 .bb files complete (0 cached, 917 parsed). 1872 targets, 51 skipped, 0 masked, 0 errors.
-Removing 69 recipes from the core2-64 sysroot...done.
-Removing 74 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60900.0", added "/usr/lib/libharfbuzz-icu.so.0.61001.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60900.0", added "/usr/lib/libharfbuzz-subset.so.0.61001.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.60900.0 /usr/lib/libharfbuzz.so.0.60900.0 /usr/lib/libharfbuzz-gobject.so.0.60900.0", added "/usr/lib/libharfbuzz.so.0.61001.0 /usr/lib/libharfbuzz-cairo.so.0.61001.0 /usr/lib/libharfbuzz-gobject.so.0.61001.0"
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60900.0 to libharfbuzz-cairo.so.0.61001.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60900.0 to libharfbuzz-gobject.so.0.61001.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60900.0 to libharfbuzz-icu.so.0.61001.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60900.0 to libharfbuzz.so.0.61001.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60900.0 to libharfbuzz-subset.so.0.61001.0
+  /usr/lib/libharfbuzz-cairo.so.0.60900.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61001.0
+  /usr/lib/libharfbuzz-gobject.so.0.60900.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61001.0
+  /usr/lib/libharfbuzz-icu.so.0.60900.0 moved to /usr/lib/libharfbuzz-icu.so.0.61001.0
+  /usr/lib/libharfbuzz.so.0.60900.0 moved to /usr/lib/libharfbuzz.so.0.61001.0
+  /usr/lib/libharfbuzz-subset.so.0.60900.0 moved to /usr/lib/libharfbuzz-subset.so.0.61001.0
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:7215d31d0ba42c803a84e0c9fc6383cd8fd20ea3"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 302 Local 291 Mirrors 0 Missed 11 Current 191 (96% match, 97% complete)
-Removing 3 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 196 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 197 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 198 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 200 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 201 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 202 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 204 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 205 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 213 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 216 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 218 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 219 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 220 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 221 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 222 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 223 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_package_write_deb_setscene)
-NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-5.2.32-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-5.2.32-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe bash-5.2.32-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ethtool-6.11-r0: task do_populate_lic_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe bash-5.2.32-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe make-4.4.1-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 224 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 225 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_package_write_rpm_setscene)
-NOTE: recipe make-4.4.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-5.2.32-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe bash-5.2.32-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe bash-5.2.32-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 293 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 294 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 304 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/coreutils/coreutils_9.5.bb:do_packagedata_setscene)
-NOTE: recipe bash-5.2.32-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 305 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 306 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/make/make_4.4.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 307 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 308 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 310 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 312 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_packagedata_setscene)
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.32-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running task 605 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_recipe_qa)
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 314 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
-NOTE: Running setscene task 315 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 316 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe libmnl-1.0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_recipe_qa: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 319 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe make-4.4.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 324 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 326 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 330 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_packagedata_setscene)
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libmnl-1.0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 338 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/bash/5.2.32/temp/log.do_packagedata_setscene.3853120
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 339 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_package_setscene)
-NOTE: recipe coreutils-9.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ethtool-6.11-r0: task do_recipe_qa: Succeeded
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 353 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 357 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 359 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 361 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_packagedata_setscene)
-NOTE: Running task 705 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_fetch)
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 367 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 371 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 372 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 373 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 375 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_packagedata_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libcap-2.70-r0: task do_packagedata_setscene: Started
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe ethtool-6.11-r0: task do_fetch: Started
-NOTE: recipe ethtool-6.11-r0: task do_fetch: Succeeded
-NOTE: Running task 741 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_unpack)
-NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.70-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 386 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
-NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_unpack: Started
-NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 396 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe ethtool-6.11-r0: task do_unpack: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 795 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_patch)
-NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 409 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_recipe_qa_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe ethtool-6.11-r0: task do_patch: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.2.32-r0: task do_package_setscene: Started
-NOTE: recipe ethtool-6.11-r0: task do_patch: Succeeded
-NOTE: Running task 821 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_deploy_source_date_epoch)
-NOTE: recipe ethtool-6.11-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 414 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe ethtool-6.11-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe perl-5.40.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 425 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 429 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: recipe bash-5.2.32-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 434 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 437 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_recipe_qa_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-5.2.32-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe bash-5.2.32-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 447 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 448 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 451 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 454 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 456 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 458 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 460 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 462 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 463 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 465 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 466 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 467 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 468 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 470 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 474 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 475 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 477 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 482 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 484 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 485 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 489 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 490 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 492 of 493 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1177 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1291 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bash/bash_5.2.32.bb:do_packagedata)
-NOTE: Running task 1340 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_collect_spdx_deps)
-NOTE: recipe ethtool-6.11-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe bash-5.2.32-r0: task do_packagedata: Started
-NOTE: recipe ethtool-6.11-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ethtool-6.11-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1370 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_configure)
-NOTE: recipe ethtool-6.11-r0: task do_configure: Started
-NOTE: recipe bash-5.2.32-r0: task do_packagedata: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_configure: Succeeded
-NOTE: Running task 1378 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_configure_ptest_base)
-NOTE: recipe ethtool-6.11-r0: task do_configure_ptest_base: Started
-NOTE: recipe ethtool-6.11-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1379 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_compile)
-NOTE: recipe ethtool-6.11-r0: task do_compile: Started
-NOTE: recipe ethtool-6.11-r0: task do_compile: Succeeded
-NOTE: Running task 1380 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_compile_ptest_base)
-NOTE: recipe ethtool-6.11-r0: task do_compile_ptest_base: Started
-NOTE: recipe ethtool-6.11-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1381 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_install)
-NOTE: recipe ethtool-6.11-r0: task do_install: Started
-NOTE: recipe ethtool-6.11-r0: task do_install: Succeeded
-NOTE: Running task 1382 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_install_ptest_base)
-NOTE: recipe ethtool-6.11-r0: task do_install_ptest_base: Started
-NOTE: recipe ethtool-6.11-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1383 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_package)
-NOTE: Running task 1384 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_populate_sysroot)
-NOTE: recipe ethtool-6.11-r0: task do_populate_sysroot: Started
-NOTE: recipe ethtool-6.11-r0: task do_package: Started
-NOTE: recipe ethtool-6.11-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_package: Succeeded
-NOTE: Running task 1385 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_packagedata)
-NOTE: recipe ethtool-6.11-r0: task do_packagedata: Started
-NOTE: recipe ethtool-6.11-r0: task do_packagedata: Succeeded
-NOTE: Running task 1386 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_create_spdx)
-NOTE: Running task 1387 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_package_write_ipk)
-NOTE: Running task 1388 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_package_write_deb)
-NOTE: Running task 1389 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_package_write_rpm)
-NOTE: Running task 1390 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_package_qa)
-NOTE: recipe ethtool-6.11-r0: task do_create_spdx: Started
-NOTE: recipe ethtool-6.11-r0: task do_package_write_ipk: Started
-NOTE: recipe ethtool-6.11-r0: task do_package_write_deb: Started
-NOTE: recipe ethtool-6.11-r0: task do_package_write_rpm: Started
-NOTE: recipe ethtool-6.11-r0: task do_package_qa: Started
-NOTE: recipe ethtool-6.11-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1391 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_create_package_spdx)
-NOTE: recipe ethtool-6.11-r0: task do_create_package_spdx: Started
-NOTE: recipe ethtool-6.11-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_package_qa: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_package_write_deb: Succeeded
-NOTE: recipe ethtool-6.11-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1392 of 1392 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/ethtool/ethtool_6.11.bb:do_build)
-NOTE: Tasks Summary: Attempted 1392 tasks of which 1368 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-
-Summary: There were 49 ERROR messages, returning a non-zero exit code.
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-src went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-dbg went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-ptest went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-staticdev went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-dev went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-doc went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-af went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-bg went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-ca went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-cs went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-da went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-de went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-el went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-en+boldquot went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-en+quot went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-eo went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-es went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-et went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-fi went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-fr went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-ga went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-gl went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-hr went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-hu went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-id went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-it went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-ja went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-ko went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-lt went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-nb went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-nl went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-pl went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-pt went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-pt-br went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-ro went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-ru went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-sk went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-sl went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-sr went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-sv went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-tr went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-uk went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-vi went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-zh-cn went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-locale-zh-tw went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-loadable went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: QA Issue: Package version for package bash-bashbug went backwards which would break package feeds (from 0:5.2.37-r0 to 0:5.2.32-r0) [version-going-backwards]
-ERROR: bash-5.2.32-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============3841638141170078655==
+--===============0299640501314864261==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PKGSIZE changed from 24728 to 25203 (+2%)
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-bash-completion: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PKGSIZE changed from 4471576 to 4515016 (+1%)
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-dbg: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-dev: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-dev: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PKGSIZE changed from 48875 to 50880 (+4%)
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-doc: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-locale: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-locale: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-ptest: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-src: PKGSIZE changed from 1438921 to 1459429 (+1%)
-packages/core2-64-poky-linux/ethtool/ethtool-src: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-src: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool-staticdev: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool-staticdev: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool/ethtool: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool/ethtool: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool: PV changed from "6.10" to "6.11"
-packages/core2-64-poky-linux/ethtool: PKGV changed from 6.10 [default] to 6.11 [default]
-packages/core2-64-poky-linux/ethtool: SRC_URI changed from "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.10.tar.gz file://run-ptest file://avoid_parallel_tests.patch" to "https://cdn.kernel.org/pub/software/network/ethtool/ethtool-6.11.tar.gz file://run-ptest file://avoid_parallel_tests.patch"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 77625336 to 77823224 (+0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz.so.0.60900.0 /usr/lib/.debug/libharfbuzz-subset.so.0.60900.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.60900.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.60900.0 /usr/lib/.debug/libharfbuzz-icu.so.0.60900.0", added "/usr/lib/.debug/libharfbuzz-subset.so.0.61001.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61001.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61001.0 /usr/lib/.debug/libharfbuzz.so.0.61001.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61001.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1719345 to 1731053 (+1%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGSIZE changed from 304 to 306 (+1%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.60900.0", added "/usr/lib/libharfbuzz-icu.so.0.61001.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4895646 to 4935038 (+1%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.60900.0", added "/usr/lib/libharfbuzz-subset.so.0.61001.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1646462 to 1651658 (+0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PV changed from "9.0.0" to "10.0.1"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.60900.0 /usr/lib/libharfbuzz.so.0.60900.0 /usr/lib/libharfbuzz-cairo.so.0.60900.0", added "/usr/lib/libharfbuzz-gobject.so.0.61001.0 /usr/lib/libharfbuzz-cairo.so.0.61001.0 /usr/lib/libharfbuzz.so.0.61001.0"
+packages/core2-64-poky-linux/harfbuzz: PKGV changed from 9.0.0 [default] to 10.0.1 [default]
+packages/core2-64-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/9.0.0/harfbuzz-9.0.0.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/10.0.1/harfbuzz-10.0.1.tar.xz"
+packages/core2-64-poky-linux/harfbuzz: PV changed from "9.0.0" to "10.0.1"
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.60900.0 to libharfbuzz-cairo.so.0.61001.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.60900.0 to libharfbuzz-gobject.so.0.61001.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.60900.0 to libharfbuzz-icu.so.0.61001.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.60900.0 to libharfbuzz.so.0.61001.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.60900.0 to libharfbuzz-subset.so.0.61001.0
+  /usr/lib/libharfbuzz-cairo.so.0.60900.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61001.0
+  /usr/lib/libharfbuzz-gobject.so.0.60900.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61001.0
+  /usr/lib/libharfbuzz-icu.so.0.60900.0 moved to /usr/lib/libharfbuzz-icu.so.0.61001.0
+  /usr/lib/libharfbuzz.so.0.60900.0 moved to /usr/lib/libharfbuzz.so.0.61001.0
+  /usr/lib/libharfbuzz-subset.so.0.60900.0 moved to /usr/lib/libharfbuzz-subset.so.0.61001.0
 
---===============3841638141170078655==--
+--===============0299640501314864261==--
 
