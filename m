@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 214BDCFD357
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51404CFD35C
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:18 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.53266.1728588946703167204
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.53270.1728588950198805331
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:07 -0700
+ Thu, 10 Oct 2024 12:36:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=a3d6rwfj;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=HdExs2GC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019277ee6c26-90379814-9b4d-4849-831b-7cca88e7d9be-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=D2zUk+9w;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=upCWFQVT;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019277ee6993-103c69ac-db2a-495b-b6be-631c1597b750-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588967;
+	t=1728588966;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=P11Ocn3H5BnecsFOzDycKJrdFSAPFgxTH2sFH8dLTCQ=;
-	b=a3d6rwfjEUpY/Vp+iPJN3f0DpYzdjuTco/YZrSndEwIYg+zJ72UwEI61cVyHJP3v
-	DrvRzj6CqgsbCeiRuu0aiCmY36L3WTtD9LSQZH5tcZXC2wOQr6DBrac7ARtrJrLkVT/
-	UbhS2VRuy/QqYOFzxhOgcRiguL3WO7wVsOcgtmgc=
+	bh=UELM2+s9Dne35AbA2cSd6F1B6twWzrlk2KrJp9kodzI=;
+	b=D2zUk+9wK8WwzpOt7mKqQe+vXl95tlkwh21o4Ul6hhsUb73usfTUDkQiihZ5xZPK
+	nosGXpvAkDjDC1/K/Ao0v5FwVpPCJ6CWhHPBTa22WtdYfv0+06I+zpzmmo6hS1A03UH
+	iabBkvUKHcGASz/KeAEozyIX6EZjq+qt/O/Uarv8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588967;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588966;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=P11Ocn3H5BnecsFOzDycKJrdFSAPFgxTH2sFH8dLTCQ=;
-	b=HdExs2GCIcPkODqIX1/L8phFaVpaT7OBW6hqvrZyzOxg3AGHtbvm1HXQae7gt6pH
-	Oz1HlRjE7oJrZR1QjumClWXqDCbLjic1Qybeu6T+Y1r2kp1P4nf+HJsAdrAK+g5t6bK
-	zwb0ZZCbSTfIodQpmiDl6jN2oxWb13X8IgfFq1H0=
-Content-Type: multipart/mixed; boundary="===============4846999010731249883=="
+	bh=UELM2+s9Dne35AbA2cSd6F1B6twWzrlk2KrJp9kodzI=;
+	b=upCWFQVTaPzMZfw4W2sHki+ulV7BqqoQRRg1Im3qM3nwYnc7BM26EOfJmWS0Saq8
+	b1UfeDYpsIq2+1xI39jCosOUlfo77WLCy2+hvuUjsXdaICsS9WbDx8g8Z70uT+0Tf9b
+	QyOaUJ5EtawmkMYU3zeolbsbk+3RLq08H72KMWiM=
+Content-Type: multipart/mixed; boundary="===============3670904968298813478=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Leon Anavi <leon.anavi@konsulko.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-xmltodict: upgrading to 0.14.1 SUCCEEDED
-Message-ID: <0101019277ee6c26-90379814-9b4d-4849-831b-7cca88e7d9be-000000@us-west-2.amazonses.com>
+Subject: [AUH] vulkan-headers: upgrading to 1.3.296.0 SUCCEEDED
+Message-ID: <0101019277ee6993-103c69ac-db2a-495b-b6be-631c1597b750-000000@us-west-2.amazonses.com>
 Date: Thu, 10 Oct 2024 19:36:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.31
+X-SES-Outgoing: 2024.10.10-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205515
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205511
 
---===============4846999010731249883==
+--===============3670904968298813478==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-xmltodict* to *0.14.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-headers* to *1.3.296.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-xmltodict-upgrade-0.13.0-0.14.1.patch
+    - apply the patch: git am 0001-vulkan-headers-upgrade-1.3.290.0-1.3.296.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,108 +72,101 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0c842e397bc0a5e444f3275918fef6b9a436baf7 Mon Sep 17 00:00:00 2001
+From afc1eb1ae833909152f569ca430858a12a639798 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 13:55:35 +0000
-Subject: [PATCH] python3-xmltodict: upgrade 0.13.0 -> 0.14.1
+Date: Thu, 10 Oct 2024 05:06:21 +0000
+Subject: [PATCH] vulkan-headers: upgrade 1.3.290.0 -> 1.3.296.0
 
 ---
- ...{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.1.bb} | 2 +-
+ ...{vulkan-headers_1.3.290.0.bb => vulkan-headers_1.3.296.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.1.bb} (86%)
+ rename meta/recipes-graphics/vulkan/{vulkan-headers_1.3.290.0.bb => vulkan-headers_1.3.296.0.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
-rename to meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
-index e8e275647c..2732715243 100644
---- a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
-+++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/martinblech/xmltodict"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb
+index 9f17ddc525..68f8f5b0a1 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-headers_1.3.296.0.bb
+@@ -11,7 +11,7 @@ LICENSE = "Apache-2.0 & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=1bc355d8c4196f774c8b87ed1a8dd625"
+ SRC_URI = "git://github.com/KhronosGroup/Vulkan-Headers.git;branch=main;protocol=https"
  
--SRC_URI[sha256sum] = "341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56"
-+SRC_URI[sha256sum] = "338c8431e4fc554517651972d62f06958718f6262b04316917008e8fd677a6b0"
+-SRCREV = "b379292b2ab6df5771ba9870d53cf8b2c9295daf"
++SRCREV = "29f979ee5aa58b7b005f805ea8df7a855c39ff37"
  
- PYPI_PACKAGE = "xmltodict"
+ S = "${WORKDIR}/git"
  
 -- 
 2.44.1
 
 
---===============4846999010731249883==
+--===============3670904968298813478==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: FILELIST: added "/usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__init__.py /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-311.pyc"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGSIZE changed from 94219 to 168964 (+79%)
-Changes to packages/core2-64-poky-linux/python3-xmltodict (sysroot):
-  /usr/lib/python3.12/site-packages/xmltodict-0.13.0.dist-info moved to /usr/lib/python3.12/site-packages/xmltodict-0.14.1.dist-info
+Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
+  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
 
---===============4846999010731249883==
+--===============3670904968298813478==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-xmltodict: SRC_URI changed from "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-0.13.0.tar.gz;downloadfilename=xmltodict-0.13.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-0.14.1.tar.gz;downloadfilename=xmltodict-0.14.1.tar.gz file://run-ptest"
-packages/core2-64-poky-linux/python3-xmltodict: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dev: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dev: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-doc: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-doc: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-locale: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-locale: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGSIZE changed from 94219 to 168964 (+79%)
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: FILELIST: added "/usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__init__.py /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-312.pyc"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-src: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-src: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PV changed from "0.13.0" to "0.14.1"
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PKGSIZE changed from 49938 to 49042 (-2%)
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
-packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PV changed from "0.13.0" to "0.14.1"
-Changes to packages/core2-64-poky-linux/python3-xmltodict (sysroot):
-  /usr/lib/python3.12/site-packages/xmltodict-0.13.0.dist-info moved to /usr/lib/python3.12/site-packages/xmltodict-0.14.1.dist-info
+packages/core2-64-poky-linux/vulkan-headers: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+Changes to packages/core2-64-poky-linux/vulkan-headers (sysroot):
+  /usr/share/vulkan/registry/vk.xml changed permissions from rwxr-xr-x to rw-r--r--
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dbg: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGSIZE changed from 14997684 to 15470664 (+3%)
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-dev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-doc: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-locale: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-src: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers-staticdev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGSIZE changed from 12298344 to 12762298 (+4%)
+packages/core2-64-poky-linux/vulkan-headers/vulkan-headers: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
 
---===============4846999010731249883==
+--===============3670904968298813478==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-xmltodict-upgrade-0.13.0-0.14.1.patch"
+ filename="0001-vulkan-headers-upgrade-1.3.290.0-1.3.296.0.patch"
 
-RnJvbSAwYzg0MmUzOTdiYzBhNWU0NDRmMzI3NTkxOGZlZjZiOWE0MzZiYWY3IE1vbiBTZXAgMTcg
+RnJvbSBhZmMxZWIxYWU4MzM5MDkxNTJmNTY5Y2E0MzA4NThhMTJhNjM5Nzk4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTM6NTU6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXhtbHRvZGljdDogdXBncmFkZSAwLjEzLjAgLT4gMC4xNC4xCgotLS0KIC4uLntweXRo
-b24zLXhtbHRvZGljdF8wLjEzLjAuYmIgPT4gcHl0aG9uMy14bWx0b2RpY3RfMC4xNC4xLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMteG1sdG9kaWN0XzAuMTMu
-MC5iYiA9PiBweXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjEzLjAuYmIg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzAuMTQuMS5i
-YgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-cHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzAuMTMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmIKaW5kZXggZThlMjc1
-NjQ3Yy4uMjczMjcxNTI0MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXhtbHRvZGljdF8wLjEzLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQ
-QUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9tYXJ0aW5ibGVjaC94bWx0b2RpY3QiCiBMSUNFTlNF
-ID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTAxNDQxZDUw
-ZGM3NDQ3NmRiNThhNDFhYzEwY2I5ZmEyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQxNTk1
-YTQ4OGUzZTAxYTg1YTlkODkxMWQ4OTEyZmQ5MjJlZGU1ZmVjYzRkY2U0MzdlYjRiNmM4ZDAzN2U1
-NiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzMzhjODQzMWU0ZmM1NTQ1MTc2NTE5NzJkNjJmMDY5
-NTg3MThmNjI2MmIwNDMxNjkxNzAwOGU4ZmQ2NzdhNmIwIgogCiBQWVBJX1BBQ0tBR0UgPSAieG1s
-dG9kaWN0IgogCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDU6MDY6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4taGVhZGVyczogdXBncmFkZSAxLjMuMjkwLjAgLT4gMS4zLjI5Ni4wCgotLS0KIC4uLnt2
+dWxrYW4taGVhZGVyc18xLjMuMjkwLjAuYmIgPT4gdnVsa2FuLWhlYWRlcnNfMS4zLjI5Ni4wLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi1oZWFkZXJzXzEuMy4y
+OTAuMC5iYiA9PiB2dWxrYW4taGVhZGVyc18xLjMuMjk2LjAuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjkwLjAu
+YmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yOTYu
+MC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhp
+Y3MvdnVsa2FuL3Z1bGthbi1oZWFkZXJzXzEuMy4yOTAuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjk2LjAuYmIKaW5kZXggOWYx
+N2RkYzUyNS4uNjhmOGY1YjBhMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjkwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3Z1bGthbi92dWxrYW4taGVhZGVyc18xLjMuMjk2LjAuYmIKQEAgLTExLDcgKzExLDcgQEAg
+TElDRU5TRSA9ICJBcGFjaGUtMi4wICYgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
+TElDRU5TRS5tZDttZDU9MWJjMzU1ZDhjNDE5NmY3NzRjOGI4N2VkMWE4ZGQ2MjUiCiBTUkNfVVJJ
+ID0gImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1IZWFkZXJzLmdpdDticmFu
+Y2g9bWFpbjtwcm90b2NvbD1odHRwcyIKIAotU1JDUkVWID0gImIzNzkyOTJiMmFiNmRmNTc3MWJh
+OTg3MGQ1M2NmOGIyYzkyOTVkYWYiCitTUkNSRVYgPSAiMjlmOTc5ZWU1YWE1OGI3YjAwNWY4MDVl
+YThkZjdhODU1YzM5ZmYzNyIKIAogUyA9ICIke1dPUktESVJ9L2dpdCIKIAotLSAKMi40NC4xCgo=
 
---===============4846999010731249883==--
+--===============3670904968298813478==--
 
