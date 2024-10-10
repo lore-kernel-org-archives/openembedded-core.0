@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD465CFD369
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7896CFD368
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:18 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.53372.1728588960823120631
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.53273.1728588951189543426
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Oct 2024 12:36:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Sx30T9r9;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=UMWRAbYA;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019277ee93d8-27927df7-3d3c-4127-b46a-c626aae20f37-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=czAf7GL6;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Ra25zW+a;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019277ee93b9-5b75e594-bc43-4cad-9874-70c1f41d5e2f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1728588977;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zel3aLQkL+5gAnVujGN9I5ey7pD2qH/6ukr4Gf2B5F8=;
-	b=Sx30T9r9p7c0p86shtWA25qU+mH/uaPyP5qlebc91i/Dh3IY2yZX8/BQNmnTGEJJ
-	XVOeDjv0hxltEUmDUkdE94I3HS/+2mCP1RkOl+LBW7K8iBfLsV9S/JQzitBhpuxXNrY
-	kwNvk4kymMoczwpJn1nd46nqyN8w0r2ow/DVcwJI=
+	bh=P9z+q1u3PHTcoEW9EFtn5RQ0GhxK/SEyG76sjWe30Do=;
+	b=czAf7GL6gpU0fHiTTO3eH4DPQ2/Fm352fN1lArBM3N+JhT1WgTM7XQ/uIlnd0j6F
+	zkLelZY78BlmypDyF646Q4sXq0A+H684qsa8dDdv4afrEV9vGetRLyVRDZ8EME6J+6F
+	sSV2QR0/s9+dAOvueHh++/bDyZLS17XTIcKTCLXw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588977;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zel3aLQkL+5gAnVujGN9I5ey7pD2qH/6ukr4Gf2B5F8=;
-	b=UMWRAbYAogCLE/HHe6ikZPpdXHusgT47/vVQpc8I8ri2EBS9WW0gxLN2FXWOGK+V
-	xizK00LBRRlXy9CO8WpKqbx7RshYuU1M38lVDVOEzi+G8GBZw6D36ThNnaCFrC2pXs5
-	/IekYAveqqaSj2cjN/vEzOkz22xUe/eVpoTUfu3g=
-Content-Type: multipart/mixed; boundary="===============4449461379367748633=="
+	bh=P9z+q1u3PHTcoEW9EFtn5RQ0GhxK/SEyG76sjWe30Do=;
+	b=Ra25zW+aL2R6dzbucpcR1BTd77rfTCPEGvmaK77cr7mZb5So8/cwAt8nZ1FLwAkd
+	5mldtDVjwvPCptPk2vAzU+dAR6TtmtavsxtfWluMUn1eFDNvaR3oH+3wALQokLWnjse
+	UbP2Lq6leoqRBCsbUZVdVgoLUzR8/viQ5xXL8l3k=
+Content-Type: multipart/mixed; boundary="===============4426826822376954778=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-modules: upgrading to 2.13.15 FAILED
-Message-ID: <0101019277ee93d8-27927df7-3d3c-4127-b46a-c626aae20f37-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-jsonschema-specifications: upgrading to 2024.10.1
+ SUCCEEDED
+Message-ID: <0101019277ee93b9-5b75e594-bc43-4cad-9874-70c1f41d5e2f-000000@us-west-2.amazonses.com>
 Date: Thu, 10 Oct 2024 19:36:17 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.191
+X-SES-Outgoing: 2024.10.10-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205546
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205545
 
---===============4449461379367748633==
+--===============4426826822376954778==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,499 +52,127 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *lttng-modules* to *2.13.15* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-jsonschema-specifications* to *2024.10.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-jsonschema-specifications-upgrade-2023.12.1-.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe lttng-modules failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1871 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f203812411ad3279a72721e66443cad19ff725b1"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (0 cached, 918 parsed). 1872 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:f203812411ad3279a72721e66443cad19ff725b1"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-69dyb5m2: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-esqnftfw/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-esqnftfw/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-Cloning into bare repository '/srv/pokybuild/yocto-worker/auh/build/build/downloads/git2/git.lttng.org.lttng-modules'...
-remote: Enumerating objects: 23192, done.        
-remote: Counting objects:   0% (1/23192)        
-remote: Counting objects:   1% (232/23192)        
-remote: Counting objects:   2% (464/23192)        
-remote: Counting objects:   3% (696/23192)        
-remote: Counting objects:   4% (928/23192)        
-remote: Counting objects:   5% (1160/23192)        
-remote: Counting objects:   6% (1392/23192)        
-remote: Counting objects:   7% (1624/23192)        
-remote: Counting objects:   8% (1856/23192)        
-remote: Counting objects:   9% (2088/23192)        
-remote: Counting objects:  10% (2320/23192)        
-remote: Counting objects:  11% (2552/23192)        
-remote: Counting objects:  12% (2784/23192)        
-remote: Counting objects:  13% (3015/23192)        
-remote: Counting objects:  14% (3247/23192)        
-remote: Counting objects:  15% (3479/23192)        
-remote: Counting objects:  16% (3711/23192)        
-remote: Counting objects:  17% (3943/23192)        
-remote: Counting objects:  18% (4175/23192)        
-remote: Counting objects:  19% (4407/23192)        
-remote: Counting objects:  20% (4639/23192)        
-remote: Counting objects:  21% (4871/23192)        
-remote: Counting objects:  22% (5103/23192)        
-remote: Counting objects:  23% (5335/23192)        
-remote: Counting objects:  24% (5567/23192)        
-remote: Counting objects:  25% (5798/23192)        
-remote: Counting objects:  26% (6030/23192)        
-remote: Counting objects:  27% (6262/23192)        
-remote: Counting objects:  28% (6494/23192)        
-remote: Counting objects:  29% (6726/23192)        
-remote: Counting objects:  30% (6958/23192)        
-remote: Counting objects:  31% (7190/23192)        
-remote: Counting objects:  32% (7422/23192)        
-remote: Counting objects:  33% (7654/23192)        
-remote: Counting objects:  34% (7886/23192)        
-remote: Counting objects:  35% (8118/23192)        
-remote: Counting objects:  36% (8350/23192)        
-remote: Counting objects:  37% (8582/23192)        
-remote: Counting objects:  38% (8813/23192)        
-remote: Counting objects:  39% (9045/23192)        
-remote: Counting objects:  40% (9277/23192)        
-remote: Counting objects:  41% (9509/23192)        
-remote: Counting objects:  42% (9741/23192)        
-remote: Counting objects:  43% (9973/23192)        
-remote: Counting objects:  44% (10205/23192)        
-remote: Counting objects:  45% (10437/23192)        
-remote: Counting objects:  46% (10669/23192)        
-remote: Counting objects:  47% (10901/23192)        
-remote: Counting objects:  48% (11133/23192)        
-remote: Counting objects:  49% (11365/23192)        
-remote: Counting objects:  50% (11596/23192)        
-remote: Counting objects:  51% (11828/23192)        
-remote: Counting objects:  52% (12060/23192)        
-remote: Counting objects:  53% (12292/23192)        
-remote: Counting objects:  54% (12524/23192)        
-remote: Counting objects:  55% (12756/23192)        
-remote: Counting objects:  56% (12988/23192)        
-remote: Counting objects:  57% (13220/23192)        
-remote: Counting objects:  58% (13452/23192)        
-remote: Counting objects:  59% (13684/23192)        
-remote: Counting objects:  60% (13916/23192)        
-remote: Counting objects:  61% (14148/23192)        
-remote: Counting objects:  62% (14380/23192)        
-remote: Counting objects:  63% (14611/23192)        
-remote: Counting objects:  64% (14843/23192)        
-remote: Counting objects:  65% (15075/23192)        
-remote: Counting objects:  66% (15307/23192)        
-remote: Counting objects:  67% (15539/23192)        
-remote: Counting objects:  68% (15771/23192)        
-remote: Counting objects:  69% (16003/23192)        
-remote: Counting objects:  70% (16235/23192)        
-remote: Counting objects:  71% (16467/23192)        
-remote: Counting objects:  72% (16699/23192)        
-remote: Counting objects:  73% (16931/23192)        
-remote: Counting objects:  74% (17163/23192)        
-remote: Counting objects:  75% (17394/23192)        
-remote: Counting objects:  76% (17626/23192)        
-remote: Counting objects:  77% (17858/23192)        
-remote: Counting objects:  78% (18090/23192)        
-remote: Counting objects:  79% (18322/23192)        
-remote: Counting objects:  80% (18554/23192)        
-remote: Counting objects:  81% (18786/23192)        
-remote: Counting objects:  82% (19018/23192)        
-remote: Counting objects:  83% (19250/23192)        
-remote: Counting objects:  84% (19482/23192)        
-remote: Counting objects:  85% (19714/23192)        
-remote: Counting objects:  86% (19946/23192)        
-remote: Counting objects:  87% (20178/23192)        
-remote: Counting objects:  88% (20409/23192)        
-remote: Counting objects:  89% (20641/23192)        
-remote: Counting objects:  90% (20873/23192)        
-remote: Counting objects:  91% (21105/23192)        
-remote: Counting objects:  92% (21337/23192)        
-remote: Counting objects:  93% (21569/23192)        
-remote: Counting objects:  94% (21801/23192)        
-remote: Counting objects:  95% (22033/23192)        
-remote: Counting objects:  96% (22265/23192)        
-remote: Counting objects:  97% (22497/23192)        
-remote: Counting objects:  98% (22729/23192)        
-remote: Counting objects: 100% (23192/23192), done.        
-remote: Compressing objects:   0% (1/11174)        
-remote: Compressing objects:   1% (112/11174)        
-remote: Compressing objects:   2% (224/11174)        
-remote: Compressing objects:   3% (336/11174)        
-remote: Compressing objects:   4% (447/11174)        
-remote: Compressing objects:   5% (559/11174)        
-remote: Compressing objects:   6% (671/11174)        
-remote: Compressing objects:   7% (783/11174)        
-remote: Compressing objects:   8% (894/11174)        
-remote: Compressing objects:   9% (1006/11174)        
-remote: Compressing objects:  10% (1118/11174)        
-remote: Compressing objects:  11% (1230/11174)        
-remote: Compressing objects:  12% (1341/11174)        
-remote: Compressing objects:  13% (1453/11174)        
-remote: Compressing objects:  14% (1565/11174)        
-remote: Compressing objects:  15% (1677/11174)        
-remote: Compressing objects:  16% (1788/11174)        
-remote: Compressing objects:  17% (1900/11174)        
-remote: Compressing objects:  18% (2012/11174)        
-remote: Compressing objects:  19% (2124/11174)        
-remote: Compressing objects:  20% (2235/11174)        
-remote: Compressing objects:  21% (2347/11174)        
-remote: Compressing objects:  22% (2459/11174)        
-remote: Compressing objects:  23% (2571/11174)        
-remote: Compressing objects:  24% (2682/11174)        
-remote: Compressing objects:  25% (2794/11174)        
-remote: Compressing objects:  26% (2906/11174)        
-remote: Compressing objects:  27% (3017/11174)        
-remote: Compressing objects:  28% (3129/11174)        
-remote: Compressing objects:  29% (3241/11174)        
-remote: Compressing objects:  30% (3353/11174)        
-remote: Compressing objects:  31% (3464/11174)        
-remote: Compressing objects:  32% (3576/11174)        
-remote: Compressing objects:  33% (3688/11174)        
-remote: Compressing objects:  34% (3800/11174)        
-remote: Compressing objects:  35% (3911/11174)        
-remote: Compressing objects:  36% (4023/11174)        
-remote: Compressing objects:  37% (4135/11174)        
-remote: Compressing objects:  38% (4247/11174)        
-remote: Compressing objects:  39% (4358/11174)        
-remote: Compressing objects:  40% (4470/11174)        
-remote: Compressing objects:  41% (4582/11174)        
-remote: Compressing objects:  42% (4694/11174)        
-remote: Compressing objects:  43% (4805/11174)        
-remote: Compressing objects:  44% (4917/11174)        
-remote: Compressing objects:  45% (5029/11174)        
-remote: Compressing objects:  46% (5141/11174)        
-remote: Compressing objects:  47% (5252/11174)        
-remote: Compressing objects:  48% (5364/11174)        
-remote: Compressing objects:  49% (5476/11174)        
-remote: Compressing objects:  50% (5587/11174)        
-remote: Compressing objects:  51% (5699/11174)        
-remote: Compressing objects:  52% (5811/11174)        
-remote: Compressing objects:  53% (5923/11174)        
-remote: Compressing objects:  54% (6034/11174)        
-remote: Compressing objects:  55% (6146/11174)        
-remote: Compressing objects:  56% (6258/11174)        
-remote: Compressing objects:  57% (6370/11174)        
-remote: Compressing objects:  58% (6481/11174)        
-remote: Compressing objects:  59% (6593/11174)        
-remote: Compressing objects:  60% (6705/11174)        
-remote: Compressing objects:  61% (6817/11174)        
-remote: Compressing objects:  62% (6928/11174)        
-remote: Compressing objects:  63% (7040/11174)        
-remote: Compressing objects:  64% (7152/11174)        
-remote: Compressing objects:  65% (7264/11174)        
-remote: Compressing objects:  66% (7375/11174)        
-remote: Compressing objects:  67% (7487/11174)        
-remote: Compressing objects:  68% (7599/11174)        
-remote: Compressing objects:  69% (7711/11174)        
-remote: Compressing objects:  70% (7822/11174)        
-remote: Compressing objects:  71% (7934/11174)        
-remote: Compressing objects:  72% (8046/11174)        
-remote: Compressing objects:  73% (8158/11174)        
-remote: Compressing objects:  74% (8269/11174)        
-remote: Compressing objects:  75% (8381/11174)        
-remote: Compressing objects:  76% (8493/11174)        
-remote: Compressing objects:  77% (8604/11174)        
-remote: Compressing objects:  78% (8716/11174)        
-remote: Compressing objects:  79% (8828/11174)        
-remote: Compressing objects:  80% (8940/11174)        
-remote: Compressing objects:  81% (9051/11174)        
-remote: Compressing objects:  82% (9163/11174)        
-remote: Compressing objects:  83% (9275/11174)        
-remote: Compressing objects:  84% (9387/11174)        
-remote: Compressing objects:  85% (9498/11174)        
-remote: Compressing objects:  86% (9610/11174)        
-remote: Compressing objects:  87% (9722/11174)        
-remote: Compressing objects:  88% (9834/11174)        
-remote: Compressing objects:  89% (9945/11174)        
-remote: Compressing objects:  90% (10057/11174)        
-remote: Compressing objects:  91% (10169/11174)        
-remote: Compressing objects:  92% (10281/11174)        
-remote: Compressing objects:  93% (10392/11174)        
-remote: Compressing objects:  94% (10504/11174)        
-remote: Compressing objects:  95% (10616/11174)        
-remote: Compressing objects:  96% (10728/11174)        
-remote: Compressing objects:  97% (10839/11174)        
-remote: Compressing objects:  98% (10951/11174)        
-remote: Compressing objects:  99% (11063/11174)        
-remote: Compressing objects: 100% (11174/11174)        
-remote: Compressing objects: 100% (11174/11174), done.        
-Receiving objects:   0% (1/23192)
-Receiving objects:   1% (232/23192)
-Receiving objects:   2% (464/23192)
-Receiving objects:   3% (696/23192)
-Receiving objects:   4% (928/23192)
-Receiving objects:   5% (1160/23192)
-Receiving objects:   6% (1392/23192)
-Receiving objects:   7% (1624/23192)
-Receiving objects:   8% (1856/23192)
-Receiving objects:   9% (2088/23192)
-Receiving objects:  10% (2320/23192)
-Receiving objects:  11% (2552/23192)
-Receiving objects:  12% (2784/23192)
-Receiving objects:  13% (3015/23192)
-Receiving objects:  14% (3247/23192)
-Receiving objects:  15% (3479/23192)
-Receiving objects:  16% (3711/23192)
-Receiving objects:  17% (3943/23192)
-Receiving objects:  18% (4175/23192)
-Receiving objects:  19% (4407/23192)
-Receiving objects:  20% (4639/23192)
-Receiving objects:  21% (4871/23192)
-Receiving objects:  22% (5103/23192)
-Receiving objects:  23% (5335/23192)
-Receiving objects:  24% (5567/23192)
-Receiving objects:  25% (5798/23192)
-Receiving objects:  26% (6030/23192)
-Receiving objects:  27% (6262/23192)
-Receiving objects:  28% (6494/23192)
-Receiving objects:  29% (6726/23192)
-Receiving objects:  30% (6958/23192)
-Receiving objects:  31% (7190/23192)
-Receiving objects:  32% (7422/23192)
-Receiving objects:  33% (7654/23192)
-Receiving objects:  34% (7886/23192)
-Receiving objects:  35% (8118/23192)
-Receiving objects:  36% (8350/23192)
-Receiving objects:  37% (8582/23192)
-Receiving objects:  38% (8813/23192)
-Receiving objects:  39% (9045/23192)
-Receiving objects:  40% (9277/23192)
-Receiving objects:  41% (9509/23192)
-Receiving objects:  42% (9741/23192)
-Receiving objects:  43% (9973/23192)
-Receiving objects:  44% (10205/23192)
-Receiving objects:  45% (10437/23192)
-Receiving objects:  46% (10669/23192)
-Receiving objects:  47% (10901/23192)
-Receiving objects:  48% (11133/23192)
-Receiving objects:  49% (11365/23192)
-Receiving objects:  50% (11596/23192)
-Receiving objects:  51% (11828/23192)
-Receiving objects:  52% (12060/23192)
-Receiving objects:  53% (12292/23192)
-Receiving objects:  54% (12524/23192)
-Receiving objects:  55% (12756/23192)
-Receiving objects:  56% (12988/23192)
-Receiving objects:  57% (13220/23192)
-Receiving objects:  58% (13452/23192)
-Receiving objects:  59% (13684/23192)
-Receiving objects:  60% (13916/23192)
-Receiving objects:  61% (14148/23192)
-Receiving objects:  62% (14380/23192)
-Receiving objects:  63% (14611/23192)
-Receiving objects:  64% (14843/23192)
-Receiving objects:  65% (15075/23192)
-Receiving objects:  66% (15307/23192)
-Receiving objects:  67% (15539/23192)
-Receiving objects:  68% (15771/23192)
-Receiving objects:  69% (16003/23192)
-Receiving objects:  70% (16235/23192)
-Receiving objects:  71% (16467/23192)
-Receiving objects:  72% (16699/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  73% (16931/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  74% (17163/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  75% (17394/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  76% (17626/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  77% (17858/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  78% (18090/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  79% (18322/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  80% (18554/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  81% (18786/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  82% (19018/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  83% (19250/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  84% (19482/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  85% (19714/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  86% (19946/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  87% (20178/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  88% (20409/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  89% (20641/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  90% (20873/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  91% (21105/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  92% (21337/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  93% (21569/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  94% (21801/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  95% (22033/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  96% (22265/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  97% (22497/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects:  98% (22729/23192), 3.39 MiB | 6.71 MiB/s
-remote: Total 23192 (delta 17857), reused 15951 (delta 11796), pack-reused 0        
-Receiving objects:  99% (22961/23192), 3.39 MiB | 6.71 MiB/s
-Receiving objects: 100% (23192/23192), 4.18 MiB | 7.59 MiB/s, done.
-Resolving deltas:   0% (0/17857)
-Resolving deltas:   1% (179/17857)
-Resolving deltas:   2% (358/17857)
-Resolving deltas:   3% (536/17857)
-Resolving deltas:   4% (717/17857)
-Resolving deltas:   5% (893/17857)
-Resolving deltas:   6% (1072/17857)
-Resolving deltas:   7% (1250/17857)
-Resolving deltas:   8% (1429/17857)
-Resolving deltas:   9% (1608/17857)
-Resolving deltas:  10% (1786/17857)
-Resolving deltas:  11% (1965/17857)
-Resolving deltas:  12% (2143/17857)
-Resolving deltas:  13% (2322/17857)
-Resolving deltas:  14% (2500/17857)
-Resolving deltas:  15% (2679/17857)
-Resolving deltas:  16% (2858/17857)
-Resolving deltas:  17% (3036/17857)
-Resolving deltas:  18% (3215/17857)
-Resolving deltas:  19% (3393/17857)
-Resolving deltas:  20% (3572/17857)
-Resolving deltas:  21% (3750/17857)
-Resolving deltas:  22% (3929/17857)
-Resolving deltas:  23% (4108/17857)
-Resolving deltas:  24% (4286/17857)
-Resolving deltas:  25% (4465/17857)
-Resolving deltas:  26% (4643/17857)
-Resolving deltas:  27% (4824/17857)
-Resolving deltas:  28% (5000/17857)
-Resolving deltas:  29% (5179/17857)
-Resolving deltas:  30% (5361/17857)
-Resolving deltas:  31% (5537/17857)
-Resolving deltas:  32% (5715/17857)
-Resolving deltas:  33% (5893/17857)
-Resolving deltas:  34% (6072/17857)
-Resolving deltas:  35% (6250/17857)
-Resolving deltas:  36% (6429/17857)
-Resolving deltas:  37% (6608/17857)
-Resolving deltas:  38% (6786/17857)
-Resolving deltas:  39% (6965/17857)
-Resolving deltas:  40% (7143/17857)
-Resolving deltas:  41% (7322/17857)
-Resolving deltas:  42% (7500/17857)
-Resolving deltas:  43% (7679/17857)
-Resolving deltas:  44% (7858/17857)
-Resolving deltas:  45% (8036/17857)
-Resolving deltas:  46% (8215/17857)
-Resolving deltas:  47% (8393/17857)
-Resolving deltas:  48% (8572/17857)
-Resolving deltas:  49% (8750/17857)
-Resolving deltas:  50% (8930/17857)
-Resolving deltas:  51% (9108/17857)
-Resolving deltas:  52% (9286/17857)
-Resolving deltas:  53% (9465/17857)
-Resolving deltas:  54% (9643/17857)
-Resolving deltas:  55% (9823/17857)
-Resolving deltas:  56% (10001/17857)
-Resolving deltas:  57% (10179/17857)
-Resolving deltas:  58% (10359/17857)
-Resolving deltas:  59% (10536/17857)
-Resolving deltas:  60% (10715/17857)
-Resolving deltas:  61% (10893/17857)
-Resolving deltas:  62% (11073/17857)
-Resolving deltas:  63% (11250/17857)
-Resolving deltas:  64% (11432/17857)
-Resolving deltas:  65% (11608/17857)
-Resolving deltas:  66% (11786/17857)
-Resolving deltas:  67% (11965/17857)
-Resolving deltas:  68% (12144/17857)
-Resolving deltas:  69% (12324/17857)
-Resolving deltas:  70% (12500/17857)
-Resolving deltas:  71% (12679/17857)
-Resolving deltas:  72% (12859/17857)
-Resolving deltas:  73% (13037/17857)
-Resolving deltas:  74% (13217/17857)
-Resolving deltas:  75% (13394/17857)
-Resolving deltas:  76% (13572/17857)
-Resolving deltas:  77% (13750/17857)
-Resolving deltas:  78% (13929/17857)
-Resolving deltas:  79% (14108/17857)
-Resolving deltas:  80% (14286/17857)
-Resolving deltas:  81% (14468/17857)
-Resolving deltas:  82% (14646/17857)
-Resolving deltas:  83% (14823/17857)
-Resolving deltas:  84% (15000/17857)
-Resolving deltas:  85% (15179/17857)
-Resolving deltas:  86% (15360/17857)
-Resolving deltas:  87% (15536/17857)
-Resolving deltas:  88% (15716/17857)
-Resolving deltas:  89% (15893/17857)
-Resolving deltas:  90% (16073/17857)
-Resolving deltas:  91% (16250/17857)
-Resolving deltas:  92% (16429/17857)
-Resolving deltas:  93% (16608/17857)
-Resolving deltas:  94% (16786/17857)
-Resolving deltas:  95% (16965/17857)
-Resolving deltas:  96% (17143/17857)
-Resolving deltas:  97% (17322/17857)
-Resolving deltas:  98% (17500/17857)
-Resolving deltas:  99% (17679/17857)
-Resolving deltas: 100% (17857/17857)
-Resolving deltas: 100% (17857/17857), done.
-NOTE: Creating tarball of git repository
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://lttng.org/files/lttng-modules/lttng-modules-2.13.15.tar.bz2...
-INFO: Rebasing devtool onto 9345f3ed94a88d29938644f84bb5447de02dd902
-WARNING: Command 'git rebase 9345f3ed94a88d29938644f84bb5447de02dd902' failed:
-Auto-merging include/instrumentation/events/btrfs.h
-CONFLICT (content): Merge conflict in include/instrumentation/events/btrfs.h
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/lttng-modules
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/lttng-modules/lttng-modules_2.13.15.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4449461379367748633==--
+
+-- >8 --
+From 501027d2592c608116da4e12845e9d5e6d75d611 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 10 Oct 2024 02:03:38 +0000
+Subject: [PATCH] python3-jsonschema-specifications: upgrade 2023.12.1 ->
+ 2024.10.1
+
+---
+ ...3.12.1.bb => python3-jsonschema-specifications_2024.10.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-jsonschema-specifications_2023.12.1.bb => python3-jsonschema-specifications_2024.10.1.bb} (86%)
+
+diff --git a/meta/recipes-devtools/python/python3-jsonschema-specifications_2023.12.1.bb b/meta/recipes-devtools/python/python3-jsonschema-specifications_2024.10.1.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-jsonschema-specifications_2023.12.1.bb
+rename to meta/recipes-devtools/python/python3-jsonschema-specifications_2024.10.1.bb
+index 4ee0dd9b12..6ef83e0554 100644
+--- a/meta/recipes-devtools/python/python3-jsonschema-specifications_2023.12.1.bb
++++ b/meta/recipes-devtools/python/python3-jsonschema-specifications_2024.10.1.bb
+@@ -5,7 +5,7 @@ HOMEPAGE = "https://pypi.org/project/jsonschema-specifications/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=93eb9740964b59e9ba30281255b044e2"
+ 
+-SRC_URI[sha256sum] = "48a76787b3e70f5ed53f1160d2b81f586e4ca6d1548c5de7085d1682674764cc"
++SRC_URI[sha256sum] = "0f38b83639958ce1152d02a7f062902c41c8fd20d558b0c34344292d417ae272"
+ 
+ inherit pypi python_hatchling
+ 
+-- 
+2.44.1
+
+
+--===============4426826822376954778==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/python3-jsonschema-specifications (sysroot):
+  /usr/lib/python3.12/site-packages/jsonschema_specifications-2023.12.1.dist-info moved to /usr/lib/python3.12/site-packages/jsonschema_specifications-2024.10.1.dist-info
+
+--===============4426826822376954778==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-jsonschema-specifications: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonschema_specifications/jsonschema_specifications-2023.12.1.tar.gz;downloadfilename=jsonschema_specifications-2023.12.1.tar.gz" to "https://files.pythonhosted.org/packages/source/j/jsonschema_specifications/jsonschema_specifications-2024.10.1.tar.gz;downloadfilename=jsonschema_specifications-2024.10.1.tar.gz"
+packages/core2-64-poky-linux/python3-jsonschema-specifications: PV changed from "2023.12.1" to "2024.10.1"
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dbg: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dbg: PV changed from "2023.12.1" to "2024.10.1"
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dev: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dev: PV changed from "2023.12.1" to "2024.10.1"
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-doc: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-doc: PV changed from "2023.12.1" to "2024.10.1"
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-locale: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-locale: PV changed from "2023.12.1" to "2024.10.1"
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-src: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-src: PV changed from "2023.12.1" to "2024.10.1"
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-staticdev: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-staticdev: PV changed from "2023.12.1" to "2024.10.1"
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications: PKGSIZE changed from 51378 to 51387 (+0%)
+packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications: PV changed from "2023.12.1" to "2024.10.1"
+Changes to packages/core2-64-poky-linux/python3-jsonschema-specifications (sysroot):
+  /usr/lib/python3.12/site-packages/jsonschema_specifications-2023.12.1.dist-info moved to /usr/lib/python3.12/site-packages/jsonschema_specifications-2024.10.1.dist-info
+
+--===============4426826822376954778==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-jsonschema-specifications-upgrade-2023.12.1-.patch"
+
+RnJvbSA1MDEwMjdkMjU5MmM2MDgxMTZkYTRlMTI4NDVlOWQ1ZTZkNzVkNjExIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDI6MDM6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWpzb25zY2hlbWEtc3BlY2lmaWNhdGlvbnM6IHVwZ3JhZGUgMjAyMy4xMi4xIC0+CiAy
+MDI0LjEwLjEKCi0tLQogLi4uMy4xMi4xLmJiID0+IHB5dGhvbjMtanNvbnNjaGVtYS1zcGVjaWZp
+Y2F0aW9uc18yMDI0LjEwLjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97
+cHl0aG9uMy1qc29uc2NoZW1hLXNwZWNpZmljYXRpb25zXzIwMjMuMTIuMS5iYiA9PiBweXRob24z
+LWpzb25zY2hlbWEtc3BlY2lmaWNhdGlvbnNfMjAyNC4xMC4xLmJifSAoODYlKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hLXNwZWNp
+ZmljYXRpb25zXzIwMjMuMTIuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1qc29uc2NoZW1hLXNwZWNpZmljYXRpb25zXzIwMjQuMTAuMS5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
+anNvbnNjaGVtYS1zcGVjaWZpY2F0aW9uc18yMDIzLjEyLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hLXNwZWNpZmljYXRpb25zXzIw
+MjQuMTAuMS5iYgppbmRleCA0ZWUwZGQ5YjEyLi42ZWY4M2UwNTU0IDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtanNvbnNjaGVtYS1zcGVjaWZpY2F0aW9u
+c18yMDIzLjEyLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
+LWpzb25zY2hlbWEtc3BlY2lmaWNhdGlvbnNfMjAyNC4xMC4xLmJiCkBAIC01LDcgKzUsNyBAQCBI
+T01FUEFHRSA9ICJodHRwczovL3B5cGkub3JnL3Byb2plY3QvanNvbnNjaGVtYS1zcGVjaWZpY2F0
+aW9ucy8iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJ
+Tkc7bWQ1PTkzZWI5NzQwOTY0YjU5ZTliYTMwMjgxMjU1YjA0NGUyIgogCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiNDhhNzY3ODdiM2U3MGY1ZWQ1M2YxMTYwZDJiODFmNTg2ZTRjYTZkMTU0OGM1ZGU3
+MDg1ZDE2ODI2NzQ3NjRjYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwZjM4YjgzNjM5OTU4Y2Ux
+MTUyZDAyYTdmMDYyOTAyYzQxYzhmZDIwZDU1OGIwYzM0MzQ0MjkyZDQxN2FlMjcyIgogCiBpbmhl
+cml0IHB5cGkgcHl0aG9uX2hhdGNobGluZwogCi0tIAoyLjQ0LjEKCg==
+
+--===============4426826822376954778==--
 
