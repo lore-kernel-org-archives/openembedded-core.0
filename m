@@ -1,137 +1,150 @@
-Return-Path: <brgl@bgdev.pl>
+Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85524CFC5FE
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:23:52 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web10.52916.1728588231704555286
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6661ACFC5FF
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:24:32 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.120])
+ by mx.groups.io with SMTP id smtpd.web11.53018.1728588265155994271
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:23:52 -0700
+ Thu, 10 Oct 2024 12:24:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20230601.gappssmtp.com header.s=20230601 header.b=Y716Kh56;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.167.41, mailfrom: brgl@bgdev.pl)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-53992157528so1505496e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 12:23:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728588230; x=1729193030; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bXBd8tL8HE514u1iwLs3EJJKVshOtTS++jzO7xqwask=;
-        b=Y716Kh56twUDsPA1CjbNQenZP1jUlB11DbULxYNFZjp07/aTGLv+rJVFyqkvfRh8cb
-         kZV7avxtVI+QnKgHAa/5rCflGiMzxJwTx1h1J7wfOQARnChVzOCoonFJkKEPv2IXu+8j
-         RZ88DfmjYEQQukCOj2vbV15dAI6IHTzNVXV4BnEriYsFkMbzjjEECJjzrfNiGOfq5zcN
-         xaO2JtfN81meByiIWhS2XfalTu0zC3Jrnk2J3za9lr/cbYgpQJg1E484YeGDbQ1KEpCE
-         1GB7VudwkIydeUyp//OLuWU3mRgmenkhZzW4o1nPfStJ0NmReJLu5TCzzgS4Iz7Ax20V
-         U0lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728588230; x=1729193030;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bXBd8tL8HE514u1iwLs3EJJKVshOtTS++jzO7xqwask=;
-        b=juWS12dIrCcaoI4siJGw1TYQo+Jhrzue3xkAOQRnuzriJHwnOwJ85q7vfyoILPD7i9
-         g5na9AiEWCEFTlVVrPwTrsDtB/hzRfBQ290E5RbSej2hZ6YByklTVcnzznN5U4Ox4RvD
-         22VvUVW89CIH6anMbCs5i2dOnj9YTJNo61Bn0nU2vEeT4HDI6aB3BWz0KW3WGCQoLNhy
-         SIY1aHs61RZcOUwfNjnha4MBG99nQ7osaOUPHhGswUtbdl5tqG4mKDhHh/icTj6zroHn
-         6t4YIpzSQj8eMbHwKZ+HLBOhhQRJBuREa0ch2+BqvR56EdvfI8A4TfGGG3U2Ng1bn0PP
-         RVnQ==
-X-Gm-Message-State: AOJu0Yyj9LvXwtpm2UANru6k1Fvw51MYsOhX0V25I4zqUffwk8ZuZdIb
-	8mq23NR/Jw7/ISbuviUR7K5IgPBK20TxJbU8Ly/vk4mOYZf/IAItiBxkSbebPkoWIFlAycTE1Uc
-	UT+hlteNQez/F5t9HHjcGBkLvVwZkmuoLqMixgw==
-X-Google-Smtp-Source: AGHT+IGsm5dGWkA0p/fyEeJ6wX09bLBDdUdUv6e04jT2yM0Y80AwebLSBvUctms6wNho6ixz4wfwrgybF9SMbknmak0=
-X-Received: by 2002:a05:6512:ea5:b0:539:979e:8952 with SMTP id
- 2adb3069b0e04-539d4cf04abmr369960e87.59.1728588229081; Thu, 10 Oct 2024
- 12:23:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241010190956.34063-1-brgl@bgdev.pl> <0101019277deb976-71ad1e10-9956-45b4-bc14-7263acb28d8f-000000@us-west-2.amazonses.com>
-In-Reply-To: <0101019277deb976-71ad1e10-9956-45b4-bc14-7263acb28d8f-000000@us-west-2.amazonses.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Thu, 10 Oct 2024 21:23:37 +0200
-Message-ID: <CAMRc=Mf=j1Lw9_JmhM5p3vBajiji7cX5pmupquXvTrhy2XUr0A@mail.gmail.com>
-Subject: Re: Patchtest results for [meta-oe][PATCH] python3-pip: add missing RDEPENDS
-To: patchtest@automation.yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@navimatix.de header.s=selector1 header.b=33ex/1Hi;
+ spf=pass (domain: navimatix.de, ip: 40.107.105.120, mailfrom: joerg.sommer@navimatix.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Vtl6FC+ie5FnefNdpDwQGue0ih7LrFEhPXMMTArqTQP8ZlBwebsCn6ZmzPJmpQoSSnt7haFTXtW7nggOgjbkopQLZ0vSrOWFa63Q+ApnKD3bNMhY8T+nUz44rXNSGpPMPmP0ldZIdlXAgVKyepd3dh5i3vQDNLd5J1vejSjGx7wlT8yQdslVf0PbUih10apKWRf+GzxVJO4tCx/2fn+UntCldglPPcyhBF0NPZpTuKeZRkISJeTVDQQpvWPsZJT03/wcZCakp76lZJhF40o8wCC8zM/8Kilfe7SK32nbD3cimNe2t5KEhYF2KFFht56plLTTIW4URnyNWKTf964mJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=MQpi08K3DzTeeS2mtBzz7SX4mRPHrtEuD7D9RHw+ilk=;
+ b=HdhxDbxWI8XTUuS1kDmXuQW0BIqi3S3FjJv++i5ouZJic25/YJdmN82QOVSnOQtXDIskEUXhSn3Yxug0oiQxFa7gsorPE2myUy08HbBQKyar3GD5iRZ2Mkn6hi/vVJ2Yy9nPJNU9lB9vabzo5iJTsMM08RJQNOumIAmNS7WLK3qU5f9gehUwsL1XeB1tdbMugvEI5sHs1Ad063H91q25jgVTtTeIXXPGcHt5fdC0Iqa8uIS7E8DzycajltYCOMSaecevpoKu3A2ugV6U65GKCDlmQSYr0SniIF354pUjAzZPns/juBX0gLq4PwacZL85Dkfl+bIpmdxJw0ZIKgLDRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
+ dkim=pass header.d=navimatix.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=MQpi08K3DzTeeS2mtBzz7SX4mRPHrtEuD7D9RHw+ilk=;
+ b=33ex/1Hi4NIlwOHg/mfXpPKDrpM4Uh4ngPec4poBCRyrx6pOaKEtw4Y0X8AlnBv8zQG8bR2ANfBx7FBWGeM5yFuU7tdY2n/Jpkks/R0hjCuBps7NDEpRSXH8qkiALToIVxDet8W8VrWp79okeJBuP3mBQPPvK5OFK0j+A6ZCz2U=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=navimatix.de;
+Received: from DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2d4::5) by DBAPR01MB6984.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:192::5) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.18; Thu, 10 Oct
+ 2024 19:24:21 +0000
+Received: from DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ ([fe80::d520:1b9e:a30e:69a7]) by DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ ([fe80::d520:1b9e:a30e:69a7%2]) with mapi id 15.20.8048.017; Thu, 10 Oct 2024
+ 19:24:21 +0000
+Date: Thu, 10 Oct 2024 21:24:18 +0200
+From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+To: raj.khem@gmail.com
+Cc: openembedded-core@lists.openembedded.org, 
+	Jean-Michel Papy <jean-michel.papy@exail.com>
+Subject: Re: [OE-core] [PATCH] openssh: Be more restrictive on private key
+ file permissions
+Message-ID: <kcjsl3kzd2sr5tykrt2mvercsul4mz3a55hxwul5cdvejmg5wj@om7ugtu3yshb>
+References: <20241010185107.3312768-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20241010185107.3312768-1-raj.khem@gmail.com>
+X-ClientProxiedBy: BE1P281CA0120.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:7b::7) To DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:2d4::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU2PR01MB8293:EE_|DBAPR01MB6984:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6b9ab42c-2513-46e3-35dc-08dce961243b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?iso-8859-1?Q?rw1S9Df/GdA3eEDzCj6Fio/kNLTGjD0c7C5sGmLHQ+VY90S2jCi+rCbGWP?=
+ =?iso-8859-1?Q?Zs2FRI6oj6/hfNHJOCNGazLvY7gP9yWCAXZK3EJFDgAVSTTK2ROEetxfcA?=
+ =?iso-8859-1?Q?UWo80noFLBdU4PrPNK44KTxtDXOKoObFCIq4U5mt24QNgNGGh52aE+HP0f?=
+ =?iso-8859-1?Q?w1EL3ATTOQ+vLsUMi4ObX7MgEwAIEfayH4I4XdfmZT06+H/3Bhf0RmOG6Y?=
+ =?iso-8859-1?Q?v4QAHUqEZLthMMxUSHeP1IJTeAP71VLAe8XnJ2NxbNAJjaBXqpsVAgrbh+?=
+ =?iso-8859-1?Q?kvqsaCvlBJAY5SiU+PnrirhUQ6ZOnyuxaDgP+vWD1yimI/VdGXvHiY6vB0?=
+ =?iso-8859-1?Q?V+xwSOT21XdqLASHK7mJ84TCwrshK1U6et3X4dCoJrEI/yIi0tLxari8gH?=
+ =?iso-8859-1?Q?P7S8ab8brk7h3wI9TTins/tyyXSE5aQ255b1TKrBIuP5c30jktmdgRBcNk?=
+ =?iso-8859-1?Q?/fZTClqU0W0gWpjDt833MDKRLb1Bj7E6akf6gQEDYW8KDiynS72vCCYj5B?=
+ =?iso-8859-1?Q?y94rVZBRlxX2YTYHB4031p3rIVBG+FOPVYxdRfzpKo5TEdxEK9apM7C5hB?=
+ =?iso-8859-1?Q?VizfS2X+xEWbeFe3QRoTpvz1agFR99nbw16HG4H8xRfpKi3fXLBR7zp8FI?=
+ =?iso-8859-1?Q?SAkDLoLO92LvJsQK707F+hSKPhOQ2uoXxPCe+mHR0VhzAoi0WPD8imydy3?=
+ =?iso-8859-1?Q?EDaEl4YozCT1KQjzEQLXCL0b9iujG3VkJoo9+NHa6CTVWo5iBaKH3KRaGb?=
+ =?iso-8859-1?Q?4iysSAjwfMPivBP260VDoQza3bA6z/AeBUk3qYIeSIlJorAI/Gzimak9bb?=
+ =?iso-8859-1?Q?RNh+FkzVTRlv4n0J5XJdh8yof5TgoZ+gBWvZRfy/bVlCQV62xuWg192NhX?=
+ =?iso-8859-1?Q?vI0Jv2TrBs6C2w7dKclX0a6PaxRjGqptRhru1Mw4ummQDxPQ4ecIds29Iw?=
+ =?iso-8859-1?Q?MCuKAP/emAzjUylMOZvmh9hBradruUt016t2iF+yK2qd17e6Ao+rNJbV8k?=
+ =?iso-8859-1?Q?A4Mg8sfqDC1GJodcCWN7N1tsQPEvM1LhHGN9b6K8EnTKvMrFnZwReGokQx?=
+ =?iso-8859-1?Q?QRdk23jQxVUdO8v9ZIRXszneJjRvI/llFtZhAJzEhS9JLpbhb8cW7huLAZ?=
+ =?iso-8859-1?Q?koOUB4M280O0iBi+DpmeE1vnVM+EiEUxZ3pYg30zVcSQVGL5vuHVS+emIH?=
+ =?iso-8859-1?Q?rF1PWqS1QoqETcC45LjO/QmjxZkzh4e2C74ibRHzNDWrmqAotH/CAHd732?=
+ =?iso-8859-1?Q?FUDK5azVZGYySWPxQBsj4eGRNYObdH/sZScQUW8pXbojJnof08Jz2x8eRm?=
+ =?iso-8859-1?Q?Me3bEy6DbYpDyXtURJ3D0AFhBQ=3D=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU2PR01MB8293.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?iso-8859-1?Q?ZlrtkBeWpJlEs2gSE394Cr+HEZ84B+bLeYL8jQL6tQ8erM7Y5fRiS8wrbx?=
+ =?iso-8859-1?Q?M6MgEedtAhf2cF6+Erng40OQ164uDGHL1OmZe4V1H1+uT37N1DRExryOJQ?=
+ =?iso-8859-1?Q?TvZgf3Q/2GdWOBA/8EFft7QzC5l0I4AWWoW6hRsDHRDnGmydh0YEWMTKb/?=
+ =?iso-8859-1?Q?x8cgEAAZmCevY0Kg6vKS2Vn1vOCGNmFG3fmlVtTnSFcCbhZbQ31DukkMFs?=
+ =?iso-8859-1?Q?bNRQP2QRC+ZMTvJaBSTUUS3V4QX21JE4EMK6bU6Q5uXi8kRx5lweM7rnh4?=
+ =?iso-8859-1?Q?0t4PnwwRricNwoIBLbuPb8iCvNtTJ2f5vUTuuahYp2gWYYxbZW7zdQhyn+?=
+ =?iso-8859-1?Q?MD5vaOSmK9HzFKx2ey5Adcf2/0AV++Cv+Hrzft9QIk0Jc3T4NDechpZFTn?=
+ =?iso-8859-1?Q?oIGpldQspjMuJqh/CDgecOkZsyxnBKTIRm/tW4TO00D84QJhgXT4SPLR6R?=
+ =?iso-8859-1?Q?WL99CRgE0Ijomq/uH+VunIsdAUKlt5HZoZ7e1snNx/PCc4WS8mvzXXuuK2?=
+ =?iso-8859-1?Q?c0RrS2wdueMGHIiAGJm5wz9TyF7TDDhcuOxUfZcZT5LzshhM4NRg27sgIv?=
+ =?iso-8859-1?Q?ei9bA14sE+rllpGP1eVHy121zNuyM++C2Z4TxUNDRmxtxzf6HlDrvs+sff?=
+ =?iso-8859-1?Q?S5F1/KnDQEJgoUXyoiyKMfCE7g+5GdqL003T7fPANnnHU26FZMY2nNvaFA?=
+ =?iso-8859-1?Q?GytaG+LmrSZ+PuzrBBmyAUkkCgIKl4i0VCojWCim53ClkNfBKx9ETn3uSr?=
+ =?iso-8859-1?Q?plPYJwfZhhLTLiAKXD8LeUG2DxBDzPrcs73I732RdZwL5VaJR8RzWQrh/2?=
+ =?iso-8859-1?Q?9HN2udvAPy8icPpO+DGmn5UlvZyyDSg2WFv7GR5MMOCpRC5kopdMb1bcJV?=
+ =?iso-8859-1?Q?V2oZk0q62/t2d1Vqgfi+hmbKkvAKSCC6CmLIZnd7lApiQC64rPWAhPEHEn?=
+ =?iso-8859-1?Q?YF93KeW/X2FeX84wKUPQ53lyirYjUEB9hc9gjtBKA54L72HUye39VRItAT?=
+ =?iso-8859-1?Q?AXIDxhblEHQUsDEW6D0JNxbGH15V0hSJv2nV0b6cnxY4bFfdA7xgsUl286?=
+ =?iso-8859-1?Q?nj3QtGUaIH57gdSvAbwJAlo6LdJHMWECdymNXPkyCKs+Fva+heQHDsZ79r?=
+ =?iso-8859-1?Q?HVMrJiQpSzcxAZ5HLy0c3KXQMIfzwoz/KSJXWeff5pAH+FWk34AncAW1TM?=
+ =?iso-8859-1?Q?FuQp8M4PHXQESTp8ngIo274HtthyBerEUybBdayHIKQ0e0AKVVlGyDV4i0?=
+ =?iso-8859-1?Q?IXHgsUiHIbodxiiPQtmWtZxMQTP9s1Jab/FPMKHZHbksnEZDGxOBPzrlXs?=
+ =?iso-8859-1?Q?JKZuib0wB2dTof1n7vHIup8BzO67sWwAab2WHST1PxdIeDWqiwtLxh1fHW?=
+ =?iso-8859-1?Q?DKF0z+xnRc7MBFME37PMLKaQiJiVLba1e8Of2fxiQkRVrhEbxHTQQkEsZD?=
+ =?iso-8859-1?Q?PKIUkSaJwXrbfI0l74s5HMS1m533xwDUCPhRSep/jCQRgguBxp/ty3yEwL?=
+ =?iso-8859-1?Q?Q5tI5GiTDZ7ofYqxAjFAUZVnY4auHed6Bq17tg2yTMevgdKUib9XL4QIUi?=
+ =?iso-8859-1?Q?L/CKufRFOIXbHWNLJZrVXfJIFa/5deP9e3PA2hKYJIhFyyuNYBL7DkwHAu?=
+ =?iso-8859-1?Q?fahbmm9EOCnhw7Clvunq7M/efQqNWTfPqakZwSOw/Mv/DuZcpSjSZ5ag?=
+ =?iso-8859-1?Q?=3D=3D?=
+X-OriginatorOrg: navimatix.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6b9ab42c-2513-46e3-35dc-08dce961243b
+X-MS-Exchange-CrossTenant-AuthSource: DU2PR01MB8293.eurprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2024 19:24:21.1090
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ThPyctSu9y6ZkiYMCf5njLkz2dLFkRFqFqJ6bwXYDKxp/1/Dsfly8QTi4P15Fvltp3LODMZhJTlcxFIdhyFTDtGfnhVcVeijQy94eQT5MDQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR01MB6984
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205429
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:24:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205430
 
-On Thu, Oct 10, 2024 at 9:18=E2=80=AFPM <patchtest@automation.yoctoproject.=
-org> wrote:
->
-> Thank you for your submission. Patchtest identified one
-> or more issues with the patch. Please see the log below for
-> more information:
->
-> ---
-> Testing patch /home/patchtest/share/mboxes/meta-oe-python3-pip-add-missin=
-g-RDEPENDS.patch
->
-> FAIL: test target mailing list: Series sent to the wrong mailing list or =
-some patches from the series correspond to different mailing lists (test_mb=
-ox.TestMbox.test_target_mailing_list)
->
-> PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_=
-uri_left_files)
-> PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ig=
-nore)
-> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_=
-presence)
-> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-> PASS: test commit message presence (test_mbox.TestMbox.test_commit_messag=
-e_presence)
-> PASS: test lic files chksum modified not mentioned (test_metadata.TestMet=
-adata.test_lic_files_chksum_modified_not_mentioned)
-> PASS: test max line length (test_metadata.TestMetadata.test_max_line_leng=
-th)
-> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-> PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_le=
-ft_files)
->
-> SKIP: pretest pylint: No python related patches, skipping test (test_pyth=
-on_pylint.PyLint.pretest_pylint)
-> SKIP: test CVE tag format: No new CVE patches introduced (test_patch.Test=
-Patch.test_cve_tag_format)
-> SKIP: test Signed-off-by presence: No new CVE patches introduced (test_pa=
-tch.TestPatch.test_signed_off_by_presence)
-> SKIP: test Upstream-Status presence: No new CVE patches introduced (test_=
-patch.TestPatch.test_upstream_status_presence_format)
-> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.tes=
-t_bugzilla_entry_format)
-> SKIP: test lic files chksum presence: No added recipes, skipping test (te=
-st_metadata.TestMetadata.test_lic_files_chksum_presence)
-> SKIP: test license presence: No added recipes, skipping test (test_metada=
-ta.TestMetadata.test_license_presence)
-> SKIP: test pylint: No python related patches, skipping test (test_python_=
-pylint.PyLint.test_pylint)
-> SKIP: test series merge on head: Merge test is disabled for now (test_mbo=
-x.TestMbox.test_series_merge_on_head)
-> SKIP: test summary presence: No added recipes, skipping test (test_metada=
-ta.TestMetadata.test_summary_presence)
->
-> ---
->
-> Please address the issues identified and
-> submit a new revision of the patch, or alternatively, reply to this
-> email with an explanation of why the patch should be accepted. If you
-> believe these results are due to an error in patchtest, please submit a
-> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-> under 'Yocto Project Subprojects'). For more information on specific
-> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-> you!
+Khem Raj via lists.openembedded.org schrieb am Do 10. Okt, 11:51 (GMT):
+>      mkdir -p "$DIR"
+>      rm -f ${FILE}.tmp
+>      ssh-keygen -q -f "${FILE}.tmp" -N '' -t $TYPE
+> -
+> +    chmod 0600 "$FILE.tmp"
 
-Ah, the tag should have been [OE-core] instead.
+Or maybe `(umask 700 && ssh-keygen -q -f "${FILE}.tmp" -N '' -t $TYPE)` or
+do at least `chmod go=3D "$FILE.tmp"` to not add a user write permission
+ssh-keygen might not have set.
 
-I'll resend it tomorrow unless someone can pick it up into
-openembedded-core after all.
 
-Bart
+Kind regards, J=F6rg
 
