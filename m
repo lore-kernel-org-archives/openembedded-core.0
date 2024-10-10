@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BABED0EE20
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50C30D0EE22
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:06 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web11.53368.1728588954571353066
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.53348.1728588939720987541
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Oct 2024 12:35:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FK4+jwq4;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cUlBtHze;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019277ee43b7-78e1d7f8-1e94-4a28-9d85-19ea9c780fb4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=NIbbTfxJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=AKsul/Y6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019277ee44f8-8cd3bc37-f6d2-4d42-8ea7-cb3a6f6db126-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588956;
+	t=1728588957;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=cJZdKWP0HP0vuUrMwv2lId2WOxv+ocfUYkr+8m18qi0=;
-	b=FK4+jwq4GQKQBXT7bNAFyDLxlEXoaM6gBdb3wGPxj7phuPuPK3u9RSpg7JEtIsEt
-	GwPpfq4C9rKJoNGbETzljf8A4IGuyrKAzQhHhaTs6MnJKPHmjef/3u2d4yHDO4ah4YH
-	Ue3yLxP9R/4piK6OYPkni1KWRP4Oxs1B8QDc+Euw=
+	bh=+XJHiUq7ERzz5Ndkmh9e6ijqO7XVyaY6UpDgAJpjTDE=;
+	b=NIbbTfxJH+i85vK1BhIJWdHWmTVdbit5OL1b+g2b3sqjTShZUFrzfN15cbT7SvZW
+	kqsGYsVNR8dEFnyd0HpcCwF9ZH1DJIQ3NdvYA0IoZD0BcSwrBvbX0+G4ldXAu+DSRXj
+	Um4j812FchO7/QSSstI1D229+hL5KW17/8WvsOuk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588956;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588957;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=cJZdKWP0HP0vuUrMwv2lId2WOxv+ocfUYkr+8m18qi0=;
-	b=cUlBtHzei0w13lZhKrm1MgCJ8QnzuWJ7i0WDHEIRKGrCEjSKkA4dlM5blGHnUUek
-	smjPvgpq8hm9fEiYElnvH51nGr3lWOTLXz9dEuf5VINzhj2BcXWSVKMaafr4j6eXR7q
-	KQ0Qg+v3H7uaw83hV4/CfDB4JprYRCJjK7oN7imE=
-Content-Type: multipart/mixed; boundary="===============7991499579338813580=="
+	bh=+XJHiUq7ERzz5Ndkmh9e6ijqO7XVyaY6UpDgAJpjTDE=;
+	b=AKsul/Y6pHcnSik+84SBR9Uj7VCNdPS8QVtKgNSogOZjY/baztK0cao1DtmHbA6D
+	JHMDe9I4KCijxY+S/FDHGLHfQFJ9ncObmt4H3y9zlQYceG2o+9p3J/GxMIcWhCZoPmW
+	rhQFk77cRimRo6qxEZBpjMuNmZRdeqOQMqc8sqqY=
+Content-Type: multipart/mixed; boundary="===============9050270182675754197=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-jsonschema-specifications: upgrading to 2024.10.1
- SUCCEEDED
-Message-ID: <0101019277ee43b7-78e1d7f8-1e94-4a28-9d85-19ea9c780fb4-000000@us-west-2.amazonses.com>
+Subject: [AUH] virglrenderer: upgrading to 1.1.0 FAILED
+Message-ID: <0101019277ee44f8-8cd3bc37-f6d2-4d42-8ea7-cb3a6f6db126-000000@us-west-2.amazonses.com>
 Date: Thu, 10 Oct 2024 19:35:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.31
+X-SES-Outgoing: 2024.10.10-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205484
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205485
 
---===============7991499579338813580==
+--===============9050270182675754197==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-jsonschema-specifications* to *2024.10.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *virglrenderer* to *1.1.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-python3-jsonschema-specifications-upgrade-2023.12.1-.patch
+    - apply the patch: git am 0001-virglrenderer-upgrade-1.0.1-1.1.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,106 +78,258 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dfe473def7b1277b7e98d71e431b6735c3327308 Mon Sep 17 00:00:00 2001
+From c742785f6a46e8281473223b0138080a14af7373 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 13:30:32 +0000
-Subject: [PATCH] python3-jsonschema-specifications: upgrade 2023.12.1 ->
- 2024.10.1
+Date: Thu, 10 Oct 2024 15:27:33 +0000
+Subject: [PATCH] virglrenderer: upgrade 1.0.1 -> 1.1.0
 
 ---
- ...3.12.1.bb => python3-jsonschema-specifications_2024.10.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-jsonschema-specifications_2023.12.1.bb => python3-jsonschema-specifications_2024.10.1.bb} (86%)
+ ...001-meson.build-use-python3-directly-for-python.patch | 9 ++++-----
+ .../{virglrenderer_1.0.1.bb => virglrenderer_1.1.0.bb}   | 2 +-
+ 2 files changed, 5 insertions(+), 6 deletions(-)
+ rename meta/recipes-graphics/virglrenderer/{virglrenderer_1.0.1.bb => virglrenderer_1.1.0.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-jsonschema-specifications_2023.12.1.bb b/meta/recipes-devtools/python/python3-jsonschema-specifications_2024.10.1.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-jsonschema-specifications_2023.12.1.bb
-rename to meta/recipes-devtools/python/python3-jsonschema-specifications_2024.10.1.bb
-index 4ee0dd9b12..6ef83e0554 100644
---- a/meta/recipes-devtools/python/python3-jsonschema-specifications_2023.12.1.bb
-+++ b/meta/recipes-devtools/python/python3-jsonschema-specifications_2024.10.1.bb
-@@ -5,7 +5,7 @@ HOMEPAGE = "https://pypi.org/project/jsonschema-specifications/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=93eb9740964b59e9ba30281255b044e2"
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
+index 3e12495970..6d926702d3 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
+@@ -1,4 +1,4 @@
+-From dec8cca59124d7f8796b54902482ceb295a71b51 Mon Sep 17 00:00:00 2001
++From 364de88d3d32614e9dad1bb718c6483a882cc947 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 6 Jan 2020 12:44:42 +0100
+ Subject: [PATCH] meson.build: use 'python3' directly for python
+@@ -8,16 +8,15 @@ its configuration).
  
--SRC_URI[sha256sum] = "48a76787b3e70f5ed53f1160d2b81f586e4ca6d1548c5de7085d1682674764cc"
-+SRC_URI[sha256sum] = "0f38b83639958ce1152d02a7f062902c41c8fd20d558b0c34344292d417ae272"
+ Upstream-Status: Inappropriate [oe-core specific]
+ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+-
+ ---
+  meson.build | 2 +-
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- inherit pypi python_hatchling
+ diff --git a/meson.build b/meson.build
+-index 9f91ff2f..2391f89d 100644
++index 10be099e..3bb6eec7 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -74,7 +74,7 @@ flags = [
++@@ -77,7 +77,7 @@ flags = [
+  
+  add_project_arguments(cc.get_supported_arguments(flags), language : 'c')
+  
+@@ -25,4 +24,4 @@ index 9f91ff2f..2391f89d 100644
+ +prog_python = 'python3'
+  
+  not_found = dependency('', required: false)
+- libdrm_dep = dependency('libdrm', version : '>=2.4.50', required: get_option('drm').enabled() or get_option('venus'))
++ gbm_dep = not_found
+diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
+similarity index 96%
+rename from meta/recipes-graphics/virglrenderer/virglrenderer_1.0.1.bb
+rename to meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
+index 0501b0c59c..dd72149295 100644
+--- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.1.bb
++++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
+@@ -9,7 +9,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
  
+ DEPENDS = "libdrm libepoxy virtual/egl virtual/libgbm"
+-SRCREV = "690680e5f0f952e22424fca1538c1b24457a0868"
++SRCREV = "1aeaf5e10a9c89096e96d09599aa419d5c50712f"
+ SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https \
+            file://0001-meson.build-use-python3-directly-for-python.patch \
+            "
 -- 
 2.44.1
 
 
---===============7991499579338813580==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/core2-64-poky-linux/python3-jsonschema-specifications (sysroot):
-  /usr/lib/python3.12/site-packages/jsonschema_specifications-2023.12.1.dist-info moved to /usr/lib/python3.12/site-packages/jsonschema_specifications-2024.10.1.dist-info
-
---===============7991499579338813580==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/python3-jsonschema-specifications: SRC_URI changed from "https://files.pythonhosted.org/packages/source/j/jsonschema_specifications/jsonschema_specifications-2023.12.1.tar.gz;downloadfilename=jsonschema_specifications-2023.12.1.tar.gz" to "https://files.pythonhosted.org/packages/source/j/jsonschema_specifications/jsonschema_specifications-2024.10.1.tar.gz;downloadfilename=jsonschema_specifications-2024.10.1.tar.gz"
-packages/core2-64-poky-linux/python3-jsonschema-specifications: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications: PV changed from "2023.12.1" to "2024.10.1"
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dbg: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dbg: PV changed from "2023.12.1" to "2024.10.1"
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dev: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-dev: PV changed from "2023.12.1" to "2024.10.1"
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-doc: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-doc: PV changed from "2023.12.1" to "2024.10.1"
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-locale: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-locale: PV changed from "2023.12.1" to "2024.10.1"
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-src: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-src: PV changed from "2023.12.1" to "2024.10.1"
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-staticdev: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications-staticdev: PV changed from "2023.12.1" to "2024.10.1"
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications: PKGV changed from 2023.12.1 [default] to 2024.10.1 [default]
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications: PKGSIZE changed from 51378 to 51387 (+0%)
-packages/core2-64-poky-linux/python3-jsonschema-specifications/python3-jsonschema-specifications: PV changed from "2023.12.1" to "2024.10.1"
-Changes to packages/core2-64-poky-linux/python3-jsonschema-specifications (sysroot):
-  /usr/lib/python3.12/site-packages/jsonschema_specifications-2023.12.1.dist-info moved to /usr/lib/python3.12/site-packages/jsonschema_specifications-2024.10.1.dist-info
-
---===============7991499579338813580==
+--===============9050270182675754197==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-jsonschema-specifications-upgrade-2023.12.1-.patch"
+ filename="0001-virglrenderer-upgrade-1.0.1-1.1.0.patch"
 
-RnJvbSBkZmU0NzNkZWY3YjEyNzdiN2U5OGQ3MWU0MzFiNjczNWMzMzI3MzA4IE1vbiBTZXAgMTcg
+RnJvbSBjNzQyNzg1ZjZhNDZlODI4MTQ3MzIyM2IwMTM4MDgwYTE0YWY3MzczIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTM6MzA6MzIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWpzb25zY2hlbWEtc3BlY2lmaWNhdGlvbnM6IHVwZ3JhZGUgMjAyMy4xMi4xIC0+CiAy
-MDI0LjEwLjEKCi0tLQogLi4uMy4xMi4xLmJiID0+IHB5dGhvbjMtanNvbnNjaGVtYS1zcGVjaWZp
-Y2F0aW9uc18yMDI0LjEwLjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97
-cHl0aG9uMy1qc29uc2NoZW1hLXNwZWNpZmljYXRpb25zXzIwMjMuMTIuMS5iYiA9PiBweXRob24z
-LWpzb25zY2hlbWEtc3BlY2lmaWNhdGlvbnNfMjAyNC4xMC4xLmJifSAoODYlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hLXNwZWNp
-ZmljYXRpb25zXzIwMjMuMTIuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy1qc29uc2NoZW1hLXNwZWNpZmljYXRpb25zXzIwMjQuMTAuMS5iYgpzaW1pbGFyaXR5IGlu
-ZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-anNvbnNjaGVtYS1zcGVjaWZpY2F0aW9uc18yMDIzLjEyLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1qc29uc2NoZW1hLXNwZWNpZmljYXRpb25zXzIw
-MjQuMTAuMS5iYgppbmRleCA0ZWUwZGQ5YjEyLi42ZWY4M2UwNTU0IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtanNvbnNjaGVtYS1zcGVjaWZpY2F0aW9u
-c18yMDIzLjEyLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LWpzb25zY2hlbWEtc3BlY2lmaWNhdGlvbnNfMjAyNC4xMC4xLmJiCkBAIC01LDcgKzUsNyBAQCBI
-T01FUEFHRSA9ICJodHRwczovL3B5cGkub3JnL3Byb2plY3QvanNvbnNjaGVtYS1zcGVjaWZpY2F0
-aW9ucy8iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJ
-Tkc7bWQ1PTkzZWI5NzQwOTY0YjU5ZTliYTMwMjgxMjU1YjA0NGUyIgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiNDhhNzY3ODdiM2U3MGY1ZWQ1M2YxMTYwZDJiODFmNTg2ZTRjYTZkMTU0OGM1ZGU3
-MDg1ZDE2ODI2NzQ3NjRjYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwZjM4YjgzNjM5OTU4Y2Ux
-MTUyZDAyYTdmMDYyOTAyYzQxYzhmZDIwZDU1OGIwYzM0MzQ0MjkyZDQxN2FlMjcyIgogCiBpbmhl
-cml0IHB5cGkgcHl0aG9uX2hhdGNobGluZwogCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTU6Mjc6MzMgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+aXJnbHJlbmRlcmVyOiB1cGdyYWRlIDEuMC4xIC0+IDEuMS4wCgotLS0KIC4uLjAwMS1tZXNvbi5i
+dWlsZC11c2UtcHl0aG9uMy1kaXJlY3RseS1mb3ItcHl0aG9uLnBhdGNoIHwgOSArKysrLS0tLS0K
+IC4uLi97dmlyZ2xyZW5kZXJlcl8xLjAuMS5iYiA9PiB2aXJnbHJlbmRlcmVyXzEuMS4wLmJifSAg
+IHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDYgZGVsZXRpb25zKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIve3ZpcmdscmVuZGVy
+ZXJfMS4wLjEuYmIgPT4gdmlyZ2xyZW5kZXJlcl8xLjEuMC5iYn0gKDk2JSkKCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVyLzAwMDEt
+bWVzb24uYnVpbGQtdXNlLXB5dGhvbjMtZGlyZWN0bHktZm9yLXB5dGhvbi5wYXRjaCBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXIvMDAwMS1tZXNvbi5i
+dWlsZC11c2UtcHl0aG9uMy1kaXJlY3RseS1mb3ItcHl0aG9uLnBhdGNoCmluZGV4IDNlMTI0OTU5
+NzAuLjZkOTI2NzAyZDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJl
+bmRlcmVyL3ZpcmdscmVuZGVyZXIvMDAwMS1tZXNvbi5idWlsZC11c2UtcHl0aG9uMy1kaXJlY3Rs
+eS1mb3ItcHl0aG9uLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRl
+cmVyL3ZpcmdscmVuZGVyZXIvMDAwMS1tZXNvbi5idWlsZC11c2UtcHl0aG9uMy1kaXJlY3RseS1m
+b3ItcHl0aG9uLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBkZWM4Y2NhNTkxMjRkN2Y4Nzk2
+YjU0OTAyNDgyY2ViMjk1YTcxYjUxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNjRk
+ZTg4ZDNkMzI2MTRlOWRhZDFiYjcxOGM2NDgzYTg4MmNjOTQ3IE1vbiBTZXAgMTcgMDA6MDA6MDAg
+MjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBE
+YXRlOiBNb24sIDYgSmFuIDIwMjAgMTI6NDQ6NDIgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gbWVz
+b24uYnVpbGQ6IHVzZSAncHl0aG9uMycgZGlyZWN0bHkgZm9yIHB5dGhvbgpAQCAtOCwxNiArOCwx
+NSBAQCBpdHMgY29uZmlndXJhdGlvbikuCiAKIFVwc3RyZWFtLVN0YXR1czogSW5hcHByb3ByaWF0
+ZSBbb2UtY29yZSBzcGVjaWZpY10KIFNpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBLYW5hdmluIDxh
+bGV4LmthbmF2aW5AZ21haWwuY29tPgotCiAtLS0KICBtZXNvbi5idWlsZCB8IDIgKy0KICAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBh
+L21lc29uLmJ1aWxkIGIvbWVzb24uYnVpbGQKLWluZGV4IDlmOTFmZjJmLi4yMzkxZjg5ZCAxMDA2
+NDQKK2luZGV4IDEwYmUwOTllLi4zYmI2ZWVjNyAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiAr
+KysgYi9tZXNvbi5idWlsZAotQEAgLTc0LDcgKzc0LDcgQEAgZmxhZ3MgPSBbCitAQCAtNzcsNyAr
+NzcsNyBAQCBmbGFncyA9IFsKICAKICBhZGRfcHJvamVjdF9hcmd1bWVudHMoY2MuZ2V0X3N1cHBv
+cnRlZF9hcmd1bWVudHMoZmxhZ3MpLCBsYW5ndWFnZSA6ICdjJykKICAKQEAgLTI1LDQgKzI0LDQg
+QEAgaW5kZXggOWY5MWZmMmYuLjIzOTFmODlkIDEwMDY0NAogK3Byb2dfcHl0aG9uID0gJ3B5dGhv
+bjMnCiAgCiAgbm90X2ZvdW5kID0gZGVwZW5kZW5jeSgnJywgcmVxdWlyZWQ6IGZhbHNlKQotIGxp
+YmRybV9kZXAgPSBkZXBlbmRlbmN5KCdsaWJkcm0nLCB2ZXJzaW9uIDogJz49Mi40LjUwJywgcmVx
+dWlyZWQ6IGdldF9vcHRpb24oJ2RybScpLmVuYWJsZWQoKSBvciBnZXRfb3B0aW9uKCd2ZW51cycp
+KQorIGdibV9kZXAgPSBub3RfZm91bmQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
+cy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXJfMS4wLjEuYmIgYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVyXzEuMS4wLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3Zp
+cmdscmVuZGVyZXJfMS4wLjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJn
+bHJlbmRlcmVyL3ZpcmdscmVuZGVyZXJfMS4xLjAuYmIKaW5kZXggMDUwMWIwYzU5Yy4uZGQ3MjE0
+OTI5NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIvdmly
+Z2xyZW5kZXJlcl8xLjAuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5k
+ZXJlci92aXJnbHJlbmRlcmVyXzEuMS4wLmJiCkBAIC05LDcgKzksNyBAQCBMSUNFTlNFID0gIk1J
+VCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWM4MWMwOGVlZWZkOTQx
+OGZjYThmODgzMDlhNzZkYjEwIgogCiBERVBFTkRTID0gImxpYmRybSBsaWJlcG94eSB2aXJ0dWFs
+L2VnbCB2aXJ0dWFsL2xpYmdibSIKLVNSQ1JFViA9ICI2OTA2ODBlNWYwZjk1MmUyMjQyNGZjYTE1
+MzhjMWIyNDQ1N2EwODY4IgorU1JDUkVWID0gIjFhZWFmNWUxMGE5Yzg5MDk2ZTk2ZDA5NTk5YWE0
+MTlkNWM1MDcxMmYiCiBTUkNfVVJJID0gImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvdmly
+Z2wvdmlyZ2xyZW5kZXJlci5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMgXAogICAgICAg
+ICAgICBmaWxlOi8vMDAwMS1tZXNvbi5idWlsZC11c2UtcHl0aG9uMy1kaXJlY3RseS1mb3ItcHl0
+aG9uLnBhdGNoIFwKICAgICAgICAgICAgIgotLSAKMi40NC4xCgo=
 
---===============7991499579338813580==--
+--===============9050270182675754197==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1873 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (916 cached, 1 parsed). 1871 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:dc52179f0e01abc1fb236720bafcec5a2355a20f"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 299 Local 288 Mirrors 0 Missed 11 Current 388 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 417 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 427 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 903 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_write_config)
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_write_config: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_write_config: Succeeded
+NOTE: recipe virglrenderer-1.1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 935 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_fetch)
+NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 533 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx_setscene)
+NOTE: recipe virglrenderer-1.1.0-r0: task do_fetch: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Started
+NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 534 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 537 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_create_spdx_setscene)
+NOTE: recipe virglrenderer-1.1.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1057 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_unpack)
+NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_unpack: Started
+NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 579 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_create_spdx_setscene)
+NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1866 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe virglrenderer-1.1.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1925 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_patch)
+NOTE: Running task 1926 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_collect_spdx_deps)
+NOTE: recipe virglrenderer-1.1.0-r0: task do_patch: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe virglrenderer-1.1.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe virglrenderer-1.1.0-r0: task do_patch: Succeeded
+NOTE: Running task 1927 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1928 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_populate_lic)
+NOTE: recipe virglrenderer-1.1.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_populate_lic: Started
+NOTE: recipe virglrenderer-1.1.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe virglrenderer-1.1.0-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_populate_lic unihash changed to b8992058d765b831b1b2287de4f85b08dfdecc2e91d5ae959a552eb0bc92b489
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_deploy_source_date_epoch unihash changed to 95233f5abf27ce4e35a1aeea1931097f927c301d541324ff580142c0ee89f435
+NOTE: Setscene tasks completed
+NOTE: Running task 1929 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_configure)
+NOTE: recipe virglrenderer-1.1.0-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_9.0.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.68.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_populate_sysroot', '/srv
+ /pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.5.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'libnsl2', 'libtirpc', 'texinfo-dummy-native', 'xz', 'libdrm', 'libepoxy', 'mesa', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libpciaccess', 'libpthread-stubs', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxrandr', 'libxrender', 'libxshmfence', 'libxxf86vm', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'gdbm', 'libffi', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 
+ 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Ddrm-msm-experimental=false -Dminigbm_allocation=false -Drender-server=false -Dtests=false -Dvideo=false -Dvenus=true -Dvenus-validate=false...
+| The Meson build system
+| Version: 1.5.2
+| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/git
+| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/build
+| Build type: cross build
+| 
+| ../git/meson.build:24:0: ERROR: Unknown options: "drm-msm-experimental"
+| 
+| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/build/meson-logs/meson-log.txt
+| ERROR: meson failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.1594494:170 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.1594494, line 170
+| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.1594494, line 159
+| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.1594494, line 148
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.1594494, line 183
+NOTE: recipe virglrenderer-1.1.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 1929 tasks of which 1920 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010152718.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010152718.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/log.do_configure.1594494
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: virglrenderer-1.1.0-r0 do_configure: meson failed
+ERROR: virglrenderer-1.1.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.1594494' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/log.do_configure.1594494
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_configure) failed with exit code '1'
+
+--===============9050270182675754197==--
 
