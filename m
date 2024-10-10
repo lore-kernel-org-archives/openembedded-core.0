@@ -2,97 +2,146 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80E0CCEE323
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 09:34:48 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.39505.1728552878658153343
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D70CCF0437
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 09:41:48 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web10.39504.1728553299489995596
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 02:34:39 -0700
+ Thu, 10 Oct 2024 02:41:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N86efZ2f;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4311ae6426aso469305e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 02:34:38 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RtA9eylJ;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-430576ff251so6145055e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 02:41:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728552877; x=1729157677; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zu8YOvRiX15dECMc8R+jVbRilsu9QOp66Yk8wyTkd4o=;
-        b=N86efZ2fCRB2S9Nm+PPR7bsTijXwOMBYG7OpFKjLMyPuHms/Y6O8BoWxr+nXkKK0CV
-         Q9zpOXit+N6wwDAH0c+xwvPNHATA5VXpNjYScHevzkqOVPR8/PGOPPd1uRjjcaaGH/P+
-         PPkmSYXShZssHz1dBYJQV4d44zB8k++ngPZuk=
+        d=linuxfoundation.org; s=google; t=1728553298; x=1729158098; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+RcYsgnWNvaW/tHNUw1JFHdEvqRXtQFUqBaoDIuCxV4=;
+        b=RtA9eylJ9ODmmWuTqEXH2QmYu1ESXS3ZldQ6zoHJqMRtd1Utb9+eFM3B03SCDGqQa2
+         Yf1D3CChOQtJBjPIN4ShYLQkYnGJKH5O2g48iT0iT1MdhHcq3VlnMI+XzLT9EoyBnbs1
+         6ruBKnaAuF6SXjqJFpDcgjntSe3N9IIkBbyuo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728552877; x=1729157677;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Zu8YOvRiX15dECMc8R+jVbRilsu9QOp66Yk8wyTkd4o=;
-        b=Y+cHnHeFKIjaqwp0GxkfqBeTCSKr5iVzIlAzhM0AUg/axCPMTZ+8culEBAL3uU2pBh
-         VW4Op4WknMchxmbBn9b4CgZPcoQZTMBhr3FWkpdghSRZY+ptP6nko3sJxZVacR5Vvllg
-         7NSTstV/kj4dWkgn1Cfzu5Pl5bbJZG5lMHYw+/OLvgU2wfhfBeYiB9vhjjETgPEDIoVZ
-         kVqB00BxwnCPK+psR60Ap0k/f7uR2Rwf7Kljwkdp4RbMjQjDbX0bV/rRVo/rXAoXFYs5
-         J93YJASdgJ0ORgfRvln4E/GrryrultVhmzylqOIrNgLhFO1lsPuWjF5njFRBrWQF69Bz
-         tA0Q==
-X-Gm-Message-State: AOJu0YwAl4DyW+eAekZAmReXTB0z1hxDloYxlJodJp1RC4XoJhWVAGi2
-	QGH1/XJrc0M8KNyKDQJYPRecwrTq/4T/uNFios9YTgaDczkxGHxDtmCsH0JyxDjBPvruw1AO+G6
-	K
-X-Google-Smtp-Source: AGHT+IFXR4nio88iAXH24wwDPAFLcyoX2Iw8InzC3Pz0u7n1PWoqtGPm57VO43V3A1W3guWvo89yqA==
-X-Received: by 2002:a05:600c:4448:b0:426:554a:e0bf with SMTP id 5b1f17b1804b1-430ccf4355bmr45704855e9.16.1728552876653;
-        Thu, 10 Oct 2024 02:34:36 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a7cf:f342:7de0:8e9a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6cfb2asm1020786f8f.51.2024.10.10.02.34.36
+        d=1e100.net; s=20230601; t=1728553298; x=1729158098;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+RcYsgnWNvaW/tHNUw1JFHdEvqRXtQFUqBaoDIuCxV4=;
+        b=XE5utb7d1ycYgmPZXbZaSDsjMhHftbno3c2WX7dQjqWHZJ5oCZLe4OybL5NONjaNqG
+         tMMQVBJnPbuHdF1WyJDqfmyBeCyWzoUKrcnwsyLp3t3hRFAnjZWtZIExh5gwNbUr9RKU
+         jtjSWHNUHXSivmuKwmEH2RMiQ7+0Rr02Ub0y8gZycd7/Nz/t5xHNtz8rHoxHXkRtO/EW
+         7ZKOumK/ZuX6sv21macTVPeNfrD2mSLmiKoWmZvyPHB+rtRSsjzfgmVgxe4TuRFpM0Qj
+         G4MRWMmZQjrAFLWFNsGoqR2I0lg7n2eS/2DTYWy6Mo8hpBTIYA3ENO57NuqGJcIZ2wAm
+         Y/LQ==
+X-Gm-Message-State: AOJu0YwzzAQbRgsHAl/XLjI3y52fWdYyJhLR2OM10wn2UkGivduKfobK
+	zt+W1mmzBIfwpIZTrKmaIIIOydWaUgkLypwsu5UIo9OIb9+hXuRMafOAAwy+LUek2Ih72aTrigA
+	c
+X-Google-Smtp-Source: AGHT+IFU18XLMclLTX28gV/TiVudSEfGTvTG0x785ObEHuIMxs5vVUGFdW7zo5gJepGVQAR/pLgTYA==
+X-Received: by 2002:a05:600c:3492:b0:42c:b9a5:ebbc with SMTP id 5b1f17b1804b1-431157b4673mr30074215e9.16.1728553297572;
+        Thu, 10 Oct 2024 02:41:37 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a7cf:f342:7de0:8e9a? ([2001:8b0:aba:5f3c:a7cf:f342:7de0:8e9a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311835d784sm10732765e9.46.2024.10.10.02.41.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 02:34:36 -0700 (PDT)
+        Thu, 10 Oct 2024 02:41:37 -0700 (PDT)
+Message-ID: <996bc8d75fc7110eb6e8002a8d18b25e9647ddc6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] oeqa/runtime/ssh: Rework ssh timeout
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Jon Mason <jdmason@kudzu.us>
-Subject: [PATCH] oeqa/runtime/ssh: Rework ssh timeout
-Date: Thu, 10 Oct 2024 10:34:35 +0100
-Message-ID: <20241010093435.527603-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.43.0
+Cc: Jon Mason <jdmason@kudzu.us>, Ross Burton <ross.burton@arm.com>
+Date: Thu, 10 Oct 2024 10:41:36 +0100
+In-Reply-To: <17FD0DAF7559F1BD.19251@lists.openembedded.org>
+References: <17FD0DAF7559F1BD.19251@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 09:34:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205402
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 09:41:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205403
 
-After the changes to improve this test, we keep seeing image testing ssh
-failures, particularly on mips.
+On Thu, 2024-10-10 at 10:34 +0100, Richard Purdie via lists.openembedded.or=
+g wrote:
+> After the changes to improve this test, we keep seeing image testing ssh
+> failures, particularly on mips.
+>=20
+> It looks like part of the problem is that on a loaded system, 5s is too s=
+hort
+> for mips to reliably establish an ssh connection. I've seen logs where it=
+ keeps
+> timing out and fails to work, then the debug code successfully uses ssh l=
+ater after
+> everything else fails.
+>=20
+> Change the timings/retries to give slow platforms enough time to respond.
+>=20
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> ---
+> =C2=A0meta/lib/oeqa/runtime/cases/ssh.py | 4 ++--
+> =C2=A01 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/meta/lib/oeqa/runtime/cases/ssh.py b/meta/lib/oeqa/runtime/c=
+ases/ssh.py
+> index b86428002f6..f5b76edff40 100644
+> --- a/meta/lib/oeqa/runtime/cases/ssh.py
+> +++ b/meta/lib/oeqa/runtime/cases/ssh.py
+> @@ -16,7 +16,7 @@ class SSHTest(OERuntimeTestCase):
+> =C2=A0=C2=A0=C2=A0=C2=A0 @OETestDepends(['ping.PingTest.test_ping'])
+> =C2=A0=C2=A0=C2=A0=C2=A0 @OEHasPackage(['dropbear', 'openssh-sshd'])
+> =C2=A0=C2=A0=C2=A0=C2=A0 def test_ssh(self):
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for i in range(20):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for i in range(5):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 status, outp=
+ut =3D self.target.run("uname -a", timeout=3D5)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if status =
+=3D=3D 0:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 break
+> @@ -29,7 +29,7 @@ class SSHTest(OERuntimeTestCase):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 # give it time for the port to open.
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 # We sometimes see -15 (SIGTERM) on slow emulation machines to=
+o, likely
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 # from boot/init not being 100% complete, retry for these too.
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 time.sleep(5)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 time.sleep(30)
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 continue
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 self.fail("uname failed with \"%s\" (exit code %s)" % (output,=
+ status))
 
-It looks like part of the problem is that on a loaded system, 5s is too short
-for mips to reliably establish an ssh connection. I've seen logs where it keeps
-timing out and fails to work, then the debug code successfully uses ssh later after
-everything else fails.
+The ssh test changes and resulting failures is making me quite grumpy.
+We took code which was working reliably, changed to make it much nicer
+and in the process made the autobuilder builds unstable.
 
-Change the timings/retries to give slow platforms enough time to respond.
+I've mentioned it several times and whilst people have looked at and
+said "don't know" or "it shouldn't do that", nobody is actually picking
+up the issue and resolving it.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/lib/oeqa/runtime/cases/ssh.py | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I could have reverted it but I agree the new code is nicer. I'd have
+been asked to "prove" it was the commit, or to revert the revert at
+some point and then we'd be back to the same instability again.
 
-diff --git a/meta/lib/oeqa/runtime/cases/ssh.py b/meta/lib/oeqa/runtime/cases/ssh.py
-index b86428002f6..f5b76edff40 100644
---- a/meta/lib/oeqa/runtime/cases/ssh.py
-+++ b/meta/lib/oeqa/runtime/cases/ssh.py
-@@ -16,7 +16,7 @@ class SSHTest(OERuntimeTestCase):
-     @OETestDepends(['ping.PingTest.test_ping'])
-     @OEHasPackage(['dropbear', 'openssh-sshd'])
-     def test_ssh(self):
--        for i in range(20):
-+        for i in range(5):
-           status, output = self.target.run("uname -a", timeout=5)
-           if status == 0:
-               break
-@@ -29,7 +29,7 @@ class SSHTest(OERuntimeTestCase):
-               # give it time for the port to open.
-               # We sometimes see -15 (SIGTERM) on slow emulation machines too, likely
-               # from boot/init not being 100% complete, retry for these too.
--              time.sleep(5)
-+              time.sleep(30)
-               continue
-           else:
-               self.fail("uname failed with \"%s\" (exit code %s)" % (output, status))
+I have looked at a log of one of the failing builds:
+
+https://valkyrie.yocto.io/pub/shared-failure-data/log.do_testimage.2960382
+from
+https://valkyrie.yoctoproject.org/#/builders/32/builds/198
+
+and concluded it is simply just slower than the 5s being allowed.
+Hopefully this patch fixes the issue. If it does not, I would
+appreciate some help in resolving these failures.
+
+Cheers,
+
+Richard
+
 
