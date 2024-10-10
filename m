@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0077CFD34A
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:17 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.53285.1728588965508360841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 214BDCFD357
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:18 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.53266.1728588946703167204
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:11 -0700
+ Thu, 10 Oct 2024 12:36:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LCfWf/2P;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=VpTQyKM9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019277ee7c4d-7ef2ba38-028a-48ff-8cdc-2540cb253e30-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=a3d6rwfj;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=HdExs2GC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019277ee6c26-90379814-9b4d-4849-831b-7cca88e7d9be-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588971;
+	t=1728588967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=WEYp6jWz03PatlUUHpg5bvw9rz9CdcXonPdrwkcJxT0=;
-	b=LCfWf/2PLJRH0G0RS54xmqatigz5DaPZEZbmM7tY/S39CjzpruEVbAROlESklOcK
-	e5KlVEpN0wIYqJFi++Lop7Mrci0Ask/tffcvlYC+Lyp8XreEUdSZjOooFon7VXJAHrZ
-	AlPG9HSXokc6LJFP+9/sJP77VUqVwaFpu1RFF8ew=
+	bh=P11Ocn3H5BnecsFOzDycKJrdFSAPFgxTH2sFH8dLTCQ=;
+	b=a3d6rwfjEUpY/Vp+iPJN3f0DpYzdjuTco/YZrSndEwIYg+zJ72UwEI61cVyHJP3v
+	DrvRzj6CqgsbCeiRuu0aiCmY36L3WTtD9LSQZH5tcZXC2wOQr6DBrac7ARtrJrLkVT/
+	UbhS2VRuy/QqYOFzxhOgcRiguL3WO7wVsOcgtmgc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588971;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588967;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=WEYp6jWz03PatlUUHpg5bvw9rz9CdcXonPdrwkcJxT0=;
-	b=VpTQyKM9eA5qYkeHRsjGscbIeVdUvoNIXhcsDn+EbctD1nsHf3f1rCSy/ouxjF9Z
-	sKOllpwnTNiE379lRp7a26uUVRTq/fxE834Il8N91N9KJY5rghuFxSeqkvTcSAIU+cy
-	Lvj90U4gzE+ZiJNTROPxTN2h7jgaBkGicXXw+DZo=
-Content-Type: multipart/mixed; boundary="===============5229504227960507506=="
+	bh=P11Ocn3H5BnecsFOzDycKJrdFSAPFgxTH2sFH8dLTCQ=;
+	b=HdExs2GCIcPkODqIX1/L8phFaVpaT7OBW6hqvrZyzOxg3AGHtbvm1HXQae7gt6pH
+	Oz1HlRjE7oJrZR1QjumClWXqDCbLjic1Qybeu6T+Y1r2kp1P4nf+HJsAdrAK+g5t6bK
+	zwb0ZZCbSTfIodQpmiDl6jN2oxWb13X8IgfFq1H0=
+Content-Type: multipart/mixed; boundary="===============4846999010731249883=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Leon Anavi <leon.anavi@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] liburi-perl: upgrading to 5.30 SUCCEEDED
-Message-ID: <0101019277ee7c4d-7ef2ba38-028a-48ff-8cdc-2540cb253e30-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:36:11 +0000
+Subject: [AUH] python3-xmltodict: upgrading to 0.14.1 SUCCEEDED
+Message-ID: <0101019277ee6c26-90379814-9b4d-4849-831b-7cca88e7d9be-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:36:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.193
+X-SES-Outgoing: 2024.10.10-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205527
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205515
 
---===============5229504227960507506==
+--===============4846999010731249883==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *liburi-perl* to *5.30* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-xmltodict* to *0.14.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-liburi-perl-upgrade-5.28-5.30.patch
+    - apply the patch: git am 0001-python3-xmltodict-upgrade-0.13.0-0.14.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,500 +72,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5c9842ae5aa2908245ac761b9b116b5c0c82ccf9 Mon Sep 17 00:00:00 2001
+From 0c842e397bc0a5e444f3275918fef6b9a436baf7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 01:48:50 +0000
-Subject: [PATCH] liburi-perl: upgrade 5.28 -> 5.30
+Date: Thu, 10 Oct 2024 13:55:35 +0000
+Subject: [PATCH] python3-xmltodict: upgrade 0.13.0 -> 0.14.1
 
 ---
- .../perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch | 3 +--
- .../perl/{liburi-perl_5.28.bb => liburi-perl_5.30.bb}          | 2 +-
- 2 files changed, 2 insertions(+), 3 deletions(-)
- rename meta/recipes-devtools/perl/{liburi-perl_5.28.bb => liburi-perl_5.30.bb} (94%)
+ ...{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.1.bb} (86%)
 
-diff --git a/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch b/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
-index ed1f25125f..c1332448a9 100644
---- a/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
-+++ b/meta/recipes-devtools/perl/liburi-perl/0001-Skip-TODO-test-cases-that-fail.patch
-@@ -1,4 +1,4 @@
--From 5a4271456104bdf027644c81c3a208cde5cf522e Mon Sep 17 00:00:00 2001
-+From 148f5a593801416a85350068ffc0f9e45fd4a91b Mon Sep 17 00:00:00 2001
- From: Tim Orling <tim.orling@konsulko.com>
- Date: Thu, 17 Nov 2022 16:33:20 -0800
- Subject: [PATCH] Skip TODO test cases that fail
-@@ -8,7 +8,6 @@ TODO cases report as "not ok" with ptest-runner
- Upstream-Status: Inappropriate [ptest-runner specific]
+diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
+rename to meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
+index e8e275647c..2732715243 100644
+--- a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
++++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/martinblech/xmltodict"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
  
- Signed-off-by: Tim Orling <tim.orling@konsulko.com>
--
- ---
-  t/escape-char.t | 20 ++++++++++----------
-  t/iri.t         | 18 +++++++++---------
-diff --git a/meta/recipes-devtools/perl/liburi-perl_5.28.bb b/meta/recipes-devtools/perl/liburi-perl_5.30.bb
-similarity index 94%
-rename from meta/recipes-devtools/perl/liburi-perl_5.28.bb
-rename to meta/recipes-devtools/perl/liburi-perl_5.30.bb
-index 1fc0efd3e5..9294ce6859 100644
---- a/meta/recipes-devtools/perl/liburi-perl_5.28.bb
-+++ b/meta/recipes-devtools/perl/liburi-perl_5.30.bb
-@@ -12,7 +12,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/O/OA/OALDERS/URI-${PV}.tar.gz \
-            file://0001-Skip-TODO-test-cases-that-fail.patch \
-            "
+-SRC_URI[sha256sum] = "341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56"
++SRC_URI[sha256sum] = "338c8431e4fc554517651972d62f06958718f6262b04316917008e8fd677a6b0"
  
--SRC_URI[sha256sum] = "e7985da359b15efd00917fa720292b711c396f2f9f9a7349e4e7dec74aa79765"
-+SRC_URI[sha256sum] = "be366cf5d923e2c0d63e5fe5f707f614a144020961a2a0fe0b2c922f5fb80a95"
- 
- S = "${WORKDIR}/URI-${PV}"
+ PYPI_PACKAGE = "xmltodict"
  
 -- 
 2.44.1
 
 
---===============5229504227960507506==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 917 .bb files complete (0 cached, 917 parsed). 1872 targets, 51 skipped, 0 masked, 0 errors.
-Removing 15 recipes from the core2-64 sysroot...done.
-Removing 62 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:5956186f90d0e264254ae2ec965eed865aebca7a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 269 Local 258 Mirrors 0 Missed 11 Current 193 (95% match, 97% complete)
-Removing 3 stale sstate objects for arch x86_64...done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 198 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 199 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 200 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 201 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 202 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 203 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 204 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-warnings-perl_0.033.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 205 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-warnings-perl_0.033.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 206 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-warnings-perl_0.033.bb:do_package_write_rpm_setscene)
-NOTE: Running setscene task 208 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 209 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 210 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-warnings-perl_0.033.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 218 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 221 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_package_write_deb_setscene)
-NOTE: Running setscene task 222 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_package_write_ipk_setscene)
-NOTE: Running setscene task 223 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_package_write_rpm_setscene)
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_create_spdx_setscene: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_populate_lic_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 226 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_create_spdx_setscene)
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 227 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_package_write_deb_setscene)
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 228 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb:do_packagedata_setscene)
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running setscene task 229 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_package_write_ipk_setscene)
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 230 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_package_write_rpm_setscene)
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 246 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-fatal-perl_0.017.bb:do_packagedata_setscene)
-NOTE: Running setscene task 270 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-needs-perl_0.002010.bb:do_packagedata_setscene)
-NOTE: Running setscene task 272 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtest-warnings-perl_0.033.bb:do_packagedata_setscene)
-NOTE: Running setscene task 275 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_create_spdx_setscene)
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_ipk_setscene: Started
-NOTE: recipe libtry-tiny-perl-0.31-r0: task do_packagedata_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_rpm_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_deb_setscene: Started
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: Running task 596 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_recipe_qa)
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: Running setscene task 307 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libtry-tiny-perl/0.31/temp/log.do_packagedata_setscene.3069044
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 308 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb:do_package_setscene)
-NOTE: recipe libtest-fatal-perl-0.017-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtest-needs-perl-0.002010-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtest-warnings-perl-0.033-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe perl-5.40.0-r0: task do_package_write_deb_setscene: Succeeded
-NOTE: recipe perl-5.40.0-r0: task do_package_write_rpm_setscene: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_recipe_qa: Started
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe perl-5.40.0-r0: task do_package_write_ipk_setscene: Succeeded
-NOTE: Running setscene task 320 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/procps/procps_4.0.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 321 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sed/sed_4.9.bb:do_packagedata_setscene)
-NOTE: Running setscene task 324 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 325 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb:do_packagedata_setscene)
-NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 700 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_fetch)
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe procps-4.0.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_fetch: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_fetch: Succeeded
-NOTE: Running task 701 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_unpack)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ptest-runner-2.4.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 333 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 335 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 337 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.4.bb:do_packagedata_setscene)
-NOTE: Running setscene task 341 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_packagedata_setscene)
-NOTE: recipe procps-4.0.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 346 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_unpack: Started
-NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_unpack: Succeeded
-NOTE: Running task 717 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_patch)
-NOTE: recipe sed-4.9-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 356 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtry-tiny-perl-0.31-r0: task do_package_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 368 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 372 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe liburi-perl-5.30-r0: task do_patch: Succeeded
-NOTE: Running task 786 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_deploy_source_date_epoch)
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtry-tiny-perl-0.31-r0: task do_package_setscene: Succeeded
-NOTE: Running setscene task 386 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 387 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 388 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtry-tiny-perl-0.31-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe libtry-tiny-perl-0.31-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 390 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe perl-5.40.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 401 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 402 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 403 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 404 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 406 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/perl_5.40.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 407 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: Running setscene task 408 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe perl-5.40.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 415 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 417 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 419 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 421 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 425 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 427 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 429 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 431 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 432 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 434 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: Running setscene task 435 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: Running setscene task 436 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_packagedata_setscene)
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 437 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 439 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 443 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 444 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 446 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 451 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 453 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 454 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 458 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 459 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 461 of 462 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_recipe_qa_setscene)
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1134 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1257 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/libtry-tiny-perl_0.31.bb:do_packagedata)
-NOTE: Running task 1262 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_collect_spdx_deps)
-NOTE: recipe liburi-perl-5.30-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libtry-tiny-perl-0.31-r0: task do_packagedata: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libtry-tiny-perl-0.31-r0: task do_packagedata: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 1301 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_configure)
-NOTE: recipe liburi-perl-5.30-r0: task do_configure: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_configure: Succeeded
-NOTE: Running task 1302 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_configure_ptest_base)
-NOTE: recipe liburi-perl-5.30-r0: task do_configure_ptest_base: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 1303 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_compile)
-NOTE: recipe liburi-perl-5.30-r0: task do_compile: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_compile: Succeeded
-NOTE: Running task 1304 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_compile_ptest_base)
-NOTE: recipe liburi-perl-5.30-r0: task do_compile_ptest_base: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 1305 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_install)
-NOTE: recipe liburi-perl-5.30-r0: task do_install: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_install: Succeeded
-NOTE: Running task 1306 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_install_ptest_base)
-NOTE: recipe liburi-perl-5.30-r0: task do_install_ptest_base: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 1307 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_install_ptest_perl)
-NOTE: Running task 1308 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_populate_sysroot)
-NOTE: recipe liburi-perl-5.30-r0: task do_populate_sysroot: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_install_ptest_perl: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_install_ptest_perl: Succeeded
-NOTE: Running task 1309 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_package)
-NOTE: recipe liburi-perl-5.30-r0: task do_package: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_package: Succeeded
-NOTE: Running task 1310 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_packagedata)
-NOTE: recipe liburi-perl-5.30-r0: task do_packagedata: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_packagedata: Succeeded
-NOTE: Running task 1311 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_create_spdx)
-NOTE: Running task 1312 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_package_write_ipk)
-NOTE: Running task 1313 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_package_write_deb)
-NOTE: Running task 1314 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_package_write_rpm)
-NOTE: Running task 1315 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_package_qa)
-NOTE: recipe liburi-perl-5.30-r0: task do_create_spdx: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_package_write_ipk: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_package_write_deb: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_package_write_rpm: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_package_qa: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_create_spdx: Succeeded
-NOTE: Running task 1316 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_create_package_spdx)
-NOTE: recipe liburi-perl-5.30-r0: task do_create_package_spdx: Started
-NOTE: recipe liburi-perl-5.30-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_package_qa: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_package_write_deb: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe liburi-perl-5.30-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 1317 of 1317 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/perl/liburi-perl_5.30.bb:do_build)
-NOTE: Tasks Summary: Attempted 1317 tasks of which 1292 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl-src went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl-dbg went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl-ptest went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl-staticdev went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl-dev went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl-doc went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl-locale went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: QA Issue: Package version for package libtry-tiny-perl went backwards which would break package feeds (from 0:0.32-r0 to 0:0.31-r0) [version-going-backwards]
-ERROR: libtry-tiny-perl-0.31-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
-
---===============5229504227960507506==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-liburi-perl-upgrade-5.28-5.30.patch"
-
-RnJvbSA1Yzk4NDJhZTVhYTI5MDgyNDVhYzc2MWI5YjExNmI1YzBjODJjY2Y5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDE6NDg6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ1cmktcGVybDogdXBncmFkZSA1LjI4IC0+IDUuMzAKCi0tLQogLi4uL3BlcmwvbGlidXJpLXBl
-cmwvMDAwMS1Ta2lwLVRPRE8tdGVzdC1jYXNlcy10aGF0LWZhaWwucGF0Y2ggfCAzICstLQogLi4u
-L3Blcmwve2xpYnVyaS1wZXJsXzUuMjguYmIgPT4gbGlidXJpLXBlcmxfNS4zMC5iYn0gICAgICAg
-ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMo
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVybC97bGlidXJpLXBlcmxfNS4yOC5i
-YiA9PiBsaWJ1cmktcGVybF81LjMwLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy9wZXJsL2xpYnVyaS1wZXJsLzAwMDEtU2tpcC1UT0RPLXRlc3QtY2FzZXMtdGhh
-dC1mYWlsLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJpLXBlcmwvMDAw
-MS1Ta2lwLVRPRE8tdGVzdC1jYXNlcy10aGF0LWZhaWwucGF0Y2gKaW5kZXggZWQxZjI1MTI1Zi4u
-YzEzMzI0NDhhOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJp
-LXBlcmwvMDAwMS1Ta2lwLVRPRE8tdGVzdC1jYXNlcy10aGF0LWZhaWwucGF0Y2gKKysrIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJpLXBlcmwvMDAwMS1Ta2lwLVRPRE8tdGVzdC1j
-YXNlcy10aGF0LWZhaWwucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDVhNDI3MTQ1NjEwNGJk
-ZjAyNzY0NGM4MWMzYTIwOGNkZTVjZjUyMmUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
-IDE0OGY1YTU5MzgwMTQxNmE4NTM1MDA2OGZmYzBmOWU0NWZkNGE5MWIgTW9uIFNlcCAxNyAwMDow
-MDowMCAyMDAxCiBGcm9tOiBUaW0gT3JsaW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtvLmNvbT4KIERh
-dGU6IFRodSwgMTcgTm92IDIwMjIgMTY6MzM6MjAgLTA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gU2tp
-cCBUT0RPIHRlc3QgY2FzZXMgdGhhdCBmYWlsCkBAIC04LDcgKzgsNiBAQCBUT0RPIGNhc2VzIHJl
-cG9ydCBhcyAibm90IG9rIiB3aXRoIHB0ZXN0LXJ1bm5lcgogVXBzdHJlYW0tU3RhdHVzOiBJbmFw
-cHJvcHJpYXRlIFtwdGVzdC1ydW5uZXIgc3BlY2lmaWNdCiAKIFNpZ25lZC1vZmYtYnk6IFRpbSBP
-cmxpbmcgPHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgotCiAtLS0KICB0L2VzY2FwZS1jaGFyLnQg
-fCAyMCArKysrKysrKysrLS0tLS0tLS0tLQogIHQvaXJpLnQgICAgICAgICB8IDE4ICsrKysrKysr
-Ky0tLS0tLS0tLQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BlcmwvbGlidXJp
-LXBlcmxfNS4yOC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYnVyaS1wZXJsXzUu
-MzAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BlcmwvbGlidXJpLXBlcmxfNS4yOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3BlcmwvbGlidXJpLXBlcmxfNS4zMC5iYgppbmRleCAxZmMwZWZkM2U1Li45Mjk0Y2U2ODU5
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGVybC9saWJ1cmktcGVybF81LjI4
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wZXJsL2xpYnVyaS1wZXJsXzUuMzAuYmIK
-QEAgLTEyLDcgKzEyLDcgQEAgU1JDX1VSSSA9ICIke0NQQU5fTUlSUk9SfS9hdXRob3JzL2lkL08v
-T0EvT0FMREVSUy9VUkktJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovLzAwMDEtU2tp
-cC1UT0RPLXRlc3QtY2FzZXMtdGhhdC1mYWlsLnBhdGNoIFwKICAgICAgICAgICAgIgogCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiZTc5ODVkYTM1OWIxNWVmZDAwOTE3ZmE3MjAyOTJiNzExYzM5NmYy
-ZjlmOWE3MzQ5ZTRlN2RlYzc0YWE3OTc2NSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJiZTM2NmNm
-NWQ5MjNlMmMwZDYzZTVmZTVmNzA3ZjYxNGExNDQwMjA5NjFhMmEwZmUwYjJjOTIyZjVmYjgwYTk1
-IgogCiBTID0gIiR7V09SS0RJUn0vVVJJLSR7UFZ9IgogCi0tIAoyLjQ0LjEKCg==
-
---===============5229504227960507506==
+--===============4846999010731249883==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-doc: FILELIST: added "/usr/share/man/man3/URI::otpauth.3"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: FILELIST: added "/usr/lib/liburi-perl/ptest/t/scp.t /usr/lib/liburi-perl/ptest/t/ssh.t /usr/lib/liburi-perl/ptest/t/ftpes.t /usr/lib/liburi-perl/ptest/t/irc.t /usr/lib/liburi-perl/ptest/t/ircs.t /usr/lib/liburi-perl/ptest/t/ftps.t /usr/lib/liburi-perl/ptest/t/sftp.t /usr/lib/liburi-perl/ptest/t/otpauth.t"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: FILELIST: added "/usr/lib/perl5/vendor_perl/5.40.0/URI/ftps.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/scp.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/irc.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/ftpes.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/otpauth.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/ircs.pm"
-Changes to packages/core2-64-poky-linux/liburi-perl (sysroot):
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/ftpes.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/ftps.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/irc.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/ircs.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/otpauth.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/scp.pm was added
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: FILELIST: added "/usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__init__.py /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-311.pyc"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGSIZE changed from 94219 to 168964 (+79%)
+Changes to packages/core2-64-poky-linux/python3-xmltodict (sysroot):
+  /usr/lib/python3.12/site-packages/xmltodict-0.13.0.dist-info moved to /usr/lib/python3.12/site-packages/xmltodict-0.14.1.dist-info
 
---===============5229504227960507506==
+--===============4846999010731249883==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/liburi-perl: SRC_URI changed from "https://search.cpan.org/CPAN/authors/id/O/OA/OALDERS/URI-5.28.tar.gz file://0001-Skip-TODO-test-cases-that-fail.patch file://ptest-perl/run-ptest" to "https://search.cpan.org/CPAN/authors/id/O/OA/OALDERS/URI-5.30.tar.gz file://0001-Skip-TODO-test-cases-that-fail.patch file://ptest-perl/run-ptest"
-packages/core2-64-poky-linux/liburi-perl: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dbg: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dbg: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dev: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-dev: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-doc: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-doc: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-doc: FILELIST: added "/usr/share/man/man3/URI::otpauth.3"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-doc: PKGSIZE changed from 104222 to 111776 (+7%)
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-locale: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-locale: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: FILELIST: added "/usr/lib/liburi-perl/ptest/t/irc.t /usr/lib/liburi-perl/ptest/t/scp.t /usr/lib/liburi-perl/ptest/t/ftpes.t /usr/lib/liburi-perl/ptest/t/ssh.t /usr/lib/liburi-perl/ptest/t/sftp.t /usr/lib/liburi-perl/ptest/t/otpauth.t /usr/lib/liburi-perl/ptest/t/ftps.t /usr/lib/liburi-perl/ptest/t/ircs.t"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-ptest: PKGSIZE changed from 140064 to 151103 (+8%)
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-src: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-src: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-staticdev: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl-staticdev: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: PV changed from "5.28" to "5.30"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: PKGV changed from 5.28 [default] to 5.30 [default]
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: FILELIST: added "/usr/lib/perl5/vendor_perl/5.40.0/URI/ftpes.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/scp.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/otpauth.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/irc.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/ftps.pm /usr/lib/perl5/vendor_perl/5.40.0/URI/ircs.pm"
-packages/core2-64-poky-linux/liburi-perl/liburi-perl: PKGSIZE changed from 152722 to 166341 (+9%)
-Changes to packages/core2-64-poky-linux/liburi-perl (sysroot):
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/ftpes.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/ftps.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/irc.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/ircs.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/otpauth.pm was added
-  /usr/lib/perl5/vendor_perl/5.40.0/URI/scp.pm was added
+packages/core2-64-poky-linux/python3-xmltodict: SRC_URI changed from "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-0.13.0.tar.gz;downloadfilename=xmltodict-0.13.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-0.14.1.tar.gz;downloadfilename=xmltodict-0.14.1.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-xmltodict: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dev: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dev: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-doc: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-doc: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-locale: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-locale: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGSIZE changed from 94219 to 168964 (+79%)
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: FILELIST: added "/usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__init__.py /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-312.pyc"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-src: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-src: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PKGSIZE changed from 49938 to 49042 (-2%)
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PV changed from "0.13.0" to "0.14.1"
+Changes to packages/core2-64-poky-linux/python3-xmltodict (sysroot):
+  /usr/lib/python3.12/site-packages/xmltodict-0.13.0.dist-info moved to /usr/lib/python3.12/site-packages/xmltodict-0.14.1.dist-info
 
---===============5229504227960507506==--
+--===============4846999010731249883==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-xmltodict-upgrade-0.13.0-0.14.1.patch"
+
+RnJvbSAwYzg0MmUzOTdiYzBhNWU0NDRmMzI3NTkxOGZlZjZiOWE0MzZiYWY3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTM6NTU6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXhtbHRvZGljdDogdXBncmFkZSAwLjEzLjAgLT4gMC4xNC4xCgotLS0KIC4uLntweXRo
+b24zLXhtbHRvZGljdF8wLjEzLjAuYmIgPT4gcHl0aG9uMy14bWx0b2RpY3RfMC4xNC4xLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMteG1sdG9kaWN0XzAuMTMu
+MC5iYiA9PiBweXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjEzLjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzAuMTQuMS5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzAuMTMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmIKaW5kZXggZThlMjc1
+NjQ3Yy4uMjczMjcxNTI0MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXhtbHRvZGljdF8wLjEzLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQ
+QUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9tYXJ0aW5ibGVjaC94bWx0b2RpY3QiCiBMSUNFTlNF
+ID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTAxNDQxZDUw
+ZGM3NDQ3NmRiNThhNDFhYzEwY2I5ZmEyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQxNTk1
+YTQ4OGUzZTAxYTg1YTlkODkxMWQ4OTEyZmQ5MjJlZGU1ZmVjYzRkY2U0MzdlYjRiNmM4ZDAzN2U1
+NiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzMzhjODQzMWU0ZmM1NTQ1MTc2NTE5NzJkNjJmMDY5
+NTg3MThmNjI2MmIwNDMxNjkxNzAwOGU4ZmQ2NzdhNmIwIgogCiBQWVBJX1BBQ0tBR0UgPSAieG1s
+dG9kaWN0IgogCi0tIAoyLjQ0LjEKCg==
+
+--===============4846999010731249883==--
 
