@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F7B4CFC600
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:42 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.53349.1728588940440488457
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B3321CFC604
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:52 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.53353.1728588943025175668
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:35:40 -0700
+ Thu, 10 Oct 2024 12:35:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ihb7K5S+;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=n7nPJmdG;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019277ee015e-b574c430-3142-4b91-a541-ae6057d68249-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VfqqzXqD;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RgkStd8y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019277ee0b82-e773b74d-567d-42f6-8d23-9543ac280c6d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588939;
+	t=1728588942;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rfYSYXai3GZSBYY4crcguSOC6726CwwLY+clB1NmIPk=;
-	b=ihb7K5S+jr/g94Q/foi1SofeD91Cyonfb5d5LTHD336OPDP5Z3mmYGE+x3N2wx3F
-	buBApWRPUNv/T+JKERKpcpcqTbBqprePwvX9pui36Vh6GpZJEGO25IKRq9fZ8ktxC7c
-	ZL5onLPRE/vRrKefri6CcImsy1iDe+Tvg1YU6wII=
+	bh=MRvVMTpRJ84K554qxqY84r2bCfaTOPAGucXMvKbukxQ=;
+	b=VfqqzXqDhzzyHNcGBFp96iM2YQgD+zJbUbJQvTNqWhIxGczSFOnGphPMjTAFEXdJ
+	au5ksBLuGDCam1QAZQQTCX301rLwl3mefZ8jm43Ix0+8cZe0cgGF/Ul6htRHRqjsNj+
+	rMIb84qsPFz3ZCEVz1sBN0D0egncQsGXjYs3TvvI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588939;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588942;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rfYSYXai3GZSBYY4crcguSOC6726CwwLY+clB1NmIPk=;
-	b=n7nPJmdG0lkbgGPaZ08RBm0faxGh6s8U79vvAYdIS7dp/YB52A+PH/eMR/7sipSv
-	ghfSVzL/k5lCJ0fLgDsZ8GrxQS7UryF8IZv309KFWAPEqzUtQn1SU27F5RTovAvQ7Q/
-	7791/gM+48akVzutE5sGX/3sooB64EqGq4XWEDrk=
-Content-Type: multipart/mixed; boundary="===============7425851339027029149=="
+	bh=MRvVMTpRJ84K554qxqY84r2bCfaTOPAGucXMvKbukxQ=;
+	b=RgkStd8ytBTAxi17UEwpkC7cIrXsi07paqQFH2oPFLYUWOEZbaP+TkCY5GIt5S7z
+	jDC4DiA6Q/b9souwLrS8kd2t8AGXQeKMAYUYGoL4cF4aL/7WF3YQgSc7qoSk17agv7C
+	K49FNIlT3oUgfT2MjqUZVPBA46igK4EUDM0IH7YE=
+Content-Type: multipart/mixed; boundary="===============8857375490884679455=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glslang: upgrading to 1.3.296.0 SUCCEEDED
-Message-ID: <0101019277ee015e-b574c430-3142-4b91-a541-ae6057d68249-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:35:39 +0000
+To: openembedded-core@lists.openembedded.org
+Cc: 
+Subject: [AUH] cmake-native,cmake: upgrading to 3.30.5,3.30.5 SUCCEEDED
+Message-ID: <0101019277ee0b82-e773b74d-567d-42f6-8d23-9543ac280c6d-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:35:42 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.33
+X-SES-Outgoing: 2024.10.10-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205434
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205438
 
---===============7425851339027029149==
+--===============8857375490884679455==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *glslang* to *1.3.296.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *cmake-native,cmake* to *3.30.5,3.30.5* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-glslang-upgrade-1.3.290.0-1.3.296.0.patch
+    - apply the patch: git am 0001-cmake-native-cmake-upgrade-3.30.2-3.30.5-3.30.2-3.30.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,185 +72,162 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dd803fb86c248392eaaa62e9a6457051b3c78a27 Mon Sep 17 00:00:00 2001
+From 73795bdb1eb4b9dbb7b9d488c5807060f975dc7b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 04:24:31 +0000
-Subject: [PATCH] glslang: upgrade 1.3.290.0 -> 1.3.296.0
+Date: Wed, 9 Oct 2024 23:00:28 +0000
+Subject: [PATCH] cmake-native,cmake: upgrade 3.30.2 -> 3.30.5,3.30.2 -> 3.30.5
 
 ---
- .../glslang/glslang/0001-generate-glslang-pkg-config.patch  | 6 +++---
- .../glslang/{glslang_1.3.290.0.bb => glslang_1.3.296.0.bb}  | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.3.290.0.bb => glslang_1.3.296.0.bb} (96%)
+ .../cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.5.bb}    | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ .../cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch   | 2 +-
+ ...5-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch | 2 +-
+ .../recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.5.bb} | 0
+ 5 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.5.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.5.bb} (100%)
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index f8c0fc64c8..70c2b99fc1 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.30.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.30.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.30.5.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index b88a4e4bc6..41f169e14c 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+ "
+ 
+-SRC_URI[sha256sum] = "46074c781eccebc433e98f0bbfa265ca3fd4381f245ca3b140e7711531d60db2"
++SRC_URI[sha256sum] = "9f55e1a40508f2f29b7e065fa08c29f82c402fa0402da839fffe64a25755a86d"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
+index 7dc07582da..fe7d3b3b1c 100644
+--- a/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
++++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeLists.txt-disable-USE_NGHTTP2.patch
 @@ -1,4 +1,4 @@
--From 0311dfd63ea41abb45aaf0f4ccc674f574ce639e Mon Sep 17 00:00:00 2001
-+From de49724f4b13d853dba621ac05f767bae9f59bbc Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-@@ -15,10 +15,10 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 glslang/glslang.pc.cmake.in
- 
- diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
--index 8d4b1e9c..717c6d47 100644
-+index 47925d8d..d90191c3 100644
- --- a/glslang/CMakeLists.txt
- +++ b/glslang/CMakeLists.txt
--@@ -235,6 +235,8 @@ if(GLSLANG_ENABLE_INSTALL)
-+@@ -255,6 +255,8 @@ if(GLSLANG_ENABLE_INSTALL)
-          install(TARGETS MachineIndependent EXPORT glslang-targets)
-          install(TARGETS GenericCodeGen EXPORT glslang-targets)
-      endif()
-diff --git a/meta/recipes-graphics/glslang/glslang_1.3.290.0.bb b/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/glslang/glslang_1.3.290.0.bb
-rename to meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-index d6ee46de1e..3b66e3544c 100644
---- a/meta/recipes-graphics/glslang/glslang_1.3.290.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
- 
--SRCREV = "fa9c3deb49e035a8abcabe366f26aac010f6cbfb"
-+SRCREV = "46ef757e048e760b46601e6e77ae0cb72c97bd2f"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
-            file://0001-generate-glslang-pkg-config.patch \
-            "
+-From 5e624d82c2838fec2f41ebec124f74aacff9e61f Mon Sep 17 00:00:00 2001
++From 7673edf8dc373b5beabcdf842d92a8f1ffe11f8e Mon Sep 17 00:00:00 2001
+ From: Changqing Li <changqing.li@windriver.com>
+ Date: Wed, 28 Dec 2022 17:51:27 +0800
+ Subject: [PATCH] CMakeLists.txt: disable USE_NGHTTP2
+diff --git a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+index 8788cc7964..2db5fcdd22 100644
+--- a/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
++++ b/meta/recipes-devtools/cmake/cmake/0005-Disable-use-of-ext2fs-ext2_fs.h-by-cmake-s-internal-.patch
+@@ -1,4 +1,4 @@
+-From b97f7dbb2637c6da772833c93bedc8be77520fb9 Mon Sep 17 00:00:00 2001
++From 94e89fd8cd10b31abc538bae1249b59c43baa072 Mon Sep 17 00:00:00 2001
+ From: Otavio Salvador <otavio@ossystems.com.br>
+ Date: Thu, 5 Jul 2018 10:28:04 -0300
+ Subject: [PATCH] Disable use of ext2fs/ext2_fs.h by cmake's internal
+diff --git a/meta/recipes-devtools/cmake/cmake_3.30.2.bb b/meta/recipes-devtools/cmake/cmake_3.30.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.30.5.bb
 -- 
 2.44.1
 
 
---===============7425851339027029149==
+--===============8857375490884679455==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-glslang-upgrade-1.3.290.0-1.3.296.0.patch"
+ filename="0001-cmake-native-cmake-upgrade-3.30.2-3.30.5-3.30.2-3.30.patch"
 
-RnJvbSBkZDgwM2ZiODZjMjQ4MzkyZWFhYTYyZTlhNjQ1NzA1MWIzYzc4YTI3IE1vbiBTZXAgMTcg
+RnJvbSA3Mzc5NWJkYjFlYjRiOWRiYjdiOWQ0ODhjNTgwNzA2MGY5NzVkYzdiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDQ6MjQ6MzEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bHNsYW5nOiB1cGdyYWRlIDEuMy4yOTAuMCAtPiAxLjMuMjk2LjAKCi0tLQogLi4uL2dsc2xhbmcv
-Z2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaCAgfCA2ICsrKy0t
-LQogLi4uL2dsc2xhbmcve2dsc2xhbmdfMS4zLjI5MC4wLmJiID0+IGdsc2xhbmdfMS4zLjI5Ni4w
-LmJifSAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
-bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy97Z2xzbGFuZ18xLjMu
-MjkwLjAuYmIgPT4gZ2xzbGFuZ18xLjMuMjk2LjAuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmct
-cGtnLWNvbmZpZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmcv
-MDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2gKaW5kZXggZjhjMGZjNjRjOC4u
-NzBjMmI5OWZjMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xz
-bGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ct
-Y29uZmlnLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMzExZGZkNjNlYTQxYWJiNDVhYWYw
-ZjRjY2M2NzRmNTc0Y2U2MzllIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkZTQ5NzI0
-ZjRiMTNkODUzZGJhNjIxYWMwNWY3NjdiYWU5ZjU5YmJjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRlOiBT
-dW4sIDcgRmViIDIwMjEgMDE6MzA6MzkgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZ2VuZXJhdGUg
-Z2xzbGFuZyBwa2ctY29uZmlnCkBAIC0xNSwxMCArMTUsMTAgQEAgU2lnbmVkLW9mZi1ieTogSm9z
-ZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IGdsc2xhbmcvZ2xzbGFuZy5wYy5jbWFrZS5pbgogCiBkaWZmIC0tZ2l0IGEvZ2xzbGFuZy9DTWFr
-ZUxpc3RzLnR4dCBiL2dsc2xhbmcvQ01ha2VMaXN0cy50eHQKLWluZGV4IDhkNGIxZTljLi43MTdj
-NmQ0NyAxMDA2NDQKK2luZGV4IDQ3OTI1ZDhkLi5kOTAxOTFjMyAxMDA2NDQKIC0tLSBhL2dsc2xh
-bmcvQ01ha2VMaXN0cy50eHQKICsrKyBiL2dsc2xhbmcvQ01ha2VMaXN0cy50eHQKLUBAIC0yMzUs
-NiArMjM1LDggQEAgaWYoR0xTTEFOR19FTkFCTEVfSU5TVEFMTCkKK0BAIC0yNTUsNiArMjU1LDgg
-QEAgaWYoR0xTTEFOR19FTkFCTEVfSU5TVEFMTCkKICAgICAgICAgIGluc3RhbGwoVEFSR0VUUyBN
-YWNoaW5lSW5kZXBlbmRlbnQgRVhQT1JUIGdsc2xhbmctdGFyZ2V0cykKICAgICAgICAgIGluc3Rh
-bGwoVEFSR0VUUyBHZW5lcmljQ29kZUdlbiBFWFBPUlQgZ2xzbGFuZy10YXJnZXRzKQogICAgICBl
-bmRpZigpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5n
-XzEuMy4yOTAuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4z
-LjI5Ni4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1n
-cmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjI5MC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuMy4yOTYuMC5iYgppbmRleCBkNmVlNDZkZTFl
-Li4zYjY2ZTM1NDRjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9n
-bHNsYW5nXzEuMy4yOTAuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9n
-bHNsYW5nXzEuMy4yOTYuMC5iYgpAQCAtOCw3ICs4LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly93
-d3cua2hyb25vcy5vcmcvb3BlbmdsZXMvc2RrL3Rvb2xzL1JlZmVyZW5jZS1Db21waWxlciIKIExJ
-Q0VOU0UgPSAiQlNELTMtQ2xhdXNlICYgQlNELTItQ2xhdXNlICYgTUlUICYgQXBhY2hlLTIuMCAm
-IEdQTC0zLXdpdGgtYmlzb24tZXhjZXB0aW9uIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-TElDRU5TRS50eHQ7bWQ1PTJhMmI1YWNkN2JjNDg0NDk2NGNmZGE0NWZlODA3ZGMzIgogCi1TUkNS
-RVYgPSAiZmE5YzNkZWI0OWUwMzVhOGFiY2FiZTM2NmYyNmFhYzAxMGY2Y2JmYiIKK1NSQ1JFViA9
-ICI0NmVmNzU3ZTA0OGU3NjBiNDY2MDFlNmU3N2FlMGNiNzJjOTdiZDJmIgogU1JDX1VSSSA9ICJn
-aXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9nbHNsYW5nLmdpdDtwcm90b2NvbD1odHRwczti
-cmFuY2g9bWFpbiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtn
-LWNvbmZpZy5wYXRjaCBcCiAgICAgICAgICAgICIKLS0gCjIuNDQuMQoK
+CkRhdGU6IFdlZCwgOSBPY3QgMjAyNCAyMzowMDoyOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGNt
+YWtlLW5hdGl2ZSxjbWFrZTogdXBncmFkZSAzLjMwLjIgLT4gMy4zMC41LDMuMzAuMiAtPiAzLjMw
+LjUKCi0tLQogLi4uL2NtYWtlL3tjbWFrZS1uYXRpdmVfMy4zMC4yLmJiID0+IGNtYWtlLW5hdGl2
+ZV8zLjMwLjUuYmJ9ICAgIHwgMAogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmlu
+YyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwgMiArLQogLi4uL2NtYWtlL2NtYWtlLzAwMDEt
+Q01ha2VMaXN0cy50eHQtZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRjaCAgIHwgMiArLQogLi4uNS1E
+aXNhYmxlLXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwtLnBhdGNo
+IHwgMiArLQogLi4uL3JlY2lwZXMtZGV2dG9vbHMvY21ha2Uve2NtYWtlXzMuMzAuMi5iYiA9PiBj
+bWFrZV8zLjMwLjUuYmJ9IHwgMAogNSBmaWxlcyBjaGFuZ2VkLCAzIGluc2VydGlvbnMoKyksIDMg
+ZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZS1u
+YXRpdmVfMy4zMC4yLmJiID0+IGNtYWtlLW5hdGl2ZV8zLjMwLjUuYmJ9ICgxMDAlKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97Y21ha2VfMy4zMC4yLmJiID0+IGNtYWtlXzMu
+MzAuNS5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtl
+L2NtYWtlLW5hdGl2ZV8zLjMwLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21h
+a2UtbmF0aXZlXzMuMzAuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5hdGl2ZV8zLjMwLjIuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfMy4zMC41LmJiCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jIGIvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwppbmRleCBiODhhNGU0YmM2Li40MWYxNjllMTRj
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCisrKyBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKQEAgLTE5LDcgKzE5LDcgQEAg
+Q01BS0VfTUFKT1JfVkVSU0lPTiA9ICIke0AnLicuam9pbihkLmdldFZhcignUFYnKS5zcGxpdCgn
+LicpWzA6Ml0pfSIKIFNSQ19VUkkgPSAiaHR0cHM6Ly9jbWFrZS5vcmcvZmlsZXMvdiR7Q01BS0Vf
+TUFKT1JfVkVSU0lPTn0vY21ha2UtJHtQVn0udGFyLmd6IFwKICIKIAotU1JDX1VSSVtzaGEyNTZz
+dW1dID0gIjQ2MDc0Yzc4MWVjY2ViYzQzM2U5OGYwYmJmYTI2NWNhM2ZkNDM4MWYyNDVjYTNiMTQw
+ZTc3MTE1MzFkNjBkYjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOWY1NWUxYTQwNTA4ZjJmMjli
+N2UwNjVmYTA4YzI5ZjgyYzQwMmZhMDQwMmRhODM5ZmZmZTY0YTI1NzU1YTg2ZCIKIAogVVBTVFJF
+QU1fQ0hFQ0tfUkVHRVggPSAiY21ha2UtKD9QPHB2ZXI+XGQrKFwuXGQrKSspXC50YXIiCiAKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtlTGlz
+dHMudHh0LWRpc2FibGUtVVNFX05HSFRUUDIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Y21ha2UvY21ha2UvMDAwMS1DTWFrZUxpc3RzLnR4dC1kaXNhYmxlLVVTRV9OR0hUVFAyLnBhdGNo
+CmluZGV4IDdkYzA3NTgyZGEuLmZlN2QzYjNiMWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9jbWFrZS9jbWFrZS8wMDAxLUNNYWtlTGlzdHMudHh0LWRpc2FibGUtVVNFX05HSFRU
+UDIucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDEtQ01h
+a2VMaXN0cy50eHQtZGlzYWJsZS1VU0VfTkdIVFRQMi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gNWU2MjRkODJjMjgzOGZlYzJmNDFlYmVjMTI0Zjc0YWFjZmY5ZTYxZiBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gNzY3M2VkZjhkYzM3M2I1YmVhYmNkZjg0MmQ5MmE4ZjFmZmUxMWY4
+ZSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENoYW5ncWluZyBMaSA8Y2hhbmdxaW5n
+LmxpQHdpbmRyaXZlci5jb20+CiBEYXRlOiBXZWQsIDI4IERlYyAyMDIyIDE3OjUxOjI3ICswODAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIENNYWtlTGlzdHMudHh0OiBkaXNhYmxlIFVTRV9OR0hUVFAyCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2UvMDAwNS1EaXNhYmxl
+LXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwtLnBhdGNoIGIvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLzAwMDUtRGlzYWJsZS11c2Utb2YtZXh0MmZz
+LWV4dDJfZnMuaC1ieS1jbWFrZS1zLWludGVybmFsLS5wYXRjaAppbmRleCA4Nzg4Y2M3OTY0Li4y
+ZGI1ZmNkZDIyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2Uv
+MDAwNS1EaXNhYmxlLXVzZS1vZi1leHQyZnMtZXh0Ml9mcy5oLWJ5LWNtYWtlLXMtaW50ZXJuYWwt
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS8wMDA1LURpc2Fi
+bGUtdXNlLW9mLWV4dDJmcy1leHQyX2ZzLmgtYnktY21ha2Utcy1pbnRlcm5hbC0ucGF0Y2gKQEAg
+LTEsNCArMSw0IEBACi1Gcm9tIGI5N2Y3ZGJiMjYzN2M2ZGE3NzI4MzNjOTNiZWRjOGJlNzc1MjBm
+YjkgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDk0ZTg5ZmQ4Y2QxMGIzMWFiYzUzOGJh
+ZTEyNDliNTljNDNiYWEwNzIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBPdGF2aW8g
+U2FsdmFkb3IgPG90YXZpb0Bvc3N5c3RlbXMuY29tLmJyPgogRGF0ZTogVGh1LCA1IEp1bCAyMDE4
+IDEwOjI4OjA0IC0wMzAwCiBTdWJqZWN0OiBbUEFUQ0hdIERpc2FibGUgdXNlIG9mIGV4dDJmcy9l
+eHQyX2ZzLmggYnkgY21ha2UncyBpbnRlcm5hbApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2NtYWtlL2NtYWtlXzMuMzAuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFr
+ZS9jbWFrZV8zLjMwLjUuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjMwLjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV8zLjMwLjUuYmIKLS0gCjIuNDQuMQoK
 
---===============7425851339027029149==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 87558440 to 51515392 (-41%)
-packages/core2-64-poky-linux/glslang/glslang-dev: FILELIST: added "/usr/include/glslang/Include/visibility.h /usr/include/glslang/SPIRV/SpvTools.h"
-packages/core2-64-poky-linux/glslang/glslang: PKGSIZE changed from 6533273 to 3612393 (-45%)
-packages/core2-64-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang-default-resource-limits.so.14.3.0 /usr/lib/libSPIRV.so.14 /usr/lib/libglslang-default-resource-limits.so.14 /usr/lib/libglslang.so.14.3.0 /usr/lib/libSPVRemapper.so.14.3.0 /usr/lib/libSPIRV.so.14.3.0 /usr/lib/libglslang.so.14 /usr/lib/libSPVRemapper.so.14", added "/usr/lib/libglslang.so.15.0.0 /usr/lib/libSPIRV.so.15 /usr/lib/libSPIRV.so.15.0.0 /usr/lib/libglslang-default-resource-limits.so.15 /usr/lib/libSPVRemapper.so.15.0.0 /usr/lib/libglslang.so.15 /usr/lib/libSPVRemapper.so.15 /usr/lib/libglslang-default-resource-limits.so.15.0.0"
-Changes to packages/core2-64-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so changed symlink target from libglslang-default-resource-limits.so.14 to libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so changed symlink target from libglslang.so.14 to libglslang.so.15
-  /usr/lib/libSPIRV.so changed symlink target from libSPIRV.so.14 to libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so changed symlink target from libSPVRemapper.so.14 to libSPVRemapper.so.15
-  /usr/lib/libglslang-default-resource-limits.so.14.3.0 moved to /usr/lib/libglslang-default-resource-limits.so.15.0.0
-  /usr/lib/libglslang-default-resource-limits.so.14 moved to /usr/lib/libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so.14.3.0 moved to /usr/lib/libglslang.so.15.0.0
-  /usr/lib/libglslang.so.14 moved to /usr/lib/libglslang.so.15
-  /usr/lib/libSPIRV.so.14.3.0 moved to /usr/lib/libSPIRV.so.15.0.0
-  /usr/lib/libSPIRV.so.14 moved to /usr/lib/libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so.14.3.0 moved to /usr/lib/libSPVRemapper.so.15.0.0
-  /usr/lib/libSPVRemapper.so.14 moved to /usr/lib/libSPVRemapper.so.15
-  /usr/include/glslang/Include/visibility.h was added
-  /usr/include/glslang/SPIRV/SpvTools.h was added
-
---===============7425851339027029149==
+--===============8857375490884679455==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 87558440 to 51515392 (-41%)
-packages/core2-64-poky-linux/glslang/glslang-dbg: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang-default-resource-limits.so.14.3.0 /usr/lib/.debug/libSPIRV.so.14.3.0 /usr/lib/.debug/libglslang.so.14.3.0 /usr/lib/.debug/libSPVRemapper.so.14.3.0", added "/usr/lib/.debug/libglslang-default-resource-limits.so.15.0.0 /usr/lib/.debug/libSPVRemapper.so.15.0.0 /usr/lib/.debug/libSPIRV.so.15.0.0 /usr/lib/.debug/libglslang.so.15.0.0"
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-dev: PKGSIZE changed from 277788 to 288513 (+4%)
-packages/core2-64-poky-linux/glslang/glslang-dev: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-dev: FILELIST: added "/usr/include/glslang/Include/visibility.h /usr/include/glslang/SPIRV/SpvTools.h"
-packages/core2-64-poky-linux/glslang/glslang-dev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-doc: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-doc: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-locale: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-locale: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-src: PKGSIZE changed from 4961305 to 4957073 (-0%)
-packages/core2-64-poky-linux/glslang/glslang-src: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-src: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-staticdev: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang: PKGSIZE changed from 6533273 to 3612393 (-45%)
-packages/core2-64-poky-linux/glslang/glslang: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang.so.14.3.0 /usr/lib/libglslang.so.14 /usr/lib/libSPIRV.so.14 /usr/lib/libSPIRV.so.14.3.0 /usr/lib/libglslang-default-resource-limits.so.14.3.0 /usr/lib/libSPVRemapper.so.14.3.0 /usr/lib/libSPVRemapper.so.14 /usr/lib/libglslang-default-resource-limits.so.14", added "/usr/lib/libglslang-default-resource-limits.so.15.0.0 /usr/lib/libglslang.so.15 /usr/lib/libSPIRV.so.15 /usr/lib/libSPIRV.so.15.0.0 /usr/lib/libSPVRemapper.so.15 /usr/lib/libglslang.so.15.0.0 /usr/lib/libSPVRemapper.so.15.0.0 /usr/lib/libglslang-default-resource-limits.so.15"
-packages/core2-64-poky-linux/glslang/glslang: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang: PV changed from "1.3.290.0" to "1.3.296.0"
-Changes to packages/core2-64-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so changed symlink target from libglslang-default-resource-limits.so.14 to libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so changed symlink target from libglslang.so.14 to libglslang.so.15
-  /usr/lib/libSPIRV.so changed symlink target from libSPIRV.so.14 to libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so changed symlink target from libSPVRemapper.so.14 to libSPVRemapper.so.15
-  /usr/lib/libglslang-default-resource-limits.so.14.3.0 moved to /usr/lib/libglslang-default-resource-limits.so.15.0.0
-  /usr/lib/libglslang-default-resource-limits.so.14 moved to /usr/lib/libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so.14.3.0 moved to /usr/lib/libglslang.so.15.0.0
-  /usr/lib/libglslang.so.14 moved to /usr/lib/libglslang.so.15
-  /usr/lib/libSPIRV.so.14.3.0 moved to /usr/lib/libSPIRV.so.15.0.0
-  /usr/lib/libSPIRV.so.14 moved to /usr/lib/libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so.14.3.0 moved to /usr/lib/libSPVRemapper.so.15.0.0
-  /usr/lib/libSPVRemapper.so.14 moved to /usr/lib/libSPVRemapper.so.15
-  /usr/include/glslang/Include/visibility.h was added
-  /usr/include/glslang/SPIRV/SpvTools.h was added
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-bash-completion: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1051458864 to 1051467456 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-dbg: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-dev: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-dev: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-doc: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-doc: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-locale: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-locale: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-src: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-src: PKGSIZE changed from 10022979 to 10024165 (+0%)
+packages/core2-64-poky-linux/cmake/cmake-src: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake-staticdev: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake/cmake: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake/cmake: PKGSIZE changed from 41423617 to 41435493 (+0%)
+packages/core2-64-poky-linux/cmake/cmake: PV changed from "3.30.2" to "3.30.5"
+packages/core2-64-poky-linux/cmake: PKGV changed from 3.30.2 [default] to 3.30.5 [default]
+packages/core2-64-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v3.30/cmake-3.30.2.tar.gz" to "https://cmake.org/files/v3.30/cmake-3.30.5.tar.gz"
+packages/core2-64-poky-linux/cmake: PV changed from "3.30.2" to "3.30.5"
 
---===============7425851339027029149==--
+--===============8857375490884679455==--
 
