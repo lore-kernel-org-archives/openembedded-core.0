@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C3B64CFD2EB
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.53351.1728588940997633635
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1166ACFD2F5
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:35:54 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.53267.1728588947102033307
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Oct 2024 12:35:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MCMwSn/0;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=N4y1k448;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019277ee1ebc-c3c5e2f8-5799-46a8-81f2-426d81f8c0d7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=gtI2rWrs;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=X937Djlx;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019277ee1bb7-d298c6e0-d31b-4c18-add4-10839bcafac4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588947;
+	t=1728588946;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=/a62veTmCXtinZu9uxyAxKkZenGeXwD0UcDbsud9xSs=;
-	b=MCMwSn/0OYuk9yHqpu1JNcKsXg/zawWmWGsSY0GA/b6DNYWUmmlKkkemRYcfg9+O
-	gO+aD5tQb62TcJHSa44E7mQ0Pc8luT7lz782sBImoO6pgwOcoxiRrgVkt7G9x7TN5Sd
-	NoMOvqDLjvWyg20EaXF85NgUP2KiY5zHY/h58HIY=
+	bh=M2lt5F6pvm37EMz0QQHkUw+IYfhT3CvoHH8dKixthPE=;
+	b=gtI2rWrs89J3rA3iCgBAEocf6SbkWRR6O0IGV2RpRgXuaqTn7+dCJBBPjwmPucuy
+	NucUblh5KO4xpFmbPWVBa+oSGgDX0a0yx8Ei/yezwH80SJrOZRmsPJW4SainLurtyGq
+	WASMJCedGZqMcRuuCc11IF9JOzUU8vCRYyBeuawQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588947;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588946;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=/a62veTmCXtinZu9uxyAxKkZenGeXwD0UcDbsud9xSs=;
-	b=N4y1k448t0up2yuCh3SNG4TFlFU/YuUdmDszITJv5rDthMACKpCHtfiKAnFCAEf0
-	sspDV8U8lSI8JSsrqX5RbdHDt7rZZoBuJ1AdcNB+6UhHnhvNcu65cZLlmsabNamsIou
-	TADbQ3qkLF9/rmOj1/124ePYWNyr+SLfh8fIEMpo=
-Content-Type: multipart/mixed; boundary="===============2231158170411381626=="
+	bh=M2lt5F6pvm37EMz0QQHkUw+IYfhT3CvoHH8dKixthPE=;
+	b=X937Djlx7cYUnGXlgklzQdhQmu0TOkvC8AICwBtrxCm3lOfv748Z4YxSWJT7Jmkb
+	9YUR3nqCTE9Cn6h2cRSEODMEP0iLand0SUMjRyxiWRqFyy2yJcI4kfcFHej2vsL8/mb
+	AtpsyI9PCLOTdTk0oBhIV4+a7rQbjDEuU2zxSiGc=
+Content-Type: multipart/mixed; boundary="===============6371977761214996732=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Marta Rybczynska <mrybczynska@syslinbit.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] webkitgtk: upgrading to 2.46.1 FAILED
-Message-ID: <0101019277ee1ebc-c3c5e2f8-5799-46a8-81f2-426d81f8c0d7-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:35:47 +0000
+Subject: [AUH] python3-beartype: upgrading to 0.19.0 FAILED
+Message-ID: <0101019277ee1bb7-d298c6e0-d31b-4c18-add4-10839bcafac4-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:35:46 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.30
+X-SES-Outgoing: 2024.10.10-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205455
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:35:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205451
 
---===============2231158170411381626==
+--===============6371977761214996732==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,248 +51,189 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *webkitgtk* to *2.46.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-beartype* to *0.19.0* has Failed(do_compile).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe webkitgtk failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1871 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8347c2e0c4e1a4f89329e8074e71922375985c4c"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (0 cached, 918 parsed). 1872 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:8347c2e0c4e1a4f89329e8074e71922375985c4c"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-4pj72q2s: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-v_0r7qa3/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-v_0r7qa3/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                    | ETA:  0:00:30
-Adding changed files:   1% |                                    | ETA:  0:00:21
-Adding changed files:   1% |                                    | ETA:  0:00:18
-Adding changed files:   2% |                                    | ETA:  0:00:16
-Adding changed files:   3% |#                                   | ETA:  0:00:16
-Adding changed files:   3% |#                                   | ETA:  0:00:15
-Adding changed files:   4% |#                                   | ETA:  0:00:14
-Adding changed files:   5% |#                                   | ETA:  0:00:14
-Adding changed files:   5% |##                                  | ETA:  0:00:14
-Adding changed files:   6% |##                                  | ETA:  0:00:13
-Adding changed files:   6% |##                                  | ETA:  0:00:13
-Adding changed files:   7% |##                                  | ETA:  0:00:13
-Adding changed files:   8% |##                                  | ETA:  0:00:13
-Adding changed files:   8% |###                                 | ETA:  0:00:13
-Adding changed files:   9% |###                                 | ETA:  0:00:12
-Adding changed files:  10% |###                                 | ETA:  0:00:12
-Adding changed files:  10% |###                                 | ETA:  0:00:12
-Adding changed files:  11% |####                                | ETA:  0:00:12
-Adding changed files:  11% |####                                | ETA:  0:00:12
-Adding changed files:  12% |####                                | ETA:  0:00:12
-Adding changed files:  13% |####                                | ETA:  0:00:12
-Adding changed files:  13% |####                                | ETA:  0:00:11
-Adding changed files:  14% |#####                               | ETA:  0:00:11
-Adding changed files:  15% |#####                               | ETA:  0:00:11
-Adding changed files:  15% |#####                               | ETA:  0:00:11
-Adding changed files:  16% |#####                               | ETA:  0:00:11
-Adding changed files:  16% |######                              | ETA:  0:00:11
-Adding changed files:  17% |######                              | ETA:  0:00:11
-Adding changed files:  18% |######                              | ETA:  0:00:11
-Adding changed files:  18% |######                              | ETA:  0:00:11
-Adding changed files:  19% |#######                             | ETA:  0:00:11
-Adding changed files:  20% |#######                             | ETA:  0:00:11
-Adding changed files:  20% |#######                             | ETA:  0:00:11
-Adding changed files:  21% |#######                             | ETA:  0:00:10
-Adding changed files:  21% |#######                             | ETA:  0:00:10
-Adding changed files:  22% |########                            | ETA:  0:00:10
-Adding changed files:  23% |########                            | ETA:  0:00:10
-Adding changed files:  23% |########                            | ETA:  0:00:10
-Adding changed files:  24% |########                            | ETA:  0:00:10
-Adding changed files:  25% |#########                           | ETA:  0:00:10
-Adding changed files:  25% |#########                           | ETA:  0:00:10
-Adding changed files:  26% |#########                           | ETA:  0:00:10
-Adding changed files:  26% |#########                           | ETA:  0:00:09
-Adding changed files:  27% |#########                           | ETA:  0:00:09
-Adding changed files:  28% |##########                          | ETA:  0:00:09
-Adding changed files:  28% |##########                          | ETA:  0:00:09
-Adding changed files:  29% |##########                          | ETA:  0:00:09
-Adding changed files:  30% |##########                          | ETA:  0:00:09
-Adding changed files:  30% |###########                         | ETA:  0:00:09
-Adding changed files:  31% |###########                         | ETA:  0:00:09
-Adding changed files:  32% |###########                         | ETA:  0:00:09
-Adding changed files:  32% |###########                         | ETA:  0:00:09
-Adding changed files:  33% |###########                         | ETA:  0:00:09
-Adding changed files:  33% |############                        | ETA:  0:00:09
-Adding changed files:  34% |############                        | ETA:  0:00:09
-Adding changed files:  35% |############                        | ETA:  0:00:09
-Adding changed files:  35% |############                        | ETA:  0:00:08
-Adding changed files:  36% |#############                       | ETA:  0:00:08
-Adding changed files:  37% |#############                       | ETA:  0:00:08
-Adding changed files:  37% |#############                       | ETA:  0:00:08
-Adding changed files:  38% |#############                       | ETA:  0:00:08
-Adding changed files:  38% |##############                      | ETA:  0:00:08
-Adding changed files:  39% |##############                      | ETA:  0:00:08
-Adding changed files:  40% |##############                      | ETA:  0:00:08
-Adding changed files:  40% |##############                      | ETA:  0:00:08
-Adding changed files:  41% |##############                      | ETA:  0:00:08
-Adding changed files:  42% |###############                     | ETA:  0:00:08
-Adding changed files:  42% |###############                     | ETA:  0:00:08
-Adding changed files:  43% |###############                     | ETA:  0:00:08
-Adding changed files:  43% |###############                     | ETA:  0:00:08
-Adding changed files:  44% |################                    | ETA:  0:00:08
-Adding changed files:  45% |################                    | ETA:  0:00:07
-Adding changed files:  45% |################                    | ETA:  0:00:07
-Adding changed files:  46% |################                    | ETA:  0:00:07
-Adding changed files:  47% |################                    | ETA:  0:00:07
-Adding changed files:  47% |#################                   | ETA:  0:00:07
-Adding changed files:  48% |#################                   | ETA:  0:00:07
-Adding changed files:  48% |#################                   | ETA:  0:00:07
-Adding changed files:  49% |#################                   | ETA:  0:00:07
-Adding changed files:  50% |##################                  | ETA:  0:00:07
-Adding changed files:  50% |##################                  | ETA:  0:00:07
-Adding changed files:  51% |##################                  | ETA:  0:00:07
-Adding changed files:  52% |##################                  | ETA:  0:00:07
-Adding changed files:  52% |##################                  | ETA:  0:00:07
-Adding changed files:  53% |###################                 | ETA:  0:00:06
-Adding changed files:  53% |###################                 | ETA:  0:00:06
-Adding changed files:  54% |###################                 | ETA:  0:00:06
-Adding changed files:  55% |###################                 | ETA:  0:00:06
-Adding changed files:  55% |####################                | ETA:  0:00:06
-Adding changed files:  56% |####################                | ETA:  0:00:06
-Adding changed files:  57% |####################                | ETA:  0:00:06
-Adding changed files:  57% |####################                | ETA:  0:00:06
-Adding changed files:  58% |#####################               | ETA:  0:00:06
-Adding changed files:  58% |#####################               | ETA:  0:00:06
-Adding changed files:  59% |#####################               | ETA:  0:00:06
-Adding changed files:  60% |#####################               | ETA:  0:00:05
-Adding changed files:  60% |#####################               | ETA:  0:00:05
-Adding changed files:  61% |######################              | ETA:  0:00:05
-Adding changed files:  62% |######################              | ETA:  0:00:05
-Adding changed files:  62% |######################              | ETA:  0:00:05
-Adding changed files:  63% |######################              | ETA:  0:00:05
-Adding changed files:  64% |#######################             | ETA:  0:00:05
-Adding changed files:  64% |#######################             | ETA:  0:00:05
-Adding changed files:  65% |#######################             | ETA:  0:00:05
-Adding changed files:  65% |#######################             | ETA:  0:00:05
-Adding changed files:  66% |#######################             | ETA:  0:00:05
-Adding changed files:  67% |########################            | ETA:  0:00:04
-Adding changed files:  67% |########################            | ETA:  0:00:04
-Adding changed files:  68% |########################            | ETA:  0:00:04
-Adding changed files:  69% |########################            | ETA:  0:00:04
-Adding changed files:  69% |#########################           | ETA:  0:00:04
-Adding changed files:  70% |#########################           | ETA:  0:00:04
-Adding changed files:  70% |#########################           | ETA:  0:00:04
-Adding changed files:  71% |#########################           | ETA:  0:00:04
-Adding changed files:  72% |#########################           | ETA:  0:00:04
-Adding changed files:  72% |##########################          | ETA:  0:00:04
-Adding changed files:  73% |##########################          | ETA:  0:00:03
-Adding changed files:  74% |##########################          | ETA:  0:00:03
-Adding changed files:  74% |##########################          | ETA:  0:00:03
-Adding changed files:  75% |###########################         | ETA:  0:00:03
-Adding changed files:  75% |###########################         | ETA:  0:00:03
-Adding changed files:  76% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |###########################         | ETA:  0:00:03
-Adding changed files:  77% |############################        | ETA:  0:00:03
-Adding changed files:  78% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  79% |############################        | ETA:  0:00:03
-Adding changed files:  80% |############################        | ETA:  0:00:02
-Adding changed files:  80% |#############################       | ETA:  0:00:02
-Adding changed files:  81% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  82% |#############################       | ETA:  0:00:02
-Adding changed files:  83% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  84% |##############################      | ETA:  0:00:02
-Adding changed files:  85% |##############################      | ETA:  0:00:02
-Adding changed files:  85% |##############################      | ETA:  0:00:02
-Adding changed files:  86% |###############################     | ETA:  0:00:02
-Adding changed files:  87% |###############################     | ETA:  0:00:01
-Adding changed files:  87% |###############################     | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  89% |################################    | ETA:  0:00:01
-Adding changed files:  90% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  91% |################################    | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  92% |#################################   | ETA:  0:00:01
-Adding changed files:  93% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |##################################  | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  96% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  97% |################################### | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:15
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.webkitgtk.org/releases/webkitgtk-2.46.1.tar.xz...
-INFO: Rebasing devtool onto 4cf8e00ece126bcfa476175f6a8ca11f3e8ea650
-WARNING: Command 'git rebase 4cf8e00ece126bcfa476175f6a8ca11f3e8ea650' failed:
-Auto-merging Source/JavaScriptCore/b3/B3Validate.cpp
-CONFLICT (content): Merge conflict in Source/JavaScriptCore/b3/B3Validate.cpp
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/webkitgtk
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/webkitgtk/webkitgtk_2.46.1.bb
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-python3-beartype-upgrade-0.18.5-0.19.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2231158170411381626==--
+
+-- >8 --
+From 28eb2b5919ebaf6a96f0f36d2cb761643b95e5a3 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 10 Oct 2024 01:50:40 +0000
+Subject: [PATCH] python3-beartype: upgrade 0.18.5 -> 0.19.0
+
+---
+ .../{python3-beartype_0.18.5.bb => python3-beartype_0.19.0.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-beartype_0.18.5.bb => python3-beartype_0.19.0.bb} (78%)
+
+diff --git a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb b/meta/recipes-devtools/python/python3-beartype_0.19.0.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-beartype_0.18.5.bb
+rename to meta/recipes-devtools/python/python3-beartype_0.19.0.bb
+index 95d947c90e..ebdc7abab3 100644
+--- a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
++++ b/meta/recipes-devtools/python/python3-beartype_0.19.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://beartype.readthedocs.io"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e71f94261c1b39896cacacfeaf60560e"
+ 
+-SRC_URI[sha256sum] = "264ddc2f1da9ec94ff639141fbe33d22e12a9f75aa863b83b7046ffff1381927"
++SRC_URI[sha256sum] = "de42dfc1ba5c3710fde6c3002e3bd2cad236ed4d2aabe876345ab0b4234a6573"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-- 
+2.44.1
+
+
+--===============6371977761214996732==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-beartype-upgrade-0.18.5-0.19.0.patch"
+
+RnJvbSAyOGViMmI1OTE5ZWJhZjZhOTZmMGYzNmQyY2I3NjE2NDNiOTVlNWEzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDE6NTA6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWJlYXJ0eXBlOiB1cGdyYWRlIDAuMTguNSAtPiAwLjE5LjAKCi0tLQogLi4uL3tweXRo
+b24zLWJlYXJ0eXBlXzAuMTguNS5iYiA9PiBweXRob24zLWJlYXJ0eXBlXzAuMTkuMC5iYn0gIHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1iZWFydHlwZV8wLjE4LjUu
+YmIgPT4gcHl0aG9uMy1iZWFydHlwZV8wLjE5LjAuYmJ9ICg3OCUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWJlYXJ0eXBlXzAuMTguNS5iYiBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1iZWFydHlwZV8wLjE5LjAuYmIKc2lt
+aWxhcml0eSBpbmRleCA3OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWJlYXJ0eXBlXzAuMTguNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLWJlYXJ0eXBlXzAuMTkuMC5iYgppbmRleCA5NWQ5NDdjOTBlLi5l
+YmRjN2FiYWIzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtYmVhcnR5cGVfMC4xOC41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1iZWFydHlwZV8wLjE5LjAuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0
+dHBzOi8vYmVhcnR5cGUucmVhZHRoZWRvY3MuaW8iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxF
+U19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWU3MWY5NDI2MWMxYjM5ODk2Y2FjYWNmZWFm
+NjA1NjBlIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjY0ZGRjMmYxZGE5ZWM5NGZmNjM5MTQx
+ZmJlMzNkMjJlMTJhOWY3NWFhODYzYjgzYjcwNDZmZmZmMTM4MTkyNyIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICJkZTQyZGZjMWJhNWMzNzEwZmRlNmMzMDAyZTNiZDJjYWQyMzZlZDRkMmFhYmU4NzYz
+NDVhYjBiNDIzNGE2NTczIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRf
+bWV0YQogCi0tIAoyLjQ0LjEKCg==
+
+--===============6371977761214996732==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1873 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (916 cached, 1 parsed). 1871 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:b2383b7a0a7f30154b4567d87d5a36759812f64c"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 314 Local 302 Mirrors 0 Missed 12 Current 321 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1392 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_recipe_qa)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_recipe_qa: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1786 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_fetch)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_fetch: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1787 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_unpack)
+NOTE: Running task 1788 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_unpack: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1789 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_patch)
+NOTE: Running task 1790 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_collect_spdx_deps)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_patch: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-beartype-0.19.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-beartype-0.19.0-r0: task do_patch: Succeeded
+NOTE: Running task 1791 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1792 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_populate_lic)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_populate_lic: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-beartype-0.19.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 1793 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_configure)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_configure: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_configure: Succeeded
+NOTE: Running task 1794 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_compile)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| 
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
+|     raise BackendUnavailable(
+| pyproject_hooks._impl.BackendUnavailable: Cannot import 'hatchling.build'
+| 
+| ERROR Backend 'hatchling.build' is not available.
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3080192:157 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/beartype-0.19.0'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3080192, line 157
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3080192, line 152
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3080192, line 168
+NOTE: recipe python3-beartype-0.19.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1794 tasks of which 1784 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010015026.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010015026.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/log.do_compile.3080192
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-beartype-0.19.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3080192' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/log.do_compile.3080192
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_compile) failed with exit code '1'
+
+--===============6371977761214996732==--
 
