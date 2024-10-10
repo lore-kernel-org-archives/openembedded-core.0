@@ -1,128 +1,101 @@
-Return-Path: <pavel@zhukoff.net>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B1B7CFC5E9
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 17:45:52 +0000 (UTC)
-Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
- by mx.groups.io with SMTP id smtpd.web11.50653.1728582350325708932
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 557DFCFC5F2
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 18:44:32 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.51926.1728585871334457155
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 10:45:50 -0700
+ Thu, 10 Oct 2024 11:44:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@zhukoff.net header.s=fm2 header.b=HGLptRxE;
- dkim=pass header.i=@messagingengine.com header.s=fm2 header.b=X1mVv3JN;
- spf=pass (domain: zhukoff.net, ip: 103.168.172.146, mailfrom: pavel@zhukoff.net)
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfout.phl.internal (Postfix) with ESMTP id 81C7A13802DD;
-	Thu, 10 Oct 2024 13:45:49 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Thu, 10 Oct 2024 13:45:49 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zhukoff.net; h=
-	cc:cc:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1728582349; x=1728668749; bh=/T2XcAm52hopw0KqZCWBI
-	Fr3qsAXBLmIxzQvOTbmnls=; b=HGLptRxEUh2mCSgvYowi99hc85DTahNjRKIhJ
-	KOZ0Deao+DHnCA2fmX+UGUHutYJpRQOxGpE6WWjXd3y9fQsxC0BlCL3T9927Gq/r
-	QOPIWDbjNdTONHE/Khkl0vIsRAoAI61MgzwRwPj9t/d6nRbH/sBbVu3ffMCe59j3
-	n14FI+CGI2O+m2I6OprUjLlboliboXevFktkszRHZag8DgF8GeXSaHqGKsluovuL
-	grMK0/w/VwShjuiYrPdVjbGOan99ma5sX6prdq3w+27ZoNcsrSMcp0j70TDeO4Vu
-	CtQyoXLqQBTf7oV+4FQY0fevdheKLe3jzAzuPy3z7fLYN6ONA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-	fm2; t=1728582349; x=1728668749; bh=/T2XcAm52hopw0KqZCWBIFr3qsAX
-	BLmIxzQvOTbmnls=; b=X1mVv3JNMq4Epedpq1iIgFjWKx1Fkd3JV6QtoK6uFLfp
-	xnlAPnmzWYSji6ucT1+SzA4GTSuQPFTvkOvdPEuDmHWw7j+9BoUjeHNoGeTxk+PD
-	3AQ1jtqQRUZCnVBNMl3JMxdTZLbnOXMsirLCs1WMhgxXQSj2P55Qnd6TUmNzLTcn
-	2geO6XeYWFZvUux3OPC2hJdCphV6kOXz+TU22pevikrkiJ4q2ftMPi0iBXmy3d/B
-	Xo9CHS5HA0dWOmjwkpegNE3nBhNXWji0D5LCoL6UZDYVkdKlngXpszSiQH4u9M7J
-	f9jhqoDBfOA8x4F3/x+XBN9MOHC1wYF2METMt3eTfw==
-X-ME-Sender: <xms:zRIIZ5flnPNyyLzRi-rpzT04IWGhlTifUNnMe8ecqfTPoBwJ8XNAtA>
-    <xme:zRIIZ3OHPZHqICXRO_Z1S9QS_XOJ5Q7AipHwf9TJM3gBg9xURCYmgRp8Zo6WEbReb
-    Q8bBMgFAD4EJrNHE74>
-X-ME-Received: <xmr:zRIIZyhWSK6-VOkesxPg8g30HKPqy9oBYhcmQNi6NaXrKgj7R2DGEBUVimNw_zELNYgGTRI4ZH5ZHIJDWmDoFyWAcbw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeftddrvdefhedguddvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdp
-    uffrtefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecunecujfgurhephffvve
-    fufffkofgggfestdekredtredttdenucfhrhhomheprfgrvhgvlhcukghhuhhkohhvuceo
-    phgrvhgvlhesiihhuhhkohhffhdrnhgvtheqnecuggftrfgrthhtvghrnhepkeeiheevvd
-    ejhfevieelteefkeetvdekteeludetheduvefhuefflefgfeeigeevnecuffhomhgrihhn
-    pehsthgpuhhiugdrphifpdhsthgpghhiugdrghhrnecuvehluhhsthgvrhfuihiivgeptd
-    enucfrrghrrghmpehmrghilhhfrhhomhepphgrvhgvlhesiihhuhhkohhffhdrnhgvthdp
-    nhgspghrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepohhpvg
-    hnvghmsggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdho
-    rhhgpdhrtghpthhtohepphgrvhgvlhesiihhuhhkohhffhdrnhgvth
-X-ME-Proxy: <xmx:zRIIZy8L-JMpE6-kV9pqRsQ0EXnzg7jyKdbsgiHu_ay6prScXWnnZA>
-    <xmx:zRIIZ1vBQCjag1IuJHWGl-cmdkbXPPYy3i7eu7yPmvtvXOnac9AA0g>
-    <xmx:zRIIZxGyFPxoVuUPpeJxIwdNCkHSdSNG5isxFp6Pzmlrchrk05gMqQ>
-    <xmx:zRIIZ8OoFEUz55m0kOhJpY_cq_dDN09hpjWMY1EPEpmsMyOOTinyKQ>
-    <xmx:zRIIZ-5-YpxTAfdfMsO9VcEth9qxeDujbTB_DCcWYUaw5rWYVxCEtea3>
-Feedback-ID: ib94946c9:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 10 Oct 2024 13:45:48 -0400 (EDT)
-From: Pavel Zhukov <pavel@zhukoff.net>
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0clbAs6Y;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-71e1a715c72so991787b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 11:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728585870; x=1729190670; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jlcKjpkREp5tkr9zu4u+ry/iaOrf5+S/rF+ymEbeAOw=;
+        b=0clbAs6Y07EUbQo7Pmv7tY+c+bpBVGhlADMH5O+Ph6sPMTusACfbjrFlBHFIN9aywn
+         YvrzmqCzhQ2149kuo+41flmWSe2l8rQ7A0UyYvT1YR2ble/hWD/wsjq6KNtbIxiazwih
+         4G8FxycfQn6NGyFyQ2oG/8Yj2QmxGcIORVCTE6NCb/nEDh0bJPddbzxtfQqBJ9KSu4J9
+         abJiqh9uIkkwzpK+fl2LZGlyYXttzLZH/viy60sPTB0KidTrp14oVW0/Sdx8A4BTn0Ji
+         2Fk6U6yCYEChx5gT99LustWj7heAFfKA8s2uKwhlNXMRFgcdxSM6NI+7ttL1zu94kPej
+         EJvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728585870; x=1729190670;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jlcKjpkREp5tkr9zu4u+ry/iaOrf5+S/rF+ymEbeAOw=;
+        b=EYixKl5MGSSXyvDuwHZWQk67V2HLtyOdUHKFB40VzJsjCfpvEF1/Eot11IOucjiLi2
+         1bAVk92rCSqED6xhk/x3xSluXOhdnBKGk70N3OKzgVu7uEy1PhW/cVrzVuaVPBYf8pR+
+         hxgTlI3JrbIZhQMwQWqycyqQTbpjEHiCQ5vLrP0/pNGq6/lt0L2u+7uVGeJ870huT7Px
+         9tgZDd/Ofqie7xNES27pEZMiCZ0ZV+0zdVJQM7XDuKm5wFV89x4Deg/j4SfaeEcfFG/G
+         ZppQtii7nKPRNmtj1oi8/Pp4sJGqr1WvC860RUTQnEAGlQQybV4eqj1P3Hh9cvoJzr6T
+         4rsg==
+X-Gm-Message-State: AOJu0YzIIPBOTBQ3s/rP5MNmxon3asHagjVEhMNhefkYKmRklwP4cGgv
+	lhBPdpoZioE8lkx+HuHFmtGIDySEPKwZ0IZoqIIGb/NSYlRtGSajUjqoz/E4CLrMF0QBIqQQOR7
+	M
+X-Google-Smtp-Source: AGHT+IEEL2dEaqocL3HUOBlcKNUU9duOfNB8CmqSs4g7rBfn2XPcQMhxq+AyxV2ojRU3moYd4wuVBw==
+X-Received: by 2002:a05:6a00:1749:b0:717:945e:effd with SMTP id d2e1a72fcca58-71e37e278c8mr32598b3a.1.1728585870415;
+        Thu, 10 Oct 2024 11:44:30 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e2aa9390dsm1331454b3a.129.2024.10.10.11.44.29
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Oct 2024 11:44:30 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Pavel Zhukov <pavel@zhukoff.net>
-Subject: [PATCH v3] package_rpm: Check if file exists before open()
-Date: Thu, 10 Oct 2024 19:45:45 +0200
-Message-ID: <20241010174545.25390-1-pavel@zhukoff.net>
-X-Mailer: git-send-email 2.44.2
+Subject: [OE-core][kirkstone 1/2] valgrind: disable avx_estimate_insn.vgtest
+Date: Thu, 10 Oct 2024 11:44:20 -0700
+Message-Id: <9269edb63d3c68de62326f5960ffff0c1068e709.1728585736.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1728585736.git.steve@sakoman.com>
+References: <cover.1728585736.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 17:45:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205422
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 18:44:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205424
 
-Exception handler tries to read() /etc/passwd file in sysroot
-and if file doesn't exist for any reason then it raises FileNotFoundError
-exception which mask the original source of the problem and makes
-debugging of the issue more difficult.
+This test fails consistently on the new valkyrie autobuilder cluster
 
-Fixes:
-Exception: FileNotFoundError: [Errno 2] No such file or directory:
-'/codebuild/output/src1899304708/src/build/tmp-container/work/core2-64-oe-linux/emqx-bin/4.3.12/recipe-sysroot/etc/passwd'
+The estimate instructions (rcpss, rcpps, rsqrtps, rsqrtss) are, as the
+name suggests, not expected to give a fully accurate result. They may
+produce slighly different results on different CPU families because
+their results are not defined by the IEEE standard.
 
-Signed-off-by: Pavel Zhukov <pavel@zhukoff.net>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/package_rpm.bbclass | 16 ++++++++++++----
- 1 file changed, 12 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/valgrind/valgrind_3.18.1.bb | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 2e3e4e8c79..bd972a0621 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -205,14 +205,22 @@ python write_specfile () {
-                 try:
-                     owner = pwd.getpwuid(stat_f.st_uid).pw_name
-                 except Exception as e:
--                    bb.error("Content of /etc/passwd in sysroot:\n{}".format(
--                        open(d.getVar("RECIPE_SYSROOT") +"/etc/passwd").read()))
-+                    filename = d.getVar('RECIPE_SYSROOT') + '/etc/passwd'
-+                    if os.path.exists(filename):
-+                        bb.error("Content of /etc/passwd in sysroot:\n{}".format(
-+                            open(filename).read()))
-+                    else:
-+                        bb.error("File {} doesn't exist in sysroot!".format(filename))
-                     raise e
-                 try:
-                     group = grp.getgrgid(stat_f.st_gid).gr_name
-                 except Exception as e:
--                    bb.error("Content of /etc/group in sysroot:\n{}".format(
--                        open(d.getVar("RECIPE_SYSROOT") +"/etc/group").read()))
-+                    filename = d.getVar("RECIPE_SYSROOT") +"/etc/group"
-+                    if os.path.exists(filename):
-+                        bb.error("Content of /etc/group in sysroot:\n{}".format(
-+                            open(filename).read()))
-+                    else:
-+                        bb.error("File {} doesn't exists in sysroot!".format(filename))
-                     raise e
-                 return "%attr({:o},{},{}) ".format(mode, owner, group)
+diff --git a/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb b/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
+index 0c297ad6b9..2a1bf19da5 100644
+--- a/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
++++ b/meta/recipes-devtools/valgrind/valgrind_3.18.1.bb
+@@ -237,6 +237,14 @@ do_install_ptest() {
+     # This is known failure see https://bugs.kde.org/show_bug.cgi?id=435732
+     rm ${D}${PTEST_PATH}/memcheck/tests/leak_cpp_interior.vgtest
  
++    # This test fails consistently on the new valkyrie autobuilder cluster
++    # It tests the avx estimate instructions
++    # The estimate instructions (rcpss, rcpps, rsqrtps, rsqrtss) are, as the
++    # name suggests, not expected to give a fully accurate result. They may
++    # produce slighly different results on different CPU families because
++    # their results are not defined by the IEEE standard
++    rm ${D}${PTEST_PATH}/none/tests/amd64/avx_estimate_insn.vgtest
++
+     # As the binary isn't stripped or debug-splitted, the source file isn't fetched
+     # via dwarfsrcfiles either, so it needs to be installed manually.
+     mkdir -p ${D}/usr/src/debug/${PN}/${EXTENDPE}${PV}-${PR}/${BP}/none/tests/
 -- 
-2.44.2
+2.34.1
 
 
