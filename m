@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0AD47D0EE3C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2817CD0EE3D
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:17 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.53372.1728588960823120631
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.53344.1728588936244469837
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:09 -0700
+ Thu, 10 Oct 2024 12:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OAgHyBLK;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pZYXseTz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019277ee74af-b2be0c89-81ad-4222-87af-ecf78c483120-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ARi4pDK5;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xluybYDD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019277ee87de-ba2b3f2b-2ad1-403e-bef0-44434d616d27-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728588969;
+	t=1728588974;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Nek0yk1lMXAwMqdhgsJ5oeBOITkgl444EPv4fIBbC8M=;
-	b=OAgHyBLKR7QUYHPTsSK0mmLJFUAT2OtEj++9P+nUzinGRCKVNgw5NDSEs5HB4HFT
-	HRiX0R1fuFo+PUq2keJv6v467dJRNVSYbG/+/JxFiR5HFgIK07Mu4UOSKyoXylXlAGx
-	1dukPQKVbTJHRmPlX8JbNWoukLmhPmkHQXSiYSCw=
+	bh=ahaim3BbzPIibakQjDcuV19C9cbqoZi1qhlnTzQRTmM=;
+	b=ARi4pDK5JA6C15QCBHT/Vw2ruBVtYPmrXEm28fW5QBWi9RBAXNueDR7rgLtI9/4V
+	jKlPc2Mm5XMLIjl1CFV0j8kGA97gOAzhCedLh2xGYzL+SENgxfcWUvF45Y+Ts4dYbG9
+	zFVRAKvdYKpNucJDZnruTeXEf/M0cdw7m9xChONo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588969;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588974;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Nek0yk1lMXAwMqdhgsJ5oeBOITkgl444EPv4fIBbC8M=;
-	b=pZYXseTzRB2rokztJrT4arSBZc1pUl8KVFH/0NyYZlPivHXjWKvYS4HA3e/pjDYr
-	h0PX0gDLOc8aDhheBRc6Eonli0twnjr8D/e86xKmz1cTpvNmnNC18Oa2pm4v58wTgXL
-	SxUQ1E1ygls3UQ5TAqzaKux8tFmHWVgHESqM+xZg=
-Content-Type: multipart/mixed; boundary="===============5431127389372602401=="
+	bh=ahaim3BbzPIibakQjDcuV19C9cbqoZi1qhlnTzQRTmM=;
+	b=xluybYDD2dy8F1vLZDJINjkQdxlbmIfQIc0n/SsYsuEFBf7l0s+Jh6hGCgEBs9IJ
+	QGbfNeBu2bAY3wwIuqpXhMqBGtn3Y9DMoVrNv8IZANQ7PNkdVl/K1hCZMs7vzoiKCl/
+	cJXuNh8nZtEulSCv18QlS/2bPHP4rXiOPfcMHKtw=
+Content-Type: multipart/mixed; boundary="===============5228154251969098913=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] erofs-utils: upgrading to 1.8.2 SUCCEEDED
-Message-ID: <0101019277ee74af-b2be0c89-81ad-4222-87af-ecf78c483120-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:36:09 +0000
+To: Anuj Mittal <anuj.mittal@intel.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] screen: upgrading to 5.0.0 FAILED
+Message-ID: <0101019277ee87de-ba2b3f2b-2ad1-403e-bef0-44434d616d27-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:36:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.191
+X-SES-Outgoing: 2024.10.10-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205520
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205536
 
---===============5431127389372602401==
+--===============5228154251969098913==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,115 +51,90 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *erofs-utils* to *1.8.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *screen* to *5.0.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-erofs-utils-upgrade-1.8.1-1.8.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe screen failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1871 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:0a6e2ca4e5d0bf2bf21e97522d8d8b6079553528"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 918 .bb files complete (0 cached, 918 parsed). 1872 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:0a6e2ca4e5d0bf2bf21e97522d8d8b6079553528"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-wluuuq7u: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-hnd2hh7c/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-hnd2hh7c/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  79% |############################        | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://ftp.gnu.org/gnu/screen/screen-5.0.0.tar.gz...
+INFO: Rebasing devtool onto c6eb0a589d420fab00d59dd7552345b91e28e3fc
+WARNING: Command 'git rebase c6eb0a589d420fab00d59dd7552345b91e28e3fc' failed:
+Auto-merging Makefile.in
+CONFLICT (content): Merge conflict in Makefile.in
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/screen
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/screen/screen_5.0.0.bb
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From a1f0e4da21b246dcaaf9923d4307719a8d4a8973 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 12:35:23 +0000
-Subject: [PATCH] erofs-utils: upgrade 1.8.1 -> 1.8.2
-
----
- .../erofs-utils/{erofs-utils_1.8.1.bb => erofs-utils_1.8.2.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.8.1.bb => erofs-utils_1.8.2.bb} (94%)
-
-diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.1.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.8.1.bb
-rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.8.2.bb
-index 50d6e3b38e..4d8689f87c 100644
---- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.1.bb
-+++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.8.2.bb
-@@ -5,7 +5,7 @@ SECTION = "base"
- LIC_FILES_CHKSUM = "file://COPYING;md5=73001d804ea1e3d84365f652242cca20"
- HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
- 
--SRCREV = "ddbed14463fb798eff71fd4d4395357eb598e175"
-+SRCREV = "8bedd862edfbb9a5e54dd37abede29020dd8fdfb"
- SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master;protocol=https"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
--- 
-2.44.1
-
-
---===============5431127389372602401==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-erofs-utils-upgrade-1.8.1-1.8.2.patch"
-
-RnJvbSBhMWYwZTRkYTIxYjI0NmRjYWFmOTkyM2Q0MzA3NzE5YThkNGE4OTczIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTI6MzU6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
-cm9mcy11dGlsczogdXBncmFkZSAxLjguMSAtPiAxLjguMgoKLS0tCiAuLi4vZXJvZnMtdXRpbHMv
-e2Vyb2ZzLXV0aWxzXzEuOC4xLmJiID0+IGVyb2ZzLXV0aWxzXzEuOC4yLmJifSAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvZXJvZnMtdXRpbHMve2Vyb2ZzLXV0aWxzXzEuOC4xLmJiID0+IGVy
-b2ZzLXV0aWxzXzEuOC4yLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9lcm9mcy11dGlscy9lcm9mcy11dGlsc18xLjguMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9lcm9mcy11dGlscy9lcm9mcy11dGlsc18xLjguMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk0
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZXJvZnMtdXRpbHMvZXJvZnMtdXRp
-bHNfMS44LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9lcm9mcy11dGlscy9l
-cm9mcy11dGlsc18xLjguMi5iYgppbmRleCA1MGQ2ZTNiMzhlLi40ZDg2ODlmODdjIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZXJvZnMtdXRpbHMvZXJvZnMtdXRpbHNfMS44LjEu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Vyb2ZzLXV0aWxzL2Vyb2ZzLXV0aWxzXzEu
-OC4yLmJiCkBAIC01LDcgKzUsNyBAQCBTRUNUSU9OID0gImJhc2UiCiBMSUNfRklMRVNfQ0hLU1VN
-ID0gImZpbGU6Ly9DT1BZSU5HO21kNT03MzAwMWQ4MDRlYTFlM2Q4NDM2NWY2NTIyNDJjY2EyMCIK
-IEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwv
-Z2l0L3hpYW5nL2Vyb2ZzLXV0aWxzLmdpdC90cmVlL1JFQURNRSIKIAotU1JDUkVWID0gImRkYmVk
-MTQ0NjNmYjc5OGVmZjcxZmQ0ZDQzOTUzNTdlYjU5OGUxNzUiCitTUkNSRVYgPSAiOGJlZGQ4NjJl
-ZGZiYjlhNWU1NGRkMzdhYmVkZTI5MDIwZGQ4ZmRmYiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0Lmtl
-cm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3hpYW5nL2Vyb2ZzLXV0aWxzLmdpdDti
-cmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIgogCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdF
-WCA9ICJ2KD9QPHB2ZXI+KFxkKyhcLlxkKykrKSkiCi0tIAoyLjQ0LjEKCg==
-
---===============5431127389372602401==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dbg: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dbg: PKGSIZE changed from 1640400 to 1647592 (+0%)
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dbg: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dev: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-dev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-doc: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-doc: PKGSIZE changed from 11696 to 12187 (+4%)
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-doc: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-locale: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-locale: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-src: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-src: PKGSIZE changed from 554033 to 558629 (+1%)
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-src: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-staticdev: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils-staticdev: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-64-poky-linux/erofs-utils/erofs-utils: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils/erofs-utils: PKGSIZE changed from 455896 to 455992 (+0%)
-packages/core2-64-poky-linux/erofs-utils/erofs-utils: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-packages/core2-64-poky-linux/erofs-utils: PV changed from "1.8.1" to "1.8.2"
-packages/core2-64-poky-linux/erofs-utils: PKGV changed from 1.8.1 [default] to 1.8.2 [default]
-
---===============5431127389372602401==--
+--===============5228154251969098913==--
 
