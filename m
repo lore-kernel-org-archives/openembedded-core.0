@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DD52D1A455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7251BD1A456
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:31 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.53278.1728588959207840763
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.53386.1728588990275154279
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Oct 2024 12:36:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JISWT6tz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=m2NliCB/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019277eec50a-d4bd9faf-d6a4-4ef2-acbf-f27414542dc6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=CkaH6OZt;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ceAL1sTd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019277eec517-709568d9-257a-4992-88ce-9c19085ab7f3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1728588989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4mdK1cSnpnBvaHX+3hOmsHD0/+DjqF6KnSDRGFPNTmw=;
-	b=JISWT6tzSASNlpLRuUWTI2hLiiD0DZe6ipddEGU98VqnBROvNsmTjcmkM7bkYglp
-	7afjvy3s4sTtEWBSQ1zakeSIrbb2/hEfVyo0Q2pWY9PJ2DsyVK7XmkBpOGYkbOwSN86
-	pMZsCrLPN7QiGVMsF4gPlD5ycr5WZR5O9jPNqT0A=
+	bh=Ndgr/WleQJ5DO7kLsSpr92NZdovjxgzawywjIbymKcw=;
+	b=CkaH6OZthWkYDrRVMv7AWcO88LL+zl6IOKxB7842HWw/Nnz0He6VHNarGKO8s+kD
+	uKXtkyraCKMi8QBhbhfot5DTj4mdFBAQTF5606gxUPtpgro6fGtAV/sBWaa8tgmwjEj
+	xYPsrBTRerIQCgXRfVjve4twpJKaWgbskRvA3i8U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588989;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4mdK1cSnpnBvaHX+3hOmsHD0/+DjqF6KnSDRGFPNTmw=;
-	b=m2NliCB/NuSUeMmYnSNQt0k4+j3ijnuUM4UflVpyJ1tqOQj7D7fKrs2JjqdF6Ing
-	vAKYgoXwu4V6TjYkdr1CEB+D6M9tRzo42Ef9/6YOjCHGUrSsAFZiHwiD9TsdPiIu2G3
-	DBPJeOpWuwUyM58fdHSco+PpkT68+v5hBTk5sEpY=
-Content-Type: multipart/mixed; boundary="===============5404323470543723391=="
+	bh=Ndgr/WleQJ5DO7kLsSpr92NZdovjxgzawywjIbymKcw=;
+	b=ceAL1sTdO34QwE0PpWmoaDOKiw9h/J38rCjaDbE4qU4DFneuYdPlRpx+cdlqvtBA
+	bJJsLn2otLySpwTRMeKEefSdvJ3XpMAWdlEQdSdca2H7eeGgEwOllr9stg5Pe4YwVPC
+	pGj4RdcC5YlvnJHfHlefAIX2ehipRxzFxP60sokQ=
+Content-Type: multipart/mixed; boundary="===============3125676268642240504=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.114.0 SUCCEEDED
-Message-ID: <0101019277eec50a-d4bd9faf-d6a4-4ef2-acbf-f27414542dc6-000000@us-west-2.amazonses.com>
+Subject: [AUH] libproxy: upgrading to 0.5.9 SUCCEEDED
+Message-ID: <0101019277eec517-709568d9-257a-4992-88ce-9c19085ab7f3-000000@us-west-2.amazonses.com>
 Date: Thu, 10 Oct 2024 19:36:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.29
+X-SES-Outgoing: 2024.10.10-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205588
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205589
 
---===============5404323470543723391==
+--===============3125676268642240504==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.114.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libproxy* to *0.5.9* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.112.1-6.114.0.patch
+    - apply the patch: git am 0001-libproxy-upgrade-0.5.8-0.5.9.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,103 +72,107 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 90dfe71d4b46ba803d04b230ff7424a03bd7a96f Mon Sep 17 00:00:00 2001
+From 45fc8554ce65d929fe5cbde9e37f050510dce14b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Oct 2024 01:59:41 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.112.1 -> 6.114.0
+Date: Thu, 10 Oct 2024 16:23:41 +0000
+Subject: [PATCH] libproxy: upgrade 0.5.8 -> 0.5.9
 
 ---
- ...hon3-hypothesis_6.112.1.bb => python3-hypothesis_6.114.0.bb} | 2 +-
+ .../libproxy/{libproxy_0.5.8.bb => libproxy_0.5.9.bb}           | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.112.1.bb => python3-hypothesis_6.114.0.bb} (91%)
+ rename meta/recipes-support/libproxy/{libproxy_0.5.8.bb => libproxy_0.5.9.bb} (95%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.112.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.114.0.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.112.1.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.114.0.bb
-index e4b7b53579..be9f1a4f12 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.112.1.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.114.0.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-support/libproxy/libproxy_0.5.8.bb b/meta/recipes-support/libproxy/libproxy_0.5.9.bb
+similarity index 95%
+rename from meta/recipes-support/libproxy/libproxy_0.5.8.bb
+rename to meta/recipes-support/libproxy/libproxy_0.5.9.bb
+index 5dcd7d019b..e6192a6960 100644
+--- a/meta/recipes-support/libproxy/libproxy_0.5.8.bb
++++ b/meta/recipes-support/libproxy/libproxy_0.5.9.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c \
+ DEPENDS = "glib-2.0"
  
--SRC_URI[sha256sum] = "b070d7a1bb9bd84706c31885c9aeddc138e2b36a9c112a91984f49501c567856"
-+SRC_URI[sha256sum] = "cdded8b9e3f8a8088a444ad525c06ac67a4d4f6605f672535c41fd9a49cd128f"
+ SRC_URI = "git://github.com/libproxy/libproxy;protocol=https;branch=main"
+-SRCREV = "04c5185729e164dcc2d010177f83b6209769d9e7"
++SRCREV = "77e2a2b88a319974cf099c8eaaaa03030bc4c0d4"
+ S = "${WORKDIR}/git"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ inherit meson pkgconfig gobject-introspection vala gi-docgen
 -- 
 2.44.1
 
 
---===============5404323470543723391==
+--===============3125676268642240504==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.112.1-6.114.0.patch"
+ filename="0001-libproxy-upgrade-0.5.8-0.5.9.patch"
 
-RnJvbSA5MGRmZTcxZDRiNDZiYTgwM2QwNGIyMzBmZjc0MjRhMDNiZDdhOTZmIE1vbiBTZXAgMTcg
+RnJvbSA0NWZjODU1NGNlNjVkOTI5ZmU1Y2JkZTllMzdmMDUwNTEwZGNlMTRiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDE6NTk6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xMTIuMSAtPiA2LjExNC4wCgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjExMi4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjExNC4wLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjExMi4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjExNC4wLmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTEyLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjExNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTEyLjEuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTE0LjAu
-YmIKaW5kZXggZTRiN2I1MzU3OS4uYmU5ZjFhNGYxMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xMTIuMS5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjExNC4wLmJiCkBA
-IC0xMyw3ICsxMyw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiMDcwZDdhMWJiOWJkODQ3MDZjMzE4ODVj
-OWFlZGRjMTM4ZTJiMzZhOWMxMTJhOTE5ODRmNDk1MDFjNTY3ODU2IgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImNkZGVkOGI5ZTNmOGE4MDg4YTQ0NGFkNTI1YzA2YWM2N2E0ZDRmNjYwNWY2NzI1MzVj
-NDFmZDlhNDljZDEyOGYiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40NC4xCgo=
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMTY6MjM6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJwcm94eTogdXBncmFkZSAwLjUuOCAtPiAwLjUuOQoKLS0tCiAuLi4vbGlicHJveHkve2xpYnBy
+b3h5XzAuNS44LmJiID0+IGxpYnByb3h5XzAuNS45LmJifSAgICAgICAgICAgfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtc3VwcG9ydC9saWJwcm94eS97bGlicHJveHlfMC41LjguYmIgPT4gbGlicHJveHlfMC41
+LjkuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJveHkv
+bGlicHJveHlfMC41LjguYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwcm94eS9saWJwcm94
+eV8wLjUuOS5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJwcm94eS9saWJwcm94eV8wLjUuOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGlicHJveHkvbGlicHJveHlfMC41LjkuYmIKaW5kZXggNWRjZDdkMDE5Yi4uZTYx
+OTJhNjk2MCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJveHkvbGlicHJv
+eHlfMC41LjguYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicHJveHkvbGlicHJveHlf
+MC41LjkuYmIKQEAgLTE0LDcgKzE0LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9NGZiZDY1MzgwY2RkMjU1OTUxMDc5MDA4YjM2NDUxNmMgXAogREVQRU5EUyA9ICJn
+bGliLTIuMCIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2xpYnByb3h5L2xpYnByb3h5
+O3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgotU1JDUkVWID0gIjA0YzUxODU3MjllMTY0ZGNj
+MmQwMTAxNzdmODNiNjIwOTc2OWQ5ZTciCitTUkNSRVYgPSAiNzdlMmEyYjg4YTMxOTk3NGNmMDk5
+YzhlYWFhYTAzMDMwYmM0YzBkNCIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIGluaGVyaXQgbWVz
+b24gcGtnY29uZmlnIGdvYmplY3QtaW50cm9zcGVjdGlvbiB2YWxhIGdpLWRvY2dlbgotLSAKMi40
+NC4xCgo=
 
---===============5404323470543723391==
+--===============3125676268642240504==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.112.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.114.0.dist-info
+packages/core2-64-poky-linux/libproxy/libproxy: FILELIST: removed "/usr/lib/libproxy.so.0.5.8", added "/usr/lib/libproxy.so.0.5.9"
+Changes to packages/core2-64-poky-linux/libproxy (sysroot):
+  /usr/lib/libproxy.so.1 changed symlink target from libproxy.so.0.5.8 to libproxy.so.0.5.9
+  /usr/lib/libproxy.so.0.5.8 moved to /usr/lib/libproxy.so.0.5.9
 
---===============5404323470543723391==
+--===============3125676268642240504==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-hypothesis: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.112.1.tar.gz;downloadfilename=hypothesis-6.112.1.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.114.0.tar.gz;downloadfilename=hypothesis-6.114.0.tar.gz file://run-ptest file://test_binary_search.py file://test_rle.py"
-packages/core2-64-poky-linux/python3-hypothesis: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.112.1" to "6.114.0"
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 3118803 to 3124938 (+0%)
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.112.1 [default] to 6.114.0 [default]
-packages/core2-64-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.112.1" to "6.114.0"
-Changes to packages/core2-64-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.12/site-packages/hypothesis-6.112.1.dist-info moved to /usr/lib/python3.12/site-packages/hypothesis-6.114.0.dist-info
+packages/core2-64-poky-linux/libproxy: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: FILELIST: removed "/usr/lib/.debug/libproxy.so.0.5.8", added "/usr/lib/.debug/libproxy.so.0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: PKGSIZE changed from 149480 to 150224 (+0%)
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-dbg: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-dev: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-dev: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-doc: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-doc: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-locale: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-locale: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-src: PKGSIZE changed from 68655 to 69096 (+1%)
+packages/core2-64-poky-linux/libproxy/libproxy-src: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-src: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy-staticdev: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy-staticdev: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+packages/core2-64-poky-linux/libproxy/libproxy: FILES: removed "/usr/lib/libproxy/0.5.8/modules", added "/usr/lib/libproxy/0.5.9/modules"
+packages/core2-64-poky-linux/libproxy/libproxy: FILELIST: removed "/usr/lib/libproxy.so.0.5.8", added "/usr/lib/libproxy.so.0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy: PV changed from "0.5.8" to "0.5.9"
+packages/core2-64-poky-linux/libproxy/libproxy: PKGV changed from 0.5.8 [default] to 0.5.9 [default]
+Changes to packages/core2-64-poky-linux/libproxy (sysroot):
+  /usr/lib/libproxy.so.1 changed symlink target from libproxy.so.0.5.8 to libproxy.so.0.5.9
+  /usr/lib/libproxy.so.0.5.8 moved to /usr/lib/libproxy.so.0.5.9
 
---===============5404323470543723391==--
+--===============3125676268642240504==--
 
