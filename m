@@ -1,189 +1,88 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <mark.hatle@kernel.crashing.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB4F9D24453
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 21:13:34 +0000 (UTC)
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
- by mx.groups.io with SMTP id smtpd.web11.55956.1728594809199517023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35FD7D24456
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 21:49:45 +0000 (UTC)
+Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
+ by mx.groups.io with SMTP id smtpd.web10.56685.1728596981563328104
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 14:13:29 -0700
+ Thu, 10 Oct 2024 14:49:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=m3jQxrPs;
- spf=pass (domain: gmail.com, ip: 209.85.218.42, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a9943897c07so188410266b.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 14:13:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728594807; x=1729199607; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=E1QKTFd8jf7+zmr/pfpuX+ZnNOIPlmEEzHCleWZo7dk=;
-        b=m3jQxrPszZho2GKU5C7/dC22bK00/DCcInTnZZrHjlTn/NDUdBHa4cp3RQs7TDoDm9
-         FoDks/hFRIpvStNRdfecjGnYTRgUh1VDivATFEhZJ97E6M/fy3fi7Wt79YCA6Kxq18N7
-         DpTQuPVDxdF9b7X2UwHBQPPsVpDGYdbu7PsXS+JAjl+ucrp2M2OOCqg1yiS//kQRm183
-         fI3HoxS1i3JnOuOCEfzdRjNwcutnOk+FztkD1BpusNkFXVCWNkeB2ykxIc1URllr5Zdr
-         ylo20R+dy1MhRYVi3MTY3Rm9ZYbaP5o2xYNfJyoFDkm07aTzJ4KCE+LckFZ7W/01SWl/
-         2FuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728594807; x=1729199607;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=E1QKTFd8jf7+zmr/pfpuX+ZnNOIPlmEEzHCleWZo7dk=;
-        b=cyvmLxnZW5OTobhSSTkJp/VdX9pK7KPjlQJYlOpi4n+4kX6Z9WoQeOy4D6x16Eg7J8
-         wZOS4qofmLWihLHygrJb/SJ2RVywY6ByMRnwJ4JTHj0jPvNPOaTtbMfgUvqaiINbSHdh
-         2gynBTgjheupv+x9f6RCpcp6r0615A8lXByS7JlkJspc5AJAzbHnBUddWvjobiFLyB8W
-         NzH65ArNisYLBsNUXHA0HGeTbuUHzrMBZxcADZPGXLNY6oQWiEhh/WOMc/jDzK8DqNKX
-         8F9H6scSMUUKmS2Cud3oR+zig7ltYh8FHdlRn+0oT4u2VrlOyVUCD45N6g5RH1HlCpUG
-         +6dA==
-X-Gm-Message-State: AOJu0YzuxKsK2uTwXJks2DvpKQBY6ptuuD5AOM4jrlEdmMwb71oV1Pxn
-	5SpAvEZbLYYSzipXX/sFKpGgrg9jUGOJihqqNgARXkFeCl6i3EExv6Jq0g==
-X-Google-Smtp-Source: AGHT+IGToqmEUYD01LUcDa9vPajgmKz8U2LLC465yCMgeOOY5LeNceG6MkTJtEMvE0YYlfp0HN2+Hw==
-X-Received: by 2002:a17:907:d3e7:b0:a88:b90a:ff30 with SMTP id a640c23a62f3a-a99b9583146mr26584166b.50.1728594807249;
-        Thu, 10 Oct 2024 14:13:27 -0700 (PDT)
-Received: from [192.168.1.70] (0x57346aa5.static.cust.fastspeed.dk. [87.52.106.165])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99b09c3c04sm68485766b.34.2024.10.10.14.13.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 14:13:26 -0700 (PDT)
-Message-ID: <a37bfb58b1fd931cd6948f6cb627d91e3761a730.camel@gmail.com>
-Subject: Re: [master][scarthgap][PATCH v3] lib/oe/package-manager: skip
- processing installed-pkgs with empty globs
-From: Claus Stovgaard <claus.stovgaard@gmail.com>
-To: openembedded-core@lists.openembedded.org, Ross Burton
- <Ross.Burton@arm.com>
-Date: Thu, 10 Oct 2024 23:13:26 +0200
-In-Reply-To: <20241007203946.684938-1-claus.stovgaard@gmail.com>
-References: <20241007203946.684938-1-claus.stovgaard@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.50.2 
-MIME-Version: 1.0
+ dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
+Received: from kernel.crashing.org.net (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
+	by gate.crashing.org (8.14.1/8.14.1) with ESMTP id 49ALndgH015568
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 16:49:40 -0500
+From: Mark Hatle <mark.hatle@kernel.crashing.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap]PATCH] license: Fix directory layout issues
+Date: Thu, 10 Oct 2024 16:49:38 -0500
+Message-Id: <1728596978-32660-1-git-send-email-mark.hatle@kernel.crashing.org>
+X-Mailer: git-send-email 1.8.3.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 21:13:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205647
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 21:49:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205648
 
-T24gTW9uLCAyMDI0LTEwLTA3IGF0IDIyOjM5ICswMjAwLCBDbGF1cyBTdG92Z2FhcmQgd3JvdGU6
-Cj4gV2UgY2FuIHNraXAgcHJvY2Vzc2luZyB0aGUgaW5zdGFsbGVkLXBrZ3MgZmlsZSBpZiBnbG9i
-cyBpcyBlbXB0eS4KPiBUaGlzIGlzIHRoZSBjYXNlIGlmIHNlbGYuZC5nZXRWYXIgZm9yIElNQUdF
-X0lOU1RBTExfQ09NUExFTUVOVEFSWQo+IHJldHVybnMgYW4gZW1wdHkgc3RyaW5nLiBJZiBnbG9i
-cyBpcyBhbiBlbXB0eSBzdHJpbmcgdGhlIHJlc3VsdCBmcm9tCj4gcHJvY2Vzc2luZyB3aXRoIGVt
-cHR5IGdsb2IgaW4gb2UtcGtnZGF0YS11dGlsIHdpbGwgYWx3YXlzIGJlIDAKPiBwYWNrYWdlcwo+
-IHRvIGluc3RhbGwuCj4gCj4gSW5zdGVhZCBvZiByZXR1cm4gZWFybHkgb24gdGhpcyB3ZSBqdXN0
-IHNraXAgYW5kIHN0aWxsIGdlbmVyYXRlIHRoZQo+IGxvY2FsZSBhcmNoaXZlIGlmIG5lZWRlZC4K
-PiAKPiBTaWduZWQtb2ZmLWJ5OiBDbGF1cyBTdG92Z2FhcmQgPGNsYXVzLnN0b3ZnYWFyZEBnbWFp
-bC5jb20+Cj4gLS0tCj4gwqBtZXRhL2xpYi9vZS9wYWNrYWdlX21hbmFnZXIvX19pbml0X18ucHkg
-fCA3NiArKysrKysrKysrKystLS0tLS0tLS0tLQo+IC0tCj4gwqAxIGZpbGUgY2hhbmdlZCwgMzcg
-aW5zZXJ0aW9ucygrKSwgMzkgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL21ldGEvbGli
-L29lL3BhY2thZ2VfbWFuYWdlci9fX2luaXRfXy5weQo+IGIvbWV0YS9saWIvb2UvcGFja2FnZV9t
-YW5hZ2VyL19faW5pdF9fLnB5Cj4gaW5kZXggZDNiMjMxNzg5NC4uMjEwMGE5N2MxMiAxMDA2NDQK
-PiAtLS0gYS9tZXRhL2xpYi9vZS9wYWNrYWdlX21hbmFnZXIvX19pbml0X18ucHkKPiArKysgYi9t
-ZXRhL2xpYi9vZS9wYWNrYWdlX21hbmFnZXIvX19pbml0X18ucHkKPiBAQCAtMzY1LDQ1ICszNjUs
-NDMgQEAgY2xhc3MgUGFja2FnZU1hbmFnZXIob2JqZWN0LAo+IG1ldGFjbGFzcz1BQkNNZXRhKToK
-PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBmb3IgY29tcGxlbWVudGFyeV9saW5n
-dWFzIGluCj4gKHNlbGYuZC5nZXRWYXIoJ0lNQUdFX0xJTkdVQVNfQ09NUExFTUVOVEFSWScpIG9y
-ICIiKS5zcGxpdCgpOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-Z2xvYnMgKz0gKCIgIiArIGNvbXBsZW1lbnRhcnlfbGluZ3VhcykgJSBsYW5nCj4gwqAKPiAtwqDC
-oMKgwqDCoMKgwqAgaWYgZ2xvYnMgaXMgTm9uZToKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBy
-ZXR1cm4KPiAtCj4gLcKgwqDCoMKgwqDCoMKgICMgd2UgbmVlZCB0byB3cml0ZSB0aGUgbGlzdCBv
-ZiBpbnN0YWxsZWQgcGFja2FnZXMgdG8gYSBmaWxlCj4gYmVjYXVzZSB0aGUKPiAtwqDCoMKgwqDC
-oMKgwqAgIyBvZS1wa2dkYXRhLXV0aWwgcmVhZHMgaXQgZnJvbSBhIGZpbGUKPiAtwqDCoMKgwqDC
-oMKgwqAgd2l0aCB0ZW1wZmlsZS5OYW1lZFRlbXBvcmFyeUZpbGUobW9kZT0idysiLAo+IHByZWZp
-eD0iaW5zdGFsbGVkLXBrZ3MiKSBhcyBpbnN0YWxsZWRfcGtnczoKPiAtwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBwa2dzID0gc2VsZi5saXN0X2luc3RhbGxlZCgpCj4gLQo+IC3CoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgIHByb3ZpZGVkX3BrZ3MgPSBzZXQoKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-IGZvciBwa2cgaW4gcGtncy52YWx1ZXMoKToKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHByb3ZpZGVkX3BrZ3MgfD0gc2V0KHBrZy5nZXQoJ3Byb3ZzJywgW10pKQo+IC0KPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBvdXRwdXQgPSBvZS51dGlscy5mb3JtYXRfcGtnX2xpc3QocGtn
-cywgImFyY2giKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGluc3RhbGxlZF9wa2dzLndyaXRl
-KG91dHB1dCkKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpbnN0YWxsZWRfcGtncy5mbHVzaCgp
-Cj4gLQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNtZCA9IFsib2UtcGtnZGF0YS11dGlsIiwK
-PiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICItcCIsIHNlbGYuZC5nZXRW
-YXIoJ1BLR0RBVEFfRElSJyksICJnbG9iIiwKPiBpbnN0YWxsZWRfcGtncy5uYW1lLAo+IC3CoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZ2xvYnNdCj4gLcKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgZXhjbHVkZSA9IHNlbGYuZC5nZXRWYXIoJ1BBQ0tBR0VfRVhDTFVERV9DT01QTEVN
-RU5UQVJZJykKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiBleGNsdWRlOgo+IC3CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY21kLmV4dGVuZChbJy0tZXhjbHVkZT0nICsKPiAnfCcu
-am9pbihleGNsdWRlLnNwbGl0KCkpXSkKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0cnk6Cj4g
-LcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiYi5ub3RlKCdSdW5uaW5nICVzJyAlIGNt
-ZCkKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByb2MgPSBzdWJwcm9jZXNzLlBv
-cGVuKGNtZCwgc3Rkb3V0PXN1YnByb2Nlc3MuUElQRSwKPiBzdGRlcnI9c3VicHJvY2Vzcy5QSVBF
-KQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc3Rkb3V0LCBzdGRlcnIgPSBwcm9j
-LmNvbW11bmljYXRlKCkKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIHN0ZGVy
-cjogYmIubm90ZShzdGRlcnIuZGVjb2RlKCJ1dGYtOCIpKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqAgY29tcGxlbWVudGFyeV9wa2dzID0gc3Rkb3V0LmRlY29kZSgidXRmLTgiKQo+
-IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29tcGxlbWVudGFyeV9wa2dzID0gc2V0
-KGNvbXBsZW1lbnRhcnlfcGtncy5zcGxpdCgpKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgc2tpcF9wa2dzID0gc29ydGVkKGNvbXBsZW1lbnRhcnlfcGtncyAmCj4gcHJvdmlkZWRf
-cGtncykKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGluc3RhbGxfcGtncyA9IHNv
-cnRlZChjb21wbGVtZW50YXJ5X3BrZ3MgLQo+IHByb3ZpZGVkX3BrZ3MpCj4gLcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCBiYi5ub3RlKCJJbnN0YWxsaW5nIGNvbXBsZW1lbnRhcnkgcGFj
-a2FnZXMgLi4uICVzCj4gKHNraXBwZWQgYWxyZWFkeSBwcm92aWRlZCBwYWNrYWdlcyAlcykiICUg
-KAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnICcuam9pbihpbnN0
-YWxsX3BrZ3MpLAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnICcu
-am9pbihza2lwX3BrZ3MpKSkKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHNlbGYu
-aW5zdGFsbChpbnN0YWxsX3BrZ3MsIGhhcmRfZGVwZW5kc19vbmx5PVRydWUpCj4gLcKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgZXhjZXB0IHN1YnByb2Nlc3MuQ2FsbGVkUHJvY2Vzc0Vycm9yIGFzIGU6
-Cj4gLcKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBiYi5mYXRhbCgiQ291bGQgbm90IGNv
-bXB1dGUgY29tcGxlbWVudGFyeSBwYWNrYWdlcwo+IGxpc3QuIENvbW1hbmQgIgo+IC3CoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIiclcycgcmV0dXJuZWQg
-JWQ6XG4lcyIgJQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgKCcgJy5qb2luKGNtZCksIGUucmV0dXJuY29kZSwKPiBlLm91dHB1dC5kZWNvZGUoInV0
-Zi04IikpKQo+ICvCoMKgwqDCoMKgwqDCoCBpZiBnbG9iczoKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCAjIHdlIG5lZWQgdG8gd3JpdGUgdGhlIGxpc3Qgb2YgaW5zdGFsbGVkIHBhY2thZ2VzIHRv
-IGEKPiBmaWxlIGJlY2F1c2UgdGhlCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBvZS1wa2dk
-YXRhLXV0aWwgcmVhZHMgaXQgZnJvbSBhIGZpbGUKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB3
-aXRoIHRlbXBmaWxlLk5hbWVkVGVtcG9yYXJ5RmlsZShtb2RlPSJ3KyIsCj4gcHJlZml4PSJpbnN0
-YWxsZWQtcGtncyIpIGFzIGluc3RhbGxlZF9wa2dzOgo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgcGtncyA9IHNlbGYubGlzdF9pbnN0YWxsZWQoKQo+ICsKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgIHByb3ZpZGVkX3BrZ3MgPSBzZXQoKQo+ICvCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgZm9yIHBrZyBpbiBwa2dzLnZhbHVlcygpOgo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBwcm92aWRlZF9wa2dzIHw9IHNldChwa2cuZ2V0
-KCdwcm92cycsIFtdKSkKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBvdXRw
-dXQgPSBvZS51dGlscy5mb3JtYXRfcGtnX2xpc3QocGtncywgImFyY2giKQo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5zdGFsbGVkX3BrZ3Mud3JpdGUob3V0cHV0KQo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5zdGFsbGVkX3BrZ3MuZmx1c2goKQo+ICsKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNtZCA9IFsib2UtcGtnZGF0YS11dGlsIiwK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIi1wIiwgc2VsZi5kLmdl
-dFZhcignUEtHREFUQV9ESVInKSwgImdsb2IiLAo+IGluc3RhbGxlZF9wa2dzLm5hbWUsCj4gK8Kg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGdsb2JzXQo+ICvCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgZXhjbHVkZSA9Cj4gc2VsZi5kLmdldFZhcignUEFDS0FHRV9F
-WENMVURFX0NPTVBMRU1FTlRBUlknKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-aWYgZXhjbHVkZToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY21k
-LmV4dGVuZChbJy0tZXhjbHVkZT0nICsKPiAnfCcuam9pbihleGNsdWRlLnNwbGl0KCkpXSkKPiAr
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHRyeToKPiArwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgYmIubm90ZSgnUnVubmluZyAlcycgJSBjbWQpCj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHByb2MgPSBzdWJwcm9jZXNzLlBvcGVu
-KGNtZCwKPiBzdGRvdXQ9c3VicHJvY2Vzcy5QSVBFLCBzdGRlcnI9c3VicHJvY2Vzcy5QSVBFKQo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdGRvdXQsIHN0ZGVyciA9
-IHByb2MuY29tbXVuaWNhdGUoKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBpZiBzdGRlcnI6IGJiLm5vdGUoc3RkZXJyLmRlY29kZSgidXRmLTgiKSkKPiArwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29tcGxlbWVudGFyeV9wa2dzID0gc3Rk
-b3V0LmRlY29kZSgidXRmLTgiKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBjb21wbGVtZW50YXJ5X3BrZ3MgPQo+IHNldChjb21wbGVtZW50YXJ5X3BrZ3Muc3BsaXQo
-KSkKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgc2tpcF9wa2dzID0g
-c29ydGVkKGNvbXBsZW1lbnRhcnlfcGtncyAmCj4gcHJvdmlkZWRfcGtncykKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaW5zdGFsbF9wa2dzID0gc29ydGVkKGNvbXBs
-ZW1lbnRhcnlfcGtncyAtCj4gcHJvdmlkZWRfcGtncykKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgYmIubm90ZSgiSW5zdGFsbGluZyBjb21wbGVtZW50YXJ5IHBhY2th
-Z2VzIC4uLgo+ICVzIChza2lwcGVkIGFscmVhZHkgcHJvdmlkZWQgcGFja2FnZXMgJXMpIiAlICgK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCAnICcuam9p
-bihpbnN0YWxsX3BrZ3MpLAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgICcgJy5qb2luKHNraXBfcGtncykpKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoCBzZWxmLmluc3RhbGwoaW5zdGFsbF9wa2dzLAo+IGhhcmRfZGVwZW5k
-c19vbmx5PVRydWUpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBleGNlcHQgc3Vi
-cHJvY2Vzcy5DYWxsZWRQcm9jZXNzRXJyb3IgYXMgZToKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgYmIuZmF0YWwoIkNvdWxkIG5vdCBjb21wdXRlIGNvbXBsZW1lbnRh
-cnkKPiBwYWNrYWdlcyBsaXN0LiBDb21tYW5kICIKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICInJXMnIHJldHVybmVkICVkOlxuJXMiICUK
-PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-ICgnICcuam9pbihjbWQpLCBlLnJldHVybmNvZGUsCj4gZS5vdXRwdXQuZGVjb2RlKCJ1dGYtOCIp
-KSkKPiDCoAo+IMKgwqDCoMKgwqDCoMKgwqAgaWYgc2VsZi5kLmdldFZhcignSU1BR0VfTE9DQUxF
-U19BUkNISVZFJykgPT0gJzEnOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB0YXJnZXRfYXJj
-aCA9IHNlbGYuZC5nZXRWYXIoJ1RBUkdFVF9BUkNIJykKCgpIaSBSb3NzLgoKTm93IHlvdSBjb21t
-ZW50ZWQgb24gdjIgb2YgdGhlIHBhdGNoLiBIb3BlIHlvdSB0aGluayB2MyBpcyBva2F5LgoKL0Ns
-YXVzCg==
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+There are several issues:
+
+a) pointless empty directories were being created as a path wasn't
+   fixed in a previous commit
+b) SSTATE_PKGARCH wasn't being captured into the task signature
+   since it is in the ignore list by default. We want to capture
+   the absolute value, not the dependencies
+c) with those issues fixed, cross/native issues became apparent so
+   those need to be fixed too.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+
+Backport from oe-core master: f68aed302a0e4b86fb8c16a6ef4e7295bed48b86
+
+Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+---
+This is a backport from master to fix an issue with do_populate_lic.
+
+do_populate_lic is not rerun when a package that is MACHINE_ARCH is
+run with two different machines, the sstate-cache only contains the
+entry for the first machine built.  This results in the tmp/deploy/license
+being in the wrong directory and a possible QA warning from 'license-file-missing'.
+
+ meta/classes-global/license.bbclass | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+
+diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
+index b2e0d3f..d7c5d08 100644
+--- a/meta/classes-global/license.bbclass
++++ b/meta/classes-global/license.bbclass
+@@ -18,8 +18,14 @@ LICENSE_CREATE_PACKAGE ??= "0"
+ LICENSE_PACKAGE_SUFFIX ??= "-lic"
+ LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
+ 
++LICENSE_DEPLOY_PATHCOMPONENT = "${SSTATE_PKGARCH}"
++LICENSE_DEPLOY_PATHCOMPONENT:class-cross = "native"
++LICENSE_DEPLOY_PATHCOMPONENT:class-native = "native"
++# Ensure the *value* of SSTATE_PKGARCH is captured as it is used in the output paths
++LICENSE_DEPLOY_PATHCOMPONENT[vardepvalue] += "${LICENSE_DEPLOY_PATHCOMPONENT}"
++
+ addtask populate_lic after do_patch before do_build
+-do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
++do_populate_lic[dirs] = "${LICSSTATEDIR}/${LICENSE_DEPLOY_PATHCOMPONENT}/${PN}"
+ do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
+ 
+ python do_populate_lic() {
+@@ -29,7 +35,7 @@ python do_populate_lic() {
+     lic_files_paths = find_license_files(d)
+ 
+     # The base directory we wrangle licenses to
+-    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('SSTATE_PKGARCH'), d.getVar('PN'))
++    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('LICENSE_DEPLOY_PATHCOMPONENT'), d.getVar('PN'))
+     copy_license_files(lic_files_paths, destdir)
+     info = get_recipe_info(d)
+     with open(os.path.join(destdir, "recipeinfo"), "w") as f:
+-- 
+1.8.3.1
 
 
