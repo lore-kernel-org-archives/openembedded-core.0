@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 621FACFC610
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9D09D0EE04
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 19:36:05 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.53367.1728588951632949875
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web11.53361.1728588948281790444
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 12:36:02 -0700
+ Thu, 10 Oct 2024 12:36:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PCC/OTGg;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=u3bs/uSO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019277ee573f-00e21075-a109-462f-8a4a-f0673e3d3f57-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dU6KLpoi;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ovPtwHfK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 0101019277ee5468-e525ad39-0a94-435d-91f4-eb4a92a646f9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1728588961;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gfOJS4XsLB2uWHzAKfkmBDp4bWRNi4KYf6Tt2Htx9rU=;
-	b=PCC/OTGguhhR7vwS8kvu20gZGCsrdZN5EBtZ2P/aL02HOaZ4C9p2ZihYDOCCiKi2
-	uE3jRslfHlzZvqdCCUcOZey+HNlZ7Fa8QVtoxI/3UGJegKl/3sKA1MzHtNp0JOf785h
-	0BOPABK09gVOqq3jkTGFiUi1yY8ZQDEAT4HVl/f8=
+	bh=luNVqeLg+SUx/DKG3PuyjuOln/1VOgQ4W2ISpbpJYRY=;
+	b=dU6KLpoiidNKF0uG/hmqY0GMfZobMbytUrrFaXW7/8q5D2ntLDsCbuBY4/l0eUWc
+	gpeEitlwwy9d2+IT8sitZ22Vjf/JOei0V1SvITr8Fz/ZZIUa6aeYGkas+B8uoNzq6k9
+	xDj9uY+G2yJ/rDeXk9rTkFgjCB35g2ypGJsKGNxo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728588961;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gfOJS4XsLB2uWHzAKfkmBDp4bWRNi4KYf6Tt2Htx9rU=;
-	b=u3bs/uSONR3vPmG+J1AECymatWqV2tTUfIC4zGQEGmeElkhSrAEq3bTCrQ+id4gg
-	X/d3ub13PQFMiLCQDWPqFP2W3Y6QApNo6auCooo8ETZIg4D5SK3qigydMssal/K9BH2
-	P6C4Es4dG9ikWzhNp72KLroOU1FQwxJIs0kTGn/s=
-Content-Type: multipart/mixed; boundary="===============8379865667860867697=="
+	bh=luNVqeLg+SUx/DKG3PuyjuOln/1VOgQ4W2ISpbpJYRY=;
+	b=ovPtwHfKFekd617OwznSlAu+I6gKT0qoCbbP70KigUU5fIWkhAAeWvJO+Ky3XyCt
+	bPA1eKFKtJ3apzg7ZvenObD4P+iLlx1fTxr8YUfr+iUwnctqo4i06AL6tzBZU6p+vnA
+	udqOaa49SO3y3orP2eD9vaTmg+x1iYshL8ItW5fs=
+Content-Type: multipart/mixed; boundary="===============5694285956332962778=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] lttng-modules: upgrading to 2.13.15 FAILED
-Message-ID: <0101019277ee573f-00e21075-a109-462f-8a4a-f0673e3d3f57-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Oct 2024 19:36:01 +0000
+Subject: [AUH] cups: upgrading to 2.4.11 FAILED
+Message-ID: <0101019277ee5468-e525ad39-0a94-435d-91f4-eb4a92a646f9-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Oct 2024 19:36:00 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.10-54.240.27.45
+X-SES-Outgoing: 2024.10.10-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 19:36:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205501
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205498
 
---===============8379865667860867697==
+--===============5694285956332962778==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,500 +51,320 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *lttng-modules* to *2.13.15* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *cups* to *2.4.11* has Failed(do_compile).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe lttng-modules failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1871 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:898a5089c01cf5c58f31fdfc9ea769436147b53d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 918 .bb files complete (0 cached, 918 parsed). 1872 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:898a5089c01cf5c58f31fdfc9ea769436147b53d"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-kj4g5tui: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-xnk8s4o5/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-xnk8s4o5/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-Cloning into bare repository '/srv/pokybuild/yocto-worker/auh/build/build/downloads/git2/git.lttng.org.lttng-modules'...
-remote: Enumerating objects: 23192, done.        
-remote: Counting objects:   0% (1/23192)        
-remote: Counting objects:   1% (232/23192)        
-remote: Counting objects:   2% (464/23192)        
-remote: Counting objects:   3% (696/23192)        
-remote: Counting objects:   4% (928/23192)        
-remote: Counting objects:   5% (1160/23192)        
-remote: Counting objects:   6% (1392/23192)        
-remote: Counting objects:   7% (1624/23192)        
-remote: Counting objects:   8% (1856/23192)        
-remote: Counting objects:   9% (2088/23192)        
-remote: Counting objects:  10% (2320/23192)        
-remote: Counting objects:  11% (2552/23192)        
-remote: Counting objects:  12% (2784/23192)        
-remote: Counting objects:  13% (3015/23192)        
-remote: Counting objects:  14% (3247/23192)        
-remote: Counting objects:  15% (3479/23192)        
-remote: Counting objects:  16% (3711/23192)        
-remote: Counting objects:  17% (3943/23192)        
-remote: Counting objects:  18% (4175/23192)        
-remote: Counting objects:  19% (4407/23192)        
-remote: Counting objects:  20% (4639/23192)        
-remote: Counting objects:  21% (4871/23192)        
-remote: Counting objects:  22% (5103/23192)        
-remote: Counting objects:  23% (5335/23192)        
-remote: Counting objects:  24% (5567/23192)        
-remote: Counting objects:  25% (5798/23192)        
-remote: Counting objects:  26% (6030/23192)        
-remote: Counting objects:  27% (6262/23192)        
-remote: Counting objects:  28% (6494/23192)        
-remote: Counting objects:  29% (6726/23192)        
-remote: Counting objects:  30% (6958/23192)        
-remote: Counting objects:  31% (7190/23192)        
-remote: Counting objects:  32% (7422/23192)        
-remote: Counting objects:  33% (7654/23192)        
-remote: Counting objects:  34% (7886/23192)        
-remote: Counting objects:  35% (8118/23192)        
-remote: Counting objects:  36% (8350/23192)        
-remote: Counting objects:  37% (8582/23192)        
-remote: Counting objects:  38% (8813/23192)        
-remote: Counting objects:  39% (9045/23192)        
-remote: Counting objects:  40% (9277/23192)        
-remote: Counting objects:  41% (9509/23192)        
-remote: Counting objects:  42% (9741/23192)        
-remote: Counting objects:  43% (9973/23192)        
-remote: Counting objects:  44% (10205/23192)        
-remote: Counting objects:  45% (10437/23192)        
-remote: Counting objects:  46% (10669/23192)        
-remote: Counting objects:  47% (10901/23192)        
-remote: Counting objects:  48% (11133/23192)        
-remote: Counting objects:  49% (11365/23192)        
-remote: Counting objects:  50% (11596/23192)        
-remote: Counting objects:  51% (11828/23192)        
-remote: Counting objects:  52% (12060/23192)        
-remote: Counting objects:  53% (12292/23192)        
-remote: Counting objects:  54% (12524/23192)        
-remote: Counting objects:  55% (12756/23192)        
-remote: Counting objects:  56% (12988/23192)        
-remote: Counting objects:  57% (13220/23192)        
-remote: Counting objects:  58% (13452/23192)        
-remote: Counting objects:  59% (13684/23192)        
-remote: Counting objects:  60% (13916/23192)        
-remote: Counting objects:  61% (14148/23192)        
-remote: Counting objects:  62% (14380/23192)        
-remote: Counting objects:  63% (14611/23192)        
-remote: Counting objects:  64% (14843/23192)        
-remote: Counting objects:  65% (15075/23192)        
-remote: Counting objects:  66% (15307/23192)        
-remote: Counting objects:  67% (15539/23192)        
-remote: Counting objects:  68% (15771/23192)        
-remote: Counting objects:  69% (16003/23192)        
-remote: Counting objects:  70% (16235/23192)        
-remote: Counting objects:  71% (16467/23192)        
-remote: Counting objects:  72% (16699/23192)        
-remote: Counting objects:  73% (16931/23192)        
-remote: Counting objects:  74% (17163/23192)        
-remote: Counting objects:  75% (17394/23192)        
-remote: Counting objects:  76% (17626/23192)        
-remote: Counting objects:  77% (17858/23192)        
-remote: Counting objects:  78% (18090/23192)        
-remote: Counting objects:  79% (18322/23192)        
-remote: Counting objects:  80% (18554/23192)        
-remote: Counting objects:  81% (18786/23192)        
-remote: Counting objects:  82% (19018/23192)        
-remote: Counting objects:  83% (19250/23192)        
-remote: Counting objects:  84% (19482/23192)        
-remote: Counting objects:  85% (19714/23192)        
-remote: Counting objects:  86% (19946/23192)        
-remote: Counting objects:  87% (20178/23192)        
-remote: Counting objects:  88% (20409/23192)        
-remote: Counting objects:  89% (20641/23192)        
-remote: Counting objects:  90% (20873/23192)        
-remote: Counting objects:  91% (21105/23192)        
-remote: Counting objects:  92% (21337/23192)        
-remote: Counting objects:  93% (21569/23192)        
-remote: Counting objects:  94% (21801/23192)        
-remote: Counting objects:  95% (22033/23192)        
-remote: Counting objects:  96% (22265/23192)        
-remote: Counting objects:  97% (22497/23192)        
-remote: Counting objects:  98% (22729/23192)        
-remote: Counting objects:  99% (22961/23192)        
-remote: Counting objects: 100% (23192/23192), done.        
-remote: Compressing objects:   0% (1/11174)        
-remote: Compressing objects:   1% (112/11174)        
-remote: Compressing objects:   2% (224/11174)        
-remote: Compressing objects:   3% (336/11174)        
-remote: Compressing objects:   4% (447/11174)        
-remote: Compressing objects:   5% (559/11174)        
-remote: Compressing objects:   6% (671/11174)        
-remote: Compressing objects:   7% (783/11174)        
-remote: Compressing objects:   8% (894/11174)        
-remote: Compressing objects:   9% (1006/11174)        
-remote: Compressing objects:  10% (1118/11174)        
-remote: Compressing objects:  11% (1230/11174)        
-remote: Compressing objects:  12% (1341/11174)        
-remote: Compressing objects:  13% (1453/11174)        
-remote: Compressing objects:  14% (1565/11174)        
-remote: Compressing objects:  15% (1677/11174)        
-remote: Compressing objects:  16% (1788/11174)        
-remote: Compressing objects:  17% (1900/11174)        
-remote: Compressing objects:  18% (2012/11174)        
-remote: Compressing objects:  19% (2124/11174)        
-remote: Compressing objects:  20% (2235/11174)        
-remote: Compressing objects:  21% (2347/11174)        
-remote: Compressing objects:  22% (2459/11174)        
-remote: Compressing objects:  23% (2571/11174)        
-remote: Compressing objects:  24% (2682/11174)        
-remote: Compressing objects:  25% (2794/11174)        
-remote: Compressing objects:  26% (2906/11174)        
-remote: Compressing objects:  27% (3017/11174)        
-remote: Compressing objects:  28% (3129/11174)        
-remote: Compressing objects:  29% (3241/11174)        
-remote: Compressing objects:  30% (3353/11174)        
-remote: Compressing objects:  31% (3464/11174)        
-remote: Compressing objects:  32% (3576/11174)        
-remote: Compressing objects:  33% (3688/11174)        
-remote: Compressing objects:  34% (3800/11174)        
-remote: Compressing objects:  35% (3911/11174)        
-remote: Compressing objects:  36% (4023/11174)        
-remote: Compressing objects:  37% (4135/11174)        
-remote: Compressing objects:  38% (4247/11174)        
-remote: Compressing objects:  39% (4358/11174)        
-remote: Compressing objects:  40% (4470/11174)        
-remote: Compressing objects:  41% (4582/11174)        
-remote: Compressing objects:  42% (4694/11174)        
-remote: Compressing objects:  43% (4805/11174)        
-remote: Compressing objects:  44% (4917/11174)        
-remote: Compressing objects:  45% (5029/11174)        
-remote: Compressing objects:  46% (5141/11174)        
-remote: Compressing objects:  47% (5252/11174)        
-remote: Compressing objects:  48% (5364/11174)        
-remote: Compressing objects:  49% (5476/11174)        
-remote: Compressing objects:  50% (5587/11174)        
-remote: Compressing objects:  51% (5699/11174)        
-remote: Compressing objects:  52% (5811/11174)        
-remote: Compressing objects:  53% (5923/11174)        
-remote: Compressing objects:  54% (6034/11174)        
-remote: Compressing objects:  55% (6146/11174)        
-remote: Compressing objects:  56% (6258/11174)        
-remote: Compressing objects:  57% (6370/11174)        
-remote: Compressing objects:  58% (6481/11174)        
-remote: Compressing objects:  59% (6593/11174)        
-remote: Compressing objects:  60% (6705/11174)        
-remote: Compressing objects:  61% (6817/11174)        
-remote: Compressing objects:  62% (6928/11174)        
-remote: Compressing objects:  63% (7040/11174)        
-remote: Compressing objects:  64% (7152/11174)        
-remote: Compressing objects:  65% (7264/11174)        
-remote: Compressing objects:  66% (7375/11174)        
-remote: Compressing objects:  67% (7487/11174)        
-remote: Compressing objects:  68% (7599/11174)        
-remote: Compressing objects:  69% (7711/11174)        
-remote: Compressing objects:  70% (7822/11174)        
-remote: Compressing objects:  71% (7934/11174)        
-remote: Compressing objects:  72% (8046/11174)        
-remote: Compressing objects:  73% (8158/11174)        
-remote: Compressing objects:  74% (8269/11174)        
-remote: Compressing objects:  75% (8381/11174)        
-remote: Compressing objects:  76% (8493/11174)        
-remote: Compressing objects:  77% (8604/11174)        
-remote: Compressing objects:  78% (8716/11174)        
-remote: Compressing objects:  79% (8828/11174)        
-remote: Compressing objects:  80% (8940/11174)        
-remote: Compressing objects:  81% (9051/11174)        
-remote: Compressing objects:  82% (9163/11174)        
-remote: Compressing objects:  83% (9275/11174)        
-remote: Compressing objects:  84% (9387/11174)        
-remote: Compressing objects:  85% (9498/11174)        
-remote: Compressing objects:  86% (9610/11174)        
-remote: Compressing objects:  87% (9722/11174)        
-remote: Compressing objects:  88% (9834/11174)        
-remote: Compressing objects:  89% (9945/11174)        
-remote: Compressing objects:  90% (10057/11174)        
-remote: Compressing objects:  91% (10169/11174)        
-remote: Compressing objects:  92% (10281/11174)        
-remote: Compressing objects:  93% (10392/11174)        
-remote: Compressing objects:  94% (10504/11174)        
-remote: Compressing objects:  95% (10616/11174)        
-remote: Compressing objects:  96% (10728/11174)        
-remote: Compressing objects:  97% (10839/11174)        
-remote: Compressing objects:  98% (10951/11174)        
-remote: Compressing objects:  99% (11063/11174)        
-remote: Compressing objects: 100% (11174/11174)        
-remote: Compressing objects: 100% (11174/11174), done.        
-Receiving objects:   0% (1/23192)
-Receiving objects:   1% (232/23192)
-Receiving objects:   2% (464/23192)
-Receiving objects:   3% (696/23192)
-Receiving objects:   4% (928/23192)
-Receiving objects:   5% (1160/23192)
-Receiving objects:   6% (1392/23192)
-Receiving objects:   7% (1624/23192)
-Receiving objects:   8% (1856/23192)
-Receiving objects:   9% (2088/23192)
-Receiving objects:  10% (2320/23192)
-Receiving objects:  11% (2552/23192)
-Receiving objects:  12% (2784/23192)
-Receiving objects:  13% (3015/23192)
-Receiving objects:  14% (3247/23192)
-Receiving objects:  15% (3479/23192)
-Receiving objects:  16% (3711/23192)
-Receiving objects:  17% (3943/23192)
-Receiving objects:  18% (4175/23192)
-Receiving objects:  19% (4407/23192)
-Receiving objects:  20% (4639/23192)
-Receiving objects:  21% (4871/23192)
-Receiving objects:  22% (5103/23192)
-Receiving objects:  23% (5335/23192)
-Receiving objects:  24% (5567/23192)
-Receiving objects:  25% (5798/23192)
-Receiving objects:  26% (6030/23192)
-Receiving objects:  27% (6262/23192)
-Receiving objects:  28% (6494/23192)
-Receiving objects:  29% (6726/23192)
-Receiving objects:  30% (6958/23192)
-Receiving objects:  31% (7190/23192)
-Receiving objects:  32% (7422/23192)
-Receiving objects:  33% (7654/23192)
-Receiving objects:  34% (7886/23192)
-Receiving objects:  35% (8118/23192)
-Receiving objects:  36% (8350/23192)
-Receiving objects:  37% (8582/23192)
-Receiving objects:  38% (8813/23192)
-Receiving objects:  39% (9045/23192)
-Receiving objects:  40% (9277/23192)
-Receiving objects:  41% (9509/23192)
-Receiving objects:  42% (9741/23192)
-Receiving objects:  43% (9973/23192)
-Receiving objects:  44% (10205/23192)
-Receiving objects:  45% (10437/23192)
-Receiving objects:  46% (10669/23192)
-Receiving objects:  47% (10901/23192)
-Receiving objects:  48% (11133/23192)
-Receiving objects:  49% (11365/23192)
-Receiving objects:  50% (11596/23192)
-Receiving objects:  51% (11828/23192)
-Receiving objects:  52% (12060/23192)
-Receiving objects:  53% (12292/23192)
-Receiving objects:  54% (12524/23192)
-Receiving objects:  55% (12756/23192)
-Receiving objects:  56% (12988/23192)
-Receiving objects:  57% (13220/23192)
-Receiving objects:  58% (13452/23192)
-Receiving objects:  59% (13684/23192)
-Receiving objects:  60% (13916/23192)
-Receiving objects:  61% (14148/23192)
-Receiving objects:  62% (14380/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  63% (14611/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  64% (14843/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  65% (15075/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  66% (15307/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  67% (15539/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  68% (15771/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  69% (16003/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  70% (16235/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  71% (16467/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  72% (16699/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  73% (16931/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  74% (17163/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  75% (17394/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  76% (17626/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  77% (17858/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  78% (18090/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  79% (18322/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  80% (18554/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  81% (18786/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  82% (19018/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  83% (19250/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  84% (19482/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  85% (19714/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  86% (19946/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  87% (20178/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  88% (20409/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  89% (20641/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  90% (20873/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  91% (21105/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  92% (21337/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  93% (21569/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  94% (21801/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  95% (22033/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  96% (22265/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  97% (22497/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects:  98% (22729/23192), 2.78 MiB | 5.05 MiB/s
-remote: Total 23192 (delta 17854), reused 15954 (delta 11796), pack-reused 0        
-Receiving objects:  99% (22961/23192), 2.78 MiB | 5.05 MiB/s
-Receiving objects: 100% (23192/23192), 4.18 MiB | 7.30 MiB/s, done.
-Resolving deltas:   0% (0/17854)
-Resolving deltas:   1% (179/17854)
-Resolving deltas:   2% (359/17854)
-Resolving deltas:   3% (537/17854)
-Resolving deltas:   4% (717/17854)
-Resolving deltas:   5% (893/17854)
-Resolving deltas:   6% (1072/17854)
-Resolving deltas:   7% (1251/17854)
-Resolving deltas:   8% (1429/17854)
-Resolving deltas:   9% (1607/17854)
-Resolving deltas:  10% (1786/17854)
-Resolving deltas:  11% (1964/17854)
-Resolving deltas:  12% (2143/17854)
-Resolving deltas:  13% (2322/17854)
-Resolving deltas:  14% (2500/17854)
-Resolving deltas:  15% (2679/17854)
-Resolving deltas:  16% (2857/17854)
-Resolving deltas:  17% (3039/17854)
-Resolving deltas:  18% (3214/17854)
-Resolving deltas:  19% (3393/17854)
-Resolving deltas:  20% (3571/17854)
-Resolving deltas:  21% (3750/17854)
-Resolving deltas:  22% (3928/17854)
-Resolving deltas:  23% (4107/17854)
-Resolving deltas:  24% (4285/17854)
-Resolving deltas:  25% (4464/17854)
-Resolving deltas:  26% (4643/17854)
-Resolving deltas:  27% (4821/17854)
-Resolving deltas:  28% (5000/17854)
-Resolving deltas:  29% (5178/17854)
-Resolving deltas:  30% (5357/17854)
-Resolving deltas:  31% (5535/17854)
-Resolving deltas:  32% (5714/17854)
-Resolving deltas:  33% (5892/17854)
-Resolving deltas:  34% (6071/17854)
-Resolving deltas:  35% (6249/17854)
-Resolving deltas:  36% (6428/17854)
-Resolving deltas:  37% (6607/17854)
-Resolving deltas:  38% (6785/17854)
-Resolving deltas:  39% (6964/17854)
-Resolving deltas:  40% (7142/17854)
-Resolving deltas:  41% (7321/17854)
-Resolving deltas:  42% (7499/17854)
-Resolving deltas:  43% (7678/17854)
-Resolving deltas:  44% (7856/17854)
-Resolving deltas:  45% (8035/17854)
-Resolving deltas:  46% (8213/17854)
-Resolving deltas:  47% (8392/17854)
-Resolving deltas:  48% (8570/17854)
-Resolving deltas:  49% (8749/17854)
-Resolving deltas:  50% (8927/17854)
-Resolving deltas:  51% (9106/17854)
-Resolving deltas:  52% (9285/17854)
-Resolving deltas:  53% (9463/17854)
-Resolving deltas:  54% (9643/17854)
-Resolving deltas:  55% (9820/17854)
-Resolving deltas:  56% (9999/17854)
-Resolving deltas:  57% (10177/17854)
-Resolving deltas:  58% (10356/17854)
-Resolving deltas:  59% (10535/17854)
-Resolving deltas:  60% (10714/17854)
-Resolving deltas:  61% (10893/17854)
-Resolving deltas:  62% (11073/17854)
-Resolving deltas:  63% (11249/17854)
-Resolving deltas:  64% (11428/17854)
-Resolving deltas:  65% (11606/17854)
-Resolving deltas:  66% (11785/17854)
-Resolving deltas:  67% (11963/17854)
-Resolving deltas:  68% (12143/17854)
-Resolving deltas:  69% (12320/17854)
-Resolving deltas:  70% (12498/17854)
-Resolving deltas:  71% (12682/17854)
-Resolving deltas:  72% (12855/17854)
-Resolving deltas:  73% (13034/17854)
-Resolving deltas:  74% (13213/17854)
-Resolving deltas:  75% (13391/17854)
-Resolving deltas:  76% (13570/17854)
-Resolving deltas:  77% (13748/17854)
-Resolving deltas:  78% (13927/17854)
-Resolving deltas:  79% (14105/17854)
-Resolving deltas:  80% (14284/17854)
-Resolving deltas:  81% (14462/17854)
-Resolving deltas:  82% (14641/17854)
-Resolving deltas:  83% (14819/17854)
-Resolving deltas:  84% (14998/17854)
-Resolving deltas:  85% (15177/17854)
-Resolving deltas:  86% (15356/17854)
-Resolving deltas:  87% (15533/17854)
-Resolving deltas:  88% (15713/17854)
-Resolving deltas:  89% (15892/17854)
-Resolving deltas:  90% (16069/17854)
-Resolving deltas:  91% (16248/17854)
-Resolving deltas:  92% (16426/17854)
-Resolving deltas:  93% (16605/17854)
-Resolving deltas:  94% (16783/17854)
-Resolving deltas:  95% (16963/17854)
-Resolving deltas:  96% (17141/17854)
-Resolving deltas:  97% (17320/17854)
-Resolving deltas:  98% (17497/17854)
-Resolving deltas:  99% (17676/17854)
-Resolving deltas: 100% (17854/17854)
-Resolving deltas: 100% (17854/17854), done.
-NOTE: Creating tarball of git repository
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://lttng.org/files/lttng-modules/lttng-modules-2.13.15.tar.bz2...
-INFO: Rebasing devtool onto c972ec84cf2ae55488d84363d7c3d1e368cd8c90
-WARNING: Command 'git rebase c972ec84cf2ae55488d84363d7c3d1e368cd8c90' failed:
-Auto-merging include/instrumentation/events/btrfs.h
-CONFLICT (content): Merge conflict in include/instrumentation/events/btrfs.h
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/lttng-modules
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/lttng-modules/lttng-modules_2.13.15.bb
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-cups-upgrade-2.4.10-2.4.11.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8379865667860867697==--
+
+-- >8 --
+From 51ab0455cf71f27d6585e85845233aa3ed967a95 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 10 Oct 2024 03:01:10 +0000
+Subject: [PATCH] cups: upgrade 2.4.10 -> 2.4.11
+
+---
+ .../cups/cups/0001-use-echo-only-in-init.patch              | 2 +-
+ .../cups/0002-don-t-try-to-run-generated-binaries.patch     | 2 +-
+ .../0004-cups-fix-multilib-install-file-conflicts.patch     | 6 +++---
+ meta/recipes-extended/cups/cups/libexecdir.patch            | 5 ++---
+ .../cups/{cups_2.4.10.bb => cups_2.4.11.bb}                 | 2 +-
+ 5 files changed, 8 insertions(+), 9 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.4.10.bb => cups_2.4.11.bb} (51%)
+
+diff --git a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
+index e6bd400779..69c771f391 100644
+--- a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
++++ b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
+@@ -1,4 +1,4 @@
+-From ddfe6ed6a89226985e8c9f0751c026aabc0927a0 Mon Sep 17 00:00:00 2001
++From e9340b281fc7877a45539d0de425d7ab1b829661 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Thu, 13 Dec 2012 19:03:52 -0800
+ Subject: [PATCH] use echo only in init
+diff --git a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+index 75270cb0cb..2d19e6b43c 100644
+--- a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
++++ b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+@@ -1,4 +1,4 @@
+-From ff6c7168c3f26094b3a18298208a28831d1c1fd5 Mon Sep 17 00:00:00 2001
++From 3a286f83cb90e5ac79596653707adf4f64e1aaad Mon Sep 17 00:00:00 2001
+ From: Koen Kooi <koen@dominion.thruhere.net>
+ Date: Sun, 30 Jan 2011 16:37:27 +0100
+ Subject: [PATCH] don't try to run generated binaries
+diff --git a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+index d49fb8f2c2..4b53b8d655 100644
+--- a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
++++ b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+@@ -1,4 +1,4 @@
+-From 6e286b582571ffca3f7874076d70eec6fd5713f6 Mon Sep 17 00:00:00 2001
++From d7898d0b142e25ebb465ae672b8366c83a2d8b5b Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Wed, 3 Oct 2018 00:27:11 +0800
+ Subject: [PATCH] cups: fix multilib install file conflicts
+@@ -15,10 +15,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
+-index 93584a1..65b7052 100644
++index f96f745..27d8be9 100644
+ --- a/conf/cups-files.conf.in
+ +++ b/conf/cups-files.conf.in
+-@@ -67,7 +67,7 @@ PageLog @CUPS_LOGDIR@/page_log
++@@ -70,7 +70,7 @@ PageLog @CUPS_LOGDIR@/page_log
+  #RequestRoot @CUPS_REQUESTS@
+  
+  # Location of helper programs...
+diff --git a/meta/recipes-extended/cups/cups/libexecdir.patch b/meta/recipes-extended/cups/cups/libexecdir.patch
+index 7ccad94f0f..5f9c7e62be 100644
+--- a/meta/recipes-extended/cups/cups/libexecdir.patch
++++ b/meta/recipes-extended/cups/cups/libexecdir.patch
+@@ -1,4 +1,4 @@
+-From 1724f7bcdbcfdb445778f8a2e530c5c094c18c10 Mon Sep 17 00:00:00 2001
++From 8a4e25b2fb05ab7dc82066ff9cb6f8eb856a0038 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Tue, 13 Jul 2021 12:56:30 +0100
+ Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
+@@ -6,13 +6,12 @@ Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
+ 
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+ ---
+  config-scripts/cups-directories.m4 | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/config-scripts/cups-directories.m4 b/config-scripts/cups-directories.m4
+-index 2033d47..230166e 100644
++index 069ee7b..2f67e5b 100644
+ --- a/config-scripts/cups-directories.m4
+ +++ b/config-scripts/cups-directories.m4
+ @@ -239,7 +239,7 @@ AC_SUBST([CUPS_REQUESTS])
+diff --git a/meta/recipes-extended/cups/cups_2.4.10.bb b/meta/recipes-extended/cups/cups_2.4.11.bb
+similarity index 51%
+rename from meta/recipes-extended/cups/cups_2.4.10.bb
+rename to meta/recipes-extended/cups/cups_2.4.11.bb
+index e16ad47cf5..71568295cb 100644
+--- a/meta/recipes-extended/cups/cups_2.4.10.bb
++++ b/meta/recipes-extended/cups/cups_2.4.11.bb
+@@ -2,4 +2,4 @@ require cups.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRC_URI[sha256sum] = "d75757c2bc0f7a28b02ee4d52ca9e4b1aa1ba2affe16b985854f5336940e5ad7"
++SRC_URI[sha256sum] = "9a88fe1da3a29a917c3fc67ce6eb3178399d68e1a548c6d86c70d9b13651fd71"
+-- 
+2.44.1
+
+
+--===============5694285956332962778==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1871 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 917 .bb files complete (916 cached, 1 parsed). 1871 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:90096c3f11f784774959bafc82441188c76d5e69"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 323 Local 311 Mirrors 0 Missed 12 Current 494 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2039 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_recipe_qa)
+NOTE: recipe cups-2.4.11-r0: task do_recipe_qa: Started
+NOTE: recipe cups-2.4.11-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 2245 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_fetch)
+NOTE: recipe cups-2.4.11-r0: task do_fetch: Started
+NOTE: recipe cups-2.4.11-r0: task do_fetch: Succeeded
+NOTE: Running task 2246 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_unpack)
+NOTE: Running task 2247 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_prepare_recipe_sysroot)
+NOTE: recipe cups-2.4.11-r0: task do_unpack: Started
+NOTE: recipe cups-2.4.11-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe cups-2.4.11-r0: task do_unpack: Succeeded
+NOTE: Running task 2248 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_patch)
+NOTE: Running task 2249 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_collect_spdx_deps)
+NOTE: recipe cups-2.4.11-r0: task do_patch: Started
+NOTE: recipe cups-2.4.11-r0: task do_collect_spdx_deps: Started
+NOTE: recipe cups-2.4.11-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_patch: Succeeded
+NOTE: Running task 2250 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2251 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_populate_lic)
+NOTE: recipe cups-2.4.11-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe cups-2.4.11-r0: task do_populate_lic: Started
+NOTE: recipe cups-2.4.11-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_populate_lic: Succeeded
+NOTE: Running task 2252 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_configure)
+NOTE: recipe cups-2.4.11-r0: task do_configure: Started
+NOTE: recipe cups-2.4.11-r0: task do_configure: Succeeded
+NOTE: Running task 2253 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_compile)
+NOTE: recipe cups-2.4.11-r0: task do_compile: Started
+NOTE: recipe cups-2.4.11-r0: task do_compile: Succeeded
+NOTE: Running task 2254 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_install)
+NOTE: recipe cups-2.4.11-r0: task do_install: Started
+NOTE: recipe cups-2.4.11-r0: task do_install: Succeeded
+NOTE: Running task 2255 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_package)
+NOTE: Running task 2256 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_populate_sysroot)
+NOTE: recipe cups-2.4.11-r0: task do_populate_sysroot: Started
+NOTE: recipe cups-2.4.11-r0: task do_package: Started
+NOTE: recipe cups-2.4.11-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_package: Failed
+NOTE: Tasks Summary: Attempted 2256 tasks of which 2243 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010030011.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241010030011.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_package
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/cups/2.4.11/temp/log.do_package.3838333
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: cups-2.4.11-r0 do_package: QA Issue: cups: Files/directories were installed but not shipped in any package:
+  /usr/lib/systemd/system/system-cups.slice
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+cups: 1 installed and not shipped files. [installed-vs-shipped]
+ERROR: cups-2.4.11-r0 do_package: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/cups/2.4.11/temp/log.do_package.3838333
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_package) failed with exit code '1'
+
+--===============5694285956332962778==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cups-upgrade-2.4.10-2.4.11.patch"
+
+RnJvbSA1MWFiMDQ1NWNmNzFmMjdkNjU4NWU4NTg0NTIzM2FhM2VkOTY3YTk1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTAgT2N0IDIwMjQgMDM6MDE6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+dXBzOiB1cGdyYWRlIDIuNC4xMCAtPiAyLjQuMTEKCi0tLQogLi4uL2N1cHMvY3Vwcy8wMDAxLXVz
+ZS1lY2hvLW9ubHktaW4taW5pdC5wYXRjaCAgICAgICAgICAgICAgfCAyICstCiAuLi4vY3Vwcy8w
+MDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVzLnBhdGNoICAgICB8IDIgKy0K
+IC4uLi8wMDA0LWN1cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gg
+ICAgIHwgNiArKystLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvbGliZXhlY2Rp
+ci5wYXRjaCAgICAgICAgICAgIHwgNSArKy0tLQogLi4uL2N1cHMve2N1cHNfMi40LjEwLmJiID0+
+IGN1cHNfMi40LjExLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5nZWQs
+IDggaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvY3Vwcy97Y3Vwc18yLjQuMTAuYmIgPT4gY3Vwc18yLjQuMTEuYmJ9ICg1MSUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hvLW9u
+bHktaW4taW5pdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMS11
+c2UtZWNoby1vbmx5LWluLWluaXQucGF0Y2gKaW5kZXggZTZiZDQwMDc3OS4uNjljNzcxZjM5MSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hv
+LW9ubHktaW4taW5pdC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBz
+LzAwMDEtdXNlLWVjaG8tb25seS1pbi1pbml0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBk
+ZGZlNmVkNmE4OTIyNjk4NWU4YzlmMDc1MWMwMjZhYWJjMDkyN2EwIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBlOTM0MGIyODFmYzc4NzdhNDU1MzlkMGRlNDI1ZDdhYjFiODI5NjYxIE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU2F1bCBXb2xkIDxzZ3dAbGludXguaW50ZWwu
+Y29tPgogRGF0ZTogVGh1LCAxMyBEZWMgMjAxMiAxOTowMzo1MiAtMDgwMAogU3ViamVjdDogW1BB
+VENIXSB1c2UgZWNobyBvbmx5IGluIGluaXQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRl
+bmRlZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8tcnVuLWdlbmVyYXRlZC1iaW5hcmllcy5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8t
+cnVuLWdlbmVyYXRlZC1iaW5hcmllcy5wYXRjaAppbmRleCA3NTI3MGNiMGNiLi4yZDE5ZTZiNDNj
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDItZG9uLXQt
+dHJ5LXRvLXJ1bi1nZW5lcmF0ZWQtYmluYXJpZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL2N1cHMvY3Vwcy8wMDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVz
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmZjZjNzE2OGMzZjI2MDk0YjNhMTgyOTgyMDhh
+Mjg4MzFkMWMxZmQ1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzYTI4NmY4M2NiOTBl
+NWFjNzk1OTY2NTM3MDdhZGY0ZjY0ZTFhYWFkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogS29lbiBLb29pIDxrb2VuQGRvbWluaW9uLnRocnVoZXJlLm5ldD4KIERhdGU6IFN1biwgMzAg
+SmFuIDIwMTEgMTY6Mzc6MjcgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gZG9uJ3QgdHJ5IHRvIHJ1
+biBnZW5lcmF0ZWQgYmluYXJpZXMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9j
+dXBzL2N1cHMvMDAwNC1jdXBzLWZpeC1tdWx0aWxpYi1pbnN0YWxsLWZpbGUtY29uZmxpY3RzLnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMtZml4LW11bHRp
+bGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gKaW5kZXggZDQ5ZmI4ZjJjMi4uNGI1M2I4
+ZDY1NSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1
+cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMtZml4LW11bHRpbGliLWluc3RhbGwt
+ZmlsZS1jb25mbGljdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZlMjg2YjU4MjU3MWZm
+Y2EzZjc4NzQwNzZkNzBlZWM2ZmQ1NzEzZjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IGQ3ODk4ZDBiMTQyZTI1ZWJiNDY1YWU2NzJiODM2NmM4M2EyZDhiNWIgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4KIERhdGU6
+IFdlZCwgMyBPY3QgMjAxOCAwMDoyNzoxMSArMDgwMAogU3ViamVjdDogW1BBVENIXSBjdXBzOiBm
+aXggbXVsdGlsaWIgaW5zdGFsbCBmaWxlIGNvbmZsaWN0cwpAQCAtMTUsMTAgKzE1LDEwIEBAIFNp
+Z25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPgogIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29u
+Zi9jdXBzLWZpbGVzLmNvbmYuaW4gYi9jb25mL2N1cHMtZmlsZXMuY29uZi5pbgotaW5kZXggOTM1
+ODRhMS4uNjViNzA1MiAxMDA2NDQKK2luZGV4IGY5NmY3NDUuLjI3ZDhiZTkgMTAwNjQ0CiAtLS0g
+YS9jb25mL2N1cHMtZmlsZXMuY29uZi5pbgogKysrIGIvY29uZi9jdXBzLWZpbGVzLmNvbmYuaW4K
+LUBAIC02Nyw3ICs2Nyw3IEBAIFBhZ2VMb2cgQENVUFNfTE9HRElSQC9wYWdlX2xvZworQEAgLTcw
+LDcgKzcwLDcgQEAgUGFnZUxvZyBAQ1VQU19MT0dESVJAL3BhZ2VfbG9nCiAgI1JlcXVlc3RSb290
+IEBDVVBTX1JFUVVFU1RTQAogIAogICMgTG9jYXRpb24gb2YgaGVscGVyIHByb2dyYW1zLi4uCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzL2xpYmV4ZWNkaXIucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzL2xpYmV4ZWNkaXIucGF0Y2gKaW5k
+ZXggN2NjYWQ5NGYwZi4uNWY5YzdlNjJiZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL2N1cHMvY3Vwcy9saWJleGVjZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9jdXBzL2N1cHMvbGliZXhlY2Rpci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMTcyNGY3
+YmNkYmNmZGI0NDU3NzhmOGEyZTUzMGM1YzA5NGMxOGMxMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gOGE0ZTI1YjJmYjA1YWI3ZGM4MjA2NmZmOWNiNmY4ZWI4NTZhMDAzOCBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29t
+PgogRGF0ZTogVHVlLCAxMyBKdWwgMjAyMSAxMjo1NjozMCArMDEwMAogU3ViamVjdDogW1BBVENI
+XSBVc2UgJGxpYmV4ZWNkaXIgaW5zdGVhZCBvZiBoYXJkY29kaW5nICRwcmVmaXgvbGliIGFzIHRo
+aXMKQEAgLTYsMTMgKzYsMTIgQEAgU3ViamVjdDogW1BBVENIXSBVc2UgJGxpYmV4ZWNkaXIgaW5z
+dGVhZCBvZiBoYXJkY29kaW5nICRwcmVmaXgvbGliIGFzIHRoaXMKIAogVXBzdHJlYW0tU3RhdHVz
+OiBQZW5kaW5nCiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNv
+bT4KLQogLS0tCiAgY29uZmlnLXNjcmlwdHMvY3Vwcy1kaXJlY3Rvcmllcy5tNCB8IDQgKystLQog
+IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYg
+LS1naXQgYS9jb25maWctc2NyaXB0cy9jdXBzLWRpcmVjdG9yaWVzLm00IGIvY29uZmlnLXNjcmlw
+dHMvY3Vwcy1kaXJlY3Rvcmllcy5tNAotaW5kZXggMjAzM2Q0Ny4uMjMwMTY2ZSAxMDA2NDQKK2lu
+ZGV4IDA2OWVlN2IuLjJmNjdlNWIgMTAwNjQ0CiAtLS0gYS9jb25maWctc2NyaXB0cy9jdXBzLWRp
+cmVjdG9yaWVzLm00CiArKysgYi9jb25maWctc2NyaXB0cy9jdXBzLWRpcmVjdG9yaWVzLm00CiBA
+QCAtMjM5LDcgKzIzOSw3IEBAIEFDX1NVQlNUKFtDVVBTX1JFUVVFU1RTXSkKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjEwLmJiIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTEuYmIKc2ltaWxhcml0eSBpbmRleCA1MSUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTAuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjExLmJiCmluZGV4IGUxNmFkNDdj
+ZjUuLjcxNTY4Mjk1Y2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1
+cHNfMi40LjEwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjEx
+LmJiCkBAIC0yLDQgKzIsNCBAQCByZXF1aXJlIGN1cHMuaW5jCiAKIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3Igog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDc1NzU3YzJiYzBmN2EyOGIwMmVlNGQ1MmNhOWU0YjFh
+YTFiYTJhZmZlMTZiOTg1ODU0ZjUzMzY5NDBlNWFkNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5
+YTg4ZmUxZGEzYTI5YTkxN2MzZmM2N2NlNmViMzE3ODM5OWQ2OGUxYTU0OGM2ZDg2YzcwZDliMTM2
+NTFmZDcxIgotLSAKMi40NC4xCgo=
+
+--===============5694285956332962778==--
 
