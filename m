@@ -2,27 +2,27 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64141CF07AE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62F81CF07AD
 	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 06:30:57 +0000 (UTC)
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.37357.1728541849308035811
+ by mx.groups.io with SMTP id smtpd.web10.37290.1728541849753797127
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Oct 2024 23:30:49 -0700
+ Wed, 09 Oct 2024 23:30:50 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1symhB-0005vq-6a; Thu, 10 Oct 2024 08:30:45 +0200
+	id 1symhB-0005vm-6Y; Thu, 10 Oct 2024 08:30:45 +0200
 Received: from [2a0a:edc0:0:1101:1d::5c] (helo=dude06.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1symhA-000mLT-6V; Thu, 10 Oct 2024 08:30:44 +0200
+	id 1symhA-000mLP-4w; Thu, 10 Oct 2024 08:30:44 +0200
 Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1symhA-006tna-0R;
+	id 1symhA-006tnO-0J;
 	Thu, 10 Oct 2024 08:30:44 +0200
 From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
@@ -30,13 +30,14 @@ Cc: yocto@pengutronix.de,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH v8 5/7] oeqa: support passing custom boot patterns to runqemu
-Date: Thu, 10 Oct 2024 08:29:39 +0200
-Message-Id: <20241010062941.1644325-6-ejo@pengutronix.de>
+Subject: [PATCH v8 2/7] barebox-tools: add initial barebox tools support
+Date: Thu, 10 Oct 2024 08:29:36 +0200
+Message-Id: <20241010062941.1644325-3-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241010062941.1644325-1-ejo@pengutronix.de>
 References: <20241010062941.1644325-1-ejo@pengutronix.de>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ejo@pengutronix.de
@@ -46,89 +47,103 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 06:30:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205377
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205378
 
-From: Enrico Jorns <ejo@pengutronix.de>
+From: Marco Felsch <m.felsch@pengutronix.de>
 
-This allows defining non-standard patterns from QEMU tests just as they
-are already supported by the testimage.bbclass.
+Add initial support to build the barebox tools for the host and the
+target.
 
-Will allow testing non-Linux shells in QEMU, too (e.g. a U-Boot shell or
-another bootloader shell).
+Some of the tools are generic barebox utilities (like 'bareboximd' for
+image meta data inspection or 'bareboxenv' for accessing the barebox
+environment) some are SoC family-specific specific utilities (like
+'imx-usb-loader' or 'omap3-usb-loader').
 
+Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
 Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 ---
- meta/lib/oeqa/targetcontrol.py    | 5 +++--
- meta/lib/oeqa/utils/commands.py   | 5 +++--
- meta/lib/oeqa/utils/qemurunner.py | 2 +-
- 3 files changed, 7 insertions(+), 5 deletions(-)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../barebox/barebox-tools_2024.08.0.bb        | 59 +++++++++++++++++++
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
 
-diff --git a/meta/lib/oeqa/targetcontrol.py b/meta/lib/oeqa/targetcontrol.py
-index 6e8b781973..cdf382ee21 100644
---- a/meta/lib/oeqa/targetcontrol.py
-+++ b/meta/lib/oeqa/targetcontrol.py
-@@ -88,7 +88,7 @@ class QemuTarget(BaseTarget):
- 
-     supported_image_fstypes = ['ext3', 'ext4', 'cpio.gz', 'wic']
- 
--    def __init__(self, d, logger, image_fstype=None):
-+    def __init__(self, d, logger, image_fstype=None, boot_patterns=None):
- 
-         import oe.types
- 
-@@ -141,7 +141,8 @@ class QemuTarget(BaseTarget):
-                             dump_dir = dump_dir,
-                             logger = logger,
-                             tmpfsdir = d.getVar("RUNQEMU_TMPFS_DIR"),
--                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()))
-+                            serial_ports = len(d.getVar("SERIAL_CONSOLES").split()),
-+                            boot_patterns = boot_patterns)
- 
-         self.monitor_dumper = MonitorDumper(dump_monitor_cmds, dump_dir, self.runner)
-         if (self.monitor_dumper):
-diff --git a/meta/lib/oeqa/utils/commands.py b/meta/lib/oeqa/utils/commands.py
-index bf2f49d0c0..ca22d69f29 100644
---- a/meta/lib/oeqa/utils/commands.py
-+++ b/meta/lib/oeqa/utils/commands.py
-@@ -312,7 +312,7 @@ def create_temp_layer(templayerdir, templayername, priority=999, recipepathspec=
-         f.write('LAYERSERIES_COMPAT_%s = "%s"\n' % (templayername, corenames))
- 
- @contextlib.contextmanager
--def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, discard_writes=True):
-+def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None, qemuparams=None, overrides={}, boot_patterns = {}, discard_writes=True):
-     """
-     Starts a context manager for a 'oeqa.targetcontrol.QemuTarget' resource.
-     The underlying Qemu will be booted into a shell when the generator yields
-@@ -330,6 +330,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
-         image_fstype (str): IMAGE_FSTYPE to use
-         launch_cmd (str): directly run this command and bypass automatic runqemu parameter generation
-         overrides (dict): dict of "'<bitbake-variable>': value" pairs that allows overriding bitbake variables
-+        boot_patterns (dict): dict of "'<pattern-name>': value" pairs to override default boot patterns, e.g. when not booting Linux
-         discard_writes (boolean): enables qemu -snapshot feature to prevent modifying original image
-     """
- 
-@@ -361,7 +362,7 @@ def runqemu(pn, ssh=True, runqemuparams='', image_fstype=None, launch_cmd=None,
- 
-         logdir = recipedata.getVar("TEST_LOG_DIR")
- 
--        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype)
-+        qemu = oeqa.targetcontrol.QemuTarget(recipedata, targetlogger, image_fstype, boot_patterns=boot_patterns)
-     finally:
-         # We need to shut down tinfoil early here in case we actually want
-         # to run tinfoil-using utilities with the running QEMU instance.
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index 63fc6f6b53..5c3a8e5999 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -103,7 +103,7 @@ class QemuRunner:
- 
-         # Only override patterns that were set e.g. login user TESTIMAGE_BOOT_PATTERNS[send_login_user] = "webserver\n"
-         for pattern in accepted_patterns:
--            if not self.boot_patterns[pattern]:
-+            if pattern not in self.boot_patterns or not self.boot_patterns[pattern]:
-                 self.boot_patterns[pattern] = default_boot_patterns[pattern]
- 
-     def create_socket(self):
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 0fd6c14658..b529786214 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -55,6 +55,7 @@ RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-babeltrace2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-barebox = "Enrico Jörns <yocto@pengutronix.de>"
++RECIPE_MAINTAINER:pn-barebox-tools = "Enrico Jörns <yocto@pengutronix.de>"
+ RECIPE_MAINTAINER:pn-baremetal-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
+ RECIPE_MAINTAINER:pn-base-files = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-base-passwd = "Anuj Mittal <anuj.mittal@intel.com>"
+diff --git a/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb b/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
+new file mode 100644
+index 0000000000..ed49ce5373
+--- /dev/null
++++ b/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
+@@ -0,0 +1,59 @@
++SUMMARY = "barebox bootloader tools"
++HOMEPAGE = "https://barebox.org/"
++SECTION = "bootloaders"
++
++LICENSE = "GPL-2.0-only"
++LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
++
++DEPENDS = "bison-native flex-native libusb1"
++
++SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
++SRC_URI[sha256sum] = "b08a762da8d63dd18b4f2d9f5d0a8da001b6e608d1b3eff6dcebc6a2e575d535"
++
++S = "${WORKDIR}/barebox-${PV}"
++B = "${WORKDIR}/build"
++
++inherit pkgconfig
++
++EXTRA_OEMAKE = " \
++  ARCH=sandbox \
++  CROSS_COMPILE=${TARGET_PREFIX} -C ${S} O=${B} \
++  CROSS_PKG_CONFIG=pkg-config \
++  CC='${CC}' \
++  LD='${LD}' \
++  "
++
++do_compile:class-target () {
++    export userccflags="${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
++    export userldflags="${TARGET_LDFLAGS}${TOOLCHAIN_OPTIONS}"
++    oe_runmake targettools_defconfig
++    oe_runmake scripts
++}
++
++do_compile:class-native () {
++    oe_runmake hosttools_defconfig
++    oe_runmake scripts
++}
++
++BAREBOX_TOOLS = " \
++         bareboxenv \
++         bareboxcrc32 \
++         kernel-install \
++         bareboximd \
++         omap3-usb-loader \
++         omap4_usbboot \
++         imx/imx-usb-loader \
++         "
++
++BAREBOX_TOOLS_SUFFIX = ""
++BAREBOX_TOOLS_SUFFIX:class-target = "-target"
++
++do_install () {
++	install -d ${D}${bindir}
++
++	for tool in ${BAREBOX_TOOLS}; do
++		install -m 0755 scripts/${tool}${BAREBOX_TOOLS_SUFFIX} ${D}${bindir}/${tool##*/}
++	done
++}
++
++BBCLASSEXTEND = "native nativesdk"
 -- 
 2.39.5
 
