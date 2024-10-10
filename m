@@ -1,105 +1,102 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ricardo@foundries.io>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3871ACF11EE
-	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 13:03:40 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.42657.1728565409115579804
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1B19CF11FE
+	for <webhook@archiver.kernel.org>; Thu, 10 Oct 2024 15:22:20 +0000 (UTC)
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
+ by mx.groups.io with SMTP id smtpd.web11.46324.1728573734660562486
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Oct 2024 06:03:29 -0700
+ Thu, 10 Oct 2024 08:22:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JHnciL4U;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-431160cdbd0so5403795e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 06:03:28 -0700 (PDT)
+ dkim=pass header.i=@foundries.io header.s=google header.b=VMmdqwqg;
+ spf=pass (domain: foundries.io, ip: 209.85.208.179, mailfrom: ricardo@foundries.io)
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-2fac63abf63so11062591fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 08:22:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728565407; x=1729170207; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=foundries.io; s=google; t=1728573733; x=1729178533; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=2OJgMDufwmxidBghfIfK5U6Xl32B3mlNgStf7NLPMXg=;
-        b=JHnciL4U0LPNhOLYt9JX3+AylpnXpFxZih+uvVGiPXqYydjkKlIXl5T9JORle9W2E6
-         NJ1n+iVPETN+a6fIg2zzgOiNHUMFGfFwWfkp2wYe+GzPGNxDipxFHIZ1IrXAZAOOXsOK
-         1KugY1r7NyoNPjCcwM45w6MpnVSvJiDJO9BMw=
+        bh=j3bWI3R/HhPN7YuO9AMl01069X3un60cIoY1gwymzhc=;
+        b=VMmdqwqgJt65vcOIcHsnXwaDn/CdyAeIshxgN3LTz/umQiO1vsANOachuEgEGEbEPn
+         fRp7kD+BMulcd6xAhAXiu9L0wxYOyAi8tq8hpwO5hD41SwF3t7cTvSTNaNWqXulTTw+n
+         Dc0QTbEaDpZTT2q6fRGP1KLacntqJ69lBs/L69szyVPGDwc7NJuf4YyWw6agL+1HYw9N
+         4U6+goR5NvXi7ExGa5wcKFMnZpmJS5HN1MaZEHMyB+9PXtDxv4yvAjwJbNzfNajBBzix
+         uXLN5YOCv87lyEdWAiKIOiscE0Ei/eu6BnDRpec9rFDPH3gIaB9di5UGu8kiXyrOQLjT
+         niEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728565407; x=1729170207;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=2OJgMDufwmxidBghfIfK5U6Xl32B3mlNgStf7NLPMXg=;
-        b=ICudiXhKpjijTFL79YV7eOsCh17vZ32z/l4yNcLRgeQgGKqhbHzRE9aVpSm0JWGa09
-         YW1O9w7oGXJ69G0XV/VdRmUJlC+8EIby4wEwLbx4QW1uKYi+zFTss5EVRxevCqh/2kzB
-         TKnPJPSCBNUom+tRL8hUBGNHZ97r6GBR29iDmIKqMgjmHNk/3y950dAxq7w4HNsQxN4b
-         UN/ClXJH7BUTUtYhMba3U6htOJdJ+jMlKkCwCeTW73hMMe6bW04+K1jgl2begZAZWaAf
-         +ob61WrWesBhCYAVvY2q1tJM87ERRGkBlpJJePUKjKE0P50rZoc5bv5+3CAm8xomMrQ5
-         sbZg==
-X-Forwarded-Encrypted: i=1; AJvYcCUOK2Pq+BSk7Wl6mVH0qGHw9WWvAQ3uJxnXy7tliRxCydXbTfm0B+CGvn56T4W9paUNTDdcJrHAjP8VKRPnx7Xr0g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw0OeD3UFCRgYi21Pt/TiPwqiTVhDEDUPhIJyskUoXEIkFtMflS
-	KR77iW0rvUh3rm4M1jDcZBKFE0FAIDpcUj3z9jfBq2C1rCjHNvEDMjNfF6jm9HQ=
-X-Google-Smtp-Source: AGHT+IE+vrTccMMK6GsFCuXmyaGVqEkGz+UUUe3VLDccgCNewZ9U8BDmufrVLTvUVPfKPFW+HlCcJw==
-X-Received: by 2002:a05:600c:1c19:b0:431:1458:4d78 with SMTP id 5b1f17b1804b1-43115aa529bmr28189515e9.6.1728565407390;
-        Thu, 10 Oct 2024 06:03:27 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a7cf:f342:7de0:8e9a? ([2001:8b0:aba:5f3c:a7cf:f342:7de0:8e9a])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311835d7b2sm15984665e9.42.2024.10.10.06.03.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Oct 2024 06:03:26 -0700 (PDT)
-Message-ID: <7a24e8f91d5488a7d6b3fc8a101fe95004d1b436.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 01/10] ffmpeg: nasm is x86 only, so only
- DEPEND if x86
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-Date: Thu, 10 Oct 2024 14:03:26 +0100
-In-Reply-To: <20241008193103.2429829-1-ross.burton@arm.com>
-References: <20241008193103.2429829-1-ross.burton@arm.com>
+        d=1e100.net; s=20230601; t=1728573733; x=1729178533;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=j3bWI3R/HhPN7YuO9AMl01069X3un60cIoY1gwymzhc=;
+        b=n36/IBaArrFuZyPCNfR37LMzYgVtE+U3lL8ezd7XSy6CKyYB1d0LXql4zUMPLlmaQP
+         UR8dNU7+j+8biePErAcLC0bU6FdpPnW2BZzZIFnibjQtSTo2HLxwG/nDkiT1Grx3nmsW
+         NtZ/k53yVX/ohTO5HzzqYdYyQ2iW7sxBCaBv0kN5NZhcgj34fQUGVZbUIEDuKx6KENTJ
+         EDII0Lk/yDFSb9oPZu91LgI7ZXfOLbmcSFRrrtk5Noxf0jSlP6+Djjl17JnYGHnQvHVO
+         8emV6OhoKlPIqqSnvbplMQaR7N3B8inbjOtcVd5Y8lbP7yBw1hbbmIZIMtNUDTWu6jdI
+         VTCQ==
+X-Gm-Message-State: AOJu0YxgSn5jis9CMii/5Bp0gMfBNhF9mE3l5bu5YcW7DGx+i9FuC/fr
+	hm8qbSJkLnZFYrABJak+bLathPT8ND95gwTAqS8qPzTiiitXQqh5SUSfYxoiU+ZGHvGiatTfgfK
+	5xWNZklLWySy7RtS3CTg4NyWGRAqzIpIpHkU7
+X-Google-Smtp-Source: AGHT+IFn44IhYOwqKB99CvKC0PTx1/pJpjFbW4DjnbAhHyOTnXOX+t9AL4bM00IfeuxrAWgZbZ89Is1tpvVCGPQqVTw=
+X-Received: by 2002:a05:651c:547:b0:2fa:e4ae:3342 with SMTP id
+ 38308e7fff4ca-2fb1872be3cmr45878081fa.12.1728573732637; Thu, 10 Oct 2024
+ 08:22:12 -0700 (PDT)
+MIME-Version: 1.0
+References: <20241009112634.402123-1-mikko.rapeli@linaro.org>
+ <20241009112634.402123-2-mikko.rapeli@linaro.org> <CAAaKDhFczX1CosfjUj-vBOjcHyBt77XGZks+LAKJSr2SamXHNw@mail.gmail.com>
+ <ZweZMcmlcxBHo5JB@nuoska>
+In-Reply-To: <ZweZMcmlcxBHo5JB@nuoska>
+From: Ricardo Salveti <ricardo@foundries.io>
+Date: Thu, 10 Oct 2024 12:21:36 -0300
+Message-ID: <CAAaKDhGM=nVat2=PgAfGNOwKKyfrRvrLJKniz4Gaf8SfAbQshA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v6 1/8] uki.bbclass: add class for building
+ Unified Kernel Images (UKI)
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Michelle Lin <michelle.linto91@gmail.com>, Erik Schilling <erik.schilling@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 13:03:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205406
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Oct 2024 15:22:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205407
 
-On Tue, 2024-10-08 at 20:30 +0100, Ross Burton via lists.openembedded.org w=
-rote:
-> No need to depend on nasm if we're not going to use it.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
-> =C2=A0meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb | 3 ++-
-> =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
->=20
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipe=
-s-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-> index 9e60b5cd23e..b16bd51dbd7 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-> @@ -46,7 +46,8 @@ ARM_INSTRUCTION_SET:armv6 =3D "arm"
-> =C2=A0# libpostproc was previously packaged from a separate recipe
-> =C2=A0PROVIDES =3D "libav libpostproc"
-> =C2=A0
-> -DEPENDS =3D "nasm-native"
-> +DEPENDS:append:x86 =3D " nasm-native"
-> +DEPENDS:append:x86-64 =3D " nasm-native"
-> =C2=A0
-> =C2=A0inherit autotools pkgconfig
-> =C2=A0
->=20
+On Thu, Oct 10, 2024 at 6:07=E2=80=AFAM Mikko Rapeli <mikko.rapeli@linaro.o=
+rg> wrote:
+>
+> Hi,
+>
+> On Wed, Oct 09, 2024 at 04:53:58PM -0300, Ricardo Salveti wrote:
+> > Wouldn't it be better if this was a kernel class instead, similar to
+> > how it is done with fitimage (via kernel-fitimage.bbclass)?
+> >
+> > I see a lot of similarities here, and it is confusing that one is done
+> > as a kernel class and the other is added by including in the image
+> > recipe instead.
+>
+> Interesting idea. I'll have a look. Maybe this could be an improvement
+> on top of the uki.bbclass.
 
-I think something in here is causing:
+Yes, the current patch set seems to be quite functional and we can
+work based on it.
 
-https://valkyrie.yoctoproject.org/#/builders/99/builds/216/steps/17/logs/st=
-dio
-https://valkyrie.yoctoproject.org/#/builders/89/builds/208/steps/12/logs/st=
-dio
-https://valkyrie.yoctoproject.org/#/builders/7/builds/233/steps/12/logs/std=
-io
+> UKI combines kernel, initramfs image etc
+> so the implementation can be an image class, kernel class or some
+> magic post processing (e.g. wic) but needs to be generated using
+> systemd tooling. Thus I think image class it is for now. I agree
+> that setting this up is not nice. Need to configure initrd, kernel
+> command line, kernel, systemd-boot etc and all the config switches
+> are independent. At least the selftests will contain a fully
+> working example so users can replicate that in their builds.
 
-and maybe more.
+Right, for fitimage we have a similar build dependency chain, and why
+I was wondering if it could be also made available via a kernel-class.
 
-Cheers,
-
-Richard
+Thanks,
+--=20
+Ricardo Salveti
 
