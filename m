@@ -1,138 +1,120 @@
-Return-Path: <rpurdie@rpsys.net>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F95CFD34A
-	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 11:08:59 +0000 (UTC)
-Received: from dan.rpsys.net (dan.rpsys.net [217.169.23.60])
- by mx.groups.io with SMTP id smtpd.web10.9007.1728644931238907476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD8C7CFD34E
+	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 11:18:09 +0000 (UTC)
+Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
+ by mx.groups.io with SMTP id smtpd.web10.9148.1728645480876373428
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Oct 2024 04:08:52 -0700
+ Fri, 11 Oct 2024 04:18:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@rpsys.net header.s=default header.b=WUWZ2st3;
- spf=pass (domain: rpsys.net, ip: 217.169.23.60, mailfrom: rpurdie@rpsys.net)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rpsys.net; s=default;
-	t=1728644928; bh=mSOX2sfEJ3EUFUUuzkG29EV/btC4628YDWqgIXdDcvc=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=WUWZ2st3Kh1gplbqnpGjbqrnK8Kgi/iChVi8jlDnMJUzTls8Ia/pXO9oX2BDEy9ew
-	 jLwncx6jUl+p1ExHDtmcrTIK8vHPZy9XJUTLylgedIFCvccLMS0gotgXSp2j6v59kM
-	 KmxCyDLuKkdrg+JkM9ysshZKF0tRbIgMKO+Fptb8KTROIz+w2xasEfcdAf0SVj44kO
-	 4HPpCr3kNgrnJnM9TRZCxGLYpeTBZpmGBdXkJkFOq21A9bxJDwDMW+OsR/IAasZEFs
-	 ZnbsL8Aoaf1riK/3xZi8NLHCfHtMTEk7HaNdSerK96L3FG4MfD5mYiFePsc+kVwvjX
-	 Ak5l0/58YBl7w==
-Received: from [192.168.1.7] (dan.rpsys.net [217.169.23.61] (may be forged))
-	(authenticated bits=0)
-	by dan.rpsys.net (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTPSA id 49BB8kFp1518973
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 11 Oct 2024 12:08:48 +0100
-Message-ID: <19b70153a2a149301464b725a75ee3a9fbb66abc.camel@rpsys.net>
-Subject: Re: [OE-core] [PATCH v6 3/7] barebox: set default BAREBOX_CONFIG
- for qemu machines
-From: Richard Purdie <rpurdie@rpsys.net>
-To: ejo@pengutronix.de, openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 11 Oct 2024 12:08:41 +0100
-In-Reply-To: <20240912091857.2631678-4-ejo@pengutronix.de>
-References: <20240912091857.2631678-1-ejo@pengutronix.de>
-	 <20240912091857.2631678-4-ejo@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=mVLmJN3c;
+ spf=pass (domain: gmail.com, ip: 209.85.215.178, mailfrom: rybczynska@gmail.com)
+Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-7ea0ae67df5so1518413a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 04:18:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728645480; x=1729250280; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZDPzIpojgYEqL/VLHcUdsCbczi7nivXrigLsL8oBysM=;
+        b=mVLmJN3cqxwNNnX8GXcspFi+HlMbmt9g73rRT1JxmhiBqudmo9cz/iOb7DKkEpQJHx
+         +pJILzOeM6mv2+3OnAKBi5aOChCXu+DcHIlL4JEFwvq7Ci6iGze/jTqxgKGP3K7TsjHX
+         S530DFzf+9mQz97GFjkL1ikI1NQjh05yILLKyd6sg9SAfVLkB7NmENtn64BmxUP6yAps
+         hdExbgGHZ4jykOfQ6IyxP7EDSxwxju2PLAZwEFYffAqHBoUcBce4RAQNyuktnOUq1nOp
+         siHbJhOVjN+m7S6JFk6rr2LNIvxbWZEcFRJrCh3U2FSH7CRdmXcU7yQaVzdURMoQxAlV
+         QLsg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728645480; x=1729250280;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZDPzIpojgYEqL/VLHcUdsCbczi7nivXrigLsL8oBysM=;
+        b=DFQtc8HhqB2Wo0vYvbZobyRNbRutcxRqKRNEBcoJDhcHu1/z2jXRhNI/pCalrPpDbr
+         uZRoF9StnoscdAuH8HpB08ckM/k1hgySaVZepVDJe8NmwgD6ACDGTUsrDLZsfs7CWmkz
+         JZcB/vCB6IiE0KuuXxllIzTKVVZpcrs680JV9IT9YkC+3Eel1/OEzl235HrwMKcqcfP6
+         S/C8szWjXNbYqzjPPhVqngEbOhP7EXRjUfmp3bk+zjfif8/Z7xAXM60JAXcUDMuhal2t
+         7PrWSp1nGGMqW8w0xrAzJ+dlTDSyHmfZ4c1xqMeRXh0aTFUcD+nZlE/Q3taabjx/BC1X
+         mctg==
+X-Gm-Message-State: AOJu0Yxj2t+ABRTs9x6zYFD+IDhghDrPQekxObfYbyr54MuRD6wsq3NM
+	KNMHZ9w1hxJzaBPaeVjVFfB+bLHYGENJObu4iAePCfmUynunVlfb70JFfSW+FfOilIcdzVKRbuu
+	JkJFVZmx4BYgAfqhg4oAx9hxsfnj6RQ==
+X-Google-Smtp-Source: AGHT+IHsmWN6KW04EgEnVDtm1rJJN3GYUneKjHcAwEOFtj2/SvJNQZGXlqIhqMB1Y+EZCafhe/GUT9Y0+C6SE+v41eo=
+X-Received: by 2002:a17:90a:bd96:b0:2da:8c28:6561 with SMTP id
+ 98e67ed59e1d1-2e2f0aec08amr2594293a91.22.1728645480145; Fri, 11 Oct 2024
+ 04:18:00 -0700 (PDT)
 MIME-Version: 1.0
-X-Virus-Scanned: clamav-milter 0.103.11 at dan
-X-Virus-Status: Clean
+References: <17FD60BEC9A54A4B.2207@lists.openembedded.org> <8281d9cb51a5e652f99ed998fd71c7b6a84e1e63.camel@linuxfoundation.org>
+In-Reply-To: <8281d9cb51a5e652f99ed998fd71c7b6a84e1e63.camel@linuxfoundation.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 11 Oct 2024 13:17:48 +0200
+Message-ID: <CAApg2=RmrYULa7KMi6EMdGAhW3-uVA81ggVJg5BGDMSg0M0nLA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check-update-nvd2-native: Incremement
+ DL_DIR database location
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org, 
+	Marta Rybczynska <marta.rybczynska@syslinbit.com>, Steve Sakoman <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="000000000000c96acc062431a3df"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 11:08:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205670
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 11:18:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205672
 
-On Thu, 2024-09-12 at 11:18 +0200, Enrico J=C3=B6rns via lists.openembedded=
-.org wrote:
-> From: Enrico Jorns <ejo@pengutronix.de>
->=20
-> These are set in the barebox recipe rather in the corresponding machines
-> (where they would belong otherwise) to keep the impact of barebox to
-> oe-core minimal for now.
->=20
-> "multi_v7_defconfig" is used for qemuarm since this is the default
-> barebox armv7 config that just enables all supported platforms.
->=20
-> "multi_v8_defconfig" is used for qemuarm64 sine this is the default
-> barebox armv8 config that just enables all supported platforms.
->=20
-> "efi_defconfig" is used for qemux86-64 which is the primary platform
-> where barebox will not be the first stage bootloader but an EFI payload.
->=20
-> Since these changes make barebox a provider for virtual/bootloader,
-> explicitly default to u-boot in the corresponding MACHINE configs to not
-> unnecessarily surprise users.
->=20
-> Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
-> ---
-> =C2=A0meta/conf/machine/qemuarm.conf=C2=A0=C2=A0=C2=A0 | 1 +
-> =C2=A0meta/conf/machine/qemuarm64.conf=C2=A0 | 1 +
-> =C2=A0meta/conf/machine/qemux86-64.conf | 1 +
-> =C2=A03 files changed, 3 insertions(+)
+--000000000000c96acc062431a3df
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch needs the commit message updating as it no longer matches
-the changes below!
+On Fri, Oct 11, 2024 at 1:02=E2=80=AFPM Richard Purdie via lists.openembedd=
+ed.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
 
-Things did pass in automated testing so I think we're close with this.
+>
+> I now do have an example of a corrupted database:
+>
+> https://valkyrie.yocto.io/pub/shared-failure-data/nvdcve_2-1.db
+>
+> I'm not sure why this is happening but the older releases are all
+> accessing the DB over NFS which makes me nervous. We're seeing a lot of
+> failures on the new cluster, hopefully this will help isolate the
+> problem.
+>
 
-Cheers,
+The database isn't completely corrupted, it looks like it is partial,
+however. What was the error
+that you got in that build? Any or just strange results? I'm running a
+verification vs a fresh database.
 
-Richard
+Regards,
+Marta
 
-> diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm.c=
-onf
-> index 943ce7c16a..af76a53b8e 100644
-> --- a/meta/conf/machine/qemuarm.conf
-> +++ b/meta/conf/machine/qemuarm.conf
-> @@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
-> =C2=A0
-> =C2=A0KERNEL_IMAGETYPE =3D "zImage"
-> =C2=A0
-> +PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
-> =C2=A0UBOOT_MACHINE ?=3D "qemu_arm_defconfig"
-> =C2=A0
-> =C2=A0SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
-> diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemuarm=
-64.conf
-> index a096d964db..d310445a34 100644
-> --- a/meta/conf/machine/qemuarm64.conf
-> +++ b/meta/conf/machine/qemuarm64.conf
-> @@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
-> =C2=A0
-> =C2=A0KERNEL_IMAGETYPE =3D "Image"
-> =C2=A0
-> +PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
-> =C2=A0UBOOT_MACHINE ?=3D "qemu_arm64_defconfig"
-> =C2=A0
-> =C2=A0SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
-> diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemux8=
-6-64.conf
-> index 14873a3b4f..4a9c6d364b 100644
-> --- a/meta/conf/machine/qemux86-64.conf
-> +++ b/meta/conf/machine/qemux86-64.conf
-> @@ -13,6 +13,7 @@ DEFAULTTUNE ?=3D "core2-64"
-> =C2=A0require conf/machine/include/x86/tune-x86-64-v3.inc
-> =C2=A0require conf/machine/include/x86/qemuboot-x86.inc
-> =C2=A0
-> +PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
-> =C2=A0UBOOT_MACHINE ?=3D "qemu-x86_64_defconfig"
-> =C2=A0
-> =C2=A0KERNEL_IMAGETYPE =3D "bzImage"
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#204432): https://lists.openembedded.org/g/openembedde=
-d-core/message/204432
-> Mute This Topic: https://lists.openembedded.org/mt/108410146/1686473
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=C2=
-=A0[richard.purdie@linuxfoundation.org]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+--000000000000c96acc062431a3df
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><div class=3D"gmail_quote"><div=
+ dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 11, 2024 at 1:02=E2=80=AFPM R=
+ichard Purdie via <a href=3D"http://lists.openembedded.org">lists.openembed=
+ded.org</a> &lt;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@list=
+s.openembedded.org">linuxfoundation.org@lists.openembedded.org</a>&gt; wrot=
+e:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0=
+.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">
+<br>
+I now do have an example of a corrupted database:<br>
+<br>
+<a href=3D"https://valkyrie.yocto.io/pub/shared-failure-data/nvdcve_2-1.db"=
+ rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yocto.io/pub/shared-=
+failure-data/nvdcve_2-1.db</a><br>
+<br>
+I&#39;m not sure why this is happening but the older releases are all<br>
+accessing the DB over NFS which makes me nervous. We&#39;re seeing a lot of=
+<br>
+failures on the new cluster, hopefully this will help isolate the<br>
+problem.<br></blockquote><div><br></div><div>The database isn&#39;t complet=
+ely corrupted, it looks like it is partial, however. What was the error</di=
+v><div>that you got in that build? Any or just strange results? I&#39;m run=
+ning a verification vs a fresh database.</div><div><br></div><div>Regards,<=
+/div><div>Marta<br></div></div></div>
+
+--000000000000c96acc062431a3df--
 
