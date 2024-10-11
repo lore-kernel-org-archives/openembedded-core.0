@@ -1,84 +1,76 @@
-Return-Path: <claus.stovgaard@gmail.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A08DBCF045C
-	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 07:11:48 +0000 (UTC)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
- by mx.groups.io with SMTP id smtpd.web11.5996.1728630705386129470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00BD2CFC61C
+	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 08:20:39 +0000 (UTC)
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+ by mx.groups.io with SMTP id smtpd.web10.6723.1728634829635351252
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Oct 2024 00:11:45 -0700
+ Fri, 11 Oct 2024 01:20:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U+Imd0++;
- spf=pass (domain: gmail.com, ip: 209.85.218.43, mailfrom: claus.stovgaard@gmail.com)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a998a5ca499so241499266b.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 00:11:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=KbnWnPDF;
+ spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fadc95ccfcso18695291fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 01:20:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728630703; x=1729235503; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BY9zGSxapKEse5IaWemdzA4VO+IFkn0GTLzBBm6O9N4=;
-        b=U+Imd0++BcaJm/XbROu/2onVRKbEVbEBTVR21uOm6OIBG3wJNvICVITulbLfOcFlca
-         sn5yyIay6PqFhSQ37gfGhmOQahME5G5I0+egsLSfaGqIfV+Ujk32mXD/gdICBxhcoBso
-         vuRbeap3HZLxLq1nF7HncOow9N6NREASpY9UYILEY34NDGTVhKZl9TuzqsEHcO0hI0hX
-         k2mf+1a0zRax7Ewv6W5mI9D5B9bKlgKbfVzb5FSAaA+zmZd75GJyfjDb9eZ+wuwM82Hl
-         6joyyTMNZx7WK8f9qK563jc0E+VwMiEJxn9BZimbzj+69076snyyxpRSzulG1f19koDN
-         U/ZA==
+        d=gmail.com; s=20230601; t=1728634827; x=1729239627; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=3mUilXN8RkchzFUVCplUoesVTbJmxlzMXcBm+L6skfs=;
+        b=KbnWnPDFLlvdFJ71xRLBNf+CvtICMAtmWZCMOPC+ebZxgbavQQqB9GrBIMzhwQR0mv
+         Gc3un4tpPqzY2yIlCXCVS1HXbJBVZm//APFQgy34TW1YGQfrGNKZJCy3JVfOTTbLEHRU
+         Hpn4gbNqcDhx4+WvmJPVCrkSU5zXPT/Jl9KDg91H0eB2GxKPyPvq1MMs1HsggmWRbRoL
+         VbCBFF5SA5vqRtudV+4Vd0Ep1cQg8WsA9ndcLKoNGvD5GTrHGIzv4eCwvOyctrMH8AbM
+         dov7rZ1ccCZEUZmHB+152vahwICfWYPyajQFzkACZddJPmat++jAKQ5WntAez44WW91z
+         Fhpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728630703; x=1729235503;
-        h=content-transfer-encoding:mime-version:user-agent:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=BY9zGSxapKEse5IaWemdzA4VO+IFkn0GTLzBBm6O9N4=;
-        b=u7UVijC0ATbJNrwQ91eIcdRTL159h7YczcYlt9PQnO+QFoWGZ1WFsXSImdEdWNI0Na
-         4rM+14tdM0nt7o336IdbvsMxOgQNx7Kxyv1vjeg4na7kbqo/ySNn4e4jGtGGIb/+UiKy
-         uEbV7iEc7G63FYJinYBugL1brPhMBNvY+orsaJhsYd9OrfQkR4fmFQUosodNfckQXDeF
-         Hfdo+Uz5qWNZbiGv6HxTuvVbQDspIf5/FUdYEhPhetzSPKzThQj5wZjHIBtHWp0jciDH
-         910cKCgfV1C+5o1LEJQcFx1Tv0aA7C5yv397bHhAW+Np3xRVb5EHq7ak4WsC+9iDyYjX
-         PYvg==
-X-Gm-Message-State: AOJu0YzPiFcXoiNo1VWkmFUOsxB32YqIOyXV1uTbN9bibM4SQ/+JHtJ1
-	remRkMMuSXopqhDRc8/zYmcuXEtH7JSE5LlF3pVaCU3ByIm9YXhmTQtgbQ==
-X-Google-Smtp-Source: AGHT+IGJ4hQN4qsmQ8on8G1xnhhzbEQppdQGcP4l36mdCJb193LM8+MOTnOI7zIC5j7tV7Xp1p8i1Q==
-X-Received: by 2002:a17:907:6094:b0:a77:c30c:341 with SMTP id a640c23a62f3a-a99b8e8c123mr135554366b.0.1728630703270;
-        Fri, 11 Oct 2024 00:11:43 -0700 (PDT)
-Received: from [192.168.1.55] (0x57346aa5.static.cust.fastspeed.dk. [87.52.106.165])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a99a7f2437csm178420166b.57.2024.10.11.00.11.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 00:11:42 -0700 (PDT)
-Message-ID: <35a7073a94877ebc069601944a2fac1ddd578ecd.camel@gmail.com>
-Subject: Re: [OE-core] [master][scarthgap][PATCH v3] lib/oe/package-manager:
- skip processing installed-pkgs with empty globs
-From: claus.stovgaard@gmail.com
-To: openembedded-core@lists.openembedded.org, Ross Burton
- <Ross.Burton@arm.com>
-Date: Fri, 11 Oct 2024 09:11:41 +0200
-In-Reply-To: <17FD33D222241C74.22523@lists.openembedded.org>
-References: <20241007203946.684938-1-claus.stovgaard@gmail.com>
-	 <17FD33D222241C74.22523@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.5-0ubuntu1 
+        d=1e100.net; s=20230601; t=1728634827; x=1729239627;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=3mUilXN8RkchzFUVCplUoesVTbJmxlzMXcBm+L6skfs=;
+        b=MkuUqg/nRHXB8JlctUqIMNwaUYqo6grtvQFs+k0SQ0Vkg2AiM/CHS//DslnVMvXFUg
+         gf2GkN2i1i602zV6XlvchZecyJYp0/8fq0+inYh3srRtHmUm86lsqOTOQRp+B7ponxJB
+         R8g9rTzFEh8ayxcyfJCj3Oe4WxflTItEcLtR3+WZMzcgcPFOo1O5v2iEhILdW4O4hJty
+         QCdpknrgXbNuPoTOyMqhUDnAUSRGumFjL17k5vUqfkqPN1MCwWuJQ7FfUjhMDb1g/6C8
+         SsLC95yz9cyTtRFcveBRdY2aq3f3x8cjMiwkFDJ3/gDyy7qQ/2Gzp4pOfjKAB0aOyHqU
+         4ftw==
+X-Gm-Message-State: AOJu0YwnLpsdenyGSssk5JU1Chk1dwfJfrD3q9Y+WkK1SnukiBQXGb9I
+	M5X0iFYaOK8VsCx3pJ+0V5gJ6oyNVbJtDMn6RHn4Woh1XDAJjmtKeZyW7AGDmaT+vwNLlHKfuk+
+	LhnqY2vg8s2PIqDaozs7hjkn0PGc=
+X-Google-Smtp-Source: AGHT+IE3amxBqUuKu/czAL3DFRIMD56WCmkUBpLabZ3yBzAT5of7xn0mvtzaa8LYRe53++XJIKwhXnO2BvARJpTXQvI=
+X-Received: by 2002:a2e:4c1a:0:b0:2fb:2b5d:215d with SMTP id
+ 38308e7fff4ca-2fb32705966mr6010771fa.7.1728634827289; Fri, 11 Oct 2024
+ 01:20:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20241011070204.7276-1-brgl@bgdev.pl>
+In-Reply-To: <20241011070204.7276-1-brgl@bgdev.pl>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 11 Oct 2024 10:20:15 +0200
+Message-ID: <CANNYZj_72dfGm5kOCy43wnAiH1i30GmU8MVrS-txvHbJ8hWh6w@mail.gmail.com>
+Subject: Re: [OE-core][RESEND PATCH] python3-pip: add missing RDEPENDS
+To: brgl@bgdev.pl
+Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
+	Bruce Ashfield <bruce.ashfield@gmail.com>, 
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 07:11:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205661
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 08:20:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205662
 
-On Thu, 2024-10-10 at 23:13 +0200, Claus Stovgaard via
-lists.openembedded.org wrote:
-> 
-> 
-> Hi Ross.
-> 
-> Now you commented on v2 of the patch. Hope you think v3 is okay.
-> 
-> /Claus
+On Fri, 11 Oct 2024 at 09:02, Bartosz Golaszewski via
+lists.openembedded.org <brgl=bgdev.pl@lists.openembedded.org> wrote:
+>
+> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>
+> pip3 package is missing the runtime dependency on tomllib. Add
+> python3-modules to the recipe's RDEPENDS.
 
-Nevermind. I can see Richard har picked it up in OE-core and poky-
-contrib.
+If only tomllib is needed, why do we need to pull in the full set of
+modules? Please add only the specific missing dependencies.
 
-/Claus
-
+Alex
 
