@@ -1,158 +1,178 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E62FECFD354
-	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 11:24:29 +0000 (UTC)
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
- by mx.groups.io with SMTP id smtpd.web10.9240.1728645868520632904
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 352AECFD35C
+	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 11:57:50 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.9735.1728647865950827365
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Oct 2024 04:24:28 -0700
+ Fri, 11 Oct 2024 04:57:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eVbxlvPw;
- spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: rybczynska@gmail.com)
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20c71603217so17821225ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 04:24:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=R3MAlHg6;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-431195c3538so11658065e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 04:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728645868; x=1729250668; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=AV52spDn/AawCEVwBFTzTNog6cxjFPRSV2R9hxvhsEY=;
-        b=eVbxlvPw+7m71Vnne7mFnikfuoHpIGJ4wJg9p0KeGU+eYhE9PfjSUA05w4H47Hww3F
-         bkHuu8Yyrgb8zoQxKiMQAsGwc0K6Aa2VnLoCeMM3sPipVrHumHzcf3ccQYX2Wu3NwNsa
-         kAA+Ie3+8HjWsojJOogWlD+kqjFV3e4URKQRm2dftx6ILS+dWOQqBRl1ECpGqrxtyEVZ
-         FhXQQZqQwmTl8clHiHVz5Nkm62Gqmquwpq5eAqQiBwxPqXKt4T9eUAeEjnbXgaeaq+oJ
-         R2lJYh9CJHJ3Llvf7jefZp1Y90XAfQDeE0mlBJeL6zF3vKquwCVW2z7ubZWgM9W0jZzC
-         VoRg==
+        d=linuxfoundation.org; s=google; t=1728647864; x=1729252664; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9QXuKRwIa4a2ZZv6YB7dKCzVXNyP1VP0ubXk5Tyqm6k=;
+        b=R3MAlHg6/hFEjfUabj99mUVjUSbkGLByvVNI0aSbgFHINEM5wL2nrVYfVmbnBLiCO2
+         hsZTqHwSjNupcd4LGTJUXjzjE4wnrg4MG6bUaDuN1hhG0cnxzy5vyRB1vfCyh022MGHk
+         IUqPi+92FEUq3F5ZmCGzJJhMSZ2Iv6Z7mlRmk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728645868; x=1729250668;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AV52spDn/AawCEVwBFTzTNog6cxjFPRSV2R9hxvhsEY=;
-        b=j3iFepYB/4ubH967yDtV+tILDZgGSeikOmffgTazBnpUvIRJ8nLksCIbzR5VtK2wOG
-         8b9YrQnrV2W5CNRAcsdN5bsJUyoBCC0/kKon3+YvgdJ9OoVZ5w0jn2tpmKAvbudX10qW
-         /bOqSC0L3wFeqpcMfdzPf70Z/hHWdm8v4iFHIXTvmlB4q3azN1kjNRKJIY9jIVurjd2q
-         wjdWH+aMTIDf67gVcK3rxOV7vv8rrnUtWv3VN6elmHkeIwVxCbBzn2bIaV7ManD2UWh8
-         IUBtu1QzxVS94x5PhFUesoHGsrvwJads+qip3H5qrxq3Q1laycnXkDM5PR02yL1GTD1b
-         w0PA==
-X-Gm-Message-State: AOJu0YwUzVgPkxKwlR1uCPRCUr9cphnmFirb3+4gKsTaXWZpOBTxvP9R
-	MC6vE64/3UAezobA8x++Jtre1ryBomx46vSpQEurCf38sr3JBRHah7IxqVcO5MLglld8LTmFtLX
-	3lcm166b7+falON6C+RW+AObhgRA=
-X-Google-Smtp-Source: AGHT+IG8ag3bkLN4eH5gXlL1DJfQju+fB1aCtq9gvOVdJppOKlQCZACV/3nPgsgM1n3NIaN3k1vHEymKfDgVvxh7sI8=
-X-Received: by 2002:a17:903:240e:b0:20b:7ec0:ee21 with SMTP id
- d9443c01a7336-20ca1434e12mr39211435ad.19.1728645867709; Fri, 11 Oct 2024
- 04:24:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728647864; x=1729252664;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9QXuKRwIa4a2ZZv6YB7dKCzVXNyP1VP0ubXk5Tyqm6k=;
+        b=MzXno5buOJ9CAqZ1BSTiXVu+9VH77JLPCZPgIgZPZrusG5fFPsl6IftxAdB52JT9T/
+         +Bllx2r/VJHdMN49Rk26zVtxX//zvgkal3x7LEyr4qLpI13VHYPm6vy7ENDx7nFChMHe
+         MmyNhrfTowDSgjru9c5OhfGRwgS/QWo4nHmfGbYJFXeGo8kv/ReY/Gw87nSWwpgJtaRd
+         eT6FjE64dFQZOdJouarTVUwroLqGCRh3P/59GYmiNwmtPQWox21G2OvxiS9xsAEQvQ+r
+         oMrlphvWQXe0RUUWeRn2nrnkS8OlAzzjZSw7glb3b1fA5n2ssWvFa+QAcemK1gTYDaSa
+         aKUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUI2W981+MIWLMmvYseWWG2DqadXW8Y3NYQTGljytUKXHgSpE/IKRtxPlq8dM9jJd3pF8Aq2z+ya8KufpTAJNgFMg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yyrjs7nnggy3+wp2bW+87BOeER7NQ3TBSGm1lwbUhFPfblDwUxy
+	es/GHsVEGpRljlDwY4ve6dtiUygMwcME6XCgqOhJvuNVsoXPCvZ8PvYBDByDph0=
+X-Google-Smtp-Source: AGHT+IG/SdrQVQ9hGmf9aHBZPmsZxRLbYCxqDIOSJlGT7oYVAsJX6N0CgiBK/tlVflrUaSamR4IU1A==
+X-Received: by 2002:a05:600c:4ec7:b0:427:ff3b:7a20 with SMTP id 5b1f17b1804b1-4311df47618mr14221165e9.27.1728647863977;
+        Fri, 11 Oct 2024 04:57:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:8145:ba6d:a6de:28af? ([2001:8b0:aba:5f3c:8145:ba6d:a6de:28af])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430d748d42fsm73258925e9.43.2024.10.11.04.57.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Oct 2024 04:57:43 -0700 (PDT)
+Message-ID: <533a239d067329826080a0390ce87d811798101c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] archiver.bbclass: Fix archiver interaction
+ with kernel recipes
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Phil Reid <preid@electromag.com.au>, 
+	openembedded-core@lists.openembedded.org
+Cc: Robert Yang <liezhi.yang@windriver.com>
+Date: Fri, 11 Oct 2024 12:57:40 +0100
+In-Reply-To: <f05b8b5d-0bda-4e16-a925-9e74eeb03c8d@electromag.com.au>
+References: <20241010052529.18502-1-preid@electromag.com.au>
+	 <26e580e6dadced007020601689e3d7a4f2790e45.camel@linuxfoundation.org>
+	 <f05b8b5d-0bda-4e16-a925-9e74eeb03c8d@electromag.com.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-References: <17FD60BEC9A54A4B.2207@lists.openembedded.org> <8281d9cb51a5e652f99ed998fd71c7b6a84e1e63.camel@linuxfoundation.org>
- <CAApg2=RmrYULa7KMi6EMdGAhW3-uVA81ggVJg5BGDMSg0M0nLA@mail.gmail.com> <0092cbd5b19661f2c88084cc2c00811c7c2f6563.camel@linuxfoundation.org>
-In-Reply-To: <0092cbd5b19661f2c88084cc2c00811c7c2f6563.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Fri, 11 Oct 2024 13:24:16 +0200
-Message-ID: <CAApg2=R_F-YUiv23wC_ACZFNe590h+RGxJ4R=-n2uT_LE5rqFg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] cve-check-update-nvd2-native: Incremement
- DL_DIR database location
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Marta Rybczynska <marta.rybczynska@syslinbit.com>, Steve Sakoman <steve@sakoman.com>
-Content-Type: multipart/alternative; boundary="000000000000e32cab062431ba0a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 11:24:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205675
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 11:57:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205676
 
---000000000000e32cab062431ba0a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2024-10-11 at 07:40 +0800, Phil Reid wrote:
+> On 10/10/2024 15:17, Richard Purdie wrote:
+> > On Thu, 2024-10-10 at 13:25 +0800, Phil Reid via lists.openembedded.org
+> > wrote:
+> > > Changes to the logic of is_work_shared where made in
+> > > commit: 5fbb4ca8da4f4f1ea426275c45634802dcb5a575
+> > > "archiver.bbclass: Improve work-shared checking"
+> > >=20
+> > > The resuled in a change of the logic (simplifed here) from:
+> > > =C2=A0=C2=A0 inherits(gcc-source) or inherits(kernel) or (inherits(ke=
+rnelsrc)
+> > > and srcin(work-shared))
+> > > to just
+> > > =C2=A0=C2=A0 srcin(work-shared)
+> > >=20
+> > > With INHERIT +=3D "archiver" in the local.conf and a kernel recipe th=
+at
+> > > uses
+> > > KERNEL_PACKAGE_NAME. When KERNEL_PACKAGE_NAME is defined the kernel
+> > > source is not placed into work-shared, but the archiver ends up
+> > > deleting the source folder in the work dir, and the build
+> > > subsequently fails.
+> > >=20
+> > > Restore the previous logic while also mainting the referenced commits
+> > > intent
+> > > to consider all recipes that use work-shared. Logic is now
+> > > =C2=A0=C2=A0 inherits(gcc-source) or inherits(kernel) or srcin(work-s=
+hared)
+> > >=20
+> > > Signed-off-by: Phil Reid <preid@electromag.com.au>
+> > > ---
+> > > =C2=A0=C2=A0meta/classes/archiver.bbclass | 5 ++++-
+> > > =C2=A0=C2=A01 file changed, 4 insertions(+), 1 deletion(-)
+> >=20
+> > You're effectively reverting that commit whilst changing the logic so
+> > it looks slightly different.
+> >=20
+> > Was there a problem with gcc-source archiving as I notice the patch
+> > adds gcc-source back too?
+> To be honest I didn't test without the gcc-source, I reverted the commit =
+first after
+> finding that commit to be the cause and modified it so it consider it alw=
+ays considered
+> work-shared path and called it done and the old logic conditions.
+>=20
+> >=20
+> > The commit message isn't quite accurate as gcc-source isn't something
+> > which gets inherited.
+> Fair enough.
+>=20
+> >=20
+> > Does this only happen with kernel recipes which use
+> > KERNEL_PACKAGE_NAME? That might be the key missing detail which would
+> > allow us to reproduce the failure.
+> >=20
+>=20
+> I haven't seen the problem on a virtual/kernel.
+> When KERNEL_PACKAGE_NAME is specified the kernel source isn't put into wo=
+rk-shared.
+>=20
+>=20
+> How would you like to see this fixed?
 
-On Fri, Oct 11, 2024 at 1:19=E2=80=AFPM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+I deal with many patches a day and part of the review process is to see
+if a change makes sense. So far, this patch does not add up properly.
+What I need is a change which makes sense and is something I can
+review, agree with and merge. What I don't have is time to deep dive
+into every issue and work out the proper fix, much as I would love to.
+So far on this issue, the information I do have isn't adding up
+correctly.
 
-> On Fri, 2024-10-11 at 13:17 +0200, Marta Rybczynska wrote:
-> >
-> > On Fri, Oct 11, 2024 at 1:02=E2=80=AFPM Richard Purdie via
-> > lists.openembedded.org
-> > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> > >
-> > > I now do have an example of a corrupted database:
-> > >
-> > > https://valkyrie.yocto.io/pub/shared-failure-data/nvdcve_2-1.db
-> > >
-> > > I'm not sure why this is happening but the older releases are all
-> > > accessing the DB over NFS which makes me nervous. We're seeing a
-> > > lot of
-> > > failures on the new cluster, hopefully this will help isolate the
-> > > problem.
-> > >
-> >
-> >
-> > The database isn't completely corrupted, it looks like it is partial,
-> > however. What was the error
-> > that you got in that build? Any or just strange results? I'm running
-> > a verification vs a fresh database.
->
->
-> https://valkyrie.yoctoproject.org/#/builders/23/builds/238/steps/14/logs/=
-stdio
->
-> Exception: sqlite3.DatabaseError: database disk image is malformed
->
->
-Managed to get the same error with the sqlite command line.
+Taking what you say above, "KERNEL_PACKAGE_NAME is specified the kernel
+source isn't put into work-shared" - that makes sense.
 
-Marta
+If the kernel isn't being put into shared workdir, "is_work_shared()"
+should be returning False in this case. Looking at the logic, I believe
+that is true and it will for a KERNEL_PACKAGE_NAME recipe.
 
---000000000000e32cab062431ba0a
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+So what you're probably saying is that the code should be using the
+"shared" codepath for the KERNEL_PACKAGE_NAME even though the workdir
+isn't shared. At this point I'm just having to speculate though.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 11, 2024 at 1:19=E2=80=AF=
-PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">On Fri, 2024-10-11 at 13:17 +0200, Marta=
- Rybczynska wrote:<br>
-&gt; <br>
-&gt; On Fri, Oct 11, 2024 at 1:02=E2=80=AFPM Richard Purdie via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a><br>
-&gt; &lt;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.opene=
-mbedded.org" target=3D"_blank">linuxfoundation.org@lists.openembedded.org</=
-a>&gt; wrote:<br>
-&gt; &gt; <br>
-&gt; &gt; I now do have an example of a corrupted database:<br>
-&gt; &gt; <br>
-&gt; &gt; <a href=3D"https://valkyrie.yocto.io/pub/shared-failure-data/nvdc=
-ve_2-1.db" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yocto.io/p=
-ub/shared-failure-data/nvdcve_2-1.db</a><br>
-&gt; &gt; <br>
-&gt; &gt; I&#39;m not sure why this is happening but the older releases are=
- all<br>
-&gt; &gt; accessing the DB over NFS which makes me nervous. We&#39;re seein=
-g a<br>
-&gt; &gt; lot of<br>
-&gt; &gt; failures on the new cluster, hopefully this will help isolate the=
-<br>
-&gt; &gt; problem.<br>
-&gt; &gt; <br>
-&gt; <br>
-&gt; <br>
-&gt; The database isn&#39;t completely corrupted, it looks like it is parti=
-al,<br>
-&gt; however. What was the error<br>
-&gt; that you got in that build? Any or just strange results? I&#39;m runni=
-ng<br>
-&gt; a verification vs a fresh database.<br>
-<br>
-<a href=3D"https://valkyrie.yoctoproject.org/#/builders/23/builds/238/steps=
-/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yocto=
-project.org/#/builders/23/builds/238/steps/14/logs/stdio</a><br>
-<br>
-Exception: sqlite3.DatabaseError: database disk image is malformed<br>
-<br></blockquote><div><br></div><div>Managed to get the same error with the=
- sqlite command line.</div><div><br></div><div>Marta <br></div></div></div>
+So how would I like to see this fixed? I'd like to see an explaintion
+of the problem which makes sense and I'd like to see changes which
+don't make the code "worse", i.e. making a "is_work_shared()" function
+return True when it isn't.
 
---000000000000e32cab062431ba0a--
+It sounds like there is a deeper problem with the archiver code which
+needs fixing at the root of the issue. Again, I'm back to speculating
+though.
+
+Cheers,
+
+Richard
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
