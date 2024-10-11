@@ -1,85 +1,80 @@
-Return-Path: <brgl@bgdev.pl>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12FB5CFD2E4
-	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 08:31:39 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.6788.1728635490175390920
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FA88CFD2EB
+	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 08:51:59 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.7034.1728636716904617018
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Oct 2024 01:31:30 -0700
+ Fri, 11 Oct 2024 01:51:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bgdev-pl.20230601.gappssmtp.com header.s=20230601 header.b=XKrGQnU8;
- spf=none, err=SPF record not found (domain: bgdev.pl, ip: 209.85.167.46, mailfrom: brgl@bgdev.pl)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-5398e58ceebso1652650e87.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 01:31:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=YhBi1f5Q;
+ spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2facf481587so13971531fa.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 01:51:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1728635488; x=1729240288; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Vz6Mo8jVEGLN1eZ2tcWaFaAvcf0eTg5yx/RXlpSqSvc=;
-        b=XKrGQnU8c9zZBt2h11bYYYiE5Vn+OmX9gdjwRnPfFENxZ5+nbAp0RIWO+7wLTLiG9B
-         TZBzpz6pATA+Rfo9ABaDt3NUGxTthH5uWDkwuma/ClFzSaOppeXEDucuGGSyRMAhdqLp
-         XltEO2bBOqD4zhIw7RPHJyTTlrSL8er5jBHxbtasPBBCVb9iXjrWcVn6UFpv7FXPdMGE
-         nwW2QDkszH69UOwKOBFhFMuN/VpXjkaDbug+1++XqohZbRiWMEasip/Y4JR50/M2yv2H
-         +vxJBG4eWcM7L+6XTtoA9hg5FXyDAqgnrwT30o6PurccS43OsPwwNtNDBp06YKNqr31h
-         ZhfQ==
+        d=gmail.com; s=20230601; t=1728636715; x=1729241515; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=EiUSNHcTT4d24gNG0QEJMP/+Xngv1A14JD8aJUDqL/c=;
+        b=YhBi1f5QcCh0rjhmtWAqNPH9lMjKVKiXZjxovTQgwHEn3NVY4DcL5p/J7dp7WJHGT6
+         SCwS0kUD97VDU/Np7P4J0SPr7eZalWEJ+kWOmpjj7KgbUmuSrd1mYMrrs9lfZYe/NDFm
+         miVqQHQPlrEtbNP4f9bTIBV/Ck5EHpDYZ1ctoqOGk+WBDkZ6llPq4NgYAEj9w3X0+w5G
+         TeuTlFgk+YRIHb1xX5ckHNhVS6Io6uGATmaDF0Or0+43n8K6DB1PDfvuBCd2il8RTJo+
+         wBn++adCa5dTQt4umI+gCb2gmPsAdwuEObhb83+7bo+z7O8WGVMXslTfxADN98PakGG8
+         coRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728635488; x=1729240288;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Vz6Mo8jVEGLN1eZ2tcWaFaAvcf0eTg5yx/RXlpSqSvc=;
-        b=QsIGn+DGHZSYIsUtQ9g3oACD7/QbIsgoAujGQ/16qm53Th8keqbGx6ElvJVFssLuax
-         3zFR8wviRmaV9JwJO0WWcTxVCkiJdMjxuw4jxjZhut1b7Yon8uYsUPa7UjTH8Z6pj/Tt
-         nlCYBTiI5rq8iqa05MIZ/hIBT//LbatuBdslEocEY4Uh3/zOPrmLW1/YY3sldcy8MGkY
-         oSGBDj0+LMm55aiuZ1pxoaTW6ruEKPY9YmF5AjaIWlEu2TsoePS8fnz8mfvBTXfZS4J9
-         RWos34gGlt6/ncuParcjGmeYvclo19HdaO9TzcElHmt6THRxC3gvXgo1Ql0eWB4l5Y4a
-         u2HQ==
-X-Gm-Message-State: AOJu0YyEMJBHjjnSYdThaX8xZXtHVKxyQ+OrcmAfsPl1kbT1hVuL5r/D
-	VoOCvTfzJYYWinEef295Ag+h9JbpwAhD4B16vTj8vjULLZHThdHsRsA01kTvhejKC7YpvV6wFYX
-	IPuHUhH1euEVCj+HoccqEvnqyZv1XxhxH5JR8/A==
-X-Google-Smtp-Source: AGHT+IEJS71aQQoDk1uJYxpZzTN3/pMJlh0lBnL4/7QNgBR5l4m0rniWz2kMw10CsXzYYUQgiFk/Qg8eLBtpHXlA8Gs=
-X-Received: by 2002:a05:6512:2256:b0:539:a353:276b with SMTP id
- 2adb3069b0e04-539c98ab848mr1892698e87.23.1728635487972; Fri, 11 Oct 2024
- 01:31:27 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728636715; x=1729241515;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EiUSNHcTT4d24gNG0QEJMP/+Xngv1A14JD8aJUDqL/c=;
+        b=lO6+Z+e5M8dzmLOfzkANJxHIe4rZTta6xKVDCwTVpkMS0+t00BlJWlOfekFCvVO0Ok
+         njbdcEX0ehitXkqhv4OWLjCxo4q8cG9jgBD6Kogvwip1rjYKpbf22fxnfbTQAqRrMKwt
+         v1x39AiMoTbe51YV2NWXed0HLbX2AUveh4oOPFI6Oe7m4Hq7B8MNaYghHZusnyNJguuo
+         JYCGQBkgQB2b46Z9nT5S7+CULnrRKOKTJCa7/Gl3f3AaVr0CXUxC/YLyK65+m5ZfcFUl
+         h2yQlF5ddFhTFMhYo1AtwLSb1buCBoM5KReQ5p2UW6HC+Y+cDkoQ5yF10Kj4R8JiXyc1
+         TpYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUD8x30ohe0x4NVBSkubOm8DLrtJqRReHUcNUy/QPaymuzacMUkv1fiIX0u9vqERYiYoqLxj6MUukVcQza7tw0bfg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwbYcxe5wGLQvOfJT/a8Xn6ova/OcaLGKtIVBlnfze70UQFHel5
+	O/iAxKX3vbbtnGpPa+RBkZQUCoUK4wzBOjLq4/9Wfi3PhYF6nr04X55ok6hA4ki7A2D0CyBhwLS
+	kYn2coPNvGVl/1vN6LiaDwp2UKXo=
+X-Google-Smtp-Source: AGHT+IH6CdEjm/xqzet1JzWzBkpnpc1sIflh6r/+1vhBEJu/7C7MdoZEWvBCtYRWiyq9MyWTj/rKQNlkzR+BF2hVAxs=
+X-Received: by 2002:a05:651c:19a3:b0:2fa:bba7:2699 with SMTP id
+ 38308e7fff4ca-2fb32715fb8mr7589631fa.16.1728636714474; Fri, 11 Oct 2024
+ 01:51:54 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241011070204.7276-1-brgl@bgdev.pl> <CANNYZj_72dfGm5kOCy43wnAiH1i30GmU8MVrS-txvHbJ8hWh6w@mail.gmail.com>
-In-Reply-To: <CANNYZj_72dfGm5kOCy43wnAiH1i30GmU8MVrS-txvHbJ8hWh6w@mail.gmail.com>
-From: Bartosz Golaszewski <brgl@bgdev.pl>
-Date: Fri, 11 Oct 2024 10:31:17 +0200
-Message-ID: <CAMRc=Mc-Pj1r8EcTabg+ew-kGMax4i4fb=SH87BUPXsbfCQo6A@mail.gmail.com>
-Subject: Re: [OE-core][RESEND PATCH] python3-pip: add missing RDEPENDS
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, Khem Raj <raj.khem@gmail.com>, 
-	Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+References: <20240927132040.200122-1-claus.stovgaard@gmail.com>
+ <c3155a29aa855283f3396582c989263d93ded4f3.camel@linuxfoundation.org>
+ <2456863182484d2b15f75fe0f67a3473240a3fe6.camel@gmail.com>
+ <CANNYZj-Wna0xVjvoX0hJwd9Kg_=yaVB+dNLecBDsjpSayo1zVg@mail.gmail.com>
+ <2b4615fffa3c131e9795255c4884d6b9eea98c86.camel@gmail.com>
+ <CANNYZj-LcppbLy4bsHH6oRJeK6pPVXgVB_oq1UPik9B5wO2oGg@mail.gmail.com> <41e5d235b97218e65737069ea5f541ae2114dbc9.camel@gmail.com>
+In-Reply-To: <41e5d235b97218e65737069ea5f541ae2114dbc9.camel@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 11 Oct 2024 10:51:42 +0200
+Message-ID: <CANNYZj_-phKSj0smbkC=n5UVgDzmB5zxoOsOSnVhA=unGaJzRg@mail.gmail.com>
+Subject: Re: [OE-core] [RFC][master][PATCH] populate_sdk_base: Add SDKIMAGE_INSTALL_COMPLEMENTARY_HARD_DEPENDS_ONLY
+To: Claus Stovgaard <claus.stovgaard@gmail.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	openembedded-core@lists.openembedded.org, Ross.Burton@arm.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 08:31:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205664
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 08:51:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205665
 
-On Fri, Oct 11, 2024 at 10:20=E2=80=AFAM Alexander Kanavin
-<alex.kanavin@gmail.com> wrote:
->
-> On Fri, 11 Oct 2024 at 09:02, Bartosz Golaszewski via
-> lists.openembedded.org <brgl=3Dbgdev.pl@lists.openembedded.org> wrote:
-> >
-> > From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> >
-> > pip3 package is missing the runtime dependency on tomllib. Add
-> > python3-modules to the recipe's RDEPENDS.
->
-> If only tomllib is needed, why do we need to pull in the full set of
-> modules? Please add only the specific missing dependencies.
->
+On Thu, 10 Oct 2024 at 23:01, Claus Stovgaard <claus.stovgaard@gmail.com> wrote:
 
-Eek, I looked at the manifest a bit too fast, I missed the separate
-tomllib package. I will resend it.
+> Hope it make it more clear what workflow their is broken with the
+> change, and why my patch suggest to making it a configurable option.
 
-Bart
+Thanks, this is much clearer now. I do wonder if we really need all
+the complication of having an extra variable (that isn't tested). Can
+the dummy app recipe be written such that it takes the list of
+DEPENDS, and adds everything in it to RDEPENDS, with -dev suffix?
+
+Alex
 
