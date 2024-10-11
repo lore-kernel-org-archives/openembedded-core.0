@@ -2,10 +2,10 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F12C3CFD36B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0FA8CFD369
 	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 12:01:49 +0000 (UTC)
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.9807.1728648105496471939
+ by mx.groups.io with SMTP id smtpd.web10.9805.1728648105439573330
  for <openembedded-core@lists.openembedded.org>;
  Fri, 11 Oct 2024 05:01:45 -0700
 Authentication-Results: mx.groups.io;
@@ -14,15 +14,15 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1szEKt-0002PC-L3; Fri, 11 Oct 2024 14:01:35 +0200
+	id 1szEKt-0002PH-LP; Fri, 11 Oct 2024 14:01:35 +0200
 Received: from [2a0a:edc0:0:1101:1d::5c] (helo=dude06.red.stw.pengutronix.de)
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.94.2)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1szEKt-0014uK-07; Fri, 11 Oct 2024 14:01:35 +0200
+	id 1szEKt-0014uP-2D; Fri, 11 Oct 2024 14:01:35 +0200
 Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1szEKs-003RPp-33;
+	id 1szEKs-003RQ5-3D;
 	Fri, 11 Oct 2024 14:01:34 +0200
 From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
@@ -30,14 +30,13 @@ Cc: yocto@pengutronix.de,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Ahmad Fatoum <a.fatoum@pengutronix.de>
-Subject: [PATCH v9 2/7] barebox-tools: add initial barebox tools support
-Date: Fri, 11 Oct 2024 14:01:12 +0200
-Message-Id: <20241011120117.818804-3-ejo@pengutronix.de>
+Subject: [PATCH v9 6/7] oeqa/selftest/cases: add basic u-boot test
+Date: Fri, 11 Oct 2024 14:01:16 +0200
+Message-Id: <20241011120117.818804-7-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241011120117.818804-1-ejo@pengutronix.de>
 References: <20241011120117.818804-1-ejo@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
 X-SA-Exim-Mail-From: ejo@pengutronix.de
@@ -47,103 +46,76 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 12:01:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205681
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205680
 
-From: Marco Felsch <m.felsch@pengutronix.de>
+From: Enrico Jorns <ejo@pengutronix.de>
 
-Add initial support to build the barebox tools for the host and the
-target.
+This adds basic tests for qemuarm and qemuarm64.
 
-Some of the tools are generic barebox utilities (like 'bareboximd' for
-image meta data inspection or 'bareboxenv' for accessing the barebox
-environment) some are SoC family-specific specific utilities (like
-'imx-usb-loader' or 'omap3-usb-loader').
+So far, U-Boot fails to run properly under KVM since this requires some
+special care with instructions used for MMIO accesses.
 
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+Reported upstream by Ahmad Fatoum after debugging the oe-selftest
+failures for this series:
+https://lore.kernel.org/u-boot/2211f9f0-cd7d-4b55-860d-a34c04877e7b@pengutronix.de/
+
+For now, simply disable KVM for these tests.
+
 Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../barebox/barebox-tools_2024.08.0.bb        | 59 +++++++++++++++++++
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
+ meta/lib/oeqa/selftest/cases/uboot.py | 43 +++++++++++++++++++++++++++
+ 1 file changed, 43 insertions(+)
+ create mode 100644 meta/lib/oeqa/selftest/cases/uboot.py
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 0fd6c14658..b529786214 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -55,6 +55,7 @@ RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-babeltrace2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-barebox = "Enrico Jörns <yocto@pengutronix.de>"
-+RECIPE_MAINTAINER:pn-barebox-tools = "Enrico Jörns <yocto@pengutronix.de>"
- RECIPE_MAINTAINER:pn-baremetal-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
- RECIPE_MAINTAINER:pn-base-files = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-base-passwd = "Anuj Mittal <anuj.mittal@intel.com>"
-diff --git a/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb b/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
+diff --git a/meta/lib/oeqa/selftest/cases/uboot.py b/meta/lib/oeqa/selftest/cases/uboot.py
 new file mode 100644
-index 0000000000..ed49ce5373
+index 0000000000..96da4efb06
 --- /dev/null
-+++ b/meta/recipes-bsp/barebox/barebox-tools_2024.08.0.bb
-@@ -0,0 +1,59 @@
-+SUMMARY = "barebox bootloader tools"
-+HOMEPAGE = "https://barebox.org/"
-+SECTION = "bootloaders"
++++ b/meta/lib/oeqa/selftest/cases/uboot.py
+@@ -0,0 +1,43 @@
++# Qemu-based u-boot bootloader integration testing
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
 +
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
++from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake, runqemu
++from oeqa.core.decorator.data import skipIfNotArch
++from oeqa.core.decorator import OETestTag
 +
-+DEPENDS = "bison-native flex-native libusb1"
++uboot_boot_patterns = {
++        'search_reached_prompt': "stop autoboot",
++        'search_login_succeeded': "=>",
++        'search_cmd_finished': "=>"
++        }
 +
-+SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
-+SRC_URI[sha256sum] = "b08a762da8d63dd18b4f2d9f5d0a8da001b6e608d1b3eff6dcebc6a2e575d535"
 +
-+S = "${WORKDIR}/barebox-${PV}"
-+B = "${WORKDIR}/build"
++class UBootTest(OESelftestTestCase):
 +
-+inherit pkgconfig
++    @skipIfNotArch(['arm', 'aarch64'])
++    @OETestTag("runqemu")
++    def test_boot_uboot(self):
++        """
++        Tests building u-boot and booting it with QEMU
++        """
 +
-+EXTRA_OEMAKE = " \
-+  ARCH=sandbox \
-+  CROSS_COMPILE=${TARGET_PREFIX} -C ${S} O=${B} \
-+  CROSS_PKG_CONFIG=pkg-config \
-+  CC='${CC}' \
-+  LD='${LD}' \
-+  "
++        self.write_config("""
++QB_DEFAULT_BIOS = "u-boot.bin"
++PREFERRED_PROVIDER_virtual/bootloader = "u-boot"
++QEMU_USE_KVM = "False"
++""")
++        bitbake("virtual/bootloader core-image-minimal")
 +
-+do_compile:class-target () {
-+    export userccflags="${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS}"
-+    export userldflags="${TARGET_LDFLAGS}${TOOLCHAIN_OPTIONS}"
-+    oe_runmake targettools_defconfig
-+    oe_runmake scripts
-+}
++        with runqemu('core-image-minimal', ssh=False, runqemuparams='nographic',
++                     boot_patterns=uboot_boot_patterns) as qemu:
 +
-+do_compile:class-native () {
-+    oe_runmake hosttools_defconfig
-+    oe_runmake scripts
-+}
-+
-+BAREBOX_TOOLS = " \
-+         bareboxenv \
-+         bareboxcrc32 \
-+         kernel-install \
-+         bareboximd \
-+         omap3-usb-loader \
-+         omap4_usbboot \
-+         imx/imx-usb-loader \
-+         "
-+
-+BAREBOX_TOOLS_SUFFIX = ""
-+BAREBOX_TOOLS_SUFFIX:class-target = "-target"
-+
-+do_install () {
-+	install -d ${D}${bindir}
-+
-+	for tool in ${BAREBOX_TOOLS}; do
-+		install -m 0755 scripts/${tool}${BAREBOX_TOOLS_SUFFIX} ${D}${bindir}/${tool##*/}
-+	done
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
++            # test if u-boot console works
++            cmd = "version"
++            status, output = qemu.run_serial(cmd)
++            self.assertEqual(status, 1, msg=output)
++            self.assertTrue("U-Boot" in output, msg=output)
 -- 
 2.39.5
 
