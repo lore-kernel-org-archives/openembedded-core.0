@@ -1,56 +1,37 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <rpurdie@rpsys.net>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D70EDCFD34D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4F95CFD34A
 	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 11:08:59 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.9008.1728644934297165029
+Received: from dan.rpsys.net (dan.rpsys.net [217.169.23.60])
+ by mx.groups.io with SMTP id smtpd.web10.9007.1728644931238907476
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Oct 2024 04:08:55 -0700
+ Fri, 11 Oct 2024 04:08:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=XnCLV68S;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37cea34cb57so1170563f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 04:08:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728644933; x=1729249733; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=mSOX2sfEJ3EUFUUuzkG29EV/btC4628YDWqgIXdDcvc=;
-        b=XnCLV68Sbx3J2d12K76W1o9h7SgtQvqbn+gJ+W2i/LcVg/wBYW6ldltAVN2yHn6fcc
-         Pqnc3zi3+xToaJGw4seyssDJ7xaiFiBLYY95qJGJ/aDKtEifgbye6n9sw1AEAhoD4QOL
-         cxiXL/4wu2TgWcDzwC2AghpbFs7uzw3RoF7EQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728644933; x=1729249733;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mSOX2sfEJ3EUFUUuzkG29EV/btC4628YDWqgIXdDcvc=;
-        b=sevXBg5NJDhXRPoGm+7Q5idajUPRPvdwXsxIS6F1TpdSOC0TkRUz6vQF6gL2bAkb1Y
-         ULPt2luiDKa+FI+JVVwnG5G7jM0AtcNsGbGxnn2Cw2Io3lOUeW0NKVS0mIcl+uCXda6e
-         0PumIzeuITqu87RQDOgpBzvi8rp1jbGIdUPo9YKBIWiy3h9lYWU5orGFPUwJZVuVwPs5
-         1RhsbtRGugM659Qc3FocikJIqN2VCgghyRP5zMEaOoJRvmJXhH1uTlDoHi0h22ZP7t+w
-         91rI3xR8eZtatj9umu+aFnxF10AU2L5DDSYRysTpG0+fqYigSOBjCf7DQHOECbmeWacE
-         isEQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWiBgrjceEKiaP10HpbUWO3uuf4/ra8h43zIzScwfBkgcpLqZv3MWxLluH8ay3z3JaLdMGHPTGzNOPN/Oj5oXPKCg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx5VuqXiKEp4xhLzM80rxpD2KuT2s0SyBpASZcqEc2MqNSEX5Ep
-	vAJVovXgeJHrXh8QLR9KqnVd/T7+tgy3CURB1owwa7cqb1UXZANxyysa+2pD8l0=
-X-Google-Smtp-Source: AGHT+IFtxwJykTXvyfmBUVWrZZW8FYS1SN4F9CPPVmGID+ztVwpuRlToEGh80y8v/4AUADhs2g/xhw==
-X-Received: by 2002:adf:e681:0:b0:37d:4aa5:eae5 with SMTP id ffacd0b85a97d-37d5531bc58mr1485050f8f.55.1728644932597;
-        Fri, 11 Oct 2024 04:08:52 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:8145:ba6d:a6de:28af? ([2001:8b0:aba:5f3c:8145:ba6d:a6de:28af])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b6a8928sm3693147f8f.7.2024.10.11.04.08.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Oct 2024 04:08:52 -0700 (PDT)
-Message-ID: <e5673b2af275dd6bddde40223581c3cdbb310968.camel@linuxfoundation.org>
+ dkim=pass header.i=@rpsys.net header.s=default header.b=WUWZ2st3;
+ spf=pass (domain: rpsys.net, ip: 217.169.23.60, mailfrom: rpurdie@rpsys.net)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=rpsys.net; s=default;
+	t=1728644928; bh=mSOX2sfEJ3EUFUUuzkG29EV/btC4628YDWqgIXdDcvc=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=WUWZ2st3Kh1gplbqnpGjbqrnK8Kgi/iChVi8jlDnMJUzTls8Ia/pXO9oX2BDEy9ew
+	 jLwncx6jUl+p1ExHDtmcrTIK8vHPZy9XJUTLylgedIFCvccLMS0gotgXSp2j6v59kM
+	 KmxCyDLuKkdrg+JkM9ysshZKF0tRbIgMKO+Fptb8KTROIz+w2xasEfcdAf0SVj44kO
+	 4HPpCr3kNgrnJnM9TRZCxGLYpeTBZpmGBdXkJkFOq21A9bxJDwDMW+OsR/IAasZEFs
+	 ZnbsL8Aoaf1riK/3xZi8NLHCfHtMTEk7HaNdSerK96L3FG4MfD5mYiFePsc+kVwvjX
+	 Ak5l0/58YBl7w==
+Received: from [192.168.1.7] (dan.rpsys.net [217.169.23.61] (may be forged))
+	(authenticated bits=0)
+	by dan.rpsys.net (8.15.2/8.15.2/Debian-22ubuntu3) with ESMTPSA id 49BB8kFp1518973
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 11 Oct 2024 12:08:48 +0100
+Message-ID: <19b70153a2a149301464b725a75ee3a9fbb66abc.camel@rpsys.net>
 Subject: Re: [OE-core] [PATCH v6 3/7] barebox: set default BAREBOX_CONFIG
  for qemu machines
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Richard Purdie <rpurdie@rpsys.net>
 To: ejo@pengutronix.de, openembedded-core@lists.openembedded.org
 Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 11 Oct 2024 12:08:51 +0100
+Date: Fri, 11 Oct 2024 12:08:41 +0100
 In-Reply-To: <20240912091857.2631678-4-ejo@pengutronix.de>
 References: <20240912091857.2631678-1-ejo@pengutronix.de>
 	 <20240912091857.2631678-4-ejo@pengutronix.de>
@@ -58,11 +39,13 @@ Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
+X-Virus-Scanned: clamav-milter 0.103.11 at dan
+X-Virus-Status: Clean
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 11:08:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205671
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205670
 
 On Thu, 2024-09-12 at 11:18 +0200, Enrico J=C3=B6rns via lists.openembedded=
 .org wrote:
