@@ -1,164 +1,158 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <rybczynska@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA77CFD352
-	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 11:22:59 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.9220.1728645776324633054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E62FECFD354
+	for <webhook@archiver.kernel.org>; Fri, 11 Oct 2024 11:24:29 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web10.9240.1728645868520632904
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Oct 2024 04:22:56 -0700
+ Fri, 11 Oct 2024 04:24:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1szDjS-0000iY-5F; Fri, 11 Oct 2024 13:22:54 +0200
-Message-ID: <163fa25b979e93b006e9aac99d64c17d903707e1.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH v6 3/7] barebox: set default BAREBOX_CONFIG
- for qemu machines
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	openembedded-core@lists.openembedded.org
-Cc: yocto@pengutronix.de, Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 11 Oct 2024 13:22:53 +0200
-In-Reply-To: <e5673b2af275dd6bddde40223581c3cdbb310968.camel@linuxfoundation.org>
-References: <20240912091857.2631678-1-ejo@pengutronix.de>
-	 <20240912091857.2631678-4-ejo@pengutronix.de>
-	 <e5673b2af275dd6bddde40223581c3cdbb310968.camel@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eVbxlvPw;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: rybczynska@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20c71603217so17821225ad.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 04:24:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728645868; x=1729250668; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=AV52spDn/AawCEVwBFTzTNog6cxjFPRSV2R9hxvhsEY=;
+        b=eVbxlvPw+7m71Vnne7mFnikfuoHpIGJ4wJg9p0KeGU+eYhE9PfjSUA05w4H47Hww3F
+         bkHuu8Yyrgb8zoQxKiMQAsGwc0K6Aa2VnLoCeMM3sPipVrHumHzcf3ccQYX2Wu3NwNsa
+         kAA+Ie3+8HjWsojJOogWlD+kqjFV3e4URKQRm2dftx6ILS+dWOQqBRl1ECpGqrxtyEVZ
+         FhXQQZqQwmTl8clHiHVz5Nkm62Gqmquwpq5eAqQiBwxPqXKt4T9eUAeEjnbXgaeaq+oJ
+         R2lJYh9CJHJ3Llvf7jefZp1Y90XAfQDeE0mlBJeL6zF3vKquwCVW2z7ubZWgM9W0jZzC
+         VoRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728645868; x=1729250668;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AV52spDn/AawCEVwBFTzTNog6cxjFPRSV2R9hxvhsEY=;
+        b=j3iFepYB/4ubH967yDtV+tILDZgGSeikOmffgTazBnpUvIRJ8nLksCIbzR5VtK2wOG
+         8b9YrQnrV2W5CNRAcsdN5bsJUyoBCC0/kKon3+YvgdJ9OoVZ5w0jn2tpmKAvbudX10qW
+         /bOqSC0L3wFeqpcMfdzPf70Z/hHWdm8v4iFHIXTvmlB4q3azN1kjNRKJIY9jIVurjd2q
+         wjdWH+aMTIDf67gVcK3rxOV7vv8rrnUtWv3VN6elmHkeIwVxCbBzn2bIaV7ManD2UWh8
+         IUBtu1QzxVS94x5PhFUesoHGsrvwJads+qip3H5qrxq3Q1laycnXkDM5PR02yL1GTD1b
+         w0PA==
+X-Gm-Message-State: AOJu0YwUzVgPkxKwlR1uCPRCUr9cphnmFirb3+4gKsTaXWZpOBTxvP9R
+	MC6vE64/3UAezobA8x++Jtre1ryBomx46vSpQEurCf38sr3JBRHah7IxqVcO5MLglld8LTmFtLX
+	3lcm166b7+falON6C+RW+AObhgRA=
+X-Google-Smtp-Source: AGHT+IG8ag3bkLN4eH5gXlL1DJfQju+fB1aCtq9gvOVdJppOKlQCZACV/3nPgsgM1n3NIaN3k1vHEymKfDgVvxh7sI8=
+X-Received: by 2002:a17:903:240e:b0:20b:7ec0:ee21 with SMTP id
+ d9443c01a7336-20ca1434e12mr39211435ad.19.1728645867709; Fri, 11 Oct 2024
+ 04:24:27 -0700 (PDT)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
+References: <17FD60BEC9A54A4B.2207@lists.openembedded.org> <8281d9cb51a5e652f99ed998fd71c7b6a84e1e63.camel@linuxfoundation.org>
+ <CAApg2=RmrYULa7KMi6EMdGAhW3-uVA81ggVJg5BGDMSg0M0nLA@mail.gmail.com> <0092cbd5b19661f2c88084cc2c00811c7c2f6563.camel@linuxfoundation.org>
+In-Reply-To: <0092cbd5b19661f2c88084cc2c00811c7c2f6563.camel@linuxfoundation.org>
+From: Marta Rybczynska <rybczynska@gmail.com>
+Date: Fri, 11 Oct 2024 13:24:16 +0200
+Message-ID: <CAApg2=R_F-YUiv23wC_ACZFNe590h+RGxJ4R=-n2uT_LE5rqFg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] cve-check-update-nvd2-native: Incremement
+ DL_DIR database location
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Marta Rybczynska <marta.rybczynska@syslinbit.com>, Steve Sakoman <steve@sakoman.com>
+Content-Type: multipart/alternative; boundary="000000000000e32cab062431ba0a"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 11:22:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205674
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Oct 2024 11:24:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205675
 
-Am Freitag, dem 11.10.2024 um 12:08 +0100 schrieb Richard Purdie:
-> On Thu, 2024-09-12 at 11:18 +0200, Enrico J=C3=B6rns via lists.openembedd=
-ed.org wrote:
-> > From: Enrico Jorns <ejo@pengutronix.de>
-> >=20
-> > These are set in the barebox recipe rather in the corresponding machine=
-s
-> > (where they would belong otherwise) to keep the impact of barebox to
-> > oe-core minimal for now.
-> >=20
-> > "multi_v7_defconfig" is used for qemuarm since this is the default
-> > barebox armv7 config that just enables all supported platforms.
-> >=20
-> > "multi_v8_defconfig" is used for qemuarm64 sine this is the default
-> > barebox armv8 config that just enables all supported platforms.
-> >=20
-> > "efi_defconfig" is used for qemux86-64 which is the primary platform
-> > where barebox will not be the first stage bootloader but an EFI payload=
-.
-> >=20
-> > Since these changes make barebox a provider for virtual/bootloader,
-> > explicitly default to u-boot in the corresponding MACHINE configs to no=
-t
-> > unnecessarily surprise users.
-> >=20
-> > Signed-off-by: Enrico Jorns <ejo@pengutronix.de>
-> > ---
-> > =C2=A0meta/conf/machine/qemuarm.conf=C2=A0=C2=A0=C2=A0 | 1 +
-> > =C2=A0meta/conf/machine/qemuarm64.conf=C2=A0 | 1 +
-> > =C2=A0meta/conf/machine/qemux86-64.conf | 1 +
-> > =C2=A03 files changed, 3 insertions(+)
->=20
-> This patch needs the commit message updating as it no longer matches
-> the changes below!
+--000000000000e32cab062431ba0a
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Indeed. This hunk accidentally moved to "barebox: add initial support"
-when merging the .inc and the .bb file.
-I'd simply restore the original split so that the commit messages matches
-again and we preserve the explicit explanation of defconfigs that Alex
-requested.
+On Fri, Oct 11, 2024 at 1:19=E2=80=AFPM Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
 
-> Things did pass in automated testing so I think we're close with this.
+> On Fri, 2024-10-11 at 13:17 +0200, Marta Rybczynska wrote:
+> >
+> > On Fri, Oct 11, 2024 at 1:02=E2=80=AFPM Richard Purdie via
+> > lists.openembedded.org
+> > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> > >
+> > > I now do have an example of a corrupted database:
+> > >
+> > > https://valkyrie.yocto.io/pub/shared-failure-data/nvdcve_2-1.db
+> > >
+> > > I'm not sure why this is happening but the older releases are all
+> > > accessing the DB over NFS which makes me nervous. We're seeing a
+> > > lot of
+> > > failures on the new cluster, hopefully this will help isolate the
+> > > problem.
+> > >
+> >
+> >
+> > The database isn't completely corrupted, it looks like it is partial,
+> > however. What was the error
+> > that you got in that build? Any or just strange results? I'm running
+> > a verification vs a fresh database.
+>
+>
+> https://valkyrie.yoctoproject.org/#/builders/23/builds/238/steps/14/logs/=
+stdio
+>
+> Exception: sqlite3.DatabaseError: database disk image is malformed
+>
+>
+Managed to get the same error with the sqlite command line.
 
-This sounds really, really great!
+Marta
 
+--000000000000e32cab062431ba0a
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thanks a lot for your effort!
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 11, 2024 at 1:19=E2=80=AF=
+PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
+>richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
+rgb(204,204,204);padding-left:1ex">On Fri, 2024-10-11 at 13:17 +0200, Marta=
+ Rybczynska wrote:<br>
+&gt; <br>
+&gt; On Fri, Oct 11, 2024 at 1:02=E2=80=AFPM Richard Purdie via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; &lt;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.opene=
+mbedded.org" target=3D"_blank">linuxfoundation.org@lists.openembedded.org</=
+a>&gt; wrote:<br>
+&gt; &gt; <br>
+&gt; &gt; I now do have an example of a corrupted database:<br>
+&gt; &gt; <br>
+&gt; &gt; <a href=3D"https://valkyrie.yocto.io/pub/shared-failure-data/nvdc=
+ve_2-1.db" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yocto.io/p=
+ub/shared-failure-data/nvdcve_2-1.db</a><br>
+&gt; &gt; <br>
+&gt; &gt; I&#39;m not sure why this is happening but the older releases are=
+ all<br>
+&gt; &gt; accessing the DB over NFS which makes me nervous. We&#39;re seein=
+g a<br>
+&gt; &gt; lot of<br>
+&gt; &gt; failures on the new cluster, hopefully this will help isolate the=
+<br>
+&gt; &gt; problem.<br>
+&gt; &gt; <br>
+&gt; <br>
+&gt; <br>
+&gt; The database isn&#39;t completely corrupted, it looks like it is parti=
+al,<br>
+&gt; however. What was the error<br>
+&gt; that you got in that build? Any or just strange results? I&#39;m runni=
+ng<br>
+&gt; a verification vs a fresh database.<br>
+<br>
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/23/builds/238/steps=
+/14/logs/stdio" rel=3D"noreferrer" target=3D"_blank">https://valkyrie.yocto=
+project.org/#/builders/23/builds/238/steps/14/logs/stdio</a><br>
+<br>
+Exception: sqlite3.DatabaseError: database disk image is malformed<br>
+<br></blockquote><div><br></div><div>Managed to get the same error with the=
+ sqlite command line.</div><div><br></div><div>Marta <br></div></div></div>
 
-Regards, Enrico
-
-> Cheers,
->=20
-> Richard
->=20
-> > diff --git a/meta/conf/machine/qemuarm.conf b/meta/conf/machine/qemuarm=
-.conf
-> > index 943ce7c16a..af76a53b8e 100644
-> > --- a/meta/conf/machine/qemuarm.conf
-> > +++ b/meta/conf/machine/qemuarm.conf
-> > @@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
-> > =C2=A0
-> > =C2=A0KERNEL_IMAGETYPE =3D "zImage"
-> > =C2=A0
-> > +PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
-> > =C2=A0UBOOT_MACHINE ?=3D "qemu_arm_defconfig"
-> > =C2=A0
-> > =C2=A0SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
-> > diff --git a/meta/conf/machine/qemuarm64.conf b/meta/conf/machine/qemua=
-rm64.conf
-> > index a096d964db..d310445a34 100644
-> > --- a/meta/conf/machine/qemuarm64.conf
-> > +++ b/meta/conf/machine/qemuarm64.conf
-> > @@ -7,6 +7,7 @@ require conf/machine/include/qemu.inc
-> > =C2=A0
-> > =C2=A0KERNEL_IMAGETYPE =3D "Image"
-> > =C2=A0
-> > +PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
-> > =C2=A0UBOOT_MACHINE ?=3D "qemu_arm64_defconfig"
-> > =C2=A0
-> > =C2=A0SERIAL_CONSOLES ?=3D "115200;ttyAMA0 115200;hvc0"
-> > diff --git a/meta/conf/machine/qemux86-64.conf b/meta/conf/machine/qemu=
-x86-64.conf
-> > index 14873a3b4f..4a9c6d364b 100644
-> > --- a/meta/conf/machine/qemux86-64.conf
-> > +++ b/meta/conf/machine/qemux86-64.conf
-> > @@ -13,6 +13,7 @@ DEFAULTTUNE ?=3D "core2-64"
-> > =C2=A0require conf/machine/include/x86/tune-x86-64-v3.inc
-> > =C2=A0require conf/machine/include/x86/qemuboot-x86.inc
-> > =C2=A0
-> > +PREFERRED_PROVIDER_virtual/bootloader ?=3D "u-boot"
-> > =C2=A0UBOOT_MACHINE ?=3D "qemu-x86_64_defconfig"
-> > =C2=A0
-> > =C2=A0KERNEL_IMAGETYPE =3D "bzImage"
-> >=20
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#204432): https://lists.openembedded.org/g/openembed=
-ded-core/message/204432
-> > Mute This Topic: https://lists.openembedded.org/mt/108410146/1686473
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe:
-> > https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[richard.=
-purdie@linuxfoundation.org]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >=20
->=20
->=20
-
---=20
-Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
-Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| https://www.pengutronix.de/ |
-Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
-31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
-=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
+--000000000000e32cab062431ba0a--
 
