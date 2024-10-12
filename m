@@ -1,115 +1,99 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9F2CF257E
-	for <webhook@archiver.kernel.org>; Sat, 12 Oct 2024 20:41:31 +0000 (UTC)
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.web10.18918.1728765682364004228
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3AD21CF2587
+	for <webhook@archiver.kernel.org>; Sat, 12 Oct 2024 21:40:22 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.19981.1728769214449735340
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Oct 2024 13:41:22 -0700
+ Sat, 12 Oct 2024 14:40:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nZATWGkP;
- spf=pass (domain: gmail.com, ip: 209.85.161.48, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5eb17036f27so1179731eaf.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Oct 2024 13:41:22 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YF+/iPkR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4311ae6426aso18065875e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Oct 2024 14:40:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728765681; x=1729370481; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ufcliJKvsodLIZDeow2anQ8yOWtMePG2sO7Cg8zSqc8=;
-        b=nZATWGkPlsISfQlX5Pl0QPyJZwDb3iJBUl5GKR5cVM/W1+20+eIaGhnAEsNnMlhrp6
-         6AOguAYdmIUulXIgDpn/EsQ3t2SdKpIUAJvYlnPJIfkt1KpzQudSwCcDgXQvOe60qh+C
-         ReKtRl+vAAAXkesLP8JA1Pcet+ABtrG+tc587JlRr1xpnMjQeIT4ZcoGIrVEGjjdqqSj
-         DMau1sXB/8VoyESvRmntPf3rv6qTlT8B99wFPc7v6ceUTt3nftkm5CtqPs+NoSiZvOWF
-         lQYQnD6vPHfnNGv9vHl+/DThIf5/XhGZr/sDLVeQeLgtjGnSt7oumgtvzqhcZ8YLYWSo
-         S04A==
+        d=linuxfoundation.org; s=google; t=1728769212; x=1729374012; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=UyDlZq+U7VcrNkC6WuBut6we+DthIhX3zk9spZZe1xE=;
+        b=YF+/iPkR4dqqhxmjhZsBfqrWNsjSk1ASbgBVdwYINKFb+5PH0SilOPXmR7JcwEPsuX
+         4HplwMM4Urk6ehEvH59LUiJFW3NidWbqzEVcJD2Sdt0m9ECS0EKntcBI09klSCwgagDy
+         E+Wxnfa7Wt4xVMAjHbb4p/1lHPCW9Fp4kvJZg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728765681; x=1729370481;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ufcliJKvsodLIZDeow2anQ8yOWtMePG2sO7Cg8zSqc8=;
-        b=tmFhiEuLK8xb7fW9ebo4oHppn84lXTbVCswxruixs9w9L15d4J/Ji+FPw8x47s2Z93
-         R1UejXcU3GIOOm40w+cI8rPOcjFbV0azmadrOpmODA481k4Y6qPv2MocHjITLz7i7w+x
-         X8XW6Lu7GglU32Zb1V5Avitb27Gra+wrrxbv/oHS1fzQPLgNJshNs8oYAr4QY2Ikz5cx
-         Ie8xXtJkDgze9QB5FWqNW/UIMgvp1P4Vvwvix9TG0UCoF0bvzYMqoO3PPqnwDI/4EugP
-         GjKRNMQdVC+w3pFJCIYGC/WpTW0hHN/vrwCL/HX3bOjWgeUdmDw4kVqB6uCcO+KVuwfv
-         ESwg==
-X-Gm-Message-State: AOJu0Yz8aBH4f6C19S9DekerRZqk63w9twJu+KKXj6n6tV0dZbWfzTlX
-	HZcjvs9cbUZzYbE0baTOSpYjZUhlXwPK7oESQVKJ1RYFA17xyksQ4va3yrJLuTD/nGnd4rfUdhr
-	dGB0Ma7lL7kyGI8aWkImjlXQmv3g=
-X-Google-Smtp-Source: AGHT+IEnoHb+/dZ/s5W4kM3iXBSUkv+6us7BokyLV2QAiikWzGNWvL3hCSezpV4qDzfjbYVFf2Ia+rPPA4/Sjf9vYOM=
-X-Received: by 2002:a05:6820:54e:b0:5ba:ec8b:44b5 with SMTP id
- 006d021491bc7-5eb1a19a9cemr3868567eaf.3.1728765681585; Sat, 12 Oct 2024
- 13:41:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241010160623.2880937-1-ross.burton@arm.com> <20241010160623.2880937-2-ross.burton@arm.com>
-In-Reply-To: <20241010160623.2880937-2-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 12 Oct 2024 13:40:55 -0700
-Message-ID: <CAMKF1sr5mCiT1H4tGTK-3SAA_F7ejMJtyS-eqmTbrNBjZjsJtg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 02/11] ffmpeg: no need for textrel INSANE_SKIP
-To: ross.burton@arm.com
+        d=1e100.net; s=20230601; t=1728769212; x=1729374012;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UyDlZq+U7VcrNkC6WuBut6we+DthIhX3zk9spZZe1xE=;
+        b=DBXFDmAP30N+G13dsYGyxv6OdM6UqDXdX0k4Qf7zTdUqjjkDrLxBpj1NgzqCUVHp+O
+         6HcGzvQCQE7fuMaCIsvnKY8rviWfFnes79NtyJ5efTnUXA56tvthXBCWVFzXq1hgHsVQ
+         G8J1V2iB4pDGqUDu2AYRjYo3OQUw3+XcnK6NfizPVRG5ReEAIf/Zsbm2BEbmpLLloxh9
+         26MewBN8fwNBHd+1MuFY6ozNZcv/NEelrkOZcJX4w3jztgYrivepPUl2jtbWBNqV1Qjr
+         vALdsMZ1n3boEuTJ8m/wMd9NAmL6lD+7EkEl7KVl2bFaaga3znbaCAJyfYSYhivl1VDq
+         iFaQ==
+X-Gm-Message-State: AOJu0YyLPlYzpyfuO8NVYJ/NhHhGFu3dLF7PeeUJm6eGF4yGw3KmWWgy
+	M5wvozB4tuJ3WyOOi5+WQsu0L9i5edAE2vGheSfbi9aAre9NBzlMynLuHQd6qzQ=
+X-Google-Smtp-Source: AGHT+IF+NY+UXGcUlws9x66IpR7elyXMpsi01RZZE9p6IQRHYOQUpfsrhUaNfA0Mi0unPOiP/2xeXA==
+X-Received: by 2002:a05:600c:470e:b0:42b:afe3:e9f4 with SMTP id 5b1f17b1804b1-4311debbc9amr56526245e9.3.1728769212408;
+        Sat, 12 Oct 2024 14:40:12 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4dde:eb0:b37c:3e03? ([2001:8b0:aba:5f3c:4dde:eb0:b37c:3e03])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b7ede3fsm7097104f8f.94.2024.10.12.14.40.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 12 Oct 2024 14:40:11 -0700 (PDT)
+Message-ID: <e2951d8be49f7dec7334728c616707885bedceb6.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 10/11] insane: use oe.cachedpath.CachedPath
+ instead of os.path
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>, ross.burton@arm.com
 Cc: openembedded-core@lists.openembedded.org
+Date: Sat, 12 Oct 2024 22:40:09 +0100
+In-Reply-To: <CANNYZj8387GLS8gUL8Y+ZSbS4mNNBW99SauLXvxC=Te2DRQ28g@mail.gmail.com>
+References: <20241010160623.2880937-1-ross.burton@arm.com>
+	 <20241010160623.2880937-10-ross.burton@arm.com>
+	 <CANNYZj8387GLS8gUL8Y+ZSbS4mNNBW99SauLXvxC=Te2DRQ28g@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Oct 2024 20:41:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205712
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Oct 2024 21:40:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205713
 
-The textrels still occur on qemux86 when using clang+lld
+On Sat, 2024-10-12 at 18:25 +0200, Alexander Kanavin wrote:
+> After this merged, seemingly random package_qa errors started
+> appearing, check sub-fails here:
+> https://valkyrie.yoctoproject.org/#/builders/29/builds/257
+>=20
+> File: '/srv/pokybuild/yocto-worker/musl-qemux86/build/meta/classes-
+> global/insane.bbclass',
+> lineno: 439, function: package_qa_check_buildpaths
+> =C2=A0=C2=A0=C2=A0=C2=A0 0435:=C2=A0=C2=A0=C2=A0 """
+> =C2=A0=C2=A0=C2=A0=C2=A0 0436:=C2=A0=C2=A0=C2=A0 import stat
+> =C2=A0=C2=A0=C2=A0=C2=A0 0437:=C2=A0=C2=A0=C2=A0 global cpath
+> =C2=A0=C2=A0=C2=A0=C2=A0 0438:=C2=A0=C2=A0=C2=A0 # Ignore symlinks/devs/f=
+ifos
+> =C2=A0*** 0439:=C2=A0=C2=A0=C2=A0 mode =3D cpath.lstat(path).st_mode
+> =C2=A0=C2=A0=C2=A0=C2=A0 0440:=C2=A0=C2=A0=C2=A0 if stat.S_ISLNK(mode) or=
+ stat.S_ISBLK(mode) or
+> stat.S_ISFIFO(mode) or stat.S_ISCHR(mode) or stat.S_ISSOCK(mode):
+> =C2=A0=C2=A0=C2=A0=C2=A0 0441:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
+return
+> =C2=A0=C2=A0=C2=A0=C2=A0 0442:
+> =C2=A0=C2=A0=C2=A0=C2=A0 0443:=C2=A0=C2=A0=C2=A0 tmpdir =3D bytes(d.getVa=
+r('TMPDIR'), encoding=3D"utf-8")
+> Exception: AttributeError: 'bool' object has no attribute 'st_mode'
+>=20
 
-https://errors.yoctoproject.org/Errors/Details/809513/
 
+They're not random. I spotted a potential issue and have put a
+potential fix in master-next.
 
-On Thu, Oct 10, 2024 at 9:06=E2=80=AFAM Ross Burton via lists.openembedded.=
-org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
->
-> It appears in testing that modern ffmpeg no longer needs to disable PIC,
-> so there's no need to ignore textrel warnings.
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb | 10 ----------
->  1 file changed, 10 deletions(-)
->
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipe=
-s-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-> index b16bd51dbd7..af66104ebf3 100644
-> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-> @@ -181,13 +181,3 @@ FILES:libpostproc =3D "${libdir}/libpostproc${SOLIBS=
-}"
->  FILES:libswresample =3D "${libdir}/libswresample${SOLIBS}"
->  FILES:libswscale =3D "${libdir}/libswscale${SOLIBS}"
->  FILES:${PN}-examples =3D "${datadir}/${PN}/examples"
-> -
-> -# ffmpeg disables PIC on some platforms (e.g. x86-32)
-> -INSANE_SKIP:${MLPREFIX}libavcodec =3D "textrel"
-> -INSANE_SKIP:${MLPREFIX}libavdevice =3D "textrel"
-> -INSANE_SKIP:${MLPREFIX}libavfilter =3D "textrel"
-> -INSANE_SKIP:${MLPREFIX}libavformat =3D "textrel"
-> -INSANE_SKIP:${MLPREFIX}libavutil =3D "textrel"
-> -INSANE_SKIP:${MLPREFIX}libswscale =3D "textrel"
-> -INSANE_SKIP:${MLPREFIX}libswresample =3D "textrel"
-> -INSANE_SKIP:${MLPREFIX}libpostproc =3D "textrel"
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#205411): https://lists.openembedded.org/g/openembedde=
-d-core/message/205411
-> Mute This Topic: https://lists.openembedded.org/mt/108932124/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Cheers,
+
+Richard
 
