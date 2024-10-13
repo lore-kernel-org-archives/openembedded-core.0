@@ -1,67 +1,104 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B95CBCF2579
-	for <webhook@archiver.kernel.org>; Sun, 13 Oct 2024 12:57:36 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.31049.1728824253930343689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E6610CF2576
+	for <webhook@archiver.kernel.org>; Sun, 13 Oct 2024 13:18:26 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.web11.31398.1728825501243605561
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Oct 2024 05:57:35 -0700
+ Sun, 13 Oct 2024 06:18:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=b8eehPzR;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2024101312573022f6849eeb31916d32-n8ejw_@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2024101312573022f6849eeb31916d32
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 13 Oct 2024 14:57:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=hmfkfrGBGp8KdczoS6oCiMcAJ7HB6+rAuX7XlJH3dAQ=;
- b=b8eehPzRVeLx0AfDwpGBQ5N5KdSXvxgBwzOisT4aXitqss5PdUGeX5SkUbNQQAe2fnwZVh
- rvpNl4/ANfE3/puAqoxlG6Ngr8IKvfh1eKyQfxbJ1BlYdjjbM2q1Rfhct/k5P4soCwDZ5UbN
- 6S9azCSFteKVv++J1OY9PWXe9ApyiDx6YmH+bu2acCWB8Dq/xRP7bPODXDQSoEb7wZ50Pzkb
- g9PyNGbmb5V8u1jEoWMRtw8Thc42tQglyhKT+mT5F2iwL7oGQ2p56jQjkjOeHywHL+fh6VzF
- pI04ZQOLJzABxNyxPOeFQvrK5RKuS5fH/USN82Z/M0H/HL/Z5VCfZPqQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] gcc: ignore CVE-2023-4039
-Date: Sun, 13 Oct 2024 14:56:42 +0200
-Message-Id: <20241013125642.8737-1-peter.marko@siemens.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=yUj7lnDX;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d4a5ecc44so2364759f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Oct 2024 06:18:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1728825499; x=1729430299; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=7E6rtvBnGcTQ49w0eeZcbYmUw+8uiCWejRpD8iC8V1U=;
+        b=yUj7lnDXnGLcMjVeH08IjYPSBIcdiQq88RCIFnKLGXOM98CU+j5/ZPE34E5UJvSUgo
+         Qx2chOViY8MPUP/fGqyvODNSlxQr60Sv6MKChA+ZiuO7ysHRfAlPWMx3CFQWn+x7iCyW
+         h477UK5EQuyHm2zretI0OEiYeqg1Qv6lczjGQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728825499; x=1729430299;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7E6rtvBnGcTQ49w0eeZcbYmUw+8uiCWejRpD8iC8V1U=;
+        b=k3dXBq36NOZY/FTLZCRiGkJ7nXvTERkDR0N6+FQQ2jokCEDiqBjteNsHd949pV649s
+         1aDCVhITW78gBvv8/5niru9nzKRwuKUCEbeJuDA68Tc/bF4brKvQsjN+fpgeO9wMUe37
+         pBocxopBLJLOuv52QUoKMnXtjQjUBNdJOiDLCZa5bajDaJYTUf6ja482UPwd7xcUrnZJ
+         ZFlNpp2bf46tYr3QYrAZ2vlKCgQf+JH2Pjee1rR5c+t3ImI7XSgxYr5ERg6cghkDeTcZ
+         U5DcBEjQcl3YM/f9JJ/hhOfH8SFecJI8aNGbZwqFEVjhlwnZQaRwWwcJE2gc/2xcC1fc
+         jNQQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0ND7CNc3aq4QalgjS2oA6N4JvjyJTmiQOM1oqG78DS6e1P73+66DLEwKZzvdOScBXpz43PTehlaPk/5JwaeeQKw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxXrk8yAHAYhr19ds+pCYEnpfj2dINYS91JqOxPwo2eYxZTd46K
+	Qax1wmOOc0FK+Qqg9I3k6tTlxR6HhG3rQWCEgtSw18fq+egR0fKPgkNw0sZtwKQ=
+X-Google-Smtp-Source: AGHT+IEcIHvs9CY3ztwHVrwlFQTbZ+4GepN9xz65WtxCifstKNk0GhvOOWiSr5br+uK8tjAa/bZjOA==
+X-Received: by 2002:a05:6000:b0c:b0:37c:fc25:ef39 with SMTP id ffacd0b85a97d-37d551e3c50mr6069108f8f.16.1728825499372;
+        Sun, 13 Oct 2024 06:18:19 -0700 (PDT)
+Received: from [192.168.0.22] (53.1.159.89.rev.sfr.net. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b7edebfsm8629344f8f.98.2024.10.13.06.18.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Oct 2024 06:18:19 -0700 (PDT)
+Message-ID: <3831edba-2e59-48a8-9186-52c5a4081fd1@smile.fr>
+Date: Sun, 13 Oct 2024 15:18:18 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [meta][PATCH v2] python3-cryptography: upgrade 42.0.8
+ -> 43.0.1 -> reproducibility doc improvement
+To: Tom Geelen <t.f.g.geelen@gmail.com>, Tim Orling <ticotimo@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+ openembedded-core@lists.openembedded.org
+References: <20241010205033.159589-2-t.f.g.geelen@gmail.com>
+ <CANNYZj-NujKn-r+j_KgGs4PRCAxUY5Z1v=gU_hx8fg1hBa+KSw@mail.gmail.com>
+ <CAJo0Az5a=-diCyNyAC14Ef6JTS4auzcSO2NQnaiYG1k3WpCw0g@mail.gmail.com>
+ <CANNYZj_w+Ba7mhS4Jd=LaiVPZse0+pqGL3KSFN1uyHXTmuEkRg@mail.gmail.com>
+ <CANx9H-CksfTYqbSbiirRT0cWeDy9sOPJgrA_s66Oj52d6Q44Yw@mail.gmail.com>
+ <3d120a63-7fbf-43fc-8f44-5ad50ab1a061@smile.fr>
+ <CANx9H-Bi0CKSMdH9fsQ8hAzabuyk2bX3hm3ZqUoPdmuupLeK_A@mail.gmail.com>
+ <CAJo0Az6nDT-av_8HuudUt5Ob5ga7+=Qofaaa2Z2RTjKpsC1T+w@mail.gmail.com>
+Content-Language: en-US
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <CAJo0Az6nDT-av_8HuudUt5Ob5ga7+=Qofaaa2Z2RTjKpsC1T+w@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Oct 2024 12:57:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205721
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Oct 2024 13:18:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205722
 
-From: Peter Marko <peter.marko@siemens.com>
+Hi,
 
-Last version bump removed patch for this CVE because it was integrated
-in new release. This has caused the CVE to reappear in reports because
-2023-09-12 is "higher" than 11.5...
+On Sat, Oct 12, 2024, 8:32 PM Tim Orling <ticotimo@gmail.com> wrote:
+> We need to capture more of how to do this in the documentation. I
+> did what seemed to be what the variable names would indicate. In the
+> past, I always ran the full reproducible builds without restricting
+> to “one recipe” (slow).
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/recipes-devtools/gcc/gcc-11.5.inc | 3 +++
- 1 file changed, 3 insertions(+)
+Le 12/10/2024 à 20:38, Tom Geelen a écrit :
+> That the documentation could be more elaborate I agree on,
 
-diff --git a/meta/recipes-devtools/gcc/gcc-11.5.inc b/meta/recipes-devtools/gcc/gcc-11.5.inc
-index c316d2a9a0..5d29b8e61e 100644
---- a/meta/recipes-devtools/gcc/gcc-11.5.inc
-+++ b/meta/recipes-devtools/gcc/gcc-11.5.inc
-@@ -121,3 +121,6 @@ EXTRA_OECONF_PATHS = "\
- 
- # Is a binutils 2.26 issue, not gcc
- CVE_CHECK_IGNORE += "CVE-2021-37322"
-+
-+# This is fixed by commit 75c37e0314, nvd uses arm versioning (2023-09-12) which will alway be higher than 11.x
-+CVE_CHECK_IGNORE += "CVE-2023-4039"
+I've filed https://bugzilla.yoctoproject.org/show_bug.cgi?id=15619 about
+this (attributed to me since I plan to take care of it some day)
+
+> this is my
+> first attempt at pushing a fix I Poky and there is a lot of things to
+> take into account. It makes it daunting to contribute as I'll be making
+> a lot of mistakes.
+
+The fact that python3-cryptography is not an "easy" recipe does not help
+at all. But correcting your mistakes and improving your patch is the
+review process working as intended, so, please don't be discouraged.
+
+Regards,
 -- 
-2.30.2
-
+Yoann Congal
+Smile ECS - Tech Expert
 
