@@ -1,184 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A6F1CF2576
-	for <webhook@archiver.kernel.org>; Sun, 13 Oct 2024 07:43:25 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.web11.27450.1728805399052177247
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A952CF2576
+	for <webhook@archiver.kernel.org>; Sun, 13 Oct 2024 11:18:56 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web10.29630.1728818329117249442
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Oct 2024 00:43:19 -0700
+ Sun, 13 Oct 2024 04:18:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E+zzmbLT;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4311ae6426aso19524365e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Oct 2024 00:43:18 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eatM1z5K;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.171, mailfrom: steve@sakoman.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-46041d86566so17945751cf.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Oct 2024 04:18:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728805397; x=1729410197; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1728818328; x=1729423128; darn=lists.openembedded.org;
+        h=message-id:date:user-agent:to:from:subject:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=3gHVF/xENEKZUiF6DWVaOBDrLoxclIWcHn41If9ScyY=;
-        b=E+zzmbLT1xB7eYljvw/t/uCjy6jL7KqnIDIpRImsfv6V3hs1pbgJZBeoc0R58EoQ9Z
-         twMkJfBEAfAXnvChznwtrfCh8qj3bY4EUugK4FEX73fy3gL+4Uj9mCBDieySDRTuuENO
-         ISh8aNIWd4bYVBYMkBqI3E/Bp21X/AIl0Pr1k=
+        bh=TL2gdLjY2AJ6r/w6TDWtLrvDJV8Y0JVyXoRLdR3Hrc0=;
+        b=eatM1z5KES3YGVKK+41Ifq8Hg1WWV6oIe/mPs5OrnOd31CwD7oDyUaNLBVsnDNMsd0
+         QLfCvgV8fZkU+/idvRTOtDMfpnwV2I/irDh2AcoaQc0z6SPg6EvEsX6TwUg1bU4ok/C5
+         siJI8EsBnoyxbboAQaJ3kJ+18NG9fGZ+UURP6o5sYkoC7Gimyj8SldY/3bkyuLDctIyT
+         jMmsKrPauyP0Vr98XTFjOld5loVDPrUl+FK2DFxSnAU15TfOznkJUGu1S1FHYPrHeW1Q
+         PFV3Ka1LwhwHI/AK8quS/rntrRT9/bzZDOVH1CYWid5SIvK8sMtE4Z3N5k4wRmDmlVo/
+         yoJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728805397; x=1729410197;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+        d=1e100.net; s=20230601; t=1728818328; x=1729423128;
+        h=message-id:date:user-agent:to:from:subject:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to;
-        bh=3gHVF/xENEKZUiF6DWVaOBDrLoxclIWcHn41If9ScyY=;
-        b=oncXfb+9kumt+Pgt7PpVMI0+Dd7XZ0stqsAh16NVTVABnmT/+JzriJtTeDD1kUs/Ie
-         tzDCW1Ohd8ONdaYdbdGJkckxwR0Diy+lqQce95kKo0R69ZjoqZN0dh1dNlkHmX++/wdx
-         LpE0IqPd2Ad78aAMYxUQ4i5KfOSUp2l62Wbv4Z63etOH+LKIeRVsQ4ydvR1NxaAqz2ya
-         1JJrUgVtNbRzIJh8vbXemQ1w5FOnsLUadepddlcK2s3udjwNXvFwlMt5WJU8jX+/e7hA
-         ZGHzXevYU7j8CXPAPkeLpKlDx8bzI5FrXA0iTS7GkLu1HKfo1gy9nK1SfFczqc7KVzQC
-         W7lg==
-X-Forwarded-Encrypted: i=1; AJvYcCVkQV5gTR9Oq2pL+mw/BIRqU+K/YSkm3a1ZhLRcnYRYwS+juNTDQv1Ygvmf50DZyTNp5nkh5EGYCe0uCz61h9obVw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzKd+W71R+KdiKCaKIPsYbA1msVPxEUbA2Z3IblMDSuCDviXBlV
-	IiYgNyPYkMywN/QgFP51vcar8/Z7ZPjUMdjxB8pgQFTqeAeoIpb0JrkuN4AycqA=
-X-Google-Smtp-Source: AGHT+IHECem8C0hisDJlbUnwNKOrjPTh+hioIcnU3FOuXAWJUVSylPyWh1yWMFThnO+0MQBG7ScA8g==
-X-Received: by 2002:a7b:cc8f:0:b0:430:56c1:644c with SMTP id 5b1f17b1804b1-4311df58855mr57769945e9.31.1728805397336;
-        Sun, 13 Oct 2024 00:43:17 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:145f:f6b9:9ebe:60c5? ([2001:8b0:aba:5f3c:145f:f6b9:9ebe:60c5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431183062ddsm85964445e9.27.2024.10.13.00.43.15
+        bh=TL2gdLjY2AJ6r/w6TDWtLrvDJV8Y0JVyXoRLdR3Hrc0=;
+        b=lTBEzTh5EyXPw7Hl4Qgm0m9LTLMU20ysZvU/R4OoDc09Un1NWZd0/k1+5Aud+S0u/D
+         HYa2xyxW9pthmqBPkG73rd3V4PtlDggYSsdatDXN7G/z0ucZ7OUFTtKzFYPdQQB1Jl+M
+         RVCr2V0UgP/sKZBbCtgPL5oZ1iZ/I939WjRZdzVmipvjz5HkxL5g++9460+hdzIyQvAm
+         8TS36+H0OUZ0VzIwLiiBCFuquDfD+Y9lbNBkyJX9UI4LXod9hGSyQ1FGYXTuONEWPGRL
+         eqe3L67yKRvYqkFQwzakXFY/5JvfeiBMk1p1eU6a+1HjBbEbvoWCwq0lmFFbG9w5ZtkJ
+         kG8A==
+X-Gm-Message-State: AOJu0YxN7Oh7PSzdUbo1ehVliQO7K1+oLRTdH0eLLnbMq+2qoRJd6ZZK
+	L+ohWSQrxiXWGOc15yk6WDTsv8kUA/u3xS05CIVztRaqCbkO1BhKFMBNFTz4PbS+GUvSLVpc1BE
+	h
+X-Google-Smtp-Source: AGHT+IFD8e1B/YykbyuBbPFHg7d0WbyMeLMXht2rBhq+y/oyZ2q3T8PKCmGoMPX+vkCOoJb9BNy3Mw==
+X-Received: by 2002:a05:6214:4806:b0:6cb:c487:24b5 with SMTP id 6a1803df08f44-6cbf009970bmr113053186d6.32.1728818327859;
+        Sun, 13 Oct 2024 04:18:47 -0700 (PDT)
+Received: from builder.sakoman.com ([71.19.246.55])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6cbe85d859csm34030556d6.64.2024.10.13.04.18.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Oct 2024 00:43:16 -0700 (PDT)
-Message-ID: <ebd022b240f4bb6b8e2e2fb8d93a4c9f2ba9492f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v8 0/8] systemd uki support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Date: Sun, 13 Oct 2024 08:43:15 +0100
-In-Reply-To: <20241011122044.12222-1-mikko.rapeli@linaro.org>
-References: <20241011122044.12222-1-mikko.rapeli@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
-MIME-Version: 1.0
+        Sun, 13 Oct 2024 04:18:47 -0700 (PDT)
+Received: by builder.sakoman.com (Postfix, from userid 1001)
+	id 88F60100511; Sun, 13 Oct 2024 01:18:46 -1000 (HST)
+Subject: OE-core CVE metrics for master on Sun 13 Oct 2024 01:00:01 AM HST
+FROM: steve@sakoman.com
+To: <openembedded-core@lists.openembedded.org>,<yocto-security@lists.yoctoproject.org>
+User-Agent: mail (GNU Mailutils 3.14)
+Date: Sun, 13 Oct 2024 01:18:46 -1000
+Message-Id: <20241013111846.88F60100511@builder.sakoman.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Oct 2024 07:43:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205717
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Oct 2024 11:18:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205718
 
-On Fri, 2024-10-11 at 15:20 +0300, Mikko Rapeli via lists.openembedded.org =
-wrote:
-> These changes enable building systemd uki images which combine
-> kernel, kernel command line, initrd and possibly signatures to
-> a single UEFI binary. This binary can be booted with UEFI firmware
-> and systemd-boot. No grub is needed and UEFI firmware and/or
-> systemd-boot provide possibilities for boot menus.
-> The uki binary can also be signed for UEFI secure boot
-> so the secure boot extends from firmware to kernel and initrd.
-> Binding secure boot to full userspace is then easier since for example
-> kernel command line and initrd contain the support needed to mount
-> encrypted dm-verity etc partitions, and/or create partitions on demand
-> with systemd-repart using device specific TPM devices for encryption.
->=20
-> Tested on qemuarm64-secureboot machine from meta-arm with changes to
-> support secure boot. Slightly different configuration tested on
-> multiple arm64 System Ready boards with UEFI firmware, real and firmware
-> based TPM devices. Tested with ovmf firmware on x86_64 with selftests but
-> without secure boot which seems to be harder to setup in ovmf.
->=20
-> Sadly I see two wic selftests, wic.Wic2.test_rawcopy_plugin_qemu and
-> wic.Wic2.test_expand_mbr_image, failing when executing all wic selftests
-> on a build machine with zfs filesystem. Will investigate this further.
-> The issue seems to be in mkfs.ext4 producing broken filesystem, and parti=
-ally
-> in the tests which don't run the correct rootfs file (.ext4 vs .wic).
-> Will debug this further and it is IMO unrelated to these changes since
-> they reproduce on pure master branch without this series.
->=20
-> v8: fixed comments from Ross Burton: debug print from warning to debug,
-> =C2=A0=C2=A0=C2=A0 dropped duplicate DISTRO_FEATURE setting for systemd i=
-n tests,
-> =C2=A0=C2=A0=C2=A0 removed aarch64 comment from tests which are currently=
- x86 only.
-> =C2=A0=C2=A0=C2=A0 Fixed the new aarch64 wic selftest to run on both gene=
-ricarm64
-> =C2=A0=C2=A0=C2=A0 and qemuarm64 by adding bios, virtio disk driver etc s=
-ettings
-> =C2=A0=C2=A0=C2=A0 for runqemu (already set in genericarm64 but missing f=
-rom qemuarm64).
->=20
-> v7: add missing "ovmf" to runqemu argument to
-> =C2=A0=C2=A0=C2=A0 test_efi_plugin_plain_systemd_boot_qemu_x86 to fix boo=
-t hang
->=20
-> v6: fixes wic refactoring botch which broken non-uki systemd-boot usage o=
-n
-> =C2=A0=C2=A0=C2=A0 genericarm64 reported by Ross Burton <Ross.Burton@arm.=
-com>, added
-> =C2=A0=C2=A0=C2=A0 selftest to cover this wks usage on x86 and aarch64
->=20
-> v5: drop patch "image_types_wic.bbclass: set systemd-boot and os-release
-> =C2=A0=C2=A0=C2=A0 dependency for all archs" since systemd-boot does not =
-support all
-> =C2=A0=C2=A0=C2=A0 architectures
->=20
-> v4: handle missing runqemu variable from build config, add
-> python3-pefile to fast ptest list
->=20
-> v3: rebased, fixed and added more sefltests, removed wic plugin side uki
-> support
->=20
-> v2: https://lists.openembedded.org/g/openembedded-core/message/204090
->=20
-> Michelle Lin (1):
-> =C2=A0 uki.bbclass: add class for building Unified Kernel Images (UKI)
->=20
-> Mikko Rapeli (7):
-> =C2=A0 wic bootimg-efi.py: keep timestamps and add debug prints
-> =C2=A0 wic bootimg-efi.py: change UKI support from wic plugin to uki.bbcl=
-ass
-> =C2=A0 oeqa selftest uki.py: add tests for uki.bbclass
-> =C2=A0 oeqa selftest efibootpartition.py: add TEST_RUNQEMUPARAMS to runqe=
-mu
-> =C2=A0 oeqa selftest efibootpartition.py: remove systemd-boot from grub-e=
-fi
-> =C2=A0=C2=A0=C2=A0 test
-> =C2=A0 oeqa selftest wic.py: add TEST_RUNQEMUPARAMS to runqemu
-> =C2=A0 oeqa selftest wic.py: support UKIs via uki.bbclass
->=20
+Branch: master
 
-I'm still seeing failures in CI:
+New this week: 0 CVEs
 
-https://valkyrie.yoctoproject.org//#/builders/23/builds/249/steps/14/logs/s=
-tdio
+Removed this week: 0 CVEs
 
-which is despite setting:
+Full list:  Found 21 unpatched CVEs
+CVE-2019-14899 (CVSS3: 7.4 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2019-14899 *
+CVE-2021-3714 (CVSS3: 5.9 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3714 *
+CVE-2021-3864 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2021-3864 *
+CVE-2022-0400 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-0400 *
+CVE-2022-1247 (CVSS3: 7.0 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-1247 *
+CVE-2022-38096 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-38096 *
+CVE-2022-4543 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2022-4543 *
+CVE-2023-1386 (CVSS3: 7.8 HIGH): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-1386 *
+CVE-2023-3397 (CVSS3: 6.3 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3397 *
+CVE-2023-3640 (CVSS3: 7.8 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-3640 *
+CVE-2023-4010 (CVSS3: 4.6 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-4010 *
+CVE-2023-52904 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-52904 *
+CVE-2023-6238 (CVSS3: 6.7 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6238 *
+CVE-2023-6240 (CVSS3: 6.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6240 *
+CVE-2023-6535 (CVSS3: 7.5 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2023-6535 *
+CVE-2024-38381 (CVSS3: 7.1 HIGH): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-38381 *
+CVE-2024-43402 (CVSS3: 8.8 HIGH): libstd-rs:rust:rust-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-43402 *
+CVE-2024-45306 (CVSS3: 5.5 MEDIUM): vim https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-45306 *
+CVE-2024-46864 (CVSS3: 5.5 MEDIUM): linux-yocto https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-46864 *
+CVE-2024-6505 (CVSS3: 6.8 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-6505 *
+CVE-2024-8354 (CVSS3: 5.5 MEDIUM): qemu:qemu-native:qemu-system-native https://web.nvd.nist.gov/view/vuln/detail?vulnId=CVE-2024-8354 *
 
-https://git.yoctoproject.org/poky/commit/?h=3Dmaster-next&id=3D6211ad9210e8=
-2a5a8dd157c63752ad332c2f5de6
+Summary of CVE counts by recipe:
+  linux-yocto: 16
+  qemu:qemu-native:qemu-system-native: 3
+  libstd-rs:rust:rust-native: 1
+  vim: 1
 
-QEMU_USE_KVM =3D "False"
-
-into the test to ensure it doesn't have the issue the barebox testing
-was seeing.
-
-I've sent a patch to try and clean up the lock error.
-
-There is also this:
-
-https://valkyrie.yoctoproject.org//#/builders/76/builds/235
-https://valkyrie.yoctoproject.org//#/builders/48/builds/181
-https://valkyrie.yoctoproject.org//#/builders/54/builds/230
-
-which is due to the binaries being run "in tree" within the edk2 build
-as well as from the sysroot. This generates two sets of pyc files which
-then conflict (or not) depending on which host the build ran on and
-which pyc files are in sstate.
-
-We're going to have to get this fixed before it can merge, probably by
-deleting the pyc files at install unless we can find anything more
-elegant.
-
-Cheers,
-
-Richard
-
-
-
-
+For further information see: https://autobuilder.yocto.io/pub/non-release/patchmetrics/
 
