@@ -1,174 +1,143 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEF9DCFC53F
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 10:31:05 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.51825.1728901863550738736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB5D3CF2576
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 10:34:25 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web11.51863.1728902044898298905
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 03:31:03 -0700
+ Mon, 14 Oct 2024 03:34:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=HrqnnQlJ;
- spf=pass (domain: linaro.org, ip: 209.85.167.46, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e63c8678so1614481e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 03:31:03 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UolJ1Lrc;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4311bb9d4beso25756405e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 03:34:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728901862; x=1729506662; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=fH1GVUDsMponGnkxKc6RkWHRFMDPFv0PMk4nXbHKldM=;
-        b=HrqnnQlJR1O0p/zXkaD6jYsaBe1a8kNCF5KHGF7GZeC6YH95P2wkvwZNhTHuIwl1uq
-         TTpFt5tz8B2H/wEc5Jrm5d7KF4bV3a+KkoQDtuDXZr0Y2fZYRiY4NKBYphqGxcGNeLiS
-         2eet0BgEkAxkh9gLAoPFMd7/XlkL7QQfuqwNWXRVSy7cHabduk/erMNbeSqVU8Ba6uCF
-         WNf8rb2UnWORAIrHLYdN/OY2gT/02rrlTfTzSChAxNN41VRWKTuCnpwgzgGjSYSIPE6Y
-         RpkrYJXTlz1a3mT1ZsUh4XKyiKfceiM2qhBRazxbSWbS/DjOLUSMGnvMhYW2BzpZ9WDh
-         irNA==
+        d=linuxfoundation.org; s=google; t=1728902043; x=1729506843; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ofFGCoeNx8N/ccxDEKz7As2HQN9sm5IPJgCTsLt1clQ=;
+        b=UolJ1Lrc7tDaS/3/btyDx+0NYj2J3RX/VtHS74tsTrucyOrvtvVLoLe9l1oKv36KC0
+         dVsFUIh3hoJ8A/Ulrw1WBF4jFT/QCKeH+yhcDoeIYSgmE5i+jSjEMKfRKNU8c/A67m+0
+         opcnVauq14yhOfet0LATqrXtRVLO2BdD04EcA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728901862; x=1729506662;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fH1GVUDsMponGnkxKc6RkWHRFMDPFv0PMk4nXbHKldM=;
-        b=J2jOB/mb97DQE76M4JDyPbxFPzmB7i1rH4pCtCAOZhR/LqS44RiQgEgaC7NrF46giF
-         nHvzcXJFjKM2mhisVyXIQtb13k+stnFGfWV8aISRK8Uv6iUtlugJSccDr4H6gWcTYDer
-         gyVV2EAy0yXQNV0xrUTqtNXTq/zTZwdLBSovctOMEnHPV/Fjw1A6VZQum2/RMzg5TW9X
-         39xYVCoYhf6jfigWmLQ1TKAlehSYcxeiW2MsF6LIjXB4Tl1XGZZmYOtA5tuM/ftpf39m
-         Kn5+i97yMjXWWXYrkgP45VAi6VTnH490VhXzh5o8WLDUVKed4nZCWeJQpL5ve0lrakHw
-         hzmg==
-X-Gm-Message-State: AOJu0YziMMWgAH/ZSqoUj0vguLOiyjvwt8qmFAQ6jUabub+9OKDnmvW+
-	CjvY59nzp9HbEJtodIzFMB/eX8oBt9TtShAbAjb1z732Cnodpo6FvNuf1JYbAinjAIZYXM3YnKS
-	WUH8=
-X-Google-Smtp-Source: AGHT+IEAZdMCaMxiFRiT6XzyXLUTGIwNqxG+E+pNOtLnDXr486pSSQQ8mMqZskrf0Xiu2t2TFXOyVg==
-X-Received: by 2002:a05:6512:b11:b0:530:e323:b1d0 with SMTP id 2adb3069b0e04-539e54d77bdmr2740787e87.9.1728901861493;
-        Mon, 14 Oct 2024 03:31:01 -0700 (PDT)
-Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539f5adf40asm406600e87.6.2024.10.14.03.30.58
+        d=1e100.net; s=20230601; t=1728902043; x=1729506843;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ofFGCoeNx8N/ccxDEKz7As2HQN9sm5IPJgCTsLt1clQ=;
+        b=wW2gKU0rY4A/x/jjmBeo7DnO4r1zhJPBQ8T9rFeDsYa5QJeIWTZCH+NCpY6C5jEv4f
+         KCQ4iX65FoYdba8535De0qHLJXFWDMpSVMYuLFRRsAEgy4JwuIMsi3OgWXXepUovz+xT
+         Rf16CKihmj1toe1u19hGVP2XkM/HOOQTvmeDarY6Qicxw79/c2PAu7cP85NoeCN7xbce
+         KaoAlWWQJ40uqws3IdOYs/xnIk+Oy7u9Uv1x6Pcv8wee2eb5Wr9WopVEP9AGGRIifQBu
+         5AE1KcQSzv72BVG9K7SwmUGV2cb7rtW8DIPv/zdAhhZG+5N/j0D25sAAO6svCpLuwLol
+         kRfw==
+X-Forwarded-Encrypted: i=1; AJvYcCXmDCMTq0JO105U/kup8lpoaTT5lDbHKlMatYzK1aCnjH2BB6Hlo4yCEbSjIymwgMp2oXsRIKPPqFvUffo9FrwQhw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzjoKpS+pfT/ZF7qHclLlSfhwaeDMxCo6e+3BIPuoAE11QvBIGO
+	vyU8TLv913GenHFe9qgZhjNToDRse6K/TyeIdi4QCUKXRJ2HeLX2AmhgbsazhFU=
+X-Google-Smtp-Source: AGHT+IGtOjXdAxsfpbDx60h4Y3r8a+S4dlPm3Gj0Hz1CKU6cEhV/VUG1PX6iDz1uQ1v2DXw1uowFXg==
+X-Received: by 2002:a05:600c:4f07:b0:42c:bf94:f9a6 with SMTP id 5b1f17b1804b1-431256099f2mr69137335e9.26.1728902042981;
+        Mon, 14 Oct 2024 03:34:02 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4468:7613:7612:e2d5? ([2001:8b0:aba:5f3c:4468:7613:7612:e2d5])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4311830612csm116933885e9.25.2024.10.14.03.34.01
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 03:30:59 -0700 (PDT)
-Date: Mon, 14 Oct 2024 13:30:56 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH v8 0/8] systemd uki support
-Message-ID: <Zwzy4K-hzNiJcgNz@nuoska>
-References: <20241011122044.12222-1-mikko.rapeli@linaro.org>
- <ebd022b240f4bb6b8e2e2fb8d93a4c9f2ba9492f.camel@linuxfoundation.org>
+        Mon, 14 Oct 2024 03:34:02 -0700 (PDT)
+Message-ID: <b39c48040837f4648c227e46db2f12ab1fd09216.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] patchtest: add "Inactive-Upstream"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: quentin.schulz@cherry.de, katariina.lounento@vaisala.com, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 14 Oct 2024 11:34:01 +0100
+In-Reply-To: <99bb8bf7-a873-42a6-8dcc-23dd7c055c78@cherry.de>
+References: <20241008063325.62462-1-katariina.lounento@vaisala.com>
+	 <99bb8bf7-a873-42a6-8dcc-23dd7c055c78@cherry.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ebd022b240f4bb6b8e2e2fb8d93a4c9f2ba9492f.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 10:31:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205741
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 10:34:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205742
 
-Hi,
+On Mon, 2024-10-14 at 12:21 +0200, Quentin Schulz via lists.openembedded.or=
+g wrote:
+> Hi Katariina,
+>=20
+> On 10/8/24 8:33 AM, Katariina Lounento via lists.openembedded.org wrote:
+> > [You don't often get email from katariina.lounento=3Dvaisala.com@lists.=
+openembedded.org. Learn why this is important at https://aka.ms/LearnAboutS=
+enderIdentification=C2=A0]
+> >=20
+> > From: Katariina Lounento <katariina.lounento@vaisala.com>
+> >=20
+> > The list of valid statuses (`upstream_status_literal_valid_status`) was
+> > missing "Inactive-Upstream", which caused patchtest to fail the test
+> > test_patch.TestPatch.test_upstream_status_presence_format for patches
+> > containing lines like:
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0 +Upstream-Status: Inactive-Upstream [lastrelea=
+se: 2013 lastcommit: 2013]
+> >=20
+> > with the error:
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0 FAIL: test Upstream-Status presence: Upstream-=
+Status is in incorrect format (test_patch.TestPatch.test_upstream_status_pr=
+esence_format)
+> >=20
+> > "Inactive-Upstream" is documented in the Yocto Project and OpenEmbedded
+> > Contributor Guide [1]:
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0 Inactive-Upstream [lastcommit: when (and/or) l=
+astrelease: when]
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The upstream is no lon=
+ger available. This typically means a
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 defunct project where =
+no activity has happened for a long time =E2=80=94
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 measured in years. To =
+make that judgement, it is recommended to
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 look at not only when =
+the last release happened, but also when
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 the last commit happen=
+ed, and whether newly made bug reports and
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 merge requests since t=
+hat time receive no reaction. It is also
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 recommended to add to =
+the patch description any relevant links
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 where the inactivity c=
+an be clearly seen.
+> >=20
+>=20
+> I'm wondering if we simply shouldn't remove this status?
 
-On Sun, Oct 13, 2024 at 08:43:15AM +0100, Richard Purdie wrote:
-> On Fri, 2024-10-11 at 15:20 +0300, Mikko Rapeli via lists.openembedded.org wrote:
-> > These changes enable building systemd uki images which combine
-> > kernel, kernel command line, initrd and possibly signatures to
-> > a single UEFI binary. This binary can be booted with UEFI firmware
-> > and systemd-boot. No grub is needed and UEFI firmware and/or
-> > systemd-boot provide possibilities for boot menus.
-> > The uki binary can also be signed for UEFI secure boot
-> > so the secure boot extends from firmware to kernel and initrd.
-> > Binding secure boot to full userspace is then easier since for example
-> > kernel command line and initrd contain the support needed to mount
-> > encrypted dm-verity etc partitions, and/or create partitions on demand
-> > with systemd-repart using device specific TPM devices for encryption.
-> > 
-> > Tested on qemuarm64-secureboot machine from meta-arm with changes to
-> > support secure boot. Slightly different configuration tested on
-> > multiple arm64 System Ready boards with UEFI firmware, real and firmware
-> > based TPM devices. Tested with ovmf firmware on x86_64 with selftests but
-> > without secure boot which seems to be harder to setup in ovmf.
-> > 
-> > Sadly I see two wic selftests, wic.Wic2.test_rawcopy_plugin_qemu and
-> > wic.Wic2.test_expand_mbr_image, failing when executing all wic selftests
-> > on a build machine with zfs filesystem. Will investigate this further.
-> > The issue seems to be in mkfs.ext4 producing broken filesystem, and partially
-> > in the tests which don't run the correct rootfs file (.ext4 vs .wic).
-> > Will debug this further and it is IMO unrelated to these changes since
-> > they reproduce on pure master branch without this series.
-> > 
-> > v8: fixed comments from Ross Burton: debug print from warning to debug,
-> > ��� dropped duplicate DISTRO_FEATURE setting for systemd in tests,
-> > ��� removed aarch64 comment from tests which are currently x86 only.
-> > ��� Fixed the new aarch64 wic selftest to run on both genericarm64
-> > ��� and qemuarm64 by adding bios, virtio disk driver etc settings
-> > ��� for runqemu (already set in genericarm64 but missing from qemuarm64).
-> > 
-> > v7: add missing "ovmf" to runqemu argument to
-> > ��� test_efi_plugin_plain_systemd_boot_qemu_x86 to fix boot hang
-> > 
-> > v6: fixes wic refactoring botch which broken non-uki systemd-boot usage on
-> > ��� genericarm64 reported by Ross Burton <Ross.Burton@arm.com>, added
-> > ��� selftest to cover this wks usage on x86 and aarch64
-> > 
-> > v5: drop patch "image_types_wic.bbclass: set systemd-boot and os-release
-> > ��� dependency for all archs" since systemd-boot does not support all
-> > ��� architectures
-> > 
-> > v4: handle missing runqemu variable from build config, add
-> > python3-pefile to fast ptest list
-> > 
-> > v3: rebased, fixed and added more sefltests, removed wic plugin side uki
-> > support
-> > 
-> > v2: https://lists.openembedded.org/g/openembedded-core/message/204090
-> > 
-> > Michelle Lin (1):
-> > � uki.bbclass: add class for building Unified Kernel Images (UKI)
-> > 
-> > Mikko Rapeli (7):
-> > � wic bootimg-efi.py: keep timestamps and add debug prints
-> > � wic bootimg-efi.py: change UKI support from wic plugin to uki.bbclass
-> > � oeqa selftest uki.py: add tests for uki.bbclass
-> > � oeqa selftest efibootpartition.py: add TEST_RUNQEMUPARAMS to runqemu
-> > � oeqa selftest efibootpartition.py: remove systemd-boot from grub-efi
-> > ��� test
-> > � oeqa selftest wic.py: add TEST_RUNQEMUPARAMS to runqemu
-> > � oeqa selftest wic.py: support UKIs via uki.bbclass
-> > 
-> 
-> I'm still seeing failures in CI:
-> 
-> https://valkyrie.yoctoproject.org//#/builders/23/builds/249/steps/14/logs/stdio
-> 
-> which is despite setting:
-> 
-> https://git.yoctoproject.org/poky/commit/?h=master-next&id=6211ad9210e82a5a8dd157c63752ad332c2f5de6
-> 
-> QEMU_USE_KVM = "False"
-> 
-> into the test to ensure it doesn't have the issue the barebox testing
-> was seeing.
-> 
-> I've sent a patch to try and clean up the lock error.
-> 
-> There is also this:
-> 
-> https://valkyrie.yoctoproject.org//#/builders/76/builds/235
-> https://valkyrie.yoctoproject.org//#/builders/48/builds/181
-> https://valkyrie.yoctoproject.org//#/builders/54/builds/230
-> 
-> which is due to the binaries being run "in tree" within the edk2 build
-> as well as from the sysroot. This generates two sets of pyc files which
-> then conflict (or not) depending on which host the build ran on and
-> which pyc files are in sstate.
-> 
-> We're going to have to get this fixed before it can merge, probably by
-> deleting the pyc files at install unless we can find anything more
-> elegant.
+We (as a project) have had this discussion before. There are indeed two
+sides to this and I can see them both.
 
-Sent an ovmf-native patch separately for this.
+> I believe even if the project is inactive, we should still aim at=20
+> submitting patches in the event the project starts again, or maybe it's=
+=20
+> just that nobody has sent a patch for years and the SW works good enough=
+=20
+> for all people involved.
+
+Some of the inactive software has no place to actually visibly share
+patches. The other advantage to having a separate state is that it more
+easily allows people to focus on the areas where we can make a
+difference. It also gives us a big hint about which software poses a
+different set of risks if there is no active maintenance being done on
+it.
+
+Overall, I think having the state does have some benefits. I do agree
+we should submit where we possibly can though.
 
 Cheers,
 
--Mikko
+Richard
+
+
+
 
