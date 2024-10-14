@@ -1,82 +1,73 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09474D16243
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 11:21:36 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.52643.1728904895309577919
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA9BD16244
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 11:21:55 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web10.52646.1728904915146138196
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 04:21:35 -0700
+ Mon, 14 Oct 2024 04:21:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=IxnsLMH6;
- spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539f7606199so786285e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 04:21:35 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=di1jl/ef;
+ spf=pass (domain: gmail.com, ip: 209.85.208.182, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2fb2f4b282cso28704011fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 04:21:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1728904893; x=1729509693; darn=lists.openembedded.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=XhYHDc1CtNkm8+XnSFtM6DONT5VpKYNcUDTMPDLwOuA=;
-        b=IxnsLMH6HfOWgV3FI3Dybo6e9/vz2AZDVWMLVNvaqu0F+0Z9EqFUtV3MMIuYAd+V7R
-         tKB8vx2hVG37r6RO/4EZ9NEhAa8Uqkdqp1vZR7tAhaXZNctvUgLFny0SJweKMyeeaR50
-         mwCpf3qf+GA4MVUSw6v1Zio5S2PEyRKbuNJ85coPqN4eyq3PiSCap5Npu3VhDeFaq3m1
-         1USjk4b2sxisyYnaKFY1/X+dpOlt4cqJm99VQUsigkfvb4lwJacSYaDq2Pm4zG31txEV
-         6QCBKTsFrMPwYD46sMVjl0cnRiClylyFrQ564AuYelzws6bZ17e1557iUjcc+HWZCi6S
-         r5Ag==
+        d=gmail.com; s=20230601; t=1728904913; x=1729509713; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=90PIPkLzEUaZyejDuVnKPgFrseARFYt/laESC0xnSTk=;
+        b=di1jl/efZvTSVqeV5iiZBRErBkCWlsk1hcRKuRW8UQzltjRKP0vPAHWXpoLgDFcuuy
+         4WZubEEyviNSAoxVfnDmHD34p0AUiMvjGmx1iJtfxf67n81At0rrDFV0k3OyuBmeOs0s
+         aFcZdN8pWOnjWK5CxUXtJbnCGuo+MPNsmX99jVqVNXPeRrM5uMoETRdpEzSR1p19dkz7
+         lrlQd+3hhPqu1VSJL6PWlTcGCYHB+RBvC2StnZOmEtEen3HcO195twRQm22vpswJ1gCX
+         G7azuxLODSxN6o5yy3H9K5TBRfNKPTwAotOAxlwJBvfxotu7fsUpM0Ky5t/qq04s3pD7
+         S4kw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728904893; x=1729509693;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XhYHDc1CtNkm8+XnSFtM6DONT5VpKYNcUDTMPDLwOuA=;
-        b=UpFrTffRL1oYH8NxSL2iDh3Gdh6gTQUbzyZpgXRXuvHevjaiwWPgBLI9Q0yrlWMZMZ
-         KlcGTExMMZWMWmfnLkGWaVa7Z87AZejxaQAwvwWxnzcV6VhARMJ8GFBjFvyZYzly8a7o
-         AEMLNHg3HrwfGN4ey7L1/McZTVn3Y5g7faXYirRmn4h4w6gi1KGXHGLwy3g08V4IBDfe
-         ZgP9RBzbFnZ8mIgg6WLJqpveaPCi73N+vcbpYvjaYi2iBTZKQzsQ8YI1r9pVNDd7fBH+
-         DMXdKyvmEsabmhQqcoJJ/lRqZphS9Ln5QPJ/DZbaADGNBjc7Muzi9cyGGszLvPGpcjTl
-         0IrA==
-X-Gm-Message-State: AOJu0Yz321FZE/vOVmZAzepXbZvZcEPhookRxa+AviOkIqWEQZaJlK1n
-	xIu/sDhNUkESfJ7WY4ZS3hfVP0DOJkzEv4Qnn8Jb0KaBlYoNZW7X43W3s8w1lX8=
-X-Google-Smtp-Source: AGHT+IGKoHV7231GLabe4AFgX4XRV9CVE2VIjkxdM7qd4o+CAvWfJUH7Nl1IRqASVc3QQOGemM1Qiw==
-X-Received: by 2002:a05:6512:2808:b0:539:f961:f485 with SMTP id 2adb3069b0e04-539f961fae2mr1067233e87.29.1728904893358;
-        Mon, 14 Oct 2024 04:21:33 -0700 (PDT)
-Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539ebc799b8sm685193e87.2.2024.10.14.04.21.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 04:21:32 -0700 (PDT)
-Date: Mon, 14 Oct 2024 14:21:30 +0300
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] ovmf-native: remove .pyc files from install
-Message-ID: <Zwz-urTA8Jj69agg@nuoska>
-References: <20241014102817.40298-1-mikko.rapeli@linaro.org>
- <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1728904913; x=1729509713;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=90PIPkLzEUaZyejDuVnKPgFrseARFYt/laESC0xnSTk=;
+        b=eBuPT4U6FOrLe0QzsFCRBWPE/lnEA4hSrEZwtXXMIqZQe3zoYVj28wJc3UFyVAWZEx
+         of5PFWhwWKYm/HutzF2FSwpLsQmJwokKQAtOz8/nflMaTZ/l3UrDNsjqYi38YofbPRjN
+         9+LxDs0dAZXI4yf5hAjFpMoz1jFTuWrxypYeGu9ZhK0RM0+kH58+S6n4YmJbpAbjJDlu
+         F4QeG7pjpc3qR82WtkWWMjHc7mm7V3TlK6wB+e26UkcPsOevPYMLcQ+dWfBdFeobDiHK
+         UMYVBBSvUHupxQovXnqx3xgmwd26TtCwKZnygpcCbAiGv3g9p2xd8QzvKFi9fHqM0Is9
+         bfqA==
+X-Forwarded-Encrypted: i=1; AJvYcCVVe7bhIAoc8bQHawSIVDeS4dWsnOa2oUbxrjClyUKU0B/eyasDtEHast6aWE9gsn4gByioSjHkz/rw7rcIb6Libw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzTIiBQDAthw6FcbOuJrpyFOcKfdaApXr1an4KO83FW5nVoAdnV
+	ciJ/dL7HXJTdkPVudD/85c8iTMMuoy52gGyypA7Ald7znQAKwMyFcPQHAjA5hi4f8/gUnbKl8wl
+	O+dOr2LF6ke3QDCsFOm27q5J1SUY=
+X-Google-Smtp-Source: AGHT+IHadWrmHy9dchD27UCi/72JLf118qT/Pp9xm/iaH/fr3xqz8Q0uXsBo2FyRsD5IzfbnEIiiqMeEQuBegNHVdXw=
+X-Received: by 2002:a05:6512:130c:b0:539:96a1:e4cf with SMTP id
+ 2adb3069b0e04-539da4f8625mr5193122e87.32.1728904912652; Mon, 14 Oct 2024
+ 04:21:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
+References: <20241014091117.2953622-2-ecordonnier@snap.com> <17FE4CD5265CA76E.4702@lists.openembedded.org>
+In-Reply-To: <17FE4CD5265CA76E.4702@lists.openembedded.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 14 Oct 2024 13:21:40 +0200
+Message-ID: <CANNYZj8nd+27=qXYNpsrcZm-5C2RqaTt=cdAoV4tci=tW9PkaQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] makedumpfile: import 1.7.5 from meta-openembedded
+To: alex.kanavin@gmail.com
+Cc: ecordonnier@snap.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 11:21:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205752
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 11:21:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205753
 
-Hi,
+On Mon, 14 Oct 2024 at 13:03, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
+>
+> How was this added in the first place without bringing in this required dependency?
 
-On Mon, Oct 14, 2024 at 01:05:51PM +0200, Alexander Kanavin wrote:
-> This doesn't quite make sense. Why is the problem specific to .pyc
-> files and not other files ovmf installs?
+It was there from the start:
+https://git.yoctoproject.org/poky/commit/?h=master-next&id=a444eb5951112a4900665677b3bff323a8828e3f
 
-I don't know. At this point I'd rather remove all tests in uki
-support which are causing so many issues.
-
-I tried to dig deeper into ovmf native but it looks like a mess.
-meta-arm edk2 doesn't compile anything for native but just installs
-the python scripts and gets away with it. Same did not work for ovmf.
-
-Cheers,
-
--Mikko
+Alex
 
