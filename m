@@ -1,223 +1,148 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BC805D1626E
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 13:46:16 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.55484.1728913575053182067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F05D16271
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 13:54:46 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.55665.1728914082603086304
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 06:46:15 -0700
+ Mon, 14 Oct 2024 06:54:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Xjr8Afvn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4305413aec9so41819545e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 06:46:14 -0700 (PDT)
+ dkim=pass header.i=@snap.com header.s=google header.b=LearCxp4;
+ spf=pass (domain: snapchat.com, ip: 209.85.167.41, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539fb49c64aso932644e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 06:54:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728913573; x=1729518373; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=jqAEN5wnGPNrNpvssuFek37r/09fRBe2D6eluBj8IyI=;
-        b=Xjr8AfvnTzhVcfbQG0fYwroT7uwHWbdS4k9HqjNpF1Vn44+Z2j2zHNtiTMJZh7hte2
-         G7hUrVkB0zymUoV2+kS1njM43OHyGoR2VAzII1JmuKTKHwJh35FE1ciZP8MvM2bnraER
-         sNlKKeCJK549Jo839m2j4vhcLAr/ZP4I0yYmg=
+        d=snap.com; s=google; t=1728914081; x=1729518881; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=abKDVMNk5vTd0/OaaJmOGPGVZO5xIDf5Oz/z4k+Bh74=;
+        b=LearCxp4EOaVyW2VN8Bk6bRc5EdHepDoA3QkYGPh5rPyuc2WnI5yumqwF6Mqu0++35
+         LKWgH6GAN5kAm66yFjAP8rjkX6+n4EGmUbwLVCXQS0Ylt1cMPEo/Kb32wQS9e6IMLqde
+         o/nawt/9ay31R7/+DntSMx/llb5Z+dum/IxBU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728913573; x=1729518373;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jqAEN5wnGPNrNpvssuFek37r/09fRBe2D6eluBj8IyI=;
-        b=PQ0ZFVCGsA05U4kzY98a6MQl/0bWAl++n1urYxc/8jE86tGRqPtaW60Qu2LUnJqc1J
-         Zh6+mN7gney5nIcBAPD+RmpHKZPRKInRlSlUOT3e1FsLS171dq4IGpPYyIlVF5YJrvZ9
-         TvjKT1yKdx+if+pb6oA5l9Oy4UwdZFP9U4FoEP3rCK0UP1AfpzQt9kagH7iUUmlY31Eb
-         o2pn8XJQeGs2WhqBXrneBO5s5Qzv/0Ru25sTe3O6DSMBjOFkoHP8SoHCKOBDEeiqRMiB
-         OvSOQ5/tohf3GHc0zMbYCfWdWDkkfwt3Ba5kaOHF0whaLe+Z5lqNx6m98vOH0ie40E6T
-         Ij+w==
-X-Gm-Message-State: AOJu0Yw0yVK1klRQ5sOnMebJ2WkiQQaoTKqc/8MkZXpcUQJMG2QBcQvY
-	KN7JNNi2elNF/8FMeNEwAlEAmc2ZBM9KGOFrqK/wYLcM8PAHszUHrcMxCFwxot8MfybltBL+ZNJ
-	T
-X-Google-Smtp-Source: AGHT+IHFhzEEZTFxUy4RlM8mFqkeCr36wdg8aRf6TO4BdboL/VViJEzpzSq2IAcPnjZxeck4U1Df5A==
-X-Received: by 2002:a05:600c:3ba4:b0:42c:acb0:ddb6 with SMTP id 5b1f17b1804b1-4311ded3563mr105496855e9.9.1728913573106;
-        Mon, 14 Oct 2024 06:46:13 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4468:7613:7612:e2d5? ([2001:8b0:aba:5f3c:4468:7613:7612:e2d5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-430d70b4331sm155281885e9.36.2024.10.14.06.46.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 06:46:12 -0700 (PDT)
-Message-ID: <43a7cfaa3cc1304ba4c5c43a802d97d7edb06233.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Latest AB-INT unexplained mystery failure
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, Mathieu
- Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: Ross Burton <ross.burton@arm.com>, Chuck Wolber
- <chuck.wolber@boeing.com>,  Adrian Freihofer
- <adrian.freihofer@siemens.com>, Marta Rybczynska
- <marta.rybczynska@syslinbit.com>, Jon Mason <Jon.Mason@arm.com>, Michael
- Halstead <mhalstead@linuxfoundation.org>
-Date: Mon, 14 Oct 2024 14:46:11 +0100
-In-Reply-To: <17FE0CA1425F2338.24631@lists.openembedded.org>
-References: <17FE0CA1425F2338.24631@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        d=1e100.net; s=20230601; t=1728914081; x=1729518881;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=abKDVMNk5vTd0/OaaJmOGPGVZO5xIDf5Oz/z4k+Bh74=;
+        b=aLluJzLqXRrkWopQLPK4HMt8mfF1jUsudntyVxTBKtCaq1w6krjgWXhzFMbh/gimzz
+         bqcjmCLp1gL0Pxx/JB+i2+/qgYY+1WU2s6XLoI2/byRqY/gonlrXePsnaR71C64+3FLI
+         rkEFn/60csLxWziwvnRVd2Yh1YnHk8R5xuqUCM6oTd0N487EVirWMvXSXnD0/Pt0fui1
+         FYbLiDdVxMkfLPakAx6gjGy5WPRfg+VmNJGDMYeojIfxJJXJXbEkba1Z9ULI0w05r28g
+         r2Y9ytDiL//7rwGCXeNMl2+a549mJqEwpbHqEAyzzWHeFLqwaPEJQqvV3fNNxbsNA6kX
+         kt3Q==
+X-Gm-Message-State: AOJu0Yxf7ObQgd4A/lii81yb/wD4AkJ9Ro+l7akX6ZCIXUO/mJsJE+NY
+	5dC1aPXB/5XK1nET6PR4jX2e0NIiMtMH2R3DLdRilKbajztthrcGiG/VpjqXPu6R92c81pFh1i0
+	HUE2YqG8AR9UB48H3SVWsnlFRtK27sn4hKZAbgg==
+X-Google-Smtp-Source: AGHT+IEANyLxK4oOEEBsfNKs9trsTHRIT6q9Eq0uCBc8Fb/DpFQR/cnR+zBRNI6bXzZQDjNppmhXoXt9GXMUZ8LdSME=
+X-Received: by 2002:a05:6512:3083:b0:536:53e3:feae with SMTP id
+ 2adb3069b0e04-539e54d7737mr4285522e87.11.1728914080500; Mon, 14 Oct 2024
+ 06:54:40 -0700 (PDT)
 MIME-Version: 1.0
+References: <20241014091117.2953622-2-ecordonnier@snap.com>
+ <17FE4CD5265CA76E.4702@lists.openembedded.org> <CANNYZj8nd+27=qXYNpsrcZm-5C2RqaTt=cdAoV4tci=tW9PkaQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8nd+27=qXYNpsrcZm-5C2RqaTt=cdAoV4tci=tW9PkaQ@mail.gmail.com>
+From: Etienne Cordonnier <ecordonnier@snap.com>
+Date: Mon, 14 Oct 2024 15:54:29 +0200
+Message-ID: <CAHUKmYYcf3a3SRhwfsh3ay0jvT8CQ_Oet4YiX_KJY2KhbN6MSw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] makedumpfile: import 1.7.5 from meta-openembedded
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000009e087b0624702db3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 13:46:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205777
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 13:54:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205778
 
-It was suggested I should write down a list of other issues we have on
-the autobuilder right now. Some of these are related to the transition
-to new infrastructure, some are previously seen issues occurring more
-frequently, some are entirely new. I appreciate these should all have
-bugs. I'm copying various people including those helping with SWAT so
-we can transition those we don't get solved into bugzilla.
+--0000000000009e087b0624702db3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-a) insane do_package_qa intermittent failures
----------------------------------------------
+@Alexander Kanavin <alex.kanavin@gmail.com> :
+- kexec has been in poky for ages, and then in December 2015 the commit you
+mentioned added a hard dependency to makedumpfile in the kdump script, but
+did not create a recipe for makedumpfile (which did not have a recipe at
+that point).
+- A makedumpfile recipe was added in July 2016 to meta-openembedded
 
-Two levels of probems. The cachedpath code returns False instead of
-exceptions so there was unexpected API changes. The recent insane
-changes also stopped handling DEBIAN files correctly leading to races.
-This is perhaps the best backtrace we have:
+Without makedumpfile, the script is quite useless. After a kernel panic,
+the device reboots to the capture kernel, the kdump script fails, the
+device reboots to the normal kernel, and /proc/vmcore is not available
+after the reboot.
 
-https://valkyrie.yoctoproject.org//#/builders/43/builds/246
+=C3=89tienne
 
-Who/Plan: RP has a partial revert for the first part to fix builds.
-Ross is aware and working on the second.
+On Mon, Oct 14, 2024 at 1:21=E2=80=AFPM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
 
-b) docs build failing in missing inkscape
------------------------------------------
+> On Mon, 14 Oct 2024 at 13:03, Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > How was this added in the first place without bringing in this required
+> dependency?
+>
+> It was there from the start:
+>
+> https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctoproject.o=
+rg_poky_commit_-3Fh-3Dmaster-2Dnext-26id-3Da444eb5951112a4900665677b3bff323=
+a8828e3f&d=3DDwIBaQ&c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2epckfdiw&r=3DAhk=
+bNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&m=3D-GKFH-1LTTm97Sf5LaewiisHB28UDn=
+40IHPACIZv8Urz1wvHWxzNq4f_v9xQTv_Z&s=3DvkBlYgnxz79yc9tJfWsFBn_Mm4sgtp7EUAbT=
+g-BH53c&e=3D
+>
+> Alex
+>
 
-e.g. https://valkyrie.yoctoproject.org//#/builders/34/builds/9
+--0000000000009e087b0624702db3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-We could install inkscape on all the workers but I'm reluctant to do so
-as it starts to add large dependency chains potentially and reduces our
-host dependency checking. We could to with other tools to generate pdf
-and epub docs during release and docs builds too.
+<div dir=3D"ltr"><a class=3D"gmail_plusreply" id=3D"plusReplyChip-1" href=
+=3D"mailto:alex.kanavin@gmail.com" tabindex=3D"-1">@Alexander Kanavin</a>=
+=C2=A0: <br>- kexec has been in poky for ages, and then in December 2015 th=
+e commit you mentioned added a hard dependency to makedumpfile in the kdump=
+ script, but did not create a recipe for makedumpfile (which did not have a=
+ recipe at that point).<br>- A makedumpfile recipe was added in July 2016 t=
+o meta-openembedded<br><br>Without makedumpfile, the script is quite useles=
+s. After a kernel panic, the device reboots to the capture kernel, the kdum=
+p script fails, the device reboots to the normal kernel, and /proc/vmcore i=
+s not available after the reboot.<br><br>=C3=89tienne</div><br><div class=
+=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 14, 2024=
+ at 1:21=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gm=
+ail.com">alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=
+=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
+b(204,204,204);padding-left:1ex">On Mon, 14 Oct 2024 at 13:03, Alexander Ka=
+navin via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.c=
+om@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.o=
+rg</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; How was this added in the first place without bringing in this require=
+d dependency?<br>
+<br>
+It was there from the start:<br>
+<a href=3D"https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yocto=
+project.org_poky_commit_-3Fh-3Dmaster-2Dnext-26id-3Da444eb5951112a490066567=
+7b3bff323a8828e3f&amp;d=3DDwIBaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC=
+2epckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D-GKFH=
+-1LTTm97Sf5LaewiisHB28UDn40IHPACIZv8Urz1wvHWxzNq4f_v9xQTv_Z&amp;s=3DvkBlYgn=
+xz79yc9tJfWsFBn_Mm4sgtp7EUAbTg-BH53c&amp;e=3D" rel=3D"noreferrer" target=3D=
+"_blank">https://urldefense.proofpoint.com/v2/url?u=3Dhttps-3A__git.yoctopr=
+oject.org_poky_commit_-3Fh-3Dmaster-2Dnext-26id-3Da444eb5951112a4900665677b=
+3bff323a8828e3f&amp;d=3DDwIBaQ&amp;c=3DncDTmphkJTvjIDPh0hpF_4vCHvabgGkICC2e=
+pckfdiw&amp;r=3DAhkbNonVuMIGRfPx_Qj9TsRih1DULJTKUkSGa66m67E&amp;m=3D-GKFH-1=
+LTTm97Sf5LaewiisHB28UDn40IHPACIZv8Urz1wvHWxzNq4f_v9xQTv_Z&amp;s=3DvkBlYgnxz=
+79yc9tJfWsFBn_Mm4sgtp7EUAbTg-BH53c&amp;e=3D</a> <br>
+<br>
+Alex<br>
+</blockquote></div>
 
-Proposal is to add a new buildtools-docs target to the AB which can
-pull in the meta-oe layer and build a more fully features docs
-buildtools. This would also be useful for the screenshot QA imagemagick
-tests we want to add.
-
-Who/Plan: TBD
-
-c) source mirroring failing on AB
----------------------------------
-
-https://valkyrie.yoctoproject.org//#/builders/82/builds/15
-https://valkyrie.yoctoproject.org//#/builders/82/builds/16
-
-Sources are still mirrored off typhoon but we've stopped that cluster
-and are running off valkyrie. This could mean sources don't appear
-"fast" in the mirror until that mirroring moves to the new NAS.
-
-Who/Plan: Michael to transition mirroring to run of valkyrie NAS
-
-d) CDN artefacts are failing
-
-Same deal as sources, we need to move the mirroring to be based off
-valkyrie's NAS.
-
-Who/Plan: Michael to transition CDN to run of valkyrie NAS
-
-e) bitbake server timeout issues
---------------------------------
-
-https://valkyrie.yoctoproject.org//#/builders/48/builds/185/steps/14/logs/s=
-tdio
-
-I've saved=C2=A0
-
-https://valkyrie.yocto.io/pub/shared-failure-data/fedora41-vk-1-selftest/
-
- - the json logs are something we've not had before for that
- - the key message in cookerdaemon is "Idle loop didn't finish queued
-commands after 30s, exiting."
- - that message is there twice, it failed twice
- - can we decode the json logs and get timestamps
- - looks like it happens in particular in the siggen code?
-
-Who/Plan: TBD
-
-f) CVE database corruption
---------------------------
-
-See list discussion:
-
-https://lists.openembedded.org/g/openembedded-core/message/205715
-
-Has a bug:
-
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D14899
-
-I'm at a loss on this one. Started to wonder if an rsync job is
-trampling the file. Check with Michael.
-
-Who/Plan: Ask Michael about rsync job
-
-g) Toaster test issues
-----------------------
-
-Toaster testing is more intermittent on the new faster workers. Have
-some patches in progress but is has highlighted issues with the tests.
-
-Help in changing "assertTrue(X in Y)" to "assertIn(X, Y)" in the
-toaster tests would be welcome. I've made a few patches, more are
-needed.
-
-Help in being able to delete a project from the database before
-starting tests would also be useful. Having trouble doing it in the
-tests themselves due to database locking and can't work out the way to
-call the rest DELETE API from selenium yet.
-
-My plan is to length the timeouts and drop all the sleep/poll calls,
-clean up the timeouts. This will make the tests much faster too. This
-does mean adding "wait for alert to display" code. Have tried doing
-this but tests need fixing.
-
-Who/Plan: RP has ideas but would welcome help. RP needs to send
-"debugging toaster tests email with tips".
-
-h) weird networking issues causing test failures
-
-See original email in this thread:
-https://lists.openembedded.org/g/openembedded-core/message/205723
-
-RP is at a loss.
-
-Who/Plan: TBD
-
-i) rust toolchain test failures mips/ppc
-
-e.g.: https://valkyrie.yoctoproject.org//#/builders/21/builds/226
-
-Who/Plan: Need to write email asking for mips/ppc help. Can
-Adrian/Chuck help?
-
-j) SPDX build warnings
-
-RP hasn't merged Joshua's patch. Need to include in next testing run
-
-Who/Plan: RP to test and merge patch
-
-k) ssh test still causing failures
-
-RP's fix looks to be incorrect, changed the wrong number. Correct fix
-queued in master-next
-
-Who/Plan: RP to test and merge patch
-
-
-I'm sure there are more but I've put the ones I have in my head down
-for now. I'm pretty sure people find fixing one issue painful, trying
-to keep track of this many in my head is bad enough without trying to
-fix them! Help on any of these is welcome.
-
-Cheers,
-
-Richard
-
+--0000000000009e087b0624702db3--
 
