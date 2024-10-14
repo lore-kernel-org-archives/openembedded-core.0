@@ -1,135 +1,90 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1FACD1A43B
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 10:56:15 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.52239.1728903372825721796
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6567D1A443
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 10:56:35 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.52243.1728903392569793266
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 03:56:13 -0700
+ Mon, 14 Oct 2024 03:56:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bj8aKqg7;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fb2f4b282cso28430811fa.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 03:56:12 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BpagaoNs;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-431137d12a5so38831075e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 03:56:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728903371; x=1729508171; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bnbgMfggXZ8Qz/PRvr7I/AUC9s5P4hTRGrXXBKL/O9E=;
-        b=bj8aKqg73rpPbYP1VxHuC03qqucNk/B7qB4/qm2kraNvcNfbPaEnCJ2UnLCYW62jdU
-         0eSZ2K8yeBNYm2l66UE0EF0Qah9+lilEzr+OLO9a0U4r5xwBMOyP4Cc164cpXUN7elvB
-         tYxqqKnU7I6GUya+vOwnLIugKEqfENZQpOcPcQuRMMtImXiNfkSaojWh7cI29Zgr8xXs
-         ONJGeYDmBw4CewRCywEZUfwKtUSynrkbo7uoUGdLViWhtZd1DV5XTFwu+R+HFkNTtciI
-         gMLj34k3VJWyiVebmxZkoazZlJFhYLqg3G8URTqBb0GXOGOXyfV2jOQQu3IRiTIAyyhQ
-         7VKQ==
+        d=linuxfoundation.org; s=google; t=1728903390; x=1729508190; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HWpYLpupBbFpsJgmVBYR6OZ28gJA0t/6qeSqkOEXhmI=;
+        b=BpagaoNshNtrMya0lgULe62AlXvIFFpXhwhRm98OE4Ja4kpib3Blj8tE5YYl8xiwfF
+         Op9ah8BoO5AF+y84YplEdL+3CgaJjbyS9J2zPmRrgbA0JLrI3QXjgBak7luIQjP3IvDv
+         jgfIM5nAIxLsRkx0gaZxCURo3Jmn8oLvG/uiU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728903371; x=1729508171;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bnbgMfggXZ8Qz/PRvr7I/AUC9s5P4hTRGrXXBKL/O9E=;
-        b=rgYYiiBSSkgPlEzLCYW68Slda2rbPKcChkB2LhkD+YX7gxiI6VHGcbwVgqyunYPdoI
-         DcXcck+ycmLNigI7bL1fgu/L6SIg5Y+OqRimBxa8Ks2MHetXFA5TMG6Dyy4bSI+QeNSN
-         QazFDk6LxYiBsweVEJArbZYGc4hwpBz7YJiAb+sNsUpZkK+OGPI1/8zdaZP0QoAjbNvz
-         5VoZtUz8p/DFf2gEvXk4l37o4nTpA7+bAGnLqwKhSU7Ofyz4vd2oMtNy6gpgFhDhInrX
-         +wdaOL5F5cL0zhCLpros25uqxLrEw0MarknmNuH5IGdnnn1RATzaXPfZdp6FlrZZWsL3
-         3YrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWHvGS+aYiJVIs4oN+66obGR2wd2FRWOTj2eqBWz8oDDo0+HR7b3+W/6SSPOn7t8VBD/uRkpEppzqN6A5SiiYcNFg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxEBq5sNtfG8wmuki6sMlb0EenNMs3/3Q7NixN25qIRcvfqeqEs
-	lfvv8mZwjTo/2sTkeVbz3M5Q0Yml9SrdtmkEBVLrNc4MtpCTuzGYvxH1vxmzPwmrFGTLRLIMofB
-	NLN5hRRpVy73zhQdeTdbC8LKlJI8=
-X-Google-Smtp-Source: AGHT+IGEGf65s+JOPHdMJvOlmIw8MELoVg3l8aLflXpq6Dw6CYs9coxmEfb7RWz1+o7WcOK+6/SHa42GEzl/Y1MxzqQ=
-X-Received: by 2002:a05:651c:221d:b0:2fa:d58d:dcf3 with SMTP id
- 38308e7fff4ca-2fb329e7a7bmr49935321fa.33.1728903370296; Mon, 14 Oct 2024
- 03:56:10 -0700 (PDT)
-MIME-Version: 1.0
-References: <20240930-6-11-kallsyms-truncate-v1-1-47fc9143fff9@cherry.de> <2ef09961-4074-44c4-bb7a-d1e1fa17613e@cherry.de>
-In-Reply-To: <2ef09961-4074-44c4-bb7a-d1e1fa17613e@cherry.de>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Mon, 14 Oct 2024 12:55:58 +0200
-Message-ID: <CA+chaQeNUSUW13FjaH7Vn3Yq3iTE_=XwYVhFKfsjLB9YX_5Aag@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH scarthgap RFC] bitbake.conf: Add truncate to HOSTTOOLS
-To: quentin.schulz@cherry.de
-Cc: Quentin Schulz <foss+yocto@0leil.net>, bruce.ashfield@gmail.com, Ross.Burton@arm.com, 
-	openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
+        d=1e100.net; s=20230601; t=1728903390; x=1729508190;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HWpYLpupBbFpsJgmVBYR6OZ28gJA0t/6qeSqkOEXhmI=;
+        b=ZKpM5qwl96aSr5OGKy2QnbiiQEKdE3icPdbXW01oUJ2DeH0RqT0T3MPNnX+c4Tt4cH
+         1X1YGUp0HbroHIKsmc6mC8XHtbxIc47R+lltR568Yvo3gLtxnAVZrxjzNrX0jj7es00i
+         dtoompuY6xlP70RPpigb4+aZX7tBuCu2wYo668ISs04Sf8SR0w2XXZK3PBpoZByq2GAR
+         VhaKgaTEcl2bOEBO4KGV2mzPfcS8Wxqu76ok//jZryDAe6D9qDEBmq2q0cBtUHWIU2w3
+         X/LJCjKSEcN4msvy/J6A1U7LWR6bRFlmJqlf1sYGwPgp+nFQlm/86MOdPUn7a6lvmxLw
+         MxVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVBrT2UrhzEluTTliCYpcRyVcOQTx0knsm88TT2HGaxiRY6bdtGlYpowXapeJcHKHCgndMpibYcPd3Kte+j/u3jtA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzfmHEviEqIaZve0vAFaDnZ6VyX2TR6uepzZqxJQ4V59WTyT7AP
+	IFpNg69aetqDt2gDheUxZyKq73WU74KUnBNqxQ6vGSfCh9NEJkCfgaEmeirVthc=
+X-Google-Smtp-Source: AGHT+IGMECxLaVxL4wAY2PooRniiUtIvgwO8XnDnQZy+WHUTG0IxbSTFZdPkfHVcVBeErshjzewB1A==
+X-Received: by 2002:a5d:4dca:0:b0:37d:4c40:9ee with SMTP id ffacd0b85a97d-37d5529f09emr7425103f8f.42.1728903390537;
+        Mon, 14 Oct 2024 03:56:30 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4468:7613:7612:e2d5? ([2001:8b0:aba:5f3c:4468:7613:7612:e2d5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b79fa0asm11046805f8f.83.2024.10.14.03.56.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 03:56:30 -0700 (PDT)
+Message-ID: <d3073a746333b36219bfab0a463283130785e998.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] patchtest: add "Inactive-Upstream"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: alex.kanavin@gmail.com, quentin.schulz@cherry.de
+Cc: katariina.lounento@vaisala.com, openembedded-core@lists.openembedded.org
+Date: Mon, 14 Oct 2024 11:56:29 +0100
+In-Reply-To: <CANNYZj92q0=xDr5UdPTRYM4F6Nehripqtwdi_VScM20HM094GA@mail.gmail.com>
+References: <20241008063325.62462-1-katariina.lounento@vaisala.com>
+	 <99bb8bf7-a873-42a6-8dcc-23dd7c055c78@cherry.de>
+	 <CANNYZj92q0=xDr5UdPTRYM4F6Nehripqtwdi_VScM20HM094GA@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 10:56:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205747
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 10:56:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205748
 
-https://git.openembedded.org/openembedded-core/commit/?h=3Dscarthgap&id=3D8=
-5451cdaee4718233211da1e43db01f5cd2b1aff
+On Mon, 2024-10-14 at 12:52 +0200, Alexander Kanavin via lists.openembedded=
+.org wrote:
+> On Mon, 14 Oct 2024 at 12:21, Quentin Schulz via
+> lists.openembedded.org
+> <quentin.schulz=3Dcherry.de@lists.openembedded.org> wrote:
+> > I believe even if the project is inactive, we should still aim at
+> > submitting patches in the event the project starts again, or maybe it's
+> > just that nobody has sent a patch for years and the SW works good enoug=
+h
+> > for all people involved.
+> >=20
+> > What do you think?
+>=20
+> As someone (you could say, the only one) who actually does the work of
+> submitting the existing Pending patches in oe-core
 
-On Mon, Oct 14, 2024 at 12:54=E2=80=AFPM Quentin Schulz via
-lists.openembedded.org
-<quentin.schulz=3Dcherry.de@lists.openembedded.org> wrote:
->
-> Hi all,
->
-> On 9/30/24 12:36 PM, Quentin Schulz wrote:
-> > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> >
-> > Some wic images need this command. Since it is part of coreutils, it do=
-esn't really
-> > cost anything to have in HOSTTOOLS and it avoids signifiant build depen=
-dencies on
-> > coreutils-native.
-> >
-> > [YOCTO #15571]
-> >
-> > (cherry picked from commit 522000ce5c4f0201cbe42d7826b6a8489ed10117)
-> > [necessary for building Linux kernel >=3D 6.11 with CONFIG_KALLSYMS, c.=
-f.
-> >   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
-mmit/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95]
-> >
-> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
-> > ---
-> > The Linux kernel in its 6.11 release or later, with KALLSYMS config
-> > enabled, will now fail to build because truncate host tools is
-> > required, c.f.
-> > https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/comm=
-it/?id=3D1472464c6248575bf2d01c7f076b94704bb32c95
-> >
-> > but the kernel recipe doesn't depend on coreutils-native, which is too
-> > big of a dependency for what it brings according to Richard (for the
-> > original patch destined to wic) and Bruce (as discussed over mailing
-> > list for the linux-yocto recipe).
-> >
-> > Let's backport a patch that was implemented for something else (wic)
-> > from styhead/master as truncate is pretty much guaranteed to be present
-> > on the host with hopefully no compatibility issues between
-> > implementation.
-> >
-> > Marked as RFC because it's a "big" change and I don't want the ML to
-> > just gloss over it without questioning it :)
-> >
-> > Note: I'm currently NOT building that kernel in my layer, but it'll com=
-e
-> > at some point next year, though I did hit this issue when doing a very
-> > quick test with a local tree.
->
-> Any feedback on that patch?
->
-> Cheers,
-> Quentin
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#205745): https://lists.openembedded.org/g/openembedde=
-d-core/message/205745
-> Mute This Topic: https://lists.openembedded.org/mt/108733316/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Just to be fair to those who have helped, that isn't quite true ;-)
+
+You do a lot of it and it is much appreciated though :)
+
+Cheers,
+
+Richard
 
