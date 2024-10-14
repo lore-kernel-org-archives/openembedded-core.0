@@ -1,168 +1,318 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <ecordonnier@snap.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65F3ACFC503
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 08:28:03 +0000 (UTC)
-Received: from EUR02-AM0-obe.outbound.protection.outlook.com (EUR02-AM0-obe.outbound.protection.outlook.com [40.107.247.113])
- by mx.groups.io with SMTP id smtpd.web10.50170.1728894474603875736
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C830CFC525
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 09:12:35 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.50722.1728897145633795909
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 01:27:55 -0700
+ Mon, 14 Oct 2024 02:12:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=rIT6xUQv;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.247.113, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZuzE1ucY1ngtW4YVADvLuGSgjaGYuoTlCE7PBKTIhl3Z9ShHlEt13e4ylG96PaGLoso4vV47G0e9TigbD2YH8/qp3UahDRojzOwhp8fw48hX+edgdbfrLESKa1EjYDftX4Umyc2eg4WFAYAuMsriA75lNEfT63v+yez5DFACswJbsXq5rtk7Y71DMNIXR4ETfcNXDI7xSpXCmC6RxNW7kMt8oi9ZiRFVnDg/QeH1i3QsBlPEPfyTfPCUo5UvbKbpOsFf2SkjIEidUDbDHWlUqzTQ6tWZxXMTeSDasgHtBGqToYuTD7KsaFUjzA2lCQ2Ogt1gsqNkn00X+zTlKVrfAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LRPACjcE1bGPwC8hM1OeEBFuRMad8quODlGkOAfmt90=;
- b=mNx0c+G8imJeGsqN1MMgdQ9EVEgKGz5wseYXEwyvdZHXxu/Ak8+z3KQzvqd+fcEHw206E1ZRpWj8wz+wVk1Q8LvD2VcKTzYMkYv0/aTojU1jb8NxjtTDlICM63eOYY5tlMhtFsVWAeHBZQyDOYoiaCxc7LhUZceca29SC0M93liEgdzMOV5vyJUf6EVzIjLpyTR4g8DAIcghTzCQHhUnawuLi/27v7ytyEpRSFyy/mhsP76vGcTN/ZmI4KmlXNNEWRD0+hOSCL9k6JIXvXn+q3/f1OAJ9O4No9+5XrQxlASyPLaGUTxhGVx2k9RrDVuE9P7Prd+7Jlp6yTRvhZsQYA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LRPACjcE1bGPwC8hM1OeEBFuRMad8quODlGkOAfmt90=;
- b=rIT6xUQv34qw1daXNhay9xj9f6z+dye2Y2Z4++KScq8Qgy2Pwgl/JVocnRcBuLoM1WkL5QeDI8nCgvUvfsOK2hjf8KiA8rDnks0dki12ZdRu/qx7P2UUJFBEVo80kOjMZ8WSclFdSzAg9erWu5jlXOcj6oaO0LGdHTc7e7rpXRiwsxzEGtx9yCul72WcgoIUo2B2K618zGfGk6l229YvFc/es4XrdW3oOQjSSvVAg2ciB0jRWX8U9Eq/bh3icok1C1oLu2EA5uzXZZpHPe8qY7I+thIL0NPjfvwaY7Q87td0wk76IQTl+z3/xliBdTy+Ezt2bZNf+dOi3zUF6gchlg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by VI1PR06MB6560.eurprd06.prod.outlook.com (2603:10a6:800:121::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8048.26; Mon, 14 Oct
- 2024 08:27:31 +0000
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc%6]) with mapi id 15.20.8048.020; Mon, 14 Oct 2024
- 08:27:31 +0000
-From: Niko Mauno <niko.mauno@vaisala.com>
+ dkim=pass header.i=@snap.com header.s=google header.b=Ut5HVi8H;
+ spf=pass (domain: snapchat.com, ip: 209.85.167.47, mailfrom: ecordonnier@snapchat.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539e1543ab8so3599522e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 02:12:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=snap.com; s=google; t=1728897143; x=1729501943; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=LgxOAIA+tu8ZaNhO5eVkRuGjgd/iEyPEPkQHZTMETMU=;
+        b=Ut5HVi8HuWKxRTs9qLhDIfMlTJcmjVR/q2qmixHxDRNnJLwzcuMF4QpQIT2RsIksDC
+         cPHGEmVLFLr7c88ihEz0VVTfnp1nOXrSsAxBlyvlcCYkvEjEC7VHajvyH1W+wx8YDCzh
+         bupWD/BSNqEQqsuozKXJb5qOYL+JVluc2CcAo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728897143; x=1729501943;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LgxOAIA+tu8ZaNhO5eVkRuGjgd/iEyPEPkQHZTMETMU=;
+        b=Y99lDhu6BwVHRQAdowPROOWzPv1hzl4up9w16JNpiWBNuAc740P1728dC8Vl5hYNSb
+         g/wV9M/PEpanMJdYwmtTMLJW0O+1stB7V5Ayfifv7sn8TUxCw4T9mxSqhS6s8VQp0Y0o
+         Vn6LHx7+sijgn++evgpWuU0Oew0QqMHv1RjKFnGrcY9AXUp3ApFBpeJKH1N8b/a21b3a
+         f94s6STQQyTKnlTbGdL2Q9K1EJfG5sOTenmlzNG4LgndM4HS3mseTNazbz5XeUUCOxhs
+         4YFbWnrQkIkqY7U+SRPbP18wzdLzLkjGYQJHtZIeZBvcBhOOLJlALEN+OIDgDY0YaYfM
+         uajA==
+X-Gm-Message-State: AOJu0YwyPUh5jo7SDWYBEsB9e7rZ/8V92gHYhvC10tVpZUOSYrZFV8ky
+	CPUSi/YfSGN//VxYiy+FkKo4RQg1HwVbDhhPItp2Q/HTOGxsYI0YnGt7XnTM0NygwK7qTNLc3eL
+	dXuA=
+X-Google-Smtp-Source: AGHT+IH4eK0pRRLeuguqiNCC2OMb0WtNAz6DpHqjdeh/r2tGbotCkGG3Ipw5kzTM3wULUo/HHPkjyw==
+X-Received: by 2002:a05:6512:39c7:b0:531:8f2f:8ae7 with SMTP id 2adb3069b0e04-539e550179cmr3568122e87.25.1728897142747;
+        Mon, 14 Oct 2024 02:12:22 -0700 (PDT)
+Received: from lj8k2dq3.sc-core.net ([85.237.126.22])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a1769f539sm53547766b.162.2024.10.14.02.12.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 02:12:22 -0700 (PDT)
+From: ecordonnier@snap.com
 To: openembedded-core@lists.openembedded.org
-CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH 2/2] bitbake.conf: Mark VOLATILE_TMP_DIR as obsolete
-Date: Mon, 14 Oct 2024 08:27:04 +0000
-Message-ID: <20241014082704.841698-2-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20241014082704.841698-1-niko.mauno@vaisala.com>
-References: <20241014082704.841698-1-niko.mauno@vaisala.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GV2PEPF000045B1.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:401::41d) To AS4PR06MB8447.eurprd06.prod.outlook.com
- (2603:10a6:20b:4e2::11)
+Cc: Etienne Cordonnier <ecordonnier@snap.com>
+Subject: [PATCH] makedumpfile: import 1.7.5 from meta-openembedded
+Date: Mon, 14 Oct 2024 11:11:18 +0200
+Message-ID: <20241014091117.2953622-2-ecordonnier@snap.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|VI1PR06MB6560:EE_
-X-MS-Office365-Filtering-Correlation-Id: b595d264-4a79-4d3c-7366-08dcec2a0bb5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|376014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?vVR+Zx/aQObSm+y65oOKyzkiKpCd5e+pPs6v75tI2pCrvW1xiQ4WD30nyPA/?=
- =?us-ascii?Q?PAChadMH10Qj3s5oHNw+zYxX4BTHoMfso13Daw2sJW8aux42FXOm0RKO88W0?=
- =?us-ascii?Q?G2ybbCSxxAezxevvNrtsITCEEh1nsNoa6gIxM+84XKXHWAgOORNKru8UlPFD?=
- =?us-ascii?Q?S5ctJjRM9TBA7aQNKx4PZSgnm8Btly/zBHxdxq7Lb5Qr9hwX2Nxrg44iWKhM?=
- =?us-ascii?Q?hGZ6jiDZAK8XmWHMUw/kzvcX4wU44YsfYfOOXZiWheRWABot3MEEFiPoldMn?=
- =?us-ascii?Q?Jbou+CqAvTDDrk2mQIoB2mFPn0Cz5WfrV9GcX7Qw4ZB6ty4FdYAOXsQSBQOd?=
- =?us-ascii?Q?cBq2zueFTzlalNPA3IrJigjO4EACy+mGnFdX6kv2AzMk79VDJcvJKWZOA2eH?=
- =?us-ascii?Q?pomykamDzn556gcmP9u/I5tNJN5fPAM8j+xSvDId4Oweq1WyPHtQrWv8JKvY?=
- =?us-ascii?Q?A4++jA/vX5at6HhWyMBImyJSxSHaB72n3TIJDRkdUnJzDv3ySWtbAFnPCUCr?=
- =?us-ascii?Q?mawl0hDVPNsd4auC8tkRf9LdyWRw7qpFMWXA5fzct6V/Ybho/ua+7oGfzi5r?=
- =?us-ascii?Q?Mt+tw/EYot5880p2a/oYrTTZW2xPZejmCMvNKZcD/jYkd8PiuThT6YPIRWva?=
- =?us-ascii?Q?TSe8DGAHi28cuHDjWOu3douGOUdeYuEEnvEil5bJkNHRSr3dHusVMy7TGnpX?=
- =?us-ascii?Q?f589Rg1DsXwvt29JsiHoh3EBVWYOuQH6zdE9IGek6aLb5zSAjOTzIo00m/AY?=
- =?us-ascii?Q?aO9WS7sz1DLseePEIM/avn18enHB9nT/i3ptqhmgG9E/ownsq2v5fjA7WIF4?=
- =?us-ascii?Q?wmRhJEYo9cOaO6RS0TITpUU+JfADa/0SeVFF8+EgmUqBGfWCR5bFXKSjNEQG?=
- =?us-ascii?Q?0H5AKMs5mcdcU79OLa8g7+io/gYqA2MC/Qjo0fihp5IFvAkDS/wJeDNNLq/9?=
- =?us-ascii?Q?JDKsKhcTU4h93eiKj0In/3OhkTpxIpsZlIrO45eeYQfE2W29Tah3qWqrlnql?=
- =?us-ascii?Q?PEwtELQ1xeBvBP5gaFYA6vEFTUocAHgVcc8lq3K/xL84XVJHqcGYx6Ro/ZwS?=
- =?us-ascii?Q?hddoEC8BKw4NAP5OM32lpoez3WEB4dfDJ2Is4N1aUaCAcTZErMQcffkhq3AN?=
- =?us-ascii?Q?KlOoXQB75I6cxF10qMDefjHIOJaAdTf/WNKrtDsOuPvNeQPomttQsInWxZDq?=
- =?us-ascii?Q?8T86z43eEj4LBK38JP2utA7HVeQkZh0uX67Axb1Gto5SuK8otAVUzuZkDkL4?=
- =?us-ascii?Q?lDFccIvctDI7JdVRM9w+1XfxKvv5UK+vYDTyKr4R1w=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?082wQAP2tE5fXKcwcoxs68RvQfHhnGV9IswrSNu9v9vzEQmuLyTnqnwfdMVb?=
- =?us-ascii?Q?9lWaf0xVRXIWBTKk0XB5OmrqCB1fjXDKyN726Q7ZJ+dEJUzg/7CyWKfcf7/7?=
- =?us-ascii?Q?R9hn++zy/nhIIwPKoi6+YxjolPSdZL3FJj2BEsOcyaqsYuWb/cbPhMcB3Ege?=
- =?us-ascii?Q?Dsev1iJyQkm4b8ZoSwYHRKIu6JRTe7IQ7hoCLCYW39jbxfNQj0Q9vnASpxss?=
- =?us-ascii?Q?ZgwZVP/QzzQJr404slrgnb96sh27CygtEdVqR09lUwOhgkyhPQUwV087Bthl?=
- =?us-ascii?Q?5ZBj2tBs45lacMuSVSlmnrcgSWLw+zutuXLAViTVGthNkDlUr7kdb+iL5mtB?=
- =?us-ascii?Q?WlXZSdSuGKQvkIdKGf5xak7oQ4FFpY4esGiYXhWKNygKL6b2lkbkGkhRlGUB?=
- =?us-ascii?Q?ELw8WRQWidr1KLUgRvvjLO1OOFdUYmweNpYvjEWyIJpcXM7rF/qKlhs8xO/6?=
- =?us-ascii?Q?bDD8OTGKz4Xdwf8jKy2Sj3/mqazNiOLsmKJsqI0YM6HVecbL7/8rtF+xc4Sj?=
- =?us-ascii?Q?9aWazS9xfo7dMcXTet5o+qOXEjgF59if0peg22LR+fqCEm0nOLpOUKWeRLdt?=
- =?us-ascii?Q?dkHE1MWrg1h4419uWEk32g+9INQF4nwbD0pgx+ZOjtzbGytpnvbw9ur1Si/m?=
- =?us-ascii?Q?8eECFI5O0t2BsuMPMi9Yx42kMWohyoPXQLbL1J8Y24j4GEEJTmuwDBBPV2da?=
- =?us-ascii?Q?nV99stwhG2c87mQ6aDLcB+4VoD9pvTlFz6+LT8j8FoS7BB9xU4BNjayb17Sp?=
- =?us-ascii?Q?NWle2k69B/Vz5xDG77oRKCuZiPhgdn6gF7mLTz4mg3B9uH8GkgJKMnYQiM5x?=
- =?us-ascii?Q?IUB9KZXd78K2RuJU5+neF7r9SMKMHkK9w8kZ95+RuubuCHA/eo/SRAmGb/eg?=
- =?us-ascii?Q?9/hKx6CeejctFUcCNKzjhbwxbi4WeGOAoziHCsNsVIqI7d19zt1gF5WFfu4D?=
- =?us-ascii?Q?3x7W4o0RV5eSU8KHeDLwKkRItbJxvGNAKhV1JbpqV9yY4jwbuzUiXiUDn6GU?=
- =?us-ascii?Q?2wXmm7UWbI7oRINOvOirZRDoYHTfd5cObxhnewVX2M2Yt1DC+IqV9P14BHYG?=
- =?us-ascii?Q?Q2D+2yeq1IUbG5HOH4t+76I/IFail+GyUvAu7eY8M/jqYq8qPVqSGNp/dE2z?=
- =?us-ascii?Q?Lz3iczHWd/Y38QacAyIfbtEB9n38+IDIrfwRA2NLwm7ztUcCItoRktP1wCf4?=
- =?us-ascii?Q?nOst5O7c6Wm17CWFnGT449wsggui3F0ZoHCKRJ56kv6hYPKBEtKdQdfpkLmf?=
- =?us-ascii?Q?U+AKteTRilOB0xO+I/lxbwC17PZIPzxnRgmToJbv/VjH4WKZqxeQKBQXJPOb?=
- =?us-ascii?Q?r6gQOihWBJc+wMPcKxkbOH0HouzE5LUQXx+wvoxloN0m9NTZKIfiVuK8CbHf?=
- =?us-ascii?Q?Q/QNM0VDhX3+GFrr5LkUmaqClKldlRsi+vpLQ3wv6Af0K7TPpb9pPQsYqXI4?=
- =?us-ascii?Q?8F/KVZqukUgf3iNRRuq1UihBQE3+QZxr2xDb6P9Bg+IjHBXM4rOK+y1nYf9k?=
- =?us-ascii?Q?uv9c+7bzcMSR/UGzEAVi5UhR7mUiDU1UeqJU34UymYqfuLbyi35AF48MNEVH?=
- =?us-ascii?Q?MJupEGWsSCgUlfMI7PLh7t/q9t7T74jHPuSYt9IDUIvdVeD6PYTv2K30zWz+?=
- =?us-ascii?Q?LA=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: b595d264-4a79-4d3c-7366-08dcec2a0bb5
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2024 08:27:31.0234
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fuQJI49+DibOBIpUHemX286N/VIRxM7d0WM5jIgL4vcJ2OyQ0RutnvnNtEA5Peq0mpi/IsTfvXqTDOzQMoV37g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR06MB6560
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 08:28:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205732
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 09:12:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205734
 
-This variable was removed in
-https://git.yoctoproject.org/poky/commit/?id=3D2f46b6f27dfa3a9d5ad177900fce=
-cfe64c3536f1
-("bitbake.conf: drop VOLATILE_TMP_DIR, use FILESYSTEM_PERMS_TABLES instead"=
-)
-so ensure that distributions become aware that it no longer has any
-effect.
+From: Etienne Cordonnier <ecordonnier@snap.com>
 
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+The kdump script from kexec-tools does not work without makedumpfile (see https://git.yoctoproject.org/poky/tree/meta/recipes-kernel/kexec/kexec-tools/kdump#n14 ).
+Thus, let's import makedumpfile from meta-openembedded/meta-oe/recipes-kernel/makedumpfile and make kexec-tools RDEPENDS on makedumpfile.
+
+makedumpfile is the utility which reads /proc/vmcore after a kernel panic and creates a kdump file under /var/crash/.
+
+Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
 ---
- meta/conf/bitbake.conf | 1 +
- 1 file changed, 1 insertion(+)
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../kexec/kexec-tools_2.0.29.bb               |   1 +
+ ...makedumpfile-replace-hardcode-CFLAGS.patch | 139 ++++++++++++++++++
+ .../makedumpfile/makedumpfile_1.7.5.bb        |  62 ++++++++
+ 4 files changed, 203 insertions(+)
+ create mode 100644 meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+ create mode 100644 meta/recipes-kernel/makedumpfile/makedumpfile_1.7.5.bb
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index ca4b5a6637..eda505c861 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -107,6 +107,7 @@ BB_RENAMED_VARIABLES[TUNEABI_WHITELIST] =3D "is a depre=
-cated variable and support
- BB_RENAMED_VARIABLES[LICENSE_FLAGS_WHITELIST] =3D "LICENSE_FLAGS_ACCEPTED"
- BB_RENAMED_VARIABLES[TCLIBCAPPEND] =3D "is no longer used, modify TMPDIR d=
-irectly if required"
- BB_RENAMED_VARIABLES[VOLATILE_LOG_DIR] =3D "is obsolete and no longer supp=
-orted"
-+BB_RENAMED_VARIABLES[VOLATILE_TMP_DIR] =3D "is obsolete and no longer supp=
-orted"
-=20
- BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0-only] =3D "INCOMPATIBLE_LICENSE_EXC=
-EPTIONS"
- BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0-or-later] =3D "INCOMPATIBLE_LICENSE=
-_EXCEPTIONS"
---=20
-2.39.2
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index b529786214..ad2544741f 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -490,6 +490,7 @@ RECIPE_MAINTAINER:pn-m4-native = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-make = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-makedepend = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-makedevs = "Chen Qi <Qi.Chen@windriver.com>"
++RECIPE_MAINTAINER:pn-makedumpfile = "Etienne Cordonnier <ecordonnier@snap.com>"
+ RECIPE_MAINTAINER:pn-make-mod-scripts = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-man-db = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-man-pages = "Hongxu Jia <hongxu.jia@windriver.com>"
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
+index 2c2901f19e..be24d064bb 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
+@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://kexec/kexec.c;beginline=1;endline=20;md5=af10f6ae4a8715965e648aa687ad3e09 \
+                     "
+ DEPENDS = "zlib xz"
++RDEPENDS:${PN} = "makedumpfile"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/kernel/kexec/kexec-tools-${PV}.tar.gz \
+            file://kdump \
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+new file mode 100644
+index 0000000000..96a996f616
+--- /dev/null
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+@@ -0,0 +1,139 @@
++From 6d16911316cb576db0239f607e60918a222e4436 Mon Sep 17 00:00:00 2001
++From: Mingli Yu <mingli.yu@windriver.com>
++Date: Sun, 24 Apr 2022 17:25:33 +0800
++Subject: [PATCH] makedumpfile: replace hardcode CFLAGS
++
++* Create alias for target such as powerpc as powerpc32
++* Remove hardcode CFLAGS
++* Add CFLAGS_COMMON to instead of CFLAGS so can flexibly
++  customize CFLAGS and not hardcode the CFLAGS as previously
++* Forcibly to link dynamic library as the poky build
++  system doesn't build static library by default
++
++Upstream-Status: Inappropriate [oe specific]
++
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++
++[2021-11-18] Patch updated to use CFLAGS_COMMON for zstd
++Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
++
++Rebase to 1.7.1
++Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
++---
++ Makefile | 40 +++++++++++++++++++++-------------------
++ 1 file changed, 21 insertions(+), 19 deletions(-)
++
++diff --git a/Makefile b/Makefile
++index 71d8548..22acdd5 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -8,12 +8,6 @@ ifeq ($(strip $CC),)
++ CC	= gcc
++ endif
++ 
++-CFLAGS_BASE := $(CFLAGS) -g -O2 -Wall -D_FILE_OFFSET_BITS=64 \
++-		-D_LARGEFILE_SOURCE -D_LARGEFILE64_SOURCE
++-CFLAGS      := $(CFLAGS_BASE) -DVERSION='"$(VERSION)"' -DRELEASE_DATE='"$(DATE)"'
++-CFLAGS_ARCH := $(CFLAGS_BASE)
++-# LDFLAGS = -L/usr/local/lib -I/usr/local/include
++-
++ HOST_ARCH := $(shell uname -m)
++ # Use TARGET as the target architecture if specified.
++ # Defaults to uname -m
++@@ -24,26 +18,34 @@ endif
++ ARCH := $(shell echo ${TARGET}  | sed -e s/i.86/x86/ -e s/sun4u/sparc64/ \
++ 			       -e s/arm.*/arm/ -e s/sa110/arm/ \
++ 			       -e s/s390x/s390/ -e s/parisc64/parisc/ \
++-			       -e s/ppc64/powerpc64/ -e s/ppc/powerpc32/)
+++			       -e s/ppc64/powerpc64/ -e s/ppc/powerpc32/ \
+++			       -e s/_powerpc_/_powerpc32_/)
++ 
++ CROSS :=
++ ifneq ($(TARGET), $(HOST_ARCH))
++ CROSS := -U__$(HOST_ARCH)__
++ endif
++ 
++-CFLAGS += -D__$(ARCH)__ $(CROSS)
++ CFLAGS_ARCH += -D__$(ARCH)__ $(CROSS)
++ 
++-ifeq ($(ARCH), powerpc64)
++-CFLAGS += -m64
+++ifeq ($(ARCH), __powerpc64__)
++ CFLAGS_ARCH += -m64
++ endif
++ 
++-ifeq ($(ARCH), powerpc32)
++-CFLAGS += -m32
+++ifeq ($(ARCH), __powerpc32__)
++ CFLAGS_ARCH += -m32
++ endif
++ 
+++CFLAGS_ARCH += $(CFLAGS) \
+++              -D_FILE_OFFSET_BITS=64 \
+++              -D_LARGEFILE_SOURCE \
+++              -D_LARGEFILE64_SOURCE
+++
+++CFLAGS_COMMON = $(CFLAGS_ARCH) \
+++              -DVERSION='"$(VERSION)"' \
+++              -DRELEASE_DATE='"$(DATE)"'
+++
+++
++ SRC_BASE = makedumpfile.c makedumpfile.h diskdump_mod.h sadump_mod.h sadump_info.h
++ SRC_PART = print_info.c dwarf_info.c elf_info.c erase_info.c sadump_info.c cache.c tools.c printk.c detect_cycle.c
++ OBJ_PART=$(patsubst %.c,%.o,$(SRC_PART))
++@@ -52,12 +54,12 @@ OBJ_ARCH=$(patsubst %.c,%.o,$(SRC_ARCH))
++ 
++ LIBS = -ldw -lbz2 -ldl -lelf -lz
++ ifneq ($(LINKTYPE), dynamic)
++-LIBS := -static $(LIBS) -llzma
+++LIBS := $(LIBS) -llzma
++ endif
++ 
++ ifeq ($(USELZO), on)
++ LIBS := -llzo2 $(LIBS)
++-CFLAGS += -DUSELZO
+++CFLAGS_COMMON += -DUSELZO
++ endif
++ 
++ ifeq ($(USESNAPPY), on)
++@@ -65,12 +67,12 @@ LIBS := -lsnappy $(LIBS)
++ ifneq ($(LINKTYPE), dynamic)
++ LIBS := $(LIBS) -lstdc++
++ endif
++-CFLAGS += -DUSESNAPPY
+++CFLAGS_COMMON += -DUSESNAPPY
++ endif
++ 
++ ifeq ($(USEZSTD), on)
++ LIBS := -lzstd $(LIBS)
++-CFLAGS += -DUSEZSTD
+++CFLAGS_COMMON += -DUSEZSTD
++ endif
++ 
++ ifeq ($(DEBUG), on)
++@@ -104,14 +106,14 @@ LIBS := $(LIBS) $(call try-run,\
++ all: makedumpfile
++ 
++ $(OBJ_PART): $(SRC_PART)
++-	$(CC) $(CFLAGS) -c -o ./$@ $(VPATH)$(@:.o=.c)
+++	$(CC) $(CFLAGS_COMMON) -c -o ./$@ $(VPATH)$(@:.o=.c)
++ 
++ $(OBJ_ARCH): $(SRC_ARCH)
++ 	@mkdir -p $(@D)
++ 	$(CC) $(CFLAGS_ARCH) -c -o ./$@ $(VPATH)$(@:.o=.c)
++ 
++ makedumpfile: $(SRC_BASE) $(OBJ_PART) $(OBJ_ARCH)
++-	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ_PART) $(OBJ_ARCH) -rdynamic -o $@ $< $(LIBS)
+++	$(CC) $(CFLAGS_COMMON) $(LDFLAGS) $(OBJ_PART) $(OBJ_ARCH) -rdynamic -o $@ $< $(LIBS)
++ 	@sed -e "s/@DATE@/$(DATE)/" \
++ 	     -e "s/@VERSION@/$(VERSION)/" \
++ 	     $(VPATH)makedumpfile.8.in > $(VPATH)makedumpfile.8
++@@ -120,7 +122,7 @@ makedumpfile: $(SRC_BASE) $(OBJ_PART) $(OBJ_ARCH)
++ 	     $(VPATH)makedumpfile.conf.5.in > $(VPATH)makedumpfile.conf.5
++ 
++ eppic_makedumpfile.so: extension_eppic.c
++-	$(CC) $(CFLAGS) $(LDFLAGS) -shared -rdynamic -o $@ extension_eppic.c -fPIC -leppic -ltinfo
+++	$(CC) $(CFLAGS_COMMON) $(LDFLAGS) -shared -rdynamic -o $@ extension_eppic.c -fPIC -leppic -ltinfo
++ 
++ clean:
++ 	rm -f $(OBJ) $(OBJ_PART) $(OBJ_ARCH) makedumpfile makedumpfile.8 makedumpfile.conf.5
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.5.bb b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.5.bb
+new file mode 100644
+index 0000000000..85b44c4941
+--- /dev/null
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.5.bb
+@@ -0,0 +1,62 @@
++SUMMARY = "VMcore extraction tool"
++DESCRIPTION = "\
++    This program is used to extract a subset of the memory available either \
++    via /dev/mem or /proc/vmcore (for crashdumps). It is used to get memory \
++    images without extra uneeded information (zero pages, userspace programs, \
++    etc). \
++"
++HOMEPAGE = "https://github.com/makedumpfile/makedumpfile"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
++LICENSE = "GPL-2.0-only"
++
++SRCBRANCH ?= "master"
++SRCREV = "c266469347d49287be38059d45e7aaa454db9cb2"
++
++DEPENDS = "bzip2 zlib elfutils xz"
++RDEPENDS:${PN}-tools = "perl ${PN}"
++
++# mips/rv32 would not compile.
++COMPATIBLE_HOST:mipsarcho32 = "null"
++COMPATIBLE_HOST:riscv32 = "null"
++
++PACKAGES =+ "${PN}-tools"
++FILES:${PN}-tools = "${bindir}/*.pl"
++
++SRC_URI = "\
++    git://github.com/makedumpfile/makedumpfile;branch=${SRCBRANCH};protocol=https \
++    file://0001-makedumpfile-replace-hardcode-CFLAGS.patch \
++"
++
++S = "${WORKDIR}/git"
++
++UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+(\.\d+)+)"
++
++SECTION = "base"
++
++# If we do not specify TARGET, makedumpfile will build for the host but use the
++# target gcc.
++#
++
++MAKEDUMPFILE_TARGET ?= "${TARGET_ARCH}"
++MAKEDUMPFILE_TARGET:powerpc = "ppc"
++
++EXTRA_OEMAKE = "\
++    LINKTYPE=static \
++    TARGET=${MAKEDUMPFILE_TARGET} \
++    ${PACKAGECONFIG_CONFARGS} \
++"
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[lzo] = "USELZO=on,USELZO=off,lzo"
++PACKAGECONFIG[snappy] = "USESNAPPY=on,USESNAPPY=off,snappy"
++PACKAGECONFIG[zstd] = "USEZSTD=on,USEZSTD=off,zstd"
++
++do_install () {
++    mkdir -p ${D}/usr/bin
++    install -m 755 ${S}/makedumpfile ${D}/usr/bin
++    install -m 755 ${S}/makedumpfile-R.pl ${D}/usr/bin
++
++    mkdir -p ${D}/etc/
++    install -m 644 ${S}/makedumpfile.conf ${D}/etc/makedumpfile.conf.sample
++}
+-- 
+2.43.0
 
 
