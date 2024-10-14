@@ -1,130 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E3AD1625F
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 12:52:26 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web10.54249.1728910336020185162
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5890D1626C
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 13:45:46 +0000 (UTC)
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
+ by mx.groups.io with SMTP id smtpd.web11.55266.1728913541843547635
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 05:52:16 -0700
+ Mon, 14 Oct 2024 06:45:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PLEtuR58;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-430576ff251so37121105e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 05:52:15 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Br7pde0p;
+ spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7b11704601cso358376985a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 06:45:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728910334; x=1729515134; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=PkNdB/7jX+EGbUel3Gi5VNSq5dTF6cx+uIrUHlhh1x0=;
-        b=PLEtuR58cV/5xOwZ2k0ZeqwjKZsSoFNH6lDu0+Y8hgCEcG+U3Ko5NzE1S13x0r7/YG
-         AOh+PgNwzdDi933W2fIx+ve8eqQVgs+EnlxUSSMwqzCzg2aQsa0HZxaNt659MxfbCaUn
-         7n9gBzcd39NxQObI6RcYPXEC//ea8c+L2/FBg=
+        d=gmail.com; s=20230601; t=1728913541; x=1729518341; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+508IiPvlH6UQ/wvuD6b6nRPxBJCDo1gisu+GIkFiHM=;
+        b=Br7pde0pSt/emZcwrZBGTjpEMKy3QnyV56s2/i2NkB+mh56v6ihK3AoKSgPSDke3yT
+         3aq5qFpIjlEPRFggztXv8yllsgx6Q25lR1BAZfisSwiiIee8jJ4NMmdTCKavm+3Hkt6C
+         DrMbACCGp7P8W0qdZOuVCLfUjFZ4JHZHe/nNjfaLjVt6o+6H4HXCUbF/scO6y+wbLS5D
+         P4d5dCwNKUjDdAQbkb1i1Q2hfmZd6TJzXf/Tc86Zlm48+gg97mqioDdFTFu3Rzdq/CL3
+         L5JsSc+ArcjAyqArMWiFDJewvnFJqUD9WEmLWXeIAuYbOn7GWvavTdCLKNkqYelFJ59I
+         vKYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728910334; x=1729515134;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=PkNdB/7jX+EGbUel3Gi5VNSq5dTF6cx+uIrUHlhh1x0=;
-        b=qpidXkyRYHkIU1fgl0XjtKNoSZpLWX1KPXvHIfSl+M67Ikf0aWwRZmG5XTWfNFU9p9
-         eqDUvybUQ2YWRQo7wQTkOHOLn/QBP+Ddg8E7MhQvicnBZMuqCEA1vSLQTraqefq4j9vy
-         jhcfM1YQ/6FM17tgSO5ajJpX0nDntIep4/87lsy88vs9BTbBb0vOtRLHM0UQioQ2/AHS
-         /QyR8BJJgegFzgUpgXraww1pBvXBXPv0q/wzu+z2QejWJFlsWdpIE3U2sd7d6eecHcXa
-         QuwG38YxR1PuH1ssgt4BFXGl2K5ViQT+/ixJg47r8ld9eyY5R/N3E9bGFTZLameALUEx
-         hEig==
-X-Forwarded-Encrypted: i=1; AJvYcCXuHx+5MGEa2cuH4qExy8IXxkqn/m54aGgTw2dd/vJYCMqxC9TL0Sj1CGyTjIui5cGK0PT9ylKiGHjsvFuQVcC0KQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyMNoYnJsV2YjL8pRWUaF3ZHldLA6K+IgC6GuLKRSLredVFAfSc
-	2I2e0Iq5+FMGK7WmMYyybsVBZLQ1KwuXotiEflsJz8gQis/8FeDbrPna/M+DugY=
-X-Google-Smtp-Source: AGHT+IFnbdsRIJQkIfPrzPRA2ktRVLl10WzG+0viKV1hmur9oR8Tyu2crVdADXpoxigtYloB60r5XQ==
-X-Received: by 2002:a05:600c:1c29:b0:42f:75e0:7829 with SMTP id 5b1f17b1804b1-4311df56494mr94835635e9.30.1728910334222;
-        Mon, 14 Oct 2024 05:52:14 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4468:7613:7612:e2d5? ([2001:8b0:aba:5f3c:4468:7613:7612:e2d5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b7a05b3sm11397913f8f.76.2024.10.14.05.52.13
+        d=1e100.net; s=20230601; t=1728913541; x=1729518341;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+508IiPvlH6UQ/wvuD6b6nRPxBJCDo1gisu+GIkFiHM=;
+        b=SHN/MfMfGktqrv9RKIgbORxPWaGmENLQG0B8jiSHoZOD01fizwMyS3Lvwc4rUsP7dd
+         K4LeUvzWRVgpZnoXvrYDNzI3OxlYW5qHXvsROIV8PS+tcMLEXDx2d015ok1hOz9T4aho
+         Dc91MMH0F3BJncKzSxRINKbXK30aklphOc3uiRH61WtSHZ8tFxeV0pu6h03+QFD6XnoJ
+         G27DI2cJfykiZZBcsTt4tOxhBZ/xWp1BZE8Ga9xfeoWwhSBKWQBfk4+kf/bn6lAyb47U
+         H79ekio94z5h5++oJ8WwDMwVcMPZCJKzQhz6/LoWbkNLBWJXE7fuiCiRRoNTB1DYBOQN
+         55PQ==
+X-Gm-Message-State: AOJu0YwOpnEujQusjao/2O4OOQIqdyWIorxl53/gkOfcrYaBdjc41VFC
+	yNspDsgR/uWZR/CWv6ubYAi2KSPGCdAKg1+jJYy+PrI6igMfXwOk
+X-Google-Smtp-Source: AGHT+IExMZrQwenhF6E+Ak241gGuYk2h+HbnofnhCE8FZoKdlr4V9uXWv83ZONDIO3B1vPpENYQJ9Q==
+X-Received: by 2002:a05:620a:1922:b0:7a9:aeb3:4b22 with SMTP id af79cd13be357-7b120faa814mr1571316985a.6.1728913540822;
+        Mon, 14 Oct 2024 06:45:40 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b1148c71b0sm422617685a.3.2024.10.14.06.45.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 05:52:13 -0700 (PDT)
-Message-ID: <d90e529a8aaf0f3db3ca9ea233a5f942cdfbb9d2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ovmf-native: remove .pyc files from install
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Mikko Rapeli
-	 <mikko.rapeli@linaro.org>, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Mon, 14 Oct 2024 13:52:13 +0100
-In-Reply-To: <5F96FA44-761F-4C3A-9892-266B9FDD0366@arm.com>
-References: <20241014102817.40298-1-mikko.rapeli@linaro.org>
-	 <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
-	 <047b9ddb6f1aa89eab94c5d36262a8dfb081525e.camel@linuxfoundation.org>
-	 <5F96FA44-761F-4C3A-9892-266B9FDD0366@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Mon, 14 Oct 2024 06:45:39 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/6] linux-yocto-dev: conditionally add coreutils to depends
+Date: Mon, 14 Oct 2024 09:45:32 -0400
+Message-Id: <88eada332f5d3d00baf9f2cedf63460d80356032.1728912923.git.bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <cover.1728912923.git.bruce.ashfield@gmail.com>
+References: <cover.1728912923.git.bruce.ashfield@gmail.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 12:52:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205769
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 13:45:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205771
 
-On Mon, 2024-10-14 at 12:34 +0000, Ross Burton via
-lists.openembedded.org wrote:
-> On 14 Oct 2024, at 13:01, Richard Purdie via lists.openembedded.org
-> <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-> >=20
-> > On Mon, 2024-10-14 at 13:05 +0200, Alexander Kanavin via
-> > lists.openembedded.org wrote:
-> > > This doesn't quite make sense. Why is the problem specific to
-> > > .pyc
-> > > files and not other files ovmf installs?
-> >=20
-> > If it helps, I do roughly understand what is happening here and I
-> > believe this is the right fix.
->=20
-> So my understanding is that this is a general problem: if a native
-> recipe ships a .py but not .pyc then when that script is used python
-> will write a .pyc _into the sysroot_. If we then upgrade that recipe
-> and it now ships a .pyc then you get this error, as the sysroot
-> construction call wants to create a file that already exists.
->=20
-> I think for scripts that are ran with python3-native then we should
-> be shipping the .pyc files, even in native recipes, because then
-> they=E2=80=99re pregenerated and will be used by python.=C2=A0 The fun is=
- when the
-> script is ran by the host python, which is of indeterminate version.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-For fun, there are things which could be called by either the host
-python or python3-native from the sysroot depending on whether that was
-added to PATH for other reasons. That complicates things somewhat.
+6.11+ uses truncate as part of the build. While truncate has been
+added to HOSTTOOLS in oe-core master, it still is possible to
+build a kernel recipe newer than 6.11+ on a release that doesn't
+have the HOSTTOOLS tweak.
 
-> I wonder if python has a way to control where the files get written,
-> so we could put freshly generated files into a separate directory
-> that isn=E2=80=99t part of the sysroot?=C2=A0 We could also make the sysr=
-oot read-
-> only outside of the sysroot manipulation, which would force python to
-> do something different too (though I believe this is just =E2=80=9Cdon=E2=
-=80=99t
-> write pyc?).
->=20
-> Note that this problem impacts plenty of other recipes that for
-> historical reasons can't ship bytecode into the sysroot (see eg
-> python3-setuptools), so I do think we need a general solution and not
-> just a creeping and irreversible trend of deleting .pyc from the
-> sysroot.
+We can test for truncate and condtionally add the dependency.
 
-I'm torn. It is a complex problem causing issues for patches which are
-otherwise ok and requires a great deal of thought to fix differently.
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-The performance impact of python generating those files at first run
-probably is negligible, compared even to the overhead of extracting
-files from sstate.
-
-Is this an issue we want to focus effort on? Are there gains here to be
-had?
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+index 292897ce43..752d108bd8 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+@@ -44,6 +44,10 @@ PACKAGECONFIG[dt-validation] = ",,python3-dtschema-native"
+ # we need the wrappers if validation isn't in the packageconfig
+ DEPENDS += "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation', '', 'python3-dtschema-wrapper-native', d)}"
+ 
++# 6.11+ uses truncate in the build, so we need to either have it in host tools, or
++# build it ourselves
++DEPENDS += "${@bb.utils.contains('HOSTTOOLS', 'truncate', '', 'coreutils-native', d)}"
++
+ COMPATIBLE_MACHINE = "^(qemuarmv5|qemuarm|qemuarm64|qemux86|qemuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64|qemuloongarch64)$"
+ 
+ KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
+-- 
+2.39.2
 
 
