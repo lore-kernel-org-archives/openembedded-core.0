@@ -2,110 +2,87 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E49A6CF258D
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 10:42:15 +0000 (UTC)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
- by mx.groups.io with SMTP id smtpd.web10.52048.1728902535085978137
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9F38CF259D
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 10:52:45 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.52185.1728903163905599174
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 03:42:15 -0700
+ Mon, 14 Oct 2024 03:52:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RqSH/JHr;
- spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e690479cso1600811e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 03:42:14 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UQkwkD/7;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539f6fede4dso786242e87.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 03:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728902533; x=1729507333; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yKCuI44+vrbQRk2p/5sZTMb0jpeYZW3fMCi6JvwY9OI=;
-        b=RqSH/JHra8yCVHljT8RxHW3ePXq95f0Jje/yzluziEy4ISnk0OsBrgXhWqCV1lk3Pd
-         yy+8wZfRp4wWQzyVZrcu8mBFPdQzuvmrkJhpcKVJ3/EfCtix1MgsyrQ3AYc9zEJ29qOX
-         sm578JMCI6e9CWlbZwYQyuAwTPPfvwaOm+IN5LwU/PM+0Vyu7A5qQ0VRVssYoMJF4/+j
-         E+b6lGWhPbW72z3A7c0WwwYkgns+TQKggIZVqxYJO0w3oFFdjWkSI/A2w2ISgDZrJaBK
-         62ovYEij4YwUmTR/RNW1XqhfNJ5jcHSFtDdgJMYkmKdHQ45NKDX4+ky3KL8JPJD+v9Qc
-         pHDQ==
+        d=gmail.com; s=20230601; t=1728903162; x=1729507962; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VlqK+Q7hCdzv4G2KZZNGOCq0BhQ9dfg6VOUjwErAsxo=;
+        b=UQkwkD/7xY9C2tPxSWKwjX2CB5a6Qa5Gl+NvZ20K6De0WSmQ1G4bIcQndH2Jq1otGs
+         6xPG5UO5Czdp/4S2tOJ8LKBKLiCXknCvuPEHFVCZcorVgPSjLeSRFA6FUo3wkTfq4SWX
+         I2uPSJxhD7nuGQjmiM1b0o7uiAdgVKOAcAJYG98XuSLGnO3CSZd0+mWXlxLCKhA/+B+g
+         SiHN7AscbFGMZEo9gBxnt6UFvdCoo6Jz2tTwQW366C2jStaHI0B3LUY1dR9z2L8gc6HF
+         rmwnAoGLMDuTiJj3pEB42Qg06Ib5tmaZeDtJEUfbFKtv1RUn7Bs06W2dl2wG6mT6VDni
+         5Huw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728902533; x=1729507333;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yKCuI44+vrbQRk2p/5sZTMb0jpeYZW3fMCi6JvwY9OI=;
-        b=eTMBE/SJnoZtUwzN+jnP+6WhqIKA1Iz88yqk2zvN6UZCJj8TOEahzGvBeRVyPc82lE
-         BMOjtCHzN82qnFQtdubNh5CN8/TQfh8IOQNTGtoKaMK0zA5VIeNPkEBs8VDYFsM3bkde
-         /WUf+/aRYz/phqoTckA2I6q6wnPeCrn9x1p3RQciYHkDE6XnYpwruQzOrHl2BiiYwL/8
-         jF2OjVX7IS+m/s/HmilUE2H+cPYCLGUUxMTOK4kwBkpkLm3/uBOfy+RNofWhiHtG15Tw
-         x8KdpwgaRVU0RRzD1bZC0roTgOIhiLHIKHG/dK7iXUY7+YMB6ERhS7P/hDgXrAWUibQX
-         m9Mw==
-X-Forwarded-Encrypted: i=1; AJvYcCUTmVAe3uGC98iPWXr+QjIUqAUVYDTD9OSrOuGk0L8L+apT2Isxf68flObsdMWg0gnuhsZZzcykOx3SrY4myXmFDA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yys2S5YvCMMz5CoTZ/3jgpJgMHzYRvzUw42EzSYxMrwBJPnVUc4
-	ytPezHHyEtj9EbbnQRbvOW7/hni3ABsCXHpAF0yS14QjPMNBzbHtXYIamqBviNsheRjkzXlfpoC
-	WClQvfgizIBIX2NFYFZSuBhAN9wc=
-X-Google-Smtp-Source: AGHT+IGSZiJnOzGYZl6BbTjuToffT+Zhe2dlTiXAmDY2jdu5g/GqF/k7hJ4jd2Ti0Ni3Asd9rMrJ77rC4VONI1q2Tg4=
-X-Received: by 2002:a05:6512:138c:b0:539:8d2c:c01c with SMTP id
- 2adb3069b0e04-539e571dd25mr2937604e87.41.1728902532825; Mon, 14 Oct 2024
- 03:42:12 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1728903162; x=1729507962;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VlqK+Q7hCdzv4G2KZZNGOCq0BhQ9dfg6VOUjwErAsxo=;
+        b=Vlg6nYEDEC3fBpA7AAfsc3Qf9Uf6GyYzgoFt0IpnyEazDmMET/9wxBdFL0NiU8Z4EL
+         LdN2CCHsrny2w4I+RUsobGFEPFKEHB2P32xeVzSymOtEnijpNjDNLdooNFLC0QuSpjwY
+         5Th1M9MYlzO+HcpUmqkzStGu8crEycnBs5dg1gi+mFL0w1gakuc2XFHsKi0okbRCBdBR
+         q7/8U/CpPSTGO4A3bwoUBKaa7YOJvFsnaa2jlyEw2kP3dWJyyBlIt6V15eJ2J/umG7J2
+         O7Hlg1Z68I9XaDUvAWIob1Cm7EyEazpb7gaXDDvAHqfwXOkKCLtPIuAKYeHwbFzYE90R
+         RI3g==
+X-Forwarded-Encrypted: i=1; AJvYcCWSLojfqiJHZEyl2N9OmRkXZ/GJHfSDdLVnr5apCitpykJ2dg+7VhJAWLonHf3Lz0Fo//EYekQYEwVBHN2jdySUbA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxF0ZucraUD4ClYwSMHbkqRoMwr8sBR0rGhkRvL4CUlRUHXthwI
+	aDaKd+Yqmd2DbYX0TPJmReY9SEEtPgAspdp73bPC4z1d1mIkOK8Wzdb9JtDXzmiqqIjnXxPEpHa
+	Hzan6pTI1IiGP3C8qoWcNKLaiamc=
+X-Google-Smtp-Source: AGHT+IH0V+F9buZRLJ5AMymjEmeqfaCyhHH6z4cgINubz41pf/65iKZfUIwvH4AAbUHkexjuTohwOdA1k/qZmknTdB4=
+X-Received: by 2002:a05:6512:1086:b0:536:53e3:fe9d with SMTP id
+ 2adb3069b0e04-539da3c9083mr4924491e87.18.1728903161678; Mon, 14 Oct 2024
+ 03:52:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241010205033.159589-2-t.f.g.geelen@gmail.com>
- <CANNYZj-NujKn-r+j_KgGs4PRCAxUY5Z1v=gU_hx8fg1hBa+KSw@mail.gmail.com>
- <CAJo0Az5a=-diCyNyAC14Ef6JTS4auzcSO2NQnaiYG1k3WpCw0g@mail.gmail.com>
- <CANNYZj_w+Ba7mhS4Jd=LaiVPZse0+pqGL3KSFN1uyHXTmuEkRg@mail.gmail.com>
- <CANx9H-CksfTYqbSbiirRT0cWeDy9sOPJgrA_s66Oj52d6Q44Yw@mail.gmail.com>
- <3d120a63-7fbf-43fc-8f44-5ad50ab1a061@smile.fr> <CANx9H-Bi0CKSMdH9fsQ8hAzabuyk2bX3hm3ZqUoPdmuupLeK_A@mail.gmail.com>
- <CAJo0Az6nDT-av_8HuudUt5Ob5ga7+=Qofaaa2Z2RTjKpsC1T+w@mail.gmail.com>
- <3831edba-2e59-48a8-9186-52c5a4081fd1@smile.fr> <CANx9H-C3W5A=gQWR=x7GS4OuS1m9qB6tv7H3s+GMD1Lj25g89Q@mail.gmail.com>
-In-Reply-To: <CANx9H-C3W5A=gQWR=x7GS4OuS1m9qB6tv7H3s+GMD1Lj25g89Q@mail.gmail.com>
+References: <20241008063325.62462-1-katariina.lounento@vaisala.com> <99bb8bf7-a873-42a6-8dcc-23dd7c055c78@cherry.de>
+In-Reply-To: <99bb8bf7-a873-42a6-8dcc-23dd7c055c78@cherry.de>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 14 Oct 2024 12:42:00 +0200
-Message-ID: <CANNYZj_tzSQ5a-CrBCka9ARa7ou2mudPfW4j3wOjbX0Pypmn4A@mail.gmail.com>
-Subject: Re: [OE-core] [meta][PATCH v2] python3-cryptography: upgrade 42.0.8
- -> 43.0.1 -> reproducibility doc improvement
-To: Tim Orling <ticotimo@gmail.com>
-Cc: Yoann Congal <yoann.congal@smile.fr>, Tom Geelen <t.f.g.geelen@gmail.com>, 
-	openembedded-core@lists.openembedded.org
+Date: Mon, 14 Oct 2024 12:52:29 +0200
+Message-ID: <CANNYZj92q0=xDr5UdPTRYM4F6Nehripqtwdi_VScM20HM094GA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] patchtest: add "Inactive-Upstream"
+To: quentin.schulz@cherry.de
+Cc: katariina.lounento@vaisala.com, openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 10:42:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205743
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 10:52:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205744
 
-On Mon, 14 Oct 2024 at 04:00, Tim Orling <ticotimo@gmail.com> wrote:
-
-> Yoann and I were able to figure out a promising fix for maturin which is =
-the root cause of the reproducibility issues. It needs a little more testin=
-g and rewording the commit message before we submit upstream (I mentioned d=
-ata.tar which is a .deb thing not a wheel thing)
+On Mon, 14 Oct 2024 at 12:21, Quentin Schulz via
+lists.openembedded.org
+<quentin.schulz=cherry.de@lists.openembedded.org> wrote:
+> I believe even if the project is inactive, we should still aim at
+> submitting patches in the event the project starts again, or maybe it's
+> just that nobody has sent a patch for years and the SW works good enough
+> for all people involved.
 >
-> https://github.com/moto-timo/maturin/tree/sort-records
+> What do you think?
 
-It's a bit more complicated and I thought I'd document that. There are
-three separate issues here:
+As someone (you could say, the only one) who actually does the work of
+submitting the existing Pending patches in oe-core and assignes
+Inactive-Upstream, I strongly object.
 
-1) Maturin creates a .whl (zip archive) where files are listed in a
-non-deterministic order in the archive index. I'm not 100% sure if
-your patch addresses this problem - does it? Are the files supplied to
-the zip writer in sorted order?
+Inactive-Upstream is not assigned lightly, and we do it only for
+projects which are clearly abandoned, and have tons of open PRs and
+issues that no one reacts to and in all likelihood never will.
 
-2) Maturin writes a RECORD file into that same archive which is as
-well listing files in a non-deterministic order. This is certainly
-addressed by the patch.
-
-3) python3-installer takes the .whl from maturin and processes the
-files in it in the order they come, then writes out *its own* RECORD
-based on that order, discarding the RECORD from maturin. So it
-implicitly relies on the intermediate .whl being reproducible.
-
-I've fixed the third issue [1], and it does fix the reproducibility
-problem in the actual target install of cryptography. Installer
-shouldn't be trusting that its input is already sorted.
-
-[1] https://git.yoctoproject.org/poky-contrib/tree/meta/recipes-devtools/py=
-thon/python3-installer/0001-src-installer-utils.py-sort-entries-before-writ=
-ing-o.patch?h=3Dakanavin/package-version-updates
-
-But the fix for maturin is of course is also welcome.
+If the project starts up again (e.g. makes a release or someone
+discovers a promising active fork), then the patches can be easily
+reassigned to a status appropriate for an active project and submitted
+with the knowledge that someone will actually look at them and act on
+them.
 
 Alex
 
