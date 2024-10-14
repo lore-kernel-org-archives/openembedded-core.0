@@ -1,130 +1,79 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1615D16245
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 11:22:45 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web11.52564.1728904958134971725
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1651AD16246
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 11:28:26 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web11.52650.1728905300579978315
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 04:22:38 -0700
+ Mon, 14 Oct 2024 04:28:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=I1SmFfm1;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-431195c3538so28127905e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 04:22:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OAdKH2kR;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539eb97f26aso1339119e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 04:28:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1728904956; x=1729509756; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cP3yjDA6BMsweQDTvhQ97CZXCQ0d8HDxjZJXVbIqQaw=;
-        b=I1SmFfm1+ZKB7U1tPFgI3hmqErVqzhsJVS/jXUYyiZrK8UVfUtU0NnGfs55EAq4erw
-         6I6XcYYj8LpmdfBfW7OMN5KuPj2AMpsZQXdcTtm37P0y5Vc3peQCPa/m897T1aYRjzLv
-         Hvlc+2A+CThh2puUlo6iwAGO12CrUlvrKrQKE=
+        d=gmail.com; s=20230601; t=1728905299; x=1729510099; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=P/eSxttQqmJT2dIbbGbdr9IUyH5/UtybIyo1+0SByh0=;
+        b=OAdKH2kRRIjAIDVbpDB5DUzJXtLqIVKnTocu+8k+jHyjfzO9FNNDZO/JXiifm3Hffb
+         ocfMluBKctRugK5FHk9He8a2I9X4bfiXuBSUEuuRCrcTfdUbSx4194kbZv98rZ166ztb
+         ZMqmGzud3syGMl4mF1FK/cIQetja+PzNTbpoBm76aApgrt9k0OwHJI5DwAqWufClr1o+
+         2u0sNdcI3Zlc1NrBvSYPmM0GwjVjoPW3RABQqTwXIbP6oXXe4B0ygFMZ5gfkItkozl52
+         5gsHBsHU49Pr/TbIy+bSDNU5ru9nL2BLyLq0JNkS1+D2xCoK2jd0W9eBFL9uBpWEjf7Z
+         3MJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728904956; x=1729509756;
-        h=content-transfer-encoding:in-reply-to:organization:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cP3yjDA6BMsweQDTvhQ97CZXCQ0d8HDxjZJXVbIqQaw=;
-        b=Nj7/uqqAMiczpdaE0YPq0t1y1tXSNG9lhU2Z3EWi+2ExlJpTxcVti7SffntkuPU88y
-         qWZfuGVW2khOENwDM2PxRDZop5Y7Ynud7ej293KKRUwE3X3gS5fq2r6G06rMYgTRy6KR
-         gx+6/ePdt4mntvE2R9XltNrt4Pn+xg2d78LVoIj7Tz2J1/BcxSmB0bVJqnyW+0EBsbvu
-         b1/MwrVXXj8ML8hwTWKV2CJMvZpMKnCZJJDHzITAJ5XtjD/Z53ZrL89Sj4d86rHUYd0z
-         TIYuQ0MSDikPbZIufMjInF9fwJaOa/TxJtog5H+XvHCbOXANoJHw/Z8lacOmnyxM4YQk
-         m4FA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+N56Q2CQX7jWgTwevODG3ZB3VbpxIFyxXvJiQ2JpmPVGVDNWDQ/stFpDEKkS6g+WnbfHRfkMZ0CAIcEThlHbeXQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwnILQGWtaWHUGHopbZWmlWLjrhcvPe/ygUsTBfY6M/yVVha1g6
-	UBUBP23SYVk6By7hU7t5kZ7HyDLzTYUDrPRcVx2dc6Cq46zbvvzcZiI4QItjPgs=
-X-Google-Smtp-Source: AGHT+IHGnRhYvkK/DvnZciADh6oC42TVrHNvzuTrH8jFCtxBXRso5X7Q3XbIakgh6EMaPJnl6EL4QA==
-X-Received: by 2002:a05:600c:1e18:b0:425:7bbf:fd07 with SMTP id 5b1f17b1804b1-4311debbc74mr108956275e9.5.1728904956441;
-        Mon, 14 Oct 2024 04:22:36 -0700 (PDT)
-Received: from [192.168.0.22] (53.1.159.89.rev.sfr.net. [89.159.1.53])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431182ffc51sm117896765e9.15.2024.10.14.04.22.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Oct 2024 04:22:36 -0700 (PDT)
-Message-ID: <b0778cf2-cb73-4f29-bd6c-474f23639844@smile.fr>
-Date: Mon, 14 Oct 2024 13:22:35 +0200
+        d=1e100.net; s=20230601; t=1728905299; x=1729510099;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=P/eSxttQqmJT2dIbbGbdr9IUyH5/UtybIyo1+0SByh0=;
+        b=vYRGoAxFobT/ceJhWtOQOY7YVURBbNJQPOkkMwUcRSzYbAKuwZvytcozVb/6I3PPpj
+         C2QCA/KKVKXCShKcIGrhj3dbSAHqKlqwBHUBo8LyW5NYuGU6OLIPi/1sCP/3V44nk8zt
+         kxsgBpXO7BTTSOK73qevF0vqBq98OTFjkusnbjTH9MNrEL/gRIboIBJ9gF97YvFpI5rr
+         Po5fjWZ1UhGg0N1QFohHDATBq05is0KTHCbxCbBB/Gd+CzCHSaRCRjAJa6lOGbU1q0qQ
+         O8N5BTKGLCpPiHCFwhRWjyBRA9sEV2yu357Cmvstujcejxr9QJCnhSE4QzdKLBTjL+eW
+         4n+g==
+X-Gm-Message-State: AOJu0Yxtpjec1iimXR2BJyuAEfVh1shxxGxXKDWz2kMGbMCw7QJi+GVf
+	mFg7HddEZ0BK7+WneOMF6+hnsAeT5YP9BHM08zbntbc1rAEgtk5l0obTz9CspwBodlc9cImpOdC
+	ufoiLpYD7KiOEraNbidSNLaRYB3U=
+X-Google-Smtp-Source: AGHT+IF4O3aQiXCDsYgLHLcKSlvhR4OcKSe8dgHBM508ziN0rp2S+pblfmj6YxKZ8GYEoS+/R83ubmtUG2fREHDWJuY=
+X-Received: by 2002:a05:6512:130b:b0:52f:c5c0:2879 with SMTP id
+ 2adb3069b0e04-539da5950e8mr4542964e87.41.1728905298470; Mon, 14 Oct 2024
+ 04:28:18 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [meta][PATCH v2] python3-cryptography: upgrade 42.0.8
- -> 43.0.1 -> reproducibility doc improvement
-To: Alexander Kanavin <alex.kanavin@gmail.com>,
- Tim Orling <ticotimo@gmail.com>
-Cc: Tom Geelen <t.f.g.geelen@gmail.com>,
- openembedded-core@lists.openembedded.org
-References: <20241010205033.159589-2-t.f.g.geelen@gmail.com>
- <CANNYZj-NujKn-r+j_KgGs4PRCAxUY5Z1v=gU_hx8fg1hBa+KSw@mail.gmail.com>
- <CAJo0Az5a=-diCyNyAC14Ef6JTS4auzcSO2NQnaiYG1k3WpCw0g@mail.gmail.com>
- <CANNYZj_w+Ba7mhS4Jd=LaiVPZse0+pqGL3KSFN1uyHXTmuEkRg@mail.gmail.com>
- <CANx9H-CksfTYqbSbiirRT0cWeDy9sOPJgrA_s66Oj52d6Q44Yw@mail.gmail.com>
- <3d120a63-7fbf-43fc-8f44-5ad50ab1a061@smile.fr>
- <CANx9H-Bi0CKSMdH9fsQ8hAzabuyk2bX3hm3ZqUoPdmuupLeK_A@mail.gmail.com>
- <CAJo0Az6nDT-av_8HuudUt5Ob5ga7+=Qofaaa2Z2RTjKpsC1T+w@mail.gmail.com>
- <3831edba-2e59-48a8-9186-52c5a4081fd1@smile.fr>
- <CANx9H-C3W5A=gQWR=x7GS4OuS1m9qB6tv7H3s+GMD1Lj25g89Q@mail.gmail.com>
- <CANNYZj_tzSQ5a-CrBCka9ARa7ou2mudPfW4j3wOjbX0Pypmn4A@mail.gmail.com>
-Content-Language: en-US
-From: Yoann Congal <yoann.congal@smile.fr>
-Organization: Smile ECS
-In-Reply-To: <CANNYZj_tzSQ5a-CrBCka9ARa7ou2mudPfW4j3wOjbX0Pypmn4A@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241014102817.40298-1-mikko.rapeli@linaro.org>
+ <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com> <Zwz-urTA8Jj69agg@nuoska>
+In-Reply-To: <Zwz-urTA8Jj69agg@nuoska>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 14 Oct 2024 13:28:07 +0200
+Message-ID: <CANNYZj8vi7A_BSLTewb_LNLnPxzrmhn5fpxG8_OeOA_k-AhoXQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] ovmf-native: remove .pyc files from install
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 11:22:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205754
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 11:28:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205755
 
-Hi,
+On Mon, 14 Oct 2024 at 13:21, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+> I don't know. At this point I'd rather remove all tests in uki
+> support which are causing so many issues.
+>
+> I tried to dig deeper into ovmf native but it looks like a mess.
+> meta-arm edk2 doesn't compile anything for native but just installs
+> the python scripts and gets away with it. Same did not work for ovmf.
 
-Le 14/10/2024 à 12:42, Alexander Kanavin a écrit :
-> On Mon, 14 Oct 2024 at 04:00, Tim Orling <ticotimo@gmail.com> wrote:
-> 
->> Yoann and I were able to figure out a promising fix for maturin which is the root cause of the reproducibility issues. It needs a little more testing and rewording the commit message before we submit upstream (I mentioned data.tar which is a .deb thing not a wheel thing)
->>
->> https://github.com/moto-timo/maturin/tree/sort-records
-> 
-> It's a bit more complicated and I thought I'd document that. There are
-> three separate issues here:
-> 
-> 1) Maturin creates a .whl (zip archive) where files are listed in a
-> non-deterministic order in the archive index. I'm not 100% sure if
-> your patch addresses this problem - does it? Are the files supplied to
-> the zip writer in sorted order?
+The tests are important.
 
-We did not address this point with the patch, if that is fixed, its a
-welcomed unintended side-effect.
+Were you able to reproduce the issue locally? Ovmf is an awful
+component and a headache to work with, but I could take a look if I
+can get the same error. I'm just worried that deleting .pyc will only
+trigger the same error for the essential installed items.
 
-> 2) Maturin writes a RECORD file into that same archive which is as
-> well listing files in a non-deterministic order. This is certainly
-> addressed by the patch.
-> 
-> 3) python3-installer takes the .whl from maturin and processes the
-> files in it in the order they come, then writes out *its own* RECORD
-> based on that order, discarding the RECORD from maturin. So it
-> implicitly relies on the intermediate .whl being reproducible.
-
-Ok, I did not know that.
-
-> I've fixed the third issue [1], and it does fix the reproducibility
-> problem in the actual target install of cryptography. Installer
-> shouldn't be trusting that its input is already sorted.
-> 
-> [1] https://git.yoctoproject.org/poky-contrib/tree/meta/recipes-devtools/python/python3-installer/0001-src-installer-utils.py-sort-entries-before-writing-o.patch?h=akanavin/package-version-updates
-> 
-> But the fix for maturin is of course is also welcome.
-
-Awesome, then the python3-cryptography 43.0.1 upgrade should be merged
-after your patch?
-
-Thanks!
-
-> Alex
-
--- 
-Yoann Congal
-Smile ECS - Tech Expert
+Alex
 
