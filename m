@@ -1,148 +1,82 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E81A0D16242
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 11:06:05 +0000 (UTC)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
- by mx.groups.io with SMTP id smtpd.web10.52391.1728903965092405791
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09474D16243
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 11:21:36 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web10.52643.1728904895309577919
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 04:06:05 -0700
+ Mon, 14 Oct 2024 04:21:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=S/ZGz5Nj;
- spf=pass (domain: gmail.com, ip: 209.85.167.50, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-539e5c15fd3so1574509e87.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 04:06:04 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=IxnsLMH6;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539f7606199so786285e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 04:21:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728903963; x=1729508763; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3GxDCRTPFlFCpj6AW2XXIGHyqMainswvdWwepCh9H+c=;
-        b=S/ZGz5NjOrgJFVcF6rgiBE4ie+fWHCQ2/xaA60cFEFTTafOo6zJMCLBPDAGN9PUCZk
-         lTjM1CVZc0T3KXHYfObR5ZhuEZYuKJa4jnY+mUV4CkmvFMvPH1WuwZTwdyye7cm9gnxl
-         DHVacch5x/oEjuvrg3ZWnR7ZS/kg4xjgqRBuRz+xBpRmHPv9ZER+w3jY2k3fcZVRfBgD
-         ydRDiAZUeT7t8/gRIpxmBsyfmzgeUsdMM5+q7e8PfdFoQ30YXr5g+nAXLkao+ES06FEG
-         0JUmvZ54gJlmSCHZ+XM5s1MQ5Cfnxt1e/zuw6NBOseL+Wf9qmhjZYe3bn6ti+bGM2my4
-         5e/A==
+        d=linaro.org; s=google; t=1728904893; x=1729509693; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=XhYHDc1CtNkm8+XnSFtM6DONT5VpKYNcUDTMPDLwOuA=;
+        b=IxnsLMH6HfOWgV3FI3Dybo6e9/vz2AZDVWMLVNvaqu0F+0Z9EqFUtV3MMIuYAd+V7R
+         tKB8vx2hVG37r6RO/4EZ9NEhAa8Uqkdqp1vZR7tAhaXZNctvUgLFny0SJweKMyeeaR50
+         mwCpf3qf+GA4MVUSw6v1Zio5S2PEyRKbuNJ85coPqN4eyq3PiSCap5Npu3VhDeFaq3m1
+         1USjk4b2sxisyYnaKFY1/X+dpOlt4cqJm99VQUsigkfvb4lwJacSYaDq2Pm4zG31txEV
+         6QCBKTsFrMPwYD46sMVjl0cnRiClylyFrQ564AuYelzws6bZ17e1557iUjcc+HWZCi6S
+         r5Ag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728903963; x=1729508763;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3GxDCRTPFlFCpj6AW2XXIGHyqMainswvdWwepCh9H+c=;
-        b=qSSeC+42ck3MzH4X1aOqd4ahki/yNL7hJ8diV5zpGJG5UhiGYqlEHaYQgocvgo0Zlg
-         CZTzeu8zt6/d3nVdv6/M8+vs+Y9AOv0GXy5JpY85MQkN5JC8LY6SlQZOH0QZGng35pQo
-         37JwtE/QIh2zbROpVaWSV+52CVi9UM/O0goYvkysZGmI3838vh4MjxE0/Y6Cq3arHD5x
-         JLJaUVxx0aptHWNtZDS7z/QkNYuqZf6j5LAPjrwMrPCgpU1CpQon1OJLvCoykwfWT5Uq
-         1WAq9SxkATdbzukzVCWLf71q9NXhbLvYTh98vb/ko5dfGC8qJ3OrdV6z13rOhe090lkN
-         OLsg==
-X-Gm-Message-State: AOJu0YyStDa1a9IT58NLSTmAcqyuVGep4TlnbFCaXTpfMfwC4inlbHY0
-	SKv0PN6F1LP8lY3I40HiKgqjGcq2mgZwJylYwZYlMi4SZgUThzmfyYynxPbrEzowScSOSKSIdHL
-	be1vvqiUy2CMnXlgPH7ketsrkSIE=
-X-Google-Smtp-Source: AGHT+IH3q10VnX+jgbMI9LbXgN7XP4JZudemb+M2KiBaQ5I45Pd6ra9XZ7PKQt++bPIFsVeNQa/I74MUnAPmOz5ie9Q=
-X-Received: by 2002:a05:6512:4011:b0:539:f807:ada1 with SMTP id
- 2adb3069b0e04-539f807ca2bmr1010127e87.58.1728903963004; Mon, 14 Oct 2024
- 04:06:03 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241014102817.40298-1-mikko.rapeli@linaro.org>
-In-Reply-To: <20241014102817.40298-1-mikko.rapeli@linaro.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 14 Oct 2024 13:05:51 +0200
-Message-ID: <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ovmf-native: remove .pyc files from install
-To: mikko.rapeli@linaro.org
+        d=1e100.net; s=20230601; t=1728904893; x=1729509693;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=XhYHDc1CtNkm8+XnSFtM6DONT5VpKYNcUDTMPDLwOuA=;
+        b=UpFrTffRL1oYH8NxSL2iDh3Gdh6gTQUbzyZpgXRXuvHevjaiwWPgBLI9Q0yrlWMZMZ
+         KlcGTExMMZWMWmfnLkGWaVa7Z87AZejxaQAwvwWxnzcV6VhARMJ8GFBjFvyZYzly8a7o
+         AEMLNHg3HrwfGN4ey7L1/McZTVn3Y5g7faXYirRmn4h4w6gi1KGXHGLwy3g08V4IBDfe
+         ZgP9RBzbFnZ8mIgg6WLJqpveaPCi73N+vcbpYvjaYi2iBTZKQzsQ8YI1r9pVNDd7fBH+
+         DMXdKyvmEsabmhQqcoJJ/lRqZphS9Ln5QPJ/DZbaADGNBjc7Muzi9cyGGszLvPGpcjTl
+         0IrA==
+X-Gm-Message-State: AOJu0Yz321FZE/vOVmZAzepXbZvZcEPhookRxa+AviOkIqWEQZaJlK1n
+	xIu/sDhNUkESfJ7WY4ZS3hfVP0DOJkzEv4Qnn8Jb0KaBlYoNZW7X43W3s8w1lX8=
+X-Google-Smtp-Source: AGHT+IGKoHV7231GLabe4AFgX4XRV9CVE2VIjkxdM7qd4o+CAvWfJUH7Nl1IRqASVc3QQOGemM1Qiw==
+X-Received: by 2002:a05:6512:2808:b0:539:f961:f485 with SMTP id 2adb3069b0e04-539f961fae2mr1067233e87.29.1728904893358;
+        Mon, 14 Oct 2024 04:21:33 -0700 (PDT)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539ebc799b8sm685193e87.2.2024.10.14.04.21.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 04:21:32 -0700 (PDT)
+Date: Mon, 14 Oct 2024 14:21:30 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [OE-core] [PATCH] ovmf-native: remove .pyc files from install
+Message-ID: <Zwz-urTA8Jj69agg@nuoska>
+References: <20241014102817.40298-1-mikko.rapeli@linaro.org>
+ <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 11:06:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205751
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 11:21:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205752
 
-This doesn't quite make sense. Why is the problem specific to .pyc
-files and not other files ovmf installs?
+Hi,
 
-Alex
+On Mon, Oct 14, 2024 at 01:05:51PM +0200, Alexander Kanavin wrote:
+> This doesn't quite make sense. Why is the problem specific to .pyc
+> files and not other files ovmf installs?
 
-On Mon, 14 Oct 2024 at 12:28, Mikko Rapeli via lists.openembedded.org
-<mikko.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
->
-> They break builds which share sstate files on different
-> machines and paths:
->
-> ERROR: ovmf-edk2-stable202408-r0 do_prepare_recipe_sysroot: Error executi=
-ng a python function in exec_func_python() autogenerated:
->
-> The stack trace of python calls that resulted in this exception/failure w=
-as:
-> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
->      0001:
->  *** 0002:extend_recipe_sysroot(d)
->      0003:
-> File: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/classes-=
-global/staging.bbclass', lineno: 624, function: extend_recipe_sysroot
->      0620:
->      0621:    # Handle deferred binfiles
->      0622:    for l in binfiles:
->      0623:        (targetdir, dest) =3D binfiles[l]
->  *** 0624:        staging_copyfile(l, targetdir, dest, postinsts, seendir=
-s)
->      0625:
->      0626:    bb.note("Installed into sysroot: %s" % str(msg_adding))
->      0627:    bb.note("Skipping as already exists in sysroot: %s" % str(m=
-sg_exists))
->      0628:
-> File: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/classes-=
-global/staging.bbclass', lineno: 165, function: staging_copyfile
->      0161:        os.symlink(linkto, dest)
->      0162:        #bb.warn(c)
->      0163:    else:
->      0164:        try:
->  *** 0165:            os.link(c, dest)
->      0166:        except OSError as err:
->      0167:            if err.errno =3D=3D errno.EXDEV:
->      0168:                bb.utils.copyfile(c, dest)
->      0169:            else:
-> Exception: FileExistsError: [Errno 17] File exists: '/srv/pokybuild/yocto=
--worker/oe-selftest-fedora/build/build-st-667282/tmp/sysroots-components/x8=
-6_64/ovmf-native/usr/bin/edk2_basetools/BaseTools/Source/Python/AutoGen/__p=
-ycache__/WorkspaceAutoGen.cpython-312.pyc' -> '/srv/pokybuild/yocto-worker/=
-oe-selftest-fedora/build/build-st-667282/tmp/work/core2-64-poky-linux/ovmf/=
-edk2-stable202408/recipe-sysroot-native/usr/bin/edk2_basetools/BaseTools/So=
-urce/Python/AutoGen/__pycache__/WorkspaceAutoGen.cpython-312.pyc'
->
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
->  meta/recipes-core/ovmf/ovmf_git.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/=
-ovmf_git.bb
-> index 202182397d..e761736453 100644
-> --- a/meta/recipes-core/ovmf/ovmf_git.bb
-> +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-> @@ -223,6 +223,7 @@ do_compile:class-target() {
->
->  do_install:class-native() {
->      install -d ${D}/${bindir}/edk2_basetools
-> +    find ${S}/BaseTools -name \*.pyc -exec rm -rf \{\} \;
->      cp -r ${S}/BaseTools ${D}/${bindir}/${EDK_TOOLS_DIR}
->  }
->
-> --
-> 2.34.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#205740): https://lists.openembedded.org/g/openembedde=
-d-core/message/205740
-> Mute This Topic: https://lists.openembedded.org/mt/108998817/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+I don't know. At this point I'd rather remove all tests in uki
+support which are causing so many issues.
+
+I tried to dig deeper into ovmf native but it looks like a mess.
+meta-arm edk2 doesn't compile anything for native but just installs
+the python scripts and gets away with it. Same did not work for ovmf.
+
+Cheers,
+
+-Mikko
 
