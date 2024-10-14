@@ -1,76 +1,113 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F634D1624E
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 12:02:06 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.web10.53323.1728907317113423441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AF73D16250
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 12:13:56 +0000 (UTC)
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.53533.1728908035283318741
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 05:01:57 -0700
+ Mon, 14 Oct 2024 05:13:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Vtj/c4+E;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37cea34cb57so2785397f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 05:01:56 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=wwttDiph;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb587d0436so2799431fa.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 05:13:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1728907315; x=1729512115; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zsKuK5mpE9oAEoPeTbp3X7BQaiCit/eq8HPgWcfawj0=;
-        b=Vtj/c4+E+469NmjAWktdHGQv93j6/8+zhQrusbKOImc8t1oXLRhzWyrmzysoKYg4D5
-         FOeTmph+NjiFog62WzlY3MVJvTLRMH3+I3tsxoed9Ga1KG4SUHOjK7haFT3LQsbyILHG
-         nMdHaf0c8UDRIIO8ePU87fplSQ0aPLgWqLHMA=
+        d=linaro.org; s=google; t=1728908033; x=1729512833; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=GCiH25yygcJoM+dU6Yw1kGnGsrc7jJsGCAlx+4/XqB4=;
+        b=wwttDiphYwQl5nbwzZKTQ7gJxH4CGdARRB+8bYVlnDWvCRlLinQFrw1vkDMTeLz0/6
+         sVLM8QlEsz4WWbYHqD8sWms97UKOIVB6fins7RGS79K983jaliGUDnb6x3HqZKghqThq
+         DLbkoPxaNm0K57QGzUW9b377KOnR6E9JVDs+ov5KvonyQuLekDRHZseuRtTshSukmdxR
+         gbGVWp4QjHuJFX+M9aHzN/Xvh3eskYvqLnlK7Dy1zawWgrhiulWGjuq0rKFttr2Z3MAn
+         VTZj25XmQSvL1Mo5eMgi6JaT//SR8v6KLI8DOiPKXzu9T7RA4ve6X4dyGlrdTJG/ePar
+         3WpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728907315; x=1729512115;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zsKuK5mpE9oAEoPeTbp3X7BQaiCit/eq8HPgWcfawj0=;
-        b=paMt46cnLbvLdbxbpbMFQ39CMeujW9wJJAjfszehiu8HY+Epkt0k9K/+VaXEBvkmNu
-         bQVOLzrt+iu8zBVrxNzIdasJ1oq5+Xd4cQF+vOrA0s6JBosR/G6YBEVA8nQJROUAR5pn
-         v6FSD1ZsJqs2uFoDuwi2c6AWLd9JCL4gwxxXGE2Vm4N0q0vzRAjpdAFeyTWssGun8iJn
-         NxC2baKucFzL/W6J3H5on/0Dw7jdRLsqwdltlXX/LBHws/Nev5NaKcBsRNpjUUJf2lSW
-         wEZf/4lElNlg/oIPRBDXtYxyTJgNMF4Z10z0PDBYTrTF7rQSAmCJUjpU6MRNBUO/Zbvr
-         ktvw==
-X-Gm-Message-State: AOJu0YzHanE/ZO3ATSeXsKog/OYNkdJLdhABLqaoZ9THBeI59DPe3LqX
-	Ir9+cILUNTwW9lainDiFy374hq3Y/yvwzKGdjP/Npno7JXAZu33pDGAlgGDPsYM=
-X-Google-Smtp-Source: AGHT+IG+Ke8QsfV14Cm0cEC1VMHiMYZg4Xz6KwW3LfRolH+/8NuBlkMz5UFtiNLSoo7p0PySPMk5Iw==
-X-Received: by 2002:a5d:4fc6:0:b0:37d:453f:4491 with SMTP id ffacd0b85a97d-37d5518f628mr6612957f8f.8.1728907315198;
-        Mon, 14 Oct 2024 05:01:55 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4468:7613:7612:e2d5? ([2001:8b0:aba:5f3c:4468:7613:7612:e2d5])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431182ffd14sm117984495e9.18.2024.10.14.05.01.54
+        d=1e100.net; s=20230601; t=1728908033; x=1729512833;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=GCiH25yygcJoM+dU6Yw1kGnGsrc7jJsGCAlx+4/XqB4=;
+        b=uG+a4MNno81+7pAS8fP172sCx6Ili9B8W+1/vYMjE3FXOhX+F62umYTTOerjfA5crA
+         xF2EvoTTfloe3gFJsSzAY/ABp0sa0CU7IyAa142dZDOZHP0r1POkV/rSh5c1IWQJKcUp
+         dki52HYn2x0seyqazYupXXkBtfKhxtHU9bLh/QA88j8waJwmYOBECslVcjBlj0Qnj9hg
+         bpBEqbA5uNeL15p4o1r0WLnCBRlo+TrqDtMy1uDm2pAYJ5MD22w3UqUh0FjvBnPmKygV
+         +duPNAeyNLwG0h/haPPO8tHoQOeJ9EkPs6sihNbBsXL9jER77Zdai0mEsbpu35tEOvHA
+         rLGg==
+X-Gm-Message-State: AOJu0YzG0kdxCLmDHHxykNpHWN/nlC+lyonczg/Ju3Ww+jIpJCwilrLb
+	aV+rbg6qTog+/g1jz/f7BLvkgue0a+IQpo86KUbMw8sYofTB7AyFLfAEELE8yI4=
+X-Google-Smtp-Source: AGHT+IHqZZUK9yEh8XM6+GrKEqkc1BUx/SRJCRxgxb8HcEZfvKLe0GIJxO+D5WrEJ2kq20Sc9xSWlg==
+X-Received: by 2002:a2e:702:0:b0:2fa:d67a:ada7 with SMTP id 38308e7fff4ca-2fb3f1b764amr27275411fa.23.1728908033284;
+        Mon, 14 Oct 2024 05:13:53 -0700 (PDT)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb4f83b7b3sm3999701fa.87.2024.10.14.05.13.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Oct 2024 05:01:54 -0700 (PDT)
-Message-ID: <047b9ddb6f1aa89eab94c5d36262a8dfb081525e.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] ovmf-native: remove .pyc files from install
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, mikko.rapeli@linaro.org
+        Mon, 14 Oct 2024 05:13:51 -0700 (PDT)
+Date: Mon, 14 Oct 2024 15:13:48 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 14 Oct 2024 13:01:54 +0100
-In-Reply-To: <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
-References: <20241014102817.40298-1-mikko.rapeli@linaro.org>
-	 <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Subject: Re: [OE-core] [PATCH v8 0/8] systemd uki support
+Message-ID: <Zw0K_OPE5NanphKj@nuoska>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANNYZj-Ehb-nQfeJ0sKX0rACDbWPT5820weVNtQ9psd800d6yA@mail.gmail.com>
+ <ebd022b240f4bb6b8e2e2fb8d93a4c9f2ba9492f.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 12:02:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205760
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 12:13:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205761
 
-On Mon, 2024-10-14 at 13:05 +0200, Alexander Kanavin via
-lists.openembedded.org wrote:
-> This doesn't quite make sense. Why is the problem specific to .pyc
-> files and not other files ovmf installs?
+Hi,
 
-If it helps, I do roughly understand what is happening here and I
-believe this is the right fix.
+On Mon, Oct 14, 2024 at 01:42:46PM +0200, Alexander Kanavin wrote:
+> On Mon, 14 Oct 2024 at 13:39, Mikko Rapeli <mikko.rapeli@linaro.org> wrote:
+> > No, I'm not able to reproduce the problem. Maybe I'd need to share the sstate
+> > to another machine or user to trigger this. Just changing build paths
+> > doesn't trigger the problem on my build machine.
+> 
+> Can I see the link to the autobuilder failure where this was observed?
+
+Yes:
+
+On Sun, Oct 13, 2024 at 08:43:15AM +0100, Richard Purdie wrote:
+> I'm still seeing failures in CI:
+> 
+> https://valkyrie.yoctoproject.org//#/builders/23/builds/249/steps/14/logs/stdio
+> 
+> which is despite setting:
+> 
+> https://git.yoctoproject.org/poky/commit/?h=master-next&id=6211ad9210e82a5a8dd157c63752ad332c2f5de6
+> 
+> QEMU_USE_KVM = "False"
+> 
+> into the test to ensure it doesn't have the issue the barebox testing
+> was seeing.
+> 
+> I've sent a patch to try and clean up the lock error.
+> 
+> There is also this:
+> 
+> https://valkyrie.yoctoproject.org//#/builders/76/builds/235
+> https://valkyrie.yoctoproject.org//#/builders/48/builds/181
+> https://valkyrie.yoctoproject.org//#/builders/54/builds/230
+> 
+> which is due to the binaries being run "in tree" within the edk2 build
+> as well as from the sysroot. This generates two sets of pyc files which
+> then conflict (or not) depending on which host the build ran on and
+> which pyc files are in sstate.
+> 
+> We're going to have to get this fixed before it can merge, probably by
+> deleting the pyc files at install unless we can find anything more
+> elegant.
+
+After few experiments failed, I went with this.
 
 Cheers,
 
-Richard
+-Mikko
 
