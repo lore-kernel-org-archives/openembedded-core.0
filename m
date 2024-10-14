@@ -1,100 +1,130 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7AE3DD1625B
-	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 12:50:46 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.54052.1728910242174227520
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95E3AD1625F
+	for <webhook@archiver.kernel.org>; Mon, 14 Oct 2024 12:52:26 +0000 (UTC)
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.54249.1728910336020185162
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Oct 2024 05:50:42 -0700
+ Mon, 14 Oct 2024 05:52:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XpUpgTfG;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=WFvMY1vf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101928b14acb6-6da9ec81-e044-4990-9e3f-de2f95e478d3-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728910241; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=6TzG4cP0pHf3vrU5OxD+oGvtgWdYSKyaejB56K4/K24=;
-	b=XpUpgTfGAjKUgWjkZGP1vfeKMwbuds279RayW/J0iMZ+iofPqN3KJ86fDPCaV8EW
-	gHn4v5J29QaWpmchZ7EmvMRsTR+IrMLxQcnw9CvhowZaDTk0BnUBmNArRePxA2nWdAo
-	nXcOlpYRJSTdal1n+MSxq+GvNN02UfZDTtIAEXrQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728910241;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=6TzG4cP0pHf3vrU5OxD+oGvtgWdYSKyaejB56K4/K24=;
-	b=WFvMY1vfNXgOJRbzxwaBPF/ZZ3BniCaIjGwaflB1yl3KmE8F/rUfUJJFYR3Ct1P6
-	4HqL1Wov4tp1/EztdBeYa4h/HAX+jhino2ZyLIQU0KuohsmA5T7sXNSNekpbCy9dLNh
-	yNbf1oercf4b9NluIa/sOmT+zDVGB+LLL3g6+AbY=
-From: patchtest@automation.yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] fetch2/wget.py: use default wget user-agent in upstream
- version checks
-In-Reply-To: <20241014122732.2288752-1-alex.kanavin@gmail.com>
-References: <20241014122732.2288752-1-alex.kanavin@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101928b14acb6-6da9ec81-e044-4990-9e3f-de2f95e478d3-000000@us-west-2.amazonses.com>
-Date: Mon, 14 Oct 2024 12:50:40 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.14-54.240.27.193
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=PLEtuR58;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-430576ff251so37121105e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 05:52:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1728910334; x=1729515134; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=PkNdB/7jX+EGbUel3Gi5VNSq5dTF6cx+uIrUHlhh1x0=;
+        b=PLEtuR58cV/5xOwZ2k0ZeqwjKZsSoFNH6lDu0+Y8hgCEcG+U3Ko5NzE1S13x0r7/YG
+         AOh+PgNwzdDi933W2fIx+ve8eqQVgs+EnlxUSSMwqzCzg2aQsa0HZxaNt659MxfbCaUn
+         7n9gBzcd39NxQObI6RcYPXEC//ea8c+L2/FBg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728910334; x=1729515134;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PkNdB/7jX+EGbUel3Gi5VNSq5dTF6cx+uIrUHlhh1x0=;
+        b=qpidXkyRYHkIU1fgl0XjtKNoSZpLWX1KPXvHIfSl+M67Ikf0aWwRZmG5XTWfNFU9p9
+         eqDUvybUQ2YWRQo7wQTkOHOLn/QBP+Ddg8E7MhQvicnBZMuqCEA1vSLQTraqefq4j9vy
+         jhcfM1YQ/6FM17tgSO5ajJpX0nDntIep4/87lsy88vs9BTbBb0vOtRLHM0UQioQ2/AHS
+         /QyR8BJJgegFzgUpgXraww1pBvXBXPv0q/wzu+z2QejWJFlsWdpIE3U2sd7d6eecHcXa
+         QuwG38YxR1PuH1ssgt4BFXGl2K5ViQT+/ixJg47r8ld9eyY5R/N3E9bGFTZLameALUEx
+         hEig==
+X-Forwarded-Encrypted: i=1; AJvYcCXuHx+5MGEa2cuH4qExy8IXxkqn/m54aGgTw2dd/vJYCMqxC9TL0Sj1CGyTjIui5cGK0PT9ylKiGHjsvFuQVcC0KQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyMNoYnJsV2YjL8pRWUaF3ZHldLA6K+IgC6GuLKRSLredVFAfSc
+	2I2e0Iq5+FMGK7WmMYyybsVBZLQ1KwuXotiEflsJz8gQis/8FeDbrPna/M+DugY=
+X-Google-Smtp-Source: AGHT+IFnbdsRIJQkIfPrzPRA2ktRVLl10WzG+0viKV1hmur9oR8Tyu2crVdADXpoxigtYloB60r5XQ==
+X-Received: by 2002:a05:600c:1c29:b0:42f:75e0:7829 with SMTP id 5b1f17b1804b1-4311df56494mr94835635e9.30.1728910334222;
+        Mon, 14 Oct 2024 05:52:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4468:7613:7612:e2d5? ([2001:8b0:aba:5f3c:4468:7613:7612:e2d5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d4b7a05b3sm11397913f8f.76.2024.10.14.05.52.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Oct 2024 05:52:13 -0700 (PDT)
+Message-ID: <d90e529a8aaf0f3db3ca9ea233a5f942cdfbb9d2.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] ovmf-native: remove .pyc files from install
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ross.burton@arm.com
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, Mikko Rapeli
+	 <mikko.rapeli@linaro.org>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Mon, 14 Oct 2024 13:52:13 +0100
+In-Reply-To: <5F96FA44-761F-4C3A-9892-266B9FDD0366@arm.com>
+References: <20241014102817.40298-1-mikko.rapeli@linaro.org>
+	 <CANNYZj84yW7dBNYga4Aq748a_9_RuPi9y-H6kd+yG5Dun4dRKw@mail.gmail.com>
+	 <047b9ddb6f1aa89eab94c5d36262a8dfb081525e.camel@linuxfoundation.org>
+	 <5F96FA44-761F-4C3A-9892-266B9FDD0366@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 12:50:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205768
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Oct 2024 12:52:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205769
 
---NextPart
-Content-Type: text/plain
+On Mon, 2024-10-14 at 12:34 +0000, Ross Burton via
+lists.openembedded.org wrote:
+> On 14 Oct 2024, at 13:01, Richard Purdie via lists.openembedded.org
+> <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> >=20
+> > On Mon, 2024-10-14 at 13:05 +0200, Alexander Kanavin via
+> > lists.openembedded.org wrote:
+> > > This doesn't quite make sense. Why is the problem specific to
+> > > .pyc
+> > > files and not other files ovmf installs?
+> >=20
+> > If it helps, I do roughly understand what is happening here and I
+> > believe this is the right fix.
+>=20
+> So my understanding is that this is a general problem: if a native
+> recipe ships a .py but not .pyc then when that script is used python
+> will write a .pyc _into the sysroot_. If we then upgrade that recipe
+> and it now ships a .pyc then you get this error, as the sysroot
+> construction call wants to create a file that already exists.
+>=20
+> I think for scripts that are ran with python3-native then we should
+> be shipping the .pyc files, even in native recipes, because then
+> they=E2=80=99re pregenerated and will be used by python.=C2=A0 The fun is=
+ when the
+> script is ran by the host python, which is of indeterminate version.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+For fun, there are things which could be called by either the host
+python or python3-native from the sysroot depending on whether that was
+added to PATH for other reasons. That complicates things somewhat.
 
----
-Testing patch /home/patchtest/share/mboxes/1-2-fetch2-wget.py-use-default-wget-user-agent-in-upstream-version-checks.patch
+> I wonder if python has a way to control where the files get written,
+> so we could put freshly generated files into a separate directory
+> that isn=E2=80=99t part of the sysroot?=C2=A0 We could also make the sysr=
+oot read-
+> only outside of the sysroot manipulation, which would force python to
+> do something different too (though I believe this is just =E2=80=9Cdon=E2=
+=80=99t
+> write pyc?).
+>=20
+> Note that this problem impacts plenty of other recipes that for
+> historical reasons can't ship bytecode into the sysroot (see eg
+> python3-setuptools), so I do think we need a general solution and not
+> just a creeping and irreversible trend of deleting .pyc from the
+> sysroot.
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+I'm torn. It is a complex problem causing issues for patches which are
+otherwise ok and requires a great deal of thought to fix differently.
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+The performance impact of python generating those files at first run
+probably is negligible, compared even to the overhead of extracting
+files from sstate.
 
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Is this an issue we want to focus effort on? Are there gains here to be
+had?
 
----
+Cheers,
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+Richard
 
 
---NextPart--
 
