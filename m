@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ECA1D1D89F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D33DD1F9A1
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:02 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.11796.1728994553523488010
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.11800.1728994554615421866
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:15:53 -0700
+ Tue, 15 Oct 2024 05:15:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GfieUwxm;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pBEuLPHk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010192901b2b94-5799b1ba-9bd1-4050-9fe5-2a940e75c3a1-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cZPpFNf+;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZTGNDOC5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010192901b2f02-b522a268-46f5-4bd5-8c0c-50f566823916-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994552;
+	t=1728994553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=CKTncIwyzzPHIthTOFRzfud3sIM8PtxrRWtWwG/i+uA=;
-	b=GfieUwxmEu4bGSlbs1K5d5LGJVdRJ3ipISmndO0Mcs6xPBGfOSXKJCtGR8G7o29f
-	wc1OlEmbvDRqQVtQLszFeqPwAvdchdb9z3QgpG64Kc4HQA8OW7dJRehYxmLowVtsM/j
-	pVmoDxt6UyNq+uzNYTtk/6DAE054SPiNiLOxGCIg=
+	bh=D51xa0R9/RHW/k5CqhhK9dhSUY4RhxHg6NCTHbikGGg=;
+	b=cZPpFNf+4dLB9kcwSyc9nKJzJHdTSvagPa5r16CF2Oyj6HU1t9RgnLUPnOCr/Rv9
+	7wzKYkX6q4c+0FD1+1hQ1atiXjjNsGtVTGvVICT0bvK+DlldMx3XvicVwQKL21IWkyq
+	Yv/98lSmOfpCrLlLcw5pyjNjRaCnePSfG2WUx13A=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994552;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994553;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=CKTncIwyzzPHIthTOFRzfud3sIM8PtxrRWtWwG/i+uA=;
-	b=pBEuLPHkLjizeETtL2/LI5jijT4h/rtVhefjoOnqlpusH4OB2AiFbEsnmXLxK08z
-	aZ7iUAQGmi7nP4f8AwJJsm3RwaTHD8oFO4751fUwIbEsMgsx8cM9yW5C7diOkYBYi/K
-	FgcrvWacgNkpws7o/yRy1Pj+LEsDubFZBFMlqb+Q=
-Content-Type: multipart/mixed; boundary="===============1656151635955742672=="
+	bh=D51xa0R9/RHW/k5CqhhK9dhSUY4RhxHg6NCTHbikGGg=;
+	b=ZTGNDOC5Ykr1xPa1gNIjD77C/OlzZZ/DR0fj3Yto+AMjS99TqbPBeYnX9yDVt33A
+	qa3nKrofDD7EMMjTBdZUgEY6TlXhxJwiBjsmjRBKAJmfecJOOFJfgDbF1N7ESiWB07l
+	qrppnosiVrg199TBF9l0AaedHNwBjGySEpFgla18=
+Content-Type: multipart/mixed; boundary="===============2140243134973364650=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Marta Rybczynska <mrybczynska@syslinbit.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sysvinit: upgrading to 3.10 FAILED
-Message-ID: <01010192901b2b94-5799b1ba-9bd1-4050-9fe5-2a940e75c3a1-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:15:52 +0000
+Subject: [AUH] python3-beartype: upgrading to 0.19.0 FAILED
+Message-ID: <01010192901b2f02-b522a268-46f5-4bd5-8c0c-50f566823916-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:15:53 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.33
+X-SES-Outgoing: 2024.10.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205831
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205837
 
---===============1656151635955742672==
+--===============2140243134973364650==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,90 +51,189 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *sysvinit* to *3.10* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-beartype* to *0.19.0* has Failed(do_compile).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe sysvinit failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1875 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:30e42bca8bdfa220676ee5d04e5fbe9b249c303a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (0 cached, 920 parsed). 1876 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:30e42bca8bdfa220676ee5d04e5fbe9b249c303a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-4zye6qgh: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-jub0lwqz/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-jub0lwqz/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/slicer69/sysvinit/releases//download/3.10/sysvinit-3.10.tar.xz...
-INFO: Rebasing devtool onto e6365018c64673055a2311d4b2a51ac1b182b963
-WARNING: Command 'git rebase e6365018c64673055a2311d4b2a51ac1b182b963' failed:
-Auto-merging src/Makefile
-CONFLICT (content): Merge conflict in src/Makefile
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since that would be the default for this recipe
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/sysvinit
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/sysvinit/sysvinit_3.10.bb
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-python3-beartype-upgrade-0.18.5-0.19.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============1656151635955742672==--
+
+-- >8 --
+From baa7c026ea5706a87eb82aeb8a737ce9f7185323 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 15 Oct 2024 08:18:41 +0000
+Subject: [PATCH] python3-beartype: upgrade 0.18.5 -> 0.19.0
+
+---
+ .../{python3-beartype_0.18.5.bb => python3-beartype_0.19.0.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-beartype_0.18.5.bb => python3-beartype_0.19.0.bb} (78%)
+
+diff --git a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb b/meta/recipes-devtools/python/python3-beartype_0.19.0.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-beartype_0.18.5.bb
+rename to meta/recipes-devtools/python/python3-beartype_0.19.0.bb
+index 95d947c90e..ebdc7abab3 100644
+--- a/meta/recipes-devtools/python/python3-beartype_0.18.5.bb
++++ b/meta/recipes-devtools/python/python3-beartype_0.19.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://beartype.readthedocs.io"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=e71f94261c1b39896cacacfeaf60560e"
+ 
+-SRC_URI[sha256sum] = "264ddc2f1da9ec94ff639141fbe33d22e12a9f75aa863b83b7046ffff1381927"
++SRC_URI[sha256sum] = "de42dfc1ba5c3710fde6c3002e3bd2cad236ed4d2aabe876345ab0b4234a6573"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-- 
+2.44.1
+
+
+--===============2140243134973364650==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-beartype-upgrade-0.18.5-0.19.0.patch"
+
+RnJvbSBiYWE3YzAyNmVhNTcwNmE4N2ViODJhZWI4YTczN2NlOWY3MTg1MzIzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDg6MTg6NDEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWJlYXJ0eXBlOiB1cGdyYWRlIDAuMTguNSAtPiAwLjE5LjAKCi0tLQogLi4uL3tweXRo
+b24zLWJlYXJ0eXBlXzAuMTguNS5iYiA9PiBweXRob24zLWJlYXJ0eXBlXzAuMTkuMC5iYn0gIHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1iZWFydHlwZV8wLjE4LjUu
+YmIgPT4gcHl0aG9uMy1iZWFydHlwZV8wLjE5LjAuYmJ9ICg3OCUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWJlYXJ0eXBlXzAuMTguNS5iYiBiL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1iZWFydHlwZV8wLjE5LjAuYmIKc2lt
+aWxhcml0eSBpbmRleCA3OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWJlYXJ0eXBlXzAuMTguNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
+b2xzL3B5dGhvbi9weXRob24zLWJlYXJ0eXBlXzAuMTkuMC5iYgppbmRleCA5NWQ5NDdjOTBlLi5l
+YmRjN2FiYWIzIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtYmVhcnR5cGVfMC4xOC41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
+cHl0aG9uMy1iZWFydHlwZV8wLjE5LjAuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0
+dHBzOi8vYmVhcnR5cGUucmVhZHRoZWRvY3MuaW8iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxF
+U19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWU3MWY5NDI2MWMxYjM5ODk2Y2FjYWNmZWFm
+NjA1NjBlIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjY0ZGRjMmYxZGE5ZWM5NGZmNjM5MTQx
+ZmJlMzNkMjJlMTJhOWY3NWFhODYzYjgzYjcwNDZmZmZmMTM4MTkyNyIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICJkZTQyZGZjMWJhNWMzNzEwZmRlNmMzMDAyZTNiZDJjYWQyMzZlZDRkMmFhYmU4NzYz
+NDVhYjBiNDIzNGE2NTczIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRf
+bWV0YQogCi0tIAoyLjQ0LjEKCg==
+
+--===============2140243134973364650==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:3ca5aff35c14f2e45ab349af90362d48dde4586e"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 314 Local 305 Mirrors 0 Missed 9 Current 321 (97% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 394 of 635 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 396 of 635 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe python3-beartype-0.19.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 635 of 635 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_recipe_qa_setscene)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1786 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_fetch)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_fetch: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1787 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_unpack)
+NOTE: Running task 1788 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_unpack: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1789 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_patch)
+NOTE: Running task 1790 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_collect_spdx_deps)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_patch: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-beartype-0.19.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-beartype-0.19.0-r0: task do_patch: Succeeded
+NOTE: Running task 1792 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_configure)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_configure: Started
+NOTE: recipe python3-beartype-0.19.0-r0: task do_configure: Succeeded
+NOTE: Running task 1794 of 1805 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_compile)
+NOTE: recipe python3-beartype-0.19.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| 
+| Traceback (most recent call last):
+|   File "/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/pyproject_hooks/_impl.py", line 402, in _call_hook
+|     raise BackendUnavailable(
+| pyproject_hooks._impl.BackendUnavailable: Cannot import 'hatchling.build'
+| 
+| ERROR Backend 'hatchling.build' is not available.
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3989259:157 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/beartype-0.19.0'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3989259, line 157
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3989259, line 152
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3989259, line 168
+NOTE: recipe python3-beartype-0.19.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1794 tasks of which 1787 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015081828.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015081828.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/log.do_compile.3989259
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-beartype-0.19.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/run.do_compile.3989259' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-beartype/0.19.0/temp/log.do_compile.3989259
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-beartype_0.19.0.bb:do_compile) failed with exit code '1'
+
+--===============2140243134973364650==--
 
