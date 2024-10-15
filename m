@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB6DCD1D88B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1355D1D88D
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:01 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.11857.1728994543862801378
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.11802.1728994555781572509
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:15:58 -0700
+ Tue, 15 Oct 2024 05:15:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=VkOmQWCL;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=BO6oTvkv;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b4041-00353fd4-7fb2-4ead-9741-83a9f2de0be6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JLI3c1qh;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=k33vTxBy;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010192901b4482-7307d117-7c7d-4716-be65-8adb1140979a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994558;
+	t=1728994559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=y0xOlQnLsvhnsGJWwpVuHGZeBZcyO9pVatJd4PLgFCc=;
-	b=VkOmQWCLGvX60H7CPqhLm2FqtdoUjpM5g6i2sjTr8J/HrXmm2PRkX0kGZdsyiYrk
-	a4TwC4tMG7IIgGsBAFz5XwqKfofH8jtOdY/7bmymNescpKddMJMP5L+KYN72pZWi4Al
-	4quDBzdRq0zFufknw+RQ0GND3nbACMz7O1IjsWIY=
+	bh=f79zJirxgifijX2D1gASvrnAdNXotz99vbLzbFNZXjY=;
+	b=JLI3c1qhItaL5CPE281jUZsUyGUGkQnfkd8h74jpTzpCrWmi2E2pRM0zIXRA6bb4
+	qL48u70jDSffa3Cd22cgqLZ8bjDV7qmRlOWehWs16uv/FG/JTeIzQ/WHRTzXzbkC2m7
+	W6u4rBnsXFADoaUZvJULlFPVeEFjvzMDenUD4cGQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994558;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=y0xOlQnLsvhnsGJWwpVuHGZeBZcyO9pVatJd4PLgFCc=;
-	b=BO6oTvkvKM6UY48ElCWyfiNyLWCGe7QDrAAaFbIC3bdRBwzqwfDoMOHUEKc4em8u
-	oF6IrJ+c3SKFA2xdRRY3Ud5vzAFi0CY+h6NZakgEEIIn/6AZUaXJ5Hz2SjKb8u1Lm9C
-	D6IQrBEFJEMxYFQzeQ9bqVBooaVPH6CI2UeOA4lI=
-Content-Type: multipart/mixed; boundary="===============4726038439927296326=="
+	bh=f79zJirxgifijX2D1gASvrnAdNXotz99vbLzbFNZXjY=;
+	b=k33vTxBy+K0E4fWCnperjv5eygReWhmgT7rFre4I8GXW2d7NB/PvJahFFEpp+G75
+	W7K7+BhusvShnKPnq734OsDI5wbETMXFdWseqLnoL1BiakhxjwPiPiA5QFhtUvlS2KK
+	g7dHQb1ut/Vt8bCi4Ptd7uWReHmYGMofL/6vHDwo=
+Content-Type: multipart/mixed; boundary="===============5839122312929687227=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyparsing: upgrading to 3.2.0 SUCCEEDED
-Message-ID: <01010192901b4041-00353fd4-7fb2-4ead-9741-83a9f2de0be6-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:15:58 +0000
+Subject: [AUH] python3-sphinx-rtd-theme: upgrading to 3.0.1 SUCCEEDED
+Message-ID: <01010192901b4482-7307d117-7c7d-4716-be65-8adb1140979a-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:15:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.29
+X-SES-Outgoing: 2024.10.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205848
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205849
 
---===============4726038439927296326==
+--===============5839122312929687227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pyparsing* to *3.2.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-sphinx-rtd-theme* to *3.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyparsing-upgrade-3.1.4-3.2.0.patch
+    - apply the patch: git am 0001-python3-sphinx-rtd-theme-upgrade-3.0.0-3.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,102 +72,103 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 9f8b39f1e61507cf609c7d9990b82768bd556073 Mon Sep 17 00:00:00 2001
+From 843ce3891aabc03c470727858a01aae44a30c17f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 08:45:45 +0000
-Subject: [PATCH] python3-pyparsing: upgrade 3.1.4 -> 3.2.0
+Date: Tue, 15 Oct 2024 08:53:27 +0000
+Subject: [PATCH] python3-sphinx-rtd-theme: upgrade 3.0.0 -> 3.0.1
 
 ---
- .../{python3-pyparsing_3.1.4.bb => python3-pyparsing_3.2.0.bb}  | 2 +-
+ ...inx-rtd-theme_3.0.0.bb => python3-sphinx-rtd-theme_3.0.1.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.1.4.bb => python3-pyparsing_3.2.0.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-sphinx-rtd-theme_3.0.0.bb => python3-sphinx-rtd-theme_3.0.1.bb} (89%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.1.4.bb b/meta/recipes-devtools/python/python3-pyparsing_3.2.0.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-pyparsing_3.1.4.bb
-rename to meta/recipes-devtools/python/python3-pyparsing_3.2.0.bb
-index f256b047e3..de28d71fab 100644
---- a/meta/recipes-devtools/python/python3-pyparsing_3.1.4.bb
-+++ b/meta/recipes-devtools/python/python3-pyparsing_3.2.0.bb
-@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=657a566233888513e1f07ba13e2f47f1"
+diff --git a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.0.bb b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.1.bb
+similarity index 89%
+rename from meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.0.bb
+rename to meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.1.bb
+index f02f1fe42d..b4d0d2be90 100644
+--- a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.0.1.bb
+@@ -14,7 +14,7 @@ RDEPENDS:${PN} += " \
  
--SRC_URI[sha256sum] = "f86ec8d1a83f11977c9a6ea7598e8c27fc5cddfa5b07ea2241edbbde1d7bc032"
-+SRC_URI[sha256sum] = "cbf74e27246d595d9a74b186b810f6fbb86726dbf3b9532efb343f6d7294fe9c"
+ PYPI_PACKAGE = "sphinx_rtd_theme"
  
- UPSTREAM_CHECK_REGEX = "pyparsing-(?P<pver>.*)\.tar"
+-SRC_URI[sha256sum] = "905d67de03217fd3d76fbbdd992034ac8e77044ef8063a544dda1af74d409e08"
++SRC_URI[sha256sum] = "a4c5745d1b06dfcb80b7704fe532eb765b44065a8fad9851e4258c8804140703"
+ UPSTREAM_CHECK_REGEX ?= "/sphinx-rtd-theme/(?P<pver>(\d+[\.\-_]*)+)/"
  
+ inherit setuptools3 pypi
 -- 
 2.44.1
 
 
---===============4726038439927296326==
+--===============5839122312929687227==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pyparsing-upgrade-3.1.4-3.2.0.patch"
+ filename="0001-python3-sphinx-rtd-theme-upgrade-3.0.0-3.0.1.patch"
 
-RnJvbSA5ZjhiMzlmMWU2MTUwN2NmNjA5YzdkOTk5MGI4Mjc2OGJkNTU2MDczIE1vbiBTZXAgMTcg
+RnJvbSA4NDNjZTM4OTFhYWJjMDNjNDcwNzI3ODU4YTAxYWFlNDRhMzBjMTdmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDg6NDU6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5cGFyc2luZzogdXBncmFkZSAzLjEuNCAtPiAzLjIuMAoKLS0tCiAuLi4ve3B5dGhv
-bjMtcHlwYXJzaW5nXzMuMS40LmJiID0+IHB5dGhvbjMtcHlwYXJzaW5nXzMuMi4wLmJifSAgfCAy
-ICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFt
-ZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXB5cGFyc2luZ18zLjEuNC5i
-YiA9PiBweXRob24zLXB5cGFyc2luZ18zLjIuMC5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMS40LmJiIGIvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5cGFyc2luZ18zLjIuMC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
-L3B5dGhvbjMtcHlwYXJzaW5nXzMuMS40LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcHlwYXJzaW5nXzMuMi4wLmJiCmluZGV4IGYyNTZiMDQ3ZTMuLmRl
-MjhkNzFmYWIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1weXBhcnNpbmdfMy4xLjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXB5cGFyc2luZ18zLjIuMC5iYgpAQCAtMTAsNyArMTAsNyBAQCBCVUdUUkFDS0VSID0g
-Imh0dHBzOi8vZ2l0aHViLmNvbS9weXBhcnNpbmcvcHlwYXJzaW5nL2lzc3VlcyIKIExJQ0VOU0Ug
-PSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NjU3YTU2NjIz
-Mzg4ODUxM2UxZjA3YmExM2UyZjQ3ZjEiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmODZlYzhk
-MWE4M2YxMTk3N2M5YTZlYTc1OThlOGMyN2ZjNWNkZGZhNWIwN2VhMjI0MWVkYmJkZTFkN2JjMDMy
-IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImNiZjc0ZTI3MjQ2ZDU5NWQ5YTc0YjE4NmI4MTBmNmZi
-Yjg2NzI2ZGJmM2I5NTMyZWZiMzQzZjZkNzI5NGZlOWMiCiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VY
-ID0gInB5cGFyc2luZy0oP1A8cHZlcj4uKilcLnRhciIKIAotLSAKMi40NC4xCgo=
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDg6NTM6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXNwaGlueC1ydGQtdGhlbWU6IHVwZ3JhZGUgMy4wLjAgLT4gMy4wLjEKCi0tLQogLi4u
+aW54LXJ0ZC10aGVtZV8zLjAuMC5iYiA9PiBweXRob24zLXNwaGlueC1ydGQtdGhlbWVfMy4wLjEu
+YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1zcGhpbngtcnRk
+LXRoZW1lXzMuMC4wLmJiID0+IHB5dGhvbjMtc3BoaW54LXJ0ZC10aGVtZV8zLjAuMS5iYn0gKDg5
+JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3Bo
+aW54LXJ0ZC10aGVtZV8zLjAuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
+aG9uMy1zcGhpbngtcnRkLXRoZW1lXzMuMC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggODklCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1zcGhpbngtcnRkLXRo
+ZW1lXzMuMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtc3BoaW54LXJ0ZC10aGVtZV8zLjAuMS5iYgppbmRleCBmMDJmMWZlNDJkLi5iNGQwZDJiZTkw
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtc3BoaW54
+LXJ0ZC10aGVtZV8zLjAuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtc3BoaW54LXJ0ZC10aGVtZV8zLjAuMS5iYgpAQCAtMTQsNyArMTQsNyBAQCBSREVQRU5E
+Uzoke1BOfSArPSAiIFwKIAogUFlQSV9QQUNLQUdFID0gInNwaGlueF9ydGRfdGhlbWUiCiAKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICI5MDVkNjdkZTAzMjE3ZmQzZDc2ZmJiZGQ5OTIwMzRhYzhlNzcw
+NDRlZjgwNjNhNTQ0ZGRhMWFmNzRkNDA5ZTA4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImE0YzU3
+NDVkMWIwNmRmY2I4MGI3NzA0ZmU1MzJlYjc2NWI0NDA2NWE4ZmFkOTg1MWU0MjU4Yzg4MDQxNDA3
+MDMiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA/PSAiL3NwaGlueC1ydGQtdGhlbWUvKD9QPHB2ZXI+
+KFxkK1tcLlwtX10qKSspLyIKIAogaW5oZXJpdCBzZXR1cHRvb2xzMyBweXBpCi0tIAoyLjQ0LjEK
+Cg==
 
---===============4726038439927296326==
+--===============5839122312929687227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.12/site-packages/pyparsing-3.1.4.dist-info moved to /usr/lib/python3.12/site-packages/pyparsing-3.2.0.dist-info
+Changes to packages/core2-64-poky-linux/python3-sphinx-rtd-theme (sysroot):
+  /usr/lib/python3.12/site-packages/sphinx_rtd_theme-3.0.0.dist-info moved to /usr/lib/python3.12/site-packages/sphinx_rtd_theme-3.0.1.dist-info
 
---===============4726038439927296326==
+--===============5839122312929687227==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/python3-pyparsing: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.1.4.tar.gz;downloadfilename=pyparsing-3.1.4.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyparsing/pyparsing-3.2.0.tar.gz;downloadfilename=pyparsing-3.2.0.tar.gz"
-packages/core2-64-poky-linux/python3-pyparsing: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dbg: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-dev: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-doc: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-locale: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-src: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing-staticdev: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGSIZE changed from 863672 to 879628 (+2%)
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PV changed from "3.1.4" to "3.2.0"
-packages/core2-64-poky-linux/python3-pyparsing/python3-pyparsing: PKGV changed from 3.1.4 [default] to 3.2.0 [default]
-Changes to packages/core2-64-poky-linux/python3-pyparsing (sysroot):
-  /usr/lib/python3.12/site-packages/pyparsing-3.1.4.dist-info moved to /usr/lib/python3.12/site-packages/pyparsing-3.2.0.dist-info
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme: SRC_URI changed from "https://files.pythonhosted.org/packages/source/s/sphinx_rtd_theme/sphinx_rtd_theme-3.0.0.tar.gz;downloadfilename=sphinx_rtd_theme-3.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/s/sphinx_rtd_theme/sphinx_rtd_theme-3.0.1.tar.gz;downloadfilename=sphinx_rtd_theme-3.0.1.tar.gz"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme: PV changed from "3.0.0" to "3.0.1"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dbg: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dbg: PV changed from "3.0.0" to "3.0.1"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dev: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-dev: PV changed from "3.0.0" to "3.0.1"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-doc: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-doc: PV changed from "3.0.0" to "3.0.1"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-locale: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-locale: PV changed from "3.0.0" to "3.0.1"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-src: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-src: PV changed from "3.0.0" to "3.0.1"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-staticdev: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme-staticdev: PV changed from "3.0.0" to "3.0.1"
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PKGSIZE changed from 9966998 to 9967150 (+0%)
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PKGV changed from 3.0.0 [default] to 3.0.1 [default]
+packages/core2-64-poky-linux/python3-sphinx-rtd-theme/python3-sphinx-rtd-theme: PV changed from "3.0.0" to "3.0.1"
+Changes to packages/core2-64-poky-linux/python3-sphinx-rtd-theme (sysroot):
+  /usr/lib/python3.12/site-packages/sphinx_rtd_theme-3.0.0.dist-info moved to /usr/lib/python3.12/site-packages/sphinx_rtd_theme-3.0.1.dist-info
 
---===============4726038439927296326==--
+--===============5839122312929687227==--
 
