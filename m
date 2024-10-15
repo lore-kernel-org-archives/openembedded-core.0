@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3933D1D863
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C364ED1D860
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:15:50 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.11787.1728994547021533567
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.11789.1728994549806250973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:15:47 -0700
+ Tue, 15 Oct 2024 05:15:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cCc6MU5V;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MuEeVL9m;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010192901b1268-cf432ac0-bd5a-4a6e-bb36-465b9cb675b9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hOt7ypUu;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=dmpEDeep;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010192901b1d66-58191110-dd66-4006-8122-a73d821d8043-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994546;
+	t=1728994549;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FHOTUMctljEYDVRE5xceplSLkeBwUndQjqHbByRWVaE=;
-	b=cCc6MU5VBgCSKVWBdi4ke/cDbovR4XXWyvWgoSRQlgssGIZtoo7RgB4S3vVchWXn
-	S+iVRDO7YqbKS39vYuqcLv7bHFoZR0gjeadVSAWNRvELzxWk+npYnPmT5AMuhC8YOFc
-	E7ZhPUHPuN8GSZvn5EycHEdboqDp79Vs93ihAq2g=
+	bh=pVLsYm2fVAi7Q06DkQdjY7XOn4Y7orCb3vTmpiePJhU=;
+	b=hOt7ypUuO0KRIMzTD7vwmE+eMYZl3GVr2UIPlCqeNzHQIvES6odLk/pn9jGn9ZIX
+	cJKDc41ZHEE8sGTiC65HQxqJuK/B30LeuM2wzEYPqI9DvuJTUqq2ovzUWsFEPmsScHA
+	RBEBJ3g5LMQsOSvAsDch44NkrPkE6OghonA7fp08=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994546;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994549;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FHOTUMctljEYDVRE5xceplSLkeBwUndQjqHbByRWVaE=;
-	b=MuEeVL9mfEPtJrftE5IqYB/9+kq9lt6q4pM3CxqUl2w19wDzMb6nnSMQ59nFhfzg
-	fvlEFNR0i7BK7L9VdZH7nJHjHnuqyD6g4ncR+q7sj1VsHNEAXW+RPUpL4P3BGL/6ArV
-	QVzsy4vTIvY/0bS9ai0H7/a3oA+f91uqYa/cgdaQ=
-Content-Type: multipart/mixed; boundary="===============2577691656525222216=="
+	bh=pVLsYm2fVAi7Q06DkQdjY7XOn4Y7orCb3vTmpiePJhU=;
+	b=dmpEDeep2smVZatwbGgtXshsvBinjSuQLeB3cdbXZOpULF2JVkM6k2AoBdQ9RUpv
+	2XrRxfZ+i+0BLQ1kY4NzPJzOvcvebvWJEkkMomr214zi7J5fUBSB+j0PY2s3Hu2mInn
+	crLNyJJZMHTK7pLpntJKwsvN1h+hkAjNfkkGKUvU=
+Content-Type: multipart/mixed; boundary="===============2911147312612064416=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
 Cc: 
-Subject: [AUH] xf86-input-libinput,xf86-input-evdev: upgrading to 1.5.0,2.11.0
- FAILED
-Message-ID: <01010192901b1268-cf432ac0-bd5a-4a6e-bb36-465b9cb675b9-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:15:46 +0000
+Subject: [AUH] xtrans: upgrading to 1.5.1 SUCCEEDED
+Message-ID: <01010192901b1d66-58191110-dd66-4006-8122-a73d821d8043-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:15:49 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.191
+X-SES-Outgoing: 2024.10.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:15:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205815
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205818
 
---===============2577691656525222216==
+--===============2911147312612064416==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,89 +51,160 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xf86-input-libinput,xf86-input-evdev* to *1.5.0,2.11.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *xtrans* to *1.5.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-xtrans-upgrade-1.5.0-1.5.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  upgrade xf86-input-evdev -V 2.11.0
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1875 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (919 cached, 1 parsed). 1876 targets, 41 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:e1c3767b49f08dab5df59db63b50d974ff6ce3fe"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 921 .bb files complete (0 cached, 921 parsed). 1877 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:e1c3767b49f08dab5df59db63b50d974ff6ce3fe"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://www.x.org/releases//individual/driver/xf86-input-evdev-2.11.0.tar.bz2, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015063625.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015063625.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://www.x.org/releases//individual/driver/xf86-input-evdev-2.11.0.tar.bz2...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-c77g54aj/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-c77g54aj/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-c77g54aj/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-c77g54aj/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-c77g54aj/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-c77g54aj/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget -t 2 -T 30 -O /srv/pokybuild/yocto-worker/auh/build/build/downloads/xf86-input-evdev-2.11.0.tar.bz2.tmp -P /srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://www.x.org/releases//individual/driver/xf86-input-evdev-2.11.0.tar.bz2' --progress=dot -v failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/driver/xf86-input-evdev-2.11.0.tar.bz2')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-c77g54aj/work/temp/log.do_fetch.2541942
-ERROR: Failed to fetch URL https://www.x.org/releases//individual/driver/xf86-input-evdev-2.11.0.tar.bz2
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2577691656525222216==--
+
+-- >8 --
+From 517d3f476828712d71519b29eaf83926e0d2fa57 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 15 Oct 2024 06:39:08 +0000
+Subject: [PATCH] xtrans: upgrade 1.5.0 -> 1.5.1
+
+---
+ .../xorg-lib/xtrans/multilibfix.patch            | 16 ++++++++++++----
+ .../{xtrans_1.5.0.bb => xtrans_1.5.1.bb}         |  2 +-
+ 2 files changed, 13 insertions(+), 5 deletions(-)
+ rename meta/recipes-graphics/xorg-lib/{xtrans_1.5.0.bb => xtrans_1.5.1.bb} (88%)
+
+diff --git a/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch b/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch
+index c513bad20e..d757d765df 100644
+--- a/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch
++++ b/meta/recipes-graphics/xorg-lib/xtrans/multilibfix.patch
+@@ -1,14 +1,22 @@
++From 91ecdefffec69c04012c61df525dce1bd4a31fe1 Mon Sep 17 00:00:00 2001
++From: Richard Purdie <richard.purdie@linuxfoundation.org>
++Date: Fri, 29 Jun 2018 08:02:16 +0000
++Subject: [PATCH] xtrans: Fix multilib .pc file conflict
++
+ The xtrans.pc file is installed into a non-arch directory yet contains libdir
+ which can vary depending on which multilib is configured. The .pc file does
+ not require libdir so remove this to fix multilib builds.
+ 
+ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Upstream-Status: Pending
++---
++ xtrans.pc.in | 1 -
++ 1 file changed, 1 deletion(-)
+ 
+-Index: xtrans-1.3.5/xtrans.pc.in
+-===================================================================
+---- xtrans-1.3.5.orig/xtrans.pc.in
+-+++ xtrans-1.3.5/xtrans.pc.in
++diff --git a/xtrans.pc.in b/xtrans.pc.in
++index b8d135b..3e1a92d 100644
++--- a/xtrans.pc.in
+++++ b/xtrans.pc.in
+ @@ -1,6 +1,5 @@
+  prefix=@prefix@
+  exec_prefix=@exec_prefix@
+diff --git a/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb b/meta/recipes-graphics/xorg-lib/xtrans_1.5.1.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb
+rename to meta/recipes-graphics/xorg-lib/xtrans_1.5.1.bb
+index 781382e516..ea362750df 100644
+--- a/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb
++++ b/meta/recipes-graphics/xorg-lib/xtrans_1.5.1.bb
+@@ -22,4 +22,4 @@ inherit gettext
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-SRC_URI[sha256sum] = "1ba4b703696bfddbf40bacf25bce4e3efb2a0088878f017a50e9884b0c8fb1bd"
++SRC_URI[sha256sum] = "dea80fbd8c3c941495b4b1d2785cb652815d016849a0d2ef90d1140de916993e"
+-- 
+2.44.1
+
+
+--===============2911147312612064416==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-xtrans-upgrade-1.5.0-1.5.1.patch"
+
+RnJvbSA1MTdkM2Y0NzY4Mjg3MTJkNzE1MTliMjllYWY4MzkyNmUwZDJmYTU3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDY6Mzk6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+dHJhbnM6IHVwZ3JhZGUgMS41LjAgLT4gMS41LjEKCi0tLQogLi4uL3hvcmctbGliL3h0cmFucy9t
+dWx0aWxpYmZpeC5wYXRjaCAgICAgICAgICAgIHwgMTYgKysrKysrKysrKysrLS0tLQogLi4uL3t4
+dHJhbnNfMS41LjAuYmIgPT4geHRyYW5zXzEuNS4xLmJifSAgICAgICAgIHwgIDIgKy0KIDIgZmls
+ZXMgY2hhbmdlZCwgMTMgaW5zZXJ0aW9ucygrKSwgNSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIve3h0cmFuc18xLjUuMC5iYiA9PiB4dHJhbnNfMS41
+LjEuYmJ9ICg4OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGli
+L3h0cmFucy9tdWx0aWxpYmZpeC5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxp
+Yi94dHJhbnMvbXVsdGlsaWJmaXgucGF0Y2gKaW5kZXggYzUxM2JhZDIwZS4uZDc1N2Q3NjVkZiAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3h0cmFucy9tdWx0aWxp
+YmZpeC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveHRyYW5zL211
+bHRpbGliZml4LnBhdGNoCkBAIC0xLDE0ICsxLDIyIEBACitGcm9tIDkxZWNkZWZmZmVjNjljMDQw
+MTJjNjFkZjUyNWRjZTFiZDRhMzFmZTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tOiBS
+aWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KK0RhdGU6
+IEZyaSwgMjkgSnVuIDIwMTggMDg6MDI6MTYgKzAwMDAKK1N1YmplY3Q6IFtQQVRDSF0geHRyYW5z
+OiBGaXggbXVsdGlsaWIgLnBjIGZpbGUgY29uZmxpY3QKKwogVGhlIHh0cmFucy5wYyBmaWxlIGlz
+IGluc3RhbGxlZCBpbnRvIGEgbm9uLWFyY2ggZGlyZWN0b3J5IHlldCBjb250YWlucyBsaWJkaXIK
+IHdoaWNoIGNhbiB2YXJ5IGRlcGVuZGluZyBvbiB3aGljaCBtdWx0aWxpYiBpcyBjb25maWd1cmVk
+LiBUaGUgLnBjIGZpbGUgZG9lcwogbm90IHJlcXVpcmUgbGliZGlyIHNvIHJlbW92ZSB0aGlzIHRv
+IGZpeCBtdWx0aWxpYiBidWlsZHMuCiAKIFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxy
+aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogVXBzdHJlYW0tU3RhdHVzOiBQZW5k
+aW5nCistLS0KKyB4dHJhbnMucGMuaW4gfCAxIC0KKyAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlv
+bigtKQogCi1JbmRleDogeHRyYW5zLTEuMy41L3h0cmFucy5wYy5pbgotPT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0t
+IHh0cmFucy0xLjMuNS5vcmlnL3h0cmFucy5wYy5pbgotKysrIHh0cmFucy0xLjMuNS94dHJhbnMu
+cGMuaW4KK2RpZmYgLS1naXQgYS94dHJhbnMucGMuaW4gYi94dHJhbnMucGMuaW4KK2luZGV4IGI4
+ZDEzNWIuLjNlMWE5MmQgMTAwNjQ0CistLS0gYS94dHJhbnMucGMuaW4KKysrKyBiL3h0cmFucy5w
+Yy5pbgogQEAgLTEsNiArMSw1IEBACiAgcHJlZml4PUBwcmVmaXhACiAgZXhlY19wcmVmaXg9QGV4
+ZWNfcHJlZml4QApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3hvcmctbGliL3h0
+cmFuc18xLjUuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi94dHJhbnNfMS41
+LjEuYmIKc2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3hvcmctbGliL3h0cmFuc18xLjUuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3hvcmctbGliL3h0cmFuc18xLjUuMS5iYgppbmRleCA3ODEzODJlNTE2Li5lYTM2Mjc1MGRm
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MveG9yZy1saWIveHRyYW5zXzEuNS4w
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy94b3JnLWxpYi94dHJhbnNfMS41LjEuYmIK
+QEAgLTIyLDQgKzIyLDQgQEAgaW5oZXJpdCBnZXR0ZXh0CiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0
+aXZlIG5hdGl2ZXNkayIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjFiYTRiNzAzNjk2YmZkZGJm
+NDBiYWNmMjViY2U0ZTNlZmIyYTAwODg4NzhmMDE3YTUwZTk4ODRiMGM4ZmIxYmQiCitTUkNfVVJJ
+W3NoYTI1NnN1bV0gPSAiZGVhODBmYmQ4YzNjOTQxNDk1YjRiMWQyNzg1Y2I2NTI4MTVkMDE2ODQ5
+YTBkMmVmOTBkMTE0MGRlOTE2OTkzZSIKLS0gCjIuNDQuMQoK
+
+--===============2911147312612064416==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/xtrans: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans: SRC_URI changed from "https://www.x.org/releases//individual/lib/xtrans-1.5.0.tar.xz file://multilibfix.patch" to "https://www.x.org/releases//individual/lib/xtrans-1.5.1.tar.xz file://multilibfix.patch"
+packages/core2-64-poky-linux/xtrans: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+packages/core2-64-poky-linux/xtrans/xtrans-dbg: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans/xtrans-dbg: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+packages/core2-64-poky-linux/xtrans/xtrans-dev: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans/xtrans-dev: PKGSIZE changed from 167490 to 168170 (+0%)
+packages/core2-64-poky-linux/xtrans/xtrans-dev: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+packages/core2-64-poky-linux/xtrans/xtrans-doc: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans/xtrans-doc: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+packages/core2-64-poky-linux/xtrans/xtrans-locale: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans/xtrans-locale: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+packages/core2-64-poky-linux/xtrans/xtrans-src: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans/xtrans-src: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+packages/core2-64-poky-linux/xtrans/xtrans-staticdev: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans/xtrans-staticdev: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+packages/core2-64-poky-linux/xtrans/xtrans: PV changed from "1.5.0" to "1.5.1"
+packages/core2-64-poky-linux/xtrans/xtrans: PKGV changed from 1.5.0 [default] to 1.5.1 [default]
+
+--===============2911147312612064416==--
 
