@@ -2,138 +2,104 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E527FD1F9BD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D709DD1F9B5
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 18:51:30 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web11.4801.1729018286406226511
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.4744.1729018283106697808
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 11:51:26 -0700
+ Tue, 15 Oct 2024 11:51:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=UdF0S2ep;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-71e52582cf8so2211409b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 11:51:26 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=upfRUg/x;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7db90a28cf6so115026a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 11:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729018286; x=1729623086; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729018282; x=1729623082; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r5GqWygiqKPQ3YSwgrNKoRuD0vlGPDc52BttpQIHufk=;
-        b=UdF0S2eprg+QlV8lX86EJ1ynF92cHIoy5AJPwYt3i8NMas59/G1u2Jd8j5vyXSeqq1
-         P9ctaJ5H5CXDdXXlXyr1a770+D/lSR3DRx2PHYV1YBIOh4lFpntZt2THJ8RRQeyFa2W9
-         nNL+NkOXl+JoZ5D/zRksiWd0Mi4NB8tEf9lMYfw2VBA9fRKeTUveGdZhOZaLuC1bRe/R
-         q6ooYMxdKSzNWYgr577NipEuRpTNPE3tCqwGCB+ZwRuDAODTZTE+y6BOuAXAW9e/OpBU
-         8pA4eh13hkxzgZMKqmwLi2i2dZyPBhncjhAKvPq0EsvzmyrwjmD9iftjKqzBJu8nKivz
-         Q8cg==
+        bh=aHhFc45gkTDwnVX7xEfn1lHsJujv42R3yYz/bSTiI3o=;
+        b=upfRUg/x/vS8caRbVsZW/sqzITWTqlKSoAgiJCBIoMIVL4xPiEj08uCgZnWR7wggks
+         ogEOQz1HgRPkbykkFZHlXZfbYYMRgLKAI0TFKX5EhweAKIt+ecb4fDIzinXAwzI1+FHJ
+         AKYDbMkshmhQTnh/B1uRP3AkovaUvxVnUMxFA3Zu7LgLeRirZG7g+92udwvE1bCqKEmU
+         H2XxP6nenlfwnnriPefDSNQTkgDkwjRSi0MoP7QcpMWxwp0eXbnlu7KRHTkO8dR7/ZrI
+         vn2YjTI2JvJR/lW8ryTG4oYss5aH5f+XubGf2KaGmvv+lO2k3rZdmsSvcVhH14XETlh0
+         dLHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729018286; x=1729623086;
+        d=1e100.net; s=20230601; t=1729018282; x=1729623082;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r5GqWygiqKPQ3YSwgrNKoRuD0vlGPDc52BttpQIHufk=;
-        b=aRfwGVP7/XytNIWlkPd3RNoGs8qZ3E4fjwFBsVlCYb8uzLfCnDo7ISoyRNMWLYl4fu
-         LiDc1PPXxZg9YGG7YxMI8QH4qojOhKcjKMdaTSvP0boUO2PqFW2JTzcO2xllsJEDRLAY
-         wahlIDMeTGwypQUvPDZRFwSNqZpMn0aY7sSZLnArx4JFQQfrEKz6L7dXvkIXDxgTku72
-         qv7YinNrKQvaJYiwBxnzqwrYe0MTEBQQHY8LSWTPe5fQkxie6WqXFVTmLTtUGe/kFqcJ
-         nJAMTBM1cuTbr6ZTP4vj+q9bM6u9VY48YxSQUorRUkcuL+WGeWjkip8oqVlITjVo196G
-         RegA==
-X-Gm-Message-State: AOJu0YzBA93UvQX1j8bbqei//2b+1L2S7k/L8FBQZ8JyxkWfVc1u+YAd
-	jPyEAEDnzJSSutK5/MtyywIhJQ796wCWVnTB5mF5C/5hpOAPuf2YoK3/feyGi+jhW4dDGAMUdAD
+        bh=aHhFc45gkTDwnVX7xEfn1lHsJujv42R3yYz/bSTiI3o=;
+        b=b7ymdHGZsarck2hap3JRpLk0K+vXZU+O4XWAEHOyCapukntsC5xIv1O/J/Ff7llx4T
+         iL9XbttJ47x/K9TodES0O6qWCDOo7s5+YnY67To4eCgmj9oTD2juqq6xX943NrSTBJfb
+         u4nq7vClBVO6jWE1/9cuWnpkdlYCA56Vm7Sgv5tXoI0tXAn5eaGEKG/PYd1oyxs6SJrf
+         FWLPQ9kVJo9qeoiH6k49f0I+Aql8zoZr3xb7lrnxi4K5+30UIHe0UdqdWrMlmhiiglyU
+         ABrByi7RDMqR9X1zLqk2IFm55NPSL7sfdwroLG7qCy/uuRryERwsznulikRKqMajYldT
+         JXdQ==
+X-Gm-Message-State: AOJu0YyAl7q4PvhylCmp8IZh1ymL203inrf7JHqFO/2JEL00bWD5pMkr
+	4f5XXDNXrdQfrleqVii+7U1r5KhsDD1UXuYZnQj1AiTXwepkSB7W4lmbU+/dIvhnGjHrrA5rYW4
 	a
-X-Google-Smtp-Source: AGHT+IFUkBDEvOK+4m/nycnXVc0MuQZ3LrY2a+8mn//TQDrydBTdyJMRBXFF+SNYa2LGqckCwfHbvg==
-X-Received: by 2002:a05:6a20:d81a:b0:1d9:a72:87e9 with SMTP id adf61e73a8af0-1d90a728911mr641544637.10.1729018285627;
-        Tue, 15 Oct 2024 11:51:25 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6NKh6V8VLWvkzzjuLC7y49ZyKaU0dXQr5vnR3N6ZiVo5cbjPGJDuT8OrPgKf6OGRnugNUVA==
+X-Received: by 2002:a05:6a21:168e:b0:1d3:418a:e42 with SMTP id adf61e73a8af0-1d8bc81269amr23003019637.10.1729018282373;
+        Tue, 15 Oct 2024 11:51:22 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e773717b9sm1616187b3a.9.2024.10.15.11.51.25
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e773717b9sm1616187b3a.9.2024.10.15.11.51.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 11:51:25 -0700 (PDT)
+        Tue, 15 Oct 2024 11:51:22 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/18] recipes-bsp: usbutils: Fix usb-devices command using busybox
-Date: Tue, 15 Oct 2024 11:50:51 -0700
-Message-Id: <bb7dad01066d22c3cc4465bdf39ec4e310821d15.1729018153.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 13/18] runqemu: Fix detection of -serial parameter
+Date: Tue, 15 Oct 2024 11:50:49 -0700
+Message-Id: <44c1f003d617ac20527926b4b321ffd1fe4462bb.1729018153.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1729018153.git.steve@sakoman.com>
 References: <cover.1729018153.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 18:51:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205938
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205936
 
-From: Teresa Remmet <t.remmet@phytec.de>
+From: Jörg Sommer <joerg.sommer@navimatix.de>
 
-Unknown find parameter -printf makes usb-devices script unusable with
-busybox. Replace the parameter to fix this issue.
+The pattern `-serial` matches also `-device usb-serial` and `virtio-serial`
+which are not the desired parameter. This causes the serial console ttyS1 is
+missing and Systemd's getty@ttyS1 fails constantly.
 
-Signed-off-by: Teresa Remmet <t.remmet@phytec.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Jörg Sommer <joerg.sommer@navimatix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c7c9f827e914b7c27856d995da553a2e41372321)
+(cherry picked from commit b6d035894120b45b42f146ab5b3110522c58d178)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...devices-Fix-usb-devices-with-busybox.patch | 37 +++++++++++++++++++
- meta/recipes-bsp/usbutils/usbutils_017.bb     |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100755 meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
+ scripts/runqemu | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch b/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
-new file mode 100755
-index 0000000000..dbe5d7c18b
---- /dev/null
-+++ b/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
-@@ -0,0 +1,37 @@
-+From da155d965a34b5c5770dc30fa52eb7ef405f3a30 Mon Sep 17 00:00:00 2001
-+From: Teresa Remmet <t.remmet@phytec.de>
-+Date: Thu, 5 Sep 2024 08:37:48 +0200
-+Subject: [PATCH] usb-devices: Fix usb-devices with busybox
-+
-+The busybox find command is missing the -printf parameter leading to
-+the error:
-+
-+find: unrecognized: -printf
-+
-+Replace the parameter with sed.
-+
-+This patch was originally created by Daniel Fancsali.
-+
-+Upstream-Status: Backport [https://github.com/gregkh/usbutils/commit/da155d965a34b5c5770dc30fa52eb7ef405f3a30]
-+
-+Signed-off-by: Teresa Remmet <t.remmet@phytec.de>
-+---
-+ usb-devices | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/usb-devices b/usb-devices
-+index 5f60ad5a1ed0..51f48b4ad628 100755
-+--- a/usb-devices
-++++ b/usb-devices
-+@@ -192,7 +192,7 @@ if [ ! -d /sys/bus ]; then
-+ 	exit 1
-+ fi
-+ 
-+-for device in $(find /sys/bus/usb/devices -name 'usb*' -printf '%f\n' | sort -V)
-++for device in $(find /sys/bus/usb/devices -name 'usb*' | sed -E 's#^.*/##g' | sort -V)
-+ do
-+ 	print_device "/sys/bus/usb/devices/$device" 0 0 0
-+ done
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-bsp/usbutils/usbutils_017.bb b/meta/recipes-bsp/usbutils/usbutils_017.bb
-index a2e340ea4f..83d5c7287d 100644
---- a/meta/recipes-bsp/usbutils/usbutils_017.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_017.bb
-@@ -13,6 +13,7 @@ DEPENDS = "libusb1 virtual/libiconv udev"
+diff --git a/scripts/runqemu b/scripts/runqemu
+index fe395d1bc6..2ab36fd03d 100755
+--- a/scripts/runqemu
++++ b/scripts/runqemu
+@@ -1487,7 +1487,7 @@ to your build configuration.
+         # If no serial or serialtcp options were specified, only ttyS0 is created
+         # and sysvinit shows an error trying to enable ttyS1:
+         #     INIT: Id "S1" respawning too fast: disabled for 5 minutes
+-        serial_num = len(re.findall("-serial", self.qemu_opt))
++        serial_num = len(re.findall("(^| )-serial ", self.qemu_opt))
  
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
-            file://0001-usbutils.pc.in-Fix-Cflags-entry.patch \
-+           file://0001-usb-devices-Fix-usb-devices-with-busybox.patch \
-           "
- SRC_URI[sha256sum] = "f704c4cb78a060db88b43aac6ebfd3d93c2c5cf1d6dd0e42936faaf00814ab00"
+         # Assume if the user passed serial options, they know what they want
+         # and pad to two devices
+@@ -1507,7 +1507,7 @@ to your build configuration.
+ 
+                 self.qemu_opt += " %s" % self.get("QB_SERIAL_OPT")
+ 
+-        serial_num = len(re.findall("-serial", self.qemu_opt))
++        serial_num = len(re.findall("(^| )-serial ", self.qemu_opt))
+         if serial_num < 2:
+             self.qemu_opt += " -serial null"
  
 -- 
 2.34.1
