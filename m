@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FAED2168F
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:15 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.11857.1728994543862801378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79BC6D1D875
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:14 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.11785.1728994546659133999
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:13 -0700
+ Tue, 15 Oct 2024 05:16:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FI49GIxS;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RaoMKzvS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b78af-c7fb16a4-3900-4b22-9d71-7f27bed9c28c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=UAY2IuWv;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xHzoHJ+d;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010192901b5585-a7ea85d1-441d-4e25-b12e-6860f06ef85f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994572;
+	t=1728994563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZcaGSCGA4lmWAFW1HC3WQKXpR4BY6jGerwH3MFZg7i0=;
-	b=FI49GIxSHoOKUGUeoTjMbmxybnbb3aOSijelGkwr+xrSSkD37U3W1AHhYaWNLNZX
-	R+XdfAVr2PJoroT6/xtGeKvHOp2FDwYRz30Pll9c5PRfQ6kF10BmbxlPEsRfKOkWIAP
-	OARKZgOK01w+zVP52swxc26zA0EsamoamGfkCzTs=
+	bh=p488+vtxxdUP4uBX4lANfyhGwwntLLj8BiYPWHCo1gY=;
+	b=UAY2IuWvK81K+WZCsEKLhnhjVYoKSLL4dW+8lptmMgcFpjI5R7YJPbw18WncBkJ0
+	7iX0jPD8giU1l3eIK5E2czIetdHu95X7MJu/ojxhWvQuSnhFZvy1ym04KyM0XzJ0p9K
+	adBWMFiwZVwPuH5ExZuxWucyOGZb40uJyFIVjdLE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994572;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZcaGSCGA4lmWAFW1HC3WQKXpR4BY6jGerwH3MFZg7i0=;
-	b=RaoMKzvSKAegEqOXFHQOA9R/cpmXH9smpaX0VsaUajGETx4KaYUVPlyKA4fE+JNV
-	NUefUt+8he5PwvuAuDiqoq46DYUjnPKTk0HvvZy5bFfOva0qDZgs+weIlYzqxLYkfpi
-	4H0lkJVsKhsQ+Hq5h8BGGQTd5kpLd+uT2djuGuMg=
-Content-Type: multipart/mixed; boundary="===============5263949202437724616=="
+	bh=p488+vtxxdUP4uBX4lANfyhGwwntLLj8BiYPWHCo1gY=;
+	b=xHzoHJ+dYwFIi/0zItEmnft57ysSTkLKByB9QNOFUzS6B7CFKgIMDVde1N3If1ZZ
+	78+wGVRllNJWbVBsIq4wyTyWyHKZQrNR6ec5vCY6XSbTqST+6uZjTBXa/dyJTRyGUe7
+	HXOOYf8EitT2vNfzR6udJEqomxqpShtnB8P4aA6k=
+Content-Type: multipart/mixed; boundary="===============1796219893806548514=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libinput: upgrading to 1.26.2 SUCCEEDED
-Message-ID: <01010192901b78af-c7fb16a4-3900-4b22-9d71-7f27bed9c28c-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:12 +0000
+Subject: [AUH] gawk: upgrading to 5.3.1 SUCCEEDED
+Message-ID: <01010192901b5585-a7ea85d1-441d-4e25-b12e-6860f06ef85f-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.29
+X-SES-Outgoing: 2024.10.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205893
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205867
 
---===============5263949202437724616==
+--===============1796219893806548514==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libinput* to *1.26.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gawk* to *5.3.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libinput-upgrade-1.26.1-1.26.2.patch
+    - apply the patch: git am 0001-gawk-upgrade-5.3.0-5.3.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,46 +72,492 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7171a17cdddbe07974f3d46eeec397b5fd02e9c6 Mon Sep 17 00:00:00 2001
+From ee7c3dd4b7eff4c9cf159d4631bc4d7717cf6ef6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 11:31:42 +0000
-Subject: [PATCH] libinput: upgrade 1.26.1 -> 1.26.2
+Date: Tue, 15 Oct 2024 09:36:45 +0000
+Subject: [PATCH] gawk: upgrade 5.3.0 -> 5.3.1
 
 ---
- .../wayland/{libinput_1.26.1.bb => libinput_1.26.2.bb}          | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.26.1.bb => libinput_1.26.2.bb} (97%)
+ ...001-m4-readline-add-missing-includes.patch | 38 -------------------
+ .../gawk/{gawk_5.3.0.bb => gawk_5.3.1.bb}     |  3 +-
+ 2 files changed, 1 insertion(+), 40 deletions(-)
+ delete mode 100644 meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+ rename meta/recipes-extended/gawk/{gawk_5.3.0.bb => gawk_5.3.1.bb} (95%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.26.1.bb b/meta/recipes-graphics/wayland/libinput_1.26.2.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/libinput_1.26.1.bb
-rename to meta/recipes-graphics/wayland/libinput_1.26.2.bb
-index 487270505a..6a96b0e14a 100644
---- a/meta/recipes-graphics/wayland/libinput_1.26.1.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.26.2.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
- SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main \
+diff --git a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
+deleted file mode 100644
+index 6fffd1f373..0000000000
+--- a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From 4f4e84f139e2a8682f1374a592f2636c43ad857b Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Tue, 21 May 2024 15:10:11 +0000
+-Subject: [PATCH] m4/readline: add missing includes
+-
+-The cross-specific code fragment only includes stdio.h, where the native
+-fragment also includes fcntl.h and unistd.h.  This is important because
+-GCC 14.1 has made the implicit definitions an error:
+-
+-conftest.c: In function 'main':
+-conftest.c:144:9: error: implicit declaration of function 'close'; did you mean 'pclose'? [-Wimplicit-function-declaration]
+-conftest.c:146:14: error: implicit declaration of function 'open'; did you mean 'popen'? [-Wimplicit-function-declaration]
+-
+-Add the missing includes so that the check doesn't always fail due to
+-these errors.
+-
+-Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/gawk.git/commit/?id=c1613c310d71b87f509458e0259ecd10eda2b140]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- m4/readline.m4 | 2 ++
+- 1 file changed, 2 insertions(+)
+-
+-diff --git a/m4/readline.m4 b/m4/readline.m4
+-index 38f96326..efd52d4e 100644
+---- a/m4/readline.m4
+-+++ b/m4/readline.m4
+-@@ -66,6 +66,8 @@ dnl action if false:
+- dnl action if cross compiling:
+- 		[AC_LINK_IFELSE(
+- 			[AC_LANG_PROGRAM([[#include <stdio.h>
+-+#include <fcntl.h>
+-+#include <unistd.h>
+- #include <readline/readline.h>
+- #include <readline/history.h>]],		dnl includes
+- 			dnl function body
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb b/meta/recipes-extended/gawk/gawk_5.3.1.bb
+similarity index 95%
+rename from meta/recipes-extended/gawk/gawk_5.3.0.bb
+rename to meta/recipes-extended/gawk/gawk_5.3.1.bb
+index ac9d8500d6..50b891ef14 100644
+--- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
++++ b/meta/recipes-extended/gawk/gawk_5.3.1.bb
+@@ -16,11 +16,10 @@ PACKAGECONFIG[readline] = "--with-readline,--without-readline,readline"
+ PACKAGECONFIG[mpfr] = "--with-mpfr,--without-mpfr, mpfr"
+ 
+ SRC_URI = "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+-           file://0001-m4-readline-add-missing-includes.patch \
             file://run-ptest \
             "
--SRCREV = "124431a5d3186e1c3c3aa144a0634b84b3089486"
-+SRCREV = "3402f380019dc4f882e1d8627029607aca3f4be6"
- S = "${WORKDIR}/git"
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+-SRC_URI[sha256sum] = "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb55e440d30273336"
++SRC_URI[sha256sum] = "fa41b3a85413af87fb5e3a7d9c8fa8d4a20728c67651185bb49c38a7f9382b1e"
+ 
+ inherit autotools gettext texinfo update-alternatives
+ 
 -- 
 2.44.1
 
 
---===============5263949202437724616==
+--===============1796219893806548514==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gawk-upgrade-5.3.0-5.3.1.patch"
+
+RnJvbSBlZTdjM2RkNGI3ZWZmNGM5Y2YxNTlkNDYzMWJjNGQ3NzE3Y2Y2ZWY2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDk6MzY6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+YXdrOiB1cGdyYWRlIDUuMy4wIC0+IDUuMy4xCgotLS0KIC4uLjAwMS1tNC1yZWFkbGluZS1hZGQt
+bWlzc2luZy1pbmNsdWRlcy5wYXRjaCB8IDM4IC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi9nYXdr
+L3tnYXdrXzUuMy4wLmJiID0+IGdhd2tfNS4zLjEuYmJ9ICAgICB8ICAzICstCiAyIGZpbGVzIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCA0MCBkZWxldGlvbnMoLSkKIGRlbGV0ZSBtb2RlIDEwMDY0
+NCBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrLzAwMDEtbTQtcmVhZGxpbmUtYWRkLW1p
+c3NpbmctaW5jbHVkZXMucGF0Y2gKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay97
+Z2F3a181LjMuMC5iYiA9PiBnYXdrXzUuMy4xLmJifSAoOTUlKQoKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1leHRlbmRlZC9nYXdrL2dhd2svMDAwMS1tNC1yZWFkbGluZS1hZGQtbWlzc2luZy1p
+bmNsdWRlcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9nYXdrL2dhd2svMDAwMS1tNC1y
+ZWFkbGluZS1hZGQtbWlzc2luZy1pbmNsdWRlcy5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2
+NDQKaW5kZXggNmZmZmQxZjM3My4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5k
+ZWQvZ2F3ay9nYXdrLzAwMDEtbTQtcmVhZGxpbmUtYWRkLW1pc3NpbmctaW5jbHVkZXMucGF0Y2gK
+KysrIC9kZXYvbnVsbApAQCAtMSwzOCArMCwwIEBACi1Gcm9tIDRmNGU4NGYxMzllMmE4NjgyZjEz
+NzRhNTkyZjI2MzZjNDNhZDg1N2IgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCi1Gcm9tOiBSb3Nz
+IEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KLURhdGU6IFR1ZSwgMjEgTWF5IDIwMjQgMTU6
+MTA6MTEgKzAwMDAKLVN1YmplY3Q6IFtQQVRDSF0gbTQvcmVhZGxpbmU6IGFkZCBtaXNzaW5nIGlu
+Y2x1ZGVzCi0KLVRoZSBjcm9zcy1zcGVjaWZpYyBjb2RlIGZyYWdtZW50IG9ubHkgaW5jbHVkZXMg
+c3RkaW8uaCwgd2hlcmUgdGhlIG5hdGl2ZQotZnJhZ21lbnQgYWxzbyBpbmNsdWRlcyBmY250bC5o
+IGFuZCB1bmlzdGQuaC4gIFRoaXMgaXMgaW1wb3J0YW50IGJlY2F1c2UKLUdDQyAxNC4xIGhhcyBt
+YWRlIHRoZSBpbXBsaWNpdCBkZWZpbml0aW9ucyBhbiBlcnJvcjoKLQotY29uZnRlc3QuYzogSW4g
+ZnVuY3Rpb24gJ21haW4nOgotY29uZnRlc3QuYzoxNDQ6OTogZXJyb3I6IGltcGxpY2l0IGRlY2xh
+cmF0aW9uIG9mIGZ1bmN0aW9uICdjbG9zZSc7IGRpZCB5b3UgbWVhbiAncGNsb3NlJz8gWy1XaW1w
+bGljaXQtZnVuY3Rpb24tZGVjbGFyYXRpb25dCi1jb25mdGVzdC5jOjE0NjoxNDogZXJyb3I6IGlt
+cGxpY2l0IGRlY2xhcmF0aW9uIG9mIGZ1bmN0aW9uICdvcGVuJzsgZGlkIHlvdSBtZWFuICdwb3Bl
+bic/IFstV2ltcGxpY2l0LWZ1bmN0aW9uLWRlY2xhcmF0aW9uXQotCi1BZGQgdGhlIG1pc3Npbmcg
+aW5jbHVkZXMgc28gdGhhdCB0aGUgY2hlY2sgZG9lc24ndCBhbHdheXMgZmFpbCBkdWUgdG8KLXRo
+ZXNlIGVycm9ycy4KLQotVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXQuc2F2
+YW5uYWguZ251Lm9yZy9jZ2l0L2dhd2suZ2l0L2NvbW1pdC8/aWQ9YzE2MTNjMzEwZDcxYjg3ZjUw
+OTQ1OGUwMjU5ZWNkMTBlZGEyYjE0MF0KLVNpZ25lZC1vZmYtYnk6IFJvc3MgQnVydG9uIDxyb3Nz
+LmJ1cnRvbkBhcm0uY29tPgotLS0tCi0gbTQvcmVhZGxpbmUubTQgfCAyICsrCi0gMSBmaWxlIGNo
+YW5nZWQsIDIgaW5zZXJ0aW9ucygrKQotCi1kaWZmIC0tZ2l0IGEvbTQvcmVhZGxpbmUubTQgYi9t
+NC9yZWFkbGluZS5tNAotaW5kZXggMzhmOTYzMjYuLmVmZDUyZDRlIDEwMDY0NAotLS0tIGEvbTQv
+cmVhZGxpbmUubTQKLSsrKyBiL200L3JlYWRsaW5lLm00Ci1AQCAtNjYsNiArNjYsOCBAQCBkbmwg
+YWN0aW9uIGlmIGZhbHNlOgotIGRubCBhY3Rpb24gaWYgY3Jvc3MgY29tcGlsaW5nOgotIAkJW0FD
+X0xJTktfSUZFTFNFKAotIAkJCVtBQ19MQU5HX1BST0dSQU0oW1sjaW5jbHVkZSA8c3RkaW8uaD4K
+LSsjaW5jbHVkZSA8ZmNudGwuaD4KLSsjaW5jbHVkZSA8dW5pc3RkLmg+Ci0gI2luY2x1ZGUgPHJl
+YWRsaW5lL3JlYWRsaW5lLmg+Ci0gI2luY2x1ZGUgPHJlYWRsaW5lL2hpc3RvcnkuaD5dXSwJCWRu
+bCBpbmNsdWRlcwotIAkJCWRubCBmdW5jdGlvbiBib2R5Ci0tLSAKLTIuMzQuMQotCmRpZmYgLS1n
+aXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMy4wLmJiIGIvbWV0YS9yZWNp
+cGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjMuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMy4wLmJiCnJlbmFtZSB0
+byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvZ2F3ay9nYXdrXzUuMy4xLmJiCmluZGV4IGFjOWQ4NTAw
+ZDYuLjUwYjg5MWVmMTQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9nYXdrL2dh
+d2tfNS4zLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2dhd2svZ2F3a181LjMuMS5i
+YgpAQCAtMTYsMTEgKzE2LDEwIEBAIFBBQ0tBR0VDT05GSUdbcmVhZGxpbmVdID0gIi0td2l0aC1y
+ZWFkbGluZSwtLXdpdGhvdXQtcmVhZGxpbmUscmVhZGxpbmUiCiBQQUNLQUdFQ09ORklHW21wZnJd
+ID0gIi0td2l0aC1tcGZyLC0td2l0aG91dC1tcGZyLCBtcGZyIgogCiBTUkNfVVJJID0gIiR7R05V
+X01JUlJPUn0vZ2F3ay9nYXdrLSR7UFZ9LnRhci5neiBcCi0gICAgICAgICAgIGZpbGU6Ly8wMDAx
+LW00LXJlYWRsaW5lLWFkZC1taXNzaW5nLWluY2x1ZGVzLnBhdGNoIFwKICAgICAgICAgICAgZmls
+ZTovL3J1bi1wdGVzdCBcCiAgICAgICAgICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3
+OGY4ODY0ZWMyMWNmY2VhYTA0OGY3ZTE4NjlhYzliNDU5N2I0NDkwODdjYWYxZWI1NWU0NDBkMzAy
+NzMzMzYiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmE0MWIzYTg1NDEzYWY4N2ZiNWUzYTdkOWM4
+ZmE4ZDRhMjA3MjhjNjc2NTExODViYjQ5YzM4YTdmOTM4MmIxZSIKIAogaW5oZXJpdCBhdXRvdG9v
+bHMgZ2V0dGV4dCB0ZXhpbmZvIHVwZGF0ZS1hbHRlcm5hdGl2ZXMKIAotLSAKMi40NC4xCgo=
+
+--===============1796219893806548514==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-lg.quirks /usr/share/libinput/50-system-minisforum.quirks"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/50-system-lg.quirks was added
-  /usr/share/libinput/50-system-minisforum.quirks was added
+packages/core2-64-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/strsubscript.ok /usr/lib/gawk/ptest/test/dbugarray3.awk /usr/lib/gawk/ptest/test/printf-corners.ok /usr/lib/gawk/ptest/test/dbugarray1.ok /usr/lib/gawk/ptest/test/dbugarray1.in /usr/lib/gawk/ptest/test/dbugarray3.ok /usr/lib/gawk/ptest/test/re_test.awk /usr/lib/gawk/ptest/test/nsprof3.awk /usr/lib/gawk/ptest/test/asortsymtab-mpfr.ok /usr/lib/gawk/ptest/test/typeof7.awk /usr/lib/gawk/ptest/test/typeof8.awk /usr/lib/gawk/ptest/test/dbugarray3.in /usr/lib/gawk/ptest/test/match4.awk /usr/lib/gawk/ptest/test/matchuninitialized.ok /usr/lib/gawk/ptest/test/dbugarray4.ok /usr/lib/gawk/ptest/test/dbugarray4.awk /usr/lib/gawk/ptest/test/matchuninitialized.awk /usr/lib/gawk/ptest/test/strsubscript.awk /usr/lib/gawk/ptest/test/dbugarray4.in /usr/lib/gawk/ptest/test/dbugarray2.in /usr/lib/gawk/ptest/test/dbugarray2.awk /usr/lib/gawk/ptest/test/printf-corners-mpfr.ok /usr/lib/gawk/ptest/test/dbugarray2.ok /usr/
+ lib/gawk/ptest/test/typeof7.ok /usr/lib/gawk/ptest/test/typeof8.ok /usr/lib/gawk/ptest/test/re_test.ok /usr/lib/gawk/ptest/test/match4.ok /usr/lib/gawk/ptest/test/nsprof3.ok /usr/lib/gawk/ptest/test/dbugarray1.awk /usr/lib/gawk/ptest/test/printf-corners.awk"
+packages/core2-64-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.3.0", added "/usr/bin/gawk-5.3.1"
+packages/core2-64-poky-linux/gawk: PACKAGES: added "gawk-locale-ka"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1622,40 +2068,440 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============5263949202437724616==
+--===============1796219893806548514==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libinput: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-bin: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-bin: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 6436792 to 6436808 (+0%)
-packages/core2-64-poky-linux/libinput/libinput-dbg: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGSIZE changed from 219952 to 219936 (-0%)
-packages/core2-64-poky-linux/libinput/libinput-dev: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-doc: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-locale: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-locale: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-ptest: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-src: PKGSIZE changed from 3587187 to 3587165 (-0%)
-packages/core2-64-poky-linux/libinput/libinput-src: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-src: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1236502 to 1237057 (+0%)
-packages/core2-64-poky-linux/libinput/libinput: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-minisforum.quirks /usr/share/libinput/50-system-lg.quirks"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/50-system-lg.quirks was added
-  /usr/share/libinput/50-system-minisforum.quirks was added
+packages/core2-64-poky-linux/gawk/gawk-dbg: PKGSIZE changed from 2552136 to 2567144 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-dbg: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-dbg: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-dev: PKGSIZE changed from 42138 to 42488 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-dev: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-dev: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-doc: PKGSIZE changed from 2352307 to 2363583 (+0%)
+packages/core2-64-poky-linux/gawk/gawk-doc: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-doc: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-gawkbug: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-gawkbug: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-bg: PKGSIZE changed from 125283 to 121033 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-bg: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-bg: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ca: PKGSIZE changed from 51046 to 48698 (-5%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ca: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-ca: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-da: PKGSIZE changed from 36004 to 33958 (-6%)
+packages/core2-64-poky-linux/gawk/gawk-locale-da: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-da: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-de: PKGSIZE changed from 96695 to 93581 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-de: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-de: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-es: PKGSIZE changed from 95192 to 91998 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-es: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-es: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-fi: PKGSIZE changed from 56396 to 54007 (-4%)
+packages/core2-64-poky-linux/gawk/gawk-locale-fi: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-fi: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-fr: PKGSIZE changed from 96983 to 93836 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-fr: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-fr: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-id: PKGSIZE changed from 47007 to 45106 (-4%)
+packages/core2-64-poky-linux/gawk/gawk-locale-id: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-id: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-it: PKGSIZE changed from 92886 to 89741 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-it: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-it: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ja: PKGSIZE changed from 36469 to 34352 (-6%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ja: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-ja: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ko: PKGSIZE changed from 100387 to 97099 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ko: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-ko: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ms: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-ms: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-nl: PKGSIZE changed from 68681 to 65683 (-4%)
+packages/core2-64-poky-linux/gawk/gawk-locale-nl: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-nl: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-pl: PKGSIZE changed from 94551 to 91466 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-pl: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-pl: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PKGSIZE changed from 86494 to 83119 (-4%)
+packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-pt-br: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-pt: PKGSIZE changed from 85184 to 81859 (-4%)
+packages/core2-64-poky-linux/gawk/gawk-locale-pt: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-pt: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-ro: PKGSIZE changed from 97548 to 94356 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-ro: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-ro: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-sr: PKGSIZE changed from 116380 to 113185 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-sr: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-sr: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-sv: PKGSIZE changed from 92545 to 89480 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-sv: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-sv: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-uk: PKGSIZE changed from 119483 to 114854 (-4%)
+packages/core2-64-poky-linux/gawk/gawk-locale-uk: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-uk: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-vi: PKGSIZE changed from 63942 to 61178 (-4%)
+packages/core2-64-poky-linux/gawk/gawk-locale-vi: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-vi: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PKGSIZE changed from 86715 to 83805 (-3%)
+packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-locale-zh-cn: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-ptest: PKGSIZE changed from 1392513 to 1405254 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-ptest: FILELIST: added "/usr/lib/gawk/ptest/test/strsubscript.awk /usr/lib/gawk/ptest/test/printf-corners.awk /usr/lib/gawk/ptest/test/dbugarray2.ok /usr/lib/gawk/ptest/test/dbugarray3.awk /usr/lib/gawk/ptest/test/printf-corners-mpfr.ok /usr/lib/gawk/ptest/test/dbugarray4.ok /usr/lib/gawk/ptest/test/match4.ok /usr/lib/gawk/ptest/test/typeof7.ok /usr/lib/gawk/ptest/test/typeof8.ok /usr/lib/gawk/ptest/test/re_test.ok /usr/lib/gawk/ptest/test/nsprof3.ok /usr/lib/gawk/ptest/test/dbugarray1.ok /usr/lib/gawk/ptest/test/dbugarray1.awk /usr/lib/gawk/ptest/test/dbugarray4.awk /usr/lib/gawk/ptest/test/dbugarray4.in /usr/lib/gawk/ptest/test/match4.awk /usr/lib/gawk/ptest/test/dbugarray1.in /usr/lib/gawk/ptest/test/dbugarray2.in /usr/lib/gawk/ptest/test/dbugarray3.ok /usr/lib/gawk/ptest/test/dbugarray2.awk /usr/lib/gawk/ptest/test/dbugarray3.in /usr/lib/gawk/ptest/test/strsubscript.ok /usr/lib/gawk/ptest/test/matchuninitialized.ok /usr/lib/gawk/ptest/test/n
+ sprof3.awk /usr/lib/gawk/ptest/test/matchuninitialized.awk /usr/lib/gawk/ptest/test/typeof8.awk /usr/lib/gawk/ptest/test/typeof7.awk /usr/lib/gawk/ptest/test/re_test.awk /usr/lib/gawk/ptest/test/asortsymtab-mpfr.ok /usr/lib/gawk/ptest/test/printf-corners.ok"
+packages/core2-64-poky-linux/gawk/gawk-ptest: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-ptest: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-src: PKGSIZE changed from 2379256 to 2397440 (+1%)
+packages/core2-64-poky-linux/gawk/gawk-src: FILELIST: directory renamed /usr/src/debug/gawk/5.3.0/support/malloc -> /usr/src/debug/gawk/5.3.1/support/malloc, directory renamed /usr/src/debug/gawk/5.3.0/posix -> /usr/src/debug/gawk/5.3.1/posix, directory renamed /usr/src/debug/gawk/5.3.0/support -> /usr/src/debug/gawk/5.3.1/support, directory renamed /usr/src/debug/gawk/5.3.0/extension -> /usr/src/debug/gawk/5.3.1/extension, directory renamed /usr/src/debug/gawk/5.3.0/awklib -> /usr/src/debug/gawk/5.3.1/awklib, removed "/usr/src/debug/gawk/5.3.0/floatcomp.c /usr/src/debug/gawk/5.3.0/re.c /usr/src/debug/gawk/5.3.0/eval.c /usr/src/debug/gawk/5.3.0/int_array.c /usr/src/debug/gawk/5.3.0/str_array.c /usr/src/debug/gawk/5.3.0/awkgram.y /usr/src/debug/gawk/5.3.0/io.c /usr/src/debug/gawk/5.3.0/msg.c /usr/src/debug/gawk/5.3.0/awkgram.c /usr/src/debug/gawk/5.3.0/field.c /usr/src/debug/gawk/5.3.0/array.c /usr/src/debug/gawk/5.3.0/debug.c /usr/src/debug/gawk/5.3.0/awk.h /usr/src/debug/gawk/5.3.0/
+ symbol.c /usr/src/debug/gawk/5.3.0/command.c /usr/src/debug/gawk/5.3.0/profile.c /usr/src/debug/gawk/5.3.0/command.y /usr/src/debug/gawk/5.3.0/gawkapi.h /usr/src/debug/gawk/5.3.0/node.c /usr/src/debug/gawk/5.3.0/gawkapi.c /usr/src/debug/gawk/5.3.0/interpret.h /usr/src/debug/gawk/5.3.0/builtin.c /usr/src/debug/gawk/5.3.0/version.c /usr/src/debug/gawk/5.3.0/mpfr.c /usr/src/debug/gawk/5.3.0/cint_array.c /usr/src/debug/gawk/5.3.0/ext.c /usr/src/debug/gawk/5.3.0/cmd.h /usr/src/debug/gawk/5.3.0/main.c", added "/usr/src/debug/gawk/5.3.1/eval.c /usr/src/debug/gawk/5.3.1/awk.h /usr/src/debug/gawk/5.3.1/gawkapi.h /usr/src/debug/gawk/5.3.1/gawkapi.c /usr/src/debug/gawk/5.3.1/msg.c /usr/src/debug/gawk/5.3.1/main.c /usr/src/debug/gawk/5.3.1/floatcomp.c /usr/src/debug/gawk/5.3.1/io.c /usr/src/debug/gawk/5.3.1/interpret.h /usr/src/debug/gawk/5.3.1/awkgram.y /usr/src/debug/gawk/5.3.1/cint_array.c /usr/src/debug/gawk/5.3.1/cmd.h /usr/src/debug/gawk/5.3.1/builtin.c /usr/src/debug/gawk/5.3.1/version.c
+  /usr/src/debug/gawk/5.3.1/awkgram.c /usr/src/debug/gawk/5.3.1/ext.c /usr/src/debug/gawk/5.3.1/printf.c /usr/src/debug/gawk/5.3.1/symbol.c /usr/src/debug/gawk/5.3.1/node.c /usr/src/debug/gawk/5.3.1/int_array.c /usr/src/debug/gawk/5.3.1/profile.c /usr/src/debug/gawk/5.3.1/command.c /usr/src/debug/gawk/5.3.1/mpfr.c /usr/src/debug/gawk/5.3.1/re.c /usr/src/debug/gawk/5.3.1/command.y /usr/src/debug/gawk/5.3.1/array.c /usr/src/debug/gawk/5.3.1/debug.c /usr/src/debug/gawk/5.3.1/field.c /usr/src/debug/gawk/5.3.1/str_array.c"
+packages/core2-64-poky-linux/gawk/gawk-src: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-src: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk-staticdev: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk-staticdev: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk/gawk: PKGSIZE changed from 941392 to 941410 (+0%)
+packages/core2-64-poky-linux/gawk/gawk: FILELIST: removed "/usr/bin/gawk-5.3.0", added "/usr/bin/gawk-5.3.1"
+packages/core2-64-poky-linux/gawk/gawk: PV changed from "5.3.0" to "5.3.1"
+packages/core2-64-poky-linux/gawk/gawk: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk: PACKAGES: added "gawk-locale-ka"
+packages/core2-64-poky-linux/gawk: SRC_URI changed from "https://ftp.gnu.org/gnu/gawk/gawk-5.3.0.tar.gz file://0001-m4-readline-add-missing-includes.patch file://run-ptest" to "https://ftp.gnu.org/gnu/gawk/gawk-5.3.1.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/gawk: PKGV changed from 5.3.0 [default] to 5.3.1 [default]
+packages/core2-64-poky-linux/gawk: PV changed from "5.3.0" to "5.3.1"
+Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-addr2line was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-as was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++filt was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-dwp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-elfedit was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gprof was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.bfd was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ld.gold was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objcopy was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-objdump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-readelf was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-size was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strings was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/libdep.so was added
+  /usr/lib/x86_64-poky-linux/ldscripts was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf32_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_i386.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_iamcu.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xd was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdcer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xde was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xder was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xdwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xs was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsc was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsce was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xscer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xse was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xser was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xsw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xswer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xw was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/elf_x86_64.xwer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pep.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.x was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xa was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xbn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xe was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xer was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xn was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xr was added
+  /usr/lib/x86_64-poky-linux/ldscripts/i386pe.xu was added
+  /usr/lib/x86_64-poky-linux/ldscripts/stamp was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-binutils was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-addr2line was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-as was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++filt was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-dwp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-elfedit was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gprof was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objcopy was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-objdump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-readelf was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-size was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strings was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/libdep.so was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf32_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_i386.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_iamcu.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xd was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdcer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xde was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xder was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xdwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xs was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsc was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsce was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xscer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xse was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xser was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xsw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xswer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xw was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/elf_x86_64.xwer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pep.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.x was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xa was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xbn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xe was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xer was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xn was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xr was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/i386pe.xu was removed
+  /usr/lib/x86_64-poky-linux-musl/ldscripts/stamp was removed
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3166,35 +4012,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============5263949202437724616==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libinput-upgrade-1.26.1-1.26.2.patch"
-
-RnJvbSA3MTcxYTE3Y2RkZGJlMDc5NzRmM2Q0NmVlZWMzOTdiNWZkMDJlOWM2IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MzE6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJpbnB1dDogdXBncmFkZSAxLjI2LjEgLT4gMS4yNi4yCgotLS0KIC4uLi93YXlsYW5kL3tsaWJp
-bnB1dF8xLjI2LjEuYmIgPT4gbGliaW5wdXRfMS4yNi4yLmJifSAgICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3tsaWJpbnB1dF8xLjI2LjEuYmIgPT4gbGliaW5wdXRf
-MS4yNi4yLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXls
-YW5kL2xpYmlucHV0XzEuMjYuMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xp
-YmlucHV0XzEuMjYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC9saWJpbnB1dF8xLjI2LjEuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xpYmlucHV0XzEuMjYuMi5iYgppbmRleCA0ODcyNzA1
-MDVhLi42YTk2YjBlMTRhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFu
-ZC9saWJpbnB1dF8xLjI2LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQv
-bGliaW5wdXRfMS4yNi4yLmJiCkBAIC0xNSw3ICsxNSw3IEBAIERFUEVORFMgPSAibGliZXZkZXYg
-dWRldiBtdGRldiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9saWJp
-bnB1dC9saWJpbnB1dC5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogICAgICAgICAg
-ICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjEyNDQzMWE1ZDMx
-ODZlMWMzYzNhYTE0NGEwNjM0Yjg0YjMwODk0ODYiCitTUkNSRVYgPSAiMzQwMmYzODAwMTlkYzRm
-ODgyZTFkODYyNzAyOTYwN2FjYTNmNGJlNiIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIFVQU1RS
-RUFNX0NIRUNLX1JFR0VYID0gImxpYmlucHV0LSg/UDxwdmVyPlxkK1wuXGQrXC4oPyE5XGQrKVxk
-KykiCi0tIAoyLjQ0LjEKCg==
-
---===============5263949202437724616==--
+--===============1796219893806548514==--
 
