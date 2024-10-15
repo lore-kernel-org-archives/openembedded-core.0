@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB21D1F9D4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D38D1F9CF
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:13 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.11879.1728994568101029540
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web10.11863.1728994550401994657
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:08 -0700
+ Tue, 15 Oct 2024 05:16:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TCz0Vt0S;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=EVwdJGrj;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b654f-fe0c2883-1672-40c7-8ac7-0ef13bfa712c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=g56O7OrW;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3tVBwLDI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010192901b6a71-9e37b05d-203a-4931-a464-6fa3ef2e58d4-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994567;
+	t=1728994568;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=zOxr28AaqBUtd7hyf13iZhxYTV/YAyiGCcIcYkl0XjE=;
-	b=TCz0Vt0SzRZPnaK5pAowLS3XfxHf+IaFY9UY+HgYQ15T7G3aC47o2c7FVhzltX3j
-	SSqfCprlp5oWl8OkZfdcAr0LvwyBsvdABoYzKaFXYbJqQvyMoBaS6AnTRe1qW5tL493
-	Zc+vWXHMTCB1DpCN+J0nuDjR5aEa0MbZrzt4CE9c=
+	bh=4yrxd8f6saqyGcFyRDzZ9Ztult/jW/cOgkMJNN2nXiY=;
+	b=g56O7OrW/za90fwOk0zGHOrifBxl2+9g/fAZ92aPsowcCSaS4a+SOCkNsPSmU1Nr
+	kasz0QAnjEywgCTXnVcgR81KS5p01DNxeKUf20pnoc5qm7fjlSObNyDutZSqmfY+ao+
+	NFIFnhulxwia5qpZBNQKZ5MKbYiEawO4D1nCyJBs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994567;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994568;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=zOxr28AaqBUtd7hyf13iZhxYTV/YAyiGCcIcYkl0XjE=;
-	b=EVwdJGrj5HvHrkeqC80Yv1/ymAuzNlZEXxprxpane1KZb/O4hALAArD1IBkJB7yM
-	DLosS2v0x7OIqXBXp0vuA4yVPcQmyEGlqNSNFT7Ed1uyoOGvGnkl1QL6iYCUMDgn5vK
-	dnPZWRpLHX5UbTRtc3oX9FOZ402R3ppog4QFABZs=
-Content-Type: multipart/mixed; boundary="===============4717451338032718171=="
+	bh=4yrxd8f6saqyGcFyRDzZ9Ztult/jW/cOgkMJNN2nXiY=;
+	b=3tVBwLDInmPAqA8HwhGdkH58oPVbSz6ISFP5Jy5UI3RamTS5oqWlHbYO6L4S5coS
+	ogHpPLEpX9i1nojQBOgcw8vQlc5ikw9HYSM6EYG96N4sjtplJgGU/zGEF64MOyToS7Z
+	mhTVcZA11DccAQQwO7FjADpTF3HQl6zxTrjzosVY=
+Content-Type: multipart/mixed; boundary="===============9014919936703126016=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Otavio Salvador <otavio.salvador@ossystems.com.br>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa: upgrading to 24.2.4 FAILED
-Message-ID: <01010192901b654f-fe0c2883-1672-40c7-8ac7-0ef13bfa712c-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:07 +0000
+Subject: [AUH] spirv-tools: upgrading to 1.3.296.0 FAILED
+Message-ID: <01010192901b6a71-9e37b05d-203a-4931-a464-6fa3ef2e58d4-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:08 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.29
+X-SES-Outgoing: 2024.10.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205879
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205881
 
---===============4717451338032718171==
+--===============9014919936703126016==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,152 +51,188 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mesa* to *24.2.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *spirv-tools* to *1.3.296.0* has Failed(do_compile).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe mesa failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1875 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:329bea5a2756d3e59bb899d7ca7001e19c553276"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (0 cached, 920 parsed). 1876 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:329bea5a2756d3e59bb899d7ca7001e19c553276"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-iinu9r16: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-s4zra0k4/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-s4zra0k4/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   1% |                                    | ETA:  0:00:08
-Adding changed files:   3% |#                                   | ETA:  0:00:06
-Adding changed files:   4% |#                                   | ETA:  0:00:05
-Adding changed files:   6% |##                                  | ETA:  0:00:06
-Adding changed files:   7% |##                                  | ETA:  0:00:07
-Adding changed files:   9% |###                                 | ETA:  0:00:08
-Adding changed files:  11% |####                                | ETA:  0:00:07
-Adding changed files:  12% |####                                | ETA:  0:00:07
-Adding changed files:  14% |#####                               | ETA:  0:00:06
-Adding changed files:  15% |#####                               | ETA:  0:00:05
-Adding changed files:  17% |######                              | ETA:  0:00:05
-Adding changed files:  19% |######                              | ETA:  0:00:05
-Adding changed files:  20% |#######                             | ETA:  0:00:04
-Adding changed files:  22% |########                            | ETA:  0:00:04
-Adding changed files:  23% |########                            | ETA:  0:00:04
-Adding changed files:  25% |#########                           | ETA:  0:00:04
-Adding changed files:  27% |#########                           | ETA:  0:00:04
-Adding changed files:  28% |##########                          | ETA:  0:00:04
-Adding changed files:  30% |##########                          | ETA:  0:00:03
-Adding changed files:  31% |###########                         | ETA:  0:00:03
-Adding changed files:  33% |############                        | ETA:  0:00:03
-Adding changed files:  35% |############                        | ETA:  0:00:03
-Adding changed files:  36% |#############                       | ETA:  0:00:03
-Adding changed files:  38% |#############                       | ETA:  0:00:03
-Adding changed files:  39% |##############                      | ETA:  0:00:03
-Adding changed files:  41% |##############                      | ETA:  0:00:03
-Adding changed files:  43% |###############                     | ETA:  0:00:03
-Adding changed files:  44% |################                    | ETA:  0:00:03
-Adding changed files:  46% |################                    | ETA:  0:00:03
-Adding changed files:  47% |#################                   | ETA:  0:00:03
-Adding changed files:  49% |#################                   | ETA:  0:00:02
-Adding changed files:  50% |##################                  | ETA:  0:00:02
-Adding changed files:  52% |##################                  | ETA:  0:00:02
-Adding changed files:  54% |###################                 | ETA:  0:00:02
-Adding changed files:  55% |####################                | ETA:  0:00:02
-Adding changed files:  57% |####################                | ETA:  0:00:02
-Adding changed files:  58% |#####################               | ETA:  0:00:02
-Adding changed files:  60% |#####################               | ETA:  0:00:02
-Adding changed files:  62% |######################              | ETA:  0:00:02
-Adding changed files:  63% |######################              | ETA:  0:00:02
-Adding changed files:  65% |#######################             | ETA:  0:00:02
-Adding changed files:  66% |########################            | ETA:  0:00:01
-Adding changed files:  68% |########################            | ETA:  0:00:01
-Adding changed files:  70% |#########################           | ETA:  0:00:01
-Adding changed files:  71% |#########################           | ETA:  0:00:01
-Adding changed files:  73% |##########################          | ETA:  0:00:01
-Adding changed files:  74% |##########################          | ETA:  0:00:01
-Adding changed files:  76% |###########################         | ETA:  0:00:01
-Adding changed files:  78% |############################        | ETA:  0:00:01
-Adding changed files:  79% |############################        | ETA:  0:00:01
-Adding changed files:  81% |#############################       | ETA:  0:00:01
-Adding changed files:  82% |#############################       | ETA:  0:00:00
-Adding changed files:  84% |##############################      | ETA:  0:00:00
-Adding changed files:  86% |##############################      | ETA:  0:00:00
-Adding changed files:  87% |###############################     | ETA:  0:00:00
-Adding changed files:  89% |################################    | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files:  92% |#################################   | ETA:  0:00:00
-Adding changed files:  94% |#################################   | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files:  97% |##################################  | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:05
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://mesa.freedesktop.org/archive/mesa-24.2.4.tar.xz...
-INFO: Rebasing devtool onto 4362fb1065365636bd72628c044da280fe3d8bad
-WARNING: Command 'git rebase 4362fb1065365636bd72628c044da280fe3d8bad' failed:
-Auto-merging src/glx/drisw_glx.c
-CONFLICT (content): Merge conflict in src/glx/drisw_glx.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/mesa
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/mesa/mesa.bb
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-spirv-tools-upgrade-1.3.290.0-1.3.296.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============4717451338032718171==--
+
+-- >8 --
+From 332f15a49cd4fc6afe3e0ae67285650c2650a03f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 15 Oct 2024 11:05:52 +0000
+Subject: [PATCH] spirv-tools: upgrade 1.3.290.0 -> 1.3.296.0
+
+---
+ .../spir/{spirv-tools_1.3.290.0.bb => spirv-tools_1.3.296.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/spir/{spirv-tools_1.3.290.0.bb => spirv-tools_1.3.296.0.bb} (97%)
+
+diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
+similarity index 97%
+rename from meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb
+rename to meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
+index d0f1c387f1..c817af9908 100644
+--- a/meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb
++++ b/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
+@@ -7,7 +7,7 @@ SECTION = "graphics"
+ LICENSE  = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRCREV = "0cfe9e7219148716dfd30b37f4d21753f098707a"
++SRCREV = "6dcc7e350a0b9871a825414d42329e44b0eb8109"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https \
+            file://0001-update_build_version.py-support-an-envvar-to-force-t.patch \
+            "
+-- 
+2.44.1
+
+
+--===============9014919936703126016==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-spirv-tools-upgrade-1.3.290.0-1.3.296.0.patch"
+
+RnJvbSAzMzJmMTVhNDljZDRmYzZhZmUzZTBhZTY3Mjg1NjUwYzI2NTBhMDNmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MDU6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cGlydi10b29sczogdXBncmFkZSAxLjMuMjkwLjAgLT4gMS4zLjI5Ni4wCgotLS0KIC4uLi9zcGly
+L3tzcGlydi10b29sc18xLjMuMjkwLjAuYmIgPT4gc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3tzcGlydi10b29sc18xLjMuMjkwLjAuYmIg
+PT4gc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
+aXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yOTAuMC5iYiBiL21ldGEvcmVjaXBl
+cy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yOTYuMC5iYgpzaW1pbGFyaXR5IGluZGV4
+IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18x
+LjMuMjkwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRv
+b2xzXzEuMy4yOTYuMC5iYgppbmRleCBkMGYxYzM4N2YxLi5jODE3YWY5OTA4IDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjMuMjkwLjAuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJiCkBA
+IC03LDcgKzcsNyBAQCBTRUNUSU9OID0gImdyYXBoaWNzIgogTElDRU5TRSAgPSAiQXBhY2hlLTIu
+MCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0
+NjU1ZmM4NTRkZGMzYzZiZDU3IgogCi1TUkNSRVYgPSAiMGNmZTllNzIxOTE0ODcxNmRmZDMwYjM3
+ZjRkMjE3NTNmMDk4NzA3YSIKK1NSQ1JFViA9ICI2ZGNjN2UzNTBhMGI5ODcxYTgyNTQxNGQ0MjMy
+OWU0NGIwZWI4MTA5IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9T
+UElSVi1Ub29scy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICBm
+aWxlOi8vMDAwMS11cGRhdGVfYnVpbGRfdmVyc2lvbi5weS1zdXBwb3J0LWFuLWVudnZhci10by1m
+b3JjZS10LnBhdGNoIFwKICAgICAgICAgICAgIgotLSAKMi40NC4xCgo=
+
+--===============9014919936703126016==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:d16fa3ea9a9030e571000412d16470cadc1063c2"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 226 Local 215 Mirrors 0 Missed 11 Current 233 (95% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 286 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.290.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 296 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe spirv-headers-1_1.3.290.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 929 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_fetch)
+NOTE: recipe spirv-headers-1_1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 428 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_fetch: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 433 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_fetch: Succeeded
+NOTE: Running task 937 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_unpack)
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_unpack: Started
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 440 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 445 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1020 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch)
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_patch: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 456 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1211 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1313 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_collect_spdx_deps)
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1321 tasks of which 1316 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015110539.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015110539.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/temp/log.do_patch.3317780
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: spirv-tools-1_1.3.296.0-r0 do_patch: Applying patch '0001-update_build_version.py-support-an-envvar-to-force-t.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/git'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-update_build_version.py-support-an-envvar-to-force-t.patch
+patching file utils/update_build_version.py
+Hunk #1 FAILED at 24.
+Hunk #2 FAILED at 150.
+2 out of 2 hunks FAILED -- rejects in file utils/update_build_version.py
+Patch 0001-update_build_version.py-support-an-envvar-to-force-t.patch can be reverse-applied
+
+stderr: ')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/temp/log.do_patch.3317780
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch) failed with exit code '1'
+
+--===============9014919936703126016==--
 
