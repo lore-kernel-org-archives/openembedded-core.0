@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 956B2D1D887
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAA7AD21684
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:14 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.11857.1728994543862801378
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.11804.1728994557069446800
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:04 -0700
+ Tue, 15 Oct 2024 05:16:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PLbNmbvL;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=G9f9f3cX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b5958-3e312012-0d2e-4fe1-b0f5-467c399280f0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=X03OaGNA;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=USj3m1Nv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010192901b5469-8baaf807-bafa-4f47-9437-1748b039d12a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994564;
+	t=1728994563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9oBMnTY9GL+P0xCIfeC5WR69iWDEW47fbfIakW+d5VY=;
-	b=PLbNmbvLmHNUU8PIiPJ2w09/N9IA+teWtzeoYwzHwfqYrWIR1URAHA5Mijm/VM6L
-	5jWsAqXZebD2mVpbwPmJHQ8hOweCAEJy+7dQdWWOdKnohr9QtCV2+s/gGzCQa6JquCg
-	rvqrzOoh5zDJ6yYLO4vfEPEaZQfxJqezJJi4XzdI=
+	bh=JAP0ku4U5DfXI/uAJ2KVnE3dc8zSckw3lLIEMkdG1Yc=;
+	b=X03OaGNADGwcPw9CJmD4aJ+4ns6OUdsE4p6QysRggCOibH6XoxJssy5/Rm604sjC
+	haglDPS/p3j8RH88HaF1epaNICMSHHzJggbrw9Rvy4IVbUXwQGGHmhEhODUfgZOlolZ
+	bmU/xJioKY2zyflblw+7FAo1S+WZH9zjDFgK6gDQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994564;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9oBMnTY9GL+P0xCIfeC5WR69iWDEW47fbfIakW+d5VY=;
-	b=G9f9f3cXCQqNYcilJ221pbKM3csGJdQx/aqeS/5CGQnL61KrXnPzPagGH6xJXZdu
-	eFa5lOn1adXCaZk5TPZUADtYRsz4CpiSKzzNv9sg6ddU+lxFeb6hAD0FuRUoUq5cwy9
-	vBUxd56drRWd31rsGDhxVsBDylLsEryFBgq0ZZAk=
-Content-Type: multipart/mixed; boundary="===============2336134646025471563=="
+	bh=JAP0ku4U5DfXI/uAJ2KVnE3dc8zSckw3lLIEMkdG1Yc=;
+	b=USj3m1NvLc51om7rjBYdgYaL/18Lmr8Jx1rZKRYOEFCLyiZ6WehlLzl3kWhFMjB5
+	Od3uJNsT+S4borFfegbKP3iAOeAcsEr0Z4zkndXE2MB2Ck07OrsCZvDNgYFur5nqvHV
+	oyVC+QZtej7daIYs3Ax2wnL675LTv3HZvfG9zPIA=
+Content-Type: multipart/mixed; boundary="===============0557414038814703646=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Otavio Salvador <otavio.salvador@ossystems.com.br>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpipeline: upgrading to 1.5.8 FAILED
-Message-ID: <01010192901b5958-3e312012-0d2e-4fe1-b0f5-467c399280f0-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:04 +0000
+Subject: [AUH] libarchive: upgrading to 3.7.7 SUCCEEDED
+Message-ID: <01010192901b5469-8baaf807-bafa-4f47-9437-1748b039d12a-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.29
+X-SES-Outgoing: 2024.10.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205868
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205864
 
---===============2336134646025471563==
+--===============0557414038814703646==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,92 +51,146 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpipeline* to *1.5.8* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *libarchive* to *3.7.7* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-libarchive-upgrade-3.7.6-3.7.7.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe libpipeline failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1875 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:10124a609af9259d314aef83d9baf513c1632a9b"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (0 cached, 920 parsed). 1876 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:10124a609af9259d314aef83d9baf513c1632a9b"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-umxpwy1b: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-f3u354dw/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-f3u354dw/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  30% |##########                          | ETA:  0:00:00
-Adding changed files:  60% |#####################               | ETA:  0:00:00
-Adding changed files:  90% |################################    | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.8.tar.gz...
-INFO: Rebasing devtool onto 2c097f1a5ea602b4f8bcf128a90343bf3d6f56f7
-WARNING: Command 'git rebase 2c097f1a5ea602b4f8bcf128a90343bf3d6f56f7' failed:
-Auto-merging gl/m4/largefile.m4
-CONFLICT (content): Merge conflict in gl/m4/largefile.m4
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/libpipeline
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libpipeline/libpipeline_1.5.8.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============2336134646025471563==--
+
+-- >8 --
+From 5f8bbca486eef37229a035cdac70977a427dd237 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 15 Oct 2024 09:46:14 +0000
+Subject: [PATCH] libarchive: upgrade 3.7.6 -> 3.7.7
+
+---
+ .../libarchive/{libarchive_3.7.6.bb => libarchive_3.7.7.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/libarchive/{libarchive_3.7.6.bb => libarchive_3.7.7.bb} (96%)
+
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.6.bb b/meta/recipes-extended/libarchive/libarchive_3.7.7.bb
+similarity index 96%
+rename from meta/recipes-extended/libarchive/libarchive_3.7.6.bb
+rename to meta/recipes-extended/libarchive/libarchive_3.7.7.bb
+index a1cb34415e..0a0a6b374b 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.6.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.7.bb
+@@ -33,7 +33,7 @@ SRC_URI = "https://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+ 
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+-SRC_URI[sha256sum] = "b4071807367b15b72777c2eaac80f42c8ea2d20212ab279514a19fe1f6f96ef4"
++SRC_URI[sha256sum] = "4cc540a3e9a1eebdefa1045d2e4184831100667e6d7d5b315bb1cbc951f8ddff"
+ 
+ CVE_STATUS[CVE-2023-30571] = "upstream-wontfix: upstream has documented that reported function is not thread-safe"
+ 
+-- 
+2.44.1
+
+
+--===============0557414038814703646==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.7.6", added "/usr/lib/libarchive.so.13.7.7"
+Changes to packages/core2-64-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so.13.7.6 moved to /usr/lib/libarchive.so.13.7.7
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so.13.7.6 moved to /usr/lib/libarchive.so.13.7.7
+
+--===============0557414038814703646==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9422342 to 9620507 (+2%)
+packages/core2-64-poky-linux/libarchive/bsdcpio: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/bsdcpio: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive/bsdtar: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/bsdtar: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive: SRC_URI changed from "https://libarchive.org/downloads/libarchive-3.7.6.tar.gz" to "https://libarchive.org/downloads/libarchive-3.7.7.tar.gz"
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: PKGSIZE changed from 2959296 to 2961160 (+0%)
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: FILELIST: removed "/usr/lib/.debug/libarchive.so.13.7.6", added "/usr/lib/.debug/libarchive.so.13.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive-dbg: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive-dev: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-dev: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive-doc: PKGSIZE changed from 378215 to 373178 (-1%)
+packages/core2-64-poky-linux/libarchive/libarchive-doc: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-doc: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive-locale: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-locale: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive-src: PKGSIZE changed from 3611145 to 3592025 (-1%)
+packages/core2-64-poky-linux/libarchive/libarchive-src: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-src: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive-staticdev: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/libarchive-staticdev: PV changed from "3.7.6" to "3.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive: PKGSIZE changed from 821428 to 825524 (+0%)
+packages/core2-64-poky-linux/libarchive/libarchive: PKGV changed from 3.7.6 [default] to 3.7.7 [default]
+packages/core2-64-poky-linux/libarchive/libarchive: FILELIST: removed "/usr/lib/libarchive.so.13.7.6", added "/usr/lib/libarchive.so.13.7.7"
+packages/core2-64-poky-linux/libarchive/libarchive: PV changed from "3.7.6" to "3.7.7"
+Changes to packages/core2-64-poky-linux/libarchive (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so.13.7.6 moved to /usr/lib/libarchive.so.13.7.7
+Changes to packages/x86_64-linux/libarchive-native (sysroot):
+  /usr/lib/libarchive.so.13 changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so changed symlink target from libarchive.so.13.7.6 to libarchive.so.13.7.7
+  /usr/lib/libarchive.so.13.7.6 moved to /usr/lib/libarchive.so.13.7.7
+
+--===============0557414038814703646==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libarchive-upgrade-3.7.6-3.7.7.patch"
+
+RnJvbSA1ZjhiYmNhNDg2ZWVmMzcyMjlhMDM1Y2RhYzcwOTc3YTQyN2RkMjM3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDk6NDY6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJhcmNoaXZlOiB1cGdyYWRlIDMuNy42IC0+IDMuNy43CgotLS0KIC4uLi9saWJhcmNoaXZlL3ts
+aWJhcmNoaXZlXzMuNy42LmJiID0+IGxpYmFyY2hpdmVfMy43LjcuYmJ9ICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL3tsaWJhcmNoaXZlXzMuNy42LmJiID0+IGxpYmFy
+Y2hpdmVfMy43LjcuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVk
+L2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8zLjcuNi5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9s
+aWJhcmNoaXZlL2xpYmFyY2hpdmVfMy43LjcuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8zLjcuNi5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmFyY2hpdmUvbGliYXJjaGl2ZV8z
+LjcuNy5iYgppbmRleCBhMWNiMzQ0MTVlLi4wYTBhNmIzNzRiIDEwMDY0NAotLS0gYS9tZXRhL3Jl
+Y2lwZXMtZXh0ZW5kZWQvbGliYXJjaGl2ZS9saWJhcmNoaXZlXzMuNy42LmJiCisrKyBiL21ldGEv
+cmVjaXBlcy1leHRlbmRlZC9saWJhcmNoaXZlL2xpYmFyY2hpdmVfMy43LjcuYmIKQEAgLTMzLDcg
+KzMzLDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2xpYmFyY2hpdmUub3JnL2Rvd25sb2Fkcy9saWJh
+cmNoaXZlLSR7UFZ9LnRhci5neiIKIAogVVBTVFJFQU1fQ0hFQ0tfVVJJID0gImh0dHA6Ly9saWJh
+cmNoaXZlLm9yZy8iCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJiNDA3MTgwNzM2N2IxNWI3Mjc3
+N2MyZWFhYzgwZjQyYzhlYTJkMjAyMTJhYjI3OTUxNGExOWZlMWY2Zjk2ZWY0IgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjRjYzU0MGEzZTlhMWVlYmRlZmExMDQ1ZDJlNDE4NDgzMTEwMDY2N2U2ZDdk
+NWIzMTViYjFjYmM5NTFmOGRkZmYiCiAKIENWRV9TVEFUVVNbQ1ZFLTIwMjMtMzA1NzFdID0gInVw
+c3RyZWFtLXdvbnRmaXg6IHVwc3RyZWFtIGhhcyBkb2N1bWVudGVkIHRoYXQgcmVwb3J0ZWQgZnVu
+Y3Rpb24gaXMgbm90IHRocmVhZC1zYWZlIgogCi0tIAoyLjQ0LjEKCg==
+
+--===============0557414038814703646==--
 
