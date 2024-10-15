@@ -1,124 +1,245 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <paul.barker.ct@bp.renesas.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BD4D2168E
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:21:35 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web11.11976.1728994887824600444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F42D2168F
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:21:45 +0000 (UTC)
+Received: from relmlie5.idc.renesas.com (relmlie5.idc.renesas.com [210.160.252.171])
+ by mx.groups.io with SMTP id smtpd.web11.11983.1728994898560254023
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:21:27 -0700
+ Tue, 15 Oct 2024 05:21:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TIDmMlk4;
- spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7ea8de14848so1313860a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 05:21:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1728994887; x=1729599687; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i0Xc10JLIwEUlFrWsXtnEr8IR0L35JFO5gqI5RHjqCw=;
-        b=TIDmMlk4RQDlU6bU2ECOeoZFMFz2E6uJnKDRrQ5BzObkcMpFWTZzF2qPzclvHfjWAV
-         TCG/RA6uPby3LPlVOYufb4cD7rXRrASk0lEXpG5V2cNvfGMURYRyeN1A8/dX7LX9Zhcd
-         StBRBnZ17K7XX0DqiHPnuHVOne0xuZ8PeYiCgXkTzue2KPhjEhBf1Y8ZJ5lO5Rv/hjgY
-         nfSN0zAeKAEXFVQa8U9H5SVSXVFWEhgVcSarpxGBaQWMIDOum3Su9nTp+/p3Uq/HKzye
-         PDVPDWqWShQiUU1WkkftmMbu9vH1pvvrXbqb+PY3mITXsGGvOgfVJ3r/etLpO+Sm+F60
-         VjMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1728994887; x=1729599687;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=i0Xc10JLIwEUlFrWsXtnEr8IR0L35JFO5gqI5RHjqCw=;
-        b=Ooc/+oyq/qG0kObTmGcHUXftDnamxftSlP96RprUPSItIXV2LEkRXSrN4GbSjPp6Ph
-         D1N2yL19Rp/uxm53UrfphXTf3VCca2bepsYc5mimBqBkkdDtXpN79DaQOMp8629IXP+S
-         MTtyuqMbAN11I0ZA2oiJfrVjvUBd/SqI1uSQJR5Gy9UZXu12WAuWakyWIz2pzOATO5Aj
-         AaIW59IJym2TWWhnfs6Yy+BAXmzaPnMHHaJ8T3wKJTUDHmbsHuOkphB/+Kyje//TBqMX
-         mPck6D4YqnKcmacOkg3lFGAdXHEIY89emRlhDXsFkVwKZ1YtVXBwh1hf13d8IWqyrgSm
-         Q8XQ==
-X-Gm-Message-State: AOJu0Yxr8Q7G2BRGcB2prlxu2EubMlfAFhNKMjuLziwCUovetl3Z1LdA
-	TYOPW4zYYYYLkTE7PV2p/fKpjPD6wb/iUwtiOTp8BXGcwRuFviz8h08EnoW/8UX5jp6C2jLBKY9
-	0KKsK+6OX3hvCNMwv8ykvvAsEp1nfBFOd
-X-Google-Smtp-Source: AGHT+IFcOy/BBdcSfC/6qPEkEku92kUYg99LJ3GB/otzfPjspn3oyG0VGu1J45fhEv/7VQNbDHt8E+nllOYyrgk1E5A=
-X-Received: by 2002:a05:6a20:b40b:b0:1d8:fc45:339c with SMTP id
- adf61e73a8af0-1d8fc4539f1mr929801637.10.1728994887058; Tue, 15 Oct 2024
- 05:21:27 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: bp.renesas.com, ip: 210.160.252.171, mailfrom: paul.barker.ct@bp.renesas.com)
+X-IronPort-AV: E=Sophos;i="6.11,205,1725289200"; 
+   d="asc'?scan'208";a="221995010"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie5.idc.renesas.com with ESMTP; 15 Oct 2024 21:21:36 +0900
+Received: from [10.226.93.176] (unknown [10.226.93.176])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id D424241D5D69;
+	Tue, 15 Oct 2024 21:21:35 +0900 (JST)
+Message-ID: <3e7a24b3-6dc0-45b9-8292-e225268102df@bp.renesas.com>
+Date: Tue, 15 Oct 2024 13:21:33 +0100
 MIME-Version: 1.0
-References: <20241015-deprecated-kmeta-audit-v1-1-4a38514da362@bootlin.com>
-In-Reply-To: <20241015-deprecated-kmeta-audit-v1-1-4a38514da362@bootlin.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 15 Oct 2024 08:21:13 -0400
-Message-ID: <CADkTA4MYpK7W1ctaUKP7Qg+t=ECOZa9Cx_GRM8+XH4yig3ojJA@mail.gmail.com>
-Subject: Re: [PATCH] kernel-yocto: remove deprecated variable KMETA_AUDIT
-To: Antonin Godard <antonin.godard@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [master/scarthgap PATCH] meta-ide-support: Mark recipe
+ as MACHINE-specific
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org
+References: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
+ <17F27A4142F288D2.30374@lists.openembedded.org>
+ <fd756f4b5ce0b3b2dc38813469a0224047f99a09.camel@linuxfoundation.org>
+ <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
+Content-Language: en-GB
+In-Reply-To: <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------0iEKdSc4Lu043yBc0PRGitfU"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:21:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205909
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:21:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205910
 
-On Tue, Oct 15, 2024 at 6:07=E2=80=AFAM Antonin Godard
-<antonin.godard@bootlin.com> wrote:
->
-> This variable has been introduced by commit
-> 1d4c120edeb6e45665eafd6962a10ebb89d758eb ("kernel-yocto: allow branch
-> auditing to be suspended") but its usage removed by commit
-> 0f698dfd1c8bbc0d53ae7977e26685a7a3df52a3 ("kernel-yocto: streamline
-> patch, configuration and audit phases").
->
-> I haven't found any reference to this variable elsewhere... so remove it
-> entirely.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------0iEKdSc4Lu043yBc0PRGitfU
+Content-Type: multipart/mixed; boundary="------------bnqcN8EOta0RiRurrH9qNOPC";
+ protected-headers="v1"
+From: Paul Barker <paul.barker.ct@bp.renesas.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org
+Message-ID: <3e7a24b3-6dc0-45b9-8292-e225268102df@bp.renesas.com>
+Subject: Re: [OE-core] [master/scarthgap PATCH] meta-ide-support: Mark recipe
+ as MACHINE-specific
+References: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
+ <17F27A4142F288D2.30374@lists.openembedded.org>
+ <fd756f4b5ce0b3b2dc38813469a0224047f99a09.camel@linuxfoundation.org>
+ <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
+In-Reply-To: <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
 
-I'm actually working on some code that will once again use that
-variable.
+--------------bnqcN8EOta0RiRurrH9qNOPC
+Content-Type: multipart/mixed; boundary="------------uHWr5TfNF0TeK8pwOKU2kAEV"
 
-Paul Barker submitted some changes that allow in-tree defconfigs
-to be applied alongside of the fragments that the project hosts. I'm
-enabling auditing of those fragments as part of that integration,
+--------------uHWr5TfNF0TeK8pwOKU2kAEV
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-That audit can be a bit noisy, so I'm using that flag to allow it to
-be disabled for some fragments.
+On 30/09/2024 11:23, Paul Barker wrote:
+> On 06/09/2024 14:48, Richard Purdie wrote:
+>> On Thu, 2024-09-05 at 23:40 +0100, Richard Purdie via lists.openembedd=
+ed.org wrote:
+>>> On Thu, 2024-09-05 at 21:21 +0100, Paul Barker via lists.openembedded=
+=2Eorg wrote:
+>>>> meta-ide-support:do_write_test_data dumps the bitbake data dictionar=
+y to
+>>>> a file using export2json(). As this obviously includes the value of
+>>>> MACHINE, and other MACHINE-specific variables, the recipe needs to b=
+e
+>>>> marked as MACHINE-specific.
+>>>>
+>>>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
+>>>> ---
+>>>>  meta/recipes-core/meta/meta-ide-support.bb | 1 +
+>>>>  1 file changed, 1 insertion(+)
+>>>>
+>>>> diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recip=
+es-core/meta/meta-ide-support.bb
+>>>> index d85aa120c08b..7ed422ce4ddb 100644
+>>>> --- a/meta/recipes-core/meta/meta-ide-support.bb
+>>>> +++ b/meta/recipes-core/meta/meta-ide-support.bb
+>>>> @@ -1,6 +1,7 @@
+>>>>  SUMMARY =3D "Integrated Development Environment support"
+>>>>  DESCRIPTION =3D "Meta package for ensuring the build directory cont=
+ains all appropriate toolchain packages for using an IDE"
+>>>>  LICENSE =3D "MIT"
+>>>> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
+>>>> =20
+>>>>  DEPENDS =3D "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu=
+-helper-native unfs3-native cmake-native autoconf-native automake-native =
+meson-native intltool-native pkgconfig-native"
+>>>>  RM_WORK_EXCLUDE +=3D "${PN}"
+>>>
+>>> Something about this is making our toolchain tests unhappy, e.g.:
+>>>
+>>> https://valkyrie.yoctoproject.org/#/builders/42/builds/86/steps/12/lo=
+gs/stdio
+>>>
+>>> I've not looked into it at all, just reporting what we've need to fix=
 
-Bruce
+>>> in order to be able to consider merging this.
+>>
+>> It can be fixed with:
+>>
+>> diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/=
+selftest/cases/meta_ide.py
+>> index ffe0d2604d1..5a17ca52ea1 100644
+>> --- a/meta/lib/oeqa/selftest/cases/meta_ide.py
+>> +++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
+>> @@ -20,8 +20,8 @@ class MetaIDE(OESelftestTestCase):
+>>          bitbake('meta-ide-support')
+>>          bitbake('build-sysroots -c build_native_sysroot')
+>>          bitbake('build-sysroots -c build_target_sysroot')
+>> -        bb_vars =3D get_bb_vars(['MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_=
+IMAGE', 'COREBASE'])
+>> -        cls.environment_script =3D 'environment-setup-%s' % bb_vars['=
+MULTIMACH_TARGET_SYS']
+>> +        bb_vars =3D get_bb_vars(['MACHINE_ARCH', 'TARGET_VENDOR', 'TA=
+RGET_OS', 'DEPLOY_DIR_IMAGE', 'COREBASE'])
+>> +        cls.environment_script =3D 'environment-setup-%s%s-%s' % (bb_=
+vars['MACHINE_ARCH'], bb_vars['TARGET_VENDOR'], bb_vars['TARGET_OS'])
+>>          cls.deploydir =3D bb_vars['DEPLOY_DIR_IMAGE']
+>>          cls.environment_script_path =3D '%s/%s' % (cls.deploydir, cls=
+=2Eenvironment_script)
+>>          cls.corebasedir =3D bb_vars['COREBASE']
+>>
+>> Whether that is a good/right fix, I'm not sure...
+>>
+>> Cheers,
+>>
+>> Richard
+>>
+>=20
+> Hi Richard, Steve,
+>=20
+> I see this has been committed as 3be2bc8a9b0c in openembedded-core [1]
+> for master/Styhead. Thanks for fixing the test case and merging this.
+>=20
+> We saw the same issue when running yocto-check-layer in Scarthgap, do
+> you think this is suitable for backporting?
+>=20
+> [1]: https://git.openembedded.org/openembedded-core/commit/?id=3D3be2bc=
+8a9b0c9d6a178329c8b451a6bedf255d6c
+>=20
+> Thanks,
+>=20
 
->
-> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-> ---
->  meta/classes-recipe/kernel-yocto.bbclass | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-reci=
-pe/kernel-yocto.bbclass
-> index 6d5c3b6327b61b9bb6678dae2dbf059dbde178f6..bf22f332b955d08e45ad73fac=
-de5a82e4b53eef2 100644
-> --- a/meta/classes-recipe/kernel-yocto.bbclass
-> +++ b/meta/classes-recipe/kernel-yocto.bbclass
-> @@ -23,7 +23,6 @@ SRCREV_FORMAT ?=3D "meta_machine"
->  #   2: report options that are not hardware related, but set by a BSP
->  KCONF_AUDIT_LEVEL ?=3D "1"
->  KCONF_BSP_AUDIT_LEVEL ?=3D "0"
-> -KMETA_AUDIT ?=3D "yes"
->  KMETA_AUDIT_WERROR ?=3D ""
->
->  # returns local (absolute) path names for all valid patches in the
->
-> ---
-> base-commit: c83a535d1b32f7fd292cd9caea1ec962bc3c735b
-> change-id: 20241015-deprecated-kmeta-audit-1ae2e9d46e22
->
-> Best regards,
-> --
-> Antonin Godard <antonin.godard@bootlin.com>
->
+Gentle ping on this - can the patch be backported to Scarthgap?
 
+Thanks,
 
 --=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
+Paul Barker
+
+--------------uHWr5TfNF0TeK8pwOKU2kAEV
+Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
+Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+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3D
+=3DsIIN
+-----END PGP PUBLIC KEY BLOCK-----
+
+--------------uHWr5TfNF0TeK8pwOKU2kAEV--
+
+--------------bnqcN8EOta0RiRurrH9qNOPC--
+
+--------------0iEKdSc4Lu043yBc0PRGitfU
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZw5eTQUDAAAAAAAKCRDbaV4Vf/JGvfpN
+AQCIfvz4rzAzQyD9VpTHHrknWhfkf7KlxXcIsC3HvvOH1gD+LDl46wOKa55Pm/Ishd9b91NFOJjb
+/KSRZRPd6A/dkQg=
+=AJBq
+-----END PGP SIGNATURE-----
+
+--------------0iEKdSc4Lu043yBc0PRGitfU--
 
