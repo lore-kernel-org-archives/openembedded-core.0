@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2331FD1F9DA
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:14 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web10.11869.1728994557647032112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21FAED2168F
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:15 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.11857.1728994543862801378
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:07 -0700
+ Tue, 15 Oct 2024 05:16:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=XtMNY6LA;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=jSwEm2jS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010192901b61e4-a1411f34-6876-4b46-a25d-43a671fd42c9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=FI49GIxS;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=RaoMKzvS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b78af-c7fb16a4-3900-4b22-9d71-7f27bed9c28c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994566;
+	t=1728994572;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=60coGeVzT2hwagD84DfJdvG8VwTsC53LvUXyhZ4oRv8=;
-	b=XtMNY6LAHOXoIgWIAE5Do/WiDbRpH9D+zFs3PxvQuE4mwdaXPEj1nqDNuBwevXNR
-	+9ynVo5SMKOQPyKpcWPloWDE8/sAVzJKNd/D+xYuEeuWdyrhwqE916jpPeOtWfE3cT4
-	FNzWH9v/o4+rGO9/AkSjrzJdBE+Z4VrnecDnXLjo=
+	bh=ZcaGSCGA4lmWAFW1HC3WQKXpR4BY6jGerwH3MFZg7i0=;
+	b=FI49GIxSHoOKUGUeoTjMbmxybnbb3aOSijelGkwr+xrSSkD37U3W1AHhYaWNLNZX
+	R+XdfAVr2PJoroT6/xtGeKvHOp2FDwYRz30Pll9c5PRfQ6kF10BmbxlPEsRfKOkWIAP
+	OARKZgOK01w+zVP52swxc26zA0EsamoamGfkCzTs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994566;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994572;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=60coGeVzT2hwagD84DfJdvG8VwTsC53LvUXyhZ4oRv8=;
-	b=jSwEm2jSVm38wNIO89hZutdyhUeKZir9d4n2icLQ9URMXXycvulYs7nZ9z2kkK2g
-	Xh+MayhLUzv66C6LZx7yo3b1v2LOTnXa1AIPveDe7TiZiXw6fXnNVefaokdflh5vWwE
-	EFXcEYlDK9ADFYMlj3U9LUJSA45LuoeIMz0BCGrw=
-Content-Type: multipart/mixed; boundary="===============4734401264154460370=="
+	bh=ZcaGSCGA4lmWAFW1HC3WQKXpR4BY6jGerwH3MFZg7i0=;
+	b=RaoMKzvSKAegEqOXFHQOA9R/cpmXH9smpaX0VsaUajGETx4KaYUVPlyKA4fE+JNV
+	NUefUt+8he5PwvuAuDiqoq46DYUjnPKTk0HvvZy5bFfOva0qDZgs+weIlYzqxLYkfpi
+	4H0lkJVsKhsQ+Hq5h8BGGQTd5kpLd+uT2djuGuMg=
+Content-Type: multipart/mixed; boundary="===============5263949202437724616=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Chen Qi <Qi.Chen@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sudo: upgrading to 1.9.16 FAILED
-Message-ID: <01010192901b61e4-a1411f34-6876-4b46-a25d-43a671fd42c9-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:06 +0000
+Subject: [AUH] libinput: upgrading to 1.26.2 SUCCEEDED
+Message-ID: <01010192901b78af-c7fb16a4-3900-4b22-9d71-7f27bed9c28c-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.23
+X-SES-Outgoing: 2024.10.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205874
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205893
 
---===============4734401264154460370==
+--===============5263949202437724616==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *sudo* to *1.9.16* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libinput* to *1.26.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sudo-upgrade-1.9.15p5-1.9.16.patch
+    - apply the patch: git am 0001-libinput-upgrade-1.26.1-1.26.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,757 +72,3129 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5cf98b8c1ed8de9ff686b445c9c1908fdfb3040b Mon Sep 17 00:00:00 2001
+From 7171a17cdddbe07974f3d46eeec397b5fd02e9c6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 10:01:03 +0000
-Subject: [PATCH] sudo: upgrade 1.9.15p5 -> 1.9.16
+Date: Tue, 15 Oct 2024 11:31:42 +0000
+Subject: [PATCH] libinput: upgrade 1.26.1 -> 1.26.2
 
 ---
- ...o.conf.in-fix-conflict-with-multilib.patch |  3 +-
- meta/recipes-extended/sudo/sudo.inc           |  2 +-
- .../sudo/{sudo_1.9.15p5.bb => sudo_1.9.16.bb} | 32 ++++++++++++++++++-
- 3 files changed, 33 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.15p5.bb => sudo_1.9.16.bb} (66%)
+ .../wayland/{libinput_1.26.1.bb => libinput_1.26.2.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/wayland/{libinput_1.26.1.bb => libinput_1.26.2.bb} (97%)
 
-diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-index 041c717e00..71971d8056 100644
---- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-+++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-@@ -1,4 +1,4 @@
--From 6e835350b7413210c410d3578cfab804186b7a4f Mon Sep 17 00:00:00 2001
-+From a809f62f5111552a27e43204697a4f4b3870a5e4 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Tue, 17 Nov 2020 11:13:40 +0800
- Subject: [PATCH] sudo.conf.in: fix conflict with multilib
-@@ -15,7 +15,6 @@ Update the comments in sudo.conf.in to avoid the conflict.
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
+diff --git a/meta/recipes-graphics/wayland/libinput_1.26.1.bb b/meta/recipes-graphics/wayland/libinput_1.26.2.bb
+similarity index 97%
+rename from meta/recipes-graphics/wayland/libinput_1.26.1.bb
+rename to meta/recipes-graphics/wayland/libinput_1.26.2.bb
+index 487270505a..6a96b0e14a 100644
+--- a/meta/recipes-graphics/wayland/libinput_1.26.1.bb
++++ b/meta/recipes-graphics/wayland/libinput_1.26.2.bb
+@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
+ SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main \
+            file://run-ptest \
+            "
+-SRCREV = "124431a5d3186e1c3c3aa144a0634b84b3089486"
++SRCREV = "3402f380019dc4f882e1d8627029607aca3f4be6"
+ S = "${WORKDIR}/git"
  
- Upstream-Status: Inappropriate [OE configuration specific]
--
- ---
-  examples/sudo.conf.in | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index feb1cf35a7..b5d7f1bc9c 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=5100e20d35f9015f9eef6bdb27ba194f \
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=d5345720ed8a3a0469fbe1cc702b3f65 \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb b/meta/recipes-extended/sudo/sudo_1.9.16.bb
-similarity index 66%
-rename from meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.16.bb
-index 2fd2ae6d05..fde9db6cd0 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.16.bb
-@@ -1,3 +1,33 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE.md
-+# +++ LICENSE.md
-+# @@ -1,6 +1,6 @@
-+#  Sudo is distributed under the following license:
-+#  
-+# -    Copyright (c) 1994-1996, 1998-2023
-+# +    Copyright (c) 1994-1996, 1998-2024
-+#          Todd C. Miller <Todd.Miller@sudo.ws>
-+#  
-+#      Permission to use, copy, modify, and distribute this software for any
-+# @@ -299,7 +299,7 @@
-+#  
-+#  The embedded copy of zlib bears the following license:
-+#  
-+# -    Copyright (C) 1995-2022 Jean-loup Gailly and Mark Adler
-+# +    Copyright (C) 1995-2024 Jean-loup Gailly and Mark Adler
-+#  
-+#      This software is provided 'as-is', without any express or implied
-+#      warranty.  In no event will the authors be held liable for any damages
-+# 
-+#
-+
- require sudo.inc
- 
- SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-@@ -7,7 +37,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
- 
- PAM_SRC_URI = "file://sudo.pam"
- 
--SRC_URI[sha256sum] = "558d10b9a1991fb3b9fa7fa7b07ec4405b7aefb5b3cb0b0871dbc81e3a88e558"
-+SRC_URI[sha256sum] = "c0d84d797f06b732fc573d0b798ae83128c2bc33052057f05b560ec6bcbfa03d"
- 
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
+ UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
 -- 
 2.44.1
 
 
---===============4734401264154460370==
+--===============5263949202437724616==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-lg.quirks /usr/share/libinput/50-system-minisforum.quirks"
+Changes to packages/core2-64-poky-linux/libinput (sysroot):
+  /usr/share/libinput/50-system-lg.quirks was added
+  /usr/share/libinput/50-system-minisforum.quirks was added
+Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
+  /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-14.2.0 was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
+  /usr/libexec/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1plus was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/collect2 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/g++-mapper-server was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixincl was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.gold was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/liblto_plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto-wrapper was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gengtype was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/strip was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.gold was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/x86_64-poky-linux/gcc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/adxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ammintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxbf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxcomplexintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxfp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxtileintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512cdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512dqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512erintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512pfintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxneconvertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cet.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cldemoteintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clflushoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clwbintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clzerointrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cmpccxaddintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cpuid.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cross-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/emmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/enqcmdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/f16cintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/float.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fma4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fxsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/gfniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/hresetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ia32intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/immintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/iso646.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/keylockerintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lwpintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lzcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm3dnow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm_malloc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/movdirintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/nmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pconfigintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pkuintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/popcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath_weak.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/raointintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rdseedintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rtmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/serializeintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sgxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sha512intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/shaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm3intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/smmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdalign.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdatomic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdbool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdckdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stddef.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdfix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint-gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdnoreturn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/syslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tbmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/uintrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/unwind.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/usermsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vaesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/varargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/waitpkgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86gprintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xopintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavecintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xtestintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/macro_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gtype.state was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/addresses.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/align.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/all-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/access-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analysis-plan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-language.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-logging.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-selftests.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/bar-chart.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-details.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-info.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-event.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/complexity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/constraint-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/diagnostic-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/engine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/exploded-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/feasible-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/function-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/inlining-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/known-function-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/pending-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-point.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-state.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/ranges.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/record-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/sm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/state-purge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/store.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/supergraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/svalue.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/symbol.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/trimmed-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/array-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/asan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attribs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-host.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/backend.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/basic-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/b-header-vars was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/calls.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ccmp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c/c-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfganal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cgraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cif-code.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/color-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/conditions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/configargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/biarch64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/convert.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coretypes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coverage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/contracts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-trait.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cpplib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cselib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ctfc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ddg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/debug.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/defaults.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/df.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dfp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-client-data-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-format-sarif.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/digraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dojump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dominance.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/domwalk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/double-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dump-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/edit-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/errors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/et-forest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/except.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/explow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expmed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-find.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/filenames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flag-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function-abi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/generic-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gengtype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/genrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gensupport.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-lower-bitint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-infer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-phi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/glimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphite.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphviz.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyms.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hashtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-table.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hwint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/inchash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/incpath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/input.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-opinit.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/intl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-cp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-strub.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/is-a.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lcm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libiberty.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limitx.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/line-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2/m2-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/make-unique.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/md5.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memmodel.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memory-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-general.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-selectors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/options.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-jobserver.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/output.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/passes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/prefix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile-count.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op-mixed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-md.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/real.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/recog.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regcprop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regrename.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/resource.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sched-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sese.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/signop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sparseset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sreal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/statistics.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stmt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stringpool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/system.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-globals.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-insns.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/targhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm_p.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/toplev.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tracer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-check.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/treestruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tristate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsystem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typeclass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ubsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/valtrack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-prof.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-storage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-relation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/varasm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vr-values.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/xcoff.h was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-gcc was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-14.2.0 was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
+  /usr/libexec/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1plus was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/collect2 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/g++-mapper-server was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixincl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.gold was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/liblto_plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto-wrapper was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gengtype was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/strip was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/adxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ammintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxcomplexintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxfp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxtileintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512erintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxneconvertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cet.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clwbintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clzerointrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cmpccxaddintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cpuid.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cross-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/emmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/f16cintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/float.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fma4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fxsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/gfniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/hresetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ia32intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/immintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/iso646.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/keylockerintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lwpintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lzcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm3dnow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm_malloc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/movdirintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/nmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pconfigintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pkuintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/popcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath_weak.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/raointintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rdseedintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rtmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/serializeintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sgxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sha512intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/shaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm3intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/smmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdalign.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdatomic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdbool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdckdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stddef.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdfix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint-gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdnoreturn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/syslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tbmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/uintrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/unwind.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/usermsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vaesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/varargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86gprintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xopintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavecintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xtestintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/macro_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gtype.state was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/addresses.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/align.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/access-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analysis-plan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-language.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-logging.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/bar-chart.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-details.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-info.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-event.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/complexity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/constraint-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/engine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/exploded-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/feasible-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/function-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/inlining-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/known-function-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-point.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-state.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/ranges.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/record-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/sm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/state-purge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/store.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/supergraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/svalue.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/symbol.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/trimmed-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/asan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attribs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/backend.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/calls.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c/c-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/conditions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/configargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/biarch64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/convert.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coverage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/contracts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-trait.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cselib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ddg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/debug.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/defaults.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/df.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dfp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-format-sarif.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/digraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dojump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dominance.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/double-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/errors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/except.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/explow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expmed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-find.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/filenames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-lower-bitint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-infer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-phi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/glimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphite.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hwint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/inchash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/incpath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/input.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-opinit.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/intl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-cp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-strub.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/is-a.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lcm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limitx.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/line-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2/m2-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/make-unique.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/md5.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-selectors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/options.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-jobserver.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/output.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/passes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/prefix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op-mixed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-md.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/real.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/recog.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regrename.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/resource.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sese.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/signop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sreal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/statistics.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stmt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/system.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/toplev.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tracer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tristate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-storage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/varasm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+
+--===============5263949202437724616==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/libinput: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-bin: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-bin: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 6436792 to 6436808 (+0%)
+packages/core2-64-poky-linux/libinput/libinput-dbg: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-dbg: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-dev: PKGSIZE changed from 219952 to 219936 (-0%)
+packages/core2-64-poky-linux/libinput/libinput-dev: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-dev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-doc: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-doc: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-locale: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-locale: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-ptest: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-ptest: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-src: PKGSIZE changed from 3587187 to 3587165 (-0%)
+packages/core2-64-poky-linux/libinput/libinput-src: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-src: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput-staticdev: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1236502 to 1237057 (+0%)
+packages/core2-64-poky-linux/libinput/libinput: PV changed from "1.26.1" to "1.26.2"
+packages/core2-64-poky-linux/libinput/libinput: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
+packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-minisforum.quirks /usr/share/libinput/50-system-lg.quirks"
+Changes to packages/core2-64-poky-linux/libinput (sysroot):
+  /usr/share/libinput/50-system-lg.quirks was added
+  /usr/share/libinput/50-system-minisforum.quirks was added
+Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
+  /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
+  /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
+  /usr/bin/x86_64-poky-linux was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-c++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-cpp was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-14.2.0 was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ar was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-nm was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcc-ranlib was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-dump was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-gcov-tool was added
+  /usr/bin/x86_64-poky-linux/x86_64-poky-linux-lto-dump was added
+  /usr/libexec/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cc1plus was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/collect2 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/g++-mapper-server was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixincl was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc.sh was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkinstalldirs was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld.gold was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcc1.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0.0.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so.0 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/libcp1plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/liblto_plugin.so was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto1 was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/lto-wrapper was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gengtype was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/strip was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ar was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-as was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-cpp was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-gcc was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.bfd was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ld.gold was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-nm was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objcopy was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-objdump was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-ranlib was added
+  /usr/libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/x86_64-poky-linux-strip was added
+  /usr/lib/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins was added
+  /usr/lib/x86_64-poky-linux/bfd-plugins/liblto_plugin.so was added
+  /usr/lib/x86_64-poky-linux/gcc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/adxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ammintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxbf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxcomplexintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxfp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/amxtileintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124fmapsintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx5124vnniwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bf16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bitalgvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512bwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512cdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512dqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512erintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512fp16vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512ifmavlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512pfintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmi2vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vbmivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlbwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vldqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vnnivlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vp2intersectvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avx512vpopcntdqvlintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxifmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxneconvertintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint16intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniint8intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/avxvnniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmi2intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/bmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cet.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cldemoteintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clflushoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clwbintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/clzerointrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cmpccxaddintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cpuid.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/cross-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/emmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/enqcmdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/f16cintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include-fixed/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/float.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fma4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fmaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/fxsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/gfniintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/hresetintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/ia32intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/immintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/iso646.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/keylockerintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lwpintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/lzcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm3dnow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mm_malloc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/movdirintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/mwaitxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/nmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pconfigintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pkuintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/pmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/popcntintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchiintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/prfchwintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/quadmath_weak.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/raointintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rdseedintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/rtmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/serializeintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sgxintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sha512intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/shaintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm3intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/sm4intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/smmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdalign.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdatomic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdbool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdckdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stddef.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdfix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint-gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/stdnoreturn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/syslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tbmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/tsxldtrkintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/uintrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/unwind.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/usermsrintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vaesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/varargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/vpclmulqdqintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/waitpkgintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wbnoinvdintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/wmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86gprintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/x86intrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xmmintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xopintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavecintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsaveoptintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xsavesintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/include/xtestintrin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/fixinc_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/limits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/include/README was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/macro_list was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/install-tools/mkheaders.conf was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/gtype.state was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/addresses.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/align.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/alloc-pool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/all-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/access-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analysis-plan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-language.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-logging.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/analyzer-selftests.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/bar-chart.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-details.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-info.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/call-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-event.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/checker-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/complexity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/constraint-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/diagnostic-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/engine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/exploded-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/feasible-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/function-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/inlining-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/known-function-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/pending-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-point.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/program-state.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/ranges.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/record-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/region-model-reachability.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/sm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/state-purge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/store.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/supergraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/svalue.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/symbol.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/analyzer/trimmed-graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ansidecl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/array-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/asan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attr-fnspec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/attribs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-host.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/auto-profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/backend.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/basic-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bb-reorder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/b-header-vars was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-attrs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtins.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/builtin-types.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/bversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/calls.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ccmp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c/c-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-objc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pragma.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-family/c-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfganal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgbuild.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgexpand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg-flags.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfghooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgloopmanip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cfgrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cgraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cif-code.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2-aix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect2.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/collect-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/color-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/conditions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/configargs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/elfos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/glibc-stdint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/gnu-user.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/att.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/biarch64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/gnu-user-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-isa.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/i386-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/linux-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/stringop.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/unix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-64.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/i386/x86-tune.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/initfini-array.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-android.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/linux-protos.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/config/vxworks-dummy.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/convert.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coretypes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coroutine-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/coverage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/contracts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-trait.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cp-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/cxx-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/name-lookup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/operators.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppbuiltin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cppdefault.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cpplib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cp/type-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/cselib.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ctfc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/c-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/data-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dbgcnt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ddg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/d/d-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/debug.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/defaults.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/df.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dfp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-client-data-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-color.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-diagram.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-event-id.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-format-sarif.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-metadata.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-spec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/diagnostic-url.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/digraph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dojump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dominance.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/domwalk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/double-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dump-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dumpfile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2asm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2ctf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/dwarf2out.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/edit-context.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/emit-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/errors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/escaped_string.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/et-forest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/except.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/explow.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expmed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fibonacci_heap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-find.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/filenames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/file-prefix-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fixed-value.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/flag-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const-call.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/fold-const.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function-abi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcc-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-counter.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcov-io.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gcse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/generic-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gengtype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/genrtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gensupport.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ggc-internal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-array-bounds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-expr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-lower-bitint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-match.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predicate-analysis.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-cache.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-edge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-fold.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-gori.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-infer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-path.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-phi.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-range-trace.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-access.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimple-walk.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gimplify-me.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/glimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gomp-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graph.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphite.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/graphviz.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsstruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyms.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gsyslimits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtm-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/gtype-desc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hard-reg-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-map-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-set.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hashtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-table.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/highlev-plugin-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hosthooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hw-doloop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/hwint.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ifcvt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/inchash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/incpath.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/input.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-addr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr-common.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-attr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-codes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-config.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-constants.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-flags.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-modes-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/insn-opinit.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/internal-fn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/intl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/int-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-cp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-fnsummary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf-gimple.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-icf.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-modref-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-param-manipulation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-predicate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-prop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-reference.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-strub.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ipa-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ira-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/is-a.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/iterator-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/langhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lcm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/libiberty.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limitx.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/limity.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/line-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/linux.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/loop-unroll.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lower-subreg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lra-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-compress.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-section-names.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/lto-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2 was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/m2/m2-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/machmode.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/make-unique.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/md5.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memmodel.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/memory-block.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mem-stats-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mode-classes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/mux-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/objc/objc-tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/obstack-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-expand.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-general.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-low.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-offload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-selectors.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/omp-simd-clone.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-libfuncs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optabs-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo-emit-json.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/optinfo.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/options.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-problem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opts-jobserver.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/opt-suggestions.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ordered-hash-map.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/output.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/passes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass-instances.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pass_manager.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-api.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/plugin-version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pointer-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/poly-int-types.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/predict.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/prefix.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/pretty-print-urlifier.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/print-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile-count.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/profile.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/range-op-mixed.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-md.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/read-rtl-function.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/real.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/realmpfr.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/recog.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regcprop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reg-notes.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regrename.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/regs.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/reload.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/resource.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rich-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlanal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-error.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhash.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtlhooks-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-iter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtl-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/rtx-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/run-rtl-passes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/safe-ctype.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sanitizer.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sbitmap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sched-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/selftest-rtl.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sel-sched-ir.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sese.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shortest-paths.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/shrink-wrap.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/signop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sparseset.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/spellcheck-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/splay-tree-utils.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sreal.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ssa-iterators.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/statistics.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stmt.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stor-layout.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/streamer-hooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/stringpool.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/substring-locations.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symbol-summary.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-clones.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/symtab-thunks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/sync-builtins.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/system.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-def.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-globals.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-hooks-macros.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/target-insns.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/targhooks.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/timevar.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm_p.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tm-preds.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/toplev.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tracer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/trans-mem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-affine.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfgcleanup.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-cfg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-check.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-chrec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-core.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-data-ref.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dfa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-diagnostic.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-dump.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-eh.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hasher.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-hash-traits.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-if-conv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-inline.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-into-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-iterator.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-logical-location.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-nested.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-object-size.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-outof-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-parloops.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-phinodes.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-scalar-evolution.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-sra.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-address.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias-compare.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-alias.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ccp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-coalesce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dce.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dom.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-dse.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-live.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-manip.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-loop-niter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-math-opts.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssanames.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-operands.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-propagate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-reassoc.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-sccvn.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-scopedtables.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-strlen.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-ter.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadedge.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-ssa-threadupdate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-stdarg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-streamer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/treestruct.def was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-switch-conversion.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vectorizer.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tree-vrp.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tristate.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/tsystem.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typeclass.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/typed-splay-tree.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/ubsan.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/valtrack.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-pointer-equiv.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-prof.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-query.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-pretty-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-range-storage.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/value-relation.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/varasm.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vec-perm-indices.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vector-builder.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/version.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vmsdbg.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vr-values.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/vtable-verify.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-bitmask.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/wide-int-print.h was added
+  /usr/lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/plugin/include/xcoff.h was added
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-g++ was removed
+  /sysroot-providers/virtual_x86_64-poky-linux-musl-gcc was removed
+  /usr/bin/x86_64-poky-linux-musl was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-c++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-cpp was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-g++ was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-14.2.0 was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ar was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-nm was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcc-ranlib was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-dump was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-gcov-tool was removed
+  /usr/bin/x86_64-poky-linux-musl/x86_64-poky-linux-musl-lto-dump was removed
+  /usr/libexec/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cc1plus was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/collect2 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/g++-mapper-server was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixincl was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc.sh was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkinstalldirs was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ld.gold was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcc1.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0.0.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so.0 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/libcp1plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/liblto_plugin.so was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto1 was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/lto-wrapper was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gengtype was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/strip was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ar was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-as was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-cpp was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-gcc was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.bfd was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ld.gold was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-nm was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objcopy was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-objdump was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-ranlib was removed
+  /usr/libexec/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/x86_64-poky-linux-musl-strip was removed
+  /usr/lib/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins was removed
+  /usr/lib/x86_64-poky-linux-musl/bfd-plugins/liblto_plugin.so was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/adxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ammintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxbf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxcomplexintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxfp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/amxtileintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124fmapsintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx5124vnniwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bf16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bitalgvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512bwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512cdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512dqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512erintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512fp16vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512ifmavlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512pfintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmi2vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vbmivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlbwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vldqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vnnivlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vp2intersectvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avx512vpopcntdqvlintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxifmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxneconvertintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint16intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniint8intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/avxvnniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmi2intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/bmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cet.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cldemoteintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clflushoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clwbintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/clzerointrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cmpccxaddintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cpuid.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/cross-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/emmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/enqcmdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/f16cintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include-fixed/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/float.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fma4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fmaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/fxsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/gfniintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/hresetintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/ia32intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/immintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/iso646.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/keylockerintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lwpintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/lzcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm3dnow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mm_malloc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/movdirintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/mwaitxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/nmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pconfigintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pkuintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/pmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/popcntintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchiintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/prfchwintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/quadmath_weak.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/raointintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rdseedintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/rtmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/serializeintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sgxintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sha512intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/shaintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm3intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/sm4intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/smmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdalign.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdatomic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdbool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdckdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stddef.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdfix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint-gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/stdnoreturn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/syslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tbmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/tsxldtrkintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/uintrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/unwind.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/usermsrintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vaesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/varargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/vpclmulqdqintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/waitpkgintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wbnoinvdintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/wmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86gprintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/x86intrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xmmintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xopintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavecintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsaveoptintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xsavesintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/include/xtestintrin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/fixinc_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/limits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/include/README was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/macro_list was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/install-tools/mkheaders.conf was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/gtype.state was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ada/gcc-interface/ada-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/addresses.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/align.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/alloc-pool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/all-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/access-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analysis-plan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-language.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-logging.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/analyzer-selftests.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/bar-chart.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-details.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-info.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/call-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-event.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/checker-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/complexity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/constraint-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/diagnostic-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/engine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/exploded-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/feasible-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/function-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/inlining-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/known-function-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/pending-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-point.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/program-state.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/ranges.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/record-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/region-model-reachability.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/sm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/state-purge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/store.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/supergraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/svalue.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/symbol.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/analyzer/trimmed-graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ansidecl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/array-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/asan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attr-fnspec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/attribs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-host.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/auto-profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/backend.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/basic-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bb-reorder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/b-header-vars was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-attrs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtins.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/builtin-types.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/bversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/calls.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ccmp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c/c-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-objc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pragma.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-family/c-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfganal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgbuild.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgexpand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg-flags.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfghooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgloopmanip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cfgrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cgraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cif-code.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2-aix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect2.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/collect-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/color-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/common/config/i386/i386-cpuinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/conditions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/configargs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/elfos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/glibc-stdint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/gnu-user.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/att.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/biarch64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/gnu-user-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-isa.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/i386-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/linux-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/stringop.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/unix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-64.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/i386/x86-tune.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/initfini-array.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-android.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/linux-protos.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/config/vxworks-dummy.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/convert.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coretypes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coroutine-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/coverage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/contracts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-trait.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cp-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/cxx-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/name-lookup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/operators.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppbuiltin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cppdefault.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cpplib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cp/type-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/cselib.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ctfc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/c-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/data-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dbgcnt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ddg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/d/d-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/debug.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/defaults.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/df.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dfp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-client-data-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-color.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-diagram.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-event-id.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-format-sarif.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-metadata.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-spec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/diagnostic-url.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/digraph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dojump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dominance.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/domwalk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/double-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dump-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dumpfile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2asm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2ctf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/dwarf2out.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/edit-context.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/emit-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/errors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/escaped_string.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/et-forest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/except.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/explow.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expmed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fibonacci_heap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-find.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/filenames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/file-prefix-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fixed-value.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/flag-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const-call.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/fold-const.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function-abi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcc-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-counter.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcov-io.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gcse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/generic-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gengtype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/genrtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gensupport.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ggc-internal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-array-bounds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-expr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-lower-bitint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-match.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predicate-analysis.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-cache.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-edge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-fold.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-gori.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-infer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-path.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-phi.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-range-trace.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-access.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-ssa-warn-restrict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimple-walk.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gimplify-me.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/glimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gomp-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graph.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphite.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/graphviz.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsstruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyms.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gsyslimits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtm-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/gtype-desc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hard-reg-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-map-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-set.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hashtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-table.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/highlev-plugin-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hosthooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hw-doloop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/hwint.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ifcvt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/inchash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/incpath.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/input.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-addr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr-common.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-attr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-codes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-config.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-constants.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-flags.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-modes-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/insn-opinit.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/internal-fn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/intl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/int-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-cp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-fnsummary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf-gimple.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-icf.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-modref-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-param-manipulation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-predicate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-prop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-reference.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-strub.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ipa-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ira-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/is-a.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/iterator-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/langhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lcm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/libiberty.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limitx.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/limity.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/line-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/linux.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/loop-unroll.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lower-subreg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lra-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-compress.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-section-names.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/lto-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2 was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/m2/m2-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/machmode.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/make-unique.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/md5.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memmodel.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/memory-block.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mem-stats-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mode-classes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/mux-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/objc/objc-tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/obstack-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-expand.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-general.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-low.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-offload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-selectors.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/omp-simd-clone.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-libfuncs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optabs-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo-emit-json.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/optinfo.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/options.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-problem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opts-jobserver.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/opt-suggestions.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ordered-hash-map.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/output.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/passes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass-instances.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pass_manager.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-api.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/plugin-version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pointer-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/poly-int-types.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/predict.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/prefix.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/pretty-print-urlifier.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/print-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile-count.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/profile.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/range-op-mixed.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-md.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/read-rtl-function.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/real.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/realmpfr.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/recog.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regcprop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reg-notes.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regrename.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/regs.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/reload.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/resource.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rich-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlanal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-error.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhash.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtlhooks-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-iter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtl-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/rtx-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/run-rtl-passes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/safe-ctype.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sanitizer.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sbitmap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sched-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/selftest-rtl.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sel-sched-ir.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sese.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shortest-paths.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/shrink-wrap.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/signop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sparseset.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/spellcheck-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/splay-tree-utils.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sreal.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ssa-iterators.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/statistics.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stmt.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stor-layout.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/streamer-hooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/stringpool.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/substring-locations.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symbol-summary.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-clones.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/symtab-thunks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/sync-builtins.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/system.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-def.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-globals.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-hooks-macros.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/target-insns.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/targhooks.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/timevar.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm_p.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tm-preds.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/toplev.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tracer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/trans-mem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-affine.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfgcleanup.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-cfg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-check.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-chrec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-core.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-data-ref.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dfa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-diagnostic.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-dump.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-eh.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hasher.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-hash-traits.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-if-conv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-inline.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-into-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-iterator.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-logical-location.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-nested.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-object-size.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-outof-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-parloops.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-phinodes.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-scalar-evolution.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-sra.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-address.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias-compare.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-alias.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ccp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-coalesce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dce.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dom.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-dse.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-live.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-ivopts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-manip.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-loop-niter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-math-opts.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssanames.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-operands.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-propagate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-reassoc.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-sccvn.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-scopedtables.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-strlen.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-ter.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadedge.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-ssa-threadupdate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-stdarg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-streamer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/treestruct.def was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-switch-conversion.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vectorizer.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tree-vrp.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tristate.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/tsystem.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typeclass.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/typed-splay-tree.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/ubsan.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/valtrack.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-pointer-equiv.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-prof.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-query.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-pretty-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-range-storage.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/value-relation.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/varasm.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vec-perm-indices.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vector-builder.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/version.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vmsdbg.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vr-values.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/vtable-verify.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-bitmask.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
+  /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
+
+--===============5263949202437724616==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-sudo-upgrade-1.9.15p5-1.9.16.patch"
+ filename="0001-libinput-upgrade-1.26.1-1.26.2.patch"
 
-RnJvbSA1Y2Y5OGI4YzFlZDhkZTlmZjY4NmI0NDVjOWMxOTA4ZmRmYjMwNDBiIE1vbiBTZXAgMTcg
+RnJvbSA3MTcxYTE3Y2RkZGJlMDc5NzRmM2Q0NmVlZWMzOTdiNWZkMDJlOWM2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTA6MDE6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-dWRvOiB1cGdyYWRlIDEuOS4xNXA1IC0+IDEuOS4xNgoKLS0tCiAuLi5vLmNvbmYuaW4tZml4LWNv
-bmZsaWN0LXdpdGgtbXVsdGlsaWIucGF0Y2ggfCAgMyArLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L3N1ZG8vc3Vkby5pbmMgICAgICAgICAgIHwgIDIgKy0KIC4uLi9zdWRvL3tzdWRvXzEuOS4xNXA1
-LmJiID0+IHN1ZG9fMS45LjE2LmJifSB8IDMyICsrKysrKysrKysrKysrKysrKy0KIDMgZmlsZXMg
-Y2hhbmdlZCwgMzMgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvc3Vkby97c3Vkb18xLjkuMTVwNS5iYiA9PiBzdWRvXzEuOS4xNi5iYn0g
-KDY2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vkby9maWxlcy8wMDAx
-LXN1ZG8uY29uZi5pbi1maXgtY29uZmxpY3Qtd2l0aC1tdWx0aWxpYi5wYXRjaCBiL21ldGEvcmVj
-aXBlcy1leHRlbmRlZC9zdWRvL2ZpbGVzLzAwMDEtc3Vkby5jb25mLmluLWZpeC1jb25mbGljdC13
-aXRoLW11bHRpbGliLnBhdGNoCmluZGV4IDA0MWM3MTdlMDAuLjcxOTcxZDgwNTYgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zdWRvL2ZpbGVzLzAwMDEtc3Vkby5jb25mLmluLWZp
-eC1jb25mbGljdC13aXRoLW11bHRpbGliLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRl
-ZC9zdWRvL2ZpbGVzLzAwMDEtc3Vkby5jb25mLmluLWZpeC1jb25mbGljdC13aXRoLW11bHRpbGli
-LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA2ZTgzNTM1MGI3NDEzMjEwYzQxMGQzNTc4Y2Zh
-YjgwNDE4NmI3YTRmIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBhODA5ZjYyZjUxMTE1
-NTJhMjdlNDMyMDQ2OTdhNGY0YjM4NzBhNWU0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
-bTogS2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+CiBEYXRlOiBUdWUsIDE3IE5vdiAy
-MDIwIDExOjEzOjQwICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHN1ZG8uY29uZi5pbjogZml4IGNv
-bmZsaWN0IHdpdGggbXVsdGlsaWIKQEAgLTE1LDcgKzE1LDYgQEAgVXBkYXRlIHRoZSBjb21tZW50
-cyBpbiBzdWRvLmNvbmYuaW4gdG8gYXZvaWQgdGhlIGNvbmZsaWN0LgogU2lnbmVkLW9mZi1ieTog
-S2FpIEthbmcgPGthaS5rYW5nQHdpbmRyaXZlci5jb20+CiAKIFVwc3RyZWFtLVN0YXR1czogSW5h
-cHByb3ByaWF0ZSBbT0UgY29uZmlndXJhdGlvbiBzcGVjaWZpY10KLQogLS0tCiAgZXhhbXBsZXMv
-c3Vkby5jb25mLmluIHwgOCArKysrLS0tLQogIDEgZmlsZSBjaGFuZ2VkLCA0IGluc2VydGlvbnMo
-KyksIDQgZGVsZXRpb25zKC0pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvc3Vk
-by9zdWRvLmluYyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zdWRvL3N1ZG8uaW5jCmluZGV4IGZl
-YjFjZjM1YTcuLmI1ZDdmMWJjOWMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9z
-dWRvL3N1ZG8uaW5jCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zdWRvL3N1ZG8uaW5jCkBA
-IC00LDcgKzQsNyBAQCBIT01FUEFHRSA9ICJodHRwOi8vd3d3LnN1ZG8ud3MiCiBCVUdUUkFDS0VS
-ID0gImh0dHA6Ly93d3cuc3Vkby53cy9idWdzLyIKIFNFQ1RJT04gPSAiYWRtaW4iCiBMSUNFTlNF
-ID0gIklTQyAmIEJTRC0zLUNsYXVzZSAmIEJTRC0yLUNsYXVzZSAmIFpsaWIiCi1MSUNfRklMRVNf
-Q0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT01MTAwZTIwZDM1ZjkwMTVmOWVlZjZiZGIy
-N2JhMTk0ZiBcCitMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLm1kO21kNT1kNTM0
-NTcyMGVkOGEzYTA0NjlmYmUxY2M3MDJiM2Y2NSBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6
-Ly9wbHVnaW5zL3N1ZG9lcnMvcmVkYmxhY2suYztiZWdpbmxpbmU9MTtlbmRsaW5lPTQ2O21kNT0w
-M2UzNTMxNzY5OWJhMDBiNDk2MjUxZTBkZmU5ZjEwOSBcCiAgICAgICAgICAgICAgICAgICAgIGZp
-bGU6Ly9saWIvdXRpbC9yZWFsbG9jYXJyYXkuYztiZWdpbmxpbmU9MztlbmRsaW5lPTE1O21kNT0z
-OTdkZDQ1Yzc2ODNlOTBiOWY4YmYyNDYzOGNmMDNiZiBcCiAgICAgICAgICAgICAgICAgICAgIGZp
-bGU6Ly9saWIvdXRpbC9mbm1hdGNoLmM7YmVnaW5saW5lPTM7ZW5kbGluZT0yNzttZDU9MDA0ZDdk
-Mjg2NmJhMWY1YjQxMTc0OTA2ODQ5ZDJlMGYgXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4
-dGVuZGVkL3N1ZG8vc3Vkb18xLjkuMTVwNS5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zdWRv
-L3N1ZG9fMS45LjE2LmJiCnNpbWlsYXJpdHkgaW5kZXggNjYlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1leHRlbmRlZC9zdWRvL3N1ZG9fMS45LjE1cDUuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1leHRlbmRlZC9zdWRvL3N1ZG9fMS45LjE2LmJiCmluZGV4IDJmZDJhZTZkMDUuLmZkZTlkYjZj
-ZDAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9zdWRvL3N1ZG9fMS45LjE1cDUu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3N1ZG8vc3Vkb18xLjkuMTYuYmIKQEAgLTEs
-MyArMSwzMyBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVl
-biB1cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBk
-aWZmZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBs
-ZWFzZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRo
-ZSBjaGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicg
-dGFnLgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRl
-ZC4nKQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIExJQ0VOU0UubWQKKyMgKysrIExJQ0VO
-U0UubWQKKyMgQEAgLTEsNiArMSw2IEBACisjICBTdWRvIGlzIGRpc3RyaWJ1dGVkIHVuZGVyIHRo
-ZSBmb2xsb3dpbmcgbGljZW5zZToKKyMgIAorIyAtICAgIENvcHlyaWdodCAoYykgMTk5NC0xOTk2
-LCAxOTk4LTIwMjMKKyMgKyAgICBDb3B5cmlnaHQgKGMpIDE5OTQtMTk5NiwgMTk5OC0yMDI0Cisj
-ICAgICAgICAgIFRvZGQgQy4gTWlsbGVyIDxUb2RkLk1pbGxlckBzdWRvLndzPgorIyAgCisjICAg
-ICAgUGVybWlzc2lvbiB0byB1c2UsIGNvcHksIG1vZGlmeSwgYW5kIGRpc3RyaWJ1dGUgdGhpcyBz
-b2Z0d2FyZSBmb3IgYW55CisjIEBAIC0yOTksNyArMjk5LDcgQEAKKyMgIAorIyAgVGhlIGVtYmVk
-ZGVkIGNvcHkgb2YgemxpYiBiZWFycyB0aGUgZm9sbG93aW5nIGxpY2Vuc2U6CisjICAKKyMgLSAg
-ICBDb3B5cmlnaHQgKEMpIDE5OTUtMjAyMiBKZWFuLWxvdXAgR2FpbGx5IGFuZCBNYXJrIEFkbGVy
-CisjICsgICAgQ29weXJpZ2h0IChDKSAxOTk1LTIwMjQgSmVhbi1sb3VwIEdhaWxseSBhbmQgTWFy
-ayBBZGxlcgorIyAgCisjICAgICAgVGhpcyBzb2Z0d2FyZSBpcyBwcm92aWRlZCAnYXMtaXMnLCB3
-aXRob3V0IGFueSBleHByZXNzIG9yIGltcGxpZWQKKyMgICAgICB3YXJyYW50eS4gIEluIG5vIGV2
-ZW50IHdpbGwgdGhlIGF1dGhvcnMgYmUgaGVsZCBsaWFibGUgZm9yIGFueSBkYW1hZ2VzCisjIAor
-IworCiByZXF1aXJlIHN1ZG8uaW5jCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cuc3Vkby53cy9k
-aXN0L3N1ZG8tJHtQVn0udGFyLmd6IFwKQEAgLTcsNyArMzcsNyBAQCBTUkNfVVJJID0gImh0dHBz
-Oi8vd3d3LnN1ZG8ud3MvZGlzdC9zdWRvLSR7UFZ9LnRhci5neiBcCiAKIFBBTV9TUkNfVVJJID0g
-ImZpbGU6Ly9zdWRvLnBhbSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjU1OGQxMGI5YTE5OTFm
-YjNiOWZhN2ZhN2IwN2VjNDQwNWI3YWVmYjViM2NiMGIwODcxZGJjODFlM2E4OGU1NTgiCitTUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiYzBkODRkNzk3ZjA2YjczMmZjNTczZDBiNzk4YWU4MzEyOGMyYmMz
-MzA1MjA1N2YwNWI1NjBlYzZiY2JmYTAzZCIKIAogREVQRU5EUyArPSAiIHZpcnR1YWwvY3J5cHQg
-JHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RST19GRUFUVVJFUycsICdwYW0nLCAnbGlicGFtJywg
-JycsIGQpfSIKIFJERVBFTkRTOiR7UE59ICs9ICIgJHtAYmIudXRpbHMuY29udGFpbnMoJ0RJU1RS
-T19GRUFUVVJFUycsICdwYW0nLCAncGFtLXBsdWdpbi1saW1pdHMgcGFtLXBsdWdpbi1rZXlpbml0
-JywgJycsIGQpfSIKLS0gCjIuNDQuMQoK
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MzE6NDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJpbnB1dDogdXBncmFkZSAxLjI2LjEgLT4gMS4yNi4yCgotLS0KIC4uLi93YXlsYW5kL3tsaWJp
+bnB1dF8xLjI2LjEuYmIgPT4gbGliaW5wdXRfMS4yNi4yLmJifSAgICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3tsaWJpbnB1dF8xLjI2LjEuYmIgPT4gbGliaW5wdXRf
+MS4yNi4yLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXls
+YW5kL2xpYmlucHV0XzEuMjYuMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xp
+YmlucHV0XzEuMjYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC9saWJpbnB1dF8xLjI2LjEuYmIKcmVuYW1lIHRvIG1ldGEv
+cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xpYmlucHV0XzEuMjYuMi5iYgppbmRleCA0ODcyNzA1
+MDVhLi42YTk2YjBlMTRhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFu
+ZC9saWJpbnB1dF8xLjI2LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQv
+bGliaW5wdXRfMS4yNi4yLmJiCkBAIC0xNSw3ICsxNSw3IEBAIERFUEVORFMgPSAibGliZXZkZXYg
+dWRldiBtdGRldiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9saWJp
+bnB1dC9saWJpbnB1dC5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogICAgICAgICAg
+ICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjEyNDQzMWE1ZDMx
+ODZlMWMzYzNhYTE0NGEwNjM0Yjg0YjMwODk0ODYiCitTUkNSRVYgPSAiMzQwMmYzODAwMTlkYzRm
+ODgyZTFkODYyNzAyOTYwN2FjYTNmNGJlNiIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIFVQU1RS
+RUFNX0NIRUNLX1JFR0VYID0gImxpYmlucHV0LSg/UDxwdmVyPlxkK1wuXGQrXC4oPyE5XGQrKVxk
+KykiCi0tIAoyLjQ0LjEKCg==
 
---===============4734401264154460370==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1875 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:573250e61cd82a374714d707cd05ea6c1a802df1"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 172 Local 161 Mirrors 0 Missed 11 Current 244 (93% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 304 of 416 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_recipe_qa_setscene)
-NOTE: recipe sudo-1.9.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sudo-1.9.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1190 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_fetch)
-NOTE: recipe sudo-1.9.16-r0: task do_fetch: Started
-NOTE: recipe sudo-1.9.16-r0: task do_fetch: Succeeded
-NOTE: Running task 1191 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_unpack)
-NOTE: Running task 1192 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_prepare_recipe_sysroot)
-NOTE: recipe sudo-1.9.16-r0: task do_unpack: Started
-NOTE: recipe sudo-1.9.16-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe sudo-1.9.16-r0: task do_unpack: Succeeded
-NOTE: Running task 1193 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_patch)
-NOTE: Running task 1194 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_collect_spdx_deps)
-NOTE: recipe sudo-1.9.16-r0: task do_patch: Started
-NOTE: recipe sudo-1.9.16-r0: task do_collect_spdx_deps: Started
-NOTE: recipe sudo-1.9.16-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe sudo-1.9.16-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe sudo-1.9.16-r0: task do_patch: Succeeded
-NOTE: Running task 1195 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1196 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_populate_lic)
-NOTE: recipe sudo-1.9.16-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe sudo-1.9.16-r0: task do_populate_lic: Started
-NOTE: recipe sudo-1.9.16-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_deploy_source_date_epoch unihash changed to d2111582b201649f1418313c0f38210eab74f735e4a10fd29ff1e9863b291fd2
-NOTE: recipe sudo-1.9.16-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_populate_lic unihash changed to f10a8fb3b76d1a000bec67cccd750f7fe52d5392fc2125c6124cbe63b9d5e320
-NOTE: Setscene tasks completed
-NOTE: Running task 1197 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_configure)
-NOTE: recipe sudo-1.9.16-r0: task do_configure: Started
-NOTE: recipe sudo-1.9.16-r0: task do_configure: Succeeded
-NOTE: Running task 1198 of 1209 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_compile)
-NOTE: recipe sudo-1.9.16-r0: task do_compile: Started
-Log data follows:
-| DEBUG: Executing python function autotools_aclocals
-| DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc', 'bit-64', 'x86_64-linux', 'common']
-| DEBUG: Python function autotools_aclocals finished
-| DEBUG: Executing shell function do_compile
-| NOTE: make -j 16 -l 75
-| for d in lib/util  lib/eventlog lib/fuzzstub lib/iolog lib/protobuf-c  lib/logsrv logsrvd plugins/audit_json plugins/group_file plugins/sudoers plugins/system_group  src include docs examples plugins/sample plugins/sample_approval; do \
-|     (cd $d && exec make all) && continue; \
-|     exit $?; \
-| done
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/util'
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o basename.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/basename.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o digest.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebu
- g-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/digest.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o event.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/event.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o fatal.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/fatal.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o key_val.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/key_val.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o gethostname.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -
- fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/gethostname.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o gettime.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/gettime.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o getgrouplist.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/getgrouplist.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o gidlist.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/gidlist.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o hexchar.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/hexchar.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o json.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/json.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o lbuf.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/lbuf.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o locking.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/locking.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o logfac.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebu
- g-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/logfac.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o logpri.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebu
- g-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/logpri.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o mkdir_parents.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
-  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/mkdir_parents.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/event.c  -fPIC -DPIC -o .libs/event.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/digest.c  -fPIC -DPIC -o .libs/digest.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/basename.c  -fPIC -DPIC -o .libs/basename.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/fatal.c  -fPIC -DPIC -o .libs/fatal.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/gethostname.c  -fPIC -DPIC -o .libs/gethostname.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/gidlist.c  -fPIC -DPIC -o .libs/gidlist.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/lbuf.c  -fPIC -DPIC -o .libs/lbuf.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/mkdir_parents.c  -fPIC -DPIC -o .libs/mkdir_parents.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/logpri.c  -fPIC -DPIC -o .libs/logpri.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/getgrouplist.c  -fPIC -DPIC -o .libs/getgrouplist.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/gettime.c  -fPIC -DPIC -o .libs/gettime.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/locking.c  -fPIC -DPIC -o .libs/locking.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/hexchar.c  -fPIC -DPIC -o .libs/hexchar.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/logfac.c  -fPIC -DPIC -o .libs/logfac.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/json.c  -fPIC -DPIC -o .libs/json.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/key_val.c  -fPIC -DPIC -o .libs/key_val.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o mmap_alloc.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -f
- debug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/mmap_alloc.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o multiarch.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fd
- ebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/multiarch.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o parseln.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/parseln.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o progname.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/progname.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o rcstr.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/rcstr.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o regex.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug
- -prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/regex.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o roundup.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/roundup.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o secure_path.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -
- fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/secure_path.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o setgroups.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fd
- ebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/setgroups.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o strsplit.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strsplit.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o strtobool.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fd
- ebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtobool.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o strtoid.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtoid.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/mmap_alloc.c  -fPIC -DPIC -o .libs/mmap_alloc.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/parseln.c  -fPIC -DPIC -o .libs/parseln.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/multiarch.c  -fPIC -DPIC -o .libs/multiarch.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/rcstr.c  -fPIC -DPIC -o .libs/rcstr.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/progname.c  -fPIC -DPIC -o .libs/progname.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o strtomode.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fd
- ebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtomode.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/regex.c  -fPIC -DPIC -o .libs/regex.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/roundup.c  -fPIC -DPIC -o .libs/roundup.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/secure_path.c  -fPIC -DPIC -o .libs/secure_path.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strsplit.c  -fPIC -DPIC -o .libs/strsplit.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/setgroups.c  -fPIC -DPIC -o .libs/setgroups.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtobool.c  -fPIC -DPIC -o .libs/strtobool.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o strtonum.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtonum.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtoid.c  -fPIC -DPIC -o .libs/strtoid.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtomode.c  -fPIC -DPIC -o .libs/strtomode.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o sudo_conf.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fd
- ebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sudo_conf.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o sudo_debug.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -f
- debug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sudo_debug.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o sudo_dso.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sudo_dso.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o term.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/term.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o ttyname_dev.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -
- fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/ttyname_dev.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o ttysize.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/ttysize.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o uuid.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/uuid.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o event_poll.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -f
- debug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/event_poll.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o arc4random.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -f
- debug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/arc4random.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o arc4random_uniform.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.
- 9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/arc4random_uniform.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/strtonum.c  -fPIC -DPIC -o .libs/strtonum.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o getentropy.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -f
- debug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/getentropy.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o fnmatch.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/fnmatch.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o freezero.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/freezero.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sudo_conf.c  -fPIC -DPIC -o .libs/sudo_conf.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sudo_debug.c  -fPIC -DPIC -o .libs/sudo_debug.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o pw_dup.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebu
- g-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/pw_dup.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sudo_dso.c  -fPIC -DPIC -o .libs/sudo_dso.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/ttysize.c  -fPIC -DPIC -o .libs/ttysize.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/term.c  -fPIC -DPIC -o .libs/term.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/ttyname_dev.c  -fPIC -DPIC -o .libs/ttyname_dev.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/uuid.c  -fPIC -DPIC -o .libs/uuid.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/event_poll.c  -fPIC -DPIC -o .libs/event_poll.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/arc4random.c  -fPIC -DPIC -o .libs/arc4random.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/arc4random_uniform.c  -fPIC -DPIC -o .libs/arc4random_uniform.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o closefrom.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fd
- ebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/closefrom.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/getentropy.c  -fPIC -DPIC -o .libs/getentropy.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/fnmatch.c  -fPIC -DPIC -o .libs/fnmatch.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/freezero.c  -fPIC -DPIC -o .libs/freezero.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/pw_dup.c  -fPIC -DPIC -o .libs/pw_dup.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o mktemp.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebu
- g-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/mktemp.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o snprintf.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/snprintf.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o sha2.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-
- prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sha2.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/closefrom.c  -fPIC -DPIC -o .libs/closefrom.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o sig2str.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sig2str.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o str2sig.lo -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdeb
- ug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/str2sig.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/mktemp.c  -fPIC -DPIC -o .libs/mktemp.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/snprintf.c  -fPIC -DPIC -o .libs/snprintf.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sha2.c  -fPIC -DPIC -o .libs/sha2.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/sig2str.c  -fPIC -DPIC -o .libs/sig2str.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I. -I../../../sudo-1.9.16/lib/util -D_PATH_SUDO_CONF=\"/etc/sudo.conf\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -DDEFAULT_TEXT_DOMAIN=\"sudo\" -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp
- /work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/util/str2sig.c  -fPIC -DPIC -o .libs/str2sig.o
-| ../../../sudo-1.9.16/lib/util/snprintf.c: In function 'sudo_vsnprintf':
-| ../../../sudo-1.9.16/lib/util/snprintf.c:1494:26: warning: passing argument 1 of 'xxxprintf' discards 'restrict' qualifier from pointer target type [-Wdiscarded-qualifiers]
-|  1494 |         return xxxprintf(&str, n, 0, fmt, ap);
-|       |                          ^~~~
-| ../../../sudo-1.9.16/lib/util/snprintf.c:227:28: note: expected 'char **' but argument is of type 'char * restrict*'
-|   227 | xxxprintf(char ** restrict strp, size_t strsize, int alloc, const char * restrict fmt0, va_list ap)
-|       |           ~~~~~~~~~~~~~~~~~^~~~
-| ../../../sudo-1.9.16/lib/util/snprintf.c: In function 'sudo_snprintf':
-| ../../../sudo-1.9.16/lib/util/snprintf.c:1511:25: warning: passing argument 1 of 'xxxprintf' discards 'restrict' qualifier from pointer target type [-Wdiscarded-qualifiers]
-|  1511 |         ret = xxxprintf(&str, n, 0, fmt, ap);
-|       |                         ^~~~
-| ../../../sudo-1.9.16/lib/util/snprintf.c:227:28: note: expected 'char **' but argument is of type 'char * restrict*'
-|   227 | xxxprintf(char ** restrict strp, size_t strsize, int alloc, const char * restrict fmt0, va_list ap)
-|       |           ~~~~~~~~~~~~~~~~~^~~~
-| case "-Wl,--version-script,util.map" in \
-| *-no-install*) \
-|     /bin/bash ../../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o libsudo_util.la -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -f
- debug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,--version-script,util.map basename.lo digest.lo event.lo fatal.lo key_val.lo gethostname.lo gettime.lo getgrouplist.lo gidlist.lo hexchar.lo json.lo lbuf.lo locking.lo logfac.lo logpri.lo mkdir_parents.lo mmap_alloc.lo multiarch.lo parseln.lo progname.lo rcstr.lo regex.lo roundup.lo secure_path.lo setgroups.lo strsplit.lo strtobool.lo strtoid.lo strtomode.lo strtonum.lo sudo_conf.lo sudo_debug.lo sudo_dso.lo term.lo ttyname_dev.lo 
- ttysize.lo uuid.lo event_poll.lo  arc4random.lo arc4random_uniform.lo getentropy.lo fnmatch.lo freezero.lo pw_dup.lo closefrom.lo mktemp.lo snprintf.lo sha2.lo sig2str.lo str2sig.lo    -lpthread   ;; \
-| *) \
-|     /bin/bash ../../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o libsudo_util.la -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -f
- debug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,--allow-multiple-definition -Wc,-fstack-protector-strong -Wc,-fstack-clash-protection -Wc,-fcf-protection -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack -Wl,--version-script,util.map basename.lo digest.lo event.lo fatal.lo key_val.lo gethostname.lo gettime.lo getgrouplist.lo gidlist.lo hexchar.lo json.lo lbuf.lo locking.lo logfac.lo logpri.lo mkdir_parents.lo mmap_alloc.lo multiarch.lo parseln.lo progname.lo rcstr.lo regex.lo roundup.l
- o secure_path.lo setgroups.lo strsplit.lo strtobool.lo strtoid.lo strtomode.lo strtonum.lo sudo_conf.lo sudo_debug.lo sudo_dso.lo term.lo ttyname_dev.lo ttysize.lo uuid.lo event_poll.lo  arc4random.lo arc4random_uniform.lo getentropy.lo fnmatch.lo freezero.lo pw_dup.lo closefrom.lo mktemp.lo snprintf.lo sha2.lo sig2str.lo str2sig.lo -version-info 0:0:0 -rpath /usr/lib/sudo    -lpthread   ;; \
-| esac
-| libtool: link: x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -shared  -fPIC -DPIC  .libs/basename.o .libs/digest.o .libs/event.o .libs/fatal.o .libs/key_val.o .libs/gethostname.o .libs/gettime.o .libs/getgrouplist.o .libs/gidlist.o .libs/hexchar.o .libs/json.o .libs/lbuf.o .libs/locking.o .libs/logfac.o .libs/logpri.o .libs/mkdir_parents.o .libs/mmap_alloc.o .libs/multiarch.o .libs/parseln.o .libs/progname.o .libs/rcstr.o .libs/regex.o .libs/roundup.o .libs/secure_path.o .libs/setgroups.o .libs/strsplit.o .libs/strtobool.o .libs/strtoid.o .libs/strtomode.o .libs/strtonum.o .libs/sudo_conf.o .libs/sudo_debug.o .libs/sudo_dso.o .libs/term.o .libs/ttyname_dev.o .libs/ttysize.o .libs/uuid.o .libs/event_poll.o .libs/arc4random.o .libs/arc4random_unifor
- m.o .libs/getentropy.o .libs/fnmatch.o .libs/freezero.o .libs/pw_dup.o .libs/closefrom.o .libs/mktemp.o .libs/snprintf.o .libs/sha2.o .libs/sig2str.o .libs/str2sig.o   -lpthread  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16
-  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,--allow-multiple-definition -fstack-protector-strong -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-z -Wl,noexecstack -Wl,--version-script -Wl,util.map   -Wl,-soname -Wl,libsudo_util.so.0 -o .libs/libsudo_util.so.0.0.0
-| libtool: link: (cd ".libs" && rm -f "libsudo_util.so.0" && ln -s "libsudo_util.so.0.0.0" "libsudo_util.so.0")
-| libtool: link: (cd ".libs" && rm -f "libsudo_util.so" && ln -s "libsudo_util.so.0.0.0" "libsudo_util.so")
-| libtool: link: ( cd ".libs" && rm -f "libsudo_util.la" && ln -s "../libsudo_util.la" "libsudo_util.la" )
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/util'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/eventlog'
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o eventlog.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/au
- h/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/eventlog.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o eventlog_conf.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-work
- er/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/eventlog_conf.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o eventlog_free.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-work
- er/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/eventlog_free.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o logwrap.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh
- /build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/logwrap.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o parse_json.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/
- auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/parse_json.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/
- usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/eventlog.c  -fPIC -DPIC -o .libs/eventlog.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/
- usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/eventlog_conf.c  -fPIC -DPIC -o .libs/eventlog_conf.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/
- usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/eventlog_free.c  -fPIC -DPIC -o .libs/eventlog_free.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/
- usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/parse_json.c  -fPIC -DPIC -o .libs/parse_json.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/eventlog -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/
- usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/eventlog/logwrap.c  -fPIC -DPIC -o .libs/logwrap.o
-| /bin/bash ../../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o libsudo_eventlog.la eventlog.lo eventlog_conf.lo eventlog_free.lo logwrap.lo parse_json.lo ../../lib/util/libsudo_util.la
-| libtool: link: x86_64-poky-linux-gcc-ar cr .libs/libsudo_eventlog.a .libs/eventlog.o .libs/eventlog_conf.o .libs/eventlog_free.o .libs/logwrap.o .libs/parse_json.o
-| libtool: link: x86_64-poky-linux-gcc-ranlib .libs/libsudo_eventlog.a
-| libtool: link: ( cd ".libs" && rm -f "libsudo_eventlog.la" && ln -s "../libsudo_eventlog.la" "libsudo_eventlog.la" )
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/eventlog'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/fuzzstub'
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o fuzzstub.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/fuzzstub -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/au
- h/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/fuzzstub/fuzzstub.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/fuzzstub -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/
- usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/fuzzstub/fuzzstub.c  -fPIC -DPIC -o .libs/fuzzstub.o
-| /bin/bash ../../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o libsudo_fuzzstub.la fuzzstub.lo
-| libtool: link: x86_64-poky-linux-gcc-ar cr .libs/libsudo_fuzzstub.a .libs/fuzzstub.o
-| libtool: link: x86_64-poky-linux-gcc-ranlib .libs/libsudo_fuzzstub.a
-| libtool: link: ( cd ".libs" && rm -f "libsudo_fuzzstub.la" && ln -s "../libsudo_fuzzstub.la" "libsudo_fuzzstub.la" )
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/fuzzstub'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/iolog'
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o host_port.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/co
- re2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/host_port.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o hostcheck.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/co
- re2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/hostcheck.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_clearerr.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/wo
- rk/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_clearerr.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_close.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/
- core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_close.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_conf.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_conf.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_eof.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/co
- re2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_eof.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_filter.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work
- /core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_filter.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_flush.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/
- core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_flush.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_gets.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_gets.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_json.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_json.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_legacy.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work
- /core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_legacy.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_loginfo.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/wor
- k/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_loginfo.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_mkdirs.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work
- /core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_mkdirs.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_mkdtemp.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/wor
- k/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_mkdtemp.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_mkpath.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work
- /core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_mkpath.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_nextid.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work
- /core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_nextid.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/host_port.c  -fPIC -DPIC -o .libs/host_port.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/hostcheck.c  -fPIC -DPIC -o .libs/hostcheck.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_clearerr.c  -fPIC -DPIC -o .libs/iolog_clearerr.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_conf.c  -fPIC -DPIC -o .libs/iolog_conf.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_eof.c  -fPIC -DPIC -o .libs/iolog_eof.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_flush.c  -fPIC -DPIC -o .libs/iolog_flush.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_close.c  -fPIC -DPIC -o .libs/iolog_close.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_gets.c  -fPIC -DPIC -o .libs/iolog_gets.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_json.c  -fPIC -DPIC -o .libs/iolog_json.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_mkdirs.c  -fPIC -DPIC -o .libs/iolog_mkdirs.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_mkpath.c  -fPIC -DPIC -o .libs/iolog_mkpath.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_loginfo.c  -fPIC -DPIC -o .libs/iolog_loginfo.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_mkdtemp.c  -fPIC -DPIC -o .libs/iolog_mkdtemp.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_nextid.c  -fPIC -DPIC -o .libs/iolog_nextid.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_filter.c  -fPIC -DPIC -o .libs/iolog_filter.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_legacy.c  -fPIC -DPIC -o .libs/iolog_legacy.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_open.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_open.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_openat.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work
- /core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_openat.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_path.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_path.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_open.c  -fPIC -DPIC -o .libs/iolog_open.o
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_read.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_read.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_seek.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_seek.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_swapids.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/wor
- k/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_swapids.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_timing.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work
- /core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_timing.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_util.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/c
- ore2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_util.c
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o iolog_write.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/
- core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_write.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_openat.c  -fPIC -DPIC -o .libs/iolog_openat.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_path.c  -fPIC -DPIC -o .libs/iolog_path.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_read.c  -fPIC -DPIC -o .libs/iolog_read.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_seek.c  -fPIC -DPIC -o .libs/iolog_seek.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_swapids.c  -fPIC -DPIC -o .libs/iolog_swapids.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_util.c  -fPIC -DPIC -o .libs/iolog_util.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_write.c  -fPIC -DPIC -o .libs/iolog_write.o
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/iolog -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 
- -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/iolog/iolog_timing.c  -fPIC -DPIC -o .libs/iolog_timing.o
-| /bin/bash ../../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o libsudo_iolog.la host_port.lo hostcheck.lo iolog_clearerr.lo iolog_close.lo iolog_conf.lo iolog_eof.lo iolog_filter.lo iolog_flush.lo iolog_gets.lo iolog_json.lo iolog_legacy.lo iolog_loginfo.lo iolog_mkdirs.lo iolog_mkdtemp.lo iolog_mkpath.lo iolog_nextid.lo iolog_open.lo iolog_openat.lo iolog_path.lo iolog_read.lo iolog_seek.lo iolog_swapids.lo iolog_timing.lo iolog_util.lo iolog_write.lo ../../lib/util/libsudo_util.la
-| libtool: link: x86_64-poky-linux-gcc-ar cr .libs/libsudo_iolog.a .libs/host_port.o .libs/hostcheck.o .libs/iolog_clearerr.o .libs/iolog_close.o .libs/iolog_conf.o .libs/iolog_eof.o .libs/iolog_filter.o .libs/iolog_flush.o .libs/iolog_gets.o .libs/iolog_json.o .libs/iolog_legacy.o .libs/iolog_loginfo.o .libs/iolog_mkdirs.o .libs/iolog_mkdtemp.o .libs/iolog_mkpath.o .libs/iolog_nextid.o .libs/iolog_open.o .libs/iolog_openat.o .libs/iolog_path.o .libs/iolog_read.o .libs/iolog_seek.o .libs/iolog_swapids.o .libs/iolog_timing.o .libs/iolog_util.o .libs/iolog_write.o
-| libtool: link: x86_64-poky-linux-gcc-ranlib .libs/libsudo_iolog.a
-| libtool: link: ( cd ".libs" && rm -f "libsudo_iolog.la" && ln -s "../libsudo_iolog.la" "libsudo_iolog.la" )
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/iolog'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/protobuf-c'
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o protobuf-c.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/protobuf-c -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worke
- r/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/protobuf-c/protobuf-c.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/protobuf-c -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build
- =/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/protobuf-c/protobuf-c.c  -fPIC -DPIC -o .libs/protobuf-c.o
-| /bin/bash ../../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o libprotobuf-c.la protobuf-c.lo
-| libtool: link: x86_64-poky-linux-gcc-ar cr .libs/libprotobuf-c.a .libs/protobuf-c.o
-| libtool: link: x86_64-poky-linux-gcc-ranlib .libs/libprotobuf-c.a
-| libtool: link: ( cd ".libs" && rm -f "libprotobuf-c.la" && ln -s "../libprotobuf-c.la" "libprotobuf-c.la" )
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/protobuf-c'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/logsrv'
-| /bin/bash ../../libtool --tag=disable-static --mode=compile x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -o log_server.pb-c.lo -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/logsrv -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-work
- er/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/logsrv/log_server.pb-c.c
-| libtool: compile:  x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../../sudo-1.9.16/include -I../.. -I../../../sudo-1.9.16/lib/logsrv -I../../../sudo-1.9.16 -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/us
- r/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -pipe -fvisibility=hidden -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../../sudo-1.9.16/lib/logsrv/log_server.pb-c.c  -fPIC -DPIC -o .libs/log_server.pb-c.o
-| /bin/bash ../../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o liblogsrv.la log_server.pb-c.lo
-| libtool: link: x86_64-poky-linux-gcc-ar cr .libs/liblogsrv.a .libs/log_server.pb-c.o
-| libtool: link: x86_64-poky-linux-gcc-ranlib .libs/liblogsrv.a
-| libtool: link: ( cd ".libs" && rm -f "liblogsrv.la" && ln -s "../liblogsrv.la" "liblogsrv.la" )
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/logsrv'
-| make[1]: Entering directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/logsrvd'
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/logsrv_util.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/iolog_writer.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/logsrvd.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/logsrvd_conf.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/logsrvd_journal.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/logsrvd_local.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/logsrvd_relay.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/logsrvd_queue.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/tls_client.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/tls_init.c
-| x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -c -I../../sudo-1.9.16/include -I.. -I../../sudo-1.9.16/logsrvd -I../../sudo-1.9.16/logsrvd -D_PATH_SUDO_LOGSRVD_CONF=\"/etc/sudo_logsrvd.conf\" -DLOCALEDIR=\"/usr/share/locale\" -DZLIB_CONST -D_FORTIFY_SOURCE=2 -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker
- /auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -pipe -fvisibility=hidden   -fstack-protector-strong -fstack-clash-protection -fcf-protection ../../sudo-1.9.16/logsrvd/sendlog.c
-| /bin/bash ../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o sudo_sendlog logsrv_util.o sendlog.o tls_client.o tls_init.o -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.1
- 6/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,--allow-multiple-definition  -Wc,-fstack-protector-strong -Wc,-fstack-clash-protection -Wc,-fcf-protection -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack ../lib/iolog/libsudo_iolog.la ../lib/eventlog/libsudo_eventlog.la ../lib/logsrv/liblogsrv.la ../lib/protobuf-c/libprotobuf-c.la
-| /bin/bash ../libtool --tag=disable-static --mode=link x86_64-poky-linux-gcc  -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o sudo_logsrvd logsrv_util.o iolog_writer.o logsrvd.o logsrvd_conf.o logsrvd_journal.o logsrvd_local.o logsrvd_relay.o logsrvd_queue.o tls_client.o tls_init.o -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebu
- g-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native=  -Wl,-z,relro,-z,now -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,--allow-multiple-definition  -Wc,-fstack-protector-strong -Wc,-fstack-clash-protection -Wc,-fcf-protection -Wl,-z,relro -Wl,-z,now -Wl,-z,noexecstack ../lib/iolog/libsudo_iolog.la ../lib/eventlog/libsudo_eventlog.la ../lib/logsrv/liblogsrv.la ../lib/protobuf-c/libprotobuf-c.la
-| libtool: link: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o .libs/sudo_sendlog logsrv_util.o sendlog.o tls_client.o tls_init.o -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fde
- bug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,--allow-multiple-definition -fstack-protector-strong -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-z -Wl,noexecstack  ../lib/iolog/.libs/libsudo_iolog.a ../lib/eventlog/.libs/libsudo_eventlog.a /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/util/.libs/libsudo_util.so -lpthread ../lib/logsrv/.libs/liblogsrv.a ../lib/protobuf-c/.libs/libprotobuf-c.a
-  -Wl,-rpath -Wl,/usr/lib/sudo
-| libtool: link: x86_64-poky-linux-gcc -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot -o .libs/sudo_logsrvd logsrv_util.o iolog_writer.o logsrvd.o logsrvd_conf.o logsrvd_journal.o logsrvd_local.o logsrvd_relay.o logsrvd_queue.o tls_client.o tls_init.o -Wl,-O1 -Wl,--hash-style=gnu -Wl,--as-needed -fcanon-prefix-map -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/sudo-1.9.16=/usr/src/debug/sudo/1.9.16 -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worke
- r/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build=/usr/src/debug/sudo/1.9.16 -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot= -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native= -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,--no-undefined -Wl,--enable-new-dtags -Wl,--allow-multiple-definition -fstack-protector-strong -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,-z -Wl,now -Wl,-z -Wl,noexecstack  ../lib/iolog/.libs/libsudo_iolog.a ../lib/eventlog/.libs/libsudo_eventlog.a /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/lib/util/.libs/l
- ibsudo_util.so -lpthread ../lib/logsrv/.libs/liblogsrv.a ../lib/protobuf-c/.libs/libprotobuf-c.a -Wl,-rpath -Wl,/usr/lib/sudo
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: ../lib/eventlog/.libs/libsudo_eventlog.a(eventlog.o): in function `new_logline':
-| /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:128:(.text+0x13b): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:124:(.text+0x5e0): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:221:(.text+0x6b0): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: ../lib/eventlog/.libs/libsudo_eventlog.a(eventlog.o): in function `format_json':
-| /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:851:(.text+0xc00): undefined reference to `sudo_asprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: ../lib/eventlog/.libs/libsudo_eventlog.a(eventlog.o): in function `do_logfile_sudo':
-| /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:1182:(.text+0x141f): undefined reference to `sudo_asprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:1185:(.text+0x1518): undefined reference to `sudo_asprintf'
-| collect2: error: ld returned 1 exit status
-| make[1]: *** [Makefile:182: sudo_sendlog] Error 1
-| make[1]: *** Waiting for unfinished jobs....
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: iolog_writer.o: in function `create_iolog_path':
-| /usr/src/debug/sudo/1.9.16/logsrvd/iolog_writer.c:571:(.text+0x345): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: iolog_writer.o: in function `fill_seq':
-| /usr/src/debug/sudo/1.9.16/logsrvd/iolog_writer.c:435:(.text+0xd8e): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: iolog_writer.o: in function `iolog_rewrite':
-| /usr/src/debug/sudo/1.9.16/logsrvd/iolog_writer.c:795:(.text+0x2ad6): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/logsrvd/iolog_writer.c:847:(.text+0x2efb): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/logsrvd/iolog_writer.c:853:(.text+0x2f29): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: logsrvd_journal.o:/usr/src/debug/sudo/1.9.16/logsrvd/logsrvd_journal.c:425: more undefined references to `sudo_snprintf' follow
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: logsrvd_relay.o: in function `handle_log_id':
-| /usr/src/debug/sudo/1.9.16/logsrvd/logsrvd_relay.c:577:(.text+0x540): undefined reference to `sudo_asprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: logsrvd_queue.o: in function `logsrvd_queue_scan':
-| /usr/src/debug/sudo/1.9.16/logsrvd/logsrvd_queue.c:221:(.text+0x7fc): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: ../lib/eventlog/.libs/libsudo_eventlog.a(eventlog.o): in function `new_logline':
-| /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:128:(.text+0x13b): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:124:(.text+0x5e0): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:221:(.text+0x6b0): undefined reference to `sudo_snprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: ../lib/eventlog/.libs/libsudo_eventlog.a(eventlog.o): in function `format_json':
-| /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:851:(.text+0xc00): undefined reference to `sudo_asprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: ../lib/eventlog/.libs/libsudo_eventlog.a(eventlog.o): in function `do_logfile_sudo':
-| /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:1182:(.text+0x141f): undefined reference to `sudo_asprintf'
-| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/recipe-sysroot-native/usr/bin/x86_64-poky-linux/../../libexec/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/ld: /usr/src/debug/sudo/1.9.16/lib/eventlog/eventlog.c:1185:(.text+0x1518): undefined reference to `sudo_asprintf'
-| collect2: error: ld returned 1 exit status
-| make[1]: *** [Makefile:179: sudo_logsrvd] Error 1
-| make[1]: Leaving directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/build/logsrvd'
-| make: *** [Makefile:110: all] Error 2
-| ERROR: oe_runmake failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580:188 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580, line 188
-| 	#2: die, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580, line 172
-| 	#3: oe_runmake, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580, line 167
-| 	#4: autotools_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580, line 162
-| 	#5: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580, line 157
-| 	#6: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580, line 201
-NOTE: recipe sudo-1.9.16-r0: task do_compile: Failed
-NOTE: Tasks Summary: Attempted 1198 tasks of which 1189 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015100030.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015100030.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_compile
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/log.do_compile.2704580
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: sudo-1.9.16-r0 do_compile: oe_runmake failed
-ERROR: sudo-1.9.16-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/run.do_compile.2704580' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/sudo/1.9.16/temp/log.do_compile.2704580
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/sudo/sudo_1.9.16.bb:do_compile) failed with exit code '1'
-
---===============4734401264154460370==--
+--===============5263949202437724616==--
 
