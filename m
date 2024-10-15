@@ -2,48 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C127BD1F9CE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED6B7D1F9D1
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:13 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.11783.1728994543212041021
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.11800.1728994554615421866
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:10 -0700
+ Tue, 15 Oct 2024 05:16:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=InPmjl7d;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=dUS5XQj/;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010192901b6de3-2616b0f8-c24f-4f49-9314-b56566e3b5f3-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Ck8dpTPH;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GpEXqbrZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 01010192901b6745-af10b3b9-2da7-4796-83e9-48e391f1435e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994569;
+	t=1728994568;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=q1ww3eJJn2RP28Y9sGa5OmNr5Vfwi0jeGzD4Crqi98M=;
-	b=InPmjl7d5z3Eil0FNu6CNQMsxja0B8K81V9Ysd6zyopaGbrYAw5dLIynO2s9K0bO
-	rjV+3PzBTh2pKehm9VZKK0calvJ65cd3fiVsKSXqFiBjjNfwVss4YeIj7JMUIlK8PmN
-	JkZ4Q83uPC2IAp3NFI+IVqu3IhM1xgtmrIuQ8gM8=
+	bh=XpnddhXscBVG4iPP4nD6VfNk6D1kzlkRomlQ2H5CX/8=;
+	b=Ck8dpTPHAsB1JUMlRSz7BKT1RjPM7qYce38cW7CV1O960YanDoN4YUOhxA3Xw5NS
+	ZwNtPCz+YYVxjhHF/pTz7o+KDptOOAbEHOlVG5ZIT4eWZEai3+AV8sLztUeVsie5in6
+	3J24IdT6aFrR30qbZegmiR8gudYbrVjjen8zyJzI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994569;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994568;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=q1ww3eJJn2RP28Y9sGa5OmNr5Vfwi0jeGzD4Crqi98M=;
-	b=dUS5XQj/mFF/yZ6KmnzHYcHIXl8sijNe6iHQU6vqOUcMjkSz+iX7P827mL4Z4S6B
-	tswxkUETZkC/P9fNidspfzwBf4QQoAKJLjV/TF/JlbBvnfiVGoh+kZdKCCIaIBBl4TS
-	FtOdu3gryYed15QhsSIlG+ZEIJH9NcRp2kELqrBY=
-Content-Type: multipart/mixed; boundary="===============8851085841644916288=="
+	bh=XpnddhXscBVG4iPP4nD6VfNk6D1kzlkRomlQ2H5CX/8=;
+	b=GpEXqbrZjChebEJinoGPewHTd0OkpDjzuUzKp+8UnamZ1eLf7jrQiOtLdgz9Bnet
+	oAyl8vmo8Eg/W3oSiPUa1e9cMb8lhVkGN7zLrCtzqHEmPzXKx7bscNQMK6ACD8uLCTd
+	qfImh8ESpbSfFSyVGrdnOW+gYYJnPnaWIu5lDkLQ=
+Content-Type: multipart/mixed; boundary="===============6645197333106708025=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] virglrenderer: upgrading to 1.1.0 FAILED
-Message-ID: <01010192901b6de3-2616b0f8-c24f-4f49-9314-b56566e3b5f3-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:09 +0000
+Subject: [AUH] piglit: upgrading to 7ce69da1199d12ed0ddaa251ed489750523798fb
+ SUCCEEDED
+Message-ID: <01010192901b6745-af10b3b9-2da7-4796-83e9-48e391f1435e-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:08 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.23
+X-SES-Outgoing: 2024.10.15-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205882
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205880
 
---===============8851085841644916288==
+--===============6645197333106708025==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +52,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *virglrenderer* to *1.1.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *piglit* to *7ce69da1199d12ed0ddaa251ed489750523798fb* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-virglrenderer-upgrade-1.0.1-1.1.0.patch
+    - apply the patch: git am 0001-piglit-upgrade-to-latest-revision.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,185 +73,222 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 095a363fcd86a65c17c87ff44ebc6108d6bb147e Mon Sep 17 00:00:00 2001
+From 3349d078ba02154e0d8388f8d7b1203ede2085e6 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 11:08:10 +0000
-Subject: [PATCH] virglrenderer: upgrade 1.0.1 -> 1.1.0
+Date: Tue, 15 Oct 2024 11:02:02 +0000
+Subject: [PATCH] piglit: upgrade to latest revision
 
 ---
- ...001-meson.build-use-python3-directly-for-python.patch | 9 ++++-----
- ...-Fix-int-conversion-fatal-build-error-with-GCC-.patch | 6 +-----
- .../{virglrenderer_1.0.1.bb => virglrenderer_1.1.0.bb}   | 2 +-
- 3 files changed, 6 insertions(+), 11 deletions(-)
- rename meta/recipes-graphics/virglrenderer/{virglrenderer_1.0.1.bb => virglrenderer_1.1.0.bb} (96%)
+ ...keLists.txt-do-not-obtain-wayland-scanner-path-fr.patch | 7 ++-----
+ .../0001-tests-Fix-narrowing-errors-seen-with-clang.patch  | 2 +-
+ ...02-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch | 2 +-
+ ...ts-util-piglit-shader.c-do-not-hardcode-build-pat.patch | 2 +-
+ meta/recipes-graphics/piglit/piglit_git.bb                 | 2 +-
+ 5 files changed, 6 insertions(+), 9 deletions(-)
 
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
-index 3e12495970..d416c02035 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-meson.build-use-python3-directly-for-python.patch
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
+index b47e16af6b..0ce7dc6d99 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch
 @@ -1,4 +1,4 @@
--From dec8cca59124d7f8796b54902482ceb295a71b51 Mon Sep 17 00:00:00 2001
-+From c6b89050231daf41ac3227e53e1f0828f6b4d92b Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 6 Jan 2020 12:44:42 +0100
- Subject: [PATCH] meson.build: use 'python3' directly for python
-@@ -8,16 +8,15 @@ its configuration).
+-From 8f25cdf54e35ab1a174cabf5078784b8e48bda01 Mon Sep 17 00:00:00 2001
++From d8f79e23b2c01acad39fa04ac9c283c20bb37e3d Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 23 Aug 2024 15:29:45 +0200
+ Subject: [PATCH] CMakeLists.txt: do not obtain wayland-scanner path from
+@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 5 deletions(-)
  
- Upstream-Status: Inappropriate [oe-core specific]
- Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
--
- ---
-  meson.build | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/meson.build b/meson.build
--index 9f91ff2f..2391f89d 100644
-+index 10be099e..3bb6eec7 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -74,7 +74,7 @@ flags = [
-+@@ -77,7 +77,7 @@ flags = [
-  
-  add_project_arguments(cc.get_supported_arguments(flags), language : 'c')
-  
-@@ -25,4 +24,4 @@ index 9f91ff2f..2391f89d 100644
- +prog_python = 'python3'
-  
-  not_found = dependency('', required: false)
-- libdrm_dep = dependency('libdrm', version : '>=2.4.50', required: get_option('drm').enabled() or get_option('venus'))
-+ gbm_dep = not_found
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
-index 9c49ee512a..2d87ceabf3 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
-@@ -1,4 +1,4 @@
--From 464deabe4d1bfce6b8f414ab0945d9a62b66ddd4 Mon Sep 17 00:00:00 2001
-+From 969eb551f426d035eaede1a0b47cb12462baea63 Mon Sep 17 00:00:00 2001
- From: Purushottam Choudhary <purushottam27.kumar@lge.com>
- Date: Tue, 8 Oct 2024 11:47:21 +0530
- Subject: [PATCH] vrend: Fix int-conversion fatal build error with GCC-14
-@@ -19,7 +19,6 @@ Upstream-Status: Backport [https://gitlab.freedesktop.org/virgl/virglrenderer/-/
- Signed-off-by: Purushottam Choudhary <purushottam27.kumar@lge.com>
- Part-of: <https://gitlab.freedesktop.org/virgl/virglrenderer/-/merge_requests/1440>
- ---
--
-  src/vrend_winsys_egl.c | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
-@@ -36,6 +35,3 @@ index 9d9f410c..8750f6b2 100644
-  #endif
-     } else {
-  #ifdef ENABLE_GBM
+ diff --git a/CMakeLists.txt b/CMakeLists.txt
+-index d169fb481..8394f5236 100644
++index 73750f67e..8018a1bb7 100644
+ --- a/CMakeLists.txt
+ +++ b/CMakeLists.txt
+ @@ -211,11 +211,7 @@ if(PIGLIT_USE_WAYLAND)
+@@ -33,6 +33,3 @@ index d169fb481..8394f5236 100644
+  	add_executable(WaylandScannerExe IMPORTED)
+  	set_property(TARGET WaylandScannerExe PROPERTY IMPORTED_LOCATION ${WaylandScannerPath})
+  endif()
 --- 
--2.34.1
+-2.39.2
 -
-diff --git a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.1.bb b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/virglrenderer/virglrenderer_1.0.1.bb
-rename to meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
-index 87f25a3461..3a099dd305 100644
---- a/meta/recipes-graphics/virglrenderer/virglrenderer_1.0.1.bb
-+++ b/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb
-@@ -9,7 +9,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c81c08eeefd9418fca8f88309a76db10"
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
+index 08e709b1d0..673fd0b18f 100644
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-Fix-narrowing-errors-seen-with-clang.patch
+@@ -1,4 +1,4 @@
+-From 77f327909e4a99c64261290cd76e234e10cc64d2 Mon Sep 17 00:00:00 2001
++From 77f9ab910590791a9bc911f50bdee8fd7125d8e2 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 3 May 2023 21:59:43 -0700
+ Subject: [PATCH] tests: Fix narrowing errors seen with clang
+diff --git a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+index 70bb55053d..18e6b874d8 100644
+--- a/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
++++ b/meta/recipes-graphics/piglit/piglit/0002-cmake-use-proper-WAYLAND_INCLUDE_DIRS-variable.patch
+@@ -1,4 +1,4 @@
+-From cb8e4b99fcfe81399e3e6d922156db4a48a39a8e Mon Sep 17 00:00:00 2001
++From 373d0d3cebd30b99189436d3fe4fd30190e2b4fc Mon Sep 17 00:00:00 2001
+ From: Pascal Bach <pascal.bach@siemens.com>
+ Date: Thu, 4 Oct 2018 14:43:17 +0200
+ Subject: [PATCH] cmake: use proper WAYLAND_INCLUDE_DIRS variable
+diff --git a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+index ce5cbd3ea9..9025b6768f 100644
+--- a/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
++++ b/meta/recipes-graphics/piglit/piglit/0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch
+@@ -1,4 +1,4 @@
+-From 7d2d23125f1946a7b74f9a427388d469500fcd8d Mon Sep 17 00:00:00 2001
++From 4bc9d8bd2ef688651bb172811640333ed9fc285d Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 10 Nov 2020 17:13:50 +0000
+ Subject: [PATCH] tests/util/piglit-shader.c: do not hardcode build path into
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index fbf20de176..078f24ff4f 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -14,7 +14,7 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
  
- DEPENDS = "libdrm libepoxy virtual/egl virtual/libgbm"
--SRCREV = "690680e5f0f952e22424fca1538c1b24457a0868"
-+SRCREV = "1aeaf5e10a9c89096e96d09599aa419d5c50712f"
- SRC_URI = "git://gitlab.freedesktop.org/virgl/virglrenderer.git;branch=main;protocol=https \
-            file://0001-meson.build-use-python3-directly-for-python.patch \
-            file://0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch \
+-SRCREV = "c11c9374c1448d01b31e7f724921cc1f4ee2c84c"
++SRCREV = "7ce69da1199d12ed0ddaa251ed489750523798fb"
+ # (when PV goes above 1.0 remove the trailing r)
+ PV = "1.0+gitr"
+ 
 -- 
 2.44.1
 
 
---===============8851085841644916288==
+--===============6645197333106708025==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-dev: RRECOMMENDS: removed "piglit (['= 1.0+gitr0+c11c9374c1-r0'])", added "piglit (['= 1.0+gitr0+7ce69da119-r0'])"
+packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-staticdev: RDEPENDS: removed "piglit-dev (['= 1.0+gitr0+c11c9374c1-r0'])", added "piglit-dev (['= 1.0+gitr0+7ce69da119-r0'])"
+packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/bin/glsl-compile-time /usr/lib/piglit/bin/vertexrate", added "/usr/lib/piglit/bin/shader-io-rate /usr/lib/piglit/bin/ext_texture_storage_compression-tex-storage /usr/lib/piglit/tests/spec/arb_bindless_texture/execution/samplers/basic-texture2D-local-var-function-params.shader_test /usr/lib/piglit/tests/cl/program/build/include_test.h /usr/lib/piglit/tests/spec/glsl-1.50/linker/overloads-linking.shader_test /usr/lib/piglit/tests/spec/arb_gpu_shader5/execution/built-in-functions/fs-bitfieldInsert-of-and.shader_test /usr/lib/piglit/bin/egl_ext_surface_compression-query /usr/lib/piglit/bin/egl_ext_surface_compression-image /usr/lib/piglit/tests/spec/glsl-1.10/linker/function-match-implicit-params.shader_test /usr/lib/piglit/bin/egl_ext_surface_compression-create"
+
+--===============6645197333106708025==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/piglit/piglit-bash-completion: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-dbg: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-dev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-dev: RRECOMMENDS: removed "piglit (['= 1.0+gitr0+c11c9374c1-r0'])", added "piglit (['= 1.0+gitr0+7ce69da119-r0'])"
+packages/core2-64-poky-linux/piglit/piglit-doc: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-locale: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-src: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit-staticdev: RDEPENDS: removed "piglit-dev (['= 1.0+gitr0+c11c9374c1-r0'])", added "piglit-dev (['= 1.0+gitr0+7ce69da119-r0'])"
+packages/core2-64-poky-linux/piglit/piglit-staticdev: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit: PKGV changed from 1.0+gitr0+c11c9374c1 to 1.0+gitr0+7ce69da119
+packages/core2-64-poky-linux/piglit/piglit: FILELIST: removed "/usr/lib/piglit/bin/vertexrate /usr/lib/piglit/bin/glsl-compile-time", added "/usr/lib/piglit/bin/ext_texture_storage_compression-tex-storage /usr/lib/piglit/tests/spec/glsl-1.10/linker/function-match-implicit-params.shader_test /usr/lib/piglit/bin/egl_ext_surface_compression-create /usr/lib/piglit/bin/egl_ext_surface_compression-query /usr/lib/piglit/tests/spec/arb_bindless_texture/execution/samplers/basic-texture2D-local-var-function-params.shader_test /usr/lib/piglit/tests/cl/program/build/include_test.h /usr/lib/piglit/bin/egl_ext_surface_compression-image /usr/lib/piglit/tests/spec/arb_gpu_shader5/execution/built-in-functions/fs-bitfieldInsert-of-and.shader_test /usr/lib/piglit/tests/spec/glsl-1.50/linker/overloads-linking.shader_test /usr/lib/piglit/bin/shader-io-rate"
+packages/core2-64-poky-linux/piglit/piglit: PKGSIZE changed from 2053881798 to 2054023625 (+0%)
+
+--===============6645197333106708025==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-virglrenderer-upgrade-1.0.1-1.1.0.patch"
+ filename="0001-piglit-upgrade-to-latest-revision.patch"
 
-RnJvbSAwOTVhMzYzZmNkODZhNjVjMTdjODdmZjQ0ZWJjNjEwOGQ2YmIxNDdlIE1vbiBTZXAgMTcg
+RnJvbSAzMzQ5ZDA3OGJhMDIxNTRlMGQ4Mzg4ZjhkN2IxMjAzZWRlMjA4NWU2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MDg6MTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
-aXJnbHJlbmRlcmVyOiB1cGdyYWRlIDEuMC4xIC0+IDEuMS4wCgotLS0KIC4uLjAwMS1tZXNvbi5i
-dWlsZC11c2UtcHl0aG9uMy1kaXJlY3RseS1mb3ItcHl0aG9uLnBhdGNoIHwgOSArKysrLS0tLS0K
-IC4uLi1GaXgtaW50LWNvbnZlcnNpb24tZmF0YWwtYnVpbGQtZXJyb3Itd2l0aC1HQ0MtLnBhdGNo
-IHwgNiArLS0tLS0KIC4uLi97dmlyZ2xyZW5kZXJlcl8xLjAuMS5iYiA9PiB2aXJnbHJlbmRlcmVy
-XzEuMS4wLmJifSAgIHwgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCA2IGluc2VydGlvbnMoKyksIDEx
-IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVy
-L3t2aXJnbHJlbmRlcmVyXzEuMC4xLmJiID0+IHZpcmdscmVuZGVyZXJfMS4xLjAuYmJ9ICg5NiUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVuZGVyZXIvdmlyZ2xy
-ZW5kZXJlci8wMDAxLW1lc29uLmJ1aWxkLXVzZS1weXRob24zLWRpcmVjdGx5LWZvci1weXRob24u
-cGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVy
-LzAwMDEtbWVzb24uYnVpbGQtdXNlLXB5dGhvbjMtZGlyZWN0bHktZm9yLXB5dGhvbi5wYXRjaApp
-bmRleCAzZTEyNDk1OTcwLi5kNDE2YzAyMDM1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3Jh
-cGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVyLzAwMDEtbWVzb24uYnVpbGQtdXNlLXB5
-dGhvbjMtZGlyZWN0bHktZm9yLXB5dGhvbi5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVyLzAwMDEtbWVzb24uYnVpbGQtdXNlLXB5dGhv
-bjMtZGlyZWN0bHktZm9yLXB5dGhvbi5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZGVjOGNj
-YTU5MTI0ZDdmODc5NmI1NDkwMjQ4MmNlYjI5NWE3MWI1MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gYzZiODkwNTAyMzFkYWY0MWFjMzIyN2U1M2UxZjA4MjhmNmI0ZDkyYiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5A
-Z21haWwuY29tPgogRGF0ZTogTW9uLCA2IEphbiAyMDIwIDEyOjQ0OjQyICswMTAwCiBTdWJqZWN0
-OiBbUEFUQ0hdIG1lc29uLmJ1aWxkOiB1c2UgJ3B5dGhvbjMnIGRpcmVjdGx5IGZvciBweXRob24K
-QEAgLTgsMTYgKzgsMTUgQEAgaXRzIGNvbmZpZ3VyYXRpb24pLgogCiBVcHN0cmVhbS1TdGF0dXM6
-IEluYXBwcm9wcmlhdGUgW29lLWNvcmUgc3BlY2lmaWNdCiBTaWduZWQtb2ZmLWJ5OiBBbGV4YW5k
-ZXIgS2FuYXZpbiA8YWxleC5rYW5hdmluQGdtYWlsLmNvbT4KLQogLS0tCiAgbWVzb24uYnVpbGQg
-fCAyICstCiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAK
-IGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCA5ZjkxZmYyZi4u
-MjM5MWY4OWQgMTAwNjQ0CitpbmRleCAxMGJlMDk5ZS4uM2JiNmVlYzcgMTAwNjQ0CiAtLS0gYS9t
-ZXNvbi5idWlsZAogKysrIGIvbWVzb24uYnVpbGQKLUBAIC03NCw3ICs3NCw3IEBAIGZsYWdzID0g
-WworQEAgLTc3LDcgKzc3LDcgQEAgZmxhZ3MgPSBbCiAgCiAgYWRkX3Byb2plY3RfYXJndW1lbnRz
-KGNjLmdldF9zdXBwb3J0ZWRfYXJndW1lbnRzKGZsYWdzKSwgbGFuZ3VhZ2UgOiAnYycpCiAgCkBA
-IC0yNSw0ICsyNCw0IEBAIGluZGV4IDlmOTFmZjJmLi4yMzkxZjg5ZCAxMDA2NDQKICtwcm9nX3B5
-dGhvbiA9ICdweXRob24zJwogIAogIG5vdF9mb3VuZCA9IGRlcGVuZGVuY3koJycsIHJlcXVpcmVk
-OiBmYWxzZSkKLSBsaWJkcm1fZGVwID0gZGVwZW5kZW5jeSgnbGliZHJtJywgdmVyc2lvbiA6ICc+
-PTIuNC41MCcsIHJlcXVpcmVkOiBnZXRfb3B0aW9uKCdkcm0nKS5lbmFibGVkKCkgb3IgZ2V0X29w
-dGlvbigndmVudXMnKSkKKyBnYm1fZGVwID0gbm90X2ZvdW5kCmRpZmYgLS1naXQgYS9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVyLzAwMDEtdnJlbmQtRml4
-LWludC1jb252ZXJzaW9uLWZhdGFsLWJ1aWxkLWVycm9yLXdpdGgtR0NDLS5wYXRjaCBiL21ldGEv
-cmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXIvMDAwMS12cmVuZC1G
-aXgtaW50LWNvbnZlcnNpb24tZmF0YWwtYnVpbGQtZXJyb3Itd2l0aC1HQ0MtLnBhdGNoCmluZGV4
-IDljNDllZTUxMmEuLjJkODdjZWFiZjMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGlj
-cy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXIvMDAwMS12cmVuZC1GaXgtaW50LWNvbnZlcnNp
-b24tZmF0YWwtYnVpbGQtZXJyb3Itd2l0aC1HQ0MtLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1n
-cmFwaGljcy92aXJnbHJlbmRlcmVyL3ZpcmdscmVuZGVyZXIvMDAwMS12cmVuZC1GaXgtaW50LWNv
-bnZlcnNpb24tZmF0YWwtYnVpbGQtZXJyb3Itd2l0aC1HQ0MtLnBhdGNoCkBAIC0xLDQgKzEsNCBA
-QAotRnJvbSA0NjRkZWFiZTRkMWJmY2U2YjhmNDE0YWIwOTQ1ZDlhNjJiNjZkZGQ0IE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQorRnJvbSA5NjllYjU1MWY0MjZkMDM1ZWFlZGUxYTBiNDdjYjEyNDYy
-YmFlYTYzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogUHVydXNob3R0YW0gQ2hvdWRo
-YXJ5IDxwdXJ1c2hvdHRhbTI3Lmt1bWFyQGxnZS5jb20+CiBEYXRlOiBUdWUsIDggT2N0IDIwMjQg
-MTE6NDc6MjEgKzA1MzAKIFN1YmplY3Q6IFtQQVRDSF0gdnJlbmQ6IEZpeCBpbnQtY29udmVyc2lv
-biBmYXRhbCBidWlsZCBlcnJvciB3aXRoIEdDQy0xNApAQCAtMTksNyArMTksNiBAQCBVcHN0cmVh
-bS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvdmlyZ2wv
-dmlyZ2xyZW5kZXJlci8tLwogU2lnbmVkLW9mZi1ieTogUHVydXNob3R0YW0gQ2hvdWRoYXJ5IDxw
-dXJ1c2hvdHRhbTI3Lmt1bWFyQGxnZS5jb20+CiBQYXJ0LW9mOiA8aHR0cHM6Ly9naXRsYWIuZnJl
-ZWRlc2t0b3Aub3JnL3ZpcmdsL3ZpcmdscmVuZGVyZXIvLS9tZXJnZV9yZXF1ZXN0cy8xNDQwPgog
-LS0tCi0KICBzcmMvdnJlbmRfd2luc3lzX2VnbC5jIHwgMiArLQogIDEgZmlsZSBjaGFuZ2VkLCAx
-IGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCkBAIC0zNiw2ICszNSwzIEBAIGluZGV4IDlk
-OWY0MTBjLi44NzUwZjZiMiAxMDA2NDQKICAjZW5kaWYKICAgICB9IGVsc2UgewogICNpZmRlZiBF
-TkFCTEVfR0JNCi0tLSAKLTIuMzQuMQotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhp
-Y3MvdmlyZ2xyZW5kZXJlci92aXJnbHJlbmRlcmVyXzEuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWdy
-YXBoaWNzL3ZpcmdscmVuZGVyZXIvdmlyZ2xyZW5kZXJlcl8xLjEuMC5iYgpzaW1pbGFyaXR5IGlu
-ZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvdmlyZ2xyZW5kZXJlci92
-aXJnbHJlbmRlcmVyXzEuMC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvdmly
-Z2xyZW5kZXJlci92aXJnbHJlbmRlcmVyXzEuMS4wLmJiCmluZGV4IDg3ZjI1YTM0NjEuLjNhMDk5
-ZGQzMDUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy92aXJnbHJlbmRlcmVyL3Zp
-cmdscmVuZGVyZXJfMS4wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3ZpcmdscmVu
-ZGVyZXIvdmlyZ2xyZW5kZXJlcl8xLjEuMC5iYgpAQCAtOSw3ICs5LDcgQEAgTElDRU5TRSA9ICJN
-SVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1jODFjMDhlZWVmZDk0
-MThmY2E4Zjg4MzA5YTc2ZGIxMCIKIAogREVQRU5EUyA9ICJsaWJkcm0gbGliZXBveHkgdmlydHVh
-bC9lZ2wgdmlydHVhbC9saWJnYm0iCi1TUkNSRVYgPSAiNjkwNjgwZTVmMGY5NTJlMjI0MjRmY2Ex
-NTM4YzFiMjQ0NTdhMDg2OCIKK1NSQ1JFViA9ICIxYWVhZjVlMTBhOWM4OTA5NmU5NmQwOTU5OWFh
-NDE5ZDVjNTA3MTJmIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0b3Aub3JnL3Zp
-cmdsL3ZpcmdscmVuZGVyZXIuZ2l0O2JyYW5jaD1tYWluO3Byb3RvY29sPWh0dHBzIFwKICAgICAg
-ICAgICAgZmlsZTovLzAwMDEtbWVzb24uYnVpbGQtdXNlLXB5dGhvbjMtZGlyZWN0bHktZm9yLXB5
-dGhvbi5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXZyZW5kLUZpeC1pbnQtY29udmVy
-c2lvbi1mYXRhbC1idWlsZC1lcnJvci13aXRoLUdDQy0ucGF0Y2ggXAotLSAKMi40NC4xCgo=
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MDI6MDIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+aWdsaXQ6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgotLS0KIC4uLmtlTGlzdHMudHh0LWRv
+LW5vdC1vYnRhaW4td2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2ggfCA3ICsrLS0tLS0KIC4u
+Li8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRjaCAg
+fCAyICstCiAuLi4wMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZhcmlh
+YmxlLnBhdGNoIHwgMiArLQogLi4udHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8tbm90LWhhcmRj
+b2RlLWJ1aWxkLXBhdC5wYXRjaCB8IDIgKy0KIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9waWdsaXQv
+cGlnbGl0X2dpdC5iYiAgICAgICAgICAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5nZWQsIDYg
+aW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMt
+Z3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4t
+d2F5bGFuZC1zY2FubmVyLXBhdGgtZnIucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGln
+bGl0L3BpZ2xpdC8wMDAxLUNNYWtlTGlzdHMudHh0LWRvLW5vdC1vYnRhaW4td2F5bGFuZC1zY2Fu
+bmVyLXBhdGgtZnIucGF0Y2gKaW5kZXggYjQ3ZTE2YWY2Yi4uMGNlN2RjNmQ5OSAxMDA2NDQKLS0t
+IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS1DTWFrZUxpc3RzLnR4
+dC1kby1ub3Qtb2J0YWluLXdheWxhbmQtc2Nhbm5lci1wYXRoLWZyLnBhdGNoCisrKyBiL21ldGEv
+cmVjaXBlcy1ncmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDEtQ01ha2VMaXN0cy50eHQtZG8tbm90
+LW9idGFpbi13YXlsYW5kLXNjYW5uZXItcGF0aC1mci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZy
+b20gOGYyNWNkZjU0ZTM1YWIxYTE3NGNhYmY1MDc4Nzg0YjhlNDhiZGEwMSBNb24gU2VwIDE3IDAw
+OjAwOjAwIDIwMDEKK0Zyb20gZDhmNzllMjNiMmMwMWFjYWQzOWZhMDRhYzljMjgzYzIwYmIzN2Uz
+ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4
+QGxpbnV0cm9uaXguZGU+CiBEYXRlOiBGcmksIDIzIEF1ZyAyMDI0IDE1OjI5OjQ1ICswMjAwCiBT
+dWJqZWN0OiBbUEFUQ0hdIENNYWtlTGlzdHMudHh0OiBkbyBub3Qgb2J0YWluIHdheWxhbmQtc2Nh
+bm5lciBwYXRoIGZyb20KQEAgLTE3LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVy
+IEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDUgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQgYS9DTWFrZUxpc3RzLnR4dCBiL0NN
+YWtlTGlzdHMudHh0Ci1pbmRleCBkMTY5ZmI0ODEuLjgzOTRmNTIzNiAxMDA2NDQKK2luZGV4IDcz
+NzUwZjY3ZS4uODAxOGExYmI3IDEwMDY0NAogLS0tIGEvQ01ha2VMaXN0cy50eHQKICsrKyBiL0NN
+YWtlTGlzdHMudHh0CiBAQCAtMjExLDExICsyMTEsNyBAQCBpZihQSUdMSVRfVVNFX1dBWUxBTkQp
+CkBAIC0zMyw2ICszMywzIEBAIGluZGV4IGQxNjlmYjQ4MS4uODM5NGY1MjM2IDEwMDY0NAogIAlh
+ZGRfZXhlY3V0YWJsZShXYXlsYW5kU2Nhbm5lckV4ZSBJTVBPUlRFRCkKICAJc2V0X3Byb3BlcnR5
+KFRBUkdFVCBXYXlsYW5kU2Nhbm5lckV4ZSBQUk9QRVJUWSBJTVBPUlRFRF9MT0NBVElPTiAke1dh
+eWxhbmRTY2FubmVyUGF0aH0pCiAgZW5kaWYoKQotLS0gCi0yLjM5LjIKLQpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMS10ZXN0cy1GaXgtbmFycm93
+aW5nLWVycm9ycy1zZWVuLXdpdGgtY2xhbmcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+cGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1j
+bGFuZy5wYXRjaAppbmRleCAwOGU3MDliMWQwLi42NzNmZDBiMThmIDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmct
+ZXJyb3JzLXNlZW4td2l0aC1jbGFuZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+cGlnbGl0L3BpZ2xpdC8wMDAxLXRlc3RzLUZpeC1uYXJyb3dpbmctZXJyb3JzLXNlZW4td2l0aC1j
+bGFuZy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNzdmMzI3OTA5ZTRhOTljNjQyNjEyOTBj
+ZDc2ZTIzNGUxMGNjNjRkMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNzdmOWFiOTEw
+NTkwNzkxYTliYzkxMWY1MGJkZWU4ZmQ3MTI1ZDhlMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEK
+IEZyb206IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDMgTWF5IDIw
+MjMgMjE6NTk6NDMgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gdGVzdHM6IEZpeCBuYXJyb3dpbmcg
+ZXJyb3JzIHNlZW4gd2l0aCBjbGFuZwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNz
+L3BpZ2xpdC9waWdsaXQvMDAwMi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJT
+LXZhcmlhYmxlLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAw
+Mi1jbWFrZS11c2UtcHJvcGVyLVdBWUxBTkRfSU5DTFVERV9ESVJTLXZhcmlhYmxlLnBhdGNoCmlu
+ZGV4IDcwYmI1NTA1M2QuLjE4ZTZiODc0ZDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFw
+aGljcy9waWdsaXQvcGlnbGl0LzAwMDItY21ha2UtdXNlLXByb3Blci1XQVlMQU5EX0lOQ0xVREVf
+RElSUy12YXJpYWJsZS5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3Bp
+Z2xpdC8wMDAyLWNtYWtlLXVzZS1wcm9wZXItV0FZTEFORF9JTkNMVURFX0RJUlMtdmFyaWFibGUu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGNiOGU0Yjk5ZmNmZTgxMzk5ZTNlNmQ5MjIxNTZk
+YjRhNDhhMzlhOGUgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDM3M2QwZDNjZWJkMzBi
+OTkxODk0MzZkM2ZlNGZkMzAxOTBlMmI0ZmMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBQYXNjYWwgQmFjaCA8cGFzY2FsLmJhY2hAc2llbWVucy5jb20+CiBEYXRlOiBUaHUsIDQgT2N0
+IDIwMTggMTQ6NDM6MTcgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gY21ha2U6IHVzZSBwcm9wZXIg
+V0FZTEFORF9JTkNMVURFX0RJUlMgdmFyaWFibGUKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy9waWdsaXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8t
+bm90LWhhcmRjb2RlLWJ1aWxkLXBhdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9waWds
+aXQvcGlnbGl0LzAwMDMtdGVzdHMtdXRpbC1waWdsaXQtc2hhZGVyLmMtZG8tbm90LWhhcmRjb2Rl
+LWJ1aWxkLXBhdC5wYXRjaAppbmRleCBjZTVjYmQzZWE5Li45MDI1YjY3NjhmIDEwMDY0NAotLS0g
+YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xpdC8wMDAzLXRlc3RzLXV0aWwtcGln
+bGl0LXNoYWRlci5jLWRvLW5vdC1oYXJkY29kZS1idWlsZC1wYXQucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXQvMDAwMy10ZXN0cy11dGlsLXBpZ2xpdC1zaGFk
+ZXIuYy1kby1ub3QtaGFyZGNvZGUtYnVpbGQtcGF0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJv
+bSA3ZDJkMjMxMjVmMTk0NmE3Yjc0ZjlhNDI3Mzg4ZDQ2OTUwMGZjZDhkIE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQorRnJvbSA0YmM5ZDhiZDJlZjY4ODY1MWJiMTcyODExNjQwMzMzZWQ5ZmMyODVk
+IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgu
+a2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBUdWUsIDEwIE5vdiAyMDIwIDE3OjEzOjUwICswMDAw
+CiBTdWJqZWN0OiBbUEFUQ0hdIHRlc3RzL3V0aWwvcGlnbGl0LXNoYWRlci5jOiBkbyBub3QgaGFy
+ZGNvZGUgYnVpbGQgcGF0aCBpbnRvCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+cGlnbGl0L3BpZ2xpdF9naXQuYmIgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvcGlnbGl0L3BpZ2xp
+dF9naXQuYmIKaW5kZXggZmJmMjBkZTE3Ni4uMDc4ZjI0ZmY0ZiAxMDA2NDQKLS0tIGEvbWV0YS9y
+ZWNpcGVzLWdyYXBoaWNzL3BpZ2xpdC9waWdsaXRfZ2l0LmJiCisrKyBiL21ldGEvcmVjaXBlcy1n
+cmFwaGljcy9waWdsaXQvcGlnbGl0X2dpdC5iYgpAQCAtMTQsNyArMTQsNyBAQCBTUkNfVVJJID0g
+ImdpdDovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvbWVzYS9waWdsaXQuZ2l0O3Byb3RvY29sPWh0
+dHBzO2JyYW5jaD1tYQogICAgICAgICAgICAiCiBVUFNUUkVBTV9DSEVDS19DT01NSVRTID0gIjEi
+CiAKLVNSQ1JFViA9ICJjMTFjOTM3NGMxNDQ4ZDAxYjMxZTdmNzI0OTIxY2MxZjRlZTJjODRjIgor
+U1JDUkVWID0gIjdjZTY5ZGExMTk5ZDEyZWQwZGRhYTI1MWVkNDg5NzUwNTIzNzk4ZmIiCiAjICh3
+aGVuIFBWIGdvZXMgYWJvdmUgMS4wIHJlbW92ZSB0aGUgdHJhaWxpbmcgcikKIFBWID0gIjEuMCtn
+aXRyIgogCi0tIAoyLjQ0LjEKCg==
 
---===============8851085841644916288==
+--===============6645197333106708025==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -264,11 +296,9 @@ Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 1877 entries from dependency cache.
+Loaded 1875 entries from dependency cache.
 Parsing recipes...done.
 Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -284,104 +314,82 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:ca41c09ef9bbafafcfaa7b95bac0c887db01a200"
+workspace            = "tmp-auh-upgrades:329bea5a2756d3e59bb899d7ca7001e19c553276"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 281 Local 269 Mirrors 0 Missed 12 Current 406 (95% match, 98% complete)
-done.
+Sstate summary: Wanted 454 Local 443 Mirrors 0 Missed 11 Current 540 (97% match, 98% complete)
+Removing 10 stale sstate objects for arch core2-64...done.
+Removing 1 stale sstate objects for arch qemux86_64...done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 434 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_create_spdx_setscene)
-NOTE: Running task 1219 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_recipe_qa)
-NOTE: Running task 1222 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_write_config)
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_recipe_qa: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_write_config: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_write_config: Succeeded
-NOTE: recipe libepoxy-1.5.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 545 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx_setscene)
-NOTE: recipe virglrenderer-1.1.0-r0: task do_recipe_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_recipe_qa unihash changed to 9db1db42f64c81cc085b3be85bf1362a985a4b578f0b94cfc8e4b248a1a21856
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1264 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_fetch)
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 546 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 549 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_create_spdx_setscene)
-NOTE: recipe virglrenderer-1.1.0-r0: task do_fetch: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 582 of 687 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_create_spdx_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe virglrenderer-1.1.0-r0: task do_fetch: Succeeded
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 1826 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_unpack)
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 1916 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe virglrenderer-1.1.0-r0: task do_unpack: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1925 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_patch)
-NOTE: Running task 1926 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_collect_spdx_deps)
-NOTE: recipe virglrenderer-1.1.0-r0: task do_patch: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe virglrenderer-1.1.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe virglrenderer-1.1.0-r0: task do_patch: Succeeded
-NOTE: Running task 1927 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1928 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_populate_lic)
-NOTE: recipe virglrenderer-1.1.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_populate_lic: Started
-NOTE: recipe virglrenderer-1.1.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe virglrenderer-1.1.0-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_deploy_source_date_epoch unihash changed to 95233f5abf27ce4e35a1aeea1931097f927c301d541324ff580142c0ee89f435
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_populate_lic unihash changed to b8992058d765b831b1b2287de4f85b08dfdecc2e91d5ae959a552eb0bc92b489
+NOTE: Running task 2096 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_fetch)
+NOTE: recipe piglit-1.0+gitr-r0: task do_fetch: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_fetch: Succeeded
+NOTE: Running task 2730 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_unpack)
+NOTE: Running task 2731 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe piglit-1.0+gitr-r0: task do_unpack: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe piglit-1.0+gitr-r0: task do_unpack: Succeeded
+NOTE: Running task 2732 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_patch)
+NOTE: Running task 2733 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_collect_spdx_deps)
+NOTE: recipe piglit-1.0+gitr-r0: task do_patch: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_collect_spdx_deps: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe piglit-1.0+gitr-r0: task do_patch: Succeeded
+NOTE: Running task 2734 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2735 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_generate_toolchain_file)
+NOTE: Running task 2736 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic)
+NOTE: recipe piglit-1.0+gitr-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_generate_toolchain_file: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_populate_lic: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe piglit-1.0+gitr-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_lic unihash changed to 1e1e200888113b8514d6004d68242ecb4d7375231d369c328dccca02b046218b
+NOTE: recipe piglit-1.0+gitr-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Running task 2737 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_configure)
+NOTE: recipe piglit-1.0+gitr-r0: task do_configure: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_configure: Succeeded
+NOTE: Running task 2738 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_compile)
+NOTE: recipe piglit-1.0+gitr-r0: task do_compile: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_compile: Succeeded
+NOTE: Running task 2739 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_install)
+NOTE: recipe piglit-1.0+gitr-r0: task do_install: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_install: Succeeded
+NOTE: Running task 2740 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_package)
+NOTE: Running task 2741 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot)
+NOTE: recipe piglit-1.0+gitr-r0: task do_populate_sysroot: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_package: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_populate_sysroot unihash changed to 04377196baf03b69905150506bf533b1be8c3e434128acd122eeeeffb25909c0
 NOTE: Setscene tasks completed
-NOTE: Running task 1929 of 1941 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_configure)
-NOTE: recipe virglrenderer-1.1.0-r0: task do_configure: Started
-Log data follows:
-| DEBUG: Executing python function extend_recipe_sysroot
-| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/qemu/qemu-native_9.0.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/quilt/quilt-native_0.68.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/libepoxy/libepoxy_1.5.10.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_populate_sysroot', '/srv
- /pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/meson/meson_1.5.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/ninja/ninja_1.12.1.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/patch/patch_2.7.6.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pkgconfig/pkgconfig_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_populate_sysroot']
-| NOTE: Installed into sysroot: []
-| NOTE: Skipping as already exists in sysroot: ['openssl', 'expat', 'gettext-minimal-native', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'util-linux-libuuid', 'zlib', 'binutils-cross-x86_64', 'cmake-native', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'python3', 'qemu-native', 'quilt-native', 'bzip2', 'libnsl2', 'libtirpc', 'texinfo-dummy-native', 'xz', 'libdrm', 'libepoxy', 'mesa', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libpciaccess', 'libpthread-stubs', 'libx11', 'libxau', 'libxcb', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxrandr', 'libxrender', 'libxshmfence', 'libxxf86vm', 'xtrans', 'xcb-proto', 'xorgproto', 'util-macros', 'linux-libc-headers', 'gdbm', 'libffi', 'sqlite3', 'openssl-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'ncurses-native', 'util-linux-libuuid-native', 'zlib-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 
- 'meson-native', 'ninja-native', 'patch-native', 'perl-native', 'pkgconfig-native', 'pseudo-native', 'python3-build-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-wheel-native', 'python3-native', 'bzip2-native', 'libnsl2-native', 'libtirpc-native', 'unzip-native', 'xz-native', 'zstd-native', 'attr-native', 'gdbm-native', 'gmp-native', 'libffi-native', 'libmpc-native', 'libpcre2-native', 'mpfr-native', 're2c-native', 'sqlite3-native']
-| DEBUG: Python function extend_recipe_sysroot finished
-| DEBUG: Executing shell function do_configure
-| NOTE: Executing meson -Ddrm-msm-experimental=false -Dminigbm_allocation=false -Drender-server=false -Dtests=false -Dvideo=false -Dvenus=true -Dvenus-validate=false...
-| The Meson build system
-| Version: 1.5.2
-| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/git
-| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/build
-| Build type: cross build
-| 
-| ../git/meson.build:24:0: ERROR: Unknown options: "drm-msm-experimental"
-| 
-| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/build/meson-logs/meson-log.txt
-| ERROR: meson failed
-| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.3337786:170 exit 1 from 'exit 1'
-| WARNING: Backtrace (BB generated script):
-| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.3337786, line 170
-| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.3337786, line 159
-| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.3337786, line 148
-| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.3337786, line 183
-NOTE: recipe virglrenderer-1.1.0-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1929 tasks of which 1919 didn't need to be rerun and 1 failed.
+NOTE: recipe piglit-1.0+gitr-r0: task do_package: Succeeded
+NOTE: Running task 2742 of 2749 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata)
+NOTE: recipe piglit-1.0+gitr-r0: task do_packagedata: Started
+NOTE: recipe piglit-1.0+gitr-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 2742 tasks of which 2728 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015110755.txt
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015104945.txt
 You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015110755.txt [-s server]
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015104945.txt [-s server]
 NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
 Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/log.do_configure.3337786
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: virglrenderer-1.1.0-r0 do_configure: meson failed
-ERROR: virglrenderer-1.1.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/run.do_configure.3337786' failed with exit code 1
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/virglrenderer/1.1.0/temp/log.do_configure.3337786
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/virglrenderer/virglrenderer_1.1.0.bb:do_configure) failed with exit code '1'
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/log.do_packagedata.3243089
+Summary: There were 9 ERROR messages, returning a non-zero exit code.
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-src went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-dbg went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-staticdev went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-dev went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-doc went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-locale went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: QA Issue: Package version for package piglit-bash-completion went backwards which would break package feeds (from 0:1.0+gitr0+c11c9374c1-r0 to 0:1.0+gitr0+7ce69da119-r0) [version-going-backwards]
+ERROR: piglit-1.0+gitr-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/piglit/1.0+gitr/temp/log.do_packagedata.3243089
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/piglit/piglit_git.bb:do_packagedata) failed with exit code '1'
 
---===============8851085841644916288==--
+--===============6645197333106708025==--
 
