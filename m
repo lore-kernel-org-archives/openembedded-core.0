@@ -2,53 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 768FFD1D87B
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:01 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1419D1F9D0
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:13 +0000 (UTC)
 Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.11864.1728994550436378111
+ by mx.groups.io with SMTP id smtpd.web11.11814.1728994565238030173
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:15:51 -0700
+ Tue, 15 Oct 2024 05:16:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LdBt8gCA;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mNZeXfxu;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010192901b22ba-8be69a7f-3a32-4053-8f64-de539ff5700a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Ab/ZtlIz;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=w1NOelWS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010192901b74d6-728d76e9-eb7a-4e46-b908-6f12d69adcb6-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994550;
+	t=1728994571;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PaygpG4Bh/Dx+PG9IsABIKvblJQ1sbnbwF6ZcN1OAiU=;
-	b=LdBt8gCAV+6+ZMDFB3TsLXz0po1cY0Ald8gi3CBsHvUKbVOqneEQQ4KmnSoCptE0
-	UjmaEjNvtZz5wNE206dfFG0L4ZPhbFpZ9Sdor0cqBIphwO2X9ZM5ryJfRAvLpEtWv67
-	fWLgi9qW0pAtIcVijd4qKFHrI9Gt96wN+3d13JN8=
+	bh=Q79nC3ZFAKnOlQdAei2XlrBBDUEiAFKoB/5CPwQTbQY=;
+	b=Ab/ZtlIzxIG23WjKYaVb8z9IeERRl2Axj42ms0q/mcSFxbReyDGX3/F/tSw796qd
+	E1MDAq/WQ13QrnFiKXcsoLqwokESs7vcmkqt6krlMIgxTucvdhUqYg/raphk7eDbIDv
+	ziMKHn9llcM0vfH27i0keUTxJFhZnZiOWYZ5/Y0E=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994550;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994571;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PaygpG4Bh/Dx+PG9IsABIKvblJQ1sbnbwF6ZcN1OAiU=;
-	b=mNZeXfxuWzj36hXVkLteOeeHqC8/QeWV19Dimo51ULAOYchIz9z2aFjBEuR6M57n
-	4Nk7/Zi+CkyJeN859C+NOUmvpH0PE3yaMxn4j7t41V7WOkEnjtYU45D2iWT2Y7YM58a
-	G9iNiF6XOgnzMnpfRor+wMRMcvXJ/GUaOcnABL4U=
-Content-Type: multipart/mixed; boundary="===============8215989262346485100=="
+	bh=Q79nC3ZFAKnOlQdAei2XlrBBDUEiAFKoB/5CPwQTbQY=;
+	b=w1NOelWSrfvZ+fAhaiUScWv1E/4Bg/YuIan4hINwM6WHA4sl1GNbxqzuP7yu6WqT
+	het1Kcqs1smRKuadTG1SI8tMt8uzIn+wlNqbAxxkLDyReAEEHkw5OHhRWEhYGtAC6N3
+	A3na3rAf7CckycxYrYwKp451hNZmUIyMo7zGZFkQ=
+Content-Type: multipart/mixed; boundary="===============5463756835498489878=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>, Anuj Mittal <anuj.mittal@intel.com>, 
-	Anuj Mittal <anuj.mittal@intel.com>, 
-	Anuj Mittal <anuj.mittal@intel.com>, 
-	Anuj Mittal <anuj.mittal@intel.com>
+To: Vincent Davis Jr <vince@underview.tech>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH]
- gstreamer1.0-rtsp-server,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-bad:
- upgrading to 1.24.8,1.24.8,1.24.8,1.24.8,1.24.8 SUCCEEDED
-Message-ID: <01010192901b22ba-8be69a7f-3a32-4053-8f64-de539ff5700a-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:15:50 +0000
+Subject: [AUH] vulkan-validation-layers: upgrading to 1.3.296.0 FAILED
+Message-ID: <01010192901b74d6-728d76e9-eb7a-4e46-b908-6f12d69adcb6-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:11 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.10.15-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205827
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205889
 
---===============8215989262346485100==
+--===============5463756835498489878==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -56,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-rtsp-server,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-bad* to *1.24.8,1.24.8,1.24.8,1.24.8,1.24.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *vulkan-validation-layers* to *1.3.296.0* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-rtsp-server-gstreamer1.0-plugins-good-g.patch
+    - apply the patch: git am 0001-vulkan-validation-layers-upgrade-1.3.290.0-1.3.296.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,197 +78,93 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0c8a61c3b1784ee384e4de2fb87a46dcedf61a81 Mon Sep 17 00:00:00 2001
+From f089bba8757ddce47420552090b2b9ad897825df Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 07:04:45 +0000
-Subject: [PATCH] 
- gstreamer1.0-rtsp-server,gstreamer1.0-plugins-good,gstreamer1.0-plugins-base,gstreamer1.0-plugins-ugly,gstreamer1.0-plugins-bad:
- upgrade 1.24.6 -> 1.24.8,1.24.6 -> 1.24.8,1.24.6 -> 1.24.8,1.24.6 ->
- 1.24.8,1.24.6 -> 1.24.8
+Date: Tue, 15 Oct 2024 11:27:37 +0000
+Subject: [PATCH] vulkan-validation-layers: upgrade 1.3.290.0 -> 1.3.296.0
 
 ---
- ...1-fix-maybe-uninitialized-warnings-when-compiling-with.patch | 2 +-
- .../0002-avoid-including-sys-poll.h-directly.patch              | 2 +-
- ...4-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch | 2 +-
- ...plugins-bad_1.24.6.bb => gstreamer1.0-plugins-bad_1.24.8.bb} | 2 +-
- ...001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch | 2 +-
- .../0002-ssaparse-enhance-SSA-text-lines-parsing.patch          | 2 +-
- .../0003-viv-fb-Make-sure-config.h-is-included.patch            | 2 +-
- ...ugins-base_1.24.6.bb => gstreamer1.0-plugins-base_1.24.8.bb} | 2 +-
- ...ugins-good_1.24.6.bb => gstreamer1.0-plugins-good_1.24.8.bb} | 2 +-
- ...ugins-ugly_1.24.6.bb => gstreamer1.0-plugins-ugly_1.24.8.bb} | 2 +-
- ...rtsp-server_1.24.6.bb => gstreamer1.0-rtsp-server_1.24.8.bb} | 2 +-
- 11 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.24.6.bb => gstreamer1.0-plugins-bad_1.24.8.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.24.6.bb => gstreamer1.0-plugins-base_1.24.8.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.24.6.bb => gstreamer1.0-plugins-good_1.24.8.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.24.6.bb => gstreamer1.0-plugins-ugly_1.24.8.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.24.6.bb => gstreamer1.0-rtsp-server_1.24.8.bb} (90%)
+ ...ers_1.3.290.0.bb => vulkan-validation-layers_1.3.296.0.bb} | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/vulkan/{vulkan-validation-layers_1.3.290.0.bb => vulkan-validation-layers_1.3.296.0.bb} (95%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-index da455c8b20..b3c769032a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-@@ -1,4 +1,4 @@
--From 653f194c2ce141bbb7a7440f65ea279cf4fe3f78 Mon Sep 17 00:00:00 2001
-+From 693168e2c79914ace8accc607e44865f974cf5e2 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Tue, 26 Jan 2016 15:16:01 -0800
- Subject: [PATCH] fix maybe-uninitialized warnings when compiling with -Os
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-index 9b77bfeb48..31194a35dd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-@@ -1,4 +1,4 @@
--From 441b90195aff1ececa9ea6dd228546fa3c16bf84 Mon Sep 17 00:00:00 2001
-+From 83728eabfcecca610280e9ee356cde47effeca86 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Wed, 3 Feb 2016 18:05:41 -0800
- Subject: [PATCH] avoid including <sys/poll.h> directly
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-index 0214ce3eec..c2b92eb578 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-@@ -1,4 +1,4 @@
--From d3121e8febdb5cb00511624983c24e50441b64e8 Mon Sep 17 00:00:00 2001
-+From 78400bc57633d6eb1eeced8730aaad276e6c8a77 Mon Sep 17 00:00:00 2001
- From: Andrey Zhizhikin <andrey.z@gmail.com>
- Date: Mon, 27 Jan 2020 10:22:35 +0000
- Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb
-index 48e6955039..b388061a57 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "8f4d965513e7827c1f547c1e749e4ef2812b371974fe64857fe5029a19c5b64c"
-+SRC_URI[sha256sum] = "35ad70de3d7cbca3089f33bb77c45750daad2ae93d79827fdbb469fa8aba84eb"
+diff --git a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.290.0.bb b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.290.0.bb
+rename to meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb
+index cfb8954f87..a5f93bc3f1 100644
+--- a/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.290.0.bb
++++ b/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb
+@@ -8,8 +8,8 @@ SECTION = "libs"
+ LICENSE = "Apache-2.0 & MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=cd3c0bc366cd9b6a906e22f0bcb5910f"
  
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
+-SRC_URI = "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.3.290;protocol=https"
+-SRCREV = "a92629196a4fed15e59c74aa965dd47bd5ece3b7"
++SRC_URI = "git://github.com/KhronosGroup/Vulkan-ValidationLayers.git;branch=vulkan-sdk-1.3.296;protocol=https"
++SRCREV = "9935cdd6f9524b1da1e140393fa69a0a1b72125d"
  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index 0c2c34aa0d..e48686b4bd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-@@ -1,4 +1,4 @@
--From ffe65c3e4998042b030b91c09a706a03768a1e40 Mon Sep 17 00:00:00 2001
-+From 057e5169eac158650b2ce454cb21fabfa779c4b8 Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index abca62a491..e00564a2ec 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 1cd4da7d4739dcfa2b66899ef8a49e5ed88d41b8 Mon Sep 17 00:00:00 2001
-+From 6623e76c77077d45f44371917f9c0819bf01ed83 Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index 40c91c9df6..97f216674e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 48652bcf057b74460eadf8cb943b6381fca4423f Mon Sep 17 00:00:00 2001
-+From 020c6272581415bd9df6469e5a9a500aec6d6f61 Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb
-index 7c3390d52d..0666cda14e 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "cf52b535a0ce7ec974756891818f34f06317c2e136abb24149e18c23ecc229b5"
-+SRC_URI[sha256sum] = "10fb31743750ccd498d3933e8aaecda563ebc65596a6ab875b47ee936e4b9599"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb
-index 9d93ca0967..f02e7345a5 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "996b9c8d1d246ed43be304718b6086e5a17d4ae8114d1920aed9ea75b920ba2d"
-+SRC_URI[sha256sum] = "613a20f03bd4544b52f10f6ceb4e0fffd25eff15bf338ab8b12b971982eb0153"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb
-index 7b7de75dac..9a48254c53 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "5dfdbb2978ab282e637255cd875cf5b7b93fc83db62f8a0b1af02c85c84a75c4"
-+SRC_URI[sha256sum] = "3dfc12bf0b766682b7d6e1e29a404b55e2375ba172d11900179738ae89b7a2d5"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb
-index cdb74afbfc..66b9076687 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "b0bdda26173f13f5521c829367963824a74fd0ce8f52bcab674d7e727f74e93c"
-+SRC_URI[sha256sum] = "84ed2b34b8f581a418d8ab8eff7657635fcf83c8960f27065c6c47e52836ed02"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
+ S = "${WORKDIR}/git"
  
 -- 
 2.44.1
 
 
---===============8215989262346485100==
+--===============5463756835498489878==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-vulkan-validation-layers-upgrade-1.3.290.0-1.3.296.0.patch"
+
+RnJvbSBmMDg5YmJhODc1N2RkY2U0NzQyMDU1MjA5MGIyYjlhZDg5NzgyNWRmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6Mjc6MzcgKzAwMDAKU3ViamVjdDogW1BBVENIXSB2
+dWxrYW4tdmFsaWRhdGlvbi1sYXllcnM6IHVwZ3JhZGUgMS4zLjI5MC4wIC0+IDEuMy4yOTYuMAoK
+LS0tCiAuLi5lcnNfMS4zLjI5MC4wLmJiID0+IHZ1bGthbi12YWxpZGF0aW9uLWxheWVyc18xLjMu
+Mjk2LjAuYmJ9IHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRl
+bGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4ve3Z1bGthbi12
+YWxpZGF0aW9uLWxheWVyc18xLjMuMjkwLjAuYmIgPT4gdnVsa2FuLXZhbGlkYXRpb24tbGF5ZXJz
+XzEuMy4yOTYuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mv
+dnVsa2FuL3Z1bGthbi12YWxpZGF0aW9uLWxheWVyc18xLjMuMjkwLjAuYmIgYi9tZXRhL3JlY2lw
+ZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi12YWxpZGF0aW9uLWxheWVyc18xLjMuMjk2LjAuYmIK
+c2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3Z1
+bGthbi92dWxrYW4tdmFsaWRhdGlvbi1sYXllcnNfMS4zLjI5MC4wLmJiCnJlbmFtZSB0byBtZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvdnVsa2FuL3Z1bGthbi12YWxpZGF0aW9uLWxheWVyc18xLjMuMjk2
+LjAuYmIKaW5kZXggY2ZiODk1NGY4Ny4uYTVmOTNiYzNmMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3Z1bGthbi92dWxrYW4tdmFsaWRhdGlvbi1sYXllcnNfMS4zLjI5MC4wLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy92dWxrYW4vdnVsa2FuLXZhbGlkYXRpb24tbGF5
+ZXJzXzEuMy4yOTYuMC5iYgpAQCAtOCw4ICs4LDggQEAgU0VDVElPTiA9ICJsaWJzIgogTElDRU5T
+RSA9ICJBcGFjaGUtMi4wICYgTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5T
+RS50eHQ7bWQ1PWNkM2MwYmMzNjZjZDliNmE5MDZlMjJmMGJjYjU5MTBmIgogCi1TUkNfVVJJID0g
+ImdpdDovL2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1WYWxpZGF0aW9uTGF5ZXJzLmdp
+dDticmFuY2g9dnVsa2FuLXNkay0xLjMuMjkwO3Byb3RvY29sPWh0dHBzIgotU1JDUkVWID0gImE5
+MjYyOTE5NmE0ZmVkMTVlNTljNzRhYTk2NWRkNDdiZDVlY2UzYjciCitTUkNfVVJJID0gImdpdDov
+L2dpdGh1Yi5jb20vS2hyb25vc0dyb3VwL1Z1bGthbi1WYWxpZGF0aW9uTGF5ZXJzLmdpdDticmFu
+Y2g9dnVsa2FuLXNkay0xLjMuMjk2O3Byb3RvY29sPWh0dHBzIgorU1JDUkVWID0gIjk5MzVjZGQ2
+Zjk1MjRiMWRhMWUxNDAzOTNmYTY5YTBhMWI3MjEyNWQiCiAKIFMgPSAiJHtXT1JLRElSfS9naXQi
+CiAKLS0gCjIuNDQuMQoK
+
+--===============5463756835498489878==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 0 entries from dependency cache.
+Loaded 1875 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 919 .bb files complete (0 cached, 919 parsed). 1876 targets, 52 skipped, 0 masked, 0 errors.
-Removing 130 recipes from the core2-64 sysroot...done.
-Removing 133 recipes from the qemux86_64 sysroot...done.
+Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
 BB_VERSION           = "2.9.1"
 BUILD_SYS            = "x86_64-linux"
 NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux-musl"
+TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 DISTRO               = "poky"
 DISTRO_VERSION       = "5.1"
@@ -276,4382 +173,2403 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:81a322fee24fea0288b1dd5e94deb87c253271f6"
+workspace            = "tmp-auh-upgrades:e1bb5242aeca1dbd2600d8c8f445114979263409"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1003 Local 836 Mirrors 0 Missed 167 Current 336 (83% match, 87% complete)
-Removing 7 stale sstate objects for arch x86_64...done.
-Removing 3 stale sstate objects for arch allarch...done.
-Removing 3 stale sstate objects for arch qemux86_64...done.
+Sstate summary: Wanted 221 Local 212 Mirrors 0 Missed 9 Current 366 (95% match, 98% complete)
+done.
 NOTE: Executing Tasks
-NOTE: Running setscene task 347 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/libstd-rs_1.79.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 348 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 357 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 360 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 367 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 382 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 385 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 387 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 397 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_populate_lic_setscene)
-NOTE: Running setscene task 403 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 404 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 407 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 411 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 412 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 413 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 416 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_create_spdx_setscene)
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libstd-rs-1.79.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_populate_lic_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_populate_lic_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgudev-238-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_populate_lic_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libgudev-238-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 417 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_recipe_qa_setscene)
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 418 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.37.bb:do_create_spdx_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 419 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 420 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_populate_lic_setscene: Succeeded
-NOTE: recipe orc-0.4.40-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 421 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 422 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 423 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_create_spdx_setscene)
-NOTE: recipe freetype-2.13.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 424 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_create_spdx_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 426 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 427 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 428 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 430 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_create_spdx_setscene)
-NOTE: recipe libstd-rs-1.79.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe librsvg-2.58.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 431 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/libstd-rs_1.79.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 432 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/libstd-rs_1.79.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 433 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 435 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_recipe_qa_setscene)
-NOTE: recipe wayland-protocols-1.37-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libstd-rs-1.79.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libstd-rs-1.79.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libgudev-238-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 436 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_recipe_qa_setscene)
-NOTE: recipe wayland-protocols-1.37-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 437 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_recipe_qa_setscene)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe librsvg-2.58.2-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 446 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_packagedata_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 447 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_packagedata_setscene)
-NOTE: recipe libxv-1.0.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 452 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_packagedata_setscene)
-NOTE: Running setscene task 459 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_packagedata_setscene)
-NOTE: recipe wayland-1.23.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 460 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 461 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 466 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 467 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_packagedata_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 468 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_packagedata_setscene)
-NOTE: Running setscene task 470 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland-protocols_1.37.bb:do_packagedata_setscene)
-NOTE: recipe libstd-rs-1.79.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 472 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_packagedata_setscene)
-NOTE: recipe librsvg-2.58.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 473 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 475 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxkbcommon_1.7.0.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_packagedata_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe libdrm-2.4.123-r0: task do_packagedata_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe wayland-protocols-1.37-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 476 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb:do_packagedata_setscene)
-NOTE: Running setscene task 477 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb:do_populate_sysroot_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 479 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_populate_lic_setscene)
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe xrandr-1_1.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe wayland-protocols-1.37-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 483 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 484 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe freetype-2.13.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 486 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 488 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 489 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxshmfence-1.3.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxv-1.0.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxkbcommon-1.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 494 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 495 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 496 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_packagedata_setscene: Started
-NOTE: recipe xkeyboard-config-2.43-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 498 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_packagedata_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 500 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 503 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 505 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_populate_lic_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe orc-0.4.40-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libdrm-2.4.123-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe pango-1.54.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 506 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_populate_lic_setscene: Succeeded
-NOTE: Running setscene task 507 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_packagedata_setscene)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe pango-1.54.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 508 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 509 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 510 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_recipe_qa_setscene)
-NOTE: recipe mesa-2_24.0.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 512 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libstd-rs-1.79.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 513 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 515 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/libstd-rs_1.79.0.bb:do_recipe_qa_setscene)
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 519 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe orc-0.4.40-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 520 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 522 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/orc/orc_0.4.40.bb:do_recipe_qa_setscene)
-NOTE: recipe wayland-1.23.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 524 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/jpeg/libjpeg-turbo_3.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 525 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xrandr-1_1.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 527 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/drm/libdrm_2.4.123.bb:do_recipe_qa_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 529 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-loader_1.3.290.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 531 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pango-1.54.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libstd-rs-1.79.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 533 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-app/xrandr_1.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe orc-0.4.40-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 534 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe pango-1.54.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 535 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 536 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_packagedata_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libstd-rs-1.79.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 537 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpciaccess-0.18.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 540 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 541 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_recipe_qa_setscene)
-NOTE: recipe mesa-2_24.0.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 543 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe orc-0.4.40-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 545 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libjpeg-turbo-1_3.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 547 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe vulkan-loader-1.3.290.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 549 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdamage_1.1.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 552 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xkeyboard-config_2.43.bb:do_recipe_qa_setscene)
-NOTE: recipe libdrm-2.4.123-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 554 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe freetype-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 556 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/freetype/freetype_2.13.3.bb:do_recipe_qa_setscene)
-NOTE: recipe xrandr-1_1.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 558 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 560 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/wayland/wayland_1.23.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 562 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-headers_1.3.290.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 563 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 568 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 570 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_packagedata_setscene)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxdamage-1_1.1.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 571 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/lame/lame_3.100.bb:do_create_spdx_setscene)
-NOTE: recipe libpciaccess-0.18.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 573 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpciaccess_0.18.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xkeyboard-config-2.43-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 574 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_create_spdx_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 576 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrandr_1.5.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 577 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 579 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxshmfence_1.3.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libxv-1.0.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 581 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxv_1.0.12.bb:do_recipe_qa_setscene)
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe freetype-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 583 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxxf86vm_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 584 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_create_spdx_setscene)
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 589 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 591 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/pixman_0.42.2.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe lame-3.100-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.44-r0: task do_create_spdx_setscene: Started
-NOTE: recipe wayland-1.23.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 596 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_create_spdx_setscene)
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vulkan-headers-1.3.290.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 599 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 600 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_create_spdx_setscene)
-NOTE: recipe libxv-1.0.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 601 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool_2.5.2.bb:do_create_spdx_setscene)
-NOTE: recipe mpg123-1.32.7-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpciaccess-0.18.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 602 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_create_spdx_setscene)
-NOTE: recipe lame-3.100-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxrandr-1_1.5.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 604 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_create_spdx_setscene)
-NOTE: recipe libpng-1.6.44-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxshmfence-1.3.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 606 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 607 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 608 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/lame/lame_3.100.bb:do_packagedata_setscene)
-NOTE: Running setscene task 609 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/lame/lame_3.100.bb:do_populate_sysroot_setscene)
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxv-1.0.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 610 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxxf86vm-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 611 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtheora-1.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 612 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_packagedata_setscene)
-NOTE: recipe pixman-1_0.42.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mpg123-1.32.7-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 613 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 614 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 616 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxrender_0.9.11.bb:do_recipe_qa_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe lame-3.100-r0: task do_packagedata_setscene: Started
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libpng-1.6.44-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 618 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpng-1.6.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 619 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 620 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_create_spdx_setscene)
-NOTE: recipe shadow-sysroot-4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 621 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.4.bb:do_create_spdx_setscene)
-NOTE: recipe mpg123-1.32.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 622 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_create_spdx_setscene)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 623 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.4.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 625 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_create_spdx_setscene)
-NOTE: recipe base-passwd-3.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 626 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_create_spdx_setscene)
-NOTE: recipe mpg123-1.32.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe lame-3.100-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 627 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_create_spdx_setscene)
-NOTE: recipe sbc-2.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 629 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_create_spdx_setscene)
-NOTE: recipe libpng-1.6.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxrender-1_0.9.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 631 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.10.1.bb:do_create_spdx_setscene)
-NOTE: recipe base-passwd-3.6.4-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 632 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_create_spdx_setscene)
-NOTE: recipe lame-3.100-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 634 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/lame/lame_3.100.bb:do_recipe_qa_setscene)
-NOTE: recipe speex-1.2.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 636 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.17.0.bb:do_create_spdx_setscene)
-NOTE: recipe libpng-1.6.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 638 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libpng/libpng_1.6.44.bb:do_recipe_qa_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libwebp-1.4.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 639 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_create_spdx_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 641 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libtheora/libtheora_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.4-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Started
-NOTE: recipe base-passwd-3.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe curl-8.10.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 643 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow-sysroot_4.6.bb:do_recipe_qa_setscene)
-NOTE: recipe iso-codes-4.17.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe speex-1.2.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 651 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_packagedata_setscene)
-NOTE: Running setscene task 656 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
-NOTE: recipe lame-3.100-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 657 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.4.bb:do_packagedata_setscene)
-NOTE: recipe libpng-1.6.44-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libwebp-1.4.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 658 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_packagedata_setscene)
-NOTE: Running setscene task 659 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 662 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_packagedata_setscene)
-NOTE: recipe libsndfile1-1.2.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe lame-3.100-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 663 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 664 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_packagedata_setscene)
-NOTE: recipe attr-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 667 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpng-1.6.44-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 670 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe curl-8.10.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 671 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe iso-codes-4.17.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 672 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 675 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_populate_sysroot_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-sysroot-4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtool-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 676 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libtheora-1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 677 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 678 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bluez5-5.78-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 680 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ofono-2.10-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 684 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 687 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.4.bb:do_recipe_qa_setscene)
-NOTE: recipe ell-0.69-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe dbus-1.14.10-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe readline-8.2.13-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 689 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 691 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe readline-8.2.13-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 692 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 693 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_create_spdx_setscene)
-NOTE: recipe bluez5-5.78-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 695 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 696 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_recipe_qa_setscene)
-NOTE: recipe ofono-2.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 697 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_recipe_qa_setscene)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libtool-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 699 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_packagedata_setscene)
-NOTE: recipe ell-0.69-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 700 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_recipe_qa_setscene)
-NOTE: recipe shadow-4.16.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe base-passwd-3.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe dbus-1.14.10-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 701 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_recipe_qa_setscene)
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 703 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/mobile-broadband-provider-info/mobile-broadband-provider-info_git.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 705 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe avahi-0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe ofono-2.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe base-passwd-3.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shadow-4.16.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe bluez5-5.78-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 706 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 708 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_create_spdx_setscene)
-NOTE: recipe ell-0.69-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe readline-8.2.13-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 710 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_recipe_qa_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ofono-2.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 712 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 713 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_create_spdx_setscene)
-NOTE: recipe bluez5-5.78-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 714 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 715 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe ell-0.69-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 720 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 721 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_create_spdx_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.12-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 723 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 724 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxi-1_1.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxtst-1_1.2.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 726 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libsm_1.2.4.bb:do_recipe_qa_setscene)
-NOTE: recipe dbus-1.14.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 728 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_packagedata_setscene)
-NOTE: Running setscene task 729 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_packagedata_setscene)
-NOTE: recipe base-files-3.0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mobile-broadband-provider-info-1_20240407-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 730 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 732 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxtst_1.2.5.bb:do_recipe_qa_setscene)
-NOTE: recipe readline-8.2.13-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flac-1.4.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 733 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-macros-1_1.20.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe alsa-lib-1.2.12-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 734 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_packagedata_setscene)
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe readline-8.2.13-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 735 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libtool-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 736 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_create_spdx_setscene)
-NOTE: recipe flac-1.4.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 737 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.4.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 738 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_create_spdx_setscene)
-NOTE: recipe sbc-2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsm-1_1.2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 739 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.4.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 740 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 741 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
-NOTE: recipe speex-1.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxtst-1_1.2.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 742 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 743 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.10.1.bb:do_packagedata_setscene)
-NOTE: recipe speex-1.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 745 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_packagedata_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 747 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.10.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 749 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_packagedata_setscene)
-NOTE: recipe libice-1_1.1.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 751 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libice_1.1.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libwebp-1.4.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 752 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libwebp-1.4.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 753 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe curl-8.10.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe speex-1.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 755 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxi_1.8.2.bb:do_recipe_qa_setscene)
-NOTE: recipe speexdsp-1.2.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 756 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe curl-8.10.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 758 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/sbc/sbc_2.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 761 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speex_1.2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe pulseaudio-17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 762 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_packagedata_setscene)
-NOTE: recipe libwebp-1.4.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 763 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libice-1_1.1.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 765 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_packagedata_setscene)
-NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libwebp-1.4.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 767 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/webp/libwebp_1.4.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libsndfile1-1.2.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe curl-8.10.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 769 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_packagedata_setscene)
-NOTE: recipe sbc-2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 770 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_packagedata_setscene)
-NOTE: recipe speex-1.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 771 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_packagedata_setscene)
-NOTE: recipe libx11-1_1.8.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 774 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 776 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_packagedata_setscene)
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxi-1_1.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 777 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene)
-NOTE: recipe curl-8.10.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 779 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
-NOTE: recipe libxext-1_1.3.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 780 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Started
-NOTE: recipe sbc-2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe speex-1.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libwebp-1.4.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 782 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxext_1.3.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 784 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.10.1.bb:do_recipe_qa_setscene)
-NOTE: recipe alsa-lib-1.2.12-r0: task do_packagedata_setscene: Started
-NOTE: recipe flac-1.4.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 785 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 787 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxfixes_6.0.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 788 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_populate_sysroot_setscene)
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
-NOTE: recipe libwebp-1.4.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 789 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe libidn2-2.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 791 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb:do_recipe_qa_setscene)
-NOTE: recipe curl-8.10.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 792 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_populate_sysroot_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 795 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/speex/speexdsp_1.2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libvorbis-1.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flac-1.4.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 798 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_populate_sysroot_setscene)
-NOTE: recipe alsa-lib-1.2.12-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 800 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 802 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/iso-codes/iso-codes_4.17.0.bb:do_packagedata_setscene)
-NOTE: recipe alsa-lib-1.2.12-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxext-1_1.3.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 807 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot_setscene: Started
-WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/xtrans/1.5.0/temp/log.do_packagedata_setscene.2876518
-NOTE: recipe curl-8.10.1-r0: task do_recipe_qa_setscene: Succeeded
-WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
-NOTE: Running setscene task 808 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_package_setscene)
-NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe speexdsp-1.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxfixes-1_6.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libidn2-2.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe iso-codes-4.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.70-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libsndfile1-1.2.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libx11-1_1.8.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe speexdsp-1.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe flac-1.4.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe alsa-lib-1.2.12-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-2.70-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libogg-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe fribidi-1.0.16-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 811 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 813 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libx11_1.8.10.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 815 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 816 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_packagedata_setscene)
-NOTE: Running setscene task 817 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 818 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_packagedata_setscene)
-NOTE: Running setscene task 819 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 820 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 822 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 824 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/flac/flac_1.4.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 826 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 828 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libvorbis/libvorbis_1.3.7.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 830 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/fribidi/fribidi_1.0.16.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 831 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_recipe_qa_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libidn2-2.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe alsa-lib-1.2.12-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flac-1.4.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-2.70-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libx11-1_1.8.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libidn2-2.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 832 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_create_spdx_setscene)
-NOTE: recipe alsa-lib-1.2.12-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 837 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 840 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_create_spdx_setscene)
-NOTE: recipe flac-1.4.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libvorbis-1.3.7-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-2.70-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 847 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 848 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 850 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_packagedata_setscene)
-NOTE: recipe fribidi-1.0.16-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 851 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxau-1_1.0.11-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 855 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb:do_create_spdx_setscene)
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 857 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_packagedata_setscene)
-NOTE: recipe xcb-proto-1.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 859 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 861 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 864 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_create_spdx_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxcb-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 865 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_create_spdx_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 866 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libical-3.0.18-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpsl-0.21.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe vala-0.56.17-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunistring-1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 867 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_populate_sysroot_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe vala-0.56.17-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 869 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxcb_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 870 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_recipe_qa_setscene)
-NOTE: recipe libsoup-3.6.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 871 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libpsl-0.21.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 872 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe iso-codes-4.17.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 873 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_create_spdx_setscene)
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 875 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/libogg/libogg_1.3.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libunistring-1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 876 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_create_spdx_setscene)
-NOTE: recipe update-rc.d-0.8+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 879 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_packagedata_setscene)
-NOTE: Running setscene task 880 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2024.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libunistring-1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 882 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_recipe_qa_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 883 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_packagedata_setscene)
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 884 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.17-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libunwind-1.6.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 885 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe kmod-33-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 887 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libpthread-stubs_0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe icu-75-1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxcb-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 890 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe vala-0.56.17-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 892 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libucontext_1.2.bb:do_packagedata_setscene)
-NOTE: recipe libpsl-0.21.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpsl-0.21.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_package_setscene: Started
-NOTE: recipe libogg-1.3.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 893 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libucontext_1.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libsoup-3.6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxau-1_1.0.11-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 895 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxau_1.0.11.bb:do_recipe_qa_setscene)
-NOTE: recipe kmod-33-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 896 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb:do_packagedata_setscene)
-NOTE: recipe libical-3.0.18-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 897 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-75-1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 899 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxdmcp_1.1.5.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 900 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libunistring-1.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 902 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xcb-proto_1.17.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libsoup-3.6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 905 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunwind/libunwind_1.6.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 910 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_packagedata_setscene)
-NOTE: recipe libpthread-stubs-0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 911 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/update-rc.d/update-rc.d_0.8.bb:do_packagedata_setscene)
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpsl-0.21.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 912 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_packagedata_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 914 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libdaemon/libdaemon_0.14.bb:do_recipe_qa_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libunistring-1.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 916 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_packagedata_setscene)
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpsl-0.21.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 917 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_populate_sysroot_setscene)
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libunwind-1.6.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 920 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpsl/libpsl_0.21.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libxau-1_1.0.11-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libdaemon-0.14-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 923 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Started
-NOTE: recipe libxdmcp-1_1.1.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 924 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe icu-75-1-r0: task do_packagedata_setscene: Started
-NOTE: recipe xcb-proto-1.17.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 925 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_populate_sysroot_setscene)
-NOTE: recipe icu-75-1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libunwind-1.6.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 927 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libucontext_1.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 928 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 930 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.63.0.bb:do_create_spdx_setscene)
-NOTE: recipe libdaemon-0.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 933 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.3.bb:do_create_spdx_setscene)
-NOTE: recipe update-rc.d-0.8+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpsl-0.21.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 938 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_create_spdx_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 939 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 942 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libatomic-ops/libatomic-ops_7.8.2.bb:do_recipe_qa_setscene)
-NOTE: recipe xorgproto-2024.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 944 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-proto/xorgproto_2024.1.bb:do_recipe_qa_setscene)
-NOTE: recipe kmod-33-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: Running setscene task 946 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_create_spdx_setscene)
-NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libucontext-1.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe nghttp2-1.63.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_package_setscene: Succeeded
-NOTE: recipe libpsl-0.21.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 948 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 949 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.10.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe icu-75-1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libxml2-2.13.3-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 950 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe eudev-3.2.14-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libucontext-1.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 951 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 963 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_deploy_source_date_epoch_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 965 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 967 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/initscripts/initscripts_1.0.bb:do_recipe_qa_setscene)
-NOTE: recipe nghttp2-1.63.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 970 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_recipe_qa_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libatomic-ops-7.8.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.1-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 971 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_recipe_qa_setscene)
-NOTE: recipe util-macros-1_1.20.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cracklib-2.10.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 972 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_packagedata_setscene)
-NOTE: recipe kmod-33-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 973 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxml2-2.13.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe xorgproto-2024.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 974 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 975 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.3.bb:do_populate_sysroot_setscene)
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 976 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.1.bb:do_create_spdx_setscene)
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 979 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_create_spdx_setscene)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 980 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.3.bb:do_create_spdx_setscene)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe icu-75-1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 981 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_create_spdx_setscene)
-NOTE: recipe util-macros-1_1.20.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 983 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_create_spdx_setscene)
-NOTE: recipe cracklib-2.10.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe eudev-3.2.14-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe initscripts-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 987 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 988 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxml2-2.13.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe libxml2-2.13.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-initial-1_2.82.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 989 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-macros-1_1.20.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: Running setscene task 992 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/kmod_33.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe expat-2.6.3-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 994 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 995 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-util/util-macros_1.20.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libusb1-1.0.27-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 998 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/icu/icu_75-1.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-initial-1_2.82.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe expat-2.6.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 999 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_create_spdx_setscene)
-NOTE: recipe util-macros-1_1.20.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1000 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_packagedata_setscene)
-NOTE: recipe cracklib-2.10.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe icu-75-1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running setscene task 1001 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1002 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_create_spdx_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libxml2-2.13.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1004 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 1005 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.63.0.bb:do_packagedata_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1006 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.63.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe util-macros-1_1.20.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe kmod-33-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1007 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_deploy_source_date_epoch_setscene)
-NOTE: Running setscene task 1008 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 1009 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/taglib/taglib_2.0.2.bb:do_create_spdx_setscene)
-NOTE: recipe icu-75-1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libxml2-2.13.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1051 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/libxml/libxml2_2.13.3.bb:do_recipe_qa_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1070 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_packagedata_setscene)
-NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 1084 of 1339 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/cargo_1.79.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 1087 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_create_spdx_setscene: Started
-NOTE: recipe nghttp2-1.63.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe nghttp2-1.63.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe taglib-2.0.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_packagedata_setscene: Started
-NOTE: Running setscene task 1154 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe cracklib-2.10.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libxml2-2.13.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1155 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1156 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 1158 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1159 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1161 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_packagedata_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_deploy_source_date_epoch_setscene: Succeeded
-NOTE: recipe cargo-native-1.79.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 1162 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-ng-0.8.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe nghttp2-1.63.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1164 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap-ng/libcap-ng_0.8.5.bb:do_recipe_qa_setscene)
-NOTE: recipe taglib-2.0.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1166 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 1167 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/taglib/taglib_2.0.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1168 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/taglib/taglib_2.0.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe cracklib-2.10.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libxml2-2.13.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe nghttp2-1.63.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1171 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nghttp2/nghttp2_1.63.0.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-initial-1_2.82.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1173 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_packagedata_setscene)
-NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cargo-native-1.79.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 1174 of 1339 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/cargo_1.79.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1175 of 1339 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/rust_1.79.0.bb:do_create_spdx_setscene)
-NOTE: recipe taglib-2.0.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe taglib-2.0.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe nghttp2-1.63.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gobject-introspection-1.82.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libcap-ng-0.8.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1182 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 1183 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpcre2-10.44-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe nghttp2-1.63.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-3.12.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe taglib-2.0.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1187 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/utfcpp/utfcpp_4.0.5.bb:do_packagedata_setscene)
-NOTE: recipe cargo-native-1.79.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe rust-native-1.79.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe taglib-2.0.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe glib-2.0-initial-1_2.82.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1189 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/taglib/taglib_2.0.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1190 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/utfcpp/utfcpp_4.0.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1192 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0-initial_2.82.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1193 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running setscene task 1194 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_populate_sysroot_setscene)
-NOTE: recipe utfcpp-4.0.5-r0: task do_packagedata_setscene: Started
-NOTE: Running task 575 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_fetch)
-NOTE: recipe rust-native-1.79.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe taglib-2.0.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe utfcpp-4.0.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1198 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1199 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe glib-2.0-initial-1_2.82.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1200 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe utfcpp-4.0.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_fetch: Started
-NOTE: recipe taglib-2.0.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glib-2.0-initial-1_2.82.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 782 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_fetch)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: Running task 837 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_fetch)
-NOTE: recipe cargo-native-1.79.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1203 of 1339 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/rust/rust_1.79.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe utfcpp-4.0.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1205 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1207 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/utfcpp/utfcpp_4.0.5.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-3.12.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libpcre2-10.44-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-setuptools-72.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1209 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libpcre/libpcre2_10.44.bb:do_recipe_qa_setscene)
-NOTE: Running task 899 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_write_config)
-NOTE: recipe python3-3.12.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1211 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1212 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.3.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1213 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1214 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1215 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240808-3.1.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1216 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1218 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_fetch: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_fetch: Started
-NOTE: recipe utfcpp-4.0.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1219 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1220 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_packagedata_setscene)
-NOTE: recipe rust-native-1.79.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_write_config: Started
-NOTE: recipe expat-2.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe libedit-20240808-3.1-r1: task do_packagedata_setscene: Started
-NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe utfcpp-4.0.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1221 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
-NOTE: Running setscene task 1222 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
-NOTE: recipe libpcre2-10.44-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 1223 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_packagedata_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_write_config: Succeeded
-NOTE: Running task 943 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_unpack)
-NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 1227 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libedit-20240808-3.1-r1: task do_packagedata_setscene: Succeeded
-NOTE: Running task 944 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_unpack)
-NOTE: Running setscene task 1231 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
-NOTE: recipe expat-2.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 967 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_fetch)
-NOTE: Running task 979 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_fetch)
-NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1236 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.5.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_unpack: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1122 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_fetch)
-NOTE: Running task 1126 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_fetch)
-NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_unpack: Started
-NOTE: recipe shadow-4.16.0-r0: task do_fetch: Started
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1136 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_fetch)
-NOTE: recipe dbus-1.14.10-r0: task do_fetch: Started
-NOTE: Running task 1140 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_fetch)
-NOTE: recipe libtirpc-1.3.5-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_fetch: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_fetch: Succeeded
-NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running task 1141 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_unpack)
-NOTE: Running task 1142 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_unpack)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe python3-3.12.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1249 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1250 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1251 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1252 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libical-3.0.18-r0: task do_fetch: Started
-NOTE: recipe eudev-3.2.14-r0: task do_fetch: Started
-NOTE: recipe vala-0.56.17-r0: task do_fetch: Started
-NOTE: recipe libical-3.0.18-r0: task do_fetch: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_fetch: Started
-NOTE: Running setscene task 1253 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240808-3.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe vala-0.56.17-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1255 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.12.6.bb:do_recipe_qa_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1256 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
-NOTE: recipe libtirpc-1.3.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1257 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe shadow-4.16.0-r0: task do_unpack: Started
-NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_unpack: Started
-NOTE: Running setscene task 1259 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe expat-2.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20240808-3.1-r1: task do_populate_sysroot_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe python3-3.12.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe expat-2.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1261 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1263 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1265 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe libedit-20240808-3.1-r1: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe python3-3.12.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1266 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1268 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240808-3.1.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1271 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
-NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1273 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
-NOTE: recipe libnsl2-2.0.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1275 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_recipe_qa_setscene)
-NOTE: recipe dbus-1.14.10-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 1276 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.5.bb:do_populate_sysroot_setscene)
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe expat-2.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1278 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_recipe_qa_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libedit-20240808-3.1-r1: task do_recipe_qa_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe expat-2.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libtirpc-1.3.5-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1279 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1280 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1281 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_populate_sysroot_setscene)
-NOTE: recipe rust-native-1.79.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1282 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe libedit-20240808-3.1-r1: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_unpack: Succeeded
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_unpack: Succeeded
-NOTE: recipe libnsl2-2.0.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1237 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_patch)
-NOTE: Running task 1242 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_patch)
-NOTE: Running task 1245 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_patch)
-NOTE: Running task 1257 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_unpack)
-NOTE: Running task 1259 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_fetch)
-NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe ncurses-6.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1285 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_recipe_qa_setscene)
-NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1266 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_fetch)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Running setscene task 1287 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
-NOTE: recipe libtirpc-1.3.5-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1289 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.5.bb:do_recipe_qa_setscene)
-NOTE: recipe libical-3.0.18-r0: task do_unpack: Started
-NOTE: recipe dbus-1.14.10-r0: task do_patch: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_patch: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_fetch: Started
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_fetch: Succeeded
-NOTE: recipe bluez5-5.78-r0: task do_fetch: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe libtirpc-1.3.5-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libffi-3.4.6-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running task 1282 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_unpack)
-NOTE: Running setscene task 1290 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gdbm-1.24-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1292 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_recipe_qa_setscene)
-NOTE: recipe bluez5-5.78-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1294 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_recipe_qa_setscene)
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1296 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 1297 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe ncurses-6.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 1299 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_recipe_qa_setscene)
-NOTE: Running task 1288 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_patch)
-NOTE: recipe libtirpc-1.3.5-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_patch: Succeeded
-NOTE: Running task 1300 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_unpack)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1306 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_unpack)
-NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe vala-0.56.17-r0: task do_unpack: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running setscene task 1301 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
-NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_patch: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_unpack: Started
-NOTE: recipe libffi-3.4.6-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gdbm-1.24-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.6.1-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_unpack: Started
-NOTE: recipe sqlite3-3_3.46.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1318 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_unpack)
-NOTE: Running task 1325 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_unpack)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1303 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
-NOTE: Running task 1374 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_fetch)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1304 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1306 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: Running task 1412 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_fetch)
-NOTE: recipe fontconfig-2.15.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1413 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_patch)
-NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_unpack: Started
-NOTE: Running setscene task 1308 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe bluez5-5.78-r0: task do_unpack: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libical-3.0.18-r0: task do_patch: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_fetch: Started
-NOTE: Running setscene task 1309 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
-NOTE: recipe shared-mime-info-2.4-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1310 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_packagedata_setscene)
-NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_patch: Succeeded
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_patch: Started
-NOTE: Running task 1421 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_generate_toolchain_file)
-NOTE: Running task 1422 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_write_config)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1433 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_unpack)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1434 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_patch)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_unpack: Succeeded
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Started
-NOTE: Running task 1435 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_patch)
-NOTE: recipe libical-3.0.18-r0: task do_generate_toolchain_file: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_write_config: Started
-NOTE: Running task 1437 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_fetch)
-NOTE: recipe cairo-1.18.2-r0: task do_unpack: Started
-NOTE: recipe vala-0.56.17-r0: task do_unpack: Succeeded
-NOTE: Running task 1438 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_patch)
-NOTE: recipe libical-3.0.18-r0: task do_generate_toolchain_file: Succeeded
-NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe shadow-4.16.0-r0: task do_patch: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_write_config: Succeeded
-NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Succeeded
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_patch: Started
-NOTE: Running task 1487 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_unpack)
-NOTE: recipe fontconfig-2.15.0-r0: task do_patch: Succeeded
-NOTE: Running task 1523 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_fetch)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_patch: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1542 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_fetch)
-NOTE: Running task 1543 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_fetch)
-NOTE: recipe bluez5-5.78-r0: task do_unpack: Succeeded
-NOTE: Running task 1550 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_patch)
-NOTE: Running task 1559 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_patch)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_fetch: Started
-NOTE: Running task 1568 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_write_config)
-NOTE: recipe vala-0.56.17-r0: task do_patch: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_fetch: Succeeded
-NOTE: Running task 1617 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_unpack)
-NOTE: Running task 1641 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_fetch)
-NOTE: Running task 1645 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_fetch)
-NOTE: recipe shared-mime-info-2.4-r0: task do_unpack: Started
-NOTE: recipe vala-0.56.17-r0: task do_patch: Succeeded
-NOTE: Running task 1651 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_write_config)
-NOTE: recipe libxft-1_2.3.8-r0: task do_fetch: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_fetch: Started
-NOTE: recipe libpam-1.6.1-r0: task do_patch: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_fetch: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_fetch: Succeeded
-NOTE: recipe bluez5-5.78-r0: task do_patch: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1652 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_unpack)
-NOTE: recipe cairo-1.18.2-r0: task do_write_config: Started
-NOTE: Running task 1653 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_unpack)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1315 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libcap-2.70-r0: task do_fetch: Started
-NOTE: recipe shadow-4.16.0-r0: task do_patch: Succeeded
-NOTE: Running setscene task 1316 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
-NOTE: Running task 1655 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_unpack)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_unpack: Started
-NOTE: recipe pango-1.54.0-r0: task do_fetch: Started
-NOTE: recipe libcap-2.70-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.54.0-r0: task do_fetch: Succeeded
-NOTE: Running task 1664 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_write_config)
-NOTE: recipe cairo-1.18.2-r0: task do_write_config: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_write_config: Started
-NOTE: Running task 1683 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_fetch)
-NOTE: Running task 1692 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_fetch)
-NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_unpack: Started
-NOTE: recipe eudev-3.2.14-r0: task do_fetch: Succeeded
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libpam-1.6.1-r0: task do_patch: Succeeded
-NOTE: Running task 1693 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_unpack)
-NOTE: recipe shared-mime-info-2.4-r0: task do_write_config: Succeeded
-NOTE: Running task 1694 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1696 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_unpack)
-NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_write_config: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_fetch: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_fetch: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_fetch: Succeeded
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 1700 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_unpack)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_patch: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_write_config: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_unpack: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_unpack: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 1773 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_patch)
-NOTE: recipe pango-1.54.0-r0: task do_unpack: Started
-NOTE: Running task 1825 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_write_config)
-NOTE: Running task 1833 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_fetch)
-NOTE: Running task 1841 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_write_config)
-NOTE: Running task 1847 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_unpack)
-NOTE: recipe libcap-2.70-r0: task do_unpack: Started
-NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1317 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
-NOTE: recipe libxft-1_2.3.8-r0: task do_patch: Started
-NOTE: recipe ell-0.69-r0: task do_fetch: Started
-NOTE: recipe bluez5-5.78-r0: task do_patch: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_unpack: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 1319 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Started
-NOTE: recipe ell-0.69-r0: task do_fetch: Succeeded
-NOTE: recipe harfbuzz-10.0.1-r0: task do_write_config: Started
-NOTE: Running task 1848 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_patch)
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1850 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_patch)
-NOTE: recipe mesa-2_24.0.7-r0: task do_write_config: Started
-NOTE: Running task 1857 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_unpack)
-NOTE: recipe libxft-1_2.3.8-r0: task do_patch: Succeeded
-NOTE: Running task 1885 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_fetch)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_write_config: Succeeded
-NOTE: recipe libcap-2.70-r0: task do_unpack: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_write_config: Succeeded
-NOTE: Running task 1891 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_fetch)
-NOTE: Running task 1892 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_patch)
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1893 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_fetch)
-NOTE: recipe eudev-3.2.14-r0: task do_patch: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_unpack: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_patch: Started
-NOTE: recipe pango-1.54.0-r0: task do_unpack: Succeeded
-NOTE: recipe libusb1-1.0.27-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_fetch: Started
-NOTE: Running task 1894 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_patch)
-NOTE: Running task 1895 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_patch)
-NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_fetch: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 1905 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_unpack)
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_deploy_source_date_epoch unihash changed to c7ffea779f1201eecb37f207656974989ba0cd686646da08ad2327366233b5c2
-NOTE: recipe libcap-2.70-r0: task do_patch: Started
-NOTE: recipe ofono-2.10-r0: task do_fetch: Started
-NOTE: recipe avahi-0.8-r0: task do_fetch: Started
-NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe ofono-2.10-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1196 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
-NOTE: recipe avahi-0.8-r0: task do_fetch: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 1191 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
-NOTE: recipe pango-1.54.0-r0: task do_patch: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_patch: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_unpack: Succeeded
-NOTE: recipe ell-0.69-r0: task do_unpack: Started
-NOTE: recipe pango-1.54.0-r0: task do_patch: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_patch: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_patch: Succeeded
-NOTE: recipe libusb1-1.0.27-r0: task do_patch: Succeeded
-NOTE: recipe libcap-2.70-r0: task do_patch: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_unpack: Succeeded
-NOTE: recipe ell-0.69-r0: task do_unpack: Succeeded
-NOTE: Running setscene task 1174 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: Running task 1917 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_patch)
-NOTE: Running task 1918 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_patch)
-NOTE: Running task 1920 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_patch)
-NOTE: Running task 1921 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_patch)
-NOTE: Running task 1925 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_write_config)
-NOTE: Running task 1934 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_unpack)
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
-NOTE: Running task 1942 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_unpack)
-NOTE: Running task 1943 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_unpack)
-NOTE: Running task 1949 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_fetch)
-NOTE: Running task 1956 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_write_config)
-NOTE: Running task 1985 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_fetch)
-NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe ell-0.69-r0: task do_patch: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_patch: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_patch: Started
-NOTE: Running task 1992 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_fetch)
-NOTE: recipe cairo-1.18.2-r0: task do_patch: Started
-NOTE: recipe pango-1.54.0-r0: task do_write_config: Started
-NOTE: recipe ofono-2.10-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_unpack: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_write_config: Started
-NOTE: recipe avahi-0.8-r0: task do_unpack: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1328 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
-NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_fetch: Started
-NOTE: recipe libgudev-238-r0: task do_fetch: Started
-NOTE: Running setscene task 1330 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
-NOTE: recipe ell-0.69-r0: task do_patch: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_patch: Succeeded
-NOTE: recipe libgudev-238-r0: task do_fetch: Succeeded
-NOTE: Running setscene task 1331 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe pulseaudio-17.0-r0: task do_fetch: Succeeded
-NOTE: recipe pango-1.54.0-r0: task do_write_config: Succeeded
-NOTE: Running task 2008 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_unpack)
-NOTE: Running task 2023 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_write_config)
-NOTE: Running task 2028 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_unpack)
-NOTE: recipe libglu-2_9.0.3-r0: task do_write_config: Succeeded
-NOTE: Running task 2043 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_fetch)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_unpack: Succeeded
-NOTE: Running task 2046 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_fetch)
-NOTE: Running task 2047 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_patch)
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe cairo-1.18.2-r0: task do_patch: Succeeded
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_fetch: Started
-NOTE: Running task 2063 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_write_config)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_write_config: Started
-NOTE: recipe libgudev-238-r0: task do_unpack: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_unpack: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_fetch: Started
-NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mpg123-1.32.7-r0: task do_fetch: Started
-NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libsoup-3.6.0-r0: task do_fetch: Succeeded
-NOTE: recipe mpg123-1.32.7-r0: task do_fetch: Succeeded
-NOTE: recipe harfbuzz-10.0.1-r0: task do_patch: Started
-NOTE: Running task 2100 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_unpack)
-NOTE: Running task 2103 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_unpack)
-NOTE: recipe ofono-2.10-r0: task do_unpack: Succeeded
-NOTE: Running task 2126 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_write_config)
-NOTE: Running task 2135 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_patch)
-NOTE: Running task 2141 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_fetch)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_write_config: Succeeded
-NOTE: Running task 2142 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_fetch)
-NOTE: recipe avahi-0.8-r0: task do_unpack: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_write_config: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_fetch: Succeeded
-NOTE: recipe harfbuzz-10.0.1-r0: task do_patch: Succeeded
-NOTE: Running task 2143 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_patch)
-NOTE: recipe shared-mime-info-2.4-r0: task do_patch: Succeeded
-NOTE: Running task 2145 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_unpack)
-NOTE: Running task 2146 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_fetch)
-NOTE: Running task 2148 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_fetch)
-NOTE: recipe mpg123-1.32.7-r0: task do_unpack: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.6.0-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_unpack: Succeeded
-NOTE: recipe libgudev-238-r0: task do_unpack: Succeeded
-NOTE: recipe libgudev-238-r0: task do_write_config: Started
-NOTE: Running task 2150 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_patch)
-NOTE: recipe ofono-2.10-r0: task do_patch: Started
-NOTE: Running task 2159 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_patch)
-NOTE: Running task 2170 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_write_config)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_fetch: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_fetch: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_fetch: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_fetch: Succeeded
-NOTE: Running task 2171 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_patch)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_fetch: Started
-NOTE: recipe libgudev-238-r0: task do_write_config: Succeeded
-NOTE: Running task 2172 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_unpack)
-NOTE: recipe ofono-2.10-r0: task do_patch: Succeeded
-NOTE: Running task 2173 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_unpack)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_fetch: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_fetch: Succeeded
-NOTE: Running task 2186 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_unpack)
-NOTE: Running task 2195 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_unpack)
-NOTE: Running task 2213 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_write_config)
-NOTE: Running task 2214 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_write_config)
-NOTE: recipe librsvg-2.58.2-r0: task do_unpack: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_patch: Started
-NOTE: recipe libgudev-238-r0: task do_patch: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_write_config: Started
-NOTE: Running task 2215 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_unpack: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_unpack: Succeeded
-NOTE: recipe libsoup-3.6.0-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_unpack: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_patch: Started
-NOTE: Running task 2216 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_patch)
-NOTE: recipe libsoup-3.6.0-r0: task do_unpack: Succeeded
-NOTE: Running task 2217 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_write_config)
-NOTE: Running task 2218 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_patch)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_unpack: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_write_config: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_write_config: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_patch: Started
-NOTE: recipe libgudev-238-r0: task do_patch: Succeeded
-NOTE: Running task 2220 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_write_config)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_write_config: Succeeded
-NOTE: recipe mpg123-1.32.7-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_write_config: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2273 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_patch)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_unpack: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_write_config: Succeeded
-NOTE: recipe libsoup-3.6.0-r0: task do_patch: Succeeded
-NOTE: Running task 2274 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_patch)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_write_config: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_patch: Succeeded
-NOTE: Running task 2277 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_write_config: Succeeded
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_unpack: Succeeded
-NOTE: Running task 2279 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2280 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_patch)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: Running task 2282 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe pulseaudio-17.0-r0: task do_patch: Succeeded
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_patch: Succeeded
-NOTE: Running task 2285 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_unpack: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_patch: Succeeded
-NOTE: Running task 2287 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_patch)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_deploy_source_date_epoch unihash changed to 4de0be20be462134ba986a24cad096c562ded0371dc441959a88ed881408d02f
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_patch: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_deploy_source_date_epoch unihash changed to b2b25fe3b655f067e03078ce533c6a7df3a50366cf38f48ba2d9a6b5efdc5266
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_deploy_source_date_epoch unihash changed to ae46d60ebecefc6d28266952268eac96f67f87b8f608a524c9edc0c22bdb22f2
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_deploy_source_date_epoch unihash changed to ca1c012fa637573782cc90b1dd4f07188724902395e1fdc25fc3706ffb318f34
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_patch: Succeeded
-NOTE: Running setscene task 1335 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_populate_sysroot_setscene)
-NOTE: Running task 2299 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_deploy_source_date_epoch)
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe avahi-0.8-r0: task do_patch: Succeeded
-NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 1336 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 1338 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_recipe_qa_setscene)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_deploy_source_date_epoch unihash changed to 98ef34a8510965f3867740b3f992e81f66bc2ff47891cc08a1ddf59634eb41ba
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 450 of 587 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 452 of 587 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 587 of 587 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_recipe_qa_setscene)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
 NOTE: Setscene tasks completed
-NOTE: Running task 2405 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2659 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb:do_packagedata)
-NOTE: recipe libpam-1.6.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: Running task 2823 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 2895 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_collect_spdx_deps)
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libpam-1.6.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe xtrans-1_1.5.0-r0: task do_packagedata: Succeeded
-NOTE: Running task 3227 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_collect_spdx_deps)
-NOTE: recipe libpam-1.6.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libpam-1.6.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3234 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_configure)
-NOTE: recipe mesa-2_24.0.7-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libpam-1.6.1-r0: task do_configure: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3235 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_configure)
-NOTE: recipe mesa-2_24.0.7-r0: task do_configure: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_unpack: Succeeded
-NOTE: Running task 3236 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_patch)
-NOTE: recipe librsvg-2.58.2-r0: task do_patch: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_patch: Succeeded
-NOTE: Running task 3238 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_rust_gen_targets)
-NOTE: recipe librsvg-2.58.2-r0: task do_rust_gen_targets: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_rust_gen_targets: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_configure: Succeeded
-NOTE: Running task 3239 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_compile)
-NOTE: recipe mesa-2_24.0.7-r0: task do_compile: Started
-NOTE: recipe libpam-1.6.1-r0: task do_configure: Succeeded
-NOTE: Running task 3240 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_configure_ptest_base)
-NOTE: recipe libpam-1.6.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe libpam-1.6.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3241 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_compile)
-NOTE: recipe libpam-1.6.1-r0: task do_compile: Started
-NOTE: recipe libpam-1.6.1-r0: task do_compile: Succeeded
-NOTE: Running task 3242 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_compile_ptest_base)
-NOTE: recipe libpam-1.6.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe libpam-1.6.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3243 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_install)
-NOTE: recipe libpam-1.6.1-r0: task do_install: Started
-NOTE: recipe libpam-1.6.1-r0: task do_install: Succeeded
-NOTE: Running task 3244 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_install_ptest_base)
-NOTE: recipe libpam-1.6.1-r0: task do_install_ptest_base: Started
-NOTE: recipe libpam-1.6.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3245 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_populate_sysroot)
-NOTE: Running task 3246 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_package)
-NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot: Started
-NOTE: recipe libpam-1.6.1-r0: task do_package: Started
-NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_populate_sysroot unihash changed to a26857c9e0a3b49cbc2850f2b3bfa81bdcc2cfa6c7f48cb74033926460381706
-NOTE: Setscene tasks completed
-NOTE: Running task 3247 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3248 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3249 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libcap-2.70-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shadow-4.16.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libcap-2.70-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3250 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_configure)
-NOTE: recipe libcap-2.70-r0: task do_configure: Started
-NOTE: recipe shadow-4.16.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3251 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_configure)
-NOTE: recipe libcap-2.70-r0: task do_configure: Succeeded
-NOTE: Running task 3252 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_compile)
-NOTE: recipe shadow-4.16.0-r0: task do_configure: Started
-NOTE: recipe libcap-2.70-r0: task do_compile: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3253 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_configure)
-NOTE: recipe util-linux-2.40.2-r0: task do_configure: Started
-NOTE: recipe libcap-2.70-r0: task do_compile: Succeeded
-NOTE: Running task 3254 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_install)
-NOTE: recipe libcap-2.70-r0: task do_install: Started
-NOTE: recipe libcap-2.70-r0: task do_install: Succeeded
-NOTE: Running task 3255 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_populate_sysroot)
-NOTE: recipe libcap-2.70-r0: task do_populate_sysroot: Started
-NOTE: recipe libcap-2.70-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_populate_sysroot unihash changed to 521f989014549433a1bd8179a54a5e6d0d91e4da5012139f8fc118e513b959bc
-NOTE: Setscene tasks completed
-NOTE: recipe libpam-1.6.1-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_package unihash changed to f734feae74703d93f9a636086c5d02752a34755c5811490a8c92bac2fb30f013
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata became valid
-NOTE: Running setscene task 1334 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
-NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3257 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_create_spdx)
-NOTE: Running task 3258 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_package)
-NOTE: recipe libpam-1.6.1-r0: task do_create_spdx: Started
-NOTE: recipe libcap-2.70-r0: task do_package: Started
-NOTE: recipe libpam-1.6.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3259 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_collect_spdx_deps)
-NOTE: Running task 3260 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_collect_spdx_deps)
-NOTE: Running task 3261 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_collect_spdx_deps)
-NOTE: recipe libcap-2.70-r0: task do_collect_spdx_deps: Started
-NOTE: recipe shadow-4.16.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libcap-2.70-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe shadow-4.16.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libcap-2.70-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_package unihash changed to 065731fa896547282093e07d7784bb6b65b293f3b71f710febe58f6060d73843
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_packagedata became valid
-NOTE: Running setscene task 1339 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_packagedata_setscene)
-NOTE: recipe libcap-2.70-r0: task do_packagedata_setscene: Started
-NOTE: recipe libcap-2.70-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3263 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_create_spdx)
-NOTE: recipe libcap-2.70-r0: task do_create_spdx: Started
-NOTE: recipe shadow-4.16.0-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3264 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_compile)
-NOTE: recipe shadow-4.16.0-r0: task do_compile: Started
-NOTE: recipe libcap-2.70-r0: task do_create_spdx: Succeeded
-NOTE: recipe shadow-4.16.0-r0: task do_compile: Succeeded
-NOTE: Running task 3265 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_install)
-NOTE: recipe shadow-4.16.0-r0: task do_install: Started
-NOTE: recipe shadow-4.16.0-r0: task do_install: Succeeded
-NOTE: Running task 3266 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_populate_sysroot)
-NOTE: Running task 3267 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_package)
-NOTE: recipe shadow-4.16.0-r0: task do_populate_sysroot: Started
-NOTE: recipe shadow-4.16.0-r0: task do_package: Started
-NOTE: recipe shadow-4.16.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_populate_sysroot unihash changed to 0bede769c2f0fe68f62da2f4c32dd6d50489ce86bd23a98cae55ffc72c602411
-NOTE: Setscene tasks completed
-NOTE: recipe util-linux-2.40.2-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3268 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_configure_ptest_base)
-NOTE: recipe util-linux-2.40.2-r0: task do_configure_ptest_base: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3269 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_compile)
-NOTE: recipe util-linux-2.40.2-r0: task do_compile: Started
-NOTE: recipe shadow-4.16.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_package unihash changed to 62c14c51cb247715af30123bb446618ad4b9b259b03139de051b98d039056136
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_packagedata became valid
-NOTE: Running setscene task 1339 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_packagedata_setscene)
-NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3271 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_create_spdx)
-NOTE: recipe shadow-4.16.0-r0: task do_create_spdx: Started
-NOTE: recipe shadow-4.16.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_compile: Succeeded
-NOTE: Running task 3272 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_compile_ptest_base)
-NOTE: recipe util-linux-2.40.2-r0: task do_compile_ptest_base: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3273 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_install)
-NOTE: recipe util-linux-2.40.2-r0: task do_install: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_install: Succeeded
-NOTE: Running task 3274 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_install_ptest_base)
-NOTE: recipe util-linux-2.40.2-r0: task do_install_ptest_base: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3275 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_populate_sysroot)
-NOTE: Running task 3276 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_package)
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_package: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_populate_sysroot unihash changed to 5e42eae51ed0e0028f784a05bacae74e79349593b7da5380e04933db0ac7a053
-NOTE: Setscene tasks completed
-NOTE: Running task 3277 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3278 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3279 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe eudev-3.2.14-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe eudev-3.2.14-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3280 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_configure)
-NOTE: recipe fontconfig-2.15.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3281 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_configure)
-NOTE: recipe eudev-3.2.14-r0: task do_configure: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_configure: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3282 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_configure)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_configure: Started
-NOTE: recipe eudev-3.2.14-r0: task do_configure: Succeeded
-NOTE: Running task 3283 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_compile)
-NOTE: recipe eudev-3.2.14-r0: task do_compile: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_configure: Succeeded
-NOTE: Running task 3284 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_compile)
-NOTE: recipe fontconfig-2.15.0-r0: task do_compile: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_compile: Succeeded
-NOTE: Running task 3285 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_install)
-NOTE: recipe mesa-2_24.0.7-r0: task do_install: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_install: Succeeded
-NOTE: Running task 3286 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_populate_sysroot)
-NOTE: Running task 3287 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_package)
-NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_package: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3288 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_prepare_recipe_sysroot)
-NOTE: recipe fontconfig-2.15.0-r0: task do_compile: Succeeded
-NOTE: Running task 3289 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_install)
-NOTE: recipe libglu-2_9.0.3-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_configure: Succeeded
-NOTE: Running task 3290 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_configure_ptest_base)
-NOTE: recipe fontconfig-2.15.0-r0: task do_install: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_configure_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3291 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_compile)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_compile: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3292 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_configure)
-NOTE: recipe libglu-2_9.0.3-r0: task do_configure: Started
-NOTE: recipe eudev-3.2.14-r0: task do_compile: Succeeded
-NOTE: Running task 3293 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_install)
-NOTE: recipe eudev-3.2.14-r0: task do_install: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_install: Succeeded
-NOTE: Running task 3294 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot)
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_populate_sysroot unihash changed to c7c654356c38d86579cf6a7e77a6e3cdb4ff3d87bd651a784d1635c476f2954a
-NOTE: recipe libglu-2_9.0.3-r0: task do_configure: Succeeded
-NOTE: Running task 3295 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3296 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_compile)
-NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_compile: Started
-NOTE: recipe eudev-3.2.14-r0: task do_install: Succeeded
-NOTE: Running task 3297 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_populate_sysroot)
-NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3298 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_configure)
-NOTE: recipe libxft-1_2.3.8-r0: task do_configure: Started
-NOTE: recipe eudev-3.2.14-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3299 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_prepare_recipe_sysroot)
-NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3300 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure)
-NOTE: recipe libusb1-1.0.27-r0: task do_configure: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_package unihash changed to 5f7394a044cbbc6e6da0b49d153526450e96c55a3a8ffed31f6f94c2cd5d413e
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata became valid
-NOTE: Running setscene task 1336 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_packagedata_setscene)
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3302 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_package)
-NOTE: recipe libglu-2_9.0.3-r0: task do_compile: Succeeded
-NOTE: Running task 3303 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_package)
-NOTE: Running task 3304 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_install)
-NOTE: Running task 3305 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux_2.40.2.bb:do_create_spdx)
-NOTE: recipe fontconfig-2.15.0-r0: task do_package: Started
-NOTE: recipe eudev-3.2.14-r0: task do_package: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_install: Started
-NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_install: Succeeded
-NOTE: Running task 3306 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_populate_sysroot)
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe util-linux-2.40.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3307 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps)
-NOTE: Running task 3308 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_collect_spdx_deps)
-NOTE: Running task 3309 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_collect_spdx_deps)
-NOTE: recipe fontconfig-2.15.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe eudev-3.2.14-r0: task do_collect_spdx_deps: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_package unihash changed to 6d0baf4fb27007557655874c511728553490e24663f92a77fde7cf4ba6c32c2f
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata became valid
-NOTE: Running setscene task 1338 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_packagedata_setscene)
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Started
-NOTE: recipe fontconfig-2.15.0-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3311 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/fontconfig/fontconfig_2.15.0.bb:do_create_spdx)
-NOTE: recipe fontconfig-2.15.0-r0: task do_create_spdx: Started
-NOTE: recipe eudev-3.2.14-r0: task do_package: Succeeded
-NOTE: Running task 3312 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata)
-NOTE: recipe eudev-3.2.14-r0: task do_packagedata: Started
-NOTE: recipe eudev-3.2.14-r0: task do_packagedata: Succeeded
-NOTE: recipe fontconfig-2.15.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3313 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_collect_spdx_deps)
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_packagedata unihash changed to e99b6482150b5bc214d9d7e78d67bd397e95be8afcb4c118dd6cac377f958cdd
-NOTE: recipe libxft-1_2.3.8-r0: task do_collect_spdx_deps: Started
-NOTE: Setscene tasks completed
-NOTE: Running task 3314 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/udev/eudev_3.2.14.bb:do_create_spdx)
-NOTE: recipe eudev-3.2.14-r0: task do_create_spdx: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe eudev-3.2.14-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3315 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_collect_spdx_deps)
-NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3316 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_compile)
-NOTE: recipe libxft-1_2.3.8-r0: task do_compile: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3317 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_configure_ptest_base)
-NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3318 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile)
-NOTE: recipe libusb1-1.0.27-r0: task do_compile: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_compile: Succeeded
-NOTE: Running task 3319 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_install)
-NOTE: recipe libxft-1_2.3.8-r0: task do_install: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_package: Succeeded
-NOTE: Running task 3320 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_packagedata)
-NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_install: Succeeded
-NOTE: Running task 3321 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot)
-NOTE: Running task 3322 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_package)
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_package: Started
-NOTE: recipe mesa-2_24.0.7-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_packagedata unihash changed to 7c7baf9ad4a7e52b917b8fa797a761edf00b0c530df63e525972170a4811c292
-NOTE: recipe libusb1-1.0.27-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3323 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_package)
-NOTE: Running task 3324 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_compile_ptest_base)
-NOTE: Running task 3325 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/mesa.bb:do_create_spdx)
-NOTE: recipe libglu-2_9.0.3-r0: task do_package: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx: Started
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_populate_sysroot unihash changed to 6fb315fc0afa29351f5b59515a295d64c8b10f2863a782598388153815129a7d
-NOTE: Setscene tasks completed
-NOTE: recipe libusb1-1.0.27-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3326 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install)
-NOTE: recipe libusb1-1.0.27-r0: task do_install: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_install: Succeeded
-NOTE: Running task 3327 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_install_ptest_base)
-NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3328 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_package)
-NOTE: Running task 3329 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_populate_sysroot)
-NOTE: recipe libusb1-1.0.27-r0: task do_package: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_populate_sysroot: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libxft-1_2.3.8-r0: task do_package: Succeeded
-NOTE: recipe mesa-2_24.0.7-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3330 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_collect_spdx_deps)
-NOTE: recipe libglu-2_9.0.3-r0: task do_package: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_package unihash changed to 257e51ab08deac4d60b2a2c026f9d9af5b17c90a3b7b27b091a87903f25e8e48
-NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata became valid
-NOTE: recipe libglu-2_9.0.3-r0: task do_collect_spdx_deps: Started
-NOTE: Running setscene task 1339 of 1339 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_packagedata_setscene)
-NOTE: Running task 3331 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_packagedata)
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_packagedata_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3333 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/xorg-lib/libxft_2.3.8.bb:do_create_spdx)
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx: Started
-NOTE: recipe libglu-2_9.0.3-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_packagedata unihash changed to 967a9bb46ab5321ef9d4ff693c8437b9687fc6e0c8f9dc46041c1faa01d72cbe
-NOTE: Setscene tasks completed
-NOTE: Running task 3334 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/mesa/libglu_9.0.3.bb:do_create_spdx)
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx: Started
-NOTE: recipe libxft-1_2.3.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe libglu-2_9.0.3-r0: task do_create_spdx: Succeeded
-NOTE: recipe libusb1-1.0.27-r0: task do_package: Succeeded
-NOTE: Running task 3335 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_packagedata)
-NOTE: recipe libusb1-1.0.27-r0: task do_packagedata: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_packagedata unihash changed to e4a06450e61ab85ad45321e5b98e3674d3fcabb7488a08fd642bb55702f3e219
-NOTE: Setscene tasks completed
-NOTE: Running task 3336 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libusb/libusb1_1.0.27.bb:do_create_spdx)
-NOTE: recipe libusb1-1.0.27-r0: task do_create_spdx: Started
-NOTE: recipe libusb1-1.0.27-r0: task do_create_spdx: Succeeded
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3337 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_compile_ptest_base)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_compile_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3338 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_install)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_install: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_install: Succeeded
-NOTE: Running task 3339 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_install_ptest_base)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_install_ptest_base: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3340 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_populate_sysroot)
-NOTE: Running task 3341 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_package)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_populate_sysroot: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_package: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3342 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3343 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3344 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3345 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3346 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3347 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_prepare_recipe_sysroot)
-NOTE: recipe dbus-1.14.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vala-0.56.17-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe cairo-1.18.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libgudev-238-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3348 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_configure)
-NOTE: recipe cairo-1.18.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe libgudev-238-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3349 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_configure)
-NOTE: Running task 3350 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_configure)
-NOTE: recipe vala-0.56.17-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3351 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_configure)
-NOTE: recipe dbus-1.14.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3352 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_configure)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_configure: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3353 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_configure)
-NOTE: recipe cairo-1.18.2-r0: task do_configure: Started
-NOTE: recipe libgudev-238-r0: task do_configure: Started
-NOTE: recipe vala-0.56.17-r0: task do_configure: Started
-NOTE: recipe dbus-1.14.10-r0: task do_configure: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_configure: Started
-NOTE: recipe libgudev-238-r0: task do_configure: Succeeded
-NOTE: Running task 3354 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_compile)
-NOTE: recipe libgudev-238-r0: task do_compile: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_configure: Succeeded
-NOTE: Running task 3355 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_compile)
-NOTE: recipe shared-mime-info-2.4-r0: task do_compile: Started
-NOTE: recipe libgudev-238-r0: task do_compile: Succeeded
-NOTE: Running task 3356 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_install)
-NOTE: recipe libgudev-238-r0: task do_install: Started
-NOTE: recipe cairo-1.18.2-r0: task do_configure: Succeeded
-NOTE: Running task 3357 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_compile)
-NOTE: recipe shared-mime-info-2.4-r0: task do_compile: Succeeded
-NOTE: Running task 3358 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_install)
-NOTE: recipe cairo-1.18.2-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_configure: Succeeded
-NOTE: Running task 3359 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_configure_ptest_base)
-NOTE: recipe shared-mime-info-2.4-r0: task do_install: Started
-NOTE: recipe libgudev-238-r0: task do_install: Succeeded
-NOTE: Running task 3360 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_configure_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3361 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_compile)
-NOTE: recipe libgudev-238-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_compile: Started
-NOTE: recipe libgudev-238-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_install: Succeeded
-NOTE: Running task 3362 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_populate_sysroot)
-NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3363 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe vala-0.56.17-r0: task do_configure: Succeeded
-NOTE: Running task 3364 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_compile)
-NOTE: recipe vala-0.56.17-r0: task do_compile: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3365 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_configure)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_configure: Started
-NOTE: recipe cairo-1.18.2-r0: task do_compile: Succeeded
-NOTE: Running task 3366 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_install)
-NOTE: recipe cairo-1.18.2-r0: task do_install: Started
-NOTE: recipe cairo-1.18.2-r0: task do_install: Succeeded
-NOTE: Running task 3367 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_populate_sysroot)
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot: Started
-NOTE: recipe cairo-1.18.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3368 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3369 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_configure)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_configure: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_configure: Succeeded
-NOTE: Running task 3370 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_configure_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_configure_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3371 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_compile)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_compile: Succeeded
-NOTE: Running task 3372 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_compile_ptest_base)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3373 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_install)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_package: Succeeded
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_install: Started
-NOTE: Running task 3374 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_packagedata)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_configure: Succeeded
-NOTE: Running task 3375 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_compile)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_compile: Started
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_packagedata unihash changed to a03310eb7574371c68fd5ca0f902908de72f1192fccee7cc2a7ef1000e561db9
-NOTE: Setscene tasks completed
-NOTE: Running task 3376 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_package)
-NOTE: Running task 3377 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx)
-NOTE: Running task 3378 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package)
-NOTE: Running task 3379 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_package)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_create_spdx: Started
-NOTE: recipe cairo-1.18.2-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_install: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_package: Started
-NOTE: recipe libgudev-238-r0: task do_package: Started
-NOTE: Setscene tasks completed
-NOTE: Running task 3380 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_install_ptest_base)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_install_ptest_base: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3381 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_compile_ptest_base)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3382 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_populate_sysroot)
-NOTE: Running task 3383 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_package)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_compile_ptest_base: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_populate_sysroot: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_compile_ptest_base: Succeeded
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_package: Started
-NOTE: Running task 3384 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_install)
-NOTE: recipe dbus-1.14.10-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3385 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_configure_ptest_base)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_install: Started
-NOTE: recipe dbus-1.14.10-r0: task do_configure_ptest_base: Started
-NOTE: recipe dbus-1.14.10-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3386 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_compile)
-NOTE: recipe dbus-1.14.10-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_install: Succeeded
-NOTE: Running task 3387 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_install_ptest_base)
-NOTE: recipe libgudev-238-r0: task do_package: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_install_ptest_base: Started
-NOTE: Running task 3388 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_packagedata)
-NOTE: recipe glib-2.0-1_2.82.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3389 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_collect_spdx_deps)
-NOTE: recipe libgudev-238-r0: task do_packagedata: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3390 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps)
-NOTE: Running task 3391 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_populate_sysroot)
-NOTE: Running task 3392 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_collect_spdx_deps)
-NOTE: Running task 3393 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_collect_spdx_deps)
-NOTE: recipe cairo-1.18.2-r0: task do_collect_spdx_deps: Started
-NOTE: Running task 3394 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps)
-NOTE: Running task 3395 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_collect_spdx_deps)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_populate_sysroot: Started
-NOTE: recipe dbus-1.14.10-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_collect_spdx_deps: Started
-NOTE: recipe vala-0.56.17-r0: task do_collect_spdx_deps: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_collect_spdx_deps: Started
-NOTE: recipe cairo-1.18.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libgudev-238-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libgudev-238-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_packagedata unihash changed to 504815783bf1aa645b78d881ef89dfd54211ac5fe1961e858b8441f2a77f09ee
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vala-0.56.17-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Setscene tasks completed
-NOTE: recipe shared-mime-info-2.4-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libgudev-238-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3396 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/libgudev/libgudev_238.bb:do_create_spdx)
-NOTE: recipe libgudev-238-r0: task do_create_spdx: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libgudev-238-r0: task do_create_spdx: Succeeded
-NOTE: recipe cairo-1.18.2-r0: task do_package: Succeeded
-NOTE: Running task 3397 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_packagedata)
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata: Started
-NOTE: recipe cairo-1.18.2-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_packagedata unihash changed to e3d862f2e1cbaa5f40e1a5c76efd4ee7b8d53927ed73b9946ed05c862f1562d9
-NOTE: Setscene tasks completed
-NOTE: Running task 3398 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/cairo/cairo_1.18.2.bb:do_create_spdx)
-NOTE: recipe cairo-1.18.2-r0: task do_create_spdx: Started
-NOTE: recipe cairo-1.18.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3399 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_collect_spdx_deps)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe dbus-1.14.10-r0: task do_compile: Succeeded
-NOTE: Running task 3400 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_compile_ptest_base)
-NOTE: recipe dbus-1.14.10-r0: task do_compile_ptest_base: Started
-NOTE: recipe dbus-1.14.10-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3401 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_install)
-NOTE: recipe dbus-1.14.10-r0: task do_install: Started
-NOTE: recipe dbus-1.14.10-r0: task do_install: Succeeded
-NOTE: Running task 3402 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_install_ptest_base)
-NOTE: recipe dbus-1.14.10-r0: task do_install_ptest_base: Started
-NOTE: recipe dbus-1.14.10-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3403 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_populate_sysroot)
-NOTE: Running task 3404 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_package)
-NOTE: recipe dbus-1.14.10-r0: task do_populate_sysroot: Started
-NOTE: recipe dbus-1.14.10-r0: task do_package: Started
-NOTE: recipe dbus-1.14.10-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3405 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3406 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ell-0.69-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_package: Succeeded
-NOTE: Running task 3407 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_packagedata: Started
-NOTE: recipe ell-0.69-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3408 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_configure)
-NOTE: recipe ell-0.69-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_packagedata unihash changed to b02dba0fbf254c336db1520057f47606bde506c0a5b4780fd0fbfa0039455ad7
-NOTE: Setscene tasks completed
-NOTE: Running task 3409 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb:do_create_spdx)
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_create_spdx: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_package: Succeeded
-NOTE: Running task 3410 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_packagedata)
-NOTE: recipe avahi-0.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3411 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_configure)
-NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata: Started
-NOTE: recipe avahi-0.8-r0: task do_configure: Started
-NOTE: recipe shared-mime-info-2.4-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_packagedata unihash changed to 06b224a03bb7292ff20f722a98d4fd65599f9d3136d82503dec846fc297c541c
-NOTE: Setscene tasks completed
-NOTE: Running task 3412 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_package)
-NOTE: Running task 3413 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx)
-NOTE: recipe shared-mime-info-2.4-r0: task do_create_spdx: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-1.24.6-r0: task do_create_spdx: Succeeded
-NOTE: recipe shared-mime-info-2.4-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3414 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_collect_spdx_deps)
-NOTE: recipe vala-0.56.17-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3415 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_install)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_collect_spdx_deps: Started
-NOTE: recipe vala-0.56.17-r0: task do_install: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe vala-0.56.17-r0: task do_install: Succeeded
-NOTE: Running task 3416 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_populate_sysroot)
-NOTE: Running task 3417 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_package)
-NOTE: recipe vala-0.56.17-r0: task do_populate_sysroot: Started
-NOTE: recipe vala-0.56.17-r0: task do_package: Started
-NOTE: recipe dbus-1.14.10-r0: task do_package: Succeeded
-NOTE: Running task 3418 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_packagedata)
-NOTE: recipe dbus-1.14.10-r0: task do_packagedata: Started
-NOTE: recipe dbus-1.14.10-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_packagedata unihash changed to a6d6805cacc870333ab2accfb10544e96d08b8705cef7027d2274f79caeed3b8
-NOTE: recipe vala-0.56.17-r0: task do_populate_sysroot: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3419 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3420 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3421 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/dbus/dbus_1.14.10.bb:do_create_spdx)
-NOTE: recipe libical-3.0.18-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe dbus-1.14.10-r0: task do_create_spdx: Started
-NOTE: recipe libical-3.0.18-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3422 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_configure)
-NOTE: recipe libsoup-3.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3423 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_configure)
-NOTE: recipe dbus-1.14.10-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3424 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_collect_spdx_deps)
-NOTE: Running task 3425 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_collect_spdx_deps)
-NOTE: recipe libical-3.0.18-r0: task do_configure: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_configure: Started
-NOTE: recipe ell-0.69-r0: task do_collect_spdx_deps: Started
-NOTE: recipe avahi-0.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ell-0.69-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ell-0.69-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3426 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_compile)
-NOTE: recipe ell-0.69-r0: task do_compile: Started
-NOTE: recipe vala-0.56.17-r0: task do_package: Succeeded
-NOTE: Running task 3427 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_packagedata)
-NOTE: recipe vala-0.56.17-r0: task do_packagedata: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_configure: Succeeded
-NOTE: Running task 3428 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_compile)
-NOTE: recipe libsoup-3.6.0-r0: task do_compile: Started
-NOTE: recipe vala-0.56.17-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_packagedata unihash changed to 1e9282e5029c1f7711b403d356c40ea2b8d3159c10e92573669d3b7357b3068d
-NOTE: Setscene tasks completed
-NOTE: Running task 3429 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/vala/vala_0.56.17.bb:do_create_spdx)
-NOTE: recipe ell-0.69-r0: task do_compile: Succeeded
-NOTE: Running task 3430 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_install)
-NOTE: recipe vala-0.56.17-r0: task do_create_spdx: Started
-NOTE: recipe ell-0.69-r0: task do_install: Started
-NOTE: recipe ell-0.69-r0: task do_install: Succeeded
-NOTE: Running task 3431 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_populate_sysroot)
-NOTE: Running task 3432 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_package)
-NOTE: recipe ell-0.69-r0: task do_populate_sysroot: Started
-NOTE: recipe ell-0.69-r0: task do_package: Started
-NOTE: recipe vala-0.56.17-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3433 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_collect_spdx_deps)
-NOTE: Running task 3434 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_collect_spdx_deps)
-NOTE: recipe libical-3.0.18-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libical-3.0.18-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libsoup-3.6.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ell-0.69-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_package: Succeeded
-NOTE: Running task 3435 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_packagedata)
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_packagedata: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_packagedata unihash changed to 1871c7c6844fac74cc6ff69f25a1a04480a483774dbf29afcec5202da15c787d
-NOTE: recipe libical-3.0.18-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3436 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_compile)
-NOTE: Running task 3437 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb:do_create_spdx)
-NOTE: recipe libical-3.0.18-r0: task do_compile: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_create_spdx: Started
-NOTE: recipe gdk-pixbuf-2.42.12-r0: task do_create_spdx: Succeeded
-NOTE: recipe ell-0.69-r0: task do_package: Succeeded
-NOTE: Running task 3438 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_packagedata)
-NOTE: recipe ell-0.69-r0: task do_packagedata: Started
-NOTE: recipe ell-0.69-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_packagedata unihash changed to 015ac546389959ea9505c0fc8d39d5ca06f49473e446d6c7f84b447e3b5e6dcf
-NOTE: Setscene tasks completed
-NOTE: Running task 3439 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ell/ell_0.69.bb:do_create_spdx)
-NOTE: recipe ell-0.69-r0: task do_create_spdx: Started
-NOTE: recipe ell-0.69-r0: task do_create_spdx: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3440 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_compile)
-NOTE: recipe avahi-0.8-r0: task do_compile: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3441 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_install)
-NOTE: recipe libsoup-3.6.0-r0: task do_install: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_install: Succeeded
-NOTE: Running task 3442 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_package)
-NOTE: Running task 3443 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_populate_sysroot)
-NOTE: recipe libsoup-3.6.0-r0: task do_populate_sysroot: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_package: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe libical-3.0.18-r0: task do_compile: Succeeded
-NOTE: Running task 3444 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_install)
-NOTE: recipe libical-3.0.18-r0: task do_install: Started
-NOTE: recipe libical-3.0.18-r0: task do_install: Succeeded
-NOTE: Running task 3445 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_populate_sysroot)
-NOTE: Running task 3446 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_package)
-NOTE: recipe libical-3.0.18-r0: task do_populate_sysroot: Started
-NOTE: recipe libical-3.0.18-r0: task do_package: Started
-NOTE: recipe libical-3.0.18-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3447 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_prepare_recipe_sysroot)
-NOTE: recipe bluez5-5.78-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe bluez5-5.78-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3448 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_configure)
-NOTE: recipe bluez5-5.78-r0: task do_configure: Started
-NOTE: recipe libical-3.0.18-r0: task do_package: Succeeded
-NOTE: Running task 3449 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_packagedata)
-NOTE: recipe libical-3.0.18-r0: task do_packagedata: Started
-NOTE: recipe libical-3.0.18-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_packagedata unihash changed to 568c7750e3a0c56bd9526a1e26136fd9f09bd229674016ddc41daf17f65c2f20
-NOTE: Setscene tasks completed
-NOTE: Running task 3450 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libical/libical_3.0.18.bb:do_create_spdx)
-NOTE: recipe libical-3.0.18-r0: task do_create_spdx: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_package: Succeeded
-NOTE: Running task 3451 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_packagedata)
-NOTE: recipe avahi-0.8-r0: task do_compile: Succeeded
-NOTE: Running task 3452 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_install)
-NOTE: recipe libsoup-3.6.0-r0: task do_packagedata: Started
-NOTE: recipe avahi-0.8-r0: task do_install: Started
-NOTE: recipe libical-3.0.18-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3453 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_collect_spdx_deps)
-NOTE: recipe bluez5-5.78-r0: task do_collect_spdx_deps: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_packagedata unihash changed to 37af38c65e66e86f850b1a37f99fb0af597adae9f26ecf5a1895e804fb2adb7e
-NOTE: Setscene tasks completed
-NOTE: Running task 3454 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libsoup/libsoup_3.6.0.bb:do_create_spdx)
-NOTE: recipe bluez5-5.78-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe libsoup-3.6.0-r0: task do_create_spdx: Started
-NOTE: recipe libsoup-3.6.0-r0: task do_create_spdx: Succeeded
-NOTE: recipe avahi-0.8-r0: task do_install: Succeeded
-NOTE: Running task 3455 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_populate_sysroot)
-NOTE: Running task 3456 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_package)
-NOTE: recipe avahi-0.8-r0: task do_populate_sysroot: Started
-NOTE: recipe avahi-0.8-r0: task do_package: Started
-NOTE: recipe avahi-0.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe bluez5-5.78-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3457 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_configure_ptest_base)
-NOTE: recipe bluez5-5.78-r0: task do_configure_ptest_base: Started
-NOTE: recipe bluez5-5.78-r0: task do_configure_ptest_base: Succeeded
-NOTE: Running task 3458 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_compile)
-NOTE: recipe bluez5-5.78-r0: task do_compile: Started
-NOTE: recipe avahi-0.8-r0: task do_package: Succeeded
-NOTE: Running task 3459 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_packagedata)
-NOTE: recipe avahi-0.8-r0: task do_packagedata: Started
-NOTE: recipe avahi-0.8-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_packagedata unihash changed to bcb09320f38882c01d60b1c4d69867217643f0d68c05a210c9aae6b0ef61bd72
-NOTE: Setscene tasks completed
-NOTE: Running task 3460 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/avahi/avahi_0.8.bb:do_create_spdx)
-NOTE: recipe avahi-0.8-r0: task do_create_spdx: Started
-NOTE: recipe avahi-0.8-r0: task do_create_spdx: Succeeded
-NOTE: recipe bluez5-5.78-r0: task do_compile: Succeeded
-NOTE: Running task 3461 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_compile_ptest_base)
-NOTE: recipe bluez5-5.78-r0: task do_compile_ptest_base: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3462 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_install)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_install: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_install: Succeeded
-NOTE: Running task 3463 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_populate_sysroot)
-NOTE: Running task 3464 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_package)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_populate_sysroot: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_package: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3465 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pango-1.54.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe pango-1.54.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3466 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_configure)
-NOTE: recipe pango-1.54.0-r0: task do_configure: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_package: Succeeded
-NOTE: Running task 3467 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_packagedata)
-NOTE: recipe harfbuzz-10.0.1-r0: task do_packagedata: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_packagedata unihash changed to e7eb0215dd6af9afb775c463745af60b78439730b98cb816850db4a11e3aff5b
-NOTE: recipe pango-1.54.0-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3468 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_compile)
-NOTE: Running task 3469 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb:do_create_spdx)
-NOTE: recipe pango-1.54.0-r0: task do_compile: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_create_spdx: Started
-NOTE: recipe harfbuzz-10.0.1-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3470 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_collect_spdx_deps)
-NOTE: recipe pango-1.54.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe pango-1.54.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe pango-1.54.0-r0: task do_compile: Succeeded
-NOTE: Running task 3471 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_install)
-NOTE: recipe pango-1.54.0-r0: task do_install: Started
-NOTE: recipe pango-1.54.0-r0: task do_install: Succeeded
-NOTE: Running task 3472 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_populate_sysroot)
-NOTE: Running task 3473 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_package)
-NOTE: recipe pango-1.54.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pango-1.54.0-r0: task do_package: Started
-NOTE: recipe pango-1.54.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3474 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3475 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3476 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_configure: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3477 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_rust_create_wrappers)
-NOTE: recipe librsvg-2.58.2-r0: task do_rust_create_wrappers: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_rust_create_wrappers: Succeeded
-NOTE: Running task 3478 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_configure)
-NOTE: recipe librsvg-2.58.2-r0: task do_configure: Started
-NOTE: recipe pango-1.54.0-r0: task do_package: Succeeded
-NOTE: Running task 3479 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_packagedata)
-NOTE: recipe pango-1.54.0-r0: task do_packagedata: Started
-NOTE: recipe pango-1.54.0-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_packagedata unihash changed to b69e6a6a7c0478a4746321b8bf0fd9a6d2c37a6ce4fe85bddf6f92694aca8ff5
-NOTE: Setscene tasks completed
-NOTE: Running task 3480 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/pango/pango_1.54.0.bb:do_create_spdx)
-NOTE: recipe pango-1.54.0-r0: task do_create_spdx: Started
-NOTE: recipe pango-1.54.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3481 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_collect_spdx_deps)
-NOTE: Running task 3482 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe librsvg-2.58.2-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3483 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_compile: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3484 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_compile)
-NOTE: recipe librsvg-2.58.2-r0: task do_compile: Started
-NOTE: recipe bluez5-5.78-r0: task do_compile_ptest_base: Succeeded
-NOTE: Running task 3485 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_install)
-NOTE: recipe bluez5-5.78-r0: task do_install: Started
-NOTE: recipe bluez5-5.78-r0: task do_install: Succeeded
-NOTE: Running task 3486 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_install_ptest_base)
-NOTE: recipe bluez5-5.78-r0: task do_install_ptest_base: Started
-NOTE: recipe bluez5-5.78-r0: task do_install_ptest_base: Succeeded
-NOTE: Running task 3487 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_populate_sysroot)
-NOTE: Running task 3488 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_package)
-NOTE: recipe bluez5-5.78-r0: task do_populate_sysroot: Started
-NOTE: recipe bluez5-5.78-r0: task do_package: Started
-NOTE: recipe bluez5-5.78-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3489 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_prepare_recipe_sysroot)
-NOTE: recipe ofono-2.10-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe ofono-2.10-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3490 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_configure)
-NOTE: recipe ofono-2.10-r0: task do_configure: Started
-NOTE: recipe bluez5-5.78-r0: task do_package: Succeeded
-NOTE: Running task 3491 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_packagedata)
-NOTE: recipe bluez5-5.78-r0: task do_packagedata: Started
-NOTE: recipe bluez5-5.78-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_packagedata unihash changed to 7646a1cec6a1eb543a7e499e8104a06afc9ddacaab1cb144af6061724cc9a422
-NOTE: Setscene tasks completed
-NOTE: Running task 3492 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/bluez5/bluez5_5.78.bb:do_create_spdx)
-NOTE: recipe bluez5-5.78-r0: task do_create_spdx: Started
-NOTE: recipe bluez5-5.78-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3493 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_collect_spdx_deps)
-NOTE: recipe ofono-2.10-r0: task do_collect_spdx_deps: Started
-NOTE: recipe ofono-2.10-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe ofono-2.10-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3494 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_compile)
-NOTE: recipe ofono-2.10-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_compile: Succeeded
-NOTE: Running task 3495 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_install: Started
-NOTE: recipe ofono-2.10-r0: task do_compile: Succeeded
-NOTE: Running task 3496 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_install)
-NOTE: recipe ofono-2.10-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_install: Succeeded
-NOTE: Running task 3497 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_package)
-NOTE: Running task 3498 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_populate_sysroot)
-NOTE: recipe ofono-2.10-r0: task do_install: Succeeded
-NOTE: Running task 3499 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_populate_sysroot)
-NOTE: Running task 3500 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_package)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_populate_sysroot: Started
-NOTE: recipe ofono-2.10-r0: task do_populate_sysroot: Started
-NOTE: recipe ofono-2.10-r0: task do_package: Started
-NOTE: recipe ofono-2.10-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3501 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe pulseaudio-17.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3502 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 3503 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3504 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_configure)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3505 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_configure: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3506 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_configure)
-NOTE: recipe pulseaudio-17.0-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_configure: Succeeded
-NOTE: Running task 3507 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_compile)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_configure: Succeeded
-NOTE: Running task 3508 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_compile: Started
-NOTE: recipe ofono-2.10-r0: task do_package: Succeeded
-NOTE: Running task 3509 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_packagedata)
-NOTE: recipe ofono-2.10-r0: task do_packagedata: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_configure: Succeeded
-NOTE: Running task 3510 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_compile)
-NOTE: recipe pulseaudio-17.0-r0: task do_compile: Started
-NOTE: recipe ofono-2.10-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_packagedata unihash changed to 1c9fc02484cc8a4adfea87f86fbe154a4ac449fcf7a40c199420748c14dc0169
-NOTE: Setscene tasks completed
-NOTE: Running task 3511 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/ofono/ofono_2.10.bb:do_create_spdx)
-NOTE: recipe ofono-2.10-r0: task do_create_spdx: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_compile: Succeeded
-NOTE: Running task 3512 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_install: Started
-NOTE: recipe ofono-2.10-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3513 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_collect_spdx_deps)
-NOTE: recipe pulseaudio-17.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_install: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: Running task 3514 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_compile: Succeeded
-NOTE: Running task 3515 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package: Succeeded
-NOTE: Running task 3516 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_packagedata: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3517 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_install)
-NOTE: recipe pulseaudio-17.0-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_install: Succeeded
-NOTE: Running task 3518 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 3519 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package)
-NOTE: Running task 3520 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package)
-NOTE: Running task 3521 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_create_spdx)
-NOTE: Running task 3522 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_package_write_ipk)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_populate_sysroot: Started
-NOTE: Running task 3523 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_package_write_deb)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package: Started
-NOTE: Running task 3524 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_package_write_rpm)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_create_spdx: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package: Started
-NOTE: Running task 3525 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_package_qa)
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_write_ipk: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_write_deb: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_write_rpm: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_qa: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_install: Succeeded
-NOTE: Running task 3526 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_populate_sysroot)
-NOTE: Running task 3527 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_package)
-NOTE: recipe pulseaudio-17.0-r0: task do_populate_sysroot: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3528 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_collect_spdx_deps)
-NOTE: Running task 3529 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_collect_spdx_deps)
-NOTE: Running task 3530 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_create_package_spdx)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_create_package_spdx: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe pulseaudio-17.0-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3531 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mpg123-1.32.7-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_package_qa unihash changed to 10deeb98bf918fd5caaddd503f05d559078393fde69d1b38ccc094b5ec5096f2
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package: Succeeded
-NOTE: Running task 3532 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_packagedata)
-NOTE: recipe mpg123-1.32.7-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3533 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_configure)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_packagedata: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_configure: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_packagedata unihash changed to d2e9ace32b71380c45c72d5b7b64896a089292c04b117ae84a628787181cb6f7
-NOTE: Setscene tasks completed
-NOTE: Running task 3534 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_create_spdx)
-NOTE: Running task 3535 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_write_ipk)
-NOTE: Running task 3536 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_write_deb)
-NOTE: Running task 3537 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_write_rpm)
-NOTE: Running task 3538 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_qa)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_create_spdx: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_write_ipk: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_write_deb: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_write_rpm: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_qa: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3539 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_create_package_spdx)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_create_package_spdx: Started
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_write_ipk unihash changed to 5f558000ee3f33de532222dc9dea97531be796d06e1cdf764f69e70f4a888bcf
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_qa unihash changed to 9a4cba5a1920677efbb547b3892c7b2d5866286732d82b1e91ade063ea56537c
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_write_deb unihash changed to ec4c1eefad17c1a66f4dbb720f916a3d1ce43454724b937803e43115f84a877a
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package: Succeeded
-NOTE: Running task 3540 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_packagedata unihash changed to c1d0c053de6124dd91a970378e1c0deea1ab0fed5f4c4f1e0110160c9f3e4ece
-NOTE: Running task 3541 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_create_spdx)
-NOTE: Running task 3542 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_write_ipk)
-NOTE: recipe gstreamer1.0-rtsp-server-1.24.8-r0: task do_package_write_rpm: Succeeded
-NOTE: Running task 3543 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_write_deb)
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_package_write_rpm unihash changed to 89d6520c554d6c2dd4e065f51c501e352394551e02f0d4160a907997fd1487f1
-NOTE: Setscene tasks completed
-NOTE: Running task 3544 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_write_rpm)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_create_spdx: Started
-NOTE: Running task 3545 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_qa)
-NOTE: Running noexec task 3546 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.8.bb:do_build)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_write_ipk: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_write_deb: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_write_rpm: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_qa: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3547 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_create_package_spdx)
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_create_package_spdx: Started
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_qa unihash changed to c4a9c590f00f60215967281def668c714c844d8dac75ef768ff00e8aa07ecfc6
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_write_ipk unihash changed to 2cbab295b529297305cc43c661f5cf4673f3dd2f1fa4ba36d546f52f92e47534
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_write_deb unihash changed to d41dd615089b5a6ca006cc92343cacb115a00e209f9a953abcbccdd2b8770bbe
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_write_deb: Succeeded
-NOTE: recipe gstreamer1.0-plugins-ugly-1.24.8-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_package_write_rpm unihash changed to 0258bc2b5e29edea36924ccd94d5def8b81fd7d051e87b22a74fc33019be02f5
-NOTE: Running noexec task 3548 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.8.bb:do_build)
-NOTE: recipe mpg123-1.32.7-r0: task do_configure: Succeeded
-NOTE: Running task 3549 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_compile)
-NOTE: recipe mpg123-1.32.7-r0: task do_compile: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_package: Succeeded
-NOTE: Running task 3550 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_packagedata)
-NOTE: recipe pulseaudio-17.0-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-base-1.24.8-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3551 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.8.bb:do_build)
-NOTE: recipe pulseaudio-17.0-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_packagedata unihash changed to f5f3ab717fed7f5e904f0295d96c33232b139bdde4d662470bc33ec409720316
-NOTE: Setscene tasks completed
-NOTE: Running task 3552 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/pulseaudio/pulseaudio_17.0.bb:do_create_spdx)
-NOTE: recipe pulseaudio-17.0-r0: task do_create_spdx: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_compile: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3553 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_install)
-NOTE: recipe mpg123-1.32.7-r0: task do_install: Started
-NOTE: recipe pulseaudio-17.0-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3554 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_collect_spdx_deps)
-NOTE: recipe mpg123-1.32.7-r0: task do_collect_spdx_deps: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe mpg123-1.32.7-r0: task do_install: Succeeded
-NOTE: Running task 3555 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_package)
-NOTE: Running task 3556 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_populate_sysroot)
-NOTE: recipe mpg123-1.32.7-r0: task do_package: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_populate_sysroot: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3557 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3558 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_configure: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_package: Succeeded
-NOTE: Running task 3559 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_packagedata)
-NOTE: recipe mpg123-1.32.7-r0: task do_packagedata: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_packagedata unihash changed to e6a599fba54147de8a916a509d982652ee3d9b4577fc3e7fe91cfe4ce80e77c1
-NOTE: Setscene tasks completed
-NOTE: Running task 3560 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/mpg123/mpg123_1.32.7.bb:do_create_spdx)
-NOTE: recipe mpg123-1.32.7-r0: task do_create_spdx: Started
-NOTE: recipe mpg123-1.32.7-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3561 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe librsvg-2.58.2-r0: task do_compile: Succeeded
-NOTE: Running task 3562 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_install)
-NOTE: recipe librsvg-2.58.2-r0: task do_install: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_install: Succeeded
-NOTE: Running task 3563 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_package)
-NOTE: Running task 3564 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_populate_sysroot)
-NOTE: recipe librsvg-2.58.2-r0: task do_populate_sysroot: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3565 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_compile: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_populate_sysroot: Succeeded
-NOTE: Running task 3566 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Running task 3567 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_configure)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_configure: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_package: Succeeded
-NOTE: Running task 3568 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_packagedata)
-NOTE: recipe librsvg-2.58.2-r0: task do_packagedata: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_packagedata unihash changed to c87cea8940631da2b3782e72361794ddc844b9db8f9afe3595a4f192660e3fd8
-NOTE: Setscene tasks completed
-NOTE: Running task 3569 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-gnome/librsvg/librsvg_2.58.2.bb:do_create_spdx)
-NOTE: recipe librsvg-2.58.2-r0: task do_create_spdx: Started
-NOTE: recipe librsvg-2.58.2-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3570 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_collect_spdx_deps)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_configure: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 3571 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_compile)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_compile: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_compile: Succeeded
-NOTE: Running task 3572 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_install: Succeeded
-NOTE: Running task 3573 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package)
-NOTE: Running task 3574 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_compile: Succeeded
-NOTE: Running task 3575 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_install)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_install: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package: Succeeded
-NOTE: Running task 3576 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_install: Succeeded
-NOTE: Running task 3577 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_package)
-NOTE: Running task 3578 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_populate_sysroot)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_populate_sysroot: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_packagedata: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_packagedata unihash changed to 5fd820e6e17ef4c6ea33785693685c9a834bf78a6fca148c10eab3dad95c6ff5
-NOTE: Setscene tasks completed
-NOTE: Running task 3579 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_create_spdx)
-NOTE: Running task 3580 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_write_ipk)
-NOTE: Running task 3581 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_write_deb)
-NOTE: Running task 3582 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_write_rpm)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_create_spdx: Started
-NOTE: Running task 3583 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_qa)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_write_ipk: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_write_deb: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_write_rpm: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_qa: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_populate_sysroot: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3584 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_create_package_spdx)
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_create_package_spdx: Started
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_write_ipk: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_write_ipk unihash changed to 5611c6c3c943753d2eb46b6abce1f5ea14269222d27485ae5556757c5f68c488
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_qa: Succeeded
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_create_package_spdx: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_qa unihash changed to 2d0b2be7e7ba3e508f069bfeefeef60a8bc5e9061c445a9c7a4a75302bf7bdca
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_write_deb: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_write_deb unihash changed to b57e2b9e45ddbac8ce0e056f84090fbf7fa979bc30abdc4e8ac330f0ed6b73e9
-NOTE: recipe gstreamer1.0-plugins-good-1.24.8-r0: task do_package_write_rpm: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_package_write_rpm unihash changed to 904a67c46f0b50b40ccc55afc387e690c3c0a36686c0d4ee3b488a7ff044e29d
-NOTE: Running noexec task 3585 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.8.bb:do_build)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package: Succeeded
-NOTE: Running task 3586 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_packagedata)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_packagedata: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_packagedata: Succeeded
-NOTE: Running task 3587 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_create_spdx)
-NOTE: Running task 3588 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_package_write_ipk)
-NOTE: Running task 3589 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_package_write_deb)
-NOTE: Running task 3590 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_package_write_rpm)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_create_spdx: Started
-NOTE: Running task 3591 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_package_qa)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_write_ipk: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_write_deb: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_write_rpm: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_qa: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_create_spdx: Succeeded
-NOTE: Running task 3592 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_create_package_spdx)
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_create_package_spdx: Started
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_write_ipk: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_create_package_spdx: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_qa: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_package_qa unihash changed to d773f5cb86c866a9a1c7ea420747de3b6ac2ee5dbd0d5640aa557fb50a00c7d2
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_write_deb: Succeeded
-NOTE: recipe gstreamer1.0-plugins-bad-1.24.8-r0: task do_package_write_rpm: Succeeded
-NOTE: Running noexec task 3593 of 3593 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.8.bb:do_build)
-NOTE: Tasks Summary: Attempted 3593 tasks of which 3110 didn't need to be rerun and all succeeded.
+NOTE: Running task 1629 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_fetch)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_fetch: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1630 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_unpack)
+NOTE: Running task 1631 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_unpack: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1632 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_patch)
+NOTE: Running task 1633 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_collect_spdx_deps)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_patch: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_patch: Succeeded
+NOTE: Running task 1635 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_generate_toolchain_file)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: Running task 1637 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_configure)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_configure: Started
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_configure: Succeeded
+NOTE: Running task 1638 of 1649 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_compile)
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: VERBOSE=1 cmake --build /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build --target all --
+| Change Dir: '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build'
+| 
+| Run Build Command(s): ninja -v -j 16 all
+| [1/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_extension_utils.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_extension_utils.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_extension_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_layer_
+ extension_utils.cpp
+| [2/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/image_layout_utils.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/image_layout_utils.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/image_layout_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/image_layout_utils.cpp
+| [3/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_object_types.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_object_types.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_object_types.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/ge
+ nerated/vk_object_types.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_object_types.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_object_types.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_object_types.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_object_types.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/
+ vk_object_types.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.cpp:27:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VkObjectType ConvertVulkanObjectToCoreObject(VulkanObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:165:20: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   165 |             return VK_OBJECT_TYPE_PIPELINE_BINARY_KHR;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:197:20: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   197 |             return VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:199:20: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   199 |             return VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VulkanObjectType ConvertCoreObjectToVulkanObject(VkObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:278:14: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   278 |         case VK_OBJECT_TYPE_PIPELINE_BINARY_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:310:14: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   310 |         case VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:312:14: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   312 |         case VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:21: error: 'VkPipelineBinaryKHR' was not declared in this scope; did you mean 'VkPipelineInfoKHR'?
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                     ^~~~~~~~~~~~~~~~~~~
+|       |                     VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:40: error: template argument 1 is invalid
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:969:13: error: 'VkPipelineBinaryKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   969 |     typedef VkPipelineBinaryKHR Type;
+|       |             ^~~~~~~~~~~~~~~~~~~
+|       |             VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:21: error: 'VkIndirectExecutionSetEXT' was not declared in this scope
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:46: error: template argument 1 is invalid
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1163:13: error: 'VkIndirectExecutionSetEXT' does not name a type
+|  1163 |     typedef VkIndirectExecutionSetEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:21: error: 'VkIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     VkIndirectCommandsLayoutNV_T
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:48: error: template argument 1 is invalid
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1175:13: error: 'VkIndirectCommandsLayoutEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1175 |     typedef VkIndirectCommandsLayoutEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkIndirectCommandsLayoutNV_T
+| [4/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/ray_tracing_utils.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/ray_tracing_utils.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/ray_tracing_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/ray_tracing_utils.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/utils/ray_tracing_utils.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/ray_tracing_utils.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/ray_tracing_utils.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/ray_tracing_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/ray_tracing_utils.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/ray_tracing_utils.cpp:19:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:653:67: error: 'VkPipelineBinaryCreateInfoKHR' does not name a type; did you mean 'VkPipelineLibraryCreateInfoKHR'?
+|   653 | VkResult DispatchCreatePipelineBinariesKHR(VkDevice device, const VkPipelineBinaryCreateInfoKHR* pCreateInfo,
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                   VkPipelineLibraryCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:654:85: error: 'VkPipelineBinaryHandlesInfoKHR' has not been declared
+|   654 |                                            const VkAllocationCallbacks* pAllocator, VkPipelineBinaryHandlesInfoKHR* pBinaries);
+|       |                                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:655:56: error: 'VkPipelineBinaryKHR' has not been declared
+|   655 | void DispatchDestroyPipelineBinaryKHR(VkDevice device, VkPipelineBinaryKHR pipelineBinary, const VkAllocationCallbacks* pAllocator);
+|       |                                                        ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:656:59: error: 'VkPipelineCreateInfoKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   656 | VkResult DispatchGetPipelineKeyKHR(VkDevice device, const VkPipelineCreateInfoKHR* pPipelineCreateInfo,
+|       |                                                           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                           VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:657:36: error: 'VkPipelineBinaryKeyKHR' has not been declared
+|   657 |                                    VkPipelineBinaryKeyKHR* pPipelineKey);
+|       |                                    ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:658:66: error: 'VkPipelineBinaryDataInfoKHR' does not name a type; did you mean 'VkPipelineLibraryCreateInfoKHR'?
+|   658 | VkResult DispatchGetPipelineBinaryDataKHR(VkDevice device, const VkPipelineBinaryDataInfoKHR* pInfo,
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                  VkPipelineLibraryCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:659:43: error: 'VkPipelineBinaryKeyKHR' has not been declared
+|   659 |                                           VkPipelineBinaryKeyKHR* pPipelineBinaryKey, size_t* pPipelineBinaryDataSize,
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:661:72: error: 'VkReleaseCapturedPipelineDataInfoKHR' does not name a type
+|   661 | VkResult DispatchReleaseCapturedPipelineDataKHR(VkDevice device, const VkReleaseCapturedPipelineDataInfoKHR* pInfo,
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1163:54: error: 'VkAntiLagDataAMD' does not name a type
+|  1163 | void DispatchAntiLagUpdateAMD(VkDevice device, const VkAntiLagDataAMD* pData);
+|       |                                                      ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1170:70: error: 'VkDepthClampModeEXT' has not been declared
+|  1170 | void DispatchCmdSetDepthClampRangeEXT(VkCommandBuffer commandBuffer, VkDepthClampModeEXT depthClampMode,
+|       |                                                                      ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1171:45: error: 'VkDepthClampRangeEXT' does not name a type
+|  1171 |                                       const VkDepthClampRangeEXT* pDepthClampRange);
+|       |                                             ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1186:79: error: 'VkGeneratedCommandsMemoryRequirementsInfoEXT' does not name a type; did you mean 'VkGeneratedCommandsMemoryRequirementsInfoNV'?
+|  1186 | void DispatchGetGeneratedCommandsMemoryRequirementsEXT(VkDevice device, const VkGeneratedCommandsMemoryRequirementsInfoEXT* pInfo,
+|       |                                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                               VkGeneratedCommandsMemoryRequirementsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1189:54: error: 'VkGeneratedCommandsInfoEXT' does not name a type; did you mean 'VkGeneratedCommandsInfoNV'?
+|  1189 |                                                const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo,
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      VkGeneratedCommandsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1192:51: error: 'VkGeneratedCommandsInfoEXT' does not name a type; did you mean 'VkGeneratedCommandsInfoNV'?
+|  1192 |                                             const VkGeneratedCommandsInfoEXT* pGeneratedCommandsInfo);
+|       |                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                   VkGeneratedCommandsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1193:73: error: 'VkIndirectCommandsLayoutCreateInfoEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutCreateInfoNV'?
+|  1193 | VkResult DispatchCreateIndirectCommandsLayoutEXT(VkDevice device, const VkIndirectCommandsLayoutCreateInfoEXT* pCreateInfo,
+|       |                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                         VkIndirectCommandsLayoutCreateInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1195:50: error: 'VkIndirectCommandsLayoutEXT' has not been declared
+|  1195 |                                                  VkIndirectCommandsLayoutEXT* pIndirectCommandsLayout);
+|       |                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1196:64: error: 'VkIndirectCommandsLayoutEXT' has not been declared
+|  1196 | void DispatchDestroyIndirectCommandsLayoutEXT(VkDevice device, VkIndirectCommandsLayoutEXT indirectCommandsLayout,
+|       |                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1198:71: error: 'VkIndirectExecutionSetCreateInfoEXT' does not name a type
+|  1198 | VkResult DispatchCreateIndirectExecutionSetEXT(VkDevice device, const VkIndirectExecutionSetCreateInfoEXT* pCreateInfo,
+|       |                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1200:48: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1200 |                                                VkIndirectExecutionSetEXT* pIndirectExecutionSet);
+|       |                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1201:62: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1201 | void DispatchDestroyIndirectExecutionSetEXT(VkDevice device, VkIndirectExecutionSetEXT indirectExecutionSet,
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1203:69: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1203 | void DispatchUpdateIndirectExecutionSetPipelineEXT(VkDevice device, VkIndirectExecutionSetEXT indirectExecutionSet,
+|       |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1205:58: error: 'VkWriteIndirectExecutionSetPipelineEXT' does not name a type
+|  1205 |                                                    const VkWriteIndirectExecutionSetPipelineEXT* pExecutionSetWrites);
+|       |                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1206:67: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1206 | void DispatchUpdateIndirectExecutionSetShaderEXT(VkDevice device, VkIndirectExecutionSetEXT indirectExecutionSet,
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/layer_chassis_dispatch.h:1208:56: error: 'VkWriteIndirectExecutionSetShaderEXT' does not name a type
+|  1208 |                                                  const VkWriteIndirectExecutionSetShaderEXT* pExecutionSetWrites);
+|       |                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| [5/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/gpu/spirv/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -m64 -march=core2 -mtune=co
+ re2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validat
+ ion-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/gpu/spirv/CMakeFiles/gpu_av_spirv.dir/bindless_descriptor_pass.cpp.o -MF layers/gpu/spirv/CMakeFiles/gpu_av_spirv.dir/bindless_descriptor_pass.cpp.o.d -o layers/gpu/spirv/CMakeFiles/gpu_av_spirv.dir/bindless_descriptor_pass.cpp.o -c /srv/pok
+ ybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/gpu/spirv/bindless_descriptor_pass.cpp
+| FAILED: layers/gpu/spirv/CMakeFiles/gpu_av_spirv.dir/bindless_descriptor_pass.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/gpu/spirv/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -m64 -march=core2 -mtune=core2 -mss
+ e3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-laye
+ rs/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/gpu/spirv/CMakeFiles/gpu_av_spirv.dir/bindless_descriptor_pass.cpp.o -MF layers/gpu/spirv/CMakeFiles/gpu_av_spirv.dir/bindless_descriptor_pass.cpp.o.d -o layers/gpu/spirv/CMakeFiles/gpu_av_spirv.dir/bindless_descriptor_pass.cpp.o -c /srv/pokybuild/y
+ octo-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/gpu/spirv/bindless_descriptor_pass.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/gpu/spirv/type_manager.h:19,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/gpu/spirv/module.h:21,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/gpu/spirv/bindless_descriptor_pass.cpp:17:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h: In function 'constexpr bool OpcodeHasType(uint32_t)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:266:19: error: 'OpUntypedVariableKHR' is not a member of 'spv'
+|   266 |         case spv::OpUntypedVariableKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:267:19: error: 'OpUntypedAccessChainKHR' is not a member of 'spv'
+|   267 |         case spv::OpUntypedAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:268:19: error: 'OpUntypedInBoundsAccessChainKHR' is not a member of 'spv'; did you mean 'OpInBoundsAccessChain'?
+|   268 |         case spv::OpUntypedInBoundsAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpInBoundsAccessChain
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:271:19: error: 'OpUntypedPtrAccessChainKHR' is not a member of 'spv'; did you mean 'OpInBoundsPtrAccessChain'?
+|   271 |         case spv::OpUntypedPtrAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpInBoundsPtrAccessChain
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:272:19: error: 'OpUntypedInBoundsPtrAccessChainKHR' is not a member of 'spv'; did you mean 'OpInBoundsPtrAccessChain'?
+|   272 |         case spv::OpUntypedInBoundsPtrAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpInBoundsPtrAccessChain
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:273:19: error: 'OpUntypedArrayLengthKHR' is not a member of 'spv'
+|   273 |         case spv::OpUntypedArrayLengthKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h: In function 'constexpr bool OpcodeHasResult(uint32_t)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:646:19: error: 'OpTypeUntypedPointerKHR' is not a member of 'spv'
+|   646 |         case spv::OpTypeUntypedPointerKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:647:19: error: 'OpUntypedVariableKHR' is not a member of 'spv'
+|   647 |         case spv::OpUntypedVariableKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:648:19: error: 'OpUntypedAccessChainKHR' is not a member of 'spv'
+|   648 |         case spv::OpUntypedAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:649:19: error: 'OpUntypedInBoundsAccessChainKHR' is not a member of 'spv'; did you mean 'OpInBoundsAccessChain'?
+|   649 |         case spv::OpUntypedInBoundsAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpInBoundsAccessChain
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:652:19: error: 'OpUntypedPtrAccessChainKHR' is not a member of 'spv'; did you mean 'OpInBoundsPtrAccessChain'?
+|   652 |         case spv::OpUntypedPtrAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpInBoundsPtrAccessChain
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:653:19: error: 'OpUntypedInBoundsPtrAccessChainKHR' is not a member of 'spv'; did you mean 'OpInBoundsPtrAccessChain'?
+|   653 |         case spv::OpUntypedInBoundsPtrAccessChainKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                   OpInBoundsPtrAccessChain
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:654:19: error: 'OpUntypedArrayLengthKHR' is not a member of 'spv'
+|   654 |         case spv::OpUntypedArrayLengthKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h: In function 'constexpr SpvType GetSpvType(uint32_t)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/spirv_grammar_helper.h:1195:19: error: 'OpTypeUntypedPointerKHR' is not a member of 'spv'
+|  1195 |         case spv::OpTypeUntypedPointerKHR:
+|       |                   ^~~~~~~~~~~~~~~~~~~~~~~
+| [6/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/feature_requirements_helper.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/feature_requirements_helper.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/feature_requirements_helper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-l
+ ayers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/feature_requirements_helper.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/feature_requirements_helper.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/feature_requirements_helper.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/feature_requirements_helper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.
+ 3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp: In function 'vkt::FeatureAndName vkt::AddFeature(APIVersion, Feature, void**)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:380:41: error: 'VkPhysicalDeviceAntiLagFeaturesAMD' does not name a type; did you mean 'VkPhysicalDeviceMultiDrawFeaturesEXT'?
+|   380 |             auto vk_struct = const_cast<VkPhysicalDeviceAntiLagFeaturesAMD *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceMultiDrawFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:380:76: error: expected '>' before '*' token
+|   380 |             auto vk_struct = const_cast<VkPhysicalDeviceAntiLagFeaturesAMD *>(
+|       |                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:380:76: error: expected '(' before '*' token
+|   380 |             auto vk_struct = const_cast<VkPhysicalDeviceAntiLagFeaturesAMD *>(
+|       |                                                                            ^
+|       |                                                                            (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:380:77: error: expected primary-expression before '>' token
+|   380 |             auto vk_struct = const_cast<VkPhysicalDeviceAntiLagFeaturesAMD *>(
+|       |                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:381:45: error: 'VkPhysicalDeviceAntiLagFeaturesAMD' was not declared in this scope; did you mean 'VkPhysicalDeviceMultiDrawFeaturesEXT'?
+|   381 |                 vku::FindStructInPNextChain<VkPhysicalDeviceAntiLagFeaturesAMD>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceMultiDrawFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:381:80: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|   381 |                 vku::FindStructInPNextChain<VkPhysicalDeviceAntiLagFeaturesAMD>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:29:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:381:80: error: template argument 1 is invalid
+|   381 |                 vku::FindStructInPNextChain<VkPhysicalDeviceAntiLagFeaturesAMD>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:381:80: error: template argument 1 is invalid
+|   381 |                 vku::FindStructInPNextChain<VkPhysicalDeviceAntiLagFeaturesAMD>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:381:101: error: expected ')' before ';' token
+|   381 |                 vku::FindStructInPNextChain<VkPhysicalDeviceAntiLagFeaturesAMD>(*inout_pnext_chain));
+|       |                                                                                                     ^
+|       |                                                                                                     )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:383:33: error: 'VkPhysicalDeviceAntiLagFeaturesAMD' does not name a type; did you mean 'VkPhysicalDeviceMultiDrawFeaturesEXT'?
+|   383 |                 vk_struct = new VkPhysicalDeviceAntiLagFeaturesAMD;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceMultiDrawFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:391:87: error: could not convert '{<expression error>, "VkPhysicalDeviceAntiLagFeaturesAMD::antiLag"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|   391 |             return {&vk_struct->antiLag, "VkPhysicalDeviceAntiLagFeaturesAMD::antiLag"};
+|       |                                                                                       ^
+|       |                                                                                       |
+|       |                                                                                       <brace-enclosed initializer list>
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:614:41: error: 'VkPhysicalDeviceCommandBufferInheritanceFeaturesNV' does not name a type; did you mean 'VkPhysicalDeviceCudaKernelLaunchFeaturesNV'?
+|   614 |             auto vk_struct = const_cast<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceCudaKernelLaunchFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:614:92: error: expected '>' before '*' token
+|   614 |             auto vk_struct = const_cast<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(
+|       |                                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:614:92: error: expected '(' before '*' token
+|   614 |             auto vk_struct = const_cast<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(
+|       |                                                                                            ^
+|       |                                                                                            (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:614:93: error: expected primary-expression before '>' token
+|   614 |             auto vk_struct = const_cast<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:615:45: error: 'VkPhysicalDeviceCommandBufferInheritanceFeaturesNV' was not declared in this scope; did you mean 'VkPhysicalDeviceCudaKernelLaunchFeaturesNV'?
+|   615 |                 vku::FindStructInPNextChain<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceCudaKernelLaunchFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:615:96: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|   615 |                 vku::FindStructInPNextChain<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:615:96: error: template argument 1 is invalid
+|   615 |                 vku::FindStructInPNextChain<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:615:96: error: template argument 1 is invalid
+|   615 |                 vku::FindStructInPNextChain<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:615:117: error: expected ')' before ';' token
+|   615 |                 vku::FindStructInPNextChain<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV>(*inout_pnext_chain));
+|       |                                                                                                                     ^
+|       |                                                                                                                     )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:617:33: error: 'VkPhysicalDeviceCommandBufferInheritanceFeaturesNV' does not name a type; did you mean 'VkPhysicalDeviceCudaKernelLaunchFeaturesNV'?
+|   617 |                 vk_struct = new VkPhysicalDeviceCommandBufferInheritanceFeaturesNV;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceCudaKernelLaunchFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:626:99: error: could not convert '{<expression error>, "VkPhysicalDeviceCommandBufferInheritanceFeaturesNV::commandBufferInheritance"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|   626 |                     "VkPhysicalDeviceCommandBufferInheritanceFeaturesNV::commandBufferInheritance"};
+|       |                                                                                                   ^
+|       |                                                                                                   |
+|       |                                                                                                   <brace-enclosed initializer list>
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:629:41: error: 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|   629 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:629:93: error: expected '>' before '*' token
+|   629 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:629:93: error: expected '(' before '*' token
+|   629 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                                                                             ^
+|       |                                                                                             (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:629:94: error: expected primary-expression before '>' token
+|   629 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:630:45: error: 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|   630 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:630:97: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|   630 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:630:97: error: template argument 1 is invalid
+|   630 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:630:97: error: template argument 1 is invalid
+|   630 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:630:118: error: expected ')' before ';' token
+|   630 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                                                                                                                      ^
+|       |                                                                                                                      )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:632:33: error: 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|   632 |                 vk_struct = new VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:641:104: error: could not convert '{<expression error>, "VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::computeDerivativeGroupLinear"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|   641 |                     "VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::computeDerivativeGroupLinear"};
+|       |                                                                                                        ^
+|       |                                                                                                        |
+|       |                                                                                                        <brace-enclosed initializer list>
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:644:41: error: 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|   644 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:644:93: error: expected '>' before '*' token
+|   644 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:644:93: error: expected '(' before '*' token
+|   644 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                                                                             ^
+|       |                                                                                             (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:644:94: error: expected primary-expression before '>' token
+|   644 |             auto vk_struct = const_cast<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(
+|       |                                                                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:645:45: error: 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|   645 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:645:97: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|   645 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:645:97: error: template argument 1 is invalid
+|   645 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:645:97: error: template argument 1 is invalid
+|   645 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:645:118: error: expected ')' before ';' token
+|   645 |                 vku::FindStructInPNextChain<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>(*inout_pnext_chain));
+|       |                                                                                                                      ^
+|       |                                                                                                                      )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:647:33: error: 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|   647 |                 vk_struct = new VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:656:103: error: could not convert '{<expression error>, "VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::computeDerivativeGroupQuads"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|   656 |                     "VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::computeDerivativeGroupQuads"};
+|       |                                                                                                       ^
+|       |                                                                                                       |
+|       |                                                                                                       <brace-enclosed initializer list>
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:902:41: error: 'VkPhysicalDeviceDepthClampControlFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceDepthClipControlFeaturesEXT'?
+|   902 |             auto vk_struct = const_cast<VkPhysicalDeviceDepthClampControlFeaturesEXT *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceDepthClipControlFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:902:86: error: expected '>' before '*' token
+|   902 |             auto vk_struct = const_cast<VkPhysicalDeviceDepthClampControlFeaturesEXT *>(
+|       |                                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:902:86: error: expected '(' before '*' token
+|   902 |             auto vk_struct = const_cast<VkPhysicalDeviceDepthClampControlFeaturesEXT *>(
+|       |                                                                                      ^
+|       |                                                                                      (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:902:87: error: expected primary-expression before '>' token
+|   902 |             auto vk_struct = const_cast<VkPhysicalDeviceDepthClampControlFeaturesEXT *>(
+|       |                                                                                       ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:903:45: error: 'VkPhysicalDeviceDepthClampControlFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceDepthClipControlFeaturesEXT'?
+|   903 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDepthClampControlFeaturesEXT>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceDepthClipControlFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:903:90: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|   903 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDepthClampControlFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:903:90: error: template argument 1 is invalid
+|   903 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDepthClampControlFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:903:90: error: template argument 1 is invalid
+|   903 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDepthClampControlFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:903:111: error: expected ')' before ';' token
+|   903 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDepthClampControlFeaturesEXT>(*inout_pnext_chain));
+|       |                                                                                                               ^
+|       |                                                                                                               )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:905:33: error: 'VkPhysicalDeviceDepthClampControlFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceDepthClipControlFeaturesEXT'?
+|   905 |                 vk_struct = new VkPhysicalDeviceDepthClampControlFeaturesEXT;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceDepthClipControlFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:913:117: error: could not convert '{<expression error>, "VkPhysicalDeviceDepthClampControlFeaturesEXT::depthClampControl"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|   913 |             return {&vk_struct->depthClampControl, "VkPhysicalDeviceDepthClampControlFeaturesEXT::depthClampControl"};
+|       |                                                                                                                     ^
+|       |                                                                                                                     |
+|       |                                                                                                                     <brace-enclosed initializer list>
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1691:41: error: 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV'?
+|  1691 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1691:92: error: expected '>' before '*' token
+|  1691 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1691:92: error: expected '(' before '*' token
+|  1691 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                                                                            ^
+|       |                                                                                            (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1691:93: error: expected primary-expression before '>' token
+|  1691 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1692:45: error: 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV'?
+|  1692 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1692:96: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|  1692 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1692:96: error: template argument 1 is invalid
+|  1692 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1692:96: error: template argument 1 is invalid
+|  1692 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1692:117: error: expected ')' before ';' token
+|  1692 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                                                                                                                     ^
+|       |                                                                                                                     )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1694:33: error: 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV'?
+|  1694 |                 vk_struct = new VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1703:98: error: could not convert '{<expression error>, "VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT::deviceGeneratedCommands"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|  1703 |                     "VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT::deviceGeneratedCommands"};
+|       |                                                                                                  ^
+|       |                                                                                                  |
+|       |                                                                                                  <brace-enclosed initializer list>
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1706:41: error: 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV'?
+|  1706 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1706:92: error: expected '>' before '*' token
+|  1706 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                                                                            ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1706:92: error: expected '(' before '*' token
+|  1706 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                                                                            ^
+|       |                                                                                            (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1706:93: error: expected primary-expression before '>' token
+|  1706 |             auto vk_struct = const_cast<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1707:45: error: 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV'?
+|  1707 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1707:96: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|  1707 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1707:96: error: template argument 1 is invalid
+|  1707 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1707:96: error: template argument 1 is invalid
+|  1707 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1707:117: error: expected ')' before ';' token
+|  1707 |                 vku::FindStructInPNextChain<VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT>(*inout_pnext_chain));
+|       |                                                                                                                     ^
+|       |                                                                                                                     )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1709:33: error: 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT' does not name a type; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV'?
+|  1709 |                 vk_struct = new VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:1718:105: error: could not convert '{<expression error>, "VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT::dynamicGeneratedPipelineLayout"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|  1718 |                     "VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT::dynamicGeneratedPipelineLayout"};
+|       |                                                                                                         ^
+|       |                                                                                                         |
+|       |                                                                                                         <brace-enclosed initializer list>
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3761:41: error: 'VkPhysicalDevicePipelineBinaryFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceTimelineSemaphoreFeaturesKHR'?
+|  3761 |             auto vk_struct = const_cast<VkPhysicalDevicePipelineBinaryFeaturesKHR *>(
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         VkPhysicalDeviceTimelineSemaphoreFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3761:83: error: expected '>' before '*' token
+|  3761 |             auto vk_struct = const_cast<VkPhysicalDevicePipelineBinaryFeaturesKHR *>(
+|       |                                                                                   ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3761:83: error: expected '(' before '*' token
+|  3761 |             auto vk_struct = const_cast<VkPhysicalDevicePipelineBinaryFeaturesKHR *>(
+|       |                                                                                   ^
+|       |                                                                                   (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3761:84: error: expected primary-expression before '>' token
+|  3761 |             auto vk_struct = const_cast<VkPhysicalDevicePipelineBinaryFeaturesKHR *>(
+|       |                                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3762:45: error: 'VkPhysicalDevicePipelineBinaryFeaturesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceTimelineSemaphoreFeaturesKHR'?
+|  3762 |                 vku::FindStructInPNextChain<VkPhysicalDevicePipelineBinaryFeaturesKHR>(*inout_pnext_chain));
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             VkPhysicalDeviceTimelineSemaphoreFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3762:87: error: no matching function for call to 'FindStructInPNextChain<<expression error> >(void*&)'
+|  3762 |                 vku::FindStructInPNextChain<VkPhysicalDevicePipelineBinaryFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note: candidate: 'template<class T> const T* vku::FindStructInPNextChain(const void*)'
+|   982 | template <typename T> const T *FindStructInPNextChain(const void *next) {
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:982:32: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3762:87: error: template argument 1 is invalid
+|  3762 |                 vku::FindStructInPNextChain<VkPhysicalDevicePipelineBinaryFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note: candidate: 'template<class T> T* vku::FindStructInPNextChain(void*)'
+|   996 | template <typename T> T *FindStructInPNextChain(void *next) {
+|       |                          ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot/usr/include/vulkan/utility/vk_struct_helper.hpp:996:26: note:   template argument deduction/substitution failed:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3762:87: error: template argument 1 is invalid
+|  3762 |                 vku::FindStructInPNextChain<VkPhysicalDevicePipelineBinaryFeaturesKHR>(*inout_pnext_chain));
+|       |                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3762:108: error: expected ')' before ';' token
+|  3762 |                 vku::FindStructInPNextChain<VkPhysicalDevicePipelineBinaryFeaturesKHR>(*inout_pnext_chain));
+|       |                                                                                                            ^
+|       |                                                                                                            )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3764:33: error: 'VkPhysicalDevicePipelineBinaryFeaturesKHR' does not name a type; did you mean 'VkPhysicalDeviceTimelineSemaphoreFeaturesKHR'?
+|  3764 |                 vk_struct = new VkPhysicalDevicePipelineBinaryFeaturesKHR;
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 VkPhysicalDeviceTimelineSemaphoreFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/feature_requirements_helper.cpp:3772:112: error: could not convert '{<expression error>, "VkPhysicalDevicePipelineBinaryFeaturesKHR::pipelineBinaries"}' from '<brace-enclosed initializer list>' to 'vkt::FeatureAndName'
+|  3772 |             return {&vk_struct->pipelineBinaries, "VkPhysicalDevicePipelineBinaryFeaturesKHR::pipelineBinaries"};
+|       |                                                                                                                ^
+|       |                                                                                                                |
+|       |                                                                                                                <brace-enclosed initializer list>
+| [7/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/convert_utils.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/convert_utils.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/convert_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/convert_utils.cpp
+| [8/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/pnext_chain_extraction.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/pnext_chain_extraction.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/pnext_chain_extraction.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0
+ /git/layers/vulkan/generated/pnext_chain_extraction.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/pnext_chain_extraction.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/pnext_chain_extraction.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/pnext_chain_extraction.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/pnext_chain_extraction.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/lay
+ ers/vulkan/generated/pnext_chain_extraction.cpp
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp: In function 'void vvl::PnextChainFree(void*)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1131:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES_KHR'?
+|  1131 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_FEATURES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1134:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  1134 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryFeaturesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1134:43: error: expected '>' before 'VkPhysicalDevicePipelineBinaryFeaturesKHR'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1134:43: error: expected '(' before 'VkPhysicalDevicePipelineBinaryFeaturesKHR'
+|  1134 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryFeaturesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1134:43: error: 'VkPhysicalDevicePipelineBinaryFeaturesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceTimelineSemaphoreFeaturesKHR'?
+|  1134 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryFeaturesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceTimelineSemaphoreFeaturesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1134:86: error: expected primary-expression before '>' token
+|  1134 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryFeaturesKHR *>(header);
+|       |                                                                                      ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1134:95: error: expected ')' before ';' token
+|  1134 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryFeaturesKHR *>(header);
+|       |                                                                                               ^
+|       |                                                                                               )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1136:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES_KHR'?
+|  1136 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_PROPERTIES_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_TIMELINE_SEMAPHORE_PROPERTIES_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1139:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  1139 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryPropertiesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1139:43: error: expected '>' before 'VkPhysicalDevicePipelineBinaryPropertiesKHR'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1139:43: error: expected '(' before 'VkPhysicalDevicePipelineBinaryPropertiesKHR'
+|  1139 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryPropertiesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1139:43: error: 'VkPhysicalDevicePipelineBinaryPropertiesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceTimelineSemaphorePropertiesKHR'?
+|  1139 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryPropertiesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceTimelineSemaphorePropertiesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1139:88: error: expected primary-expression before '>' token
+|  1139 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryPropertiesKHR *>(header);
+|       |                                                                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1139:97: error: expected ')' before ';' token
+|  1139 |             delete reinterpret_cast<const VkPhysicalDevicePipelineBinaryPropertiesKHR *>(header);
+|       |                                                                                                 ^
+|       |                                                                                                 )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1141:14: error: 'VK_STRUCTURE_TYPE_DEVICE_PIPELINE_BINARY_INTERNAL_CACHE_CONTROL_KHR' was not declared in this scope
+|  1141 |         case VK_STRUCTURE_TYPE_DEVICE_PIPELINE_BINARY_INTERNAL_CACHE_CONTROL_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1144:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  1144 |             delete reinterpret_cast<const VkDevicePipelineBinaryInternalCacheControlKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1144:43: error: expected '>' before 'VkDevicePipelineBinaryInternalCacheControlKHR'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1144:43: error: expected '(' before 'VkDevicePipelineBinaryInternalCacheControlKHR'
+|  1144 |             delete reinterpret_cast<const VkDevicePipelineBinaryInternalCacheControlKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1144:43: error: 'VkDevicePipelineBinaryInternalCacheControlKHR' was not declared in this scope
+|  1144 |             delete reinterpret_cast<const VkDevicePipelineBinaryInternalCacheControlKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1144:90: error: expected primary-expression before '>' token
+|  1144 |             delete reinterpret_cast<const VkDevicePipelineBinaryInternalCacheControlKHR *>(header);
+|       |                                                                                          ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1144:99: error: expected ')' before ';' token
+|  1144 |             delete reinterpret_cast<const VkDevicePipelineBinaryInternalCacheControlKHR *>(header);
+|       |                                                                                                   ^
+|       |                                                                                                   )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1146:14: error: 'VK_STRUCTURE_TYPE_PIPELINE_BINARY_INFO_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR'?
+|  1146 |         case VK_STRUCTURE_TYPE_PIPELINE_BINARY_INFO_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PIPELINE_INFO_KHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1149:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  1149 |             delete reinterpret_cast<const VkPipelineBinaryInfoKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1149:43: error: expected '>' before 'VkPipelineBinaryInfoKHR'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1149:43: error: expected '(' before 'VkPipelineBinaryInfoKHR'
+|  1149 |             delete reinterpret_cast<const VkPipelineBinaryInfoKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1149:43: error: 'VkPipelineBinaryInfoKHR' was not declared in this scope; did you mean 'VkPipelineInfoKHR'?
+|  1149 |             delete reinterpret_cast<const VkPipelineBinaryInfoKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1149:68: error: expected primary-expression before '>' token
+|  1149 |             delete reinterpret_cast<const VkPipelineBinaryInfoKHR *>(header);
+|       |                                                                    ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1149:77: error: expected ')' before ';' token
+|  1149 |             delete reinterpret_cast<const VkPipelineBinaryInfoKHR *>(header);
+|       |                                                                             ^
+|       |                                                                             )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1161:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV'?
+|  1161 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1164:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  1164 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1164:43: error: expected '>' before 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1164:43: error: expected '(' before 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR'
+|  1164 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1164:43: error: 'VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|  1164 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1164:96: error: expected primary-expression before '>' token
+|  1164 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(header);
+|       |                                                                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1164:105: error: expected ')' before ';' token
+|  1164 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR *>(header);
+|       |                                                                                                         ^
+|       |                                                                                                         )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1166:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_PROPERTIES_KHR' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV'?
+|  1166 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_PROPERTIES_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1169:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  1169 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1169:43: error: expected '>' before 'VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1169:43: error: expected '(' before 'VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR'
+|  1169 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1169:43: error: 'VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR' was not declared in this scope; did you mean 'VkPhysicalDeviceComputeShaderDerivativesFeaturesNV'?
+|  1169 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceComputeShaderDerivativesFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1169:98: error: expected primary-expression before '>' token
+|  1169 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR *>(header);
+|       |                                                                                                  ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:1169:107: error: expected ')' before ';' token
+|  1169 |             delete reinterpret_cast<const VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR *>(header);
+|       |                                                                                                           ^
+|       |                                                                                                           )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2769:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTI_DRAW_FEATURES_EXT'?
+|  2769 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MULTI_DRAW_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2772:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  2772 |             delete reinterpret_cast<const VkPhysicalDeviceAntiLagFeaturesAMD *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2772:43: error: expected '>' before 'VkPhysicalDeviceAntiLagFeaturesAMD'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2772:43: error: expected '(' before 'VkPhysicalDeviceAntiLagFeaturesAMD'
+|  2772 |             delete reinterpret_cast<const VkPhysicalDeviceAntiLagFeaturesAMD *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2772:43: error: 'VkPhysicalDeviceAntiLagFeaturesAMD' was not declared in this scope; did you mean 'VkPhysicalDeviceMultiDrawFeaturesEXT'?
+|  2772 |             delete reinterpret_cast<const VkPhysicalDeviceAntiLagFeaturesAMD *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceMultiDrawFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2772:79: error: expected primary-expression before '>' token
+|  2772 |             delete reinterpret_cast<const VkPhysicalDeviceAntiLagFeaturesAMD *>(header);
+|       |                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2772:88: error: expected ')' before ';' token
+|  2772 |             delete reinterpret_cast<const VkPhysicalDeviceAntiLagFeaturesAMD *>(header);
+|       |                                                                                        ^
+|       |                                                                                        )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2976:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMMAND_BUFFER_INHERITANCE_FEATURES_NV' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV'?
+|  2976 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMMAND_BUFFER_INHERITANCE_FEATURES_NV:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2979:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  2979 |             delete reinterpret_cast<const VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2979:43: error: expected '>' before 'VkPhysicalDeviceCommandBufferInheritanceFeaturesNV'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2979:43: error: expected '(' before 'VkPhysicalDeviceCommandBufferInheritanceFeaturesNV'
+|  2979 |             delete reinterpret_cast<const VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2979:43: error: 'VkPhysicalDeviceCommandBufferInheritanceFeaturesNV' was not declared in this scope; did you mean 'VkPhysicalDeviceCudaKernelLaunchFeaturesNV'?
+|  2979 |             delete reinterpret_cast<const VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceCudaKernelLaunchFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2979:95: error: expected primary-expression before '>' token
+|  2979 |             delete reinterpret_cast<const VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(header);
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2979:104: error: expected ')' before ';' token
+|  2979 |             delete reinterpret_cast<const VkPhysicalDeviceCommandBufferInheritanceFeaturesNV *>(header);
+|       |                                                                                                        ^
+|       |                                                                                                        )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2996:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV'?
+|  2996 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_FEATURES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2999:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  2999 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2999:43: error: expected '>' before 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2999:43: error: expected '(' before 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT'
+|  2999 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2999:43: error: 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV'?
+|  2999 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceDeviceGeneratedCommandsFeaturesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2999:95: error: expected primary-expression before '>' token
+|  2999 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(header);
+|       |                                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:2999:104: error: expected ')' before ';' token
+|  2999 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsFeaturesEXT *>(header);
+|       |                                                                                                        ^
+|       |                                                                                                        )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3001:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV'?
+|  3001 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEVICE_GENERATED_COMMANDS_PROPERTIES_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3004:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  3004 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3004:43: error: expected '>' before 'VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3004:43: error: expected '(' before 'VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT'
+|  3004 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3004:43: error: 'VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV'?
+|  3004 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceDeviceGeneratedCommandsPropertiesNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3004:97: error: expected primary-expression before '>' token
+|  3004 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT *>(header);
+|       |                                                                                                 ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3004:106: error: expected ')' before ';' token
+|  3004 |             delete reinterpret_cast<const VkPhysicalDeviceDeviceGeneratedCommandsPropertiesEXT *>(header);
+|       |                                                                                                          ^
+|       |                                                                                                          )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3006:14: error: 'VK_STRUCTURE_TYPE_GENERATED_COMMANDS_PIPELINE_INFO_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV'?
+|  3006 |         case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_PIPELINE_INFO_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3009:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  3009 |             delete reinterpret_cast<const VkGeneratedCommandsPipelineInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3009:43: error: expected '>' before 'VkGeneratedCommandsPipelineInfoEXT'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3009:43: error: expected '(' before 'VkGeneratedCommandsPipelineInfoEXT'
+|  3009 |             delete reinterpret_cast<const VkGeneratedCommandsPipelineInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3009:43: error: 'VkGeneratedCommandsPipelineInfoEXT' was not declared in this scope; did you mean 'VkGeneratedCommandsInfoNV'?
+|  3009 |             delete reinterpret_cast<const VkGeneratedCommandsPipelineInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkGeneratedCommandsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3009:79: error: expected primary-expression before '>' token
+|  3009 |             delete reinterpret_cast<const VkGeneratedCommandsPipelineInfoEXT *>(header);
+|       |                                                                               ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3009:88: error: expected ')' before ';' token
+|  3009 |             delete reinterpret_cast<const VkGeneratedCommandsPipelineInfoEXT *>(header);
+|       |                                                                                        ^
+|       |                                                                                        )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3011:14: error: 'VK_STRUCTURE_TYPE_GENERATED_COMMANDS_SHADER_INFO_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV'?
+|  3011 |         case VK_STRUCTURE_TYPE_GENERATED_COMMANDS_SHADER_INFO_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_GENERATED_COMMANDS_INFO_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3014:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  3014 |             delete reinterpret_cast<const VkGeneratedCommandsShaderInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3014:43: error: expected '>' before 'VkGeneratedCommandsShaderInfoEXT'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3014:43: error: expected '(' before 'VkGeneratedCommandsShaderInfoEXT'
+|  3014 |             delete reinterpret_cast<const VkGeneratedCommandsShaderInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3014:43: error: 'VkGeneratedCommandsShaderInfoEXT' was not declared in this scope; did you mean 'VkGeneratedCommandsInfoNV'?
+|  3014 |             delete reinterpret_cast<const VkGeneratedCommandsShaderInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkGeneratedCommandsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3014:77: error: expected primary-expression before '>' token
+|  3014 |             delete reinterpret_cast<const VkGeneratedCommandsShaderInfoEXT *>(header);
+|       |                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3014:86: error: expected ')' before ';' token
+|  3014 |             delete reinterpret_cast<const VkGeneratedCommandsShaderInfoEXT *>(header);
+|       |                                                                                      ^
+|       |                                                                                      )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3031:14: error: 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_CONTROL_FEATURES_EXT'?
+|  3031 |         case VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLAMP_CONTROL_FEATURES_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DEPTH_CLIP_CONTROL_FEATURES_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3034:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  3034 |             delete reinterpret_cast<const VkPhysicalDeviceDepthClampControlFeaturesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3034:43: error: expected '>' before 'VkPhysicalDeviceDepthClampControlFeaturesEXT'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3034:43: error: expected '(' before 'VkPhysicalDeviceDepthClampControlFeaturesEXT'
+|  3034 |             delete reinterpret_cast<const VkPhysicalDeviceDepthClampControlFeaturesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3034:43: error: 'VkPhysicalDeviceDepthClampControlFeaturesEXT' was not declared in this scope; did you mean 'VkPhysicalDeviceDepthClipControlFeaturesEXT'?
+|  3034 |             delete reinterpret_cast<const VkPhysicalDeviceDepthClampControlFeaturesEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPhysicalDeviceDepthClipControlFeaturesEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3034:89: error: expected primary-expression before '>' token
+|  3034 |             delete reinterpret_cast<const VkPhysicalDeviceDepthClampControlFeaturesEXT *>(header);
+|       |                                                                                         ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3034:98: error: expected ')' before ';' token
+|  3034 |             delete reinterpret_cast<const VkPhysicalDeviceDepthClampControlFeaturesEXT *>(header);
+|       |                                                                                                  ^
+|       |                                                                                                  )
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3036:14: error: 'VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_DEPTH_CLAMP_CONTROL_CREATE_INFO_EXT' was not declared in this scope; did you mean 'VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_DEPTH_CLIP_CONTROL_CREATE_INFO_EXT'?
+|  3036 |         case VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_DEPTH_CLAMP_CONTROL_CREATE_INFO_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_STRUCTURE_TYPE_PIPELINE_VIEWPORT_DEPTH_CLIP_CONTROL_CREATE_INFO_EXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3039:43: error: ISO C++ forbids declaration of 'type name' with no type [-fpermissive]
+|  3039 |             delete reinterpret_cast<const VkPipelineViewportDepthClampControlCreateInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3039:43: error: expected '>' before 'VkPipelineViewportDepthClampControlCreateInfoEXT'
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3039:43: error: expected '(' before 'VkPipelineViewportDepthClampControlCreateInfoEXT'
+|  3039 |             delete reinterpret_cast<const VkPipelineViewportDepthClampControlCreateInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           (
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3039:43: error: 'VkPipelineViewportDepthClampControlCreateInfoEXT' was not declared in this scope; did you mean 'VkPipelineViewportDepthClipControlCreateInfoEXT'?
+|  3039 |             delete reinterpret_cast<const VkPipelineViewportDepthClampControlCreateInfoEXT *>(header);
+|       |                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                           VkPipelineViewportDepthClipControlCreateInfoEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3039:93: error: expected primary-expression before '>' token
+|  3039 |             delete reinterpret_cast<const VkPipelineViewportDepthClampControlCreateInfoEXT *>(header);
+|       |                                                                                             ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/pnext_chain_extraction.cpp:3039:102: error: expected ')' before ';' token
+|  3039 |             delete reinterpret_cast<const VkPipelineViewportDepthClampControlCreateInfoEXT *>(header);
+|       |                                                                                                      ^
+|       |                                                                                                      )
+| [9/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-s
+ ecurity  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vul
+ kan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/error_location_helper.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/error_location_helper.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/error_location_helper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/gi
+ t/layers/vulkan/generated/error_location_helper.cpp
+| [10/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/hash_util.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/hash_util.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/hash_util.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/hash_util.cpp
+| [11/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/error_message/error_location.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/error_message/error_location.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/error_message/error_location.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/error_
+ location.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/error_message/error_location.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/error_message/error_location.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/error_message/error_location.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/error_message/error_location.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/error_location.
+ cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/logging.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/error_location.h:24,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/error_location.cpp:18:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:475:5: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   475 |     PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:476:5: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   476 |     PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:477:5: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   477 |     PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:478:5: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   478 |     PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:479:5: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   479 |     PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:735:5: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   735 |     PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:740:5: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   740 |     PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:752:5: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   752 |     PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:753:5: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   753 |     PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:754:5: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   754 |     PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:755:5: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   755 |     PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:756:5: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   756 |     PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:757:5: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   757 |     PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:758:5: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   758 |     PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:759:5: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   759 |     PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:760:5: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   760 |     PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/logging.h:32:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VkObjectType ConvertVulkanObjectToCoreObject(VulkanObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:165:20: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   165 |             return VK_OBJECT_TYPE_PIPELINE_BINARY_KHR;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:197:20: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   197 |             return VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:199:20: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   199 |             return VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VulkanObjectType ConvertCoreObjectToVulkanObject(VkObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:278:14: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   278 |         case VK_OBJECT_TYPE_PIPELINE_BINARY_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:310:14: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   310 |         case VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:312:14: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   312 |         case VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:21: error: 'VkPipelineBinaryKHR' was not declared in this scope; did you mean 'VkPipelineInfoKHR'?
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                     ^~~~~~~~~~~~~~~~~~~
+|       |                     VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:40: error: template argument 1 is invalid
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:969:13: error: 'VkPipelineBinaryKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   969 |     typedef VkPipelineBinaryKHR Type;
+|       |             ^~~~~~~~~~~~~~~~~~~
+|       |             VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:21: error: 'VkIndirectExecutionSetEXT' was not declared in this scope
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:46: error: template argument 1 is invalid
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1163:13: error: 'VkIndirectExecutionSetEXT' does not name a type
+|  1163 |     typedef VkIndirectExecutionSetEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:21: error: 'VkIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     VkIndirectCommandsLayoutNV_T
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:48: error: template argument 1 is invalid
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1175:13: error: 'VkIndirectCommandsLayoutEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1175 |     typedef VkIndirectCommandsLayoutEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkIndirectCommandsLayoutNV_T
+| [12/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_utils.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_utils.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_layer_utils.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_utils.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_utils.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_utils.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/vk_layer_utils.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_layer_utils.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/./error_message/logging.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_layer_utils.h:34,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_layer_utils.cpp:18:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:475:5: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   475 |     PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:476:5: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   476 |     PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:477:5: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   477 |     PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:478:5: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   478 |     PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:479:5: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   479 |     PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:735:5: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   735 |     PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:740:5: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   740 |     PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:752:5: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   752 |     PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:753:5: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   753 |     PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:754:5: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   754 |     PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:755:5: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   755 |     PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:756:5: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   756 |     PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:757:5: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   757 |     PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:758:5: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   758 |     PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:759:5: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   759 |     PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:760:5: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   760 |     PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/./error_message/logging.h:32:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VkObjectType ConvertVulkanObjectToCoreObject(VulkanObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:165:20: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   165 |             return VK_OBJECT_TYPE_PIPELINE_BINARY_KHR;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:197:20: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   197 |             return VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:199:20: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   199 |             return VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VulkanObjectType ConvertCoreObjectToVulkanObject(VkObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:278:14: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   278 |         case VK_OBJECT_TYPE_PIPELINE_BINARY_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:310:14: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   310 |         case VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:312:14: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   312 |         case VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:21: error: 'VkPipelineBinaryKHR' was not declared in this scope; did you mean 'VkPipelineInfoKHR'?
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                     ^~~~~~~~~~~~~~~~~~~
+|       |                     VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:40: error: template argument 1 is invalid
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:969:13: error: 'VkPipelineBinaryKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   969 |     typedef VkPipelineBinaryKHR Type;
+|       |             ^~~~~~~~~~~~~~~~~~~
+|       |             VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:21: error: 'VkIndirectExecutionSetEXT' was not declared in this scope
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:46: error: template argument 1 is invalid
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1163:13: error: 'VkIndirectExecutionSetEXT' does not name a type
+|  1163 |     typedef VkIndirectExecutionSetEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:21: error: 'VkIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     VkIndirectCommandsLayoutNV_T
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:48: error: template argument 1 is invalid
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1175:13: error: 'VkIndirectCommandsLayoutEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1175 |     typedef VkIndirectCommandsLayoutEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkIndirectCommandsLayoutNV_T
+| [13/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/vk_struct_compare.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/vk_struct_compare.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/vk_struct_compare.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_struct_compare.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/utils/vk_struct_compare.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/utils/vk_struct_compare.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/utils/vk_struct_compare.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/utils/vk_struct_compare.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_struct_compare.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/./error_message/logging.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/./utils/vk_layer_utils.h:34,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_struct_compare.cpp:19:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:475:5: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   475 |     PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:476:5: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   476 |     PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:477:5: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   477 |     PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:478:5: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   478 |     PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:479:5: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   479 |     PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:735:5: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   735 |     PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:740:5: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   740 |     PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:752:5: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   752 |     PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:753:5: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   753 |     PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:754:5: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   754 |     PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:755:5: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   755 |     PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:756:5: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   756 |     PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:757:5: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   757 |     PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:758:5: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   758 |     PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:759:5: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   759 |     PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:760:5: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   760 |     PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/./error_message/logging.h:32:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VkObjectType ConvertVulkanObjectToCoreObject(VulkanObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:165:20: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   165 |             return VK_OBJECT_TYPE_PIPELINE_BINARY_KHR;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:197:20: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   197 |             return VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:199:20: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   199 |             return VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VulkanObjectType ConvertCoreObjectToVulkanObject(VkObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:278:14: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   278 |         case VK_OBJECT_TYPE_PIPELINE_BINARY_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:310:14: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   310 |         case VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:312:14: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   312 |         case VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:21: error: 'VkPipelineBinaryKHR' was not declared in this scope; did you mean 'VkPipelineInfoKHR'?
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                     ^~~~~~~~~~~~~~~~~~~
+|       |                     VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:40: error: template argument 1 is invalid
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:969:13: error: 'VkPipelineBinaryKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   969 |     typedef VkPipelineBinaryKHR Type;
+|       |             ^~~~~~~~~~~~~~~~~~~
+|       |             VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:21: error: 'VkIndirectExecutionSetEXT' was not declared in this scope
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:46: error: template argument 1 is invalid
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1163:13: error: 'VkIndirectExecutionSetEXT' does not name a type
+|  1163 |     typedef VkIndirectExecutionSetEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:21: error: 'VkIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     VkIndirectCommandsLayoutNV_T
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:48: error: template argument 1 is invalid
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1175:13: error: 'VkIndirectCommandsLayoutEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1175 |     typedef VkIndirectCommandsLayoutEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkIndirectCommandsLayoutNV_T
+| [14/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vk_layer_config.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vk_layer_config.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vk_layer_config.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vk_layer_config.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/vk_layer_config.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vk_layer_config.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vk_layer_config.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vk_layer_config.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vk_layer_config.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/./error_message/logging.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/utils/vk_layer_utils.h:34,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vk_layer_config.cpp:30:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:475:5: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   475 |     PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:476:5: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   476 |     PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:477:5: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   477 |     PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:478:5: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   478 |     PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:479:5: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   479 |     PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:735:5: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   735 |     PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:740:5: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   740 |     PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:752:5: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   752 |     PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:753:5: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   753 |     PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:754:5: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   754 |     PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:755:5: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   755 |     PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:756:5: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   756 |     PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:757:5: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   757 |     PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:758:5: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   758 |     PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:759:5: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   759 |     PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:760:5: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   760 |     PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/./error_message/logging.h:32:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VkObjectType ConvertVulkanObjectToCoreObject(VulkanObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:165:20: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   165 |             return VK_OBJECT_TYPE_PIPELINE_BINARY_KHR;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:197:20: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   197 |             return VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:199:20: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   199 |             return VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VulkanObjectType ConvertCoreObjectToVulkanObject(VkObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:278:14: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   278 |         case VK_OBJECT_TYPE_PIPELINE_BINARY_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:310:14: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   310 |         case VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:312:14: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   312 |         case VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:21: error: 'VkPipelineBinaryKHR' was not declared in this scope; did you mean 'VkPipelineInfoKHR'?
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                     ^~~~~~~~~~~~~~~~~~~
+|       |                     VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:40: error: template argument 1 is invalid
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:969:13: error: 'VkPipelineBinaryKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   969 |     typedef VkPipelineBinaryKHR Type;
+|       |             ^~~~~~~~~~~~~~~~~~~
+|       |             VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:21: error: 'VkIndirectExecutionSetEXT' was not declared in this scope
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:46: error: template argument 1 is invalid
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1163:13: error: 'VkIndirectExecutionSetEXT' does not name a type
+|  1163 |     typedef VkIndirectExecutionSetEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:21: error: 'VkIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     VkIndirectCommandsLayoutNV_T
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:48: error: template argument 1 is invalid
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1175:13: error: 'VkIndirectCommandsLayoutEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1175 |     typedef VkIndirectCommandsLayoutEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkIndirectCommandsLayoutNV_T
+| [15/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_dispatch_table_helper.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_dispatch_table_helper.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_dispatch_table_helper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.
+ 3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_dispatch_table_helper.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_dispatch_table_helper.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_dispatch_table_helper.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_dispatch_table_helper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/g
+ it/layers/vulkan/generated/vk_dispatch_table_helper.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.h:32,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:25:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:475:5: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   475 |     PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:476:5: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   476 |     PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:477:5: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   477 |     PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:478:5: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   478 |     PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:479:5: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   479 |     PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:735:5: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   735 |     PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:740:5: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   740 |     PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:752:5: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   752 |     PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:753:5: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   753 |     PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:754:5: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   754 |     PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:755:5: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   755 |     PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:756:5: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   756 |     PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:757:5: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   757 |     PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:758:5: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   758 |     PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:759:5: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   759 |     PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:760:5: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   760 |     PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:545:85: error: 'VkPipelineBinaryCreateInfoKHR' does not name a type; did you mean 'VkPipelineLibraryCreateInfoKHR'?
+|   545 | static VKAPI_ATTR VkResult VKAPI_CALL StubCreatePipelineBinariesKHR(VkDevice, const VkPipelineBinaryCreateInfoKHR*,
+|       |                                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                     VkPipelineLibraryCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:546:99: error: 'VkPipelineBinaryHandlesInfoKHR' has not been declared
+|   546 |                                                                     const VkAllocationCallbacks*, VkPipelineBinaryHandlesInfoKHR*) {
+|       |                                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:549:74: error: 'VkPipelineBinaryKHR' has not been declared
+|   549 | static VKAPI_ATTR void VKAPI_CALL StubDestroyPipelineBinaryKHR(VkDevice, VkPipelineBinaryKHR, const VkAllocationCallbacks*) {}
+|       |                                                                          ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:550:77: error: 'VkPipelineCreateInfoKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   550 | static VKAPI_ATTR VkResult VKAPI_CALL StubGetPipelineKeyKHR(VkDevice, const VkPipelineCreateInfoKHR*, VkPipelineBinaryKeyKHR*) {
+|       |                                                                             ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                             VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:550:103: error: 'VkPipelineBinaryKeyKHR' has not been declared
+|   550 | static VKAPI_ATTR VkResult VKAPI_CALL StubGetPipelineKeyKHR(VkDevice, const VkPipelineCreateInfoKHR*, VkPipelineBinaryKeyKHR*) {
+|       |                                                                                                       ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:553:84: error: 'VkPipelineBinaryDataInfoKHR' does not name a type; did you mean 'VkPipelineLibraryCreateInfoKHR'?
+|   553 | static VKAPI_ATTR VkResult VKAPI_CALL StubGetPipelineBinaryDataKHR(VkDevice, const VkPipelineBinaryDataInfoKHR*,
+|       |                                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                    VkPipelineLibraryCreateInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:554:68: error: 'VkPipelineBinaryKeyKHR' has not been declared
+|   554 |                                                                    VkPipelineBinaryKeyKHR*, size_t*, void*) {
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:557:90: error: 'VkReleaseCapturedPipelineDataInfoKHR' does not name a type
+|   557 | static VKAPI_ATTR VkResult VKAPI_CALL StubReleaseCapturedPipelineDataKHR(VkDevice, const VkReleaseCapturedPipelineDataInfoKHR*,
+|       |                                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1223:72: error: 'VkAntiLagDataAMD' does not name a type
+|  1223 | static VKAPI_ATTR void VKAPI_CALL StubAntiLagUpdateAMD(VkDevice, const VkAntiLagDataAMD*) {}
+|       |                                                                        ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1232:81: error: 'VkDepthClampModeEXT' has not been declared
+|  1232 | static VKAPI_ATTR void VKAPI_CALL StubCmdSetDepthClampRangeEXT(VkCommandBuffer, VkDepthClampModeEXT, const VkDepthClampRangeEXT*) {}
+|       |                                                                                 ^~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1232:108: error: 'VkDepthClampRangeEXT' does not name a type
+|  1232 | static VKAPI_ATTR void VKAPI_CALL StubCmdSetDepthClampRangeEXT(VkCommandBuffer, VkDepthClampModeEXT, const VkDepthClampRangeEXT*) {}
+|       |                                                                                                            ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1258:87: error: 'VkGeneratedCommandsMemoryRequirementsInfoEXT' does not name a type; did you mean 'VkGeneratedCommandsMemoryRequirementsInfoNV'?
+|  1258 |                                                                                 const VkGeneratedCommandsMemoryRequirementsInfoEXT*,
+|       |                                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                       VkGeneratedCommandsMemoryRequirementsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1260:96: error: 'VkGeneratedCommandsInfoEXT' does not name a type; did you mean 'VkGeneratedCommandsInfoNV'?
+|  1260 | static VKAPI_ATTR void VKAPI_CALL StubCmdPreprocessGeneratedCommandsEXT(VkCommandBuffer, const VkGeneratedCommandsInfoEXT*,
+|       |                                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                                VkGeneratedCommandsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1262:103: error: 'VkGeneratedCommandsInfoEXT' does not name a type; did you mean 'VkGeneratedCommandsInfoNV'?
+|  1262 | static VKAPI_ATTR void VKAPI_CALL StubCmdExecuteGeneratedCommandsEXT(VkCommandBuffer, VkBool32, const VkGeneratedCommandsInfoEXT*) {
+|       |                                                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                                       VkGeneratedCommandsInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1264:91: error: 'VkIndirectCommandsLayoutCreateInfoEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutCreateInfoNV'?
+|  1264 | static VKAPI_ATTR VkResult VKAPI_CALL StubCreateIndirectCommandsLayoutEXT(VkDevice, const VkIndirectCommandsLayoutCreateInfoEXT*,
+|       |                                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                                           VkIndirectCommandsLayoutCreateInfoNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1266:75: error: 'VkIndirectCommandsLayoutEXT' has not been declared
+|  1266 |                                                                           VkIndirectCommandsLayoutEXT*) {
+|       |                                                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1269:82: error: 'VkIndirectCommandsLayoutEXT' has not been declared
+|  1269 | static VKAPI_ATTR void VKAPI_CALL StubDestroyIndirectCommandsLayoutEXT(VkDevice, VkIndirectCommandsLayoutEXT,
+|       |                                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1271:89: error: 'VkIndirectExecutionSetCreateInfoEXT' does not name a type
+|  1271 | static VKAPI_ATTR VkResult VKAPI_CALL StubCreateIndirectExecutionSetEXT(VkDevice, const VkIndirectExecutionSetCreateInfoEXT*,
+|       |                                                                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1272:103: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1272 |                                                                         const VkAllocationCallbacks*, VkIndirectExecutionSetEXT*) {
+|       |                                                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1275:80: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1275 | static VKAPI_ATTR void VKAPI_CALL StubDestroyIndirectExecutionSetEXT(VkDevice, VkIndirectExecutionSetEXT,
+|       |                                                                                ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1277:87: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1277 | static VKAPI_ATTR void VKAPI_CALL StubUpdateIndirectExecutionSetPipelineEXT(VkDevice, VkIndirectExecutionSetEXT, uint32_t,
+|       |                                                                                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1278:83: error: 'VkWriteIndirectExecutionSetPipelineEXT' does not name a type
+|  1278 |                                                                             const VkWriteIndirectExecutionSetPipelineEXT*) {}
+|       |                                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1279:85: error: 'VkIndirectExecutionSetEXT' has not been declared
+|  1279 | static VKAPI_ATTR void VKAPI_CALL StubUpdateIndirectExecutionSetShaderEXT(VkDevice, VkIndirectExecutionSetEXT, uint32_t,
+|       |                                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1280:81: error: 'VkWriteIndirectExecutionSetShaderEXT' does not name a type
+|  1280 |                                                                           const VkWriteIndirectExecutionSetShaderEXT*) {}
+|       |                                                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp: In function 'void layer_init_device_dispatch_table(VkDevice, VkLayerDispatchTable*, PFN_vkGetDeviceProcAddr)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2773:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreatePipelineBinariesKHR'; did you mean 'CreatePipelineCache'?
+|  2773 |     table->CreatePipelineBinariesKHR = (PFN_vkCreatePipelineBinariesKHR)gpa(device, "vkCreatePipelineBinariesKHR");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            CreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2773:41: error: 'PFN_vkCreatePipelineBinariesKHR' was not declared in this scope; did you mean 'StubCreatePipelineBinariesKHR'?
+|  2773 |     table->CreatePipelineBinariesKHR = (PFN_vkCreatePipelineBinariesKHR)gpa(device, "vkCreatePipelineBinariesKHR");
+|       |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                         StubCreatePipelineBinariesKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2774:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreatePipelineBinariesKHR'; did you mean 'CreatePipelineCache'?
+|  2774 |     if (table->CreatePipelineBinariesKHR == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2775:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreatePipelineBinariesKHR'; did you mean 'CreatePipelineCache'?
+|  2775 |         table->CreatePipelineBinariesKHR = (PFN_vkCreatePipelineBinariesKHR)StubCreatePipelineBinariesKHR;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2777:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyPipelineBinaryKHR'; did you mean 'DestroyPipelineLayout'?
+|  2777 |     table->DestroyPipelineBinaryKHR = (PFN_vkDestroyPipelineBinaryKHR)gpa(device, "vkDestroyPipelineBinaryKHR");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |            DestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2777:40: error: 'PFN_vkDestroyPipelineBinaryKHR' was not declared in this scope; did you mean 'StubDestroyPipelineBinaryKHR'?
+|  2777 |     table->DestroyPipelineBinaryKHR = (PFN_vkDestroyPipelineBinaryKHR)gpa(device, "vkDestroyPipelineBinaryKHR");
+|       |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                        StubDestroyPipelineBinaryKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2778:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyPipelineBinaryKHR'; did you mean 'DestroyPipelineLayout'?
+|  2778 |     if (table->DestroyPipelineBinaryKHR == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                DestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2779:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyPipelineBinaryKHR'; did you mean 'DestroyPipelineLayout'?
+|  2779 |         table->DestroyPipelineBinaryKHR = (PFN_vkDestroyPipelineBinaryKHR)StubDestroyPipelineBinaryKHR;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                DestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2781:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetPipelineKeyKHR'
+|  2781 |     table->GetPipelineKeyKHR = (PFN_vkGetPipelineKeyKHR)gpa(device, "vkGetPipelineKeyKHR");
+|       |            ^~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2781:33: error: 'PFN_vkGetPipelineKeyKHR' was not declared in this scope; did you mean 'StubGetPipelineKeyKHR'?
+|  2781 |     table->GetPipelineKeyKHR = (PFN_vkGetPipelineKeyKHR)gpa(device, "vkGetPipelineKeyKHR");
+|       |                                 ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                 StubGetPipelineKeyKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2782:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetPipelineKeyKHR'
+|  2782 |     if (table->GetPipelineKeyKHR == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2783:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetPipelineKeyKHR'
+|  2783 |         table->GetPipelineKeyKHR = (PFN_vkGetPipelineKeyKHR)StubGetPipelineKeyKHR;
+|       |                ^~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2785:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetPipelineBinaryDataKHR'
+|  2785 |     table->GetPipelineBinaryDataKHR = (PFN_vkGetPipelineBinaryDataKHR)gpa(device, "vkGetPipelineBinaryDataKHR");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2785:40: error: 'PFN_vkGetPipelineBinaryDataKHR' was not declared in this scope; did you mean 'StubGetPipelineBinaryDataKHR'?
+|  2785 |     table->GetPipelineBinaryDataKHR = (PFN_vkGetPipelineBinaryDataKHR)gpa(device, "vkGetPipelineBinaryDataKHR");
+|       |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                        StubGetPipelineBinaryDataKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2786:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetPipelineBinaryDataKHR'
+|  2786 |     if (table->GetPipelineBinaryDataKHR == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2787:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetPipelineBinaryDataKHR'
+|  2787 |         table->GetPipelineBinaryDataKHR = (PFN_vkGetPipelineBinaryDataKHR)StubGetPipelineBinaryDataKHR;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2789:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'ReleaseCapturedPipelineDataKHR'
+|  2789 |     table->ReleaseCapturedPipelineDataKHR = (PFN_vkReleaseCapturedPipelineDataKHR)gpa(device, "vkReleaseCapturedPipelineDataKHR");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2789:46: error: 'PFN_vkReleaseCapturedPipelineDataKHR' was not declared in this scope; did you mean 'StubReleaseCapturedPipelineDataKHR'?
+|  2789 |     table->ReleaseCapturedPipelineDataKHR = (PFN_vkReleaseCapturedPipelineDataKHR)gpa(device, "vkReleaseCapturedPipelineDataKHR");
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              StubReleaseCapturedPipelineDataKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2790:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'ReleaseCapturedPipelineDataKHR'
+|  2790 |     if (table->ReleaseCapturedPipelineDataKHR == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:2791:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'ReleaseCapturedPipelineDataKHR'
+|  2791 |         table->ReleaseCapturedPipelineDataKHR = (PFN_vkReleaseCapturedPipelineDataKHR)StubReleaseCapturedPipelineDataKHR;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3891:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'AntiLagUpdateAMD'
+|  3891 |     table->AntiLagUpdateAMD = (PFN_vkAntiLagUpdateAMD)gpa(device, "vkAntiLagUpdateAMD");
+|       |            ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3891:32: error: 'PFN_vkAntiLagUpdateAMD' was not declared in this scope; did you mean 'StubAntiLagUpdateAMD'?
+|  3891 |     table->AntiLagUpdateAMD = (PFN_vkAntiLagUpdateAMD)gpa(device, "vkAntiLagUpdateAMD");
+|       |                                ^~~~~~~~~~~~~~~~~~~~~~
+|       |                                StubAntiLagUpdateAMD
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3892:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'AntiLagUpdateAMD'
+|  3892 |     if (table->AntiLagUpdateAMD == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3893:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'AntiLagUpdateAMD'
+|  3893 |         table->AntiLagUpdateAMD = (PFN_vkAntiLagUpdateAMD)StubAntiLagUpdateAMD;
+|       |                ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3911:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdSetDepthClampRangeEXT'; did you mean 'CmdSetDepthClampEnableEXT'?
+|  3911 |     table->CmdSetDepthClampRangeEXT = (PFN_vkCmdSetDepthClampRangeEXT)gpa(device, "vkCmdSetDepthClampRangeEXT");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |            CmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3911:40: error: 'PFN_vkCmdSetDepthClampRangeEXT' was not declared in this scope; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|  3911 |     table->CmdSetDepthClampRangeEXT = (PFN_vkCmdSetDepthClampRangeEXT)gpa(device, "vkCmdSetDepthClampRangeEXT");
+|       |                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                        PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3912:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdSetDepthClampRangeEXT'; did you mean 'CmdSetDepthClampEnableEXT'?
+|  3912 |     if (table->CmdSetDepthClampRangeEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3913:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdSetDepthClampRangeEXT'; did you mean 'CmdSetDepthClampEnableEXT'?
+|  3913 |         table->CmdSetDepthClampRangeEXT = (PFN_vkCmdSetDepthClampRangeEXT)StubCmdSetDepthClampRangeEXT;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3958:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetGeneratedCommandsMemoryRequirementsEXT'; did you mean 'GetGeneratedCommandsMemoryRequirementsNV'?
+|  3958 |     table->GetGeneratedCommandsMemoryRequirementsEXT =
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            GetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3959:10: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' was not declared in this scope; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|  3959 |         (PFN_vkGetGeneratedCommandsMemoryRequirementsEXT)gpa(device, "vkGetGeneratedCommandsMemoryRequirementsEXT");
+|       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |          PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3960:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetGeneratedCommandsMemoryRequirementsEXT'; did you mean 'GetGeneratedCommandsMemoryRequirementsNV'?
+|  3960 |     if (table->GetGeneratedCommandsMemoryRequirementsEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                GetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3961:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'GetGeneratedCommandsMemoryRequirementsEXT'; did you mean 'GetGeneratedCommandsMemoryRequirementsNV'?
+|  3961 |         table->GetGeneratedCommandsMemoryRequirementsEXT =
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                GetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3964:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdPreprocessGeneratedCommandsEXT'; did you mean 'CmdPreprocessGeneratedCommandsNV'?
+|  3964 |     table->CmdPreprocessGeneratedCommandsEXT =
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            CmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3965:10: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' was not declared in this scope; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|  3965 |         (PFN_vkCmdPreprocessGeneratedCommandsEXT)gpa(device, "vkCmdPreprocessGeneratedCommandsEXT");
+|       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |          PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3966:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdPreprocessGeneratedCommandsEXT'; did you mean 'CmdPreprocessGeneratedCommandsNV'?
+|  3966 |     if (table->CmdPreprocessGeneratedCommandsEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3967:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdPreprocessGeneratedCommandsEXT'; did you mean 'CmdPreprocessGeneratedCommandsNV'?
+|  3967 |         table->CmdPreprocessGeneratedCommandsEXT = (PFN_vkCmdPreprocessGeneratedCommandsEXT)StubCmdPreprocessGeneratedCommandsEXT;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3969:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdExecuteGeneratedCommandsEXT'; did you mean 'CmdExecuteGeneratedCommandsNV'?
+|  3969 |     table->CmdExecuteGeneratedCommandsEXT = (PFN_vkCmdExecuteGeneratedCommandsEXT)gpa(device, "vkCmdExecuteGeneratedCommandsEXT");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            CmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3969:46: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' was not declared in this scope; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|  3969 |     table->CmdExecuteGeneratedCommandsEXT = (PFN_vkCmdExecuteGeneratedCommandsEXT)gpa(device, "vkCmdExecuteGeneratedCommandsEXT");
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3970:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdExecuteGeneratedCommandsEXT'; did you mean 'CmdExecuteGeneratedCommandsNV'?
+|  3970 |     if (table->CmdExecuteGeneratedCommandsEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3971:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CmdExecuteGeneratedCommandsEXT'; did you mean 'CmdExecuteGeneratedCommandsNV'?
+|  3971 |         table->CmdExecuteGeneratedCommandsEXT = (PFN_vkCmdExecuteGeneratedCommandsEXT)StubCmdExecuteGeneratedCommandsEXT;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3973:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreateIndirectCommandsLayoutEXT'; did you mean 'CreateIndirectCommandsLayoutNV'?
+|  3973 |     table->CreateIndirectCommandsLayoutEXT =
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            CreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3974:10: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|  3974 |         (PFN_vkCreateIndirectCommandsLayoutEXT)gpa(device, "vkCreateIndirectCommandsLayoutEXT");
+|       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |          PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3975:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreateIndirectCommandsLayoutEXT'; did you mean 'CreateIndirectCommandsLayoutNV'?
+|  3975 |     if (table->CreateIndirectCommandsLayoutEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3976:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreateIndirectCommandsLayoutEXT'; did you mean 'CreateIndirectCommandsLayoutNV'?
+|  3976 |         table->CreateIndirectCommandsLayoutEXT = (PFN_vkCreateIndirectCommandsLayoutEXT)StubCreateIndirectCommandsLayoutEXT;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                CreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3978:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyIndirectCommandsLayoutEXT'; did you mean 'DestroyIndirectCommandsLayoutNV'?
+|  3978 |     table->DestroyIndirectCommandsLayoutEXT =
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |            DestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3979:10: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|  3979 |         (PFN_vkDestroyIndirectCommandsLayoutEXT)gpa(device, "vkDestroyIndirectCommandsLayoutEXT");
+|       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |          PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3980:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyIndirectCommandsLayoutEXT'; did you mean 'DestroyIndirectCommandsLayoutNV'?
+|  3980 |     if (table->DestroyIndirectCommandsLayoutEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                DestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3981:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyIndirectCommandsLayoutEXT'; did you mean 'DestroyIndirectCommandsLayoutNV'?
+|  3981 |         table->DestroyIndirectCommandsLayoutEXT = (PFN_vkDestroyIndirectCommandsLayoutEXT)StubDestroyIndirectCommandsLayoutEXT;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                DestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3983:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreateIndirectExecutionSetEXT'
+|  3983 |     table->CreateIndirectExecutionSetEXT = (PFN_vkCreateIndirectExecutionSetEXT)gpa(device, "vkCreateIndirectExecutionSetEXT");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3983:45: error: 'PFN_vkCreateIndirectExecutionSetEXT' was not declared in this scope; did you mean 'StubCreateIndirectExecutionSetEXT'?
+|  3983 |     table->CreateIndirectExecutionSetEXT = (PFN_vkCreateIndirectExecutionSetEXT)gpa(device, "vkCreateIndirectExecutionSetEXT");
+|       |                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                             StubCreateIndirectExecutionSetEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3984:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreateIndirectExecutionSetEXT'
+|  3984 |     if (table->CreateIndirectExecutionSetEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3985:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'CreateIndirectExecutionSetEXT'
+|  3985 |         table->CreateIndirectExecutionSetEXT = (PFN_vkCreateIndirectExecutionSetEXT)StubCreateIndirectExecutionSetEXT;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3987:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyIndirectExecutionSetEXT'
+|  3987 |     table->DestroyIndirectExecutionSetEXT = (PFN_vkDestroyIndirectExecutionSetEXT)gpa(device, "vkDestroyIndirectExecutionSetEXT");
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3987:46: error: 'PFN_vkDestroyIndirectExecutionSetEXT' was not declared in this scope; did you mean 'StubDestroyIndirectExecutionSetEXT'?
+|  3987 |     table->DestroyIndirectExecutionSetEXT = (PFN_vkDestroyIndirectExecutionSetEXT)gpa(device, "vkDestroyIndirectExecutionSetEXT");
+|       |                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                              StubDestroyIndirectExecutionSetEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3988:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyIndirectExecutionSetEXT'
+|  3988 |     if (table->DestroyIndirectExecutionSetEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3989:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'DestroyIndirectExecutionSetEXT'
+|  3989 |         table->DestroyIndirectExecutionSetEXT = (PFN_vkDestroyIndirectExecutionSetEXT)StubDestroyIndirectExecutionSetEXT;
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3991:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'UpdateIndirectExecutionSetPipelineEXT'
+|  3991 |     table->UpdateIndirectExecutionSetPipelineEXT =
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3992:10: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' was not declared in this scope; did you mean 'StubUpdateIndirectExecutionSetPipelineEXT'?
+|  3992 |         (PFN_vkUpdateIndirectExecutionSetPipelineEXT)gpa(device, "vkUpdateIndirectExecutionSetPipelineEXT");
+|       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |          StubUpdateIndirectExecutionSetPipelineEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3993:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'UpdateIndirectExecutionSetPipelineEXT'
+|  3993 |     if (table->UpdateIndirectExecutionSetPipelineEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3994:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'UpdateIndirectExecutionSetPipelineEXT'
+|  3994 |         table->UpdateIndirectExecutionSetPipelineEXT =
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3997:12: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'UpdateIndirectExecutionSetShaderEXT'
+|  3997 |     table->UpdateIndirectExecutionSetShaderEXT =
+|       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3998:10: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' was not declared in this scope; did you mean 'StubUpdateIndirectExecutionSetShaderEXT'?
+|  3998 |         (PFN_vkUpdateIndirectExecutionSetShaderEXT)gpa(device, "vkUpdateIndirectExecutionSetShaderEXT");
+|       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |          StubUpdateIndirectExecutionSetShaderEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:3999:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'UpdateIndirectExecutionSetShaderEXT'
+|  3999 |     if (table->UpdateIndirectExecutionSetShaderEXT == nullptr) {
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:4000:16: error: 'VkLayerDispatchTable' {aka 'struct VkLayerDispatchTable_'} has no member named 'UpdateIndirectExecutionSetShaderEXT'
+|  4000 |         table->UpdateIndirectExecutionSetShaderEXT =
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1279:35: warning: 'void StubUpdateIndirectExecutionSetShaderEXT(VkDevice, int, uint32_t, const int*)' defined but not used [-Wunused-function]
+|  1279 | static VKAPI_ATTR void VKAPI_CALL StubUpdateIndirectExecutionSetShaderEXT(VkDevice, VkIndirectExecutionSetEXT, uint32_t,
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1277:35: warning: 'void StubUpdateIndirectExecutionSetPipelineEXT(VkDevice, int, uint32_t, const int*)' defined but not used [-Wunused-function]
+|  1277 | static VKAPI_ATTR void VKAPI_CALL StubUpdateIndirectExecutionSetPipelineEXT(VkDevice, VkIndirectExecutionSetEXT, uint32_t,
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1275:35: warning: 'void StubDestroyIndirectExecutionSetEXT(VkDevice, int, const VkAllocationCallbacks*)' defined but not used [-Wunused-function]
+|  1275 | static VKAPI_ATTR void VKAPI_CALL StubDestroyIndirectExecutionSetEXT(VkDevice, VkIndirectExecutionSetEXT,
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1271:39: warning: 'VkResult StubCreateIndirectExecutionSetEXT(VkDevice, const int*, const VkAllocationCallbacks*, int*)' defined but not used [-Wunused-function]
+|  1271 | static VKAPI_ATTR VkResult VKAPI_CALL StubCreateIndirectExecutionSetEXT(VkDevice, const VkIndirectExecutionSetCreateInfoEXT*,
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1269:35: warning: 'void StubDestroyIndirectCommandsLayoutEXT(VkDevice, int, const VkAllocationCallbacks*)' defined but not used [-Wunused-function]
+|  1269 | static VKAPI_ATTR void VKAPI_CALL StubDestroyIndirectCommandsLayoutEXT(VkDevice, VkIndirectCommandsLayoutEXT,
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1264:39: warning: 'VkResult StubCreateIndirectCommandsLayoutEXT(VkDevice, const int*, const VkAllocationCallbacks*, int*)' defined but not used [-Wunused-function]
+|  1264 | static VKAPI_ATTR VkResult VKAPI_CALL StubCreateIndirectCommandsLayoutEXT(VkDevice, const VkIndirectCommandsLayoutCreateInfoEXT*,
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1262:35: warning: 'void StubCmdExecuteGeneratedCommandsEXT(VkCommandBuffer, VkBool32, const int*)' defined but not used [-Wunused-function]
+|  1262 | static VKAPI_ATTR void VKAPI_CALL StubCmdExecuteGeneratedCommandsEXT(VkCommandBuffer, VkBool32, const VkGeneratedCommandsInfoEXT*) {
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1260:35: warning: 'void StubCmdPreprocessGeneratedCommandsEXT(VkCommandBuffer, const int*, VkCommandBuffer)' defined but not used [-Wunused-function]
+|  1260 | static VKAPI_ATTR void VKAPI_CALL StubCmdPreprocessGeneratedCommandsEXT(VkCommandBuffer, const VkGeneratedCommandsInfoEXT*,
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1257:35: warning: 'void StubGetGeneratedCommandsMemoryRequirementsEXT(VkDevice, const int*, VkMemoryRequirements2*)' defined but not used [-Wunused-function]
+|  1257 | static VKAPI_ATTR void VKAPI_CALL StubGetGeneratedCommandsMemoryRequirementsEXT(VkDevice,
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1232:35: warning: 'void StubCmdSetDepthClampRangeEXT(VkCommandBuffer, int, const int*)' defined but not used [-Wunused-function]
+|  1232 | static VKAPI_ATTR void VKAPI_CALL StubCmdSetDepthClampRangeEXT(VkCommandBuffer, VkDepthClampModeEXT, const VkDepthClampRangeEXT*) {}
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:1223:35: warning: 'void StubAntiLagUpdateAMD(VkDevice, const int*)' defined but not used [-Wunused-function]
+|  1223 | static VKAPI_ATTR void VKAPI_CALL StubAntiLagUpdateAMD(VkDevice, const VkAntiLagDataAMD*) {}
+|       |                                   ^~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:557:39: warning: 'VkResult StubReleaseCapturedPipelineDataKHR(VkDevice, const int*, const VkAllocationCallbacks*)' defined but not used [-Wunused-function]
+|   557 | static VKAPI_ATTR VkResult VKAPI_CALL StubReleaseCapturedPipelineDataKHR(VkDevice, const VkReleaseCapturedPipelineDataInfoKHR*,
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:553:39: warning: 'VkResult StubGetPipelineBinaryDataKHR(VkDevice, const int*, int*, size_t*, void*)' defined but not used [-Wunused-function]
+|   553 | static VKAPI_ATTR VkResult VKAPI_CALL StubGetPipelineBinaryDataKHR(VkDevice, const VkPipelineBinaryDataInfoKHR*,
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:550:39: warning: 'VkResult StubGetPipelineKeyKHR(VkDevice, const int*, int*)' defined but not used [-Wunused-function]
+|   550 | static VKAPI_ATTR VkResult VKAPI_CALL StubGetPipelineKeyKHR(VkDevice, const VkPipelineCreateInfoKHR*, VkPipelineBinaryKeyKHR*) {
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:549:35: warning: 'void StubDestroyPipelineBinaryKHR(VkDevice, int, const VkAllocationCallbacks*)' defined but not used [-Wunused-function]
+|   549 | static VKAPI_ATTR void VKAPI_CALL StubDestroyPipelineBinaryKHR(VkDevice, VkPipelineBinaryKHR, const VkAllocationCallbacks*) {}
+|       |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_dispatch_table_helper.cpp:545:39: warning: 'VkResult StubCreatePipelineBinariesKHR(VkDevice, const int*, const VkAllocationCallbacks*, int*)' defined but not used [-Wunused-function]
+|   545 | static VKAPI_ATTR VkResult VKAPI_CALL StubCreatePipelineBinariesKHR(VkDevice, const VkPipelineBinaryCreateInfoKHR*,
+|       |                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| [16/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/error_message/logging.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/error_message/logging.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/error_message/logging.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/logging.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/error_message/logging.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/error_message/logging.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/error_message/logging.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/error_message/logging.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/logging.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/logging.h:31,
+|                  from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/logging.cpp:17:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:475:5: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   475 |     PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:476:5: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   476 |     PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:477:5: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   477 |     PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:478:5: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   478 |     PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:479:5: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   479 |     PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:735:5: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   735 |     PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:740:5: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   740 |     PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:752:5: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   752 |     PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:753:5: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   753 |     PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:754:5: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   754 |     PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:755:5: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   755 |     PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:756:5: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   756 |     PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:757:5: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   757 |     PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:758:5: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   758 |     PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:759:5: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   759 |     PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_layer_dispatch_table.h:760:5: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   760 |     PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/error_message/logging.h:32:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VkObjectType ConvertVulkanObjectToCoreObject(VulkanObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:165:20: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   165 |             return VK_OBJECT_TYPE_PIPELINE_BINARY_KHR;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:197:20: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   197 |             return VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:199:20: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   199 |             return VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT;
+|       |                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                    VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: In function 'constexpr VulkanObjectType ConvertCoreObjectToVulkanObject(VkObjectType)':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:278:14: error: 'VK_OBJECT_TYPE_PIPELINE_BINARY_KHR' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_PIPELINE_LAYOUT'?
+|   278 |         case VK_OBJECT_TYPE_PIPELINE_BINARY_KHR:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_PIPELINE_LAYOUT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:310:14: error: 'VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT' was not declared in this scope
+|   310 |         case VK_OBJECT_TYPE_INDIRECT_EXECUTION_SET_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:312:14: error: 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT' was not declared in this scope; did you mean 'VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV'?
+|   312 |         case VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_EXT:
+|       |              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |              VK_OBJECT_TYPE_INDIRECT_COMMANDS_LAYOUT_NV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h: At global scope:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:21: error: 'VkPipelineBinaryKHR' was not declared in this scope; did you mean 'VkPipelineInfoKHR'?
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                     ^~~~~~~~~~~~~~~~~~~
+|       |                     VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:961:40: error: template argument 1 is invalid
+|   961 | struct VkHandleInfo<VkPipelineBinaryKHR> {
+|       |                                        ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:969:13: error: 'VkPipelineBinaryKHR' does not name a type; did you mean 'VkPipelineInfoKHR'?
+|   969 |     typedef VkPipelineBinaryKHR Type;
+|       |             ^~~~~~~~~~~~~~~~~~~
+|       |             VkPipelineInfoKHR
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:21: error: 'VkIndirectExecutionSetEXT' was not declared in this scope
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1155:46: error: template argument 1 is invalid
+|  1155 | struct VkHandleInfo<VkIndirectExecutionSetEXT> {
+|       |                                              ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1163:13: error: 'VkIndirectExecutionSetEXT' does not name a type
+|  1163 |     typedef VkIndirectExecutionSetEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:21: error: 'VkIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                     VkIndirectCommandsLayoutNV_T
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1167:48: error: template argument 1 is invalid
+|  1167 | struct VkHandleInfo<VkIndirectCommandsLayoutEXT> {
+|       |                                                ^
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_object_types.h:1175:13: error: 'VkIndirectCommandsLayoutEXT' does not name a type; did you mean 'VkIndirectCommandsLayoutNV_T'?
+|  1175 |     typedef VkIndirectCommandsLayoutEXT Type;
+|       |             ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |             VkIndirectCommandsLayoutNV_T
+| [17/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_function_pointers.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_function_pointers.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_function_pointers.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/
+ layers/vulkan/generated/vk_function_pointers.cpp
+| FAILED: layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_function_pointers.cpp.o
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security 
+  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-vali
+ dation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_function_pointers.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_function_pointers.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_function_pointers.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vu
+ lkan/generated/vk_function_pointers.cpp
+| In file included from /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:26:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:422:8: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   422 | extern PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:423:8: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   423 | extern PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:424:8: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   424 | extern PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:425:8: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   425 | extern PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:426:8: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   426 | extern PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:737:8: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   737 | extern PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:742:8: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   742 | extern PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:754:8: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   754 | extern PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:755:8: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   755 | extern PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:756:8: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   756 | extern PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:757:8: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   757 | extern PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:758:8: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   758 | extern PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |        PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:759:8: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   759 | extern PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:760:8: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   760 | extern PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:761:8: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   761 | extern PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.h:762:8: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   762 | extern PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       |        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:459:1: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|   459 | PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:460:1: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|   460 | PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:461:1: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   461 | PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:462:1: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|   462 | PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:463:1: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|   463 | PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:774:1: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|   774 | PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
+|       | ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:779:1: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|   779 | PFN_vkCmdSetDepthClampRangeEXT CmdSetDepthClampRangeEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:791:1: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|   791 | PFN_vkGetGeneratedCommandsMemoryRequirementsEXT GetGeneratedCommandsMemoryRequirementsEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:792:1: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|   792 | PFN_vkCmdPreprocessGeneratedCommandsEXT CmdPreprocessGeneratedCommandsEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:793:1: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|   793 | PFN_vkCmdExecuteGeneratedCommandsEXT CmdExecuteGeneratedCommandsEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:794:1: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|   794 | PFN_vkCreateIndirectCommandsLayoutEXT CreateIndirectCommandsLayoutEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:795:1: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|   795 | PFN_vkDestroyIndirectCommandsLayoutEXT DestroyIndirectCommandsLayoutEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       | PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:796:1: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|   796 | PFN_vkCreateIndirectExecutionSetEXT CreateIndirectExecutionSetEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:797:1: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|   797 | PFN_vkDestroyIndirectExecutionSetEXT DestroyIndirectExecutionSetEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:798:1: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|   798 | PFN_vkUpdateIndirectExecutionSetPipelineEXT UpdateIndirectExecutionSetPipelineEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:799:1: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|   799 | PFN_vkUpdateIndirectExecutionSetShaderEXT UpdateIndirectExecutionSetShaderEXT;
+|       | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp: In lambda function:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1768:17: error: 'CreatePipelineBinariesKHR' was not declared in this scope; did you mean 'CreatePipelineCache'?
+|  1768 |                 CreatePipelineBinariesKHR = reinterpret_cast<PFN_vkCreatePipelineBinariesKHR>(GetDeviceProcAddr(device, "vkCreatePipelineBinariesKHR"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 CreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1768:62: error: 'PFN_vkCreatePipelineBinariesKHR' does not name a type; did you mean 'PFN_vkCreatePipelineCache'?
+|  1768 |                 CreatePipelineBinariesKHR = reinterpret_cast<PFN_vkCreatePipelineBinariesKHR>(GetDeviceProcAddr(device, "vkCreatePipelineBinariesKHR"));
+|       |                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                              PFN_vkCreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1769:17: error: 'DestroyPipelineBinaryKHR' was not declared in this scope; did you mean 'DestroyPipelineLayout'?
+|  1769 |                 DestroyPipelineBinaryKHR = reinterpret_cast<PFN_vkDestroyPipelineBinaryKHR>(GetDeviceProcAddr(device, "vkDestroyPipelineBinaryKHR"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 DestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1769:61: error: 'PFN_vkDestroyPipelineBinaryKHR' does not name a type; did you mean 'PFN_vkDestroyPipelineLayout'?
+|  1769 |                 DestroyPipelineBinaryKHR = reinterpret_cast<PFN_vkDestroyPipelineBinaryKHR>(GetDeviceProcAddr(device, "vkDestroyPipelineBinaryKHR"));
+|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                             PFN_vkDestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1770:17: error: 'GetPipelineKeyKHR' was not declared in this scope
+|  1770 |                 GetPipelineKeyKHR = reinterpret_cast<PFN_vkGetPipelineKeyKHR>(GetDeviceProcAddr(device, "vkGetPipelineKeyKHR"));
+|       |                 ^~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1770:54: error: 'PFN_vkGetPipelineKeyKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|  1770 |                 GetPipelineKeyKHR = reinterpret_cast<PFN_vkGetPipelineKeyKHR>(GetDeviceProcAddr(device, "vkGetPipelineKeyKHR"));
+|       |                                                      ^~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                      PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1771:17: error: 'GetPipelineBinaryDataKHR' was not declared in this scope
+|  1771 |                 GetPipelineBinaryDataKHR = reinterpret_cast<PFN_vkGetPipelineBinaryDataKHR>(GetDeviceProcAddr(device, "vkGetPipelineBinaryDataKHR"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1771:61: error: 'PFN_vkGetPipelineBinaryDataKHR' does not name a type; did you mean 'PFN_vkGetPipelineCacheData'?
+|  1771 |                 GetPipelineBinaryDataKHR = reinterpret_cast<PFN_vkGetPipelineBinaryDataKHR>(GetDeviceProcAddr(device, "vkGetPipelineBinaryDataKHR"));
+|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                             PFN_vkGetPipelineCacheData
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1772:17: error: 'ReleaseCapturedPipelineDataKHR' was not declared in this scope
+|  1772 |                 ReleaseCapturedPipelineDataKHR = reinterpret_cast<PFN_vkReleaseCapturedPipelineDataKHR>(GetDeviceProcAddr(device, "vkReleaseCapturedPipelineDataKHR"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:1772:67: error: 'PFN_vkReleaseCapturedPipelineDataKHR' does not name a type
+|  1772 |                 ReleaseCapturedPipelineDataKHR = reinterpret_cast<PFN_vkReleaseCapturedPipelineDataKHR>(GetDeviceProcAddr(device, "vkReleaseCapturedPipelineDataKHR"));
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp: In lambda function:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2329:17: error: 'AntiLagUpdateAMD' was not declared in this scope
+|  2329 |                 AntiLagUpdateAMD = reinterpret_cast<PFN_vkAntiLagUpdateAMD>(GetDeviceProcAddr(device, "vkAntiLagUpdateAMD"));
+|       |                 ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2329:53: error: 'PFN_vkAntiLagUpdateAMD' does not name a type
+|  2329 |                 AntiLagUpdateAMD = reinterpret_cast<PFN_vkAntiLagUpdateAMD>(GetDeviceProcAddr(device, "vkAntiLagUpdateAMD"));
+|       |                                                     ^~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp: In lambda function:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2387:17: error: 'CmdSetDepthClampRangeEXT' was not declared in this scope; did you mean 'CmdSetDepthClampEnableEXT'?
+|  2387 |                 CmdSetDepthClampRangeEXT = reinterpret_cast<PFN_vkCmdSetDepthClampRangeEXT>(GetDeviceProcAddr(device, "vkCmdSetDepthClampRangeEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 CmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2387:61: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|  2387 |                 CmdSetDepthClampRangeEXT = reinterpret_cast<PFN_vkCmdSetDepthClampRangeEXT>(GetDeviceProcAddr(device, "vkCmdSetDepthClampRangeEXT"));
+|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                             PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp: In lambda function:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2419:17: error: 'GetGeneratedCommandsMemoryRequirementsEXT' was not declared in this scope; did you mean 'GetGeneratedCommandsMemoryRequirementsNV'?
+|  2419 |                 GetGeneratedCommandsMemoryRequirementsEXT = reinterpret_cast<PFN_vkGetGeneratedCommandsMemoryRequirementsEXT>(GetDeviceProcAddr(device, "vkGetGeneratedCommandsMemoryRequirementsEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 GetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2419:78: error: 'PFN_vkGetGeneratedCommandsMemoryRequirementsEXT' does not name a type; did you mean 'PFN_vkGetGeneratedCommandsMemoryRequirementsNV'?
+|  2419 |                 GetGeneratedCommandsMemoryRequirementsEXT = reinterpret_cast<PFN_vkGetGeneratedCommandsMemoryRequirementsEXT>(GetDeviceProcAddr(device, "vkGetGeneratedCommandsMemoryRequirementsEXT"));
+|       |                                                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                              PFN_vkGetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2420:17: error: 'CmdPreprocessGeneratedCommandsEXT' was not declared in this scope; did you mean 'CmdPreprocessGeneratedCommandsNV'?
+|  2420 |                 CmdPreprocessGeneratedCommandsEXT = reinterpret_cast<PFN_vkCmdPreprocessGeneratedCommandsEXT>(GetDeviceProcAddr(device, "vkCmdPreprocessGeneratedCommandsEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 CmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2420:70: error: 'PFN_vkCmdPreprocessGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdPreprocessGeneratedCommandsNV'?
+|  2420 |                 CmdPreprocessGeneratedCommandsEXT = reinterpret_cast<PFN_vkCmdPreprocessGeneratedCommandsEXT>(GetDeviceProcAddr(device, "vkCmdPreprocessGeneratedCommandsEXT"));
+|       |                                                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                      PFN_vkCmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2421:17: error: 'CmdExecuteGeneratedCommandsEXT' was not declared in this scope; did you mean 'CmdExecuteGeneratedCommandsNV'?
+|  2421 |                 CmdExecuteGeneratedCommandsEXT = reinterpret_cast<PFN_vkCmdExecuteGeneratedCommandsEXT>(GetDeviceProcAddr(device, "vkCmdExecuteGeneratedCommandsEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 CmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2421:67: error: 'PFN_vkCmdExecuteGeneratedCommandsEXT' does not name a type; did you mean 'PFN_vkCmdExecuteGeneratedCommandsNV'?
+|  2421 |                 CmdExecuteGeneratedCommandsEXT = reinterpret_cast<PFN_vkCmdExecuteGeneratedCommandsEXT>(GetDeviceProcAddr(device, "vkCmdExecuteGeneratedCommandsEXT"));
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                   PFN_vkCmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2422:17: error: 'CreateIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'CreateIndirectCommandsLayoutNV'?
+|  2422 |                 CreateIndirectCommandsLayoutEXT = reinterpret_cast<PFN_vkCreateIndirectCommandsLayoutEXT>(GetDeviceProcAddr(device, "vkCreateIndirectCommandsLayoutEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 CreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2422:68: error: 'PFN_vkCreateIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkCreateIndirectCommandsLayoutNV'?
+|  2422 |                 CreateIndirectCommandsLayoutEXT = reinterpret_cast<PFN_vkCreateIndirectCommandsLayoutEXT>(GetDeviceProcAddr(device, "vkCreateIndirectCommandsLayoutEXT"));
+|       |                                                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                    PFN_vkCreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2423:17: error: 'DestroyIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'DestroyIndirectCommandsLayoutNV'?
+|  2423 |                 DestroyIndirectCommandsLayoutEXT = reinterpret_cast<PFN_vkDestroyIndirectCommandsLayoutEXT>(GetDeviceProcAddr(device, "vkDestroyIndirectCommandsLayoutEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 DestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2423:69: error: 'PFN_vkDestroyIndirectCommandsLayoutEXT' does not name a type; did you mean 'PFN_vkDestroyIndirectCommandsLayoutNV'?
+|  2423 |                 DestroyIndirectCommandsLayoutEXT = reinterpret_cast<PFN_vkDestroyIndirectCommandsLayoutEXT>(GetDeviceProcAddr(device, "vkDestroyIndirectCommandsLayoutEXT"));
+|       |                                                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                                     PFN_vkDestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2424:17: error: 'CreateIndirectExecutionSetEXT' was not declared in this scope
+|  2424 |                 CreateIndirectExecutionSetEXT = reinterpret_cast<PFN_vkCreateIndirectExecutionSetEXT>(GetDeviceProcAddr(device, "vkCreateIndirectExecutionSetEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2424:66: error: 'PFN_vkCreateIndirectExecutionSetEXT' does not name a type
+|  2424 |                 CreateIndirectExecutionSetEXT = reinterpret_cast<PFN_vkCreateIndirectExecutionSetEXT>(GetDeviceProcAddr(device, "vkCreateIndirectExecutionSetEXT"));
+|       |                                                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2425:17: error: 'DestroyIndirectExecutionSetEXT' was not declared in this scope
+|  2425 |                 DestroyIndirectExecutionSetEXT = reinterpret_cast<PFN_vkDestroyIndirectExecutionSetEXT>(GetDeviceProcAddr(device, "vkDestroyIndirectExecutionSetEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2425:67: error: 'PFN_vkDestroyIndirectExecutionSetEXT' does not name a type
+|  2425 |                 DestroyIndirectExecutionSetEXT = reinterpret_cast<PFN_vkDestroyIndirectExecutionSetEXT>(GetDeviceProcAddr(device, "vkDestroyIndirectExecutionSetEXT"));
+|       |                                                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2426:17: error: 'UpdateIndirectExecutionSetPipelineEXT' was not declared in this scope
+|  2426 |                 UpdateIndirectExecutionSetPipelineEXT = reinterpret_cast<PFN_vkUpdateIndirectExecutionSetPipelineEXT>(GetDeviceProcAddr(device, "vkUpdateIndirectExecutionSetPipelineEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2426:74: error: 'PFN_vkUpdateIndirectExecutionSetPipelineEXT' does not name a type
+|  2426 |                 UpdateIndirectExecutionSetPipelineEXT = reinterpret_cast<PFN_vkUpdateIndirectExecutionSetPipelineEXT>(GetDeviceProcAddr(device, "vkUpdateIndirectExecutionSetPipelineEXT"));
+|       |                                                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2427:17: error: 'UpdateIndirectExecutionSetShaderEXT' was not declared in this scope
+|  2427 |                 UpdateIndirectExecutionSetShaderEXT = reinterpret_cast<PFN_vkUpdateIndirectExecutionSetShaderEXT>(GetDeviceProcAddr(device, "vkUpdateIndirectExecutionSetShaderEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2427:72: error: 'PFN_vkUpdateIndirectExecutionSetShaderEXT' does not name a type
+|  2427 |                 UpdateIndirectExecutionSetShaderEXT = reinterpret_cast<PFN_vkUpdateIndirectExecutionSetShaderEXT>(GetDeviceProcAddr(device, "vkUpdateIndirectExecutionSetShaderEXT"));
+|       |                                                                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp: In lambda function:
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2432:17: error: 'CmdSetDepthClampRangeEXT' was not declared in this scope; did you mean 'CmdSetDepthClampEnableEXT'?
+|  2432 |                 CmdSetDepthClampRangeEXT = reinterpret_cast<PFN_vkCmdSetDepthClampRangeEXT>(GetDeviceProcAddr(device, "vkCmdSetDepthClampRangeEXT"));
+|       |                 ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |                 CmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2432:61: error: 'PFN_vkCmdSetDepthClampRangeEXT' does not name a type; did you mean 'PFN_vkCmdSetDepthClampEnableEXT'?
+|  2432 |                 CmdSetDepthClampRangeEXT = reinterpret_cast<PFN_vkCmdSetDepthClampRangeEXT>(GetDeviceProcAddr(device, "vkCmdSetDepthClampRangeEXT"));
+|       |                                                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |                                                             PFN_vkCmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp: In function 'void vk::ResetAllExtensions()':
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2645:5: error: 'CreatePipelineBinariesKHR' was not declared in this scope; did you mean 'CreatePipelineCache'?
+|  2645 |     CreatePipelineBinariesKHR = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     CreatePipelineCache
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2646:5: error: 'DestroyPipelineBinaryKHR' was not declared in this scope; did you mean 'DestroyPipelineLayout'?
+|  2646 |     DestroyPipelineBinaryKHR = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |     DestroyPipelineLayout
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2647:5: error: 'GetPipelineKeyKHR' was not declared in this scope
+|  2647 |     GetPipelineKeyKHR = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2648:5: error: 'GetPipelineBinaryDataKHR' was not declared in this scope
+|  2648 |     GetPipelineBinaryDataKHR = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2649:5: error: 'ReleaseCapturedPipelineDataKHR' was not declared in this scope
+|  2649 |     ReleaseCapturedPipelineDataKHR = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2960:5: error: 'AntiLagUpdateAMD' was not declared in this scope
+|  2960 |     AntiLagUpdateAMD = nullptr;
+|       |     ^~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2965:5: error: 'CmdSetDepthClampRangeEXT' was not declared in this scope; did you mean 'CmdSetDepthClampEnableEXT'?
+|  2965 |     CmdSetDepthClampRangeEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~
+|       |     CmdSetDepthClampEnableEXT
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2977:5: error: 'GetGeneratedCommandsMemoryRequirementsEXT' was not declared in this scope; did you mean 'GetGeneratedCommandsMemoryRequirementsNV'?
+|  2977 |     GetGeneratedCommandsMemoryRequirementsEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     GetGeneratedCommandsMemoryRequirementsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2978:5: error: 'CmdPreprocessGeneratedCommandsEXT' was not declared in this scope; did you mean 'CmdPreprocessGeneratedCommandsNV'?
+|  2978 |     CmdPreprocessGeneratedCommandsEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     CmdPreprocessGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2979:5: error: 'CmdExecuteGeneratedCommandsEXT' was not declared in this scope; did you mean 'CmdExecuteGeneratedCommandsNV'?
+|  2979 |     CmdExecuteGeneratedCommandsEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     CmdExecuteGeneratedCommandsNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2980:5: error: 'CreateIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'CreateIndirectCommandsLayoutNV'?
+|  2980 |     CreateIndirectCommandsLayoutEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     CreateIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2981:5: error: 'DestroyIndirectCommandsLayoutEXT' was not declared in this scope; did you mean 'DestroyIndirectCommandsLayoutNV'?
+|  2981 |     DestroyIndirectCommandsLayoutEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+|       |     DestroyIndirectCommandsLayoutNV
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2982:5: error: 'CreateIndirectExecutionSetEXT' was not declared in this scope
+|  2982 |     CreateIndirectExecutionSetEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2983:5: error: 'DestroyIndirectExecutionSetEXT' was not declared in this scope
+|  2983 |     DestroyIndirectExecutionSetEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2984:5: error: 'UpdateIndirectExecutionSetPipelineEXT' was not declared in this scope
+|  2984 |     UpdateIndirectExecutionSetPipelineEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan/generated/vk_function_pointers.cpp:2985:5: error: 'UpdateIndirectExecutionSetShaderEXT' was not declared in this scope
+|  2985 |     UpdateIndirectExecutionSetShaderEXT = nullptr;
+|       |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+| [18/181] /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-g++ --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot -DVK_ENABLE_BETA_EXTENSIONS -DVK_USE_PLATFORM_WAYLAND_KHR -DVK_USE_PLATFORM_XCB_KHR -DVK_USE_PLATFORM_XLIB_KHR -DVK_USE_PLATFORM_XLIB_XRANDR_EXT -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/. -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/vulkan -isystem /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/layers/external -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack-protector-strong  -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-
+ security  --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot  -O2 -g -fcanon-prefix-map  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build=/usr/src/debug/vulkan-validation-layers/1.3.296.0  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vu
+ lkan-validation-layers/1.3.296.0/recipe-sysroot=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot=  -fdebug-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -fmacro-prefix-map=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/recipe-sysroot-native=  -pipe -fvisibility-inlines-hidden -std=c++17 -fPIC -fvisibility=hidden -fvisibility-inlines-hidden -Wall -Wextra -Wpointer-arith -MD -MT layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_extension_helper.cpp.o -MF layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_extension_helper.cpp.o.d -o layers/CMakeFiles/VkLayer_utils.dir/vulkan/generated/vk_extension_helper.cpp.o -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/git/lay
+ ers/vulkan/generated/vk_extension_helper.cpp
+| ninja: build stopped: subcommand failed.
+| 
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/run.do_compile.3413400:153 exit 1 from 'eval ${DESTDIR:+DESTDIR=${DESTDIR} }VERBOSE=1 cmake --build '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/build' "$@" -- ${EXTRA_OECMAKE_BUILD}'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cmake_runcmake_build, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/run.do_compile.3413400, line 153
+| 	#2: cmake_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/run.do_compile.3413400, line 147
+| 	#3: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/run.do_compile.3413400, line 142
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/run.do_compile.3413400, line 166
+NOTE: recipe vulkan-validation-layers-1.3.296.0-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 1638 tasks of which 1630 didn't need to be rerun and 1 failed.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015112716.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015112716.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Summary: There were 8 ERROR messages, returning a non-zero exit code.
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: QA Issue: Package version for package xtrans-src went backwards which would break package feeds (from 1:1.5.1-r0 to 1:1.5.0-r0) [version-going-backwards]
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: QA Issue: Package version for package xtrans-dbg went backwards which would break package feeds (from 1:1.5.1-r0 to 1:1.5.0-r0) [version-going-backwards]
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: QA Issue: Package version for package xtrans-staticdev went backwards which would break package feeds (from 1:1.5.1-r0 to 1:1.5.0-r0) [version-going-backwards]
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: QA Issue: Package version for package xtrans-dev went backwards which would break package feeds (from 1:1.5.1-r0 to 1:1.5.0-r0) [version-going-backwards]
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: QA Issue: Package version for package xtrans-doc went backwards which would break package feeds (from 1:1.5.1-r0 to 1:1.5.0-r0) [version-going-backwards]
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: QA Issue: Package version for package xtrans-locale went backwards which would break package feeds (from 1:1.5.1-r0 to 1:1.5.0-r0) [version-going-backwards]
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: QA Issue: Package version for package xtrans went backwards which would break package feeds (from 1:1.5.1-r0 to 1:1.5.0-r0) [version-going-backwards]
-ERROR: xtrans-1_1.5.0-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/log.do_compile.3413400
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: vulkan-validation-layers-1.3.296.0-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/run.do_compile.3413400' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/vulkan-validation-layers/1.3.296.0/temp/log.do_compile.3413400
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/vulkan/vulkan-validation-layers_1.3.296.0.bb:do_compile) failed with exit code '1'
 
---===============8215989262346485100==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gstreamer1.0-rtsp-server-gstreamer1.0-plugins-good-g.patch"
-
-RnJvbSAwYzhhNjFjM2IxNzg0ZWUzODRlNGRlMmZiODdhNDZkY2VkZjYxYTgxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDc6MDQ6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSAK
-IGdzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcixnc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kLGdzdHJl
-YW1lcjEuMC1wbHVnaW5zLWJhc2UsZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseSxnc3RyZWFtZXIx
-LjAtcGx1Z2lucy1iYWQ6CiB1cGdyYWRlIDEuMjQuNiAtPiAxLjI0LjgsMS4yNC42IC0+IDEuMjQu
-OCwxLjI0LjYgLT4gMS4yNC44LDEuMjQuNiAtPgogMS4yNC44LDEuMjQuNiAtPiAxLjI0LjgKCi0t
-LQogLi4uMS1maXgtbWF5YmUtdW5pbml0aWFsaXplZC13YXJuaW5ncy13aGVuLWNvbXBpbGluZy13
-aXRoLnBhdGNoIHwgMiArLQogLi4uLzAwMDItYXZvaWQtaW5jbHVkaW5nLXN5cy1wb2xsLmgtZGly
-ZWN0bHkucGF0Y2ggICAgICAgICAgICAgIHwgMiArLQogLi4uNC1vcGVuY3YtcmVzb2x2ZS1taXNz
-aW5nLW9wZW5jdi1kYXRhLWRpci1pbi15b2N0by1idWlsLnBhdGNoIHwgMiArLQogLi4ucGx1Z2lu
-cy1iYWRfMS4yNC42LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZF8xLjI0LjguYmJ9IHwg
-MiArLQogLi4uMDAxLUVOR1IwMDMxMjUxNS1nZXQtY2Fwcy1mcm9tLXNyYy1wYWQtd2hlbi1xdWVy
-eS1jYXBzLnBhdGNoIHwgMiArLQogLi4uLzAwMDItc3NhcGFyc2UtZW5oYW5jZS1TU0EtdGV4dC1s
-aW5lcy1wYXJzaW5nLnBhdGNoICAgICAgICAgIHwgMiArLQogLi4uLzAwMDMtdml2LWZiLU1ha2Ut
-c3VyZS1jb25maWcuaC1pcy1pbmNsdWRlZC5wYXRjaCAgICAgICAgICAgIHwgMiArLQogLi4udWdp
-bnMtYmFzZV8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZV8xLjI0LjguYmJ9
-IHwgMiArLQogLi4udWdpbnMtZ29vZF8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVyMS4wLXBsdWdpbnMt
-Z29vZF8xLjI0LjguYmJ9IHwgMiArLQogLi4udWdpbnMtdWdseV8xLjI0LjYuYmIgPT4gZ3N0cmVh
-bWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0LjguYmJ9IHwgMiArLQogLi4ucnRzcC1zZXJ2ZXJfMS4y
-NC42LmJiID0+IGdzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI0LjguYmJ9IHwgMiArLQogMTEg
-ZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcGx1Z2lucy1i
-YWRfMS4yNC42LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZF8xLjI0LjguYmJ9ICg5OCUp
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAt
-cGx1Z2lucy1iYXNlXzEuMjQuNi5iYiA9PiBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjQu
-OC5iYn0gKDk4JSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dz
-dHJlYW1lcjEuMC1wbHVnaW5zLWdvb2RfMS4yNC42LmJiID0+IGdzdHJlYW1lcjEuMC1wbHVnaW5z
-LWdvb2RfMS4yNC44LmJifSAoOTclKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
-dHJlYW1lci97Z3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVy
-MS4wLXBsdWdpbnMtdWdseV8xLjI0LjguYmJ9ICg5NCUpCiByZW5hbWUgbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcnRzcC1zZXJ2ZXJfMS4yNC42LmJiID0+
-IGdzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI0LjguYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJh
-ZC8wMDAxLWZpeC1tYXliZS11bmluaXRpYWxpemVkLXdhcm5pbmdzLXdoZW4tY29tcGlsaW5nLXdp
-dGgucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
-LXBsdWdpbnMtYmFkLzAwMDEtZml4LW1heWJlLXVuaW5pdGlhbGl6ZWQtd2FybmluZ3Mtd2hlbi1j
-b21waWxpbmctd2l0aC5wYXRjaAppbmRleCBkYTQ1NWM4YjIwLi5iM2M3NjkwMzJhIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdp
-bnMtYmFkLzAwMDEtZml4LW1heWJlLXVuaW5pdGlhbGl6ZWQtd2FybmluZ3Mtd2hlbi1jb21waWxp
-bmctd2l0aC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDEtZml4LW1heWJlLXVuaW5pdGlhbGl6ZWQtd2Fybmlu
-Z3Mtd2hlbi1jb21waWxpbmctd2l0aC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNjUzZjE5
-NGMyY2UxNDFiYmI3YTc0NDBmNjVlYTI3OWNmNGZlM2Y3OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gNjkzMTY4ZTJjNzk5MTRhY2U4YWNjYzYwN2U0NDg2NWY5NzRjZjVlMiBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFuZHJlIE1jQ3VyZHkgPGFybWNjdXJkeUBnbWFpbC5j
-b20+CiBEYXRlOiBUdWUsIDI2IEphbiAyMDE2IDE1OjE2OjAxIC0wODAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIGZpeCBtYXliZS11bmluaXRpYWxpemVkIHdhcm5pbmdzIHdoZW4gY29tcGlsaW5nIHdpdGgg
-LU9zCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVh
-bWVyMS4wLXBsdWdpbnMtYmFkLzAwMDItYXZvaWQtaW5jbHVkaW5nLXN5cy1wb2xsLmgtZGlyZWN0
-bHkucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
-LXBsdWdpbnMtYmFkLzAwMDItYXZvaWQtaW5jbHVkaW5nLXN5cy1wb2xsLmgtZGlyZWN0bHkucGF0
-Y2gKaW5kZXggOWI3N2JmZWI0OC4uMzExOTRhMzVkZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhZC8wMDAyLWF2b2lk
-LWluY2x1ZGluZy1zeXMtcG9sbC5oLWRpcmVjdGx5LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1t
-dWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWQvMDAwMi1hdm9pZC1p
-bmNsdWRpbmctc3lzLXBvbGwuaC1kaXJlY3RseS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20g
-NDQxYjkwMTk1YWZmMWVjZWNhOWVhNmRkMjI4NTQ2ZmEzYzE2YmY4NCBNb24gU2VwIDE3IDAwOjAw
-OjAwIDIwMDEKK0Zyb20gODM3MjhlYWJmY2VjY2E2MTAyODBlOWVlMzU2Y2RlNDdlZmZlY2E4NiBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFuZHJlIE1jQ3VyZHkgPGFybWNjdXJkeUBn
-bWFpbC5jb20+CiBEYXRlOiBXZWQsIDMgRmViIDIwMTYgMTg6MDU6NDEgLTA4MDAKIFN1YmplY3Q6
-IFtQQVRDSF0gYXZvaWQgaW5jbHVkaW5nIDxzeXMvcG9sbC5oPiBkaXJlY3RseQpkaWZmIC0tZ2l0
-IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5z
-LWJhZC8wMDA0LW9wZW5jdi1yZXNvbHZlLW1pc3Npbmctb3BlbmN2LWRhdGEtZGlyLWluLXlvY3Rv
-LWJ1aWwucGF0Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
-MS4wLXBsdWdpbnMtYmFkLzAwMDQtb3BlbmN2LXJlc29sdmUtbWlzc2luZy1vcGVuY3YtZGF0YS1k
-aXItaW4teW9jdG8tYnVpbC5wYXRjaAppbmRleCAwMjE0Y2UzZWVjLi5jMmI5MmViNTc4IDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBs
-dWdpbnMtYmFkLzAwMDQtb3BlbmN2LXJlc29sdmUtbWlzc2luZy1vcGVuY3YtZGF0YS1kaXItaW4t
-eW9jdG8tYnVpbC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIv
-Z3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkLzAwMDQtb3BlbmN2LXJlc29sdmUtbWlzc2luZy1vcGVu
-Y3YtZGF0YS1kaXItaW4teW9jdG8tYnVpbC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDMx
-MjFlOGZlYmRiNWNiMDA1MTE2MjQ5ODNjMjRlNTA0NDFiNjRlOCBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gNzg0MDBiYzU3NjMzZDZlYjFlZWNlZDg3MzBhYWFkMjc2ZTZjOGE3NyBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFuZHJleSBaaGl6aGlraW4gPGFuZHJleS56QGdt
-YWlsLmNvbT4KIERhdGU6IE1vbiwgMjcgSmFuIDIwMjAgMTA6MjI6MzUgKzAwMDAKIFN1YmplY3Q6
-IFtQQVRDSF0gb3BlbmN2OiByZXNvbHZlIG1pc3Npbmcgb3BlbmN2IGRhdGEgZGlyIGluIHlvY3Rv
-IGJ1aWxkCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjQuNi5iYiBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlh
-L2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYWRfMS4yNC44LmJiCnNpbWlsYXJpdHkg
-aW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9n
-c3RyZWFtZXIxLjAtcGx1Z2lucy1iYWRfMS4yNC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjQuOC5iYgpp
-bmRleCA0OGU2OTU1MDM5Li5iMzg4MDYxYTU3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFkXzEuMjQuNi5iYgorKysg
-Yi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMt
-YmFkXzEuMjQuOC5iYgpAQCAtMTAsNyArMTAsNyBAQCBTUkNfVVJJID0gImh0dHBzOi8vZ3N0cmVh
-bWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvZ3N0LXBsdWdpbnMtYmFkL2dzdC1wbHVnaW5zLWJhZAog
-ICAgICAgICAgICBmaWxlOi8vMDAwMi1hdm9pZC1pbmNsdWRpbmctc3lzLXBvbGwuaC1kaXJlY3Rs
-eS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDA0LW9wZW5jdi1yZXNvbHZlLW1pc3Npbmct
-b3BlbmN2LWRhdGEtZGlyLWluLXlvY3RvLWJ1aWwucGF0Y2ggXAogICAgICAgICAgICAiCi1TUkNf
-VVJJW3NoYTI1NnN1bV0gPSAiOGY0ZDk2NTUxM2U3ODI3YzFmNTQ3YzFlNzQ5ZTRlZjI4MTJiMzcx
-OTc0ZmU2NDg1N2ZlNTAyOWExOWM1YjY0YyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzNWFkNzBk
-ZTNkN2NiY2EzMDg5ZjMzYmI3N2M0NTc1MGRhYWQyYWU5M2Q3OTgyN2ZkYmI0NjlmYThhYmE4NGVi
-IgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMtYmFkLSR7UFZ9IgogCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMt
-YmFzZS8wMDAxLUVOR1IwMDMxMjUxNS1nZXQtY2Fwcy1mcm9tLXNyYy1wYWQtd2hlbi1xdWVyeS1j
-YXBzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
-MC1wbHVnaW5zLWJhc2UvMDAwMS1FTkdSMDAzMTI1MTUtZ2V0LWNhcHMtZnJvbS1zcmMtcGFkLXdo
-ZW4tcXVlcnktY2Fwcy5wYXRjaAppbmRleCAwYzJjMzRhYTBkLi5lNDg2ODZiNGJkIDEwMDY0NAot
-LS0gYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdp
-bnMtYmFzZS8wMDAxLUVOR1IwMDMxMjUxNS1nZXQtY2Fwcy1mcm9tLXNyYy1wYWQtd2hlbi1xdWVy
-eS1jYXBzLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3Ry
-ZWFtZXIxLjAtcGx1Z2lucy1iYXNlLzAwMDEtRU5HUjAwMzEyNTE1LWdldC1jYXBzLWZyb20tc3Jj
-LXBhZC13aGVuLXF1ZXJ5LWNhcHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGZmZTY1YzNl
-NDk5ODA0MmIwMzBiOTFjMDlhNzA2YTAzNzY4YTFlNDAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
-CitGcm9tIDA1N2U1MTY5ZWFjMTU4NjUwYjJjZTQ1NGNiMjFmYWJmYTc3OWM0YjggTW9uIFNlcCAx
-NyAwMDowMDowMCAyMDAxCiBGcm9tOiB6aG91bWluZyA8YjQyNTg2QGZyZWVzY2FsZS5jb20+CiBE
-YXRlOiBXZWQsIDE0IE1heSAyMDE0IDEwOjE2OjIwICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIEVO
-R1IwMDMxMjUxNTogZ2V0IGNhcHMgZnJvbSBzcmMgcGFkIHdoZW4gcXVlcnkgY2FwcwpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVn
-aW5zLWJhc2UvMDAwMi1zc2FwYXJzZS1lbmhhbmNlLVNTQS10ZXh0LWxpbmVzLXBhcnNpbmcucGF0
-Y2ggYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdp
-bnMtYmFzZS8wMDAyLXNzYXBhcnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRj
-aAppbmRleCBhYmNhNjJhNDkxLi5lMDA1NjRhMmVjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-bXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAyLXNzYXBh
-cnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRjaAorKysgYi9tZXRhL3JlY2lw
-ZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFzZS8wMDAyLXNz
-YXBhcnNlLWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gMWNkNGRhN2Q0NzM5ZGNmYTJiNjY4OTllZjhhNDllNWVkODhkNDFiOCBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNjYyM2U3NmM3NzA3N2Q0NWY0NDM3MTkxN2Y5YzA4MTli
-ZjAxZWQ4MyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IE1pbmdrZSBXYW5nIDxtaW5n
-a2Uud2FuZ0BmcmVlc2NhbGUuY29tPgogRGF0ZTogVGh1LCAxOSBNYXIgMjAxNSAxNDoxNzoxMCAr
-MDgwMAogU3ViamVjdDogW1BBVENIXSBzc2FwYXJzZTogZW5oYW5jZSBTU0EgdGV4dCBsaW5lcyBw
-YXJzaW5nLgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dz
-dHJlYW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMy12aXYtZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlz
-LWluY2x1ZGVkLnBhdGNoIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJl
-YW1lcjEuMC1wbHVnaW5zLWJhc2UvMDAwMy12aXYtZmItTWFrZS1zdXJlLWNvbmZpZy5oLWlzLWlu
-Y2x1ZGVkLnBhdGNoCmluZGV4IDQwYzkxYzlkZjYuLjk3ZjIxNjY3NGUgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNl
-LzAwMDMtdml2LWZiLU1ha2Utc3VyZS1jb25maWcuaC1pcy1pbmNsdWRlZC5wYXRjaAorKysgYi9t
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtYmFz
-ZS8wMDAzLXZpdi1mYi1NYWtlLXN1cmUtY29uZmlnLmgtaXMtaW5jbHVkZWQucGF0Y2gKQEAgLTEs
-NCArMSw0IEBACi1Gcm9tIDQ4NjUyYmNmMDU3Yjc0NDYwZWFkZjhjYjk0M2I2MzgxZmNhNDQyM2Yg
-TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDAyMGM2MjcyNTgxNDE1YmQ5ZGY2NDY5ZTVh
-OWE1MDBhZWM2ZDZmNjEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBDYXJsb3MgUmFm
-YWVsIEdpYW5pIDxjcmc3NDc1QG1haWxib3gub3JnPgogRGF0ZTogVHVlLCAyMSBNYXkgMjAxOSAx
-NDowMToxMSArMDIwMAogU3ViamVjdDogW1BBVENIXSB2aXYtZmI6IE1ha2Ugc3VyZSBjb25maWcu
-aCBpcyBpbmNsdWRlZApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNC42LmJiIGIvbWV0YS9yZWNpcGVzLW11
-bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2VfMS4yNC44LmJiCnNp
-bWlsYXJpdHkgaW5kZXggOTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dz
-dHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEuMjQuNi5iYgpyZW5hbWUgdG8gbWV0
-YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWJhc2Vf
-MS4yNC44LmJiCmluZGV4IDdjMzM5MGQ1MmQuLjA2NjZjZGExNGUgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlXzEu
-MjQuNi5iYgorKysgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVy
-MS4wLXBsdWdpbnMtYmFzZV8xLjI0LjguYmIKQEAgLTExLDcgKzExLDcgQEAgU1JDX1VSSSA9ICJo
-dHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1wbHVnaW5zLWJhc2UvZ3N0
-LXBsdWdpbnMtYmEKICAgICAgICAgICAgZmlsZTovLzAwMDMtdml2LWZiLU1ha2Utc3VyZS1jb25m
-aWcuaC1pcy1pbmNsdWRlZC5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAyLXNzYXBhcnNl
-LWVuaGFuY2UtU1NBLXRleHQtbGluZXMtcGFyc2luZy5wYXRjaCBcCiAgICAgICAgICAgICIKLVNS
-Q19VUklbc2hhMjU2c3VtXSA9ICJjZjUyYjUzNWEwY2U3ZWM5NzQ3NTY4OTE4MThmMzRmMDYzMTdj
-MmUxMzZhYmIyNDE0OWUxOGMyM2VjYzIyOWI1IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjEwZmIz
-MTc0Mzc1MGNjZDQ5OGQzOTMzZThhYWVjZGE1NjNlYmM2NTU5NmE2YWI4NzViNDdlZTkzNmU0Yjk1
-OTkiCiAKIFMgPSAiJHtXT1JLRElSfS9nc3QtcGx1Z2lucy1iYXNlLSR7UFZ9IgogCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdp
-bnMtZ29vZF8xLjI0LjYuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjI0LjguYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVu
-YW1lIGZyb20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1w
-bHVnaW5zLWdvb2RfMS4yNC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9n
-c3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtZ29vZF8xLjI0LjguYmIKaW5kZXggOWQ5M2Nh
-MDk2Ny4uZjAyZTczNDVhNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0
-cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLWdvb2RfMS4yNC42LmJiCisrKyBiL21ldGEvcmVj
-aXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy1nb29kXzEuMjQu
-OC5iYgpAQCAtNiw3ICs2LDcgQEAgQlVHVFJBQ0tFUiA9ICJodHRwczovL2dpdGxhYi5mcmVlZGVz
-a3RvcC5vcmcvZ3N0cmVhbWVyL2dzdC1wbHVnaW5zLWdvb2QvLS9pc3N1ZXMKIAogU1JDX1VSSSA9
-ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcvc3JjL2dzdC1wbHVnaW5zLWdvb2Qv
-Z3N0LXBsdWdpbnMtZ29vZC0ke1BWfS50YXIueHoiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5
-OTZiOWM4ZDFkMjQ2ZWQ0M2JlMzA0NzE4YjYwODZlNWExN2Q0YWU4MTE0ZDE5MjBhZWQ5ZWE3NWI5
-MjBiYTJkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjYxM2EyMGYwM2JkNDU0NGI1MmYxMGY2Y2Vi
-NGUwZmZmZDI1ZWZmMTViZjMzOGFiOGIxMmI5NzE5ODJlYjAxNTMiCiAKIFMgPSAiJHtXT1JLRElS
-fS9nc3QtcGx1Z2lucy1nb29kLSR7UFZ9IgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWdseV8xLjI0LjYuYmIgYi9t
-ZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXBsdWdpbnMtdWds
-eV8xLjI0LjguYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1wbHVnaW5zLXVnbHlfMS4yNC42LmJi
-CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
-LXBsdWdpbnMtdWdseV8xLjI0LjguYmIKaW5kZXggN2I3ZGU3NWRhYy4uOWE0ODI1NGM1MyAxMDA2
-NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1w
-bHVnaW5zLXVnbHlfMS4yNC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJl
-YW1lci9nc3RyZWFtZXIxLjAtcGx1Z2lucy11Z2x5XzEuMjQuOC5iYgpAQCAtMTUsNyArMTUsNyBA
-QCBTUkNfVVJJID0gIiBcCiAgICAgICAgICAgICBodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3Rv
-cC5vcmcvc3JjL2dzdC1wbHVnaW5zLXVnbHkvZ3N0LXBsdWdpbnMtdWdseS0ke1BWfS50YXIueHog
-XAogICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNWRmZGJiMjk3OGFiMjgy
-ZTYzNzI1NWNkODc1Y2Y1YjdiOTNmYzgzZGI2MmY4YTBiMWFmMDJjODVjODRhNzVjNCIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICIzZGZjMTJiZjBiNzY2NjgyYjdkNmUxZTI5YTQwNGI1NWUyMzc1YmEx
-NzJkMTE5MDAxNzk3MzhhZTg5YjdhMmQ1IgogCiBTID0gIiR7V09SS0RJUn0vZ3N0LXBsdWdpbnMt
-dWdseS0ke1BWfSIKIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI0LjYuYmIgYi9tZXRhL3JlY2lwZXMtbXVs
-dGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQuOC5iYgpzaW1p
-bGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3Ry
-ZWFtZXIvZ3N0cmVhbWVyMS4wLXJ0c3Atc2VydmVyXzEuMjQuNi5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI0
-LjguYmIKaW5kZXggY2RiNzRhZmJmYy4uNjZiOTA3NjY4NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1ydHNwLXNlcnZlcl8xLjI0LjYu
-YmIKKysrIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1y
-dHNwLXNlcnZlcl8xLjI0LjguYmIKQEAgLTEwLDcgKzEwLDcgQEAgUE5SRUFMID0gImdzdC1ydHNw
-LXNlcnZlciIKIAogU1JDX1VSSSA9ICJodHRwczovL2dzdHJlYW1lci5mcmVlZGVza3RvcC5vcmcv
-c3JjLyR7UE5SRUFMfS8ke1BOUkVBTH0tJHtQVn0udGFyLnh6IgogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiYjBiZGRhMjYxNzNmMTNmNTUyMWM4MjkzNjc5NjM4MjRhNzRmZDBjZThmNTJiY2FiNjc0
-ZDdlNzI3Zjc0ZTkzYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4NGVkMmIzNGI4ZjU4MWE0MThk
-OGFiOGVmZjc2NTc2MzVmY2Y4M2M4OTYwZjI3MDY1YzZjNDdlNTI4MzZlZDAyIgogCiBTID0gIiR7
-V09SS0RJUn0vJHtQTlJFQUx9LSR7UFZ9IgogCi0tIAoyLjQ0LjEKCg==
-
---===============8215989262346485100==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2406.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: FILELIST: removed "/usr/lib/libgstanalytics-1.0.so.0.2406.0", added "/usr/lib/libgstanalytics-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2406.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2406.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2406.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2406.0", added "/usr/lib/libgstcodecs-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2406.0", added "/usr/lib/libgstcuda-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: FILELIST: removed "/usr/lib/libgstdxva-1.0.so.0.2406.0", added "/usr/lib/libgstdxva-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2406.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2406.0", added "/usr/lib/libgstisoff-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2406.0", added "/usr/lib/libgstmpegts-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: FILELIST: removed "/usr/lib/libgstmse-1.0.so.0.2406.0", added "/usr/lib/libgstmse-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2406.0", added "/usr/lib/libgstphotography-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2406.0", added "/usr/lib/libgstplay-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2406.0", added "/usr/lib/libgstplayer-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2406.0", added "/usr/lib/libgstsctp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2406.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2406.0", added "/usr/lib/libgstvulkan-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2406.0", added "/usr/lib/libgstwayland-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2406.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2408.0"
-Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-bad (sysroot):
-  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2406.0 to libgstadaptivedemux-1.0.so.0.2408.0
-  /usr/lib/libgstanalytics-1.0.so.0 changed symlink target from libgstanalytics-1.0.so.0.2406.0 to libgstanalytics-1.0.so.0.2408.0
-  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2406.0 to libgstbadaudio-1.0.so.0.2408.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2406.0 to libgstbasecamerabinsrc-1.0.so.0.2408.0
-  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2406.0 to libgstcodecparsers-1.0.so.0.2408.0
-  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2406.0 to libgstcodecs-1.0.so.0.2408.0
-  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2406.0 to libgstcuda-1.0.so.0.2408.0
-  /usr/lib/libgstdxva-1.0.so.0 changed symlink target from libgstdxva-1.0.so.0.2406.0 to libgstdxva-1.0.so.0.2408.0
-  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2406.0 to libgstinsertbin-1.0.so.0.2408.0
-  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2406.0 to libgstisoff-1.0.so.0.2408.0
-  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2406.0 to libgstmpegts-1.0.so.0.2408.0
-  /usr/lib/libgstmse-1.0.so.0 changed symlink target from libgstmse-1.0.so.0.2406.0 to libgstmse-1.0.so.0.2408.0
-  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2406.0 to libgstphotography-1.0.so.0.2408.0
-  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2406.0 to libgstplay-1.0.so.0.2408.0
-  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2406.0 to libgstplayer-1.0.so.0.2408.0
-  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2406.0 to libgstsctp-1.0.so.0.2408.0
-  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2406.0 to libgsturidownloader-1.0.so.0.2408.0
-  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2406.0 to libgstvulkan-1.0.so.0.2408.0
-  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2406.0 to libgstwayland-1.0.so.0.2408.0
-  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2406.0 to libgstwebrtc-1.0.so.0.2408.0
-  /usr/lib/libgstadaptivedemux-1.0.so.0.2406.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2408.0
-  /usr/lib/libgstanalytics-1.0.so.0.2406.0 moved to /usr/lib/libgstanalytics-1.0.so.0.2408.0
-  /usr/lib/libgstbadaudio-1.0.so.0.2406.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2408.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2406.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2408.0
-  /usr/lib/libgstcodecparsers-1.0.so.0.2406.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2408.0
-  /usr/lib/libgstcodecs-1.0.so.0.2406.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2408.0
-  /usr/lib/libgstcuda-1.0.so.0.2406.0 moved to /usr/lib/libgstcuda-1.0.so.0.2408.0
-  /usr/lib/libgstdxva-1.0.so.0.2406.0 moved to /usr/lib/libgstdxva-1.0.so.0.2408.0
-  /usr/lib/libgstinsertbin-1.0.so.0.2406.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2408.0
-  /usr/lib/libgstisoff-1.0.so.0.2406.0 moved to /usr/lib/libgstisoff-1.0.so.0.2408.0
-  /usr/lib/libgstmpegts-1.0.so.0.2406.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2408.0
-  /usr/lib/libgstmse-1.0.so.0.2406.0 moved to /usr/lib/libgstmse-1.0.so.0.2408.0
-  /usr/lib/libgstphotography-1.0.so.0.2406.0 moved to /usr/lib/libgstphotography-1.0.so.0.2408.0
-  /usr/lib/libgstplay-1.0.so.0.2406.0 moved to /usr/lib/libgstplay-1.0.so.0.2408.0
-  /usr/lib/libgstplayer-1.0.so.0.2406.0 moved to /usr/lib/libgstplayer-1.0.so.0.2408.0
-  /usr/lib/libgstsctp-1.0.so.0.2406.0 moved to /usr/lib/libgstsctp-1.0.so.0.2408.0
-  /usr/lib/libgsturidownloader-1.0.so.0.2406.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2408.0
-  /usr/lib/libgstvulkan-1.0.so.0.2406.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2408.0
-  /usr/lib/libgstwayland-1.0.so.0.2406.0 moved to /usr/lib/libgstwayland-1.0.so.0.2408.0
-  /usr/lib/libgstwebrtc-1.0.so.0.2406.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2408.0
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2406.0", added "/usr/lib/libgstallocators-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2406.0", added "/usr/lib/libgstapp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2406.0", added "/usr/lib/libgstaudio-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2406.0", added "/usr/lib/libgstfft-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2406.0", added "/usr/lib/libgstgl-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2406.0", added "/usr/lib/libgstpbutils-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2406.0", added "/usr/lib/libgstriff-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2406.0", added "/usr/lib/libgstrtp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2406.0", added "/usr/lib/libgstrtsp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2406.0", added "/usr/lib/libgstsdp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2406.0", added "/usr/lib/libgsttag-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2406.0", added "/usr/lib/libgstvideo-1.0.so.0.2408.0"
-Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-base (sysroot):
-  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2406.0 to libgstallocators-1.0.so.0.2408.0
-  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2406.0 to libgstapp-1.0.so.0.2408.0
-  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2406.0 to libgstaudio-1.0.so.0.2408.0
-  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2406.0 to libgstfft-1.0.so.0.2408.0
-  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2406.0 to libgstgl-1.0.so.0.2408.0
-  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2406.0 to libgstpbutils-1.0.so.0.2408.0
-  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2406.0 to libgstriff-1.0.so.0.2408.0
-  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2406.0 to libgstrtp-1.0.so.0.2408.0
-  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2406.0 to libgstrtsp-1.0.so.0.2408.0
-  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2406.0 to libgstsdp-1.0.so.0.2408.0
-  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2406.0 to libgsttag-1.0.so.0.2408.0
-  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2406.0 to libgstvideo-1.0.so.0.2408.0
-  /usr/lib/libgstallocators-1.0.so.0.2406.0 moved to /usr/lib/libgstallocators-1.0.so.0.2408.0
-  /usr/lib/libgstapp-1.0.so.0.2406.0 moved to /usr/lib/libgstapp-1.0.so.0.2408.0
-  /usr/lib/libgstaudio-1.0.so.0.2406.0 moved to /usr/lib/libgstaudio-1.0.so.0.2408.0
-  /usr/lib/libgstfft-1.0.so.0.2406.0 moved to /usr/lib/libgstfft-1.0.so.0.2408.0
-  /usr/lib/libgstgl-1.0.so.0.2406.0 moved to /usr/lib/libgstgl-1.0.so.0.2408.0
-  /usr/lib/libgstpbutils-1.0.so.0.2406.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2408.0
-  /usr/lib/libgstriff-1.0.so.0.2406.0 moved to /usr/lib/libgstriff-1.0.so.0.2408.0
-  /usr/lib/libgstrtp-1.0.so.0.2406.0 moved to /usr/lib/libgstrtp-1.0.so.0.2408.0
-  /usr/lib/libgstrtsp-1.0.so.0.2406.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2408.0
-  /usr/lib/libgstsdp-1.0.so.0.2406.0 moved to /usr/lib/libgstsdp-1.0.so.0.2408.0
-  /usr/lib/libgsttag-1.0.so.0.2406.0 moved to /usr/lib/libgsttag-1.0.so.0.2408.0
-  /usr/lib/libgstvideo-1.0.so.0.2406.0 moved to /usr/lib/libgstvideo-1.0.so.0.2408.0
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2406.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2408.0"
-Changes to packages/core2-64-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2406.0 to libgstrtspserver-1.0.so.0.2408.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2406.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2408.0
-
---===============8215989262346485100==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-accurip: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmdec: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-adpcmenc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aes: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-aiff: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analytics-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analytics-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analyticsoverlay: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-analyticsoverlay: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-apps: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-asfmux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiobuffersplit: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiofxbad: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiolatency: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiomixmatrix: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-audiovisualizers: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-autoconvert: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-badaudio-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bayer: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bluez: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-bz2: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-camerabin: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-closedcaption: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecalpha: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codecs-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-codectimestamper: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-coloreffects: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-cuda-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-curl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dash: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGSIZE changed from 28543128 to 28548240 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: FILELIST: removed "/usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2406.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2406.0 /usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2406.0 /usr/lib/.debug/libgstcuda-1.0.so.0.2406.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2406.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2406.0 /usr/lib/.debug/libgsturidownloader-1.0.so.0.2406.0 /usr/lib/.debug/libgstcodecs-1.0.so.0.2406.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2406.0 /usr/lib/.debug/libgstplayer-1.0.so.0.2406.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2406.0 /usr/lib/.debug/libgstmse-1.0.so.0.2406.0 /usr/lib/.debug/libgstwebrtc-1.0.so.0.2406.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2406.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2406.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2406.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2406.0 /usr/lib/.debug/libgstdxva-1.0.so.0.2406.0 /usr/lib/.debug/libgstplay-1.0.so.0.2406.0 /usr/lib/.d
- ebug/libgstanalytics-1.0.so.0.2406.0", added "/usr/lib/.debug/libgstbasecamerabinsrc-1.0.so.0.2408.0 /usr/lib/.debug/libgstcodecs-1.0.so.0.2408.0 /usr/lib/.debug/libgsturidownloader-1.0.so.0.2408.0 /usr/lib/.debug/libgstinsertbin-1.0.so.0.2408.0 /usr/lib/.debug/libgstmpegts-1.0.so.0.2408.0 /usr/lib/.debug/libgstcuda-1.0.so.0.2408.0 /usr/lib/.debug/libgstphotography-1.0.so.0.2408.0 /usr/lib/.debug/libgstbadaudio-1.0.so.0.2408.0 /usr/lib/.debug/libgstisoff-1.0.so.0.2408.0 /usr/lib/.debug/libgstvulkan-1.0.so.0.2408.0 /usr/lib/.debug/libgstmse-1.0.so.0.2408.0 /usr/lib/.debug/libgstplayer-1.0.so.0.2408.0 /usr/lib/.debug/libgstsctp-1.0.so.0.2408.0 /usr/lib/.debug/libgstcodecparsers-1.0.so.0.2408.0 /usr/lib/.debug/libgstwebrtc-1.0.so.0.2408.0 /usr/lib/.debug/libgstdxva-1.0.so.0.2408.0 /usr/lib/.debug/libgstadaptivedemux-1.0.so.0.2408.0 /usr/lib/.debug/libgstplay-1.0.so.0.2408.0 /usr/lib/.debug/libgstwayland-1.0.so.0.2408.0 /usr/lib/.debug/libgstanalytics-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-debugutilsbad: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-decklink: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PKGSIZE changed from 3501932 to 3502164 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dtls: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsubenc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvbsuboverlay: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dvdspu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dxva-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-dxva-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-faceoverlay: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fbdevsink: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-festival: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-fieldanalysis: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-freeverb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-frei0r: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gaudieffects: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-gdp: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-geometrictransform: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-glib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-hls: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-id3tag: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-insertbin: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-inter: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-interlace: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ipcpipeline: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivfparse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ivtc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jp2kdecimator: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-jpegformat: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-legacyrawparse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-af: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ast: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-az: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-bg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ca: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-cs: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-da: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-de: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-el: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-en-gb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eo: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-es: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-eu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-fur: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-gl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-hu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-id: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-it: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ja: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ka: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ky: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lt: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-lv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-mt: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-nl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-or: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-pt-br: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ro: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-ru: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sq: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-sv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-tr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-uk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-vi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-cn: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-locale-zh-tw: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-meta: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-midi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsdemux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegpsmux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegts-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsdemux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mpegtsmux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-mxf: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-netsim: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pcapparse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-play-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-player-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-pnm: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-proxy: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-removesilence: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rfbsrc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rist: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rsvg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtmp2: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtpmanagerbad: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-rtponvif: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sbc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sdpelem: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-segmentclip: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-shm: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-siren: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smooth: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-smoothstreaming: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-sndfile: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-speed: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGSIZE changed from 16897963 to 16901075 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-subenc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-switchbin: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-timecode: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcode: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-transcoder-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-ttmlsubs: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-unixfd: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-unixfd: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvcgadget: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvcgadget: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-uvch264: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videofiltersbad: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoframe-audiolevel: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videoparsersbad: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-videosignal: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vmnc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkan: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanwayland-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-vulkanxcb-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-waylandsink: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webp: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-webrtc-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad-y4mdec: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/gstreamer1.0-plugins-bad: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.24.6.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.24.8.tar.xz file://0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch file://0002-avoid-including-sys-poll.h-directly.patch file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILES: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2406.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: FILELIST: removed "/usr/lib/libgstadaptivedemux-1.0.so.0.2406.0", added "/usr/lib/libgstadaptivedemux-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstadaptivedemux-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: FILES: removed "/usr/lib/libgstanalytics-1.0.so.0.2406.0", added "/usr/lib/libgstanalytics-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: FILELIST: removed "/usr/lib/libgstanalytics-1.0.so.0.2406.0", added "/usr/lib/libgstanalytics-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstanalytics-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILES: removed "/usr/lib/libgstbadaudio-1.0.so.0.2406.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: FILELIST: removed "/usr/lib/libgstbadaudio-1.0.so.0.2406.0", added "/usr/lib/libgstbadaudio-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbadaudio-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILES: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2406.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: FILELIST: removed "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2406.0", added "/usr/lib/libgstbasecamerabinsrc-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstbasecamerabinsrc-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILES: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2406.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: FILELIST: removed "/usr/lib/libgstcodecparsers-1.0.so.0.2406.0", added "/usr/lib/libgstcodecparsers-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecparsers-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILES: removed "/usr/lib/libgstcodecs-1.0.so.0.2406.0", added "/usr/lib/libgstcodecs-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: FILELIST: removed "/usr/lib/libgstcodecs-1.0.so.0.2406.0", added "/usr/lib/libgstcodecs-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcodecs-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILES: removed "/usr/lib/libgstcuda-1.0.so.0.2406.0", added "/usr/lib/libgstcuda-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: FILELIST: removed "/usr/lib/libgstcuda-1.0.so.0.2406.0", added "/usr/lib/libgstcuda-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstcuda-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: FILES: removed "/usr/lib/libgstdxva-1.0.so.0.2406.0", added "/usr/lib/libgstdxva-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: FILELIST: removed "/usr/lib/libgstdxva-1.0.so.0.2406.0", added "/usr/lib/libgstdxva-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstdxva-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILES: removed "/usr/lib/libgstinsertbin-1.0.so.0.2406.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: FILELIST: removed "/usr/lib/libgstinsertbin-1.0.so.0.2406.0", added "/usr/lib/libgstinsertbin-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstinsertbin-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILES: removed "/usr/lib/libgstisoff-1.0.so.0.2406.0", added "/usr/lib/libgstisoff-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: FILELIST: removed "/usr/lib/libgstisoff-1.0.so.0.2406.0", added "/usr/lib/libgstisoff-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstisoff-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILES: removed "/usr/lib/libgstmpegts-1.0.so.0.2406.0", added "/usr/lib/libgstmpegts-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: FILELIST: removed "/usr/lib/libgstmpegts-1.0.so.0.2406.0", added "/usr/lib/libgstmpegts-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmpegts-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: FILES: removed "/usr/lib/libgstmse-1.0.so.0.2406.0", added "/usr/lib/libgstmse-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: FILELIST: removed "/usr/lib/libgstmse-1.0.so.0.2406.0", added "/usr/lib/libgstmse-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstmse-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILES: removed "/usr/lib/libgstphotography-1.0.so.0.2406.0", added "/usr/lib/libgstphotography-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: FILELIST: removed "/usr/lib/libgstphotography-1.0.so.0.2406.0", added "/usr/lib/libgstphotography-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstphotography-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILES: removed "/usr/lib/libgstplay-1.0.so.0.2406.0", added "/usr/lib/libgstplay-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: FILELIST: removed "/usr/lib/libgstplay-1.0.so.0.2406.0", added "/usr/lib/libgstplay-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplay-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILES: removed "/usr/lib/libgstplayer-1.0.so.0.2406.0", added "/usr/lib/libgstplayer-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: FILELIST: removed "/usr/lib/libgstplayer-1.0.so.0.2406.0", added "/usr/lib/libgstplayer-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstplayer-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILES: removed "/usr/lib/libgstsctp-1.0.so.0.2406.0", added "/usr/lib/libgstsctp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: FILELIST: removed "/usr/lib/libgstsctp-1.0.so.0.2406.0", added "/usr/lib/libgstsctp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstsctp-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsttranscoder-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILES: removed "/usr/lib/libgsturidownloader-1.0.so.0.2406.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: FILELIST: removed "/usr/lib/libgsturidownloader-1.0.so.0.2406.0", added "/usr/lib/libgsturidownloader-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgsturidownloader-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILES: removed "/usr/lib/libgstvulkan-1.0.so.0.2406.0", added "/usr/lib/libgstvulkan-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: FILELIST: removed "/usr/lib/libgstvulkan-1.0.so.0.2406.0", added "/usr/lib/libgstvulkan-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstvulkan-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILES: removed "/usr/lib/libgstwayland-1.0.so.0.2406.0", added "/usr/lib/libgstwayland-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: FILELIST: removed "/usr/lib/libgstwayland-1.0.so.0.2406.0", added "/usr/lib/libgstwayland-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwayland-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILES: removed "/usr/lib/libgstwebrtc-1.0.so.0.2406.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: FILELIST: removed "/usr/lib/libgstwebrtc-1.0.so.0.2406.0", added "/usr/lib/libgstwebrtc-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-bad/libgstwebrtc-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-bad (sysroot):
-  /usr/lib/libgstadaptivedemux-1.0.so.0 changed symlink target from libgstadaptivedemux-1.0.so.0.2406.0 to libgstadaptivedemux-1.0.so.0.2408.0
-  /usr/lib/libgstanalytics-1.0.so.0 changed symlink target from libgstanalytics-1.0.so.0.2406.0 to libgstanalytics-1.0.so.0.2408.0
-  /usr/lib/libgstbadaudio-1.0.so.0 changed symlink target from libgstbadaudio-1.0.so.0.2406.0 to libgstbadaudio-1.0.so.0.2408.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0 changed symlink target from libgstbasecamerabinsrc-1.0.so.0.2406.0 to libgstbasecamerabinsrc-1.0.so.0.2408.0
-  /usr/lib/libgstcodecparsers-1.0.so.0 changed symlink target from libgstcodecparsers-1.0.so.0.2406.0 to libgstcodecparsers-1.0.so.0.2408.0
-  /usr/lib/libgstcodecs-1.0.so.0 changed symlink target from libgstcodecs-1.0.so.0.2406.0 to libgstcodecs-1.0.so.0.2408.0
-  /usr/lib/libgstcuda-1.0.so.0 changed symlink target from libgstcuda-1.0.so.0.2406.0 to libgstcuda-1.0.so.0.2408.0
-  /usr/lib/libgstdxva-1.0.so.0 changed symlink target from libgstdxva-1.0.so.0.2406.0 to libgstdxva-1.0.so.0.2408.0
-  /usr/lib/libgstinsertbin-1.0.so.0 changed symlink target from libgstinsertbin-1.0.so.0.2406.0 to libgstinsertbin-1.0.so.0.2408.0
-  /usr/lib/libgstisoff-1.0.so.0 changed symlink target from libgstisoff-1.0.so.0.2406.0 to libgstisoff-1.0.so.0.2408.0
-  /usr/lib/libgstmpegts-1.0.so.0 changed symlink target from libgstmpegts-1.0.so.0.2406.0 to libgstmpegts-1.0.so.0.2408.0
-  /usr/lib/libgstmse-1.0.so.0 changed symlink target from libgstmse-1.0.so.0.2406.0 to libgstmse-1.0.so.0.2408.0
-  /usr/lib/libgstphotography-1.0.so.0 changed symlink target from libgstphotography-1.0.so.0.2406.0 to libgstphotography-1.0.so.0.2408.0
-  /usr/lib/libgstplay-1.0.so.0 changed symlink target from libgstplay-1.0.so.0.2406.0 to libgstplay-1.0.so.0.2408.0
-  /usr/lib/libgstplayer-1.0.so.0 changed symlink target from libgstplayer-1.0.so.0.2406.0 to libgstplayer-1.0.so.0.2408.0
-  /usr/lib/libgstsctp-1.0.so.0 changed symlink target from libgstsctp-1.0.so.0.2406.0 to libgstsctp-1.0.so.0.2408.0
-  /usr/lib/libgsturidownloader-1.0.so.0 changed symlink target from libgsturidownloader-1.0.so.0.2406.0 to libgsturidownloader-1.0.so.0.2408.0
-  /usr/lib/libgstvulkan-1.0.so.0 changed symlink target from libgstvulkan-1.0.so.0.2406.0 to libgstvulkan-1.0.so.0.2408.0
-  /usr/lib/libgstwayland-1.0.so.0 changed symlink target from libgstwayland-1.0.so.0.2406.0 to libgstwayland-1.0.so.0.2408.0
-  /usr/lib/libgstwebrtc-1.0.so.0 changed symlink target from libgstwebrtc-1.0.so.0.2406.0 to libgstwebrtc-1.0.so.0.2408.0
-  /usr/lib/libgstadaptivedemux-1.0.so.0.2406.0 moved to /usr/lib/libgstadaptivedemux-1.0.so.0.2408.0
-  /usr/lib/libgstanalytics-1.0.so.0.2406.0 moved to /usr/lib/libgstanalytics-1.0.so.0.2408.0
-  /usr/lib/libgstbadaudio-1.0.so.0.2406.0 moved to /usr/lib/libgstbadaudio-1.0.so.0.2408.0
-  /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2406.0 moved to /usr/lib/libgstbasecamerabinsrc-1.0.so.0.2408.0
-  /usr/lib/libgstcodecparsers-1.0.so.0.2406.0 moved to /usr/lib/libgstcodecparsers-1.0.so.0.2408.0
-  /usr/lib/libgstcodecs-1.0.so.0.2406.0 moved to /usr/lib/libgstcodecs-1.0.so.0.2408.0
-  /usr/lib/libgstcuda-1.0.so.0.2406.0 moved to /usr/lib/libgstcuda-1.0.so.0.2408.0
-  /usr/lib/libgstdxva-1.0.so.0.2406.0 moved to /usr/lib/libgstdxva-1.0.so.0.2408.0
-  /usr/lib/libgstinsertbin-1.0.so.0.2406.0 moved to /usr/lib/libgstinsertbin-1.0.so.0.2408.0
-  /usr/lib/libgstisoff-1.0.so.0.2406.0 moved to /usr/lib/libgstisoff-1.0.so.0.2408.0
-  /usr/lib/libgstmpegts-1.0.so.0.2406.0 moved to /usr/lib/libgstmpegts-1.0.so.0.2408.0
-  /usr/lib/libgstmse-1.0.so.0.2406.0 moved to /usr/lib/libgstmse-1.0.so.0.2408.0
-  /usr/lib/libgstphotography-1.0.so.0.2406.0 moved to /usr/lib/libgstphotography-1.0.so.0.2408.0
-  /usr/lib/libgstplay-1.0.so.0.2406.0 moved to /usr/lib/libgstplay-1.0.so.0.2408.0
-  /usr/lib/libgstplayer-1.0.so.0.2406.0 moved to /usr/lib/libgstplayer-1.0.so.0.2408.0
-  /usr/lib/libgstsctp-1.0.so.0.2406.0 moved to /usr/lib/libgstsctp-1.0.so.0.2408.0
-  /usr/lib/libgsturidownloader-1.0.so.0.2406.0 moved to /usr/lib/libgsturidownloader-1.0.so.0.2408.0
-  /usr/lib/libgstvulkan-1.0.so.0.2406.0 moved to /usr/lib/libgstvulkan-1.0.so.0.2408.0
-  /usr/lib/libgstwayland-1.0.so.0.2406.0 moved to /usr/lib/libgstwayland-1.0.so.0.2408.0
-  /usr/lib/libgstwebrtc-1.0.so.0.2406.0 moved to /usr/lib/libgstwebrtc-1.0.so.0.2408.0
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-adder: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-allocators-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-alsa: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-app: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-apps: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audio-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioconvert: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiomixer: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiorate: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audioresample: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-audiotestsrc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-basedebug: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-basedebug: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-compositor: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGSIZE changed from 18740928 to 18743024 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: FILELIST: removed "/usr/lib/.debug/libgstsdp-1.0.so.0.2406.0 /usr/lib/.debug/libgstapp-1.0.so.0.2406.0 /usr/lib/.debug/libgstaudio-1.0.so.0.2406.0 /usr/lib/.debug/libgstvideo-1.0.so.0.2406.0 /usr/lib/.debug/libgstgl-1.0.so.0.2406.0 /usr/lib/.debug/libgstriff-1.0.so.0.2406.0 /usr/lib/.debug/libgstfft-1.0.so.0.2406.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2406.0 /usr/lib/.debug/libgsttag-1.0.so.0.2406.0 /usr/lib/.debug/libgstallocators-1.0.so.0.2406.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2406.0 /usr/lib/.debug/libgstpbutils-1.0.so.0.2406.0", added "/usr/lib/.debug/libgstgl-1.0.so.0.2408.0 /usr/lib/.debug/libgstsdp-1.0.so.0.2408.0 /usr/lib/.debug/libgstapp-1.0.so.0.2408.0 /usr/lib/.debug/libgstaudio-1.0.so.0.2408.0 /usr/lib/.debug/libgstvideo-1.0.so.0.2408.0 /usr/lib/.debug/libgstpbutils-1.0.so.0.2408.0 /usr/lib/.debug/libgstriff-1.0.so.0.2408.0 /usr/lib/.debug/libgstallocators-1.0.so.0.2408.0 /usr/lib/.deb
- ug/libgstfft-1.0.so.0.2408.0 /usr/lib/.debug/libgstrtp-1.0.so.0.2408.0 /usr/lib/.debug/libgsttag-1.0.so.0.2408.0 /usr/lib/.debug/libgstrtsp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dsd: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-dsd: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-encoding: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gio: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-gl-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glegl-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glwayland-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-glx11-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-af: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-az: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-bg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ca: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-cs: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-da: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-de: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-el: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-en-gb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eo: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-es: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-eu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-fur: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-gl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-hu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-id: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-it: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ja: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ka: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lt: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-lv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-nl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-or: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-pt-br: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ro: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-ru: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sq: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-sv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-tr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-uk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-vi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-locale-zh-cn: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-meta: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ogg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-opengl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-overlaycomposition: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pango: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbtypes: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-pbutils-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-playback: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rawparse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtp-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-rtsp-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-sdp-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGSIZE changed from 14301507 to 14303547 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-subparse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tag-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-tcp: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-theora: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-typefindfunctions: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-video-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videoconvertscale: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videorate: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-videotestsrc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-volume: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-vorbis: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-ximagesink: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base-xvimagesink: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/gstreamer1.0-plugins-base: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.24.6.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch" to "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.24.8.tar.xz file://0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch file://0003-viv-fb-Make-sure-config.h-is-included.patch file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILES: removed "/usr/lib/libgstallocators-1.0.so.0.2406.0", added "/usr/lib/libgstallocators-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: FILELIST: removed "/usr/lib/libgstallocators-1.0.so.0.2406.0", added "/usr/lib/libgstallocators-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstallocators-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILES: removed "/usr/lib/libgstapp-1.0.so.0.2406.0", added "/usr/lib/libgstapp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: FILELIST: removed "/usr/lib/libgstapp-1.0.so.0.2406.0", added "/usr/lib/libgstapp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstapp-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILES: removed "/usr/lib/libgstaudio-1.0.so.0.2406.0", added "/usr/lib/libgstaudio-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: FILELIST: removed "/usr/lib/libgstaudio-1.0.so.0.2406.0", added "/usr/lib/libgstaudio-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstaudio-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILES: removed "/usr/lib/libgstfft-1.0.so.0.2406.0", added "/usr/lib/libgstfft-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: FILELIST: removed "/usr/lib/libgstfft-1.0.so.0.2406.0", added "/usr/lib/libgstfft-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstfft-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILES: removed "/usr/lib/libgstgl-1.0.so.0.2406.0", added "/usr/lib/libgstgl-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: FILELIST: removed "/usr/lib/libgstgl-1.0.so.0.2406.0", added "/usr/lib/libgstgl-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstgl-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILES: removed "/usr/lib/libgstpbutils-1.0.so.0.2406.0", added "/usr/lib/libgstpbutils-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: FILELIST: removed "/usr/lib/libgstpbutils-1.0.so.0.2406.0", added "/usr/lib/libgstpbutils-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstpbutils-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILES: removed "/usr/lib/libgstriff-1.0.so.0.2406.0", added "/usr/lib/libgstriff-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: FILELIST: removed "/usr/lib/libgstriff-1.0.so.0.2406.0", added "/usr/lib/libgstriff-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstriff-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILES: removed "/usr/lib/libgstrtp-1.0.so.0.2406.0", added "/usr/lib/libgstrtp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: FILELIST: removed "/usr/lib/libgstrtp-1.0.so.0.2406.0", added "/usr/lib/libgstrtp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtp-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILES: removed "/usr/lib/libgstrtsp-1.0.so.0.2406.0", added "/usr/lib/libgstrtsp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: FILELIST: removed "/usr/lib/libgstrtsp-1.0.so.0.2406.0", added "/usr/lib/libgstrtsp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstrtsp-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILES: removed "/usr/lib/libgstsdp-1.0.so.0.2406.0", added "/usr/lib/libgstsdp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: FILELIST: removed "/usr/lib/libgstsdp-1.0.so.0.2406.0", added "/usr/lib/libgstsdp-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstsdp-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILES: removed "/usr/lib/libgsttag-1.0.so.0.2406.0", added "/usr/lib/libgsttag-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: FILELIST: removed "/usr/lib/libgsttag-1.0.so.0.2406.0", added "/usr/lib/libgsttag-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgsttag-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILES: removed "/usr/lib/libgstvideo-1.0.so.0.2406.0", added "/usr/lib/libgstvideo-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: FILELIST: removed "/usr/lib/libgstvideo-1.0.so.0.2406.0", added "/usr/lib/libgstvideo-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-base/libgstvideo-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-Changes to packages/core2-64-poky-linux/gstreamer1.0-plugins-base (sysroot):
-  /usr/lib/libgstallocators-1.0.so.0 changed symlink target from libgstallocators-1.0.so.0.2406.0 to libgstallocators-1.0.so.0.2408.0
-  /usr/lib/libgstapp-1.0.so.0 changed symlink target from libgstapp-1.0.so.0.2406.0 to libgstapp-1.0.so.0.2408.0
-  /usr/lib/libgstaudio-1.0.so.0 changed symlink target from libgstaudio-1.0.so.0.2406.0 to libgstaudio-1.0.so.0.2408.0
-  /usr/lib/libgstfft-1.0.so.0 changed symlink target from libgstfft-1.0.so.0.2406.0 to libgstfft-1.0.so.0.2408.0
-  /usr/lib/libgstgl-1.0.so.0 changed symlink target from libgstgl-1.0.so.0.2406.0 to libgstgl-1.0.so.0.2408.0
-  /usr/lib/libgstpbutils-1.0.so.0 changed symlink target from libgstpbutils-1.0.so.0.2406.0 to libgstpbutils-1.0.so.0.2408.0
-  /usr/lib/libgstriff-1.0.so.0 changed symlink target from libgstriff-1.0.so.0.2406.0 to libgstriff-1.0.so.0.2408.0
-  /usr/lib/libgstrtp-1.0.so.0 changed symlink target from libgstrtp-1.0.so.0.2406.0 to libgstrtp-1.0.so.0.2408.0
-  /usr/lib/libgstrtsp-1.0.so.0 changed symlink target from libgstrtsp-1.0.so.0.2406.0 to libgstrtsp-1.0.so.0.2408.0
-  /usr/lib/libgstsdp-1.0.so.0 changed symlink target from libgstsdp-1.0.so.0.2406.0 to libgstsdp-1.0.so.0.2408.0
-  /usr/lib/libgsttag-1.0.so.0 changed symlink target from libgsttag-1.0.so.0.2406.0 to libgsttag-1.0.so.0.2408.0
-  /usr/lib/libgstvideo-1.0.so.0 changed symlink target from libgstvideo-1.0.so.0.2406.0 to libgstvideo-1.0.so.0.2408.0
-  /usr/lib/libgstallocators-1.0.so.0.2406.0 moved to /usr/lib/libgstallocators-1.0.so.0.2408.0
-  /usr/lib/libgstapp-1.0.so.0.2406.0 moved to /usr/lib/libgstapp-1.0.so.0.2408.0
-  /usr/lib/libgstaudio-1.0.so.0.2406.0 moved to /usr/lib/libgstaudio-1.0.so.0.2408.0
-  /usr/lib/libgstfft-1.0.so.0.2406.0 moved to /usr/lib/libgstfft-1.0.so.0.2408.0
-  /usr/lib/libgstgl-1.0.so.0.2406.0 moved to /usr/lib/libgstgl-1.0.so.0.2408.0
-  /usr/lib/libgstpbutils-1.0.so.0.2406.0 moved to /usr/lib/libgstpbutils-1.0.so.0.2408.0
-  /usr/lib/libgstriff-1.0.so.0.2406.0 moved to /usr/lib/libgstriff-1.0.so.0.2408.0
-  /usr/lib/libgstrtp-1.0.so.0.2406.0 moved to /usr/lib/libgstrtp-1.0.so.0.2408.0
-  /usr/lib/libgstrtsp-1.0.so.0.2406.0 moved to /usr/lib/libgstrtsp-1.0.so.0.2408.0
-  /usr/lib/libgstsdp-1.0.so.0.2406.0 moved to /usr/lib/libgstsdp-1.0.so.0.2408.0
-  /usr/lib/libgsttag-1.0.so.0.2406.0 moved to /usr/lib/libgsttag-1.0.so.0.2408.0
-  /usr/lib/libgstvideo-1.0.so.0.2406.0 moved to /usr/lib/libgstvideo-1.0.so.0.2408.0
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-adaptivedemux2: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-adaptivedemux2: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alaw: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alpha: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-alphacolor: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apetag: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-apps: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audiofx: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-audioparsers: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-auparse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-autodetect: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-avi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cairo: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-cutter: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGSIZE changed from 21687288 to 21690616 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-debug: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-deinterlace: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-dtmf: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-effectv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-equalizer: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flac: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-flxdec: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-gdkpixbuf: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-glib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-goom2k1: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-icydemux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-id3demux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-imagefreeze: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-interleave: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-isomp4: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-jpeg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-lame: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-level: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-af: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-az: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-bg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ca: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-cs: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-da: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-de: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-el: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-en-gb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eo: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-es: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-eu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-fur: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-gl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-hu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-id: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-it: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ja: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ka: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ka: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ky: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lt: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-lv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-mt: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-nl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-or: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-pt-br: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ro: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-ru: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sq: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-sv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-tr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-uk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-vi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-cn: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-hk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-locale-zh-tw: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-matroska: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-meta: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-monoscope: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mpg123: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-mulaw: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multifile: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-multipart: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-navigationtest: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ossaudio: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-png: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-pulseaudio: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-replaygain: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtp: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtpmanager: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-rtsp: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-shapewipe: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-smpte: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-soup: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-spectrum: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-speex: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGSIZE changed from 13317041 to 13322789 (+0%)
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-taglib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-udp: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-video4linux2: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videobox: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videocrop: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videofilter: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-videomixer: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavenc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-wavparse: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-ximagesrc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-xingmux: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-xingmux: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good-y4menc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good/gstreamer1.0-plugins-good: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.24.6.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-1.24.8.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-good: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-apps: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-asf: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdlpcmdec: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-dvdsub: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-glib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-af: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ast: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-az: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-bg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ca: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-cs: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-da: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-de: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-el: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-en-gb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eo: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-es: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-eu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-fur: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-gl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-hu: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-id: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-it: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ja: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ka: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lt: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-lv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ms: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-mt: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nb: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-nl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-or: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-pt-br: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ro: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ru: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sl: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sq: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-sv: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-ta: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-tr: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-uk: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-vi: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-cn: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-locale-zh-tw: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-meta: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-realmedia: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly/gstreamer1.0-plugins-ugly: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.24.6.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-1.24.8.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-plugins-ugly: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-apps: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: FILELIST: removed "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2406.0", added "/usr/lib/.debug/libgstrtspserver-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-glib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-locale: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-meta: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspclientsink: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-rtspserver-typelib: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/gstreamer1.0-rtsp-server: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.24.6.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-rtsp-server/gst-rtsp-server-1.24.8.tar.xz"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILES: removed "/usr/lib/libgstrtspserver-1.0.so.0.2406.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: FILELIST: removed "/usr/lib/libgstrtspserver-1.0.so.0.2406.0", added "/usr/lib/libgstrtspserver-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gstreamer1.0-rtsp-server/libgstrtspserver-1.0: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-Changes to packages/core2-64-poky-linux/gstreamer1.0-rtsp-server (sysroot):
-  /usr/lib/libgstrtspserver-1.0.so.0 changed symlink target from libgstrtspserver-1.0.so.0.2406.0 to libgstrtspserver-1.0.so.0.2408.0
-  /usr/lib/libgstrtspserver-1.0.so.0.2406.0 moved to /usr/lib/libgstrtspserver-1.0.so.0.2408.0
-
---===============8215989262346485100==--
+--===============5463756835498489878==--
 
