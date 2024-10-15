@@ -1,111 +1,135 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F516D216AC
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 14:16:06 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web11.14722.1729001757754960609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45863D216AF
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 14:23:36 +0000 (UTC)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
+ by mx.groups.io with SMTP id smtpd.web11.14896.1729002206230160061
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 07:15:58 -0700
+ Tue, 15 Oct 2024 07:23:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gmtFpW5U;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-430576ff251so47527655e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 07:15:57 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=eOURPpxP;
+ spf=pass (domain: linaro.org, ip: 209.85.208.182, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-2fb5743074bso12771181fa.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 07:23:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729001756; x=1729606556; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=/vz9Am3izZo/zaiMQXh1HybNEt1N1i8Mq82y3J9GsME=;
-        b=gmtFpW5UFslIOetqKeNUyQm4nnZpVlbXCA2wTYlGRGwJJv/IpiKwz0qyeenWWMgqMF
-         ZEIcINxAQW1So6gJIV3eDdH6LnIHMnbMnWp9q8zd+q+Xqtb+B80Bo7qX8lyunXlLy+gT
-         hBKFvveVbNzkblQOQWU+I24VujJLqyA01n23A=
+        d=linaro.org; s=google; t=1729002204; x=1729607004; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Fp/esQr9iuk80lmypwa9MtQLvjpx+OVt3P2+LYSTjjU=;
+        b=eOURPpxPPgGNwpHh/eY6dMXT8teewSQUQ+Ae9E4KdmGiovPEmHegvR5K28uIPcG5FZ
+         BBPA5qILRjIwcP/4PEV9GQx3Izp7ztVf74T8QFIGsjmX+18xv4UflsKJ+cvNiWUtJg8S
+         YB2t1IyPhAv4+o0BiYQzitQef7K/6He325qm/a95yWYhOhLmnZ/99n356BmQnFvVgmPX
+         CMqUQDia9+1q1YzXeFzNYkrljugXU3vfUl+PF6YPUCPa2VrVBqfB5jvKmn9SoZ98tqMh
+         FHtwnt7sBT+AfoiJqWqOmu/v9IU0fEYGy2xYBQRRbCBQKKQQTjUf57foPfpedEMuTbeT
+         Z/8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729001756; x=1729606556;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/vz9Am3izZo/zaiMQXh1HybNEt1N1i8Mq82y3J9GsME=;
-        b=VkKqQ4A/VpsGTdVcs2PdXW/vEsJ6mIHXHms6asSCvUOn7p8eeITpJlO/zEsi7T806C
-         Dsox78PMoO6vEfMG6AsrJcO3iXLwPc3R9YqmiF3XK54j+5pN4ebpuvkab8t25PqnoFfq
-         kfI/QV+LfWLCnwZlt98JQsBvNaaSSMZ8sXaXmuEjjyKyTPCqOI7nkvafRbHHRnwbsY0F
-         V4x6X28NvokkMuiOxEV3pP3MMpi+s74BlNQRf7IGWyOZsGv8Elad+F55gKTnTkxRileg
-         B8mDqFvQWdVqwwq3JSaQN6i9F44kQTWH7XNU4zg/w5uFwuHas0ZekehOYBmgZTKNtS1M
-         RCCg==
-X-Gm-Message-State: AOJu0Yzse/Rr/jMnFo8BvInuTGpXnpXcj2rqRgwaLyOzYb/tCxqjOlJZ
-	OmGcg0iBhE9SMPxrzEyqFfRreLnN5a3OzmtFDJcyWk+OtFwOMc9XZeNn0RU39o4=
-X-Google-Smtp-Source: AGHT+IF3oD90suK4rmyYXCHl9edd+VLawiPzqG+0zFs8w3TCOqK1rCthsksrQW0zLtdcNk0M8bpDSQ==
-X-Received: by 2002:adf:fe4b:0:b0:374:baeb:2ec with SMTP id ffacd0b85a97d-37d5519e501mr11295412f8f.19.1729001754341;
-        Tue, 15 Oct 2024 07:15:54 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:28fa:e6b1:dce2:85c9? ([2001:8b0:aba:5f3c:28fa:e6b1:dce2:85c9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fbf82b1sm1703009f8f.72.2024.10.15.07.15.53
+        d=1e100.net; s=20230601; t=1729002204; x=1729607004;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Fp/esQr9iuk80lmypwa9MtQLvjpx+OVt3P2+LYSTjjU=;
+        b=QqBPkMLRNo/9svn4TxyZ/28lzKbMvDL2AQr5Bp3z1FByM9ijLi7ezWdsMR4A2uSJIF
+         4qSVSPwmtdVelpC5GBxk6JXJ5PY/7e9lyHnQIr9xGtitkRHdryIQsl1vL26YV1LdmNS4
+         mvCey42xCvSeyXvgRfbpfqk5K9IWHCaaOKR/fps9UhqRmDVcLdlc4XnD8g5TqClEdxT3
+         rXWZ2fEKJmwIC0F3gfF5qMUAsMROcAxjh9AmSQxF1PXWZgwlpyAF9lYhRd11xvC5LBqc
+         v94bhiSsBp27SuIN+NIodDpVsJ2lNJnrNLXmG9S2cuUsh4kZu7YHPPo60drf5f6ZNLxw
+         79nQ==
+X-Gm-Message-State: AOJu0YzWEiKjevkVS8DTjlAs6vCHjGz1G7WP0aKD+u3rXq6PkS8ItwmF
+	Q7n3VG6Q6O5d2LCPzYqZ9UFTJWr3PcmmJ690lfUgVSUn4Wzk81SQjpeAHue9psAPM0zDfXIzcTv
+	4t4Q=
+X-Google-Smtp-Source: AGHT+IGTToZiESdaDpvKQcGvmw67Ioqf5JAHJN3WQ3niDrp0Lo0SfaoeHI5UuSGGGG3ThTj7GjqvwQ==
+X-Received: by 2002:a2e:74f:0:b0:2f7:6277:f2be with SMTP id 38308e7fff4ca-2fb30f77d08mr38810471fa.22.1729002202981;
+        Tue, 15 Oct 2024 07:23:22 -0700 (PDT)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb5d135e7bsm1610241fa.63.2024.10.15.07.23.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 07:15:53 -0700 (PDT)
-Message-ID: <453e16e5f843492aa7aac45e0311046729e4155b.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/6] linux-yocto-dev: conditionally add coreutils to
- depends
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: bruce.ashfield@gmail.com
+        Tue, 15 Oct 2024 07:23:21 -0700 (PDT)
+Date: Tue, 15 Oct 2024 17:23:18 +0300
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2024 15:15:52 +0100
-In-Reply-To: <88eada332f5d3d00baf9f2cedf63460d80356032.1728912923.git.bruce.ashfield@gmail.com>
-References: <cover.1728912923.git.bruce.ashfield@gmail.com>
-	 <88eada332f5d3d00baf9f2cedf63460d80356032.1728912923.git.bruce.ashfield@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+Subject: Re: [OE-core] [PATCH v8 0/8] systemd uki support
+Message-ID: <Zw561r2P1DH1y3xC@nuoska>
+References: <20241011122044.12222-1-mikko.rapeli@linaro.org>
+ <ebd022b240f4bb6b8e2e2fb8d93a4c9f2ba9492f.camel@linuxfoundation.org>
+ <17FE4B15CF045259.4702@lists.openembedded.org>
+ <Zw4PXRX28-qB8FjT@nuoska>
+ <874585dde5c3fe6685e9c8b250cd02dc2404f26c.camel@linuxfoundation.org>
+ <Zw5Qm1ZEScA196fh@nuoska>
+ <de120c84628b099ba1528c82e681171c206b6cd2.camel@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <de120c84628b099ba1528c82e681171c206b6cd2.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 14:16:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205918
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 14:23:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205919
 
-On Mon, 2024-10-14 at 09:45 -0400, bruce.ashfield@gmail.com wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->=20
-> 6.11+ uses truncate as part of the build. While truncate has been
-> added to HOSTTOOLS in oe-core master, it still is possible to
-> build a kernel recipe newer than 6.11+ on a release that doesn't
-> have the HOSTTOOLS tweak.
->=20
-> We can test for truncate and condtionally add the dependency.
->=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> ---
-> =C2=A0meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++++
-> =C2=A01 file changed, 4 insertions(+)
->=20
-> diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/recipes-=
-kernel/linux/linux-yocto-dev.bb
-> index 292897ce43..752d108bd8 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> @@ -44,6 +44,10 @@ PACKAGECONFIG[dt-validation] =3D ",,python3-dtschema-n=
-ative"
-> =C2=A0# we need the wrappers if validation isn't in the packageconfig
-> =C2=A0DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation'=
-, '', 'python3-dtschema-wrapper-native', d)}"
-> =C2=A0
-> +# 6.11+ uses truncate in the build, so we need to either have it in host=
- tools, or
-> +# build it ourselves
-> +DEPENDS +=3D "${@bb.utils.contains('HOSTTOOLS', 'truncate', '', 'coreuti=
-ls-native', d)}"
-> +
-> =C2=A0COMPATIBLE_MACHINE =3D "^(qemuarmv5|qemuarm|qemuarm64|qemux86|qemup=
-pc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64|qemuloongarch64)$=
-"
-> =C2=A0
-> =C2=A0KERNEL_DEVICETREE:qemuarmv5 =3D "arm/versatile-pb.dtb"
+Hi,
 
-This is for master so truncate should always be in HOSTTOOLS? I don't
-understand why we need this there?
+On Tue, Oct 15, 2024 at 03:13:44PM +0100, Richard Purdie wrote:
+> On Tue, 2024-10-15 at 14:23 +0300, Mikko Rapeli wrote:
+> > Hi,
+> > 
+> > On Tue, Oct 15, 2024 at 11:43:33AM +0100, Richard Purdie wrote:
+> > > The arm test still fails:
+> > > 
+> > > https://valkyrie.yoctoproject.org/#/builders/23/builds/267/steps/14/logs/stdio
+> > > 
+> > > The traceback is at least cleaner now I fixed the lock error. I did
+> > > test with KVM disabled.
+> > 
+> > Bugger. I had tested this on qemuarm64 and genericarm64 on an x86_64
+> > build host with Ubuntu 22.04. Is this an arm64 build host with Ubuntu
+> > 20.04?
+> > 
+> > I will remove the tests as it is clearly too hard to get these
+> > running.
+> > 
+> > It is a bit hard to figure out in which environments selftests are
+> > running.
+> 
+> Please don't remove them. The automated tests are the main reason the
+> project actually continues to function in any sane way.
+> 
+> For that reason I really do appreciate having them and would like to
+> see more of them.
+> 
+> Unfortunately I don't know enough about the subject area to help on
+> this. I have at least tried to improve the failure messages and run out
+> the one area I knew was potentially an issue (KVM on arm).
+
+Did the test pass on x86_64 build host in your CI?
+
+How about I run the wic.Wic2.test_efi_plugin_plain_systemd_boot_qemu_aarch64
+test only on x86_64 BUILD_ARCH and aarch64 TARGET_ARCH for now?
+
+A decorator like this could help:
+
+--- a/meta/lib/oeqa/core/decorator/data.py
++++ b/meta/lib/oeqa/core/decorator/data.py
+@@ -228,3 +228,15 @@ class skipIfNotArch(OETestDecorator):
+         arch = self.case.td['HOST_ARCH']
+         if arch not in self.archs:
+              self.case.skipTest('Test skipped on %s' % arch)
++
++@registerDecorator
++class skipIfNotBuildArch(OETestDecorator):
++    """
++    Skip test if BUILD_ARCH is not present in the tuple specified.
++    """
++
++    attrs = ('archs',)
++    def setUpDecorator(self):
++        arch = self.case.td['BUILD_ARCH']
++        if arch not in self.archs:
++             self.case.skipTest('Test skipped on %s' % arch)
 
 Cheers,
 
-Richard
-
+-Mikko
 
