@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FDB7D21698
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:25 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.11799.1728994554420866434
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D5BFD21696
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:15 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.11789.1728994549806250973
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:15 -0700
+ Tue, 15 Oct 2024 05:16:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=G0B9K8y7;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xoXZCXqP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010192901b8439-da615612-661b-49e5-841b-153c77ec7f0a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PDBv9EAJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=y8Ckl1wI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010192901b7faa-27337d60-4a31-4ab8-85dc-8664359c0131-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994575;
+	t=1728994574;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ZqCmiq7Zzenkd11XUISGCoqRYmyK1HJmvf/zEZVyFBE=;
-	b=G0B9K8y7h5nOmXGt/YuubDm/uwmG4vW/pEV8ndKVwYvKVH7ZhAwLuZYDOGnJy1Lo
-	WYTbGSsEWY8LWlB2s1eF5MXLTJl1zZhacFT3lwSPF2guCjkjf5V0pTtPN0fzCTXqOLq
-	KX9Pl7CY5QxFmo8NyvEDeoEYt48ybXtXeBBBvRUE=
+	bh=RND7V28wOpgtnPqu/+IqDBYcmQy86cTplG0GhesFgGU=;
+	b=PDBv9EAJ6bhton+nQAdMmzvjN1RVmuwUylrLZUaFPOET+KvKZvKpd2kWGvtJKm/b
+	XYHrrRf99eJZJde6RUupHS3VRKl5FMIG3E77+C0abSuhfAdkoRcnqLKls08A6++TnZ0
+	uH+4mh7ELXAplqJOyzjVVAncxT++Wer1fF2t2Fxo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994575;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994574;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ZqCmiq7Zzenkd11XUISGCoqRYmyK1HJmvf/zEZVyFBE=;
-	b=xoXZCXqP9AUk3ZXbWjNjmUYloHIS4qEZmxmkq8WtY+0hI8SGFGZ8vSFGMtr+zFv3
-	EHCKNeSR6boVNRG87Gi2sGkObIdvwxB1SYQEYYSAegLChUHXPk3wKL/8fEBYxHICDGT
-	11GyVX2eeY9ctdZ2VMfr1y7qAhAty3DMjcrF9IfI=
-Content-Type: multipart/mixed; boundary="===============1893323644143199185=="
+	bh=RND7V28wOpgtnPqu/+IqDBYcmQy86cTplG0GhesFgGU=;
+	b=y8Ckl1wI4PONgR4dY7bs+BQv2iBAriDjZD1pADUk/0aw+JkswZO3s5g0yx8bNIWc
+	wYZkzYyA4zz44+oIgIgWKdm+VZ20P/+AvVBN6U1Zbiw2ajy/KFQhj77BR01Y8XGqQ6S
+	qjCCf/e6WwO7wQQZNi2DNuWCGP2tgWlW2D/1lpb8=
+Content-Type: multipart/mixed; boundary="===============1069072021711784696=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] puzzles: upgrading to 182b3d9e27981c03df07cc86d8f794ad218dc350
- SUCCEEDED
-Message-ID: <01010192901b8439-da615612-661b-49e5-841b-153c77ec7f0a-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:15 +0000
+Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.8 SUCCEEDED
+Message-ID: <01010192901b7faa-27337d60-4a31-4ab8-85dc-8664359c0131-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.192
+X-SES-Outgoing: 2024.10.15-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205900
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205899
 
---===============1893323644143199185==
+--===============1069072021711784696==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *puzzles* to *182b3d9e27981c03df07cc86d8f794ad218dc350* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.24.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.24.6-1.24.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,84 +72,94 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 73437442a4a8a54149ddd9fe2bd562d839281dc1 Mon Sep 17 00:00:00 2001
+From 32ad5c9b774f1dddd2db70ffb3fd44b40a66195d Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 12:04:28 +0000
-Subject: [PATCH] puzzles: upgrade to latest revision
+Date: Tue, 15 Oct 2024 11:53:29 +0000
+Subject: [PATCH] gstreamer1.0-python: upgrade 1.24.6 -> 1.24.8
 
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
+ ...reamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.8.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.8.bb} (91%)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index b47d3d3f30..f07ad934c4 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.8.bb
+similarity index 91%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.8.bb
+index cf38c2b876..a0ba866e55 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.8.bb
+@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "1c1899ee1c4e0a83808998359addb1efb66322f8"
-+SRCREV = "182b3d9e27981c03df07cc86d8f794ad218dc350"
- PE = "2"
- PV = "0.0+git"
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "692e88820e097b30e5f92d37d0955c709a0a17b27f874a1907405244825bd700"
++SRC_URI[sha256sum] = "0663d0d13f2692f573179c97b7c84e22600d14a2af757fc1740c7c4a3434c7fe"
  
+ DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+ RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
 -- 
 2.44.1
 
 
---===============1893323644143199185==
+--===============1069072021711784696==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-puzzles-upgrade-to-latest-revision.patch"
+ filename="0001-gstreamer1.0-python-upgrade-1.24.6-1.24.8.patch"
 
-RnJvbSA3MzQzNzQ0MmE0YThhNTQxNDlkZGQ5ZmUyYmQ1NjJkODM5MjgxZGMxIE1vbiBTZXAgMTcg
+RnJvbSAzMmFkNWM5Yjc3NGYxZGRkZDJkYjcwZmZiM2ZkNDRiNDBhNjYxOTVkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTI6MDQ6MjggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-dXp6bGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtc2F0
-by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6
-emxlcy9wdXp6bGVzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1zYXRvL3B1enpsZXMvcHV6emxlc19n
-aXQuYmIKaW5kZXggYjQ3ZDNkM2YzMC4uZjA3YWQ5MzRjNCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9w
-dXp6bGVzL3B1enpsZXNfZ2l0LmJiCkBAIC0xMCw3ICsxMCw3IEBAIFJFUVVJUkVEX0RJU1RST19G
-RUFUVVJFUyA9ICJ4MTEiCiBTUkNfVVJJID0gImdpdDovL2dpdC50YXJ0YXJ1cy5vcmcvc2ltb24v
-cHV6emxlcy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNL
-X0NPTU1JVFMgPSAiMSIKLVNSQ1JFViA9ICIxYzE4OTllZTFjNGUwYTgzODA4OTk4MzU5YWRkYjFl
-ZmI2NjMyMmY4IgorU1JDUkVWID0gIjE4MmIzZDllMjc5ODFjMDNkZjA3Y2M4NmQ4Zjc5NGFkMjE4
-ZGMzNTAiCiBQRSA9ICIyIgogUFYgPSAiMC4wK2dpdCIKIAotLSAKMi40NC4xCgo=
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6NTM6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
+c3RyZWFtZXIxLjAtcHl0aG9uOiB1cGdyYWRlIDEuMjQuNiAtPiAxLjI0LjgKCi0tLQogLi4ucmVh
+bWVyMS4wLXB5dGhvbl8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjguYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcHl0
+aG9uXzEuMjQuNi5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuOC5iYn0gKDkxJSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
+LXB5dGhvbl8xLjI0LjYuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjguYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRob25f
+MS4yNC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
+cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjguYmIKaW5kZXggY2YzOGMyYjg3Ni4uYTBiYTg2NmU1NSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
+MC1weXRob25fMS4yNC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
+ci9nc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuOC5iYgpAQCAtOCw3ICs4LDcgQEAgTElDRU5TRSA9
+ICJMR1BMLTIuMS1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
+bWQ1PWMzNGRlYWU0ZTM5NWNhMDdlNzI1YWIwMDc2YTVmNzQwIgogCiBTUkNfVVJJID0gImh0dHBz
+Oi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BW
+fS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjkyZTg4ODIwZTA5N2IzMGU1ZjkyZDM3
+ZDA5NTVjNzA5YTBhMTdiMjdmODc0YTE5MDc0MDUyNDQ4MjViZDcwMCIKK1NSQ19VUklbc2hhMjU2
+c3VtXSA9ICIwNjYzZDBkMTNmMjY5MmY1NzMxNzljOTdiN2M4NGUyMjYwMGQxNGEyYWY3NTdmYzE3
+NDBjN2M0YTM0MzRjN2ZlIgogCiBERVBFTkRTID0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAt
+cGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgogUkRFUEVORFM6JHtQTn0gKz0gImdzdHJl
+YW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgotLSAK
+Mi40NC4xCgo=
 
---===============1893323644143199185==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-
---===============1893323644143199185==
+--===============1069072021711784696==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 19630424 to 19791704 (+1%)
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3853044 to 3848635 (-0%)
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+182b3d9e27
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
+packages/core2-64-poky-linux/gstreamer1.0-python: PV changed from "1.24.6" to "1.24.8"
+packages/core2-64-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.6.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.8.tar.xz"
 
---===============1893323644143199185==--
+--===============1069072021711784696==--
 
