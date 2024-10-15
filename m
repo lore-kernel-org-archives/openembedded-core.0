@@ -1,102 +1,134 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01673CFC284
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 10:07:50 +0000 (UTC)
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
- by mx.groups.io with SMTP id smtpd.web10.9710.1728986865780458394
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05DAFCFC285
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 10:10:00 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web10.9739.1728986994378198769
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 03:07:46 -0700
+ Tue, 15 Oct 2024 03:09:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=cbnS9zcI;
- spf=pass (domain: bootlin.com, ip: 217.70.183.196, mailfrom: antonin.godard@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id BF271E0007;
-	Tue, 15 Oct 2024 10:07:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1728986864;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=IKw7jt3Zmbz0YWBXb4Ez51PsQAXXw9m31sb3H0RVCDE=;
-	b=cbnS9zcI696RDj+USSRKSWizis0reQ3F+9WCnmZpFjoM9M7Y4m3PasdJZ0TezWc5dtRSCM
-	sv+21gMas0CL183lmO8TSDa2d70AKVX6cBYb9q8im6QkZCrRxCbBBkHSB0/yiEx8N2BndY
-	grbHjA/YzXw6CcuVn3YawPawXvHuqFHOzmtNl8s8rvnbzSUw+s54hZDnYitmQ7eE37A+PV
-	nzOOJSMh2yxYgtqJynBBUX35o0XivlaHkdiQwSGmQXLingBYIUPnkOtjYL7YaXGYIOHViw
-	x8V3HZK+P200h0dYmu90cjvIHqrM/fMndlv8qkKDZzsyhAC+8plOsU6t5iHdhA==
-From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Tue, 15 Oct 2024 12:07:32 +0200
-Subject: [PATCH] kernel-yocto: remove deprecated variable KMETA_AUDIT
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ijRnxqAn;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-430576ff251so45202785e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 03:09:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1728986992; x=1729591792; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=3CiMFzW2X6z1yE0q4NNOd0O64CB5pRoAF1WJZdyBwUw=;
+        b=ijRnxqAnbcboVpbfVZtqrojktcBGetKH6R5gfFFsnBWcBE4Jjti8o/tGwU0H64Kv8Y
+         akI67S1VFcx7ALFBwvpbssE//yOHlSELUUx0hQuCG4n6kmuDleBmWfAWZAP8k0ubX9Z6
+         KCQPARpvm3nIOVEO76ytLvLKWbVXmJ25molqg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728986992; x=1729591792;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=3CiMFzW2X6z1yE0q4NNOd0O64CB5pRoAF1WJZdyBwUw=;
+        b=CZ2eDfyHoJICDwgjvqzNOUeFkf49t1uHpeiAt8nOA5um1M+DsyzifnGx7GD/qqM/GO
+         rUVEXaDAkdm3YokGBW1bYk47GPjRI5wL4f4KYNzsJjULKHYN0h8JBryvt3tbHOjB81Zy
+         HT6qQ6dQBjYV/4PC+tpsFGgLIjCKe1MW+x+F53Vo6wg6qgy87CyQtVq6eDKaEvHho9IX
+         qMTiME6iwd1lEyRf/l1TMN43zygen2OttjRoVF0zFVqxRVLVYM0RJRPfLBZVtHZ5GkEm
+         uiyYVMoyD9jKt29MeIZDHuzCeXM+T+d48ZADi8qiD/NCMPPr7FvaOGmvUPSYEsrGEjlv
+         EH9A==
+X-Gm-Message-State: AOJu0YyqGcMcTpgWJaznJHLJ8bTXmo+cvbgu1AacIDl6nb6Cl9rBK44k
+	IN67ts5FT6jx7zhYQRe8BVrXN3ac/9UCZiFecy/cMgWjB1FPp/z38bLU+tl1gwmmbF31/bCQEwU
+	a
+X-Google-Smtp-Source: AGHT+IERbSV+KwndzC5iJ7eZKsPjPWNmrWkjgx9AKP9gAKwlhZIlttJfvJjRkUYcw0lFUp3pxMZwIw==
+X-Received: by 2002:a05:600c:4e46:b0:42c:b8cc:205a with SMTP id 5b1f17b1804b1-4311df5644amr139447485e9.32.1728986992213;
+        Tue, 15 Oct 2024 03:09:52 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:28fa:e6b1:dce2:85c9? ([2001:8b0:aba:5f3c:28fa:e6b1:dce2:85c9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a086sm1170301f8f.24.2024.10.15.03.09.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 03:09:51 -0700 (PDT)
+Message-ID: <2bad4dab835a0ce9710e576a2171fb9f70a78457.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Latest AB-INT unexplained mystery failure
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core <openembedded-core@lists.openembedded.org>, Mathieu
+ Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Joshua Watt
+ <JPEWhacker@gmail.com>
+Cc: Ross Burton <ross.burton@arm.com>, Chuck Wolber
+ <chuck.wolber@boeing.com>,  Adrian Freihofer
+ <adrian.freihofer@siemens.com>, Marta Rybczynska
+ <marta.rybczynska@syslinbit.com>, Jon Mason <Jon.Mason@arm.com>, Michael
+ Halstead <mhalstead@linuxfoundation.org>
+Date: Tue, 15 Oct 2024 11:09:51 +0100
+In-Reply-To: <17FE55BCAF4D83DD.4702@lists.openembedded.org>
+References: <17FE0CA1425F2338.24631@lists.openembedded.org>
+	 <17FE55BCAF4D83DD.4702@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241015-deprecated-kmeta-audit-v1-1-4a38514da362@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAOM+DmcC/x2MwQqDQAwFf0VyNuAGW2h/RTwE82xDqcruKoL47
- y4eB2bmoIToSPSuDorYPPk8FQh1RcNXpw/YrTBJI21owoMNS8SgGca/P7KyruaZg0LwsvYJESp
- xkUbf73HXn+cFCO0LFmgAAAA=
-X-Change-ID: 20241015-deprecated-kmeta-audit-1ae2e9d46e22
-To: openembedded-core@lists.openembedded.org
-Cc: Bruce Ashfield <bruce.ashfield@gmail.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Antonin Godard <antonin.godard@bootlin.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1304;
- i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=VNp/BkEeLyKUvQTExznL4yr5NauT+absmP8uYPEL53g=;
- b=owEBbQKS/ZANAwAIAdGAQUApo6g2AcsmYgBnDj7vcMCRzK6x1gJmBtxNFQ8ARrzVo+Ta2//+x
- ZUfgqoPFTuJAjMEAAEIAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCZw4+7wAKCRDRgEFAKaOo
- Ng8jEACZlXHdt2OEdxeRF44GQcDUMZqf/sYFlU5cdFrzyIQPqXBqnM31gfLvImRA1f330CqW3ZV
- 324hWfRfWE0sZDZVEM/VfO6SaKUwgywCeMMsyfNJvee7i7dbSOMuxFl2fLY/P4R2BPJmsallYHO
- k4RSGKCJ3IqnzKNFpxU67cBdN2YJVxHCPMs3BK8eFhBYJx87yqycFcsj0ZR5r6/yjPvTpaF3xyQ
- uwEAn04hua/Y5+oPx17utOpe1/QrNx29bcFKKEO1WzdIBDdLvuBeRx1zk1hqfuL7TAEsG1LHatc
- 42y5BNkNWL6QtfamY81mvKVyzaOsnB+yEiOnV3kSsETAg2oH4Ims4Pq9vaaUWugl5zD4F57VGZ0
- czOdVrb8Z8Aw2nV6B5+GO2RAkGxCflSspx+M7vSEjozAWM/RhlNnbynuoFonnR+45rmxyXd6rP9
- NxmwI/GZk+8n7DS9ebBsOnMmTFFOYL82ICJQ1j3W2aRWFTcL7Hq2+QlS7GoS6FlX/bqtEuTwMBa
- ElQSOP5eZA13rTVF0PL4GGmkn35mb2TfJJmTYMy8q/AjwaKWIbY+ZubvtbaIk0bodXOVcHNbiu7
- Ywk4CLisp9WgipwaMvvBET9RZe35t397xkVUSvocsIV3iaqarcW8+9dzzIjKc7VVgHFb05VvXRw
- yeMjERVcckZfPHg==
-X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
- fpr=8648725188DD401BB9A0D3FFD180414029A3A836
-X-GND-Sasl: antonin.godard@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 10:07:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205802
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 10:10:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205803
 
-This variable has been introduced by commit
-1d4c120edeb6e45665eafd6962a10ebb89d758eb ("kernel-yocto: allow branch
-auditing to be suspended") but its usage removed by commit
-0f698dfd1c8bbc0d53ae7977e26685a7a3df52a3 ("kernel-yocto: streamline
-patch, configuration and audit phases").
+On Mon, 2024-10-14 at 14:46 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> It was suggested I should write down a list of other issues we have
+> on
+> the autobuilder right now. Some of these are related to the
+> transition
+> to new infrastructure, some are previously seen issues occurring more
+> frequently, some are entirely new. I appreciate these should all have
+> bugs. I'm copying various people including those helping with SWAT so
+> we can transition those we don't get solved into bugzilla.
+>=20
+> a) insane do_package_qa intermittent failures
+> ---------------------------------------------
+>=20
+> Two levels of probems. The cachedpath code returns False instead of
+> exceptions so there was unexpected API changes. The recent insane
+> changes also stopped handling DEBIAN files correctly leading to
+> races.
+> This is perhaps the best backtrace we have:
+>=20
+> https://valkyrie.yoctoproject.org//#/builders/43/builds/246
+>=20
+> Who/Plan: RP has a partial revert for the first part to fix builds.
+> Ross is aware and working on the second.
 
-I haven't found any reference to this variable elsewhere... so remove it
-entirely.
+I tested Ross' patch for this and unfortunate it caused a new problem
+to appear.
 
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
----
- meta/classes-recipe/kernel-yocto.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+I accidentally triggered two a-full builds at once, there was also a
+scarthgap build running at the time.
 
-diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
-index 6d5c3b6327b61b9bb6678dae2dbf059dbde178f6..bf22f332b955d08e45ad73facde5a82e4b53eef2 100644
---- a/meta/classes-recipe/kernel-yocto.bbclass
-+++ b/meta/classes-recipe/kernel-yocto.bbclass
-@@ -23,7 +23,6 @@ SRCREV_FORMAT ?= "meta_machine"
- #   2: report options that are not hardware related, but set by a BSP
- KCONF_AUDIT_LEVEL ?= "1"
- KCONF_BSP_AUDIT_LEVEL ?= "0"
--KMETA_AUDIT ?= "yes"
- KMETA_AUDIT_WERROR ?= ""
- 
- # returns local (absolute) path names for all valid patches in the
+The patch from Ross caused all the do_package_qa tasks to rerun at once
+in parallel which caused writes to the hash equivalence server. This
+caused widespread timeout errors and took out all the builds including
+the scarthgap one in parallel.
 
----
-base-commit: c83a535d1b32f7fd292cd9caea1ec962bc3c735b
-change-id: 20241015-deprecated-kmeta-audit-1ae2e9d46e22
+https://valkyrie.yoctoproject.org/#/builders/4/builds/257
+https://valkyrie.yoctoproject.org/#/builders/2/builds/253
+https://valkyrie.yoctoproject.org/#/builders/89/builds/236/steps/16/logs/st=
+dio
+https://valkyrie.yoctoproject.org/#/builders/40/builds/242/steps/11/logs/st=
+dio
 
-Best regards,
--- 
-Antonin Godard <antonin.godard@bootlin.com>
+and many more.
+
+Joshua: Is there a performance issue with many writes in parallel to
+hashequiv?
+
+The stats info off the server was:
+
+    "requests": {
+        "average": 0.042532518429623176,
+        "max_time": 3.0534732329833787,
+        "num": 73325629,
+        "stdev": 0.06959859907598737,
+        "total_time": 3118723.6668062117
+    }
+
+Cheers,
+
+Richard
 
 
