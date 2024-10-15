@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D524D2169D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C27DD216A2
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:25 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.11879.1728994568101029540
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.11860.1728994547108891899
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:15 -0700
+ Tue, 15 Oct 2024 05:16:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hWBmpm06;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=29BPfmEq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b8511-c4d299d1-3ea9-471c-87a0-0cc38f1d70ee-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=SUe7uEkO;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=JapnrENt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010192901b88ec-14af042d-971e-4765-acc8-e15b2cf664c0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994575;
+	t=1728994576;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=l5NeCpR3j8cq1n0iVgBO2iBDw1GlEjIp2Lv4LWNl+uk=;
-	b=hWBmpm06z6VJzAkWsbMPxNdAuTZg1gLV43N+6evnyjx2eGTQfPzCb2uXcveV+Fkc
-	bq5rtp1DpEdOjHJWptPYXXbdB7kJZUhVjRc95RwKwmbSyeq4GF+vb5ICAbngGaYwZMl
-	1HUoWgLBflFq7zXTEA1Q21++FXeA5c4smd2m5OhM=
+	bh=qu0urncnWFFu4gASg9WvmolA9F3v0HmoFTKPZC8FFSI=;
+	b=SUe7uEkOmI3N9Wat5aIO2oe8l8Y0vrUL2mOipT31c4GhWeysWcfHjJa8tqwsM0lt
+	09gvPYTiFQ+nmZibKX/bkUIY/C6fMnyJqVS96yggtT9LkvWRQ/dFDnWjDqXyyyCl4SP
+	sioubY21GaNaEAJdyCJqOoXl9BsxBLhrVOe2QRcA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994575;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994576;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=l5NeCpR3j8cq1n0iVgBO2iBDw1GlEjIp2Lv4LWNl+uk=;
-	b=29BPfmEq5jBnIDhPgwdVqPk1TmOnQslHHX18HH4ZKb89GS6dzYbI1JA7CjGtIhq7
-	gqcOzumSrIMCk/xVCn+ru1i97v0NeLu9hWynQdFzyAsRsJ3FqLpJE0GzC1bVQhJBZPZ
-	vmUqdNM8B7Qyzbzus+pN08m2UUv8m2cqiHMdAjL8=
-Content-Type: multipart/mixed; boundary="===============6314287352027394961=="
+	bh=qu0urncnWFFu4gASg9WvmolA9F3v0HmoFTKPZC8FFSI=;
+	b=JapnrENtsPAWaH9atJAmmSdHtUVHqki8g6a88MPINokpj5KmZvWRW4W2yEruE/wk
+	QW++NT5IhCtUb/zoKNg2jw4t14z4uvaZt7QFxOeLY3BVIapM8qXhanRISZbU4cqHGqk
+	gCBpvAVdqHIMWcpqNSbscu3jwhAY3tlwfh0OqPS8=
+Content-Type: multipart/mixed; boundary="===============4668559951858317747=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] diffoscope: upgrading to 280 SUCCEEDED
-Message-ID: <01010192901b8511-c4d299d1-3ea9-471c-87a0-0cc38f1d70ee-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:15 +0000
+Subject: [AUH] ptest-runner: upgrading to 2.4.5.1 SUCCEEDED
+Message-ID: <01010192901b88ec-14af042d-971e-4765-acc8-e15b2cf664c0-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.29
+X-SES-Outgoing: 2024.10.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205903
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205906
 
---===============6314287352027394961==
+--===============4668559951858317747==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *diffoscope* to *280* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ptest-runner* to *2.4.5.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-diffoscope-upgrade-277-280.patch
+    - apply the patch: git am 0001-ptest-runner-upgrade-2.4.5-2.4.5.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,118 +72,104 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 4904481a402206c0e940a72b027cfe501a54e12c Mon Sep 17 00:00:00 2001
+From 039e7d2e76ccd6d9fd66770b9a8181a3f6620c34 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 12:11:16 +0000
-Subject: [PATCH] diffoscope: upgrade 277 -> 280
+Date: Tue, 15 Oct 2024 12:15:38 +0000
+Subject: [PATCH] ptest-runner: upgrade 2.4.5 -> 2.4.5.1
 
 ---
- .../diffoscope/{diffoscope_277.bb => diffoscope_280.bb}         | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/diffoscope/{diffoscope_277.bb => diffoscope_280.bb} (93%)
+ meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/diffoscope/diffoscope_277.bb b/meta/recipes-support/diffoscope/diffoscope_280.bb
-similarity index 93%
-rename from meta/recipes-support/diffoscope/diffoscope_277.bb
-rename to meta/recipes-support/diffoscope/diffoscope_280.bb
-index f609e607f3..942b6a9165 100644
---- a/meta/recipes-support/diffoscope/diffoscope_277.bb
-+++ b/meta/recipes-support/diffoscope/diffoscope_280.bb
-@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
+diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb
+index d28ae7ca91..f8334e801c 100644
+--- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb
++++ b/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
  
- inherit pypi setuptools3
+-SRCREV = "aea9f42f87f2a78a973ae22cade8e45259f754e1"
++SRCREV = "c99e8c2737ff802f110612cc2d90c60233c33255"
+ PV .= "+git"
  
--SRC_URI[sha256sum] = "d2d4236d7b72be8344b0c7a19506350a7b17d316bcd79d7bfc113e10400b0e10"
-+SRC_URI[sha256sum] = "061f1e3ae3eb638c7bfede4145d3be0013c8eb49fe2c978ee85a37b56918e951"
- 
- RDEPENDS:${PN} += "\
-         binutils \
+ SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
+@@ -37,3 +37,5 @@ RDEPENDS:${PN}:append = " pstree"
+ inherit useradd
+ USERADD_PACKAGES = "${PN}"
+ USERADD_PARAM:${PN} = "--system --no-create-home --home / --user-group ptest"
++
++PV = "2.4.5.1"
 -- 
 2.44.1
 
 
---===============6314287352027394961==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
-
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (0 cached, 919 parsed). 1876 targets, 52 skipped, 0 masked, 0 errors.
-Removing 144 recipes from the core2-64 sysroot...done.
-Removing 166 recipes from the qemux86_64 sysroot...done.
-
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'diffoscope'
-diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
-diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
-
---===============6314287352027394961==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-diffoscope-upgrade-277-280.patch"
-
-RnJvbSA0OTA0NDgxYTQwMjIwNmMwZTk0MGE3MmIwMjdjZmU1MDFhNTRlMTJjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTI6MTE6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-aWZmb3Njb3BlOiB1cGdyYWRlIDI3NyAtPiAyODAKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
-c2NvcGVfMjc3LmJiID0+IGRpZmZvc2NvcGVfMjgwLmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
-IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8yNzcuYmIgPT4gZGlmZm9zY29wZV8y
-ODAuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
-ZS9kaWZmb3Njb3BlXzI3Ny5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
-Zm9zY29wZV8yODAuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI3Ny5iYgpyZW5hbWUgdG8gbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI4MC5iYgppbmRleCBmNjA5ZTYw
-N2YzLi45NDJiNmE5MTY1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
-b3BlL2RpZmZvc2NvcGVfMjc3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
-cGUvZGlmZm9zY29wZV8yODAuYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
-ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiZDJkNDIzNmQ3YjcyYmU4MzQ0YjBjN2ExOTUwNjM1MGE3YjE3ZDMxNmJjZDc5ZDdiZmMx
-MTNlMTA0MDBiMGUxMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwNjFmMWUzYWUzZWI2MzhjN2Jm
-ZWRlNDE0NWQzYmUwMDEzYzhlYjQ5ZmUyYzk3OGVlODVhMzdiNTY5MThlOTUxIgogCiBSREVQRU5E
-Uzoke1BOfSArPSAiXAogICAgICAgICBiaW51dGlscyBcCi0tIAoyLjQ0LjEKCg==
-
---===============6314287352027394961==
+--===============4668559951858317747==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.12/site-packages/diffoscope-277.dist-info moved to /usr/lib/python3.12/site-packages/diffoscope-280.dist-info
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-dbg: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-dev: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-doc: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-locale: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-src: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-staticdev: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
 
---===============6314287352027394961==
+--===============4668559951858317747==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PV changed from "277" to "280"
-packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PV changed from "277" to "280"
-packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PV changed from "277" to "280"
-packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PV changed from "277" to "280"
-packages/core2-64-poky-linux/diffoscope/diffoscope-src: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-src: PV changed from "277" to "280"
-packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "277" to "280"
-packages/core2-64-poky-linux/diffoscope/diffoscope: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1353756 to 1354117 (+0%)
-packages/core2-64-poky-linux/diffoscope/diffoscope: PV changed from "277" to "280"
-packages/core2-64-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-277.tar.gz;downloadfilename=diffoscope-277.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-280.tar.gz;downloadfilename=diffoscope-280.tar.gz"
-packages/core2-64-poky-linux/diffoscope: PKGV changed from 277 [default] to 280 [default]
-packages/core2-64-poky-linux/diffoscope: PV changed from "277" to "280"
-Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
-  /usr/lib/python3.12/site-packages/diffoscope-277.dist-info moved to /usr/lib/python3.12/site-packages/diffoscope-280.dist-info
+packages/core2-64-poky-linux/ptest-runner: PKGV changed from 2.4.5+git [default] to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner: PV changed from "2.4.5+git" to "2.4.5.1"
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-dbg: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-dbg: PV changed from "2.4.5+git" to "2.4.5.1"
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-dev: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-dev: PV changed from "2.4.5+git" to "2.4.5.1"
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-doc: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-doc: PV changed from "2.4.5+git" to "2.4.5.1"
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-locale: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-locale: PV changed from "2.4.5+git" to "2.4.5.1"
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-src: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-src: PV changed from "2.4.5+git" to "2.4.5.1"
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-staticdev: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner-staticdev: PV changed from "2.4.5+git" to "2.4.5.1"
+packages/core2-64-poky-linux/ptest-runner/ptest-runner: PKGV changed from 2.4.5+git0+aea9f42f87 to 2.4.5.1 [default]
+packages/core2-64-poky-linux/ptest-runner/ptest-runner: PV changed from "2.4.5+git" to "2.4.5.1"
 
---===============6314287352027394961==--
+--===============4668559951858317747==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-ptest-runner-upgrade-2.4.5-2.4.5.1.patch"
+
+RnJvbSAwMzllN2QyZTc2Y2NkNmQ5ZmQ2Njc3MGI5YTgxODFhM2Y2NjIwYzM0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTI6MTU6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+dGVzdC1ydW5uZXI6IHVwZ3JhZGUgMi40LjUgLT4gMi40LjUuMQoKLS0tCiBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9wdGVzdC1ydW5uZXIvcHRlc3QtcnVubmVyXzIuNC41LmJiIHwgNCArKystCiAxIGZp
+bGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvcHRlc3QtcnVubmVyL3B0ZXN0LXJ1bm5lcl8yLjQuNS5iYiBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L3B0ZXN0LXJ1bm5lci9wdGVzdC1ydW5uZXJfMi40LjUuYmIK
+aW5kZXggZDI4YWU3Y2E5MS4uZjgzMzRlODAxYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvcHRlc3QtcnVubmVyL3B0ZXN0LXJ1bm5lcl8yLjQuNS5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMtc3VwcG9ydC9wdGVzdC1ydW5uZXIvcHRlc3QtcnVubmVyXzIuNC41LmJiCkBAIC03LDcgKzcs
+NyBAQCBIT01FUEFHRSA9ICJodHRwOi8vZ2l0LnlvY3RvcHJvamVjdC5vcmcvY2dpdC9jZ2l0LmNn
+aS9wdGVzdC1ydW5uZXIyL2Fib3V0LyIKIExJQ0VOU0UgPSAiR1BMLTIuMC1vci1sYXRlciIKIExJ
+Q19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTc1MTQxOTI2MGFhOTU0NDk5Zjdh
+YmFhYmFhODgyYmJlIgogCi1TUkNSRVYgPSAiYWVhOWY0MmY4N2YyYTc4YTk3M2FlMjJjYWRlOGU0
+NTI1OWY3NTRlMSIKK1NSQ1JFViA9ICJjOTllOGMyNzM3ZmY4MDJmMTEwNjEyY2MyZDkwYzYwMjMz
+YzMzMjU1IgogUFYgLj0gIitnaXQiCiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0LnlvY3RvcHJvamVj
+dC5vcmcvcHRlc3QtcnVubmVyMjticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIFwKQEAgLTM3
+LDMgKzM3LDUgQEAgUkRFUEVORFM6JHtQTn06YXBwZW5kID0gIiBwc3RyZWUiCiBpbmhlcml0IHVz
+ZXJhZGQKIFVTRVJBRERfUEFDS0FHRVMgPSAiJHtQTn0iCiBVU0VSQUREX1BBUkFNOiR7UE59ID0g
+Ii0tc3lzdGVtIC0tbm8tY3JlYXRlLWhvbWUgLS1ob21lIC8gLS11c2VyLWdyb3VwIHB0ZXN0Igor
+CitQViA9ICIyLjQuNS4xIgotLSAKMi40NC4xCgo=
+
+--===============4668559951858317747==--
 
