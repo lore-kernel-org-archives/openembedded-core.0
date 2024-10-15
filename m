@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D5BFD21696
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:15 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web11.11789.1728994549806250973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4D524D2169D
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:25 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.11879.1728994568101029540
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:14 -0700
+ Tue, 15 Oct 2024 05:16:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=PDBv9EAJ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=y8Ckl1wI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 01010192901b7faa-27337d60-4a31-4ab8-85dc-8664359c0131-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hWBmpm06;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=29BPfmEq;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b8511-c4d299d1-3ea9-471c-87a0-0cc38f1d70ee-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994574;
+	t=1728994575;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RND7V28wOpgtnPqu/+IqDBYcmQy86cTplG0GhesFgGU=;
-	b=PDBv9EAJ6bhton+nQAdMmzvjN1RVmuwUylrLZUaFPOET+KvKZvKpd2kWGvtJKm/b
-	XYHrrRf99eJZJde6RUupHS3VRKl5FMIG3E77+C0abSuhfAdkoRcnqLKls08A6++TnZ0
-	uH+4mh7ELXAplqJOyzjVVAncxT++Wer1fF2t2Fxo=
+	bh=l5NeCpR3j8cq1n0iVgBO2iBDw1GlEjIp2Lv4LWNl+uk=;
+	b=hWBmpm06z6VJzAkWsbMPxNdAuTZg1gLV43N+6evnyjx2eGTQfPzCb2uXcveV+Fkc
+	bq5rtp1DpEdOjHJWptPYXXbdB7kJZUhVjRc95RwKwmbSyeq4GF+vb5ICAbngGaYwZMl
+	1HUoWgLBflFq7zXTEA1Q21++FXeA5c4smd2m5OhM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994574;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994575;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RND7V28wOpgtnPqu/+IqDBYcmQy86cTplG0GhesFgGU=;
-	b=y8Ckl1wI4PONgR4dY7bs+BQv2iBAriDjZD1pADUk/0aw+JkswZO3s5g0yx8bNIWc
-	wYZkzYyA4zz44+oIgIgWKdm+VZ20P/+AvVBN6U1Zbiw2ajy/KFQhj77BR01Y8XGqQ6S
-	qjCCf/e6WwO7wQQZNi2DNuWCGP2tgWlW2D/1lpb8=
-Content-Type: multipart/mixed; boundary="===============1069072021711784696=="
+	bh=l5NeCpR3j8cq1n0iVgBO2iBDw1GlEjIp2Lv4LWNl+uk=;
+	b=29BPfmEq5jBnIDhPgwdVqPk1TmOnQslHHX18HH4ZKb89GS6dzYbI1JA7CjGtIhq7
+	gqcOzumSrIMCk/xVCn+ru1i97v0NeLu9hWynQdFzyAsRsJ3FqLpJE0GzC1bVQhJBZPZ
+	vmUqdNM8B7Qyzbzus+pN08m2UUv8m2cqiHMdAjL8=
+Content-Type: multipart/mixed; boundary="===============6314287352027394961=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Joshua Watt <JPEWhacker@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gstreamer1.0-python: upgrading to 1.24.8 SUCCEEDED
-Message-ID: <01010192901b7faa-27337d60-4a31-4ab8-85dc-8664359c0131-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:14 +0000
+Subject: [AUH] diffoscope: upgrading to 280 SUCCEEDED
+Message-ID: <01010192901b8511-c4d299d1-3ea9-471c-87a0-0cc38f1d70ee-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.33
+X-SES-Outgoing: 2024.10.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205899
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205903
 
---===============1069072021711784696==
+--===============6314287352027394961==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gstreamer1.0-python* to *1.24.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *diffoscope* to *280* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gstreamer1.0-python-upgrade-1.24.6-1.24.8.patch
+    - apply the patch: git am 0001-diffoscope-upgrade-277-280.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,94 +72,118 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 32ad5c9b774f1dddd2db70ffb3fd44b40a66195d Mon Sep 17 00:00:00 2001
+From 4904481a402206c0e940a72b027cfe501a54e12c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 11:53:29 +0000
-Subject: [PATCH] gstreamer1.0-python: upgrade 1.24.6 -> 1.24.8
+Date: Tue, 15 Oct 2024 12:11:16 +0000
+Subject: [PATCH] diffoscope: upgrade 277 -> 280
 
 ---
- ...reamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.8.bb} | 2 +-
+ .../diffoscope/{diffoscope_277.bb => diffoscope_280.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.8.bb} (91%)
+ rename meta/recipes-support/diffoscope/{diffoscope_277.bb => diffoscope_280.bb} (93%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.8.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.8.bb
-index cf38c2b876..a0ba866e55 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.8.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
+diff --git a/meta/recipes-support/diffoscope/diffoscope_277.bb b/meta/recipes-support/diffoscope/diffoscope_280.bb
+similarity index 93%
+rename from meta/recipes-support/diffoscope/diffoscope_277.bb
+rename to meta/recipes-support/diffoscope/diffoscope_280.bb
+index f609e607f3..942b6a9165 100644
+--- a/meta/recipes-support/diffoscope/diffoscope_277.bb
++++ b/meta/recipes-support/diffoscope/diffoscope_280.bb
+@@ -12,7 +12,7 @@ PYPI_PACKAGE = "diffoscope"
  
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "692e88820e097b30e5f92d37d0955c709a0a17b27f874a1907405244825bd700"
-+SRC_URI[sha256sum] = "0663d0d13f2692f573179c97b7c84e22600d14a2af757fc1740c7c4a3434c7fe"
+ inherit pypi setuptools3
  
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+-SRC_URI[sha256sum] = "d2d4236d7b72be8344b0c7a19506350a7b17d316bcd79d7bfc113e10400b0e10"
++SRC_URI[sha256sum] = "061f1e3ae3eb638c7bfede4145d3be0013c8eb49fe2c978ee85a37b56918e951"
+ 
+ RDEPENDS:${PN} += "\
+         binutils \
 -- 
 2.44.1
 
 
---===============1069072021711784696==
+--===============6314287352027394961==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (0 cached, 919 parsed). 1876 targets, 52 skipped, 0 masked, 0 errors.
+Removing 144 recipes from the core2-64 sysroot...done.
+Removing 166 recipes from the qemux86_64 sysroot...done.
+
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: Nothing PROVIDES 'diffoscope'
+diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
+diffoscope was skipped: incompatible with host x86_64-poky-linux-musl (not in COMPATIBLE_HOST)
+
+--===============6314287352027394961==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gstreamer1.0-python-upgrade-1.24.6-1.24.8.patch"
+ filename="0001-diffoscope-upgrade-277-280.patch"
 
-RnJvbSAzMmFkNWM5Yjc3NGYxZGRkZDJkYjcwZmZiM2ZkNDRiNDBhNjYxOTVkIE1vbiBTZXAgMTcg
+RnJvbSA0OTA0NDgxYTQwMjIwNmMwZTk0MGE3MmIwMjdjZmU1MDFhNTRlMTJjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6NTM6MjkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3RyZWFtZXIxLjAtcHl0aG9uOiB1cGdyYWRlIDEuMjQuNiAtPiAxLjI0LjgKCi0tLQogLi4ucmVh
-bWVyMS4wLXB5dGhvbl8xLjI0LjYuYmIgPT4gZ3N0cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjguYmJ9
-IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL3tnc3RyZWFtZXIxLjAtcHl0
-aG9uXzEuMjQuNi5iYiA9PiBnc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuOC5iYn0gKDkxJSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0cmVhbWVyMS4w
-LXB5dGhvbl8xLjI0LjYuYmIgYi9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjguYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEuMC1weXRob25f
-MS4yNC42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0
-cmVhbWVyMS4wLXB5dGhvbl8xLjI0LjguYmIKaW5kZXggY2YzOGMyYjg3Ni4uYTBiYTg2NmU1NSAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdHJlYW1lcjEu
-MC1weXRob25fMS4yNC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3RyZWFtZXIxLjAtcHl0aG9uXzEuMjQuOC5iYgpAQCAtOCw3ICs4LDcgQEAgTElDRU5TRSA9
-ICJMR1BMLTIuMS1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJTkc7
-bWQ1PWMzNGRlYWU0ZTM5NWNhMDdlNzI1YWIwMDc2YTVmNzQwIgogCiBTUkNfVVJJID0gImh0dHBz
-Oi8vZ3N0cmVhbWVyLmZyZWVkZXNrdG9wLm9yZy9zcmMvJHtQTlJFQUx9LyR7UE5SRUFMfS0ke1BW
-fS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjkyZTg4ODIwZTA5N2IzMGU1ZjkyZDM3
-ZDA5NTVjNzA5YTBhMTdiMjdmODc0YTE5MDc0MDUyNDQ4MjViZDcwMCIKK1NSQ19VUklbc2hhMjU2
-c3VtXSA9ICIwNjYzZDBkMTNmMjY5MmY1NzMxNzljOTdiN2M4NGUyMjYwMGQxNGEyYWY3NTdmYzE3
-NDBjN2M0YTM0MzRjN2ZlIgogCiBERVBFTkRTID0gImdzdHJlYW1lcjEuMCBnc3RyZWFtZXIxLjAt
-cGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgogUkRFUEVORFM6JHtQTn0gKz0gImdzdHJl
-YW1lcjEuMCBnc3RyZWFtZXIxLjAtcGx1Z2lucy1iYXNlIHB5dGhvbjMtcHlnb2JqZWN0IgotLSAK
-Mi40NC4xCgo=
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTI6MTE6MTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+aWZmb3Njb3BlOiB1cGdyYWRlIDI3NyAtPiAyODAKCi0tLQogLi4uL2RpZmZvc2NvcGUve2RpZmZv
+c2NvcGVfMjc3LmJiID0+IGRpZmZvc2NvcGVfMjgwLmJifSAgICAgICAgIHwgMiArLQogMSBmaWxl
+IGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS97ZGlmZm9zY29wZV8yNzcuYmIgPT4gZGlmZm9zY29wZV8y
+ODAuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29w
+ZS9kaWZmb3Njb3BlXzI3Ny5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2NvcGUvZGlm
+Zm9zY29wZV8yODAuYmIKc2ltaWxhcml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI3Ny5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvZGlmZm9zY29wZS9kaWZmb3Njb3BlXzI4MC5iYgppbmRleCBmNjA5ZTYw
+N2YzLi45NDJiNmE5MTY1IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kaWZmb3Nj
+b3BlL2RpZmZvc2NvcGVfMjc3LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2RpZmZvc2Nv
+cGUvZGlmZm9zY29wZV8yODAuYmIKQEAgLTEyLDcgKzEyLDcgQEAgUFlQSV9QQUNLQUdFID0gImRp
+ZmZvc2NvcGUiCiAKIGluaGVyaXQgcHlwaSBzZXR1cHRvb2xzMwogCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiZDJkNDIzNmQ3YjcyYmU4MzQ0YjBjN2ExOTUwNjM1MGE3YjE3ZDMxNmJjZDc5ZDdiZmMx
+MTNlMTA0MDBiMGUxMCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIwNjFmMWUzYWUzZWI2MzhjN2Jm
+ZWRlNDE0NWQzYmUwMDEzYzhlYjQ5ZmUyYzk3OGVlODVhMzdiNTY5MThlOTUxIgogCiBSREVQRU5E
+Uzoke1BOfSArPSAiXAogICAgICAgICBiaW51dGlscyBcCi0tIAoyLjQ0LjEKCg==
 
---===============1069072021711784696==
+--===============6314287352027394961==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.12/site-packages/diffoscope-277.dist-info moved to /usr/lib/python3.12/site-packages/diffoscope-280.dist-info
+
+--===============6314287352027394961==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dbg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-dev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-doc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-locale: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-src: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python-staticdev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python/gstreamer1.0-python: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gstreamer1.0-python: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gstreamer1.0-python: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.6.tar.xz" to "https://gstreamer.freedesktop.org/src/gst-python/gst-python-1.24.8.tar.xz"
+packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-dbg: PV changed from "277" to "280"
+packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-dev: PV changed from "277" to "280"
+packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-doc: PV changed from "277" to "280"
+packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-locale: PV changed from "277" to "280"
+packages/core2-64-poky-linux/diffoscope/diffoscope-src: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-src: PV changed from "277" to "280"
+packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope-staticdev: PV changed from "277" to "280"
+packages/core2-64-poky-linux/diffoscope/diffoscope: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope/diffoscope: PKGSIZE changed from 1353756 to 1354117 (+0%)
+packages/core2-64-poky-linux/diffoscope/diffoscope: PV changed from "277" to "280"
+packages/core2-64-poky-linux/diffoscope: SRC_URI changed from "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-277.tar.gz;downloadfilename=diffoscope-277.tar.gz" to "https://files.pythonhosted.org/packages/source/d/diffoscope/diffoscope-280.tar.gz;downloadfilename=diffoscope-280.tar.gz"
+packages/core2-64-poky-linux/diffoscope: PKGV changed from 277 [default] to 280 [default]
+packages/core2-64-poky-linux/diffoscope: PV changed from "277" to "280"
+Changes to packages/core2-64-poky-linux/diffoscope (sysroot):
+  /usr/lib/python3.12/site-packages/diffoscope-277.dist-info moved to /usr/lib/python3.12/site-packages/diffoscope-280.dist-info
 
---===============1069072021711784696==--
+--===============6314287352027394961==--
 
