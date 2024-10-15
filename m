@@ -2,193 +2,189 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AAA94D1F9A0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BE147D1F9A5
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 18:51:10 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.4781.1729018261897973439
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.4732.1729018267105590847
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 11:51:02 -0700
+ Tue, 15 Oct 2024 11:51:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ynMNX/kr;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71e625b00bcso1997902b3a.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 11:51:01 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Y//x7S1o;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-71e681bc315so115511b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 11:51:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729018261; x=1729623061; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lyQHrHBcNSe0zVG4cBleNEkTZwSHJwGcJtUe5aXsCT0=;
-        b=ynMNX/krBBP8/iHElS2/iMpOqPTCZsJpyRkBj50UjG7WSAU2n9OWvY6rgQm8dJnTOB
-         anTFVQp888+gK/Q1ekJF4+IQM7R7rcaTt6WvphONHh+I13fJSlKIyivH96DFadX9QwYE
-         5sL64QOYBZr/Z8pT0vq6uw3+4JCG9bHTc9rgVhXFaKAynsPmRFKCSzrC4qzWXsyIHZ1Q
-         8UfwlRPJy9E+iR7hodXjBtgRTf9wqfIgf5Ao9PuoFx235iYaGYFfxvlDzTbqn7E3s5pp
-         sOWp7rp3gQ+9qUatKs8mr9y2mJ4rUlGmmpRlV2NzGoHmSKHMnkzRRAQsBQ2cMHMXvpbD
-         haOw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729018266; x=1729623066; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=9YwhNlzJc8qMT/DiFlMSRofKxh0gzarrgeqR3+1MKRY=;
+        b=Y//x7S1oDxxi55kFwU1Ng2b0zwRt2IM8MzpvKlsQjwRAXhqEyNNV98ENtMLUQ0xHot
+         ZubhSDAAGK+grS+0SiE2PWUB1zM4duTiIWb4YBYZeTxktt1637+q/x9uMZdkgpI7RYvz
+         aGnIVg+FFhKYeaM+1dXiVk3ctiBIHvmXhpfYD9RZgO+HB7DDOnMsCer+CUDE6f8qicsy
+         S+b9h5U6rzClYwlVWyJ86IBzlln+uzJSEb6tl6P06GE/0NrwrS1ReAXF8O6ZrQC1hvIf
+         WYmOx9BSNXS2SPk1kN9aYWgIpuVcMN57kfVOqlwamYAZsE4V94Wrzb0O6gsYLfSuVbWw
+         Jlag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729018261; x=1729623061;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lyQHrHBcNSe0zVG4cBleNEkTZwSHJwGcJtUe5aXsCT0=;
-        b=qef+CMlTMKIPGSn79vdnci1roPxQu/Moh8rLrQwNW9L509OskBf4XW9iYaCn14iH9B
-         TcjeOA2ZDf4tXeCyYRwi3Rx0Ju1Ja/deNYp/UtQRVY39RtX76y3JRurMq3hMowFkH9p5
-         3mOp8YdIBBSxFimWfhovQlIofRadfK2mjPWJpMxRiGAFn63t1Ad/cFcdZvRX8vhKuGfy
-         LdbOIFs2PzfHI+t+JNUGSTmFuAb9HNJqUB91N3033IKf5LE11IPOvmI60Yfe2pXAh2f8
-         yCgGXBpQP5WnFgEYqNYuqnokOgXgvGS6e6tYCfwzyFwA3u5caSSD9YhvIHT8bHuVI8IL
-         IM+w==
-X-Gm-Message-State: AOJu0Yw1DDVxtrDTfJOzaU5ESLTkWF4jdtwV3IM5acS986/nBppTqebp
-	6S3R8TZ7hVpeYsuEcuGlm5XQL2YKvTL7kPypkDpOot2lXz7szPYwuVDSm4CAWp9bcN4KBQwlPcD
-	a
-X-Google-Smtp-Source: AGHT+IEaSDxoCatCgHTNHyrXtLe8J2qbFX92HaIIw6XZFAlnk+lOZw4Eqz4uvtq8bN+/uBFwwCHWtQ==
-X-Received: by 2002:a05:6a00:1310:b0:71e:3b8:666b with SMTP id d2e1a72fcca58-71e37ee768fmr22345331b3a.15.1729018260895;
-        Tue, 15 Oct 2024 11:51:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729018266; x=1729623066;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9YwhNlzJc8qMT/DiFlMSRofKxh0gzarrgeqR3+1MKRY=;
+        b=Yv1n7r2JP4kUNuc38sUnwTtAEba+l/IwmRlXR0/CerZMcsYeDblCwqHnLtrkTXD4e1
+         HaLOcvIhACFOdKR2yGRORAVdk7VCbpIi6UbZ6p3cRG5rplFZvtasQbqMjYs7mGSV0ScN
+         sLZv3x1rdtJXcmmYTVqXkyIEVRSl8BDZ0Sz0raNoXOIItXRyk8bttZgSRwBMolZC9gg9
+         NTx9ljAkmD39khi0RnpZmBfkqqvbA8E3Jf0zah4XbUZYB3PL436yftcd70x9RrbL6Q+F
+         cZDDKeXt+8sAEML02qUhbAjLnbZBcH2kC+DRLQ+AIYFqgj4WUR5aLeZiTg7fiizKeNWM
+         JOhg==
+X-Gm-Message-State: AOJu0YyJBg0zTve9n96iBTI4Eh3kYnnRuZGVXXAwTzWeoFLoBxx5kcSx
+	oMiIsLCMEj85Q9799LNHTG3ot0wYgRQsW64QWvmexyyc3nIVz5a0fsTYvw7lXefuBtnnRfgMCGN
+	2
+X-Google-Smtp-Source: AGHT+IFTv/U7ZaG3u157qPovy8WGyL5M886PJK2VqzunK8+LTbi9Nh4eryjM+mp/YCVPQjhop9ZCxA==
+X-Received: by 2002:a05:6a00:18a4:b0:71e:4a46:fdb6 with SMTP id d2e1a72fcca58-71e4a46ff66mr20345451b3a.3.1729018266164;
+        Tue, 15 Oct 2024 11:51:06 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e773717b9sm1616187b3a.9.2024.10.15.11.51.00
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e773717b9sm1616187b3a.9.2024.10.15.11.51.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 11:51:00 -0700 (PDT)
+        Tue, 15 Oct 2024 11:51:05 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/18] Patch review
-Date: Tue, 15 Oct 2024 11:50:36 -0700
-Message-Id: <cover.1729018153.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 03/18] libarchive: fix CVE-2024-48957 & CVE-2024-48958
+Date: Tue, 15 Oct 2024 11:50:39 -0700
+Message-Id: <8b520c3cea136591128f6601718c23334afd7a55.1729018153.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1729018153.git.steve@sakoman.com>
+References: <cover.1729018153.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 18:51:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205924
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205927
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Thursday, October 17
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Passed a-full on autobuilder:
+Backport fixes for:
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/277
+* CVE-2024-48957 - Upstream-Status: Backport from https://github.com/libarchive/libarchive/commit/3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b
+* CVE-2024-48958 - Upstream-Status: Backport from https://github.com/libarchive/libarchive/commit/a1cb648d52f5b6d3f31184d9b6a7cbca628459b7
 
-The following changes since commit 5ea3ba00532265165e0d30f6d2eed568f5b5867f:
-
-  meta-world-pkgdata: Inherit nopackages (2024-10-06 06:07:52 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Alexander Kanavin (1):
-  sysvinit: take release tarballs from github
-
-Claus Stovgaard (1):
-  lib/oe/package-manager: skip processing installed-pkgs with empty
-    globs
-
-Hitendra Prajapati (2):
-  cups: Backport fix for CVE-2024-47175
-  libarchive: fix CVE-2024-48957 & CVE-2024-48958
-
-Jaeyoon Jung (1):
-  makedevs: Fix matching uid/gid
-
-Jörg Sommer (2):
-  ptest-runner: Update 2.4.4 -> 2.4.5
-  runqemu: Fix detection of -serial parameter
-
-Khem Raj (1):
-  libpcre2: Update base uri PhilipHazel -> PCRE2Project
-
-Louis Rannou (1):
-  image_qa: fix error handling
-
-Macpaul Lin (1):
-  linux-firmware: upgrade 20240312 -> 20240909
-
-Paul Barker (1):
-  meta-ide-support: Mark recipe as MACHINE-specific
-
-Paul Gerber (1):
-  uboot-sign: fix counters in do_uboot_assemble_fitimage
-
-Peter Marko (1):
-  rust: ignore CVE-2024-43402
-
-Purushottam Choudhary (1):
-  virglrenderer: Add patch to fix -int-conversion build issue
-
-Richard Purdie (2):
-  license: Fix directory layout issues
-  libsdl2: Fix non-deterministic configure option for libsamplerate
-
-Teresa Remmet (1):
-  recipes-bsp: usbutils: Fix usb-devices command using busybox
-
-Yogita Urade (1):
-  ruby: upgrade 3.2.2 -> 3.3.5
-
- meta/classes-global/license.bbclass           |  10 +-
- meta/classes-recipe/image.bbclass             |  11 +-
- meta/classes-recipe/uboot-sign.bbclass        |   3 +-
- meta/lib/oe/package_manager/__init__.py       |  76 +++---
- meta/lib/oe/utils.py                          |   2 +-
- meta/lib/oeqa/selftest/cases/meta_ide.py      |   4 +-
- ...devices-Fix-usb-devices-with-busybox.patch |  37 +++
- meta/recipes-bsp/usbutils/usbutils_017.bb     |   1 +
- meta/recipes-core/meta/meta-ide-support.bb    |   1 +
- meta/recipes-core/sysvinit/sysvinit_3.04.bb   |   5 +-
- .../makedevs/makedevs/makedevs.c              |  12 +-
- ...Alignof-to-define-ALIGN_OF-when-poss.patch |  52 ----
- ...e.in-do-not-write-host-cross-cc-item.patch |  32 ---
- ...Obey-LDFLAGS-for-the-link-of-libruby.patch |  25 --
- ...-Makefile.in-filter-out-f-prefix-map.patch |  42 ---
- ...eproducible-change-fixing-784225-too.patch |  26 +-
- .../0006-Make-gemspecs-reproducible.patch     |  18 +-
- .../ruby/ruby/CVE-2023-36617_1.patch          |  56 ----
- .../ruby/ruby/CVE-2023-36617_2.patch          |  52 ----
- .../ruby/ruby/CVE-2024-27281.patch            |  97 -------
- .../ruby/ruby/CVE-2024-27282.patch            |  28 --
- .../ruby/ruby/remove_has_include_macros.patch |  35 ---
- .../ruby/{ruby_3.2.2.bb => ruby_3.3.5.bb}     |  13 +-
- meta/recipes-devtools/rust/rust-source.inc    |   1 +
- meta/recipes-extended/cups/cups.inc           |   5 +
- .../cups/cups/CVE-2024-47175-1.patch          |  73 +++++
- .../cups/cups/CVE-2024-47175-2.patch          | 151 +++++++++++
- .../cups/cups/CVE-2024-47175-3.patch          | 119 +++++++++
- .../cups/cups/CVE-2024-47175-4.patch          | 249 ++++++++++++++++++
- .../cups/cups/CVE-2024-47175-5.patch          |  40 +++
- .../libarchive/CVE-2024-48957.patch           |  36 +++
- .../libarchive/CVE-2024-48958.patch           |  40 +++
- .../libarchive/libarchive_3.7.4.bb            |   5 +-
- .../libsdl2/libsdl2_2.30.1.bb                 |   1 +
- ...nversion-fatal-build-error-with-GCC-.patch |  41 +++
- .../virglrenderer/virglrenderer_1.0.1.bb      |   1 +
- ...20240312.bb => linux-firmware_20240909.bb} |   8 +-
- .../recipes-support/libpcre/libpcre2_10.43.bb |   2 +-
- ...-runner_2.4.4.bb => ptest-runner_2.4.5.bb} |   2 +-
- scripts/runqemu                               |   4 +-
- 40 files changed, 898 insertions(+), 518 deletions(-)
- create mode 100755 meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
- delete mode 100644 meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
- rename meta/recipes-devtools/ruby/{ruby_3.2.2.bb => ruby_3.3.5.bb} (88%)
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-1.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-2.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-3.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-4.patch
- create mode 100644 meta/recipes-extended/cups/cups/CVE-2024-47175-5.patch
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../libarchive/CVE-2024-48957.patch           | 36 +++++++++++++++++
+ .../libarchive/CVE-2024-48958.patch           | 40 +++++++++++++++++++
+ .../libarchive/libarchive_3.7.4.bb            |  5 ++-
+ 3 files changed, 80 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
  create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240312.bb => linux-firmware_20240909.bb} (99%)
- rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.4.bb => ptest-runner_2.4.5.bb} (95%)
 
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
+new file mode 100644
+index 0000000000..98877cf72c
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
+@@ -0,0 +1,36 @@
++From 3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b Mon Sep 17 00:00:00 2001
++From: Wei-Cheng Pan <legnaleurc@gmail.com>
++Date: Mon, 29 Apr 2024 06:53:19 +0900
++Subject: [PATCH] fix: OOB in rar audio filter (#2149)
++
++This patch ensures that `src` won't move ahead of `dst`, so `src` will
++not OOB. Similar situation like in a1cb648.
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b]
++CVE: CVE-2024-48957
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libarchive/archive_read_support_format_rar.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 79669a8..95a91dc 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -3714,6 +3714,13 @@ execute_filter_audio(struct rar_filter *filter, struct rar_virtual_machine *vm)
++     memset(&state, 0, sizeof(state));
++     for (j = i; j < length; j += numchannels)
++     {
+++      /*
+++       * The src block should not overlap with the dst block.
+++       * If so it would be better to consider this archive is broken.
+++       */
+++      if (src >= dst)
+++        return 0;
+++
++       int8_t delta = (int8_t)*src++;
++       uint8_t predbyte, byte;
++       int prederror;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
+new file mode 100644
+index 0000000000..de266e9d95
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
+@@ -0,0 +1,40 @@
++From a1cb648d52f5b6d3f31184d9b6a7cbca628459b7 Mon Sep 17 00:00:00 2001
++From: Wei-Cheng Pan <legnaleurc@gmail.com>
++Date: Mon, 29 Apr 2024 06:50:22 +0900
++Subject: [PATCH] fix: OOB in rar delta filter (#2148)
++
++Ensure that `src` won't move ahead of `dst`, so `src` will not OOB.
++Since `dst` won't move in this function, and we are only increasing `src`
++position, this check should be enough. It should be safe to early return
++because this function does not allocate resources.
++
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/a1cb648d52f5b6d3f31184d9b6a7cbca628459b7]
++CVE: CVE-2024-48958
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ libarchive/archive_read_support_format_rar.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 95a91dc..4fc6626 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -3612,7 +3612,15 @@ execute_filter_delta(struct rar_filter *filter, struct rar_virtual_machine *vm)
++   {
++     uint8_t lastbyte = 0;
++     for (idx = i; idx < length; idx += numchannels)
+++    {
+++      /*
+++       * The src block should not overlap with the dst block.
+++       * If so it would be better to consider this archive is broken.
+++       */
+++      if (src >= dst)
+++        return 0;
++       lastbyte = dst[idx] = lastbyte - *src++;
+++    }
++   }
++ 
++   filter->filteredblockaddress = length;
++-- 
++2.25.1
++
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+index da85764116..6e406611f9 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.7.4.bb
+@@ -30,7 +30,10 @@ PACKAGECONFIG[zstd] = "--with-zstd,--without-zstd,zstd,"
+ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ 
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz"
+-SRC_URI += "file://configurehack.patch"
++SRC_URI += "file://configurehack.patch \
++            file://CVE-2024-48957.patch \
++            file://CVE-2024-48958.patch \
++	"
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
+ SRC_URI[sha256sum] = "7875d49596286055b52439ed42f044bd8ad426aa4cc5aabd96bfe7abb971d5e8"
 -- 
 2.34.1
 
