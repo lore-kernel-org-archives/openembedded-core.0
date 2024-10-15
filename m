@@ -1,155 +1,90 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <philip@balister.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE74BD1F9D1
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 21:09:21 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.8217.1729026560849339155
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC6C5D1F9DA
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 21:26:01 +0000 (UTC)
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+ by mx.groups.io with SMTP id smtpd.web11.8350.1729026964638794534
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 14:09:20 -0700
+ Tue, 15 Oct 2024 14:16:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=jYKrYdSi;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71e4c2e36daso197433b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 14:09:20 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cNoa9rX6;
+ spf=pass (domain: gmail.com, ip: 209.85.219.179, mailfrom: schonm@gmail.com)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-e2975432b8cso943345276.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 14:16:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729026560; x=1729631360; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SzSVVLj1aNIo34FirbSryDjyyDoPF0Pa0jp8a4BEths=;
-        b=jYKrYdSio1ilNFOhkUEWvMo+gpD5XsMkdG4eAhIh2cgDr9VnPOhY9n8Bkr8CGoX3kk
-         Ei5xhcy9ByAFFdv+9eKFSAiicq4JD0nQEV1f9WWx86S2N4L5PQQgMwdlD7uokEz8js2N
-         cSdNq53GIJmpDiuaJlS2vwsWrfEJLFg1HI0js6WsvelM+ZQwlGSxyNydmQA0OCTKKz5s
-         obqcrJ2QaLE7xLw0S+K6tWkXJytSjtQaGM7YlTeiCWA1XfNytLioHFoX9aKTONpaJ2i6
-         QpiY3wjeUhhUWeSbCPJ7HJdo7Ba+fbgI54BQcyLdB9rn2XqnGlFjfZOo4TBao9Lay6Ah
-         pVcg==
+        d=gmail.com; s=20230601; t=1729026964; x=1729631764; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=PfY3nWq6qRc31bOWYknr1JRJ+kvNkuceyEuTEx5NI2E=;
+        b=cNoa9rX6jcyTfglFRFcPwMGHkpYih5vaCUikwQPai02AZHU+Mif6krskswHTpx6qtz
+         wROBnKZRI2qnRCJ0bHL7KakEeEbzhGyCZzSmqDR4DD1MNAhRnpkOwlMRs3NmTVSiFdCW
+         O6asC+m6/bJRHFex+titPRH8dqCcdDwq/jG09NxVtDtwra8PsQW8wWQ8V32bbe/e6Hbr
+         klJMgJbBCac3+F08+kCQQ8Coz0uJJjTjP4QbobyLp9+N3yL6ug8q1lpDW27v3tIRKhWS
+         i2utLiU7sANHqUIUCo+a4R9vBfeZqNQsB86GogNlL75xxhpdT0eSexQKWQWmoUEVeBjh
+         wPcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729026560; x=1729631360;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SzSVVLj1aNIo34FirbSryDjyyDoPF0Pa0jp8a4BEths=;
-        b=NomGwqO4Tn7QBSTWuTz7g48PCcViFlkEUBZaMW+zSWUPVSO8Q69RwCSYJG3WJGYwOH
-         qv6sMRHV2SIH6U4X3SSt1UMULZ3yZQHndDwbVhbBU2UcLyL4gaEcszIYQJu2feCcwbdi
-         a5dFfFJUWHzHTPm3H52sFiHX5XQZZFdc8LHeAhVz6q9rNLfhuDqySmmqKdTFoUvNdvxO
-         Rm8Qol9bav/2R9dnu+OJJGBl5aQa/r0stT6Xs9rz1a08D9bVV5GvT3EjnxVQssTj1oNc
-         djacWTa5VyJJjDYGFtSs+o2J59vrFvtlXpnR+/XoVZ20ebmSbkAnKqNBSjqOEUzoaMNN
-         xtvw==
-X-Gm-Message-State: AOJu0YzTvlXrxZo4QaRwISkOZL59HD/VzgngmnqvpcN75Qgv/R6BiOhE
-	pLuQ272FtKq6rEP8QTNP9nHO4jX3X6Yi6xw6dmzdaCJbKIOiI0TDvgQd4/AbQgjY5lD6SwIOjhB
-	6RUrxO3B31dZ9sXCh6AW8xgDLMTo=
-X-Google-Smtp-Source: AGHT+IFjH+4rVt4dzmiczKTk2+rJF1kavUQwgFnuhpAB7Y6nx+S1JDp6INqhC9gC9apJsXC/oa/SXU1joOz+k645Ukw=
-X-Received: by 2002:a05:6a00:14d2:b0:71e:5573:8dcd with SMTP id
- d2e1a72fcca58-71e55738e5emr17855938b3a.2.1729026560187; Tue, 15 Oct 2024
- 14:09:20 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729026964; x=1729631764;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PfY3nWq6qRc31bOWYknr1JRJ+kvNkuceyEuTEx5NI2E=;
+        b=QS5YJnMBiXMhBHPER87QpQUYptG8j6kJDv145JVSUgmXDnmvvkkGSfXeUliP3Rc2/X
+         638gTa4FUtcCaRcYWQwTFAj34tAFq+33SLoTSv+lMgz/N9r6BS+L8gNC0HtlhSlaaWrZ
+         MJqMnTMX0qdVXxPe8V57/27g+5lkThUm3WctrwRBGSMudhJ8mTtHxDAnhOXAyzHPorrB
+         xZsx81XmKo21JR6ou/x5zdzVfNx72wZmJAurgjaljwTo9Zl6N05wOt0usTzKG5u0feJ0
+         lOOjZLC+S/Xg6soGwKGVjyZp+XqAW2FW25yuGCR7gIXHUWASF/+LGtBTq6h14plQmbDZ
+         urkg==
+X-Gm-Message-State: AOJu0YxFSITdNk2Tcl7cpyLbeu1CqWV0pjtgmeHNN2uspJpvob6ChkMU
+	eLUTXc7RVtu7KKnS472sguaJLOLiPrLuz8WInW2vYxiaHKn9twbR+W/juQ==
+X-Google-Smtp-Source: AGHT+IHKKAeincz/60N2r885Ty/9ceoD1urWK639FTTVnpEZ1sgonmIdbu62ePRRzuQFQdJOiZy4Fw==
+X-Received: by 2002:a05:6902:1004:b0:e29:6f57:226a with SMTP id 3f1490d57ef6-e296f572389mr2853799276.47.1729026963281;
+        Tue, 15 Oct 2024 14:16:03 -0700 (PDT)
+Received: from localhost.localdomain ([67.7.85.114])
+        by smtp.gmail.com with ESMTPSA id 3f1490d57ef6-e296d06a574sm365662276.59.2024.10.15.14.16.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 15 Oct 2024 14:16:02 -0700 (PDT)
+From: "J. S." <schonm@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Jason Schonberg <schonm@gmail.com>
+Subject: [OE-core][PATCH] libxml2: upgrade 2.13.3 -> 2.13.4
+Date: Tue, 15 Oct 2024 17:15:26 -0400
+Message-ID: <20241015211526.267616-1-schonm@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <cover.1728912923.git.bruce.ashfield@gmail.com>
- <88eada332f5d3d00baf9f2cedf63460d80356032.1728912923.git.bruce.ashfield@gmail.com>
- <453e16e5f843492aa7aac45e0311046729e4155b.camel@linuxfoundation.org>
- <CADkTA4MGh=XDy+gCx7wYd-AvLCGweMFLTR_4hHQZ+tT36xUsDg@mail.gmail.com> <884bed91ca885d594970e2141a56576363436143.camel@linuxfoundation.org>
-In-Reply-To: <884bed91ca885d594970e2141a56576363436143.camel@linuxfoundation.org>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Tue, 15 Oct 2024 17:09:08 -0400
-Message-ID: <CADkTA4Mkvq-NA5F2v+VuRp2v9wnepC-xKWa5byViBjaf8OxvcQ@mail.gmail.com>
-Subject: Re: [PATCH 1/6] linux-yocto-dev: conditionally add coreutils to depends
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 21:09:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205949
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 21:26:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205950
 
-On Tue, Oct 15, 2024 at 5:01=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
->
-> On Tue, 2024-10-15 at 16:56 -0400, Bruce Ashfield wrote:
-> > On Tue, Oct 15, 2024 at 10:15=E2=80=AFAM Richard Purdie
-> > <richard.purdie@linuxfoundation.org> wrote:
-> > >
-> > > On Mon, 2024-10-14 at 09:45 -0400, bruce.ashfield@gmail.com wrote:
-> > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > >
-> > > > 6.11+ uses truncate as part of the build. While truncate has been
-> > > > added to HOSTTOOLS in oe-core master, it still is possible to
-> > > > build a kernel recipe newer than 6.11+ on a release that doesn't
-> > > > have the HOSTTOOLS tweak.
-> > > >
-> > > > We can test for truncate and condtionally add the dependency.
-> > > >
-> > > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > > ---
-> > > >  meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++++
-> > > >  1 file changed, 4 insertions(+)
-> > > >
-> > > > diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/re=
-cipes-kernel/linux/linux-yocto-dev.bb
-> > > > index 292897ce43..752d108bd8 100644
-> > > > --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> > > > +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> > > > @@ -44,6 +44,10 @@ PACKAGECONFIG[dt-validation] =3D ",,python3-dtsc=
-hema-native"
-> > > >  # we need the wrappers if validation isn't in the packageconfig
-> > > >  DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation=
-', '', 'python3-dtschema-wrapper-native', d)}"
-> > > >
-> > > > +# 6.11+ uses truncate in the build, so we need to either have it i=
-n host tools, or
-> > > > +# build it ourselves
-> > > > +DEPENDS +=3D "${@bb.utils.contains('HOSTTOOLS', 'truncate', '', 'c=
-oreutils-native', d)}"
-> > > > +
-> > > >  COMPATIBLE_MACHINE =3D "^(qemuarmv5|qemuarm|qemuarm64|qemux86|qemu=
-ppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64|qemuloongarch64)=
-$"
-> > > >
-> > > >  KERNEL_DEVICETREE:qemuarmv5 =3D "arm/versatile-pb.dtb"
-> > >
-> > > This is for master so truncate should always be in HOSTTOOLS? I don't
-> > > understand why we need this there?
-> >
-> > It came out of a discussion to do a reference for people that are build=
-ing
-> > newer kernels on older releases (of which there seem to be quite a few)=
-.
-> >
-> > So either we'd have to bacckport the hosttools addition (which is likel=
-y
-> > possible), or I could throw together that reference of how you'd build =
-it
-> > conditionally.
->
-> I think the addition was backported for scarthgap so we're good there.
-> The main question would be around kirkstone where this commit could be
-> more appropriate if someone were building 6.11+.
->
-> I'm find with having this patch around as a proof of concept but I
-> don't think it should go into master...
+Changelog: https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.13.4
 
-No objections on my part. I had told Quentin that I'd eventually send
-out my local workaround for it, which I've done now. If there is somewhere
-else we can put it, I'm all ears for that as well.
+Signed-off-by: Jason Schonberg <schonm@gmail.com>
+---
+ .../libxml/{libxml2_2.13.3.bb => libxml2_2.13.4.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/libxml/{libxml2_2.13.3.bb => libxml2_2.13.4.bb} (97%)
 
-No matter what, I'll keep it around locally, so I can send it to anyone tha=
-t
-might need it (and then eventually remove it once anything that might
-need such support is old and not supported).
+diff --git a/meta/recipes-core/libxml/libxml2_2.13.3.bb b/meta/recipes-core/libxml/libxml2_2.13.4.bb
+similarity index 97%
+rename from meta/recipes-core/libxml/libxml2_2.13.3.bb
+rename to meta/recipes-core/libxml/libxml2_2.13.4.bb
+index df24f3031c..34a1d3fa46 100644
+--- a/meta/recipes-core/libxml/libxml2_2.13.3.bb
++++ b/meta/recipes-core/libxml/libxml2_2.13.4.bb
+@@ -19,7 +19,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://install-tests.patch \
+            "
+ 
+-SRC_URI[archive.sha256sum] = "0805d7c180cf09caad71666c7a458a74f041561a532902454da5047d83948138"
++SRC_URI[archive.sha256sum] = "65d042e1c8010243e617efb02afda20b85c2160acdbfbcb5b26b80cec6515650"
+ SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+ 
+ # Disputed as a security issue, but fixed in d39f780
+-- 
+2.43.0
 
-Bruce
-
->
-> Cheers,
->
-> Richard
->
-
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await
-thee at its end
-- "Use the force Harry" - Gandalf, Star Trek II
 
