@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B3AD2D1F9AF
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6DE0FD1F9C7
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:13 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web11.11793.1728994550468410346
+ by mx.groups.io with SMTP id smtpd.web11.11798.1728994553876413362
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:15:51 -0700
+ Tue, 15 Oct 2024 05:16:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dtktRWMq;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=1h3gxDb7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b24cc-7027570b-c02b-4565-b08f-b8d5e53ca89d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=YRxgfM7p;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=cZ1Ru0qj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010192901b6cfd-3111165b-994b-4d33-b259-7d833420fd89-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994551;
+	t=1728994569;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=O7PUnflmpHidYAJyp45yuJQPIljlKE79OX6H202hp24=;
-	b=dtktRWMqH294dpMm/xwZ3r+E6azWRHnURlGWFxFnEBOMdlmfQjiF5HlmfcCEcz0m
-	lDzfQRY4ypThk2Vmr6zWoazmB0p6dNFAZOYbDs2TM9V4RJ2WxKrEhW6lsfSW3ephjTL
-	7kOQeQu61lXKx/WOtqenhKR1rzB82IS4yeYfQEPc=
+	bh=x9wktVrEWSqMqk2vd1yuzTzGRU1YLT1L8HCdphcLk10=;
+	b=YRxgfM7pS1LIh4nNFD2cmyLP0Yjwe7M6drEUFyC5/6uQBHVT/4Uz6tJkfRFziN85
+	Y0HWDrwMzw05JrNAjc0Xnk9DbmWUVWaWQwBlNVQt7Xzo6RVm3+pn8PZR50CQ2KxdbWs
+	XzAJQh7G/TPYL6xXuB/sKQPbktapYNaJ5dUZgrB0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994551;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994569;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=O7PUnflmpHidYAJyp45yuJQPIljlKE79OX6H202hp24=;
-	b=1h3gxDb7xwoeS67OobYg1iGcB0IMnluHsB2FRhCclbe7lpf8DcWMUjXyR9fRa7Al
-	8CSNHS0r5XMEBiMdC9vOuvelhE7fBpjFN7RSAkTsj1SFEFidSt66oR0NytTTYRLe5eD
-	PWO+9qYs//cQkqpI3Lyx/sjl47fDn7xGoFon68oY=
-Content-Type: multipart/mixed; boundary="===============2964677833523979544=="
+	bh=x9wktVrEWSqMqk2vd1yuzTzGRU1YLT1L8HCdphcLk10=;
+	b=cZ1Ru0qjlWGN6AUptX4KyugDifwwwviO4HrMVvMzF+K0sE9jWGF2FPOyMZ67A4Ln
+	fBnnYxyV1X+TBzaoW8lnxa2RdJs8yePQtxjiGAyzQTosKNU83QsBiLi3p2LYtM3RLCe
+	gqzZzZB5JlztCJcpbjCui5XynonwECnaKjeGqlrY=
+Content-Type: multipart/mixed; boundary="===============7179034321722206484=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libxml2: upgrading to 2.13.4 SUCCEEDED
-Message-ID: <01010192901b24cc-7027570b-c02b-4565-b08f-b8d5e53ca89d-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:15:51 +0000
+Subject: [AUH] spirv-headers: upgrading to 1.3.296.0 SUCCEEDED
+Message-ID: <01010192901b6cfd-3111165b-994b-4d33-b259-7d833420fd89-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.10.15-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205828
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205884
 
---===============2964677833523979544==
+--===============7179034321722206484==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libxml2* to *2.13.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *spirv-headers* to *1.3.296.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libxml2-upgrade-2.13.3-2.13.4.patch
+    - apply the patch: git am 0001-spirv-headers-upgrade-1.3.290.0-1.3.296.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,68 +72,42 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From c81add1e9a140c57286c1e21a65c1bd7f7e1e1f9 Mon Sep 17 00:00:00 2001
+From 056a4e2e3bf1e136f18693a5e304d23981e5d0ea Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 07:27:51 +0000
-Subject: [PATCH] libxml2: upgrade 2.13.3 -> 2.13.4
+Date: Tue, 15 Oct 2024 11:03:56 +0000
+Subject: [PATCH] spirv-headers: upgrade 1.3.290.0 -> 1.3.296.0
 
 ---
- meta/recipes-core/libxml/libxml2/install-tests.patch          | 4 ++--
- .../libxml/{libxml2_2.13.3.bb => libxml2_2.13.4.bb}           | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/libxml/{libxml2_2.13.3.bb => libxml2_2.13.4.bb} (97%)
+ .../{spirv-headers_1.3.290.0.bb => spirv-headers_1.3.296.0.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/spir/{spirv-headers_1.3.290.0.bb => spirv-headers_1.3.296.0.bb} (93%)
 
-diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
-index 478eeea81b..594f60733d 100644
---- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-+++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-@@ -1,4 +1,4 @@
--From 0779511838a8cbd1e0f431c22f28f286a2a37b1b Mon Sep 17 00:00:00 2001
-+From 35eeb458abae60a31d876300c9a8d3d32031d832 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Mon, 5 Dec 2022 17:02:32 +0000
- Subject: [PATCH] add yocto-specific install-ptest target
-@@ -12,7 +12,7 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 10 insertions(+)
+diff --git a/meta/recipes-graphics/spir/spirv-headers_1.3.290.0.bb b/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb
+similarity index 93%
+rename from meta/recipes-graphics/spir/spirv-headers_1.3.290.0.bb
+rename to meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb
+index 30280a5b5e..bf7190379d 100644
+--- a/meta/recipes-graphics/spir/spirv-headers_1.3.290.0.bb
++++ b/meta/recipes-graphics/spir/spirv-headers_1.3.296.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://www.khronos.org/registry/spir-v"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=d14ee3b13f42e9c9674acc5925c3d741"
  
- diff --git a/Makefile.am b/Makefile.am
--index 0a49d37..1097c63 100644
-+index 4cb9a5c..8adcd7e 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -27,6 +27,16 @@ check_PROGRAMS = \
-diff --git a/meta/recipes-core/libxml/libxml2_2.13.3.bb b/meta/recipes-core/libxml/libxml2_2.13.4.bb
-similarity index 97%
-rename from meta/recipes-core/libxml/libxml2_2.13.3.bb
-rename to meta/recipes-core/libxml/libxml2_2.13.4.bb
-index df24f3031c..34a1d3fa46 100644
---- a/meta/recipes-core/libxml/libxml2_2.13.3.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.13.4.bb
-@@ -19,7 +19,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
- 
--SRC_URI[archive.sha256sum] = "0805d7c180cf09caad71666c7a458a74f041561a532902454da5047d83948138"
-+SRC_URI[archive.sha256sum] = "65d042e1c8010243e617efb02afda20b85c2160acdbfbcb5b26b80cec6515650"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
- 
- # Disputed as a security issue, but fixed in d39f780
+-SRCREV = "2acb319af38d43be3ea76bfabf3998e5281d8d12"
++SRCREV = "2a9b6f951c7d6b04b6c21fe1bf3f475b68b84801"
+ SRC_URI = "git://github.com/KhronosGroup/SPIRV-Headers;protocol=https;branch=main"
+ PE = "1"
+ # These recipes need to be updated in lockstep with each other:
 -- 
 2.44.1
 
 
---===============2964677833523979544==
+--===============7179034321722206484==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/result/errors/unsupported-encoding.xml.ent /usr/lib/libxml2/ptest/result/errors/unsupported-encoding.xml.str /usr/lib/libxml2/ptest/result/errors/unsupported-encoding.xml.err /usr/lib/libxml2/ptest/test/errors/unsupported-encoding.xml"
-packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.13.3", added "/usr/lib/libxml2.so.2.13.4"
-Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so.2.13.3 moved to /usr/lib/libxml2.so.2.13.4
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1974,52 +1948,61 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libxml2-native (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so.2.13.3 moved to /usr/lib/libxml2.so.2.13.4
 
---===============2964677833523979544==
+--===============7179034321722206484==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-spirv-headers-upgrade-1.3.290.0-1.3.296.0.patch"
+
+RnJvbSAwNTZhNGUyZTNiZjFlMTM2ZjE4NjkzYTVlMzA0ZDIzOTgxZTVkMGVhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MDM6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cGlydi1oZWFkZXJzOiB1cGdyYWRlIDEuMy4yOTAuMCAtPiAxLjMuMjk2LjAKCi0tLQogLi4uL3tz
+cGlydi1oZWFkZXJzXzEuMy4yOTAuMC5iYiA9PiBzcGlydi1oZWFkZXJzXzEuMy4yOTYuMC5iYn0g
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIve3NwaXJ2LWhlYWRlcnNfMS4zLjI5MC4w
+LmJiID0+IHNwaXJ2LWhlYWRlcnNfMS4zLjI5Ni4wLmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI5MC4wLmJiIGIvbWV0
+YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtaGVhZGVyc18xLjMuMjk2LjAuYmIKc2ltaWxh
+cml0eSBpbmRleCA5MyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3Bp
+cnYtaGVhZGVyc18xLjMuMjkwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9z
+cGlyL3NwaXJ2LWhlYWRlcnNfMS4zLjI5Ni4wLmJiCmluZGV4IDMwMjgwYTViNWUuLmJmNzE5MDM3
+OWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRlcnNf
+MS4zLjI5MC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LWhlYWRl
+cnNfMS4zLjI5Ni4wLmJiCkBAIC00LDcgKzQsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL3d3dy5r
+aHJvbm9zLm9yZy9yZWdpc3RyeS9zcGlyLXYiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWQxNGVlM2IxM2Y0MmU5Yzk2NzRhY2M1OTI1YzNk
+NzQxIgogCi1TUkNSRVYgPSAiMmFjYjMxOWFmMzhkNDNiZTNlYTc2YmZhYmYzOTk4ZTUyODFkOGQx
+MiIKK1NSQ1JFViA9ICIyYTliNmY5NTFjN2Q2YjA0YjZjMjFmZTFiZjNmNDc1YjY4Yjg0ODAxIgog
+U1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9TUElSVi1IZWFkZXJzO3By
+b3RvY29sPWh0dHBzO2JyYW5jaD1tYWluIgogUEUgPSAiMSIKICMgVGhlc2UgcmVjaXBlcyBuZWVk
+IHRvIGJlIHVwZGF0ZWQgaW4gbG9ja3N0ZXAgd2l0aCBlYWNoIG90aGVyOgotLSAKMi40NC4xCgo=
+
+--===============7179034321722206484==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libxml2: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2: SRC_URI changed from "https://download.gnome.org/sources//libxml2/2.13/libxml2-2.13.3.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.13.3;name=testtar file://run-ptest file://install-tests.patch" to "https://download.gnome.org/sources//libxml2/2.13/libxml2-2.13.4.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.13.4;name=testtar file://run-ptest file://install-tests.patch"
-packages/core2-64-poky-linux/libxml2: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: FILELIST: removed "/usr/lib/.debug/libxml2.so.2.13.3", added "/usr/lib/.debug/libxml2.so.2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-dbg: PKGSIZE changed from 7719760 to 7721352 (+0%)
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-dev: PKGSIZE changed from 418918 to 418960 (+0%)
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-doc: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-locale: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-locale: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/result/errors/unsupported-encoding.xml.err /usr/lib/libxml2/ptest/test/errors/unsupported-encoding.xml /usr/lib/libxml2/ptest/result/errors/unsupported-encoding.xml.str /usr/lib/libxml2/ptest/result/errors/unsupported-encoding.xml.ent"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-ptest: PKGSIZE changed from 16307891 to 16308630 (+0%)
-packages/core2-64-poky-linux/libxml2/libxml2-python: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-python: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-python: PKGSIZE changed from 2133282 to 2133685 (+0%)
-packages/core2-64-poky-linux/libxml2/libxml2-src: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-src: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-src: PKGSIZE changed from 7663749 to 7665335 (+0%)
-packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-staticdev: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2-utils: PV changed from "2.13.3" to "2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2: PKGV changed from 2.13.3 [default] to 2.13.4 [default]
-packages/core2-64-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.2.13.3", added "/usr/lib/libxml2.so.2.13.4"
-packages/core2-64-poky-linux/libxml2/libxml2: PV changed from "2.13.3" to "2.13.4"
-Changes to packages/core2-64-poky-linux/libxml2 (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so.2.13.3 moved to /usr/lib/libxml2.so.2.13.4
+packages/core2-64-poky-linux/spirv-headers: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dbg: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGSIZE changed from 3283078 to 3308184 (+1%)
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-dev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-doc: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-locale: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-src: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers-staticdev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PV changed from "1.3.290.0" to "1.3.296.0"
+packages/core2-64-poky-linux/spirv-headers/spirv-headers: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3860,57 +3843,6 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
-Changes to packages/x86_64-linux/libxml2-native (sysroot):
-  /usr/lib/libxml2.so.2 changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so changed symlink target from libxml2.so.2.13.3 to libxml2.so.2.13.4
-  /usr/lib/libxml2.so.2.13.3 moved to /usr/lib/libxml2.so.2.13.4
 
---===============2964677833523979544==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libxml2-upgrade-2.13.3-2.13.4.patch"
-
-RnJvbSBjODFhZGQxZTlhMTQwYzU3Mjg2YzFlMjFhNjVjMWJkN2Y3ZTFlMWY5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDc6Mjc6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ4bWwyOiB1cGdyYWRlIDIuMTMuMyAtPiAyLjEzLjQKCi0tLQogbWV0YS9yZWNpcGVzLWNvcmUv
-bGlieG1sL2xpYnhtbDIvaW5zdGFsbC10ZXN0cy5wYXRjaCAgICAgICAgICB8IDQgKystLQogLi4u
-L2xpYnhtbC97bGlieG1sMl8yLjEzLjMuYmIgPT4gbGlieG1sMl8yLjEzLjQuYmJ9ICAgICAgICAg
-ICB8IDIgKy0KIDIgZmlsZXMgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAzIGRlbGV0aW9ucygt
-KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC97bGlieG1sMl8yLjEzLjMuYmIgPT4g
-bGlieG1sMl8yLjEzLjQuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUv
-bGlieG1sL2xpYnhtbDIvaW5zdGFsbC10ZXN0cy5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3JlL2xp
-YnhtbC9saWJ4bWwyL2luc3RhbGwtdGVzdHMucGF0Y2gKaW5kZXggNDc4ZWVlYTgxYi4uNTk0ZjYw
-NzMzZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIvaW5zdGFs
-bC10ZXN0cy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9pbnN0
-YWxsLXRlc3RzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwNzc5NTExODM4YThjYmQxZTBm
-NDMxYzIyZjI4ZjI4NmEyYTM3YjFiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzNWVl
-YjQ1OGFiYWU2MGEzMWQ4NzYzMDBjOWE4ZDNkMzIwMzFkODMyIE1vbiBTZXAgMTcgMDA6MDA6MDAg
-MjAwMQogRnJvbTogUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiBEYXRlOiBNb24s
-IDUgRGVjIDIwMjIgMTc6MDI6MzIgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gYWRkIHlvY3RvLXNw
-ZWNpZmljIGluc3RhbGwtcHRlc3QgdGFyZ2V0CkBAIC0xMiw3ICsxMiw3IEBAIFNpZ25lZC1vZmYt
-Ynk6IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogIDEgZmlsZSBjaGFuZ2VkLCAx
-MCBpbnNlcnRpb25zKCspCiAKIGRpZmYgLS1naXQgYS9NYWtlZmlsZS5hbSBiL01ha2VmaWxlLmFt
-Ci1pbmRleCAwYTQ5ZDM3Li4xMDk3YzYzIDEwMDY0NAoraW5kZXggNGNiOWE1Yy4uOGFkY2Q3ZSAx
-MDA2NDQKIC0tLSBhL01ha2VmaWxlLmFtCiArKysgYi9NYWtlZmlsZS5hbQogQEAgLTI3LDYgKzI3
-LDE2IEBAIGNoZWNrX1BST0dSQU1TID0gXApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUv
-bGlieG1sL2xpYnhtbDJfMi4xMy4zLmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnht
-bDJfMi4xMy40LmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTMuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNv
-cmUvbGlieG1sL2xpYnhtbDJfMi4xMy40LmJiCmluZGV4IGRmMjRmMzAzMWMuLjM0YTFkM2ZhNDYg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTMuMy5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8yLjEzLjQuYmIKQEAgLTE5LDcg
-KzE5LDcgQEAgU1JDX1VSSSArPSAiaHR0cDovL3d3dy53My5vcmcvWE1ML1Rlc3QveG1sdHMyMDEz
-MDkyMy50YXI7c3ViZGlyPSR7QlB9O25hbWU9dGVzdHQKICAgICAgICAgICAgZmlsZTovL2luc3Rh
-bGwtdGVzdHMucGF0Y2ggXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZz
-dW1dID0gIjA4MDVkN2MxODBjZjA5Y2FhZDcxNjY2YzdhNDU4YTc0ZjA0MTU2MWE1MzI5MDI0NTRk
-YTUwNDdkODM5NDgxMzgiCitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI2NWQwNDJlMWM4
-MDEwMjQzZTYxN2VmYjAyYWZkYTIwYjg1YzIxNjBhY2RiZmJjYjViMjZiODBjZWM2NTE1NjUwIgog
-U1JDX1VSSVt0ZXN0dGFyLnNoYTI1NnN1bV0gPSAiYzZiMmQ0MmVlNTBiOGIyMzZlNzExYTk3ZDY4
-ZTZjNGI1YzhkODNlNjlhMmJlNDcyMjM3OWYwODcwMmVhNzI3MyIKIAogIyBEaXNwdXRlZCBhcyBh
-IHNlY3VyaXR5IGlzc3VlLCBidXQgZml4ZWQgaW4gZDM5Zjc4MAotLSAKMi40NC4xCgo=
-
---===============2964677833523979544==--
+--===============7179034321722206484==--
 
