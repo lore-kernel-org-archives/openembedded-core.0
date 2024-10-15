@@ -1,127 +1,169 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F6EDD1F9C5
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 19:05:21 +0000 (UTC)
-Received: from mail-ot1-f50.google.com (mail-ot1-f50.google.com [209.85.210.50])
- by mx.groups.io with SMTP id smtpd.web11.5157.1729019113168197703
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FA6FD1F9C7
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 20:32:31 +0000 (UTC)
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web10.7123.1729024348563413161
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 12:05:13 -0700
+ Tue, 15 Oct 2024 13:32:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bgryhETk;
- spf=pass (domain: gmail.com, ip: 209.85.210.50, mailfrom: festevam@gmail.com)
-Received: by mail-ot1-f50.google.com with SMTP id 46e09a7af769-7180120a78dso526354a34.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:05:13 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DlaUkIRH;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so4520838f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 13:32:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729019111; x=1729623911; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ah6nlINnljFejbDHqW3HipSlRRnwnrYHZGsRRCsNRak=;
-        b=bgryhETkZz0Xq0/gr9HG3jQ4Bqp/ZSN+dpmSPg9viXEUjEtIp9lF4juieokeJZj/6M
-         TTOryvJPy5ZHJdceN4//cZSS/oAvzzGGEaj4L5W0es/uqwdYwBLl09eL5ZtiguK2DiHQ
-         QOrgOjj0hoAB627L12MDEEYsxOKRAziR6oHK/MoKNPRtA3HGvcVwRVTXsKeSY6twJO/H
-         QJzuOS5+KTYBi6PoAj3q+GQrs9RNBpa3hhI1OtmjQPaA+HmQhg3ydr9+HGzb5nUFuRO8
-         SdxSEXe9oGCqM17oN6rqBPCDCz3WJVujDCH412ug54IBPllAzp5FFIDW6Yz6urlOmb+4
-         dq9Q==
+        d=linuxfoundation.org; s=google; t=1729024347; x=1729629147; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=l2y8GJICaNnYIfS0TO2/K3hCGu4jkI57SpIj9X9QvlA=;
+        b=DlaUkIRHYUqbhfjN7ulwk4ChGhZ8YsKyg0hiizCYVk6ZroaRmgtI7taYlSRPg3bKnL
+         eSGsx1jToEkMNpiKaOBZ/GXDYJ2FG9WqgoQQi/Hjnu7uWsICAo5nZVqVFjdwb2OdHXyD
+         o00SJGJCBefIHPVpjFy60OTCtfYJTqfhUXRAI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729019111; x=1729623911;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ah6nlINnljFejbDHqW3HipSlRRnwnrYHZGsRRCsNRak=;
-        b=YLNRszoC+wW1Ygg2BrtczEGCDIv3CutSB4BOC44pPSE4GVQzh2mmcKHM2GN9lhHGTQ
-         9398sXyIhnxidVJsS5XFtKoUIeZbFszg/dRXlqxAAlG+IopyCAyaOmjsRyblP2CqWrC0
-         fGxx9INpSoCAwCUKec+LoZXdVYd0uM625hn6Nf3UVqEQUOb5GABCQ/KaFr/sDEFOKb7k
-         Fu5sqp6fLenRUER8RybQB9RFVeIzpfdyy95p5SuOR1ZaPvsInkPb5KkHDcRkEJBmYR1F
-         5fL9S8/SxKhmkDNmnC8DVKbeyn1WTx0b4lHikPeVraYbOJbZwojrJGO4Z+9nNvHs/DmG
-         iPJw==
-X-Gm-Message-State: AOJu0Yz75oEy+FCca2ez8D54eVrK+H2RbrhLCAd6HwvUkzfQycH00JR0
-	MZ7LVFFRkQw06PiqELI9o48ZVXNWxhW8K4+nRChOBRN634D9MC6mmZpzuw==
-X-Google-Smtp-Source: AGHT+IH/2UnUgY/FJhJPrZhlCs61eDY0PRY6zYuyfEOn8EVlZC8JEyMpUKdx0+s3r0mkaCvtkFtazA==
-X-Received: by 2002:a05:6358:5285:b0:1ac:625f:9d4d with SMTP id e5c5f4694b2df-1c32bd009e2mr827833655d.23.1729019111358;
-        Tue, 15 Oct 2024 12:05:11 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:35ac:5a3c:300f:a7b2])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ea9c6ba319sm1527094a12.2.2024.10.15.12.05.09
+        d=1e100.net; s=20230601; t=1729024347; x=1729629147;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l2y8GJICaNnYIfS0TO2/K3hCGu4jkI57SpIj9X9QvlA=;
+        b=bjqV33+TA4f00GWoGtmJScSFDxHtwne2SqycJkEeDxKaQijGMjxJGannmGtKwXmC9g
+         c00zF5ScBtyccRkAILCEasuT2hC0Bzl95iSj1LR8zwTYWGGS0y8nlBtmtwUyFA24cZe6
+         2qj52pRjyyvOpeCiD6lcnLYjcluHq/peC74gBH0X2gy7AS3BtOef0KNTrjigiiu/7fgN
+         fDNoTecCabwZ2Grr2MuWUSfT1U+hqbHSIRJd+DtaUwoS/3nkjdko1k651sonO24eHjxo
+         2koNL4SmUh7D5y4WzTM6DG6t+jlfY4gKgLEKKzMN/CkWK0mLUFeM32QFnkeUUpbz8l/k
+         e8Zg==
+X-Gm-Message-State: AOJu0YwX7KeMLhGbl8ngPaj9UTeAY7rWQ/XxrepA7kyKLCVjmGEPx7S2
+	MREfADEgkm6MjawDmx5mBo56PgmmFVUOnusvvhZH/1afznt3KOXdWG073aPL/aI=
+X-Google-Smtp-Source: AGHT+IGNHabWBcfDLdmo1il2v8RlbakXBfnSncUexucERAl9WuNLaloV6SuNm06H0s81h0WeCCklnw==
+X-Received: by 2002:adf:ecd2:0:b0:37d:332e:d6ab with SMTP id ffacd0b85a97d-37d600d32b7mr12150475f8f.43.1729024346811;
+        Tue, 15 Oct 2024 13:32:26 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ca4b:46df:459f:fe11? ([2001:8b0:aba:5f3c:ca4b:46df:459f:fe11])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a1a3sm2438047f8f.12.2024.10.15.13.32.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 12:05:10 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: marex@denx.de,
-	quentin.schulz@cherry.de,
-	Fabio Estevam <festevam@denx.de>
-Subject: [PATCH v2] u-boot: upgrade 2024.07 -> 2024.10
-Date: Tue, 15 Oct 2024 16:04:52 -0300
-Message-Id: <20241015190452.1926300-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Tue, 15 Oct 2024 13:32:26 -0700 (PDT)
+Message-ID: <d091124adf15effe833452090f1dbfcca8739a38.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] sstate: remove corrupted artifacts from local
+ mirror
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: yumx@amazon.com, Alexander Kanavin <alex.kanavin@gmail.com>, "Sobon,
+ Przemyslaw" <psobon@amazon.com>
+Cc: "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Tue, 15 Oct 2024 21:32:24 +0100
+In-Reply-To: <D2078899-7FD6-481C-8B0B-032B62F078D7@amazon.com>
+References: <D2078899-7FD6-481C-8B0B-032B62F078D7@amazon.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 19:05:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205944
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 20:32:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205945
 
-From: Fabio Estevam <festevam@denx.de>
+On Tue, 2024-10-15 at 18:25 +0000, Yu, Max via lists.openembedded.org wrote=
+:
+>=20
+> > But can you say what your scale actually is? How many sstate objects
+> > are written into the shared cache per day? How often do you see
+> > corruptions?
+>=20
+> Our sstate cache has 25TB and 12M objects. I do not have the
+> read/write metrics, but we run ~5k image builds per day, and we were
+> seeing the corruption issue about once per two weeks before this
+> patch. Our image builds range from 3k - 8k build steps, but these
+> numbers become funky since these are not builds from scratch. (These
+> corruptions we're facing are likely not bit flips, the example I gave
+> was just trying to illustrate how rare events can happen that
+> shouldn't just be summarized with "fix your infra". If it makes
+> things better or worse, we only started to see these corruption
+> issues after moving to kirkstone where they are now compressed with
+> pzstd...)
+>=20
+> For some more context, we at AWS use Yocto to build the OS for a lot
+> of hardware platforms and a number of smaller component images.
+> Cartesian product the two and we end up with needing to build a lot
+> of images...
+>=20
+> Specifically related to sstate caches, we have a remote sstate mirror
+> setup in s3. All CI builds update the s3 mirror, so we have a large
+> number of writers. For all our builds, we setup a local build
+> directory per repo (a repo can have multiple), which is where we host
+> the local sstate cache, and we parallelize based on build directory.
+>=20
+> > The concern is that your patch does not overwrite the artifact, rather
+> > it deletes it first, and recreates it later. This creates a time
+> > window where a cache object exists, and then it doesn't, and then it
+> > exists again. This will break builds running in parallel in all sorts
+> > of interesting ways, as sstate is not designed for objects
+> > disappearing after they've been checked and confirmed to exist by
+> > bitbake.
+>=20
+> This makes a lot of sense. This is a use case we didn't consider when
+> creating the patch and not applicable to us. (Since we parallelize by
+> multiple build directories that don't share a local sstate cache.
+> Developer builds don't really care about the extra local
+> parallelization, while CI builds share the remote sstate cache.)
+>=20
+> > Then you can take the report and run a script that deletes the
+> > offending items. This all can be automated, and doesn't have to be
+> > executed manually.
+>=20
+> So that's the tricky thing for us. We will have to run the script at
+> a time window where no builds are happening. Because when I tried
+> deleting corrupted objects from the s3 sstate cache manually, the
+> corrupted sstate object ended up being reuploaded by ongoing
+> builds... And this is pretty difficult to execute reliably, since we
+> have so many builds.
 
-Upgrade to U-Boot 2024.10.
+I'm a little bit puzzled here. How would something upload the corrupt
+artefact back into the system?
 
-Add the gnutls-native dependency because now U-Boot needs it installed
-on the host machine to handle the CONFIG_TOOLS_MKEFICAPSULE option.
+The system has been very carefully designed on how we put artefacts
+into the sstate directory. We do it by writing to a temporary file,
+then move into place once the files are 100% complete. The move is
+atomic even over NFS, something will always win.
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
-Changes since v1:
-- Add gnutls-native dependency to avoid build error.
+Once the files exist, we don't overwrite them. This is essential to
+prevent something from half reading them.
 
- meta/recipes-bsp/u-boot/u-boot-common.inc                    | 2 +-
- .../{u-boot-tools_2024.07.bb => u-boot-tools_2024.10.bb}     | 0
- meta/recipes-bsp/u-boot/u-boot_2024.07.bb                    | 5 -----
- meta/recipes-bsp/u-boot/u-boot_2024.10.bb                    | 4 ++++
- 4 files changed, 5 insertions(+), 6 deletions(-)
- rename meta/recipes-bsp/u-boot/{u-boot-tools_2024.07.bb => u-boot-tools_2024.10.bb} (100%)
- delete mode 100644 meta/recipes-bsp/u-boot/u-boot_2024.07.bb
- create mode 100644 meta/recipes-bsp/u-boot/u-boot_2024.10.bb
+My question about "uploading the corrupt" artefact is because this
+doesn't happen in what we do out the box.
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 1b5382a6ad68..113f215cf61d 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -12,7 +12,7 @@ PE = "1"
- 
- # We use the revision in order to avoid having to fetch it from the
- # repo during parse
--SRCREV = "3f772959501c99fbe5aa0b22a36efe3478d1ae1c"
-+SRCREV = "f919c3a889f0ec7d63a48b5d0ed064386b0980bd"
- 
- SRC_URI = "git://source.denx.de/u-boot/u-boot.git;protocol=https;branch=master"
- 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2024.07.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2024.10.bb
-similarity index 100%
-rename from meta/recipes-bsp/u-boot/u-boot-tools_2024.07.bb
-rename to meta/recipes-bsp/u-boot/u-boot-tools_2024.10.bb
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2024.07.bb b/meta/recipes-bsp/u-boot/u-boot_2024.07.bb
-deleted file mode 100644
-index b15bcaa818fc..000000000000
---- a/meta/recipes-bsp/u-boot/u-boot_2024.07.bb
-+++ /dev/null
-@@ -1,5 +0,0 @@
--require u-boot-common.inc
--require u-boot.inc
--
--DEPENDS += "bc-native dtc-native python3-pyelftools-native"
--
-diff --git a/meta/recipes-bsp/u-boot/u-boot_2024.10.bb b/meta/recipes-bsp/u-boot/u-boot_2024.10.bb
-new file mode 100644
-index 000000000000..db8b2d58b468
---- /dev/null
-+++ b/meta/recipes-bsp/u-boot/u-boot_2024.10.bb
-@@ -0,0 +1,4 @@
-+require u-boot-common.inc
-+require u-boot.inc
-+
-+DEPENDS += "bc-native dtc-native gnutls-native python3-pyelftools-native"
--- 
-2.34.1
+I know you put everything into s3 and I worry that the s3 code has
+races in it somehow letting workers see incomplete files, or
+overwriting existing files which differ slightly causing the
+corruption.
 
+> I do understand more where you're coming from now, and it does sound
+> like the way we implemented this fix is not applicable for all use
+> cases. Can we make this a configurable option instead?=20
+>=20
+> Or if we don't want to remove an existing sstate object from the
+> cache, would it be fine to then overwrite existing sstate cache
+> objects after we finish rebuild it?
+
+No, overwriting files is a recipe for disaster. See above, you get
+partially complete files which come out as corrupted. We have enough
+scale on our autobuilders we could see that ourselves.
+
+>  With our current remote s3 sstate mirror, we already overwrite the
+> remote when the object is different. (I think it might be possible to
+> implement a marker during the decompression phase, and later
+> overwrite the previous sstate object after the local rebuilds. Will
+> need to look more into it. )
+
+I think this overwriting may be the source of your problems. You should
+not need to or be doing this. Why do you need to?
+
+It is easy to blame bit flips and put a hack into the system to force
+an overwrite but I think you have a more fundamental issue going on
+which you may want to fix properly.
+
+Cheers,
+
+Richard
 
