@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0FF81D1D898
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:02 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6A00D1D889
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:01 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.11804.1728994557069446800
+ by mx.groups.io with SMTP id smtpd.web10.11872.1728994560433135215
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:15:57 -0700
+ Tue, 15 Oct 2024 05:16:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=j7fEyCjw;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ZeBHj3S6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010192901b3a5f-f8e4d1e6-4553-46ea-9a34-fbc0607748eb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=J6FHeAb3;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=TYQNZ0wQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010192901b4754-284f887b-951c-46fa-a3eb-9a5a5740b7b1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994556;
+	t=1728994560;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=nTllg9ykf6Xp9Czp2BDWESdykLOJ/j+59R3U3YqXakk=;
-	b=j7fEyCjw0QyiqwxgeycbNhqR+4ZzW8BwionF40MarzCCP8GaKa01v2RwMexFyMUY
-	bjQO+sdnoI+thmmx6yFppThU98ihiBtAHdKfOZDz72hPQf0j5w1Nu5V+nJWtB7s3O7L
-	sc07aJNwvv5S/N/IcflAEa9dsnz6jpzg/muVS8Aw=
+	bh=+B+jeNfossEVdJXGgVwB3hkc8uhSFWTjpsyrwGvt9Hk=;
+	b=J6FHeAb3e2lrzNSRQhqBtsaW2Tp6gAOxIf7mSJH8PZuFkEEkMl0z4lJ/lXfgWg37
+	ckDnBKSmDIwXw3heDI8BJXB09hsHB5450/9Xub1TczXTXcs8UU7KAKGscuB6FkA6ILM
+	Jm/7i4oCFVOk6smTiudAebDE/lbU1an0Bqrq5Qco=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994556;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994560;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=nTllg9ykf6Xp9Czp2BDWESdykLOJ/j+59R3U3YqXakk=;
-	b=ZeBHj3S65lVR/YX/PieJOFUpnFA6yl+jFT8JBRGcoYct5FPRL2kbLaZlJ44zTzCW
-	TPprUD2cVOR8gl2XL0/hwWHNkPjw1jWA6ORtzQIhQEGMwVDFpj3gK/vbAA0+V6mari9
-	t0Kx1zcK9PBqkCpbCVrHmbJ3cdkUcIcQIt0tO8qg=
-Content-Type: multipart/mixed; boundary="===============6216514123303040742=="
+	bh=+B+jeNfossEVdJXGgVwB3hkc8uhSFWTjpsyrwGvt9Hk=;
+	b=TYQNZ0wQEJghhgHwTggHZtztNXFchD7Nv5zWXITaN6B8igg1Di0f+mr9NBoBNFEz
+	1nSPdl4KM5zyIi/UE3VO217XMUJQB25Eahd9Zhu43UJ67QXT8nmjBOCWqvK18Zdd8G3
+	vyoVLVYUm4A1bheXnFBqzcBByZcHQAhF8UZUpffY=
+Content-Type: multipart/mixed; boundary="===============9141554032560483850=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Leon Anavi <leon.anavi@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-maturin: upgrading to 1.7.4 FAILED
-Message-ID: <01010192901b3a5f-f8e4d1e6-4553-46ea-9a34-fbc0607748eb-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:15:56 +0000
+Subject: [AUH] python3-xmltodict: upgrading to 0.14.1 SUCCEEDED
+Message-ID: <01010192901b4754-284f887b-951c-46fa-a3eb-9a5a5740b7b1-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:15:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.10.15-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205844
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205854
 
---===============6216514123303040742==
+--===============9141554032560483850==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,117 +51,129 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-maturin* to *1.7.4* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-xmltodict* to *0.14.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-xmltodict-upgrade-0.13.0-0.14.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-maturin failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1875 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:73832299977a8233c36067b39ee00b7f8df6e03a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 920 .bb files complete (0 cached, 920 parsed). 1876 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:73832299977a8233c36067b39ee00b7f8df6e03a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-0cqn3mws: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-177u2z9m/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-177u2z9m/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-Removing 1 recipes from the core2-64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:73832299977a8233c36067b39ee00b7f8df6e03a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 31 Local 31 Mirrors 0 Missed 0 Current 62 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 312 tasks of which 311 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/m/maturin/maturin-1.7.4.tar.gz;downloadfilename=maturin-1.7.4.tar.gz...
-INFO: Rebasing devtool onto b7e0a3edda068d2ae1988ebc161673e6d055787e
-WARNING: Command 'git rebase b7e0a3edda068d2ae1988ebc161673e6d055787e' failed:
-Auto-merging src/python_interpreter/config.rs
-CONFLICT (content): Merge conflict in src/python_interpreter/config.rs
-Auto-merging src/target.rs
-CONFLICT (content): Merge conflict in src/target.rs
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Running extra recipe upgrade task: do_update_crates
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-maturin
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3-maturin/python3-maturin_1.7.4.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============6216514123303040742==--
+
+-- >8 --
+From 456778f97456634a45832660e20ef640df0bbb7a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 15 Oct 2024 09:02:49 +0000
+Subject: [PATCH] python3-xmltodict: upgrade 0.13.0 -> 0.14.1
+
+---
+ ...{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.1.bb} (86%)
+
+diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
+rename to meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
+index e8e275647c..2732715243 100644
+--- a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
++++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.1.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/martinblech/xmltodict"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
+ 
+-SRC_URI[sha256sum] = "341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56"
++SRC_URI[sha256sum] = "338c8431e4fc554517651972d62f06958718f6262b04316917008e8fd677a6b0"
+ 
+ PYPI_PACKAGE = "xmltodict"
+ 
+-- 
+2.44.1
+
+
+--===============9141554032560483850==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: FILELIST: added "/usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__init__.py /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-311.pyc"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGSIZE changed from 94219 to 168964 (+79%)
+Changes to packages/core2-64-poky-linux/python3-xmltodict (sysroot):
+  /usr/lib/python3.12/site-packages/xmltodict-0.13.0.dist-info moved to /usr/lib/python3.12/site-packages/xmltodict-0.14.1.dist-info
+
+--===============9141554032560483850==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/python3-xmltodict: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict: SRC_URI changed from "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-0.13.0.tar.gz;downloadfilename=xmltodict-0.13.0.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/x/xmltodict/xmltodict-0.14.1.tar.gz;downloadfilename=xmltodict-0.14.1.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dbg: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dev: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-dev: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-doc: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-doc: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-locale: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-locale: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGSIZE changed from 94219 to 168964 (+79%)
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: FILELIST: added "/usr/lib/python3-xmltodict/ptest/tests/__init__.py /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-312.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_dicttoxml.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/test_xmltodict.cpython-311.pyc /usr/lib/python3-xmltodict/ptest/tests/__pycache__/__init__.cpython-312.pyc"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-ptest: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-src: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-src: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict-staticdev: PV changed from "0.13.0" to "0.14.1"
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PKGSIZE changed from 49938 to 49042 (-2%)
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PKGV changed from 0.13.0 [default] to 0.14.1 [default]
+packages/core2-64-poky-linux/python3-xmltodict/python3-xmltodict: PV changed from "0.13.0" to "0.14.1"
+Changes to packages/core2-64-poky-linux/python3-xmltodict (sysroot):
+  /usr/lib/python3.12/site-packages/xmltodict-0.13.0.dist-info moved to /usr/lib/python3.12/site-packages/xmltodict-0.14.1.dist-info
+
+--===============9141554032560483850==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-xmltodict-upgrade-0.13.0-0.14.1.patch"
+
+RnJvbSA0NTY3NzhmOTc0NTY2MzRhNDU4MzI2NjBlMjBlZjY0MGRmMGJiYjdhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDk6MDI6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXhtbHRvZGljdDogdXBncmFkZSAwLjEzLjAgLT4gMC4xNC4xCgotLS0KIC4uLntweXRo
+b24zLXhtbHRvZGljdF8wLjEzLjAuYmIgPT4gcHl0aG9uMy14bWx0b2RpY3RfMC4xNC4xLmJifSB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMteG1sdG9kaWN0XzAuMTMu
+MC5iYiA9PiBweXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmJ9ICg4NiUpCgpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjEzLjAuYmIg
+Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzAuMTQuMS5i
+YgpzaW1pbGFyaXR5IGluZGV4IDg2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMteG1sdG9kaWN0XzAuMTMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmIKaW5kZXggZThlMjc1
+NjQ3Yy4uMjczMjcxNTI0MyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXhtbHRvZGljdF8wLjEzLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXhtbHRvZGljdF8wLjE0LjEuYmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQ
+QUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9tYXJ0aW5ibGVjaC94bWx0b2RpY3QiCiBMSUNFTlNF
+ID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTAxNDQxZDUw
+ZGM3NDQ3NmRiNThhNDFhYzEwY2I5ZmEyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMzQxNTk1
+YTQ4OGUzZTAxYTg1YTlkODkxMWQ4OTEyZmQ5MjJlZGU1ZmVjYzRkY2U0MzdlYjRiNmM4ZDAzN2U1
+NiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIzMzhjODQzMWU0ZmM1NTQ1MTc2NTE5NzJkNjJmMDY5
+NTg3MThmNjI2MmIwNDMxNjkxNzAwOGU4ZmQ2NzdhNmIwIgogCiBQWVBJX1BBQ0tBR0UgPSAieG1s
+dG9kaWN0IgogCi0tIAoyLjQ0LjEKCg==
+
+--===============9141554032560483850==--
 
