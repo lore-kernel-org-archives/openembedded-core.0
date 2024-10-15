@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FFBFD1814B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54EA2D1D863
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:14 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web11.11808.1728994561598114575
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web10.11862.1728994550369274025
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:07 -0700
+ Tue, 15 Oct 2024 05:16:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=b4w0PFSM;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=HlXYrbOD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010192901b62a1-db80c5c6-ce61-4c24-803f-aee55e54818a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=JEZdn60I;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=MO+VwSEi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 01010192901b53f8-00f0bbfd-13bf-42d9-8d27-d9375367fd4d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994566;
+	t=1728994563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4ElC9VwgOsHzKQTaX1ZaSWaF6ZQcxkUsygfrMhEeldQ=;
-	b=b4w0PFSMgJtbtQX65UK2PzK8PtUpgBjNj4b+dJkCCSJG2ed6Pv24nSRDydtVFdrZ
-	OxW+Oan20y0Lg3RNufbhflqlb4G4dtqZnqaASliWK7kqtnFnt9lbISOF/+2Fs+vEy2J
-	b22gNmkbcrHEyDHFP95GPVx1bNejWwwt+vyij8vA=
+	bh=Ez1Y1GWafYR5CmjKr308Jd0jRrrgJ4lgMAKGHw0pwbI=;
+	b=JEZdn60IJLJuwiEyjceBwBVmGF7/z8Bv1Qehdxgl4bAbb3WSsaUZ7UX1gv6j4GVb
+	eNjdKeP8FErerrsSV/UT+Lh5TQovRN/QAa683Z93XQoRcLlkDyBla7UYm3CN0NvtEg2
+	znKy5lvMThnDzpmsUPOKWwecitiHwh0ifJjXW8KY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994566;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994563;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4ElC9VwgOsHzKQTaX1ZaSWaF6ZQcxkUsygfrMhEeldQ=;
-	b=HlXYrbODv4RaTdmFWWY/TQMXBpfhG1jkdemDjv6ZujWHyOKG6UDqbkBpO4s2iLwr
-	2A1wUoLG6m/IUBVteC+0eD7ipIyrwhQIO1c68cducNQ3WLGETNkNnWhFnXW4g1XAICs
-	FcBoxrCw8H8TAM7JL03LNlys0WU8K6HlE+bBX9bk=
-Content-Type: multipart/mixed; boundary="===============4761448589056253716=="
+	bh=Ez1Y1GWafYR5CmjKr308Jd0jRrrgJ4lgMAKGHw0pwbI=;
+	b=MO+VwSEi80M2yAkg5xjiI9pjr0XK7E7cubupkRuR3bKCoY+l3oAOJYcWYRt+WJ2Y
+	wo01k/SXFPhv51YA6J2qHOWS1n6nZxmGcMCqRs6MQLphN4UJZOdNKUSjrx/tl9xdeS8
+	Q2OPGB570IGeV2zfot3//asMwI1Y1RAxNOw3hTT4=
+Content-Type: multipart/mixed; boundary="===============2632423597750883959=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Chen Qi <Qi.Chen@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] glslang: upgrading to 1.3.296.0 SUCCEEDED
-Message-ID: <01010192901b62a1-db80c5c6-ce61-4c24-803f-aee55e54818a-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:06 +0000
+Subject: [AUH] cups: upgrading to 2.4.11 FAILED
+Message-ID: <01010192901b53f8-00f0bbfd-13bf-42d9-8d27-d9375367fd4d-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:03 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.191
+X-SES-Outgoing: 2024.10.15-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205875
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205866
 
---===============4761448589056253716==
+--===============2632423597750883959==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *glslang* to *1.3.296.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *cups* to *2.4.11* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-glslang-upgrade-1.3.290.0-1.3.296.0.patch
+    - apply the patch: git am 0001-cups-upgrade-2.4.10-2.4.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,185 +78,296 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From accf8d5f72651ae57a51ed01d9ba70e5d872a232 Mon Sep 17 00:00:00 2001
+From d4c1d7f574623e73b8f1b492c2c7b4748574b926 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 10:39:53 +0000
-Subject: [PATCH] glslang: upgrade 1.3.290.0 -> 1.3.296.0
+Date: Tue, 15 Oct 2024 09:30:23 +0000
+Subject: [PATCH] cups: upgrade 2.4.10 -> 2.4.11
 
 ---
- .../glslang/glslang/0001-generate-glslang-pkg-config.patch  | 6 +++---
- .../glslang/{glslang_1.3.290.0.bb => glslang_1.3.296.0.bb}  | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-graphics/glslang/{glslang_1.3.290.0.bb => glslang_1.3.296.0.bb} (96%)
+ .../cups/cups/0001-use-echo-only-in-init.patch              | 2 +-
+ .../cups/0002-don-t-try-to-run-generated-binaries.patch     | 2 +-
+ .../0004-cups-fix-multilib-install-file-conflicts.patch     | 6 +++---
+ meta/recipes-extended/cups/cups/libexecdir.patch            | 5 ++---
+ .../cups/{cups_2.4.10.bb => cups_2.4.11.bb}                 | 2 +-
+ 5 files changed, 8 insertions(+), 9 deletions(-)
+ rename meta/recipes-extended/cups/{cups_2.4.10.bb => cups_2.4.11.bb} (51%)
 
-diff --git a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-index f8c0fc64c8..b821de16f2 100644
---- a/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
-+++ b/meta/recipes-graphics/glslang/glslang/0001-generate-glslang-pkg-config.patch
+diff --git a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
+index e6bd400779..dda6ceb101 100644
+--- a/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
++++ b/meta/recipes-extended/cups/cups/0001-use-echo-only-in-init.patch
 @@ -1,4 +1,4 @@
--From 0311dfd63ea41abb45aaf0f4ccc674f574ce639e Mon Sep 17 00:00:00 2001
-+From b4dcb88506a5522f709f1975d3462885b5bd9a92 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 7 Feb 2021 01:30:39 +0000
- Subject: [PATCH] generate glslang pkg-config
-@@ -15,10 +15,10 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 glslang/glslang.pc.cmake.in
+-From ddfe6ed6a89226985e8c9f0751c026aabc0927a0 Mon Sep 17 00:00:00 2001
++From c51bce48960080b6afe616c706dcab17d6de4fb4 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Thu, 13 Dec 2012 19:03:52 -0800
+ Subject: [PATCH] use echo only in init
+diff --git a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+index 75270cb0cb..377343b4c9 100644
+--- a/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
++++ b/meta/recipes-extended/cups/cups/0002-don-t-try-to-run-generated-binaries.patch
+@@ -1,4 +1,4 @@
+-From ff6c7168c3f26094b3a18298208a28831d1c1fd5 Mon Sep 17 00:00:00 2001
++From d7ee125b28a5291d7a27b8fcaa2a29626d9fd91d Mon Sep 17 00:00:00 2001
+ From: Koen Kooi <koen@dominion.thruhere.net>
+ Date: Sun, 30 Jan 2011 16:37:27 +0100
+ Subject: [PATCH] don't try to run generated binaries
+diff --git a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+index d49fb8f2c2..8f8840bdd2 100644
+--- a/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
++++ b/meta/recipes-extended/cups/cups/0004-cups-fix-multilib-install-file-conflicts.patch
+@@ -1,4 +1,4 @@
+-From 6e286b582571ffca3f7874076d70eec6fd5713f6 Mon Sep 17 00:00:00 2001
++From 8dac8b0c58d53b74d4bc0cb159c8b4d7a376aa8c Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Wed, 3 Oct 2018 00:27:11 +0800
+ Subject: [PATCH] cups: fix multilib install file conflicts
+@@ -15,10 +15,10 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- diff --git a/glslang/CMakeLists.txt b/glslang/CMakeLists.txt
--index 8d4b1e9c..717c6d47 100644
-+index 47925d8d..d90191c3 100644
- --- a/glslang/CMakeLists.txt
- +++ b/glslang/CMakeLists.txt
--@@ -235,6 +235,8 @@ if(GLSLANG_ENABLE_INSTALL)
-+@@ -255,6 +255,8 @@ if(GLSLANG_ENABLE_INSTALL)
-          install(TARGETS MachineIndependent EXPORT glslang-targets)
-          install(TARGETS GenericCodeGen EXPORT glslang-targets)
-      endif()
-diff --git a/meta/recipes-graphics/glslang/glslang_1.3.290.0.bb b/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/glslang/glslang_1.3.290.0.bb
-rename to meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-index d6ee46de1e..3b66e3544c 100644
---- a/meta/recipes-graphics/glslang/glslang_1.3.290.0.bb
-+++ b/meta/recipes-graphics/glslang/glslang_1.3.296.0.bb
-@@ -8,7 +8,7 @@ HOMEPAGE = "https://www.khronos.org/opengles/sdk/tools/Reference-Compiler"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & MIT & Apache-2.0 & GPL-3-with-bison-exception"
- LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=2a2b5acd7bc4844964cfda45fe807dc3"
+ diff --git a/conf/cups-files.conf.in b/conf/cups-files.conf.in
+-index 93584a1..65b7052 100644
++index f96f745..27d8be9 100644
+ --- a/conf/cups-files.conf.in
+ +++ b/conf/cups-files.conf.in
+-@@ -67,7 +67,7 @@ PageLog @CUPS_LOGDIR@/page_log
++@@ -70,7 +70,7 @@ PageLog @CUPS_LOGDIR@/page_log
+  #RequestRoot @CUPS_REQUESTS@
+  
+  # Location of helper programs...
+diff --git a/meta/recipes-extended/cups/cups/libexecdir.patch b/meta/recipes-extended/cups/cups/libexecdir.patch
+index 7ccad94f0f..97640976c5 100644
+--- a/meta/recipes-extended/cups/cups/libexecdir.patch
++++ b/meta/recipes-extended/cups/cups/libexecdir.patch
+@@ -1,4 +1,4 @@
+-From 1724f7bcdbcfdb445778f8a2e530c5c094c18c10 Mon Sep 17 00:00:00 2001
++From e839a37e8d49e77e18c2588d41c661b7f98cdf6c Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Tue, 13 Jul 2021 12:56:30 +0100
+ Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
+@@ -6,13 +6,12 @@ Subject: [PATCH] Use $libexecdir instead of hardcoding $prefix/lib as this
  
--SRCREV = "fa9c3deb49e035a8abcabe366f26aac010f6cbfb"
-+SRCREV = "46ef757e048e760b46601e6e77ae0cb72c97bd2f"
- SRC_URI = "git://github.com/KhronosGroup/glslang.git;protocol=https;branch=main \
-            file://0001-generate-glslang-pkg-config.patch \
-            "
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+-
+ ---
+  config-scripts/cups-directories.m4 | 4 ++--
+  1 file changed, 2 insertions(+), 2 deletions(-)
+ 
+ diff --git a/config-scripts/cups-directories.m4 b/config-scripts/cups-directories.m4
+-index 2033d47..230166e 100644
++index 069ee7b..2f67e5b 100644
+ --- a/config-scripts/cups-directories.m4
+ +++ b/config-scripts/cups-directories.m4
+ @@ -239,7 +239,7 @@ AC_SUBST([CUPS_REQUESTS])
+diff --git a/meta/recipes-extended/cups/cups_2.4.10.bb b/meta/recipes-extended/cups/cups_2.4.11.bb
+similarity index 51%
+rename from meta/recipes-extended/cups/cups_2.4.10.bb
+rename to meta/recipes-extended/cups/cups_2.4.11.bb
+index e16ad47cf5..71568295cb 100644
+--- a/meta/recipes-extended/cups/cups_2.4.10.bb
++++ b/meta/recipes-extended/cups/cups_2.4.11.bb
+@@ -2,4 +2,4 @@ require cups.inc
+ 
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+ 
+-SRC_URI[sha256sum] = "d75757c2bc0f7a28b02ee4d52ca9e4b1aa1ba2affe16b985854f5336940e5ad7"
++SRC_URI[sha256sum] = "9a88fe1da3a29a917c3fc67ce6eb3178399d68e1a548c6d86c70d9b13651fd71"
 -- 
 2.44.1
 
 
---===============4761448589056253716==
+--===============2632423597750883959==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1875 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:c9996ad2ddf3c076b847a0de050fc3bb592c92fb"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 323 Local 312 Mirrors 0 Missed 11 Current 494 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 558 of 817 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_recipe_qa_setscene)
+NOTE: recipe cups-2.4.11-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe cups-2.4.11-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 2040 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_fetch)
+NOTE: recipe cups-2.4.11-r0: task do_fetch: Started
+NOTE: recipe cups-2.4.11-r0: task do_fetch: Succeeded
+NOTE: Running task 2246 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_unpack)
+NOTE: Running task 2247 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_prepare_recipe_sysroot)
+NOTE: recipe cups-2.4.11-r0: task do_unpack: Started
+NOTE: recipe cups-2.4.11-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe cups-2.4.11-r0: task do_unpack: Succeeded
+NOTE: Running task 2248 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_patch)
+NOTE: Running task 2249 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_collect_spdx_deps)
+NOTE: recipe cups-2.4.11-r0: task do_patch: Started
+NOTE: recipe cups-2.4.11-r0: task do_collect_spdx_deps: Started
+NOTE: recipe cups-2.4.11-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_patch: Succeeded
+NOTE: Running task 2250 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2251 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_populate_lic)
+NOTE: recipe cups-2.4.11-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe cups-2.4.11-r0: task do_populate_lic: Started
+NOTE: recipe cups-2.4.11-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_populate_lic unihash changed to d7386203b323e4fc4a6b31d9f098955a1ee663ec14d2ac5ea2269589dbb1a8ec
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_deploy_source_date_epoch unihash changed to d65aa5d80eb9da98c5554ad8c45a800244b01a36efb1399078379f5e7be856a9
+NOTE: Setscene tasks completed
+NOTE: Running task 2252 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_configure)
+NOTE: recipe cups-2.4.11-r0: task do_configure: Started
+NOTE: recipe cups-2.4.11-r0: task do_configure: Succeeded
+NOTE: Running task 2253 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_compile)
+NOTE: recipe cups-2.4.11-r0: task do_compile: Started
+NOTE: recipe cups-2.4.11-r0: task do_compile: Succeeded
+NOTE: Running task 2254 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_install)
+NOTE: recipe cups-2.4.11-r0: task do_install: Started
+NOTE: recipe cups-2.4.11-r0: task do_install: Succeeded
+NOTE: Running task 2255 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_package)
+NOTE: Running task 2256 of 2264 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_populate_sysroot)
+NOTE: recipe cups-2.4.11-r0: task do_populate_sysroot: Started
+NOTE: recipe cups-2.4.11-r0: task do_package: Started
+NOTE: recipe cups-2.4.11-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe cups-2.4.11-r0: task do_package: Failed
+NOTE: Tasks Summary: Attempted 2256 tasks of which 2244 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015092925.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015092925.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_package
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/cups/2.4.11/temp/log.do_package.2152608
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: cups-2.4.11-r0 do_package: QA Issue: cups: Files/directories were installed but not shipped in any package:
+  /usr/lib/systemd/system/system-cups.slice
+Please set FILES such that these items are packaged. Alternatively if they are unneeded, avoid installing them or delete them within do_install.
+cups: 1 installed and not shipped files. [installed-vs-shipped]
+ERROR: cups-2.4.11-r0 do_package: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/cups/2.4.11/temp/log.do_package.2152608
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cups/cups_2.4.11.bb:do_package) failed with exit code '1'
+
+--===============2632423597750883959==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-glslang-upgrade-1.3.290.0-1.3.296.0.patch"
+ filename="0001-cups-upgrade-2.4.10-2.4.11.patch"
 
-RnJvbSBhY2NmOGQ1ZjcyNjUxYWU1N2E1MWVkMDFkOWJhNzBlNWQ4NzJhMjMyIE1vbiBTZXAgMTcg
+RnJvbSBkNGMxZDdmNTc0NjIzZTczYjhmMWI0OTJjMmM3YjQ3NDg1NzRiOTI2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTA6Mzk6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bHNsYW5nOiB1cGdyYWRlIDEuMy4yOTAuMCAtPiAxLjMuMjk2LjAKCi0tLQogLi4uL2dsc2xhbmcv
-Z2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaCAgfCA2ICsrKy0t
-LQogLi4uL2dsc2xhbmcve2dsc2xhbmdfMS4zLjI5MC4wLmJiID0+IGdsc2xhbmdfMS4zLjI5Ni4w
-LmJifSAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlv
-bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy97Z2xzbGFuZ18xLjMu
-MjkwLjAuYmIgPT4gZ2xzbGFuZ18xLjMuMjk2LjAuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xzbGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmct
-cGtnLWNvbmZpZy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmcv
-MDAwMS1nZW5lcmF0ZS1nbHNsYW5nLXBrZy1jb25maWcucGF0Y2gKaW5kZXggZjhjMGZjNjRjOC4u
-YjgyMWRlMTZmMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2dsc2xhbmcvZ2xz
-bGFuZy8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtnLWNvbmZpZy5wYXRjaAorKysgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nLzAwMDEtZ2VuZXJhdGUtZ2xzbGFuZy1wa2ct
-Y29uZmlnLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAwMzExZGZkNjNlYTQxYWJiNDVhYWYw
-ZjRjY2M2NzRmNTc0Y2U2MzllIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBiNGRjYjg4
-NTA2YTU1MjJmNzA5ZjE5NzVkMzQ2Mjg4NWI1YmQ5YTkyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQogRnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRlOiBT
-dW4sIDcgRmViIDIwMjEgMDE6MzA6MzkgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZ2VuZXJhdGUg
-Z2xzbGFuZyBwa2ctY29uZmlnCkBAIC0xNSwxMCArMTUsMTAgQEAgU2lnbmVkLW9mZi1ieTogSm9z
-ZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiAgY3JlYXRlIG1vZGUgMTAwNjQ0
-IGdsc2xhbmcvZ2xzbGFuZy5wYy5jbWFrZS5pbgogCiBkaWZmIC0tZ2l0IGEvZ2xzbGFuZy9DTWFr
-ZUxpc3RzLnR4dCBiL2dsc2xhbmcvQ01ha2VMaXN0cy50eHQKLWluZGV4IDhkNGIxZTljLi43MTdj
-NmQ0NyAxMDA2NDQKK2luZGV4IDQ3OTI1ZDhkLi5kOTAxOTFjMyAxMDA2NDQKIC0tLSBhL2dsc2xh
-bmcvQ01ha2VMaXN0cy50eHQKICsrKyBiL2dsc2xhbmcvQ01ha2VMaXN0cy50eHQKLUBAIC0yMzUs
-NiArMjM1LDggQEAgaWYoR0xTTEFOR19FTkFCTEVfSU5TVEFMTCkKK0BAIC0yNTUsNiArMjU1LDgg
-QEAgaWYoR0xTTEFOR19FTkFCTEVfSU5TVEFMTCkKICAgICAgICAgIGluc3RhbGwoVEFSR0VUUyBN
-YWNoaW5lSW5kZXBlbmRlbnQgRVhQT1JUIGdsc2xhbmctdGFyZ2V0cykKICAgICAgICAgIGluc3Rh
-bGwoVEFSR0VUUyBHZW5lcmljQ29kZUdlbiBFWFBPUlQgZ2xzbGFuZy10YXJnZXRzKQogICAgICBl
-bmRpZigpCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5n
-XzEuMy4yOTAuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4z
-LjI5Ni4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1n
-cmFwaGljcy9nbHNsYW5nL2dsc2xhbmdfMS4zLjI5MC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtZ3JhcGhpY3MvZ2xzbGFuZy9nbHNsYW5nXzEuMy4yOTYuMC5iYgppbmRleCBkNmVlNDZkZTFl
-Li4zYjY2ZTM1NDRjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9n
-bHNsYW5nXzEuMy4yOTAuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvZ2xzbGFuZy9n
-bHNsYW5nXzEuMy4yOTYuMC5iYgpAQCAtOCw3ICs4LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly93
-d3cua2hyb25vcy5vcmcvb3BlbmdsZXMvc2RrL3Rvb2xzL1JlZmVyZW5jZS1Db21waWxlciIKIExJ
-Q0VOU0UgPSAiQlNELTMtQ2xhdXNlICYgQlNELTItQ2xhdXNlICYgTUlUICYgQXBhY2hlLTIuMCAm
-IEdQTC0zLXdpdGgtYmlzb24tZXhjZXB0aW9uIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8v
-TElDRU5TRS50eHQ7bWQ1PTJhMmI1YWNkN2JjNDg0NDk2NGNmZGE0NWZlODA3ZGMzIgogCi1TUkNS
-RVYgPSAiZmE5YzNkZWI0OWUwMzVhOGFiY2FiZTM2NmYyNmFhYzAxMGY2Y2JmYiIKK1NSQ1JFViA9
-ICI0NmVmNzU3ZTA0OGU3NjBiNDY2MDFlNmU3N2FlMGNiNzJjOTdiZDJmIgogU1JDX1VSSSA9ICJn
-aXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9nbHNsYW5nLmdpdDtwcm90b2NvbD1odHRwczti
-cmFuY2g9bWFpbiBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLWdlbmVyYXRlLWdsc2xhbmctcGtn
-LWNvbmZpZy5wYXRjaCBcCiAgICAgICAgICAgICIKLS0gCjIuNDQuMQoK
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMDk6MzA6MjMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+dXBzOiB1cGdyYWRlIDIuNC4xMCAtPiAyLjQuMTEKCi0tLQogLi4uL2N1cHMvY3Vwcy8wMDAxLXVz
+ZS1lY2hvLW9ubHktaW4taW5pdC5wYXRjaCAgICAgICAgICAgICAgfCAyICstCiAuLi4vY3Vwcy8w
+MDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVzLnBhdGNoICAgICB8IDIgKy0K
+IC4uLi8wMDA0LWN1cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gg
+ICAgIHwgNiArKystLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvbGliZXhlY2Rp
+ci5wYXRjaCAgICAgICAgICAgIHwgNSArKy0tLQogLi4uL2N1cHMve2N1cHNfMi40LjEwLmJiID0+
+IGN1cHNfMi40LjExLmJifSAgICAgICAgICAgICAgICAgfCAyICstCiA1IGZpbGVzIGNoYW5nZWQs
+IDggaW5zZXJ0aW9ucygrKSwgOSBkZWxldGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0
+ZW5kZWQvY3Vwcy97Y3Vwc18yLjQuMTAuYmIgPT4gY3Vwc18yLjQuMTEuYmJ9ICg1MSUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hvLW9u
+bHktaW4taW5pdC5wYXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMS11
+c2UtZWNoby1vbmx5LWluLWluaXQucGF0Y2gKaW5kZXggZTZiZDQwMDc3OS4uZGRhNmNlYjEwMSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDAxLXVzZS1lY2hv
+LW9ubHktaW4taW5pdC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBz
+LzAwMDEtdXNlLWVjaG8tb25seS1pbi1pbml0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBk
+ZGZlNmVkNmE4OTIyNjk4NWU4YzlmMDc1MWMwMjZhYWJjMDkyN2EwIE1vbiBTZXAgMTcgMDA6MDA6
+MDAgMjAwMQorRnJvbSBjNTFiY2U0ODk2MDA4MGI2YWZlNjE2YzcwNmRjYWIxN2Q2ZGU0ZmI0IE1v
+biBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogU2F1bCBXb2xkIDxzZ3dAbGludXguaW50ZWwu
+Y29tPgogRGF0ZTogVGh1LCAxMyBEZWMgMjAxMiAxOTowMzo1MiAtMDgwMAogU3ViamVjdDogW1BB
+VENIXSB1c2UgZWNobyBvbmx5IGluIGluaXQKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRl
+bmRlZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8tcnVuLWdlbmVyYXRlZC1iaW5hcmllcy5w
+YXRjaCBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHMvMDAwMi1kb24tdC10cnktdG8t
+cnVuLWdlbmVyYXRlZC1iaW5hcmllcy5wYXRjaAppbmRleCA3NTI3MGNiMGNiLi4zNzczNDNiNGM5
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzLzAwMDItZG9uLXQt
+dHJ5LXRvLXJ1bi1nZW5lcmF0ZWQtYmluYXJpZXMucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWV4
+dGVuZGVkL2N1cHMvY3Vwcy8wMDAyLWRvbi10LXRyeS10by1ydW4tZ2VuZXJhdGVkLWJpbmFyaWVz
+LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBmZjZjNzE2OGMzZjI2MDk0YjNhMTgyOTgyMDhh
+Mjg4MzFkMWMxZmQ1IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBkN2VlMTI1YjI4YTUy
+OTFkN2EyN2I4ZmNhYTJhMjk2MjZkOWZkOTFkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJv
+bTogS29lbiBLb29pIDxrb2VuQGRvbWluaW9uLnRocnVoZXJlLm5ldD4KIERhdGU6IFN1biwgMzAg
+SmFuIDIwMTEgMTY6Mzc6MjcgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gZG9uJ3QgdHJ5IHRvIHJ1
+biBnZW5lcmF0ZWQgYmluYXJpZXMKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9j
+dXBzL2N1cHMvMDAwNC1jdXBzLWZpeC1tdWx0aWxpYi1pbnN0YWxsLWZpbGUtY29uZmxpY3RzLnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMtZml4LW11bHRp
+bGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gKaW5kZXggZDQ5ZmI4ZjJjMi4uOGY4ODQw
+YmRkMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1
+cHMtZml4LW11bHRpbGliLWluc3RhbGwtZmlsZS1jb25mbGljdHMucGF0Y2gKKysrIGIvbWV0YS9y
+ZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwcy8wMDA0LWN1cHMtZml4LW11bHRpbGliLWluc3RhbGwt
+ZmlsZS1jb25mbGljdHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZlMjg2YjU4MjU3MWZm
+Y2EzZjc4NzQwNzZkNzBlZWM2ZmQ1NzEzZjYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDhkYWM4YjBjNThkNTNiNzRkNGJjMGNiMTU5YzhiNGQ3YTM3NmFhOGMgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBLYWkgS2FuZyA8a2FpLmthbmdAd2luZHJpdmVyLmNvbT4KIERhdGU6
+IFdlZCwgMyBPY3QgMjAxOCAwMDoyNzoxMSArMDgwMAogU3ViamVjdDogW1BBVENIXSBjdXBzOiBm
+aXggbXVsdGlsaWIgaW5zdGFsbCBmaWxlIGNvbmZsaWN0cwpAQCAtMTUsMTAgKzE1LDEwIEBAIFNp
+Z25lZC1vZmYtYnk6IEthaSBLYW5nIDxrYWkua2FuZ0B3aW5kcml2ZXIuY29tPgogIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogCiBkaWZmIC0tZ2l0IGEvY29u
+Zi9jdXBzLWZpbGVzLmNvbmYuaW4gYi9jb25mL2N1cHMtZmlsZXMuY29uZi5pbgotaW5kZXggOTM1
+ODRhMS4uNjViNzA1MiAxMDA2NDQKK2luZGV4IGY5NmY3NDUuLjI3ZDhiZTkgMTAwNjQ0CiAtLS0g
+YS9jb25mL2N1cHMtZmlsZXMuY29uZi5pbgogKysrIGIvY29uZi9jdXBzLWZpbGVzLmNvbmYuaW4K
+LUBAIC02Nyw3ICs2Nyw3IEBAIFBhZ2VMb2cgQENVUFNfTE9HRElSQC9wYWdlX2xvZworQEAgLTcw
+LDcgKzcwLDcgQEAgUGFnZUxvZyBAQ1VQU19MT0dESVJAL3BhZ2VfbG9nCiAgI1JlcXVlc3RSb290
+IEBDVVBTX1JFUVVFU1RTQAogIAogICMgTG9jYXRpb24gb2YgaGVscGVyIHByb2dyYW1zLi4uCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzL2xpYmV4ZWNkaXIucGF0
+Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Vwcy9jdXBzL2xpYmV4ZWNkaXIucGF0Y2gKaW5k
+ZXggN2NjYWQ5NGYwZi4uOTc2NDA5NzZjNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWV4dGVu
+ZGVkL2N1cHMvY3Vwcy9saWJleGVjZGlyLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC9jdXBzL2N1cHMvbGliZXhlY2Rpci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMTcyNGY3
+YmNkYmNmZGI0NDU3NzhmOGEyZTUzMGM1YzA5NGMxOGMxMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKK0Zyb20gZTgzOWEzN2U4ZDQ5ZTc3ZTE4YzI1ODhkNDFjNjYxYjdmOThjZGY2YyBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3MgQnVydG9uIDxyb3NzLmJ1cnRvbkBhcm0uY29t
+PgogRGF0ZTogVHVlLCAxMyBKdWwgMjAyMSAxMjo1NjozMCArMDEwMAogU3ViamVjdDogW1BBVENI
+XSBVc2UgJGxpYmV4ZWNkaXIgaW5zdGVhZCBvZiBoYXJkY29kaW5nICRwcmVmaXgvbGliIGFzIHRo
+aXMKQEAgLTYsMTMgKzYsMTIgQEAgU3ViamVjdDogW1BBVENIXSBVc2UgJGxpYmV4ZWNkaXIgaW5z
+dGVhZCBvZiBoYXJkY29kaW5nICRwcmVmaXgvbGliIGFzIHRoaXMKIAogVXBzdHJlYW0tU3RhdHVz
+OiBQZW5kaW5nCiBTaWduZWQtb2ZmLWJ5OiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNv
+bT4KLQogLS0tCiAgY29uZmlnLXNjcmlwdHMvY3Vwcy1kaXJlY3Rvcmllcy5tNCB8IDQgKystLQog
+IDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYg
+LS1naXQgYS9jb25maWctc2NyaXB0cy9jdXBzLWRpcmVjdG9yaWVzLm00IGIvY29uZmlnLXNjcmlw
+dHMvY3Vwcy1kaXJlY3Rvcmllcy5tNAotaW5kZXggMjAzM2Q0Ny4uMjMwMTY2ZSAxMDA2NDQKK2lu
+ZGV4IDA2OWVlN2IuLjJmNjdlNWIgMTAwNjQ0CiAtLS0gYS9jb25maWctc2NyaXB0cy9jdXBzLWRp
+cmVjdG9yaWVzLm00CiArKysgYi9jb25maWctc2NyaXB0cy9jdXBzLWRpcmVjdG9yaWVzLm00CiBA
+QCAtMjM5LDcgKzIzOSw3IEBAIEFDX1NVQlNUKFtDVVBTX1JFUVVFU1RTXSkKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjEwLmJiIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTEuYmIKc2ltaWxhcml0eSBpbmRleCA1MSUKcmVuYW1l
+IGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2N1cHMvY3Vwc18yLjQuMTAuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjExLmJiCmluZGV4IGUxNmFkNDdj
+ZjUuLjcxNTY4Mjk1Y2IgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1
+cHNfMi40LjEwLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9jdXBzL2N1cHNfMi40LjEx
+LmJiCkBAIC0yLDQgKzIsNCBAQCByZXF1aXJlIGN1cHMuaW5jCiAKIExJQ19GSUxFU19DSEtTVU0g
+PSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0NjU1ZmM4NTRkZGMzYzZiZDU3Igog
+Ci1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDc1NzU3YzJiYzBmN2EyOGIwMmVlNGQ1MmNhOWU0YjFh
+YTFiYTJhZmZlMTZiOTg1ODU0ZjUzMzY5NDBlNWFkNyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5
+YTg4ZmUxZGEzYTI5YTkxN2MzZmM2N2NlNmViMzE3ODM5OWQ2OGUxYTU0OGM2ZDg2YzcwZDliMTM2
+NTFmZDcxIgotLSAKMi40NC4xCgo=
 
---===============4761448589056253716==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 87558440 to 51515392 (-41%)
-packages/core2-64-poky-linux/glslang/glslang-dev: FILELIST: added "/usr/include/glslang/SPIRV/SpvTools.h /usr/include/glslang/Include/visibility.h"
-packages/core2-64-poky-linux/glslang/glslang: PKGSIZE changed from 6533273 to 3612393 (-45%)
-packages/core2-64-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libglslang-default-resource-limits.so.14.3.0 /usr/lib/libSPIRV.so.14 /usr/lib/libglslang-default-resource-limits.so.14 /usr/lib/libglslang.so.14.3.0 /usr/lib/libSPIRV.so.14.3.0 /usr/lib/libSPVRemapper.so.14.3.0 /usr/lib/libglslang.so.14 /usr/lib/libSPVRemapper.so.14", added "/usr/lib/libglslang.so.15.0.0 /usr/lib/libSPIRV.so.15 /usr/lib/libSPIRV.so.15.0.0 /usr/lib/libglslang-default-resource-limits.so.15 /usr/lib/libSPVRemapper.so.15.0.0 /usr/lib/libglslang.so.15 /usr/lib/libSPVRemapper.so.15 /usr/lib/libglslang-default-resource-limits.so.15.0.0"
-Changes to packages/core2-64-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so changed symlink target from libglslang-default-resource-limits.so.14 to libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so changed symlink target from libglslang.so.14 to libglslang.so.15
-  /usr/lib/libSPIRV.so changed symlink target from libSPIRV.so.14 to libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so changed symlink target from libSPVRemapper.so.14 to libSPVRemapper.so.15
-  /usr/lib/libglslang-default-resource-limits.so.14.3.0 moved to /usr/lib/libglslang-default-resource-limits.so.15.0.0
-  /usr/lib/libglslang-default-resource-limits.so.14 moved to /usr/lib/libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so.14.3.0 moved to /usr/lib/libglslang.so.15.0.0
-  /usr/lib/libglslang.so.14 moved to /usr/lib/libglslang.so.15
-  /usr/lib/libSPIRV.so.14.3.0 moved to /usr/lib/libSPIRV.so.15.0.0
-  /usr/lib/libSPIRV.so.14 moved to /usr/lib/libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so.14.3.0 moved to /usr/lib/libSPVRemapper.so.15.0.0
-  /usr/lib/libSPVRemapper.so.14 moved to /usr/lib/libSPVRemapper.so.15
-  /usr/include/glslang/Include/visibility.h was added
-  /usr/include/glslang/SPIRV/SpvTools.h was added
-
---===============4761448589056253716==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/glslang/glslang-dbg: FILELIST: removed "/usr/lib/.debug/libglslang-default-resource-limits.so.14.3.0 /usr/lib/.debug/libglslang.so.14.3.0 /usr/lib/.debug/libSPVRemapper.so.14.3.0 /usr/lib/.debug/libSPIRV.so.14.3.0", added "/usr/lib/.debug/libglslang.so.15.0.0 /usr/lib/.debug/libSPVRemapper.so.15.0.0 /usr/lib/.debug/libSPIRV.so.15.0.0 /usr/lib/.debug/libglslang-default-resource-limits.so.15.0.0"
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-dbg: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-dbg: PKGSIZE changed from 87558440 to 51515392 (-41%)
-packages/core2-64-poky-linux/glslang/glslang-dev: FILELIST: added "/usr/include/glslang/SPIRV/SpvTools.h /usr/include/glslang/Include/visibility.h"
-packages/core2-64-poky-linux/glslang/glslang-dev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-dev: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-dev: PKGSIZE changed from 277788 to 288513 (+4%)
-packages/core2-64-poky-linux/glslang/glslang-doc: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-doc: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-locale: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-locale: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-src: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-src: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang-src: PKGSIZE changed from 4961305 to 4957073 (-0%)
-packages/core2-64-poky-linux/glslang/glslang-staticdev: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang-staticdev: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang: FILELIST: removed "/usr/lib/libSPVRemapper.so.14.3.0 /usr/lib/libglslang-default-resource-limits.so.14 /usr/lib/libSPVRemapper.so.14 /usr/lib/libglslang-default-resource-limits.so.14.3.0 /usr/lib/libSPIRV.so.14.3.0 /usr/lib/libglslang.so.14.3.0 /usr/lib/libSPIRV.so.14 /usr/lib/libglslang.so.14", added "/usr/lib/libSPIRV.so.15.0.0 /usr/lib/libglslang-default-resource-limits.so.15 /usr/lib/libSPVRemapper.so.15.0.0 /usr/lib/libSPVRemapper.so.15 /usr/lib/libglslang.so.15.0.0 /usr/lib/libSPIRV.so.15 /usr/lib/libglslang.so.15 /usr/lib/libglslang-default-resource-limits.so.15.0.0"
-packages/core2-64-poky-linux/glslang/glslang: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang/glslang: PV changed from "1.3.290.0" to "1.3.296.0"
-packages/core2-64-poky-linux/glslang/glslang: PKGSIZE changed from 6533273 to 3612393 (-45%)
-packages/core2-64-poky-linux/glslang: PKGV changed from 1.3.290.0 [default] to 1.3.296.0 [default]
-packages/core2-64-poky-linux/glslang: PV changed from "1.3.290.0" to "1.3.296.0"
-Changes to packages/core2-64-poky-linux/glslang (sysroot):
-  /usr/lib/libglslang-default-resource-limits.so changed symlink target from libglslang-default-resource-limits.so.14 to libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so changed symlink target from libglslang.so.14 to libglslang.so.15
-  /usr/lib/libSPIRV.so changed symlink target from libSPIRV.so.14 to libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so changed symlink target from libSPVRemapper.so.14 to libSPVRemapper.so.15
-  /usr/lib/libglslang-default-resource-limits.so.14.3.0 moved to /usr/lib/libglslang-default-resource-limits.so.15.0.0
-  /usr/lib/libglslang-default-resource-limits.so.14 moved to /usr/lib/libglslang-default-resource-limits.so.15
-  /usr/lib/libglslang.so.14.3.0 moved to /usr/lib/libglslang.so.15.0.0
-  /usr/lib/libglslang.so.14 moved to /usr/lib/libglslang.so.15
-  /usr/lib/libSPIRV.so.14.3.0 moved to /usr/lib/libSPIRV.so.15.0.0
-  /usr/lib/libSPIRV.so.14 moved to /usr/lib/libSPIRV.so.15
-  /usr/lib/libSPVRemapper.so.14.3.0 moved to /usr/lib/libSPVRemapper.so.15.0.0
-  /usr/lib/libSPVRemapper.so.14 moved to /usr/lib/libSPVRemapper.so.15
-  /usr/include/glslang/Include/visibility.h was added
-  /usr/include/glslang/SPIRV/SpvTools.h was added
-
---===============4761448589056253716==--
+--===============2632423597750883959==--
 
