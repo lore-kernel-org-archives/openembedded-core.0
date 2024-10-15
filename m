@@ -1,132 +1,155 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB9E5D1F9CE
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 21:01:51 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.web11.8054.1729026101580722902
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE74BD1F9D1
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 21:09:21 +0000 (UTC)
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+ by mx.groups.io with SMTP id smtpd.web11.8217.1729026560849339155
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 14:01:42 -0700
+ Tue, 15 Oct 2024 14:09:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DTFXPiJ0;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-37d8901cb98so115230f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 14:01:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jYKrYdSi;
+ spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71e4c2e36daso197433b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 14:09:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729026100; x=1729630900; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=3UdABe+mdElLlcyClKKE2wkZKr/eN+xVmoWrZaqazu4=;
-        b=DTFXPiJ0Tvunw6jLplYSkUPSM2vhNQiE2mlZSPoIu5nAUKxvzUpPmwIQ9PPyoYxsI7
-         s7QDz8gecpHmKu7p/5N10tPlZ/MB4ndLKBLKrSVMJaWV/N3boB34F/dese7PlPn4bLn1
-         QSdBQC21yF9mn6/rYQhGO1r1M/7NWwdA7UcCo=
+        d=gmail.com; s=20230601; t=1729026560; x=1729631360; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SzSVVLj1aNIo34FirbSryDjyyDoPF0Pa0jp8a4BEths=;
+        b=jYKrYdSio1ilNFOhkUEWvMo+gpD5XsMkdG4eAhIh2cgDr9VnPOhY9n8Bkr8CGoX3kk
+         Ei5xhcy9ByAFFdv+9eKFSAiicq4JD0nQEV1f9WWx86S2N4L5PQQgMwdlD7uokEz8js2N
+         cSdNq53GIJmpDiuaJlS2vwsWrfEJLFg1HI0js6WsvelM+ZQwlGSxyNydmQA0OCTKKz5s
+         obqcrJ2QaLE7xLw0S+K6tWkXJytSjtQaGM7YlTeiCWA1XfNytLioHFoX9aKTONpaJ2i6
+         QpiY3wjeUhhUWeSbCPJ7HJdo7Ba+fbgI54BQcyLdB9rn2XqnGlFjfZOo4TBao9Lay6Ah
+         pVcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729026100; x=1729630900;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=3UdABe+mdElLlcyClKKE2wkZKr/eN+xVmoWrZaqazu4=;
-        b=axeIjGolm9ZehJyauSiXl4OFAbJxmnWjNvL9qnj0y+aFjmkl43WrMNpr5fYelrttb3
-         RPcp7MrRjR1iym06M8izVpgCFl/2OsCdBlDwUMXpY/wPSdqQlVopWpfC40Kkgabg3ntD
-         vcsXU2WC+rr0QRucQecJBVax0RC/WbXxOLEKLW05odyIspGxE5JgXq1Z8Q41UZMRbCYw
-         fNUdHthBD75G/+R5EZw/6JX9tIHSTVPLCFeKXM4oM67+YKiS+4nRUWV9YKVUURriQd2t
-         l1L/2/i73RlOJezhhfLPtK0a5FfKBNnak/6Ru/awaA1Yg3PM3RKxJ8zA2O4DQAyBK7l6
-         fXVw==
-X-Gm-Message-State: AOJu0Yz9q6fqeusu9DkMjGTVBa4+XL7i3N868ldgOInbNcmK56JfK/7P
-	6yOxuYS8/rlAV7fWrkmnMqrAAvgZ53N3+nAQR5M16G/H5tdLAnTpApc5hfczivw=
-X-Google-Smtp-Source: AGHT+IH1OHwoGCyqUTDc0zMKsfv5u7YU3lS1S4v6kNVcQXX5rc/i2QC/biLM3sNNhywO0AFnuPGapQ==
-X-Received: by 2002:adf:a111:0:b0:374:bcfe:e73 with SMTP id ffacd0b85a97d-37d552cdf30mr12809157f8f.28.1729026099666;
-        Tue, 15 Oct 2024 14:01:39 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ca4b:46df:459f:fe11? ([2001:8b0:aba:5f3c:ca4b:46df:459f:fe11])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37d7fa7a23csm2530745f8f.18.2024.10.15.14.01.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 14:01:39 -0700 (PDT)
-Message-ID: <884bed91ca885d594970e2141a56576363436143.camel@linuxfoundation.org>
-Subject: Re: [PATCH 1/6] linux-yocto-dev: conditionally add coreutils to
- depends
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Tue, 15 Oct 2024 22:01:38 +0100
-In-Reply-To: <CADkTA4MGh=XDy+gCx7wYd-AvLCGweMFLTR_4hHQZ+tT36xUsDg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1729026560; x=1729631360;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SzSVVLj1aNIo34FirbSryDjyyDoPF0Pa0jp8a4BEths=;
+        b=NomGwqO4Tn7QBSTWuTz7g48PCcViFlkEUBZaMW+zSWUPVSO8Q69RwCSYJG3WJGYwOH
+         qv6sMRHV2SIH6U4X3SSt1UMULZ3yZQHndDwbVhbBU2UcLyL4gaEcszIYQJu2feCcwbdi
+         a5dFfFJUWHzHTPm3H52sFiHX5XQZZFdc8LHeAhVz6q9rNLfhuDqySmmqKdTFoUvNdvxO
+         Rm8Qol9bav/2R9dnu+OJJGBl5aQa/r0stT6Xs9rz1a08D9bVV5GvT3EjnxVQssTj1oNc
+         djacWTa5VyJJjDYGFtSs+o2J59vrFvtlXpnR+/XoVZ20ebmSbkAnKqNBSjqOEUzoaMNN
+         xtvw==
+X-Gm-Message-State: AOJu0YzTvlXrxZo4QaRwISkOZL59HD/VzgngmnqvpcN75Qgv/R6BiOhE
+	pLuQ272FtKq6rEP8QTNP9nHO4jX3X6Yi6xw6dmzdaCJbKIOiI0TDvgQd4/AbQgjY5lD6SwIOjhB
+	6RUrxO3B31dZ9sXCh6AW8xgDLMTo=
+X-Google-Smtp-Source: AGHT+IFjH+4rVt4dzmiczKTk2+rJF1kavUQwgFnuhpAB7Y6nx+S1JDp6INqhC9gC9apJsXC/oa/SXU1joOz+k645Ukw=
+X-Received: by 2002:a05:6a00:14d2:b0:71e:5573:8dcd with SMTP id
+ d2e1a72fcca58-71e55738e5emr17855938b3a.2.1729026560187; Tue, 15 Oct 2024
+ 14:09:20 -0700 (PDT)
+MIME-Version: 1.0
 References: <cover.1728912923.git.bruce.ashfield@gmail.com>
-	 <88eada332f5d3d00baf9f2cedf63460d80356032.1728912923.git.bruce.ashfield@gmail.com>
-	 <453e16e5f843492aa7aac45e0311046729e4155b.camel@linuxfoundation.org>
-	 <CADkTA4MGh=XDy+gCx7wYd-AvLCGweMFLTR_4hHQZ+tT36xUsDg@mail.gmail.com>
+ <88eada332f5d3d00baf9f2cedf63460d80356032.1728912923.git.bruce.ashfield@gmail.com>
+ <453e16e5f843492aa7aac45e0311046729e4155b.camel@linuxfoundation.org>
+ <CADkTA4MGh=XDy+gCx7wYd-AvLCGweMFLTR_4hHQZ+tT36xUsDg@mail.gmail.com> <884bed91ca885d594970e2141a56576363436143.camel@linuxfoundation.org>
+In-Reply-To: <884bed91ca885d594970e2141a56576363436143.camel@linuxfoundation.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 15 Oct 2024 17:09:08 -0400
+Message-ID: <CADkTA4Mkvq-NA5F2v+VuRp2v9wnepC-xKWa5byViBjaf8OxvcQ@mail.gmail.com>
+Subject: Re: [PATCH 1/6] linux-yocto-dev: conditionally add coreutils to depends
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
-MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 21:01:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205948
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 21:09:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205949
 
-On Tue, 2024-10-15 at 16:56 -0400, Bruce Ashfield wrote:
-> On Tue, Oct 15, 2024 at 10:15=E2=80=AFAM Richard Purdie
-> <richard.purdie@linuxfoundation.org> wrote:
-> >=20
-> > On Mon, 2024-10-14 at 09:45 -0400, bruce.ashfield@gmail.com=C2=A0wrote:
-> > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > >=20
-> > > 6.11+ uses truncate as part of the build. While truncate has been
-> > > added to HOSTTOOLS in oe-core master, it still is possible to
-> > > build a kernel recipe newer than 6.11+ on a release that doesn't
-> > > have the HOSTTOOLS tweak.
-> > >=20
-> > > We can test for truncate and condtionally add the dependency.
-> > >=20
-> > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > > ---
-> > > =C2=A0meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++++
-> > > =C2=A01 file changed, 4 insertions(+)
-> > >=20
-> > > diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/reci=
-pes-kernel/linux/linux-yocto-dev.bb
-> > > index 292897ce43..752d108bd8 100644
-> > > --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> > > +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
-> > > @@ -44,6 +44,10 @@ PACKAGECONFIG[dt-validation] =3D ",,python3-dtsche=
-ma-native"
-> > > =C2=A0# we need the wrappers if validation isn't in the packageconfig
-> > > =C2=A0DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'dt-validat=
-ion', '', 'python3-dtschema-wrapper-native', d)}"
-> > >=20
-> > > +# 6.11+ uses truncate in the build, so we need to either have it in =
-host tools, or
-> > > +# build it ourselves
-> > > +DEPENDS +=3D "${@bb.utils.contains('HOSTTOOLS', 'truncate', '', 'cor=
-eutils-native', d)}"
-> > > +
-> > > =C2=A0COMPATIBLE_MACHINE =3D "^(qemuarmv5|qemuarm|qemuarm64|qemux86|q=
-emuppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64|qemuloongarch=
-64)$"
-> > >=20
-> > > =C2=A0KERNEL_DEVICETREE:qemuarmv5 =3D "arm/versatile-pb.dtb"
-> >=20
-> > This is for master so truncate should always be in HOSTTOOLS? I don't
-> > understand why we need this there?
->=20
-> It came out of a discussion to do a reference for people that are buildin=
-g
-> newer kernels on older releases (of which there seem to be quite a few).
->=20
-> So either we'd have to bacckport the hosttools addition (which is likely
-> possible), or I could throw together that reference of how you'd build it
-> conditionally.
+On Tue, Oct 15, 2024 at 5:01=E2=80=AFPM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2024-10-15 at 16:56 -0400, Bruce Ashfield wrote:
+> > On Tue, Oct 15, 2024 at 10:15=E2=80=AFAM Richard Purdie
+> > <richard.purdie@linuxfoundation.org> wrote:
+> > >
+> > > On Mon, 2024-10-14 at 09:45 -0400, bruce.ashfield@gmail.com wrote:
+> > > > From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > >
+> > > > 6.11+ uses truncate as part of the build. While truncate has been
+> > > > added to HOSTTOOLS in oe-core master, it still is possible to
+> > > > build a kernel recipe newer than 6.11+ on a release that doesn't
+> > > > have the HOSTTOOLS tweak.
+> > > >
+> > > > We can test for truncate and condtionally add the dependency.
+> > > >
+> > > > Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+> > > > ---
+> > > >  meta/recipes-kernel/linux/linux-yocto-dev.bb | 4 ++++
+> > > >  1 file changed, 4 insertions(+)
+> > > >
+> > > > diff --git a/meta/recipes-kernel/linux/linux-yocto-dev.bb b/meta/re=
+cipes-kernel/linux/linux-yocto-dev.bb
+> > > > index 292897ce43..752d108bd8 100644
+> > > > --- a/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> > > > +++ b/meta/recipes-kernel/linux/linux-yocto-dev.bb
+> > > > @@ -44,6 +44,10 @@ PACKAGECONFIG[dt-validation] =3D ",,python3-dtsc=
+hema-native"
+> > > >  # we need the wrappers if validation isn't in the packageconfig
+> > > >  DEPENDS +=3D "${@bb.utils.contains('PACKAGECONFIG', 'dt-validation=
+', '', 'python3-dtschema-wrapper-native', d)}"
+> > > >
+> > > > +# 6.11+ uses truncate in the build, so we need to either have it i=
+n host tools, or
+> > > > +# build it ourselves
+> > > > +DEPENDS +=3D "${@bb.utils.contains('HOSTTOOLS', 'truncate', '', 'c=
+oreutils-native', d)}"
+> > > > +
+> > > >  COMPATIBLE_MACHINE =3D "^(qemuarmv5|qemuarm|qemuarm64|qemux86|qemu=
+ppc|qemumips|qemumips64|qemux86-64|qemuriscv32|qemuriscv64|qemuloongarch64)=
+$"
+> > > >
+> > > >  KERNEL_DEVICETREE:qemuarmv5 =3D "arm/versatile-pb.dtb"
+> > >
+> > > This is for master so truncate should always be in HOSTTOOLS? I don't
+> > > understand why we need this there?
+> >
+> > It came out of a discussion to do a reference for people that are build=
+ing
+> > newer kernels on older releases (of which there seem to be quite a few)=
+.
+> >
+> > So either we'd have to bacckport the hosttools addition (which is likel=
+y
+> > possible), or I could throw together that reference of how you'd build =
+it
+> > conditionally.
+>
+> I think the addition was backported for scarthgap so we're good there.
+> The main question would be around kirkstone where this commit could be
+> more appropriate if someone were building 6.11+.
+>
+> I'm find with having this patch around as a proof of concept but I
+> don't think it should go into master...
 
-I think the addition was backported for scarthgap so we're good there.
-The main question would be around kirkstone where this commit could be
-more appropriate if someone were building 6.11+.
+No objections on my part. I had told Quentin that I'd eventually send
+out my local workaround for it, which I've done now. If there is somewhere
+else we can put it, I'm all ears for that as well.
 
-I'm find with having this patch around as a proof of concept but I
-don't think it should go into master...
+No matter what, I'll keep it around locally, so I can send it to anyone tha=
+t
+might need it (and then eventually remove it once anything that might
+need such support is old and not supported).
 
-Cheers,
+Bruce
 
-Richard
+>
+> Cheers,
+>
+> Richard
+>
 
+
+--=20
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
