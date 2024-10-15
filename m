@@ -1,245 +1,172 @@
-Return-Path: <paul.barker.ct@bp.renesas.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F42D2168F
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:21:45 +0000 (UTC)
-Received: from relmlie5.idc.renesas.com (relmlie5.idc.renesas.com [210.160.252.171])
- by mx.groups.io with SMTP id smtpd.web11.11983.1728994898560254023
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A40E1D21690
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:25:35 +0000 (UTC)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web10.12106.1728995132555242785
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:21:38 -0700
+ Tue, 15 Oct 2024 05:25:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: bp.renesas.com, ip: 210.160.252.171, mailfrom: paul.barker.ct@bp.renesas.com)
-X-IronPort-AV: E=Sophos;i="6.11,205,1725289200"; 
-   d="asc'?scan'208";a="221995010"
-Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
-  by relmlie5.idc.renesas.com with ESMTP; 15 Oct 2024 21:21:36 +0900
-Received: from [10.226.93.176] (unknown [10.226.93.176])
-	by relmlir6.idc.renesas.com (Postfix) with ESMTP id D424241D5D69;
-	Tue, 15 Oct 2024 21:21:35 +0900 (JST)
-Message-ID: <3e7a24b3-6dc0-45b9-8292-e225268102df@bp.renesas.com>
-Date: Tue, 15 Oct 2024 13:21:33 +0100
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VjHih13S;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-717da7cb71fso1497572a34.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 05:25:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1728995132; x=1729599932; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hdxzlqtEEgkwB6TtoGb7f39Oq0vJyU+83/rz5+3fk7c=;
+        b=VjHih13S7HJrykfyeV3NZtn81rhHpKn22AZ4S+1CrLRPg0ZX440P7Do0qEgSPBoUXM
+         kD6xK7GoySezqLCiTAsJeEGv7gw77PdTNb/2Oz/FRKMf3JI8E5XeJtoaNYKO7ufGFz7u
+         cjMLv3GeI+zVNT4pVbjaD5JkpKwCD7YXMlnDgU1Fy7RiWjSYMVYXLR5wSWY7hMx1btbC
+         bvfEgskaa+Y8DLbea9CPqf73ffIqlJNBJv3BY3xDDQNTvcJRm90So3XgM2H0XZIIhS2G
+         qLABaDvlx/fNM0dIkDe7pafdcnH/O7bNyJNKtzDSk6WSC2OqOkZORTvBGVTUNXoGUiiN
+         dTfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1728995132; x=1729599932;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hdxzlqtEEgkwB6TtoGb7f39Oq0vJyU+83/rz5+3fk7c=;
+        b=Rdu02D+z/m3Gi8mhZAnOK9ckfAA/3AyTT+gsfpe6YUJ2GuDD4xzKxzOJukczKkrPDP
+         F42gZVVXy3m3Bw3OAPrFC1+E/j6wLUenA4xd/o6B0y8w9GrdcggQ5pzz+hs1Ls5lUjSt
+         rbONidC8u7jarE2pjxbDNdX4pmgO+ZKZu5nDTlmtJmWYUocEVNyWObkM9PGXaINf6Xb2
+         2wWvGRFrRzNG0R0C+WuTOq9QQa6MbfZCxZZ0jgaoyacnotJSl22+qK2j0klqnEPbd/io
+         qtooqXmLgMUN2wK/gdl0o1YoTO0hUbnS8vKdk4bfyOU6o8ezT1gDDiqH6F28djagtftP
+         OaIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKmVgi+6nrT5TXou8P2JpkhuUEPr2FgTUz/toSBqvyWCjFFvMLoloDKq0bVi1RI/ZQm+M9AYKADs/c2kXIbZCDsQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YymksrcsIPAIsYTksTSvILetZ6vLkAY2E++4Ip3+Fbl03a6lOLw
+	OmRJMAyBM8Zfi8RkTqHVDvLfx1GTDp0vI9SYwtNisLuVvf7BsukJTRTFbHihyPakjFDl+sjYqsa
+	hlDTrepoPAsb65QlsT4+z0Oz9gUw=
+X-Google-Smtp-Source: AGHT+IHj9IKCuSZfbrTuaS938vdbNivJ10Q+TbwKz1AUjy8Y2VWXtrhjCXwRAdjK0g0apgJqOv8Y0JOSIC1DWULjJqE=
+X-Received: by 2002:a05:6870:471e:b0:27c:a414:c0a7 with SMTP id
+ 586e51a60fabf-2886dd55970mr9153369fac.9.1728995131742; Tue, 15 Oct 2024
+ 05:25:31 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [master/scarthgap PATCH] meta-ide-support: Mark recipe
- as MACHINE-specific
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org
-References: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
- <17F27A4142F288D2.30374@lists.openembedded.org>
- <fd756f4b5ce0b3b2dc38813469a0224047f99a09.camel@linuxfoundation.org>
- <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
-Content-Language: en-GB
-In-Reply-To: <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------0iEKdSc4Lu043yBc0PRGitfU"
+References: <20241002100900.2975523-1-paul@pbarker.dev> <17FAA66AC3C448F3.5426@lists.openembedded.org>
+In-Reply-To: <17FAA66AC3C448F3.5426@lists.openembedded.org>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Date: Tue, 15 Oct 2024 08:25:19 -0400
+Message-ID: <CADkTA4M07Obkg_9+WLb19MBPKhB58tvw+UJAvabsWpaee=OLrw@mail.gmail.com>
+Subject: Re: [OE-core] [RFC PATCH] kernel-yocto: Support in-tree config fragments
+To: bruce.ashfield@gmail.com
+Cc: paul@pbarker.dev, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:21:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205910
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:25:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205911
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------0iEKdSc4Lu043yBc0PRGitfU
-Content-Type: multipart/mixed; boundary="------------bnqcN8EOta0RiRurrH9qNOPC";
- protected-headers="v1"
-From: Paul Barker <paul.barker.ct@bp.renesas.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org
-Message-ID: <3e7a24b3-6dc0-45b9-8292-e225268102df@bp.renesas.com>
-Subject: Re: [OE-core] [master/scarthgap PATCH] meta-ide-support: Mark recipe
- as MACHINE-specific
-References: <20240905202102.565-1-paul.barker.ct@bp.renesas.com>
- <17F27A4142F288D2.30374@lists.openembedded.org>
- <fd756f4b5ce0b3b2dc38813469a0224047f99a09.camel@linuxfoundation.org>
- <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
-In-Reply-To: <0d659542-af68-4a8c-93bc-c0aedfd5fbe0@bp.renesas.com>
+On Wed, Oct 2, 2024 at 9:39=E2=80=AFAM Bruce Ashfield via
+lists.openembedded.org
+<bruce.ashfield=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> On Wed, Oct 2, 2024 at 6:09=E2=80=AFAM Paul Barker via lists.openembedded=
+.org
+> <paul=3Dpbarker.dev@lists.openembedded.org> wrote:
+> >
+> > [This is currently an RFC as it depends on a separate patch to add
+> >   support for config fragments with .config file extensions in
+> >   yocto-kernel-tools:
+> >   https://lists.yoctoproject.org/g/linux-yocto/message/14431]
+> >
+> > In Linux 6.8, the in-tree rv32_defconfig file for 32-bit RISC-V support
+> > was dropped in favour of a Makefile target which combines the RISC-V
+> > defconfig with a config fragment '32-bit.config'. So to build for 32-bi=
+t
+> > RISC-V using the in-tree configuration from an upstream kernel, we need
+> > to be able to enable this 32-bit config fragment.
+> >
+> > We can support this via KERNEL_FEATURES if we add the in-tree arch
+> > config directory (arch/${ARCH}/configs) to the search path.
+>
+> Agreed, that this is a more consistent way to bring in these types
+> of fragments (versus being hidden under the build/make, etc).
+>
+> The only issue is that the audit won't react correctly to these
+> fragments, so we'll potentially end up with silent failure of them
+> to apply and/or options that are not valid, etc.
+>
+> Let me queue this patch locally, do some audit testing (and changes
+> if necessary) and I'll send it along in my next pull request.
+>
+> (Same goes for the kern-tools patch).
 
---------------bnqcN8EOta0RiRurrH9qNOPC
-Content-Type: multipart/mixed; boundary="------------uHWr5TfNF0TeK8pwOKU2kAEV"
+I just saw your ping on another patch, so I thought I'd follow
+up here!
 
---------------uHWr5TfNF0TeK8pwOKU2kAEV
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+I have the changes queued, but have been out on holiday the
+past few days (Canadian Thanksgiving). My audit addition is
+almost done (I just have to make it conditional now) and then
+a bit of final testing.
 
-On 30/09/2024 11:23, Paul Barker wrote:
-> On 06/09/2024 14:48, Richard Purdie wrote:
->> On Thu, 2024-09-05 at 23:40 +0100, Richard Purdie via lists.openembedd=
-ed.org wrote:
->>> On Thu, 2024-09-05 at 21:21 +0100, Paul Barker via lists.openembedded=
-=2Eorg wrote:
->>>> meta-ide-support:do_write_test_data dumps the bitbake data dictionar=
-y to
->>>> a file using export2json(). As this obviously includes the value of
->>>> MACHINE, and other MACHINE-specific variables, the recipe needs to b=
-e
->>>> marked as MACHINE-specific.
->>>>
->>>> Signed-off-by: Paul Barker <paul.barker.ct@bp.renesas.com>
->>>> ---
->>>>  meta/recipes-core/meta/meta-ide-support.bb | 1 +
->>>>  1 file changed, 1 insertion(+)
->>>>
->>>> diff --git a/meta/recipes-core/meta/meta-ide-support.bb b/meta/recip=
-es-core/meta/meta-ide-support.bb
->>>> index d85aa120c08b..7ed422ce4ddb 100644
->>>> --- a/meta/recipes-core/meta/meta-ide-support.bb
->>>> +++ b/meta/recipes-core/meta/meta-ide-support.bb
->>>> @@ -1,6 +1,7 @@
->>>>  SUMMARY =3D "Integrated Development Environment support"
->>>>  DESCRIPTION =3D "Meta package for ensuring the build directory cont=
-ains all appropriate toolchain packages for using an IDE"
->>>>  LICENSE =3D "MIT"
->>>> +PACKAGE_ARCH =3D "${MACHINE_ARCH}"
->>>> =20
->>>>  DEPENDS =3D "virtual/libc gdb-cross-${TARGET_ARCH} qemu-native qemu=
--helper-native unfs3-native cmake-native autoconf-native automake-native =
-meson-native intltool-native pkgconfig-native"
->>>>  RM_WORK_EXCLUDE +=3D "${PN}"
->>>
->>> Something about this is making our toolchain tests unhappy, e.g.:
->>>
->>> https://valkyrie.yoctoproject.org/#/builders/42/builds/86/steps/12/lo=
-gs/stdio
->>>
->>> I've not looked into it at all, just reporting what we've need to fix=
+I do expect to submit this as part of my next pull request,
+hopefully by the end of this week.
 
->>> in order to be able to consider merging this.
->>
->> It can be fixed with:
->>
->> diff --git a/meta/lib/oeqa/selftest/cases/meta_ide.py b/meta/lib/oeqa/=
-selftest/cases/meta_ide.py
->> index ffe0d2604d1..5a17ca52ea1 100644
->> --- a/meta/lib/oeqa/selftest/cases/meta_ide.py
->> +++ b/meta/lib/oeqa/selftest/cases/meta_ide.py
->> @@ -20,8 +20,8 @@ class MetaIDE(OESelftestTestCase):
->>          bitbake('meta-ide-support')
->>          bitbake('build-sysroots -c build_native_sysroot')
->>          bitbake('build-sysroots -c build_target_sysroot')
->> -        bb_vars =3D get_bb_vars(['MULTIMACH_TARGET_SYS', 'DEPLOY_DIR_=
-IMAGE', 'COREBASE'])
->> -        cls.environment_script =3D 'environment-setup-%s' % bb_vars['=
-MULTIMACH_TARGET_SYS']
->> +        bb_vars =3D get_bb_vars(['MACHINE_ARCH', 'TARGET_VENDOR', 'TA=
-RGET_OS', 'DEPLOY_DIR_IMAGE', 'COREBASE'])
->> +        cls.environment_script =3D 'environment-setup-%s%s-%s' % (bb_=
-vars['MACHINE_ARCH'], bb_vars['TARGET_VENDOR'], bb_vars['TARGET_OS'])
->>          cls.deploydir =3D bb_vars['DEPLOY_DIR_IMAGE']
->>          cls.environment_script_path =3D '%s/%s' % (cls.deploydir, cls=
-=2Eenvironment_script)
->>          cls.corebasedir =3D bb_vars['COREBASE']
->>
->> Whether that is a good/right fix, I'm not sure...
->>
->> Cheers,
->>
->> Richard
->>
->=20
-> Hi Richard, Steve,
->=20
-> I see this has been committed as 3be2bc8a9b0c in openembedded-core [1]
-> for master/Styhead. Thanks for fixing the test case and merging this.
->=20
-> We saw the same issue when running yocto-check-layer in Scarthgap, do
-> you think this is suitable for backporting?
->=20
-> [1]: https://git.openembedded.org/openembedded-core/commit/?id=3D3be2bc=
-8a9b0c9d6a178329c8b451a6bedf255d6c
->=20
-> Thanks,
->=20
+Bruce
 
-Gentle ping on this - can the patch be backported to Scarthgap?
+>
+> Bruce
+>
+> >
+> > While we're here, let's also add the generic config directory
+> > (kernel/configs) to the search path so in-tree config fragments such as
+> > 'hardening.config' can be used.
+> >
+> > Signed-off-by: Paul Barker <paul@pbarker.dev>
+> > ---
+> >  meta/classes-recipe/kernel-yocto.bbclass | 3 +++
+> >  1 file changed, 3 insertions(+)
+> >
+> > diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-re=
+cipe/kernel-yocto.bbclass
+> > index 6d5c3b6327b6..66602d359404 100644
+> > --- a/meta/classes-recipe/kernel-yocto.bbclass
+> > +++ b/meta/classes-recipe/kernel-yocto.bbclass
+> > @@ -248,6 +248,9 @@ do_kernel_metadata() {
+> >                  fi
+> >         done
+> >
+> > +       # allow in-tree config fragments to be used in KERNEL_FEATURES
+> > +       includes=3D"$includes -I${S}/arch/${ARCH}/configs -I${S}/kernel=
+/configs"
+> > +
+> >         # expand kernel features into their full path equivalents
+> >         bsp_definition=3D$(spp ${includes} --find -DKMACHINE=3D${KMACHI=
+NE} -DKTYPE=3D${LINUX_KERNEL_TYPE})
+> >         if [ -z "$bsp_definition" ]; then
+> > --
+> > 2.39.5
+> >
+> >
+> >
+> >
+>
+>
+> --
+> - Thou shalt not follow the NULL pointer, for chaos and madness await
+> thee at its end
+> - "Use the force Harry" - Gandalf, Star Trek II
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#205201): https://lists.openembedded.org/g/openembedde=
+d-core/message/205201
+> Mute This Topic: https://lists.openembedded.org/mt/108776739/1050810
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [br=
+uce.ashfield@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
-Thanks,
 
 --=20
-Paul Barker
-
---------------uHWr5TfNF0TeK8pwOKU2kAEV
-Content-Type: application/pgp-keys; name="OpenPGP_0x27F4B3459F002257.asc"
-Content-Disposition: attachment; filename="OpenPGP_0x27F4B3459F002257.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xsFNBGS4BNsBEADEc28TO+aryCgRIuhxWAviuJl+f2TcZ1JeeaMzRLgSXKuXzkiI
-g6JIVfNvThjwJaBmb7+/5+D7kDLJuutu9MFfOzTS0QOQWppwIPgbfktvMvwwsq3m
-7e9Qb+S1LVeV0/ldZfuzgzAzHFDwmzryfIyt2JEbsBsGTq/QE+7hvLAe8R9xofIn
-z6/IndiiTYhNCNf06nFPR4Y5ZDZPGb9aw5Jisqh+OSxtc0BFHDSV8/35yWM/JLQ1
-Ja8AOHw1kP9KO+iE9rHMt0+7lH3mN1GBabxH26EdgFfPShsi14qmziLOuUlGLuwO
-ApIYqvdtCs+zlMA8PsiJIMuxizZ6qCLur3r2b+/YXoJjuFDcax9M+Pr0D7rZX0Hk
-6PW3dtvDQHfspwLY0FIlXbbtCfCqGLe47VaS7lvG0XeMlo3dUEsf707Q2h0+G1tm
-wyeuWSPEzZQq/KI7JIFlxr3N/3VCdGa9qVf/40QF0BXPfJdcwTEzmPlYetRgA11W
-bglw8DxWBv24a2gWeUkwBWFScR3QV4FAwVjmlCqrkw9dy/JtrFf4pwDoqSFUcofB
-95u6qlz/PC+ho9uvUo5uIwJyz3J5BIgfkMAPYcHNZZ5QrpI3mdwf66im1TOKKTuf
-3Sz/GKc14qAIQhxuUWrgAKTexBJYJmzDT0Mj4ISjlr9K6VXrQwTuj2zC4QARAQAB
-zStQYXVsIEJhcmtlciA8cGF1bC5iYXJrZXIuY3RAYnAucmVuZXNhcy5jb20+wsGU
-BBMBCgA+FiEE9KKf333+FIzPGaxOJ/SzRZ8AIlcFAmS4BNsCGwEFCQPCZwAFCwkI
-BwIGFQoJCAsCBBYCAwECHgECF4AACgkQJ/SzRZ8AIlfxaQ/8CM36qjfad7eBfwja
-cI1LlH1NwbSJ239rE0X7hU/5yra72egr3T5AUuYTt9ECNQ8Ld03BYhbC6hPki5rb
-OlFM2hEPUQYeohcJ4Na5iIFpTxoIuC49Hp2ce6ikvt9Hc4O2FAntabg+9hE8WA4f
-QWW+Qo5ve5OJ0sGylzu0mRZ2I3mTaDsxuDkXOICF5ggSdjT+rcd/pRVOugImjpZv
-/jzSgUfKV2wcZ8vVK0616K21tyPiRjYtDQjJAKff8gBY6ZvP5REPl+fYNvZm1y4l
-hsVupGHL3aV+BKooMsKRZIMTiKJCIy6YFKHOcgWFG62cuRrFDf4r54MJuUGzyeoF
-1XNFzbe1ySoRfU/HrEuBNqC+1CEBiduumh89BitfDNh6ecWVLw24fjsF1Ke6vYpU
-lK9/yGLV26lXYEN4uEJ9i6PjgJ+Q8fubizCVXVDPxmWSZIoJg8EspZ+Max03Lk3e
-flWQ0E3l6/VHmsFgkvqhjNlzFRrj/k86IKdOi0FOd0xtKh1p34rQ8S/4uUN9XCVj
-KtmyLfQgqPVEC6MKv7yFbextPoDUrFAzEgi4OBdqDJjPbdU9wUjONxuWJRrzRFcr
-nTIG7oC4dae0p1rs5uTlaSIKpB2yulaJLKjnNstAj9G9Evf4SE2PKH4l4Jlo/Hu1
-wOUqmCLRo3vFbn7xvfr1u0Z+oMTOOARkuAhwEgorBgEEAZdVAQUBAQdAcuNbK3VT
-WrRYypisnnzLAguqvKX3Vc1OpNE4f8pOcgMDAQgHwsF2BBgBCgAgFiEE9KKf333+
-FIzPGaxOJ/SzRZ8AIlcFAmS4CHACGwwACgkQJ/SzRZ8AIlc90BAAr0hmx8XU9KCj
-g4nJqfavlmKUZetoX5RB9g3hkpDlvjdQZX6lenw3yUzPj53eoiDKzsM03Tak/KFU
-FXGeq7UtPOfXMyIh5UZVdHQRxC4sIBMLKumBfC7LM6XeSegtaGEX8vSzjQICIbaI
-roF2qVUOTMGal2mvcYEvmObC08bUZuMd4nxLnHGiej2t85+9F3Y7GAKsA25EXbbm
-ziUg8IVXw3TojPNrNoQ3if2Z9NfKBhv0/s7x/3WhhIzOht+rAyZaaW+31btDrX4+
-Y1XLAzg9DAfuqkL6knHDMd9tEuK6m2xCOAeZazXaNeOTjQ/XqCHmZ+691VhmAHCI
-7Z7EBPh++TjEqn4ZH+4KPn6XD52+ruWXGbJP29zc+3bwQ+ZADfUaL3ADj69ySxzm
-bO24USHBAg+BhZAZMBkbkygbTen/umT6tBxG91krqbKlDdc8mhGonBN6i+nz8qv1
-6MdC5P1rDbo834rxNLvoFMSLCcpjoafiprl9qk0wQLq48WGphs9DX7V75ZAU5Lt6
-yA+je8i799EZJsVlB933Gpj688H4csaZqEMBjq7vMvI+a5MnLCGcjwRhsUfogpRb
-AWTx9ddVau4MJgEHzB7UU/VFyP2vku7XPj6mgSfSHyNVf2hqxwISQ8eZLoyxauOD
-Y61QMX6YFL170ylToSFjH627h6TzlUDOMwRkuAiAFgkrBgEEAdpHDwEBB0Bibkmu
-Sf7yECzrkBmjD6VGWNVxTdiqb2RuAfGFY9RjRsLB7QQYAQoAIBYhBPSin999/hSM
-zxmsTif0s0WfACJXBQJkuAiAAhsCAIEJECf0s0WfACJXdiAEGRYIAB0WIQSiu8gv
-1Xr0fIw/aoLbaV4Vf/JGvQUCZLgIgAAKCRDbaV4Vf/JGvZP9AQCwV06n3DZvuce3
-/BtzG5zqUuf6Kp2Esgr2FrD4fKVbogD/ZHpXfi9ELdH/JTSVyujaTqhuxQ5B7UzV
-CUIb1qbg1APIEA/+IaLJIBySehy8dHDZQXit/XQYeROQLTT9PvyM35rZVMGH6VG8
-Zb23BPCJ3N0ISOtVdG402lSP0ilP/zSyQAbJN6F0o2tiPd558lPerFd/KpbCIp8N
-kYaLlHWIDiN2AE3c6sfCiCPMtXOR7HCeQapGQBS/IMh1qYHffuzuEy7tbrMvjdra
-VN9Rqtp7PSuRTbO3jAhm0Oe4lDCAK4zyZfjwiZGxnj9s1dyEbxYB2GhTOgkiX/96
-Nw+m/ShaKqTM7o3pNUEs9J3oHeGZFCCaZBv97ctqrYhnNB4kzCxAaZ6K9HAAmcKe
-WT2q4JdYzwB6vEeHnvxl7M0Dj9pUTMujW77Qh5IkUQLYZ2XQYnKAV2WI90B0R1p9
-bXP+jqqkaNCrxKHV1tYOB6037CziGcZmiDneiTlM765MTLJLlHNqlXxDCzRwEazU
-y9dNzITjVT0qhc6th8/vqN9dqvQaAGa13u86Gbv4XPYdE+5MXPM/fTgkKaPBYcIV
-QMvLfoZxyaTk4nzNbBxwwEEHrvTcWDdWxGNtkWRZw0+U5JpXCOi9kBCtFrJ701UG
-UFs56zWndQUS/2xDyGk8GObGBSRLCwsXsKsF6hSX5aKXHyrAAxEUEscRaAmzd6O3
-ZyZGVsEsOuGCLkekUMF/5dwOhEDXrY42VR/ZxdDTY99dznQkwTt4o7FOmkY=3D
-=3DsIIN
------END PGP PUBLIC KEY BLOCK-----
-
---------------uHWr5TfNF0TeK8pwOKU2kAEV--
-
---------------bnqcN8EOta0RiRurrH9qNOPC--
-
---------------0iEKdSc4Lu043yBc0PRGitfU
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQSiu8gv1Xr0fIw/aoLbaV4Vf/JGvQUCZw5eTQUDAAAAAAAKCRDbaV4Vf/JGvfpN
-AQCIfvz4rzAzQyD9VpTHHrknWhfkf7KlxXcIsC3HvvOH1gD+LDl46wOKa55Pm/Ishd9b91NFOJjb
-/KSRZRPd6A/dkQg=
-=AJBq
------END PGP SIGNATURE-----
-
---------------0iEKdSc4Lu043yBc0PRGitfU--
+- Thou shalt not follow the NULL pointer, for chaos and madness await
+thee at its end
+- "Use the force Harry" - Gandalf, Star Trek II
 
