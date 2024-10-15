@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9D38D1F9CF
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:13 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.11863.1728994550401994657
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DE34D1F9D8
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:14 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.11783.1728994543212041021
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 05:16:09 -0700
+ Tue, 15 Oct 2024 05:16:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=g56O7OrW;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3tVBwLDI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010192901b6a71-9e37b05d-203a-4931-a464-6fa3ef2e58d4-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=LAioHJnc;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=OxciNu37;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010192901b6239-9a09516e-a66e-4b7b-97b8-0fcd3012357e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1728994568;
+	t=1728994567;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4yrxd8f6saqyGcFyRDzZ9Ztult/jW/cOgkMJNN2nXiY=;
-	b=g56O7OrW/za90fwOk0zGHOrifBxl2+9g/fAZ92aPsowcCSaS4a+SOCkNsPSmU1Nr
-	kasz0QAnjEywgCTXnVcgR81KS5p01DNxeKUf20pnoc5qm7fjlSObNyDutZSqmfY+ao+
-	NFIFnhulxwia5qpZBNQKZ5MKbYiEawO4D1nCyJBs=
+	bh=KvVyC2M3Fmyri0i5fiU2OjRuADlD2Do0xqrPaUTmXgs=;
+	b=LAioHJnchrCDqGQ41JRLeTkKXbvdIWurmZsBpmDhXwBKepZmYQ8Tx0c60lazQCiw
+	BQWudGeXlH4kvFYiCNiU+XqJBMGd9bnJzLvoA4GHs3wgCeoOCgOZVFUeQiGHXEN81m6
+	XDS4Ex6JaMF5Kkr3HrMXHop8KrO84TrwVszsQv3w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994568;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994567;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4yrxd8f6saqyGcFyRDzZ9Ztult/jW/cOgkMJNN2nXiY=;
-	b=3tVBwLDInmPAqA8HwhGdkH58oPVbSz6ISFP5Jy5UI3RamTS5oqWlHbYO6L4S5coS
-	ogHpPLEpX9i1nojQBOgcw8vQlc5ikw9HYSM6EYG96N4sjtplJgGU/zGEF64MOyToS7Z
-	mhTVcZA11DccAQQwO7FjADpTF3HQl6zxTrjzosVY=
-Content-Type: multipart/mixed; boundary="===============9014919936703126016=="
+	bh=KvVyC2M3Fmyri0i5fiU2OjRuADlD2Do0xqrPaUTmXgs=;
+	b=OxciNu37/qcbfc48921BVXbpN7jz3iUFtBijyVdz7eNKqKZuYmNKa2J6rAdAqSO/
+	FrVnfaZSBJoNcfhBUbvFS/5W5BD08lLFyDeI9v3r2LSDVYY7+PeHuWdO44Be/lhMORt
+	FR13oRy2+RP7TW662Ki3qe3O73BAipPYq7PhZJ1w=
+Content-Type: multipart/mixed; boundary="===============6509885717919547158=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Jose Quaresma <quaresma.jose@gmail.com>
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] spirv-tools: upgrading to 1.3.296.0 FAILED
-Message-ID: <01010192901b6a71-9e37b05d-203a-4931-a464-6fa3ef2e58d4-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Oct 2024 12:16:08 +0000
+Subject: [AUH] libxmlb: upgrading to 0.3.20 SUCCEEDED
+Message-ID: <01010192901b6239-9a09516e-a66e-4b7b-97b8-0fcd3012357e-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Oct 2024 12:16:06 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.192
+X-SES-Outgoing: 2024.10.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205881
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205877
 
---===============9014919936703126016==
+--===============6509885717919547158==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *spirv-tools* to *1.3.296.0* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *libxmlb* to *0.3.20* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-spirv-tools-upgrade-1.3.290.0-1.3.296.0.patch
+    - apply the patch: git am 0001-libxmlb-upgrade-0.3.19-0.3.20.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,161 +72,137 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 332f15a49cd4fc6afe3e0ae67285650c2650a03f Mon Sep 17 00:00:00 2001
+From 7ca5cb473e446f96c295f15e9100e4378dd0f338 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 11:05:52 +0000
-Subject: [PATCH] spirv-tools: upgrade 1.3.290.0 -> 1.3.296.0
+Date: Tue, 15 Oct 2024 10:35:12 +0000
+Subject: [PATCH] libxmlb: upgrade 0.3.19 -> 0.3.20
 
 ---
- .../spir/{spirv-tools_1.3.290.0.bb => spirv-tools_1.3.296.0.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/spir/{spirv-tools_1.3.290.0.bb => spirv-tools_1.3.296.0.bb} (97%)
+ .../libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch | 6 +++---
+ .../libxmlb/{libxmlb_0.3.19.bb => libxmlb_0.3.20.bb}        | 2 +-
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.19.bb => libxmlb_0.3.20.bb} (93%)
 
-diff --git a/meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb b/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
-similarity index 97%
-rename from meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb
-rename to meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
-index d0f1c387f1..c817af9908 100644
---- a/meta/recipes-graphics/spir/spirv-tools_1.3.290.0.bb
-+++ b/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb
-@@ -7,7 +7,7 @@ SECTION = "graphics"
- LICENSE  = "Apache-2.0"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
+index 27081d8749..b1b2526bc1 100644
+--- a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
++++ b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
+@@ -1,4 +1,4 @@
+-From 8a1aa4c318b8dbe4c0c2b1c4968f867ea6641b32 Mon Sep 17 00:00:00 2001
++From 95a26923d5d036fe666886ed8f01e5814ea81349 Mon Sep 17 00:00:00 2001
+ From: Markus Volk <f_l_k@t-online.de>
+ Date: Sat, 16 Sep 2023 14:02:57 +0200
+ Subject: [PATCH] xb-self-test.c: hardcode G_TEST_SRCDIR
+@@ -18,10 +18,10 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRCREV = "0cfe9e7219148716dfd30b37f4d21753f098707a"
-+SRCREV = "6dcc7e350a0b9871a825414d42329e44b0eb8109"
- SRC_URI = "git://github.com/KhronosGroup/SPIRV-Tools.git;branch=main;protocol=https \
-            file://0001-update_build_version.py-support-an-envvar-to-force-t.patch \
-            "
+ diff --git a/src/xb-self-test.c b/src/xb-self-test.c
+-index 1daca18..2e5b251 100644
++index baba19e..7da3b6f 100644
+ --- a/src/xb-self-test.c
+ +++ b/src/xb-self-test.c
+-@@ -2876,7 +2876,7 @@ xb_speed_func(void)
++@@ -2882,7 +2882,7 @@ xb_speed_func(void)
+  int
+  main(int argc, char **argv)
+  {
+diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.19.bb b/meta/recipes-gnome/libxmlb/libxmlb_0.3.20.bb
+similarity index 93%
+rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.19.bb
+rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.20.bb
+index de8d860d00..49828a07ff 100644
+--- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.19.bb
++++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.20.bb
+@@ -8,7 +8,7 @@ SRC_URI = " \
+ 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
+ 	file://run-ptest \
+ "
+-SRCREV = "4393955fb7c8bbcb6a2c65ff54f16c39dc165e59"
++SRCREV = "248b5cc58eb1dcd0083ca237044726402ec7e8fb"
+ S = "${WORKDIR}/git"
+ 
+ DEPENDS = "glib-2.0 xz zstd"
 -- 
 2.44.1
 
 
---===============9014919936703126016==
+--===============6509885717919547158==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-spirv-tools-upgrade-1.3.290.0-1.3.296.0.patch"
+ filename="0001-libxmlb-upgrade-0.3.19-0.3.20.patch"
 
-RnJvbSAzMzJmMTVhNDljZDRmYzZhZmUzZTBhZTY3Mjg1NjUwYzI2NTBhMDNmIE1vbiBTZXAgMTcg
+RnJvbSA3Y2E1Y2I0NzNlNDQ2Zjk2YzI5NWYxNWU5MTAwZTQzNzhkZDBmMzM4IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MDU6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cGlydi10b29sczogdXBncmFkZSAxLjMuMjkwLjAgLT4gMS4zLjI5Ni4wCgotLS0KIC4uLi9zcGly
-L3tzcGlydi10b29sc18xLjMuMjkwLjAuYmIgPT4gc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3tzcGlydi10b29sc18xLjMuMjkwLjAuYmIg
-PT4gc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yOTAuMC5iYiBiL21ldGEvcmVjaXBl
-cy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRvb2xzXzEuMy4yOTYuMC5iYgpzaW1pbGFyaXR5IGluZGV4
-IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18x
-LjMuMjkwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1ncmFwaGljcy9zcGlyL3NwaXJ2LXRv
-b2xzXzEuMy4yOTYuMC5iYgppbmRleCBkMGYxYzM4N2YxLi5jODE3YWY5OTA4IDEwMDY0NAotLS0g
-YS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc3Bpci9zcGlydi10b29sc18xLjMuMjkwLjAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NwaXIvc3BpcnYtdG9vbHNfMS4zLjI5Ni4wLmJiCkBA
-IC03LDcgKzcsNyBAQCBTRUNUSU9OID0gImdyYXBoaWNzIgogTElDRU5TRSAgPSAiQXBhY2hlLTIu
-MCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTNiODNlZjk2Mzg3ZjE0
-NjU1ZmM4NTRkZGMzYzZiZDU3IgogCi1TUkNSRVYgPSAiMGNmZTllNzIxOTE0ODcxNmRmZDMwYjM3
-ZjRkMjE3NTNmMDk4NzA3YSIKK1NSQ1JFViA9ICI2ZGNjN2UzNTBhMGI5ODcxYTgyNTQxNGQ0MjMy
-OWU0NGIwZWI4MTA5IgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL0tocm9ub3NHcm91cC9T
-UElSVi1Ub29scy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMgXAogICAgICAgICAgICBm
-aWxlOi8vMDAwMS11cGRhdGVfYnVpbGRfdmVyc2lvbi5weS1zdXBwb3J0LWFuLWVudnZhci10by1m
-b3JjZS10LnBhdGNoIFwKICAgICAgICAgICAgIgotLSAKMi40NC4xCgo=
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTA6MzU6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJ4bWxiOiB1cGdyYWRlIDAuMy4xOSAtPiAwLjMuMjAKCi0tLQogLi4uL2xpYnhtbGIvMDAwMS14
+Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggfCA2ICsrKy0tLQogLi4u
+L2xpYnhtbGIve2xpYnhtbGJfMC4zLjE5LmJiID0+IGxpYnhtbGJfMC4zLjIwLmJifSAgICAgICAg
+fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDQgaW5zZXJ0aW9ucygrKSwgNCBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi97bGlieG1sYl8wLjMuMTkuYmIgPT4g
+bGlieG1sYl8wLjMuMjAuYmJ9ICg5MyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
+L2xpYnhtbGIvbGlieG1sYi8wMDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJ
+Ui5wYXRjaCBiL21ldGEvcmVjaXBlcy1nbm9tZS9saWJ4bWxiL2xpYnhtbGIvMDAwMS14Yi1zZWxm
+dGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2gKaW5kZXggMjcwODFkODc0OS4uYjFi
+MjUyNmJjMSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYi8w
+MDAxLXhiLXNlbGZ0ZXN0LmMtaGFyZGNvZGUtR19URVNUX1NSQ0RJUi5wYXRjaAorKysgYi9tZXRh
+L3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiLzAwMDEteGItc2VsZnRlc3QuYy1oYXJkY29k
+ZS1HX1RFU1RfU1JDRElSLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA4YTFhYTRjMzE4Yjhk
+YmU0YzBjMmIxYzQ5NjhmODY3ZWE2NjQxYjMyIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSA5NWEyNjkyM2Q1ZDAzNmZlNjY2ODg2ZWQ4ZjAxZTU4MTRlYTgxMzQ5IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogTWFya3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogRGF0ZTog
+U2F0LCAxNiBTZXAgMjAyMyAxNDowMjo1NyArMDIwMAogU3ViamVjdDogW1BBVENIXSB4Yi1zZWxm
+LXRlc3QuYzogaGFyZGNvZGUgR19URVNUX1NSQ0RJUgpAQCAtMTgsMTAgKzE4LDEwIEBAIFNpZ25l
+ZC1vZmYtYnk6IE1hcmt1cyBWb2xrIDxmX2xfa0B0LW9ubGluZS5kZT4KICAxIGZpbGUgY2hhbmdl
+ZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIAogZGlmZiAtLWdpdCBhL3NyYy94Yi1z
+ZWxmLXRlc3QuYyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotaW5kZXggMWRhY2ExOC4uMmU1YjI1MSAx
+MDA2NDQKK2luZGV4IGJhYmExOWUuLjdkYTNiNmYgMTAwNjQ0CiAtLS0gYS9zcmMveGItc2VsZi10
+ZXN0LmMKICsrKyBiL3NyYy94Yi1zZWxmLXRlc3QuYwotQEAgLTI4NzYsNyArMjg3Niw3IEBAIHhi
+X3NwZWVkX2Z1bmModm9pZCkKK0BAIC0yODgyLDcgKzI4ODIsNyBAQCB4Yl9zcGVlZF9mdW5jKHZv
+aWQpCiAgaW50CiAgbWFpbihpbnQgYXJnYywgY2hhciAqKmFyZ3YpCiAgewpkaWZmIC0tZ2l0IGEv
+bWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMTkuYmIgYi9tZXRhL3JlY2lw
+ZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4yMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpy
+ZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZ25vbWUvbGlieG1sYi9saWJ4bWxiXzAuMy4xOS5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdub21lL2xpYnhtbGIvbGlieG1sYl8wLjMuMjAuYmIKaW5k
+ZXggZGU4ZDg2MGQwMC4uNDk4MjhhMDdmZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21l
+L2xpYnhtbGIvbGlieG1sYl8wLjMuMTkuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2xpYnht
+bGIvbGlieG1sYl8wLjMuMjAuYmIKQEAgLTgsNyArOCw3IEBAIFNSQ19VUkkgPSAiIFwKIAlmaWxl
+Oi8vMDAwMS14Yi1zZWxmdGVzdC5jLWhhcmRjb2RlLUdfVEVTVF9TUkNESVIucGF0Y2ggXAogCWZp
+bGU6Ly9ydW4tcHRlc3QgXAogIgotU1JDUkVWID0gIjQzOTM5NTVmYjdjOGJiY2I2YTJjNjVmZjU0
+ZjE2YzM5ZGMxNjVlNTkiCitTUkNSRVYgPSAiMjQ4YjVjYzU4ZWIxZGNkMDA4M2NhMjM3MDQ0NzI2
+NDAyZWM3ZThmYiIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIERFUEVORFMgPSAiZ2xpYi0yLjAg
+eHogenN0ZCIKLS0gCjIuNDQuMQoK
 
---===============9014919936703126016==
+--===============6509885717919547158==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1877 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/libxmlb: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-bin: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-bin: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-dbg: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-dbg: PKGSIZE changed from 1750056 to 1755528 (+0%)
+packages/core2-64-poky-linux/libxmlb/libxmlb-dbg: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-dev: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-dev: PKGSIZE changed from 355447 to 355536 (+0%)
+packages/core2-64-poky-linux/libxmlb/libxmlb-dev: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-doc: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-doc: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-locale: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-locale: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-ptest: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-ptest: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-src: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-src: PKGSIZE changed from 511212 to 511913 (+0%)
+packages/core2-64-poky-linux/libxmlb/libxmlb-src: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb-staticdev: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb-staticdev: PV changed from "0.3.19" to "0.3.20"
+packages/core2-64-poky-linux/libxmlb/libxmlb: PKGV changed from 0.3.19 [default] to 0.3.20 [default]
+packages/core2-64-poky-linux/libxmlb/libxmlb: PV changed from "0.3.19" to "0.3.20"
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:d16fa3ea9a9030e571000412d16470cadc1063c2"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 226 Local 215 Mirrors 0 Missed 11 Current 233 (95% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 286 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-headers_1.3.290.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 296 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_recipe_qa_setscene)
-NOTE: recipe spirv-headers-1_1.3.290.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running task 929 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_fetch)
-NOTE: recipe spirv-headers-1_1.3.290.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 428 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_fetch: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 433 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_fetch: Succeeded
-NOTE: Running task 937 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_unpack)
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_unpack: Started
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 440 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 445 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_unpack: Succeeded
-NOTE: Running task 1020 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_patch: Started
-NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 456 of 459 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1211 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1313 of 1337 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_collect_spdx_deps)
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_collect_spdx_deps: Started
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe spirv-tools-1_1.3.296.0-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1321 tasks of which 1316 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015110539.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015110539.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/temp/log.do_patch.3317780
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: spirv-tools-1_1.3.296.0-r0 do_patch: Applying patch '0001-update_build_version.py-support-an-envvar-to-force-t.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/git'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-update_build_version.py-support-an-envvar-to-force-t.patch
-patching file utils/update_build_version.py
-Hunk #1 FAILED at 24.
-Hunk #2 FAILED at 150.
-2 out of 2 hunks FAILED -- rejects in file utils/update_build_version.py
-Patch 0001-update_build_version.py-support-an-envvar-to-force-t.patch can be reverse-applied
-
-stderr: ')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/spirv-tools/1.3.296.0/temp/log.do_patch.3317780
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-graphics/spir/spirv-tools_1.3.296.0.bb:do_patch) failed with exit code '1'
-
---===============9014919936703126016==--
+--===============6509885717919547158==--
 
