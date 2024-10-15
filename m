@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE32FD1F9AD
-	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 18:51:20 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.4795.1729018276374651675
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D74A6D1F9B6
+	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 18:51:30 +0000 (UTC)
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web10.4745.1729018285020878108
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Oct 2024 11:51:16 -0700
+ Tue, 15 Oct 2024 11:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=leU2eXI4;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7ea7ad1e01fso116587a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 11:51:16 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vOry8dkL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7e6ed072cdaso3678151a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 11:51:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729018276; x=1729623076; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729018284; x=1729623084; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=0z5YAccJO6aSargXND4DNXKmV//bAWr6p2JW68wC7Ow=;
-        b=leU2eXI4Y8HIRPKaU4gT+Ip/CK7w4hgBKZpV5Owa2oiB8c1MpJ0QO49r45mSw2/Fkb
-         zAvMJmjpjwSfd9uA3gmMnLgf944qw50nOPvPsc04b0BzMw/ecfMBRIk8VaNXN+4fTAvu
-         ynWorLDB/NkL3Qbnh8WF1jTXv4e7wk6MIh+Tg0RdSGYwHADR6JhZnX4TV/Vc8axMHaJu
-         Km+JD1hJhjNLAYTloKmzsiIr5P7+9HSy92hGmmUrYowV7a3+nZ34q2yM/hzVCN0vCdnv
-         dh7jAsnsglh8EghnVP7M1WZL45Kr9tfEhx/wGa30vOG0vvi+7qnmVJmUzfkVEsaTP0CK
-         z/RA==
+        bh=mwyr2+NzoqCcbw/eg/fHvFsf2/f5sJGfUR0fMbhz0ig=;
+        b=vOry8dkL0z9N11sIZjdzw4RWyKjcqO/3mkxAhSt10nPzL5ud+wBkjWshHVf3wCfLos
+         o7Kv4r1/uy0iwobj3EZFUStjxXMT0gCmpSXZstIqXerf4zJk5goOgp+041+lA4TqRclJ
+         ee5WEmZzNnDdB/gLeeIUUEEOJiVCaRw9YcvBh/U2vIXHvqFD9BaJjpZOFrNfYX885zQt
+         0/3Q4Tc/v0bxCSm8SbcVQ/HdysmOfEdyBWokgc1iPIfe8IHR9D7sfmKqfg+vC1Nn1+1H
+         RmPWJeNPcB9IvO10jaGwrDXP02vTpTFRtn0/MmDCrocbjfvn/QMnOFP7pvjlvqatn4T9
+         iIZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729018276; x=1729623076;
+        d=1e100.net; s=20230601; t=1729018284; x=1729623084;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0z5YAccJO6aSargXND4DNXKmV//bAWr6p2JW68wC7Ow=;
-        b=lFhmuTYE2sMdmB00rworHoHG/n2U6uVPQKuF4Vwz/i51GWte/TSWPAQTHCsAHIyHwR
-         bJEZUorkoaNiabd0OC1O1TtHe8fI6DHE9eY3JbdwOCsr2F+JIjf1ukvnjpmkrHFekuh4
-         wY7UDXYRoBAthkIrx2A2vUmEQxaLK3pmGVrxI0hmtzSkrufBJ0vHwPyzTPC8iX8DePho
-         5omZzBFhCTADvhzbd30xPlXv+AZiqy74+2oGF81HWgtjS1rjZwBlIRxbYEdwYicObuQ9
-         VyvYX1pebQrdN8tHMBh/GzeSjZqaohd017cLIuANDJJaImwUGJCw2NsHUYGa9WJ7OMGh
-         9HZQ==
-X-Gm-Message-State: AOJu0YyJwmoA9rJxbKoLBQbC7L7J0O7Mat2zotI9rspb+mywRPN9bzpG
-	VNII50dFsQpnhq5Tsp9bSY3xZl1xd8cTkJvg/vURDWVWMDicTpeXisnvUcoU6ckVkQ4WwpYUiqu
-	J
-X-Google-Smtp-Source: AGHT+IHs9H6LlYLY8ZnREa7/oaJe8dWc81cwZygMYpuFsvTdDNqjKtQEql+b9VutOGN+ZxfmH8yOkg==
-X-Received: by 2002:a05:6a20:c888:b0:1c8:de01:e7e5 with SMTP id adf61e73a8af0-1d8bc8c8c47mr19679013637.15.1729018275617;
-        Tue, 15 Oct 2024 11:51:15 -0700 (PDT)
+        bh=mwyr2+NzoqCcbw/eg/fHvFsf2/f5sJGfUR0fMbhz0ig=;
+        b=GZb4E0r69pnEKtKdP/8FaWDRWkbTKSfAEle1ZPNyYXxdQhT9w/TOkw5rc8yXQwu1w+
+         Hk8p37KNXAwlPALGx260H/+Oh93vOgfH5sB2H3vH6iT2GhGhhQ3n5d4aCXyil8c/Oy04
+         L9HxkLVTQdqCKK9QGS+PRfkARI+J1YfOw64EGx2R1PM8aO48VxCe5OrwACcFn0waVEk/
+         VoLiih4NNCKvG7My1WhdaamkGqTWMC66wxrIUaqz0xqygmUxsBjCymCPC9gbLbCwvZW6
+         UMl3oA0XfJ2X4BvxdSmFkpzaHm2+z94X7vkH9RPFK+8Q6k14um755FNo4ffhYtHl3UMn
+         ntPg==
+X-Gm-Message-State: AOJu0YxFHTiimRNCRqxV/r7GtVwNPIuf1p7eX4tOiLKvHjHqkH8bM57+
+	/sI5sATOTmML7brk9AxtBHFZJeA/+1yuFMqQrxGfOtYwpeY+XFTuzTJvFF40Nc5WOtpW061YTEy
+	h
+X-Google-Smtp-Source: AGHT+IGS6/shqVQzziX4DUiIuHNqkxvyUF18QkwONxTdDPaMPNsEjIkyH9Nn3oKxKLe/t3LqHTMUAA==
+X-Received: by 2002:a05:6a20:4387:b0:1d6:fd8c:fa16 with SMTP id adf61e73a8af0-1d8c96ba661mr16549574637.46.1729018284272;
+        Tue, 15 Oct 2024 11:51:24 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e773717b9sm1616187b3a.9.2024.10.15.11.51.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71e773717b9sm1616187b3a.9.2024.10.15.11.51.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Oct 2024 11:51:15 -0700 (PDT)
+        Tue, 15 Oct 2024 11:51:24 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 09/18] license: Fix directory layout issues
-Date: Tue, 15 Oct 2024 11:50:45 -0700
-Message-Id: <a31b46627a85ea871deb760f3d0008de72ceb439.1729018153.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 14/18] uboot-sign: fix counters in do_uboot_assemble_fitimage
+Date: Tue, 15 Oct 2024 11:50:50 -0700
+Message-Id: <7f81c38e91563d6d77621a3bfcb155cd226c9b74.1729018153.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1729018153.git.steve@sakoman.com>
 References: <cover.1729018153.git.steve@sakoman.com>
@@ -61,60 +61,39 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 18:51:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205932
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 18:51:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205937
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Paul Gerber <paul.gerber@ew.tq-group.com>
 
-There are several issues:
+Without unsetting `j` and `k` for each `UBOOT_MACHINE`, `j` and `k`
+are incremented in the same frequency as `i` and therefore `$j -eq $i`
+and `$k -eq $i` is always true for the first `type` from `UBOOT_CONFIG`
+and the first `binary` from `UBOOT_BINARIES`.
 
-a) pointless empty directories were being created as a path wasn't
-   fixed in a previous commit
-b) SSTATE_PKGARCH wasn't being captured into the task signature
-   since it is in the ignore list by default. We want to capture
-   the absolute value, not the dependencies
-c) with those issues fixed, cross/native issues became apparent so
-   those need to be fixed too.
-
+Signed-off-by: Paul Gerber <paul.gerber@ew.tq-group.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Backport from oe-core master: f68aed302a0e4b86fb8c16a6ef4e7295bed48b86
-
-Signed-off-by: Mark Hatle <mark.hatle@kernel.crashing.org>
+(cherry picked from commit 3aef55c7ceb654b0012f20618bfd6ead1ef578b6)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/license.bbclass | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+ meta/classes-recipe/uboot-sign.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/license.bbclass
-index b2e0d3faba..d7c5d08a77 100644
---- a/meta/classes-global/license.bbclass
-+++ b/meta/classes-global/license.bbclass
-@@ -18,8 +18,14 @@ LICENSE_CREATE_PACKAGE ??= "0"
- LICENSE_PACKAGE_SUFFIX ??= "-lic"
- LICENSE_FILES_DIRECTORY ??= "${datadir}/licenses/"
+diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
+index c8e097f2f2..3e5f5dcf66 100644
+--- a/meta/classes-recipe/uboot-sign.bbclass
++++ b/meta/classes-recipe/uboot-sign.bbclass
+@@ -356,8 +356,9 @@ do_uboot_assemble_fitimage() {
+ 	fi
  
-+LICENSE_DEPLOY_PATHCOMPONENT = "${SSTATE_PKGARCH}"
-+LICENSE_DEPLOY_PATHCOMPONENT:class-cross = "native"
-+LICENSE_DEPLOY_PATHCOMPONENT:class-native = "native"
-+# Ensure the *value* of SSTATE_PKGARCH is captured as it is used in the output paths
-+LICENSE_DEPLOY_PATHCOMPONENT[vardepvalue] += "${LICENSE_DEPLOY_PATHCOMPONENT}"
-+
- addtask populate_lic after do_patch before do_build
--do_populate_lic[dirs] = "${LICSSTATEDIR}/${PN}"
-+do_populate_lic[dirs] = "${LICSSTATEDIR}/${LICENSE_DEPLOY_PATHCOMPONENT}/${PN}"
- do_populate_lic[cleandirs] = "${LICSSTATEDIR}"
- 
- python do_populate_lic() {
-@@ -29,7 +35,7 @@ python do_populate_lic() {
-     lic_files_paths = find_license_files(d)
- 
-     # The base directory we wrangle licenses to
--    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('SSTATE_PKGARCH'), d.getVar('PN'))
-+    destdir = os.path.join(d.getVar('LICSSTATEDIR'), d.getVar('LICENSE_DEPLOY_PATHCOMPONENT'), d.getVar('PN'))
-     copy_license_files(lic_files_paths, destdir)
-     info = get_recipe_info(d)
-     with open(os.path.join(destdir, "recipeinfo"), "w") as f:
+ 	if [ -n "${UBOOT_CONFIG}" ]; then
+-		unset i j k
++		unset i
+ 		for config in ${UBOOT_MACHINE}; do
++			unset j k
+ 			i=$(expr $i + 1);
+ 			for type in ${UBOOT_CONFIG}; do
+ 				j=$(expr $j + 1);
 -- 
 2.34.1
 
