@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DFC49D21689
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5D96D21688
 	for <webhook@archiver.kernel.org>; Tue, 15 Oct 2024 12:16:14 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.11883.1728994571022720667
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web10.11884.1728994573267048641
  for <openembedded-core@lists.openembedded.org>;
  Tue, 15 Oct 2024 05:16:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ecpt7dgn;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=vWgQV5R5;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010192901b7a30-3845bfa1-2710-48e3-8815-7cbd9775cb06-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=EtudOCey;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=ge88d8Dn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 01010192901b79a4-899bc490-b5e6-4769-9a91-fe132f339b59-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1728994572;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=X/BMzhReLX1CIWTVRMlrCJdk/j+zTrLyjtln1A6WSAU=;
-	b=ecpt7dgnGawozpypMZ2obJIMd1E0Gjn9abxBpFanJYIEsqhXVmGL6GwAQq2EHS2W
-	yfG3yctkz/5XTpOiHBxLXlJpONE5c2CBijFr5qoKXvWZp8xT1zTEvhYThFpO5mfrSy6
-	oBxDvJI0AMHC+Inym9uNJK7ot650gc8X4NHLEsVU=
+	bh=QK/jvGlPn9WKFqsQ0dkZC1GY2/XrwpbNvkdl0GU8e2Q=;
+	b=EtudOCeyojz9EZ+rUNA8yEqBJqW/hWFXwMfZaVlbjsfFrCgPA0pKEnyLTMCRVsUA
+	UGyu8908dN+eQ7wecpyJjcufXdep4lE9qsg8aNQcycCYEAMUfl5+WsuTuK/H1Lfuabi
+	UPr9RT/PotgsLfyG4u5fmxrBa4PEZfPMf7yQOEng=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1728994572;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=X/BMzhReLX1CIWTVRMlrCJdk/j+zTrLyjtln1A6WSAU=;
-	b=vWgQV5R5D05dRGsBHSPbexdYq6MUhdt7+vKlrri05nu9AIodxpqEvZKGorlBtGZR
-	Y14koqDQlQeoMocrTQyMrM5pYw479HhjwjO1F8W7Sa1DCuoFSBmejHhIVZowOuJ/PYo
-	32uIVslt73vpCpXm1ujOyzl1mjwREYiEVSdKOx88=
-Content-Type: multipart/mixed; boundary="===============7069973517387095460=="
+	bh=QK/jvGlPn9WKFqsQ0dkZC1GY2/XrwpbNvkdl0GU8e2Q=;
+	b=ge88d8DnI8tSi9pW01VvvuQXrInLDNdAJnTQHuv0Wg109g3GI7naJD/aJGXyFrk8
+	kVZLwVjD6vrrzCvGazJjFmn4qBokWSAM7u9CK8sIk1VkIA+O61m3XFMiH6vNNpS8+Ut
+	YKdA24pRYzgJTmb8u1io6QuF3ix7qgR7j/1CjaOQ=
+Content-Type: multipart/mixed; boundary="===============8810623560649208751=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Wang Mingyu <wangmy@fujitsu.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gst-devtools: upgrading to 1.24.8 SUCCEEDED
-Message-ID: <01010192901b7a30-3845bfa1-2710-48e3-8815-7cbd9775cb06-000000@us-west-2.amazonses.com>
+Subject: [AUH] dtc: upgrading to 1.7.1 FAILED
+Message-ID: <01010192901b79a4-899bc490-b5e6-4769-9a91-fe132f339b59-000000@us-west-2.amazonses.com>
 Date: Tue, 15 Oct 2024 12:16:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.15-54.240.27.192
+X-SES-Outgoing: 2024.10.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Oct 2024 12:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205894
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205895
 
---===============7069973517387095460==
+--===============8810623560649208751==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gst-devtools* to *1.24.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *dtc* to *1.7.1* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-gst-devtools-upgrade-1.24.6-1.24.8.patch
+    - apply the patch: git am 0001-dtc-upgrade-1.7.0-1.7.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,139 +78,155 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 0311e744876d2a2de0f7ea5a29d39add1079e52f Mon Sep 17 00:00:00 2001
+From 55a3074912244308105159162979836ef32b6312 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 15 Oct 2024 11:46:19 +0000
-Subject: [PATCH] gst-devtools: upgrade 1.24.6 -> 1.24.8
+Date: Tue, 15 Oct 2024 11:35:03 +0000
+Subject: [PATCH] dtc: upgrade 1.7.0 -> 1.7.1
 
 ---
- .../0001-connect-has-a-different-signature-on-musl.patch        | 2 +-
- .../{gst-devtools_1.24.6.bb => gst-devtools_1.24.8.bb}          | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.6.bb => gst-devtools_1.24.8.bb} (95%)
+ meta/recipes-kernel/dtc/{dtc_1.7.0.bb => dtc_1.7.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/dtc/{dtc_1.7.0.bb => dtc_1.7.1.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-index f2bb664140..4a07b013a6 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-@@ -1,4 +1,4 @@
--From d0e3b04007d60755cf1c092c1cac29e832290b86 Mon Sep 17 00:00:00 2001
-+From 23c5647fe50d57906f7f4e07fe6e18cbbe1758b2 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 9 Sep 2018 17:38:10 -0700
- Subject: [PATCH] connect has a different signature on musl
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.8.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.8.bb
-index 1b448f7c55..74834f2ec7 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.8.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel/dtc/dtc_1.7.1.bb
+similarity index 96%
+rename from meta/recipes-kernel/dtc/dtc_1.7.0.bb
+rename to meta/recipes-kernel/dtc/dtc_1.7.1.bb
+index 0702fc16df..741bd5e45c 100644
+--- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
++++ b/meta/recipes-kernel/dtc/dtc_1.7.1.bb
+@@ -13,7 +13,7 @@ SRC_URI = " \
+     file://0001-meson.build-bump-version-to-1.7.0.patch \
+     file://0002-meson-allow-building-from-shallow-clones.patch \
+ "
+-SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
++SRCREV = "99031e3a4a6e479466ae795790b44727434ca27d"
  
--SRC_URI[sha256sum] = "8beb9e98ed136c29f4ec10396dd6c8708a5645cdacda90af1b7196057de17672"
-+SRC_URI[sha256sum] = "b7eabc58a17771a162a74aba721f2469a2b044d1674d3e416e3c62f2a2b0d26a"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
  
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
 -- 
 2.44.1
 
 
---===============7069973517387095460==
+--===============8810623560649208751==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-gst-devtools-upgrade-1.24.6-1.24.8.patch"
+Content-Disposition: attachment; filename="0001-dtc-upgrade-1.7.0-1.7.1.patch"
 
-RnJvbSAwMzExZTc0NDg3NmQyYTJkZTBmN2VhNWEyOWQzOWFkZDEwNzllNTJmIE1vbiBTZXAgMTcg
+RnJvbSA1NWEzMDc0OTEyMjQ0MzA4MTA1MTU5MTYyOTc5ODM2ZWYzMmI2MzEyIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6NDY6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-c3QtZGV2dG9vbHM6IHVwZ3JhZGUgMS4yNC42IC0+IDEuMjQuOAoKLS0tCiAuLi4vMDAwMS1jb25u
-ZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRjaCAgICAgICAgfCAyICst
-CiAuLi4ve2dzdC1kZXZ0b29sc18xLjI0LjYuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuOC5iYn0g
-ICAgICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxl
-dGlvbnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIve2dzdC1k
-ZXZ0b29sc18xLjI0LjYuYmIgPT4gZ3N0LWRldnRvb2xzXzEuMjQuOC5iYn0gKDk1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAw
-MDEtY29ubmVjdC1oYXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2ggYi9tZXRh
-L3JlY2lwZXMtbXVsdGltZWRpYS9nc3RyZWFtZXIvZ3N0LWRldnRvb2xzLzAwMDEtY29ubmVjdC1o
-YXMtYS1kaWZmZXJlbnQtc2lnbmF0dXJlLW9uLW11c2wucGF0Y2gKaW5kZXggZjJiYjY2NDE0MC4u
-NGEwN2IwMTNhNiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVy
-L2dzdC1kZXZ0b29scy8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1t
-dXNsLnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2
-dG9vbHMvMDAwMS1jb25uZWN0LWhhcy1hLWRpZmZlcmVudC1zaWduYXR1cmUtb24tbXVzbC5wYXRj
-aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZDBlM2IwNDAwN2Q2MDc1NWNmMWMwOTJjMWNhYzI5ZTgz
-MjI5MGI4NiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMjNjNTY0N2ZlNTBkNTc5MDZm
-N2Y0ZTA3ZmU2ZTE4Y2JiZTE3NThiMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEto
-ZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiBEYXRlOiBTdW4sIDkgU2VwIDIwMTggMTc6Mzg6
-MTAgLTA3MDAKIFN1YmplY3Q6IFtQQVRDSF0gY29ubmVjdCBoYXMgYSBkaWZmZXJlbnQgc2lnbmF0
-dXJlIG9uIG11c2wKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1l
-ci9nc3QtZGV2dG9vbHNfMS4yNC42LmJiIGIvbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVh
-bWVyL2dzdC1kZXZ0b29sc18xLjI0LjguYmIKc2ltaWxhcml0eSBpbmRleCA5NSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLW11bHRpbWVkaWEvZ3N0cmVhbWVyL2dzdC1kZXZ0b29sc18xLjI0LjYu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9v
-bHNfMS4yNC44LmJiCmluZGV4IDFiNDQ4ZjdjNTUuLjc0ODM0ZjJlYzcgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yNC42LmJiCisr
-KyBiL21ldGEvcmVjaXBlcy1tdWx0aW1lZGlhL2dzdHJlYW1lci9nc3QtZGV2dG9vbHNfMS4yNC44
-LmJiCkBAIC0xMiw3ICsxMiw3IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly9nc3RyZWFtZXIuZnJlZWRl
-c2t0b3Aub3JnL3NyYy9nc3QtZGV2dG9vbHMvZ3N0LWRldnRvb2xzLSR7UFZ9CiAgICAgICAgICAg
-IGZpbGU6Ly8wMDAxLWNvbm5lY3QtaGFzLWEtZGlmZmVyZW50LXNpZ25hdHVyZS1vbi1tdXNsLnBh
-dGNoIFwKICAgICAgICAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOGJlYjllOThlZDEz
-NmMyOWY0ZWMxMDM5NmRkNmM4NzA4YTU2NDVjZGFjZGE5MGFmMWI3MTk2MDU3ZGUxNzY3MiIKK1NS
-Q19VUklbc2hhMjU2c3VtXSA9ICJiN2VhYmM1OGExNzc3MWExNjJhNzRhYmE3MjFmMjQ2OWEyYjA0
-NGQxNjc0ZDNlNDE2ZTNjNjJmMmEyYjBkMjZhIgogCiBERVBFTkRTID0gImpzb24tZ2xpYiBnbGli
-LTIuMCBnbGliLTIuMC1uYXRpdmUgZ3N0cmVhbWVyMS4wIGdzdHJlYW1lcjEuMC1wbHVnaW5zLWJh
-c2UiCiBSUkVDT01NRU5EUzoke1BOfSA9ICJnaXQiCi0tIAoyLjQ0LjEKCg==
+CkRhdGU6IFR1ZSwgMTUgT2N0IDIwMjQgMTE6MzU6MDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+dGM6IHVwZ3JhZGUgMS43LjAgLT4gMS43LjEKCi0tLQogbWV0YS9yZWNpcGVzLWtlcm5lbC9kdGMv
+e2R0Y18xLjcuMC5iYiA9PiBkdGNfMS43LjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9k
+dGMve2R0Y18xLjcuMC5iYiA9PiBkdGNfMS43LjEuYmJ9ICg5NiUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWtlcm5lbC9kdGMvZHRjXzEuNy4wLmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9k
+dGMvZHRjXzEuNy4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTYlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1rZXJuZWwvZHRjL2R0Y18xLjcuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5l
+bC9kdGMvZHRjXzEuNy4xLmJiCmluZGV4IDA3MDJmYzE2ZGYuLjc0MWJkNWU0NWMgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvZHRjL2R0Y18xLjcuMC5iYgorKysgYi9tZXRhL3JlY2lw
+ZXMta2VybmVsL2R0Yy9kdGNfMS43LjEuYmIKQEAgLTEzLDcgKzEzLDcgQEAgU1JDX1VSSSA9ICIg
+XAogICAgIGZpbGU6Ly8wMDAxLW1lc29uLmJ1aWxkLWJ1bXAtdmVyc2lvbi10by0xLjcuMC5wYXRj
+aCBcCiAgICAgZmlsZTovLzAwMDItbWVzb24tYWxsb3ctYnVpbGRpbmctZnJvbS1zaGFsbG93LWNs
+b25lcy5wYXRjaCBcCiAiCi1TUkNSRVYgPSAiMDM5YTk5NDE0ZTc3ODMzMmQ4ZjljMDRjYmQzMDcy
+ZTFkY2M2Mjc5OCIKK1NSQ1JFViA9ICI5OTAzMWUzYTRhNmU0Nzk0NjZhZTc5NTc5MGI0NDcyNzQz
+NGNhMjdkIgogCiBVUFNUUkVBTV9DSEVDS19HSVRUQUdSRUdFWCA9ICJ2KD9QPHB2ZXI+XGQrKFwu
+XGQrKSspIgogCi0tIAoyLjQ0LjEKCg==
 
---===============7069973517387095460==
+--===============8810623560649208751==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-1.0.so.0.2406.0 /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2408.0 /usr/lib/libgstvalidate-1.0.so.0.2408.0"
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2406.0 to libgstvalidate-1.0.so.0.2408.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2406.0 to libgstvalidate-default-overrides-1.0.so.0.2408.0
-  /usr/lib/libgstvalidate-1.0.so.0.2406.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2408.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2408.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 919 .bb files complete (918 cached, 1 parsed). 1875 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============7069973517387095460==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:162b1712751d9616f9e4fd414b57677ac9a845ff"
 
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: PKGSIZE changed from 2673672 to 2674352 (+0%)
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dbg: FILELIST: removed "/usr/lib/.debug/libgstvalidate-1.0.so.0.2406.0 /usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2406.0", added "/usr/lib/.debug/libgstvalidate-default-overrides-1.0.so.0.2408.0 /usr/lib/.debug/libgstvalidate-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-dev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-doc: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-locale: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-src: PKGSIZE changed from 965990 to 967096 (+0%)
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools-staticdev: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: PV changed from "1.24.6" to "1.24.8"
-packages/core2-64-poky-linux/gst-devtools/gst-devtools: FILELIST: removed "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0 /usr/lib/libgstvalidate-1.0.so.0.2406.0", added "/usr/lib/libgstvalidate-default-overrides-1.0.so.0.2408.0 /usr/lib/libgstvalidate-1.0.so.0.2408.0"
-packages/core2-64-poky-linux/gst-devtools: SRC_URI changed from "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.6.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch" to "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-1.24.8.tar.xz file://0001-connect-has-a-different-signature-on-musl.patch"
-packages/core2-64-poky-linux/gst-devtools: PKGV changed from 1.24.6 [default] to 1.24.8 [default]
-packages/core2-64-poky-linux/gst-devtools: PV changed from "1.24.6" to "1.24.8"
-Changes to packages/core2-64-poky-linux/gst-devtools (sysroot):
-  /usr/lib/libgstvalidate-1.0.so.0 changed symlink target from libgstvalidate-1.0.so.0.2406.0 to libgstvalidate-1.0.so.0.2408.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0 changed symlink target from libgstvalidate-default-overrides-1.0.so.0.2406.0 to libgstvalidate-default-overrides-1.0.so.0.2408.0
-  /usr/lib/libgstvalidate-1.0.so.0.2406.0 moved to /usr/lib/libgstvalidate-1.0.so.0.2408.0
-  /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2406.0 moved to /usr/lib/libgstvalidate-default-overrides-1.0.so.0.2408.0
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 239 Local 228 Mirrors 0 Missed 11 Current 275 (95% match, 97% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 330 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 340 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_recipe_qa_setscene)
+NOTE: Running task 1003 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_write_config)
+NOTE: recipe dtc-1.7.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe dtc-1.7.1-r0: task do_write_config: Started
+NOTE: recipe dtc-1.7.1-r0: task do_write_config: Succeeded
+NOTE: recipe dtc-1.7.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running task 1083 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_fetch)
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 488 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
+NOTE: recipe dtc-1.7.1-r0: task do_fetch: Started
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 495 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe dtc-1.7.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1092 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_unpack)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe dtc-1.7.1-r0: task do_unpack: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 500 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe dtc-1.7.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1169 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_patch)
+NOTE: recipe dtc-1.7.1-r0: task do_patch: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 511 of 514 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1366 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1462 of 1491 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_collect_spdx_deps)
+NOTE: recipe dtc-1.7.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe dtc-1.7.1-r0: task do_collect_spdx_deps: Started
+NOTE: recipe dtc-1.7.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe dtc-1.7.1-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe dtc-1.7.1-r0: task do_patch: Failed
+NOTE: Tasks Summary: Attempted 1476 tasks of which 1470 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015113450.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241015113450.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
---===============7069973517387095460==--
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_patch
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/temp/log.do_patch.3464580
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: dtc-1.7.1-r0 do_patch: Applying patch '0001-meson.build-bump-version-to-1.7.0.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/git'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-meson.build-bump-version-to-1.7.0.patch
+patching file meson.build
+Hunk #1 FAILED at 1.
+1 out of 1 hunk FAILED -- rejects in file meson.build
+Patch 0001-meson.build-bump-version-to-1.7.0.patch does not apply (enforce with -f)
+
+stderr: ')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/dtc/1.7.1/temp/log.do_patch.3464580
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/dtc/dtc_1.7.1.bb:do_patch) failed with exit code '1'
+
+--===============8810623560649208751==--
 
