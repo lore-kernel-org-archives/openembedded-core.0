@@ -1,331 +1,1229 @@
-Return-Path: <alban.bedel@aerq.com>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF0FED1AD21
-	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 08:05:55 +0000 (UTC)
-Received: from mx-relay17-hz1.antispameurope.com (mx-relay17-hz1.antispameurope.com [94.100.132.217])
- by mx.groups.io with SMTP id smtpd.web11.18264.1729065951597623301
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCC97D1AD2B
+	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 08:30:45 +0000 (UTC)
+Received: from h1.cmg2.smtp.forpsi.com (h1.cmg2.smtp.forpsi.com [81.2.195.188])
+ by mx.groups.io with SMTP id smtpd.web11.18555.1729067441225476304
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Oct 2024 01:05:53 -0700
+ Wed, 16 Oct 2024 01:30:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@l2task.onmicrosoft.com header.s=selector1-l2task-onmicrosoft-com header.b=nLlYg3r8;
- dkim=fail reason="dkim: body hash did not verify" header.i=@l2task.onmicrosoft.com header.s=selector1-l2task-onmicrosoft-com header.b=taM58xpo;
- dkim=pass header.i=@aerq.com header.s=hse1 header.b=ciAzv0SP;
- spf=pass (domain: aerq.com, ip: 94.100.132.217, mailfrom: alban.bedel@aerq.com)
-Received: from mail-vi1eur02lp2044.outbound.protection.outlook.com ([104.47.11.44]) by mx-relay17-hz1.antispameurope.com;
- Wed, 16 Oct 2024 10:05:49 +0200
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=fail;
- b=C1tNA+Rl9Va6C2VJlRUqTLcu5mTDlMWthPsVDUU5IvuqZdZf+Quer+WQ/rQPxkYtO0YDfSkpQs2VDuxKpddZJzgypiIkS4u5lbv1uAIa7hTNCIvMP9xBPBTRPJDM1I9jvSBCDv5HqJxsGHmJNAJ2gz5MV0iva1Pf6Dvo4+qrz7HOaP2aB7aEV+ht3LgCoqoPGsDekbG7Ai8943CqWxQENd9pe81++SFTgK+MdPNac3LTXsB3opD8pYuIxw+xkmf7vf6TcF3FLxm6jlYpvOAAx/2VlJbLrHqiJgTtuSPU/clOuzs36cF7yeuy1DA3lC4IU5wYYEJoQqx3LITufSxUOA==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MjoZQOWRANo4w1h9eloRWHnz9cpgQXVgIrPQ3A197h0=;
- b=MVcNaIYDIDPx03B0ggXyeGmppmIyx+Jzn0NFqMLbGV48/xEEjxU3XiftN1VkCrsZck9anJ+GoqV19agIeNJQsIOIcCWGB/YFfTRgnBqPuWBG0A5KFVTrt78E+BbArNuQ6IUuUVWzf/B77jbgsv5/QX4lIzB2Z6ZrfLdDeQfql9WrumI0gHM56dU6nWZt+8u7qC7ODSJfjHajEzoUQVL5uw6dFMkrcFtgkU+mPreq9HuQveVEqYwdaq0JkYyrSRXZUhuVSmLxFiFYwa6k79UKCpo7U1YpwzWVuPwdRnaLVUbV3bFrfwaFQP4idg3Ix4dhg/7AaEtmECut2qj/RmFzPw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=softfail (sender ip
- is 104.40.229.156) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=aerq.com; dmarc=fail (p=quarantine sp=quarantine pct=100)
- action=quarantine header.from=aerq.com; dkim=fail (body hash did not verify)
- header.d=l2task.onmicrosoft.com; arc=fail (47)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=MjoZQOWRANo4w1h9eloRWHnz9cpgQXVgIrPQ3A197h0=;
- b=nLlYg3r8NFbax8KgF0TVSPoZHOq8Emk1DmZSM2yvhyZGWgBsFiypJsm2iOUQE+qcKGHanIZ5d4SzJmuvD/kkleIuD6YzYUZl7UtKVtqnsG7UGAoYDDwsUjpL05TIy/GjOeSvZkt9njq7uMOJmx2nE11am62JswWNIikR2Vde4TM=
-Received: from AS8P189CA0018.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:31f::20)
- by DU0PR10MB6411.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:409::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.17; Wed, 16 Oct
- 2024 08:05:38 +0000
-Received: from AMS1EPF00000040.eurprd04.prod.outlook.com
- (2603:10a6:20b:31f:cafe::42) by AS8P189CA0018.outlook.office365.com
- (2603:10a6:20b:31f::20) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.18 via Frontend
- Transport; Wed, 16 Oct 2024 08:05:38 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is
- 104.40.229.156) smtp.mailfrom=aerq.com; dkim=fail (body hash did not verify)
- header.d=l2task.onmicrosoft.com;dmarc=fail action=quarantine
- header.from=aerq.com;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- aerq.com discourages use of 104.40.229.156 as permitted sender)
-Received: from eu1.smtp.exclaimer.net (104.40.229.156) by
- AMS1EPF00000040.mail.protection.outlook.com (10.167.16.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8069.17 via Frontend Transport; Wed, 16 Oct 2024 08:05:37 +0000
-Received: from EUR02-VI1-obe.outbound.protection.outlook.com (104.47.11.46)
-	 by eu1.smtp.exclaimer.net (104.40.229.156) with Exclaimer Signature Manager
-	 ESMTP Proxy eu1.smtp.exclaimer.net (tlsversion=TLS12,
-	 tlscipher=TLS_DIFFIEHELLMAN_WITH_AES256_NONE); Wed, 16 Oct 2024 08:05:37
-	 +0000
-X-ExclaimerHostedSignatures-MessageProcessed: true
-X-ExclaimerProxyLatency: 6818838
-X-ExclaimerImprintLatency: 1404674
-X-ExclaimerImprintAction: 4a8ba5d00eba4fc5ba7fd4caf90d2601
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D4z6EPKq6JbjJ0sKu8hTJBEdrZY7eZ/oRYcM+Rq+wBN/a0IBRApQUo5N2CJxPWsCNey/MWIoRWZiwYeya6m13Cbd9tUJe3TDaqwLYJXt/BZv/4mGQgtu/lYno15SVSytndSFXDxZXxxJUqPlU5TZ3WP3JOLdcFxMrE6NZihSGzNSikTP11dWS4UBEeBHC8IrTNiAEBHUxweRv/lJ6vw8rH28r2unoEZAK8rJ4/Hs0AqhFRggHnTKkj6P7EfR8CipxzQRRcWic1v1wtD89hdYJdrUrrY9Lxh5FFgJtTd3dWA4cfRP7ceuI/+BAtl0oVPc3/OxAhAVJIARdg4jCQcDpA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lidkNpH+mmtMtr6zeZf1yPZHx3zEfuU+uxWEAwMI0HM=;
- b=Mi8CUS5q6B/SQkDYzYnNWESvH/zPcXXn3jDHmVyUPjkisidLx711ihdg8JqbujQGQowEL4nUI9/il1GYbfzWmGY+2bXYzDH76ZJI1+Aa6C/eQJrG0V96t6mUweRLr0WDVC0FurJxjpikQwUg/kHdLo/WzW04/NiAgd/S669R3yYn9QXdcW9Kk33ZIN46lSza2ZIkwA4khuca8iSeXcWYZaXm2i1GbbmX01+Q9j5DJh/f3IR+jtHh0kRe04oMpLGZcZiot1Ei1hCcbJrrG1u5GGCkvQlr00TyDcErwfsXhEP+BGSmEBby8QRP2A3Vjn4xERfa/wzTaM361dqGceLxMA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aerq.com; dmarc=pass action=none header.from=aerq.com;
- dkim=pass header.d=aerq.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=l2task.onmicrosoft.com; s=selector1-l2task-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lidkNpH+mmtMtr6zeZf1yPZHx3zEfuU+uxWEAwMI0HM=;
- b=taM58xpoCA5mIF+Ceo8ELZgzya6aDQ2zruA1dpNulb4Gh9Mw9pGtDRkAZmI4crrmbvYnD2HmA2OtzKwA2eVrcvM2buhddYULgUfWElA484N2U1eo5ChhKc2uOrXiD8eYl2DEvxu4TRwR/rPeELe2E/yXydCxkpsL1/2w3ZrKZGc=
-Authentication-Results-Original: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aerq.com;
-Received: from PAXPR10MB4996.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:208::13)
- by DB9PR10MB6545.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:3d6::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.16; Wed, 16 Oct
- 2024 08:05:32 +0000
-Received: from PAXPR10MB4996.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bf5b:5ee4:7d6f:7e4]) by PAXPR10MB4996.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::bf5b:5ee4:7d6f:7e4%3]) with mapi id 15.20.8069.016; Wed, 16 Oct 2024
- 08:05:32 +0000
-From: Alban Bedel <alban.bedel@aerq.com>
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=pf9CGupv;
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=pf9CGupv;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 81.2.195.188, mailfrom: andrej.v@skyrain.eu)
+Received: from lt-aval.. ([62.197.243.174])
+	by cmgsmtp with ESMTPSA
+	id 0zQNtakOcTNCy0zQUt4TJR; Wed, 16 Oct 2024 10:30:39 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1729067439; bh=EZr90l+dwdkhrERKWRrDUZPbXSxpu3Zqp2qYAepZVvQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	b=pf9CGupvsHBdv/J5fbs+ebvc7gKeiMSK4OYVwwNiRmWvU9f4wSXnWM2SXMY883oWH
+	 FsDCV4dJ1hBNrBH2Wj8iBxsB+MItnKeutedGZBkxLoCvFY8qf544A2Hhp5V1ywxRFY
+	 7M9AXwb9hW/aV6a5s42QhJdhKYK5Hp2FUr7LqDxbCl28r2FLSOIuTwF/AldMeUQ8PI
+	 8JaOXlORuCeoVp6j4kgzk2qlq7pIWfGTocLWuvP3bWBL0J3D3YV+snwbG8lhzMAWXP
+	 ftSmMFfkNBejcgk8I1FBq9ZEr8VH981KsWn8XX3XcKRMVczaOoiSNdwpb+gEODPVvN
+	 3tSVvknseeSZw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1729067439; bh=EZr90l+dwdkhrERKWRrDUZPbXSxpu3Zqp2qYAepZVvQ=;
+	h=From:To:Subject:Date:Message-Id:MIME-Version:Content-Type;
+	b=pf9CGupvsHBdv/J5fbs+ebvc7gKeiMSK4OYVwwNiRmWvU9f4wSXnWM2SXMY883oWH
+	 FsDCV4dJ1hBNrBH2Wj8iBxsB+MItnKeutedGZBkxLoCvFY8qf544A2Hhp5V1ywxRFY
+	 7M9AXwb9hW/aV6a5s42QhJdhKYK5Hp2FUr7LqDxbCl28r2FLSOIuTwF/AldMeUQ8PI
+	 8JaOXlORuCeoVp6j4kgzk2qlq7pIWfGTocLWuvP3bWBL0J3D3YV+snwbG8lhzMAWXP
+	 ftSmMFfkNBejcgk8I1FBq9ZEr8VH981KsWn8XX3XcKRMVczaOoiSNdwpb+gEODPVvN
+	 3tSVvknseeSZw==
+From: Andrej Valek <andrej.v@skyrain.eu>
 To: openembedded-core@lists.openembedded.org
-CC: Alban Bedel <alban.bedel@aerq.com>
-Subject: [PATCH] util-linux: Add `findmnt` to the bash completion RDEPENDS
-Date: Wed, 16 Oct 2024 10:05:20 +0200
-Message-ID: <20241016080520.1532567-1-alban.bedel@aerq.com>
+Cc: richard.purdie@linuxfoundation.org,
+	Andrej Valek <andrej.v@skyrain.eu>
+Subject: [OE-core][PATCH v2] busybox: 1.36.1 -> 1.37.0
+Date: Wed, 16 Oct 2024 10:30:18 +0200
+Message-Id: <20241016083018.284497-1-andrej.v@skyrain.eu>
 X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: FR0P281CA0165.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b3::13) To PAXPR10MB4996.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:102:208::13)
-X-MS-TrafficTypeDiagnostic: 
-	PAXPR10MB4996:EE_|DB9PR10MB6545:EE_|AMS1EPF00000040:EE_|DU0PR10MB6411:EE_
-X-MS-Office365-Filtering-Correlation-Id: e6cea053-bde9-4378-018e-08dcedb951c3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: 
- BCL:0;ARA:13230040|10070799003|376014|52116014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info-Original: 
- =?us-ascii?Q?D9nhGi+9N9ZxvegxThOYEcKo5lobb9ry9qBhaRTvP+TYAwhCUgPoMTXV1OeT?=
- =?us-ascii?Q?OlWItYTmS8zzwCPf8uvcrvan8dZ3saVdPTA4Gq7XU0fRQyUp5vH9zAcMn5NE?=
- =?us-ascii?Q?zQYqz0voKxDN4+4G2wtY1c/3iTjTdjOFHzN1gd/NlHmZ8MyejxAOJkfYzvpR?=
- =?us-ascii?Q?S6S6cLA/Td7H6Ti1ZUHTseohqGXSK2l7pdMxOlrmSf+24R153d82XagVrjV6?=
- =?us-ascii?Q?0lCGgF7xgWl2it8e8xcXzsyX9ToJNBl8fijk4tek/07LebXNJGjiox12JYh4?=
- =?us-ascii?Q?B+fJJEVP5z0SHwHHA6qXhYyOqVB7pQui2R/kmJg7RhDp3ajtLQlbczzf020c?=
- =?us-ascii?Q?Bf2QRjdUwPOi9kLeX36g/X29wI3ydin23r0ZDFD0q9WdburVGe6mdnTuPwPT?=
- =?us-ascii?Q?aaQ4yRO2UUghudM47LdpG1s7weYjD3F/7bSnPE8gvh4FKKeplkHdc6O5UGu+?=
- =?us-ascii?Q?aPxRJY8lu6BW3Pj2O+UoBymj8YBYFiC13qydAttPT47VbMe2m7TEOwzup4WK?=
- =?us-ascii?Q?9WUI932TuuIe1uw4qVqgW/mXVl8wKX4B3k0ssj+P+u3I+ZpHWGm8gdnb0nAE?=
- =?us-ascii?Q?xWmAi1VCScvNmiBsBn6LSoRkBdxBWouVHRVT1ELp3HZnpWLiWUUETimbJojJ?=
- =?us-ascii?Q?+KzVFEEmY7luQfOBh5zES5PV7tkPz0EhdrfgRC2pg/0USAPX3knG8fCI2mLg?=
- =?us-ascii?Q?Vxt3QT5UJj96BgcS+mliv4gevIn2r7WsWlk69j2vHZpz8b4Q0vs4Gyo8QtqC?=
- =?us-ascii?Q?QWeJ4ANbcupmDD+k1vMn54iko2FI0y+AvxUMWMldFf8/jOSD6+EPEAvj7FkW?=
- =?us-ascii?Q?wq5t8f2Gt1+XUnbNvcfXOvPN2M0rpwUmIYZJ9s668of8uG1nIjsWdRZKcb7e?=
- =?us-ascii?Q?l9LlRxSJ6QFt6mIp/DFSvGWFMt/Na80Dv/I2NoLjpwE3ZA4BwoDd3yOnZftQ?=
- =?us-ascii?Q?iisdMcZn81WZmtgKBwSztVjc3J14H0wA01kVv7JoYxtyWIWauytHHpe8eLHi?=
- =?us-ascii?Q?kCzqYkTEWt0LkkFbpzkegA4aInr1vOk5rJlgHK6uO4xzbPZYh+fLFxEimXJt?=
- =?us-ascii?Q?JSBVtNkxdqe2nsSpuNcXaCdWch1KzOxRgsrFTWzOof1aRr5x2GfRp/0DH6Jg?=
- =?us-ascii?Q?4WAecrPzZsGHN0dfsW3TGCfUzjCAPOFkC06e/OXyHnGB4ix5MaIcuZcPXh/B?=
- =?us-ascii?Q?1pZv/RPO7lOfF0R+huNxm72b3JtdN21ZBKK7GarJ866YnZphomOTk1DgARtj?=
- =?us-ascii?Q?huccl4kufIwA2dqtaHnnTJXz/FzjSN02JfrN0kJMzA=3D=3D?=
-X-Forefront-Antispam-Report-Untrusted: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR10MB4996.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(376014)(52116014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB6545
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
- AMS1EPF00000040.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: 
-	67699d2c-e417-414a-3830-08dcedb94e70
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|376014|35042699022|36860700013|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?O2rOjWedae8+4kX+THVGz0xVuL1mnXdXtk+0Xy4nwLMgyINzLy5MLNQbG73D?=
- =?us-ascii?Q?lhy+VUztXTkjNNqFm7Zveu0mmTUrMQDdRbJ9MGi2Z2QZ0/7bVT9rGG0wh6KM?=
- =?us-ascii?Q?4OA9xi2bq/MmfVCd5XMi+pQoZFA9/1uC9MjpJHoEr4r/IuU/F9o3VGiV5dz5?=
- =?us-ascii?Q?fu0h3QDPAKpN44PCX2fAIrfzpwlQ5GwU2jxRBbwJLkFkKev5kg9y2hCHibEN?=
- =?us-ascii?Q?cD4xwhO1dbyBJLdNMTzeRmCsaENeDzO5KDN+KlfZw7vhZqP+RGojI0fXgjgq?=
- =?us-ascii?Q?4Pxjrcp+c5o5V141hmjuYDZ6ugeKAo+XyStZXMth375lBu34l0WNl35BgHPi?=
- =?us-ascii?Q?f3FxbhdTcGiKi9N7kvoxLXSHmlGFhenJrQtSqLzjtpNEqEmWIJkBEHMNbYB5?=
- =?us-ascii?Q?VmDN0SkHpvvLzua7zEjulzKz02Z0z8MIUJhL4c0eAGypYVrr5iQV0++mxDco?=
- =?us-ascii?Q?fvfSzuYEjX8WGmRegccntW3lHkGfSEjhLuTaNu5fV0r/UPxMcVVhBv42VwHs?=
- =?us-ascii?Q?1n2d/L1AQNDGUdcxKus7AdUn59gF6jmmGSJloA1xnZ4r+2wwx499A3tE1UKv?=
- =?us-ascii?Q?0joqhBHdfGoxhPEHIdnQP4Yck/uvaktK9sfjFa5YC1M3iFvd7V3s8VLjwov2?=
- =?us-ascii?Q?7+G46fjxms83qOkJsRXrxs0H2SpM9VCGDLGe20D6Y3VA0ZR2xx5ctqen+/a0?=
- =?us-ascii?Q?PcVmXtDFDz4BxQfomr7rFXbNuCKigOUvMQ3+6GQi2w1Z2/j/UZ7pStWZthkZ?=
- =?us-ascii?Q?P+T2NH8lZ+Oi/kCnzwFHbJBsJyTAmAIFD6KWp7tCn7osu7RfJO2hEh8ff2U/?=
- =?us-ascii?Q?UI2TK1ifVaZi4zOzRj7WRx/HQjCCJ/R0aoDrwcwglqdjXgfOYcAvd7nlf0Y/?=
- =?us-ascii?Q?eD7cO52G9rvi/EfBqahBQVey+1a9AmZse3NTl5CKCc3239drQ/WB0vurLqPX?=
- =?us-ascii?Q?8csPq1lvffrTmQ1XFPF2gA9u7WKX6OAxjAiZYxUMhB9yuaw39Yznw0lSUBDR?=
- =?us-ascii?Q?FU7slzFSQMsk391NCdth7ym/tY/lVqeZJU+JdCumJefxwl7sZb6qd297YQ8q?=
- =?us-ascii?Q?wrHcCzHOgPPNwC1iHAD74X0jU+0JxyjlUqdz+lUMQS3v7dNzTCSqcF0xzQYT?=
- =?us-ascii?Q?Gtz06JiU4SymNvS+gfYmhnwjLXG1d3ks5sTcim/U9++E7UKA7WQF+HNDe5Uz?=
- =?us-ascii?Q?NfiT2Mg/P/ppGoE/gPYeXl1Oy+MteAtSDw0w/YSI3W3521ysmz9kMk0fpVlt?=
- =?us-ascii?Q?uzgHyEK4JhSDMyUUrycO3teiaJicRR+Jw6q6irQdX+h0XnARJSMkzduTcY2x?=
- =?us-ascii?Q?x5MOnoy7BV7uSdZKTVldCeLVdCkFzA+nPtvh4p1NQ6eLNJzjL2JPcAb8nIQt?=
- =?us-ascii?Q?q069agrMu0DxbrzvFs74dZL+GsrX?=
-X-Forefront-Antispam-Report: 
-	CIP:104.40.229.156;CTRY:NL;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:eu1.smtp.exclaimer.net;PTR:eu1.smtp.exclaimer.net;CAT:NONE;SFS:(13230040)(82310400026)(376014)(35042699022)(36860700013)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: aerq.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2024 08:05:37.3422
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e6cea053-bde9-4378-018e-08dcedb951c3
-X-MS-Exchange-CrossTenant-Id: bf24ff3e-ad0a-4c79-a44a-df7092489e22
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=bf24ff3e-ad0a-4c79-a44a-df7092489e22;Ip=[104.40.229.156];Helo=[eu1.smtp.exclaimer.net]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF00000040.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB6411
+In-Reply-To: <20241011094830.1009557-1-andrej.v@skyrain.eu>
+References: <20241011094830.1009557-1-andrej.v@skyrain.eu>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----656801F75A4AEE054CB07F578D5D2A42"
-X-cloud-security-sender: alban.bedel@aerq.com
-X-cloud-security-recipient: openembedded-core@lists.openembedded.org
-X-cloud-security-crypt: load encryption module
-X-cloud-security-crypt-policy: TRYSMIME
-X-cloud-security-Mailarchiv: E-Mail archived for: alban.bedel@aerq.com
-X-cloud-security-Mailarchivtype: outbound
-X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-relay17-hz1.antispameurope.com with 4XT3S46CLSz3khgZ
-X-cloud-security-connect: mail-vi1eur02lp2044.outbound.protection.outlook.com[104.47.11.44], TLS=1, IP=104.47.11.44
-X-cloud-security-Digest: 3d32cb116253da813185984f5f3957ad
-X-cloud-security-crypt: smime sign status=06 sign_complete
-X-cloud-security: scantime:2.188
-DKIM-Signature: a=rsa-sha256;
- bh=150eq/NNput0j3Jvd6eNoOygm/kNM4lSW8zMxFiy3fw=; c=relaxed/relaxed;
- d=aerq.com; h=content-type:mime-version:subject:from:to:message-id:date;
- s=hse1; t=1729065948; v=1;
- b=ciAzv0SPo2busdzz2ztoslKw4neZZX40CJeSqof3YkiwQzhB8TdthH3uiiuNw3t7ObmTI3Ew
- nsgN0r35Y6zp0hb+pSuoZAF5c/y11JV3yO29uh8LHWX0flusTncIm9OzDARsIy0ZvgVBPFxoxmc
- DtYYiFGJ2oTegosodDqKvZA3h6zwddWd2IFhVGaOPiWUATtFpqD4CZktipmaS9/U5ojyjtrJMjR
- 4hqFrjvihM7CbtzzywNDgTAytYgDHrF6X1nIaLPJ6ue/MPyjFhj6hZpljXrzFuDAsS/Nutk9f1E
- eLrUS3cBmpSgG6Tp0S6iFOFxZysknAiDNswSW1JIOoY6w==
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-CMAE-Envelope: MS4xfEc+j+fob0MRgPqfBVxadKZg6k7yGMuT9P0+PwmPXxvNAVdjLqLT8Nblfoi/BO0QyKkGQ1Sq9/kBICXpLXpMEp53OiwjmCS6Kzhq5hW+oGUglHBtqOBZ
+ 3Z3cu6rIv1gIK7F6UmH6KL08aNS25rTCAzz8dmHrCxd10+1VyDEm8e3/bu932pETXKAbxiKx86WqyIcLLCCGD5h2moG416b3RIkjDbCRBkvLBakF4TQUWYIP
+ GDdmydv8BZoqcIq51uoNrFEAzIYrvgd/DcJUPw2AtkXxlXH4PdUETV8heM6c7g7E
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 08:05:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205955
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 08:30:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205956
 
-This is an S/MIME signed message
+- update to next stable version 1.37.0
+ - refresh defconfig
+   - disable new applets (ip_link_can)
+   - enable new applets (time64, find_exec_ok, getfattr, udhcpd_bootp)
+ - disable sha acceleration by default
+  - enable it just for x86-64, other possible option (x86) is broken
+ - submitted to mailing list
+  - fix problem with syslogd when nothing was logged
+  - fix problem with start-stop-daemon tests
+ - remove and refresh already merged patches
 
-------656801F75A4AEE054CB07F578D5D2A42
-To: openembedded-core@lists.openembedded.org
-CC: Alban Bedel <alban.bedel@aerq.com>
-Subject: [PATCH] util-linux: Add `findmnt` to the bash completion RDEPENDS
-Date: Wed, 16 Oct 2024 10:05:20 +0200
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-MIME-Version: 1.0
-
-The bash completion scripts for `umount`, `fstrim` and `fsfreeze` make
-use of `findmnt` so add it to the bash completion RDEPENDS.
-
-Signed-off-by: Alban Bedel <alban.bedel@aerq.com>
+Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
 ---
- meta/recipes-core/util-linux/util-linux_2.40.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...ab_1.36.1.bb =3D> busybox-inittab_1.37.0.bb} |   0
+ ...01-awk-fix-precedence-of-relative-to.patch | 197 ------------------
+ ...-fix-segfault-when-compiled-by-clang.patch |  41 ----
+ ...1-awk.c-fix-CVE-2023-42366-bug-15874.patch |  37 ----
+ ...ix-wrong-OPT_locallog-flag-detection.patch |  33 +++
+ ...x-ternary-operator-and-precedence-of.patch |  96 ---------
+ .../0002-start-stop-daemon-fix-tests.patch    |  65 ++++++
+ .../busybox/busybox/CVE-2021-42380.patch      | 151 --------------
+ .../busybox/busybox/CVE-2023-42363.patch      |  67 ------
+ meta/recipes-core/busybox/busybox/defconfig   |   8 +-
+ meta/recipes-core/busybox/busybox/sha1sum.cfg |   1 +
+ .../busybox/busybox/sha256sum.cfg             |   1 +
+ .../busybox/busybox/sha_accel.cfg             |   4 +-
+ .../{busybox_1.36.1.bb =3D> busybox_1.37.0.bb}  |  15 +-
+ 14 files changed, 113 insertions(+), 603 deletions(-)
+ rename meta/recipes-core/busybox/{busybox-inittab_1.36.1.bb =3D> busybox-i=
+nittab_1.37.0.bb} (100%)
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-awk-fix-preceden=
+ce-of-relative-to.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-awk-fix-segfault=
+-when-compiled-by-clang.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-20=
+23-42366-bug-15874.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0001-syslogd-fix-wron=
+g-OPT_locallog-flag-detection.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-=
+operator-and-precedence-of.patch
+ create mode 100644 meta/recipes-core/busybox/busybox/0002-start-stop-daemo=
+n-fix-tests.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2021-42380.patch
+ delete mode 100644 meta/recipes-core/busybox/busybox/CVE-2023-42363.patch
+ rename meta/recipes-core/busybox/{busybox_1.36.1.bb =3D> busybox_1.37.0.bb=
+} (79%)
 
-diff --git a/meta/recipes-core/util-linux/util-linux_2.40.2.bb b/meta/recip=
-es-core/util-linux/util-linux_2.40.2.bb
-index a8e346539aa6..646bc0556448 100644
---- a/meta/recipes-core/util-linux/util-linux_2.40.2.bb
-+++ b/meta/recipes-core/util-linux/util-linux_2.40.2.bb
-@@ -148,7 +148,7 @@ RDEPENDS:${PN}-dev +=3D " util-linux-libuuid-dev"
+diff --git a/meta/recipes-core/busybox/busybox-inittab_1.36.1.bb b/meta/rec=
+ipes-core/busybox/busybox-inittab_1.37.0.bb
+similarity index 100%
+rename from meta/recipes-core/busybox/busybox-inittab_1.36.1.bb
+rename to meta/recipes-core/busybox/busybox-inittab_1.37.0.bb
+diff --git a/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-r=
+elative-to.patch b/meta/recipes-core/busybox/busybox/0001-awk-fix-precedenc=
+e-of-relative-to.patch
+deleted file mode 100644
+index 5836cf8a003..00000000000
+--- a/meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative=
+-to.patch
++++ /dev/null
+@@ -1,197 +0,0 @@
+-From dedc9380c76834ba64c8b526aef6f461ea4e7f2e Mon Sep 17 00:00:00 2001
+-From: Denys Vlasenko <vda.linux@googlemail.com>
+-Date: Tue, 30 May 2023 16:42:18 +0200
+-Subject: [PATCH 1/2] awk: fix precedence of =3D relative to =3D=3D
+-
+-Discovered while adding code to disallow assignments to non-lvalues
+-
+-function                                             old     new   delta
+-parse_expr                                           936     991     +55
+-.rodata                                           105243  105247      +4
+---------------------------------------------------------------------------=
+----
+-(add/remove: 0/0 grow/shrink: 2/0 up/down: 59/0)               Total: 59 b=
+ytes
+-
+-CVE: CVE-2023-42364 CVE-2023-42365
+-
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3D02=
+56e00a9d077588bd3a39f5a1ef7e2eaa2911e4]
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+-(cherry picked from commit 0256e00a9d077588bd3a39f5a1ef7e2eaa2911e4)
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- editors/awk.c       | 66 ++++++++++++++++++++++++++++++---------------
+- testsuite/awk.tests |  5 ++++
+- 2 files changed, 50 insertions(+), 21 deletions(-)
+-
+-diff --git a/editors/awk.c b/editors/awk.c
+-index ec9301e..aff86fe 100644
+---- a/editors/awk.c
+-+++ b/editors/awk.c
+-@@ -337,7 +337,9 @@ static void debug_parse_print_tc(uint32_t n)
+- #undef P
+- #undef PRIMASK
+- #undef PRIMASK2
+--#define P(x)      (x << 24)
+-+/* Smaller 'x' means _higher_ operator precedence */
+-+#define PRECEDENCE(x) (x << 24)
+-+#define P(x)      PRECEDENCE(x)
+- #define PRIMASK   0x7F000000
+- #define PRIMASK2  0x7E000000
+-=20
+-@@ -360,7 +362,7 @@ enum {
+- 	OC_MOVE =3D 0x1f00,       OC_PGETLINE =3D 0x2000,   OC_REGEXP =3D 0x2100,
+- 	OC_REPLACE =3D 0x2200,    OC_RETURN =3D 0x2300,     OC_SPRINTF =3D 0x240=
+0,
+- 	OC_TERNARY =3D 0x2500,    OC_UNARY =3D 0x2600,      OC_VAR =3D 0x2700,
+--	OC_DONE =3D 0x2800,
+-+	OC_CONST =3D 0x2800,      OC_DONE =3D 0x2900,
+-=20
+- 	ST_IF =3D 0x3000,         ST_DO =3D 0x3100,         ST_FOR =3D 0x3200,
+- 	ST_WHILE =3D 0x3300
+-@@ -440,9 +442,9 @@ static const uint32_t tokeninfo[] ALIGN4 =3D {
+- #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
+- #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
+- 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
+--	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(74),        OC_REPLACE|NV|P(74)|'+=
+', OC_REPLACE|NV|P(74)|'-',
+--	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%=
+', OC_REPLACE|NV|P(74)|'&',
+--	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&=
+', OC_BINARY|NV|P(15)|'&',
+-+	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+=
+', OC_REPLACE|NV|P(38)|'-',
+-+	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%=
+', OC_REPLACE|NV|P(38)|'&',
+-+	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&=
+', OC_BINARY|NV|P(15)|'&',
+- 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&'=
+,  OC_BINARY|NV|P(25)|'*',
+- 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,=
+   OC_COMPARE|VV|P(39)|1,
+- #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
+-@@ -1290,7 +1292,7 @@ static uint32_t next_token(uint32_t expected)
+- 			save_tclass =3D tc;
+- 			save_info =3D t_info;
+- 			tc =3D TC_BINOPX;
+--			t_info =3D OC_CONCAT | SS | P(35);
+-+			t_info =3D OC_CONCAT | SS | PRECEDENCE(35);
+- 		}
+-=20
+- 		t_tclass =3D tc;
+-@@ -1350,9 +1352,8 @@ static node *parse_expr(uint32_t term_tc)
+- {
+- 	node sn;
+- 	node *cn =3D &sn;
+--	node *vn, *glptr;
+-+	node *glptr;
+- 	uint32_t tc, expected_tc;
+--	var *v;
+-=20
+- 	debug_printf_parse("%s() term_tc(%x):", __func__, term_tc);
+- 	debug_parse_print_tc(term_tc);
+-@@ -1363,11 +1364,12 @@ static node *parse_expr(uint32_t term_tc)
+- 	expected_tc =3D TS_OPERAND | TS_UOPPRE | TC_REGEXP | term_tc;
+-=20
+- 	while (!((tc =3D next_token(expected_tc)) & term_tc)) {
+-+		node *vn;
+-=20
+- 		if (glptr && (t_info =3D=3D TI_LESS)) {
+- 			/* input redirection (<) attached to glptr node */
+- 			debug_printf_parse("%s: input redir\n", __func__);
+--			cn =3D glptr->l.n =3D new_node(OC_CONCAT | SS | P(37));
+-+			cn =3D glptr->l.n =3D new_node(OC_CONCAT | SS | PRECEDENCE(37));
+- 			cn->a.n =3D glptr;
+- 			expected_tc =3D TS_OPERAND | TS_UOPPRE;
+- 			glptr =3D NULL;
+-@@ -1379,24 +1381,42 @@ static node *parse_expr(uint32_t term_tc)
+- 			 * previous operators with higher priority */
+- 			vn =3D cn;
+- 			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
+--			    || ((t_info =3D=3D vn->info) && t_info =3D=3D TI_COLON)
+-+			    || (t_info =3D=3D vn->info && t_info =3D=3D TI_COLON)
+- 			) {
+- 				vn =3D vn->a.n;
+- 				if (!vn->a.n) syntax_error(EMSG_UNEXP_TOKEN);
+- 			}
+- 			if (t_info =3D=3D TI_TERNARY)
+- //TODO: why?
+--				t_info +=3D P(6);
+-+				t_info +=3D PRECEDENCE(6);
+- 			cn =3D vn->a.n->r.n =3D new_node(t_info);
+- 			cn->a.n =3D vn->a.n;
+- 			if (tc & TS_BINOP) {
+- 				cn->l.n =3D vn;
+--//FIXME: this is the place to detect and reject assignments to non-lvalue=
+s.
+--//Currently we allow "assignments" to consts and temporaries, nonsense li=
+ke this:
+--// awk 'BEGIN { "qwe" =3D 1 }'
+--// awk 'BEGIN { 7 *=3D 7 }'
+--// awk 'BEGIN { length("qwe") =3D 1 }'
+--// awk 'BEGIN { (1+1) +=3D 3 }'
+-+
+-+				/* Prevent:
+-+				 * awk 'BEGIN { "qwe" =3D 1 }'
+-+				 * awk 'BEGIN { 7 *=3D 7 }'
+-+				 * awk 'BEGIN { length("qwe") =3D 1 }'
+-+				 * awk 'BEGIN { (1+1) +=3D 3 }'
+-+				 */
+-+				/* Assignment? (including *=3D and friends) */
+-+				if (((t_info & OPCLSMASK) =3D=3D OC_MOVE)
+-+				 || ((t_info & OPCLSMASK) =3D=3D OC_REPLACE)
+-+				) {
+-+					debug_printf_parse("%s: MOVE/REPLACE vn->info:%08x\n", __func__, vn-=
+>info);
+-+					/* Left side is a (variable or array element)
+-+					 * or function argument
+-+					 * or $FIELD ?
+-+					 */
+-+					if ((vn->info & OPCLSMASK) !=3D OC_VAR
+-+					 && (vn->info & OPCLSMASK) !=3D OC_FNARG
+-+					 && (vn->info & OPCLSMASK) !=3D OC_FIELD
+-+					) {
+-+						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
+-+					}
+-+				}
+-+
+- 				expected_tc =3D TS_OPERAND | TS_UOPPRE | TC_REGEXP;
+- 				if (t_info =3D=3D TI_PGETLINE) {
+- 					/* it's a pipe */
+-@@ -1432,6 +1452,8 @@ static node *parse_expr(uint32_t term_tc)
+- 		/* one should be very careful with switch on tclass -
+- 		 * only simple tclasses should be used (TC_xyz, not TS_xyz) */
+- 		switch (tc) {
+-+			var *v;
+-+
+- 		case TC_VARIABLE:
+- 		case TC_ARRAY:
+- 			debug_printf_parse("%s: TC_VARIABLE | TC_ARRAY\n", __func__);
+-@@ -1452,14 +1474,14 @@ static node *parse_expr(uint32_t term_tc)
+- 		case TC_NUMBER:
+- 		case TC_STRING:
+- 			debug_printf_parse("%s: TC_NUMBER | TC_STRING\n", __func__);
+--			cn->info =3D OC_VAR;
+-+			cn->info =3D OC_CONST;
+- 			v =3D cn->l.v =3D xzalloc(sizeof(var));
+--			if (tc & TC_NUMBER)
+-+			if (tc & TC_NUMBER) {
+- 				setvar_i(v, t_double);
+--			else {
+-+			 } else {
+- 				setvar_s(v, t_string);
+--				expected_tc &=3D ~TC_UOPPOST; /* "str"++ is not allowed */
+- 			}
+-+			expected_tc &=3D ~TC_UOPPOST; /* NUM++, "str"++ not allowed */
+- 			break;
+-=20
+- 		case TC_REGEXP:
+-@@ -3107,6 +3129,8 @@ static var *evaluate(node *op, var *res)
+-=20
+- 		/* -- recursive node type -- */
+-=20
+-+		case XC( OC_CONST ):
+-+			debug_printf_eval("CONST ");
+- 		case XC( OC_VAR ):
+- 			debug_printf_eval("VAR\n");
+- 			L.v =3D op->l.v;
+-diff --git a/testsuite/awk.tests b/testsuite/awk.tests
+-index ddc5104..a78fdcd 100755
+---- a/testsuite/awk.tests
+-+++ b/testsuite/awk.tests
+-@@ -540,4 +540,9 @@ testing 'awk assign while assign' \
+- =E2=94=82    trim/eff : 57.02%/26, 0.00%                     =E2=94=82   =
+       [cpu000:100%]
+- =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98^C"
+-=20
+-+testing "awk =3D has higher precedence than =3D=3D (despite what gawk man=
+page claims)" \
+-+	"awk 'BEGIN { v=3D1; print 2=3D=3Dv; print 2=3D=3Dv=3D2; print v; print =
+v=3D3=3D=3D3; print v}'" \
+-+	'0\n1\n2\n1\n3\n' \
+-+	'' ''
+-+
+- exit $FAILCOUNT
+diff --git a/meta/recipes-core/busybox/busybox/0001-awk-fix-segfault-when-c=
+ompiled-by-clang.patch b/meta/recipes-core/busybox/busybox/0001-awk-fix-seg=
+fault-when-compiled-by-clang.patch
+deleted file mode 100644
+index 3f6145b250a..00000000000
+--- a/meta/recipes-core/busybox/busybox/0001-awk-fix-segfault-when-compiled=
+-by-clang.patch
++++ /dev/null
+@@ -1,41 +0,0 @@
+-From e1a68741067167dc4837e0a26d3d5c318a631fc7 Mon Sep 17 00:00:00 2001
+-From: Ron Yorston <rmy@pobox.com>
+-Date: Fri, 19 Jan 2024 15:41:17 +0000
+-Subject: [PATCH] awk: fix segfault when compiled by clang
+-
+-A 32-bit build of BusyBox using clang segfaulted in the test
+-"awk assign while assign".  Specifically, on line 7 of the test
+-input where the adjustment of the L.v pointer when the Fields
+-array was reallocated
+-
+-   	L.v +=3D Fields - old_Fields_ptr;
+-
+-was out by 4 bytes.
+-
+-Rearrange to code so both gcc and clang generate code that works.
+-
+-Signed-off-by: Ron Yorston <rmy@pobox.com>
+-Signed-off-by: Bernhard Reutner-Fischer <rep.dot.nop@gmail.com>
+-
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3D5d=
+cc443dba039b305a510c01883e9f34e42656ae]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- editors/awk.c | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/editors/awk.c b/editors/awk.c
+-index aa485c782..0981c6735 100644
+---- a/editors/awk.c
+-+++ b/editors/awk.c
+-@@ -2935,7 +2935,7 @@ static var *evaluate(node *op, var *res)
+- 			if (old_Fields_ptr) {
+- 				//if (old_Fields_ptr !=3D Fields)
+- 				//	debug_printf_eval("L.v moved\n");
+--				L.v +=3D Fields - old_Fields_ptr;
+-+				L.v =3D Fields + (L.v - old_Fields_ptr);
+- 			}
+- 			if (opinfo & OF_STR2) {
+- 				R.s =3D getvar_s(R.v);
+---=20
+-2.30.2
+-
+diff --git a/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-4236=
+6-bug-15874.patch b/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-20=
+23-42366-bug-15874.patch
+deleted file mode 100644
+index 282c2fde5a5..00000000000
+--- a/meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-1=
+5874.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 8542236894a8d5f7393327117bc7f64787444efc Mon Sep 17 00:00:00 2001
+-From: Valery Ushakov <uwe@stderr.spb.ru>
+-Date: Wed, 24 Jan 2024 22:24:41 +0300
+-Subject: [PATCH] awk.c: fix CVE-2023-42366 (bug #15874)
+-
+-Make sure we don't read past the end of the string in next_token()
+-when backslash is the last character in an (invalid) regexp.
+-a fix and issue reported in bugzilla
+-
+-https://bugs.busybox.net/show_bug.cgi?id=3D15874
+-
+-Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/202=
+4-May/090766.html]
+-
+-CVE: CVE-2023-42366
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- editors/awk.c | 6 ++++--
+- 1 file changed, 4 insertions(+), 2 deletions(-)
+-
+-diff --git a/editors/awk.c b/editors/awk.c
+-index f320d8c..a53b193 100644
+---- a/editors/awk.c
+-+++ b/editors/awk.c
+-@@ -1168,9 +1168,11 @@ static uint32_t next_token(uint32_t expected)
+- 					s[-1] =3D bb_process_escape_sequence((const char **)&pp);
+- 					if (*p =3D=3D '\\')
+- 						*s++ =3D '\\';
+--					if (pp =3D=3D p)
+-+					if (pp =3D=3D p) {
+-+						if (*p =3D=3D '\0')
+-+							syntax_error(EMSG_UNEXP_EOS);
+- 						*s++ =3D *p++;
+--					else
+-+					} else
+- 						p =3D pp;
+- 				}
+- 			}
+diff --git a/meta/recipes-core/busybox/busybox/0001-syslogd-fix-wrong-OPT_l=
+ocallog-flag-detection.patch b/meta/recipes-core/busybox/busybox/0001-syslo=
+gd-fix-wrong-OPT_locallog-flag-detection.patch
+new file mode 100644
+index 00000000000..f3ff562aedb
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0001-syslogd-fix-wrong-OPT_locallog=
+-flag-detection.patch
+@@ -0,0 +1,33 @@
++From 43ec36c0e3fbfd4191b18465a0554f4c1acf58d6 Mon Sep 17 00:00:00 2001
++From: Andrej Valek <andrej.v@skyrain.eu>
++Date: Wed, 16 Oct 2024 09:09:55 +0200
++Subject: [PATCH] syslogd: fix wrong OPT_locallog flag detection
++
++The OPT_locallog was set on "option_mask32" but checked on local
++"opts" variable. While this flag it's used on multiple places can't be
++has to be used with "option_mask32". Without this change syslogd
++is more-less unusable while no messages are logged locally.
++
++Upstream-Status: Submitted [busybox@busybox.net mailing list]
++
++Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
++---
++ sysklogd/syslogd.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/sysklogd/syslogd.c b/sysklogd/syslogd.c
++index 7558051f0..fa03aa280 100644
++--- a/sysklogd/syslogd.c
+++++ b/sysklogd/syslogd.c
++@@ -1179,7 +1179,7 @@ int syslogd_main(int argc UNUSED_PARAM, char **argv)
++ 			}
++ 		}
++ #endif
++-		if (!ENABLE_FEATURE_REMOTE_LOG || (opts & OPT_locallog)) {
+++		if (!ENABLE_FEATURE_REMOTE_LOG || (option_mask32 & OPT_locallog)) {
++ 			recvbuf[sz] =3D '\0'; /* ensure it *is* NUL terminated */
++ 			split_escape_and_log(recvbuf, sz);
++ 		}
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operato=
+r-and-precedence-of.patch b/meta/recipes-core/busybox/busybox/0002-awk-fix-=
+ternary-operator-and-precedence-of.patch
+deleted file mode 100644
+index ea3c84897b9..00000000000
+--- a/meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-p=
+recedence-of.patch
++++ /dev/null
+@@ -1,96 +0,0 @@
+-From c3bfdac8e0e9a21d524ad72036953f68d2193e52 Mon Sep 17 00:00:00 2001
+-From: Natanael Copa <ncopa@alpinelinux.org>
+-Date: Tue, 21 May 2024 14:46:08 +0200
+-Subject: [PATCH 2/2] awk: fix ternary operator and precedence of =3D
+-
+-Adjust the =3D precedence test to match behavior of gawk, mawk and
+-FreeBSD.  awk 'BEGIN {print v=3D3=3D=3D3; print v}' should print two '1'.
+-
+-To fix this, and to unbreak the ternary conditional operator, we restore
+-the precedence of =3D in the token list, but override this with a lower
+-priority when the assignment is on the right side of a compare.
+-
+-This fixes commit 0256e00a9d07 (awk: fix precedence of =3D relative to =3D=
+=3D) [1]
+-
+-CVE: CVE-2023-42364 CVE-2023-42365
+-
+-Upstream-Status: Submitted [http://lists.busybox.net/pipermail/busybox/202=
+4-May/090766.html]
+-
+-[1] https://bugs.busybox.net/show_bug.cgi?id=3D15871#c6
+-
+-Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
+-(cherry picked from commit 1714301c405ef03b39605c85c23f22a190cddd95)
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- editors/awk.c       | 18 ++++++++++++++----
+- testsuite/awk.tests |  9 +++++++--
+- 2 files changed, 21 insertions(+), 6 deletions(-)
+-
+-diff --git a/editors/awk.c b/editors/awk.c
+-index aff86fe..f320d8c 100644
+---- a/editors/awk.c
+-+++ b/editors/awk.c
+-@@ -442,9 +442,10 @@ static const uint32_t tokeninfo[] ALIGN4 =3D {
+- #define TI_PREINC (OC_UNARY|xV|P(9)|'P')
+- #define TI_PREDEC (OC_UNARY|xV|P(9)|'M')
+- 	TI_PREINC,               TI_PREDEC,               OC_FIELD|xV|P(5),
+--	OC_COMPARE|VV|P(39)|5,   OC_MOVE|VV|P(38),        OC_REPLACE|NV|P(38)|'+=
+', OC_REPLACE|NV|P(38)|'-',
+--	OC_REPLACE|NV|P(38)|'*', OC_REPLACE|NV|P(38)|'/', OC_REPLACE|NV|P(38)|'%=
+', OC_REPLACE|NV|P(38)|'&',
+--	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(38)|'&=
+', OC_BINARY|NV|P(15)|'&',
+-+#define TI_ASSIGN (OC_MOVE|VV|P(74))
+-+	OC_COMPARE|VV|P(39)|5,   TI_ASSIGN,               OC_REPLACE|NV|P(74)|'+=
+', OC_REPLACE|NV|P(74)|'-',
+-+	OC_REPLACE|NV|P(74)|'*', OC_REPLACE|NV|P(74)|'/', OC_REPLACE|NV|P(74)|'%=
+', OC_REPLACE|NV|P(74)|'&',
+-+	OC_BINARY|NV|P(29)|'+',  OC_BINARY|NV|P(29)|'-',  OC_REPLACE|NV|P(74)|'&=
+', OC_BINARY|NV|P(15)|'&',
+- 	OC_BINARY|NV|P(25)|'/',  OC_BINARY|NV|P(25)|'%',  OC_BINARY|NV|P(15)|'&'=
+,  OC_BINARY|NV|P(25)|'*',
+- 	OC_COMPARE|VV|P(39)|4,   OC_COMPARE|VV|P(39)|3,   OC_COMPARE|VV|P(39)|0,=
+   OC_COMPARE|VV|P(39)|1,
+- #define TI_LESS     (OC_COMPARE|VV|P(39)|2)
+-@@ -1376,11 +1377,19 @@ static node *parse_expr(uint32_t term_tc)
+- 			continue;
+- 		}
+- 		if (tc & (TS_BINOP | TC_UOPPOST)) {
+-+			int prio;
+- 			debug_printf_parse("%s: TS_BINOP | TC_UOPPOST tc:%x\n", __func__, tc);
+- 			/* for binary and postfix-unary operators, jump back over
+- 			 * previous operators with higher priority */
+- 			vn =3D cn;
+--			while (((t_info & PRIMASK) > (vn->a.n->info & PRIMASK2))
+-+			/* Let assignment get higher priority when used on right
+-+			 * side in compare. i.e: 2=3D=3Dv=3D3 */
+-+			if (t_info =3D=3D TI_ASSIGN && (vn->a.n->info & OPCLSMASK) =3D=3D OC_C=
+OMPARE) {
+-+				prio =3D PRECEDENCE(38);
+-+			} else {
+-+				prio =3D (t_info & PRIMASK);
+-+			}
+-+			while ((prio > (vn->a.n->info & PRIMASK2))
+- 			    || (t_info =3D=3D vn->info && t_info =3D=3D TI_COLON)
+- 			) {
+- 				vn =3D vn->a.n;
+-@@ -1412,6 +1421,7 @@ static node *parse_expr(uint32_t term_tc)
+- 					if ((vn->info & OPCLSMASK) !=3D OC_VAR
+- 					 && (vn->info & OPCLSMASK) !=3D OC_FNARG
+- 					 && (vn->info & OPCLSMASK) !=3D OC_FIELD
+-+					 && (vn->info & OPCLSMASK) !=3D OC_COMPARE
+- 					) {
+- 						syntax_error(EMSG_UNEXP_TOKEN); /* no. bad */
+- 					}
+-diff --git a/testsuite/awk.tests b/testsuite/awk.tests
+-index a78fdcd..d2706de 100755
+---- a/testsuite/awk.tests
+-+++ b/testsuite/awk.tests
+-@@ -540,9 +540,14 @@ testing 'awk assign while assign' \
+- =E2=94=82    trim/eff : 57.02%/26, 0.00%                     =E2=94=82   =
+       [cpu000:100%]
+- =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98^C"
+-=20
+--testing "awk =3D has higher precedence than =3D=3D (despite what gawk man=
+page claims)" \
+-+testing "awk =3D has higher precedence than =3D=3D on right side" \
+- 	"awk 'BEGIN { v=3D1; print 2=3D=3Dv; print 2=3D=3Dv=3D2; print v; print =
+v=3D3=3D=3D3; print v}'" \
+--	'0\n1\n2\n1\n3\n' \
+-+	'0\n1\n2\n1\n1\n' \
+-+	'' ''
+-+
+-+testing 'awk ternary precedence' \
+-+	"awk 'BEGIN { a =3D 0 ? \"yes\": \"no\"; print a }'" \
+-+	'no\n' \
+- 	'' ''
+-=20
+- exit $FAILCOUNT
+diff --git a/meta/recipes-core/busybox/busybox/0002-start-stop-daemon-fix-t=
+ests.patch b/meta/recipes-core/busybox/busybox/0002-start-stop-daemon-fix-t=
+ests.patch
+new file mode 100644
+index 00000000000..281509a3bce
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/0002-start-stop-daemon-fix-tests.pa=
+tch
+@@ -0,0 +1,65 @@
++From 85fb09e278aff8f4b3e11d7ace0d1347f750487f Mon Sep 17 00:00:00 2001
++From: Andrej Valek <andrej.v@skyrain.eu>
++Date: Wed, 16 Oct 2024 10:11:01 +0200
++Subject: [PATCH] start-stop-daemon: fix tests
++
++- "/tmp" directory could be link to somewhere else, so deference it
++before comparing the expected path
++- run "start-stop-daemon with both -x and -a" test only if "/bin/false"
++is not a symlink.
++
++Upstream-Status: Submitted [busybox@busybox.net mailing list]
++
++Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
++---
++ testsuite/start-stop-daemon.tests | 14 +++++++++-----
++ 1 file changed, 9 insertions(+), 5 deletions(-)
++
++diff --git a/testsuite/start-stop-daemon.tests b/testsuite/start-stop-daem=
+on.tests
++index e1e49ab5f..fd59859ef 100755
++--- a/testsuite/start-stop-daemon.tests
+++++ b/testsuite/start-stop-daemon.tests
++@@ -6,24 +6,27 @@
++=20
++ # testing "test name" "cmd" "expected result" "file input" "stdin"
++=20
+++# deference link to /tmp
+++TMP_DIR=3D"$(readlink -f /tmp)"
+++
++ testing "start-stop-daemon -x without -a" \
++ 	'start-stop-daemon -S -x true 2>&1; echo $?' \
++ 	"0\n" \
++ 	"" ""
++=20
++ testing "start-stop-daemon -x with -d on existing directory" \
++-	'start-stop-daemon -S -d /tmp -x true 2>&1; echo $?' \
+++	'start-stop-daemon -S -d $TMP_DIR -x true 2>&1; echo $?' \
++ 	"0\n" \
++ 	"" ""
++=20
++ testing "start-stop-daemon -x with -d on existing and check dir" \
++-	'output=3D$(start-stop-daemon -S -d /tmp -x pwd); echo $output' \
++-	"/tmp\n" \
+++	'output=3D$(start-stop-daemon -S -d $TMP_DIR -x pwd); echo $output' \
+++	"$TMP_DIR\n" \
++ 	"" ""
++=20
++ testing "start-stop-daemon -x with --chdir on existing and check dir" \
++-	'output=3D$(start-stop-daemon -S --chdir /tmp -x pwd); echo $output' \
++-	"/tmp\n" \
+++	'output=3D$(start-stop-daemon -S --chdir $TMP_DIR -x pwd); echo $output'=
+ \
+++	"$TMP_DIR\n" \
++ 	"" ""
++=20
++ testing "start-stop-daemon -a without -x" \
++@@ -48,6 +51,7 @@ testing "start-stop-daemon -x with -d on non-existing di=
+rectory" \
++ #
++ # NB: this fails if /bin/false is a busybox symlink:
++ # busybox looks at argv[0] and says "qwerty: applet not found"
+++test ! -L /bin/false && \
++ testing "start-stop-daemon with both -x and -a" \
++ 	'start-stop-daemon -S -x /bin/false -a qwerty false 2>&1; echo $?' \
++ 	"1\n" \
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2021-42380.patch b/meta/=
+recipes-core/busybox/busybox/CVE-2021-42380.patch
+deleted file mode 100644
+index 3baef86415b..00000000000
+--- a/meta/recipes-core/busybox/busybox/CVE-2021-42380.patch
++++ /dev/null
+@@ -1,151 +0,0 @@
+-From 5dcc443dba039b305a510c01883e9f34e42656ae Mon Sep 17 00:00:00 2001
+-From: Denys Vlasenko <vda.linux@googlemail.com>
+-Date: Fri, 26 May 2023 19:36:58 +0200
+-Subject: [PATCH] awk: fix use-after-realloc (CVE-2021-42380), closes 15601
+-
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+-
+-CVE: CVE-2021-42380
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3D5d=
+cc443dba039b305a510c01883e9f34e42656ae]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- editors/awk.c       | 26 ++++++++++++++++-----
+- testsuite/awk.tests | 55 +++++++++++++++++++++++++++++++++++++++++++++
+- 2 files changed, 75 insertions(+), 6 deletions(-)
+-
+-diff --git a/editors/awk.c b/editors/awk.c
+-index 728ee8685..2af823808 100644
+---- a/editors/awk.c
+-+++ b/editors/awk.c
+-@@ -555,7 +555,7 @@ struct globals {
+- 	const char *g_progname;
+- 	int g_lineno;
+- 	int nfields;
+--	int maxfields; /* used in fsrealloc() only */
+-+	unsigned maxfields;
+- 	var *Fields;
+- 	char *g_pos;
+- 	char g_saved_ch;
+-@@ -1931,9 +1931,9 @@ static void fsrealloc(int size)
+- {
+- 	int i, newsize;
+-=20
+--	if (size >=3D maxfields) {
+--		/* Sanity cap, easier than catering for overflows */
+--		if (size > 0xffffff)
+-+	if ((unsigned)size >=3D maxfields) {
+-+		/* Sanity cap, easier than catering for over/underflows */
+-+		if ((unsigned)size > 0xffffff)
+- 			bb_die_memory_exhausted();
+-=20
+- 		i =3D maxfields;
+-@@ -2891,6 +2891,7 @@ static var *evaluate(node *op, var *res)
+- 		uint32_t opinfo;
+- 		int opn;
+- 		node *op1;
+-+		var *old_Fields_ptr;
+-=20
+- 		opinfo =3D op->info;
+- 		opn =3D (opinfo & OPNMASK);
+-@@ -2899,10 +2900,16 @@ static var *evaluate(node *op, var *res)
+- 		debug_printf_eval("opinfo:%08x opn:%08x\n", opinfo, opn);
+-=20
+- 		/* execute inevitable things */
+-+		old_Fields_ptr =3D NULL;
+- 		if (opinfo & OF_RES1) {
+- 			if ((opinfo & OF_REQUIRED) && !op1)
+- 				syntax_error(EMSG_TOO_FEW_ARGS);
+- 			L.v =3D evaluate(op1, TMPVAR0);
+-+			/* Does L.v point to $n variable? */
+-+			if ((size_t)(L.v - Fields) < maxfields) {
+-+				/* yes, remember where Fields[] is */
+-+				old_Fields_ptr =3D Fields;
+-+			}
+- 			if (opinfo & OF_STR1) {
+- 				L.s =3D getvar_s(L.v);
+- 				debug_printf_eval("L.s:'%s'\n", L.s);
+-@@ -2921,8 +2928,15 @@ static var *evaluate(node *op, var *res)
+- 		 */
+- 		if (opinfo & OF_RES2) {
+- 			R.v =3D evaluate(op->r.n, TMPVAR1);
+--			//TODO: L.v may be invalid now, set L.v to NULL to catch bugs?
+--			//L.v =3D NULL;
+-+			/* Seen in $5=3D$$5=3D$0:
+-+			 * Evaluation of R.v ($$5=3D$0 expression)
+-+			 * made L.v ($5) invalid. It's detected here.
+-+			 */
+-+			if (old_Fields_ptr) {
+-+				//if (old_Fields_ptr !=3D Fields)
+-+				//	debug_printf_eval("L.v moved\n");
+-+				L.v +=3D Fields - old_Fields_ptr;
+-+			}
+- 			if (opinfo & OF_STR2) {
+- 				R.s =3D getvar_s(R.v);
+- 				debug_printf_eval("R.s:'%s'\n", R.s);
+-diff --git a/testsuite/awk.tests b/testsuite/awk.tests
+-index bbf0fbff1..ddc51047b 100755
+---- a/testsuite/awk.tests
+-+++ b/testsuite/awk.tests
+-@@ -485,4 +485,59 @@ testing 'awk assign while test' \
+- 	"" \
+- 	"foo"
+-=20
+-+# User-supplied bug (SEGV) example, was causing use-after-realloc
+-+testing 'awk assign while assign' \
+-+	"awk '\$5=3D\$\$5=3D\$0'; echo \$?" \
+-+	"\
+-+=E2=94=80 process timing =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80 =E2=
+=94=80 process timing =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80 overall =
+results =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90 results =E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=90
+-+=E2=94=82 run time : =E2=94=82        run time : 0 days, 0 hrs, 0 min, 56=
+ sec      =E2=94=82  cycles done : 0     =E2=94=82 days, 0 hrs, 0 min, 56 s=
+ec =E2=94=82 cycles done : 0 =E2=94=82
+-+=E2=94=82 last new find =E2=94=82   last new find : 0 days, 0 hrs, 0 min,=
+ 1 sec       =E2=94=82 corpus count : 208   =E2=94=82 0 days, 0 hrs, 0 min,=
+ 1 sec =E2=94=82 corpus count : 208 =E2=94=82
+-+=E2=94=82last saved crash : =E2=94=82last saved crash : none seen yet    =
+                 =E2=94=82saved crashes : 0     =E2=94=82 seen yet =E2=94=
+=82saved crashes : 0 =E2=94=82
+-+=E2=94=82 last saved hang =E2=94=82 last saved hang : none seen yet      =
+               =E2=94=82  saved hangs : 0     =E2=94=82 none seen yet =E2=
+=94=82 saved hangs : 0 =E2=94=82
+-+=E2=94=9C=E2=94=80 cycle progress =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=AC=E2=94=80 =E2=94=9C=E2=94=80 cycle progress =E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=AC=E2=94=80 map coverage=E2=94=B4=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4 coverage=E2=94=B4=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
+-+=E2=94=82 now processing : =E2=94=82  now processing : 184.1 (88.5%)     =
+ =E2=94=82    map density : 0.30% / 0.52%      =E2=94=82 (88.5%) =E2=94=82 =
+map density : 0.30% / 0.52% =E2=94=82                                      =
+                                                                           =
+                                                         =E2=94=82  now pro=
+cessing : 184.1 (88.5%)      =E2=94=82    map density : 0.30% / 0.52%      =
+=E2=94=82
+-+=E2=94=82 runs timed out =E2=94=82  runs timed out : 0 (0.00%)          =
+=E2=94=82 count coverage : 2.18 bits/tuple    =E2=94=82 0 (0.00%) =E2=94=82=
+ count coverage : 2.18 bits/tuple =E2=94=82
+-+=E2=94=9C=E2=94=80 stage progress =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=BC=E2=94=80 =E2=94=9C=E2=94=80 stage progress =E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=BC=E2=94=80 findings in depth =E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4 in de=
+pth =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=A4
+-+=E2=94=82 now trying : =E2=94=82  now trying : havoc                  =E2=
+=94=82 favored items : 43 (20.67%)         =E2=94=82 =E2=94=82 favored item=
+s : 43 (20.67%) =E2=94=82
+-+=E2=94=82 stage execs : =E2=94=82 stage execs : 11.2k/131k (8.51%)     =
+=E2=94=82  new edges on : 52 (25.00%)         =E2=94=82 (8.51%) =E2=94=82 n=
+ew edges on =E2=94=82 stage execs : 11.2k/131k (8.51%)     =E2=94=82  new e=
+dges on : 52 (25.00%)         =E2=94=82 52 (25.00%) =E2=94=82
+-+=E2=94=82 total execs : =E2=94=82 total execs : 179k                   =
+=E2=94=82 total crashes : 0 (0 saved)         =E2=94=82 =E2=94=82 total cra=
+shes : 0 (0 saved) =E2=94=82                                               =
+                                                                           =
+                                            =E2=94=82 total execs : 179k   =
+                =E2=94=82 total crashes : 0 (0 saved)         =E2=94=82
+-+=E2=94=82 exec speed : =E2=94=82  exec speed : 3143/sec               =E2=
+=94=82  total tmouts : 0 (0 saved)         =E2=94=82 =E2=94=82 total tmouts=
+ : 0 (0 saved) =E2=94=82                                                   =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+                                                                           =
+    =E2=94=82  exec speed : 3143/sec               =E2=94=82  total tmouts =
+: 0 (0 saved)         =E2=94=82
+-+=E2=94=9C=E2=94=80 fuzzing strategy yields =E2=94=9C=E2=94=80 fuzzing str=
+ategy yields =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=B4=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80 item geometry =E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4 item geometry =E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
+-+=E2=94=82 bit flips : =E2=94=82   bit flips : 11/648, 4/638, 5/618       =
+          =E2=94=82    levels : 4         =E2=94=82 4/638, 5/618 =E2=94=82 =
+levels : =E2=94=82   bit flips : 11/648, 4/638, 5/618                 =E2=
+=94=82    levels : 4         =E2=94=82 =E2=94=82
+-+=E2=94=82 byte flips : =E2=94=82  byte flips : 0/81, 0/71, 0/52          =
+           =E2=94=82   pending : 199       =E2=94=82 0/71, 0/52 =E2=94=82 p=
+ending : 199 =E2=94=82
+-+=E2=94=82 arithmetics : 11/4494, =E2=94=82 arithmetics : 11/4494, 0/1153,=
+ 0/0                 =E2=94=82  pend fav : 35        =E2=94=82 0/0 =E2=94=
+=82 pend fav : 35 =E2=94=82
+-+=E2=94=82  known ints : 1/448, 0/1986, 0/2288                =E2=94=82 ow=
+n finds : 207       =E2=94=82 known ints : =E2=94=82  known ints : 1/448, 0=
+/1986, 0/2288                =E2=94=82 own finds : 207       =E2=94=82 0/19=
+86, 0/2288 =E2=94=82 own finds : 207 =E2=94=82
+-+=E2=94=82 dictionary : 0/0, =E2=94=82  dictionary : 0/0, 0/0, 0/0, 0/0   =
+                =E2=94=82  imported : 0         =E2=94=82 0/0, 0/0 =E2=94=
+=82 imported : 0 =E2=94=82
+-+=E2=94=82havoc/splice : 142/146k, 23/7616 =E2=94=82havoc/splice : 142/146=
+k, 23/7616                    =E2=94=82 stability : 100.00%   =E2=94=82 sta=
+bility : 100.00% =E2=94=82
+-+=E2=94=82py/custom/rq : unused, unused, =E2=94=82py/custom/rq : unused, u=
+nused, unused, unused       =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=98 unused =E2=94=9C=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
+-+=E2=94=82 trim/eff : 57.02%/26, =E2=94=82    trim/eff : 57.02%/26, 0.00% =
+                    =E2=94=82          [cpu000:100%] =E2=94=82 [cpu000:100%]
+-+=E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98^C    =E2=94=94=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=98^C
+-+0
+-+" \
+-+	"" \
+-+	"\
+-+=E2=94=80 process timing =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80 overa=
+ll results =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
+-+=E2=94=82        run time : 0 days, 0 hrs, 0 min, 56 sec      =E2=94=82  =
+cycles done : 0     =E2=94=82
+-+=E2=94=82   last new find : 0 days, 0 hrs, 0 min, 1 sec       =E2=94=82 c=
+orpus count : 208   =E2=94=82
+-+=E2=94=82last saved crash : none seen yet                     =E2=94=82sa=
+ved crashes : 0     =E2=94=82
+-+=E2=94=82 last saved hang : none seen yet                     =E2=94=82  =
+saved hangs : 0     =E2=94=82
+-+=E2=94=9C=E2=94=80 cycle progress =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=AC=E2=94=80 map coverage=E2=94=B4=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=A4
+-+=E2=94=82  now processing : 184.1 (88.5%)      =E2=94=82    map density :=
+ 0.30% / 0.52%      =E2=94=82
+-+=E2=94=82  runs timed out : 0 (0.00%)          =E2=94=82 count coverage :=
+ 2.18 bits/tuple    =E2=94=82
+-+=E2=94=9C=E2=94=80 stage progress =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=BC=E2=94=80 findings in depth =E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=A4
+-+=E2=94=82  now trying : havoc                  =E2=94=82 favored items : =
+43 (20.67%)         =E2=94=82
+-+=E2=94=82 stage execs : 11.2k/131k (8.51%)     =E2=94=82  new edges on : =
+52 (25.00%)         =E2=94=82
+-+=E2=94=82 total execs : 179k                   =E2=94=82 total crashes : =
+0 (0 saved)         =E2=94=82
+-+=E2=94=82  exec speed : 3143/sec               =E2=94=82  total tmouts : =
+0 (0 saved)         =E2=94=82
+-+=E2=94=9C=E2=94=80 fuzzing strategy yields =E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=B4=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=AC=E2=94=80 it=
+em geometry =E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=A4
+-+=E2=94=82   bit flips : 11/648, 4/638, 5/618                 =E2=94=82   =
+ levels : 4         =E2=94=82
+-+=E2=94=82  byte flips : 0/81, 0/71, 0/52                     =E2=94=82   =
+pending : 199       =E2=94=82
+-+=E2=94=82 arithmetics : 11/4494, 0/1153, 0/0                 =E2=94=82  p=
+end fav : 35        =E2=94=82
+-+=E2=94=82  known ints : 1/448, 0/1986, 0/2288                =E2=94=82 ow=
+n finds : 207       =E2=94=82
+-+=E2=94=82  dictionary : 0/0, 0/0, 0/0, 0/0                   =E2=94=82  i=
+mported : 0         =E2=94=82
+-+=E2=94=82havoc/splice : 142/146k, 23/7616                    =E2=94=82 st=
+ability : 100.00%   =E2=94=82
+-+=E2=94=82py/custom/rq : unused, unused, unused, unused       =E2=94=9C=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
+-+=E2=94=82    trim/eff : 57.02%/26, 0.00%                     =E2=94=82   =
+       [cpu000:100%]
+-+=E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
+=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
+=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
+=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98^C"
+-+
+- exit $FAILCOUNT
+---=20
+-2.30.2
+-
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2023-42363.patch b/meta/=
+recipes-core/busybox/busybox/CVE-2023-42363.patch
+deleted file mode 100644
+index 379f6f83b16..00000000000
+--- a/meta/recipes-core/busybox/busybox/CVE-2023-42363.patch
++++ /dev/null
+@@ -1,67 +0,0 @@
+-From fb08d43d44d1fea1f741fafb9aa7e1958a5f69aa Mon Sep 17 00:00:00 2001
+-From: Natanael Copa <ncopa@alpinelinux.org>
+-Date: Mon, 20 May 2024 17:55:28 +0200
+-Subject: [PATCH] awk: fix use after free (CVE-2023-42363)
+-
+-function                                             old     new   delta
+-evaluate                                            3377    3385      +8
+-
+-Fixes https://bugs.busybox.net/show_bug.cgi?id=3D15865
+-
+-Signed-off-by: Natanael Copa <ncopa@alpinelinux.org>
+-Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
+-
+-CVE: CVE-2023-42363
+-Upstream-Status: Backport [https://git.busybox.net/busybox/commit/?id=3Dfb=
+08d43d44d1fea1f741fafb9aa7e1958a5f69aa]
+-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+----
+- editors/awk.c | 21 +++++++++++++--------
+- 1 file changed, 13 insertions(+), 8 deletions(-)
+-
+-diff --git a/editors/awk.c b/editors/awk.c
+-index 0981c6735..ff6d6350b 100644
+---- a/editors/awk.c
+-+++ b/editors/awk.c
+-@@ -2910,19 +2910,14 @@ static var *evaluate(node *op, var *res)
+- 				/* yes, remember where Fields[] is */
+- 				old_Fields_ptr =3D Fields;
+- 			}
+--			if (opinfo & OF_STR1) {
+--				L.s =3D getvar_s(L.v);
+--				debug_printf_eval("L.s:'%s'\n", L.s);
+--			}
+- 			if (opinfo & OF_NUM1) {
+- 				L_d =3D getvar_i(L.v);
+- 				debug_printf_eval("L_d:%f\n", L_d);
+- 			}
+- 		}
+--		/* NB: Must get string/numeric values of L (done above)
+--		 * _before_ evaluate()'ing R.v: if both L and R are $NNNs,
+--		 * and right one is large, then L.v points to Fields[NNN1],
+--		 * second evaluate() reallocates and moves (!) Fields[],
+-+		/* NB: if both L and R are $NNNs, and right one is large,
+-+		 * then at this pint L.v points to Fields[NNN1], second
+-+		 * evaluate() below reallocates and moves (!) Fields[],
+- 		 * R.v points to Fields[NNN2] but L.v now points to freed mem!
+- 		 * (Seen trying to evaluate "$444 $44444")
+- 		 */
+-@@ -2942,6 +2937,16 @@ static var *evaluate(node *op, var *res)
+- 				debug_printf_eval("R.s:'%s'\n", R.s);
+- 			}
+- 		}
+-+		/* Get L.s _after_ R.v is evaluated: it may have realloc'd L.v
+-+		 * so we must get the string after "old_Fields_ptr" correction
+-+		 * above. Testcase: x =3D (v =3D "abc", gsub("b", "X", v));
+-+		 */
+-+		if (opinfo & OF_RES1) {
+-+			if (opinfo & OF_STR1) {
+-+				L.s =3D getvar_s(L.v);
+-+				debug_printf_eval("L.s:'%s'\n", L.s);
+-+			}
+-+		}
+-=20
+- 		debug_printf_eval("switch(0x%x)\n", XC(opinfo & OPCLSMASK));
+- 		switch (XC(opinfo & OPCLSMASK)) {
+---=20
+-2.30.2
+-
+diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-cor=
+e/busybox/busybox/defconfig
+index 8e3b6e480ca..d172ec46e9a 100644
+--- a/meta/recipes-core/busybox/busybox/defconfig
++++ b/meta/recipes-core/busybox/busybox/defconfig
+@@ -1,7 +1,6 @@
+ #
+ # Automatically generated make config: don't edit
+-# Busybox version: 1.36.0
+-# Tue Jan  3 14:17:01 2023
++# Busybox version: 1.37.0
+ #
+ CONFIG_HAVE_DOT_CONFIG=3Dy
 =20
- RPROVIDES:${PN}-dev =3D "${PN}-libblkid-dev ${PN}-libmount-dev"
-=20
--RDEPENDS:${PN}-bash-completion +=3D "${PN}-lsblk"
-+RDEPENDS:${PN}-bash-completion +=3D "${PN}-lsblk ${PN}-findmnt"
- RDEPENDS:${PN}-ptest +=3D "bash bc btrfs-tools coreutils e2fsprogs finduti=
-ls grep iproute2 kmod procps sed socat which xz diffutils"
- RRECOMMENDS:${PN}-ptest +=3D "kernel-module-scsi-debug kernel-module-sd-mo=
-d kernel-module-loop kernel-module-algif-hash"
- RDEPENDS:${PN}-swaponoff =3D "${PN}-swapon ${PN}-swapoff"
+@@ -17,6 +16,7 @@ CONFIG_SHOW_USAGE=3Dy
+ # CONFIG_FEATURE_VERBOSE_USAGE is not set
+ CONFIG_FEATURE_COMPRESS_USAGE=3Dy
+ CONFIG_LFS=3Dy
++CONFIG_TIME64=3Dy
+ # CONFIG_PAM is not set
+ CONFIG_FEATURE_DEVPTS=3Dy
+ CONFIG_FEATURE_UTMP=3Dy
+@@ -466,6 +466,7 @@ CONFIG_FEATURE_FIND_NEWER=3Dy
+ CONFIG_FEATURE_FIND_SAMEFILE=3Dy
+ CONFIG_FEATURE_FIND_EXEC=3Dy
+ CONFIG_FEATURE_FIND_EXEC_PLUS=3Dy
++CONFIG_FEATURE_FIND_EXEC_OK=3Dy
+ CONFIG_FEATURE_FIND_USER=3Dy
+ CONFIG_FEATURE_FIND_GROUP=3Dy
+ CONFIG_FEATURE_FIND_NOT=3Dy
+@@ -792,6 +793,7 @@ CONFIG_FEATURE_CROND_DIR=3D""
+ # CONFIG_FLASH_LOCK is not set
+ # CONFIG_FLASH_UNLOCK is not set
+ # CONFIG_FLASHCP is not set
++CONFIG_GETFATTR=3Dy
+ # CONFIG_HDPARM is not set
+ # CONFIG_FEATURE_HDPARM_GET_IDENTITY is not set
+ # CONFIG_FEATURE_HDPARM_HDIO_SCAN_HWIF is not set
+@@ -929,6 +931,7 @@ CONFIG_IP=3Dy
+ # CONFIG_IPNEIGH is not set
+ CONFIG_FEATURE_IP_ADDRESS=3Dy
+ CONFIG_FEATURE_IP_LINK=3Dy
++# CONFIG_FEATURE_IP_LINK_CAN is not set
+ CONFIG_FEATURE_IP_ROUTE=3Dy
+ CONFIG_FEATURE_IP_ROUTE_DIR=3D"/etc/iproute2"
+ CONFIG_FEATURE_IP_TUNNEL=3Dy
+@@ -1002,6 +1005,7 @@ CONFIG_FEATURE_WGET_OPENSSL=3Dy
+ # CONFIG_WHOIS is not set
+ # CONFIG_ZCIP is not set
+ CONFIG_UDHCPD=3Dy
++CONFIG_FEATURE_UDHCPD_BOOTP=3Dy
+ # CONFIG_FEATURE_UDHCPD_BASE_IP_ON_MAC is not set
+ # CONFIG_FEATURE_UDHCPD_WRITE_LEASES_EARLY is not set
+ CONFIG_DHCPD_LEASES_FILE=3D"/var/lib/misc/udhcpd.leases"
+diff --git a/meta/recipes-core/busybox/busybox/sha1sum.cfg b/meta/recipes-c=
+ore/busybox/busybox/sha1sum.cfg
+index afd4da4ea13..151c447658d 100644
+--- a/meta/recipes-core/busybox/busybox/sha1sum.cfg
++++ b/meta/recipes-core/busybox/busybox/sha1sum.cfg
+@@ -1,2 +1,3 @@
+ CONFIG_SHA1SUM=3Dy
+ CONFIG_SHA1_SMALL=3D3
++# CONFIG_SHA1_HWACCEL is not set
+diff --git a/meta/recipes-core/busybox/busybox/sha256sum.cfg b/meta/recipes=
+-core/busybox/busybox/sha256sum.cfg
+index ce652ae4c61..aa0b0b0b98a 100644
+--- a/meta/recipes-core/busybox/busybox/sha256sum.cfg
++++ b/meta/recipes-core/busybox/busybox/sha256sum.cfg
+@@ -1 +1,2 @@
+ CONFIG_SHA256SUM=3Dy
++# CONFIG_SHA256_HWACCEL is not set
+diff --git a/meta/recipes-core/busybox/busybox/sha_accel.cfg b/meta/recipes=
+-core/busybox/busybox/sha_accel.cfg
+index 8900305a11a..70038a85095 100644
+--- a/meta/recipes-core/busybox/busybox/sha_accel.cfg
++++ b/meta/recipes-core/busybox/busybox/sha_accel.cfg
+@@ -1,2 +1,2 @@
+-# CONFIG_SHA256_HWACCEL is not set
+-# CONFIG_SHA1_HWACCEL is not set
++CONFIG_SHA1_HWACCEL=3Dy
++CONFIG_SHA256_HWACCEL=3Dy
+diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-cor=
+e/busybox/busybox_1.37.0.bb
+similarity index 79%
+rename from meta/recipes-core/busybox/busybox_1.36.1.bb
+rename to meta/recipes-core/busybox/busybox_1.37.0.bb
+index f7c3eff29e5..99e2900410a 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -49,16 +49,11 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV=
+}.tar.bz2;name=3Dtarball \
+            file://0001-libbb-sockaddr2str-ensure-only-printable-characters=
+-.patch \
+            file://0002-nslookup-sanitize-all-printed-strings-with-printabl=
+e.patch \
+            file://start-stop-false.patch \
+-           file://CVE-2021-42380.patch \
+-           file://0001-awk-fix-segfault-when-compiled-by-clang.patch \
+-           file://CVE-2023-42363.patch \
+            file://busybox-1.36.1-no-cbq.patch \
+-           file://0001-awk-fix-precedence-of-relative-to.patch \
+-           file://0002-awk-fix-ternary-operator-and-precedence-of.patch \
+-           file://0001-awk.c-fix-CVE-2023-42366-bug-15874.patch \
+            file://0001-cut-Fix-s-flag-to-omit-blank-lines.patch \
++           file://0001-syslogd-fix-wrong-OPT_locallog-flag-detection.patch=
+ \
++           file://0002-start-stop-daemon-fix-tests.patch \
+            "
+-SRC_URI:append:libc-musl =3D " file://musl.cfg "
+-# TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+-SRC_URI:append:x86 =3D " file://sha_accel.cfg"
+-SRC_URI[tarball.sha256sum] =3D "b8cc24c9574d809e7279c3be349795c5d5ceb6fdf1=
+9ca709f80cde50e47de314"
++SRC_URI:append:libc-musl =3D " file://musl.cfg"
++SRC_URI:append:x86-64 =3D " file://sha_accel.cfg"
++SRC_URI[tarball.sha256sum] =3D "3311dff32e746499f4df0d5df04d7eb396382d7e10=
+8bb9250e7b519b837043a4"
 --=20
 2.34.1
-
-------656801F75A4AEE054CB07F578D5D2A42
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-MIIOJwYJKoZIhvcNAQcCoIIOGDCCDhQCAQExDzANBglghkgBZQMEAgEFADALBgkq
-hkiG9w0BBwGgggstMIIGEDCCA/igAwIBAgIQTZQsENQ74JQJxYEtOisGTzANBgkq
-hkiG9w0BAQwFADCBiDELMAkGA1UEBhMCVVMxEzARBgNVBAgTCk5ldyBKZXJzZXkx
-FDASBgNVBAcTC0plcnNleSBDaXR5MR4wHAYDVQQKExVUaGUgVVNFUlRSVVNUIE5l
-dHdvcmsxLjAsBgNVBAMTJVVTRVJUcnVzdCBSU0EgQ2VydGlmaWNhdGlvbiBBdXRo
-b3JpdHkwHhcNMTgxMTAyMDAwMDAwWhcNMzAxMjMxMjM1OTU5WjCBljELMAkGA1UE
-BhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hlc3RlcjEQMA4GA1UEBxMHU2Fs
-Zm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVkMT4wPAYDVQQDEzVTZWN0aWdv
-IFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5kIFNlY3VyZSBFbWFpbCBDQTCC
-ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMo87ZQKQf/e+Ua56NY75tqS
-vysQTqoavIK9viYcKSoq0s2cUIE/bZQu85eoZ9X140qOTKl1HyLTJbazGl6nBEib
-ivHbSuejQkq6uIgymiqvTcTlxZql19szfBxxo0Nm9l79L9S+TZNTEDygNfcXlkHK
-RhBhVFHdJDfqB6Mfi/Wlda43zYgo92yZOpCWjj2mz4tudN55/yE1+XvFnz5xsOFb
-me/SoY9WAa39uJORHtbC0x7C7aYivToxuIkEQXaumf05Vcf4RgHs+Yd+mwSTManR
-y6XcCFJE6k/LHt3ndD3sA3If/JBz6OX2ZebtQdHnKav7Azf+bAhudg7PkFOTuRMC
-AwEAAaOCAWQwggFgMB8GA1UdIwQYMBaAFFN5v1qqK0rPVIDh2JvAnfKyA2bLMB0G
-A1UdDgQWBBQJwPL8C9qU21/+K9+omULPyeCtADAOBgNVHQ8BAf8EBAMCAYYwEgYD
-VR0TAQH/BAgwBgEB/wIBADAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQw
-EQYDVR0gBAowCDAGBgRVHSAAMFAGA1UdHwRJMEcwRaBDoEGGP2h0dHA6Ly9jcmwu
-dXNlcnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FDZXJ0aWZpY2F0aW9uQXV0aG9yaXR5
-LmNybDB2BggrBgEFBQcBAQRqMGgwPwYIKwYBBQUHMAKGM2h0dHA6Ly9jcnQudXNl
-cnRydXN0LmNvbS9VU0VSVHJ1c3RSU0FBZGRUcnVzdENBLmNydDAlBggrBgEFBQcw
-AYYZaHR0cDovL29jc3AudXNlcnRydXN0LmNvbTANBgkqhkiG9w0BAQwFAAOCAgEA
-QUR1AKs5whX13o6VbTJxaIwA3RfXehwQOJDI47G9FzGR87bjgrShfsbMIYdhqpFu
-SUKzPM1ZVPgNlT+9istp5UQNRsJiD4KLu+E2f102qxxvM3TEoGg65FWM89YN5yFT
-vSB5PelcLGnCLwRfCX6iLPvGlh9j30lKzcT+mLO1NLGWMeK1w+vnKhav2VuQVHwp
-Tf64ZNnXUF8p+5JJpGtkUG/XfdJ5jR3YCq8H0OPZkNoVkDQ5CSSF8Co2AOlVEf32
-VBXglIrHQ3v9AAS0yPo4Xl1FdXqGFe5TcDQSqXh3TbjugGnG+d9yZX3lB8bwc/Tn
-2FlIl7tPbDAL4jNdUNA7jGee+tAnTtlZ6bFz+CsWmCIb6j6lDFqkXVsp+3KyLTZG
-Xq6F2nnBtN4t5jO3ZIj2gpIKHAYNBAWLG2Q2fG7Bt2tPC8BLC9WIM90gbMhAmtMG
-quITn/2fORdsNmaV3z/sPKuIn8DvdEhmWVfh0fyYeqxGlTw0RfwhBlakdYYrkDmd
-WC+XszE19GUi8K8plBNKcIvyg2omAdebrMIHiAHAOiczxX/aS5ABRVrNUDcjfvp4
-hYbDOO6qHcfzy/uY0fO5ssebmHQREJJA3PpSgdVnLernF6pthJrGkNDPeUI05svq
-w1o5A2HcNzLOpklhNwZ+4uWYLcAi14ACHuVvJsmzNicwggUVMIID/aADAgECAhAV
-Bbr0bzRtpXqrU7KDa4UuMA0GCSqGSIb3DQEBCwUAMIGWMQswCQYDVQQGEwJHQjEb
-MBkGA1UECBMSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHEwdTYWxmb3JkMRgw
-FgYDVQQKEw9TZWN0aWdvIExpbWl0ZWQxPjA8BgNVBAMTNVNlY3RpZ28gUlNBIENs
-aWVudCBBdXRoZW50aWNhdGlvbiBhbmQgU2VjdXJlIEVtYWlsIENBMB4XDTIxMTIw
-NzAwMDAwMFoXDTI0MTIwNjIzNTk1OVowJTEjMCEGCSqGSIb3DQEJARYUYWxiYW4u
-YmVkZWxAYWVycS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDD
-bGac2SHb2eIa+m3KUo/AJiZDcBR5eFitNMqkBYGzLH3NwmL+2qbl5vKerZ+M3jaS
-sFeMmr6P9lXTjSR4Qkcdv+ZmTUNTaJ/vLFqEgWx+sCszay9KK5TM5w4tpkCQLX1T
-4Fiuans6EUUPZETMfjKBjLafMenQuGZdn/ul9a0DrkgsEe/qJUNnhsRXzY8zd4mm
-mcTaiqI7elLXQelS7FUaWh/BTSjd6c+hFW8YvYxFLEsTp1di/PcBOlb9VgD4+/D4
-zxHDQkfsJ7xiy/Xig3PbZmmhF/T4d9hab1YrVv1rXJqKbtjZyG7Cfsdwfz9Tsodj
-HEFItk2dLR5ROV6LRWR7AgMBAAGjggHNMIIByTAfBgNVHSMEGDAWgBQJwPL8C9qU
-21/+K9+omULPyeCtADAdBgNVHQ4EFgQU7sc2WNoWAgmlONb7GCP/BCyMuEwwDgYD
-VR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQCMAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQG
-CCsGAQUFBwMCMEAGA1UdIAQ5MDcwNQYMKwYBBAGyMQECAQEBMCUwIwYIKwYBBQUH
-AgEWF2h0dHBzOi8vc2VjdGlnby5jb20vQ1BTMFoGA1UdHwRTMFEwT6BNoEuGSWh0
-dHA6Ly9jcmwuc2VjdGlnby5jb20vU2VjdGlnb1JTQUNsaWVudEF1dGhlbnRpY2F0
-aW9uYW5kU2VjdXJlRW1haWxDQS5jcmwwgYoGCCsGAQUFBwEBBH4wfDBVBggrBgEF
-BQcwAoZJaHR0cDovL2NydC5zZWN0aWdvLmNvbS9TZWN0aWdvUlNBQ2xpZW50QXV0
-aGVudGljYXRpb25hbmRTZWN1cmVFbWFpbENBLmNydDAjBggrBgEFBQcwAYYXaHR0
-cDovL29jc3Auc2VjdGlnby5jb20wHwYDVR0RBBgwFoEUYWxiYW4uYmVkZWxAYWVy
-cS5jb20wDQYJKoZIhvcNAQELBQADggEBAF9U2htHftfPRwJwvN9bFBpXNA69+Em1
-a4zxDLR77PMBkmc8pwgbl12rBuwJ9BzUsOgeCLfdCmQiurLsnGhrvGj1JV7L1s8e
-S5vKKemLAnPZJ0czTzQeIGlLY0ZAvBWbgkjmWLpsOjeZmLOOMFLTDa/5QZzDXo/E
-ZmvxqRqsfirSYWVzKWdIoIbpfBIdqMM5sj/p+L9vXDle3143c+orA+1L6tp/7Mw6
-tFIzedrBWu4wv4XgGb5OuouhiBL8+fzVlsY67M04A/6lQ83eJXEn3JM7GCMIPIdj
-N7fLO4fWbhwndi+1xdmlTY679FwT+mpoPXVARs7OOLxuuitpqPdw4jwxggK+MIIC
-ugIBATCBqzCBljELMAkGA1UEBhMCR0IxGzAZBgNVBAgTEkdyZWF0ZXIgTWFuY2hl
-c3RlcjEQMA4GA1UEBxMHU2FsZm9yZDEYMBYGA1UEChMPU2VjdGlnbyBMaW1pdGVk
-MT4wPAYDVQQDEzVTZWN0aWdvIFJTQSBDbGllbnQgQXV0aGVudGljYXRpb24gYW5k
-IFNlY3VyZSBFbWFpbCBDQQIQFQW69G80baV6q1Oyg2uFLjANBglghkgBZQMEAgEF
-AKCB5DAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0y
-NDEwMTYwODA1NDdaMC8GCSqGSIb3DQEJBDEiBCBPlDen6u7i9QTxywtD0/ojgNkN
-6t3Bltv3woBt4KZrYTB5BgkqhkiG9w0BCQ8xbDBqMAsGCWCGSAFlAwQBKjALBglg
-hkgBZQMEARYwCwYJYIZIAWUDBAECMAoGCCqGSIb3DQMHMA4GCCqGSIb3DQMCAgIA
-gDANBggqhkiG9w0DAgIBQDAHBgUrDgMCBzANBggqhkiG9w0DAgIBKDANBgkqhkiG
-9w0BAQEFAASCAQBr3TFmKcJ8QdkGr4BpwtrfcXsW2DsqvQw3UvTRp5zu4MKAnNOM
-40VLqRGa56sHDvhdwA4ZFTpgVk74U8IujPmHCz8CeuOIH+TLrQSdVjkV0FwoW6+B
-2NY2KbBjiBqpKdjq9sscnAvKIXyj82A22oMqEtLs7UFtooHuW2pCcRtCMiPB2AjR
-XJV/8nwgNn0uMmtwq0S+/NyCAyaeTGVqMQ3tVHTlVgQt28r6bKc3F2TdyYT3Z1xY
-nJzZYngerht2E/KXweYdLBRy5T1NctT4w7n6GNB5yxEFhCHoH4SBVcm/FNcuL0Oc
-y+d0zdU9oWKJIZY5pqTkYez+shKC1HuE1XVn
-
-------656801F75A4AEE054CB07F578D5D2A42--
 
 
