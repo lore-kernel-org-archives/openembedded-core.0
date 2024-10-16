@@ -2,119 +2,86 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F51D2A54D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D2CD2A558
 	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 19:36:19 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.32599.1729107372404325223
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web11.32600.1729107373382523828
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Oct 2024 12:36:12 -0700
+ Wed, 16 Oct 2024 12:36:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=P2jiWn5Z;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4314f38d274so2561845e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 12:36:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Qz//2mPf;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43124843b04so1628715e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 12:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729107371; x=1729712171; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WBs3sIjuOq1Hz73N2mtXShFzbqAoODZKD1Xn+1XWtGU=;
-        b=P2jiWn5ZPYz0HXVOPwGC8RhaOXqpovF8QNn9i9482WbgMweBUcpIVix9r7a9DRtLdv
-         KswoODHJ4toyZnyj+qz8akuB60qCz+mAzHDgTO1MDM/SIrf5xoxKWvePXsxpwmX6MCZ9
-         F4ACgM381pK7trjgGZjbRo0il76qDdueskHsd1yoSYDSoCDEZTTzYTxqbko5UXQv+9ci
-         PTub+4toE8orV9/mIlqwH1BosVZMmi4b9VMB8ZV+5eJMwqpZn8AbttzkKLVn90nYJYSC
-         EqC5fB9jDXqSEvABjwwhat2LZravrbWBrKLr4xEAC/vPaPwuTuI6u8hy1FcUR6WKFu41
-         BhXg==
+        d=gmail.com; s=20230601; t=1729107372; x=1729712172; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T2DWhCmYQbNiY+zytxzo6lqX4aZl5gvX/XszO0q9FTU=;
+        b=Qz//2mPf/Hp3obU0EOasMWltMaqiI31vm7eNycbZ/ZSttG0FtAW02FSRz3NBFVeTbd
+         vH9U5N+nvzxgpsodcnfQhOWOcX0MEICzvMwQtlgyI+OiVPffXqym4/Pe9l48GJpLZ2PY
+         U5S394UEFMi49oK0XLI4T2dtLYXIYoWEJdGUJkr75eRIdDAM90N6pCyvwPCwcDDa5qGx
+         IsOYNjgL6iMTYQQGxYaw5kMkINIsMLrDi0Hs2gDuCp6b7QTBeNjO5qJ6CBB5T/2q2CEl
+         /ij3qba2vtQiypLYnwg7QXE1j8e/bO8yVkSobtKD0wO570y9+n9zSeY21CUyzfHRAjUz
+         ZhQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729107371; x=1729712171;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WBs3sIjuOq1Hz73N2mtXShFzbqAoODZKD1Xn+1XWtGU=;
-        b=dPe27Ixu8woF+kvCn9JlJVU3UV8xzX77UVqo0rjb3upCuMXX2eTuXbPFcMNoXaBJ0U
-         yKjdZiS+7j9WYW4WOToZaed6v/6pTztiFJGQHsgLGxp1obFtSeduix6sWfoFka580z8R
-         7Z/UZxPIz8F8OkI39aYA5KCNTM5qxCs+la8++A5rDphME9etCAmcHKFmNUmbl/PJkliJ
-         W/17LE1HFSGkVJ41TldBeEkObGm0/dsmQi8LSR7LAZMkKJvm7nmCQa89DJfCPlB0D6XH
-         xZk0B8AJLFkF2/dV1Qd2vjFJlWTj47NIg40cbBvd2wgRsXsTXOMuTWB0TWFxVfOAE0In
-         Fn+g==
-X-Gm-Message-State: AOJu0Ywk0pbT0vIIW4sXPi77phOs9956gflP32NxIt2hHW3Sd+r0HvAM
-	C7ZawzbiifOsPQX0bPxpDjyryHGlKt72To+HaIsWLL1uXhpmTCcYIxrGwA==
-X-Google-Smtp-Source: AGHT+IEjV5NTb3/i6BacTOuNO7NuidU73LiRasjonyIN+Rv7/nVk0WyjnLLMMLL3nGsUABHqnMYxeQ==
-X-Received: by 2002:a05:600c:1c9e:b0:42c:b508:750e with SMTP id 5b1f17b1804b1-431255dae1bmr180110455e9.11.1729107370532;
-        Wed, 16 Oct 2024 12:36:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729107372; x=1729712172;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=T2DWhCmYQbNiY+zytxzo6lqX4aZl5gvX/XszO0q9FTU=;
+        b=q4uzXG06qSurLrVv2yDUHpxTvgLLmg/G3YeFzOcp+15FfK4cyqpsXD8A4TPYSLE51r
+         cYSiE8G9U24bjr+0St8OsmWIB4hTQp58PN4aj/Rx9AWBERkjtk93gausD/tDLzH1zFCr
+         //uRUb0wPF6Rfyg/HSjrOti+aj1EHlQoscBcRfjOqgiZr2hS3ErcqSpK1Bwmuhf3DtcD
+         qceNDuvTBhx4nUgB7yKXP4zQHYY82c3AN5U0ztSkKXKPLVhiJIpEQZ2+t6IUiE/Ws1sd
+         GDh1KXAA6uk+lJsQR9WZpm5glOM9qfS2NUZyL6EkZnXc0e0zTBb6n/jL7FV6RTKka++o
+         8S9Q==
+X-Gm-Message-State: AOJu0Yz5GjJTVpFV98OBFw59dqZAAm+kE+gINBxI64xo94xxYQOWE8GG
+	0vIEOU/OhwHIJ379gxyNOO//vgvkWAui+kK+SQ/hIokFnlO5qPHEdACONw==
+X-Google-Smtp-Source: AGHT+IEloNprPczkCki42yy7Dus4qJmSvuNqfzl4Nf8/iUTw61oe5NH6r+Xk8J0vwpOhUmgwQOmZNA==
+X-Received: by 2002:a05:600c:4689:b0:431:41e2:271d with SMTP id 5b1f17b1804b1-43141e227e4mr57622845e9.6.1729107371561;
+        Wed, 16 Oct 2024 12:36:11 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43158c359casm3159265e9.8.2024.10.16.12.36.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43158c359casm3159265e9.8.2024.10.16.12.36.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 12:36:10 -0700 (PDT)
+        Wed, 16 Oct 2024 12:36:11 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/5] python3-installer: add a patch to ensure RECORD file reproducibility
-Date: Wed, 16 Oct 2024 21:36:02 +0200
-Message-Id: <20241016193606.3459951-1-alex.kanavin@gmail.com>
+Subject: [PATCH 3/5] python3-markupsafe: add missing html module dependency
+Date: Wed, 16 Oct 2024 21:36:04 +0200
+Message-Id: <20241016193606.3459951-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241016193606.3459951-1-alex.kanavin@gmail.com>
+References: <20241016193606.3459951-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 19:36:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205972
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205974
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ils.py-sort-entries-before-writing-o.patch | 27 +++++++++++++++++++
- .../python/python3-installer_0.7.0.bb         |  3 ++-
- 2 files changed, 29 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-installer/0001-src-installer-utils.py-sort-entries-before-writing-o.patch
+ meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-installer/0001-src-installer-utils.py-sort-entries-before-writing-o.patch b/meta/recipes-devtools/python/python3-installer/0001-src-installer-utils.py-sort-entries-before-writing-o.patch
-new file mode 100644
-index 00000000000..a6715ed457d
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-installer/0001-src-installer-utils.py-sort-entries-before-writing-o.patch
-@@ -0,0 +1,27 @@
-+From 760ddf50ce559abd67bbdd31797267d00bcddfb3 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex@linutronix.de>
-+Date: Tue, 1 Oct 2024 19:22:11 +0200
-+Subject: [PATCH] src/installer/utils.py: sort entries before writing out
-+ RECORD file
-+
-+This helps build reproducibility.
-+
-+Upstream-Status: Submitted [https://github.com/pypa/installer/pull/245]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ src/installer/utils.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/installer/utils.py b/src/installer/utils.py
-+index 3e601d6..073297c 100644
-+--- a/src/installer/utils.py
-++++ b/src/installer/utils.py
-+@@ -207,7 +207,7 @@ def construct_record_file(
-+         io.BytesIO(), encoding="utf-8", write_through=True, newline=""
-+     )
-+     writer = csv.writer(stream, delimiter=",", quotechar='"', lineterminator="\n")
-+-    for scheme, record in records:
-++    for scheme, record in sorted(records, key=lambda x: x[1].path):
-+         writer.writerow(record.to_row(prefix_for_scheme(scheme)))
-+     stream.seek(0)
-+     return stream.detach()
-diff --git a/meta/recipes-devtools/python/python3-installer_0.7.0.bb b/meta/recipes-devtools/python/python3-installer_0.7.0.bb
-index 9429705b1f8..6aaf1b3a379 100644
---- a/meta/recipes-devtools/python/python3-installer_0.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-installer_0.7.0.bb
-@@ -6,7 +6,8 @@ BUGTRACKER = "https://github.com/pypa/installer/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=5038641aec7a77451e31da828ebfae00"
+diff --git a/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb b/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb
+index 821332fe7cd..ea811e3154d 100644
+--- a/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb
++++ b/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb
+@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "d283d37a890ba4c1ae73ffadf8046435c76e7bc2247bbb63c00bd1a709
+ PYPI_PACKAGE = "MarkupSafe"
+ inherit pypi python_setuptools_build_meta ptest
  
--SRC_URI += "file://interpreter.patch"
-+SRC_URI += "file://interpreter.patch \
-+            file://0001-src-installer-utils.py-sort-entries-before-writing-o.patch"
+-RDEPENDS:${PN} += "python3-stringold"
++RDEPENDS:${PN} += "python3-html python3-stringold"
  
- SRC_URI[sha256sum] = "a26d3e3116289bb08216e0d0f7d925fcef0b0194eedfa0c944bcaaa106c4b631"
+ BBCLASSEXTEND = "native nativesdk"
  
 -- 
 2.39.5
