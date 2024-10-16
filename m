@@ -1,61 +1,87 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5037ED1AD43
-	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 10:21:26 +0000 (UTC)
-Subject: Re: [PATCH 1/2] rust: Upgrade 1.79.0->1.80.0
-To: openembedded-core@lists.openembedded.org
-From: "Sadineni, Harish" <Harish.Sadineni@windriver.com>
-X-Originating-Location: IN (49.37.241.93)
-X-Originating-Platform: Windows Chrome 129
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Wed, 16 Oct 2024 03:21:26 -0700
-References: <3947F298-D474-4F42-928C-D916C0A06FDF@arm.com>
-In-Reply-To: <3947F298-D474-4F42-928C-D916C0A06FDF@arm.com>
-Message-ID: <19746.1729074086073458660@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="lgFbkodauZVwfAKS3n4m"
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E704D1AD43
+	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 10:22:36 +0000 (UTC)
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web10.19566.1729074134908802540
+ for <openembedded-core@lists.openembedded.org>;
+ Wed, 16 Oct 2024 03:22:14 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XaJaBKVn;
+ spf=pass (domain: gmail.com, ip: 209.85.214.171, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-208cf673b8dso66879405ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 03:22:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729074134; x=1729678934; darn=lists.openembedded.org;
+        h=message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DHNhO4+5mzaZMXcA1yoRS34ZAx5w35geiiR/NcImBvo=;
+        b=XaJaBKVnsdKYGRDIZ9PH/W4ccNMNpLOMlWdmY2+46HfzhBs4HhDYS4aNF+aupRXnbS
+         vdsy4pjPm+6rAKZagco0oMpIRkWo8t7GESJxDvxd/K1+znsOksMQtx2rtQ1ci777PrZF
+         vlBz+RfiP0KPuQiUaMTFWXrxp/HDg3Bc4EV02tz6Ka8AN8iHn3kSpkDJu1FN2+tP+pPw
+         7uIV5EA8UvUDlzbwKnPQV19jNGCVXt+na8wuhMmPV7ymJzvkSlrbBf+dFWwlANVYxVuh
+         QhQux9+R9TTD0DUmgOFIZLryFfdfQRQeXjCFxwom0mQQsc2ttDHP4pCZkkg7fdruoE7P
+         DpNg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729074134; x=1729678934;
+        h=message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=DHNhO4+5mzaZMXcA1yoRS34ZAx5w35geiiR/NcImBvo=;
+        b=NTEfWftmc7/cOhSSNU1oSmxYyF6sOa902z13mTkZqSkVq3Kea/D3XDueXPBD1i1vWy
+         9SkJWeRzXfo6heVycvxsQZIesFRZVY/Qyr6A+50BgqQcBZO1GifuEnpVM6vJLqz0Xl6l
+         t8/QyVmZm5oCCEKxu++sfg6EhrCD0sG9EQmZUjcYOYzFUnn/WSf1qJUmxsXKgiWyqUvN
+         20VNBpcc5CnRhsWWwbfEGwHogr2OxZKKgLk7/RKTRiwu7AnF0CQPNpOHLK1Cev3loZyO
+         Evrv72ARmIJRZpjuEHNe4zKkSinfc6+Qz/nH3CzeLZa2yKUT7vqUXHWr2unKxaeAQxYn
+         7p2g==
+X-Gm-Message-State: AOJu0YxL3921lmnxgf+4l3kTWkH5pzESBY0zqvonbiYp1tKJXkSDtWc/
+	pyatAB1Ht2HldmjVajv1QZINu47Jsh3lOWAcNxhiAJRE7v0uicarNIrTow==
+X-Google-Smtp-Source: AGHT+IEkplwmHQyktxlu6WvimhCdvCWBsGLt/zAwbMrGNIiDcDwkdvq69pEiISH9mTQVkoFX51HXpg==
+X-Received: by 2002:a17:902:d504:b0:20c:af07:a816 with SMTP id d9443c01a7336-20d27efc3e6mr47195125ad.31.1729074133975;
+        Wed, 16 Oct 2024 03:22:13 -0700 (PDT)
+Received: from localhost.localdomain ([2405:201:e02e:c09b:5488:e10:6781:7d0e])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d17f87ea3sm25856895ad.26.2024.10.16.03.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Oct 2024 03:22:13 -0700 (PDT)
+From: aszh07 <mail2szahir@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	zahir.basha@kpit.com
+Subject: [OE-core][scarthgap][PATCH] ffmpeg: Add "libswresample libavcodec" to CVE_PRODUCT
+Date: Wed, 16 Oct 2024 15:52:01 +0530
+Message-Id: <20241016102201.27566-1-mail2szahir@gmail.com>
+X-Mailer: git-send-email 2.17.1
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 10:21:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205962
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 10:22:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205963
 
---lgFbkodauZVwfAKS3n4m
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Currently, CVE_PRODUCT only detects vulnerabilities where the product is "ffmpeg".
 
-The musl build works correctly with Rust 1.80, but the reproducibility test=
-s are failing. To address this, we implemented some changes that resolved t=
-he reproducibility issue, allowing the tests to pass. However, these modifi=
-cations have led to a failure in the musl build.
+However, there are also vulnerabilities where the product is "libswresample",
+and "libavcodec" as shown below.
+https://app.opencve.io/vendors/?vendor=ffmpeg
 
-This setup worked fine with Rust 1.79, but the changes introduced in this c=
-ommit https://github.com/rust-lang/rust/commit/615b485596acfa62d9a5c8f5cb0d=
-b405504b28d8 in Rust 1.80 are causing the build to panic due to changes mad=
-e for the reproducibility issue. We are currently analyzing this further.
+Therefore, add "libswresample libavcodec" to CVE_PRODUCT to detect vulnerabilities
+where the product is "libswresample libavcodec" as well.
 
-thanks,
-Harish
+Signed-off-by: aszh07 <mail2szahir@gmail.com>
+---
+ meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
---lgFbkodauZVwfAKS3n4m
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+index 13051f4e36..84bba3b7b6 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.1.bb
+@@ -194,3 +194,5 @@ INSANE_SKIP:${MLPREFIX}libavutil = "textrel"
+ INSANE_SKIP:${MLPREFIX}libswscale = "textrel"
+ INSANE_SKIP:${MLPREFIX}libswresample = "textrel"
+ INSANE_SKIP:${MLPREFIX}libpostproc = "textrel"
++
++CVE_PRODUCT = "ffmpeg libswresample libavcodec"
+-- 
+2.17.1
 
-<div>
-<div>The musl build works correctly with Rust 1.80, but the reproducibility=
- tests are failing. To address this, we implemented some changes that resol=
-ved the reproducibility issue, allowing the tests to pass. However, these m=
-odifications have led to a failure in the musl build.</div>
-<div><br />This setup worked fine with Rust 1.79, but the changes introduce=
-d in this commit <a href=3D"https://github.com/rust-lang/rust/commit/615b48=
-5596acfa62d9a5c8f5cb0db405504b28d8" target=3D"_blank" rel=3D"noopener">http=
-s://github.com/rust-lang/rust/commit/615b485596acfa62d9a5c8f5cb0db405504b28=
-d8</a> in Rust 1.80 are causing the build to panic due to changes made for =
-the reproducibility issue. We are currently analyzing this further.<br /><b=
-r />thanks,<br />Harish</div>
-</div>
-
---lgFbkodauZVwfAKS3n4m--
 
