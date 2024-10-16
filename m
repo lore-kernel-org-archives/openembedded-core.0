@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 80D2CD2A558
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89B15D2A55A
 	for <webhook@archiver.kernel.org>; Wed, 16 Oct 2024 19:36:19 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.web11.32600.1729107373382523828
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.32601.1729107374052419812
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Oct 2024 12:36:13 -0700
+ Wed, 16 Oct 2024 12:36:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Qz//2mPf;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43124843b04so1628715e9.2
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=A1uhwCff;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d47eff9acso67905f8f.3
         for <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 12:36:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1729107372; x=1729712172; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=T2DWhCmYQbNiY+zytxzo6lqX4aZl5gvX/XszO0q9FTU=;
-        b=Qz//2mPf/Hp3obU0EOasMWltMaqiI31vm7eNycbZ/ZSttG0FtAW02FSRz3NBFVeTbd
-         vH9U5N+nvzxgpsodcnfQhOWOcX0MEICzvMwQtlgyI+OiVPffXqym4/Pe9l48GJpLZ2PY
-         U5S394UEFMi49oK0XLI4T2dtLYXIYoWEJdGUJkr75eRIdDAM90N6pCyvwPCwcDDa5qGx
-         IsOYNjgL6iMTYQQGxYaw5kMkINIsMLrDi0Hs2gDuCp6b7QTBeNjO5qJ6CBB5T/2q2CEl
-         /ij3qba2vtQiypLYnwg7QXE1j8e/bO8yVkSobtKD0wO570y9+n9zSeY21CUyzfHRAjUz
-         ZhQQ==
+        bh=eBVt/Cgr+UkE72Zafmp+z4tYaGOTE2E9nRtXxbpKQKk=;
+        b=A1uhwCffmFPnoyBHcISJEwpQdFnBNfssP4CjDn3ygfZp1cPmsSdKYV8j+btSAo5GCF
+         5sleWhq1Y6bxo9aMfJuHI9bMLWQ7z2ap2TZOfA0oyh9/rT814r23pDqlWtiqNM8oTb6n
+         r1N8BiGz84xuVIMOZm6WKQzT09ugM4+/wwxb9HHf0YmHk8IgeI5Iwx5gbC5P9RP/KJYa
+         8Y+xgDbmWMudXIGtlunE07SLIayk2Ln2aHIFnmmeHSaa4TgHpwNsRJedfYMknvG/D9KJ
+         bND1Kn7iJg2Y1+OgYCfnkTDlXJ8MSRDpioY1V8ZMmMTuSKu2iVZDwtvzb9QSLYS8g4Ue
+         247w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1729107372; x=1729712172;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=T2DWhCmYQbNiY+zytxzo6lqX4aZl5gvX/XszO0q9FTU=;
-        b=q4uzXG06qSurLrVv2yDUHpxTvgLLmg/G3YeFzOcp+15FfK4cyqpsXD8A4TPYSLE51r
-         cYSiE8G9U24bjr+0St8OsmWIB4hTQp58PN4aj/Rx9AWBERkjtk93gausD/tDLzH1zFCr
-         //uRUb0wPF6Rfyg/HSjrOti+aj1EHlQoscBcRfjOqgiZr2hS3ErcqSpK1Bwmuhf3DtcD
-         qceNDuvTBhx4nUgB7yKXP4zQHYY82c3AN5U0ztSkKXKPLVhiJIpEQZ2+t6IUiE/Ws1sd
-         GDh1KXAA6uk+lJsQR9WZpm5glOM9qfS2NUZyL6EkZnXc0e0zTBb6n/jL7FV6RTKka++o
-         8S9Q==
-X-Gm-Message-State: AOJu0Yz5GjJTVpFV98OBFw59dqZAAm+kE+gINBxI64xo94xxYQOWE8GG
-	0vIEOU/OhwHIJ379gxyNOO//vgvkWAui+kK+SQ/hIokFnlO5qPHEdACONw==
-X-Google-Smtp-Source: AGHT+IEloNprPczkCki42yy7Dus4qJmSvuNqfzl4Nf8/iUTw61oe5NH6r+Xk8J0vwpOhUmgwQOmZNA==
-X-Received: by 2002:a05:600c:4689:b0:431:41e2:271d with SMTP id 5b1f17b1804b1-43141e227e4mr57622845e9.6.1729107371561;
-        Wed, 16 Oct 2024 12:36:11 -0700 (PDT)
+        bh=eBVt/Cgr+UkE72Zafmp+z4tYaGOTE2E9nRtXxbpKQKk=;
+        b=jz3UdwgYF3bEvikQBnfBR6U/kxt1jHo78ah4fuAWPohNyZtx+4mjkAGJE5r4/C4tUI
+         PUtu4Y/l80+kQ0LN4G81c4cBpcEHv8qx/6sHKE/eSddXQVnYvZ+2i1dBrgMaf8lx4gDX
+         vJ44gvqIEb16MFIZ6RkZmpjOqoDOytQY6pVtls0AgGisxsAviJ+PBvr8BuylGE0mjzfG
+         MYCqBfzU0unuTpIwsv5K5h2tErkFyKPXUHsMasrAimpybi98LQipRgLF+GNV/PWt9OUp
+         REK1pP+6Siy6r5+/myY3cNqKWsQuEdw6a1aVpYwWRg8xzJcyKHFg+YOmK1T4pGoCiNnx
+         Om8w==
+X-Gm-Message-State: AOJu0YyvhRJVOhdFHgFrr1wiJU5BDK4Y1n1CLS32jHi+K5ZIyzPSurMG
+	/oCfdu/W/TTilpp4TE8gAupNw6fn3Ft4nLdcKjxIzJs0MTbtHp805EFZRA==
+X-Google-Smtp-Source: AGHT+IHeH+QQK3nwVsGKfoDa8nHKy3uUx/kWZPqkMC0vyJofUFvfd/rkUwrVum5WkeaBNuL+JQhS9A==
+X-Received: by 2002:a5d:56c3:0:b0:37d:5113:cdff with SMTP id ffacd0b85a97d-37d5ff6ce21mr10736427f8f.37.1729107372288;
+        Wed, 16 Oct 2024 12:36:12 -0700 (PDT)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43158c359casm3159265e9.8.2024.10.16.12.36.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Oct 2024 12:36:11 -0700 (PDT)
+        Wed, 16 Oct 2024 12:36:12 -0700 (PDT)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 3/5] python3-markupsafe: add missing html module dependency
-Date: Wed, 16 Oct 2024 21:36:04 +0200
-Message-Id: <20241016193606.3459951-3-alex.kanavin@gmail.com>
+Subject: [PATCH 4/5] python3-jinja2: backport a patch to address python 3.13 ptest fails
+Date: Wed, 16 Oct 2024 21:36:05 +0200
+Message-Id: <20241016193606.3459951-4-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241016193606.3459951-1-alex.kanavin@gmail.com>
 References: <20241016193606.3459951-1-alex.kanavin@gmail.com>
@@ -61,28 +61,122 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Oct 2024 19:36:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205974
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205975
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../python/python3-jinja2/fix-3.13.patch      | 87 +++++++++++++++++++
+ .../python/python3-jinja2_3.1.4.bb            |  1 +
+ 2 files changed, 88 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-jinja2/fix-3.13.patch
 
-diff --git a/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb b/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb
-index 821332fe7cd..ea811e3154d 100644
---- a/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb
-+++ b/meta/recipes-devtools/python/python3-markupsafe_2.1.5.bb
-@@ -8,7 +8,7 @@ SRC_URI[sha256sum] = "d283d37a890ba4c1ae73ffadf8046435c76e7bc2247bbb63c00bd1a709
- PYPI_PACKAGE = "MarkupSafe"
- inherit pypi python_setuptools_build_meta ptest
+diff --git a/meta/recipes-devtools/python/python3-jinja2/fix-3.13.patch b/meta/recipes-devtools/python/python3-jinja2/fix-3.13.patch
+new file mode 100644
+index 00000000000..34ecd15176c
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-jinja2/fix-3.13.patch
+@@ -0,0 +1,87 @@
++From cf6ba7732b49ab4637aa747186cf1d1572688584 Mon Sep 17 00:00:00 2001
++From: Thomas Grainger <tagrain@gmail.com>
++Date: Mon, 13 May 2024 18:02:35 +0100
++Subject: [PATCH] fix test_package_zip_list on 3.13
++
++Upstream-Status: Backport [https://github.com/pallets/jinja/pull/1979]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ src/jinja2/loaders.py | 32 ++++++++++++++++++++++++++------
++ tests/test_loader.py  |  4 ++--
++ 2 files changed, 28 insertions(+), 8 deletions(-)
++
++diff --git a/src/jinja2/loaders.py b/src/jinja2/loaders.py
++index 9eaf647..8c2c86c 100644
++--- a/src/jinja2/loaders.py
+++++ b/src/jinja2/loaders.py
++@@ -238,6 +238,30 @@ class FileSystemLoader(BaseLoader):
++         return sorted(found)
++ 
++ 
+++if sys.version_info >= (3, 13):
+++
+++    def _get_zipimporter_files(z: t.Any) -> t.Dict[str, object]:
+++        try:
+++            get_files = z._get_files
+++        except AttributeError as e:
+++            raise TypeError(
+++                "This zip import does not have the required"
+++                " metadata to list templates."
+++            ) from e
+++        return get_files()
+++else:
+++
+++    def _get_zipimporter_files(z: t.Any) -> t.Dict[str, object]:
+++        try:
+++            files = z._files
+++        except AttributeError as e:
+++            raise TypeError(
+++                "This zip import does not have the required"
+++                " metadata to list templates."
+++            ) from e
+++        return files  # type: ignore[no-any-return]
+++
+++
++ class PackageLoader(BaseLoader):
++     """Load templates from a directory in a Python package.
++ 
++@@ -382,11 +406,7 @@ class PackageLoader(BaseLoader):
++                     for name in filenames
++                 )
++         else:
++-            if not hasattr(self._loader, "_files"):
++-                raise TypeError(
++-                    "This zip import does not have the required"
++-                    " metadata to list templates."
++-                )
+++            files = _get_zipimporter_files(self._loader)
++ 
++             # Package is a zip file.
++             prefix = (
++@@ -395,7 +415,7 @@ class PackageLoader(BaseLoader):
++             )
++             offset = len(prefix)
++ 
++-            for name in self._loader._files.keys():
+++            for name in files:
++                 # Find names under the templates directory that aren't directories.
++                 if name.startswith(prefix) and name[-1] != os.path.sep:
++                     results.append(name[offset:].replace(os.path.sep, "/"))
++diff --git a/tests/test_loader.py b/tests/test_loader.py
++index 77d686e..e0683e4 100644
++--- a/tests/test_loader.py
+++++ b/tests/test_loader.py
++@@ -364,8 +364,8 @@ def test_package_zip_source(package_zip_loader, template, expect):
++ 
++ 
++ @pytest.mark.xfail(
++-    platform.python_implementation() == "PyPy",
++-    reason="PyPy's zipimporter doesn't have a '_files' attribute.",
+++    sys.implementation.name == "pypy",
+++    reason="zipimporter doesn't have a '_files' attribute",
++     raises=TypeError,
++ )
++ def test_package_zip_list(package_zip_loader):
++-- 
++2.39.5
++
+diff --git a/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb b/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb
+index f2de1983ced..a11878496c6 100644
+--- a/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb
++++ b/meta/recipes-devtools/python/python3-jinja2_3.1.4.bb
+@@ -17,6 +17,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE = "Jinja2"
  
--RDEPENDS:${PN} += "python3-stringold"
-+RDEPENDS:${PN} += "python3-html python3-stringold"
+ SRC_URI += " \
+ 	file://run-ptest \
++	file://fix-3.13.patch \
+ "
  
- BBCLASSEXTEND = "native nativesdk"
- 
+ do_install_ptest() {
 -- 
 2.39.5
 
