@@ -1,94 +1,114 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B450D3748A
-	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 13:31:15 +0000 (UTC)
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
- by mx.groups.io with SMTP id smtpd.web10.48380.1729171874653329869
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FBFFD3748B
+	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 13:32:15 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web10.48401.1729171931086099588
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 06:31:14 -0700
+ Thu, 17 Oct 2024 06:32:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MYx3iTBN;
- spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: antonin.godard@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A3510C0003;
-	Thu, 17 Oct 2024 13:31:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1729171872;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=4kO105qkMjnABrK4GRFBL1xDLPb3jl9jjHM7sdKzukw=;
-	b=MYx3iTBNMgXdJ0GCiFIoTHXoOsvLO3Iz3NMs7763BLQDuaN1Qzhof3xJLz56OUxN4dVcr6
-	ZQQnr4ggdfxADygCKuvaUoWVQ4sF3JNOqMnBLdeJg2q6Q3u3yS//KM46SWkendolBz2ElH
-	I1NOTPoitkPwvntn49qSOpxBhGk6oBuU+llKHILU9LfEHeqOC0LyjcRJDbOaoAHm7LCv+D
-	wn+sU3khAFLXUGObECCRulpWnHtQ/ESV6S9kFZ54oEAwtvF/eJctCu+Qbjs3U+dC+bvhQF
-	9D9x3ayU5ein/oDXRmVXx7hmMrASviC9NvS7g+miByRxKDMP7/aNFgFoAVdi7w==
-From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Thu, 17 Oct 2024 15:30:55 +0200
-Subject: [PATCH] devtool: ide-sdk: fix help typo
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20241017-devtool-ide-sdk-typo-v1-1-10535900085a@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAI4REWcC/x2MQQqAIBAAvxJ7bkHLMvpKdAjdaikyNKIQ/550n
- IGZCIE8U4C+iODp5sDuyCDLAsw6HQsh28xQiUpJITVaui/n9qwJg93wek+HRjVSt7rWXWcgp6e
- nmZ9/O4wpfZDA1wBmAAAA
-X-Change-ID: 20241017-devtool-ide-sdk-typo-c4517673788c
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FPYtRaXW;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cd76c513cso8860595ad.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 06:32:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729171930; x=1729776730; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hdtvDCY0W73NC3zRDMLaLvZiO7hT55mpHOEZUTuqsiM=;
+        b=FPYtRaXWa1z02K4/Dpdxn5L6mi0iRFrzKhE0V8S6QhtPj2XPDN6YaNljT3118ZyTpG
+         ebzxYqIouExDL0kDfEvRbJTA4k63Z2V1r1cd+MuSHybw3O0DVUgc00GDlEobs6MecRxy
+         JhEh3Ds2QUqTjp2CBFhaYEYgIYW5Si72SWMMNVU2BVVXHmZ1eNfaUzH3DxmhIKV+zNAW
+         FMLXA/WJSFM5stExxRyDxabaqazQ8xkPp4f+tmeFBowSMaVUGVzRDH/iJvTwgI7ikAUx
+         7yho4HymbsdrUgxrB83luzERlyESq1HQ3WlBKwtQKrztwp1hbq1oDSMR50sjIOK7HeDf
+         /mEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729171930; x=1729776730;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hdtvDCY0W73NC3zRDMLaLvZiO7hT55mpHOEZUTuqsiM=;
+        b=Ji6N5XhHrHdy+oitp5j3omMvDSbcuzknz3CCQK/MvMt8xWuQm5LzVmlgGrN9RploNl
+         YtU7+eZUuGFWE9591L3HjuUIuwKbHL8Ha8OjQ7Ca8W4TRPE9tAes2cfxbehVO37z+d0f
+         xM0fy/AM1BHXqMpfeSrli09U9JGlbS5147x2EIQTRkJCMzlW0Xp0HwhLGMIGLVSnyq8m
+         Mfs8GtPqza7UOH+PNKWyE4GUIuZW5gQOWw6DqJ4Y2eoYV5YKBHpHcWR4uzBNG0ViNKio
+         03HbnqzJsLswA8YATPO48aV64flpE+NiRpPIoXUb61lpeFwqPXIAogq9pElXhID76pjI
+         oz9Q==
+X-Gm-Message-State: AOJu0Yz6KlIb5SJzGVHWFwHC6GOR4uhgoLp3wK53gCN/1m3Z3oTYdpUp
+	rIFnSVf5kj1Rfl+qFQckyFzmEwKj1NikIpJQpvYIjItJS+BrRy3gxIbUCuCIkO+5AHPsM4FXo9O
+	n
+X-Google-Smtp-Source: AGHT+IFSMnudJ+zOGgk7BAlVQu168JweUVqpCjA4k/6y+chOG8jy91g75xBxDTWokrIwbbRDnl2yNA==
+X-Received: by 2002:a17:902:db12:b0:20b:c1e4:2d70 with SMTP id d9443c01a7336-20ca147e89bmr319223595ad.23.1729171930307;
+        Thu, 17 Oct 2024 06:32:10 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1805b093sm44161595ad.254.2024.10.17.06.32.09
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2024 06:32:10 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Antonin Godard <antonin.godard@bootlin.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1316;
- i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=zsZ4Rylu5ZhlrPAYErrdNc+9M7M5WMoiItPxcWaAfk4=;
- b=owEBbQKS/ZANAwAIAdGAQUApo6g2AcsmYgBnERGgvXMvZsHa8NVFy7rYTAHzCDtXslY/yuWbd
- KqECH6+8LCJAjMEAAEIAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCZxERoAAKCRDRgEFAKaOo
- NqOFEACLnno8lLpSEir0n3fHrfaz5RN9gAPhppu3GfvimXuun7LM6OUYxbnmrRVvV7Q8DjgWXMG
- YQpRHnf54C7RAfkoLDtCgJMFYgLUF2RKF0qCV3tDMX/xhANOygnsrX1Nqn25G50CUjsfxwlRI/Y
- wt52iU4bexOUp16SMuXRH3THHmgF7th8z9JkLf82Nhw4F51YeAUOr/YudmZpZjtBcB0ZvhAIJHl
- EUrvMGuHkALPpXJXeA5427u+7AZ+KLecl7uB6k87fejyIHP0jwnlR4Eea0kvEqPCS3++CcO2o/W
- pNSvlJSofz+fa6xqJdWlwZMgfdbvYUybnZ+DF6ejF3q5I+6iIP/OkD+vMnQkqBIoAWohr6WU+3X
- Nr9geOb17V7wQ8TcnirCgMw0ZCHsLork5wQ/F+RtltZhoeUyJhFBrAPkpDvDPiE2n/xfkyRsSRy
- EN770PDrHh6kP8SBNfgYmWzOD9Vnl3V+ch5gWiyUHEZFVV/c+9Agc/mBsVLD1XqTDU8ac4HpHBW
- 4WKBIa4uK8cgmHWN6jP0tAaorIMMSlqmvVloxitbBQT+pMtWQYBmBwqvtZ7EKjf0jeWA2hqJOgk
- Y+Pj16a5gbdvHbhyXOBuqq+7CZfRG/MWaTHbko5kJQo478vQy3+eUGOt2UDFe/rc/DOpBSJEIWN
- M6kRtFx1ajvboZA==
-X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
- fpr=8648725188DD401BB9A0D3FFD180414029A3A836
-X-GND-Sasl: antonin.godard@bootlin.com
+Subject: [OE-core][kirkstone 4/5] syslinux: Disable error on implicit-function-declaration
+Date: Thu, 17 Oct 2024 06:31:56 -0700
+Message-Id: <14fdee535c37aaa44898dc22149004c97b2456ca.1729170868.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1729170868.git.steve@sakoman.com>
+References: <cover.1729170868.git.steve@sakoman.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 13:31:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206019
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 13:32:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206024
 
-Change "paramter" -> "parameter".
+From: Khem Raj <raj.khem@gmail.com>
 
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+syslinux has vendored copy of ext2fs/ext2_fs.h but uses ext2fs/ext2fs.h
+from e2fsprogs package, however, ext2fs/ext2fs.h has dependencies on
+ext2fs/ext2_fs.h coming from e2fsprogs package as these both headers
+come from same package, here syslinux uses ext2fs.h from e2fsprogs but
+supplies its own copy of ext2_fs.h which maybe out of sync and that
+results in warnings about implicit implicit-function-declarations
+e.g.
+
+recipe-sysroot/usr/include/ext2fs/ext2fs.h:727:16: error: implicit declaration of function 'ext2fs_has_feature_gdt_csum' [-Wimplicit-function-declaration]
+|   727 |                ext2fs_has_feature_gdt_csum(fs->super);
+|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+ext2fs_has_feature_gdt_csum here comes from newer version of
+ext2fs/ext2_fs.h but missing from vendored copy, hence the warning.
+
+With gcc-14 this warning is treated as error by default, which breaks
+the build, so lets treat it as warning only.
+
+All these functions are never used in syslinux, so functionality-wise we
+are fine.
+
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a2b30108055e68b62fdad7319d7d569bc38a07b4)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 2 +-
+ meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 350a8b02ca2d52ec527c2c05af00f3ba48920233..2f6eddec2a0786300b79206f3320eef9d275e350 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -977,7 +977,7 @@ def register_commands(subparsers, context):
-                                            help='Setup the SDK and configure the IDE')
-     parser_ide_sdk.add_argument(
-         'recipenames', nargs='+', help='Generate an IDE configuration suitable to work on the given recipes.\n'
--        'Depending on the --mode paramter different types of SDKs and IDE configurations are generated.')
-+        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.')
-     parser_ide_sdk.add_argument(
-         '-m', '--mode', type=DevtoolIdeMode, default=DevtoolIdeMode.modified,
-         help='Different SDK types are supported:\n'
-
----
-base-commit: c6b8cbb838229526afbbac90396d8d983ad380de
-change-id: 20241017-devtool-ide-sdk-typo-c4517673788c
-
-Best regards,
+diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+index 0e4a23c1b4..4b4b6d4b64 100644
+--- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
++++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
+@@ -48,7 +48,7 @@ TARGET_LDFLAGS = ""
+ SECURITY_LDFLAGS = ""
+ LDFLAGS_SECTION_REMOVAL = ""
+ 
+-CFLAGS:append = " -DNO_INLINE_FUNCS"
++CFLAGS:append = " -DNO_INLINE_FUNCS -Wno-error=implicit-function-declaration"
+ 
+ EXTRA_OEMAKE = " \
+ 	BINDIR=${bindir} SBINDIR=${sbindir} LIBDIR=${libdir} \
 -- 
-Antonin Godard <antonin.godard@bootlin.com>
+2.34.1
 
 
