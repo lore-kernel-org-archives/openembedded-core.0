@@ -1,150 +1,124 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <regis.dargent@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A80D374B1
-	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 16:02:52 +0000 (UTC)
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
- by mx.groups.io with SMTP id smtpd.web11.1724.1729180970338044588
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BBDFD2F7D6
+	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 16:24:32 +0000 (UTC)
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.web10.2170.1729182263440455069
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 09:02:50 -0700
+ Thu, 17 Oct 2024 09:24:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vw5fuCZK;
- spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5e56759e6d7so649218eaf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 09:02:50 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DeN7eBWC;
+ spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: regis.dargent@gmail.com)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4315c1c7392so7275575e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 09:24:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729180969; x=1729785769; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o1m1awddg6uoVdtpcmlZbyyUVkfwLqjT5qOiAl50eRY=;
-        b=Vw5fuCZKFH+P1MW4ycKr5RR0uBvYdfpplLvK+9vLU6C7qW/Pd1KiT2GTQgEVipcLRQ
-         CiZ/6kfHFjFDhBiXXbMlPo3IzV12T+zi1dhjXxCEe38ZM8nGhvmj3x8kdr5PEfYU0/4m
-         nKjswbCA/PF+4Dw5rUMFQkXG6V/LRkFSGfK53l7pKNbpfEgu8q0/2hS9SL5xVyxe/ieh
-         np0AfNyYiElo+owcKerbwx8Js8QySegoZlbY69xwfhXPhLwpF422M/SeB6yX7WLH4iuP
-         +2e1VQYEZ6x9eXVmpav+iMo42737K7f/oQkUnfQpXfwpsZp8Igqk2ZbuIBzFwdoO++9z
-         98nQ==
+        d=gmail.com; s=20230601; t=1729182262; x=1729787062; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=eGRISo1RPyT/ciovVDerRuxBkhjmmAwqW1NEPlCC8nI=;
+        b=DeN7eBWCIdwBna3tlK+4TfhschTjRIf05UJPG/7hVwYHp0nn7LsLI2zyj+DLOX50il
+         2Jr6rJ9BamuTPMylM3XxV54NK3kaWP/Mxf5ixsgXWpH9TzNXNA8oA18wxxgZASiFrW6w
+         NTilWo7DRWLOjVdhHpm98+8kTQVj5DKqBMdZ10MbMw3iDX7QVRIiyEWkWYI9ktQa7JnI
+         dFWYi6eoeX6eqqRXFfKwEcdXEsjlzvF1EQ7+s1KsxDLHZy94BXF1rENi8CXEvK5wzbNl
+         NhMOXIwj6JtH71Tix1BzUfjmvBkTH0OB8LXGUqoZ5gFvqC92b1pV/Sfq4gIqw93m/AwI
+         yKyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729180969; x=1729785769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o1m1awddg6uoVdtpcmlZbyyUVkfwLqjT5qOiAl50eRY=;
-        b=mzasXlR4kq4PkJ2H43/zKccIPEqIgPPPzqqyZP0/nkSVfJBLxdIM9+9qWG1cljqci6
-         4CJBN+BpUH4M6sWcQBiVinulmGqI7SCfQ1Fh6HQg5qi/RUX0oHYZ2BJJlmyuOzgjunxS
-         zy1ZJMZS0VX2lb0ArKEKO+auczl7ib/QKLjF4jWOoi4X+Cc9DEuRDdAYa0RSl9Bwukv1
-         k30auOdUAt6fyExvLDLLTpjLuP5TD8PmSVSpnl3kfBYxmLzUlBMWl2C40wD3HNlFrE9V
-         +ZPFqO4kF8q7afWV3xdhqdRmiOd6zoaUn49GIZFo2tYHjqGBuhpBDICVxpz0V9gXRsi4
-         XKRg==
-X-Gm-Message-State: AOJu0YydabpgETmw6GU/Y6hL9Xa2WIfhHXnKqhV8HPuyxHYk31/A5WgE
-	aG/oJST4dRCy1iCYTJ17QUYiVKVuvle2MeOmNpGtyYvTj2eus6UYyLBMCss4+HcseYWpY86kbYs
-	jgpULM0yQ16cF7S/o9hEzMu7hvx6pACOr
-X-Google-Smtp-Source: AGHT+IFrx94uX3G8whbWRd3UIGgPHr3qODreDB7nku0aKxerbHtMtI3DFcl9aAGsUZUyb4ddC7XjZiZRYMqnh2gappw=
-X-Received: by 2002:a05:6820:1ac1:b0:5e1:eba9:8fe7 with SMTP id
- 006d021491bc7-5eb1a1a9932mr13420333eaf.3.1729180969391; Thu, 17 Oct 2024
- 09:02:49 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729182262; x=1729787062;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=eGRISo1RPyT/ciovVDerRuxBkhjmmAwqW1NEPlCC8nI=;
+        b=uYLDXBY+ANGcAMRrdhQBSu8dxWQRsmd3K5flKGMC56mQc3xTC6kot5vp7CBD9eaBN3
+         S9H+SHXQbJ2g2Z9NNGwMj9X1NAXa5yXEhkwRTFbxcHj9TB1KiX15A3L3QXzOqOO04Hu1
+         d9dEdzC4RE8vzkE6i9kU1tOqwQUlTK1c+qJkcEOTcnb88JrMna9+9FWhCJDL+PJuuXKD
+         ONijxFSn3XrYRnMnqwokWO5dSTbCH9TY+z/1SUcNt3pQsxy3eEleLYUFCJsKkx3pwEZE
+         9/UCzxGpEPmwnRaO1GXLXUjyKuJub0Wfvup1YmlJnt+YuAVcGKGkYUo20J9JOz5/3Yqw
+         4+kQ==
+X-Gm-Message-State: AOJu0YyXjReHrqJneHuZhBT0ftiVUNc3oclWvCACiGU4H9xWeEukeuNs
+	HjOOadZJRk3n72b76LZ86XQe4TuMwugm6m7ZPdA+WtzJEdar1ZTARR7MQg==
+X-Google-Smtp-Source: AGHT+IHAZQoDqGZLskLL/X9WgQPSfgV1LDQcw62TQOLZjFhhAGuTOSX+jq4p1voGo5l+IysAjmBEtg==
+X-Received: by 2002:a05:600c:1e13:b0:431:5533:8f0c with SMTP id 5b1f17b1804b1-43155338fe7mr41465245e9.29.1729182261408;
+        Thu, 17 Oct 2024 09:24:21 -0700 (PDT)
+Received: from Junction.dargent.eu (242.76.29.93.rev.sfr.net. [93.29.76.242])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431606adf1csm153365e9.42.2024.10.17.09.24.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Oct 2024 09:24:21 -0700 (PDT)
+From: Regis Dargent <regis.dargent@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Regis Dargent <regis.dargent@gmail.com>
+Subject: [PATCH] udev-extraconf: fix network.sh script did not configure hotplugged interfaces
+Date: Thu, 17 Oct 2024 18:24:17 +0200
+Message-Id: <20241017162417.527267-1-regis.dargent@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20241017123244.2418344-1-Deepesh.Varatharajan@windriver.com>
-In-Reply-To: <20241017123244.2418344-1-Deepesh.Varatharajan@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Thu, 17 Oct 2024 09:02:23 -0700
-Message-ID: <CAMKF1sqpqAoKA65ggR=zn=CjCT6+h-yj4rwx1O2ed9_K--2QWw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] rust-target-config: Update the data layout for
- x86-64 target
-To: deepesh.varatharajan@windriver.com
-Cc: openembedded-core@lists.openembedded.org, Naveen.Gowda@windriver.com, 
-	Shivaprasad.Moodalappa@windriver.com, Sundeep.Kokkonda@windriver.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 16:02:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206031
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 16:24:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206032
 
-This patch is ok, any rust version using clang 18 or newer will need this.
+Signed-off-by: Regis Dargent <regis.dargent@gmail.com>
 
-On Thu, Oct 17, 2024 at 5:33=E2=80=AFAM Varatharajan, Deepesh via
-lists.openembedded.org
-<deepesh.varatharajan=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->
-> The data layout for x86-64 target was different in rust from llvm.
-> It resulted in the following data layout error:
-> -------------------------------------------------------------------------=
--------------
-> error: data-layout for target `x86_64-linux`, `e-m:e-i64:64-f80:128-n8:16=
-:32:64-S128`,
-> differs from LLVM target's `x86_64-unknown-linux-gnu` default layout,
-> `e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i128:128-f80:128-n8:16:32:=
-64-S128`
-> -------------------------------------------------------------------------=
--------------
->
-> The issue was reported in meta-rust layer as:
-> https://github.com/meta-rust/meta-rust/pull/442
->
-> Hence, the data layout for x86-64 is modified as per the llvm sources whi=
-ch fixes the issue.
->
-> After running the testsuite with the modified data layout; it was observe=
-d that the
-> "tests/codegen/i128-x86-align.rs" passed. The modified data layout fixed =
-the scalar pair which
-> resolved the testcase failure. Hence, the testcase has been removed from =
-the exclude list.
->
-> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-> ---
->  meta/classes-recipe/rust-target-config.bbclass | 2 +-
->  meta/lib/oeqa/selftest/cases/rust.py           | 1 -
->  2 files changed, 1 insertion(+), 2 deletions(-)
->
-> diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classe=
-s-recipe/rust-target-config.bbclass
-> index 334f2e7d5f..f7aa6c74d8 100644
-> --- a/meta/classes-recipe/rust-target-config.bbclass
-> +++ b/meta/classes-recipe/rust-target-config.bbclass
-> @@ -153,7 +153,7 @@ TARGET_C_INT_WIDTH[aarch64] =3D "32"
->  MAX_ATOMIC_WIDTH[aarch64] =3D "128"
->
->  ## x86_64-unknown-linux-{gnu, musl}
-> -DATA_LAYOUT[x86_64] =3D "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
-> +DATA_LAYOUT[x86_64] =3D "e-m:e-p270:32:32-p271:32:32-p272:64:64-i64:64-i=
-128:128-f80:128-n8:16:32:64-S128"
->  TARGET_ENDIAN[x86_64] =3D "little"
->  TARGET_POINTER_WIDTH[x86_64] =3D "64"
->  TARGET_C_INT_WIDTH[x86_64] =3D "32"
-> diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftes=
-t/cases/rust.py
-> index cbe6366f75..88d7bb9518 100644
-> --- a/meta/lib/oeqa/selftest/cases/rust.py
-> +++ b/meta/lib/oeqa/selftest/cases/rust.py
-> @@ -83,7 +83,6 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OE=
-PTestResultTestCase):
->                              'src/tools/tidy/src/',
->                              'tests/assembly/asm/aarch64-outline-atomics.=
-rs',
->                              'tests/codegen/abi-main-signature-32bit-c-in=
-t.rs',
-> -                            'tests/codegen/i128-x86-align.rs',
->                              'tests/codegen/issues/issue-122805.rs',
->                              'tests/codegen/thread-local.rs',
->                              'tests/mir-opt/',
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#206017): https://lists.openembedded.org/g/openembedde=
-d-core/message/206017
-> Mute This Topic: https://lists.openembedded.org/mt/109062536/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Fixes [YOCTO 15616]
+
+network.sh relies on (long) missing files (eg. /etc/network/options,
+/etc/init.d/network) to decide if it should configure the new network
+interface (ifup) or put its name in /etc/udev_network_queue for future
+initialization by /etc/init.d/network service.
+The actual result was that the new hotplugged interface was never
+automatically configured.
+Removing the obsolete tests allows the script to do its intended job.
+---
+ .../udev/udev-extraconf/network.sh            | 32 -------------------
+ 1 file changed, 32 deletions(-)
+
+diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/recipes-core/udev/udev-extraconf/network.sh
+index 3ee92714af..ace38808cd 100644
+--- a/meta/recipes-core/udev/udev-extraconf/network.sh
++++ b/meta/recipes-core/udev/udev-extraconf/network.sh
+@@ -6,38 +6,6 @@ echo "$INTERFACE" | grep -q wifi && exit 0
+ # udevd does clearenv(). Export shell PATH to children.
+ export PATH
+ 
+-# Check if /etc/init.d/network has been run yet to see if we are 
+-# called by starting /etc/rcS.d/S03udev and not by hotplugging a device
+-#
+-# At this stage, network interfaces should not be brought up
+-# automatically because:
+-# a)	/etc/init.d/network has not been run yet (security issue)
+-# b) 	/var has not been populated yet so /etc/resolv,conf points to 
+-#	oblivion, making the network unusable
+-#
+-
+-spoofp="`grep ^spoofprotect /etc/network/options`"
+-if test -z "$spoofp"
+-then
+-	# This is the default from /etc/init.d/network
+-	spoofp_val=yes
+-else
+-	spoofp_val=${spoofp#spoofprotect=}
+-fi
+-
+-test "$spoofp_val" = yes && spoofp_val=1 || spoofp_val=0
+-
+-# I think it is safe to assume that "lo" will always be there ;)
+-if test "`cat /proc/sys/net/ipv4/conf/lo/rp_filter`" != "$spoofp_val" -a -n "$spoofp_val"
+-then
+-	echo "$INTERFACE" >> /dev/udev_network_queue	
+-	exit 0
+-fi
+-
+-#
+-# Code taken from pcmcia-cs:/etc/pcmcia/network
+-#
+-
+ # if this interface has an entry in /etc/network/interfaces, let ifupdown
+ # handle it
+ if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
+-- 
+2.25.1
+
 
