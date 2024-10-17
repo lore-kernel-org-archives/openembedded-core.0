@@ -2,112 +2,109 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FBFFD3748B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 509CED37490
 	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 13:32:15 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.48401.1729171931086099588
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.48943.1729171925238777564
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 06:32:11 -0700
+ Thu, 17 Oct 2024 06:32:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FPYtRaXW;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cd76c513cso8860595ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 06:32:11 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SsFzcl+R;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-207115e3056so7400685ad.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 06:32:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729171930; x=1729776730; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hdtvDCY0W73NC3zRDMLaLvZiO7hT55mpHOEZUTuqsiM=;
-        b=FPYtRaXWa1z02K4/Dpdxn5L6mi0iRFrzKhE0V8S6QhtPj2XPDN6YaNljT3118ZyTpG
-         ebzxYqIouExDL0kDfEvRbJTA4k63Z2V1r1cd+MuSHybw3O0DVUgc00GDlEobs6MecRxy
-         JhEh3Ds2QUqTjp2CBFhaYEYgIYW5Si72SWMMNVU2BVVXHmZ1eNfaUzH3DxmhIKV+zNAW
-         FMLXA/WJSFM5stExxRyDxabaqazQ8xkPp4f+tmeFBowSMaVUGVzRDH/iJvTwgI7ikAUx
-         7yho4HymbsdrUgxrB83luzERlyESq1HQ3WlBKwtQKrztwp1hbq1oDSMR50sjIOK7HeDf
-         /mEg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729171924; x=1729776724; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=+32Bjdo+eTuTQsBBlWymJI2Ok38xs/G4pmKlzmZFdTA=;
+        b=SsFzcl+RgFlJc8Sz4iAp5LN1lZYPQwqoFymuGk3AfqSBC9xAAiOtFKCV+yh8eFGoOM
+         ADJcnzJo68UtpNUpjpt+JuslGlgDT4sUnvGhkLsv9XsMKiL4JXB/2CnN2N0gBNHTrkQP
+         oXtNELbjj/jX675nBSA1ugdnS/WiXcX+QcRVkp7uPa2tkOPjKnDm4RvBOzxBmpbZ50iV
+         eL0Dp3P2gWn/qH6lphHqAmfCVJejGYFZsbXRnPCE1QBhmzp2L+QCJ/lc2MEE+sbCI/Yr
+         lSWsiAU9XcQedCk3TMKpPfBb6xCdWaTtNCxddyDL6/CWztQoHWEVBY34YGN/nvgni/VJ
+         ffNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729171930; x=1729776730;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hdtvDCY0W73NC3zRDMLaLvZiO7hT55mpHOEZUTuqsiM=;
-        b=Ji6N5XhHrHdy+oitp5j3omMvDSbcuzknz3CCQK/MvMt8xWuQm5LzVmlgGrN9RploNl
-         YtU7+eZUuGFWE9591L3HjuUIuwKbHL8Ha8OjQ7Ca8W4TRPE9tAes2cfxbehVO37z+d0f
-         xM0fy/AM1BHXqMpfeSrli09U9JGlbS5147x2EIQTRkJCMzlW0Xp0HwhLGMIGLVSnyq8m
-         Mfs8GtPqza7UOH+PNKWyE4GUIuZW5gQOWw6DqJ4Y2eoYV5YKBHpHcWR4uzBNG0ViNKio
-         03HbnqzJsLswA8YATPO48aV64flpE+NiRpPIoXUb61lpeFwqPXIAogq9pElXhID76pjI
-         oz9Q==
-X-Gm-Message-State: AOJu0Yz6KlIb5SJzGVHWFwHC6GOR4uhgoLp3wK53gCN/1m3Z3oTYdpUp
-	rIFnSVf5kj1Rfl+qFQckyFzmEwKj1NikIpJQpvYIjItJS+BrRy3gxIbUCuCIkO+5AHPsM4FXo9O
-	n
-X-Google-Smtp-Source: AGHT+IFSMnudJ+zOGgk7BAlVQu168JweUVqpCjA4k/6y+chOG8jy91g75xBxDTWokrIwbbRDnl2yNA==
-X-Received: by 2002:a17:902:db12:b0:20b:c1e4:2d70 with SMTP id d9443c01a7336-20ca147e89bmr319223595ad.23.1729171930307;
-        Thu, 17 Oct 2024 06:32:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729171924; x=1729776724;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+32Bjdo+eTuTQsBBlWymJI2Ok38xs/G4pmKlzmZFdTA=;
+        b=CDJNBlmsxVq/7xoL1CfWgkxIAD2/XdKSXRj9MBaJl2ds38SRyJ4+9bNK0YI1Ebm7my
+         i27DMAb32ZnFw/AI8SRHZmZPEfAY8Kjm6IF4Zmj8aLTA5sD53b91+I5o9UKKnFmpDKZd
+         ZMZ6zUE4p01sJMyAN1jyGUsjaC7iGjBr/k9upFz0E4SdVe2/tj+dvWsgqZH0VFF5h4Uk
+         w8cqv60SUUFlBh5U4Uuq0EfdzAyiaJli9nNIiw2EZDW96vP4ctQL843bokC/8KvCJ49Z
+         JeJl8OTRhcDmVulUsIxdkBz+TNvD0ZFcjqCItYvpkaU08NpRloxDn+FEp5rvj+GzgL4I
+         NU4g==
+X-Gm-Message-State: AOJu0Yy1iPOqdpBD3PBRoyXGhOkPolvqpmGyRnrZKrgbFiAo1+IbC0hD
+	oVMi/v5msE2xPiDxSpgiZ4xoSyYb6dfRGl8f5y/IHh2FQfOp2zOT+mhUtclH3JCY+B+yDKDvGQz
+	t
+X-Google-Smtp-Source: AGHT+IGheqPDYYtQri6DyZvTuwcm0HM0WrVNtjYj1DdpqeTIMRzQfKIPm3clhtVoMhjjhFWYC4jVsA==
+X-Received: by 2002:a17:902:db02:b0:20c:bffe:e1e5 with SMTP id d9443c01a7336-20d27ea8667mr108133785ad.19.1729171924349;
+        Thu, 17 Oct 2024 06:32:04 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1805b093sm44161595ad.254.2024.10.17.06.32.09
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1805b093sm44161595ad.254.2024.10.17.06.32.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 06:32:10 -0700 (PDT)
+        Thu, 17 Oct 2024 06:32:04 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 4/5] syslinux: Disable error on implicit-function-declaration
-Date: Thu, 17 Oct 2024 06:31:56 -0700
-Message-Id: <14fdee535c37aaa44898dc22149004c97b2456ca.1729170868.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 0/5] Patch review
+Date: Thu, 17 Oct 2024 06:31:52 -0700
+Message-Id: <cover.1729170868.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1729170868.git.steve@sakoman.com>
-References: <cover.1729170868.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 13:32:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206024
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206020
 
-From: Khem Raj <raj.khem@gmail.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Monday, October 21
 
-syslinux has vendored copy of ext2fs/ext2_fs.h but uses ext2fs/ext2fs.h
-from e2fsprogs package, however, ext2fs/ext2fs.h has dependencies on
-ext2fs/ext2_fs.h coming from e2fsprogs package as these both headers
-come from same package, here syslinux uses ext2fs.h from e2fsprogs but
-supplies its own copy of ext2_fs.h which maybe out of sync and that
-results in warnings about implicit implicit-function-declarations
-e.g.
+Passed a-full on autobuilder:
 
-recipe-sysroot/usr/include/ext2fs/ext2fs.h:727:16: error: implicit declaration of function 'ext2fs_has_feature_gdt_csum' [-Wimplicit-function-declaration]
-|   727 |                ext2fs_has_feature_gdt_csum(fs->super);
-|       |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+https://valkyrie.yoctoproject.org/#/builders/29/builds/283
 
-ext2fs_has_feature_gdt_csum here comes from newer version of
-ext2fs/ext2_fs.h but missing from vendored copy, hence the warning.
+The following changes since commit f09fca692f96c9c428e89c5ef53fbcb92ac0c9bf:
 
-With gcc-14 this warning is treated as error by default, which breaks
-the build, so lets treat it as warning only.
+  build-appliance-image: Update to kirkstone head revision (2024-10-12 05:20:21 -0700)
 
-All these functions are never used in syslinux, so functionality-wise we
-are fine.
+are available in the Git repository at:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a2b30108055e68b62fdad7319d7d569bc38a07b4)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-diff --git a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-index 0e4a23c1b4..4b4b6d4b64 100644
---- a/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-+++ b/meta/recipes-devtools/syslinux/syslinux_6.04-pre2.bb
-@@ -48,7 +48,7 @@ TARGET_LDFLAGS = ""
- SECURITY_LDFLAGS = ""
- LDFLAGS_SECTION_REMOVAL = ""
- 
--CFLAGS:append = " -DNO_INLINE_FUNCS"
-+CFLAGS:append = " -DNO_INLINE_FUNCS -Wno-error=implicit-function-declaration"
- 
- EXTRA_OEMAKE = " \
- 	BINDIR=${bindir} SBINDIR=${sbindir} LIBDIR=${libdir} \
+Ashish Sharma (1):
+  libarchive: Fix CVE-2024-48957 & CVE-2024-48958
+
+Khem Raj (1):
+  syslinux: Disable error on implicit-function-declaration
+
+Macpaul Lin (1):
+  linux-firmware: upgrade 20240220 -> 20240909
+
+Peter Marko (1):
+  gcc: ignore CVE-2023-4039
+
+Randolph Sapp (1):
+  kmscube: create_framebuffer: backport modifier fix
+
+ meta/recipes-devtools/gcc/gcc-11.5.inc        |  3 ++
+ .../syslinux/syslinux_6.04-pre2.bb            |  2 +-
+ .../libarchive/CVE-2024-48957.patch           | 33 +++++++++++++++++
+ .../libarchive/CVE-2024-48958.patch           | 37 +++++++++++++++++++
+ .../libarchive/libarchive_3.6.2.bb            |  2 +
+ ...common.c-do-not-use-invalid-modifier.patch | 31 ++++++++++++++++
+ meta/recipes-graphics/kmscube/kmscube_git.bb  |  1 +
+ ...20240220.bb => linux-firmware_20240909.bb} |  8 ++--
+ 8 files changed, 112 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
+ create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
+ create mode 100644 meta/recipes-graphics/kmscube/kmscube/0001-drm-common.c-do-not-use-invalid-modifier.patch
+ rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240220.bb => linux-firmware_20240909.bb} (99%)
+
 -- 
 2.34.1
 
