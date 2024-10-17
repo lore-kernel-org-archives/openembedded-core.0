@@ -1,208 +1,156 @@
-Return-Path: <vince_chang@aspeedtech.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4A53D21249
-	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 08:40:13 +0000 (UTC)
-Received: from TWMBX01.aspeed.com (TWMBX01.aspeed.com [211.20.114.72])
- by mx.groups.io with SMTP id smtpd.web11.44552.1729154403810974911
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D384DD2124E
+	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 08:45:53 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web11.44623.1729154751357088826
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 01:40:04 -0700
+ Thu, 17 Oct 2024 01:45:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: vince_chang@aspeedtech.com)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Thu, 17 Oct
- 2024 16:40:02 +0800
-Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Thu, 17 Oct 2024 16:40:02 +0800
-From: Vince Chang <vince_chang@aspeedtech.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <jamin_lin@aspeedtech.com>, <troy_lee@aspeedtech.com>
-Subject: [PATCH v1 1/2] wic: add WIC_SECTOR_SIZE variable
-Date: Thu, 17 Oct 2024 16:40:01 +0800
-Message-ID: <20241017084002.4093919-2-vince_chang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241017084002.4093919-1-vince_chang@aspeedtech.com>
-References: <20241017084002.4093919-1-vince_chang@aspeedtech.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eXlKoBdS;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fb5be4381dso8355371fa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 01:45:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729154749; x=1729759549; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=suvXEpXzvlW7mVZES2nig17ooTxhXg1cM9HPIekI4I0=;
+        b=eXlKoBdSaV1V6XIDU5OO7xHqnf56PE1PdtWtGYa09E2+jdjuOzKqbkuldi9tm36ABP
+         hTlm19NuwSRp7Ah6TzwgT7OV/K5XuXP6nHIjQNMh4YyklAe9j8d1Xzzj5rOJu1sRashf
+         +pYpQomaQWnJdCz5GbJ+tMVdB908xRtm0Pj8crGrCiBTZPHEqJE4QNCNS4QHePQcCp/p
+         0hNntVosseiTTbc1N5hXFa3vy3Sjhqa/E6hxucmI7PrYFW/8YaRJ8vuTXEAB9gpzoQxF
+         +78ri/nMgRHbOtAbRR/F/hnLDMESK5Y7gNRJ/OOSc/+/6moPNA2Ps1j7egfyXf7VQau4
+         Jmig==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729154749; x=1729759549;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=suvXEpXzvlW7mVZES2nig17ooTxhXg1cM9HPIekI4I0=;
+        b=OtBrWqeexbJnOjC0HiMGWOEkRex3gvpCDHK9GrQb1Qg/xEmPZamqIYUxBDx02kFkHQ
+         W5c7gC4EnWXg2jrIuCVNTaWJfFs8/Ry3laWT4JqzKnT5+22fFMyMT3Wdpkx8wtdRhXao
+         BFylT/2OC0JoYtmRYasnzxq5KMxce0Z01kKJ2gI9YbGaQcnz477sJHy2AeuGOeFL+GI3
+         DqFxJN0tf8UBvs1IGrzUm91HaE2Na7LqoZugxL+ShbIlMqPU/mmHzdac5L5YsV+tpae1
+         OhSmb1f8XK+LODtI5S9Bwsh0WQ6CHGggEvOwIIweh9D9QHp+jWe6iuEBQtDTQurv8VjK
+         yC1Q==
+X-Gm-Message-State: AOJu0YxUa3QZ3rvs+4OnIsCt6usHA4QVj2je+LyIN3Ch4rgxniUX6QUc
+	uSLYmVkEV2GuzD3bp1FXRPtlM9pQhTFV8ZETc1QxJaPfapJhoDgmynr1Azv7FlOirjrSXNmn5ny
+	h+3b/8SZJNl+UBhvfpJIEtDaaoE8=
+X-Google-Smtp-Source: AGHT+IFJJq3iq7HxoIXIUI+1HNXANjfvq3eLGeVkOU4Y21m1MIkTkEI3Ix0+1F7MepUNJeA9gB/3jwdOEW0jr1yHbhA=
+X-Received: by 2002:a2e:bc26:0:b0:2fb:4ff6:eb0d with SMTP id
+ 38308e7fff4ca-2fb61b5d5bcmr41583561fa.22.1729154749040; Thu, 17 Oct 2024
+ 01:45:49 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+References: <20241014221636.1276264-2-t.f.g.geelen@gmail.com>
+In-Reply-To: <20241014221636.1276264-2-t.f.g.geelen@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 17 Oct 2024 10:45:37 +0200
+Message-ID: <CANNYZj_Qe0rLCwh2afnGiqJx=eqp+_bTYLTQLUDFsd8n-+WDrg@mail.gmail.com>
+Subject: Re: [OE-core] [meta][PATCH v3] python3-cryptography: upgrade 42.0.8
+ -> 43.0.1
+To: t.f.g.geelen@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 08:40:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205992
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 08:45:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205994
 
-Currently WIC is unable to generate images that requires a sector
-size different of 512. Add WIC_SECTOR_SIZE variable to handle
-the sector size of 4096 for UFS.
+On Tue, 15 Oct 2024 at 00:17, Tom Geelen via lists.openembedded.org
+<t.f.g.geelen=gmail.com@lists.openembedded.org> wrote:
+> --- a/meta/recipes-devtools/python/python3-cryptography_42.0.8.bb
+> +++ b/meta/recipes-devtools/python/python3-cryptography_43.0.1.bb
+> @@ -8,43 +8,21 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+>                     "
+>  LDSHARED += "-pthread"
+>
+> -SRC_URI[sha256sum] = "8d09d05439ce7baa8e9e95b07ec5b6c886f548deb7e0f69ef25f64b3bce842f2"
+> -
+> -SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+> -            file://check-memfree.py \
+> -            file://run-ptest \
+> -           "
+> -
+> -require ${BPN}-crates.inc
+> -
+> -inherit pypi python_setuptools3_rust cargo-update-recipe-crates pkgconfig
+> -
+> -DEPENDS += " \
+> +DEPENDS += "\
+>      python3-cffi-native \
+>  "
+>
+> -RDEPENDS:${PN} += " \
+> -    python3-cffi \
+> -"
+> +SRC_URI[sha256sum] = "203e92a75716d8cfb491dc47c79e17d0d9207ccffcbcb35f598fbe463ae3444d"
+>
+> -RDEPENDS:${PN}:append:class-target = " \
+> -    python3-numbers \
+> -    python3-threading \
+> +SRC_URI:append = " \
+> +    file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+> +    file://check-memfree.py \
+> +    file://run-ptest \
+>  "
+>
+> -RDEPENDS:${PN}-ptest += " \
+> -    python3-bcrypt \
+> -    python3-cryptography-vectors (= ${PV}) \
+> -    python3-hypothesis \
+> -    python3-iso8601 \
+> -    python3-mmap \
+> -    python3-pretend \
+> -    python3-psutil \
+> -    python3-pytest \
+> -    python3-unittest-automake-output \
+> -    python3-pytest-subtests \
+> -    python3-pytz \
+> -"
+> +require ${BPN}-crates.inc
+> +
+> +inherit pypi python_maturin cargo-update-recipe-crates pkgconfig
+>
+>  inherit ptest
+>
+> @@ -60,8 +38,27 @@ do_install_ptest() {
+>      cp -r ${S}/pyproject.toml ${D}${PTEST_PATH}/
+>  }
+>
+> -FILES:${PN}-dbg += " \
+> +FILES:${PN}-dbg += "\
+>      ${PYTHON_SITEPACKAGES_DIR}/${SRCNAME}/hazmat/bindings/.debug \
+>  "
+>
+> +RDEPENDS:${PN} += "\
+> +    python3-cffi \
+> +"
+> +
+> +RDEPENDS:${PN}:append:class-target = " \
+> +    python3-numbers \
+> +    python3-threading \
+> +"
+> +
+> +RDEPENDS:${PN}-ptest += "\
+> +    python3-certifi \
+> +    python3-cryptography-vectors (= ${PV}) \
+> +    python3-mmap \
+> +    python3-pretend \
+> +    python3-pytest \
+> +    python3-pytest-subtests \
+> +    python3-unittest-automake-output \
+> +"
+> +
+>  BBCLASSEXTEND = "native nativesdk"
 
-Signed-off-by: Vince Chang <vince_chang@aspeedtech.com>
----
- scripts/lib/wic/plugins/imager/direct.py | 56 ++++++++++++++----------
- 1 file changed, 33 insertions(+), 23 deletions(-)
+The patch is rearranging lines in the recipe, changing whitespace, and
+replacing SRC_URI += with SRC_URI:append. Those things are both
+unnecessary and make actual changes difficult to spot and review. If
+you must do them, they should come in their own commits.
 
-diff --git a/scripts/lib/wic/plugins/imager/direct.py b/scripts/lib/wic/plu=
-gins/imager/direct.py
-index a1d152659b..0901105a4f 100644
---- a/scripts/lib/wic/plugins/imager/direct.py
-+++ b/scripts/lib/wic/plugins/imager/direct.py
-@@ -321,7 +321,15 @@ class PartitionedImage():
-         self.partitions =3D partitions
-         self.partimages =3D []
-         # Size of a sector used in calculations
--        self.sector_size =3D SECTOR_SIZE
-+        sector_size_str =3D get_bitbake_var('WIC_SECTOR_SIZE')
-+        if sector_size_str is not None:
-+            try:
-+                self.sector_size =3D int(sector_size_str)
-+            except ValueError:
-+                self.sector_size =3D SECTOR_SIZE
-+        else:
-+            self.sector_size =3D SECTOR_SIZE
-+
-         self.native_sysroot =3D native_sysroot
-         num_real_partitions =3D len([p for p in self.partitions if not p.n=
-o_table])
-         self.extra_space =3D extra_space
-@@ -508,7 +516,8 @@ class PartitionedImage():
-         logger.debug("Added '%s' partition, sectors %d-%d, size %d sectors=
-",
-                      parttype, start, end, size)
-=20
--        cmd =3D "parted -s %s unit s mkpart %s" % (device, parttype)
-+        cmd =3D "export PARTED_SECTOR_SIZE=3D%d; parted -s %s unit s mkpar=
-t %s" % \
-+            (self.sector_size, device, parttype)
-         if fstype:
-             cmd +=3D " %s" % fstype
-         cmd +=3D " %d %d" % (start, end)
-@@ -527,8 +536,8 @@ class PartitionedImage():
-             os.ftruncate(sparse.fileno(), min_size)
-=20
-         logger.debug("Initializing partition table for %s", device)
--        exec_native_cmd("parted -s %s mklabel %s" % (device, ptable_format=
-),
--                        self.native_sysroot)
-+        exec_native_cmd("export PARTED_SECTOR_SIZE=3D%d; parted -s %s mkla=
-bel %s" %
-+                        (self.sector_size, device, ptable_format), self.na=
-tive_sysroot)
-=20
-     def _write_disk_guid(self):
-         if self.ptable_format in ('gpt', 'gpt-hybrid'):
-@@ -538,7 +547,8 @@ class PartitionedImage():
-                 self.disk_guid =3D uuid.uuid4()
-=20
-             logger.debug("Set disk guid %s", self.disk_guid)
--            sfdisk_cmd =3D "sfdisk --disk-id %s %s" % (self.path, self.dis=
-k_guid)
-+            sfdisk_cmd =3D "sfdisk --sector-size %s --disk-id %s %s" % \
-+                        (self.sector_size, self.path, self.disk_guid)
-             exec_native_cmd(sfdisk_cmd, self.native_sysroot)
-=20
-     def create(self):
-@@ -613,45 +623,44 @@ class PartitionedImage():
-                 partition_label =3D part.part_name if part.part_name else =
-part.label
-                 logger.debug("partition %d: set name to %s",
-                              part.num, partition_label)
--                exec_native_cmd("sgdisk --change-name=3D%d:%s %s" % \
--                                         (part.num, partition_label,
--                                          self.path), self.native_sysroot)
--
-+                exec_native_cmd("sfdisk --sector-size %s --part-label %s %=
-d %s" % \
-+                                         (self.sector_size, self.path, par=
-t.num,
-+                                          partition_label), self.native_sy=
-sroot)
-             if part.part_type:
-                 logger.debug("partition %d: set type UID to %s",
-                              part.num, part.part_type)
--                exec_native_cmd("sgdisk --typecode=3D%d:%s %s" % \
--                                         (part.num, part.part_type,
--                                          self.path), self.native_sysroot)
-+                exec_native_cmd("sfdisk --sector-size %s --part-type %s %d=
- %s" % \
-+                                         (self.sector_size, self.path, par=
-t.num,
-+                                          part.part_type), self.native_sys=
-root)
-=20
-             if part.uuid and self.ptable_format in ("gpt", "gpt-hybrid"):
-                 logger.debug("partition %d: set UUID to %s",
-                              part.num, part.uuid)
--                exec_native_cmd("sgdisk --partition-guid=3D%d:%s %s" % \
--                                (part.num, part.uuid, self.path),
-+                exec_native_cmd("sfdisk --sector-size %s --part-uuid %s %d=
- %s" % \
-+                                (self.sector_size, self.path, part.num, pa=
-rt.uuid),
-                                 self.native_sysroot)
-=20
-             if part.active:
-                 flag_name =3D "legacy_boot" if self.ptable_format in ('gpt=
-', 'gpt-hybrid') else "boot"
-                 logger.debug("Set '%s' flag for partition '%s' on disk '%s=
-'",
-                              flag_name, part.num, self.path)
--                exec_native_cmd("parted -s %s set %d %s on" % \
--                                (self.path, part.num, flag_name),
-+                exec_native_cmd("export PARTED_SECTOR_SIZE=3D%d; parted -s=
- %s set %d %s on" % \
-+                                (self.sector_size, self.path, part.num, fl=
-ag_name),
-                                 self.native_sysroot)
-                 if self.ptable_format =3D=3D 'gpt-hybrid' and part.mbr:
--                    exec_native_cmd("parted -s %s set %d %s on" % \
--                                    (mbr_path, hybrid_mbr_part_num, "boot"=
-),
-+                    exec_native_cmd("export PARTED_SECTOR_SIZE=3D%d; parte=
-d -s %s set %d %s on" % \
-+                                    (self.sector_size, mbr_path, hybrid_mb=
-r_part_num, "boot"),
-                                     self.native_sysroot)
-             if part.system_id:
--                exec_native_cmd("sfdisk --part-type %s %s %s" % \
--                                (self.path, part.num, part.system_id),
-+                exec_native_cmd("sfdisk --sector-size %s --part-type %s %s=
- %s" % \
-+                                (self.sector_size, self.path, part.num, pa=
-rt.system_id),
-                                 self.native_sysroot)
-=20
-             if part.hidden and self.ptable_format =3D=3D "gpt":
-                 logger.debug("Set hidden attribute for partition '%s' on d=
-isk '%s'",
-                              part.num, self.path)
--                exec_native_cmd("sfdisk --part-attrs %s %s RequiredPartiti=
-on" % \
--                                (self.path, part.num),
-+                exec_native_cmd("sfdisk --sector-size %s --part-attrs %s %=
-s RequiredPartition" % \
-+                                (self.sector_size, self.path, part.num),
-                                 self.native_sysroot)
-=20
-         if self.ptable_format =3D=3D "gpt-hybrid":
-@@ -664,7 +673,8 @@ class PartitionedImage():
-             # create with an arbitrary type, then change it to the correct=
- type
-             # with sfdisk
-             self._create_partition(mbr_path, "primary", "fat32", 1, GPT_OV=
-ERHEAD)
--            exec_native_cmd("sfdisk --part-type %s %d 0xee" % (mbr_path, h=
-ybrid_mbr_part_num),
-+            exec_native_cmd("sfdisk --sector-size %s --part-type %s %d 0xe=
-e" % \
-+                            (self.sector_size, mbr_path, hybrid_mbr_part_n=
-um),
-                             self.native_sysroot)
-=20
-             # Copy hybrid MBR
---=20
-2.25.1
-
+Alex
 
