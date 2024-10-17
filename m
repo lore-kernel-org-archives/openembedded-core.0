@@ -1,99 +1,75 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C63C7D2125A
-	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 08:46:43 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.43909.1729154798086477101
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA4F1D2125A
+	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 08:49:03 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web11.44677.1729154936676773568
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 01:46:38 -0700
+ Thu, 17 Oct 2024 01:48:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=nZi4qPd8;
- spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-539e13375d3so768199e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 01:46:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QsarcttV;
+ spf=pass (domain: gmail.com, ip: 209.85.208.181, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2f75c56f16aso7380211fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 01:48:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729154796; x=1729759596; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=t9LeoT1E2wZPPInwpRJvXgrNhfKHRw6qkNxEF+VzWns=;
-        b=nZi4qPd8qlT33Wai8BN17HVgDwJWf901Ypxf1tqhQgcSQUzbAeb5vpTzWya8RGRqxL
-         tm8c61krXzD90ZYvukKwDSf/MDfW+IoN2J7HysLR6E0/nvtBHzsDmU2gyhCaAyl06b9+
-         IvoBKnPVTFOAdeaT/CNFB/NDhA+Pij1552svxYm1flmxM2xnqkZgApPTp+asajkOBOKq
-         YR0mjQO72BQT8C2LxYKugvnrzC2FOZN2xwZn4+YDX+GmW9hnuVdjBMbw7DvVLbUVb5w3
-         Gg62CFcPlXEhHhTzk3MEsfXsmVEEiOfw+cH4bXgFNCePMW8tbQgIa+FpDVf5fqHoIPsi
-         4KSA==
+        d=gmail.com; s=20230601; t=1729154935; x=1729759735; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=gASyDLP5QPJfiejtvs6r1jqvE8IO9GJxHp7+4gcYNtk=;
+        b=QsarcttVhIaZP+smfYQS/yem9yUIjN5IfAouKCCln53FJzXizdCQJT5lZ0YVIE8q5a
+         3Ct4+gvXiFhWfRkv2b+UuBqB+WIlxd1tPvFhdZwGrDw51ZY2cbFGFIdlTAQpcUh0rDsx
+         BpGL1GMAlkIHlEG9lo9E3fQKqV5E9XFWHAysJorG0EZU9d3voqawi0Fykk/7k63mpiqG
+         uSr8ODmoB2zBefCN+oQKf0G7vHn8nMtfgO1i0VdIj6pGS8SedGE1DfPpycmy78nN4OCL
+         SeVsYWxRKFa8bE0sghCxp0VH4wHaYI6Akfy7MW+Mh3BKlEXC0ilNFPORViKMAe7GH0nE
+         xFDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729154796; x=1729759596;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=t9LeoT1E2wZPPInwpRJvXgrNhfKHRw6qkNxEF+VzWns=;
-        b=RuYuqmAf03lU5D7XTYLzabspwhkXKAQNHBgw9OdHE09i3TDeyvbsAyXCReeR1u8uQk
-         dMemuWvjnJr8v+maWMbOXV6CLIC7mED3rFePYpr/MVJzBjTTx71LV5//encj/92frKSX
-         t9kflCf9jZq86uSGac+KOH0FdI6bWeucaae4zIisZj4QF+CYen9IroOCF7m5zP8IX0YU
-         uCREkc1zxgGgQdTwNs3yWysyVe5nPOFnTLa53/Oggzxjmdoxdry/cQ+RXD6AZxwK7mvw
-         GzoRWFDCrHNcT56EjhPo5ITSa6mg72QCKrzm9bELkeu7O9ACziXlH7PfrDP8lmwLC4Zo
-         B/FA==
-X-Gm-Message-State: AOJu0Yxl10zKW8NMMFQJww6up14jbXHJes+THOyXLuxnGwQZaU9W633F
-	7zPkjMkvlWqpm+zam8sBa+PAKA12KSfhMegPw1t1Lc4fUAb3Vk1NLJN/DI2fnfDk6WBGrfLWgAl
-	UQmk=
-X-Google-Smtp-Source: AGHT+IHrkhK++JYCYxCMAOWQ+Y64VaBrsGCEfgqN/sNYNcnX30uWdIANIaEJ7CwIEWknl6Y+nscOWA==
-X-Received: by 2002:a05:6512:2350:b0:539:f7ab:e161 with SMTP id 2adb3069b0e04-539f7abe40bmr7361880e87.45.1729154796044;
-        Thu, 17 Oct 2024 01:46:36 -0700 (PDT)
-Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539fffa8e4asm706138e87.55.2024.10.17.01.46.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 01:46:35 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v9 10/11] oeqa selftest wic.py: mark efi tests to run on x86_64 build host only
-Date: Thu, 17 Oct 2024 11:45:51 +0300
-Message-ID: <20241017084552.182136-11-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241017084552.182136-1-mikko.rapeli@linaro.org>
-References: <20241017084552.182136-1-mikko.rapeli@linaro.org>
+        d=1e100.net; s=20230601; t=1729154935; x=1729759735;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=gASyDLP5QPJfiejtvs6r1jqvE8IO9GJxHp7+4gcYNtk=;
+        b=US9RAUO7hxbSHVzQiejS3PLEXxIDObTBKT9S1WIB8GcUiFma/QAlMjtk9g2bjXHJ74
+         fj2j4Es+sO1u6JFThYhZpyq2iO2sR7T12R0memSw5Tqi9/EVls4P1rdyi8v9KL2MyIje
+         8OG/zi9OZNuv+AlFe4abDRtWqIsBPI2lbJ3hit+yjyMSWP0yMJmio6T784s42cb9/3ci
+         Dga2923sYZs1noqVV9n2PEbjqcNGYEYHNqGCqf5AYxgMUJ2zH9PSFSKwm4KVfpCBWkrb
+         SG9/I5XrBiYS/KGRdfiPOXbmc/OC+30PRja/SyGzhKx8s56tpNZWwHGMeuHh0DT6s2a7
+         srXQ==
+X-Gm-Message-State: AOJu0YzacmNwTqkLRn5qhlDGY2tNlfOe8o9mGrjmRJr1eWFxtqrtVK89
+	5imt/1hVBcM+rqAZTlMvxaUzbALt00Vi+HmegBqHywsiCFObNEv2pfpHEO8WBc1v9y1B+0jmHdG
+	cdffcQ4E+QKfjR3T187ijiXEyE6/nUw==
+X-Google-Smtp-Source: AGHT+IGMPSmE4PQDqqSE/76CLS9BolVdYOY/IzFKIGYLYQQnnTDhGKgIjufqSkuc42NK56SdgDN/krcgthAAUe+PG5c=
+X-Received: by 2002:a2e:511a:0:b0:2fb:5014:8eb9 with SMTP id
+ 38308e7fff4ca-2fb5014914fmr55572831fa.10.1729154934632; Thu, 17 Oct 2024
+ 01:48:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241016193606.3459951-1-alex.kanavin@gmail.com>
+ <20241016193606.3459951-2-alex.kanavin@gmail.com> <17FF097430B9CA8B.11625@lists.openembedded.org>
+ <CANx9H-A+YJEcstXeh4N74m0N-xtm7AvWT621W18G9MtajG=a5g@mail.gmail.com>
+In-Reply-To: <CANx9H-A+YJEcstXeh4N74m0N-xtm7AvWT621W18G9MtajG=a5g@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 17 Oct 2024 10:48:43 +0200
+Message-ID: <CANNYZj-SK3jt365gTkjqh2kZXAqFG=L-vnQeZWPxXYY_0o67Mg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/5] python3-cryptography: update 42.0.8 -> 43.0.1
+To: Tim Orling <ticotimo@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 08:46:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206005
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 08:49:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206007
 
-aarch64 build host fails to boot aarch64 qemu target with u-boot uefi
-firmware currently.
+On Wed, 16 Oct 2024 at 22:41, Tim Orling <ticotimo@gmail.com> wrote:
+>> Tom already sent a similar upgrade with more info in the Figur commit message.
+>
+>
+> s/Figur/git/ (stupid autocorrect and clicked send too soon)
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
- meta/lib/oeqa/selftest/cases/wic.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+I just wrote a reply it explaining why I didn't take it and kept my
+own. (it also doesn't have the needed reproducibility fix)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index e5caef74c4..664d1aa427 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -20,7 +20,7 @@ from tempfile import TemporaryDirectory
- 
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.core.decorator import OETestTag
--from oeqa.core.decorator.data import skipIfNotArch
-+from oeqa.core.decorator.data import skipIfNotArch, skipIfNotBuildArch
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var, get_bb_vars, runqemu
- 
- 
-@@ -1342,6 +1342,7 @@ UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-             self.assertEqual(output, '0')
- 
-     @skipIfNotArch(['aarch64'])
-+    @skipIfNotBuildArch(['x86_64'])
-     @OETestTag("runqemu")
-     def test_efi_plugin_plain_systemd_boot_qemu_aarch64(self):
-         """Test plain systemd-boot in qemu with systemd"""
--- 
-2.34.1
-
+Alex
 
