@@ -2,57 +2,59 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B454FD21251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B57A0D21252
 	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 08:46:23 +0000 (UTC)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
- by mx.groups.io with SMTP id smtpd.web11.44636.1729154782792200434
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.43904.1729154773286082976
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 01:46:23 -0700
+ Thu, 17 Oct 2024 01:46:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=L3R78bbc;
- spf=pass (domain: linaro.org, ip: 209.85.167.46, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539e7e73740so600346e87.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 01:46:22 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=xPcOSsWY;
+ spf=pass (domain: linaro.org, ip: 209.85.167.52, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539f1292a9bso888561e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 01:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729154781; x=1729759581; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1729154771; x=1729759571; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=70+o0ofg/OggCGxLvCGoOH5ETDurb+U98ellNhc2uhc=;
-        b=L3R78bbcIiyJ3RQCFE9KB9Jdl+oIhzaKml2skATwdVC3f8rI8FCMRRoAZPbNvXKRZC
-         n2tVJdeNeGigsay0rtdDgGZga1uG4rPo7LHqELyXudRyuxe/4dSgWNr7psVsS1w4uFfb
-         q9OANMTyRtsQfuBotVBa0BT64pqEtgrN6Sxj+/vPGyjJIOpbbMlDoRsHSb5svvsRS3VJ
-         P492Sav/EsFORwzNu9exH9DYJHFThXo2iPIgwEmQoKiWVZgzwhnsMl6ddrZNz9gDNEkp
-         NBIeXv2/kHzJge+dMF5HgsSGlg5Scaeifby0vvENwn3sJFCYq8VvMwL2ZKqOTTxld/Cd
-         XYnA==
+        bh=Iyp9362Z4M3adhdcTJ8A6OzCXqM22i/SfhTqjiGK4D8=;
+        b=xPcOSsWYhRr1V0g3aXFM60e98hy9uydANJcVnnydK8tmcMpkYfii9tVBLdlfAGVExe
+         HgeK6wKFOm38Oh3sAw9OaHWZf8w+zroDhD3zUFQRMYIhOCOKaNYV7vzbGoDzATc82JEm
+         jGYwwyJZXtC3xYW6mA19yrCN4LoJ1Q3L1uXE9gKRs2HXUVov0pOjOdqUFaI4juUR6/vz
+         /U+6vakrDLfQ/YJeEcu1CynaMzuqCIn0saEIvwzYVqQ9CnNLSdf+NmUZ0XoSoxHYYFn8
+         Poy4PRFG7fHZL/a1Ixl4Xv56KMxUmYnwxkc/e7FJUXgj1dY8ncbY9BoYYdvT6gvnXPEU
+         5wWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729154781; x=1729759581;
+        d=1e100.net; s=20230601; t=1729154771; x=1729759571;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=70+o0ofg/OggCGxLvCGoOH5ETDurb+U98ellNhc2uhc=;
-        b=DsXtMGQNAfXqk8rw8x8LCz1zYGXEbekoLyxo7Ad0wlS0aYCBrsKKPJGZg709Q2Y+J+
-         swv6qCzgFYaio0pCUXYrAJX5MzOsZMritYaDLE4YScslDfMlF+Z9SiQ7tIEONSFcy0r7
-         VtK7ysvLRMmSvZ+aKH2aLAfOQOQhoYZyey9O4uHvvLkyEfqagn+0OPzTiUnwMyfSpjca
-         eHamMEi698NexXiOdYL7Hc80CcE3oRmYaMgfYDvCpt8wAruSFGN8L9biZpFffkdXHGer
-         0pG3C03u+3ectn7k7cORio6Kiwmj5/7wTitheSwyUT2BU5QOyLpJdUfEQQiHdgVU2IvO
-         z/0A==
-X-Gm-Message-State: AOJu0YyITQI3WacWaj6k11z52Tmo353Hrv/MdJk3L5B2hVft+aG58Yyc
-	x9PxoG+t/nDL6UMMQ2NIEeFeLkw58Tq/Yn6C5PaP05/dgJBOZnkItFEC+tGXxsYCUpX3h20ghv5
-	t6aw=
-X-Google-Smtp-Source: AGHT+IGzlMY45l4H9MmCoYjwcAiV3++gDXcOilg1ffh0Ilvj3RYp3ijscjG1JV/MXOTOIUr3wQUdNg==
-X-Received: by 2002:a05:6512:6402:b0:539:e1c6:9d7f with SMTP id 2adb3069b0e04-539e1c69ec4mr11334155e87.25.1729154780801;
-        Thu, 17 Oct 2024 01:46:20 -0700 (PDT)
+        bh=Iyp9362Z4M3adhdcTJ8A6OzCXqM22i/SfhTqjiGK4D8=;
+        b=rh6omlXqdFnVi9VXJKl8M6Cby36NecPIjxCA5lR/aOqubNXwSRSUiuX5k7kWQZ2fmZ
+         IUtJBB8cyRBtYeATYuV3vtqc85ZIgow3muwLty/D3cTdoJsXqTXkGXqZCRQT2scgmZWF
+         2FLj50dvdrNchZJNBgIBuxSZeiT34C2lZc7b2I2VLj0m23v+qdBZXlu2n0bccj22ir2t
+         /f9q8EcV/FLRINTquwwGgxCnaLwne3txL8e5ZwA6lteCp8Nmz3loddrqOiCR5m0jEcqe
+         VbMHppj9+rvq7XuSo0rKBhaj53i+oPlGpl7TzleSxUYWVsDAysBaER9lxQlAhJDobG+L
+         NBEg==
+X-Gm-Message-State: AOJu0Yzp1DrOrE6SBTHN3DASEVZ+j/As89CZK39H2rYKRqpBFb1pZhPN
+	g3j+OPYU4/Y2qqGlmrfkYewaiPWaJm3oeNdmrw7mmiIahDIf49glEhV6m9gHkXgmBJtyjH/6xSd
+	dPPE=
+X-Google-Smtp-Source: AGHT+IGMMsjCUYm6OfbZBW7zj9lsNPwqqs4LVgdROiWvFRmAWYJOFjrudCHpfpDHHomfJlaSrRJd5Q==
+X-Received: by 2002:a05:6512:3094:b0:539:fb49:c47d with SMTP id 2adb3069b0e04-53a03f07430mr4734116e87.12.1729154771109;
+        Thu, 17 Oct 2024 01:46:11 -0700 (PDT)
 Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539fffa8e4asm706138e87.55.2024.10.17.01.46.18
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-539fffa8e4asm706138e87.55.2024.10.17.01.46.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 01:46:20 -0700 (PDT)
+        Thu, 17 Oct 2024 01:46:10 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v9 04/11] oeqa selftest uki.py: add tests for uki.bbclass
-Date: Thu, 17 Oct 2024 11:45:45 +0300
-Message-ID: <20241017084552.182136-5-mikko.rapeli@linaro.org>
+Cc: Michelle Lin <michelle.linto91@gmail.com>,
+	Erik Schilling <erik.schilling@linaro.org>,
+	Mikko Rapeli <mikko.rapeli@linaro.org>
+Subject: [PATCH v9 01/11] uki.bbclass: add class for building Unified Kernel Images (UKI)
+Date: Thu, 17 Oct 2024 11:45:42 +0300
+Message-ID: <20241017084552.182136-2-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241017084552.182136-1-mikko.rapeli@linaro.org>
 References: <20241017084552.182136-1-mikko.rapeli@linaro.org>
@@ -62,170 +64,240 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 08:46:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205999
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/205996
 
-Tests builds and boots qemu into uki binary with systemd and sysvinit.
-Due to depedency to x86 specific ovmf UEFI firmware, tests
-are specific to x86 curently. UEFI firmware for ARM can be generated
-via qemuarm64-secureboot machine in meta-arm and similar tests
-on qemu will pass.
+From: Michelle Lin <michelle.linto91@gmail.com>
 
+This class calls systemd ukify tool, which will combine
+kernel/initrd/stub components to build the UKI. To sign the UKI
+(i.e. SecureBoot), the keys/cert files can be specified
+in a configuration file or UEFI binary signing can be done
+via separate steps, see qemuarm64-secureboot in meta-arm.
+UKIs are loaded by UEFI firmware on target which can improve
+security by loading only correctly signed kernel, initrd and kernel
+command line.
+
+Using systemd-measure to pre-calculate TPM PCR values and sign them is
+not supported since that requires a TPM device on the build host. Thus
+"ConditionSecurity=measured-uki" default from systemd 256 does not work
+but "ConditionSecurity=tpm2" in combination with secure boot will.
+These can be used to boot securely into systemd-boot, kernel, kernel
+command line and initrd which then securely mounts a read-only dm-verity
+/usr partition and creates a TPM encrypted read-write / rootfs.
+
+Tested via qemuarm64-secureboot in meta-arm with
+https://lists.yoctoproject.org/g/meta-arm/topic/patch_v3_02_13/108031399
+and a few more changes needed, will be posted separately.
+
+Signed-off-by: Michelle Lin <michelle.linto91@gmail.com>
+Acked-by: Erik Schilling <erik.schilling@linaro.org>
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta/lib/oeqa/selftest/cases/uki.py           | 133 ++++++++++++++++++
- .../wic/canned-wks/efi-uki-bootdisk.wks.in    |   3 +
- 2 files changed, 136 insertions(+)
- create mode 100644 meta/lib/oeqa/selftest/cases/uki.py
- create mode 100644 scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
+ meta/classes-recipe/uki.bbclass | 195 ++++++++++++++++++++++++++++++++
+ 1 file changed, 195 insertions(+)
+ create mode 100644 meta/classes-recipe/uki.bbclass
 
-diff --git a/meta/lib/oeqa/selftest/cases/uki.py b/meta/lib/oeqa/selftest/cases/uki.py
+diff --git a/meta/classes-recipe/uki.bbclass b/meta/classes-recipe/uki.bbclass
 new file mode 100644
-index 0000000000..4121a094dc
+index 0000000000..d4f25c7fd2
 --- /dev/null
-+++ b/meta/lib/oeqa/selftest/cases/uki.py
-@@ -0,0 +1,133 @@
-+# Based on runqemu.py test file
++++ b/meta/classes-recipe/uki.bbclass
+@@ -0,0 +1,195 @@
++# Unified kernel image (UKI) class
 +#
-+# Copyright (c) 2017 Wind River Systems, Inc.
++# This bbclass merges kernel, initrd etc as a UKI standard UEFI binary,
++# to be loaded with UEFI firmware and systemd-boot on target HW.
++# TPM PCR pre-calculation is not supported since systemd-measure tooling
++# is meant to run on target, not in cross compile environment.
 +#
-+# SPDX-License-Identifier: MIT
++# See:
++# https://www.freedesktop.org/software/systemd/man/latest/ukify.html
++# https://uapi-group.org/specifications/specs/unified_kernel_image/
++#
++# The UKI contains:
++#
++#   - UEFI stub
++#     The linux kernel can generate a UEFI stub, however the one from systemd-boot can fetch
++#     the command line from a separate section of the EFI application, avoiding the need to
++#     rebuild the kernel.
++#   - kernel
++#   - initramfs
++#   - kernel command line
++#   - uname -r kernel version
++#   - /etc/os-release to create a boot menu with version details
++#   - optionally secure boot signature(s)
++#   - other metadata (e.g. TPM PCR measurements)
++#
++# Usage instructions:
++#
++#   - requires UEFI compatible firmware on target, e.g. qemuarm64-secureboot u-boot based
++#     from meta-arm or qemux86 ovmf/edk2 based firmware for x86_64
++#
++#   - Distro/build config:
++#
++#     INIT_MANAGER = "systemd"
++#     MACHINE_FEATURES:append = " efi"
++#     EFI_PROVIDER = "systemd-boot"
++#     INITRAMFS_IMAGE = "core-image-minimal-initramfs"
++#
++#   - image recipe:
++#
++#     inherit uki
++#
++#   - qemuboot/runqemu changes in image recipe or build config:
++#
++#     # Kernel command line must be inside the signed uki
++#     QB_KERNEL_ROOT = ""
++#     # kernel is in the uki image, not loaded separately
++#     QB_DEFAULT_KERNEL = "none"
++#
++#   - for UEFI secure boot, systemd-boot and uki (including kernel) can
++#     be signed but require sbsign-tool-native (recipe available from meta-secure-core,
++#     see also qemuarm64-secureboot from meta-arm). Set variable
++#     UKI_SB_KEY to path of private key and UKI_SB_CERT for certificate.
++#     Note that systemd-boot also need to be signed with the same key.
++#
++#   - at runtime, UEFI firmware will load and boot systemd-boot which
++#     creates a menu from all detected uki binaries. No need to manually
++#     setup boot menu entries.
++#
++#   - see efi-uki-bootdisk.wks.in how to create ESP partition which hosts systemd-boot,
++#     config file(s) for systemd-boot and the UKI binaries.
 +#
 +
-+from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_var
-+from oeqa.core.decorator.data import skipIfNotArch
-+from oeqa.core.decorator import OETestTag
-+import oe.types
++DEPENDS += "\
++    os-release \
++    systemd-boot \
++    systemd-boot-native \
++    virtual/${TARGET_PREFIX}binutils \
++    virtual/kernel \
++"
 +
-+class UkiTest(OESelftestTestCase):
-+    """Boot Unified Kernel Image (UKI) generated with uki.bbclass on UEFI firmware (omvf/edk2)"""
++inherit image-artifact-names
++require ../conf/image-uefi.conf
 +
-+    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-+    @OETestTag("runqemu")
-+    def test_uki_boot_systemd(self):
-+        """Build and boot into UEFI firmware (omvf/edk2), systemd-boot, initrd without systemd, rootfs with systemd"""
-+        image = "core-image-minimal"
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', image) or ""
-+        cmd = "runqemu %s nographic serial wic ovmf" % (runqemu_params)
-+        if oe.types.qemu_use_kvm(self.td.get('QEMU_USE_KVM', 0), self.td["TARGET_ARCH"]):
-+            cmd += " kvm"
++INITRAMFS_IMAGE ?= "core-image-minimal-initramfs"
 +
-+        self.write_config("""
-+# efi firmware must load systemd-boot, not grub
-+EFI_PROVIDER = "systemd-boot"
++INITRD_ARCHIVE ?= "${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}"
 +
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-%s:append = " wic"
-+WKS_FILE = "efi-uki-bootdisk.wks.in"
++do_image_complete[depends] += "${INITRAMFS_IMAGE}:do_image_complete"
 +
-+# efi, uki and systemd features must be enabled
-+INIT_MANAGER = "systemd"
-+MACHINE_FEATURES:append = " efi"
-+IMAGE_CLASSES:append:pn-core-image-minimal = " uki"
++UKIFY_CMD ?= "ukify build"
++UKI_CONFIG_FILE ?= "${UNPACKDIR}/uki.conf"
++UKI_FILENAME ?= "uki.efi"
++UKI_KERNEL_FILENAME ?= "${KERNEL_IMAGETYPE}"
++UKI_CMDLINE ?= "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
++# secure boot keys and cert, needs sbsign-tools-native (meta-secure-core)
++#UKI_SB_KEY ?= ""
++#UKI_SB_CERT ?= ""
 +
-+# uki embeds also an initrd
-+INITRAMFS_IMAGE = "core-image-minimal-initramfs"
++IMAGE_EFI_BOOT_FILES ?= "${UKI_FILENAME};EFI/Linux/${UKI_FILENAME}"
 +
-+# runqemu must not load kernel separately, it's in the uki
-+QB_KERNEL_ROOT = ""
-+QB_DEFAULT_KERNEL = "none"
++do_uki[depends] += " \
++                        systemd-boot:do_deploy \
++                        virtual/kernel:do_deploy \
++                     "
++do_uki[depends] += "${@ '${INITRAMFS_IMAGE}:do_image_complete' if d.getVar('INITRAMFS_IMAGE') else ''}"
 +
-+# boot command line provided via uki, not via bootloader
-+UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-+""" % (image))
++# ensure that the build directory is empty everytime we generate a newly-created uki
++do_uki[cleandirs] = "${B}"
++# influence the build directory at the start of the builds
++do_uki[dirs] = "${B}"
 +
-+        uki_filename = get_bb_var('UKI_FILENAME', image)
++# we want to allow specifying files in SRC_URI, such as for signing the UKI
++python () {
++    d.delVarFlag("do_fetch","noexec")
++    d.delVarFlag("do_unpack","noexec")
++}
 +
-+        bitbake(image + " ovmf")
-+        with runqemu(image, ssh=False, launch_cmd=cmd) as qemu:
-+            self.assertTrue(qemu.runner.logged, "Failed: %s" % cmd)
++# main task
++python do_uki() {
++    import glob
++    import bb.process
 +
-+            # Verify from efivars that firmware was:
-+            # x86_64, qemux86_64, ovmf = edk2
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderFirmwareInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep 'EDK II'"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++    # base ukify command, can be extended if needed
++    ukify_cmd = d.getVar('UKIFY_CMD')
 +
-+            # Check that systemd-boot was the loader
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-boot"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
 +
-+            # Check that systemd-stub was used
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/StubInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-stub"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++    # architecture
++    target_arch = d.getVar('EFI_ARCH')
++    if target_arch:
++        ukify_cmd += " --efi-arch %s" % (target_arch)
 +
-+            # Check that the compiled uki file was booted into
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderEntrySelected-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep '%s'" % (uki_filename)
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++    # systemd stubs
++    stub = "%s/linux%s.efi.stub" % (d.getVar('DEPLOY_DIR_IMAGE'), target_arch)
++    if not os.path.exists(stub):
++        bb.fatal(f"ERROR: cannot find {stub}.")
++    ukify_cmd += " --stub %s" % (stub)
 +
-+    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-+    @OETestTag("runqemu")
-+    def test_uki_sysvinit(self):
-+        """Build and boot into UEFI firmware (omvf/edk2), systemd-boot, initrd with sysvinit, rootfs with sysvinit"""
-+        config = """
-+# efi firmware must load systemd-boot, not grub
-+EFI_PROVIDER = "systemd-boot"
++    # initrd
++    initramfs_image = "%s" % (d.getVar('INITRD_ARCHIVE'))
++    ukify_cmd += " --initrd=%s" % (os.path.join(deploy_dir_image, initramfs_image))
 +
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "efi-uki-bootdisk.wks.in"
++    deploy_dir_image = d.getVar('DEPLOY_DIR_IMAGE')
 +
-+# efi, uki and systemd features must be enabled
-+MACHINE_FEATURES:append = " efi"
-+DISTRO_FEATURES_NATIVE:append = " systemd"
-+IMAGE_CLASSES:append:pn-core-image-base = " uki"
++    # kernel
++    kernel_filename = d.getVar('UKI_KERNEL_FILENAME') or None
++    if kernel_filename:
++        kernel = "%s/%s" % (deploy_dir_image, kernel_filename)
++        if not os.path.exists(kernel):
++            bb.fatal(f"ERROR: cannot find %s" % (kernel))
++        ukify_cmd += " --linux=%s" % (kernel)
++        # not always needed, ukify can detect version from kernel binary
++        kernel_version = d.getVar('KERNEL_VERSION')
++        if kernel_version:
++            ukify_cmd += "--uname %s" % (kernel_version)
++    else:
++        bb.fatal("ERROR - UKI_KERNEL_FILENAME not set")
 +
-+# uki embeds also an initrd, no systemd or udev
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
++    # command line
++    cmdline = d.getVar('UKI_CMDLINE')
++    if cmdline:
++        ukify_cmd += " --cmdline='%s'" % (cmdline)
 +
-+# runqemu must not load kernel separately, it's in the uki
-+QB_KERNEL_ROOT = ""
-+QB_DEFAULT_KERNEL = "none"
++    # dtb
++    if d.getVar('KERNEL_DEVICETREE'):
++        for dtb in d.getVar('KERNEL_DEVICETREE').split():
++            dtb_path = "%s/%s" % (deploy_dir_image, dtb)
++            if not os.path.exists(dtb_path):
++                bb.fatal(f"ERROR: cannot find {dtb_path}.")
++            ukify_cmd += " --devicetree %s" % (dtb_path)
 +
-+# boot command line provided via uki, not via bootloader
-+UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
++    # custom config for ukify
++    if os.path.exists(d.getVar('UKI_CONFIG_FILE')):
++        ukify_cmd += " --config=%s" % (d.getVar('UKI_CONFIG_FILE'))
 +
-+"""
-+        self.append_config(config)
-+        bitbake('core-image-base ovmf')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        uki_filename = get_bb_var('UKI_FILENAME', 'core-image-base')
-+        self.remove_config(config)
++    # systemd tools
++    ukify_cmd += " --tools=%s%s/lib/systemd/tools" % \
++        (d.getVar("RECIPE_SYSROOT_NATIVE"), d.getVar("prefix"))
 +
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s slirp nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
-+            # Verify from efivars that firmware was:
-+            # x86_64, qemux86_64, ovmf = edk2
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderFirmwareInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep 'EDK II'"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++    # version
++    ukify_cmd += " --os-release=@%s%s/lib/os-release" % \
++        (d.getVar("RECIPE_SYSROOT"), d.getVar("prefix"))
 +
-+            # Check that systemd-boot was the loader
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-boot"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++    # TODO: tpm2 measure for secure boot, depends on systemd-native and TPM tooling
++    # needed in systemd > 254 to fulfill ConditionSecurity=measured-uki
++    # Requires TPM device on build host, thus not supported at build time.
++    #ukify_cmd += " --measure"
 +
-+            # Check that systemd-stub was used
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/StubInfo-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep systemd-stub"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
++    # securebooot signing, also for kernel
++    key = d.getVar('UKI_SB_KEY')
++    if key:
++        ukify_cmd += " --sign-kernel --secureboot-private-key='%s'" % (key)
++    cert = d.getVar('UKI_SB_CERT')
++    if cert:
++        ukify_cmd += " --secureboot-certificate='%s'" % (cert)
 +
-+            # Check that the compiled uki file was booted into
-+            cmd = "echo $( cat /sys/firmware/efi/efivars/LoaderEntrySelected-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f ) | grep '%s'" % (uki_filename)
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-diff --git a/scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in b/scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
-new file mode 100644
-index 0000000000..1ea9c8a845
---- /dev/null
-+++ b/scripts/lib/wic/canned-wks/efi-uki-bootdisk.wks.in
-@@ -0,0 +1,3 @@
-+bootloader --ptable gpt --timeout=5
-+part /boot --source bootimg-efi --sourceparams="loader=${EFI_PROVIDER}" --label boot --active --align 1024 --use-uuid --part-name="ESP" --part-type=C12A7328-F81F-11D2-BA4B-00A0C93EC93B --fixed-size 512M
-+part / --source rootfs --fstype=ext4 --label root --align 1024 --exclude-path boot/
++    # custom output UKI filename
++    output = " --output=%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'), d.getVar('UKI_FILENAME'))
++    ukify_cmd += " %s" % (output)
++
++    # Run the ukify command
++    bb.debug("uki: running command: %s" % (ukify_cmd))
++    bb.process.run(ukify_cmd, shell=True)
++}
++addtask uki after do_rootfs before do_deploy do_image_complete do_image_wic
 -- 
 2.34.1
 
