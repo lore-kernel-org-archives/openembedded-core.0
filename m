@@ -2,109 +2,180 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 509CED37490
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A5F1D37495
 	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 13:32:15 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.48943.1729171925238777564
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web10.48399.1729171928276748430
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 06:32:05 -0700
+ Thu, 17 Oct 2024 06:32:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SsFzcl+R;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-207115e3056so7400685ad.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 06:32:05 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ROUePSNE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20c7edf2872so16356265ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 06:32:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729171924; x=1729776724; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=+32Bjdo+eTuTQsBBlWymJI2Ok38xs/G4pmKlzmZFdTA=;
-        b=SsFzcl+RgFlJc8Sz4iAp5LN1lZYPQwqoFymuGk3AfqSBC9xAAiOtFKCV+yh8eFGoOM
-         ADJcnzJo68UtpNUpjpt+JuslGlgDT4sUnvGhkLsv9XsMKiL4JXB/2CnN2N0gBNHTrkQP
-         oXtNELbjj/jX675nBSA1ugdnS/WiXcX+QcRVkp7uPa2tkOPjKnDm4RvBOzxBmpbZ50iV
-         eL0Dp3P2gWn/qH6lphHqAmfCVJejGYFZsbXRnPCE1QBhmzp2L+QCJ/lc2MEE+sbCI/Yr
-         lSWsiAU9XcQedCk3TMKpPfBb6xCdWaTtNCxddyDL6/CWztQoHWEVBY34YGN/nvgni/VJ
-         ffNg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729171927; x=1729776727; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=2F/GdIkHJpcZjk71GmqkotDJnZay8zYX17nuCJvkdD8=;
+        b=ROUePSNETnLzULqBh0vG/uVRJfdNvqCAi0NWvmw6PBpQ1l0S2XJliyqPnXZSYR44gR
+         vwzrReCXQM4lPEZl+/GTsMyBnl1lAaIfzb49pcjjUt7a4HcOLrNXItFxTh+OeyJbQqMr
+         AUZlJvCNn5jFZwiokAel05YG0ct+yPsScrUp7wnBKNUgApGBdIgPGTdX8a0A38Kau5OI
+         cIPslxqCVfsfKLf0ZHGBHecupSk22+QUP/RMXkYkmRthkOxJoKdB/r4hJ5g0gvdRWt6e
+         RjGUJf1hR4x4MyZoAfsY9dTmcmeHOWrsTvo2vo5EZkt5qoiPcXiqfJJ1Ts/VJmPVvkIT
+         0Ghg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729171924; x=1729776724;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+32Bjdo+eTuTQsBBlWymJI2Ok38xs/G4pmKlzmZFdTA=;
-        b=CDJNBlmsxVq/7xoL1CfWgkxIAD2/XdKSXRj9MBaJl2ds38SRyJ4+9bNK0YI1Ebm7my
-         i27DMAb32ZnFw/AI8SRHZmZPEfAY8Kjm6IF4Zmj8aLTA5sD53b91+I5o9UKKnFmpDKZd
-         ZMZ6zUE4p01sJMyAN1jyGUsjaC7iGjBr/k9upFz0E4SdVe2/tj+dvWsgqZH0VFF5h4Uk
-         w8cqv60SUUFlBh5U4Uuq0EfdzAyiaJli9nNIiw2EZDW96vP4ctQL843bokC/8KvCJ49Z
-         JeJl8OTRhcDmVulUsIxdkBz+TNvD0ZFcjqCItYvpkaU08NpRloxDn+FEp5rvj+GzgL4I
-         NU4g==
-X-Gm-Message-State: AOJu0Yy1iPOqdpBD3PBRoyXGhOkPolvqpmGyRnrZKrgbFiAo1+IbC0hD
-	oVMi/v5msE2xPiDxSpgiZ4xoSyYb6dfRGl8f5y/IHh2FQfOp2zOT+mhUtclH3JCY+B+yDKDvGQz
-	t
-X-Google-Smtp-Source: AGHT+IGheqPDYYtQri6DyZvTuwcm0HM0WrVNtjYj1DdpqeTIMRzQfKIPm3clhtVoMhjjhFWYC4jVsA==
-X-Received: by 2002:a17:902:db02:b0:20c:bffe:e1e5 with SMTP id d9443c01a7336-20d27ea8667mr108133785ad.19.1729171924349;
-        Thu, 17 Oct 2024 06:32:04 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729171927; x=1729776727;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2F/GdIkHJpcZjk71GmqkotDJnZay8zYX17nuCJvkdD8=;
+        b=UXhpCqniNS/Cz0e8Bnqspfw+YB214H0ZP0uZDpukcyy7uNdDMetfgEx2pJ5OyPUxQ2
+         JCq+frW4vPTn9YBIYFSnr4gHNCDH79uHO+E4WG3vAm0FlWkxcpOVHZrht2tQMq/oVQC0
+         UZnuvwJALUbHxMjBX2FbvomXL2gsm17yJWkhyo6uGummic2b1GqU3YnhEg3r/0XismCw
+         G+G/Dfkra7eVlGAKuRkTHSWPSegMvkmfgbeD2yqWAxrIB23kDpPd1tWyhp7s8jJURoTp
+         8OA7LF77uIlhHa5tIDLLiLHrVtmf8cV+drhcDaYpk0v1xOJ9KV3w4MO1Vp/yR/4dbYCJ
+         FCVg==
+X-Gm-Message-State: AOJu0Yw0fHCr8eOaQcTvqf8llO34zGgjTXUCaYjI3EOAALtI4/LPgqPH
+	ymbMISVM5nFRhcIUSOB3llwXU+1SkXyTHPtUuiIYuMqh0bxlgnixP9kVqUQbVJJtoqgdNzmfIfL
+	7
+X-Google-Smtp-Source: AGHT+IEfZ8CnqhkBgsrNWcTHpEobFBeKRvVU4eTALGZ/Z4tG0+Xcz0gWafRnLbG6va9l+18aCCCuew==
+X-Received: by 2002:a17:902:e5c2:b0:20c:62af:a0f0 with SMTP id d9443c01a7336-20d472116c0mr50700385ad.7.1729171927399;
+        Thu, 17 Oct 2024 06:32:07 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1805b093sm44161595ad.254.2024.10.17.06.32.03
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20d1805b093sm44161595ad.254.2024.10.17.06.32.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 06:32:04 -0700 (PDT)
+        Thu, 17 Oct 2024 06:32:07 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 0/5] Patch review
-Date: Thu, 17 Oct 2024 06:31:52 -0700
-Message-Id: <cover.1729170868.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 2/5] libarchive: Fix CVE-2024-48957 & CVE-2024-48958
+Date: Thu, 17 Oct 2024 06:31:54 -0700
+Message-Id: <584ce77f3aae332c66e2140497506301200ec9ca.1729170868.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1729170868.git.steve@sakoman.com>
+References: <cover.1729170868.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 13:32:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206020
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206022
 
-Please review this set of changes for kirkstone and have comments back by
-end of day Monday, October 21
+From: Ashish Sharma <asharma@mvista.com>
 
-Passed a-full on autobuilder:
+Backport fix:
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/283
+* CVE-2024-48957 - Upstream-Status: Backport from https://github.com/libarchive/libarchive/commit/3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b
+* CVE-2024-48958 - Upstream-Status: Backport from https://github.com/libarchive/libarchive/commit/a1cb648d52f5b6d3f31184d9b6a7cbca628459b7
 
-The following changes since commit f09fca692f96c9c428e89c5ef53fbcb92ac0c9bf:
-
-  build-appliance-image: Update to kirkstone head revision (2024-10-12 05:20:21 -0700)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
-
-Ashish Sharma (1):
-  libarchive: Fix CVE-2024-48957 & CVE-2024-48958
-
-Khem Raj (1):
-  syslinux: Disable error on implicit-function-declaration
-
-Macpaul Lin (1):
-  linux-firmware: upgrade 20240220 -> 20240909
-
-Peter Marko (1):
-  gcc: ignore CVE-2023-4039
-
-Randolph Sapp (1):
-  kmscube: create_framebuffer: backport modifier fix
-
- meta/recipes-devtools/gcc/gcc-11.5.inc        |  3 ++
- .../syslinux/syslinux_6.04-pre2.bb            |  2 +-
+Signed-off-by: Ashish Sharma <asharma@mvista.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
  .../libarchive/CVE-2024-48957.patch           | 33 +++++++++++++++++
  .../libarchive/CVE-2024-48958.patch           | 37 +++++++++++++++++++
  .../libarchive/libarchive_3.6.2.bb            |  2 +
- ...common.c-do-not-use-invalid-modifier.patch | 31 ++++++++++++++++
- meta/recipes-graphics/kmscube/kmscube_git.bb  |  1 +
- ...20240220.bb => linux-firmware_20240909.bb} |  8 ++--
- 8 files changed, 112 insertions(+), 5 deletions(-)
+ 3 files changed, 72 insertions(+)
  create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
  create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
- create mode 100644 meta/recipes-graphics/kmscube/kmscube/0001-drm-common.c-do-not-use-invalid-modifier.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240220.bb => linux-firmware_20240909.bb} (99%)
 
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
+new file mode 100644
+index 0000000000..fa3c8534d9
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48957.patch
+@@ -0,0 +1,33 @@
++From 3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b Mon Sep 17 00:00:00 2001
++From: Wei-Cheng Pan <legnaleurc@gmail.com>
++Date: Mon, 29 Apr 2024 06:53:19 +0900
++Subject: [PATCH] fix: OOB in rar audio filter (#2149)
++
++This patch ensures that `src` won't move ahead of `dst`, so `src` will
++not OOB. Similar situation like in a1cb648.
++
++CVE: CVE-2024-48957
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/3006bc5d02ad3ae3c4f9274f60c1f9d2d834734b]
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ libarchive/archive_read_support_format_rar.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 619ee81e2..4fc6626ca 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -3722,6 +3722,13 @@ execute_filter_audio(struct rar_filter *filter, struct rar_virtual_machine *vm)
++     memset(&state, 0, sizeof(state));
++     for (j = i; j < length; j += numchannels)
++     {
+++      /*
+++       * The src block should not overlap with the dst block.
+++       * If so it would be better to consider this archive is broken.
+++       */
+++      if (src >= dst)
+++        return 0;
+++
++       int8_t delta = (int8_t)*src++;
++       uint8_t predbyte, byte;
++       int prederror;
+diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
+new file mode 100644
+index 0000000000..7ab2a96ca8
+--- /dev/null
++++ b/meta/recipes-extended/libarchive/libarchive/CVE-2024-48958.patch
+@@ -0,0 +1,37 @@
++From a1cb648d52f5b6d3f31184d9b6a7cbca628459b7 Mon Sep 17 00:00:00 2001
++From: Wei-Cheng Pan <legnaleurc@gmail.com>
++Date: Mon, 29 Apr 2024 06:50:22 +0900
++Subject: [PATCH] fix: OOB in rar delta filter (#2148)
++
++Ensure that `src` won't move ahead of `dst`, so `src` will not OOB.
++Since `dst` won't move in this function, and we are only increasing `src`
++position, this check should be enough. It should be safe to early return
++because this function does not allocate resources.
++
++CVE: CVE-2024-48958
++Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/a1cb648d52f5b6d3f31184d9b6a7cbca628459b7]
++Signed-off-by: Ashish Sharma <asharma@mvista.com>
++
++ libarchive/archive_read_support_format_rar.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/libarchive/archive_read_support_format_rar.c b/libarchive/archive_read_support_format_rar.c
++index 79669a8f4..619ee81e2 100644
++--- a/libarchive/archive_read_support_format_rar.c
+++++ b/libarchive/archive_read_support_format_rar.c
++@@ -3612,7 +3612,15 @@ execute_filter_delta(struct rar_filter *filter, struct rar_virtual_machine *vm)
++   {
++     uint8_t lastbyte = 0;
++     for (idx = i; idx < length; idx += numchannels)
+++    {
+++      /*
+++       * The src block should not overlap with the dst block.
+++       * If so it would be better to consider this archive is broken.
+++       */
+++      if (src >= dst)
+++        return 0;
++       lastbyte = dst[idx] = lastbyte - *src++;
+++    }
++   }
++ 
++   filter->filteredblockaddress = length;
+diff --git a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+index a7a3e47412..e1eca79004 100644
+--- a/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
++++ b/meta/recipes-extended/libarchive/libarchive_3.6.2.bb
+@@ -31,6 +31,8 @@ EXTRA_OECONF += "--enable-largefile --without-iconv"
+ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
+            file://0001-pax-writer-fix-multiple-security-vulnerabilities.patch \
+            file://CVE-2024-26256.patch \
++           file://CVE-2024-48957.patch \
++           file://CVE-2024-48958.patch \
+            "
+ UPSTREAM_CHECK_URI = "http://libarchive.org/"
+ 
 -- 
 2.34.1
 
