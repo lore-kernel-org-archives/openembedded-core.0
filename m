@@ -1,88 +1,94 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C39CD37489
-	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 13:19:45 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web10.48142.1729171178054802055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6B450D3748A
+	for <webhook@archiver.kernel.org>; Thu, 17 Oct 2024 13:31:15 +0000 (UTC)
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+ by mx.groups.io with SMTP id smtpd.web10.48380.1729171874653329869
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 06:19:38 -0700
+ Thu, 17 Oct 2024 06:31:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fdZ5FJk7;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id A65A3240009;
-	Thu, 17 Oct 2024 13:19:33 +0000 (UTC)
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=MYx3iTBN;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.198, mailfrom: antonin.godard@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A3510C0003;
+	Thu, 17 Oct 2024 13:31:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1729171176;
+	t=1729171872;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=+Oj7fUigzufzV7M74ZnxgTBEopVVlG4X0Y154iGqJw0=;
-	b=fdZ5FJk7LiWT9f2AOMcjkcKu+B3nzTREaX+WPgyendb7ZaA6FDsYA49i+DXqZuRw1yJt4G
-	UDT9hDc/kXznLGi5rUcBYKLSC7J5UmZ5YAy2b4iAwx8o3kI/o0UG3xYuGBXnQVEFcIQh4F
-	fZbiM1qPFPYwMBDm5lt0tdf4bezPyygd6sZ2iKYQ0i9JG1mfyIWEOImG1k7M1YZBdgNdF+
-	foUM+4CwW1pNX9Sg6Dfp1TFoNL/T+sM469lDwJ35jAh9sTiAaa+X08jxMvFzYvmuKL27pa
-	xUZcDjkfrrg2LMC8qm92NM3iBtlx6FpPGgZyUWKvj3eRe0CjMEp2KXfOScqxrw==
-Date: Thu, 17 Oct 2024 15:19:31 +0200
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, marex@denx.de,
-	Fabio Estevam <festevam@denx.de>
-Subject: Re: [OE-core] [PATCH RESEND] u-boot: upgrade 2024.07 -> 2024.10
-Message-ID: <ZxEO4yJA4VVLQdsN@bootlin-mathieu>
-Mail-Followup-To: Fabio Estevam <festevam@gmail.com>,
-	openembedded-core@lists.openembedded.org, marex@denx.de,
-	Fabio Estevam <festevam@denx.de>
-References: <20241014113549.1594444-1-festevam@gmail.com>
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=4kO105qkMjnABrK4GRFBL1xDLPb3jl9jjHM7sdKzukw=;
+	b=MYx3iTBNMgXdJ0GCiFIoTHXoOsvLO3Iz3NMs7763BLQDuaN1Qzhof3xJLz56OUxN4dVcr6
+	ZQQnr4ggdfxADygCKuvaUoWVQ4sF3JNOqMnBLdeJg2q6Q3u3yS//KM46SWkendolBz2ElH
+	I1NOTPoitkPwvntn49qSOpxBhGk6oBuU+llKHILU9LfEHeqOC0LyjcRJDbOaoAHm7LCv+D
+	wn+sU3khAFLXUGObECCRulpWnHtQ/ESV6S9kFZ54oEAwtvF/eJctCu+Qbjs3U+dC+bvhQF
+	9D9x3ayU5ein/oDXRmVXx7hmMrASviC9NvS7g+miByRxKDMP7/aNFgFoAVdi7w==
+From: Antonin Godard <antonin.godard@bootlin.com>
+Date: Thu, 17 Oct 2024 15:30:55 +0200
+Subject: [PATCH] devtool: ide-sdk: fix help typo
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241014113549.1594444-1-festevam@gmail.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20241017-devtool-ide-sdk-typo-v1-1-10535900085a@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAI4REWcC/x2MQQqAIBAAvxJ7bkHLMvpKdAjdaikyNKIQ/550n
+ IGZCIE8U4C+iODp5sDuyCDLAsw6HQsh28xQiUpJITVaui/n9qwJg93wek+HRjVSt7rWXWcgp6e
+ nmZ9/O4wpfZDA1wBmAAAA
+X-Change-ID: 20241017-devtool-ide-sdk-typo-c4517673788c
+To: openembedded-core@lists.openembedded.org
+Cc: Antonin Godard <antonin.godard@bootlin.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1316;
+ i=antonin.godard@bootlin.com; h=from:subject:message-id;
+ bh=zsZ4Rylu5ZhlrPAYErrdNc+9M7M5WMoiItPxcWaAfk4=;
+ b=owEBbQKS/ZANAwAIAdGAQUApo6g2AcsmYgBnERGgvXMvZsHa8NVFy7rYTAHzCDtXslY/yuWbd
+ KqECH6+8LCJAjMEAAEIAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCZxERoAAKCRDRgEFAKaOo
+ NqOFEACLnno8lLpSEir0n3fHrfaz5RN9gAPhppu3GfvimXuun7LM6OUYxbnmrRVvV7Q8DjgWXMG
+ YQpRHnf54C7RAfkoLDtCgJMFYgLUF2RKF0qCV3tDMX/xhANOygnsrX1Nqn25G50CUjsfxwlRI/Y
+ wt52iU4bexOUp16SMuXRH3THHmgF7th8z9JkLf82Nhw4F51YeAUOr/YudmZpZjtBcB0ZvhAIJHl
+ EUrvMGuHkALPpXJXeA5427u+7AZ+KLecl7uB6k87fejyIHP0jwnlR4Eea0kvEqPCS3++CcO2o/W
+ pNSvlJSofz+fa6xqJdWlwZMgfdbvYUybnZ+DF6ejF3q5I+6iIP/OkD+vMnQkqBIoAWohr6WU+3X
+ Nr9geOb17V7wQ8TcnirCgMw0ZCHsLork5wQ/F+RtltZhoeUyJhFBrAPkpDvDPiE2n/xfkyRsSRy
+ EN770PDrHh6kP8SBNfgYmWzOD9Vnl3V+ch5gWiyUHEZFVV/c+9Agc/mBsVLD1XqTDU8ac4HpHBW
+ 4WKBIa4uK8cgmHWN6jP0tAaorIMMSlqmvVloxitbBQT+pMtWQYBmBwqvtZ7EKjf0jeWA2hqJOgk
+ Y+Pj16a5gbdvHbhyXOBuqq+7CZfRG/MWaTHbko5kJQo478vQy3+eUGOt2UDFe/rc/DOpBSJEIWN
+ M6kRtFx1ajvboZA==
+X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
+ fpr=8648725188DD401BB9A0D3FFD180414029A3A836
+X-GND-Sasl: antonin.godard@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 13:19:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206018
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 13:31:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206019
 
-On Mon, Oct 14, 2024 at 08:35:49AM -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
-> 
-> Upgrade to U-Boot 2024.10.
-> 
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+Change "paramter" -> "parameter".
 
-Hi Fabio,
+Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+---
+ scripts/lib/devtool/ide_sdk.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I tried to apply your patch, and I got the following error on the
-autobuilder:
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 350a8b02ca2d52ec527c2c05af00f3ba48920233..2f6eddec2a0786300b79206f3320eef9d275e350 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -977,7 +977,7 @@ def register_commands(subparsers, context):
+                                            help='Setup the SDK and configure the IDE')
+     parser_ide_sdk.add_argument(
+         'recipenames', nargs='+', help='Generate an IDE configuration suitable to work on the given recipes.\n'
+-        'Depending on the --mode paramter different types of SDKs and IDE configurations are generated.')
++        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.')
+     parser_ide_sdk.add_argument(
+         '-m', '--mode', type=DevtoolIdeMode, default=DevtoolIdeMode.modified,
+         help='Different SDK types are supported:\n'
 
-ERROR: u-boot-1_2024.10-r0 do_patch: Applying patch
-'0004-arm-Move-sev-and-wfe-definitions-to-common-Arm-heade.patch' on
-target directory
-'/srv/pokybuild/yocto-worker/meta-arm/build/build/tmp/work/fvp_base-poky-linux/u-boot/2024.10/git'
-CmdError('quilt --quiltrc
-/srv/pokybuild/yocto-worker/meta-arm/build/build/tmp/work/fvp_base-poky-linux/u-boot/2024.10/recipe-sysroot-native/etc/quiltrc
-push', 0, 'stdout: Applying patch
-0004-arm-Move-sev-and-wfe-definitions-to-common-Arm-heade.patch
-patching file arch/arm/include/asm/system.h
-Hunk #1 succeeded at 163 with fuzz 2 (offset 9 lines).
-Hunk #2 FAILED at 376.
-1 out of 2 hunks FAILED -- rejects in file arch/arm/include/asm/system.h
-patching file arch/arm/mach-exynos/include/mach/system.h
-Hunk #1 FAILED at 36.
-1 out of 1 hunk FAILED -- rejects in file
-arch/arm/mach-exynos/include/mach/system.h
-Patch 0004-arm-Move-sev-and-wfe-definitions-to-common-Arm-heade.patch
-can be reverse-applied
+---
+base-commit: c6b8cbb838229526afbbac90396d8d983ad380de
+change-id: 20241017-devtool-ide-sdk-typo-c4517673788c
 
-https://valkyrie.yoctoproject.org/#/builders/75/builds/249/steps/12/logs/stdio
-
-Can you have a look please ?
-
+Best regards,
 -- 
-Mathieu Dubois-briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Antonin Godard <antonin.godard@bootlin.com>
+
 
