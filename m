@@ -2,55 +2,55 @@ Return-Path: <zboszor@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B384D374AF
-	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 09:06:17 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.web10.17814.1729242370806034262
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC851D2FFE1
+	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 09:26:17 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.18534.1729243570783164287
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Oct 2024 02:06:11 -0700
+ Fri, 18 Oct 2024 02:26:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CmsbSDnt;
- spf=pass (domain: gmail.com, ip: 209.85.128.48, mailfrom: zboszor@gmail.com)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43152b79d25so17886205e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 02:06:10 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=TC9U90Bi;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: zboszor@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43152b79d25so18052975e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 02:26:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729242369; x=1729847169; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1729243569; x=1729848369; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zCf4HdU0JtG6rHvfhIoalZpzb1WpwwwocgxM60Uo3Qk=;
-        b=CmsbSDnt5RPxwq3SqTTC34lyMGwofycCUq70VOGXdYMFAYYjBMA/xSLpVcVJNsIfOt
-         CHZv8i+6Oz2p+7dgDUjjETJEsURhTrSDe6qr3iLpV1q4Udv/XedJvSefmnJGLkCPA5nj
-         rTNC/IzNUzpT3L61K0Ir6620nkXqL8cV7igtrAMp8vmFgX47uriGLBpuu8yA/tE2+oj4
-         qL3TbqKcNUlkxSv+l9FJoK9V9G5MPhVorhJWzDNTohNJ3c+WuRazG5UEeMbOH+cAbQi3
-         CCaZbOwTf0AZz4Q1AZByP22dqNVSZxmfn3Oq7Mc/mx8McR2Vt6ZbBc9IyNTF+XzZSCrZ
-         tldA==
+        bh=zq+Bxco2FV49QiBM+MlYIx1MCL7C9AMXoHyagBMxVZY=;
+        b=TC9U90BiwV4c7S/8TNQ5EZqYVKKV7pWFCU3/sh83bHrDHrS4bMU5p5cX49Xahy3ter
+         nhrE8PJHR1NnzCwf39U9/uiuhJSKch12MffvYW2HPbsuz8xPi7iBVAkXmLnNWcpIYTRS
+         cx7jlModUmDNYCT6Jgg5HN/zb4pJRTNI+4W99hzsf2lYoLEsacMRhYTmhfoJVIjWwAMP
+         q0RK8YcSS/fSPjb9aCDSY55UbiVjjjMlQWaLf8tnBP+So6WnuoS6WlokniNiY0YM6ONT
+         tSk687LqkDXB8nYh5KvE6moj6ICdbJaKtcAe22PGV66J0MR64RykBFC/+m+8h7YHi2sL
+         3JWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729242369; x=1729847169;
+        d=1e100.net; s=20230601; t=1729243569; x=1729848369;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=zCf4HdU0JtG6rHvfhIoalZpzb1WpwwwocgxM60Uo3Qk=;
-        b=M3eI3UzafeJaQ1QNqo138SZNaW05Cd4IenmsSsn1+FVekoAaHzydJJPLIEAdELABQb
-         jUYtRYC4P8oaEYC6uMKdzR/o+xTmaVFRyL9C9WyHj4cLQyo6c98LCgaLps2lsUAl987c
-         rXULauubD+1js6La34x599ECLLjOBNpw9Qr+SWkpnC+hm+sFlar8CbIiNSlc6D1QH7/e
-         OzAHDegPY8UEUT3Mja6u1m+SNMEHzTMTDLaf7NGK0qIDsHRSYrvx+9A/4q1ROJd3K+g9
-         shPszE9EHbrEO1lu5JlTMVrO9UiRqc/H9QE9EVsPe6eZPjKOVkBMd6nf0FjHZt83G9F1
-         ZfLQ==
-X-Gm-Message-State: AOJu0YxT8Iu2ZAXV/2/bHvt7Mnyju8NAx8NOOH8SVc92+5idncqQ0guZ
-	D/FYIrzoKk6DQg5oq5peTQFMSQAQN+ENl9g915lYXi3IPP1aKlpGxzHo6g==
-X-Google-Smtp-Source: AGHT+IH+UmpIeDtYhPQrleiNl0/UiZ3VghsCOaAGvXdHYNBCGnlzORqvFB3QOZJ1z2dSgR6fywKPGQ==
-X-Received: by 2002:a5d:5c85:0:b0:37e:c4e3:f130 with SMTP id ffacd0b85a97d-37ec4e3f2d2mr1130257f8f.41.1729242367657;
-        Fri, 18 Oct 2024 02:06:07 -0700 (PDT)
+        bh=zq+Bxco2FV49QiBM+MlYIx1MCL7C9AMXoHyagBMxVZY=;
+        b=jHjkjgiJ8WYf1AmLy3lxNAtWqFxO6oZg2tXTZRNK8wRSTC85WzAA/slPaKSFiMW8QN
+         2FCRac/U4s06u3WvDR+zfmR3Hcr4eKxMBb0C9ffZW54MzAllfzXeLgfCJVq9Er8cdlGV
+         Av1ex9EvTtQDq55Ne0cI2RQW/fWs7ToU2Xjlp1SdyIjMSjm3zpDLwLsFVRDHhqdBl+WV
+         6Se9KH0fVs7RRggCXMna9on/IiNgCDNfFej3Zp/CkLFBvFzw6vJDI0xkPBRhi71Wt6Mb
+         7+tmRNn5SsNbxu/DQoJqvMTOFzULM6rD952Z40MnjjrzCQycahil3Ul82Fgpwec5urwL
+         +/HQ==
+X-Gm-Message-State: AOJu0YzZI/zTnXN3sA4P9nGJ6ulcsFTfxK7+DF8rSGyXhgCI0wGiA+PB
+	0MDJJnpaKXUOnxYzuSOdZNJrS8Azz6mlaUBrrhTXwU5Eqy4QQZ0DyohmCg==
+X-Google-Smtp-Source: AGHT+IH6RHiJpnIlfqfAMy3cLouDwFWX0Q64hvHrSDnWV8YHujmx3vQM6tev1J6g7bS+VfqnTLwZZA==
+X-Received: by 2002:a05:600c:3b0f:b0:431:51e5:22fb with SMTP id 5b1f17b1804b1-43161657e4emr13990525e9.14.1729243568090;
+        Fri, 18 Oct 2024 02:26:08 -0700 (PDT)
 Received: from localhost.lan (dsl51B7D2F9.fixip.t-online.hu. [81.183.210.249])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ecf0460c6sm1372669f8f.26.2024.10.18.02.06.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43160e44445sm18565695e9.36.2024.10.18.02.26.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 02:06:07 -0700 (PDT)
+        Fri, 18 Oct 2024 02:26:07 -0700 (PDT)
 From: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Zolt=C3=A1n=20B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>
-Subject: [PATCH] linux-firmware: Upgrade to 20241017 and allow compressing firmware
-Date: Fri, 18 Oct 2024 11:06:03 +0200
-Message-ID: <20241018090603.158796-1-zboszor@gmail.com>
+Subject: [PATCH v2] linux-firmware: Upgrade to 20241017 and allow compressing firmware
+Date: Fri, 18 Oct 2024 11:26:05 +0200
+Message-ID: <20241018092605.219447-1-zboszor@gmail.com>
 X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,8 +58,8 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 09:06:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206042
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 09:26:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206043
 
 The new 20241017 version contains some breaking changes
 regarding firmware file deduplication.
@@ -76,15 +76,17 @@ Ship non-compressed firmware as default.
 
 Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 ---
- ...20240909.bb => linux-firmware_20241017.bb} | 361 +++++++++---------
- 1 file changed, 187 insertions(+), 174 deletions(-)
+v2: Fix non-compressed firmware symlinking in do_install:append
+
+ ...20240909.bb => linux-firmware_20241017.bb} | 364 +++++++++---------
+ 1 file changed, 190 insertions(+), 174 deletions(-)
  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20240909.bb => linux-firmware_20241017.bb} (89%)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
 similarity index 89%
 rename from meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
 rename to meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
-index 4bcda67c8f..0877148954 100644
+index 4bcda67c8f..f40723cbca 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20240909.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
 @@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
@@ -278,7 +280,7 @@ index 4bcda67c8f..0877148954 100644
  "
  FILES:${PN}-sd8686 = " \
    ${nonarch_base_libdir}/firmware/libertas/sd8686_v9* \
-@@ -669,31 +681,32 @@ FILES:${PN}-sd8688 = " \
+@@ -669,31 +681,35 @@ FILES:${PN}-sd8688 = " \
    ${nonarch_base_libdir}/firmware/mrvl/sd8688* \
  "
  FILES:${PN}-sd8787 = " \
@@ -306,7 +308,10 @@ index 4bcda67c8f..0877148954 100644
      # older kernels
 -    ln -fs sdsd8997_combo_v4.bin ${D}${nonarch_base_libdir}/firmware/mrvl/sd8997_uapsta.bin
 +    COMPR=$(echo ${@fw_compr_suffix(d)} | tr -d '-')
-+    ln -fs sdsd8997_combo_v4.bin.$COMPR ${D}${nonarch_base_libdir}/firmware/mrvl/sd8997_uapsta.bin.$COMPR
++    if [ -n "$COMPR" ]; then
++        COMPR=".$COMPR"
++    fi
++    ln -fs sdsd8997_combo_v4.bin$COMPR ${D}${nonarch_base_libdir}/firmware/mrvl/sd8997_uapsta.bin$COMPR
  }
  FILES:${PN}-sd8997 = " \
 -  ${nonarch_base_libdir}/firmware/mrvl/sd8997_uapsta.bin \
@@ -320,7 +325,7 @@ index 4bcda67c8f..0877148954 100644
  "
  
  RDEPENDS:${PN}-sd8686 += "${PN}-marvell-license"
-@@ -713,13 +726,13 @@ FILES:${PN}-netronome-license = " \
+@@ -713,13 +729,13 @@ FILES:${PN}-netronome-license = " \
    ${nonarch_base_libdir}/firmware/LICENCE.Netronome \
  "
  FILES:${PN}-netronome = " \
@@ -341,7 +346,7 @@ index 4bcda67c8f..0877148954 100644
    ${nonarch_base_libdir}/firmware/netronome/bpf \
    ${nonarch_base_libdir}/firmware/netronome/flower \
    ${nonarch_base_libdir}/firmware/netronome/nic \
-@@ -742,16 +755,16 @@ LICENSE:${PN}-nxp-license = "Firmware-nxp"
+@@ -742,16 +758,16 @@ LICENSE:${PN}-nxp-license = "Firmware-nxp"
  
  FILES:${PN}-nxp8987-sdio = "${nonarch_base_libdir}/firmware/nxp/*8987*"
  FILES:${PN}-nxp8997-common = " \
@@ -362,7 +367,7 @@ index 4bcda67c8f..0877148954 100644
  FILES:${PN}-nxp-license = "${nonarch_base_libdir}/firmware/LICENSE.nxp"
  
  RDEPENDS:${PN}-nxp8987-sdio += "${PN}-nxp-license"
-@@ -801,9 +814,9 @@ LICENSE:${PN}-olpc = "Firmware-OLPC"
+@@ -801,9 +817,9 @@ LICENSE:${PN}-olpc = "Firmware-OLPC"
  LICENSE:${PN}-olpc-license = "Firmware-OLPC"
  
  FILES:${PN}-olpc = " \
@@ -375,7 +380,7 @@ index 4bcda67c8f..0877148954 100644
  "
  FILES:${PN}-olpc-license = "${nonarch_base_libdir}/firmware/LICENCE.OLPC"
  
-@@ -813,7 +826,7 @@ RDEPENDS:${PN}-olpc += "${PN}-olpc-license"
+@@ -813,7 +829,7 @@ RDEPENDS:${PN}-olpc += "${PN}-olpc-license"
  LICENSE:${PN}-phanfw = "Firmware-phanfw"
  LICENSE:${PN}-phanfw-license = "Firmware-phanfw"
  
@@ -384,7 +389,7 @@ index 4bcda67c8f..0877148954 100644
  FILES:${PN}-phanfw-license = "${nonarch_base_libdir}/firmware/LICENCE.phanfw"
  
  RDEPENDS:${PN}-phanfw += "${PN}-phanfw-license"
-@@ -840,8 +853,8 @@ RDEPENDS:${PN}-qla2xxx += "${PN}-qla2xxx-license"
+@@ -840,8 +856,8 @@ RDEPENDS:${PN}-qla2xxx += "${PN}-qla2xxx-license"
  LICENSE:${PN}-rs9113 = "WHENCE"
  LICENSE:${PN}-rs9116 = "WHENCE"
  
@@ -395,7 +400,7 @@ index 4bcda67c8f..0877148954 100644
  
  RDEPENDS:${PN}-rs9113 += "${PN}-whence-license"
  RDEPENDS:${PN}-rs9116 += "${PN}-whence-license"
-@@ -863,37 +876,37 @@ FILES:${PN}-rtl-license = " \
+@@ -863,37 +879,37 @@ FILES:${PN}-rtl-license = " \
    ${nonarch_base_libdir}/firmware/LICENCE.rtlwifi_firmware.txt \
  "
  FILES:${PN}-rtl8188 = " \
@@ -446,7 +451,7 @@ index 4bcda67c8f..0877148954 100644
  "
  
  RDEPENDS:${PN}-rtl8188 += "${PN}-rtl-license"
-@@ -912,8 +925,8 @@ LICENSE:${PN}-wfx = "Firmware-wfx"
+@@ -912,8 +928,8 @@ LICENSE:${PN}-wfx = "Firmware-wfx"
  LICENSE:${PN}-wfx-license = "Firmware-wfx"
  
  FILES:${PN}-wfx = " \
@@ -457,7 +462,7 @@ index 4bcda67c8f..0877148954 100644
  "
  FILES:${PN}-wfx-license = "${nonarch_base_libdir}/firmware/wfx/LICENCE.wf200"
  
-@@ -924,8 +937,8 @@ LICENSE:${PN}-wl1251 = "Firmware-wl1251"
+@@ -924,8 +940,8 @@ LICENSE:${PN}-wl1251 = "Firmware-wl1251"
  LICENSE:${PN}-wl1251-license = "Firmware-wl1251"
  
  FILES:${PN}-wl1251 = " \
@@ -468,7 +473,7 @@ index 4bcda67c8f..0877148954 100644
  "
  FILES:${PN}-wl1251-license = "${nonarch_base_libdir}/firmware/LICENCE.wl1251"
  
-@@ -948,8 +961,8 @@ FILES:${PN}-ti-connectivity-license = "${nonarch_base_libdir}/firmware/LICENCE.t
+@@ -948,8 +964,8 @@ FILES:${PN}-ti-connectivity-license = "${nonarch_base_libdir}/firmware/LICENCE.t
  # symlink, both need to go to wlcommon.
  FILES:${PN}-wlcommon = " \
    ${nonarch_base_libdir}/firmware/ti-connectivity/TI* \
@@ -479,7 +484,7 @@ index 4bcda67c8f..0877148954 100644
  "
  FILES:${PN}-wl12xx = " \
    ${nonarch_base_libdir}/firmware/ti-connectivity/wl12* \
-@@ -982,7 +995,7 @@ LICENSE:${PN}-vt6656-license = "Firmware-via_vt6656"
+@@ -982,7 +998,7 @@ LICENSE:${PN}-vt6656-license = "Firmware-via_vt6656"
  
  FILES:${PN}-vt6656-license = "${nonarch_base_libdir}/firmware/LICENCE.via_vt6656"
  FILES:${PN}-vt6656 = " \
@@ -488,7 +493,7 @@ index 4bcda67c8f..0877148954 100644
  "
  
  RDEPENDS:${PN}-vt6656 = "${PN}-vt6656-license"
-@@ -991,7 +1004,7 @@ RDEPENDS:${PN}-vt6656 = "${PN}-vt6656-license"
+@@ -991,7 +1007,7 @@ RDEPENDS:${PN}-vt6656 = "${PN}-vt6656-license"
  LICENSE:${PN}-xc4000 = "Firmware-xc4000"
  LICENSE:${PN}-xc4000-license = "Firmware-xc4000"
  
@@ -497,7 +502,7 @@ index 4bcda67c8f..0877148954 100644
  FILES:${PN}-xc4000-license = "${nonarch_base_libdir}/firmware/LICENCE.xc4000"
  
  RDEPENDS:${PN}-xc4000 += "${PN}-xc4000-license"
-@@ -1000,7 +1013,7 @@ RDEPENDS:${PN}-xc4000 += "${PN}-xc4000-license"
+@@ -1000,7 +1016,7 @@ RDEPENDS:${PN}-xc4000 += "${PN}-xc4000-license"
  LICENSE:${PN}-xc5000 = "Firmware-xc5000"
  LICENSE:${PN}-xc5000-license = "Firmware-xc5000"
  
@@ -506,7 +511,7 @@ index 4bcda67c8f..0877148954 100644
  FILES:${PN}-xc5000-license = "${nonarch_base_libdir}/firmware/LICENCE.xc5000"
  
  RDEPENDS:${PN}-xc5000 += "${PN}-xc5000-license"
-@@ -1010,7 +1023,7 @@ LICENSE:${PN}-xc5000c = "Firmware-xc5000c"
+@@ -1010,7 +1026,7 @@ LICENSE:${PN}-xc5000c = "Firmware-xc5000c"
  LICENSE:${PN}-xc5000c-license = "Firmware-xc5000c"
  
  FILES:${PN}-xc5000c = " \
@@ -515,7 +520,7 @@ index 4bcda67c8f..0877148954 100644
  "
  FILES:${PN}-xc5000c-license = "${nonarch_base_libdir}/firmware/LICENCE.xc5000c"
  
-@@ -1025,44 +1038,44 @@ FILES:${PN}-broadcom-license = "${nonarch_base_libdir}/firmware/LICENCE.broadcom
+@@ -1025,44 +1041,44 @@ FILES:${PN}-broadcom-license = "${nonarch_base_libdir}/firmware/LICENCE.broadcom
  
  # for i in `grep brcm WHENCE  | grep ^File | sed 's/File: brcm.//g'`; do pkg=`echo $i | sed 's/-[sp40].*//g; s/\.bin//g; s/brcmfmac/bcm/g; s/_hdr/-hdr/g; s/BCM/bcm-0bb4-0306/g'`; echo "$i - $pkg"; echo -e "FILES:\${PN}-$pkg = \"\${nonarch_base_libdir}/firmware/brcm/$i\""; done | grep ^FILES
  
@@ -587,7 +592,7 @@ index 4bcda67c8f..0877148954 100644
  
  # for i in `grep brcm WHENCE  | grep ^File | sed 's/File: brcm.//g'`; do pkg=`echo $i | sed 's/-[sp40].*//g; s/\.bin//g; s/brcmfmac/bcm/g; s/_hdr/-hdr/g; s/BCM/bcm-0bb4-0306/g'`; echo -e "LICENSE:\${PN}-$pkg = \"Firmware-broadcom_bcm43xx\"\nRDEPENDS_\${PN}-$pkg += \"\${PN}-broadcom-license\""; done
  # Currently 1st one and last 6 have cypress LICENSE
-@@ -1125,7 +1138,7 @@ RDEPENDS:${PN}-bcm4371 += "${PN}-broadcom-license"
+@@ -1125,7 +1141,7 @@ RDEPENDS:${PN}-bcm4371 += "${PN}-broadcom-license"
  LICENSE:${PN}-cypress-license = "Firmware-cypress"
  FILES:${PN}-cypress-license = "${nonarch_base_libdir}/firmware/LICENCE.cypress"
  
@@ -596,7 +601,7 @@ index 4bcda67c8f..0877148954 100644
  FILES:${PN}-bcm43340 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43340-sdio.* \
    ${nonarch_base_libdir}/firmware/cypress/cyfmac43340-sdio.*"
  FILES:${PN}-bcm43362 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac43362-sdio.* \
-@@ -1138,11 +1151,11 @@ FILES:${PN}-bcm4354 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4354-sdio.bi
+@@ -1138,11 +1154,11 @@ FILES:${PN}-bcm4354 = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4354-sdio.bi
  FILES:${PN}-bcm4356-pcie = "${nonarch_base_libdir}/firmware/brcm/brcmfmac4356-pcie.* \
    ${nonarch_base_libdir}/firmware/cypress/cyfmac4356-pcie.* \
  "
@@ -613,7 +618,7 @@ index 4bcda67c8f..0877148954 100644
  "
  
  LICENSE:${PN}-bcm-0bb4-0306 = "Firmware-cypress"
-@@ -1169,8 +1182,8 @@ LICENSE:${PN}-bnx2 = "WHENCE"
+@@ -1169,8 +1185,8 @@ LICENSE:${PN}-bnx2 = "WHENCE"
  LICENSE:${PN}-whence-license = "WHENCE"
  
  FILES:${PN}-bnx2 = " \
@@ -624,7 +629,7 @@ index 4bcda67c8f..0877148954 100644
  "
  FILES:${PN}-whence-license = "${nonarch_base_libdir}/firmware/WHENCE"
  
-@@ -1179,7 +1192,7 @@ RPROVIDES:${PN}-bnx2 = "${PN}-bnx2-mips"
+@@ -1179,7 +1195,7 @@ RPROVIDES:${PN}-bnx2 = "${PN}-bnx2-mips"
  
  LICENSE:${PN}-bnx2x = "WHENCE"
  
@@ -633,7 +638,7 @@ index 4bcda67c8f..0877148954 100644
  
  RDEPENDS:${PN}-bnx2x += "${PN}-whence-license"
  
-@@ -1196,7 +1209,7 @@ RDEPENDS:${PN}-cirrus += "${PN}-cirrus-license"
+@@ -1196,7 +1212,7 @@ RDEPENDS:${PN}-cirrus += "${PN}-cirrus-license"
  LICENSE:${PN}-cnm = "Firmware-cnm"
  LICENSE:${PN}-cnm-license = "Firmware-cnm"
  
@@ -642,7 +647,7 @@ index 4bcda67c8f..0877148954 100644
  FILES:${PN}-cnm-license = "${nonarch_base_libdir}/firmware/LICENCE.cnm"
  
  RDEPENDS:${PN}-cnm += "${PN}-cnm-license"
-@@ -1206,13 +1219,13 @@ LICENSE:${PN}-imx-sdma-imx6q       = "Firmware-imx-sdma_firmware"
+@@ -1206,13 +1222,13 @@ LICENSE:${PN}-imx-sdma-imx6q       = "Firmware-imx-sdma_firmware"
  LICENSE:${PN}-imx-sdma-imx7d       = "Firmware-imx-sdma_firmware"
  LICENSE:${PN}-imx-sdma-license       = "Firmware-imx-sdma_firmware"
  
@@ -658,7 +663,7 @@ index 4bcda67c8f..0877148954 100644
  
  FILES:${PN}-imx-sdma-license = "${nonarch_base_libdir}/firmware/LICENSE.sdma_firmware"
  
-@@ -1249,32 +1262,32 @@ LICENSE:${PN}-iwlwifi-license   = "Firmware-iwlwifi_firmware"
+@@ -1249,32 +1265,32 @@ LICENSE:${PN}-iwlwifi-license   = "Firmware-iwlwifi_firmware"
  
  
  FILES:${PN}-iwlwifi-license = "${nonarch_base_libdir}/firmware/LICENCE.iwlwifi_firmware"
@@ -716,7 +721,7 @@ index 4bcda67c8f..0877148954 100644
  "
  
  RDEPENDS:${PN}-iwlwifi-135-6     = "${PN}-iwlwifi-license"
-@@ -1331,13 +1344,13 @@ LICENSE:${PN}-ibt-20 = "Firmware-ibt_firmware"
+@@ -1331,13 +1347,13 @@ LICENSE:${PN}-ibt-20 = "Firmware-ibt_firmware"
  LICENSE:${PN}-ibt-misc    = "Firmware-ibt_firmware"
  
  FILES:${PN}-ibt-license = "${nonarch_base_libdir}/firmware/LICENCE.ibt_firmware"
@@ -737,7 +742,7 @@ index 4bcda67c8f..0877148954 100644
  FILES:${PN}-ibt-misc    = "${nonarch_base_libdir}/firmware/intel/ibt-*"
  
  RDEPENDS:${PN}-ibt-hw-37-7 = "${PN}-ibt-license"
-@@ -1390,7 +1403,7 @@ RDEPENDS:${PN}-adsp-sst           = "${PN}-adsp-sst-license"
+@@ -1390,7 +1406,7 @@ RDEPENDS:${PN}-adsp-sst           = "${PN}-adsp-sst-license"
  LICENSE:${PN}-qat         = "Firmware-qat"
  LICENSE:${PN}-qat-license = "Firmware-qat"
  FILES:${PN}-qat-license   = "${nonarch_base_libdir}/firmware/LICENCE.qat_firmware"
@@ -746,7 +751,7 @@ index 4bcda67c8f..0877148954 100644
  RDEPENDS:${PN}-qat        = "${PN}-qat-license"
  
  LICENSE:${PN}-qed         = "WHENCE"
-@@ -1460,47 +1473,47 @@ FILES:${PN}-qcom-vpu = " \
+@@ -1460,47 +1476,47 @@ FILES:${PN}-qcom-vpu = " \
      ${nonarch_base_libdir}/firmware/qcom/vpu-1.0/* \
      ${nonarch_base_libdir}/firmware/qcom/vpu-2.0/* \
  "
@@ -812,7 +817,7 @@ index 4bcda67c8f..0877148954 100644
  
  RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
  RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
-@@ -1568,7 +1581,7 @@ RDEPENDS:${PN}-prestera = "${PN}-marvell-license"
+@@ -1568,7 +1584,7 @@ RDEPENDS:${PN}-prestera = "${PN}-marvell-license"
  # For Rockchip
  LICENSE:${PN}-rockchip-dptx = "Firmware-rockchip"
  FILES:${PN}-rockchip-license = "${nonarch_base_libdir}/firmware/LICENCE.rockchip"
