@@ -1,131 +1,135 @@
-Return-Path: <regis.dargent@gmail.com>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D440D3000D
-	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 13:35:39 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web10.22000.1729258533030173185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 39F1BD3000C
+	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 13:48:39 +0000 (UTC)
+Received: from h4.cmg1.smtp.forpsi.com (h4.cmg1.smtp.forpsi.com [185.129.138.163])
+ by mx.groups.io with SMTP id smtpd.web11.22611.1729259312940378062
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Oct 2024 06:35:33 -0700
+ Fri, 18 Oct 2024 06:48:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=aPtFe+Gk;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: regis.dargent@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-37d47b38336so1477415f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 06:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729258531; x=1729863331; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=80+Z3Bti+KUPvXEvp4XPcdeEHkxnhHR9pCigNACPO3U=;
-        b=aPtFe+GkLhSjNQPYpzKeeuphvJ6fzYDH/fKkdSLu2sl1gxNx6SclmFdapHdRBmbZT8
-         H87gnY0Mf/emCUHtxfNxJHiKYdWBhhjB5xoqCZHdK4TEhzuLImYmpRdnk40bX0vYiwWf
-         4CLbmZzUpUL8oGssubQhVVE9tykiBKzw8a9GW+cb/sMbHKt+Rtf+GcnQjjF0HqOWv83W
-         dDw5eCMJPbZ2UtpGEQHX1BXbRRWbXGHel9RUh4dfh0F/5fXv7Ox3yzRc+bYbO6jSzQfA
-         adtA5O9oHAyTNfMPCQzbFs91NseAGmpDo0C2Srr1gCb78svvn/OUVbJO70RBMKFsMDrP
-         iAXw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729258531; x=1729863331;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=80+Z3Bti+KUPvXEvp4XPcdeEHkxnhHR9pCigNACPO3U=;
-        b=Qsh4cA+gMGhpEz2X6Iby8aKhnMOtNcTj0LskIGPCroCRke0jbK8EJVQpiB4+I0iZ5g
-         uMxr7R2Ur0H1JCpOS1uYV4gMwzyr4wDoTmx6IXVznh5eacuSs8CGcGc303H8OfDMLcgE
-         xpbkv0E1bUp7krjdTtZYktnaVajwAmb1HwKcfyjnzYV/qt+USuB6ydEHouILTpF1jpn9
-         pbhCsDpHtYCOKAzvjLWxy98tO57QSLz5hM4++xZmXPs4M0zssKgvFdRXvanBZRcgzI6l
-         0W/z4qiPi0aPpejMi2LKlsE/gvJUJKDny6SM/NXRg/46dT1+z9xl3OHB7Duq+TNmVsAJ
-         GWsw==
-X-Gm-Message-State: AOJu0YxUdlo4i1yse1nGxwsAqHuymkYTP/QnI2rqt6Bl2GDci25ow11U
-	UXV+U8OneXr/Wc6o+1SY63EE1JB5pewr5oVNBNxh+/WtloC5krQeiHHF1C2l
-X-Google-Smtp-Source: AGHT+IGOmb/1CpOZZgL8Z50leD4eQcHnE9RYletlshf4N0vv3o+QK9T8yOFDqUE0KlnYW34vA+OqYw==
-X-Received: by 2002:a5d:564b:0:b0:37d:45c3:3455 with SMTP id ffacd0b85a97d-37eab70a1fbmr1673336f8f.30.1729258530961;
-        Fri, 18 Oct 2024 06:35:30 -0700 (PDT)
-Received: from Junction.dargent.eu (242.76.29.93.rev.sfr.net. [93.29.76.242])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ecf027a45sm1973754f8f.17.2024.10.18.06.35.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Oct 2024 06:35:30 -0700 (PDT)
-From: Regis Dargent <regis.dargent@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Regis Dargent <regis.dargent@gmail.com>
-Subject: [PATCH 1/1] udev-extraconf: fix network.sh script did not configure hotplugged interfaces
-Date: Fri, 18 Oct 2024 15:32:38 +0200
-Message-Id: <20241018133237.575289-1-regis.dargent@gmail.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=QQm5IvRR;
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=QQm5IvRR;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 185.129.138.163, mailfrom: andrej.v@skyrain.eu)
+Received: from [192.168.10.89] ([62.197.243.174])
+	by cmgsmtp with ESMTPSA
+	id 1nLCtpHVxeqGt1nLCtUa0m; Fri, 18 Oct 2024 15:48:31 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1729259311; bh=cbWGl3wZOyBquu/kRSQiuhgdA3VvOw6bBrzxtxkvDiQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	b=QQm5IvRRfWXXNymUdswCeLPbtqgVNvSCJfvHPDzY1xU8g4rjL0Av2ile0JsjOOly+
+	 fUvFkt5V1pUOQgZ/dipsdxxqcRCAfgdRbH3AhUw8U2Q68fQNnGudrPeULzR8OZVNM6
+	 Z+1/Fzevi0dEjbXHI86Qkm/jpQ/4UzCaQVvsWY+JxnWmlHU20Pp5hU9gCgP4DpD6vz
+	 SK4VTJ1pPm/tuCUmlvNU2PbVSXun+UAx+nR6DHqgQZSvJHXJimkXzMT+JzSN8g3ba9
+	 Udcy0B+ufbxCUBh+nFGzTk/wV7WvzHk3UAYNRK7oJWVrOlwoGmqWwCcodaIGODcnRT
+	 9YuFeKrM6DQ2Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1729259311; bh=cbWGl3wZOyBquu/kRSQiuhgdA3VvOw6bBrzxtxkvDiQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Content-Type;
+	b=QQm5IvRRfWXXNymUdswCeLPbtqgVNvSCJfvHPDzY1xU8g4rjL0Av2ile0JsjOOly+
+	 fUvFkt5V1pUOQgZ/dipsdxxqcRCAfgdRbH3AhUw8U2Q68fQNnGudrPeULzR8OZVNM6
+	 Z+1/Fzevi0dEjbXHI86Qkm/jpQ/4UzCaQVvsWY+JxnWmlHU20Pp5hU9gCgP4DpD6vz
+	 SK4VTJ1pPm/tuCUmlvNU2PbVSXun+UAx+nR6DHqgQZSvJHXJimkXzMT+JzSN8g3ba9
+	 Udcy0B+ufbxCUBh+nFGzTk/wV7WvzHk3UAYNRK7oJWVrOlwoGmqWwCcodaIGODcnRT
+	 9YuFeKrM6DQ2Q==
+Message-ID: <f9d5f576-20e9-4fbe-b232-f7d1d3a3325f@skyrain.eu>
+Date: Fri, 18 Oct 2024 15:48:30 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH] busybox: 1.36.1 -> 1.37.0
+From: Andrej Valek <andrej.v@skyrain.eu>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+References: <20241011094830.1009557-1-andrej.v@skyrain.eu>
+ <a9c4777b9bf0987e3a01138e664fdfbe45907035.camel@linuxfoundation.org>
+ <a37cc22a-e880-45e7-aefc-c667d233f36e@skyrain.eu>
+Content-Language: en-US
+Cc: openembedded-core@lists.openembedded.org
+In-Reply-To: <a37cc22a-e880-45e7-aefc-c667d233f36e@skyrain.eu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfIE/hBFkR91RHku97XmPtaHcNffoqDmitwNpN2Z3iBM3cYwBtw3zYvc/nrwodhZP10y9s8AOqp3NSr8+FEGeo1voyaB7atxoetjbcuA/dmHmekrsXS63
+ Zh2Z85DMMt3p3EWTOakDxD2K3xNjFEnkUgaGeDD7BaiIO1rJT4/E8UQftfSwwsvNwphCM+hmhDvZWpuBgjUKaO3MRkjDtDa1m5XE7F9j+ylVkY5PgR2TwPL1
+ qV52L4rckpLPVDHKX2qXPI+4OAnA2TFIOU1FbUxtgJA=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 13:35:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206063
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 13:48:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206064
 
-Udev script network.sh is called when a new ethernet interface is plugged (eg. USB).
-Due to some (old) missing files, this script does nothing, instead of configuring the
-interfaces with ifup.
-I just commented the corresponding lines to allow the script to reach the part where
-it calls ifup.
+Hello Richard,
 
+Could you please check if 
+https://lists.openembedded.org/g/openembedded-core/message/205956 fixed 
+all issues? In case of not, let me know and will try to fix them.
 
-Signed-off-by: Regis Dargent <regis.dargent@gmail.com>
+Regards,
+Andrej
 
-Fixes [YOCTO 15616]
-
-network.sh relies on (long) missing files (eg. /etc/network/options,
-/etc/init.d/network) to decide if it should configure the new network
-interface (ifup) or put its name in /etc/udev_network_queue for future
-initialization by /etc/init.d/network service.
-The actual result was that the new hotplugged interface was never
-automatically configured.
-Removing the obsolete tests allows the script to do its intended job.
----
- .../udev/udev-extraconf/network.sh            | 32 -------------------
- 1 file changed, 32 deletions(-)
-
-diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/recipes-core/udev/udev-extraconf/network.sh
-index 3ee92714af..ace38808cd 100644
---- a/meta/recipes-core/udev/udev-extraconf/network.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/network.sh
-@@ -6,38 +6,6 @@ echo "$INTERFACE" | grep -q wifi && exit 0
- # udevd does clearenv(). Export shell PATH to children.
- export PATH
- 
--# Check if /etc/init.d/network has been run yet to see if we are 
--# called by starting /etc/rcS.d/S03udev and not by hotplugging a device
--#
--# At this stage, network interfaces should not be brought up
--# automatically because:
--# a)	/etc/init.d/network has not been run yet (security issue)
--# b) 	/var has not been populated yet so /etc/resolv,conf points to 
--#	oblivion, making the network unusable
--#
--
--spoofp="`grep ^spoofprotect /etc/network/options`"
--if test -z "$spoofp"
--then
--	# This is the default from /etc/init.d/network
--	spoofp_val=yes
--else
--	spoofp_val=${spoofp#spoofprotect=}
--fi
--
--test "$spoofp_val" = yes && spoofp_val=1 || spoofp_val=0
--
--# I think it is safe to assume that "lo" will always be there ;)
--if test "`cat /proc/sys/net/ipv4/conf/lo/rp_filter`" != "$spoofp_val" -a -n "$spoofp_val"
--then
--	echo "$INTERFACE" >> /dev/udev_network_queue	
--	exit 0
--fi
--
--#
--# Code taken from pcmcia-cs:/etc/pcmcia/network
--#
--
- # if this interface has an entry in /etc/network/interfaces, let ifupdown
- # handle it
- if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
--- 
-2.25.1
+On 15.10.2024 14:20, Andrej Valek wrote:
+> Hi all,
+>
+> Busysbox upgrade status: Ok, there were multiple problems occurred.
+>
+> One problem is the wrong "sha accel" configuration, which I fixed 
+> already. The most critical part is not working syslog. It has been 
+> broken by 
+> https://git.busybox.net/busybox/commit/sysklogd?id=02378ce20c6d2df062357b6d60fc440609d203be 
+> so I have to dig into the problem and try to fix it.
+>
+> Regards,
+> Andrej
+>
+> On 11.10.2024 14:33, Richard Purdie wrote:
+>> On Fri, 2024-10-11 at 11:48 +0200, Andrej Valek via 
+>> lists.openembedded.org wrote:
+>>> - update to next stable version 1.37.0
+>>>   - refresh defconfig
+>>>     - disable new applets (ip_link_can)
+>>>     - enable new applets (time64, find_exec_ok, getfattr, udhcpd_bootp)
+>>>   - remove and refresh already merged patches
+>>>
+>>> Signed-off-by: Andrej Valek <andrej.v@skyrain.eu>
+>>> ---
+>>>   ...ab_1.36.1.bb => busybox-inittab_1.37.0.bb} |   0
+>>>   ...01-awk-fix-precedence-of-relative-to.patch | 197 
+>>> ------------------
+>>>   ...-fix-segfault-when-compiled-by-clang.patch |  41 ----
+>>>   ...1-awk.c-fix-CVE-2023-42366-bug-15874.patch |  37 ----
+>>>   ...x-ternary-operator-and-precedence-of.patch |  96 ---------
+>>>   .../busybox/busybox/CVE-2021-42380.patch      | 151 --------------
+>>>   .../busybox/busybox/CVE-2023-42363.patch      |  67 ------
+>>>   meta/recipes-core/busybox/busybox/defconfig   |   8 +-
+>>>   .../{busybox_1.36.1.bb => busybox_1.37.0.bb}  |   8 +-
+>>>   9 files changed, 7 insertions(+), 598 deletions(-)
+>>>   rename meta/recipes-core/busybox/{busybox-inittab_1.36.1.bb => 
+>>> busybox-inittab_1.37.0.bb} (100%)
+>>>   delete mode 100644 
+>>> meta/recipes-core/busybox/busybox/0001-awk-fix-precedence-of-relative-to.patch
+>>>   delete mode 100644 
+>>> meta/recipes-core/busybox/busybox/0001-awk-fix-segfault-when-compiled-by-clang.patch
+>>>   delete mode 100644 
+>>> meta/recipes-core/busybox/busybox/0001-awk.c-fix-CVE-2023-42366-bug-15874.patch
+>>>   delete mode 100644 
+>>> meta/recipes-core/busybox/busybox/0002-awk-fix-ternary-operator-and-precedence-of.patch
+>>>   delete mode 100644 
+>>> meta/recipes-core/busybox/busybox/CVE-2021-42380.patch
+>>>   delete mode 100644 
+>>> meta/recipes-core/busybox/busybox/CVE-2023-42363.patch
+>>>   rename meta/recipes-core/busybox/{busybox_1.36.1.bb => 
+>>> busybox_1.37.0.bb} (84%)
+>> This would seem to be causing:
+>>
+>> https://valkyrie.yoctoproject.org/#/builders/65/builds/225/steps/11/logs/stdio 
+>>
+>>
+>> and many other failures in that build:
+>>
+>> https://valkyrie.yoctoproject.org/#/builders/29/builds/251
+>>
+>> Cheers,
+>>
+>> Richard
+>
 
 
