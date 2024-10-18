@@ -1,92 +1,76 @@
-Return-Path: <rsangam@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5FCBD3C550
-	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 06:30:46 +0000 (UTC)
-Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
- by mx.groups.io with SMTP id smtpd.web11.16649.1729233041812000577
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 206F1D3C55E
+	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 07:37:37 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.17293.1729237052332961437
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Oct 2024 23:30:41 -0700
+ Fri, 18 Oct 2024 00:37:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=aEQuBK6Q;
- spf=pass (domain: mvista.com, ip: 209.85.160.43, mailfrom: rsangam@mvista.com)
-Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-28847f4207dso844150fac.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Oct 2024 23:30:41 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lzIQ+mq4;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539f4d8ef84so2017698e87.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 00:37:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1729233039; x=1729837839; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hwr4FnQsiXVRmiLV52K7J/cWXN9EV0vv+s1LHUyw/ic=;
-        b=aEQuBK6QsYkdpBraGWVaZ1TAo+kLQiR/4g1Cdh2NXQ51OwUAGztxuYoW9+CgQpY/xg
-         aRQP7CRgpSVMARUGxCmXMVij6mFTJ6ILPdgGuQ+TWJi6yQL7r3W2kPhvSeluX9NEYnV0
-         5S9/JZqjn/ZLfwfefCGwbcZGNjt7ze9HGy6Ks=
+        d=gmail.com; s=20230601; t=1729237050; x=1729841850; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1WFn89eYgAFVI3mbg2z4c1b9YkdoWNl7uYL63jdwFc8=;
+        b=lzIQ+mq4fKoVgjxPxMI3MeYOkxYU1/kmRi/KuU4c31FldqKEgeYwDpMRcuS6QO1IZW
+         Qtjpexu09D13KEefpYUL/RGghZvnpb9Bn2IHBlMJl6qmgdnmoWW02WRyJWxDqBETGRT9
+         rY9ypywZgYXjEOQPYktExzkEDs8CwXCEIfdRN+tOf2pF7AbacPzvj6XmusEjsSsCUWbA
+         3YHuj6QwH5t7WuQ/Q6n+rMPeAFMkt1yKyojvnHYCvNI8y+gOfe7j9jrMZWO5eTGqc8li
+         B0zTThcbimLhH4sURxy+wrECQ0pS1Un2IRiCmZdp0yiBe4w/lViLLPFXqwpgUbskwsVY
+         4FWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729233039; x=1729837839;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hwr4FnQsiXVRmiLV52K7J/cWXN9EV0vv+s1LHUyw/ic=;
-        b=GqYshc6J1q+gcX8eVkILmTxfNgjQ/bJaoUrJ/11gTz2efYAvGwxRxf1OSm3hJ0OTot
-         skglf323sdYchU5rZe9kBrA7hKuQbKvCcFpiv6a3DBFKyPMQWyWri5Sl3efScC9qOdNP
-         pHwOgp+23r4Cg856dkiSWr+OsXOrKE07cqW40mwX4ewFla4Rfu/DTUtxWeToIHz3UzNl
-         dmUw5tpgGlxvABrew0xHLPhrRu7KBeNQMovFdtcn2NHKUsdc4T14p1RGLNIHTxnYKfTQ
-         RbmXPOQgRO4ucqrzGpMrB30galP6qkrHdR4ANNrNeUjsUH7hqDn8TUYom4fUDHrA4wUp
-         oR7g==
-X-Gm-Message-State: AOJu0YwnRrMi8rzaletyr5wgj0qQqVjI/kt9cRk0raiy4yALuvJW6pqh
-	WdUIfbTdQN15I00GOG1ygLKJnLge2j0AmiMWeph3gD/6AqhsjxKav//b+i+2WnJHtnQHWoN4K0X
-	d
-X-Google-Smtp-Source: AGHT+IGikVKEnPXXwcnFIoA9kipBWGSCBslgp4kw45DhRVYAD9FRa9zDwIIvx/oxbWGu5CeTXkxOvA==
-X-Received: by 2002:a05:6871:10e:b0:277:f14c:844b with SMTP id 586e51a60fabf-2892c49e8b5mr1373619fac.37.1729233036640;
-        Thu, 17 Oct 2024 23:30:36 -0700 (PDT)
-Received: from MVIN00040.mvista.com ([49.207.206.255])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ea34094d0sm705662b3a.108.2024.10.17.23.30.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Oct 2024 23:30:36 -0700 (PDT)
-From: Rohini Sangam <rsangam@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Rohini Sangam <rsangam@mvista.com>,
-	Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][master][scarthgap][PATCH] vim: Upgrade 9.1.0698 -> 9.1.0764
-Date: Fri, 18 Oct 2024 12:00:28 +0530
-Message-Id: <20241018063028.52276-1-rsangam@mvista.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1729237050; x=1729841850;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1WFn89eYgAFVI3mbg2z4c1b9YkdoWNl7uYL63jdwFc8=;
+        b=k0K6PKsI+DwluzN6EzABuyGYDUoJvk8OWVBrwBXrsdezb4HlLGjJ6MmdT0kB9p6QCW
+         d3ir2Be77FKOuxOnN6sk7EPTsEBzB6f6MwaNDNuRWwA+lsFc0ifKcduPYmrKnv3WjxZX
+         3g4+BaFhzD36yAWmMYm7FwCUbZz6BiuXkzcveLtO85/ZYGhP2J7cIdCl+Y4WakjHW1Ls
+         VpBvFgplTvBt8DkHMQR1tNDHF34F5MAX2UppuAT898LH3iByNNNWuKC56b8ttfGI9Ch0
+         MF+CE/ACcP5bxlb7GM3+EbFnJAtKmMZg5pDdD0ej3wPZv7Vv7Zk+bOZnJs4iuc+A3sU1
+         4pfg==
+X-Gm-Message-State: AOJu0Yxx6tTvGk2EdP4XXieGfIEPBoDMrUA7gpLmFRJVjT9ZQGa1I4zY
+	bHPR+wYEfC3tiuwFSGoUQGUdSP9OOmlWnQL/Selmq9bo/5mNs6Z8uSJ8UvcdhnuOu9mnm56vmK8
+	tF+jYP+x2JVQZtzxRdmLTjCibVNk=
+X-Google-Smtp-Source: AGHT+IFmUo5lhRnv8Mr3pMhkPiNzifGs95RtgMqZjXyGArYnGMSsHvR//ZfEO+r9BnoitR/sR0DrPCy0L2iHrEN7+Gs=
+X-Received: by 2002:a05:6512:3a8d:b0:539:f1e3:ca5e with SMTP id
+ 2adb3069b0e04-53a154fa75fmr806701e87.44.1729237050094; Fri, 18 Oct 2024
+ 00:37:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <SA3PR02MB101158D739751F29809CDC851C1402@SA3PR02MB10115.namprd02.prod.outlook.com>
+In-Reply-To: <SA3PR02MB101158D739751F29809CDC851C1402@SA3PR02MB10115.namprd02.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 18 Oct 2024 09:37:18 +0200
+Message-ID: <CANNYZj_QMbz99Y28L_Er2jK3xow+0Qsy7aDkMEhQfVk+m6EqbQ@mail.gmail.com>
+Subject: Re: [OE-core] systemctl native script does not support WantedBy=%i.target
+To: quic_ericsmit@quicinc.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 06:30:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206036
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 07:37:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206037
 
-This includes CVE-fix for CVE-2024-45306 and CVE-2024-47814
+On Fri, 18 Oct 2024 at 03:50, Eric Smith (QUIC) via
+lists.openembedded.org
+<quic_ericsmit=3Dquicinc.com@lists.openembedded.org> wrote:
 
-Changes between 9.1.0698 -> 9.1.0764
-====================================
-https://github.com/vim/vim/compare/v9.1.0698...v9.1.0764
+> It seems like faulty behavior from my perspective. Systemd.unit man page =
+does not mention any restriction about having =E2=80=9C%i=E2=80=9D be the f=
+irst pattern after WantedBy=3D, and systemd=E2=80=99s systemctl program cur=
+rently allows WantedBy=3D%i.target.
 
-Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
----
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+Can you propose a patch?
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f87f4dcbfa..cf36f4087b 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
- 
--PV .= ".0698"
--SRCREV = "d56c451e1c05310562c5282352d7bb287c16323c"
-+PV .= ".0764"
-+SRCREV = "51b62387be93c65fa56bbabe1c3c1ea5df187641"
- 
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
--- 
-2.34.1
-
+Alex
 
