@@ -1,99 +1,148 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35B72D2FFED
-	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 10:28:08 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.19074.1729247280915215702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52020D2FFEC
+	for <webhook@archiver.kernel.org>; Fri, 18 Oct 2024 10:51:08 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.19663.1729248662075401549
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Oct 2024 03:28:01 -0700
+ Fri, 18 Oct 2024 03:51:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=kEVgr4/F;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=kAiXmsPn;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101929f2b7910-e493ee4c-48a3-46cf-88aa-197e0b430ad9-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1729247279; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Xd2vvpqGtTQgORuv+pkL+nJylUOO0KZ8TUQZ23oQt14=;
-	b=kEVgr4/FlEM4d72hMbIedS4OMOXB/DhyGuHLh7GgEs91S4qUBmEHMJXjQBkyEf23
-	ht2zzI73271cBazVxCNuDAMKol0XpOo4z6g6h81VyPcmmFtDDppKZBxKRpZ4hZl6slY
-	hJMCkbP6F7HJgUIk5FpP9PPTPpkmFpiOPq2HVqy8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1729247279;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Xd2vvpqGtTQgORuv+pkL+nJylUOO0KZ8TUQZ23oQt14=;
-	b=kAiXmsPnSMuw7EY+PZJGBd0UrYsww55au8FwMyILNn7z0kgumZv/w4mMzUkraipF
-	odMLlO9E2Kn5KJFpFtdPpUsg28ah6Ml/fSgh9egdqNlROqscF+7+doCgXk5vLiXKWHt
-	+6ItuD6ok7oa/B23VBrlsXoYPBM2N1NZdVR9QIxk=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/6] python3-markupsafe: Upgrade 2.1.5 -> 3.0.1
-In-Reply-To: <20241018100138.2341819-3-richard.purdie@linuxfoundation.org>
-References: <20241018100138.2341819-3-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101929f2b7910-e493ee4c-48a3-46cf-88aa-197e0b430ad9-000000@us-west-2.amazonses.com>
-Date: Fri, 18 Oct 2024 10:27:59 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.18-54.240.27.192
+ dkim=pass header.i=@smile.fr header.s=google header.b=Xos03Nyb;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4315baec681so16614625e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 03:51:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1729248659; x=1729853459; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=twVUxDUY12qAA9wv/Nwo2J9KaehyhiTCRl8XUc75ZmE=;
+        b=Xos03NybfWOiGRVhTBbpx8i5vPpGs/wKR0qWBKpG4rJ5LdsQ/gjIjdlLrYx0BtZ/Nh
+         h/hIH8c/O58v3QnYmiX1X6YxnFcqVoIncDTAYPGLlWcuJh4rQWCTSFs6bBa/YdaT5acc
+         D2O5oArEHipfJrhmUxzyo+Gqjds9Od7dHfWzI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729248659; x=1729853459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=twVUxDUY12qAA9wv/Nwo2J9KaehyhiTCRl8XUc75ZmE=;
+        b=qN7LxOy1evDPGso+Cgr07LJ0rV9KRH1OmIOx64R+t61flz+UVIXEe2jg4yq/K7BDpj
+         ad6/M0QqxfjAR47FNce3hh9b9sXYMC9t+f9exBdeLWeaq3VR5NfG7C+CZ6sc7xo+UQEB
+         Yit0B2V/0g7CYpvfQW4qwZAH5QWL/DHWTfTtd5yehERZNkI1UBgHgAVimwe3Xte2qQJu
+         iE7pZ9r1OMRiqXn407zup8pC/hsiTubaUJryRwPXrG1ELMal8LMe/Jx/sk7UzQ3Tv8pO
+         32gYYPrCTfj6HIfykmLgd/204gwJCTotQ8nxAlBwkOcKrPpA/rlKcN79gGJUgZjhustG
+         pV4g==
+X-Gm-Message-State: AOJu0YzkwFILrrZ/nRyPQ3Bi6jN+dnJW5tkB4TZCdekj3hANmP6HPl30
+	Y5g9qoy6Zit/PV6sLyvXS+neSG4TFnoPdaRMuxxGzJ9ypdKJ8eLZ1I129pDPSgbHP852i45Dl+5
+	e
+X-Google-Smtp-Source: AGHT+IG1Pke/9YmhxNOobjiVmzMJPRUY8pm0HLWwn2jkcs9Z/Ie3E9RKuHSjxauMAN8bZsoxHDp7DA==
+X-Received: by 2002:a05:600c:3d9b:b0:431:40ca:ce6e with SMTP id 5b1f17b1804b1-431616a0986mr13937525e9.31.1729248659464;
+        Fri, 18 Oct 2024 03:50:59 -0700 (PDT)
+Received: from P-ASN-ECS-830T8C3.local (53.1.159.89.rev.sfr.net. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43160e443a4sm20520545e9.37.2024.10.18.03.50.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Oct 2024 03:50:59 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>,
+	Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] python3-maturin: sort external libs in wheel files
+Date: Fri, 18 Oct 2024 12:50:26 +0200
+Message-Id: <20241018105025.2070966-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 10:28:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206053
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Oct 2024 10:51:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206054
 
---NextPart
-Content-Type: text/plain
+From: Yoann Congal <yoann.congal@smile.fr>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Import a merged patch that sort external libs in the wheel file
+generated by maturin. That improve reproducibility.
 
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+CC: Tim Orling <tim.orling@konsulko.com>
 ---
-Testing patch /home/patchtest/share/mboxes/3-6-python3-markupsafe-Upgrade-2.1.5---3.0.1.patch
+ ...prove-wheel-reproducibility-by-sorti.patch | 55 +++++++++++++++++++
+ .../python/python3-maturin_1.7.1.bb           |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch b/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
+new file mode 100644
+index 0000000000..83b586ff72
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
+@@ -0,0 +1,55 @@
++From 49b985d7f5a4582bf9e2c58b6220124e2b7aa395 Mon Sep 17 00:00:00 2001
++From: Yoann Congal <yoann.congal@smile.fr>
++Date: Thu, 17 Oct 2024 22:17:20 +0200
++Subject: [PATCH] build_context: improve wheel reproducibility by sorting libs
++ (#2261)
++
++OE-core note: Upstream does not have a commit message for this. Bellow
++is the message I've sent:
++> While tracking a reproducibility issue from maturin's output, we found
++> that the .so file in the output .whl were not ordered the same
++> every time.
++>
++> Order of the external libraries in the .whl comes down to the order
++> `soname_map` is iterated. But, `std::HashMap` does not provide a stable
++> order and that create an unstable order in the wheel.
++>
++> Switch to `std::BTreeMap` which keeps keys sorted and is iterable
++> in a stable order.
++>
++> This can be tested by building current python3-cryptography :
++>   SOURCE_DATE_EPOCH=1728915855 maturin build
++>
++> Before this commit, the above give two possible outputs (~50% each), the
++> difference is in the order of libssl and libcrypto.
++>
++> After this commit, the output is reproducible.
++
++Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
++Upstream-Status: Backport [https://github.com/PyO3/maturin/commit/61d54809776e1ca79ff8cc92387d70796d50c16e]
++---
++ src/build_context.rs | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/build_context.rs b/src/build_context.rs
++index 2e498537..6fbd25c1 100644
++--- a/src/build_context.rs
+++++ b/src/build_context.rs
++@@ -24,7 +24,7 @@ use normpath::PathExt;
++ use pep508_rs::Requirement;
++ use platform_info::*;
++ use sha2::{Digest, Sha256};
++-use std::collections::{HashMap, HashSet};
+++use std::collections::{BTreeMap, HashSet};
++ use std::env;
++ use std::fmt::{Display, Formatter};
++ use std::io;
++@@ -396,7 +396,7 @@ impl BuildContext {
++         writer.add_directory(&libs_dir)?;
++ 
++         let temp_dir = tempfile::tempdir()?;
++-        let mut soname_map = HashMap::new();
+++        let mut soname_map = BTreeMap::new();
++         let mut libs_copied = HashSet::new();
++         for lib in ext_libs.iter().flatten() {
++             let lib_path = lib.realpath.clone().with_context(|| {
+diff --git a/meta/recipes-devtools/python/python3-maturin_1.7.1.bb b/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
+index b9279f5ab5..8837128896 100644
+--- a/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
++++ b/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
+@@ -12,6 +12,7 @@ SRC_URI:append = "\
+     file://0003-Extract-extension-ABI-name-resolvation-code-as-helpe.patch \
+     file://0004-Fix-cross-compilation-issue-with-linux-ppc-architect.patch \
+     file://0005-Fix-cross-compilation-issue-with-linux-mips64-archit.patch \
++    file://0001-build_context-improve-wheel-reproducibility-by-sorti.patch \
+ "
+ 
+ S = "${WORKDIR}/maturin-${PV}"
 
