@@ -1,166 +1,108 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <andrej.v@skyrain.eu>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB3F2D3C92E
-	for <webhook@archiver.kernel.org>; Sat, 19 Oct 2024 21:48:35 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web10.14618.1729374508708395941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B1360D3C92F
+	for <webhook@archiver.kernel.org>; Sun, 20 Oct 2024 06:31:18 +0000 (UTC)
+Received: from h1.cmg2.smtp.forpsi.com (h1.cmg2.smtp.forpsi.com [81.2.195.188])
+ by mx.groups.io with SMTP id smtpd.web10.20372.1729405876929322584
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Oct 2024 14:48:29 -0700
+ Sat, 19 Oct 2024 23:31:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z0woEcRD;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d8901cb98so2766056f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Oct 2024 14:48:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729374507; x=1729979307; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=bHRaIts2MC5fwcXGS0e2E7K/0lz3wH1dWyA4CBwXw0o=;
-        b=Z0woEcRDQm8aQGaA6a6rrqHxMx4owEXHdJNHX3Co+eH4uXDhgmsHgbb0WXBxB9usUL
-         oTaOwZRZ/w4qK6CSlVdu391R/2JKOLYPao94PeQUTnZsuReJIjmm2SMezHEchp+QqUL6
-         jECtLbPsdQzYJrxpydbhKfBHAdVkDgHlCCMlM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729374507; x=1729979307;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=bHRaIts2MC5fwcXGS0e2E7K/0lz3wH1dWyA4CBwXw0o=;
-        b=iWCP8VRboJpVTaiS9AMvNAavwqsQnF1vj4O+Mxr6BY38Kq+jjyCT8M/94jbFqUikrU
-         2c7RM+CEpGLptHsSPBYCCa8SADNVWHiEcdUyNjVPmQ+ZvFnFK+FBrPQ3rOu1zT1i+afZ
-         WiejeV9oMd9kGNYYCAean0c1M8AFi6N/wCh04XmWbIbdh7qZIx7yyKJ6LAjJbusVAkIo
-         5yNWGxMdi+DNI5u6ASNjE+ZApgy9Tic8jl8VQ4JDUEXfL/gWgEbXCEsE0ZQ2FQ09SdoL
-         Gg1T8/qJIEt3z+t7ZoIEhxLcjP9DM4vPX+TY6eLJ6fgM08wrVmJZZCBjjOBMqcMJ2Q7k
-         DC7w==
-X-Gm-Message-State: AOJu0YzlEe4QBqJwTHxmR+JrAPg4K+oY25HqSBYr8T9yn4eF2PgXKhRx
-	X7vjRZAim7xDljuA/+eko58GUoFJVoUF4uxp5x72tI5n0EFS6acsCAegpG6NRaWmggP+UQYavz4
-	3
-X-Google-Smtp-Source: AGHT+IGGdxOmnXQpop6qKSU9iCoJQ/cog+/2bpWRzf2SY4xxxJHGuCd9zn4PZchB9Cs7R1TuX5u1dA==
-X-Received: by 2002:adf:f34e:0:b0:374:b6e4:16a7 with SMTP id ffacd0b85a97d-37d93d6f384mr7743056f8f.8.1729374506802;
-        Sat, 19 Oct 2024 14:48:26 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:d275:580c:d39f:fb71? ([2001:8b0:aba:5f3c:d275:580c:d39f:fb71])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a485dcsm401989f8f.34.2024.10.19.14.48.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Oct 2024 14:48:25 -0700 (PDT)
-Message-ID: <5afe4b6b2816613ac715bba3ee2f1e94c2a3cb0f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] Latest AB-INT unexplained mystery failure
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>, Mathieu
- Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Sat, 19 Oct 2024 22:48:24 +0100
-In-Reply-To: <17FFD5DF016C394D.24795@lists.openembedded.org>
-References: <17FE0CA1425F2338.24631@lists.openembedded.org>
-	 <17FFD5DF016C394D.24795@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=eu0qiULV;
+ dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=eu0qiULV;
+ spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 81.2.195.188, mailfrom: andrej.v@skyrain.eu)
+Received: from [192.168.10.90] ([62.197.243.174])
+	by cmgsmtp with ESMTPSA
+	id 2PT8tUjGnTNCy2PT8tGhkI; Sun, 20 Oct 2024 08:31:14 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1729405874; bh=4ZX/DBvQWzMo6al7vWXh3rGE3hNpYQcKYX0whQokcGo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=eu0qiULVtD0Vf3kkeKFoUExaaJc+prxzqcNnNeBuLDlnX3Tet+R2dSRR0ZxYjY/dn
+	 QIBuyS8Tla20K++c/B2lRXxEyBdqA4WAujpRJ9dWMCNpkcWTAloK/irorec/G5u6bu
+	 K3c6k9GQdDj53ixaF88kAj1GChKwtl1JOt2RqwYk7avYL6KqOU7fChe5yhdUJGhRTW
+	 1Dmz8r8rjMZi0oLJnGD6N5rFveNetbNUaKxxguNd9bCy0TuF1NHbfglX+6r5HRe9Td
+	 2iuZx844KCx+tzvcn16eAz4+CRQwZXAWj7kqpYchZ9njlRhGFYLVisycWbCMPyGeRm
+	 5Zlisqhvh4PTw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
+	t=1729405874; bh=4ZX/DBvQWzMo6al7vWXh3rGE3hNpYQcKYX0whQokcGo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	b=eu0qiULVtD0Vf3kkeKFoUExaaJc+prxzqcNnNeBuLDlnX3Tet+R2dSRR0ZxYjY/dn
+	 QIBuyS8Tla20K++c/B2lRXxEyBdqA4WAujpRJ9dWMCNpkcWTAloK/irorec/G5u6bu
+	 K3c6k9GQdDj53ixaF88kAj1GChKwtl1JOt2RqwYk7avYL6KqOU7fChe5yhdUJGhRTW
+	 1Dmz8r8rjMZi0oLJnGD6N5rFveNetbNUaKxxguNd9bCy0TuF1NHbfglX+6r5HRe9Td
+	 2iuZx844KCx+tzvcn16eAz4+CRQwZXAWj7kqpYchZ9njlRhGFYLVisycWbCMPyGeRm
+	 5Zlisqhvh4PTw==
+Message-ID: <e8450426-3c52-4a94-a21d-3fea5c56604c@skyrain.eu>
+Date: Sun, 20 Oct 2024 08:31:14 +0200
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: Patchtest results for [OE-core][PATCH v3] busybox: 1.36.1 ->
+ 1.37.0
+To: patchtest@automation.yoctoproject.org
+Cc: openembedded-core@lists.openembedded.org
+References: <20241019160221.47501-1-andrej.v@skyrain.eu>
+ <01010192a593370a-4cc220e6-f982-4a19-86d0-9cfc88584fc2-000000@us-west-2.amazonses.com>
+Content-Language: en-US
+From: Andrej Valek <andrej.v@skyrain.eu>
+In-Reply-To: <01010192a593370a-4cc220e6-f982-4a19-86d0-9cfc88584fc2-000000@us-west-2.amazonses.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOp8O7DJ5s3RsV8L7juCF/jq1HWjBH/X/7uM/w0O0neLUnnTNij8C+qHE4sbmNpSlfWk0m3Jel04VzZ2bfjFtUGDiyqO+DFf+Zv+whH2rP4Mz5s3icRG
+ z//4f6JdsS8ocgnJMqkRevjZPSawh6Lz/TWLFQR3DkpbQ7g4dEJi+hjbPGtI36oUCi1FYA3qeApjHQKjZ/wOVAexz5KGKwP62GnT0hbNITM2pbZu9XIPqfr9
+ /LsEZzlmeOwKPU9tYxknRuA3+N7vZTPWWGYqIUZAckA=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Oct 2024 21:48:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206087
+ <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 06:31:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206088
 
-On Sat, 2024-10-19 at 12:05 +0100, Richard Purdie via
-lists.openembedded.org wrote:
-> On Sun, 2024-10-13 at 16:26 +0100, Richard Purdie via
-> lists.openembedded.org wrote:
-> > I've spent quite a bit of time trying to reproduce/debug this:
-> >=20
-> > https://valkyrie.yoctoproject.org//#/builders/35/builds/216/steps/14/lo=
-gs/stdio
-> >=20
-> > 2024-10-13 04:12:32,010 - oe-selftest - INFO - RESULTS -
-> > runtime_test.TestImage.test_testimage_apt: FAILED (218.02s)
-> > 2024-10-13 04:12:32,010 - oe-selftest - INFO - RESULTS -
-> > runtime_test.TestImage.test_testimage_dnf: FAILED (155.47s)
-> >=20
-> > on debian11-vk-1.
-> >=20
-> > I've a successful test and a failed test testimage output for
-> > comparison:
-> >=20
-> > https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftes=
-t/log.do_testimage.1487387
-> > https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftes=
-t/log.do_testimage.3323465
-> >=20
-> > along with qemu serial output:
-> >=20
-> > https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftes=
-t/qemu_boot_log-fail
-> > https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftes=
-t/qemu_boot_log.20241013104106
-> >=20
-> > I've tried rerunning that exact series of tests on that worker with
-> > no
-> > success reproducing the issue. The image was overwritten by a later
-> > test so we can't retest the exact image. I've checked the journal
-> > on
-> > that system and there isn't anything related around the time this
-> > happened. The two failures were on different network interfaces and
-> > both interfaces work on later tests.
->=20
-> This is happening on most builds on debian11 for my test branch. If I
-> add new changes, the issue doesn't happen so it looks to be timing
-> related and needs a populated sstate cache.
->=20
-> I put auditing into runqemu's tap locks codepaths and the devices are
-> being locked/released correctly, there is no duplicate device usage.
->=20
-> I also went through the non-tap/tun codepaths and I can't spot any
-> issues, we do use slirp in some tests.
->=20
-> Since we have a trigger point where we know it is failing (the
-> runtime
-> ping and ssh tests), I added a os.system("ps awx") into it. That gave
-> me a process dump of what was running when this happens.
->=20
-> https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftest/=
-3/log.do_testimage.3603268
-> https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftest/=
-3/log.do_testimage.3902903
-> https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftest/=
-3/log.do_testimage.4042146
->=20
-> From those we can conclude that there is only one qemu-system-*
-> running
-> using the appropriate interface. I couldn't spot any other
-> particularly
-> untoward processes running. That tells us a lot of things it isn't I
-> guess.
->=20
-> In addition to the ps, I've now added a netstat -tunape to see if we
-> can see something holding a network connection open. I'm wondering
-> about our httpserver used in some tests, or debuginfod, or something.
-> That build is ongoing.
-
-https://valkyrie.yocto.io/pub/shared-failure-data/debian11-vk-1-selftest/5/=
-log.do_testimage.123265
-
-This has netstat from the host but also uses the serial connection to
-run ping on the host/server IPs and ifconfig.
-
-This tells is the interfaces have the addresses we expect on both sides
-and that packets are tx'd but not rx'd on the other side.
-
-Creative ideas on further debugging welcome, I'm not sure where from
-here. I think it narrows down the issue to the host kernel or qemu and
-these qemu binaries are working on the other builders. The host is a
-5.10.223 kernel:
-
-$ cat /proc/version=20
-Linux version 5.10.0-32-amd64 (debian-kernel@lists.debian.org) (gcc-10 (Deb=
-ian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for Debian) 2.35.2) #1 =
-SMP Debian 5.10.223-1 (2024-08-10)
-
-Cheers,
-
-Richard
+This is an false-positive error, while I've renamed the file and removed :).
 
 
-
+On 19.10.2024 18:19, patchtest@automation.yoctoproject.org wrote:
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
+>
+> ---
+> Testing patch /home/patchtest/share/mboxes/v3-busybox-1.36.1---1.37.0.patch
+>
+> FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
+>
+> PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+> PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+> PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+> PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+> PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+> PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+> PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+> PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+>
+> SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+> SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+> SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+> SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+> SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+> SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+>
+> ---
+>
+> Please address the issues identified and
+> submit a new revision of the patch, or alternatively, reply to this
+> email with an explanation of why the patch should be accepted. If you
+> believe these results are due to an error in patchtest, please submit a
+> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+> under 'Yocto Project Subprojects'). For more information on specific
+> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> you!
 
 
