@@ -2,117 +2,156 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B74BD0E6EE
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 10:40:17 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.43464.1729507213002130972
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A72ED0E6EF
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 10:42:07 +0000 (UTC)
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+ by mx.groups.io with SMTP id smtpd.web10.43488.1729507317524176629
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Oct 2024 03:40:13 -0700
+ Mon, 21 Oct 2024 03:41:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AjAE+G3e;
- spf=pass (domain: gmail.com, ip: 209.85.167.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-53a0c160b94so2319490e87.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 03:40:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CD9WHw0Y;
+ spf=pass (domain: gmail.com, ip: 209.85.167.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-539e4b7409fso4312056e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 03:41:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729507211; x=1730112011; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q2W2Ll6R6uaXW16iEuyG13i2UyTe8FKUXQ6i0SJngx0=;
-        b=AjAE+G3eWjaE1LQJwxzK6WubCh8xxSZ3hh4Zf//Gs1T7qkMnENerczGoHx4tQ8zeHX
-         39+Hl+yTBJY8ystheKEzxxYQDrWevQAkXUoQFua6/FtrnuuyUr9CvutJrRuoh3h2XjI9
-         nfBrYaSiDJgGeIq5zLfm8JuGRZKLVHRAKqFCIVvqJAoLg5bKK+NUtz6JAtGvzlAtUSx3
-         46B7DpPhtOAcqpcxPn/0IdAHaBILMPu976k3n9xI+HAp9L7ztLAWRDKyuAcdOQmmzezs
-         maqMMxkzF8SM0MciZgq+0OJWj5icqUrNE7arYu+ge1QHDJH4kDp1kizEqCxeT0PXNdUb
-         SFhQ==
+        d=gmail.com; s=20230601; t=1729507315; x=1730112115; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CIEOx3bbW0eL2C97YGVo5G1v5KLDXjHjUnp1w2X8Hx4=;
+        b=CD9WHw0YcDUC0/R2Cgd+StIxD1xX0u9tiLxye9oH1CzcnflVbRCXSH8s3CyBrDFUJz
+         wofMMVweTh0WIkihe55o9azfD7lfqjCg1lZiqcMozka+K9tbE8Jf3Xj7EHnxodccOPer
+         vOYVBf3SmpC9ciI6Pj+9568I8F0nfA9nUWBMfu0DnBWj8AS1Q02kMZ7b8f+5BIzG8D9x
+         gRs1GQYFzCcdjuJNk7w/uyvnKFQ/sZaEa+4alxL2LGzK+0foguwmcVggGaD+Sebr6DHq
+         fqHw4SjkRnFndJSLZWEGfdU6LOEm07q9tLgj5Xk2rD9KQV9kX7tkpnz77+oEpUPIjA9L
+         k3rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729507211; x=1730112011;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q2W2Ll6R6uaXW16iEuyG13i2UyTe8FKUXQ6i0SJngx0=;
-        b=ZLPd1PSfFEbqUI5FfY4C5YBkJO7KMtaZOA6CEuOu4j4mgzZUvHyaJsZ6w5Gy2/19vS
-         VKJ0pJ9864rA240yRn2q2Xdj3HLhUZ4anO/dh4hgivxmnh/VDty+23/j3hsXlSU8ZwJ1
-         coJD6WJW2hP8qnuVUlni2qDrWhJsljJ3WE3ene8RS9lEUcBoxxYQx6q+bPHt0zZMX5BB
-         PqEwEZQR7nOgNVWVgCpxZkfqaBykPzqdUHWLBMIT7RNyt6kQ0Za/ACAIMziyFkunhDdY
-         sWXAxdiRZG1yMQVHiyQPnQ8Spt94RG6gYuHGeQE900jFeoxr56FR5yk93nriIO9QXylH
-         RxPg==
-X-Gm-Message-State: AOJu0Yx3AGKtL9cHD9WkUsvhPAm4RUbeqNSXpHaVRTaXfkwkFJsnZze4
-	vsRlTONlJm/EfGwEtp4eaklo8PfIPxj+TQj3t3W5/H6P3HHdEwQQm8YhjqWRP3KeML+UhdbWBhC
-	baqwu8mLO4SXRgH+IDcuddkjwlTI=
-X-Google-Smtp-Source: AGHT+IEyE8BoV4ld7SSSHf3Rv/cysXSNlYwJ3hEzMAJCJfjMChGw6AjGW2FhVJ+SsMuQK7aJSQr6WhsaX5n/jfgaMMc=
-X-Received: by 2002:a05:6512:3ca4:b0:536:a52d:f94b with SMTP id
- 2adb3069b0e04-53a1520bd2dmr5069664e87.8.1729507211014; Mon, 21 Oct 2024
- 03:40:11 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729507315; x=1730112115;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CIEOx3bbW0eL2C97YGVo5G1v5KLDXjHjUnp1w2X8Hx4=;
+        b=RjGgdoNCqPJ0g8Sh0g380ME/9D7j1sTKkNeArjrQAhI9T1EmWyOQ95+b01507/mt1/
+         7ya4GA7Nzjp0199ACLCv5as9V5j9LvwVaaoQbnoWcAonThM46+91JY29sgohx70F09Bs
+         6htAmeojpUoqkKvOagjLPg7hdPqXzB1lxdvk4j4bCoMZf3WrEp4wZXmsY1ZQdKDn6RIU
+         MF6rsjXFF9ZdS/eM97VnMJ7K6fpkg4dbIWGhRAdIYDkt3EhZMyO/zSgGyH5oT7IWCH+4
+         USi6a+rrZTSARHEbszKU4voJPmjaQCiqg1CHfX65A5KDWGsdFbxgWLV7kRqYAHXmyRrz
+         +cfA==
+X-Gm-Message-State: AOJu0YzpAh8dkUF8uac6yPTtFOGPK7C6SrxyNiyYK+c09ACM/63b38Hs
+	yQhrJYkGzjTJ+kuyg8alfvrPbN9XRwVR0qIGrzHdK2IKIQ0uMF6jIkwF1ruY8Gz7/S5gIi3tw9X
+	udxs/WeXaIqwcRFG/0G82p2LNH1yvzQ==
+X-Google-Smtp-Source: AGHT+IEb1G2lQ7z3UJqKzBDhb02VLW+IzdWKZsRz7d90IkGfDL+0is++ye3QLxaDp5sPfY1+v2vpq587y//qG7g7hac=
+X-Received: by 2002:a05:6512:3e1e:b0:539:e3a2:3a25 with SMTP id
+ 2adb3069b0e04-53a158625d8mr3402503e87.18.1729507315284; Mon, 21 Oct 2024
+ 03:41:55 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241021091535.117383-1-Pawan.Badganchi@kpit.com>
-In-Reply-To: <20241021091535.117383-1-Pawan.Badganchi@kpit.com>
+References: <GV0P278MB0241B5BD9E5305D57A7EBBAC88422@GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM>
+In-Reply-To: <GV0P278MB0241B5BD9E5305D57A7EBBAC88422@GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 21 Oct 2024 12:39:59 +0200
-Message-ID: <CANNYZj9DC3OTd-Q93f5ucN4f_gFc-8OBHw2jnb-3-uzP3fgH1Q@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] run-ptest: removed 'sed -u' option
-To: badganchipv@gmail.com
-Cc: openembedded-core@lists.openembedded.org, 
-	Aditya Tayade <Aditya.Tayade@kpit.com>
+Date: Mon, 21 Oct 2024 12:41:43 +0200
+Message-ID: <CANNYZj-QhbtH7zzDp_pMV+EeX=qmQLx+e6MKKohqEttpL53XQw@mail.gmail.com>
+Subject: Re: [OE-core] gzip segfault with mandb and qemu when building rootfs
+To: diego.santacruz@spinetix.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 10:40:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206110
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 10:42:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206111
 
-The commit header should say "e2fsprogs: do not use -u sed option in run-ptest".
+It would help if you replicate the issue on master, and provide steps
+to reproduce so I or anyone else can observe the issue.
 
-Also can you check run-ptest in other recipes if they have the same problem?
+Alex
 
-On Mon, 21 Oct 2024 at 11:15, Pawan Badganchi via
-lists.openembedded.org <badganchipv=gmail.com@lists.openembedded.org>
-wrote:
+On Sun, 20 Oct 2024 at 14:59, Diego Santa Cruz via
+lists.openembedded.org
+<diego.santacruz=3Dspinetix.com@lists.openembedded.org> wrote:
 >
-> From: Aditya Tayade <Aditya.Tayade@kpit.com>
+> Hi there,
 >
-> In embedded box, sed might be provided another providers like Busybox,
-> hence use generic options whenever possible.
-> /bin/sed -> /etc/alternatives/sed
-> /etc/alternatives/sed -> /bin/busybox.nosuid
 >
-> Here used 'sed -u' option is not necessary, hence removed it.
 >
-> Fixes below error:
-> sed: invalid option -- 'u'
+> We noticed many gzip segfault errors on our build machine when doing eith=
+er do_rootfs or do_populate_sdk for images on which the man pages are enabl=
+ed.
 >
-> Also added 'set -eux' option which halts execution of the script
-> on any failures.
 >
-> Signed-off-by: Aditya Tayade <Aditya.Tayade@kpit.com>
-> Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
-> ---
->  meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
 >
-> diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-> index 279923db8e..1857a17189 100644
-> --- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-> +++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
-> @@ -1,7 +1,8 @@
->  #!/bin/sh
+> We traced this to mandb, run from the postinst script injected by manpage=
+s.bbclass, which invokes gzip to scan compressed manpages.
 >
-> +set -eux
->  cd ./test
-> -SKIP_SLOW_TESTS=yes ./test_script | sed -u -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
-> +SKIP_SLOW_TESTS=yes ./test_script | sed -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
->  rm -rf /var/volatile/tmp/*e2fsprogs*
->  rm -f tmp-*
->  rm -f *.tmp
+>
+>
+> Our diagnostic is that mandb is executed via qemuwrapper with LD_LIBRARY_=
+PATH set to the rootfs lib dirs, which is expected since mandb is from the =
+rootfs. However, PATH is not set to the rootfs bin dirs, but instead to the=
+ various sysroots and wrapper paths, so it is gzip from recipe-sysroot-nati=
+ve that is executed, using ld-linux from the rootfs. But it turns out that =
+the ld-linux and libs from rootfs are incompatible with those of recipe-sys=
+root-native, which results in a segfault in ld-linux.
+>
+>
+>
+> I fixed this in our builds by simply adding -E PATH=3D$D${bindir}:$D${bas=
+e_bindir} to the qemuwrapper command line in scripts/postinst-intercepts/up=
+date_mandb. However, I do wonder if the correct fix would not be in qemu.bb=
+class to systematically set that option for any qemuwrapper invocation, as =
+the problem can potentially affect any tool executed via qemuwrapper that s=
+pawns or execs some other executable using PATH to locate it.
+>
+>
+>
+> We encountered this on kirkstone, but our local kirkstone branch has this=
+ commit backported: https://git.openembedded.org/openembedded-core/commit/?=
+id=3Dfbd8a57aa307bfda70a08cb78af3c97f05c39a3a Hence the modification of scr=
+ipts/postinst-intercepts/update_mandb and not manpages.bbclass
+>
+>
+>
+> The problem does not occur when building images for machines which are no=
+t x86-64 based, since the build host and target architectures are not compa=
+tible. Note also that the segfault is gone with the above mentioned fix, bu=
+t gzip does not run successfully since /bin/gzip from the rootfs is an abso=
+lute symlink to the active alternative (e.g., /bin/gzip.gzip), which does n=
+ot exist on the build host, but that is another problem, at least the segfa=
+ult is gone.
+>
+>
+>
+> Would fixing qemu.bbclass make sense? If yes, how extensive should that b=
+e? For instance, explicitly passing the right dirs for PATH to qemu_wrapper=
+_cmdline, like it is done for LD_LIBRARY_PATH? Or just implicitly setting i=
+t in qemu_wrapper_cmdline?
+>
+>
+>
+> Sincerely,
+>
+>
+>
+> Diego
+>
+>
+>
 > --
-> 2.25.1
+> Diego Santa Cruz, PhD
+> Technology Architect
+> spinetix.com
 >
 >
-> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#206101): https://lists.openembedded.org/g/openembedded-core/message/206101
-> Mute This Topic: https://lists.openembedded.org/mt/109129050/1686489
+> View/Reply Online (#206094): https://lists.openembedded.org/g/openembedde=
+d-core/message/206094
+> Mute This Topic: https://lists.openembedded.org/mt/109114254/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 
