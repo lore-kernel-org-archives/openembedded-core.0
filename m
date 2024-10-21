@@ -2,65 +2,65 @@ Return-Path: <badganchipv@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A8D1D0E6D4
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 09:10:47 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.41868.1729501837150751878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3061CD0E6D5
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 09:13:37 +0000 (UTC)
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web11.41900.1729502016042570251
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Oct 2024 02:10:37 -0700
+ Mon, 21 Oct 2024 02:13:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ePCh0e2z;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: badganchipv@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cb47387ceso36372445ad.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 02:10:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=hCd07/rc;
+ spf=pass (domain: gmail.com, ip: 209.85.166.176, mailfrom: badganchipv@gmail.com)
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3a3aeb19ea2so15122935ab.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 02:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729501836; x=1730106636; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1729502015; x=1730106815; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
         bh=b6qY2aa8CMrtJcNNC6gkVSPRf2hmZLSi2nS+neAGT68=;
-        b=ePCh0e2zEGgyIViQAJh6oy312t790e5s5EgzOAix+v4pSaDU5O6QVy1SND7Q4Qq4Oo
-         pYOTHMWuUIWh7yKt0g5whc/XMNqct/qYnez4Dh4eAqrWL7Hj4IiDfOjCWCULSXdlds1J
-         sPypV79BtPzA5cTnNbBTmgd0+Aonam6idhD2QXTed7jtz/tUElIIYhlyKTzFEWRUPEqR
-         OXVPdeWrdbvEY79TW8rhymqrHr7w/tGQfZd7MLktze2zAK98F9WBSaTj8566Kfkl2ILL
-         Kkch+ponUFlCAKiIb7GDz0g1m8uMwtOjotfWyRYG0U9MJwQ9HY7jBfzdCFNAXBf6KBAN
-         pzMw==
+        b=hCd07/rccLjsRtC+qacjs6rfvZUWKVihSQGmQYzhsQ8KlKropS9bwrrn/at2mksF3W
+         D//s1lEaATEKFKN+cthWhNGVEQDB4sCoEsw1rFzP7+XE0NCgjnVFie+QNQf3+PwaRT0A
+         aQ+9sKhxCGLThR/dVzN+dU2/8mE0eqereuvsj1RgiEbEaoTg2lgT+vFmeN+iK0XxJRDe
+         ch4QNeela7TQUtc6nuxYLTsTeqhrTqOoMgWOGS5lw72pbu5jME//tUi1gjYUdfM/59wD
+         OiRcOStNwdGevjAZHBPFfDWLczZnDvzS7ZPoJ+MT7rTLYmc5+kc5Ov80PnjxpGDK7S2s
+         fcDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729501836; x=1730106636;
+        d=1e100.net; s=20230601; t=1729502015; x=1730106815;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=b6qY2aa8CMrtJcNNC6gkVSPRf2hmZLSi2nS+neAGT68=;
-        b=Co8TaaLI/T90g/XIXMJ1yg6xWZ2Opj6ETzKkXQF5t+1kugbmggS8y0Pz7BRJkh6huf
-         x0a3C867V8jsP3eq9G5ot2ZTuSm3Z68Gye3g9avLWrv7dmPPVPOj5w5wbCRIQlEWCvP0
-         vrfxt6NrxnOwnktJNk7+89OOC3pwvqoZGmoyLJ6OJSLI2OXCOrBsp8puuujoV79uPX8X
-         u8/x6diz4QNoMqvstxtba928v2rL0MN5eHkiB/cKRIWA/7PBVFXdul/uNzgf/U59CTGQ
-         2/B/6ht4qNGJ/dM1oSmK08C7U5bfrBQTkmcPlT6gGUo6knhPKpGtyPPXnEBS+4wenP+T
-         UjKg==
-X-Gm-Message-State: AOJu0Yx5pRWk7j9ME3FZyxi6By3istRkcYSOXoWx95o73evxCduzGzh7
-	g83QQy7APQnOG4w8KacL+E4fsgxXe//qFs5jrug4tQ6PEgBO5VYxDODuIw==
-X-Google-Smtp-Source: AGHT+IHsAYIItgYSU1+MXG3KywLr9WTKcEHsfijYafBJ27FCrBxff+AFymJlTavkWWkppajYn3RfoQ==
-X-Received: by 2002:a17:902:e74d:b0:20c:bb1c:d216 with SMTP id d9443c01a7336-20e5a773ebbmr165274845ad.21.1729501836175;
-        Mon, 21 Oct 2024 02:10:36 -0700 (PDT)
+        b=ajdOiU7hr5Z1wuUDVShYbIkg2fwAr5RAlWzWawGMKe2VuwblphjQp0c4fnLEK7AVm8
+         po3MjjFZA8pmYisE9/xDvpkY7As0xBX/d8PgksFf+wC9mBM4V7scHn43XcFQMwYLChH0
+         ty6JqKKYkUZfF9p7+M4xcf4i2qyo3+Zi1qfIrPoaNwTOjdNFQBEdOkXR1lJdWAXi1bwg
+         Lt/df5EO+5CHacXaJ9PEaUZdk5ehclFZXIBvzZY7cnNLO+Vlan/DyPwNbwA1EYhjebYN
+         DLUckPfemTOM443/VdJvuJSZsDYIvMWALhkTbdV75Zz9h6O5e28cJieLmGv0X1eCEwcU
+         C9Hg==
+X-Gm-Message-State: AOJu0YznLzEGqdILbyZktIG2K1iESHRiDQW3JR6X9tb80YsOUD4mwRtt
+	eOL7klSejp+gEB6MHlPvNP3MexIqDfOZNHxzWXlfd2Z7g3be3yo+col9B0nf
+X-Google-Smtp-Source: AGHT+IFa4qkU045mY7nZ481RWQBqHlq/Fra6rxr12KR0siNLIFrK4PnAsmpvs8ea8paQ4mchBWPTBg==
+X-Received: by 2002:a05:6e02:1d16:b0:3a3:a1a1:a3ec with SMTP id e9e14a558f8ab-3a3f40b745cmr90742575ab.22.1729502014920;
+        Mon, 21 Oct 2024 02:13:34 -0700 (PDT)
 Received: from LL-1378.kpit.com ([106.213.87.185])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0de4bdsm21453765ad.212.2024.10.21.02.10.34
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7eaeab48f62sm2566697a12.42.2024.10.21.02.13.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Oct 2024 02:10:35 -0700 (PDT)
+        Mon, 21 Oct 2024 02:13:34 -0700 (PDT)
 From: Pawan Badganchi <badganchipv@gmail.com>
 X-Google-Original-From: Pawan Badganchi <Pawan.Badganchi@kpit.com>
 To: openembedded-core@lists.openembedded.org,
 	badganchipv@gmail.com
 Cc: Aditya Tayade <Aditya.Tayade@kpit.com>
-Subject: [OE-core][master][PATCH] run-ptest: removed 'sed -u' option
-Date: Mon, 21 Oct 2024 14:40:20 +0530
-Message-Id: <20241021091020.114708-1-Pawan.Badganchi@kpit.com>
+Subject: [OE-core][scarthgap][PATCH] run-ptest: removed 'sed -u' option
+Date: Mon, 21 Oct 2024 14:43:20 +0530
+Message-Id: <20241021091320.116044-1-Pawan.Badganchi@kpit.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 09:10:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206099
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 09:13:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206100
 
 From: Aditya Tayade <Aditya.Tayade@kpit.com>
 
