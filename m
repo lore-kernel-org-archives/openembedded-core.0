@@ -1,201 +1,211 @@
-Return-Path: <olani@axis.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C2BED0E6DD
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 10:04:07 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.49])
- by mx.groups.io with SMTP id smtpd.web11.42549.1729505037548377436
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8DBD0E6E4
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 10:25:27 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.42812.1729506326446113732
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Oct 2024 03:03:58 -0700
+ Mon, 21 Oct 2024 03:25:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=b+BaLjCk;
- spf=pass (domain: axis.com, ip: 40.107.20.49, mailfrom: ola.x.nilsson@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VCjH4VkF8Z4+P1krYy17v7hKLu9DugsyZWBwU6WYeyA1gilSPwp7H+YADBJ5oiWt43Gy6cMNYoRLCcZOVi0YG/BGkc5IKFK7Uim/oDrBJFQO6mruCnGSLQrUv3M4kVVYbSTSo86x3uaZkfJs72fPrc9eIsAPorGGpxo4mljnkDT61/ohsWAUd594KFutk4ir5ppD29m1zDmtO+1tI8Pe0LJ1ztpUMwFI3QkZOoDVI748zg9aZvFn67sXqpadvpyrYzX1/Sfe+U94mEX76XgU86r7w5d315JTm1aPnl0Ilss3CLpKLn5x7x/I2YIM2I6hL7YxfIsaheu3WfI4F6Hufg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=U4piJpmfxMpUJEudt4usHxJYXcHz/W4642F3Dbbf+5A=;
- b=modd3l1SquAu5U9NHrLC/YwuEKxrpDrh3wuCRr4M4FG3y90G+5MzAqp9beMAbYSpk4lK+KXy9LkpagBBOKzMhBu4tZMuuir10PCHjEDVzrYRCag5/v0DNIP9Rlnk4VBpkC5K2DiEM82lyjoqeGz9G+fCKZntO7Q307zbDGhJEi8QsEG4nRSMXRf4YbNtOfO6fTTtrz+TuyenHLW802oe8isYnMj+5mxbSugeYNVBFZhl00zwBvksOImrNYPU+yNLEuRZZYJWYVxmJT96LqHYsALVlyENNQteYXCG5TeyZEMEteo7tHmn3h81qs8qFe0gjbsXWiDGELEXz8xle1ZQPQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=U4piJpmfxMpUJEudt4usHxJYXcHz/W4642F3Dbbf+5A=;
- b=b+BaLjCk+wOZpZImw+NCAlKO5Vl62mcMtQX7LpHHEWCjQzQgtnai6PsWMkjmmu0ud5cpYsS2Ts5ArKl0HTDcPEyD45PqHYyHJ/O6ihUxzy2J3tRwNLWvipFyePZ56/Xy3IfBmYVIL4NpkIptLj3eMgyapiUfaefXzXKtZ9OSPTQ=
-Received: from AM8P190CA0030.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:219::35)
- by AS8PR02MB9815.eurprd02.prod.outlook.com (2603:10a6:20b:61c::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Mon, 21 Oct
- 2024 10:03:53 +0000
-Received: from AM4PEPF00027A5E.eurprd04.prod.outlook.com
- (2603:10a6:20b:219:cafe::3b) by AM8P190CA0030.outlook.office365.com
- (2603:10a6:20b:219::35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28 via Frontend
- Transport; Mon, 21 Oct 2024 10:03:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AM4PEPF00027A5E.mail.protection.outlook.com (10.167.16.72) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Mon, 21 Oct 2024 10:03:53 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Oct
- 2024 12:03:52 +0200
-Received: from se-mail02w.axis.com (10.20.40.8) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Oct
- 2024 12:03:52 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Mon, 21 Oct 2024 12:03:52 +0200
-Received: from pc58073-2410.se.axis.com (pc58073-2410.se.axis.com [10.88.67.1])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 725011F0
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 12:03:52 +0200 (CEST)
-From: <olani@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATCH] glibc: Fix missing randomness in __gen_tempname
-Date: Mon, 21 Oct 2024 12:03:52 +0200
-Message-ID: <20241021100352.56570-1-olani@axis.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=d5alNjgp;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539fb49c64aso5861331e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 03:25:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729506324; x=1730111124; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3vrGrVlc1NXP0TAnlmtpn4cVo4rTE1OH+kR2iqocyt8=;
+        b=d5alNjgpcSmE8NhNtu2Qqwfn2rwcrDNRkohQowytInjPO/RlFC3RY2zgkOr8YRBc5D
+         x3hrEydFSwxbKQ2CERTRipTC2EWl4+q/NIwhkmpEuY+sSrAtYMvJwH1YswsMWRaps6A/
+         tkLBXNAyL/opEczcRxNWQWoo9hCHn3b+U3Ik74wnOJF3XlXQECLzKh7JLN+9FIKIKRey
+         jRusE7+zxE/wkREjsf7e040tlnLlkh2+iRHvFHB1Wk6qSw06O834NZ4iQidPuJgMhi+k
+         HVjErqOlTfreBCE8zmIkEpaQEZw8dkuh6fk1hawTPBrGeQSqIjrMfB/ViW4KQ4kgZvS1
+         5RTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729506324; x=1730111124;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3vrGrVlc1NXP0TAnlmtpn4cVo4rTE1OH+kR2iqocyt8=;
+        b=aW6VQ1mFwj3SszRlDSlBHzGYnamXQBBUDg7bAie7Stn0kXpn6V6bYl8nwlWb/KRKsu
+         K52L7o05ULNbo8AJpbDAVLD/iIarHQ82oV+v4vmWlunj8W4T8u9NC9mGmSOVINNwgpU3
+         4jlCiDJ/UMeAZjTNDIjknFWdhoTnvQDqombSJ2/5YmEG78skGsJ8GNUWf60gHp5YnGsv
+         EprMD2D871o2Z0xWazQEktdzG6Lb3cctKDXeQFR8kPzXk14rlaEDrMTRtWjWtn7sab0f
+         lkJLESXI6JVJ+lSTeSNEb9rpo1D11ozJ5mzA/2YZPcBOs2fsQaXR/mu6UTU6lCl64V7x
+         8wgA==
+X-Gm-Message-State: AOJu0Yx9voU9ftYH3doVMgHJNq8dCM/rS3zGN9mmy4rI+nu8D1iy/9iy
+	dCKzGEWR7r96PHJ+Yy5+P+lTLkMalbBO8peJaL7TvJqTayywgfKPKS8MUdMcdTZ4Bku2EVRi4FQ
+	cq3q5Y5Q3UVX3wR1YRU1kSSB1W+0=
+X-Google-Smtp-Source: AGHT+IGnrWR4em0rRNCG/xW0FKhhN8bCJoDmdWK6SVA0+0qZskW8ZHt9soDlSRPANX8HpGhjNG88tXldWf47DXYUPSs=
+X-Received: by 2002:a05:6512:350f:b0:536:55cc:963e with SMTP id
+ 2adb3069b0e04-53a154ca15bmr6231300e87.44.1729506324120; Mon, 21 Oct 2024
+ 03:25:24 -0700 (PDT)
 MIME-Version: 1.0
+References: <20241019021935.2105739-1-gael.portay+rtone@gmail.com>
+In-Reply-To: <20241019021935.2105739-1-gael.portay+rtone@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 21 Oct 2024 12:25:12 +0200
+Message-ID: <CANNYZj-bdtFmFHnK2ppSMY+iXRDX-J5GwWaQjYMwX_t66SnJoQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] classes: rootfs-postcommands: set better sane
+ time to systemd
+To: gael.portay+rtone@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A5E:EE_|AS8PR02MB9815:EE_
-X-MS-Office365-Filtering-Correlation-Id: aa9ce2f7-aa5c-4741-c5e3-08dcf1b7ab0b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?2WBV68dKSoocKN8l8tY810BKSQh1in/2azPa/l8gyTFqRXQ447CZ31h0+1YY?=
- =?us-ascii?Q?JxAJQCRsvV/8W3PZmJWVSNVO7BHHW9DyWVSn/2uZRvSmwaYUCFEnb8AD8wQS?=
- =?us-ascii?Q?je8COgekuAARw/6E5K/26OX1fIGDsQ+xcebOTvVzvhaGoJp0Ma+RDu9N7RjX?=
- =?us-ascii?Q?sgqq5UI9bD8kpPT53uiX67f3bbYTL5QntpDb29XNy4ngWn9SxL6Zr2hnwudj?=
- =?us-ascii?Q?PgzyK7UYamlMWNtrBZfmWSfT4CtWjYVvJJJ2xl/lwq2Cwg/R3rwltgYbmQKB?=
- =?us-ascii?Q?DMdCEQLbPFZ02JnrFl7NosNhtqcZkQhP/8mimj4QaZZrs723QJMe86MLTp9j?=
- =?us-ascii?Q?gwjxwtVKwg1TNyaiio+PK9MevA7d6UgbK6ko9D73xu6n7m29T3AIQdOt3JGA?=
- =?us-ascii?Q?0VSbbgoaCDVhpKz5h2jx3SZlWTT+8rlz1F/mbDFRSk0a1a4CdelmaIcBcDGr?=
- =?us-ascii?Q?d9MyAd6QyMQeOiyqTFWV+ZgiJpLk6G1WTTxvxB0ROirAhwwOGqUWGBXGqhA7?=
- =?us-ascii?Q?5bFC+ND2MUFZt1LA0+vigWKXcoQ1FmrYN9kwyYYYyU2dC+Ex6W8RLGzJUzsn?=
- =?us-ascii?Q?nZa4n6sHotHuFCJDd1taqjmkeYtqs6tGAilcFzEf0FI4OjKvajqVG5vR5iBS?=
- =?us-ascii?Q?UkpZDtXWyTLdQA2u/zy1UrsThQnj0qhVkYulJoiHbaDOhojD05J+wQVAX5hj?=
- =?us-ascii?Q?ovTJFarRgK91S62dB7ZWMAZbPzp8xjUhitk5k3PlJpoHxAK0YxvJmDxvNqCm?=
- =?us-ascii?Q?4Tf7uwnSc7Waf1y5bnU+xQu23M7q719aySxebAZWpo1NsD73t11AKrjGlsup?=
- =?us-ascii?Q?bSrd19gcln0em0gOfog3roicZJvnQBMGmjMUnW1lR6LiDKpUUNcF3a4D46eK?=
- =?us-ascii?Q?Q5rPi7uRwteyr2CITaIapXRzV6vYxn8Ez6rpBkdDzm3hSaOQ9IoQybzWD9Mn?=
- =?us-ascii?Q?LY3fFe8CYnIsa5Bl+OfAev3a9/YX73XTs9jTNU2NjIlWd7T4G7oivLpUwJsw?=
- =?us-ascii?Q?qixJGTx4jDUNPEvkMKtQC8Pls2bYxJ/E2sfS89yOlhP8EWxTTefh9l8tZUby?=
- =?us-ascii?Q?UYzRpWf9440kP+1K3h9g5xXaRn9bdkMS/tfpf/hG4TmrYALeDwc1MtYQVrs6?=
- =?us-ascii?Q?/OD1wIC32i8v7X44LnOGGje+YP0aJ0/UTVmzws7gMFvOhFd4cu+sddqzA2ke?=
- =?us-ascii?Q?EZ81Ns5pc8fMUlDTmnOVohlVtrfSu+EL7xX9EgYAhAFQEqmEjM2P1sLw8crC?=
- =?us-ascii?Q?mXa7VAia3IE+x5qlOnx1eB1oTk2Zoa44iDTIZi+3LQmtG95LLMht7+gtaOo+?=
- =?us-ascii?Q?92RTDXLvY6u+N4mA4R7DifZqhIVaxUhtf2i8mZQ+bOG9HWwDovbw0+lbuB7x?=
- =?us-ascii?Q?G6OiUZU=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 10:03:53.0283
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: aa9ce2f7-aa5c-4741-c5e3-08dcf1b7ab0b
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00027A5E.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR02MB9815
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 10:04:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206102
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 10:25:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206103
 
-From: Ola x Nilsson <olani@axis.com>
+Can this be done from systemd recipe itself? Items in
+rootfs-postprocess list should not be recipe-specific.
 
-Backport the fix for glibc bug 32214.
+Alex
 
-The missing randomness in early boot may cause some systemd services
-to fail when they occasionally try to create tempdirs like
-/run/systemd/namespace-aaaaaa at the same time.
-The error messages can contain things like
-"Failed to set up mount namespacing".
-
-Signed-off-by: Ola x Nilsson <olani@axis.com>
----
- ...ndomness-in-__gen_tempname-bug-32214.patch | 29 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.39.bb         |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0024-Fix-missing-randomne=
-ss-in-__gen_tempname-bug-32214.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-_=
-_gen_tempname-bug-32214.patch b/meta/recipes-core/glibc/glibc/0024-Fix-miss=
-ing-randomness-in-__gen_tempname-bug-32214.patch
-new file mode 100644
-index 0000000000..c9f3e32f58
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_te=
-mpname-bug-32214.patch
-@@ -0,0 +1,29 @@
-+From 9d30d58c32fe9d5f8ec6cda79fb11159e6789bcf Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@suse.de>
-+Date: Wed, 25 Sep 2024 11:49:30 +0200
-+Subject: [PATCH] Fix missing randomness in __gen_tempname (bug 32214)
-+
-+Make sure to update the random value also if getrandom fails.
-+
-+Fixes: 686d542025 ("posix: Sync tempname with gnulib")
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dc=
-ommit;h=3D5f62cf88c4530c11904482775b7582bd7f6d80d2]
-+
-+Signed-off-by: Ola x Nilsson <olani@axis.com>
-+---
-+ sysdeps/posix/tempname.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/sysdeps/posix/tempname.c b/sysdeps/posix/tempname.c
-+index c00fe0c181..fc30958a0c 100644
-+--- a/sysdeps/posix/tempname.c
-++++ b/sysdeps/posix/tempname.c
-+@@ -117,6 +117,8 @@ random_bits (random_value *r, random_value s)
-+      succeed.  */
-+ #if !_LIBC
-+   *r =3D mix_random_values (v, clock ());
-++#else
-++  *r =3D v;
-+ #endif
-+   return false;
-+ }
-diff --git a/meta/recipes-core/glibc/glibc_2.39.bb b/meta/recipes-core/glib=
-c/glibc_2.39.bb
-index 2484ae1cd9..2db18251e3 100644
---- a/meta/recipes-core/glibc/glibc_2.39.bb
-+++ b/meta/recipes-core/glibc/glibc_2.39.bb
-@@ -53,6 +53,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=
-=3Dglibc \
-            file://0021-fix-create-thread-failed-in-unprivileged-process-BZ=
--.patch \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-bina=
-r.patch \
-            file://0023-qemu-stale-process.patch \
-+           file://0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.=
-patch \
- "
- S =3D "${WORKDIR}/git"
- B =3D "${WORKDIR}/build-${TARGET_SYS}"
---=20
-2.39.5
-
+On Sat, 19 Oct 2024 at 04:19, Ga=C3=ABl PORTAY via lists.openembedded.org
+<gael.portay+rtone=3Dgmail.com@lists.openembedded.org> wrote:
+>
+> When systemd is started, it sets the system clock to epoch to ensure the
+> system clock is reasonably initialized if no working RTC.
+>
+> As init process, systemd sets epoch very early to the more recent
+> timestamp of[1]:
+>  - the build time of systemd (-Dtime-epoch)
+>  - the modification time ("mtime") of /var/lib/systemd/timesync/clock
+>    (systemd-timesyncd)
+>  - the modification time ("mtime") of /usr/lib/clock-epoch (systemd)
+>
+> The first epoch timestamp is is hard-coded at build-time by the systemd
+> recipe (using either SOURCE_DATE_EPOCH, git-tag, or NEWS modification
+> time[2]).
+>
+> The second epoch timestamp is maintained at run-time if the system runs
+> systemd-timesyncd.
+>
+> This implements the third epoch timestamp at image build-time, from a
+> newly introduced rootfs post-process command that is very similar to
+> update_timestamp.
+>
+> It touches the file /usr/lib/clock-epoch with the modification time set
+> to either the current timestamp (now) or to a reproducible timestamp if
+> REPRODUCIBLE_TIMESTAMP_ROOTFS is set.
+>
+> Note: That newly introduced rootfs post-process command is automatically
+> set if systemd is set in the distro features.
+>
+> [1]: https://github.com/systemd/systemd/commit/863098fdc9cd91e4f760085356=
+ac02c4b7ba6df1
+> [2]: https://github.com/systemd/systemd/blob/v256/meson.build#L804-L825
+>
+> Signed-off-by: Ga=C3=ABl PORTAY <gael.portay+rtone@gmail.com>
+> ---
+> Hello,
+>
+> With this patch, one can have a better sane default time set by systemd
+> very very very early in the boot (i.e. even before systemd outputs its
+> version!).
+>
+>         # dmesg
+>         (...)
+>         [    3.347641] Run /sbin/init as init process
+>         [    3.350435]   with arguments:
+>         [    3.350440]     /sbin/init
+>         [    3.350443]   with environment:
+>         [    3.350447]     HOME=3D/
+>         [    3.350451]     TERM=3Dlinux
+>         [    3.431275] EXT4-fs (mmcblk2p2): re-mounted. Opts: (null)
+>         [    3.523997] EXT4-fs (mmcblk2p4): recovery complete
+>         [    3.527828] EXT4-fs (mmcblk2p4): mounted filesystem with order=
+ed data mode. Opts: (null)
+>         [    3.694440] systemd[1]: System time before build time, advanci=
+ng clock.
+>         [    3.714755] systemd[1]: systemd 250.5+ running in system mode =
+(+PAM -AUDIT -SELINUX -APPARMOR +IMA -SMACK -SECCOMP -GCRYPT -GNUTLS +OPENS=
+SL +ACL +BLKID -CURL -ELFUTILS -FIDO2 -IDN2 -IDN -IPTC +KMOD -LIBCRYPTSETUP=
+ +LIBFDISK -PCRE2 -PWQUALITY -P11KIT -QRENCODE -BZIP2 -LZ4 -XZ -ZLIB +ZSTD =
+-BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=3Dhybrid)
+>
+> Thus, one can do time-based related things offline or before the system
+> clock is set by the network (if trusting the time does not matter that
+> much for sure).
+>
+> This happens if the system has no hardware clock or if it is way too far
+> in the past and if using an old versions of systemd; systemd v250.5 sets
+> the system time to April 28, 2022 5:53:22 PM (1651168402).
+>
+> Also, please set REPRODUCIBLE_TIMESTAMP_ROOTFS to any appropriate value
+> if enabling reproducible-builds (the default). Otherwise, bitbake sets
+> the timestamp to Friday, March 9, 2018 12:34:56 PM (1520598896).
+>
+> If you have a better idea on how to implement it, please tell; in the
+> meanwhile...
+>
+> Kind Regards,
+> Ga=C3=ABl
+>  meta/classes-recipe/rootfs-postcommands.bbclass | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
+es-recipe/rootfs-postcommands.bbclass
+> index 5f4d67f93c..cc74c75cfa 100644
+> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
+> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
+> @@ -22,6 +22,9 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_a=
+ny("IMAGE_FEATURES", [ 'deb
+>  # Create /etc/timestamp during image construction to give a reasonably s=
+ane default time setting
+>  ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_update_timestamp "
+>
+> +# Create /usr/lib/clock-epoch during image construction to give a reason=
+ably sane default time setting to systemd
+> +ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("DISTRO_FEATURES",=
+ "systemd", "rootfs_systemd_timestamp ", "", d)}'
+> +
+>  # Tweak files in /etc if read-only-rootfs is enabled
+>  ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
+"read-only-rootfs", "read_only_rootfs_hook ", "",d)}'
+>
+> @@ -402,6 +405,19 @@ rootfs_update_timestamp () {
+>         bbnote "rootfs_update_timestamp: set /etc/timestamp to $sformatte=
+d"
+>  }
+>
+> +# Can be used to create /usr/lib/clock-epoch during image construction t=
+o give a reasonably
+> +# sane default time setting
+> +rootfs_systemd_timestamp () {
+> +       if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
+> +               # Convert UTC into %4Y%2m%2d%2H%2M.%2S
+> +               sformatted=3D`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS=
+} +%4Y%2m%2d%2H%2M.%2S`
+> +       else
+> +               sformatted=3D`date -u +%4Y%2m%2d%2H%2M.%2S`
+> +       fi
+> +       touch -m -t "$sformatted" ${IMAGE_ROOTFS}/usr/lib/clock-epoch
+> +       bbnote "rootfs_systemd_timestamp: set /usr/lib/clock-epoch mtime =
+to $sformatted"
+> +}
+> +
+>  # Prevent X from being started
+>  rootfs_no_x_startup () {
+>         if [ -f ${IMAGE_ROOTFS}/etc/init.d/xserver-nodm ]; then
+> --
+> 2.47.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206078): https://lists.openembedded.org/g/openembedde=
+d-core/message/206078
+> Mute This Topic: https://lists.openembedded.org/mt/109095282/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
