@@ -1,403 +1,220 @@
-Return-Path: <diego.santacruz@spinetix.com>
+Return-Path: <Jinfeng.Wang.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2D82D3C92A
-	for <webhook@archiver.kernel.org>; Sun, 20 Oct 2024 12:59:40 +0000 (UTC)
-Received: from ZRAP278CU002.outbound.protection.outlook.com (ZRAP278CU002.outbound.protection.outlook.com [52.101.186.102])
- by mx.groups.io with SMTP id smtpd.web10.24358.1729429174059272437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA37D3C92F
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 03:10:25 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.37846.1729480221302776826
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Oct 2024 05:59:34 -0700
+ Sun, 20 Oct 2024 20:10:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@spinetix.com header.s=selector2 header.b=upo1htfW;
- spf=pass (domain: spinetix.com, ip: 52.101.186.102, mailfrom: diego.santacruz@spinetix.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=00243e7021=jinfeng.wang.cn@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49L34Zio004868
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 20:10:21 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42c823scme-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 20:10:20 -0700 (PDT)
+Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49L3AKwt012950
+	for <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 20:10:20 -0700
+Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2047.outbound.protection.outlook.com [104.47.57.47])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42c823scmc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sun, 20 Oct 2024 20:10:20 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Ga70c5djLb/0F0zTCccnlBXjLlDykPcfkcs9FTQjUoHEQd8Aq1tJSgBqCVdq+XPM53/JAIYwdqSSHfPQHsQpeMPsAx5sk3gg1xkci4sCkqNUyORXdoJ0JebNkalo9h1CAVUpNV6sB2iHBuR8OcTsqyH/3Iu/P3G7AoManJj68KHpEj4P7iI7E5f1ZSrwyfFNI6jcwRgqpuO1T69mQg2xF9BXST8fW4QNMohokHyPe9/xAPos14vJrkJ+u6R2dRjEnR9tDHkUoksFJmOu1GYqpkQEcH7tAZ2iAgeLTJm64aR/9jlwovkXTNEx1SKSqtQxHsDKINbe/ieBrsLveUiTaw==
+ b=Wsr1DJP/Gd2CreCDvzVgNA0NAIFMCYHeBEnv8gtf52JWqpfcGGhSmNbJpM/w6zWf+SNECM3r1WfJP4TDWlI+0KSHBbAoB3nwgQiKG0MwjvJZgqUV8SBecAws68kdGSKSzIJOHiYx4kyx8fUpj4pY+0BNWE5Hy5XJ30B6orax2Jp47DyeUd7KcNTbNnIcIv52jSpU0QmSdkF+dljgAAGGZ1vQR02fbF86VADPWQJzECBwA9E1DQEbQ8hvfRZSx51TyIuKGtAbGjHLlAextRwm4IcKlNSufukUBm3PzH2d9EVT8qIGDDvMd9SuRgyr7RtdO6SCH4pYU8k4V0KGHv2iew==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ljyl6zIppxhVMuhMqTnFsyvWL2dUg3KwzTtMUmc+Wp4=;
- b=aiKHvBx8GXk2n50CF1CdxKRhqJiwpbee25gn3GhIimpgCIR9oM4VJ6KYfXoGKKHxsuZFAusYOUd6hmPMXpsFXwgz3ABZ0hr88/FCV+YAAb1phHqMdppUIZj+5kTVibgmrKaDFs+PvnBYh0oXE3OgngfiUkKt5Ji8Us0zGIMw+pxaHiFQ/dkgqXCF6aYzPtZighxBadN8dVBODhZssCFjixZ0TFKKKiDY3Os8WWDFInSbzEgaV0lMvorU3UFTXv73cBajn+Cl/ZxRcMzXKe3h2IHKsabxsS8Xf3SH0aQAWNMZ6j7Ca38Bkyb8jYWVrE+kcpPOvsNIgCWR2bWsnSQF6g==
+ bh=COImYF2++HhiACCrr5iv4Mk29UJKr2t79+lwCpgoV7g=;
+ b=CZ9vWkac1WZhf/29hgofI6sn67AuPF5Rh2OodVvYmCyndSTFVafo9kGNbgQxMuSq2WDgb5WcHKYfAm03zIUIOo9TqcqKFiUG6Le/0I7juk49oVmNimUodJyaHRP6VQ89hm5/7MMhh2MIBWWtUQC+6oeBlqbVoq34PwyCSZrL06N9pAI4OR7AUj10KmTIWja8e8zsADfkKHAdEPkNj+xo0md4LegWqCKLc5zDGkXGi6gVgGBnS7oF4o9Hn4yM+fGWUcqxjyNdg7IoWy0o4X4z9wQRYN+h/ol7COsPnZhP0YcoaJzP8xV+i5BrRjwh6odxqYyyob5QZBSE7NyaX/45Gw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=spinetix.com; dmarc=pass action=none header.from=spinetix.com;
- dkim=pass header.d=spinetix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ljyl6zIppxhVMuhMqTnFsyvWL2dUg3KwzTtMUmc+Wp4=;
- b=upo1htfW93mGhrgYpVBVIvCabbj9jG+kTcWMWv7smaZWhYhva3Zu28RCVatMkbp5YofLmqddRs0nUKxv7foWGuwYzxXdAThTyBWvbIxDnaDgrdBk236K8OIleGXlhl38NVs0QgSfjbZWMHprRrRefbCc0/QjFXZpQWtO1KBI0Gc=
-Received: from GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM (2603:10a6:710:33::13)
- by ZR0P278MB0075.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:17::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Sun, 20 Oct
- 2024 12:59:29 +0000
-Received: from GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM
- ([fe80::b32f:8f10:6660:4c30]) by GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM
- ([fe80::b32f:8f10:6660:4c30%2]) with mapi id 15.20.8069.027; Sun, 20 Oct 2024
- 12:59:29 +0000
-From: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: gzip segfault with mandb and qemu when building rootfs
-Thread-Topic: gzip segfault with mandb and qemu when building rootfs
-Thread-Index: Adsi7OGZWcIvyorDRvm6I4ocOYEeXg==
-Date: Sun, 20 Oct 2024 12:59:29 +0000
-Message-ID: 
- <GV0P278MB0241B5BD9E5305D57A7EBBAC88422@GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM>
-Accept-Language: en-GB, fr-CH, fr-FR, en-US
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB5533.namprd11.prod.outlook.com (2603:10b6:5:38a::7) by
+ CH3PR11MB8383.namprd11.prod.outlook.com (2603:10b6:610:171::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8048.18; Mon, 21 Oct 2024 03:10:15 +0000
+Received: from DM4PR11MB5533.namprd11.prod.outlook.com
+ ([fe80::8ce3:74f6:33ca:3dfd]) by DM4PR11MB5533.namprd11.prod.outlook.com
+ ([fe80::8ce3:74f6:33ca:3dfd%6]) with mapi id 15.20.8069.027; Mon, 21 Oct 2024
+ 03:10:15 +0000
+Message-ID: <2081c6c5-42c0-4a7f-8926-8ed054adf772@windriver.com>
+Date: Mon, 21 Oct 2024 11:10:09 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [oe-core][PATCH] tzdata&tzcode-native: upgrade 2024a -> 2024b
+To: openembedded-core@lists.openembedded.org,
+        mathieu.dubois-briand@bootlin.com
+References: <20241016084538.3146229-1-jinfeng.wang.cn@windriver.com>
+ <ZxESzm1S7pE5c1Xp@bootlin-mathieu>
 Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=spinetix.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: GV0P278MB0241:EE_|ZR0P278MB0075:EE_
-x-ms-office365-filtering-correlation-id: ed6c4fc8-9fbb-4a9f-d8ae-08dcf10708de
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|10070799003|366016|376014|8096899003|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?ZO9ikw60xP+iSpOTTgdjqdp9bcscD9Rn6g6quWz4Ywg5mxn3czBzVVaEQMoK?=
- =?us-ascii?Q?yzDbAI8XIJNSQpdVusLRotPpNTBFa04c0GpRGMmONGStF4r38MpcF150h68u?=
- =?us-ascii?Q?hHLm72HQferIvFItB5PRR5HCoj/Qv09WRdOsUYrr0ETUHrXphYQIKkDkUIeN?=
- =?us-ascii?Q?q/PUamJ9M5FQ2Bl9W3Aq20F0J9xZzp7Y65tk5lOnW86eTH8Nu6TME01nMBHr?=
- =?us-ascii?Q?hFBaTWd+hG5mf3lWjnCrXMBbRbCmeEuyQrrZCZEp3ZhZMVeneZfS4HukjX2S?=
- =?us-ascii?Q?4A7/j6/c/3756pdEo35nAZI0QonI3GaJqWxAL4dBeTFbG/Fn9x3eYkvUleWl?=
- =?us-ascii?Q?4Dbxe2DeQTvj/No45FfRgFJQ6+W5wgw4Al9T5bOE+3jiKEWyEBWvP+DW4kFT?=
- =?us-ascii?Q?JRraUdgHslFY0QkbwRhZ2QOlfnfCmn07E5PGlT0u4K0FWolqXG1s24wzUqsb?=
- =?us-ascii?Q?2LggAIUWW+TEyC2vXjGVZjaNgKrlkiI5+7XWkO92dbhbcysnf8bqujmSYEJz?=
- =?us-ascii?Q?45dTw+igQrjUu8l36pFIO0ydRSjK4E4ZswI49TwHHuNS/whv8KuzrDQY2ak5?=
- =?us-ascii?Q?0SRfiWJmOBWMv7yE5mevZtEnjXBL9RN6mRJSGG/RVOJnf0hsg3G07ntbti49?=
- =?us-ascii?Q?B4Ydnqtqc4PWFLSPl7w+MAoPa1tGBJ3iK5219r9ndfJk4+NIxyLG4PaNIbeJ?=
- =?us-ascii?Q?Py/lij3WS+AXpBVI64WtGtW6s5ujiRCdDRslKrA2iVLFkb5cpYJX7Yfz3+a4?=
- =?us-ascii?Q?WxeoJPS89ioOr03gGlkr0K/DHsiaSm6SO3poIk1FCjg3PgL9O9aVKSuVRNtQ?=
- =?us-ascii?Q?FXsS8n7Fyi2SaT6gF1O/fbgrDzxpErcAInGE54vUnn5mNXZ1vVQrkuv+m9KG?=
- =?us-ascii?Q?OvrHAGvLutZrFF5YJuz4+lkH6CnNAytWOaiBAYPjFn2lvl6GB2dkmUjMJR+h?=
- =?us-ascii?Q?6diSOLx2Cub3SpuWov0HinjcP12Vt5dlnLuufIWzBJoYOuBqOXiZ1BqClJzu?=
- =?us-ascii?Q?Zv7RtYKhx6oEyd5k4pc6z0bR1JZ5XcLlgDkY7L1RhOC6LFsKrsQUjwBem2j3?=
- =?us-ascii?Q?e7Wp2vhSI05vJ4Gtm5GlEgSoP0NBgZaDqhS0mDqO8LfaEd83EfnNo3pg32ko?=
- =?us-ascii?Q?RtUgr25G2LZxlOux3jic9M2xqSu+biI8fp9ud2u6NtQNAGSJHPdaGTivQ8h+?=
- =?us-ascii?Q?BEHlF0y3zBEfNp0GaXCDCnipQnzBEITMYjHrdyIexfRDXW3QjH3MO4F1Sqfq?=
- =?us-ascii?Q?jkRs48vJk5pCRc4Gp6ZaqbRDUnuqvZTTTCk2orN5VzyT9lYWD06Cb/0HKgE4?=
- =?us-ascii?Q?NZ/QKfi+Ff6Md781NXU/2o9b?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(8096899003)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?pDMnEDrGAavsSgpmKq63iPYqLchOigc03r/Sc06FEJac1GFtai/1d10x50KN?=
- =?us-ascii?Q?u68gAP4BASk0kQH4Cg4GJIxINIv3KHqDnFdi/bui+YX0OUWxSALttSXr6k5R?=
- =?us-ascii?Q?6yYyMSBKsvZjAI0EtEEInzQjr1Miz3nbgItupX5UYbSbouexDBkZqqf4n/K1?=
- =?us-ascii?Q?PzwAkKW1QGdv1iBdAHuijww1RbLZD+LXpnKZUzEFwixJzPHt1Xsf6iWhXBTr?=
- =?us-ascii?Q?ubRm83GIF9wjU5gCZyfAv77MewwPnhUsxvB6EtEzCSAD+wyMWWsu3IG3tliz?=
- =?us-ascii?Q?S9jkcZrAqoU7NSB52Qj7ZKapcCQQ29JudLsp51zIUJB4dfXgdMHrC6nvQMJC?=
- =?us-ascii?Q?mI+NHLO86VM17uf0HaPf53bEG0GEbdYtAInKkScpvNwEV3C10x8pymzbzvqA?=
- =?us-ascii?Q?6mlBWUaabXyD3GtO+W7fRh4fl4FvE3MNL2leSSlD20cbmX9D2DtmPSaQ8FAh?=
- =?us-ascii?Q?yD/4mILQP1PZPUKi0xmwU9JOJ1dyiduLo5CtOAr5M/r8k4k+J761g48W8mGr?=
- =?us-ascii?Q?fzmqz0qYKCkPm+CrH0sS9NapuTp92FmJuQfpVediCSP+qPSnScD+inyAArJl?=
- =?us-ascii?Q?GjMPAl4Q9z63D/ZGSWW+GHgIfZ3PUvPJEc87WikKdjoqaB5S/msS1SHDgY5L?=
- =?us-ascii?Q?0O45C5QifHk6b0QFZghrQ0hrKjGqVa7m7/9XdF0Cds8dFX8UOFdDAyt1zvYa?=
- =?us-ascii?Q?5+rG7xHj+Dnp+G8oHUTevWJh92yx3bNfwOuMwvf5opqodOiSxm3TUHuvhhZ0?=
- =?us-ascii?Q?v2sXH4h64ShvnaHX1+CPmTHZcAptiq8JNMATON/aHpfe96T/rLYgHhi+e/yC?=
- =?us-ascii?Q?kKjMKj+lZ2I2KXIse7CgRU9yAyczk7PkYjDqklXOO1G2e78uvOJW4JKNlvnb?=
- =?us-ascii?Q?BqHRPLjej3v9XcdwFE8kAfxytef/1IQ0PVulfTfQPiVywTS1izbG3ILTOnJD?=
- =?us-ascii?Q?jssfYq/tiO0bV8EgOBpQioGlfS48D3ddzno6F+at2gIXFGEAvpGQGiDGT5rD?=
- =?us-ascii?Q?oUXqVBreoPjYo/heO5FaDYLwb3a8SJVzg4ifm3vJGH4cVSVvY+0e5hPshLf2?=
- =?us-ascii?Q?VGZivCG9tpgmI21ptUxawiKvAuvgh9Oxb3KpVqD1urNP1ixdttwq6P6R+/8G?=
- =?us-ascii?Q?18Nsqem+1vlXbvkYTpfXU9Q5zTXb8zytz4NtucATiuextcsA0see1xfoWCrP?=
- =?us-ascii?Q?kFFrbamn0+NzqG357vlNUa709TqGxvs6lUEni9QVFq8INfTDJbX7nNohq9UT?=
- =?us-ascii?Q?fB+KFGh1u6F0b+FY9nYz9H9MnIaJA7914AvcetA6iFRlil/1JaN7SAAzh17z?=
- =?us-ascii?Q?nDDX3tPh1kA/W9rKxkUhmqoAmI4LbZUHu5UIQ5syvO5o6MxQLrMTzVOtUqUk?=
- =?us-ascii?Q?F8C+WZsucB0GOAbVUCMdelOSrj5yYLhJHntUoz5Fk5fBIgB05QSND+IsTZTX?=
- =?us-ascii?Q?RJzjzeMZF5PkNTx9NeuZ4anmBBKkbwvW/SiztAMot0txqqDQIWBXO7y9CAdi?=
- =?us-ascii?Q?k4xPR2bT0yJTsAfJOiGRqRL8m7yaJ0Kr/tORaDitlYuK2lH2/faPBbXwGmdV?=
- =?us-ascii?Q?wJOQM3tUMKRHeRTuaP6UVyA7QHRgxrHyQ5vUJ0rlO06dqS3kLUPkgsr7fAq5?=
- =?us-ascii?Q?3Qhj03qG0NQKaBJ8CMYUesEh2lUp3Ls+FD6HdHHG8xenLe3C9pUnFKsTrMUv?=
- =?us-ascii?Q?GiwWtw=3D=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_GV0P278MB0241B5BD9E5305D57A7EBBAC88422GV0P278MB0241CHEP_"
+From: "Wang, Jinfeng (CN)" <jinfeng.wang.cn@windriver.com>
+In-Reply-To: <ZxESzm1S7pE5c1Xp@bootlin-mathieu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYAPR01CA0106.jpnprd01.prod.outlook.com
+ (2603:1096:404:2a::22) To DM4PR11MB5533.namprd11.prod.outlook.com
+ (2603:10b6:5:38a::7)
 MIME-Version: 1.0
-X-OriginatorOrg: spinetix.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5533:EE_|CH3PR11MB8383:EE_
+X-MS-Office365-Filtering-Correlation-Id: 66e3be7a-5e36-42a9-d1d0-08dcf17de24d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?V2twM2JhTXpPR1NoZGJnYm4wTDBmZGg4VDlZNVRlUTJ3QmNsK2pWa2hYSWlS?=
+ =?utf-8?B?SkllM3NlK1kxYUIvcVVNdTlUeXJrQjJDRWJFRVNFWVJzOU9tRHFoOHVjaDdr?=
+ =?utf-8?B?eDhERmN3MzhiTkFvYTRDMkR6OENUcGJIR25aSHl6RWdxb3RMdkdpdjEwaTZ5?=
+ =?utf-8?B?QU5qV3F4VnRuSWNUTnpGOHVrTzFQRWppa1Y2SS9YWFF2ZG81UFN2VnZlWXZP?=
+ =?utf-8?B?Sy9sUXFpZUgvTlNiUW55MzQ5TWpCc1A0c2RaU0RGVkM3akhKa00wRHBKZy9u?=
+ =?utf-8?B?OU8xSURRaEZCU1ovblp5TlI2V200QkJSeXBHZVZJa2VBZVo5Z2tQRW1vby9H?=
+ =?utf-8?B?RUpweVhsUEZxTUFYZ2Mya2hLQjhsSzhzK2VvZ0hvQzFyOWZzaTdycXM1djR4?=
+ =?utf-8?B?Z0ZaNXNkTDBFVEc0cWR2SC9DQ2hyMUdweVNaWjFBbGp2ZThwbER5bk5meTBL?=
+ =?utf-8?B?RFZYV05BMFFjanQzajJ0TGRJUnFCREEvUjREMDM0c1NYUjRSWHlFazR3UTg5?=
+ =?utf-8?B?VFpwNWhPRlNkMkZPRHRha1dOcFRldmU0OVpDNVRGSXJYUXJkTElwd01FVVp3?=
+ =?utf-8?B?MER3VFBvQWNqSGFCSUZRdDZsK3ZMRXkxbnlCaTlDaHBOMExoZk1RUTl3a09l?=
+ =?utf-8?B?MVo2NW5YTnY2dm9aQ0UybE9UYkE3NlBEaGFsNEtSeWU2b1hoWDZUb2dvTEhh?=
+ =?utf-8?B?NzRmVnkrM0FxNi9jcE00TE42ZlFjZWs3WVJGL3hrU0pJNUFSazIyYWxSME11?=
+ =?utf-8?B?UXlXWXd3cHJhaC80SFNHOGNueXRTWSt5d0dIYWd3N3kwaEc5UXNjR2s1Qy9u?=
+ =?utf-8?B?bGV4VUtGeEY0aFNoNDlhZ3kyYXg0MWE3N1FQb3R3aEJwRGNab0Q5b1pQMVZj?=
+ =?utf-8?B?Q25qTUxNYjhuMWRYbks5M3pZK2R4QlNFNmxGalhPcUs3cjBvcVNrU3pZMkZB?=
+ =?utf-8?B?QlV5L1JQcWt0eVZSOEtEa3QxbzZGV3dCZE9nSlZKK29Ud0pocGV6ZG9QQmIw?=
+ =?utf-8?B?alFXWUFPSXEyYnUrZlpOUktOeDlDc1diTlRwcnR0WkRFc3k4K1JIMW9KNUdL?=
+ =?utf-8?B?ZlRnZmZSRzAvL2JjbHRZZDFFZzNyNkFEQ25Ld0xUdWx0Z1lGV2p5ZXArQ3JK?=
+ =?utf-8?B?S2ZuN0Y4SDdrd213U0ZwNnB1ZDJ0UUxvRzBWNlJMK0JUZWF3c1pOVksxVWVB?=
+ =?utf-8?B?ZGx5R1dkeFpHUzFJVjVLVFBxOWM4OVZBUWRBMzg5NDRFN1FmYy8wc3RKaFRP?=
+ =?utf-8?B?UUprMFN4RE9lVFR0bE8xTWprNTlOMmdSZ1JZOVdXRDRVTk1NaUlXQ2FlZmt1?=
+ =?utf-8?B?T21zYkp4MVhySWxoeFBhdittQnlGcUh1MHFVZStCR29sd213SWdJY2MwZzBo?=
+ =?utf-8?B?bEFxamsyaFZRRUNrWkFuRExJU1lkMXFKZjVlazhOU2VTUm1YWXFiN3NvQnZQ?=
+ =?utf-8?B?a09pNnBGRzZDS3dxUWtOUEdFOWtWc0VvKzh1M3JGMS9lY1dWUUNSaEIrMUJR?=
+ =?utf-8?B?NkphSUJOcTRXcnhmcEwvQ01zZGl0MmplQXJTbkptZ2dxQnE5VUZ4YUI1eHdM?=
+ =?utf-8?B?RllYUHV3RjZaNlFTS0lyaVArazJzMXdySzVJVldGTDZ1SFZtRUJXaE42cTJJ?=
+ =?utf-8?B?SjVEc1YySlFWR24vVEhuaW1jNXdXUDRJSXlnT1phZU1LeUxuUHcxQjR6NUdZ?=
+ =?utf-8?Q?52JbzQAqKx2tfLqQzdFe?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5533.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?d2h4YTlnSk5oWkRYV2k0VHVTSFpJN2VYY1laeWpqVlhvYmR3cjhVTEVPeWFJ?=
+ =?utf-8?B?SHhtZGZkWEEyK29RMzRoOURmaEpaK2J2S1I3Uk5hb3dRU284MjNZTlJoenpW?=
+ =?utf-8?B?eTFVT1dCQ0hvcDhLZy85aWYzcEZRaStNVEluOXRGZ3dRai8yd1l1Ti9oM3Rw?=
+ =?utf-8?B?N3o2STFIbjl2L2J5UThkbThnQTJ2anR6QmIvZ2dST2tlSmwxMlNPTjd1Rllq?=
+ =?utf-8?B?S1pxWnJRaGVnNitOekpKZ2hGVWpieVU5cTVkYnptOVIzeEVBZWI4TGlUOFYr?=
+ =?utf-8?B?NlQ0aXNFbEM2RkNFSzFmanYvYURiY0JESjhWMGdnSXMxcmhITlpCdmpBYnZ5?=
+ =?utf-8?B?MUZJMzhVeXZnSnN4SENqZmJiUktRSHZhdzhXU1B3YTZGdHVtRXNJV0piNFUx?=
+ =?utf-8?B?VzNSUktoUC9UaXkra3BRdVUzNnBqOGx6ZlRMYTJFYlVUNDdFV1JJQnQ4WW84?=
+ =?utf-8?B?dnB1T0VkRXVXcHViOURYdkphZkZuN2cxNVpsZTVCOFZ0aVFPWTdkZ3J0K1lh?=
+ =?utf-8?B?QmQ5YWY3dmRVNGIwWGd2ei96QVRMOUNEdFlYZ0wzMjJ4R25DWU12MDBtWW5Y?=
+ =?utf-8?B?TXoyWU9FT0x4dGo1RE4rMmtJNGF6V0luWDVySFZiRS9oS0RpTnY5YWNKUFA0?=
+ =?utf-8?B?Qmh3c3Bzd1dpd1N6dDNkVE9SUll0TEM4OGU2VmRQZndITGdEYmtISHVob3ls?=
+ =?utf-8?B?a2NlakJQak1yTTVBYlkzTXI5YnZTS0Evb2R5UjJickpkTkZ3RVRncyszOXFk?=
+ =?utf-8?B?RXpNNWxSM3JBQ1FBbXBLZFliZGk5MkltMHh6N3pSa3Z6MThvVTc3OFlYMmVt?=
+ =?utf-8?B?VUVMUXoxS2NRLzVjMW1ObXppb0dxQ0E0eWs1N2xaOXlTbXhYdVM2UWY3dHNE?=
+ =?utf-8?B?aURiYXZIejdKbHBKVjR4aGVLUnM5VitqOXpmbDVtSUhXVFpZbGR3MjJPa2lG?=
+ =?utf-8?B?UzdMR2hyQ1FDWVNueG5WRmV4c21UWlVNK2JaMnpSTC8yS3cwRXE1US9vakNy?=
+ =?utf-8?B?VzJYdGVObnBUVjZLU2pXYVlVUjJhMXBWRVRZZm5MMDU4aHVJMHZTeTdMR1lU?=
+ =?utf-8?B?czRZVHlpWHlkZzN0NkU2R25xMUdrWXRhYkY1c0VpeDNyVlA2VTB1SzZKelFm?=
+ =?utf-8?B?L0ZCazVaMzk3WnZCSXJWOXNWRGhqb1JiRjN4YlF3bDhOcnJnS0R6b1JqMEhn?=
+ =?utf-8?B?Y0pEN0FaNU15d3d6M1ZuOG4zazBzQTRkUkRMZG1ibGRIOEEwa0E1OFQ3ZzZk?=
+ =?utf-8?B?Z1FWQUp5ZFJtbXMyWUZBSGpIeGthcjJRUG8wcWpEa1ppdEtHNlV4aDAwOEwr?=
+ =?utf-8?B?NXcwU2FibDNmY3RYTE5OQm1SeWRIVHo0YXhSWk5rTjUxbjBuN2RCTEFIWUFr?=
+ =?utf-8?B?OWpLd25YVy80dWsrRm5BOU1nRjlvT1ZvNGtzbHNwUHVoaGFURC9Lam96MUdF?=
+ =?utf-8?B?MzBqbWU4TFZyWlpCejB2djF1NHpxVHo3V1o2VWtCOGNRM2tUd2FRemdIL2Mr?=
+ =?utf-8?B?Rk5VRG5zSlVEcmEreC96SGRpWENtRldIbi90aG9HN1liWWdJVHZmT3IzVzBo?=
+ =?utf-8?B?bVMxZTNVMXhpZE80TmdRemowV3RMMmpoRDRQL2o2eTdOSkEveDJjWlZFTzhn?=
+ =?utf-8?B?bzl6UlM3a3RsQTFXZEU2dnNWSmw3WXJlSUdJSWx0RmZQSWo3Qy9LREpsM2J2?=
+ =?utf-8?B?dWZ3UGlqcWowRkJ4UUFjSVlJVkZVTVFyaEp0KzJHRmRDWjhTWnVjOXMrSXNo?=
+ =?utf-8?B?SFdGYWd1aXdocEQ2SUFreFd6N1R5U1hBc0kvWEo4RUJtRzdVYUhqMGpTU0V3?=
+ =?utf-8?B?dkxrY1poZjc2N09wQTMyV3NjZFptZ1lvaWhZSit1SmtaOEZKVkxCNmNLNUx6?=
+ =?utf-8?B?NkRvZkNhVVJ1dlJpVkkvUlJxK2duY2lRNElIMVZPYjQxV0ZBeUs0RTVPd3FZ?=
+ =?utf-8?B?Q0hVNnExL1M2em1URU1kb3diNmRnWnpUUjdHR2wzVTRrL2hTcHVRY3crZnhT?=
+ =?utf-8?B?RjZITEtTdDhNdGgvazZSVTJwVGhsdy9aSUxwSWUyNmc3Q1FLSENiY05TZVlh?=
+ =?utf-8?B?ZlhWL0lja1FPYkNoWWJPc3JPakxrbVVKS2JlemlYamNJSXdGS0FKbFFheXFs?=
+ =?utf-8?B?VGdPcnRGN2ZkVnJvajFoZ3dyZnFpaGxtSzROWEFxM1BFT2RpQnM5V2VrZ3NG?=
+ =?utf-8?B?ZVE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 66e3be7a-5e36-42a9-d1d0-08dcf17de24d
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5533.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: GV0P278MB0241.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed6c4fc8-9fbb-4a9f-d8ae-08dcf10708de
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2024 12:59:29.5413
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 03:10:15.2985
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: tDD9/q3eP6cOa1Bw+WTmi9LqwFEPLzEAbeLeFbgav3L0XwUrN5GTGcw8hEBZQAo6MaQtut4QD10ltMpPcqh3PJzGNQzPjfvgbe+klUw/0/k=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB0075
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: i0CwXk69RDoHbNklRA7QoTLO9O+sdVZvs//tbhX0Yh1hVmPgCaZyBHtjTkeeLnfE8H1qZGAA55XhNRg1FV39jIb9z7wWGIJrX0mdyI3QJMs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8383
+X-Authority-Analysis: v=2.4 cv=UrgxNPwB c=1 sm=1 tr=0 ts=6715c61c cx=c_pps a=RoG0BMNHDmmKSZcrvsSD+g==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
+ a=iGHA9ds3AAAA:8 a=1NWNoF9oAAAA:8 a=P-IC7800AAAA:8 a=lSmtqWvVsQH4zDC1yv0A:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=97APRTa-CG6DvPMFVxHL:22 a=d3PnA9EDa4IxuAV0gXij:22
+X-Proofpoint-ORIG-GUID: DEGsO6VMC-WQaajthxIaguobaxUlg2-V
+X-Proofpoint-GUID: REAQJfJl00bS6fG-HEyVJwTAk5j7-lGj
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-20_23,2024-10-17_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ impostorscore=0 spamscore=0 clxscore=1015 adultscore=0 mlxlogscore=999
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 suspectscore=0
+ phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2410210021
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 12:59:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206094
-
---_000_GV0P278MB0241B5BD9E5305D57A7EBBAC88422GV0P278MB0241CHEP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hi there,
-
-We noticed many gzip segfault errors on our build machine when doing either=
- do_rootfs or do_populate_sdk for images on which the man pages are enabled=
-.
-
-We traced this to mandb, run from the postinst script injected by manpages.=
-bbclass, which invokes gzip to scan compressed manpages.
-
-Our diagnostic is that mandb is executed via qemuwrapper with LD_LIBRARY_PA=
-TH set to the rootfs lib dirs, which is expected since mandb is from the ro=
-otfs. However, PATH is not set to the rootfs bin dirs, but instead to the v=
-arious sysroots and wrapper paths, so it is gzip from recipe-sysroot-native=
- that is executed, using ld-linux from the rootfs. But it turns out that th=
-e ld-linux and libs from rootfs are incompatible with those of recipe-sysro=
-ot-native, which results in a segfault in ld-linux.
-
-I fixed this in our builds by simply adding -E PATH=3D$D${bindir}:$D${base_=
-bindir} to the qemuwrapper command line in scripts/postinst-intercepts/upda=
-te_mandb. However, I do wonder if the correct fix would not be in qemu.bbcl=
-ass to systematically set that option for any qemuwrapper invocation, as th=
-e problem can potentially affect any tool executed via qemuwrapper that spa=
-wns or execs some other executable using PATH to locate it.
-
-We encountered this on kirkstone, but our local kirkstone branch has this c=
-ommit backported: https://git.openembedded.org/openembedded-core/commit/?id=
-=3Dfbd8a57aa307bfda70a08cb78af3c97f05c39a3a Hence the modification of scrip=
-ts/postinst-intercepts/update_mandb and not manpages.bbclass
-
-The problem does not occur when building images for machines which are not =
-x86-64 based, since the build host and target architectures are not compati=
-ble. Note also that the segfault is gone with the above mentioned fix, but =
-gzip does not run successfully since /bin/gzip from the rootfs is an absolu=
-te symlink to the active alternative (e.g., /bin/gzip.gzip), which does not=
- exist on the build host, but that is another problem, at least the segfaul=
-t is gone.
-
-Would fixing qemu.bbclass make sense? If yes, how extensive should that be?=
- For instance, explicitly passing the right dirs for PATH to qemu_wrapper_c=
-mdline, like it is done for LD_LIBRARY_PATH? Or just implicitly setting it =
-in qemu_wrapper_cmdline?
-
-Sincerely,
-
-Diego
-
---
-Diego Santa Cruz, PhD
-Technology Architect
-spinetix.com
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 03:10:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206095
 
 
---_000_GV0P278MB0241B5BD9E5305D57A7EBBAC88422GV0P278MB0241CHEP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:x=3D"urn:schemas-microsoft-com:office:excel" xmlns:m=3D"http://schema=
-s.microsoft.com/office/2004/12/omml" xmlns=3D"http://www.w3.org/TR/REC-html=
-40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On 10/17/2024 9:39 PM, Mathieu Dubois-Briand wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Aptos;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:11.0pt;
-	font-family:"Aptos",sans-serif;}
-a:link, span.MsoHyperlink
-	{mso-style-priority:99;
-	color:#467886;
-	text-decoration:underline;}
-span.EmailStyle17
-	{mso-style-type:personal-compose;
-	font-family:"Aptos",sans-serif;
-	color:windowtext;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:11.0pt;
-	mso-ligatures:none;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal">Hi there,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We noticed many gzip segfault errors on our build ma=
-chine when doing either do_rootfs or do_populate_sdk for images on which th=
-e man pages are enabled.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We traced this to mandb, run from the postinst scrip=
-t injected by manpages.bbclass, which invokes gzip to scan compressed manpa=
-ges.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Our diagnostic is that mandb is executed via qemuwra=
-pper with LD_LIBRARY_PATH set to the rootfs lib dirs, which is expected sin=
-ce mandb is from the rootfs. However, PATH is not set to the rootfs bin dir=
-s, but instead to the various sysroots
- and wrapper paths, so it is gzip from recipe-sysroot-native that is execut=
-ed, using ld-linux from the rootfs. But it turns out that the ld-linux and =
-libs from rootfs are incompatible with those of recipe-sysroot-native, whic=
-h results in a segfault in ld-linux.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">I fixed this in our builds by simply adding -E PATH=
-=3D$D${bindir}:$D${base_bindir} to the qemuwrapper command line in scripts/=
-postinst-intercepts/update_mandb. However, I do wonder if the correct fix w=
-ould not be in qemu.bbclass to systematically
- set that option for any qemuwrapper invocation, as the problem can potenti=
-ally affect any tool executed via qemuwrapper that spawns or execs some oth=
-er executable using PATH to locate it.<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">We encountered this on kirkstone, but our local kirk=
-stone branch has this commit backported:
-<a href=3D"https://git.openembedded.org/openembedded-core/commit/?id=3Dfbd8=
-a57aa307bfda70a08cb78af3c97f05c39a3a">
-https://git.openembedded.org/openembedded-core/commit/?id=3Dfbd8a57aa307bfd=
-a70a08cb78af3c97f05c39a3a</a> Hence the modification of scripts/postinst-in=
-tercepts/update_mandb and not manpages.bbclass<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">The problem does not occur when building images for =
-machines which are not x86-64 based, since the build host and target archit=
-ectures are not compatible. Note also that the segfault is gone with the ab=
-ove mentioned fix, but gzip does not
- run successfully since /bin/gzip from the rootfs is an absolute symlink to=
- the active alternative (e.g., /bin/gzip.gzip), which does not exist on the=
- build host, but that is another problem, at least the segfault is gone.<o:=
-p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Would fixing qemu.bbclass make sense? If yes, how ex=
-tensive should that be? For instance, explicitly passing the right dirs for=
- PATH to qemu_wrapper_cmdline, like it is done for LD_LIBRARY_PATH? Or just=
- implicitly setting it in qemu_wrapper_cmdline?
-<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Sincerely,<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<p class=3D"MsoNormal">Diego<o:p></o:p></p>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<div>
-<div name=3D"divtagdefaultwrapper">
-<p class=3D"MsoNormal" style=3D"mso-margin-top-alt:auto;mso-margin-bottom-a=
-lt:auto"><span style=3D"font-size:9.0pt;font-family:&quot;Arial&quot;,sans-=
-serif">--
-<br>
-<b>Diego Santa Cruz, PhD<br>
-</b><span style=3D"color:gray">Technology Architect<br>
-spinetix.com</span></span><span style=3D"font-size:12.0pt;font-family:&quot=
-;Times New Roman&quot;,serif;color:gray"><o:p></o:p></span></p>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<p class=3D"MsoNormal"><o:p>&nbsp;</o:p></p>
-</div>
-</body>
-</html>
+> On Wed, Oct 16, 2024 at 04:45:38PM +0800, Wang, Jinfeng (CN) via lists.openembedded.org wrote:
+>> From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+>>
+>> Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+>> ---
+>>   meta/recipes-extended/timezone/timezone.inc | 6 +++---
+>>   1 file changed, 3 insertions(+), 3 deletions(-)
+> Hi Jinfeng,
+>
+> I tried to apply your patch and got a ptest failure on the autobuilder.
+> It seems to be related to this timezone update.
+>
+> AssertionError:
+> Failed ptests:
+> {'glib-2.0': ['glib/gdatetime.test']}
+>
+> https://valkyrie.yoctoproject.org/#/builders/73/builds/239/steps/13/logs/stdio
+> https://valkyrie.yoctoproject.org/#/builders/61/builds/240/steps/12/logs/stdio
+>
+> Looking at the log, I can see this:
+>
+> GLib:ERROR:/usr/src/debug/glib-2.0/2.82.1/glib/tests/gdatetime.c:2960:test_posix_parse:
+> assertion failed (g_time_zone_get_abbreviation (tz, 0) == "PST"): ("LMT"
+> == "PST")
+> not ok /GTimeZone/posix-parse -
+> GLib:ERROR:/usr/src/debug/glib-2.0/2.82.1/glib/tests/gdatetime.c:2960:test_posix_parse:
+> assertion failed (g_time_zone_get_abbreviation (tz, 0) == "PST"): ("LMT"
+> == "PST")
+> Bail out!
+> FAIL: glib/gdatetime.test (Child process killed by signal 6)
+>
+> https://valkyrie.yocto.io/pub/non-release/20241016-109/testresults/qemux86-64-ptest/glib-2.0.log
+>
+> Can you have a look please ?
 
---_000_GV0P278MB0241B5BD9E5305D57A7EBBAC88422GV0P278MB0241CHEP_--
+I'm working on it.
+
+
+Thanks.
+
+Jinfeng
+
+>
+> --
+> Mathieu Dubois-briand, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
