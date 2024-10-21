@@ -2,210 +2,170 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F8DBD0E6E4
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 10:25:27 +0000 (UTC)
-Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
- by mx.groups.io with SMTP id smtpd.web11.42812.1729506326446113732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7068ED0E6E6
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 10:26:27 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.42823.1729506382903448907
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Oct 2024 03:25:26 -0700
+ Mon, 21 Oct 2024 03:26:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=d5alNjgp;
- spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539fb49c64aso5861331e87.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 03:25:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XrkThtF1;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539e63c8678so5078026e87.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 03:26:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729506324; x=1730111124; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3vrGrVlc1NXP0TAnlmtpn4cVo4rTE1OH+kR2iqocyt8=;
-        b=d5alNjgpcSmE8NhNtu2Qqwfn2rwcrDNRkohQowytInjPO/RlFC3RY2zgkOr8YRBc5D
-         x3hrEydFSwxbKQ2CERTRipTC2EWl4+q/NIwhkmpEuY+sSrAtYMvJwH1YswsMWRaps6A/
-         tkLBXNAyL/opEczcRxNWQWoo9hCHn3b+U3Ik74wnOJF3XlXQECLzKh7JLN+9FIKIKRey
-         jRusE7+zxE/wkREjsf7e040tlnLlkh2+iRHvFHB1Wk6qSw06O834NZ4iQidPuJgMhi+k
-         HVjErqOlTfreBCE8zmIkEpaQEZw8dkuh6fk1hawTPBrGeQSqIjrMfB/ViW4KQ4kgZvS1
-         5RTQ==
+        d=gmail.com; s=20230601; t=1729506381; x=1730111181; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=TJTJ2fUJcJVVeVbAzjOAGN63+4132v3rtzst8zhZHeI=;
+        b=XrkThtF1+RLn0YjJfo2aJ8xHUxbqAKTZOiBfwVMyjiyMnZN2jpnMB1OLyeWxFRI4Qa
+         Aq6htKJgzCtM6aUXGPILsFxu0C/3UzwnknSLHdfntEba8F8JickISLe9wpRBhooOs+ox
+         9LHybACX0suozUpQCybt4Ssr57mu2JlrXRaQceZMyMWoEYnhr0Lf2VI8aeVIyjGsbqfE
+         JQgL5hwOxrWGqpOPUzd5XuukYprmSYEzacWmc1XzzxiWKsrnWBpOb/bEqeoYuce2iIUa
+         0gKrcExXyVFpBYKNdOmw9EED+lLtwe/2j2rz9iJ99diZzCvy2v9OMMxza2mcTOWJDiRl
+         pNCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729506324; x=1730111124;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3vrGrVlc1NXP0TAnlmtpn4cVo4rTE1OH+kR2iqocyt8=;
-        b=aW6VQ1mFwj3SszRlDSlBHzGYnamXQBBUDg7bAie7Stn0kXpn6V6bYl8nwlWb/KRKsu
-         K52L7o05ULNbo8AJpbDAVLD/iIarHQ82oV+v4vmWlunj8W4T8u9NC9mGmSOVINNwgpU3
-         4jlCiDJ/UMeAZjTNDIjknFWdhoTnvQDqombSJ2/5YmEG78skGsJ8GNUWf60gHp5YnGsv
-         EprMD2D871o2Z0xWazQEktdzG6Lb3cctKDXeQFR8kPzXk14rlaEDrMTRtWjWtn7sab0f
-         lkJLESXI6JVJ+lSTeSNEb9rpo1D11ozJ5mzA/2YZPcBOs2fsQaXR/mu6UTU6lCl64V7x
-         8wgA==
-X-Gm-Message-State: AOJu0Yx9voU9ftYH3doVMgHJNq8dCM/rS3zGN9mmy4rI+nu8D1iy/9iy
-	dCKzGEWR7r96PHJ+Yy5+P+lTLkMalbBO8peJaL7TvJqTayywgfKPKS8MUdMcdTZ4Bku2EVRi4FQ
-	cq3q5Y5Q3UVX3wR1YRU1kSSB1W+0=
-X-Google-Smtp-Source: AGHT+IGnrWR4em0rRNCG/xW0FKhhN8bCJoDmdWK6SVA0+0qZskW8ZHt9soDlSRPANX8HpGhjNG88tXldWf47DXYUPSs=
-X-Received: by 2002:a05:6512:350f:b0:536:55cc:963e with SMTP id
- 2adb3069b0e04-53a154ca15bmr6231300e87.44.1729506324120; Mon, 21 Oct 2024
- 03:25:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729506381; x=1730111181;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=TJTJ2fUJcJVVeVbAzjOAGN63+4132v3rtzst8zhZHeI=;
+        b=q2ySe5IIeNBZekQGAq32sL39HIr8kwfDtz6CrUntb/LudCWunW3Gn/CwtCEfqUHaN3
+         e8akA3Yv/udxjGhGKaBS3dHKgmcS+FIV0y5QxFKKaib6ciG7f96kjwzdpthnV58S6nmC
+         92P2XvnhMgI+9jWgr9yms2vVBgMWU+QNTetQB3b2AlUN8kxMZ5kmJZfhdzlk0Dia44yw
+         bbnUp8TrcnyRalKI8wBaT/9rQuHmkB3B0Xgj9xdnqRNK8iSDCr5y6t1K7oC+CnTpNjmt
+         lls71f781KAsqgCYYeO2KrdAM5lX8Xfcf0XX5ZMwEGFJ7PpXFVCYLeFZXfPbuMKxafPs
+         Fhjg==
+X-Gm-Message-State: AOJu0Yy8G4GJL6We877c6ZF+9GintjSWCxdTNpAPljscNbRBz/1z6fPL
+	IDHAUKm1rwhGPfZgMDKTfAanjRoEIfKBtshYYFMeAvA+crb1UAlmkSq8uVlkv2/AgtMn2w+0C/Q
+	BO9CnOdZNDVGnwSo+TCorJIQrlak=
+X-Google-Smtp-Source: AGHT+IGZAQgRSGnD/skkNQWAc2L6SEGwtNL+AQiktevPVeQ/16tjv1zRP88GB3UsJc+Mt936JMccC38EuNnvy9sDmJA=
+X-Received: by 2002:a05:6512:3d04:b0:539:905c:15ab with SMTP id
+ 2adb3069b0e04-53a154b1726mr5418860e87.32.1729506380590; Mon, 21 Oct 2024
+ 03:26:20 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241019021935.2105739-1-gael.portay+rtone@gmail.com>
-In-Reply-To: <20241019021935.2105739-1-gael.portay+rtone@gmail.com>
+References: <20241019064817.22938-1-mail2szahir@gmail.com>
+In-Reply-To: <20241019064817.22938-1-mail2szahir@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 21 Oct 2024 12:25:12 +0200
-Message-ID: <CANNYZj-bdtFmFHnK2ppSMY+iXRDX-J5GwWaQjYMwX_t66SnJoQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] classes: rootfs-postcommands: set better sane
- time to systemd
-To: gael.portay+rtone@gmail.com
-Cc: openembedded-core@lists.openembedded.org
+Date: Mon, 21 Oct 2024 12:26:09 +0200
+Message-ID: <CANNYZj8cmL_MfdCahdGq1PsHYzPo94QGHfmrejknGJRnRpZWYg@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH] alsa-lib: enabling ptest for alsa-lib component
+To: mail2szahir@gmail.com
+Cc: openembedded-core@lists.openembedded.org, zahir.basha@kpit.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 10:25:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206103
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 10:26:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206104
 
-Can this be done from systemd recipe itself? Items in
-rootfs-postprocess list should not be recipe-specific.
+This needs to be accepted for master first, and that submission had
+comments that need to be addressed.
 
 Alex
 
-On Sat, 19 Oct 2024 at 04:19, Ga=C3=ABl PORTAY via lists.openembedded.org
-<gael.portay+rtone=3Dgmail.com@lists.openembedded.org> wrote:
+On Sat, 19 Oct 2024 at 08:48, aszh07 via lists.openembedded.org
+<mail2szahir=gmail.com@lists.openembedded.org> wrote:
 >
-> When systemd is started, it sets the system clock to epoch to ensure the
-> system clock is reasonably initialized if no working RTC.
+> This change adds ptest for alsa-lib.
 >
-> As init process, systemd sets epoch very early to the more recent
-> timestamp of[1]:
->  - the build time of systemd (-Dtime-epoch)
->  - the modification time ("mtime") of /var/lib/systemd/timesync/clock
->    (systemd-timesyncd)
->  - the modification time ("mtime") of /usr/lib/clock-epoch (systemd)
+> 1) Removed the test suite execution 'make check-TESTS' call using 'sed' command.
 >
-> The first epoch timestamp is is hard-coded at build-time by the systemd
-> recipe (using either SOURCE_DATE_EPOCH, git-tag, or NEWS modification
-> time[2]).
+> 2) Compiled the test directory source code using "oe_runmake check" command.
 >
-> The second epoch timestamp is maintained at run-time if the system runs
-> systemd-timesyncd.
+> 3) Copied all the required binaries into PTEST_PATH using do_install_ptest()
+>  function.
 >
-> This implements the third epoch timestamp at image build-time, from a
-> newly introduced rootfs post-process command that is very similar to
-> update_timestamp.
->
-> It touches the file /usr/lib/clock-epoch with the modification time set
-> to either the current timestamp (now) or to a reproducible timestamp if
-> REPRODUCIBLE_TIMESTAMP_ROOTFS is set.
->
-> Note: That newly introduced rootfs post-process command is automatically
-> set if systemd is set in the distro features.
->
-> [1]: https://github.com/systemd/systemd/commit/863098fdc9cd91e4f760085356=
-ac02c4b7ba6df1
-> [2]: https://github.com/systemd/systemd/blob/v256/meson.build#L804-L825
->
-> Signed-off-by: Ga=C3=ABl PORTAY <gael.portay+rtone@gmail.com>
+> Signed-off-by: aszh07 <mail2szahir@gmail.com>
 > ---
-> Hello,
+>  .../distro/include/ptest-packagelists.inc     |  1 +
+>  .../alsa/alsa-lib/run-ptest                   | 15 +++++++++++++
+>  .../alsa/alsa-lib_1.2.11.bb                   | 21 ++++++++++++++++++-
+>  3 files changed, 36 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/run-ptest
 >
-> With this patch, one can have a better sane default time set by systemd
-> very very very early in the boot (i.e. even before systemd outputs its
-> version!).
->
->         # dmesg
->         (...)
->         [    3.347641] Run /sbin/init as init process
->         [    3.350435]   with arguments:
->         [    3.350440]     /sbin/init
->         [    3.350443]   with environment:
->         [    3.350447]     HOME=3D/
->         [    3.350451]     TERM=3Dlinux
->         [    3.431275] EXT4-fs (mmcblk2p2): re-mounted. Opts: (null)
->         [    3.523997] EXT4-fs (mmcblk2p4): recovery complete
->         [    3.527828] EXT4-fs (mmcblk2p4): mounted filesystem with order=
-ed data mode. Opts: (null)
->         [    3.694440] systemd[1]: System time before build time, advanci=
-ng clock.
->         [    3.714755] systemd[1]: systemd 250.5+ running in system mode =
-(+PAM -AUDIT -SELINUX -APPARMOR +IMA -SMACK -SECCOMP -GCRYPT -GNUTLS +OPENS=
-SL +ACL +BLKID -CURL -ELFUTILS -FIDO2 -IDN2 -IDN -IPTC +KMOD -LIBCRYPTSETUP=
- +LIBFDISK -PCRE2 -PWQUALITY -P11KIT -QRENCODE -BZIP2 -LZ4 -XZ -ZLIB +ZSTD =
--BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=3Dhybrid)
->
-> Thus, one can do time-based related things offline or before the system
-> clock is set by the network (if trusting the time does not matter that
-> much for sure).
->
-> This happens if the system has no hardware clock or if it is way too far
-> in the past and if using an old versions of systemd; systemd v250.5 sets
-> the system time to April 28, 2022 5:53:22 PM (1651168402).
->
-> Also, please set REPRODUCIBLE_TIMESTAMP_ROOTFS to any appropriate value
-> if enabling reproducible-builds (the default). Otherwise, bitbake sets
-> the timestamp to Friday, March 9, 2018 12:34:56 PM (1520598896).
->
-> If you have a better idea on how to implement it, please tell; in the
-> meanwhile...
->
-> Kind Regards,
-> Ga=C3=ABl
->  meta/classes-recipe/rootfs-postcommands.bbclass | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/meta/classes-recipe/rootfs-postcommands.bbclass b/meta/class=
-es-recipe/rootfs-postcommands.bbclass
-> index 5f4d67f93c..cc74c75cfa 100644
-> --- a/meta/classes-recipe/rootfs-postcommands.bbclass
-> +++ b/meta/classes-recipe/rootfs-postcommands.bbclass
-> @@ -22,6 +22,9 @@ ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains_a=
-ny("IMAGE_FEATURES", [ 'deb
->  # Create /etc/timestamp during image construction to give a reasonably s=
-ane default time setting
->  ROOTFS_POSTPROCESS_COMMAND +=3D "rootfs_update_timestamp "
->
-> +# Create /usr/lib/clock-epoch during image construction to give a reason=
-ably sane default time setting to systemd
-> +ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("DISTRO_FEATURES",=
- "systemd", "rootfs_systemd_timestamp ", "", d)}'
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+> index 5975db25cc..4fe5ce34e4 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -5,6 +5,7 @@
+>  #
+>  PTESTS_FAST = "\
+>      acl \
+> +    alsa-lib \
+>      apr-util \
+>      attr \
+>      babeltrace \
+> diff --git a/meta/recipes-multimedia/alsa/alsa-lib/run-ptest b/meta/recipes-multimedia/alsa/alsa-lib/run-ptest
+> new file mode 100644
+> index 0000000000..b991de145f
+> --- /dev/null
+> +++ b/meta/recipes-multimedia/alsa/alsa-lib/run-ptest
+> @@ -0,0 +1,15 @@
+> +#!/bin/sh
+> +set -eux
 > +
->  # Tweak files in /etc if read-only-rootfs is enabled
->  ROOTFS_POSTPROCESS_COMMAND +=3D '${@bb.utils.contains("IMAGE_FEATURES", =
-"read-only-rootfs", "read_only_rootfs_hook ", "",d)}'
+> +for t in config control midi_event client_event_filter client_event_filter
+> +do
+> +    if "./$t" > "alsa-lib_$t.log" 2>&1
+> +    then
+> +        echo "PASS: $t"
+> +    else
+> +        echo "FAIL: $t"
+> +        cat "alsa-lib_$t.log"
+> +    fi
+> +    rm "alsa-lib_$t.log"
+> +done
+> +
+> diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
+> index c212b17aa3..8b4f3baecc 100644
+> --- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
+> +++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
+> @@ -11,10 +11,11 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
 >
-> @@ -402,6 +405,19 @@ rootfs_update_timestamp () {
->         bbnote "rootfs_update_timestamp: set /etc/timestamp to $sformatte=
-d"
->  }
+>  SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
+>             file://0001-topology-correct-version-script-path.patch \
+> +           file://run-ptest \
+>             "
+>  SRC_URI[sha256sum] = "9f3f2f69b995f9ad37359072fbc69a3a88bfba081fc83e9be30e14662795bb4d"
 >
-> +# Can be used to create /usr/lib/clock-epoch during image construction t=
-o give a reasonably
-> +# sane default time setting
-> +rootfs_systemd_timestamp () {
-> +       if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
-> +               # Convert UTC into %4Y%2m%2d%2H%2M.%2S
-> +               sformatted=3D`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS=
-} +%4Y%2m%2d%2H%2M.%2S`
-> +       else
-> +               sformatted=3D`date -u +%4Y%2m%2d%2H%2M.%2S`
-> +       fi
-> +       touch -m -t "$sformatted" ${IMAGE_ROOTFS}/usr/lib/clock-epoch
-> +       bbnote "rootfs_systemd_timestamp: set /usr/lib/clock-epoch mtime =
-to $sformatted"
+> -inherit autotools pkgconfig
+> +inherit autotools pkgconfig ptest
+>
+>  EXTRA_OECONF += " \
+>      ${@bb.utils.contains('TARGET_FPU', 'soft', '--with-softfloat', '', d)} \
+> @@ -44,3 +45,21 @@ RREPLACES:alsa-conf = "alsa-conf-base"
+>  RCONFLICTS:alsa-conf = "alsa-conf-base"
+>
+>  BBCLASSEXTEND = "native nativesdk"
+> +
+> +do_compile_ptest() {
+> +        sed -i 's/^.*$(MAKE) $(AM_MAKEFLAGS) check-TESTS.*$/ /' ${S}/test/lsb/Makefile.in
+> +        oe_runmake check
 > +}
 > +
->  # Prevent X from being started
->  rootfs_no_x_startup () {
->         if [ -f ${IMAGE_ROOTFS}/etc/init.d/xserver-nodm ]; then
+> +do_install_ptest:append() {
+> +    for f in control client_event_filter namehint
+> +    do
+> +        install -m 0755 "${B}/test/.libs/$f" "${D}${PTEST_PATH}";
+> +    done
+> +
+> +    for f in config midi_event
+> +    do
+> +        install -m 0755 "${B}/test/lsb/.libs/$f" "${D}${PTEST_PATH}";
+> +    done
+> +}
+> +
 > --
-> 2.47.0
+> 2.17.1
 >
 >
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> -=-=-=-=-=-=-=-=-=-=-=-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#206078): https://lists.openembedded.org/g/openembedde=
-d-core/message/206078
-> Mute This Topic: https://lists.openembedded.org/mt/109095282/1686489
+> View/Reply Online (#206081): https://lists.openembedded.org/g/openembedded-core/message/206081
+> Mute This Topic: https://lists.openembedded.org/mt/109097481/1686489
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
 
