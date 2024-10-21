@@ -1,95 +1,97 @@
-Return-Path: <sebastien.raillet@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE046D15DA5
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 14:39:38 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web11.47532.1729521570887059335
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB1D9D15DA6
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 14:42:08 +0000 (UTC)
+Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
+ by mx.groups.io with SMTP id smtpd.web11.47607.1729521723973999993
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Oct 2024 07:39:31 -0700
+ Mon, 21 Oct 2024 07:42:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=VHI3AP9/;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: sebastien.raillet@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-43169902057so21275195e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 07:39:30 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kHPXsPcI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.178, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-dff1ccdc17bso3752151276.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 07:42:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729521569; x=1730126369; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:subject:to:from:message-id
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ul6kCgTwPsxyc7XPna0cFntGE+mJzGRHRizY4u1rhFU=;
-        b=VHI3AP9/FXrZ/kr5YZJRsI47mA9lmfIgt/2X7y8QdNLLAVCyYgw2KT5MGic6dQo176
-         JYFL3oE1eSfVfc/b95GxAfQfWNMpJ5dJe12dZm1YKcycoTj8uiIssR1AAnyPhAUFEvlO
-         SEkyUw/OueD2G6lJp+HzaG1CIOu560FGj/kTO2CO5l2N6C94sRGAJ44aZ2+YPP127zXC
-         v/RQlBFnkYYHWNQ+tVLBsc1wb5dPvuT6mZs9IA8ObB2zq1U/w55vG3wIj290pYh8dKF6
-         Vepk/alyn22F9LSf1MqaMy/KwyDzRqK60stYZpjFlPhuHbGLroBD81pLDjpETJdTvBEk
-         97kQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729521723; x=1730126523; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zUCip/z236gpRK9aRF0ryBz4agX8+A5VSJDrvrxpGTo=;
+        b=kHPXsPcISby4qRDMym+7KaZ7cRbE6/J8glDc3COWQMGWVr/PCvYs9wIE+i0F+CsiMo
+         vASF9kaJJpAHcAuHGiHyLMboNRyvN734of+OBxvym1yG97tnLBPAhJBiutGbh7ebNk+1
+         MHd8VasUblz0YM+Koy2nC363FUkjWcjnDTYi4Mu7WyF4u5nbmJTyPxE4Q2wn8C+qLeAn
+         4Gswoxm7LqV9gSr6MIOTxX2DnpUGCcmAuiWXsbEta8mXQpIgFG/jrcm5DMbPf7BdFIQR
+         zSzIcSAO7JY0QTlvhhPLT3FtlncI73v2h73WCLja4JMFe9OK+3m3gbMiHClRdSMJ2dS4
+         Swww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729521569; x=1730126369;
-        h=content-transfer-encoding:mime-version:subject:to:from:message-id
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ul6kCgTwPsxyc7XPna0cFntGE+mJzGRHRizY4u1rhFU=;
-        b=OCWtqxG5gfaDyMyMKhc5O3HqAfejdAz9+1qWYsi5brTXh0JGMXszIciIx5JrgD18Qn
-         GvpB1VeEFjOYO5Jpa37tjEFdwFSNkPFMj14VBE5GsOBeHKt0HglPbT6sZ9Na25IHkCic
-         rUQrVFcLPooJmMMuJDvW+WVpzaaCxjkxdEZ4tV1XzQX74ojgBP3kO5c6jNu/Ro76wvxf
-         +eIIV6o0H+cY+kpZK7FfSPBUGqO2vip7wG4e9vOEZxHy6OcYDZZfbpEAGaG+9tAboiv8
-         nGI7I+PRn8SoO+32enpWYYiKDRx80XXng7MGVYO/4vwhtlZ+QjQqgVxA6+/XXZD03XlD
-         Y5dg==
-X-Forwarded-Encrypted: i=1; AJvYcCVYP3p1NeZsrH+wlAhkEzYFqPh8CG3pd2zKrDAlsWHnK/NQYy8CR8QETu8+SMeSifk1PP1Ma37ynWq5kbFObMWH6g==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx3P60mWQkhKG6BMSgguzK7ZLroHCHb4yoxdukMnKKPQEoRYX3s
-	qznQgzvmvy9Ny2lch+fLdvRJnxc/h+EQFeNu4yUu/eN1NmF8qQ/s
-X-Google-Smtp-Source: AGHT+IGjPknM3Ndz3q6/h2MeSTaeGAaFfbXqZxWCh5SngebuaU5g6yLvM1ym7EKJ3/ugj8UDJNSrZw==
-X-Received: by 2002:a05:600c:3ba2:b0:431:2b66:44f7 with SMTP id 5b1f17b1804b1-4317b915ce2mr1683455e9.31.1729521568969;
-        Mon, 21 Oct 2024 07:39:28 -0700 (PDT)
-Received: from localhost ([2a01:cb18:8c9:4700:302d:654a:a822:90a6])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4316f5c2ca6sm60140735e9.35.2024.10.21.07.39.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Oct 2024 07:39:28 -0700 (PDT)
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Oct 2024 16:39:28 +0200
-Message-Id: <D51K87UE3UQ8.W74RI71RDRD@gmail.com>
-From: =?utf-8?q?S=C3=A9bastien_RAILLET?= <sebastien.raillet@gmail.com>
-To: "Steve Sakoman" <steve@sakoman.com>, "openembedded-core"
- <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone] "overlayfs-etc: add option to skip creation of mount
+        d=1e100.net; s=20230601; t=1729521723; x=1730126523;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zUCip/z236gpRK9aRF0ryBz4agX8+A5VSJDrvrxpGTo=;
+        b=bDOGeXs/hNi6JTkDF/cL3Djrw/qzXVwY3YkEwPw+Fzih94OuWhYUvsBf7XGvnNy9Qz
+         6DO85vnvIGJKLo+jfPL45VyrlqbwjpXQifOPXUoy390WhDBK98D7QYiUTfls+0XH8W+f
+         o7MIGqjAdNNbUhVFUpPgWzp4y1a1BRKnP5VRXLNOkfmHfs4KDiSNRkwnV7p+s5AdIiEU
+         A8TcWOhpgxh51x2HDe4HbnhFxrPAjT7Q7ctsftkRhfG+QuiO8KTE7CBYifERb4izjbpd
+         Io6XLLggqVDXPtDy5HBqBQT1nm0UMarPn/yIbr1vfC9VbjN2Wyyl+md1jUqtk2ZDRIkZ
+         DcoA==
+X-Gm-Message-State: AOJu0Ywq8GKg8BmIdclEU88nSJ6aZ2N1saXizQCFFiXY7dEBmE/bKCuR
+	Xfjg0lPBwWesJN/ax4/r+uywZUkfMt2FxRtcoG49R9VTZXPoWpb5PUN8K2eoK6ZcVbDSOFdKuy3
+	Tk+Tqrtk5R7RcfE8qyXtR+PrVRaeCW164Yb1cAw==
+X-Google-Smtp-Source: AGHT+IExwupuEdNyhKOcPhGWVWdzKCz6hbDZAh/n4UNkZHLRDxUfe9QCZkSu5x1JesrYwxniLu9ArEAF//fIRplte8k=
+X-Received: by 2002:a05:6902:1101:b0:e29:20ad:8281 with SMTP id
+ 3f1490d57ef6-e2e22ee0e50mr214493276.33.1729521723143; Mon, 21 Oct 2024
+ 07:42:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <D51JZNT0Z0V4.2JRO6YCG6DMLR@gmail.com>
+In-Reply-To: <D51JZNT0Z0V4.2JRO6YCG6DMLR@gmail.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Mon, 21 Oct 2024 07:41:52 -0700
+Message-ID: <CAOSpxdZ9sLzRrXyKinvY0JUChtWHgNnRzd9WcnGGfMS8qZ_ZyQ@mail.gmail.com>
+Subject: Re: [kirkstone] "overlayfs-etc: add option to skip creation of mount
  dirs" backport
-Received: from localhost ([2a01:cb18:8c9:4700:2c81:cfb5:5407:5acc]) by
- smtp.gmail.com with ESMTPSA id
- ffacd0b85a97d-37ee0b93f92sm4426408f8f.76.2024.10.21.07.28.18 (version=TLS1_3
- cipher=TLS_AES_128_GCM_SHA256 bits=128/128); Mon, 21 Oct 2024 07:28:18 -0700
- (PDT)
-Mime-Version: 1.0
+To: =?UTF-8?Q?S=C3=A9bastien_RAILLET?= <sebastien.raillet@gmail.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Mailer: aerc 0.18.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 14:39:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206123
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 14:42:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206124
 
-Hello,
+On Mon, Oct 21, 2024 at 7:28=E2=80=AFAM S=C3=A9bastien RAILLET
+<sebastien.raillet@gmail.com> wrote:
+>
+> Hello,
+>
+> I would like to discuss the possibility of backporting commit
+> 3d433d8559467d255bd19af2d0999c65ea24a48d [1] into the kirkstone
+> branch.
+>
+> Currently, on the kirkstone branch, combining overlayfs-etc and
+> read-only-rootfs in IMAGE_FEATURES results in the root filesystem
+> being mounted as read-write during the startup phase. This behavior
+> may not be what users expect when enabling read-only-rootfs in
+> IMAGE_FEATURES. By backporting this commit, users would have the
+> option to disable this behavior if needed.
+>
+> The commit I mentioned is conservative, as it preserves the current
+> behavior by default.
+>
+> For your information, I have followed the Yocto contribution guide on
+> how to request a backport in a stable branch. However, if a patch is
+> preferred, I would be happy to propose one.
 
-I would like to discuss the possibility of backporting commit
-3d433d8559467d255bd19af2d0999c65ea24a48d [1] into the kirkstone
-branch.
+Since this is a simple cherry-pick there is no need to send a patch,
+the above request is fine.
 
-Currently, on the kirkstone branch, combining overlayfs-etc and
-read-only-rootfs in IMAGE_FEATURES results in the root filesystem
-being mounted as read-write during the startup phase. This behavior
-may not be what users expect when enabling read-only-rootfs in
-IMAGE_FEATURES. By backporting this commit, users would have the
-option to disable this behavior if needed.
+Thanks!
 
-The commit I mentioned is conservative, as it preserves the current
-behavior by default.
+Steve
 
-For your information, I have followed the Yocto contribution guide on
-how to request a backport in a stable branch. However, if a patch is
-preferred, I would be happy to propose one.
-
-Thanks,
-S=C3=A9bastien
-
-[1]: https://git.openembedded.org/openembedded-core/commit/?id=3D3d433d8559=
-467d255bd19af2d0999c65ea24a48d
+> [1]: https://git.openembedded.org/openembedded-core/commit/?id=3D3d433d85=
+59467d255bd19af2d0999c65ea24a48d
 
