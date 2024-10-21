@@ -1,144 +1,149 @@
-Return-Path: <diego.santacruz@spinetix.com>
+Return-Path: <gael.portay@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 28193D15DB6
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 15:51:59 +0000 (UTC)
-Received: from ZRAP278CU002.outbound.protection.outlook.com (ZRAP278CU002.outbound.protection.outlook.com [52.101.186.79])
- by mx.groups.io with SMTP id smtpd.web11.49530.1729525914615419372
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D7FD0E6C5
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 17:02:15 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web10.483.1729530133293608169
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Oct 2024 08:51:56 -0700
+ Mon, 21 Oct 2024 10:02:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@spinetix.com header.s=selector2 header.b=oNTuB0ka;
- spf=pass (domain: spinetix.com, ip: 52.101.186.79, mailfrom: diego.santacruz@spinetix.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sEjOGmK3SxBfU7F6jtI8ksvQauR6o7WSjhvoxsjggKj6WM93v4+aPQEF7QiHW1SfS+dqQq6OA97tmrcGc3Numvy1KyTKKT2gvBgOYuf2x7ixPljfqh687nfsTH8bEk1/7byAH69Lr/3daodUi7oRUsnP1+Gpk0txkWG3myReR2gkl6hotvxDksLI4yk9f7JysYv2tltp9hykXkOEP/iUKz9vubGp3lZzyjYP3zCD0kAEdRIz0zO72KydyPyYD7KyAi925dO57H966IX1AXVtsvWzWh0eHKonc9utWerpRxRknxsUrUknj8RjitxEQV8taJcDK3YAWsv03ZmIYV0JMA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WtEjZv9nRFqxQ957Z+oqDURmZoC09Vr5XdE5gkEGYas=;
- b=ldkiLW9MxJ0YswMMaM8HFMkzrPJEOykEdhF180RUO5lY0Iz31aucDom6iIHV3kIJaHbkITFctpbGQIX+jaL0VvJKqmXdEx5PEjEWca7zKKv891cGkhrgAKE2LJkM0E3RCSjideP1PLKlecJCaEjz15LIiUMzNV5RMqnLZfANrzYAW1wQe18SRV+FhSOQeA5M5Ut7oiiMjXO6NarzkTavWRq5bXzSYaOFD0P4SFlBwmHVUVLfGGAPTArH902GT79UUTx9gD44nqr3D6E6G2Wyi5dvzhYi6Z7GL4C+q3xnQ/0KCLtlBuRI8yo3xPaF/eIFqltf/pPr5TkCCK5JbPIa2A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=spinetix.com; dmarc=pass action=none header.from=spinetix.com;
- dkim=pass header.d=spinetix.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=spinetix.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WtEjZv9nRFqxQ957Z+oqDURmZoC09Vr5XdE5gkEGYas=;
- b=oNTuB0kaTeLXdup8vlGBw8E1K1F5D5924N19Q+jQPQvuhiaAXPiwZbQ5aFAaTRf8G1i1RgSZ6Fz7O9DZyLUGBRpsTeRtE3TyspF0xERrlbyWa/MOfid4f1ugB7GqS83xG9JUXZPj1eNI1at8i1my4rlbwV39q8EIcAOym+Eu5zs=
-Received: from ZR0P278MB0252.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:36::8) by
- ZR0P278MB1154.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:55::9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8069.28; Mon, 21 Oct 2024 15:51:50 +0000
-Received: from ZR0P278MB0252.CHEP278.PROD.OUTLOOK.COM
- ([fe80::aa8b:647a:9e00:6193]) by ZR0P278MB0252.CHEP278.PROD.OUTLOOK.COM
- ([fe80::aa8b:647a:9e00:6193%4]) with mapi id 15.20.8069.027; Mon, 21 Oct 2024
- 15:51:49 +0000
-From: Diego Santa Cruz <Diego.SantaCruz@spinetix.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Recall: [OE-core] gzip segfault with mandb and qemu when building
- rootfs
-Thread-Topic: [OE-core] gzip segfault with mandb and qemu when building rootfs
-Thread-Index: AQHbI9Ejr7D788o1l0WLmvwqCzOKxQ==
-X-CallingTelephoneNumber: IPM.Note
-X-VoiceMessageDuration: 1
-X-FaxNumberOfPages: 0
-Date: Mon, 21 Oct 2024 15:51:49 +0000
-Message-ID: 
- <ZR0P278MB02521594A72C668314DF797488432@ZR0P278MB0252.CHEP278.PROD.OUTLOOK.COM>
-Accept-Language: en-GB, fr-CH, fr-FR, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=spinetix.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: ZR0P278MB0252:EE_|ZR0P278MB1154:EE_
-x-ms-office365-filtering-correlation-id: 43001e9e-85ce-4ff8-7bb5-08dcf1e8466f
-x-ms-exchange-recallreportgenerated: true
-x-ms-exchange-recallreportcfmgenerated: true
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?PmDbfFkmrDQPiNOx9K8uJ64rgVIKcrz0vUApj/OqBDOSF7lfbHZNqA4sfvrb?=
- =?us-ascii?Q?9/6ukh3YFa9oEI7zQ0VxgPigSFlULNMS+2dsOOOlXVRKXlyy5CUQQpwTmQO2?=
- =?us-ascii?Q?m3SR2nbtXpo4HDITudYxOUKnLu0WREstPlmcPFVpqrTXOodBn7tItI5W4/fH?=
- =?us-ascii?Q?rhXjbnAsVe3s09piQMtjoB6cVhEsQ7RPSTDpI6CF2JpsrOEIxKALGaZeraVN?=
- =?us-ascii?Q?ecgXWnGHopPybmNJs2uKEJXpeLx9CckUr7+IN6Y6Ee9LlQUZF3WrCHG3EuZZ?=
- =?us-ascii?Q?+de5V1oE7EGQm3i556SysCkKHbhJiQadNr8jXd19fkm7DLyfWDewZW9qlkmf?=
- =?us-ascii?Q?S8iZBKSeCm8Q6/ySZUQYYoiysGtIjg4FwtZ9UZWYk8xoT+z6wevdymP4y3wL?=
- =?us-ascii?Q?SIJc8w8PODoyt/fuGp9tLECxTkgi0cwTtWYCAXTYtfJDcyQRK9i95sx6P+Bd?=
- =?us-ascii?Q?rQ1NACIPb+rO2miUGH26NHXBwH7Gsk+y6S2/DJ3ysbDkmbCMnx6AsjZWvLSC?=
- =?us-ascii?Q?9nAPoepk9zXblpfH7L1UtA9vTrg+tnozYDQBTCz4ePyGswDfBYdjrDnnXQxI?=
- =?us-ascii?Q?A82EVNce1+3GjyQPDKzESnk8fAqTnu8I9NOkWIZctW6lucu5W93L7TC1czpX?=
- =?us-ascii?Q?gv3Z5ZufqOduDNU8hKH2+LU83ogXtNNfpEg8L39xCpMXSSuDsIxFQIFRwiAJ?=
- =?us-ascii?Q?VwIvjdTiYxAC5GQ7zmrvtzWm7aNan3nrtW33p7itgnhauze2y0nTUYzbIil5?=
- =?us-ascii?Q?id1FmV2TIojCuzNn0sxpn//y+A7cwI8I9ij0roJ6dCC89pbJrZ+JLxqSHv7H?=
- =?us-ascii?Q?J/w4Z4RxQyhk2qzYCm90qpDXv3VjBGW1mqx/kcZcBpXbOEzByRSueU5yIhcO?=
- =?us-ascii?Q?Yn9P5Q6RVv+7xv1p1tgTV9cQ7jzbM+kFiezztUwjEN9IMNl60cDTNCMKE5TV?=
- =?us-ascii?Q?GArzY5+0QJrgVVBbyQfx5rtzClDoeGYTm6YNtBSeWhnBTWhLSeyebg1TshHh?=
- =?us-ascii?Q?ouegKav+3IxuTMaXDKO7uwm5s5wDLVm08ZjWKX9qyaCipAlq10go43fhn2ZH?=
- =?us-ascii?Q?oaHTtvhPbGcvh9SOanVjMqYoIg455mUMDAzEZyd88KyMb/6mAgDlFbgY2Kp3?=
- =?us-ascii?Q?jG9nl//r0rNKAC4RJF5XiVUDVeObYyPeR82wbTnk9yJ3+DoSOizwJ86LqvwX?=
- =?us-ascii?Q?iREksHfZyc0TKDFpGUraGf8hlsNXiqJl5UQAJO52V7KKtNjjPoOBVq7Ii994?=
- =?us-ascii?Q?i/tg8aSDGAF8ms+YwsWE7dv3GUaERx2wYXD6L2XHA6yDf+UkrTEYn29un+3b?=
- =?us-ascii?Q?sValUxe5Qqf7TxxpgEk2UMR13H7wFhcNie/IRlUHUtsxRPrEd0y7C5UvMOfT?=
- =?us-ascii?Q?0xy6mKs=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:ZR0P278MB0252.CHEP278.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?DcMNS+ptDo/80GUjgt0dHxQLQX9q6YLxHWywHWLAIGAAYgXZz7u01P9/OE7W?=
- =?us-ascii?Q?eBdxCaW5NgOrTcUgX0GNUZwJX2nNIs2pp+lChwV5jUty9UceGXcfrjwJdwTF?=
- =?us-ascii?Q?bxp9Ewyc00lV2la9PQE4Jd4k2tlC+celXhNshzgD4cCBgtmlMBKY1CP62AuR?=
- =?us-ascii?Q?RDGQCA8WRbwwPLGsNIGKb30TNzVZ4MBVyB8u2n1WVX9UItPhLqXPAcpiNSh6?=
- =?us-ascii?Q?I0WMD6QwN37TCo4uDfz2cSA1kaA6VxMJtu0cTVhCQsp+s7V/MfcGGdQZbNN+?=
- =?us-ascii?Q?ukaacVHUp0vUBMg7AzChpx9U7rX2FNmqc9qvFYstwBoob0kUBlYdUEV/MDNu?=
- =?us-ascii?Q?CPwCR7PalJJ19nAbhHbw5/+6zMAdm+heMnO6I84FP9dPGBj9KswZIwjPlzUp?=
- =?us-ascii?Q?I6OZ+CjQ/yGIyN3yO/6/20D6kmHFBwoJoWjo+7xbQF1QaClUyfO6cUb9LF9K?=
- =?us-ascii?Q?AKM/BEV7kbYeKOmMOqcpvxAEGcZRitZdqzEeZ82Aqa4gKd7rwUWUFwm6stEo?=
- =?us-ascii?Q?NscVK8fb2SaL3V5PLtBBqz+zQHnkJ+7S9UGKu7dNiFHRUEYBJU7ax1UOPvac?=
- =?us-ascii?Q?gvhJAL+Y6NL95PLBJbXxedA5tAVhrzZxsamHG4Vh5yhBEShC5+bE8Eq1hkdT?=
- =?us-ascii?Q?TyxAGu0OdsomgaGSexjkOFqQpuGztYJMiJYgyBcIopw873ayD9MFhfaB1UuT?=
- =?us-ascii?Q?YJL6a3AD/MTvWcVmdtQ9gKCf10pd1AGZ2NCzXs9DFJz8sgOmn1Fdvv6dS77e?=
- =?us-ascii?Q?b9B6EWHVm87v1gdjbqAWsl1MF5dM+jbsAHajMwmc2+TDkWbFMJlBXNFHt2MW?=
- =?us-ascii?Q?JwunFlSO0vt/GEmdFP4SH8mDpwpABms0qw3NUsOpJ6TcUoeucsUChLbfbNec?=
- =?us-ascii?Q?OjRgrCnU3wD+xvWW+aL9N9rc6Ubxe1jJw6jhwUEawh0mm0VxVeBtfU/gloz8?=
- =?us-ascii?Q?GZqD5tKOc0h01e2XP+M4F7b7AFl5bayBt15ZRuGTD3FnDi6+hvzkru9jyRIP?=
- =?us-ascii?Q?cQDtZiIIzVwb/4aohZtlxFQvIySaq8jwGpht2TtbRNQoWJu6yKuNDlD33WF1?=
- =?us-ascii?Q?MSRwNBOt0ObItlcCxGyoa5enWf6F9gGDS/LUDvSIkimEUe6AmG0ZIGNxs0HW?=
- =?us-ascii?Q?D2CT/mB7kfu+EJCBjm5n8vdKCy2jVTL6qEPKs/b/V8ezsn57r5JFWnVeYHU0?=
- =?us-ascii?Q?MM9ZGxZrBAGsxxtt+uzuQQ0vzmydLIYEtg0zMSgGSBr1SQev89dvGeHS3EvM?=
- =?us-ascii?Q?AO2hjlfFs4cTsnNaoiB3lnltVLoYLd0mZyhneNB47pEvyUzEGj5ZysD2kLqP?=
- =?us-ascii?Q?WwbHOjbzoxA4H6oeM0cOYJvXwcXY0R5SywC18rk+/xXpFGdGxQF2R2ByNiNB?=
- =?us-ascii?Q?PS6m6KH9ml99bJZvyZ8JrVjqqWmcaGHiR6J/6ISjyabqFM7vnBQIOtuWMplr?=
- =?us-ascii?Q?J7gtp8kCVqNMc6UkCjiDQRRmWLM2KRcJZrth1XtvQlrasskQVAZq/wphFIrN?=
- =?us-ascii?Q?YdokkTMDYGkxduWJbAwog8S6kQixj6ne/fENKZVj5dbYBStTVYyAL5bPAl4g?=
- =?us-ascii?Q?ky+jWLphtxbtmPm39Ew2/2bxRrJGAKLb4l3RqU1v3lG3XktNpAOaZ6G06+lb?=
- =?us-ascii?Q?PQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=m8G47eU0;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: gael.portay@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d5231f71cso392508f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 10:02:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729530131; x=1730134931; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cb5dT1SmE+LMfAa0vsz32XVgb6zHAwQ+WtYOewBtkrU=;
+        b=m8G47eU0ytRUH8qX/fBTEgkG2seyelr2UIzIqtM7KX32NF283FhiaU8MIQoHDnMQWa
+         dqntrL23iTM/C80hF9ZDALOtV89KDro6f2EXtkEQsBtrNMpyphb9wWm5b/I+CcvAUjoj
+         NciPN0d5s0NraUHDfHU0c8Vps35mSRBzTu/lXc97BrDVNL81SHkFAbGwGei/zZ8GuV/u
+         xDUV4XRY2oLKZT5JbIfFq2JJMlFx7ytRwzPNw7VQXBhwiG37CDVj7/+nZKYcgp3vfT+B
+         oMI0G0uQkbtcYEvIGN0HqShkHCn/KfaK5fkp/IdclFLXgTUuBKl2HRNWDNvDu6W3icJ0
+         IwUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729530131; x=1730134931;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cb5dT1SmE+LMfAa0vsz32XVgb6zHAwQ+WtYOewBtkrU=;
+        b=YZ3O2IxRZvGrouo4uJFJElP6OlU7nF8voOSm87YEB6ADCDooIWxRV2psgcaNLjYc+X
+         gCYXbvehQZivytV3UTv8Ow0cELsal7KyJUbWFQe3uoiFsu+5cxxxk7H93fzsMDys9le0
+         OsKnfNIse39E+v78JDFueNPOMe5KY9vCW8YuN6Wl/Gqa3DO9r4ByRZcUIjE++MSNAJEy
+         4B1nxs5hLTUndgwEJ/rY5K1ijc6vy9XqnfM+Q1X4vCxHnaG3hQxkVSFUah41a2s+bcHt
+         jXqWq9wSbYsZvU5u/A2FPED/VmUv8BD9McuoANFXhthSF8AHLo2tRRErAbSgTcder57L
+         jUcw==
+X-Gm-Message-State: AOJu0YzqiyGz1FuZZj1V2z/PvRVJjfP6l2qLLsf1rAbKhLG+MwTPB9EB
+	kmPUZPpiMW12zJsfCjaAZiK/LTYOFqWv7BuRqsFriSYayKWfCoO6esKWcGNK
+X-Google-Smtp-Source: AGHT+IGrlAKHCqTwBsLvWk1+JEw1lpxmOw1C1IbY2TAamXtgq6gxK9gbEUpO+diXaHMSXr4ycig4rg==
+X-Received: by 2002:adf:f0c8:0:b0:37e:d92e:818b with SMTP id ffacd0b85a97d-37ed92e821amr1774001f8f.14.1729530131092;
+        Mon, 21 Oct 2024 10:02:11 -0700 (PDT)
+Received: from localhost ([2a01:e0a:ce:f2f0:3a7c:76ff:fe01:6f05])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a365e5sm4783004f8f.21.2024.10.21.10.02.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Oct 2024 10:02:10 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: spinetix.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: ZR0P278MB0252.CHEP278.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 43001e9e-85ce-4ff8-7bb5-08dcf1e8466f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2024 15:51:49.5841
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5f4034fa-ed2d-4840-a93f-acb1e9633b93
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: J37+gbHXbrJprCU9IUTIUBOmc/PnNf+u+nxUBEN/7TKciQ6qev53iVKijJYOMUUZUGgRE8TxweezsyEPFy6e+RHNKL0KU1kM/9Daftg7Ttw=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZR0P278MB1154
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 21 Oct 2024 19:02:09 +0200
+Message-Id: <D51N9GUUD7NN.KLL01VZA4V8U@gmail.com>
+Cc: <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] classes: rootfs-postcommands: set better sane
+ time to systemd
+From: =?utf-8?q?Ga=C3=ABl_PORTAY?= <gael.portay@gmail.com>
+To: "Alexander Kanavin" <alex.kanavin@gmail.com>,
+ <gael.portay+rtone@gmail.com>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241019021935.2105739-1-gael.portay+rtone@gmail.com>
+ <CANNYZj-bdtFmFHnK2ppSMY+iXRDX-J5GwWaQjYMwX_t66SnJoQ@mail.gmail.com>
+In-Reply-To: <CANNYZj-bdtFmFHnK2ppSMY+iXRDX-J5GwWaQjYMwX_t66SnJoQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 15:51:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206126
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 17:02:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206127
 
-Diego Santa Cruz would like to recall the message, "[OE-core] gzip segfault=
- with mandb and qemu when building rootfs".=
+Hello Alex,
+
+On Mon Oct 21, 2024 at 12:25 PM CEST, Alexander Kanavin wrote:
+> Can this be done from systemd recipe itself? Items in
+> rootfs-postprocess list should not be recipe-specific.
+>
+
+Sure it could be done in the recipe itself ;) but...
+
+The recipe harcodes already a sane value at configure time thanks to the
+meson option -Dtime-epoch and the environment variable $SOURCE_DATE_EPOC
+(or the date the creation of the latest git-tag or the modification time
+of the NEWS file). systemd sets the date somewhere in 2022 (kirkstone).
+
+I have created a rootfs-postcommand to be able to set a better time **at
+image creation** to keep the systemd package untouched (not rebuilt) by
+updateing the variable $REPRODUCIBLE_TIMESTAMP_ROOTFS.
+
+That variable is suffixed by _ROOTFS; and I guess that variable **SHOULD
+NOT** be used by package recipes.
+
+The rootfs_systemd_timestamp() is based on rootfs_update_timestamp(); it
+touches the file and it leaves the file empty.
+
+Also, to decrease the systemd-specific thing, I wonder if this is
+acceptable:
+
+	rootfs_update_timestamp () {
+	        if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
+	                # Convert UTC into %4Y%2m%2d%2H%2M%2S
+	                sformatted=3D`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS}=
+ +%4Y%2m%2d%2H%2M%2S`
+	        else
+	                sformatted=3D`date -u +%4Y%2m%2d%2H%2M%2S`
+	        fi
+	        echo $sformatted > ${IMAGE_ROOTFS}/etc/timestamp
+	        bbnote "rootfs_update_timestamp: set /etc/timestamp to $sformatted=
+"
+	+
+	+       if [ -x /lib/systemd/systemd ]; then
+	+           if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
+	+                   # Convert UTC into %4Y%2m%2d%2H%2M.%2S
+	+                   sformatted=3D`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROO=
+TFS} +%4Y%2m%2d%2H%2M.%2S`
+	+           else
+	+                   sformatted=3D`date -u +%4Y%2m%2d%2H%2M.%2S`
+	+           fi
+	+           touch -m -t "$sformatted" ${IMAGE_ROOTFS}/usr/lib/clock-epoch
+	+           bbnote "rootfs_systemd_timestamp: set /usr/lib/clock-epoch mti=
+me to $sformatted"
+	+       }
+	}
+
+Or, linking the file instead:
+
+	rootfs_update_timestamp () {
+	        if [ "${REPRODUCIBLE_TIMESTAMP_ROOTFS}" !=3D "" ]; then
+	                # Convert UTC into %4Y%2m%2d%2H%2M%2S
+	                sformatted=3D`date -u -d @${REPRODUCIBLE_TIMESTAMP_ROOTFS}=
+ +%4Y%2m%2d%2H%2M%2S`
+	        else
+	                sformatted=3D`date -u +%4Y%2m%2d%2H%2M%2S`
+	        fi
+	        echo $sformatted > ${IMAGE_ROOTFS}/etc/timestamp
+	        bbnote "rootfs_update_timestamp: set /etc/timestamp to $sformatted=
+"
+	+
+	+       if [ -x /lib/systemd/systemd ]; then
+	+           ln -sf /etc/timestamp /usr/lib/clock-epoch
+	+       }
+	}
+
+Does it look better for you?
+
+> Alex
+>
+
+Regards,
+Ga=C3=ABl
 
