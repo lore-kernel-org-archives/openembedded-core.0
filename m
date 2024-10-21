@@ -1,220 +1,221 @@
-Return-Path: <Jinfeng.Wang.CN@windriver.com>
+Return-Path: <thakur.virendra1810@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5DA37D3C92F
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 03:10:25 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.37846.1729480221302776826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B22B5D0E6C3
+	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 07:43:56 +0000 (UTC)
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+ by mx.groups.io with SMTP id smtpd.web11.40673.1729496629190653863
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Oct 2024 20:10:21 -0700
+ Mon, 21 Oct 2024 00:43:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=00243e7021=jinfeng.wang.cn@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49L34Zio004868
-	for <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 20:10:21 -0700
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42c823scme-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 20:10:20 -0700 (PDT)
-Received: from m0250810.ppops.net (m0250810.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49L3AKwt012950
-	for <openembedded-core@lists.openembedded.org>; Sun, 20 Oct 2024 20:10:20 -0700
-Received: from nam02-sn1-obe.outbound.protection.outlook.com (mail-sn1nam02lp2047.outbound.protection.outlook.com [104.47.57.47])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42c823scmc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Sun, 20 Oct 2024 20:10:20 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Wsr1DJP/Gd2CreCDvzVgNA0NAIFMCYHeBEnv8gtf52JWqpfcGGhSmNbJpM/w6zWf+SNECM3r1WfJP4TDWlI+0KSHBbAoB3nwgQiKG0MwjvJZgqUV8SBecAws68kdGSKSzIJOHiYx4kyx8fUpj4pY+0BNWE5Hy5XJ30B6orax2Jp47DyeUd7KcNTbNnIcIv52jSpU0QmSdkF+dljgAAGGZ1vQR02fbF86VADPWQJzECBwA9E1DQEbQ8hvfRZSx51TyIuKGtAbGjHLlAextRwm4IcKlNSufukUBm3PzH2d9EVT8qIGDDvMd9SuRgyr7RtdO6SCH4pYU8k4V0KGHv2iew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=COImYF2++HhiACCrr5iv4Mk29UJKr2t79+lwCpgoV7g=;
- b=CZ9vWkac1WZhf/29hgofI6sn67AuPF5Rh2OodVvYmCyndSTFVafo9kGNbgQxMuSq2WDgb5WcHKYfAm03zIUIOo9TqcqKFiUG6Le/0I7juk49oVmNimUodJyaHRP6VQ89hm5/7MMhh2MIBWWtUQC+6oeBlqbVoq34PwyCSZrL06N9pAI4OR7AUj10KmTIWja8e8zsADfkKHAdEPkNj+xo0md4LegWqCKLc5zDGkXGi6gVgGBnS7oF4o9Hn4yM+fGWUcqxjyNdg7IoWy0o4X4z9wQRYN+h/ol7COsPnZhP0YcoaJzP8xV+i5BrRjwh6odxqYyyob5QZBSE7NyaX/45Gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM4PR11MB5533.namprd11.prod.outlook.com (2603:10b6:5:38a::7) by
- CH3PR11MB8383.namprd11.prod.outlook.com (2603:10b6:610:171::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8048.18; Mon, 21 Oct 2024 03:10:15 +0000
-Received: from DM4PR11MB5533.namprd11.prod.outlook.com
- ([fe80::8ce3:74f6:33ca:3dfd]) by DM4PR11MB5533.namprd11.prod.outlook.com
- ([fe80::8ce3:74f6:33ca:3dfd%6]) with mapi id 15.20.8069.027; Mon, 21 Oct 2024
- 03:10:15 +0000
-Message-ID: <2081c6c5-42c0-4a7f-8926-8ed054adf772@windriver.com>
-Date: Mon, 21 Oct 2024 11:10:09 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [oe-core][PATCH] tzdata&tzcode-native: upgrade 2024a -> 2024b
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=OaLsCnuH;
+ spf=pass (domain: gmail.com, ip: 209.85.214.178, mailfrom: thakur.virendra1810@gmail.com)
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-20ca388d242so28074665ad.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 00:43:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729496628; x=1730101428; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=W8zr7WDGjnjPfngm14favcv+QISJ3d91VsMdlk14L7E=;
+        b=OaLsCnuHSMCBE18lMb3/HjN7xCbKFakG6rcz/2V1LpWQquV/9RPDzEn3qbvuCPMCgH
+         4tLyHvjcw1Z+qL8sqdbvDXqYI/ewV62eJJGDLDNOgFHj9E+Qn7QKeTEKNSz72MzaDkZ5
+         97xNAtAiKtbwmiB3+Vx12YTxqNEsf+8Xwf2ZvZJUBtcc4edq9bLaUgv/nXc2kxmMmcl0
+         fotN/DPi/ig+LcXY9sgoJXbMD9+zdxpsEarqXjr8jhgb3y0lvbQImK/WlH3mLYxn633Y
+         fABSG5krQ5QmVJt5rkRfWwqS/OjOd+91O5/Ep8DrPja4qRSfCl8hn5Z7mxuFpPbs6Fnk
+         9Wog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729496628; x=1730101428;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W8zr7WDGjnjPfngm14favcv+QISJ3d91VsMdlk14L7E=;
+        b=QPyNUHTDx0jh87KVxQ+xbyiQvGjZIkRJlldh4usahyQ16M9gtTt6YIVysVcYJbaLsG
+         7OqV6jjtUuaXa+BhcNlUGdPdRsZ/5NPPSOqhRYwLpv9T9iMtrz2SoFkdbXdYlj6L9S0A
+         PPXHUsvS1qNUSr7uEXPWLraZXYplpKl+ybOJqZTk3bYW7IF4gjgH2lolViAnzRWBm5Xl
+         fXpmLEuWjuAqqIy/0svxjKyFbtwTRlAxPe1uh9DZ2oxbZCU2jkZVEcB8Hscg1qpOuee0
+         PhyPqDLHIusUABU05aUwAVnt9vDnL5sqoBgvQUlM/qXDosl8g7uW5yIe/WPfImImo8tE
+         tvGg==
+X-Gm-Message-State: AOJu0Yy5r8hHc1aCjDG4U/cNRdJn32z2vf3RQZPXznzk3OCUPkxWpuCv
+	O1Y1LIzgScf6F91SMEojCdUkxv4zg4tiCGy13k5zoo29kRcsIZK1ealZ8w==
+X-Google-Smtp-Source: AGHT+IHBBdrDnVxBz983HYMqhfv3Ms9KIvN1mzpZeGXp6RnweIr9/RGT2ZhnmLmW8KOP46jD4LjB0Q==
+X-Received: by 2002:a17:902:da91:b0:20c:7be3:2832 with SMTP id d9443c01a7336-20e5a8ef950mr148624205ad.31.1729496627690;
+        Mon, 21 Oct 2024 00:43:47 -0700 (PDT)
+Received: from LL-3020L.kpit.com ([2401:4900:1c43:33e1:a5ea:686e:ea6f:f68a])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7ef0bd97sm20101715ad.92.2024.10.21.00.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 00:43:47 -0700 (PDT)
+From: Virendra Thakur <thakur.virendra1810@gmail.com>
 To: openembedded-core@lists.openembedded.org,
-        mathieu.dubois-briand@bootlin.com
-References: <20241016084538.3146229-1-jinfeng.wang.cn@windriver.com>
- <ZxESzm1S7pE5c1Xp@bootlin-mathieu>
-Content-Language: en-US
-From: "Wang, Jinfeng (CN)" <jinfeng.wang.cn@windriver.com>
-In-Reply-To: <ZxESzm1S7pE5c1Xp@bootlin-mathieu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TYAPR01CA0106.jpnprd01.prod.outlook.com
- (2603:1096:404:2a::22) To DM4PR11MB5533.namprd11.prod.outlook.com
- (2603:10b6:5:38a::7)
+	wangmy@fujitsu.com
+Cc: Virendra Thakur <virendrak@kpit.com>
+Subject: [kirkstone][PATCH] libyaml: Add libyaml ptest
+Date: Mon, 21 Oct 2024 13:12:10 +0530
+Message-Id: <20241021074210.751082-1-thakur.virendra1810@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB5533:EE_|CH3PR11MB8383:EE_
-X-MS-Office365-Filtering-Correlation-Id: 66e3be7a-5e36-42a9-d1d0-08dcf17de24d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?V2twM2JhTXpPR1NoZGJnYm4wTDBmZGg4VDlZNVRlUTJ3QmNsK2pWa2hYSWlS?=
- =?utf-8?B?SkllM3NlK1kxYUIvcVVNdTlUeXJrQjJDRWJFRVNFWVJzOU9tRHFoOHVjaDdr?=
- =?utf-8?B?eDhERmN3MzhiTkFvYTRDMkR6OENUcGJIR25aSHl6RWdxb3RMdkdpdjEwaTZ5?=
- =?utf-8?B?QU5qV3F4VnRuSWNUTnpGOHVrTzFQRWppa1Y2SS9YWFF2ZG81UFN2VnZlWXZP?=
- =?utf-8?B?Sy9sUXFpZUgvTlNiUW55MzQ5TWpCc1A0c2RaU0RGVkM3akhKa00wRHBKZy9u?=
- =?utf-8?B?OU8xSURRaEZCU1ovblp5TlI2V200QkJSeXBHZVZJa2VBZVo5Z2tQRW1vby9H?=
- =?utf-8?B?RUpweVhsUEZxTUFYZ2Mya2hLQjhsSzhzK2VvZ0hvQzFyOWZzaTdycXM1djR4?=
- =?utf-8?B?Z0ZaNXNkTDBFVEc0cWR2SC9DQ2hyMUdweVNaWjFBbGp2ZThwbER5bk5meTBL?=
- =?utf-8?B?RFZYV05BMFFjanQzajJ0TGRJUnFCREEvUjREMDM0c1NYUjRSWHlFazR3UTg5?=
- =?utf-8?B?VFpwNWhPRlNkMkZPRHRha1dOcFRldmU0OVpDNVRGSXJYUXJkTElwd01FVVp3?=
- =?utf-8?B?MER3VFBvQWNqSGFCSUZRdDZsK3ZMRXkxbnlCaTlDaHBOMExoZk1RUTl3a09l?=
- =?utf-8?B?MVo2NW5YTnY2dm9aQ0UybE9UYkE3NlBEaGFsNEtSeWU2b1hoWDZUb2dvTEhh?=
- =?utf-8?B?NzRmVnkrM0FxNi9jcE00TE42ZlFjZWs3WVJGL3hrU0pJNUFSazIyYWxSME11?=
- =?utf-8?B?UXlXWXd3cHJhaC80SFNHOGNueXRTWSt5d0dIYWd3N3kwaEc5UXNjR2s1Qy9u?=
- =?utf-8?B?bGV4VUtGeEY0aFNoNDlhZ3kyYXg0MWE3N1FQb3R3aEJwRGNab0Q5b1pQMVZj?=
- =?utf-8?B?Q25qTUxNYjhuMWRYbks5M3pZK2R4QlNFNmxGalhPcUs3cjBvcVNrU3pZMkZB?=
- =?utf-8?B?QlV5L1JQcWt0eVZSOEtEa3QxbzZGV3dCZE9nSlZKK29Ud0pocGV6ZG9QQmIw?=
- =?utf-8?B?alFXWUFPSXEyYnUrZlpOUktOeDlDc1diTlRwcnR0WkRFc3k4K1JIMW9KNUdL?=
- =?utf-8?B?ZlRnZmZSRzAvL2JjbHRZZDFFZzNyNkFEQ25Ld0xUdWx0Z1lGV2p5ZXArQ3JK?=
- =?utf-8?B?S2ZuN0Y4SDdrd213U0ZwNnB1ZDJ0UUxvRzBWNlJMK0JUZWF3c1pOVksxVWVB?=
- =?utf-8?B?ZGx5R1dkeFpHUzFJVjVLVFBxOWM4OVZBUWRBMzg5NDRFN1FmYy8wc3RKaFRP?=
- =?utf-8?B?UUprMFN4RE9lVFR0bE8xTWprNTlOMmdSZ1JZOVdXRDRVTk1NaUlXQ2FlZmt1?=
- =?utf-8?B?T21zYkp4MVhySWxoeFBhdittQnlGcUh1MHFVZStCR29sd213SWdJY2MwZzBo?=
- =?utf-8?B?bEFxamsyaFZRRUNrWkFuRExJU1lkMXFKZjVlazhOU2VTUm1YWXFiN3NvQnZQ?=
- =?utf-8?B?a09pNnBGRzZDS3dxUWtOUEdFOWtWc0VvKzh1M3JGMS9lY1dWUUNSaEIrMUJR?=
- =?utf-8?B?NkphSUJOcTRXcnhmcEwvQ01zZGl0MmplQXJTbkptZ2dxQnE5VUZ4YUI1eHdM?=
- =?utf-8?B?RllYUHV3RjZaNlFTS0lyaVArazJzMXdySzVJVldGTDZ1SFZtRUJXaE42cTJJ?=
- =?utf-8?B?SjVEc1YySlFWR24vVEhuaW1jNXdXUDRJSXlnT1phZU1LeUxuUHcxQjR6NUdZ?=
- =?utf-8?Q?52JbzQAqKx2tfLqQzdFe?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5533.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?d2h4YTlnSk5oWkRYV2k0VHVTSFpJN2VYY1laeWpqVlhvYmR3cjhVTEVPeWFJ?=
- =?utf-8?B?SHhtZGZkWEEyK29RMzRoOURmaEpaK2J2S1I3Uk5hb3dRU284MjNZTlJoenpW?=
- =?utf-8?B?eTFVT1dCQ0hvcDhLZy85aWYzcEZRaStNVEluOXRGZ3dRai8yd1l1Ti9oM3Rw?=
- =?utf-8?B?N3o2STFIbjl2L2J5UThkbThnQTJ2anR6QmIvZ2dST2tlSmwxMlNPTjd1Rllq?=
- =?utf-8?B?S1pxWnJRaGVnNitOekpKZ2hGVWpieVU5cTVkYnptOVIzeEVBZWI4TGlUOFYr?=
- =?utf-8?B?NlQ0aXNFbEM2RkNFSzFmanYvYURiY0JESjhWMGdnSXMxcmhITlpCdmpBYnZ5?=
- =?utf-8?B?MUZJMzhVeXZnSnN4SENqZmJiUktRSHZhdzhXU1B3YTZGdHVtRXNJV0piNFUx?=
- =?utf-8?B?VzNSUktoUC9UaXkra3BRdVUzNnBqOGx6ZlRMYTJFYlVUNDdFV1JJQnQ4WW84?=
- =?utf-8?B?dnB1T0VkRXVXcHViOURYdkphZkZuN2cxNVpsZTVCOFZ0aVFPWTdkZ3J0K1lh?=
- =?utf-8?B?QmQ5YWY3dmRVNGIwWGd2ei96QVRMOUNEdFlYZ0wzMjJ4R25DWU12MDBtWW5Y?=
- =?utf-8?B?TXoyWU9FT0x4dGo1RE4rMmtJNGF6V0luWDVySFZiRS9oS0RpTnY5YWNKUFA0?=
- =?utf-8?B?Qmh3c3Bzd1dpd1N6dDNkVE9SUll0TEM4OGU2VmRQZndITGdEYmtISHVob3ls?=
- =?utf-8?B?a2NlakJQak1yTTVBYlkzTXI5YnZTS0Evb2R5UjJickpkTkZ3RVRncyszOXFk?=
- =?utf-8?B?RXpNNWxSM3JBQ1FBbXBLZFliZGk5MkltMHh6N3pSa3Z6MThvVTc3OFlYMmVt?=
- =?utf-8?B?VUVMUXoxS2NRLzVjMW1ObXppb0dxQ0E0eWs1N2xaOXlTbXhYdVM2UWY3dHNE?=
- =?utf-8?B?aURiYXZIejdKbHBKVjR4aGVLUnM5VitqOXpmbDVtSUhXVFpZbGR3MjJPa2lG?=
- =?utf-8?B?UzdMR2hyQ1FDWVNueG5WRmV4c21UWlVNK2JaMnpSTC8yS3cwRXE1US9vakNy?=
- =?utf-8?B?VzJYdGVObnBUVjZLU2pXYVlVUjJhMXBWRVRZZm5MMDU4aHVJMHZTeTdMR1lU?=
- =?utf-8?B?czRZVHlpWHlkZzN0NkU2R25xMUdrWXRhYkY1c0VpeDNyVlA2VTB1SzZKelFm?=
- =?utf-8?B?L0ZCazVaMzk3WnZCSXJWOXNWRGhqb1JiRjN4YlF3bDhOcnJnS0R6b1JqMEhn?=
- =?utf-8?B?Y0pEN0FaNU15d3d6M1ZuOG4zazBzQTRkUkRMZG1ibGRIOEEwa0E1OFQ3ZzZk?=
- =?utf-8?B?Z1FWQUp5ZFJtbXMyWUZBSGpIeGthcjJRUG8wcWpEa1ppdEtHNlV4aDAwOEwr?=
- =?utf-8?B?NXcwU2FibDNmY3RYTE5OQm1SeWRIVHo0YXhSWk5rTjUxbjBuN2RCTEFIWUFr?=
- =?utf-8?B?OWpLd25YVy80dWsrRm5BOU1nRjlvT1ZvNGtzbHNwUHVoaGFURC9Lam96MUdF?=
- =?utf-8?B?MzBqbWU4TFZyWlpCejB2djF1NHpxVHo3V1o2VWtCOGNRM2tUd2FRemdIL2Mr?=
- =?utf-8?B?Rk5VRG5zSlVEcmEreC96SGRpWENtRldIbi90aG9HN1liWWdJVHZmT3IzVzBo?=
- =?utf-8?B?bVMxZTNVMXhpZE80TmdRemowV3RMMmpoRDRQL2o2eTdOSkEveDJjWlZFTzhn?=
- =?utf-8?B?bzl6UlM3a3RsQTFXZEU2dnNWSmw3WXJlSUdJSWx0RmZQSWo3Qy9LREpsM2J2?=
- =?utf-8?B?dWZ3UGlqcWowRkJ4UUFjSVlJVkZVTVFyaEp0KzJHRmRDWjhTWnVjOXMrSXNo?=
- =?utf-8?B?SFdGYWd1aXdocEQ2SUFreFd6N1R5U1hBc0kvWEo4RUJtRzdVYUhqMGpTU0V3?=
- =?utf-8?B?dkxrY1poZjc2N09wQTMyV3NjZFptZ1lvaWhZSit1SmtaOEZKVkxCNmNLNUx6?=
- =?utf-8?B?NkRvZkNhVVJ1dlJpVkkvUlJxK2duY2lRNElIMVZPYjQxV0ZBeUs0RTVPd3FZ?=
- =?utf-8?B?Q0hVNnExL1M2em1URU1kb3diNmRnWnpUUjdHR2wzVTRrL2hTcHVRY3crZnhT?=
- =?utf-8?B?RjZITEtTdDhNdGgvazZSVTJwVGhsdy9aSUxwSWUyNmc3Q1FLSENiY05TZVlh?=
- =?utf-8?B?ZlhWL0lja1FPYkNoWWJPc3JPakxrbVVKS2JlemlYamNJSXdGS0FKbFFheXFs?=
- =?utf-8?B?VGdPcnRGN2ZkVnJvajFoZ3dyZnFpaGxtSzROWEFxM1BFT2RpQnM5V2VrZ3NG?=
- =?utf-8?B?ZVE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 66e3be7a-5e36-42a9-d1d0-08dcf17de24d
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5533.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Oct 2024 03:10:15.2985
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: i0CwXk69RDoHbNklRA7QoTLO9O+sdVZvs//tbhX0Yh1hVmPgCaZyBHtjTkeeLnfE8H1qZGAA55XhNRg1FV39jIb9z7wWGIJrX0mdyI3QJMs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8383
-X-Authority-Analysis: v=2.4 cv=UrgxNPwB c=1 sm=1 tr=0 ts=6715c61c cx=c_pps a=RoG0BMNHDmmKSZcrvsSD+g==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=DAUX931o1VcA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
- a=iGHA9ds3AAAA:8 a=1NWNoF9oAAAA:8 a=P-IC7800AAAA:8 a=lSmtqWvVsQH4zDC1yv0A:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=97APRTa-CG6DvPMFVxHL:22 a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-ORIG-GUID: DEGsO6VMC-WQaajthxIaguobaxUlg2-V
-X-Proofpoint-GUID: REAQJfJl00bS6fG-HEyVJwTAk5j7-lGj
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-20_23,2024-10-17_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- impostorscore=0 spamscore=0 clxscore=1015 adultscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 suspectscore=0
- phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2410210021
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 03:10:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206095
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 07:43:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206096
 
+From: Virendra Thakur <virendrak@kpit.com>
 
-On 10/17/2024 9:39 PM, Mathieu Dubois-Briand wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> On Wed, Oct 16, 2024 at 04:45:38PM +0800, Wang, Jinfeng (CN) via lists.openembedded.org wrote:
->> From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
->>
->> Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
->> ---
->>   meta/recipes-extended/timezone/timezone.inc | 6 +++---
->>   1 file changed, 3 insertions(+), 3 deletions(-)
-> Hi Jinfeng,
->
-> I tried to apply your patch and got a ptest failure on the autobuilder.
-> It seems to be related to this timezone update.
->
-> AssertionError:
-> Failed ptests:
-> {'glib-2.0': ['glib/gdatetime.test']}
->
-> https://valkyrie.yoctoproject.org/#/builders/73/builds/239/steps/13/logs/stdio
-> https://valkyrie.yoctoproject.org/#/builders/61/builds/240/steps/12/logs/stdio
->
-> Looking at the log, I can see this:
->
-> GLib:ERROR:/usr/src/debug/glib-2.0/2.82.1/glib/tests/gdatetime.c:2960:test_posix_parse:
-> assertion failed (g_time_zone_get_abbreviation (tz, 0) == "PST"): ("LMT"
-> == "PST")
-> not ok /GTimeZone/posix-parse -
-> GLib:ERROR:/usr/src/debug/glib-2.0/2.82.1/glib/tests/gdatetime.c:2960:test_posix_parse:
-> assertion failed (g_time_zone_get_abbreviation (tz, 0) == "PST"): ("LMT"
-> == "PST")
-> Bail out!
-> FAIL: glib/gdatetime.test (Child process killed by signal 6)
->
-> https://valkyrie.yocto.io/pub/non-release/20241016-109/testresults/qemux86-64-ptest/glib-2.0.log
->
-> Can you have a look please ?
+Install libyaml test suite and run it as ptest.
+The run-ptest script iterates through executable
+files copied from the host, runs each on the target.
 
-I'm working on it.
+Signed-off-by: Virendra Thakur <virendrak@kpit.com>
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../libyaml/libyaml/example.yaml              | 45 +++++++++++++++++++
+ .../recipes-support/libyaml/libyaml/run-ptest | 28 ++++++++++++
+ meta/recipes-support/libyaml/libyaml_0.2.5.bb | 25 ++++++++++-
+ 4 files changed, 97 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-support/libyaml/libyaml/example.yaml
+ create mode 100644 meta/recipes-support/libyaml/libyaml/run-ptest
 
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 5c6a30635f..fcd509d6d2 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -42,6 +42,7 @@ PTESTS_FAST = "\
+     libxml-sax-base-perl-ptest \
+     libxml-simple-perl-ptest \
+     libxml2-ptest \
++    libyaml-ptest \
+     lua-ptest \
+     lzo-ptest \
+     m4-ptest \
+diff --git a/meta/recipes-support/libyaml/libyaml/example.yaml b/meta/recipes-support/libyaml/libyaml/example.yaml
+new file mode 100644
+index 0000000000..107b2b1204
+--- /dev/null
++++ b/meta/recipes-support/libyaml/libyaml/example.yaml
+@@ -0,0 +1,45 @@
++# anchors yaml
++base: &base
++    name: Everyone has same name
++
++foo: &foo
++    <<: *base
++    age: 10
++
++bar: &bar
++    <<: *base
++    age: 20
++# global tag example
++%TAG ! tag:clarkevans.com,2002:
++--- !shape
++  # Use the ! handle for presenting
++  # tag:clarkevans.com,2002:circle
++- !circle
++  center: &ORIGIN {x: 73, y: 129}
++  radius: 7
++- !line
++  start: *ORIGIN
++  finish: { x: 89, y: 102 }
++- !label
++  start: *ORIGIN
++  color: 0xFFEEBB
++  text: Pretty vector drawing.
++# array example
++- member
++- member2
++# numbers example
++---
++string: "Hello"
++integer: 123
++float: 12.345
++boolean: No
++# strings example
++message: "YAML & JSON"
++# mapping example
++person:
++    name: "ramesh"
++    surname: "sharma"
++    age:  23
++#json example
++---
++{"key": ["value", 3]}
+diff --git a/meta/recipes-support/libyaml/libyaml/run-ptest b/meta/recipes-support/libyaml/libyaml/run-ptest
+new file mode 100644
+index 0000000000..794b24c6ba
+--- /dev/null
++++ b/meta/recipes-support/libyaml/libyaml/run-ptest
+@@ -0,0 +1,28 @@
++#!/bin/sh
++for testlist in test-version test-reader run-emitter run-dumper run-parser run-scanner run-loader; do
++       case ${testlist} in
++       test-version|test-reader)
++               outputrun=$(./$testlist)
++	       if ! echo ${outputrun}| grep -q "FAILURE"
++               then
++                       echo "PASS: ${testlist}"
++               else
++                       echo "FAIL : ${testlist}"
++                       exit 1
++               fi
++               ;;
++       esac
++       case ${testlist} in
++       run-emitter|run-dumper|run-parser|run-scanner|run-loader)
++	       outputrun=$(./$testlist example.yaml)
++	       echo $outputrun
++	       if ! echo ${outputrun}| grep "FAILURE ([1-50]"
++	       then
++		       echo "PASS: ${testlist}"
++	       else
++		       echo "FAIL : ${testlist}"
++		       exit 1
++	       fi
++               ;;
++       esac
++done
+diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+index 514c60779c..3e8b74e5fa 100644
+--- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
++++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
+@@ -7,13 +7,34 @@ SECTION = "libs/devel"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://License;md5=7bbd28caa69f81f5cd5f48647236663d"
+ 
+-SRC_URI = "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
++SRC_URI = "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz \
++           file://run-ptest \
++           file://example.yaml \
++           "
+ SRC_URI[md5sum] = "bb15429d8fb787e7d3f1c83ae129a999"
+ SRC_URI[sha256sum] = "c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
++SRC_URI[run-ptest.md5sum] = "040b47d9b00d2ddbc707792ff6626243"
++SRC_URI[run-ptest.sha256sum] = "71030494ab116f1c31bf125de9d5fbe2f01aacf4daada36b44202be135a80964"
++SRC_URI[example.yaml.md5sum] = "d7f8a342650b153d219431633b0c383b"
++SRC_URI[example.yaml.sha256sum] = "d7c50b29716fcc7445e181c7d7043d70f8e58096793dc1f351c8e7f41034f813"
+ 
+ S = "${WORKDIR}/yaml-${PV}"
+ 
+-inherit autotools
++inherit autotools ptest
++
++do_compile_ptest() {
++        sed -i "/\$(MAKE) \$(AM_MAKEFLAGS) check-TESTS/d" tests/Makefile
++        oe_runmake check
++}
++
++do_install_ptest() {
++    # install the tests dir
++    cp -rf ${B}/tests/.libs/* ${D}${PTEST_PATH}
++    install -m 755 ${WORKDIR}/example.yaml ${D}${PTEST_PATH}
++
++}
++
++RDEPENDS:${PN}-ptest += "make bash"
+ 
+ DISABLE_STATIC:class-nativesdk = ""
+ DISABLE_STATIC:class-native = ""
+-- 
+2.34.1
 
-Thanks.
-
-Jinfeng
-
->
-> --
-> Mathieu Dubois-briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
 
