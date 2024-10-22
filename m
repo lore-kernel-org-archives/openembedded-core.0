@@ -1,293 +1,231 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D78ECD2C561
-	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 14:45:55 +0000 (UTC)
-Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
- by mx.groups.io with SMTP id smtpd.web11.20075.1729608350422615833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E04C5D2C564
+	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 14:53:35 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.61])
+ by mx.groups.io with SMTP id smtpd.web10.20395.1729608806545962941
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Oct 2024 07:45:50 -0700
+ Tue, 22 Oct 2024 07:53:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=kLwWzhnN;
- spf=pass (domain: baylibre.com, ip: 209.85.161.48, mailfrom: tgamblin@baylibre.com)
-Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5ebc1af8f10so1028469eaf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 07:45:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729608349; x=1730213149; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZjQfF1zOgyjJDyVjENdvVcAjUgDeftZUsAdCoJ/M+HM=;
-        b=kLwWzhnNavEF8qGUs7/fJS6DBplX7+86cCEbYojwDACZMFc1dw/lEiMaCqkwAuzSch
-         lUZJTgehHj833Vg1vOM7UwksXac63cUu4T1ZKpFIuln1Wfv8QC/O9koqFTM7FknQHVuj
-         HnCav0epqpwLp0gWsRQSSoy1I3gycSrjQKegAgBL7L2HV/bj70xqBeeibJ+sYGH4DJUT
-         vUvamo9zt2ZY1A47XAHKgz+D3F80ONMInq0Xzq4d0z3LlvnyE8/6S2Aoac2/FcObdnU4
-         Q/RVQq9lODa0CWxmTK9spbTtJrxB2TpoBKXvqPcvQpQQrKYNQ6jl2pXD5r9tPLsahsJe
-         f1aA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729608349; x=1730213149;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZjQfF1zOgyjJDyVjENdvVcAjUgDeftZUsAdCoJ/M+HM=;
-        b=brT930aphjaC+iqrtCPDcjaDkIFmD9kt54eNRnTyCkuc4fyeFbX01NLVweOqg8mZg3
-         moZdYamQleSWrzfOM+I2cjWQ/uONR5D16kZPYmhxrWrDR8MI/lTj5hlRfBYUCIrjvzz/
-         zrM6OfAFwSaHFNrIFvr2FWAga5ru+MemYIKpnx+UCXY2LzFXXJuRtq6naJ9HYHM2mW4k
-         Rj6gGzMVvPoOiqj/O27oLwMsUVq0cqVvS20FAqo3i/raelLt4t+u+jmAmjhthO2SSMoO
-         Yqz82Do9M398x4q0SahF3vg0QzHZgKlES0XFeLW34OLtMBav1eQjCvuc2Omnzl+JZ8/v
-         SN+w==
-X-Gm-Message-State: AOJu0YyuF5KRRPAQnLmGWQviBmtAoAtcgkm4HPUfEeYxc0HDQWInNu/b
-	LRiuWhfmYNkL+JAL4Z92gpFp+WC2YgwTUBRJo4Hg1vMXaHDtq/pzoUdIWuZrFq7Frmptd2KpXnt
-	n
-X-Google-Smtp-Source: AGHT+IFj6QrwKswrktJAt5zlzeZA9TBYr7W+cfLbDK3Mv6O5bbrHmSp4Feg3oktl7G66wMhTG1F0xA==
-X-Received: by 2002:a05:6358:61ce:b0:1c3:8430:bf1d with SMTP id e5c5f4694b2df-1c39dfc71e0mr683563755d.15.1729608349311;
-        Tue, 22 Oct 2024 07:45:49 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-460d3dae3c3sm30194531cf.87.2024.10.22.07.45.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 07:45:49 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][RESEND][PATCH v2] python3-dtc: upgrade 1.7.0 -> 1.7.1
-Date: Tue, 22 Oct 2024 10:45:48 -0400
-Message-Id: <20241022144548.1041743-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=nACDf61G;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=nACDf61G;
+ spf=pass (domain: arm.com, ip: 40.107.105.61, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=u4XNSreR2XTanfc6tE7F9G0iScdUyyrzEbeZitfyfUDXyY3qi264Jca3jme5kTjMH5O9Pz6T4+MYWT+d8HQ47sChhy9e1luDA9ET3Zvi9gDbD81rwkLKjrWLJhFStbn00nj5m5lHI6lhfeuIH/gKbhvPtA8kcFWLFQmqlFNrmLdSL4CPuIfvqelwSOBZhdEySnoMAkA46WBXEFKbZ9dkGHEIA5c+5eMnC+WoDCR1ntiJWLjQp4YfPHjt/HQICxkbLsAlvld6f9WWcICpGWrmxTJy3ENg+Z1TKwwDXiwA8RUg3Uv7AkbSrqKyWfqWR0tf4pogDyipOCNcC2A+Z6y2yw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZonT+2RmqodWwt4uEiYDFESjqDmDYGlEGU+ThTePGT8=;
+ b=ZoWHNHTX1e+PkTrv0ZSgByq5n5jyRt+GYUyEkvc1xGWJm/zg85TcNxYRjvR5Y0tF8274vxeIoKCCftiE04SG5WtcbfbCC1HJuMK1FteiGeovXbqdeibKhSKH4GoqgsvBIEAwsHUCGe+U9E1Yowf1q+SqCkM8c59MGOkKXI55uI2qQ/hm76m1nR4oJa4AsngLZUtIUPSLpmqRDBVEjlSCuEMnRlUhao6rFwqAPI4v+AX8TXATCTESiCDjYcRhBR9iAs5MtXIN07HYlyS++1J6DnDfY8U39P3OFdzapDn6nWkT23KwR4+7uW9vxzWkKqktfeW13d9+euryqMAFko+GBw==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 63.35.35.123) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=arm.com;
+ dmarc=pass (p=none sp=none pct=100) action=none header.from=arm.com;
+ dkim=pass (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZonT+2RmqodWwt4uEiYDFESjqDmDYGlEGU+ThTePGT8=;
+ b=nACDf61G1o2ayZsCZ0EFmGDQSyQW8lnLb+vJEyQ7582J8gAZd00jUrQX//5jWHbgXBr6ki3nUxTqoBQlZkeW5c81Z/IjFYRciWq6RsBKfKXfMv5iVFYCjS5om5e/XGxAenO+io+xLUXafDxLCw433s0hi2WzkHGGkR90R+Y9p4Q=
+Received: from DU2PR04CA0334.eurprd04.prod.outlook.com (2603:10a6:10:2b4::24)
+ by AS2PR08MB9785.eurprd08.prod.outlook.com (2603:10a6:20b:606::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16; Tue, 22 Oct
+ 2024 14:53:21 +0000
+Received: from DU2PEPF0001E9C3.eurprd03.prod.outlook.com
+ (2603:10a6:10:2b4:cafe::d7) by DU2PR04CA0334.outlook.office365.com
+ (2603:10a6:10:2b4::24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.29 via Frontend
+ Transport; Tue, 22 Oct 2024 14:53:21 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 63.35.35.123)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 63.35.35.123 as permitted sender) receiver=protection.outlook.com;
+ client-ip=63.35.35.123; helo=64aa7808-outbound-1.mta.getcheckrecipient.com;
+ pr=C
+Received: from 64aa7808-outbound-1.mta.getcheckrecipient.com (63.35.35.123) by
+ DU2PEPF0001E9C3.mail.protection.outlook.com (10.167.8.72) with Microsoft SMTP
+ Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.20.8093.14 via
+ Frontend Transport; Tue, 22 Oct 2024 14:53:21 +0000
+Received: ("Tessian outbound de6fe3af73ff:v473"); Tue, 22 Oct 2024 14:53:21 +0000
+X-CheckRecipientChecked: true
+X-CR-MTA-CID: 558b2b3080a915da
+X-TessianGatewayMetadata: 5161VD7jSH2NXL9xCvmprOohKcq851fGnvzOwLV54kTyNj8PneKKsQn6+1mU0jioccBee+maSHmwwx2Wl0iUjcxPk51XXIRmMEM9O/IUPtGZt46iWJcTZj7zc7QLcDQk2tkxf/n/rBIMVGG2+8Aq081S/MNGWCnidGAcPZEgfB0=
+X-CR-MTA-TID: 64aa7808
+Received: from L009a2dd032f0.1
+	by 64aa7808-outbound-1.mta.getcheckrecipient.com id 8E94E1D4-2515-4508-A3E3-8D7B34D29DF6.1;
+	Tue, 22 Oct 2024 14:53:14 +0000
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com
+    by 64aa7808-outbound-1.mta.getcheckrecipient.com with ESMTPS id L009a2dd032f0.1
+    (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384);
+    Tue, 22 Oct 2024 14:53:14 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=oaLNDDiAdeyQ8QLPFiv/jznC7hpMfqO/6SdGEOUUhwYtBGePxJPg9g+LgFEqx/eCwLTv47BZYwjT0Yky0exPxW+ZhEtXyVtizikBkSzRFLs7k3I3zijhyGTnPrvel3SbNKQ8wbigDS43AFaipBWDgHcTv6+ao1oWcelFAf2qlx7+xH0bi9UDkWVSmTOkInLseN3Kx3rJVpDjbRSe/BwKqwKJxU4tHyeRMeo6vGp97romcE7oTotrxQWp2art1RJUetbOZLy/L/9g7mOGOd5Zg8227hxhLC//RWDxS3spvOAWvuObmgwUjlpZ9qLjN5ADM8LFS3D7tEp45hPTAw44aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZonT+2RmqodWwt4uEiYDFESjqDmDYGlEGU+ThTePGT8=;
+ b=OZM3/N0Vrqp0VjiPQ6jUQsHiigfdrQ77cdqsAg+umzHShcd67c/SyeSYcFGsl0JwiLXOSvxcBc9yDn7q/XV39fRcG7lGtAQSu8vyaVf5c+oI2JIrd+snweuhJv1o9kdlMoKRvLA2QsdVtv165gQ/MeoUMERNwN1kGSuTxipMHMLrNbDlhK9UL9lILWtylOiZ3jdncUTd9hwF/Cdzql60AHtnFZ1o6gIQv8YFGkk8E6ernkUy5Shys5bgZqLqZJnYkhcr/5llzTz5jh1veiwJddAphrj7JcwxL3aOq/I8Uyfg8eZs5tj5dnnF0w0Et+f02dzIGIPKQi6SOOGnpFxNTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZonT+2RmqodWwt4uEiYDFESjqDmDYGlEGU+ThTePGT8=;
+ b=nACDf61G1o2ayZsCZ0EFmGDQSyQW8lnLb+vJEyQ7582J8gAZd00jUrQX//5jWHbgXBr6ki3nUxTqoBQlZkeW5c81Z/IjFYRciWq6RsBKfKXfMv5iVFYCjS5om5e/XGxAenO+io+xLUXafDxLCw433s0hi2WzkHGGkR90R+Y9p4Q=
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com (2603:10a6:102:2a3::12)
+ by AS2PR08MB8998.eurprd08.prod.outlook.com (2603:10a6:20b:5fa::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.27; Tue, 22 Oct
+ 2024 14:53:12 +0000
+Received: from PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e]) by PA4PR08MB7411.eurprd08.prod.outlook.com
+ ([fe80::9206:40ba:ef7e:729e%3]) with mapi id 15.20.8069.027; Tue, 22 Oct 2024
+ 14:53:12 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "vince_chang@aspeedtech.com" <vince_chang@aspeedtech.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "jamin_lin@aspeedtech.com"
+	<jamin_lin@aspeedtech.com>, "troy_lee@aspeedtech.com"
+	<troy_lee@aspeedtech.com>
+Subject: Re: [OE-core] [PATCH v1 1/2] wic: add WIC_SECTOR_SIZE variable
+Thread-Topic: [OE-core] [PATCH v1 1/2] wic: add WIC_SECTOR_SIZE variable
+Thread-Index: AQHbIHA9YQ5Ubh+5xEy5lxpcUBfzLrKS402A
+Date: Tue, 22 Oct 2024 14:53:12 +0000
+Message-ID: <8BA4BD78-9830-43B2-B805-70677AB52FC5@arm.com>
+References: <20241017084002.4093919-1-vince_chang@aspeedtech.com>
+ <20241017084002.4093919-2-vince_chang@aspeedtech.com>
+In-Reply-To: <20241017084002.4093919-2-vince_chang@aspeedtech.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3776.700.51.11.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	PA4PR08MB7411:EE_|AS2PR08MB8998:EE_|DU2PEPF0001E9C3:EE_|AS2PR08MB9785:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1b0f1fd-562a-4758-a3b8-08dcf2a945d4
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+X-Microsoft-Antispam-Message-Info-Original: 
+ =?utf-8?B?dk5Vekk4M3gzNG1ta1MyRTExNnE4YlJvTmF3L1hFNjhJc2ZWL3dwelhjQTJX?=
+ =?utf-8?B?ZHFaRnJMSlFvVEJrMytyUzBScEgrZE1GSE51c1YvL2ltK25oNWhhb3VTS2tT?=
+ =?utf-8?B?RnhFKzVsRkhhZE9MeXB1dFdld0FKcXAvd05lMzkyeDdzN1UyeW5uT0dtSFdn?=
+ =?utf-8?B?QXg4U08yTi83bUE2Wld4THZkdURXc3FQVlJ0eEZzQnkvRkcvV1NlRURvMktm?=
+ =?utf-8?B?TUV6TTNnYWgxeWJFZGRLaHNQVmMrMGNrUEtSaXhMWnZpQi9mREJ4QTM5YndX?=
+ =?utf-8?B?dFUwcHZ6YnlxeXQyeFZZY2NmcTI5Z2FiQWxjcE8vZDhyRzQ2TTZCTUFRRWxn?=
+ =?utf-8?B?S3hMZkNGVkNMWjl1aGpUYWFTMEpkdnlzeDlTNE5EL1ZucDZIYkJ3U0JEcFdu?=
+ =?utf-8?B?SW4vcmVKNnJEL2NuamozMElxaURhYWRveFRnMTY3NlFkQk13Um1HeVR5NzU5?=
+ =?utf-8?B?amNFVnQ1djhrdnJNM2NUY2lSUm5JdjFKd2lQYytHcVp1T2ZPdW9jaGk2TDBs?=
+ =?utf-8?B?L0k5YjNLTmpvS2MwdHd4M2RXZ1o1L2hwcHppWS9BejBxc01mWkprVkJIZGYv?=
+ =?utf-8?B?QnNaZTVCS0NKZUhxc3hWZUl1bmlUa2NLcWxGbHRjMWNHRXM0cFFKenJzZXd1?=
+ =?utf-8?B?VkxrZGJDV2prYUhiRjVuV2RyVStMbExsWWx0eHN3aTZqdE9UQy9yOXhPRmhm?=
+ =?utf-8?B?WlY1eXRpV1BPbVlHOEFFbVIreUVncGtYdlJSLzFsTXUycDRTYTF1QnNUbThB?=
+ =?utf-8?B?cVhvRGpQSUhlVnd3dngyOFMvR3prcElRd2ZxVU1HbHBncUYzMUZCUVpJdm1Z?=
+ =?utf-8?B?SmgyM2RTZS9mdU9nMlNqN05KQ1pmU2pPbExnTVl1amVCZU1pNGp2WUYrcFdL?=
+ =?utf-8?B?Y015bU8zaEV2dkp3RkpNeHl0YWFrV1p6UE9ROER0Q0V0Qis4eWNZbHZ6M1du?=
+ =?utf-8?B?aXlhQkRzZ3pPVDZsMWFPQTU2TG1KVjhncFRlMnJqa1oyMng5anppTVhUWlhx?=
+ =?utf-8?B?cGZLYmU5d0dRNkl4TzNOUDJHTXdaQ3hGNWNyUTQ0aUlwTTFNdGZlQTZpSHRT?=
+ =?utf-8?B?NUFDckh0OHJLa2Z4d1dpNWIvWDRLLzBIcDNkVFlsRHBZK0VzUVRpK2syU1hh?=
+ =?utf-8?B?SHArWUFkQThiWnJIUklRcjVEdHpMRkFVMGZXdytTcTlNbitRTXFKL2lNWWp4?=
+ =?utf-8?B?WXVmQlpOeHBLakFTbEk5Nko0UkE5ZGQvOVRsamhjQStkcUQ4eEV6YVlUUEs2?=
+ =?utf-8?B?UGV2TTJ6a1BocHl2TzBVaGplcC9VSEpHZW9lNGZLcXE1MXMzWkxjSFVCRi9u?=
+ =?utf-8?B?eVB6V0hlR1FRNHZRNmpmZm8yL0NFOWhwRTg5MDFoNzBKeFRMenRQRkZhaWtj?=
+ =?utf-8?B?eldFVGxyL25PQzN2dTJIVUg2Vm1JbzF4dTIrTjIraDcraUFpOGo0MmlOODNB?=
+ =?utf-8?B?L0hXdFNSbFRBVTlBN2J6RU1zN0U0OEV4b2Nha2k4YUdzOWo4S3diVjR3WDk5?=
+ =?utf-8?B?OHFmUWZxZHJZck14c0R3d05GeW5RYmhDRk5ST0N6ODJJTzhtcm9WT3JMcG5S?=
+ =?utf-8?B?aXZzM1d1Y0ZiaEtjUTAwTzJBbGtLd212eEZURnQxcUZRd09CU1dQaC8ydE1O?=
+ =?utf-8?B?ZlkwS29GbmE0aVZWOFJIYjhNR0toYk1ON1hXTXJrNGtKVFM0SGpLVFNUUHA5?=
+ =?utf-8?B?YkFaT0xXNFc4SVo1WEJMOTYzS0ZwbkkycFkyaWIzcXdkS0VkS0N3aVJlc2o0?=
+ =?utf-8?B?dkg0cTMvS0ZZdENNbnAxMGJvSWh4YjJuSTRYMUY1R0FqV3VlMVV1ZHdhMGFj?=
+ =?utf-8?Q?cB41s1xFHcZcXiv2AtsQ+V0hGaqvnz55pZPKg=3D?=
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA4PR08MB7411.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B570A769AB62124CA23353CFA4CC129A@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8998
+Original-Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+X-EOPAttributedMessage: 0
+X-MS-Exchange-SkipListedInternetSender: 
+ ip=[2603:10a6:102:2a3::12];domain=PA4PR08MB7411.eurprd08.prod.outlook.com
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DU2PEPF0001E9C3.eurprd03.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	50568cf2-0b74-4e88-7d11-08dcf2a94049
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|82310400026|35042699022|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?U05neWRZN3N0RW5FZGlJTy9ueW53YXdwajRCM3VSWFc4cU1JR01SeG4wMXZP?=
+ =?utf-8?B?THFjUlB2SklkTjgvK081Q2dUcndER0ZrZlBPdWlScktmVE8rOU5HMTQ0TEVx?=
+ =?utf-8?B?bmlta0ViazVnQTNPc01HUnUwd1lUSEwrdU9QU21yS0FnaEl3azdRTDkxTk1R?=
+ =?utf-8?B?d0xHdUtUYnhsT0JWMElXZXhpK1k2Wmo4czJmUGxpYXRuTmoxcTlSY1g3R09N?=
+ =?utf-8?B?MEVjQlBCWlVCd2hMZk9jSnNRUTgrbFNKREljNUthTGxOTEowY09SOE9VV0xp?=
+ =?utf-8?B?Wk01S0pzZXRwRUx6b0ZkVy9WWW9hMUo5a0o3cys0RWNpamQ2V1FiOExzdWx4?=
+ =?utf-8?B?dzFaTTUxTG5kUTFQM2RtK2k2YU5iTDZyQXZ0djRJTDRzV0lEanA0OW9MdWow?=
+ =?utf-8?B?M1FsMnpBWXpJNlBIS3diYTNJWWlaQzJaRnN6Rm1FZE9IS280bXdzVFhLRXRh?=
+ =?utf-8?B?alpwbVJJVzlXTjJVaTVJejFObEhRUDN5dTZUcytWZkdXaEtvR1ZzRFVRMGxH?=
+ =?utf-8?B?Rk16SG5aTVA1eGdxazE4ckwvbFpBT2Mybkdidm84MEJxVlNyNDdrWUw0UElk?=
+ =?utf-8?B?QlVtSWVrUENqK0F0RGlSYkQvRjVsSWJvS2ZnS3pUbll1RE9PTmx0ZStxQ1pa?=
+ =?utf-8?B?MzhmbWxjNFhxS2dNUWU4ZW5wdm1Fd0FaL2RGSTdvOEUzeWVSQU5Id1o0MXgv?=
+ =?utf-8?B?V1BwK1lyUU52RDdYVGdjTUk0cDFHaDhzc2V1bzg1QWFzdStYcjgvRGtHUHhU?=
+ =?utf-8?B?Q25jS0VOa1JLaEFiS0N0bm5Wd0I5V2lUN0xPcHBSR29zQUlqdFF3NTVyWlZ2?=
+ =?utf-8?B?dUJOWFFrNXI3ZWJaY0FvTmxxNjNoZGIwRnplVEVzZXN1aVExMktadks5Qnoy?=
+ =?utf-8?B?TjFVRjJ3WlVhUk9Tckw1UTlLTGxHUkszMmozVk8zbWRJelpUUGpHVm5LcUJo?=
+ =?utf-8?B?dFNzQU9hN3RCQ2d5RnJVTmhoQ2xCcUNwRE5uTVdoOEpjNWlzZUVIMExZbWpP?=
+ =?utf-8?B?Z2o0bmp1S0l5bDJDaS9HSXZlTFZsNjVsSjhxcEMxMENpQ1NOTjQ1ajNXWGVS?=
+ =?utf-8?B?MTZ4TG1DM3hsYmMwbStsdlIybm9yOUFMOUxNRmcyRTJHTXhmN3NHR2V1NWJz?=
+ =?utf-8?B?ZmxlNjdxS2djUDh3WG0zR1NYTWpDdWZoMWdsV0d1czRVSWxPcUxMd3BLaGtW?=
+ =?utf-8?B?bU9WWFJjWlpDd1RHU2tteTBqSUE2c1d4V2NEWjFrMWpLWGx3MXFNTnRoQmhq?=
+ =?utf-8?B?MXhTSHVvTWIzRjFsUDRxOXRuZ2RJM3BDYVdaR3ZtQ21vUytFRGh6MmpPTHRC?=
+ =?utf-8?B?aHRJTWl0UEhTR3IrK20xLzZJYnl0dmtFUTZJNENWN0ovRllraXh2OWpwVlh2?=
+ =?utf-8?B?M1V6SDBlTk1pYXFXcnBXZkJBL0s1WkRDV2lWVFRUWXVKU0JjRStyYWppVTcz?=
+ =?utf-8?B?aW5EcS9tM3Y2bStkb0ZyR1VQcldzZEowUWtEQ1JPcXV5eW04djN3dzVVcTJ1?=
+ =?utf-8?B?Sjc2YmJjMGtIWVVSS2Fsa0RJSE1kaFljWC9EMnEvdU04Q3JLa1dnYk5rbU50?=
+ =?utf-8?B?Z0FIRGNNTFQxTFVSM3pwQW0waDdnRTJ3M1h3OGNPUzByNEtmSXFqTEVaSGRI?=
+ =?utf-8?B?NGkxNmRvSFBTNmc3Y3ZDR1dRUjMxVkFFaWFvb3R1TFZuRFRSRkhZMnlmNkll?=
+ =?utf-8?B?MHRYZ05HVjUvRURJbktHdXoyS1B4Nm5ldHI5RE1sdjBuczJhbS9LSVNGc1hP?=
+ =?utf-8?B?NTl0Zkl1QmNnRjl6aFpFQ21tRUhZNHc1OVd3M09BRzVjVjNjMWtGQ1dmbjg5?=
+ =?utf-8?B?NTVWSkg3N1RYN08wVEVINkgyWlVnT3VwTWdXSXgwRjN6TmRpY0pLZFIwdlhE?=
+ =?utf-8?B?c2hKV1RzVktFaDF6ZUF2V0NBcjFoSHJHRkYvN0pOcVBtbGc9PQ==?=
+X-Forefront-Antispam-Report: 
+	CIP:63.35.35.123;CTRY:IE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:64aa7808-outbound-1.mta.getcheckrecipient.com;PTR:ec2-63-35-35-123.eu-west-1.compute.amazonaws.com;CAT:NONE;SFS:(13230040)(376014)(82310400026)(35042699022)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 14:53:21.4726
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1b0f1fd-562a-4758-a3b8-08dcf2a945d4
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[63.35.35.123];Helo=[64aa7808-outbound-1.mta.getcheckrecipient.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU2PEPF0001E9C3.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB9785
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 14:45:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206156
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 14:53:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206157
 
-Patch '0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch'
-had to be adjusted to apply on the latest version.
-
-Changelog:
-
-99031e3 (tag: v1.7.1, origin/master, origin/main, origin/HEAD, master) Bump version to v1.7.1
-3d5e376 setup: Move setting of srcdir down to the bottom
-e277553 setup: Collect top-level code together
-7e5a889 setup: Move version and full_description into a function
-78b6a85 Tidy up some pylint warnings
-3501d37 Require Python 3
-bcd02b5 fdtoverlay: remove wrong singular article in a comment
-84b056a checks: relax graph checks for overlays
-1df7b04 pylibfdt/Makefile.pylibfdt: use project's flags to compile the extension
-61e88fd libfdt: overlay: Fix phandle overwrite check for new subtrees
-49d3089 meson: fix installation with meson-python
-d54aaf9 pylibfdt: clean up python build directory
-ab86f1e pylibfdt: add VERSION.txt to Python sdist
-7b8a30e pylibfdt: fix Python version
-ff4f17e pylibfdt/Makefile.pylibfdt: fix Python library being rebuild during install
-9e313b1 pylibfdt/meson.build: fix Python library being rebuilt during install
-d598fc3 tests/run_tests.sh: fix Meson library path being dropped
-b98239d tests/meson.build: fix python and yaml tests not running
-c17d76a checks: Check the overall length of "interrupt-map"
-ae26223 libfdt: overlay: Refactor overlay_fixup_phandle
-4dd831a libfdt: tests: Update test case for overlay_bad_fixup
-e6d2942 tests: Remove two_roots and named_root from LIBTREE_TESTS_L and add all dtb filenames generated by dumptrees to TESTS_TREES_L in Makefile.tests
-855c934 tests: fix tests broken under Meson
-4fd3f4f github: enforce testing pylibfdt and yaml support
-9ca7d62 meson: split run-tests by type
-bb51223 meson: fix dependencies of tests
-e819006 meson: fix pylibfdt missing dependency on libfdt
-8221238 pylibfdt: fix get_mem_rsv for newer Python versions
-1fad065 libfdt: overlay: ensure that existing phandles are not overwritten
-b0aacd0 github: add windows/msys CI build
-ae97d97 github: Don't accidentally suppress test errors
-057a7db github: Display meson test logs on failure
-92b5d4e pylibfdt: Remove some apparently deprecated options from setup.py
-417e329 github: Update to newer checkout action
-5e6cefa fix MinGW format attribute
-24f6001 libfdt: Simplify adjustment of values for local fixups
-da39ee0 libfdt: rework shared/static libraries
-a669223 Makefile: do not hardcode the `install` program path
-3fbfdd0 libfdt: fix duplicate meson target
-dcef5f8 tests: use correct pkg-config when cross compiling
-0b8026f meson: allow building from shallow clones
-95c74d7 treesource: Restore string list output when no type markers
-2283dd7 libfdt: fdt_path_offset_namelen: Reject empty path
-79b9e32 libfdt: fdt_get_alias_namelen: Validate aliases
-52157f1 pylibfdt: Support boolean properties
-d774337 dtc: fix missing string in usage_opts_help
-ad8bf9f libfdt: Fix fdt_appendprop_addrrange documentation
-6c5e189 github: add workflow for Meson builds
-a3dc9f0 libfdt: rename libfdt-X.Y.Z.so to libfdt.so.X.Y.Z
-3501994 workflows: build: remove setuptools_scm hack
-cd3e230 pylibfdt: use fallback version in tarballs
-0f58645 move release version into VERSION.txt
-3816595 libfdt: add missing version symbols
-5e98b59 editorconfig: use tab indentation for version.lds
-d030a89 tests: generate dtbs in Meson build directory
-8d8372b tests: fix use of deprecated meson methods
-761114e pylibtfdt: fix use of deprecated meson method
-bf6377a meson: set minimum Meson version to 0.56.0
-4c68e4b libfdt: fix library version to match project version
-bdc5c87 meson: allow disabling tests
-f088e38 Makefile: allow to install libfdt without building executables
-6df5328 Fix use of <ctype.h> functions
-ccf1f62 libfdt: Fix a typo in libfdt.h
-71a8b8e libfdt: meson: Fix linking on macOS linker
-589d8c7 dtc: Add an option to generate __local_fixups__ and __fixups__
-e836466 CI: Add build matrix with multiple Linux distributions
-3b02a94 dtc: Correct invalid dts output with mixed phandles and integers
-d488895 tests: Add additional tests for device graph checks
-ea3b9a1 checks: Fix crash in graph_child_address if 'reg' cell size != 1
-b2b9671 livetree: fix off-by-one in propval_cell_n() bounds check
-ab481e4 Add definition for a GitHub Actions CI job
-c88038c Drop obsolete/broken CI definitions
-0ac8b30 yaml: Depend on libyaml >= 0.2.3
-f1657b2 tests: Add test cases for bad endpoint node and remote-endpoint prop checks
-44bb89c checks: Fix segmentation fault in check_graph_node
-60bcf1c improve documentation for fdt_path_offset()
-a6f997b add fdt_get_symbol() and fdt_get_symbol_namelen() functions
-18f5ec1 use fdt_path_getprop_namelen() in fdt_get_alias_namelen()
-df09327 add fdt_path_getprop_namelen() helper
-129bb4b doc: dt-object-internal: Fix a typo
-390f481 fdtoverlay: Drop a a repeated article
-9f8b382 manual: Fix and improve documentation about -@
-2cdf93a fdtoverlay: Fix usage string to not mention "<type>"
-72fc810 build-sys: add -Wwrite-strings
-083ab26 tests: fix leaks spotted by ASAN
-6f8b28f livetree: fix leak spotted by ASAN
-fd68bb8 Make name_node() xstrdup its name argument
-4718189 Delay xstrdup() of node and property names coming from a flat tree
-0b842c3 Make build_property() xstrdup its name argument
-9cceabe checks: correct I2C 10-bit address check
-0d56145 yamltree.c: fix -Werror=discarded-qualifiers & -Werror=cast-qual
-61fa22b checks: make check.data const
-7a1d72a checks.c: fix check_msg() leak
-ee57999 checks.c: fix heap-buffer-overflow
-44c9b73 tests: fix -Wwrite-strings
-5b60f51 srcpos.c: fix -Wwrite-strings
-32174a6 meson: Fix cell overflow tests when running from meson
-64a907f meson.build: bump version to 1.7.0
-e3cde06 Add -Wsuggest-attribute=format warning, correct warnings thus generated
-4182182 Use #ifdef NO_VALGRIND
-71c19f2 Do not redefine _GNU_SOURCE if already set
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
-Resending after an update to lopper in meta-virt. I'm unable to
-reproduce the issue reported during the previous submission.
-
-v2 adds my signoff to the carried patch, which was adjusted to apply on
-v1.7.1.
-
- ...erlay-make-overlay_get_target-public.patch | 25 +++++++++++--------
- ...hon3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} |  2 +-
- 2 files changed, 15 insertions(+), 12 deletions(-)
- rename meta/recipes-devtools/python/{python3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} (94%)
-
-diff --git a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-index a2df482e3aa..70dd93f7471 100644
---- a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-+++ b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
-@@ -1,4 +1,4 @@
--From 4d4703e0199fb3556c37694e4d951785abca22fd Mon Sep 17 00:00:00 2001
-+From 20b224b8ab1837778dfd0e7171643a5d26675f95 Mon Sep 17 00:00:00 2001
- From: Bruce Ashfield <bruce.ashfield@gmail.com>
- Date: Wed, 19 Jan 2022 12:46:42 -0500
- Subject: [PATCH] Revert "libfdt: overlay: make overlay_get_target() public"
-@@ -7,6 +7,9 @@ This reverts commit 45f3d1a095dd3440578d5c6313eba555a791f3fb.
- 
- Upstream-Status: Inappropriate [embedded specific]
- 
-+Adjust to apply on v1.7.1.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
- ---
-  libfdt/fdt_overlay.c | 29 ++++++++++++++++++++++-------
-  libfdt/libfdt.h      | 18 ------------------
-@@ -14,7 +17,7 @@ Upstream-Status: Inappropriate [embedded specific]
-  3 files changed, 22 insertions(+), 26 deletions(-)
- 
- diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
--index 5c0c398..d217e79 100644
-+index 28b667f..e6e9382 100644
- --- a/libfdt/fdt_overlay.c
- +++ b/libfdt/fdt_overlay.c
- @@ -40,22 +40,37 @@ static uint32_t overlay_get_target_phandle(const void *fdto, int fragment)
-@@ -59,7 +62,7 @@ index 5c0c398..d217e79 100644
-  		if (path)
-  			ret = fdt_path_offset(fdt, path);
-  		else
--@@ -621,7 +636,7 @@ static int overlay_merge(void *fdt, void *fdto)
-+@@ -848,7 +863,7 @@ static int overlay_merge(void *fdt, void *fdto)
-  		if (overlay < 0)
-  			return overlay;
-  
-@@ -68,7 +71,7 @@ index 5c0c398..d217e79 100644
-  		if (target < 0)
-  			return target;
-  
--@@ -764,7 +779,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-+@@ -991,7 +1006,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-  			return -FDT_ERR_BADOVERLAY;
-  
-  		/* get the target of the fragment */
-@@ -77,7 +80,7 @@ index 5c0c398..d217e79 100644
-  		if (ret < 0)
-  			return ret;
-  		target = ret;
--@@ -786,7 +801,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-+@@ -1013,7 +1028,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
-  
-  		if (!target_path) {
-  			/* again in case setprop_placeholder changed it */
-@@ -87,10 +90,10 @@ index 5c0c398..d217e79 100644
-  				return ret;
-  			target = ret;
- diff --git a/libfdt/libfdt.h b/libfdt/libfdt.h
--index a7f432c..7f117e8 100644
-+index 0677fea..c72337b 100644
- --- a/libfdt/libfdt.h
- +++ b/libfdt/libfdt.h
--@@ -2116,24 +2116,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
-+@@ -2184,24 +2184,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
-   */
-  int fdt_overlay_apply(void *fdt, void *fdto);
-  
-@@ -116,7 +119,7 @@ index a7f432c..7f117e8 100644
-  /* Debugging / informational functions                                */
-  /**********************************************************************/
- diff --git a/libfdt/version.lds b/libfdt/version.lds
--index cbce5d4..7ab85f1 100644
-+index 989cd89..ae5f8c6 100644
- --- a/libfdt/version.lds
- +++ b/libfdt/version.lds
- @@ -77,7 +77,6 @@ LIBFDT_1.2 {
-@@ -124,9 +127,9 @@ index cbce5d4..7ab85f1 100644
-  		fdt_setprop_inplace_namelen_partial;
-  		fdt_create_with_flags;
- -		fdt_overlay_target_offset;
-+ 		fdt_get_symbol;
-+ 		fdt_get_symbol_namelen;
-  	local:
-- 		*;
-- };
- -- 
--2.19.1
-+2.39.5
- 
-diff --git a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-dtc_1.7.0.bb
-rename to meta/recipes-devtools/python/python3-dtc_1.7.1.bb
-index 85e48d46942..269095bd8c9 100644
---- a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
-@@ -14,7 +14,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
- LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
- 
--SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
-+SRCREV = "99031e3a4a6e479466ae795790b44727434ca27d"
- 
- S = "${WORKDIR}/git"
- 
--- 
-2.39.5
-
+SGkgVmluY2UsDQoNCj4gT24gMTcgT2N0IDIwMjQsIGF0IDA5OjQwLCBWaW5jZSBDaGFuZyB2aWEg
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8dmluY2VfY2hhbmc9YXNwZWVkdGVjaC5jb21AbGlzdHMu
+b3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+IA0KPiBDdXJyZW50bHkgV0lDIGlzIHVuYWJsZSB0
+byBnZW5lcmF0ZSBpbWFnZXMgdGhhdCByZXF1aXJlcyBhIHNlY3Rvcg0KPiBzaXplIGRpZmZlcmVu
+dCBvZiA1MTIuIEFkZCBXSUNfU0VDVE9SX1NJWkUgdmFyaWFibGUgdG8gaGFuZGxlDQo+IHRoZSBz
+ZWN0b3Igc2l6ZSBvZiA0MDk2IGZvciBVRlMuDQoNCk5pY2UgcGF0Y2gsIHRoYW5rcy4NCg0KVG8g
+ZW5zdXJlIGl0IGRvZXNu4oCZdCByZWdyZXNzIGluIHRoZSBmdXR1cmUsIGNhbiB5b3UgYWxzbyBh
+ZGQgYSBxdWljayB0ZXN0IHRvIG9lLXNlbGZ0ZXN0IHRvIHZlcmlmeSB0aGF0IGlmIHlvdSBidWls
+ZCBhIHNtYWxsIGltYWdlIHdpdGggYSBkaWZmZXJlbnQgc2VjdG9yIHNpemUsIHRoZSBvdXRwdXQg
+YWN0dWFsbHkgaGFzIHVzZWQgdGhhdCBzaXplPw0KDQpUaGFua3MsDQpSb3Nz
 
