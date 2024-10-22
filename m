@@ -2,207 +2,127 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D9C3D17140
-	for <webhook@archiver.kernel.org>; Mon, 21 Oct 2024 21:24:30 +0000 (UTC)
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
- by mx.groups.io with SMTP id smtpd.web10.3843.1729545869192342424
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE157D15D9D
+	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 05:13:22 +0000 (UTC)
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.11603.1729573994793641500
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Oct 2024 14:24:29 -0700
+ Mon, 21 Oct 2024 22:13:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZZ0yzrq8;
- spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5ebc349204cso664511eaf.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 14:24:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kEbaGUJJ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-71f5208217dso9098b3a.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 22:13:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729545868; x=1730150668; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=txoXsbFBvysLjszX6Yn/HAVNHfAuyh9jYcNzSSJtv24=;
-        b=ZZ0yzrq8v47CULgIC3hoW5MwIdcfXkEAGMNcduNMZQFvmb5dL5KilZe8E2x7rC1JKY
-         IIZUJyDC4zv29znYT5asfvgQVDqhKCW5iWHiNfIodaEtf1IV38P4L8ZklTbDszoBDZxQ
-         +zIctF4S6Z+FV/orwWCS3NO31j3HAi/z0unbC4xDoAHcMn3ULwyHPfnKAEItW0+CdioO
-         4+VZBrPja3cOS5pDdo4C3wUdM4ZkMKHnh2pCdz4LrSvdhnVy6VtUaxmLCHx1tMxuodrq
-         jlA7hjopQe6apstDcXZiITcjseBzhiwA+bLgXTDwiVbAGgfujqxkY1DDk7OxJwlH5r5y
-         1URg==
+        d=gmail.com; s=20230601; t=1729573994; x=1730178794; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=279A60gXi8HE/CmZKJfRgCmDiNCYoZzgfndMpytuUNM=;
+        b=kEbaGUJJkWTeQu9xDf0xkT0RdQEtM0JO0TFJuuHf5OwUxxX9r+145jCY2ObXr27RFN
+         q87Fzj6/lQkAnI2vtwrIFnRhvVq5FD713GtgE0XQ/cNy82cead3bol2rzlpZcDgW8+YO
+         lhSrNpl/6bOSfSzk6lCOpkhEmrv+RtZifXsrVJ+G4igKxImm2ZRdY+5vwh20Tv7ux5uK
+         BX9DQywS0xxrjKpo3+Ki0iiKqVcYKPj0plivmfdOLVTMA5Hoo1nxEcEhxSgNna70Ja0f
+         AehmnVfAKialWycdOhZ9vSoF4Cgftnl3L3TMYGJLCNZlvFxLT3yJrr6J3ZGI5+Wm+96f
+         2ArQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729545868; x=1730150668;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=txoXsbFBvysLjszX6Yn/HAVNHfAuyh9jYcNzSSJtv24=;
-        b=KijxuBeNgePKcL7vm5Qu37AwZ3jgeMgUs7JKw1027LrL5kBxtvSLfeQpL5GKmipgje
-         9uSD+ckmv5Q/KHunfEEvfbGnLwj9MAgs8fyPkm6supBr6p5uoJtbEuJraZT0id9KErSt
-         crkrps+WC5WM1Lc/t8GWURtqTJXJJFKYKCbrYWR5EtMwBOsKSl5p41vKB52TyrWNLeN1
-         rosghjPLOwQWKsu9WnYIaB/8qV7PsIKq8RWfVLrebuwA8P05+X/h625RYnPJO97iAUPr
-         6C22jeBIHqwaT9aijTrwHALx8dvD6v5KHqr4he1tJuFKkPAV/nQY4VH8fUkBuwAyw1iY
-         38Cw==
-X-Gm-Message-State: AOJu0YxX6fQv2GJ55lkpBmvgFbhPpvC7mCqpOVgPZ9n3iARkE/ExD3l7
-	YRS4kOwJkJVqS7eVCnMLqYJSTkwY1eZDHCcVoM3olbS9/Zj6N2uRwe9jlIuiHJnoyPS7kqog3tF
-	cQQSvbDzkG3yb2p/FPZ2IhS9v2f8=
-X-Google-Smtp-Source: AGHT+IESOWINTtF/bPGYkGmcrqyNvpR0Y2P/byx36xYGiMX1y+tcBY7E5PJwl9tA2W7m4y82t3MJeXdDAWsh2/szt44=
-X-Received: by 2002:a05:6820:50a:b0:5eb:85ee:2cbd with SMTP id
- 006d021491bc7-5eb8b75e70emr8655551eaf.6.1729545868401; Mon, 21 Oct 2024
- 14:24:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20241019184824.1338594-1-raj.khem@gmail.com> <CANNYZj-Mf9DQKCzA8_e0gagdSP9iAbv_bjtJixtHZFMuxD4MOg@mail.gmail.com>
-In-Reply-To: <CANNYZj-Mf9DQKCzA8_e0gagdSP9iAbv_bjtJixtHZFMuxD4MOg@mail.gmail.com>
+        d=1e100.net; s=20230601; t=1729573994; x=1730178794;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=279A60gXi8HE/CmZKJfRgCmDiNCYoZzgfndMpytuUNM=;
+        b=u2zvsaVDzGzc+dwLQ6waaMUpY7VNKLpejpBBylzAkqPuMRIZsw1Hlz7XnFAjRIZHQ9
+         7/j2WmNnhh85WRi5Zrga7ibLZZzZ59i3p+Fu+EAuAuItz6C26EUjc9hawXwB963by/+j
+         8zwtrdqYFhdc27oXDlOwyJ6q9adQpDdrSz8uqbLobJSXypnOh9zPFbCcu7M3p+tvWUd3
+         Z9aeV2isk8DzuN8gXVjA9cMtTHmBE5+49N56cRi3axzccM2XW79tJP56P+/0lNP6TsXm
+         Bu32Fm3rj9+PUhx6M8sKjugiNKiRVDlm9GsUfjhco8zPSsVHp34F4YvA8NCkgknekkq9
+         94PA==
+X-Gm-Message-State: AOJu0YwrflpCFCTbbjXuCg79ckKNIIz938Fqj6EJ9k6EM+OlnNSXq6NT
+	yxXKdKWa4LbdB2dR+RtWbYn0hRKKsoj8B0oOGtTD3rSPpFnTynbJJw9/zVLz
+X-Google-Smtp-Source: AGHT+IFt7UANaK3dBsfzubHJ8wlje26+A2K50ULeTW+JrwcCRfstoQ7lpjcTProKCpzfQb2REMv+cg==
+X-Received: by 2002:a05:6a20:b22:b0:1d9:3456:b799 with SMTP id adf61e73a8af0-1d93456bec9mr12158101637.46.1729573993905;
+        Mon, 21 Oct 2024 22:13:13 -0700 (PDT)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::2fbb])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-71ec1407eafsm3831095b3a.208.2024.10.21.22.13.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Oct 2024 22:13:13 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 21 Oct 2024 14:24:17 -0700
-Message-ID: <CAMKF1sqSaMczRwi_D0sRcsyA1D2SCAbxKQZ1_9E-KCTDRZCmLQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] python3-packaging: Ignore old glibc tests
- on musl
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000001be20506250347b9"
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 2/3] python3-packaging: Ignore old glibc tests on musl
+Date: Mon, 21 Oct 2024 22:13:09 -0700
+Message-ID: <20241022051310.1846604-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <20241022051310.1846604-1-raj.khem@gmail.com>
+References: <20241022051310.1846604-1-raj.khem@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Oct 2024 21:24:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206134
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 05:13:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206136
 
---0000000000001be20506250347b9
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+These tests expect glibc to be the system C library
+ignore them for musl
 
-On Mon, Oct 21, 2024 at 3:29=E2=80=AFAM Alexander Kanavin <alex.kanavin@gma=
-il.com>
-wrote:
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Use bitbake variable for ignored tests
 
-> Can run-ptest be rewritten to load the list of tests to skip from a
-> file, and then the recipe would add to that file instead? These sed
-> hacks are brittle and barely readable.
+ meta/recipes-devtools/python/python3-packaging/run-ptest    | 3 ---
+ meta/recipes-devtools/python/python3-packaging/run-ptest.in | 2 ++
+ meta/recipes-devtools/python/python3-packaging_24.1.bb      | 6 +++++-
+ 3 files changed, 7 insertions(+), 4 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-packaging/run-ptest
+ create mode 100644 meta/recipes-devtools/python/python3-packaging/run-ptest.in
 
-
-Yeah IIRC there is also some pre existing case of doing so I will look into
-it
-
->
->
-> Alex
->
-> On Sat, 19 Oct 2024 at 20:48, Khem Raj via lists.openembedded.org
-> <raj.khem=3Dgmail.com@lists.openembedded.org> wrote:
-> >
-> > These tests expect glibc to be the system C library
-> > ignore them for musl
-> >
-> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> > ---
-> >  meta/recipes-devtools/python/python3-packaging_24.1.bb | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/meta/recipes-devtools/python/python3-packaging_24.1.bb
-> b/meta/recipes-devtools/python/python3-packaging_24.1.bb
-> > index 20bcd55fbad..f8465d9fdb7 100644
-> > --- a/meta/recipes-devtools/python/python3-packaging_24.1.bb
-> > +++ b/meta/recipes-devtools/python/python3-packaging_24.1.bb
-> > @@ -25,6 +25,10 @@ do_install_ptest() {
-> >      rm -f ${D}${PTEST_PATH}/tests/manylinux/build.sh
-> >  }
-> >
-> > +do_install_ptest:append:libc-musl() {
-> > +    sed -i -e '/^pytest/ s|$| --deselect
-> tests/test_manylinux.py::test_is_manylinux_compatible_old
-> --ignore=3Dtests/test_tags.py|' ${D}${PTEST_PATH}/run-ptest
-> > +}
-> > +
-> >  RDEPENDS:${PN}-ptest =3D "\
-> >      python3-ctypes \
-> >      python3-pretend \
-> >
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#206085):
-> https://lists.openembedded.org/g/openembedded-core/message/206085
-> > Mute This Topic: https://lists.openembedded.org/mt/109104794/1686489
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> >
->
-
---0000000000001be20506250347b9
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
-=3D"gmail_attr">On Mon, Oct 21, 2024 at 3:29=E2=80=AFAM Alexander Kanavin &=
-lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kanavin@gmail.com</a>&gt;=
- wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8=
-ex;border-left:1px #ccc solid;padding-left:1ex">Can run-ptest be rewritten =
-to load the list of tests to skip from a<br>
-file, and then the recipe would add to that file instead? These sed<br>
-hacks are brittle and barely readable.</blockquote><div dir=3D"auto"><br></=
-div><div dir=3D"auto">Yeah IIRC there is also some pre existing case of doi=
-ng so I will look into it=C2=A0</div><blockquote class=3D"gmail_quote" styl=
-e=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-left:1ex" dir=3D"=
-auto"><br>
-<br>
-Alex<br>
-<br>
-On Sat, 19 Oct 2024 at 20:48, Khem Raj via <a href=3D"http://lists.openembe=
-dded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><b=
-r>
-&lt;raj.khem=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" target=
-=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt;<br>
-&gt; These tests expect glibc to be the system C library<br>
-&gt; ignore them for musl<br>
-&gt;<br>
-&gt; Signed-off-by: Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com" targ=
-et=3D"_blank">raj.khem@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/recipes-devtools/python/<a href=3D"http://python3-packaging=
-_24.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-packaging_24.1.bb</a=
-> | 4 ++++<br>
-&gt;=C2=A0 1 file changed, 4 insertions(+)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3-pa=
-ckaging_24.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-packaging_24.=
-1.bb</a> b/meta/recipes-devtools/python/<a href=3D"http://python3-packaging=
-_24.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-packaging_24.1.bb</a=
-><br>
-&gt; index 20bcd55fbad..f8465d9fdb7 100644<br>
-&gt; --- a/meta/recipes-devtools/python/<a href=3D"http://python3-packaging=
-_24.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-packaging_24.1.bb</a=
-><br>
-&gt; +++ b/meta/recipes-devtools/python/<a href=3D"http://python3-packaging=
-_24.1.bb" rel=3D"noreferrer" target=3D"_blank">python3-packaging_24.1.bb</a=
-><br>
-&gt; @@ -25,6 +25,10 @@ do_install_ptest() {<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 rm -f ${D}${PTEST_PATH}/tests/manylinux/build.sh<b=
-r>
-&gt;=C2=A0 }<br>
-&gt;<br>
-&gt; +do_install_ptest:append:libc-musl() {<br>
-&gt; +=C2=A0 =C2=A0 sed -i -e &#39;/^pytest/ s|$| --deselect tests/test_man=
-ylinux.py::test_is_manylinux_compatible_old --ignore=3Dtests/test_tags.py|&=
-#39; ${D}${PTEST_PATH}/run-ptest<br>
-&gt; +}<br>
-&gt; +<br>
-&gt;=C2=A0 RDEPENDS:${PN}-ptest =3D &quot;\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 python3-ctypes \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 python3-pretend \<br>
-&gt;<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#206085): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/206085" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/206085</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10910479=
-4/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/109104794/1686489</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.co=
-m" target=3D"_blank">alex.kanavin@gmail.com</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt;<br>
-</blockquote></div></div>
-
---0000000000001be20506250347b9--
+diff --git a/meta/recipes-devtools/python/python3-packaging/run-ptest b/meta/recipes-devtools/python/python3-packaging/run-ptest
+deleted file mode 100644
+index 8d2017d39ce..00000000000
+--- a/meta/recipes-devtools/python/python3-packaging/run-ptest
++++ /dev/null
+@@ -1,3 +0,0 @@
+-#!/bin/sh
+-
+-pytest --automake
+diff --git a/meta/recipes-devtools/python/python3-packaging/run-ptest.in b/meta/recipes-devtools/python/python3-packaging/run-ptest.in
+new file mode 100644
+index 00000000000..508538463bb
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-packaging/run-ptest.in
+@@ -0,0 +1,2 @@
++#!/bin/sh
++pytest --automake IGNOREDTESTS
+diff --git a/meta/recipes-devtools/python/python3-packaging_24.1.bb b/meta/recipes-devtools/python/python3-packaging_24.1.bb
+index 20bcd55fbad..ac8fa4b73f9 100644
+--- a/meta/recipes-devtools/python/python3-packaging_24.1.bb
++++ b/meta/recipes-devtools/python/python3-packaging_24.1.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=faadaedca9251a90b205c9167578ce91"
+ 
+ SRC_URI[sha256sum] = "026ed72c8ed3fcce5bf8950572258698927fd1dbda10a5e981cdf0ac37f4f002"
+ 
+-SRC_URI += "file://run-ptest"
++SRC_URI += "file://run-ptest.in"
+ 
+ inherit pypi python_flit_core ptest
+ 
+@@ -15,6 +15,9 @@ BBCLASSEXTEND = "native nativesdk"
+ DEPENDS:remove:class-native = "python3-build-native"
+ RDEPENDS:${PN} += "python3-profile"
+ 
++SKIPLIST ?= ""
++SKIPLIST:libc-musl = "--deselect tests/test_manylinux.py::test_is_manylinux_compatible_old --ignore=tests/test_tags.py"
++
+ do_compile:class-native () {
+     python_flit_core_do_manual_build
+ }
+@@ -23,6 +26,7 @@ do_install_ptest() {
+     cp -r ${S}/tests ${D}${PTEST_PATH}/
+     # We don't need this script which is used to build the binaries
+     rm -f ${D}${PTEST_PATH}/tests/manylinux/build.sh
++    sed -e 's|IGNOREDTESTS|${SKIPLIST}|' ${UNPACKDIR}/run-ptest.in > ${D}${PTEST_PATH}/run-ptest
+ }
+ 
+ RDEPENDS:${PN}-ptest = "\
 
