@@ -1,169 +1,293 @@
-Return-Path: <niko.mauno@vaisala.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1337D2C55F
-	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 14:27:15 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.130])
- by mx.groups.io with SMTP id smtpd.web10.19656.1729607229379722801
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D538BD2C561
+	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 14:41:55 +0000 (UTC)
+Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
+ by mx.groups.io with SMTP id smtpd.web11.19969.1729608114415095354
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Oct 2024 07:27:10 -0700
+ Tue, 22 Oct 2024 07:41:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=AthkpWFT;
- spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.105.130, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lm/xF69Co467pU+St26CUKgrZmPObM69POAvUZFWyQkhK1NA612CXNt6c/oKmvGrunqJNkZnzawKFBvqPZlKDMVJ4o7VnbuEBpxqe1F32odub5N/vn7uVxTN2wN8UhdXNJ6IXI/6dY4vMD2mHhvxaXW+1gbok01VxAAwUoghLnwGeBREYHz8KpRElxCAMWWTMDQDhxMTKJ/CVc8FK4rlOeDfn8PuPRFxJOn8ZhPMTvZ0pgnKbgqDCmAdzj9vtLs5UQVYex03pkrqvBA77owofIL+FBYbe664TrwzC6kvPDm+dus8VjpEYoDNjHmLE3ywSUkYAjJX4Q6bQ9lPDPSQVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=dj3bOcRIcwgD19YrDA9wSGGZXfMeCirqDdcNT1IjlB4=;
- b=vlKGCFqfv0HJ5tWHc9XGoazpytrxCncEYBxDW8PNyRi1AhKcjPDRDLxX5YbIDiaGwgsFQZC0OYdNHVqSPzHzVKihTQJHhCvAqPGckJhRGgGNmx8jw1qaWRWQ/iPIScFhAtuXhyYaUh8b8ZmrP/5zSBNxfzHdnizCUMDmacXNje5Fkoc0DmgLLtdPfNjYxNYSSIJK43iTzlWD/YQ+/zKE8xjYl+gTNzz9cltN/acqT7xDvBQZNaeq+/dNyVpFt3lBlOlTLxRXWj15sFS1urAUDosNM15KpE22lhv8jLdtfavIrUuqzAIZdsnYH62D2ai0FYDoVZMSeSGxuPKJ/Vp/Wg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=dj3bOcRIcwgD19YrDA9wSGGZXfMeCirqDdcNT1IjlB4=;
- b=AthkpWFTzgfV4VYElAQg+7Lks4N5acPFG8mHZAOt2kOpIqgR9+Xr7B0EFfclW7EEPml3bHBWScjHZztSMkJ5YIeCb+ddsqqS2kdXDU/lUXz61amLGKvLATAm7CFQRdzcLCLtHXt4+t5FMm1FONMe32kneyLu9TWmqFh0HwUvT0nFZVmwth8yh+UnJ7EkPBa74OmT82GU4S3SO4QZJsU6NzlqTEgGY+0JPYqFKppNZNF8UKhIMK2vs61Zbv6/M1//Ql02NC61DdwB6bE18MWsi9citU8FTEhE5DCoYEImfo8mCPJDF7dMxKRnwxBYmDEXtd4Ll3+oEvCZxPJnYtCqXg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
- by PA1PR06MB9130.eurprd06.prod.outlook.com (2603:10a6:102:467::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Tue, 22 Oct
- 2024 14:27:05 +0000
-Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
- ([fe80::af93:b150:b886:b2bc%6]) with mapi id 15.20.8069.024; Tue, 22 Oct 2024
- 14:27:05 +0000
-From: Niko Mauno <niko.mauno@vaisala.com>
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=SN3EQyhJ;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.172, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7b157c9ad12so267083485a.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 07:41:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729608113; x=1730212913; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZjQfF1zOgyjJDyVjENdvVcAjUgDeftZUsAdCoJ/M+HM=;
+        b=SN3EQyhJJc2QPGNHwRlGpJVlOkeA9tisZLmG18LXcqNEDNvAeT61ZEKZno0lyRLQ/r
+         6elh0HgJNAP7JSsTba1nSN3HqkRm5OEUnGhbAUAHHRZUEcru86zj3H5YNxvptNsp6jXe
+         xJsD0gSSNd5fJ4AWl0pmbP20F6fpbMwU9m41S9vVC0tlqF9rKdickCPw2biruCcp8Kom
+         sFELgfvSzpehNyS5Ao9jq62dxLIy45jh9LqAyzdNlHNpQtkRcLCsypCMjZzZDTV4xzMh
+         S3Ax16MKBUHKuF/NJM62h7YzuFt7Pry3a/dfpRZssZRScDWA3Rtjv44sCml6GQzZBDXJ
+         kFUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729608113; x=1730212913;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZjQfF1zOgyjJDyVjENdvVcAjUgDeftZUsAdCoJ/M+HM=;
+        b=OxNLTdY/tH0zUvhVK699NPCXAYZCYihhfIR/w0Dau/+wHsgWuzk/NC3ulJHphvGhOn
+         cwSKeOSElPP2MIyfGMgTwtcYbx50joTNIgCuIHYLS/gzFrDHSvrBvST6SM3SghHgzC7N
+         vcrJdi1x3T/PO82Iq2FudhRk92xhWLXHK6LVRUt9FcdPnz1zmm7G32kjb0fayH3yJH6I
+         mM5p8uDkHlQ9iJT3j/0ly2iQ7iPqmsn+OBA3xc4MxXsGGcPl507T+SEYLWcyx/L7hyxg
+         SLtDiL6dc/Et6+RMrhtINXWDORcS1q9JP/sZD8pOEcV2sKRqVQsCIBEQahVC7CO7l8rA
+         P6gw==
+X-Gm-Message-State: AOJu0YwyMt7pRHQbxoW5HTJ5ikxp9BEkAPDuMos4QmEIV75J+BeV+7hc
+	U2Jj0seypZostX/ITqKHZLaig2puciCW+qc9W3VYAmEuqlCZQbMCanpAkyekQmBNt2D3sXZARh7
+	E
+X-Google-Smtp-Source: AGHT+IEH7p/UmoCn6C0uk01Fkm14w947P1VshrgY9kXz3ddoQKF6I508+6/V83SzL+ceU8fcAAnMcw==
+X-Received: by 2002:a05:620a:29d3:b0:7ac:9aa5:c5bc with SMTP id af79cd13be357-7b157be334dmr2430126385a.47.1729608113094;
+        Tue, 22 Oct 2024 07:41:53 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b165903a99sm287293685a.0.2024.10.22.07.41.52
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Oct 2024 07:41:52 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-CC: Anuj Mittal <anuj.mittal@intel.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [scarthgap][PATCH] sqlite3: upgrade 3.45.1 -> 3.45.3
-Date: Tue, 22 Oct 2024 14:26:43 +0000
-Message-ID: <20241022142643.1601978-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.39.2
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: GV3PEPF00002BAD.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:144:1:0:6:0:7) To AS4PR06MB8447.eurprd06.prod.outlook.com
- (2603:10a6:20b:4e2::11)
+Subject: [OE-core][RESEND[PATCH v2] python3-dtc: upgrade 1.7.0 -> 1.7.1
+Date: Tue, 22 Oct 2024 10:41:51 -0400
+Message-Id: <20241022144151.1041330-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|PA1PR06MB9130:EE_
-X-MS-Office365-Filtering-Correlation-Id: d39b932c-cba0-4f7f-7111-08dcf2a59a3c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?5xvQeRK2BiWPsWVkL/dN0k0O0kx8fZT7AboWb9J25qyLVzl9gTROUTJzhday?=
- =?us-ascii?Q?aVMzXiLlpBT5q6lgw6S70mKuNv3CndYtn9GxkI+Uvz6lAiAs1MgrPzwXAoss?=
- =?us-ascii?Q?GF6zX1DcmyqT/GelLVpbCdCoYJYA15NuxYFIwrv3G7j045O9RXr4f2iUjkXK?=
- =?us-ascii?Q?KMRtsnN7/7RN56wxsCJP6VAwXlABSh1xR3ruYQClH0bCJswSJAULDqAHVg2X?=
- =?us-ascii?Q?t3/ZZiu82Wqge89K6eQMjSiOOBSza1FuTvkQDxy0uWL7rk+Jk1dpPOMr60xR?=
- =?us-ascii?Q?WMNGP65LrwEN1Abah8OyACFVUDp9v3ZYb/y1t6RVoFQqKupfXuH+bp6WDblg?=
- =?us-ascii?Q?kSSM4vlT3QvfjDmbbHvp8WDQ1NFiDC+MbwdW0bTOYQdmuZeZL4ibnPJUr30S?=
- =?us-ascii?Q?pjCZD4M1uv9hVkdF/ebdCfJoidqm5p1J/6RxOwy1ZzTnS0Yamb092N9bT+nJ?=
- =?us-ascii?Q?mDPznNnTH8xIlouXEayxnqpYpWJyGxNIUIDs0IHT3AImYA4gPblFB4eEWXiN?=
- =?us-ascii?Q?1pf2fNGsIk2c+mXN1FG3sqYrCveL2lcAjNmgHQH22NkvDpJkR+OAUK6V2sEl?=
- =?us-ascii?Q?yRg1LB1n4YFGy4c46VDY3eU1flPjO+uCMILKs9OpL7YYi79IcDlNumMzQPGb?=
- =?us-ascii?Q?MqoICIIkoVdhQIZmWwJMxLO2Uh5v7VyQwDF2hSYnrCVkruyugbpSjWTx4Nnv?=
- =?us-ascii?Q?LFgtxCwpG4dG5xYh5myEDy739Ao0FCdXYUYonQX+Q/IVuLPLrHqp1UWO8iOd?=
- =?us-ascii?Q?Me97Z7JGgvbev2V6p39Jujz4qaW1ennNUfN/8KIP2Pb4cuCwuVGJd4OwtS9d?=
- =?us-ascii?Q?zW54R2OFFTrsI/TQ15HQJXQFc9PcDog0BRX6549+Nc9SwMAnTeQPs8g0cst4?=
- =?us-ascii?Q?261B0iCGizE0ct78KowZqVEIdOhODaCzore5HsJCNG3PBi8vHAdWf8CZMtzg?=
- =?us-ascii?Q?6w/z086tWf54mY9xIxHKjNXQ6USaBfRnBmvVSIbH5Pz4LGrABBdQs3wF0bg9?=
- =?us-ascii?Q?/YRv/aK0FGFPQJYbkLd8/qwrjbtHDq08Zrie++pIotzs+7EV9AvFZJi9PWKN?=
- =?us-ascii?Q?2M/7iMILc/j380IkzRLNzpETTleyYLsn145YCBe1uDsIG+/pO84omTsUbmzB?=
- =?us-ascii?Q?P4a+JsrcaCMPClv6kKQP/p0S0q43Xw11OKn5MTqYM4KVsjJf4RYDGE5hweIx?=
- =?us-ascii?Q?gJnLwjNOixyVBciQ46a0Y+of9xPBC+kmDS7JdHUN6yMPuxGvN9KASjLQwM/D?=
- =?us-ascii?Q?7d9i3Do104Olu+QT7Ytx0ivVeFw7s/inbLKAT7INgXDTiSUtPM3lcwoJAjV6?=
- =?us-ascii?Q?DfFuI2U6MIxM9kp3O0KNuxUQpY3E+5vg05pmlfyJZcqQX29ldX0zclRNGhLN?=
- =?us-ascii?Q?ilcv7xf5PuWtd1W2DX8daYBLi4Ok?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?dWLiuIM8eu0vH41z7D9x1DjNovhXYd3xt5XeS4YZiQQ/UEYOKeHzjWNvd0JI?=
- =?us-ascii?Q?dgGhgRAgEbHtLun5Rx6aWdUHuUKuhpwm91OAudbDVG/t1mDWyhqS4MrpMKLW?=
- =?us-ascii?Q?Q5mN3eAQQykkiv3blhkXWycTstllv/8HS3xN9tDeThZo6ipeLyRrXQDcg68+?=
- =?us-ascii?Q?oP7qYSlBl7tKbWgDVdRLN9p6mFs0kt+0QvfMZTinFa+T5Zd5f31Eu/mQDy1L?=
- =?us-ascii?Q?+mgnNeAkI/YflrZZc/xuVT9rnGR0LIsohHD0zh/4gjH+kfazXNfJAM8R2RtV?=
- =?us-ascii?Q?xert4+DlltIHvdtwCu7PiFXNZPT5uKifmuy6Ihz0jP+x3u53Rn5EZEimX8tZ?=
- =?us-ascii?Q?INwEZnXuJSNlPjJgnZ/MH6Omhwi2ZUXnB2wY0NO6HuyQQ/ZG3Nb/yM+Jgyzg?=
- =?us-ascii?Q?4ENvh53d2K64gyt58jFu4T0qMAxf3spHG6SrsIie36KVhgm9MWxC+VCP6VOF?=
- =?us-ascii?Q?xisFAHLrO2PgRuBxBFMWVIhIA+gXv8BsYdQbhjPUDzLPsaUh5lZVmw7YmYkr?=
- =?us-ascii?Q?9IeN3FByM0IqrhN5GUezaruPbRQmhxTtO/y6WrKm2hB8m7p0TX27/2xzhkBC?=
- =?us-ascii?Q?enhH5+CcRqyaH8vQQFxV/Frns5h/r9wrGHTLg1UuYXTADOkwLGCSqSqPpwII?=
- =?us-ascii?Q?Gk8oZCLK2lJXxqQmkIdz8YLmSuHamW++EAL1SMD54cwB7oveFWNieJkrYgZN?=
- =?us-ascii?Q?heVpBh+ZOq2WeUITHUQUyKsAIIEPrAM9X+BWvmAYd2c9Gh1PV0IyQNjdDKld?=
- =?us-ascii?Q?BiMzN0S7QVeCmhpu/CixzYXF3NCWN5PYDFFv0RDwwjWFqD4ws/AJoCx3p/Qt?=
- =?us-ascii?Q?jZhxWpYsOi2pb4nsA29ZgcdQFf/RFpWS/FTUlNj0IipXRoOfB3u391i9RPh8?=
- =?us-ascii?Q?ahZtgvopBJ8BvXucepggLmQMWgTTnKdljd+IVSAjtQmvZ9MBiqv5uQdoZXRy?=
- =?us-ascii?Q?gXUsvUcUenEiBwOiDvmuSUzNa8Qa2QaXL/k9KimeC4Vq418EhtFdvk4XU8zV?=
- =?us-ascii?Q?jcTmKTxlszUWHq3TiRw1k1bfFmlENaxRvShwgDs9pKBXRLyoYmn/tiC0y5Dv?=
- =?us-ascii?Q?KpZfLLTwn55jEpFoutYwW1PL05y/QunwgoAxrg5A0uTflmwGN/7aii4pA+GY?=
- =?us-ascii?Q?+LxLX23mnTgVX/fyEWW0AN+ENRXqzm81PYx3QaeHn3hAOF9vpVmCmbOS1Y1D?=
- =?us-ascii?Q?hvOQRHMpr7SDi8fccTv+Np+o484idTkgOwJrvv85/PGuPhOkeOoTrMgtfVAN?=
- =?us-ascii?Q?F3q2jFcflzfPfW4Fx+0BAp3j3+n+EZiVwIVKoZbh1UsoLWqHezD0jhAwEpOc?=
- =?us-ascii?Q?+w1sqxcROFvZLfyKC8aezojhXGvaHtBbrjcqOfubDsE5A9RNnSj9YSNSnNeN?=
- =?us-ascii?Q?cJUkCu+4LDKiNA8E+/TU+O5lZr51IXzfzpil8nHa9INH/SQiS0QYg4UibKKL?=
- =?us-ascii?Q?fXLoxH2oYA1IcK87RZFidWe16cNpq7sj0KmOtoRj5YmGZJWL2G6oHF1sEyF/?=
- =?us-ascii?Q?oigniJLZRxoBCqFKi3LNA2f0c3L1pO3GVmt2dYTLhaZCwiOXeEWJnDNj6lRj?=
- =?us-ascii?Q?+r+GcyUIZOBYfe9Oai6Ca2zNMPQOOQ2TSzQ5VlVfKfTKh05V4pIJlEs92K1A?=
- =?us-ascii?Q?Hg=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d39b932c-cba0-4f7f-7111-08dcf2a59a3c
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 14:27:05.2273
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NUqxXQfKhxySnejwSAykqyMKF1ApH4aHUIYRRbTyTe9a91WW+R2cJ1rCNr4+cIUIcSJqwIEyGXmYwVsqE6yh5w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR06MB9130
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 14:27:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206154
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 14:41:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206155
 
-From: Anuj Mittal <anuj.mittal@intel.com>
+Patch '0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch'
+had to be adjusted to apply on the latest version.
 
-(From OE-Core rev: a5c24e05e8397e2e353d2d27d9da98375f6ec036)
+Changelog:
 
-Signed-off-by: Anuj Mittal <anuj.mittal@intel.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+99031e3 (tag: v1.7.1, origin/master, origin/main, origin/HEAD, master) Bump version to v1.7.1
+3d5e376 setup: Move setting of srcdir down to the bottom
+e277553 setup: Collect top-level code together
+7e5a889 setup: Move version and full_description into a function
+78b6a85 Tidy up some pylint warnings
+3501d37 Require Python 3
+bcd02b5 fdtoverlay: remove wrong singular article in a comment
+84b056a checks: relax graph checks for overlays
+1df7b04 pylibfdt/Makefile.pylibfdt: use project's flags to compile the extension
+61e88fd libfdt: overlay: Fix phandle overwrite check for new subtrees
+49d3089 meson: fix installation with meson-python
+d54aaf9 pylibfdt: clean up python build directory
+ab86f1e pylibfdt: add VERSION.txt to Python sdist
+7b8a30e pylibfdt: fix Python version
+ff4f17e pylibfdt/Makefile.pylibfdt: fix Python library being rebuild during install
+9e313b1 pylibfdt/meson.build: fix Python library being rebuilt during install
+d598fc3 tests/run_tests.sh: fix Meson library path being dropped
+b98239d tests/meson.build: fix python and yaml tests not running
+c17d76a checks: Check the overall length of "interrupt-map"
+ae26223 libfdt: overlay: Refactor overlay_fixup_phandle
+4dd831a libfdt: tests: Update test case for overlay_bad_fixup
+e6d2942 tests: Remove two_roots and named_root from LIBTREE_TESTS_L and add all dtb filenames generated by dumptrees to TESTS_TREES_L in Makefile.tests
+855c934 tests: fix tests broken under Meson
+4fd3f4f github: enforce testing pylibfdt and yaml support
+9ca7d62 meson: split run-tests by type
+bb51223 meson: fix dependencies of tests
+e819006 meson: fix pylibfdt missing dependency on libfdt
+8221238 pylibfdt: fix get_mem_rsv for newer Python versions
+1fad065 libfdt: overlay: ensure that existing phandles are not overwritten
+b0aacd0 github: add windows/msys CI build
+ae97d97 github: Don't accidentally suppress test errors
+057a7db github: Display meson test logs on failure
+92b5d4e pylibfdt: Remove some apparently deprecated options from setup.py
+417e329 github: Update to newer checkout action
+5e6cefa fix MinGW format attribute
+24f6001 libfdt: Simplify adjustment of values for local fixups
+da39ee0 libfdt: rework shared/static libraries
+a669223 Makefile: do not hardcode the `install` program path
+3fbfdd0 libfdt: fix duplicate meson target
+dcef5f8 tests: use correct pkg-config when cross compiling
+0b8026f meson: allow building from shallow clones
+95c74d7 treesource: Restore string list output when no type markers
+2283dd7 libfdt: fdt_path_offset_namelen: Reject empty path
+79b9e32 libfdt: fdt_get_alias_namelen: Validate aliases
+52157f1 pylibfdt: Support boolean properties
+d774337 dtc: fix missing string in usage_opts_help
+ad8bf9f libfdt: Fix fdt_appendprop_addrrange documentation
+6c5e189 github: add workflow for Meson builds
+a3dc9f0 libfdt: rename libfdt-X.Y.Z.so to libfdt.so.X.Y.Z
+3501994 workflows: build: remove setuptools_scm hack
+cd3e230 pylibfdt: use fallback version in tarballs
+0f58645 move release version into VERSION.txt
+3816595 libfdt: add missing version symbols
+5e98b59 editorconfig: use tab indentation for version.lds
+d030a89 tests: generate dtbs in Meson build directory
+8d8372b tests: fix use of deprecated meson methods
+761114e pylibtfdt: fix use of deprecated meson method
+bf6377a meson: set minimum Meson version to 0.56.0
+4c68e4b libfdt: fix library version to match project version
+bdc5c87 meson: allow disabling tests
+f088e38 Makefile: allow to install libfdt without building executables
+6df5328 Fix use of <ctype.h> functions
+ccf1f62 libfdt: Fix a typo in libfdt.h
+71a8b8e libfdt: meson: Fix linking on macOS linker
+589d8c7 dtc: Add an option to generate __local_fixups__ and __fixups__
+e836466 CI: Add build matrix with multiple Linux distributions
+3b02a94 dtc: Correct invalid dts output with mixed phandles and integers
+d488895 tests: Add additional tests for device graph checks
+ea3b9a1 checks: Fix crash in graph_child_address if 'reg' cell size != 1
+b2b9671 livetree: fix off-by-one in propval_cell_n() bounds check
+ab481e4 Add definition for a GitHub Actions CI job
+c88038c Drop obsolete/broken CI definitions
+0ac8b30 yaml: Depend on libyaml >= 0.2.3
+f1657b2 tests: Add test cases for bad endpoint node and remote-endpoint prop checks
+44bb89c checks: Fix segmentation fault in check_graph_node
+60bcf1c improve documentation for fdt_path_offset()
+a6f997b add fdt_get_symbol() and fdt_get_symbol_namelen() functions
+18f5ec1 use fdt_path_getprop_namelen() in fdt_get_alias_namelen()
+df09327 add fdt_path_getprop_namelen() helper
+129bb4b doc: dt-object-internal: Fix a typo
+390f481 fdtoverlay: Drop a a repeated article
+9f8b382 manual: Fix and improve documentation about -@
+2cdf93a fdtoverlay: Fix usage string to not mention "<type>"
+72fc810 build-sys: add -Wwrite-strings
+083ab26 tests: fix leaks spotted by ASAN
+6f8b28f livetree: fix leak spotted by ASAN
+fd68bb8 Make name_node() xstrdup its name argument
+4718189 Delay xstrdup() of node and property names coming from a flat tree
+0b842c3 Make build_property() xstrdup its name argument
+9cceabe checks: correct I2C 10-bit address check
+0d56145 yamltree.c: fix -Werror=discarded-qualifiers & -Werror=cast-qual
+61fa22b checks: make check.data const
+7a1d72a checks.c: fix check_msg() leak
+ee57999 checks.c: fix heap-buffer-overflow
+44c9b73 tests: fix -Wwrite-strings
+5b60f51 srcpos.c: fix -Wwrite-strings
+32174a6 meson: Fix cell overflow tests when running from meson
+64a907f meson.build: bump version to 1.7.0
+e3cde06 Add -Wsuggest-attribute=format warning, correct warnings thus generated
+4182182 Use #ifdef NO_VALGRIND
+71c19f2 Do not redefine _GNU_SOURCE if already set
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../sqlite/{sqlite3_3.45.1.bb =3D> sqlite3_3.45.3.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.45.1.bb =3D> sqlite3_3.45.3.=
-bb} (69%)
+Resending after an update to lopper in meta-virt. I'm unable to
+reproduce the issue reported during the previous submission.
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb b/meta/recipes-s=
-upport/sqlite/sqlite3_3.45.3.bb
-similarity index 69%
-rename from meta/recipes-support/sqlite/sqlite3_3.45.1.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-index 50612feb25..03d70bbd38 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-@@ -4,5 +4,5 @@ LICENSE =3D "PD"
- LIC_FILES_CHKSUM =3D "file://sqlite3.h;endline=3D11;md5=3D786d3dc581eff03f=
-4fd9e4a77ed00c66"
-=20
- SRC_URI =3D "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.g=
-z"
--SRC_URI[sha256sum] =3D "cd9c27841b7a5932c9897651e20b86c701dd740556989b01ca=
-596fcfa3d49a0a"
-+SRC_URI[sha256sum] =3D "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270=
-a5ee9a38191531"
-=20
---=20
-2.39.2
+v2 adds my signoff to the carried patch, which was adjusted to apply on
+v1.7.1.
+
+ ...erlay-make-overlay_get_target-public.patch | 25 +++++++++++--------
+ ...hon3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} |  2 +-
+ 2 files changed, 15 insertions(+), 12 deletions(-)
+ rename meta/recipes-devtools/python/{python3-dtc_1.7.0.bb => python3-dtc_1.7.1.bb} (94%)
+
+diff --git a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
+index a2df482e3aa..70dd93f7471 100644
+--- a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
++++ b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
+@@ -1,4 +1,4 @@
+-From 4d4703e0199fb3556c37694e4d951785abca22fd Mon Sep 17 00:00:00 2001
++From 20b224b8ab1837778dfd0e7171643a5d26675f95 Mon Sep 17 00:00:00 2001
+ From: Bruce Ashfield <bruce.ashfield@gmail.com>
+ Date: Wed, 19 Jan 2022 12:46:42 -0500
+ Subject: [PATCH] Revert "libfdt: overlay: make overlay_get_target() public"
+@@ -7,6 +7,9 @@ This reverts commit 45f3d1a095dd3440578d5c6313eba555a791f3fb.
+ 
+ Upstream-Status: Inappropriate [embedded specific]
+ 
++Adjust to apply on v1.7.1.
++
++Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+ ---
+  libfdt/fdt_overlay.c | 29 ++++++++++++++++++++++-------
+  libfdt/libfdt.h      | 18 ------------------
+@@ -14,7 +17,7 @@ Upstream-Status: Inappropriate [embedded specific]
+  3 files changed, 22 insertions(+), 26 deletions(-)
+ 
+ diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
+-index 5c0c398..d217e79 100644
++index 28b667f..e6e9382 100644
+ --- a/libfdt/fdt_overlay.c
+ +++ b/libfdt/fdt_overlay.c
+ @@ -40,22 +40,37 @@ static uint32_t overlay_get_target_phandle(const void *fdto, int fragment)
+@@ -59,7 +62,7 @@ index 5c0c398..d217e79 100644
+  		if (path)
+  			ret = fdt_path_offset(fdt, path);
+  		else
+-@@ -621,7 +636,7 @@ static int overlay_merge(void *fdt, void *fdto)
++@@ -848,7 +863,7 @@ static int overlay_merge(void *fdt, void *fdto)
+  		if (overlay < 0)
+  			return overlay;
+  
+@@ -68,7 +71,7 @@ index 5c0c398..d217e79 100644
+  		if (target < 0)
+  			return target;
+  
+-@@ -764,7 +779,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
++@@ -991,7 +1006,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+  			return -FDT_ERR_BADOVERLAY;
+  
+  		/* get the target of the fragment */
+@@ -77,7 +80,7 @@ index 5c0c398..d217e79 100644
+  		if (ret < 0)
+  			return ret;
+  		target = ret;
+-@@ -786,7 +801,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
++@@ -1013,7 +1028,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+  
+  		if (!target_path) {
+  			/* again in case setprop_placeholder changed it */
+@@ -87,10 +90,10 @@ index 5c0c398..d217e79 100644
+  				return ret;
+  			target = ret;
+ diff --git a/libfdt/libfdt.h b/libfdt/libfdt.h
+-index a7f432c..7f117e8 100644
++index 0677fea..c72337b 100644
+ --- a/libfdt/libfdt.h
+ +++ b/libfdt/libfdt.h
+-@@ -2116,24 +2116,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
++@@ -2184,24 +2184,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
+   */
+  int fdt_overlay_apply(void *fdt, void *fdto);
+  
+@@ -116,7 +119,7 @@ index a7f432c..7f117e8 100644
+  /* Debugging / informational functions                                */
+  /**********************************************************************/
+ diff --git a/libfdt/version.lds b/libfdt/version.lds
+-index cbce5d4..7ab85f1 100644
++index 989cd89..ae5f8c6 100644
+ --- a/libfdt/version.lds
+ +++ b/libfdt/version.lds
+ @@ -77,7 +77,6 @@ LIBFDT_1.2 {
+@@ -124,9 +127,9 @@ index cbce5d4..7ab85f1 100644
+  		fdt_setprop_inplace_namelen_partial;
+  		fdt_create_with_flags;
+ -		fdt_overlay_target_offset;
++ 		fdt_get_symbol;
++ 		fdt_get_symbol_namelen;
+  	local:
+- 		*;
+- };
+ -- 
+-2.19.1
++2.39.5
+ 
+diff --git a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-dtc_1.7.0.bb
+rename to meta/recipes-devtools/python/python3-dtc_1.7.1.bb
+index 85e48d46942..269095bd8c9 100644
+--- a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb
++++ b/meta/recipes-devtools/python/python3-dtc_1.7.1.bb
+@@ -14,7 +14,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ 
+ LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
+ 
+-SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
++SRCREV = "99031e3a4a6e479466ae795790b44727434ca27d"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.39.5
 
 
