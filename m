@@ -2,72 +2,70 @@ Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E641CDD0E1
-	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 20:17:32 +0000 (UTC)
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.web11.3887.1729628248155550744
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F24DCDD0EA
+	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 20:29:42 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web11.4142.1729628977307688731
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Oct 2024 13:17:28 -0700
+ Tue, 22 Oct 2024 13:29:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=U/dEVCJB;
- spf=pass (domain: baylibre.com, ip: 209.85.160.176, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-460e6d331d6so15302111cf.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 13:17:28 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=zPXevBw8;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.42, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6cbf2fc28feso39211156d6.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 13:29:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729628247; x=1730233047; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hRV8HFmEm0uq2ABo0TBelYUNvce46jX65hTdq0hmtWM=;
-        b=U/dEVCJBae4OGbVfcSJuuZ6kcn79SlAH7QKGSl6K9u23hkqWEBm/+hHmLg27IIs4Ye
-         Yb3PCf0l1Uit8xJkfWSooo3+mINRsd0wZqhjjsNhRJLM2xpn31SDvq42cxKiWMAsgP2f
-         5XEL9BfPpSz584GR7j23gidOXCRE48yxmSLtKRhmawSC6CJ5HciiW3hkft8E9BfJWCeY
-         nnsnMAgppmMCEy+WriATG7nMvNqDNxRzON+v3DsmsGP6SzTmIrBgAeWA0iRMshII/Xhy
-         vC434zh4qpSZkwb22t+BSJDxcHeE9qAsHPdJ5m+v9nwOj8BE0/W9zH5W0jJ02SPGEt1X
-         mR2g==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729628976; x=1730233776; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=a+1BQC8ARtN3/8u1UWnbhSjP+b0mpstQ4i0ArVcy2ro=;
+        b=zPXevBw8vnpV7xzOFCIJ/CybJj7NlFKuALU0jwonmxtcNEqt7VFsr4h8zpPSVKpLSt
+         N0j4ZQwArGqkTU8L1mAmllJu+f5Zj7EL6sA0H9Dm1SDr4o+LRQkyalEc0qtR0BxbjKKK
+         JxNIkrhSHcOywUYh/2Ugz4/LqwdBysTen/VUDd0SQwMA7niqaXhJ03L3yIx8xpPFytOE
+         DXVECUbDZPCF7gaeEMgxC5wGW1eBinwtpD7+VF9nMAl1gH8ousQRM185qXbLcOUdUPrY
+         XXT9U6QgbhatFDmb60CD2DvnzF/eWYRHYipLG5OzV+MpR/tBq13QZ9PXQ33c8FLlubuj
+         qAqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729628247; x=1730233047;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hRV8HFmEm0uq2ABo0TBelYUNvce46jX65hTdq0hmtWM=;
-        b=Ou8Ij0J8CI57moobXbxyJjLH8BMe/wNMpxxlWehw5e1BrlClVnEvhkWdwFA386i8H9
-         pu/pQKZSousShPmb4WVSP7jkDjdMEc321dTfANjTt+1te0FsYKo+pV1y6V7Z8suLEVyE
-         26GpFmByrMyReoCt9YW00yp/zh+i7g4/NxeEAa/hqE+kQj7Iop/tfHyQ0k6n9AxC2c8L
-         A+Vmi7nAgzj68zdxbZ2DAndnokQHOb3XBLfrsPncUexyYmpezsczn638AwxAPG3tDPh9
-         jUFzTQtAAe2o7oXLMFOG/fHDQBuoJ2GlAi/eIyk8XNgh/oUB8T4M8dPCnB6XX3zJYT6M
-         AAcg==
-X-Gm-Message-State: AOJu0YxjTVA48yjb1TYTyGcftistdOoetLJ/R/4wBg1KGTIAuuOEuZhe
-	r7rBmGsdP0AJZccaH9gkB2HTvrohh5R6c6tm6YU48lyufz5QMZ+plgoEysn04OgGRnOVm/27Sks
-	x
-X-Google-Smtp-Source: AGHT+IFbLLJQjIUSINsKFfrTgakqdgN3SFARwevMNJzRKVL6oASZdCdcVmaIJMBgWafoO69dAB56HQ==
-X-Received: by 2002:a05:622a:22a1:b0:460:8993:cab5 with SMTP id d75a77b69052e-461145a6468mr2775431cf.7.1729628246450;
-        Tue, 22 Oct 2024 13:17:26 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729628976; x=1730233776;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a+1BQC8ARtN3/8u1UWnbhSjP+b0mpstQ4i0ArVcy2ro=;
+        b=Y+i88giLVvu7miR742MRq8/SLN6KzEZ2VGxK+5OM740yAYsTZY7zzSN51OMq8gjOH2
+         MfMKdbIfMA7WCKiE/gPnnvBOAsOpvpkgxME1+qPcGzTg0/vOVKuCdiMRRHDirWSxpB6o
+         JQrRf6G0Jp4L+hU42L+lB/i/u2eJIvWWkefyYIkBu+NMW0iTM2Cb1fjqNu3++0bJMZyy
+         lTofP1ohJXWbOWRUVFHF0okAJZ3hYoBo7dVgxP/yHMElk3F+2PY/ZQVUnXWr0MdTNpTj
+         KkOaWbeydw132jl5IYwyA7LjeRZKNhUX9ARu6HPM7FXDW9VSduPF2tuDzmxerXd1Qosn
+         Wk/Q==
+X-Gm-Message-State: AOJu0YxNB1SkcTBGCxue6ZFo7Hl5gLG16n3y3/SRu89sjN8ZyZh24yUt
+	ZH7KL+N8/TCb6y4zI090saS4lIlSxpn2UlHrCJAEhZav/lRw69miiUyCOj529DXM+T4HDNqRQA3
+	N
+X-Google-Smtp-Source: AGHT+IFz43NfrQSWne78UsUBK4/TbA33pX3oePTS4Ay1hJSctf98iM2EPxTpKMp06OvUZqSjR4dv4Q==
+X-Received: by 2002:a05:6214:5712:b0:6cb:d558:6f00 with SMTP id 6a1803df08f44-6ce3429d6e0mr4344266d6.29.1729628975722;
+        Tue, 22 Oct 2024 13:29:35 -0700 (PDT)
 Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-460d3d6db76sm33320421cf.59.2024.10.22.13.17.25
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ce008acd46sm32640766d6.18.2024.10.22.13.29.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 13:17:25 -0700 (PDT)
+        Tue, 22 Oct 2024 13:29:35 -0700 (PDT)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/2] libssh2: upgrade 1.11.0 -> 1.11.1
-Date: Tue, 22 Oct 2024 16:17:24 -0400
-Message-Id: <20241022201724.893111-2-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH v2] libssh2: upgrade 1.11.0 -> 1.11.1
+Date: Tue, 22 Oct 2024 16:29:34 -0400
+Message-Id: <20241022202934.894612-1-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241022201724.893111-1-tgamblin@baylibre.com>
-References: <20241022201724.893111-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 20:17:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206177
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 20:29:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206178
+
+Changelog: https://github.com/libssh2/libssh2/releases/tag/libssh2-1.11.1
 
 Patches '0001-disable-DSA-by-default.patch' and 'CVE-2023-48795.patch'
 were both dropped as they're included in version 1.11.1.
 
-Changelog: https://github.com/libssh2/libssh2/releases/tag/libssh2-1.11.1
+License-Update: Copyright symbols were changed from (C) to lowercase (c)
 
 ptest results:
 
@@ -86,6 +84,8 @@ ptest results:
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
+v2 adds the missing License-Update tag.
+
  .../libssh2/0001-disable-DSA-by-default.patch | 173 -------
  .../libssh2/libssh2/CVE-2023-48795.patch      | 466 ------------------
  .../{libssh2_1.11.0.bb => libssh2_1.11.1.bb}  |   6 +-
