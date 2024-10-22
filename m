@@ -1,220 +1,173 @@
-Return-Path: <thakur.virendra1810@gmail.com>
+Return-Path: <niko.mauno@vaisala.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE4B2D1CDAE
-	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 08:13:43 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.13361.1729584820143438226
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2A97D1CDAE
+	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 08:17:13 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.135])
+ by mx.groups.io with SMTP id smtpd.web11.13385.1729585032565837892
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Oct 2024 01:13:40 -0700
+ Tue, 22 Oct 2024 01:17:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=L34Q0PEC;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: thakur.virendra1810@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cbca51687so53442085ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 01:13:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729584819; x=1730189619; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tDhqXs/7tBHOK8+rM2w6KA4J6cWCAX5enm8kOfDZMYI=;
-        b=L34Q0PECcwwOzahJYfDaCu8wHpy6TdODHFkloSRJyrWwIb/c0/4VByUV/M5CJTnabX
-         xG4FVYvYx8pxm0YxTx7cxS3+wsWh9LN2VDA2VVzVifSEWv2Z0fUoDNYKa6vtrEEYmZ/D
-         gQooPyRFa8FFUC0Y5hyqn1XkXHHTUB9NtvaSI+eGoWHSe6Sy4WdPAKD8GmHs2ZllkTja
-         dGqoneyDdsLgQmMEfbD9oAwR6Hz1uYYJ8mIzVGa+zaA2UPx45LBmn80DRZ4+ZtKPrXbc
-         fbLElXiilqHr3wxMRBBrtec5jY8EBEK7H2AYArwu0xVEzOZT1+WW69mmehWU/QREe1MC
-         umlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729584819; x=1730189619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tDhqXs/7tBHOK8+rM2w6KA4J6cWCAX5enm8kOfDZMYI=;
-        b=ux4k0OjPqDbHkWAtw+BSWli4cfyCuyA3w1kFcfS3huc4z0/uq+ycp4XnCynDJXBcoS
-         sMvD4QELAeDiWI8cYJkhH8WG9Z0+erw2YcWHs/c4devSUF6w6v6RXDWiFkoigf4+KxQr
-         LZhsbXYx13YDpSZ+v3i6fweeM9bWBuuhoC6BlLry0qRraGQn+QK+o5/O1CYd4KjmhTON
-         7OYe3EtBmovAe9qAT/dZJgAGJm/NYVxxmWirh79qaaFa/ImkiHwvgd5KMatH4SWKHdOK
-         +NpXeuKVYYIKASkrcdwvz1SmdnPbBZmARmjvrwxNz/GN5r+G8RoRra0aktQZzz0V8iDR
-         Cu7g==
-X-Gm-Message-State: AOJu0Yy0GhtzBPtH3roSFad6yphetij8d+AGcmzGmPay7AsVQ/Def+qc
-	CYFBUZBB2Njic5xrhnGS+8IxHZ0a79pJP5+vcpjg0MuQwy709YTyVRTdTQ==
-X-Google-Smtp-Source: AGHT+IFoSypmUzQAIhisDtv3I+XUoEtpzYSboGfnZ+r6dyAUFDneLBYpypU7WErQlctMEvKwafYN1A==
-X-Received: by 2002:a17:902:e5c9:b0:20b:a25e:16c5 with SMTP id d9443c01a7336-20e5a93c9edmr149173815ad.53.1729584818479;
-        Tue, 22 Oct 2024 01:13:38 -0700 (PDT)
-Received: from LL-3020L.kpit.com ([2401:4900:1c43:33e1:6992:9095:9d79:53aa])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7ef08d34sm37581515ad.63.2024.10.22.01.13.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 01:13:37 -0700 (PDT)
-From: Virendra Thakur <thakur.virendra1810@gmail.com>
-To: openembedded-core@lists.openembedded.org,
-	wangmy@fujitsu.com
-Subject: [master][PATCH] libyaml: Add libyaml ptest
-Date: Tue, 22 Oct 2024 13:41:40 +0530
-Message-Id: <20241022081140.1464860-1-thakur.virendra1810@gmail.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=ioENaaIL;
+ spf=permerror, err=parse error for token &{10 18 spf3.vaisala.com}: parse error for token &{10 18 _spf-dc57.sapsf.eu}: limit exceeded (domain: vaisala.com, ip: 40.107.21.135, mailfrom: niko.mauno@vaisala.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dIsLBXxaZGRNLA6SixDtQzxJUc3fZK7tr6SShqSSTbDdkFnJWS2Xixvu7Bp7gCj+OKyml4CS0bVLKpCJHhJCiFjCblmamh2+MfxUtVseXo/SWYpkJH1wUal7NI0YlrMWuLM1/OcPw9q3CsWSvVoIYJFKE4SVdx0tlEjVzIo179cNepoO9269VuhEKkM1Dwk74OK0gt6PKS0CV7JoMBelmmn2cuC8J2E1P5tqkglRKyTNSI0tiWtH2b5r9kCASA7mjwVl1BZ3nlKwVKYkiJMxsPP5U5pGRv14D35uBMLYHGBGuEQIuA5akAIMvftPGmSfR1dDKycN9W4eZ0b2aMbDLw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5bv7J4XdI+I2ZTw7v+AMA4vgEHGLZCgSqHuqXLkoOKw=;
+ b=qCEpjWPWAFEjNAiBBg/eZQ+Md7RJcMaiFKj8kzy2Dsg+quV4duVTlCL5zswJqznMr2wBT5YxVAm7nMcMzHENeYFQei/4ZBziHEuflXi3UhBegy/PsP9l7bWjSG2JWW2+Tqrcn9RSOthwkV46uwVV87IN9KaL5JoidttylRI+T6CeeBpvAJoEIWfcFjjBY5wgzNNeXJEhDmciljM+2Y3gMCbZtpw8VxGD9mi2K2xD5GreYxtHvo4rwu+SCTRnrKylMcook2qVWcOHS+i9VM9/HLLh23x89X04AqA8QfC2JgKJsgy0Ha59De42UGd0pYqL/xDg2DK3xrqcWC6milnRyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5bv7J4XdI+I2ZTw7v+AMA4vgEHGLZCgSqHuqXLkoOKw=;
+ b=ioENaaILRmRwxyo5SsZxdlOb5yZDhrZ707c4PwRy8aCEJeGelOxbxNG0vF6Z5ceNk9tlk5+1twLWfrdvyBmbCX1OGuPZD53+TSQPSduFI6aUqwme3ttUKwn3yrNVHWxtC2bAdyTUNd0SVECGTP/1+x/JRzX+SpuC+eeGdkZ8pcUzKJZXMSnG+Q2e2r6bUM3sdqIQL9cc3h2stwIk8xuAqonLhETTsB/oes3Il8lLgeop+o1fMzCJCEx8ghP1O/kACuzLZU75vQJEWaLcklPD7ORxqLQ380axqCp5iqugyhk3ExINXK5Hfv1nYt50vJvtqw7awNH3FToIYLYmZjAv9Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com (2603:10a6:20b:4e2::11)
+ by VI1PR06MB8976.eurprd06.prod.outlook.com (2603:10a6:800:1e2::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8026.22; Tue, 22 Oct
+ 2024 08:17:07 +0000
+Received: from AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc]) by AS4PR06MB8447.eurprd06.prod.outlook.com
+ ([fe80::af93:b150:b886:b2bc%6]) with mapi id 15.20.8069.024; Tue, 22 Oct 2024
+ 08:17:07 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
+To: openembedded-core@lists.openembedded.org
+CC: Niko Mauno <niko.mauno@vaisala.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [styhead][PATCH 2/2] bitbake.conf: Mark VOLATILE_TMP_DIR as obsolete
+Date: Tue, 22 Oct 2024 08:16:55 +0000
+Message-ID: <20241022081655.3970573-2-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20241022081655.3970573-1-niko.mauno@vaisala.com>
+References: <20241022081655.3970573-1-niko.mauno@vaisala.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: GV3P280CA0053.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:9::21) To AS4PR06MB8447.eurprd06.prod.outlook.com
+ (2603:10a6:20b:4e2::11)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR06MB8447:EE_|VI1PR06MB8976:EE_
+X-MS-Office365-Filtering-Correlation-Id: f9eca6a0-d762-4c92-273b-08dcf271eb49
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|52116014|1800799024|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?RywI7b7Qes1RFc0osHlbhO09k1IhtTbGVBHNqeUgQ7BH1J7oIj1chC+HZfCP?=
+ =?us-ascii?Q?SPVP0+Vu7sM7/cE2LnrwUmjXiQKWde/mK34xDo5h3HmvaZy2CY5A7oDoieR+?=
+ =?us-ascii?Q?8Gfl1C/muVKUKf4p16G+7nT5+Y3+kfLN+j1caWEpivW/Iwjabxho+Myj38jg?=
+ =?us-ascii?Q?sH9DEICRZ8Vim45j2w3kuNahs2CSo01s1jbT+wfPc9h6SBqki4IQvC4xg8jv?=
+ =?us-ascii?Q?9WicXfd+0mxYNemjP3rvjV/8Uop1NGgqjS19+DP2QcNqb9ZVrtiYXVT1JhXw?=
+ =?us-ascii?Q?idIQvyvm/Jr8evwYaOIvhcx8MK+dayNi0YJuDMxqvrrH3as632NsJ5X72QEO?=
+ =?us-ascii?Q?MbT0dJsSHxufv+rfbUow6jY4kOwV91VVOkJTireSTgN24f307m7YWIAwzWsK?=
+ =?us-ascii?Q?hp65r+aqM3Jp0vt5X8OLmq5skeRjoOZ6jAUXgSHsvwOp0nVpEOrnPk5cpxgT?=
+ =?us-ascii?Q?QyuIOMsEGk3QSo8A2WJIjhWd76sAih4JmQHaY5mTaxPI9FW5xGd8oto7zdDH?=
+ =?us-ascii?Q?ceyE/5BB+BmXKU4Z6yMEzbXXaKVU/+DwR34mF71L4qAQsrlSmA0xQERnXNcC?=
+ =?us-ascii?Q?zMqrNyexBjkCN6ZcB+GNIxF3dXBQDjEp15sQ56tE4Y4rYz9fs5s6Buhgm/2a?=
+ =?us-ascii?Q?8Foepei1Bmcg/5hwsBVNRD+wABAb6PH+dQL2NGFRTfJ7D9O/yueuW9XPx5Dr?=
+ =?us-ascii?Q?6gXzFWI/XpPBbs5OdFw1fO1hL6l3Qw7BVfqPJFyHAxo8xYj8Ulkisy/9gf6v?=
+ =?us-ascii?Q?Zxy/nRWqtHpk9NRY7Qt2V2EAuQoPyGWSts6q9otexFsNOoD0os35N+VLvJeP?=
+ =?us-ascii?Q?uzmyWS8s011ZQTkqHgCoDHaFOldlH2HDgO74nAQEuoHvnz/MfV33C1Wfm7ER?=
+ =?us-ascii?Q?h1wCwaeKjbNbkmk3WI9A36HWcEGlw4k997MOlaVZuq5P/VO4J3kTQbop3roR?=
+ =?us-ascii?Q?lDIZ9UBrHq5ZQ0ETxYQZYCOQPqq/43Qaujy85e/ES2KpWLFlY4RSYc75hA5B?=
+ =?us-ascii?Q?AwA87bDYP0PcNYpXwESHjAnfgDndxRqHN7HtT7DLL1rXMD8lHdXbkabVPCsl?=
+ =?us-ascii?Q?uJ4acPRSW1/38MvRaBpYwYYPoJB1HX8Q7fh9mBKN2I8kAJZ4xXCRsjySxKdO?=
+ =?us-ascii?Q?Zh5yuxgej9nlYmAYluflc/qTuICnnAq7JxfQv/+bUArLFOEeHwZWsUO4dJnN?=
+ =?us-ascii?Q?Hqk/yjTaujzLxaQYZXNmKPEaDms/SaJEBXFd4UEC4Rh2OUQDCXOvPGihiO45?=
+ =?us-ascii?Q?8ZHyM+o1ebqOVatAHaGv4+RCe3+s4kM45wAUGuVhk1T9SflEKcX1+UJwKq0C?=
+ =?us-ascii?Q?uSiTozmTb2de1MAxEPgem8j1?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR06MB8447.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?YS0qcnsXthgZNjYgvKT50enVh+81d085KcbGwQy7mGnon+N9L4fK3/2l8vqm?=
+ =?us-ascii?Q?wnMqfWSKyJyEh60LWNImkYirNvJVNgEZjAfKv12B+rxOj2zI0vxKMTtQ/tLV?=
+ =?us-ascii?Q?e3VZdUt1Iu918Tx73XczhvtwQ/c2AFgyIGmMGVfl1AjRVQ0eyB5S2wFkl9EO?=
+ =?us-ascii?Q?6dThxLatgHbv5B31xVp9Rk4WqteHzgPR0xNYNcdVr4vhCTa9DL0e9rb7xyZY?=
+ =?us-ascii?Q?kIlQ5vE3VVkApRysEl8RUI0K3gUuk1p0M9ONYxHDupK2c13uW8EfFQkf1LuD?=
+ =?us-ascii?Q?i8S8H8FUHiMtylXP/1v20TqP7k3XqOFHu2j93n/10q/5wCjBB7CNZ+rRe1S/?=
+ =?us-ascii?Q?p5CSo6Bj2bqdm4AR6EXGixaPrIjo4ausw+AeSCiSvqnD96VHf3d58i687eOC?=
+ =?us-ascii?Q?Az/PwtPGq/r7H6+BW+0HKIbryhhido2wS4V3KcIx3A+yNasVWiUthUfg3DOr?=
+ =?us-ascii?Q?a+lUt7NbTLQaHVstMFux6rNVXHnZeFnNlv8XWfs9Sig4zxDRbgeF0ZqfKCWJ?=
+ =?us-ascii?Q?bwOtdYFjk7NnNPT5a6qGcLnpGmgqoReAT/ppyQayOZuIIXW3dSaMcUmHHuCZ?=
+ =?us-ascii?Q?GC/Eo4h8Z67XEiIhsUUFunZ/eIGSqCJXbcUCOmOI39B6BByFSuwPZzQrQFPk?=
+ =?us-ascii?Q?anD+mzE/csQmD3XcpC7dTeRU4qFOIGYTUxntBnTlOoyo/RT6VX9RmtO8sJB4?=
+ =?us-ascii?Q?sLJFYRayWmXNTqf7YNdBGzNH1wEnzMsrVLLSA2r3Wyf3QypuZ3nQ/lqk0qHU?=
+ =?us-ascii?Q?S0KnYfVarx0Zgl7ZTvnSP5IF8W3tV3AeaPenm5jdu4EoYJ87QmFey0CkcBx1?=
+ =?us-ascii?Q?o1jm6ggNbqMdwqjaXiIRnPi7+TT+K+lMavo9Yd7XskYsI5kE+JyqH6lqmTSQ?=
+ =?us-ascii?Q?31I4mDuSCVWEWRmrfncLnqE2CeiZe87xji5+V6CIEVJ7I9soozdDA0QWWjUe?=
+ =?us-ascii?Q?+N2X3Zb058y4XuxJppcjpQVIo+550FTeXpnrbI/eb/2Tt4OKM4MWhYs26arY?=
+ =?us-ascii?Q?Z5sXavL5L4SFci56+Qyde9Ds8uvv8XEidx62ojNMID26PAeqEN1oug8DbdMB?=
+ =?us-ascii?Q?Zmy25GzzT9OYDrByAhCcBS1vi4/XPDNvyn1pfaW9dBtxNy2EpWDFoil/tllc?=
+ =?us-ascii?Q?06/mn5F6fwd0CLtbTAmUAFkvMsWMcyPH0+GP0UFQC8ab14TdIGeOKmg/CNZ9?=
+ =?us-ascii?Q?v9ZJAVxtRGYJufqljdzq93bv7QnWSjWwPaLsY8JJSgArVJVgO8hZ4pf+fhPf?=
+ =?us-ascii?Q?Uai62PhscsR6b1FiBUEhs33/f2AzY6VqunJkQjMFKoInAGqiFvGm+gEtC3bC?=
+ =?us-ascii?Q?aDRLkvQ9WHo6qASo/WuTa+JBm5VQvJ4OrEPpYZTwn5Lq/104rx9U1wNdOo5x?=
+ =?us-ascii?Q?YzbDDJWqpqituthxbg3GtWT8Mw0liFjyfaBY6i7j0OmOj3g/HjDkhH6uC7M4?=
+ =?us-ascii?Q?UQV/VUG2kVPNY12MgyRJdppkQZe4irqqrTW8eEAATYwPdvSphCW4o4CiuCi1?=
+ =?us-ascii?Q?qZIou2b7YchJnQ0z1t9P19CWZTfrEl7aa9zGmLvjRbpm1cn/qPakDAZVbeFG?=
+ =?us-ascii?Q?AfGRKMQ4apuY1kc9J98f7ML10ddwr4VOfu1AE+lX3Kryolm7aBxQNcr3Oaag?=
+ =?us-ascii?Q?mw=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f9eca6a0-d762-4c92-273b-08dcf271eb49
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR06MB8447.eurprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2024 08:17:07.4319
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: f2nmW7LsMBvI+5tux/l2dpoAl6YnXumiaEfAuZWv0FaytKcZxKTUqXWP5kaePfJ7JAOy0Ml1mSUNk/ALE+t/fg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR06MB8976
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 08:13:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206142
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 08:17:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206143
 
-Install libyaml test suite and run it as ptest.
-The run-ptest script iterates through executable
-files copied from the host, runs each on the target.
+This variable was removed in
+https://git.yoctoproject.org/poky/commit/?id=3D2f46b6f27dfa3a9d5ad177900fce=
+cfe64c3536f1
+("bitbake.conf: drop VOLATILE_TMP_DIR, use FILESYSTEM_PERMS_TABLES instead"=
+)
+so ensure that distributions become aware that it no longer has any
+effect.
 
-example.yaml file created by using examples present in libyaml upstream.
-Reference: https://github.com/yaml/libyaml/tree/master/examples
+(From OE-Core rev: ec032dd13a19e4d4a332f06ace87f1f02143c3b2)
 
-Signed-off-by: Virendra Thakur <thakur.virendra1810@gmail.com>
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../libyaml/libyaml/example.yaml              | 45 +++++++++++++++++++
- .../recipes-support/libyaml/libyaml/run-ptest | 28 ++++++++++++
- meta/recipes-support/libyaml/libyaml_0.2.5.bb | 25 ++++++++++-
- 4 files changed, 97 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-support/libyaml/libyaml/example.yaml
- create mode 100644 meta/recipes-support/libyaml/libyaml/run-ptest
+ meta/conf/bitbake.conf | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 4a48188562..cd9fae3e45 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -48,6 +48,7 @@ PTESTS_FAST = "\
-     libxml-simple-perl \
-     libxml2 \
-     libxmlb \
-+    libyaml \
-     logrotate \
-     lua \
-     lzo \
-diff --git a/meta/recipes-support/libyaml/libyaml/example.yaml b/meta/recipes-support/libyaml/libyaml/example.yaml
-new file mode 100644
-index 0000000000..107b2b1204
---- /dev/null
-+++ b/meta/recipes-support/libyaml/libyaml/example.yaml
-@@ -0,0 +1,45 @@
-+# anchors yaml
-+base: &base
-+    name: Everyone has same name
-+
-+foo: &foo
-+    <<: *base
-+    age: 10
-+
-+bar: &bar
-+    <<: *base
-+    age: 20
-+# global tag example
-+%TAG ! tag:clarkevans.com,2002:
-+--- !shape
-+  # Use the ! handle for presenting
-+  # tag:clarkevans.com,2002:circle
-+- !circle
-+  center: &ORIGIN {x: 73, y: 129}
-+  radius: 7
-+- !line
-+  start: *ORIGIN
-+  finish: { x: 89, y: 102 }
-+- !label
-+  start: *ORIGIN
-+  color: 0xFFEEBB
-+  text: Pretty vector drawing.
-+# array example
-+- member
-+- member2
-+# numbers example
-+---
-+string: "Hello"
-+integer: 123
-+float: 12.345
-+boolean: No
-+# strings example
-+message: "YAML & JSON"
-+# mapping example
-+person:
-+    name: "ramesh"
-+    surname: "sharma"
-+    age:  23
-+#json example
-+---
-+{"key": ["value", 3]}
-diff --git a/meta/recipes-support/libyaml/libyaml/run-ptest b/meta/recipes-support/libyaml/libyaml/run-ptest
-new file mode 100644
-index 0000000000..794b24c6ba
---- /dev/null
-+++ b/meta/recipes-support/libyaml/libyaml/run-ptest
-@@ -0,0 +1,28 @@
-+#!/bin/sh
-+for testlist in test-version test-reader run-emitter run-dumper run-parser run-scanner run-loader; do
-+       case ${testlist} in
-+       test-version|test-reader)
-+               outputrun=$(./$testlist)
-+	       if ! echo ${outputrun}| grep -q "FAILURE"
-+               then
-+                       echo "PASS: ${testlist}"
-+               else
-+                       echo "FAIL : ${testlist}"
-+                       exit 1
-+               fi
-+               ;;
-+       esac
-+       case ${testlist} in
-+       run-emitter|run-dumper|run-parser|run-scanner|run-loader)
-+	       outputrun=$(./$testlist example.yaml)
-+	       echo $outputrun
-+	       if ! echo ${outputrun}| grep "FAILURE ([1-50]"
-+	       then
-+		       echo "PASS: ${testlist}"
-+	       else
-+		       echo "FAIL : ${testlist}"
-+		       exit 1
-+	       fi
-+               ;;
-+       esac
-+done
-diff --git a/meta/recipes-support/libyaml/libyaml_0.2.5.bb b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-index aa7fc5e914..7b108b8548 100644
---- a/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-+++ b/meta/recipes-support/libyaml/libyaml_0.2.5.bb
-@@ -7,13 +7,34 @@ SECTION = "libs/devel"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://License;md5=7bbd28caa69f81f5cd5f48647236663d"
- 
--SRC_URI = "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz"
-+SRC_URI = "https://pyyaml.org/download/libyaml/yaml-${PV}.tar.gz \
-+           file://run-ptest \
-+           file://example.yaml \
-+           "
- SRC_URI[md5sum] = "bb15429d8fb787e7d3f1c83ae129a999"
- SRC_URI[sha256sum] = "c642ae9b75fee120b2d96c712538bd2cf283228d2337df2cf2988e3c02678ef4"
-+SRC_URI[run-ptest.md5sum] = "040b47d9b00d2ddbc707792ff6626243"
-+SRC_URI[run-ptest.sha256sum] = "71030494ab116f1c31bf125de9d5fbe2f01aacf4daada36b44202be135a80964"
-+SRC_URI[example.yaml.md5sum] = "d7f8a342650b153d219431633b0c383b"
-+SRC_URI[example.yaml.sha256sum] = "d7c50b29716fcc7445e181c7d7043d70f8e58096793dc1f351c8e7f41034f813"
- 
- S = "${WORKDIR}/yaml-${PV}"
- 
--inherit autotools
-+inherit autotools ptest
-+
-+do_compile_ptest() {
-+        sed -i "/\$(MAKE) \$(AM_MAKEFLAGS) check-TESTS/d" tests/Makefile
-+        oe_runmake check
-+}
-+
-+do_install_ptest() {
-+    # install the tests dir
-+    cp -rf ${B}/tests/.libs/* ${D}${PTEST_PATH}
-+    install -m 755 ${UNPACKDIR}/example.yaml ${D}${PTEST_PATH}
-+
-+}
-+
-+RDEPENDS:${PN}-ptest += "make bash"
- 
- DISABLE_STATIC:class-nativesdk = ""
- DISABLE_STATIC:class-native = ""
--- 
-2.34.1
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 59ac1873e0..1f31b4fcb3 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -107,6 +107,7 @@ BB_RENAMED_VARIABLES[TUNEABI_WHITELIST] =3D "is a depre=
+cated variable and support
+ BB_RENAMED_VARIABLES[LICENSE_FLAGS_WHITELIST] =3D "LICENSE_FLAGS_ACCEPTED"
+ BB_RENAMED_VARIABLES[TCLIBCAPPEND] =3D "is no longer used, modify TMPDIR d=
+irectly if required"
+ BB_RENAMED_VARIABLES[VOLATILE_LOG_DIR] =3D "is obsolete and no longer supp=
+orted"
++BB_RENAMED_VARIABLES[VOLATILE_TMP_DIR] =3D "is obsolete and no longer supp=
+orted"
+=20
+ BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0-only] =3D "INCOMPATIBLE_LICENSE_EXC=
+EPTIONS"
+ BB_RENAMED_VARIABLES[WHITELIST_GPL-3.0-or-later] =3D "INCOMPATIBLE_LICENSE=
+_EXCEPTIONS"
+--=20
+2.39.2
 
 
