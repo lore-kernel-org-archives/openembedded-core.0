@@ -1,115 +1,108 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D145CDD0E1
-	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 19:54:52 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.web11.3421.1729626886604768183
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D3EBCDD0E6
+	for <webhook@archiver.kernel.org>; Tue, 22 Oct 2024 20:17:32 +0000 (UTC)
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+ by mx.groups.io with SMTP id smtpd.web11.3886.1729628247125158917
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Oct 2024 12:54:47 -0700
+ Tue, 22 Oct 2024 13:17:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hoJ1ao9y;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-37d8901cb98so123895f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 12:54:46 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=DiG+OPcY;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.180, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4608e389407so69453161cf.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 13:17:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729626885; x=1730231685; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=YZZI63EU4OihKLYY2nq8kjWM6AeQFWrBpfIv9tAIG6Q=;
-        b=hoJ1ao9yv4v1Zkjdmw/so/ezuvsqPpDp4X40yU8fmwmTXKQ5M22XlYNECYuKsQvywV
-         OszzcMxCeJVGdArfI6WoNbB6y4wU53XBiYOnNW/Xgof8GVH25HF19HuymZeuHHgrB41p
-         82FofxGLUVcAZD70MqLMPFjH3Kwz85/d+abTQ=
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729628245; x=1730233045; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mkIGHtHadNz029cEE+/8t06mIDCGpBaVLUcas0/dWfU=;
+        b=DiG+OPcYlmnDzzoLLvEP6DaW2eR8YEMSCQMEE0XGuAFthsbd+U9lbk8LKB+kg2Iiac
+         sQ4wg6vsAUqbNE77p0wovz0xTcMZDTe87p2SFaHnmvRPPu3g/LrHI0HO3gwAxG2Tv+TJ
+         OlCjCUWJbc4qH3H2Q6iqu9TSJ04+gvDZgmvqbum7kz0PdJo9mIzJOxPJZkngANhzPXQH
+         Kvkr5g3w9PFC59/iVQubJRKBVnhPuENGr81WDtiyMRmpARN+H8Lg0k9nD9NG8tJV5Yhw
+         +3tZALSEGW2mQ/um0NoIZTWRV3k3gDaYs6q/IhxDc19SRQ7uVCzboEqfCuYgTe2x6SmM
+         Bo5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729626885; x=1730231685;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=YZZI63EU4OihKLYY2nq8kjWM6AeQFWrBpfIv9tAIG6Q=;
-        b=WoXORAAesVlASHV/Q5nZmPQNkcwEEcHaJs9HFYgK9Z7syoNyPEtrjqvJZv1qRiN5g9
-         8Rx9g/udc8X1cEFghzkIhzuTLbnLGEljrnZN3d2l9SD4UzWfJphWyaJVDODOrdQv/i/q
-         E1ytI+FMKLM7P7wA5d0hUv31wy5bRetFthGouCM83QXDSKKZ8rbiZTy3NA1vSUV7cXUW
-         u00Gr8Nh9fAQQ0QZsEt1QeYBr/wSrcJddVouXUTbxiStZ1C9ojElBDWreiDYI7swRjcL
-         ETeYeko4LgwgoGYQOr/cOiDoWzAmXwneLavx+eGhf/F/NlvuHh+7BCbMj1TNiwzx9zJT
-         m+EQ==
-X-Gm-Message-State: AOJu0Yw7zydnUzAn7Eh3HUSig8ym+Y0UNxMa7xO043qwnXcUDgdpYYB/
-	WIo3fw/8s1q6GfKX1OLqx4N6KEjcN/Qv3T1Q5D/oIlmsHzsFyeUP9+tojowOvtE=
-X-Google-Smtp-Source: AGHT+IFSqjQ+mQc0XD9L1sdLJ/wKDGJGcvXp5+QvsBPGKwg4yGwi94CuO94xZFNfiOZvfYknIoFJVg==
-X-Received: by 2002:a5d:5708:0:b0:374:c33d:377d with SMTP id ffacd0b85a97d-37ef15075b3mr2643358f8f.28.1729626884814;
-        Tue, 22 Oct 2024 12:54:44 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:f3ec:315d:2907:a25f? ([2001:8b0:aba:5f3c:f3ec:315d:2907:a25f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a37b41sm7310839f8f.5.2024.10.22.12.54.44
+        d=1e100.net; s=20230601; t=1729628245; x=1730233045;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=mkIGHtHadNz029cEE+/8t06mIDCGpBaVLUcas0/dWfU=;
+        b=qconMBBdAu8ftejNcO91rRT/WBacIrVP+fUWyWwKtLWsqDtfNN3GzkvWNhR2NwEed9
+         NQBg8u7u3Zprj2Y1xlr5SCV0rHGuGal88EMMmJ1SV38ZPJGDk3AtvwuaDduNuoZe7m88
+         RQDFUjej8AfF+xao0gt9hu19gRuajlit+S8MhSx9u2B+sUy8rC4TWutf2iC4/kCErsmZ
+         7N64suVTDND3h+mTjUMsNrT4mi1fVoMvsqJJQgABs6XZ5Jsx53JWhRXwA8uSkb03DzKS
+         zXIGdzkS4h5T4m9EtnqmdvEjO7syPGhbv1mPu2ot/d7uEW85pCM1qi4M5O2VD6L6hW2K
+         DUFg==
+X-Gm-Message-State: AOJu0YzZEu4BqAexdya7BONAvf/ZBttpxgAKfcKoE+ZlM8ooydQ1zDAN
+	BIegYDnBjGJ0sJ/QrvvqhHth9ylCWVn7Iw2hW9FD0E0EprgXZFNGXVisjOE7wYgcl/33QI9Akfk
+	s
+X-Google-Smtp-Source: AGHT+IGJuHx/uh4tHl4nDQXfLZag8K9UfvEr6Dd0QRRDIK3e4yC+oH7+PHMRnNS/l2Z8r6bBejt0Iw==
+X-Received: by 2002:a05:622a:1e15:b0:460:a82a:39a8 with SMTP id d75a77b69052e-461145b7447mr2768411cf.13.1729628245522;
+        Tue, 22 Oct 2024 13:17:25 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-460d3d6db76sm33320421cf.59.2024.10.22.13.17.25
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Oct 2024 12:54:44 -0700 (PDT)
-Message-ID: <1f3e21110ad79efab2bb46a4ef779355a9ae7458.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v9 00/11] systemd uki support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, Ross Burton <Ross.Burton@arm.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Tue, 22 Oct 2024 20:54:42 +0100
-In-Reply-To: <Zxf-KtENbXFeTMTp@nuoska>
-References: <20241017084552.182136-1-mikko.rapeli@linaro.org>
-	 <BAB907B5-CB67-4320-BDBC-37098336FBFC@arm.com> <Zxf-KtENbXFeTMTp@nuoska>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        Tue, 22 Oct 2024 13:17:25 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 1/2] libgit2: upgrade 1.8.1 -> 1.8.2
+Date: Tue, 22 Oct 2024 16:17:23 -0400
+Message-Id: <20241022201724.893111-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 19:54:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206175
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Oct 2024 20:17:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206176
 
-On Tue, 2024-10-22 at 22:34 +0300, Mikko Rapeli via lists.openembedded.org =
-wrote:
-> Hi,
->=20
-> On Tue, Oct 22, 2024 at 10:26:52AM +0000, Ross Burton wrote:
-> > On 17 Oct 2024, at 09:45, Mikko Rapeli via lists.openembedded.org <mikk=
-o.rapeli=3Dlinaro.org@lists.openembedded.org> wrote:
-> > > v9: Fixed unrelated ext4 rawcopy wic test on genericarm64. Enabled ne=
-w aarch64 target
-> > > =C2=A0=C2=A0 wic test on x86_64 build host only since boot with qemu =
-is currently
-> > > =C2=A0=C2=A0 failing on aarch64 build host.
-> >=20
-> > Sorry, but I don=E2=80=99t think disabling tests based on the build mac=
-hine is the right thing to do here.
->=20
-> Well I'm running out of options to try.
->=20
-> > My gut reaction is that there is another test that is running with kvm =
-enabled, thus breaking uboot.=C2=A0 I=E2=80=99ll do a build on my own machi=
-ne shortly and see if I can replicate.
->=20
-> IMO this is a generic problem. The selftest code is not fully in control =
-of
-> the bitbake build config, including runqemu. Snippets get enabled here an=
-d
-> there. Difficult to know what the effective config in CI is. This also no=
-t visible
-> in the AB build logs, or at least I could not find it.
->=20
-> Thanks for helping, I hope you can reproduce this.
+Changelog (https://github.com/libgit2/libgit2/releases/tag/v1.8.2):
 
-Ross asked for a failing build log, there is one here:
+- This release reverts a const-correctness change introduced in
+v1.8.0 for the git_commit_create functions. We now retain the
+const-behavior for the commits arguments from prior to v1.8.0.
 
-https://valkyrie.yoctoproject.org/#/builders/23/builds/306/steps/14/logs/st=
-dio
+This change was meant to resolve compatibility issues with bindings
+and downstream users.
 
-and the config for this is clearly visible here in the step before it:
+What's Changed
 
-https://valkyrie.yoctoproject.org/#/builders/23/builds/306/steps/13/logs/st=
-dio
+New features
+- Introduce a stricter debugging allocator for testing by ethomson in #6811
 
-There isn't anything more being set or any other magic, that is the
-config and it runs an oe-selftest command (the one at the top of the
-first link above).
+Bug fixes
+- Fix constness issue introduced in #6716 by ethomson in #6829
 
-Cheers,
+Build and CI improvements
+- README: add experimental builds to ci table by ethomson in #6816
 
-Richard
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ .../libgit2/{libgit2_1.8.1.bb => libgit2_1.8.2.bb}              | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libgit2/{libgit2_1.8.1.bb => libgit2_1.8.2.bb} (91%)
+
+diff --git a/meta/recipes-support/libgit2/libgit2_1.8.1.bb b/meta/recipes-support/libgit2/libgit2_1.8.2.bb
+similarity index 91%
+rename from meta/recipes-support/libgit2/libgit2_1.8.1.bb
+rename to meta/recipes-support/libgit2/libgit2_1.8.2.bb
+index 618a4ea6ea2..b0f13a26d3c 100644
+--- a/meta/recipes-support/libgit2/libgit2_1.8.1.bb
++++ b/meta/recipes-support/libgit2/libgit2_1.8.2.bb
+@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=8eacfdc17c8f4d219e131a073973b97d"
+ DEPENDS = "curl openssl zlib libssh2 libgcrypt libpcre2"
+ 
+ SRC_URI = "git://github.com/libgit2/libgit2.git;branch=main;protocol=https"
+-SRCREV = "36f7e21ad757a3dacc58cf7944329da6bc1d6e96"
++SRCREV = "4ce872a0fd5f40fc4282befd9b72e9ddebd22d02"
+ 
+ S = "${WORKDIR}/git"
+ 
+-- 
+2.39.5
+
 
