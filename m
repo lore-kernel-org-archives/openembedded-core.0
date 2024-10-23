@@ -1,99 +1,109 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25D9CDDE70
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 11:35:50 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.6529.1729683344039860361
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E99FECDDE71
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 11:51:20 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.web11.6994.1729684276597249204
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 04:35:44 -0700
+ Wed, 23 Oct 2024 04:51:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=A/iyz6qR;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=THUa8Ylt;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 01010192b92946d6-a9b0ca36-afca-4c8f-9c2d-1397e45dddb8-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1729683343; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=jhotGzmxvb41Ufnr4ySVvxCB2WhoQh3w87Ll+qpQ+vs=;
-	b=A/iyz6qROC9E8EWAe9GiQFHUXZYPh6Ierwwymq2DTv3ruwqckPapUsOptnU/mIHT
-	1Omq7hdoV4gVVkFw5Rnv+OdML289wz5bU6nJaBLVScceqTalfr/lQDYN98jczw7Xxlf
-	7wn7vy8+IHPtp3U3lWLQDTczelKL8PXGTMGyhGz0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1729683343;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=jhotGzmxvb41Ufnr4ySVvxCB2WhoQh3w87Ll+qpQ+vs=;
-	b=THUa8YltlmHlxqDrR4Q1tQ9S7gHCXBf9z4gwSRiSyRrDkuehLX2SC3XiF5YJ9r48
-	B6vfDF6D+DdYXk+GmPZvSivIhesqHqAImGUa5BvEyDY3o4iFvgGZgh0qxGCKRQpjmdw
-	usxcwnoQgqhq+KFxhldp82NVJFq44wlYdFEhWKV8=
-From: patchtest@automation.yoctoproject.org
-To: Ming Liu <liu.ming50@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core] [PATCH 2/2] meta: support tar.zst SDK_ARCHIVE_TYPE
-In-Reply-To: <20241023111121.3437045-2-liu.ming50@gmail.com>
-References: <20241023111121.3437045-2-liu.ming50@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010192b92946d6-a9b0ca36-afca-4c8f-9c2d-1397e45dddb8-000000@us-west-2.amazonses.com>
-Date: Wed, 23 Oct 2024 11:35:43 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.23-54.240.27.30
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BMpFyHAI;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4315baec681so69918075e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 04:51:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1729684275; x=1730289075; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SorZNFC8wXXb0JhW6IHH3RaOUeeAkhvazdzrQIWQLfw=;
+        b=BMpFyHAIDHbMTEFLFWz5psQZXDzqoUF5eIry+3T5Cme1wPMqzxC3lYGBPyGPPKClya
+         caWyb3vKFR7WCWULj7En8+wiRw5Wt5e8KTWYLGJI1EMjV4ljBfvPZpIwVOGOvyg6yABF
+         hBDSnwMWn+YsglRg131YF9C+PaDr2AALbrk3Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729684275; x=1730289075;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=SorZNFC8wXXb0JhW6IHH3RaOUeeAkhvazdzrQIWQLfw=;
+        b=tG8aYx1Cte/qXMcFKeUdQFbJJOgAUH3KJkFifZALRJCCmfTunhWwWMsc8tc/LYdVHH
+         n3sTGVQRayodmRI1bF4u/LlLEHIEOsoyxDBKZ4Czz6r8CGgL8oK6y73kGlmDAnLD5ADq
+         CWl1rnUjbiaUhOtLOuohaBvsQsIQBG7qiG7krcjctS7hBfxxX7O5ngHSDo6/tbG8N+pl
+         K74I/vjQLInUvOAvgw6PXtp2jYf/HbDS7p67z7vgNvzDbbR4LwPZeWeX9ysgJQ38PSwI
+         JTUv4UaGitwKX4A82Xrdoq5i9kqyXQoMoqh9Zn8HCYu7UJ2S98VjULjyqnWMGqGalWSC
+         3TXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRhlnBJ952FVSJpLhF1FbkaiQwJa5HsfEdsVjvjvsZAg8y+8FSXAFQaeD1YQJl/ecrR+uVsRdhD4lWXlwLYBhzfw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzPtyBCe4xzhG2aeRlJK20zgfSC8hpyX6hqbTE84BdcB9zcOc7u
+	tWthoSFmTu+KLMUCqp69nDppNJ5iGpViZJkhlzhMa+ywxE7RiefcW/bqxpUxUCQ=
+X-Google-Smtp-Source: AGHT+IGrLpZ4oN/uRCQu2QZJR5m5C3FI4PNfs51OEdxaIr7g+G3kCX6cag6kPsciHY/OJBGR+PFSAA==
+X-Received: by 2002:a05:600c:4f0c:b0:42c:b7f9:4bbd with SMTP id 5b1f17b1804b1-431841890b1mr20508725e9.26.1729684274669;
+        Wed, 23 Oct 2024 04:51:14 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ad34:30ba:19ab:e41f? ([2001:8b0:aba:5f3c:ad34:30ba:19ab:e41f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43186bdbaf5sm14247905e9.17.2024.10.23.04.51.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 04:51:14 -0700 (PDT)
+Message-ID: <f7ec2bdbbc57fb16302e62143872f8903b20cd10.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH 2/2] oeqa/selftest/cases/buildoptions.py:
+ ensure libgfortran's package_qa is run
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Qi.Chen@windriver.com, openembedded-core@lists.openembedded.org
+Date: Wed, 23 Oct 2024 12:51:13 +0100
+In-Reply-To: <20241018083135.3643966-2-Qi.Chen@windriver.com>
+References: <20241018083135.3643966-1-Qi.Chen@windriver.com>
+	 <20241018083135.3643966-2-Qi.Chen@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 11:35:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206199
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 11:51:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206200
 
---NextPart
-Content-Type: text/plain
+On Fri, 2024-10-18 at 01:31 -0700, Chen Qi via lists.openembedded.org wrote=
+:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>=20
+> fortran-helloworld DEPENDS on libgfortran, so merely 'bitbake fortran-hel=
+loworld'
+> does not ensure that libgfortran's package_qa is run. This actually cover=
+s
+> the buildpath issue in libgfortran. This patch ensures that libgfortran's=
+ package_qa
+> is run to avoid any future regression.
+>=20
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> ---
+> =C2=A0meta/lib/oeqa/selftest/cases/buildoptions.py | 2 +-
+> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa=
+/selftest/cases/buildoptions.py
+> index 423c31e189..4e82c34de9 100644
+> --- a/meta/lib/oeqa/selftest/cases/buildoptions.py
+> +++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+> @@ -203,7 +203,7 @@ class ToolchainOptions(OESelftestTestCase):
+> =C2=A0
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 features =3D 'FORTRAN:fo=
+rcevariable =3D ",fortran"\n'
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 self.write_config(featur=
+es)
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake('fortran-helloworld')
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bitbake('libgfortran fortran-=
+helloworld')
+> =C2=A0
+> =C2=A0@OETestTag("yocto-mirrors")
+> =C2=A0class SourceMirroring(OESelftestTestCase):
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+I took the first patch but this second one made me worry about our task
+dependencies. I've looked into it and I think there is a bigger issue.
+I've sent an alternative one to insane.bbclass which should mean this
+is unneeded. If you could double check that would be great.
 
----
-Testing patch /home/patchtest/share/mboxes/2-2-meta-support-tar.zst-SDK_ARCHIVE_TYPE.patch
+Thanks,
 
-FAIL: test max line length: Patch line too long (current length 204, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Richard
 
