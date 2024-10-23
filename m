@@ -1,94 +1,98 @@
-Return-Path: <mikko.rapeli@linaro.org>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA93ECDDE7B
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 12:09:50 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.7152.1729685383999615811
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48E13CF536A
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 12:34:51 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.7900.1729686887287389122
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 05:09:44 -0700
+ Wed, 23 Oct 2024 05:34:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=ku+B7OlD;
- spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb561f273eso66877811fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:09:43 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tX1lZsg+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20cd76c513cso56557055ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:34:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729685382; x=1730290182; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729686886; x=1730291686; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rbUEyv1tUGXvnPXjxRsMUGWJzkeQiFr2o3OYlT3pEJQ=;
-        b=ku+B7OlDiPXsRkBWcPWp42ktJ6QO7hJba5BwtmTgvHbOgA3GfqnkJeBEdogfF0UCYU
-         p9Z7zLerxKRBmFvhanMmwSxbRZXzBh9ZmUgQpfb6xI7W4eOueWxywxUdCIezHr210NP7
-         GOnM4B/NO69kNrwP6rFjRKV3epWZhQK2kt9bLcNHciGY89nFQI3RkmIBsVMa1gJtEbZ7
-         KRIRJNuN/GomQyUgBiR55GRAN6/CEX1nuh3wyaHA6aLCMWdA7vIyQR8BZFIt/gwc5Pry
-         HWDwDFf6CwjEjrYpqzr7eO8NCe8zjsXGCVj+R5p1A52aWZutbfjC1spFPdPE8CXv/qtF
-         W3+g==
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LL5gFssPXrOgr0AjQvB24yN/OSK4E3LdM5ox6NyhkkY=;
+        b=tX1lZsg+3EitJiVEHvlBOOwAO20oCcpCtipRSrJvc0aw5DuiKx+11V5XwLr5pTGMMI
+         CP2S3C81uGupHQnSodFUWak8dMy/fBO54wxMhyvuTj3B3rfOJPByXbRC9LV0r2JN5Jpd
+         NnUKikIAonMRGTEAA3Hjh+5NDW1d3RQZEp7ot/E5vnOLMuvaNhiZEZLwCAfmfTSoRk2a
+         9TgDo/otpeUN9PixdYBjEVb50uNW/U4/CztRj8DdlnHUgoPOEMQ0GGH0xyPSaLDj3Ic7
+         ltWk5zJys2u+o4qWhXEtbFpcBR8xKKCbdZdYxzWuaKujjBtJz/MYqf4Wqwc+04Q8Kk5N
+         B4QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729685382; x=1730290182;
+        d=1e100.net; s=20230601; t=1729686886; x=1730291686;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=rbUEyv1tUGXvnPXjxRsMUGWJzkeQiFr2o3OYlT3pEJQ=;
-        b=nwqgiQ+9c+rU9T2UrCEOrjq9m+z9Bf0xBnyQCP/2A8pk0hAmZ2akZeQWM1w6nWRqAc
-         EDnCRH5FoKQLrNjXfOPloo3HlgsI8GSGqy+SjIRs8ta8faKZqu/Ku+k5wR3KCtZpg8Nd
-         HbiJ6/6rYR6qMBu39Ycqvm8WxR4ieoGOWgLho+li7BC+rbet54DKstgKXXcUDod8T8sh
-         w0a6A15gN2lh5stqGaKsUgb5qshQpGO2LGZvMrO91B/tLV7KIzQ/HAYkxkDJCQ7kL6gU
-         b9gqcwHQ9zgV7FCUaTxeIRHV0he19EQ19DhMNRajsbZFOLDr2kNiUaQUoko58LSZ+Wcl
-         7UAg==
-X-Gm-Message-State: AOJu0YzJYYefOxbcw+VuAUHdySpG3peB5MRYsHsmynY0oLIhhDb3Cfc7
-	hEpANn8Ax46/IAjfcm05m+hFocR65Y4R/DE+bnx9aLHXQiF55TjHxopmO96QBjzmKBgZbV2Zoqo
-	Huic=
-X-Google-Smtp-Source: AGHT+IHlUAL/VDDOXSFV9ylci81sOgy+6qiGRXzj9mmzV+kEUb+gwPXabeHLnzDQ4AcEJ3UVT2CFbw==
-X-Received: by 2002:a05:651c:b21:b0:2fb:403c:268b with SMTP id 38308e7fff4ca-2fc9d5fe0cemr10312871fa.34.1729685382050;
-        Wed, 23 Oct 2024 05:09:42 -0700 (PDT)
-Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb9ae25d87sm10763801fa.139.2024.10.23.05.09.38
+        bh=LL5gFssPXrOgr0AjQvB24yN/OSK4E3LdM5ox6NyhkkY=;
+        b=V0KqCdi3E6MzOgDDRyATNeDs/JQRujR3QNb/X3fl8hcjij9d2dH48ZGw4IcpQhRLgF
+         1yq3j8IyaNJZM90oo5QfXk9mGGi5jnUr301TzmF9zMkRqKzCsVEOBlbpaq3QzJWpQJM6
+         FJWHW7X4548fv+dUzVWneqE0PS2qLjizWS5Um2f3BHhdVStHPdAf1Xs5YQGJrPyTRnav
+         l4RLMOLShdP0uEc4LBwglaik6yyrT+kMz6gsCeYPQkF22yKeW2c/1fdjh8vxyU5jaUWD
+         qwjztB0dIJL9n/8d6QYYWfRRXyi+kXT9FLXtgElGUf8yr0Ar9n7Ae3btGQ02zweiYZRY
+         aNFw==
+X-Gm-Message-State: AOJu0Yx+4BV3+JM+ipLZb3RjfAnTmKCYRZpWGCTieMpA4poy+MpjdXkJ
+	K36FPDAQt9bmZXSb0ax51TYU0/XT3dTz0YY6S4s93m1hTB+5d6+g5h0zEDoIPG8Cg+VOe+EO7ZE
+	w
+X-Google-Smtp-Source: AGHT+IFzA2aLkFOzliZxm5uuSFxl5hur1QJ6xT23ChsaCzQKLPU9QNiT+wnEV9yXwZ8Yzfd0D8+Pag==
+X-Received: by 2002:a17:902:ea08:b0:20b:968e:2583 with SMTP id d9443c01a7336-20fa9de0a42mr34331395ad.2.1729686886551;
+        Wed, 23 Oct 2024 05:34:46 -0700 (PDT)
+Received: from hexa.. ([2602:feb4:3b:2100:4a40:d08b:8aa5:305c])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0de3dasm57294245ad.226.2024.10.23.05.34.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 05:09:40 -0700 (PDT)
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+        Wed, 23 Oct 2024 05:34:46 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v10 9/9] oeqa selftest wic.py: fix missing ext4 image
-Date: Wed, 23 Oct 2024 15:08:39 +0300
-Message-ID: <20241023120839.437771-10-mikko.rapeli@linaro.org>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20241023120839.437771-1-mikko.rapeli@linaro.org>
-References: <20241023120839.437771-1-mikko.rapeli@linaro.org>
+Subject: [OE-core][styhead 02/27] python3-setuptools: Add "python:setuptools" to CVE_PRODUCT
+Date: Wed, 23 Oct 2024 05:34:10 -0700
+Message-Id: <d06ce1ca98e5a192dd47af0fa243328aa6d87bff.1729686660.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1729686660.git.steve@sakoman.com>
+References: <cover.1729686660.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 12:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206210
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 12:34:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206213
 
-test_rawcopy_plugin fails if machine does not build
-ext4 images by default. Make the ext4 image build
-explicit in the test. Fixes test on genericarm64 machine
-which defaults to wic image only.
+From: Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+Since there are vulnerabilities that cannot be detected by the existing
+CVE_PRODUCT, add "python:setuptools" to CVE_PRODUCT.
+
+https://nvd.nist.gov/vuln/detail/CVE-2013-1633
+https://nvd.nist.gov/vuln/detail/CVE-2022-40897
+
+Signed-off-by: Shunsuke Tokumoto <s-tokumoto@fujitsu.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit aa1c8d97efc6640a1cffa2459d9b20ad1f7309b0)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/wic.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/python/python3-setuptools_72.1.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index 9b09be75ec..972fffe6f8 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1180,6 +1180,10 @@ class Wic2(WicTestCase):
-             self.assertEqual(1, len(out))
+diff --git a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb b/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
+index 945d443aff..5a01111934 100644
+--- a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
++++ b/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
+@@ -6,6 +6,8 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
  
-     def test_rawcopy_plugin(self):
-+        config = 'IMAGE_FSTYPES = "ext4"\n'
-+        self.append_config(config)
-+        self.assertEqual(0, bitbake('core-image-minimal').status)
-+        self.remove_config(config)
-         self._rawcopy_plugin('ext4')
+ inherit pypi python_setuptools_build_meta
  
-     def test_rawcopy_plugin_unpack(self):
++CVE_PRODUCT = "python3-setuptools python:setuptools"
++
+ SRC_URI:append:class-native = " file://0001-conditionally-do-not-fetch-code-by-easy_install.patch"
+ 
+ SRC_URI += " \
 -- 
 2.34.1
 
