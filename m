@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1CBCCF5385
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 12:35:21 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web10.7693.1729686913535063546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4FF8CF537D
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 12:35:31 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.7925.1729686922854522248
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 05:35:13 -0700
+ Wed, 23 Oct 2024 05:35:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ZsORyQno;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.169, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-20c803787abso6817865ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:35:13 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mAmF2Qig;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20ca388d242so48550495ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:35:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729686913; x=1730291713; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729686922; x=1730291722; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uiS6NBjdX2G1RROox0jPpNZY/T8O7esSsOX2pSRfz2I=;
-        b=ZsORyQno6VB95L7jn6p4Uagmr2z1JGlFn4zh+0mjh0tnVFOLwwcyzXDlqXxADk680J
-         lFGaljz3hZOi68vDw6FYVce1lEq/9Wb82TPUrH6TIasq6u9ThaICqa+/EuFngWu40v3D
-         IkbdNBaH1gx+ttxEc/JwmC/EiJpCHkEX5uAyCMI+kLhuhbiIVJHopfsFBZZQyDnoltPQ
-         jOQdjVAHGlfDnsfC8IO5itsW3nP1RTy8bxt9rQpSGbxK+/xf7cno3/4Y7nzwV2CpaDno
-         yo99brept5OeqNJlXVhuBQr5yvTdOtBdgybY6so+U2tnTAKq6NBiGfgSOs+M8zQElYsh
-         ywuw==
+        bh=K1xsP6VRRTB3DiRpysMEsqbJzFp3xDtjQk62uaeYGa8=;
+        b=mAmF2QigK7ojPqKnrp27WJACRR6DO87XTN8SnUuF1S/AklWpDmJIqsUTu5JMnJNMWd
+         +o9lnN0gubcu4co7RH5S7gAsy3iQlHCWc4ZKyBLWFqqUMJvLQFn+5dDA764fJV40TtY8
+         wL75qf8tYxcGhmZYQUSPabzqAFbz8QWOwgIE4T9Wm2HaRY6Ea0S94NNFwTEbVTrlULTr
+         hittbjoJ9oTSaqtSZcGFKs/0avxGQ1e6KYbHzTvTB1W7kDvaqH2Y6g0tA74chXUkCVFI
+         1h3BKiwn30EJvvkc8VORuySUMeRJ4OEFzVUZsZEAbPjcBya6fyjZyCXF/iQ+eWKG7w1Z
+         H/Vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729686913; x=1730291713;
+        d=1e100.net; s=20230601; t=1729686922; x=1730291722;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uiS6NBjdX2G1RROox0jPpNZY/T8O7esSsOX2pSRfz2I=;
-        b=auY7icu5d5wNN5rxfoPDVr1tpJpVPDraBRum/vqF6nnjVGrZAYDu8WYshJlnUs0hl7
-         jCyYVvfEw9Zj7PQhkwvljuqeSFAke8kOWXnfGkIVNkFUU+rh92YVJ6Cq7xfpmi68559y
-         07KuskJwo6LAPIkES2RPiA2K1IdGlcFokm2TEnADA4QUmORFXTGrpgYIYLT6lDMM1LSR
-         nvT4JsrmIphYFAQxcVGYSJunNsGeEzBt0Js29WUWBi/gRJ3rxZTK/AAn9fJ1Nb5JPsbW
-         mE8CRVhLIrMAhdCocpWZAnTHqt3ZFLthyZP8AbuG/HAjfn2ngZcZyjbrGyL7s7XnfMcD
-         X6iQ==
-X-Gm-Message-State: AOJu0YwdywEeIWBzJqIVM7/2GewyR3Jo2+kMZnhalhxSiKWYEMgZxSh3
-	veqEnMmgKW9Abo8Wx2g9RJvi04n3KyCulL3egL1n0RLGXYsDSJOOvQJ2lgY1+nnzPCyjamgXt8F
-	z
-X-Google-Smtp-Source: AGHT+IGwfhZKjUzqomTWZP6RTgJ8hzzuQY2kC0YY8Qlz+yGWtpKu9FZhQfFdDtEdgRs/gYfW9BNAlA==
-X-Received: by 2002:a17:902:ea07:b0:205:8a8b:bd2a with SMTP id d9443c01a7336-20e970c657emr89543285ad.22.1729686912808;
-        Wed, 23 Oct 2024 05:35:12 -0700 (PDT)
+        bh=K1xsP6VRRTB3DiRpysMEsqbJzFp3xDtjQk62uaeYGa8=;
+        b=iSo/hoKuXL+rbJKmsWd0UQrEuKcUIr53n/6cUzQosyvHtt7XWHRWCpKG3UbiSOlUlr
+         Bb8yF/PYkO0o53kZDLfN5NxlalqOAGi1GzwYyRM/f30z7BjTvJy7lZj7iOsEb6ySig99
+         0UDn3Wm8kRJSpByp46O3A3BL+8bEBCd5yXRhrCdGiHykLY1xziIXBxsT/S/pe+kqoZC1
+         QTZf3cWS61vExsUcwSLp4tIehLRpIxsWGg38IRAbfHatvUD+Qh/DCwzhJFbqs9nB/6r9
+         mzJWLZ3CzGH3AGBqOe7gtYZVunq6Py6lMLMyjZ3JeNQYpaa/Ga1PKNge+HGbekO0IwjP
+         p48g==
+X-Gm-Message-State: AOJu0YxO56bumV0FiHuRPXJF8UDyGtPvjfgiHlJYtJSnvbep86Jbrism
+	ogAVQXtDF7jWZibZ+XkiXOzJxUzoiD93leVIP1639BI/5Uu+yqNohIkR3Ua/vBi2ivtAhil7Y1K
+	M
+X-Google-Smtp-Source: AGHT+IE9DziDT3R5qcs138cWRl1klEqjpECqDeNv6UJ+aayl79v0vSTiaMcgpBUS7IlbDxqF7wS9Fw==
+X-Received: by 2002:a17:902:ceca:b0:20c:528d:7063 with SMTP id d9443c01a7336-20fa9e0aa82mr32943245ad.19.1729686922188;
+        Wed, 23 Oct 2024 05:35:22 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:4a40:d08b:8aa5:305c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0de3dasm57294245ad.226.2024.10.23.05.35.12
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0de3dasm57294245ad.226.2024.10.23.05.35.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 05:35:12 -0700 (PDT)
+        Wed, 23 Oct 2024 05:35:21 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 18/27] binutils: Add missing perl modules to RDEPENDS for nativsdk variant
-Date: Wed, 23 Oct 2024 05:34:26 -0700
-Message-Id: <75773577d8dd9c9d61aa039e1da2482c064c666a.1729686660.git.steve@sakoman.com>
+Subject: [OE-core][styhead 24/27] lsb-release: fix Distro Codename shell escaping
+Date: Wed, 23 Oct 2024 05:34:32 -0700
+Message-Id: <168bed0e3d339ec75973faa682d47269ec96d599.1729686660.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1729686660.git.steve@sakoman.com>
 References: <cover.1729686660.git.steve@sakoman.com>
@@ -61,42 +61,32 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 12:35:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206229
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 12:35:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206235
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: Sergei Zhmylev <s.zhmylev@yadro.com>
 
-In SDK, missing perl modules causes 'x86_64-pokysdk-linux-gp-display-html --help' to abort with below errors..
-  - Can't locate bignum.pm in @INC (you may need to install the feature module).
-  - Can't locate Math/BigInt.pm in @INC (you may need to install the Math::BigInt module)
-
-By adding the following perl modules to RDEPENDS fixes the above errors:
-  nativesdk-perl-module-bignum
-  nativesdk-perl-module-bigint
-  nativesdk-perl-module-math-bigint
-
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Sergei Zhmylev <s.zhmylev@yadro.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 05f1099acbbb10b6ce33ea117d313749f7dc4a47)
+(cherry picked from commit 7b5824c547b1348713e992a8bebd40577a0c5709)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/binutils/binutils_2.43.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-extended/lsb/lsb-release_1.4.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/binutils/binutils_2.43.1.bb b/meta/recipes-devtools/binutils/binutils_2.43.1.bb
-index 2cce40f1ef..8594db9bfb 100644
---- a/meta/recipes-devtools/binutils/binutils_2.43.1.bb
-+++ b/meta/recipes-devtools/binutils/binutils_2.43.1.bb
-@@ -72,5 +72,9 @@ SRC_URI:append:class-nativesdk =  " file://0003-binutils-nativesdk-Search-for-al
- 
- USE_ALTERNATIVES_FOR:class-nativesdk = ""
- FILES:${PN}:append:class-nativesdk = " ${bindir}"
-+RDEPENDS:gprofng:class-nativesdk = " nativesdk-perl-module-bignum \
-+                                     nativesdk-perl-module-bigint \
-+                                     nativesdk-perl-module-math-bigint \
-+"
- 
- BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-extended/lsb/lsb-release_1.4.bb b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+index 00d8183a4f..a7039ea4d1 100644
+--- a/meta/recipes-extended/lsb/lsb-release_1.4.bb
++++ b/meta/recipes-extended/lsb/lsb-release_1.4.bb
+@@ -29,7 +29,7 @@ do_install() {
+ 	echo "DISTRIB_ID=${DISTRO}" >> ${D}${sysconfdir}/lsb-release
+ 	echo "DISTRIB_RELEASE=${DISTRO_VERSION}" >> ${D}${sysconfdir}/lsb-release
+ 	if [ -n "${DISTRO_CODENAME}" ]; then
+-		echo "DISTRIB_CODENAME=${DISTRO_CODENAME}" >> ${D}${sysconfdir}/lsb-release
++		echo "DISTRIB_CODENAME=\"${DISTRO_CODENAME}\"" >> ${D}${sysconfdir}/lsb-release
+ 	fi
+ 	echo "DISTRIB_DESCRIPTION=\"${DISTRO_NAME} ${DISTRO_VERSION}\"" >> ${D}${sysconfdir}/lsb-release
+ }
 -- 
 2.34.1
 
