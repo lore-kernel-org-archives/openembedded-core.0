@@ -1,276 +1,140 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A1EF8CFA45D
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 17:40:56 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web11.3874.1729705248405343809
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CA36CFA45E
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 18:39:57 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.web10.5366.1729708795107932376
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 10:40:48 -0700
+ Wed, 23 Oct 2024 11:39:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=a55zdDoV;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20241023174046de78eaa989eca9d566-atq8p1@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20241023174046de78eaa989eca9d566
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 23 Oct 2024 19:40:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=tF1CEtGTplEtMusyvdN1BMGgqkE9h8fr3Exw0zsBzAU=;
- b=a55zdDoVq9G5BKPKSFGLOD95RBWXs5aM7z5KzptjfIUgQkHHN+5X1ysqm51XoyQ44Znsxu
- OvU0G0TgDkYpSxw0MG37Zz/m5maTlbHg+Ir7gNW+PAkwgDPO5NJK3Q/nJkMdEQdNJEQYVApB
- 2eIEqKcg4NKdMCS49/xvaqLWIYis60r3rEjAKU8DQT90dRKDscuxMvtBEJwjErFBjHRQREYL
- l3s5FfaoSLtx9mxWpvijJv/z5Qzji5ofopy2nTTKDS/4nr6JDukezDYHFZySnsdyZM54HFrD
- 6iAthkK0Lmlxivw02sleyr+LgUtI7dbsv7Sc55WIQPAcls7o4UolZcng==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][scarthgap][PATCH] openssl: patch CVE-2024-9143
-Date: Wed, 23 Oct 2024 19:39:17 +0200
-Message-Id: <20241023173917.318845-1-peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iMkddU96;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-37d473c4bb6so9727f8f.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 11:39:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1729708793; x=1730313593; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ziqcKI4fTgYBVNXPUz6jf0rfS8sNEpkHeQU6PaO7PlA=;
+        b=iMkddU96u/pZSM0ciHXMa7haeWk1f9U80lZcP/PgoiAfeTPd5Pf3YV4B+M2VjePCbU
+         fhPyo3BNvKJsg7naSTTK/ud6PP4lDH8C4d5ns0xJbnjjx9fRMHXM4bYjZiS7O9yoECBY
+         znA+yZ8sf6cu4OdOfcgUtj3j+rSYC7l1T05R4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729708793; x=1730313593;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=ziqcKI4fTgYBVNXPUz6jf0rfS8sNEpkHeQU6PaO7PlA=;
+        b=bHtt6Hh8XLSlOBn/qE84CBYA5HlQu3PoHx3XEBz2iOGYrjjyBvgikItz4SgcIsuwFY
+         nlKn87tTrbhQqIGcjZ10VShxpXtH+xJ95qCR4QkKt3phojcnJNxWbmvhuUZCp/aTfVsj
+         nTMBZsgdjPc64Vmid1T/xYDdgq1yL6Neg7r+cAbDREhckenZUjP4IJbnFMhmwKBSiREz
+         VMvYrqcpRGZMHwi90Ys7YA4K1vbqOSyTkYLRevThvxgt6BTXcOEmvqMf061ljy+Mo0kl
+         oSGopP++5fA5Iz1puBs8KtONER0reG4aHIuhl4Kho/lfeazmCt2W6NXjKJYQi/quBR2Y
+         f56A==
+X-Forwarded-Encrypted: i=1; AJvYcCV6hX95u7uDNgvSFSa8nBX0NW/mVGwwQgK1q/V79LmBtEKetrM/crg8CKIC9Qcer1Wq2tA2fqqpQ5y4t4Zl0XXDQQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yx5/vOJdbmwnGXZXKIB7sHni1PNtQMmgK2h8jVkMGyvSbjMUEno
+	A9xntDlKNJQENLChg87fkRCyaaZIFoYUoVv1Ns7RGHmsDsDedTvhSeThAVvpb9Q=
+X-Google-Smtp-Source: AGHT+IGlxJzUIG4iFIc1gFwNr+75zltghuBsmmxksWExnQ8iu1hh22GmUGJ54e5wVc7w0w0b6HxxXg==
+X-Received: by 2002:a5d:58e9:0:b0:37d:4619:f975 with SMTP id ffacd0b85a97d-37efcf05df6mr3048343f8f.19.1729708793337;
+        Wed, 23 Oct 2024 11:39:53 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:ad34:30ba:19ab:e41f? ([2001:8b0:aba:5f3c:ad34:30ba:19ab:e41f])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0b9433asm9478043f8f.80.2024.10.23.11.39.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 11:39:52 -0700 (PDT)
+Message-ID: <b999ba968f3c9dea9d3a1ba03d73a1d5ae8d56a3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v10 0/9] systemd uki support
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
+Date: Wed, 23 Oct 2024 19:39:51 +0100
+In-Reply-To: <180123793D1D4B45.13420@lists.openembedded.org>
+References: <20241023120839.437771-1-mikko.rapeli@linaro.org>
+	 <180122B0064457FF.13420@lists.openembedded.org>
+	 <180123793D1D4B45.13420@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 17:40:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206262
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 18:39:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206263
 
-From: Peter Marko <peter.marko@siemens.com>
+On Wed, 2024-10-23 at 17:58 +0100, Richard Purdie via
+lists.openembedded.org wrote:
+> On Wed, 2024-10-23 at 17:44 +0100, Richard Purdie via
+> lists.openembedded.org wrote:
+> > On Wed, 2024-10-23 at 15:08 +0300, Mikko Rapeli via
+> > lists.openembedded.org wrote:
+> > > These changes enable building systemd uki images which combine
+> > > kernel, kernel command line, initrd and possibly signatures to
+> > > a single UEFI binary. This binary can be booted with UEFI
+> > > firmware
+> > > and systemd-boot. No grub is needed and UEFI firmware and/or
+> > > systemd-boot provide possibilities for boot menus.
+> > > The uki binary can also be signed for UEFI secure boot
+> > > so the secure boot extends from firmware to kernel and initrd.
+> > > Binding secure boot to full userspace is then easier since for
+> > > example
+> > > kernel command line and initrd contain the support needed to
+> > > mount
+> > > encrypted dm-verity etc partitions, and/or create partitions on
+> > > demand
+> > > with systemd-repart using device specific TPM devices for
+> > > encryption.
+> > >=20
+> > > Tested on qemuarm64-secureboot machine from meta-arm with changes
+> > > to
+> > > support secure boot. Slightly different configuration tested on
+> > > multiple arm64 System Ready boards with UEFI firmware, real and
+> > > firmware
+> > > based TPM devices. Tested with ovmf firmware on x86_64 with
+> > > selftests but
+> > > without secure boot which seems to be harder to setup in ovmf.
+> > >=20
+> > > Sadly I see two wic selftests, wic.Wic2.test_rawcopy_plugin_qemu
+> > > and
+> > > wic.Wic2.test_expand_mbr_image, failing when executing all wic
+> > > selftests
+> > > on a build machine with zfs filesystem. Will investigate this
+> > > further.
+> > > The issue seems to be in mkfs.ext4 producing broken filesystem,
+> > > and
+> > > partially
+> > > in the tests which don't run the correct rootfs file (.ext4 vs
+> > > .wic).
+> > > Will debug this further and it is IMO unrelated to these changes
+> > > since
+> > > they reproduce on pure master branch without this series.
+> > >=20
+> > > v10: disabled kvm support in new tests since it breaks qemu boot
+> > > on
+> > > aarch64
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 build machine, removed "testimage" from IMAG=
+E_CLASS as well
+> > > since
+> > > =C2=A0=C2=A0=C2=A0=C2=A0 can end up testing qemu machine during build=
+.
+> >=20
+> > I hate to say this but
+> > wic.Wic2.test_efi_plugin_plain_systemd_boot_qemu_aarch64 is still
+> > failing:
+> >=20
+>=20
+> https://valkyrie.yoctoproject.org/#/builders/23/builds/320/steps/14/logs/=
+stdio
 
-Pick patch from branch openssl-3.2.
+and:
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../openssl/openssl/CVE-2024-9143.patch       | 202 ++++++++++++++++++
- .../openssl/openssl_3.2.3.bb                  |   1 +
- 2 files changed, 203 insertions(+)
- create mode 100755 meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
+https://valkyrie.yoctoproject.org/#/builders/23/builds/323/steps/14/logs/st=
+dio
 
-diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
-new file mode 100755
-index 0000000000..99c16cd573
---- /dev/null
-+++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
-@@ -0,0 +1,202 @@
-+From bc7e04d7c8d509fb78fc0e285aa948fb0da04700 Mon Sep 17 00:00:00 2001
-+From: Viktor Dukhovni <viktor@openssl.org>
-+Date: Thu, 19 Sep 2024 01:02:40 +1000
-+Subject: [PATCH] Harden BN_GF2m_poly2arr against misuse.
-+
-+The BN_GF2m_poly2arr() function converts characteristic-2 field
-+(GF_{2^m}) Galois polynomials from a representation as a BIGNUM bitmask,
-+to a compact array with just the exponents of the non-zero terms.
-+
-+These polynomials are then used in BN_GF2m_mod_arr() to perform modular
-+reduction.  A precondition of calling BN_GF2m_mod_arr() is that the
-+polynomial must have a non-zero constant term (i.e. the array has `0` as
-+its final element).
-+
-+Internally, callers of BN_GF2m_poly2arr() did not verify that
-+precondition, and binary EC curve parameters with an invalid polynomial
-+could lead to out of bounds memory reads and writes in BN_GF2m_mod_arr().
-+
-+The precondition is always true for polynomials that arise from the
-+standard form of EC parameters for characteristic-two fields (X9.62).
-+See the "Finite Field Identification" section of:
-+
-+    https://www.itu.int/ITU-T/formal-language/itu-t/x/x894/2018-cor1/ANSI-X9-62.html
-+
-+The OpenSSL GF(2^m) code supports only the trinomial and pentanomial
-+basis X9.62 forms.
-+
-+This commit updates BN_GF2m_poly2arr() to return `0` (failure) when
-+the constant term is zero (i.e. the input bitmask BIGNUM is not odd).
-+
-+Additionally, the return value is made unambiguous when there is not
-+enough space to also pad the array with a final `-1` sentinel value.
-+The return value is now always the number of elements (including the
-+final `-1`) that would be filled when the output array is sufficiently
-+large.  Previously the same count was returned both when the array has
-+just enough room for the final `-1` and when it had only enough space
-+for non-sentinel values.
-+
-+Finally, BN_GF2m_poly2arr() is updated to reject polynomials whose
-+degree exceeds `OPENSSL_ECC_MAX_FIELD_BITS`, this guards against
-+CPU exhausition attacks via excessively large inputs.
-+
-+The above issues do not arise in processing X.509 certificates.  These
-+generally have EC keys from "named curves", and RFC5840 (Section 2.1.1)
-+disallows explicit EC parameters.  The TLS code in OpenSSL enforces this
-+constraint only after the certificate is decoded, but, even if explicit
-+parameters are specified, they are in X9.62 form, which cannot represent
-+problem values as noted above.
-+
-+Initially reported as oss-fuzz issue 71623.
-+
-+A closely related issue was earlier reported in
-+<https://github.com/openssl/openssl/issues/19826>.
-+
-+Severity: Low, CVE-2024-9143
-+
-+Reviewed-by: Matt Caswell <matt@openssl.org>
-+Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
-+Reviewed-by: Paul Dale <ppzgs1@gmail.com>
-+Reviewed-by: Tomas Mraz <tomas@openssl.org>
-+(Merged from https://github.com/openssl/openssl/pull/25639)
-+
-+(cherry picked from commit 8e008cb8b23ec7dc75c45a66eeed09c815b11cd2)
-+
-+CVE: CVE-2024-9143
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/bc7e04d7c8d509fb78fc0e285aa948fb0da04700]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ crypto/bn/bn_gf2m.c     | 28 +++++++++++++++-------
-+ test/ec_internal_test.c | 51 +++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 71 insertions(+), 8 deletions(-)
-+
-+diff --git a/crypto/bn/bn_gf2m.c b/crypto/bn/bn_gf2m.c
-+index 444c5ca7a3755..ae7e9d751c29c 100644
-+--- a/crypto/bn/bn_gf2m.c
-++++ b/crypto/bn/bn_gf2m.c
-+@@ -15,6 +15,7 @@
-+ #include "bn_local.h"
-+ 
-+ #ifndef OPENSSL_NO_EC2M
-++# include <openssl/ec.h>
-+ 
-+ /*
-+  * Maximum number of iterations before BN_GF2m_mod_solve_quad_arr should
-+@@ -1130,16 +1131,26 @@ int BN_GF2m_mod_solve_quad(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
-+ /*
-+  * Convert the bit-string representation of a polynomial ( \sum_{i=0}^n a_i *
-+  * x^i) into an array of integers corresponding to the bits with non-zero
-+- * coefficient.  Array is terminated with -1. Up to max elements of the array
-+- * will be filled.  Return value is total number of array elements that would
-+- * be filled if array was large enough.
-++ * coefficient.  The array is intended to be suitable for use with
-++ * `BN_GF2m_mod_arr()`, and so the constant term of the polynomial must not be
-++ * zero.  This translates to a requirement that the input BIGNUM `a` is odd.
-++ *
-++ * Given sufficient room, the array is terminated with -1.  Up to max elements
-++ * of the array will be filled.
-++ *
-++ * The return value is total number of array elements that would be filled if
-++ * array was large enough, including the terminating `-1`.  It is `0` when `a`
-++ * is not odd or the constant term is zero contrary to requirement.
-++ *
-++ * The return value is also `0` when the leading exponent exceeds
-++ * `OPENSSL_ECC_MAX_FIELD_BITS`, this guards against CPU exhaustion attacks,
-+  */
-+ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
-+ {
-+     int i, j, k = 0;
-+     BN_ULONG mask;
-+ 
-+-    if (BN_is_zero(a))
-++    if (!BN_is_odd(a))
-+         return 0;
-+ 
-+     for (i = a->top - 1; i >= 0; i--) {
-+@@ -1157,12 +1168,13 @@ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
-+         }
-+     }
-+ 
-+-    if (k < max) {
-++    if (k > 0 && p[0] > OPENSSL_ECC_MAX_FIELD_BITS)
-++        return 0;
-++
-++    if (k < max)
-+         p[k] = -1;
-+-        k++;
-+-    }
-+ 
-+-    return k;
-++    return k + 1;
-+ }
-+ 
-+ /*
-+diff --git a/test/ec_internal_test.c b/test/ec_internal_test.c
-+index 5076f9894d5b8..92904cfc42b20 100644
-+--- a/test/ec_internal_test.c
-++++ b/test/ec_internal_test.c
-+@@ -155,6 +155,56 @@ static int field_tests_ecp_mont(void)
-+ }
-+ 
-+ #ifndef OPENSSL_NO_EC2M
-++/* Test that decoding of invalid GF2m field parameters fails. */
-++static int ec2m_field_sanity(void)
-++{
-++    int ret = 0;
-++    BN_CTX *ctx = BN_CTX_new();
-++    BIGNUM *p, *a, *b;
-++    EC_GROUP *group1 = NULL, *group2 = NULL, *group3 = NULL;
-++
-++    TEST_info("Testing GF2m hardening\n");
-++
-++    BN_CTX_start(ctx);
-++    p = BN_CTX_get(ctx);
-++    a = BN_CTX_get(ctx);
-++    if (!TEST_ptr(b = BN_CTX_get(ctx))
-++        || !TEST_true(BN_one(a))
-++        || !TEST_true(BN_one(b)))
-++        goto out;
-++
-++    /* Even pentanomial value should be rejected */
-++    if (!TEST_true(BN_set_word(p, 0xf2)))
-++        goto out;
-++    if (!TEST_ptr_null(group1 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
-++        TEST_error("Zero constant term accepted in GF2m polynomial");
-++
-++    /* Odd hexanomial should also be rejected */
-++    if (!TEST_true(BN_set_word(p, 0xf3)))
-++        goto out;
-++    if (!TEST_ptr_null(group2 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
-++        TEST_error("Hexanomial accepted as GF2m polynomial");
-++
-++    /* Excessive polynomial degree should also be rejected */
-++    if (!TEST_true(BN_set_word(p, 0x71))
-++        || !TEST_true(BN_set_bit(p, OPENSSL_ECC_MAX_FIELD_BITS + 1)))
-++        goto out;
-++    if (!TEST_ptr_null(group3 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
-++        TEST_error("GF2m polynomial degree > %d accepted",
-++                   OPENSSL_ECC_MAX_FIELD_BITS);
-++
-++    ret = group1 == NULL && group2 == NULL && group3 == NULL;
-++
-++ out:
-++    EC_GROUP_free(group1);
-++    EC_GROUP_free(group2);
-++    EC_GROUP_free(group3);
-++    BN_CTX_end(ctx);
-++    BN_CTX_free(ctx);
-++
-++    return ret;
-++}
-++
-+ /* test EC_GF2m_simple_method directly */
-+ static int field_tests_ec2_simple(void)
-+ {
-+@@ -443,6 +493,7 @@ int setup_tests(void)
-+     ADD_TEST(field_tests_ecp_simple);
-+     ADD_TEST(field_tests_ecp_mont);
-+ #ifndef OPENSSL_NO_EC2M
-++    ADD_TEST(ec2m_field_sanity);
-+     ADD_TEST(field_tests_ec2_simple);
-+ #endif
-+     ADD_ALL_TESTS(field_tests_default, crv_len);
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb b/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
-index 53139df40c..2c30dbd47a 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
-@@ -12,6 +12,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
-            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://0001-Configure-do-not-tweak-mips-cflags.patch \
-            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
-+           file://CVE-2024-9143.patch \
-            "
- 
- SRC_URI:append:class-nativesdk = " \
--- 
-2.30.2
+which is clearer without the other failure.
 
+Cheers,
+
+Richard
 
