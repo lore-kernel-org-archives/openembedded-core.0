@@ -1,202 +1,260 @@
-Return-Path: <olani@axis.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52D27D2E025
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 08:38:19 +0000 (UTC)
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (EUR05-AM6-obe.outbound.protection.outlook.com [40.107.22.41])
- by mx.groups.io with SMTP id smtpd.web11.4004.1729672697683532748
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54ABFD2E026
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 08:43:49 +0000 (UTC)
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+ by mx.groups.io with SMTP id smtpd.web10.4275.1729673026852875981
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 01:38:18 -0700
+ Wed, 23 Oct 2024 01:43:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=RDP+kdSy;
- spf=pass (domain: axis.com, ip: 40.107.22.41, mailfrom: ola.x.nilsson@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Yq+Eft0JGlMD3CV7XocpDVpQpexAKisXT9l8AjSQWoKtt0L8ha6+TkSBenDQQj1bGqL0WgRT04y9pjF8CwiXGaQnfJtwX79LML1k7euJrImhkNnC2lT425tYQWwaUnyPWn3J4se3KqAvbo4AixTpYigQKuLOZFEnvEG3NNOxPGziu9ZtqVUNnm/ll9HehvwAI17nAbhRmwK+F8IwZd7ID4jsK6Sv6gVKI8qrDvCwARTCaSBy6F1bpTEjSLj45bIXFTkAQ3LuFcG9lYcTMfBZ299kjo95z/L3E3nNA0CD5XO6AvRBZ1LTIh1zMpQTRXpbv9IWIj3C5DID1ATwIx+1Pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PHvKYxPharjeTb8GpeOUILRSQbMtA0rpxwkeWj/vCo8=;
- b=J3mz0pUGG3ex3LjOMqrtvDkyAReVO0Mag2lxTzmWwduDXc4mSXK/SlperP8GuBfS6LDfuGtsRy3BxWDFyfb2NPNJNk0si6o+H+iL3fN2xzhlK2rE/YNxeOr5q+Z63SNVQHUgflFucqU5oz+zZs0JHYGX96aXeeLJv7FpV0Gu30db4tzIjImNqMeQ57fpcwjDV1lHP0myiKB85cVZfc0dFti7pmqDKF/7vetXCM0z07NjvbKqNSY9ms+vFr5CRBJjqv9pM0ATO7flnf9kBouwPa/a7orRj+5BAZEgyJLcnyaNQao9NqU+5JXiDB1vijhtDQgpR6ZhYaAT8DoyYd3zWQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PHvKYxPharjeTb8GpeOUILRSQbMtA0rpxwkeWj/vCo8=;
- b=RDP+kdSynFQsHGUzjD5NhASjUnq2L3M9nFgV2GKK8v9L2R4n2xW7QG82Hnb9ARZolcFv3TeXDq/tdgvlrc4HD5Mylk0Yur21XfvJVAR7MIPMq7bf6fvzWkea86guyREE6GEfopaedGkHXBRdYlnVl20g0DOR+tPD5WmVQq4Nml8=
-Received: from AS4PR09CA0023.eurprd09.prod.outlook.com (2603:10a6:20b:5d4::13)
- by VI1PR02MB6030.eurprd02.prod.outlook.com (2603:10a6:800:18a::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8069.28; Wed, 23 Oct
- 2024 08:38:11 +0000
-Received: from AMS1EPF00000040.eurprd04.prod.outlook.com
- (2603:10a6:20b:5d4:cafe::2) by AS4PR09CA0023.outlook.office365.com
- (2603:10a6:20b:5d4::13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.16 via Frontend
- Transport; Wed, 23 Oct 2024 08:38:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AMS1EPF00000040.mail.protection.outlook.com (10.167.16.37) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8093.14 via Frontend Transport; Wed, 23 Oct 2024 08:38:10 +0000
-Received: from se-mail02w.axis.com (10.20.40.8) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Oct
- 2024 10:38:10 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail02w.axis.com
- (10.20.40.8) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 23 Oct 2024 10:38:10 +0200
-Received: from pc58073-2410.se.axis.com (pc58073-2410.se.axis.com [10.88.67.1])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 1F2895D9;
-	Wed, 23 Oct 2024 10:38:10 +0200 (CEST)
-From: <olani@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <olani@axis.com>
-Subject: [styhead][PATCH] glibc: Fix missing randomness in __gen_tempname
-Date: Wed, 23 Oct 2024 10:38:10 +0200
-Message-ID: <20241023083810.3252722-1-olani@axis.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jYkU6wXR;
+ spf=pass (domain: gmail.com, ip: 209.85.208.174, mailfrom: liu.ming50@gmail.com)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb443746b8so68396931fa.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 01:43:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729673024; x=1730277824; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=de2wsXp3kYjlVc8lMoh10tVszh/AUT/+/Kdq83hFN2Q=;
+        b=jYkU6wXR1rLFDRyjMmN6d1QX2qi6Rudi6PSVY54046TglHrzNm9saz/ZYciT6TTKci
+         KFq/ELaCaNQK5qbO2jRxOjJ+l2cYVFq7L2uQXOIo9X2PPYtTE0ReSOgzsFX9jkeSnelK
+         mkVCXW6CcFz+q/5zM/wf7+ASlJvGreC/DwGoW7Ujx9BDWjLs+cwFGhZ4KTCZzhjZaDcq
+         NYNN+rkKKmnJnshHfAS0ZNZyD2LSYtyNnud4djco6SzWoFopP0hiarS5Q3AV+egl+nzE
+         vHez3+XXZ16ZR0XUXDStZaDEb1zqZPIFS0usGRhoiOV+xLMj0UkLx0zDyvSIu4Ckb6Qv
+         bF8w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729673024; x=1730277824;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=de2wsXp3kYjlVc8lMoh10tVszh/AUT/+/Kdq83hFN2Q=;
+        b=cNwMwH70rZdQL94wiaBpYcJhE93wgM3nrudvjZokWUoBMRuNRv7+0lulqAaVjeELZE
+         I3e0Du28iP4vyjl2wcsg/VZvz1HTAWtpuElvXSyUS8kUEEKDKCQv6G17RHhTHBVImwGk
+         AOzByHVrwHKTHQAkt1F61tyfLxS0TetxrKBGx2XbJsOP8GbGFbIzcE8MpJ6o/WEVY7/l
+         h7TuHQnxn5b4MiPjh0Nacjb1FkqlspuQhrEWRzJXyBdHRzqBGyGrE76Ay2Q4sxCYqRDF
+         pSzf64ztiR9WtgvsPCGw3GC0euCMzfcx3oKEIFWTdaFs5mGcj26/t6Lm425UFvMATN8i
+         1kZQ==
+X-Gm-Message-State: AOJu0YxZgt+JkPg4V6Rz80DqT14RLz/XNtsfHcED1Yck1FE+LmG9P+pq
+	uDqe6g74GKfVhismSc2omajJhuc5kjeqh89N04khp7Cd6+CY8gQ05nMqqw==
+X-Google-Smtp-Source: AGHT+IGoazZs/rMulLyrCb/H0XKolUY7EPdlzvqTeU1G96j3k+zlzif+fCbwokvYUXTLvjeYB8Wxyg==
+X-Received: by 2002:a05:651c:1549:b0:2fb:51e0:91b with SMTP id 38308e7fff4ca-2fc9d588ba7mr8752431fa.43.1729673023813;
+        Wed, 23 Oct 2024 01:43:43 -0700 (PDT)
+Received: from peterliu-Precision-5680.atlascopco.group ([213.50.243.108])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cb66c72609sm4097040a12.88.2024.10.23.01.43.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 01:43:43 -0700 (PDT)
+From: Ming Liu <liu.ming50@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Ming Liu <liu.ming50@gmail.com>
+Subject: [OE-core] [PATCH] screen: uprev to 5.0.0
+Date: Wed, 23 Oct 2024 10:43:39 +0200
+Message-ID: <20241023084340.823184-1-liu.ming50@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF00000040:EE_|VI1PR02MB6030:EE_
-X-MS-Office365-Filtering-Correlation-Id: 791ece2a-0d68-4e97-ec48-08dcf33e06d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700013|376014|82310400026|1800799024;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?AXz3nTl7qtQv+eV2GWL2tpQ6XPfhUZqOGGyHVPuaK9frtwiAKxIFP4vd3FwE?=
- =?us-ascii?Q?AIblwRTwzkSfniKkDHQzyWdwioCwUElOePy58lZxMaee9A5IOBMz60t6HniG?=
- =?us-ascii?Q?O6EAZDqTGFUUj+RVXCSzS/7CFQ46LwrNx4jIzDm21iusIWYH1kAwCRObnScl?=
- =?us-ascii?Q?QK24S2oCYcQ7U5NMDtRC1RxHH+B88GsNHebfdgQZkUF3krWcu2R05RpCkL9U?=
- =?us-ascii?Q?7N+WVrVBQeiCF5TZePUFnpbHFxtkviSvthq+wtjWs/CcsbV3S94xXX+KC+E5?=
- =?us-ascii?Q?CwcmI1FyCakSpHVvb6GR8gqeuTNBEqpFdAq1E4eTxwgHSZH6PLYXmlztTr5t?=
- =?us-ascii?Q?txAgEhcnOIer4xm/I0JPHv5POh1Aoj/+RZWjoIPITTmMef0ku0l6uZuMonM9?=
- =?us-ascii?Q?azIes3z95L3QAtX5MtRhFuOGll2QG27GEGSqVMG49rYWVZ6pv1405WbiMufq?=
- =?us-ascii?Q?3jT5KRiUQHJ9goe9aFshMQ4EEhpg25yGOqCsd6WMx317oIEeElKtpUiFGuL7?=
- =?us-ascii?Q?OPCQ1zH+e6Or/H0N9ZB+io0vfZYLbIxTHRFXkpoR8KlhkIvn1pRpBKV0p6Bu?=
- =?us-ascii?Q?cXgr1PACEFTP0XZshJiBlb1dSDy91SXqKuJ1W0hZxFaE5iPNHkel6HDf258T?=
- =?us-ascii?Q?okTBvVK81YGPPTWxDvIdZMUh5H16xulZcRvTTW7nxpwWSnxBa6WXc2V0m8Zi?=
- =?us-ascii?Q?riy/8/hS6CegmhoVCZSIdbX+CWjmlOk7Txe3cJ1ouJQQYG47CaeVCEggclat?=
- =?us-ascii?Q?pND6vsvZnbYGjEnC53iAKDZteuaVMsTGs5gOmmvVVdtNVkRKCYq2Kxr1MQdK?=
- =?us-ascii?Q?g8RfE86HDI0Er3+I7XohnzkJKpUJ/S/93vOTGPbEOQZJKnFAxGI//N5SKSaY?=
- =?us-ascii?Q?61BBejj2lwWJztnsJXG5Suz2fl/WaEwXhrwdoGQafk89vM+4OYC+6gbIXtTa?=
- =?us-ascii?Q?saU8VZWIJkPgqdkqt6lwAVbc/+hg7dSUBIas/OGUyb99KXnj9suFW3rJLWhw?=
- =?us-ascii?Q?FeHMbOHhwVb/k68q3m3m1QsPEj+a3oBUr+2RAQvNO4+OhxGrl9QT1UgFWAYH?=
- =?us-ascii?Q?K0SmgN33EqLFI0rtNsKVGAxt3ts0SEhs41aMezQpKXuxzUVABdmelLv1Esr+?=
- =?us-ascii?Q?24OpLEDh7MrfJsVHTXYtzXmVCsLANRWBCznHhOmEnncIEq9Q7Af9pBFwIEuX?=
- =?us-ascii?Q?XaAAvUACUkxYHak33G98TqHV3Kqry8zMA77lzEqjfv4aI9ZpYbusLtS+upmi?=
- =?us-ascii?Q?sNwtlnRp4b9FfueaxkyC/h8QpHcRGQBxgpq7B9MaNAWxOnSG99qVBdHmCzyG?=
- =?us-ascii?Q?sT733Q+yGtcokRL/zs2cZVkqO4C1NXbT1PYTrYq07BVWqoc1+RAgh3bcteYP?=
- =?us-ascii?Q?ByZDOak=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(376014)(82310400026)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Oct 2024 08:38:10.7609
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 791ece2a-0d68-4e97-ec48-08dcf33e06d9
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF00000040.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR02MB6030
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 08:38:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206184
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 08:43:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206185
 
-From: Ola x Nilsson <olani@axis.com>
+Drop deprecated patches.
 
-Backport the fix for glibc bug 32214.
+Inherit autotools-brokensep instead of autotools, there are some
+generated headers in ${B} that referring to ${S}.
 
-The missing randomness in early boot may cause some systemd services
-to fail when they occasionally try to create tempdirs like
-/run/systemd/namespace-aaaaaa at the same time.
-The error messages can contain things like
-"Failed to set up mount namespacing".
-
-(From OE-Core rev: 0bb6aa06db5bf2e89d1c499e84a0a8cedbd8f0a7)
-
-Signed-off-by: Ola x Nilsson <olani@axis.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
 ---
- ...ndomness-in-__gen_tempname-bug-32214.patch | 29 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.40.bb         |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0024-Fix-missing-randomne=
-ss-in-__gen_tempname-bug-32214.patch
+ ...0001-Remove-more-compatibility-stuff.patch | 31 ----------
+ .../screen/0001-fix-for-multijob-build.patch  | 58 -------------------
+ .../0002-comm.h-now-depends-on-term.h.patch   | 30 ----------
+ .../{screen_4.9.1.bb => screen_5.0.0.bb}      | 11 ++--
+ 4 files changed, 4 insertions(+), 126 deletions(-)
+ delete mode 100644 meta/recipes-extended/screen/screen/0001-Remove-more-compatibility-stuff.patch
+ delete mode 100644 meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
+ delete mode 100644 meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
+ rename meta/recipes-extended/screen/{screen_4.9.1.bb => screen_5.0.0.bb} (79%)
 
-diff --git a/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-_=
-_gen_tempname-bug-32214.patch b/meta/recipes-core/glibc/glibc/0024-Fix-miss=
-ing-randomness-in-__gen_tempname-bug-32214.patch
-new file mode 100644
-index 0000000000..c9f3e32f58
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_te=
-mpname-bug-32214.patch
-@@ -0,0 +1,29 @@
-+From 9d30d58c32fe9d5f8ec6cda79fb11159e6789bcf Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@suse.de>
-+Date: Wed, 25 Sep 2024 11:49:30 +0200
-+Subject: [PATCH] Fix missing randomness in __gen_tempname (bug 32214)
-+
-+Make sure to update the random value also if getrandom fails.
-+
-+Fixes: 686d542025 ("posix: Sync tempname with gnulib")
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=3Dglibc.git;a=3Dc=
-ommit;h=3D5f62cf88c4530c11904482775b7582bd7f6d80d2]
-+
-+Signed-off-by: Ola x Nilsson <olani@axis.com>
-+---
-+ sysdeps/posix/tempname.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/sysdeps/posix/tempname.c b/sysdeps/posix/tempname.c
-+index c00fe0c181..fc30958a0c 100644
-+--- a/sysdeps/posix/tempname.c
-++++ b/sysdeps/posix/tempname.c
-+@@ -117,6 +117,8 @@ random_bits (random_value *r, random_value s)
-+      succeed.  */
-+ #if !_LIBC
-+   *r =3D mix_random_values (v, clock ());
-++#else
-++  *r =3D v;
-+ #endif
-+   return false;
-+ }
-diff --git a/meta/recipes-core/glibc/glibc_2.40.bb b/meta/recipes-core/glib=
-c/glibc_2.40.bb
-index 71b89ac9ff..3e855b19d8 100644
---- a/meta/recipes-core/glibc/glibc_2.40.bb
-+++ b/meta/recipes-core/glibc/glibc_2.40.bb
-@@ -53,6 +53,7 @@ SRC_URI =3D  "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=
-=3Dglibc \
-            file://0021-fix-create-thread-failed-in-unprivileged-process-BZ=
--.patch \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-bina=
-r.patch \
-            file://0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftes=
-t.patch \
-+           file://0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.=
-patch \
- "
- S =3D "${WORKDIR}/git"
- B =3D "${WORKDIR}/build-${TARGET_SYS}"
---=20
-2.39.5
+diff --git a/meta/recipes-extended/screen/screen/0001-Remove-more-compatibility-stuff.patch b/meta/recipes-extended/screen/screen/0001-Remove-more-compatibility-stuff.patch
+deleted file mode 100644
+index 1413724d07..0000000000
+--- a/meta/recipes-extended/screen/screen/0001-Remove-more-compatibility-stuff.patch
++++ /dev/null
+@@ -1,31 +0,0 @@
+-This fixes
+-../screen-4.6.2/pty.c: In function 'OpenPTY':
+-../screen-4.6.2/pty.c:328:7: warning: implicit declaration of function 'openpty'; did you mean 'openat'? [-Wimplicit-function-declaration]
+-   if (openpty(&f, &s, TtyName, NULL, NULL) != 0)
+-       ^~~~~~~
+-
+-Signed-off-by: Amadeusz Sławiński <amade@asmblr.net>
+-Signed-off-by: Adrian Bunk <bunk@stusta.de>
+-Upstream-Status: Backport
+-
+----
+- pty.c | 6 +-----
+- 1 file changed, 1 insertion(+), 5 deletions(-)
+-
+-diff --git a/pty.c b/pty.c
+-index 1c0660e..502338f 100644
+---- a/pty.c
+-+++ b/pty.c
+-@@ -47,11 +47,7 @@
+- # include <sys/ttold.h>
+- #endif
+- 
+--#ifdef ISC
+--# include <sys/tty.h>
+--# include <sys/sioctl.h>
+--# include <sys/pty.h>
+--#endif
+-+#include <pty.h>
+- 
+- #ifdef sgi
+- # include <sys/sysmacros.h>
+diff --git a/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch b/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
+deleted file mode 100644
+index fbdb0eb478..0000000000
+--- a/meta/recipes-extended/screen/screen/0001-fix-for-multijob-build.patch
++++ /dev/null
+@@ -1,58 +0,0 @@
+-From 79ad2885e26631077dd6b8aebe17ae95b38133a6 Mon Sep 17 00:00:00 2001
+-From: Jackie Huang <jackie.huang@windriver.com>
+-Date: Tue, 26 Jul 2016 14:23:59 +0800
+-Subject: [PATCH] fix for multijob build
+-
+-make sure that comm.sh script generates comm.h header before doing
+-anything else
+-
+-Signed-off-by: Amadeusz Sawiski <amade@asmblr.net>
+-
+-Upstream-Status: Backport
+-
+-Backport patch to fix parallel build failure and update context to make patch
+-coulde be applied.
+-
+-http://git.savannah.gnu.org/cgit/screen.git/commit?id=c0de6dd
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+-Signed-off-by: Jackie Huang <jackie.huang@windriver.com>
+----
+- Makefile.in | 8 ++++----
+- 1 file changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/Makefile.in b/Makefile.in
+-index aca7da3..3607711 100644
+---- a/Makefile.in
+-+++ b/Makefile.in
+-@@ -298,7 +298,7 @@ search.o: layout.h viewport.h canvas.h search.c config.h screen.h os.h osdef.h a
+-  comm.h layer.h term.h image.h display.h window.h mark.h extern.h
+- tty.o: layout.h viewport.h canvas.h tty.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
+-  layer.h term.h image.h display.h window.h extern.h
+--term.o: layout.h viewport.h canvas.h term.c term.h
+-+term.o: layout.h viewport.h canvas.h term.c term.h comm.h
+- window.o: layout.h viewport.h canvas.h window.c config.h screen.h os.h osdef.h ansi.h acls.h \
+-  comm.h layer.h term.h image.h display.h window.h extern.h logfile.h
+- utmp.o: layout.h viewport.h canvas.h utmp.c config.h screen.h os.h osdef.h ansi.h acls.h \
+-@@ -324,7 +324,7 @@ canvas.o: layout.h viewport.h canvas.h canvas.c config.h screen.h os.h osdef.h a
+-  comm.h layer.h term.h image.h display.h window.h extern.h \
+-  braille.h
+- comm.o: layout.h viewport.h canvas.h comm.c config.h acls.h comm.h
+--kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h
+-+kmapdef.o: layout.h viewport.h canvas.h kmapdef.c config.h comm.h
+- acls.o: layout.h viewport.h canvas.h acls.c config.h screen.h os.h osdef.h ansi.h acls.h comm.h \
+-  layer.h term.h image.h display.h window.h extern.h
+- braille.o: layout.h viewport.h canvas.h braille.c config.h screen.h os.h osdef.h ansi.h acls.h \
+-@@ -350,7 +350,7 @@ layout.o: layout.h viewport.h canvas.h layout.c config.h screen.h os.h osdef.h a
+- viewport.o: layout.h viewport.h canvas.h viewport.c config.h screen.h os.h osdef.h ansi.h acls.h \
+-  comm.h layer.h term.h image.h display.h window.h extern.h \
+-  braille.h
+--list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h
+--list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h
+-+list_generic.o: list_generic.h list_generic.c layer.h screen.h osdef.h comm.h
+-+list_display.o: list_generic.h list_display.c layer.h screen.h osdef.h comm.h
+- list_window.o: list_generic.h list_window.c window.h layer.h screen.h osdef.h comm.h
+- 
+--- 
+-1.9.1
+-
+diff --git a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch b/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
+deleted file mode 100644
+index a01dc24751..0000000000
+--- a/meta/recipes-extended/screen/screen/0002-comm.h-now-depends-on-term.h.patch
++++ /dev/null
+@@ -1,30 +0,0 @@
+-Upstream-Status: Backport
+-
+-Backport from:
+-
+-http://git.savannah.gnu.org/cgit/screen.git/commit/?id=39c5f1c
+-
+-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+----
+-From 39c5f1c76f1fcef4b5958bf828a63f53426b6984 Mon Sep 17 00:00:00 2001
+-From: Mike Gerwitz <mike@mikegerwitz.com>
+-Date: Tue, 24 Dec 2013 22:16:31 -0500
+-Subject: [PATCH] comm.h now depends on term.h
+-
+----
+- src/Makefile.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-Index: screen-4.6.1/Makefile.in
+-===================================================================
+---- screen-4.6.1.orig/Makefile.in
+-+++ screen-4.6.1/Makefile.in
+-@@ -133,7 +133,7 @@ kmapdef.c: term.h
+- tty.c:	tty.sh 
+- 	sh $(srcdir)/tty.sh tty.c
+- 
+--comm.h: comm.c comm.sh config.h
+-+comm.h: comm.c comm.sh config.h term.h
+- 	AWK=$(AWK) CC="$(CC) $(CFLAGS)" srcdir=${srcdir} sh $(srcdir)/comm.sh
+- 
+- osdef.h: osdef.sh config.h osdef.h.in
+diff --git a/meta/recipes-extended/screen/screen_4.9.1.bb b/meta/recipes-extended/screen/screen_5.0.0.bb
+similarity index 79%
+rename from meta/recipes-extended/screen/screen_4.9.1.bb
+rename to meta/recipes-extended/screen/screen_5.0.0.bb
+index 57d1481049..fec5663fc2 100644
+--- a/meta/recipes-extended/screen/screen_4.9.1.bb
++++ b/meta/recipes-extended/screen/screen_5.0.0.bb
+@@ -8,7 +8,7 @@ BUGTRACKER = "https://savannah.gnu.org/bugs/?func=additem&group=screen"
+ SECTION = "console/utils"
+ 
+ LICENSE = "GPL-3.0-or-later"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=d32239bcb673463ab874e80d47fae504 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e \
+                     file://screen.h;endline=26;md5=b8dc717c9a3dba842ae6c44ca0f73f52 \
+                     "
+ 
+@@ -18,19 +18,16 @@ RDEPENDS:${PN} = "base-files"
+ 
+ SRC_URI = "${GNU_MIRROR}/screen/screen-${PV}.tar.gz \
+            ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'file://screen.pam', '', d)} \
+-           file://0002-comm.h-now-depends-on-term.h.patch \
+-           file://0001-fix-for-multijob-build.patch \
+-           file://0001-Remove-more-compatibility-stuff.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "26cef3e3c42571c0d484ad6faf110c5c15091fbf872b06fa7aa4766c7405ac69"
++SRC_URI[sha256sum] = "f04a39d00a0e5c7c86a55338808903082ad5df4d73df1a2fd3425976aed94971"
+ 
+-inherit autotools texinfo
++inherit autotools-brokensep texinfo
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[utempter] = "ac_cv_header_utempter_h=yes,ac_cv_header_utempter_h=no,libutempter,"
+ 
+-EXTRA_OECONF = "--with-pty-mode=0620 --with-pty-group=5 --with-sys-screenrc=${sysconfdir}/screenrc \
++EXTRA_OECONF = "--with-pty-mode=0620 --with-pty-group=5 --with-system_screenrc=${sysconfdir}/screenrc \
+                ${@bb.utils.contains('DISTRO_FEATURES', 'pam', '--enable-pam', '--disable-pam', d)}"
+ 
+ do_install:append () {
+-- 
+2.43.0
 
 
