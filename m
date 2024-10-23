@@ -1,100 +1,103 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B1C77CFA458
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 17:33:46 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web11.3685.1729704824469726719
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C61A6CFA45B
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 17:39:26 +0000 (UTC)
+Received: from mail-io1-f54.google.com (mail-io1-f54.google.com [209.85.166.54])
+ by mx.groups.io with SMTP id smtpd.web10.3854.1729705164591835393
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 10:33:44 -0700
+ Wed, 23 Oct 2024 10:39:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=hprqQzJQ;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=bfr7zyDS;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 01010192ba710aff-47059c58-5abc-4890-9f58-87a91268a3fa-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1729704823; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ilT+pVI7wpz+fbe9ipZ1wLr0scus/XkGY97CUXiR9Yo=;
-	b=hprqQzJQjQWGn8TrB7lMlVn/khMFWk+BlGYdixafuKc8pz6FLlD/XeqhBXPjffjt
-	1jgJk9VmUnGT9p6y66SUlfMDu/2eB5Irbb2jXW4rqsZR8KGC6lvjHU8YTkYZz+IZn3W
-	QO3W1v5GvsY6QVlXvV8ORVaEc3fH7sslzTcWeCxw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1729704823;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ilT+pVI7wpz+fbe9ipZ1wLr0scus/XkGY97CUXiR9Yo=;
-	b=bfr7zyDSF0lYj+dYHF1RhgcuQqHjrbNVBnfN8wMSnr3T9c2TT+MLDXKCEqqZjhsq
-	ju0/8PJuUs+6XzSgD1AYTl2moYRO1BYgvQ/tlI1ucln1kjZIwSFHO8IasPxzSuuH9FU
-	IAhX9X3/0ggMJXhG7nh/QLv5CX2tzfDcPJppvucs=
-From: patchtest@automation.yoctoproject.org
-To: Andrej Valek <andrej.v@skyrain.eu>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH v4] busybox: 1.36.1 -> 1.37.0
-In-Reply-To: <20241023172204.697232-1-andrej.v@skyrain.eu>
-References: <20241023172204.697232-1-andrej.v@skyrain.eu>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010192ba710aff-47059c58-5abc-4890-9f58-87a91268a3fa-000000@us-west-2.amazonses.com>
-Date: Wed, 23 Oct 2024 17:33:43 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.10.23-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CEZJ4pQ5;
+ spf=pass (domain: gmail.com, ip: 209.85.166.54, mailfrom: danismostlikely@gmail.com)
+Received: by mail-io1-f54.google.com with SMTP id ca18e2360f4ac-83aad99d6bfso218039f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 10:39:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729705163; x=1730309963; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=lzaOBZAkjoAe16Tj1IJcMsojovB0d962tYnkF+upamY=;
+        b=CEZJ4pQ53AXd4vEZwrr79uW5lnbaY9YASKWmdSQmKXwLPylRIl3u0XLfV+0CQ0SpCI
+         kp+jSiE6hjWYLYduslECAMExAsp7OTG+GaYptDwWcYtwQ/05jq9cwzvK+iWVaiMYQu+N
+         UIZghdWRj3oizfPetx/SqFfOUzumLAvXa6bkW0s2GhBs8d/I5iYfPS1FnsAYDi7HiFuh
+         R+CU+08zrRAItP6a2x7Ltv0Vx/ruEEjyrf/89p7WbFDWv78z+WyaM2I0/LvYRIGR44iB
+         LWCJbI0hHNnlkXKQzt9EGo2apcdG43uXH8RgaU+E/W3qJN2+V/jcYywturxF13sov57b
+         cSKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729705163; x=1730309963;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=lzaOBZAkjoAe16Tj1IJcMsojovB0d962tYnkF+upamY=;
+        b=KVpxjPZo8zry9+ywc0NR0Mad2e3PV+NB6wQRU4pMx4fJ+4CjwqkTTHe7X/q+FnehZQ
+         bkidvhJzY5XUG+4Pq+Accm74Rrf10CXo6T5MaQErc7OabH187957yDazMicVrjsLVRmh
+         /OxXv6JVAKhGJLVyva9gZPC+pxfLVTyhDquobw340FLcGGbKfXTHlwQuaENk0NphwHRh
+         2V8nemO2s4rZBmSe5hpxkPAevHKhdtdd+OMUtAS5tXxLp7GznzeSa8RrKfoDf/P6HxpT
+         nCogcjIZqPD/FpjM6s78N9lDSPMCERZ2gfKZT0TSDq64AZNPNX/yO/IPSbo3EVrQ6UDt
+         2/Iw==
+X-Gm-Message-State: AOJu0Yw1zzTMXI9fyTHauWlPexXJXQ3NCE+AwyyKLNnkmE53vnLQB4JS
+	dcE0SRrfgP4CfmS58teAQojrYIrqeOxstWKvUBxmNYZ4Rk/IYaSo/jBaMw==
+X-Google-Smtp-Source: AGHT+IFKyEDCFMAoHqDnun+qC5Af9ILHgu6U4GWW761KvkS+qW7h7vwTg/DzDS0Wmq4JGxz7i9I4ow==
+X-Received: by 2002:a05:6602:60c8:b0:83a:9488:154c with SMTP id ca18e2360f4ac-83af6146af1mr315973239f.3.1729705163401;
+        Wed, 23 Oct 2024 10:39:23 -0700 (PDT)
+Received: from nebuchadnezzar.home.arpa ([204.83.204.143])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4dc2a661dffsm2175013173.173.2024.10.23.10.39.22
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Oct 2024 10:39:23 -0700 (PDT)
+From: Dan McGregor <danismostlikely@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Dan McGregor <dan.mcgregor@usask.ca>
+Subject: [PATCH] ppp: make pam optional to avoid host contamination
+Date: Wed, 23 Oct 2024 11:39:11 -0600
+Message-ID: <20241023173911.1411724-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.47.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 17:33:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206259
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 17:39:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206260
 
---NextPart
-Content-Type: text/plain
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Without explicitly disabling pam in ppp, it will check the host for
+pam headers. This leads to this QA error:
 
+ERROR: ppp-2.5.1-r0 do_configure: QA Issue: This autoconf log
+indicates errors, it looked at host include and/or library paths
+while determining system capabilities.
+Rerun configure task after fixing this. [configure-unsafe]
+
+This is a somewhat difficult to hit, only my test machines that have
+the pam dev package installed show it.
+
+Fix this by adding a packageconfig for pam, with its default value
+off, since enabling PAM is completely untested.
+
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
-Testing patch /home/patchtest/share/mboxes/v4-busybox-1.36.1---1.37.0.patch
+ meta/recipes-connectivity/ppp/ppp_2.5.1.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.1.bb b/meta/recipes-connectivity/ppp/ppp_2.5.1.bb
+index 5b8c49ca850..19e89b18383 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.5.1.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.5.1.bb
+@@ -27,7 +27,10 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+ 
+ SRC_URI[sha256sum] = "733b7f5840b613da4eab0429a5081293275f06ba8b528e1b8eea6964faf0243a"
+ 
+-inherit autotools systemd
++inherit autotools systemd pkgconfig
++
++PACKAGECONFIG ??= ""
++PACKAGECONFIG[pam] = "--with-pam=yes,--with-pam=no,libpam"
+ 
+ EXTRA_OECONF += "--with-openssl=${STAGING_EXECPREFIXDIR}"
+ 
+-- 
+2.47.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
