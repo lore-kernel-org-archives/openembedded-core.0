@@ -2,57 +2,57 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DECA1CDDE7A
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 12:09:40 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web10.7149.1729685380135243622
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA93ECDDE7B
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 12:09:50 +0000 (UTC)
+Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
+ by mx.groups.io with SMTP id smtpd.web10.7152.1729685383999615811
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 05:09:40 -0700
+ Wed, 23 Oct 2024 05:09:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=pbBHRDDC;
- spf=pass (domain: linaro.org, ip: 209.85.208.172, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fb584a8f81so74092591fa.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:09:39 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=ku+B7OlD;
+ spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb561f273eso66877811fa.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:09:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1729685378; x=1730290178; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1729685382; x=1730290182; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+Mzh0cNf4bz4RPXnJdlG3x3/yzby397TR/i0eV+Ap9o=;
-        b=pbBHRDDCjFNLtj/BwUwXw4adOPXqyuPxQACRNH24MFLwVyWDEOuPSgfd7DKvkfCI/A
-         WgFvkmptPcBnwAH95vGenK6BX6eFJHacFTqi9lK1Rod/yuDs59DHu1rhcB/9we9EyDRg
-         JOh7gParqIs2kijTMDpVFUsrSGhVY7Sv709IoYbyDYl3F59jHOFamsTwawXNHHsRNLFm
-         OI1egl4aeDsY58FnAQIkh8vZzArk1r5GpdRj49jFVwQs4601Pp/LiIWpFHKozcMNId1b
-         mo24+y91vUJ7Yn4IWR2efNajuwYWfilg2opWuJj600IJeA5o+zV5TJtFvgrKQYtmRjSy
-         4lLw==
+        bh=rbUEyv1tUGXvnPXjxRsMUGWJzkeQiFr2o3OYlT3pEJQ=;
+        b=ku+B7OlDiPXsRkBWcPWp42ktJ6QO7hJba5BwtmTgvHbOgA3GfqnkJeBEdogfF0UCYU
+         p9Z7zLerxKRBmFvhanMmwSxbRZXzBh9ZmUgQpfb6xI7W4eOueWxywxUdCIezHr210NP7
+         GOnM4B/NO69kNrwP6rFjRKV3epWZhQK2kt9bLcNHciGY89nFQI3RkmIBsVMa1gJtEbZ7
+         KRIRJNuN/GomQyUgBiR55GRAN6/CEX1nuh3wyaHA6aLCMWdA7vIyQR8BZFIt/gwc5Pry
+         HWDwDFf6CwjEjrYpqzr7eO8NCe8zjsXGCVj+R5p1A52aWZutbfjC1spFPdPE8CXv/qtF
+         W3+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729685378; x=1730290178;
+        d=1e100.net; s=20230601; t=1729685382; x=1730290182;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+Mzh0cNf4bz4RPXnJdlG3x3/yzby397TR/i0eV+Ap9o=;
-        b=d4gBaLs46fSg4HYUF7M5liZQogTNs24RFv2VloWpLOEhuw5/GNCcCqWo7V/kRAVAUp
-         5lRyyEal1kEZ4iA4UBJ4ZKUONtHlXBzKi9R1WzBi5IS9+mbW33H0M28gnkP87esdvbII
-         oNv7i3jtgvf5mVcfWn0o7aJwNx2U4FvjnBX/wioojyozy2yPl7v1jEDsspQ4Rzp8wBUH
-         aNbr14YtbWumT5bLTYbSzh+1QA4hIyRrsqqcegWGs23+ZqoURoYuBfEblopPLeJDQmxn
-         rd4kEGwnUQiUbScLYJ67z/rVPGAPObglkfhcjHAEKa0eQJ/ATa+yGaL7UvPGlAOwlnb0
-         2+0g==
-X-Gm-Message-State: AOJu0YyvaFbXOxELHCdBjtgdTy6CkLkqyIxaoPBYxcyXgdUNoJVxRypE
-	lEc5Ar0d8eTjzDhdtb8cZ8N8CdheDNFW73VWM7gsbKYulvu6kLEmaezHABmZ7Nj2hjQHIqACxed
-	7LCU=
-X-Google-Smtp-Source: AGHT+IGchy5C3CFsgJ0Bstz8eKdr/Zk7ZetvMmO8FfopsKX51kQJLpytosKuCetmEeOZRW+/S7ekIA==
-X-Received: by 2002:a2e:b8d6:0:b0:2f7:4ccd:8918 with SMTP id 38308e7fff4ca-2fc9d3805eemr11914851fa.43.1729685378159;
-        Wed, 23 Oct 2024 05:09:38 -0700 (PDT)
+        bh=rbUEyv1tUGXvnPXjxRsMUGWJzkeQiFr2o3OYlT3pEJQ=;
+        b=nwqgiQ+9c+rU9T2UrCEOrjq9m+z9Bf0xBnyQCP/2A8pk0hAmZ2akZeQWM1w6nWRqAc
+         EDnCRH5FoKQLrNjXfOPloo3HlgsI8GSGqy+SjIRs8ta8faKZqu/Ku+k5wR3KCtZpg8Nd
+         HbiJ6/6rYR6qMBu39Ycqvm8WxR4ieoGOWgLho+li7BC+rbet54DKstgKXXcUDod8T8sh
+         w0a6A15gN2lh5stqGaKsUgb5qshQpGO2LGZvMrO91B/tLV7KIzQ/HAYkxkDJCQ7kL6gU
+         b9gqcwHQ9zgV7FCUaTxeIRHV0he19EQ19DhMNRajsbZFOLDr2kNiUaQUoko58LSZ+Wcl
+         7UAg==
+X-Gm-Message-State: AOJu0YzJYYefOxbcw+VuAUHdySpG3peB5MRYsHsmynY0oLIhhDb3Cfc7
+	hEpANn8Ax46/IAjfcm05m+hFocR65Y4R/DE+bnx9aLHXQiF55TjHxopmO96QBjzmKBgZbV2Zoqo
+	Huic=
+X-Google-Smtp-Source: AGHT+IHlUAL/VDDOXSFV9ylci81sOgy+6qiGRXzj9mmzV+kEUb+gwPXabeHLnzDQ4AcEJ3UVT2CFbw==
+X-Received: by 2002:a05:651c:b21:b0:2fb:403c:268b with SMTP id 38308e7fff4ca-2fc9d5fe0cemr10312871fa.34.1729685382050;
+        Wed, 23 Oct 2024 05:09:42 -0700 (PDT)
 Received: from localhost.localdomain (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb9ae25d87sm10763801fa.139.2024.10.23.05.09.34
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2fb9ae25d87sm10763801fa.139.2024.10.23.05.09.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 05:09:36 -0700 (PDT)
+        Wed, 23 Oct 2024 05:09:40 -0700 (PDT)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH v10 8/9] oeqa selftest wic.py: support UKIs via uki.bbclass
-Date: Wed, 23 Oct 2024 15:08:38 +0300
-Message-ID: <20241023120839.437771-9-mikko.rapeli@linaro.org>
+Subject: [PATCH v10 9/9] oeqa selftest wic.py: fix missing ext4 image
+Date: Wed, 23 Oct 2024 15:08:39 +0300
+Message-ID: <20241023120839.437771-10-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241023120839.437771-1-mikko.rapeli@linaro.org>
 References: <20241023120839.437771-1-mikko.rapeli@linaro.org>
@@ -61,195 +61,34 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 12:09:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206209
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 12:09:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206210
 
-Use label to detect rootfs since UKI with kernel command
-line is generated before rootfs is generated by wic.
-
-Adapt wic tests to build and boot uki.bbclass generated
-UKIs.
-
-Keeping one UKI test in wic.py and rest of the UKI features
-are tested with dedicated uki.py test. Add plain non-UKI
-systemd-boot tests to wic suite for aarch64 and x86.
+test_rawcopy_plugin fails if machine does not build
+ext4 images by default. Make the ext4 image build
+explicit in the test. Fixes test on genericarm64 machine
+which defaults to wic image only.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- meta-selftest/wic/test_efi_plugin.wks         |   5 +-
- .../test_efi_plugin_plain_systemd-boot.wks    |   5 +
- meta/lib/oeqa/selftest/cases/wic.py           | 120 ++++++++++++++++--
- 3 files changed, 115 insertions(+), 15 deletions(-)
- create mode 100644 meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks
+ meta/lib/oeqa/selftest/cases/wic.py | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta-selftest/wic/test_efi_plugin.wks b/meta-selftest/wic/test_efi_plugin.wks
-index 1603d6c4bb..e876a4be0e 100644
---- a/meta-selftest/wic/test_efi_plugin.wks
-+++ b/meta-selftest/wic/test_efi_plugin.wks
-@@ -1,6 +1,5 @@
- # short-description: This file is used in oe-selftest wic module to test efi plugin
--
--part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,create-unified-kernel-image=true,initrd=${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
--part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+part /boot --source bootimg-efi --sourceparams="loader=systemd-boot" --active --align 1024 --use-uuid
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid --label root
- 
- bootloader  --timeout=0 --append="console=ttyS0,115200n8"
-diff --git a/meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks b/meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks
-new file mode 100644
-index 0000000000..2745c19e85
---- /dev/null
-+++ b/meta-selftest/wic/test_efi_plugin_plain_systemd-boot.wks
-@@ -0,0 +1,5 @@
-+# short-description: This file is used in oe-selftest wic module to test efi plugin
-+part /boot --source bootimg-efi --sourceparams="loader=systemd-boot,initrd=${INITRAMFS_IMAGE}-${MACHINE}.${INITRAMFS_FSTYPES}" --active --align 1024 --use-uuid
-+part / --source rootfs --fstype=ext4 --align 1024 --use-uuid
-+
-+bootloader  --timeout=0 --append="console=ttyS0,115200n8"
 diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/cases/wic.py
-index f2a46c965b..9b09be75ec 100644
+index 9b09be75ec..972fffe6f8 100644
 --- a/meta/lib/oeqa/selftest/cases/wic.py
 +++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -1292,24 +1292,46 @@ class Wic2(WicTestCase):
-     @skipIfNotArch(['i586', 'i686', 'x86_64'])
-     @OETestTag("runqemu")
-     def test_efi_plugin_unified_kernel_image_qemu(self):
--        """Test efi plugin's Unified Kernel Image feature in qemu"""
--        config = 'IMAGE_FSTYPES = "wic"\n'\
--                 'INITRAMFS_IMAGE = "core-image-minimal-initramfs"\n'\
--                 'WKS_FILE = "test_efi_plugin.wks"\n'\
--                 'MACHINE_FEATURES:append = " efi"\n'
-+        """Test Unified Kernel Image feature in qemu without systemd in initramfs or rootfs"""
-+        config = """
-+# efi firmware must load systemd-boot, not grub
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "test_efi_plugin.wks"
-+
-+# efi, uki and systemd features must be enabled
-+MACHINE_FEATURES:append = " efi"
-+DISTRO_FEATURES_NATIVE:append = " systemd"
-+IMAGE_CLASSES:append:pn-core-image-base = " uki"
-+
-+# uki embeds also an initrd, no systemd or udev
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+
-+# runqemu must not load kernel separately, it's in the uki
-+QB_KERNEL_ROOT = ""
-+QB_DEFAULT_KERNEL = "none"
-+
-+# boot command line provided via uki, not via bootloader
-+UKI_CMDLINE = "rootwait root=LABEL=root console=${KERNEL_CONSOLE}"
-+
-+"""
-         self.append_config(config)
--        bitbake('core-image-minimal core-image-minimal-initramfs ovmf')
-+        bitbake('core-image-base ovmf')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        uki_filename = get_bb_var('UKI_FILENAME', 'core-image-base')
-         self.remove_config(config)
+@@ -1180,6 +1180,10 @@ class Wic2(WicTestCase):
+             self.assertEqual(1, len(out))
  
--        with runqemu('core-image-minimal', ssh=False,
--                     runqemuparams='nographic ovmf', image_fstype='wic') as qemu:
--            # Check that /boot has EFI bootx64.efi (required for EFI)
--            cmd = "ls /boot/EFI/BOOT/bootx64.efi | wc -l"
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
-+            # Check that /boot has EFI boot*.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/boot*.efi | wc -l"
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '1')
--            # Check that /boot has EFI/Linux/linux.efi (required for Unified Kernel Images auto detection)
--            cmd = "ls /boot/EFI/Linux/linux.efi | wc -l"
-+            # Check that /boot has EFI/Linux/${UKI_FILENAME} (required for Unified Kernel Images auto detection)
-+            cmd = "ls /boot/EFI/Linux/%s | wc -l" % (uki_filename)
-             status, output = qemu.run_serial(cmd)
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '1')
-@@ -1319,6 +1341,80 @@ class Wic2(WicTestCase):
-             self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-             self.assertEqual(output, '0')
+     def test_rawcopy_plugin(self):
++        config = 'IMAGE_FSTYPES = "ext4"\n'
++        self.append_config(config)
++        self.assertEqual(0, bitbake('core-image-minimal').status)
++        self.remove_config(config)
+         self._rawcopy_plugin('ext4')
  
-+    @skipIfNotArch(['aarch64'])
-+    @OETestTag("runqemu")
-+    def test_efi_plugin_plain_systemd_boot_qemu_aarch64(self):
-+        """Test plain systemd-boot in qemu with systemd"""
-+        config = """
-+INIT_MANAGER = "systemd"
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "test_efi_plugin_plain_systemd-boot.wks"
-+
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+
-+# to configure runqemu
-+IMAGE_CLASSES += "qemuboot"
-+# u-boot efi firmware
-+QB_DEFAULT_BIOS = "u-boot.bin"
-+# need to use virtio, scsi not supported by u-boot by default
-+QB_DRIVE_TYPE = "/dev/vd"
-+
-+# disable kvm, breaks boot
-+QEMU_USE_KVM = ""
-+
-+IMAGE_CLASSES:remove = 'testimage'
-+"""
-+        self.append_config(config)
-+        bitbake('core-image-base u-boot')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        self.remove_config(config)
-+
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s nographic' % (runqemu_params), image_fstype='wic') as qemu:
-+            # Check that /boot has EFI boot*.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/boot*.efi | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '1')
-+            # Check that boot.conf exists
-+            cmd = "cat /boot/loader/entries/boot.conf"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-+    @skipIfNotArch(['i586', 'i686', 'x86_64'])
-+    @OETestTag("runqemu")
-+    def test_efi_plugin_plain_systemd_boot_qemu_x86(self):
-+        """Test plain systemd-boot to systemd in qemu"""
-+        config = """
-+INIT_MANAGER = "systemd"
-+EFI_PROVIDER = "systemd-boot"
-+
-+# image format must be wic, needs esp partition for firmware etc
-+IMAGE_FSTYPES:pn-core-image-base:append = " wic"
-+WKS_FILE = "test_efi_plugin_plain_systemd-boot.wks"
-+
-+INITRAMFS_IMAGE = "core-image-initramfs-boot"
-+"""
-+        self.append_config(config)
-+        bitbake('core-image-base ovmf')
-+        runqemu_params = get_bb_var('TEST_RUNQEMUPARAMS', 'core-image-base') or ""
-+        self.remove_config(config)
-+
-+        with runqemu('core-image-base', ssh=False,
-+                     runqemuparams='%s nographic ovmf' % (runqemu_params), image_fstype='wic') as qemu:
-+            # Check that /boot has EFI boot*.efi (required for EFI)
-+            cmd = "ls /boot/EFI/BOOT/boot*.efi | wc -l"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+            self.assertEqual(output, '1')
-+            # Check that boot.conf exists
-+            cmd = "cat /boot/loader/entries/boot.conf"
-+            status, output = qemu.run_serial(cmd)
-+            self.assertEqual(1, status, 'Failed to run command "%s": %s' % (cmd, output))
-+
-     def test_fs_types(self):
-         """Test filesystem types for empty and not empty partitions"""
-         img = 'core-image-minimal'
+     def test_rawcopy_plugin_unpack(self):
 -- 
 2.34.1
 
