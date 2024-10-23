@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A36F0CFA45C
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 17:39:56 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.3859.1729705190525596388
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1EF8CFA45D
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 17:40:56 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.web11.3874.1729705248405343809
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 10:39:51 -0700
+ Wed, 23 Oct 2024 10:40:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=C1unyJb3;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20241023173946e94e0d7b46dcddd21d-pmtcht@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20241023173946e94e0d7b46dcddd21d
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=a55zdDoV;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20241023174046de78eaa989eca9d566-atq8p1@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20241023174046de78eaa989eca9d566
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 23 Oct 2024 19:39:47 +0200
+        Wed, 23 Oct 2024 19:40:46 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=807LW5IfTRDzCse3ToMqRv9FDKjEhk6f5PnYqYH2qs4=;
- b=C1unyJb3i4R0yXFSuifPEhU3RyQKNHy1cCWdxPA/w/RCG0y6GuMASg8x6DOd45d8qsdS0u
- fAazcs+k08zpHVBm7JzBPCkUaJi05cJrAFhJucgjmCp3fpvJmPDrvG1y2R/LVNwKgDk864Em
- O9cXw/a/7CYG6msk3vIjohW15wBReOpZ6ED7xbStpopJxv95YZ57W5g8o7T/mocrAc/oxacY
- 3oJbrPMCuDrLjNK/YZaz3y/ifh22n363xaWc0j7nZhWX1u8Kx5mGLz1KwAj15p619fiQBxtJ
- l23Laog9nm91gBzmj/uk5W30C4F1P2EmutGGxlZbl6BFXmLWbLa+kwew==;
+ bh=tF1CEtGTplEtMusyvdN1BMGgqkE9h8fr3Exw0zsBzAU=;
+ b=a55zdDoVq9G5BKPKSFGLOD95RBWXs5aM7z5KzptjfIUgQkHHN+5X1ysqm51XoyQ44Znsxu
+ OvU0G0TgDkYpSxw0MG37Zz/m5maTlbHg+Ir7gNW+PAkwgDPO5NJK3Q/nJkMdEQdNJEQYVApB
+ 2eIEqKcg4NKdMCS49/xvaqLWIYis60r3rEjAKU8DQT90dRKDscuxMvtBEJwjErFBjHRQREYL
+ l3s5FfaoSLtx9mxWpvijJv/z5Qzji5ofopy2nTTKDS/4nr6JDukezDYHFZySnsdyZM54HFrD
+ 6iAthkK0Lmlxivw02sleyr+LgUtI7dbsv7Sc55WIQPAcls7o4UolZcng==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH] openssl: patch CVE-2024-9143
-Date: Wed, 23 Oct 2024 19:38:44 +0200
-Message-Id: <20241023173844.251184-1-peter.marko@siemens.com>
+Subject: [OE-core][scarthgap][PATCH] openssl: patch CVE-2024-9143
+Date: Wed, 23 Oct 2024 19:39:17 +0200
+Message-Id: <20241023173917.318845-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,27 +36,27 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 17:39:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206261
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 17:40:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206262
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch from branch openssl-3.0.
+Pick patch from branch openssl-3.2.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../openssl/openssl/CVE-2024-9143.patch       | 202 ++++++++++++++++++
- .../openssl/openssl_3.0.15.bb                 |   1 +
+ .../openssl/openssl_3.2.3.bb                  |   1 +
  2 files changed, 203 insertions(+)
  create mode 100755 meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
 
 diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
 new file mode 100755
-index 0000000000..c72a4193c6
+index 0000000000..99c16cd573
 --- /dev/null
 +++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
 @@ -0,0 +1,202 @@
-+From 72ae83ad214d2eef262461365a1975707f862712 Mon Sep 17 00:00:00 2001
++From bc7e04d7c8d509fb78fc0e285aa948fb0da04700 Mon Sep 17 00:00:00 2001
 +From: Viktor Dukhovni <viktor@openssl.org>
 +Date: Thu, 19 Sep 2024 01:02:40 +1000
 +Subject: [PATCH] Harden BN_GF2m_poly2arr against misuse.
@@ -121,7 +121,7 @@ index 0000000000..c72a4193c6
 +(cherry picked from commit 8e008cb8b23ec7dc75c45a66eeed09c815b11cd2)
 +
 +CVE: CVE-2024-9143
-+Upstream-Status: Backport [https://github.com/openssl/openssl/commit/72ae83ad214d2eef262461365a1975707f862712]
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/bc7e04d7c8d509fb78fc0e285aa948fb0da04700]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
 + crypto/bn/bn_gf2m.c     | 28 +++++++++++++++-------
@@ -129,7 +129,7 @@ index 0000000000..c72a4193c6
 + 2 files changed, 71 insertions(+), 8 deletions(-)
 +
 +diff --git a/crypto/bn/bn_gf2m.c b/crypto/bn/bn_gf2m.c
-+index c811ae82d6b15..bcc66613cc14d 100644
++index 444c5ca7a3755..ae7e9d751c29c 100644
 +--- a/crypto/bn/bn_gf2m.c
 ++++ b/crypto/bn/bn_gf2m.c
 +@@ -15,6 +15,7 @@
@@ -140,7 +140,7 @@ index 0000000000..c72a4193c6
 + 
 + /*
 +  * Maximum number of iterations before BN_GF2m_mod_solve_quad_arr should
-+@@ -1140,16 +1141,26 @@ int BN_GF2m_mod_solve_quad(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
++@@ -1130,16 +1131,26 @@ int BN_GF2m_mod_solve_quad(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
 + /*
 +  * Convert the bit-string representation of a polynomial ( \sum_{i=0}^n a_i *
 +  * x^i) into an array of integers corresponding to the bits with non-zero
@@ -171,7 +171,7 @@ index 0000000000..c72a4193c6
 +         return 0;
 + 
 +     for (i = a->top - 1; i >= 0; i--) {
-+@@ -1167,12 +1178,13 @@ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
++@@ -1157,12 +1168,13 @@ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
 +         }
 +     }
 + 
@@ -190,7 +190,7 @@ index 0000000000..c72a4193c6
 + 
 + /*
 +diff --git a/test/ec_internal_test.c b/test/ec_internal_test.c
-+index 8c2cd05631696..02cfd4e9d8858 100644
++index 5076f9894d5b8..92904cfc42b20 100644
 +--- a/test/ec_internal_test.c
 ++++ b/test/ec_internal_test.c
 +@@ -155,6 +155,56 @@ static int field_tests_ecp_mont(void)
@@ -258,14 +258,14 @@ index 0000000000..c72a4193c6
 +     ADD_TEST(field_tests_ec2_simple);
 + #endif
 +     ADD_ALL_TESTS(field_tests_default, crv_len);
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb b/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
-index b76a763cc3..5f7e7c0000 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb b/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
+index 53139df40c..2c30dbd47a 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.2.3.bb
 @@ -12,6 +12,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
             file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
-            file://afalg.patch \
             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+            file://0001-Added-handshake-history-reporting-when-test-fails.patch \
 +           file://CVE-2024-9143.patch \
             "
  
