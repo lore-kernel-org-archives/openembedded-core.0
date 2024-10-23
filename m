@@ -1,102 +1,70 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB9A4CFA47E
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 21:20:37 +0000 (UTC)
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
- by mx.groups.io with SMTP id smtpd.web11.9348.1729718430324474968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0AD5CFA47E
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 21:25:37 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web11.9449.1729718731269704396
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 14:20:30 -0700
+ Wed, 23 Oct 2024 14:25:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Dtl1lhXA;
- spf=pass (domain: gmail.com, ip: 209.85.161.47, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-5eb5be68c7dso119087eaf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 14:20:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729718429; x=1730323229; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wbAcw99YZM6PhGJfvrg7Bl2b1ib9bMPPlLt9SnMpdKM=;
-        b=Dtl1lhXAh34WOCf3fvr7YANSHoSp6pdRPkLjE58UtZFeEwdmQ06OcvHJL7bGyjX0Y1
-         8kxHgpblB9N5KCUlbKgqOszsUSNjF0vLdv1+qAPJTb5JNIyWjVcOFTwF2k0VHr/xTKlG
-         VzHxH13AMHBc+yPyITO2dXD3cWRExdgPK/Q9Hnx4pj4RoB0XOWxBHbdq+Dw1jgTxHkWH
-         ajRqyyhrcdQT4mUPa0gFpBwfRPdSPK1aMdLL89hnenvpAiZwavHWIanJk2xordaNJCPh
-         mgeMpHnQRmJ7ouCTDdBtj36IadnRAirpCIXDhsnictg7UXGxox0tEpjokh+8pktGJiJn
-         GOwg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729718429; x=1730323229;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wbAcw99YZM6PhGJfvrg7Bl2b1ib9bMPPlLt9SnMpdKM=;
-        b=Cg0CFzaR37BIrVmqdddvrgCJkimi4uutXRcJiUmOhElXUuswzw382lsZ3TnD8lar/a
-         DavvKio3uUX+IbRb+rRpANVjKYbxcbSVKtm5dd4ium/BdVYW5FZPF3S2o3uKR163UFOn
-         TRKulQVqSmWvfPlsbpT4WnhwlGvTggq2q6Hp2OMHurmovaoGhoObupI5dQNtgjAttzxk
-         Bx8pmPoLvttvWZfrnlAiCl73yV7CAZ5o136Bksq9rZ7zPBOwwX90ZGCTuv3kAvOx8BTA
-         en4iaZi2d5rH5yo5pLOui53x/FrFEkMLktlQUxBGv0m76zD4sFh3tGCyNhgMLU6HZwAV
-         QYmQ==
-X-Gm-Message-State: AOJu0Yzfg3xc5gQZT4p+lJvJzcByk/b1Xq/OAkLACDLbHmLCG/L8IyEe
-	fgm+Ew0MHB6qmWZ56jpfmFyhS1fhQ6fYjuXFMSl6I2RiUnYCp2Y4XhMCgQ==
-X-Google-Smtp-Source: AGHT+IFJa/idCOTBRqD52858BPgofhqAr5Mm7bBVasSTejrclzDFvN8o1XqTRVYKzwK7ntrZ+DJiNA==
-X-Received: by 2002:a05:6870:82a1:b0:287:7bb6:3c54 with SMTP id 586e51a60fabf-28ccb658d08mr4194474fac.38.1729718428973;
-        Wed, 23 Oct 2024 14:20:28 -0700 (PDT)
-Received: from localhost.localdomain ([2601:282:4300:19e0::fbb0])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-28c79204699sm2681940fac.2.2024.10.23.14.20.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 14:20:28 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=b98cT1+I;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20241023212527e380355aa40ac3021a-ilzhzq@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20241023212527e380355aa40ac3021a
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 23 Oct 2024 23:25:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=8ir3mMvIwqLqfYRiBFq4NOAbMT7rD7RbaQqx+W6/aLA=;
+ b=b98cT1+Ik5ENOCuMZtamH8OpyeMT1MfMvkZF8DZFQhYAuOPpqayAelXcQqMuwBCNQbEbzX
+ ySXlNxVh+RK0nJwsYT/25ZYftwZPfCsXa6LFgPoxove2jZGuNkGRH/ThRkEqhHhHH4eX0o4y
+ Jd73ZPFlFj05rHL494BKCrtIL+1wIIMRy8SAgpOdKBpsfqXSAkFbwglHc7PsHF29b5VvRgOx
+ lxBWwIjkYJru8FuQv1IWcNLE4kBr4eKNYSRVdGY+/wMPJSBNwsE7PuK9StQ2/rvdJxLDI4dg
+ dwM/U9EfS9HSYDMjZuzesVJKe75Y/nnLD3lQZ8/jHmM0hdMnYfOJHsZw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH v2 4/4] lib: package: Copy locale license
-Date: Wed, 23 Oct 2024 15:15:22 -0600
-Message-ID: <20241023212013.995247-5-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.46.2
-In-Reply-To: <20241023212013.995247-1-JPEWhacker@gmail.com>
-References: <20241018220818.4042304-1-JPEWhacker@gmail.com>
- <20241023212013.995247-1-JPEWhacker@gmail.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] python3: ignore fixed CVEs
+Date: Wed, 23 Oct 2024 23:24:39 +0200
+Message-Id: <20241023212439.2220965-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 21:20:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206269
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 21:25:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206270
 
-When creating split locales, copy the license from LICENSE:${PN}-locale
-if set, otherwise leave it unspecified (which will result in falling
-back to LICENSE)
+From: Peter Marko <peter.marko@siemens.com>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+These CVEs were fixed in 3.10.15
+
+Commit 487e8cdf1df6feba6d88fa29e11791f4ebaaa362 removed patches in favor
+of version upgrade, which caused the CVEs to re-appear in reports.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/lib/oe/package.py | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/recipes-devtools/python/python3_3.10.15.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index 480408e41e3..236a0edbcb2 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -663,6 +663,8 @@ def split_locales(d):
-     except ValueError:
-         locale_index = len(packages)
+diff --git a/meta/recipes-devtools/python/python3_3.10.15.bb b/meta/recipes-devtools/python/python3_3.10.15.bb
+index 4157b8cb83..0eb619dfa2 100644
+--- a/meta/recipes-devtools/python/python3_3.10.15.bb
++++ b/meta/recipes-devtools/python/python3_3.10.15.bb
+@@ -63,6 +63,8 @@ CVE_CHECK_IGNORE += "CVE-2020-15523 CVE-2022-26488"
+ CVE_CHECK_IGNORE += "CVE-2015-20107"
+ # Not an issue, in fact expected behaviour
+ CVE_CHECK_IGNORE += "CVE-2023-36632"
++# Fixes are included in 3.10.15
++CVE_CHECK_IGNORE += "CVE-2023-27043 CVE-2024-6232 CVE-2024-7592"
  
-+    lic = d.getVar("LICENSE:" + pn + "-locale")
-+
-     localepaths = []
-     locales = set()
-     for localepath in (d.getVar('LOCALE_PATHS') or "").split():
-@@ -698,6 +700,8 @@ def split_locales(d):
-         d.setVar('RPROVIDES:' + pkg, '%s-locale %s%s-translation' % (pn, mlprefix, ln))
-         d.setVar('SUMMARY:' + pkg, '%s - %s translations' % (summary, l))
-         d.setVar('DESCRIPTION:' + pkg, '%s  This package contains language translation files for the %s locale.' % (description, l))
-+        if lic:
-+            d.setVar('LICENSE:' + pkg, lic)
-         if locale_section:
-             d.setVar('SECTION:' + pkg, locale_section)
+ PYTHON_MAJMIN = "3.10"
  
 -- 
-2.46.2
+2.30.2
 
 
