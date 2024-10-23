@@ -2,173 +2,127 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47EF5CF5369
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C6DBCF536D
 	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 12:34:51 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.7679.1729686884345013726
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.7681.1729686888813213317
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 05:34:44 -0700
+ Wed, 23 Oct 2024 05:34:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=a148/dTo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20cf6eea3c0so55441715ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:34:44 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=fxZWVYjE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20c6f492d2dso77882395ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 05:34:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729686883; x=1730291683; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=pSfb2BNXrqF0c1Lfhj5epc18wkPQVEEiAbgPzRvi41A=;
-        b=a148/dTowRw04p8J6DzCQp/GaPjIQXwQDiPWZZePagcQSKiItzCrdpBlZWi4SDxBp2
-         pdYGeQGywLxQwf9pgJBYBypsOMWkSCXEZHlVz5gIhdVSYkK7sJ0g7RSDRFCz81Y9s/i3
-         3NJylojWFG/6Yc5CTqDruInl3Uop5DkRAWBKjS3F1aVki97ifRFhM2ZTl/kZ8Slvnt/y
-         cOfCGM0dGx24tjCznmr/4Z3SnMp5NGiYSHGzeow6VY7qf/hH+uVHQ/zq9VVIj/q7hi+9
-         +2Z9SUutVok+iixhNBqGK3bKDjlqiN5HhVcQepPdy1RfOUDEhQzQ6RlvWEkCvy0RKoiS
-         QAqg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1729686888; x=1730291688; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=UgWLJJTuaAo5qfE/vI0BvUS1VFudA7V8p4gsgj9mEUQ=;
+        b=fxZWVYjEmA2y7jF2WTL/4OXoLmsFRXhf46867HRSs1Yu1o6/DTnGSwp3vwwDRGVt5J
+         3h7LsLXu597u/UCqFiZ8+jA3tuDf4uOjfWsplnBiUcu68mHnkY4CzWVPNErJlecFEidJ
+         Y3E3NIMX8vVuoUUmWj4rH/gzfdj9vBXUtJ+23cOIfUztk+FjwYuKGayivp+0H5so8tKf
+         8BXtvJZi8M9yUTF2rntIKMAqhPS0AEZ4bT2fhFCIUWp7r1czQ2jvj1qB88m2WKnq7Jjj
+         Q5p7NgrBHJ7E3xGeuk3r4i7WmPFjko2uZqM6brNztDPYyWqQlyGSt9wQBJfEPTqLGDai
+         keAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729686883; x=1730291683;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pSfb2BNXrqF0c1Lfhj5epc18wkPQVEEiAbgPzRvi41A=;
-        b=QzsI3e8e5yXNQ92HERxhGcYD8LT6Cx3Rs8Ehtr7sCKgjaAGYaKGDjiO3UlJcFBW0mn
-         MzHlMaPpx2obrJMbfnRNQmLLCLDMOrIu0TH/1pEZYoV33ybftp8juPq82Y2I/XRSlSeE
-         DokkO38Zk4TSVlSZIvhObmUxWkY2PPkAD176geLLsPyiBdBEshOpq/T0blnool0Re9lK
-         hHGaRp82P3RbsdznUwqpDOtQpRQ5fbGw8BF3vGmK7xVrv96Qz8N9Vx/fIYxCQKPXzo+n
-         VNzwufSf0sfcVmpXYbjoeUmmVBf9pfyrfoKQzittLNOTs3C0AVi5Rtqg7Fq3RdYd/oZn
-         p/nw==
-X-Gm-Message-State: AOJu0YzsArUBvu1KI7ZWgOkoQudCF5qVw8cbsI48E5BoJ3wV1rJmgHwD
-	Uk3MTIEjvMkAPptqGjTZcIv33oUxy1VFiAWkPte+DY1VbJIX8yrb6JPtkoYR7ku9XEcOsZU3giT
-	S
-X-Google-Smtp-Source: AGHT+IHWY6UVoKanGKRSQqnjdTmYS5ak6ZZmZR+1+w85NdZr0+zvLOYOQ40xmM7o4hTLbG9ob4hIhw==
-X-Received: by 2002:a17:903:98c:b0:203:a0ea:63c5 with SMTP id d9443c01a7336-20fa707442cmr30953335ad.0.1729686883365;
-        Wed, 23 Oct 2024 05:34:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729686888; x=1730291688;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UgWLJJTuaAo5qfE/vI0BvUS1VFudA7V8p4gsgj9mEUQ=;
+        b=TjF1EsPIeYAjHDQyn/fAZmHRQ5mB3DAEii3jRNCLs6K1AahaJI7Ao6pItPWwwpY3JD
+         RwnHjqQOv9G6xr7d6abCpR3DrZXgG8DOSruvBiX4dJJxYt9N0rEh4yopaQ8hD6DtU3tS
+         8Mz/cHVVEoapmPvYWYtR0YA/IrLUKT94yqMb0Yof1kIECFX2y1du7jka/XTqvfzlnjZB
+         Q017HKnO+uV+gCS9I/W2+dl7D54m6B+50l/R+ingS6Y8+7SWm4X7sLm7lzzWdfwtaqtw
+         hWQChRMrmr6kHPU18Kw3AoixBD6mQlhnxdxDLQ7I8ZhPMIg+maYt6sE2hWWvEHVBFiTo
+         G+Gw==
+X-Gm-Message-State: AOJu0YzP3HlNg4R9jGumpHFqvjVGVzSOznZpfcZe9CPWXyulRp5NyUjz
+	FuuQDKl2xu7bKxbbB9A2a9TdCHPJn/ZA9eLYd7HT4QedDy+7x/a5ZEAVmfOQQjVak2JeJWHrthV
+	W
+X-Google-Smtp-Source: AGHT+IEWxwD79AaZZkaEZtAcekRCQYom9wcXFE/t6cOpXEwvzrAFW1JIRQieFsmLfTGb+GpMn/OSnA==
+X-Received: by 2002:a17:903:22c6:b0:20c:92ce:359d with SMTP id d9443c01a7336-20fa9ea2affmr31896275ad.45.1729686887994;
+        Wed, 23 Oct 2024 05:34:47 -0700 (PDT)
 Received: from hexa.. ([2602:feb4:3b:2100:4a40:d08b:8aa5:305c])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0de3dasm57294245ad.226.2024.10.23.05.34.42
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-20e7f0de3dasm57294245ad.226.2024.10.23.05.34.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 05:34:43 -0700 (PDT)
+        Wed, 23 Oct 2024 05:34:47 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 00/27] Patch review
-Date: Wed, 23 Oct 2024 05:34:08 -0700
-Message-Id: <cover.1729686660.git.steve@sakoman.com>
+Subject: [OE-core][styhead 03/27] glibc: stable 2.40 branch updates
+Date: Wed, 23 Oct 2024 05:34:11 -0700
+Message-Id: <08d6477a47ff7819af2c24693c5dfbd0c59ac2ff.1729686660.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1729686660.git.steve@sakoman.com>
+References: <cover.1729686660.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 12:34:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206211
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206214
 
-Please review this set of changes for styhead and have comments back by
-end of day Friday, October 25
+From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
 
-Passed a-full on autobuilder:
+Below commits on glibc-2.40 stable branch are updated.
+7073164add libio: Attempt wide backup free only for non-legacy code
+adfb14e71f debug: Fix read error handling in pcprofiledump
+f4a9b6e97b elf: Fix tst-dlopen-tlsreinit1.out test dependency
+f496b750f1 elf: Avoid re-initializing already allocated TLS in dlopen (bug 31717)
+b7edcfa0f4 elf: Clarify and invert second argument of _dl_allocate_tls_init
+3414b17e9d nptl: Use <support/check.h> facilities in tst-setuid3
+3b3350d7ba posix: Use <support/check.h> facilities in tst-truncate and tst-truncate64
+e24902f409 ungetc: Fix backup buffer leak on program exit [BZ #27821]
+dac7a0694b ungetc: Fix uninitialized read when putting into unused streams [BZ #27821]
+2f749d2b15 Make tst-ungetc use libsupport
+27fb563bfe stdio-common: Add test for vfscanf with matches longer than INT_MAX [BZ #27650]
+bc240ba7c8 support: Add FAIL test failure helper
+709319f9de string: strerror, strsignal cannot use buffer after dlmopen (bug 32026)
+586e4cd8c6 Define __libc_initial for the static libc
+c0af0c2ba0 x86: Fix bug in strchrnul-evex512 [BZ #32078]
+898f25e0b1 x32/cet: Support shadow stack during startup for Linux 6.10
+e3556937c2 x86-64: Remove sysdeps/x86_64/x32/dl-machine.h
+39ee60a719 support: Add options list terminator to the test driver
+5641780762 manual/stdio: Further clarify putc, putwc, getc, and getwc
+6a97e2ba14 Fix name space violation in fortify wrappers (bug 32052)
+aa533d58ff x86: Tunables may incorrectly set Prefer_PMINUB_for_stringop (bug 32047)
+928769737c resolv: Fix tst-resolv-short-response for older GCC (bug 32042)
+ca53bc68ab Add mremap tests
+2eb2d78ca7 mremap: Update manual entry
+3433a35842 linux: Update the mremap C implementation [BZ #31968]
+46f19b2342 Enhanced test coverage for strncmp, wcsncmp
+509166c9a5 Enhance test coverage for strnlen, wcsnlen
+132a72f93c manual: make setrlimit() description less ambiguous
+65fbcfe589 manual/stdio: Clarify putc and putwc
+5d2a931a81 malloc: add multi-threaded tests for aligned_alloc/calloc/malloc
+2aebac5e15 malloc: avoid global locks in tst-aligned_alloc-lib.c
+145b588637 Fix version number in NEWS file
+b6aeba2de1 manual: Do not mention STATIC_TLS in dynamic linker hardening recommendations
+ef14142663 resolv: Do not wait for non-existing second DNS response after error (bug 30081)
+8bbb8d7b16 resolv: Allow short error responses to match any query (bug 31890)
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/313
+Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5335a7b2852ce891a98eda18d59fc32e60f1c722)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit 0d0f3541552b073f3536176e2caf847bec24548d:
-
-  oeqa/postactions: Fix archive retrieval from target (2024-09-20 16:00:20 +0100)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/styhead-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/styhead-nut
-
-Bruce Ashfield (6):
-  linux-yocto/6.6: update to v6.6.52
-  linux-yocto/6.6: update to v6.6.54
-  linux-yocto/6.10: update to v6.10.11
-  linux-yocto/6.10: update to v6.10.12
-  linux-yocto/6.10: update to v6.10.13
-  linux-yocto/6.10: update to v6.10.14
-
-Chen Qi (1):
-  json-c: avoid ptest failure caused by valgrind
-
-Daniel McGregor (1):
-  libpam: use libdir in conditional
-
-Deepthi Hemraj (1):
-  glibc: stable 2.40 branch updates
-
-Harish Sadineni (2):
-  oeqa/selftest/gcc: Fix kex exchange identification error
-  binutils: Add missing perl modules to RDEPENDS for nativsdk variant
-
-Jonas Gorski (1):
-  rootfs-postcommands.bbclass: make opkg status reproducible
-
-Khem Raj (3):
-  linux-yocto: Enable l2tp drivers when ptest featuee is on
-  bluez: Fix mesh builds on musl
-  qemu: Fix build on musl/riscv64
-
-Niko Mauno (2):
-  bitbake.conf: Mark VOLATILE_LOG_DIR as obsolete
-  bitbake.conf: Mark VOLATILE_TMP_DIR as obsolete
-
-Peter Kjellerstedt (1):
-  image.bbclass: Drop support for ImageQAFailed exceptions in image_qa
-
-Peter Marko (1):
-  wpa-supplicant: Ignore CVE-2024-5290
-
-Purushottam Choudhary (1):
-  kmscube: Upgrade to latest revision
-
-Richard Purdie (2):
-  efi-bootdisk.wks: Increase overhead-factor to avoid test failures
-  binutils: Fix binutils mingw packaging
-
-Ross Burton (1):
-  icu: update patch Upstream-Status
-
-Sergei Zhmylev (1):
-  lsb-release: fix Distro Codename shell escaping
-
-Shunsuke Tokumoto (1):
-  python3-setuptools: Add "python:setuptools" to CVE_PRODUCT
-
-Wang Mingyu (2):
-  git: upgrade 2.46.0 -> 2.46.1
-  libevdev: upgrade 1.13.2 -> 1.13.3
-
- meta/classes-recipe/image.bbclass             |  15 +--
- .../rootfs-postcommands.bbclass               |   4 +
- meta/conf/bitbake.conf                        |   2 +
- meta/lib/oe/utils.py                          |  13 --
- meta/lib/oeqa/selftest/cases/gcc.py           |   2 +
- meta/recipes-connectivity/bluez5/bluez5.inc   |   1 +
- ...ove-local-basename-into-utility-file.patch | 114 ++++++++++++++++++
- .../wpa-supplicant/wpa-supplicant_2.11.bb     |   2 +
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- meta/recipes-devtools/binutils/binutils.inc   |   2 +-
- .../binutils/binutils_2.43.1.bb               |   4 +
- .../git/{git_2.46.0.bb => git_2.46.1.bb}      |   2 +-
- meta/recipes-devtools/json-c/json-c/run-ptest |   2 +
- .../python/python3-setuptools_72.1.0.bb       |   2 +
- meta/recipes-devtools/qemu/qemu.inc           |   1 +
- .../qemu/qemu/fix-strerrorname_np.patch       |  27 +++++
- meta/recipes-extended/lsb/lsb-release_1.4.bb  |   2 +-
- meta/recipes-extended/pam/libpam_1.6.1.bb     |   2 +-
- meta/recipes-graphics/kmscube/kmscube_git.bb  |   2 +-
- .../linux/linux-yocto-rt_6.10.bb              |   6 +-
- .../linux/linux-yocto-rt_6.6.bb               |   6 +-
- .../linux/linux-yocto-tiny_6.10.bb            |   6 +-
- .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.10.bb |  30 ++---
- meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 ++---
- .../icu/icu/fix-install-manx.patch            |   4 +-
- ...{libevdev_1.13.2.bb => libevdev_1.13.3.bb} |   2 +-
- .../lib/wic/canned-wks/efi-bootdisk.wks.in    |   2 +-
- 28 files changed, 216 insertions(+), 75 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-mesh-Move-local-basename-into-utility-file.patch
- rename meta/recipes-devtools/git/{git_2.46.0.bb => git_2.46.1.bb} (98%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/fix-strerrorname_np.patch
- rename meta/recipes-support/libevdev/{libevdev_1.13.2.bb => libevdev_1.13.3.bb} (87%)
-
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index 61996781bd..c8614e3c60 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.40/master"
+ PV = "2.40+git"
+-SRCREV_glibc ?= "6daa77104520ca992a9369bd01cccd4d98c82984"
++SRCREV_glibc ?= "7073164add3b874cf0c19ca0fb84236f6bb0985d"
+ SRCREV_localedef ?= "fab74f31b3811df543e24b6de47efdf45b538abc"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
 -- 
 2.34.1
 
