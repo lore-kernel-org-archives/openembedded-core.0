@@ -1,133 +1,221 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2EF1CDDE7D
-	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 15:11:42 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.web11.11705.1729696298204481493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3CF6D2C542
+	for <webhook@archiver.kernel.org>; Wed, 23 Oct 2024 15:29:15 +0000 (UTC)
+Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com [209.85.161.54])
+ by mx.groups.io with SMTP id smtpd.web10.273.1729697349290226429
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Oct 2024 08:11:38 -0700
+ Wed, 23 Oct 2024 08:29:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GSoXtWHk;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: liu.ming50@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-a99f646ff1bso829590666b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 08:11:37 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=eReSmUIw;
+ spf=pass (domain: gmail.com, ip: 209.85.161.54, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f54.google.com with SMTP id 006d021491bc7-5e98bfea0ceso3329133eaf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 08:29:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729696296; x=1730301096; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=rfMGMEa2xg/EQ3Sic8skDGmWwVjoMfpbXE0OCQKjpr8=;
-        b=GSoXtWHkx2l9qKoe1APawOrERQX3xuoP2P2sHhKnAIpo3ZMrVBz9f0AC2/l6XmTsFQ
-         HqpnyvZjTXnGYfdSMdqyAtToGLDTR5BNfJ4u/0OUnPZDSTuL+KYDn6DfC/+fD0qhFHAj
-         z3sWY4/u+06o7OSzQp+AT4wnwUICmYNcn4o9lFJ3wSRHNG6XxuWBHp7Tbk9J1rEdx3eH
-         BcPyF05/7xawEYquphDANFDr/mYw8p9uWEaP4uSORHRDARUEXo5cP/P/orE6X0sBzk9N
-         U3bF+eIXnJaBKyO2oPk2kG6woP9anC0IecTi05ULgqlgw8o5fZRi5vBNW4h3W7bUGqtQ
-         qwRg==
+        d=gmail.com; s=20230601; t=1729697348; x=1730302148; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=IHHngNamIhN8zKRKn9s2lUOqjpOzBsUWlhfTzfInbjA=;
+        b=eReSmUIwS4wCgeaeQlYBLKqG7Y8GhSI6QmVxcxR+yMAsKrQJ4bTA9OlnT8gvW3EbC0
+         agyHRt9hzu/5Pr/w9ZTIvDPcGKIupGtOyFyZnc9o2pQ5ioX4Nhh9Qv2Ptdt5EabBdmiZ
+         ZE/kMVyOEx6K+hBns8o3b4QXBj8epHshfvrqDlfkgYkltbf6Hgp4zKzHzpKVS2kjgCON
+         yfD/q9fWNIp9j8kTKVE3qqqf1skIdh5gt7kU1392QvYcU+PIG/q6KF9+5DwwRltHrd1p
+         hm6ebGxJnkZXIzl3HIJHc+l8nqV1OTzrzuXEdNKXBf/Wte6WmWtBAxGj/tFZfX9/OoV9
+         zgDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729696296; x=1730301096;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rfMGMEa2xg/EQ3Sic8skDGmWwVjoMfpbXE0OCQKjpr8=;
-        b=RZjDrSGnJdSRPFsk7BXr8hSshDVayblmJAZ8LnlaRvYT84KfEpheM0PKGpeqmRsldm
-         pXVs4SD+YNxueDk6Yd1Xip89jTXQrVolKl24Pl2R+naLIBXFBXN/ab2QDq9M7bUrJDux
-         DrbEjFM4maYt92s05O9oxH300kKqJJ1y6laHdDlWL7o5Ipa3B6EZ2NaQcnNeVOJ1MsCO
-         B/2bpf2Q2KXcr+viyyH75de4OXRbJE3jtUQzAeZZ3C64+B6Jp8lLVq4Dp/TsX2aj/j/y
-         RWoc9jfGMdFtvIP9hPU1m1OPVJBsgC06yJa4sQ1v1Jc5+sYnMnM8G0IOtZHwrWihzNd0
-         +WPA==
-X-Gm-Message-State: AOJu0YzyUAUFsPu83S0GTQflSWK8V8GsZQB8vzDWRWxslsP/rpNrLw+H
-	BRZA2NxEbjSTDxkv7dT5vPWILbe3Lb3l6lPmZku0Ii6GrVvOI4A6EoTB+Q==
-X-Google-Smtp-Source: AGHT+IHrWqqO0tI6sCsqmoia2qSvI+F87dA2cxU+rbmfqasxjR1L6L0q9Uxgu90svbfnT7mE7dwdvw==
-X-Received: by 2002:a17:907:960b:b0:a9a:e2b:170a with SMTP id a640c23a62f3a-a9abf52b269mr311589566b.0.1729696295527;
-        Wed, 23 Oct 2024 08:11:35 -0700 (PDT)
-Received: from peterliu-Precision-5680.atlascopco.group (static-212-247-106-195.cust.tele2.se. [212.247.106.195])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9a912d6312sm489090566b.2.2024.10.23.08.11.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Oct 2024 08:11:33 -0700 (PDT)
-From: Ming Liu <liu.ming50@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Ming Liu <liu.ming50@gmail.com>
-Subject: [OE-core] [PATCH V2 2/2] meta: support tar.zst SDK_ARCHIVE_TYPE
-Date: Wed, 23 Oct 2024 17:11:27 +0200
-Message-ID: <20241023151127.3611757-2-liu.ming50@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241023151127.3611757-1-liu.ming50@gmail.com>
-References: <20241023151127.3611757-1-liu.ming50@gmail.com>
+        d=1e100.net; s=20230601; t=1729697348; x=1730302148;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IHHngNamIhN8zKRKn9s2lUOqjpOzBsUWlhfTzfInbjA=;
+        b=BXM93iqfV8iVR1Isf/pE/c7NkcEW59OGYbjpmFT5Z+amSe4QZPSRG2duk+Hw+xUW0U
+         xLdSvVZCz1QaC9euyVkperEGMghPemNVsAu6Zv5SpsOA/uiOL69/l6mvj9NepqiWtbQZ
+         iYqVPzy4MnfsRWBikD/3ox0i45CsawSqjBrSydFSo2kKlPDiPFnV9I2xrpd63qzCisZH
+         kpBVmXaDG3auUwtc+i5OJMl69ho8VwQG/cnkrnehPS4lPcSPQ6otBMnMeD2iZsuLKHwL
+         uNJdau80pNbEUehdk3+nHMkFgg5Kl0nPsDqu6HnVb3TsorG9HKzMN+KS7O87+FNF/2Dv
+         dnlg==
+X-Forwarded-Encrypted: i=1; AJvYcCWTTUSBBQ08y9FVamDwryulc4TsXRQEo+MJcUxcAYeyaGC9p2YoMv86FmUQb+N7HitHB2vtiGmmVJwdLwhKoh7Puw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzgquukijCHYoAeAhK0ho5cuKxB35OGh1dGcJQF6zBeeNjfWvhN
+	vd3HsralnZuRnG94ZnNwJbPMyXocrckyAGN3jz2+ZGKTDoUQHzoQDpvsYNEEQVhG7w5HtVt/KBC
+	Uml4Q08CxANTQV/pZWENMlQDEues=
+X-Google-Smtp-Source: AGHT+IFgk7QWSgapT865BSFKlovJ/xBkgA13a8GIj5MEwL2+M4rO5eTlbLidVdhicPpTNUWrAi7NZMrlHLNN8ObkHxE=
+X-Received: by 2002:a05:6820:2290:b0:5eb:c5dc:a636 with SMTP id
+ 006d021491bc7-5ebee4d67f9mr2146225eaf.2.1729697348467; Wed, 23 Oct 2024
+ 08:29:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <17FE0CA1425F2338.24631@lists.openembedded.org>
+ <17FFD5DF016C394D.24795@lists.openembedded.org> <5afe4b6b2816613ac715bba3ee2f1e94c2a3cb0f.camel@linuxfoundation.org>
+ <CANNYZj8ZrpWyObbQJReS-dLfjxY3QpyggqB53r_jcqFhTUvXdw@mail.gmail.com> <f1b97191136f649bac813f2159e3a40345f387c8.camel@linuxfoundation.org>
+In-Reply-To: <f1b97191136f649bac813f2159e3a40345f387c8.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 23 Oct 2024 08:28:57 -0700
+Message-ID: <CAMKF1spng0TOm9_qy3-Koeeo0LK4FJorfa21J_9Po=pT89akzw@mail.gmail.com>
+Subject: Re: [OE-core] Latest AB-INT unexplained mystery failure
+To: richard.purdie@linuxfoundation.org
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
+	Michael Halstead <mhalstead@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="0000000000000645580625268cb2"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 15:11:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206249
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Oct 2024 15:29:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206250
 
-zst is much faster than the default xz, test result on my Precision
-5680 machine:
+--0000000000000645580625268cb2
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Installing a tar.xz SDK takes 37 seconds while tar.zst only takes 17
-seconds.
+On Tue, Oct 22, 2024 at 2:58=E2=80=AFAM Richard Purdie via lists.openembedd=
+ed.org
+<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
 
-Let's introduce support for tar.zst.
+> On Mon, 2024-10-21 at 12:55 +0200, Alexander Kanavin wrote:
+> > On Sat, 19 Oct 2024 at 23:48, Richard Purdie via
+> > lists.openembedded.org
+> > <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> >
+> > > Creative ideas on further debugging welcome, I'm not sure where
+> > > from
+> > > here. I think it narrows down the issue to the host kernel or qemu
+> > > and
+> > > these qemu binaries are working on the other builders. The host is
+> > > a
+> > > 5.10.223 kernel:
+> > >
+> > > $ cat /proc/version
+> > > Linux version 5.10.0-32-amd64 (debian-kernel@lists.debian.org)
+> > > (gcc-10 (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils for
+> > > Debian) 2.35.2) #1 SMP Debian 5.10.223-1 (2024-08-10)
+> >
+> > There's an option to use 6.1 kernel on bullseye:
+> > https://packages.debian.org/bullseye-backports/linux-image-amd64
+> >
+> > so I'd give that a shot, if only to confirm (or refute) it's
+> > definitely 5.10 on the host.
+>
+> Michael was able to switch debian11-vk-1 to the 6.1 kernel (thanks!)
+> and I've run  5 builds successfully on it, the single build I tried on
+> debian11-vk3 at the same time failed.
+>
+> I'm therefore willing to say this is some bug in the 5.10 kernel,
+> switch our other two workers to 6.1 and call things "resolved".
+>
+> Yes, ideally we'd track it down and get it fixed properly but we're not
+> really setup to debug Debian bugs in old releases and we have other
+> more pressing problems.
 
-Also add a sanity check for supported archive types.
 
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
----
- meta/classes-recipe/populate_sdk_base.bbclass | 12 ++++++++++--
- meta/files/toolchain-shar-extract.sh          |  6 ++++++
- 2 files changed, 16 insertions(+), 2 deletions(-)
+I agree with this. I was wondering if there is some aspects that Debian
+community can be made aware of the problem ?
 
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 16013d5872..031c65f05f 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -84,6 +84,7 @@ SDK_XZ_OPTIONS ?= "${XZ_DEFAULTS} ${SDK_XZ_COMPRESSION_LEVEL}"
- SDK_ZIP_OPTIONS ?= "-y"
- SDK_7ZIP_OPTIONS ?= "-mx=9 -mm=BZip2"
- SDK_7ZIP_TYPE ?= "7z"
-+SDK_ZSTD_COMPRESSION_LEVEL = "-17"
- 
- # To support different sdk type according to SDK_ARCHIVE_TYPE, now support zip and tar.xz
- python () {
-@@ -95,9 +96,16 @@ python () {
-     elif d.getVar('SDK_ARCHIVE_TYPE') == '7zip':
-        d.setVar('SDK_ARCHIVE_DEPENDS', 'p7zip-native')
-        d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; 7za a -r ${SDK_7ZIP_OPTIONS} ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_7ZIP_TYPE} .')
--    else:
-+    elif d.getVar('SDK_ARCHIVE_TYPE') == 'tar.zst':
-+       d.setVar('SDK_ARCHIVE_DEPENDS', 'zstd-native')
-+       d.setVar('SDK_ARCHIVE_CMD',
-+         'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | zstd -f -k -T0 -c ${SDK_ZSTD_COMPRESSION_LEVEL} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
-+    elif d.getVar('SDK_ARCHIVE_TYPE') == 'tar.xz':
-        d.setVar('SDK_ARCHIVE_DEPENDS', 'xz-native')
--       d.setVar('SDK_ARCHIVE_CMD', 'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz ${SDK_XZ_OPTIONS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
-+       d.setVar('SDK_ARCHIVE_CMD',
-+         'cd ${SDK_OUTPUT}/${SDKPATH}; tar ${SDKTAROPTS} -cf - . | xz ${SDK_XZ_OPTIONS} > ${SDKDEPLOYDIR}/${TOOLCHAIN_OUTPUTNAME}.${SDK_ARCHIVE_TYPE}')
-+    else:
-+        bb.fatal("Invalid SDK_ARCHIVE_TYPE: %s, the supported SDK archive types are: zip, 7z, tar.xz, tar.zst" % d.getVar('SDK_ARCHIVE_TYPE'))
- }
- 
- SDK_RDEPENDS = "${TOOLCHAIN_TARGET_TASK} ${TOOLCHAIN_HOST_TASK}"
-diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolchain-shar-extract.sh
-index 9b72499ccf..208afaa4ae 100644
---- a/meta/files/toolchain-shar-extract.sh
-+++ b/meta/files/toolchain-shar-extract.sh
-@@ -255,6 +255,12 @@ if [ @SDK_ARCHIVE_TYPE@ = "zip" ]; then
-     else
-         rm sdk.zip && exit 1
-     fi
-+elif [ @SDK_ARCHIVE_TYPE@ = "tar.zst" ]; then
-+    if [ -z "$(which zstd)" ]; then
-+        echo "Aborted, zstd is required to extract the SDK archive, please make sure it's installed on your system!"
-+        exit 1
-+    fi
-+    tail -n +$payload_offset "$0"| zstd -T0 -dc | $SUDO_EXEC tar mx -C $target_sdk_dir --checkpoint=.2500 $EXTRA_TAR_OPTIONS || exit 1
- else
-     if [ -z "$(which xz)" ]; then
-         echo "Aborted, xz is required to extract the SDK archive, please make sure it's installed on your system!"
--- 
-2.43.0
+>
+>
+> Cheers,
+>
+> Richard
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206146):
+> https://lists.openembedded.org/g/openembedded-core/message/206146
+> Mute This Topic: https://lists.openembedded.org/mt/108984574/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--0000000000000645580625268cb2
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div><br></div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">On Tue, Oct 22, 2024 at 2:58=E2=80=AFAM Richard Purdie via =
+<a href=3D"http://lists.openembedded.org">lists.openembedded.org</a> &lt;ri=
+chard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.openembedded.org=
+">linuxfoundation.org@lists.openembedded.org</a>&gt; wrote:<br></div><block=
+quote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc=
+ solid;padding-left:1ex">On Mon, 2024-10-21 at 12:55 +0200, Alexander Kanav=
+in wrote:<br>
+&gt; On Sat, 19 Oct 2024 at 23:48, Richard Purdie via<br>
+&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
+"_blank">lists.openembedded.org</a><br>
+&gt; &lt;richard.purdie=3D<a href=3D"mailto:linuxfoundation.org@lists.opene=
+mbedded.org" target=3D"_blank">linuxfoundation.org@lists.openembedded.org</=
+a>&gt; wrote:<br>
+&gt; <br>
+&gt; &gt; Creative ideas on further debugging welcome, I&#39;m not sure whe=
+re<br>
+&gt; &gt; from<br>
+&gt; &gt; here. I think it narrows down the issue to the host kernel or qem=
+u<br>
+&gt; &gt; and<br>
+&gt; &gt; these qemu binaries are working on the other builders. The host i=
+s<br>
+&gt; &gt; a<br>
+&gt; &gt; 5.10.223 kernel:<br>
+&gt; &gt; <br>
+&gt; &gt; $ cat /proc/version<br>
+&gt; &gt; Linux version 5.10.0-32-amd64 (<a href=3D"mailto:debian-kernel@li=
+sts.debian.org" target=3D"_blank">debian-kernel@lists.debian.org</a>)<br>
+&gt; &gt; (gcc-10 (Debian 10.2.1-6) 10.2.1 20210110, GNU ld (GNU Binutils f=
+or<br>
+&gt; &gt; Debian) 2.35.2) #1 SMP Debian 5.10.223-1 (2024-08-10)<br>
+&gt; <br>
+&gt; There&#39;s an option to use 6.1 kernel on bullseye:<br>
+&gt; <a href=3D"https://packages.debian.org/bullseye-backports/linux-image-=
+amd64" rel=3D"noreferrer" target=3D"_blank">https://packages.debian.org/bul=
+lseye-backports/linux-image-amd64</a><br>
+&gt; <br>
+&gt; so I&#39;d give that a shot, if only to confirm (or refute) it&#39;s<b=
+r>
+&gt; definitely 5.10 on the host.<br>
+<br>
+Michael was able to switch debian11-vk-1 to the 6.1 kernel (thanks!)<br>
+and I&#39;ve run=C2=A0 5 builds successfully on it, the single build I trie=
+d on<br>
+debian11-vk3 at the same time failed.<br>
+<br>
+I&#39;m therefore willing to say this is some bug in the 5.10 kernel,<br>
+switch our other two workers to 6.1 and call things &quot;resolved&quot;.<b=
+r>
+<br>
+Yes, ideally we&#39;d track it down and get it fixed properly but we&#39;re=
+ not<br>
+really setup to debug Debian bugs in old releases and we have other<br>
+more pressing problems.</blockquote><div dir=3D"auto"><br></div><div dir=3D=
+"auto">I agree with this. I was wondering if there is some aspects that Deb=
+ian community can be made aware of the problem ?=C2=A0</div><blockquote cla=
+ss=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;pa=
+dding-left:1ex" dir=3D"auto"><br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#206146): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/206146" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/206146</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/108984574/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/108984574/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--0000000000000645580625268cb2--
 
