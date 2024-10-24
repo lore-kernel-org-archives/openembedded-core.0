@@ -1,130 +1,161 @@
-Return-Path: <esben@geanix.com>
+Return-Path: <sreejith.ravi087@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1722CCE8E81
-	for <webhook@archiver.kernel.org>; Thu, 24 Oct 2024 14:29:18 +0000 (UTC)
-Received: from www530.your-server.de (www530.your-server.de [188.40.30.78])
- by mx.groups.io with SMTP id smtpd.web11.15961.1729780154058865941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C6DACE8E86
+	for <webhook@archiver.kernel.org>; Thu, 24 Oct 2024 14:48:58 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.16421.1729781331184409611
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Oct 2024 07:29:15 -0700
+ Thu, 24 Oct 2024 07:48:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@geanix.com header.s=default2211 header.b=eZcSuxQz;
- spf=pass (domain: geanix.com, ip: 188.40.30.78, mailfrom: esben@geanix.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=geanix.com;
-	s=default2211; h=Content-Transfer-Encoding:Content-Type:MIME-Version:
-	Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=tHf9TM5SnvkhlFEsI3BI0dYdZikoCQv7WDjJ1ScwzKA=; b=eZcSuxQzt2yyOQzi2C7AiRDzaV
-	qQlXg/5bvaHAtJ2DsTC1k2NtF94wzJ7PAhMXLLFZZ5a0zfQk1a4iC7ycBBvtgIt1CMqase88Lrty6
-	u5lMCbq3t+AZI5f/egru+p9PGZcK+de61YkxwhM0o9Qhc9OOKqaRLTWKm/D5Qn1MWcpO9ryR3OCXV
-	d2fw4AKrsoDH4IRtwXw0rDtAHzC7P8xaE3Ne6I63e9ZmceUVUT/zdF4k3NOrTOXTDbGX26vPT/UAd
-	hTp8fdg9o3xiCaaoofb+Q+61yr01HnrDNgDkuDbDgXPRM72TyRcWjpufZ2Cul8SvtOeo/pOQxEaLw
-	9bkFvjLw==;
-Received: from sslproxy02.your-server.de ([78.47.166.47])
-	by www530.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <esben@geanix.com>)
-	id 1t3ypq-000HuC-Q2; Thu, 24 Oct 2024 16:29:10 +0200
-Received: from [185.17.218.86] (helo=localhost)
-	by sslproxy02.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <esben@geanix.com>)
-	id 1t3ypq-0005X8-1X;
-	Thu, 24 Oct 2024 16:29:10 +0200
-From: Esben Haabendal <esben@geanix.com>
-To: "Richard Purdie" <richard.purdie@linuxfoundation.org>
-Cc: Changqing Li <changqing.li@windriver.com>,
-  openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] systemd: fix journald persistency when
- VOLATILE_LOG_DIR is false
-In-Reply-To: <58cf7a251cc55641f2d5da7dfedf204e367cc38b.camel@linuxfoundation.org>
-	(Richard Purdie's message of "Thu, 24 Oct 2024 13:58:10 +0100")
-References: <20241024-systemd-create-log-dirs-v1-1-23cba4a734ab@geanix.com>
-	<58cf7a251cc55641f2d5da7dfedf204e367cc38b.camel@linuxfoundation.org>
-Date: Thu, 24 Oct 2024 16:29:10 +0200
-Message-ID: <87seslpoax.fsf@geanix.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=drfWS/7Q;
+ spf=pass (domain: gmail.com, ip: 209.85.221.44, mailfrom: sreejith.ravi087@gmail.com)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-37ece998fe6so111930f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 07:48:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729781329; x=1730386129; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WCKQWGarc/I1TFQnt2IPnyOeVWDQO6XF3STVfKtNA8o=;
+        b=drfWS/7QSWSmKalOrlwRQ76WbTTOQd0D0juzeAaVDdVHvUst1hkMueVDo/mCNqMPzm
+         ov1BO/KS9tjKegaSDgSCjOtPQod97XzqucdoCQisRwbRr51hDLDLr1zz+jEpnCCBkE6A
+         EPG2VuAW3NPC3WdjYE+oqg4fLdAy7vOOpuSO3e72qshvtYnPS1alr/F9ngHCS2R/vaV7
+         6SmETgMFxKQIioRGJLxGr0j3dtSu2FehvVoGc3nvxroeJlIDIxxeSv3cDVhAK1fb5bVk
+         b6XwrgEME/W85gnI8F6wnYKaCbnLhTm8f0CHVYCg0uSx8WO16bh5D+OUGLy1dRcjKk8A
+         ehGw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729781329; x=1730386129;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WCKQWGarc/I1TFQnt2IPnyOeVWDQO6XF3STVfKtNA8o=;
+        b=AFDdwfpXjPS/U+r9eol6qMlmLDqN5FTodQJIoYvW1IDB4qbgXQ/fabttutBMZJPeFN
+         5J1mSx2oBKCcyRKXz3WKKlx2w4U8g6fjRyvLH4iHn1paPhDXBg/h+XW8CvOGGMPFzIx6
+         DIH8pXcpPF1O6w3AVyCYlK1HbJzYIztcCK7EhG3IqLOCT417M80Ob51PEooMgJdY3/Q8
+         1dX5UaC2olTsibN9AcEuOXRp0jnTPZdNcF4lKonYdkwhiNYgmS3443Exh0FOHaPnnvKE
+         HvcuU90WsJbpyIRsSWGceAayqPqoJZSMsOD0jCf+9qH7AUJyZSwiPhwtJ2r9r6UyuWtM
+         El9A==
+X-Gm-Message-State: AOJu0YxdwoFe0643VQqzm+uK/XBlsyCgd7b3peNQck5WKg6PR45gBgDE
+	vroTXYDJ/RyEBmhMLX6TY423BLfyIou7AornKEulHalaBiPxM4QBmadJdw==
+X-Google-Smtp-Source: AGHT+IH0mXVvg/WckVPXc0+U2gFQtN2MhpWjjUq0pec3nVAeRHv67rRfa+5KKsnHaNJELq6w/SC0Gg==
+X-Received: by 2002:a5d:47c2:0:b0:374:cc10:bb42 with SMTP id ffacd0b85a97d-37efcef323fmr2063106f8f.2.1729781328832;
+        Thu, 24 Oct 2024 07:48:48 -0700 (PDT)
+Received: from hbox.local (178.72-31-62.static.virginmediabusiness.co.uk. [62.31.72.178])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-37ee0a583edsm11459790f8f.49.2024.10.24.07.48.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 07:48:48 -0700 (PDT)
+From: Sreejith Ravi <sreejith.ravi087@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sreejith Ravi <sreejith.ravi087@gmail.com>
+Subject: [PATCH] packagedata.py : Fix RDEPENDS Version issue with AUTOINC
+Date: Thu, 24 Oct 2024 15:48:45 +0100
+Message-ID: <20241024144845.43504-1-sreejith.ravi087@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Authenticated-Sender: esben@geanix.com
-X-Virus-Scanned: Clear (ClamAV 0.103.10/27437/Thu Oct 24 10:33:37 2024)
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 14:29:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206298
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 14:48:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206299
 
-"Richard Purdie" <richard.purdie@linuxfoundation.org> writes:
+Currently, RDEPENDS for -staticdev and -dev is set using EXTENDPKGV
+in meta/conf/bitbake.conf:
+----------------------------------
+EXTENDPKGV ?= "${EXTENDPKGEVER}${PKGV}-${PKGR}"
+DEV_PKG_DEPENDENCY = "${PN} (= ${EXTENDPKGV})"
+RDEPENDS:${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
+----------------------------------
 
-> On Thu, 2024-10-24 at 13:41 +0200, Esben Haabendal via lists.openembedded=
-.org wrote:
->> Commit 18d46e11d85d ("systemd: fix dead link /var/log/README") broke the
->> default systemd behavior when VOLATILE_LOG_DIR is set to false.
->>=20
->> By not creating the /var/log/journal directory, the default configured
->> systemd (Storage=3Dauto) will silently revert to just doing volatile
->> logging (/run/journal).
->>=20
->> The problem fixed with the above mentioned commit was specifically relat=
-ed
->> to configurations where VOLATILE_LOG_DIR is true, in which case it should
->> be perfectly fine to not create the /var/log/journal directory, so we
->> should be able to keep the fix in place, while not breaking behavior for
->> non VOLATILE_LOG_DIR configurations.
->>=20
->> Signed-off-by: Esben Haabendal <esben@geanix.com>
->> ---
->> =C2=A0meta/recipes-core/systemd/systemd_256.6.bb | 2 +-
->> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/meta/recipes-core/systemd/systemd_256.6.bb b/meta/recipes-c=
-ore/systemd/systemd_256.6.bb
->> index 68f15ab065dd5985e4e5cefc2cd005dba5ac9c7f..88ee0c8a7f89726fc9be489f=
-3fc419f9feb37251 100644
->> --- a/meta/recipes-core/systemd/systemd_256.6.bb
->> +++ b/meta/recipes-core/systemd/systemd_256.6.bb
->> @@ -254,7 +254,7 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -Dsystem-uid-max=3D999 \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -Dsystem-alloc-gid-min=3D101 \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -Dsystem-gid-max=3D999 \
->> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -Dcreate-log-dirs=3Dfalse \
->> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@ '-Dcreate-log-dirs=3Dfalse' if oe.typ=
-es.boolean(d.getVar('VOLATILE_LOG_DIR')) else '' } \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@bb.utils.contains('DISTRO_FEATURES'=
-, 'zeroconf', '-Ddefault-mdns=3Dno -Ddefault-llmnr=3Dno', '', d)} \
->> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
->> =C2=A0
->>=20
->
-> There were recent changes in this area so that is not the correct way
-> to do this in master.
->
-> meta/conf/bitbake.conf:BB_RENAMED_VARIABLES[VOLATILE_LOG_DIR] =3D "is obs=
-olete and no longer supported"
->
-> This does make me wonder about testing :(.
+During the do_package task, AUTOINC is replaced in PKGV
+(via package_setup_pkgv), which is used for creating the package name.
+However, Yocto sets RDEPENDS with PKGV during the recipe parsing stage,
+resulting in the RDEPENDS field in the IPK control data containing AUTOINC.
 
-Guilty as charged. Testing was on scarthgap. I currently does not have a
-working test setup for master.
+As the IPK name is generated with the updated PKGV, but the version in
+RDEPENDS still uses AUTOINC, this mismatch leads to installation failures.
 
-I guess I will have to wait with this until I can do proper testing
-then.
+Example: libnsl
+install libnsl-staticdev throws the error,  nothing provides
+libnsl-dev = 1.2.0+gitAUTOINC+4a062cf418-r0
+----------------------------------
+IPKs available:
+libnsl2_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-src_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-dbg_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-staticdev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-dev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
 
-I will resend this patch against scarthgap though, as it is valid and
-tested there.
+control data: libnsl-staticdev
+Package: libnsl-staticdev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl-dev (= 1.2.0+gitAUTOINC+4a062cf418-r0)
+Provides: libnsl2-staticdev
+Source: libnsl2_git.bb
 
-For master and styhead, I need to change to check
-FILESYSTEM_PERMS_TABLES instead.
+control data: libnsl-dev
+Package: libnsl-dev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl2 (= 1.2.0+gitAUTOINC+4a062cf418-r0), libtirpc-dev
+Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
+Provides: libnsl2-dev
+Source: libnsl2_git.bb
+----------------------------------
 
-/Esben
+This patch fixes the RDEPENDS versions set using EXTENDPKGV in the -dev and
+-staticdev packages. It replaces AUTOINC before generating the package control data.
+
+Updated control data:
+----------------------------------
+Package: libnsl-dev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl2 (= 1.2.0+git0+4a062cf418-r0), libtirpc-dev
+Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
+Provides: libnsl2-dev
+Source: libnsl2_git.bb
+
+Package: libnsl-staticdev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl-dev (= 1.2.0+git0+4a062cf418-r0)
+Provides: libnsl2-staticdev
+Source: libnsl2_git.bb
+----------------------------------
+
+Signed-off-by: Sreejith Ravi <sreejith.ravi087@gmail.com>
+---
+ meta/classes-global/package.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index 6cd8c0140f..066a7ff835 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -325,6 +325,15 @@ python package_setup_pkgv() {
+     # Adjust pkgv as necessary...
+     if 'AUTOINC' in pkgv:
+         d.setVar("PKGV", pkgv.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
++
++    # Adjust dependencies that are statically set with EXTENDPKGV
++    vars = ["RDEPENDS","RPROVIDES","RRECOMMENDS","RSUGGESTS","RREPLACES","RCONFLICTS"]
++    packages = d.getVar('PACKAGES').split()
++    for var in vars:
++        for pkg in packages:
++            val = d.getVar("%s_%s"%(var,pkg))
++            if val and 'AUTOINC' in val:
++                d.setVar("%s_%s"%(var,pkg), val.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
+ }
+ 
+ 
+-- 
+2.43.0
+
 
