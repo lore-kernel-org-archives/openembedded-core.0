@@ -1,353 +1,124 @@
-Return-Path: <sreejith.ravi087@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83EB2CE8E6F
-	for <webhook@archiver.kernel.org>; Thu, 24 Oct 2024 12:43:27 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web10.13674.1729773797717795146
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 867DACE8E70
+	for <webhook@archiver.kernel.org>; Thu, 24 Oct 2024 12:48:47 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.13763.1729774117473095072
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Oct 2024 05:43:17 -0700
+ Thu, 24 Oct 2024 05:48:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CXakq0zK;
- spf=pass (domain: gmail.com, ip: 209.85.215.180, mailfrom: sreejith.ravi087@gmail.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7c3d8105646so65321a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 05:43:17 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=rvyUhrOM;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.49, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6cbf0769512so5658386d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 05:48:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729773797; x=1730378597; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hKPLU5H6Pk1XP8RoOM7Hdw7BSrfYCQaerzla7HqbqTY=;
-        b=CXakq0zKh23A2JPq4oYADD+7Kzc+JTvL7y9ObBS04/4QG5wRYrNMaNuuP5NImLzjy5
-         SR3P/x79Yz0FSN3HdA7r9moDDWa9k6D2gPLufG3AxTO3gOzLVvq6Z5gPxsHBMx9GWYD0
-         O1Vqaa20/JZk5la8AK9mQ5pV06oRv5/KiXiB18v93Qcm8Sqkurn4SOhK81BnwS9v/Cp5
-         Xxyj+gmT1paKWaHhhGEO/aRvXLH4ZXpMmUG8wtmcXywusT9S+wZ5nwF+hUM1cONN0mCR
-         ZugFliLkazmVfFWSbjQ7QFlOJpTWLm1pJ3RVIHkQcXFVbuUckMzZPnaP3z3TISH14n9p
-         EPkg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1729774116; x=1730378916; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=a1AmGGlmYrtCPfcymFzP8QLOb9daJtikYYRfaZw4Lps=;
+        b=rvyUhrOMrr/gzVabIyLy21IX9bVh9fHeZvFuXt3gbFrCb4zTNE3r5w5LG89E4pMC5w
+         QZRFW3nUt9fBchqEn4XMqfsrAp7ld0cds48ZnM/DGV4iKPFK+U9JuSztGu+ZMNchbnMr
+         uWA+vaLRkKRHfpaX2sW1Xodbk38ItAG7Lam1KE/2L4WjCEtxNM8gyAg6lo3QGXJo4HoZ
+         cUqks7wh8cdcOuGI9Svkvs7JdGNuietBLzEvD6IbqimRETd61RtTm3wW9U44tVpL0r6L
+         PianuZI/fvEualZXemmjMnbeXJj6jysaRDbGaHH9DwO7zz78CKIX7b4XJLxadD7GIFS1
+         Qbkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729773797; x=1730378597;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hKPLU5H6Pk1XP8RoOM7Hdw7BSrfYCQaerzla7HqbqTY=;
-        b=iuwKwred0uZHeSfBf0rc/OjrvhY5SXQGpXZfe+ZU1rbQSxrN+p8IOT/+OGcY3E/lPX
-         EBbhIc6NENqxQqNFNxBLs9HqsqPZOa6L/LXUw0jNwopKkAw7Yyp/ov2x6mpOQxTePM1I
-         5d8eWkk9j3VgD21fNE6KGoTSxtd4J6iO80RG/oT3MJWP2P06fEBwR3RaKofeontv+Pvb
-         7QvpVSrT2aYB05bwZiaRFAuZVOC/3mgX+TqqCxVYfnT/Nh1P/6gLgdKrrwrPhMTYYfdJ
-         lKrEjONuVAt5ZykpoFAZVRAqbwbGbFOr0r381BD1jGkEu6nkdJJ/F65MPBatfhXxOqng
-         JPMg==
-X-Gm-Message-State: AOJu0Yx4wrX3NQMdQ1UzViSbwygd/nsS6qQvc+S2wo7NkEraXNVMhP4u
-	3cxTB2knvq8oBfZr4HILoRAucl8KJ7MPgJtjDB3v+GhUCnXNSiHuA9DW6ww1ZbTPsHl+y2kUnid
-	oVgqN6M9r4tKCDZYWL0M0pkycZzI=
-X-Google-Smtp-Source: AGHT+IHDJ3xu+mm74cpsIiwwDcP0dPxvFcADvgD8cKjPwyZausW3gmeNrwEkl1/mtk+bIq6kiP1fkbtyRMc9AzuLYZM=
-X-Received: by 2002:a05:6a21:6d9f:b0:1cf:308f:f87b with SMTP id
- adf61e73a8af0-1d978b0064amr4375439637.4.1729773796533; Thu, 24 Oct 2024
- 05:43:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729774116; x=1730378916;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=a1AmGGlmYrtCPfcymFzP8QLOb9daJtikYYRfaZw4Lps=;
+        b=M0eh/kwFdcht1lwonJETmUiNVGwlUBw2jA9pi00aXrTFinjCl2GFuD7D2/MiddBLCP
+         U1w46QSNzd9Am+QUedz70fr36xIzQirWeaS1skuKrrTpBDz+ItfBNumNbDjOe60BQJ2S
+         t/hOs8aMFm5bs2pevrmEI8668xWAL4l1/z88dVyHUD7YxBKOPBXcPf82bi0fu+079lnZ
+         53LrVG/289utJDjb4EC8Y8+q/b4cxLaeDRBmzMqFljG/K1z13TqGJwDuEUp9f5HpAXqw
+         HLCpiSB4k+b+WsH4xMi8bQAHTVIHVYFM8JmswFn7FPzyv5HTKohWLkDVFVW/ka9hmIuj
+         +iGQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQn+ghX4kj0FlLp4co0KFs8L7ThStY6+AoCgGUPtGOSqE/C1hi7LRfqPI8akhsKtVPSfSCqWC5MiF4fcR9vpG/dw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yz9gfcXvbCEq5n8Lqx3rfiyZE2jGHE3kisSmuh+ygllDFrp5eeY
+	QLCpccb2bYXg4qwzLCoRDOkoTLIaxKs4o97kjFIR2sPZdRrLmHx5aZh86dJGFDjXYk2luKdYYG8
+	+
+X-Google-Smtp-Source: AGHT+IFLqjMn99n/tIbO/YylM9mpGqoLZMggjr3Lw5asdboi8pXLLPXdWxZt2aS0p3zWQJVe4gBZow==
+X-Received: by 2002:a05:6214:5d04:b0:6cb:e770:f505 with SMTP id 6a1803df08f44-6ce3430f02cmr73305776d6.50.1729774115543;
+        Thu, 24 Oct 2024 05:48:35 -0700 (PDT)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6ce00a01354sm49049386d6.140.2024.10.24.05.48.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Oct 2024 05:48:35 -0700 (PDT)
+Message-ID: <e6713433-e01a-4065-b9f2-0be0d0ac9cf4@baylibre.com>
+Date: Thu, 24 Oct 2024 08:48:34 -0400
 MIME-Version: 1.0
-References: <20241024103906.41742-1-sreejith.ravi087@gmail.com> <4cabf8db3630df2db2474c476745bf7ecc893f5b.camel@linuxfoundation.org>
-In-Reply-To: <4cabf8db3630df2db2474c476745bf7ecc893f5b.camel@linuxfoundation.org>
-From: Sreejith Ravi <sreejith.ravi087@gmail.com>
-Date: Thu, 24 Oct 2024 13:43:04 +0100
-Message-ID: <CAFt4JuFb1kBEFCewG4Oh2efyniEm5v014=My=y3xifCLv1b=Tw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] packagedata.py : Fix RDEPENDS Version issue
- with AUTOINC
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000af31f60625385896"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][PATCH 4/4 v2] python3-dtc: upgrade 1.7.0 -> 1.7.1
+To: Ross Burton <Ross.Burton@arm.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20240924150001.2586819-1-tgamblin@baylibre.com>
+ <20240924150001.2586819-4-tgamblin@baylibre.com>
+ <5E176A0E-4995-428E-AF5A-F625EF7A2000@arm.com>
+ <457AF752-98B2-4032-8720-DD0EA976DFF8@arm.com>
+ <17F8CB639310258B.14701@lists.openembedded.org>
+ <86d505f3-e6e7-4c30-85f6-2f12848e3dce@baylibre.com>
+ <Zxnvl_Ghdbxjz-R6@bootlin-mathieu>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <Zxnvl_Ghdbxjz-R6@bootlin-mathieu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 12:43:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206293
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 12:48:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206294
 
---000000000000af31f60625385896
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-The issue seems to be that RDEPENDS is set with the value from PKGV (from
-configuration) at the recipe parsing stage. In do_package, it is only
-replacing AUTOINC in the PKGV variable. This is why the changes are not
-reflected in the RDEPENDS field in the package data. I will try to make it
-a more generic change instead of being specific to RDEPENDS.
-
-Cheers,
-Sreejith
-
-On Thu, Oct 24, 2024 at 11:45=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Thu, 2024-10-24 at 11:39 +0100, Sreejith Ravi via
-> lists.openembedded.org wrote:
-> > Currently, RDEPENDS for -staticdev and -dev is set using EXTENDPKGV
-> > in meta/conf/bitbake.conf:
-> > ----------------------------------
-> > EXTENDPKGV ?=3D "${EXTENDPKGEVER}${PKGV}-${PKGR}"
-> > DEV_PKG_DEPENDENCY =3D "${PN} (=3D ${EXTENDPKGV})"
-> > RDEPENDS:${PN}-staticdev =3D "${PN}-dev (=3D ${EXTENDPKGV})"
-> > ----------------------------------
-> >
-> > During the do_package task, AUTOINC is replaced in PKGV
-> > (via package_setup_pkgv), which is used for creating the package name.
-> > However, Yocto sets RDEPENDS with PKGV during the recipe parsing stage,
-> > resulting in the RDEPENDS field in the IPK control data containing
-> AUTOINC.
-> >
-> > As the IPK name is generated with the updated PKGV, but the version in
-> > RDEPENDS still uses AUTOINC, this mismatch leads to installation
-> failures.
-> >
-> > Example: libnsl
-> > install libnsl-staticdev throws the error,  nothing provides
-> > libnsl-dev =3D 1.2.0+gitAUTOINC+4a062cf418-r0
-> > ----------------------------------
-> > IPKs available:
-> > libnsl2_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-> > libnsl-src_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-> > libnsl-dbg_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-> > libnsl-staticdev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-> > libnsl-dev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-> >
-> > control data: libnsl-staticdev
-> > Package: libnsl-staticdev
-> > Version: 1.2.0+git0+4a062cf418-r0
-> > ----
-> > ----
-> > Depends: libnsl-dev (=3D 1.2.0+gitAUTOINC+4a062cf418-r0)
-> > Provides: libnsl2-staticdev
-> > Source: libnsl2_git.bb
-> >
-> > control data: libnsl-dev
-> > Package: libnsl-dev
-> > Version: 1.2.0+git0+4a062cf418-r0
-> > ----
-> > ----
-> > Depends: libnsl2 (=3D 1.2.0+gitAUTOINC+4a062cf418-r0), libtirpc-dev
-> > Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
-> > Provides: libnsl2-dev
-> > Source: libnsl2_git.bb
-> > ----------------------------------
-> >
-> > This patch fixes the RDEPENDS versions set using EXTENDPKGV in the -dev
-> and
-> > -staticdev packages. It replaces AUTOINC before generating the package
-> control data.
-> >
-> > Updated control data:
-> > ----------------------------------
-> > Package: libnsl-dev
-> > Version: 1.2.0+git0+4a062cf418-r0
-> > ----
-> > ----
-> > Depends: libnsl2 (=3D 1.2.0+git0+4a062cf418-r0), libtirpc-dev
-> > Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
-> > Provides: libnsl2-dev
-> > Source: libnsl2_git.bb
-> >
-> > Package: libnsl-staticdev
-> > Version: 1.2.0+git0+4a062cf418-r0
-> > ----
-> > ----
-> > Depends: libnsl-dev (=3D 1.2.0+git0+4a062cf418-r0)
-> > Provides: libnsl2-staticdev
-> > Source: libnsl2_git.bb
-> > ----------------------------------
-> >
-> > Signed-off-by: Sreejith Ravi <sreejith.ravi087@gmail.com>
-> > ---
-> >  meta/lib/oe/packagedata.py | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py
-> > index 2d1d6ddeb7..332681d3ec 100644
-> > --- a/meta/lib/oe/packagedata.py
-> > +++ b/meta/lib/oe/packagedata.py
-> > @@ -171,8 +171,11 @@ def runtime_mapping_rename(varname, pkg, d):
-> >      #bb.note("%s before: %s" % (varname, d.getVar(varname)))
-> >
-> >      new_depends =3D {}
-> > +    bb.build.exec_func("package_get_auto_pr", d)
-> >      deps =3D bb.utils.explode_dep_versions2(d.getVar(varname) or "")
-> >      for depend, depversions in deps.items():
-> > +        if varname =3D=3D "RDEPENDS":
-> > +            deps[depend] =3D [ver.replace("AUTOINC",
-> "%s"%d.getVar("PRSERV_PV_AUTOINC")) for ver in deps[depend]]
-> >          new_depend =3D get_package_mapping(depend, pkg, d, depversions=
-)
-> >          if depend !=3D new_depend:
-> >              bb.note("package name mapping done: %s -> %s" % (depend,
-> new_depend))
-> >
+On 2024-10-24 02:56, Mathieu Dubois-Briand wrote:
+> On Mon, Oct 21, 2024 at 03:04:21PM -0400, Trevor Gamblin wrote:
+>> On 2024-09-26 08:34, Trevor Gamblin via lists.openembedded.org wrote:
+>>> On 2024-09-26 07:51, Ross Burton wrote:
+>>>> I suspect the problem is the rebase of the symbol visibility patch
+>>>> went wrong?
+>>> Possibly. I'll take another look.
+>> I came back to this today. Looks like there was an update to lopper in
+>> meta-virt on September 30th. I can't reproduce this failure with MACHINE =
+>> "qemuarm64" and building either lopper or lopper-native. I do, however, run
+>> into a do_rootfs dnf error that I'm assuming is a problem with me forgetting
+>> something for meta-virt:
+>>
+>> |No match for argument: kernel-module-xen-blkback
+>> |No match for argument: kernel-module-xen-gntalloc
+>> |No match for argument: kernel-module-xen-gntdev
+>> |No match for argument: kernel-module-xen-netback
+>> |No match for argument: kernel-module-xen-wdt
+>> |Error: Unable to find a match: kernel-module-xen-blkback
+>> kernel-module-xen-gntalloc kernel-module-xen-gntdev
+>> kernel-module-xen-netback kernel-module-xen-wdt
+>>
+>> Could this patch be re-tested (assuming that error isn't hiding the issue)?
+> Hi Trevor,
 >
+> Sorry, I retested your patch, and it seems the issue is still there:
 >
-> This is a good start at debugging the issue which is clearly there but
-> it doesn't feel like the right fix to me. The question is why the code
-> in package.bbclass isn't replacing the values and writing them into the
-> data which forms packagedatav. We really need to fix this at the source
-> of the issue rather than working around it with special case handling
-> of RDEPENDS.
+> https://valkyrie.yoctoproject.org/#/builders/89/builds/274/steps/16/logs/stdio
+Alright. I'll keep trying to reproduce. It's odd that I can't hit these 
+issues on my end.
 >
-> Do you have any idea why the code in do_package doesn't catch these?
+> | [WARNING]: cant load yaml, disabling support: No module named 'ruamel'
+> | Traceback (most recent call last):
+> |   File
+> "/srv/pokybuild/yocto-worker/meta-virt/build/build/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/lopper/fdt.py",
+> line 39, in <module>
+> |     import libfdt
+> |   File
+> "/srv/pokybuild/yocto-worker/meta-virt/build/build/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/libfdt.py",
+> line 12, in <module>
+> |     import _libfdt
+> | ImportError:
+> /srv/pokybuild/yocto-worker/meta-virt/build/build/tmp/work/qemuarm64-poky-linux/xen-image-minimal/1.0/recipe-sysroot-native/usr/lib/python3.12/site-packages/_libfdt.cpython-312-x86_64-linux-gnu.so:
+> undefined symbol: fdt_get_symbol
+> |
 >
-> Cheers,
->
-> Richard
->
->
-
---000000000000af31f60625385896
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">The issue seems to be that RDEPENDS is set with the value =
-from PKGV (from configuration) at the recipe parsing stage. In do_package, =
-it is only replacing AUTOINC in the PKGV variable. This is why the changes =
-are not reflected in the RDEPENDS field in the package data. I will try to =
-make it a more generic change instead of being specific to RDEPENDS. <div><=
-br></div><div>Cheers,</div><div>Sreejith</div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Oct 24, 2024 at 11:45=
-=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfounda=
-tion.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><block=
-quote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1=
-px solid rgb(204,204,204);padding-left:1ex">On Thu, 2024-10-24 at 11:39 +01=
-00, Sreejith Ravi via <a href=3D"http://lists.openembedded.org" rel=3D"nore=
-ferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; Currently, RDEPENDS for -staticdev and -dev is set using EXTENDPKGV<br=
->
-&gt; in meta/conf/bitbake.conf:<br>
-&gt; ----------------------------------<br>
-&gt; EXTENDPKGV ?=3D &quot;${EXTENDPKGEVER}${PKGV}-${PKGR}&quot;<br>
-&gt; DEV_PKG_DEPENDENCY =3D &quot;${PN} (=3D ${EXTENDPKGV})&quot;<br>
-&gt; RDEPENDS:${PN}-staticdev =3D &quot;${PN}-dev (=3D ${EXTENDPKGV})&quot;=
-<br>
-&gt; ----------------------------------<br>
-&gt; <br>
-&gt; During the do_package task, AUTOINC is replaced in PKGV<br>
-&gt; (via package_setup_pkgv), which is used for creating the package name.=
-<br>
-&gt; However, Yocto sets RDEPENDS with PKGV during the recipe parsing stage=
-,<br>
-&gt; resulting in the RDEPENDS field in the IPK control data containing AUT=
-OINC.<br>
-&gt; <br>
-&gt; As the IPK name is generated with the updated PKGV, but the version in=
-<br>
-&gt; RDEPENDS still uses AUTOINC, this mismatch leads to installation failu=
-res.<br>
-&gt; <br>
-&gt; Example: libnsl<br>
-&gt; install libnsl-staticdev throws the error,=C2=A0 nothing provides<br>
-&gt; libnsl-dev =3D 1.2.0+gitAUTOINC+4a062cf418-r0<br>
-&gt; ----------------------------------<br>
-&gt; IPKs available:<br>
-&gt; libnsl2_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk<br>
-&gt; libnsl-src_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk<br>
-&gt; libnsl-dbg_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk<br>
-&gt; libnsl-staticdev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk<br>
-&gt; libnsl-dev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk<br>
-&gt; <br>
-&gt; control data: libnsl-staticdev<br>
-&gt; Package: libnsl-staticdev<br>
-&gt; Version: 1.2.0+git0+4a062cf418-r0<br>
-&gt; ----<br>
-&gt; ----<br>
-&gt; Depends: libnsl-dev (=3D 1.2.0+gitAUTOINC+4a062cf418-r0)<br>
-&gt; Provides: libnsl2-staticdev<br>
-&gt; Source: <a href=3D"http://libnsl2_git.bb" rel=3D"noreferrer" target=3D=
-"_blank">libnsl2_git.bb</a><br>
-&gt; <br>
-&gt; control data: libnsl-dev<br>
-&gt; Package: libnsl-dev<br>
-&gt; Version: 1.2.0+git0+4a062cf418-r0<br>
-&gt; ----<br>
-&gt; ----<br>
-&gt; Depends: libnsl2 (=3D 1.2.0+gitAUTOINC+4a062cf418-r0), libtirpc-dev<br=
->
-&gt; Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev<br>
-&gt; Provides: libnsl2-dev<br>
-&gt; Source: <a href=3D"http://libnsl2_git.bb" rel=3D"noreferrer" target=3D=
-"_blank">libnsl2_git.bb</a><br>
-&gt; ----------------------------------<br>
-&gt; <br>
-&gt; This patch fixes the RDEPENDS versions set using EXTENDPKGV in the -de=
-v and<br>
-&gt; -staticdev packages. It replaces AUTOINC before generating the package=
- control data.<br>
-&gt; <br>
-&gt; Updated control data:<br>
-&gt; ----------------------------------<br>
-&gt; Package: libnsl-dev<br>
-&gt; Version: 1.2.0+git0+4a062cf418-r0<br>
-&gt; ----<br>
-&gt; ----<br>
-&gt; Depends: libnsl2 (=3D 1.2.0+git0+4a062cf418-r0), libtirpc-dev<br>
-&gt; Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev<br>
-&gt; Provides: libnsl2-dev<br>
-&gt; Source: <a href=3D"http://libnsl2_git.bb" rel=3D"noreferrer" target=3D=
-"_blank">libnsl2_git.bb</a><br>
-&gt; <br>
-&gt; Package: libnsl-staticdev<br>
-&gt; Version: 1.2.0+git0+4a062cf418-r0<br>
-&gt; ----<br>
-&gt; ----<br>
-&gt; Depends: libnsl-dev (=3D 1.2.0+git0+4a062cf418-r0)<br>
-&gt; Provides: libnsl2-staticdev<br>
-&gt; Source: <a href=3D"http://libnsl2_git.bb" rel=3D"noreferrer" target=3D=
-"_blank">libnsl2_git.bb</a><br>
-&gt; ----------------------------------<br>
-&gt; <br>
-&gt; Signed-off-by: Sreejith Ravi &lt;<a href=3D"mailto:sreejith.ravi087@gm=
-ail.com" target=3D"_blank">sreejith.ravi087@gmail.com</a>&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/lib/oe/packagedata.py | 3 +++<br>
-&gt; =C2=A01 file changed, 3 insertions(+)<br>
-&gt; <br>
-&gt; diff --git a/meta/lib/oe/packagedata.py b/meta/lib/oe/packagedata.py<b=
-r>
-&gt; index 2d1d6ddeb7..332681d3ec 100644<br>
-&gt; --- a/meta/lib/oe/packagedata.py<br>
-&gt; +++ b/meta/lib/oe/packagedata.py<br>
-&gt; @@ -171,8 +171,11 @@ def runtime_mapping_rename(varname, pkg, d):<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0 #bb.note(&quot;%s before: %s&quot; % (varname=
-, d.getVar(varname)))<br>
-&gt; =C2=A0<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0 new_depends =3D {}<br>
-&gt; +=C2=A0=C2=A0=C2=A0 bb.build.exec_func(&quot;package_get_auto_pr&quot;=
-, d)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0 deps =3D bb.utils.explode_dep_versions2(d.get=
-Var(varname) or &quot;&quot;)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0 for depend, depversions in deps.items():<br>
-&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if varname =3D=3D &quot;RD=
-EPENDS&quot;:<br>
-&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 de=
-ps[depend] =3D [ver.replace(&quot;AUTOINC&quot;, &quot;%s&quot;%d.getVar(&q=
-uot;PRSERV_PV_AUTOINC&quot;)) for ver in deps[depend]]<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 new_depend =3D get_pa=
-ckage_mapping(depend, pkg, d, depversions)<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if depend !=3D new_de=
-pend:<br>
-&gt; =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 bb.note(&quot;package name mapping done: %s -&gt; %s&quot; % (depend, n=
-ew_depend))<br>
-&gt; <br>
-<br>
-<br>
-This is a good start at debugging the issue which is clearly there but<br>
-it doesn&#39;t feel like the right fix to me. The question is why the code<=
-br>
-in package.bbclass isn&#39;t replacing the values and writing them into the=
-<br>
-data which forms packagedatav. We really need to fix this at the source<br>
-of the issue rather than working around it with special case handling<br>
-of RDEPENDS.<br>
-<br>
-Do you have any idea why the code in do_package doesn&#39;t catch these?<br=
->
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-</blockquote></div>
-
---000000000000af31f60625385896--
 
