@@ -1,101 +1,110 @@
-Return-Path: <quic_vpuar@quicinc.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC85D0C5EF
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:12:56 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.7874.1729847565648138018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EAFD0C5EC
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:13:06 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web11.7884.1729847585623957538
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Oct 2024 02:12:45 -0700
+ Fri, 25 Oct 2024 02:13:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=pHg4LZQU;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vpuar@quicinc.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49P7Rmwv019971;
-	Fri, 25 Oct 2024 09:12:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6U7eNAX8i0QOWUGxhCNgRhFzvgg1PS4RgUYMaHPKY8k=; b=pHg4LZQUhzcFdIZP
-	J3xAcaHAB2QROuLGFziUeOAHeHhMetlXUntASgP3blS8jlpu8Bz1xiDcZNAGDQ5W
-	T8xzVspy1XW2PZx8uybQckqmagj9O7wGCUYPiHupA75kyg+QAMnVXXMBdzjLbdGt
-	GTmDnwsQb43HMam24T8E71niGzzpzZwp7WoRILaxq1cYn/Skyk6nlLddAAHrkOM5
-	vRwp0QkgI1FGrpByTcg3L3W5LtmUE0h8c2d2oDNeEYbUwBOOdb5W6VCfJ7+KB74V
-	6pDx5XlNl8LK64XYTHt7whj3aMkLKkIlOjtDy1seRq9NUUthAt8PhwUqslXpEPqc
-	HY0jIA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42g6y908vq-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Oct 2024 09:12:37 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49P9CbPQ022788
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 25 Oct 2024 09:12:37 GMT
-Received: from [10.214.230.128] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
- 2024 02:12:35 -0700
-Message-ID: <ae5bd3ea-1a13-46f6-86ce-becff60179ce@quicinc.com>
-Date: Fri, 25 Oct 2024 14:42:33 +0530
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=W+Q5mhrq;
+ spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539e3f35268so2319965e87.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 02:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1729847584; x=1730452384; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NxWbw6zn25hnY7FbmoTGxbHbrD9Awo1hqQeLlX64jUI=;
+        b=W+Q5mhrqWWNNFQjVrwi4SS41dp3fL9oh3Chbbj9Z4TsBvyAY6lOnLo0daqYDZbKWMP
+         SgQPkIjDfAd2wz/imQuxuilcX6a6sJ7sFiZBHQLliQ2bMCVGXFSFZIszeeZ7rwkGr/DZ
+         xnSFFroq/YDT6OvpbLmyknFWBajsy0fPB+BmLXeqVyRwfrUBdTXUpQP53HBBSrV+gUFb
+         itYvQua8yp75mZEKdgGg5IBgW34g+WeUh4vlSek+qzqAN2CtvtoxHOS8rh7FoOqFKUIq
+         hWFQKYTQ6LkAfyJYPyt8q/I3wYGNWO8spRpr6Tx6UM3Z/wQKUyOME+LBi5KV9OL63SEk
+         +/HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1729847584; x=1730452384;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=NxWbw6zn25hnY7FbmoTGxbHbrD9Awo1hqQeLlX64jUI=;
+        b=HMNLJfXYYtopzmhaT+Iiq91Oy1JMfQNB+2tdlmzWte5ESdh2ach7l7BANtfUlqOsv4
+         HPHMbULXMcVhuQbJIJ/9HrFctAnUbqilXZi8+TW3vhAloVLV5KtkvT09OF1wz8hnEBYq
+         +crzkJ7HjmtzMf6c5wG2a/ztu6dcbZma/91WN7Rw1vR1E1i7KE/T/2POvDmXXhxk4dB+
+         3yP/TiIpzQxCKtQCcHypeHflGesqKxMBEk1ziYDPz1xVSEyq9jc+kMbiwM02nDsHWVn8
+         rqTzr7vz9/XGoyNFEVFHor0ykTB1fzoX/HWg0QchBK4V8g7HMgvYh/EkEk3zwCu7pVP+
+         ciwg==
+X-Gm-Message-State: AOJu0YxRqTZdpBAbuWgyzg/+rY4LOZQ94pNdv0VYYmr7e3L8DQlid3t9
+	qonmeTGA39Y6/BygI+gROn7rfYioy4JupEfbn/uKA9fw6aLzjQR1QKLnk5fJw4pVJWCtjlcZEtM
+	Mc13dLdYwyjvggN5CywXiZnwvKUD6CAuk
+X-Google-Smtp-Source: AGHT+IGF+DUkLy10wgbEDX3ZdeNIxtq2tTWDmvR5cCv0aJ6G1vZgdXnNafxYJE4yy7LVVct0bTCPr3rsgoKKAt4eUo4=
+X-Received: by 2002:a05:6512:acc:b0:536:a583:2777 with SMTP id
+ 2adb3069b0e04-53b1a2f1f01mr5169667e87.9.1729847583570; Fri, 25 Oct 2024
+ 02:13:03 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] linux-firmware: Add
- qcom-qcm6490-{audio,compute} firmware packages
-To: Quentin Schulz <quentin.schulz@cherry.de>,
-        <openembedded-core@lists.openembedded.org>
-CC: <richard.purdie@linuxfoundation.org>
-References: <1800D628AEFC88B9.4900@lists.openembedded.org>
- <de14a6e6-6f61-46bc-84fe-c8c198cbc857@quicinc.com>
- <e496e639-2061-499f-966f-eaff6421d62f@cherry.de>
-Content-Language: en-US
-From: Vivek Puar <quic_vpuar@quicinc.com>
-In-Reply-To: <e496e639-2061-499f-966f-eaff6421d62f@cherry.de>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 3_rRNq0i0-2n4Y3nvJ9F1KZ14BffE5dk
-X-Proofpoint-ORIG-GUID: 3_rRNq0i0-2n4Y3nvJ9F1KZ14BffE5dk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
- spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=949 clxscore=1011
- lowpriorityscore=0 priorityscore=1501 mlxscore=0 malwarescore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2409260000 definitions=main-2410250070
+References: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com> <1729834769-4717-14-git-send-email-wangmy@fujitsu.com>
+In-Reply-To: <1729834769-4717-14-git-send-email-wangmy@fujitsu.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 25 Oct 2024 11:12:51 +0200
+Message-ID: <CANNYZj_BGyi_Gz=h_62x2QSU+BWE2Ae-UB_fmbTP6BnVuccscg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 14/22] ptest-runner: upgrade 2.4.5 -> 2.5.1
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:12:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206342
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:13:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206343
 
-Hi Quentin,
+The new version is actually 2.4.5.1:
+https://git.yoctoproject.org/ptest-runner2/log/
 
-Thank you for the response, I understand this and will keep in mind next 
-time.
+I once again suggest that you use 'devtool upgrade' (or output from
+AUH that is posted on this list twice a month), so mistakes like this
+can be avoided.
 
-On 10/25/2024 2:17 PM, Quentin Schulz wrote:
-> Hi Vivek,
+Alex
+
+On Fri, 25 Oct 2024 at 07:40, wangmy via lists.openembedded.org
+<wangmy=fujitsu.com@lists.openembedded.org> wrote:
 >
-> On 10/25/24 8:20 AM, Vivek Puar via lists.openembedded.org wrote:
->> Hi Richard,
->>
->> Can you please review this?
->>
+> From: Wang Mingyu <wangmy@fujitsu.com>
 >
-> Please be patient, you literally gave the community one working day 
-> (on European timezone) to review this. It's a bit fast to ping people, 
-> especially on non-critical pieces of code like this one (non-critical 
-> because this could be done in your own layer via a bbappend until it 
-> gets merged upstream).
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> ---
+>  .../{ptest-runner_2.4.5.bb => ptest-runner_2.5.1.bb}            | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.5.bb => ptest-runner_2.5.1.bb} (95%)
 >
-> Cheers,
-> Quentin
-Regards,
-Vivek
+> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
+> similarity index 95%
+> rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb
+> rename to meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
+> index d28ae7ca91..e07f5d444b 100644
+> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb
+> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
+> @@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
+>  LICENSE = "GPL-2.0-or-later"
+>  LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
+>
+> -SRCREV = "aea9f42f87f2a78a973ae22cade8e45259f754e1"
+> +SRCREV = "c99e8c2737ff802f110612cc2d90c60233c33255"
+>  PV .= "+git"
+>
+>  SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
+> --
+> 2.34.1
+>
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206325): https://lists.openembedded.org/g/openembedded-core/message/206325
+> Mute This Topic: https://lists.openembedded.org/mt/109203593/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
