@@ -1,86 +1,152 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <sreejith.ravi087@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0C1D149DA
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 18:07:22 +0000 (UTC)
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
- by mx.groups.io with SMTP id smtpd.web10.2087.1729879636301851718
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98E19D149DB
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 18:19:42 +0000 (UTC)
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web10.2324.1729880378738120758
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Oct 2024 11:07:16 -0700
+ Fri, 25 Oct 2024 11:19:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZvGQWg55;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.167.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-539e3f35268so3068818e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 11:07:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=htwE7dNx;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: sreejith.ravi087@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7eb0448693eso173825a12.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 11:19:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1729879634; x=1730484434; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=irYb5odEeU1ZifgvCNfHsm6BUm4WWE2nb49ocjpH7Io=;
-        b=ZvGQWg55fW20dfCcCXDXrJ4+vXN4G22tDxSIzsAgJmE7p1m70clc63RSiZBEK6vlr9
-         qSD7VcWgXLqathibrQe9b0w2hgHc8sKYwnYfYej9E5ETDvlcy7ycP9dCxXBMW/B7btwY
-         jQaE5UW9sBvP2YSBeIRj6TnXxeXtN1eC7Zeao=
+        d=gmail.com; s=20230601; t=1729880378; x=1730485178; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=G0b7/OAOVh4Vfbl4sIfi1uDbR5s7nnbuurBY2Q9l/sY=;
+        b=htwE7dNxlau7p2P68cdpBpxms8h4oJBBt6D8LORnJsSWOwIO4nQGToZ6ECeG+jus3H
+         66mjHUZ2SoNd7YatgVd2UgX5Mr90AlRkOs5rcpYseo0TuwMumBxHNEBl2aTZyOx8pHGu
+         3s8tHVfhf4nQB+OE0qSsEf8eaMIXv8vgmV4n180fUMt4me7etQxZFQsaW8yd+gBr70Qa
+         w+PVtODhlFlv6TU7lZf293LWZhzk5FnNX6IOOl56T27ZQQsXDTirNh7xgpUMhpUxHbXr
+         grkQshOZQtIFIw1HU27kiFC41Le7xNeGSOeJ/m81SkOIkx7SXyS0tr+W292v3/XYwxew
+         20IA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729879634; x=1730484434;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=irYb5odEeU1ZifgvCNfHsm6BUm4WWE2nb49ocjpH7Io=;
-        b=Qv0jBX8irRDL3hWv+j6P828KvO/ow6yRyN24sFpDf4DCkAk/peQQfZ3MSsH9L9mwv1
-         0S3PplL7CbA4rtewxEYV24mjwtIogVRlEGK/G/T1V4CxFSq/d3zwkNAveBpmItQfT7oJ
-         UGCipk/P5tCemxtA/eXO90XxGEB+71lIv5GwGoarMRWImhJcwE8e41QaLIGq1OJ0xN9X
-         Kpk0u1bReHLAsPa6ypmD3BnWHd2UZQyZHjSV0OMiWDOtx62jQwVRalfDytEJkAnVVbKm
-         DFJQ5OY6HZj+ZRHuCWhoHBp2jnFvUAOcK5A8PfciHG0OHOK0Q8E+Ka5SaSp/0l4xGLO4
-         wLag==
-X-Forwarded-Encrypted: i=1; AJvYcCU7MA6Paj7fByVqqpGsDDXPUuqGA2eRv+psEQgIfo88ydIY+BlT2tX0TdrQFYyn/hOk5Kk9D8Soz5/X0uuW530qHw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yygd65ASAUkh5SuaGnZTvG8wfipmrwUZsL7Xse0MBq6KiJeL5ib
-	m/xj1bIpuriOtrGKypzy9EcZBcyD6MLTyycd6+6nWlyzA1KqPnOA6JW+vR8ok+I=
-X-Google-Smtp-Source: AGHT+IEIBVmPtnaBdznxk2+RWYUvntJYe9zC6mlcJfMjS0VUfZEBhQbln77WGiHhQNjMxJipDc92kg==
-X-Received: by 2002:a05:6512:3043:b0:539:f10b:ff93 with SMTP id 2adb3069b0e04-53b348dd502mr64638e87.27.1729879634243;
-        Fri, 25 Oct 2024 11:07:14 -0700 (PDT)
-Received: from max.broadband ([84.69.197.61])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4317d03b8b4sm102722735e9.0.2024.10.25.11.07.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Oct 2024 11:07:13 -0700 (PDT)
-Message-ID: <3aa923c643b7536db0280c02df6f4fd69e5c9657.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [yocto] [PATCH 0/9] busybox: cleanup and fix config 
- fragments
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Andrej <andrej.v@skyrain.eu>
-Cc: ejo@pengutronix.de, yocto@pengutronix.de, 
-	openembedded-core@lists.openembedded.org
-Date: Fri, 25 Oct 2024 19:07:11 +0100
-In-Reply-To: <SLX9SS$38183D9630E103129BF22210DCF67086@skyrain.eu>
-References: 
-	=?iso-8859-1?q?=3C20241007120950=2E975803=2D1=2Dejo=40pengutronix=2Ed?= =?iso-8859-1?q?e=3E_=3C86710f995a94387b6246fca883d5669acef032dd=2Ecam?= =?iso-8859-1?q?el=40pengutronix=2Ede=3E_=3Ca30ee7e5=2Dbc6c=2D4490=2D9?= =?iso-8859-1?q?c10=2D2972138051b5=40skyrain=2Eeu=3E_=3C0eff54fc7c7be4?= =?iso-8859-1?q?f7d5ea956d7209a2a93fa0aca4=2Ecamel=40linuxfoundation?= =?iso-8859-1?q?=2Eorg=3E?= <SLX9SS$38183D9630E103129BF22210DCF67086@skyrain.eu>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+        d=1e100.net; s=20230601; t=1729880378; x=1730485178;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=G0b7/OAOVh4Vfbl4sIfi1uDbR5s7nnbuurBY2Q9l/sY=;
+        b=eP1lGCLEH6Dr0Dw8G7YD0MU3Xa6CsaHMEZD1Jk4LQ6WvgoeYAOqyTOI3b6uK7SgXNe
+         jomG5uhg/dVnXX7p6w+txy4Q5tbzIC814SCwi6hpllWLn3zRfn1VNhu27d8Dthd6Q2zO
+         hKRg8fX8sREjy674H18IckQspK/kPyStpZfgv0G8PhqFU94BQjVzbWYwckBsV4v/tTuM
+         zGh+SK+e6wihyRKo2CMoFAFWu709XuWXmhjLR+SZcqUVVUGbV7TRuYytLWByFAGRTYOX
+         iVegrgGSkY4YGPuXTGvHCz40QHqCyhdr9mFc30216+nEGKSJnp8t8zxt3/iw11GYVUT2
+         7Oag==
+X-Gm-Message-State: AOJu0YyTfEKyYgQsxcy2cxeSDxHF2Y29UU/CGN0YDao9ag0XxLlBHtKg
+	v53v/o2iiPxgScpYNuWy9b6t+iAOkIac3X54vev+eIAADscNLBgRTg12n8jj1lgAwX1UXT3MqoL
+	3PqHFYQuq8nRMIpuGZGNRUBvHwSE=
+X-Google-Smtp-Source: AGHT+IFNFwEawZbF0cDfLuOW3+JP3x9Za1Q8mLOv+UgWKYFG3fK3h6VJx7KdzjwH7OLz/GHXo2Z13NrAcSdVl1jJg/M=
+X-Received: by 2002:a05:6a21:6d9f:b0:1cf:2be2:8dd1 with SMTP id
+ adf61e73a8af0-1d9a851e0c3mr78571637.10.1729880377907; Fri, 25 Oct 2024
+ 11:19:37 -0700 (PDT)
 MIME-Version: 1.0
+References: <20241025161627.3352-1-sreejith.ravi087@gmail.com> <CANNYZj8+5LwPXrQ4eda4muAdOmpfvkg5oo0GXzCG+HJJh65vDQ@mail.gmail.com>
+In-Reply-To: <CANNYZj8+5LwPXrQ4eda4muAdOmpfvkg5oo0GXzCG+HJJh65vDQ@mail.gmail.com>
+From: Sreejith Ravi <sreejith.ravi087@gmail.com>
+Date: Fri, 25 Oct 2024 19:19:26 +0100
+Message-ID: <CAFt4JuEdi+zFkN37vvvK-PNtqshncC_8dn44gU+FcKXpde-ynA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] package_manager : Add configuration option to
+ select filterbydependencies
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000006de28f0625512974"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 18:07:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206358
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 18:19:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206359
 
-On Fri, 2024-10-25 at 19:26 +0200, Andrej wrote:
-> Ok, I was thinking that it was done by intention, but it happened 14y
-> ago=C2=A0
-> https://github.com/openembedded/openembedded-core/commit/615a98ed9a02
-> 1da245513790c064761a0a5a67e9 . So I guess not.=C2=A0
->=20
-> Enrico, no=C2=A0
-> =C2=A0problem, most=C2=A0of them could by integrated into defconfig. Plea=
-se
-> squash it into one commit if you're going to do it. Or let me know
-> and I will take a care of it=C2=A0;).=C2=A0
+--0000000000006de28f0625512974
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-In many ways I prefer having multiple changes showing an evolution as
-those patches do, it does make review easier.
+On Fri, Oct 25, 2024 at 5:26=E2=80=AFPM Alexander Kanavin <alex.kanavin@gma=
+il.com>
+wrote:
 
-Cheers,
+> On Fri, 25 Oct 2024 at 18:17, Sreejith Ravi via lists.openembedded.org
+> <sreejith.ravi087=3Dgmail.com@lists.openembedded.org> wrote:
+> > Currently, filterbydependencies is always set with True, which results =
+in
+> > the creation of `oe-rootfs-repo`. If filterbydependencies is not set,
+> > it creates `oe-rootfs-repo` as a symlink to the
+> "DEPLOY_DIR_<IPK/RPM/DEB>"
+> > directory. With this patch, users can configure this behavior according
+> > to their use cases using the variable `DISABLE_FILTER_BY_DEPENDENCY`.
+>
+> You do need to explain why. We've had this before image-specific
+> rootfs repositories were implemented, and it was causing issues when
+> building images from deploy directories that have unrelated packages
+> and/or other bitbake tasks writing into them.
+>
+> Alex
+>
 
-Richard
+We aim to use released IPK files from a previous release build instead of
+building from source. During package processing, we skip all build tasks
+for the package and copy it to the deploy directory, adjusting the feeds
+accordingly. With a customized opkg configuration, we can set the feeds
+either from a remote server or the deploy directory. Since we are using the
+released IPK files, there is no need to filter by dependencies, as this has
+already been handled during the release of the IPK.
+
+This patch provides an additional option to use the deploy directory as an
+IPK repository. By default, this option is disabled but can be enabled if
+needed.
+
+Can you please share the details of the issues encountered when building
+images from deploy directories?
+
+Cheers
+Sreejith
+
+--0000000000006de28f0625512974
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Fri, Oct 25, 2024 at 5:26=E2=80=AF=
+PM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com">alex.kan=
+avin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
+yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
+ing-left:1ex">On Fri, 25 Oct 2024 at 18:17, Sreejith Ravi via <a href=3D"ht=
+tp://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.ope=
+nembedded.org</a><br>
+&lt;sreejith.ravi087=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" =
+target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; Currently, filterbydependencies is always set with True, which results=
+ in<br>
+&gt; the creation of `oe-rootfs-repo`. If filterbydependencies is not set,<=
+br>
+&gt; it creates `oe-rootfs-repo` as a symlink to the &quot;DEPLOY_DIR_&lt;I=
+PK/RPM/DEB&gt;&quot;<br>
+&gt; directory. With this patch, users can configure this behavior accordin=
+g<br>
+&gt; to their use cases using the variable `DISABLE_FILTER_BY_DEPENDENCY`.<=
+br>
+<br>
+You do need to explain why. We&#39;ve had this before image-specific<br>
+rootfs repositories were implemented, and it was causing issues when<br>
+building images from deploy directories that have unrelated packages<br>
+and/or other bitbake tasks writing into them.<br>
+<br>
+Alex<br></blockquote><div>=C2=A0</div>We aim to use released IPK files from=
+ a previous release build instead of building from source. During package p=
+rocessing, we skip all build tasks for the package and copy it to the deplo=
+y directory, adjusting the feeds accordingly. With a customized opkg config=
+uration, we can set the feeds either from a remote server or the deploy dir=
+ectory. Since we are using the released IPK files, there is no need to filt=
+er by dependencies, as this has already been handled during the release of =
+the IPK.</div><div class=3D"gmail_quote"><br>This patch provides an additio=
+nal option to use the deploy directory as an IPK repository. By default, th=
+is option is disabled but can be enabled if needed.=C2=A0</div><div class=
+=3D"gmail_quote"><br>Can you please share the details of the issues encount=
+ered when building images from deploy directories?<br><div>=C2=A0</div><div=
+>Cheers</div><div>Sreejith</div></div></div>
+
+--0000000000006de28f0625512974--
 
