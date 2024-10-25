@@ -1,170 +1,95 @@
-Return-Path: <sreejith.ravi087@gmail.com>
+Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA07D116EF
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 05:22:54 +0000 (UTC)
-Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
- by mx.groups.io with SMTP id smtpd.web11.5408.1729833767526680205
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE8A2D116F7
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 05:40:04 +0000 (UTC)
+Received: from esa4.hc1455-7.c3s2.iphmx.com (esa4.hc1455-7.c3s2.iphmx.com [68.232.139.117])
+ by mx.groups.io with SMTP id smtpd.web11.5578.1729834800186431819
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Oct 2024 22:22:47 -0700
+ Thu, 24 Oct 2024 22:40:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=B8lYeY5A;
- spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: sreejith.ravi087@gmail.com)
-Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4315b0bd4ddso2440085e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 22:22:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729833765; x=1730438565; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=L8vOkWMeLxYJXYj4k1AT84SgF77fklgkbAaNYeF15hg=;
-        b=B8lYeY5AYxpwlGZkPe8dKr5lrI41gKuoFBgbtddD0JnqXWIjsF7OCfSklc0k0bRSXg
-         kAIuNTJISGqxTYCoSo8nhuPcyDPqTpJhsT7dM1Hh70Xpg60VSWemu00Twco6e5/QHibX
-         Ohy29M1viD4hpxWG54eo+jv6VK1zZYs8hZxLK90JKsJkhIJDgf+8jgoePmT9UHgHxOuW
-         FsVamaPwcJ7QDdc5CtuTlYz8mgFxB6xSIdRramiHswHPvqSWQNpm+VxbWToJ9QCBliL8
-         cxSXWBkiDlT4Fqy43oWxLK4ieFjH8PiLPdEZh1Oycohs9vjzegriOhu/fCTKxOJivXjn
-         o1yQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729833765; x=1730438565;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=L8vOkWMeLxYJXYj4k1AT84SgF77fklgkbAaNYeF15hg=;
-        b=KZEHsE5aj/K06k7gPQZEzYivSKbEin55jZK6X/esdCeOkaODQLrikvFqySMe6EoVV1
-         +QZfcxgAQjoiyxrMislbqQmyI3AZ4UVcwT+wlO4wmjL9GtE8WDpHHJZgfcZsJ4ORMG/4
-         jpgqBWpAgXiCDQZHIDpEG1cqKThGAZuzh5HEu/PT+DBgLORVOGbkn/4/jev24WEpfSDW
-         gANkTv6MLjhWr3A6rnW2yY64K6tI3jfcbBn1aUPgpF5xpaIhdBUu9h2Vr9B17WBw0eKB
-         lN3WmtnVGI+zdXyyNSqBx/UFjn6pnw66b3+2M477s7i/mCX+r8gBBs1vd8RsvODq6eNr
-         RtDA==
-X-Gm-Message-State: AOJu0YziW/GBkJvpWyCQZkxOmcXMcXvpT4wEz8D8u555Xm8uHPDlbftM
-	qgOEdo0++HJQk4ofPeZEKD1lSseAvVDXjbo1RTKuzU+22IPbTI5rLR727t/B
-X-Google-Smtp-Source: AGHT+IHTvWNZO+RMIRyMqc3ZNlOqsItVJHnWg5jXvQjJb1RGxaEoAwSN+u/ETsi3oYIukuMrV5VVZw==
-X-Received: by 2002:a05:6000:1a8e:b0:37e:d92f:8272 with SMTP id ffacd0b85a97d-3805b448635mr62318f8f.6.1729833764760;
-        Thu, 24 Oct 2024 22:22:44 -0700 (PDT)
-Received: from hbox.local (178.72-31-62.static.virginmediabusiness.co.uk. [62.31.72.178])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058bb1bc3sm568517f8f.110.2024.10.24.22.22.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Oct 2024 22:22:44 -0700 (PDT)
-From: Sreejith Ravi <sreejith.ravi087@gmail.com>
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=YTz9ajUA;
+ spf=pass (domain: fujitsu.com, ip: 68.232.139.117, mailfrom: wangmy@fujitsu.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1729834801; x=1761370801;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references;
+  bh=6UIeGe+WG1RnICeOXS1epml7MKO+qBNnEEVXZGl4amo=;
+  b=YTz9ajUAJJ6eeZJLP+PsVG8OthURsvm6ttuB4UwnqbNvJRGVEDmjjzS6
+   cOp6nleee3HKxhSl6+oiuN7A2vONr2dIVecCVhrkNeotni/5O9oPK0r7k
+   Wp+wzrXB1Q1IhxgJ8kBvXhyWpQe/D5XLbXpT5ncb3wYBe2HUYefvaWov8
+   aRirVTfHclDJWM3xHNpCZf/8zm9wINwcgd0rGB0/OfCMn3xO6teVFVK7s
+   ElEbpQ3FX94QrEfTQ9OxXCtNY6Htlq0MC/yVa3ms3a2iuDNo9oYp+VRpg
+   76ORQPkU4VRpUxYguFR8PyDlOjcNoEHla4Om/ZEGr/90K0UkuV6OD6e14
+   g==;
+X-CSE-ConnectionGUID: HAZty6l5R32O8Uit38GwzA==
+X-CSE-MsgGUID: s3iD9PJxQeOo5HMh4qHGfw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="178163945"
+X-IronPort-AV: E=Sophos;i="6.11,231,1725289200"; 
+   d="scan'208";a="178163945"
+Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
+  by esa4.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 14:39:59 +0900
+Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
+	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 59AD3C68E6
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 14:39:57 +0900 (JST)
+Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 92885D3F1E
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 14:39:56 +0900 (JST)
+Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 38A7420071A1D
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 14:39:56 +0900 (JST)
+Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 025C91A000B;
+	Fri, 25 Oct 2024 13:39:55 +0800 (CST)
+From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
-Cc: Sreejith Ravi <sreejith.ravi087@gmail.com>
-Subject: [PATCH] package.bbclass : Fix AUTOINC version issue in pkgdata
-Date: Fri, 25 Oct 2024 06:22:40 +0100
-Message-ID: <20241025052240.3307-1-sreejith.ravi087@gmail.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Cc: Wang Mingyu <wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 22/22] xtrans: upgrade 1.5.0 -> 1.5.1
+Date: Fri, 25 Oct 2024 13:39:29 +0800
+Message-Id: <1729834769-4717-22-git-send-email-wangmy@fujitsu.com>
+X-Mailer: git-send-email 1.8.3.1
+In-Reply-To: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com>
+References: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com>
+X-TM-AS-GCONF: 00
+X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28752.005
+X-TM-AS-User-Approved-Sender: Yes
+X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28752.005
+X-TMASE-Result: 10-0.060600-10.000000
+X-TMASE-MatchedRID: N88p3DLIqpCjz0nOeth/yQPZZctd3P4B1cuIRwt/4MiysPB8dBBorXKn
+	6DBj/gsEIvrftAIhWmJXW6gM8Ys8CB8TzIzimOwP0C1sQRfQzEHEQdG7H66TyHEqm8QYBtMOtzy
+	nL9Pt5/tDUzgCuAxET6Gh6Ww1So87aYp/KazcXHXFmQqMtdLeejpTAmzGso/ghqSBtBt8oODUAb
+	oU16/33gppEroaBQrdgr6lqxbIXlHC3tMwY3ma2xUDj+dgUQVyTE7Co9fKv3w=
+X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 05:22:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206312
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 05:40:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206332
 
-Currently, pkgdata fields (RDEPENDS, RRECOMMENDS ..) are created with
-AUTOINC due to the static setting of its values in recipes/configurations.
-Eg : RDEPENDS for -staticdev and -dev is set using EXTENDPKGV
-in meta/conf/bitbake.conf:
-----------------------------------
-DEV_PKG_DEPENDENCY = "${PN} (= ${EXTENDPKGV})"
-RDEPENDS:${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
-EXTENDPKGV ?= "${EXTENDPKGEVER}${PKGV}-${PKGR}"
-PKGV ?= "${PV}"
+From: Wang Mingyu <wangmy@fujitsu.com>
 
-If SRCPV is set for PV in any packages and revisions are not incremental,
-SRCPV is updated with AUTOINC during the recipe parsig stage.
-In base.bbclass --> d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}")
-
-----------------------------------
-
-During the do_package task, AUTOINC is replaced in PKGV (via package_setup_pkgv),
-which is used for creating the package name. However, the fields set with PKGV
-during the recipe parsing stage will not be updated with this change, resulting in a
-mismatch between the package version used in those fields.
-
-As the IPK name is generated with the updated PKGV, but the version
-in the fields (Eg: RDEPENDS) still uses AUTOINC, this mismatch leads
-to installation failures.
-
-Example: libnsl
-install libnsl-staticdev throws the error,  nothing provides
-libnsl-dev = 1.2.0+gitAUTOINC+4a062cf418-r0
-----------------------------------
-IPKs available:
-libnsl2_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-libnsl-src_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-libnsl-dbg_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-libnsl-staticdev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-libnsl-dev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
-
-control data: libnsl-staticdev
-Package: libnsl-staticdev
-Version: 1.2.0+git0+4a062cf418-r0
-----
-----
-Depends: libnsl-dev (= 1.2.0+gitAUTOINC+4a062cf418-r0)
-Provides: libnsl2-staticdev
-Source: libnsl2_git.bb
-
-control data: libnsl-dev
-Package: libnsl-dev
-Version: 1.2.0+git0+4a062cf418-r0
-----
-----
-Depends: libnsl2 (= 1.2.0+gitAUTOINC+4a062cf418-r0), libtirpc-dev
-Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
-Provides: libnsl2-dev
-Source: libnsl2_git.bb
-----------------------------------
-
-This patch fixes pkgdata with correct version.
-It replaces AUTOINC before generating the package control data.
-
-Updated control data:
-----------------------------------
-Package: libnsl-dev
-Version: 1.2.0+git0+4a062cf418-r0
-----
-----
-Depends: libnsl2 (= 1.2.0+git0+4a062cf418-r0), libtirpc-dev
-Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
-Provides: libnsl2-dev
-Source: libnsl2_git.bb
-
-Package: libnsl-staticdev
-Version: 1.2.0+git0+4a062cf418-r0
-----
-----
-Depends: libnsl-dev (= 1.2.0+git0+4a062cf418-r0)
-Provides: libnsl2-staticdev
-Source: libnsl2_git.bb
-----------------------------------
-
-Signed-off-by: Sreejith Ravi <sreejith.ravi087@gmail.com>
+Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- meta/classes-global/package.bbclass | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ .../xorg-lib/{xtrans_1.5.0.bb => xtrans_1.5.1.bb}               | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-graphics/xorg-lib/{xtrans_1.5.0.bb => xtrans_1.5.1.bb} (88%)
 
-diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
-index 6cd8c0140f..066a7ff835 100644
---- a/meta/classes-global/package.bbclass
-+++ b/meta/classes-global/package.bbclass
-@@ -325,6 +325,15 @@ python package_setup_pkgv() {
-     # Adjust pkgv as necessary...
-     if 'AUTOINC' in pkgv:
-         d.setVar("PKGV", pkgv.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
-+
-+    # Adjust dependencies that are statically set with EXTENDPKGV
-+    vars = ["RDEPENDS","RPROVIDES","RRECOMMENDS","RSUGGESTS","RREPLACES","RCONFLICTS"]
-+    packages = d.getVar('PACKAGES').split()
-+    for var in vars:
-+        for pkg in packages:
-+            val = d.getVar("%s_%s"%(var,pkg))
-+            if val and 'AUTOINC' in val:
-+                d.setVar("%s_%s"%(var,pkg), val.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
- }
+diff --git a/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb b/meta/recipes-graphics/xorg-lib/xtrans_1.5.1.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb
+rename to meta/recipes-graphics/xorg-lib/xtrans_1.5.1.bb
+index 781382e516..ea362750df 100644
+--- a/meta/recipes-graphics/xorg-lib/xtrans_1.5.0.bb
++++ b/meta/recipes-graphics/xorg-lib/xtrans_1.5.1.bb
+@@ -22,4 +22,4 @@ inherit gettext
  
+ BBCLASSEXTEND = "native nativesdk"
  
+-SRC_URI[sha256sum] = "1ba4b703696bfddbf40bacf25bce4e3efb2a0088878f017a50e9884b0c8fb1bd"
++SRC_URI[sha256sum] = "dea80fbd8c3c941495b4b1d2785cb652815d016849a0d2ef90d1140de916993e"
 -- 
-2.43.0
+2.34.1
 
 
