@@ -2,141 +2,114 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08C6CD0C5F8
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:39:37 +0000 (UTC)
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
- by mx.groups.io with SMTP id smtpd.web11.8367.1729849167033984221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7B9D0C5F9
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:48:27 +0000 (UTC)
+Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+ by mx.groups.io with SMTP id smtpd.web10.8507.1729849696701859642
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Oct 2024 02:39:27 -0700
+ Fri, 25 Oct 2024 02:48:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=P8+W+l1G;
- spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fb4fa17044so19958631fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 02:39:26 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XElpKoAO;
+ spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fc968b3545so18936781fa.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 02:48:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729849165; x=1730453965; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1729849694; x=1730454494; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=vjs8GwJCZu/Iqr4nHrkuk8ZTffRHf+c53zxsCoxHf58=;
-        b=P8+W+l1Gt/e1JGIlgFPAM7ftFM5A4AJZks5C/aANu0uqdCePVtTXF/MB4h2DlY4vCO
-         P8QoxIsgB4gfk/Sj7GCxRqdYq8DHoa7HCrPqKI74+vmEZ61FOoGjZnpFVNSSh1pvl3gs
-         j4yepjuFVISrPMMJSbZrJQ9t7rpJbstO5nAeifJkryZwyvyI33on4o+gImaCYjeyuxBt
-         bdIz5hIbucmg4zE95EDI3BM/CUK6XH9IMhdtNrsp1/UpMwPQmsmzW2oTC4SuC3FRgRvX
-         FrfiojzA17/Q16CTRBuzA9u/E0347zYogIC9RpTa5zaPUjJsc1FwBwgLBIuRaypEPy+o
-         j88Q==
+        bh=IpUJCup1hTtkJUccSMtpvdZZ3eQ1Lc1AW4lQsCnqUc8=;
+        b=XElpKoAO2gNspS8lkemtRc5o8ZGGoKfCrFl+q1qCqTs5LCq8TbENuRNgZogMnOo4TS
+         idFGNOaMv2DdUrKhCeJH5Njn4pyQEYcZtvOox6NBxUtdm/rH/mZbPiGcNx/cO2lYY/az
+         nVbL8Re41tj37mH5zcITIbl4E3yLO0xoA51kswim3Kj+FoyK1UKxkE1eU4VSFfhbu+d9
+         M0DAlb+cWfqSpd+w9i4aXD0mIJptcqm2p7yU/DNoRi/srTOlw27W90SKCrA6eCUA9xkX
+         ufxyccpdS0CX2ggK72VobuIC7Zzm9FRl5iw6E4pPNBKi13eOX6drd2OEJpCNiisOkOw2
+         HCnQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729849165; x=1730453965;
+        d=1e100.net; s=20230601; t=1729849694; x=1730454494;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=vjs8GwJCZu/Iqr4nHrkuk8ZTffRHf+c53zxsCoxHf58=;
-        b=sbXiDJBiOOrvPy52CY4DyvigdCsRibNKW0dn4m8Gsb8sTMqQwqb5/ccjxlEErHLio6
-         qHJ80KXSUYxN1dDn78nPmrP24qptapiyuAvFlHRIcEL/EMDDH17qQcu1/RuhxVDyzYpM
-         XPE6/v0fbsuH08ImdVIwa8/a5Aeixlx2uFHB8rosEOYUs2fMbOODrDvNR1kJyv3ov149
-         5Kr//Dq5bBpVW193rJW81CXw7MEMv6j/soxJp0B2PPD4L/c5vsJ3xn4Ic47c+rtS/Lt7
-         kWTGvOoRiKbRl1z3aa1FGhfbIcHv7+v63IVOiVZrnbzxRAuKc+1iN4Wr80P11DVvsmRQ
-         XZEw==
-X-Gm-Message-State: AOJu0Yw8qHFowRAzNxpkEOehP+vt0ryzz/pjqmSi3yEkg1bXn4waGZfa
-	mfKPp4pnNYapAsAqmq8/XIe+UBOQ0YFRwRMVevTZWsxs/sOdj6xR/3vxaq2eiKwjdK/fy52oH9O
-	LhvIyJoQ/AmsBvk04DXqXaAnPj70=
-X-Google-Smtp-Source: AGHT+IHY1f/yg0ArXcklt6uG2HtC+W/dfVSsN7dawLfgW5jJO32QTfkns+ka18PVZbVmUAd7KWTb3DTvcehs2fL4Ea8=
-X-Received: by 2002:a2e:4601:0:b0:2fa:d4ef:f222 with SMTP id
- 38308e7fff4ca-2fc9d3840admr38057241fa.38.1729849164932; Fri, 25 Oct 2024
- 02:39:24 -0700 (PDT)
+        bh=IpUJCup1hTtkJUccSMtpvdZZ3eQ1Lc1AW4lQsCnqUc8=;
+        b=wOGSxm9HozrtJnREJPzqQbcxzml4m5A0glm9okzJAlVPG9jUdmSMk4ecDM2+IqOh7Y
+         YrLVHjIFS2mXJfQTEPwp2E5xIv1ZTn32un6KSvhsPH/81YyucPfHp8BcvUlqlVdurUUI
+         4siEB0kCFPYyuoLEVApcqAAuv84gY95VD9/B4eaOdUXVsNd2pG4mwac9C+/D5Hemf+cp
+         fN7Pk392wYMZiw4EhuXiDnRBjO6eDTc6OtOXocRXSwE9CKo4Y0jP5QFSnfztFCWulY9R
+         jcCw3gfMcawxP+gI/R7B3kfNYkcs2+N+dS8SJfDMOkCXCILWRS9e2XlL0+rDhJt8K0ya
+         wiDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWBj3RTZ1DqsvUnBOtWI/u4W7qgeOwpVIjSIn/Da8sJEJ4hRCPj/XIwwNg9DJF/CiWxYMn+y9+ED32wjAxRcCnAeg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YxB1mzrNtgdE4h086Z3Z2der59rmshP1knPbNtWyk2Vo7GiyJhr
+	qFUG7y+7TCyVsHa7QavQbv5knZaNYXfvDwHKwy86yew891QUR4JZR6zNFEML5WrA7Lu6g8exAWK
+	ivYjq2DNz+n2sdi9MQY0xWKO9kGs=
+X-Google-Smtp-Source: AGHT+IF8x7mQu05/n00ioB1fCbHsbHf9lLv1RtV+aR/x+v/G2NUu1I+Q23O4Yuz2Sn/QQCwtghvpwG2y7qmKqD9BKkM=
+X-Received: by 2002:a2e:851:0:b0:2fb:59ec:4a32 with SMTP id
+ 38308e7fff4ca-2fc9d342c53mr40639061fa.25.1729849694306; Fri, 25 Oct 2024
+ 02:48:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <20241025091614.2034294-1-fathi.boudra@linaro.org>
- <CANNYZj_pSeCcgMhT_d9R6tNvmgeT4HgHnEc4jcnPCn-BD2Osjw@mail.gmail.com> <CAGNsrLADeWVjHWOodpJPyRV3iFXdf-poP6SggHLz1gi7MtW+1g@mail.gmail.com>
-In-Reply-To: <CAGNsrLADeWVjHWOodpJPyRV3iFXdf-poP6SggHLz1gi7MtW+1g@mail.gmail.com>
+ <CANNYZj_pSeCcgMhT_d9R6tNvmgeT4HgHnEc4jcnPCn-BD2Osjw@mail.gmail.com>
+ <CAGNsrLADeWVjHWOodpJPyRV3iFXdf-poP6SggHLz1gi7MtW+1g@mail.gmail.com> <1801A8A715944A16.12445@lists.openembedded.org>
+In-Reply-To: <1801A8A715944A16.12445@lists.openembedded.org>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 25 Oct 2024 11:39:14 +0200
-Message-ID: <CANNYZj91CEf0V8=TybkQBKpFZjUkdVuUgZX+FuVOFNvu0dTpvg@mail.gmail.com>
+Date: Fri, 25 Oct 2024 11:48:02 +0200
+Message-ID: <CANNYZj-Phdhfa0ohqGHb2hyvq5hOTprkfRNNYvKR5MhAf6s7Ew@mail.gmail.com>
 Subject: Re: [OE-core] [PATCH] libksba: add bison (yacc) dependency
-To: Fathi Boudra <fathi.boudra@linaro.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000fdaff3062549e46d"
+To: alex.kanavin@gmail.com
+Cc: Fathi Boudra <fathi.boudra@linaro.org>, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:39:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206347
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:48:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206348
 
---000000000000fdaff3062549e46d
-Content-Type: text/plain; charset="UTF-8"
-
-Can you check this with plain poky master? It should build there even
-without this change.
+Basically your build regenerates asn1-parse.c from asn1-parse.y, and
+it shouldn't. You should look into why that happens, using poky master
+as a reference.
 
 Alex
 
-On Fri 25. Oct 2024 at 11.36, Fathi Boudra <fathi.boudra@linaro.org> wrote:
-
-> On Fri, 25 Oct 2024 at 11:20, Alexander Kanavin <alex.kanavin@gmail.com>
-> wrote:
-> >
-> > Why is this not a build error?
+On Fri, 25 Oct 2024 at 11:39, Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
+wrote:
 >
-> I haven't investigated yet why it isn't  triggered on the YP autobuilder.
-> It's triggered on my Scarthgap based build, and by looking at libksba
-> configure, it needs yacc.
+> Can you check this with plain poky master? It should build there even without this change.
 >
-> Adding the build dependency locally fixed the build issue.
+> Alex
 >
-> We can see in do_configure log we run autoreconf and get:
+> On Fri 25. Oct 2024 at 11.36, Fathi Boudra <fathi.boudra@linaro.org> wrote:
+>>
+>> On Fri, 25 Oct 2024 at 11:20, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
+>> >
+>> > Why is this not a build error?
+>>
+>> I haven't investigated yet why it isn't  triggered on the YP autobuilder.
+>> It's triggered on my Scarthgap based build, and by looking at libksba
+>> configure, it needs yacc.
+>>
+>> Adding the build dependency locally fixed the build issue.
+>>
+>> We can see in do_configure log we run autoreconf and get:
+>>
+>> [...]
+>> checking for bison... no
+>> checking for byacc... no
+>> checking if bison is the parser generator... no
+>> [...]
+>> ***
+>> *** Note: The installed yacc version is not GNU Bison.  You need
+>> *** to install Bison if you want to change any grammar (.y) file.
+>> ***
+>> [...]
+>>
+>> > Alex
 >
-> [...]
-> checking for bison... no
-> checking for byacc... no
-> checking if bison is the parser generator... no
-> [...]
-> ***
-> *** Note: The installed yacc version is not GNU Bison.  You need
-> *** to install Bison if you want to change any grammar (.y) file.
-> ***
-> [...]
 >
-> > Alex
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206347): https://lists.openembedded.org/g/openembedded-core/message/206347
+> Mute This Topic: https://lists.openembedded.org/mt/109204960/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
 >
-
---000000000000fdaff3062549e46d
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Can you check this with plain poky master? It should buil=
-d there even without this change.</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Alex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" cl=
-ass=3D"gmail_attr">On Fri 25. Oct 2024 at 11.36, Fathi Boudra &lt;<a href=
-=3D"mailto:fathi.boudra@linaro.org">fathi.boudra@linaro.org</a>&gt; wrote:<=
-br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8e=
-x;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-lef=
-t-color:rgb(204,204,204)">On Fri, 25 Oct 2024 at 11:20, Alexander Kanavin &=
-lt;<a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.kanavin=
-@gmail.com</a>&gt; wrote:<br>
-&gt;<br>
-&gt; Why is this not a build error?<br>
-<br>
-I haven&#39;t investigated yet why it isn&#39;t=C2=A0 triggered on the YP a=
-utobuilder.<br>
-It&#39;s triggered on my Scarthgap based build, and by looking at libksba<b=
-r>
-configure, it needs yacc.<br>
-<br>
-Adding the build dependency locally fixed the build issue.<br>
-<br>
-We can see in do_configure log we run autoreconf and get:<br>
-<br>
-[...]<br>
-checking for bison... no<br>
-checking for byacc... no<br>
-checking if bison is the parser generator... no<br>
-[...]<br>
-***<br>
-*** Note: The installed yacc version is not GNU Bison.=C2=A0 You need<br>
-*** to install Bison if you want to change any grammar (.y) file.<br>
-***<br>
-[...]<br>
-<br>
-&gt; Alex<br>
-</blockquote></div></div>
-
---000000000000fdaff3062549e46d--
 
