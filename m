@@ -1,115 +1,81 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7B9D0C5F9
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:48:27 +0000 (UTC)
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
- by mx.groups.io with SMTP id smtpd.web10.8507.1729849696701859642
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5E637D0C5FE
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 10:54:47 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.web11.9484.1729853682509387046
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Oct 2024 02:48:17 -0700
+ Fri, 25 Oct 2024 03:54:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=XElpKoAO;
- spf=pass (domain: gmail.com, ip: 209.85.208.180, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2fc968b3545so18936781fa.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 02:48:16 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bB+jWsdj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43161e7bb25so18657085e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 03:54:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729849694; x=1730454494; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=IpUJCup1hTtkJUccSMtpvdZZ3eQ1Lc1AW4lQsCnqUc8=;
-        b=XElpKoAO2gNspS8lkemtRc5o8ZGGoKfCrFl+q1qCqTs5LCq8TbENuRNgZogMnOo4TS
-         idFGNOaMv2DdUrKhCeJH5Njn4pyQEYcZtvOox6NBxUtdm/rH/mZbPiGcNx/cO2lYY/az
-         nVbL8Re41tj37mH5zcITIbl4E3yLO0xoA51kswim3Kj+FoyK1UKxkE1eU4VSFfhbu+d9
-         M0DAlb+cWfqSpd+w9i4aXD0mIJptcqm2p7yU/DNoRi/srTOlw27W90SKCrA6eCUA9xkX
-         ufxyccpdS0CX2ggK72VobuIC7Zzm9FRl5iw6E4pPNBKi13eOX6drd2OEJpCNiisOkOw2
-         HCnQ==
+        d=linuxfoundation.org; s=google; t=1729853681; x=1730458481; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=2SYCb096aAt8x8p1vGs3monzxAsfij0dk0p2T9qCF8Q=;
+        b=bB+jWsdjbJmWaxrJN357PL/u5q6Iyz4lEZ/AAQJVqQy2qrEOKA1mWFyrOJb/p8jMG+
+         WoqwLQyWA7542aiaPAy5XYVfgnnEXbSSYPt3+03xYf2GkVA9FPRoFbMlCf7pLhEW06cd
+         ucOt1c777Zhfc7C/HL9V72FBfeteqiBzGMgYc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729849694; x=1730454494;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IpUJCup1hTtkJUccSMtpvdZZ3eQ1Lc1AW4lQsCnqUc8=;
-        b=wOGSxm9HozrtJnREJPzqQbcxzml4m5A0glm9okzJAlVPG9jUdmSMk4ecDM2+IqOh7Y
-         YrLVHjIFS2mXJfQTEPwp2E5xIv1ZTn32un6KSvhsPH/81YyucPfHp8BcvUlqlVdurUUI
-         4siEB0kCFPYyuoLEVApcqAAuv84gY95VD9/B4eaOdUXVsNd2pG4mwac9C+/D5Hemf+cp
-         fN7Pk392wYMZiw4EhuXiDnRBjO6eDTc6OtOXocRXSwE9CKo4Y0jP5QFSnfztFCWulY9R
-         jcCw3gfMcawxP+gI/R7B3kfNYkcs2+N+dS8SJfDMOkCXCILWRS9e2XlL0+rDhJt8K0ya
-         wiDQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWBj3RTZ1DqsvUnBOtWI/u4W7qgeOwpVIjSIn/Da8sJEJ4hRCPj/XIwwNg9DJF/CiWxYMn+y9+ED32wjAxRcCnAeg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxB1mzrNtgdE4h086Z3Z2der59rmshP1knPbNtWyk2Vo7GiyJhr
-	qFUG7y+7TCyVsHa7QavQbv5knZaNYXfvDwHKwy86yew891QUR4JZR6zNFEML5WrA7Lu6g8exAWK
-	ivYjq2DNz+n2sdi9MQY0xWKO9kGs=
-X-Google-Smtp-Source: AGHT+IF8x7mQu05/n00ioB1fCbHsbHf9lLv1RtV+aR/x+v/G2NUu1I+Q23O4Yuz2Sn/QQCwtghvpwG2y7qmKqD9BKkM=
-X-Received: by 2002:a2e:851:0:b0:2fb:59ec:4a32 with SMTP id
- 38308e7fff4ca-2fc9d342c53mr40639061fa.25.1729849694306; Fri, 25 Oct 2024
- 02:48:14 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1729853681; x=1730458481;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2SYCb096aAt8x8p1vGs3monzxAsfij0dk0p2T9qCF8Q=;
+        b=w4f5hqvgn6D8ryoDg/Z3H74gX4JBbfy9vh8++j6Gji7TZZuzhKgzir3IWXbWvAhSD1
+         SxHMGiAfJOD18bpBsMASzLatlRbCEXBlidA05Bgsz5OxlPm0PusH2n7ByZom0W+1+Wa5
+         Zd5nCJfhMrlDaAci1PkQ2C3BzHiE4k626Pq32a9bzpminpV19/fANhN0seWc3sOLyLlU
+         WEk/rv5XQ/NYnFajxt+Ahwt2PHeZv+d7uC35G0TQ5tida3HOPFHLxmfxkVo8XouV9prj
+         CCSs02y0I8HgV3Ms9a5sXFu08J20ZZ8LNm2RVTYuZiEzWCYYBCMD52bh2isJlhAJJXyA
+         Boyw==
+X-Gm-Message-State: AOJu0YwfJ+tpJ2nv7xSgil9gZtzc8A5pNyPwwvren+PFRRt+lWPL/GH9
+	HNALGGCH9JgUr13mShzqwhiOrtpKiszk5RoPldh3v5POTAEmVrC2iMh3wcjELtkogVLdaTdlAFi
+	4ClE=
+X-Google-Smtp-Source: AGHT+IEjtVhRkQmOKc80h3QD1LS+P9vFWtuLIbUKIkiTIAHsEsK/oOMrqyGApR/PNTzLAhqCfBXdJg==
+X-Received: by 2002:a05:600c:1d1f:b0:42c:ba83:3f01 with SMTP id 5b1f17b1804b1-4318413e3afmr76057185e9.8.1729853680485;
+        Fri, 25 Oct 2024 03:54:40 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:5e58:696f:3954:9f3f])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4318b57088bsm45076785e9.37.2024.10.25.03.54.39
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 03:54:39 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] oeqa/selftest/buildoptions: Use continue option in source mirrors test
+Date: Fri, 25 Oct 2024 11:54:38 +0100
+Message-ID: <20241025105438.3990293-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20241025091614.2034294-1-fathi.boudra@linaro.org>
- <CANNYZj_pSeCcgMhT_d9R6tNvmgeT4HgHnEc4jcnPCn-BD2Osjw@mail.gmail.com>
- <CAGNsrLADeWVjHWOodpJPyRV3iFXdf-poP6SggHLz1gi7MtW+1g@mail.gmail.com> <1801A8A715944A16.12445@lists.openembedded.org>
-In-Reply-To: <1801A8A715944A16.12445@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 25 Oct 2024 11:48:02 +0200
-Message-ID: <CANNYZj-Phdhfa0ohqGHb2hyvq5hOTprkfRNNYvKR5MhAf6s7Ew@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libksba: add bison (yacc) dependency
-To: alex.kanavin@gmail.com
-Cc: Fathi Boudra <fathi.boudra@linaro.org>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:48:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206348
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 10:54:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206349
 
-Basically your build regenerates asn1-parse.c from asn1-parse.y, and
-it shouldn't. You should look into why that happens, using poky master
-as a reference.
+It is helpful to see all the issues in the source mirror test so
+use the continue option.
 
-Alex
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oeqa/selftest/cases/buildoptions.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, 25 Oct 2024 at 11:39, Alexander Kanavin via
-lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org>
-wrote:
->
-> Can you check this with plain poky master? It should build there even without this change.
->
-> Alex
->
-> On Fri 25. Oct 2024 at 11.36, Fathi Boudra <fathi.boudra@linaro.org> wrote:
->>
->> On Fri, 25 Oct 2024 at 11:20, Alexander Kanavin <alex.kanavin@gmail.com> wrote:
->> >
->> > Why is this not a build error?
->>
->> I haven't investigated yet why it isn't  triggered on the YP autobuilder.
->> It's triggered on my Scarthgap based build, and by looking at libksba
->> configure, it needs yacc.
->>
->> Adding the build dependency locally fixed the build issue.
->>
->> We can see in do_configure log we run autoreconf and get:
->>
->> [...]
->> checking for bison... no
->> checking for byacc... no
->> checking if bison is the parser generator... no
->> [...]
->> ***
->> *** Note: The installed yacc version is not GNU Bison.  You need
->> *** to install Bison if you want to change any grammar (.y) file.
->> ***
->> [...]
->>
->> > Alex
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#206347): https://lists.openembedded.org/g/openembedded-core/message/206347
-> Mute This Topic: https://lists.openembedded.org/mt/109204960/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/lib/oeqa/selftest/cases/buildoptions.py b/meta/lib/oeqa/selftest/cases/buildoptions.py
+index 423c31e1892..09272314bb8 100644
+--- a/meta/lib/oeqa/selftest/cases/buildoptions.py
++++ b/meta/lib/oeqa/selftest/cases/buildoptions.py
+@@ -229,7 +229,7 @@ PREMIRRORS = "\\
+     https://.*/.*    http://downloads.yoctoproject.org/mirror/sources/ \\n"
+ """)
+ 
+-        bitbake("world --runall fetch")
++        bitbake("world --runall fetch --continue")
+ 
+ 
+ class Poisoning(OESelftestTestCase):
 
