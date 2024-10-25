@@ -1,70 +1,101 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <quic_vpuar@quicinc.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E2DB8D0C5EE
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:10:26 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.7857.1729847425994844033
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC85D0C5EF
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:12:56 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.7874.1729847565648138018
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Oct 2024 02:10:26 -0700
+ Fri, 25 Oct 2024 02:12:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eKnQf54P;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53a0c160b94so2175052e87.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 02:10:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729847424; x=1730452224; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=lhoD7VR65w2a1yJUMvD3vbQOHfyr/PSR3+uma/DX16w=;
-        b=eKnQf54PGqS8J1T9zxgTveNvlkEe8FP7KJHWrah2Dvcq8fRzQne1iu2xWRIthRMZIO
-         vNv2thNlt1PYWNxO4IDOfJmjhy22oPRiXY4J2Asv8z2dtXJLqkSVYBW26aAjR2sRA94V
-         s8Zd3lWOZ67mUnNDrO8YIvf5zxuglj7bnMP1YexMl0fguRU4K8p2Skk5l+V/w7Uq10pZ
-         bMP9OK2RJnR0nTImLC0Tkf8PIiz6LJQ6lpJ/sNvqSwEb9bGD7cZB9rK07CnM795YGxUA
-         nni/n8QcyAZoATlBrQDELyRJCL7OGTQqMYxFVpLHqtoSmdWhUdTz8WAWA+MwOZWXie+8
-         UZFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729847424; x=1730452224;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lhoD7VR65w2a1yJUMvD3vbQOHfyr/PSR3+uma/DX16w=;
-        b=IMxvRfr/2snIAEm8c3JrVjNNkL1ZwQPyLwFBHflliWKOCo/1ecS8j8F89RWD+E737B
-         apbIUlcACPKlT2i838ghHyDS2CEeMREJa3vSiY+jQdD/cN6PLgb4ecBx8ZNbchI5LaRs
-         dHTMX9TcguoHuPmx+LVb7sjBhN5Jn1J1U4/yCsSutnxV4/VtKAq5GIH9OwIdtxiFLhit
-         aeDpkB4D6tIT8QuiFO0Q6nY8vorywst7Dqxy5IcN9PhVvyg1mNBis+5qSupNg7Ac33JB
-         yIWe3YEjEK2FGEtVO7Pks2Kvl02Yy5LhMSJASjugD59BuGgYnBJJa7Mq4aAp68mYfFyS
-         1epA==
-X-Gm-Message-State: AOJu0Yy3DLHJzeeER4ThNmQ1a1coV9Nl8QRZAIdXnF1I9ZEfCZbIxnXz
-	1iJmvIwnqB68ChtigL8r9E9CqnbpfvkheMP3E7nEBABUyABZd+4rnkk+CCcMmsY3m8usQC+MVsu
-	xScDEVuG8LGDGXOGOoYKgX0ej2ZE=
-X-Google-Smtp-Source: AGHT+IHGtFsM3xRpli8x9Br5PbR1U5e0UhOTQhyNkZyGk0TwxttfO+pq5MjJdVXZ9Kr02Eesz0x74lQlkPsO5jsSKYY=
-X-Received: by 2002:a05:6512:3e25:b0:539:d10b:e38b with SMTP id
- 2adb3069b0e04-53b1a3615c6mr5561065e87.39.1729847423897; Fri, 25 Oct 2024
- 02:10:23 -0700 (PDT)
+ dkim=pass header.i=@quicinc.com header.s=qcppdkim1 header.b=pHg4LZQU;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: quicinc.com, ip: 205.220.168.131, mailfrom: quic_vpuar@quicinc.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49P7Rmwv019971;
+	Fri, 25 Oct 2024 09:12:38 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	6U7eNAX8i0QOWUGxhCNgRhFzvgg1PS4RgUYMaHPKY8k=; b=pHg4LZQUhzcFdIZP
+	J3xAcaHAB2QROuLGFziUeOAHeHhMetlXUntASgP3blS8jlpu8Bz1xiDcZNAGDQ5W
+	T8xzVspy1XW2PZx8uybQckqmagj9O7wGCUYPiHupA75kyg+QAMnVXXMBdzjLbdGt
+	GTmDnwsQb43HMam24T8E71niGzzpzZwp7WoRILaxq1cYn/Skyk6nlLddAAHrkOM5
+	vRwp0QkgI1FGrpByTcg3L3W5LtmUE0h8c2d2oDNeEYbUwBOOdb5W6VCfJ7+KB74V
+	6pDx5XlNl8LK64XYTHt7whj3aMkLKkIlOjtDy1seRq9NUUthAt8PhwUqslXpEPqc
+	HY0jIA==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 42g6y908vq-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Oct 2024 09:12:37 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 49P9CbPQ022788
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Oct 2024 09:12:37 GMT
+Received: from [10.214.230.128] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 25 Oct
+ 2024 02:12:35 -0700
+Message-ID: <ae5bd3ea-1a13-46f6-86ce-becff60179ce@quicinc.com>
+Date: Fri, 25 Oct 2024 14:42:33 +0530
 MIME-Version: 1.0
-References: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com> <1729834769-4717-2-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1729834769-4717-2-git-send-email-wangmy@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 25 Oct 2024 11:10:12 +0200
-Message-ID: <CANNYZj9Js9=_HTGtpgrm5L+x44h_9rVTWVcH_GXn606fPrQtdg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 02/22] bash: upgrade 5.2.32 -> 5.2.37
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] linux-firmware: Add
+ qcom-qcm6490-{audio,compute} firmware packages
+To: Quentin Schulz <quentin.schulz@cherry.de>,
+        <openembedded-core@lists.openembedded.org>
+CC: <richard.purdie@linuxfoundation.org>
+References: <1800D628AEFC88B9.4900@lists.openembedded.org>
+ <de14a6e6-6f61-46bc-84fe-c8c198cbc857@quicinc.com>
+ <e496e639-2061-499f-966f-eaff6421d62f@cherry.de>
+Content-Language: en-US
+From: Vivek Puar <quic_vpuar@quicinc.com>
+In-Reply-To: <e496e639-2061-499f-966f-eaff6421d62f@cherry.de>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 3_rRNq0i0-2n4Y3nvJ9F1KZ14BffE5dk
+X-Proofpoint-ORIG-GUID: 3_rRNq0i0-2n4Y3nvJ9F1KZ14BffE5dk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0 phishscore=0
+ spamscore=0 adultscore=0 suspectscore=0 mlxlogscore=949 clxscore=1011
+ lowpriorityscore=0 priorityscore=1501 mlxscore=0 malwarescore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2409260000 definitions=main-2410250070
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:10:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206341
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:12:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206342
 
-On Fri, 25 Oct 2024 at 07:40, wangmy via lists.openembedded.org
-<wangmy=fujitsu.com@lists.openembedded.org> wrote:
-> 0001-fix-c99.patch
-> refreshed for 5.2.37
+Hi Quentin,
 
-Looks like it's actually removed as a backport?
+Thank you for the response, I understand this and will keep in mind next 
+time.
 
-Alex
+On 10/25/2024 2:17 PM, Quentin Schulz wrote:
+> Hi Vivek,
+>
+> On 10/25/24 8:20 AM, Vivek Puar via lists.openembedded.org wrote:
+>> Hi Richard,
+>>
+>> Can you please review this?
+>>
+>
+> Please be patient, you literally gave the community one working day 
+> (on European timezone) to review this. It's a bit fast to ping people, 
+> especially on non-critical pieces of code like this one (non-critical 
+> because this could be done in your own layer via a bbappend until it 
+> gets merged upstream).
+>
+> Cheers,
+> Quentin
+Regards,
+Vivek
 
