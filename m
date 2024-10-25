@@ -1,110 +1,92 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <fathi.boudra@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0EAFD0C5EC
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:13:06 +0000 (UTC)
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
- by mx.groups.io with SMTP id smtpd.web11.7884.1729847585623957538
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A32AD0C5F2
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 09:16:27 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.7915.1729847780806193154
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Oct 2024 02:13:06 -0700
+ Fri, 25 Oct 2024 02:16:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=W+Q5mhrq;
- spf=pass (domain: gmail.com, ip: 209.85.167.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539e3f35268so2319965e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 02:13:05 -0700 (PDT)
+ dkim=pass header.i=@linaro.org header.s=google header.b=Yv8Kv591;
+ spf=pass (domain: linaro.org, ip: 209.85.128.46, mailfrom: fathi.boudra@linaro.org)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-431688d5127so18219615e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 02:16:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729847584; x=1730452384; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NxWbw6zn25hnY7FbmoTGxbHbrD9Awo1hqQeLlX64jUI=;
-        b=W+Q5mhrqWWNNFQjVrwi4SS41dp3fL9oh3Chbbj9Z4TsBvyAY6lOnLo0daqYDZbKWMP
-         SgQPkIjDfAd2wz/imQuxuilcX6a6sJ7sFiZBHQLliQ2bMCVGXFSFZIszeeZ7rwkGr/DZ
-         xnSFFroq/YDT6OvpbLmyknFWBajsy0fPB+BmLXeqVyRwfrUBdTXUpQP53HBBSrV+gUFb
-         itYvQua8yp75mZEKdgGg5IBgW34g+WeUh4vlSek+qzqAN2CtvtoxHOS8rh7FoOqFKUIq
-         hWFQKYTQ6LkAfyJYPyt8q/I3wYGNWO8spRpr6Tx6UM3Z/wQKUyOME+LBi5KV9OL63SEk
-         +/HA==
+        d=linaro.org; s=google; t=1729847779; x=1730452579; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Qr1dEQsu6gk8Du3FfXChzHEd6rAaQ9gEnKc1VpvZWx4=;
+        b=Yv8Kv591Hd141NOawUhuNx6ODnHDW/ecHbLcOmqCS7/wvw8AHefHdQX0HzJdUDS3B1
+         l6uvn4HD6EMUKm6pAJpLWNhP8olzXQcxZaW99u6juMc8BXiPsXWqM30mhwoUOk5/xqtx
+         TJZl0xIkNHUlXrt6zLvEDmbzH5Ysp6qOw2C2b30NYBfvC19GMW4nEwU3j6jl9dwKybGl
+         oKtT9dgMKltPq6A6lBuAIk7Wwz8gtx8osKrtgIG+V7bopxuK9zN4895YrnARZRX+OGFJ
+         VLXMHcwX8aeGXQACNXSyO95KVANCUZMOcJv457O8dMv+smqEHx+nB/wuQu+2dzM4bRHn
+         VNDQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729847584; x=1730452384;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1729847779; x=1730452579;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NxWbw6zn25hnY7FbmoTGxbHbrD9Awo1hqQeLlX64jUI=;
-        b=HMNLJfXYYtopzmhaT+Iiq91Oy1JMfQNB+2tdlmzWte5ESdh2ach7l7BANtfUlqOsv4
-         HPHMbULXMcVhuQbJIJ/9HrFctAnUbqilXZi8+TW3vhAloVLV5KtkvT09OF1wz8hnEBYq
-         +crzkJ7HjmtzMf6c5wG2a/ztu6dcbZma/91WN7Rw1vR1E1i7KE/T/2POvDmXXhxk4dB+
-         3yP/TiIpzQxCKtQCcHypeHflGesqKxMBEk1ziYDPz1xVSEyq9jc+kMbiwM02nDsHWVn8
-         rqTzr7vz9/XGoyNFEVFHor0ykTB1fzoX/HWg0QchBK4V8g7HMgvYh/EkEk3zwCu7pVP+
-         ciwg==
-X-Gm-Message-State: AOJu0YxRqTZdpBAbuWgyzg/+rY4LOZQ94pNdv0VYYmr7e3L8DQlid3t9
-	qonmeTGA39Y6/BygI+gROn7rfYioy4JupEfbn/uKA9fw6aLzjQR1QKLnk5fJw4pVJWCtjlcZEtM
-	Mc13dLdYwyjvggN5CywXiZnwvKUD6CAuk
-X-Google-Smtp-Source: AGHT+IGF+DUkLy10wgbEDX3ZdeNIxtq2tTWDmvR5cCv0aJ6G1vZgdXnNafxYJE4yy7LVVct0bTCPr3rsgoKKAt4eUo4=
-X-Received: by 2002:a05:6512:acc:b0:536:a583:2777 with SMTP id
- 2adb3069b0e04-53b1a2f1f01mr5169667e87.9.1729847583570; Fri, 25 Oct 2024
- 02:13:03 -0700 (PDT)
+        bh=Qr1dEQsu6gk8Du3FfXChzHEd6rAaQ9gEnKc1VpvZWx4=;
+        b=X5QlqivC+zNxPaCbnwhgY8nC+51RMi/pQD99vbiDmg1mpNoDUROGwbebcK/WiwfcKq
+         qklMrKsyJNMYSnN/BiYa7QIAseJbYQMG6kzxn7xmAOAIUsq1zIV7xBBfXpwQU6sFJn6Y
+         uZV9rqbDowCZJTsZFBV1t/sS8Hi48hyp2UjnqHt9Z9DeKaERtZ4YIcpUYLGDSExeaLYj
+         uO6gU6IhhSt186B3dqckQ5KUWK+8B1HeTwKUqKqE6vnanpDUHpDpZJGntRNDpYivc3Zo
+         DbkBo1NqgD00pKMXqtx0xg1ysavAUzt0a7kjegTtoAGXxCf5/kZPtw8VW55BBfEvXiXj
+         Uwzg==
+X-Gm-Message-State: AOJu0Yz5hgUcWX797Do/UN4/lEheTiTENqLc1nfdEzcPFEqbaipS6dLl
+	0eLOPEqqBe9OoKc1Bqd+WyZzdeNbHgUc3DvHMTOa1v/nhi+et1JM9zovWBWNQk9IbxhxgIKfD2S
+	X
+X-Google-Smtp-Source: AGHT+IH2L1THFrQvM3bTqhKZ+q2wfByePt7Va19fgE0i0MWqaeF40VkzlfAHTs3hCr004lXVtN3VNQ==
+X-Received: by 2002:a05:600c:1c91:b0:431:5d4f:73b9 with SMTP id 5b1f17b1804b1-4318c73a475mr47705895e9.26.1729847778854;
+        Fri, 25 Oct 2024 02:16:18 -0700 (PDT)
+Received: from corsair.. (88-169-167-85.subs.proxad.net. [88.169.167.85])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431935a4c0esm12108225e9.27.2024.10.25.02.16.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Oct 2024 02:16:18 -0700 (PDT)
+From: Fathi Boudra <fathi.boudra@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Cc: Fathi Boudra <fathi.boudra@linaro.org>
+Subject: [PATCH] libksba: add bison (yacc) dependency
+Date: Fri, 25 Oct 2024 11:16:13 +0200
+Message-ID: <20241025091614.2034294-1-fathi.boudra@linaro.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
-References: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com> <1729834769-4717-14-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1729834769-4717-14-git-send-email-wangmy@fujitsu.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 25 Oct 2024 11:12:51 +0200
-Message-ID: <CANNYZj_BGyi_Gz=h_62x2QSU+BWE2Ae-UB_fmbTP6BnVuccscg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 14/22] ptest-runner: upgrade 2.4.5 -> 2.5.1
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:13:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206343
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 09:16:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206344
 
-The new version is actually 2.4.5.1:
-https://git.yoctoproject.org/ptest-runner2/log/
+Add build dependency to bison because yacc is required:
+https://git.gnupg.org/cgi-bin/gitweb.cgi?p=libksba.git;a=blob;f=configure.ac;h=a2b213f245786d010e0fbf3e19291f0b1ab2373e;hb=3a4382259c3c6e7ef38cd33626fe2c1da282f816#l162
 
-I once again suggest that you use 'devtool upgrade' (or output from
-AUH that is posted on this list twice a month), so mistakes like this
-can be avoided.
+Fix ftbfs (triggered on scarthgap, but same apply to master):
+| test -f asn1-parse.c || /bin/bash ../../libksba-1.6.6/build-aux/ylwrap ../../libksba-1.6.6/src/asn1-parse.y y.tab.c asn1-parse.c y.tab.h `echo asn1-parse.c | sed -e s/cc$/hh/ -e s/cpp$/hpp/ -e s/cxx$/hxx/ -e s/c++$/h++/ -e s/c$/h/` y.output asn1-parse.output -- yacc
+| ../../libksba-1.6.6/build-aux/ylwrap: line 175: yacc: command not found
 
-Alex
+Signed-off-by: Fathi Boudra <fathi.boudra@linaro.org>
+---
+ meta/recipes-support/libksba/libksba_1.6.7.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, 25 Oct 2024 at 07:40, wangmy via lists.openembedded.org
-<wangmy=fujitsu.com@lists.openembedded.org> wrote:
->
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../{ptest-runner_2.4.5.bb => ptest-runner_2.5.1.bb}            | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-support/ptest-runner/{ptest-runner_2.4.5.bb => ptest-runner_2.5.1.bb} (95%)
->
-> diff --git a/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb b/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
-> similarity index 95%
-> rename from meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb
-> rename to meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
-> index d28ae7ca91..e07f5d444b 100644
-> --- a/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.bb
-> +++ b/meta/recipes-support/ptest-runner/ptest-runner_2.5.1.bb
-> @@ -7,7 +7,7 @@ HOMEPAGE = "http://git.yoctoproject.org/cgit/cgit.cgi/ptest-runner2/about/"
->  LICENSE = "GPL-2.0-or-later"
->  LIC_FILES_CHKSUM = "file://LICENSE;md5=751419260aa954499f7abaabaa882bbe"
->
-> -SRCREV = "aea9f42f87f2a78a973ae22cade8e45259f754e1"
-> +SRCREV = "c99e8c2737ff802f110612cc2d90c60233c33255"
->  PV .= "+git"
->
->  SRC_URI = "git://git.yoctoproject.org/ptest-runner2;branch=master;protocol=https \
-> --
-> 2.34.1
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#206325): https://lists.openembedded.org/g/openembedded-core/message/206325
-> Mute This Topic: https://lists.openembedded.org/mt/109203593/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+diff --git a/meta/recipes-support/libksba/libksba_1.6.7.bb b/meta/recipes-support/libksba/libksba_1.6.7.bb
+index b7a9fc4050..7d308c66fa 100644
+--- a/meta/recipes-support/libksba/libksba_1.6.7.bb
++++ b/meta/recipes-support/libksba/libksba_1.6.7.bb
+@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=fd541d83f75d038c4e0617b672ed8bda \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02 \
+                    "
+ 
+-DEPENDS = "libgpg-error"
++DEPENDS = "bison libgpg-error"
+ 
+ BINCONFIG = "${bindir}/ksba-config"
+ 
+-- 
+2.45.2
+
 
