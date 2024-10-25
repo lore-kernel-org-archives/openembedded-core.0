@@ -2,53 +2,53 @@ Return-Path: <wangmy@fujitsu.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD8BCD116F6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2445D116FB
 	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 05:40:04 +0000 (UTC)
-Received: from esa9.hc1455-7.c3s2.iphmx.com (esa9.hc1455-7.c3s2.iphmx.com [139.138.36.223])
- by mx.groups.io with SMTP id smtpd.web10.5567.1729834800597175644
+Received: from esa1.hc1455-7.c3s2.iphmx.com (esa1.hc1455-7.c3s2.iphmx.com [207.54.90.47])
+ by mx.groups.io with SMTP id smtpd.web11.5577.1729834800084248981
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Oct 2024 22:40:01 -0700
+ Thu, 24 Oct 2024 22:40:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=TUi/B1/D;
- spf=pass (domain: fujitsu.com, ip: 139.138.36.223, mailfrom: wangmy@fujitsu.com)
+ dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=Dq8h3Fey;
+ spf=pass (domain: fujitsu.com, ip: 207.54.90.47, mailfrom: wangmy@fujitsu.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
   d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1729834800; x=1761370800;
+  t=1729834802; x=1761370802;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references;
-  bh=kuhWahMkXtOFILKkG1i6SAN7pcsrtYNcfWDGyImQLfM=;
-  b=TUi/B1/DEKSUDd03fBf6k1EqdGWyE8r+IU0PAKXKp7ShQo4esXW6GXtu
-   SSgdc9EFX5fmWLFKm6f+zlw3PpB0vAH1Of/aOGfxJK9QTF++5yW86PstY
-   MJflp7otm2Spj9Jp6P0Wi3ld+TCOr9ZXRJd9rMfYplQicXkwknV7KR9wp
-   qizEhRLvnxQRK709m0p8EbEe6Z1X6hYdgfhy0Z7++NA5+9PTVBgbO5GFy
-   pFK3jxedgDLKrX1Lj6wRQUXn53WSYutGs7Ps4efYJ83iUXIxwo0Wu7K42
-   SoZ56wX8OVROLl1p77KaAAX1DTYbZy6WZkv/b2lLghzwCccFqrNN6XO9N
-   g==;
-X-CSE-ConnectionGUID: ymIbH8MOT+OPZxWjz7B6Eg==
-X-CSE-MsgGUID: /QTQ5j4VQfK/7IQWxQJUOQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="166312880"
+  bh=Gh0PfocIzpJ9km8CpmIgwqQzYDO+HSHLkaWZENNMO6o=;
+  b=Dq8h3FeywHWTIGIsL/DIfFBSzlfz6Izq8BpM+IXjHzse2rtjZWnDhC8j
+   J7qTMS/6zEmkxQQiW/9S/SsHV/lxd+RSzL/dmaD3QM5lqPYnt7s2wgKXG
+   Sspy9m5S3c8SbaQms4wtyBvyeBIJE4o38A1fKh7mYdGEQXTDc09xBIdgh
+   Cu2QpDvdOKLX9vDUKmaaNs/FuP5NzDNDWoIpNJG5CVtB1rXfF7+r58FzH
+   3TZf1hYbfTar3CMQ/HGE02Kbh5T2cztkCFNJV273ft1q0yBw79AFYn12/
+   5NPxxgZnbdMbuPwhcv0GOdhKvBFTogEzcraQEUmDuV3JcqQGn9B4xmd+7
+   Q==;
+X-CSE-ConnectionGUID: qQJ1YVhaRiCL9jKdBBra0g==
+X-CSE-MsgGUID: FUkzEeMLSiiNlAf2f2WuFQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11235"; a="177944738"
 X-IronPort-AV: E=Sophos;i="6.11,231,1725289200"; 
-   d="scan'208";a="166312880"
-Received: from unknown (HELO yto-r2.gw.nic.fujitsu.com) ([218.44.52.218])
-  by esa9.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 14:39:58 +0900
+   d="scan'208";a="177944738"
+Received: from unknown (HELO yto-r4.gw.nic.fujitsu.com) ([218.44.52.220])
+  by esa1.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2024 14:39:59 +0900
 Received: from yto-m4.gw.nic.fujitsu.com (yto-nat-yto-m4.gw.nic.fujitsu.com [192.168.83.67])
-	by yto-r2.gw.nic.fujitsu.com (Postfix) with ESMTP id 3E75DC68EA
+	by yto-r4.gw.nic.fujitsu.com (Postfix) with ESMTP id A377916B902
 	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 14:39:56 +0900 (JST)
 Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id 7507DD3F1B
+	by yto-m4.gw.nic.fujitsu.com (Postfix) with ESMTP id CE07CD3F1A
 	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 14:39:55 +0900 (JST)
 Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 1AA2020071A1D
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 14:39:53 +0900 (JST)
+	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6769920071A0D
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 14:39:55 +0900 (JST)
 Received: from vm4860.g01.fujitsu.local (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id BC9761A000B;
-	Fri, 25 Oct 2024 13:39:52 +0800 (CST)
+	by edo.cn.fujitsu.com (Postfix) with ESMTP id 14D5E1A01E9;
+	Fri, 25 Oct 2024 13:39:55 +0800 (CST)
 From: wangmy@fujitsu.com
 To: openembedded-core@lists.openembedded.org
 Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 08/22] libunistring: upgrade 1.2 -> 1.3
-Date: Fri, 25 Oct 2024 13:39:15 +0800
-Message-Id: <1729834769-4717-8-git-send-email-wangmy@fujitsu.com>
+Subject: [OE-core] [PATCH 18/22] python3-rdflib: upgrade 7.0.0 -> 7.1.0
+Date: Fri, 25 Oct 2024 13:39:25 +0800
+Message-Id: <1729834769-4717-18-git-send-email-wangmy@fujitsu.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com>
 References: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com>
@@ -56,54 +56,51 @@ X-TM-AS-GCONF: 00
 X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28752.005
 X-TM-AS-User-Approved-Sender: Yes
 X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28752.005
-X-TMASE-Result: 10-1.490400-10.000000
-X-TMASE-MatchedRID: dhm/lGuWeZijz0nOeth/yUIIxwDaU5mr3f4tgBVXrZ10Tsch72XSbPCY
-	Kqf93u4XRRa406V/YwxbfyRJXs6an/4/7++nTNOSfiKzBf4Yf9hUENBIMyKD0QfxTM57BPHD7v0
-	MlFSLfmlNDQmQ8bbzv+affHI8kAmikZmKVOLxy1I7Cl8sx4HBG30tCKdnhB58I/9UW5M5dRNp7q
-	EhmmPgy46HM5rqDwqt4MO/bx/QBs9dhSHi3coJ6d6kxZKeUX3K+34tbo11og0gMZ67MiyQQLHB9
-	biRUZMmTjfrqT4JSqrv19SV6bbAP0zP6VPqUSo1HSbhGbmGylXFJK7yLnZRGZdO3Q67ImL8gi4R
-	Uz90EQwG2MApbv6odw==
+X-TMASE-Result: 10-1.251000-10.000000
+X-TMASE-MatchedRID: wgzGQ0X+yFqjz0nOeth/yXg2y0j5vXZGlEDhvi2wR87QarzCEH4/6oRM
+	yN/ppM4nscy9L7UrjrsNyr61Mu6ROm0Xr+fj3ww/8t4fUUGeErTBOVz0Jwcxl0fyM5VfgjG2h+t
+	oLLKXwRGBkESMI05d4lzjFhM9hn+YXHEPHmpuRH0URSScn+QSXmVV1G+Ck2l7+gtHj7OwNO2i5u
+	/VvsFaHcTouGOd18ICWWOPAqsL+k/ODb5bVsvnTf3pQI8NYqKthY8fraY2660r7xnSm6lZu4St1
+	8rwfYb8/mJaua7v6wSBFFmpy+4M4fIMFg0InOPqz5gAnmajvOU4qCidlj1MUy0uABDi47cA
 X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 05:40:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206326
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206331
 
 From: Wang Mingyu <wangmy@fujitsu.com>
 
+License-Update: Copyright year updated to 2024.
+
 Changelog:
-===========
-* The data tables and algorithms have been updated to Unicode version 16.0.0.
-* New function
-uc_is_property_modifier_combining_mark
-  and new constant
-    UC_PROPERTY_MODIFIER_COMBINING_MARK.
-* Fixed a bug in the *printf functions: The %ls and %lc directives could
-  lead to a crash on Solaris and MSVC.
+ https://github.com/RDFLib/rdflib/blob/main/CHANGELOG.md#2024-10-17-release-710
 
 Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 ---
- .../libunistring/{libunistring_1.2.bb => libunistring_1.3.bb}   | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libunistring/{libunistring_1.2.bb => libunistring_1.3.bb} (93%)
+ .../{python3-rdflib_7.0.0.bb => python3-rdflib_7.1.0.bb}      | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-rdflib_7.0.0.bb => python3-rdflib_7.1.0.bb} (71%)
 
-diff --git a/meta/recipes-support/libunistring/libunistring_1.2.bb b/meta/recipes-support/libunistring/libunistring_1.3.bb
-similarity index 93%
-rename from meta/recipes-support/libunistring/libunistring_1.2.bb
-rename to meta/recipes-support/libunistring/libunistring_1.3.bb
-index 3018dbfdfb..08531acec1 100644
---- a/meta/recipes-support/libunistring/libunistring_1.2.bb
-+++ b/meta/recipes-support/libunistring/libunistring_1.3.bb
-@@ -21,7 +21,7 @@ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=6a6a8e020838b23406c81b19c1d46df6 \
- DEPENDS = "gperf-native"
+diff --git a/meta/recipes-devtools/python/python3-rdflib_7.0.0.bb b/meta/recipes-devtools/python/python3-rdflib_7.1.0.bb
+similarity index 71%
+rename from meta/recipes-devtools/python/python3-rdflib_7.0.0.bb
+rename to meta/recipes-devtools/python/python3-rdflib_7.1.0.bb
+index 4057c1dbbc..2715c36810 100644
+--- a/meta/recipes-devtools/python/python3-rdflib_7.0.0.bb
++++ b/meta/recipes-devtools/python/python3-rdflib_7.1.0.bb
+@@ -2,9 +2,9 @@ SUMMARY = "RDFLib is a pure Python package for working with RDF"
+ HOMEPAGE = "https://github.com/RDFLib/rdflib"
+ SECTION = "devel/python"
+ LICENSE = "BSD-3-Clause"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=37d489c0cefe52a17e1d5007e196464a"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e1efde25e459057a815649b18cbefa5e"
  
- SRC_URI = "${GNU_MIRROR}/libunistring/libunistring-${PV}.tar.gz"
--SRC_URI[sha256sum] = "fd6d5662fa706487c48349a758b57bc149ce94ec6c30624ec9fdc473ceabbc8e"
-+SRC_URI[sha256sum] = "8ea8ccf86c09dd801c8cac19878e804e54f707cf69884371130d20bde68386b7"
+-SRC_URI[sha256sum] = "9995eb8569428059b8c1affd26b25eac510d64f5043d9ce8c84e0d0036e995ae"
++SRC_URI[sha256sum] = "a29a8fccebd3d3a5f1b7e88d92dace1c89829018c7d29a6114fff4449c188b3b"
  
- inherit autotools texinfo
- BBCLASSEXTEND = "native nativesdk"
+ inherit pypi python_poetry_core
+ 
 -- 
 2.34.1
 
