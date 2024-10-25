@@ -1,141 +1,170 @@
-Return-Path: <rybczynska@gmail.com>
+Return-Path: <sreejith.ravi087@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F3A0D116EE
-	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 05:08:34 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.5268.1729832913512253989
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EA07D116EF
+	for <webhook@archiver.kernel.org>; Fri, 25 Oct 2024 05:22:54 +0000 (UTC)
+Received: from mail-wm1-f67.google.com (mail-wm1-f67.google.com [209.85.128.67])
+ by mx.groups.io with SMTP id smtpd.web11.5408.1729833767526680205
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Oct 2024 22:08:33 -0700
+ Thu, 24 Oct 2024 22:22:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=U8oEHB2q;
- spf=pass (domain: gmail.com, ip: 209.85.210.182, mailfrom: rybczynska@gmail.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71e5130832aso1167220b3a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 22:08:33 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=B8lYeY5A;
+ spf=pass (domain: gmail.com, ip: 209.85.128.67, mailfrom: sreejith.ravi087@gmail.com)
+Received: by mail-wm1-f67.google.com with SMTP id 5b1f17b1804b1-4315b0bd4ddso2440085e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Oct 2024 22:22:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1729832913; x=1730437713; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Kq27mx4AH9LlRWS6ULixQlkUOsoceEl20U8I6p5Inl0=;
-        b=U8oEHB2q3cbIeFJbDmEVAogHQuHFRAo/fugteaoaYQYZ84RcBY05AUjoceeW1KtBAS
-         xMqQ8VS7hLL0v5Ihnm/0O84DkHizpg1Rh0XTRImER+U3Qm8BrhFIf7lgrbPcL3+75lMX
-         fci1dKRv92JqJv0Wk/eu6KBZ5gZvcJkPBnzqXBrO4o9aTNNcG7CulHRjqShurjW1mOA6
-         jd2BDrT4wS5HACCS/NFpf3tzLsry3gmZVlVCzyOUfrZ11VfvSj9nzUjzLliLCxZLAEeX
-         XBk1sGwmw0YDdOdNapFxd6WNa+d2aN8h6BdiRCXG/nnTzksp+6ifsQhRbaPwC6edtyBf
-         i5LA==
+        d=gmail.com; s=20230601; t=1729833765; x=1730438565; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=L8vOkWMeLxYJXYj4k1AT84SgF77fklgkbAaNYeF15hg=;
+        b=B8lYeY5AYxpwlGZkPe8dKr5lrI41gKuoFBgbtddD0JnqXWIjsF7OCfSklc0k0bRSXg
+         kAIuNTJISGqxTYCoSo8nhuPcyDPqTpJhsT7dM1Hh70Xpg60VSWemu00Twco6e5/QHibX
+         Ohy29M1viD4hpxWG54eo+jv6VK1zZYs8hZxLK90JKsJkhIJDgf+8jgoePmT9UHgHxOuW
+         FsVamaPwcJ7QDdc5CtuTlYz8mgFxB6xSIdRramiHswHPvqSWQNpm+VxbWToJ9QCBliL8
+         cxSXWBkiDlT4Fqy43oWxLK4ieFjH8PiLPdEZh1Oycohs9vjzegriOhu/fCTKxOJivXjn
+         o1yQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1729832913; x=1730437713;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1729833765; x=1730438565;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Kq27mx4AH9LlRWS6ULixQlkUOsoceEl20U8I6p5Inl0=;
-        b=J+3YZrC7QZRCuAcLQQZG77ZI2koiS/knnY/uvnzy/sVcVC2SbE/fLY1nyIJowLm95D
-         /YfGgdrwvKpuuTWFJRID8OGA7UdEX/gfRYGIMUSfpi7YTh14HY3Ltz8M1Nv4wzlMxan0
-         TMzkK7+1x4CMsEedaYbSDVNT0tVUCqsLqdb55oVOBUMXVkpKriEPvK43aklcwGMybW5L
-         E3yFi5lxaD/7wLpU+en+J7Vsz3NiPG7d46Tu1aZr6hyLaiWWmHA8Qd2Isx72ZzNCvYSX
-         AW+Uv6eEuIaDrWge0lCPmJo8jvQT43ItsBz1SnZyNVqg6aYzhgM1JM/JftKsB3uA3Gfx
-         ic0A==
-X-Forwarded-Encrypted: i=1; AJvYcCUGC8gkvfm02Z1cNiX665WrwJmdMW0GDk9pzFurW5fF0V7D+y8ftxeM6lz8VLnCXxeAk0BqmNHCXmGLb9FGTARulA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzQ3phA/M4hlgbtJ6bvfjvGkx3Ai61KZkjA3TNFxf05s2JxFA/3
-	et1JpYewWN6wp1oyuS0TMzOO/XqEAimN91MY7WNSo21kNhQs/gwlO3W9+PGKt270E/ClRNxKlSs
-	XJf4d8RVqEdTYUJ2shOM8l7cSoZQ=
-X-Google-Smtp-Source: AGHT+IEeogKBCmC3K4RxRHmUigaPFzMClVfQ26PXs/ldqBWqitYsPgsLIYUVIXRjDfoj77MF08OXzDk5mmKegXLiy2U=
-X-Received: by 2002:a05:6a00:1989:b0:71e:4ba:f389 with SMTP id
- d2e1a72fcca58-72030babd3amr11409888b3a.10.1729832912669; Thu, 24 Oct 2024
- 22:08:32 -0700 (PDT)
+        bh=L8vOkWMeLxYJXYj4k1AT84SgF77fklgkbAaNYeF15hg=;
+        b=KZEHsE5aj/K06k7gPQZEzYivSKbEin55jZK6X/esdCeOkaODQLrikvFqySMe6EoVV1
+         +QZfcxgAQjoiyxrMislbqQmyI3AZ4UVcwT+wlO4wmjL9GtE8WDpHHJZgfcZsJ4ORMG/4
+         jpgqBWpAgXiCDQZHIDpEG1cqKThGAZuzh5HEu/PT+DBgLORVOGbkn/4/jev24WEpfSDW
+         gANkTv6MLjhWr3A6rnW2yY64K6tI3jfcbBn1aUPgpF5xpaIhdBUu9h2Vr9B17WBw0eKB
+         lN3WmtnVGI+zdXyyNSqBx/UFjn6pnw66b3+2M477s7i/mCX+r8gBBs1vd8RsvODq6eNr
+         RtDA==
+X-Gm-Message-State: AOJu0YziW/GBkJvpWyCQZkxOmcXMcXvpT4wEz8D8u555Xm8uHPDlbftM
+	qgOEdo0++HJQk4ofPeZEKD1lSseAvVDXjbo1RTKuzU+22IPbTI5rLR727t/B
+X-Google-Smtp-Source: AGHT+IHTvWNZO+RMIRyMqc3ZNlOqsItVJHnWg5jXvQjJb1RGxaEoAwSN+u/ETsi3oYIukuMrV5VVZw==
+X-Received: by 2002:a05:6000:1a8e:b0:37e:d92f:8272 with SMTP id ffacd0b85a97d-3805b448635mr62318f8f.6.1729833764760;
+        Thu, 24 Oct 2024 22:22:44 -0700 (PDT)
+Received: from hbox.local (178.72-31-62.static.virginmediabusiness.co.uk. [62.31.72.178])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058bb1bc3sm568517f8f.110.2024.10.24.22.22.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Oct 2024 22:22:44 -0700 (PDT)
+From: Sreejith Ravi <sreejith.ravi087@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sreejith Ravi <sreejith.ravi087@gmail.com>
+Subject: [PATCH] package.bbclass : Fix AUTOINC version issue in pkgdata
+Date: Fri, 25 Oct 2024 06:22:40 +0100
+Message-ID: <20241025052240.3307-1-sreejith.ravi087@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <cover.1723636705.git.steve@sakoman.com> <468a9077d9b3466d60ee8c5b6144529ea5e5c849.1723636705.git.steve@sakoman.com>
- <CAApg2=Q13Q7mHWMOuC4=oL2AJVMBJpHAOPV_3xCphiotCrVuMg@mail.gmail.com>
- <17EB9EED917D6CD6.10903@lists.openembedded.org> <CAOSpxdYkNiYFE3n2KBaAPH=Qrxu3DGxgnLuWaJkMQbwHkEmVAA@mail.gmail.com>
- <0ac8780b1703a929a085f732db8647e5f091d933.camel@linuxfoundation.org>
-In-Reply-To: <0ac8780b1703a929a085f732db8647e5f091d933.camel@linuxfoundation.org>
-From: Marta Rybczynska <rybczynska@gmail.com>
-Date: Fri, 25 Oct 2024 07:08:21 +0200
-Message-ID: <CAApg2=SBM7Bqmt7ZYTPOOan9T9FTdawoA1zt8+hqS+UAQzu9Ew@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap 1/9] cve_check: Use a local copy of the
- database during builds
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: steve@sakoman.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="00000000000047d5950625461ceb"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 05:08:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206311
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 05:22:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206312
 
---00000000000047d5950625461ceb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Currently, pkgdata fields (RDEPENDS, RRECOMMENDS ..) are created with
+AUTOINC due to the static setting of its values in recipes/configurations.
+Eg : RDEPENDS for -staticdev and -dev is set using EXTENDPKGV
+in meta/conf/bitbake.conf:
+----------------------------------
+DEV_PKG_DEPENDENCY = "${PN} (= ${EXTENDPKGV})"
+RDEPENDS:${PN}-staticdev = "${PN}-dev (= ${EXTENDPKGV})"
+EXTENDPKGV ?= "${EXTENDPKGEVER}${PKGV}-${PKGR}"
+PKGV ?= "${PV}"
 
-On Tue, Oct 22, 2024 at 3:09=E2=80=AFPM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+If SRCPV is set for PV in any packages and revisions are not incremental,
+SRCPV is updated with AUTOINC during the recipe parsig stage.
+In base.bbclass --> d.setVar("SRCPV", "${@bb.fetch2.get_srcrev(d)}")
 
-> On Tue, 2024-10-22 at 05:59 -0700, Steve Sakoman via
-> lists.openembedded.org wrote:
-> > Hi Marta,
-> >
-> > We are still getting database errors on scarthgap (and occasionally on
-> > kirkstone if memory serves), so I think we need to reconsider
-> > backporting this patch.
-> >
-> > Can you suggest changes that would make it acceptable to you?
->
-> Just for complete context, moving the database on master did isolate the
-> database issues to scarthgap so the problem is in the older branches at
-> this point.
->
->
-Hello all,
-To make a summary, this patch did not solve the issue on master, it was the
-change of the database path that did. Is this correct? And we still do not
-know what the cause is? So, when we change the path on all branches, the
-issue is likely to come back ?
+----------------------------------
 
-My problem with this patch is that it changes names of variables that are
-in use. It should at least not fail silently for people who decide to use a
-pinned database.
+During the do_package task, AUTOINC is replaced in PKGV (via package_setup_pkgv),
+which is used for creating the package name. However, the fields set with PKGV
+during the recipe parsing stage will not be updated with this change, resulting in a
+mismatch between the package version used in those fields.
 
-Do you see another solution than renaming the _DLDIR_ version to the old
-name?
+As the IPK name is generated with the updated PKGV, but the version
+in the fields (Eg: RDEPENDS) still uses AUTOINC, this mismatch leads
+to installation failures.
 
-Kind regards,
-Marta
+Example: libnsl
+install libnsl-staticdev throws the error,  nothing provides
+libnsl-dev = 1.2.0+gitAUTOINC+4a062cf418-r0
+----------------------------------
+IPKs available:
+libnsl2_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-src_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-dbg_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-staticdev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+libnsl-dev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
 
---00000000000047d5950625461ceb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+control data: libnsl-staticdev
+Package: libnsl-staticdev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl-dev (= 1.2.0+gitAUTOINC+4a062cf418-r0)
+Provides: libnsl2-staticdev
+Source: libnsl2_git.bb
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Tue, Oct 22, 2024 at 3:09=E2=80=AF=
-PM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org"=
->richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">On Tue, 2024-10-22 at 05:59 -0700, Steve=
- Sakoman via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" t=
-arget=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; Hi Marta,<br>
-&gt; <br>
-&gt; We are still getting database errors on scarthgap (and occasionally on=
-<br>
-&gt; kirkstone if memory serves), so I think we need to reconsider<br>
-&gt; backporting this patch.<br>
-&gt; <br>
-&gt; Can you suggest changes that would make it acceptable to you?<br>
-<br>
-Just for complete context, moving the database on master did isolate the da=
-tabase issues to scarthgap so the problem is in the older branches at this =
-point.<br>
-<br></blockquote><div><br></div><div>Hello all,</div><div>To make a summary=
-, this patch did not solve the issue on master, it was the change of the da=
-tabase path that did. Is this correct? And we still do not know what the ca=
-use is? So, when we change the path on all branches, the issue is likely to=
- come back ?<br></div><div><br></div><div>My problem with this patch is tha=
-t it changes names of variables that are in use. It should at least not fai=
-l silently for people who decide to use a pinned database. <br></div><div><=
-br></div><div>Do you see another solution than renaming the _DLDIR_ version=
- to the old name?</div><div><br></div><div>Kind regards,</div><div>Marta<br=
-></div></div></div>
+control data: libnsl-dev
+Package: libnsl-dev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl2 (= 1.2.0+gitAUTOINC+4a062cf418-r0), libtirpc-dev
+Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
+Provides: libnsl2-dev
+Source: libnsl2_git.bb
+----------------------------------
 
---00000000000047d5950625461ceb--
+This patch fixes pkgdata with correct version.
+It replaces AUTOINC before generating the package control data.
+
+Updated control data:
+----------------------------------
+Package: libnsl-dev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl2 (= 1.2.0+git0+4a062cf418-r0), libtirpc-dev
+Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
+Provides: libnsl2-dev
+Source: libnsl2_git.bb
+
+Package: libnsl-staticdev
+Version: 1.2.0+git0+4a062cf418-r0
+----
+----
+Depends: libnsl-dev (= 1.2.0+git0+4a062cf418-r0)
+Provides: libnsl2-staticdev
+Source: libnsl2_git.bb
+----------------------------------
+
+Signed-off-by: Sreejith Ravi <sreejith.ravi087@gmail.com>
+---
+ meta/classes-global/package.bbclass | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
+index 6cd8c0140f..066a7ff835 100644
+--- a/meta/classes-global/package.bbclass
++++ b/meta/classes-global/package.bbclass
+@@ -325,6 +325,15 @@ python package_setup_pkgv() {
+     # Adjust pkgv as necessary...
+     if 'AUTOINC' in pkgv:
+         d.setVar("PKGV", pkgv.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
++
++    # Adjust dependencies that are statically set with EXTENDPKGV
++    vars = ["RDEPENDS","RPROVIDES","RRECOMMENDS","RSUGGESTS","RREPLACES","RCONFLICTS"]
++    packages = d.getVar('PACKAGES').split()
++    for var in vars:
++        for pkg in packages:
++            val = d.getVar("%s_%s"%(var,pkg))
++            if val and 'AUTOINC' in val:
++                d.setVar("%s_%s"%(var,pkg), val.replace("AUTOINC", "${PRSERV_PV_AUTOINC}"))
+ }
+ 
+ 
+-- 
+2.43.0
+
 
