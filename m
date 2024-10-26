@@ -1,227 +1,199 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <yi.zhao@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4175D10BE7
-	for <webhook@archiver.kernel.org>; Sat, 26 Oct 2024 03:25:32 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EB1CD10BE5
+	for <webhook@archiver.kernel.org>; Sat, 26 Oct 2024 05:50:23 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.4422.1729913124561061051
+ by mx.groups.io with SMTP id smtpd.web11.5706.1729921817618893367
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Oct 2024 20:25:24 -0700
+ Fri, 25 Oct 2024 22:50:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=002900eeaf=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49Q3OaKK000751;
-	Fri, 25 Oct 2024 20:25:23 -0700
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42c8240wrm-6
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 25 Oct 2024 20:25:22 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Fri, 25 Oct 2024 20:25:20 -0700
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Fri, 25 Oct 2024 20:25:20 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <JPEWhacker@gmail.com>
-Subject: [oe-core][PATCH 5/6] create-spdx-{2.2,3.0}: support SPDX include source for work-share directory
-Date: Fri, 25 Oct 2024 20:25:18 -0700
-Message-ID: <20241026032519.1968518-6-hongxu.jia@windriver.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=0029ada225=yi.zhao@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49Q5iUJF018324
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 22:50:17 -0700
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42cc9m0ux4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 22:50:16 -0700 (PDT)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 49Q5oGQl027874
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Oct 2024 22:50:16 -0700
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2045.outbound.protection.outlook.com [104.47.58.45])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42cc9m0ux2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 25 Oct 2024 22:50:16 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tFrNtvBwiWX6k8hI1uxMcSnHJlIAJ8lN7o/PjIK98ovkMu0y4tzS05tVExJy+pxnlc6kf4Tjr6qky0yDCIawC6b1EBUCr16eBNn62vOUVVQWjD+z3BxXHgLPPYpYdSIefV7Jg5ctvCsFiUFpjGDpLkYj9i9RPMWJhybqZymqFEN/oe7HNbtidj+k9Po09JsXU6iTtrKrddBr4DiX+bD1aw73duxlKoO8CcCus2L/JXiZmlZptQotZR2GcFQAK/5LOy15NZ3IfkWmIyKmcMZTzcQUPAte0esEjksUHKGKHPsSiIWp0+LWWhkny3dHPzwSK2JJ/9SWrXkQN9LISf34Iw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t/yq5jloQ9q79hwZo8U4fSpuKno8FLmV4PXK6DgMZwg=;
+ b=WwQ942j2mXKlQZFpBrj94d+/ZmINHP2CyvO+Y2beI8oMHjfcNu91gi4rsxsM9ySi0E5d0XJtN/iHWGzHifM/u90BfqKMWK/eprcinM3k3JHe3sIS3KHKPC9+aNTOv6KbQY2w2dfYA4d15RHAFSCe5O8lvI0p2qOMxsZntHYLPrtSTsDCBHs02UDw1KfYlsyEbmHp7/ZWXOq/7C2vWTf2jD5y/Wa4BtEN0JMvCrCN+gwKCdvhSIAm00B/4wq0UP8O7kaN+MssEVdH7r8X5jdCiB86Rlnp4o/nUAtGDF0hMGOv0K2i7amV6yuwvL5V06XekNKISsER8QEuAuWQ2BKBpg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) by
+ SA3PR11MB8045.namprd11.prod.outlook.com (2603:10b6:806:2fa::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.20; Sat, 26 Oct
+ 2024 05:50:12 +0000
+Received: from DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad]) by DS0PR11MB6399.namprd11.prod.outlook.com
+ ([fe80::2b44:787c:e7ee:bfad%5]) with mapi id 15.20.8093.018; Sat, 26 Oct 2024
+ 05:50:12 +0000
+From: Yi Zhao <yi.zhao@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Cc: rasmus.villemoes@prevas.dk
+Subject: [PATCH] systemd: fix broken links for sysvinit-compatible commands
+Date: Sat, 26 Oct 2024 13:49:46 +0800
+Message-Id: <20241026054946.1621428-1-yi.zhao@windriver.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241026032519.1968518-1-hongxu.jia@windriver.com>
-References: <20241026032519.1968518-1-hongxu.jia@windriver.com>
-MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=UrgxNPwB c=1 sm=1 tr=0 ts=671c6122 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=DAUX931o1VcA:10 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8 a=FOIc7NzRO18f_obxkkgA:9 a=aAh4nC1LCUkA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: VLzZtMJ5l_PZTWnxtW4zxQ7ZC-bItblF
-X-Proofpoint-GUID: VLzZtMJ5l_PZTWnxtW4zxQ7ZC-bItblF
+X-ClientProxiedBy: TY2PR06CA0029.apcprd06.prod.outlook.com
+ (2603:1096:404:2e::17) To DS0PR11MB6399.namprd11.prod.outlook.com
+ (2603:10b6:8:c8::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB6399:EE_|SA3PR11MB8045:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9dfcb729-5f0f-4f4d-61fb-08dcf5820efe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?J2du1xmFrU2Bxk5anoSJjJWcnbLUU7SZRfRizvBmx5rg+a17wgtLNXhHVXAZ?=
+ =?us-ascii?Q?F7oqz1OqYtwi/5hM1Fw5QoENQO1JwGF54vP4DUGQXKPku+g4ebfl2usRBu6Q?=
+ =?us-ascii?Q?S8anSlLIBI+NaYrqdeOMSDX3I1ivTB0vopZfkj0AQ2d3OwJ6dCM9PvH1Shx3?=
+ =?us-ascii?Q?mVxoUmatCcGmSX5bumpefL5Gi58F2J7lxAWTqAeTfcRwdsWSrGy3xtrdtwPZ?=
+ =?us-ascii?Q?1NYr4+vEuAdLseRVTx8UfZAcQmhTJRQBpZj9Fn6y0jK9wfR6k2NjTZT13SAC?=
+ =?us-ascii?Q?b9iRyZ+usCMgYH4f82xfLyb0dyaxMEfDrHCREuOmELEitWMxDji2iNjgVNcs?=
+ =?us-ascii?Q?gwpbGLj4Sfz9xIyB+VHYF8vB1OLKYQPF5yXnWdnEHrxIAggps5vPmJQfo/cN?=
+ =?us-ascii?Q?mIw35dgzJshi+i9ekG7OJJx9nPE4oGzjquzGOVXDsI0EaPBtneMnUDrZ767m?=
+ =?us-ascii?Q?5qytDWfuoitqnN4Ps7hx5Xty91bBVHeQKp5vj3P2rDffjhQ71UrrwBPrqy+p?=
+ =?us-ascii?Q?nBFIPIBpMTWnd9qv7PQCSra/HwON1amjZ4TpvJYRdYdDSBTP/yOhTFWawHEn?=
+ =?us-ascii?Q?E/VPDQFxz1VkHJAlW/NCkkkz7DpfApE/yeEhh51Rk6PcPNo1WshzJzJ7rwjx?=
+ =?us-ascii?Q?1+CA7bKHZO4CKATO1yWnfCLXjfx5Grtkx6DDCQ2ldKbqXO8cWjyEOw0w2i74?=
+ =?us-ascii?Q?pCHRfDJ3vz1pBOC+CEtprulnM154zOy9tL0PJ4JkFNQV5bhHxsvrAkzdWbCQ?=
+ =?us-ascii?Q?1tQ9+l5MFDucB6CoRespWWBslfx8g7vVyPxmoa4X54HWbDQBVYWJzJiI+T0X?=
+ =?us-ascii?Q?a22FR75rCSC+P6yaihEAT5zRV9hwgR2mzii2WJ3swD4Hl/qwg+JiAt7rOFBr?=
+ =?us-ascii?Q?wqQWJIH6EEESRYeC+G+pmBcTpUzWnNhTVXnzfG/KSI+XPJRuCMaJUwDqSz7w?=
+ =?us-ascii?Q?/1nH5dPmm5MvRQ5+xkMXxGhS8A15c8M+cKR97sHW+ZQAFVPB1LtwSI87PjDq?=
+ =?us-ascii?Q?ehwZS+QGZLV3b5w54iXXAc7Vdo49eMdo7/Hv3jY/uswbbc3mJu2vEX/lAwuf?=
+ =?us-ascii?Q?nRrcBtr8iMjP6BNeFnHPUIUusl3aTwurzcRkRx/nuo40cZLn0Lg+5COURAjM?=
+ =?us-ascii?Q?ZfuaJjvzsp5wimx9I9y3QgCxGcUPpdyNYdirbAUcxwwIv7nQifKnMsDmD7ox?=
+ =?us-ascii?Q?wsbySa9XsZZ+cMfHOdZsbmSwiLGOKFzPMsqOwBYkG/18w50YFGhl1X9iOF5L?=
+ =?us-ascii?Q?EaQzDBso6nNqVwWtUHNOQ8zBFlCFXkHYT6cgiyPYDxCvwYQd+oFcIpPj/slG?=
+ =?us-ascii?Q?sGsD3kc6N8NtZf9Zcv8PDO1x?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB6399.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?gFcjWXe77uT8dWHh76GAHU0wuOEBn+Dx2ezldn8eCM3Yv7JQ8Swyc0C+ycyQ?=
+ =?us-ascii?Q?xeolfdfQNEox6v34PPsKrr20iek745iFrVWkxi2yBeksmuT9EJUAk9CDdhy5?=
+ =?us-ascii?Q?9dGqj+fjQf9aK0A+nJG89yWT9GvDMPtu2f+SMMuEUQwlMwBN5Eo6JqGT+qYo?=
+ =?us-ascii?Q?aTY5CVzr/osWMnCh716TMLH6cMjDMuiFBophuoAzudzMRjbk6J7ApqOG+E7L?=
+ =?us-ascii?Q?w5kdqGXmjFuBY3mbQGDrJetlcHJY8xObtEfj2ZzaHyea21Mj5haK5iocwruq?=
+ =?us-ascii?Q?tnHZYftg1usU5uVUs2MRCZW4PazmH4FRGRTi+gF0kqJMgg1CH5AFHEqjEY7i?=
+ =?us-ascii?Q?E8vxgPuPQ1Ij7ZnoRI/RuiHECYxX5eFNTN2lhXNZqeviH4gP7eNCH2vAqkjc?=
+ =?us-ascii?Q?TMFYWafpFJU0H7KIDNNaLRUXIytYYTvs/K/1MJjbvmOQtfLL6snqq0tZzZah?=
+ =?us-ascii?Q?OBQe7c1D2pYDOGro7+reIN8SyyzOB3s86fm7UB4bPxROI/3YEl1GEBxKla+q?=
+ =?us-ascii?Q?T/8p4RDGvUplSke8QmmkxvGtmh8hRuW/QJVIUar2Q7ucOI/taelErLv/tzpV?=
+ =?us-ascii?Q?4NB/HNIALpesGtJI2wFvsevxT0A6C3lUiD5hmoMBLjQAZTpAA+vOMZkYI0JA?=
+ =?us-ascii?Q?Y9lyrdVXnQ6hO/neQTCczf/TCizlBYSPSPUTPvwIPUJkyfQxYxfHbNWwGiVK?=
+ =?us-ascii?Q?A6FRLE4HMpMfPdpDUJ3pFu/xWr9uBLx43KlGOU/qSC24W6/P7kcIY4Vdwglh?=
+ =?us-ascii?Q?VCirc5aML+USSY1LN6AVsqWI+nSrSGd9tDm5bSfrQ2SC55+PopQzRXGpyszB?=
+ =?us-ascii?Q?WRkiclbAMa3ngyFcwouJBQAQZmYbqux71LUp1FutElfJC+4qeCoC3TIQlU9Q?=
+ =?us-ascii?Q?zEqeglRC4g+/PhW1WX0UoskPw8zhZ52u6K4lf0Wdk98uGk+8/EKm3wKTMjZS?=
+ =?us-ascii?Q?a2J134VMilcgXmH8LcfhwCuDF0tMVwkHqC8PHD2OnWfEIcEU4cztMgoocz9S?=
+ =?us-ascii?Q?WXgqEIqs9l7lddVfTZjr3V40wrXPVHgfiuMubK69fNbhs3kRHHi7Ept7HnSQ?=
+ =?us-ascii?Q?CRBS+0DFYF3JBfzf6u7KjllLTr+hDEz6gCGxn5vb9ewrbtb3ohC6eD8y95tZ?=
+ =?us-ascii?Q?RqPgAXr+4qWmdi8QxvNDY8VC03gNAraPFnosylgqiTg+YUcDpI04KKO2Ay+o?=
+ =?us-ascii?Q?jMJwchJxgujjitdBVJ8zCsB27mOPfeEiL7nkgVwVPTkMzJTi1R/+AUzT8aCj?=
+ =?us-ascii?Q?2XJzv/NQhCBow5tgPx5Cu3nsgJzvV4VlW5zuSZTxKuSHBWe/5WjpGVtWXNmk?=
+ =?us-ascii?Q?VIdCwpYB3XYitJpgWESCTK+KS36UVuPjDilmRA61P37NEJM2B3DaGqE6TrOb?=
+ =?us-ascii?Q?qoAuJhALPtInLw/qZ/oLKY6l81DJWLtSH63l/PglLH6PpR4KyCvsGRdrtnSb?=
+ =?us-ascii?Q?gGihZEhZ407VXw58pduCCBwWEIMKGYhZRFLq0Mvem208ExFCajkgAbKRSH+y?=
+ =?us-ascii?Q?MeWcSVXaWZ1Y+zC/9qdwqbG6Z1v/NI0xEp9NWSEqLdmebN8MVaJSb58CQPSV?=
+ =?us-ascii?Q?ry7MiFBbqhLrNVTVCMG7T4AsujzyTwQEdNg2S6HP?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9dfcb729-5f0f-4f4d-61fb-08dcf5820efe
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB6399.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Oct 2024 05:50:12.8021
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QJr4YrvHwdRHSSvLKaVvUqjhoE/gVemAjXtTZ+kblbQyZ4uXWXrHnhuYycfbNSPP0BbDoicksG+59Y6iz+X1Ow==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA3PR11MB8045
+X-Authority-Analysis: v=2.4 cv=ZYlPNdVA c=1 sm=1 tr=0 ts=671c8319 cx=c_pps a=Syk5hotmcjzKYaivvMT4gg==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=DAUX931o1VcA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=d5ef1JGLapNL_JmEL7gA:9
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: Lo0q6GxLNujccNMNg2-XY4ifZ4YkV1vI
+X-Proofpoint-ORIG-GUID: Mo8kerjbqWsN7ZB9XHG3nU_ESKEnEsBd
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-25_14,2024-10-25_02,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
- impostorscore=0 spamscore=0 clxscore=1015 adultscore=0 mlxlogscore=999
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 suspectscore=0
- phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2410260026
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1011 suspectscore=0 adultscore=0 impostorscore=0 mlxlogscore=999
+ bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0 malwarescore=0
+ mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2410260046
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Oct 2024 03:25:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206382
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Oct 2024 05:50:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206386
 
-Originally, while SPDX_INCLUDE_SOURCES = "1" [1], there is bug in scan
-for gcc, libgcc in which the sources locates in work-share directory.
-Copy source from ${WORKDIR} to ${SPDXWORK} did not satisfy the situation
-while ${S} was not included in ${WORKDIR}
+Since commit[1], PACKAGECONFIG[sysvinit] is not enabled by default when
+sysvinit is not in DISTRO_FEATURES, which causes the following
+sysvinit-compatible commands/services to not be built and installed:
 
-This commit aim to support SPDX include source for work-share directory
+  runlevel
+  telinit
+  rc-local.service
+  systemd-initctl
+  systemd-initctl.service
+  systemd-rc-local-generator
+  systemd-sysv-generator
+  systemd-update-utmp-runlevel.service
 
-1. If is_work_shared_spdx, Copy source from ${S} to ${SPDXWORK},
-normally the dest dir in ${SPDXWORK} has the same basename dir of ${S};
-but for kernel source, rename basename dir 'kernel-source' to ${BP} (${BPN}-${PV})
+Therefore, links to these commands/services should only be created when
+PACKAGECONFIG[sysvinit] is enabled.
 
-2. For SPDX source copy, do hard link copy to save copy time
+[1] https://git.openembedded.org/openembedded-core/commit/?id=3668235fd60a9027608f37251c4b453ed21b3687
 
-3. Move do_patch to no work shared situation along with do_unpack
-
-4. Tweak task do_create_spdx dependencies to assure the patched source
-in work share is ready for SPDX source copy
-
-5. Remove bb.data.inherits_class('kernel', d) from is_work_shared_spdx,
-the kernel source locates in 'work-shared', test kernel.bbclass is not
-necessary
-
-[1] https://docs.yoctoproject.org/dev/ref-manual/variables.html#term-SPDX_INCLUDE_SOURCES
-
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 ---
- meta/classes/create-spdx-2.2.bbclass | 20 ++++++++++++++
- meta/classes/create-spdx-3.0.bbclass | 19 +++++++++++++
- meta/lib/oe/spdx_common.py           | 41 +++++++++++-----------------
- 3 files changed, 55 insertions(+), 25 deletions(-)
+ meta/recipes-core/systemd/systemd_256.6.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
-index cd1d6819bf..900595a7e9 100644
---- a/meta/classes/create-spdx-2.2.bbclass
-+++ b/meta/classes/create-spdx-2.2.bbclass
-@@ -947,3 +947,23 @@ def combine_spdx(d, rootfs_name, rootfs_deploydir, rootfs_spdxid, packages, spdx
-             tar.addfile(info, fileobj=index_str)
+diff --git a/meta/recipes-core/systemd/systemd_256.6.bb b/meta/recipes-core/systemd/systemd_256.6.bb
+index 68f15ab065..af810c0fcd 100644
+--- a/meta/recipes-core/systemd/systemd_256.6.bb
++++ b/meta/recipes-core/systemd/systemd_256.6.bb
+@@ -339,7 +339,7 @@ do_install() {
+ 	install -d ${D}${systemd_system_unitdir}/rescue.target.wants
  
- combine_spdx[vardepsexclude] += "BB_NUMBER_THREADS SPDX_MULTILIB_SSTATE_ARCHS"
-+
-+python () {
-+    import oe.spdx_common
-+
-+    # Assure the patched source in work share is ready for SPDX source copy
-+    if oe.spdx_common.is_work_shared_spdx(d) and \
-+       d.getVar("SPDX_INCLUDE_SOURCES") == "1" and \
-+       oe.spdx_common.process_sources(d):
-+        pn = d.getVar('PN')
-+        # There is a corner case with "gcc-source-${PV}" recipes, they use "do_preconfigure"
-+        # to modify source file after do_patch
-+        if oe.spdx_common.has_task(d, "do_preconfigure"):
-+            d.appendVarFlag('do_create_spdx', 'depends', ' %s:do_preconfigure' % pn)
-+        elif oe.spdx_common.has_task(d, "do_patch"):
-+            d.appendVarFlag('do_create_spdx', 'depends', ' %s:do_patch' % pn)
-+        # There is a corner case with "gcc-cross-x86_64" recipes, it has "do_configure"
-+        # but no do_patch
-+        elif oe.spdx_common.has_task(d, "do_configure"):
-+            d.appendVarFlag('do_create_spdx', 'depends', ' %s:do_configure' % pn)
-+}
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 5f0590198f..284e0ff91c 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -190,3 +190,22 @@ python spdx30_build_started_handler () {
- addhandler spdx30_build_started_handler
- spdx30_build_started_handler[eventmask] = "bb.event.BuildStarted"
+ 	# Create symlinks for systemd-update-utmp-runlevel.service
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'utmp', 'true', 'false', d)}; then
++	if ${@bb.utils.contains('PACKAGECONFIG', 'utmp', 'true', 'false', d)} && ${@bb.utils.contains('PACKAGECONFIG', 'sysvinit', 'true', 'false', d)}; then
+ 		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_system_unitdir}/graphical.target.wants/systemd-update-utmp-runlevel.service
+ 		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_system_unitdir}/multi-user.target.wants/systemd-update-utmp-runlevel.service
+ 		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_system_unitdir}/poweroff.target.wants/systemd-update-utmp-runlevel.service
+@@ -841,7 +841,9 @@ python do_warn_musl() {
+ }
+ addtask warn_musl before do_configure
  
-+python () {
-+    import oe.spdx_common
-+
-+    # Assure the patched source in work share is ready for SPDX source copy
-+    if oe.spdx_common.is_work_shared_spdx(d) and \
-+       d.getVar("SPDX_INCLUDE_SOURCES") == "1" and \
-+       oe.spdx_common.process_sources(d):
-+        pn = d.getVar('PN')
-+        # There is a corner case with "gcc-source-${PV}" recipes, they use "do_preconfigure"
-+        # to modify source file after do_patch
-+        if oe.spdx_common.has_task(d, "do_preconfigure"):
-+            d.appendVarFlag('do_create_spdx', 'depends', ' %s:do_preconfigure' % pn)
-+        elif oe.spdx_common.has_task(d, "do_patch"):
-+            d.appendVarFlag('do_create_spdx', 'depends', ' %s:do_patch' % pn)
-+        # There is a corner case with "gcc-cross-x86_64" recipes, it has "do_configure"
-+        # but no do_patch
-+        elif oe.spdx_common.has_task(d, "do_configure"):
-+            d.appendVarFlag('do_create_spdx', 'depends', ' %s:do_configure' % pn)
-+}
-diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-index 1ea55419ae..ab037b4088 100644
---- a/meta/lib/oe/spdx_common.py
-+++ b/meta/lib/oe/spdx_common.py
-@@ -38,7 +38,7 @@ def extract_licenses(filename):
+-ALTERNATIVE:${PN} = "halt reboot shutdown poweroff runlevel ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
++ALTERNATIVE:${PN} = "halt reboot shutdown poweroff \
++                     ${@bb.utils.contains('PACKAGECONFIG', 'sysvinit', 'runlevel', '', d)} \
++                     ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
  
- 
- def is_work_shared_spdx(d):
--    return bb.data.inherits_class("kernel", d) or ("work-shared" in d.getVar("WORKDIR"))
-+    return 'work-shared' in d.getVar('S')
- 
- 
- def load_spdx_license_data(d):
-@@ -74,11 +74,6 @@ def process_sources(d):
-     if d.getVar("PN") == "shadow-sysroot":
-         return False
- 
--    # We just archive gcc-source for all the gcc related recipes
--    if d.getVar("BPN") in ["gcc", "libgcc"]:
--        bb.debug(1, "spdx: There is bug in scan of %s is, do nothing" % pn)
--        return False
--
-     return True
- 
- 
-@@ -190,34 +185,28 @@ def get_patched_src(d):
-             bb.utils.mkdirhier(d.getVar("B"))
- 
-             bb.build.exec_func("do_unpack", d)
--        # Copy source of kernel to spdx_workdir
-+
-+            if d.getVar("SRC_URI") != "":
-+                bb.build.exec_func("do_patch", d)
-+
-+        # Copy source from work-share to spdx_workdir
-         if is_work_shared_spdx(d):
--            share_src = d.getVar("WORKDIR")
-+            share_src = d.getVar('S')
-             d.setVar("WORKDIR", spdx_workdir)
-             d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
-+            # Copy source to ${SPDXWORK}, same basename dir of ${S};
-             src_dir = (
-                 spdx_workdir
-                 + "/"
--                + d.getVar("PN")
--                + "-"
--                + d.getVar("PV")
--                + "-"
--                + d.getVar("PR")
-+                + os.path.basename(share_src)
-             )
--            bb.utils.mkdirhier(src_dir)
-+            # For kernel souce, rename suffix dir 'kernel-source'
-+            # to ${BP} (${BPN}-${PV})
-             if bb.data.inherits_class("kernel", d):
--                share_src = d.getVar("STAGING_KERNEL_DIR")
--            cmd_copy_share = "cp -rf " + share_src + "/* " + src_dir + "/"
--            cmd_copy_shared_res = os.popen(cmd_copy_share).read()
--            bb.note("cmd_copy_shared_result = " + cmd_copy_shared_res)
--
--            git_path = src_dir + "/.git"
--            if os.path.exists(git_path):
--                shutils.rmtree(git_path)
-+                src_dir = spdx_workdir + "/" + d.getVar('BP')
- 
--        # Make sure gcc and kernel sources are patched only once
--        if not (d.getVar("SRC_URI") == "" or is_work_shared_spdx(d)):
--            bb.build.exec_func("do_patch", d)
-+            bb.note(f"copyhardlinktree {share_src} to {src_dir}")
-+            oe.path.copyhardlinktree(share_src, src_dir)
- 
-         # Some userland has no source.
-         if not os.path.exists(spdx_workdir):
-@@ -225,6 +214,8 @@ def get_patched_src(d):
-     finally:
-         d.setVar("WORKDIR", workdir)
- 
-+def has_task(d, task):
-+    return bool(d.getVarFlag(task, "task", False)) and not bool(d.getVarFlag(task, "noexec", False))
- 
- def fetch_data_to_uri(fd, name):
-     """
+ ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
+ ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
 -- 
 2.25.1
 
