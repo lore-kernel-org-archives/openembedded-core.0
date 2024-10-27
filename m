@@ -2,196 +2,139 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE4C5D13572
-	for <webhook@archiver.kernel.org>; Sun, 27 Oct 2024 17:01:34 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.33418.1730048484895423121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A1F8D13573
+	for <webhook@archiver.kernel.org>; Sun, 27 Oct 2024 17:02:14 +0000 (UTC)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.web10.33433.1730048527213763436
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Oct 2024 10:01:25 -0700
+ Sun, 27 Oct 2024 10:02:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MAHh4U4v;
- spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-37d41894a32so2703350f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 10:01:24 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IEXrc/4l;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-37d49ffaba6so2507581f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 10:02:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730048483; x=1730653283; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1730048525; x=1730653325; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=huqG1NdCxRq8XAB7wONeOhKL8tuogbVDgTMnpRxPUso=;
-        b=MAHh4U4vjEyoHRPLq5FbQ0tiMhMA3lCUVS5QQov+48X+hq4QiCCXssajHmrxsOEfyH
-         WnQemrmN4ro8l2TkREbdt2pC+zR7A+Yv7I0H8bPQnE9SIT2F5kxZKSmzDXj+0DafD4fM
-         mJPx41Yc+XZHDRZoeb1Xeks3lZMVxmtFeCD7119gLDE+MGkk/wQitlndQQl8Vpd9whUz
-         xgo6qnaKwbExeJ2RAxfZefh77xGFveUAwfQ5Es6L6QE2prt2FVCeJZzvckpY8ZNk9OnF
-         P5FEWQzT6HZe6I3s29OO+khl9X7VOAH1R8HsWNXq0P2XM2ICetsbU44SvnLTs2SU68r9
-         GH1g==
+        bh=5sIj7ddWrsG0CocbfAVWsnQ1mCbTKpzK7sNJu6TBq7g=;
+        b=IEXrc/4l5bLoqvoHYaJcPtbvDvJ+DLnbYAof/cDuAmLMKDG3QTtKR0K0DMKuaxQYmm
+         rMcnm1Ez3ULug0jOARzZXsf84a6y4ZSfD8ADR7DL/pIXqGROXR6I6xUgXT2oSoRRsWHO
+         4HH1GfvzwZWmnHYPa+8SQPXI7iqq8K/5BtHyOqZwi9V1g9o5IhxT4YIBSPVBQlB6COhH
+         L5kx0HLZnnYEfpxbdHBq0YfO81Ij775xkwMSYI5vpgfU+p6fdrz7Aa4iWAM18cYXL1I4
+         yTMmez2YVpJWqI6rA+Hi9BW8TFYsPfaU/TWpoYEIRnUbSzdEqKICiULpLLptQSStF793
+         efZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730048483; x=1730653283;
+        d=1e100.net; s=20230601; t=1730048525; x=1730653325;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=huqG1NdCxRq8XAB7wONeOhKL8tuogbVDgTMnpRxPUso=;
-        b=KzM6nnLpxSSxGPiKRioJ3PlxrLTGjIinuzChqkvwFgQO2T7fiGc7JhVTco+3A+958b
-         h11bTjoEQfoEAAvcXTmzf33vgIpBrf55sw6q+DxBa8GccJ9Evd04eKr3JPJAFJiSSdjs
-         /LjqPD6ts7u1ZZiRbtRWp43f7N/CZ0bDS0b0OfPf+vnYb2DQ4MoX3n17WAr9SE6unKOt
-         SBIhR7Sjw537SXjv58ByYESDkrMhGGteE7REQ5mipsvN9nRh6VojWmR5YqUHtWWLhgNW
-         zm2i/XQHIKWalyGlGbgtMNZDSN79Z7CJZmJUNun1O/b5eDnMgl+06Dcf7v7Ha91MnYT0
-         PLWQ==
-X-Gm-Message-State: AOJu0YwPWkFHzR2bT8l9I15Gwfa1+RSAegwHjmyWE6oO3S03zxTZu+H/
-	pV6ZcpGvB7I9ZlwZVykKwuA1tuzWi5RKu2mVGgGxlqsCtC85rTyR9ixLgQ==
-X-Google-Smtp-Source: AGHT+IFxtmtfQpYfEbN75HZfW1ukhrj+eU8UqXpFFYfsJpdh8Pv4Jhi0mVjHKunFji7tIj9GyUnJzg==
-X-Received: by 2002:adf:f408:0:b0:374:cee6:c298 with SMTP id ffacd0b85a97d-380458593d1mr8417218f8f.21.1730048482886;
-        Sun, 27 Oct 2024 10:01:22 -0700 (PDT)
+        bh=5sIj7ddWrsG0CocbfAVWsnQ1mCbTKpzK7sNJu6TBq7g=;
+        b=fwDK2rxSHqfUFXFLgiJiTkIHkedTY0O0dShmZd2hD7V/tuSATImBHoijl1HglwQAL/
+         iMsXrmanO0rq6TYqeLQigqHZIPCwQqyT0T0DSw1cFmZ43vOTUyc7/iVvNv3Y9DJ5S4C2
+         UVWhHyB/Nty8enpBVPOjtMleH/z7nzttLkpU0jzpVAnMb4zp4nJD3PXMZ6N3lJYElX74
+         WekNwR1ohe1aWakC/oAuPhVZFFCo5x9c3VzzSdne6y/J46QfGORA2Jtqbln7DmFXoCc2
+         wEvpHgd8ujyogYfOIYC4KefpHD1G3ugP/X7SiRp6LycmyUtQpIyYBX7NSFHEDW5zYTfs
+         8A0Q==
+X-Gm-Message-State: AOJu0YzjHyHIH+xTL99rw88Nk7M/9v84hEoLm6TBFyTLDfNEYDi6v4yF
+	6GU0JsguowsoHmc9aUr7sjUB+ylvQdr8t6CEykr1GdYxMdQkxdr2glfkPg==
+X-Google-Smtp-Source: AGHT+IGbnzGP1j/uGhZ3eoQTp+lkGnOvVX4mY28R6V+Io+yGrAwrXbPwBRbudPCA94WKU1JBd+or+A==
+X-Received: by 2002:adf:ea8d:0:b0:37c:ddab:a626 with SMTP id ffacd0b85a97d-380610e69f9mr4392660f8f.7.1730048525147;
+        Sun, 27 Oct 2024 10:02:05 -0700 (PDT)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b92958sm7140209f8f.106.2024.10.27.10.01.22
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b70bd8sm7206199f8f.87.2024.10.27.10.02.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2024 10:01:22 -0700 (PDT)
+        Sun, 27 Oct 2024 10:02:04 -0700 (PDT)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Martin Jansa <martin.jansa@gmail.com>
-Subject: [kirkstone][PATCH] xmlto: backport a patch to fix build with gcc-14 on host
-Date: Sun, 27 Oct 2024 18:01:18 +0100
-Message-ID: <20241027170119.2876289-1-martin.jansa@gmail.com>
+Subject: [PATCH v2][kirkstone] libffi: backport a fix to build libffi-native with gcc-14
+Date: Sun, 27 Oct 2024 18:02:01 +0100
+Message-ID: <20241027170201.2888251-1-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 17:01:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206406
-
-* need to add dependency on flex-native because now when the
-  .l file is modified by the .patch file it will try to regenerate
-  the c code and fail:
-
-| make[1]: Entering directory 'work/x86_64-linux/xmlto-native/0.0.28-r0/build'
-| /bin/bash ../xmlto-0.0.28/ylwrap ../xmlto-0.0.28/xmlif/xmlif.l .c xmlif/xmlif.c -- /bin/bash 'work/x86_64-linux/xmlto-native/0.0.28-r0/xmlto-0.0.28/missing' flex
-| work/x86_64-linux/xmlto-native/0.0.28-r0/xmlto-0.0.28/missing: line 81: flex: command not found
-| WARNING: 'flex' is missing on your system.
-|          You should only need it if you modified a '.l' file.
-|          You may want to install the Fast Lexical Analyzer package:
-|          <https://github.com/westes/flex>
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 17:02:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206407
 
 Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- ...001-Fix-return-type-of-main-function.patch | 42 +++++++++++++++++++
- .../0001-fix-Wimplicit-int-for-ifsense.patch  | 33 +++++++++++++++
- meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |  4 +-
- 3 files changed, 78 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-Fix-return-type-of-main-function.patch
- create mode 100644 meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-fix-Wimplicit-int-for-ifsense.patch
+v2: forgot to add Signed-off-by in v1
 
-diff --git a/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-Fix-return-type-of-main-function.patch b/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-Fix-return-type-of-main-function.patch
+ ...ward-declare-open_temp_exec_file-764.patch | 47 +++++++++++++++++++
+ meta/recipes-support/libffi/libffi_3.4.4.bb   |  1 +
+ 2 files changed, 48 insertions(+)
+ create mode 100644 meta/recipes-support/libffi/libffi/0001-Forward-declare-open_temp_exec_file-764.patch
+
+diff --git a/meta/recipes-support/libffi/libffi/0001-Forward-declare-open_temp_exec_file-764.patch b/meta/recipes-support/libffi/libffi/0001-Forward-declare-open_temp_exec_file-764.patch
 new file mode 100644
-index 0000000000..f28f1fb56a
+index 0000000000..4b135961fd
 --- /dev/null
-+++ b/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-Fix-return-type-of-main-function.patch
-@@ -0,0 +1,42 @@
-+From 6347e1b9da2140acdd55e3e7ac1199456793e17c Mon Sep 17 00:00:00 2001
-+From: Thomas Kuehne <thomas@kuehne.cn>
-+Date: Sat, 11 Dec 2021 20:56:00 +0000
-+Subject: [PATCH] Fix return type of main function
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-support/libffi/libffi/0001-Forward-declare-open_temp_exec_file-764.patch
+@@ -0,0 +1,47 @@
++From 216bf8daeb30880957e0c888efbed1f0a7478c32 Mon Sep 17 00:00:00 2001
++From: serge-sans-paille <serge.guelton@telecom-bretagne.eu>
++Date: Thu, 2 Feb 2023 14:46:29 +0000
++Subject: [PATCH] Forward declare open_temp_exec_file (#764)
 +
-+Fixes:
-+xmlif/xmlif.l:242:1: warning: return type defaults to ‘int’ [-Wimplicit-int]
-+  242 | main(int argc, char *argv[])
-+      | ^~~~
++It's defined in closures.c and used in tramp.c.
++Also declare it as an hidden symbol, as it should be.
 +
-+Signed-off-by: Thomas Kuehne <thomas@kuehne.cn>
++Co-authored-by: serge-sans-paille <sguelton@mozilla.com>
 +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+Upstream-Status: Backport [v0.0.29 https://pagure.io/xmlto/c/8e34f087bf410bcc5fe445933d6ad9bae54f24b5?branch=master]
-+---
-+ xmlif/xmlif.l | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/xmlif/xmlif.l b/xmlif/xmlif.l
-+index ac42136..78a62bc 100644
-+--- a/xmlif/xmlif.l
-++++ b/xmlif/xmlif.l
-+@@ -239,7 +239,7 @@ WS		[ \t\n]*
++Upstream-Status: Backport [v3.4.5 https://github.com/libffi/libffi/commit/ce077e5565366171aa1b4438749b0922fce887a4]
++---
++ include/ffi_common.h | 4 ++++
++ src/tramp.c          | 4 ++++
++ 2 files changed, 8 insertions(+)
++
++diff --git a/include/ffi_common.h b/include/ffi_common.h
++index 2bd31b0..c53a794 100644
++--- a/include/ffi_common.h
+++++ b/include/ffi_common.h
++@@ -128,6 +128,10 @@ void *ffi_data_to_code_pointer (void *data) FFI_HIDDEN;
++    static trampoline. */
++ int ffi_tramp_is_present (void *closure) FFI_HIDDEN;
 + 
-+ int yywrap() {exit(0);};
-+ 
-+-main(int argc, char *argv[])
-++int main(int argc, char *argv[])
+++/* Return a file descriptor of a temporary zero-sized file in a
+++   writable and executable filesystem. */
+++int open_temp_exec_file(void) FFI_HIDDEN;
+++
++ /* Extended cif, used in callback from assembly routine */
++ typedef struct
 + {
-+     int i;
-+ 
-+@@ -265,7 +265,7 @@ main(int argc, char *argv[])
-+ 	    exit(1);
-+ 	}
-+ 
-+-    yylex();
-++    return yylex();
-+ }
-+ 
-+ /*
-diff --git a/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-fix-Wimplicit-int-for-ifsense.patch b/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-fix-Wimplicit-int-for-ifsense.patch
-new file mode 100644
-index 0000000000..d5c25ba08a
---- /dev/null
-+++ b/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-fix-Wimplicit-int-for-ifsense.patch
-@@ -0,0 +1,33 @@
-+From 1375e2df75530cd198bd16ac3de38e2b0d126276 Mon Sep 17 00:00:00 2001
-+From: Thomas Kuehne <thomas@kuehne.cn>
-+Date: Sat, 11 Dec 2021 21:10:41 +0100
-+Subject: [PATCH] fix -Wimplicit-int for ifsense
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+fixes:
-+xmlif/xmlif.l:46:8: warning: type defaults to ‘int’ in declaration of ‘ifsense’ [-Wimplicit-int]
-+   46 | static ifsense;                 /* sense of last `if' or unless seen */
-+      |        ^~~~~~~
-+
-+Signed-off-by: Thomas Kuehne <thomas@kuehne.cn>
-+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-+Upstream-Status: Backport [v0.0.29 https://pagure.io/xmlto/c/1375e2df75530cd198bd16ac3de38e2b0d126276?branch=master
-+---
-+ xmlif/xmlif.l | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/xmlif/xmlif.l b/xmlif/xmlif.l
-+index ac42136..6e5970e 100644
-+--- a/xmlif/xmlif.l
-++++ b/xmlif/xmlif.l
-+@@ -43,7 +43,7 @@
-+ 
-+ static char **selections;	/* selection tokens */
-+ static int nselections;		/* number of selections */
-+-static ifsense;			/* sense of last `if' or unless seen */
-++static int ifsense;		/* sense of last `if' or unless seen */
-+ static char *attribute;		/* last attribute scanned */
-+ 
-+ struct stack_t {
-diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-index 5cb9a4c57b..2c9ee27f82 100644
---- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-+++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-@@ -8,6 +8,8 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=59530bdf33659b29e73d4adb9f9f6552"
- 
- SRC_URI = "https://releases.pagure.org/xmlto/xmlto-${PV}.tar.gz \
-            file://configure.in-drop-the-test-of-xmllint-and-xsltproc.patch \
-+           file://0001-Fix-return-type-of-main-function.patch \
-+           file://0001-fix-Wimplicit-int-for-ifsense.patch \
- "
- SRC_URI[md5sum] = "a1fefad9d83499a15576768f60f847c6"
- SRC_URI[sha256sum] = "2f986b7c9a0e9ac6728147668e776d405465284e13c74d4146c9cbc51fd8aad3"
-@@ -16,7 +18,7 @@ inherit autotools
- 
- CLEANBROKEN = "1"
- 
--DEPENDS = "libxml2-native"
-+DEPENDS = "libxml2-native flex-native"
- 
- RDEPENDS:${PN} = "docbook-xml-dtd4 \
-                   docbook-xsl-stylesheets \
++diff --git a/src/tramp.c b/src/tramp.c
++index b9d273a..c3f4c99 100644
++--- a/src/tramp.c
+++++ b/src/tramp.c
++@@ -39,6 +39,10 @@
++ #ifdef __linux__
++ #define _GNU_SOURCE 1
++ #endif
+++
+++#include <ffi.h>
+++#include <ffi_common.h>
+++
++ #include <stdio.h>
++ #include <unistd.h>
++ #include <stdlib.h>
+diff --git a/meta/recipes-support/libffi/libffi_3.4.4.bb b/meta/recipes-support/libffi/libffi_3.4.4.bb
+index 4ceee6f3cc..f727e91345 100644
+--- a/meta/recipes-support/libffi/libffi_3.4.4.bb
++++ b/meta/recipes-support/libffi/libffi_3.4.4.bb
+@@ -13,6 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=32c0d09a0641daf4903e5d61cc8f23a8"
+ SRC_URI = "https://github.com/libffi/libffi/releases/download/v${PV}/${BPN}-${PV}.tar.gz \
+            file://not-win32.patch \
+            file://0001-arm-sysv-reverted-clang-VFP-mitigation.patch \
++           file://0001-Forward-declare-open_temp_exec_file-764.patch \
+            "
+ SRC_URI[sha256sum] = "d66c56ad259a82cf2a9dfc408b32bf5da52371500b84745f7fb8b645712df676"
+ UPSTREAM_CHECK_URI = "https://github.com/libffi/libffi/releases/"
 -- 
 2.47.0
 
