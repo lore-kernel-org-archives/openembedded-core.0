@@ -1,130 +1,92 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E641D149E9
-	for <webhook@archiver.kernel.org>; Sun, 27 Oct 2024 13:40:23 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.web11.29791.1730036417280309723
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CE451D13562
+	for <webhook@archiver.kernel.org>; Sun, 27 Oct 2024 14:12:23 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.30239.1730038336372895015
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Oct 2024 06:40:17 -0700
+ Sun, 27 Oct 2024 07:12:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=FRAM8eXt;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-20241027134014bb7049373be6f5dec5-maqrto@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20241027134014bb7049373be6f5dec5
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 27 Oct 2024 14:40:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=p2e4+voeNE5FHPo7vtS4oVsy9vatHDOcqOXvXXRPrXk=;
- b=FRAM8eXto1CCx5d+eUck3XsII7PseBbVNjUSrCxLAE/hOPZFCEbHBwgc9D4S7xhqH2mZY4
- QXjN/eKwHFJxHqD4Vl8mkakQTxRhF3ddQZzIGehH15EGO9cv5QkBV+XNkKPkeVAkb/5nx2Mi
- JogyFQSL56295A+Gmxy9o9vAdKWXU2S57lIak+Y2UgFYa2EWS38gwww3ReYV4e1VQTpuwhQL
- bNHI4v3i5Lpt+EUZCTPJzlXhE1UmXMY/77/pVAlml5T3RqR3b6aP7MDwgfl9DGHqLLI7IFx4
- bna6l+V9EL9+9Y3j6jkqbQfXXuSkE6HvommQdCcQa0nFIKPPon5SE3Jg==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Vd/OaGwZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.50, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4316a44d1bbso32561775e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 07:12:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730038334; x=1730643134; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CwicXKfpappJbAEuYVkYaLKyyBU3Ha4QLN775uKPrNo=;
+        b=Vd/OaGwZF2SVLm9Q4JQnzc5VCTb7LvfKpUTiH5/mfC+OSy92I4IwsaBKz6WwVA9RDp
+         1VUfBKF7KPaaVj44TwKdB4800WxJTCb6uF8LSfhrtxip7oHvBOZcl1LD/xEwnQYj7VXw
+         74LW6Nqj47xnIg1G4HsAeWuNZKxswAXc7b5gRmFgO2c1XzYT3/X1e4ON/L5RfsyAEtI1
+         xuJGzmki04u22cBZZiv0NZSwoM1m8PVz2fGR40JtFYMSwy5Y1JJkrVid2c9XJ+nre64x
+         kMh7Bhfbj53mXtcsbvc0Dgl81sCpLnkmdxATqRmqzJxcNxeuWDdSdy6AxdQx9pZcvuyU
+         hbmw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730038334; x=1730643134;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CwicXKfpappJbAEuYVkYaLKyyBU3Ha4QLN775uKPrNo=;
+        b=VbBkFkhnxogOcaHYZVGUotEfRhQDzgvx54npbu5ut03g/ra2L8HGSvgh/9V4l5t1NR
+         99U02+/p25meYUYGaj0XCmI2Ob7n/LlTxJVm+4ZEd4dMQKeH6jlZ6t0qpfTHGoXQKrsN
+         BP826JrV2tRCjImSPvwGrVTRMc+eVVmFcDIUUgbbmlDtS4adZN13hdnLAU++HED3fH/G
+         QPRbWyh5BPAa0PYvztiM1TVLfQdqg77daMUCkq309lBn4gilOORjlQNlPZwXFzNJbiX+
+         +HV9gxnbaQHkapdfhYVqHKqEezZ/bJbSmLxwpZlV+5h7cqTvtvcY89aO9otIDPpd1nIJ
+         dhZw==
+X-Gm-Message-State: AOJu0YzYmi1gCD6CDDMKbDQPHrwFLvW1sKEdZcot2TNXk2WKe8543m2B
+	PF+NDqD8+8jXBlnBtETpRglOofTIj34s1fNhWGszDxhtzKRAagV+NvinOA==
+X-Google-Smtp-Source: AGHT+IEBKkeGYhTRGVDt7/JfDQXN/T0g+nyJ4m8MTro1CaZlsIpfPoDFgIA7RQeSxZ3iegHel/WPJA==
+X-Received: by 2002:a5d:4ad1:0:b0:37d:4a21:c754 with SMTP id ffacd0b85a97d-380610f4d5fmr3930714f8f.2.1730038334388;
+        Sun, 27 Oct 2024 07:12:14 -0700 (PDT)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43193594ff3sm76307875e9.12.2024.10.27.07.12.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 27 Oct 2024 07:12:13 -0700 (PDT)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH 2/2] go: upgrade 1.22.7 -> 1.22.8
-Date: Sun, 27 Oct 2024 14:39:06 +0100
-Message-Id: <20241027133906.367260-2-peter.marko@siemens.com>
-In-Reply-To: <20241027133906.367260-1-peter.marko@siemens.com>
-References: <20241027133906.367260-1-peter.marko@siemens.com>
+Cc: steve@sakoman.com,
+	Martin Jansa <martin.jansa@gmail.com>
+Subject: [kirkstone][PATCH] vala: add -Wno-error=incompatible-pointer-types work around
+Date: Sun, 27 Oct 2024 15:12:11 +0100
+Message-ID: <20241027141211.2891395-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 13:40:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206401
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 14:12:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206402
 
-From: Peter Marko <peter.marko@siemens.com>
+* to allow building vala-native on hosts with gcc-14
+* we could backport:
+  https://gitlab.gnome.org/GNOME/vala/-/commit/23ec71b1a5c4cead3d1bdac82e184d0a63fa7b79
+  which is already included in scarthgap, but that's big patch doing almost the same
 
-Upgrade to latest 1.22.x release [1]:
-
-$ git --no-pager log --oneline go1.22.7..go1.22.8
-aeccd613c8 (tag: go1.22.8) [release-branch.go1.22] go1.22.8
-b4086b7c16 [release-branch.go1.22] syscall: skip TestAmbientCapsUserns when restricted, document
-6fab4b9a9e [release-branch.go1.22] runtime: size maps.Clone destination bucket array safely
-71655f14ce [release-branch.go1.22] cmd/cgo: correct padding required by alignment
-
-[1] https://github.com/golang/go/compare/go1.22.7...go1.22.8
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 ---
- meta/recipes-devtools/go/{go-1.22.7.inc => go-1.22.8.inc}   | 2 +-
- ...o-binary-native_1.22.7.bb => go-binary-native_1.22.8.bb} | 6 +++---
- ...cross-canadian_1.22.7.bb => go-cross-canadian_1.22.8.bb} | 0
- .../go/{go-cross_1.22.7.bb => go-cross_1.22.8.bb}           | 0
- .../go/{go-crosssdk_1.22.7.bb => go-crosssdk_1.22.8.bb}     | 0
- .../go/{go-runtime_1.22.7.bb => go-runtime_1.22.8.bb}       | 0
- meta/recipes-devtools/go/{go_1.22.7.bb => go_1.22.8.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.22.7.inc => go-1.22.8.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.7.bb => go-binary-native_1.22.8.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.7.bb => go-cross-canadian_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.7.bb => go-cross_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.7.bb => go-crosssdk_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.7.bb => go-runtime_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.7.bb => go_1.22.8.bb} (100%)
+ meta/recipes-devtools/vala/vala.inc | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/go/go-1.22.7.inc b/meta/recipes-devtools/go/go-1.22.8.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.22.7.inc
-rename to meta/recipes-devtools/go/go-1.22.8.inc
-index e54a902741..542519b930 100644
---- a/meta/recipes-devtools/go/go-1.22.7.inc
-+++ b/meta/recipes-devtools/go/go-1.22.8.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "66432d87d85e0cfac3edffe637d5930fc4ddf5793313fe11e4a0f333023c879f"
-+SRC_URI[main.sha256sum] = "df12c23ebf19dea0f4bf46a22cbeda4a3eca6f474f318390ce774974278440b8"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.7.bb b/meta/recipes-devtools/go/go-binary-native_1.22.8.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.22.8.bb
-index aba317fd38..98799eb503 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.22.8.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-devtools/vala/vala.inc b/meta/recipes-devtools/vala/vala.inc
+index 162e99bb03..87d8fedc3f 100644
+--- a/meta/recipes-devtools/vala/vala.inc
++++ b/meta/recipes-devtools/vala/vala.inc
+@@ -39,6 +39,10 @@ EOF
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "fc5d49b7a5035f1f1b265c17aa86e9819e6dc9af8260ad61430ee7fbe27881bb"
--SRC_URI[go_linux_arm64.sha256sum] = "ed695684438facbd7e0f286c30b7bc2411cfc605516d8127dc25c62fe5b03885"
--SRC_URI[go_linux_ppc64le.sha256sum] = "a6441d5da40a961039ec22b0aadbc8b513f52b31bb8919c359a7e2c3c5bcf26a"
-+SRC_URI[go_linux_amd64.sha256sum] = "5f467d29fc67c7ae6468cb6ad5b047a274bae8180cac5e0b7ddbfeba3e47e18f"
-+SRC_URI[go_linux_arm64.sha256sum] = "5c616b32dab04bb8c4c8700478381daea0174dc70083e4026321163879278a4a"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "c546f27866510bf8e54e86fe6f58c705af0e894341e5572c91f197a734152c27"
+ EXTRA_OECONF += " --disable-valadoc"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb b/meta/recipes-devtools/go/go-cross-canadian_1.22.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.22.8.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.22.7.bb b/meta/recipes-devtools/go/go-cross_1.22.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.22.7.bb
-rename to meta/recipes-devtools/go/go-cross_1.22.8.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.7.bb b/meta/recipes-devtools/go/go-crosssdk_1.22.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.22.8.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.22.7.bb b/meta/recipes-devtools/go/go-runtime_1.22.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.22.7.bb
-rename to meta/recipes-devtools/go/go-runtime_1.22.8.bb
-diff --git a/meta/recipes-devtools/go/go_1.22.7.bb b/meta/recipes-devtools/go/go_1.22.8.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.22.7.bb
-rename to meta/recipes-devtools/go/go_1.22.8.bb
++# work around for vala-native build with gcc-14 instead of backporting
++# https://gitlab.gnome.org/GNOME/vala/-/commit/23ec71b1a5c4cead3d1bdac82e184d0a63fa7b79
++BUILD_CFLAGS += "-Wno-error=incompatible-pointer-types"
++
+ # Vapigen wrapper needs to be available system-wide, because it will be used
+ # to build vapi files from all other packages with vala support
+ do_install:append:class-target() {
 -- 
-2.30.2
+2.47.0
 
 
