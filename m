@@ -1,104 +1,171 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <liu.ming50@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C65B8D10C19
-	for <webhook@archiver.kernel.org>; Sun, 27 Oct 2024 10:34:12 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.27402.1730025246513106274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A85B2D10C1B
+	for <webhook@archiver.kernel.org>; Sun, 27 Oct 2024 10:35:02 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web10.27411.1730025293253810709
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Oct 2024 03:34:06 -0700
+ Sun, 27 Oct 2024 03:34:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cIJ80VZH;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4314c4cb752so34210265e9.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 03:34:06 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Z48N9BDy;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: liu.ming50@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2a999b287so2705130a91.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 03:34:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730025245; x=1730630045; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gnVeO3VgxCfPe7N8i3fIEHjIPc5VPHOILCpfWEypXcM=;
-        b=cIJ80VZHsPl+EXrzTFjEHT3K2ufrU74lwLsEYDMnf2wVVdQvT5yVFlYcn0w0w/5i5J
-         n4XR+v4wDgILclP7wOCFkFOBmr2Gg7dCIHkekGPAEeFzJbjqe+iDXW7KKyItSkRrbDJa
-         vYb2y45iDWC4Nf9Y7CUVeINFPO7jJjgRWV4ykQax29PfbxsptqkW7PoIohJwUnbJM8gF
-         p5yy76ahw314/QsaEbSkKZmTbQmkNVbFS7yotFAUdi1vdCKMsBAZ8PMGvYOjNvIFBd18
-         VLtbbTokqzunm0M+w5yrA30QuApnFRoQGtlSuGVfLVSI6lYdhOb68lHS5JApXd+3Z/Us
-         ZLog==
+        d=gmail.com; s=20230601; t=1730025293; x=1730630093; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=NuBzpoZG81uNJSBiBK4g7QtFWuCnlVsEIQtKYsTI/0Y=;
+        b=Z48N9BDyBUB7qa5+S6druXeIzdlUUTfyXdGiH0MMjZ1LAjtVO6N7X4gdf5oy6B86Cg
+         cLnaxzI2bcCLmBLukhrXprnCQXBK9veuxm2Nn1vDMknzG+nLKntwTXT0G7x8GRytxIt2
+         Uvk8Y+EqpiACVVkKpFR4iowGpKQDRGyqi9iNoVDe9LA1FaULtq+urydVYzH8kL6bqFrx
+         PLvGYcml4L38dgTTY+5aERtfzNJn2z/5hXYih0MiQsHkEMQ9Ah2TQ7z03phY4mkl09pL
+         AFRblJVW01ofcNUGUsQqgKYFRZF/dSKBFPe7ny7t4UCW82E09Z6uOSN9JNTJQ30UrYdn
+         H8oA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730025245; x=1730630045;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1730025293; x=1730630093;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gnVeO3VgxCfPe7N8i3fIEHjIPc5VPHOILCpfWEypXcM=;
-        b=jOULhRE0OU5W4/zlSQT2duvxdXw/Cec0Ld5eUy3o7QnXIraI4YgxXPQOSO7+w/mnBf
-         E5RgWrUQAuIPcrj4rb1quuuC116zg0gj4+dYkw998MleWYtvYX+LnftTWiyOnONYCJ72
-         gj4vQYlVSRT2MwQqKWTW5Zb1hyl0FPu1JG+FnsXhDFruzO9yCtBnlChm1xnzGvfCBrtg
-         0WWTOd5ioodFru3RGs6FqpfYF37hU6+JL3LjqgJ293w37348gWoZB1qrbkdpCOXClScN
-         b2TlSyflBWKzQqw8uJk99j3BPgy6k5REhGQ47g7PV422/7raE83pR54nFzSM8Ulxor1U
-         7vxQ==
-X-Gm-Message-State: AOJu0YwWgiFQaIM+Ne/uGtmiQTrrRe4s87P0yvT9QFJtxlyT1hGP9lU1
-	AeO0DbXpaqUBlmlUvCdv0q0YvKphohTlAyhEXcn4RV4LyVaw2GFqBqw+qg==
-X-Google-Smtp-Source: AGHT+IHtkIgpEKhLRDL3UCrqC1nIX8H4mVrcglNsClHNunUFfOLZGhQWkb/qAN2C7TFkzZWBbTY31g==
-X-Received: by 2002:a05:600c:1d19:b0:431:5655:1ef3 with SMTP id 5b1f17b1804b1-4319ad0d11dmr32445385e9.23.1730025243147;
-        Sun, 27 Oct 2024 03:34:03 -0700 (PDT)
-Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43193573ce2sm71695215e9.10.2024.10.27.03.34.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Oct 2024 03:34:02 -0700 (PDT)
-From: Martin Jansa <martin.jansa@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: steve@sakoman.com,
-	Martin Jansa <martin.jansa@gmail.com>
-Subject: [PATCH v2][scarthgap] python3-lxml=v5.0.2
-Date: Sun, 27 Oct 2024 11:33:55 +0100
-Message-ID: <20241027103355.3299994-1-martin.jansa@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        bh=NuBzpoZG81uNJSBiBK4g7QtFWuCnlVsEIQtKYsTI/0Y=;
+        b=kMqRW0briGxwbPgctan2H4IVXOrw1ZVNBTfYVqQM1/TcaAWwr5rcYZRFPZXa7eBC8X
+         8K3/+BF37SuP8osNzGfPyMaVyy7hzYmkSXIu7Uj5jT/v86vVddSd9wlG7eGn5C2OKS3a
+         d4mFdaLGux8hEXpWkjwt2THfyHBSCTU4OnZZ8m5dgokk/2XGukSJNDrPzsS9N+AWjE5J
+         NVte8rzTeH9n0G87J37vb1Xl57D2mhHOII5nBc6Tm9kGGWELU9MmpAc6ulvQr3bU3Koe
+         csuebsV/yUIPtFW63RWpIrWyqfkWOFj8faXmffZeVHz7u1x0mPPK82mMeRAcRde7qmKb
+         QERw==
+X-Gm-Message-State: AOJu0Yzr8foqamdpOlNwe/mvivxQ6IPYraJ8CRD72iKTNDvEYPvh2iMH
+	8kRCykp4ZabBXk/n9YPzZeFqp7uCTTxGuuhk/ZJkmSJpKRdMp6fEoVLbPHeO1uo4PGoc2MHTADZ
+	rqdPYalcOMtRnFCJTBrLUzz5fBG0=
+X-Google-Smtp-Source: AGHT+IGUv3w4apRpOyfA6rGSzefxL0QVrMtmw8qIyEL7TTvYqvcB0O4CzELS60HntwayEnuJH9hlMJApXjgLpKRglrs=
+X-Received: by 2002:a17:90a:d807:b0:2d3:c638:ec67 with SMTP id
+ 98e67ed59e1d1-2e8f0d4d3bfmr5872625a91.0.1730025292552; Sun, 27 Oct 2024
+ 03:34:52 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241023151127.3611757-1-liu.ming50@gmail.com> <E55625D9-E305-463B-B7C4-4E75B41A8646@arm.com>
+In-Reply-To: <E55625D9-E305-463B-B7C4-4E75B41A8646@arm.com>
+From: Ming Liu <liu.ming50@gmail.com>
+Date: Sun, 27 Oct 2024 11:34:41 +0100
+Message-ID: <CALatG=7-Y+czk7zgzU-2dnD85G2dk50aSvTyeOcqAus-bYqzeg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH V2 1/2] toolchain-shar-extract.sh: check
+ required tool before extracting SDK
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000003e1f7062572e7ec"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 10:34:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206392
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 10:35:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206393
 
-* minor upgrade to fix building with gcc-14 on host
-* contains 31 commits:
-  https://github.com/lxml/lxml/compare/lxml-5.0.0...lxml-5.0.2
-  the important one for gcc-14 is:
-  https://github.com/lxml/lxml/commit/663041a56a075a8fa1e6ca13ba4c6d1de7043ac2
+--00000000000003e1f7062572e7ec
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* https://bugs.launchpad.net/lxml/+bug/2045435
-* https://bugs.gentoo.org/917562
+Hi, Ross:
 
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
----
-v2: drop PYPI_PACKAGE_EXT (I had this locally while testing, but forgot to include it in v1)
+Thanks for the reply, will make a V3!
 
- .../python/{python3-lxml_5.0.0.bb => python3-lxml_5.0.2.bb}    | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-lxml_5.0.0.bb => python3-lxml_5.0.2.bb} (94%)
+Ross Burton <Ross.Burton@arm.com> =E6=96=BC 2024=E5=B9=B410=E6=9C=8824=E6=
+=97=A5 =E9=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8812:59=E5=AF=AB=E9=81=93=EF=BC=
+=9A
 
-diff --git a/meta/recipes-devtools/python/python3-lxml_5.0.0.bb b/meta/recipes-devtools/python/python3-lxml_5.0.2.bb
-similarity index 94%
-rename from meta/recipes-devtools/python/python3-lxml_5.0.0.bb
-rename to meta/recipes-devtools/python/python3-lxml_5.0.2.bb
-index 66cb8b0938..c0b385c7ea 100644
---- a/meta/recipes-devtools/python/python3-lxml_5.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-lxml_5.0.2.bb
-@@ -18,11 +18,10 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
- 
- DEPENDS += "libxml2 libxslt"
- 
--SRC_URI[sha256sum] = "2219cbf790e701acf9a21a31ead75f983e73daf0eceb9da6990212e4d20ebefe"
-+SRC_URI[sha256sum] = "6399703c40ba53e2c3b72fdb56cb908d2b83c08082ecf17de839b27e68d1e598"
- 
- SRC_URI += "${PYPI_SRC_URI}"
- inherit pkgconfig pypi setuptools3
--PYPI_PACKAGE_EXT = "zip"
- 
- # {standard input}: Assembler messages:
- # {standard input}:1488805: Error: branch out of range
--- 
-2.47.0
+> On 23 Oct 2024, at 16:11, Ming Liu via lists.openembedded.org <liu.ming50=
+=3D
+> gmail.com@lists.openembedded.org> wrote:
+> >
+> > To extract the SDK archive, the proper tools need to be present on
+> > system, check unzip for zip archive type, check xz for tar.xz archive
+> > type.
+> >
+> > Signed-off-by: Ming Liu <liu.ming50@gmail.com>
+> > ---
+> > meta/files/toolchain-shar-extract.sh | 8 ++++++++
+> > 1 file changed, 8 insertions(+)
+> >
+> > diff --git a/meta/files/toolchain-shar-extract.sh
+> b/meta/files/toolchain-shar-extract.sh
+> > index 3b4647fca7..9b72499ccf 100644
+> > --- a/meta/files/toolchain-shar-extract.sh
+> > +++ b/meta/files/toolchain-shar-extract.sh
+> > @@ -245,6 +245,10 @@ fi
+> >
+> > printf "Extracting SDK..."
+> > if [ @SDK_ARCHIVE_TYPE@ =3D "zip" ]; then
+> > +    if [ -z "$(which unzip)" ]; then
+> > +        echo "Aborted, unzip is required to extract the SDK archive,
+> please make sure it's installed on your system!"
+> > +        exit 1
+> > +    fi
+>
+> Unfortunately =E2=80=98which=E2=80=99 is not POSIX or even universally in=
+stalled on Linux
+> systems.
+>
+> https://hynek.me/til/which-not-posix/
+>
+> Using command -v is the portable alternative.
+>
+> Ross
+>
+>
 
+--00000000000003e1f7062572e7ec
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Hi, Ross:<div><br></div><div>Thanks for the reply, will ma=
+ke a V3!</div></div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=
+=3D"gmail_attr">Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com">Ross=
+.Burton@arm.com</a>&gt; =E6=96=BC 2024=E5=B9=B410=E6=9C=8824=E6=97=A5 =E9=
+=80=B1=E5=9B=9B =E4=B8=8B=E5=8D=8812:59=E5=AF=AB=E9=81=93=EF=BC=9A<br></div=
+><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
+-left:1px solid rgb(204,204,204);padding-left:1ex">On 23 Oct 2024, at 16:11=
+, Ming Liu via <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer"=
+ target=3D"_blank">lists.openembedded.org</a> &lt;liu.ming50=3D<a href=3D"m=
+ailto:gmail.com@lists.openembedded.org" target=3D"_blank">gmail.com@lists.o=
+penembedded.org</a>&gt; wrote:<br>
+&gt; <br>
+&gt; To extract the SDK archive, the proper tools need to be present on<br>
+&gt; system, check unzip for zip archive type, check xz for tar.xz archive<=
+br>
+&gt; type.<br>
+&gt; <br>
+&gt; Signed-off-by: Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" ta=
+rget=3D"_blank">liu.ming50@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; meta/files/toolchain-shar-extract.sh | 8 ++++++++<br>
+&gt; 1 file changed, 8 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/files/toolchain-shar-extract.sh b/meta/files/toolcha=
+in-shar-extract.sh<br>
+&gt; index 3b4647fca7..9b72499ccf 100644<br>
+&gt; --- a/meta/files/toolchain-shar-extract.sh<br>
+&gt; +++ b/meta/files/toolchain-shar-extract.sh<br>
+&gt; @@ -245,6 +245,10 @@ fi<br>
+&gt; <br>
+&gt; printf &quot;Extracting SDK...&quot;<br>
+&gt; if [ @SDK_ARCHIVE_TYPE@ =3D &quot;zip&quot; ]; then<br>
+&gt; +=C2=A0 =C2=A0 if [ -z &quot;$(which unzip)&quot; ]; then<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 echo &quot;Aborted, unzip is required to =
+extract the SDK archive, please make sure it&#39;s installed on your system=
+!&quot;<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 exit 1<br>
+&gt; +=C2=A0 =C2=A0 fi<br>
+<br>
+Unfortunately =E2=80=98which=E2=80=99 is not POSIX or even universally inst=
+alled on Linux systems.<br>
+<br>
+<a href=3D"https://hynek.me/til/which-not-posix/" rel=3D"noreferrer" target=
+=3D"_blank">https://hynek.me/til/which-not-posix/</a><br>
+<br>
+Using command -v is the portable alternative.<br>
+<br>
+Ross<br>
+<br>
+</blockquote></div>
+
+--00000000000003e1f7062572e7ec--
 
