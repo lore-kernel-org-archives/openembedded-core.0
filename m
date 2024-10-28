@@ -1,386 +1,305 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD936D13587
-	for <webhook@archiver.kernel.org>; Sun, 27 Oct 2024 21:06:25 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.37740.1730063175356361169
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CAFED13592
+	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 01:32:17 +0000 (UTC)
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+ by mx.groups.io with SMTP id smtpd.web11.42070.1730079133308045585
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Oct 2024 14:06:15 -0700
+ Sun, 27 Oct 2024 18:32:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=BXMnLrwM;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53b13ea6b78so5532803e87.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 14:06:15 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=WlXqt+q3;
+ spf=pass (domain: mvista.com, ip: 209.85.208.169, mailfrom: vanusuri@mvista.com)
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2fb4ec17f5cso33731431fa.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 18:32:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730063173; x=1730667973; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+rPFI8oR0iRkeNxXglgEq+U4/Br+iTPzS+79vkDmKvU=;
-        b=BXMnLrwMQnJ0VzGxkWeh8cL2zN22QZ1r3PBosWE+jdc+/ESwfpXk6oS66IT396cqrZ
-         RblYhhUt0FRzUcY7F3y2I84CWcjDm9bfy6xme5LB4gYQ5JxyhIyUlgLczGmMqZjeHx8P
-         /bXXGbJkne3zDfzeaC6/8G7fnrmMxcqC89Xn36piPYGGJHxamQc4fohE0H/uIEJBDits
-         37vB9kY5eSiKci5HbJ16AV8iEKp51Vddn64Ye8R6fot4Nfa1ZdTSaldvHhUe4HMxPSDD
-         qVQe/JNG8gpsWMlLoAYqggnXRd34y2PTYCWyMGfpZFjigP8jolchRhoS6EVi6kfCXH1y
-         RN8A==
+        d=mvista.com; s=google; t=1730079131; x=1730683931; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=m9CPgP/FulWIPzdmkAy5mv79PN+P4NxT1NB54BcEgdY=;
+        b=WlXqt+q3mumqOhbAV2FXKYBWViuq0MDlkWupXbxlIaNmHbhL3JFMHD5vcDAMGZ/tjE
+         SiAD8akPiiWeGDTH/iU2BE4V/4KZRK2slCaAJc1rJ4xjOArd42yA04ovHprgsr96d1LJ
+         H8a3Pl0rxNCpQbs6Fjxez2oBIx1E9EuCrP0WU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730063173; x=1730667973;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+rPFI8oR0iRkeNxXglgEq+U4/Br+iTPzS+79vkDmKvU=;
-        b=NaUVUY5PCno3KzIOmHqvZKxmmxstqMdzIKcibGtpuman6WkDIi+sBU6r8F8W9AR2W8
-         /3DXi8M2sgECPQdttC47fa19FLZOYbBCM8pjKQX1a5R4CwEMgsWaACugTkEt9ehZknW7
-         IL+6I4x7/Hc8kPRL5xsw5EorXs202nYRZh3FH4kE9wcFvx2HXCqqQed4yFmaCKHY8RqJ
-         RrI++lh6DV9p/QyhlC/vhqgrB07ac0fQI/5FlKoWEVMR9GUOakupgFbBJL0sJk1qXTEj
-         +0M0rH124QvqZgCpjgjv4dvZ6JUbxvAiq5VtIFfroeUy3OMWgJyuN7MttDGuwy+ZhHFe
-         8oVA==
-X-Forwarded-Encrypted: i=1; AJvYcCUfxUR5g1lU4Cq6h+liBvOPLJp8HEOEQCZNzYimkQIb5WgmNvRfNWRKLwBh1yPlnc0wPcaeqokGm6+b7+tfOlqclg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw4f73+ASb8DyQvlvisAh1vRoea8UbvwbO/TLZtGTdojiDChLen
-	ZqL3t0PwCp7tjmlCIREzSb/OOxUAuvaLIc7hUR0SA3OPR49MZUiJ7dx34c5ZFQB2z6O7O26UhJ5
-	phChLuBw76uYj4BDYi2QS3LtFB3k=
-X-Google-Smtp-Source: AGHT+IEuzsCl4y+KAOEVGdR2zzfn28hLyGCvkqOVtwxrT8SinAfN2nmVPVH9+oEVDzY/+/F5Gys+PjM4HY9GG1GI1ZU=
-X-Received: by 2002:a05:6512:b8f:b0:539:8f3c:4586 with SMTP id
- 2adb3069b0e04-53b34a34602mr4200807e87.55.1730063173129; Sun, 27 Oct 2024
- 14:06:13 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730079131; x=1730683931;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=m9CPgP/FulWIPzdmkAy5mv79PN+P4NxT1NB54BcEgdY=;
+        b=PZk+4+5MWvS2BYzu3G4+GhhpiUozruCji5oZUF1PI5WU1q8VoLal1bPNc7CYTbYYlJ
+         i7q5DfUHr8kr9iiGGFHa4B/Vj19U9l4xfTWIrdqdOmH7onF0PCkyMNZ6sF4koJzPux14
+         cGTCz2VEOdeY7XJRoAZnM49/QF/6e9UfZGmPye61BHf6cB0J1NUrmVtsDD84eGcPb6M6
+         rU2n+Rh9zaMDPC5BtxxqqsRn1cM0rs0/2RQRenjV7UCIHwG/JRvv31WtIEO5D2VqAigD
+         TEg4RfKcDVJoSFzFVE9exAabo33ZgV7Jvd1K5ija8HMkSj7CLLGJDAODlDtheLyj+d16
+         qQeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW9wnQjztyxJRZxHiz6sAfwfYja49MDUV8NYAIV4dv9UFYPFD/Vs/qzb3KbTY19P334KFoF0CeiywsHFmCqCzFvUg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy+cRMWaMWW4xJGtEWh4/Xn1vupkR70igUTbVH3eNrakAi71Q69
+	a2nzAcZMW/hGQjonmZwmWVO+/xtKyvLf8qKSopKib9b+oM+ejab7Bqiln+cO5alsk3qdOStSbHh
+	h/iFB2q5BdhjpeQFmYhZIUkTEiBwrur28gdDyHA==
+X-Google-Smtp-Source: AGHT+IGgpvAm6DjZz0wUOQo8W9C0yjskavwHREZNqCW4YdQFAYB2NkLAKzbJG89bNIcCsTcbD66aXsgURvstyvc/ovU=
+X-Received: by 2002:a05:651c:a0a:b0:2f3:b71a:1e91 with SMTP id
+ 38308e7fff4ca-2fcbdf7d66amr23202031fa.17.1730079131060; Sun, 27 Oct 2024
+ 18:32:11 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241027170119.2876289-1-martin.jansa@gmail.com>
- <CAOSpxdbdVd5e1HbQgK9cZpJBU-YP9JJRL=AUQ8M41XXiPrWEGA@mail.gmail.com> <18026806371753EE.19860@lists.openembedded.org>
-In-Reply-To: <18026806371753EE.19860@lists.openembedded.org>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Sun, 27 Oct 2024 22:05:59 +0100
-Message-ID: <CA+chaQfgHV99s7xJH7nwf4UrohB4M8kLWJ0kM-o92jK1K47cyw@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone][PATCH] xmlto: backport a patch to fix build
- with gcc-14 on host
-To: martin.jansa@gmail.com
-Cc: Steve Sakoman <steve@sakoman.com>, openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <cover.1723551231.git.steve@sakoman.com> <092d2a6df6eae6f93a35a0429d2cdfc9b246cecf.1723551231.git.steve@sakoman.com>
+ <DS7PR10MB4926DCB745BE2CB39CA0A994FA6F2@DS7PR10MB4926.namprd10.prod.outlook.com>
+ <CANNYZj-xXKRZSX8TWZnJSEsYc8+-7uKVdWy==4g5Uz0x5_q1cA@mail.gmail.com>
+In-Reply-To: <CANNYZj-xXKRZSX8TWZnJSEsYc8+-7uKVdWy==4g5Uz0x5_q1cA@mail.gmail.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Mon, 28 Oct 2024 07:01:59 +0530
+Message-ID: <CANQUz187fQEeEcZXpGCz0kbN06h8QeD2Jyn7v1N07CVEz+60HQ@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone 10/11] orc: upgrade 0.4.32 -> 0.4.39
+To: alex.kanavin@gmail.com, Steve Sakoman <steve@sakoman.com>
+Cc: Arturo.Buzarra@digi.com, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000000a6c5806257f70be"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Oct 2024 21:06:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206415
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 01:32:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206416
 
-Not sure what else could be different on autobuilder, passed here with
-poky and poky-altcfg in ubuntu-22.04 as well:
+--0000000000000a6c5806257f70be
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-poky/build $ bitbake -c cleansstate xmlto-native; bitbake -k xmlto-native
-Loading cache: 100%
-|##########################################################################=
-###########################################################################=
-#####################################################|
-Time: 0:00:00
-Loaded 1646 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
+Hi Steve,
 
-Build Configuration:
-BB_VERSION           =3D "2.0.0"
-BUILD_SYS            =3D "x86_64-linux"
-NATIVELSBSTRING      =3D "universal"
-TARGET_SYS           =3D "x86_64-poky-linux"
-MACHINE              =3D "qemux86-64"
-DISTRO               =3D "poky-altcfg"
-DISTRO_VERSION       =3D "4.0.22"
-TUNE_FEATURES        =3D "m64 core2"
-TARGET_FPU           =3D ""
-meta
-meta-poky
-meta-yocto-bsp       =3D "kirkstone:3632209ffafd2a7ca636fcf994b0da2fed3f18f=
-2"
+orc updated in master to the version 0.4.40 which resolves the above
+mentioned issue.
 
-Initialising tasks: 100%
-|##########################################################################=
-###########################################################################=
-################################################|
-Time: 0:00:00
-Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0%
-match, 0% complete)
-NOTE: No setscene tasks
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be
-rerun and all succeeded.
-Loading cache: 100%
-|##########################################################################=
-###########################################################################=
-#####################################################|
-Time: 0:00:00
-Loaded 1646 entries from dependency cache.
-NOTE: Resolving any missing task queue dependencies
+could you please merge it to scarthgap, styhead and kirkstone.
 
-Build Configuration:
-BB_VERSION           =3D "2.0.0"
-BUILD_SYS            =3D "x86_64-linux"
-NATIVELSBSTRING      =3D "universal"
-TARGET_SYS           =3D "x86_64-poky-linux"
-MACHINE              =3D "qemux86-64"
-DISTRO               =3D "poky-altcfg"
-DISTRO_VERSION       =3D "4.0.22"
-TUNE_FEATURES        =3D "m64 core2"
-TARGET_FPU           =3D ""
-meta
-meta-poky
-meta-yocto-bsp       =3D "kirkstone:3632209ffafd2a7ca636fcf994b0da2fed3f18f=
-2"
+Thanks & Regards,
+Vijay
 
-Initialising tasks: 100%
-|##########################################################################=
-###########################################################################=
-################################################|
-Time: 0:00:00
-Sstate summary: Wanted 3 Local 0 Mirrors 0 Missed 3 Current 68 (0%
-match, 95% complete)
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 317 tasks of which 306 didn't need to
-be rerun and all succeeded.
-
-poky/build $ lsb_release -a
-No LSB modules are available.
-Distributor ID: Ubuntu
-Description:    Ubuntu 22.04 LTS
-Release:        22.04
-Codename:       jammy
-
-On Sun, Oct 27, 2024 at 9:06=E2=80=AFPM Martin Jansa via
-lists.openembedded.org <martin.jansa=3Dgmail.com@lists.openembedded.org>
+On Tue, Sep 24, 2024 at 12:10=E2=80=AFAM Alexander Kanavin via
+lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
 wrote:
+
+> This needs to be updated in master first, and then you can send a backpor=
+t.
 >
-> Hi Steve,
+> Alex
 >
-> thanks, will try to reproduce it somehow.
->
-> The command line in my successful build looks the same (so it might be
-> something in ylwrap itself):
->
-> DEBUG: Executing python function autotools_aclocals
-> DEBUG: SITE files ['endian-little', 'common-linux', 'common-glibc',
-> 'bit-64', 'x86_64-linux', 'common']
-> DEBUG: Python function autotools_aclocals finished
-> DEBUG: Executing shell function do_compile
-> NOTE: make -j 70 -l 140
-> make  all-am
-> make[1]: Entering directory 'work/x86_64-linux/xmlto-native/0.0.28-r0/bui=
-ld'
-> /bin/bash ../xmlto-0.0.28/ylwrap ../xmlto-0.0.28/xmlif/xmlif.l
-> lex.yy.c xmlif/xmlif.c -- flex
-> gcc  -DHAVE_CONFIG_H -I. -I../xmlto-0.0.28
-> -isystemwork/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-native/us=
-r/include
->  -isystemwork/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-native/u=
-sr/include
-> -O2 -pipe -c -o xmlif/xmlif.o xmlif/xmlif.c
-> gcc   -isystemwork/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-nat=
-ive/usr/include
-> -O2 -pipe  -Lwork/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-nati=
-ve/usr/lib
->
-> -Lwork/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-native/lib
->                       -Wl,--enable-new-dtags
-> -Wl,-rpath-link,work/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-n=
-ative/usr/lib
->
-> -Wl,-rpath-link,work/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-n=
-ative/lib
->
-> -Wl,-rpath,work/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-native=
-/usr/lib
->
-> -Wl,-rpath,work/x86_64-linux/xmlto-native/0.0.28-r0/recipe-sysroot-native=
-/lib
->                         -Wl,-O1 -Wl,--allow-shlib-undefined
-> -Wl,--dynamic-linker=3Dsysroots-uninative/x86_64-linux/lib/ld-linux-x86-6=
-4.so.2
-> -o xmlif/xmlif xmlif/xmlif.o
-> make[1]: Leaving directory 'work/x86_64-linux/xmlto-native/0.0.28-r0/buil=
-d'
-> DEBUG: Shell function do_compile finished
->
-> And I was building it on ubuntu-24.10 while your error is from
-> ubuntu-22.04 and poky-altcfg, will try with older ubuntu and then with
-> altcfg to see if I happen to reproduce it locally.
->
-> On Sun, Oct 27, 2024 at 8:54=E2=80=AFPM Steve Sakoman <steve@sakoman.com>=
- wrote:
+> On Mon, 23 Sept 2024 at 15:33, abuzarra via lists.openembedded.org
+> <Arturo.Buzarra=3Ddigi.com@lists.openembedded.org> wrote:
 > >
-> > Unfortunately I'm getting an autobuilder failure with this patch:
+> > Hi all,
 > >
-> > https://errors.yoctoproject.org/Errors/Details/810853/
+> > After this update of the ORC recipe for the kirkstone branch the build
+> is broken with Ubuntu 18.04 due to an issue with the GCC version supporte=
+d
+> on that version ( GCC < 8 ).
 > >
-> > Steve
+> > The build throws an unexpected error related with a missing _xgetbv
+> intrinsic function that apparently was introduced in GCC > 8
 > >
-> > On Sun, Oct 27, 2024 at 10:01=E2=80=AFAM Martin Jansa <martin.jansa@gma=
-il.com> wrote:
-> > >
-> > > * need to add dependency on flex-native because now when the
-> > >   .l file is modified by the .patch file it will try to regenerate
-> > >   the c code and fail:
-> > >
-> > > | make[1]: Entering directory 'work/x86_64-linux/xmlto-native/0.0.28-=
-r0/build'
-> > > | /bin/bash ../xmlto-0.0.28/ylwrap ../xmlto-0.0.28/xmlif/xmlif.l .c x=
-mlif/xmlif.c -- /bin/bash 'work/x86_64-linux/xmlto-native/0.0.28-r0/xmlto-0=
-.0.28/missing' flex
-> > > | work/x86_64-linux/xmlto-native/0.0.28-r0/xmlto-0.0.28/missing: line=
- 81: flex: command not found
-> > > | WARNING: 'flex' is missing on your system.
-> > > |          You should only need it if you modified a '.l' file.
-> > > |          You may want to install the Fast Lexical Analyzer package:
-> > > |          <https://github.com/westes/flex>
-> > >
-> > > Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > > ---
-> > >  ...001-Fix-return-type-of-main-function.patch | 42 +++++++++++++++++=
-++
-> > >  .../0001-fix-Wimplicit-int-for-ifsense.patch  | 33 +++++++++++++++
-> > >  meta/recipes-devtools/xmlto/xmlto_0.0.28.bb   |  4 +-
-> > >  3 files changed, 78 insertions(+), 1 deletion(-)
-> > >  create mode 100644 meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-Fix=
--return-type-of-main-function.patch
-> > >  create mode 100644 meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-fix=
--Wimplicit-int-for-ifsense.patch
-> > >
-> > > diff --git a/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-Fix-return=
--type-of-main-function.patch b/meta/recipes-devtools/xmlto/xmlto-0.0.28/000=
-1-Fix-return-type-of-main-function.patch
-> > > new file mode 100644
-> > > index 0000000000..f28f1fb56a
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-Fix-return-type-o=
-f-main-function.patch
-> > > @@ -0,0 +1,42 @@
-> > > +From 6347e1b9da2140acdd55e3e7ac1199456793e17c Mon Sep 17 00:00:00 20=
-01
-> > > +From: Thomas Kuehne <thomas@kuehne.cn>
-> > > +Date: Sat, 11 Dec 2021 20:56:00 +0000
-> > > +Subject: [PATCH] Fix return type of main function
-> > > +MIME-Version: 1.0
-> > > +Content-Type: text/plain; charset=3DUTF-8
-> > > +Content-Transfer-Encoding: 8bit
-> > > +
-> > > +Fixes:
-> > > +xmlif/xmlif.l:242:1: warning: return type defaults to =E2=80=98int=
-=E2=80=99 [-Wimplicit-int]
-> > > +  242 | main(int argc, char *argv[])
-> > > +      | ^~~~
-> > > +
-> > > +Signed-off-by: Thomas Kuehne <thomas@kuehne.cn>
-> > > +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > > +Upstream-Status: Backport [v0.0.29 https://pagure.io/xmlto/c/8e34f08=
-7bf410bcc5fe445933d6ad9bae54f24b5?branch=3Dmaster]
-> > > +---
-> > > + xmlif/xmlif.l | 4 ++--
-> > > + 1 file changed, 2 insertions(+), 2 deletions(-)
-> > > +
-> > > +diff --git a/xmlif/xmlif.l b/xmlif/xmlif.l
-> > > +index ac42136..78a62bc 100644
-> > > +--- a/xmlif/xmlif.l
-> > > ++++ b/xmlif/xmlif.l
-> > > +@@ -239,7 +239,7 @@ WS         [ \t\n]*
-> > > +
-> > > + int yywrap() {exit(0);};
-> > > +
-> > > +-main(int argc, char *argv[])
-> > > ++int main(int argc, char *argv[])
-> > > + {
-> > > +     int i;
-> > > +
-> > > +@@ -265,7 +265,7 @@ main(int argc, char *argv[])
-> > > +           exit(1);
-> > > +       }
-> > > +
-> > > +-    yylex();
-> > > ++    return yylex();
-> > > + }
-> > > +
-> > > + /*
-> > > diff --git a/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-fix-Wimpli=
-cit-int-for-ifsense.patch b/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-f=
-ix-Wimplicit-int-for-ifsense.patch
-> > > new file mode 100644
-> > > index 0000000000..d5c25ba08a
-> > > --- /dev/null
-> > > +++ b/meta/recipes-devtools/xmlto/xmlto-0.0.28/0001-fix-Wimplicit-int=
--for-ifsense.patch
-> > > @@ -0,0 +1,33 @@
-> > > +From 1375e2df75530cd198bd16ac3de38e2b0d126276 Mon Sep 17 00:00:00 20=
-01
-> > > +From: Thomas Kuehne <thomas@kuehne.cn>
-> > > +Date: Sat, 11 Dec 2021 21:10:41 +0100
-> > > +Subject: [PATCH] fix -Wimplicit-int for ifsense
-> > > +MIME-Version: 1.0
-> > > +Content-Type: text/plain; charset=3DUTF-8
-> > > +Content-Transfer-Encoding: 8bit
-> > > +
-> > > +fixes:
-> > > +xmlif/xmlif.l:46:8: warning: type defaults to =E2=80=98int=E2=80=99 =
-in declaration of =E2=80=98ifsense=E2=80=99 [-Wimplicit-int]
-> > > +   46 | static ifsense;                 /* sense of last `if' or unl=
-ess seen */
-> > > +      |        ^~~~~~~
-> > > +
-> > > +Signed-off-by: Thomas Kuehne <thomas@kuehne.cn>
-> > > +Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-> > > +Upstream-Status: Backport [v0.0.29 https://pagure.io/xmlto/c/1375e2d=
-f75530cd198bd16ac3de38e2b0d126276?branch=3Dmaster
-> > > +---
-> > > + xmlif/xmlif.l | 2 +-
-> > > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > > +
-> > > +diff --git a/xmlif/xmlif.l b/xmlif/xmlif.l
-> > > +index ac42136..6e5970e 100644
-> > > +--- a/xmlif/xmlif.l
-> > > ++++ b/xmlif/xmlif.l
-> > > +@@ -43,7 +43,7 @@
-> > > +
-> > > + static char **selections;     /* selection tokens */
-> > > + static int nselections;               /* number of selections */
-> > > +-static ifsense;                       /* sense of last `if' or unle=
-ss seen */
-> > > ++static int ifsense;           /* sense of last `if' or unless seen =
-*/
-> > > + static char *attribute;               /* last attribute scanned */
-> > > +
-> > > + struct stack_t {
-> > > diff --git a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb b/meta/recip=
-es-devtools/xmlto/xmlto_0.0.28.bb
-> > > index 5cb9a4c57b..2c9ee27f82 100644
-> > > --- a/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-> > > +++ b/meta/recipes-devtools/xmlto/xmlto_0.0.28.bb
-> > > @@ -8,6 +8,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D59530bdf33=
-659b29e73d4adb9f9f6552"
-> > >
-> > >  SRC_URI =3D "https://releases.pagure.org/xmlto/xmlto-${PV}.tar.gz \
-> > >             file://configure.in-drop-the-test-of-xmllint-and-xsltproc=
-.patch \
-> > > +           file://0001-Fix-return-type-of-main-function.patch \
-> > > +           file://0001-fix-Wimplicit-int-for-ifsense.patch \
-> > >  "
-> > >  SRC_URI[md5sum] =3D "a1fefad9d83499a15576768f60f847c6"
-> > >  SRC_URI[sha256sum] =3D "2f986b7c9a0e9ac6728147668e776d405465284e13c7=
-4d4146c9cbc51fd8aad3"
-> > > @@ -16,7 +18,7 @@ inherit autotools
-> > >
-> > >  CLEANBROKEN =3D "1"
-> > >
-> > > -DEPENDS =3D "libxml2-native"
-> > > +DEPENDS =3D "libxml2-native flex-native"
-> > >
-> > >  RDEPENDS:${PN} =3D "docbook-xml-dtd4 \
-> > >                    docbook-xsl-stylesheets \
-> > > --
-> > > 2.47.0
-> > >
+> > I notice that there is a new version ORC v0.4.40 that fixes the build
+> issues, is there a plan to backport this ORC version to kirkstone branch?
+> >
+> > Thanks in advance,
+> >
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <
+> openembedded-core@lists.openembedded.org> On Behalf Of Steve Sakoman
+> > Sent: martes, 13 de agosto de 2024 14:17
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core][kirkstone 10/11] orc: upgrade 0.4.32 -> 0.4.39
+> >
+> > [EXTERNAL E-MAIL] Warning! This email originated outside of the
+> organization! Do not click links or open attachments unless you recognize
+> the sender and know the content is safe.
+> >
+> >
+> >
+> > From: Vijay Anusuri <vanusuri@mvista.com>
+> >
+> > Include security fix CVE-2024-40897
+> >
+> > Ref: https://github.com/GStreamer/orc/blob/0.4.39/RELEASE
+> >
+> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> > Signed-off-by: Steve Sakoman <steve@sakoman.com>
+> > ---
+> >  meta/recipes-devtools/orc/{orc_0.4.32.bb =3D> orc_0.4.39.bb} | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)  rename
+> meta/recipes-devtools/orc/{orc_0.4.32.bb =3D> orc_0.4.39.bb} (92%)
+> >
+> > diff --git a/meta/recipes-devtools/orc/orc_0.4.32.bb
+> b/meta/recipes-devtools/orc/orc_0.4.39.bb
+> > similarity index 92%
+> > rename from meta/recipes-devtools/orc/orc_0.4.32.bb
+> > rename to meta/recipes-devtools/orc/orc_0.4.39.bb
+> > index 829255f110..320abf536a 100644
+> > --- a/meta/recipes-devtools/orc/orc_0.4.32.bb
+> > +++ b/meta/recipes-devtools/orc/orc_0.4.39.bb
+> > @@ -5,7 +5,7 @@ LICENSE =3D "BSD-2-Clause & BSD-3-Clause"
+> >  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D1400bd9d09e8af56b9ec982b3d8=
+5797e"
+> >
+> >  SRC_URI =3D "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz=
+"
+> > -SRC_URI[sha256sum] =3D
+> "a66e3d8f2b7e65178d786a01ef61f2a0a0b4d0b8370de7ce134ba73da4af18f0"
+> > +SRC_URI[sha256sum] =3D
+> "33ed2387f49b825fa1b9c3b0072e05f259141b895474ad085ae51143d3040cc0"
+> >
+> >  inherit meson pkgconfig gtk-doc
+> >
+> > --
+> > 2.34.1
+> >
+> >
+> >
+> >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#206413): https://lists.openembedded.org/g/openembedde=
-d-core/message/206413
-> Mute This Topic: https://lists.openembedded.org/mt/109242697/3617156
+> View/Reply Online (#204824):
+> https://lists.openembedded.org/g/openembedded-core/message/204824
+> Mute This Topic: https://lists.openembedded.org/mt/107874802/7301997
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> vanusuri@mvista.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
+>
+
+--0000000000000a6c5806257f70be
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div><div><div>Hi Steve,<br><br></div>orc updated in maste=
+r to the version 0.4.40 which resolves the above mentioned issue.<br><br></=
+div>could you please merge it to scarthgap, styhead and kirkstone.<br><br><=
+/div><div>Thanks &amp; Regards,</div><div>Vijay<br></div></div><br><div cla=
+ss=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 24, 20=
+24 at 12:10=E2=80=AFAM Alexander Kanavin via <a href=3D"http://lists.openem=
+bedded.org">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto=
+:gmail.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt;=
+ wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px =
+0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">This nee=
+ds to be updated in master first, and then you can send a backport.<br>
+<br>
+Alex<br>
+<br>
+On Mon, 23 Sept 2024 at 15:33, abuzarra via <a href=3D"http://lists.openemb=
+edded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a><=
+br>
+&lt;Arturo.Buzarra=3D<a href=3D"mailto:digi.com@lists.openembedded.org" tar=
+get=3D"_blank">digi.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt; Hi all,<br>
+&gt;<br>
+&gt; After this update of the ORC recipe for the kirkstone branch the build=
+ is broken with Ubuntu 18.04 due to an issue with the GCC version supported=
+ on that version ( GCC &lt; 8 ).<br>
+&gt;<br>
+&gt; The build throws an unexpected error related with a missing _xgetbv in=
+trinsic function that apparently was introduced in GCC &gt; 8<br>
+&gt;<br>
+&gt; I notice that there is a new version ORC v0.4.40 that fixes the build =
+issues, is there a plan to backport this ORC version to kirkstone branch?<b=
+r>
+&gt;<br>
+&gt; Thanks in advance,<br>
+&gt;<br>
+&gt; -----Original Message-----<br>
+&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
+et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;<a href=3D"m=
+ailto:openembedded-core@lists.openembedded.org" target=3D"_blank">openembed=
+ded-core@lists.openembedded.org</a>&gt; On Behalf Of Steve Sakoman<br>
+&gt; Sent: martes, 13 de agosto de 2024 14:17<br>
+&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: [OE-core][kirkstone 10/11] orc: upgrade 0.4.32 -&gt; 0.4.39<b=
+r>
+&gt;<br>
+&gt; [EXTERNAL E-MAIL] Warning! This email originated outside of the organi=
+zation! Do not click links or open attachments unless you recognize the sen=
+der and know the content is safe.<br>
+&gt;<br>
+&gt;<br>
+&gt;<br>
+&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
+=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt;<br>
+&gt; Include security fix CVE-2024-40897<br>
+&gt;<br>
+&gt; Ref: <a href=3D"https://github.com/GStreamer/orc/blob/0.4.39/RELEASE" =
+rel=3D"noreferrer" target=3D"_blank">https://github.com/GStreamer/orc/blob/=
+0.4.39/RELEASE</a><br>
+&gt;<br>
+&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
+" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt; Signed-off-by: Steve Sakoman &lt;<a href=3D"mailto:steve@sakoman.com" =
+target=3D"_blank">steve@sakoman.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-devtools/orc/{<a href=3D"http://orc_0.4.32.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.32.bb</a> =3D&gt; <a href=3D"http=
+://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a>} |=
+ 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)=C2=A0 rename meta/=
+recipes-devtools/orc/{<a href=3D"http://orc_0.4.32.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">orc_0.4.32.bb</a> =3D&gt; <a href=3D"http://orc_0.4.39.bb"=
+ rel=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a>} (92%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.32.bb=
+" rel=3D"noreferrer" target=3D"_blank">orc_0.4.32.bb</a> b/meta/recipes-dev=
+tools/orc/<a href=3D"http://orc_0.4.39.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">orc_0.4.39.bb</a><br>
+&gt; similarity index 92%<br>
+&gt; rename from meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.32.bb"=
+ rel=3D"noreferrer" target=3D"_blank">orc_0.4.32.bb</a><br>
+&gt; rename to meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.39.bb" r=
+el=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a><br>
+&gt; index 829255f110..320abf536a 100644<br>
+&gt; --- a/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.32.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.32.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/orc/<a href=3D"http://orc_0.4.39.bb" rel=
+=3D"noreferrer" target=3D"_blank">orc_0.4.39.bb</a><br>
+&gt; @@ -5,7 +5,7 @@ LICENSE =3D &quot;BSD-2-Clause &amp; BSD-3-Clause&quot=
+;<br>
+&gt;=C2=A0 LIC_FILES_CHKSUM =3D &quot;file://COPYING;md5=3D1400bd9d09e8af56=
+b9ec982b3d85797e&quot;<br>
+&gt;<br>
+&gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"http://gstreamer.freedesktop.org/sr=
+c/orc/orc-$%7BPV%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">http://gst=
+reamer.freedesktop.org/src/orc/orc-${PV}.tar.xz</a>&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;a66e3d8f2b7e65178d786a01ef61f2a0a0b4d0b8=
+370de7ce134ba73da4af18f0&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;33ed2387f49b825fa1b9c3b0072e05f259141b89=
+5474ad085ae51143d3040cc0&quot;<br>
+&gt;<br>
+&gt;=C2=A0 inherit meson pkgconfig gtk-doc<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.34.1<br>
+&gt;<br>
+&gt;<br>
+&gt; <br>
+&gt;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#204824): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/204824" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/204824</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/107874802/730=
+1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/107874802/7301997</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
+t=3D"_blank">vanusuri@mvista.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000000a6c5806257f70be--
 
