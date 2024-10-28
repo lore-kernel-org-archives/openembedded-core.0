@@ -1,73 +1,94 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A105FD3E2BE
-	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 19:46:24 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web11.2076.1730144777383634018
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5190D3E2BF
+	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 19:47:24 +0000 (UTC)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+ by mx.groups.io with SMTP id smtpd.web11.2107.1730144836964481202
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Oct 2024 12:46:17 -0700
+ Mon, 28 Oct 2024 12:47:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nPWzT4I7;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb443746b8so44398171fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 12:46:17 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HpA4Rcjw;
+ spf=pass (domain: gmail.com, ip: 209.85.167.44, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-539e6c754bdso4216596e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 12:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730144775; x=1730749575; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=GQwZhwDaDq60MDH4LWmT/z+uTQ1jl0k4inv/AdXAb1w=;
-        b=nPWzT4I76iq+BUzM2yPx0DfRYi2YSA7aXyFXb30lBp3jyKZdAByFEdi9QsEAxHa9VZ
-         g6u3njpcodqMzAsM/q5C45E+Nh7CSnn9XjrxgP7vDnDvyc0pGBuoXepnbcMJvY3Lo7BZ
-         au7Ldue0/j/hD7Xu7fxgYwtX/xV5FpR24gdaqgYblm7u1mCkzWsjAPUU6C0/OuGA5Chg
-         wbHdT3os8QpWNls4mC8Nso1Y0dabKYcIEz1Yyf+Ick2hnAq1GNBjfVRIBGoCicuvkxUP
-         klzWTYSH0ySSI375sRQh4eOorI0HD/zRd8KyrNYBczVSt/tYJBWhK8ZKmTMCs1b29mhw
-         pQvw==
+        d=gmail.com; s=20230601; t=1730144835; x=1730749635; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=blNlQL0D9qhzPkDb6X/SmOaSr4HW3Sl+sVDHauLmIQs=;
+        b=HpA4RcjwXSJ0Ue+BVdpjdnd9yyNbQcUOGBRYdXUvmavPcL/Jihfys2zrRBX3FQIFOC
+         obbL/Xa7ez+WP9IBzSCRnU3Ph4lIhX4D4lKxrbf3GjeREXfXMnMtkknkn9Ap/VhKdkEE
+         p5ePzS8Hk7VS9VbddECkqGPWEpskNiKVC2r2IiqsHdumJpjVOLrm2ZezK4TZOMtOPDWL
+         e/t+LEBGdYgcSLki7QJwzHWwWFwUY1Aljp3iZF10gyjWkK8RGyPDPuPX+gO9pA4HMj/R
+         GIWlAhG5y/g7C9GeZ9evhMSTJT6xRm4bs4ae7opbmoyr3yGgjs2m1K1JZuudUkOwhZQ0
+         6NHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730144775; x=1730749575;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=GQwZhwDaDq60MDH4LWmT/z+uTQ1jl0k4inv/AdXAb1w=;
-        b=ZB2KG/mJNMMXZ2EYvfYO7lW63hgJE+QeF/0qNIX1QVp5ZGNIJaRf4UWZjIZT1vfqL3
-         c7XDiqYyt9HJQzpFGpOGzgr+lqJIm1jAwMVN96d/PV+/rj9aTODnBdpWTVpWrotnGM31
-         aw3tdthS+4Li9/yCguy95rxzJUnuDnkLuuWq/X/I0ag2GmxatgYrzKXYkoRnQ85d/JMU
-         Ec0iGjYjbUzYsdi/BmWNR2TK6BBdGG5WsjW5T8WhxSFP0aQMy6llD7EohLAXVn1IVgMp
-         JOTKxpB9Yg6EACZjbEhaEleJtpRzNlGFVPnQQPZSNWiiTcS6/e+fOrhqE+PmqVP2rvCI
-         lzrg==
-X-Gm-Message-State: AOJu0Yzv8Dqu2TXYLA67/T1NpxP5jyLzeVK11JK/mBGGqfhBFF7dgcTy
-	uil60LPNWYCWNHNJvCE8sK4T9hNU1iyByjjF2giJX55YKxz+4F+zO0Z2W7EdH6JrzZ0eQkOEnO2
-	NsyuUd511WkyyOOBcvEzJLdI59aI=
-X-Google-Smtp-Source: AGHT+IFZvD88+6i4hzhtjUGUSBfwI3XYs1gtE7qpHXH9Pr4rGqVHdy4GmAkbumCVqRIpM8EMD7OvaOdzqIyhRWR7HDU=
-X-Received: by 2002:a2e:80a:0:b0:2fb:5ac6:90f0 with SMTP id
- 38308e7fff4ca-2fcbe09ad70mr35261071fa.34.1730144775083; Mon, 28 Oct 2024
- 12:46:15 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730144835; x=1730749635;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=blNlQL0D9qhzPkDb6X/SmOaSr4HW3Sl+sVDHauLmIQs=;
+        b=CBUOl3yMQr6hjdmcjJOqEN4eQyguM17rZi769EqjpkxRrbiI2arT9N/GyGdTcim11y
+         4E5Wu5EazLjDirDEHc5VFWdq9GZAkgjbj9AdfeB3knn0xWagXldXofGU4VF3sE6MJPSv
+         lBN2A07KoBNVIXSJzAaYV4LJ+jVIMIurN3Kgdmpo5z6NqRW1ptCNVhclMLmPMTo2gtmQ
+         qK1eI/mzkMsPRfvct8CUxx80UPsiQ+awu1Mimv3iTheUFoM1FzK833fTeECLSHJIQyNq
+         PpfZtdHUq8OGwO4jE3pAgKQ9GgMWwCSxjw9kJg1MBHzo2mMPFOzsEWtN63TseySBqyJb
+         XrJw==
+X-Gm-Message-State: AOJu0YwduQHcj0ZyyTPm3VKaT+khFnEiCq6q5EckjxDoXLOsGvx3o4k4
+	/KHgjC2NSmxtytSWcSTvoqUe7pSGpGGubpbLmfZkITHGO+xV7Q0beAZxhvGlc+2YU30zzleJVYq
+	wr3pj/Nd/BOWbtmlAhLH/4L+/UTn3o/Kt
+X-Google-Smtp-Source: AGHT+IFitOyY//DVEDOT5unSq+V0t8rtjg5goqp99+EdEKgtbONCaCOM7btxSlaYB761z9dif4uzsAYU7BszOHWaCNM=
+X-Received: by 2002:a05:6512:33d5:b0:53a:3a:f4f4 with SMTP id
+ 2adb3069b0e04-53b348e599cmr3669188e87.31.1730144834776; Mon, 28 Oct 2024
+ 12:47:14 -0700 (PDT)
 MIME-Version: 1.0
-References: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com>
- <1729834769-4717-14-git-send-email-wangmy@fujitsu.com> <CANNYZj_BGyi_Gz=h_62x2QSU+BWE2Ae-UB_fmbTP6BnVuccscg@mail.gmail.com>
- <TYWPR01MB11861A53BDFF03E210AFB60E6DC492@TYWPR01MB11861.jpnprd01.prod.outlook.com>
-In-Reply-To: <TYWPR01MB11861A53BDFF03E210AFB60E6DC492@TYWPR01MB11861.jpnprd01.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 28 Oct 2024 20:46:02 +0100
-Message-ID: <CANNYZj80DdEwqRFURP+mAtqtvN8J0_JhQpwqwa6_0aE=iFdrNQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 14/22] ptest-runner: upgrade 2.4.5 -> 2.5.1
-To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+References: <20241026032519.1968518-1-hongxu.jia@windriver.com> <20241026032519.1968518-3-hongxu.jia@windriver.com>
+In-Reply-To: <20241026032519.1968518-3-hongxu.jia@windriver.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Mon, 28 Oct 2024 13:47:02 -0600
+Message-ID: <CAJdd5Ga3e2ZS3rcS_T_e3kMdeeP773YrkLA7aA=QopfKM2R39w@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 2/6] meta/lib/oe/sbom30.py: correct typo
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 19:46:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206458
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 19:47:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206459
 
-On Sun, 27 Oct 2024 at 04:12, Mingyu Wang (Fujitsu) <wangmy@fujitsu.com> wrote:
-> It was indeed done using devtool upgrade, but the version number of the resulting bb file is 2.5.1.
-> Although the version number is recorded as 2.4.5.1 in the bb file, I deleted that line when modifying the content of the bb file.
-> When modifying the patch, I forgot that the actual version number was 2.4.5.1, so I made a mistake.
+LGTM, thanks
 
-That's fine. But why did you have to modify the file? Did devtool
-change something that you had to fix afterwards?
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
 
-Alex
+On Fri, Oct 25, 2024 at 9:25=E2=80=AFPM Hongxu Jia <hongxu.jia@windriver.co=
+m> wrote:
+>
+> The isinstance expected 2 arguments
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/lib/oe/sbom30.py | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+> index 73a957a20c..f4cc1f49dd 100644
+> --- a/meta/lib/oe/sbom30.py
+> +++ b/meta/lib/oe/sbom30.py
+> @@ -631,7 +631,7 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+>          sha256_hash =3D bb.utils.sha256_file(path)
+>
+>          for f in self.by_sha256_hash.get(sha256_hash, []):
+> -            if not isinstance(oe.spdx30.software_File):
+> +            if not isinstance(f, oe.spdx30.software_File):
+>                  continue
+>
+>              if purposes:
+> --
+> 2.25.1
+>
 
