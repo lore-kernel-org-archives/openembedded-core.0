@@ -2,10 +2,10 @@ Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 48F60D13597
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D12D13599
 	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 08:30:19 +0000 (UTC)
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.46763.1730104216312747653
+ by mx.groups.io with SMTP id smtpd.web11.46759.1730104216053795116
  for <openembedded-core@lists.openembedded.org>;
  Mon, 28 Oct 2024 01:30:16 -0700
 Authentication-Results: mx.groups.io;
@@ -14,24 +14,24 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1t5L8g-0000iO-0q; Mon, 28 Oct 2024 09:30:14 +0100
+	id 1t5L8g-0000iV-5S; Mon, 28 Oct 2024 09:30:14 +0100
 Received: from dude06.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::5c])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1t5L8f-000om4-2F;
+	id 1t5L8f-000omG-2j;
 	Mon, 28 Oct 2024 09:30:13 +0100
 Received: from ejo by dude06.red.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ejo@pengutronix.de>)
-	id 1t5L8f-001oCh-23;
+	id 1t5L8f-001oDF-2P;
 	Mon, 28 Oct 2024 09:30:13 +0100
 From: =?UTF-8?q?Enrico=20J=C3=B6rns?= <ejo@pengutronix.de>
 To: openembedded-core@lists.openembedded.org
 Cc: yocto@pengutronix.de,
 	Andrej Valek <andrej.v@skyrain.eu>
-Subject: [PATCH v2 1/9] busybox: sync config for busybox 1.37
-Date: Mon, 28 Oct 2024 09:29:05 +0100
-Message-Id: <20241028082913.418505-2-ejo@pengutronix.de>
+Subject: [PATCH v2 8/9] busybox: disable long options in defconfig
+Date: Mon, 28 Oct 2024 09:29:12 +0100
+Message-Id: <20241028082913.418505-9-ejo@pengutronix.de>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241028082913.418505-1-ejo@pengutronix.de>
 References: <20241028082913.418505-1-ejo@pengutronix.de>
@@ -46,70 +46,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 08:30:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206434
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206432
 
-Done by disabling all current cfg fragments in SRC_URI, running
+These are activated by the longopts.cfg fragment, thus there should be
+no need to set them in the defconfig.
+The individual long options where enabled without mentioning a specific
+need, mostly while adding the corresponding command, thus it should be
+safe to disable them.
 
-  bitbake -c configure busybox
-
-and copying the generated .config back to the defconfig file.
-Changes to CONFIG_EXTRA_CFLAGS were omitted.
-
-CONFIG_SHA1_HWACCEL and CONFIG_SHA256_HWACCEL are disabled explicitly in
-the respective fragments (sha1sum.cfg, sha256sum.cfg), thus it makes
-sense they've been enabled by default.
+Note that we cannot disable the general 'LONG_OPTS' feature in the
+defconfig since this is e.g. required by CONFIG_HWCLOCK (since v1.37).
 
 Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
 ---
- meta/recipes-core/busybox/busybox/defconfig | 7 +++++++
- 1 file changed, 7 insertions(+)
+ meta/recipes-core/busybox/busybox/defconfig | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-core/busybox/busybox/defconfig
-index d172ec46e9..6c5a8764ce 100644
+index 7481ea2d6b..ab74d2616d 100644
 --- a/meta/recipes-core/busybox/busybox/defconfig
 +++ b/meta/recipes-core/busybox/busybox/defconfig
-@@ -93,6 +93,9 @@ CONFIG_FEATURE_BUFFERS_USE_MALLOC=y
- # CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
- CONFIG_PASSWORD_MINLEN=6
- CONFIG_MD5_SMALL=1
-+CONFIG_SHA1_SMALL=3
-+CONFIG_SHA1_HWACCEL=y
-+CONFIG_SHA256_HWACCEL=y
- CONFIG_SHA3_SMALL=1
- CONFIG_FEATURE_NON_POSIX_CP=y
- # CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
-@@ -884,6 +887,7 @@ CONFIG_FEATURE_HWIB=y
- CONFIG_HOSTNAME=y
- CONFIG_DNSDOMAINNAME=y
- # CONFIG_HTTPD is not set
-+CONFIG_FEATURE_HTTPD_PORT_DEFAULT=0
- # CONFIG_FEATURE_HTTPD_RANGES is not set
- # CONFIG_FEATURE_HTTPD_SETUID is not set
- # CONFIG_FEATURE_HTTPD_BASIC_AUTH is not set
-@@ -977,6 +981,7 @@ CONFIG_FEATURE_TELNET_AUTOLOGIN=y
- CONFIG_FEATURE_TELNET_WIDTH=y
- # CONFIG_TELNETD is not set
- # CONFIG_FEATURE_TELNETD_STANDALONE is not set
-+CONFIG_FEATURE_TELNETD_PORT_DEFAULT=0
- # CONFIG_FEATURE_TELNETD_INETD_WAIT is not set
- CONFIG_TFTP=y
- # CONFIG_FEATURE_TFTP_PROGRESS_BAR is not set
-@@ -1015,6 +1020,7 @@ CONFIG_UDHCPC=y
- CONFIG_FEATURE_UDHCPC_ARPING=y
- CONFIG_FEATURE_UDHCPC_SANITIZEOPT=y
- CONFIG_UDHCPC_DEFAULT_SCRIPT="/usr/share/udhcpc/default.script"
-+CONFIG_UDHCPC6_DEFAULT_SCRIPT=""
- # CONFIG_UDHCPC6 is not set
- # CONFIG_FEATURE_UDHCPC6_RFC3646 is not set
- # CONFIG_FEATURE_UDHCPC6_RFC4704 is not set
-@@ -1024,6 +1030,7 @@ CONFIG_UDHCPC_DEFAULT_SCRIPT="/usr/share/udhcpc/default.script"
+@@ -148,7 +148,7 @@ CONFIG_FEATURE_SEAMLESS_Z=y
+ # CONFIG_UNCOMPRESS is not set
+ CONFIG_GUNZIP=y
+ CONFIG_ZCAT=y
+-CONFIG_FEATURE_GUNZIP_LONG_OPTIONS=y
++# CONFIG_FEATURE_GUNZIP_LONG_OPTIONS is not set
+ CONFIG_BUNZIP2=y
+ CONFIG_BZCAT=y
+ # CONFIG_UNLZMA is not set
+@@ -399,10 +399,10 @@ CONFIG_SETCONSOLE=y
  #
- # Common options for DHCP applets
- #
-+CONFIG_UDHCPC_DEFAULT_INTERFACE="eth0"
- # CONFIG_FEATURE_UDHCP_PORT is not set
- CONFIG_UDHCP_DEBUG=0
- CONFIG_UDHCPC_SLACK_FOR_BUGGY_SERVERS=80
+ # CONFIG_PIPE_PROGRESS is not set
+ CONFIG_RUN_PARTS=y
+-CONFIG_FEATURE_RUN_PARTS_LONG_OPTIONS=y
++# CONFIG_FEATURE_RUN_PARTS_LONG_OPTIONS is not set
+ # CONFIG_FEATURE_RUN_PARTS_FANCY is not set
+ CONFIG_START_STOP_DAEMON=y
+-CONFIG_FEATURE_START_STOP_DAEMON_LONG_OPTIONS=y
++# CONFIG_FEATURE_START_STOP_DAEMON_LONG_OPTIONS is not set
+ CONFIG_FEATURE_START_STOP_DAEMON_FANCY=y
+ CONFIG_WHICH=y
+ 
+@@ -1000,7 +1000,7 @@ CONFIG_TRACEROUTE=y
+ # CONFIG_FEATURE_TUNCTL_UG is not set
+ # CONFIG_VCONFIG is not set
+ CONFIG_WGET=y
+-CONFIG_FEATURE_WGET_LONG_OPTIONS=y
++# CONFIG_FEATURE_WGET_LONG_OPTIONS is not set
+ CONFIG_FEATURE_WGET_STATUSBAR=y
+ CONFIG_FEATURE_WGET_FTP=y
+ CONFIG_FEATURE_WGET_AUTHENTICATION=y
 -- 
 2.39.5
 
