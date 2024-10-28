@@ -1,254 +1,221 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 453C4D13588
-	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 10:40:00 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web10.48783.1730111999163811630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 646B2D13588
+	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 11:04:50 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.49099.1730113485515172715
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Oct 2024 03:39:59 -0700
+ Mon, 28 Oct 2024 04:04:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1t5NAC-0004n0-SV; Mon, 28 Oct 2024 11:39:57 +0100
-Message-ID: <6649f86317aa3a1eafdb3d98c7f814b6e4807d94.camel@pengutronix.de>
-Subject: Re: [PATCH v2 2/9] busybox: disable defconfig options from simpler
- fragments
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
-To: Andrej Valek <andrej.v@skyrain.eu>, Richard Purdie
-	 <richard.purdie@linuxfoundation.org>
-Cc: yocto@pengutronix.de, openembedded-core@lists.openembedded.org
-Date: Mon, 28 Oct 2024 11:39:55 +0100
-In-Reply-To: <824ea7ce-b5d0-4da3-8e3d-5445373e1e9a@skyrain.eu>
-References: <20241028082913.418505-1-ejo@pengutronix.de>
-	 <20241028082913.418505-3-ejo@pengutronix.de>
-	 <824ea7ce-b5d0-4da3-8e3d-5445373e1e9a@skyrain.eu>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Tx+Pf0+4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315e62afe0so43878475e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 04:04:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1730113484; x=1730718284; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=47cGsdCnAqotcawIbWJ2cjDb20fAi55UhjVNOTFJhjI=;
+        b=Tx+Pf0+4W3C/EJiOjmuT8+humjjRc5ZSsvyPcjVwvmJpP7rhPNcGcft0+sR3UE71Ir
+         HLBLzfUFl+SEqowbn7XMu4FqBJGI8Yv7XbdltnxEuuMH3rNSwqRAXFUlznKrgnfHqfVp
+         R6+LV38abBEtNm5LvC8/zpXVRefhDoyJ3BLfI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730113484; x=1730718284;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=47cGsdCnAqotcawIbWJ2cjDb20fAi55UhjVNOTFJhjI=;
+        b=Yo/5sPsRX80q4KK8Or9uPb0zVwBKaG8J/3dK+CVnAWbVWIOC099a9lnPK8ldHe0dY4
+         RfJxGE+xqeU8vda3bFIjdqP3KsZtSqCjzkdDNMp+lvKjyQNUFNoe4lHfMarJO9XA5D2j
+         faEkMe/WP8C7qxPOuK1SdJOKPQGLoxJB6MoWHdKkFFG32Fz/2WqHnUB6wV76GbGqiL1r
+         IWo5j1998aoAvN0Z7LmuHr4uFXJXn8+4TDuXCum1jmAyIf8FLCTGMxglzD2hGi4VGvGR
+         DCfG3Uckfmzp7IL9cAJgRKDCc3wPqAMza3vCbxAOs6kKQI5ZrAMsC77BZRIIk4fiPn5Q
+         m/WQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV+5KP7jeHqWf8XmS1sYrh7CpAOMXC4sVTpxFHzfAaVLyvt3dErsyh2QrFbF0hFwIaD4FcdrDjOJLEt6W3aqyoNjQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yy1URySXXTVE2gQqncmO3mNTrnry5REDQypRLBMpe4VWpC17HTO
+	vUAf6tbDRB3RxzgnY4i6D3eSceEauFq13N+705uHoLbzA36iSaZlq1VwGF6shlo=
+X-Google-Smtp-Source: AGHT+IGq9EE32HIOTsME6w4oUivLADyh2DAIuhTc5PnJIKAKBu3eKQhZDBvgMI5v1TzjxU2xHFgzwQ==
+X-Received: by 2002:a05:600c:4f03:b0:42c:ba83:3f0e with SMTP id 5b1f17b1804b1-4319ac7078dmr69960605e9.7.1730113483637;
+        Mon, 28 Oct 2024 04:04:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:73ef:5707:ed3d:2605? ([2001:8b0:aba:5f3c:73ef:5707:ed3d:2605])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b47f59sm9166229f8f.54.2024.10.28.04.04.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 04:04:43 -0700 (PDT)
+Message-ID: <e5078dbc15b853f94edf433891fbfe21ff077576.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] packagedata.py : Fix RDEPENDS Version issue
+ with AUTOINC
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: sreejith.ravi087@gmail.com, openembedded-core@lists.openembedded.org
+Date: Mon, 28 Oct 2024 11:04:42 +0000
+In-Reply-To: <20241024144845.43504-1-sreejith.ravi087@gmail.com>
+References: <20241024144845.43504-1-sreejith.ravi087@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 10:40:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206441
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 11:04:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206442
 
-Hej Andrej,
-
-Am Montag, dem 28.10.2024 um 10:06 +0100 schrieb Andrej Valek:
-> =C2=A0Hello Enrico,
-> =C2=A0
-> =C2=A0I tried to follow (and applied) your patch, but it looks little bit=
- inconsistent to me. In the
-> first round you enabled SHAx_HWACCEL, which is broken on some architectur=
-es. That's the reason,
-> why is disabled by default. Ok, so first apply looks like this:
-
-let me rephrase my commit message.
-
-The SHAx_HWACCEL is broken on some architectures, right.
-However, when you take the defconfig, without the fragments, it will curren=
-tly be enabled.
-Regardless of what's in my patch.
-
-Why? Because CONFIG_SHA1_HWACCEL in Busybox' kconfig is 'default y', has no=
- dependency on other
-options and is not listed in the 'defconfig' file so far.
-
-Thus, my first patch should not change the current situation.
-
-> =C2=A0=C2=A0# CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
-> =C2=A0=C2=A0CONFIG_PASSWORD_MINLEN=3D6
-> =C2=A0=C2=A0CONFIG_MD5_SMALL=3D1
-> =C2=A0+CONFIG_SHA1_SMALL=3D3
-> =C2=A0+CONFIG_SHA1_HWACCEL=3Dy
-> =C2=A0+CONFIG_SHA256_HWACCEL=3Dy
-> =C2=A0=C2=A0CONFIG_SHA3_SMALL=3D1
-> =C2=A0=C2=A0CONFIG_FEATURE_NON_POSIX_CP=3Dy
-> =C2=A0=C2=A0# CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
-> =C2=A0@@ -884,6 +887,7 @@ CONFIG_FEATURE_HWIB=3Dy
-> =C2=A0
-> =C2=A0Then I applied next patch:
-> =C2=A0
-> =C2=A0=C2=A0# CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
-> =C2=A0=C2=A0CONFIG_PASSWORD_MINLEN=3D6
-> =C2=A0=C2=A0CONFIG_MD5_SMALL=3D1
-> =C2=A0+CONFIG_SHA1_SMALL=3D3
-> =C2=A0+CONFIG_SHA1_HWACCEL=3Dy
-> =C2=A0+CONFIG_SHA256_HWACCEL=3Dy
-> =C2=A0=C2=A0CONFIG_SHA3_SMALL=3D1
-> =C2=A0=C2=A0CONFIG_FEATURE_NON_POSIX_CP=3Dy
-> =C2=A0=C2=A0# CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
-> =C2=A0@@ -278,8 +281,8 @@ CONFIG_FEATURE_LS_USERNAME=3Dy
-> =C2=A0=C2=A0CONFIG_FEATURE_LS_COLOR=3Dy
-> =C2=A0=C2=A0# CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
-> =C2=A0=C2=A0CONFIG_MD5SUM=3Dy
-> =C2=A0-CONFIG_SHA1SUM=3Dy
-> =C2=A0-CONFIG_SHA256SUM=3Dy
-> =C2=A0+# CONFIG_SHA1SUM is not set
-> =C2=A0+# CONFIG_SHA256SUM is not set
-> =C2=A0=C2=A0# CONFIG_SHA512SUM is not set
-> =C2=A0=C2=A0# CONFIG_SHA3SUM is not set
-> =C2=A0=C2=A0
-> =C2=A0@@ -383,8 +386,8 @@ CONFIG_DEFAULT_SETFONT_DIR=3D""
-> =C2=A0
-> =C2=A0and you disabled CONFIG_SHA1SUM, but keep enabled the acceleration?=
- Is there any special reason
-> for that?
-
-There is one, because its the inverse of what the fragments apply, which is=
-:
-
-  $ cat ./meta/recipes-core/busybox/busybox/sha1sum.cfg                    =
-                       =20
-  CONFIG_SHA1SUM=3Dy
-  CONFIG_SHA1_SMALL=3D3
-  # CONFIG_SHA1_HWACCEL is not set
-
-  $ cat ./meta/recipes-core/busybox/busybox/sha256sum.cfg=20
-  CONFIG_SHA256SUM=3Dy
-  # CONFIG_SHA256_HWACCEL is not set
-
-I'm pretty sure not having touched the fragments.
-
-The CONFIG_SHA1_HWACCEL options could have been changed in the defconfig, t=
-oo.
-But this is nothing that I've brought in. It's a result of
-https://github.com/openembedded/openembedded-core/commit/21753f16a364e32050=
-cf8d79bfa7e0f89be52ce7
-
-Thus I'd assume my changes are consistent. Am I wrong?
-
-> =C2=A0Anyway, there was one commit in the usptream which was touching the=
- acceleration. So I have to
-> try it on the broken machine and see if it's still broken or not.
-
-If you refer to oe-core upstream, yes there have been changes.
-This is why I needed to rebase and rework my branch.
-Or are there other changes I am not aware of, yet?
-
+On Thu, 2024-10-24 at 15:48 +0100, Sreejith Ravi via lists.openembedded.org=
+ wrote:
+> Currently, RDEPENDS for -staticdev and -dev is set using EXTENDPKGV
+> in meta/conf/bitbake.conf:
+> ----------------------------------
+> EXTENDPKGV ?=3D "${EXTENDPKGEVER}${PKGV}-${PKGR}"
+> DEV_PKG_DEPENDENCY =3D "${PN} (=3D ${EXTENDPKGV})"
+> RDEPENDS:${PN}-staticdev =3D "${PN}-dev (=3D ${EXTENDPKGV})"
+> ----------------------------------
 >=20
-> > On Fri, 2024-10-25 at 19:26 +0200, Andrej wrote:
-> > =C2=A0
-> > > Ok, I was thinking that it was done by intention, but it happened 14y
-> > > ago=C2=A0
-> > > https://github.com/openembedded/openembedded-core/commit/615a98ed9a02
-> > > 1da245513790c064761a0a5a67e9 . So I guess not.=C2=A0
-> =C2=A0
-> > I am not sure if I fully understand what you are referring to here.
-> > Could you provide some details about what happened there?
-> > OE didn't have those fragments 14y ago I guess.
-> =C2=A0So the idea behind is that you're going to remove the fragments and=
- keep just a one defconfig.
-> But according to your commits you kept the fragments there, even if you p=
-ut some values into
-> defconfig.
-
-Still not sure. I had no intention of removing the fragments.
-And I'm unsure how this relates to the referenced commit.
-My intention was to actually make them useful again, which is quite the opp=
-osite I guess.
-
-
-Regards, Enrico
-
-> =C2=A0Regards,
-> =C2=A0Andrej
+> During the do_package task, AUTOINC is replaced in PKGV
+> (via package_setup_pkgv), which is used for creating the package name.
+> However, Yocto sets RDEPENDS with PKGV during the recipe parsing stage,
+> resulting in the RDEPENDS field in the IPK control data containing AUTOIN=
+C.
 >=20
-> =C2=A0
-> On 28.10.2024 09:29, Enrico J=C3=B6rns wrote:
-> =C2=A0
-> > This disables options from the defconfig file that are enabled by
-> > explicit config fragments.
-> >=20
-> > Having them enabled in the defconfig renders the fragments useless and
-> > takes away the ability to disable options with
-> >=20
-> > =C2=A0=C2=A0SRC_URI:remove =3D "<fragment>.cfg".
-> >=20
-> > The respective options were all deactivated once but got accidentally
-> > enabled in 4335cd24 ("busybox: refresh the defconfig from 1.33.0").
-> >=20
-> > This commit disables the features for:
-> >=20
-> > - sha1sum.cfg
-> > - sha256sum.cfg
-> > - resize.cfg
-> > - pgrep.cfg
-> > - rev.cfg
-> >=20
-> > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
-> > ---
-> > =C2=A0meta/recipes-core/busybox/busybox/defconfig | 12 ++++++------
-> > =C2=A01 file changed, 6 insertions(+), 6 deletions(-)
-> >=20
-> > diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes=
--
-> > core/busybox/busybox/defconfig
-> > index 6c5a8764ce..0ec65c65af 100644
-> > --- a/meta/recipes-core/busybox/busybox/defconfig
-> > +++ b/meta/recipes-core/busybox/busybox/defconfig
-> > @@ -281,8 +281,8 @@ CONFIG_FEATURE_LS_USERNAME=3Dy
-> > =C2=A0CONFIG_FEATURE_LS_COLOR=3Dy
-> > =C2=A0# CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
-> > =C2=A0CONFIG_MD5SUM=3Dy
-> > -CONFIG_SHA1SUM=3Dy
-> > -CONFIG_SHA256SUM=3Dy
-> > +# CONFIG_SHA1SUM is not set
-> > +# CONFIG_SHA256SUM is not set
-> > =C2=A0# CONFIG_SHA512SUM is not set
-> > =C2=A0# CONFIG_SHA3SUM is not set
-> > =C2=A0
-> > @@ -386,8 +386,8 @@ CONFIG_DEFAULT_SETFONT_DIR=3D""
-> > =C2=A0CONFIG_LOADKMAP=3Dy
-> > =C2=A0CONFIG_OPENVT=3Dy
-> > =C2=A0CONFIG_RESET=3Dy
-> > -CONFIG_RESIZE=3Dy
-> > -CONFIG_FEATURE_RESIZE_PRINT=3Dy
-> > +# CONFIG_RESIZE is not set
-> > +# CONFIG_FEATURE_RESIZE_PRINT is not set
-> > =C2=A0CONFIG_SETCONSOLE=3Dy
-> > =C2=A0# CONFIG_FEATURE_SETCONSOLE_LONG_OPTIONS is not set
-> > =C2=A0# CONFIG_SETKEYCODES is not set
-> > @@ -689,7 +689,7 @@ CONFIG_RDATE=3Dy
-> > =C2=A0# CONFIG_RDEV is not set
-> > =C2=A0# CONFIG_READPROFILE is not set
-> > =C2=A0CONFIG_RENICE=3Dy
-> > -CONFIG_REV=3Dy
-> > +# CONFIG_REV is not set
-> > =C2=A0# CONFIG_RTCWAKE is not set
-> > =C2=A0# CONFIG_SCRIPT is not set
-> > =C2=A0# CONFIG_SCRIPTREPLAY is not set
-> > @@ -1070,7 +1070,7 @@ CONFIG_KILLALL=3Dy
-> > =C2=A0# CONFIG_LSOF is not set
-> > =C2=A0# CONFIG_MPSTAT is not set
-> > =C2=A0# CONFIG_NMETER is not set
-> > -CONFIG_PGREP=3Dy
-> > +# CONFIG_PGREP is not set
-> > =C2=A0# CONFIG_PKILL is not set
-> > =C2=A0CONFIG_PIDOF=3Dy
-> > =C2=A0# CONFIG_FEATURE_PIDOF_SINGLE is not set
-> =C2=A0
-> =C2=A0
+> As the IPK name is generated with the updated PKGV, but the version in
+> RDEPENDS still uses AUTOINC, this mismatch leads to installation failures=
+.
+>=20
+> Example: libnsl
+> install libnsl-staticdev throws the error,=C2=A0 nothing provides
+> libnsl-dev =3D 1.2.0+gitAUTOINC+4a062cf418-r0
+> ----------------------------------
+> IPKs available:
+> libnsl2_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+> libnsl-src_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+> libnsl-dbg_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+> libnsl-staticdev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+> libnsl-dev_1.2.0+git0+4a062cf418-r0_armv7at2hf-neon.ipk
+>=20
+> control data: libnsl-staticdev
+> Package: libnsl-staticdev
+> Version: 1.2.0+git0+4a062cf418-r0
+> ----
+> ----
+> Depends: libnsl-dev (=3D 1.2.0+gitAUTOINC+4a062cf418-r0)
+> Provides: libnsl2-staticdev
+> Source: libnsl2_git.bb
+>=20
+> control data: libnsl-dev
+> Package: libnsl-dev
+> Version: 1.2.0+git0+4a062cf418-r0
+> ----
+> ----
+> Depends: libnsl2 (=3D 1.2.0+gitAUTOINC+4a062cf418-r0), libtirpc-dev
+> Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
+> Provides: libnsl2-dev
+> Source: libnsl2_git.bb
+> ----------------------------------
+>=20
+> This patch fixes the RDEPENDS versions set using EXTENDPKGV in the -dev a=
+nd
+> -staticdev packages. It replaces AUTOINC before generating the package co=
+ntrol data.
+>=20
+> Updated control data:
+> ----------------------------------
+> Package: libnsl-dev
+> Version: 1.2.0+git0+4a062cf418-r0
+> ----
+> ----
+> Depends: libnsl2 (=3D 1.2.0+git0+4a062cf418-r0), libtirpc-dev
+> Recommends: gcc-runtime-dev, glibc-dev, libtirpc-dev
+> Provides: libnsl2-dev
+> Source: libnsl2_git.bb
+>=20
+> Package: libnsl-staticdev
+> Version: 1.2.0+git0+4a062cf418-r0
+> ----
+> ----
+> Depends: libnsl-dev (=3D 1.2.0+git0+4a062cf418-r0)
+> Provides: libnsl2-staticdev
+> Source: libnsl2_git.bb
+> ----------------------------------
+>=20
+> Signed-off-by: Sreejith Ravi <sreejith.ravi087@gmail.com>
+> ---
+> =C2=A0meta/classes-global/package.bbclass | 9 +++++++++
+> =C2=A01 file changed, 9 insertions(+)
+>=20
+> diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/pa=
+ckage.bbclass
+> index 6cd8c0140f..066a7ff835 100644
+> --- a/meta/classes-global/package.bbclass
+> +++ b/meta/classes-global/package.bbclass
+> @@ -325,6 +325,15 @@ python package_setup_pkgv() {
+> =C2=A0=C2=A0=C2=A0=C2=A0 # Adjust pkgv as necessary...
+> =C2=A0=C2=A0=C2=A0=C2=A0 if 'AUTOINC' in pkgv:
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 d.setVar("PKGV", pkgv.re=
+place("AUTOINC", "${PRSERV_PV_AUTOINC}"))
+> +
+> +=C2=A0=C2=A0=C2=A0 # Adjust dependencies that are statically set with EX=
+TENDPKGV
+> +=C2=A0=C2=A0=C2=A0 vars =3D ["RDEPENDS","RPROVIDES","RRECOMMENDS","RSUGG=
+ESTS","RREPLACES","RCONFLICTS"]
+> +=C2=A0=C2=A0=C2=A0 packages =3D d.getVar('PACKAGES').split()
+> +=C2=A0=C2=A0=C2=A0 for var in vars:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 for pkg in packages:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 val =
+=3D d.getVar("%s_%s"%(var,pkg))
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if va=
+l and 'AUTOINC' in val:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 d.setVar("%s_%s"%(var,pkg), val.replace("AUTOINC", "${PR=
+SERV_PV_AUTOINC}"))
+> =C2=A0}
+>=20
 
---=20
-Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
-Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| https://www.pengutronix.de/ |
-Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
-31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
-=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
+Something isn't adding up here. With master, if I set:
+
+DISABLE_STATIC:pn-libnsl2 =3D ""
+
+and put PV =3D "2.0.1+git${SRCPV}" into the recipe, then bitbake libnsl2,
+I see:
+
+dpkg --info libnsl-staticdev_2.0.1+git0+d4b22e54b5-r0_amd64.deb=20
+
+ Package: libnsl-staticdev
+ Version: 2.0.1+git0+d4b22e54b5-r0
+ Architecture: amd64
+ OE: libnsl2
+ PackageArch: core2-64
+ Depends: libnsl-dev (=3D 2.0.1+git0+d4b22e54b5-r0)
+ Provides: libnsl2-staticdev (=3D 2.0.1+git0+d4b22e54b5)
+
+which looks right to me. Similarly, the ipk looks correct.
+
+cat kgdata/runtime/libnsl2-staticdev
+
+PN: libnsl2
+PV: 2.0.1+git
+PR: r0
+PKGV: 2.0.1+git@PRSERV_PV_AUTOINC@+d4b22e54b5
+PKGR: r0@EXTENDPRAUTO@
+LICENSE: LGPL-2.1-only
+RDEPENDS:libnsl2-staticdev: libnsl2-dev (=3D 2.0.1+git@PRSERV_PV_AUTOINC@+d=
+4b22e54b5-r0@EXTENDPRAUTO@)
+RPROVIDES:libnsl2-staticdev:  libnsl2-staticdev (=3D2.0.1+git@PRSERV_PV_AUT=
+OINC@+d4b22e54b5)
+SECTION:libnsl2-staticdev: devel
+
+which again, looks ok.
+
+So which release are you seeing the issue on as I suspect it isn't
+master?
+
+Cheers,
+
+Richard
+
+
+
+
+
+
 
