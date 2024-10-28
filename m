@@ -1,304 +1,254 @@
-Return-Path: <liu.ming50@gmail.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B54AD13588
-	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 10:05:40 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.48335.1730109936895148097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 453C4D13588
+	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 10:40:00 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web10.48783.1730111999163811630
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Oct 2024 03:05:36 -0700
+ Mon, 28 Oct 2024 03:39:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=li661z1K;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: liu.ming50@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-71e5a62031aso2919346b3a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 03:05:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730109936; x=1730714736; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=BWSNu5OMxvuke0WNf/UWM24MlQsQ0Jv95mZAnQSIsHM=;
-        b=li661z1KKU4g8DU5TjK+qV5Ua1HjM6Li2NkX28UKELzDZ1OL49JMG4LyI3EisgNXdv
-         HUyn3g2eK+VZCNOkKAbRDeu0OzpO3/lTs/04mZGjm9yFKY7O+SbCiD0H3Ua1W7V/o6oo
-         JkH71RfbUXiC072nU0/M3nu400BZ+bN6Z1xyy9zOFl5cvfmexKiuxupLCmciqdq4JgMh
-         M/BbMCozH4ZFT0g4qRaN7hfADtV6sIXtIxSA1ZwMuH9ANFH+3hkA7RQsL03EPuvW4Xc5
-         nDpyGaKWdHp0UXXRagwHLa/j+X6kfp5+bGF6uJuw8TiehSXxcMUl49H7pbuOpI7jVyn0
-         z9LA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730109936; x=1730714736;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BWSNu5OMxvuke0WNf/UWM24MlQsQ0Jv95mZAnQSIsHM=;
-        b=kJkSCvwRY3J1plj2FxnKm9oyMQQkv4dEIGF4ygG40IdqXHbso/qgnTZeWTv6EeRNpY
-         EWgc3XjfWFV5lpSivvMwKeLDXFwNMayWjIL2ATE7ZIeId0bziwcJH7ejs+eOOXEHWAOX
-         LXW3XBGQ50d5OY6sDHmHmU/Sbctb0+2B+mkCIukDQkdrEvQ1pNGecY8fgTV+IeZ2ftar
-         1Bd5mG44TEQ6CWkKupWUDIDcflMLltBHRDhVZt/LFQ7vSfDFyPnsCgZYrisf/3vA3+7V
-         YcXHAnmVImwRyoh5hj75pWHtUjK8HxCiiCyNT2mEycXtIrD+tMYIFbZB1BCh3dgjCVck
-         AY/g==
-X-Gm-Message-State: AOJu0YyZM7auKeGICIFP9cFIDMfojciAStS80zva3bhKGaNAm55lO9ck
-	S59/Qj1EupgBEOfaXpcIKxCzxrsKELs8WfDNHK9xArcz8oh0K/jhHYDlPB6hbHVtQqrdtyr+dRw
-	+6A3PWDBoKvh2qLKUV7dLQOXrqRE=
-X-Google-Smtp-Source: AGHT+IH7avmmgqUpoZpmgOxSX4mt+cF7APZuxx3amQqa88qB+j1iEYq2iolK9jLCv9jJJYRY5HTXi4GrFdnckkTzBaA=
-X-Received: by 2002:a05:6a21:1798:b0:1d9:18b7:496 with SMTP id
- adf61e73a8af0-1d9a851e099mr10966410637.45.1730109936105; Mon, 28 Oct 2024
- 03:05:36 -0700 (PDT)
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1t5NAC-0004n0-SV; Mon, 28 Oct 2024 11:39:57 +0100
+Message-ID: <6649f86317aa3a1eafdb3d98c7f814b6e4807d94.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/9] busybox: disable defconfig options from simpler
+ fragments
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Andrej Valek <andrej.v@skyrain.eu>, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>
+Cc: yocto@pengutronix.de, openembedded-core@lists.openembedded.org
+Date: Mon, 28 Oct 2024 11:39:55 +0100
+In-Reply-To: <824ea7ce-b5d0-4da3-8e3d-5445373e1e9a@skyrain.eu>
+References: <20241028082913.418505-1-ejo@pengutronix.de>
+	 <20241028082913.418505-3-ejo@pengutronix.de>
+	 <824ea7ce-b5d0-4da3-8e3d-5445373e1e9a@skyrain.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-References: <20241023111541.3437331-1-liu.ming50@gmail.com>
- <CALatG=5hxMtchf5wXdJZ3aBmkGouaHk3WstD=NgnCtbLaPN8JQ@mail.gmail.com> <c0d35e13f7e30151176f4230706a5ceda2f7dfcb.camel@linuxfoundation.org>
-In-Reply-To: <c0d35e13f7e30151176f4230706a5ceda2f7dfcb.camel@linuxfoundation.org>
-From: Ming Liu <liu.ming50@gmail.com>
-Date: Mon, 28 Oct 2024 11:05:24 +0100
-Message-ID: <CALatG=4=bxgkprvotpji+v5r0Zki4_hmxgdMQhFK+N8kF35aGQ@mail.gmail.com>
-Subject: Re: [OE-core] [kirkstone] [PATCH] nativesdk-intercept: Fix bad
- intercept chgrp/chown logic
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Steve Sakoman <steve@sakoman.com>, =?UTF-8?B?RWlsw61zICdwaWRnZScgTsOtIEZobGFubmFnw6Fpbg==?= <pidge@baylibre.com>
-Content-Type: multipart/alternative; boundary="0000000000002a010b0625869c49"
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 10:05:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206440
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 10:40:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206441
 
---0000000000002a010b0625869c49
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hej Andrej,
 
-Hi, Richard:
+Am Montag, dem 28.10.2024 um 10:06 +0100 schrieb Andrej Valek:
+> =C2=A0Hello Enrico,
+> =C2=A0
+> =C2=A0I tried to follow (and applied) your patch, but it looks little bit=
+ inconsistent to me. In the
+> first round you enabled SHAx_HWACCEL, which is broken on some architectur=
+es. That's the reason,
+> why is disabled by default. Ok, so first apply looks like this:
 
-Thanks for the info, will add maintainer of the LTS branches to the mail
-list next time.
+let me rephrase my commit message.
 
-the best,
-thank you
+The SHAx_HWACCEL is broken on some architectures, right.
+However, when you take the defconfig, without the fragments, it will curren=
+tly be enabled.
+Regardless of what's in my patch.
 
-Richard Purdie <richard.purdie@linuxfoundation.org> =E6=96=BC 2024=E5=B9=B4=
-10=E6=9C=8828=E6=97=A5 =E9=80=B1=E4=B8=80
-=E4=B8=8A=E5=8D=8810:44=E5=AF=AB=E9=81=93=EF=BC=9A
+Why? Because CONFIG_SHA1_HWACCEL in Busybox' kconfig is 'default y', has no=
+ dependency on other
+options and is not listed in the 'defconfig' file so far.
 
-> On Mon, 2024-10-28 at 09:09 +0100, Ming Liu wrote:
-> > Hi, maintainers:
-> >
-> > Would you please cherry pick this to kirkstone, otherwise the SDK
-> > build on kirkstone is broken.
->
-> Firstly, you need to copy the maintainer for kirkstone. I've added him
-> to the address list.
->
-> Secondly, the patch is also already in his test queue:
->
->
-> https://git.yoctoproject.org/poky-contrib/commit/?h=3Dstable/kirkstone-nu=
-t&id=3D145886736d92a55df1e822aa75044028627587ec
->
-> Thirdly, you gave us two business days to handle this before following
-> up :/.
->
-> Cheers,
->
-> Richard
->
->
-> > Ming Liu <liu.ming50@gmail.com> =E6=96=BC 2024=E5=B9=B410=E6=9C=8823=E6=
-=97=A5 =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=881:15=E5=AF=AB=E9=81=93=EF=BC=9A
-> > > From: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@baylibre.com=
->
-> > >
-> > > Running either of these ends up corrupting the os.execv args.
-> > >
-> > > If we run:
-> > > ./scripts/nativesdk-intercept/chown -R foo:foo bar
-> > >
-> > > The loop here ends up missing the conversion of foo:foo to
-> > > root:root because
-> > > it sees sys.argv[0] and assumes that it's the user:group argument
-> > > and that we
-> > > should convert that. We end up a os.execv(path, args) that have the
-> > > following
-> > > args:
-> > >
-> > > ['root:root', '-R', 'foo:foo', 'bar']
-> > >
-> > > As os.execv ignores args[0], we can just populate it with
-> > > sys.argv[0] and then
-> > > loop through sys.argv[1:]. As both chgrp and chown would have
-> > > either flags and
-> > > USER[:GROUP] next, this fixes the issue.
-> > >
-> > > (Backported from OE-Core rev:
-> > > 2a75f647ec7696d353f4b09099d777ba53f34d36)
-> > >
-> > > Signed-off-by: Eil=C3=ADs 'pidge' N=C3=AD Fhlannag=C3=A1in <pidge@bay=
-libre.com>
-> > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > ---
-> > >  scripts/nativesdk-intercept/chgrp | 5 ++++-
-> > >  scripts/nativesdk-intercept/chown | 5 ++++-
-> > >  2 files changed, 8 insertions(+), 2 deletions(-)
-> > >
-> > > diff --git a/scripts/nativesdk-intercept/chgrp b/scripts/nativesdk-
-> > > intercept/chgrp
-> > > index 30cc417d3a..f8ae84b8b3 100755
-> > > --- a/scripts/nativesdk-intercept/chgrp
-> > > +++ b/scripts/nativesdk-intercept/chgrp
-> > > @@ -14,7 +14,10 @@ real_chgrp =3D shutil.which('chgrp', path=3Dpath)
-> > >  args =3D list()
-> > >
-> > >  found =3D False
-> > > -for i in sys.argv:
-> > > +
-> > > +args.append(real_chgrp)
-> > > +
-> > > +for i in sys.argv[1:]:
-> > >      if i.startswith("-"):
-> > >          args.append(i)
-> > >          continue
-> > > diff --git a/scripts/nativesdk-intercept/chown b/scripts/nativesdk-
-> > > intercept/chown
-> > > index 3914b3e384..0805ceb70a 100755
-> > > --- a/scripts/nativesdk-intercept/chown
-> > > +++ b/scripts/nativesdk-intercept/chown
-> > > @@ -14,7 +14,10 @@ real_chown =3D shutil.which('chown', path=3Dpath)
-> > >  args =3D list()
-> > >
-> > >  found =3D False
-> > > -for i in sys.argv:
-> > > +
-> > > +args.append(real_chown)
-> > > +
-> > > +for i in sys.argv[1:]:
-> > >      if i.startswith("-"):
-> > >          args.append(i)
-> > >          continue
->
->
+Thus, my first patch should not change the current situation.
 
---0000000000002a010b0625869c49
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> =C2=A0=C2=A0# CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
+> =C2=A0=C2=A0CONFIG_PASSWORD_MINLEN=3D6
+> =C2=A0=C2=A0CONFIG_MD5_SMALL=3D1
+> =C2=A0+CONFIG_SHA1_SMALL=3D3
+> =C2=A0+CONFIG_SHA1_HWACCEL=3Dy
+> =C2=A0+CONFIG_SHA256_HWACCEL=3Dy
+> =C2=A0=C2=A0CONFIG_SHA3_SMALL=3D1
+> =C2=A0=C2=A0CONFIG_FEATURE_NON_POSIX_CP=3Dy
+> =C2=A0=C2=A0# CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
+> =C2=A0@@ -884,6 +887,7 @@ CONFIG_FEATURE_HWIB=3Dy
+> =C2=A0
+> =C2=A0Then I applied next patch:
+> =C2=A0
+> =C2=A0=C2=A0# CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
+> =C2=A0=C2=A0CONFIG_PASSWORD_MINLEN=3D6
+> =C2=A0=C2=A0CONFIG_MD5_SMALL=3D1
+> =C2=A0+CONFIG_SHA1_SMALL=3D3
+> =C2=A0+CONFIG_SHA1_HWACCEL=3Dy
+> =C2=A0+CONFIG_SHA256_HWACCEL=3Dy
+> =C2=A0=C2=A0CONFIG_SHA3_SMALL=3D1
+> =C2=A0=C2=A0CONFIG_FEATURE_NON_POSIX_CP=3Dy
+> =C2=A0=C2=A0# CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
+> =C2=A0@@ -278,8 +281,8 @@ CONFIG_FEATURE_LS_USERNAME=3Dy
+> =C2=A0=C2=A0CONFIG_FEATURE_LS_COLOR=3Dy
+> =C2=A0=C2=A0# CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
+> =C2=A0=C2=A0CONFIG_MD5SUM=3Dy
+> =C2=A0-CONFIG_SHA1SUM=3Dy
+> =C2=A0-CONFIG_SHA256SUM=3Dy
+> =C2=A0+# CONFIG_SHA1SUM is not set
+> =C2=A0+# CONFIG_SHA256SUM is not set
+> =C2=A0=C2=A0# CONFIG_SHA512SUM is not set
+> =C2=A0=C2=A0# CONFIG_SHA3SUM is not set
+> =C2=A0=C2=A0
+> =C2=A0@@ -383,8 +386,8 @@ CONFIG_DEFAULT_SETFONT_DIR=3D""
+> =C2=A0
+> =C2=A0and you disabled CONFIG_SHA1SUM, but keep enabled the acceleration?=
+ Is there any special reason
+> for that?
 
-<div dir=3D"ltr">Hi, Richard:<div><br></div><div>Thanks for the info, will =
-add maintainer of the LTS branches to the mail list next time.</div><div><b=
-r></div><div>the best,</div><div>thank you</div></div><br><div class=3D"gma=
-il_quote"><div dir=3D"ltr" class=3D"gmail_attr">Richard Purdie &lt;<a href=
-=3D"mailto:richard.purdie@linuxfoundation.org">richard.purdie@linuxfoundati=
-on.org</a>&gt; =E6=96=BC 2024=E5=B9=B410=E6=9C=8828=E6=97=A5 =E9=80=B1=E4=
-=B8=80 =E4=B8=8A=E5=8D=8810:44=E5=AF=AB=E9=81=93=EF=BC=9A<br></div><blockqu=
-ote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px=
- solid rgb(204,204,204);padding-left:1ex">On Mon, 2024-10-28 at 09:09 +0100=
-, Ming Liu wrote:<br>
-&gt; Hi, maintainers:<br>
-&gt; <br>
-&gt; Would you please cherry pick this to kirkstone, otherwise the SDK<br>
-&gt; build on kirkstone is broken.<br>
-<br>
-Firstly, you need to copy the maintainer for kirkstone. I&#39;ve added him<=
-br>
-to the address list.<br>
-<br>
-Secondly, the patch is also already in his test queue:<br>
-<br>
-<a href=3D"https://git.yoctoproject.org/poky-contrib/commit/?h=3Dstable/kir=
-kstone-nut&amp;id=3D145886736d92a55df1e822aa75044028627587ec" rel=3D"norefe=
-rrer" target=3D"_blank">https://git.yoctoproject.org/poky-contrib/commit/?h=
-=3Dstable/kirkstone-nut&amp;id=3D145886736d92a55df1e822aa75044028627587ec</=
-a><br>
-<br>
-Thirdly, you gave us two business days to handle this before following<br>
-up :/.<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-&gt; Ming Liu &lt;<a href=3D"mailto:liu.ming50@gmail.com" target=3D"_blank"=
->liu.ming50@gmail.com</a>&gt; =E6=96=BC 2024=E5=B9=B410=E6=9C=8823=E6=97=A5=
- =E9=80=B1=E4=B8=89 =E4=B8=8B=E5=8D=881:15=E5=AF=AB=E9=81=93=EF=BC=9A<br>
-&gt; &gt; From: Eil=C3=ADs &#39;pidge&#39; N=C3=AD Fhlannag=C3=A1in &lt;<a =
-href=3D"mailto:pidge@baylibre.com" target=3D"_blank">pidge@baylibre.com</a>=
-&gt;<br>
-&gt; &gt; <br>
-&gt; &gt; Running either of these ends up corrupting the os.execv args.<br>
-&gt; &gt; <br>
-&gt; &gt; If we run:<br>
-&gt; &gt; ./scripts/nativesdk-intercept/chown -R foo:foo bar<br>
-&gt; &gt; <br>
-&gt; &gt; The loop here ends up missing the conversion of foo:foo to<br>
-&gt; &gt; root:root because<br>
-&gt; &gt; it sees sys.argv[0] and assumes that it&#39;s the user:group argu=
-ment<br>
-&gt; &gt; and that we<br>
-&gt; &gt; should convert that. We end up a os.execv(path, args) that have t=
-he<br>
-&gt; &gt; following<br>
-&gt; &gt; args:<br>
-&gt; &gt; <br>
-&gt; &gt; [&#39;root:root&#39;, &#39;-R&#39;, &#39;foo:foo&#39;, &#39;bar&#=
-39;]<br>
-&gt; &gt; <br>
-&gt; &gt; As os.execv ignores args[0], we can just populate it with<br>
-&gt; &gt; sys.argv[0] and then<br>
-&gt; &gt; loop through sys.argv[1:]. As both chgrp and chown would have<br>
-&gt; &gt; either flags and<br>
-&gt; &gt; USER[:GROUP] next, this fixes the issue.<br>
-&gt; &gt; <br>
-&gt; &gt; (Backported from OE-Core rev:<br>
-&gt; &gt; 2a75f647ec7696d353f4b09099d777ba53f34d36)<br>
-&gt; &gt; <br>
-&gt; &gt; Signed-off-by: Eil=C3=ADs &#39;pidge&#39; N=C3=AD Fhlannag=C3=A1i=
-n &lt;<a href=3D"mailto:pidge@baylibre.com" target=3D"_blank">pidge@baylibr=
-e.com</a>&gt;<br>
-&gt; &gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
-e@linuxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org=
-</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt; =C2=A0scripts/nativesdk-intercept/chgrp | 5 ++++-<br>
-&gt; &gt; =C2=A0scripts/nativesdk-intercept/chown | 5 ++++-<br>
-&gt; &gt; =C2=A02 files changed, 8 insertions(+), 2 deletions(-)<br>
-&gt; &gt; <br>
-&gt; &gt; diff --git a/scripts/nativesdk-intercept/chgrp b/scripts/nativesd=
-k-<br>
-&gt; &gt; intercept/chgrp<br>
-&gt; &gt; index 30cc417d3a..f8ae84b8b3 100755<br>
-&gt; &gt; --- a/scripts/nativesdk-intercept/chgrp<br>
-&gt; &gt; +++ b/scripts/nativesdk-intercept/chgrp<br>
-&gt; &gt; @@ -14,7 +14,10 @@ real_chgrp =3D shutil.which(&#39;chgrp&#39;, p=
-ath=3Dpath)<br>
-&gt; &gt; =C2=A0args =3D list()<br>
-&gt; &gt; <br>
-&gt; &gt; =C2=A0found =3D False<br>
-&gt; &gt; -for i in sys.argv:<br>
-&gt; &gt; +<br>
-&gt; &gt; +args.append(real_chgrp)<br>
-&gt; &gt; +<br>
-&gt; &gt; +for i in sys.argv[1:]:<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0if i.startswith(&quot;-&quot;):<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0args.append(i)<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
-&gt; &gt; diff --git a/scripts/nativesdk-intercept/chown b/scripts/nativesd=
-k-<br>
-&gt; &gt; intercept/chown<br>
-&gt; &gt; index 3914b3e384..0805ceb70a 100755<br>
-&gt; &gt; --- a/scripts/nativesdk-intercept/chown<br>
-&gt; &gt; +++ b/scripts/nativesdk-intercept/chown<br>
-&gt; &gt; @@ -14,7 +14,10 @@ real_chown =3D shutil.which(&#39;chown&#39;, p=
-ath=3Dpath)<br>
-&gt; &gt; =C2=A0args =3D list()<br>
-&gt; &gt; <br>
-&gt; &gt; =C2=A0found =3D False<br>
-&gt; &gt; -for i in sys.argv:<br>
-&gt; &gt; +<br>
-&gt; &gt; +args.append(real_chown)<br>
-&gt; &gt; +<br>
-&gt; &gt; +for i in sys.argv[1:]:<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0if i.startswith(&quot;-&quot;):<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0args.append(i)<br>
-&gt; &gt; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0continue<br>
-<br>
-</blockquote></div>
+There is one, because its the inverse of what the fragments apply, which is=
+:
 
---0000000000002a010b0625869c49--
+  $ cat ./meta/recipes-core/busybox/busybox/sha1sum.cfg                    =
+                       =20
+  CONFIG_SHA1SUM=3Dy
+  CONFIG_SHA1_SMALL=3D3
+  # CONFIG_SHA1_HWACCEL is not set
+
+  $ cat ./meta/recipes-core/busybox/busybox/sha256sum.cfg=20
+  CONFIG_SHA256SUM=3Dy
+  # CONFIG_SHA256_HWACCEL is not set
+
+I'm pretty sure not having touched the fragments.
+
+The CONFIG_SHA1_HWACCEL options could have been changed in the defconfig, t=
+oo.
+But this is nothing that I've brought in. It's a result of
+https://github.com/openembedded/openembedded-core/commit/21753f16a364e32050=
+cf8d79bfa7e0f89be52ce7
+
+Thus I'd assume my changes are consistent. Am I wrong?
+
+> =C2=A0Anyway, there was one commit in the usptream which was touching the=
+ acceleration. So I have to
+> try it on the broken machine and see if it's still broken or not.
+
+If you refer to oe-core upstream, yes there have been changes.
+This is why I needed to rebase and rework my branch.
+Or are there other changes I am not aware of, yet?
+
+>=20
+> > On Fri, 2024-10-25 at 19:26 +0200, Andrej wrote:
+> > =C2=A0
+> > > Ok, I was thinking that it was done by intention, but it happened 14y
+> > > ago=C2=A0
+> > > https://github.com/openembedded/openembedded-core/commit/615a98ed9a02
+> > > 1da245513790c064761a0a5a67e9 . So I guess not.=C2=A0
+> =C2=A0
+> > I am not sure if I fully understand what you are referring to here.
+> > Could you provide some details about what happened there?
+> > OE didn't have those fragments 14y ago I guess.
+> =C2=A0So the idea behind is that you're going to remove the fragments and=
+ keep just a one defconfig.
+> But according to your commits you kept the fragments there, even if you p=
+ut some values into
+> defconfig.
+
+Still not sure. I had no intention of removing the fragments.
+And I'm unsure how this relates to the referenced commit.
+My intention was to actually make them useful again, which is quite the opp=
+osite I guess.
+
+
+Regards, Enrico
+
+> =C2=A0Regards,
+> =C2=A0Andrej
+>=20
+> =C2=A0
+> On 28.10.2024 09:29, Enrico J=C3=B6rns wrote:
+> =C2=A0
+> > This disables options from the defconfig file that are enabled by
+> > explicit config fragments.
+> >=20
+> > Having them enabled in the defconfig renders the fragments useless and
+> > takes away the ability to disable options with
+> >=20
+> > =C2=A0=C2=A0SRC_URI:remove =3D "<fragment>.cfg".
+> >=20
+> > The respective options were all deactivated once but got accidentally
+> > enabled in 4335cd24 ("busybox: refresh the defconfig from 1.33.0").
+> >=20
+> > This commit disables the features for:
+> >=20
+> > - sha1sum.cfg
+> > - sha256sum.cfg
+> > - resize.cfg
+> > - pgrep.cfg
+> > - rev.cfg
+> >=20
+> > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
+> > ---
+> > =C2=A0meta/recipes-core/busybox/busybox/defconfig | 12 ++++++------
+> > =C2=A01 file changed, 6 insertions(+), 6 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes=
+-
+> > core/busybox/busybox/defconfig
+> > index 6c5a8764ce..0ec65c65af 100644
+> > --- a/meta/recipes-core/busybox/busybox/defconfig
+> > +++ b/meta/recipes-core/busybox/busybox/defconfig
+> > @@ -281,8 +281,8 @@ CONFIG_FEATURE_LS_USERNAME=3Dy
+> > =C2=A0CONFIG_FEATURE_LS_COLOR=3Dy
+> > =C2=A0# CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
+> > =C2=A0CONFIG_MD5SUM=3Dy
+> > -CONFIG_SHA1SUM=3Dy
+> > -CONFIG_SHA256SUM=3Dy
+> > +# CONFIG_SHA1SUM is not set
+> > +# CONFIG_SHA256SUM is not set
+> > =C2=A0# CONFIG_SHA512SUM is not set
+> > =C2=A0# CONFIG_SHA3SUM is not set
+> > =C2=A0
+> > @@ -386,8 +386,8 @@ CONFIG_DEFAULT_SETFONT_DIR=3D""
+> > =C2=A0CONFIG_LOADKMAP=3Dy
+> > =C2=A0CONFIG_OPENVT=3Dy
+> > =C2=A0CONFIG_RESET=3Dy
+> > -CONFIG_RESIZE=3Dy
+> > -CONFIG_FEATURE_RESIZE_PRINT=3Dy
+> > +# CONFIG_RESIZE is not set
+> > +# CONFIG_FEATURE_RESIZE_PRINT is not set
+> > =C2=A0CONFIG_SETCONSOLE=3Dy
+> > =C2=A0# CONFIG_FEATURE_SETCONSOLE_LONG_OPTIONS is not set
+> > =C2=A0# CONFIG_SETKEYCODES is not set
+> > @@ -689,7 +689,7 @@ CONFIG_RDATE=3Dy
+> > =C2=A0# CONFIG_RDEV is not set
+> > =C2=A0# CONFIG_READPROFILE is not set
+> > =C2=A0CONFIG_RENICE=3Dy
+> > -CONFIG_REV=3Dy
+> > +# CONFIG_REV is not set
+> > =C2=A0# CONFIG_RTCWAKE is not set
+> > =C2=A0# CONFIG_SCRIPT is not set
+> > =C2=A0# CONFIG_SCRIPTREPLAY is not set
+> > @@ -1070,7 +1070,7 @@ CONFIG_KILLALL=3Dy
+> > =C2=A0# CONFIG_LSOF is not set
+> > =C2=A0# CONFIG_MPSTAT is not set
+> > =C2=A0# CONFIG_NMETER is not set
+> > -CONFIG_PGREP=3Dy
+> > +# CONFIG_PGREP is not set
+> > =C2=A0# CONFIG_PKILL is not set
+> > =C2=A0CONFIG_PIDOF=3Dy
+> > =C2=A0# CONFIG_FEATURE_PIDOF_SINGLE is not set
+> =C2=A0
+> =C2=A0
+
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
