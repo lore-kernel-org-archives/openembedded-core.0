@@ -1,253 +1,217 @@
-Return-Path: <andrej.v@skyrain.eu>
+Return-Path: <festevam@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65280D3A672
-	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 16:32:36 +0000 (UTC)
-Received: from h2.cmg1.smtp.forpsi.com (h2.cmg1.smtp.forpsi.com [81.2.195.163])
- by mx.groups.io with SMTP id smtpd.web10.1040.1730219551139292468
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB1ACD3A67B
+	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 18:28:03 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web10.1095.1730226476749229636
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 09:32:32 -0700
+ Tue, 29 Oct 2024 11:27:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=qYh9JPNB;
- dkim=pass header.i=@skyrain.eu header.s=f2022 header.b=qYh9JPNB;
- spf=none, err=permanent DNS error (domain: skyrain.eu, ip: 81.2.195.163, mailfrom: andrej.v@skyrain.eu)
-Received: from [172.25.231.43] ([85.248.43.180])
-	by cmgsmtp with ESMTPSA
-	id 5p8utg9kFeqGt5p8utz69m; Tue, 29 Oct 2024 17:32:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1730219548; bh=U6ZThQHwME4kkhuszhlq9WSsraAHfo/TBOjkG0JyVx8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	b=qYh9JPNBxJtV0WqFPEiufokvWCypo0nHICSGhGYUC0MMOfvTUrRYgaQeP1lC+2RZf
-	 hgzVljyvGevkITj7vy0yxVMIga8+0G53W0p7lg7INGS2On8gSRyRaXJD6UskQ/w203
-	 ycLMUhfHlT5JqmG0P4Vt9UHjTo9CyLwCKBNWtPLPXejYezsq+InZ7Zk+guMN1pe/Dh
-	 yEb8JbEG7Eam2cYGh7dMCm9ZKuAREd0rr+vKc+ilrYpLl/US0x6lccL90VQqG935Zl
-	 yfcaNxSs5FIitqQrs1PxgOcFh7O/vZPIGnUrVckSGu+W0UmdseeXxmaE/9zu1NIdhk
-	 4rw680qmBlEyQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=skyrain.eu; s=f2022;
-	t=1730219548; bh=U6ZThQHwME4kkhuszhlq9WSsraAHfo/TBOjkG0JyVx8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	b=qYh9JPNBxJtV0WqFPEiufokvWCypo0nHICSGhGYUC0MMOfvTUrRYgaQeP1lC+2RZf
-	 hgzVljyvGevkITj7vy0yxVMIga8+0G53W0p7lg7INGS2On8gSRyRaXJD6UskQ/w203
-	 ycLMUhfHlT5JqmG0P4Vt9UHjTo9CyLwCKBNWtPLPXejYezsq+InZ7Zk+guMN1pe/Dh
-	 yEb8JbEG7Eam2cYGh7dMCm9ZKuAREd0rr+vKc+ilrYpLl/US0x6lccL90VQqG935Zl
-	 yfcaNxSs5FIitqQrs1PxgOcFh7O/vZPIGnUrVckSGu+W0UmdseeXxmaE/9zu1NIdhk
-	 4rw680qmBlEyQ==
-Message-ID: <203632ac-7a95-40db-aaab-54bca3861e52@skyrain.eu>
-Date: Tue, 29 Oct 2024 17:32:27 +0100
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zhwirtmm;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: festevam@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20cd76c513cso53903445ad.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 11:27:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730226476; x=1730831276; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QE1YXfAPW0PlCcolSIaRHqVlndshx3P/HUFmjChRHFg=;
+        b=Zhwirtmm0KWmzTJZVM4dsCXUjZl7f+L0vwRQc6in64oki+UOI1aYbZrqaV35qwly3E
+         jDGun7xu6kAD6Kp23Mm0uEIrOQsCxjBFMNG7l4pk7osyZJMmLv0dB1i3+kKvEwyGTypS
+         8quiiARjEDmfvG5APgQTjxU/kzcYfbfaTNwGnvhTsapqIjjeEoVXS8R4ZOeNsUnJISoq
+         EGd83DjUt0wQcpasciYUCvLCJ6AsxDdLNW0LDTh3b+6cSqYSXIquaXgOKGrSFStcUA/L
+         z/swjfQwvCJDp9akO5JFnXvp4npz+7NLC0IJiOzliIzKkMJipsbzj3eep8dEjgyE60vd
+         XAJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730226476; x=1730831276;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QE1YXfAPW0PlCcolSIaRHqVlndshx3P/HUFmjChRHFg=;
+        b=X7C6TzWE6Y8TvoMp8HYm22ZNm7ecmO+cYqVvKSsx/PXbDf8i53NBIcmH/1frd8ogoi
+         eX2zjJK2Jkk8Z8qqLnr9DkBW4id/o+X3PC/6fLTL8e8YcEWolCqLo2s+0+cfxeM3+XWP
+         CFoXJPpUBjdQMKnAwbF+pYZM1I63dQ4ulZzEVprZd+YeDQMi1gp8Fo4veHaC8PWPepV4
+         gPGCR7r573jcykvGncoGfK7fJUAP40y/daNGM4m/MOLPfLAlxX273IQZHifd4Q+/T/ob
+         lNY3a/44uboalu+lZjfimwfDFpMUNUvyWgldblp7dRr8OT5MqUUdm+F1RheNeHJHKlUJ
+         iyNQ==
+X-Gm-Message-State: AOJu0YxGthYcDqWQCunPeB/Sr6G+4doEySdl9/OjpAKtUnrXxr+UcMBJ
+	qz25YMXhPLVCQWL6nEywxqjrUWD+0Em/54NEUPCGbIT+aQRCC7bnlQ/q8w==
+X-Google-Smtp-Source: AGHT+IE5n+oRAknyBhk1mafDY9/ipv6y0rEy6+CEO0jSFRBa+6TX/a4U8oQbcL9+7pjjxpNgwys2bg==
+X-Received: by 2002:a17:90b:3908:b0:2d8:e7db:9996 with SMTP id 98e67ed59e1d1-2e92ce50f8dmr708672a91.13.1730226475484;
+        Tue, 29 Oct 2024 11:27:55 -0700 (PDT)
+Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:190a:1425:254d:1e7a])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e920197e7bsm1370363a91.0.2024.10.29.11.27.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2024 11:27:54 -0700 (PDT)
+From: Fabio Estevam <festevam@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Fabio Estevam <festevam@denx.de>
+Subject: [PATCH] usbutils: Update to version 018
+Date: Tue, 29 Oct 2024 15:27:47 -0300
+Message-Id: <20241029182747.353739-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 2/9] busybox: disable defconfig options from
- simpler fragments
-To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>,
- Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: yocto@pengutronix.de, openembedded-core@lists.openembedded.org
-References: <20241028082913.418505-1-ejo@pengutronix.de>
- <20241028082913.418505-3-ejo@pengutronix.de>
- <824ea7ce-b5d0-4da3-8e3d-5445373e1e9a@skyrain.eu>
- <6649f86317aa3a1eafdb3d98c7f814b6e4807d94.camel@pengutronix.de>
-Content-Language: en-US
-From: Andrej Valek <andrej.v@skyrain.eu>
-In-Reply-To: <6649f86317aa3a1eafdb3d98c7f814b6e4807d94.camel@pengutronix.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfKZDdk4Ul6fiRSDVdnBxOPw5P9KxoRJpeSmUj0dTzikh/OxJcwfRGdp8/FVn85bMyTHBSJUMu2861+x3FfHTsSs8RTF5BKk2yOMx+5iwyeq+K29vHU3a
- cDH6gAHVyPAtlh/IzHUMJOmEVa2s5hA+jxaHN46eHI7Yh0Ng3Tk2U3BADGOmaLE4usUNVCBEHHfYfQjYCwnLgKOHRKLGvgmhvj93cOgTwOs0uFVxKwsl7O0g
- OOInqJ87EI1/dB0TLV3oe4iP5lqgy/PAZEC3p+oKb/RJEibBCmJx9cvI4SK3d44X6RNWnWWSMzggHz+8pLRJy7szHjVLBJADFibhL6h/tTg=
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 16:32:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206508
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 18:28:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206509
 
-Hello Enrico,
+From: Fabio Estevam <festevam@denx.de>
 
-On 28.10.2024 11:39, Enrico Jörns wrote:
-> Hej Andrej,
->
-> Am Montag, dem 28.10.2024 um 10:06 +0100 schrieb Andrej Valek:
->>   Hello Enrico,
->>   
->>   I tried to follow (and applied) your patch, but it looks little bit inconsistent to me. In the
->> first round you enabled SHAx_HWACCEL, which is broken on some architectures. That's the reason,
->> why is disabled by default. Ok, so first apply looks like this:
-> let me rephrase my commit message.
->
-> The SHAx_HWACCEL is broken on some architectures, right.
-> However, when you take the defconfig, without the fragments, it will currently be enabled.
-> Regardless of what's in my patch.
->
-> Why? Because CONFIG_SHA1_HWACCEL in Busybox' kconfig is 'default y', has no dependency on other
-> options and is not listed in the 'defconfig' file so far.
->
-> Thus, my first patch should not change the current situation.
-Ok, I see the point. So basically you can drop the sha1sum.cfg and 
-sha256sum.cfg and merge it to defconfing. The result will be, that the 
-acceleration is disabled.
->>    # CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
->>    CONFIG_PASSWORD_MINLEN=6
->>    CONFIG_MD5_SMALL=1
->>   +CONFIG_SHA1_SMALL=3
->>   +CONFIG_SHA1_HWACCEL=y
->>   +CONFIG_SHA256_HWACCEL=y
->>    CONFIG_SHA3_SMALL=1
->>    CONFIG_FEATURE_NON_POSIX_CP=y
->>    # CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
->>   @@ -884,6 +887,7 @@ CONFIG_FEATURE_HWIB=y
->>   
->>   Then I applied next patch:
->>   
->>    # CONFIG_FEATURE_BUFFERS_GO_IN_BSS is not set
->>    CONFIG_PASSWORD_MINLEN=6
->>    CONFIG_MD5_SMALL=1
->>   +CONFIG_SHA1_SMALL=3
->>   +CONFIG_SHA1_HWACCEL=y
->>   +CONFIG_SHA256_HWACCEL=y
->>    CONFIG_SHA3_SMALL=1
->>    CONFIG_FEATURE_NON_POSIX_CP=y
->>    # CONFIG_FEATURE_VERBOSE_CP_MESSAGE is not set
->>   @@ -278,8 +281,8 @@ CONFIG_FEATURE_LS_USERNAME=y
->>    CONFIG_FEATURE_LS_COLOR=y
->>    # CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
->>    CONFIG_MD5SUM=y
->>   -CONFIG_SHA1SUM=y
->>   -CONFIG_SHA256SUM=y
->>   +# CONFIG_SHA1SUM is not set
->>   +# CONFIG_SHA256SUM is not set
->>    # CONFIG_SHA512SUM is not set
->>    # CONFIG_SHA3SUM is not set
->>    
->>   @@ -383,8 +386,8 @@ CONFIG_DEFAULT_SETFONT_DIR=""
->>   
->>   and you disabled CONFIG_SHA1SUM, but keep enabled the acceleration? Is there any special reason
->> for that?
-> There is one, because its the inverse of what the fragments apply, which is:
->
->    $ cat ./meta/recipes-core/busybox/busybox/sha1sum.cfg
->    CONFIG_SHA1SUM=y
->    CONFIG_SHA1_SMALL=3
->    # CONFIG_SHA1_HWACCEL is not set
->
->    $ cat ./meta/recipes-core/busybox/busybox/sha256sum.cfg
->    CONFIG_SHA256SUM=y
->    # CONFIG_SHA256_HWACCEL is not set
->
-> I'm pretty sure not having touched the fragments.
->
-> The CONFIG_SHA1_HWACCEL options could have been changed in the defconfig, too.
-> But this is nothing that I've brought in. It's a result of
-> https://github.com/openembedded/openembedded-core/commit/21753f16a364e32050cf8d79bfa7e0f89be52ce7
->
-> Thus I'd assume my changes are consistent. Am I wrong?
-No no, it's ok.
->
->>   Anyway, there was one commit in the usptream which was touching the acceleration. So I have to
->> try it on the broken machine and see if it's still broken or not.
-> If you refer to oe-core upstream, yes there have been changes.
-> This is why I needed to rebase and rework my branch.
-> Or are there other changes I am not aware of, yet?
-Not sure if you caught the point. I mean, that I will take a look on the 
-upstream fixes for acceleration and then we can enable it by default.
->>> On Fri, 2024-10-25 at 19:26 +0200, Andrej wrote:
->>>   
->>>> Ok, I was thinking that it was done by intention, but it happened 14y
->>>> ago
->>>> https://github.com/openembedded/openembedded-core/commit/615a98ed9a02
->>>> 1da245513790c064761a0a5a67e9 . So I guess not.
->>   
->>> I am not sure if I fully understand what you are referring to here.
->>> Could you provide some details about what happened there?
->>> OE didn't have those fragments 14y ago I guess.
->>   So the idea behind is that you're going to remove the fragments and keep just a one defconfig.
->> But according to your commits you kept the fragments there, even if you put some values into
->> defconfig.
-> Still not sure. I had no intention of removing the fragments.
-> And I'm unsure how this relates to the referenced commit.
-> My intention was to actually make them useful again, which is quite the opposite I guess.
->
->
-> Regards, Enrico
->
->>   Regards,
->>   Andrej
->>
->>   
->> On 28.10.2024 09:29, Enrico Jörns wrote:
->>   
->>> This disables options from the defconfig file that are enabled by
->>> explicit config fragments.
->>>
->>> Having them enabled in the defconfig renders the fragments useless and
->>> takes away the ability to disable options with
->>>
->>>    SRC_URI:remove = "<fragment>.cfg".
->>>
->>> The respective options were all deactivated once but got accidentally
->>> enabled in 4335cd24 ("busybox: refresh the defconfig from 1.33.0").
->>>
->>> This commit disables the features for:
->>>
->>> - sha1sum.cfg
->>> - sha256sum.cfg
->>> - resize.cfg
->>> - pgrep.cfg
->>> - rev.cfg
->>>
->>> Signed-off-by: Enrico Jörns <ejo@pengutronix.de>
->>> ---
->>>   meta/recipes-core/busybox/busybox/defconfig | 12 ++++++------
->>>   1 file changed, 6 insertions(+), 6 deletions(-)
->>>
->>> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-
->>> core/busybox/busybox/defconfig
->>> index 6c5a8764ce..0ec65c65af 100644
->>> --- a/meta/recipes-core/busybox/busybox/defconfig
->>> +++ b/meta/recipes-core/busybox/busybox/defconfig
->>> @@ -281,8 +281,8 @@ CONFIG_FEATURE_LS_USERNAME=y
->>>   CONFIG_FEATURE_LS_COLOR=y
->>>   # CONFIG_FEATURE_LS_COLOR_IS_DEFAULT is not set
->>>   CONFIG_MD5SUM=y
->>> -CONFIG_SHA1SUM=y
->>> -CONFIG_SHA256SUM=y
->>> +# CONFIG_SHA1SUM is not set
->>> +# CONFIG_SHA256SUM is not set
->>>   # CONFIG_SHA512SUM is not set
->>>   # CONFIG_SHA3SUM is not set
->>>   
->>> @@ -386,8 +386,8 @@ CONFIG_DEFAULT_SETFONT_DIR=""
->>>   CONFIG_LOADKMAP=y
->>>   CONFIG_OPENVT=y
->>>   CONFIG_RESET=y
->>> -CONFIG_RESIZE=y
->>> -CONFIG_FEATURE_RESIZE_PRINT=y
->>> +# CONFIG_RESIZE is not set
->>> +# CONFIG_FEATURE_RESIZE_PRINT is not set
->>>   CONFIG_SETCONSOLE=y
->>>   # CONFIG_FEATURE_SETCONSOLE_LONG_OPTIONS is not set
->>>   # CONFIG_SETKEYCODES is not set
->>> @@ -689,7 +689,7 @@ CONFIG_RDATE=y
->>>   # CONFIG_RDEV is not set
->>>   # CONFIG_READPROFILE is not set
->>>   CONFIG_RENICE=y
->>> -CONFIG_REV=y
->>> +# CONFIG_REV is not set
->>>   # CONFIG_RTCWAKE is not set
->>>   # CONFIG_SCRIPT is not set
->>>   # CONFIG_SCRIPTREPLAY is not set
->>> @@ -1070,7 +1070,7 @@ CONFIG_KILLALL=y
->>>   # CONFIG_LSOF is not set
->>>   # CONFIG_MPSTAT is not set
->>>   # CONFIG_NMETER is not set
->>> -CONFIG_PGREP=y
->>> +# CONFIG_PGREP is not set
->>>   # CONFIG_PKILL is not set
->>>   CONFIG_PIDOF=y
->>>   # CONFIG_FEATURE_PIDOF_SINGLE is not set
->>   
->>   
-So if the result is, that the configuration hasn't been changed at the 
-end, I'm fine with the changes you did ;).
+Update to version 018, which has been converted to meson.
 
-Regards,
-Andrej
+Patch 0001-usbutils.pc.in-Fix-Cflags-entry.patch is no longer needed
+as usbutils now uses meson.
+
+Patch 0001-usb-devices-Fix-usb-devices-with-busybox.patch has been
+upstreamed.
+
+Add CC0-1.0, LGPL-2.1-or-later, and MIT to the LICENSES entry
+due to the following usbutils commits:
+
+https://github.com/gregkh/usbutils/commit/32154d0dbea27fc1de8ad07da9110c5ec5f141d8
+
+https://github.com/gregkh/usbutils/commit/d04e63e5517f89d508b3a206c6611edafc82ac8f
+
+License-Update: Add CC0-1.0, LGPL-2.1-or-later, and MIT entries.
+
+Signed-off-by: Fabio Estevam <festevam@denx.de>
+---
+ ...devices-Fix-usb-devices-with-busybox.patch | 37 -------------------
+ ...0001-usbutils.pc.in-Fix-Cflags-entry.patch | 34 -----------------
+ .../{usbutils_017.bb => usbutils_018.bb}      | 20 +++++-----
+ 3 files changed, 10 insertions(+), 81 deletions(-)
+ delete mode 100755 meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
+ delete mode 100644 meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch
+ rename meta/recipes-bsp/usbutils/{usbutils_017.bb => usbutils_018.bb} (50%)
+
+diff --git a/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch b/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
+deleted file mode 100755
+index dbe5d7c18b6d..000000000000
+--- a/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From da155d965a34b5c5770dc30fa52eb7ef405f3a30 Mon Sep 17 00:00:00 2001
+-From: Teresa Remmet <t.remmet@phytec.de>
+-Date: Thu, 5 Sep 2024 08:37:48 +0200
+-Subject: [PATCH] usb-devices: Fix usb-devices with busybox
+-
+-The busybox find command is missing the -printf parameter leading to
+-the error:
+-
+-find: unrecognized: -printf
+-
+-Replace the parameter with sed.
+-
+-This patch was originally created by Daniel Fancsali.
+-
+-Upstream-Status: Backport [https://github.com/gregkh/usbutils/commit/da155d965a34b5c5770dc30fa52eb7ef405f3a30]
+-
+-Signed-off-by: Teresa Remmet <t.remmet@phytec.de>
+----
+- usb-devices | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/usb-devices b/usb-devices
+-index 5f60ad5a1ed0..51f48b4ad628 100755
+---- a/usb-devices
+-+++ b/usb-devices
+-@@ -192,7 +192,7 @@ if [ ! -d /sys/bus ]; then
+- 	exit 1
+- fi
+- 
+--for device in $(find /sys/bus/usb/devices -name 'usb*' -printf '%f\n' | sort -V)
+-+for device in $(find /sys/bus/usb/devices -name 'usb*' | sed -E 's#^.*/##g' | sort -V)
+- do
+- 	print_device "/sys/bus/usb/devices/$device" 0 0 0
+- done
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch b/meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch
+deleted file mode 100644
+index 039dd5cd7235..000000000000
+--- a/meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch
++++ /dev/null
+@@ -1,34 +0,0 @@
+-From f558919e858453a31313a3df35906de2e036940c Mon Sep 17 00:00:00 2001
+-From: Fabio Estevam <festevam@denx.de>
+-Date: Thu, 4 Jan 2024 03:32:11 +0100
+-Subject: [PATCH] usbutils.pc.in: Fix Cflags entry
+-
+-When updating the usbutils version in OpenEmbedded from 015 to 017,
+-the following QA error is seen:
+-
+-QA Issue: File /usr/lib/pkgconfig/usbutils.pc in package usbutils-dev contains reference to TMPDIR [buildpaths]
+-
+-As this causes reproducibility problem due to the host PC path being
+-leaked, it is treated as error.
+-
+-Fix it by using the standard Cflags entry.
+-
+-Upstream-Status: Submitted [https://github.com/gregkh/usbutils/pull/184/commits/3b3e5e1ebea7060bfa118d25a91b816dfa176b31]
+-Signed-off-by: Fabio Estevam <festevam@denx.de>
+----
+- usbutils.pc.in | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/usbutils.pc.in b/usbutils.pc.in
+-index e69778c3195c..0aa0005de951 100644
+---- a/usbutils.pc.in
+-+++ b/usbutils.pc.in
+-@@ -15,4 +15,4 @@ Requires: libusb-1.0 >= 1.0.14  libudev >= 196
+- Conflicts:
+- Libs: -L${libdir}
+- Libs.private: @LIBUSB_LIBS@ @UDEV_LIBS@
+--Cflags: @CFLAGS@ @LIBUSB_CFLAGS@ @UDEV_CFLAGS@
+-+Cflags: -I${includedir}
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-bsp/usbutils/usbutils_017.bb b/meta/recipes-bsp/usbutils/usbutils_018.bb
+similarity index 50%
+rename from meta/recipes-bsp/usbutils/usbutils_017.bb
+rename to meta/recipes-bsp/usbutils/usbutils_018.bb
+index 83d5c7287d44..b96a1b4f19c7 100644
+--- a/meta/recipes-bsp/usbutils/usbutils_017.bb
++++ b/meta/recipes-bsp/usbutils/usbutils_018.bb
+@@ -3,21 +3,21 @@ DESCRIPTION = "Contains the lsusb utility for inspecting the devices connected t
+ HOMEPAGE = "http://www.linux-usb.org"
+ SECTION = "base"
+ 
+-LICENSE = "GPL-2.0-or-later & (GPL-2.0-only | GPL-3.0-only)"
+-# License files went missing in 010, when 011 is released add LICENSES/* back
+-LIC_FILES_CHKSUM = "file://lsusb.c;endline=1;md5=7226e442a172bcf25807246d7ef1eba1 \
+-                    file://lsusb.py.in;beginline=2;endline=2;md5=c443ada211d701156e42ea36d41625b3 \
+-                    "
+-
++LICENSE = "GPL-2.0-or-later & (GPL-2.0-only | GPL-3.0-only) & CC0-1.0 & LGPL-2.1-or-later & MIT"
++LIC_FILES_CHKSUM = "file://LICENSES/CC0-1.0.txt;md5=cf1af55fc6f5b9a23e12086005298dcd \
++		    file://LICENSES/GPL-2.0-only.txt;md5=c89d4ad08368966d8df5a90ea96bebe4 \
++		    file://LICENSES/GPL-2.0-or-later.txt;md5=c89d4ad08368966d8df5a90ea96bebe4 \
++		    file://LICENSES/GPL-3.0-only.txt;md5=050f496cfea7876fc13cdea643e041e0 \
++		    file://LICENSES/LGPL-2.1-or-later.txt;md5=8c6e7513c570546f65ae570dae278c17 \
++		    file://LICENSES/MIT.txt;md5=e8f57dd048e186199433be2c41bd3d6d \
++                   "
+ DEPENDS = "libusb1 virtual/libiconv udev"
+ 
+ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
+-           file://0001-usbutils.pc.in-Fix-Cflags-entry.patch \
+-           file://0001-usb-devices-Fix-usb-devices-with-busybox.patch \
+           "
+-SRC_URI[sha256sum] = "f704c4cb78a060db88b43aac6ebfd3d93c2c5cf1d6dd0e42936faaf00814ab00"
++SRC_URI[sha256sum] = "0048d2d8518fb0cc7c0516e16e52af023e52b55ddb3b2068a77041b5ef285768"
+ 
+-inherit autotools pkgconfig update-alternatives
++inherit meson pkgconfig update-alternatives
+ 
+ ALTERNATIVE:${PN} = "lsusb"
+ ALTERNATIVE_PRIORITY = "100"
+-- 
+2.34.1
+
 
