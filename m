@@ -1,205 +1,136 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72ED7D3A697
-	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 19:37:54 +0000 (UTC)
-Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
- by mx.groups.io with SMTP id smtpd.web11.3003.1730230668195193453
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC0D4D3A69F
+	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 20:47:34 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.4789.1730234852756392967
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 12:37:48 -0700
+ Tue, 29 Oct 2024 13:47:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=r59xETIn;
- spf=pass (domain: baylibre.com, ip: 209.85.221.170, mailfrom: tgamblin@baylibre.com)
-Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-50d4780a24eso1853604e0c.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 12:37:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730230667; x=1730835467; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j3NG/7phOju+VQRGw+METHZah0yzRGEPG2B2+TRxbzI=;
-        b=r59xETInpHCZLkTiaWL5EllZeGreNdo2fyKC9LUZEYyFeGrHbIFrF+SLaRdj1KEPDT
-         M/qHUdqvoSB4B+nNiliSGjKseXuTipWG4LLhch8eg5cxXYvnBw6pYb2fHjOqY9a/dL54
-         71J1nUbE+l0yCA6KXJ2H44bYmVUxlxexQpZZDoiQHPhg8gjuZwrgXcwoxAe4tPE+GC9D
-         No6tfxEpC3FGQZgPwII1gvjZnjFFojslRrn+lv8QskA5zzZDp/7D4RuucKSOPSoMyKWa
-         241rUaLsLIPKiuksQqgTg38NTdGBFdPIFHYMLDyPLes3VaEA+Han8uzgf8uFC82znwU7
-         58+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730230667; x=1730835467;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=j3NG/7phOju+VQRGw+METHZah0yzRGEPG2B2+TRxbzI=;
-        b=gdds987qhzrsYfUHaFiOAEizbKWKmDmmKd5OvvTLN2bok+hgvsSZ9MuTRDhLHM1/lB
-         i4EZ70wEommcqes0yORoH/j5tPXK4br+DG8NDEfEw9Muf7FMlfOQqJqwi9TWyvJIorJW
-         MdTWfGbuT8L2DRmCfbVmWxy0PifMfXZiEV4zOpqTIX8Ae3rbuNzWD/x2z7l85bVyY1c7
-         fOx6eNVE+pZfLs2V5JSabzpYSwn8jiFpfod4YFayJ21dXwosbNkAzc1Fz5BFS9iFT96E
-         S9AE9l4nLdM4ofrMr2WZyF7mhpPHSrORp6p1ccf2rgP1/Vl26JDbxAGqqS3dhFceYTyr
-         MEew==
-X-Gm-Message-State: AOJu0YyvG8LW8PXNzL+u+pTZrhsceTL+g2AN4L+Wt0njPsUWistVhEaJ
-	D8qxWzXP+zZkZJAwlDxA9QZ91mJY50IKb/zWBcZsg3dvrHxrZuupSOz37UZxZ7+jXtIuIvPWuAn
-	t
-X-Google-Smtp-Source: AGHT+IGhCngjV3MDmJiERzhdqJl3cJgemchlzHLLSLM/4/o7JVr8dGIuzXQY1wtqM4G7Ux+USSlu2g==
-X-Received: by 2002:a05:6122:2512:b0:50c:4eb7:90fa with SMTP id 71dfb90a1353d-51015021ec5mr10158860e0c.5.1730230666758;
-        Tue, 29 Oct 2024 12:37:46 -0700 (PDT)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b18d27911asm451058685a.26.2024.10.29.12.37.46
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 12:37:46 -0700 (PDT)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3-numpy: upgrade 1.26.4 -> 2.1.2
-Date: Tue, 29 Oct 2024 15:37:45 -0400
-Message-Id: <20241029193745.2919129-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1t5t7i-0005yl-8O; Tue, 29 Oct 2024 21:47:30 +0100
+Message-ID: <89c6f62a6000f38d58a5bb547c03fa0d18cdc6fa.camel@pengutronix.de>
+Subject: Re: [OE-core] [PATCH v2 2/9] busybox: disable defconfig options
+ from simpler fragments
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Andrej Valek <andrej.v@skyrain.eu>, Richard Purdie
+	 <richard.purdie@linuxfoundation.org>
+Cc: yocto@pengutronix.de, openembedded-core@lists.openembedded.org
+Date: Tue, 29 Oct 2024 21:47:29 +0100
+In-Reply-To: <203632ac-7a95-40db-aaab-54bca3861e52@skyrain.eu>
+References: <20241028082913.418505-1-ejo@pengutronix.de>
+	 <20241028082913.418505-3-ejo@pengutronix.de>
+	 <824ea7ce-b5d0-4da3-8e3d-5445373e1e9a@skyrain.eu>
+	 <6649f86317aa3a1eafdb3d98c7f814b6e4807d94.camel@pengutronix.de>
+	 <203632ac-7a95-40db-aaab-54bca3861e52@skyrain.eu>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 19:37:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206532
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 20:47:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206533
 
-- This release contains numerous API changes and bug fixes.
-  Changelog: https://github.com/numpy/numpy/releases
+Hi Andrej,
 
-- Notably, the build backend has switched to mesonpy since 1.26.4.
+thanks for your review!
 
-- Patch 0001-numpy-core-Define-RISCV-32-support.patch had to be updated
-  to change the paths for the target files. It has now been merged
-  upstream, but isn't included in any release yet. PR for reference:
+Am Dienstag, dem 29.10.2024 um 17:32 +0100 schrieb Andrej Valek:
+> Hello Enrico,
+>=20
+> On 28.10.2024 11:39, Enrico J=C3=B6rns wrote:
+> > Hej Andrej,
+> >=20
+> > Am Montag, dem 28.10.2024 um 10:06 +0100 schrieb Andrej Valek:
+> > > =C2=A0=C2=A0Hello Enrico,
+> > > =C2=A0=20
+> > > =C2=A0=C2=A0I tried to follow (and applied) your patch, but it looks =
+little bit inconsistent to me. In
+> > > the
+> > > first round you enabled SHAx_HWACCEL, which is broken on some archite=
+ctures. That's the
+> > > reason,
+> > > why is disabled by default. Ok, so first apply looks like this:
+> > let me rephrase my commit message.
+> >=20
+> > The SHAx_HWACCEL is broken on some architectures, right.
+> > However, when you take the defconfig, without the fragments, it will cu=
+rrently be enabled.
+> > Regardless of what's in my patch.
+> >=20
+> > Why? Because CONFIG_SHA1_HWACCEL in Busybox' kconfig is 'default y', ha=
+s no dependency on other
+> > options and is not listed in the 'defconfig' file so far.
+> >=20
+> > Thus, my first patch should not change the current situation.
+> Ok, I see the point. So basically you can drop the sha1sum.cfg and=20
+> sha256sum.cfg and merge it to defconfing. The result will be, that the=
+=20
+> acceleration is disabled.
 
-  https://github.com/numpy/numpy/pull/17780
+Just to get it right: Do we talk about the HWACCEL only or about enabling S=
+HA1SUM and SHA256SUM
+unconditionally and fully removing the fragments?
 
-- Builds OK and seems to be compatible with current piglit and pandas
-  (meta-python), which was not the case for the previous upgrade attempt
-  to numpy 2.0.1.
+Personally, I'd be fine with this since the algorithm are quite essential a=
+nyway.
 
-- For numpy, add 'pkgconfig' to inherit to avoid errors like this at
-  do_compile:
+If that's the only thing to change, I'd start making a v3 for it.
 
-  | Found Pkg-config: NO
-  | Run-time dependency python found: YES 3.12
-  | Has header "Python.h" with dependency python: NO
-  |
-  | ../numpy-2.0.0/meson.build:44:2: ERROR: Problem encountered: Cannot compile `Python.h`. Perhaps you need to install python-dev|python-devel
-  |
-  | A full log can be found at /home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux/python3-numpy/2.0.0/build/meson-logs/meson-log.txt
+> >=20
+> > > =C2=A0=C2=A0Anyway, there was one commit in the usptream which was to=
+uching the acceleration. So I have
+> > > to
+> > > try it on the broken machine and see if it's still broken or not.
+> > If you refer to oe-core upstream, yes there have been changes.
+> > This is why I needed to rebase and rework my branch.
+> > Or are there other changes I am not aware of, yet?
+> Not sure if you caught the point. I mean, that I will take a look on the=
+=20
+> upstream fixes for acceleration and then we can enable it by default.
 
-- Also modify the FILES:${PN}-staticdev line to fix a QA issue.
+Ok, so you referred to *busybox* upstream, not oe-core. Got it.
 
-License-Update: Change copyright year to 2024
+I've found https://git.busybox.net/busybox/commit/?id=3Dbf57f732a5b6842f6fa=
+3e0f90385f039e5d6a92c
+Is this the fix you referred to?
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...1-numpy-core-Define-RISCV-32-support.patch | 28 +++++++++++--------
- ...numpy_1.26.4.bb => python3-numpy_2.1.2.bb} | 10 ++++---
- 2 files changed, 22 insertions(+), 16 deletions(-)
- rename meta/recipes-devtools/python/{python3-numpy_1.26.4.bb => python3-numpy_2.1.2.bb} (84%)
+> > > > [...]
+> > > =C2=A0=20
+> So if the result is, that the configuration hasn't been changed at the=
+=20
+> end, I'm fine with the changes you did ;).
 
-diff --git a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-index 676bdbb3afd..8dfb20edbb9 100644
---- a/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-+++ b/meta/recipes-devtools/python/python3-numpy/0001-numpy-core-Define-RISCV-32-support.patch
-@@ -1,4 +1,4 @@
--From eb6d6579150bf4684603ce377c51e90ad3bb8109 Mon Sep 17 00:00:00 2001
-+From df38843aaa7184115d262f14eae23ff38a20372a Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 15 Nov 2020 15:32:39 -0800
- Subject: [PATCH] numpy/core: Define RISCV-32 support
-@@ -7,15 +7,19 @@ Helps compile on riscv32
- 
- Upstream-Status: Submitted [https://github.com/numpy/numpy/pull/17780]
- Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+Update the patch with the new paths for numpy release 2.0.0.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
- ---
-- numpy/core/include/numpy/npy_cpu.h    | 3 +++
-- numpy/core/include/numpy/npy_endian.h | 1 +
-+ numpy/_core/include/numpy/npy_cpu.h    | 3 +++
-+ numpy/_core/include/numpy/npy_endian.h | 1 +
-  2 files changed, 4 insertions(+)
- 
--diff --git a/numpy/core/include/numpy/npy_cpu.h b/numpy/core/include/numpy/npy_cpu.h
--index 78d229e..04be511 100644
----- a/numpy/core/include/numpy/npy_cpu.h
--+++ b/numpy/core/include/numpy/npy_cpu.h
-+diff --git a/numpy/_core/include/numpy/npy_cpu.h b/numpy/_core/include/numpy/npy_cpu.h
-+index a19f8e6bbd..d824d4efb6 100644
-+--- a/numpy/_core/include/numpy/npy_cpu.h
-++++ b/numpy/_core/include/numpy/npy_cpu.h
- @@ -19,6 +19,7 @@
-   *              NPY_CPU_ARCEB
-   *              NPY_CPU_RISCV64
-@@ -33,10 +37,10 @@ index 78d229e..04be511 100644
-  #elif defined(__loongarch__)
-      #define NPY_CPU_LOONGARCH
-  #elif defined(__EMSCRIPTEN__)
--diff --git a/numpy/core/include/numpy/npy_endian.h b/numpy/core/include/numpy/npy_endian.h
--index 5e58a7f..0926212 100644
----- a/numpy/core/include/numpy/npy_endian.h
--+++ b/numpy/core/include/numpy/npy_endian.h
-+diff --git a/numpy/_core/include/numpy/npy_endian.h b/numpy/_core/include/numpy/npy_endian.h
-+index 5e58a7f52c..09262120bf 100644
-+--- a/numpy/_core/include/numpy/npy_endian.h
-++++ b/numpy/_core/include/numpy/npy_endian.h
- @@ -49,6 +49,7 @@
-              || defined(NPY_CPU_PPC64LE)       \
-              || defined(NPY_CPU_ARCEL)         \
-@@ -46,5 +50,5 @@ index 5e58a7f..0926212 100644
-              || defined(NPY_CPU_WASM)
-          #define NPY_BYTE_ORDER NPY_LITTLE_ENDIAN
- -- 
--2.20.1
-+2.45.2
- 
-diff --git a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb b/meta/recipes-devtools/python/python3-numpy_2.1.2.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-rename to meta/recipes-devtools/python/python3-numpy_2.1.2.bb
-index 914245507c7..83e921f753c 100644
---- a/meta/recipes-devtools/python/python3-numpy_1.26.4.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.1.2.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://numpy.org/"
- DESCRIPTION = "NumPy is the fundamental package needed for scientific computing with Python."
- SECTION = "devel/python"
- LICENSE = "BSD-3-Clause & BSD-2-Clause & PSF-2.0 & Apache-2.0 & MIT"
--LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=a752eb20459cf74a9d84ee4825e8317c"
-+LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=1de863c37a83e71b1e97b64d036ea78b"
- 
- SRCNAME = "numpy"
- 
-@@ -13,14 +13,14 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
-            file://fix_reproducibility.patch \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "2a02aba9ed12e4ac4eb3ea9421c420301a0c6460d9830d74a9df87efa4912010"
-+SRC_URI[sha256sum] = "13532a088217fa624c99b843eeb54640de23b3414b14aa66d023805eb731066c"
- 
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
- 
- DEPENDS += "python3-cython-native"
- 
--inherit ptest setuptools3 github-releases
-+inherit ptest python_mesonpy pkgconfig github-releases
- 
- S = "${WORKDIR}/numpy-${PV}"
- 
-@@ -30,7 +30,9 @@ do_compile:prepend() {
-     export NPY_DISABLE_SVML=1
- }
- 
--FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/core/lib/*.a ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a"
-+FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/numpy/_core/lib/*.a \
-+                          ${PYTHON_SITEPACKAGES_DIR}/numpy/random/lib/*.a \
-+"
- 
- # install what is needed for numpy.test()
- RDEPENDS:${PN} = "python3-unittest \
--- 
-2.39.5
+Sounds good!
 
+Regards, Enrico
+
+> Regards,
+> Andrej
+>=20
+
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
