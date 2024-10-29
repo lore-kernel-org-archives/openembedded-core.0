@@ -1,155 +1,138 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B24E3D5B158
-	for <webhook@archiver.kernel.org>; Mon, 28 Oct 2024 21:29:05 +0000 (UTC)
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
- by mx.groups.io with SMTP id smtpd.web11.4705.1730150936247555559
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A511AD5B853
+	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 00:30:27 +0000 (UTC)
+Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
+ by mx.groups.io with SMTP id smtpd.web10.8378.1730161821661229520
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Oct 2024 14:28:56 -0700
+ Mon, 28 Oct 2024 17:30:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QAXBDWYQ;
- spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: jpewhacker@gmail.com)
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539f53973fdso4034892e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 14:28:55 -0700 (PDT)
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=x/jXr7b8;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.52, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-6cbcc2bd7fcso31313136d6.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 17:30:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730150934; x=1730755734; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MaJ5EeXRBzhuCIgKIO0AUyh/m2pCOQI5P30xxR8i7Bk=;
-        b=QAXBDWYQgDrRzlDWW9lD7UwtSDyI445KMTMLuB8JWuA8uTDZKbLww8IdGQddG8dFql
-         ZQDjMBxfP585hard58VbuK3NlebhlxTtZr28g0WZV9dPrOR4pLsZo1dEucf6EdP6z+8D
-         NAML6zNOJKdz2ydoLc0dcPyc8Bz/K2a2iyJpvfbrObMQKWGK4RJ23nZDNHkTYKUGp3pt
-         ZzYuBG3DrmvwTNxFvHQblUWh5tNl9vTwvrkUH9RN5+EGBbTIk6FsivkPTSeqQ5Yy3mmc
-         vcmBrfoTD5S031ldXaxfTBEODdLsnBolclm5yQIyf1JhkgxSZLAtBfXivsnq4tTg8r0D
-         RMSg==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1730161820; x=1730766620; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pMzwXhnM0AnHEixJO8/gnPBBitEHybkVT/8N749nJEI=;
+        b=x/jXr7b8oANz/rQhNPcAy9MqcubNYcy21wR8W8FQWhGKiFSEutk4tpy2VixIcyID5y
+         KCXnpskQyYTyTQFsiSDn1z113WMsAgZcIngY9WeFaB69hhW79fCNKaoIuKKbZYxw97FD
+         gjA5VWbfDF1+ZfzbbUW9pUn/5QT4egq6FzHz0IUbnjz1W35zAVMdubvBLV1aOk389NUQ
+         UTQ8kl/x+TKO9RjtWpxSPn4OI8WDWW8iRXcob07Cl45UwjE3DY23LRGQS8HdYY/3sxOP
+         raxSmWN2/e1yAWlMg+eCsnDKLku66++uGJpMJBjEhnKIa8PIprO/hjm9o6C6CIbJN6we
+         6hfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730150934; x=1730755734;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MaJ5EeXRBzhuCIgKIO0AUyh/m2pCOQI5P30xxR8i7Bk=;
-        b=lYFFZEEzxUgEEly2Oz8orGZ2HAKamI4qhAQtbdaFkNY/waGWkLXSh4OIHuwF0nIepm
-         KKWACYZE+cnTyMzW/GkaUc2t9WHvkby7yyaoFkmmsU+nnGKrE7CpTupBYPks6H/ZFarm
-         UaCywlm1uSMwdS7Q61rdSVZzeGeqHEH/tsvTTAl63qk0FK4QpmPSroQ3bgLIGPykevt+
-         t/f0UiES1S7in8DfZEM/HhSgjMmMLtCpC0s/CPiOktPgVZe24bLbNbjLT7SEOb5Ps9XO
-         NYA5gWf+EqYDDlvSfrmdDUj3K2oxAsyaNsFL9UHHteTgvwEO/6DIDvQhNlkc+cEBVxqQ
-         gRwQ==
-X-Gm-Message-State: AOJu0YyEMxBqDjOq2hnc7SOtqExmPrCtCikoXlfHq0Y2iOgAwyn/QHKF
-	sIVEBn6od9AgnaNEC9m44y+LJYPNFOGOgaEplVQ1z/sM2pw0TVu9Dw0dYx+RSuvAzNyad4TAH9w
-	FKXqKZQLg7W2tnrXiQCO02A6av8NNmQ==
-X-Google-Smtp-Source: AGHT+IE62csNnTcbfDvty1fJ/5/ZheGRxHlVTGskkjgYHsz1fT1u0IhfEDGEp5cTlOoqyaHlWrPKBUrnr0FemYuvX/Q=
-X-Received: by 2002:a05:6512:4013:b0:539:e3a2:3a25 with SMTP id
- 2adb3069b0e04-53b47402e0bmr284675e87.18.1730150933727; Mon, 28 Oct 2024
- 14:28:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730161820; x=1730766620;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pMzwXhnM0AnHEixJO8/gnPBBitEHybkVT/8N749nJEI=;
+        b=Z7hP2QnhqiviyuzGiDadTlmLh9/N2Kwc2kOcWwLc0azQQMvADEjJ+o1x4M3Q3P0OIm
+         WyZrFqzwu7aXUJBC9Dm7BXjerur3LUgpCj2/gCzcHPo1jVjrVrIOWljD5d71TIKSohVc
+         f4L5cKKSdbumaWc+3VVBL70khPzWuS8d8v5rGqaEL6IjkdBXrPOSxASICBD1+y7Y/+Op
+         +pT/6yzKqa3gi/aqFXdMxbK2zgtuBdsI5acZgoLdBexwiUmqEkf8ONPLOOogvl8jNxoj
+         pcbYmvY5GB89mH2OV2iHRVbFg2BwLsPIpjMbg7DMJvkEkFJye7/s5yl253V18kamuwvB
+         g4qw==
+X-Gm-Message-State: AOJu0YwipoeF98/9MSFecFt1HB1OtBSIzQ5dvPAT2TZVI7ndGlUoPWLv
+	1wcLbTiI7XW0WmenBZrh052AEX493xRXkI19hEspEBfq0Lvs77S7DmkxT8wfzmFBlGcbjP1AZ8Y
+	m
+X-Google-Smtp-Source: AGHT+IF40yn1GPY1ByYyombklMbq+DOs2IGDHGt6eeRmSw505xKvwemfq7y1QwQTZn0hj1jeXj5x8A==
+X-Received: by 2002:a05:6214:3b87:b0:6cb:cedb:a389 with SMTP id 6a1803df08f44-6d18567ff77mr137588796d6.14.1730161820286;
+        Mon, 28 Oct 2024 17:30:20 -0700 (PDT)
+Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d17972f55bsm37361556d6.26.2024.10.28.17.30.19
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Oct 2024 17:30:19 -0700 (PDT)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 1/2] cmake: upgrade 3.30.2 -> 3.30.5
+Date: Mon, 28 Oct 2024 20:30:17 -0400
+Message-Id: <20241029003018.3485308-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20241026032519.1968518-1-hongxu.jia@windriver.com> <20241026032519.1968518-7-hongxu.jia@windriver.com>
-In-Reply-To: <20241026032519.1968518-7-hongxu.jia@windriver.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Mon, 28 Oct 2024 15:28:41 -0600
-Message-ID: <CAJdd5GZTf=tZDwHS9UFbDUN-XL3seJYxrDwL3YBF-fve2=goHw@mail.gmail.com>
-Subject: Re: [oe-core][PATCH 6/6] Add SPDX 3.0 include source case for work-share
-To: Hongxu Jia <hongxu.jia@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Oct 2024 21:29:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206467
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 00:30:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206468
 
-LGTM, thanks.
+Changelog (https://cmake.org/cmake/help/latest/release/3.30.html#updates):
 
-Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+3.30.5
 
-On Fri, Oct 25, 2024 at 9:25=E2=80=AFPM Hongxu Jia <hongxu.jia@windriver.co=
-m> wrote:
->
-> Build gcc and check gcc-14.2.0/README in objset is available
->
-> $ oe-selftest -r spdx.SPDX30Check.test_gcc_include_source
-> ...
-> 2024-10-26 01:24:57,063 - oe-selftest - INFO - test_gcc_include_source (s=
-pdx.SPDX30Check.test_gcc_include_source)
-> 2024-10-26 01:28:24,204 - oe-selftest - INFO - The spdxId of gcc-14.2.0/R=
-EADME in gcc.spdx.json is http://spdx.org/spdxdocs/gcc-f2eaeb0d-b54b-53ba-8=
-99a-8c36c21139bf/88d5068ffd41e5ea6b4e0dd390b23bf499bb2b6674a41e09eaf2a887ec=
-ed16c8/sourcefile/42
-> 2024-10-26 01:28:26,369 - oe-selftest - INFO -  ... ok
-> 2024-10-26 01:28:33,315 - oe-selftest - INFO - --------------------------=
---------------------------------------------
-> 2024-10-26 01:28:33,316 - oe-selftest - INFO - Ran 1 test in 216.457s
-> 2024-10-26 01:28:33,316 - oe-selftest - INFO - OK
-> 2024-10-26 01:28:45,254 - oe-selftest - INFO - RESULTS:
-> 2024-10-26 01:28:45,254 - oe-selftest - INFO - RESULTS - spdx.SPDX30Check=
-.test_gcc_include_source: PASSED (209.31s)
-> 2024-10-26 01:28:45,260 - oe-selftest - INFO - SUMMARY:
-> 2024-10-26 01:28:45,260 - oe-selftest - INFO - oe-selftest () - Ran 1 tes=
-t in 216.457s
-> 2024-10-26 01:28:45,260 - oe-selftest - INFO - oe-selftest - OK - All req=
-uired tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
->
-> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-> ---
->  meta/lib/oeqa/selftest/cases/spdx.py | 29 ++++++++++++++++++++++++++++
->  1 file changed, 29 insertions(+)
->
-> diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
-t/cases/spdx.py
-> index be595babb3..8384070219 100644
-> --- a/meta/lib/oeqa/selftest/cases/spdx.py
-> +++ b/meta/lib/oeqa/selftest/cases/spdx.py
-> @@ -110,6 +110,7 @@ class SPDX3CheckBase(object):
->                      "SDKMACHINE",
->                      "SDK_DEPLOY",
->                      "SPDX_VERSION",
-> +                    "SSTATE_PKGARCH",
->                      "TOOLCHAIN_OUTPUTNAME",
->                  ],
->                  target_name,
-> @@ -136,6 +137,34 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase=
-):
->              "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/packages/base-files.spdx.j=
-son",
->          )
->
-> +
-> +    def test_gcc_include_source(self):
-> +        import oe.spdx30
-> +
-> +        objset =3D self.check_recipe_spdx(
-> +            "gcc",
-> +            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/gcc.spdx.json",
-> +            extraconf=3Dtextwrap.dedent(
-> +                """\
-> +                SPDX_INCLUDE_SOURCES =3D "1"
-> +                """
-> +            ),
-> +        )
-> +
-> +        gcc_pv =3D get_bb_var("PV", "gcc")
-> +        filename =3D f'gcc-{gcc_pv}/README'
-> +        found =3D False
-> +        for software_file in objset.foreach_type(oe.spdx30.software_File=
-):
-> +            if software_file.name =3D=3D filename:
-> +                found =3D True
-> +                self.logger.info(f"The spdxId of {filename} in gcc.spdx.=
-json is {software_file.spdxId}")
-> +                break
-> +
-> +        self.assertTrue(
-> +            found,
-> +            f"Not found source file {filename} in gcc.spdx.json\n"
-> +        )
-> +
->      def test_core_image_minimal(self):
->          objset =3D self.check_recipe_spdx(
->              "core-image-minimal",
-> --
-> 2.25.1
->
+-   The project(<PROJECT-NAME>) command now sets
+    <PROJECT-NAME>_SOURCE_DIR, <PROJECT-NAME>_BINARY_DIR, and
+    <PROJECT-NAME>_IS_TOP_LEVEL as non-cache variables only if they are
+    already set as non-cache variables when project() is invoked. Cache
+    entries by the same names are always set as before. This refines
+    3.30.3's behavior change to restore behavior of nested directories
+    that call project() with the same project name, and it addresses the
+    bug in the implementation introduced in 3.30.4.
+
+3.30.4
+
+-   The project(<PROJECT-NAME>) command now sets
+    <PROJECT-NAME>_SOURCE_DIR, <PROJECT-NAME>_BINARY_DIR, and
+    <PROJECT-NAME>_IS_TOP_LEVEL as normal variables only if they are
+    already set as cache or non-cache variables when project() is
+    invoked. Cache entries by the same names are always set as before.
+    This refines 3.30.3's behavior change to restore behavior of nested
+    directories that call project() with the same project name, but the
+    implementation in this release is flawed (this release note has been
+    retoractively updated). It can result in different behavior between
+    the first and subsequent runs. Do not use CMake 3.30.4 if your
+    project contains nested calls to project() with the same project
+    name and you use these variables.
+
+3.30.3
+
+-   The project(<PROJECT-NAME>) command now sets
+    <PROJECT-NAME>_SOURCE_DIR, <PROJECT-NAME>_BINARY_DIR, and
+    <PROJECT-NAME>_IS_TOP_LEVEL as normal variables in addition to
+    setting them as cache entries. This is needed to preserve support
+    for some FetchContent use cases under policy CMP0169's NEW behavior.
+
+-   The FindPython and FindPython3 modules now define, respectively, the
+    Python_DEFINITIONS and Python3_DEFINITIONS variables on Windows to
+    support development with the free threaded version of Python. The
+    INTERFACE_COMPILE_DEFINITIONS target property is also defined for
+    the various targets provided by these modules.
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ .../cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.5.bb}    | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ .../recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.5.bb} | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_3.30.2.bb => cmake-native_3.30.5.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_3.30.2.bb => cmake_3.30.5.bb} (100%)
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_3.30.2.bb b/meta/recipes-devtools/cmake/cmake-native_3.30.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_3.30.5.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index b88a4e4bc6f..41f169e14c5 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+ "
+ 
+-SRC_URI[sha256sum] = "46074c781eccebc433e98f0bbfa265ca3fd4381f245ca3b140e7711531d60db2"
++SRC_URI[sha256sum] = "9f55e1a40508f2f29b7e065fa08c29f82c402fa0402da839fffe64a25755a86d"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_3.30.2.bb b/meta/recipes-devtools/cmake/cmake_3.30.5.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_3.30.2.bb
+rename to meta/recipes-devtools/cmake/cmake_3.30.5.bb
+-- 
+2.39.5
+
 
