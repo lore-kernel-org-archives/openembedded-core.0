@@ -1,88 +1,88 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 738A8D2AB1E
-	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 10:55:11 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.16518.1730199302022426943
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BC62D2AB24
+	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 11:40:01 +0000 (UTC)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
+ by mx.groups.io with SMTP id smtpd.web11.17052.1730201992221562104
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 03:55:02 -0700
+ Tue, 29 Oct 2024 04:39:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=10326a5dc3=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T8WGWT019419
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 03:55:01 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42guq3u8q7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 03:55:01 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 29 Oct 2024 03:55:00 -0700
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Tue, 29 Oct 2024 03:54:59 -0700
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 1/1] vim: Upgrade 9.1.0682 -> 9.1.0764
-Date: Tue, 29 Oct 2024 10:54:57 +0000
-Message-ID: <20241029105457.958442-1-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=atZNM0Zu;
+ spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-37d533b5412so3782168f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 04:39:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730201990; x=1730806790; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=58K8swsLeITC7NR/rB9uPEBYGsTq61YuoAmhhPw2RpI=;
+        b=atZNM0Zud6PgWiqMQUoQRGhclOLzSkHKO/oNuoL19fgu/5QV6fQQxvWCmjsqEEmOpc
+         cql+ZKMZe4gSqFUVUAoyo+/cDe2HwUjL484Lamy+fN61Bpa4eEv0xyIMPaiibTQokH2/
+         IfJRfmaiyKJuk5lpeJK7N+AgNF7/bnQkVAcYQwUlUUQqGrAqb33Vkp9IkAZRj86nAnDv
+         RJku/C+w2/MALOB8LSMLIXHlOZKtRbMECJWj4HGc5i2+P9YsodnBRqgWpF2pfOGtDKKq
+         YarOfm1+ZRrolLNAHVMzWYZWj/cndBI2Ts9EyjwPfaSxrsptPwfQedMq1BkTBtfV6Yqt
+         WE3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730201990; x=1730806790;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=58K8swsLeITC7NR/rB9uPEBYGsTq61YuoAmhhPw2RpI=;
+        b=vttla51z/zGL4YPg9bV7EuZ0zHutRCNiWlzz+mx/+MT5b6/070S53W6pgyHGqopOfI
+         8aMqgPQoPPIQen9jIdzYlwWIUvbGPGE7VB7ckLmGsBUvKLPB1P/JQcqUNSRAKMgI6yUR
+         3kQ1tZ3pcCaI7H59Py1u5Kwt1AUECB3eE+VAxeVtLia9ilwVT4UDGkwjhpSs2X9LRlQ/
+         JgDy82PxJs63LFR80tn7v9n/rmxD5KdarEl6uTKb0fVqPHAV9my+miPsHx8ICaMfuQfY
+         1BOeR1QDnmB4fhqJ8FhrwJPzgEWw/aO0LYDDEgHrbJS/B5L7RBOcOVTan0tpTHe48aLn
+         Tzng==
+X-Gm-Message-State: AOJu0YxrgSL0LQcdjjwkmaK9aD+S9h9dOuuCYL2JBnocIMF+vwUSD9Oe
+	YQPYlEyIdWSxWTHMKMb0mqrAK4ckNchU7DmSQaf/n2HeSZnYAxsTFdKhOg==
+X-Google-Smtp-Source: AGHT+IGhkADD8PM61ms/AWxTYz7hQza5G9r43QMAWzwlgUekphIS1ejQbS+bBRZRDhP1i3mxjT1s5A==
+X-Received: by 2002:adf:cc8f:0:b0:37d:52b5:451e with SMTP id ffacd0b85a97d-3806118aa34mr8702127f8f.33.1730201990267;
+        Tue, 29 Oct 2024 04:39:50 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38058b132ecsm12343457f8f.5.2024.10.29.04.39.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Oct 2024 04:39:50 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 2/2] python3-markupsafe: fix upstream version check
+Date: Tue, 29 Oct 2024 12:39:46 +0100
+Message-Id: <20241029113946.748003-2-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241029113946.748003-1-alex.kanavin@gmail.com>
+References: <20241029113946.748003-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 8Xmiji-B6MRM-sPlvESbG9CpMUsP83Xv
-X-Proofpoint-GUID: 8Xmiji-B6MRM-sPlvESbG9CpMUsP83Xv
-X-Authority-Analysis: v=2.4 cv=T9jeTOKQ c=1 sm=1 tr=0 ts=6720bf05 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=DAUX931o1VcA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=qx_yR4XOc8-HUud59pgA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-29_06,2024-10-28_02,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 malwarescore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0 clxscore=1011
- bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2410290084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 10:55:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206491
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 11:40:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206493
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-This includes CVE-fix for
-CVE-2024-45306
-CVE-2024-47814
-CVE-2024-43790
-CVE-2024-43802
-
-Changes between 9.1.0682 -> 9.1.0764
-====================================
-https://github.com/vim/vim/compare/v9.1.0682...v9.1.0764
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-support/vim/vim.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python3-markupsafe_3.0.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index f8ba37156a..582eddcb9d 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -18,8 +18,8 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://no-path-adjust.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-markupsafe_3.0.1.bb b/meta/recipes-devtools/python/python3-markupsafe_3.0.1.bb
+index 40fec4fa98b..03be78a022d 100644
+--- a/meta/recipes-devtools/python/python3-markupsafe_3.0.1.bb
++++ b/meta/recipes-devtools/python/python3-markupsafe_3.0.1.bb
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=ffeffa59c90c9c4a033c7574f8f3fb75"
+ SRC_URI[sha256sum] = "3e683ee4f5d0fa2dde4db77ed8dd8a876686e3fc417655c2ece9a90576905344"
  
--PV .= ".0682"
--SRCREV = "cb90ea9cba6f033fe141db0e466fb4117f28402b"
-+PV .= ".0764"
-+SRCREV = "51b62387be93c65fa56bbabe1c3c1ea5df187641"
+ PYPI_PACKAGE = "markupsafe"
++UPSTREAM_CHECK_PYPI_PACKAGE = "MarkupSafe"
+ inherit pypi python_setuptools_build_meta ptest
  
- # Do not consider .z in x.y.z, as that is updated with every commit
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
+ RDEPENDS:${PN} += "python3-html python3-stringold"
 -- 
-2.40.0
+2.39.5
 
 
