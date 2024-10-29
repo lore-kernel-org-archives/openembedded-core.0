@@ -1,128 +1,105 @@
-Return-Path: <hongxu.jia@eng.windriver.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD7B4D2AB06
-	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 09:17:40 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.14987.1730193450719766373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DEBBD2AB0A
+	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 09:41:11 +0000 (UTC)
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+ by mx.groups.io with SMTP id smtpd.web10.15289.1730194862023213506
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 02:17:30 -0700
+ Tue, 29 Oct 2024 02:41:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=103298b06a=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49T4cLXs031504;
-	Tue, 29 Oct 2024 09:17:29 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42gqd8kau1-8
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 29 Oct 2024 09:17:29 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Tue, 29 Oct 2024 02:17:24 -0700
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Tue, 29 Oct 2024 02:17:24 -0700
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <JPEWhacker@gmail.com>
-Subject: [oe-core][PATCH 7/7] oeqa/selftest: Add SPDX 3.0 include source case for work-share
-Date: Tue, 29 Oct 2024 02:17:23 -0700
-Message-ID: <20241029091723.2851061-8-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241029091723.2851061-1-hongxu.jia@windriver.com>
-References: <20241029091723.2851061-1-hongxu.jia@windriver.com>
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BVdLSIpX;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.194, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0B33B40008;
+	Tue, 29 Oct 2024 09:40:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1730194860;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gQ0zbz/TzCvAHPtnyxyu9DYFD2RF41CecCD3Iz9du2k=;
+	b=BVdLSIpXXvHi8ACHMB0Xd3USJ5tQk54OhksUxooXDm+3hX2qXE5WsnT4aEQvo6OUmknf12
+	3sk4LfPFjTwIWnnhvPmHnrcZMgiMBodMhVssIDNNXQOTJvzCYoxIeN2GCXt0QoKaxqSx1h
+	ooPWsgCunmJHcyrysOS5EcqImNRDGH8qu2f2FYxVRRLFbO1SN7fWU+LPt6cI1kN/FHay/e
+	TB/HdPhlkyrwk0QZNX6UC1xf+HDdExmta5oHGacTtLVHOmA/8tPUd8vhKlA5tLrH8Vwigv
+	iYd4TjwJq486njCWWj9SFLQViSPg35ohl06gP7sZ0xjY2+aOvllYD5W+mK3ORg==
+Date: Tue, 29 Oct 2024 10:40:58 +0100
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+To: wangmy@fujitsu.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 18/22] python3-rdflib: upgrade 7.0.0 -> 7.1.0
+Message-ID: <ZyCtqjqSmJmvBupb@bootlin-mathieu>
+Mail-Followup-To: wangmy@fujitsu.com,
+	openembedded-core@lists.openembedded.org
+References: <1729834769-4717-1-git-send-email-wangmy@fujitsu.com>
+ <1729834769-4717-18-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: qXLjSntZ5eGWxfjPbf0Y2YnRFqDOr_cF
-X-Authority-Analysis: v=2.4 cv=dKj0m/Zb c=1 sm=1 tr=0 ts=6720a829 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=DAUX931o1VcA:10 a=24AZYWMyAAAA:8 a=t7CeM3EgAAAA:8 a=2V6DY6BgAAAA:8 a=YKlqnSHKsa4dvJv7hPcA:9 a=bG88sKzkDEFeXWNnvthB:22
- a=FdTzh2GWekK77mhwV6Dw:22 a=ldqKKs2zR4t-S6fqr-1n:22
-X-Proofpoint-GUID: qXLjSntZ5eGWxfjPbf0Y2YnRFqDOr_cF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-29_04,2024-10-28_02,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 phishscore=0 mlxlogscore=999
- adultscore=0 impostorscore=0 malwarescore=0 bulkscore=0 clxscore=1015
- spamscore=0 mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2409260000 definitions=main-2410290072
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1729834769-4717-18-git-send-email-wangmy@fujitsu.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 09:17:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206484
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 09:41:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206485
 
-Build gcc and check gcc-14.2.0/README in objset is available
+On Fri, Oct 25, 2024 at 01:39:25PM +0800, wangmy via lists.openembedded.org wrote:
+> From: Wang Mingyu <wangmy@fujitsu.com>
+> 
+> License-Update: Copyright year updated to 2024.
+> 
+> Changelog:
+>  https://github.com/RDFLib/rdflib/blob/main/CHANGELOG.md#2024-10-17-release-710
+> 
+> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
 
-$ oe-selftest -r spdx.SPDX30Check.test_gcc_include_source
-...
-2024-10-26 01:24:57,063 - oe-selftest - INFO - test_gcc_include_source (spdx.SPDX30Check.test_gcc_include_source)
-2024-10-26 01:28:24,204 - oe-selftest - INFO - The spdxId of gcc-14.2.0/README in gcc.spdx.json is http://spdx.org/spdxdocs/gcc-f2eaeb0d-b54b-53ba-899a-8c36c21139bf/88d5068ffd41e5ea6b4e0dd390b23bf499bb2b6674a41e09eaf2a887eced16c8/sourcefile/42
-2024-10-26 01:28:26,369 - oe-selftest - INFO -  ... ok
-2024-10-26 01:28:33,315 - oe-selftest - INFO - ----------------------------------------------------------------------
-2024-10-26 01:28:33,316 - oe-selftest - INFO - Ran 1 test in 216.457s
-2024-10-26 01:28:33,316 - oe-selftest - INFO - OK
-2024-10-26 01:28:45,254 - oe-selftest - INFO - RESULTS:
-2024-10-26 01:28:45,254 - oe-selftest - INFO - RESULTS - spdx.SPDX30Check.test_gcc_include_source: PASSED (209.31s)
-2024-10-26 01:28:45,260 - oe-selftest - INFO - SUMMARY:
-2024-10-26 01:28:45,260 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 216.457s
-2024-10-26 01:28:45,260 - oe-selftest - INFO - oe-selftest - OK - All required tests passed (successes=1, skipped=0, failures=0, errors=0)
+Hi,
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- meta/lib/oeqa/selftest/cases/spdx.py | 29 ++++++++++++++++++++++++++++
- 1 file changed, 29 insertions(+)
+It seems one of these python commit is triggering a build issue in the
+oe-selftest autobuilders:
 
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index be595babb3..8384070219 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -110,6 +110,7 @@ class SPDX3CheckBase(object):
-                     "SDKMACHINE",
-                     "SDK_DEPLOY",
-                     "SPDX_VERSION",
-+                    "SSTATE_PKGARCH",
-                     "TOOLCHAIN_OUTPUTNAME",
-                 ],
-                 target_name,
-@@ -136,6 +137,34 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-             "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/packages/base-files.spdx.json",
-         )
- 
-+
-+    def test_gcc_include_source(self):
-+        import oe.spdx30
-+
-+        objset = self.check_recipe_spdx(
-+            "gcc",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/recipes/gcc.spdx.json",
-+            extraconf=textwrap.dedent(
-+                """\
-+                SPDX_INCLUDE_SOURCES = "1"
-+                """
-+            ),
-+        )
-+
-+        gcc_pv = get_bb_var("PV", "gcc")
-+        filename = f'gcc-{gcc_pv}/README'
-+        found = False
-+        for software_file in objset.foreach_type(oe.spdx30.software_File):
-+            if software_file.name == filename:
-+                found = True
-+                self.logger.info(f"The spdxId of {filename} in gcc.spdx.json is {software_file.spdxId}")
-+                break
-+
-+        self.assertTrue(
-+            found,
-+            f"Not found source file {filename} in gcc.spdx.json\n"
-+        )
-+
-     def test_core_image_minimal(self):
-         objset = self.check_recipe_spdx(
-             "core-image-minimal",
+2024-10-29 07:12:37,279 - oe-selftest - INFO - spdx.SPDX22Check.test_spdx_base_files (subunit.RemotedTestCase)
+2024-10-29 07:12:37,279 - oe-selftest - INFO -  ... FAIL
+2024-10-29 07:12:37,280 - oe-selftest - INFO - 9: 14/16 170/611 (36.87s) (0 failed) (spdx.SPDX22Check.test_spdx_base_files)
+2024-10-29 07:12:37,280 - oe-selftest - INFO - testtools.testresult.real._StringException: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/spdx.py", line 67, in test_spdx_base_files
+    self.check_recipe_spdx("packages", "base-files.spdx.json", "base-files")
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/spdx.py", line 64, in check_recipe_spdx
+    result = check_spdx_json(full_file_path)
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/selftest/cases/spdx.py", line 61, in check_spdx_json
+    result = runCmd("{} {} -i {}".format(python, validator, filename))
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/meta/lib/oeqa/utils/commands.py", line 212, in runCmd
+    raise AssertionError("Command '%s' returned non-zero exit status %d:\n%s" % (command, result.status, exc_output))
+AssertionError: Command '/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/bin/nativepython3 /srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/bin/pyspdxtools -i /srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/deploy/spdx/2.2/qemux86_64/packages/base-files.spdx.json' returned non-zero exit status 1:
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/bin/pyspdxtools", line 5, in <module>
+    from spdx_tools.spdx.clitools.pyspdxtools import main
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/lib/python3.13/site-packages/spdx_tools/spdx/clitools/pyspdxtools.py", line 28, in <module>
+    from spdx_tools.spdx.parser.parse_anything import parse_file
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/lib/python3.13/site-packages/spdx_tools/spdx/parser/parse_anything.py", line 16, in <module>
+    from spdx_tools.spdx.parser.rdf import rdf_parser
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/lib/python3.13/site-packages/spdx_tools/spdx/parser/rdf/rdf_parser.py", line 5, in <module>
+    from rdflib import RDF, Graph
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/lib/python3.13/site-packages/rdflib/__init__.py", line 168, in <module>
+    from rdflib.graph import ConjunctiveGraph, Dataset, Graph
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/lib/python3.13/site-packages/rdflib/graph.py", line 283, in <module>
+    import rdflib.namespace as namespace  # noqa: F401 # This is here because it is used in a docstring.
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/lib/python3.13/site-packages/rdflib/namespace/__init__.py", line 83, in <module>
+    from rdflib.term import URIRef, Variable, _is_valid_uri
+  File "/srv/pokybuild/yocto-worker/oe-selftest-ubuntu/build/build-st-312849/tmp/work/x86_64-linux/python3-spdx-tools-native/0.8.3/recipe-sysroot-native/usr/lib/python3.13/site-packages/rdflib/term.py", line 68, in <module>
+    import html5lib
+ModuleNotFoundError: No module named 'html5lib'
+
+https://valkyrie.yoctoproject.org/#/builders/54/builds/315/steps/14/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/76/builds/326/steps/14/logs/stdio
+
+Can you have a look at this issue please ?
+
 -- 
-2.25.1
-
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
