@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E266CD3A683
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E254FD3A682
 	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 19:00:13 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web11.1965.1730228409366399576
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.1961.1730228405879351186
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 12:00:09 -0700
+ Tue, 29 Oct 2024 12:00:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oMrYta6n;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7ea68af2f62so4636951a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 12:00:09 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=mGzmEAu/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7cd8803fe0aso4060198a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 12:00:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730228409; x=1730833209; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730228405; x=1730833205; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=bOAOgGXG7NqPuQanQddpeTfdCnjGzhTmCAD1sMztCA4=;
-        b=oMrYta6nERLWYWewaE63qsBdAPYPjxBCz5lLiWxLoHYMM3kJeRZyQyfrpl2FgGnqRK
-         D2pLi+FGSdXUOZaHuzJ0TdspkEhOApvTM5Kfke/CtpEZQdJlpsto/lYgMSabSecQ+YSj
-         QJwdD3z0/QBSRvxgqTiK+zJhirCzJHH56Fc2iNf4yC6hY0niWZTqVXF2VnLWLk5lofBD
-         36kXgJBdBkb/nWZ+hGDb0dxBnm4pzUH/GlnF8kN/xTKXnR5vVy0cGk+cIJgoaMUEecdi
-         RbokyICWAIaTfGaNbjcQyMY2LgEC1LFsZ8yA5Eyt48f1i0UU0XsDtJxHd99mRi2iMHC+
-         lAKA==
+        bh=tG5kWp1DwQ1clEWuYPCeJcViH/D+ClMHG0b/ZFKrqFE=;
+        b=mGzmEAu/P844bXg3pSwFaO7xsBSAL17pivTp+d26H00g+Nfl5jxawsUYFFLFIAPpNM
+         GRgPUlOphl60xnQpgRoV62UIdM12+kpKcpntHYrHepgEqJxd9f8LW+XOo7/tTzfOqMBO
+         ocojUgeY2+7BFq0d4hV6k8LAlMPFxYMBzAdPZ8DX4zn9XjZqHcXNpwkKxmtDEeOeJZjb
+         5ReCsQ6vQNzaSXyHABeusrFyIV/2L5mRpN3TJ6RppCg5AxxChXVvBprKa1n2Dw7PT2K/
+         0trFp18Tv7B49KnK1lGwZ4z72ezpUXwGMKJujzVAGKvSJk6POfBiJ+4Sr2+H06RN23ZZ
+         +Syg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730228409; x=1730833209;
+        d=1e100.net; s=20230601; t=1730228405; x=1730833205;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bOAOgGXG7NqPuQanQddpeTfdCnjGzhTmCAD1sMztCA4=;
-        b=b/EOWXoNFmd3+doWjri7lgj15vXPk+MaQAHr8dOPGUL5YzN/zpv6JlXjgf2sbF6mCa
-         3AzmlTM9URqCEi25aIeopWWBln/Ccex7HgrwgSy624pc0wG2YIuDTolt+ZFvLkTNUxwO
-         osiX+lXACGH7Mc6FAiPxseN4gEK6tnnw8TULvB7iulwWS1qHUzMq4xb0mdSU4qDGH7l/
-         /lJIVpFTeO7GYNLsoQt8f78vhj5RDoss365BotWc0fCMjUnE0Sq8oc2ADgzNw2kRvGAM
-         ZxJHUsAgxx6/IRzuIfckUkBMCfZXEMQySXRGht+3e3Xxabh634lAmFdkiY97i4vlYC2C
-         kC7A==
-X-Gm-Message-State: AOJu0YzajaWeG5K1uJ5JggSrNODGufEydhIuhFwrmReHCpeQc7j/E2oo
-	Fl5z87W92xctvftEXxmeDNss3l/genQvl8DgKo8oti1FY+3gnwNmB/1qrrryb8IBRTwwFkz0hSa
-	9
-X-Google-Smtp-Source: AGHT+IHsCTDa/v68FlfVQ2E9A0TEK+fF9FBebAgtjCwKeA/dM13oUu/uVzUWcdJ7NaP1C9+mdxG0hg==
-X-Received: by 2002:a05:6a20:e18a:b0:1d9:2bed:c7e7 with SMTP id adf61e73a8af0-1d9a84d785amr16288111637.39.1730228408524;
-        Tue, 29 Oct 2024 12:00:08 -0700 (PDT)
+        bh=tG5kWp1DwQ1clEWuYPCeJcViH/D+ClMHG0b/ZFKrqFE=;
+        b=Yb9T19Qj2BvLf86g1CsSqFbFY+/rD9ydbBe2bDG02PGwONzdVGB/dE4HC9vFWqf339
+         9YiPryTryQ/C4/4lfyp6Sk9moN2V2c2JeK2TXvY0BkVBIg4WgnbggGYR9+0bGrIWWgQ0
+         yQ5/YGkIS1h8tBlF2wpxOhpl40fZ7Q9qM2FsOb7J+h4n25ONPSm5+77rcKmajVSXL8dZ
+         Jy2d8qm1BqZ/zrj5x1MC4acU9zc3+XadKYsEP2GJ+aqHVJwguWHaWH6bZVXlrCCupMrs
+         Ap+wwY5G6LlG4wRwX3Vd+CiSFtEeQrEgnR20RekM3kFyzDb/LUOrC2VkiTrnf/jQMIUI
+         Svdw==
+X-Gm-Message-State: AOJu0YxI8OfWQd2lrc1NGGO+0CxJGBStwInbxjcQXz+VqyJATPvL5Eu3
+	6OXkHZNlKILYIvzJYVW01WmkafFKhiQG/dO/BTkkManAB0V+TBLetmJ6tyKVT3Jn8lcY6JVeb11
+	z
+X-Google-Smtp-Source: AGHT+IHxOxNdaC24gAv2VtASOvI5b6fLyNUzx86UoAsqSPU2Bz1woLkofhiSNgh8V6Cslc2itG293Q==
+X-Received: by 2002:a05:6a20:2d1f:b0:1d9:78c:dcf2 with SMTP id adf61e73a8af0-1d9eee6385fmr947798637.43.1730228403364;
+        Tue, 29 Oct 2024 12:00:03 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7205793273csm7835439b3a.74.2024.10.29.12.00.07
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7205793273csm7835439b3a.74.2024.10.29.12.00.02
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 12:00:08 -0700 (PDT)
+        Tue, 29 Oct 2024 12:00:03 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 05/19] cve-check: add CVSS vector string to CVE database and reports
-Date: Tue, 29 Oct 2024 11:59:38 -0700
-Message-Id: <3e47644d24d97c2541ccb70d91c144cf6530d5b0.1730228268.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 02/19] openssl: patch CVE-2024-9143
+Date: Tue, 29 Oct 2024 11:59:35 -0700
+Message-Id: <75e1dedf85ac093fc43eb88a59bfe980bb363bf9.1730228268.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1730228268.git.steve@sakoman.com>
 References: <cover.1730228268.git.steve@sakoman.com>
@@ -62,115 +62,240 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 19:00:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206515
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206512
 
-From: Antoine Lubineau <antoine.lubineau@easymile.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-This allows building detailed vulnerability analysis tools without
-relying on external resources.
+Pick patch from branch openssl-3.0.
 
-(From OE-Core rev: 048ff0ad927f4d37cc5547ebeba9e0c221687ea6)
-
-Signed-off-by: Antoine Lubineau <antoine.lubineau@easymile.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes/cve-check.bbclass                   |  5 ++++-
- meta/recipes-core/meta/cve-update-nvd2-native.bb | 11 ++++++++---
- 2 files changed, 12 insertions(+), 4 deletions(-)
+ .../openssl/openssl/CVE-2024-9143.patch       | 202 ++++++++++++++++++
+ .../openssl/openssl_3.0.15.bb                 |   1 +
+ 2 files changed, 203 insertions(+)
+ create mode 100755 meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
 
-diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
-index f554150d94..b47c61da63 100644
---- a/meta/classes/cve-check.bbclass
-+++ b/meta/classes/cve-check.bbclass
-@@ -26,7 +26,7 @@ CVE_PRODUCT ??= "${BPN}"
- CVE_VERSION ??= "${PV}"
+diff --git a/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
+new file mode 100755
+index 0000000000..c72a4193c6
+--- /dev/null
++++ b/meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
+@@ -0,0 +1,202 @@
++From 72ae83ad214d2eef262461365a1975707f862712 Mon Sep 17 00:00:00 2001
++From: Viktor Dukhovni <viktor@openssl.org>
++Date: Thu, 19 Sep 2024 01:02:40 +1000
++Subject: [PATCH] Harden BN_GF2m_poly2arr against misuse.
++
++The BN_GF2m_poly2arr() function converts characteristic-2 field
++(GF_{2^m}) Galois polynomials from a representation as a BIGNUM bitmask,
++to a compact array with just the exponents of the non-zero terms.
++
++These polynomials are then used in BN_GF2m_mod_arr() to perform modular
++reduction.  A precondition of calling BN_GF2m_mod_arr() is that the
++polynomial must have a non-zero constant term (i.e. the array has `0` as
++its final element).
++
++Internally, callers of BN_GF2m_poly2arr() did not verify that
++precondition, and binary EC curve parameters with an invalid polynomial
++could lead to out of bounds memory reads and writes in BN_GF2m_mod_arr().
++
++The precondition is always true for polynomials that arise from the
++standard form of EC parameters for characteristic-two fields (X9.62).
++See the "Finite Field Identification" section of:
++
++    https://www.itu.int/ITU-T/formal-language/itu-t/x/x894/2018-cor1/ANSI-X9-62.html
++
++The OpenSSL GF(2^m) code supports only the trinomial and pentanomial
++basis X9.62 forms.
++
++This commit updates BN_GF2m_poly2arr() to return `0` (failure) when
++the constant term is zero (i.e. the input bitmask BIGNUM is not odd).
++
++Additionally, the return value is made unambiguous when there is not
++enough space to also pad the array with a final `-1` sentinel value.
++The return value is now always the number of elements (including the
++final `-1`) that would be filled when the output array is sufficiently
++large.  Previously the same count was returned both when the array has
++just enough room for the final `-1` and when it had only enough space
++for non-sentinel values.
++
++Finally, BN_GF2m_poly2arr() is updated to reject polynomials whose
++degree exceeds `OPENSSL_ECC_MAX_FIELD_BITS`, this guards against
++CPU exhausition attacks via excessively large inputs.
++
++The above issues do not arise in processing X.509 certificates.  These
++generally have EC keys from "named curves", and RFC5840 (Section 2.1.1)
++disallows explicit EC parameters.  The TLS code in OpenSSL enforces this
++constraint only after the certificate is decoded, but, even if explicit
++parameters are specified, they are in X9.62 form, which cannot represent
++problem values as noted above.
++
++Initially reported as oss-fuzz issue 71623.
++
++A closely related issue was earlier reported in
++<https://github.com/openssl/openssl/issues/19826>.
++
++Severity: Low, CVE-2024-9143
++
++Reviewed-by: Matt Caswell <matt@openssl.org>
++Reviewed-by: Bernd Edlinger <bernd.edlinger@hotmail.de>
++Reviewed-by: Paul Dale <ppzgs1@gmail.com>
++Reviewed-by: Tomas Mraz <tomas@openssl.org>
++(Merged from https://github.com/openssl/openssl/pull/25639)
++
++(cherry picked from commit 8e008cb8b23ec7dc75c45a66eeed09c815b11cd2)
++
++CVE: CVE-2024-9143
++Upstream-Status: Backport [https://github.com/openssl/openssl/commit/72ae83ad214d2eef262461365a1975707f862712]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ crypto/bn/bn_gf2m.c     | 28 +++++++++++++++-------
++ test/ec_internal_test.c | 51 +++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 71 insertions(+), 8 deletions(-)
++
++diff --git a/crypto/bn/bn_gf2m.c b/crypto/bn/bn_gf2m.c
++index c811ae82d6b15..bcc66613cc14d 100644
++--- a/crypto/bn/bn_gf2m.c
+++++ b/crypto/bn/bn_gf2m.c
++@@ -15,6 +15,7 @@
++ #include "bn_local.h"
++ 
++ #ifndef OPENSSL_NO_EC2M
+++# include <openssl/ec.h>
++ 
++ /*
++  * Maximum number of iterations before BN_GF2m_mod_solve_quad_arr should
++@@ -1140,16 +1141,26 @@ int BN_GF2m_mod_solve_quad(BIGNUM *r, const BIGNUM *a, const BIGNUM *p,
++ /*
++  * Convert the bit-string representation of a polynomial ( \sum_{i=0}^n a_i *
++  * x^i) into an array of integers corresponding to the bits with non-zero
++- * coefficient.  Array is terminated with -1. Up to max elements of the array
++- * will be filled.  Return value is total number of array elements that would
++- * be filled if array was large enough.
+++ * coefficient.  The array is intended to be suitable for use with
+++ * `BN_GF2m_mod_arr()`, and so the constant term of the polynomial must not be
+++ * zero.  This translates to a requirement that the input BIGNUM `a` is odd.
+++ *
+++ * Given sufficient room, the array is terminated with -1.  Up to max elements
+++ * of the array will be filled.
+++ *
+++ * The return value is total number of array elements that would be filled if
+++ * array was large enough, including the terminating `-1`.  It is `0` when `a`
+++ * is not odd or the constant term is zero contrary to requirement.
+++ *
+++ * The return value is also `0` when the leading exponent exceeds
+++ * `OPENSSL_ECC_MAX_FIELD_BITS`, this guards against CPU exhaustion attacks,
++  */
++ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
++ {
++     int i, j, k = 0;
++     BN_ULONG mask;
++ 
++-    if (BN_is_zero(a))
+++    if (!BN_is_odd(a))
++         return 0;
++ 
++     for (i = a->top - 1; i >= 0; i--) {
++@@ -1167,12 +1178,13 @@ int BN_GF2m_poly2arr(const BIGNUM *a, int p[], int max)
++         }
++     }
++ 
++-    if (k < max) {
+++    if (k > 0 && p[0] > OPENSSL_ECC_MAX_FIELD_BITS)
+++        return 0;
+++
+++    if (k < max)
++         p[k] = -1;
++-        k++;
++-    }
++ 
++-    return k;
+++    return k + 1;
++ }
++ 
++ /*
++diff --git a/test/ec_internal_test.c b/test/ec_internal_test.c
++index 8c2cd05631696..02cfd4e9d8858 100644
++--- a/test/ec_internal_test.c
+++++ b/test/ec_internal_test.c
++@@ -155,6 +155,56 @@ static int field_tests_ecp_mont(void)
++ }
++ 
++ #ifndef OPENSSL_NO_EC2M
+++/* Test that decoding of invalid GF2m field parameters fails. */
+++static int ec2m_field_sanity(void)
+++{
+++    int ret = 0;
+++    BN_CTX *ctx = BN_CTX_new();
+++    BIGNUM *p, *a, *b;
+++    EC_GROUP *group1 = NULL, *group2 = NULL, *group3 = NULL;
+++
+++    TEST_info("Testing GF2m hardening\n");
+++
+++    BN_CTX_start(ctx);
+++    p = BN_CTX_get(ctx);
+++    a = BN_CTX_get(ctx);
+++    if (!TEST_ptr(b = BN_CTX_get(ctx))
+++        || !TEST_true(BN_one(a))
+++        || !TEST_true(BN_one(b)))
+++        goto out;
+++
+++    /* Even pentanomial value should be rejected */
+++    if (!TEST_true(BN_set_word(p, 0xf2)))
+++        goto out;
+++    if (!TEST_ptr_null(group1 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
+++        TEST_error("Zero constant term accepted in GF2m polynomial");
+++
+++    /* Odd hexanomial should also be rejected */
+++    if (!TEST_true(BN_set_word(p, 0xf3)))
+++        goto out;
+++    if (!TEST_ptr_null(group2 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
+++        TEST_error("Hexanomial accepted as GF2m polynomial");
+++
+++    /* Excessive polynomial degree should also be rejected */
+++    if (!TEST_true(BN_set_word(p, 0x71))
+++        || !TEST_true(BN_set_bit(p, OPENSSL_ECC_MAX_FIELD_BITS + 1)))
+++        goto out;
+++    if (!TEST_ptr_null(group3 = EC_GROUP_new_curve_GF2m(p, a, b, ctx)))
+++        TEST_error("GF2m polynomial degree > %d accepted",
+++                   OPENSSL_ECC_MAX_FIELD_BITS);
+++
+++    ret = group1 == NULL && group2 == NULL && group3 == NULL;
+++
+++ out:
+++    EC_GROUP_free(group1);
+++    EC_GROUP_free(group2);
+++    EC_GROUP_free(group3);
+++    BN_CTX_end(ctx);
+++    BN_CTX_free(ctx);
+++
+++    return ret;
+++}
+++
++ /* test EC_GF2m_simple_method directly */
++ static int field_tests_ec2_simple(void)
++ {
++@@ -443,6 +493,7 @@ int setup_tests(void)
++     ADD_TEST(field_tests_ecp_simple);
++     ADD_TEST(field_tests_ecp_mont);
++ #ifndef OPENSSL_NO_EC2M
+++    ADD_TEST(ec2m_field_sanity);
++     ADD_TEST(field_tests_ec2_simple);
++ #endif
++     ADD_ALL_TESTS(field_tests_default, crv_len);
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb b/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
+index b76a763cc3..5f7e7c0000 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
++++ b/meta/recipes-connectivity/openssl/openssl_3.0.15.bb
+@@ -12,6 +12,7 @@ SRC_URI = "https://github.com/openssl/openssl/releases/download/openssl-${PV}/op
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+            file://afalg.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
++           file://CVE-2024-9143.patch \
+            "
  
- CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
--CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2.db"
-+CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2-1.db"
- CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
- 
- CVE_CHECK_LOG ?= "${T}/cve.log"
-@@ -399,6 +399,7 @@ def get_cve_info(d, cves):
-             cve_data[row[0]]["scorev3"] = row[3]
-             cve_data[row[0]]["modified"] = row[4]
-             cve_data[row[0]]["vector"] = row[5]
-+            cve_data[row[0]]["vectorString"] = row[6]
-         cursor.close()
-     conn.close()
-     return cve_data
-@@ -455,6 +456,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
-         write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
-         write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
-         write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
-+        write_string += "VECTORSTRING: %s\n" % cve_data[cve]["vectorString"]
-         write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
- 
-     if unpatched_cves and d.getVar("CVE_CHECK_SHOW_WARNINGS") == "1":
-@@ -569,6 +571,7 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
-             "scorev2" : cve_data[cve]["scorev2"],
-             "scorev3" : cve_data[cve]["scorev3"],
-             "vector" : cve_data[cve]["vector"],
-+            "vectorString" : cve_data[cve]["vectorString"],
-             "status" : status,
-             "link": issue_link
-         }
-diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-index 1a3eeba6d0..060545b1e3 100644
---- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
-+++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
-@@ -247,7 +247,7 @@ def initialize_db(conn):
-         c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
- 
-         c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
--            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT)")
-+            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT, VECTORSTRING TEXT)")
- 
-         c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
-             VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
-@@ -321,6 +321,7 @@ def update_db(conn, elt):
-     """
- 
-     accessVector = None
-+    vectorString = None
-     cveId = elt['cve']['id']
-     if elt['cve']['vulnStatus'] ==  "Rejected":
-         c = conn.cursor()
-@@ -335,25 +336,29 @@ def update_db(conn, elt):
-     date = elt['cve']['lastModified']
-     try:
-         accessVector = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['accessVector']
-+        vectorString = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['vectorString']
-         cvssv2 = elt['cve']['metrics']['cvssMetricV2'][0]['cvssData']['baseScore']
-     except KeyError:
-         cvssv2 = 0.0
-     cvssv3 = None
-     try:
-         accessVector = accessVector or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['attackVector']
-+        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['vectorString']
-         cvssv3 = elt['cve']['metrics']['cvssMetricV30'][0]['cvssData']['baseScore']
-     except KeyError:
-         pass
-     try:
-         accessVector = accessVector or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['attackVector']
-+        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['vectorString']
-         cvssv3 = cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
-     except KeyError:
-         pass
-     accessVector = accessVector or "UNKNOWN"
-+    vectorString = vectorString or "UNKNOWN"
-     cvssv3 = cvssv3 or 0.0
- 
--    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?)",
--                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector]).close()
-+    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?)",
-+                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector, vectorString]).close()
- 
-     try:
-         # Remove any pre-existing CVE configuration. Even for partial database
+ SRC_URI:append:class-nativesdk = " \
 -- 
 2.34.1
 
