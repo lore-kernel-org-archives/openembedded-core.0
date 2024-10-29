@@ -2,281 +2,106 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 21C71D3A68D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D31D3A68E
 	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 19:00:34 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.1980.1730228427857577705
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.1956.1730228433041934971
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 12:00:27 -0700
+ Tue, 29 Oct 2024 12:00:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2aq66UYP;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7ea7e250c54so4360696a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 12:00:27 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=w2OY3PZO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7ed9c16f687so4658884a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 12:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730228427; x=1730833227; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730228432; x=1730833232; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=7JDPfFY5PglOxXiWujcaA1eSKC7jqokqzkFhaE9mSA0=;
-        b=2aq66UYPIb1Wczu/G7AcsMKZV4gs3Wwm+isH2iWhgsSZQIyenJXsiNraYX2JK1b+Az
-         jA737NzO4B1ldOIHzWkOPcWiuyUq25RVbc54WPb5Ic+V8m5K5pEnzMWirV3xVr8cBYKs
-         dtgrMZpATC80S1P+NTf2cRbyZHVDWAP1Osagdty3W4EO2NdQ1qW/ZBU6JYHvMSUGuou2
-         X90sBBiWozitJwyWH7kO7s7IMXQxWWuK5X+kJWBYMoycv91gyMlkB9P4cqOzVSLf8f1E
-         yzZTqwDlhfFMCLXndNqWKBhN2l07Zn2ShEi/cG/0kIqvBXJWMS94PY6EOqFpB0QL+4Gk
-         C1nA==
+        bh=LDthNxrrcVZvXcTxLkP+/ELe0qNOmUuCvIwcqjPfwIY=;
+        b=w2OY3PZOxnBMfo/QPfj9C/tNcEc4e4WCE4TaPozTyADI06KDvNtLjk/TkBNDI/84Vo
+         MLeMdw+rMxluoGavOMxx4hpXXB3YNWfxHr9BIbilpLcy4qH9Tx5cptHoTYzgNaBba/Dd
+         ELVEyPbpfsFwDHEP6SbflpJg05uyoRalrVfcX7SpaLDsVF3PQs/3fpPglZ+0mK3Yphjx
+         gAODQvUKgbNjPhMVk2PAYg4m2cZ8rjSgb4C4knu06NuoxrKldXlLga3TZqUU45CNNTqc
+         erYHgHCpe4Z1tXjvzWxDUxpynjtsvCtyiHukVi7DjKzhejJ89nXYpZNOEuMxVQCYGFym
+         uUUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730228427; x=1730833227;
+        d=1e100.net; s=20230601; t=1730228432; x=1730833232;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=7JDPfFY5PglOxXiWujcaA1eSKC7jqokqzkFhaE9mSA0=;
-        b=SC65ROCrPyT8TyYEhS5eG052Sx6+g1VFsBQME9YNBplKhu8ok6ck8hIeWBj1Fi2/fl
-         db6+bYbHQTq+LUeXb2ncivdfw4anL4UBrxiCBA5V84xyyGYxW35WWYrnos+tuRZBNN+3
-         p8sP99yN+O4FifwkzywQchDeB5a0mb8kGStz+2ctigeipRALrDyDark5gEWy2d8/bQMt
-         wOAE/S9i8Mp1wK1ioV6QE7QvG1xFtS4c4tdgkwklf2UgKcuxDRMux05bzYMI5GCHM8wF
-         I43WW2VQB8DHxzwZ72P4G0ScQxcojFIJa55kt6QC5Nc8IpjU6Em6Z74dYeIcYZmh1+rA
-         ujYg==
-X-Gm-Message-State: AOJu0YyEWJQ+4+k64YpMGDc0VWx25e0t8a6MPNTYd0EiEQw5hKGX9K7s
-	JlgRs71+r6F+4r4vl3PkG14tfj0xx24C8hqM2WgYR43wRmAKreL9F1dYj8BVlRBprckNBXyO1PG
-	n
-X-Google-Smtp-Source: AGHT+IFMKbGEr2QbzWrCUZaTQLh86yAeEVZF9/FLr5sQQgwA9G/eJNineCATV2HJXhVsTr4VtejcVg==
-X-Received: by 2002:a05:6a21:3947:b0:1d9:3456:b71e with SMTP id adf61e73a8af0-1d9a83c1926mr16746182637.12.1730228426825;
-        Tue, 29 Oct 2024 12:00:26 -0700 (PDT)
+        bh=LDthNxrrcVZvXcTxLkP+/ELe0qNOmUuCvIwcqjPfwIY=;
+        b=Hwv7vRWPpewNJwNtLcpQU/h9xmqL2y731KK4+L5GpIM/0KzWL+RNYnzsGxy8jNncur
+         iTjTf5+4N82USuJUUHAtuDS+BTCPCNKuBUb8ch2AYbpXbhqqCF+2Y2tsh8+peNV7trzx
+         mVLqo1ptWviBvh4GLsJPaJfLkhTEM4xn/dcsDWpOXZ1/ATxMkRY4XyoCIvAu3h+d5GFV
+         iiACnBkO0SW76k8TBuu6U6OFbVTK/TA/3ZR1jkUlq2R1cYfC8MzoIhi2rf8AZVD9BDGs
+         Pe4VsHiUNA4nWg5V9Cst222sa5tkvnC5ZAWibDuqkWiKuDrCL2pzbWoYW04GyQf40ryY
+         pv1Q==
+X-Gm-Message-State: AOJu0Yxqhi03tljZr3qK9N6fAKX1hXdzc6pbML7CvIT4PSW8p/AiGjTV
+	NLaJUvikbVa6SFaW6/oNG8gQHwU87rV4KsctmyFy/J/c0Sin4VkncL0zbafs2d+IGD3ULaU+Z/f
+	5
+X-Google-Smtp-Source: AGHT+IGP24/DjF7W5NfGMw6k69CMhd0jGTe4nyFEp0xzo8sqR//JtyRlqiKu5gFHqAPoW+UpvwYbFw==
+X-Received: by 2002:a05:6a20:c891:b0:1d9:2723:64a6 with SMTP id adf61e73a8af0-1d9a84016e1mr14275410637.21.1730228432027;
+        Tue, 29 Oct 2024 12:00:32 -0700 (PDT)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7205793273csm7835439b3a.74.2024.10.29.12.00.26
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7205793273csm7835439b3a.74.2024.10.29.12.00.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 12:00:26 -0700 (PDT)
+        Tue, 29 Oct 2024 12:00:31 -0700 (PDT)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/19] zip: Make configure checks to be more robust
-Date: Tue, 29 Oct 2024 11:59:46 -0700
-Message-Id: <03b7a44e2ff4364cb85758f91d78efa0cf85682d.1730228268.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 16/19] cracklib: Modify patch to compile with GCC 14
+Date: Tue, 29 Oct 2024 11:59:49 -0700
+Message-Id: <7cca344feaa16cfabbaa2f34e4aab91cc1af39ee.1730228268.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1730228268.git.steve@sakoman.com>
 References: <cover.1730228268.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 19:00:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206523
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206526
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Zoltan Boszormenyi <zboszor@gmail.com>
 
-Newer compilers are strict and have turned some warnings into hard
-errors which results in subtle configure check failures. Therefore fix
-these tests and also enable largefile support via cflags when its
-desired
+GCC 14 implicitly turns a warning into a compiler error:
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+| ../../git/src/lib/packlib.c: In function ‘PWClose’:
+| ../../git/src/lib/packlib.c:554:40: error: passing argument 1 of ‘HwmsHostToBigEndian’ from incompatible pointer type [-Wincompatible-pointer-types]
+|   554 |             HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
+|       |                                 ~~~~~~~^~~~~
+|       |                                        |
+|       |                                        uint32_t * {aka unsigned int *}
+| ../../git/src/lib/packlib.c:142:27: note: expected ‘char *’ but argument is of type ‘uint32_t *’ {aka ‘unsigned int *’}
+|   142 | HwmsHostToBigEndian(char *pHwms, int nLen,int nBitType)
+|       |                     ~~~~~~^~~~~
+
+Add the cast to (char *) to silence it.
+
+Signed-off-by: Zoltán Böszörményi <zboszor@gmail.com>
 Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...y-correct-function-signatures-and-de.patch | 134 ++++++++++++++++++
- ...2-unix.c-Do-not-redefine-DIR-as-FILE.patch |  35 +++++
- meta/recipes-extended/zip/zip_3.0.bb          |   2 +
- 3 files changed, 171 insertions(+)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-Specify-correct-function-signatures-and-de.patch
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
+ ...0001-packlib.c-support-dictionary-byte-order-dependent.patch | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/0001-configure-Specify-correct-function-signatures-and-de.patch b/meta/recipes-extended/zip/zip-3.0/0001-configure-Specify-correct-function-signatures-and-de.patch
-new file mode 100644
-index 0000000000..a4f8382625
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/0001-configure-Specify-correct-function-signatures-and-de.patch
-@@ -0,0 +1,134 @@
-+From 8810f2643c9372a8083272dc1fc157427646d961 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 10 Aug 2022 17:16:23 -0700
-+Subject: [PATCH 1/2] configure: Specify correct function signatures and
-+ declarations
-+
-+Include needed system headers in configure tests, this is needed because
-+newer compilers are getting stricter about the C99 specs and turning
-+-Wimplicit-function-declaration into hard error e.g. clang-15+
-+
-+Upstream-Status: Inactive-Upstream
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ unix/configure | 79 +++++++++++++++++++++++++++++++++++++++++---------
-+ 1 file changed, 66 insertions(+), 13 deletions(-)
-+
-+diff --git a/unix/configure b/unix/configure
-+index 1d9a9bb..f2b3d02 100644
-+--- a/unix/configure
-++++ b/unix/configure
-+@@ -513,21 +513,70 @@ $CC $CFLAGS -c conftest.c >/dev/null 2>/dev/null
-+ # Check for missing functions
-+ # add NO_'function_name' to flags if missing
-+ 
-+-for func in rmdir strchr strrchr rename mktemp mktime mkstemp
-+-do
-+-  echo Check for $func
-+-  echo "int main(){ $func(); return 0; }" > conftest.c
-+-  $CC $CFLAGS $LDFLAGS $BFLAG -o conftest conftest.c >/dev/null 2>/dev/null
-+-  [ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_`echo $func | tr '[a-z]' '[A-Z]'`"
-+-done
-++echo Check for rmdir
-++cat > conftest.c << _EOF_
-++#include <unistd.h>
-++int main(){ rmdir(NULL); return 0; }
-++_EOF_
-++$CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-++[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_RMDIR"
-++
-++echo Check for strchr
-++cat > conftest.c << _EOF_
-++#include <string.h>
-++int main(){ strchr(NULL,0); return 0; }
-++_EOF_
-++$CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-++[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_STRCHR"
-+ 
-++echo Check for strrchr
-++cat > conftest.c << _EOF_
-++#include <string.h>
-++int main(){ strrchr(NULL,0); return 0; }
-++_EOF_
-++$CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-++[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_STRRCHR"
-++
-++echo Check for rename
-++cat > conftest.c << _EOF_
-++#include <stdio.h>
-++int main(){ rename(NULL,NULL); return 0; }
-++_EOF_
-++$CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-++[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_RENAME"
-++
-++echo Check for mktemp
-++cat > conftest.c << _EOF_
-++#include <stdlib.h>
-++int main(){ mktemp(NULL); return 0; }
-++_EOF_
-++$CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-++[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_MKTEMP"
-++
-++echo Check for mktime
-++cat > conftest.c << _EOF_
-++#include <time.h>
-++int main(){ mktime(NULL); return 0; }
-++_EOF_
-++$CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-++[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_MKTIME"
-++
-++echo Check for mkstemp
-++cat > conftest.c << _EOF_
-++#include <stdlib.h>
-++int main(){ return mkstemp(NULL); }
-++_EOF_
-++$CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-++[ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_MKSTEMP"
-+ 
-+ echo Check for memset
-+-echo "int main(){ char k; memset(&k,0,0); return 0; }" > conftest.c
-++cat > conftest.c << _EOF_
-++#include <string.h>
-++int main(){ char k; memset(&k,0,0); return 0; }
-++_EOF_
-+ $CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-+ [ $? -ne 0 ] && CFLAGS="${CFLAGS} -DZMEM"
-+ 
-+-
-+ echo Check for memmove
-+ cat > conftest.c << _EOF_
-+ #include <string.h>
-+@@ -548,7 +597,7 @@ $CC $CFLAGS $LDFLAGS -o conftest conftest.c >/dev/null 2>/dev/null
-+ echo Check for errno declaration
-+ cat > conftest.c << _EOF_
-+ #include <errno.h>
-+-main()
-++int main()
-+ {
-+   errno = 0;
-+   return 0;
-+@@ -625,14 +674,18 @@ CFLAGS="${CFLAGS} ${OPT}"
-+ 
-+ echo Check for valloc
-+ cat > conftest.c << _EOF_
-+-main()
-++#include <stdlib.h>
-++int main()
-+ {
-+ #ifdef MMAP
-+-    valloc();
-++    valloc(0);
-+ #endif
-++    return 0;
-+ }
-+ _EOF_
-+-$CC ${CFLAGS} -c conftest.c > /dev/null 2>/dev/null
-++#$CC ${CFLAGS} -c conftest.c > /dev/null 2>/dev/null
-++$CC ${CFLAGS} -c conftest.c
-++echo "==========================================="
-+ [ $? -ne 0 ] && CFLAGS="${CFLAGS} -DNO_VALLOC"
-+ 
-+ 
-+-- 
-+2.37.1
-+
-diff --git a/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch b/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
-new file mode 100644
-index 0000000000..a86e03e620
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/0002-unix.c-Do-not-redefine-DIR-as-FILE.patch
-@@ -0,0 +1,35 @@
-+From 76f5bf3546d826dcbc03acbefcf0b10b972bf136 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 10 Aug 2022 17:19:38 -0700
-+Subject: [PATCH 2/2] unix.c: Do not redefine DIR as FILE
-+
-+DIR is already provided on Linux via
-+/usr/include/dirent.h system header
-+
-+Upstream-Status: Inactive-Upstream
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ unix/unix.c | 2 --
-+ 1 file changed, 2 deletions(-)
-+
-+diff --git a/unix/unix.c b/unix/unix.c
-+index ba87614..6e6f4d2 100644
-+--- a/unix/unix.c
-++++ b/unix/unix.c
-+@@ -61,13 +61,11 @@ local time_t label_utim = 0;
-+ /* Local functions */
-+ local char *readd OF((DIR *));
-+ 
-+-
-+ #ifdef NO_DIR                    /* for AT&T 3B1 */
-+ #include <sys/dir.h>
-+ #ifndef dirent
-+ #  define dirent direct
-+ #endif
-+-typedef FILE DIR;
-+ /*
-+ **  Apparently originally by Rich Salz.
-+ **  Cleaned up and modified by James W. Birdsall.
-+-- 
-+2.37.1
-+
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index e1e6be6225..b6ec3cd9ad 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -17,6 +17,8 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
-            file://0001-configure-use-correct-CPP.patch \
-            file://0002-configure-support-PIC-code-build.patch \
-            file://0001-configure-Use-CFLAGS-and-LDFLAGS-when-doing-link-tes.patch \
-+           file://0001-configure-Specify-correct-function-signatures-and-de.patch \
-+           file://0002-unix.c-Do-not-redefine-DIR-as-FILE.patch \
-            file://0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch \
-            "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+index 8fb512a224..cf7a0857e0 100644
+--- a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
++++ b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+@@ -303,7 +303,7 @@ index 8acb7be..a9d8750 100644
+ +	    PWDICT tmp_pwp;
+ +
+ +	    memcpy(&tmp_pwp, pwp, sizeof(PWDICT));
+-+	    HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
+++	    HwmsHostToBigEndian((char *)tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
+ +	    fwrite(tmp_pwp.hwms, 1, sizeof(tmp_pwp.hwms), pwp->wfp);
+  	}
+      }
 -- 
 2.34.1
 
