@@ -1,216 +1,169 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB1ACD3A67B
-	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 18:28:03 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web10.1095.1730226476749229636
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E91BD3A680
+	for <webhook@archiver.kernel.org>; Tue, 29 Oct 2024 19:00:04 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.1956.1730228400523994027
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 11:27:56 -0700
+ Tue, 29 Oct 2024 12:00:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zhwirtmm;
- spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: festevam@gmail.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-20cd76c513cso53903445ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 11:27:56 -0700 (PDT)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=0+h/uPzB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7ea9739647bso4164129a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 12:00:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730226476; x=1730831276; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QE1YXfAPW0PlCcolSIaRHqVlndshx3P/HUFmjChRHFg=;
-        b=Zhwirtmm0KWmzTJZVM4dsCXUjZl7f+L0vwRQc6in64oki+UOI1aYbZrqaV35qwly3E
-         jDGun7xu6kAD6Kp23Mm0uEIrOQsCxjBFMNG7l4pk7osyZJMmLv0dB1i3+kKvEwyGTypS
-         8quiiARjEDmfvG5APgQTjxU/kzcYfbfaTNwGnvhTsapqIjjeEoVXS8R4ZOeNsUnJISoq
-         EGd83DjUt0wQcpasciYUCvLCJ6AsxDdLNW0LDTh3b+6cSqYSXIquaXgOKGrSFStcUA/L
-         z/swjfQwvCJDp9akO5JFnXvp4npz+7NLC0IJiOzliIzKkMJipsbzj3eep8dEjgyE60vd
-         XAJw==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730228400; x=1730833200; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=h7rEui6ebujObGgILoZcM1ATIcbNk9nUcxxntQu1CYM=;
+        b=0+h/uPzBxd4DGHJtlUI1/4C+f6GB/GVbnqIZIdlFbY9RJo+VyPkABSK3ncszqlTP++
+         TP/6RFg5mWxsIoigbXvZ5ALjY38hHI0YgI2UaoAdcEcKJUpCeOt8Hn98tumgIqZV0+RB
+         t6SDuXi3hv8cYri52G+517LyYxZv+FgZ6ssq24Dn2YNH8/dgmuj6mafkfwxo63b7jvw9
+         AmaEyoGg8a5blLCn+rPnz4MVIAZmHXu/y8e2EOf6fFlrpxqmwnrPnXkpRx4WxQVaiQhI
+         er+VVH5+Nz8aD2BRTj/kwJFomiTrkYIz95+eLXXKl25ZZHpUaRdyXDLRHVwk59gQJVa2
+         l+Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730226476; x=1730831276;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QE1YXfAPW0PlCcolSIaRHqVlndshx3P/HUFmjChRHFg=;
-        b=X7C6TzWE6Y8TvoMp8HYm22ZNm7ecmO+cYqVvKSsx/PXbDf8i53NBIcmH/1frd8ogoi
-         eX2zjJK2Jkk8Z8qqLnr9DkBW4id/o+X3PC/6fLTL8e8YcEWolCqLo2s+0+cfxeM3+XWP
-         CFoXJPpUBjdQMKnAwbF+pYZM1I63dQ4ulZzEVprZd+YeDQMi1gp8Fo4veHaC8PWPepV4
-         gPGCR7r573jcykvGncoGfK7fJUAP40y/daNGM4m/MOLPfLAlxX273IQZHifd4Q+/T/ob
-         lNY3a/44uboalu+lZjfimwfDFpMUNUvyWgldblp7dRr8OT5MqUUdm+F1RheNeHJHKlUJ
-         iyNQ==
-X-Gm-Message-State: AOJu0YxGthYcDqWQCunPeB/Sr6G+4doEySdl9/OjpAKtUnrXxr+UcMBJ
-	qz25YMXhPLVCQWL6nEywxqjrUWD+0Em/54NEUPCGbIT+aQRCC7bnlQ/q8w==
-X-Google-Smtp-Source: AGHT+IE5n+oRAknyBhk1mafDY9/ipv6y0rEy6+CEO0jSFRBa+6TX/a4U8oQbcL9+7pjjxpNgwys2bg==
-X-Received: by 2002:a17:90b:3908:b0:2d8:e7db:9996 with SMTP id 98e67ed59e1d1-2e92ce50f8dmr708672a91.13.1730226475484;
-        Tue, 29 Oct 2024 11:27:55 -0700 (PDT)
-Received: from fabio-Precision-3551.. ([2804:14c:485:4b61:190a:1425:254d:1e7a])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e920197e7bsm1370363a91.0.2024.10.29.11.27.53
+        d=1e100.net; s=20230601; t=1730228400; x=1730833200;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=h7rEui6ebujObGgILoZcM1ATIcbNk9nUcxxntQu1CYM=;
+        b=KfkcJ3yFccMdJe2Br0v/JL0iZUShkYaKrsVCVxxatfeNy1kOttfjXCn1THzOrUxTZK
+         xdfEs2lzxt7BOMqyCpokGV1sM7UczyZz+NPJWB2OpM8dQSwoILYw/D3OdmDQHGXS2oMg
+         EqbtVL7ExFohvoFj8xc1UB/p7VGN5vz+YKafHUJqIfXpD4+bDRthcOX4hBno6AEkLXQ6
+         d/A6cl93Ohkm1D2RCZv6IweVpGQAXbz2t1fBNHXxPVvJHLjGFwBsGGqFPwRATmeC5Reb
+         UXwcEM+3ECQ8/9Um0RBPfIVUPTQNMuyaW3KALdTt+bjuNkkRKjbBzY2BFKV+T3I7XR13
+         3EYQ==
+X-Gm-Message-State: AOJu0YwnemQDEfHMEcw/ertivx/L2Lo6GbWMaEd6nGkGeBE2azpIfunw
+	dmqrSwvDAKEqvjd8F6bAJWhGQn25NELj05LUQKf5omCOuoUnkY2zsly+OL5VgGby2O6x9jW9Waa
+	T
+X-Google-Smtp-Source: AGHT+IGvYalray3dJkzDJTNXXSrAR47o4GvSeTJv+KYQ/Ivzy7KgFlsFSPpjhhfFUBC+HKwQEk7k+w==
+X-Received: by 2002:a05:6a21:164e:b0:1d9:87e3:120c with SMTP id adf61e73a8af0-1d9a851e807mr16065200637.32.1730228399574;
+        Tue, 29 Oct 2024 11:59:59 -0700 (PDT)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7205793273csm7835439b3a.74.2024.10.29.11.59.58
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Oct 2024 11:27:54 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
+        Tue, 29 Oct 2024 11:59:59 -0700 (PDT)
+From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@denx.de>
-Subject: [PATCH] usbutils: Update to version 018
-Date: Tue, 29 Oct 2024 15:27:47 -0300
-Message-Id: <20241029182747.353739-1-festevam@gmail.com>
+Subject: [OE-core][kirkstone 00/19] Patch review
+Date: Tue, 29 Oct 2024 11:59:33 -0700
+Message-Id: <cover.1730228268.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 18:28:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206509
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Oct 2024 19:00:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206510
 
-From: Fabio Estevam <festevam@denx.de>
+Please review this set of changes for kirkstone and have comments back by
+end of day Thursday, October 31
 
-Update to version 018, which has been converted to meson.
+Passed a-full on autobuilder:
 
-Patch 0001-usbutils.pc.in-Fix-Cflags-entry.patch is no longer needed
-as usbutils now uses meson.
+https://valkyrie.yoctoproject.org/#/builders/29/builds/362
 
-Patch 0001-usb-devices-Fix-usb-devices-with-busybox.patch has been
-upstreamed.
+The following changes since commit 983e3efb51ab22f1fa5f90cbbfba2d701aa425fc:
 
-Add CC0-1.0, LGPL-2.1-or-later, and MIT to the LICENSES entry
-due to the following usbutils commits:
+  kmscube: create_framebuffer: backport modifier fix (2024-10-16 06:55:13 -0700)
 
-https://github.com/gregkh/usbutils/commit/32154d0dbea27fc1de8ad07da9110c5ec5f141d8
+are available in the Git repository at:
 
-https://github.com/gregkh/usbutils/commit/d04e63e5517f89d508b3a206c6611edafc82ac8f
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-License-Update: Add CC0-1.0, LGPL-2.1-or-later, and MIT entries.
+Antoine Lubineau (1):
+  cve-check: add CVSS vector string to CVE database and reports
 
-Signed-off-by: Fabio Estevam <festevam@denx.de>
----
- ...devices-Fix-usb-devices-with-busybox.patch | 37 -------------------
- ...0001-usbutils.pc.in-Fix-Cflags-entry.patch | 34 -----------------
- .../{usbutils_017.bb => usbutils_018.bb}      | 20 +++++-----
- 3 files changed, 10 insertions(+), 81 deletions(-)
- delete mode 100755 meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
- delete mode 100644 meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch
- rename meta/recipes-bsp/usbutils/{usbutils_017.bb => usbutils_018.bb} (50%)
+Ashish Sharma (1):
+  ghostscript: Backport CVE-2024-29508
 
-diff --git a/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch b/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
-deleted file mode 100755
-index dbe5d7c18b6d..000000000000
---- a/meta/recipes-bsp/usbutils/usbutils/0001-usb-devices-Fix-usb-devices-with-busybox.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From da155d965a34b5c5770dc30fa52eb7ef405f3a30 Mon Sep 17 00:00:00 2001
--From: Teresa Remmet <t.remmet@phytec.de>
--Date: Thu, 5 Sep 2024 08:37:48 +0200
--Subject: [PATCH] usb-devices: Fix usb-devices with busybox
--
--The busybox find command is missing the -printf parameter leading to
--the error:
--
--find: unrecognized: -printf
--
--Replace the parameter with sed.
--
--This patch was originally created by Daniel Fancsali.
--
--Upstream-Status: Backport [https://github.com/gregkh/usbutils/commit/da155d965a34b5c5770dc30fa52eb7ef405f3a30]
--
--Signed-off-by: Teresa Remmet <t.remmet@phytec.de>
-----
-- usb-devices | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/usb-devices b/usb-devices
--index 5f60ad5a1ed0..51f48b4ad628 100755
----- a/usb-devices
--+++ b/usb-devices
--@@ -192,7 +192,7 @@ if [ ! -d /sys/bus ]; then
-- 	exit 1
-- fi
-- 
---for device in $(find /sys/bus/usb/devices -name 'usb*' -printf '%f\n' | sort -V)
--+for device in $(find /sys/bus/usb/devices -name 'usb*' | sed -E 's#^.*/##g' | sort -V)
-- do
-- 	print_device "/sys/bus/usb/devices/$device" 0 0 0
-- done
---- 
--2.34.1
--
-diff --git a/meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch b/meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch
-deleted file mode 100644
-index 039dd5cd7235..000000000000
---- a/meta/recipes-bsp/usbutils/usbutils/0001-usbutils.pc.in-Fix-Cflags-entry.patch
-+++ /dev/null
-@@ -1,34 +0,0 @@
--From f558919e858453a31313a3df35906de2e036940c Mon Sep 17 00:00:00 2001
--From: Fabio Estevam <festevam@denx.de>
--Date: Thu, 4 Jan 2024 03:32:11 +0100
--Subject: [PATCH] usbutils.pc.in: Fix Cflags entry
--
--When updating the usbutils version in OpenEmbedded from 015 to 017,
--the following QA error is seen:
--
--QA Issue: File /usr/lib/pkgconfig/usbutils.pc in package usbutils-dev contains reference to TMPDIR [buildpaths]
--
--As this causes reproducibility problem due to the host PC path being
--leaked, it is treated as error.
--
--Fix it by using the standard Cflags entry.
--
--Upstream-Status: Submitted [https://github.com/gregkh/usbutils/pull/184/commits/3b3e5e1ebea7060bfa118d25a91b816dfa176b31]
--Signed-off-by: Fabio Estevam <festevam@denx.de>
-----
-- usbutils.pc.in | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/usbutils.pc.in b/usbutils.pc.in
--index e69778c3195c..0aa0005de951 100644
----- a/usbutils.pc.in
--+++ b/usbutils.pc.in
--@@ -15,4 +15,4 @@ Requires: libusb-1.0 >= 1.0.14  libudev >= 196
-- Conflicts:
-- Libs: -L${libdir}
-- Libs.private: @LIBUSB_LIBS@ @UDEV_LIBS@
---Cflags: @CFLAGS@ @LIBUSB_CFLAGS@ @UDEV_CFLAGS@
--+Cflags: -I${includedir}
---- 
--2.34.1
--
-diff --git a/meta/recipes-bsp/usbutils/usbutils_017.bb b/meta/recipes-bsp/usbutils/usbutils_018.bb
-similarity index 50%
-rename from meta/recipes-bsp/usbutils/usbutils_017.bb
-rename to meta/recipes-bsp/usbutils/usbutils_018.bb
-index 83d5c7287d44..b96a1b4f19c7 100644
---- a/meta/recipes-bsp/usbutils/usbutils_017.bb
-+++ b/meta/recipes-bsp/usbutils/usbutils_018.bb
-@@ -3,21 +3,21 @@ DESCRIPTION = "Contains the lsusb utility for inspecting the devices connected t
- HOMEPAGE = "http://www.linux-usb.org"
- SECTION = "base"
- 
--LICENSE = "GPL-2.0-or-later & (GPL-2.0-only | GPL-3.0-only)"
--# License files went missing in 010, when 011 is released add LICENSES/* back
--LIC_FILES_CHKSUM = "file://lsusb.c;endline=1;md5=7226e442a172bcf25807246d7ef1eba1 \
--                    file://lsusb.py.in;beginline=2;endline=2;md5=c443ada211d701156e42ea36d41625b3 \
--                    "
--
-+LICENSE = "GPL-2.0-or-later & (GPL-2.0-only | GPL-3.0-only) & CC0-1.0 & LGPL-2.1-or-later & MIT"
-+LIC_FILES_CHKSUM = "file://LICENSES/CC0-1.0.txt;md5=cf1af55fc6f5b9a23e12086005298dcd \
-+		    file://LICENSES/GPL-2.0-only.txt;md5=c89d4ad08368966d8df5a90ea96bebe4 \
-+		    file://LICENSES/GPL-2.0-or-later.txt;md5=c89d4ad08368966d8df5a90ea96bebe4 \
-+		    file://LICENSES/GPL-3.0-only.txt;md5=050f496cfea7876fc13cdea643e041e0 \
-+		    file://LICENSES/LGPL-2.1-or-later.txt;md5=8c6e7513c570546f65ae570dae278c17 \
-+		    file://LICENSES/MIT.txt;md5=e8f57dd048e186199433be2c41bd3d6d \
-+                   "
- DEPENDS = "libusb1 virtual/libiconv udev"
- 
- SRC_URI = "${KERNELORG_MIRROR}/linux/utils/usb/usbutils/usbutils-${PV}.tar.gz \
--           file://0001-usbutils.pc.in-Fix-Cflags-entry.patch \
--           file://0001-usb-devices-Fix-usb-devices-with-busybox.patch \
-           "
--SRC_URI[sha256sum] = "f704c4cb78a060db88b43aac6ebfd3d93c2c5cf1d6dd0e42936faaf00814ab00"
-+SRC_URI[sha256sum] = "0048d2d8518fb0cc7c0516e16e52af023e52b55ddb3b2068a77041b5ef285768"
- 
--inherit autotools pkgconfig update-alternatives
-+inherit meson pkgconfig update-alternatives
- 
- ALTERNATIVE:${PN} = "lsusb"
- ALTERNATIVE_PRIORITY = "100"
+Eilís 'pidge' Ní Fhlannagáin (1):
+  nativesdk-intercept: Fix bad intercept chgrp/chown logic
+
+Khem Raj (3):
+  zip: Make configure checks to be more robust
+  zip: Fix build with gcc-14
+  util-linux: Define pidfd_* function signatures
+
+Martin Jansa (3):
+  vala: add -Wno-error=incompatible-pointer-types work around
+  libffi: backport a fix to build libffi-native with gcc-14
+  at-spi2-core: backport a patch to fix build with gcc-14 on host
+
+Peter Marko (3):
+  openssl: patch CVE-2024-9143
+  python3: ignore fixed CVEs
+  cve-check: add support for cvss v4.0
+
+Rohini Sangam (1):
+  vim: Upgrade 9.1.0698 -> 9.1.0764
+
+Siddharth Doshi (1):
+  vim: Upgrade 9.1.0682 -> 9.1.0698
+
+Steve Sakoman (1):
+  bmap-tools: update HOMEPAGE and SRC_URI
+
+Wang Mingyu (1):
+  orc: upgrade 0.4.39 -> 0.4.40
+
+Yogita Urade (1):
+  qemu: fix CVE-2023-3019
+
+Zoltan Boszormenyi (1):
+  cracklib: Modify patch to compile with GCC 14
+
+baruch@tkos.co.il (1):
+  overlayfs-etc: add option to skip creation of mount dirs
+
+ meta/classes/cve-check.bbclass                |  12 +-
+ meta/classes/overlayfs-etc.bbclass            |   5 +-
+ meta/files/overlayfs-etc-preinit.sh.in        |  16 +-
+ .../openssl/openssl/CVE-2024-9143.patch       | 202 ++++++
+ .../openssl/openssl_3.0.15.bb                 |   1 +
+ .../meta/cve-update-nvd2-native.bb            |  19 +-
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../0001-check-for-sys-pidfd.h.patch          |  50 ++
+ .../orc/{orc_0.4.39.bb => orc_0.4.40.bb}      |   2 +-
+ .../python/python3_3.10.15.bb                 |   2 +
+ meta/recipes-devtools/qemu/qemu.inc           |  18 +-
+ .../qemu/qemu/CVE-2023-3019-0001.patch        | 622 ++++++++++++++++++
+ .../qemu/qemu/CVE-2023-3019-0002.patch        |  91 +++
+ meta/recipes-devtools/vala/vala.inc           |   4 +
+ ...port-dictionary-byte-order-dependent.patch |   2 +-
+ .../ghostscript/CVE-2024-29508-1.patch        | 308 +++++++++
+ .../ghostscript/CVE-2024-29508-2.patch        |  29 +
+ .../ghostscript/ghostscript_9.55.0.bb         |   2 +
+ ...e-dirent.h-for-closedir-opendir-APIs.patch |  45 ++
+ ...y-correct-function-signatures-and-de.patch | 134 ++++
+ meta/recipes-extended/zip/zip_3.0.bb          |   2 +
+ .../0001-Fix-function-prototype.patch         |  27 +
+ .../atk/at-spi2-core_2.42.0.bb                |   1 +
+ .../bmap-tools/bmap-tools_git.bb              |   4 +-
+ ...ward-declare-open_temp_exec_file-764.patch |  47 ++
+ meta/recipes-support/libffi/libffi_3.4.4.bb   |   1 +
+ meta/recipes-support/vim/vim.inc              |   4 +-
+ scripts/nativesdk-intercept/chgrp             |   5 +-
+ scripts/nativesdk-intercept/chown             |   5 +-
+ 29 files changed, 1630 insertions(+), 31 deletions(-)
+ create mode 100755 meta/recipes-connectivity/openssl/openssl/CVE-2024-9143.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/0001-check-for-sys-pidfd.h.patch
+ rename meta/recipes-devtools/orc/{orc_0.4.39.bb => orc_0.4.40.bb} (92%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3019-0001.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2023-3019-0002.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508-1.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-29508-2.patch
+ create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch
+ create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-configure-Specify-correct-function-signatures-and-de.patch
+ create mode 100644 meta/recipes-support/atk/at-spi2-core/0001-Fix-function-prototype.patch
+ create mode 100644 meta/recipes-support/libffi/libffi/0001-Forward-declare-open_temp_exec_file-764.patch
+
 -- 
 2.34.1
 
