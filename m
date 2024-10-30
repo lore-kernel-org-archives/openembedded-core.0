@@ -2,21 +2,21 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47E86D74969
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 59A27D7496B
 	for <webhook@archiver.kernel.org>; Wed, 30 Oct 2024 05:08:00 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.7766.1730264871940435484
+ by mx.groups.io with SMTP id smtpd.web10.7931.1730264871232870747
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Oct 2024 22:07:52 -0700
+ Tue, 29 Oct 2024 22:07:51 -0700
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=10330b2ea0=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U57Ja5019350;
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U57Ja4019350;
 	Wed, 30 Oct 2024 05:07:50 GMT
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42gnn0vkgr-6
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42gnn0vkgr-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 30 Oct 2024 05:07:50 +0000 (GMT)
+	Wed, 30 Oct 2024 05:07:49 +0000 (GMT)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -27,19 +27,18 @@ Received: from ala-lpggp7.wrs.com (147.11.136.210) by
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <JPEWhacker@gmail.com>
-Subject: [oe-core][PATCH V3 5/6] create-spdx-{2.2,3.0}: support SPDX include source for work-share directory
-Date: Tue, 29 Oct 2024 22:07:44 -0700
-Message-ID: <20241030050745.3702603-6-hongxu.jia@windriver.com>
+Subject: [oe-core][PATCH V3 4/6] create-spdx-{2.2,3.0}: fix do_create_spdx dependency while spdx include sources
+Date: Tue, 29 Oct 2024 22:07:43 -0700
+Message-ID: <20241030050745.3702603-5-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241030050745.3702603-1-hongxu.jia@windriver.com>
 References: <20241030050745.3702603-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Authority-Analysis: v=2.4 cv=ZIuFmm7b c=1 sm=1 tr=0 ts=6721bf26 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=DAUX931o1VcA:10 a=iGHA9ds3AAAA:8 a=t7CeM3EgAAAA:8 a=HEwNEoMtOsuOwCeMpPQA:9 a=aAh4nC1LCUkA:10 a=nM-MV4yxpKKO9kiQg6Ot:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: BW30V1nbZlhqllispkARmztXXu6dqZtR
-X-Proofpoint-ORIG-GUID: BW30V1nbZlhqllispkARmztXXu6dqZtR
+X-Authority-Analysis: v=2.4 cv=ZIuFmm7b c=1 sm=1 tr=0 ts=6721bf25 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=DAUX931o1VcA:10 a=t7CeM3EgAAAA:8 a=UXYqD_Jfuu-suqyiGmQA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: nVdzfkMTOUpixpLf8hiSr2tChMspGGIV
+X-Proofpoint-ORIG-GUID: nVdzfkMTOUpixpLf8hiSr2tChMspGGIV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
  definitions=2024-10-30_02,2024-10-29_01,2024-09-30_01
@@ -52,132 +51,125 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 30 Oct 2024 05:08:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206542
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206541
 
-Originally, while SPDX_INCLUDE_SOURCES = "1" [1], there is bug in scan
-for gcc, libgcc in which the sources locates in work-share directory.
-Copy source from ${WORKDIR} to ${SPDXWORK} did not satisfy the situation
-while ${S} was not included in ${WORKDIR}
+Call function ${@create_spdx_source_deps(d)} or ${create_spdx_source_deps(d)}
+along with addtask not working, use task do_create_spdx flag 'depends'
+to instead
 
-This commit aim to support SPDX include source for work-share directory
-
-1. If is_work_shared_spdx, Copy source from ${S} to ${SPDXWORK},
-normally the dest dir in ${SPDXWORK} has the same basename dir of ${S};
-but for kernel source, rename basename dir 'kernel-source' to ${BP} (${BPN}-${PV})
-
-2. For SPDX source copy, do hard link copy to save copy time
-
-3. Move do_patch to no work shared situation along with do_unpack
-
-4. Tweak task do_create_spdx dependencies to assure the patched source
-in work share is ready for SPDX source copy
-
-5. Remove bb.data.inherits_class('kernel', d) from is_work_shared_spdx,
-the kernel source locates in 'work-shared', test kernel.bbclass is not
-necessary
-
-[1] https://docs.yoctoproject.org/dev/ref-manual/variables.html#term-SPDX_INCLUDE_SOURCES
+Move function create_spdx_source_deps to spdx-common.bbclass for both of
+create-spdx-2.2.bbclass and create-spdx-3.0.bbclass
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes/spdx-common.bbclass |  9 +++++++
- meta/lib/oe/spdx_common.py       | 41 ++++++++++++--------------------
- 2 files changed, 24 insertions(+), 26 deletions(-)
+ meta/classes/create-spdx-2.2.bbclass |  5 ++++-
+ meta/classes/create-spdx-3.0.bbclass | 19 ++++---------------
+ meta/classes/spdx-common.bbclass     | 21 +++++++++++++++++++++
+ meta/lib/oe/spdx_common.py           |  4 ++++
+ 4 files changed, 33 insertions(+), 16 deletions(-)
 
+diff --git a/meta/classes/create-spdx-2.2.bbclass b/meta/classes/create-spdx-2.2.bbclass
+index cd1d6819bf..27242ecf70 100644
+--- a/meta/classes/create-spdx-2.2.bbclass
++++ b/meta/classes/create-spdx-2.2.bbclass
+@@ -584,7 +584,10 @@ addtask do_create_spdx_setscene
+ 
+ do_create_spdx[dirs] = "${SPDXWORK}"
+ do_create_spdx[cleandirs] = "${SPDXDEPLOY} ${SPDXWORK}"
+-do_create_spdx[depends] += "${PATCHDEPENDENCY}"
++do_create_spdx[depends] += " \
++    ${PATCHDEPENDENCY} \
++    ${@create_spdx_source_deps(d)} \
++"
+ 
+ python do_create_runtime_spdx() {
+     from datetime import datetime, timezone
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 5f0590198f..bc23d2d211 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -132,22 +132,8 @@ addtask do_create_spdx after \
+     do_collect_spdx_deps \
+     do_deploy_source_date_epoch \
+     do_populate_sysroot do_package do_packagedata \
+-    ${create_spdx_source_deps(d)} \
+     before do_populate_sdk do_populate_sdk_ext do_build do_rm_work
+ 
+-def create_spdx_source_deps(d):
+-    deps = []
+-    if d.getVar("SPDX_INCLUDE_SOURCES") == "1":
+-        deps.extend([
+-            # do_unpack is a hack for now; we only need it to get the
+-            # dependencies do_unpack already has so we can extract the source
+-            # ourselves
+-            "do_unpack",
+-            # For kernel source code
+-            "do_shared_workdir",
+-        ])
+-    return " ".join(deps)
+-
+ SSTATETASKS += "do_create_spdx"
+ do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
+ do_create_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
+@@ -159,7 +145,10 @@ addtask do_create_spdx_setscene
+ 
+ do_create_spdx[dirs] = "${SPDXWORK}"
+ do_create_spdx[cleandirs] = "${SPDXDEPLOY} ${SPDXWORK}"
+-do_create_spdx[depends] += "${PATCHDEPENDENCY}"
++do_create_spdx[depends] += " \
++    ${PATCHDEPENDENCY} \
++    ${@create_spdx_source_deps(d)} \
++"
+ 
+ python do_create_package_spdx() {
+     import oe.spdx30_tasks
 diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.bbclass
-index ad02da5cd6..d3cdc8b6ce 100644
+index cd9cc0db98..ad02da5cd6 100644
 --- a/meta/classes/spdx-common.bbclass
 +++ b/meta/classes/spdx-common.bbclass
-@@ -57,6 +57,15 @@ def create_spdx_source_deps(d):
-             if oe.spdx_common.has_task(d, "do_shared_workdir"):
-                 deps.append("%s:do_shared_workdir" % pn)
+@@ -39,6 +39,27 @@ SPDX_CUSTOM_ANNOTATION_VARS ??= ""
  
-+            # For gcc-source-${PV} source code
-+            if oe.spdx_common.has_task(d, "do_preconfigure"):
-+                deps.append("%s:do_preconfigure" % pn)
-+            elif oe.spdx_common.has_task(d, "do_patch"):
-+                deps.append("%s:do_patch" % pn)
-+            # For gcc-cross-x86_64 source code
-+            elif oe.spdx_common.has_task(d, "do_configure"):
-+                deps.append("%s:do_configure" % pn)
+ SPDX_MULTILIB_SSTATE_ARCHS ??= "${SSTATE_ARCHS}"
+ 
++def create_spdx_source_deps(d):
++    import oe.spdx_common
 +
-     return " ".join(deps)
- 
- 
++    deps = []
++    if d.getVar("SPDX_INCLUDE_SOURCES") == "1":
++        pn = d.getVar('PN')
++        # do_unpack is a hack for now; we only need it to get the
++        # dependencies do_unpack already has so we can extract the source
++        # ourselves
++        if oe.spdx_common.has_task(d, "do_unpack"):
++            deps.append("%s:do_unpack" % pn)
++
++        if oe.spdx_common.is_work_shared_spdx(d) and \
++           oe.spdx_common.process_sources(d):
++            # For kernel source code
++            if oe.spdx_common.has_task(d, "do_shared_workdir"):
++                deps.append("%s:do_shared_workdir" % pn)
++
++    return " ".join(deps)
++
++
+ python do_collect_spdx_deps() {
+     # This task calculates the build time dependencies of the recipe, and is
+     # required because while a task can deptask on itself, those dependencies
 diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
-index 7a85579f64..ff18d91780 100644
+index 1ea55419ae..7a85579f64 100644
 --- a/meta/lib/oe/spdx_common.py
 +++ b/meta/lib/oe/spdx_common.py
-@@ -38,7 +38,7 @@ def extract_licenses(filename):
+@@ -226,6 +226,10 @@ def get_patched_src(d):
+         d.setVar("WORKDIR", workdir)
  
  
- def is_work_shared_spdx(d):
--    return bb.data.inherits_class("kernel", d) or ("work-shared" in d.getVar("WORKDIR"))
-+    return '/work-shared/' in d.getVar('S')
- 
- 
- def load_spdx_license_data(d):
-@@ -74,11 +74,6 @@ def process_sources(d):
-     if d.getVar("PN") == "shadow-sysroot":
-         return False
- 
--    # We just archive gcc-source for all the gcc related recipes
--    if d.getVar("BPN") in ["gcc", "libgcc"]:
--        bb.debug(1, "spdx: There is bug in scan of %s is, do nothing" % pn)
--        return False
--
-     return True
- 
- 
-@@ -190,34 +185,28 @@ def get_patched_src(d):
-             bb.utils.mkdirhier(d.getVar("B"))
- 
-             bb.build.exec_func("do_unpack", d)
--        # Copy source of kernel to spdx_workdir
++def has_task(d, task):
++    return bool(d.getVarFlag(task, "task", False)) and not bool(d.getVarFlag(task, "noexec", False))
 +
-+            if d.getVar("SRC_URI") != "":
-+                bb.build.exec_func("do_patch", d)
 +
-+        # Copy source from work-share to spdx_workdir
-         if is_work_shared_spdx(d):
--            share_src = d.getVar("WORKDIR")
-+            share_src = d.getVar('S')
-             d.setVar("WORKDIR", spdx_workdir)
-             d.setVar("STAGING_DIR_NATIVE", spdx_sysroot_native)
-+            # Copy source to ${SPDXWORK}, same basename dir of ${S};
-             src_dir = (
-                 spdx_workdir
-                 + "/"
--                + d.getVar("PN")
--                + "-"
--                + d.getVar("PV")
--                + "-"
--                + d.getVar("PR")
-+                + os.path.basename(share_src)
-             )
--            bb.utils.mkdirhier(src_dir)
-+            # For kernel souce, rename suffix dir 'kernel-source'
-+            # to ${BP} (${BPN}-${PV})
-             if bb.data.inherits_class("kernel", d):
--                share_src = d.getVar("STAGING_KERNEL_DIR")
--            cmd_copy_share = "cp -rf " + share_src + "/* " + src_dir + "/"
--            cmd_copy_shared_res = os.popen(cmd_copy_share).read()
--            bb.note("cmd_copy_shared_result = " + cmd_copy_shared_res)
--
--            git_path = src_dir + "/.git"
--            if os.path.exists(git_path):
--                shutils.rmtree(git_path)
--
--        # Make sure gcc and kernel sources are patched only once
--        if not (d.getVar("SRC_URI") == "" or is_work_shared_spdx(d)):
--            bb.build.exec_func("do_patch", d)
-+                src_dir = spdx_workdir + "/" + d.getVar('BP')
-+
-+            bb.note(f"copyhardlinktree {share_src} to {src_dir}")
-+            oe.path.copyhardlinktree(share_src, src_dir)
- 
-         # Some userland has no source.
-         if not os.path.exists(spdx_workdir):
+ def fetch_data_to_uri(fd, name):
+     """
+     Translates a bitbake FetchData to a string URI
 -- 
 2.25.1
 
