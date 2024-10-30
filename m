@@ -1,387 +1,556 @@
-Return-Path: <randy.macleod@windriver.com>
+Return-Path: <quaresma.jose@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 800EFD5CCB3
-	for <webhook@archiver.kernel.org>; Wed, 30 Oct 2024 14:25:09 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.16117.1730298306462434177
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 033ACD6B6A6
+	for <webhook@archiver.kernel.org>; Wed, 30 Oct 2024 16:09:20 +0000 (UTC)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+ by mx.groups.io with SMTP id smtpd.web10.19084.1730304554781019904
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Oct 2024 07:25:06 -0700
+ Wed, 30 Oct 2024 09:09:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1033a82d09=randy.macleod@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 49U69S3Y032358
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Oct 2024 07:25:06 -0700
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42guq3vvcy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Oct 2024 07:25:05 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xr7h39i0PJ59Y1ecFOF1IDrDr4pOZz9NAqBDQgfAy9lX9nim6AR8knLQBmhb1wxA1E3YMnxmt2XFkkReoNSdCIrsjMMWN7czDz0ESzaHn9edN+oY8IrhalEw7MTgG7qWWkniFC9+2jJhodCBQ0Z2Od3cBJXZS2GT01U/T/9PRBXjZ83ankOM60IH1SdchvvpcqKA2tf56IKO0kXy/FxepIvXHPML1fXswZZocTXGIj+T7p+OTetW5rawxe8lqdG/m4ArQZVkbSLnadog2jqRbhfaAin/rQ0+tdHLBn/A98OKQ8565AbAUHoqCeb+ppWGxeJLMRa4KXxrV1Od9uYPiQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xIji0gXEIjEfY20TE15ucUCsG6zBoE61Tb/f72LB8uI=;
- b=Wd1CUcSe6ihKq4E0jahAnybgl4uWjOiokAMO1WRlBnm4jTs5mMXBgI2xgXc9AvEJnu5uJmpyuGsykTD6oEoR3Ws2/tmxD9hjI/tvASRi6N5K0/1pVzSTFKeRsJHRSGxNHGpRG92MGOAGPZ1voQAHfktyMc6KcCSaC+tQkvhcr0+kPJ3db8wW1tbKMT303L9BWbbStIQVbZoeQ2WDPqSaR+Ak8fFJydA+Eo/UVAmjN2d9hhXwGDXt9lVhwKJbAARPX74c7pIkTk99CX8ADzd7hsUE1wmMr83pfBDFbA/DnxKoxmvMWjibpx8kskKfFBkDg/ZTaNTlUAQwQAor2LO7eQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
- by PH0PR11MB4920.namprd11.prod.outlook.com (2603:10b6:510:41::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8093.32; Wed, 30 Oct
- 2024 14:24:57 +0000
-Received: from CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
- ([fe80::cdc3:a646:2a93:9552%4]) with mapi id 15.20.8093.027; Wed, 30 Oct 2024
- 14:24:56 +0000
-Content-Type: multipart/alternative;
- boundary="------------CuHxcuzbLLGb00JLBJSD7h7G"
-Message-ID: <90fa600f-7b0a-4dc6-a58a-90997995ce86@windriver.com>
-Date: Wed, 30 Oct 2024 10:24:53 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] cargo: Increase RUST_MIN_STACK size to avoid SIGSEGV in
- DEBUG builds only.
-To: Yash.Shinde@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
-References: <20241030111601.284064-1-Yash.Shinde@windriver.com>
-Content-Language: en-CA
-From: Randy MacLeod <randy.macleod@windriver.com>
-In-Reply-To: <20241030111601.284064-1-Yash.Shinde@windriver.com>
-X-ClientProxiedBy: SJ0PR03CA0368.namprd03.prod.outlook.com
- (2603:10b6:a03:3a1::13) To CH3PR11MB8496.namprd11.prod.outlook.com
- (2603:10b6:610:1ba::22)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ZFdz+bPw;
+ spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: quaresma.jose@gmail.com)
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7092dd03223so2426401a34.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Oct 2024 09:09:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730304554; x=1730909354; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=C+1uzQuMgj76ahFvZo7sFf/U3xXhB50vWCmH62bciOU=;
+        b=ZFdz+bPw8Y8GVpK++hOQrSqobmTzYQHlBxwBZfdPjd0lH4b62GSMNNXo8C0zsx5/Ft
+         G47Rmodj3/lcygXmOX+1nB0DxHM92+WJDeZqHL9UZ+Zk66RYaDkR9eAasZbxVjJgh9al
+         pg26xzxef8AIItKqLm9zoffRJyHt66DCpBS91LLMXknKgBYpEq3FDEocMRYfu6Y0/rCU
+         qFa3QQn+EWXk73+12SctmPo9IZ7LtXtpytdYlRB7CArlUJ2gb9ersAPGTxlwhqN4xzCK
+         it5NsgZ5PvQ+OD0t2UloG99KAVoPHkefkTENk1lYuqdT2inx3FElMuC7sUc6LbzdO0Y/
+         ejXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730304554; x=1730909354;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=C+1uzQuMgj76ahFvZo7sFf/U3xXhB50vWCmH62bciOU=;
+        b=MQRKzh99qTNWEqf8it7OYSJ+AqzpZeFSUha5ZtICkpya+wXatPckfuHOkMl0/FotvU
+         rJxth5o4M/w3sjbcg5c4M8mxNJIDsnh0GMznCE4oLQyIvKEvv2HkZTGXeX0e4xBrRYuv
+         K72d2x+UOcjtxu9w53NmX6s1Lg9mHf4tPxGbN1Hb2E98Xx3iWjdqcx2jhLwTxAQ7PkkB
+         YBX5S1y24nnn29KvyekBdz0fVjmiM5wSpATFIezMg7ZFuINp9KHCv2Xe04se3tjEQLZ1
+         AzSpcEGMMBW+dLhsmNXT9mII3ki33f4IKinJabreFbqDvLo2MaKEizHcApw9eMarxFRz
+         rJaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWh71GhOq21a57y6qOpaD1Q3SNez7ZTBAYswfjt/bgqMzGzb9VtZ1ZUhjflmsqp1/cwxxTDKdwlGhdySAz8oB+jeA==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yzm94uhFXG0AO2Nnsmgb4l0Jz6JT4PZFd5t7Bz+Uvz7f2jQ1W1J
+	rNwxVsrmx2eJ1KYnFF1VTKN4szw/h6xrT/U01Zfh/JO0t8UK7z19SAq2C0QAeSf+cvwisTiUfZx
+	at9AN7hGX+ybSH+VNFGVd6sPKKjY=
+X-Google-Smtp-Source: AGHT+IHH3IebahGpLN4dxkscKReFK1ss9JFZvCZe6Mlpwg7ODonnAS0Z9dBQrV4LP5Q3hys4st8ODFMYcjM0mQVkbmg=
+X-Received: by 2002:a05:6358:704:b0:1c3:39ad:7c6c with SMTP id
+ e5c5f4694b2df-1c3f9f6bb6cmr865992555d.17.1730304553667; Wed, 30 Oct 2024
+ 09:09:13 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|PH0PR11MB4920:EE_
-X-MS-Office365-Filtering-Correlation-Id: a1f88639-3d45-415c-cda2-08dcf8eea105
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|366016|8096899003;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?ZFIyc2lKWFFJRE5uSUc4eTV4MzFoUUFWRWZTd25yS1FFWXF2YnVrdGtDa2xk?=
- =?utf-8?B?UkZuanJSTjl2M0M3SjFsUWdYelFhMUZ1R24rSDRTV0dDbm5MZGpra1JkNS9P?=
- =?utf-8?B?RUo1Z3crbDBjWDZpZmREWTRyWWdUUlJ2ektJTDRNVXJlMVAxM1pQdVBZaSt2?=
- =?utf-8?B?TndHQXFqVGcvcjNpV3pGNXZiQ3crWWpyL2o3ejl0V2pGRVBHcm14eVY3c0N0?=
- =?utf-8?B?NFNBV2YwSGx4NDJ3anRHRkM0UVFudjREcndrVUNmcmZvaXF3cWlFd3RVUjNN?=
- =?utf-8?B?aEI1aTYxcDFDOS9VeFk5dTA0L1JFSVhyaEFIRndxQXN1SngzM0V2c2pOYVpF?=
- =?utf-8?B?VGdUTG00ZXhnMXVjcnZJMjB3OW1Sc0F4M3p5SUxaTWZPaGhZN3VmM1hRVnhM?=
- =?utf-8?B?dHp3RDJDUm0wQlhmVk5UU2Qxc21MTUFWMHlYeUg5ME5DMVU0c1V4V0h3MDF4?=
- =?utf-8?B?M2g2Vnd0SVJ1Z2pUNFU4Qm1WUVhicElaanYvakQ4ajNJbHQ4cW1yMnRVRm1Y?=
- =?utf-8?B?Mm4wOVVTWnoyL2dxUFlBWWxUM1BWSkJFVXI4MzUyaVRGeWU3SkN1aEQyYm9D?=
- =?utf-8?B?bTAzbTFjemxuVW9aVkJ2RmhRYXdDeGc5K1I4UURiRFhyUXk4WU9ZSERXWWVD?=
- =?utf-8?B?bUpOUzUxMVVEVVhsYUlZd0ZYcjVMYmRkWHAzUzdGZmZzU0duMUl0bTdHR3d0?=
- =?utf-8?B?bUNJSCtiZHdYS0svNkpKMURPVXp4T0RpU2ViVmRodzBrRGxCUEhkNkRSbFV3?=
- =?utf-8?B?Y3dyV2lKODdvQlVmYmkyUCtPN29ab2RuQ0JMUFNYREdWUS82TE9NbnhSZHZp?=
- =?utf-8?B?NWdIMGN2Z2pHNDhFa1dycHc5S2YvSEhhbDhBTDdIYnJGaVVhelRsQ1U2alVk?=
- =?utf-8?B?VlBvSWEzQ0xsR2dydGJCSVQ1UEh4MGdtOXRWOTJMU1hOdlhUOTdiSU11N3gw?=
- =?utf-8?B?STRwMTY3NmRZYnJ2YXhZcGhYUGx1YmlsZjl4RFVRRmdWbkNiZ25SQTBuaUpY?=
- =?utf-8?B?K3pIdmU0QWd1RU9uUHdFV2VreTQxc1JDYTRyNlFMZ0tDSDAvWnMvQkQrUWRC?=
- =?utf-8?B?L3NkVndoRzZvOUEycDl0ZUxLQ3R3Q3NVTUVHNTIyOGxEUkcrbXhlWU9WQ3pO?=
- =?utf-8?B?NFlGbkswS2lqM3NuQmFDcUl1M1JPUHM0YzFOdStjZTZXdTF5NURpWU5SckZj?=
- =?utf-8?B?V08vWWE2dmNxYTV3NloyMm9wN3FaSWhiS2VYenM3b05MVmtNVENPSUtZN2Ew?=
- =?utf-8?B?bDRja0ZLc2cyS3J5amowQm1DblN3eEt5TmhJSjhHWE95NmpYOVQybWRKeVN0?=
- =?utf-8?B?enNjS3hwTkdZalBFNHFmVktnZ1ZFQWZoUmo3YjZOVGk0b25QYjZBNmNuUkpU?=
- =?utf-8?B?TjVNVnp0aktaekFZL1kzcnNWNTJRNXRYc28xM1psUE9QZE9Xd2VLYlcydUlD?=
- =?utf-8?B?aFhWWUQwU1NFeWpFWlVpQlhTUEt0MEIweFdnQ0YrMWpYRDZ0Mi9uWmxwRUdk?=
- =?utf-8?B?WXZDWm1vd3FxRHpGalFaeHNvenc4NXl6T2thYkhpTDJiNFFCMFhPSDVmRnlz?=
- =?utf-8?B?MmJnaUNlczR6L3lkYmhBdm1VQ2NncGlLVFQ0cUNESWxLZnZVbjN4VUo4NU1R?=
- =?utf-8?B?RXdNTTdrZlEzajBTMFlMcU55R1h0aU5obzRSM3ZDb0gvQ1JCbm9lU3ZFdmIx?=
- =?utf-8?B?VStWbENFRkpCK0pZeEgrUkFNSnRCTHdjVUR1bjBGUG5KbEtGVTdvMk5RPT0=?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(8096899003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?Y1VFUGg3QVhPQSt0T2xEdWk2SUxHMlN4cWhHSXU5TTV5RTFaSzZkLzZXbkR5?=
- =?utf-8?B?M1QvcVIvZ0JPMk84VTIxUzZhdGI2OEthNFplekN3UXo3Tk5jY0xGcUFteGlG?=
- =?utf-8?B?ekZzMll2WG1mWENYaDJFNkJZRndmV1ZybFZtbGJYVEQ3UE81Z1VTcUVaUjBV?=
- =?utf-8?B?WUorUGxNelZlejlZaENoR3NqdEVjczhkNHFZOFQvN280dk80N3dVRjNrUW5R?=
- =?utf-8?B?eVZQM2U4ZUJTLzFYWnV2ZncrbXlPNlJwck9aT2xQZFByTEt2b2RsOFFuSGg5?=
- =?utf-8?B?aGY2YVEveTIxQTNaVmJidGNwcXZhd1p0WHNDbC9uMDhwbWJVS2ZRQWxSdFVq?=
- =?utf-8?B?NUlGTU83Zm81K2wxNHlMNkNUM1ZSdWYwTmFjb0RDZHB2YndIM3FqSWdibG1U?=
- =?utf-8?B?Y2ZmQ25ELzI0eE5nRWxibmg5Z3ZlYUMwWTFuaTV2a0pkYXBqQ2VYQlN5Um1U?=
- =?utf-8?B?VGRuZzdRRlZ6UkEwWDJKbC9tNG1GM0U0Y0QvNWZab0pRaXJzb1ExN0k1c3F5?=
- =?utf-8?B?SmRvaXh4L1hTMVpCVE5RYS9hbDdDVC9NNDhuL2dFY2IvU3F4RkhkQWJZRUE4?=
- =?utf-8?B?MWJSRHlJYmxUVGNWbWwzQ3Qzc3RvZ0RQWEs1RXlOK004MlZtWVNWZFRKazNT?=
- =?utf-8?B?cnVHVWs4TlF3N2FhZE9mT0RnZkRCc0JINCtTQ1lBcVg1a1RnNWwzSFdhU2pl?=
- =?utf-8?B?dlNINGhzVHdMOHF6aVBGUnZCTFN5K09pZVR2bEYrMnVrMnVNQVZHUEd1S2Iz?=
- =?utf-8?B?dC9xbzVRM0lBSmFSWWZONHVMRTMwOHlsL2xsVXl3MXp6bEZMT3NoUkE1MXpx?=
- =?utf-8?B?Ujg2VEc1VklPY242RGl1em9ZdVk5Tnp0MzQyd0RRNjZlSy9jOWNsYVh2OGl6?=
- =?utf-8?B?NnJoSjNjak5rOXZkWXlrNVdDbXh6SnZaSXh4dUFmV0d6UzBzdEZQZWovbDRC?=
- =?utf-8?B?N2czbHpiZEV1cElwMGRsU2w4QjM0Nzk3aDF0aDk1R2pueHFiZDhPOEZkTzFW?=
- =?utf-8?B?Q3dRZEkycldzbUhKS1kyakw2S0dFZXRtK04zQm5oejJCUUVIRTdUMEJZbjQ4?=
- =?utf-8?B?cnB1T1VYZ1pTZ1dqc0pjNmpuOGFHSEJNMkRkWFFnbEg1ZW1WajJ1a1o0bFhB?=
- =?utf-8?B?cFNWdHcxaWlPUythSS9RcHhyMUpJaEpoREFhZVZwRDl4ejA5MnJLWVNuYkVF?=
- =?utf-8?B?RHNmR3dBdVNzT1A4R1FNbGw3UlIrOWw0T2lvU1Z3TUhmYlc1cjFzQm5EMmtx?=
- =?utf-8?B?dkVwRTFwZ21GTWlHSEIrazA4TGJMTWJWZytqc2xVeTFjQm1DdDZqVzZsNTVq?=
- =?utf-8?B?TjNOSlZRc2Iwc0E4aFhLNFRBeEtOVXU1NUNwK2l6MTVwdjlMS09TK214bEhK?=
- =?utf-8?B?d1R2RmpkTUh6S0J0YkdlM045c3pvL3FUc2g4am5SR0JtUW1rWTdRaDdsMktT?=
- =?utf-8?B?YzBxK2U1cVdSRjNrNW1Cai9SRndNZkZ6cXBJVmxDVG5xckF5YWpGdlNMT0s5?=
- =?utf-8?B?bWdGNTV3VWk3SStDYzVKNTUzSm1sVS9LMitIMTBEWVZ4bG5JTlQwUkhIdHdh?=
- =?utf-8?B?cUxIclY2M3BFbEQ5WG9aSzBURCttaG1PRHMvTGNvZTNnenh6bjRpUVlsWmtx?=
- =?utf-8?B?R2dub0M1Y1hkQTdYczAvUEtRQWdJQTNJSEx5VTVUdXFrd0hzcG1RSXFqcm0y?=
- =?utf-8?B?ZU84b0ZDeVBtVUM1dVREa1JaZGV6UTlyMUxvTnlrTmZJK21OOGFPRXdQSWF3?=
- =?utf-8?B?bi9IVGtvVnFVQXV6amdGQTZXdU5hZDdNbW1DYzNiN21rL0dwZnFZZFF5WXBR?=
- =?utf-8?B?Z3VZaWp6dzgxVTBSVVY5bmNLdTVsYmRmQjNOV1B6NVlWZHRlaEpza09xVjRE?=
- =?utf-8?B?U25McWJuS0pCV0pRTEtyc01oMFljd3pmelNacUwrWmxXWHRnOFFtQ3dScjUy?=
- =?utf-8?B?amR1cmIxeUgxaUE5ZUxEMUtHa0F3NVQ4QmRFNkk5aFU4NVE2QURha3RHMFFl?=
- =?utf-8?B?OHFhazY2aVJtc0dudzE5eE9Ga1BaZ2lNaEJ1ODN3bkJQTXFad2lvK2dzL0FT?=
- =?utf-8?B?VzBFdUhMQ0xsbE12MzU2V2gzZDFYeGNuM29obGxhZHU2ZXJScDhZRk83SlM3?=
- =?utf-8?B?NU5FNm9SSjlOdzkwRkhZaGlHR1BsV243c0xOM0hhc0NtUzFDMG9Nb3YyK25v?=
- =?utf-8?B?Rnc9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a1f88639-3d45-415c-cda2-08dcf8eea105
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Oct 2024 14:24:56.9056
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: XIcBU6xb7NKGCwGfF5LIYWYrPqPMfdF0UO6aXfEsZXdfF3IRdetQ1wD35ZP5BXSGY/5KEMRdb8yTwOxdpHhc6PN0jyKuvBQl2vKPeE873N4=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB4920
-X-Proofpoint-ORIG-GUID: fZa1WT-l19HMXYlDkQ06GmjT0PQu_oP4
-X-Proofpoint-GUID: fZa1WT-l19HMXYlDkQ06GmjT0PQu_oP4
-X-Authority-Analysis: v=2.4 cv=T9jeTOKQ c=1 sm=1 tr=0 ts=672241c1 cx=c_pps a=hHPfuxNGWHHq0fQgDGst2w==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=DAUX931o1VcA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=sjgjoimaXzqqSt9gyWcA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=w_u_dj44J6_wFsd_YukA:9 a=Ixcx9z203bRGsHP-:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-10-30_12,2024-10-30_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- mlxlogscore=999 priorityscore=1501 impostorscore=0 malwarescore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 mlxscore=0 clxscore=1011
- bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2410300113
+References: <20241027133906.367260-1-peter.marko@siemens.com>
+ <20241027133906.367260-2-peter.marko@siemens.com> <CANNYZj9zcNQ+=QCDci_U=x9TopEW0YaHDJ=asJUhkRpEg8zWTQ@mail.gmail.com>
+ <AS1PR10MB56970045A4008DB205B6C79FFD4A2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AS1PR10MB56970045A4008DB205B6C79FFD4A2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+From: Jose Quaresma <quaresma.jose@gmail.com>
+Date: Wed, 30 Oct 2024 16:09:02 +0000
+Message-ID: <CANPvuRmEnzKPo8iL=XOpxJz_m1wsJ2Q1Y9z5W0xR4YJE+F+ksg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH 2/2] go: upgrade 1.22.7 -> 1.22.8
+To: peter.marko@siemens.com
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000004655cd0625b3eccd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Oct 2024 14:25:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206551
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Oct 2024 16:09:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206552
 
---------------CuHxcuzbLLGb00JLBJSD7h7G
-Content-Type: text/plain; charset=UTF-8; format=flowed
+--0000000000004655cd0625b3eccd
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 49U69S3Y032358
 
-On 2024-10-30 7:16 a.m., Yash.Shinde@windriver.com wrote:
-> From: Yash Shinde<Yash.Shinde@windriver.com>
+Peter Marko via lists.openembedded.org <peter.marko=3D
+siemens.com@lists.openembedded.org> escreveu (segunda, 28/10/2024 =C3=A0(s)
+20:09):
+
+> -----Original Message-----
+> > From: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Sent: Monday, October 28, 2024 20:48
+> > To: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>
+> > Cc: openembedded-core@lists.openembedded.org
+> > Subject: Re: [OE-core][PATCH 2/2] go: upgrade 1.22.7 -> 1.22.8
+> >
+> > Thanks, but should we rather update to actual latest, which is 1.23.2?
+> >
+> > Alex
 >
-> For some Rust crates, like building p384 in DEBUG mode, a SIGSEGV
-> is encountered as follows:
+> My intention is to fix CVEs in scarthgap and kirkstone mixin and update i=
+n
+> master is currently precondition for that as they share the version.
+> "major" golang version update is something I currently don't trust myself
+> to deliver in a quality to sign-off.
 >
->       note: rustc unexpectedly overflowed its stack! this is a bug
->       note: maximum backtrace depth reached, frames may have been lost
->       note: we would appreciate a report athttps://github.com/rust-lang=
-/rust
->       note: backtrace dumped due to SIGSEGV! resuming signal
->       error: could not compile `p384` (lib)
+> Peter
 >
-> WARNING: Backtrace (BB generated script):
->          #1: oe_cargo_build, /home/poky/build/tmp/work/core2-32-wrs-lin=
-ux/cargo/1.79.0/temp/run.do_compile.3262358, line 193
->          #2: cargo_do_compile, /home/poky/build/tmp/work/core2-32-wrs-l=
-inux/cargo/1.79.0/temp/run.do_compile.3262358, line 165
->          #3: do_compile, /home/poky/build/tmp/work/core2-32-wrs-linux/c=
-argo/1.79.0/temp/run.do_compile.3262358, line 160
->          #4: main, /home/poky/build/tmp/work/core2-32-wrs-linux/cargo/1=
-.79.0/temp/run.do_compile.3262358, line 206
->
-> Setting RUST_MIN_STACK to 8MB conditionally for DEBUG builds only handl=
-es
-> the stack overflow and SIGSEGV.
 
-s/to 8MB/from 2MB to 8MB/
+I have a wip [1] branch with this update, it is mostly done but with
+some buildpaths issues.
+[1] https://git.yoctoproject.org/poky-contrib/log/?h=3Djquaresma/go
 
-Best to explain what the current default value in your commit log in=20
-case the rust devs increase the limit some day.
+There are still some adaptations missing from 'CGO_LDFLAGS' to the new
+'-ldflags'
+according to [2] but that can be left for later.
+[2] https://go.dev/doc/go1.23
 
-From:
-rust.git on=C2=A0 =F0=9F=A6=80 v1.80.0
-=E2=9D=AF grep -C 1 DEFAULT_MIN_ST library/std/src/sys/pal/unix/thread.rs
-#[cfg(not(any(target_os =3D "l4re", target_os =3D "vxworks", target_os =3D=
-=20
-"espidf")))]
-pub const DEFAULT_MIN_STACK_SIZE: usize =3D 2 * 1024 * 1024;
-#[cfg(target_os =3D "l4re")]
-pub const DEFAULT_MIN_STACK_SIZE: usize =3D 1024 * 1024;
-#[cfg(target_os =3D "vxworks")]
-pub const DEFAULT_MIN_STACK_SIZE: usize =3D 256 * 1024;
-#[cfg(target_os =3D "espidf")]
-pub const DEFAULT_MIN_STACK_SIZE: usize =3D 0; // 0 indicates that the=20
-stack size configured in the ESP-IDF menuconfig system should be used
+If anyone wants to continue with this feel free, I would like to finish
+this update
+but I have been very busy at the moment and I don't know when I will be
+able to get back to it.
 
->
-> References:https://github.com/esp-rs/rust/issues/214
->              https://github.com/rust-lang/rust/issues/122357
->              https://github.com/rust-lang/rust/pull/122847#issue-220125=
-4359
->              https://github.com/rust-lang/rust/pull/122847/commits
-Is there an issue open for the p384 crate to reconsider their stack abuse=
-?
-
-If so, please include that link. If not, create one and link that.
-
-
-Thanks Yashe,
-
-../Randy
+Jose
 
 
 >
-> Signed-off-by: Yash Shinde<Yash.Shinde@windriver.com>
-> ---
->   meta/recipes-devtools/rust/cargo_1.79.0.bb | 3 +++
->   1 file changed, 3 insertions(+)
+> >
+> > On Sun, 27 Oct 2024 at 14:40, Peter Marko via lists.openembedded.org
+> > <peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+> > >
+> > > From: Peter Marko <peter.marko@siemens.com>
+> > >
+> > > Upgrade to latest 1.22.x release [1]:
+> > >
+> > > $ git --no-pager log --oneline go1.22.7..go1.22.8
+> > > aeccd613c8 (tag: go1.22.8) [release-branch.go1.22] go1.22.8
+> > > b4086b7c16 [release-branch.go1.22] syscall: skip TestAmbientCapsUsern=
+s
+> > when restricted, document
+> > > 6fab4b9a9e [release-branch.go1.22] runtime: size maps.Clone destinati=
+on
+> > bucket array safely
+> > > 71655f14ce [release-branch.go1.22] cmd/cgo: correct padding required =
+by
+> > alignment
+> > >
+> > > [1] https://github.com/golang/go/compare/go1.22.7...go1.22.8
+> > >
+> > > Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> > > ---
+> > >  meta/recipes-devtools/go/{go-1.22.7.inc =3D> go-1.22.8.inc}   | 2 +-
+> > >  ...o-binary-native_1.22.7.bb =3D> go-binary-native_1.22.8.bb} | 6
+> +++---
+> > >  ...cross-canadian_1.22.7.bb =3D> go-cross-canadian_1.22.8.bb} | 0
+> > >  .../go/{go-cross_1.22.7.bb =3D> go-cross_1.22.8.bb}           | 0
+> > >  .../go/{go-crosssdk_1.22.7.bb =3D> go-crosssdk_1.22.8.bb}     | 0
+> > >  .../go/{go-runtime_1.22.7.bb =3D> go-runtime_1.22.8.bb}       | 0
+> > >  meta/recipes-devtools/go/{go_1.22.7.bb =3D> go_1.22.8.bb}     | 0
+> > >  7 files changed, 4 insertions(+), 4 deletions(-)
+> > >  rename meta/recipes-devtools/go/{go-1.22.7.inc =3D> go-1.22.8.inc} (=
+89%)
+> > >  rename meta/recipes-devtools/go/{go-binary-native_1.22.7.bb =3D>
+> go-binary-
+> > native_1.22.8.bb} (78%)
+> > >  rename meta/recipes-devtools/go/{go-cross-canadian_1.22.7.bb =3D>
+> go-cross-
+> > canadian_1.22.8.bb} (100%)
+> > >  rename meta/recipes-devtools/go/{go-cross_1.22.7.bb =3D>
+> go-cross_1.22.8.bb}
+> > (100%)
+> > >  rename meta/recipes-devtools/go/{go-crosssdk_1.22.7.bb =3D> go-
+> > crosssdk_1.22.8.bb} (100%)
+> > >  rename meta/recipes-devtools/go/{go-runtime_1.22.7.bb =3D> go-
+> > runtime_1.22.8.bb} (100%)
+> > >  rename meta/recipes-devtools/go/{go_1.22.7.bb =3D> go_1.22.8.bb} (10=
+0%)
+> > >
+> > > diff --git a/meta/recipes-devtools/go/go-1.22.7.inc b/meta/recipes-
+> > devtools/go/go-1.22.8.inc
+> > > similarity index 89%
+> > > rename from meta/recipes-devtools/go/go-1.22.7.inc
+> > > rename to meta/recipes-devtools/go/go-1.22.8.inc
+> > > index e54a902741..542519b930 100644
+> > > --- a/meta/recipes-devtools/go/go-1.22.7.inc
+> > > +++ b/meta/recipes-devtools/go/go-1.22.8.inc
+> > > @@ -15,4 +15,4 @@ SRC_URI +=3D "\
+> > >
+> file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+> > >      file://0009-go-Filter-build-paths-on-staticly-linked-arches.patc=
+h
+> \
+> > >  "
+> > > -SRC_URI[main.sha256sum] =3D
+> > "66432d87d85e0cfac3edffe637d5930fc4ddf5793313fe11e4a0f333023c879f"
+> > > +SRC_URI[main.sha256sum] =3D
+> > "df12c23ebf19dea0f4bf46a22cbeda4a3eca6f474f318390ce774974278440b8"
+> > > diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
+> > b/meta/recipes-devtools/go/go-binary-native_1.22.8.bb
+> > > similarity index 78%
+> > > rename from meta/recipes-devtools/go/go-binary-native_1.22.7.bb
+> > > rename to meta/recipes-devtools/go/go-binary-native_1.22.8.bb
+> > > index aba317fd38..98799eb503 100644
+> > > --- a/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
+> > > +++ b/meta/recipes-devtools/go/go-binary-native_1.22.8.bb
+> > > @@ -9,9 +9,9 @@ PROVIDES =3D "go-native"
+> > >
+> > >  # Checksums available at https://go.dev/dl/
+> > >  SRC_URI =3D "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-
+> > ${BUILD_GOARCH}.tar.gz;name=3Dgo_${BUILD_GOTUPLE}"
+> > > -SRC_URI[go_linux_amd64.sha256sum] =3D
+> > "fc5d49b7a5035f1f1b265c17aa86e9819e6dc9af8260ad61430ee7fbe27881bb"
+> > > -SRC_URI[go_linux_arm64.sha256sum] =3D
+> > "ed695684438facbd7e0f286c30b7bc2411cfc605516d8127dc25c62fe5b03885"
+> > > -SRC_URI[go_linux_ppc64le.sha256sum] =3D
+> > "a6441d5da40a961039ec22b0aadbc8b513f52b31bb8919c359a7e2c3c5bcf26a"
+> > > +SRC_URI[go_linux_amd64.sha256sum] =3D
+> > "5f467d29fc67c7ae6468cb6ad5b047a274bae8180cac5e0b7ddbfeba3e47e18f"
+> > > +SRC_URI[go_linux_arm64.sha256sum] =3D
+> > "5c616b32dab04bb8c4c8700478381daea0174dc70083e4026321163879278a4a"
+> > > +SRC_URI[go_linux_ppc64le.sha256sum] =3D
+> > "c546f27866510bf8e54e86fe6f58c705af0e894341e5572c91f197a734152c27"
+> > >
+> > >  UPSTREAM_CHECK_URI =3D "https://golang.org/dl/"
+> > >  UPSTREAM_CHECK_REGEX =3D "go(?P<pver>\d+(\.\d+)+)\.linux"
+> > > diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
+> > b/meta/recipes-devtools/go/go-cross-canadian_1.22.8.bb
+> > > similarity index 100%
+> > > rename from meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
+> > > rename to meta/recipes-devtools/go/go-cross-canadian_1.22.8.bb
+> > > diff --git a/meta/recipes-devtools/go/go-cross_1.22.7.bb
+> b/meta/recipes-
+> > devtools/go/go-cross_1.22.8.bb
+> > > similarity index 100%
+> > > rename from meta/recipes-devtools/go/go-cross_1.22.7.bb
+> > > rename to meta/recipes-devtools/go/go-cross_1.22.8.bb
+> > > diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
+> b/meta/recipes-
+> > devtools/go/go-crosssdk_1.22.8.bb
+> > > similarity index 100%
+> > > rename from meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
+> > > rename to meta/recipes-devtools/go/go-crosssdk_1.22.8.bb
+> > > diff --git a/meta/recipes-devtools/go/go-runtime_1.22.7.bb
+> b/meta/recipes-
+> > devtools/go/go-runtime_1.22.8.bb
+> > > similarity index 100%
+> > > rename from meta/recipes-devtools/go/go-runtime_1.22.7.bb
+> > > rename to meta/recipes-devtools/go/go-runtime_1.22.8.bb
+> > > diff --git a/meta/recipes-devtools/go/go_1.22.7.bb b/meta/recipes-
+> > devtools/go/go_1.22.8.bb
+> > > similarity index 100%
+> > > rename from meta/recipes-devtools/go/go_1.22.7.bb
+> > > rename to meta/recipes-devtools/go/go_1.22.8.bb
+> > > --
+> > > 2.30.2
+> > >
+> > >
+> > >
+> > >
 >
-> diff --git a/meta/recipes-devtools/rust/cargo_1.79.0.bb b/meta/recipes-=
-devtools/rust/cargo_1.79.0.bb
-> index 123032cdf7..4917b25c0c 100644
-> --- a/meta/recipes-devtools/rust/cargo_1.79.0.bb
-> +++ b/meta/recipes-devtools/rust/cargo_1.79.0.bb
-> @@ -37,6 +37,9 @@ do_cargo_setup_snapshot[vardepsexclude] +=3D "UNINATI=
-VE_LOADER"
->  =20
->   do_compile:prepend () {
->   	export RUSTC_BOOTSTRAP=3D"1"
-> +	if [ "${DEBUG_BUILD}" =3D "1" ]; then
-> +		export RUST_MIN_STACK=3D8388608
-> +	fi
->   }
->  =20
->   do_install () {
-
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206463):
+> https://lists.openembedded.org/g/openembedded-core/message/206463
+> Mute This Topic: https://lists.openembedded.org/mt/109239515/5052612
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> quaresma.jose@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
 --=20
-# Randy MacLeod
-# Wind River Linux
+Best regards,
 
---------------CuHxcuzbLLGb00JLBJSD7h7G
-Content-Type: text/html; charset=UTF-8
+Jos=C3=A9 Quaresma
+
+--0000000000004655cd0625b3eccd
+Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 49U69S3Y032358
 
-<!DOCTYPE html><html><head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
-  </head>
-  <body>
-    <div class=3D"moz-cite-prefix">On 2024-10-30 7:16 a.m.,
-      <a class=3D"moz-txt-link-abbreviated" href=3D"mailto:Yash.Shinde@wi=
-ndriver.com">Yash.Shinde@windriver.com</a> wrote:<br>
-    </div>
-    <blockquote type=3D"cite" cite=3D"mid:20241030111601.284064-1-Yash.Sh=
-inde@windriver.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">From: Yash Shinde <a class=3D=
-"moz-txt-link-rfc2396E" href=3D"mailto:Yash.Shinde@windriver.com">&lt;Yas=
-h.Shinde@windriver.com&gt;</a>
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
+<div dir=3D"ltr" class=3D"gmail_attr">Peter Marko via <a href=3D"http://lis=
+ts.openembedded.org">lists.openembedded.org</a> &lt;peter.marko=3D<a href=
+=3D"mailto:siemens.com@lists.openembedded.org">siemens.com@lists.openembedd=
+ed.org</a>&gt; escreveu (segunda, 28/10/2024 =C3=A0(s) 20:09):<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">-----Original Message-----<b=
+r>
+&gt; From: Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com" =
+target=3D"_blank">alex.kanavin@gmail.com</a>&gt;<br>
+&gt; Sent: Monday, October 28, 2024 20:48<br>
+&gt; To: Marko, Peter (FT D EU SK BFS1) &lt;<a href=3D"mailto:Peter.Marko@s=
+iemens.com" target=3D"_blank">Peter.Marko@siemens.com</a>&gt;<br>
+&gt; Cc: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
+=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
+&gt; Subject: Re: [OE-core][PATCH 2/2] go: upgrade 1.22.7 -&gt; 1.22.8<br>
+&gt; <br>
+&gt; Thanks, but should we rather update to actual latest, which is 1.23.2?=
+<br>
+&gt; <br>
+&gt; Alex<br>
+<br>
+My intention is to fix CVEs in scarthgap and kirkstone mixin and update in<=
+br>
+master is currently precondition for that as they share the version.<br>
+&quot;major&quot; golang version update is something I currently don&#39;t =
+trust myself<br>
+to deliver in a quality to sign-off.<br>
+<br>
+Peter<br></blockquote><div><br>I have a wip [1] branch with this update, it=
+ is mostly done but with some=C2=A0buildpaths issues.<br>[1] <a href=3D"htt=
+ps://git.yoctoproject.org/poky-contrib/log/?h=3Djquaresma/go">https://git.y=
+octoproject.org/poky-contrib/log/?h=3Djquaresma/go</a><br><br>There are sti=
+ll some adaptations missing from &#39;CGO_LDFLAGS&#39; to the new &#39;-ldf=
+lags&#39;<br>according to [2] but that can be left for later.</div><div>[2]=
+ <a href=3D"https://go.dev/doc/go1.23">https://go.dev/doc/go1.23</a><br><br=
+>If anyone wants to continue with this feel free, I would like to finish th=
+is update<br>but I have been very busy at the moment and I don&#39;t know w=
+hen I will be able to get back to it.<br><br>Jose<br>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex">
+<br>
+&gt; <br>
+&gt; On Sun, 27 Oct 2024 at 14:40, Peter Marko via <a href=3D"http://lists.=
+openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.o=
+rg</a><br>
+&gt; &lt;peter.marko=3D<a href=3D"mailto:siemens.com@lists.openembedded.org=
+" target=3D"_blank">siemens.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt; &gt;<br>
+&gt; &gt; From: Peter Marko &lt;<a href=3D"mailto:peter.marko@siemens.com" =
+target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; &gt;<br>
+&gt; &gt; Upgrade to latest 1.22.x release [1]:<br>
+&gt; &gt;<br>
+&gt; &gt; $ git --no-pager log --oneline go1.22.7..go1.22.8<br>
+&gt; &gt; aeccd613c8 (tag: go1.22.8) [release-branch.go1.22] go1.22.8<br>
+&gt; &gt; b4086b7c16 [release-branch.go1.22] syscall: skip TestAmbientCapsU=
+serns<br>
+&gt; when restricted, document<br>
+&gt; &gt; 6fab4b9a9e [release-branch.go1.22] runtime: size maps.Clone desti=
+nation<br>
+&gt; bucket array safely<br>
+&gt; &gt; 71655f14ce [release-branch.go1.22] cmd/cgo: correct padding requi=
+red by<br>
+&gt; alignment<br>
+&gt; &gt;<br>
+&gt; &gt; [1] <a href=3D"https://github.com/golang/go/compare/go1.22.7...go=
+1.22.8" rel=3D"noreferrer" target=3D"_blank">https://github.com/golang/go/c=
+ompare/go1.22.7...go1.22.8</a><br>
+&gt; &gt;<br>
+&gt; &gt; Signed-off-by: Peter Marko &lt;<a href=3D"mailto:peter.marko@siem=
+ens.com" target=3D"_blank">peter.marko@siemens.com</a>&gt;<br>
+&gt; &gt; ---<br>
+&gt; &gt;=C2=A0 meta/recipes-devtools/go/{go-1.22.7.inc =3D&gt; go-1.22.8.i=
+nc}=C2=A0 =C2=A0| 2 +-<br>
+&gt; &gt;=C2=A0 ...<a href=3D"http://o-binary-native_1.22.7.bb" rel=3D"nore=
+ferrer" target=3D"_blank">o-binary-native_1.22.7.bb</a> =3D&gt; <a href=3D"=
+http://go-binary-native_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-=
+binary-native_1.22.8.bb</a>} | 6 +++---<br>
+&gt; &gt;=C2=A0 ...<a href=3D"http://cross-canadian_1.22.7.bb" rel=3D"noref=
+errer" target=3D"_blank">cross-canadian_1.22.7.bb</a> =3D&gt; <a href=3D"ht=
+tp://go-cross-canadian_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-c=
+ross-canadian_1.22.8.bb</a>} | 0<br>
+&gt; &gt;=C2=A0 .../go/{<a href=3D"http://go-cross_1.22.7.bb" rel=3D"norefe=
+rrer" target=3D"_blank">go-cross_1.22.7.bb</a> =3D&gt; <a href=3D"http://go=
+-cross_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-cross_1.22.8.bb</=
+a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+&gt; &gt;=C2=A0 .../go/{<a href=3D"http://go-crosssdk_1.22.7.bb" rel=3D"nor=
+eferrer" target=3D"_blank">go-crosssdk_1.22.7.bb</a> =3D&gt; <a href=3D"htt=
+p://go-crosssdk_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-crosssdk=
+_1.22.8.bb</a>}=C2=A0 =C2=A0 =C2=A0| 0<br>
+&gt; &gt;=C2=A0 .../go/{<a href=3D"http://go-runtime_1.22.7.bb" rel=3D"nore=
+ferrer" target=3D"_blank">go-runtime_1.22.7.bb</a> =3D&gt; <a href=3D"http:=
+//go-runtime_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-runtime_1.2=
+2.8.bb</a>}=C2=A0 =C2=A0 =C2=A0 =C2=A0| 0<br>
+&gt; &gt;=C2=A0 meta/recipes-devtools/go/{<a href=3D"http://go_1.22.7.bb" r=
+el=3D"noreferrer" target=3D"_blank">go_1.22.7.bb</a> =3D&gt; <a href=3D"htt=
+p://go_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go_1.22.8.bb</a>}=C2=
+=A0 =C2=A0 =C2=A0| 0<br>
+&gt; &gt;=C2=A0 7 files changed, 4 insertions(+), 4 deletions(-)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/go/{go-1.22.7.inc =3D&gt; go-1=
+.22.8.inc} (89%)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/go/{<a href=3D"http://go-binar=
+y-native_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1=
+.22.7.bb</a> =3D&gt; go-binary-<br>
+&gt; <a href=3D"http://native_1.22.8.bb" rel=3D"noreferrer" target=3D"_blan=
+k">native_1.22.8.bb</a>} (78%)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/go/{<a href=3D"http://go-cross=
+-canadian_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-cross-canadian=
+_1.22.7.bb</a> =3D&gt; go-cross-<br>
+&gt; <a href=3D"http://canadian_1.22.8.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">canadian_1.22.8.bb</a>} (100%)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/go/{<a href=3D"http://go-cross=
+_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-cross_1.22.7.bb</a> =3D=
+&gt; <a href=3D"http://go-cross_1.22.8.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">go-cross_1.22.8.bb</a>}<br>
+&gt; (100%)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/go/{<a href=3D"http://go-cross=
+sdk_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-crosssdk_1.22.7.bb</=
+a> =3D&gt; go-<br>
+&gt; <a href=3D"http://crosssdk_1.22.8.bb" rel=3D"noreferrer" target=3D"_bl=
+ank">crosssdk_1.22.8.bb</a>} (100%)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/go/{<a href=3D"http://go-runti=
+me_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-runtime_1.22.7.bb</a>=
+ =3D&gt; go-<br>
+&gt; <a href=3D"http://runtime_1.22.8.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">runtime_1.22.8.bb</a>} (100%)<br>
+&gt; &gt;=C2=A0 rename meta/recipes-devtools/go/{<a href=3D"http://go_1.22.=
+7.bb" rel=3D"noreferrer" target=3D"_blank">go_1.22.7.bb</a> =3D&gt; <a href=
+=3D"http://go_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go_1.22.8.bb<=
+/a>} (100%)<br>
+&gt; &gt;<br>
+&gt; &gt; diff --git a/meta/recipes-devtools/go/go-1.22.7.inc b/meta/recipe=
+s-<br>
+&gt; devtools/go/go-1.22.8.inc<br>
+&gt; &gt; similarity index 89%<br>
+&gt; &gt; rename from meta/recipes-devtools/go/go-1.22.7.inc<br>
+&gt; &gt; rename to meta/recipes-devtools/go/go-1.22.8.inc<br>
+&gt; &gt; index e54a902741..542519b930 100644<br>
+&gt; &gt; --- a/meta/recipes-devtools/go/go-1.22.7.inc<br>
+&gt; &gt; +++ b/meta/recipes-devtools/go/go-1.22.8.inc<br>
+&gt; &gt; @@ -15,4 +15,4 @@ SRC_URI +=3D &quot;\<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 file://0008-src-cmd-dist-buildgo.go-do-not-ha=
+rdcode-host-compile.patch \<br>
+&gt; &gt;=C2=A0 =C2=A0 =C2=A0 file://0009-go-Filter-build-paths-on-staticly=
+-linked-arches.patch \<br>
+&gt; &gt;=C2=A0 &quot;<br>
+&gt; &gt; -SRC_URI[main.sha256sum] =3D<br>
+&gt; &quot;66432d87d85e0cfac3edffe637d5930fc4ddf5793313fe11e4a0f333023c879f=
+&quot;<br>
+&gt; &gt; +SRC_URI[main.sha256sum] =3D<br>
+&gt; &quot;df12c23ebf19dea0f4bf46a22cbeda4a3eca6f474f318390ce774974278440b8=
+&quot;<br>
+&gt; &gt; diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-binary=
+-native_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.=
+22.7.bb</a><br>
+&gt; b/meta/recipes-devtools/go/<a href=3D"http://go-binary-native_1.22.8.b=
+b" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.8.bb</a><br>
+&gt; &gt; similarity index 78%<br>
+&gt; &gt; rename from meta/recipes-devtools/go/<a href=3D"http://go-binary-=
+native_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.2=
+2.7.bb</a><br>
+&gt; &gt; rename to meta/recipes-devtools/go/<a href=3D"http://go-binary-na=
+tive_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.=
+8.bb</a><br>
+&gt; &gt; index aba317fd38..98799eb503 100644<br>
+&gt; &gt; --- a/meta/recipes-devtools/go/<a href=3D"http://go-binary-native=
+_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.7.bb=
+</a><br>
+&gt; &gt; +++ b/meta/recipes-devtools/go/<a href=3D"http://go-binary-native=
+_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-binary-native_1.22.8.bb=
+</a><br>
+&gt; &gt; @@ -9,9 +9,9 @@ PROVIDES =3D &quot;go-native&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 # Checksums available at <a href=3D"https://go.dev/dl/" rel=
+=3D"noreferrer" target=3D"_blank">https://go.dev/dl/</a><br>
+&gt; &gt;=C2=A0 SRC_URI =3D &quot;<a href=3D"https://dl.google.com/go/go$%7=
+BPV%7D.$%7BBUILD_GOOS%7D-" rel=3D"noreferrer" target=3D"_blank">https://dl.=
+google.com/go/go${PV}.${BUILD_GOOS}-</a><br>
+&gt; ${BUILD_GOARCH}.tar.gz;name=3Dgo_${BUILD_GOTUPLE}&quot;<br>
+&gt; &gt; -SRC_URI[go_linux_amd64.sha256sum] =3D<br>
+&gt; &quot;fc5d49b7a5035f1f1b265c17aa86e9819e6dc9af8260ad61430ee7fbe27881bb=
+&quot;<br>
+&gt; &gt; -SRC_URI[go_linux_arm64.sha256sum] =3D<br>
+&gt; &quot;ed695684438facbd7e0f286c30b7bc2411cfc605516d8127dc25c62fe5b03885=
+&quot;<br>
+&gt; &gt; -SRC_URI[go_linux_ppc64le.sha256sum] =3D<br>
+&gt; &quot;a6441d5da40a961039ec22b0aadbc8b513f52b31bb8919c359a7e2c3c5bcf26a=
+&quot;<br>
+&gt; &gt; +SRC_URI[go_linux_amd64.sha256sum] =3D<br>
+&gt; &quot;5f467d29fc67c7ae6468cb6ad5b047a274bae8180cac5e0b7ddbfeba3e47e18f=
+&quot;<br>
+&gt; &gt; +SRC_URI[go_linux_arm64.sha256sum] =3D<br>
+&gt; &quot;5c616b32dab04bb8c4c8700478381daea0174dc70083e4026321163879278a4a=
+&quot;<br>
+&gt; &gt; +SRC_URI[go_linux_ppc64le.sha256sum] =3D<br>
+&gt; &quot;c546f27866510bf8e54e86fe6f58c705af0e894341e5572c91f197a734152c27=
+&quot;<br>
+&gt; &gt;<br>
+&gt; &gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://golang.org/=
+dl/" rel=3D"noreferrer" target=3D"_blank">https://golang.org/dl/</a>&quot;<=
+br>
+&gt; &gt;=C2=A0 UPSTREAM_CHECK_REGEX =3D &quot;go(?P&lt;pver&gt;\d+(\.\d+)+=
+)\.linux&quot;<br>
+&gt; &gt; diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-cross-=
+canadian_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-cross-canadian_=
+1.22.7.bb</a><br>
+&gt; b/meta/recipes-devtools/go/<a href=3D"http://go-cross-canadian_1.22.8.=
+bb" rel=3D"noreferrer" target=3D"_blank">go-cross-canadian_1.22.8.bb</a><br=
+>
+&gt; &gt; similarity index 100%<br>
+&gt; &gt; rename from meta/recipes-devtools/go/<a href=3D"http://go-cross-c=
+anadian_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-cross-canadian_1=
+.22.7.bb</a><br>
+&gt; &gt; rename to meta/recipes-devtools/go/<a href=3D"http://go-cross-can=
+adian_1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-cross-canadian_1.2=
+2.8.bb</a><br>
+&gt; &gt; diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-cross_=
+1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-cross_1.22.7.bb</a> b/me=
+ta/recipes-<br>
+&gt; devtools/go/<a href=3D"http://go-cross_1.22.8.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">go-cross_1.22.8.bb</a><br>
+&gt; &gt; similarity index 100%<br>
+&gt; &gt; rename from meta/recipes-devtools/go/<a href=3D"http://go-cross_1=
+.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-cross_1.22.7.bb</a><br>
+&gt; &gt; rename to meta/recipes-devtools/go/<a href=3D"http://go-cross_1.2=
+2.8.bb" rel=3D"noreferrer" target=3D"_blank">go-cross_1.22.8.bb</a><br>
+&gt; &gt; diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-crosss=
+dk_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-crosssdk_1.22.7.bb</a=
+> b/meta/recipes-<br>
+&gt; devtools/go/<a href=3D"http://go-crosssdk_1.22.8.bb" rel=3D"noreferrer=
+" target=3D"_blank">go-crosssdk_1.22.8.bb</a><br>
+&gt; &gt; similarity index 100%<br>
+&gt; &gt; rename from meta/recipes-devtools/go/<a href=3D"http://go-crosssd=
+k_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-crosssdk_1.22.7.bb</a>=
+<br>
+&gt; &gt; rename to meta/recipes-devtools/go/<a href=3D"http://go-crosssdk_=
+1.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-crosssdk_1.22.8.bb</a><b=
+r>
+&gt; &gt; diff --git a/meta/recipes-devtools/go/<a href=3D"http://go-runtim=
+e_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-runtime_1.22.7.bb</a> =
+b/meta/recipes-<br>
+&gt; devtools/go/<a href=3D"http://go-runtime_1.22.8.bb" rel=3D"noreferrer"=
+ target=3D"_blank">go-runtime_1.22.8.bb</a><br>
+&gt; &gt; similarity index 100%<br>
+&gt; &gt; rename from meta/recipes-devtools/go/<a href=3D"http://go-runtime=
+_1.22.7.bb" rel=3D"noreferrer" target=3D"_blank">go-runtime_1.22.7.bb</a><b=
+r>
+&gt; &gt; rename to meta/recipes-devtools/go/<a href=3D"http://go-runtime_1=
+.22.8.bb" rel=3D"noreferrer" target=3D"_blank">go-runtime_1.22.8.bb</a><br>
+&gt; &gt; diff --git a/meta/recipes-devtools/go/<a href=3D"http://go_1.22.7=
+.bb" rel=3D"noreferrer" target=3D"_blank">go_1.22.7.bb</a> b/meta/recipes-<=
+br>
+&gt; devtools/go/<a href=3D"http://go_1.22.8.bb" rel=3D"noreferrer" target=
+=3D"_blank">go_1.22.8.bb</a><br>
+&gt; &gt; similarity index 100%<br>
+&gt; &gt; rename from meta/recipes-devtools/go/<a href=3D"http://go_1.22.7.=
+bb" rel=3D"noreferrer" target=3D"_blank">go_1.22.7.bb</a><br>
+&gt; &gt; rename to meta/recipes-devtools/go/<a href=3D"http://go_1.22.8.bb=
+" rel=3D"noreferrer" target=3D"_blank">go_1.22.8.bb</a><br>
+&gt; &gt; --<br>
+&gt; &gt; 2.30.2<br>
+&gt; &gt;<br>
+&gt; &gt;<br>
+&gt; &gt; <br>
+&gt; &gt;<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#206463): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/206463" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/206463</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109239515/505=
+2612" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/109239515/5052612</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:quaresma.jose@gmail.com" t=
+arget=3D"_blank">quaresma.jose@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div><br clear=3D"all"><div><br></div><span class=3D"gmail_si=
+gnature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signature"><d=
+iv dir=3D"ltr">Best regards,<div><br>Jos=C3=A9 Quaresma</div></div></div></=
+div>
 
-For some Rust crates, like building p384 in DEBUG mode, a SIGSEGV
-is encountered as follows:
-
-     note: rustc unexpectedly overflowed its stack! this is a bug
-     note: maximum backtrace depth reached, frames may have been lost
-     note: we would appreciate a report at <a class=3D"moz-txt-link-freet=
-ext" href=3D"https://github.com/rust-lang/rust">https://github.com/rust-l=
-ang/rust</a>
-     note: backtrace dumped due to SIGSEGV! resuming signal
-     error: could not compile `p384` (lib)
-
-WARNING: Backtrace (BB generated script):
-        #1: oe_cargo_build, /home/poky/build/tmp/work/core2-32-wrs-linux/=
-cargo/1.79.0/temp/run.do_compile.3262358, line 193
-        #2: cargo_do_compile, /home/poky/build/tmp/work/core2-32-wrs-linu=
-x/cargo/1.79.0/temp/run.do_compile.3262358, line 165
-        #3: do_compile, /home/poky/build/tmp/work/core2-32-wrs-linux/carg=
-o/1.79.0/temp/run.do_compile.3262358, line 160
-        #4: main, /home/poky/build/tmp/work/core2-32-wrs-linux/cargo/1.79=
-.0/temp/run.do_compile.3262358, line 206
-
-Setting RUST_MIN_STACK to 8MB conditionally for DEBUG builds only handles
-the stack overflow and SIGSEGV.</pre>
-    </blockquote>
-    <p>s/to 8MB/from 2MB to 8MB/</p>
-    <p>Best to explain what the current default value in your commit log
-      in case the rust devs increase the limit some day.<br>
-    </p>
-    <p>From:<br>
-      rust.git on&nbsp; =F0=9F=A6=80 v1.80.0 <br>
-      =E2=9D=AF grep -C 1 DEFAULT_MIN_ST library/std/src/sys/pal/unix/thr=
-ead.rs<br>
-      #[cfg(not(any(target_os =3D &quot;l4re&quot;, target_os =3D &quot;v=
-xworks&quot;, target_os
-      =3D &quot;espidf&quot;)))]<br>
-      pub const DEFAULT_MIN_STACK_SIZE: usize =3D 2 * 1024 * 1024;<br>
-      #[cfg(target_os =3D &quot;l4re&quot;)]<br>
-      pub const DEFAULT_MIN_STACK_SIZE: usize =3D 1024 * 1024;<br>
-      #[cfg(target_os =3D &quot;vxworks&quot;)]<br>
-      pub const DEFAULT_MIN_STACK_SIZE: usize =3D 256 * 1024;<br>
-      #[cfg(target_os =3D &quot;espidf&quot;)]<br>
-      pub const DEFAULT_MIN_STACK_SIZE: usize =3D 0; // 0 indicates that
-      the stack size configured in the ESP-IDF menuconfig system should
-      be used<br>
-      <br>
-    </p>
-    <blockquote type=3D"cite" cite=3D"mid:20241030111601.284064-1-Yash.Sh=
-inde@windriver.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-
-References: <a class=3D"moz-txt-link-freetext" href=3D"https://github.com=
-/esp-rs/rust/issues/214">https://github.com/esp-rs/rust/issues/214</a>
-            <a class=3D"moz-txt-link-freetext" href=3D"https://github.com=
-/rust-lang/rust/issues/122357">https://github.com/rust-lang/rust/issues/1=
-22357</a>
-            <a class=3D"moz-txt-link-freetext" href=3D"https://github.com=
-/rust-lang/rust/pull/122847#issue-2201254359">https://github.com/rust-lan=
-g/rust/pull/122847#issue-2201254359</a>
-            <a class=3D"moz-txt-link-freetext" href=3D"https://github.com=
-/rust-lang/rust/pull/122847/commits">https://github.com/rust-lang/rust/pu=
-ll/122847/commits</a></pre>
-    </blockquote>
-    Is there an issue open for the p384 crate to reconsider their stack
-    abuse?<br>
-    <p>If so, please include that link. If not, create one and link
-      that.</p>
-    <p><br>
-    </p>
-    <p>Thanks Yashe,</p>
-    <p>../Randy</p>
-    <p><br>
-    </p>
-    <blockquote type=3D"cite" cite=3D"mid:20241030111601.284064-1-Yash.Sh=
-inde@windriver.com">
-      <pre wrap=3D"" class=3D"moz-quote-pre">
-
-Signed-off-by: Yash Shinde <a class=3D"moz-txt-link-rfc2396E" href=3D"mai=
-lto:Yash.Shinde@windriver.com">&lt;Yash.Shinde@windriver.com&gt;</a>
----
- meta/recipes-devtools/rust/cargo_1.79.0.bb | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/rust/cargo_1.79.0.bb b/meta/recipes-de=
-vtools/rust/cargo_1.79.0.bb
-index 123032cdf7..4917b25c0c 100644
---- a/meta/recipes-devtools/rust/cargo_1.79.0.bb
-+++ b/meta/recipes-devtools/rust/cargo_1.79.0.bb
-@@ -37,6 +37,9 @@ do_cargo_setup_snapshot[vardepsexclude] +=3D &quot;UNIN=
-ATIVE_LOADER&quot;
-=20
- do_compile:prepend () {
- 	export RUSTC_BOOTSTRAP=3D&quot;1&quot;
-+	if [ &quot;${DEBUG_BUILD}&quot; =3D &quot;1&quot; ]; then
-+		export RUST_MIN_STACK=3D8388608
-+	fi
- }
-=20
- do_install () {
-</pre>
-    </blockquote>
-    <p><br>
-    </p>
-    <pre class=3D"moz-signature" cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </body>
-</html>
-
---------------CuHxcuzbLLGb00JLBJSD7h7G--
+--0000000000004655cd0625b3eccd--
 
