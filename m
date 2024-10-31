@@ -1,123 +1,110 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCCDCD767DF
-	for <webhook@archiver.kernel.org>; Thu, 31 Oct 2024 15:54:08 +0000 (UTC)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
- by mx.groups.io with SMTP id smtpd.web10.15923.1730390039991053274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 538F4D767FB
+	for <webhook@archiver.kernel.org>; Thu, 31 Oct 2024 20:28:50 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web10.22569.1730406526170561188
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Oct 2024 08:54:00 -0700
+ Thu, 31 Oct 2024 13:28:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JOQs6lLg;
- spf=pass (domain: gmail.com, ip: 209.85.221.176, mailfrom: danismostlikely@gmail.com)
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-50d3365c29cso1112325e0c.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 31 Oct 2024 08:53:59 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CvvBUmSh;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539fe02c386so2197115e87.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 31 Oct 2024 13:28:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730390039; x=1730994839; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=dDrNQ9wMIqqhFGolkqR9Le8iFU8iByZSZhUsKPI0J5Y=;
-        b=JOQs6lLg70rqcyCLg1KF+/yQTCrLIJNAmIQ3KGW3kCyrfn05DsfXJoGnKfic9pUt7Y
-         ErtRjRbBNGsTrtyWHwHZVrKoLb3Rh9ggLG29un4MZNa/hSlrnAsBzLMES9SIQQ93hVWZ
-         pWbFJvaLH1G0+/n6bFbPuMjSScxQYWBT61LMZvzzJTGi+nvmD/WQ+n3qYk5oGXZarm87
-         TpyD29ibhPlnR4TNw7+h+ISm/oSv/dv/Dvn4w6KL/zSrgdlxKhaV5Ok1i6bdRXeOpjyI
-         qUM2ITBWjj9xlXjaLMuQca7v7hL2i7HHjLoi5oh9NzSiRzvXGjEvOCzNgjXSk4O5ljxN
-         tSzA==
+        d=gmail.com; s=20230601; t=1730406524; x=1731011324; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=CpjZllTEIMsTUUShjs+QLp4AClDTYkRf+9W4A2nw080=;
+        b=CvvBUmShKVRT9NVWVX3Z/wRQpHchUl5z/o2caYH7JwT0/jqrmcQHxOtkW78wHRhq1S
+         J9q/YgJ+dnCrnyZVlPyVKES380/Zp7l5jwanUkVLUxzjNqG1Y+70qG6ffcCSRPcepER1
+         DxFFBPhn3w3Jn8+XipHdyvtyEE3n7kCd3+i12MUOl64entHyNcWoeL1WOsn1gmZSBEi7
+         77nQKgESDJMMh4R3OHDLxlP9vGh6Q5nRE2SE8xIjERBjERXO9XgTPCL8xQ0TWWOzWyXI
+         lr+JTJRXcwpRI3wjXFaVuN0/EbSL8eyVeRZZgMs50kib/uwO88pbocyPOicPadIBdU3X
+         HqAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730390039; x=1730994839;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=dDrNQ9wMIqqhFGolkqR9Le8iFU8iByZSZhUsKPI0J5Y=;
-        b=LKC/8Mwz4ojos8+xdSboAq+kRLG37/E4joJjKyMURZfuJgcZZcvO/hKLbYkKw9BkVq
-         v7YUH+291+/0UCDSql4uKy5cDKZ3aAO0vxCd8kgSxsCwWD3DHc26RLN9R/y8RlP8OYMo
-         q89NwDV7Qdu0oCMBlVhOOAeStWPjfzV+q/K0JNeSASY5A8w2JcnxwDZZWSPlP0EgtjSH
-         9sX5Gbn1jdgpLON3ICtbNr//FDuSIgpash1yJc4qgO/ViBpvb4BV5/MZUzB+q3d6e9Vk
-         PQqIUMg7kS5rME7Q66rfPJWb2fQQ036D1enVB76zQJqgOCflP0dt3QwBt2Y1LfDc4GZ+
-         oMsg==
-X-Gm-Message-State: AOJu0YwOJngXyVRF3KVzwsly4Whg9/Ki1w9JTi6Gdb3abRA4gSxHJlGO
-	y/wpL4CqVH34qIWpMsU+R3R/MPL3TLxf5ZQ59SBLgPt6Cm/7aXn+zzaOUMy3FFhjlQEPLspnKRj
-	qnH8C1NenwBhXDjufnovqPpIAt7JVGw==
-X-Google-Smtp-Source: AGHT+IGZG9L4GErs8+LK1TkfsjSU2EJxEBDuw3sk7rx6yccneCzNDHU/CtX+Y9j8wFbsvdBn9Eo5Nm6TCtl2fJOVaxs=
-X-Received: by 2002:a05:6122:3c4d:b0:50d:34fe:fef0 with SMTP id
- 71dfb90a1353d-5106fcb8b86mr2323042e0c.6.1730390038840; Thu, 31 Oct 2024
- 08:53:58 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1730406524; x=1731011324;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=CpjZllTEIMsTUUShjs+QLp4AClDTYkRf+9W4A2nw080=;
+        b=tqK6EylbL3IRVSVeqny4YfYHUd8MEZ+EG8vgBKQHHRQlo3t0cxZKeyGhAlUJHpiCbE
+         t11b4qpxn05QD4jUUhmHbZh6WIDQbUoQt9ewyzqIm6OuM7FU5sYiq4hu4h1QrYeOKdjK
+         t2brMrUiKobR1+TnkM4zgq6S8cKH9fgZFxP7oSTeU+uHIPcj/1M+vpmRvQ511+MFqKXG
+         Ce/5/+9bfui7aHH7LWjENQZhh0QAard4O4Bq4jzzThtpISQV9wD8pN1M0wzlFgSMlrd2
+         hEnYdeQ2OsXgdmL6ZgOx5L9adyAZVVJkmRUmgodh329wA9DmOXOPqRA38pcT2upWL9XA
+         vJSA==
+X-Gm-Message-State: AOJu0YwKNIak6G1QE/J8mSXFfJOvGUGcyShBC9uWbs99TbHGO2zpUm60
+	T4WURkO6bSQ+P/q/rzFdkaopUJDdYrD9J6pdHDXQrxLm5RXgiy1cNM/y1nkOqQ7FoTB7KYe7bX1
+	Uic0+JdNQqEkUPVWttU82L2VimTYVaQ==
+X-Google-Smtp-Source: AGHT+IFQ8DNxqGSqcW9qDOWT0+xkommVOL8NYKojjW60ZEGtSg8zFwROyJqv1udA58U+BC9pGGRzfwoRAYBK+Mg0JQs=
+X-Received: by 2002:a05:6512:2253:b0:539:eb97:61d7 with SMTP id
+ 2adb3069b0e04-53d65d91d13mr401281e87.4.1730406523823; Thu, 31 Oct 2024
+ 13:28:43 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241030225457.1522289-1-raj.khem@gmail.com>
-In-Reply-To: <20241030225457.1522289-1-raj.khem@gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Thu, 31 Oct 2024 09:53:47 -0600
-Message-ID: <CACS+7ZT1OXBT3tOtGhEpn2SbgAWAsus74UD9v=yD2urh255VQA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ppp: Add pam and openssl via packageconfig
-To: raj.khem@gmail.com
+References: <20241030050745.3702603-1-hongxu.jia@windriver.com> <20241030050745.3702603-2-hongxu.jia@windriver.com>
+In-Reply-To: <20241030050745.3702603-2-hongxu.jia@windriver.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Thu, 31 Oct 2024 14:28:30 -0600
+Message-ID: <CAJdd5GZ222rxBe9=VkiXuJw8mdqZ6zCYi3XS8noCNM8taF7POg@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 1/6] meta/lib/oe/sbom30.py: correct python list comprehension
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 31 Oct 2024 15:54:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206588
+ <openembedded-core@lists.openembedded.org>; Thu, 31 Oct 2024 20:28:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206589
 
-On Wed, 30 Oct 2024 at 16:55, Khem Raj via lists.openembedded.org
-<raj.khem=gmail.com@lists.openembedded.org> wrote:
+LGTM
+
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+
+On Tue, Oct 29, 2024 at 11:07=E2=80=AFPM Hongxu Jia <hongxu.jia@windriver.c=
+om> wrote:
 >
-> Explicitly enable pam support, otherwise it goes into
-> detection mode and ends up poking at build host
+> The python list comprehension is not right for list:
+> >>> license_text_map =3D {'LicenseRef-FSF-Unlimited': 'http://spdx.org/sp=
+dxdocs/gettext-minimal-native-1fa0d5cb-2bb8-5631-9fab-cd219801733f/8d31e22a=
+cc4a8979f24dc24042692fb548fc8fc8d85d775ddac406abb122ceea/license-text/FSF-U=
+nlimited'}
+> >>> license_text =3D ((k, license_text_map[k]) for k in sorted(license_te=
+xt_map.keys()))
+> >>> print(license_text)
+> <generator object <genexpr> at 0x7f8575173270>
+> >>> [(k,v) for k, v in license_text]
+> []
 >
-> Turn openssl into packageconfig as well
+> Change the () to [] to make it a list instead of a generator expression.
 >
-> cc1: warning: include location "/usr/include" is unsafe for cross-compilation [-Wpoison-system-directories]
-> conftest.c: In function 'main':
-> conftest.c:68:1: warning: argument 1 null where non-null expected [-Wnonnull]
->    68 | pam_authenticate(NULL, 0);
->       | ^~~~~~~~~~~~~~~~
-> In file included from conftest.c:63:
-> /usr/include/security/pam_appl.h:38:1: note: in a call to function 'pam_authenticate' declared 'nonnull'
->    38 | pam_authenticate(pam_handle_t *pamh, int flags);
->       | ^~~~~~~~~~~~~~~~
->
-> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 > ---
->  meta/recipes-connectivity/ppp/ppp_2.5.1.bb | 6 ++++--
->  1 file changed, 4 insertions(+), 2 deletions(-)
+>  meta/lib/oe/sbom30.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.1.bb b/meta/recipes-connectivity/ppp/ppp_2.5.1.bb
-> index 5b8c49ca850..2b917905b24 100644
-> --- a/meta/recipes-connectivity/ppp/ppp_2.5.1.bb
-> +++ b/meta/recipes-connectivity/ppp/ppp_2.5.1.bb
-> @@ -4,7 +4,7 @@ the Point-to-Point Protocol (PPP) on Linux and Solaris systems."
->  SECTION = "console/network"
->  HOMEPAGE = "http://samba.org/ppp/"
->  BUGTRACKER = "http://ppp.samba.org/cgi-bin/ppp-bugs"
-> -DEPENDS = "libpcap openssl virtual/crypt"
-> +DEPENDS = "libpcap virtual/crypt"
->  LICENSE = "BSD-3-Clause & BSD-3-Clause-Attribution & GPL-2.0-or-later & LGPL-2.0-or-later & PD & RSA-MD & MIT"
->  LIC_FILES_CHKSUM = "file://pppd/ccp.c;beginline=1;endline=29;md5=1bea10e81fc6f2df105b1f8b733cb149 \
->                      file://pppd/plugins/passprompt.c;beginline=1;endline=10;md5=3bcbcdbf0e369c9a3e0b8c8275b065d8 \
-> @@ -29,7 +29,9 @@ SRC_URI[sha256sum] = "733b7f5840b613da4eab0429a5081293275f06ba8b528e1b8eea6964fa
+> diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+> index 27ab5e45ac..8db90f30fd 100644
+> --- a/meta/lib/oe/sbom30.py
+> +++ b/meta/lib/oe/sbom30.py
+> @@ -577,9 +577,9 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+>              re.sub(r"[^a-zA-Z0-9_-]", "_", license_expression),
+>          ]
 >
->  inherit autotools systemd
+> -        license_text =3D (
+> +        license_text =3D [
+>              (k, license_text_map[k]) for k in sorted(license_text_map.ke=
+ys())
+> -        )
+> +        ]
 >
-> -EXTRA_OECONF += "--with-openssl=${STAGING_EXECPREFIXDIR}"
-> +PACKAGECONFIG = "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)} openssl"
-> +PACKAGECONFIG[pam] = "--with-pam=${STAGING_EXECPREFIXDIR},--with-pam=no,libpam"
-> +PACKAGECONFIG[openssl] = "--with-openssl=${STAGING_EXECPREFIXDIR},--with-openssl=no,openssl"
-
-If inherit pkgconfig, we can avoid explicitly pointing to the
-installed path for openssl and libpam, otherwise this is a good
-substitute for my original patch.
-
->
->  do_install:append () {
->         mkdir -p ${D}${bindir}/ ${D}${sysconfdir}/init.d
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#206565): https://lists.openembedded.org/g/openembedded-core/message/206565
-> Mute This Topic: https://lists.openembedded.org/mt/109305795/3617261
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [danismostlikely@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+>          if not license_text:
+>              lic =3D self.find_filter(
+> --
+> 2.25.1
 >
 
