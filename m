@@ -2,177 +2,320 @@ Return-Path: <vince_chang@aspeedtech.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DD391E674B9
-	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 08:22:13 +0000 (UTC)
-Received: from TWMBX01.aspeed.com (TWMBX01.aspeed.com [211.20.114.72])
- by mx.groups.io with SMTP id smtpd.web10.33025.1730449331223081229
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB1D9E674B8
+	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 08:28:43 +0000 (UTC)
+Received: from SEYPR02CU001.outbound.protection.outlook.com (SEYPR02CU001.outbound.protection.outlook.com [40.107.44.101])
+ by mx.groups.io with SMTP id smtpd.web10.33111.1730449722960467499
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Nov 2024 01:22:12 -0700
+ Fri, 01 Nov 2024 01:28:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: aspeedtech.com, ip: 211.20.114.72, mailfrom: vince_chang@aspeedtech.com)
-Received: from TWMBX01.aspeed.com (192.168.0.62) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1258.12; Fri, 1 Nov
- 2024 16:22:08 +0800
-Received: from localhost.localdomain (192.168.10.10) by TWMBX01.aspeed.com
- (192.168.0.62) with Microsoft SMTP Server id 15.2.1258.12 via Frontend
- Transport; Fri, 1 Nov 2024 16:22:08 +0800
+ dkim=pass header.i=@aspeedtech.com header.s=selector2 header.b=Uf6c+mjB;
+ spf=pass (domain: aspeedtech.com, ip: 40.107.44.101, mailfrom: vince_chang@aspeedtech.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rbX03GEliD5XJFrzFrsG//4qns/fFJVDef1BKZfK5k9cjKYkcJoBKqnN8J7JYr9Mt+5riJrkHmxLoB2fPw6LZea1B7G8J5g11RlfB0f23HoM4Gbv6gNk3lXUp0aeCs/wRmbyBailnGGB5QDAMUcKJyFR7GKGOyazg+q67ocqvtfqSUBXTYXYAuDZ/SqHf8FRCG0SEtlJX4cTrJRzfFlcrlOfaKWqnbiR5zT3N/XOEn9T/RvU/KXBdZBNj9nZW1zV+GZHPF46d8TqVxG9WaxRhdbc2aTlbVF3hyl0Lp0MLoByZHx5lqIHCzFED6kN44ErlzVBKXCx/+ApdkW2+/PUAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XtWUmIdqMcSvMJ8f/OimjHZrCd0h/RGHfxa2OejdFU4=;
+ b=qYEkGxTHzbdv5C3ybIay/oqiXIZxoKPRbKyBLd6TtRWWExBcHoQB2IzWd4LDqVQYMsJhxe7X50Op7Z/Y5vtgoodF22YT3fT67CB7V3S82iS/7xwGZ+KwDyDFagNdG/ylRMgNftC68Lo8mCBhyiKHs4ZU8LouaBWE0+tpAXC/NHtYQY8s6Sg5FoM7BfC5inIEQ2j+p9F7Ma+U4evTvfW6Bob6GpQLMEmPXl2ntUW1zO4Xi5pznMmpXxG8iRk15VBaipMoguC7iXzlWcCMxO1rt6SGATDXJkvIprllN+Oc2hJ3lKgsJ9yBO+9MD6rvVB2wvkWmorxrBqKUsZSiZfB9cQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
+ header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XtWUmIdqMcSvMJ8f/OimjHZrCd0h/RGHfxa2OejdFU4=;
+ b=Uf6c+mjB5Tg/y2r+6kZ9by9ctZDKq284abZJz/Va9XBlfTU8zK7splpxNEnr1OsZMHzeQV1TKDZzQU2VjhGArSH6gUoTsGFXwnuT+QWcloPYPVrdbm/Mr7GWm734m9CTyDposuDGBSc1fJRaQ/7XuV9nFxFH39o9MS4d/qyrg+wpHndZ538k7GpRa/JHGLkGqbm3LgPmE303U2+FStb6VFA760+qzY9o2X2bbN8z7AQmRZbhJ9QDjHeLgbIbb/tkv8gqDtexcafRi8rUM32V2YGP9AzVGCeXUjY1k/d54KiptnRC56eK4zutH5unVlqfbVdGBtFLBtkEHDrjw/A+QQ==
+Received: from TY0PR06MB5707.apcprd06.prod.outlook.com (2603:1096:400:271::10)
+ by PUZPR06MB5903.apcprd06.prod.outlook.com (2603:1096:301:11f::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Fri, 1 Nov
+ 2024 08:28:35 +0000
+Received: from TY0PR06MB5707.apcprd06.prod.outlook.com
+ ([fe80::7918:f902:3ec1:4e7b]) by TY0PR06MB5707.apcprd06.prod.outlook.com
+ ([fe80::7918:f902:3ec1:4e7b%4]) with mapi id 15.20.8114.011; Fri, 1 Nov 2024
+ 08:28:35 +0000
 From: Vince Chang <vince_chang@aspeedtech.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <jamin_lin@aspeedtech.com>, <troy_lee@aspeedtech.com>
-Subject: [PATCH v3 1/1] selftest: wic: wic_sector_size add wic-tools path
-Date: Fri, 1 Nov 2024 16:22:08 +0800
-Message-ID: <20241101082208.1635320-2-vince_chang@aspeedtech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20241101082208.1635320-1-vince_chang@aspeedtech.com>
-References: <20241101082208.1635320-1-vince_chang@aspeedtech.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Jamin Lin
+	<jamin_lin@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>, Khem Raj
+	<raj.khem@gmail.com>
+Subject: RE: [OE-core] [PATCH v2 0/2] wic support different sector size
+Thread-Topic: [OE-core] [PATCH v2 0/2] wic support different sector size
+Thread-Index: 
+ AQHbKsvcoIRhmSl0kE+pCMCxVX5HWLKgHE0sgAAMCgCAAG2SAIABBg1ggAAWNFCAACYwAIAALzAggAAFMoCAAA0tcA==
+Date: Fri, 1 Nov 2024 08:28:34 +0000
+Message-ID: 
+ <TY0PR06MB570769658EFE9EE9A0A513A6E2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
+References: <20241028034618.1504830-1-vince_chang@aspeedtech.com>
+ <CANNYZj_KF41W10duL5u0mDDbv1aFUxdcGAmUtO2fEc0EtZ4ymg@mail.gmail.com>
+ <TY0PR06MB5707BE94581CC7F425214A2EE2552@TY0PR06MB5707.apcprd06.prod.outlook.com>
+ <CAMKF1srdKcP7HMPkQF+iCqOkCfpGv6oB0M8R7=qbO3C216xgmw@mail.gmail.com>
+ <CANNYZj8v9LUJFDXqBms6Yg7F0t=xQZAcCg417x00zJxqeYqtog@mail.gmail.com>
+ <TY0PR06MB570732A6C54A787FB10C50B6E2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
+ <TY0PR06MB57070328EF6E490CA8B8C0A8E2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
+ <CANNYZj99sKhO24ehF4ks8cWCJa_kg92vGVML8PqtiQFTwnNEaw@mail.gmail.com>
+ <TY0PR06MB570773E5E2D81502B5B30AAAE2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
+ <CANNYZj_UPeg38M5A04J+3_Joumd5DX+48k3LD_nhK53M5imrtQ@mail.gmail.com>
+In-Reply-To: 
+ <CANNYZj_UPeg38M5A04J+3_Joumd5DX+48k3LD_nhK53M5imrtQ@mail.gmail.com>
+Accept-Language: zh-TW, en-US
+Content-Language: zh-TW
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=aspeedtech.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY0PR06MB5707:EE_|PUZPR06MB5903:EE_
+x-ms-office365-filtering-correlation-id: b08a67cc-c900-4a0a-015a-08dcfa4f2d55
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|376014|8096899003|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?OGtQSFUrN2dIaVNBNzJkbFpsU1BDanB5NmxYWjd1Q0NiUnVKSDhvMjROTERX?=
+ =?utf-8?B?YUNkWHhYMW9iUzl0QlBLcmE1dHRhRGZPaWh1bTFJQnQ1WTdFeVgySytReTdh?=
+ =?utf-8?B?L2Y2VXVyYmRMVHh6Q2p6OXdPamNHQWRQV1ZKZFpBaW1RYmVSYTl3bUt0Slhm?=
+ =?utf-8?B?dVEwM1FTMDNGOURFRURhVU1DWGxZTEt2c2xXdEpEbmlBWDErR0lvWWZzSDlh?=
+ =?utf-8?B?aUQrVjhOU0drMGM2bjlFNGtlb1I4c1R1SWJCMWNRTXlEUlNza1hrR1N2QW03?=
+ =?utf-8?B?Y2JrVkNiRlBLc0NuY3RvZkpWSko3N29qSVF4bmJvU0g5UGJmdFN1eUZQUHRS?=
+ =?utf-8?B?VFg2S004M21lNHA4NU1EZTBUMTZzQVhwc1JSWU84L05qTXdIYzJQdmdnMzRh?=
+ =?utf-8?B?SW80ZTdUaUNISWQ0K2Q2K2Z6WEdVbUNscXJVSkM4eUs5R01qVFhVdlpVUjlQ?=
+ =?utf-8?B?YXk3aU5IY1VkRDJsVSt6TTU3a0JGc0srQWtrcU8zRTdFbm5RZ0tjQmYyeG9W?=
+ =?utf-8?B?eFZLbU90cXZrRUhxOW9xVkVWcUc5MmpVRURKOFJQR1Uvci82QjN1TVQ0S1FY?=
+ =?utf-8?B?R0t6aHNtcHNWK3BvVWExbXlYK0Z0emdzSnpIaW9nak5ZNTBnMm1xclp3eExK?=
+ =?utf-8?B?dC95Y2JJdFZ5RVQ0akRlb1pZNUlmUzZaZlRsTnBJUC9acHc2eWFzUkEzY09K?=
+ =?utf-8?B?OWNwYjA5Z0l6TUlOajV2Mk9VaEVNV1hPdGExdW1RSEJHa2ZQckh0OW1WNTZw?=
+ =?utf-8?B?WnE2YzlEMVdGKy9TK0dNNTB3bnNFVjFkOHlrNEFESE04WDlQcjBmSTlNcjJ5?=
+ =?utf-8?B?Y3lWd05yaGRjNkkzeTRpQmV5Z2VVOUxCa2NkTkpYVmxqL0hDY0dHTFhiR2Vp?=
+ =?utf-8?B?azdqUHZBbXYzVXhmMzdiN1NlMkVKMFIxOFhSZmNDQXAwMkQ4cVAwZlpIS085?=
+ =?utf-8?B?d1Z4VUVJc3dQay9wbGxqTFJGUTZrZFBqWC94SnlJRTdhcU5SMVpoNThUL2RI?=
+ =?utf-8?B?empjT2FLcndhMlZDOElBVHcvU3BZRUNSOStBNTRucjJiUFNoNHE2ZFZPT1JQ?=
+ =?utf-8?B?K3d2dDlYMVMyZUc3Y1k0dUlxM01KNG16aUpTekY2WkRnUG5jTm9jZGJzZ0RB?=
+ =?utf-8?B?M092M0E0Z3o1WW14bmJRRXVkK1Ayb2ttNmhWN3B3QTZ0K1drZmJIN1BEeWtq?=
+ =?utf-8?B?SVUzMG42RXljZ2tuaFBiYmVTcG9YdTZxWUk3YUJyNDBnYTlzNXMrQXlFbk5T?=
+ =?utf-8?B?anVtdlNiWmxqNHlDVDRNdGQ5WjkzT1JjUG9QYlhjczBJOHJIMW16WWY0TVhN?=
+ =?utf-8?B?U1FxVm1ab0twTkFjVWRaUzZ4Q1VRc1FEWGp6OWxKczZRZkptSjlhYitSLzVM?=
+ =?utf-8?B?YWZYeUhnSEN1ZmdBcHFrL3NOeHg0em8vc1JHaDMzZm8xM00rRUJSNi9YbkR2?=
+ =?utf-8?B?cHpOcWRvUEhsR2FCcHFuMDYyQUZEODh0RDZlY2JPTkFUa2o0TUtQM0Jwbkt4?=
+ =?utf-8?B?dGJyQXBXd1g1K2RLTmxFeW1GQW1nYVlCVG5JU2RUVXdqM28vbWU1NXArTWJD?=
+ =?utf-8?B?RmhJU0ZVUXRUN1BYdURkT1F3c0V3MG5JVzhGQnl0ODNsVW1UT1dIclRvOGhM?=
+ =?utf-8?B?d0dWVkY0dHdrMHUvYUMxbjlXQTJycSs4cnFMVkIxdWdoZ3IyZkEzRzc1UEFI?=
+ =?utf-8?B?ampheTYyQU4yL2VwSjJLYkhUYVJlYUx0bTlNTjVXcmw2UGl4RWNOazV6WTl3?=
+ =?utf-8?Q?0v8x0IT9WPGR+c3eEWAOid2v0I46NzgHHTEDap4?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR06MB5707.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(8096899003)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?VTZmMkN0Vnc1eGZ6UXc4a0R3ZFU4N2k3cmZUK3VxK0JVREVFb0lERVBFQ2t5?=
+ =?utf-8?B?Y1kvTnRyMnZGODFJNVRkWFhPRmxKeEphbW1HaFRRTzYwMU1lQzYwRU9mdUVN?=
+ =?utf-8?B?Q1cwek52MElHcTI5SnpuSnl3cWwwbUhOVFpZcGZMQnczVWJ1ODg3MmNIUHpv?=
+ =?utf-8?B?aGc5aGtpSm4rczYrWUlLeXh6dVplRlord0drTm1CUXNaM2c4TXFaOStnK0Nw?=
+ =?utf-8?B?K0hqV2tUbjBNbVVDWk94UzFWM0lDQkE0RlJvQXJmaG9VblN3aHl0QkQrdTFi?=
+ =?utf-8?B?YU1TeDdNZkdKc09yR3Bxby81Q0d4VDZjSWtGVUJNNHNkSENhWGx5V0hzWmxE?=
+ =?utf-8?B?Z25ZQUVBQU9rUlNpcm1EMzE0T0lnenRoNFl4VVRjZ2VUczB1czJlTVRYLzJN?=
+ =?utf-8?B?cnNpeHRrazh1ZVVDMFQ5c2JNL21PcVo0Wjc3UENsWnpBaW41elpYd285REsy?=
+ =?utf-8?B?dmxIZXlhMHFKaHM0bk92V2N0UHViMkt3WEJKVXI0UG01NmphYzFPUkl6eUl6?=
+ =?utf-8?B?Y1MrbzdKcDNudENoRW4yK3JkL2J3Y3RzVGNaWFVsNkFSNFFNaHpwdXZXcitO?=
+ =?utf-8?B?dFUyL3RUZHhOcDNtUTFnQUVGV0lVelJCR0xxUWo3ZmI5QkRQT3lNRGRFMHFU?=
+ =?utf-8?B?d2toRyszSjdVRHoycHdBTzRjYlgrKzdjQUpQR2VzMjV6KytiOUhyNzduTkpF?=
+ =?utf-8?B?ckNNbHpxMHpoUlhOVEpONFlNbWtlZmRMRmxCNWlxZkNJelVrSkdHdFFxOEVt?=
+ =?utf-8?B?UjNDUmVsZDFXM0ZCZEpaNm9HckNxbFBiYVM2WkVZS1dWckphQnZVb2k2ZXZR?=
+ =?utf-8?B?WWlqTnJpWjY3NCt2dFJIeXlBamVpZXZLZk13eVp2Ry96Y0wxbDFPcW5rQU5R?=
+ =?utf-8?B?V3p1VUNtQm5pdy9rWG9SQWxqRVIwSlliL1dRTGlhMHVFdjhkUlVtNzlwUTNy?=
+ =?utf-8?B?d05NOGxDbW1qcXd3TjVGb2lhSTltZEZzMnpjYzJYZ0VnazJOVnFVWGQwM3NS?=
+ =?utf-8?B?TkVZSzErYWpUYmE5ekNjUlAyMHZXdW1VQ2RCMmJvWkVhS3Fzdml0MXhyOEdh?=
+ =?utf-8?B?eWRML3dDVVNjdkdocExuUzBqUWJIc0ROS2FLRTViQmppTFlleStua292aVND?=
+ =?utf-8?B?alNXMmlHTWpTMVV5dlNmQkZKeVRPd1ZjVldhRVhqZHE3eHlHNGFKNmFmRVZR?=
+ =?utf-8?B?MUtEc2tBYlpsc0lpR290RjYvVm4wVk1SZEhzZ0FvS2hzQWx5eThyNXNnczZy?=
+ =?utf-8?B?SWNnbUN2NlQwODFPclNOTFhON3Z3bUpObFVoUEJEN2FSVnU1V3RhT051NmQv?=
+ =?utf-8?B?SlRUS2xid2s0THZnY21YUE5rbVdjbkNDV0hSTElQNEFNRXRUcWhuOFRJS2RX?=
+ =?utf-8?B?YUU0RzFwWUxDanpXNTdPRVIvMGpxby94OVlldXF5RGxFbEVCeDFrZ1ZTT2Rj?=
+ =?utf-8?B?cFU3VC9XMkdSYnZUWjdncXRNM0RidXVOOHJYRW91aWFTRWJkMUlPbERqbWlx?=
+ =?utf-8?B?SDZMS3p2S2F0SXNLWEV1ZkRvVERPVHZBQllaSEdRNVpPZkpOWVIxVURQZlRD?=
+ =?utf-8?B?Vi9LN2t0YWJ5cFdhZWN4MGpEZnA1R2JSc0JVbW5FaHZRalNid2ZCenhFazQ2?=
+ =?utf-8?B?bmI0UnhCUlpoRnlkK0pCc2lndFNmTllDaittWTJOTFUya2lXNGFVbFhlbjB5?=
+ =?utf-8?B?bXVjNnFNMEM2MEI5YW5rRkdKMGtvVTFJZm92K3ZqRTBjTWhvZnJNa1dZcVFi?=
+ =?utf-8?B?akpiSFIrbkxKSVZHc1ZQTHR2L2JqSTcrWXZ2VWRhZnJOUUxJR296dTVwRGFU?=
+ =?utf-8?B?M3d5QUt5V1hzOUhsYjdoa1NjeGxNdVFWVC9CVEwrbG9kdzB3MENzZmZwWGxn?=
+ =?utf-8?B?NnMrU1BMS2MzVU85R2Qyek1jajZnUUsrbUplS1c3emRoSWpBYitGRW5jTUQ3?=
+ =?utf-8?B?MVlhbmg3eWo4TThmbmpvTSs4a1BlZ2VHUDFNaDlBa0ZLUVNReTA1YUFyR3Zj?=
+ =?utf-8?B?RWFPdUg0aWhSUlV6dW1zOWdPcUtGOXBjU2F1Q01hUldnbFM0T2RJeGtqcGVM?=
+ =?utf-8?B?VGdiT2JWM1l4WnNtUUdNeklzSk5UQUR5NzJ1LzNPZk1vaERtdzdtOU9xb2xI?=
+ =?utf-8?B?QVhDa3NaQVVEOG14TU1ZNHIrbzMzanlqclp2aU5WaHFYb3dMTldlOEhNdzRz?=
+ =?utf-8?B?eVE9PQ==?=
+Content-Type: multipart/alternative;
+	boundary="_000_TY0PR06MB570769658EFE9EE9A0A513A6E2562TY0PR06MB5707apcp_"
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: aspeedtech.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5707.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b08a67cc-c900-4a0a-015a-08dcfa4f2d55
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2024 08:28:34.9244
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FT9A7Ef63/LGmnp7UkogoiEIUzzhBcuQVGpIg/g+c2grSMu1EXxZk9nP16RknsXtXCKwSLa6zMQiFoTVT03ZmFqG8vlspSUv24oHqsgFLvI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PUZPR06MB5903
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 08:22:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206607
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 08:28:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206608
 
-Add wic-tools to the PATH to avoid failures when running the
-wic_sector_size test case on a build host that doesn=E2=80=99t have parted.
+--_000_TY0PR06MB570769658EFE9EE9A0A513A6E2562TY0PR06MB5707apcp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Vince Chang <vince_chang@aspeedtech.com>
----
- meta/lib/oeqa/selftest/cases/wic.py | 92 +++++++++++++++--------------
- 1 file changed, 48 insertions(+), 44 deletions(-)
+SGkgQWxleCwNCg0KWWVzLCBJIGhhdmUgc3VibWl0dGVkIGEgY29tbWl0IHRvIGFkZCB3aWMtdG9v
+bHMgaW50byB0aGUgUEFUSC4NCmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29wZW5l
+bWJlZGRlZC1jb3JlL21lc3NhZ2UvMjA2NjA3DQoNClRoYW5rcywNClZpbmNlDQoNCkZyb206IEFs
+ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPg0KU2VudDogRnJpZGF5LCBO
+b3ZlbWJlciAxLCAyMDI0IDM6MzkgUE0NClRvOiBWaW5jZSBDaGFuZyA8dmluY2VfY2hhbmdAYXNw
+ZWVkdGVjaC5jb20+DQpDYzogUmljaGFyZCBQdXJkaWUgPHJpY2hhcmQucHVyZGllQGxpbnV4Zm91
+bmRhdGlvbi5vcmc+OyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnOyBK
+YW1pbiBMaW4gPGphbWluX2xpbkBhc3BlZWR0ZWNoLmNvbT47IFRyb3kgTGVlIDx0cm95X2xlZUBh
+c3BlZWR0ZWNoLmNvbT47IEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+DQpTdWJqZWN0OiBS
+ZTogW09FLWNvcmVdIFtQQVRDSCB2MiAwLzJdIHdpYyBzdXBwb3J0IGRpZmZlcmVudCBzZWN0b3Ig
+c2l6ZQ0KDQpUaGFua3MhIEJ1dCB5b3Ugc2hvdWxkIHN0aWxsIGZpeCB0aGUgb3JpZ2luYWwgZmFp
+bCBJIHRoaW5rPw0KDQpBbGV4DQoNCk9uIEZyaSAxLiBOb3YgMjAyNCBhdCA4LjM3LCBWaW5jZSBD
+aGFuZyA8dmluY2VfY2hhbmdAYXNwZWVkdGVjaC5jb208bWFpbHRvOnZpbmNlX2NoYW5nQGFzcGVl
+ZHRlY2guY29tPj4gd3JvdGU6DQpIaSBBbGV4LA0KDQpPbiBGcmksIDEgTm92IDIwMjQgYXQgMTI6
+MzIgUE0sIEFsZXhhbmRlciBLYW5hdmluIHdyb3RlOg0KPiBBbnl3YXksIGltcGxlbWVudGF0aW9u
+IHJ1bkNtZCgpIGluZGVlZCBkZWZhdWx0cyB0byBzdGRlcnIgYmVpbmcNCj4gcmVkaXJlY3RlZCBh
+bmQgYXBwZW5kZWQgdG8gc3Rkb3V0LCBzbyB0aGUgc3RhbmRhcmQgc3RyZWFtIGFuZCB0aGUNCj4g
+ZXJyb3Igc3RyZWFtIGFyZSBtYXNoZWQgdG9nZXRoZXIuDQo+DQo+IFRvIGF2b2lkIHRoYXQsIHlv
+dSBzaG91bGQgYWxzbyBzZXQgc3RkZXJyPXN1YnByb2Nlc3MuUElQRSB3aGVuIGNhbGxpbmcNCj4g
+cnVuQ21kKCkuIENoZWNrIG1ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvcnVuY21kLnB5IGZv
+ciBleGFtcGxlczoNCj4NCj4gICAgIGRlZiB0ZXN0X291dHB1dChzZWxmKToNCj4gICAgICAgICBy
+ZXN1bHQgPSBydW5DbWQoImVjaG8gc3Rkb3V0OyBlY2hvIHN0ZGVyciA+JjIiLCBzaGVsbD1UcnVl
+LA0KPiBzeW5jPUZhbHNlKQ0KPiAgICAgICAgIHNlbGYuYXNzZXJ0RXF1YWwoInN0ZG91dFxuc3Rk
+ZXJyIiwgcmVzdWx0Lm91dHB1dCkNCj4gICAgICAgICBzZWxmLmFzc2VydEVxdWFsKCIiLCByZXN1
+bHQuZXJyb3IpDQo+DQo+ICAgICBkZWYgdGVzdF9vdXRwdXRfc3BsaXQoc2VsZik6DQo+ICAgICAg
+ICAgcmVzdWx0ID0gcnVuQ21kKCJlY2hvIHN0ZG91dDsgZWNobyBzdGRlcnIgPiYyIiwgc2hlbGw9
+VHJ1ZSwNCj4gc3RkZXJyPXN1YnByb2Nlc3MuUElQRSwgc3luYz1GYWxzZSkNCj4gICAgICAgICBz
+ZWxmLmFzc2VydEVxdWFsKCJzdGRvdXQiLCByZXN1bHQub3V0cHV0KQ0KPiAgICAgICAgIHNlbGYu
+YXNzZXJ0RXF1YWwoInN0ZGVyciIsIHJlc3VsdC5lcnJvcikNCg0KSSBkaWRuJ3QgcmVhbGl6ZSB0
+aGF0IHN0ZGVycj1zdWJwcm9jZXNzLlBJUEUgY291bGQgYmUgdXNlZC4gSSd2ZSBzdWJtaXR0ZWQg
+YSBzZXBhcmF0ZSBjb21taXQuDQpodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5vcmcvZy9vcGVu
+ZW1iZWRkZWQtY29yZS9tZXNzYWdlLzIwNjYwMg0KDQpUaGFua3MsDQpWaW5jZQ0K
 
-diff --git a/meta/lib/oeqa/selftest/cases/wic.py b/meta/lib/oeqa/selftest/c=
-ases/wic.py
-index fa7e4aae8c..207e487002 100644
---- a/meta/lib/oeqa/selftest/cases/wic.py
-+++ b/meta/lib/oeqa/selftest/cases/wic.py
-@@ -842,55 +842,59 @@ bootloader --ptable gpt""")
-=20
-     def test_wic_sector_size(self):
-         """Test generation image sector size"""
--        # Add WIC_SECTOR_SIZE into config
--        config =3D 'WIC_SECTOR_SIZE =3D "4096"\n'\
--                 'WIC_BLOCK_SIZE =3D "4096"\n'\
--                 'WICVARS:append =3D " WIC_SECTOR_SIZE WIC_BLOCK_SIZE"\n'
--        self.append_config(config)
--        bitbake('core-image-minimal')
--
--        # Check WIC_SECTOR_SIZE apply to bitbake variable
--        wic_sector_size_str =3D get_bb_var('WIC_SECTOR_SIZE', 'core-image-=
-minimal')
--        wic_sector_size =3D int(wic_sector_size_str)
--        self.assertEqual(4096, wic_sector_size)
--
--        self.logger.info("Test wic_sector_size: %d \n" % wic_sector_size)
-+=20
-+        oldpath =3D os.environ['PATH']
-+        os.environ['PATH'] =3D get_bb_var("PATH", "wic-tools")
-=20
--        with NamedTemporaryFile("w", suffix=3D".wks") as wks:
--            wks.writelines(
--                ['bootloader --ptable gpt\n',
--                 'part --fstype ext4 --source rootfs --label rofs-a --mkfs=
--extraopts "-b 4096"\n',
--                 'part --fstype ext4 --source rootfs --use-uuid --mkfs-ext=
-raopts "-b 4096"\n'])
--            wks.flush()
--            cmd =3D "wic create %s -e core-image-minimal -o %s" % (wks.nam=
-e, self.resultdir)
--            runCmd(cmd)
--            wksname =3D os.path.splitext(os.path.basename(wks.name))[0]
--            images =3D glob(os.path.join(self.resultdir, "%s-*direct" % wk=
-sname))
--            self.assertEqual(1, len(images))
-+        try:
-+            # Add WIC_SECTOR_SIZE into config
-+            config =3D 'WIC_SECTOR_SIZE =3D "4096"\n'\
-+                     'WICVARS:append =3D " WIC_SECTOR_SIZE"\n'
-+            self.append_config(config)
-+            bitbake('core-image-minimal')
-+
-+            # Check WIC_SECTOR_SIZE apply to bitbake variable
-+            wic_sector_size_str =3D get_bb_var('WIC_SECTOR_SIZE', 'core-im=
-age-minimal')
-+            wic_sector_size =3D int(wic_sector_size_str)
-+            self.assertEqual(4096, wic_sector_size)
-+
-+            self.logger.info("Test wic_sector_size: %d \n" % wic_sector_si=
-ze)
-+
-+            with NamedTemporaryFile("w", suffix=3D".wks") as wks:
-+                wks.writelines(
-+                    ['bootloader --ptable gpt\n',
-+                     'part --fstype ext4 --source rootfs --label rofs-a --=
-mkfs-extraopts "-b 4096"\n',
-+                     'part --fstype ext4 --source rootfs --use-uuid --mkfs=
--extraopts "-b 4096"\n'])
-+                wks.flush()
-+                cmd =3D "wic create %s -e core-image-minimal -o %s" % (wks=
-.name, self.resultdir)
-+                runCmd(cmd)
-+                wksname =3D os.path.splitext(os.path.basename(wks.name))[0=
-]
-+                images =3D glob(os.path.join(self.resultdir, "%s-*direct" =
-% wksname))
-+                self.assertEqual(1, len(images))
-=20
--        sysroot =3D get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
--        # list partitions
--        result =3D runCmd("wic ls %s -n %s" % (images[0], sysroot))
--        self.assertEqual(3, len(result.output.split('\n')))
--        self.logger.info("result: %s \n" % result.output)
-+            sysroot =3D get_bb_var('RECIPE_SYSROOT_NATIVE', 'wic-tools')
-+            # list partitions
-+            result =3D runCmd("wic ls %s -n %s" % (images[0], sysroot))
-+            self.assertEqual(3, len(result.output.split('\n')))
-=20
--        # verify partition size with wic
--        res =3D runCmd("export PARTED_SECTOR_SIZE=3D%d; parted -m %s unit =
-b p" % (wic_sector_size, images[0]),
--                     stderr=3Dsubprocess.PIPE)
-+            # verify partition size with wic
-+            res =3D runCmd("export PARTED_SECTOR_SIZE=3D%d; parted -m %s u=
-nit b p" % (wic_sector_size, images[0]),
-+                         stderr=3Dsubprocess.PIPE)
-=20
--        self.logger.info("res: %s \n" % res.output)
--        # parse parted output which looks like this:
--        # BYT;\n
--        # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569472B=
-:file:4096:4096:gpt::;\n
--        # 1:139264B:39284735B:39145472B:ext4:rofs-a:;\n
--        # 2:39284736B:78430207B:39145472B:ext4:primary:;\n
--        disk_info =3D res.output.splitlines()[1]
--        # Check sector sizes
--        sector_size_logical =3D int(disk_info.split(":")[3])
--        sector_size_physical =3D int(disk_info.split(":")[4])
--        self.assertEqual(wic_sector_size, sector_size_logical, "Logical se=
-ctor size is not %d." % wic_sector_size)
--        self.assertEqual(wic_sector_size, sector_size_physical, "Physical =
-sector size is not %d." % wic_sector_size)
-+            # parse parted output which looks like this:
-+            # BYT;\n
-+            # /var/tmp/wic/build/tmpgjzzefdd-202410281021-sda.direct:78569=
-472B:file:4096:4096:gpt::;\n
-+            # 1:139264B:39284735B:39145472B:ext4:rofs-a:;\n
-+            # 2:39284736B:78430207B:39145472B:ext4:primary:;\n
-+            disk_info =3D res.output.splitlines()[1]
-+            # Check sector sizes
-+            sector_size_logical =3D int(disk_info.split(":")[3])
-+            sector_size_physical =3D int(disk_info.split(":")[4])
-+            self.assertEqual(wic_sector_size, sector_size_logical, "Logica=
-l sector size is not %d." % wic_sector_size)
-+            self.assertEqual(wic_sector_size, sector_size_physical, "Physi=
-cal sector size is not %d." % wic_sector_size)
-=20
-+        finally:
-+            os.environ['PATH'] =3D oldpath
-=20
- class Wic2(WicTestCase):
-=20
---=20
-2.25.1
+--_000_TY0PR06MB570769658EFE9EE9A0A513A6E2562TY0PR06MB5707apcp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
+PGh0bWwgeG1sbnM6dj0idXJuOnNjaGVtYXMtbWljcm9zb2Z0LWNvbTp2bWwiIHhtbG5zOm89InVy
+bjpzY2hlbWFzLW1pY3Jvc29mdC1jb206b2ZmaWNlOm9mZmljZSIgeG1sbnM6dz0idXJuOnNjaGVt
+YXMtbWljcm9zb2Z0LWNvbTpvZmZpY2U6d29yZCIgeG1sbnM6bT0iaHR0cDovL3NjaGVtYXMubWlj
+cm9zb2Z0LmNvbS9vZmZpY2UvMjAwNC8xMi9vbW1sIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcv
+VFIvUkVDLWh0bWw0MCI+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIg
+Y29udGVudD0idGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxtZXRhIG5hbWU9IkdlbmVyYXRv
+ciIgY29udGVudD0iTWljcm9zb2Z0IFdvcmQgMTUgKGZpbHRlcmVkIG1lZGl1bSkiPg0KPHN0eWxl
+PjwhLS0NCi8qIEZvbnQgRGVmaW5pdGlvbnMgKi8NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6
+5paw57Sw5piO6auUOw0KCXBhbm9zZS0xOjIgMiA1IDAgMCAwIDAgMCAwIDA7fQ0KQGZvbnQtZmFj
+ZQ0KCXtmb250LWZhbWlseToiQ2FtYnJpYSBNYXRoIjsNCglwYW5vc2UtMToyIDQgNSAzIDUgNCA2
+IDMgMiA0O30NCkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6Q2FsaWJyaTsNCglwYW5vc2UtMToy
+IDE1IDUgMiAyIDIgNCAzIDIgNDt9DQpAZm9udC1mYWNlDQoJe2ZvbnQtZmFtaWx5OkFwdG9zO30N
+CkBmb250LWZhY2UNCgl7Zm9udC1mYW1pbHk6IlxA5paw57Sw5piO6auUIjsNCglwYW5vc2UtMToy
+IDEgNiAxIDAgMSAxIDEgMSAxO30NCi8qIFN0eWxlIERlZmluaXRpb25zICovDQpwLk1zb05vcm1h
+bCwgbGkuTXNvTm9ybWFsLCBkaXYuTXNvTm9ybWFsDQoJe21hcmdpbjowY207DQoJZm9udC1zaXpl
+OjEyLjBwdDsNCglmb250LWZhbWlseToi5paw57Sw5piO6auUIixzZXJpZjt9DQphOmxpbmssIHNw
+YW4uTXNvSHlwZXJsaW5rDQoJe21zby1zdHlsZS1wcmlvcml0eTo5OTsNCgljb2xvcjpibHVlOw0K
+CXRleHQtZGVjb3JhdGlvbjp1bmRlcmxpbmU7fQ0Kc3Bhbi5FbWFpbFN0eWxlMTgNCgl7bXNvLXN0
+eWxlLXR5cGU6cGVyc29uYWwtcmVwbHk7DQoJZm9udC1mYW1pbHk6IkFwdG9zIixzYW5zLXNlcmlm
+Ow0KCWNvbG9yOndpbmRvd3RleHQ7fQ0KLk1zb0NocERlZmF1bHQNCgl7bXNvLXN0eWxlLXR5cGU6
+ZXhwb3J0LW9ubHk7fQ0KQHBhZ2UgV29yZFNlY3Rpb24xDQoJe3NpemU6NjEyLjBwdCA3OTIuMHB0
+Ow0KCW1hcmdpbjo3Mi4wcHQgOTAuMHB0IDcyLjBwdCA5MC4wcHQ7fQ0KZGl2LldvcmRTZWN0aW9u
+MQ0KCXtwYWdlOldvcmRTZWN0aW9uMTt9DQotLT48L3N0eWxlPjwhLS1baWYgZ3RlIG1zbyA5XT48
+eG1sPg0KPG86c2hhcGVkZWZhdWx0cyB2OmV4dD0iZWRpdCIgc3BpZG1heD0iMTAyNiIgLz4NCjwv
+eG1sPjwhW2VuZGlmXS0tPjwhLS1baWYgZ3RlIG1zbyA5XT48eG1sPg0KPG86c2hhcGVsYXlvdXQg
+djpleHQ9ImVkaXQiPg0KPG86aWRtYXAgdjpleHQ9ImVkaXQiIGRhdGE9IjEiIC8+DQo8L286c2hh
+cGVsYXlvdXQ+PC94bWw+PCFbZW5kaWZdLS0+DQo8L2hlYWQ+DQo8Ym9keSBsYW5nPSJaSC1UVyIg
+bGluaz0iYmx1ZSIgdmxpbms9InB1cnBsZSIgc3R5bGU9IndvcmQtd3JhcDpicmVhay13b3JkIj4N
+CjxkaXYgY2xhc3M9IldvcmRTZWN0aW9uMSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
+YW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FwdG9zJnF1b3Q7LHNhbnMtc2Vy
+aWYiPkhpIEFsZXgsPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+
+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtBcHRvcyZxdW90Oyxz
+YW5zLXNlcmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FwdG9zJnF1
+b3Q7LHNhbnMtc2VyaWYiPlllcywgSSBoYXZlIHN1Ym1pdHRlZCBhIGNvbW1pdCB0byBhZGQgd2lj
+LXRvb2xzIGludG8gdGhlIFBBVEguPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1z
+b05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtBcHRv
+cyZxdW90OyxzYW5zLXNlcmlmIj48YSBocmVmPSJodHRwczovL2xpc3RzLm9wZW5lbWJlZGRlZC5v
+cmcvZy9vcGVuZW1iZWRkZWQtY29yZS9tZXNzYWdlLzIwNjYwNyI+aHR0cHM6Ly9saXN0cy5vcGVu
+ZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMDY2MDc8L2E+PG86cD48
+L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNwYW4gbGFuZz0iRU4tVVMi
+IHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtBcHRvcyZxdW90OyxzYW5zLXNlcmlmIj48bzpwPiZu
+YnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJF
+Ti1VUyIgc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FwdG9zJnF1b3Q7LHNhbnMtc2VyaWYiPlRo
+YW5rcyw8bzpwPjwvbzpwPjwvc3Bhbj48L3A+DQo8cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBs
+YW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtZmFtaWx5OiZxdW90O0FwdG9zJnF1b3Q7LHNhbnMtc2Vy
+aWYiPlZpbmNlPG86cD48L286cD48L3NwYW4+PC9wPg0KPHAgY2xhc3M9Ik1zb05vcm1hbCI+PHNw
+YW4gbGFuZz0iRU4tVVMiIHN0eWxlPSJmb250LWZhbWlseTomcXVvdDtBcHRvcyZxdW90OyxzYW5z
+LXNlcmlmIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2IHN0eWxlPSJib3JkZXI6
+bm9uZTtib3JkZXItbGVmdDpzb2xpZCBibHVlIDEuNXB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNC4w
+cHQiPg0KPGRpdj4NCjxkaXYgc3R5bGU9ImJvcmRlcjpub25lO2JvcmRlci10b3A6c29saWQgI0Ux
+RTFFMSAxLjBwdDtwYWRkaW5nOjMuMHB0IDBjbSAwY20gMGNtIj4NCjxwIGNsYXNzPSJNc29Ob3Jt
+YWwiPjxiPjxzcGFuIGxhbmc9IkVOLVVTIiBzdHlsZT0iZm9udC1zaXplOjExLjBwdDtmb250LWZh
+bWlseTomcXVvdDtDYWxpYnJpJnF1b3Q7LHNhbnMtc2VyaWYiPkZyb206PC9zcGFuPjwvYj48c3Bh
+biBsYW5nPSJFTi1VUyIgc3R5bGU9ImZvbnQtc2l6ZToxMS4wcHQ7Zm9udC1mYW1pbHk6JnF1b3Q7
+Q2FsaWJyaSZxdW90OyxzYW5zLXNlcmlmIj4gQWxleGFuZGVyIEthbmF2aW4gJmx0O2FsZXgua2Fu
+YXZpbkBnbWFpbC5jb20mZ3Q7DQo8YnI+DQo8Yj5TZW50OjwvYj4gRnJpZGF5LCBOb3ZlbWJlciAx
+LCAyMDI0IDM6MzkgUE08YnI+DQo8Yj5Ubzo8L2I+IFZpbmNlIENoYW5nICZsdDt2aW5jZV9jaGFu
+Z0Bhc3BlZWR0ZWNoLmNvbSZndDs8YnI+DQo8Yj5DYzo8L2I+IFJpY2hhcmQgUHVyZGllICZsdDty
+aWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnJmd0Ozsgb3BlbmVtYmVkZGVkLWNvcmVA
+bGlzdHMub3BlbmVtYmVkZGVkLm9yZzsgSmFtaW4gTGluICZsdDtqYW1pbl9saW5AYXNwZWVkdGVj
+aC5jb20mZ3Q7OyBUcm95IExlZSAmbHQ7dHJveV9sZWVAYXNwZWVkdGVjaC5jb20mZ3Q7OyBLaGVt
+IFJhaiAmbHQ7cmFqLmtoZW1AZ21haWwuY29tJmd0Ozxicj4NCjxiPlN1YmplY3Q6PC9iPiBSZTog
+W09FLWNvcmVdIFtQQVRDSCB2MiAwLzJdIHdpYyBzdXBwb3J0IGRpZmZlcmVudCBzZWN0b3Igc2l6
+ZTxvOnA+PC9vOnA+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPC9kaXY+DQo8cCBjbGFzcz0iTXNvTm9y
+bWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+PG86cD4mbmJzcDs8L286cD48L3NwYW4+PC9wPg0KPGRp
+dj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5UaGFua3MhIEJ1dCB5
+b3Ugc2hvdWxkIHN0aWxsIGZpeCB0aGUgb3JpZ2luYWwgZmFpbCBJIHRoaW5rPzxvOnA+PC9vOnA+
+PC9zcGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxh
+bmc9IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxkaXY+DQo8
+cCBjbGFzcz0iTXNvTm9ybWFsIj48c3BhbiBsYW5nPSJFTi1VUyI+QWxleDxvOnA+PC9vOnA+PC9z
+cGFuPjwvcD4NCjwvZGl2Pg0KPGRpdj4NCjxwIGNsYXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9
+IkVOLVVTIj48bzpwPiZuYnNwOzwvbzpwPjwvc3Bhbj48L3A+DQo8ZGl2Pg0KPGRpdj4NCjxwIGNs
+YXNzPSJNc29Ob3JtYWwiPjxzcGFuIGxhbmc9IkVOLVVTIj5PbiBGcmkgMS4gTm92IDIwMjQgYXQg
+OC4zNywgVmluY2UgQ2hhbmcgJmx0OzxhIGhyZWY9Im1haWx0bzp2aW5jZV9jaGFuZ0Bhc3BlZWR0
+ZWNoLmNvbSI+dmluY2VfY2hhbmdAYXNwZWVkdGVjaC5jb208L2E+Jmd0OyB3cm90ZTo8bzpwPjwv
+bzpwPjwvc3Bhbj48L3A+DQo8L2Rpdj4NCjxibG9ja3F1b3RlIHN0eWxlPSJib3JkZXI6bm9uZTti
+b3JkZXItbGVmdDpzb2xpZCAjQ0NDQ0NDIDEuMHB0O3BhZGRpbmc6MGNtIDBjbSAwY20gNi4wcHQ7
+bWFyZ2luLWxlZnQ6NC44cHQ7bWFyZ2luLXJpZ2h0OjBjbSI+DQo8cCBjbGFzcz0iTXNvTm9ybWFs
+Ij48c3BhbiBsYW5nPSJFTi1VUyI+SGkgQWxleCw8YnI+DQo8YnI+DQpPbiBGcmksIDEgTm92IDIw
+MjQgYXQgMTI6MzIgUE0sIEFsZXhhbmRlciBLYW5hdmluIHdyb3RlOjxicj4NCiZndDsgQW55d2F5
+LCBpbXBsZW1lbnRhdGlvbiBydW5DbWQoKSBpbmRlZWQgZGVmYXVsdHMgdG8gc3RkZXJyIGJlaW5n
+PGJyPg0KJmd0OyByZWRpcmVjdGVkIGFuZCBhcHBlbmRlZCB0byBzdGRvdXQsIHNvIHRoZSBzdGFu
+ZGFyZCBzdHJlYW0gYW5kIHRoZTxicj4NCiZndDsgZXJyb3Igc3RyZWFtIGFyZSBtYXNoZWQgdG9n
+ZXRoZXIuPGJyPg0KJmd0OyA8YnI+DQomZ3Q7IFRvIGF2b2lkIHRoYXQsIHlvdSBzaG91bGQgYWxz
+byBzZXQgc3RkZXJyPXN1YnByb2Nlc3MuUElQRSB3aGVuIGNhbGxpbmc8YnI+DQomZ3Q7IHJ1bkNt
+ZCgpLiBDaGVjayBtZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2VzL3J1bmNtZC5weSBmb3IgZXhh
+bXBsZXM6PGJyPg0KJmd0OyA8YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDtkZWYgdGVzdF9v
+dXRwdXQoc2VsZik6PGJyPg0KJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDty
+ZXN1bHQgPSBydW5DbWQoJnF1b3Q7ZWNobyBzdGRvdXQ7IGVjaG8gc3RkZXJyICZndDsmYW1wOzIm
+cXVvdDssIHNoZWxsPVRydWUsPGJyPg0KJmd0OyBzeW5jPUZhbHNlKTxicj4NCiZndDsmbmJzcDsg
+Jm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7c2VsZi5hc3NlcnRFcXVhbCgmcXVvdDtzdGRvdXRc
+bnN0ZGVyciZxdW90OywgcmVzdWx0Lm91dHB1dCk8YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJz
+cDsgJm5ic3A7ICZuYnNwO3NlbGYuYXNzZXJ0RXF1YWwoJnF1b3Q7JnF1b3Q7LCByZXN1bHQuZXJy
+b3IpPGJyPg0KJmd0OyA8YnI+DQomZ3Q7Jm5ic3A7ICZuYnNwOyAmbmJzcDtkZWYgdGVzdF9vdXRw
+dXRfc3BsaXQoc2VsZik6PGJyPg0KJmd0OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJz
+cDtyZXN1bHQgPSBydW5DbWQoJnF1b3Q7ZWNobyBzdGRvdXQ7IGVjaG8gc3RkZXJyICZndDsmYW1w
+OzImcXVvdDssIHNoZWxsPVRydWUsPGJyPg0KJmd0OyBzdGRlcnI9c3VicHJvY2Vzcy5QSVBFLCBz
+eW5jPUZhbHNlKTxicj4NCiZndDsmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDsgJm5ic3A7c2Vs
+Zi5hc3NlcnRFcXVhbCgmcXVvdDtzdGRvdXQmcXVvdDssIHJlc3VsdC5vdXRwdXQpPGJyPg0KJmd0
+OyZuYnNwOyAmbmJzcDsgJm5ic3A7ICZuYnNwOyAmbmJzcDtzZWxmLmFzc2VydEVxdWFsKCZxdW90
+O3N0ZGVyciZxdW90OywgcmVzdWx0LmVycm9yKTxicj4NCjxicj4NCkkgZGlkbid0IHJlYWxpemUg
+dGhhdCBzdGRlcnI9c3VicHJvY2Vzcy5QSVBFIGNvdWxkIGJlIHVzZWQuIEkndmUgc3VibWl0dGVk
+IGEgc2VwYXJhdGUgY29tbWl0Ljxicj4NCjxhIGhyZWY9Imh0dHBzOi8vbGlzdHMub3BlbmVtYmVk
+ZGVkLm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL21lc3NhZ2UvMjA2NjAyIiB0YXJnZXQ9Il9ibGFu
+ayI+aHR0cHM6Ly9saXN0cy5vcGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVz
+c2FnZS8yMDY2MDI8L2E+PGJyPg0KPGJyPg0KVGhhbmtzLDxicj4NClZpbmNlPG86cD48L286cD48
+L3NwYW4+PC9wPg0KPC9ibG9ja3F1b3RlPg0KPC9kaXY+DQo8L2Rpdj4NCjwvZGl2Pg0KPC9kaXY+
+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
+
+--_000_TY0PR06MB570769658EFE9EE9A0A513A6E2562TY0PR06MB5707apcp_--
 
