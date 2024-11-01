@@ -1,300 +1,107 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9CD5E6F08A
-	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 20:35:44 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web10.4110.1730493340926189172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3090CE6F08C
+	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 21:16:35 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.5051.1730495787807077213
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Nov 2024 13:35:41 -0700
+ Fri, 01 Nov 2024 14:16:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O+OYkc8u;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-539f72c8fc1so351617e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 13:35:40 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Rmqng5rX;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: dbaryshkov@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a9a6acac4c3so396196766b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 14:16:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730493339; x=1731098139; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1730495786; x=1731100586; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZTroQXa9hXKtIQxyp8p5U6JgMBWUFyPIPn390AEjamk=;
-        b=O+OYkc8um7SaOt0QgRu0kU3H3+9Qj8mp7/U0pcXqsSXkl57oD9HwG3QlYxnC222Ey7
-         1E8S93AWg30O9sbRtPZE2oT+6+oj9wA4Ni3f8ieSAfg8AqrGz8hsOO1MpZIBPJGv6Eql
-         6EIhQVKKTC5t9dcjbk/3ksdDpvPiYa9NnT1Rly0F87ScqnNWSkYMyqx4grIbhRE4llGR
-         B/CHGufaqXl8ULUGpn+rLbrPXDPM+eGdCi//uEYLHpKzw9U8P00N5Lb2no5cnfoxtMhW
-         Lp2lHrGH+fk6wIhs83uR7wZyp4JmVrCnuCQe9CQEIfpW8VdX0zgGQsx0MYpfzhJF3cAQ
-         d2PA==
+        bh=8mLCn/m9/tfHQNjQ7CZv/wxi+Ly6gIogZb+0VbDfNzA=;
+        b=Rmqng5rXRjxWpd5UpvvYT6iXsnI+NMr9mA/fwMssZhjOf1iCJx+u7TPkudPZOz+5JI
+         lFX6tLOhwBxRbKmaG4TfKt3OAQCsZkQahs4fiqs9HoOe49J2Cp92T4X5CR4zv09sEshR
+         LQksqPIl9U+51jtiGnpJOZ4z2P21p2MmRxnl40j/n9rhI2DpxPdPsmp/jeBeWIOzFA5t
+         QUYwUUIooiuqXtJCYs3190PpgZGdbBx8AW1jG1uM3uwziAUjrqPlYSGKOtwTdjKX9ceq
+         eD2aZWbB8ujuegnjc+EZ65aHETQpsy9//yYdDekZIrl4dcCqQBHWZVXezHcjLe0Nn5SW
+         At+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730493339; x=1731098139;
+        d=1e100.net; s=20230601; t=1730495786; x=1731100586;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZTroQXa9hXKtIQxyp8p5U6JgMBWUFyPIPn390AEjamk=;
-        b=Yvg7YkQ6vPXsRdg5b3RZ16gGJqlZxkS2jRFo4UN1punXVPf1NKOORxY0seRRh3boAm
-         U/nSmFCCFsD+lx4p69xqxgPMt12L84YSjxxwie6rbMCMN6x+YFFInIooGUwMEZUjBkPW
-         +ju95oGcS+QmlGqyoI8Baa9ovFn6nzFpigybKyDlEsnVrwDzxiGcJtnMKoHVFguvXVXp
-         iRsRCWt2RGdyV4PvbzyazJoXZ8nyymFAsuXfMRttcM07jsHkpf5G4kIO3/7Jg8yhVSQl
-         dL3j88IPMB54eBq96LQg5cE1AaI7RlI7D6oTw+rhpANm7kKL1CfzX1wh5LL518tjCYcK
-         w7xA==
-X-Gm-Message-State: AOJu0YwGJ5UDnRUVyobCqKVquxWI8f5b0mjwB+DNORG0/rUlupC4dYR2
-	pkWpoJwe6AYbG+dMPdvA56QOMOOIlf311+CxWbQ7AzSnLARvUzHKC3eEt9RQ85xinVSpYb365RN
-	F9NopEU4Yl05fQDLET+GJ+SwYB4o=
-X-Google-Smtp-Source: AGHT+IEYDc+7L8uOYbPDSr6Pwiw3RZHzoFz2NXrnhv1jcnkbDk6BRWxsMkBnM7Svcrccahv3upbVpJuRLYCoNdBRkOg=
-X-Received: by 2002:a2e:a550:0:b0:2fa:d84a:bd83 with SMTP id
- 38308e7fff4ca-2fd0595132cmr75417911fa.24.1730493338545; Fri, 01 Nov 2024
- 13:35:38 -0700 (PDT)
+        bh=8mLCn/m9/tfHQNjQ7CZv/wxi+Ly6gIogZb+0VbDfNzA=;
+        b=Arl3Z3FkeR5pvcflelNCFdIIqGidXKe+9rd3hnEv8iBPdNrIMJW/nf8NB6otMOc//z
+         II3h5rLXmM+rJOKwglNPbXFxg4H/Rau17nKlVuPQwq0XeYYHOPVmyxkIzQKhcCTt6u+C
+         isd9cZ4b7CzJ4N2IJ3h9ZOaIcNlLzyGX8RTVE7RjjbhKX42Ln7Vb+88CeNCYj2il8U6l
+         4KeH9YM1PjC9hfwwiG8pFIsWgxxF6FV8zkoqxCXzjthFo6w5yqerVBLOBXigDVE6A6ou
+         jiU/H5/GBWFySb4s5n9dJBKMu/rUPilCZWxUfjsOcOgStEpkqCciKtHUni2/Pty/KAUg
+         Cx7g==
+X-Gm-Message-State: AOJu0YxRwIlMezd0BFn8ppkt0qsJNiUmQ2BLo93fxkWVCAR6jOLbrX9N
+	So/L40t/BZ9HRjmM59pJW2Eg0w9IEQ8rRBpLlZ6kjjO87628kHPmUlaMuFg2EuQnWPKapCKtslw
+	d+C/qNemxEGsNYxNUBIjdYolFytk=
+X-Google-Smtp-Source: AGHT+IGO1Br0vJvfz8SVxh13SvKRUj77O48mvv6FUPtPdwz4JbcUiLIrCVlLgr3kKY/lnASzyN1wvNYTtHgjVbLREMc=
+X-Received: by 2002:a17:907:8694:b0:a99:43e5:ac37 with SMTP id
+ a640c23a62f3a-a9de5ecc0c8mr2201999566b.15.1730495785827; Fri, 01 Nov 2024
+ 14:16:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <20241101184156.2368109-1-hiagofranco@gmail.com>
- <CANNYZj-nmnzTFqPT2nCY2EWWirCpyo1Yw9gFUz9_=dMt3diYXA@mail.gmail.com> <20241101202323.4ld6jdczxaoxk6fb@hiago-nb>
-In-Reply-To: <20241101202323.4ld6jdczxaoxk6fb@hiago-nb>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 1 Nov 2024 21:35:27 +0100
-Message-ID: <CANNYZj_tFUibOLa5MUDLOSBvKt2F=bZqdk7q4_6besXMJ4pgHA@mail.gmail.com>
-Subject: Re: [oe-core][PATCH] drm-info: add recipe
-To: Hiago De Franco <hiagofranco@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Hiago De Franco <hiago.franco@toradex.com>
-Content-Type: multipart/alternative; boundary="000000000000baf3f60625dfe026"
+References: <20241022172111.539206-1-quic_vpuar@quicinc.com>
+In-Reply-To: <20241022172111.539206-1-quic_vpuar@quicinc.com>
+From: Dmitry Baryshkov <dbaryshkov@gmail.com>
+Date: Fri, 1 Nov 2024 23:16:14 +0200
+Message-ID: <CALT56yN9ySnEHEAXkGDmBOEFO3k2g9eA_J_4L9_bmFjJ8uss5Q@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] linux-firmware: add new fw file to ${PN}-qcom-adreno-a660
+To: quic_vpuar@quicinc.com, nicolas.dechesne@oss.qualcomm.com, 
+	rsalveti@quicinc.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 20:35:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206633
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 21:16:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206634
 
---000000000000baf3f60625dfe026
-Content-Type: text/plain; charset="UTF-8"
-
-Perhaps you can show what the tool outputs?
-
-Alex
-
-On Fri 1. Nov 2024 at 21.23, Hiago De Franco <hiagofranco@gmail.com> wrote:
-
-> Hi Alexander,
+On Tue, 22 Oct 2024 at 20:21, Vivek Puar via lists.openembedded.org
+<quic_vpuar=quicinc.com@lists.openembedded.org> wrote:
 >
-> On Fri, Nov 01, 2024 at 08:22:03PM +0100, Alexander Kanavin wrote:
-> > Should this go to meta-oe rather? Why core?
->
-> I was not 100% sure, I just selected here because I saw the recipe for
-> 'libdrm' and the 'recipes-graphics/drm'. I can move this to meta-oe if
-> openembedded-core is not the correct place. Please let me know.
->
-> >
-> > Alex
-> >
-> > On Fri 1. Nov 2024 at 19.42, Hiago De Franco via lists.openembedded.org
-> > <hiagofranco=gmail.com@lists.openembedded.org> wrote:
-> >
-> > > From: Hiago De Franco <hiago.franco@toradex.com>
-> > >
-> > > This recipe provides information about DRM devices, useful for
-> debugging
-> > > and checking information about DRM.
-> > >
-> > > Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
-> > > ---
-> > >  meta/conf/distro/include/maintainers.inc    |  1 +
-> > >  meta/recipes-graphics/drm/drm-info_2.7.0.bb | 13 +++++++++++++
-> > >  2 files changed, 14 insertions(+)
-> > >  create mode 100644 meta/recipes-graphics/drm/drm-info_2.7.0.bb
-> > >
-> > > diff --git a/meta/conf/distro/include/maintainers.inc
-> > > b/meta/conf/distro/include/maintainers.inc
-> > > index 7aafa7a2d146..2c2779f8cf83 100644
-> > > --- a/meta/conf/distro/include/maintainers.inc
-> > > +++ b/meta/conf/distro/include/maintainers.inc
-> > > @@ -156,6 +156,7 @@ RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets = "Yi
-> > > Zhao <yi.zhao@windriver.com>"
-> > >  RECIPE_MAINTAINER:pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
-> > >  RECIPE_MAINTAINER:pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
-> > >  RECIPE_MAINTAINER:pn-dpkg = "Unassigned <unassigned@yoctoproject.org
-> >"
-> > > +RECIPE_MAINTAINER:pn-drm-info = "Hiago De Franco <
-> > > hiago.franco@toradex.com>"
-> > >  RECIPE_MAINTAINER:pn-dropbear = "Yi Zhao <yi.zhao@windriver.com>"
-> > >  RECIPE_MAINTAINER:pn-dtc = "Wang Mingyu <wangmy@fujitsu.com>"
-> > >  RECIPE_MAINTAINER:pn-dwarfsrcfiles = "Alexander Kanavin <
-> > > alex.kanavin@gmail.com>"
-> > > diff --git a/meta/recipes-graphics/drm/drm-info_2.7.0.bb
-> > > b/meta/recipes-graphics/drm/drm-info_2.7.0.bb
-> > > new file mode 100644
-> > > index 000000000000..9f1cbb47fbfd
-> > > --- /dev/null
-> > > +++ b/meta/recipes-graphics/drm/drm-info_2.7.0.bb
-> > > @@ -0,0 +1,13 @@
-> > > +SUMMARY = "Small utility to dump info about DRM devices"
-> > > +HOMEPAGE = "https://gitlab.freedesktop.org/emersion/drm_info"
-> > > +LICENSE = "MIT"
-> > > +LIC_FILES_CHKSUM =
-> "file://LICENSE;md5=32fd56d355bd6a61017655d8da26b67c"
-> > > +
-> > > +SRC_URI = "git://
-> > >
-> gitlab.freedesktop.org/emersion/drm_info.git;branch=master;protocol=https"
-> > > +SRCREV = "c1f5ca4cf750b26eb26c1d9d5c2ef057acbcfefc"
-> > > +
-> > > +S = "${WORKDIR}/git"
-> > > +
-> > > +inherit meson pkgconfig
-> > > +
-> > > +DEPENDS = "json-c libdrm"
-> > >
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#206628):
-> > > https://lists.openembedded.org/g/openembedded-core/message/206628
-> > > Mute This Topic: https://lists.openembedded.org/mt/109340073/1686489
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
-> [
-> > > alex.kanavin@gmail.com]
-> > > -=-=-=-=-=-=-=-=-=-=-=-
-> > >
-> > >
->
-> Regards,
->
-> Hiago.
->
+> Extend the linux-firmware-qcom-adreno-a660 package
+> with gpu firmware file for qcom QCM6490 variant
 
---000000000000baf3f60625dfe026
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Could you please explain one thing: why can't you look around and copy
+the existing approach? MBN files are platform-dependent, so they
+should not go to the platform-independent qcom-adreno-aNNN packages.
+That's how all the rest of the platforms are handled, but for some
+reason you don't copy that design.
 
-<div dir=3D"auto">Perhaps you can show what the tool outputs?</div><div dir=
-=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmai=
-l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri 1. Nov 2024 at 21.23,=
- Hiago De Franco &lt;<a href=3D"mailto:hiagofranco@gmail.com">hiagofranco@g=
-mail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;pad=
-ding-left:1ex;border-left-color:rgb(204,204,204)">Hi Alexander,<br>
-<br>
-On Fri, Nov 01, 2024 at 08:22:03PM +0100, Alexander Kanavin wrote:<br>
-&gt; Should this go to meta-oe rather? Why core?<br>
-<br>
-I was not 100% sure, I just selected here because I saw the recipe for<br>
-&#39;libdrm&#39; and the &#39;recipes-graphics/drm&#39;. I can move this to=
- meta-oe if<br>
-openembedded-core is not the correct place. Please let me know.<br>
-<br>
-&gt; <br>
-&gt; Alex<br>
-&gt; <br>
-&gt; On Fri 1. Nov 2024 at 19.42, Hiago De Franco via <a href=3D"http://lis=
-ts.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedde=
-d.org</a><br>
-&gt; &lt;hiagofranco=3D<a href=3D"mailto:gmail.com@lists.openembedded.org" =
-target=3D"_blank">gmail.com@lists.openembedded.org</a>&gt; wrote:<br>
-&gt; <br>
-&gt; &gt; From: Hiago De Franco &lt;<a href=3D"mailto:hiago.franco@toradex.=
-com" target=3D"_blank">hiago.franco@toradex.com</a>&gt;<br>
-&gt; &gt;<br>
-&gt; &gt; This recipe provides information about DRM devices, useful for de=
-bugging<br>
-&gt; &gt; and checking information about DRM.<br>
-&gt; &gt;<br>
-&gt; &gt; Signed-off-by: Hiago De Franco &lt;<a href=3D"mailto:hiago.franco=
-@toradex.com" target=3D"_blank">hiago.franco@toradex.com</a>&gt;<br>
-&gt; &gt; ---<br>
-&gt; &gt;=C2=A0 meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 |=C2=
-=A0 1 +<br>
-&gt; &gt;=C2=A0 meta/recipes-graphics/drm/<a href=3D"http://drm-info_2.7.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">drm-info_2.7.0.bb</a> | 13 +++++++=
-++++++<br>
-&gt; &gt;=C2=A0 2 files changed, 14 insertions(+)<br>
-&gt; &gt;=C2=A0 create mode 100644 meta/recipes-graphics/drm/<a href=3D"htt=
-p://drm-info_2.7.0.bb" rel=3D"noreferrer" target=3D"_blank">drm-info_2.7.0.=
-bb</a><br>
-&gt; &gt;<br>
-&gt; &gt; diff --git a/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; b/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; index 7aafa7a2d146..2c2779f8cf83 100644<br>
-&gt; &gt; --- a/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; +++ b/meta/conf/distro/include/maintainers.inc<br>
-&gt; &gt; @@ -156,6 +156,7 @@ RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets =
-=3D &quot;Yi<br>
-&gt; &gt; Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.com" target=3D"_blan=
-k">yi.zhao@windriver.com</a>&gt;&quot;<br>
-&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-dos2unix =3D &quot;Khem Raj &lt;<a hre=
-f=3D"mailto:raj.khem@gmail.com" target=3D"_blank">raj.khem@gmail.com</a>&gt=
-;&quot;<br>
-&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-dosfstools =3D &quot;Yi Zhao &lt;<a hr=
-ef=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com=
-</a>&gt;&quot;<br>
-&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-dpkg =3D &quot;Unassigned &lt;<a href=
-=3D"mailto:unassigned@yoctoproject.org" target=3D"_blank">unassigned@yoctop=
-roject.org</a>&gt;&quot;<br>
-&gt; &gt; +RECIPE_MAINTAINER:pn-drm-info =3D &quot;Hiago De Franco &lt;<br>
-&gt; &gt; <a href=3D"mailto:hiago.franco@toradex.com" target=3D"_blank">hia=
-go.franco@toradex.com</a>&gt;&quot;<br>
-&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-dropbear =3D &quot;Yi Zhao &lt;<a href=
-=3D"mailto:yi.zhao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</=
-a>&gt;&quot;<br>
-&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-dtc =3D &quot;Wang Mingyu &lt;<a href=
-=3D"mailto:wangmy@fujitsu.com" target=3D"_blank">wangmy@fujitsu.com</a>&gt;=
-&quot;<br>
-&gt; &gt;=C2=A0 RECIPE_MAINTAINER:pn-dwarfsrcfiles =3D &quot;Alexander Kana=
-vin &lt;<br>
-&gt; &gt; <a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.=
-kanavin@gmail.com</a>&gt;&quot;<br>
-&gt; &gt; diff --git a/meta/recipes-graphics/drm/<a href=3D"http://drm-info=
-_2.7.0.bb" rel=3D"noreferrer" target=3D"_blank">drm-info_2.7.0.bb</a><br>
-&gt; &gt; b/meta/recipes-graphics/drm/<a href=3D"http://drm-info_2.7.0.bb" =
-rel=3D"noreferrer" target=3D"_blank">drm-info_2.7.0.bb</a><br>
-&gt; &gt; new file mode 100644<br>
-&gt; &gt; index 000000000000..9f1cbb47fbfd<br>
-&gt; &gt; --- /dev/null<br>
-&gt; &gt; +++ b/meta/recipes-graphics/drm/<a href=3D"http://drm-info_2.7.0.=
-bb" rel=3D"noreferrer" target=3D"_blank">drm-info_2.7.0.bb</a><br>
-&gt; &gt; @@ -0,0 +1,13 @@<br>
-&gt; &gt; +SUMMARY =3D &quot;Small utility to dump info about DRM devices&q=
-uot;<br>
-&gt; &gt; +HOMEPAGE =3D &quot;<a href=3D"https://gitlab.freedesktop.org/eme=
-rsion/drm_info" rel=3D"noreferrer" target=3D"_blank">https://gitlab.freedes=
-ktop.org/emersion/drm_info</a>&quot;<br>
-&gt; &gt; +LICENSE =3D &quot;MIT&quot;<br>
-&gt; &gt; +LIC_FILES_CHKSUM =3D &quot;file://LICENSE;md5=3D32fd56d355bd6a61=
-017655d8da26b67c&quot;<br>
-&gt; &gt; +<br>
-&gt; &gt; +SRC_URI =3D &quot;git://<br>
-&gt; &gt; <a href=3D"http://gitlab.freedesktop.org/emersion/drm_info.git;br=
-anch=3Dmaster;protocol=3Dhttps" rel=3D"noreferrer" target=3D"_blank">gitlab=
-.freedesktop.org/emersion/drm_info.git;branch=3Dmaster;protocol=3Dhttps</a>=
-&quot;<br>
-&gt; &gt; +SRCREV =3D &quot;c1f5ca4cf750b26eb26c1d9d5c2ef057acbcfefc&quot;<=
-br>
-&gt; &gt; +<br>
-&gt; &gt; +S =3D &quot;${WORKDIR}/git&quot;<br>
-&gt; &gt; +<br>
-&gt; &gt; +inherit meson pkgconfig<br>
-&gt; &gt; +<br>
-&gt; &gt; +DEPENDS =3D &quot;json-c libdrm&quot;<br>
-&gt; &gt;<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt; Links: You receive all messages sent to this group.<br>
-&gt; &gt; View/Reply Online (#206628):<br>
-&gt; &gt; <a href=3D"https://lists.openembedded.org/g/openembedded-core/mes=
-sage/206628" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedde=
-d.org/g/openembedded-core/message/206628</a><br>
-&gt; &gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109=
-340073/1686489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/mt/109340073/1686489</a><br>
-&gt; &gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.op=
-enembedded.org" target=3D"_blank">openembedded-core+owner@lists.openembedde=
-d.org</a><br>
-&gt; &gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembe=
-dded-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/g/openembedded-core/unsub</a> [<br>
-&gt; &gt; <a href=3D"mailto:alex.kanavin@gmail.com" target=3D"_blank">alex.=
-kanavin@gmail.com</a>]<br>
-&gt; &gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; &gt;<br>
-&gt; &gt;<br>
-<br>
-Regards,<br>
-<br>
-Hiago.<br>
-</blockquote></div></div>
+Nico, Ricardo, could you please make sure that future linux-firmware
+recipe changes from the Qualcomm side get dmitry.baryshkov@linaro.org
+in CC list? I usually don't follow the mailing list closely, so I
+missed this.  I'll send a series to fix the issues with QCM6490 /
+QCS6490  but I'd really like to be able to prevent such invalid or
+half-baked solutions from hitting the repository in the future.
 
---000000000000baf3f60625dfe026--
+>
+> Signed-off-by: Vivek Puar <quic_vpuar@quicinc.com>
+> ---
+>  meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
+> index f40723cbca..d18e7414db 100644
+> --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
+> +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
+> @@ -1482,7 +1482,7 @@ FILES:${PN}-qcom-adreno-a4xx = "${nonarch_base_libdir}/firmware/qcom/a4*_*.fw*"
+>  FILES:${PN}-qcom-adreno-a530 = "${nonarch_base_libdir}/firmware/qcom/a530*.fw*"
+>  FILES:${PN}-qcom-adreno-a630 = "${nonarch_base_libdir}/firmware/qcom/a630*.*"
+>  FILES:${PN}-qcom-adreno-a650 = "${nonarch_base_libdir}/firmware/qcom/a650*.*"
+> -FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.*"
+> +FILES:${PN}-qcom-adreno-a660 = "${nonarch_base_libdir}/firmware/qcom/a660*.* ${nonarch_base_libdir}/firmware/qcom/qcm6490/a660_zap.mbn*"
+>  FILES:${PN}-qcom-adreno-a702 = "${nonarch_base_libdir}/firmware/qcom/a702*.*"
+>  FILES:${PN}-qcom-adreno-g750 = "${nonarch_base_libdir}/firmware/qcom/gen70500_*.*"
+>  FILES:${PN}-qcom-apq8016-modem = "${nonarch_base_libdir}/firmware/qcom/apq8016/mba.mbn* ${nonarch_base_libdir}/firmware/qcom/apq8016/modem.mbn*"
+> --
+> 2.34.1
+
+-- 
+With best wishes
+Dmitry
 
