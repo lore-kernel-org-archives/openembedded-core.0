@@ -1,169 +1,284 @@
-Return-Path: <vince_chang@aspeedtech.com>
+Return-Path: <Jinfeng.Wang.CN@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9464E67493
-	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 01:04:31 +0000 (UTC)
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (APC01-PSA-obe.outbound.protection.outlook.com [40.107.255.116])
- by mx.groups.io with SMTP id smtpd.web11.27387.1730423067172593733
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF08EE67495
+	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 02:03:21 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.28318.1730426598903262004
  for <openembedded-core@lists.openembedded.org>;
- Thu, 31 Oct 2024 18:04:27 -0700
+ Thu, 31 Oct 2024 19:03:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@aspeedtech.com header.s=selector2 header.b=HeHusHA/;
- spf=pass (domain: aspeedtech.com, ip: 40.107.255.116, mailfrom: vince_chang@aspeedtech.com)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=10350dd57e=jinfeng.wang.cn@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A11jd2O030132
+	for <openembedded-core@lists.openembedded.org>; Fri, 1 Nov 2024 02:03:18 GMT
+Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2171.outbound.protection.outlook.com [104.47.56.171])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42mf2e8ctm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 02:03:17 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=RjpTwBCJC6fgBfg51qwCHMS5b0MFxqqt0QV9sBTIk0v7ll2Hi2c5Gk/VzBmm8oRbO306ed7d+5w2TwsB1xdiyM8IOasTARENrJBSt7ADoz3d3TIZSzF2224ssdTeEzMuyTMlVdQlFFONi5XkUWSNCLoOchkUdP85acgGDCYlmJOyofjHDsnnUzb2gy/BZBlUmsv/6l6r1Tw2i2rHL2HKIFKB2q+JiQ9D58L/iIKkArqwRakN1LPpXZkUqYR40E+6Gz/mHvLIj4z8F9pXk4U55TtL9aDWGYG1blNt7X8nQDb6x+8gyJ8vQiUHl7/vWAfcVAsLbHGskFUsYtfvATBaig==
+ b=HKxo/CN+0Fb2Npkvvlgp2bKp9BHhFb5k2ATusid8pOeRC4Gxol/anCV0i6PfvBOi/IdXjLmWnelSRzSZ44a9aKZnvT0DJCI7le8s9HHdo5Pi3CqBZbmC85QOewtwoAdKsifzWWUTOGfqBqPWPhNQNN4ZK1yF8yIKbI/wxtA17LJYFLjtQNi2AeUnnP/i6xS9GCSkNY22Gpkd7OjZ5CM0iUbQho67JAdtQe93zPJS2dlZY59QE/bA0JtUW/AkTgrVd1chfTdrYQSMWu1af2Zz0rgMGi/12wsI+v5BcmcyBgTgreGanoc/L7++84dIJd7jBWlQUppMI4fMlZJU3gaVBQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mi8Elg0jhYOQrOa6aKpfy430dkDJOAmrJm2Y+upVRgw=;
- b=nf6+MhGjvDDLs7vakNuA4KV5aE8Cd4a+X4XBviVcczRdy+X2CBFmNKOuKkg6UMF9sy5AosJEgQ1f6yRZkrRnSzZ85qTH1OjjrwrhWp4NKHCmhzTB5q4SWxI3wLhyeB6FmEtID3VwmRaMBK6fazTQoaaniiE9lK+WJKfvjpAkP2qQ/ssez36q+wE3yn3sNiDyBj6ac99qtX62z2dmZX49Un9G+tSCtI0ElIab/ARB/Ln8OipkB+iy9opQT5QY7r5My8puHjjf6RNFz6nN104Ewh4HuSVzm1ykAdhPShGgXLx/R93KVTKU1Gz3o0NE09e7OdY1LTildkwryV/vxSIS8w==
+ bh=+M9CAjm5GR13sCWn3imnRvkQVobdeGHh9wW/Hg8CYWc=;
+ b=NzbRZarhnp8Lmvh1jJV1SS3fHNiBVhDYND2EoNRC5wtDg2r6q7pvH3SiWKqBC1P9pyCINVxt59HG8JXJlgLUuh5FsIHnVLMRBzM5t1pso6/2WaCXl94OJ+sOLpZUlIc8q4oHDM+oQz+E2MUNALizRjsZTEkpu5r+5pnY7YFeTyyJ7WhAthuR1eNc/5YyouWBmPDAcLe4/oNmi4OuNA747Zbbi5pryjzzfku8Awbe5pJNJWrJYSNfqKPq9/LJjAGa4pp28r2EOOvl7G2WTc8AA9o4KYgsxI/fvbHwlRpPmS2jgwC1FClHimj+Bnb1UUeM0iThsfjR7dv7ATFbYbEAQQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=aspeedtech.com; dmarc=pass action=none
- header.from=aspeedtech.com; dkim=pass header.d=aspeedtech.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aspeedtech.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mi8Elg0jhYOQrOa6aKpfy430dkDJOAmrJm2Y+upVRgw=;
- b=HeHusHA/1/g+8ivnXvSKDya//uJq9XWH6VWfKnUcE6UveuVzeopkfuahwd/6lJmd8S0w1/n+p4D6Dn11zy5tqCrDsSxORo28Q2IAsxHnFUygLWpfcSTxRr2UEz4EbAjAJvdqtWFnw02XVsOPlJdwso9SyfJbBEMoEsnmJuQK1D+l7wmhZY4Ddb97xT3hxvokLVi2p/7Hk+8WIKy/GdVFwom4J2zfRFU9ZrfwnWYfhxukSCMfKmS9f+YlCghBuSBWIlJjMIcABe5bBTYi0dH5WTa/ls4YBFVDTl/nlg16Q+gF9Mmy/G9ePUE7lvA7ax3lcZOvX25w1UHlbP1pZhAGNw==
-Received: from TY0PR06MB5707.apcprd06.prod.outlook.com (2603:1096:400:271::10)
- by SI2PR06MB5066.apcprd06.prod.outlook.com (2603:1096:4:1a6::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.20; Fri, 1 Nov
- 2024 01:04:21 +0000
-Received: from TY0PR06MB5707.apcprd06.prod.outlook.com
- ([fe80::7918:f902:3ec1:4e7b]) by TY0PR06MB5707.apcprd06.prod.outlook.com
- ([fe80::7918:f902:3ec1:4e7b%4]) with mapi id 15.20.8114.011; Fri, 1 Nov 2024
- 01:04:21 +0000
-From: Vince Chang <vince_chang@aspeedtech.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, Jamin Lin
-	<jamin_lin@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>, Khem Raj
-	<raj.khem@gmail.com>
-Subject: RE: [OE-core] [PATCH v2 0/2] wic support different sector size
-Thread-Topic: [OE-core] [PATCH v2 0/2] wic support different sector size
-Thread-Index: AQHbKsvcoIRhmSl0kE+pCMCxVX5HWLKgHE0sgAAMCgCAAG2SAIABBg1g
-Date: Fri, 1 Nov 2024 01:04:21 +0000
-Message-ID: 
- <TY0PR06MB570732A6C54A787FB10C50B6E2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
-References: <20241028034618.1504830-1-vince_chang@aspeedtech.com>
- <CANNYZj_KF41W10duL5u0mDDbv1aFUxdcGAmUtO2fEc0EtZ4ymg@mail.gmail.com>
- <TY0PR06MB5707BE94581CC7F425214A2EE2552@TY0PR06MB5707.apcprd06.prod.outlook.com>
- <CAMKF1srdKcP7HMPkQF+iCqOkCfpGv6oB0M8R7=qbO3C216xgmw@mail.gmail.com>
- <CANNYZj8v9LUJFDXqBms6Yg7F0t=xQZAcCg417x00zJxqeYqtog@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj8v9LUJFDXqBms6Yg7F0t=xQZAcCg417x00zJxqeYqtog@mail.gmail.com>
-Accept-Language: zh-TW, en-US
-Content-Language: zh-TW
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=aspeedtech.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: TY0PR06MB5707:EE_|SI2PR06MB5066:EE_
-x-ms-office365-filtering-correlation-id: 939ffcf4-9dc1-40de-355d-08dcfa111e73
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?ZXp3YXVPRHhuTmU4SHp3ZDA4bzRiWTlxeEMzdEluWTZ5Y1BHNjhhT0pCUjY0?=
- =?utf-8?B?WjJOZlJxWm5PUkk1T1VlRWdldlFwRjE1cDVSVjlVT0tNL2g3RldxaVZGUWVX?=
- =?utf-8?B?Y0lrNEJ4Yzh0alJjTlJUN2lhajdaU3V3aTlyVzhuVUxNQklJN3BpQ1JqdHZD?=
- =?utf-8?B?a3lSOUtzL2dZK0ZTRFp5c09NRG1FMWJOR2xGUmFoUzl5N2pya3hwY0QwNkZs?=
- =?utf-8?B?TmswRHZEaDlEb3BacnFnQkxRell0bVBpV092d1gvWVplRURKa09JRHcxc1dF?=
- =?utf-8?B?elNDa0pPM05DQVlwZE9xaFcvdTZkVE5TMG50bVE2T2orN2tpUzB1WUpZL1Nr?=
- =?utf-8?B?ZGNqdW9UZThWa2VMNmhEUEZ4VXMwQ0lrbEp4LzdWUkdZaUN3WllvMWRJajNG?=
- =?utf-8?B?STlRZnNUSGg1VUplK0l1KzNKQ1V0SzllR1FoWUJmdEtlOEo4K212MzB2YXZ0?=
- =?utf-8?B?Y3NHQTVKWE5YZEQyNFUzTU90STNacjVVeFRqaUxrYWdJdmI3Qm1qc1pJUHEr?=
- =?utf-8?B?bU9SUHQ4c1o2Y29Db1EyeDZoYS9oaUJxWDQ3TVpkYU93QlRWcG96QWdScWpx?=
- =?utf-8?B?S013b3VtbzluVHo1Y1Z3YlN4YkR6RzlvM1JxYlA5aXcwM2lTQkpyN3UxWTgv?=
- =?utf-8?B?dFdRV0hGTWZlekg4NlZ3Ylp1dEFhSGhrSk84QnBQYnZuNGJRT0Rqbi90SFhO?=
- =?utf-8?B?YlI4SXQwU2hNaXdhZWI4RHFUT25mMzRHMHFERUNUMm93Q1ZiWnU1RXhpMHdY?=
- =?utf-8?B?MzgydDhjTEdYZDBjUkxidExuSUttNmJBbmo2OXNVZDF4aUZUV1U4RWE5R0RO?=
- =?utf-8?B?YXNkRjlWYzVGMklpU1dTTlhmakdyQjhrOGJlUHhUd1lZdmVrdmQrUGpkbkM4?=
- =?utf-8?B?cUdmQW9Pb0x6dnMrZWVNdXZ4elI2b0Y3TUdyUGlmNWwrSGZDOFJQOXZRQW52?=
- =?utf-8?B?MUtsRWwzRHBwMVk3ZEFWbFdyK2U0K0ZQR3pQZmpGZmE3T0Fueng4eXdGdnFl?=
- =?utf-8?B?SWtFclA2OThQZU44WDVlVnRPdkJBN3ZqdVljUHVKZ3NmMWh0M0hVb3JnbG9R?=
- =?utf-8?B?Uzc1TjJhdlRwS2huc0pjR1VFVXBjMmpoZ2VEeDR4Uk5DallQbjd0ZzhoSHJL?=
- =?utf-8?B?THE3dHJhUjBhUjFxS1NpME4wTWV2b1A5cDVJY2Z0WkEvWWhJZVhEUVgwMVM1?=
- =?utf-8?B?WmxnYkdXWVBYVGVTTjl6MTNHaFF0M3dMWU9pemFxYitTYzArbHFJVmhoT3Ey?=
- =?utf-8?B?R3lFd0dRekJOUHBvNGIvR1RPSUJkTENIeWdydUZvTU9aeXdsNE9Zcm5TRzll?=
- =?utf-8?B?cEU4bGs2d1pDZnluRUFQdFdYUEpZUERtZkQ0dkVHRVNtMzJmNjlGK1J3Y3RI?=
- =?utf-8?B?dUpDTGdGM3JubEIwM1JuY3Avc2xuTlc4YjVCRkJUNTd6dFltWFdLNXltcnBo?=
- =?utf-8?B?UEFtY0lDeURKeUpVYmEybUV5ZTNVSXpBK1hIM3BKY3h5UDNKby9td1VGTyta?=
- =?utf-8?B?UHJkcjNtR0pQeksycG5INUJpMWpjVmgzKzcycWI0U0NrRG13UnFYeHF4N3gw?=
- =?utf-8?B?RDhESk1WS2lleDd1ait4ZHU3L0lRWGFWQkFlM2UzN0hTaEkvQVlqYVJrOENQ?=
- =?utf-8?B?dGtsQ1cwMjJ0S1RDYS9LaXFadThrSVdDeDZjelpUNit4K3NyRE03b3NFemJQ?=
- =?utf-8?B?Z3Z5UDFBUHNtZHJ4RkdId3phWTlPWHJwL3BrV2JDL2MvRFFmOXQrVDZONitw?=
- =?utf-8?B?dldhTUdWT1lYQm9HQUU2a2xWblMyMTdPY1EwQkVGMWpTVkZzQmlXYjhmYUlG?=
- =?utf-8?Q?TLNSa86rRKMgJ1qIEDo586/pxGqbz2KV8jiHw=3D?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:zh-tw;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR06MB5707.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ZDNTTEdwR1F1dU1jWFo3bmJ1czRTRTlxTlMwNEtyN3lXMUlCdStSMGZyS1hB?=
- =?utf-8?B?NTVsY21iWXB3UzdLaFErT2lsTTkwcjRVeUIramRBSWRhWTBTRlNYYitjOHdW?=
- =?utf-8?B?cU56UjRuS1M0dkdIbVY3VGhXdnpmeVYwczdzV0pUWnV5T21RaUVPWitWL01n?=
- =?utf-8?B?cDU2TTVDZjJWbXE1WGQxS2M5SU5DSThFYUh0RDZZdklHMzRmV1ErU1R4b1BJ?=
- =?utf-8?B?UWJReG45ZVFweGpwdS9YTUpidHhSeFY1SmhkS3I3eWMwM3o0YTgzcFQzL0Zm?=
- =?utf-8?B?d2NydXIxd3hvak8xanhEYnJmYUxBLzJ4RXo0eStOK001UlQ0Q2hzUnBIUnpL?=
- =?utf-8?B?R0pYMWFRVHdiRzdXUEs5d05HbmFGaHJ3Q0czVTY3Z0lScDVoSEwxYjhvZHBy?=
- =?utf-8?B?b1pGU2lETG5PMjg5Z3A0RGJUS09mbEE1Uzd2SnJrR291a3UvNGVkWGZNYXVJ?=
- =?utf-8?B?M2tTaC9hZmpXQ2YvMUduRmtLdGlRckVmUDRTcW9zNlBQOWdEaTNIQTZNeTNY?=
- =?utf-8?B?eGovWlQzN2plU3d4YUdHYkozZzNacnpvdjJENk96V3pad1FPUVJxR1d3QXVU?=
- =?utf-8?B?bkIvbzhPcisxN3VzL1dmb0dGK2dUMCt5dncxODVtc1ZaTFpiSmhLVFpxVUU1?=
- =?utf-8?B?YzVWU1JIMWk5eCtYRU5mbXVwL1M2Nytrb0RBVUk4eVRidDBhSHlNYVI1Rk5F?=
- =?utf-8?B?STZsbE1hbEVzM25WQkVmY21maXhtTEMvVEN0QWV4VUZsZlp3ZTVaQ2pJaHla?=
- =?utf-8?B?M1pJaTh5ZUdYOHRNR1JQaEhXbnlCVXZLR0VSODdSNjFKay9USjR0QjZiUUgw?=
- =?utf-8?B?anFXa2J1UXc0YmtKc2EwcHBPY3dXd0lkOUdRYlNKUXZ4eWR4WDN1WjRodVFL?=
- =?utf-8?B?bldLcU1uNFBSSjJWYkpQQytFdHpQT0NSdms1a2hkbjBaY2o4TWhyOGJjdHVJ?=
- =?utf-8?B?U04xWUlVV2tML3EyRjlZTi8zNno4b0srMSt4Z0xZZStOTmlrMUlGZXRndVV5?=
- =?utf-8?B?SlpPbklKZnJOUXNZblNVVXJ3RmRIRmdXdzFieWJ5NU5vMElheTg1eFZNOGcx?=
- =?utf-8?B?Z2F2MzNCbkM4MHhZZVhISUxDWEEwU1RyQXJXbkMySUpOM0lrYXpiOEoycnZo?=
- =?utf-8?B?RElHOU1Gd2lUZHJNNTFwcnlMSVMxR2xrbCt6T0ZTZFZtNDN4YjFiZGFWcmpR?=
- =?utf-8?B?UVRYZFlJaVl1VFV6MEswM1RHaVFnaXFCTnhyTkVFTi9TeUcrTDNDcUJ6WVhG?=
- =?utf-8?B?YVpES2JBU1pUcWJMU05TSWlLaWV6NXV0aEpjem12T0Jrb2R6d1hhUEUwZlJF?=
- =?utf-8?B?ZG9YM295VkN1bFM2alNheHFLSnRiVGFQQW9aKzhOK2R5VDdSaWxTYkdhNVFD?=
- =?utf-8?B?TmFoUld0UkZieFJGa3BhREZOWDk1a09xdGtnM0c2R3lhRk9ITnpJazdkV1o2?=
- =?utf-8?B?WE0ySjNiV0dic0loN1RySndvbWVwUlNwYXMrbjdtQjI0QVpqSlVJUTUvaWsr?=
- =?utf-8?B?ZFRodE1sZnJremJ1bDBTY08vbGR5VHFTUXc3YUpRTjVPcHA0MEN5cWdEdnZJ?=
- =?utf-8?B?Q3NZOE5wUXUyVDFnY2tvaWZvOTUxSFVpRk40Tm5FdjBxYjFsUXo0QVc3Ujd5?=
- =?utf-8?B?ZWJEcHRWOVVVaU1uTzZYNGdzd2hmQktTUDl4SEROS1NBNHhUTnYwTlNEbzg1?=
- =?utf-8?B?RkcwbFlMYTVoNkRncHlqd1VKTGJFQjQ3TVRrVUQyU0ZWRXZUNFlVb3lwR2pv?=
- =?utf-8?B?NFpnejBXcmNHODA1Z2U4aXFVbjd3NktES1pjT1M0QnhZNlViUWVBZ216Q1Mz?=
- =?utf-8?B?aHV1Nmt0SS9IblU1ZjluL25DRU9tUUZYQkVPTVlyZWIzK0IrSGJ6eFFiTXpl?=
- =?utf-8?B?UFVTNWcrNXg4VzJXRURQSHhKL1hNVGlmdDZJektYbStxREZPN2taNXRqQ2JZ?=
- =?utf-8?B?NnN1cUJDMEg4cEk3dzc2UEp5SmM0RGgwYjAzQnVpZHYzc2dZOUVUYjVsa3Fa?=
- =?utf-8?B?VDlWTnNyb05xS2NPZ1k4bGVXQzlhQkxlajRCamxYb2ozSnI4d1FKVTNMOExw?=
- =?utf-8?B?U0phRk84WFhjc09XTElzUWJKdUhreG9xTEkrSlc2NDdnVlM4OVdIMldVWGw5?=
- =?utf-8?B?YmEvem04OUFmK2NQYTRtY1orMXNzbkc1U1lOTnUvN3YzME5EQUFEUVZXYldh?=
- =?utf-8?B?SEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM4PR11MB5533.namprd11.prod.outlook.com (2603:10b6:5:38a::7) by
+ DS0PR11MB8134.namprd11.prod.outlook.com (2603:10b6:8:15a::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8093.32; Fri, 1 Nov 2024 02:03:13 +0000
+Received: from DM4PR11MB5533.namprd11.prod.outlook.com
+ ([fe80::8ce3:74f6:33ca:3dfd]) by DM4PR11MB5533.namprd11.prod.outlook.com
+ ([fe80::8ce3:74f6:33ca:3dfd%6]) with mapi id 15.20.8114.015; Fri, 1 Nov 2024
+ 02:03:12 +0000
+Message-ID: <b039e834-4deb-49b9-80f1-267174c7d942@windriver.com>
+Date: Fri, 1 Nov 2024 10:03:06 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [oe-core][PATCH 2/2] glib-2.0: fix glib-2.0 ptest failure when
+ upgrading tzdata2024b
+To: openembedded-core@lists.openembedded.org
+References: <20241028080425.2232475-1-jinfeng.wang.cn@windriver.com>
+ <18028F3A690769AE.20159@lists.openembedded.org>
+Content-Language: en-US
+From: "Wang, Jinfeng (CN)" <jinfeng.wang.cn@windriver.com>
+In-Reply-To: <18028F3A690769AE.20159@lists.openembedded.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR01CA0049.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::13) To DM4PR11MB5533.namprd11.prod.outlook.com
+ (2603:10b6:5:38a::7)
 MIME-Version: 1.0
-X-OriginatorOrg: aspeedtech.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB5533:EE_|DS0PR11MB8134:EE_
+X-MS-Office365-Filtering-Correlation-Id: 00fa6c84-986e-45fd-ffdd-08dcfa195720
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|4022899009|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?V0N5S2p4Ym9SVTFhTmZBK3E0U0dtMTFtT01sVWhYRmpZcG80NEx5aDg3UUkx?=
+ =?utf-8?B?VENFM2hmRFZrVFUvTWovRlV3OXRRMnFSZUs0U0hENEpmVnBua1Z5aXFxMWVW?=
+ =?utf-8?B?WXFoeGtrU0xJOVVJZUlhNkp6dTAzZDBvK2VJSERDc1BhQy9HcDlYZXZvZnht?=
+ =?utf-8?B?Uld0VjlWWDRPYUIrT01jVWxqVXlQcTVIY3BhYjdhcnZPVzFZYVJ3Vi9UYjVC?=
+ =?utf-8?B?enR6UEVEY1dFQUx5c3dOUkJ0T281WHQ0SEYwdTdQYXpmekJlU0lxazU3UGFp?=
+ =?utf-8?B?d2t6cFdPTVpScGhHVGJRVjZpVDJWZEpHeHlDanlHSVpEOUcxakQ0THNCNnhM?=
+ =?utf-8?B?b0VQZzNIWnZmT3ZIRU9oNDN5WFlla2pwZDFvVktsUk5tRUsrSW93UXVjNnRk?=
+ =?utf-8?B?aU5qaExpVVc3Z3Z3cVlRaUI2TlZ2MkFEbEFqVEpHN09wTzAvVjh4bnVPeVRZ?=
+ =?utf-8?B?VlgxNWdob0lNbEpMTDNqODVuZVl4SUNVbUs1bTlEQkRHV2I0d2dpS1lMVElK?=
+ =?utf-8?B?QW9rQXRzNFRpNHovYjAzUWtNSC9hTnp1dG5PYTlQMEx6VFJONkNjZUhTdEV1?=
+ =?utf-8?B?VVQ3eDBFdlZuZVJoUGZjZGIzMUUvdlI1TzVxSzUzMEgrUHRFWjcxdFpFY3Q1?=
+ =?utf-8?B?VGM2ai83NnRFbDdNYldyRzlrb0s1RkxBc2RGWG5oK3BKdkdaK0h1NEg5SHhr?=
+ =?utf-8?B?cUN0b2F1cER6R1dYY1VucnBBWHY3c0EwcFBIOXJ0bHc3MStFWGMwV2ZDbk5V?=
+ =?utf-8?B?anVIeFYrVlVXcXduNmdodURTRnlvOWlEcUJKbmc0NDA4ZDQzV3VITnJmd2NE?=
+ =?utf-8?B?RU1zTjdoMlVUQ0gyN0U2ZS94NkY5c1JDREFKN3FpTFdIREQ4NXFGamJWY014?=
+ =?utf-8?B?RlcvUUNOVFFjN1BDSzZ6dW5mMm4vM3dPd2V1b28rWTQxSEsvVm9tYmxnQmV5?=
+ =?utf-8?B?YVdjVXdJeEppcWpLRk9xNm5VaWFiSkJsaURoTml0UUtucnhhaTZVTFRkdDNJ?=
+ =?utf-8?B?cEFmNk5peHh4Q0xsWVZJQ2RuVkFLeXRIWWhmTWNBNVhRY2FVSGV3ZTZYdzJR?=
+ =?utf-8?B?N3lNYTRmMDhSWklEMkRKazJiVEYvWmRWNG1UUnE3UTNxL3VPYjRqbXZYQXJL?=
+ =?utf-8?B?WW5QSjZrWWVGUE1kajQrbUZYSWNtQkltdGxoQ3laSEQ1eWpwVzFGWHNQQmFM?=
+ =?utf-8?B?Q3ZtMG90YzhIaWswanBsYUFOZVR2ZmxORWExRnRUcHVkdDc2cmdLSitZVmhE?=
+ =?utf-8?B?eFJsS2d3M0VZYjlrSXBpREdUTWdLbFNWSXpSVUc5ZzdxQTNwbnVwT3pXdVRJ?=
+ =?utf-8?B?Rlk5TlRGREFRanZUVVY3L1I5MGpDMWt5anVaMGRQQWtsdVUrYldNMXQzRmw1?=
+ =?utf-8?B?b0gyek1TaC9GUW1TWWdoZlNhNm9uK2FSKzZQRVdZQnp5RGNSWFhrMVNpMkYx?=
+ =?utf-8?B?eUoydmtWcTR5aHdFQ05TbFFaMEJNdCtqK29zQ1FWWXg5WitLeXU3NENZczR2?=
+ =?utf-8?B?WTFsQlhsRHVOYmxhV2wzeHUvSVNMdHkrUFVpTDZFRHdIUVNvUEFXK1JXL2RF?=
+ =?utf-8?B?YUpqMTM2QXhGZmRoWjBxdlBFYlUvOUZtdmJiL2JXb21jcnphUkUvNEdjK21n?=
+ =?utf-8?B?WEQxOGFlM2xDbFdYUExQZ3VrY0dmckplNHRURVFUc2RVeUlLc2VNMXlPY3Jt?=
+ =?utf-8?Q?DDU24TSf3tR3ijxNa7ld?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB5533.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?NzVNN1JGOHNscFBMMUcvMmVRM1ZxdDJReERndnNhOWRLS3hJL2sxMVYrRW1P?=
+ =?utf-8?B?bDNQYkNaR1FOaVUzWkVUMU5ieFlyU3BGeGhYTnp5VXBEUVhPNXRaSjZBUnUx?=
+ =?utf-8?B?R0ltUkFtVzlYVklSUmd3N2JxaGNDekNaMlVxQ1I0WmtjYkpLMVBNNG4vZHRr?=
+ =?utf-8?B?aGw2My9veWdjMlFVNTIvQ09JdXpGaHRFejZYQWNQZW9DNWkweVRQNG9kR2l5?=
+ =?utf-8?B?QXJWUVpRNUFCeW5nZDY3bXIxckJvQWlpWDFwODZ2NkRnRUhkN2pOU0xzZWhG?=
+ =?utf-8?B?cFZ3M1Eyb25QTFI1bXIvRlZWeTBmeFBxdm8wb0F6Skk4emlTNmFQM3RTdGdy?=
+ =?utf-8?B?NVkzZ3dUMDM1WmdrNlFiaEl0YWU5eWxibzl6QkRodkl5cEd2bmtuQ2hKODNG?=
+ =?utf-8?B?Zm5UV0R5emdLN0Fxd1hQTy9UYVJKbllxbFBHOE01dkZkeGQ4S0ZseUpYV2s3?=
+ =?utf-8?B?dzRFQ0pmbXgvTHpPTGVCekZrMmh5cHBiS1E2SlhzUG5JS25scXRjWkUwalNB?=
+ =?utf-8?B?OXVpTTNMQ2Q1MCs0elFGcC9OTHRJQVB1UkdzSmRNdFRWZERUdVc4eiszc0NZ?=
+ =?utf-8?B?dHRyTHMyVzJidWVoVWhPdFBZUU1oQk5rMG5LZksvVGZEcWI2SjlRb0cyMkJC?=
+ =?utf-8?B?VFhZdDc4OE0ySC93SG1PdmUyN0tnVmJTeWluNlpJemdsOVlsWlZHUEhWRmVm?=
+ =?utf-8?B?VnA3cHF3blE2OGQ3Z3hDazVCTzlBQVd4RWh6M2NOcXowb3pUTWNmbWJIQWdW?=
+ =?utf-8?B?dWRyRG1iSUNzSjVwSGgwTzdjNHl0U3RFanRKQ3dqVWZ5M1o0VjdhU0pZQTh1?=
+ =?utf-8?B?U1V6dmdNbWVOMjMrYmNNWU4vNURXaGJoQVNOdFlYdHMrZlVLWlNScUk0bWgx?=
+ =?utf-8?B?NStkbUo2U094SXlJckxaTklPY3Eyb2NFMmhPeExaM0pMQVVjcmh5T0ZhTzlz?=
+ =?utf-8?B?bnpXK1BRWnVpQlY2ZXpoeFBkSHkyS1I5amFRdmE0RXhmOUl5WlRWZ3ordjZm?=
+ =?utf-8?B?dWNYQUQyeU1XMm9oZHd5bE13c3hQSmdWVWROYjdQbGFXY2VQemw4Ymo5cWor?=
+ =?utf-8?B?SFZrazRwUmI0WXB6dzF4WmR4NXo5emdhazZrWGlvem9HRWltZXFkV1BlUzNp?=
+ =?utf-8?B?bDVSN1dGKzFLRnNVbEg2QzlxOERWRWR0cUlKeGlwbG1zZUlmWW5EcXUwenRa?=
+ =?utf-8?B?K1hCSWlYTHE5L0JJZG84Q0ZmOEdaclFQWkdpSkV5UnJ5em9lMnBMekNaSDhT?=
+ =?utf-8?B?REIyZHFWbWhFWnh0K2pVejMrU0o5K2QzSnBTMGdLc3FZSzlQQ0xIaDN0Zmtl?=
+ =?utf-8?B?QnliMFFlWmFESytlRnQ2WmdtU3RONFRYbmdQU0x2QVZYWXZSOGVNM2xhUy9G?=
+ =?utf-8?B?UElPUm5PQWNKdW91VzY1Q1g0SlNVMVo1VXFVamNRY3NITEpVSXlhTnhtVHow?=
+ =?utf-8?B?Sk9wQkhLejM4YXF5Rmc1TW8zUFhqczcvcHJ0MzF1SURkd3BaTmVZU0ZRM1ow?=
+ =?utf-8?B?cmRYMEpsVVVCeTFuOHFKcTdVOVV4K05hVzRoWW5lSnBZREh4QzlwWmsyeGU4?=
+ =?utf-8?B?RklHaWV4VWJ0dnltVy96VXcrK1ZhS0ovS0dJMzlyWDRna3hmR1F6NHNwTHk5?=
+ =?utf-8?B?TUppaWZLZWozL0tRTVBiRzBWYlc3Mk9oVGFpZFdtYk44RFdjd01JM3dWanVS?=
+ =?utf-8?B?RTN0MG1tcmM5VG5VSUNEQXA0b29ORlU3bllGNGVDV1RXaEQ5Yk1JdE1hQ3Bj?=
+ =?utf-8?B?Wm1CSDk2dEhucFVBQ1J5MUFZcEZoT2dGaFVOZ2Q2UGFCQ3o3b0RxTHZ0dHFr?=
+ =?utf-8?B?bWp1czF1eXJhNnpKTHVJN0JaVkNaa05kcUxlaGRDaDBHem04aFV1UHI5MVk4?=
+ =?utf-8?B?NFRYT2kvS3k0TVRNVDNaYU5oMFhySUQxRU9vZmJNdmpaQ1Q3SSt4Z3B6eXJj?=
+ =?utf-8?B?YVlKWkVuMXBraHl4YStYOW9LSUdOelVtMy9Hcjg3WGhPeEIyeGovaTgzeVhx?=
+ =?utf-8?B?NGJsM3Baa1dpNmJVOHh6d3c3WlJVOElMZFVmaTRQZDhlQ0hDVUk3ajdiUkQv?=
+ =?utf-8?B?WjJaZW5Va1ZSbE1BcVBiUW1TelVOZUxLZm94NkhyYkYzUWtWMTZmc25zUkVs?=
+ =?utf-8?B?b0swWGYrcjVtaG1JQ0xlWjhMSzBnY2FJSk5tVmlYYTNMd3E4aEI0Z29WS2Fs?=
+ =?utf-8?B?M2c9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 00fa6c84-986e-45fd-ffdd-08dcfa195720
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB5533.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR06MB5707.apcprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 939ffcf4-9dc1-40de-355d-08dcfa111e73
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Nov 2024 01:04:21.1889
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 02:03:12.6344
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 43d4aa98-e35b-4575-8939-080e90d5a249
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: hrSe1c+C52R+PaVGZUtiRodH+e9LVfih4+mvorwu1t5ZNryXslbm08y/BmD5lJ2f9nXByRiPg/sN3Ux6x8rZKIov5d07irxwusdPcSbtawU=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SI2PR06MB5066
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YcD3Akx7K2HZGU9wp3IFYc7E2ucpr1JGApC/XnGpeikRFskqE2zt1i3SSCFvQ7Lw+TxxSxH6uWOr+JZuMdbqaDMcpQaXJfGcFJUJlnFUqtA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB8134
+X-Authority-Analysis: v=2.4 cv=K4dwHDWI c=1 sm=1 tr=0 ts=672436e5 cx=c_pps a=vIBLTX18KUGM0ea88UIWow==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8
+ a=xNf9USuDAAAA:8 a=NEAV23lmAAAA:8 a=PooQbQ-LlydZ9UKJ6UUA:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: xw0rx8gq-f881V4NRQiquHjYnHXtN2Tg
+X-Proofpoint-ORIG-GUID: xw0rx8gq-f881V4NRQiquHjYnHXtN2Tg
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-10-31_14,2024-10-31_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ spamscore=0 suspectscore=0 clxscore=1015 impostorscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 lowpriorityscore=0
+ mlxlogscore=999 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2409260000 definitions=main-2411010012
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 01:04:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206597
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 02:03:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206598
 
-SGkgQWxleCwNCg0KT24gVGh1LCAzMSBPY3QgMjAyNCBhdCA1OjE4IFBNLCBBbGV4YW5kZXIgS2Fu
-YXZpbiB3cm90ZToNCg0KPiBBbHNvIGlmIHlvdSBjYW4gKGluIGEgc2VwYXJhdGUgY29tbWl0KSBk
-cm9wIGFsbCB1c2FnZSBvZiB0aGlzDQo+ICIyPi9kZXYvbnVsbCIgcGF0dGVybiBpbiB3aWMgdGVz
-dHMgdGhhdCBvbmx5IGhhcm1zIGZhaWwgZGlhZ25vc3RpY3MsDQo+IHRoYXQgd291bGQgYmUgaGVs
-cGZ1bC4NCg0KSSB3aWxsIHNlbmQgYSBzZXBhcmF0ZSBjb21taXQgdG8gcmVtb3ZlICIyPi9kZXYv
-bnVsbCIgaW4gdGhlIHdpYyB0ZXN0IGNhc2VzLg0KDQpUaGFua3MsDQpWaW5jZQ0KDQo=
+Please ignore this patch. I will send a V3 later.
+
+
+Thanks.
+
+Jinfeng
+
+On 10/28/2024 4:04 PM, Wang, Jinfeng (CN) via lists.openembedded.org wrote:
+> From: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+>
+> Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+> ---
+>   ...all-back-if-legacy-System-V-PST8PDT-.patch | 79 +++++++++++++++++++
+>   meta/recipes-core/glib-2.0/glib.inc           |  1 +
+>   2 files changed, 80 insertions(+)
+>   create mode 100644 meta/recipes-core/glib-2.0/files/0001-gdatetime-test-Fall-back-if-legacy-System-V-PST8PDT-.patch
+>
+> diff --git a/meta/recipes-core/glib-2.0/files/0001-gdatetime-test-Fall-back-if-legacy-System-V-PST8PDT-.patch b/meta/recipes-core/glib-2.0/files/0001-gdatetime-test-Fall-back-if-legacy-System-V-PST8PDT-.patch
+> new file mode 100644
+> index 0000000000..1909abb557
+> --- /dev/null
+> +++ b/meta/recipes-core/glib-2.0/files/0001-gdatetime-test-Fall-back-if-legacy-System-V-PST8PDT-.patch
+> @@ -0,0 +1,79 @@
+> +From 2edbf994f9625a564ecf4a6e7f39de077d6b3b77 Mon Sep 17 00:00:00 2001
+> +From: Simon McVittie <smcv@debian.org>
+> +Date: Fri, 18 Oct 2024 11:23:42 +0100
+> +Subject: [PATCH] gdatetime test: Fall back if legacy System V PST8PDT is not
+> + available
+> +
+> +On recent versions of Debian, PST8PDT is part of the tzdata-legacy
+> +package, which is not always installed and might disappear in future.
+> +Successfully tested with and without tzdata-legacy on Debian unstable.
+> +
+> +Upstream-Status: Backport [https://github.com/GNOME/glib/commit/fe2699369f79981dcf913af4cfd98b342b84a9c1]
+> +Signed-off-by: Simon McVittie <smcv@debian.org>
+> +Signed-off-by: Jinfeng Wang <jinfeng.wang.cn@windriver.com>
+> +---
+> + glib/tests/gdatetime.c | 38 ++++++++++++++++++++++++++++++--------
+> + 1 file changed, 30 insertions(+), 8 deletions(-)
+> +
+> +diff --git a/glib/tests/gdatetime.c b/glib/tests/gdatetime.c
+> +index d46f653ac..01498cb54 100644
+> +--- a/glib/tests/gdatetime.c
+> ++++ b/glib/tests/gdatetime.c
+> +@@ -2930,6 +2930,8 @@ test_posix_parse (void)
+> + {
+> +   GTimeZone *tz;
+> +   GDateTime *gdt1, *gdt2;
+> ++  gint i1, i2;
+> ++  const char *expect_id;
+> +
+> +   /* Check that an unknown zone name falls back to UTC. */
+> +   G_GNUC_BEGIN_IGNORE_DEPRECATIONS
+> +@@ -2952,17 +2954,37 @@ test_posix_parse (void)
+> +   g_time_zone_unref (tz);
+> +
+> + /* This fails rules_from_identifier on Unix (though not on Windows)
+> +- * but passes anyway because PST8PDT is a zone name.
+> ++ * but can pass anyway because PST8PDT is a legacy System V zone name.
+> +  */
+> +   tz = g_time_zone_new_identifier ("PST8PDT");
+> ++  expect_id = "PST8PDT";
+> ++
+> ++#ifndef G_OS_WIN32
+> ++  /* PST8PDT is in tzdata's "backward" set, packaged as tzdata-legacy and
+> ++   * not always present in some OSs; fall back to the equivalent geographical
+> ++   * name if the "backward" time zones are absent. */
+> ++  if (tz == NULL)
+> ++    {
+> ++      g_test_message ("Legacy PST8PDT time zone not available, falling back");
+> ++      tz = g_time_zone_new_identifier ("America/Los_Angeles");
+> ++      expect_id = "America/Los_Angeles";
+> ++    }
+> ++#endif
+> ++
+> +   g_assert_nonnull (tz);
+> +-  g_assert_cmpstr (g_time_zone_get_identifier (tz), ==, "PST8PDT");
+> +-  g_assert_cmpstr (g_time_zone_get_abbreviation (tz, 0), ==, "PST");
+> +-  g_assert_cmpint (g_time_zone_get_offset (tz, 0), ==, - 8 * 3600);
+> +-  g_assert (!g_time_zone_is_dst (tz, 0));
+> +-  g_assert_cmpstr (g_time_zone_get_abbreviation (tz, 1), ==, "PDT");
+> +-  g_assert_cmpint (g_time_zone_get_offset (tz, 1), ==,- 7 * 3600);
+> +-  g_assert (g_time_zone_is_dst (tz, 1));
+> ++  g_assert_cmpstr (g_time_zone_get_identifier (tz), ==, expect_id);
+> ++  /* a date in winter = non-DST */
+> ++  gdt1 = g_date_time_new (tz, 2024, 1, 1, 0, 0, 0);
+> ++  i1 = g_time_zone_find_interval (tz, G_TIME_TYPE_STANDARD, g_date_time_to_unix (gdt1));
+> ++  /* a date in summer = DST */
+> ++  gdt2 = g_date_time_new (tz, 2024, 7, 1, 0, 0, 0);
+> ++  i2 = g_time_zone_find_interval (tz, G_TIME_TYPE_DAYLIGHT, g_date_time_to_unix (gdt2));
+> ++  g_assert_cmpstr (g_time_zone_get_abbreviation (tz, i1), ==, "PST");
+> ++  g_assert_cmpint (g_time_zone_get_offset (tz, i1), ==, - 8 * 3600);
+> ++  g_assert (!g_time_zone_is_dst (tz, i1));
+> ++  g_assert_cmpstr (g_time_zone_get_abbreviation (tz, i2), ==, "PDT");
+> ++  g_assert_cmpint (g_time_zone_get_offset (tz, i2), ==,- 7 * 3600);
+> ++  g_assert (g_time_zone_is_dst (tz, i2));
+> +   g_time_zone_unref (tz);
+> +
+> +   tz = g_time_zone_new_identifier ("PST8PDT6:32:15");
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
+> index 0855e6eb00..6dcb0eb866 100644
+> --- a/meta/recipes-core/glib-2.0/glib.inc
+> +++ b/meta/recipes-core/glib-2.0/glib.inc
+> @@ -225,6 +225,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+>              file://0001-meson-Run-atomics-test-on-clang-as-well.patch \
+>              file://0001-gio-tests-resources.c-comment-out-a-build-host-only-.patch \
+>              file://0010-Do-not-hardcode-python-path-into-various-tools.patch \
+> +           file://0001-gdatetime-test-Fall-back-if-legacy-System-V-PST8PDT-.patch \
+>              file://skip-timeout.patch \
+>              "
+>   SRC_URI:append:class-native = " file://relocate-modules.patch \
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206423): https://lists.openembedded.org/g/openembedded-core/message/206423
+> Mute This Topic: https://lists.openembedded.org/mt/109253284/8617462
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Jinfeng.Wang.CN@windriver.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
