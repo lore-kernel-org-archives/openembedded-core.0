@@ -1,147 +1,187 @@
-Return-Path: <erick.shepherd@ni.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 262D8E6F07D
-	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 18:08:14 +0000 (UTC)
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (NAM12-BN8-obe.outbound.protection.outlook.com [40.107.237.88])
- by mx.groups.io with SMTP id smtpd.web10.953.1730484491985987274
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57472E6F07E
+	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 18:23:34 +0000 (UTC)
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+ by mx.groups.io with SMTP id smtpd.web11.1261.1730485412650070741
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Nov 2024 11:08:12 -0700
+ Fri, 01 Nov 2024 11:23:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ni.com header.s=selector1 header.b=ew2Kb7H3;
- spf=pass (domain: ni.com, ip: 40.107.237.88, mailfrom: erick.shepherd@ni.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=an1hswDTqR601qVCeC7316sge+hOP1FkXu6kOVrb0WEQ184yevlm4zly32QWWvjCUsyAcwsak3QFdROGYpUNANPjXb54b/WWEBp4R47aAvCOLQMyHVmlOvpNsgkgK6OvEFwRzT42sbKDD2/v6G3NZ1IpjWTR334My1X0n19kothgLoY2oVtPYnsyh8lDpvtDsW2ZifgKysSHo5mIQz9IaiFuV9mKKCXmMzElPVovrWupWKirMPBB/u8iMUppEnbOt+ng299qffNGe4u3sDUpIANCkk+NRMyA/poDbvkbhiqkSpCWCq9TI6l/C65P1GhNZuMivLgzGrs87yNh3Y4vXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mBK2v8sWu5YShDRnWaZ83fgRgETdqq6bhrTGXCt/7Vw=;
- b=gupzE1G9C3AcyJt0OC2uWVlAcipSIZzbpShR9VpCPEvBrojPmI8murCaCYOzLFySYRqAudpPFQls6xSHcz+1t3oXW2pqfACGpZ2Ovw6c3Rn2Jk0vNJx7YH4bgoG7tj2xJKNt4NZNdYFfd0vqfmgqBKqVQeSWXUMPZ5MaIvsTKML0cJPMi4wMNgtP2rICbzYSmFodViTqH0Kzau2WblD+dk+6IlJoE5FJdwF94nyFjfjFuVD332UgIgoJXOsZcEekg3MMzbyDTrc8GLlz9LSk/a1FBKBRB6FZZUwo7iVXuEhUG3pSwWz8/dnMzf1tlhXIBW7vlbMsZb+ZfjSEVVNt3w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 130.164.94.73) smtp.rcpttodomain=lists.openembedded.org smtp.mailfrom=ni.com;
- dmarc=pass (p=none sp=none pct=100) action=none header.from=ni.com; dkim=none
- (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ni.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mBK2v8sWu5YShDRnWaZ83fgRgETdqq6bhrTGXCt/7Vw=;
- b=ew2Kb7H33dh/iqD1Gx7FQ0uErsjaXyMaSF+QVx0yDeaeANLnqvSnASDiRA5whgabYeO5dLMreFxV65P2T/hoDUZUoDcIPt8o8y00xg35JyfZEHevuCkSotTFjXgc5HBrvN5qJDagAVlZW1k9ZSKUIMXf24OfX8Z/3+LggDuTJ6g=
-Received: from CH2PR18CA0020.namprd18.prod.outlook.com (2603:10b6:610:4f::30)
- by DS0PR04MB8700.namprd04.prod.outlook.com (2603:10b6:8:12c::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.27; Fri, 1 Nov
- 2024 18:08:08 +0000
-Received: from CH1PEPF0000AD76.namprd04.prod.outlook.com
- (2603:10b6:610:4f:cafe::db) by CH2PR18CA0020.outlook.office365.com
- (2603:10b6:610:4f::30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.22 via Frontend
- Transport; Fri, 1 Nov 2024 18:08:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 130.164.94.73)
- smtp.mailfrom=ni.com; dkim=none (message not signed) header.d=none;dmarc=pass
- action=none header.from=ni.com;
-Received-SPF: Pass (protection.outlook.com: domain of ni.com designates
- 130.164.94.73 as permitted sender) receiver=protection.outlook.com;
- client-ip=130.164.94.73; helo=us-aus-excas-p1.ni.corp.natinst.com; pr=C
-Received: from us-aus-excas-p1.ni.corp.natinst.com (130.164.94.73) by
- CH1PEPF0000AD76.mail.protection.outlook.com (10.167.244.53) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8114.16 via Frontend Transport; Fri, 1 Nov 2024 18:08:06 +0000
-Received: from us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) by
- us-aus-excas-p1.ni.corp.natinst.com (130.164.68.17) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.28; Fri, 1 Nov 2024 13:08:06 -0500
-Received: from ershephe-ubuntu.amer.corp.natinst.com (172.18.68.32) by
- us-aus-excas-p2.ni.corp.natinst.com (130.164.68.18) with Microsoft SMTP
- Server id 15.2.1258.28 via Frontend Transport; Fri, 1 Nov 2024 13:08:06 -0500
-From: Erick Shepherd <erick.shepherd@ni.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Erick Shepherd <erick.shepherd@ni.com>
-Subject: [PATCH] xorg-font-common: Install fonts after target boots
-Date: Fri, 1 Nov 2024 13:08:02 -0500
-Message-ID: <20241101180802.395269-2-erick.shepherd@ni.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241101180802.395269-1-erick.shepherd@ni.com>
-References: <20241101180802.395269-1-erick.shepherd@ni.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Cgube97n;
+ spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-539f53973fdso2085639e87.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 11:23:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730485411; x=1731090211; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=cd9Sd/zx8ZN+Mq6ZgrN/wL31QhzHuRd88yLrKl122c8=;
+        b=Cgube97nDIES7MYpDi+w6eha12uZ24g6Te0D8l6xHPpYaxOtrzvl7oOYCLwDM92etJ
+         Wg+qZ0pmDLG09lYUbshfNLozi3XzgQMMMCeVm5M54nvQueNcEEuAWS/UUxTKX8ochcCy
+         h8aIOLDf5q+PIdn4Jd1uNlInVEfdJXlgYSrUnvJBm4FUsCuS0z1zACJsGoVYBFFS/Dbv
+         7hkvgCSusQ3ElY/LuDJKDyY0nrfJFgCFekHWl8PztDt+XyMg1YGVU/UImUoAKM8jKGAp
+         3rs5hHRa+zAm9K4YCUKykjJ5jWaRPL8UuRfmzkB02mOuBeo0Bia97CRnBzIbVnHi5+Gr
+         KEBA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730485411; x=1731090211;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cd9Sd/zx8ZN+Mq6ZgrN/wL31QhzHuRd88yLrKl122c8=;
+        b=Xop9FqpuOyy8Z1j/5PmcBkG0LGcUZOgShannmbk+ih54ClJ22rvcOCjNJsOxqmvdOv
+         E1znwf3Rqw7jLFToqU9kZnhIH5CrSU1VnrRQ71aQpDSgHf4VNPIa2vqat/Gi3SdkMsqi
+         +uPmqGgbQKUaOAOpBOTDQc1SSvaLuR1UCeMqiO7VDRNCtp04MJ8dyTn2lH90pDvEqCnJ
+         aIg9OwcoFjuXnDRxsy5YnrTrMrE7/VK6hZWBHOBOBu8xHSPh+n5fkw7kKTF0XZDm+JlX
+         WxFazQOfQKnh1nrZUnZRA1wGMH+xQ9l66if/5jaEKNX6Hn91Mo7Is8sDTMu1NI+LIvEO
+         RxpQ==
+X-Gm-Message-State: AOJu0Ywuk0Q7P1UhYyeKHTtMtir7MHAPUkUyD3wBbKY22bo6PGSxo7mz
+	KB2iiczSIzpKUB323Pu+KBT59KkVZgM/82gAgPDM63s1eNPvcuMnES55LLDqCKM3hJP33qy9yIm
+	LBPcAEj2Kods/EtGgYNdd0uQUehc=
+X-Google-Smtp-Source: AGHT+IGsgd6fmDeOlpcYEy6tTYjwp5k1VQss5S56yIX3sYPAWeHfdUx0wfiqj/npUYBnK9LZQ0m0b/1KqWXARGY57V4=
+X-Received: by 2002:a05:6512:3343:b0:539:edc9:7400 with SMTP id
+ 2adb3069b0e04-53d65dc3a4emr1537471e87.20.1730485410384; Fri, 01 Nov 2024
+ 11:23:30 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD76:EE_|DS0PR04MB8700:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2a77b0be-0dee-4c0f-9605-08dcfaa0231e
-x-ni-monitor: EOP Exclude NI Domains ETR True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|36860700013|82310400026|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?EWROZRV5qj26m6c22K+rAmj8XFG9BXAog0sg49UXWf1e+xffhbyy0YKx31N/?=
- =?us-ascii?Q?HPeq4blAYJsdQriEc0YnqutG7RxxRmzXFhxyV0sfnkn4l/uhAPGzGfMMqC7s?=
- =?us-ascii?Q?wJWtJvYfVHTNCDzr0pDEPqO5XtmtTdYcLNMKWZ/5v2ZHWSZ2SFV9rH7syr7h?=
- =?us-ascii?Q?FLgeDEy8L8aNIRw+Wb6zlBe/zTBufOS/x5QE0IdhZkcr9hIxODAsQd0Ujvk6?=
- =?us-ascii?Q?kCMg2OULJLb+QbmZuJBf1r0xXAEtE5kxZThqhjvSeFW3qquRNPlME7TRO+PO?=
- =?us-ascii?Q?ePILufayGes2JHkKSXHXg+dgSKVeyTyVFDHBbu3EQ2UD0M8+zYwnXZO4Qv7S?=
- =?us-ascii?Q?5msrq1FadEr0z+FqIf5i/157hJ+VfjhjAZT73aX78c9vC3MSu5qNxWPTKdMq?=
- =?us-ascii?Q?J4X4dbyoR0V2ap2srKmx/4ejLlrzoZyXj+VThViuDu20BkBNLR6zPxhcmHgU?=
- =?us-ascii?Q?ClDZPhGexNWuqzCVRJmNymfy/b7mDDE5SyhM27V54k3qVRF+5RU6HS75gtmf?=
- =?us-ascii?Q?n878P0R25IkJANiSyWUYDMbGJZt/gxCEHas+SxEnJWJnl279UrjKfyjQxajq?=
- =?us-ascii?Q?/iXuYSCMfmprV5qtx+LaOIlnZ088dVtItMMNh3vEfp8O6yFD9r/m+MpwfaDu?=
- =?us-ascii?Q?RWyaSrdW6Z8L6yOfLgzR7jFgPvlguH4MlAe83sFPf3UX3RQwcftPJ+4hQZj6?=
- =?us-ascii?Q?PemHTmItZxRnGGGSbhkWh6/YdjIOQzghYTvZuQaQ/6+LmufmUm0CPGyQXHqv?=
- =?us-ascii?Q?ioPA0LHdrAEctU9Q8efn4BF5HL4nC44wxflqP3gE9YbXvohxE0nZnBl0sz9V?=
- =?us-ascii?Q?8nEnnS4LDVoQpYWWjYhj01rnQudZoW3im0zjdlGL0Fq3L440bC/zwl/O453S?=
- =?us-ascii?Q?7JSvCW3rpTxximGQHZ3AjITwwmjiflVC68+9tlmYs2W5CQvlZ95uw5V0nKAF?=
- =?us-ascii?Q?FNnpoKRq66YMQfM+W2wVM7APbKhZeJzSUtuqRfVshBqBx+hNIvwWqStwSp6U?=
- =?us-ascii?Q?esisH5mfVDgqzAwSdVrK+DbBxVIXzW+eH5ee5xq36rQy6yq9T1d17qXppvgh?=
- =?us-ascii?Q?iDXhMMu8qDr7gho8QQb8B0mm3wg/9KP16EychqMjZSRrev0UqJSQ4/veUDio?=
- =?us-ascii?Q?PHKAUJ8LGzaZhguPsbovH/TcblwGv/p5n70izYpTlDGGQzYo8TgHKn40XnYO?=
- =?us-ascii?Q?fyAjyQgu0+Yr7Y+ncwpY0g+RaT/o+WixAWj/TcJ1uFIC2HahPiKklfA7bVPA?=
- =?us-ascii?Q?FPRmgu+ttmcsJhVXWp648zgahoEJDQPTopL+h7T2pPh5LNt6Xc/D+d81mdSU?=
- =?us-ascii?Q?8QSvDMx+09J7I44DYCzNBMjkA9P2pnr2bQH2OW5qWa1/op309wAaw6YpbVJ6?=
- =?us-ascii?Q?m1Ma3NPCBxxYo1BjBTPXHLV5XVx/ezgxQkrpttUfEFIjUc4rnA=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:130.164.94.73;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:us-aus-excas-p1.ni.corp.natinst.com;PTR:ErrorRetry;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(82310400026)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: ni.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Nov 2024 18:08:06.9436
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2a77b0be-0dee-4c0f-9605-08dcfaa0231e
-X-MS-Exchange-CrossTenant-Id: 87ba1f9a-44cd-43a6-b008-6fdb45a5204e
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=87ba1f9a-44cd-43a6-b008-6fdb45a5204e;Ip=[130.164.94.73];Helo=[us-aus-excas-p1.ni.corp.natinst.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	CH1PEPF0000AD76.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR04MB8700
+References: <20241101180802.395269-1-erick.shepherd@ni.com> <20241101180802.395269-2-erick.shepherd@ni.com>
+In-Reply-To: <20241101180802.395269-2-erick.shepherd@ni.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 1 Nov 2024 19:23:19 +0100
+Message-ID: <CANNYZj8tvyciL2fG_7ou4K=1pXE3U6AQdLSEuiQ+L3s5x1cG+w@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] xorg-font-common: Install fonts after target boots
+To: erick.shepherd@ni.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000002cd69e0625de08a3"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 18:08:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206626
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 18:23:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206627
 
-Access to the font cache on the target is required to
-get rid of the "configuration required on target" font
-warnings that appear during rootfs builds.
+--0000000000002cd69e0625de08a3
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
----
- meta/recipes-graphics/xorg-font/xorg-font-common.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This doesn=E2=80=99t seem like a correct fix. We do have font cache at root=
+s time
+so the tools either can=E2=80=99t find it or need the cache to be explicitl=
+y
+created first.
 
+Ontarget is problematic with read only roots and should be avoided if
+possible.
+
+Alex
+
+On Fri 1. Nov 2024 at 19.08, Erick Shepherd via lists.openembedded.org
+<erick.shepherd=3Dni.com@lists.openembedded.org> wrote:
+
+> Access to the font cache on the target is required to
+> get rid of the "configuration required on target" font
+> warnings that appear during rootfs builds.
+>
+> Signed-off-by: Erick Shepherd <erick.shepherd@ni.com>
+> ---
+>  meta/recipes-graphics/xorg-font/xorg-font-common.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+> b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+> index edf7cf7642..b9c55a95f8 100644
+> --- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+> +++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
+> @@ -30,7 +30,7 @@ do_install:append() {
+>  FILES:${PN} +=3D " ${libdir}/X11/fonts ${datadir}"
+>
+>  PACKAGE_WRITE_DEPS +=3D "mkfontdir-native mkfontscale-native"
+> -pkg_postinst:${PN} () {
+> +pkg_postinst_ontarget:${PN} () {
+>          for fontdir in `find $D/usr/lib/X11/fonts -type d`; do
+>                  mkfontdir $fontdir
+>                  mkfontscale $fontdir
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206626):
+> https://lists.openembedded.org/g/openembedded-core/message/206626
+> Mute This Topic: https://lists.openembedded.org/mt/109339440/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000002cd69e0625de08a3
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">This doesn=E2=80=99t seem like a correct fix. We do have =
+font cache at roots time so the tools either can=E2=80=99t find it or need =
+the cache to be explicitly created first.</div><div dir=3D"auto"><br></div>=
+<div dir=3D"auto">Ontarget is problematic with read only roots and should b=
+e avoided if possible.</div><div dir=3D"auto"><br></div><div dir=3D"auto">A=
+lex</div><div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmai=
+l_attr">On Fri 1. Nov 2024 at 19.08, Erick Shepherd via <a href=3D"http://l=
+ists.openembedded.org">lists.openembedded.org</a> &lt;erick.shepherd=3D<a h=
+ref=3D"mailto:ni.com@lists.openembedded.org">ni.com@lists.openembedded.org<=
+/a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0=
+px 0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left=
+:1ex;border-left-color:rgb(204,204,204)">Access to the font cache on the ta=
+rget is required to<br>
+get rid of the &quot;configuration required on target&quot; font<br>
+warnings that appear during rootfs builds.<br>
+<br>
+Signed-off-by: Erick Shepherd &lt;<a href=3D"mailto:erick.shepherd@ni.com" =
+target=3D"_blank">erick.shepherd@ni.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-graphics/xorg-font/xorg-font-common.inc | 2 +-<br>
+=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+<br>
 diff --git a/meta/recipes-graphics/xorg-font/xorg-font-common.inc b/meta/re=
-cipes-graphics/xorg-font/xorg-font-common.inc
-index edf7cf7642..b9c55a95f8 100644
---- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-+++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc
-@@ -30,7 +30,7 @@ do_install:append() {
- FILES:${PN} +=3D " ${libdir}/X11/fonts ${datadir}"
-=20
- PACKAGE_WRITE_DEPS +=3D "mkfontdir-native mkfontscale-native"
--pkg_postinst:${PN} () {
-+pkg_postinst_ontarget:${PN} () {
-         for fontdir in `find $D/usr/lib/X11/fonts -type d`; do
-                 mkfontdir $fontdir
-                 mkfontscale $fontdir
---=20
-2.43.0
+cipes-graphics/xorg-font/xorg-font-common.inc<br>
+index edf7cf7642..b9c55a95f8 100644<br>
+--- a/meta/recipes-graphics/xorg-font/xorg-font-common.inc<br>
++++ b/meta/recipes-graphics/xorg-font/xorg-font-common.inc<br>
+@@ -30,7 +30,7 @@ do_install:append() {<br>
+=C2=A0FILES:${PN} +=3D &quot; ${libdir}/X11/fonts ${datadir}&quot;<br>
+<br>
+=C2=A0PACKAGE_WRITE_DEPS +=3D &quot;mkfontdir-native mkfontscale-native&quo=
+t;<br>
+-pkg_postinst:${PN} () {<br>
++pkg_postinst_ontarget:${PN} () {<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0for fontdir in `find $D/usr/lib/X11/fonts=
+ -type d`; do<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkfontdir $fo=
+ntdir<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0mkfontscale $=
+fontdir<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#206626): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/206626" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/206626</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109339440/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/109339440/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
 
+--0000000000002cd69e0625de08a3--
 
