@@ -1,164 +1,79 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <kai.kang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2713E674AE
-	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 07:39:43 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web11.32069.1730446774820543348
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C6344E674B1
+	for <webhook@archiver.kernel.org>; Fri,  1 Nov 2024 07:59:03 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.32486.1730447934241379607
  for <openembedded-core@lists.openembedded.org>;
- Fri, 01 Nov 2024 00:39:35 -0700
+ Fri, 01 Nov 2024 00:58:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=MLrxCSsO;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-539e7e73740so1554594e87.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 00:39:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730446773; x=1731051573; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=QgjmW7jgGolnIwEeKVwNr4wtbaLO4/OaicMle/RjtQ0=;
-        b=MLrxCSsOrivjeD3f6HmTZwWUfwiBb0Pc6k4IYRQYFhhRKuvJQ9/Ervk0nWpk3ZVWSi
-         v4CIOwMbYJNIPA2lt5t3iLRoJPHdvY4SYLzae6mfVz0mTV8M2IGXF8Vq4MP+wpSrg9iV
-         dgJ47NzCWr01NeyAHcw0LYq7SIpc7YLQXgRzSZAVWVNyprVmYwR8VFs6+fmvmTLGf0RK
-         PRmoP4ApmSvgyMHcp9EQ3guQI9iB56CvfQMZB78z5L2E7ZHXInIqdWjrnKOEjMC6U6Kx
-         Oo7nQSSpsIn055JTMIe8Y34QBo8EWBQLo0GUVuhEiVp5fXhqfWPA/5KNuM02R8R9wdy1
-         e8Sg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730446773; x=1731051573;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QgjmW7jgGolnIwEeKVwNr4wtbaLO4/OaicMle/RjtQ0=;
-        b=L4k/BBd+ETClijGMf9KqKrqIaF5/73D03QqMx7WDnRyaUs0n6aaREbeDb2Qr7htIai
-         KhZuZJQT9gxbNeueNtsmDn7nuVWa4Qo5IkllMgkDS9r7OmNewYZK85Sw77sspn7S4DKq
-         oDkdHbgJtElkZK/kMlbQlsn0/8VIbdB4si2ko/TbyMBHjvTsBQ8mL7Ay+MJ5hXzK+DRZ
-         s2D1PmTIfNq1+o+urUyLgQ7Mh1wsWmkIKQLGgrrPxTr3/jTLAqryMDG/IQHJQksE9LFg
-         2KYpr0sfsGoARQfrXSTXvjLfquuiCFxwnB+a7n8zrZXlOglMtRSzoD9IVVq2olx4Uczz
-         RZaA==
-X-Forwarded-Encrypted: i=1; AJvYcCVNZIlAI/AFaTF9UJVENK4j+g3+yEypVxkPSdlB0rxJ7FFkOUDg+5OmoqPD2Gwuf80kK4aMo7hcrEJhdeV3rxzh/A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzph0oskR/QxL2qErzVvA6qHaciZ58/X+127Xjk1YXWsqdYXWok
-	tKCd8m7CC9lABfx7Ix4omt8Bof6Mzy9lcNQjEj5wMSYq+J6A21aDKC+xg1HclUGLjf0xoOZ6wGZ
-	LM8cgD70C1yaZuHdteJdglrMx3tQ=
-X-Google-Smtp-Source: AGHT+IFyeA6mCWuxU1skyjA+T1CPs38SEzcbamdtrlLFxrlBoNmHyTYWbk4KEZPIEpOSgHAwQ8y9qxcFJ2CkYLzGkCg=
-X-Received: by 2002:a05:6512:39cd:b0:539:eb82:d453 with SMTP id
- 2adb3069b0e04-53b7ed18622mr5335212e87.39.1730446772688; Fri, 01 Nov 2024
- 00:39:32 -0700 (PDT)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1035821dfb=kai.kang@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A16i3pA006116
+	for <openembedded-core@lists.openembedded.org>; Fri, 1 Nov 2024 07:58:53 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42mf2e8ncj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 07:58:53 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Fri, 1 Nov 2024 00:58:52 -0700
+Received: from pek-lpg-core4.wrs.com (128.224.153.44) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Fri, 1 Nov 2024 00:58:51 -0700
+From: <kai.kang@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] kexec-tools: update COMPATIBLE_HOST because of makedumpfile
+Date: Fri, 1 Nov 2024 15:58:38 +0800
+Message-ID: <20241101075838.1598585-1-kai.kang@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20241028034618.1504830-1-vince_chang@aspeedtech.com>
- <CANNYZj_KF41W10duL5u0mDDbv1aFUxdcGAmUtO2fEc0EtZ4ymg@mail.gmail.com>
- <TY0PR06MB5707BE94581CC7F425214A2EE2552@TY0PR06MB5707.apcprd06.prod.outlook.com>
- <CAMKF1srdKcP7HMPkQF+iCqOkCfpGv6oB0M8R7=qbO3C216xgmw@mail.gmail.com>
- <CANNYZj8v9LUJFDXqBms6Yg7F0t=xQZAcCg417x00zJxqeYqtog@mail.gmail.com>
- <TY0PR06MB570732A6C54A787FB10C50B6E2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
- <TY0PR06MB57070328EF6E490CA8B8C0A8E2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
- <CANNYZj99sKhO24ehF4ks8cWCJa_kg92vGVML8PqtiQFTwnNEaw@mail.gmail.com> <TY0PR06MB570773E5E2D81502B5B30AAAE2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
-In-Reply-To: <TY0PR06MB570773E5E2D81502B5B30AAAE2562@TY0PR06MB5707.apcprd06.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Fri, 1 Nov 2024 08:39:21 +0100
-Message-ID: <CANNYZj_UPeg38M5A04J+3_Joumd5DX+48k3LD_nhK53M5imrtQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 0/2] wic support different sector size
-To: Vince Chang <vince_chang@aspeedtech.com>
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	Jamin Lin <jamin_lin@aspeedtech.com>, Troy Lee <troy_lee@aspeedtech.com>, 
-	Khem Raj <raj.khem@gmail.com>
-Content-Type: multipart/alternative; boundary="000000000000305feb0625d5096e"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=K4dwHDWI c=1 sm=1 tr=0 ts=67248a3d cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=t7CeM3EgAAAA:8 a=NtapVFAgl2IVE8EElV0A:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: IvT3A05Y_NATCSXeHWFzBT8sBDPCmOTV
+X-Proofpoint-ORIG-GUID: IvT3A05Y_NATCSXeHWFzBT8sBDPCmOTV
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-01_04,2024-10-31_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 bulkscore=0
+ spamscore=0 suspectscore=0 clxscore=1011 impostorscore=0 malwarescore=0
+ priorityscore=1501 mlxscore=0 phishscore=0 lowpriorityscore=0
+ mlxlogscore=553 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2409260000 definitions=main-2411010056
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 07:39:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206604
+ <openembedded-core@lists.openembedded.org>; Fri, 01 Nov 2024 07:59:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206605
 
---000000000000305feb0625d5096e
-Content-Type: text/plain; charset="UTF-8"
+From: Kai Kang <kai.kang@windriver.com>
 
-Thanks! But you should still fix the original fail I think?
+makedumpfile is not compatible with mipsarcho32 and riscv32, so set for
+kexec-tools accordingly.
 
-Alex
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
+---
+ meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-On Fri 1. Nov 2024 at 8.37, Vince Chang <vince_chang@aspeedtech.com> wrote:
+diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
+index be24d064bb..9f5eb6e8c1 100644
+--- a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
++++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
+@@ -82,5 +82,8 @@ SYSTEMD_SERVICE:kdump = "kdump.service"
+ SECURITY_PIE_CFLAGS:remove = "-fPIE -pie"
+ 
+ COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|powerpc.*|mips.*)-(linux|freebsd.*)'
++# makedumpfile would not compile on mips/rv32
++COMPATIBLE_HOST:mipsarcho32 = "null"
++COMPATIBLE_HOST:riscv32 = "null"
+ 
+ INSANE_SKIP:${PN} = "arch"
+-- 
+2.34.1
 
-> Hi Alex,
->
-> On Fri, 1 Nov 2024 at 12:32 PM, Alexander Kanavin wrote:
-> > Anyway, implementation runCmd() indeed defaults to stderr being
-> > redirected and appended to stdout, so the standard stream and the
-> > error stream are mashed together.
-> >
-> > To avoid that, you should also set stderr=subprocess.PIPE when calling
-> > runCmd(). Check meta/lib/oeqa/selftest/cases/runcmd.py for examples:
-> >
-> >     def test_output(self):
-> >         result = runCmd("echo stdout; echo stderr >&2", shell=True,
-> > sync=False)
-> >         self.assertEqual("stdout\nstderr", result.output)
-> >         self.assertEqual("", result.error)
-> >
-> >     def test_output_split(self):
-> >         result = runCmd("echo stdout; echo stderr >&2", shell=True,
-> > stderr=subprocess.PIPE, sync=False)
-> >         self.assertEqual("stdout", result.output)
-> >         self.assertEqual("stderr", result.error)
->
-> I didn't realize that stderr=subprocess.PIPE could be used. I've submitted
-> a separate commit.
-> https://lists.openembedded.org/g/openembedded-core/message/206602
->
-> Thanks,
-> Vince
->
-
---000000000000305feb0625d5096e
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto">Thanks! But you should still fix the original fail I thin=
-k?</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><d=
-iv class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri 1. No=
-v 2024 at 8.37, Vince Chang &lt;<a href=3D"mailto:vince_chang@aspeedtech.co=
-m">vince_chang@aspeedtech.com</a>&gt; wrote:<br></div><blockquote class=3D"=
-gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px;border=
--left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204)">Hi A=
-lex,<br>
-<br>
-On Fri, 1 Nov 2024 at 12:32 PM, Alexander Kanavin wrote:<br>
-&gt; Anyway, implementation runCmd() indeed defaults to stderr being<br>
-&gt; redirected and appended to stdout, so the standard stream and the<br>
-&gt; error stream are mashed together.<br>
-&gt; <br>
-&gt; To avoid that, you should also set stderr=3Dsubprocess.PIPE when calli=
-ng<br>
-&gt; runCmd(). Check meta/lib/oeqa/selftest/cases/runcmd.py for examples:<b=
-r>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0def test_output(self):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D runCmd(&quot;echo stdout; =
-echo stderr &gt;&amp;2&quot;, shell=3DTrue,<br>
-&gt; sync=3DFalse)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(&quot;stdout\nstderr=
-&quot;, result.output)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(&quot;&quot;, result=
-.error)<br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0def test_output_split(self):<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D runCmd(&quot;echo stdout; =
-echo stderr &gt;&amp;2&quot;, shell=3DTrue,<br>
-&gt; stderr=3Dsubprocess.PIPE, sync=3DFalse)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(&quot;stdout&quot;, =
-result.output)<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0self.assertEqual(&quot;stderr&quot;, =
-result.error)<br>
-<br>
-I didn&#39;t realize that stderr=3Dsubprocess.PIPE could be used. I&#39;ve =
-submitted a separate commit.<br>
-<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/20660=
-2" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/g/op=
-enembedded-core/message/206602</a><br>
-<br>
-Thanks,<br>
-Vince<br>
-</blockquote></div></div>
-
---000000000000305feb0625d5096e--
 
