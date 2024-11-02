@@ -1,146 +1,98 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB502E67814
-	for <webhook@archiver.kernel.org>; Sat,  2 Nov 2024 21:15:01 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.25184.1730582099668745072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23249E67814
+	for <webhook@archiver.kernel.org>; Sat,  2 Nov 2024 22:17:02 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.26135.1730585813580337968
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Nov 2024 14:14:59 -0700
+ Sat, 02 Nov 2024 15:16:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kbg1FFy9;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: raj.khem@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-71e625b00bcso2674138b3a.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 Nov 2024 14:14:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730582098; x=1731186898; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0V3jAHHSwbneL4DUfVnpMq5l/QTfhhOjb33Tz34p1NE=;
-        b=Kbg1FFy9s3g2XAwv+70JkoP+wD+3U9KXaxZHZQlsEr7rWAAEGTqs2+D/3xwAFvZxrS
-         fRrYT0sxRBREmp6GYROjG6rCaeDgCl8FSahZ+Mso88hsBITFOUSZdwsDIYZ0XG4nCrwX
-         fQwxYLI7TndsPdDGeo6pN1MWCUCHUhsBaRNJ954/CCltxlJXJv3cWo5xqcpf7Z7+ubMf
-         Y4WquQ1dx3y9lSx2W2Jh3VcUH4VtNuSErzc8Cm7EuQkN21V3S5LgRoAxRhVbDVS+/2S/
-         bcV0cfVzkgrMpQcGSJW6niT+e3Cgvkty7cYPzZvy6sPOqMwFnzqj6m5iZIlJXIGCgKZw
-         Z1yA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730582098; x=1731186898;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0V3jAHHSwbneL4DUfVnpMq5l/QTfhhOjb33Tz34p1NE=;
-        b=rr0HC+JVibjzegMe9njjCoDTeNblLSUbx14c+U/do5yKZFjvcA6hELRKgBlnlJ6ljk
-         ikJ9e33odeQ2h1Z+M0dDXViRHHvHysbFfMSIcJjoejbrznvHCztl0X8pQa5sNVfi5yfZ
-         Kdr4xzgDQyIrxCfawd4/IvOvJSDCMbkfAoP+Kt0PIedZ/KfeA+DpXXgbWC3Z8baLj/e1
-         KQl2ovGt+E1Am5DLOftO00fWzotiw3dmu+r/Qexe4w9LuLKA3mUmDXQlsdL89Tr+ZZav
-         6+3e/4SnHQAiDLOwqTYnYgPEo1dqzSLmGS9EA/FTFs8ltuc+o3utUSZitI6130fnBS/G
-         in8Q==
-X-Gm-Message-State: AOJu0Yzicjm60+Zv+SwA4gb8Go+P3rZRXnrYNh5C82bVb3qb93a9CiSn
-	ExnOstycmyY2HVlp/o/bxFoOW5HBleSItO2tkNJhg/KmoSkeKD1mF+Bu5Kk3
-X-Google-Smtp-Source: AGHT+IEzpHdr7Kv+5lLd7xDRIxjV+pyE8QOkrisDfPp569VbhCQjyze6BmvQS8rcQ9UkeclBpkkdVQ==
-X-Received: by 2002:a05:6a20:c998:b0:1d9:857a:585c with SMTP id adf61e73a8af0-1db91d89bc3mr15918708637.19.1730582098407;
-        Sat, 02 Nov 2024 14:14:58 -0700 (PDT)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::d73f])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7ee459f8fb9sm4320185a12.61.2024.11.02.14.14.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Nov 2024 14:14:57 -0700 (PDT)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ross Burton <ross.burton@arm.com>
-Subject: [PATCH v4] python3-libarchive-c: Avoid using find_library python API
-Date: Sat,  2 Nov 2024 14:14:55 -0700
-Message-ID: <20241102211455.2060594-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.47.0
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1036f0d59f=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A2MA2Yv021626;
+	Sat, 2 Nov 2024 22:16:52 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42n9a0gpcj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
+	Sat, 02 Nov 2024 22:16:52 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Sat, 2 Nov 2024 15:16:50 -0700
+Received: from pop-os.wrs.com (172.25.44.6) by ala-exchng01.corp.ad.wrs.com
+ (147.11.82.252) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Sat, 2 Nov 2024 15:16:50 -0700
+From: <Randy.MacLeod@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <steve@sakoman.com>
+Subject: [PATCH scarthgap] systemd: stable update 255.4 -> 255.13
+Date: Sat, 2 Nov 2024 18:16:50 -0400
+Message-ID: <20241102221650.3866203-1-Randy.MacLeod@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=H7mJwPYi c=1 sm=1 tr=0 ts=6726a4d4 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=t7CeM3EgAAAA:8 a=NEAV23lmAAAA:8 a=htMi0B-JUoZ-EB1pgjwA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: OusxDPRuibh64o9LoPuQVOJaMmKQCdJH
+X-Proofpoint-GUID: OusxDPRuibh64o9LoPuQVOJaMmKQCdJH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-02_21,2024-11-01_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 clxscore=1011
+ priorityscore=1501 lowpriorityscore=0 impostorscore=0 suspectscore=0
+ bulkscore=0 mlxlogscore=999 malwarescore=0 adultscore=0 mlxscore=0
+ phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411020199
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Nov 2024 21:15:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206657
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Nov 2024 22:17:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206658
 
-find_library API depends on platform to provide ldconfig, ld, gcc, objdump
-etc, so either we add these dependencies or avoid them by computing the
-libarchive library name during build, which we can be done.
+From: Randy MacLeod <Randy.MacLeod@windriver.com>
 
-This ensures that ffi module works with musl as well as glibc equally
-as musl does not provide ldconfig like glibc does
+Full change log:
+   https://github.com/systemd/systemd-stable/compare/v255.4...v255.13
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 ---
-v2: rebased
-v3: rebased
-v4: Add an anchor as a patch for sed
+ ...stemd-boot-native_255.4.bb => systemd-boot-native_255.13.bb} | 0
+ .../systemd/{systemd-boot_255.4.bb => systemd-boot_255.13.bb}   | 0
+ meta/recipes-core/systemd/systemd.inc                           | 2 +-
+ .../systemd/{systemd_255.4.bb => systemd_255.13.bb}             | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/systemd/{systemd-boot-native_255.4.bb => systemd-boot-native_255.13.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-boot_255.4.bb => systemd-boot_255.13.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd_255.4.bb => systemd_255.13.bb} (100%)
 
- ...a-replacable-anchor-for-find_library.patch | 29 +++++++++++++++++++
- .../python/python3-libarchive-c_5.1.bb        |  9 ++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-libarchive-c/0001-ffi-Insert-a-replacable-anchor-for-find_library.patch
+diff --git a/meta/recipes-core/systemd/systemd-boot-native_255.4.bb b/meta/recipes-core/systemd/systemd-boot-native_255.13.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot-native_255.4.bb
+rename to meta/recipes-core/systemd/systemd-boot-native_255.13.bb
+diff --git a/meta/recipes-core/systemd/systemd-boot_255.4.bb b/meta/recipes-core/systemd/systemd-boot_255.13.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_255.4.bb
+rename to meta/recipes-core/systemd/systemd-boot_255.13.bb
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
+index a35db5091e..88f24f99c2 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=751419260aa954499f7abaabaa882bbe \
+                     file://LICENSE.LGPL2.1;md5=4fbd65380cdd255951079008b364516c"
+ 
+-SRCREV = "387a14a7b67b8b76adaed4175e14bb7e39b2f738"
++SRCREV = "565916c245b53b49f5917f5326d21246f46ae3db"
+ SRCBRANCH = "v255-stable"
+ SRC_URI = "git://github.com/systemd/systemd-stable.git;protocol=https;branch=${SRCBRANCH}"
+ 
+diff --git a/meta/recipes-core/systemd/systemd_255.4.bb b/meta/recipes-core/systemd/systemd_255.13.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd_255.4.bb
+rename to meta/recipes-core/systemd/systemd_255.13.bb
+-- 
+2.34.1
 
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c/0001-ffi-Insert-a-replacable-anchor-for-find_library.patch b/meta/recipes-devtools/python/python3-libarchive-c/0001-ffi-Insert-a-replacable-anchor-for-find_library.patch
-new file mode 100644
-index 00000000000..7b8775802fc
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-libarchive-c/0001-ffi-Insert-a-replacable-anchor-for-find_library.patch
-@@ -0,0 +1,29 @@
-+From ed20aba335996d3aa97d99dfc122eb5a3a26ba1b Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 2 Nov 2024 11:06:01 -0700
-+Subject: [PATCH] ffi: Insert a replacable anchor for find_library
-+
-+@@REPLACE_FIND_LIBRARY_API@@ must be sustituted from bitbake environment via
-+recipe. This also helps in detecting changes to code from upstream in
-+this area as this patch will fail to apply.
-+
-+Upstream-Status: Inappropriate [OE-Specific]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ libarchive/ffi.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libarchive/ffi.py b/libarchive/ffi.py
-+index 1fc321a..991f1b6 100644
-+--- a/libarchive/ffi.py
-++++ b/libarchive/ffi.py
-+@@ -22,7 +22,7 @@ logger = logging.getLogger('libarchive')
-+ 
-+ page_size = mmap.PAGESIZE
-+ 
-+-libarchive_path = os.environ.get('LIBARCHIVE') or find_library('archive')
-++libarchive_path = os.environ.get('LIBARCHIVE') or @@REPLACE_FIND_LIBRARY_API@@
-+ libarchive = ctypes.cdll.LoadLibrary(libarchive_path)
-+ 
-+ 
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb b/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-index 3116c6b62ec..333831c4b65 100644
---- a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-+++ b/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-@@ -7,6 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=bcab380227a83bc147350b40a81e6ffc"
- 
- SRC_URI += " \
-         file://new-libarchive.patch \
-+        file://0001-ffi-Insert-a-replacable-anchor-for-find_library.patch \
-         file://run-ptest \
- "
- 
-@@ -16,6 +17,14 @@ inherit pypi setuptools3 ptest
- 
- SRC_URI[sha256sum] = "7bcce24ea6c0fa3bc62468476c6d2f6264156db2f04878a372027c10615a2721"
- 
-+DEPENDS += "patchelf-native libarchive"
-+# Avoid using find_library API which needs ldconfig and ld/objdump
-+# https://docs.python.org/3/library/ctypes.html#ctypes-reference
-+#
-+do_configure:append() {
-+    sed -i -e "s|@@REPLACE_FIND_LIBRARY_API@@|'${libdir}/$(patchelf --print-soname ${STAGING_LIBDIR}/libarchive.so)'|" ${S}/libarchive/ffi.py
-+}
-+
- RDEPENDS:${PN} += "\
-   libarchive \
-   python3-ctypes \
 
