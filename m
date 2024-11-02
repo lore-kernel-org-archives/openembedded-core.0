@@ -1,115 +1,308 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC1CE677F6
-	for <webhook@archiver.kernel.org>; Sat,  2 Nov 2024 09:23:18 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.web11.13923.1730539389066545926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26EB0E67802
+	for <webhook@archiver.kernel.org>; Sat,  2 Nov 2024 14:59:20 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.18502.1730559553830837159
  for <openembedded-core@lists.openembedded.org>;
- Sat, 02 Nov 2024 02:23:09 -0700
+ Sat, 02 Nov 2024 07:59:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VcHw7p+V;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.52, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4314fa33a35so20613995e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 02 Nov 2024 02:23:08 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=nHWsSph3;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e5a0177531so2265867a91.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 02 Nov 2024 07:59:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1730539387; x=1731144187; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=Go5clIDu3Y2xdzdX0wkvXsO3a9ht/P/tb7qtCHNGw2s=;
-        b=VcHw7p+VF7RfzHF6BxlE4+p6zHtOVwJ9LmGqIVK9u0kJD+6vWUS3J5FgpJGghAbBKI
-         mnk1X5ArDq9rpsYmFdYVtqgH6IybYkhB92+S/ST2DQ6so4+OVNt9V3X7dffkdKXh7RRk
-         JkeLAxmJBWylpLrbJ7odWvUg0datN+KELQah4=
+        d=gmail.com; s=20230601; t=1730559553; x=1731164353; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=BHQgDFHSMzzXn37qDGaRvwoP8vcMMaqVc7qiOlhYC+w=;
+        b=nHWsSph3X8V0/sd3+L/ih3zgm+yyhswX3FJPwvNkUNRIX2R2gkFpvfcnBzj0KVg7BN
+         V0JdIsGkRCJ2OwizG3YJVH94fK/3dqS53JdSlAJAlqIJS9yV8Xu5P1TbTa+OECohCYz8
+         IrWe2o52kd+tjDLQI5TzOju284fBGu9quSQYpNiAndOECB+yzBqbuZP0KKqrMh880qww
+         GKqcVy1esEOwMF79ebyu/fXR0Xv0/auPKBcrgTi6IJwmWhN6l7yH6JlHfkn35iRGFd0Y
+         M94NCHW+/kAu7KLiZsMNFkdOZ2B68NHpSV34P7UaaGDkfZPw0qj0Gdr1w3dAoW3K7aOn
+         fkyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730539387; x=1731144187;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Go5clIDu3Y2xdzdX0wkvXsO3a9ht/P/tb7qtCHNGw2s=;
-        b=N1K4oZXboYtPT+j+mvGigJgeq1PI6O4RA13+nEDyWNj7QshGu4V6i9Fy/IX36+f1s5
-         m+URHxlyr6Eknm81NH1IGdd4hgnI1HeY+NYSCg6Yi4w/f84DM6OeUzSvGpnFo6OcM2fc
-         MHb+QOEcS0gug9NpGMdfBBILkkXcjb+wxLG8WVxjnEoitr+CG6oHsUMotG5hz9/PjVhT
-         qR5V288eKLOpIpCPQ5sLWHRx1YiOrVh4hWuVg1AEXlmsC3ev4N2aWMTD6ZlHdne4Zf3Y
-         e4elXzsc2ogXUhtpiIXhvXywWF6vqZrYpin6gbarVtvchNy7k+MqdK/F2DEEY97FPNK6
-         FCuw==
-X-Gm-Message-State: AOJu0YzjSWwsQ06XPIQdnRToYJ8q9FkE88Tu9Eii/COAuUuOl4gZo1aI
-	KJBduqK8F41rlLHqOO1qm1Xh/0ak83xp6Jx+lmqG2qb+XdHfj3zULCg2Mwc55rI=
-X-Google-Smtp-Source: AGHT+IGVzuTIjTCaU9pk4B7dv0eRuOlxvPyH78QjvubG93NJvVhXza+55SdIt8jyc2KySDJrsJ+MlA==
-X-Received: by 2002:a05:600c:3547:b0:42c:b16e:7a22 with SMTP id 5b1f17b1804b1-431bb9855c0mr122433665e9.12.1730539387262;
-        Sat, 02 Nov 2024 02:23:07 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:fdce:c4d:9295:5245? ([2001:8b0:aba:5f3c:fdce:c4d:9295:5245])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4327d698055sm88562295e9.40.2024.11.02.02.23.06
+        d=1e100.net; s=20230601; t=1730559553; x=1731164353;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=BHQgDFHSMzzXn37qDGaRvwoP8vcMMaqVc7qiOlhYC+w=;
+        b=vwaBRmngnIsITdYW3rw9MT9tX8C4P0bH1JvJoSUQx8FgYPkFWl+0lgTEm3/PjsM49A
+         fhaEO26DRFxqXlLBVZSGSrEQQTZGmxOkEvxWKQL2ase+rD1Az9KiNzMEEc5oX/4GuPng
+         iU6v6mNf14Jrg6/Wfzhspv+AXJE8Ln2jmDjYyAB4AZnL9nnn1NWqoobnBCjpVAg92Y7Z
+         psyFmpD5sabXS5XN2cB1rhSsuaRY2WFhTDA4TMTsTm7/m8tAfRkoeFtbldsklrKxJjm9
+         HKuIBY0X+CrNaZBd7CZSmui8OObXwv3ePyUccCuVdNofo0UlBXM/A4O6NcOl7c+1FFsh
+         tbTw==
+X-Gm-Message-State: AOJu0YxjIGL/TiJnz+x/afTzuGd/QOO2BiuIDxZg1ZKaVHinY3f3CGnq
+	IEQTm2ud8FGQ4iRBsFcPDt2/Iinlf5t9wSZH2wvxCUO74dlnV/F0
+X-Google-Smtp-Source: AGHT+IHNQEc+X+XbOO+87dq3MWcG8wUjnsQfzKKWqJvYIX36PGx2HrTrukhJ1X/+19pu6IXUP39z+A==
+X-Received: by 2002:a17:90b:3848:b0:2e0:5748:6ea1 with SMTP id 98e67ed59e1d1-2e8f11dcec5mr29532712a91.37.1730559553049;
+        Sat, 02 Nov 2024 07:59:13 -0700 (PDT)
+Received: from hiago-nb ([2804:1b3:a7c0:1be5:6c8:bca9:2a85:63c9])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e93da8e2cdsm4959714a91.12.2024.11.02.07.59.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Nov 2024 02:23:06 -0700 (PDT)
-Message-ID: <1a87ce686c05f97ab77fe19c658a6882a8dbd48c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] devtool: modify: add DEVTOOL_PREFER_BRANCH
- support
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kanavin@gmail.com, "chris.laplante@agilent.com"
-	 <chris.laplante@agilent.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Sat, 02 Nov 2024 09:23:06 +0000
-In-Reply-To: <CANNYZj8rn3ocAAbCRYF-YKea8=DtVjcUv3vU+wbpCskzQ3JC=Q@mail.gmail.com>
-References: <20241101193811.2068211-1-chris.laplante@agilent.com>
-	 <CANNYZj-_8+EH51Nk2tj+o7a2PpscSO2bi8e-ak8g5fnUhADULg@mail.gmail.com>
-	 <DM8PR12MB5430BF49467783C0051229C68B562@DM8PR12MB5430.namprd12.prod.outlook.com>
-	 <DM8PR12MB54306736B03571231E94A9498B562@DM8PR12MB5430.namprd12.prod.outlook.com>
-	 <CANNYZj8rn3ocAAbCRYF-YKea8=DtVjcUv3vU+wbpCskzQ3JC=Q@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        Sat, 02 Nov 2024 07:59:12 -0700 (PDT)
+Date: Sat, 2 Nov 2024 11:59:09 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org,
+	Hiago De Franco <hiago.franco@toradex.com>,
+	Wang Mingyu <wangmy@fujitsu.com>
+Subject: Re: [oe-core][PATCH] drm-info: add recipe
+Message-ID: <20241102145909.mbs2omdeef6n3sqe@hiago-nb>
+References: <20241101184156.2368109-1-hiagofranco@gmail.com>
+ <CANNYZj-nmnzTFqPT2nCY2EWWirCpyo1Yw9gFUz9_=dMt3diYXA@mail.gmail.com>
+ <20241101202323.4ld6jdczxaoxk6fb@hiago-nb>
+ <CANNYZj_tFUibOLa5MUDLOSBvKt2F=bZqdk7q4_6besXMJ4pgHA@mail.gmail.com>
+ <20241101233812.sus2trjtvv76xtwb@hiago-nb>
+ <CANNYZj8xih5oKa2oC6DG3=J-Zwm7djrWS61p0v0cC-Z1RrA8MA@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANNYZj8xih5oKa2oC6DG3=J-Zwm7djrWS61p0v0cC-Z1RrA8MA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 02 Nov 2024 09:23:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206651
+ <openembedded-core@lists.openembedded.org>; Sat, 02 Nov 2024 14:59:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206652
 
-On Sat, 2024-11-02 at 10:14 +0100, Alexander Kanavin via
-lists.openembedded.org wrote:
-> On Sat, 2 Nov 2024 at 00:15, chris.laplante@agilent.com
-> <chris.laplante@agilent.com> wrote:
->=20
-> > > I just tested 'devtool finish' and 'devtool update-recipe', and
-> > > both are broken
-> > > (not by this patch) for recipes with SRCREV =3D "${AUTOREV}" in
-> > > general. So I
-> > > wonder if devtool needs to be taught to handle recipes using
-> > > AUTOREV. In
-> > > which case, perhaps it should just automatically do the
-> > > "DEVTOOL_PREFER_BRANCH" behavior...
-> >=20
-> > Thinking a little bit more about this, I think I just want 'finish'
-> > and 'update-recipe' to be mostly no-op in this case. When I'm
-> > developing a recipe under devtool that uses DEVTOOL_PREFER_BRANCH
-> > and SRCREV =3D "${AUTOREV}", I'm just using it for the edit-compile-
-> > test cycle using 'devtool build' and 'devtool deploy-target'. The
-> > only helpful thing I could foresee 'finish' or 'update-recipe'
-> > doing is maybe slap my hand if I have commits that I forgot to
-> > push. Otherwise, those subcommands are not useful here.
-> >=20
-> > Even if we take DEVTOOL_PREFER_BRANCH out of the equation, I think
-> > that's also true for a recipe that just uses SRCREV =3D "${AUTOREV}".
->=20
-> I was also wondering if this new variable is really needed. Perhaps
-> devtool should just do the logical thing automatically when it sees
-> AUTOREV.
+On Sat, Nov 02, 2024 at 10:16:56AM +0100, Alexander Kanavin wrote:
+> Thanks, this does seem useful. I'd want input from people actively
+> working with graphics, but not sure who to ask.
 
-I'd note that you can use AUTOREV and have local patches or local files
-so I think we do need to support that use case.
+Maybe Wang Mingyu could also comment here? I am not sure.
 
-We probably need two things, firstly to make AUTOREV work properly with
-devtool and secondly a way to disable the branch changes. That would
-presumably error if SRC_URI wasn't just a single SCM url.
+> 
+> Alex
+> 
+> On Sat, 2 Nov 2024 at 00:38, Hiago De Franco <hiagofranco@gmail.com> wrote:
+> >
+> > On Fri, Nov 01, 2024 at 09:35:27PM +0100, Alexander Kanavin wrote:
+> > > Perhaps you can show what the tool outputs?
+> >
+> > Sure, here is the output for qemu x86-64:
+> >
+> > root@qemux86-64:~# drm_info
+> > Node: /dev/dri/card0
+> > ├───Driver: bochs-drm (bochs dispi vga interface (qemu stdvga)) version 1.0.0 (201309)
+> > │   ├───DRM_CLIENT_CAP_STEREO_3D supported
+> > │   ├───DRM_CLIENT_CAP_UNIVERSAL_PLANES supported
+> > │   ├───DRM_CLIENT_CAP_ATOMIC supported
+> > │   ├───DRM_CLIENT_CAP_ASPECT_RATIO supported
+> > │   ├───DRM_CLIENT_CAP_WRITEBACK_CONNECTORS supported
+> > │   ├───DRM_CLIENT_CAP_CURSOR_PLANE_HOTSPOT not supported
+> > │   ├───DRM_CAP_DUMB_BUFFER = 1
+> > │   ├───DRM_CAP_VBLANK_HIGH_CRTC = 1
+> > │   ├───DRM_CAP_DUMB_PREFERRED_DEPTH = 24
+> > │   ├───DRM_CAP_DUMB_PREFER_SHADOW = 0
+> > │   ├───DRM_CAP_PRIME = 3
+> > │   ├───DRM_CAP_TIMESTAMP_MONOTONIC = 1
+> > │   ├───DRM_CAP_ASYNC_PAGE_FLIP = 0
+> > │   ├───DRM_CAP_CURSOR_WIDTH = 64
+> > │   ├───DRM_CAP_CURSOR_HEIGHT = 64
+> > │   ├───DRM_CAP_ADDFB2_MODIFIERS = 1
+> > │   ├───DRM_CAP_PAGE_FLIP_TARGET = 0
+> > │   ├───DRM_CAP_CRTC_IN_VBLANK_EVENT = 1
+> > │   ├───DRM_CAP_SYNCOBJ = 0
+> > │   ├───DRM_CAP_SYNCOBJ_TIMELINE = 0
+> > │   └───DRM_CAP_ATOMIC_ASYNC_PAGE_FLIP = 0
+> > ├───Device: PCI 1234:1111
+> > │   └───Available nodes: primary
+> > ├───Framebuffer size
+> > │   ├───Width: [0, 8192]
+> > │   └───Height: [0, 8192]
+> > ├───Connectors
+> > │   └───Connector 0
+> > │       ├───Object ID: 32
+> > │       ├───Type: virtual
+> > │       ├───Status: connected
+> > │       ├───Physical size: 320×200 mm
+> > │       ├───Subpixel: unknown
+> > │       ├───Encoders: {0}
+> > │       ├───Modes
+> > │       │   ├───1280×800@74.99 preferred driver nhsync nvsync
+> > │       │   ├───1920×1080@60.00 driver nhsync nvsync
+> > │       │   ├───1920×1080@50.00 driver phsync pvsync 16:9
+> > │       │   ├───1600×1200@60.00 driver phsync pvsync
+> > │       │   ├───1680×1050@59.95 driver nhsync pvsync
+> > │       │   ├───1400×1050@59.98 driver nhsync pvsync
+> > │       │   ├───1280×1024@60.02 driver phsync pvsync
+> > │       │   ├───1440×900@59.89 driver nhsync pvsync
+> > │       │   ├───1280×960@60.00 driver phsync pvsync
+> > │       │   ├───1360×768@60.02 driver phsync pvsync
+> > │       │   ├───1280×768@59.87 driver nhsync pvsync
+> > │       │   ├───1024×768@60.00 driver nhsync nvsync
+> > │       │   ├───800×600@60.32 driver phsync pvsync
+> > │       │   ├───640×480@60.00 driver nhsync nvsync 4:3
+> > │       │   └───640×480@59.94 driver nhsync nvsync
+> > │       └───Properties
+> > │           ├───"DPMS": enum {On, Standby, Suspend, Off} = On
+> > │           ├───"link-status": enum {Good, Bad} = Good
+> > │           ├───"non-desktop" (immutable): range [0, 1] = 0
+> > │           ├───"TILE" (immutable): blob = 0
+> > │           ├───"CRTC_ID" (atomic): object CRTC = 36
+> > │           └───"EDID" (immutable): blob = 33
+> > ├───Encoders
+> > │   └───Encoder 0
+> > │       ├───Object ID: 37
+> > │       ├───Type: none
+> > │       ├───CRTCS: {0}
+> > │       └───Clones: {0}
+> > ├───CRTCs
+> > │   └───CRTC 0
+> > │       ├───Object ID: 36
+> > │       ├───Legacy info
+> > │       │   ├───Mode: 1280×800@74.99 preferred driver nhsync nvsync
+> > │       │   └───Gamma size: 0
+> > │       └───Properties
+> > │           ├───"ACTIVE" (atomic): range [0, 1] = 1
+> > │           ├───"MODE_ID" (atomic): blob = 39
+> > │           │   └───1280×800@74.99 preferred driver nhsync nvsync
+> > │           ├───"OUT_FENCE_PTR" (atomic): range [0, UINT64_MAX] = 0
+> > │           └───"VRR_ENABLED": range [0, 1] = 0
+> > └───Planes
+> >     └───Plane 0
+> >         ├───Object ID: 34
+> >         ├───CRTCs: {0}
+> >         ├───Legacy info
+> >         │   ├───FB ID: 38
+> >         │   │   ├───Object ID: 38
+> >         │   │   ├───Size: 1280×800
+> >         │   │   ├───Format: XRGB8888 (0x34325258)
+> >         │   │   ├───Modifier: DRM_FORMAT_MOD_LINEAR (0x0000000000000000)
+> >         │   │   └───Planes:
+> >         │   │       └───Plane 0: offset = 0, pitch = 5120 bytes
+> >         │   └───Formats:
+> >         │       ├───XRGB8888 (0x34325258)
+> >         │       └───BGRX8888 (0x34325842)
+> >         └───Properties
+> >             ├───"type" (immutable): enum {Overlay, Primary, Cursor} = Primary
+> >             ├───"FB_ID" (atomic): object framebuffer = 38
+> >             │   ├───Object ID: 38
+> >             │   ├───Size: 1280×800
+> >             │   ├───Format: XRGB8888 (0x34325258)
+> >             │   ├───Modifier: DRM_FORMAT_MOD_LINEAR (0x0000000000000000)
+> >             │   └───Planes:
+> >             │       └───Plane 0: offset = 0, pitch = 5120 bytes
+> >             ├───"IN_FENCE_FD" (atomic): srange [-1, INT32_MAX] = -1
+> >             ├───"CRTC_ID" (atomic): object CRTC = 36
+> >             ├───"CRTC_X" (atomic): srange [INT32_MIN, INT32_MAX] = 0
+> >             ├───"CRTC_Y" (atomic): srange [INT32_MIN, INT32_MAX] = 0
+> >             ├───"CRTC_W" (atomic): range [0, INT32_MAX] = 1280
+> >             ├───"CRTC_H" (atomic): range [0, INT32_MAX] = 800
+> >             ├───"SRC_X" (atomic): range [0, UINT32_MAX] = 0
+> >             ├───"SRC_Y" (atomic): range [0, UINT32_MAX] = 0
+> >             ├───"SRC_W" (atomic): range [0, UINT32_MAX] = 1280
+> >             ├───"SRC_H" (atomic): range [0, UINT32_MAX] = 800
+> >             └───"IN_FORMATS" (immutable): blob = 35
+> >                 └───DRM_FORMAT_MOD_LINEAR (0x0000000000000000)
+> >                     ├───XRGB8888 (0x34325258)
+> >                     └───BGRX8888 (0x34325842)
+> >
+> > It is basically a dump with information about DRM devices.
+> >
+> > >
+> > > Alex
+> > >
+> > > On Fri 1. Nov 2024 at 21.23, Hiago De Franco <hiagofranco@gmail.com> wrote:
+> > >
+> > > > Hi Alexander,
+> > > >
+> > > > On Fri, Nov 01, 2024 at 08:22:03PM +0100, Alexander Kanavin wrote:
+> > > > > Should this go to meta-oe rather? Why core?
+> > > >
+> > > > I was not 100% sure, I just selected here because I saw the recipe for
+> > > > 'libdrm' and the 'recipes-graphics/drm'. I can move this to meta-oe if
+> > > > openembedded-core is not the correct place. Please let me know.
+> > > >
+> > > > >
+> > > > > Alex
+> > > > >
+> > > > > On Fri 1. Nov 2024 at 19.42, Hiago De Franco via lists.openembedded.org
+> > > > > <hiagofranco=gmail.com@lists.openembedded.org> wrote:
+> > > > >
+> > > > > > From: Hiago De Franco <hiago.franco@toradex.com>
+> > > > > >
+> > > > > > This recipe provides information about DRM devices, useful for
+> > > > debugging
+> > > > > > and checking information about DRM.
+> > > > > >
+> > > > > > Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
+> > > > > > ---
+> > > > > >  meta/conf/distro/include/maintainers.inc    |  1 +
+> > > > > >  meta/recipes-graphics/drm/drm-info_2.7.0.bb | 13 +++++++++++++
+> > > > > >  2 files changed, 14 insertions(+)
+> > > > > >  create mode 100644 meta/recipes-graphics/drm/drm-info_2.7.0.bb
+> > > > > >
+> > > > > > diff --git a/meta/conf/distro/include/maintainers.inc
+> > > > > > b/meta/conf/distro/include/maintainers.inc
+> > > > > > index 7aafa7a2d146..2c2779f8cf83 100644
+> > > > > > --- a/meta/conf/distro/include/maintainers.inc
+> > > > > > +++ b/meta/conf/distro/include/maintainers.inc
+> > > > > > @@ -156,6 +156,7 @@ RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets = "Yi
+> > > > > > Zhao <yi.zhao@windriver.com>"
+> > > > > >  RECIPE_MAINTAINER:pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
+> > > > > >  RECIPE_MAINTAINER:pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
+> > > > > >  RECIPE_MAINTAINER:pn-dpkg = "Unassigned <unassigned@yoctoproject.org
+> > > > >"
+> > > > > > +RECIPE_MAINTAINER:pn-drm-info = "Hiago De Franco <
+> > > > > > hiago.franco@toradex.com>"
+> > > > > >  RECIPE_MAINTAINER:pn-dropbear = "Yi Zhao <yi.zhao@windriver.com>"
+> > > > > >  RECIPE_MAINTAINER:pn-dtc = "Wang Mingyu <wangmy@fujitsu.com>"
+> > > > > >  RECIPE_MAINTAINER:pn-dwarfsrcfiles = "Alexander Kanavin <
+> > > > > > alex.kanavin@gmail.com>"
+> > > > > > diff --git a/meta/recipes-graphics/drm/drm-info_2.7.0.bb
+> > > > > > b/meta/recipes-graphics/drm/drm-info_2.7.0.bb
+> > > > > > new file mode 100644
+> > > > > > index 000000000000..9f1cbb47fbfd
+> > > > > > --- /dev/null
+> > > > > > +++ b/meta/recipes-graphics/drm/drm-info_2.7.0.bb
+> > > > > > @@ -0,0 +1,13 @@
+> > > > > > +SUMMARY = "Small utility to dump info about DRM devices"
+> > > > > > +HOMEPAGE = "https://gitlab.freedesktop.org/emersion/drm_info"
+> > > > > > +LICENSE = "MIT"
+> > > > > > +LIC_FILES_CHKSUM =
+> > > > "file://LICENSE;md5=32fd56d355bd6a61017655d8da26b67c"
+> > > > > > +
+> > > > > > +SRC_URI = "git://
+> > > > > >
+> > > > gitlab.freedesktop.org/emersion/drm_info.git;branch=master;protocol=https"
+> > > > > > +SRCREV = "c1f5ca4cf750b26eb26c1d9d5c2ef057acbcfefc"
+> > > > > > +
+> > > > > > +S = "${WORKDIR}/git"
+> > > > > > +
+> > > > > > +inherit meson pkgconfig
+> > > > > > +
+> > > > > > +DEPENDS = "json-c libdrm"
+> > > > > >
+> > > > > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > > > > Links: You receive all messages sent to this group.
+> > > > > > View/Reply Online (#206628):
+> > > > > > https://lists.openembedded.org/g/openembedded-core/message/206628
+> > > > > > Mute This Topic: https://lists.openembedded.org/mt/109340073/1686489
+> > > > > > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > > > > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> > > > [
+> > > > > > alex.kanavin@gmail.com]
+> > > > > > -=-=-=-=-=-=-=-=-=-=-=-
+> > > > > >
+> > > > > >
+> > > >
+> > > > Regards,
+> > > >
+> > > > Hiago.
+> > > >
+> >
+> > Regards,
+> >
+> > Hiago.
 
-Our devtool testsuite is quite comprehensive so I'd ask that any
-changes do have appropriate test cases (oe-selftest -r devtool).
+Regards,
 
-Cheers,
-
-Richard
-
+Hiago.
 
