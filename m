@@ -1,230 +1,1270 @@
-Return-Path: <chris.laplante@agilent.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EB1FD1BDED
-	for <webhook@archiver.kernel.org>; Mon,  4 Nov 2024 19:57:46 +0000 (UTC)
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (NAM04-BN8-obe.outbound.protection.outlook.com [40.107.100.61])
- by mx.groups.io with SMTP id smtpd.web11.888.1730750256110441210
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8E1CD2E006
+	for <webhook@archiver.kernel.org>; Mon,  4 Nov 2024 21:52:34 +0000 (UTC)
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web11.2828.1730757147075929105
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Nov 2024 11:57:36 -0800
+ Mon, 04 Nov 2024 13:52:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@agilent.com header.s=selector1 header.b=RQZyERcv;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.107.100.61, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SetSC4NrhMM/YV3uFocJfi2Zrco3Yvl5+WQWwVE3MZ/TJavY5WfLl6hv2FQv0XP9JDRe8dURSZo5r6YPo/t3kADmY8Z8OVwUNFALdtWAh84H82JZn9MEVndNQyrmbl9Y/vh3F/oLDvDp2t/aGRZ0SCcNWQML1J2pd5jb9fUqlEQHmZemJZTIcU1GcwatjGXu5M0Fxxeh6olTySAQ79FnWXu5jqlVFSAC9RFjLySGqnthGrupPZPIJxiqA7mGVevq0ZVCRNcc/K2EIZFSADwO7VK294RoFSUisrLI+h0GYggK/6prpXUjUirHsKJUg9bZVu8VmVnncI+DO8meM0JEbg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tse9QxH1BJz7u8hSlfxwaJP7O4l9mVPhYMF8AelBmEs=;
- b=ldMiWabh55poVElztJqr63778W2GpjskadLaDICBVROlfsySZz55GQvLCE8OMfMuSO//4ZN7zDFMSx9rqXMXBb50jP9RpuuX1+GbD7lpDIUq6eS1mFO3spnGE4jRGIOhqW435X7KDwlfTEB1UYsXd7xdvSut6yAGW3CHkOa6AHRswJh11Z3BOFNhOWYV5fM8MCUa/THNOgN/QChUmwExMUIAohJd7qaqQHgh9qTW8pfDrudTsCyKfMiImzOWbMhQUMb6xr7QYZK9LEAH59fz7gZdn5m98KODckLkRRs6gyrS39lA9CdELKcb5jiJhAyVmY0RFl1zub9EEWADCHbikQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=agilent.com; dmarc=pass action=none header.from=agilent.com;
- dkim=pass header.d=agilent.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tse9QxH1BJz7u8hSlfxwaJP7O4l9mVPhYMF8AelBmEs=;
- b=RQZyERcvdLw+hbRw/0jPvNloIB9v9RzoQO+CCV4iA9axta+eF1NHHaPgshUE8A+bJfIvAAZWaiz6airTg18BtkgZ1/LfG0TN40njG3XmsdfG/jbHRlspKA5SEdEZCK4kl5HGBSjGpD7esffCU5bNZkGp4lDVWlu1aVKsI82q9apbmceCvIFQWjZqLcaJ9GCMpYIfBKgh8uPeAiREDcZ+1178LoA4htR1rDtqjFjY/RJq1fZ8FZ+fyy/cuYD3egAQEyCJTD9hpgMnM8pDuGkppg3ZHhk2bnjVL5M2PJAtff1bDEo1SLHJEYcZufLyoyZA5HXF5FaTSezCInIU4pCAiw==
-Received: from DM8PR12MB5430.namprd12.prod.outlook.com (2603:10b6:8:28::6) by
- LV8PR12MB9109.namprd12.prod.outlook.com (2603:10b6:408:18a::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
- 2024 19:57:32 +0000
-Received: from DM8PR12MB5430.namprd12.prod.outlook.com
- ([fe80::604e:bc05:9357:c7d7]) by DM8PR12MB5430.namprd12.prod.outlook.com
- ([fe80::604e:bc05:9357:c7d7%4]) with mapi id 15.20.8114.031; Mon, 4 Nov 2024
- 19:57:32 +0000
-From: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"alex.kanavin@gmail.com" <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH] devtool: modify: add DEVTOOL_PREFER_BRANCH
- support
-Thread-Topic: [OE-core] [PATCH] devtool: modify: add DEVTOOL_PREFER_BRANCH
- support
-Thread-Index: 
- AQHbLJWiyUBsTo4LGkWC2zMcqdySibKi2vWAgAATJVCAAB5AkIAAqcmAgAACVwCAA3sMUIAALk+AgAAKjqA=
-Date: Mon, 4 Nov 2024 19:57:32 +0000
-Message-ID: 
- <DM8PR12MB5430A540AB3CABA956D1CA888B512@DM8PR12MB5430.namprd12.prod.outlook.com>
-References: <20241101193811.2068211-1-chris.laplante@agilent.com>
-		 <CANNYZj-_8+EH51Nk2tj+o7a2PpscSO2bi8e-ak8g5fnUhADULg@mail.gmail.com>
-		 <DM8PR12MB5430BF49467783C0051229C68B562@DM8PR12MB5430.namprd12.prod.outlook.com>
-		 <DM8PR12MB54306736B03571231E94A9498B562@DM8PR12MB5430.namprd12.prod.outlook.com>
-		 <CANNYZj8rn3ocAAbCRYF-YKea8=DtVjcUv3vU+wbpCskzQ3JC=Q@mail.gmail.com>
-	 <1a87ce686c05f97ab77fe19c658a6882a8dbd48c.camel@linuxfoundation.org>
-	 <DM8PR12MB54304D02DCB6765D471334CD8B512@DM8PR12MB5430.namprd12.prod.outlook.com>
- <ae554f47fe13215139c6ea3cd88e5c8fdf29707f.camel@linuxfoundation.org>
-In-Reply-To: 
- <ae554f47fe13215139c6ea3cd88e5c8fdf29707f.camel@linuxfoundation.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_ActionId=a144cc78-7eb1-4780-a9f4-cd574f501ee8;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_ContentBits=0;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Enabled=true;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Method=Standard;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_Name=General;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_SetDate=2024-11-04T17:55:48Z;MSIP_Label_8fcaca1c-04b8-40d7-944e-e72f4105afe1_SiteId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=agilent.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM8PR12MB5430:EE_|LV8PR12MB9109:EE_
-x-ms-office365-filtering-correlation-id: 7c7368cd-1c21-43a4-5895-08dcfd0aebac
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700018;
-x-microsoft-antispam-message-info: 
- =?utf-8?B?cjJCOUlzS0NtV2dZa1g3RENQY1lFVEtyZ3F0TFVJVHVQMjEwU2ZTcEliTXhl?=
- =?utf-8?B?QmdnWkNDWStEVUFxYzloRmZLeUZOWDM3eVNLTmcxbVpydkFxRHhuZ2hsclQy?=
- =?utf-8?B?YW1qdnB4aWxPNWNtbTdza1pKRlVObEhUVm9ZU3FKb2tWZUVqZlBPTW80QjBu?=
- =?utf-8?B?czExeUdvbVN0SEkvRk5oZi9wMkVEZGxnRXBrcHlpVlp1YU53dE11QjBoWTVh?=
- =?utf-8?B?Q2N2bWpaaXU5WDFZdWVOQlZaOW1haU9qeU92Si9CS2hQWlpWS3IxcXgzdm1m?=
- =?utf-8?B?aFoxcWhHVFQ3MzB0Y2g3aWVaNXlWWVNPVHNQUHNQWXhaRk5WTlRNMGRDNkl3?=
- =?utf-8?B?TmVTZjRuOWpNbW9MRmczb0UxTXBseVZFY1BwRFgydVFLcExDOTNhMjNmay9G?=
- =?utf-8?B?Q1hOaWg3OEpDYmFOV1paOSthNXNyMkdZV1BPVGpDNnNJLysxd2lRbXlYaHZW?=
- =?utf-8?B?YjFVeC84MlhKUHl3MUR3SnhKL1BmZGxURzFyM0JsWkdkai81eEdNK21jM295?=
- =?utf-8?B?WG9FbUNkb1NTZDBFRlNMUjVkdU9TR29PRnIyTjE2MXMxNi9rdUhHZDZ5c0VT?=
- =?utf-8?B?YVgwNXVDZ3J4OUlJQ1BFazdNZ2RKTnNUenFoam50eUpWclZLcHhDaitZdFFr?=
- =?utf-8?B?eEs2VWhidDZBaFdUVStjM1g0NzBMZjhGeFQwN1dzTGh3aG5yNkhzSVp4K2lu?=
- =?utf-8?B?RzBaaGNac000SFNQeldwSXFKZVlaSzRiYStEdWhFU3VEQ1B0cnFwbmdzRkFn?=
- =?utf-8?B?YThnZitXRm9GSEtZUjc2bXBmYTQ0UEdZeXZkMmJDL0p1eHJ6Y1crNlhxNE94?=
- =?utf-8?B?VjQ3bmpOblk1emRQTjlNSzV3eW9qL2c0ZmxnMHpFTWNBVkNGMGNyRUlQcVFw?=
- =?utf-8?B?Q3ZBMFhKaHNSc2Qyem1aQ21PZHdxYmhTMXA5UlN1OXdjbWRrc3hVc09CY25U?=
- =?utf-8?B?ZElseWMrTS9hRkpYL2hId2tiTHo2RGttZHdHMWlFQjExZ05obzk1ZGVIMW45?=
- =?utf-8?B?d2xvWFhXeFBZbGViLyswVnZiS3U0THZnT1RHemcvTGhUa3FMdHk1OGpzVEw1?=
- =?utf-8?B?dUxHTGpRa0tqSEhJdGFrVm96K3NCTFBCTllTTUNNamFrb1RLUTRuRCttZTNp?=
- =?utf-8?B?aHpVcGRWelJ6bUhxSithc3gyZTVXS3V3VStWKzR4bEVnZFlSQ1pMeHBQbXZn?=
- =?utf-8?B?SHNOUGdkMEhrOEJGaTZ0L1plamtqLy8zcGhOMmJIR0laK2ZIOWkxM1pqYXB3?=
- =?utf-8?B?ZloveDd6dFV2SjVyLy94NkdwMGtHbC9aUE4vRm5pTFJJckZNazV6dDFjOXNN?=
- =?utf-8?B?NjJQdDNBazRzQUlvWURZVTNHSlRDRGJzZUtBUCtPcXArVDJKVjZBc0FvWVo5?=
- =?utf-8?B?UlBLL1RSU1h5UW52eUhtNy9BWSttZE5rclpWL3o0ZXlBK1JJeTd5NzFDUjNw?=
- =?utf-8?B?b2RLa21wZ29XMVNQcTBybVo0d0VUTzZBWEhnVkxCWlMrY1daMWlRRmtid2tx?=
- =?utf-8?B?eHRkNWlLNGFrWnZNL0NmMERnNUVkYk5oVlNKQUxheGlrWCtwRUNPWDAxL3RV?=
- =?utf-8?B?QjEzS25MVDhYUjJLYVcrZXY3WlFDZ3Z4TlVGRFVjREJWZ2dtdmJkNUl6M2Q1?=
- =?utf-8?B?aGtkZGxxZHhyUFRyM2pWTnM1eUpYSjJ2NUFTb1BXUWZmOTVkalMzbVphWE5W?=
- =?utf-8?B?WlpzRHMrSjFGdjBNMVdRZVZqZll5TVc5dVVLZU5iaS8vbkE3T3NUb0tSSWNz?=
- =?utf-8?Q?a51ofE/rDl8dDSrHJAcTITbpaRBIf++IR5FVJB3?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR12MB5430.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?QVpKWnBLc214bDloVXhtdGk5RC9KN0dZOVhCbno4WTlmTWorSzZLVkNEZGZ3?=
- =?utf-8?B?OTdGWFZ6OHVlcGVJZ3cxd09weGRaeUFlZWpVcjMzbEExbWp4eUdKdUNPRDhW?=
- =?utf-8?B?MDc5TVliVU1iYWo0NkdPTVQ5ckVBQlo0MSsyTmxVaGlSZkFGNHhMd09RczN4?=
- =?utf-8?B?L2xyRzh6azMvWFA5aXdWbWM5aVBuWVRjYlcyb2ozY0grdVczK3M0MGdHYWo1?=
- =?utf-8?B?V3Q0K04vYWVZQ0wwMCtkaEVEVDQwQmE5eldkejIwaGxBQWRWajBKbFFUSXZW?=
- =?utf-8?B?cHlNTkFBTGYrQUVUU2dFcjJ2WmhMRXp2bDRTWnMwZy9HbGw0Q2xiblNuM0ZS?=
- =?utf-8?B?dnFpS0toeHBOYTE5WkpHbVdhNTVnWXBjaktETWkvaGh4MlFnZzRsZVlOd1hx?=
- =?utf-8?B?VFpZWHllNDZYcU1CRm16a25SdHhqNkFLZmxZRlU3cVNQa2NML0pxZ0xKUTBa?=
- =?utf-8?B?Wk9kNlMvNmh4QzZjaXBSY1U2T1ZQSkt3bzJnblNGL2xmUlhEQUhmRHllWFRt?=
- =?utf-8?B?eHRLclpoRWUrdVgxV0NaOUdQYk5nNFFsZUpGTDRBU3FWbUVTZ3o2Rjc5Z2JH?=
- =?utf-8?B?YkpVbXlGa1JJYXBTS3lSR0w5VDZJYXB5cUY0YXB1QTZZcDVuL1JWSnhmT29r?=
- =?utf-8?B?cG1Pb2laTG9Qc0R3TVdOZXpOWUdlSmc1Tm5ZQWJUMjVVQTRkMmdOVlowcE9C?=
- =?utf-8?B?aGFDblkyR29IRTl4MExLaVpNQkgyQWRta2UwcUJUQkdVTG9Jc243aEhoeHZ2?=
- =?utf-8?B?b3ZTd0JCZFRBZjh1eFZHYTFtaXBGY0ExSEl2N3ZFUW9zV214QXhUcGhBWWFo?=
- =?utf-8?B?SEhlQXdQc01LbkxhQkZwem1INjRLMG53dW9yUVV2ZEd4Tm96SUJWNlQ2K0hW?=
- =?utf-8?B?ZWRKRDEvT21SQXo0QWtPZEFNTDlSM04veXNYRGN0MWlFRGN0YU04QU4wTjhD?=
- =?utf-8?B?UnNOV1FaYzFtNXV4clFXcFRjMmdqWDByRDk3U2ROK2RLUHY3cktsSGVWcHBO?=
- =?utf-8?B?c08xWXdZdUF5TjRob1cxdE52WFVsWHYyYlp5bTFEQVV0bXVMOTRzczU0RC9T?=
- =?utf-8?B?bmFVQ0R6cW9TcU0xaTJZSWJQNitta05WWWFSN21nOTNHQlFhWWtlMmV1Szkw?=
- =?utf-8?B?VXg2QWE5ZE1qOUxvK3dUUHB3ano3d2VYZWdyd0UyZnlFdW85Q0ozNTZ1ZHBJ?=
- =?utf-8?B?WVhUTlR3OEJldzVoQm8yblJPK3NzT2ZGMUhibUgrem1TZmZSZ0tzeG1yN3BQ?=
- =?utf-8?B?TFZtR01iME04Y3VqeTZpMmZjNVJXeXNJc2RYZGV5L0NaQXhacStuTE9jTWti?=
- =?utf-8?B?N08ydHpKeTEvN09SaUtqb3BTeG1rOXpROThmeDNJN3c2R1NUODFwYkxTR3VD?=
- =?utf-8?B?Z0ovTlpady9oUmFhanpLa3ZIZGVYZ2ZnMGlFSldQRTg1TzM1cmQzclNsZ2NG?=
- =?utf-8?B?OG1ubVpuSlJyclFkcWFFYUxLSlNxeW5nampvak1LU1ZPdEFpMU5CM1MrbEUr?=
- =?utf-8?B?Y0JldjdDZ3F2TkpudlBFSUlSdzlpSVR0aHhEbktiSmZQc3g5WVV3ODhoU0x5?=
- =?utf-8?B?NEtwK3BLdnhpejY4Z2RsM1NGS1RuMVRuRzVISzFLZFBhUXdmUzNRRWpGb0Fo?=
- =?utf-8?B?SDlqejEvaE95OUQxQk04L291MVBjNHQ3aW1nQUo1dWwrVU5OamROWit2dENW?=
- =?utf-8?B?Y05aVGRJcVo0OHAxZnJXRXVYMDdrS3lyRm1CR2pZMzVlczNUYmpOZ01yTDNQ?=
- =?utf-8?B?WDRDbzhKR1ZFRFlqZjBsWVR2eDBFS2ovL0x6eUJwVm5hYXQxSEpOSEl2ZXlE?=
- =?utf-8?B?Rjd2THpDQ2NsL2N5S2owNHFwWFhvei8rU1h4ckhaaUtCb1ZlN09MOFhxcEU3?=
- =?utf-8?B?eE1CWklCVzRuaG9nRjJTSXoyQkVCZkZUOElNRWNKN2U4RnZ3MnJ2SmxIVGVV?=
- =?utf-8?B?V3lmWllZSXdRc2NvbWc2ZTBjQ1dGc3RES1FEbVpjaXBta1d3NnhoWmRUOVF1?=
- =?utf-8?B?c1pLOXdxditHZldXamU1WksvM2Q2bWpydnNoK2NYM2lRMzk1Kzl4bExld0lU?=
- =?utf-8?B?RzlpYlBsVUdYc3J4NmNDRGoxOGhmendFald2UjljRmMvRUEzbHcxUGFjekND?=
- =?utf-8?Q?ZGgfB5MvIw6bhvkwVoywjh4bx?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=lot9jmy1;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539e8607c2aso5137841e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 13:52:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1730757145; x=1731361945; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=flAgbxISxXoPfTqcCdmU0g7C1jZkkvtRiLMPQNw/WcU=;
+        b=lot9jmy1BzDBNryJJ5lIe8EfDfWaQ8ck63b7i5/6ZmONlTbSLSSe+SfWbeG4SzBe/7
+         xhkKzNY96VKLz5qljIBZyZ2tskE8N83El8vdgv29Xzseu1s7F8tSw+qyYa1qhwgZunw2
+         aj8Yw4E9rODjX//nVMJe0mH78sZEsbq4cmaA71Y0tCeYFhaF8ywE3PTbCwfT+JFPr+H3
+         lObwEOH3JEEdcxyc5S0hhiuQqrnHC8SXC8iY8kzbG+B9AHUiCOejQ6PzLo45aENk7qWz
+         ckPQu8b/457iEdUsuhNhPpvOLxm7DgJA9W6V/T2wALNZmDVCfw1gwqxEVZCiqcgS2PWz
+         psWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730757145; x=1731361945;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=flAgbxISxXoPfTqcCdmU0g7C1jZkkvtRiLMPQNw/WcU=;
+        b=LiseqREDUVIagjVBdBsLFBj7Rp9RFxSqLXn/5ETmEBOvTlRyeCczlCLAVhCnPS/I6g
+         rr0pLniZhNyNy4iYQz0RYubXkMBJ68gKnnWuyEWPbUjnMbCBnG+2uliPf0zpkN8CER9g
+         49itKqHK/ry/vI0Ztae6Sg2ernIx6PvjHORrDJITOx6KfcC2rZ5sG9z6WKKmZacFOe1r
+         NMP0sZ0qWzhQMbIZE3bHczcC9NlVhW+2AbDrA7V8995w4/Y8sNKPMPO42p2W6L2/OQAm
+         sB4KVVV69UKzHqq2p4K6vYc466sJnMd31+RI4mCBQeGs4a4r21mv+bo75AaLwbXCsfvh
+         B/Eg==
+X-Gm-Message-State: AOJu0YzA4P42qVZCYqzxWm45CAOfj2jIDajQk0IssviaqP5yABdU4NJt
+	kcJnpU1sg++4XrBnDQwl5vbyUV3iu4dWBUxv7zgUj/i1AD3iY5Qaq8UCv6MV0o/x0roMX83JWLV
+	L60kxl3SAgzVUoMuj6NJphqE+EGY=
+X-Google-Smtp-Source: AGHT+IGFtcBMdjtnguLlClQcou/fLL2euLLj6ehw/lLtuolCm0DXMI1wJv7SvgeFF57y+VE4JHqzufic5mixkb7P5K4=
+X-Received: by 2002:a05:6512:2341:b0:536:554a:24c2 with SMTP id
+ 2adb3069b0e04-53b348c8978mr17575472e87.13.1730757144698; Mon, 04 Nov 2024
+ 13:52:24 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM8PR12MB5430.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c7368cd-1c21-43a4-5895-08dcfd0aebac
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2024 19:57:32.4648
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gCS+sormRv+/13QEfAtOVWaXnY5rv1br4dEo7so4rivY5+tCnyP1btRihp0JqnidmNQFEvKuxRRcbTcJwTNw28s2RP+jA5yJvENDWLU7Zm0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV8PR12MB9109
+References: <20241031101556.1913400-1-alex.kanavin@gmail.com> <CAMKF1spGp5xPKbVv85dKoC_E9Vk28C_r0vc3a48z2m+f1HnXjw@mail.gmail.com>
+In-Reply-To: <CAMKF1spGp5xPKbVv85dKoC_E9Vk28C_r0vc3a48z2m+f1HnXjw@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 4 Nov 2024 22:52:13 +0100
+Message-ID: <CANNYZj8pwm0wgV8Dzz_Z07v=OOnssxEibhtYHTqL8Uvq-jTmRg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v3 1/2] tcl: update 8.6.15 -> 9.0.0
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: multipart/alternative; boundary="000000000000cd666e06261d4cdd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 19:57:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206693
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 21:52:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206694
 
-SGkgUmljaGFyZCwNCg0KPiA+IEludGVybmFsbHksIG15IGV4cGVyaWVuY2UgaGFzIGJlZW4gdGhh
-dCB1c2VycyBkbyBub3Qgbm90aWNlIHRoZQ0KPiA+ICdkZXZ0b29sJyBicmFuY2ggaGFzIGJlZW4g
-Y2hlY2tlZCBvdXQuIFRoZXkgZ28gdG8gcHVzaCB0aGVpciBjaGFuZ2VzDQo+ID4gYW5kIGVuZCB1
-cCBjcmVhdGluZyBhIGJpemFycmUgJ2RldnRvb2wnIGJyYW5jaCBvbiB0aGUgcmVtb3RlLCB3aGlj
-aA0KPiA+IG9idmlvdXNseSBkb2VzbuKAmXQgZ2V0IHBpY2tlZCB1cCBieSBvdXIgYnVpbGQuDQo+
-ID4NCj4gPiBJbiB0aGUgY2FzZSBvZiBBVVRPUkVWIHdpdGhvdXQgYW55IGxvY2FsIHBhdGNoZXMs
-IEknZCBhcmd1ZSB0aGF0IGJ5DQo+ID4gZGVmYXVsdCAnZGV2dG9vbCBtb2RpZnknIHNob3VsZCBj
-aGVja291dCB0aGUgYnJhbmNoIGZyb20gU1JDX1VSSS4gV2UNCj4gPiBjb3VsZCBhZGQgYSBmbGFn
-IHRvIG92ZXJyaWRlIHRoYXQgYmVoYXZpb3IgKGUuZy4gLWQpLCBvciBhbHRlcm5hdGl2ZWx5DQo+
-ID4gaGludCB0byB0aGUgdXNlciB0aGV5IGNhbiBwYXNzICctLWJyYW5jaCBkZXZ0b29sJy4NCj4g
-Pg0KPiA+IFdvdWxkIHdlIGJlIE9LIHdpdGggdGhpcz8gSWYgd2UncmUgd29ycmllZCBhYm91dCBp
-dCBicmVha2luZyBiYWNrd2FyZHMNCj4gPiBjb21wYXRpYmlsaXR5LCB0aGVuIEkgd291bGQgcHJl
-ZmVyIHRvIGhhdmUgYW4gZXNjYXBlIGhhdGNoIChsaWtlDQo+ID4gREVWVE9PTF9QUkVGRVJfQlJB
-TkNIKSB0aGF0IEkgY2FuIHVzZSB0byBvcHQtaW4gdG8gdGhlIG5ldyBiZWhhdmlvci4NCj4gDQo+
-IFRoZXJlIGFyZSBhIGZldyBjb25mbGljdGluZyB0aGluZ3MgaGVyZS4gV2UndmUgdHJpZWQgdG8g
-bWFrZSBkZXZ0b29sIG1vZGlmeQ0KPiBiZWhhdmUgdGhlIHNhbWUgd2hldGhlciBpdCBvcGVyYXRl
-cyBvbiBzb21ldGhpbmcgc291cmNlIGNvbnRyb2wgYmFzZWQgb3INCj4gdGFyYmFsbCBiYXNlZCwg
-aW4gYm90aCBjYXNlcyB3aXRoIGFuZCB3aXRob3V0IHBhdGNoZXMgb3IgYWRkaXRpb25hbCBjb25m
-aWcvZGF0YQ0KPiBmaWxlcy4gVGhhdCBpcyBhIGdvb2QgdGhpbmcgaW4gZ2VuZXJhbCBidXQgSSBj
-YW4gc2VlIGhvdyBpbiB0aGlzIGNhc2UgaXQgZG9lc24ndCBkbw0KPiB3aGF0IHRoZSB1c2VyIHdv
-dWxkIGxpa2UuDQo+IA0KPiBIb3cgY2xlYXJseSBpcyBkZXZ0b29sIHNheWluZyB3aGF0IGl0IGlz
-IGRvaW5nPyBJcyB0aGUgdXNlciBiZWluZyB0b2xkIHRoYXQgYQ0KPiAiZGV2dG9vbCIgYnJhbmNo
-IGlzIGJlaW5nIGNyZWF0ZWQgdG8gaG9sZCB0aGVpciBjaGFuZ2VzPw0KDQpDdXJyZW50bHksICdk
-ZXZ0b29sIG1vZGlmeScgZG9lc27igJl0IHNheSBhbnl0aGluZyBhYm91dCBjcmVhdGluZyB0aGUg
-J2RldnRvb2wnIGJyYW5jaC4gSXQganVzdCBzYXlzOg0KDQpJTkZPOiBTb3VyY2UgdHJlZSBleHRy
-YWN0ZWQgdG8gL3doZXJldmVyDQpJTkZPOiBSZWNpcGUgPHJlY2lwZT4gbm93IHNldCB1cCB0byBi
-dWlsZCBmcm9tIC93aGVyZXZlcg0KDQo+IEl0IGlzbid0IHVucmVhc29uYWJsZSB0byBob2xkIG91
-ciBsb2NhbCBjaGFuZ2VzIG9uIHRoZSBiYXNpcyB0aGF0IHRoZSB1c2VyIHdhbnRzDQo+IHRvIHdy
-aXRlIHRoZW0gYmFjayBpbnRvIHRoZSByZWNpcGUgc28gdGhlIHRvb2wgZG9lcyByZWFsbHkgbmVl
-ZCBhIHdheSB0byB0cmFjaw0KPiB0aGF0Lg0KPiANCj4gSSB0aGluayBVSSBwZW9wbGUgbG9va2lu
-ZyBhdCB0aGlzIGZyb20gdGhlIGJpZ2dlciBwZXJzcGVjdGl2ZSB3b3VsZCBjb25zaWRlciB0aGUN
-Cj4gYmVoYXZpb3VyIGNoYW5naW5nIGRlcGVuZGluZyBvbiBjb250ZXh0IHRvIGJlIGNvbmZ1c2lu
-ZyBhbmQgcGVyaGFwcyB0aGUgcmVhbA0KPiBpc3N1ZSBpcyB3ZSdyZSBub3QgdGVsbGluZyB0aGUg
-dXNlciB3aGF0IGlzIGdvaW5nIG9uIChwZXJoYXBzIHdpdGggc29tZSBkZXRhaWwgb24NCj4gKndo
-eSogaW4gdGhlIGRvY3MgdG9vKT8NCj4gDQo+IEknbSBub3Qgd29ycmllZCBhYm91dCBicmVha2lu
-ZyBjb21wYXRpYmlsaXR5LCBJJ20gd29ycmllZCBhYm91dCBtYWtpbmcgdGhlDQo+IGV4cGVyaWVu
-Y2UgaW5jb25zaXN0ZW50LiBBIG5ldyBtYWdpYyBjb25maWcgb3B0aW9uIGRvZXNuJ3QgcmVhbGx5
-IG1ha2UgbWUgZmVlbA0KPiB0aGF0IG11Y2ggaGFwcGllciwgaXQganVzdCBmb3JrcyBvdXIgVUkg
-aW50byB0d28gc3RyZWFtcyBtYWtpbmcgdGhpbmdzIGdlbmVyYWxseQ0KPiBtb3JlIGNvbmZ1c2lu
-ZyB0byB1c2VycyA6KC4NCg0KRnJvbSBteSBQT1YsIGl0IGtpbmQgb2YgbWFrZXMgc2Vuc2UgdG8g
-aGF2ZSBzbGlnaHRseSBkaWZmZXJlbnQgVUkgYmVoYXZpb3JzLCBzaW5jZSBJIHNlZSBhdCBsZWFz
-dCB0d28gZGlmZmVyZW50IHR5cGVzIG9mIGRldnRvb2wgdXNlcnM6DQoNCjEuIExheWVyIG1haW50
-YWluZXJzIChsaWtlIG15c2VsZikgd2hvIGNhcmUgYWJvdXQgY3JlYXRpbmcgcGF0Y2hlcyBmb3Ig
-dXBzdHJlYW0gc29mdHdhcmUgdGhhdCB3ZSBwcm9iYWJseSBkb24ndCBjb250cm9sLg0KMi4gRGV2
-ZWxvcGVycyAobW9zdCBvZiBteSBjb2xsZWFndWVzKSB3aG8gdXNlICdkZXZ0b29sJyBhcyBhIGNv
-bnZlbmllbmNlIHRvIHRlc3QgYW5kIGRldmVsb3AgY2hhbmdlcyB0byBvdXIgY2xvc2VkLXNvdXJj
-ZSBjb21wb25lbnRzLiBUaGVzZSBhcmUgb3VyIEFVVE9SRVYgcmVjaXBlcy4gU29tZSAobW9zdD8p
-IG9mIHRoZXNlIHVzZXJzIHByb2JhYmx5IGRvbid0IGtub3cgYWJvdXQgZGV2dG9vbCdzIHBhdGNo
-aW5nIGZ1bmN0aW9uYWxpdHksIGJ1dCB0aGF0J3MgZmluZSBzaW5jZSB0aGV5IGRvbid0IG5lZWQg
-aXQuDQoNClNvIHRvIG1lIGl0IG1ha2VzIHNlbnNlIHRoYXQgdGhlIFVJIG1pZ2h0IGJlIGEgbGl0
-dGxlIGRpZmZlcmVudCBmb3IgdGhlc2UgY2FzZXMuIA0KDQpUaGF0IGJlaW5nIHNhaWQsIEkgdW5k
-ZXJzdGFuZCBpZiB3ZSBkb24ndCB3YW50IHRvIGZyYWN0dXJlIHRoZSBVSS4gSSdtIHBlcmZlY3Rs
-eSBoYXBweSB0byBjb250aW51ZSBtb2RpZnlpbmcgb3VyIGZvcmsgb2YgcG9reSBpZiB0aGF0J3Mg
-dGhlIGNhc2UgOikuDQoNCj4gQXMgd2VsbCBhcyBtYWtpbmcgZGV2dG9vbCBjbGVhcmx5IHRlbGwg
-dGhlIHVzZXIgd2hhdCBpdCBpcyBkb2luZywgY291bGQgd2Ugc2V0IHVwDQo+IHRoZSByZW1vdGVz
-IGluIHRoZSBnaXQgcmVwb3Mgc28gdGhhdCBwdXNoZXMgZGlkIHRoZSBleHBlY3RlZCB0aGluZyBp
-bnN0ZWFkIChpLmUuDQo+IG1hcCBkZXZ0b29sIGJhY2sgdG8gbWFzdGVyL21haW4vd2hhdGV2ZXIp
-Pw0KDQpJIHRoaW5rIHRyeWluZyB0byBiZSBjcmFmdHkgd2l0aCByZW1vdGVzIGlzIGdvaW5nIHRv
-IGJlIGV2ZW4gbW9yZSBjb25mdXNpbmcgdG8gdXNlcnMuIFdoYXQgSSBjb3VsZCAqbWF5YmUqIHNl
-ZSBkb2luZyBpcyB0aW5rZXJpbmcgd2l0aCBzb21lIGdpdCBob29rcyAoaHR0cHM6Ly9naXQtc2Nt
-LmNvbS9ib29rL21zL3YyL0N1c3RvbWl6aW5nLUdpdC1HaXQtSG9va3MpIHRvIHdhcm4gb3IgbnVk
-Z2UgdGhlIHVzZXIgc29tZWhvdy4gRXZlbiB0aGF0IEkgZmVhciBpcyBub3Qgd29ydGggdGhlIGNv
-bXBsaWNhdGlvbnMuDQoNCj4gQ2hlZXJzLA0KPiANCj4gUmljaGFyZA0KDQo=
+--000000000000cd666e06261d4cdd
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Thanks, I=E2=80=99m taking a look into it.
+
+Alex
+
+On Fri 1. Nov 2024 at 18.51, Khem Raj <raj.khem@gmail.com> wrote:
+
+> here are couple of fails on meta-openembedded layers
+>
+> https://errors.yoctoproject.org/Errors/Build/194630/
+>
+> On Thu, Oct 31, 2024 at 3:16=E2=80=AFAM Alexander Kanavin via
+> lists.openembedded.org <alex.kanavin=3Dgmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > From: Alexander Kanavin <alex@linutronix.de>
+> >
+> > Make adjustments needed for ptests: among others,
+> > the binary.test needs 4G of RAM.
+> >
+> > Apply all patches unconditionally for ease of future upgrades.
+> >
+> > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> > ---
+> >  meta/recipes-core/images/core-image-ptest.bb  |  1 +
+> >  ...m-OE.dev-but-with-legacy-staging-fu.patch} | 16 +++++---
+> >  ...patch =3D> 0002-tcl-fix-a-build-issue.patch} | 37 ++++++++++-------=
+--
+> >  ...o-lib64-instead-of-lib-on-64bit-tar.patch} | 19 ++++++----
+> >  ...0004-tcl-update-the-header-location.patch} | 27 ++++++++------
+> >  ...=3D> 0005-tcl-fix-race-in-interp.test.patch} | 11 ++++--
+> >  meta/recipes-devtools/tcltk/tcl/run-ptest     |  7 ++--
+> >  .../tcltk/{tcl_8.6.15.bb =3D> tcl_9.0.0.bb}     | 25 ++++++-------
+> >  8 files changed, 79 insertions(+), 64 deletions(-)
+> >  rename meta/recipes-devtools/tcltk/tcl/{tcl-add-soname.patch =3D>
+> 0001-tcl-Add-tcltk-from-OE.dev-but-with-legacy-staging-fu.patch} (80%)
+> >  rename
+> meta/recipes-devtools/tcltk/tcl/{fix_non_native_build_issue.patch =3D>
+> 0002-tcl-fix-a-build-issue.patch} (71%)
+> >  rename
+> meta/recipes-devtools/tcltk/tcl/{tcl-remove-hardcoded-install-path.patch =
+=3D>
+> 0003-tcl-install-tcl-to-lib64-instead-of-lib-on-64bit-tar.patch} (63%)
+> >  rename meta/recipes-devtools/tcltk/tcl/{alter-includedir.patch =3D>
+> 0004-tcl-update-the-header-location.patch} (80%)
+> >  rename meta/recipes-devtools/tcltk/tcl/{interp.patch =3D>
+> 0005-tcl-fix-race-in-interp.test.patch} (82%)
+> >  rename meta/recipes-devtools/tcltk/{tcl_8.6.15.bb =3D> tcl_9.0.0.bb}
+> (82%)
+> >
+> > diff --git a/meta/recipes-core/images/core-image-ptest.bb
+> b/meta/recipes-core/images/core-image-ptest.bb
+> > index 72081f938de..a0ff8d9528e 100644
+> > --- a/meta/recipes-core/images/core-image-ptest.bb
+> > +++ b/meta/recipes-core/images/core-image-ptest.bb
+> > @@ -32,6 +32,7 @@ QB_MEM =3D "-m 1024"
+> >  QB_MEM:virtclass-mcextend-lttng-tools =3D "-m 4096"
+> >  QB_MEM:virtclass-mcextend-python3 =3D "-m 2048"
+> >  QB_MEM:virtclass-mcextend-python3-cryptography =3D "-m 5100"
+> > +QB_MEM:virtclass-mcextend-tcl =3D "-m 5100"
+> >
+> >  TEST_SUITES =3D "ping ssh parselogs ptest"
+> >
+> > diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+> b/meta/recipes-devtools/tcltk/tcl/0001-tcl-Add-tcltk-from-OE.dev-but-with=
+-legacy-staging-fu.patch
+> > similarity index 80%
+> > rename from meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+> > rename to
+> meta/recipes-devtools/tcltk/tcl/0001-tcl-Add-tcltk-from-OE.dev-but-with-l=
+egacy-staging-fu.patch
+> > index a0195e263c1..9472591a55f 100644
+> > --- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch
+> > +++
+> b/meta/recipes-devtools/tcltk/tcl/0001-tcl-Add-tcltk-from-OE.dev-but-with=
+-legacy-staging-fu.patch
+> > @@ -1,7 +1,8 @@
+> > -From b89fd73daf9b3eb2f889f65baba5f90d8a930c82 Mon Sep 17 00:00:00 2001
+> > +From f69a01c5932af2d5ece6141e4424b14a2d645fd7 Mon Sep 17 00:00:00 2001
+> >  From: Richard Purdie <rpurdie@linux.intel.com>
+> >  Date: Wed, 9 Dec 2009 23:59:44 +0000
+> > -Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging
+> function
+> > +Subject: [PATCH 1/5] tcl: Add tcltk from OE.dev but with legacy stagin=
+g
+> > + function
+> >
+> >  Upstream-Status: Pending
+> >  ---
+> > @@ -10,10 +11,10 @@ Upstream-Status: Pending
+> >   2 files changed, 7 insertions(+), 1 deletion(-)
+> >
+> >  diff --git a/unix/Makefile.in b/unix/Makefile.in
+> > -index 7619afc..9dd053d 100644
+> > +index 0ff1258..6e74458 100644
+> >  --- a/unix/Makefile.in
+> >  +++ b/unix/Makefile.in
+> > -@@ -904,7 +904,10 @@ install-binaries: binaries
+> > +@@ -1027,7 +1027,10 @@ install-binaries: binaries
+> >         done
+> >         @echo "Installing $(LIB_FILE) to $(DLL_INSTALL_DIR)/"
+> >         @@INSTALL_LIB@
+> > @@ -26,10 +27,10 @@ index 7619afc..9dd053d 100644
+> >         @$(INSTALL_PROGRAM) ${TCL_EXE}
+> "$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}"
+> >         @echo "Installing tclConfig.sh to $(CONFIG_INSTALL_DIR)/"
+> >  diff --git a/unix/tcl.m4 b/unix/tcl.m4
+> > -index 0307a06..37c4d67 100644
+> > +index 99bc8bf..7e6e0da 100644
+> >  --- a/unix/tcl.m4
+> >  +++ b/unix/tcl.m4
+> > -@@ -1378,6 +1378,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
+> > +@@ -1269,6 +1269,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [
+> >             # get rid of the warnings.
+> >             #CFLAGS_OPTIMIZE=3D"${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINE=
+S
+> -D__NO_MATH_INLINES"
+> >
+> > @@ -39,3 +40,6 @@ index 0307a06..37c4d67 100644
+> >             SHLIB_LD=3D'${CC} ${CFLAGS} ${LDFLAGS} -shared'
+> >             DL_OBJS=3D"tclLoadDl.o"
+> >             DL_LIBS=3D"-ldl"
+> > +--
+> > +2.39.5
+> > +
+> > diff --git
+> a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+> b/meta/recipes-devtools/tcltk/tcl/0002-tcl-fix-a-build-issue.patch
+> > similarity index 71%
+> > rename from
+> meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+> > rename to
+> meta/recipes-devtools/tcltk/tcl/0002-tcl-fix-a-build-issue.patch
+> > index fac7ed7e281..53cfd8927db 100644
+> > --- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch
+> > +++ b/meta/recipes-devtools/tcltk/tcl/0002-tcl-fix-a-build-issue.patch
+> > @@ -1,18 +1,18 @@
+> > -From bd512547fc002fdb20808bf5b8b9feeb848b6512 Mon Sep 17 00:00:00 2001
+> > +From 61ef40f2bc418ce072828ad1939eaa40f981e76e Mon Sep 17 00:00:00 2001
+> >  From: Nitin A Kamble <nitin.a.kamble@intel.com>
+> >  Date: Fri, 13 Aug 2010 12:24:00 -0700
+> > -Subject: [PATCH] tcl: fix a build issue
+> > +Subject: [PATCH 2/5] tcl: fix a build issue
+> >
+> >  Upstream-Status: Inappropriate [upstream does not support installed
+> tests]
+> >  ---
+> > - unix/Makefile.in | 20 ++++++++++----------
+> > - 1 file changed, 10 insertions(+), 10 deletions(-)
+> > + unix/Makefile.in | 19 +++++++++----------
+> > + 1 file changed, 9 insertions(+), 10 deletions(-)
+> >
+> >  diff --git a/unix/Makefile.in b/unix/Makefile.in
+> > -index 965f6da..a0bd63f 100644
+> > +index 6e74458..bd0b818 100644
+> >  --- a/unix/Makefile.in
+> >  +++ b/unix/Makefile.in
+> > -@@ -723,7 +723,7 @@ tcltest-real:
+> > +@@ -918,7 +918,7 @@ tcltest-real:
+> >   test: test-tcl test-packages
+> >
+> >   test-tcl: ${TCLTEST_EXE}
+> > @@ -20,15 +20,12 @@ index 965f6da..a0bd63f 100644
+> >  +      $(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tests/all.tcl $(TESTFLAG=
+S)
+> >
+> >   gdb-test: ${TCLTEST_EXE}
+> > -       @printf '%s ' set env @LD_LIBRARY_PATH_VAR@
+> =3D\"`pwd`$${@LD_LIBRARY_PATH_VAR@:+:$${@LD_LIBRARY_PATH_VAR}}\" > gdb.ru=
+n
+> > -@@ -732,17 +732,17 @@ gdb-test: ${TCLTEST_EXE}
+> > -       @printf '\n' >>gdb.run
+> > -       @printf '%s ' set args $(call
+> shquotequote,$(TOP_DIR))/tests/all.tcl\
+> > -               $(call shquotequote,$(TESTFLAGS)) -singleproc 1 >>
+> gdb.run
+> > --      $(GDB) ./${TCLTEST_EXE} --command=3Dgdb.run
+> > -+      $(GDB) ${TCLTEST_EXE} --command=3Dgdb.run
+> > -       rm gdb.run
+> > +       $(SHELL_ENV) $(GDB) --args ./${TCLTEST_EXE}
+> $(TOP_DIR)/tests/all.tcl \
+> > +@@ -928,15 +928,14 @@ lldb-test: ${TCLTEST_EXE}
+> > +       $(SHELL_ENV) $(LLDB) -- ./${TCLTEST_EXE}
+> $(TOP_DIR)/tests/all.tcl \
+> > +               $(TESTFLAGS) -singleproc 1
+> >
+> > +-
+> >   # Useful target to launch a built tcltest with the proper path,...
+> >   runtest: ${TCLTEST_EXE}
+> >  -      $(SHELL_ENV) ./${TCLTEST_EXE}
+> > @@ -37,12 +34,12 @@ index 965f6da..a0bd63f 100644
+> >   # Useful target for running the test suite with an unwritable current
+> >   # directory...
+> >   ro-test: ${TCLTEST_EXE}
+> > --      echo 'exec chmod -w .;package require
+> tcltest;tcltest::temporaryDirectory /tmp;source -encoding utf-8
+> ../tests/all.tcl;exec chmod +w .' | $(SHELL_ENV) ./${TCLTEST_EXE}
+> > -+      echo 'exec chmod -w .;package require
+> tcltest;tcltest::temporaryDirectory /tmp;source -encoding utf-8
+> ../tests/all.tcl;exec chmod +w .' | $(SHELL_ENV) ${TCLTEST_EXE}
+> > +-      echo 'exec chmod -w .;package require
+> tcltest;tcltest::temporaryDirectory /tmp;source ../tests/all.tcl;exec chm=
+od
+> +w .' | $(SHELL_ENV) ./${TCLTEST_EXE}
+> > ++      echo 'exec chmod -w .;package require
+> tcltest;tcltest::temporaryDirectory /tmp;source ../tests/all.tcl;exec chm=
+od
+> +w .' | $(SHELL_ENV) ${TCLTEST_EXE}
+> >
+> >   # The following target generates the shared libraries in dltest/ that
+> are used
+> >   # for testing; they are included as part of the "tcltest" target (via
+> the
+> > -@@ -760,28 +760,28 @@ dltest.marker: ${STUB_LIB_FILE}
+> > +@@ -954,17 +953,17 @@ dltest.marker: ${STUB_LIB_FILE}
+> >   # This target can be used to run tclsh from the build directory
+> >   # via `make shell SCRIPT=3D/tmp/foo.tcl`
+> >   shell: ${TCL_EXE}
+> > @@ -63,6 +60,9 @@ index 965f6da..a0bd63f 100644
+> >                 $(TOP_DIR)/tests/all.tcl -singleproc 1 -constraints
+> valgrind \
+> >                 $(TESTFLAGS)
+> >
+> > +@@ -990,13 +989,13 @@ valgrind_each: $(addprefix
+> testresults/valgrind/,$(addsuffix .success,$(notdir\
+> > +
+> > +
+> >   valgrindshell: ${TCL_EXE}
+> >  -      $(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ./${TCL_EXE} $(SCRIPT)
+> >  +      $(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) ${TCL_EXE} $(SCRIPT)
+> > @@ -77,3 +77,6 @@ index 965f6da..a0bd63f 100644
+> >
+> >
+>  #-----------------------------------------------------------------------=
+---
+> >   # Installation rules
+> > +--
+> > +2.39.5
+> > +
+> > diff --git
+> a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
+> b/meta/recipes-devtools/tcltk/tcl/0003-tcl-install-tcl-to-lib64-instead-o=
+f-lib-on-64bit-tar.patch
+> > similarity index 63%
+> > rename from
+> meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
+> > rename to
+> meta/recipes-devtools/tcltk/tcl/0003-tcl-install-tcl-to-lib64-instead-of-=
+lib-on-64bit-tar.patch
+> > index 93e7877256b..fb534044988 100644
+> > ---
+> a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-path.patch
+> > +++
+> b/meta/recipes-devtools/tcltk/tcl/0003-tcl-install-tcl-to-lib64-instead-o=
+f-lib-on-64bit-tar.patch
+> > @@ -1,7 +1,7 @@
+> > -From 050fc597fbfa4da2c31bd0df58c871892a490470 Mon Sep 17 00:00:00 2001
+> > +From 8af08b6f1e566af239e36864823a96c2c283e4ea Mon Sep 17 00:00:00 2001
+> >  From: "Song.Li" <Song.Li@windriver.com>
+> >  Date: Wed, 1 Aug 2012 19:05:51 +0800
+> > -Subject: [PATCH] tcl:install tcl to lib64 instead of lib on 64bit targ=
+et
+> > +Subject: [PATCH 3/5] tcl:install tcl to lib64 instead of lib on 64bit
+> target
+> >
+> >  Remove hardcoded library install path. Change $(prefix)/lib/ to
+> ${libdir}.
+> >
+> > @@ -13,14 +13,14 @@ Signed-off-by: Song.Li <Song.Li@windriver.com>
+> >  Signed-off-by: Kai Kang <kai.kang@windriver.com>
+> >  Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> >  ---
+> > - unix/configure.in | 2 +-
+> > + unix/configure.ac | 2 +-
+> >   1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > -diff --git a/unix/configure.in b/unix/configure.in
+> > -index 4f62510..4974fb6 100644
+> > ---- a/unix/configure.in
+> > -+++ b/unix/configure.in
+> > -@@ -775,7 +775,7 @@ eval "TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}"
+> > +diff --git a/unix/configure.ac b/unix/configure.ac
+> > +index 461b394..b6d2506 100644
+> > +--- a/unix/configure.ac
+> > ++++ b/unix/configure.ac
+> > +@@ -753,7 +753,7 @@ eval "TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}"
+> >
+> >   eval "TCL_LIB_FILE=3D${TCL_LIB_FILE}"
+> >
+> > @@ -29,3 +29,6 @@ index 4f62510..4974fb6 100644
+> >   PRIVATE_INCLUDE_DIR=3D'$(includedir)'
+> >   HTML_DIR=3D'$(DISTDIR)/html'
+> >
+> > +--
+> > +2.39.5
+> > +
+> > diff --git a/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
+> b/meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-location.pat=
+ch
+> > similarity index 80%
+> > rename from meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
+> > rename to
+> meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-location.patch
+> > index bfc718cfd3c..7953dcecff1 100644
+> > --- a/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch
+> > +++
+> b/meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-location.pat=
+ch
+> > @@ -1,7 +1,7 @@
+> > -From 3130dca60636dc12d0d12df75b002fd123349e21 Mon Sep 17 00:00:00 2001
+> > +From 20870e9cd4f5a211fe94f484f707269ee1abd947 Mon Sep 17 00:00:00 2001
+> >  From: Mingli Yu <mingli.yu@windriver.com>
+> >  Date: Tue, 22 Nov 2022 18:48:27 +0800
+> > -Subject: [PATCH] tcl: update the header location
+> > +Subject: [PATCH 4/5] tcl: update the header location
+> >
+> >  Lets install the include header and private header files into
+> >  usr/include/tcl8.6 when version of tcl is 8.6.x
+> > @@ -21,16 +21,16 @@ Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+> >  Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+> >  ---
+> >   unix/Makefile.in  | 2 +-
+> > - unix/configure.in | 4 ++--
+> > + unix/configure.ac | 4 ++--
+> >   unix/tcl.pc.in    | 2 +-
+> >   3 files changed, 4 insertions(+), 4 deletions(-)
+> >
+> >  diff --git a/unix/Makefile.in b/unix/Makefile.in
+> > -index a3b7d69..969ddb8 100644
+> > +index bd0b818..ddf2b67 100644
+> >  --- a/unix/Makefile.in
+> >  +++ b/unix/Makefile.in
+> >  @@ -57,7 +57,7 @@ SCRIPT_INSTALL_DIR   =3D $(INSTALL_ROOT)$(TCL_LIBRAR=
+Y)
+> > - MODULE_INSTALL_DIR    =3D $(SCRIPT_INSTALL_DIR)/../tcl8
+> > + MODULE_INSTALL_DIR    =3D $(SCRIPT_INSTALL_DIR)/../tcl9
+> >
+> >   # Directory in which to install the include file tcl.h:
+> >  -INCLUDE_INSTALL_DIR   =3D $(INSTALL_ROOT)$(includedir)
+> > @@ -38,11 +38,11 @@ index a3b7d69..969ddb8 100644
+> >
+> >   # Path to the private tcl header dir:
+> >   PRIVATE_INCLUDE_DIR   =3D @PRIVATE_INCLUDE_DIR@
+> > -diff --git a/unix/configure.in b/unix/configure.in
+> > -index 4974fb6..a72934f 100644
+> > ---- a/unix/configure.in
+> > -+++ b/unix/configure.in
+> > -@@ -776,7 +776,7 @@ eval "TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}"
+> > +diff --git a/unix/configure.ac b/unix/configure.ac
+> > +index b6d2506..72a8b0d 100644
+> > +--- a/unix/configure.ac
+> > ++++ b/unix/configure.ac
+> > +@@ -754,7 +754,7 @@ eval "TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}"
+> >   eval "TCL_LIB_FILE=3D${TCL_LIB_FILE}"
+> >
+> >   test -z "$TCL_LIBRARY" && TCL_LIBRARY=3D'$(libdir)/tcl$(VERSION)'
+> > @@ -51,7 +51,7 @@ index 4974fb6..a72934f 100644
+> >   HTML_DIR=3D'$(DISTDIR)/html'
+> >
+> >   # Note:  in the following variable, it's important to use the absolut=
+e
+> > -@@ -897,7 +897,7 @@ TCL_BUILD_STUB_LIB_PATH=3D"`pwd`/${TCL_STUB_LIB_FI=
+LE}"
+> > +@@ -921,7 +921,7 @@ TCL_BUILD_STUB_LIB_PATH=3D"`pwd`/${TCL_STUB_LIB_FI=
+LE}"
+> >   TCL_STUB_LIB_PATH=3D"${TCL_STUB_LIB_DIR}/${TCL_STUB_LIB_FILE}"
+> >
+> >   # Install time header dir can be set via --includedir
+> > @@ -61,7 +61,7 @@ index 4974fb6..a72934f 100644
+> >
+>  #-----------------------------------------------------------------------=
+-
+> >   # tclConfig.sh refers to this by a different name
+> >  diff --git a/unix/tcl.pc.in b/unix/tcl.pc.in
+> > -index 93b5e69..dcd51d7 100644
+> > +index 9c6da82..8aa5ae8 100644
+> >  --- a/unix/tcl.pc.in
+> >  +++ b/unix/tcl.pc.in
+> >  @@ -3,7 +3,7 @@
+> > @@ -73,3 +73,6 @@ index 93b5e69..dcd51d7 100644
+> >   libfile=3D@TCL_LIB_FILE@
+> >
+> >   Name: Tool Command Language
+> > +--
+> > +2.39.5
+> > +
+> > diff --git a/meta/recipes-devtools/tcltk/tcl/interp.patch
+> b/meta/recipes-devtools/tcltk/tcl/0005-tcl-fix-race-in-interp.test.patch
+> > similarity index 82%
+> > rename from meta/recipes-devtools/tcltk/tcl/interp.patch
+> > rename to
+> meta/recipes-devtools/tcltk/tcl/0005-tcl-fix-race-in-interp.test.patch
+> > index 2e0dc94cff1..dfb0b63a0e0 100644
+> > --- a/meta/recipes-devtools/tcltk/tcl/interp.patch
+> > +++
+> b/meta/recipes-devtools/tcltk/tcl/0005-tcl-fix-race-in-interp.test.patch
+> > @@ -1,7 +1,7 @@
+> > -From 426aa2ff62dda77fd011e8f630b9d4ea17984817 Mon Sep 17 00:00:00 2001
+> > +From 8a96171a33c886d1d9aab40e40f8aae2f621ca08 Mon Sep 17 00:00:00 2001
+> >  From: Ross Burton <ross.burton@arm.com>
+> >  Date: Mon, 12 Jul 2021 14:50:13 +0100
+> > -Subject: [PATCH] tcl: fix race in interp.test
+> > +Subject: [PATCH 5/5] tcl: fix race in interp.test
+> >
+> >  The interp-36.7 patch has race conditions and is missing cleanup.  Thi=
+s
+> patch by
+> >  a Tcl maintainer should improve matters.
+> > @@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
+> >   1 file changed, 4 insertions(+), 3 deletions(-)
+> >
+> >  diff --git a/tests/interp.test b/tests/interp.test
+> > -index d742484..fc90990 100644
+> > +index 30dc659..e7cd0ee 100644
+> >  --- a/tests/interp.test
+> >  +++ b/tests/interp.test
+> > -@@ -3595,17 +3595,18 @@ test interp-36.7 {ChildBgerror sets error
+> handler of child [1999035]} -setup {
+> > +@@ -3614,17 +3614,18 @@ test interp-36.7 {ChildBgerror sets error
+> handler of child [1999035]} -setup {
+> >           variable result
+> >           set result [lindex $args 0]
+> >       }
+> > @@ -38,3 +38,6 @@ index d742484..fc90990 100644
+> >       interp delete child
+> >   } -result foo
+> >
+> > +--
+> > +2.39.5
+> > +
+> > diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest
+> b/meta/recipes-devtools/tcltk/tcl/run-ptest
+> > index c485e535c71..8a9f611b0f7 100644
+> > --- a/meta/recipes-devtools/tcltk/tcl/run-ptest
+> > +++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
+> > @@ -1,9 +1,8 @@
+> >  #!/bin/sh
+> >
+> > -# clock.test needs a timezone to be set
+> > -export TZ=3D"Europe/London"
+> > -export TCL_LIBRARY=3Dlibrary
+> > +export TCL_LIBRARY=3D/usr/lib/tcl/ptest/library
+> >  export ERROR_ON_FAILURES=3D1
+> > +export LANG=3Den-US.UTF-8
+> >
+> >  # Some tests are overly strict with timings and fail on loaded systems=
+.
+> >  SKIP=3D""
+> > @@ -19,6 +18,8 @@ SKIP=3D"$SKIP \*io-46.1"
+> >  SKIP=3D"$SKIP io-13.6"
+> >  # 14825
+> >  SKIP=3D"$SKIP socket-\* socket_inet-\*"
+> > +# tries to access google.com
+> > +SKIP=3D"$SKIP httpProxy-\*"
+> >
+> >  for i in tests/*.test; do
+> >      i=3D$(basename $i)
+> > diff --git a/meta/recipes-devtools/tcltk/tcl_8.6.15.bb
+> b/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
+> > similarity index 82%
+> > rename from meta/recipes-devtools/tcltk/tcl_8.6.15.bb
+> > rename to meta/recipes-devtools/tcltk/tcl_9.0.0.bb
+> > index 340854056eb..b3968b5be14 100644
+> > --- a/meta/recipes-devtools/tcltk/tcl_8.6.15.bb
+> > +++ b/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
+> > @@ -15,18 +15,15 @@ LIC_FILES_CHKSUM =3D
+> "file://license.terms;md5=3D058f6229798281bbcac4239c788cfa38 \
+> >
+> >  DEPENDS =3D "tcl-native zlib"
+> >
+> > -BASE_SRC_URI =3D "${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.tar.gz \
+> > -                file://tcl-add-soname.patch"
+> > -SRC_URI =3D "${BASE_SRC_URI} \
+> > -           file://fix_non_native_build_issue.patch \
+> > -           file://tcl-remove-hardcoded-install-path.patch \
+> > -           file://alter-includedir.patch \
+> > -           file://interp.patch \
+> > +SRC_URI =3D "${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.tar.gz \
+> >             file://run-ptest \
+> > +
+>  file://0001-tcl-Add-tcltk-from-OE.dev-but-with-legacy-staging-fu.patch \
+> > +           file://0002-tcl-fix-a-build-issue.patch \
+> > +
+>  file://0003-tcl-install-tcl-to-lib64-instead-of-lib-on-64bit-tar.patch \
+> > +           file://0004-tcl-update-the-header-location.patch \
+> > +           file://0005-tcl-fix-race-in-interp.test.patch \
+> >             "
+> > -SRC_URI[sha256sum] =3D
+> "844775491e435e34d83d6ccfbadd1342f1855f1705253233a86152df0765e78d"
+> > -
+> > -SRC_URI:class-native =3D "${BASE_SRC_URI}"
+> > +SRC_URI[sha256sum] =3D
+> "3186e23c7417359d90e3c46f531d442c76d3c05a2dba1081c02b75e32908b2b7"
+> >
+> >  UPSTREAM_CHECK_URI =3D "https://www.tcl.tk/software/tcltk/download.htm=
+l"
+> >  UPSTREAM_CHECK_REGEX =3D "tcl(?P<pver>\d+(\.\d+)+)-src"
+> > @@ -38,7 +35,7 @@ VER =3D "${PV}"
+> >  inherit autotools ptest binconfig
+> >
+> >  AUTOTOOLS_SCRIPT_PATH =3D "${S}/unix"
+> > -EXTRA_OECONF =3D "--enable-threads --disable-rpath --enable-man-suffix=
+"
+> > +EXTRA_OECONF =3D "--disable-rpath --enable-man-suffix"
+> >
+> >  # Prevent installing copy of tzdata based on tzdata installation on th=
+e
+> build host
+> >  # It doesn't install tzdata if one of the following files exist on the
+> host:
+> > @@ -65,13 +62,13 @@ do_install() {
+> >  SYSROOT_DIRS +=3D "${bindir_crossscripts}"
+> >
+> >  PACKAGES =3D+ "tcl-lib"
+> > -FILES:tcl-lib =3D "${libdir}/libtcl8.6.so.*"
+> > -FILES:${PN} +=3D "${libdir}/tcl${VER} ${libdir}/tcl8.6 ${libdir}/tcl8"
+> > +FILES:tcl-lib =3D "${libdir}/libtcl9.0.so.*"
+> > +FILES:${PN} +=3D "${libdir}/tcl${VER} ${libdir}/tcl9.0 ${libdir}/tcl9"
+> >  FILES:${PN}-dev +=3D "${libdir}/tclConfig.sh ${libdir}/tclooConfig.sh"
+> >
+> >  # isn't getting picked up by shlibs code
+> >  RDEPENDS:${PN} +=3D "tcl-lib"
+> > -RDEPENDS:${PN}-ptest +=3D "libgcc"
+> > +RDEPENDS:${PN}-ptest +=3D "libgcc locale-base-en-us tzdata"
+> >
+> >  BBCLASSEXTEND =3D "native nativesdk"
+> >
+> > --
+> > 2.39.5
+> >
+> >
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> > Links: You receive all messages sent to this group.
+> > View/Reply Online (#206575):
+> https://lists.openembedded.org/g/openembedded-core/message/206575
+> > Mute This Topic: https://lists.openembedded.org/mt/109311930/1997914
+> > Group Owner: openembedded-core+owner@lists.openembedded.org
+> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> >
+>
+
+--000000000000cd666e06261d4cdd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Thanks, I=E2=80=99m taking a look into it.</div><div dir=
+=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><br><div class=3D"gmai=
+l_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Fri 1. Nov 2024 at 18.51,=
+ Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">raj.khem@gmail.com</a>&=
+gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
+px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1ex=
+;border-left-color:rgb(204,204,204)">here are couple of fails on meta-opene=
+mbedded layers<br>
+<br>
+<a href=3D"https://errors.yoctoproject.org/Errors/Build/194630/" rel=3D"nor=
+eferrer" target=3D"_blank">https://errors.yoctoproject.org/Errors/Build/194=
+630/</a><br>
+<br>
+On Thu, Oct 31, 2024 at 3:16=E2=80=AFAM Alexander Kanavin via<br>
+<a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_bla=
+nk">lists.openembedded.org</a> &lt;alex.kanavin=3D<a href=3D"mailto:gmail.c=
+om@lists.openembedded.org" target=3D"_blank">gmail.com@lists.openembedded.o=
+rg</a>&gt;<br>
+wrote:<br>
+&gt;<br>
+&gt; From: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" targ=
+et=3D"_blank">alex@linutronix.de</a>&gt;<br>
+&gt;<br>
+&gt; Make adjustments needed for ptests: among others,<br>
+&gt; the binary.test needs 4G of RAM.<br>
+&gt;<br>
+&gt; Apply all patches unconditionally for ease of future upgrades.<br>
+&gt;<br>
+&gt; Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix=
+.de" target=3D"_blank">alex@linutronix.de</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb" =
+rel=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a>=C2=A0 |=C2=A0 =
+1 +<br>
+&gt;=C2=A0 ...m-OE.dev-but-with-legacy-staging-fu.patch} | 16 +++++---<br>
+&gt;=C2=A0 ...patch =3D&gt; 0002-tcl-fix-a-build-issue.patch} | 37 ++++++++=
+++---------<br>
+&gt;=C2=A0 ...o-lib64-instead-of-lib-on-64bit-tar.patch} | 19 ++++++----<br=
+>
+&gt;=C2=A0 ...0004-tcl-update-the-header-location.patch} | 27 ++++++++-----=
+-<br>
+&gt;=C2=A0 ...=3D&gt; 0005-tcl-fix-race-in-interp.test.patch} | 11 ++++--<b=
+r>
+&gt;=C2=A0 meta/recipes-devtools/tcltk/tcl/run-ptest=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 7 ++--<br>
+&gt;=C2=A0 .../tcltk/{<a href=3D"http://tcl_8.6.15.bb" rel=3D"noreferrer" t=
+arget=3D"_blank">tcl_8.6.15.bb</a> =3D&gt; <a href=3D"http://tcl_9.0.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">tcl_9.0.0.bb</a>}=C2=A0 =C2=A0 =C2=A0|=
+ 25 ++++++-------<br>
+&gt;=C2=A0 8 files changed, 79 insertions(+), 64 deletions(-)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/tcltk/tcl/{tcl-add-soname.patch =3D=
+&gt; 0001-tcl-Add-tcltk-from-OE.dev-but-with-legacy-staging-fu.patch} (80%)=
+<br>
+&gt;=C2=A0 rename meta/recipes-devtools/tcltk/tcl/{fix_non_native_build_iss=
+ue.patch =3D&gt; 0002-tcl-fix-a-build-issue.patch} (71%)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/tcltk/tcl/{tcl-remove-hardcoded-ins=
+tall-path.patch =3D&gt; 0003-tcl-install-tcl-to-lib64-instead-of-lib-on-64b=
+it-tar.patch} (63%)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/tcltk/tcl/{alter-includedir.patch =
+=3D&gt; 0004-tcl-update-the-header-location.patch} (80%)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/tcltk/tcl/{interp.patch =3D&gt; 000=
+5-tcl-fix-race-in-interp.test.patch} (82%)<br>
+&gt;=C2=A0 rename meta/recipes-devtools/tcltk/{<a href=3D"http://tcl_8.6.15=
+.bb" rel=3D"noreferrer" target=3D"_blank">tcl_8.6.15.bb</a> =3D&gt; <a href=
+=3D"http://tcl_9.0.0.bb" rel=3D"noreferrer" target=3D"_blank">tcl_9.0.0.bb<=
+/a>} (82%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/images/<a href=3D"http://core-image-pte=
+st.bb" rel=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a> b/meta/=
+recipes-core/images/<a href=3D"http://core-image-ptest.bb" rel=3D"noreferre=
+r" target=3D"_blank">core-image-ptest.bb</a><br>
+&gt; index 72081f938de..a0ff8d9528e 100644<br>
+&gt; --- a/meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb" =
+rel=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a><br>
+&gt; +++ b/meta/recipes-core/images/<a href=3D"http://core-image-ptest.bb" =
+rel=3D"noreferrer" target=3D"_blank">core-image-ptest.bb</a><br>
+&gt; @@ -32,6 +32,7 @@ QB_MEM =3D &quot;-m 1024&quot;<br>
+&gt;=C2=A0 QB_MEM:virtclass-mcextend-lttng-tools =3D &quot;-m 4096&quot;<br=
+>
+&gt;=C2=A0 QB_MEM:virtclass-mcextend-python3 =3D &quot;-m 2048&quot;<br>
+&gt;=C2=A0 QB_MEM:virtclass-mcextend-python3-cryptography =3D &quot;-m 5100=
+&quot;<br>
+&gt; +QB_MEM:virtclass-mcextend-tcl =3D &quot;-m 5100&quot;<br>
+&gt;<br>
+&gt;=C2=A0 TEST_SUITES =3D &quot;ping ssh parselogs ptest&quot;<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch b/me=
+ta/recipes-devtools/tcltk/tcl/0001-tcl-Add-tcltk-from-OE.dev-but-with-legac=
+y-staging-fu.patch<br>
+&gt; similarity index 80%<br>
+&gt; rename from meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch<br>
+&gt; rename to meta/recipes-devtools/tcltk/tcl/0001-tcl-Add-tcltk-from-OE.d=
+ev-but-with-legacy-staging-fu.patch<br>
+&gt; index a0195e263c1..9472591a55f 100644<br>
+&gt; --- a/meta/recipes-devtools/tcltk/tcl/tcl-add-soname.patch<br>
+&gt; +++ b/meta/recipes-devtools/tcltk/tcl/0001-tcl-Add-tcltk-from-OE.dev-b=
+ut-with-legacy-staging-fu.patch<br>
+&gt; @@ -1,7 +1,8 @@<br>
+&gt; -From b89fd73daf9b3eb2f889f65baba5f90d8a930c82 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From f69a01c5932af2d5ece6141e4424b14a2d645fd7 Mon Sep 17 00:00:00 200=
+1<br>
+&gt;=C2=A0 From: Richard Purdie &lt;<a href=3D"mailto:rpurdie@linux.intel.c=
+om" target=3D"_blank">rpurdie@linux.intel.com</a>&gt;<br>
+&gt;=C2=A0 Date: Wed, 9 Dec 2009 23:59:44 +0000<br>
+&gt; -Subject: [PATCH] tcl: Add tcltk from OE.dev but with legacy staging f=
+unction<br>
+&gt; +Subject: [PATCH 1/5] tcl: Add tcltk from OE.dev but with legacy stagi=
+ng<br>
+&gt; + function<br>
+&gt;<br>
+&gt;=C2=A0 Upstream-Status: Pending<br>
+&gt;=C2=A0 ---<br>
+&gt; @@ -10,10 +11,10 @@ Upstream-Status: Pending<br>
+&gt;=C2=A0 =C2=A02 files changed, 7 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt;=C2=A0 diff --git a/unix/Makefile.in b/unix/Makefile.in<br>
+&gt; -index 7619afc..9dd053d 100644<br>
+&gt; +index 0ff1258..6e74458 100644<br>
+&gt;=C2=A0 --- a/unix/Makefile.in<br>
+&gt;=C2=A0 +++ b/unix/Makefile.in<br>
+&gt; -@@ -904,7 +904,10 @@ install-binaries: binaries<br>
+&gt; +@@ -1027,7 +1027,10 @@ install-binaries: binaries<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0done<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@echo &quot;Installing $(LIB_FILE) to=
+ $(DLL_INSTALL_DIR)/&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@@INSTALL_LIB@<br>
+&gt; @@ -26,10 +27,10 @@ index 7619afc..9dd053d 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@$(INSTALL_PROGRAM) ${TCL_EXE} &quot;=
+$(BIN_INSTALL_DIR)/tclsh$(VERSION)${EXE_SUFFIX}&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0@echo &quot;Installing tclConfig.sh t=
+o $(CONFIG_INSTALL_DIR)/&quot;<br>
+&gt;=C2=A0 diff --git a/unix/tcl.m4 b/unix/tcl.m4<br>
+&gt; -index 0307a06..37c4d67 100644<br>
+&gt; +index 99bc8bf..7e6e0da 100644<br>
+&gt;=C2=A0 --- a/unix/tcl.m4<br>
+&gt;=C2=A0 +++ b/unix/tcl.m4<br>
+&gt; -@@ -1378,6 +1378,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [<br>
+&gt; +@@ -1269,6 +1269,9 @@ AC_DEFUN([SC_CONFIG_CFLAGS], [<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# get rid of the warnin=
+gs.<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0#CFLAGS_OPTIMIZE=3D&quo=
+t;${CFLAGS_OPTIMIZE} -D__NO_STRING_INLINES -D__NO_MATH_INLINES&quot;<br>
+&gt;<br>
+&gt; @@ -39,3 +40,6 @@ index 0307a06..37c4d67 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0SHLIB_LD=3D&#39;${CC} $=
+{CFLAGS} ${LDFLAGS} -shared&#39;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DL_OBJS=3D&quot;tclLoad=
+Dl.o&quot;<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0DL_LIBS=3D&quot;-ldl&qu=
+ot;<br>
+&gt; +--<br>
+&gt; +2.39.5<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issu=
+e.patch b/meta/recipes-devtools/tcltk/tcl/0002-tcl-fix-a-build-issue.patch<=
+br>
+&gt; similarity index 71%<br>
+&gt; rename from meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue=
+.patch<br>
+&gt; rename to meta/recipes-devtools/tcltk/tcl/0002-tcl-fix-a-build-issue.p=
+atch<br>
+&gt; index fac7ed7e281..53cfd8927db 100644<br>
+&gt; --- a/meta/recipes-devtools/tcltk/tcl/fix_non_native_build_issue.patch=
+<br>
+&gt; +++ b/meta/recipes-devtools/tcltk/tcl/0002-tcl-fix-a-build-issue.patch=
+<br>
+&gt; @@ -1,18 +1,18 @@<br>
+&gt; -From bd512547fc002fdb20808bf5b8b9feeb848b6512 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From 61ef40f2bc418ce072828ad1939eaa40f981e76e Mon Sep 17 00:00:00 200=
+1<br>
+&gt;=C2=A0 From: Nitin A Kamble &lt;<a href=3D"mailto:nitin.a.kamble@intel.=
+com" target=3D"_blank">nitin.a.kamble@intel.com</a>&gt;<br>
+&gt;=C2=A0 Date: Fri, 13 Aug 2010 12:24:00 -0700<br>
+&gt; -Subject: [PATCH] tcl: fix a build issue<br>
+&gt; +Subject: [PATCH 2/5] tcl: fix a build issue<br>
+&gt;<br>
+&gt;=C2=A0 Upstream-Status: Inappropriate [upstream does not support instal=
+led tests]<br>
+&gt;=C2=A0 ---<br>
+&gt; - unix/Makefile.in | 20 ++++++++++----------<br>
+&gt; - 1 file changed, 10 insertions(+), 10 deletions(-)<br>
+&gt; + unix/Makefile.in | 19 +++++++++----------<br>
+&gt; + 1 file changed, 9 insertions(+), 10 deletions(-)<br>
+&gt;<br>
+&gt;=C2=A0 diff --git a/unix/Makefile.in b/unix/Makefile.in<br>
+&gt; -index 965f6da..a0bd63f 100644<br>
+&gt; +index 6e74458..bd0b818 100644<br>
+&gt;=C2=A0 --- a/unix/Makefile.in<br>
+&gt;=C2=A0 +++ b/unix/Makefile.in<br>
+&gt; -@@ -723,7 +723,7 @@ tcltest-real:<br>
+&gt; +@@ -918,7 +918,7 @@ tcltest-real:<br>
+&gt;=C2=A0 =C2=A0test: test-tcl test-packages<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0test-tcl: ${TCLTEST_EXE}<br>
+&gt; @@ -20,15 +20,12 @@ index 965f6da..a0bd63f 100644<br>
+&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 $(SHELL_ENV) ${TCLTEST_EXE} $(TOP_DIR)/tes=
+ts/all.tcl $(TESTFLAGS)<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0gdb-test: ${TCLTEST_EXE}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0@printf &#39;%s &#39; set env @LD_LIBRARY_=
+PATH_VAR@=3D\&quot;`pwd`$${@LD_LIBRARY_PATH_VAR@:+:$${@LD_LIBRARY_PATH_VAR}=
+}\&quot; &gt; gdb.run<br>
+&gt; -@@ -732,17 +732,17 @@ gdb-test: ${TCLTEST_EXE}<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0@printf &#39;\n&#39; &gt;&gt;gdb.run<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0@printf &#39;%s &#39; set args $(call shqu=
+otequote,$(TOP_DIR))/tests/all.tcl\<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(call shquote=
+quote,$(TESTFLAGS)) -singleproc 1 &gt;&gt; gdb.run<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 $(GDB) ./${TCLTEST_EXE} --command=3Dgdb.run<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 $(GDB) ${TCLTEST_EXE} --command=3Dgdb.run<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0rm gdb.run<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(SHELL_ENV) $(GDB) --args ./${TCLTEST_EXE=
+} $(TOP_DIR)/tests/all.tcl \<br>
+&gt; +@@ -928,15 +928,14 @@ lldb-test: ${TCLTEST_EXE}<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0$(SHELL_ENV) $(LLDB) -- ./${TCLTEST_EXE} $=
+(TOP_DIR)/tests/all.tcl \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(TESTFLAGS) -=
+singleproc 1<br>
+&gt;<br>
+&gt; +-<br>
+&gt;=C2=A0 =C2=A0# Useful target to launch a built tcltest with the proper =
+path,...<br>
+&gt;=C2=A0 =C2=A0runtest: ${TCLTEST_EXE}<br>
+&gt;=C2=A0 -=C2=A0 =C2=A0 =C2=A0 $(SHELL_ENV) ./${TCLTEST_EXE}<br>
+&gt; @@ -37,12 +34,12 @@ index 965f6da..a0bd63f 100644<br>
+&gt;=C2=A0 =C2=A0# Useful target for running the test suite with an unwrita=
+ble current<br>
+&gt;=C2=A0 =C2=A0# directory...<br>
+&gt;=C2=A0 =C2=A0ro-test: ${TCLTEST_EXE}<br>
+&gt; --=C2=A0 =C2=A0 =C2=A0 echo &#39;exec chmod -w .;package require tclte=
+st;tcltest::temporaryDirectory /tmp;source -encoding utf-8 ../tests/all.tcl=
+;exec chmod +w .&#39; | $(SHELL_ENV) ./${TCLTEST_EXE}<br>
+&gt; -+=C2=A0 =C2=A0 =C2=A0 echo &#39;exec chmod -w .;package require tclte=
+st;tcltest::temporaryDirectory /tmp;source -encoding utf-8 ../tests/all.tcl=
+;exec chmod +w .&#39; | $(SHELL_ENV) ${TCLTEST_EXE}<br>
+&gt; +-=C2=A0 =C2=A0 =C2=A0 echo &#39;exec chmod -w .;package require tclte=
+st;tcltest::temporaryDirectory /tmp;source ../tests/all.tcl;exec chmod +w .=
+&#39; | $(SHELL_ENV) ./${TCLTEST_EXE}<br>
+&gt; ++=C2=A0 =C2=A0 =C2=A0 echo &#39;exec chmod -w .;package require tclte=
+st;tcltest::temporaryDirectory /tmp;source ../tests/all.tcl;exec chmod +w .=
+&#39; | $(SHELL_ENV) ${TCLTEST_EXE}<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0# The following target generates the shared libraries in d=
+ltest/ that are used<br>
+&gt;=C2=A0 =C2=A0# for testing; they are included as part of the &quot;tclt=
+est&quot; target (via the<br>
+&gt; -@@ -760,28 +760,28 @@ dltest.marker: ${STUB_LIB_FILE}<br>
+&gt; +@@ -954,17 +953,17 @@ dltest.marker: ${STUB_LIB_FILE}<br>
+&gt;=C2=A0 =C2=A0# This target can be used to run tclsh from the build dire=
+ctory<br>
+&gt;=C2=A0 =C2=A0# via `make shell SCRIPT=3D/tmp/foo.tcl`<br>
+&gt;=C2=A0 =C2=A0shell: ${TCL_EXE}<br>
+&gt; @@ -63,6 +60,9 @@ index 965f6da..a0bd63f 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(TOP_DIR=
+)/tests/all.tcl -singleproc 1 -constraints valgrind \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0$(TESTFLA=
+GS)<br>
+&gt;<br>
+&gt; +@@ -990,13 +989,13 @@ valgrind_each: $(addprefix testresults/valgrind=
+/,$(addsuffix .success,$(notdir\<br>
+&gt; +<br>
+&gt; +<br>
+&gt;=C2=A0 =C2=A0valgrindshell: ${TCL_EXE}<br>
+&gt;=C2=A0 -=C2=A0 =C2=A0 =C2=A0 $(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) .=
+/${TCL_EXE} $(SCRIPT)<br>
+&gt;=C2=A0 +=C2=A0 =C2=A0 =C2=A0 $(SHELL_ENV) $(VALGRIND) $(VALGRINDARGS) $=
+{TCL_EXE} $(SCRIPT)<br>
+&gt; @@ -77,3 +77,6 @@ index 965f6da..a0bd63f 100644<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0#---------------------------------------------------------=
+-----------------<br>
+&gt;=C2=A0 =C2=A0# Installation rules<br>
+&gt; +--<br>
+&gt; +2.39.5<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-inst=
+all-path.patch b/meta/recipes-devtools/tcltk/tcl/0003-tcl-install-tcl-to-li=
+b64-instead-of-lib-on-64bit-tar.patch<br>
+&gt; similarity index 63%<br>
+&gt; rename from meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-insta=
+ll-path.patch<br>
+&gt; rename to meta/recipes-devtools/tcltk/tcl/0003-tcl-install-tcl-to-lib6=
+4-instead-of-lib-on-64bit-tar.patch<br>
+&gt; index 93e7877256b..fb534044988 100644<br>
+&gt; --- a/meta/recipes-devtools/tcltk/tcl/tcl-remove-hardcoded-install-pat=
+h.patch<br>
+&gt; +++ b/meta/recipes-devtools/tcltk/tcl/0003-tcl-install-tcl-to-lib64-in=
+stead-of-lib-on-64bit-tar.patch<br>
+&gt; @@ -1,7 +1,7 @@<br>
+&gt; -From 050fc597fbfa4da2c31bd0df58c871892a490470 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From 8af08b6f1e566af239e36864823a96c2c283e4ea Mon Sep 17 00:00:00 200=
+1<br>
+&gt;=C2=A0 From: &quot;Song.Li&quot; &lt;<a href=3D"mailto:Song.Li@windrive=
+r.com" target=3D"_blank">Song.Li@windriver.com</a>&gt;<br>
+&gt;=C2=A0 Date: Wed, 1 Aug 2012 19:05:51 +0800<br>
+&gt; -Subject: [PATCH] tcl:install tcl to lib64 instead of lib on 64bit tar=
+get<br>
+&gt; +Subject: [PATCH 3/5] tcl:install tcl to lib64 instead of lib on 64bit=
+ target<br>
+&gt;<br>
+&gt;=C2=A0 Remove hardcoded library install path. Change $(prefix)/lib/ to =
+${libdir}.<br>
+&gt;<br>
+&gt; @@ -13,14 +13,14 @@ Signed-off-by: Song.Li &lt;<a href=3D"mailto:Song.=
+Li@windriver.com" target=3D"_blank">Song.Li@windriver.com</a>&gt;<br>
+&gt;=C2=A0 Signed-off-by: Kai Kang &lt;<a href=3D"mailto:kai.kang@windriver=
+.com" target=3D"_blank">kai.kang@windriver.com</a>&gt;<br>
+&gt;=C2=A0 Signed-off-by: Yi Zhao &lt;<a href=3D"mailto:yi.zhao@windriver.c=
+om" target=3D"_blank">yi.zhao@windriver.com</a>&gt;<br>
+&gt;=C2=A0 ---<br>
+&gt; - unix/<a href=3D"http://configure.in" rel=3D"noreferrer" target=3D"_b=
+lank">configure.in</a> | 2 +-<br>
+&gt; + unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a> | 2 +-<br>
+&gt;=C2=A0 =C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; -diff --git a/unix/<a href=3D"http://configure.in" rel=3D"noreferrer" =
+target=3D"_blank">configure.in</a> b/unix/<a href=3D"http://configure.in" r=
+el=3D"noreferrer" target=3D"_blank">configure.in</a><br>
+&gt; -index 4f62510..4974fb6 100644<br>
+&gt; ---- a/unix/<a href=3D"http://configure.in" rel=3D"noreferrer" target=
+=3D"_blank">configure.in</a><br>
+&gt; -+++ b/unix/<a href=3D"http://configure.in" rel=3D"noreferrer" target=
+=3D"_blank">configure.in</a><br>
+&gt; -@@ -775,7 +775,7 @@ eval &quot;TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}&quo=
+t;<br>
+&gt; +diff --git a/unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" =
+target=3D"_blank">configure.ac</a> b/unix/<a href=3D"http://configure.ac" r=
+el=3D"noreferrer" target=3D"_blank">configure.ac</a><br>
+&gt; +index 461b394..b6d2506 100644<br>
+&gt; +--- a/unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=
+=3D"_blank">configure.ac</a><br>
+&gt; ++++ b/unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=
+=3D"_blank">configure.ac</a><br>
+&gt; +@@ -753,7 +753,7 @@ eval &quot;TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}&quo=
+t;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0eval &quot;TCL_LIB_FILE=3D${TCL_LIB_FILE}&quot;<br>
+&gt;<br>
+&gt; @@ -29,3 +29,6 @@ index 4f62510..4974fb6 100644<br>
+&gt;=C2=A0 =C2=A0PRIVATE_INCLUDE_DIR=3D&#39;$(includedir)&#39;<br>
+&gt;=C2=A0 =C2=A0HTML_DIR=3D&#39;$(DISTDIR)/html&#39;<br>
+&gt;<br>
+&gt; +--<br>
+&gt; +2.39.5<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch b/=
+meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-location.patch<b=
+r>
+&gt; similarity index 80%<br>
+&gt; rename from meta/recipes-devtools/tcltk/tcl/alter-includedir.patch<br>
+&gt; rename to meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-l=
+ocation.patch<br>
+&gt; index bfc718cfd3c..7953dcecff1 100644<br>
+&gt; --- a/meta/recipes-devtools/tcltk/tcl/alter-includedir.patch<br>
+&gt; +++ b/meta/recipes-devtools/tcltk/tcl/0004-tcl-update-the-header-locat=
+ion.patch<br>
+&gt; @@ -1,7 +1,7 @@<br>
+&gt; -From 3130dca60636dc12d0d12df75b002fd123349e21 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From 20870e9cd4f5a211fe94f484f707269ee1abd947 Mon Sep 17 00:00:00 200=
+1<br>
+&gt;=C2=A0 From: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriver.com" t=
+arget=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+&gt;=C2=A0 Date: Tue, 22 Nov 2022 18:48:27 +0800<br>
+&gt; -Subject: [PATCH] tcl: update the header location<br>
+&gt; +Subject: [PATCH 4/5] tcl: update the header location<br>
+&gt;<br>
+&gt;=C2=A0 Lets install the include header and private header files into<br=
+>
+&gt;=C2=A0 usr/include/tcl8.6 when version of tcl is 8.6.x<br>
+&gt; @@ -21,16 +21,16 @@ Signed-off-by: Yi Zhao &lt;<a href=3D"mailto:yi.zh=
+ao@windriver.com" target=3D"_blank">yi.zhao@windriver.com</a>&gt;<br>
+&gt;=C2=A0 Signed-off-by: Mingli Yu &lt;<a href=3D"mailto:mingli.yu@windriv=
+er.com" target=3D"_blank">mingli.yu@windriver.com</a>&gt;<br>
+&gt;=C2=A0 ---<br>
+&gt;=C2=A0 =C2=A0unix/Makefile.in=C2=A0 | 2 +-<br>
+&gt; - unix/<a href=3D"http://configure.in" rel=3D"noreferrer" target=3D"_b=
+lank">configure.in</a> | 4 ++--<br>
+&gt; + unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_b=
+lank">configure.ac</a> | 4 ++--<br>
+&gt;=C2=A0 =C2=A0unix/<a href=3D"http://tcl.pc.in" rel=3D"noreferrer" targe=
+t=3D"_blank">tcl.pc.in</a>=C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 =C2=A03 files changed, 4 insertions(+), 4 deletions(-)<br>
+&gt;<br>
+&gt;=C2=A0 diff --git a/unix/Makefile.in b/unix/Makefile.in<br>
+&gt; -index a3b7d69..969ddb8 100644<br>
+&gt; +index bd0b818..ddf2b67 100644<br>
+&gt;=C2=A0 --- a/unix/Makefile.in<br>
+&gt;=C2=A0 +++ b/unix/Makefile.in<br>
+&gt;=C2=A0 @@ -57,7 +57,7 @@ SCRIPT_INSTALL_DIR=C2=A0 =C2=A0=3D $(INSTALL_R=
+OOT)$(TCL_LIBRARY)<br>
+&gt; - MODULE_INSTALL_DIR=C2=A0 =C2=A0 =3D $(SCRIPT_INSTALL_DIR)/../tcl8<br=
+>
+&gt; + MODULE_INSTALL_DIR=C2=A0 =C2=A0 =3D $(SCRIPT_INSTALL_DIR)/../tcl9<br=
+>
+&gt;<br>
+&gt;=C2=A0 =C2=A0# Directory in which to install the include file tcl.h:<br=
+>
+&gt;=C2=A0 -INCLUDE_INSTALL_DIR=C2=A0 =C2=A0=3D $(INSTALL_ROOT)$(includedir=
+)<br>
+&gt; @@ -38,11 +38,11 @@ index a3b7d69..969ddb8 100644<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0# Path to the private tcl header dir:<br>
+&gt;=C2=A0 =C2=A0PRIVATE_INCLUDE_DIR=C2=A0 =C2=A0=3D @PRIVATE_INCLUDE_DIR@<=
+br>
+&gt; -diff --git a/unix/<a href=3D"http://configure.in" rel=3D"noreferrer" =
+target=3D"_blank">configure.in</a> b/unix/<a href=3D"http://configure.in" r=
+el=3D"noreferrer" target=3D"_blank">configure.in</a><br>
+&gt; -index 4974fb6..a72934f 100644<br>
+&gt; ---- a/unix/<a href=3D"http://configure.in" rel=3D"noreferrer" target=
+=3D"_blank">configure.in</a><br>
+&gt; -+++ b/unix/<a href=3D"http://configure.in" rel=3D"noreferrer" target=
+=3D"_blank">configure.in</a><br>
+&gt; -@@ -776,7 +776,7 @@ eval &quot;TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}&quo=
+t;<br>
+&gt; +diff --git a/unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" =
+target=3D"_blank">configure.ac</a> b/unix/<a href=3D"http://configure.ac" r=
+el=3D"noreferrer" target=3D"_blank">configure.ac</a><br>
+&gt; +index b6d2506..72a8b0d 100644<br>
+&gt; +--- a/unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=
+=3D"_blank">configure.ac</a><br>
+&gt; ++++ b/unix/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=
+=3D"_blank">configure.ac</a><br>
+&gt; +@@ -754,7 +754,7 @@ eval &quot;TCL_LIB_FILE=3Dlibtcl${LIB_SUFFIX}&quo=
+t;<br>
+&gt;=C2=A0 =C2=A0eval &quot;TCL_LIB_FILE=3D${TCL_LIB_FILE}&quot;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0test -z &quot;$TCL_LIBRARY&quot; &amp;&amp; TCL_LIBRARY=3D=
+&#39;$(libdir)/tcl$(VERSION)&#39;<br>
+&gt; @@ -51,7 +51,7 @@ index 4974fb6..a72934f 100644<br>
+&gt;=C2=A0 =C2=A0HTML_DIR=3D&#39;$(DISTDIR)/html&#39;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0# Note:=C2=A0 in the following variable, it&#39;s importan=
+t to use the absolute<br>
+&gt; -@@ -897,7 +897,7 @@ TCL_BUILD_STUB_LIB_PATH=3D&quot;`pwd`/${TCL_STUB_=
+LIB_FILE}&quot;<br>
+&gt; +@@ -921,7 +921,7 @@ TCL_BUILD_STUB_LIB_PATH=3D&quot;`pwd`/${TCL_STUB_=
+LIB_FILE}&quot;<br>
+&gt;=C2=A0 =C2=A0TCL_STUB_LIB_PATH=3D&quot;${TCL_STUB_LIB_DIR}/${TCL_STUB_L=
+IB_FILE}&quot;<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0# Install time header dir can be set via --includedir<br>
+&gt; @@ -61,7 +61,7 @@ index 4974fb6..a72934f 100644<br>
+&gt;=C2=A0 =C2=A0#---------------------------------------------------------=
+---------------<br>
+&gt;=C2=A0 =C2=A0# tclConfig.sh refers to this by a different name<br>
+&gt;=C2=A0 diff --git a/unix/<a href=3D"http://tcl.pc.in" rel=3D"noreferrer=
+" target=3D"_blank">tcl.pc.in</a> b/unix/<a href=3D"http://tcl.pc.in" rel=
+=3D"noreferrer" target=3D"_blank">tcl.pc.in</a><br>
+&gt; -index 93b5e69..dcd51d7 100644<br>
+&gt; +index 9c6da82..8aa5ae8 100644<br>
+&gt;=C2=A0 --- a/unix/<a href=3D"http://tcl.pc.in" rel=3D"noreferrer" targe=
+t=3D"_blank">tcl.pc.in</a><br>
+&gt;=C2=A0 +++ b/unix/<a href=3D"http://tcl.pc.in" rel=3D"noreferrer" targe=
+t=3D"_blank">tcl.pc.in</a><br>
+&gt;=C2=A0 @@ -3,7 +3,7 @@<br>
+&gt; @@ -73,3 +73,6 @@ index 93b5e69..dcd51d7 100644<br>
+&gt;=C2=A0 =C2=A0libfile=3D@TCL_LIB_FILE@<br>
+&gt;<br>
+&gt;=C2=A0 =C2=A0Name: Tool Command Language<br>
+&gt; +--<br>
+&gt; +2.39.5<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-devtools/tcltk/tcl/interp.patch b/meta/recip=
+es-devtools/tcltk/tcl/0005-tcl-fix-race-in-interp.test.patch<br>
+&gt; similarity index 82%<br>
+&gt; rename from meta/recipes-devtools/tcltk/tcl/interp.patch<br>
+&gt; rename to meta/recipes-devtools/tcltk/tcl/0005-tcl-fix-race-in-interp.=
+test.patch<br>
+&gt; index 2e0dc94cff1..dfb0b63a0e0 100644<br>
+&gt; --- a/meta/recipes-devtools/tcltk/tcl/interp.patch<br>
+&gt; +++ b/meta/recipes-devtools/tcltk/tcl/0005-tcl-fix-race-in-interp.test=
+.patch<br>
+&gt; @@ -1,7 +1,7 @@<br>
+&gt; -From 426aa2ff62dda77fd011e8f630b9d4ea17984817 Mon Sep 17 00:00:00 200=
+1<br>
+&gt; +From 8a96171a33c886d1d9aab40e40f8aae2f621ca08 Mon Sep 17 00:00:00 200=
+1<br>
+&gt;=C2=A0 From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" tar=
+get=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+&gt;=C2=A0 Date: Mon, 12 Jul 2021 14:50:13 +0100<br>
+&gt; -Subject: [PATCH] tcl: fix race in interp.test<br>
+&gt; +Subject: [PATCH 5/5] tcl: fix race in interp.test<br>
+&gt;<br>
+&gt;=C2=A0 The interp-36.7 patch has race conditions and is missing cleanup=
+.=C2=A0 This patch by<br>
+&gt;=C2=A0 a Tcl maintainer should improve matters.<br>
+&gt; @@ -13,10 +13,10 @@ Signed-off-by: Ross Burton &lt;<a href=3D"mailto:r=
+oss.burton@arm.com" target=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+&gt;=C2=A0 =C2=A01 file changed, 4 insertions(+), 3 deletions(-)<br>
+&gt;<br>
+&gt;=C2=A0 diff --git a/tests/interp.test b/tests/interp.test<br>
+&gt; -index d742484..fc90990 100644<br>
+&gt; +index 30dc659..e7cd0ee 100644<br>
+&gt;=C2=A0 --- a/tests/interp.test<br>
+&gt;=C2=A0 +++ b/tests/interp.test<br>
+&gt; -@@ -3595,17 +3595,18 @@ test interp-36.7 {ChildBgerror sets error han=
+dler of child [1999035]} -setup {<br>
+&gt; +@@ -3614,17 +3614,18 @@ test interp-36.7 {ChildBgerror sets error han=
+dler of child [1999035]} -setup {<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0variable result<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0set result [lindex $args 0]<br=
+>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
+&gt; @@ -38,3 +38,6 @@ index d742484..fc90990 100644<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0interp delete child<br>
+&gt;=C2=A0 =C2=A0} -result foo<br>
+&gt;<br>
+&gt; +--<br>
+&gt; +2.39.5<br>
+&gt; +<br>
+&gt; diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-=
+devtools/tcltk/tcl/run-ptest<br>
+&gt; index c485e535c71..8a9f611b0f7 100644<br>
+&gt; --- a/meta/recipes-devtools/tcltk/tcl/run-ptest<br>
+&gt; +++ b/meta/recipes-devtools/tcltk/tcl/run-ptest<br>
+&gt; @@ -1,9 +1,8 @@<br>
+&gt;=C2=A0 #!/bin/sh<br>
+&gt;<br>
+&gt; -# clock.test needs a timezone to be set<br>
+&gt; -export TZ=3D&quot;Europe/London&quot;<br>
+&gt; -export TCL_LIBRARY=3Dlibrary<br>
+&gt; +export TCL_LIBRARY=3D/usr/lib/tcl/ptest/library<br>
+&gt;=C2=A0 export ERROR_ON_FAILURES=3D1<br>
+&gt; +export LANG=3Den-US.UTF-8<br>
+&gt;<br>
+&gt;=C2=A0 # Some tests are overly strict with timings and fail on loaded s=
+ystems.<br>
+&gt;=C2=A0 SKIP=3D&quot;&quot;<br>
+&gt; @@ -19,6 +18,8 @@ SKIP=3D&quot;$SKIP \*io-46.1&quot;<br>
+&gt;=C2=A0 SKIP=3D&quot;$SKIP io-13.6&quot;<br>
+&gt;=C2=A0 # 14825<br>
+&gt;=C2=A0 SKIP=3D&quot;$SKIP socket-\* socket_inet-\*&quot;<br>
+&gt; +# tries to access <a href=3D"http://google.com" rel=3D"noreferrer" ta=
+rget=3D"_blank">google.com</a><br>
+&gt; +SKIP=3D&quot;$SKIP httpProxy-\*&quot;<br>
+&gt;<br>
+&gt;=C2=A0 for i in tests/*.test; do<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 i=3D$(basename $i)<br>
+&gt; diff --git a/meta/recipes-devtools/tcltk/<a href=3D"http://tcl_8.6.15.=
+bb" rel=3D"noreferrer" target=3D"_blank">tcl_8.6.15.bb</a> b/meta/recipes-d=
+evtools/tcltk/<a href=3D"http://tcl_9.0.0.bb" rel=3D"noreferrer" target=3D"=
+_blank">tcl_9.0.0.bb</a><br>
+&gt; similarity index 82%<br>
+&gt; rename from meta/recipes-devtools/tcltk/<a href=3D"http://tcl_8.6.15.b=
+b" rel=3D"noreferrer" target=3D"_blank">tcl_8.6.15.bb</a><br>
+&gt; rename to meta/recipes-devtools/tcltk/<a href=3D"http://tcl_9.0.0.bb" =
+rel=3D"noreferrer" target=3D"_blank">tcl_9.0.0.bb</a><br>
+&gt; index 340854056eb..b3968b5be14 100644<br>
+&gt; --- a/meta/recipes-devtools/tcltk/<a href=3D"http://tcl_8.6.15.bb" rel=
+=3D"noreferrer" target=3D"_blank">tcl_8.6.15.bb</a><br>
+&gt; +++ b/meta/recipes-devtools/tcltk/<a href=3D"http://tcl_9.0.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">tcl_9.0.0.bb</a><br>
+&gt; @@ -15,18 +15,15 @@ LIC_FILES_CHKSUM =3D &quot;file://license.terms;md=
+5=3D058f6229798281bbcac4239c788cfa38 \<br>
+&gt;<br>
+&gt;=C2=A0 DEPENDS =3D &quot;tcl-native zlib&quot;<br>
+&gt;<br>
+&gt; -BASE_SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.ta=
+r.gz \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://tcl-ad=
+d-soname.patch&quot;<br>
+&gt; -SRC_URI =3D &quot;${BASE_SRC_URI} \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://fix_non_native_build_=
+issue.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://tcl-remove-hardcoded-=
+install-path.patch \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://alter-includedir.patc=
+h \<br>
+&gt; -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://interp.patch \<br>
+&gt; +SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.tar.gz =
+\<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://run-ptest \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-tcl-Add-tcltk-fr=
+om-OE.dev-but-with-legacy-staging-fu.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0002-tcl-fix-a-build-=
+issue.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0003-tcl-install-tcl-=
+to-lib64-instead-of-lib-on-64bit-tar.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0004-tcl-update-the-h=
+eader-location.patch \<br>
+&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0005-tcl-fix-race-in-=
+interp.test.patch \<br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt; -SRC_URI[sha256sum] =3D &quot;844775491e435e34d83d6ccfbadd1342f1855f17=
+05253233a86152df0765e78d&quot;<br>
+&gt; -<br>
+&gt; -SRC_URI:class-native =3D &quot;${BASE_SRC_URI}&quot;<br>
+&gt; +SRC_URI[sha256sum] =3D &quot;3186e23c7417359d90e3c46f531d442c76d3c05a=
+2dba1081c02b75e32908b2b7&quot;<br>
+&gt;<br>
+&gt;=C2=A0 UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://www.tcl.tk/softw=
+are/tcltk/download.html" rel=3D"noreferrer" target=3D"_blank">https://www.t=
+cl.tk/software/tcltk/download.html</a>&quot;<br>
+&gt;=C2=A0 UPSTREAM_CHECK_REGEX =3D &quot;tcl(?P&lt;pver&gt;\d+(\.\d+)+)-sr=
+c&quot;<br>
+&gt; @@ -38,7 +35,7 @@ VER =3D &quot;${PV}&quot;<br>
+&gt;=C2=A0 inherit autotools ptest binconfig<br>
+&gt;<br>
+&gt;=C2=A0 AUTOTOOLS_SCRIPT_PATH =3D &quot;${S}/unix&quot;<br>
+&gt; -EXTRA_OECONF =3D &quot;--enable-threads --disable-rpath --enable-man-=
+suffix&quot;<br>
+&gt; +EXTRA_OECONF =3D &quot;--disable-rpath --enable-man-suffix&quot;<br>
+&gt;<br>
+&gt;=C2=A0 # Prevent installing copy of tzdata based on tzdata installation=
+ on the build host<br>
+&gt;=C2=A0 # It doesn&#39;t install tzdata if one of the following files ex=
+ist on the host:<br>
+&gt; @@ -65,13 +62,13 @@ do_install() {<br>
+&gt;=C2=A0 SYSROOT_DIRS +=3D &quot;${bindir_crossscripts}&quot;<br>
+&gt;<br>
+&gt;=C2=A0 PACKAGES =3D+ &quot;tcl-lib&quot;<br>
+&gt; -FILES:tcl-lib =3D &quot;${libdir}/libtcl8.6.so.*&quot;<br>
+&gt; -FILES:${PN} +=3D &quot;${libdir}/tcl${VER} ${libdir}/tcl8.6 ${libdir}=
+/tcl8&quot;<br>
+&gt; +FILES:tcl-lib =3D &quot;${libdir}/libtcl9.0.so.*&quot;<br>
+&gt; +FILES:${PN} +=3D &quot;${libdir}/tcl${VER} ${libdir}/tcl9.0 ${libdir}=
+/tcl9&quot;<br>
+&gt;=C2=A0 FILES:${PN}-dev +=3D &quot;${libdir}/tclConfig.sh ${libdir}/tclo=
+oConfig.sh&quot;<br>
+&gt;<br>
+&gt;=C2=A0 # isn&#39;t getting picked up by shlibs code<br>
+&gt;=C2=A0 RDEPENDS:${PN} +=3D &quot;tcl-lib&quot;<br>
+&gt; -RDEPENDS:${PN}-ptest +=3D &quot;libgcc&quot;<br>
+&gt; +RDEPENDS:${PN}-ptest +=3D &quot;libgcc locale-base-en-us tzdata&quot;=
+<br>
+&gt;<br>
+&gt;=C2=A0 BBCLASSEXTEND =3D &quot;native nativesdk&quot;<br>
+&gt;<br>
+&gt; --<br>
+&gt; 2.39.5<br>
+&gt;<br>
+&gt;<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt; Links: You receive all messages sent to this group.<br>
+&gt; View/Reply Online (#206575): <a href=3D"https://lists.openembedded.org=
+/g/openembedded-core/message/206575" rel=3D"noreferrer" target=3D"_blank">h=
+ttps://lists.openembedded.org/g/openembedded-core/message/206575</a><br>
+&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/10931193=
+0/1997914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
+org/mt/109311930/1997914</a><br>
+&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
+edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
+</a><br>
+&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
+core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
+.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" t=
+arget=3D"_blank">raj.khem@gmail.com</a>]<br>
+&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+&gt;<br>
+</blockquote></div></div>
+
+--000000000000cd666e06261d4cdd--
 
