@@ -1,92 +1,94 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C416DD1BDC2
-	for <webhook@archiver.kernel.org>; Mon,  4 Nov 2024 16:02:13 +0000 (UTC)
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.web10.61303.1730736125977580007
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DA23D1BDCC
+	for <webhook@archiver.kernel.org>; Mon,  4 Nov 2024 16:59:36 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web10.592.1730739570191997913
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Nov 2024 08:02:06 -0800
+ Mon, 04 Nov 2024 08:59:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Fs8dWpfU;
- spf=pass (domain: mvista.com, ip: 209.85.215.177, mailfrom: vanusuri@mvista.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7e6cbf6cd1dso3009378a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 08:02:05 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Kk/dJsY7;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2fb470a8b27so50095711fa.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 08:59:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1730736125; x=1731340925; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ppHFmWug/3LykfuFLU5tirr1d4i0PtTGIAfUjhjWb3w=;
-        b=Fs8dWpfUhJTIFlIX7OpApzVwGaCd229jhXHuQYA6k1/GTAgX+YvrUu8Ua/cKDxqikn
-         cnrQcFr32s4/AU/pGjSO3MR6LzrOnL/VXnhi5i753YZP6Uz14V6pMbzpfAmj7NdAZLEq
-         eC9XYIC8uZFSF6NRQMt9DoejLjZbLPwnAGfKo=
+        d=gmail.com; s=20230601; t=1730739568; x=1731344368; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/YO0zcu5XDzxUfm/n6gDvs6U7xd4fKhv5ku2iAZyjdE=;
+        b=Kk/dJsY7fa9FPqVJo6ce8DDZ6srhgINsOlJbZ+Gb8o+JwKQ68dTpzzHMRvrvAb+E4a
+         KI3JFV+tSP5mLkX3qxSi5itF2fK1NNsFYdU4+52fIOT1cL/7W9zWreEeu1ipaEfNEykH
+         /969dxGTiaK4SNKvTbc6SYJwqgFXUt2i6V9gnnVWq1s664Fnbo2Xr+1G5V1JW2hODeMA
+         lWBzVPs4d/7IQfHdjN29ITYebQnPuTciEN1Oe3qWp5cYteRUueHsmA6cfJT27VCf+DbB
+         EysFXsoZFWl06YoOiS038kKdObjV2h0j7KM8Lyj/AaJh64mhGWHatZz2p/2Iw2VizfHE
+         bEaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730736125; x=1731340925;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ppHFmWug/3LykfuFLU5tirr1d4i0PtTGIAfUjhjWb3w=;
-        b=NxIjyQeWZ2OyYRD2EzrgFf7qR4CnFKiGlKXcCZ4+WmU4WFIOfC4RVpVEfAO06p4ICB
-         mx3y2kyiW/BlDpeIN9pSDy7KAOju9mDLzLiJWY4bepgVDotB1fNK/GDr6P/glljoYeEz
-         JQoO3GTvoa8YYZFH3zZlBZK1oGrK802Uodil/yE7Zkf6HUdoNUNXcds9zUWOgBjVm1bT
-         Y5jXmm+aXziSqP1zkBAEqvev5vtmBl6UjCYZR1PNjy5fQNwjaIRJ7gH79uuCEMDT/sNx
-         Ozt0ZAdA9+iu9xLnUnPu+a+YNhWKDA1yd7dBlXTBNlFSuXiIgfgOaMd8eFwKq1ks1JR2
-         iP/A==
-X-Gm-Message-State: AOJu0YxjMdy8YEMpg6PU9ZsJ4h1Xqslc7ihttW6FgQ9jbidzd3OnoS8e
-	MTMBmr5WpHnQhn4RCRO89CnDgiCWtC/aXYkvv11GCEIx461ERYCUVVcEV/MGUCDNBa80xFNukJX
-	NCyE=
-X-Google-Smtp-Source: AGHT+IEvkpELGjvcSxcjKShNrfxAJpMdzN41+AjyetAeq+gF6kyZjE1kqzPWkkggXcGBXry3+wNdsw==
-X-Received: by 2002:a17:90b:378f:b0:2e2:8d33:f79d with SMTP id 98e67ed59e1d1-2e92ce71814mr22355986a91.19.1730736124760;
-        Mon, 04 Nov 2024 08:02:04 -0800 (PST)
-Received: from MVIN00020.mvista.com ([2401:4900:882e:ab98:7529:8e26:b6dd:89cf])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e93db42e33sm7744647a91.47.2024.11.04.08.02.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Nov 2024 08:02:04 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][master][styhead][scarthgap][PATCH] xserver-xorg: upgrade 21.1.13 -> 21.1.14
-Date: Mon,  4 Nov 2024 21:31:53 +0530
-Message-Id: <20241104160153.1770335-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+        d=1e100.net; s=20230601; t=1730739568; x=1731344368;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/YO0zcu5XDzxUfm/n6gDvs6U7xd4fKhv5ku2iAZyjdE=;
+        b=K3Do/rhzA3VjrWqJLuoaxoIqL0LsvO7MiMdJR9Pruw5O2gGpuJfmRmP728uI7NBeKv
+         oMoDv5BU2ToeR/VVcoQryqTSMxaWLhJHuUQXnMRxeFay8SzxYhdjYCfUPIcegJOAcnZv
+         g+ajMJPkA/aTzF62ah89IpxRO5J3JX4LjPOYyLvzJDc95pkOaU9jwOVb+Y73P2AygZ0M
+         3Sdj3yuz9zLDa4RgWxuyX6f84gva8HM1U2lq4GopT8LJjfjw//Iu/SkbuDjbjFpacEIE
+         6qLvwWJpZ6Vx8A582skDmh/LDJUk/Ok7SPA4fKj7rc9m0MbCzHygErJQTjkhqmGEN+iG
+         TOGw==
+X-Forwarded-Encrypted: i=1; AJvYcCUCvs4GRvwQi0m1f02YLlhKJCiFqYvOPkkiwurWcVRB0MNxSX4VivZ41BwKJcdk2mqAkEOIeWQWALTEqAnXcSIYPg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YyJ+PSW8KXGL8L7/Xvb2cBO/6bLsMHUIR90qPhRDtlIfmN21sXN
+	JPIiFqYssS7R+0CTBGi/KDz9HOX8G0s95gxa1uDUDJnZtp/Pzo2NEt1iFG1hSii7muaF+UyS8iY
+	WV0r0nQdx/cczSckUr5URhGk7Rc8=
+X-Google-Smtp-Source: AGHT+IHgzIX1g0EJ4szLSAhjgzT/Q9XBEi4DDyTJVdjEIekVANp14thDliBxOjObu7yb6keCWKmKX6JjR843d+Ffloo=
+X-Received: by 2002:a2e:a584:0:b0:2fb:dfc:587a with SMTP id
+ 38308e7fff4ca-2fdef2a6e02mr46923901fa.17.1730739567944; Mon, 04 Nov 2024
+ 08:59:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241101193811.2068211-1-chris.laplante@agilent.com>
+ <CANNYZj-_8+EH51Nk2tj+o7a2PpscSO2bi8e-ak8g5fnUhADULg@mail.gmail.com>
+ <DM8PR12MB5430BF49467783C0051229C68B562@DM8PR12MB5430.namprd12.prod.outlook.com>
+ <DM8PR12MB54306736B03571231E94A9498B562@DM8PR12MB5430.namprd12.prod.outlook.com>
+ <CANNYZj8rn3ocAAbCRYF-YKea8=DtVjcUv3vU+wbpCskzQ3JC=Q@mail.gmail.com>
+ <1a87ce686c05f97ab77fe19c658a6882a8dbd48c.camel@linuxfoundation.org> <DM8PR12MB54304D02DCB6765D471334CD8B512@DM8PR12MB5430.namprd12.prod.outlook.com>
+In-Reply-To: <DM8PR12MB54304D02DCB6765D471334CD8B512@DM8PR12MB5430.namprd12.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 4 Nov 2024 17:59:16 +0100
+Message-ID: <CANNYZj9=5=wDNjBW1sC+d0L2YSGPvpjvGH8MtmsiYejxd2S5nA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] devtool: modify: add DEVTOOL_PREFER_BRANCH support
+To: "chris.laplante@agilent.com" <chris.laplante@agilent.com>
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 16:02:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206690
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 16:59:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206691
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+On Mon, 4 Nov 2024 at 15:56, chris.laplante@agilent.com
+<chris.laplante@agilent.com> wrote:
+> Internally, my experience has been that users do not notice the 'devtool'=
+ branch has been checked out. They go to push their changes and end up crea=
+ting a bizarre 'devtool' branch on the remote, which obviously doesn=E2=80=
+=99t get picked up by our build.
+>
+> In the case of AUTOREV without any local patches, I'd argue that by defau=
+lt 'devtool modify' should checkout the branch from SRC_URI. We could add a=
+ flag to override that behavior (e.g. -d), or alternatively hint to the use=
+r they can pass '--branch devtool'.
+>
+> Would we be OK with this? If we're worried about it breaking backwards co=
+mpatibility, then I would prefer to have an escape hatch (like DEVTOOL_PREF=
+ER_BRANCH) that I can use to opt-in to the new behavior.
 
-Includes security fix CVE-2024-9632
+I'm not worried about that at all. A command line flag that would
+mimic the previous behavior is fine. We're pushing against new 'opt
+in' variables in general, if the new behaviour is an improvement on
+the previous behavior, then it should be the default, and people are
+expected to adjust. Bleeding edge sometimes bleeds.
 
-Ref: https://lists.x.org/archives/xorg/2024-October/061765.html
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../{xserver-xorg_21.1.13.bb => xserver-xorg_21.1.14.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.13.bb => xserver-xorg_21.1.14.bb} (92%)
-
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.13.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.13.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-index 1f18c22fa8..28c98eb527 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.13.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-@@ -3,7 +3,7 @@ require xserver-xorg.inc
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-            "
--SRC_URI[sha256sum] = "b45a02d5943f72236a360d3cc97e75134aa4f63039ff88c04686b508a3dc740c"
-+SRC_URI[sha256sum] = "8f2102cebdc4747d1656c1099ef610f5063c7422c24a177e300de569b354ee35"
- 
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
--- 
-2.25.1
-
+Alex
 
