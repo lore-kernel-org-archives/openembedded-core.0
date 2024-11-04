@@ -1,185 +1,371 @@
-Return-Path: <Deepthi.Hemraj@windriver.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78C99D132B0
-	for <webhook@archiver.kernel.org>; Mon,  4 Nov 2024 11:22:02 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.55474.1730719312890242630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B39CD132B1
+	for <webhook@archiver.kernel.org>; Mon,  4 Nov 2024 11:25:52 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web11.55411.1730719547846917113
  for <openembedded-core@lists.openembedded.org>;
- Mon, 04 Nov 2024 03:21:53 -0800
+ Mon, 04 Nov 2024 03:25:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1038b71f78=deepthi.hemraj@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A44x1uM015833
-	for <openembedded-core@lists.openembedded.org>; Mon, 4 Nov 2024 11:21:52 GMT
-Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2044.outbound.protection.outlook.com [104.47.55.44])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42nb289nhw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 11:21:52 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Zi6MmPXZf9wvCLJkAlR+ezYd44wbtL/YpDlqAC4YLpl5QtuZuYRHhV1CV5CKpnVjrPoNRlpVYo9prygBz1rrzL1ZgviqTCV4cpjEkrVKdnJVP0G+N5d2Y5Mtq3+wVN9VsVB63brBugM/4xv2vwADaEpx8BhiyFcZrZxkpn9238Y7X42NpsdkGjfNkPAPUJrI+0jyJ5oNhck7LmHYGMfJQJO15o6QqqzNWISdJfSRMj0HIkB+MOekETOLgTWQBLkG8VTDWnfuZOi+zGPioj+esd+3rtJWE2F7v+EUXBbliGncyAO5quywfYg3dLLoQXw5MWTjViYBcK0bAnH3SAUAAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4HAJquSWZCVxabm87p+lf/wxy5bctUSaGi8ru35mMZs=;
- b=TeLPVhJ7gcO/btlQI/AhyrfQAm6r7afe0ic9+eWifOpvRVlreSoE/Dv9vhxHFlniqQgOH+LWaExSauLztYP00MHQVJtAjPVTSBqf4JqfA0O2tekyDXtu1aXwl6gmsajPqGzRe/8Op/9OxNcf0o5T3NFNC9sKcFL+VkUAFssadx06RZ8XEFt+GB+zPTMt/ZnP3MD4BippCQ51rUn+3Hsnhey0CuKSz9dO02Vve8954w405i195vR0tDmrh+bOL65QvF5nIoKNud3jyv2qyOXmhiMMrgnoj79OCf0aOX6Tf8APv/ObbcDxoWAM+rmjuJTvRI0gib5oZyeYoW8gBu6KBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from LV3PR11MB8602.namprd11.prod.outlook.com (2603:10b6:408:1b3::11)
- by CY5PR11MB6536.namprd11.prod.outlook.com (2603:10b6:930:40::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8114.30; Mon, 4 Nov
- 2024 11:21:48 +0000
-Received: from LV3PR11MB8602.namprd11.prod.outlook.com
- ([fe80::5e20:4508:a523:df39]) by LV3PR11MB8602.namprd11.prod.outlook.com
- ([fe80::5e20:4508:a523:df39%3]) with mapi id 15.20.8114.031; Mon, 4 Nov 2024
- 11:21:45 +0000
-From: Deepthi.Hemraj@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
-        Sundeep.Kokkonda@windriver.com
-Subject: [PATCH V4] rust-cross-canadian: Fix file conflicts for arm and aarch64
-Date: Mon,  4 Nov 2024 03:21:28 -0800
-Message-ID: <20241104112128.1548308-1-Deepthi.Hemraj@windriver.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0054.namprd05.prod.outlook.com
- (2603:10b6:a03:39b::29) To LV3PR11MB8602.namprd11.prod.outlook.com
- (2603:10b6:408:1b3::11)
+ dkim=pass header.i=@smile.fr header.s=google header.b=RLRcKvu7;
+ spf=pass (domain: smile.fr, ip: 209.85.167.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-539f1292a9bso4543141e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 03:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1730719545; x=1731324345; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=vgLQ39IPJSjMV4/4nfJjamJUvCzJe5a1mLcVpYNl31w=;
+        b=RLRcKvu7Kk5V+HY9G0P4Jpr2c/u5lpDmKPypo9WvQn8cIrvbfnfqBBSuJRj5wJtzBO
+         5j5UVGLdGiv3TTmGHiECxc/vKHEdSNPq3kbI8oOw923yb/nCnQYuxaB1NVeHc6Nn6zlh
+         ZLx1aBbuLJ+Mwx6AFbyhep2+KyxamDbKPaGhI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730719545; x=1731324345;
+        h=content-transfer-encoding:in-reply-to:organization:from
+         :content-language:references:to:subject:user-agent:mime-version:date
+         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=vgLQ39IPJSjMV4/4nfJjamJUvCzJe5a1mLcVpYNl31w=;
+        b=GP8x2g8J2AlMNTyAT9YvhqdKWJBt+EsV7818c8wvgM3XkNQDvWXHa+i0EPECL5lw3d
+         YsfLNyYyIODu30SJ/w5ugCh4p7rqxK4A/03YnZSHcdTDMeY2YZkNsRDYEEC1lCzJefnl
+         01XuwIil55n3OWpZWGbEzSZhwUPVNPwIBegkvXumV6VWMVUS+VTvSEoG8SRJmBUNNwDZ
+         t9Mb460fs7HFovAuAjGNO7DCTzz0NlKXSjQeJ4oD5kSCji3jQOvjWCzsAIdmllLWVGqm
+         gV0ZcvnnaGjkPbp5p1v+VAqkByiGwczpPFZKXVQ9CCKPhDE3kLpio3k4JCzDObC8s61l
+         ejSw==
+X-Gm-Message-State: AOJu0YwXdsyAS0pXRH30Fl/ZRyv0URbqPhn9SWv7/yAG7tv4nVeRVU+p
+	yyqdhdyr7l8xabrZMkd1QnTmtE+On0O+y1XBh1Ge06HaNLaY4juYqNzrzIg/EQeqfvZjIExYtaZ
+	r
+X-Google-Smtp-Source: AGHT+IEw9LvmJvdhQu0/dVjtr01VS+qtBDgIW7b3PyK2N1+HZxQOwvvt5W2XnHjTKcNU5llPC/LliA==
+X-Received: by 2002:a05:6512:baa:b0:539:f1ad:b7a6 with SMTP id 2adb3069b0e04-53b3491c819mr14903209e87.37.1730719544887;
+        Mon, 04 Nov 2024 03:25:44 -0800 (PST)
+Received: from [192.168.0.27] (53.1.159.89.rev.sfr.net. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-431bd8e853esm184654605e9.8.2024.11.04.03.25.44
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Nov 2024 03:25:44 -0800 (PST)
+Message-ID: <66ff6a8c-ee3d-47d9-8361-f3de38163e22@smile.fr>
+Date: Mon, 4 Nov 2024 12:25:44 +0100
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8602:EE_|CY5PR11MB6536:EE_
-X-MS-Office365-Filtering-Correlation-Id: 34e56c8e-f048-488d-9a60-08dcfcc2ddf3
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?iQE7GZGB6Rmg/2ArFSKdIkVw/bEhqKF1cZsRStWdFBMRVOKY5vXfL8SH5Fia?=
- =?us-ascii?Q?53yf1fA9NZ4hEfirQcfL+ayXdNXXWmQfKu7wZdo6qWOZmiNh38V1usNs2UPr?=
- =?us-ascii?Q?l/sVM9+2dLYrCHHMJGbx03vWM2xeXggXkt6G1nwuEUTZcmgEM2xINFbPIMgG?=
- =?us-ascii?Q?r5CwI68F9tATPh9bYCliDukW+v76543kQJdxV4fmG78i4z/I4NWMlrWxeEFy?=
- =?us-ascii?Q?9y9FLU4sHfMEL4TMDAoHHeCYkH9A4gTiRh7Pw5ZLvbSpe8aajYAKj9gqGqSu?=
- =?us-ascii?Q?yyITYYouj6UshZGGlH5X4DcGt6yiNm/fN45AlMFmxNY3mfJbOcOInuOWj/Ue?=
- =?us-ascii?Q?HU/jKZZ7XjeRem/3zTNQGZwL0db1QiIpxIy4iTRRckVND80Goy9y0rgL6LUc?=
- =?us-ascii?Q?u5vybRQtnzBLTf6V5hfuOLZeOgNTbhlaQ8JNgllUVc2ND9FCWLTNqy+GZ4+B?=
- =?us-ascii?Q?pafeVfCLTQVw0fWFoaG9KVh/4RPcGDQOxuGteWFHT4KUlhIxce05pJ6+zDH9?=
- =?us-ascii?Q?iOLpVh8qXhqfPBY9LMYsqUgjq1NkM3KBEnAOFRC7q9Rh+EqbCuuFdkd6vYW/?=
- =?us-ascii?Q?9bMUuHupgEOgThx0PHsAxhhDG+orwkbU7SRkdHfkDnIyUmBnm6rOy70p0Raa?=
- =?us-ascii?Q?R7EfBfj+PolPamchpFLXvLvH9epDNWMg9suRAne6l0E3vjaT81f9hexePQDe?=
- =?us-ascii?Q?0uHnq9/T5AxYFHCVnH4dk2rwa8imPF6Z8gUuZXbwfteubnLC8PgFU85EnjSs?=
- =?us-ascii?Q?FuoDT1X2I//UC3s7uAxqo1WszpmgtdxPowtrEyDqwuOdRvJSjdIaT6tMoWPB?=
- =?us-ascii?Q?e6BD6IFJ2j6BDBL/hA+X2QdJf/8BHEtuKU5BDttMOWelbM5Z/GyQv8aIU2ki?=
- =?us-ascii?Q?H/1aI9Rlw+UoXQzcFlvPnVgCeBnaOUrrzJLRmYycs1UU8vVBNn0UIOCbFhCm?=
- =?us-ascii?Q?Vn3LUePR/VHt686FGJEH2TsNT1Be9gkV+eRly+7Dq1ve0U+n17SmKMtKBs8s?=
- =?us-ascii?Q?Yj6stYKOuVlkAJzFRSUC32IZem3yUN3pUbzpMju3j4E6LG0XRzHCHEsx7+1b?=
- =?us-ascii?Q?sRQgu0XeGseMPDViV5tM0EGpdKF08Re0Boxfqj5KLQ0Hmz9v3JKPbZhtcrZx?=
- =?us-ascii?Q?YYbOQQQuPAOORfQX2cZ2mZhFc38zALZEa2Q9KhjH91aWl78ubcuktQLcDlCp?=
- =?us-ascii?Q?uQoUc0r26QvbyXQ46wdVMjpB1Cabh4JvAimGsvTk/Z5HL2OvpefDhy8sfOTz?=
- =?us-ascii?Q?QRyIEBogKXlIVlVmuD22m4gGQMKOMTikEwwmp8iKSrVzSPDIY/uGl2oSV0ak?=
- =?us-ascii?Q?9/vkLX181dftzKXNeGIahXmVxhgVs/govzwhR9Ob62EYbMAhhfmPzng2i+Vv?=
- =?us-ascii?Q?dISJGWs=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?3OKEVjRQBTYgfUjM7KXoDMzRHW89Nop7Qv+7sdyaTyNftv9jAw12ZEtx+nJu?=
- =?us-ascii?Q?BH51xNTui/uvuQGFJmNgNE1EulyVvKqJZ30ktlbw8ADQPYvAVCX4YxD9QP3a?=
- =?us-ascii?Q?353no88JvPw2/B6GyEl3cZn48/jdBcnNQII0Ci5WztHYAaDOTSa0eu/EQkrA?=
- =?us-ascii?Q?ZAgDP/EWqQDCPX4d8g9GFYJsIxW5D87a1gthlXMW7cYwaBTip9b+U0NwFFLs?=
- =?us-ascii?Q?1tCgMhUMXNhs2VY4GEB0Fi96OZkJe3xqOh44NzvXeN3ox8mJ8o2zFb6D8wZq?=
- =?us-ascii?Q?IXHea9EPTPqPN7hn5Px3UuDf+KC7rdzUlHn/YHAJy2NFuv3cKAhGrJwFsFM6?=
- =?us-ascii?Q?YCh5hjlXwuKlZPRmAj9Y3+ZNif/ZLE+2CLhwpFOy4AZZmUcxakpOWBx4cqGW?=
- =?us-ascii?Q?qXficvbV6yKYba0jJiN7rm4Rem0sYe3SrIbyG1wUVpQoMR563X1gJF+FLcp4?=
- =?us-ascii?Q?nEAFSee0dWXjDAmHP8Bk+3yT8uCkTUqJhg9bV2vIeqW9BxcZo8K9uylw1wzF?=
- =?us-ascii?Q?sUhAr5XCEgmHEhHVLjjOua76g6x6W6pMcXPAEd4pCbH8o4ZmBCAshExlnyst?=
- =?us-ascii?Q?0TAMPIauUcuwerIhJRUp6X6qfgwfuyvdDCzLLGKuImgz/FWtLicljRVsGH6f?=
- =?us-ascii?Q?O38EEt21hSNgFhF2cFco7hHErJoHe9+WnmW7vAP80bwC++ZYTzbj6l7w6w3m?=
- =?us-ascii?Q?ksjzxH/l/0f2IMFpP9kO+SFCIJEUiKXqkpkq7LSbn7dFOtRAK29Ir6D20Drj?=
- =?us-ascii?Q?3f098WikrUNj1r+uFeKR7/IjIbDXmjge4cfAMa/VhMUJBNnhVQfJUWvxM6xQ?=
- =?us-ascii?Q?DXbqlr/LGZsNiYHgTplG2Hl5l6wkiKLUT8CML0P85SUD70jwimOifab8uDf3?=
- =?us-ascii?Q?6dQSMBGVVLsXUa9lfNYzWvz39ARwVXTbyvUsYRwX7ZcJQN70Bt2avD4u/qH2?=
- =?us-ascii?Q?R2StsWG0ZeZ/nz5qZ0774Fx0TyZpyDOE0kWd3iJyT1JzROV7pVtmcJn9D/hA?=
- =?us-ascii?Q?qEgRj0VINU3NCfV6uFQvWJPH5yl21oXkyCgCdo3oFXAgl5ovQrA9iKxFrjxn?=
- =?us-ascii?Q?32McmJhJIUAjw5yVkHSaI+66EIUUwJanlIm8ozoYTKfcb3Vi1msJwGzmXRt0?=
- =?us-ascii?Q?yigfYjatNbDffDBO9Rl/h/kQ3ER9sv8RJhLkV+Vdn65vto0b6+CTshTcl2G3?=
- =?us-ascii?Q?vuwnsITIV/EUyyiWuZGzPY31zzbVSOYtwzJvIGENNFPI2ySl/fRqHV5DUUek?=
- =?us-ascii?Q?Wq4+JAacMx/ebgO9zQQg+soeVBFfFz6LDuK2H6WKQBT42gPFrsgTH6w+BLGQ?=
- =?us-ascii?Q?dZhlWm/YH/t8rN+Rq63mILHBKSAmWBCFGnqBBYpxHZrqPGPRHSg9IMhPvy7q?=
- =?us-ascii?Q?oINXkbtawGcn+NZsJBCD350L1EX0ipld/UWuRt0LJVcQ2tjploks7OFVEFKC?=
- =?us-ascii?Q?6AtBbAaQe7PTpPyZ/H2KrA3KIsA37cYYHzHoFun2j3R4pAPyOpMk7Rr1B8ql?=
- =?us-ascii?Q?Kj4h/tqci6sdmRdTGwpYku3bCLHAX0DZyZkapbxqylLagcVgIoSH/xj6tOl9?=
- =?us-ascii?Q?53uNLXpcwZrwtyZ7pCTHkB+4C/IM7ra6aeJYHAhZ1g0OY9ceORsG5WsXJ8/w?=
- =?us-ascii?Q?DQ=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 34e56c8e-f048-488d-9a60-08dcfcc2ddf3
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Nov 2024 11:21:45.8518
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y1UN59Ol0bRxJ+kEowfjqorqsQxM8ewSahHgvtgX2lpa0RE6OHapejAa6zVDQJHG128S7J+dXbqAnmKrAMLNBuIq8Pxy5l2Q8FoT68+qQJA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6536
-X-Authority-Analysis: v=2.4 cv=CfNa56rl c=1 sm=1 tr=0 ts=6728ae50 cx=c_pps a=t4e0UQJdoJrPmzgCWb9hsw==:117 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8 a=Hp82nO5V1qQDSuiZir0A:9
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: _yJuHs-yM4629VyVL3_yRLcen670IbkV
-X-Proofpoint-GUID: _yJuHs-yM4629VyVL3_yRLcen670IbkV
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1051,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-04_09,2024-11-04_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 mlxlogscore=629
- spamscore=0 bulkscore=0 lowpriorityscore=0 priorityscore=1501
- malwarescore=0 adultscore=0 suspectscore=0 clxscore=1015 impostorscore=0
- phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2411040100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH RESEND v3] reproducibility: continue testing in case of
+ build failure
+To: openembedded-core@lists.openembedded.org
+References: <20241029100912.138924-1-yoann.congal@smile.fr>
+Content-Language: en-US
+From: Yoann Congal <yoann.congal@smile.fr>
+Organization: Smile ECS
+In-Reply-To: <20241029100912.138924-1-yoann.congal@smile.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 11:22:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206676
+ <openembedded-core@lists.openembedded.org>; Mon, 04 Nov 2024 11:25:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206677
 
-From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+Hi,
 
-[YOCTO #15061]
-Rust multilib sdks broken because of the conflicts between attempted installs of rust-cross-canadian for arm and aarch64.
 
-Arm and aarch64 target architectures are trying to install cargo.sh and rust.sh in the same path which resulted in the issue
+Le 29/10/2024 à 11:09, Yoann Congal a écrit :
+> From: Yoann Congal <yoann.congal@smile.fr>
+> 
+> The current reproducibility test stops all build tasks when a single
+> task fails (default BitBake behavior). This means that a single build
+> failure prevents the reproducibility of other packages from being
+> tested, which is not ideal.
+> 
+> To address this, we now use the --continue option of BitBake during test
+> builds, allowing the build process to proceed even when some tasks fail.
+> The failure cases are handled as gracefully as possible.
+> 
+> In the event of a build failure:
+> - The entire reproducibility test will be considered a failure.
+> - The complete BitBake log will be saved in the "saved output" directory
+>   to facilitate debugging. On the autobuilder, this log should be
+>   available at https://autobuilder.yocto.io/pub/repro-fail/.
+> - The last 20 lines of the log, which should show the failing recipes,
+>   will be displayed in the oe-selftest console.
+> - If BitBake fails to create the deployment directory, it will be
+>   manually created to allow the comparison process to proceed.
+> 
+> Here is what the output looks like when testing reproducibility of bash,
+> a failing recipe (hello-fail) and a non-reproducible recipe
+> (hello-norepro):
+> 
+>   <snip>
+>   2024-10-01 23:09:33,977 - oe-selftest - INFO - test_reproducible_builds (reproducible.ReproducibleTests.test_reproducible_builds)
+>   2024-10-01 23:10:39,093 - oe-selftest - INFO - Non-reproducible packages will be copied to <snip>/yocto/repro_output/oe-reproducible-20241001-ng43_hzd
+>   2024-10-01 23:10:39,094 - oe-selftest - INFO - Building reproducibleA (sstate allowed)...
+>   2024-10-01 23:18:12,378 - oe-selftest - ERROR - Bitbake failed! but keep going... Log:
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     Command 'bitbake  --continue bash hello-norepro hello-fail' returned non-zero exit status 1:
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     ... (last 20 lines of output)
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: Running task 976 of 990 (<snip>/yocto/poky/meta/recipes-extended/bash/bash_5.2.32.bb:do_package_qa)
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_populate_sysroot: Started
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_qa: Started
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_populate_sysroot: Succeeded
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: Running setscene task 342 of 343 (<snip>/yocto/poky/meta/recipes-extended/bash/bash_5.2.32.bb:do_create_package_spdx_setscene)
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_create_package_spdx_setscene: Started
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_create_package_spdx_setscene: Succeeded
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: Running setscene task 343 of 343 (<snip>/yocto/poky/meta/recipes-extended/bash/bash_5.2.32.bb:do_create_spdx_setscene)
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_create_spdx_setscene: Started
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_create_spdx_setscene: Succeeded
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_qa: Succeeded
+>   2024-10-01 23:18:12,379 - oe-selftest - INFO -     NOTE: Running noexec task 979 of 990 (<snip>/yocto/poky/meta/recipes-extended/bash/bash_5.2.32.bb:do_build)
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -     NOTE: Tasks Summary: Attempted 979 tasks of which 841 didn't need to be rerun and 1 failed.
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -     NOTE: Generating JSON CVE summary
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -     Complete CVE JSON report summary created at: <snip>/yocto/poky/build-master-st/reproducibleA/tmp/log/cve/cve-summary.json
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -     Summary: 1 task failed:
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -       <snip>/yocto/poky/meta/recipes-core/hello-single/hello-fail_1.0.bb:do_compile
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -         log: <snip>/yocto/poky/build-master-st/reproducibleA/tmp/work/core2-64-poky-linux/hello-fail/1.0/temp/log.do_compile.3221257
+>   2024-10-01 23:18:12,380 - oe-selftest - INFO -     Summary: There was 1 ERROR message, returning a non-zero exit code.
+>   2024-10-01 23:18:12,380 - oe-selftest - ERROR - reproducibleA build failed. Trying to compute built packages differences but the test will fail.
+>   2024-10-01 23:18:12,382 - oe-selftest - INFO - Building reproducibleB-extended (sstate NOT allowed)...
+>   2024-10-01 23:46:58,451 - oe-selftest - ERROR - Bitbake failed! but keep going... Log:
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     Command 'bitbake  --continue bash hello-norepro hello-fail' returned non-zero exit status 1:
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     ... (last 20 lines of output)
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_write_ipk: Started
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_qa: Started
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_create_spdx: Succeeded
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: Running task 978 of 990 (<snip>/yocto/poky/meta/recipes-extended/bash/bash_5.2.32.bb:do_create_package_spdx)
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_create_package_spdx: Started
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_create_package_spdx: Succeeded
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_qa: Succeeded
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_write_deb: Succeeded
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_write_ipk: Succeeded
+>   2024-10-01 23:46:58,463 - oe-selftest - INFO -     NOTE: recipe bash-5.2.32-r0: task do_package_write_rpm: Succeeded
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -     NOTE: Running noexec task 979 of 990 (<snip>/yocto/poky/meta/recipes-extended/bash/bash_5.2.32.bb:do_build)
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -     NOTE: Tasks Summary: Attempted 979 tasks of which 2 didn't need to be rerun and 1 failed.
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -     NOTE: Generating JSON CVE summary
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -     Complete CVE JSON report summary created at: <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/log/cve/cve-summary.json
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -     Summary: 1 task failed:
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -       <snip>/yocto/poky/meta/recipes-core/hello-single/hello-fail_1.0.bb:do_compile
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -         log: <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/work/core2-64-poky-linux/hello-fail/1.0/temp/log.do_compile.4136075
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -     Summary: There were 5 WARNING messages.
+>   2024-10-01 23:46:58,464 - oe-selftest - INFO -     Summary: There was 1 ERROR message, returning a non-zero exit code.
+>   2024-10-01 23:46:58,467 - oe-selftest - ERROR - reproducibleB-extended build failed. Trying to compute built packages differences but the test will fail.
+>   2024-10-01 23:46:58,481 - oe-selftest - INFO - Checking deb packages for differences...
+>   2024-10-01 23:46:58,586 - oe-selftest - INFO - Reproducibility summary for deb: same=52 different=1 different_excluded=0 missing=0 total=53
+>   unused_exclusions=[]
+>   2024-10-01 23:46:58,588 - oe-selftest - INFO - Checking ipk packages for differences...
+>   2024-10-01 23:46:58,658 - oe-selftest - INFO - Reproducibility summary for ipk: same=52 different=1 different_excluded=0 missing=0 total=53
+>   unused_exclusions=[]
+>   2024-10-01 23:46:58,659 - oe-selftest - INFO - Checking rpm packages for differences...
+>   2024-10-01 23:46:58,691 - oe-selftest - INFO - Reproducibility summary for rpm: same=52 different=1 different_excluded=0 missing=0 total=53
+>   unused_exclusions=[]
+>   2024-10-01 23:46:58,692 - oe-selftest - INFO - Running diffoscope
+>   2024-10-01 23:46:59,765 - oe-selftest - INFO -  ... FAIL
+>   2024-10-01 23:46:59,766 - oe-selftest - INFO - Traceback (most recent call last):
+>     File "<snip>/yocto/poky/meta/lib/oeqa/selftest/cases/reproducible.py", line 380, in test_reproducible_builds
+>       self.fail('\n'.join(fails))
+>   AssertionError: Bitbake reproducibleA failure
+>   Bitbake reproducibleB-extended failure
+>   The following deb packages are different and not in exclusion list:
+>   <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/deb/./core2-64/hello-norepro_1.0-r0_amd64.deb
+>   The following ipk packages are different and not in exclusion list:
+>   <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/ipk/./core2-64/hello-norepro_1.0-r0_core2-64.ipk
+>   The following rpm packages are different and not in exclusion list:
+>   <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/rpm/./core2_64/hello-norepro-1.0-r0.core2_64.rpm
+> 
+>   2024-10-01 23:46:59,769 - oe-selftest - INFO - ======================================================================
+>   2024-10-01 23:46:59,770 - oe-selftest - INFO - FAIL: test_reproducible_builds (reproducible.ReproducibleTests.test_reproducible_builds)
+>   2024-10-01 23:46:59,770 - oe-selftest - INFO - ----------------------------------------------------------------------
+>   2024-10-01 23:46:59,770 - oe-selftest - INFO - Traceback (most recent call last):
+>     File "<snip>/yocto/poky/meta/lib/oeqa/selftest/cases/reproducible.py", line 380, in test_reproducible_builds
+>       self.fail('\n'.join(fails))
+>   AssertionError: Bitbake reproducibleA failure
+>   Bitbake reproducibleB-extended failure
+>   The following deb packages are different and not in exclusion list:
+>   <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/deb/./core2-64/hello-norepro_1.0-r0_amd64.deb
+>   The following ipk packages are different and not in exclusion list:
+>   <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/ipk/./core2-64/hello-norepro_1.0-r0_core2-64.ipk
+>   The following rpm packages are different and not in exclusion list:
+>   <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/rpm/./core2_64/hello-norepro-1.0-r0.core2_64.rpm
+> 
+>   2024-10-01 23:46:59,770 - oe-selftest - INFO - ----------------------------------------------------------------------
+>   2024-10-01 23:46:59,770 - oe-selftest - INFO - Ran 1 test in 2246.039s
+>   2024-10-01 23:46:59,770 - oe-selftest - INFO - FAILED
+>   2024-10-01 23:46:59,770 - oe-selftest - INFO -  (failures=1)
+>   2024-10-01 23:47:03,200 - oe-selftest - INFO - RESULTS:
+>   2024-10-01 23:47:03,200 - oe-selftest - INFO - RESULTS - reproducible.ReproducibleTests.test_reproducible_builds: FAILED (2245.79s)
+>   2024-10-01 23:47:03,203 - oe-selftest - INFO - SUMMARY:
+>   2024-10-01 23:47:03,203 - oe-selftest - INFO - oe-selftest () - Ran 1 test in 2246.040s
+>   2024-10-01 23:47:03,203 - oe-selftest - INFO - oe-selftest - FAIL - Required tests failed (successes=0, skipped=0, failures=1, errors=0)
+> 
+> => Test failed but hello-norepro is displayed as non-reproducible.
+> 
+> The testresult.json contains:
+>   {
+>       "oeselftest_debian-12_qemux86-64_20240930000424": {
+>           "configuration": { <snip> },
+>           "result": {
+>               "reproducible": {
+>                   "files": {
+>                       "package_deb": {
+>                           "different": [
+>                               {
+>                                   "reference": "<snip>/yocto/poky/build-master-st/reproducibleA/tmp/deploy/deb/./core2-64/hello-norepro_1.0-r0_amd64.deb",
+>                                   "test": "<snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/deb/./core2-64/hello-norepro_1.0-r0_amd64.deb"
+>                               }
+>                           ],
+>                           "different_excluded": [],
+>                           "missing": [],
+>                           "same": [
+>                               <snip>
+>                               {
+>                                   "reference": "<snip>/yocto/poky/build-master-st/reproducibleA/tmp/deploy/deb/./core2-64/bash_5.2.32-r0_amd64.deb",
+>                                   "test": "<snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/deb/./core2-64/bash_5.2.32-r0_amd64.deb"
+>                               },
+>                               <snip>
+>                           ]
+>                       },
+>                       "package_ipk": { <same as deb> },
+>                       "package_rpm": { <same as deb> }
+>                   }
+>               },
+>               "reproducible.ReproducibleTests.test_reproducible_builds": {
+>                   "duration": 2146.5671875476837,
+>                   "log": "Traceback (most recent call last):\n  File \"<snip>/yocto/poky/meta/lib/oeqa/selftest/cases/reproducible.py\", line 380, in test_reproducible_builds\n    self.fail('\\n'.join(fails))\nAssertionError: Bitbake reproducibleA failure\nBitbake reproducibleB-extended failure\nThe following deb packages are different and not in exclusion list:\n<snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/deb/./core2-64/hello-norepro_1.0-r0_amd64.deb\nThe following ipk packages are different and not in exclusion list:\n<snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/ipk/./core2-64/hello-norepro_1.0-r0_core2-64.ipk\nThe following rpm packages are different and not in exclusion list:\n<snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/rpm/./core2_64/hello-norepro-1.0-r0.core2_64.rpm\n",
+>                   "status": "FAILED"
+>               },
+>               "reproducible.rawlogs": {
+>                   "log": "DIFFERENT: <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/deb/./core2-64/hello-norepro_1.0-r0_amd64.deb\nSAME: <snip>/yocto/poky/build-master-st/reproducibleB-extended/tmp/deploy/deb/./core2-64/bash_5.2.32-r0_amd64.deb\n<snip>"
+>               }
+>           }
+>       }
+>   }
+> 
+> => "reproducible.ReproducibleTests.test_reproducible_builds".status is
+> correctly "FAILED" but the reproducibility of bash and hello-norepro is
+> tested.
+> 
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+> v2->v3:
+> * Added a missing end of line in config concatenation
+> 
+> v1->v2:
+> * Upgrade some log from INFO to ERROR in the failing case to make it
+>   more visible in the logs.
+> Richard Purdie review:
+> * Simplify log handling
+> ---
+>  meta/lib/oeqa/selftest/cases/reproducible.py | 56 ++++++++++++++++----
+>  1 file changed, 47 insertions(+), 9 deletions(-)
 
-The modification installs the scripts in different folders based on the target acrhitecture and hence prevents the conflicts.
+That did not work in the https://valkyrie.yoctoproject.org/#/builders/87
+builder :
+https://valkyrie.yoctoproject.org/#/builders/87/builds/17/steps/40/logs/stdio
+Sorry about that :(
 
-Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
----
- meta/recipes-devtools/rust/rust-cross-canadian.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+I'll look into this as soon as possible but I would totally understand
+if this patch is reverted in the meantime.
 
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-index c34b839d15..81d46a45e0 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-@@ -52,8 +52,8 @@ do_install () {
-     chmod +x "$outfile"
-     create_sdk_wrapper "${SYS_BINDIR}/target-rust-ccld-wrapper" "CC"
- 
--    ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
--    mkdir "${ENV_SETUP_DIR}"
-+    ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d/${TRANSLATED_TARGET_ARCH}
-+    mkdir -p "${ENV_SETUP_DIR}"
-     RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/rust.sh"
- 
-     RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
-@@ -89,5 +89,5 @@ do_install () {
- 	EOF
- }
- 
--FILES:${PN} += "${base_prefix}/environment-setup.d"
-+FILES:${PN} += "${base_prefix}/environment-setup.d/${TRANSLATED_TARGET_ARCH}"
- 
+
+> diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+> index 3d3f30eebc..a68f72ff23 100644
+> --- a/meta/lib/oeqa/selftest/cases/reproducible.py
+> +++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+> @@ -221,7 +221,6 @@ class ReproducibleTests(OESelftestTestCase):
+>          tmpdir = os.path.join(self.topdir, name, 'tmp')
+>          if os.path.exists(tmpdir):
+>              bb.utils.remove(tmpdir, recurse=True)
+> -
+>          config = textwrap.dedent('''\
+>              PACKAGE_CLASSES = "{package_classes}"
+>              TMPDIR = "{tmpdir}"
+> @@ -234,11 +233,24 @@ class ReproducibleTests(OESelftestTestCase):
+>              ''').format(package_classes=' '.join('package_%s' % c for c in self.package_classes),
+>                          tmpdir=tmpdir)
+>  
+> +        # Export BB_CONSOLELOG to the calling function and make it constant to
+> +        # avoid a case where bitbake would get a timestamp-based filename but
+> +        # oe-selftest would, later, get another.
+> +        capture_vars.append("BB_CONSOLELOG")
+> +        config += 'BB_CONSOLELOG = "${LOG_DIR}/cooker/${MACHINE}/console.log"\n'
+> +
+> +        bitbake_failure_count = 0
+>          if not use_sstate:
+>              if self.sstate_targets:
+>                 self.logger.info("Building prebuild for %s (sstate allowed)..." % (name))
+>                 self.write_config(config)
+> -               bitbake(' '.join(self.sstate_targets))
+> +               try:
+> +                   bitbake("--continue "+' '.join(self.sstate_targets), limit_exc_output=20)
+> +               except AssertionError as e:
+> +                   bitbake_failure_count += 1
+> +                   self.logger.error("Bitbake failed! but keep going... Log:")
+> +                   for line in str(e).split("\n"):
+> +                       self.logger.info("    "+line)
+>  
+>              # This config fragment will disable using shared and the sstate
+>              # mirror, forcing a complete build from scratch
+> @@ -251,8 +263,25 @@ class ReproducibleTests(OESelftestTestCase):
+>          self.write_config(config)
+>          d = get_bb_vars(capture_vars)
+>          # targets used to be called images
+> -        bitbake(' '.join(getattr(self, 'images', self.targets)))
+> -        return d
+> +        try:
+> +            bitbake("--continue "+' '.join(getattr(self, 'images', self.targets)), limit_exc_output=20)
+> +        except AssertionError as e:
+> +            bitbake_failure_count += 1
+> +
+> +            self.logger.error("Bitbake failed! but keep going... Log:")
+> +            for line in str(e).split("\n"):
+> +                self.logger.info("    "+line)
+> +
+> +            # The calling function expects the existence of the deploy
+> +            # directories containing the packages.
+> +            # If bitbake failed to create them, do it manually
+> +            for c in self.package_classes:
+> +                deploy = d['DEPLOY_DIR_' + c.upper()]
+> +                if not os.path.exists(deploy):
+> +                    self.logger.info("Manually creating %s" % deploy)
+> +                    bb.utils.mkdirhier(deploy)
+> +
+> +        return (d, bitbake_failure_count)
+>  
+>      def test_reproducible_builds(self):
+>          def strip_topdir(s):
+> @@ -278,15 +307,24 @@ class ReproducibleTests(OESelftestTestCase):
+>          # https://bugzilla.yoctoproject.org/show_bug.cgi?id=15554
+>          # So, the reproducibleA & reproducibleB directories are changed to reproducibleA & reproducibleB-extended to have different size.
+>  
+> -        vars_A = self.do_test_build('reproducibleA', self.build_from_sstate)
+> -
+> -        vars_B = self.do_test_build('reproducibleB-extended', False)
+> +        fails = []
+> +        vars_list = [None, None]
+> +
+> +        for i, (name, use_sstate) in enumerate(
+> +                                 (('reproducibleA', self.build_from_sstate),
+> +                                 ('reproducibleB-extended', False))):
+> +            (variables, bitbake_failure_count) = self.do_test_build(name, use_sstate)
+> +            if bitbake_failure_count > 0:
+> +                self.logger.error('%s build failed. Trying to compute built packages differences but the test will fail.' % name)
+> +                fails.append("Bitbake %s failure" % name)
+> +                if self.save_results:
+> +                    self.copy_file(variables["BB_CONSOLELOG"], os.path.join(save_dir, "bitbake-%s.log" % name))
+> +            vars_list[i] = variables
+>  
+> +        vars_A, vars_B = vars_list
+>          # NOTE: The temp directories from the reproducible build are purposely
+>          # kept after the build so it can be diffed for debugging.
+>  
+> -        fails = []
+> -
+>          for c in self.package_classes:
+>              with self.subTest(package_class=c):
+>                  package_class = 'package_' + c
+
 -- 
-2.43.0
-
+Yoann Congal
+Smile ECS - Tech Expert
 
