@@ -2,56 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8AFD33A38
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D30ED33A2E
 	for <webhook@archiver.kernel.org>; Tue,  5 Nov 2024 18:46:05 +0000 (UTC)
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.web10.28095.1730832359252787270
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web10.28089.1730832355155723079
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Nov 2024 10:45:59 -0800
+ Tue, 05 Nov 2024 10:45:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=J+4Y7HGs;
- spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e2fb304e7dso4631216a91.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:59 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XzU6xw62;
+ spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7f3da2c2cb5so1988438a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730832358; x=1731437158; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1730832354; x=1731437154; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=t865dY0gstbc9bVlcWYKwM9wyM2OAjL1+XgM/yI9MVE=;
-        b=J+4Y7HGsny+WbSoMFg3HiAXC4XpQpl3gUSFj+8gHZmJZlaNnXEe+9TjtAYc2sXmUOI
-         h9HOV9+N6lD7oZ5vb+pGTY1sxSohCmhCoaH+abHzGVH6A+eUcaCif/2e9JR5Tz7XerJC
-         DnBbdoxlKErPbpdALnX3yB7tk/zq+1I2atgnxeZ9RtTa9ho/cxdKt/zZ5VzyMaNUPzuj
-         HJreWUkHsm1GZWnVN7m4l1lT1wvRSywO2AzXtap9InwKtCL1hzRXOAl62EmDj8bQ9xzF
-         hsAGYvsEyHpd+YtUFIOsyBgUDjTiKawL5kTvrxz90MDWkZ9hFSciFZu/L/kHVomRY4c3
-         +FbA==
+        bh=oxXO856R/73eFtivQgy5R1trms5EC6nTeohYXWKV8Sw=;
+        b=XzU6xw62mS334d3CY4We849QJj4nxq/Tv5Fbd3skswQD3K6GPlxOSCjxO8+Qpf+wzv
+         OTyqz/GSzumn7MrSB4B53JCrPdJF8/GSsj/bHbjr/gRf3770rwk3lZ0E7wn05nzdkX7u
+         NsYjslMgrVFR/wGS9SNLtAYhgXt6ltfXWRTcdcVN5nyM3AfVSZEHs09RIBNW9sCJJMC+
+         FjQeSqDooJdcNJbmkr317caVifNpj8kcuqE6PcV0KUmwFspAmvREfT6YDnnXph6HOz1J
+         6OGxOnb2qdSyxfqRihzVkRV5ewel0LxhYkQDUvoYr+MdZFbookALXnwmv3URXhEkx3AS
+         k/OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730832358; x=1731437158;
+        d=1e100.net; s=20230601; t=1730832354; x=1731437154;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=t865dY0gstbc9bVlcWYKwM9wyM2OAjL1+XgM/yI9MVE=;
-        b=xGLxwfIM5xvtnhsq3dK6jhpe+dtA+oLtUxLCyEpYjgY0q7qUgncYLb1mNid6VTvX8c
-         eICWcYL8iGazM6JPjhG3JwBrmaSG+PtP/Y0nYPvn0OyQ/FCZD0khBA7sxgn2604wvf1S
-         dxWMieFM2OFvpCNTZP7nRk+xNX2s1un/VMvcWCByn7DRVUH47bsYSI4oEf1+PLQ7qXRI
-         C7yG1uG9Cqj/TjwLXTF+SL5LgmTzhlB7u6dQEi+SQ59LxvhSK3/WyyjgcMPrjEo/UJiK
-         r+gsI0jrFysbPSXRNOvJq3Be8zQE7n0lkEskOjn+Q0ENnHE+S27zB+2tfU94fSm+Hc9N
-         /0/g==
-X-Gm-Message-State: AOJu0YxzCOziL2QvwDwEyxTZ7vV5XB1eFnISX8yyuqqxQrEWS2vYYfHy
-	IQc0wg2EUThQMWkGe1tPnDq1L8ZYm1v+cc/IlKvzprDGRQ/U9l8wKz0y6g==
-X-Google-Smtp-Source: AGHT+IFpJDrTdvKfFSQCZTrXY+VKUiZKRqNKoqtVk+NlCycdwVm8dJc1F1ubPcsXFD8pDuFo6iKEcg==
-X-Received: by 2002:a17:90a:b706:b0:2e2:a097:bb02 with SMTP id 98e67ed59e1d1-2e8f105e828mr42355491a91.11.1730832358550;
-        Tue, 05 Nov 2024 10:45:58 -0800 (PST)
+        bh=oxXO856R/73eFtivQgy5R1trms5EC6nTeohYXWKV8Sw=;
+        b=RqMErGdWSlkzF31222PnebJwOVl+hiqMaBT+ad487hDlJbsZNmfkOZXqUCUuX3T2Nu
+         EbLTUs5hlOT5RhVsG6Kd0btxUvt8rcO48yIh9Id2S1mufC5kc4TKabGPvYL3XkEjGgaX
+         vnudSdlkjVouUXBjHg9KzQpRNqwtKYtb/xTxXxjrlT+8oCFqoN5VzFgitCzr3W5Y+OEi
+         n0MqVO/ViSrzFFTpJPavuYCCBX6D7M19mJpVR3JwiORdTR5jKHowGlndASyZAO01PoT8
+         FEf3Mls6aVy2oNKHg0x0bj3ssr0uwieqCgFyH9XzHljxaHfQkW1B9/8eaSI6aDnyCG7J
+         fBDw==
+X-Gm-Message-State: AOJu0YwbQ8LWmJ57IkWMGE5lK5hNM4visH50lJMe5ODAY/y0x/Z0H893
+	RSgcgKORQCvyqibT5AtlZeBHICbFTU8avE7QnMgASsfo1CgiZvtqpkSIpg==
+X-Google-Smtp-Source: AGHT+IFUUgEaGjeB1PxoIgoc6n16fAzc6HA9mcSm501HWtAm9CkHZL4mD8oeLyDVKvo+DrSN0qM1kw==
+X-Received: by 2002:a05:6a21:6d9d:b0:1db:f603:4f2a with SMTP id adf61e73a8af0-1dbf6034f46mr3071916637.14.1730832354288;
+        Tue, 05 Nov 2024 10:45:54 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::ba3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.57
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 10:45:58 -0800 (PST)
+        Tue, 05 Nov 2024 10:45:53 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 17/19] toolchain-scripts.bbclass: Add env variables in SDK to use clang/clang++
-Date: Tue,  5 Nov 2024 10:45:36 -0800
-Message-ID: <20241105184540.3450302-17-raj.khem@gmail.com>
+Subject: [PATCH 12/19] distro/defaultsetup: Inherit clang, nonclangable, and nonscanable
+Date: Tue,  5 Nov 2024 10:45:31 -0800
+Message-ID: <20241105184540.3450302-12-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241105184540.3450302-1-raj.khem@gmail.com>
 References: <20241105184540.3450302-1-raj.khem@gmail.com>
@@ -61,47 +61,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 18:46:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206745
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206740
 
-Make CLANGCC/CLANGCXX/CLANG_TIDY available in SDK
+This ensures that when TOOLCHAIN = "clang" then the right
+tweaks are added for recipes to either work with clang or
+fallback to use gcc
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/classes-recipe/toolchain-scripts.bbclass | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ meta/conf/distro/defaultsetup.conf | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes-recipe/toolchain-scripts.bbclass
-index b59a295abcc..f17905d5284 100644
---- a/meta/classes-recipe/toolchain-scripts.bbclass
-+++ b/meta/classes-recipe/toolchain-scripts.bbclass
-@@ -11,6 +11,17 @@ inherit toolchain-scripts-base siteinfo kernel-arch
- REAL_MULTIMACH_TARGET_SYS ?= "${MULTIMACH_TARGET_SYS}"
- TARGET_CC_ARCH:append:libc-musl = " -mmusl"
+diff --git a/meta/conf/distro/defaultsetup.conf b/meta/conf/distro/defaultsetup.conf
+index e6369dcec4b..7a40efe86ce 100644
+--- a/meta/conf/distro/defaultsetup.conf
++++ b/meta/conf/distro/defaultsetup.conf
+@@ -5,6 +5,9 @@ include conf/distro/include/maintainers.inc
+ include conf/distro/include/time64.inc
+ require conf/distro/include/tcmode-${TCMODE}.inc
+ require conf/distro/include/tclibc-${TCLIBC}.inc
++require conf/distro/include/clang.inc
++require conf/distro/include/nonclangable.inc
++require conf/distro/include/nonscanable.inc
  
-+# Adjustments for clang in SDK
-+export TARGET_CLANGCC_ARCH = "${TARGET_CC_ARCH}"
-+TARGET_CLANGCC_ARCH:remove = "-mthumb-interwork"
-+TARGET_CLANGCC_ARCH:remove = "-mmusl"
-+TARGET_CLANGCC_ARCH:remove = "-muclibc"
-+TARGET_CLANGCC_ARCH:remove = "-meb"
-+TARGET_CLANGCC_ARCH:remove = "-mel"
-+TARGET_CLANGCC_ARCH:append = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", " -mbig-endian", " -mlittle-endian", d)}"
-+TARGET_CLANGCC_ARCH:remove:powerpc = "-mhard-float"
-+TARGET_CLANGCC_ARCH:remove:powerpc = "-mno-spe"
-+
- # default debug prefix map isn't valid in the SDK
- DEBUG_PREFIX_MAP = ""
+ require conf/distro/include/uninative-flags.inc
  
-@@ -147,7 +158,10 @@ toolchain_shared_env_script () {
- 	echo 'export ARCH=${ARCH}' >> $script
- 	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
- 	echo 'export OECORE_TUNE_CCARGS="${TUNE_CCARGS}"' >> $script
--
-+	echo 'export CLANGCC="${TARGET_PREFIX}clang --target=${TARGET_SYS} ${TARGET_CLANGCC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
-+    echo 'export CLANGCXX="${TARGET_PREFIX}clang++ --target=${TARGET_SYS} ${TARGET_CLANGCC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
-+    echo 'export CLANGCPP="${TARGET_PREFIX}clang -E --target=${TARGET_SYS} ${TARGET_CLANGCC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
-+    echo 'export CLANG_TIDY_EXE="${TARGET_PREFIX}clang-tidy"' >> $script
-     cat >> $script <<EOF
- 
- # Append environment subscripts
 
