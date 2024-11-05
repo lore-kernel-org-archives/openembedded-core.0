@@ -2,56 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E69AD33A37
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E8AFD33A38
 	for <webhook@archiver.kernel.org>; Tue,  5 Nov 2024 18:46:05 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.28092.1730832357557452627
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web10.28095.1730832359252787270
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Nov 2024 10:45:57 -0800
+ Tue, 05 Nov 2024 10:45:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=emBa3dTV;
- spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20cbca51687so55682685ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:57 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=J+4Y7HGs;
+ spf=pass (domain: gmail.com, ip: 209.85.216.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2e2fb304e7dso4631216a91.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:59 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730832357; x=1731437157; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1730832358; x=1731437158; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=AWO7ZYEc+r7G3zn6w0MLPuWBTjXGJZg8ikfEqJkwqjM=;
-        b=emBa3dTVi+fV+zMK3Q2PvxaY/UMIZjvXoHjm9hP1UAhsxHy3gD4GAg58QgP1Ot9MNy
-         np2qnVlaNMKK+jkAHNYr7NIUgwStrUlCOSoCG2W7rP0M8+NIvXNvU98sYgYdDfsbocs1
-         ZgSSG7mhBGKHxhBZGbEJhxzYFmLAZwtcCaX+wM9HXvbcjcla07L6kQq9SW3qz7HlAsVp
-         cpnatjDYnX/LPO+RuHTUwd8QlJvVD110J0HzfpUSTUko65pTNcFY9MLsyIDyGuVCsqyR
-         rNF++uX38w8r+nsGv1oJ/gcK368Q3GmS/FqvhG1/mL4BiF3dTHkTstcL7RHd1YP2K7WA
-         KACg==
+        bh=t865dY0gstbc9bVlcWYKwM9wyM2OAjL1+XgM/yI9MVE=;
+        b=J+4Y7HGsny+WbSoMFg3HiAXC4XpQpl3gUSFj+8gHZmJZlaNnXEe+9TjtAYc2sXmUOI
+         h9HOV9+N6lD7oZ5vb+pGTY1sxSohCmhCoaH+abHzGVH6A+eUcaCif/2e9JR5Tz7XerJC
+         DnBbdoxlKErPbpdALnX3yB7tk/zq+1I2atgnxeZ9RtTa9ho/cxdKt/zZ5VzyMaNUPzuj
+         HJreWUkHsm1GZWnVN7m4l1lT1wvRSywO2AzXtap9InwKtCL1hzRXOAl62EmDj8bQ9xzF
+         hsAGYvsEyHpd+YtUFIOsyBgUDjTiKawL5kTvrxz90MDWkZ9hFSciFZu/L/kHVomRY4c3
+         +FbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730832357; x=1731437157;
+        d=1e100.net; s=20230601; t=1730832358; x=1731437158;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AWO7ZYEc+r7G3zn6w0MLPuWBTjXGJZg8ikfEqJkwqjM=;
-        b=kPw3wuLvq4WCj07TWxXIXcYRQ/FujFf+Hl597QH+4bBkE0mBztTCadsat6KZVmnsLe
-         S14zahHa8FYgfUP8VtQR9vtaESTap7kYpA+N8Vt/a0vtj0Hwlckr9QZGJWrM5nyLFdNu
-         bGnPgnkB8VxBIhR8CMUahju5//WEpflS0McvIBp4Osvsk3xOtW/PFJbFIaIPJxWkrGn5
-         2RbhkRrOJQp2o4ZqrfheiKd1MaAJEtV1aWIJ6AikNn08GKSlcQ3Q7dmXvRXfgppUhjIe
-         2ltZNTL07JjPW7OqqR5zfaCxCQbQ6qUHSOJ9i3E90ewHkHJ6h9+Ioq+pg0VqleCgE3Kc
-         VD5g==
-X-Gm-Message-State: AOJu0YzhGEL3MKzd1ofaovyyYn+NwcthDtd0mVOEoLzw5iTy6GidqCV/
-	XWL+mqd5p/gV4eLMs29rozyf44SrLe5KCvJVb/mFp+wbqNa7od6leo1GsQ==
-X-Google-Smtp-Source: AGHT+IFJhM0F1PwCmPtT00/wUu3B4vvFbJexYMxJOt/QpmzUij6GA+DDER8haPsE09bf2sYe/g7sbQ==
-X-Received: by 2002:a17:902:c94d:b0:20c:92ce:359d with SMTP id d9443c01a7336-2111af5e6f2mr253410465ad.45.1730832356812;
-        Tue, 05 Nov 2024 10:45:56 -0800 (PST)
+        bh=t865dY0gstbc9bVlcWYKwM9wyM2OAjL1+XgM/yI9MVE=;
+        b=xGLxwfIM5xvtnhsq3dK6jhpe+dtA+oLtUxLCyEpYjgY0q7qUgncYLb1mNid6VTvX8c
+         eICWcYL8iGazM6JPjhG3JwBrmaSG+PtP/Y0nYPvn0OyQ/FCZD0khBA7sxgn2604wvf1S
+         dxWMieFM2OFvpCNTZP7nRk+xNX2s1un/VMvcWCByn7DRVUH47bsYSI4oEf1+PLQ7qXRI
+         C7yG1uG9Cqj/TjwLXTF+SL5LgmTzhlB7u6dQEi+SQ59LxvhSK3/WyyjgcMPrjEo/UJiK
+         r+gsI0jrFysbPSXRNOvJq3Be8zQE7n0lkEskOjn+Q0ENnHE+S27zB+2tfU94fSm+Hc9N
+         /0/g==
+X-Gm-Message-State: AOJu0YxzCOziL2QvwDwEyxTZ7vV5XB1eFnISX8yyuqqxQrEWS2vYYfHy
+	IQc0wg2EUThQMWkGe1tPnDq1L8ZYm1v+cc/IlKvzprDGRQ/U9l8wKz0y6g==
+X-Google-Smtp-Source: AGHT+IFpJDrTdvKfFSQCZTrXY+VKUiZKRqNKoqtVk+NlCycdwVm8dJc1F1ubPcsXFD8pDuFo6iKEcg==
+X-Received: by 2002:a17:90a:b706:b0:2e2:a097:bb02 with SMTP id 98e67ed59e1d1-2e8f105e828mr42355491a91.11.1730832358550;
+        Tue, 05 Nov 2024 10:45:58 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::ba3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.56
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 10:45:56 -0800 (PST)
+        Tue, 05 Nov 2024 10:45:58 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 15/19] rpm: Use gcc to compile always
-Date: Tue,  5 Nov 2024 10:45:34 -0800
-Message-ID: <20241105184540.3450302-15-raj.khem@gmail.com>
+Subject: [PATCH 17/19] toolchain-scripts.bbclass: Add env variables in SDK to use clang/clang++
+Date: Tue,  5 Nov 2024 10:45:36 -0800
+Message-ID: <20241105184540.3450302-17-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241105184540.3450302-1-raj.khem@gmail.com>
 References: <20241105184540.3450302-1-raj.khem@gmail.com>
@@ -61,30 +61,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 18:46:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206743
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206745
 
-openMP is LLVM implementation which is used by clang for openmp runtime
-but it ends up with reproducibility bug in clang, until its fixed lets
-always use gcc
+Make CLANGCC/CLANGCXX/CLANG_TIDY available in SDK
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- meta/recipes-devtools/rpm/rpm_4.19.1.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ meta/classes-recipe/toolchain-scripts.bbclass | 16 +++++++++++++++-
+ 1 file changed, 15 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-index 93303237973..d75106aabea 100644
---- a/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-+++ b/meta/recipes-devtools/rpm/rpm_4.19.1.1.bb
-@@ -49,6 +49,10 @@ S = "${WORKDIR}/git"
- DEPENDS = "lua libgcrypt file popt xz bzip2 elfutils python3 sqlite3 zstd"
- DEPENDS:append:class-native = " file-replacement-native bzip2-replacement-native"
+diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes-recipe/toolchain-scripts.bbclass
+index b59a295abcc..f17905d5284 100644
+--- a/meta/classes-recipe/toolchain-scripts.bbclass
++++ b/meta/classes-recipe/toolchain-scripts.bbclass
+@@ -11,6 +11,17 @@ inherit toolchain-scripts-base siteinfo kernel-arch
+ REAL_MULTIMACH_TARGET_SYS ?= "${MULTIMACH_TARGET_SYS}"
+ TARGET_CC_ARCH:append:libc-musl = " -mmusl"
  
-+# clang needs libomp which ends up with buildpaths in binaries debug info
-+# see https://github.com/llvm/llvm-project/issues/82541
-+TOOLCHAIN = "gcc"
++# Adjustments for clang in SDK
++export TARGET_CLANGCC_ARCH = "${TARGET_CC_ARCH}"
++TARGET_CLANGCC_ARCH:remove = "-mthumb-interwork"
++TARGET_CLANGCC_ARCH:remove = "-mmusl"
++TARGET_CLANGCC_ARCH:remove = "-muclibc"
++TARGET_CLANGCC_ARCH:remove = "-meb"
++TARGET_CLANGCC_ARCH:remove = "-mel"
++TARGET_CLANGCC_ARCH:append = "${@bb.utils.contains("TUNE_FEATURES", "bigendian", " -mbig-endian", " -mlittle-endian", d)}"
++TARGET_CLANGCC_ARCH:remove:powerpc = "-mhard-float"
++TARGET_CLANGCC_ARCH:remove:powerpc = "-mno-spe"
 +
- EXTRA_OECMAKE:append = " -D__CURL:FILEPATH=curl"
- EXTRA_OECMAKE:append:libc-musl = " -DENABLE_NLS=OFF -DENABLE_OPENMP=OFF"
+ # default debug prefix map isn't valid in the SDK
+ DEBUG_PREFIX_MAP = ""
  
+@@ -147,7 +158,10 @@ toolchain_shared_env_script () {
+ 	echo 'export ARCH=${ARCH}' >> $script
+ 	echo 'export CROSS_COMPILE=${TARGET_PREFIX}' >> $script
+ 	echo 'export OECORE_TUNE_CCARGS="${TUNE_CCARGS}"' >> $script
+-
++	echo 'export CLANGCC="${TARGET_PREFIX}clang --target=${TARGET_SYS} ${TARGET_CLANGCC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
++    echo 'export CLANGCXX="${TARGET_PREFIX}clang++ --target=${TARGET_SYS} ${TARGET_CLANGCC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
++    echo 'export CLANGCPP="${TARGET_PREFIX}clang -E --target=${TARGET_SYS} ${TARGET_CLANGCC_ARCH} --sysroot=$SDKTARGETSYSROOT"' >> $script
++    echo 'export CLANG_TIDY_EXE="${TARGET_PREFIX}clang-tidy"' >> $script
+     cat >> $script <<EOF
+ 
+ # Append environment subscripts
 
