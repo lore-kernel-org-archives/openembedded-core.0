@@ -2,56 +2,56 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55A9CD33A3A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 69047D33A3E
 	for <webhook@archiver.kernel.org>; Tue,  5 Nov 2024 18:46:05 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.28094.1730832358479910312
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web10.28090.1730832355910331922
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Nov 2024 10:45:58 -0800
+ Tue, 05 Nov 2024 10:45:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bkE3wlOV;
- spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-20cbcd71012so67185495ad.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=XbAonhsM;
+ spf=pass (domain: gmail.com, ip: 209.85.215.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7ea68af2f62so4407114a12.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730832358; x=1731437158; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1730832355; x=1731437155; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=XLC++yM0KemcbNPsRQUxlf4rKIqEGLQVKJAVLtZ/sOU=;
-        b=bkE3wlOVnoTKtgCPJ5V/NxLKWa3sBIDSSUO/uh9aoa/krx1EJfoDazp104jKfSSMcU
-         tZgaguVHI3gHA6bCMhhlbMCiS6tM3G9ZTx8R+ghTBPgVjAsVDGjqgesVfKFW5a0f1X9K
-         7H0Eqx36UFmECNDGTFHPi/f5Kt9f85tImngXjX/NlYX+R/tKj5aUxAk3l4rFJ6k9y0/o
-         +NsJvx3zQNinw6NKpnV0j2/UdZ4F1+ISZRTyVaGG/a5D5n8zfAGi81yB2dEIwVTgoHPF
-         Yb6MM5Gcc9Y+K5jFnWO8ET8Mw0Q4QNK/hv84rOafMNap7vXo/w4cGnTY7ViZQ9sfhACq
-         TrCQ==
+        bh=yIGK07TqJ1B3hW4Ss7rZFNAW8Z49iCU0vVgpneH9XVk=;
+        b=XbAonhsMfOZt849CF0tRfqDDrjhVwyrGafiYD40HgrtZJY9lPRVKfqZYAW1abECzsU
+         yZVGKMBsGgNPqwfpBbL/3m70P6UF/+zLabNTuGFWwwAZ2O1XLCpN5uvDRYwBvIR/75bD
+         RiuvXBkZtCJVLdIclM01aWeKPNsqyPtCtewxd4ryLOlRTVoIHzTRYG3Dkuy9zW6fmW2s
+         zSERHQ68Kkihkf00LJsSwxyBhhknppurjD18aAooir1nVNAOaY7FJa7twzV86goMf/FI
+         I2yQF9UXDNITq/dGmNQRUvQYf+l7xLtfdTwgfp4aCYw3dIt3efX/mmS+YwC/L+SgDZBs
+         5UPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730832358; x=1731437158;
+        d=1e100.net; s=20230601; t=1730832355; x=1731437155;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=XLC++yM0KemcbNPsRQUxlf4rKIqEGLQVKJAVLtZ/sOU=;
-        b=ViA3KTCCEpJKCFzbDsvW0iXGX0YEvfp/Autna3n1pL2WekkEUYMQE7f2bo0UgjbaT9
-         chl26ez10hTybH9zpikz8DHkiTm4/MG5m2n7JPW4pFFYXcFnQXsGZIUmERqbFyaRKQdD
-         kynNxey6UfqhJ4UUuF4Gjfh7Rhyj9pRy7vbnOA35QOpwYp+CX9BvZpv/p18NM97tbEEm
-         S3dxy2XAJDRA3ZaREu0140VblO0ONy4ezknOyfwjWHbk4sJ8hklnhueRBXeAjIrOvuJP
-         CRIq8KVm9KEgqHnjQ4myirHDJBV/ZX/fLqftYDmf9WUwwvlHY3lCO05GpMf040S6tbqq
-         PqMA==
-X-Gm-Message-State: AOJu0YwsoUFNW35l4uUs7HHY2ZgPQdxii5TsdY3WO14NCpmBW2VY0PWB
-	5J+NgfhgpNRY5efx7K3vYAekFQFX5aWvv74OeJZydL2y8B7IVQVLXrhZQw==
-X-Google-Smtp-Source: AGHT+IFLL43I0hcZYPSbCLWeozEp0Of8GtavTkhzLRrD7ZYCSaat4NSbHIYJ9/jY2HoqbSTqFfmsGQ==
-X-Received: by 2002:a17:90b:1649:b0:2cb:5aaf:c12e with SMTP id 98e67ed59e1d1-2e94c53a75emr25465360a91.37.1730832357636;
-        Tue, 05 Nov 2024 10:45:57 -0800 (PST)
+        bh=yIGK07TqJ1B3hW4Ss7rZFNAW8Z49iCU0vVgpneH9XVk=;
+        b=St0HDhqDqzyce1HfBVmRuWHEhbOpr8O9FyAsn2+DWGTOgi0Xl+PEdyk+8paWra2XSp
+         e03NlL5DEC+JxuhA+T8WojTbnjsv5GDr06tiFHUURsnQfKaXIIp0JgHFNW5QzXSNWE7z
+         lgp9k6HBVORoVcA1hbM2MmflT2hGY1ytrR/LX4M6iTfitmvJjlJ+rqBwYoB5Kr3jmzMD
+         N2yQli+A7mTT0tNNLWla4u12gHJerqTWjI2QEvLdhEyrPDsPeGdfjWSyowBFFWtj9oKM
+         XczswWvHefxoLTk3CXkHBOEksZ/3GzXES/0kZLHoDFZJ+y42DzaSgfiK336QBhe44lIP
+         AINQ==
+X-Gm-Message-State: AOJu0Yxu4+vPtDPhp62b4636e/+r7vFyC+/JHLKlUTadnBqJ+IsJh8D9
+	zCM/9TDEfH/8VPDpZal6hVI+jHDyYO3Vv7hJTkL5mwVBWDWUMc3saDiLVg==
+X-Google-Smtp-Source: AGHT+IHFvl/XrVgb+iLGYyOjbdsTRlwbJP1NcKaK10XbxfDQ4P3HfeRvx64VADmC3iYqK0qb5uy5fw==
+X-Received: by 2002:a17:90b:5448:b0:2e2:e8a9:a1f with SMTP id 98e67ed59e1d1-2e94c2c30famr25244913a91.13.1730832355145;
+        Tue, 05 Nov 2024 10:45:55 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::ba3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.56
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 10:45:57 -0800 (PST)
+        Tue, 05 Nov 2024 10:45:54 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 16/19] sdks: Add clang toolchain to SDKs
-Date: Tue,  5 Nov 2024 10:45:35 -0800
-Message-ID: <20241105184540.3450302-16-raj.khem@gmail.com>
+Subject: [PATCH 13/19] maintainers.inc: Add myself as maintainer for clang family of recipes
+Date: Tue,  5 Nov 2024 10:45:32 -0800
+Message-ID: <20241105184540.3450302-13-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241105184540.3450302-1-raj.khem@gmail.com>
 References: <20241105184540.3450302-1-raj.khem@gmail.com>
@@ -61,122 +61,74 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 18:46:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206744
-
-Use SDK_TOOLCHAINS_LANGS to tether clang toolchain into SDKs
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206741
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- documentation/ref-manual/variables.rst         |  2 +-
- meta/classes-recipe/populate_sdk_base.bbclass  |  2 ++
- .../packagegroup-clang-cross-canadian.bb       | 18 ++++++++++++++++++
- .../packagegroup-clang-sdk-target.bb           | 15 +++++++++++++++
- .../packagegroup-core-buildessential.bb        |  5 +++++
- .../packagegroups/packagegroup-core-sdk.bb     |  1 +
- 6 files changed, 42 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb
- create mode 100644 meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb
+ meta/conf/distro/include/maintainers.inc | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/documentation/ref-manual/variables.rst b/documentation/ref-manual/variables.rst
-index 07ed143ac56..77dbe2814cb 100644
---- a/documentation/ref-manual/variables.rst
-+++ b/documentation/ref-manual/variables.rst
-@@ -7715,7 +7715,7 @@ system and gives an overview of their function and contents.
- 
-    :term:`SDK_TOOLCHAIN_LANGS`
-       Specifies programming languages to support in the SDK, as a
--      space-separated list. Currently supported items are ``rust`` and ``go``.
-+      space-separated list. Currently supported items are ``clang``, ``rust`` and ``go``.
- 
-    :term:`SDK_UPDATE_URL`
-       An optional URL for an update server for the extensible SDK. If set,
-diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-recipe/populate_sdk_base.bbclass
-index 031c65f05f3..68a772c3bd2 100644
---- a/meta/classes-recipe/populate_sdk_base.bbclass
-+++ b/meta/classes-recipe/populate_sdk_base.bbclass
-@@ -64,12 +64,14 @@ SDK_TOOLCHAIN_LANGS:remove:mipsarchn32 = "rust"
- TOOLCHAIN_HOST_TASK ?= " \
-     nativesdk-packagegroup-sdk-host \
-     packagegroup-cross-canadian-${MACHINE} \
-+    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'clang', 'packagegroup-clang-cross-canadian-${MACHINE}', '', d)} \
-     ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', 'packagegroup-go-cross-canadian-${MACHINE}', '', d)} \
-     ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', 'packagegroup-rust-cross-canadian-${MACHINE}', '', d)} \
- "
- TOOLCHAIN_HOST_TASK_ATTEMPTONLY ?= ""
- TOOLCHAIN_TARGET_TASK ?= " \
-     ${@multilib_pkg_extend(d, 'packagegroup-core-standalone-sdk-target')} \
-+    ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'clang', multilib_pkg_extend(d, 'packagegroup-clang-sdk-target'), '', d)} \
-     ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'go', multilib_pkg_extend(d, 'packagegroup-go-sdk-target'), '', d)} \
-     ${@bb.utils.contains('SDK_TOOLCHAIN_LANGS', 'rust', multilib_pkg_extend(d, 'libstd-rs'), '', d)} \
-     target-sdk-provides-dummy \
-diff --git a/meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb b/meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb
-new file mode 100644
-index 00000000000..2a6303cc824
---- /dev/null
-+++ b/meta/recipes-core/packagegroups/packagegroup-clang-cross-canadian.bb
-@@ -0,0 +1,18 @@
-+SUMMARY = "Host SDK package for Clang cross canadian toolchain"
-+PN = "packagegroup-clang-cross-canadian-${MACHINE}"
-+
-+inherit cross-canadian packagegroup
-+
-+PACKAGEGROUP_DISABLE_COMPLEMENTARY = "1"
-+
-+CLANG="clang-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-+
-+RDEPENDS:${PN} = " \
-+    ${@all_multilib_tune_values(d, 'CLANG')} \
-+    nativesdk-binutils \
-+    nativesdk-clang \
-+    nativesdk-glibc-dev \
-+    nativesdk-libgcc-dev \
-+    nativesdk-compiler-rt-dev \
-+    nativesdk-libcxx-dev \
-+"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb b/meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb
-new file mode 100644
-index 00000000000..2b30642427c
---- /dev/null
-+++ b/meta/recipes-core/packagegroups/packagegroup-clang-sdk-target.bb
-@@ -0,0 +1,15 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+SUMMARY = "Target packages for the Clang SDK"
-+
-+inherit packagegroup
-+
-+RDEPENDS:${PN} = " \
-+    clang \
-+    libcxx \
-+    compiler-rt \
-+"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-index 2cd67ad05f8..d140f1f54af 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
-@@ -29,3 +29,8 @@ RDEPENDS:packagegroup-core-buildessential = "\
-     pkgconfig \
-     "
- 
-+RDEPENDS:packagegroup-core-buildessential:append:toolchain-clang = "\
-+    clang \
-+    libcxx \
-+    compiler-rt \
-+    "
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-index 84e1a41d9a0..c2385a97b44 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-sdk.bb
-@@ -30,6 +30,7 @@ RDEPENDS:packagegroup-core-sdk = "\
-     tcl \
-     ${@bb.utils.contains('TARGET_TOOLCHAIN_LANGS', 'go', 'packagegroup-go-sdk-target', '', d)} \
-     ${@bb.utils.contains('TARGET_TOOLCHAIN_LANGS', 'rust', 'packagegroup-rust-sdk-target', '', d)} \
-+    ${@bb.utils.contains('TARGET_TOOLCHAIN_LANGS', 'clang', 'packagegroup-clang-sdk-target', '', d)} \
- "
- 
- SANITIZERS = "libasan-dev libubsan-dev"
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 7aafa7a2d14..f3ae74423a1 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -96,8 +96,14 @@ RECIPE_MAINTAINER:pn-cantarell-fonts = "Alexander Kanavin <alex.kanavin@gmail.co
+ RECIPE_MAINTAINER:pn-ccache = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-chrpath = "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER:pn-clang = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-clang-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-clang-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-clang-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-cmake = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-cmake-native = "Unassigned <unassigned@yoctoproject.org>"
++RECIPE_MAINTAINER:pn-compiler-rt = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-compiler-rt-sanitizers = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-connman = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+ RECIPE_MAINTAINER:pn-connman-conf = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-connman-gnome = "Ross Burton <ross.burton@arm.com>"
+@@ -320,8 +326,10 @@ RECIPE_MAINTAINER:pn-libcap-ng = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-libcap-ng-python = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-libcgroup = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER:pn-libclc = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-libcomps = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libconvert-asn1-perl = "Tim Orling <tim.orling@konsulko.com>"
++RECIPE_MAINTAINER:pn-libcxx = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-libdaemon = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libdazzle = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libdnf = "Alexander Kanavin <alex.kanavin@gmail.com>"
+@@ -469,7 +477,7 @@ RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto-dev = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto-rt = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+-RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
++RECIPE_MAINTAINER:pn-llvm-project-source-19.1.3 = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-lrzsz = "Anuj Mittal <anuj.mittal@intel.com>"
+@@ -537,6 +545,7 @@ RECIPE_MAINTAINER:pn-musl-obstack = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-musl-utils = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-nasm = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-nativesdk-buildtools-perl-dummy = "Richard Purdie <richard.purdie@linuxfoundation.org>"
++RECIPE_MAINTAINER:pn-nativesdk-clang-glue = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-nativesdk-icecc-toolchain = "Joshua Watt <JPEWhacker@gmail.com>"
+ RECIPE_MAINTAINER:pn-nativesdk-libtool = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-nativesdk-packagegroup-sdk-host = "Ross Burton <ross.burton@arm.com>"
+@@ -556,6 +565,7 @@ RECIPE_MAINTAINER:pn-npth = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-nss-myhostname = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-numactl = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+ RECIPE_MAINTAINER:pn-ofono = "Ross Burton <ross.burton@arm.com>"
++RECIPE_MAINTAINER:pn-openmp = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-opensbi = "Thomas Perrot <thomas.perrot@bootlin.com>"
+ RECIPE_MAINTAINER:pn-openssh = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-openssl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+@@ -775,6 +785,7 @@ RECIPE_MAINTAINER:pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-speex = "Michael Opdenacker <michael@opdenacker.org>"
+ RECIPE_MAINTAINER:pn-speexdsp = "Michael Opdenacker <michael@opdenacker.org>"
+ RECIPE_MAINTAINER:pn-spirv-headers = "Jose Quaresma <quaresma.jose@gmail.com>"
++RECIPE_MAINTAINER:pn-spirv-llvm-translator = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
+ RECIPE_MAINTAINER:pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
+ RECIPE_MAINTAINER:pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
 
