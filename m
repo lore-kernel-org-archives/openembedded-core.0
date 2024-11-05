@@ -2,223 +2,768 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A70D33A32
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B60CD33A2A
 	for <webhook@archiver.kernel.org>; Tue,  5 Nov 2024 18:45:55 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.27955.1730832351662841600
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.web11.27949.1730832346183358803
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Nov 2024 10:45:51 -0800
+ Tue, 05 Nov 2024 10:45:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bNen9d9g;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-20ca388d242so58779425ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=WMoucxpT;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: raj.khem@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-2e2ed2230d8so4444159a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 10:45:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730832351; x=1731437151; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1730832345; x=1731437145; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0M6PSOiWB/4P5Ib+O7NMZroGplhInshT4hwzyrHqtYc=;
-        b=bNen9d9ggex8+FqwNFLDCF6Hkmh/fT3k+92vrEwiDUxZY1E+4I5VACQtNup221MMop
-         oJzANnSbg5fPDOOOn7iU+jFkeqa+XdRRCar4/CilGeDO+0H2tHiKqBqGwlYWisSXTi61
-         PPVUw+x2cj3sMBFXYAAnJEqggfR+mmVUO1u+tHz2D0ONoRItEIKpdZO+icXLX58JYqYc
-         KlR//Jk+7Z8VLcTeqrycWTuRSiWPL9cW7uXPvbf2mK6HmFyQcX2+k2Yv8jR6TPzQtOw6
-         bZ59WzidSHMvPxMO5gQlkB7yJv7LMFQZAIPQkSzi6TFBWX/BN+LToUkyNIvnPAj3OKDf
-         Zedg==
+        bh=WIxFXtpKHxrMdUOi8MDXh/xaagA3leLLtFd/rD/iOm4=;
+        b=WMoucxpTKKz11N71MCEU8A/aSPDeH2mx7LSmr9QbMNe0ky5I5409+T4iPOSLdk9ZZB
+         0oWfpXdhhIIvbaeGPEDsMOUPiazHES+w1DBzbQGlXyj4gcbpbwh5C7dchBbzlcd7WT0c
+         cQonhQ3C+NMAV0d8B/59g2PJjanOYfryzoc259IcyZRJXrxtrgk+hyTuOvpLFzrJnTGV
+         gusNPQrscPzwS/LEi8AUcvr9yr6XgsBfyA1i8jsmc4LHzfcR6ZnSzQQZlaWYwkq+idFK
+         oo0Y3wPTR/y2OJFRy9CO2cxkV1nbZi9ZNmxqpPBJo2IU08cW+DiwsvwRUQOK5Y8sczkj
+         j81A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730832351; x=1731437151;
+        d=1e100.net; s=20230601; t=1730832345; x=1731437145;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=0M6PSOiWB/4P5Ib+O7NMZroGplhInshT4hwzyrHqtYc=;
-        b=f6IyBE6TwGaW40aNcR5aX9wgxbcmmHSPxq6OH53cbVBzDgBHI3FSO2xAdr3/MMwyYo
-         6Y4uJV4YzSw9Oap1E27P1uw6kbaXwH4UTMveesCnhdk/TtK7ZAmOEXQvmK9wSCPKCMdd
-         DjreCKkhAWkLADN5ytNub6vEcXXueGxOkwKLhOT3wHTGYzNKpmaW6p+eVKxUOe2ppAEg
-         aoDjNaESErFtr1rBIEXZ111M+RcIbULycKNAS86rwCnmfg/MPauKBfwmPZtF1V4Lm9yI
-         NAr3Y35mW1wpJO++Z9AZJ17cx2+iP8AJjRKy/nbmvrMajXIR6AXuR1bHg0oZvgrEAwJq
-         xc6A==
-X-Gm-Message-State: AOJu0YynhUZ+/RkoE2RtF5XyzqEs7jcfVzc7aqIIkA5z2NH1Qqys70+R
-	Tc37fL+RbFVWBdkZbFtRE6lONQ1JO3XiaF8QSolvfp6qufdGG+8rfOyQxw==
-X-Google-Smtp-Source: AGHT+IGHKDHmF7VKRfUydMo3Ggglwi5nFcAR+eZwOccoDEpvn2kmWeij+q0/tiTOL0tjZ2UOQRFwBg==
-X-Received: by 2002:a17:902:db0b:b0:20b:a41f:6e48 with SMTP id d9443c01a7336-2111af69655mr240731595ad.27.1730832350689;
-        Tue, 05 Nov 2024 10:45:50 -0800 (PST)
+        bh=WIxFXtpKHxrMdUOi8MDXh/xaagA3leLLtFd/rD/iOm4=;
+        b=d/Bs0l49UXtYbPX63QV3Se71DixY5vQjZ2+SV6k30d7TPkkvnGxNR43E9a9YVpZpU3
+         1oKmZTBr0mhKJjQfrsHG1YhEEsdRY7eaFIknArYDwSCzQvt698w83KIUt8g9sIDiyToW
+         syAjIzt49/+c2ZBcaWu2xAoRP3R5TcIQtVlipwQ2K7CbvGriEeFG72jbQ4VLvgPnn98E
+         c33o53VRBkqrsabfQU9vO+9DqtznnnW4IB7wgXoXS6kSLWWY2rU9dvg81SdW6t1iIGU+
+         QuxktPtttNDC8jVbjJJz9Npv1r3s+jwRpVKtxZTrH04N3NMewOJ3Gn4l5hL7ugci4+Aq
+         n04Q==
+X-Gm-Message-State: AOJu0YxMlJhWSFrQvedanpW39ERgrHOMxw4rmlBeubja/onAku1r+2b9
+	OAfhjZVVtBZY5qEXszivaYb/4IHvEI3y1yKKEjWYqW0tOtaHZy7pgOESNw==
+X-Google-Smtp-Source: AGHT+IHa4nkE7JmQ1TjQOYHJwSpAVKBhJ+h8Xn+eT6K0rT8qzVkK+RcbbnPeJBrbhROyyM0YtM5E7w==
+X-Received: by 2002:a17:90b:2681:b0:2c8:647:1600 with SMTP id 98e67ed59e1d1-2e94c2b082fmr23613402a91.9.1730832344866;
+        Tue, 05 Nov 2024 10:45:44 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:9d80:4380::ba3])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.50
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e92fa0ed5esm12526670a91.2.2024.11.05.10.45.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Nov 2024 10:45:50 -0800 (PST)
+        Tue, 05 Nov 2024 10:45:44 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 08/19] clang/recipes: Add missing SUMMARY field
-Date: Tue,  5 Nov 2024 10:45:27 -0800
-Message-ID: <20241105184540.3450302-8-raj.khem@gmail.com>
+Subject: [PATCH 02/19] nonclangable.inc: Add recipe which can not be built with clang
+Date: Tue,  5 Nov 2024 10:45:21 -0800
+Message-ID: <20241105184540.3450302-2-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.47.0
 In-Reply-To: <20241105184540.3450302-1-raj.khem@gmail.com>
 References: <20241105184540.3450302-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 18:45:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206735
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206730
 
-Enhance description while here
+Some need adjusting commandline variables and other parameters
+all get housed here
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- .../clang/clang-cross-canadian_git.bb                 |  2 +-
- meta/recipes-devtools/clang/clang-cross_git.bb        |  2 +-
- meta/recipes-devtools/clang/clang-crosssdk_git.bb     |  2 +-
- meta/recipes-devtools/clang/clang_git.bb              | 11 ++++++++++-
- .../clang/compiler-rt-sanitizers_git.bb               |  4 +++-
- meta/recipes-devtools/clang/compiler-rt_git.bb        |  6 +++++-
- meta/recipes-devtools/clang/libclc_git.bb             |  2 +-
- meta/recipes-devtools/clang/libcxx_git.bb             |  2 +-
- meta/recipes-devtools/clang/nativesdk-clang-glue.bb   |  2 +-
- meta/recipes-devtools/clang/openmp_git.bb             |  2 +-
- 10 files changed, 25 insertions(+), 10 deletions(-)
+ meta/conf/distro/include/nonclangable.inc | 687 ++++++++++++++++++++++
+ 1 file changed, 687 insertions(+)
+ create mode 100644 meta/conf/distro/include/nonclangable.inc
 
-diff --git a/meta/recipes-devtools/clang/clang-cross-canadian_git.bb b/meta/recipes-devtools/clang/clang-cross-canadian_git.bb
-index 33c33c4d443..f327a1275e7 100644
---- a/meta/recipes-devtools/clang/clang-cross-canadian_git.bb
-+++ b/meta/recipes-devtools/clang/clang-cross-canadian_git.bb
-@@ -1,7 +1,7 @@
- # Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "Clang/LLVM based C/C++ compiler (cross-canadian for ${TARGET_ARCH} target)"
-+SUMMARY = "Clang/LLVM based C/C++ compiler (cross-canadian for ${TARGET_ARCH} target)"
- HOMEPAGE = "http://clang.llvm.org/"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0-with-LLVM-exception;md5=0bcd48c3bdfef0c9d9fd17726e4b7dab"
- SECTION = "devel"
-diff --git a/meta/recipes-devtools/clang/clang-cross_git.bb b/meta/recipes-devtools/clang/clang-cross_git.bb
-index 8aee5cd8628..a0c215e4dfb 100644
---- a/meta/recipes-devtools/clang/clang-cross_git.bb
-+++ b/meta/recipes-devtools/clang/clang-cross_git.bb
-@@ -1,7 +1,7 @@
- # Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "Cross compiler wrappers for LLVM based C/C++ compiler"
-+SUMMARY = "Cross compiler wrappers for LLVM based C/C++ compiler"
- HOMEPAGE = "http://clang.llvm.org/"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0-with-LLVM-exception;md5=0bcd48c3bdfef0c9d9fd17726e4b7dab"
- SECTION = "devel"
-diff --git a/meta/recipes-devtools/clang/clang-crosssdk_git.bb b/meta/recipes-devtools/clang/clang-crosssdk_git.bb
-index e4b521d0d23..913c49ac740 100644
---- a/meta/recipes-devtools/clang/clang-crosssdk_git.bb
-+++ b/meta/recipes-devtools/clang/clang-crosssdk_git.bb
-@@ -1,7 +1,7 @@
- # Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "SDK Cross compiler wrappers for LLVM based C/C++ compiler"
-+SUMMARY = "SDK Cross compiler wrappers for LLVM based C/C++ compiler"
- HOMEPAGE = "http://clang.llvm.org/"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0-with-LLVM-exception;md5=0bcd48c3bdfef0c9d9fd17726e4b7dab"
- SECTION = "devel"
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-index c2b6f272d8f..1ad40f2fcff 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -1,7 +1,16 @@
- # Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "LLVM based C/C++ compiler"
-+SUMMARY = "LLVM based C/C++ compiler"
-+DESCRIPTION = "Clang is an LLVM based C/C++/Objective-C compiler, \
-+                which aims to deliver amazingly fast compiles, \
-+                extremely useful error and warning messages and \
-+                to provide a platform for building great source \
-+                level tools. The Clang Static Analyzer and \
-+                clang-tidy are tools that automatically find bugs \
-+                in your code, and are great examples of the sort \
-+                of tools that can be built using the Clang frontend \
-+                as a library to parse C/C++ code"
- HOMEPAGE = "http://clang.llvm.org/"
- SECTION = "devel"
- 
-diff --git a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
-index db484683af4..acd5516a8d1 100644
---- a/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
-+++ b/meta/recipes-devtools/clang/compiler-rt-sanitizers_git.bb
-@@ -1,7 +1,9 @@
- # Copyright (C) 2021 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "LLVM based C/C++ compiler Runtime"
-+SUMMARY = "LLVM based C/C++ compiler Sanitizers Runtime"
-+DESCRIPTION = "Runtime libraries that are required \
-+				to run the code with sanitizer instrumentation"
- HOMEPAGE = "http://compiler-rt.llvm.org/"
- SECTION = "base"
- 
-diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb b/meta/recipes-devtools/clang/compiler-rt_git.bb
-index a6f6db3cc73..080e53b93d5 100644
---- a/meta/recipes-devtools/clang/compiler-rt_git.bb
-+++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
-@@ -1,7 +1,11 @@
- # Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "LLVM based C/C++ compiler Runtime"
-+SUMMARY = "LLVM based C/C++ compiler Runtime"
-+DESCRIPTIOM = "Simple builtin library that provides an \
-+				implementation of the low-level target-specific \
-+				hooks required by code generation and other runtime \
-+				components"
- HOMEPAGE = "http://compiler-rt.llvm.org/"
- SECTION = "base"
- 
-diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-devtools/clang/libclc_git.bb
-index 16ab8332138..0d43133281f 100644
---- a/meta/recipes-devtools/clang/libclc_git.bb
-+++ b/meta/recipes-devtools/clang/libclc_git.bb
-@@ -1,4 +1,4 @@
--DESCRIPTION = "LLVM based OpenCL runtime support library"
-+SUMMARY = "Implementation of the library requirements of the OpenCL 1.1+ C programming language"
- HOMEPAGE = "http://libclc.llvm.org/"
- SECTION = "libs"
- 
-diff --git a/meta/recipes-devtools/clang/libcxx_git.bb b/meta/recipes-devtools/clang/libcxx_git.bb
-index a2a67880a8b..c7f3a77ca94 100644
---- a/meta/recipes-devtools/clang/libcxx_git.bb
-+++ b/meta/recipes-devtools/clang/libcxx_git.bb
-@@ -1,7 +1,7 @@
- # Copyright (C) 2015 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "libc++ is a new implementation of the C++ standard library, targeting C++11"
-+SUMMARY = "libc++ is a new implementation of the C++ standard library, targeting C++11 and above"
- HOMEPAGE = "http://libcxx.llvm.org/"
- SECTION = "base"
- 
-diff --git a/meta/recipes-devtools/clang/nativesdk-clang-glue.bb b/meta/recipes-devtools/clang/nativesdk-clang-glue.bb
-index a0b93740845..8e5622f6c18 100644
---- a/meta/recipes-devtools/clang/nativesdk-clang-glue.bb
-+++ b/meta/recipes-devtools/clang/nativesdk-clang-glue.bb
-@@ -1,7 +1,7 @@
- # Copyright (C) 2014 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "SDK Cross compiler wrappers for LLVM based C/C++ compiler"
-+SUMMARY = "SDK Cross compiler wrappers for LLVM based C/C++ compiler"
- HOMEPAGE = "http://clang.llvm.org/"
- LICENSE = "Apache-2.0-with-LLVM-exception"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/Apache-2.0-with-LLVM-exception;md5=0bcd48c3bdfef0c9d9fd17726e4b7dab"
-diff --git a/meta/recipes-devtools/clang/openmp_git.bb b/meta/recipes-devtools/clang/openmp_git.bb
-index 34f6e4ab9e5..549df0e7684 100644
---- a/meta/recipes-devtools/clang/openmp_git.bb
-+++ b/meta/recipes-devtools/clang/openmp_git.bb
-@@ -1,7 +1,7 @@
- # Copyright (C) 2017 Khem Raj <raj.khem@gmail.com>
- # Released under the MIT license (see COPYING.MIT for the terms)
- 
--DESCRIPTION = "LLVM based C/C++ compiler Runtime"
-+SUMMARY = "LLVM OpenMP compiler Runtime"
- HOMEPAGE = "https://openmp.llvm.org/"
- SECTION = "libs"
- 
+diff --git a/meta/conf/distro/include/nonclangable.inc b/meta/conf/distro/include/nonclangable.inc
+new file mode 100644
+index 00000000000..bb322447879
+--- /dev/null
++++ b/meta/conf/distro/include/nonclangable.inc
+@@ -0,0 +1,687 @@
++
++TUNE_CCARGS:remove:toolchain-clang = "${@bb.utils.contains('TUNE_FEATURES', 'aarch64', '-mbranch-protection=standard', '', d)}"
++
++# https://github.com/llvm/llvm-project/issues/78337
++TOOLCHAIN:pn-kernel-selftest = "gcc"
++
++# x86_64/musl build fails with
++# gtk4/4.12.5/build/gtk/libgtk-4.so.1: unsupported relocation type 37
++TOOLCHAIN:pn-gtk4:libc-musl:x86-64 = "gcc"
++
++TOOLCHAIN:pn-cpufrequtils = "gcc"
++
++TOOLCHAIN:pn-grub:genericx86-64 = "gcc"
++# | grub-mkimage: error: relocation 0x2b is not implemented yet.
++TOOLCHAIN:pn-grub-efi:aarch64 = "gcc"
++TOOLCHAIN:pn-grub-efi:riscv32 = "gcc"
++# clang-15 crashes
++TOOLCHAIN:pn-grub-efi:riscv64 = "gcc"
++TOOLCHAIN:pn-grub:riscv64 = "gcc"
++# | build-grub-module-verifier: error: search_label: unsupported relocation 0x108.
++TOOLCHAIN:pn-grub:aarch64 = "gcc"
++# crash embeds version of gdb which is not buildable with clang
++TOOLCHAIN:pn-crash = "gcc"
++# See https://github.com/llvm/llvm-project/issues/71925
++LIBCPLUSPLUS:pn-elfutils:toolchain-clang = "-stdlib=libstdc++"
++#| erl_bits.c:(.text+0xc2a): undefined reference to `__extendhfsf2'
++#| erl_bits.c:(.text+0x1bfa): undefined reference to `__truncsfhf2'
++#| clang-15: error: linker command failed with exit code 1 (use -v to see invocation)
++# both riscv64 and x86-64
++TOOLCHAIN:pn-erlang = "gcc"
++
++# /mnt/a/yoe/build/tmp/work/cortexa7t2hf-neon-vfpv4-yoe-linux-gnueabi/firefox/60.1.0esr-r0/recipe-sysroot-native/usr/lib/clang/7.0.1/include/arm_neon.h:433:1: error: unknown type name 'inline'
++# __ai uint8x16_t vabdq_u8(uint8x16_t __p0, uint8x16_t __p1) {
++TOOLCHAIN:pn-firefox = "gcc"
++TOOLCHAIN:pn-gcc = "gcc"
++TOOLCHAIN:pn-gcc-runtime = "gcc"
++TOOLCHAIN:pn-gcc-sanitizers = "gcc"
++TOOLCHAIN:pn-glibc = "gcc"
++TOOLCHAIN:pn-glibc-initial = "gcc"
++TOOLCHAIN:pn-glibc-locale = "gcc"
++TOOLCHAIN:pn-glibc-mtrace = "gcc"
++TOOLCHAIN:pn-glibc-scripts = "gcc"
++TOOLCHAIN:pn-glibc-testsuite = "gcc"
++TOOLCHAIN:pn-glibc-y2038-tests = "gcc"
++
++#| prelink-rtld: error while loading shared libraries: ld.so.1
++#| /lib64/ld.so.1: No such file or directory
++TOOLCHAIN:pn-gobject-intospection:mips64 = "gcc"
++TOOLCHAIN:pn-avahi:mips64 = "gcc"
++
++# VLAs
++#| control.c:286:19: error: fields must have a constant size: 'variable length array in structure' extension will never be supported
++#|             __u32 buffer[cam->max_response_quads];
++#|                   ^
++#| 1 error generated.
++TOOLCHAIN:pn-libdc1394 = "gcc"
++
++# error: return address can be determined only for current frame
++TOOLCHAIN:pn-libexecinfo:mipsarch = "gcc"
++TOOLCHAIN:pn-libgcc = "gcc"
++TOOLCHAIN:pn-libgcc-initial = "gcc"
++TOOLCHAIN:pn-libgfortran = "gcc"
++TOOLCHAIN:pn-libssp-nonshared = "gcc"
++
++TOOLCHAIN:pn-m4:powerpc = "gcc"
++# clang does not have 64bit atomics on ppc
++TOOLCHAIN:pn-mesa:powerpc = "gcc"
++# clang fails with db.c:(.text+0x188): unsupported bss-plt -fPIC ifunc mmio_write64_be
++TOOLCHAIN:pn-rdma-core:powerpc = "gcc"
++# usermode qemu crashes when running binaries from clang + rust compiler on ppc32
++TOOLCHAIN:pn-librsvg:powerpc = "gcc"
++# variant-impl.hpp:309:36: error: 'is_variant' does not name a template but is followed by template arguments
++TOOLCHAIN:pn-omxplayer = "gcc"
++# error: return address can be determined only for current frame
++TOOLCHAIN:pn-openflow:mipsarch = "gcc"
++TOOLCHAIN:pn-openjdk-8 = "gcc"
++TOOLCHAIN:pn-openjre-8 = "gcc"
++TOOLCHAIN:pn-syslinux = "gcc"
++TOOLCHAIN:pn-systemtap = "gcc"
++# v4l-utils uses nested functions
++TOOLCHAIN:pn-v4l-utils = "gcc"
++# https://bugs.kde.org/show_bug.cgi?id=369723
++TOOLCHAIN:pn-valgrind = "gcc"
++
++TOOLCHAIN:pn-vboxguestdrivers = "gcc"
++# uses C++ which clang does not like
++TOOLCHAIN:pn-wvstreams = "gcc"
++TOOLCHAIN:pn-wvdial = "gcc"
++#
++#../../lib/libicui18n.so: undefined reference to `__atomic_fetch_sub_4'
++#../../lib/libicui18n.so: undefined reference to `__atomic_load_4'
++#../../lib/libicui18n.so: undefined reference to `__atomic_store_4'
++#../../lib/libicui18n.so: undefined reference to `__atomic_fetch_add_4'
++#
++TOOLCHAIN:pn-icu:armv4 = "gcc"
++TOOLCHAIN:pn-icu:armv5 = "gcc"
++
++#../../libgcrypt-1.6.5/mpi/mpih-div.c:98:3: error: invalid use of a cast in a inline asm context requiring an l-value: remove the cast or build with -fheinous-gnu-extensions
++TOOLCHAIN:pn-libgcrypt:mips64 = "gcc"
++
++#recipe-sysroot/usr/include/mozjs-60/mozilla/Span.h:634:5: error: statement not allowed in constexpr function
++#|     MOZ_RELEASE_ASSERT(aStart <= len && (aLength == dynamic_extent ||
++#|     ^
++TOOLCHAIN:pn-polkit = "gcc"
++
++# ppp uses nested functions and gcc specific option e.g. --print-sysroot
++#
++TOOLCHAIN:pn-ppp = "gcc"
++
++#| ./ports/linux/pseudo_wrappers.c:80:14: error: use of unknown builtin '__builtin_apply' [-Wimplicit-function-declaration]
++#|         void *res = __builtin_apply((void (*)()) real_syscall, __builtin_apply_args(), sizeof(long) * 7);
++#|                     ^
++#| ./ports/linux/pseudo_wrappers.c:80:57: error: use of unknown builtin '__builtin_apply_args' [-Wimplicit-function-declaration]
++#|         void *res = __builtin_apply((void (*)()) real_syscall, __builtin_apply_args(), sizeof(long) * 7);
++TOOLCHAIN:pn-pseudo = "gcc"
++
++# mix_neon.c:179:9: error: invalid operand in inline asm: 'vld1.s32 ${0:h}, [$2]
++#      vld1.s32 ${1:h}, [$3] '
++TOOLCHAIN:pn-pulseaudio:armv7ve = "gcc"
++TOOLCHAIN:pn-pulseaudio:armv7a = "gcc"
++
++#| ./dsp/v4f_IIR2.h:554:12: error: no matching function for call to 'v4f_map'
++#|                                 a[5] = v4f_map<__builtin_cosf> (f);
++#|                                        ^~~~~~~~~~~~~~~~~~~~~~~
++TOOLCHAIN:pn-caps = "gcc"
++
++#| ../libffi-3.3-rc0/src/arm/sysv.S: Assembler messages:
++#| ../libffi-3.3-rc0/src/arm/sysv.S:131: Error: selected processor does not support `vldrle d0,[sp]' in ARM mode
++#| ../libffi-3.3-rc0/src/arm/sysv.S:132: Error: selected processor does not support `vldmgt sp,{d0-d7}' in ARM mode
++TOOLCHAIN:pn-libffi:armeb = "gcc"
++
++# rocksdb/rocksdb/util/crc32c_ppc_asm.S:9:10: fatal error: 'ppc-asm.h' file not found
++# #include <ppc-asm.h>
++# This header is only available with gcc-cross
++TOOLCHAIN:pn-mariadb:powerpc64le = "gcc"
++
++# OpenCV does not compile for ppc64 with clang due to VSX clashes with altivec.h from clang
++TOOLCHAIN:pn-opencv:powerpc64le = "gcc"
++# Ade is used by openCV and shared C++ runtime so we can not mix libstdc++ and libc++
++TOOLCHAIN:pn-ade:powerpc64le = "gcc"
++
++#| error: return address can be determined only for current frame
++#| error: return address can be determined only for current frame
++#| error: return address can be determined only for current frame
++TOOLCHAIN:pn-gcompat:mips = "gcc"
++
++# Fixes Clang induced linker crashes when using glibc 2.35+
++# mips-yoe-linux/mips-yoe-linux-ld: DWARF error: invalid or unhandled FORM value: 0x22
++# mips-yoe-linux-ld: Zend/asm/make_mips32_o32_elf_gas.o: CALL16 reloc at 0x28 not against global symbol
++# mips-yoe-linux/mips-yoe-linux-ld: BFD (GNU Binutils) 2.37.20210721 assertion fail ../../bfd/elfxx-mips.c:3614
++TOOLCHAIN:pn-php:mips = "gcc"
++
++# Workaround oe-core patching problem temporarily
++TOOLCHAIN:pn-rsync = "gcc"
++
++TOOLCHAIN:pn-u-boot-at91 = "gcc"
++TOOLCHAIN:pn-u-boot-fslc-mfgtool = "gcc"
++TOOLCHAIN:pn-u-boot-fslc-mxsboot = "gcc"
++TOOLCHAIN:pn-u-boot-fslc = "gcc"
++TOOLCHAIN:pn-u-boot-imx-mfgtool = "gcc"
++TOOLCHAIN:pn-u-boot-imx = "gcc"
++TOOLCHAIN:pn-u-boot-qoriq = "gcc"
++TOOLCHAIN:pn-u-boot-boundary = "gcc"
++TOOLCHAIN:pn-u-boot-script-boundary = "gcc"
++TOOLCHAIN:pn-u-boot-script-qoriq = "gcc"
++TOOLCHAIN:pn-u-boot-script-toradex = "gcc"
++TOOLCHAIN:pn-u-boot-kontron = "gcc"
++TOOLCHAIN:pn-u-boot-variscite = "gcc"
++TOOLCHAIN:pn-u-boot-toradex = "gcc"
++TOOLCHAIN:pn-u-boot-hardkernel = "gcc"
++TOOLCHAIN:pn-u-boot-starfive = "gcc"
++TOOLCHAIN:pn-u-boot-hardkernel = "gcc"
++TOOLCHAIN:pn-u-boot-nezha = "gcc"
++TOOLCHAIN:pn-u-boot-ti-mainline = "gcc"
++TOOLCHAIN:pn-u-boot-ti-staging = "gcc"
++TOOLCHAIN:pn-u-boot-splash = "gcc"
++TOOLCHAIN:pn-u-boot-coral = "gcc"
++
++# See https://github.com/kraj/meta-clang/issues/696
++TOOLCHAIN:pn-pixman:aarch64 = "gcc"
++# libomp needs to link in libatomic after itself when -fopenmp is used
++TOOLCHAIN:pn-pixman:mipsarcho32 = "gcc"
++# See https://github.com/llvm/llvm-project/issues/61412
++TOOLCHAIN:pn-frr:riscv64 = "gcc"
++TOOLCHAIN:pn-frr:riscv32 = "gcc"
++
++# Tegra stuff
++TOOLCHAIN:pn-standalone-mm-optee-tegra:tegra = "gcc"
++TOOLCHAIN:pn-edk2-firmware-tegra:tegra = "gcc"
++TOOLCHAIN:pn-optee-os-tadevkit:tegra = "gcc"
++TOOLCHAIN:pn-optee-nvsamples:tegra = "gcc"
++TOOLCHAIN:pn-optee-os:tegra = "gcc"
++TOOLCHAIN:pn-libgcc-for-nvcc:tegra = "gcc"
++TOOLCHAIN:pn-gcc-for-nvcc-runtime:tegra = "gcc"
++
++# Does not compile with clang 18
++#| core/arch/arm/include/arm64.h:392:1: error: expected writable system register or pstate
++#|   392 | DEFINE_U32_REG_READWRITE_FUNCS(fpcr)
++#|       | ^
++TOOLCHAIN:pn-optee-os:imx-nxp-bsp = "gcc"
++
++# Fails with clang-19+
++# Poco/PriorityDelegate.h:203:10: error: no member named '_pTarget' in 'PriorityDelegate<type-parameter-0-0, void, true>'
++TOOLCHAIN:pn-poco = "gcc"
++TOOLCHAIN:pn-netdata = "gcc"
++# Needs OMP and with clang openmp is not ported to rv32 yet
++TOOLCHAIN:pn-python3-drgn:riscv32 = "gcc"
++
++CFLAGS:append:pn-liboil:toolchain-clang:x86-64 = " -fheinous-gnu-extensions "
++
++# TOPDIR/build/tmp/work/core2-32-yoe-linux/gnu-efi/3.0.17-r0/gnu-efi-3.0.17//lib/ctors.S:11:41: error: expected the entry size
++# .section .init_array, "aM", @init_array
++#                                        ^
++CFLAGS:append:pn-gnu-efi:toolchain-clang = " -no-integrated-as"
++
++#../libffi-3.2.1/src/arm/sysv.S:363:2: error: invalid instruction, did you mean: fldmiax?
++# fldmiadgt ip, {d0-d7}
++CFLAGS:append:pn-libffi:mips64:toolchain-clang = " -no-integrated-as"
++
++# ../db-5.3.28/src/mutex/mut_tas.c:150:34: error: unknown directive
++#<inline asm>:9:2: note: instantiated into assembly here
++# .force_thumb
++#        ^
++#CFLAGS:append:pn-db:toolchain-clang = " -no-integrated-as"
++#
++#| ../../../DirectFB-1.7.7/lib/direct/armasm_memcpy.S:63:2: error: invalid instruction
++#|  ldmgeia r1!, {r3, r4, r12, lr}
++#|  ^
++CFLAGS:append:pn-directfb:toolchain-clang:arm = " -no-integrated-as"
++
++#| threads_pthread.c:(.text+0x372): undefined reference to `__atomic_is_lock_free'
++EXTRA_OECONF:pn-openssl:toolchain-clang:x86 = "-latomic"
++
++CFLAGS:append:pn-userland:toolchain-clang = " -no-integrated-as"
++
++# libjpeg-turbo-2.0.2/simd/mips/jsimd_dspr2.S
++# <instantiation>:13:5: error: invalid token in expression
++# .if $17 != 0
++# ^
++CFLAGS:append:pn-libjpeg-turbo:toolchain-clang:mipsarch = " -no-integrated-as"
++
++#| /tmp/x86-sse2-cdb148.s:207:9: error: ambiguous operand size for instruction 'sub'
++#|     sub SIZE, 64
++#|         ^~~~
++CFLAGS:append:pn-tinymembench:toolchain-clang:x86-64 = " -no-integrated-as"
++CFLAGS:append:pn-tinymembench:toolchain-clang:x86 = " -no-integrated-as"
++CFLAGS:append:pn-tinymembench:toolchain-clang:mipsarch = " -no-integrated-as"
++
++CFLAGS:append:pn-ne10:toolchain-clang:arm = " -no-integrated-as"
++CFLAGS:append:pn-libde265:toolchain-clang:arm = " -no-integrated-as"
++
++#2816:2: error: changed section type for .debug_frame, expected: 0x7000001E
++# .section .debug_frame,"",@progbits
++# ^
++#lj_vm.S:2890:2: error: changed section flags for .eh_frame, expected: 0x2
++# .section .eh_frame,"aw",@progbits
++# ^
++CFLAGS:append:pn-luajit:toolchain-clang:mips = " -no-integrated-as"
++
++# uftrace/0.15.2/git/arch/aarch64/dynamic.S:92:2: error: instruction requires: fp-armv8
++CFLAGS:append:pn-uftrace:toolchain-clang:aarch64 = " -no-integrated-as"
++
++#FAILED: libucontext_posix.so.1
++#clang-13: error: unable to execute command: Segmentation fault (core dumped)
++#clang-13: error: linker command failed due to signal (use -v to see invocation)
++CFLAGS:append:pn-libucontext:toolchain-clang:powerpc64le = " -no-integrated-as"
++
++# Generated asm file can not be compiled with clang assembler due to presence of .0 label
++# and its references
++#| aes-decrypt-internal-2.s:368:1: error: unexpected token at start of statement
++#| .0:
++#| ^
++CFLAGS:append:pn-nettle:toolchain-clang:powerpc64le = " -no-integrated-as"
++
++# include/gcc/arm/ck_pr.h:201:1: error: instruction requires: arm-mode
++#| CK_PR_DOUBLE_STORE(uint64_t, 64)
++#| ^
++#include/gcc/arm/ck_pr.h:192:6: note: expanded from macro 'CK_PR_DOUBLE_STORE'
++#|                          "strexd        %1, %3, [%2]\n"         \
++#|                           ^
++CFLAGS:append:pn-concurrencykit:toolchain-clang:arm = " -no-integrated-as"
++CFLAGS:append:pn-sysbench:toolchain-clang:arm = " -no-integrated-as"
++#error: expected absolute expression
++#.elseif (bpp == 24) && (numpix == 8)
++#        ^
++#<instantiation>:50:5: note: while in macro instantiation
++#    pixld chunk_size, mask_bpp, mask_basereg, MASK
++#    ^
++CFLAGS:append:pn-qtbase:toolchain-clang:arm = " -no-integrated-as"
++
++#../git/common/connection.c:154:55: error: comparison of integers of different signs: 'unsigned long' and 'int' [-Werror,-Wsign-compare]
++#        for (cmsg = CMSG_FIRSTHDR(msg); cmsg != NULL; cmsg = CMSG_NXTHDR(msg, cmsg)) {
++#                                                             ^~~~~~~~~~~~~~~~~~~~~~
++CFLAGS:append:pn-seatd:toolchain-clang = " -Wno-sign-compare"
++
++# -fno-tree-vrp is gcc specific
++CXXFLAGS:remove:pn-mozjs:toolchain-clang = "-fno-tree-vrp"
++CFLAGS:remove:pn-mozjs:toolchain-clang = "-fno-tree-vrp"
++
++CFLAGS:append:pn-ffmpeg:riscv64 = " -march=rv64gczbb"
++CFLAGS:append:pn-ffmpeg:riscv32 = " -march=rv32gczbb"
++
++# python3-lxml_5.0.0 onwards need this option with clang until the functions are fixes
++# | src/lxml/etree.c:246911:63: error: incompatible function pointer types passing 'void (void *, const xmlError *)' (aka 'void (void *, const struct _xmlError *)') to parameter of type 'xmlStructuredErrorFunc' (aka 'void (*
++#)(void *, struct _xmlError *)') [-Wincompatible-function-pointer-types]
++#|  246911 |     xmlSchematronSetValidStructuredErrors(__pyx_v_valid_ctxt, __pyx_f_4lxml_5etree__receiveError, ((void *)__pyx_v_self->__pyx_base._error_log));
++#|         |                                                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++CFLAGS:append:pn-python3-lxml:toolchain-clang = " -Wno-error=incompatible-function-pointer-types"
++# https://lists.openembedded.org/g/openembedded-devel/topic/103542151#108198
++CFLAGS:append:pn-python3-kivy:toolchain-clang = " -Wno-error=incompatible-function-pointer-types"
++
++# otherwise systemd efi fails to build
++# error: the 'sse' unit is not supported with this instruction set
++TUNE_CCARGS:remove:pn-systemd:toolchain-clang = "-mfpmath=sse"
++TUNE_CCARGS:remove:pn-systemd-boot:toolchain-clang = "-mfpmath=sse"
++
++TUNE_CCARGS:remove:pn-omxplayer:toolchain-clang = "-no-integrated-as"
++TUNE_CCARGS:remove:pn-nfs-utils:toolchain-clang = "-Qunused-arguments"
++
++# We want to error out when -msse option is used otherwise it enables sse on non-x86 arches
++TUNE_CCARGS:remove:pn-pipewire:toolchain-clang = "-Qunused-arguments"
++TUNE_CCARGS:remove:pn-tesseract:toolchain-clang = "-Qunused-arguments"
++TUNE_CCARGS:remove:pn-pulseaudio:toolchain-clang = "-Qunused-arguments"
++TUNE_CCARGS:remove:pn-btrfs-tools:toolchain-clang = "-Qunused-arguments"
++TUNE_CCARGS:append:pn-btrfs-tools:toolchain-clang = " -Werror=unused-command-line-argument"
++
++# Disable altivec on ppc32
++#/usr/include/eigen3/Eigen/src/Core/arch/AltiVec/PacketMath.h:1345:32: error: use of undeclared identifier 'vec_sqrt'; did you mean 'vec_rsqrt'?
++#  BF16_TO_F32_UNARY_OP_WRAPPER(vec_sqrt, a);
++#                               ^~~~~~~~
++#                               vec_rsqrt
++TUNE_CCARGS:append:pn-ceres-solver:toolchain-clang:powerpc = " -mno-altivec"
++TUNE_CCARGS:append:pn-opencv:toolchain-clang:powerpc = " -mno-altivec"
++CXXFLAGS:append:pn-libeigen:toolchain-clang:powerpc = " -DEIGEN_ALTIVEC_DISABLE_MMA"
++
++# external/amber/src/src/amber.cc:53:41: error: unsafe pointer arithmetic [-Werror,-Wunsafe-buffer-usage]
++# vk-wrappers-1-0.inc:74:34: error: cast from 'PFN_vkVoidFunction' (aka 'void (*)()') to 'PFN_vkCmdEndRenderPass'
++# (aka 'void (*)(VkCommandBuffer_T *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
++CXXFLAGS:append:pn-opengl-es-cts:toolchain-clang = " -Wno-error=unsafe-buffer-usage -Wno-error=cast-function-type-strict"
++CXXFLAGS:append:pn-vulkan-cts:toolchain-clang = " -Wno-error=unsafe-buffer-usage -Wno-error=cast-function-type-strict"
++# Wno-error=overriding-option needed with clang-20
++# see https://github.com/jtv/libpqxx/issues/738 for deprecated-declarations ( not needed with clang19+ )
++CXXFLAGS:append:pn-vulkan-samples:toolchain-clang = " -Wno-error=overriding-option -Wno-error=deprecated-declarations"
++# Workaround for https://gitlab.gnome.org/GNOME/gtk/-/issues/6033
++CFLAGS:append:pn-gtk4:toolchain-clang = " -Wno-error=int-conversion"
++
++# usr/include/glib-2.0/glib/glib-autocleanups.h:49:1: error: cast from 'void (*)(void)' to 'GDestroyNotify'
++# (aka 'void (*)(void *)') converts to incompatible function type [-Werror,-Wcast-function-type-strict]
++CFLAGS:append:pn-pidgin-sipe:toolchain-clang = " -Wno-error=cast-function-type-strict"
++
++# 32bit builds of nodejs needs this warning to be disabled with clang16 until
++# v8 engine in nodejs moved beyong this commit
++# https://github.com/v8/v8/commit/d15d49b09dc7aef9edcc4cf6a0cb2b77a0db203f
++CXXFLAGS:append:pn-nodejs:toolchain-clang = " -Wno-error=enum-constexpr-conversion"
++# deps/TinyDeflate/gunzip.hh:1144:35: error: a template argument list is expected after a name prefixed by the template keyword [-Wmissing-template-arg-list-after-template-kw]
++CXXFLAGS:append:pn-doxygen:toolchain-clang = " -Wno-error=missing-template-arg-list-after-template-kw"
++
++#| /usr/src/debug/ruby/2.5.1-r0/build/../ruby-2.5.1/process.c:7073: undefined reference to `__mulodi4'
++#| clang-7: error: linker command failed with exit code 1 (use -v to see invocation)
++COMPILER_RT:pn-ruby:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-python3:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-m4:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-cpio:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-openssh:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-webkitgtk:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-wpewebkit:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-python3-numpy:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:pn-mongodb:toolchain-clang:runtime-gnu = "-rtlib=compiler-rt ${UNWINDLIB}"
++COMPILER_RT:remove:pn-m4:powerpc = "-rtlib=compiler-rt"
++COMPILER_RT:remove:pn-ruby:powerpc = "-rtlib=compiler-rt"
++COMPILER_RT:remove:pn-webkitgtk:powerpc = "-rtlib=compiler-rt"
++COMPILER_RT:remove:pn-m4:armeb = "-rtlib=compiler-rt"
++COMPILER_RT:remove:pn-ruby:armeb = "-rtlib=compiler-rt"
++COMPILER_RT:remove:pn-webkitgtk:armeb = "-rtlib=compiler-rt"
++# build/lib/libQt5Widgets.so: undefined reference to `__lshrti3'
++# __lshrti3 is missing in libgcc
++COMPILER_RT:pn-qtbase:toolchain-clang:riscv32 = "-rtlib=compiler-rt ${UNWINDLIB}"
++
++LDFLAGS:append:pn-qtwebengine:toolchain-clang:runtime-gnu:x86 = " -latomic"
++LDFLAGS:append:pn-qemu:toolchain-clang:x86 = " -latomic"
++# warning: <elfFile> has a LOAD segment with RWX permissions
++LDFLAGS:append:pn-ruby:toolchain-clang:powerpc = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '', ' -Wl,--no-warn-rwx-segment', d)}"
++LDFLAGS:append:pn-cairo:toolchain-clang:powerpc = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '', ' -Wl,--no-warn-rwx-segment', d)}"
++LDFLAGS:append:pn-systemd:toolchain-clang:powerpc = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '', ' -Wl,--no-warn-rwx-segment', d)}"
++
++# glibc is built with gcc and hence encodes some libgcc specific builtins which are not found
++# when doing static linking with clang using compiler-rt, so use libgcc
++# undefined reference to `__unordtf2'
++COMPILER_RT:pn-aufs-util:libc-glibc:toolchain-clang:x86 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-libhugetlbfs:libc-glibc:toolchain-clang:x86 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-tsocks:libc-glibc:toolchain-clang:x86 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-libc-bench:libc-glibc:toolchain-clang:x86 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-fmt:toolchain-clang:x86 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-fmt:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-mybw:toolchain-clang:x86 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-mybw:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-libc-bench:libc-glibc:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-mpich:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-aufs-util:libc-glibc:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-libhugetlbfs:libc-glibc:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-tsocks:libc-glibc:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++# | tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot-native/usr/bin/x86_64-lmp-linux/x86_64-lmp-linux-ld: tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot//usr/lib/libc.a(printf_fp.o): in function `__printf_fp_l':
++# | /usr/src/debug/glibc/2.35-r0/git/stdio-common/printf_fp.c:388: undefined reference to `__unordtf2'
++# | tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot-native/usr/bin/x86_64-lmp-linux/x86_64-lmp-linux-ld: /usr/src/debug/glibc/2.35-r0/git/stdio-common/printf_fp.c:388: undefined reference to `__unordtf2'
++# | tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot-native/usr/bin/x86_64-lmp-linux/x86_64-lmp-linux-ld: /usr/src/debug/glibc/2.35-r0/git/stdio-common/printf_fp.c:388: undefined reference to `__letf2'
++# | tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot-native/usr/bin/x86_64-lmp-linux/x86_64-lmp-linux-ld: tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot//usr/lib/libc.a(printf_fphex.o): in function `__printf_fphex':
++# | /usr/src/debug/glibc/2.35-r0/git/stdio-common/../stdio-common/printf_fphex.c:206: undefined reference to `__unordtf2'
++# | tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot-native/usr/bin/x86_64-lmp-linux/x86_64-lmp-linux-ld: /usr/src/debug/glibc/2.35-r0/git/stdio-common/../stdio-common/printf_fphex.c:206: undefined reference to `__unordtf2'
++# | tmp-lmp/work/corei7-64-lmp-linux/ostree/2021.6-r0/recipe-sysroot-native/usr/bin/x86_64-lmp-linux/x86_64-lmp-linux-ld: /usr/src/debug/glibc/2.35-r0/git/stdio-common/../stdio-common/printf_fphex.c:206: undefined reference to `__letf2'
++# | x86_64-lmp-linux-clang -target x86_64-lmp-linux  -m64 -march=nehalem -mtune=generic -mfpmath=sse -msse4.2 -mlittle-endian --dyld-prefix=/usr -Qunused-arguments -fstack-protector-strong  -O2 -D_F
++COMPILER_RT:pn-ostree:libc-glibc:toolchain-clang:x86 = "-rtlib=libgcc --unwindlib=libgcc"
++COMPILER_RT:pn-ostree:libc-glibc:toolchain-clang:x86-64 = "-rtlib=libgcc --unwindlib=libgcc"
++
++#(unwind.o): in function `__pthread_unwind':
++#/usr/src/debug/glibc/2.29-r0/git/nptl/unwind.c:121: undefined reference to `_Unwind_ForcedUnwind'
++#clang-8: error: linker command failed with exit code 1 (use -v to see invocation)
++COMPILER_RT:pn-libhugetlbfs:libc-glibc:toolchain-clang:arm = "--unwindlib=libgcc"
++
++# Does not compile with libc++ from clang 17+ anymore see
++# https://github.com/llvm/llvm-project/issues/63743
++LIBCPLUSPLUS:pn-apt:toolchain-clang = "-stdlib=libstdc++"
++
++# All following need to use libstdc++ with clang-19
++# see https://libcxx.llvm.org/ReleaseNotes/19.html#deprecations-and-removals
++LIBCPLUSPLUS:pn-pbzip2:toolchain-clang = "-stdlib=libstdc++"
++LIBCPLUSPLUS:pn-nlohmann-json:toolchain-clang = "-stdlib=libstdc++"
++LIBCPLUSPLUS:pn-paho-mqtt-cpp:toolchain-clang = "-stdlib=libstdc++"
++LIBCPLUSPLUS:pn-poco:toolchain-clang = "-stdlib=libstdc++"
++LIBCPLUSPLUS:pn-netdata:toolchain-clang = "-stdlib=libstdc++"
++LIBCPLUSPLUS:pn-cpp-netlib:toolchain-clang = "-stdlib=libstdc++"
++LIBCPLUSPLUS:pn-cpprest:toolchain-clang = "-stdlib=libstdc++"
++# See https://lists.openembedded.org/g/openembedded-devel/topic/meta_oe_patch_2_3/108964413
++LIBCPLUSPLUS:pn-tomlplusplus:toolchain-clang = "-stdlib=libstdc++"
++LIBCPLUSPLUS:pn-doxygen:toolchain-clang = "-stdlib=libstdc++"
++
++# Uses gcc for native tools, e.g. nsinstall and passes clang options which fails so
++# let same compiler ( gcc or clang) be native/cross compiler
++# | gcc: error: unrecognized command line option ‘-Qunused-arguments’
++BUILD_CC:pn-nss:toolchain-clang = "clang -rtlib=libgcc -unwindlib=none"
++
++# LTO
++# Seems to use symver ASMs see https://stackoverflow.com/questions/46304742/how-to-combine-lto-with-symbol-versioning
++# lib/puny_encode.c:136: multiple definition of `_idn2_punycode_encode'
++LTO:pn-libidn2:toolchain-clang = ""
++
++#libcairo.so: undefined reference to pthread_mutexattr_init [--no-allow-shlib-undefined]
++LTO:pn-cairo:toolchain-clang = ""
++
++# This works with gcc-ranlib wrapper only which expands $@ shell array,
++# but it will fail if RANLIB was set to <cross>-ranlib or
++# <cross>-llvn-ranlib has same behaviour
++RANLIB:append:pn-tcf-agent:toolchain-clang = " $@"
++
++# Subprocess output:mips-yoe-linux-llvm-objcopy: error: Link field value 22 in section .rel.dyn is not a symbol table
++# also seen on riscv64 and x86-64
++OBJCOPY:pn-linux-yocto:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-yocto-dev:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-yocto-rt:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-variscite:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-ti-staging:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-raspberrypi:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-starfive-dev:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-nezha-dev:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-hardkernel:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-imx:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-fslc:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-fslc-imx:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-fslc-lts:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-at91:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-linaro-qcomlt:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-linux-intel:toolchain-clang = "${HOST_PREFIX}objcopy"
++
++# see https://github.com/llvm/llvm-project/issues/53948
++OBJCOPY:pn-opensbi:toolchain-clang = "${HOST_PREFIX}objcopy"
++OBJCOPY:pn-libc-bench:toolchain-clang = "${HOST_PREFIX}objcopy"
++STRIP:pn-libc-bench:toolchain-clang = "${HOST_PREFIX}strip"
++OBJCOPY:pn-aufs-util:toolchain-clang = "${HOST_PREFIX}objcopy"
++STRIP:pn-aufs-util:toolchain-clang = "${HOST_PREFIX}strip"
++
++# Depend on GNU objcopy option missing in llvm-objcopy
++# llvm-objcopy: error: unknown argument '--section-alignment=512'
++OBJCOPY:pn-systemd-boot:toolchain-clang = "${HOST_PREFIX}objcopy"
++
++# See https://github.com/llvm/llvm-project/issues/53999
++STRIP:pn-go-helloworld:mips:toolchain-clang = "${HOST_PREFIX}strip"
++OBJCOPY:pn-go-helloworld:mips:toolchain-clang = "${HOST_PREFIX}objcopy"
++STRIP:pn-gosu:mips:toolchain-clang = "${HOST_PREFIX}strip"
++OBJCOPY:pn-gosu:mips:toolchain-clang = "${HOST_PREFIX}objcopy"
++
++# e.g. mips-yoe-linux-llvm-objcopy: error: Link field value 42 in section .rel.dyn is not a symbol table
++# e.g. aarch64-yoe-linux-llvm-objcopy: error: Link field value 35 in section .rela.plt is not a symbol table
++OBJCOPY:pn-mybw:toolchain-clang = "${HOST_PREFIX}objcopy"
++
++# Fails with llvm strip
++# i686-yoe-linux-llvm-strip: error: SHT_STRTAB string table section [index 9] is non-null terminated
++STRIP:pn-minio:toolchain-clang = "${HOST_PREFIX}strip"
++OBJCOPY:pn-minio:toolchain-clang = "${HOST_PREFIX}objcopy"
++
++# | aarch64-yoe-linux-llvm-objcopy: error: invalid output format: 'efi-app-aarch64'
++OBJCOPY:pn-gnu-efi:toolchain-clang = "${HOST_PREFIX}objcopy"
++
++# see https://github.com/llvm/llvm-project/issues/54213
++# Generates a bad libbsd.so linker stub and apps like bluelsa, mg, netcat-openbsd, android-tools
++# fails to link with libbsd
++OBJDUMP:pn-libbsd:mips:toolchain-clang = "${HOST_PREFIX}objdump"
++
++# With clang/lld it builds objects which gnu strip complains about
++# riscv64-yoe-linux-strip: /mnt/b/yoe/master/build/tmp/work/riscv64-yoe-linux/python3-matplotlib/3.5.3-r0/package/usr/lib/python3.10/site-packages/matplotlib/stTcyupd: not enough room for program headers, try linking with -N
++STRIP:pn-python3-matplotlib:toolchain-clang:riscv64 = "${HOST_PREFIX}llvm-strip"
++STRIP:pn-python3-matplotlib:toolchain-clang:riscv32 = "${HOST_PREFIX}llvm-strip"
++
++# Need OBJDUMP during do_package_qa which is set to llvm-objdump with meta-clang
++# it might work with GNU objdump since it falls back to one from build host
++DEPENDS:append:pn-linux-firmware:toolchain-clang = " clang-native"
++
++# Needs for solving fopenmp issues
++DEPENDS:append:pn-pixman:mips:toolchain-clang = " openmp"
++#| ../pixman-0.40.0/pixman/pixman-arm-neon-asm.S:3625:1: note: while in macro instantiation
++#| generate_bilinear_scanline_func pixman_scaled_bilinear_scanline_0565_0565_SRC_asm_neon, 0565, 0565, 1, 1, 28, BILINEAR_FLAG_UNROLL_4
++#| ^
++#| <instantiation>:134:1: error: unknown directive
++#| .endfunc
++#| ^
++CFLAGS:append:pn-pixman:arm:toolchain-clang = " -no-integrated-as"
++# <instantiation>:98:23: error: operand must be e[8|16|32|64|128|256|512|1024],m[1|2|4|8|f2|f4|f8],[ta|tu],[ma|mu]
++#  vsetvli zero, zero, e16, m1
++CFLAGS:append:pn-dav1d:riscv64:toolchain-clang = " -no-integrated-as"
++
++# test_connectx segfaults with this option set to -fstack-protector-strong
++SECURITY_STACK_PROTECTOR:pn-lksctp-tools:toolchain-clang = ""
++
++# ERROR: babeltrace2-2.0.5-r0 do_package_qa: QA Issue: babeltrace2: ELF binary /usr/lib/babeltrace2/plugins/babeltrace-plugin-ctf.so has relocations in .text
++INSANE_SKIP:append:pn-babeltrace2:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' textrel', '', d)}"
++
++LDFLAGS:append:pn-libidn2:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-alsa-lib:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libmd:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libbsd:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-slang:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libgcrypt:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libxml2:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-binutils:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libnss-mdns:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-pulseaudio:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-mesa:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-mesa-gl:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-mesa-pvr:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libnsl2:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libnl:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libnftnl:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libtirpc:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-ndctl:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++
++LDFLAGS:append:pn-zlib:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd -Wl,--undefined-version', '', d)}"
++LDFLAGS:remove:pn-zlib:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=lld', '', d)}"
++
++LDFLAGS:append:pn-qtbase:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++# | aarch64-yoe-linux-ld.lld: error: version script assignment of 'Qt_6.5' to symbol 'qt_version_tag' failed: symbol not defined
++LDFLAGS:append:pn-qtlanguageserver:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtserialport:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtimageformats:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtnetworkauth:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtsvg:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtshadertools:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtdeclarative:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtserialbus:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtwebsockets:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtlottie:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtspeech:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtcoap:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtsensors:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtquickdesigner-components:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtquicktimeline:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qt5compat:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qt3d:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtvirtualkeyboard:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtscxml:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtpositioning:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtdatavis3d:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtremoteobjects:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtopcua:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtcharts:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtconnectivity:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtwayland:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtgrpc:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qthttpserver:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtmqtt:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtwebchannel:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtquick3d:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtlocation:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtwebengine:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtwebview:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtmultimedia:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtquick3dphysics:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtinterfaceframework:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qttools:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtdeviceutilities:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-qtpdf:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libxcrypt:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-popt:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-json-c:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libtalloc:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libdevmapper:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libtdb:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libtevent:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-cryptsetup:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libgphoto2:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libxklavier:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-lame:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-keyutils:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libcdio:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libva:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libbpf:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-npth:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-tbb:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-corosync:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libnetfilter-cttimeout:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-fuse3:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-tremor:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-flashrom:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-ipset:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-rdma-core:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-apitrace:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libkcapi:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-gtk-vnc:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libnss-nis:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libva-initial:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-dante:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-basu:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-passwdqc:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-pcp:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-multipath-tools:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-renderdoc:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libldb:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-samba:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libnvme:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-gnu-efi:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libffi:x86:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libffi:arm:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-elfutils:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-pmdk:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-libcgroup:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld sysvinit', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-kernel-selftest:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-openldap:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-liburing:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-frame:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++# | x86_64-yoe-linux-musl-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
++LDFLAGS:append:pn-wtmpdb:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++# arm-yoe-linux-gnueabi-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
++LDFLAGS:append:pn-util-linux:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++LDFLAGS:append:pn-util-linux-libuuid:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -Wl,--undefined-version', '', d)}"
++TUNE_CCARGS:remove:pn-kernel-selftest:toolchain-clang = "-mfpmath=sse"
++
++# Avoid's go linker crash as reported in https://github.com/golang/go/issues/61872
++# it happens when libstd.so is linked with lld for aarch64
++LDFLAGS:append:pn-go-runtime:toolchain-clang:aarch64 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd', '', d)}"
++LDFLAGS:remove:pn-go-runtime:toolchain-clang:aarch64 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=lld', '', d)}"
++LDFLAGS:append:pn-go-runtime:toolchain-clang:x86-64 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd', '', d)}"
++LDFLAGS:remove:pn-go-runtime:toolchain-clang:x86-64 = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=lld', '', d)}"
++# See https://github.com/llvm/llvm-project/issues/65017
++LDFLAGS:append:pn-libfaketime:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd', '', d)}"
++LDFLAGS:remove:pn-libfaketime:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=lld', '', d)}"
++# arm-yoe-linux-gnueabi-ld.lld: error: version script assignment of 'global' to symbol 'readdir' failed: symbol not defined
++#| arm-yoe-linux-gnueabi-ld.lld: error: version script assignment of 'global' to symbol 'readdir_r' failed: symbol not defined
++#| arm-yoe-linux-gnueabi-clang: error: linker command failed with exit code 1 (use -v to see invocation) 
++LDFLAGS:append:pn-aufs-util:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd', '', d)}"
++LDFLAGS:remove:pn-aufs-util:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=lld', '', d)}"
++# | arm-yoe-linux-gnueabi-ld.lld: error: version script assignment of 'global' to symbol 'pam_sm_chauthtok' failed: symbol not defined
++LDFLAGS:append:pn-lastlog2:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd', '', d)}"
++LDFLAGS:remove:pn-lastlog2:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=lld', '', d)}"
++LDFLAGS:remove:pn-python3-bcrypt:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld ptest', '-fuse-ld=lld', '', d)}"
++LDFLAGS:remove:pn-bluez5:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '-fuse-ld=lld', '', d)}"
++LDFLAGS:append:pn-bluez5:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', ' -fuse-ld=bfd', '', d)}"
++
++LD:pn-gnu-efi:toolchain-clang = "${@bb.utils.contains('DISTRO_FEATURES', 'ld-is-lld', '${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', '${HOST_PREFIX}ld${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}', d)}"
++LD:pn-libhugetlbfs:toolchain-clang = "${HOST_PREFIX}ld.bfd${TOOLCHAIN_OPTIONS} ${HOST_LD_ARCH}"
++LD:pn-libunix-statgrab:toolchain-clang = "${CC}"
++
++TOOLCHAIN:pn-perf = "gcc"
++
++# See https://github.com/llvm/llvm-project/issues/108262
++SELECTED_OPTIMIZATION:remove:pn-libjxl:arm:toolchain-clang = "-O2"
++SELECTED_OPTIMIZATION:append:pn-libjxl:arm:toolchain-clang = " -Og"
++
++# qemu usermode crashes when using clang as system compiler but works with gcc
++# see https://patchwork.yoctoproject.org/project/oe-core/patch/20240923234336.3978188-1-raj.khem@gmail.com/
++GI_DATA_ENABLED:pn-vte:toolchain-clang:armv7ve = "False"
 
