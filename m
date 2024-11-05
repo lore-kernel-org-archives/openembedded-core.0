@@ -1,199 +1,153 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97575D3612B
-	for <webhook@archiver.kernel.org>; Tue,  5 Nov 2024 20:08:08 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web11.29832.1730837283785004934
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B523AD3E762
+	for <webhook@archiver.kernel.org>; Tue,  5 Nov 2024 20:59:58 +0000 (UTC)
+Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+ by mx.groups.io with SMTP id smtpd.web11.30936.1730840389724164085
  for <openembedded-core@lists.openembedded.org>;
- Tue, 05 Nov 2024 12:08:04 -0800
+ Tue, 05 Nov 2024 12:59:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QXJAyOUh;
- spf=pass (domain: gmail.com, ip: 209.85.208.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb51f39394so49873701fa.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 12:08:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VDXjhryF;
+ spf=pass (domain: gmail.com, ip: 209.85.167.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3e6105886dfso122284b6e.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 12:59:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730837282; x=1731442082; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=LVohmGgfWckzA5dkMfXXus7dxjNrQ3Um3NuRPm9u8sk=;
-        b=QXJAyOUhNB2IcmJOtLBmcIbdTLs6lki1RJuLT2gvHwLpw2ftTxUJpxX0wVDALETBtN
-         erTFdfAdCD+vr9cPRn3Rub9pGS1YSlRsbXqqL7LjOJ6uz7FEjSZubWMv+YG9aUncw8vg
-         d5HM6XVJ/V7brZd+jlkboDwI7Dm6CETwEK7H9sCTAseP/b7VbK0BPnmYvrWFSVqtV5C8
-         5n7CUmZwralAlAJcs5O2gQWnKd6RIxXYjRI581cnHpD+9NY8lacl6lLujCgwspn2Bcg+
-         C5S1Q0oPqC6+52ij3AsP7b5yoYiOGCgkxy2PHBn5gSCY+Gn91fOJewK3PbKdqHIIDW/o
-         AT8g==
+        d=gmail.com; s=20230601; t=1730840389; x=1731445189; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7ZGY+koO7jBplH6zkaY04kzVv3ITEnUonV0+Tg41rwM=;
+        b=VDXjhryFVprAwRNMg3pSkm95H1szxnGYS/MCv1Bj94WoGB4XxYODpnL1/EQsusFU2d
+         5DroVqtTACDcX52IgeS4R1v3EK+W0lO+ijXPCQYJqqfcgH3/foxKGrzQJamf7kc4zyAK
+         yYQygj471/bfchmeG3mfInsFIY0kHJJMGKGeIy5siPq/JopI2upbLBc0GgeGb5Z06Uvd
+         utgUY9e1oBh+nk7Jez9ppr5eXJhdaoaXDRuHXomX2IA+ke2uO5posOvEJeCPxSTxW3mh
+         d5rNo3fF2YN49okj0jYt8n6gOnEC9syUoFebQ7vUdjVpmV0VQj/qZNGJ6F1TJv8hn1sv
+         HwPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730837282; x=1731442082;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LVohmGgfWckzA5dkMfXXus7dxjNrQ3Um3NuRPm9u8sk=;
-        b=AW6UHPHJv/SRm0f0nTpUJ/+ghgSY2QEOKXuiSp57RAiYQJgmuyEpSQVhEW7WeciFM1
-         MycwDfRRpmrLHz96U8B9M58w5Qj0SIbUBMz67bFZUqD+qF8JdnGIZoQUD6PZIyNPUzS/
-         hjynQUO1uqyMpuF9/h8snEFUCznXj0PVCzS9FLsJk3QyoKLNNb4mr5cRt6+K0nvIsXfm
-         QQmSSpxiYK4gl+6QyKxWIZa3zhar2/hoCi0kM2fa3RQiC0zyvkaJ5/AyEl5UOtEfuJpK
-         zjIjG/FAPt/VehHhqpNNVvUyZuGXKaN6hEWcFWY/UjhoYnpCxn0FNmBldJpSTCLGt6rE
-         IAkw==
-X-Gm-Message-State: AOJu0YyC87YgweKpn2sCcnhCylycsvGxb/cHFvBiyqC+lWlIpCPZYbNe
-	XdaRklo+5fFVHBomA/DcO4rBGfq15UBWNFzGufkN2w0V66/+C9+AIREi0/GRxpr5NlZenKy5pqo
-	IZRRzJTrunlG0hrSAZ7K3gATb21A=
-X-Google-Smtp-Source: AGHT+IEcUFTtfxwnWxp6N/LcAVB0+Vd3mqZq+u2gCCOOuURXgfUJQa3GCLS+tflo66zQjalBbGiv9WzAR29CNCnKHU0=
-X-Received: by 2002:a05:651c:154a:b0:2fb:7e65:cb27 with SMTP id
- 38308e7fff4ca-2fcbdf68bf5mr213899471fa.6.1730837280424; Tue, 05 Nov 2024
- 12:08:00 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730840389; x=1731445189;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7ZGY+koO7jBplH6zkaY04kzVv3ITEnUonV0+Tg41rwM=;
+        b=nWWJlokEVp3ieNIaG3KQmDDiQIOe+HfI0O5yyQ7Ez21uNmmgikk4BK8LeJImI0d7uv
+         70whl8F5iMXg/7yAJlYzdZdumydsPcBsu7qmQbAsrJlXDj99M1EWdyKSgJmGi2w3HyJM
+         OOlo0fzLQlPdOK0oTcUnWMzkODSRXL/UWA16bHkcEqKUBEEq7GDCNRR3cGvYfIh96v7x
+         2J3NpTwSzc0bnw12saA25i26lSKU0k4bSBs0LF39HJObok4T+Yb/RyN8L00kLkkpV9mP
+         8bpU2X3k0X+VyDznIEzivzThrMunp1u5mSNJ42G8LLcthzDz+kVUo0LUHFBiqnZHGtow
+         fZCg==
+X-Gm-Message-State: AOJu0YyykEtvDg4w6/6jazKvPEkbBltP/GAiyl71Q0vg8eGQ/VNCvwPs
+	P+DNuSfGRUQUHaqHinL5fpDDBD/IlHBKTBzN4f/p/zw/UvWdEAv07CCE5Ibnq0UgRXrSUC1dHr5
+	zggb60QbxcVFvodE3ss8Slk3ZYhvN3w==
+X-Google-Smtp-Source: AGHT+IH3/sRy7r4I1kHPMDoDxfGBIjClPw1WYftUJO3cmMvI3iLVtd73WOvqIJvIfO0Lzv0mPNhcZoN8IEbxfTYQdLU=
+X-Received: by 2002:a05:6808:1804:b0:3e7:5f8a:e45 with SMTP id
+ 5614622812f47-3e782831585mr14254b6e.8.1730840388956; Tue, 05 Nov 2024
+ 12:59:48 -0800 (PST)
 MIME-Version: 1.0
-References: <20241105194857.3351281-1-ross.burton@arm.com> <20241105194857.3351281-4-ross.burton@arm.com>
-In-Reply-To: <20241105194857.3351281-4-ross.burton@arm.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 5 Nov 2024 21:07:49 +0100
-Message-ID: <CANNYZj8sK8_i0wSMaiHMWL_qEvvDgEqVfTEcsRGrJ8Yh3nPrtQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 4/4] local.conf.sample: use explicit
- IMAGE_FEATURES instead of debug-tweaks
-To: ross.burton@arm.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000438be606262ff58b"
+References: <180446A0F11CA2F7.30502@lists.openembedded.org> <2d3ff647-1f43-4a66-9f96-a4c56b1b5702@windriver.com>
+In-Reply-To: <2d3ff647-1f43-4a66-9f96-a4c56b1b5702@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Tue, 5 Nov 2024 12:59:22 -0800
+Message-ID: <CAMKF1soADzAXAX65e88H3s4NhksLc3UW+42UhLuhp43nR1s5DA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH scarthgap] systemd: stable update 255.4 -> 255.13
+To: Randy MacLeod <randy.macleod@windriver.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	"steve@sakoman.com" <steve@sakoman.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 20:08:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206753
+ <openembedded-core@lists.openembedded.org>; Tue, 05 Nov 2024 20:59:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206754
 
---000000000000438be606262ff58b
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-While we=E2=80=99re at it, should we also remove the dangerous items from
-debug-tweaks and require them to be enabled explicitly?
-
-Alex
-
-On Tue 5. Nov 2024 at 20.49, Ross Burton via lists.openembedded.org
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
-
-> debug-tweaks is vague and doesn't give any indication that the root user
-> can login over SSH without a password.  This behaviour is incredibly
-> dangerous if used unwittingly, so discourage it by using the underlying
-> features explicitly to spell out exactly what is being done.
+On Tue, Nov 5, 2024 at 11:55=E2=80=AFAM Randy MacLeod
+<randy.macleod@windriver.com> wrote:
 >
-> This is not the complete set of features that debug-tweaks enables,
-> but I don't think we need to enable serial-autologin-root or
-> post-install-logging by default.
+> On 2024-11-02 6:16 p.m., Randy MacLeod via lists.openembedded.org wrote:
 >
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> From: Randy MacLeod <Randy.MacLeod@windriver.com>
+>
+> Full change log:
+>    https://github.com/systemd/systemd-stable/compare/v255.4...v255.13
+>
+> Signed-off-by: Randy MacLeod <Randy.MacLeod@windriver.com>
 > ---
->  meta-poky/conf/templates/default/local.conf.sample | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  ...stemd-boot-native_255.4.bb =3D> systemd-boot-native_255.13.bb} | 0
+>  .../systemd/{systemd-boot_255.4.bb =3D> systemd-boot_255.13.bb}   | 0
+>  meta/recipes-core/systemd/systemd.inc                           | 2 +-
+>  .../systemd/{systemd_255.4.bb =3D> systemd_255.13.bb}             | 0
+>  4 files changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-core/systemd/{systemd-boot-native_255.4.bb =3D> syst=
+emd-boot-native_255.13.bb} (100%)
+>  rename meta/recipes-core/systemd/{systemd-boot_255.4.bb =3D> systemd-boo=
+t_255.13.bb} (100%)
+>  rename meta/recipes-core/systemd/{systemd_255.4.bb =3D> systemd_255.13.b=
+b} (100%)
 >
-> diff --git a/meta-poky/conf/templates/default/local.conf.sample
-> b/meta-poky/conf/templates/default/local.conf.sample
-> index 72d35662940..cfa77106ab3 100644
-> --- a/meta-poky/conf/templates/default/local.conf.sample
-> +++ b/meta-poky/conf/templates/default/local.conf.sample
-> @@ -145,8 +145,8 @@ DISTRO ?=3D "poky"
->  # There are other application targets that can be used here too, see
->  # meta/classes-recipe/image.bbclass and
->  # meta/classes-recipe/core-image.bbclass for more details.
-> -# We default to enabling the debugging tweaks.
-> -EXTRA_IMAGE_FEATURES ?=3D "debug-tweaks"
-> +# We default to allowing root login without a password for convenience.
-> +EXTRA_IMAGE_FEATURES ?=3D "allow-empty-password empty-root-password
-> allow-root-login"
+> diff --git a/meta/recipes-core/systemd/systemd-boot-native_255.4.bb b/met=
+a/recipes-core/systemd/systemd-boot-native_255.13.bb
+> similarity index 100%
+> rename from meta/recipes-core/systemd/systemd-boot-native_255.4.bb
+> rename to meta/recipes-core/systemd/systemd-boot-native_255.13.bb
+> diff --git a/meta/recipes-core/systemd/systemd-boot_255.4.bb b/meta/recip=
+es-core/systemd/systemd-boot_255.13.bb
+> similarity index 100%
+> rename from meta/recipes-core/systemd/systemd-boot_255.4.bb
+> rename to meta/recipes-core/systemd/systemd-boot_255.13.bb
+> diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/sy=
+stemd/systemd.inc
+> index a35db5091e..88f24f99c2 100644
+> --- a/meta/recipes-core/systemd/systemd.inc
+> +++ b/meta/recipes-core/systemd/systemd.inc
+> @@ -15,7 +15,7 @@ LICENSE:libsystemd =3D "LGPL-2.1-or-later"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3D751419260aa954499f7abaab=
+aa882bbe \
+>                      file://LICENSE.LGPL2.1;md5=3D4fbd65380cdd25595107900=
+8b364516c"
 >
->  #
->  # Additional image features
-> --
-> 2.34.1
+> -SRCREV =3D "387a14a7b67b8b76adaed4175e14bb7e39b2f738"
+> +SRCREV =3D "565916c245b53b49f5917f5326d21246f46ae3db"
+>  SRCBRANCH =3D "v255-stable"
+>  SRC_URI =3D "git://github.com/systemd/systemd-stable.git;protocol=3Dhttp=
+s;branch=3D${SRCBRANCH}"
+>
+> diff --git a/meta/recipes-core/systemd/systemd_255.4.bb b/meta/recipes-co=
+re/systemd/systemd_255.13.bb
+> similarity index 100%
+> rename from meta/recipes-core/systemd/systemd_255.4.bb
+> rename to meta/recipes-core/systemd/systemd_255.13.bb
+>
+>
+> I just remembered to test the TCLIBC=3Dmusl build and
+> of course there are some problems.
+>
+> I'll fix them and send a follow-up patch on top of this one
+> so best to not merge unless you really want to Steve.
+> Please let me know.
+
+Thanks Randy, I hope these are minor adjustments to patches being
+forward ported. If more let me know
+if you need anything
+
+>
+>
+> ../Randy
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#206751):
-> https://lists.openembedded.org/g/openembedded-core/message/206751
-> Mute This Topic: https://lists.openembedded.org/mt/109412890/1686489
+> View/Reply Online (#206658): https://lists.openembedded.org/g/openembedde=
+d-core/message/206658
+> Mute This Topic: https://lists.openembedded.org/mt/109359316/3616765
 > Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+ndy.macleod@windriver.com]
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >
 >
-
---000000000000438be606262ff58b
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div><div><span style=3D"font-family:-apple-system,helveticaneue;font-size:=
-16px;font-style:normal;font-weight:400;letter-spacing:normal;text-indent:0p=
-x;text-transform:none;white-space:normal;word-spacing:0px;text-decoration:n=
-one;float:none;display:inline!important;background-color:rgba(0,0,0,0);bord=
-er-color:rgb(0,0,0);color:rgb(0,0,0)">While we=E2=80=99re at it, should we =
-also remove the dangerous items from debug-tweaks and require them to be en=
-abled explicitly?</span></div><br></div><div dir=3D"auto">Alex=C2=A0</div><=
-div><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Tue 5. Nov 2024 at 20.49, Ross Burton via <a href=3D"http://lists.openembe=
-dded.org">lists.openembedded.org</a> &lt;ross.burton=3D<a href=3D"mailto:ar=
-m.com@lists.openembedded.org">arm.com@lists.openembedded.org</a>&gt; wrote:=
-<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8=
-ex;border-left-width:1px;border-left-style:solid;padding-left:1ex;border-le=
-ft-color:rgb(204,204,204)">debug-tweaks is vague and doesn&#39;t give any i=
-ndication that the root user<br>
-can login over SSH without a password.=C2=A0 This behaviour is incredibly<b=
-r>
-dangerous if used unwittingly, so discourage it by using the underlying<br>
-features explicitly to spell out exactly what is being done.<br>
-<br>
-This is not the complete set of features that debug-tweaks enables,<br>
-but I don&#39;t think we need to enable serial-autologin-root or<br>
-post-install-logging by default.<br>
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0meta-poky/conf/templates/default/local.conf.sample | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-<br>
-diff --git a/meta-poky/conf/templates/default/local.conf.sample b/meta-poky=
-/conf/templates/default/local.conf.sample<br>
-index 72d35662940..cfa77106ab3 100644<br>
---- a/meta-poky/conf/templates/default/local.conf.sample<br>
-+++ b/meta-poky/conf/templates/default/local.conf.sample<br>
-@@ -145,8 +145,8 @@ DISTRO ?=3D &quot;poky&quot;<br>
-=C2=A0# There are other application targets that can be used here too, see<=
-br>
-=C2=A0# meta/classes-recipe/image.bbclass and<br>
-=C2=A0# meta/classes-recipe/core-image.bbclass for more details.<br>
--# We default to enabling the debugging tweaks.<br>
--EXTRA_IMAGE_FEATURES ?=3D &quot;debug-tweaks&quot;<br>
-+# We default to allowing root login without a password for convenience.<br=
->
-+EXTRA_IMAGE_FEATURES ?=3D &quot;allow-empty-password empty-root-password a=
-llow-root-login&quot;<br>
-<br>
-=C2=A0#<br>
-=C2=A0# Additional image features<br>
--- <br>
-2.34.1<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#206751): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/206751" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/206751</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109412890/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/109412890/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000438be606262ff58b--
+> --
+> # Randy MacLeod
+> # Wind River Linux
 
