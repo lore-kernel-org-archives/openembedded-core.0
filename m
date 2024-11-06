@@ -1,139 +1,88 @@
-Return-Path: <jsbronder@cold-front.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBFB1D59F43
-	for <webhook@archiver.kernel.org>; Wed,  6 Nov 2024 15:52:37 +0000 (UTC)
-Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
- by mx.groups.io with SMTP id smtpd.web10.49116.1730908356453382882
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C67BFD59F48
+	for <webhook@archiver.kernel.org>; Wed,  6 Nov 2024 15:54:07 +0000 (UTC)
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.web10.49156.1730908444018939325
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 07:52:36 -0800
+ Wed, 06 Nov 2024 07:54:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cold-front.org header.s=fm1 header.b=VJmzry0Y;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=ivK6xT2N;
- spf=pass (domain: cold-front.org, ip: 103.168.172.156, mailfrom: jsbronder@cold-front.org)
-Received: from phl-compute-02.internal (phl-compute-02.phl.internal [10.202.2.42])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 9C6F71140118;
-	Wed,  6 Nov 2024 10:52:35 -0500 (EST)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Wed, 06 Nov 2024 10:52:35 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
-	 h=cc:cc:content-transfer-encoding:content-type:content-type
-	:date:date:from:from:in-reply-to:in-reply-to:message-id
-	:mime-version:references:reply-to:subject:subject:to:to; s=fm1;
-	 t=1730908355; x=1730994755; bh=A5kpcW8mNQMpzGBHYO+LGgB5fcnRcrj1
-	BMIrTtwRTLo=; b=VJmzry0YD6UxXKx10OnWs3HXlJ4MfGIlbVIPB8I5z3vgqdms
-	4ewF/EnaD2NlPGI7JoxS+VTicfnBYQ7CdGNRM7PBce/G145NBkuUIaYVu6KXzFOL
-	/ndhaLjcXH9IHwYdjuQSYZva0gxE6APsFtwgDxhe4p35t7fW1V04mtie7h5vZe+U
-	J71mqeTocUcAl+CVt97pQv/6rPtD+3njo8eeIbMKXhsw0Ccc+ZbJhKFg7NK275WT
-	Gug6bVs0TktT5MmV6LbDWe8Z4RFF5MCGwiZ9nx9Pw/+HXa+d876AypJWQt57mYXM
-	RGjYXDkVHlkbtUBVbd7qy3e5X1dlAAZZugAX4A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1730908355; x=
-	1730994755; bh=A5kpcW8mNQMpzGBHYO+LGgB5fcnRcrj1BMIrTtwRTLo=; b=i
-	vK6xT2Ne6N0O23g2DAvyM2f7HP17JlE096QDosYY1spAeaZcIFlo4hpivAulnmtZ
-	RbQHbtR/MJBmOpZ7gXgezt/xITqmYkD2IrxjfFEsn1j9/uJujV28TuxDy1EDMlGI
-	3UWZEqXYHr/gZ2hYjdwLTWXz+6ttZQK/Ij7lXdrt7DzXOKp48Yvhd13WGTh8CqpE
-	hkL07sB9h5p7WBlK0anSnf5iHufnpPkBfbhV5pXykv7/sExpRBlCft7cCAzRVVIv
-	2BdZyStxsI7gA68O+bZoqVz0zA1ISkajB9xMxtH2pfYIFz3Xekj75r2WZsXtobIZ
-	O+Cme0J4p0F2Rf1WpWLQw==
-X-ME-Sender: <xms:wpArZ43-jAuK9XG0mShTzyYNI3ppRX4k5wK4az7VXhYIFWAnx_vHPQ>
-    <xme:wpArZzEsrc8N6swNjhSERRckBY0JzyFefiIvk4phjo1FX1RK1HtuGg4BbcrPzhrvQ
-    vsyHC7_NMd2oRlKGQ>
-X-ME-Received: <xmr:wpArZw4v_DSJRi7w3yWPPKNNHaLCDmwtST5BEy3RhQnnDWTmBknmNQXKy1KRvN8Hed3FN2FE22WLYvrOfH4ruc9I>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtddvgdektdcutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpggftfghnshhusghstghrihgsvgdpuffr
-    tefokffrpgfnqfghnecuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnth
-    hsucdlqddutddtmdenucfjughrpeffhffvvefukfhfgggtugfgjgesthekrodttddtuden
-    ucfhrhhomheplfhushhtihhnuceurhhonhguvghruceojhhssghrohhnuggvrhestgholh
-    guqdhfrhhonhhtrdhorhhgqeenucggtffrrghtthgvrhhnpeekleetffdtteelvdefveef
-    udfhudfgfeevgfegkedvffdtteevgfegiedtuefgudenucffohhmrghinhepohhpvghnvg
-    hmsggvugguvggurdhorhhgpdhgihhthhhusgdrtghomhdphihotghtohhprhhojhgvtght
-    rdhorhhgnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomh
-    epjhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhgpdhnsggprhgtphhtthho
-    peefpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehrihgthhgrrhgurdhpuhhrug
-    hivgeslhhinhhugihfohhunhgurghtihhonhdrohhrghdprhgtphhtthhopehophgvnhgv
-    mhgsvgguuggvugdqtghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrgh
-    dprhgtphhtthhopegvjhhosehpvghnghhuthhrohhnihigrdguvg
-X-ME-Proxy: <xmx:wpArZx0JcuvXwgh-igPMiXrI_MwlNXcWTmiCMw7vO13F_1KDtq6Zig>
-    <xmx:wpArZ7GzvXy-qo40nVyP9DsqeAmLubGPaYgDI5fFLzmO5RcVTc1voQ>
-    <xmx:wpArZ68kSTJMbaNcXTKEgUb6D_w2AUp3051CmCcDVQrdAI7SkBS0xA>
-    <xmx:wpArZwlqCyY4bNh-GgaBsJKri_rpH5MZ_uV817z_q5yyzBoo_mXmCQ>
-    <xmx:w5ArZzDRKc2HQNBazM8xIn6dv-Sl2c3weX5vsmrsF37Cc06BJ18BjvmZ>
-Feedback-ID: iea0042cb:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 Nov 2024 10:52:34 -0500 (EST)
-Date: Wed, 6 Nov 2024 10:52:34 -0500
-From: Justin Bronder <jsbronder@cold-front.org>
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org,
-	Enrico Jorns <ejo@pengutronix.de>
-Subject: Re: bitbake.conf: require lz4 instead of lz4c
-Message-ID: <ZyuQwnMFmfIXDIaa@ravine.members.linode.com>
-References: <20241105153752.3610957-1-jsbronder@cold-front.org>
- <3ac4b13ff08fc83cb2e37fc7caadeb89115e7814.camel@linuxfoundation.org>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=YvQmqPXM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.218.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-a7aa086b077so881314466b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 07:54:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1730908442; x=1731513242; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aeGFz/MCZctHJ8kqOiRzMlhXgUuMANhdATsnlkzIENs=;
+        b=YvQmqPXMW5qhqJpFXlqhaSoGkKxYFRE4kCZBD1UAAGhsRWkkVsXSU1w5cQSkqZGNPT
+         pNd9Q2V9CSDl2g6qIYLwsONgygTESCnOWm59AJY1xYRGkerE6N6jLjpAfLRnXxJq70iX
+         4migfAr/KOwHPu9HrT8UOE1a1TB3GjZBGe0UQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730908442; x=1731513242;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=aeGFz/MCZctHJ8kqOiRzMlhXgUuMANhdATsnlkzIENs=;
+        b=ZDJyX6gxrvXKUC4bYG/SxZm/uxHnSUUIMqT5tGBWLXE3MHqgElkI5XkKe++O8vpp2W
+         VuSvi+RlEMvL59m0et06TXZsBpOdnGezDNXXO+Jt4WnfGxNNn4+GpPMo24OL+BWQPhp8
+         CnxAIU+sm6q3bQPoEBWECSCaIloV/IxQgbeNWp3AKuulP9kXXbupIVLaQJ6fENWxDpWi
+         E35Gn1O/rWbWn1MXagJNlISVjcmvsVHNAl1VtAON7DBuP7rpeSZeZmQf8/Uu7znkTtDG
+         jrmV1rSIWdO+Pj25yeukqJzJfA3UYHFF/UilSrtJ13S32KntkYqCyYBPY7uU+JbX+3qZ
+         FxcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU0zBQzsYtoL0I0PeJ7i6G1o+eXbhShQmGFoHXxQRNPimNGv3rEAU9H0MLrytJEH7BoDnnyUGZG7MveNJukZXRJRw==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzagWbAL9W39Mwgew55SHgKwrr/hmDuDXkGbe8uBfz5GHn6NM5d
+	6EeSo+Z9DhMMzuCveci1w7fR2E65UHZmT8OCxFM461X7uDbmkMZWGtfrurBJ0ZE=
+X-Google-Smtp-Source: AGHT+IFRu4zIguHp4Nde1IG++5SuPhmB5/JYDT//LZw8nRQ7ad5yWuGG+yNphC/Crv/tst5OcDLH5w==
+X-Received: by 2002:a17:907:d851:b0:a9e:b08e:3de1 with SMTP id a640c23a62f3a-a9eb08e4023mr666895766b.36.1730908442360;
+        Wed, 06 Nov 2024 07:54:02 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:5f26:5175:55ad:9264? ([2001:8b0:aba:5f3c:5f26:5175:55ad:9264])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb181448asm292376266b.202.2024.11.06.07.54.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 06 Nov 2024 07:54:02 -0800 (PST)
+Message-ID: <21058861e2cf73d61abd16d6f29d5c7cbb22ffe3.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 01/19] clang.inc: Global settings for clang
+ toolchain
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: raj.khem@gmail.com, openembedded-core@lists.openembedded.org
+Date: Wed, 06 Nov 2024 15:54:01 +0000
+In-Reply-To: <20241105184540.3450302-1-raj.khem@gmail.com>
+References: <20241105184540.3450302-1-raj.khem@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3ac4b13ff08fc83cb2e37fc7caadeb89115e7814.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 15:52:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206790
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 15:54:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206791
 
-On 06/11/24 07:50 +0000, Richard Purdie wrote:
-> On Tue, 2024-11-05 at 10:37 -0500, Justin Bronder via lists.openembedded.org wrote:
-> > With bitbake commit 'bb: compress: use lz4 instead of lz4c' we require
-> > lz4, not lz4c [1].� Going as far back as Ubuntu 16.04/Fedora 25, they
-> > are packaged together so it should be safe to simply adjust the
-> > requirement from lz4c to lz4.
-> > 
-> > Note that the two are largely the same, but upstream has considered lz4c
-> > deprecated since at least 2018 [2].
-> > 
-> > 1. https://git.openembedded.org/bitbake/commit/?id=907472034b344e4eb73cfd43059a413469f52e1c
-> > 2. https://github.com/lz4/lz4/pull/553
-> > 
-> > Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
-> > ---
-> > �meta/conf/bitbake.conf | 2 +-
-> > �1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-> > index eda505c861..14e761e2e7 100644
-> > --- a/meta/conf/bitbake.conf
-> > +++ b/meta/conf/bitbake.conf
-> > @@ -517,7 +517,7 @@ HOSTTOOLS += " \
-> > ���� [ ar as awk basename bash bunzip2 bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
-> > ���� cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
-> > ���� fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
-> > -��� head hostname iconv id install ld ldd ln ls lz4c make md5sum mkdir mkfifo mknod \
-> > +��� head hostname iconv id install ld ldd ln ls lz4 make md5sum mkdir mkfifo mknod \
-> > ���� mktemp mv nm objcopy objdump od patch perl pr printf pwd \
-> > ���� python3 pzstd ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
-> > ���� sha1sum sha224sum sha256sum sha384sum sha512sum \
-> > 
-> 
-> This caused a failure in barebox:
-> 
-> https://valkyrie.yoctoproject.org/#/builders/23/builds/409/steps/14/logs/stdio
-> 
+On Tue, 2024-11-05 at 10:45 -0800, Khem Raj via lists.openembedded.org
+wrote:
+> It is added to default distro include file
+>=20
+> Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> ---
+> =C2=A0meta/conf/distro/include/clang.inc | 147
+> +++++++++++++++++++++++++++++
+> =C2=A01 file changed, 147 insertions(+)
+> =C2=A0create mode 100644 meta/conf/distro/include/clang.inc
 
-I see, sorry about that.
+Thanks for putting this together. Looking at the series, it seems as if
+it is a copy and paste of meta-clang into OE-Core which isn't really
+what I think is needed. I think in core, we can strengthen the
+toolchain abstraction and make some of this a lot cleaner, this would
+be the time to do it. I think the patchset is a good first step but I
+wanted to be clear that I think changes are going to be needed. I'd
+need to do a bit more experimentation to give more specific feedback on
+that.
 
-What would be the recommended path forward?
+Cheers,
 
-- Add lz4c to HOSTTOOLS_NONFATAL so it's still symlinked.  This would fix barebox and any other recipes that still depend on lz4c on distributions where lz4c is still packaged but leave others without an early warning system.
-- Submit patches to barebox and others to use lz4 instead of lz4c.  This is probably more correct but will leave Tumbleweed unsupported by default with other distros to presumably follow.
-- Convince Tumbleweed (and others) to continue packaging lz4c.
-
-
--- 
-Justin Bronder
+Richard
 
