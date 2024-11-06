@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 10008D44D6D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2368CD44D6E
 	for <webhook@archiver.kernel.org>; Wed,  6 Nov 2024 13:49:57 +0000 (UTC)
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
- by mx.groups.io with SMTP id smtpd.web11.45911.1730900992739659800
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.web11.45912.1730900994289316892
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 05:49:52 -0800
+ Wed, 06 Nov 2024 05:49:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pHaLi6G3;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-71e5130832aso5474941b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 05:49:52 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=d4+LayMg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.45, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-2e2dc61bc41so4671045a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 05:49:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730900992; x=1731505792; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730900993; x=1731505793; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GtNhVfWPd+czOHWHr/WAKFNMuU31DEUD1izz9AZ/q8Y=;
-        b=pHaLi6G3ACND5gF9jMRclvM1TE8I578XuJDSUNxzQlFcjJVAKtV5owgeUXgGnIAI8w
-         I9g1G8boNOCTQB3FI9l+XqqIJVKZiW59CtJPLY6lqBQuN1/ap+tQBNX4QsmNfWYq5rlO
-         RqLNFJujcdvn0hTSCUViOx0gMXMp0AkRIFxAWFxlqkF9UVzMgQ+xtVTAnRfKif4MKwCG
-         3HuIMChZOdjfgK997irL92fQUJGWHPhUlhXnllwkFt4piAWzpWwqV2bUekY3z2kZ1FH1
-         pAYU2vgoZFp2vdarE/ugG/yWtLr55xGAYat1Zz2LrPuITcDPLCbZ8uxU/7tN9Vk4oZ3i
-         /0Rw==
+        bh=2ccFKSBF3cAQeMF81oiQfZRHg4eLKlzIK4AITwof/u0=;
+        b=d4+LayMgpWRn/Ge1K/NMmelYw2Q6O1Wq1fe99TDRRrnRL8WYP6COLXSXiLjrVjamV2
+         QhQwiJh+c0YmYVx5na7P36tLdaEf/kOf4/+joB5NsuO81fPtkp4Vk1TaMIS1T/p1xeFG
+         bO18AQE4i05Q1AtF65lb3CVr/NcMPjcfySHaIGzLvMRLd8b5CYNoiZQTW1xwACdK1zIv
+         4iilW3uFqmjlAYyphuXBReYEQM/6JMG5J0Th3JKku8Qw4vpN4DUz8w6qQ9Y3d0Ex116J
+         2LmnAJo+NoPImf3952lkfApTWQsbcJQ9TIkh41pwJUl8lMPBN2abp4e8GAZhXoq5EDnR
+         VS9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730900992; x=1731505792;
+        d=1e100.net; s=20230601; t=1730900993; x=1731505793;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GtNhVfWPd+czOHWHr/WAKFNMuU31DEUD1izz9AZ/q8Y=;
-        b=JLriiYSzcgnGhvEWcu0FJu4g8Fkb3MteHdhB9O2p/bR5aI7/KxOd28y+qH8UE6E6Hi
-         REqxnKuiaCwQUhYseqqMIdJA+Sbbm6N21djFjbXwxJwRwqYSpuZrI03rMKsELq8oLMz2
-         04ZWvGBfP72EceaGQ7+PoCJOkoeUS/z6FtxKbdofJ0cr89ZJqVBVQcwQA6ZbVCBieU76
-         jfGb6XPbeuUe+YEt3SgcXF/3WF27hNJFAFCDxBykqjYn1cXUqNxg23gI5pkJ4jAq0g0W
-         On22E4z2rv8W297CZCm481wk+3J4wJcoZqrL0WyGyYbfedZJ6d42K5rwtG7sJe2rFcyq
-         aKxw==
-X-Gm-Message-State: AOJu0YwiSQgR+IWM4NByiA6Og3LIZieEdjfFrvUglob6npxR/5GtUycW
-	pVweh1xpH4yGVReBRfhE9PfE/i2aY4udqINz0XC5awaMBmY28XIwTfX+Mr4a4R23D5PTLEgxhGp
-	7
-X-Google-Smtp-Source: AGHT+IFinN8Y0yP4c3X1Ab+lbJuds3WMdv9DO6I5rQMRU7FAAigRgH/ErvZexLbNNtXDik6qXu5OEA==
-X-Received: by 2002:a05:6a21:328c:b0:1db:e1ce:8eaf with SMTP id adf61e73a8af0-1dbe1ce9763mr12354264637.6.1730900991854;
-        Wed, 06 Nov 2024 05:49:51 -0800 (PST)
+        bh=2ccFKSBF3cAQeMF81oiQfZRHg4eLKlzIK4AITwof/u0=;
+        b=MB5K2NIMn9q34dW7QA1YL3Yam9qEqzSCItrfJ+S8Ud4ui1WU3tVvjbiZiuJjh1eUJI
+         VhKq1xdsZdVfwGeajow3OUsuX/kwGSvSx0lGQW841mebWcA767waDOGNhsNeOW+JXY47
+         4/5cmINaoS2M5m4ZmU2y4O01CK7uaj6TmKkIACZsnZMrKpzTfDQKNptioXo18shhz022
+         e23Q0dUqAmg8ptVyvd0BHsPTbO7As6shhxNQf2QBcpqzIVp5eVIggRizqPHGbwb7XiIa
+         QTd9XS03JGDTb3kXPYQIIlB1V79jVxeelbnFSQ9bgF5S6MmwSSsqYRB5mEmzn8OchzuS
+         zyMQ==
+X-Gm-Message-State: AOJu0Yw+zuP4dN5Yty54g4mwWpBUSvw4OfLe5GFXJoRSjtStGzrJrMIF
+	jaSPju46jIeSih8Pz9BlyTLZjhRrB6lW3miBnC4wlVBDhqGpDlnWIdZvYnOuTlX1tScgGafGl+0
+	E
+X-Google-Smtp-Source: AGHT+IHOqtPe2gFXFeED9ayQHmkt4nTtWx1flLE7qqaHhoc2PAgxT3WdtvOIXhGXnKcvNrL8VdEuYQ==
+X-Received: by 2002:a17:90b:4a86:b0:2e1:ce7b:6069 with SMTP id 98e67ed59e1d1-2e94c529acamr29382188a91.33.1730900993500;
+        Wed, 06 Nov 2024 05:49:53 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e99a541e16sm1491795a91.21.2024.11.06.05.49.51
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e99a541e16sm1491795a91.21.2024.11.06.05.49.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 05:49:51 -0800 (PST)
+        Wed, 06 Nov 2024 05:49:53 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 5/7] ffmpeg: Disable asm optimizations on x86
-Date: Wed,  6 Nov 2024 05:49:35 -0800
-Message-Id: <03c20ece58f4368ff95241e90063269f75e1b81d.1730900782.git.steve@sakoman.com>
+Subject: [OE-core][styhead 6/7] ffmpeg: Add "libswresample libavcodec" to CVE_PRODUCT
+Date: Wed,  6 Nov 2024 05:49:36 -0800
+Message-Id: <0b0299415ec719bb4c3764dfa0740e4ff6cc0362.1730900782.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1730900782.git.steve@sakoman.com>
 References: <cover.1730900782.git.steve@sakoman.com>
@@ -62,35 +62,38 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 13:49:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206778
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206779
 
-From: Khem Raj <raj.khem@gmail.com>
+From: aszh07 <mail2szahir@gmail.com>
 
-disable asm code if PIC is required, as the provided asm
-decidedly is not PIC for x86.
+Currently, CVE_PRODUCT only detects vulnerabilities where the product is "ffmpeg".
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Ross Burton <ross.burton@arm.com>
+However, there are also vulnerabilities where the product is "libswresample",
+and "libavcodec" as shown below.
+https://app.opencve.io/vendors/?vendor=ffmpeg
+
+Therefore, add "libswresample libavcodec" to CVE_PRODUCT to detect vulnerabilities
+where the product is "libswresample libavcodec" as well.
+
+Signed-off-by: aszh07 <mail2szahir@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 941fc40ca971f87e61c19e5a0703caa304ec7547)
+(cherry picked from commit 9684eba5c543de229108008e29afd1dd021a9799)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
  meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb | 2 ++
  1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-index af66104ebf..3c66851b8d 100644
+index 3c66851b8d..bb6b71735c 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-@@ -129,6 +129,8 @@ EXTRA_OECONF = " \
- "
- 
- EXTRA_OECONF:append:linux-gnux32 = " --disable-asm"
-+# --enable-pic is used and x86 assembly is not PIC on x86
-+EXTRA_OECONF:append:x86 = " --disable-asm"
- 
- EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mipsisa64r6', '--disable-mips64r2 --disable-mips32r2', '', d)}"
- EXTRA_OECONF += "${@bb.utils.contains('TUNE_FEATURES', 'mipsisa64r2', '--disable-mips64r6 --disable-mips32r6', '', d)}"
+@@ -183,3 +183,5 @@ FILES:libpostproc = "${libdir}/libpostproc${SOLIBS}"
+ FILES:libswresample = "${libdir}/libswresample${SOLIBS}"
+ FILES:libswscale = "${libdir}/libswscale${SOLIBS}"
+ FILES:${PN}-examples = "${datadir}/${PN}/examples"
++
++CVE_PRODUCT = "ffmpeg libswresample libavcodec"
 -- 
 2.34.1
 
