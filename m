@@ -2,115 +2,155 @@ Return-Path: <jsbronder@cold-front.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4EE9D59F6B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2DC8D59F6A
 	for <webhook@archiver.kernel.org>; Wed,  6 Nov 2024 19:07:08 +0000 (UTC)
 Received: from fhigh-a7-smtp.messagingengine.com (fhigh-a7-smtp.messagingengine.com [103.168.172.158])
- by mx.groups.io with SMTP id smtpd.web11.54342.1730920024020522232
+ by mx.groups.io with SMTP id smtpd.web10.54554.1730920022216960137
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 11:07:04 -0800
+ Wed, 06 Nov 2024 11:07:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cold-front.org header.s=fm1 header.b=X5mAdfYE;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=nalYZvbw;
+ dkim=pass header.i=@cold-front.org header.s=fm1 header.b=QeDAZ+tS;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=V3OzZa5r;
  spf=pass (domain: cold-front.org, ip: 103.168.172.158, mailfrom: jsbronder@cold-front.org)
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 5A6C6114013B;
-	Wed,  6 Nov 2024 14:07:03 -0500 (EST)
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6249111400D0;
+	Wed,  6 Nov 2024 14:07:01 -0500 (EST)
 Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Wed, 06 Nov 2024 14:07:03 -0500
+  by phl-compute-09.internal (MEProxy); Wed, 06 Nov 2024 14:07:01 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cold-front.org;
 	 h=cc:cc:content-transfer-encoding:content-type:date:date:from
-	:from:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to; s=fm1; t=1730920023; x=
-	1731006423; bh=uGoSVa9K6fLaW7j61NpSIa/wpkIBQpY9EPiuUEcqXJk=; b=X
-	5mAdfYEaV1F/8Iojd6VBX/UFR8+txT3eaQEMdMirbmKO3ngtnEyipu4fNTRJjqV+
-	cJALH9lrEsXyEDr35dakIfQCOFx9lWmIW3x2ia/I7JeAFVNKsWhnPXz+AuH7Bcnu
-	3iENZXK0ogE8XiUvLSwVwSHjAu5GpSyyC8e9VdyunEXzzmQP+jI8o1GivOEB3vZD
-	IvRw2w3TfldLCiQGKU+B+OSJA7XdisFVK6KhtFnn62nEWvrqcDxzRmvlYGH7Y6r8
-	FpnUg7GOovzv/B1t25jrJ14Y1EE27DGsGKvwaMLwZIdLtyToVIJVrp/jTw4lE845
-	kVP+vk0YoE1/r7ayjVp8A==
+	:from:in-reply-to:message-id:mime-version:reply-to:subject
+	:subject:to:to; s=fm1; t=1730920021; x=1731006421; bh=7BAJPY0Gi8
+	BBvy7Pt7qMxYMnMmWueNC8mDDB3ci07CM=; b=QeDAZ+tSuEWryKWJM99hq6sHA0
+	s9srsZznNT32V39yBJcotJUpeONxYGAHmYqAuteMds7Nle6ho9ndcJ7lh+JKkMzM
+	Zqer3q1F2G5U4c45RasBtEHrt/1ey0Kuwh5cRC7lM4rAaemf0xXq0hK2smjhfWr3
+	uUf4o5ic6Uaw/CtDoDbSDz/s2pBLIVlR0bCvYOz99I+8CizMe4w1V16u1csfuDVt
+	ex+NK0JcxwrEPxIOdj9M4NNjRQDBZycOdLys2+dN8OtVjAsgYti2VYE2/jkZ+t20
+	URcvQKoxAcA4Lsj7JZ3x6ySBHmpERaKUGqc+Btq5PZL5Neh12hD+ytpBvPYg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1730920023; x=1731006423; bh=u
-	GoSVa9K6fLaW7j61NpSIa/wpkIBQpY9EPiuUEcqXJk=; b=nalYZvbwEAxzEg08n
-	5BqaL6QjDz58g0DVcxq0DSNvyIUY5Vhs0i7bneGrpNkRbmKajKHNDREte4VbvfIZ
-	L0GrFp/ztVkxyNKLoVk5oUtuWdmqZqkNWakLojJJezqMhQ8fh4QPlODt+ZAZ7b7v
-	68DWGpr8FWP6I+Cca+RwaadXflzf0lGjZS3D4Mn+Q3MLCAaEZ6kJv72WffnC06ji
-	3nR8qRq8lMa1ZvxwrPcBX36ZlwYaEEQzG5xid7KpZr43eMH0EmR0g9QzqOzzbWUs
-	m+UkCx7d36HyKF80thxmhIj6Zjrz4yvLtH2eQOspH8xZ7aSc0GFFTuYG/ukk9kIn
-	JwH0g==
-X-ME-Sender: <xms:V74rZyg2GK1uRuJZ1lxfpyGx64CKKxvkCKipUDLwbGpzexlI7Z3bOA>
-    <xme:V74rZzAbzVg-ptJHZluVEyRHn4lCyah88U9IdbIgls2QTrhbg9h7fFoVhF4Tpy-rY
-    t_gD64GzBOuuTN3Gg>
-X-ME-Received: <xmr:V74rZ6ELYr19AVr5BEZ_dJvhO_Y-Juy0qqCREm4Z33m6Esw_XVjMD9RK-dkevscdkEiqNdGuhszs093ff9tNDPd6fx_1ByxdVPbPve3lUA>
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1730920021; x=1731006421; bh=7BAJPY0Gi8BBvy7Pt7qMxYMnMmWueNC8mDD
+	B3ci07CM=; b=V3OzZa5rn+cfANwYEyCbtt1SCUacMZqneW/5YHW/khXzzo3tA1P
+	GZ44XSzPzVz6ErVIGxTCe69ZKiJvwVJG6Ddfp9atyfkssoznhULQZpiGIisuy2NO
+	4CrQ0Q4LWJDp5Y1aIHUu/XUH/reOuOkEsHyLOLH7QuLcHFZ090ymPUMUm/g4U+5z
+	b4NAZKti5aCzLZ8lZDlk8rwi+VirycsJOqy0+vOzwaQSFQntyicMSeEHMzpv29v8
+	eNQcjgTgiKifh9xysu3lM187wXrW/HmRGtp9phQCm9aw3iAAZ3jGffdhFVUamXhl
+	lqcRMhLKfExEk/2Pzs2Ei8sUcRkookyhnaw==
+X-ME-Sender: <xms:Vb4rZ5JHuUSsoBscn5EpZkrGy6NaBLLYTjrLNalrh7f4TyDYrIJSjg>
+    <xme:Vb4rZ1LBvpf1wW_USpGMsYp9Zrz8x-_WoDWi55Z5nKqGVASlhH22uAdWugcqqBaf5
+    W_wGzD0lkPI1dkumA>
+X-ME-Received: <xmr:Vb4rZxtU4EjPdRdzQQ5gz5URR2YLPxRBWTWodxD0zckYe5vZbSNyDaRq3200rZnfKGgGW2vszv0q50GLWvZlj9C4QRqV4ON1ntdpKXd2Ew>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrtddvgdduudelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
     rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
-    ffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpefluhhsthhinhcuuehrohhnuggv
-    rhcuoehjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdrohhrgheqnecuggftrfgrth
-    htvghrnhepheekkeettdegkedtgfefuefgkeeuleelgffgtdehueduudeuleeviedvhedt
-    keeinecuffhomhgrihhnpehophgvnhgvmhgsvgguuggvugdrohhrghdpghhithhhuhgsrd
-    gtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
-    jhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhgpdhnsggprhgtphhtthhope
-    dvpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehophgvnhgvmhgsvgguuggvugdq
-    tghorhgvsehlihhsthhsrdhophgvnhgvmhgsvgguuggvugdrohhrghdprhgtphhtthhope
-    hjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdrohhrgh
-X-ME-Proxy: <xmx:V74rZ7QFgVTK9A78xRFI5cihvRg8q5iO0O4fCH2IVvuxFCnsYRXtYQ>
-    <xmx:V74rZ_zpQnwuuX1qqAD9ffaUIz5ljddfNNKq82y42lnEUM_nQ_HRTQ>
-    <xmx:V74rZ56k7MMBHmeJw4GkCYRWE8nIeHDM-FN5Gh9jveUeLtsP__2B2w>
-    <xmx:V74rZ8yc7T8uQQYwNeh51cuql7sfjghdcC9SPWhSEjD8Ej9JRkQHFQ>
-    <xmx:V74rZ6-6KqZstg1zpE_47wVbDz9eqWZ3EjpOWAKh0EkzrfGVlP6tm5HX>
+    ffkffoggfgsedtkeertdertddtnecuhfhrohhmpefluhhsthhinhcuuehrohhnuggvrhcu
+    oehjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdrohhrgheqnecuggftrfgrthhtvg
+    hrnhepgeetveehgeefjeelvdevjefgfeejfffgtedtgfdtvdekgeefvdfflefhteekgeeh
+    necuffhomhgrihhnpehgihhthhhusgdrtghomhdpihhnfhhrrgguvggrugdrohhrghdpsg
+    grrhgvsghogidrohhrghenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgr
+    ihhlfhhrohhmpehjshgsrhhonhguvghrsegtohhlugdqfhhrohhnthdrohhrghdpnhgspg
+    hrtghpthhtohepvddpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepohhpvghnvghm
+    sggvugguvgguqdgtohhrvgeslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpd
+    hrtghpthhtohepjhhssghrohhnuggvrhestgholhguqdhfrhhonhhtrdhorhhg
+X-ME-Proxy: <xmx:Vb4rZ6Z928rRt9JqvGB3BXxXf6SSHaFknxREbbEKtUSyGGmD5qEEVg>
+    <xmx:Vb4rZwZoo5cEWKCd6DVUfnzDTth5QcDpLiZ-vvuQobCPlCzsHbhvHg>
+    <xmx:Vb4rZ-BKd_ofWp2ZmTalYEhFKv5v8_nCy47hHRrzkFoBdxdq4h5wDA>
+    <xmx:Vb4rZ-ayLYsnMUCTtJdPaMcNkXXxTHH-440pk7_A2kexDagnFULvBg>
+    <xmx:Vb4rZ_kvVYlXhcTyqBFHHIgaLa5KseaiS79atEXAf0ycWmSGEewqRjCl>
 Feedback-ID: iea0042cb:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
- 6 Nov 2024 14:07:02 -0500 (EST)
+ 6 Nov 2024 14:07:00 -0500 (EST)
 From: Justin Bronder <jsbronder@cold-front.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Justin Bronder <jsbronder@cold-front.org>
-Subject: [PATCH v2 2/2] bitbake.conf: require lz4 instead of lz4c
-Date: Wed,  6 Nov 2024 14:06:43 -0500
-Message-ID: <20241106190643.610702-2-jsbronder@cold-front.org>
+Subject: [PATCH v2 1/2] barebox: use lz4 instead of lz4c
+Date: Wed,  6 Nov 2024 14:06:42 -0500
+Message-ID: <20241106190643.610702-1-jsbronder@cold-front.org>
 X-Mailer: git-send-email 2.46.1
-In-Reply-To: <20241106190643.610702-1-jsbronder@cold-front.org>
-References: <20241106190643.610702-1-jsbronder@cold-front.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 19:07:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206801
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206800
 
-With bitbake commit 'bb: compress: use lz4 instead of lz4c' we require
-lz4, not lz4c [1].  Going as far back as Ubuntu 16.04/Fedora 25, they
-are packaged together so it should be safe to simply adjust the
-requirement from lz4c to lz4.
+lz4c has been considered deprecated by upstream since at least 2018 [1]
+and has been disabled by default recently [2].  openSUSE Tumbleweed is
+no longer packaging the deprecated version and others will likely
+follow.
 
-Note that the two are largely the same, but upstream has considered lz4c
-deprecated since at least 2018 [2].
+Going back as far as Ubuntu 16.04/Fedora 25, both lz4 and lz4c are
+installed as part of the same package so switching should be safe.
 
-1. https://git.openembedded.org/bitbake/commit/?id=907472034b344e4eb73cfd43059a413469f52e1c
-2. https://github.com/lz4/lz4/pull/553
+1. https://github.com/lz4/lz4/pull/553
+2. https://github.com/lz4/lz4/pull/1479
 
+Upstream-Status: Submitted [http://lists.infradead.org/pipermail/barebox/2024-November/048491.html]
 Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...0001-lib-lz4-use-lz4-instead-of-lz4c.patch | 35 +++++++++++++++++++
+ meta/recipes-bsp/barebox/barebox_2024.09.0.bb |  4 ++-
+ 2 files changed, 38 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-bsp/barebox/barebox/0001-lib-lz4-use-lz4-instead-of-lz4c.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index eda505c861..14e761e2e7 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -517,7 +517,7 @@ HOSTTOOLS += " \
-     [ ar as awk basename bash bunzip2 bzip2 cat chgrp chmod chown chrpath cmp comm cp cpio \
-     cpp cut date dd diff diffstat dirname du echo egrep env expand expr false \
-     fgrep file find flock g++ gawk gcc getconf getopt git grep gunzip gzip \
--    head hostname iconv id install ld ldd ln ls lz4c make md5sum mkdir mkfifo mknod \
-+    head hostname iconv id install ld ldd ln ls lz4 make md5sum mkdir mkfifo mknod \
-     mktemp mv nm objcopy objdump od patch perl pr printf pwd \
-     python3 pzstd ranlib readelf readlink realpath rm rmdir rpcgen sed seq sh \
-     sha1sum sha224sum sha256sum sha384sum sha512sum \
+diff --git a/meta/recipes-bsp/barebox/barebox/0001-lib-lz4-use-lz4-instead-of-lz4c.patch b/meta/recipes-bsp/barebox/barebox/0001-lib-lz4-use-lz4-instead-of-lz4c.patch
+new file mode 100644
+index 0000000000..55d4a4556b
+--- /dev/null
++++ b/meta/recipes-bsp/barebox/barebox/0001-lib-lz4-use-lz4-instead-of-lz4c.patch
+@@ -0,0 +1,35 @@
++From 24839df617aef8099e4d1ba3fc47a04c52c0cf75 Mon Sep 17 00:00:00 2001
++From: Justin Bronder <jsbronder@cold-front.org>
++Date: Wed, 6 Nov 2024 11:59:40 -0500
++Subject: [PATCH] lib: lz4: use lz4 instead of lz4c
++
++lz4c has been considered deprecated by upstream since at least 2018 [1]
++and has been disabled by default recently [2].  openSUSE Tumbleweed is
++no longer packaging the deprecated version and others will likely
++follow.
++
++Going back as far as Ubuntu 16.04/Fedora 25, both lz4 and lz4c are
++installed as part of the same package so switching should be safe.
++
++1. https://github.com/lz4/lz4/pull/553
++2. https://github.com/lz4/lz4/pull/1479
++
++Upstream-Status: Submitted [http://lists.infradead.org/pipermail/barebox/2024-November/048491.html]
++Signed-off-by: Justin Bronder <jsbronder@cold-front.org>
++---
++ scripts/Makefile.lib | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/scripts/Makefile.lib b/scripts/Makefile.lib
++index 1881e3c1..1052bcee 100644
++--- a/scripts/Makefile.lib
+++++ b/scripts/Makefile.lib
++@@ -492,7 +492,7 @@ cmd_lzo = (cat $(filter-out FORCE,$^) | \
++ 
++ quiet_cmd_lz4 = LZ4     $@
++ cmd_lz4 = (cat $(filter-out FORCE,$^) | \
++-	lz4c -l -c1 stdin stdout && $(call size_append, $(filter-out FORCE,$^))) > $@ || \
+++	lz4 -l --best stdin stdout && $(call size_append, $(filter-out FORCE,$^))) > $@ || \
++ 	(rm -f $@ ; false)
++ 
++ %.lz4: %
+diff --git a/meta/recipes-bsp/barebox/barebox_2024.09.0.bb b/meta/recipes-bsp/barebox/barebox_2024.09.0.bb
+index d2a3d4ebd1..4b24ab945e 100644
+--- a/meta/recipes-bsp/barebox/barebox_2024.09.0.bb
++++ b/meta/recipes-bsp/barebox/barebox_2024.09.0.bb
+@@ -11,5 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+ 
+ inherit barebox
+ 
+-SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
++SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2 \
++           file://0001-lib-lz4-use-lz4-instead-of-lz4c.patch \
++           "
+ SRC_URI[sha256sum] = "4d4ea7e232aeba2b3cb9ccf0dbf8cd8e01c65b6c615f64c3bd0c4f24f23a47da"
 -- 
 2.46.1
 
