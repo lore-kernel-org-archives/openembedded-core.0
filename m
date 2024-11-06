@@ -1,135 +1,137 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D858D44D6A
-	for <webhook@archiver.kernel.org>; Wed,  6 Nov 2024 13:50:07 +0000 (UTC)
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.web11.45914.1730900998065482061
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D47CD44D6F
+	for <webhook@archiver.kernel.org>; Wed,  6 Nov 2024 13:55:47 +0000 (UTC)
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+ by mx.groups.io with SMTP id smtpd.web11.46008.1730901339204971538
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 05:49:58 -0800
+ Wed, 06 Nov 2024 05:55:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WfaZXIUG;
- spf=softfail (domain: sakoman.com, ip: 209.85.216.43, mailfrom: steve@sakoman.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-2e3d523a24dso5131076a91.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 05:49:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=VAUmMU48;
+ spf=pass (domain: gmail.com, ip: 209.85.218.48, mailfrom: martin.jansa@gmail.com)
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-a99f1fd20c4so873827766b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 05:55:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730900997; x=1731505797; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=MjSVLGz3qZ7dLV97m10InE1Bc2dWhIjDbGTpkNvTc84=;
-        b=WfaZXIUGOv8zn9bdC84cloEhZpMO6b6A0Eq8yjkKFlRR2MIPBmaYMg3ORj6DEaFSEQ
-         C/mY/VUMTTXjd0oQORNlMhLxd/B9lwGqZtKITPSob5UQqqS6kqSsbhSynrcUqhsMBd4K
-         EXK013RoXfA4JvHJ0vtLn0MzkAcyL/gKkb/FXZ1fQ8TuwFN7zsPwlybpx9wT+DgfV0nC
-         VE6dMt2lmQsLNIVGQAlC0V/vyxO29L4w0/KuT12kP7D1/E6V0rez5b2YmQR4S9DW2j80
-         2/L34H9HfUO0JikrbcQR1mho2DSiOyKqPWd/RB8Lh95zJWA2iRcq60je4qClaIRbwE6o
-         BAgA==
+        d=gmail.com; s=20230601; t=1730901337; x=1731506137; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0ATwN52tjvmV5omNGcAmOIzHxYtuDy+KGYpZs0r4WvQ=;
+        b=VAUmMU48nkUJBPuGXfE0cD9rCcqlm1cnDeYoNn/ozjfHiQvgltV8h9k9F3aX0Bo59H
+         ZJSClrxG5npCl7W0rPjcwKPif0HKHaRKrcoQdlr4YonOwEPCSFf21Wm9eLpRCZDcTrH8
+         v1q5bsTUpYxkbmTrIngChuAxzYGjwevquPGpxt1qK8f03p7PJti+h7Eym8nGRpT/x4Tm
+         SQt3Q/MI0whBLDIOncpB4p/rAmzXXp8geIqf+rw2Kkwwg9NkdPo4Q4lEPnfe72Z0TTOl
+         rXnL1tvcn+dyVfHYYQz6/InisRcyinCAGoLToulFvMvK+xUvQsSrzTsMPtFKwIth2YGY
+         4z3w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730900997; x=1731505797;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MjSVLGz3qZ7dLV97m10InE1Bc2dWhIjDbGTpkNvTc84=;
-        b=Il0BGIbKuLnaY7+OKzC0Z2y4f3Wxk71Jp7vr/oZ9gqbpn+fEy6x28gZDMpa0W0ALIA
-         GbfVp63ze/P2coSJKAykf/ILJtfMPSmr/2O1pu8MxZ4pUYOn6PAroYCCDVj45S9cLnWv
-         p1PwC54sbuftBvJg+MPJfAZXUCThXnshyHuxA1cQN0tljwBeMwGq+LfCpJpn25XC6Nl4
-         RUjYnxxaR3LK66+piajxbGzAzTq6I2G2RkyeZ9HspKLSHasZRQCbgcR1oTnTuUybnVhq
-         RnPxtjs0Boz3Sc4//ixxxxqUIL2VjO7nWq8Jm3KiCvN4ZqY6Ntk4R4x1DaPhF+1/xJA7
-         5pJw==
-X-Gm-Message-State: AOJu0Yy3TYWKQIqer40irPn7U7dBySKwStqGYHQL6jUAwgQQo6fPEZK3
-	dn5BfkBWfXRClPWEiD6PxPDKbQr61EP6mULyEcrNzpr3d0UNoKV3UV1yTp3PEmjmgMyaFRZWsh/
-	I
-X-Google-Smtp-Source: AGHT+IE6Mwx4HEo9HT7XMNO7Lda45rbVNJXXaH8Y3agKrdTl0QWMEYBE1KModx/iecNuKXLn+NzNCg==
-X-Received: by 2002:a17:90b:3755:b0:2e2:de27:db09 with SMTP id 98e67ed59e1d1-2e8f1078c4dmr41116296a91.19.1730900997217;
-        Wed, 06 Nov 2024 05:49:57 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2e99a541e16sm1491795a91.21.2024.11.06.05.49.56
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1730901337; x=1731506137;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0ATwN52tjvmV5omNGcAmOIzHxYtuDy+KGYpZs0r4WvQ=;
+        b=CX1JYVxRp2Yz4nb/YLUYj40H7JfeEtBSNUrCE/AxcxjuzNk/r/pZNzNpYuv0H1uisf
+         qDWocoMT8HXW390RdiCMhiUc9eCm2EDhAzamFPPQRU015N3b7ZBbO2Slk0RsRIqGGg7s
+         sGi84hJtREmuklhzNatagEKC8jWzY85irrI0nsBcM5CvZZ6UDAenxv5CO3L/8ykJKtBd
+         T6H0qn1eiU4zSQ5f/o02MLItR7xO6qtBfhNs10Q+8WagrP+RcQDQrXpmroirGxgUoj6D
+         oz+NYN/0ukE8WCkLetfZ5STKOs2PkXftyvcyxNsgwbkP/hB9ZQK5TdhgWiK/a01bzhuv
+         sfIA==
+X-Gm-Message-State: AOJu0YyubWtl1K+XQnuf8L6rYnYwfmefw6rP/GPgnV1pCg7h3I5hDVCU
+	sfmgMdRFnFZpjiG+P9SZWPwqwDbJweShSOEenXeHdlxX7g7tZtdsQoFrfg==
+X-Google-Smtp-Source: AGHT+IHkN33RRbh8DIZZU702UuXz/Z88m62reT7tWfuCrQHKBsyrwOO7u4euqQkBpp0PISyfvvwl6g==
+X-Received: by 2002:a17:906:da8e:b0:a9a:20f9:a402 with SMTP id a640c23a62f3a-a9e5089c0aemr2382545566b.13.1730901337205;
+        Wed, 06 Nov 2024 05:55:37 -0800 (PST)
+Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-a9eb16e0ed7sm284200366b.77.2024.11.06.05.55.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 05:49:56 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Wed, 06 Nov 2024 05:55:36 -0800 (PST)
+From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 7/7] glibc: Fix missing randomness in __gen_tempname
-Date: Wed,  6 Nov 2024 05:49:37 -0800
-Message-Id: <92cc48d51c763249b2eb8b4181bc20056fc72264.1730900782.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1730900782.git.steve@sakoman.com>
-References: <cover.1730900782.git.steve@sakoman.com>
+Cc: steve@sakoman.com,
+	Ola x Nilsson <olani@axis.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [kirkstone][PATCH] patch.py: Use shlex instead of deprecated pipe
+Date: Wed,  6 Nov 2024 14:55:22 +0100
+Message-ID: <20241106135522.3503529-1-martin.jansa@gmail.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 13:50:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206780
+ <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 13:55:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206781
 
 From: Ola x Nilsson <olani@axis.com>
 
-Backport the fix for glibc bug 32214.
+The pipe library is deprecated in Python 3.11 and will be removed in
+Python 3.13.  pipe.quote is just an import of shlex.quote anyway.
 
-The missing randomness in early boot may cause some systemd services
-to fail when they occasionally try to create tempdirs like
-/run/systemd/namespace-aaaaaa at the same time.
-The error messages can contain things like
-"Failed to set up mount namespacing".
+Clean up imports while we're at it.
 
 Signed-off-by: Ola x Nilsson <olani@axis.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- ...ndomness-in-__gen_tempname-bug-32214.patch | 29 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.40.bb         |  1 +
- 2 files changed, 30 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch
+This was already backported to dunfell in:
+https://lists.openembedded.org/g/openembedded-core/message/189665
+but it's missing in kirkstone.
 
-diff --git a/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch b/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch
-new file mode 100644
-index 0000000000..c9f3e32f58
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch
-@@ -0,0 +1,29 @@
-+From 9d30d58c32fe9d5f8ec6cda79fb11159e6789bcf Mon Sep 17 00:00:00 2001
-+From: Andreas Schwab <schwab@suse.de>
-+Date: Wed, 25 Sep 2024 11:49:30 +0200
-+Subject: [PATCH] Fix missing randomness in __gen_tempname (bug 32214)
+With pipes removed in python-3.13 it's one of reasons why kirkstone
+doesn't parse with python-3.13 on host
+
+ meta/lib/oe/patch.py | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
+
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 4ec9caed45..e607148ec7 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -2,9 +2,11 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
++import os
++import shlex
++import subprocess
+ import oe.path
+ import oe.types
+-import subprocess
+ 
+ class NotFoundError(bb.BBHandledException):
+     def __init__(self, path):
+@@ -25,8 +27,6 @@ class CmdError(bb.BBHandledException):
+ 
+ 
+ def runcmd(args, dir = None):
+-    import pipes
+-
+     if dir:
+         olddir = os.path.abspath(os.curdir)
+         if not os.path.exists(dir):
+@@ -35,7 +35,7 @@ def runcmd(args, dir = None):
+         # print("cwd: %s -> %s" % (olddir, dir))
+ 
+     try:
+-        args = [ pipes.quote(str(arg)) for arg in args ]
++        args = [ shlex.quote(str(arg)) for arg in args ]
+         cmd = " ".join(args)
+         # print("cmd: %s" % cmd)
+         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+@@ -215,7 +215,7 @@ class PatchTree(PatchSet):
+         with open(self.seriespath, 'w') as f:
+             for p in patches:
+                 f.write(p)
+-         
 +
-+Make sure to update the random value also if getrandom fails.
-+
-+Fixes: 686d542025 ("posix: Sync tempname with gnulib")
-+
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=commit;h=5f62cf88c4530c11904482775b7582bd7f6d80d2]
-+
-+Signed-off-by: Ola x Nilsson <olani@axis.com>
-+---
-+ sysdeps/posix/tempname.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/sysdeps/posix/tempname.c b/sysdeps/posix/tempname.c
-+index c00fe0c181..fc30958a0c 100644
-+--- a/sysdeps/posix/tempname.c
-++++ b/sysdeps/posix/tempname.c
-+@@ -117,6 +117,8 @@ random_bits (random_value *r, random_value s)
-+      succeed.  */
-+ #if !_LIBC
-+   *r = mix_random_values (v, clock ());
-++#else
-++  *r = v;
-+ #endif
-+   return false;
-+ }
-diff --git a/meta/recipes-core/glibc/glibc_2.40.bb b/meta/recipes-core/glibc/glibc_2.40.bb
-index 71b89ac9ff..3e855b19d8 100644
---- a/meta/recipes-core/glibc/glibc_2.40.bb
-+++ b/meta/recipes-core/glibc/glibc_2.40.bb
-@@ -53,6 +53,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0021-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0022-Avoid-hardcoded-build-time-paths-in-the-output-binar.patch \
-            file://0023-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
-+           file://0024-Fix-missing-randomness-in-__gen_tempname-bug-32214.patch \
- "
- S = "${WORKDIR}/git"
- B = "${WORKDIR}/build-${TARGET_SYS}"
+     def Import(self, patch, force = None):
+         """"""
+         PatchSet.Import(self, patch, force)
+@@ -919,4 +919,3 @@ def should_apply(parm, d):
+             return False, "applies to later version"
+ 
+     return True, None
+-
 -- 
-2.34.1
+2.47.0
 
 
