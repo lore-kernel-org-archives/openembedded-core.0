@@ -2,57 +2,57 @@ Return-Path: <philip.lorenz@bmw.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1FD3D5AE72
-	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 08:02:22 +0000 (UTC)
-Received: from esa5.hc324-48.eu.iphmx.com (esa5.hc324-48.eu.iphmx.com [207.54.71.60])
- by mx.groups.io with SMTP id smtpd.web11.67117.1730966530735748444
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBADBD5AE73
+	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 08:02:52 +0000 (UTC)
+Received: from esa13.hc324-48.eu.iphmx.com (esa13.hc324-48.eu.iphmx.com [207.54.72.35])
+ by mx.groups.io with SMTP id smtpd.web11.67132.1730966569857544995
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Nov 2024 00:02:12 -0800
+ Thu, 07 Nov 2024 00:02:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=JTjuShEH;
- spf=pass (domain: bmw.de, ip: 207.54.71.60, mailfrom: prvs=0344a29a8=philip.lorenz@bmw.de)
+ dkim=pass header.i=@bmw.de header.s=mailing1 header.b=IPzDwSr1;
+ spf=pass (domain: bmw.de, ip: 207.54.72.35, mailfrom: prvs=0344a29a8=philip.lorenz@bmw.de)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1730966530; x=1762502530;
+  t=1730966569; x=1762502569;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=nFx6D63ZtIdJpKdtsjZp+8fIMXpQ98C5r1bdZrZf4MQ=;
-  b=JTjuShEHd9L4S7ygBruLPyttEQOOILGSAjijg02JmAJKHJzleZY7EZUH
-   RE8hK0UcuDqG1sWqdd4JiIs9D2QStNoS4yy4VxN4cXNN7Ac69WgQlwlu+
-   IjSKFaksoPmSvVVGNBE0FN54TmVUQkLBRv2f4snmpSZ29BDLxOKeqadVb
-   k=;
-X-CSE-ConnectionGUID: 7FcpWLIBTT2A5DuGyyMLCw==
-X-CSE-MsgGUID: SSy1Aq94ThmQ+E17CHc0uw==
-Received: from esagw6.bmwgroup.com (HELO esagw6.muc) ([160.46.252.49]) by
- esa5.hc324-48.eu.iphmx.com with ESMTP/TLS; 07 Nov 2024 09:02:08 +0100
-Received: from esabb6.muc ([160.50.100.50])  by esagw6.muc with ESMTP/TLS;
- 07 Nov 2024 09:02:07 +0100
+  bh=p5H5Q8Azzn2/7IlB2ZDDEcquc589YpsOEIG/7KhhTas=;
+  b=IPzDwSr1cPJIGEb02xGwDW6HWHHKN/0ltO6b1TU766dGEdRSaAzd3xOB
+   YhV7RboQRqYarq6qwtzqECvNo3TuxnJc5njufya/lXRs/MEwFaKPrOgS8
+   WIy/7Ix9lapnjh6J/3RW7kxCihmF0pFUxLfGOn8fOr8M9F/LagOTU/tOn
+   E=;
+X-CSE-ConnectionGUID: gGqNAWrDS8iXTvUITvRsCQ==
+X-CSE-MsgGUID: /p6HBKh5Ta69j0tbnvv3MQ==
+Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
+ esa13.hc324-48.eu.iphmx.com with ESMTP/TLS; 07 Nov 2024 09:02:47 +0100
+Received: from esabb1.muc ([160.50.100.31])  by esagw2.muc with ESMTP/TLS;
+ 07 Nov 2024 09:02:47 +0100
 Received: from smucmp10e.bmwgroup.net (HELO SMUCMP10E.europe.bmw.corp) ([10.30.13.87])
- by esabb6.muc with ESMTP/TLS; 07 Nov 2024 09:02:07 +0100
-Received: from localhost.localdomain (10.30.85.205) by SMUCMP10E.europe.bmw.corp
+ by esabb1.muc with ESMTP/TLS; 07 Nov 2024 09:02:47 +0100
+Received: from localhost.localdomain (10.30.85.214) by SMUCMP10E.europe.bmw.corp
  (2a03:1e80:a15:58f::2027) with Microsoft SMTP Server (version=TLS;
- Thu, 7 Nov 2024 09:02:07 +0100
-X-CSE-ConnectionGUID: Il7Vem3aRW6x7mJm+bHmhw==
-X-CSE-MsgGUID: f4jtaARNQAuMb7+FQ/1jlA==
-X-CSE-ConnectionGUID: xnp53/tQSluETi63vL7Hdw==
-X-CSE-MsgGUID: lRNTr9O3SkOhhkGETSzk6A==
+ Thu, 7 Nov 2024 09:02:47 +0100
+X-CSE-ConnectionGUID: jo9BR6TzSuazXwPl9pkuWQ==
+X-CSE-MsgGUID: uaoplqavQ36MjFJeuQSY5A==
+X-CSE-ConnectionGUID: ZUEyjAVaQqGFVib6I6y1/w==
+X-CSE-MsgGUID: tfpiHP0TTJSxRfN6d/jY0w==
 From: Philip Lorenz <philip.lorenz@bmw.de>
 To: <openembedded-core@lists.openembedded.org>
 CC: <steve@sakoman.com>, Philip Lorenz <philip.lorenz@bmw.de>
-Subject: [scarthgap][PATCH] cmake: Fix sporadic issues when determining compiler internals
-Date: Thu, 7 Nov 2024 08:58:01 +0100
-Message-ID: <20241107075801.595803-1-philip.lorenz@bmw.de>
+Subject: [kirkstone][PATCH] cmake: Fix sporadic issues when determining compiler internals
+Date: Thu, 7 Nov 2024 08:58:41 +0100
+Message-ID: <20241107075841.595839-1-philip.lorenz@bmw.de>
 X-Mailer: git-send-email 2.46.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: smucmp18c.europe.bmw.corp (2a03:1e80:a15:58f::1:5c) To
+X-ClientProxiedBy: SMUCMP07c.europe.bmw.corp (2a03:1e80:a15:58f::2161) To
  SMUCMP10E.europe.bmw.corp (2a03:1e80:a15:58f::2027)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 08:02:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206829
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 08:02:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206830
 
 When `-pipe` is enabled, GCC passes data between its different
 executables using pipes instead of temporary files. This leads to issues
@@ -76,32 +76,30 @@ compiler internals.
 
 Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
 ---
- meta/recipes-devtools/cmake/cmake.inc         |  3 +-
+ meta/recipes-devtools/cmake/cmake.inc         |  1 +
  ...mpilerABI-Strip-pipe-from-compile-fl.patch | 52 +++++++++++++++++++
- 2 files changed, 54 insertions(+), 1 deletion(-)
+ 2 files changed, 53 insertions(+)
  create mode 100644 meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
 
 diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index ab9f459c05c..a52506a8eac 100644
+index d5003211389..3811aae9c4d 100644
 --- a/meta/recipes-devtools/cmake/cmake.inc
 +++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -17,7 +17,8 @@ LIC_FILES_CHKSUM = "file://Copyright.txt;md5=9d3d12c5f3b4c1f83650adcc65b59c06 \
+@@ -17,6 +17,7 @@ LIC_FILES_CHKSUM = "file://Copyright.txt;md5=31023e1d3f51ca90a58f55bcee8e2339 \
  CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
  
  SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
--"
 +           file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch \
-+           "
- 
- SRC_URI[sha256sum] = "72b7570e5c8593de6ac4ab433b73eab18c5fb328880460c86ce32608141ad5c1"
- 
+            file://0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch \
+            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
+ "
 diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
 new file mode 100644
-index 00000000000..7ffcc95ac3c
+index 00000000000..a30273458f8
 --- /dev/null
 +++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
 @@ -0,0 +1,52 @@
-+From bd94bbdc35a9da4c73d538e0cc55bc95944f620d Mon Sep 17 00:00:00 2001
++From dab7ba34f87be0172f6586325656ee962de0029e Mon Sep 17 00:00:00 2001
 +From: Philip Lorenz <philip.lorenz@bmw.de>
 +Date: Mon, 3 Jun 2024 13:19:24 +0200
 +Subject: [PATCH] CMakeDetermineCompilerABI: Strip -pipe from compile flags
@@ -138,13 +136,13 @@ index 00000000000..7ffcc95ac3c
 + 1 file changed, 5 insertions(+)
 +
 +diff --git a/Modules/CMakeDetermineCompilerABI.cmake b/Modules/CMakeDetermineCompilerABI.cmake
-+index efc18f93c2..f2e40479b1 100644
++index 8191d819bf..ae4c9ee44e 100644
 +--- a/Modules/CMakeDetermineCompilerABI.cmake
 ++++ b/Modules/CMakeDetermineCompilerABI.cmake
-+@@ -43,6 +43,11 @@ function(CMAKE_DETERMINE_COMPILER_ABI lang src)
++@@ -35,6 +35,11 @@ function(CMAKE_DETERMINE_COMPILER_ABI lang src)
 + 
 +     # Avoid failing ABI detection on warnings.
-+     string(REGEX REPLACE "(^| )-Werror([= ][^-][^ ]*)?( |$)" " " CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS}")
++     string(REGEX REPLACE "(^| )-Werror([= ][^ ]*)?( |$)" " " CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS}")
 ++    # Avoid passing of "-pipe" when determining the compiler internals. With
 ++    # "-pipe" GCC will use pipes to pass data between the involved
 ++    # executables.  This may lead to issues when their stderr output (which
