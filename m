@@ -1,154 +1,142 @@
-Return-Path: <philip.lorenz@bmw.de>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CBADBD5AE73
-	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 08:02:52 +0000 (UTC)
-Received: from esa13.hc324-48.eu.iphmx.com (esa13.hc324-48.eu.iphmx.com [207.54.72.35])
- by mx.groups.io with SMTP id smtpd.web11.67132.1730966569857544995
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8A1BD44D56
+	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 10:39:43 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.68842.1730975978827381234
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Nov 2024 00:02:50 -0800
+ Thu, 07 Nov 2024 02:39:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bmw.de header.s=mailing1 header.b=IPzDwSr1;
- spf=pass (domain: bmw.de, ip: 207.54.72.35, mailfrom: prvs=0344a29a8=philip.lorenz@bmw.de)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JVnbuaNo;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4315eac969aso4657045e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 02:39:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=bmw.de; i=@bmw.de; q=dns/txt; s=mailing1;
-  t=1730966569; x=1762502569;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=p5H5Q8Azzn2/7IlB2ZDDEcquc589YpsOEIG/7KhhTas=;
-  b=IPzDwSr1cPJIGEb02xGwDW6HWHHKN/0ltO6b1TU766dGEdRSaAzd3xOB
-   YhV7RboQRqYarq6qwtzqECvNo3TuxnJc5njufya/lXRs/MEwFaKPrOgS8
-   WIy/7Ix9lapnjh6J/3RW7kxCihmF0pFUxLfGOn8fOr8M9F/LagOTU/tOn
-   E=;
-X-CSE-ConnectionGUID: gGqNAWrDS8iXTvUITvRsCQ==
-X-CSE-MsgGUID: /p6HBKh5Ta69j0tbnvv3MQ==
-Received: from esagw2.bmwgroup.com (HELO esagw2.muc) ([160.46.252.38]) by
- esa13.hc324-48.eu.iphmx.com with ESMTP/TLS; 07 Nov 2024 09:02:47 +0100
-Received: from esabb1.muc ([160.50.100.31])  by esagw2.muc with ESMTP/TLS;
- 07 Nov 2024 09:02:47 +0100
-Received: from smucmp10e.bmwgroup.net (HELO SMUCMP10E.europe.bmw.corp) ([10.30.13.87])
- by esabb1.muc with ESMTP/TLS; 07 Nov 2024 09:02:47 +0100
-Received: from localhost.localdomain (10.30.85.214) by SMUCMP10E.europe.bmw.corp
- (2a03:1e80:a15:58f::2027) with Microsoft SMTP Server (version=TLS;
- Thu, 7 Nov 2024 09:02:47 +0100
-X-CSE-ConnectionGUID: jo9BR6TzSuazXwPl9pkuWQ==
-X-CSE-MsgGUID: uaoplqavQ36MjFJeuQSY5A==
-X-CSE-ConnectionGUID: ZUEyjAVaQqGFVib6I6y1/w==
-X-CSE-MsgGUID: tfpiHP0TTJSxRfN6d/jY0w==
-From: Philip Lorenz <philip.lorenz@bmw.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: <steve@sakoman.com>, Philip Lorenz <philip.lorenz@bmw.de>
-Subject: [kirkstone][PATCH] cmake: Fix sporadic issues when determining compiler internals
-Date: Thu, 7 Nov 2024 08:58:41 +0100
-Message-ID: <20241107075841.595839-1-philip.lorenz@bmw.de>
-X-Mailer: git-send-email 2.46.2
+        d=linuxfoundation.org; s=google; t=1730975977; x=1731580777; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tYHLXyMVHKM3KiYKkhiU2WFP0SqSzURxSHi/nFZ0Vsw=;
+        b=JVnbuaNoqr9jdy34ll1Tg/PHwkIxtjmSFYGPmAWECOBrCAD8viPyEj4iNFd4EzziWG
+         bicpBDgPcYVGf1Z2RT9MVWfe/9z1Oy5jut0qm9MIe8MiIbg+Cgbum7OUPUeLsW5j3Woi
+         8UeDbZh8HbS/ktCa/svqQZFWtOPXfPvGXefk8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1730975977; x=1731580777;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=tYHLXyMVHKM3KiYKkhiU2WFP0SqSzURxSHi/nFZ0Vsw=;
+        b=ji0neB5dt4lv7SbyE4hqqrT7/oEMFjXjR7CZoTdrb8nIu0iZD9rIju8chv7D6nCYe0
+         RXBUBcWHxT0xA+uU+VnAppDPENs4KaGm9fP4dGc268tqN4vMacHDZOYrqGl60sq5d5kF
+         z+J/pWuDaK1w5cPKGJGBwjfST5seSbfQlaVUrroQKPEagZTZ06PQ51gsa3Ey4f4a/ilt
+         EF1VIzxatCX7Y7TUQ4ZN+N+vSHS9oDNcMoi99tCK5cPrAXRiAhaV7mP87mD4dBtBx8ZA
+         nrBPq93+0wBBWKunDb43h2QOJdM+ugQi8WGyWey9Z3QnG4n3y1vRcah02VdBHLUIkDUc
+         f0iA==
+X-Forwarded-Encrypted: i=1; AJvYcCUxaeCUoJkvaP6Nco6W2aqJ3yXyUPRGBveEOB7pLC7N9bWZfacTKaVCEzR/47hWrYBr+eVfh+uqiyNxX5Q0uobDmg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwCT9YVJWNw7xmZGoKT7VcJMztbS269a+nJW2xN0ylBKjMixR2y
+	njSiZoLQH/ZE//HvIWWyJLUo6tC9xKymmRobWL9qG/TiTBOV/6KrGGBRwvvcUBY=
+X-Google-Smtp-Source: AGHT+IFWgOblNq2OhTWIB0QbXgcKwQMqqsz9XhDl3lvs4xMy/OjeCTiUNeg8P3sH3f1KCaH1PFm+rw==
+X-Received: by 2002:a05:600c:1c8a:b0:431:9340:77e0 with SMTP id 5b1f17b1804b1-432b382bdc8mr7359605e9.9.1730975977044;
+        Thu, 07 Nov 2024 02:39:37 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c2a0:1728:e87f:b86b? ([2001:8b0:aba:5f3c:c2a0:1728:e87f:b86b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b054c179sm18641315e9.18.2024.11.07.02.39.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Nov 2024 02:39:36 -0800 (PST)
+Message-ID: <d478c0e7ec94a2e3c7552711d7631c5ea45c0b4d.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] bitbake.conf: Enable ipv6/acl/xattr for
+ nativesdk
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 07 Nov 2024 10:39:35 +0000
+In-Reply-To: <DB5PR02MB10213CD43DB2665982DF6E1F6EF532@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20241106100957.2905277-1-richard.purdie@linuxfoundation.org>
+	 <DB5PR02MB10213CD43DB2665982DF6E1F6EF532@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SMUCMP07c.europe.bmw.corp (2a03:1e80:a15:58f::2161) To
- SMUCMP10E.europe.bmw.corp (2a03:1e80:a15:58f::2027)
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 08:02:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206830
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 10:39:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206831
 
-When `-pipe` is enabled, GCC passes data between its different
-executables using pipes instead of temporary files. This leads to issues
-when cmake attempts to infer compiler internals via the `-v` parameter
-as each executable will print to `stderr` in parallel.
+On Wed, 2024-11-06 at 22:39 +0000, Peter Kjellerstedt wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org=C2=A0<openembedded-core@=
+lists.openembedded.org> On Behalf Of Richard Purdie
+> > Sent: den 6 november 2024 11:10
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH v2] bitbake.conf: Enable ipv6/acl/xattr for n=
+ativesdk
+> >=20
+> > I was surprised to realise our buildtools doesn't support IPv6 which br=
+eaks
+> > usage in our own autobuilder, let alone anywhere else.
+> >=20
+> > Enable ipv6 in our SDKs and enable acl/xattr as well before we have the=
+ same
+> > kind of issues with those, these features are now common on most linux =
+systems
+> > and we should be defaulting to including them.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > v2 - Handle mingw which doesn't support acl/attr
+> >=20
+> > =C2=A0meta/conf/bitbake.conf | 3 ++-
+> > =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+> > index 14e761e2e7e..02bbf0e7a52 100644
+> > --- a/meta/conf/bitbake.conf
+> > +++ b/meta/conf/bitbake.conf
+> > @@ -916,7 +916,8 @@ IMAGE_FEATURES +=3D "${EXTRA_IMAGE_FEATURES}"
+> > =C2=A0# Native distro features (will always be used for -native, even i=
+f they
+> > =C2=A0# are not enabled for target)
+> > =C2=A0DISTRO_FEATURES_NATIVE ?=3D "acl x11 ipv6 xattr"
+> > -DISTRO_FEATURES_NATIVESDK ?=3D "x11"
+> > +DISTRO_FEATURES_NATIVESDK ?=3D "acl x11 ipv6 xattr"
+> > +DISTRO_FEATURES_NATIVESDK:mingw32 =3D "x11 ipv6"
+>=20
+> While I know you do not like :remove in OE-Core, isn't this a case where =
+it=20
+> should be used? I.e.:
+>=20
+> DISTRO_FEATURES_NATIVESDK:remove:mingw32 =3D "acl xattr"
+>=20
+> Otherwise someone doing DISTRO_FEATURES_NATIVESDK +=3D "foobar" in their=
+=20
+> configuration will get a very unexpected result if they are building for=
+=20
+> mingw32 after the above is integrated.
 
-In turn this may lead to compilation issues down the line as for example
-the system include directories could not be determined properly which
-may then propagate to issues such as:
+We have this problem in a lot of cases and as you know, I'm deeply
+unhappy with the way our variables work in this regard but I'm not sure
+how to improve things.
 
-    recipe-sysroot/usr/include/c++/11.3.0/cstdlib:75:15: fatal error:
-        stdlib.h: No such file or directory
-    |    75 | #include_next <stdlib.h>
-    |       |               ^~~~~~~~~~
-    | compilation terminated.
-    | ninja: build stopped: subcommand failed.
-    | WARNING: exit code 1 from a shell command.
+Adding :remove basically can't be undone and therefore I'm very
+reluctant to do it, particularly in core.
 
-Fix this stripping `-pipe` from the command line used to determine
-compiler internals.
+I tried to pick the lesser of several bad options.
 
-Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
----
- meta/recipes-devtools/cmake/cmake.inc         |  1 +
- ...mpilerABI-Strip-pipe-from-compile-fl.patch | 52 +++++++++++++++++++
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
+> An alternative would be:
+>=20
+> DISTRO_FEATURES_NATIVE_DEFAULT =3D "acl x11 ipv6 xattr"
+> DISTRO_FEATURES_NATIVE_DEFAULT:mingw32 =3D "x11 ipv6"
+> DISTRO_FEATURES_NATIVE ?=3D "${DISTRO_FEATURES_NATIVE_DEFAULT}"
+> DISTRO_FEATURES_NATIVESDK ?=3D "${DISTRO_FEATURES_NATIVE_DEFAULT}"
 
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index d5003211389..3811aae9c4d 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -17,6 +17,7 @@ LIC_FILES_CHKSUM = "file://Copyright.txt;md5=31023e1d3f51ca90a58f55bcee8e2339 \
- CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- 
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-+           file://0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch \
-            file://0003-cmake-support-OpenEmbedded-Qt4-tool-binary-names.patch \
-            file://0004-Fail-silently-if-system-Qt-installation-is-broken.patch \
- "
-diff --git a/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
-new file mode 100644
-index 00000000000..a30273458f8
---- /dev/null
-+++ b/meta/recipes-devtools/cmake/cmake/0001-CMakeDetermineCompilerABI-Strip-pipe-from-compile-fl.patch
-@@ -0,0 +1,52 @@
-+From dab7ba34f87be0172f6586325656ee962de0029e Mon Sep 17 00:00:00 2001
-+From: Philip Lorenz <philip.lorenz@bmw.de>
-+Date: Mon, 3 Jun 2024 13:19:24 +0200
-+Subject: [PATCH] CMakeDetermineCompilerABI: Strip -pipe from compile flags
-+
-+When `-pipe` is enabled, GCC passes data between its different
-+executables using pipes instead of temporary files. This leads to issues
-+when cmake attempts to infer compiler internals via the `-v` parameter
-+as each executable will print to `stderr` in parallel.
-+
-+For example we have observed the following outputs in our builds which
-+sporadically lead to build failures as system include directories were
-+not detected reliably:
-+
-+Parsed CXX implicit include dir info from above output: rv=done
-+  found start of include info
-+  found start of implicit include info
-+    add: [.../usr/bin/x86_64-poky-linux/../../lib/x86_64-poky-linux/gcc/x86_64-poky-linux/11.4.0/include]
-+    add: [.../usr/bin/x86_64-poky-linux/../../lib/x86_64-poky-linux/gcc/x86_64-poky-linux/11.4.0/include-fixed]
-+    add: [.../usr/include/c++/11.4.0]
-+    add: [.../usr/include/c++/11.4.0/x86_64-poky-linux]
-+    add: [.../usr/include/c++/11.4.0/backward]
-+    add: [.../usr/lib/x86_64-poky-linux/11.4.0/include]
-+    add: [...GNU assembler version 2.38 (x86_64-poky-linux) using BFD version (GNU Binutils) 2.38.20220708]
-+    add: [/usr/include]
-+  end of search list found
-+
-+Fix this issue by stripping the `-pipe` parameter from the compilation
-+flag when determining the toolchain configuration.
-+
-+Upstream-Status: Backport [3.32.0, 71be059f3f32b6791427893a48ba4815a19e2e78]
-+Signed-off-by: Philip Lorenz <philip.lorenz@bmw.de>
-+---
-+ Modules/CMakeDetermineCompilerABI.cmake | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/Modules/CMakeDetermineCompilerABI.cmake b/Modules/CMakeDetermineCompilerABI.cmake
-+index 8191d819bf..ae4c9ee44e 100644
-+--- a/Modules/CMakeDetermineCompilerABI.cmake
-++++ b/Modules/CMakeDetermineCompilerABI.cmake
-+@@ -35,6 +35,11 @@ function(CMAKE_DETERMINE_COMPILER_ABI lang src)
-+ 
-+     # Avoid failing ABI detection on warnings.
-+     string(REGEX REPLACE "(^| )-Werror([= ][^ ]*)?( |$)" " " CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS}")
-++    # Avoid passing of "-pipe" when determining the compiler internals. With
-++    # "-pipe" GCC will use pipes to pass data between the involved
-++    # executables.  This may lead to issues when their stderr output (which
-++    # contains the relevant compiler internals) becomes interweaved.
-++    string(REGEX REPLACE "(^| )-pipe( |$)" " " CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS}")
-+ 
-+     # Save the current LC_ALL, LC_MESSAGES, and LANG environment variables
-+     # and set them to "C" that way GCC's "search starts here" text is in
+I do not want to do this every time we declare a variable :(
+
+Cheers,
+
+Richard
+
+
 
