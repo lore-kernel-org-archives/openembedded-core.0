@@ -2,56 +2,56 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CFE27D44D56
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA47D5AE45
 	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 02:29:30 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.63345.1730946562622993565
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com [209.85.219.43])
+ by mx.groups.io with SMTP id smtpd.web10.63348.1730946567538253299
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 18:29:22 -0800
+ Wed, 06 Nov 2024 18:29:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gVWSKgXI;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6cbd57cc35bso13452496d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 18:29:22 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=I3khlovV;
+ spf=pass (domain: gmail.com, ip: 209.85.219.43, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6cbe3ea8e3fso3047756d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 18:29:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1730946561; x=1731551361; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1730946566; x=1731551366; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=H8zcmqMqEIjm1PmHoO1ok8XSM87WPcsEVtKU1xlRtDs=;
-        b=gVWSKgXIxmwUt9nr9Q14aHNVzeriq5YoPyMElAmuQoWN/nm6DbFGiHP6xGUmUAuKqS
-         rzx4bISE/XLuw++j47pUcnCWEl9FrTsm+Y//cQjZKqQJl9lguc3VNRaiXpheUmCS+4FM
-         O8D9XUQJv/kLrDe80o1hpBQDfqvgfn1CAwZNKX9Y0DC+8vx5hakUeZzNFhPIWSWfJyF2
-         Yv0Gy9BKXKoDD3wtWsE8Jytnzmiu2YwELtWWN1cI4LaS5SjePCVswoWAy4k39G+39OoC
-         Y/D3LcigUdDdNu7Ww05lxPnRhGaGXr8kAgcFYf/yJrLSmcTdjntgTIrdDKlsocu3bH80
-         WaVQ==
+        bh=Ss+K4EAHRNKQabH4LAn4crgFlhSj134RUxWTNLsAV0Y=;
+        b=I3khlovVAsISahUpiSQPV3FOuU1Cq469021WhScR0Ol5dQh7m21lqQ2Y3Nn4KbAbRa
+         K3lSRBTv5M1BsQLC77ZbpvgycbG1c6WSqWM69/vBUnuhKjY9I5SKqSJRWaPr0NUPoMr2
+         +Q1XbTONnVSG8drzc4A+/R8K888RYKRABRxBOLdMWzRaWnY1J+dfGp/WgiZyKeUrQ/BB
+         EXpgH80zlQPyBYTUppmw3j6J+lwipF3gpS/p3JYfoFins7idY1GJnoUX9WomY0MUBUnD
+         DqxwPcGQZfzWhYcPc6BTdw8vy6Y9VKlZL2MpG8QV3ScRuhyfTavTR4xTJN6FuPUVo+hH
+         JqdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730946562; x=1731551362;
+        d=1e100.net; s=20230601; t=1730946566; x=1731551366;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=H8zcmqMqEIjm1PmHoO1ok8XSM87WPcsEVtKU1xlRtDs=;
-        b=CIZj7CJZ+9z/SDSTZb8W0EUKtJP7HYUMmQjpl6vgLVi6sotE13lj4PpN+PkpqE3MJH
-         XwG734urk9NxKKvbcG0A5JEK4EIx2OjYQ9TaWenf14kUGm8jAR3X6gVWCHu5moGIl3Go
-         cImY/K14wW3tO/bSV14HTWE5QpFLxQy8s33lkUmSTEXJqPeNo1vMR14gkgFKjnRlIGaM
-         8wf2+DZtzO8oh0clTpLaRluaBbddeQKj+Dhx7ElMwmtz04W5+EijNbElXmuqQmViM5ca
-         8KMA4iVJA0bbKYS+ut6HeaZFjbIgAak+r6yHranFHQmWfxUr+IUjpxNEjpyQrK5z8UbP
-         PT2g==
-X-Gm-Message-State: AOJu0YxfdEgRG3RLffJroIcGll4hb6zs4rmUtGgltfkPOtuxP/Imav1o
-	4L7yNYPa/pDF/EH+aRJM8T7cxN2Pm9yKZSNQPzj/W1Y6rSlLPq6+HI6PVnZj
-X-Google-Smtp-Source: AGHT+IFVbHTA4h7sS3yPJBb1DTL5GKp1GZ1PrXwv6zjMQFfyQUsy3DoG/ZVV58LrXrUtePrSrqYLGQ==
-X-Received: by 2002:a05:6214:5f11:b0:6cb:c661:49ce with SMTP id 6a1803df08f44-6d393e84574mr29461646d6.23.1730946561667;
-        Wed, 06 Nov 2024 18:29:21 -0800 (PST)
+        bh=Ss+K4EAHRNKQabH4LAn4crgFlhSj134RUxWTNLsAV0Y=;
+        b=p6j9MthrvX84HQd0zx+0wOul8SgBJYhmESFyvH3uUE3tcSfl8+zabDJB2ZKNMIwBvx
+         e97HVOKbz7lTOW9H6HBSAlKnJNFX7CPMJxJOeDIyrev9iXlCBvveIY8GTI5HYNdspNT4
+         JWYd6zpcI36dUjzA32hi53c8L7ysWALV939BavAbVrP/B03ybYCZT0gAON7PCwUyWfkW
+         ILhBckwMM7G4FfxLwjmjYco2XsbA9WYPPHTUoL/yuCUUNgioBqDc9mRv/GnbL+oVmvCk
+         We5cWRrwuZAcRv4jadQogunrOieH8Ecjg35PGLQ5YjoEBJXMOaKYwpdlPyfjydJ2rdqm
+         ZPiA==
+X-Gm-Message-State: AOJu0YwKBgFfstBkSNAFE2sF83wo/ua4+Wn2Id+7Ti/i77rxW0TXjqyf
+	0QgA7S4WmPhktuTQqK/edE4VBhpwWpCwaPt36o9G9pLnhjpaj6yHA5qkHxcl
+X-Google-Smtp-Source: AGHT+IHSN6l9QVY6vVOlCGitR7p14mj8QGWxSEVvD4EvnN3hA5SKnYnVifYYjo4BI0JxZ8l6iNgZIA==
+X-Received: by 2002:a05:6214:3a8b:b0:6cd:ed0b:3392 with SMTP id 6a1803df08f44-6d396c8b8f1mr5285346d6.39.1730946566555;
+        Wed, 06 Nov 2024 18:29:26 -0800 (PST)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d396631aeesm2124286d6.120.2024.11.06.18.29.20
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d396631aeesm2124286d6.120.2024.11.06.18.29.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 18:29:20 -0800 (PST)
+        Wed, 06 Nov 2024 18:29:25 -0800 (PST)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 01/12] kernel-yocto: Support in-tree config fragments
-Date: Wed,  6 Nov 2024 21:29:06 -0500
-Message-Id: <48061c493636c7f5b68f713f5732663aea57295b.1730946087.git.bruce.ashfield@gmail.com>
+Subject: [PATCH 05/12] kernel-yocto: allow early exit to configuration audit
+Date: Wed,  6 Nov 2024 21:29:10 -0500
+Message-Id: <10f89d1d8ffd7955d8e149bee1eb9cbaf0f3baa1.1730946087.git.bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <cover.1730946087.git.bruce.ashfield@gmail.com>
 References: <cover.1730946087.git.bruce.ashfield@gmail.com>
@@ -61,48 +61,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 02:29:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206805
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206809
 
-From: Paul Barker <paul@pbarker.dev>
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-[This is currently an RFC as it depends on a separate patch to add
-  support for config fragments with .config file extensions in
-  yocto-kernel-tools:
-  https://lists.yoctoproject.org/g/linux-yocto/message/14431]
+With the ability to tag raw configuration fragments as "hardware",
+there is a chance that badly behaved fragments throw warnings or
+cause other issues that are not applicable during development (or
+you understand the risk).
 
-In Linux 6.8, the in-tree rv32_defconfig file for 32-bit RISC-V support
-was dropped in favour of a Makefile target which combines the RISC-V
-defconfig with a config fragment '32-bit.config'. So to build for 32-bit
-RISC-V using the in-tree configuration from an upstream kernel, we need
-to be able to enable this 32-bit config fragment.
+Allow kernel configuration audit to be skipped if KMETA_AUDIT is
+not set (by default it is), to provide a flag for control over
+auditing.
 
-We can support this via KERNEL_FEATURES if we add the in-tree arch
-config directory (arch/${ARCH}/configs) to the search path.
-
-While we're here, let's also add the generic config directory
-(kernel/configs) to the search path so in-tree config fragments such as
-'hardening.config' can be used.
-
-Signed-off-by: Paul Barker <paul@pbarker.dev>
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes-recipe/kernel-yocto.bbclass | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/classes-recipe/kernel-yocto.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
 diff --git a/meta/classes-recipe/kernel-yocto.bbclass b/meta/classes-recipe/kernel-yocto.bbclass
-index 6d5c3b6327..66602d3594 100644
+index e73adcc725..a5d89dc2c8 100644
 --- a/meta/classes-recipe/kernel-yocto.bbclass
 +++ b/meta/classes-recipe/kernel-yocto.bbclass
-@@ -248,6 +248,9 @@ do_kernel_metadata() {
-                 fi
- 	done
+@@ -568,6 +568,11 @@ python do_config_analysis() {
+ python do_kernel_configcheck() {
+     import re, string, sys, subprocess
  
-+	# allow in-tree config fragments to be used in KERNEL_FEATURES
-+	includes="$includes -I${S}/arch/${ARCH}/configs -I${S}/kernel/configs"
++    audit_flag = d.getVar( "KMETA_AUDIT" )
++    if not audit_flag:
++       bb.note( "kernel config audit disabled, skipping .." )
++       return
 +
- 	# expand kernel features into their full path equivalents
- 	bsp_definition=$(spp ${includes} --find -DKMACHINE=${KMACHINE} -DKTYPE=${LINUX_KERNEL_TYPE})
- 	if [ -z "$bsp_definition" ]; then
+     s = d.getVar('S')
+ 
+     # if KMETA isn't set globally by a recipe using this routine, use kgit to
 -- 
 2.39.2
 
