@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E187D5AE5A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 833EDD5AE5E
 	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 03:38:21 +0000 (UTC)
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
- by mx.groups.io with SMTP id smtpd.web10.64443.1730950696398223566
+Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+ by mx.groups.io with SMTP id smtpd.web11.64158.1730950697111932887
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 19:38:16 -0800
+ Wed, 06 Nov 2024 19:38:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lXh3DEzc;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-720c286bcd6so384457b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 19:38:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=xbxr3Ozg;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7f3da2c2cb5so455634a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 19:38:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730950696; x=1731555496; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=eGi2yiHqa2k5+MSQhgKaSZtDmQuWfKsS64MxrMQMECU=;
-        b=lXh3DEzcVkwphfvXeDjISJaiT8Ru+1WphfRme4Y4MJn976Qvwi/0lc7RtuZPSMDVgE
-         NCYlcnMQSnwg56dT/avSwwEWTBtES2e5e+Y41JFPjkka0Hbwc4P4yRSQBE6RYiPUMRhS
-         hsyjC6KW2unfmBSCYafxCp+GROr+d3G67ddkRT+1iZiZ8dbCAaEYnC5E3XiQqkKf1IYo
-         WIr7eoGCzrGowlTz/Ne5vVnVCpfWnderKlih/bLArdR6FSnZN5tybYxxM8L9/7n6BqIR
-         gCCaKIszObxP0H/48HalbGEl3H5yww9O2dj/eZx7gkj5FN6eC+XVngx8DOoA6RLv6E0r
-         x7ng==
+        bh=bpnrF7DbjPXCVwT9oERqCmWHPHl9zb5oOn80hkJTT2E=;
+        b=xbxr3Ozgwf3uymrpwQ7Czp3eSx8Kkayrgs7KYZehD+Xud/SZR8cgCvW46LNO2fmOdV
+         tNOnbPD5LnoWg+4HVhdnpxMNrz3uvuihzYcm0p7boMUsjS4fP5CrylQ3q62x/kUkdsbz
+         0UdpbZpIDwlxm5VCI/5L8M71vO2kAM7mmqH+YiQ73puV4YbnQ4Hcp2Ym7JiUrWkgUu1O
+         pZqRlOb3soiifDBlG2bu1ZO6lpPWeUzDCXsIbzNp2Ea5pvHQuB0B4ayoD7tJKzUkk279
+         qqThZbw1bRyEOgILxoLqwbQgy3IPKdJwn61RvB2rxpze/SDf1bkm7p4V9orn/9Ef9D0n
+         6CRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1730950696; x=1731555496;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eGi2yiHqa2k5+MSQhgKaSZtDmQuWfKsS64MxrMQMECU=;
-        b=sc3Av5WR9LJ8lqFsROg/RR6pR77Hmad9HuYjQMoX/6QBhLJtlEIDWbiCGcFXNKwLg5
-         UEzD5TXsQvPYPri0OFDuim/Wco7VQQI7WYXQPz1LWO2PlMJO0IZRCnyU4qmtlgwFbUFH
-         xPSjmjt4OQs90H6CK/waTDuO1RQ0AWgr2FHaozDzbjMPZx9U17pIbCPVBp6M20TAFjJF
-         4yjL9jyup2WFnl73AWKa4ujWKluTWsqnu177/5nJW4FKtnfmKQx2FgnTurPKJrAR1gUS
-         FvgSb0UaELECOt4RUHCTYOk+ExyO7jNQlPwIEUolj2M5SkaMKizEhgmnIalTVe3pvzpL
-         o/NQ==
-X-Gm-Message-State: AOJu0Yychtt0mTKewr0lke7apGgFvY62jo4XKlIYctmXr4h+FnhK1eoj
-	sz9ja/hS7Wh1s3P7wOAJ2caQtwT+G1QBSQ+zLB8NsTjQJ5Ihj+f/DGx5FfQ2FpuWcK9hNltJrVR
-	D
-X-Google-Smtp-Source: AGHT+IEjm+/QiV+QgFuHPRWxUPGTyCB887cw2t/QirBNxBskEUXO2UOJTR0gGgfMukWBNrH8p4EVjw==
-X-Received: by 2002:a05:6a00:1742:b0:71e:722b:ae1d with SMTP id d2e1a72fcca58-72063059df3mr52099998b3a.25.1730950695583;
-        Wed, 06 Nov 2024 19:38:15 -0800 (PST)
+        bh=bpnrF7DbjPXCVwT9oERqCmWHPHl9zb5oOn80hkJTT2E=;
+        b=MxfaT7EAUHl1Wopv4RJVcAzCsdG1U60eZRuRBOmcXdCbFhjv4IincG8Iw/tVo9U2Qk
+         V0dhCCYssO0QrRmXE8uC/FaUjBpw8wzFY6dYAcSFAJPF9V/RKYemySUWssV1tUnUkEe8
+         inqeqoPX3P7AaiA54u5S72yq8k0ebFI2DFTEpImdZEe8qcdqmhWH4SFwOUHSvVlEzkk0
+         yPdF7CcIOj4E2vBJcsquynTFO+HVY9VU0+49MX+zc2OKrwKbY916L6mtmLDEID5/pDvt
+         nHcNCOvSPahJ7QYer7IfFgvWIuHOFCar9kQ3r6B/CFNoybE5glEuh06Xhbv1uvJjHiU3
+         7uoQ==
+X-Gm-Message-State: AOJu0Yw0+Z/NMepE/wva6NCs8wq+c9qBM4c3wfgO6fSru0v5WUWnzos1
+	72skwd59i69l/hPtm1K7PQu50fn7JoqaTH56BnJUkH2QtzfGMLciES7prs6Eh6m7Qjm+DCtTbuy
+	X
+X-Google-Smtp-Source: AGHT+IFrMU8QIBspsWZ4caN3e1AfpbW2j8WzXNWZpUVs47nFe9vI56TGkHqQlY3Ac22WQKbQpGMGQw==
+X-Received: by 2002:a05:6a20:4c9b:b0:1d9:3b81:cdd3 with SMTP id adf61e73a8af0-1d9a83ab2d9mr44593242637.1.1730950696419;
+        Wed, 06 Nov 2024 19:38:16 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078cd2bcsm366803b3a.84.2024.11.06.19.38.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078cd2bcsm366803b3a.84.2024.11.06.19.38.15
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 19:38:14 -0800 (PST)
+        Wed, 06 Nov 2024 19:38:16 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/10] xserver-xorg: upgrade 21.1.13 -> 21.1.14
-Date: Wed,  6 Nov 2024 19:37:48 -0800
-Message-Id: <79fed0fa3e25e29ed15c2e80c736a44535556a67.1730950520.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 09/10] e2fsprogs: removed 'sed -u' option
+Date: Wed,  6 Nov 2024 19:37:49 -0800
+Message-Id: <5b3b290baa0a83f493b7ca25d5ffa5ff279bcc69.1730950520.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1730950520.git.steve@sakoman.com>
 References: <cover.1730950520.git.steve@sakoman.com>
@@ -62,39 +62,47 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 03:38:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206826
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206827
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Aditya Tayade <Aditya.Tayade@kpit.com>
 
-Includes security fix CVE-2024-9632
+In embedded box, sed might be provided another providers like Busybox,
+hence use generic options whenever possible.
+/bin/sed -> /etc/alternatives/sed
+/etc/alternatives/sed -> /bin/busybox.nosuid
 
-Ref: https://lists.x.org/archives/xorg/2024-October/061765.html
+Here used 'sed -u' option is not necessary, hence removed it.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Fixes below error:
+sed: invalid option -- 'u'
+
+Also added 'set -eux' option which halts execution of the script
+on any failures.
+
+Signed-off-by: Aditya Tayade <Aditya.Tayade@kpit.com>
+Signed-off-by: Pawan Badganchi <Pawan.Badganchi@kpit.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 957ba32bc6fdffd3a796a04ba222fae6cd673f7e)
+(cherry picked from commit 07caee1829d2a61bc018fe0e37ecd482922179ee)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../{xserver-xorg_21.1.13.bb => xserver-xorg_21.1.14.bb}        | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.13.bb => xserver-xorg_21.1.14.bb} (92%)
+ meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.13.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-similarity index 92%
-rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.13.bb
-rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-index 1f18c22fa8..28c98eb527 100644
---- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.13.bb
-+++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.14.bb
-@@ -3,7 +3,7 @@ require xserver-xorg.inc
- SRC_URI += "file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch \
-            file://0001-Avoid-duplicate-definitions-of-IOPortBase.patch \
-            "
--SRC_URI[sha256sum] = "b45a02d5943f72236a360d3cc97e75134aa4f63039ff88c04686b508a3dc740c"
-+SRC_URI[sha256sum] = "8f2102cebdc4747d1656c1099ef610f5063c7422c24a177e300de569b354ee35"
+diff --git a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+index 279923db8e..1857a17189 100644
+--- a/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
++++ b/meta/recipes-devtools/e2fsprogs/e2fsprogs/run-ptest
+@@ -1,7 +1,8 @@
+ #!/bin/sh
  
- # These extensions are now integrated into the server, so declare the migration
- # path for in-place upgrades.
++set -eux
+ cd ./test
+-SKIP_SLOW_TESTS=yes ./test_script | sed -u -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
++SKIP_SLOW_TESTS=yes ./test_script | sed -e '/:[[:space:]]ok/s/^/PASS: /' -e '/:[[:space:]]failed/s/^/FAIL: /' -e '/:[[:space:]]skipped/s/^/SKIP: /'
+ rm -rf /var/volatile/tmp/*e2fsprogs*
+ rm -f tmp-*
+ rm -f *.tmp
 -- 
 2.34.1
 
