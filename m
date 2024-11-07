@@ -2,137 +2,172 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83A44D5AE51
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 827CAD5AE50
 	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 03:38:01 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.64433.1730950679376175261
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web10.64434.1730950681086252452
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 19:37:59 -0800
+ Wed, 06 Nov 2024 19:38:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WYelWJ+Z;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-720b2d8bcd3so340576b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 19:37:59 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qIb2leW0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7203c431f93so355420b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 19:38:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730950678; x=1731555478; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8qykBuKZIWt/qJZwM1tjaFX2DGVCEmqW0IayizHsOsQ=;
-        b=WYelWJ+ZmtsInq4aJwdg7MBjrf46N0Ojz6rItQyS04A0d7MNJsrpNjAuwKfSK27Gyl
-         GUVDyn9GjhqO/68rpVKgbp6sIzWtdR5C58yjDZ9mU6ij8yk8sTLkT1q/atyZ9YfKhvTf
-         1ayrLN2dCCWhJ/ZQc4oUfgexqvTM3EK5nKPpNoX2dU7hQoMRKPDkeQ04ha1utPcX5y63
-         3q+u3sDb+xuLne+cUyDRLhKedTlH4bhqPAFVk4RRz1Ft22LU3C3gFCxIUeq7FH9QMagD
-         jNB9IsKndX67nC7HjKEj/472kqAEocDuX5zx2NJ6d024NJxM5BATFGpz7qxGeFyCD65r
-         3U6w==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730950680; x=1731555480; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I5u7o7BYFREAtCEyBMZqDq5ry27SwHE9oBwjrwRIEbQ=;
+        b=qIb2leW0UQxR8TlWR6izhhfdx3D4TysMKr9ScM2a+45eogmcKA8GxaNTyzeCeX6jWd
+         dE1ZAlWqVg1vs8tnA4NGgjqQXTHkMUS5mBZ4zHd6D6uUVIMhHr0krARi7CYw68k+XChc
+         v043rXR/uZ+EKRdUz0UxEw4Yx/R+ZHylekt8RxOQ2puUcXQzdHBK88dR7ns9/qMa86v6
+         qy8zRBg2MoqAxsiACZ809iBnygm2jILYiLD6EsERHz4sdI/ZdkeQhWS5MAQDy+HL69fW
+         J8iFucmLNFE5M7ftALaKsvCCOZmv8eKF1XrBRKy3OFykOK8G5NtUxLra87rzFsukmicg
+         UL4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730950678; x=1731555478;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8qykBuKZIWt/qJZwM1tjaFX2DGVCEmqW0IayizHsOsQ=;
-        b=lyzM2Mk38aWX/Mft5bD5OV3aOM5+g9qLRlYc9jQNpssC+lnTTDyTiXxDYmpv/oLub4
-         3KyV+MAbgw89UbEN1NONTXJGmGIQQ22FU/z1IOvK796+gPA76WeD7o/lfIPCt12Na1Kc
-         l6RYWFG5ecezXUmC5giBQiGmLyAmq8VJ2OiVF4juJ27zHa4YV+e3LC8mLpT58ghocSOf
-         +VTBNVa9q/zo19IM0+HC9schP0PK8kwCajF0AvNKl4e8466DsI+U5HMoshaDwazLgAjb
-         pScRbIo0QS2NinyEhWGrDw022n96nLbeAoG0sX5PQfzh93cFqxkdtZGXg2D40gK5ZaxF
-         6UBA==
-X-Gm-Message-State: AOJu0YxGI1ovoqvV2twNoB38uRC9GjT2VmSSAr0DrsDJ+lcTpaalknvO
-	HoA4RFLrmjGptk/ATz0EQ+WppclqUnOTUSb1viE7FzblnPYRGLYq4S+Q4x7HiPX9zd5JAenUFdM
-	m
-X-Google-Smtp-Source: AGHT+IGlJkRoPIWYuqhDm/FGuKPchiMfxBYr9aUo/72nACHgW3Hadm3CurCMfflXKZaKbC/XNLDFcw==
-X-Received: by 2002:a05:6a00:23ca:b0:71e:6122:5919 with SMTP id d2e1a72fcca58-7206306ed56mr55303375b3a.20.1730950678200;
-        Wed, 06 Nov 2024 19:37:58 -0800 (PST)
+        d=1e100.net; s=20230601; t=1730950680; x=1731555480;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I5u7o7BYFREAtCEyBMZqDq5ry27SwHE9oBwjrwRIEbQ=;
+        b=D+TCMyRcPlVn58fNylo6FpbMJyW98dZE4rKYZNY94NCwKHtKHgg4WdsbXOYwkoTREB
+         9rsXzpfXu4EaUgVTCTP7O26H51G0/m3gDQEutVW//ZinsC0I18lH8qX1GeqDbyANR7Sh
+         ALE2Svn1od50W7F4/gjuSRsavxi1FN8l9jb7Dvm3S0WpC+qfbBLegTk4pdNohjXz+wCs
+         6+NfxRFYszr5kPUHjBgWLx/vntU8m8ouIZx2hXCjFxzg+ixhnuaktEQW58PUOqm/VoWq
+         Y5P4H/3MJ0/H+8iMCwCx8mIacbsQgwBcUCQqhyrxIb0zVWk9Z05oz/DXZTcwD8h5qH4J
+         gxmg==
+X-Gm-Message-State: AOJu0Yy1tcMAk2Jt/h3ytMCNvQo7lfix2kFnSUX9vttLG3OYOrWJ1tQy
+	oiUN19YYpwpThJjsrzSqkzRS3piblS3jyhHCgh/S4S9fjMx8yCc4iyap58u9CMZiBzYaK8p0ijF
+	g
+X-Google-Smtp-Source: AGHT+IE2KUY8g13FagHHUVkyqlGwlP/lIQGVMlTkl6yFu5kPDCQDmCLLZkm2abQhAp8tZ/tgFqOJ1A==
+X-Received: by 2002:a05:6a21:3298:b0:1db:dce8:c26f with SMTP id adf61e73a8af0-1dc12957b16mr970199637.33.1730950680227;
+        Wed, 06 Nov 2024 19:38:00 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078cd2bcsm366803b3a.84.2024.11.06.19.37.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078cd2bcsm366803b3a.84.2024.11.06.19.37.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 19:37:57 -0800 (PST)
+        Wed, 06 Nov 2024 19:37:59 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/10] Patch review
-Date: Wed,  6 Nov 2024 19:37:40 -0800
-Message-Id: <cover.1730950520.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/10] cve-check: add support for cvss v4.0
+Date: Wed,  6 Nov 2024 19:37:41 -0800
+Message-Id: <290407b3785bce2d22212a7ab9d3a349c8935cc0.1730950520.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1730950520.git.steve@sakoman.com>
+References: <cover.1730950520.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 03:38:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206818
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206819
 
-Please review this set of patches for scarthgap and have comments back by
-end of day Friday, November 8
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+https://nvd.nist.gov/general/news/cvss-v4-0-official-support
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/400
+CVSS v4.0 was released in November 2023
+NVD announced support for it in June 2024
 
-The following changes since commit bcd4e6d77dc7455a453e69b6d37769ec94cc02ad:
+Current stats are:
+* cvss v4 provided, but also v3, so cve-check showed a value
+sqlite> select count(*) from nvd where scorev4 != 0.0 and scorev3 != 0.0;
+2069
+* only cvss v4 provided, so cve-check did not show any
+sqlite> select count(*) from nvd where scorev4 != 0.0 and scorev3 = 0.0;
+260
 
-  lsb-release: fix Distro Codename shell escaping (2024-10-24 06:09:29 -0700)
+(From OE-Core rev: 358dbfcd80ae1fa414d294c865dd293670c287f0)
 
-are available in the Git repository at:
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/classes/cve-check.bbclass                   | 11 +++++++----
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 14 ++++++++++----
+ 2 files changed, 17 insertions(+), 8 deletions(-)
 
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-Aditya Tayade (1):
-  e2fsprogs: removed 'sed -u' option
-
-Deepthi Hemraj (1):
-  rust-llvm: Fix CVE-2024-0151
-
-Hiago De Franco (1):
-  weston: backport patch to allow neatvnc < v0.9.0
-
-Martin Jansa (1):
-  python3-lxml=v5.0.2
-
-Peter Marko (3):
-  cve-check: add support for cvss v4.0
-  go: upgrade 1.22.6 -> 1.22.7
-  go: upgrade 1.22.7 -> 1.22.8
-
-Richard Purdie (1):
-  cve_check: Use a local copy of the database during builds
-
-Vijay Anusuri (1):
-  xserver-xorg: upgrade 21.1.13 -> 21.1.14
-
-Wang Mingyu (1):
-  orc: upgrade 0.4.39 -> 0.4.40
-
- meta/classes/cve-check.bbclass                |   16 +-
- .../meta/cve-update-nvd2-native.bb            |   32 +-
- .../e2fsprogs/e2fsprogs/run-ptest             |    3 +-
- .../go/{go-1.22.6.inc => go-1.22.8.inc}       |    2 +-
- ...e_1.22.6.bb => go-binary-native_1.22.8.bb} |    6 +-
- ..._1.22.6.bb => go-cross-canadian_1.22.8.bb} |    0
- ...{go-cross_1.22.6.bb => go-cross_1.22.8.bb} |    0
- ...osssdk_1.22.6.bb => go-crosssdk_1.22.8.bb} |    0
- ...runtime_1.22.6.bb => go-runtime_1.22.8.bb} |    0
- .../go/{go_1.22.6.bb => go_1.22.8.bb}         |    0
- .../orc/{orc_0.4.39.bb => orc_0.4.40.bb}      |    2 +-
- ...n3-lxml_5.0.0.bb => python3-lxml_5.0.2.bb} |    3 +-
- .../0004-llvm-Fix-CVE-2024-0151.patch         | 1086 +++++++++++++++++
- .../recipes-devtools/rust/rust-llvm_1.75.0.bb |    3 +-
- ...1-vnc-Allow-neatvnc-in-version-0.8.0.patch |   27 +
- .../recipes-graphics/wayland/weston_13.0.1.bb |    1 +
- ...org_21.1.13.bb => xserver-xorg_21.1.14.bb} |    2 +-
- 17 files changed, 1158 insertions(+), 25 deletions(-)
- rename meta/recipes-devtools/go/{go-1.22.6.inc => go-1.22.8.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.6.bb => go-binary-native_1.22.8.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.6.bb => go-cross-canadian_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.6.bb => go-cross_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.6.bb => go-crosssdk_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.6.bb => go-runtime_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.6.bb => go_1.22.8.bb} (100%)
- rename meta/recipes-devtools/orc/{orc_0.4.39.bb => orc_0.4.40.bb} (92%)
- rename meta/recipes-devtools/python/{python3-lxml_5.0.0.bb => python3-lxml_5.0.2.bb} (94%)
- create mode 100644 meta/recipes-devtools/rust/rust-llvm/0004-llvm-Fix-CVE-2024-0151.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.13.bb => xserver-xorg_21.1.14.bb} (92%)
-
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 93a2a1413d..d287cf1457 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -32,7 +32,7 @@ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
+ 
+ CVE_CHECK_DB_DIR ?= "${DL_DIR}/CVE_CHECK"
+-CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2-1.db"
++CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/nvdcve_2-2.db"
+ CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
+ 
+ CVE_CHECK_LOG ?= "${T}/cve.log"
+@@ -447,9 +447,10 @@ def get_cve_info(d, cves):
+             cve_data[row[0]]["summary"] = row[1]
+             cve_data[row[0]]["scorev2"] = row[2]
+             cve_data[row[0]]["scorev3"] = row[3]
+-            cve_data[row[0]]["modified"] = row[4]
+-            cve_data[row[0]]["vector"] = row[5]
+-            cve_data[row[0]]["vectorString"] = row[6]
++            cve_data[row[0]]["scorev4"] = row[4]
++            cve_data[row[0]]["modified"] = row[5]
++            cve_data[row[0]]["vector"] = row[6]
++            cve_data[row[0]]["vectorString"] = row[7]
+         cursor.close()
+     conn.close()
+     return cve_data
+@@ -514,6 +515,7 @@ def cve_write_data_text(d, patched, unpatched, ignored, cve_data):
+         write_string += "CVE SUMMARY: %s\n" % cve_data[cve]["summary"]
+         write_string += "CVSS v2 BASE SCORE: %s\n" % cve_data[cve]["scorev2"]
+         write_string += "CVSS v3 BASE SCORE: %s\n" % cve_data[cve]["scorev3"]
++        write_string += "CVSS v4 BASE SCORE: %s\n" % cve_data[cve]["scorev4"]
+         write_string += "VECTOR: %s\n" % cve_data[cve]["vector"]
+         write_string += "VECTORSTRING: %s\n" % cve_data[cve]["vectorString"]
+         write_string += "MORE INFORMATION: %s%s\n\n" % (nvd_link, cve)
+@@ -631,6 +633,7 @@ def cve_write_data_json(d, patched, unpatched, ignored, cve_data, cve_status):
+             "summary" : cve_data[cve]["summary"],
+             "scorev2" : cve_data[cve]["scorev2"],
+             "scorev3" : cve_data[cve]["scorev3"],
++            "scorev4" : cve_data[cve]["scorev4"],
+             "vector" : cve_data[cve]["vector"],
+             "vectorString" : cve_data[cve]["vectorString"],
+             "status" : status,
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 1901641965..92177712dc 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -247,7 +247,7 @@ def initialize_db(conn):
+         c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
+ 
+         c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
+-            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT, VECTORSTRING TEXT)")
++            SCOREV2 TEXT, SCOREV3 TEXT, SCOREV4 TEXT, MODIFIED INTEGER, VECTOR TEXT, VECTORSTRING TEXT)")
+ 
+         c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
+             VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
+@@ -353,12 +353,18 @@ def update_db(conn, elt):
+         cvssv3 = cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
+     except KeyError:
+         pass
++    cvssv3 = cvssv3 or 0.0
++    try:
++        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['attackVector']
++        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['vectorString']
++        cvssv4 = elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['baseScore']
++    except KeyError:
++        cvssv4 = 0.0
+     accessVector = accessVector or "UNKNOWN"
+     vectorString = vectorString or "UNKNOWN"
+-    cvssv3 = cvssv3 or 0.0
+ 
+-    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?)",
+-                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector, vectorString]).close()
++    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?, ?)",
++                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVector, vectorString]).close()
+ 
+     try:
+         # Remove any pre-existing CVE configuration. Even for partial database
 -- 
 2.34.1
 
