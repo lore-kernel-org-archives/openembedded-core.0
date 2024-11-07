@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7E84ED5AE59
-	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 03:38:11 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.64437.1730950689975511819
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 755E8D5AE59
+	for <webhook@archiver.kernel.org>; Thu,  7 Nov 2024 03:38:21 +0000 (UTC)
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web10.64442.1730950693418601830
  for <openembedded-core@lists.openembedded.org>;
- Wed, 06 Nov 2024 19:38:10 -0800
+ Wed, 06 Nov 2024 19:38:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KA8FOMQ5;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-656d8b346d2so395466a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 19:38:09 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=AQLgqapr;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-71e5a62031aso369615b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 06 Nov 2024 19:38:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730950689; x=1731555489; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1730950693; x=1731555493; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=OdWANORKdxN694Lt5LFUyeZ/wLAG33V1m0hCepc1wws=;
-        b=KA8FOMQ5xdjoqWfHHzzGfLlLuzw1wt9MI57iyucJ1J6DA291c5by7x4Kjok41Q3F9D
-         NE2DvO9A6nRhBvFqgrDHSf2hrBjdVTAgoDpgzd5fsT33RiiXLOmlxQASfHznYmaahyIP
-         zXHDQG6IMcGqwpZAMm9ypdowlTSgZj61fl7+jPuO3ezyMeADqKX71S1HJcnKZIUiED0R
-         qz2HVP/BNZ/N/OyWTj4vNDnTL5A2di/z9rAxFcdUW4eVnQJHn6z5fZjp04TFAGyGEEZD
-         YnAN05fmTBoApoG6nrWLx6A9aavkIb3A9SXo1eZrF+QoiWP5VBB/ywoBmSmgYBFRBZSh
-         js6Q==
+        bh=t2wYOAaTW3XEL/aAWGm+9BZif0sztFfEAyk0VzWEZMw=;
+        b=AQLgqaprD6R2RP459Kmwl+QHwSEmRsDquvfYDG3MGYhmuwlrUbjqyeBOHpZMkWVVnk
+         UIArSczhFRY2CjkXJWItcLz9gOIlxlnVjbT+CbqXIymQQ0ud64lQMjwpwdYQJ6tIubiI
+         eqG/HH4vQVJXpiXbt7KICwAAbzFbUzz3TjLBy5BOzMWxaGdmR1cv+zi0zHQQ+FG36LyF
+         KQ6TICDS9gN9g92LkT4TANPgOd5cutjCm+KXx42uyn3B8t2xQcKNVmqIhAaHRBL4Jmu6
+         1nxCU0FVe9McyexPsn5zwMRT1V41gUN7B3yFjgMP90dEMwBczd6CgyRXjlmH8tQzLxaP
+         TkbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1730950689; x=1731555489;
+        d=1e100.net; s=20230601; t=1730950693; x=1731555493;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=OdWANORKdxN694Lt5LFUyeZ/wLAG33V1m0hCepc1wws=;
-        b=jJOMYFi249YVA/oMSBqwhWlfNtQ8dUHsFBREptVSCo+KgtFyPjeKLBQ3A5wXoV0+hF
-         SBZvKRV5npcwJH1crxOlBpJbNGJIGjd+TXKUbqe2/08PVp9WKl0/5oZTRluiTxBKkVi6
-         FHewZe0NJl5mT/IgJF2AeZM9s36RB/4XMFkvcyAatlfsJ95UszQb0appVsQYKkI0DKji
-         k3HzwmnJBzYpZu6ePAjf84KK3Qjmqqu0hQyy1i0jSr4S9AhU5FvhPtUNmcK3WKVKPogS
-         SshGrj7XK07kxXY+Xq5d5H8Or0D7u/a1UJisuEB5j5PQJY+yoiP6qvCuXw37sDKYYACB
-         /wog==
-X-Gm-Message-State: AOJu0YzU5hbF7O4uSmWfVQY+dUZosdXkMzs1Cfz9MRinaKh6FrLAWAHa
-	L3CVd9Ptfr8xHL4n3OJtbe3XA42afRA+i5C8QziCxCqpnrypReVhH4nIX4nHpt6M0R2IOodj2hf
-	r
-X-Google-Smtp-Source: AGHT+IH0YT7AIsJdauHLSJFgPFaxMTWOIAFD/pimwqOrvNRWRHMDDV+IgV/0ueP/1iTpWWQjYX1y9g==
-X-Received: by 2002:a05:6a21:7894:b0:1db:e917:5755 with SMTP id adf61e73a8af0-1dbe91771e6mr15014124637.30.1730950689053;
-        Wed, 06 Nov 2024 19:38:09 -0800 (PST)
+        bh=t2wYOAaTW3XEL/aAWGm+9BZif0sztFfEAyk0VzWEZMw=;
+        b=mEGyY1uNsXdOmI1PJAwWtk1kAmfQUYfSLqHvAMPyZ95hE+3H/iPXGolNyWob6UdNFW
+         garf7zDeFhzKOEX8SEi5Pv+QMlA3xsmVTGwd/FncfJMn1/BHdooHW00JdBaijaJ375lG
+         t6DR9CPEl6UhqWEyu2T19Uefea4lsFCW2y4I+WhHzjSej2awUqNTVTLyJbEg6o7VQlj2
+         aoHl1Ab0+V9KUBadZfRNABrOKGua5GJAmwOtaBIWOIXbD089fa78q9cq4qp5udi96/iy
+         8vbC1KiCDszdvo/hW/wXHDpmaiFYNHICxlBldHxACjcP6R66c2w4GYqUxi81JieVplXr
+         dk0A==
+X-Gm-Message-State: AOJu0YwXW9qsJ055dXm7g3BB5/cBDBoyMA6e2/bJHfMqkV90PETWnykZ
+	ahmbxxtyIr3aukSsdcwBecocLdrMS7gj2uCpzMOQQcNppCtdwHjMCZHr5qe2pcmHPk6YikZfAXn
+	s
+X-Google-Smtp-Source: AGHT+IFMqj5SnrLFUu78u3zCg5xzGq63hVFu/3/3gO2Cyc2/C7HWvW/jPxf3BFsq1ez6jVv2q7pdPA==
+X-Received: by 2002:a05:6a20:3944:b0:1db:ebc5:2632 with SMTP id adf61e73a8af0-1dbebc5268amr14942205637.36.1730950692678;
+        Wed, 06 Nov 2024 19:38:12 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078cd2bcsm366803b3a.84.2024.11.06.19.38.08
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724078cd2bcsm366803b3a.84.2024.11.06.19.38.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Nov 2024 19:38:08 -0800 (PST)
+        Wed, 06 Nov 2024 19:38:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/10] go: upgrade 1.22.6 -> 1.22.7
-Date: Wed,  6 Nov 2024 19:37:45 -0800
-Message-Id: <4a0ccebab099b3654097ca6ba591eefce58a410e.1730950520.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 07/10] python3-lxml=v5.0.2
+Date: Wed,  6 Nov 2024 19:37:47 -0800
+Message-Id: <baa0ba7084533907c0735dcb58b4432e0b3072df.1730950520.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1730950520.git.steve@sakoman.com>
 References: <cover.1730950520.git.steve@sakoman.com>
@@ -61,101 +61,47 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 03:38:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206823
+ <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 03:38:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206825
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Martin Jansa <martin.jansa@gmail.com>
 
-Upgrade to latest 1.22.x release [1]:
+* minor upgrade to fix building with gcc-14 on host
+* contains 31 commits:
+  https://github.com/lxml/lxml/compare/lxml-5.0.0...lxml-5.0.2
+  the important one for gcc-14 is:
+  https://github.com/lxml/lxml/commit/663041a56a075a8fa1e6ca13ba4c6d1de7043ac2
 
-$ git --no-pager log --oneline go1.22.6..go1.22.7
-7529d09a11 (tag: go1.22.7) [release-branch.go1.22] go1.22.7
-d4c53812e6 [release-branch.go1.22] go/build/constraint: add parsing limits
-2092294f2b [release-branch.go1.22] encoding/gob: cover missed cases when checking ignore depth
-b232596139 [release-branch.go1.22] go/parser: track depth in nested element lists
-e87be9833e [release-branch.go1.22] runtime: on AIX, fix call to _cgo_sys_thread_create in _rt0_ppc64_aix_lib
-676d6100d8 [release-branch.go1.22] cmd/fix: support go versions with patch release
-0a525a3ed0 [release-branch.go1.22] os: fix Chtimes test flakes
+* https://bugs.launchpad.net/lxml/+bug/2045435
+* https://bugs.gentoo.org/917562
 
-Fixes CVE-2024-34155, CVE-2024-34156 and CVE-2024-34158
-
-[1] https://github.com/golang/go/compare/go1.22.6...go1.22.7
-
-(From OE-Core rev: 92d609c49c0870ca10fcc39d52a801109d65a98b)
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/{go-1.22.6.inc => go-1.22.7.inc}   | 2 +-
- ...o-binary-native_1.22.6.bb => go-binary-native_1.22.7.bb} | 6 +++---
- ...cross-canadian_1.22.6.bb => go-cross-canadian_1.22.7.bb} | 0
- .../go/{go-cross_1.22.6.bb => go-cross_1.22.7.bb}           | 0
- .../go/{go-crosssdk_1.22.6.bb => go-crosssdk_1.22.7.bb}     | 0
- .../go/{go-runtime_1.22.6.bb => go-runtime_1.22.7.bb}       | 0
- meta/recipes-devtools/go/{go_1.22.6.bb => go_1.22.7.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.22.6.inc => go-1.22.7.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.6.bb => go-binary-native_1.22.7.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.6.bb => go-cross-canadian_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.6.bb => go-cross_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.6.bb => go-crosssdk_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.6.bb => go-runtime_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.6.bb => go_1.22.7.bb} (100%)
+ .../python/{python3-lxml_5.0.0.bb => python3-lxml_5.0.2.bb}    | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
+ rename meta/recipes-devtools/python/{python3-lxml_5.0.0.bb => python3-lxml_5.0.2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/go/go-1.22.6.inc b/meta/recipes-devtools/go/go-1.22.7.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.22.6.inc
-rename to meta/recipes-devtools/go/go-1.22.7.inc
-index 834debaf9b..e54a902741 100644
---- a/meta/recipes-devtools/go/go-1.22.6.inc
-+++ b/meta/recipes-devtools/go/go-1.22.7.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "9e48d99d519882579917d8189c17e98c373ce25abaebb98772e2927088992a51"
-+SRC_URI[main.sha256sum] = "66432d87d85e0cfac3edffe637d5930fc4ddf5793313fe11e4a0f333023c879f"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.6.bb b/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.22.6.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-index ea4577f20a..aba317fd38 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.22.6.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-devtools/python/python3-lxml_5.0.0.bb b/meta/recipes-devtools/python/python3-lxml_5.0.2.bb
+similarity index 94%
+rename from meta/recipes-devtools/python/python3-lxml_5.0.0.bb
+rename to meta/recipes-devtools/python/python3-lxml_5.0.2.bb
+index 66cb8b0938..c0b385c7ea 100644
+--- a/meta/recipes-devtools/python/python3-lxml_5.0.0.bb
++++ b/meta/recipes-devtools/python/python3-lxml_5.0.2.bb
+@@ -18,11 +18,10 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "999805bed7d9039ec3da1a53bfbcafc13e367da52aa823cb60b68ba22d44c616"
--SRC_URI[go_linux_arm64.sha256sum] = "c15fa895341b8eaf7f219fada25c36a610eb042985dc1a912410c1c90098eaf2"
--SRC_URI[go_linux_ppc64le.sha256sum] = "9d99fce3f6f72a76630fe91ec0884dfe3db828def4713368424900fa98bb2bd6"
-+SRC_URI[go_linux_amd64.sha256sum] = "fc5d49b7a5035f1f1b265c17aa86e9819e6dc9af8260ad61430ee7fbe27881bb"
-+SRC_URI[go_linux_arm64.sha256sum] = "ed695684438facbd7e0f286c30b7bc2411cfc605516d8127dc25c62fe5b03885"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "a6441d5da40a961039ec22b0aadbc8b513f52b31bb8919c359a7e2c3c5bcf26a"
+ DEPENDS += "libxml2 libxslt"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.6.bb b/meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.22.6.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.22.6.bb b/meta/recipes-devtools/go/go-cross_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.22.6.bb
-rename to meta/recipes-devtools/go/go-cross_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.6.bb b/meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.22.6.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.22.6.bb b/meta/recipes-devtools/go/go-runtime_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.22.6.bb
-rename to meta/recipes-devtools/go/go-runtime_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go_1.22.6.bb b/meta/recipes-devtools/go/go_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.22.6.bb
-rename to meta/recipes-devtools/go/go_1.22.7.bb
+-SRC_URI[sha256sum] = "2219cbf790e701acf9a21a31ead75f983e73daf0eceb9da6990212e4d20ebefe"
++SRC_URI[sha256sum] = "6399703c40ba53e2c3b72fdb56cb908d2b83c08082ecf17de839b27e68d1e598"
+ 
+ SRC_URI += "${PYPI_SRC_URI}"
+ inherit pkgconfig pypi setuptools3
+-PYPI_PACKAGE_EXT = "zip"
+ 
+ # {standard input}: Assembler messages:
+ # {standard input}:1488805: Error: branch out of range
 -- 
 2.34.1
 
