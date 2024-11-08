@@ -1,186 +1,184 @@
-Return-Path: <bin.lan.cn@windriver.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B98DAD4335C
-	for <webhook@archiver.kernel.org>; Fri,  8 Nov 2024 02:10:31 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.3849.1731031821936857506
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F0F21D5E140
+	for <webhook@archiver.kernel.org>; Fri,  8 Nov 2024 06:18:22 +0000 (UTC)
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
+ by mx.groups.io with SMTP id smtpd.web11.7068.1731046696178465821
  for <openembedded-core@lists.openembedded.org>;
- Thu, 07 Nov 2024 18:10:22 -0800
+ Thu, 07 Nov 2024 22:18:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1042fee24e=bin.lan.cn@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A81pZO2013268
-	for <openembedded-core@lists.openembedded.org>; Fri, 8 Nov 2024 02:10:21 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42s6g5g515-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 02:10:20 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 7 Nov 2024 18:10:19 -0800
-Received: from pek-lpg-core3.wrs.com (128.224.153.43) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.39 via Frontend Transport; Thu, 7 Nov 2024 18:10:18 -0800
-From: Bin Lan <bin.lan.cn@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] doc/examples/Makefile.am: adds library search paths and linker rpath-link
-Date: Fri, 8 Nov 2024 10:10:18 +0800
-Message-ID: <20241108021018.1236970-1-bin.lan.cn@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=dYfTSsFf;
+ spf=pass (domain: gmail.com, ip: 209.85.208.176, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2f75c56f16aso16423681fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 07 Nov 2024 22:18:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731046694; x=1731651494; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mrR6jAaxtKlWF2HcL9wzjhwohcipFjhbEr4337NWFRU=;
+        b=dYfTSsFf7mstAW4f/eIZS8JXVBfKMbADZ+ndJc6JK7MbtC6STa2qhEIRTb96hvBcPX
+         pozOkisHvWnqwpPRMyaqExBM5En3BhBm+oLrhPGhCUatiW87NRzKC1ZrPGHCoKMtKWuY
+         bAdGRMjCgtJv3V6zpZpWX320GQyFdWy7hRV7/JE+6t/FJfaPfC0osSWaIRjLBGnwoarP
+         OY8eGqnKz5Um5wkHCCm8V6/oG265v69ytZ0g1q5/1Q8t3eWy5Zo2CXUjMH1RUkpOX8a5
+         yEE2m15ro+cjKIKvmKKH+KODhdEXuwaqMiniNcEV/pYUbOlq1aO997OK9x5HAM0Oc7ks
+         DxBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731046694; x=1731651494;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=mrR6jAaxtKlWF2HcL9wzjhwohcipFjhbEr4337NWFRU=;
+        b=SE0BMtGvt/aiir5HjJCPIJfeV1UDRUC/xXEhcM4MwgxL0dGlMpm9gnzvHokBRgwqMP
+         0iIQv8iumqHdaIyamH5rk0RuCZ7WRC7r6IJkXjTCGAQl8lIbfncm9n2eOZLvYU45JARU
+         b1sqQCLQssUQFDh6ae8SARLYjonKflNUQxNCoKHy3rqIY9DoG+8qwn3qmhHTnCpzH+/m
+         Cf26LnKiBlpc7D2i5tNX2CPzuaCHUN3qy8x1x1H0ePRW4ffZLQDKrNcFehWWCAtvFf0S
+         Z5IlRiVKCKOxyavKAziWnBBAnFeUGEfNygiwD2fKFZEMxd9pIgUpky0hyaWAFLRYgEVO
+         k4sw==
+X-Gm-Message-State: AOJu0YwLs/9UjAJ3rnH46Q2ArFYTIVnWOUlg6bbtA+ZqplbbkUp5iyok
+	81PR0/PkL8jV2e8/NagmIE8UgdKvRuN02A/HxuS88APWxbb6FJwWDEqX8GB0WpXQSTfR69ukfbb
+	H8D8WvOWESbW7RbtW/gtuOQPlWJU=
+X-Google-Smtp-Source: AGHT+IH0OAkZCFBLKgMRTKPCeuJEx2LpTK85ZIXUfgkFvxtyssQxEeH8Ejf8MKFW/bVTcMdslfrM4f7qS54EEj0Q9oA=
+X-Received: by 2002:a2e:a553:0:b0:2fb:4abb:7001 with SMTP id
+ 38308e7fff4ca-2ff201119cemr6797561fa.2.1731046693795; Thu, 07 Nov 2024
+ 22:18:13 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-GUID: CiqhpBW-fKyZ1ywt1fiFsGZ1RZZ7RdvX
-X-Authority-Analysis: v=2.4 cv=JoCjr94C c=1 sm=1 tr=0 ts=672d730c cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=MmHy8NYH6_vG9Ivu7dIA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: CiqhpBW-fKyZ1ywt1fiFsGZ1RZZ7RdvX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-08_01,2024-11-07_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
- mlxlogscore=999 spamscore=0 clxscore=1011 impostorscore=0
- lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0 suspectscore=0
- phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2411080016
+References: <20241106181242.1250615-1-fabio.berton@criticaltechworks.com>
+In-Reply-To: <20241106181242.1250615-1-fabio.berton@criticaltechworks.com>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Fri, 8 Nov 2024 07:17:57 +0100
+Message-ID: <CA+chaQeuvrHa10MSfDE7c5yJUtPCKS9Dox6cVkbOg+oSafnU1A@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone] pseudo: Update to pull in linux-libc-headers
+ race fix
+To: Fabio.Berton@criticaltechworks.com
+Cc: openembedded-core@lists.openembedded.org, steve@sakoman.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 02:10:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206853
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 06:18:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206854
 
-There is the following error when building doc/examples/cmake-multiple-shared-libraries:
-/usr/bin/ld: warning: liblttng-ust-common.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
-/usr/bin/ld: warning: liblttng-ust-tracepoint.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_add_fd_to_tracker'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_after_fork_child'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_common_ctor'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_init'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_probe_register_queue_release'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_cancelstate_disable_pop'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_synchronize_rcu'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_register_thread'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_probe_prune_release_queue'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_cancelstate_disable_push'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_before_fork'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_lock_fd_tracker'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_trace_clock'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_has_sys_membarrier'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_unlock_fd_tracker'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_exit'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_get_cpu_sym'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_common_alloc_tls'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_after_fork_parent'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_delete_fd_from_tracker'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_register'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_reader'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_gp'
-/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_probe_unregister_queue_release'
-collect2: error: ld returned 1 exit status
+With this update it fails to build on hosts with gcc-14:
 
-This change set adds library search paths and linker rpath-link are set
-for both the standard and cmake examples.
+| pseudolog.c: In function ?parse_timestamp?:
+| pseudolog.c:329:13: error: implicit declaration of function
+?strptime?; did you mean ?strftime?? [-Wimplicit-function-declaration]
+|   329 |         s =3D strptime(string, timeformat, &stamp_tm);
+|       |             ^~~~~~~~
+|       |             strftime
+| pseudolog.c:329:11: error: assignment to ?char *? from ?int? makes
+pointer from integer without a cast [-Wint-conversion]
+|   329 |         s =3D strptime(string, timeformat, &stamp_tm);
+|       |           ^
+| pseudolog.c:337:19: error: assignment to ?char *? from ?int? makes
+pointer from integer without a cast [-Wint-conversion]
+|   337 |                 s =3D strptime(string, time_formats[i], &stamp_tm=
+);
+|       |                   ^
+| pseudolog.c: In function ?plog_trait?:
+| pseudolog.c:377:34: warning: ?calloc? sizes specified with ?sizeof?
+in the earlier argument and not in the later argument
+[-Wcalloc-transposed-args]
+|   377 |         new_trait =3D calloc(sizeof(*new_trait), 1);
+|       |                                  ^
+| pseudolog.c:377:34: note: earlier argument should specify number of
+elements, later size of each element
+| make: *** [Makefile:130: pseudolog.o] Error 1
 
-Upstream-Status: Not applicable
-Backport patch: https://github.com/lttng/lttng-ust/commit/5d10459b6b5182fcbc98240d9dace026c87a5037
+It's not caused by this change itself (it just triggers pseudo-native
+to be rebuilt and not reused from sstate) but can we update to even
+newer SRCREV which fixes this? Will check if
+https://git.yoctoproject.org/pseudo/commit/pseudolog.c?id=3D15b4f4ca25593f6=
+84e6517d0b809605b443d1953
+fixes all of them.
 
-Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
----
- .../0001-Makefile.am-update-rpath-link.patch  | 70 +++++++++++++++++--
- 1 file changed, 65 insertions(+), 5 deletions(-)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch b/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
-index 6aca8f85fa..cdf5cb70d8 100644
---- a/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
-+++ b/meta/recipes-kernel/lttng/lttng-ust/0001-Makefile.am-update-rpath-link.patch
-@@ -14,20 +14,80 @@ Upstream-Status: Submitted [https://github.com/lttng/lttng-ust/pull/61]
- 
- Signed-off-by: Changqing Li <changqing.li@windriver.com>
- 
-+
-+doc/examples/Makefile.am: adds library search paths and linker rpath-link
-+    
-+There is the following error when building doc/examples/cmake-multiple-shared-libraries:
-+/usr/bin/ld: warning: liblttng-ust-common.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
-+/usr/bin/ld: warning: liblttng-ust-tracepoint.so.1, needed by ../../../src/lib/lttng-ust/.libs/liblttng-ust.so, not found (try using -rpath or -rpath-link)
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_add_fd_to_tracker'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_after_fork_child'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_common_ctor'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_init'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_probe_register_queue_release'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_cancelstate_disable_pop'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_synchronize_rcu'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_register_thread'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_probe_prune_release_queue'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_cancelstate_disable_push'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_before_fork'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_lock_fd_tracker'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_trace_clock'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_has_sys_membarrier'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_unlock_fd_tracker'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_exit'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_get_cpu_sym'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_common_alloc_tls'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_after_fork_parent'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_delete_fd_from_tracker'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_register'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_reader'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_urcu_gp'
-+/usr/bin/ld: ../../../src/lib/lttng-ust/.libs/liblttng-ust.so: undefined reference to `lttng_ust_tp_probe_unregister_queue_release'
-+collect2: error: ld returned 1 exit status
-+    
-+This change set adds library search paths and linker rpath-link are set
-+for both the standard and cmake examples.
-+    
-+Upstream-Status: Not applicable
-+Backport patch: https://github.com/lttng/lttng-ust/commit/5d10459b6b5182fcbc98240d9dace026c87a5037
-+    
-+Signed-off-by: Bin Lan <bin.lan.cn@windriver.com>
-+
- ---
-- doc/examples/Makefile.am | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
-+ doc/examples/Makefile.am | 13 ++++++++++---
-+ 1 file changed, 10 insertions(+), 3 deletions(-)
- 
- diff --git a/doc/examples/Makefile.am b/doc/examples/Makefile.am
--index 57782cc..d46caa6 100644
-+index aebf63bd..79766ec0 100644
- --- a/doc/examples/Makefile.am
- +++ b/doc/examples/Makefile.am
--@@ -167,7 +167,7 @@ all-local:
-+@@ -169,7 +169,10 @@ all-local:
-  				CFLAGS='$(CFLAGS)' \
-  				AM_CFLAGS='$(AM_CFLAGS)' \
-  				LDFLAGS="$(LDFLAGS)" \
- -				AM_LDFLAGS='$(AM_LDFLAGS) -L../../../src/lib/lttng-ust/.libs -Wl,-rpath="$(PWD)/../../src/lib/lttng-ust/.libs/" -Wl,-rpath-link="$(PWD)/../../src/lib/lttng-ust/.libs/"' \
--+				AM_LDFLAGS='$(AM_LDFLAGS) -L../../../src/lib/lttng-ust/.libs -Wl,-rpath="$(PWD)/../../src/lib/lttng-ust/.libs/" -Wl,-rpath-link="$(PWD)/../../src/lib/lttng-ust/.libs/:$(PWD)/../../src/lib/lttng-ust-tracepoint/.libs:$(PWD)/../../src/lib/lttng-ust-common/.libs/"' \
-++				AM_LDFLAGS='$(AM_LDFLAGS) -L../../../src/lib/lttng-ust/.libs -L../../../src/lib/lttng-ust-common/.libs -L../../../src/lib/lttng-ust-tracepoint/.libs \
-++				-Wl,-rpath="$(abs_top_builddir)/src/lib/lttng-ust/.libs/" \
-++				-Wl,-rpath-link="$(abs_top_builddir)/src/lib/lttng-ust-common/.libs/" \
-++				-Wl,-rpath-link="$(abs_top_builddir)/src/lib/lttng-ust-tracepoint/.libs/"' \
-  				LTTNG_GEN_TP_PATH="$$rel_src_subdir$(top_srcdir)/tools/" \
-  				AM_V_P="$(AM_V_P)" \
-  				AM_V_at="$(AM_V_at)" \
-+@@ -222,10 +225,14 @@ all-local:
-+ 					CXX="$(CXX)" \
-+ 					$(CMAKE) \
-+ 					-DCMAKE_INCLUDE_PATH="$(abs_top_srcdir)/include;$(abs_top_builddir)/include" \
-+-					-DCMAKE_LIBRARY_PATH="$(abs_top_builddir)/src/lib/lttng-ust/.libs" \
-++					-DCMAKE_LIBRARY_PATH="$(abs_top_builddir)/src/lib/lttng-ust/.libs;$(abs_top_builddir)/src/lib/lttng-ust-common/.libs;$(abs_top_builddir)/src/lib/lttng-ust-tracepoint/.libs" \
-+ 					-DCMAKE_C_FLAGS="$(AM_CFLAGS) $(CPPFLAGS) $(CFLAGS)" \
-+ 					-DCMAKE_CXX_FLAGS="$(AM_CXXFLAGS) $(CXXFLAGS) $(CPPFLAGS)" \
-+-					-DCMAKE_EXE_LINKER_FLAGS="$(AM_LDFLAGS) $(LDFLAGS)" \
-++					-DCMAKE_EXE_LINKER_FLAGS="$(AM_LDFLAGS) $(LDFLAGS) \
-++					-L../../../src/lib/lttng-ust/.libs -L../../../src/lib/lttng-ust-common/.libs -L../../../src/lib/lttng-ust-tracepoint/.libs \
-++					-Wl,-rpath=$(abs_top_builddir)/src/lib/lttng-ust/.libs/ \
-++					-Wl,-rpath-link=$(abs_top_builddir)/src/lib/lttng-ust-common/.libs/ \
-++					-Wl,-rpath-link=$(abs_top_builddir)/src/lib/lttng-ust-tracepoint/.libs/" \
-+ 					.. && \
-+ 				$(MAKE) \
-+ 			) || exit 1; \
--- 
-2.34.1
-
+On Wed, Nov 6, 2024 at 7:13=E2=80=AFPM Fabio Berton via lists.openembedded.=
+org
+<Fabio.Berton=3Dcriticaltechworks.com@lists.openembedded.org> wrote:
+>
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> Update to pull in:
+>
+>     pseudo.c: Avoid patch mismatch errors for NAMELESS file entries
+>
+>     In rare cases we see failures, often in linux-libc-headers for things=
+ like:
+>
+>     |   INSTALL /XXX/linux-libc-headers/6.1-r0/image/usr/include
+>     | abort()ing pseudo client by server request. See https://wiki.yoctop=
+roject.org/wiki/Pseudo_Abort for more details on this.
+>
+>     Pseudo log:
+>     path mismatch [2 links]: ino 46662476 db 'NAMELESS FILE' req '/XXX/li=
+nux-libc-headers/6.1-r0/image/usr'.
+>     Setup complete, sending SIGUSR1 to pid 3630890.
+>
+>     Whilst this doesn't easily reproduce, the issue is that multiple diff=
+erent processes are
+>     likely working on the directory and the creation in pseudo might not =
+match accesses
+>     made by other processes.
+>
+>     Ultimately, the "NAMELESS FILE" is harmless and pseudo will reconcile=
+ things
+>     so rather than error out, we should ignore this case.
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 4f30a1a74828e105cbe69677b3fbe5623f371543)
+> Signed-off-by: Fabio Berton <fabio.berton@criticaltechworks.com>
+> ---
+>  meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-de=
+vtools/pseudo/pseudo_git.bb
+> index 4dd9156238..6b0cb598e2 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> @@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk =3D " \
+>      file://older-glibc-symbols.patch"
+>  SRC_URI[prebuilt.sha256sum] =3D "ed9f456856e9d86359f169f46a70ad7be4190d6=
+040282b84c8d97b99072485aa"
+>
+> -SRCREV =3D "c9670c27ff67ab899007ce749254b16091577e55"
+> +SRCREV =3D "cc1f6167cb5065daba1462056e2dce8ff72aa855"
+>  S =3D "${WORKDIR}/git"
+>  PV =3D "1.9.0+git${SRCPV}"
+>
+> --
+> 2.25.1
+>
+> The information in this communication may contain confidential or legally=
+ privileged information. It is intended solely for the use of the individua=
+l or entity it addresses and others authorized to receive it. If you are no=
+t an intended recipient, you are hereby notified that any disclosure, copyi=
+ng, distribution or action in reliance on the contents of this information =
+is strictly prohibited and may be unlawful. If you have received this commu=
+nication by error, please notify us immediately by responding to this e-mai=
+l and then delete it from your system. Critical TechWorks is not liable for=
+ the proper and complete transmission of the information in this communicat=
+ion nor for any delay in its receipt
+>
+> This e-mail is environmentally friendly, just like Critical TechWorks, wh=
+ich lives in a paper-free atmosphere. Therefore, please consider the enviro=
+nment before printing it!
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206796): https://lists.openembedded.org/g/openembedde=
+d-core/message/206796
+> Mute This Topic: https://lists.openembedded.org/mt/109429860/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
