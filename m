@@ -2,71 +2,70 @@ Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C73CD5C0DD
-	for <webhook@archiver.kernel.org>; Fri,  8 Nov 2024 14:54:25 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.web11.14510.1731077656773927587
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 67A60D5C0E1
+	for <webhook@archiver.kernel.org>; Fri,  8 Nov 2024 14:54:45 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.14520.1731077675836222789
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Nov 2024 06:54:17 -0800
+ Fri, 08 Nov 2024 06:54:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=EeyGK/UP;
- spf=pass (domain: gmail.com, ip: 209.85.221.52, mailfrom: martin.jansa@gmail.com)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-37d4ba20075so1510440f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 06:54:16 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=S2uRztyI;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: martin.jansa@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43161c0068bso19680845e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 06:54:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731077655; x=1731682455; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ezy9MuS8FYmvlTLh1Sk/XvNFUECN5LEfZyqQWwNUr7U=;
-        b=EeyGK/UP8lK6s0cu/yZkRxjmSfY8zKVhq1GQt5ApZYHZckNCRzywKj1FM9vNH/IY1E
-         xyGuBsbba4hJuvIS04t7UqSg4qh9RBdWad43B0pTVuwt4PcoxXaTWduD2zxmgzSy/R2j
-         zYvEIJqbJOWNcPN+avcdFkNeX7NSSz7IX+1H5txSrm23LlExJwvbAoFAkyXtuP/Zgn9O
-         GtFfJL5Rl9BPDq5EcWV/AEIC3v7gKikLCQMHAffArbTv9Gi72RN0pSREi+ke4CoO8R/s
-         HP8rEX69IQ34KCtdO0/ej1WPoBRsKAK2YyPuLWVWHi3/yZpvGcgttBTADGwXOc7/Ibvs
-         G3Jw==
+        d=gmail.com; s=20230601; t=1731077674; x=1731682474; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qNH2KToyEwDdUEkW4my1353o+EYdf8+63thn5D/PqXU=;
+        b=S2uRztyIO6l4OLpDinH1KYAihguWWpgnCzi+80K4QJFpjR9Aezorz737KeuTIpFFYs
+         A/YyRUk46NjgypZGMIlg62AtS0zVyeVfEPXtVOc+DAaLcK02lEtqZgi6S1XykDaoiNfR
+         8gx9AGY1NljnMePXZFOiI3mi7hW1xN3GAJXXQkGAvhP/SfbXMk63Q/RBj2pGT4fKuNV3
+         8qMMjmCnsUOccmIa6bPPHohth8WacPVBNAvEcmCJrh7q2X44hkGQ/VfEY8D9AD9hFcpK
+         x3ccy0puzXMmDdQymM2qZ3Zkg5ZENr9Rb3yckkmaJcTJ/2NxwNAu0a+eWksoRYXoxL6S
+         52Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731077655; x=1731682455;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ezy9MuS8FYmvlTLh1Sk/XvNFUECN5LEfZyqQWwNUr7U=;
-        b=EGFdSEtEBOqwkv89CSjmYwiX3ZbHjIMdJp8vHfJLQjwuJeV2vDj3w8cI1fKDp9nEp6
-         O47kA0xCrPrspCcSMMAPwjsZcsQorikm+Xr959aPnrdCogxrCKFAbqj9QxjdMJaHVCEt
-         smERX1G8OqkESbM6B1nbq5ToMzqkC5f4kH6HTb2Rl+1ff5Zxco7jdlDTJe+rxhSystgP
-         SiQZfu/TeHRrohHXMDwe8JlwjwGBLouDiwBGGYg3gWWfwH9glJeRN1JLaj5IpZtc+zp/
-         enJHV1nGiupRgDKhoxzOmEt480CYVGUBqrquQST6YpqX7WPpSDgY3bND1Y4blIGJbqbv
-         lcYw==
-X-Gm-Message-State: AOJu0YydgVsw7e33AtmT8BT1+AP133vw6DU1qmIFFp+N3u3cv+k55AIo
-	GoTVJqxvtG4wYovhVmrFXbbzMhIq0XKXPWUbDPx6p4DwBbOQhRqckptLFA==
-X-Google-Smtp-Source: AGHT+IE1gQ8nIng3d6SJlHJ124SjbNqSxMg5lZ+5jspbq8qzd9O6PsFCqrQdX4tpmsMvuj0sSyP1Ow==
-X-Received: by 2002:a5d:59a3:0:b0:37d:41df:136b with SMTP id ffacd0b85a97d-381f172a1eemr2519734f8f.13.1731077655155;
-        Fri, 08 Nov 2024 06:54:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731077674; x=1731682474;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qNH2KToyEwDdUEkW4my1353o+EYdf8+63thn5D/PqXU=;
+        b=X2jrRdjkWOyvZRdDLUD/Vc/AeXn/ZNybijQp5VPs8P/KGLLTuPXgNR+vjj17AFzJ4l
+         3wcQoUI9oiYwquyHBMQz1IGdQiZd/mQ5R3cAqz6/8oCneauYkqX4zxTL9CUaq6qEeHNe
+         ppQ+11aEEd/npLEF6qoo8TsMdTE+8UaujjSxbasbQAFAgt+FJ93HESFfQGdYYRFH8PGm
+         aAaKYrjHd5gq/MbOWVX/6Es6dWU+zSLscabTqmRTUL/+CfncajtlSBPNgkBiPnkapGgp
+         bM2gyFSff5mL6zeCN748A2+BR5fPumRG/dQNk5wzlJ0yeM+H+nQva2qbDJTpiR/ori9C
+         vuSg==
+X-Gm-Message-State: AOJu0Yz5aDGpJ/DWwBVnIALMupbcxGU3mRMW42jHvddn4KewIrtfBqx/
+	LzUsfXpA1tMAEQVuyoZkg6Ema18PfdLxRL6yyzzW/3ioJ8Bso3ypNWnbKA==
+X-Google-Smtp-Source: AGHT+IGVChZka3n6jiE9cjK4na0R52EvSLyE/EO4q/jIyt7Wuua0fQeXhRXktTFBDhvF0zQTYo8iVg==
+X-Received: by 2002:a05:600c:4587:b0:431:52a3:d9ea with SMTP id 5b1f17b1804b1-432b74a0c04mr27571635e9.0.1731077673950;
+        Fri, 08 Nov 2024 06:54:33 -0800 (PST)
 Received: from localhost (ip-109-238-218-228.aim-net.cz. [109.238.218.228])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b053ff08sm73359575e9.10.2024.11.08.06.54.14
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed9f7c20sm5084093f8f.67.2024.11.08.06.54.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Nov 2024 06:54:14 -0800 (PST)
+        Fri, 08 Nov 2024 06:54:33 -0800 (PST)
 From: Martin Jansa <martin.jansa@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: steve@sakoman.com,
 	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [kirkstone][PATCH 11/12] pseudo: Update to include open symlink handling bugfix
-Date: Fri,  8 Nov 2024 15:53:35 +0100
-Message-ID: <20241108145336.224466-11-martin.jansa@gmail.com>
+Subject: [scarthgap][PATCH] pseudo: Fix envp bug and add posix_spawn wrapper
+Date: Fri,  8 Nov 2024 15:54:24 +0100
+Message-ID: <20241108145424.309859-1-martin.jansa@gmail.com>
 X-Mailer: git-send-email 2.47.0
-In-Reply-To: <20241108145336.224466-1-martin.jansa@gmail.com>
-References: <20241108145336.224466-1-martin.jansa@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 14:54:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206885
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 14:54:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206887
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Update to a new revision which includes "Bugfix for Linux open(O_CREAT|O_EXCL)"
+Fix pseudo with python 3.13 by adding a wrapper for posix_spawn and
+fixing a NULL pointer dereference in envp handling it uncovered. This
+fixes issues on Fedora 41.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
@@ -74,17 +73,17 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 50c3b59975..b390ca7db9 100644
+index 7d8f71f65d..87c62e0678 100644
 --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
 +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
 @@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
      file://older-glibc-symbols.patch"
  SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
--SRCREV = "e11ae91da7d0711f5e33ea9dfbf1875dde3c1734"
-+SRCREV = "374089f2ed83da4d0d4e58df067142ff99c7eb12"
+-SRCREV = "374089f2ed83da4d0d4e58df067142ff99c7eb12"
++SRCREV = "28dcefb809ce95db997811b5662f0b893b9923e0"
  S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
+ PV = "1.9.0+git"
  
 -- 
 2.47.0
