@@ -1,239 +1,180 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 712DDD5C0E2
-	for <webhook@archiver.kernel.org>; Fri,  8 Nov 2024 14:57:55 +0000 (UTC)
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
- by mx.groups.io with SMTP id smtpd.web11.14617.1731077865711082071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46292D64062
+	for <webhook@archiver.kernel.org>; Fri,  8 Nov 2024 16:25:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web11.16997.1731083150909868438
  for <openembedded-core@lists.openembedded.org>;
- Fri, 08 Nov 2024 06:57:46 -0800
+ Fri, 08 Nov 2024 08:25:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=htKY0wq7;
- spf=pass (domain: gmail.com, ip: 209.85.167.51, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-53a007743e7so2700694e87.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 06:57:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731077864; x=1731682664; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3VrXmSFQpqlGWPJARoINWzDlisz8jx5BCYySF5QnWGM=;
-        b=htKY0wq7STj36mxGO552jL7Csq+CFdM0xyhwmqfoUKyRECDWan08pJ+ZKF4N3zxjey
-         cAa9QBjoRZXBUFFTVhVBp984qUlzV0Y+VBXQAI4BXWXmat4RgdSa7tHH1jW8YsmyB9jR
-         TIPAjMjZKiHUyLaZN7HLjLSKuixWuPqrc6J7BkS1Mha7bVkt5Ch3H1kmGUyPGMpRbegl
-         E6uSIWSRTXfLDPW1ogMGSmDMHaZr5qe2ivF5L1uC9GHMN2A+FzzIRltuxH4/48DCXkMX
-         aqSzwdaDSRRtMarIUeEJxLQzEf+6t3W+/H3PpgqqLy8hEt8UD30ziR9MJbLjV4dv5SkB
-         sILg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731077864; x=1731682664;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3VrXmSFQpqlGWPJARoINWzDlisz8jx5BCYySF5QnWGM=;
-        b=oIeJnm1Xr0picskiluP3P7ggjGWy6KrW9rPQYxamiTcdBOYw4i3OiA9PuNQnYzQUdV
-         c82QJPpmJVHo/cBd8UK04CcqJL8etYHXfTqzzxrclli1zePSj6eipokszO4J04lzcbwt
-         0a/03iYBEC/4IeDatm0fy83PXfdB36YFn5QubYls8gMOkLRAn+bXVuqX8G0zNsxfNLVk
-         FqRvg/XWFEWacvS+mXAJGFfGnhM1xd32IVixsg0jZDk5sz/NIPjJrL3giJU0EQ8dsd46
-         VjWaBQQZvu62vlQeZi5NcAJKqSy5VIMpzhsN2Un4R0OGlPZ4Py2Xbms0+wQO+rAZjVw2
-         vybg==
-X-Forwarded-Encrypted: i=1; AJvYcCUIuaoDtxUw569Q5nZ0JYk1aE8C9ddQNMoHseEp2CQNC1lpfuzMYnwub/jXMcj+RvKcWI09TMhmO+EVjD6vZG/WiQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzZCZN7qnCUhNiHsW7gKgDgqLA3mtdT2p5QKxCnaT4elAqFyNcg
-	bA1Mc3t0FLDf/4ore6hx8TbdV/6V7qK0HkhG+k0vCR92VxQW1Skj/NIbC6EEugVEPnoj+QGsf8E
-	CXGtuod/SPEmBci3LRNvuC+o0NZbNDw==
-X-Google-Smtp-Source: AGHT+IF54+oO1MBFLCHMssniVPFmf6U1Jqm21L8aFEcWKETzoFCZZL7g+sErD89fPzCrWWvh9zEaWEtVPwrohLx01t8=
-X-Received: by 2002:a05:651c:988:b0:2fb:58d1:d9a3 with SMTP id
- 38308e7fff4ca-2ff2016d290mr18725561fa.18.1731077863609; Fri, 08 Nov 2024
- 06:57:43 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=104247168c=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4A8CNF9P019979
+	for <openembedded-core@lists.openembedded.org>; Fri, 8 Nov 2024 16:25:50 GMT
+Received: from nam10-mw2-obe.outbound.protection.outlook.com (mail-mw2nam10lp2040.outbound.protection.outlook.com [104.47.55.40])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42s6g5gtrj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 16:25:49 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FESN+T2wB+U9VF5Mz74/UxVxED3CmA0G5o7WMcBy3iPFUsDJFntKN4nmGWAyvV/oO3EipErmQBkFKiLcF57VF7P9a9mjapXwBtU+GgNsMmwbt8yeQhIYRfd+Krt+pIqVE+tDPypKVv2wv7+EyXpyp/wjzqa1knekTqw9POBulphARmnHl315D3mm1Bo+ZpP5wznhOaTjTf2Ubr6wTjd2I6LvRocuB3Rn19fwGbMxxf2jhU/3IY1UcDup3zZ2k4vYy9VsOJO3J5RfV2+IEL1WAGWnLxjxBQYrjUIbbN0Q4JDt21neqQuUIHMNcM27cstOPbfjLHkf7bc//Atodu4bng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=uR6ZuMFqcpwbtSZ3/3pXirHJ/RPbbtLXI74Nv7dhZ0c=;
+ b=WMXNhUkrt7OD42GciUZo2ECbQCW6LAcEiPhjkbCCkxndmo3xvh+RLAuXNqBzaJdaL4uSzB0fYZnwHy/z2oNfvH3Hp5etUeKZId0+lcW6aWyOzHiFQSRopvE3YLkfj+9MBZ3ByEdJkf0mQVWdjkMDkt3ZA031xxW9UjwqFPgrwxNvnAO4abvKDxnq0futWR6CvogH+IiQjqJyKjVEP/B1c+Gi3ZMU1wggh77tbeaDgzAefAitc9Om/XlB8Gdi05gU0Md+dsUdzmkRwBrBiykhGxDATyl1O1NhY08trbFA068hTjpFHmUDyKGEuSdbDOQ0DctEV+G1/XAf9hc5GTqBhA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by CY8PR11MB7396.namprd11.prod.outlook.com (2603:10b6:930:87::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.22; Fri, 8 Nov
+ 2024 16:25:40 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::f440:269f:9645:29c0]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::f440:269f:9645:29c0%5]) with mapi id 15.20.8137.019; Fri, 8 Nov 2024
+ 16:25:40 +0000
+From: Harish.Sadineni@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Subject: [scarthgap][PATCH] binutils: Add missing perl modules to RDEPENDS for nativesdk variant
+Date: Fri,  8 Nov 2024 08:24:56 -0800
+Message-ID: <20241108162456.297831-1-Harish.Sadineni@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR05CA0055.namprd05.prod.outlook.com
+ (2603:10b6:a03:33f::30) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
 MIME-Version: 1.0
-References: <20241106181242.1250615-1-fabio.berton@criticaltechworks.com>
- <1805E9CC90672053.32267@lists.openembedded.org> <CA+chaQcfLfXBBvnr032b3rnXwJ=mhS7zhk8zJ_h85A3dv62F9A@mail.gmail.com>
- <CAOSpxdZo_NfUhG8UGLpDFoeSWKmUnmYhUnXJ2y+e0e9se=6d_A@mail.gmail.com>
-In-Reply-To: <CAOSpxdZo_NfUhG8UGLpDFoeSWKmUnmYhUnXJ2y+e0e9se=6d_A@mail.gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 8 Nov 2024 15:57:25 +0100
-Message-ID: <CA+chaQfZKSKVNx+7jWr3jBPWm5UjKGyn-BYhEbh-AgopRPZq0w@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone] pseudo: Update to pull in linux-libc-headers
- race fix
-To: Steve Sakoman <steve@sakoman.com>
-Cc: Fabio.Berton@criticaltechworks.com, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|CY8PR11MB7396:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3d4fe634-0226-48f7-4b26-08dd0011fc19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|366016|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	=?us-ascii?Q?Zo4mPy6ihzQTIh5W5hpJk+1GVrgLHqK6CHuMgNXZiu4wK8etPRTS67Ht89gE?=
+ =?us-ascii?Q?CQuBudmDk8+8J0txruJbK+uhdGExdA8boismIx1xKRp6X87F9DIWCloQlED6?=
+ =?us-ascii?Q?cX+OLs5xjKk5u9WRqm7c88BFYWaTkW0ZC4YwyWdgHiu0mSQ46f6hvVVnPsa/?=
+ =?us-ascii?Q?U9vJ5aDqdvqyhd8kGfI0xaOVxpnE67xoDLo/eoJa4ebcQa2HafK3KSQ+/8Rp?=
+ =?us-ascii?Q?WPk/TZ2E1yy9uGkj8/ajz0cgn/zpznAbGIvS0ZiSvnQwUGf67z5Rl+yOJELX?=
+ =?us-ascii?Q?sjmsTzhIFC6SSqYNAsmU2FJTDiCysLPANvZiq0x0Q4pMvAyWXZaeGU8xcyt7?=
+ =?us-ascii?Q?f8A7sZyOVU/lHOqhT8JQ096uXQ+M+q3tKVq/4lbpbhNHsxhJsTb7YK8lv8Tl?=
+ =?us-ascii?Q?TiTbJ1Wk84CsaxIvFdlIRledv3YHWOCgr0U4BQZSO+ip3V1IpVoi0Kb6O6TP?=
+ =?us-ascii?Q?AlM7yZgb0sBrjRzUizD1w4aB7EXtxKQKJ3HbtZrDKLKQAzW0jqPVIN5w7X8r?=
+ =?us-ascii?Q?5EBz+u/X+nwdjlgYfVHSjhmDMI5q56Swqjl80u+9FX1mPFOBThgLHQMvx16w?=
+ =?us-ascii?Q?uz8WYfNNNs4q0BuEKheMnKCS+w+XWwx7ZcAeTBGMITydDoq5kwmKWQhMMV+v?=
+ =?us-ascii?Q?rQ/8oqXEIxn+Vl1n7i/IZ9b++bxhjcy04zxxo0VDZqdrhvT+GOJoI8dSqTD0?=
+ =?us-ascii?Q?YWgnb2Eu8jHp+MlDlfuGZ+BQqgRW/mLqeALZSiG/hYJZ3vrwqgCq/8Mw5lqG?=
+ =?us-ascii?Q?8YsGo1MIaZLAU1xIDBBhkwvmku/Xf1WkkrHSelb08ahiEw00ZTwIXL57btMv?=
+ =?us-ascii?Q?UcRYA9FJ8o7blC+erRnez9kMexKF7svI+t00idOXNGjyuqLbak1u8qtqOYSC?=
+ =?us-ascii?Q?e+eARxIp/AvroFbq/COMnlZzHOP8Vw8W+iu3OhoiP28zDMf3+7AeiRhlto4s?=
+ =?us-ascii?Q?RRoxreGgQNbR4ehT0Rf8cYT0W1daTD6Wb6Huv1V5GwdNvJpvZCjH3hsEZauq?=
+ =?us-ascii?Q?6U7h4WKs5wkBiwsuFBuAEwrZ8afI5wIX3tLzBgaJhBRv6DIGzAj0t2LDWGTV?=
+ =?us-ascii?Q?p0/Tdj9Z+Wskq4T+RThoUPo1X7VmNdV5hDCssbzAYqlBSQYhFGqk6GoRECzJ?=
+ =?us-ascii?Q?wFniuxxzXCZbszgrBBRyON6nLAHFkW7SAd4qpPJbgeugyH/wMxlojELhO5Wk?=
+ =?us-ascii?Q?F2iJEC6nmtleveZRhmWOFfXawOP97cvdBsZ80jz9Abi8PSPlPC7fLp99yB0Q?=
+ =?us-ascii?Q?NY4ixuk3x526P6VXQfGhBE2E0PGbs2QWn8pE9G1cuMHbzQbS1Ox4PfaKc8ER?=
+ =?us-ascii?Q?yBhhoxc28mU7oQ8ITJsnXpRwTITFR8EX4EV11ZeAlB0VEoz5Q3yGOXf6nFel?=
+ =?us-ascii?Q?fxXWkv0=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?m0esVs50nqDRDpIRM9NUIKrAI3MemyknpJyCj0/0jO29SlJDSt5urylsxKSW?=
+ =?us-ascii?Q?vB1P7oH0d+9HQjO7LKlsncsQgjwp7ElhpbZq2dMEhMVz6lR7hkX7ICQjSZ+5?=
+ =?us-ascii?Q?SKipFerWQEgngl72JDeyIKxVpL+l/fScJ0eSPHOFKFZVEG6S0CaZA+5wcfM1?=
+ =?us-ascii?Q?moaqPF67x+szg9Zl6rtyBZhwaKlRFIJ39FgnMDuVaNw0iqMVhTmnsVrgjOYn?=
+ =?us-ascii?Q?4ZmMu9VjYNYmoCOkoS/vVjUZ+djMOvj3pkBzTXcQwbRLPNUztiZFMzSE9K38?=
+ =?us-ascii?Q?5uK/Opx52jfVmIVncgX5Mx9OGmw27cVHXyQs+IgPSAkMEfs7LZM+I6fe2wXc?=
+ =?us-ascii?Q?CsqptpjyWAmnGEiDYBE+Gm7FNpHAkxpsgHhvodmL4F8pKTBEOOpJbhWDwVFJ?=
+ =?us-ascii?Q?o1ZZxGP9UyIT0+YyY1CTq+91DzUZDFK6/Btd0ekrAdU2bsB9j3DiJuKpyBvg?=
+ =?us-ascii?Q?2TKDCHnX3UoVI6UzSUbYYbA8Qi9gc4swOr6+9epnbAJwWGNzYjFLCoRLJ01K?=
+ =?us-ascii?Q?UplBocZpKlTPSziimIgfWmi5qh7dROcu77oKLz8XD0vVYEqpZJyTDf+chHHc?=
+ =?us-ascii?Q?l9h0dwujwB3LObJQP9iD7C2LuOuNtNGtOb5/BymFF9aPANHlFfzdAZ0Q2I17?=
+ =?us-ascii?Q?spIgZq++hRy9yVmDomTQh4zLSx/1N5Do7352bc6Wc/dSeWg8jqH2EmglAkiK?=
+ =?us-ascii?Q?O87DW1Bi3QrRxuVLusJKQUzJ8ZmwVQdAocD10k2pQ95IdijhENo8KF5hx6OG?=
+ =?us-ascii?Q?KFncf37HUQ3sFmTqZc6WBi8AT0NEysC/4tEqW20k+rj8hTQIUkGFkeA235Dz?=
+ =?us-ascii?Q?h5kskNxjvcoOVJfAOZ54Y4lkICuTdhE3tGoe9wKxZ6BP8PU5l4mcknlUNlm9?=
+ =?us-ascii?Q?ba9F63+CIEAOW0bQDdWN3tQa42vWJ4HxNHY9m8Ri94Aa2BZGCd1M5zknxSrH?=
+ =?us-ascii?Q?j7gLYpqjkigBHofMm/0byCTjJlADHp38n/DbahQfOSRdVV6QEZ1BjlTNLD8Q?=
+ =?us-ascii?Q?0UsfSrDaDYVRyx/QUlsbxO+gl4IABLwVoCiJEyYmRgcbzdT+nCLCQ4sU5VxV?=
+ =?us-ascii?Q?6uukM/tRBy4e6JUHS/jcZF02xacD29yBd6s6eTUsR3yDRPC/0RMjtfBPauYE?=
+ =?us-ascii?Q?V/y2Krg+T3k69d8B6AC68g+qmYkD6bXfopsPvBf/+dBkSS45ptOvkoXw4pwe?=
+ =?us-ascii?Q?5msh+HDjpL4JxOrnQ3QHbtHsjrCO9bDwS74ovDPF+Oo+xUitRYNLQoD0xoF7?=
+ =?us-ascii?Q?pgNXvN+OK2VNeQsOl2rg5HUGYHUY5YSdX1oK6BSJ0Gt7iMZIl7lKX2p7k7GG?=
+ =?us-ascii?Q?yABlmB496NgfhS0Z9+65qn8+CLZrKuC3CDAa5woZsVbOrLvHbuLLwO140xcb?=
+ =?us-ascii?Q?Tn/hTN5Wr17Ia+olVd6fMo/CDnYhhwTgT3VxCcTI+xqxVfOJLyoqcFYtE4FT?=
+ =?us-ascii?Q?7XYTD/nvFNUIM5Wu29IIdgP4BQMagwGyHfRV8fWZsZ4XHzitzFn/G1C4CiR0?=
+ =?us-ascii?Q?32O6+y4sfvf3NMiNJLLHFLu6jF3Mp8b1TpETS1Jm5GJosg91VXA3/BUUnqjb?=
+ =?us-ascii?Q?XHeGi4llRAaj3718mkv3EJvd0ivXZyYFyxSFlD6W+84RnPi+baxnOkUvxwvu?=
+ =?us-ascii?Q?jJNA4M6sGi9NwZcC+d3rsRI=3D?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3d4fe634-0226-48f7-4b26-08dd0011fc19
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Nov 2024 16:25:40.1711
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uu6ShbSwIeSED/XwuUExBIdfK8Vqfryxdwk+x5J0q72Lp1HdCB4dPChpZYDLr5KXKAkYrFyVd5i+kWA9quVxARX5VZj5mi6FlqR+qJPze7U=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7396
+X-Proofpoint-GUID: Ef2l2Ebh9z6MSdhGgVNffAIgYy-rtEVa
+X-Authority-Analysis: v=2.4 cv=JoCjr94C c=1 sm=1 tr=0 ts=672e3b8d cx=c_pps a=OemXRkCljtmPz/OzEC+nkg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
+ a=9kI4mcyhrz4WstpeQEkA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: Ef2l2Ebh9z6MSdhGgVNffAIgYy-rtEVa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-08_14,2024-11-08_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501 mlxscore=0
+ mlxlogscore=748 spamscore=0 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 malwarescore=0 adultscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411080137
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 14:57:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206889
+ <openembedded-core@lists.openembedded.org>; Fri, 08 Nov 2024 16:25:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206890
 
-On Fri, Nov 8, 2024 at 3:47=E2=80=AFPM Steve Sakoman <steve@sakoman.com> wr=
-ote:
->
-> On Thu, Nov 7, 2024 at 11:16=E2=80=AFPM Martin Jansa <martin.jansa@gmail.=
-com> wrote:
-> >
-> > Backporting https://git.yoctoproject.org/pseudo/commit/pseudolog.c?id=
-=3D15b4f4ca25593f684e6517d0b809605b443d1953
-> > fixes the issue or instead of adding another .patch file we can import
-> > most of the pseudo changes from master (as they might be needed in
-> > future anyway as people will be upgrading to more recent host
-> > distros).
-> >
-> > I've queued the backports in 12 commits here:
-> > https://git.openembedded.org/openembedded-core-contrib/log/?h=3Djansa/k=
-irkstone-pseudo-sync-with-master
-> > and confirmed that pseudo-native builds again on host with gcc-14
-> > (rebuilding the image now)
->
-> If it passes your testing please submit the series and I can test on
-> the autobuilder too.
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
 
-I've already built few images and sdk with these and haven't noticed
-any difference (other than it could be built with gcc-14 on host) or
-issue, so I've sent the series (which includes this commit as well).
+In SDK, missing perl modules causes 'x86_64-pokysdk-linux-gp-display-html --help' to abort with below errors..
+  - Can't locate bignum.pm in @INC (you may need to install the feature module).
+  - Can't locate Math/BigInt.pm in @INC (you may need to install the Math::BigInt module)
 
-All builds were in ubuntu-24.10 container, but I believe that if there
-were some issues on older hosts, then it would be already discovered
-with new pseudo in scarthgap or master).
+By adding the following perl modules to RDEPENDS fixes the above errors:
+  nativesdk-perl-module-bignum
+  nativesdk-perl-module-bigint
+  nativesdk-perl-module-math-bigint
 
-Cheers,
+(patch taken to master branch with following commit id: 05f1099acbbb10b6ce33ea117d313749f7dc4a47)
 
->
-> > scarthgap is missing the most recent one for python-3.13 on host
-> > "pseudo: Fix envp bug and add posix_spawn wrapper"
->
-> I'll cherry-pick that to scarthgap.
->
-> Thanks!
->
-> Steve
->
-> > On Fri, Nov 8, 2024 at 7:18=E2=80=AFAM Martin Jansa via lists.openembed=
-ded.org
-> > <martin.jansa=3Dgmail.com@lists.openembedded.org> wrote:
-> > >
-> > > With this update it fails to build on hosts with gcc-14:
-> > >
-> > > | pseudolog.c: In function ?parse_timestamp?:
-> > > | pseudolog.c:329:13: error: implicit declaration of function
-> > > ?strptime?; did you mean ?strftime?? [-Wimplicit-function-declaration=
-]
-> > > |   329 |         s =3D strptime(string, timeformat, &stamp_tm);
-> > > |       |             ^~~~~~~~
-> > > |       |             strftime
-> > > | pseudolog.c:329:11: error: assignment to ?char *? from ?int? makes
-> > > pointer from integer without a cast [-Wint-conversion]
-> > > |   329 |         s =3D strptime(string, timeformat, &stamp_tm);
-> > > |       |           ^
-> > > | pseudolog.c:337:19: error: assignment to ?char *? from ?int? makes
-> > > pointer from integer without a cast [-Wint-conversion]
-> > > |   337 |                 s =3D strptime(string, time_formats[i], &st=
-amp_tm);
-> > > |       |                   ^
-> > > | pseudolog.c: In function ?plog_trait?:
-> > > | pseudolog.c:377:34: warning: ?calloc? sizes specified with ?sizeof?
-> > > in the earlier argument and not in the later argument
-> > > [-Wcalloc-transposed-args]
-> > > |   377 |         new_trait =3D calloc(sizeof(*new_trait), 1);
-> > > |       |                                  ^
-> > > | pseudolog.c:377:34: note: earlier argument should specify number of
-> > > elements, later size of each element
-> > > | make: *** [Makefile:130: pseudolog.o] Error 1
-> > >
-> > > It's not caused by this change itself (it just triggers pseudo-native
-> > > to be rebuilt and not reused from sstate) but can we update to even
-> > > newer SRCREV which fixes this? Will check if
-> > > https://git.yoctoproject.org/pseudo/commit/pseudolog.c?id=3D15b4f4ca2=
-5593f684e6517d0b809605b443d1953
-> > > fixes all of them.
-> > >
-> > >
-> > > On Wed, Nov 6, 2024 at 7:13=E2=80=AFPM Fabio Berton via lists.openemb=
-edded.org
-> > > <Fabio.Berton=3Dcriticaltechworks.com@lists.openembedded.org> wrote:
-> > > >
-> > > > From: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > >
-> > > > Update to pull in:
-> > > >
-> > > >     pseudo.c: Avoid patch mismatch errors for NAMELESS file entries
-> > > >
-> > > >     In rare cases we see failures, often in linux-libc-headers for =
-things like:
-> > > >
-> > > >     |   INSTALL /XXX/linux-libc-headers/6.1-r0/image/usr/include
-> > > >     | abort()ing pseudo client by server request. See https://wiki.=
-yoctoproject.org/wiki/Pseudo_Abort for more details on this.
-> > > >
-> > > >     Pseudo log:
-> > > >     path mismatch [2 links]: ino 46662476 db 'NAMELESS FILE' req '/=
-XXX/linux-libc-headers/6.1-r0/image/usr'.
-> > > >     Setup complete, sending SIGUSR1 to pid 3630890.
-> > > >
-> > > >     Whilst this doesn't easily reproduce, the issue is that multipl=
-e different processes are
-> > > >     likely working on the directory and the creation in pseudo migh=
-t not match accesses
-> > > >     made by other processes.
-> > > >
-> > > >     Ultimately, the "NAMELESS FILE" is harmless and pseudo will rec=
-oncile things
-> > > >     so rather than error out, we should ignore this case.
-> > > >
-> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > > > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> > > > (cherry picked from commit 4f30a1a74828e105cbe69677b3fbe5623f371543=
-)
-> > > > Signed-off-by: Fabio Berton <fabio.berton@criticaltechworks.com>
-> > > > ---
-> > > >  meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
-> > > >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/reci=
-pes-devtools/pseudo/pseudo_git.bb
-> > > > index 4dd9156238..6b0cb598e2 100644
-> > > > --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > > > +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-> > > > @@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk =3D " \
-> > > >      file://older-glibc-symbols.patch"
-> > > >  SRC_URI[prebuilt.sha256sum] =3D "ed9f456856e9d86359f169f46a70ad7be=
-4190d6040282b84c8d97b99072485aa"
-> > > >
-> > > > -SRCREV =3D "c9670c27ff67ab899007ce749254b16091577e55"
-> > > > +SRCREV =3D "cc1f6167cb5065daba1462056e2dce8ff72aa855"
-> > > >  S =3D "${WORKDIR}/git"
-> > > >  PV =3D "1.9.0+git${SRCPV}"
-> > > >
-> > > > --
-> > > > 2.25.1
-> > > >
-> > > > The information in this communication may contain confidential or l=
-egally privileged information. It is intended solely for the use of the ind=
-ividual or entity it addresses and others authorized to receive it. If you =
-are not an intended recipient, you are hereby notified that any disclosure,=
- copying, distribution or action in reliance on the contents of this inform=
-ation is strictly prohibited and may be unlawful. If you have received this=
- communication by error, please notify us immediately by responding to this=
- e-mail and then delete it from your system. Critical TechWorks is not liab=
-le for the proper and complete transmission of the information in this comm=
-unication nor for any delay in its receipt
-> > > >
-> > > > This e-mail is environmentally friendly, just like Critical TechWor=
-ks, which lives in a paper-free atmosphere. Therefore, please consider the =
-environment before printing it!
-> > > >
-> > > >
-> > > >
-> > >
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > > Links: You receive all messages sent to this group.
-> > > View/Reply Online (#206854): https://lists.openembedded.org/g/openemb=
-edded-core/message/206854
-> > > Mute This Topic: https://lists.openembedded.org/mt/109429860/3617156
-> > > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=
- [martin.jansa@gmail.com]
-> > > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> > >
+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+---
+ meta/recipes-devtools/binutils/binutils_2.42.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-devtools/binutils/binutils_2.42.bb b/meta/recipes-devtools/binutils/binutils_2.42.bb
+index 2cce40f1ef..8594db9bfb 100644
+--- a/meta/recipes-devtools/binutils/binutils_2.42.bb
++++ b/meta/recipes-devtools/binutils/binutils_2.42.bb
+@@ -72,5 +72,9 @@ SRC_URI:append:class-nativesdk =  " file://0003-binutils-nativesdk-Search-for-al
+ 
+ USE_ALTERNATIVES_FOR:class-nativesdk = ""
+ FILES:${PN}:append:class-nativesdk = " ${bindir}"
++RDEPENDS:gprofng:class-nativesdk = " nativesdk-perl-module-bignum \
++                                     nativesdk-perl-module-bigint \
++                                     nativesdk-perl-module-math-bigint \
++"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.43.0
+
 
