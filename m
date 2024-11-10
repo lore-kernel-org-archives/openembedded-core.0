@@ -1,76 +1,63 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 14C21D12D49
-	for <webhook@archiver.kernel.org>; Sun, 10 Nov 2024 16:34:04 +0000 (UTC)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
- by mx.groups.io with SMTP id smtpd.web11.39062.1731256436236443605
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0EB6FD12D4A
+	for <webhook@archiver.kernel.org>; Sun, 10 Nov 2024 16:41:54 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web11.39216.1731256904035674144
  for <openembedded-core@lists.openembedded.org>;
- Sun, 10 Nov 2024 08:33:56 -0800
+ Sun, 10 Nov 2024 08:41:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bgqHcO50;
- spf=pass (domain: gmail.com, ip: 209.85.167.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-53a007743e7so4545511e87.1;
-        Sun, 10 Nov 2024 08:33:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731256434; x=1731861234; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=l0saxyfqE7qBtPPpiq2Boj2K4qsfXFTpzkh8aznBNxg=;
-        b=bgqHcO501M3fj8a2VI6Ayve3Eb2T8jOYyqn7JxOXFIKS0uCmnqvnZmc8LSHkOicxbR
-         k/SvRlYwUAw7w2CQmivydhLjzpxyNaMovGLmnRobdpDQlfnOV2/bSIhtwokYNSUL52oy
-         PGYicw5A+Z9hIwF3ocUGcu6gxKmYJYYeNR7xg76UH3BvR2qKkTxfNhWLar0v93RC8YAu
-         yDSoJ9SO9rA0lRiiLxpC0FignH7/avY4TUr55YoF7zbIjzHawpNjQ9MfthLa+/uIFK7Z
-         PqRneX2YBtfGQPSfKktEGFtlqsUN3PC/8DQBCr07C0fXjhumOxoF4iDXQJACrrRJ6F8C
-         VAbg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731256434; x=1731861234;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=l0saxyfqE7qBtPPpiq2Boj2K4qsfXFTpzkh8aznBNxg=;
-        b=p87AHGge4sqeDQAVBI9Ih9sEEPPEO55Kka5pM4senSIwh0Zghsz9qfppjD5HLm0LsS
-         2LPL8iUJ8BBh42jl2ORgnMoVlG2dBbOGQP8/dM7Kro9Uw6fvaPxeq5ND5F/yP9YauaHl
-         0HzRrNgXR/525xrb4ZQeQlJj058PDxj0PM6GC+kvgAPOaRXIHD8lxzFVonwzGkfW5gVc
-         e9MRmLsWFaD8zBAsv+QNo6XXxHz6+T466ChrAyr6h9O/Pbf7gTH6eF99ttyJm1MObCMQ
-         es6fUFvUiOv6M6xigvYNTCxX5F4BXIdBkR3arfdVyrUVdQIoMnu8q3l6JG/eYjXduXRy
-         KoKQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV7672n/QZv3muQhJW3MUvQL+7Nm47ujhMQaf20qqEJ4JFz+mNTrTZqG5lB23XziPVL/5uI8KE4zvVs90KbhWaG1w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwgfHrzV2PVEyG076zeM06gq2I6YYkxZ+5b1B/qQe4WOUvmAXT1
-	mSniG5X9d4vVB0BnQ2AZ9DlAKknbTNaRkfX4hFZDwWBtEnl+rl+oNeU57d3eqCf3RQ1f4ZAm6Yu
-	QwIoAQ6XOTJ2ECAiSZRuHqGwkOW8SKA==
-X-Google-Smtp-Source: AGHT+IG3ISNeh2uzI0/tnB95AdFNynXs7W1diMRnUQXm2J/jMmbCVhV0HDUAVfvWBsmmrP2qU7FpN9cCqBqvONi6f1A=
-X-Received: by 2002:a05:6512:3f17:b0:536:53e3:fe9d with SMTP id
- 2adb3069b0e04-53d86231846mr4459833e87.18.1731256433681; Sun, 10 Nov 2024
- 08:33:53 -0800 (PST)
-MIME-Version: 1.0
-References: <20241110132848.2135721-1-f_l_k@t-online.de> <CANNYZj8XUkrp6Fc5kB=4S_q7AKiYkN+zZ4Tqd9ZEQK-4JGC5xg@mail.gmail.com>
- <1806A2E5B9CEF1AC.19665@lists.openembedded.org> <SQQQMS.OQC2MWOKNELB1@t-online.de>
-In-Reply-To: <SQQQMS.OQC2MWOKNELB1@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sun, 10 Nov 2024 17:33:42 +0100
-Message-ID: <CANNYZj_AK7rWMRkkiincd7TZwWX4+iYziAM=UG5kOmKSC9nvSg@mail.gmail.com>
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
+Received: from fwd81.aul.t-online.de (fwd81.aul.t-online.de [10.223.144.107])
+	by mailout02.t-online.de (Postfix) with SMTP id 7E8424FF;
+	Sun, 10 Nov 2024 17:41:41 +0100 (CET)
+Received: from [192.168.178.67] ([84.154.174.121]) by fwd81.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1tAB0O-0H6KaO0; Sun, 10 Nov 2024 17:41:40 +0100
+Date: Sun, 10 Nov 2024 17:43:53 +0100
+From: Markus Volk <f_l_k@t-online.de>
 Subject: Re: [RFC][oe-core][PATCH] systemd: dont allow autoselect for meson
-To: Markus Volk <f_l_k@t-online.de>
-Cc: "Alexander Kanavin via lists.openembedded.org" <alex.kanavin=gmail.com@lists.openembedded.org>, 
-	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <5HUQMS.SMNF3CYKEZ7C1@t-online.de>
+In-Reply-To: <CANNYZj_AK7rWMRkkiincd7TZwWX4+iYziAM=UG5kOmKSC9nvSg@mail.gmail.com>
+References: <20241110132848.2135721-1-f_l_k@t-online.de>
+	<CANNYZj8XUkrp6Fc5kB=4S_q7AKiYkN+zZ4Tqd9ZEQK-4JGC5xg@mail.gmail.com>
+	<1806A2E5B9CEF1AC.19665@lists.openembedded.org>
+	<SQQQMS.OQC2MWOKNELB1@t-online.de>
+	<CANNYZj_AK7rWMRkkiincd7TZwWX4+iYziAM=UG5kOmKSC9nvSg@mail.gmail.com>
+X-Mailer: geary/46.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-F+d6hYY5NBEz16QOJEZI"
+X-TOI-EXPURGATEID: 150726::1731256900-75FF947E-3010DD58/0/0 CLEAN NORMAL
+X-TOI-MSGID: 985449ea-1253-428c-86cc-c7fce1b79f9c
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 10 Nov 2024 16:34:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206926
+ <openembedded-core@lists.openembedded.org>; Sun, 10 Nov 2024 16:41:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206927
 
-On Sun, 10 Nov 2024 at 16:21, Markus Volk <f_l_k@t-online.de> wrote:
->
-> According to meson documentation:
->
->   --auto-features {enabled,disabled,auto}
->                                         Override value of all 'auto' features
->                                         (default: auto).
+--=-F+d6hYY5NBEz16QOJEZI
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Shouldn't this go to meson.bbclass then? It's useful everywhere.
+On Sun, Nov 10 2024 at 05:33:42 PM +01:00:00, Alexander Kanavin via 
+lists.openembedded.org <alex.kanavin=gmail.com@lists.openembedded.org> 
+wrote:
+> Shouldn't this go to meson.bbclass then? It's useful everywhere.
 
-Alex
+Presumably yes, but I just found out about this command-line option and 
+didn't dare to propose it for the whole system without checking the 
+impact.I have some other stuff I'd like to sort out before I can have a 
+look at. For now I only verified that systemd builds with oe-core and 
+poky for qemux86-64 with glibc and musl
+
+
+--=-F+d6hYY5NBEz16QOJEZI
+Content-Type: text/html; charset=us-ascii
+
+<div id="geary-body" dir="auto">On Sun, Nov 10 2024 at 05:33:42 PM +01:00:00, Alexander Kanavin via lists.openembedded.org &lt;alex.kanavin=gmail.com@lists.openembedded.org&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Shouldn't this go to meson.bbclass then? It's useful everywhere.</div></blockquote><span style="white-space-collapse: break-spaces;"><div><span style="white-space-collapse: break-spaces;"><br></span></div>Presumably yes, but I just </span>found out about this command-line option and didn't dare to propose it for the whole system without checking the impact.I have some other stuff I'd like to sort out before I can have a look at. For now I only verified that systemd builds with oe-core and poky for qemux86-64 with glibc and musl</div>
+--=-F+d6hYY5NBEz16QOJEZI--
+
 
