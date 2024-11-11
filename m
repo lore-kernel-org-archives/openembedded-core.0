@@ -1,204 +1,143 @@
-Return-Path: <sreejith.ravi087@gmail.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6A55D2E9CF
-	for <webhook@archiver.kernel.org>; Mon, 11 Nov 2024 09:54:08 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.web11.55904.1731318838815319765
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1D0ED2E9D1
+	for <webhook@archiver.kernel.org>; Mon, 11 Nov 2024 09:56:28 +0000 (UTC)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.45])
+ by mx.groups.io with SMTP id smtpd.web10.55887.1731318981015452797
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Nov 2024 01:53:59 -0800
+ Mon, 11 Nov 2024 01:56:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mrdDA2s5;
- spf=pass (domain: gmail.com, ip: 209.85.208.49, mailfrom: sreejith.ravi087@gmail.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-5cebbbbaeceso566646a12.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 01:53:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731318837; x=1731923637; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=K2q0bjqMRIgn3u4JxydRabMBfxgC/Qzqtebgdbo6vuk=;
-        b=mrdDA2s5HUVnpLNeyU1kKP5ITV5zU8ED5PP9hqy9Jjd3gDJvDmaY7pRPuGnqFls9lG
-         IcBVAvr5vj/zU5sBdIgknxtd/NTj+xbPuQLXo44eRUgbVB7l/Dlx1sWRJzhXHX1T15UQ
-         CpiJ2cbADXVjVg2Qt0foE0DqaJ+9XjK0t5bg0/Q/p6EHaJQMPbTU1LtGsUJHitH/eK2n
-         k0lJH9pjW+MynrhNXkEb0sPWCyZdG1mnq43BxcmnS2m8LjF4WVZx6PG79EvV32iDMiRL
-         1m1apdI/V0eQveo5ydzsqnni0WAzToTcC5KjG5NhyLjlWESY3lhNZzC7fxjdu/VfLQcr
-         nTPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731318837; x=1731923637;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=K2q0bjqMRIgn3u4JxydRabMBfxgC/Qzqtebgdbo6vuk=;
-        b=dPcRaMm9ZFHaIhHtFnDgUq+wyY+AXWa4IeZa/FvOEYfQcUKDR1DXN+dvDpQV14PMof
-         L56w1my/ybuWzWJ3QewhEme5+WsoTiNzjyNKVZ9zKlEKmf0ITvi4S3GbEnHBBuXuXOL2
-         nTWtyrWM0S6O6CSB0FxCrhKuVMDTX725AZbHxG5EarGjtguslv4RiSUV7YP4xBFl4r2k
-         DMO1I8efBWBMz9C77hfS3bD42RI8F498Z+dZVmDhDPO+W8DPs9RclDhnPK5O035GyH9k
-         HDUM+qBn2iX0VVAQtNtHQDvmgXdcRP7BHRBAWtPOLA32i8+EDgi5d3E/yvf4H+/TfOI1
-         rozA==
-X-Gm-Message-State: AOJu0YxBOFJlXImgj7Q/xU1nEOwxEcW4eE8K5+GHdbN6/8n2v1hXwkFF
-	vjnyfUGgEKLAY59s4MxM1rcji7KuXjVe013ICHDPHTDzaITobyV7QqNpTz9jVBTqzxqaLzu5RLN
-	7t9JVXRVEi6lfuyMzctYCPjmnt/E=
-X-Google-Smtp-Source: AGHT+IG9hbCpzikvomE+KZDwgdRSfO4swrNhFPouBCys+eMDoJHmt9/stsAiN8n37OJdl0uavOaLNVWgGaVRWDTMMJ8=
-X-Received: by 2002:a05:6402:13d3:b0:5ce:aed7:a67 with SMTP id
- 4fb4d7f45d1cf-5cf0a43f930mr3978741a12.6.1731318836934; Mon, 11 Nov 2024
- 01:53:56 -0800 (PST)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=iYY6LWmY;
+ spf=pass (domain: axis.com, ip: 40.107.21.45, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FlNI7lW3cSnqWRnGNo7QYTA9MfklLa5KMbmOA+4kjThhEt0XbnbfM930qbtwSEOYTNdl60DZjd0/v3DmvhST2bg6nPxtd/wXJ64yOiNixbzkLAduYEOwn/X0lNwpji6FRw32SxJ4lPqD8D0CJUfCct4BtIoFBbPjGqb3h2zvxl0XgedXL+5DNgLP5nQaCAXe7pw2EfvIiUvdB/XNYnKM65vOv2k7655vSdZSvnKDWWlmlpiiyJKImny3FR99R4zqCL5HeIwbY10ylBW3LUlqcO2MB27QYR1vTly2M70HOavAKTHO0yIiOdBUE7LPkEiIq5DyorQXV3ksplQX/8Wd3g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HYyQWoUY4x2bBoEZihT74/znnD3aXVHZup6laZW5YfU=;
+ b=e5DMGmH4P3Xeih87G2BEoa2Nz5yx2F8GMlq3kEKcnR2IYgVMK1pEPbBTKfQh14NtkrimFVjLBYBbRgFDQ76QG3lXQvV0vYJVi4amWrsDT1xHq2X/fU6EFBVEt6s2Dp951V/svVgOA5VqzAdSMVilCFxcTr/zfxcTcYNieRawL9YbM85wV5wLJPJ1Zk55v8+ubiiV1ydk8UBcHgO838pnIcN95XKpisjuAYHIVJXWXn8xNa1MuNj7EUu42CPHE1A0Yse7vbH7hKK9ZQhpbyDPNOK2p0yrHQTfRD88G209DCScMPUdK46K3TYpWHSN8eU6lL356QWAQK6jfuvKII8kZg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HYyQWoUY4x2bBoEZihT74/znnD3aXVHZup6laZW5YfU=;
+ b=iYY6LWmYadnPIojKbdQd0QW6y8fAaNboLpJba9BPUDa3n/AS8Y4jT0u3RC47FSmf6+iYtuWoxQrGmAxmoa8ur9ykm+l+TQ/fWTPiElZD1yX3eQ6G5zjTOHVpD/z/9VTcDhh5HmIAe2WeOO/ztonX+A4iDl62UXX1gaDIlrt8p20=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by PA1PR02MB10959.eurprd02.prod.outlook.com (2603:10a6:102:48d::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8137.28; Mon, 11 Nov
+ 2024 09:56:17 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::1bee:3174:a078:5af9%4]) with mapi id 15.20.8137.027; Mon, 11 Nov 2024
+ 09:56:17 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: Ola x Nilsson <Ola.x.Nilsson@axis.com>
+Subject: Patchtest?
+Thread-Topic: Patchtest?
+Thread-Index: Ads0H48/EOJfjEc9RMeKWU+kuyeVLA==
+Date: Mon, 11 Nov 2024 09:56:17 +0000
+Message-ID: 
+ <DB5PR02MB102134FA3962BC6E299ED305BEF582@DB5PR02MB10213.eurprd02.prod.outlook.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|PA1PR02MB10959:EE_
+x-ms-office365-filtering-correlation-id: ebcba13e-ce25-4a4a-35de-08dd02371626
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?gWmNdQLRyK0+CAetU1LhbFsDcjuqQTOVslROKwWQn8DTZttin8VopbvgWJxj?=
+ =?us-ascii?Q?vY3Rn7Cu2bmaXEWOCHG5lK1kXKW2GbBh9Dgep9jRc8b4RxrNj/7IGHF/rg1b?=
+ =?us-ascii?Q?yIrIXghPmf9m3vwL1NdJn0bdWsOQw79zbbLIoj+H2MJWqZCFU0WJV4JITAs5?=
+ =?us-ascii?Q?Z4PYI+h5+yaZAjkFHP5ZhI1ecZ7GqzJ4JcWSyzMNgmwladeULPfEuVBi6R8U?=
+ =?us-ascii?Q?jkoASLD/QlWN5U8IFNsuEUOjoLHOxD5GcDbEJX6BNWUFKLXZ6zvrVqUZbJrS?=
+ =?us-ascii?Q?36spJY5WgPS6k1PL0RBzAFPO2ofNG28yxiPYR8XB+0+RFr96LbT5/58siwR2?=
+ =?us-ascii?Q?MTVlgPGZrajcHm5FE2jygRNJj6gLm4ui83QLfSorxK9xM1Q4DnYjpV5Mx6AD?=
+ =?us-ascii?Q?bJVBuA/Wsrpw41hZhDtY6VQDltYDHyEbtrLriMFjUalEFdqDSElPr4dTTWIe?=
+ =?us-ascii?Q?uDiiZnbXQiu+xV/v21apbUGDWpK3pnsv/L1RhUxelQdSOq4BKJiYy/09gjw2?=
+ =?us-ascii?Q?9vZ6rOOrxDVYYIZMxgydLjc12hDwbSE1VW0/FORCiRKb4cqO9brHJ0V3JfZe?=
+ =?us-ascii?Q?mfwYx1kuWcTGBnolwupssvTzNgCdeOlyV5Gqz4DogRmh6sWYlJ6BrlgUx4IZ?=
+ =?us-ascii?Q?/+r9zawI1SU+hY16KhvZ3vayUoq3SWQmZffSbEyThQUyxHc3O+Y2s0f7un4o?=
+ =?us-ascii?Q?RvfYcL3r0sfjN3SFGroFgWQ9AcdY0t1+jK6X8XfdY/hhBmjDLoOhWpXsudhX?=
+ =?us-ascii?Q?DhkxZpDyA9cL/gMalNd8ZiwexIST9sd5qZtmNr0/7Av3+9shSFxQnGUeWDPM?=
+ =?us-ascii?Q?+UlgCXYc8ZGjTJpEvEZ+0iJcsOfnILXXPe0wCRtRYPxWFS+8lChlEq0Hr22m?=
+ =?us-ascii?Q?hWYSCjpzscrNyy+geazsBJNHJdMpVFbzvv68zrBGuE/JAw9Gd3hHQDcIVl0z?=
+ =?us-ascii?Q?gVDG5z9vNaLn9Tw1/PcrrgJdo7rJYs3xPc5sSAK+RQn5MIBXcJ7wfH1iSE0W?=
+ =?us-ascii?Q?BpeOHsdgNKu8mD9AMObHlpGGB3mryXXepdGNLAGeyA2PzAE7BuruL07W+b9I?=
+ =?us-ascii?Q?9By9GdlLarEIeeAKaZlmlvdGmDxfIvKCesD2v8um+2+QbcJCcgcUHiX7KSb0?=
+ =?us-ascii?Q?QZ1DW5dTPZVinmW4H7eWOeYvHN4gutfo0v2cjZFHhCAsbaJGOl1W1WhTZvzk?=
+ =?us-ascii?Q?cFaTzPQXpxnFiDr+lNvGQiD3s0XarkhzELaw2Ujq+YkD4lvdRayD4X0Qu6kv?=
+ =?us-ascii?Q?IeGz/NHH5yxwrA6q5nSyAAojCxXu3agHb12DNxYQgY4gwNLHj6zuBoM+U1dM?=
+ =?us-ascii?Q?/hMmLF5wKdM320Fhs8abS6trOnR0UndrFJO7SbS9UinS+gSB89MqTO/1mpEe?=
+ =?us-ascii?Q?tVzL8Yw=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?1nLu+ntiKY8q2HVIQ7eOZ7D+KXaypnKL7K8nPRoWuF4fMAdE+rtYQ8IeN7YH?=
+ =?us-ascii?Q?aBoViqeq2bxSApfXHDuSEYNSn/v/swrU08kMk5x6JlEF9/BTM0/wDdni4KIW?=
+ =?us-ascii?Q?CAVm2sQt4rPvqOkczz8VtsPBscb/gHtGtMYvm80C3moOuhGeuYNsPezIyQPS?=
+ =?us-ascii?Q?soWKHWndXTH99d5L6Hv5lm0wjBfyXtvmxcP023/dZ1Tm7yRgJGLY9dI25Kto?=
+ =?us-ascii?Q?yTquQJM1emkZ1i0B/GUZ2OyGDw4G8+MHiG65yKuLyT8GcVcnNp4HAzZBcJaf?=
+ =?us-ascii?Q?GqcOeIMACjeAIJVjzzXIfIoLbA7o8F1BsAcqd60GPmg/la/ULk9hGxjHQbRd?=
+ =?us-ascii?Q?zhHnkdfvGXlOitziAFnik7rKDFNA2C9jn1WwxOcYeaTPkD/T4bVRH6iUe5V3?=
+ =?us-ascii?Q?017qRiyChh22/FPIGdNeaeLzOh1+vm+03zcoblnDI6zuenvdkOL64PLIT/X/?=
+ =?us-ascii?Q?OKHbFHSQS6z2JeNN0F9aViqKWd3zXiu8Ft1ki810sWnpqMYAeUD3LhfdpvwO?=
+ =?us-ascii?Q?5Is77PgmIiIFM43OuShVc5ll4MV9uB6LksEtcw9t0vzxgkaSOAg/yUCqOm7k?=
+ =?us-ascii?Q?navOBh8JvpgJaR2biV1iI6OwT/sSTxCWSvtofjya5POr2OYJaM9mdpSubJWn?=
+ =?us-ascii?Q?KF0ZOEcAUkvWnJKiimBv0D461U0TUyhCvPFMmYJ7H28m8laHljL8V220dj4e?=
+ =?us-ascii?Q?kPhYEokOQZmjeXKeYugh7XIn2XUqmikt9nDeP8KAWkONnW0Ny6D8h7SwAAJU?=
+ =?us-ascii?Q?Aize5olYYbYzdvgHWaKKrtYHvyGa4AE1c7lEQ239atQGWeUzpdjbJN5qeLIK?=
+ =?us-ascii?Q?ulmnq6IiCThi8OvSqnwNTzwQY7E3h+b52QSUMmvq5H4KODub0AB2w/Z5GjEP?=
+ =?us-ascii?Q?OIGxozH4ZF0Qn94mnN38FJcncO7VbCGsiSX7mb+ccAA/94tb0NwTh5V00hTF?=
+ =?us-ascii?Q?tq9FVznVq9E7AoA5xd2zLWgOXU11F+VpxCiboaiUyt+DGJfABltuMkZN7YQm?=
+ =?us-ascii?Q?emlCzL/8KTJBj97cxiDkbvrZ2UVfAYnkunt2AKCnawVdIjeD2h4vdd/U5HhS?=
+ =?us-ascii?Q?hi4XpLk0CK69kfY0oUtzk5iUshlxlie7XTKY1nSxPg7s8Jvdw2dVRx5wi5SW?=
+ =?us-ascii?Q?fY65yhDgqOSCAjCf5Voo7oD84xGC3zyh4IxXzfE76Oh4prTVNO6fEEiEij7/?=
+ =?us-ascii?Q?GGYW39bjc65OTNqkMhhRn66dudGSD2XOQwlE1F0dXTs3xKDxCsZZobSHS6fO?=
+ =?us-ascii?Q?EdOQlrEULZP2BIK3YWpscUC0sENEvt1q87vosa/qvneTMdyTPZEsWBo835/Q?=
+ =?us-ascii?Q?lx5XHEd7T0kE0jAk3mIkse5LPMJz21mWiP1aQNw0E5sKGpH+VBP7nwwsTmdo?=
+ =?us-ascii?Q?ouPzqJyUA6ZA5GM2rLs2WNM1dfB2il6sVNcMN++8BPvazUi3L1EO9teVrtej?=
+ =?us-ascii?Q?kpvbTyIP0R1n/MlG45hZ7da+fNNY6CRR/tXTPTBhxroX/7s5W8a8PSxNcj0R?=
+ =?us-ascii?Q?LSsp2u4CcXqtSsNwn2QfwwWlCyTFK8Yut7J9WCnks+mDNWBzgkQikR41MdrN?=
+ =?us-ascii?Q?lGIVJaaqzYyN1ZCRW9o=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-References: <20241025161627.3352-1-sreejith.ravi087@gmail.com>
- <CANNYZj8+5LwPXrQ4eda4muAdOmpfvkg5oo0GXzCG+HJJh65vDQ@mail.gmail.com>
- <CAFt4JuEdi+zFkN37vvvK-PNtqshncC_8dn44gU+FcKXpde-ynA@mail.gmail.com> <CANNYZj-Q_Y4X80o_mbA=uEQ3gQbfwNB3bPcnu5-xvsOaPjKCbg@mail.gmail.com>
-In-Reply-To: <CANNYZj-Q_Y4X80o_mbA=uEQ3gQbfwNB3bPcnu5-xvsOaPjKCbg@mail.gmail.com>
-From: Sreejith Ravi <sreejith.ravi087@gmail.com>
-Date: Mon, 11 Nov 2024 09:53:44 +0000
-Message-ID: <CAFt4JuGioQWK8G72z_J6aJvKscp7zy4W2ZQPWP1_imH_keGSog@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] package_manager : Add configuration option to
- select filterbydependencies
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="00000000000044be280626a01453"
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ebcba13e-ce25-4a4a-35de-08dd02371626
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Nov 2024 09:56:17.4354
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qyS8ARo+DO2s7hSbIDakggve8C+UyeBDakU7ENw0mOgL2L9pyo9nPcA56piNPIv6
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR02MB10959
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 09:54:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206941
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 09:56:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206942
 
---00000000000044be280626a01453
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Is there some problem with Patchtest? It seems it has not reported=20
+on anything for almost three weeks. I would, e.g., have expected it=20
+to report on Ola's patch series from an hour ago as the patches are=20
+lacking the Signed-off-by trailer.
 
-Hi
+//Peter
 
-We are not changing the default behavior of Yocto but are instead using our
-own custom class to handle IPK.
-
-Since create_packages_dir is a function in rootfs.py, it would be
-beneficial to add an option allowing users to select either the deploy
-directory or oe-rootfs-repo. This would also save the copy time to
-oe-rootfs when it is not required for their projects.
-
-Currently, in create_packages_dir, the option to check whether to create
-"oe-rootfs-repo" or use a symlink from "DEPLOY_DIR_IPK" to "oe-rootfs-repo"
-is ineffective with filterbydependencies, as it is always set to True. Our
-request is to add a configuration option for this behavior; otherwise, this
-check serves no purpose when used with filterbydependencies.
-
-    if nodeps or not filterbydependencies:
-        for arch in d.getVar("ALL_MULTILIB_PACKAGE_ARCHS").split() +
-d.getVar("ALL_MULTILIB_PACKAGE_ARCHS").replace("-", "_").split():
-            target =3D os.path.join(deploydir + "/" + arch)
-            if os.path.exists(target):
-                oe.path.symlink(target, subrepo_dir + "/" + arch, True)
-        return
-
-
-This patch does not change the existing functionality. By default, it is
-set to True (consistent with default Yocto behavior), but users can adjust
-it as needed.
-
-Thanks
-Sreejith
-
-On Mon, Oct 28, 2024 at 6:52=E2=80=AFPM Alexander Kanavin <alex.kanavin@gma=
-il.com>
-wrote:
-
-> On Fri, 25 Oct 2024 at 20:19, Sreejith Ravi <sreejith.ravi087@gmail.com>
-> wrote:
-> > We aim to use released IPK files from a previous release build instead
-> of building from source. During package processing, we skip all build tas=
-ks
-> for the package and copy it to the deploy directory, adjusting the feeds
-> accordingly. With a customized opkg configuration, we can set the feeds
-> either from a remote server or the deploy directory. Since we are using t=
-he
-> released IPK files, there is no need to filter by dependencies, as this h=
-as
-> already been handled during the release of the IPK.
-> >
-> > This patch provides an additional option to use the deploy directory as
-> an IPK repository. By default, this option is disabled but can be enabled
-> if needed.
->
-> Unfortunately I am strongly against supporting this use case in
-> openembedded core, and I think many will agree. OE's main feature is
-> end to end builds from source that are also reproducible. Sstate is
-> the way to rebuild only what's needed, and you need to further explain
-> why it isn't being used instead. All code in rootfs creation assumes
-> that packages used to compose an image are produced through the
-> regular build process or come from sstate, and not imported from
-> elsewhere.
->
-> If you must do things differently then you need to implement your own
-> set of classes (perhaps subclassing what's there), and set
-> PACKAGES_CLASSES =3D "package_prebuilt_ipk" or similar.
->
-> Alex
->
-
---00000000000044be280626a01453
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hi<br><br>We are not changing the default behavior of Yoct=
-o but are instead using our own custom class to handle IPK.<br><br>Since cr=
-eate_packages_dir is a function in rootfs.py, it would be beneficial to add=
- an option allowing users to select either the deploy directory or oe-rootf=
-s-repo. This would also save the copy time to oe-rootfs when it is not requ=
-ired for their projects.<br><br>Currently, in create_packages_dir, the opti=
-on to check whether to create &quot;oe-rootfs-repo&quot; or use a symlink f=
-rom &quot;DEPLOY_DIR_IPK&quot; to &quot;oe-rootfs-repo&quot; is ineffective=
- with filterbydependencies, as it is always set to True. Our request is to =
-add a configuration option for this behavior; otherwise, this check serves =
-no purpose when used with filterbydependencies.<br><br>=C2=A0 =C2=A0 if nod=
-eps or not filterbydependencies:<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 for arch in=
- d.getVar(&quot;ALL_MULTILIB_PACKAGE_ARCHS&quot;).split() + d.getVar(&quot;=
-ALL_MULTILIB_PACKAGE_ARCHS&quot;).replace(&quot;-&quot;, &quot;_&quot;).spl=
-it():<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 target =3D os.path.join(=
-deploydir + &quot;/&quot; + arch)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 if os.path.exists(target):<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 oe.path.symlink(target, subrepo_dir + &quot;/&quot; + arch, =
-True)<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 return<br><br><br>This patch does not =
-change the existing functionality. By default, it is set to True (consisten=
-t with default Yocto behavior), but users can adjust it as needed.<br><div>=
-<br></div><div>Thanks</div><div>Sreejith</div></div><br><div class=3D"gmail=
-_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Oct 28, 2024 at 6:52=
-=E2=80=AFPM Alexander Kanavin &lt;<a href=3D"mailto:alex.kanavin@gmail.com"=
->alex.kanavin@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_=
-quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,=
-204);padding-left:1ex">On Fri, 25 Oct 2024 at 20:19, Sreejith Ravi &lt;<a h=
-ref=3D"mailto:sreejith.ravi087@gmail.com" target=3D"_blank">sreejith.ravi08=
-7@gmail.com</a>&gt; wrote:<br>
-&gt; We aim to use released IPK files from a previous release build instead=
- of building from source. During package processing, we skip all build task=
-s for the package and copy it to the deploy directory, adjusting the feeds =
-accordingly. With a customized opkg configuration, we can set the feeds eit=
-her from a remote server or the deploy directory. Since we are using the re=
-leased IPK files, there is no need to filter by dependencies, as this has a=
-lready been handled during the release of the IPK.<br>
-&gt;<br>
-&gt; This patch provides an additional option to use the deploy directory a=
-s an IPK repository. By default, this option is disabled but can be enabled=
- if needed.<br>
-<br>
-Unfortunately I am strongly against supporting this use case in<br>
-openembedded core, and I think many will agree. OE&#39;s main feature is<br=
->
-end to end builds from source that are also reproducible. Sstate is<br>
-the way to rebuild only what&#39;s needed, and you need to further explain<=
-br>
-why it isn&#39;t being used instead. All code in rootfs creation assumes<br=
->
-that packages used to compose an image are produced through the<br>
-regular build process or come from sstate, and not imported from<br>
-elsewhere.<br>
-<br>
-If you must do things differently then you need to implement your own<br>
-set of classes (perhaps subclassing what&#39;s there), and set<br>
-PACKAGES_CLASSES =3D &quot;package_prebuilt_ipk&quot; or similar.<br>
-<br>
-Alex<br>
-</blockquote></div>
-
---00000000000044be280626a01453--
 
