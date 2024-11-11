@@ -1,85 +1,91 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0CBD2E9DE
-	for <webhook@archiver.kernel.org>; Mon, 11 Nov 2024 11:27:39 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.56995.1731324455960335965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BE30D2E9E1
+	for <webhook@archiver.kernel.org>; Mon, 11 Nov 2024 12:02:19 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.57423.1731326535003182190
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Nov 2024 03:27:36 -0800
+ Mon, 11 Nov 2024 04:02:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FIDp7pTc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4315eeb2601so55748175e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 03:27:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1731324454; x=1731929254; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=r6bQ8M6sr1zw414K7zdsenEs+tiMUGl2JU79+6sK8DY=;
-        b=FIDp7pTcbw7ivtdutufx17BeWAWaj+T9aoUZGPgNlqVF8XfJbIBTFHZ6BLfPuU5m/0
-         FESV+IqlKjMVpKSobMDFNweN/DNWc/maW6NSfk8i97eTti+ixYUJImqrj87Oi0bkkZr6
-         LPToXng7a6/iQ7Xwflh7y4fH8W+XSFx61+j2w=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731324454; x=1731929254;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r6bQ8M6sr1zw414K7zdsenEs+tiMUGl2JU79+6sK8DY=;
-        b=bW3lWe9gKXgzXKdOwhc/KvvtCM21B2ysg6ql8Lok+3txaPO47b8ZeXXMnlYRPh1Yyl
-         ykrsmTYDxSJN71XkP3IWKMZDe4Dvr1OAXOp2ims7qcBCQdLQvhN7QGWghjYCkZuXFj17
-         swstW/H6/jYgmxQm1pN2wg5c5VcCTunmvBtKsuLXAN2Vbpk/N7S7pslZ/Q26w1Y/PjM5
-         ztM5gyZTYSMiKuJKpovcsm8QM1NWsny3wrtTFzV+GM5dBiRcU6rRI1yzwrUGkt7EgUt8
-         T2H12HlKsdcQ2gktHqSP1aL4ogbGX+c5P33GXU5h+82W9wwwhXEl5YKi4HQ+8Nralc4V
-         QhOw==
-X-Gm-Message-State: AOJu0YzorbMoMPDSqo4zWS4iLwXdKXbkGvzkJpyKVOP4AM0gE+WvMdf4
-	t1l4jyK9PHAHWNuoSDAHYXoS2+dF1y6ae6M6RSvjc2x3T5Hszq2/9omT3FuySs0=
-X-Google-Smtp-Source: AGHT+IGuw22F47lIKuqOTBTsXIsxA79UVWwkfG6g39ODlmZLdxRMjCuhevfZAv1JzFrQE/Yp/hUT4g==
-X-Received: by 2002:a05:600c:468b:b0:431:b264:bad9 with SMTP id 5b1f17b1804b1-432b7505af7mr135187055e9.14.1731324454337;
-        Mon, 11 Nov 2024 03:27:34 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3ee1:3752:cc0b:60ed? ([2001:8b0:aba:5f3c:3ee1:3752:cc0b:60ed])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432b05c1a13sm172261505e9.29.2024.11.11.03.27.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Nov 2024 03:27:33 -0800 (PST)
-Message-ID: <b2f8c3b3a82a79c2a8f9d464fb34a1ac0920b822.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] packagedata.py : Fix RDEPENDS Version issue
- with AUTOINC
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Sreejith Ravi <sreejith.ravi087@gmail.com>
-Cc: openembedded-core@lists.openembedded.org
-Date: Mon, 11 Nov 2024 11:27:33 +0000
-In-Reply-To: <CAFt4JuEedBeZvsi1vouzMMm+iZXTv+=nXoPVzfn7+RPgF9r6Uw@mail.gmail.com>
-References: <20241024144845.43504-1-sreejith.ravi087@gmail.com>
-	 <e5078dbc15b853f94edf433891fbfe21ff077576.camel@linuxfoundation.org>
-	 <CAFt4JuEedBeZvsi1vouzMMm+iZXTv+=nXoPVzfn7+RPgF9r6Uw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1045a495bd=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ABC0Ill025986
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 04:02:14 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42t3w79m57-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 04:02:14 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 11 Nov 2024 04:02:13 -0800
+Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Mon, 11 Nov 2024 04:02:13 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] gdk-pixbuf: enable other loaders by default
+Date: Mon, 11 Nov 2024 20:02:12 +0800
+Message-ID: <20241111120212.173440-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: I_Rz7wYrm2H99-KsBhsEKzPrfB3XggPB
+X-Proofpoint-ORIG-GUID: I_Rz7wYrm2H99-KsBhsEKzPrfB3XggPB
+X-Authority-Analysis: v=2.4 cv=WY9eaFhX c=1 sm=1 tr=0 ts=6731f246 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=t7CeM3EgAAAA:8 a=GHR8O2WEAAAA:20 a=p0WdMEafAAAA:8 a=Br9LfDWDAAAA:8 a=DREIX2yj5NiC00NT-iYA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-11_08,2024-11-08_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015
+ priorityscore=1501 malwarescore=0 impostorscore=0 adultscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 spamscore=0 bulkscore=0
+ mlxlogscore=383 lowpriorityscore=0 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2409260000
+ definitions=main-2411110100
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 11:27:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206947
+ <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 12:02:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206948
 
-On Mon, 2024-11-11 at 10:23 +0000, Sreejith Ravi wrote:
-> That was my mistake.
->=20
-> I modified RDEPENDS without using expand=3DFalse before the do_package
-> task, which caused the issue. The PKGV value is updated with AUTOINC
-> only during the do_package task. Since we modified RDEPENDS before
-> do_package, it was already set with the expanded PKGV, preventing it
-> from updating with AUTOINC.
->=20
-> Is there another way to handle AUTOINC? It seems that if the variable
-> is expanded before the do_package task, it will not reflect the
-> updated value during do_package.
+From: Changqing Li <changqing.li@windriver.com>
 
-There isn't another way, that is the way it is designed to work.
+Refer [1], upstream gdk-pixbuf disable some loaders by default from
+2.42.11, this makes some format of icons not works well after upgrade
+gdk-pixbuf, report error like:
+matchbox-deskto[501]: Error loading icon: Failed to load /usr/share/pixmaps/xinput_calibrator.xpm: Unrecognized image file format
 
-Cheers,
+Fixed the same as some other sdks and arch linux, enable
+these loaders by default, refer [2][3][4]
 
-Richard
+[1] https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/e052a112075a19fb75f1f2ff3de4c82923de13f2
+[2] https://gitlab.gnome.org/GNOME/gnome-build-meta/-/issues/846
+[3] https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/commit/3ab7810255c64ce8aa2ae3ac10250148588ab49b
+[4] https://gitlab.archlinux.org/archlinux/packaging/packages/gdk-pixbuf2/-/commit/4fa2d98a197781354b66a9710c9d596d502c961b
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+index 9f825a68ef..e48589dcd1 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+@@ -43,7 +43,7 @@ PACKAGECONFIG[jpeg] = "-Djpeg=enabled,-Djpeg=disabled,jpeg"
+ PACKAGECONFIG[tiff] = "-Dtiff=enabled,-Dtiff=disabled,tiff"
+ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ 
+-EXTRA_OEMESON = "-Dman=false"
++EXTRA_OEMESON = "-Dman=false -Dothers=enabled"
+ 
+ PACKAGES =+ "${PN}-xlib"
+ 
+-- 
+2.25.1
+
 
