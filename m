@@ -1,445 +1,269 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E3D0D42B85
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 14:01:18 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.web10.87085.1731420070090785046
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C506AD42B9C
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 15:29:58 +0000 (UTC)
+Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.76])
+ by mx.groups.io with SMTP id smtpd.web11.89588.1731425390345193452
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 06:01:10 -0800
+ Tue, 12 Nov 2024 07:29:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=RnAlLak5;
- spf=pass (domain: mvista.com, ip: 209.85.208.169, mailfrom: vanusuri@mvista.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2f7657f9f62so47042711fa.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 06:01:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1731420068; x=1732024868; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nvyTnrjniSXdSuf3yWBsp/aIeu3N2bqb9HlrBXlibhg=;
-        b=RnAlLak5wtPOZ5ZDNnT8wReZ1oX6qp8Mj88pjKjlUKmj6AAisQnJczoDhyH5K4D7Hh
-         xjfFG5HrkkbuJQl18KnYriUPQsED5cq75CZtX3dAhAlYs7x7CWs47yRNgsWEW8d/FjGx
-         pPMlFkon0nWnOXsjxt3ScpgQT4aiqFEWY3QW4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731420068; x=1732024868;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nvyTnrjniSXdSuf3yWBsp/aIeu3N2bqb9HlrBXlibhg=;
-        b=pYYkm1uu1vxECFTG1/+17kNpeQUWIvLwGWFTK3y8iV3nJpyUOQVWaW9i1qz4YUGmgl
-         243jyEz9G9eo04IJzrygwCiUnz/aYU+Tn21bh5fMKlhq82Dj+cxhiG904Wo/uSqGw5MX
-         SbPEXKjf1qZWv4FYxNWh4nnhuBuNdzunX6JvkPxPcthAY4RIDCgGBnT82SPaJV51kg84
-         ZiiMv2dUkr6wiby1H+nM+k7v8ZDHWFb8z1+Uy3EkS6VbDT0QxV7wjfrAsyxxRELPqLpI
-         pPLLzLF3e9gF+05HAYYDALcNrjLrkXsz0jg8jSacZfb9pNxQKyQu2yMNOfkBQjfjKuxB
-         tYrA==
-X-Gm-Message-State: AOJu0YxUepLfXGufFbp0UaZuUaZLsDN4+OXeurBGiJDpLjeFRYJrmpzQ
-	S2ckS9g2gK8BCsK9lzV86GWegaTEmAmcbx7fM2kF5hv5vaFyh8QBdU6ghAmRwOyfAf5ebSPSX1n
-	sr9NdO0qC/IJQPYZwc8jAh7LWxq7NFrPe5YLf3g==
-X-Google-Smtp-Source: AGHT+IGsSIXyMsIdypI5JOEyzl7yOp4x5lVNeX5N7LCFR0woQO9/LRc8zuWaxzsT0okj7jf70C25M8NZD6PF6oEr218=
-X-Received: by 2002:a2e:a888:0:b0:2fb:5014:c963 with SMTP id
- 38308e7fff4ca-2ff2026a704mr84141461fa.20.1731420066987; Tue, 12 Nov 2024
- 06:01:06 -0800 (PST)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=cPdf1AT5;
+ spf=pass (domain: siemens.com, ip: 40.107.105.76, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DgS6p/lKBXRPhnY0iS5b52Q/RkHAXp9JD6vSp1T+pMkphBvAEwDB71KXbRNTQqQ3o25097UucfuGqC5VZeap87f0q/3VrXk1DnAXPpDpTPRm77GX5xSQ/2BX0Gv1n97OfUNhn1xWTHcoAZlFavkUfzKvjwjwkk57Jl9wyZVaxAFsYpzBHaqzBc42ZI1M8NifuXEcp1VwzsfcXMfy28FdzeEYI+YtDJi5T0MoQfSmWRO3JTnp6pNp4Yfa0/Kp+iSAyLiU3J/gv83Y8xoKoff0c1vDYx6+fgvBOtEKJZdiIneGIQVteeYrwfSZtDxLnfMnVPI51W2TjC4rFALPiRxsMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=eNZIUQBsZIDEnnKSzYvZ7Qof9b6bUpBAx4gSrELDqpk=;
+ b=oWCeQLkC/FNqk9ViCgf8qjreCP7ujIWUAkelDJ8YhFml6Bt9gpfa4YEKafQqVruCBJ7bsL9UP6pc0Ao5+SHB59f09+eP82ob7j+urJULAsPt7U86ha3wtgfc1jlc+qo9CgnhELAYHeBTUExgcQyVD3scgcyYNS+5UiU18OAONLiqkAzbkG0tTVJKbSv+FgylAz3Wccfw3YQmeyyou7IyknDG97PHHfxM/PyhOscOgN+YC5qgft8/MteR57Srv5RfTzK1x9Yl9DHd+RJAGJQsdBdyG5lSjsGsY+rUSS23TPe7rgn0UPXLCWLzQYw1sZ2Q291HVGCY86Qn/8Z+l3F8Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eNZIUQBsZIDEnnKSzYvZ7Qof9b6bUpBAx4gSrELDqpk=;
+ b=cPdf1AT5EyZ18hb/MFRsydGF1QiO28WppkIN0XuIBz1Ceh5juy9jF4k6krZoyYX1seE57LPrsZL1DOlwXR6Aa8Y2QQ3hgQVmVFgB6rNZmNusOhKXQKh/7/SYOKFPycr3t8Dv+LUxLWDWbTfF6FJAHwJMLGcLVGHIe9T5Kt02BFgZFixza+ryt+Fe+Bd9dB36oVq2Z/bcUqTiAMRqRw3zT/1jdrUujafx1RzLOSXxpUsXwfgcZvH2v37zvK2rdSshO54qnKb6Ntb1utqgEUJjTboeg0LXnZpfF/eYYpPsxX5ukgQAsdR2ezpWTKAHzXx8XCPbc8KW03s+ldECCc9iLg==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by AS4PR10MB5895.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:517::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.16; Tue, 12 Nov
+ 2024 15:29:46 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.8158.013; Tue, 12 Nov 2024
+ 15:29:46 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: Steve Sakoman <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][kirkstone][PATCH v2] expat: patch CVE-2024-50602
+Thread-Topic: [OE-core][kirkstone][PATCH v2] expat: patch CVE-2024-50602
+Thread-Index: AQHbNOA6vLun9QdkpkCYd6P9robQXLKzqoQAgAAa2IA=
+Date: Tue, 12 Nov 2024 15:29:46 +0000
+Message-ID: 
+ <AS1PR10MB5697C52D7961BE12312802C8FD592@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <20241111190447.56468-1-peter.marko@siemens.com>
+ <20241112085129.11176-1-peter.marko@siemens.com>
+ <CAOSpxdZjj3tbVC8jiijEzEG6mNF2nR3C2mOKnne8LG5Gh3KrzA@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdZjj3tbVC8jiijEzEG6mNF2nR3C2mOKnne8LG5Gh3KrzA@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=4d7bdf84-c23d-4838-ae42-f9db4a64db69;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-11-12T15:28:42Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|AS4PR10MB5895:EE_
+x-ms-office365-filtering-correlation-id: f39820d8-88b5-4092-d9cb-08dd032ed6dc
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|4022899009|376014|366016|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?R251bW5sbUtHSGNwTFRlTG8xMS9OT1NlRmUvOEVZbkl2aU12R0E3Wkt4bHBm?=
+ =?utf-8?B?WldQUnFpZGRWUVJ4bnk5MGt5VkhpaUpwZk1od1ZKOUhLN3VYR2RwSXZYLzFl?=
+ =?utf-8?B?Z1BnOVhySkJOSVJBMWsvSzJrWEdpWXRlckYxYzJFMFQwVkE4ODBUZDNWdDMr?=
+ =?utf-8?B?T1p6ZXRVWENXaFlOY3hxVnBBdXprVE5ERUJHMC8rRWFvTjhDNVhnYmtSVjFG?=
+ =?utf-8?B?a3hGY0FXdDRhekRhRlprNHNMbThLZWZiUWY3OSthYVpNUGQ2UVJEZ1VrM3U5?=
+ =?utf-8?B?cEZxaWRNWURqeExMR1NOckIxTDk2d0xSUTIzYlFYNGJyT3NLdDhPZ2dBSGVw?=
+ =?utf-8?B?OG4yUDVyTGh0VXpjemw5enpudGJSanpCL3J6aHM5Z1pKak0rY1FtMkxRUGNP?=
+ =?utf-8?B?ajdvU3ZrNXl1NGJ5YWFVbXpJZUQxZFZwMlo3YjRVaE1MdkQ0anBJbWFvUjZj?=
+ =?utf-8?B?a0VBRWhUN1VJS2FDMXZFNWpBNVhXdEtlN1hZOGtQdHVMR1VlcS9CaDg0dW9v?=
+ =?utf-8?B?L1F1NXR4UmZ1WGNOQVAxMVV0Q0hEYTVCRjJDeFFBVFQvdkV3MTBBaDJIQWtV?=
+ =?utf-8?B?U1FrT28zcmE4ZFUwN2pwRTJDQjNiUGg5UWd3TDBmZU42eWJHbzMxZmZqU0pm?=
+ =?utf-8?B?SWpFRDhWNHhRRDVvemM0TEhheXdyWCt0aWY5ZmhUSG9tK01WdThSd1F0aldq?=
+ =?utf-8?B?UzMvQlJydEdJNUlNOW5oVE5wM2tlblhyQUhwdFJhUmdtM1NQeENSc052cVVP?=
+ =?utf-8?B?SXloODR2ekRzUXhGdWxFNlhvdjI1OFZmUTVuK2RuVzlDekhrWmF5V3VNU0Ex?=
+ =?utf-8?B?eVlkNXFkU0JuNkhXbFJZbUpMUVVwSmxyY09ia0RjTFhZRmFWNlUrSElxM2h4?=
+ =?utf-8?B?TUJHQXFkTG0xM0ZUN3RPNTl6dUQrbFJsZkRyTWNjWmpKUXpPb2ZaT2ljSDR1?=
+ =?utf-8?B?R3J1NWJ1a091YVJPejRQa2pBSmY0UjAvM3h1N0IxTUxRZzFaOWFnbjFQMEJj?=
+ =?utf-8?B?VjE3RXJsWUNwci9TNjRKTnllenZTRzNnSkptSTVxU3dweitQTVpndG5tL2V6?=
+ =?utf-8?B?M2o2aG5NQzJ2d01PRzNuOUJFN3hPVk8yU2FHUWRoT0NtMmxhUEJtV1VwUXlY?=
+ =?utf-8?B?SnBTNXJ5Qmt1YXNLckY3U3ROZkdsUnQ1ZkY4MHNNUzZsL1hFU25RZlFxTWlq?=
+ =?utf-8?B?bkMwVWZDU0xiNXVTR2lOcERuSllkSVY0TzhCa1NuVDNVdEZmY2hLeXo1WkE5?=
+ =?utf-8?B?VitXdzY5blNrUzhnZjZqUnF6eDd4aHpZVitmN0xrMGxMd0p0ZzRyNHhwSTBL?=
+ =?utf-8?B?TDV4STVwR3VlNFNEYjJudDZhbFZrdjdnMmZvQmE4cU9RSW9YejFkZVlqdlBX?=
+ =?utf-8?B?OW1PTnRoMFlkYnhGSEw2ZDdiaXJDR04rd3VBRC9yZlRuMkszMFVQam5DVG03?=
+ =?utf-8?B?dFFycWJNdFJxTFROM3UvdHU2eDVYaXJ1TWJNWTBXcE1Va0VpRmVGOWNzK0JC?=
+ =?utf-8?B?RlUveUYyandwM29TUHRkMzY4UlVqWmtKNmN3RGh4ZXNrSVlIYUZvZlBpaDl6?=
+ =?utf-8?B?Q0hDdjFLaDZYVG9TOGZvMWhOTURucnQxUS90c290cGx5QkxZbXAwVnoxLzkv?=
+ =?utf-8?B?aEFBakN5c1VOanBjSFNSYWNvM0Rwd252aU11ZWpheERrZWU2OWZjTnBrRk92?=
+ =?utf-8?B?aTB6MzJYSHpuWVl5YldDdTRCS1FsWTZHQTAyUUhFTHU3MXB3K0w3TzRzcmVy?=
+ =?utf-8?Q?1cI038JR/Br4QaKpSOjIZ7UHniE3ikYCSrhxFRy?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(4022899009)(376014)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?ZmhwV3VObkdIajhaeHFNbjNNbWd2UFh0ejdIRWtMWExIRUg4ZGdZVy8vN2Yr?=
+ =?utf-8?B?YW52NXpJZE9zelFDMDgwaEZ0TGw1RVVKNG1DNTJuT0c3RDFINmJxTGtyM09m?=
+ =?utf-8?B?LzN5dGt5K0V2MUNScGdsWllCcEg1NzhSOEY5VCtrOHRGRnNML1lGSFZ0OUxq?=
+ =?utf-8?B?K2plblpLUUVkWGkyVUhVS1NVVXluOUV1NlUxblRvUkdzaU9pRExPUmxZVklo?=
+ =?utf-8?B?SXFVQ3llZjdaTlZHMFpaNkNhbHBaTDYzQVdhU21FQWN3QnFQenJxZTFYNkNj?=
+ =?utf-8?B?c1NYS2cwaDZ2QWRhcTMvMzhZV1F3ZGYxa0JCanFLYnNJd0FkUmtWekxnaHZY?=
+ =?utf-8?B?TzFUM3pxMElBVERPY0hNU2JTRStwczJPMGdKaTQ1bWRGckNJTVhoZG9CcWw1?=
+ =?utf-8?B?c0s2ZDF4a0I0N0YxM2xGbU1mSWxMb0FORUR3ZWY4ZGZNd01BVXBldUFIU1Jq?=
+ =?utf-8?B?NnJaTFlPOXV1WmtvL0hnNVBFMWxKOFNLc2dLTU9OMUhGUGdlVmtMUmxrSmZi?=
+ =?utf-8?B?ejN3bk1XcE5WMjVCbjBJc1RSWkFweCs1N2tIcVk2T0dTeTM5SXN1UGZkMGNx?=
+ =?utf-8?B?TDdGeE1pMldkTDZCd1VvOGRjck56SnJFQlMxMFVzQ3NtZGtiUGc2TFVpNHF4?=
+ =?utf-8?B?NVJHRlRhc05FS1hWOVRSZjNROW84UERFQThHQTl2RWJHbXk3NlVaS3ZRMmRX?=
+ =?utf-8?B?M29Cb2Y1bk5wU1J6SjRuVXJKUnJiK1hSaEVqMCsxc00xdXVFY0xEYzA5YWlx?=
+ =?utf-8?B?REFybGFNWFloR01BcHpGTWZxWURJa3g5R21keXUxeTI1cmpJMGhhZmM0RE1R?=
+ =?utf-8?B?cCt5YWw4aUV2R0J3cXE5dHV0NXliMU0rbGJ5dVlsK2s0V1hTNENMbnYxdTNw?=
+ =?utf-8?B?SG5aV2cyOGJHM1ZMVGY1bEE1TGNQRWpndksyQ1hBdWJvWkZJY3luQnZ2amxV?=
+ =?utf-8?B?QVdKL250SHZtTkVPWWNUQjkzS2ttcXJUYnZSS21sb3JrSVR6ZFhObzBnd3Vt?=
+ =?utf-8?B?aThRNEJNRlVXRWJXL0JvMXJVK1IrM1pNZk44MFpJKy9ENWVRSzdaa2dQVFdE?=
+ =?utf-8?B?MitObnZRRzFMM3JKTEhwempwRjk3L2Rjc1VwRGFUWW5HdWZBWjJxTHlyVTdD?=
+ =?utf-8?B?eC9DSlFWdlJVVTJFOUdiLzhRMmU3SC8ydEwxdmpPRDFFMGxTRGVrN3g3UW4w?=
+ =?utf-8?B?cUdsUTQyN05aR3JXS1pHU1F2bG9DZWJZSk9WQTNiVm5JYmpLYURtS3pOUzFZ?=
+ =?utf-8?B?SGZtaWZQcWZsaFRSMHk4WGFMbXN6d1UrV2NGOU9WZU51aEFrSFJPSnJzeERB?=
+ =?utf-8?B?TTdEeHRaY0FmbjBTTkhzUjdhbmpOREp0OHhHWWRFc0hVbHM2WFJISWtJZ2tT?=
+ =?utf-8?B?U2haZEJ6Uno4blgzb0dHOUxWMzZZWHVzdTNuKzdyNXVWNTNlTGpzeEUwcVJD?=
+ =?utf-8?B?WDBVaGxibHA2dXNoNFBPNWU4WE5CWEQrVkh6SGw4YjU1V1BROCtlRTB0cmM1?=
+ =?utf-8?B?THBLdUtOZnRtRHJIQTR6aTVHRTM2UnNCVDMxalZYYnBCQzhKWUx6bnl0RVNU?=
+ =?utf-8?B?akhjdzFoOUZzU1hGeHR2SDdXNDZGZDQ2QWk1V1h2dU45RFozUFpLSys4TEdv?=
+ =?utf-8?B?cHd4V3BDWG9TYUVGWEJ6UVAzQStkSzc2dTlQc2VCcUNjYWxxNkNUVHBUS1hI?=
+ =?utf-8?B?SW45ZUtLM3VWZnNTSWdISU5KVnowcThMSHFXUUlGTDRVUVdzWjU0UDU2Nk5U?=
+ =?utf-8?B?SnJOejNZeVU5eDNlOUpIcEo4Q1p1WjhRZFhXTEl1OEV2a0puZEtqeFphU2hq?=
+ =?utf-8?B?cGszempCdlRwQ01vOGlJK2xET3ZMNkVmZnFEVVdRZDN2dWNrdDllZHhRNTVw?=
+ =?utf-8?B?SDIxZHZKQmRaQmhnVDRpb3VBbEk2TkJHTTQ5L1FOajdYQzRRcDlPeFY4LzJz?=
+ =?utf-8?B?emwvKzNlaDZub2NFVmFMeWxwSTUyZk5pckR5ZHhrU3pmY0lMbXBnNjlObldw?=
+ =?utf-8?B?UzRhQ09lWGFFWkQrcDBzZGJQK2hFQ1FQZ0RqbG1ZQU44MTh1YWhqWEFjQlVp?=
+ =?utf-8?B?azdtTFI2UEYzOGg1cjRkcjgrNUdMbTVtbHRPek9XKzNuWW1FdlRiSjBTZlla?=
+ =?utf-8?Q?0NiphtwINDLeZM5fWX1/fsB0u?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-References: <20241112133330.2828105-1-vanusuri@mvista.com> <AS1PR10MB56972FC07BDF7F76588523B5FD592@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS1PR10MB56972FC07BDF7F76588523B5FD592@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Tue, 12 Nov 2024 19:30:55 +0530
-Message-ID: <CANQUz1_E8DKDj6PkjXvP6TKUtfysCjC0V5b0fFO0f0Brx=ZHSQ@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH] curl: Fix for CVE-2024-9681
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="0000000000000ce42b0626b7a693"
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: f39820d8-88b5-4092-d9cb-08dd032ed6dc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2024 15:29:46.4556
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: itEZQw4P5MX2wQWOET7SJ/5/TKvGiYo74hbVXUNz3JfMYZ57zWNPqvCAn/BLdLPyrV1xw9taMECmVFg5wbF2OA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB5895
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 14:01:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207056
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 15:29:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207057
 
---0000000000000ce42b0626b7a693
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Thanks for letting me know.
-
-Hi Steve,
-Please ignore my patch as Peter already submitted it.
-
-Thanks & Regards,
-Vijay
-
-On Tue, Nov 12, 2024 at 7:17=E2=80=AFPM Marko, Peter <Peter.Marko@siemens.c=
-om>
-wrote:
-
-> This patch was already submitted.
-> See https://lists.openembedded.org/g/openembedded-core/message/206904
->
-> Peter
->
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-
-> > core@lists.openembedded.org> On Behalf Of Vijay Anusuri via
-> > lists.openembedded.org
-> > Sent: Tuesday, November 12, 2024 14:34
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: Vijay Anusuri <vanusuri@mvista.com>
-> > Subject: [OE-core][kirkstone][PATCH] curl: Fix for CVE-2024-9681
-> >
-> > From: Vijay Anusuri <vanusuri@mvista.com>
-> >
-> > Ref: https://curl.se/docs/CVE-2024-9681.html
-> >
-> > Upstream-Commit:
-> >
-> https://github.com/curl/curl/commit/a94973805df96269bf3f3bf0a20ccb9887313
-> > 316
-> >
-> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > ---
-> >  .../curl/curl/CVE-2024-9681.patch             | 88 +++++++++++++++++++
-> >  meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
-> >  2 files changed, 89 insertions(+)
-> >  create mode 100644 meta/recipes-support/curl/curl/CVE-2024-9681.patch
-> >
-> > diff --git a/meta/recipes-support/curl/curl/CVE-2024-9681.patch
-> > b/meta/recipes-support/curl/curl/CVE-2024-9681.patch
-> > new file mode 100644
-> > index 0000000000..1ba373a1c4
-> > --- /dev/null
-> > +++ b/meta/recipes-support/curl/curl/CVE-2024-9681.patch
-> > @@ -0,0 +1,88 @@
-> > +From a94973805df96269bf3f3bf0a20ccb9887313316 Mon Sep 17 00:00:00
-> > 2001
-> > +From: Daniel Stenberg <daniel@haxx.se>
-> > +Date: Wed, 9 Oct 2024 10:04:35 +0200
-> > +Subject: [PATCH] hsts: improve subdomain handling
-> > +
-> > +- on load, only replace existing HSTS entries if there is a full host
-> > +  match
-> > +
-> > +- on matching, prefer a full host match and secondary the longest tail
-> > +  subdomain match
-> > +
-> > +Closes #15210
-> > +
-> > +Upstream-Status: Backport
-> > [
-> https://github.com/curl/curl/commit/a94973805df96269bf3f3bf0a20ccb988731
-> > 3316]
-> > +CVE: CVE-2024-9681
-> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > +---
-> > + lib/hsts.c          | 14 ++++++++++----
-> > + tests/data/test1660 |  2 +-
-> > + 2 files changed, 11 insertions(+), 5 deletions(-)
-> > +
-> > +diff --git a/lib/hsts.c b/lib/hsts.c
-> > +index 08e15dc..06d2edf 100644
-> > +--- a/lib/hsts.c
-> > ++++ b/lib/hsts.c
-> > +@@ -247,12 +247,14 @@ CURLcode Curl_hsts_parse(struct hsts *h, const
-> char
-> > *hostname,
-> > + struct stsentry *Curl_hsts(struct hsts *h, const char *hostname,
-> > +                            bool subdomain)
-> > + {
-> > ++  struct stsentry *bestsub =3D NULL;
-> > +   if(h) {
-> > +     char buffer[MAX_HSTS_HOSTLEN + 1];
-> > +     time_t now =3D time(NULL);
-> > +     size_t hlen =3D strlen(hostname);
-> > +     struct Curl_llist_element *e;
-> > +     struct Curl_llist_element *n;
-> > ++    size_t blen =3D 0;
-> > +
-> > +     if((hlen > MAX_HSTS_HOSTLEN) || !hlen)
-> > +       return NULL;
-> > +@@ -277,15 +279,19 @@ struct stsentry *Curl_hsts(struct hsts *h, const
-> char
-> > *hostname,
-> > +         if(ntail < hlen) {
-> > +           size_t offs =3D hlen - ntail;
-> > +           if((hostname[offs-1] =3D=3D '.') &&
-> > +-             Curl_strncasecompare(&hostname[offs], sts->host, ntail))
-> > +-            return sts;
-> > ++             Curl_strncasecompare(&hostname[offs], sts->host, ntail) =
-&&
-> > ++         (ntail > blen)) {
-> > ++            /* save the tail match with the longest tail */
-> > ++            bestsub =3D sts;
-> > ++            blen =3D ntail;
-> > ++      }
-> > +         }
-> > +       }
-> > +       if(Curl_strcasecompare(hostname, sts->host))
-> > +         return sts;
-> > +     }
-> > +   }
-> > +-  return NULL; /* no match */
-> > ++  return bestsub;
-> > + }
-> > +
-> > + /*
-> > +@@ -447,7 +453,7 @@ static CURLcode hsts_add(struct hsts *h, char *lin=
-e)
-> > +     e =3D Curl_hsts(h, p, subdomain);
-> > +     if(!e)
-> > +       result =3D hsts_create(h, p, subdomain, expires);
-> > +-    else {
-> > ++    else if(Curl_strcasecompare(p, e->host)) {
-> > +       /* the same host name, use the largest expire time */
-> > +       if(expires > e->expires)
-> > +         e->expires =3D expires;
-> > +diff --git a/tests/data/test1660 b/tests/data/test1660
-> > +index cbbcf75..662026b 100644
-> > +--- a/tests/data/test1660
-> > ++++ b/tests/data/test1660
-> > +@@ -52,7 +52,7 @@ this.example [this.example]: 1548400797
-> > + Input 12: error 43
-> > + Input 13: error 43
-> > + Input 14: error 43
-> > +-3.example.com [example.com]: 1569905261 includeSubDomains
-> > ++3.example.com [3.example.com]: 1569905261 includeSubDomains
-> > + 3.example.com [example.com]: 1569905261 includeSubDomains
-> > + foo.example.com [example.com]: 1569905261 includeSubDomains
-> > + 'foo.xample.com' is not HSTS
-> > +--
-> > +2.25.1
-> > +
-> > diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-
-> > support/curl/curl_7.82.0.bb
-> > index ba3abadac9..cda42da4d3 100644
-> > --- a/meta/recipes-support/curl/curl_7.82.0.bb
-> > +++ b/meta/recipes-support/curl/curl_7.82.0.bb
-> > @@ -62,6 +62,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
-> >             file://CVE-2024-7264_2.patch \
-> >             file://CVE-2024-8096.patch \
-> >             file://0001-url-free-old-conn-better-on-reuse.patch \
-> > +           file://CVE-2024-9681.patch \
-> >             "
-> >  SRC_URI[sha256sum] =3D
-> > "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
-> >
-> > --
-> > 2.25.1
->
->
-
---0000000000000ce42b0626b7a693
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div>Thanks for letting me know. <br><br></div>H=
-i Steve,<br></div>Please ignore my patch as Peter already submitted it.<br>=
-<br></div><div>Thanks &amp; Regards,</div><div>Vijay<br></div></div><br><di=
-v class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 1=
-2, 2024 at 7:17=E2=80=AFPM Marko, Peter &lt;<a href=3D"mailto:Peter.Marko@s=
-iemens.com">Peter.Marko@siemens.com</a>&gt; wrote:<br></div><blockquote cla=
-ss=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid =
-rgb(204,204,204);padding-left:1ex">This patch was already submitted.<br>
-See <a href=3D"https://lists.openembedded.org/g/openembedded-core/message/2=
-06904" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/message/206904</a><br>
-<br>
-Peter<br>
-<br>
-&gt; -----Original Message-----<br>
-&gt; From: <a href=3D"mailto:openembedded-core@lists.openembedded.org" targ=
-et=3D"_blank">openembedded-core@lists.openembedded.org</a> &lt;openembedded=
--<br>
-&gt; <a href=3D"mailto:core@lists.openembedded.org" target=3D"_blank">core@=
-lists.openembedded.org</a>&gt; On Behalf Of Vijay Anusuri via<br>
-&gt; <a href=3D"http://lists.openembedded.org" rel=3D"noreferrer" target=3D=
-"_blank">lists.openembedded.org</a><br>
-&gt; Sent: Tuesday, November 12, 2024 14:34<br>
-&gt; To: <a href=3D"mailto:openembedded-core@lists.openembedded.org" target=
-=3D"_blank">openembedded-core@lists.openembedded.org</a><br>
-&gt; Cc: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=3D=
-"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; Subject: [OE-core][kirkstone][PATCH] curl: Fix for CVE-2024-9681<br>
-&gt; <br>
-&gt; From: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com" target=
-=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; <br>
-&gt; Ref: <a href=3D"https://curl.se/docs/CVE-2024-9681.html" rel=3D"norefe=
-rrer" target=3D"_blank">https://curl.se/docs/CVE-2024-9681.html</a><br>
-&gt; <br>
-&gt; Upstream-Commit:<br>
-&gt; <a href=3D"https://github.com/curl/curl/commit/a94973805df96269bf3f3bf=
-0a20ccb9887313" rel=3D"noreferrer" target=3D"_blank">https://github.com/cur=
-l/curl/commit/a94973805df96269bf3f3bf0a20ccb9887313</a><br>
-&gt; 316<br>
-&gt; <br>
-&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
-" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../curl/curl/CVE-2024-9681.patch=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0| 88 +++++++++++++++++++<br>
-&gt;=C2=A0 meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl_7.82.0.bb</a>=C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 1 +<br>
-&gt;=C2=A0 2 files changed, 89 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-support/curl/curl/CVE-2024-9681.=
-patch<br>
-&gt; <br>
-&gt; diff --git a/meta/recipes-support/curl/curl/CVE-2024-9681.patch<br>
-&gt; b/meta/recipes-support/curl/curl/CVE-2024-9681.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..1ba373a1c4<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-support/curl/curl/CVE-2024-9681.patch<br>
-&gt; @@ -0,0 +1,88 @@<br>
-&gt; +From a94973805df96269bf3f3bf0a20ccb9887313316 Mon Sep 17 00:00:00<br>
-&gt; 2001<br>
-&gt; +From: Daniel Stenberg &lt;<a href=3D"mailto:daniel@haxx.se" target=3D=
-"_blank">daniel@haxx.se</a>&gt;<br>
-&gt; +Date: Wed, 9 Oct 2024 10:04:35 +0200<br>
-&gt; +Subject: [PATCH] hsts: improve subdomain handling<br>
-&gt; +<br>
-&gt; +- on load, only replace existing HSTS entries if there is a full host=
-<br>
-&gt; +=C2=A0 match<br>
-&gt; +<br>
-&gt; +- on matching, prefer a full host match and secondary the longest tai=
-l<br>
-&gt; +=C2=A0 subdomain match<br>
-&gt; +<br>
-&gt; +Closes #15210<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport<br>
-&gt; [<a href=3D"https://github.com/curl/curl/commit/a94973805df96269bf3f3b=
-f0a20ccb988731" rel=3D"noreferrer" target=3D"_blank">https://github.com/cur=
-l/curl/commit/a94973805df96269bf3f3bf0a20ccb988731</a><br>
-&gt; 3316]<br>
-&gt; +CVE: CVE-2024-9681<br>
-&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
-m" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + lib/hsts.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 14 ++++++++++----<br>
-&gt; + tests/data/test1660 |=C2=A0 2 +-<br>
-&gt; + 2 files changed, 11 insertions(+), 5 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/lib/hsts.c b/lib/hsts.c<br>
-&gt; +index 08e15dc..06d2edf 100644<br>
-&gt; +--- a/lib/hsts.c<br>
-&gt; ++++ b/lib/hsts.c<br>
-&gt; +@@ -247,12 +247,14 @@ CURLcode Curl_hsts_parse(struct hsts *h, const =
-char<br>
-&gt; *hostname,<br>
-&gt; + struct stsentry *Curl_hsts(struct hsts *h, const char *hostname,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 bool subdomain)<br>
-&gt; + {<br>
-&gt; ++=C2=A0 struct stsentry *bestsub =3D NULL;<br>
-&gt; +=C2=A0 =C2=A0if(h) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0char buffer[MAX_HSTS_HOSTLEN + 1];<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0time_t now =3D time(NULL);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0size_t hlen =3D strlen(hostname);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct Curl_llist_element *e;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct Curl_llist_element *n;<br>
-&gt; ++=C2=A0 =C2=A0 size_t blen =3D 0;<br>
-&gt; +<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if((hlen &gt; MAX_HSTS_HOSTLEN) || !hlen)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0return NULL;<br>
-&gt; +@@ -277,15 +279,19 @@ struct stsentry *Curl_hsts(struct hsts *h, cons=
-t char<br>
-&gt; *hostname,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if(ntail &lt; hlen) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0size_t offs =3D hlen - ntail=
-;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if((hostname[offs-1] =3D=3D =
-&#39;.&#39;) &amp;&amp;<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Curl_strncasecompare=
-(&amp;hostname[offs], sts-&gt;host, ntail))<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return sts;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0Curl_strncasecompare=
-(&amp;hostname[offs], sts-&gt;host, ntail) &amp;&amp;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0(ntail &gt; blen)) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 /* save the tail match wit=
-h the longest tail */<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 bestsub =3D sts;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 blen =3D ntail;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if(Curl_strcasecompare(hostname, sts-&gt;h=
-ost))<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0return sts;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0}<br>
-&gt; +-=C2=A0 return NULL; /* no match */<br>
-&gt; ++=C2=A0 return bestsub;<br>
-&gt; + }<br>
-&gt; +<br>
-&gt; + /*<br>
-&gt; +@@ -447,7 +453,7 @@ static CURLcode hsts_add(struct hsts *h, char *li=
-ne)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0e =3D Curl_hsts(h, p, subdomain);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0if(!e)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0result =3D hsts_create(h, p, subdomain, ex=
-pires);<br>
-&gt; +-=C2=A0 =C2=A0 else {<br>
-&gt; ++=C2=A0 =C2=A0 else if(Curl_strcasecompare(p, e-&gt;host)) {<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0/* the same host name, use the largest exp=
-ire time */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0if(expires &gt; e-&gt;expires)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0e-&gt;expires =3D expires;<br>
-&gt; +diff --git a/tests/data/test1660 b/tests/data/test1660<br>
-&gt; +index cbbcf75..662026b 100644<br>
-&gt; +--- a/tests/data/test1660<br>
-&gt; ++++ b/tests/data/test1660<br>
-&gt; +@@ -52,7 +52,7 @@ this.example [this.example]: 1548400797<br>
-&gt; + Input 12: error 43<br>
-&gt; + Input 13: error 43<br>
-&gt; + Input 14: error 43<br>
-&gt; +-<a href=3D"http://3.example.com" rel=3D"noreferrer" target=3D"_blank=
-">3.example.com</a> [<a href=3D"http://example.com" rel=3D"noreferrer" targ=
-et=3D"_blank">example.com</a>]: 1569905261 includeSubDomains<br>
-&gt; ++<a href=3D"http://3.example.com" rel=3D"noreferrer" target=3D"_blank=
-">3.example.com</a> [<a href=3D"http://3.example.com" rel=3D"noreferrer" ta=
-rget=3D"_blank">3.example.com</a>]: 1569905261 includeSubDomains<br>
-&gt; + <a href=3D"http://3.example.com" rel=3D"noreferrer" target=3D"_blank=
-">3.example.com</a> [<a href=3D"http://example.com" rel=3D"noreferrer" targ=
-et=3D"_blank">example.com</a>]: 1569905261 includeSubDomains<br>
-&gt; + <a href=3D"http://foo.example.com" rel=3D"noreferrer" target=3D"_bla=
-nk">foo.example.com</a> [<a href=3D"http://example.com" rel=3D"noreferrer" =
-target=3D"_blank">example.com</a>]: 1569905261 includeSubDomains<br>
-&gt; + &#39;<a href=3D"http://foo.xample.com" rel=3D"noreferrer" target=3D"=
-_blank">foo.xample.com</a>&#39; is not HSTS<br>
-&gt; +--<br>
-&gt; +2.25.1<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.b=
-b" rel=3D"noreferrer" target=3D"_blank">curl_7.82.0.bb</a> b/meta/recipes-<=
-br>
-&gt; support/curl/<a href=3D"http://curl_7.82.0.bb" rel=3D"noreferrer" targ=
-et=3D"_blank">curl_7.82.0.bb</a><br>
-&gt; index ba3abadac9..cda42da4d3 100644<br>
-&gt; --- a/meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl_7.82.0.bb</a><br>
-&gt; +++ b/meta/recipes-support/curl/<a href=3D"http://curl_7.82.0.bb" rel=
-=3D"noreferrer" target=3D"_blank">curl_7.82.0.bb</a><br>
-&gt; @@ -62,6 +62,7 @@ SRC_URI =3D &quot;<a href=3D"https://curl.se/downloa=
-d/$%7BBP%7D.tar.xz" rel=3D"noreferrer" target=3D"_blank">https://curl.se/do=
-wnload/${BP}.tar.xz</a> \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2024-7264_2.=
-patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2024-8096.pa=
-tch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-url-free-ol=
-d-conn-better-on-reuse.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2024-9681.patch \=
-<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
-&gt;=C2=A0 SRC_URI[sha256sum] =3D<br>
-&gt; &quot;0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c=
-&quot;<br>
-&gt; <br>
-&gt; --<br>
-&gt; 2.25.1<br>
-<br>
-</blockquote></div>
-
---0000000000000ce42b0626b7a693--
+T29wcywgc29ycnkuDQpXaWxsIHNlbmQgYSB2MyBsYXRlciB0b2RheSwgSSBuZWVkIHRvIHJlLXJ1
+biBteSBwaXBlbGluZSB3aXRoIHRoZSBwYXRjaCBhY3R1YWxseSBhcHBsaWVkLg0KDQpQZXRlcg0K
+DQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IFN0ZXZlIFNha29tYW4gPHN0
+ZXZlQHNha29tYW4uY29tPg0KPiBTZW50OiBUdWVzZGF5LCBOb3ZlbWJlciAxMiwgMjAyNCAxNDo1
+Mw0KPiBUbzogTWFya28sIFBldGVyIChGVCBEIEVVIFNLIEJGUzEpIDxQZXRlci5NYXJrb0BzaWVt
+ZW5zLmNvbT4NCj4gQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcN
+Cj4gU3ViamVjdDogUmU6IFtPRS1jb3JlXVtraXJrc3RvbmVdW1BBVENIIHYyXSBleHBhdDogcGF0
+Y2ggQ1ZFLTIwMjQtNTA2MDINCj4gDQo+IEhpIFBldGVyLA0KPiANCj4gSSB0aGluayB5b3UgbWlz
+c2VkIGFkZGluZyB0aGUgcGF0Y2hlcyB0byB0aGUgcmVjaXBlIDotKQ0KPiANCj4gU3RldmUNCj4g
+DQo+IE9uIFR1ZSwgTm92IDEyLCAyMDI0IGF0IDEyOjUy4oCvQU0gUGV0ZXIgTWFya28gdmlhDQo+
+IGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gPHBldGVyLm1hcmtvPXNpZW1lbnMuY29tQGxpc3Rz
+Lm9wZW5lbWJlZGRlZC5vcmc+IHdyb3RlOg0KPiA+DQo+ID4gRnJvbTogUGV0ZXIgTWFya28gPHBl
+dGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiA+DQo+ID4gUGljayBjb21taXRzIGZyb20gaHR0cHM6
+Ly9naXRodWIuY29tL2xpYmV4cGF0L2xpYmV4cGF0L3B1bGwvOTE1DQo+ID4NCj4gPiBOb3QgcGlj
+a2luZyB0ZXN0IGlzIHN1Ym9wdGltYWwsIGJ1dCB0ZXN0IHN0cnVjdHVyZSB3YXMgY2hhbmdlZCBt
+ZWFud2hpbGUNCj4gPiBzbyB3ZSdkIGhhdmUgdG8gaW52ZW50IG5ldyBjb2RlLg0KPiA+IFNraXBw
+aW5nIHRlc3RzIHdhcyBhbHJlYWR5IGRvbmUgaW4gcHJldmlvdXMgZXhwYXQva2lya3N0b25lIENW
+RSBwYXRjaGVzLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1h
+cmtvQHNpZW1lbnMuY29tPg0KPiA+IC0tLQ0KPiA+IHYyOiBmaXhlZCB1cHN0cmVhbSBwYXRjaCBs
+aWsgaW4gQ1ZFLTIwMjQtNTA2MDItMDEucGF0Y2gNCj4gPg0KPiA+ICAuLi4vZXhwYXQvZXhwYXQv
+Q1ZFLTIwMjQtNTA2MDItMDEucGF0Y2ggICAgICAgfCA1NiArKysrKysrKysrKysrKysrKysrDQo+
+ID4gIC4uLi9leHBhdC9leHBhdC9DVkUtMjAyNC01MDYwMi0wMi5wYXRjaCAgICAgICB8IDM4ICsr
+KysrKysrKysrKysNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCA5NCBpbnNlcnRpb25zKCspDQo+ID4g
+IGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdC9DVkUtMjAy
+NC01MDYwMi0NCj4gMDEucGF0Y2gNCj4gPiAgY3JlYXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBl
+cy1jb3JlL2V4cGF0L2V4cGF0L0NWRS0yMDI0LTUwNjAyLQ0KPiAwMi5wYXRjaA0KPiA+DQo+ID4g
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0L0NWRS0yMDI0LTUwNjAy
+LTAxLnBhdGNoDQo+IGIvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXQvQ1ZFLTIwMjQtNTA2
+MDItMDEucGF0Y2gNCj4gPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiA+IGluZGV4IDAwMDAwMDAw
+MDAuLjE4ZGMzOTJmNjcNCj4gPiAtLS0gL2Rldi9udWxsDQo+ID4gKysrIGIvbWV0YS9yZWNpcGVz
+LWNvcmUvZXhwYXQvZXhwYXQvQ1ZFLTIwMjQtNTA2MDItMDEucGF0Y2gNCj4gPiBAQCAtMCwwICsx
+LDU2IEBADQo+ID4gK0Zyb20gNTFjNzAxOTA2OWI4NjJlODhkOTRlZDIyODY1OWU3MGJkZGQ1ZGUw
+OSBNb24gU2VwIDE3IDAwOjAwOjAwDQo+IDIwMDENCj4gPiArRnJvbTogU2ViYXN0aWFuIFBpcHBp
+bmcgPHNlYmFzdGlhbkBwaXBwaW5nLm9yZz4NCj4gPiArRGF0ZTogTW9uLCAyMSBPY3QgMjAyNCAw
+MTo0Mjo1NCArMDIwMA0KPiA+ICtTdWJqZWN0OiBbUEFUQ0ggMS8yXSBsaWI6IE1ha2UgWE1MX1N0
+b3BQYXJzZXIgcmVmdXNlIHRvIHN0b3Avc3VzcGVuZCBhbg0KPiA+ICsgdW5zdGFydGVkIHBhcnNl
+cg0KPiA+ICsNCj4gPiArQ1ZFOiBDVkUtMjAyNC01MDYwMg0KPiA+ICtVcHN0cmVhbS1TdGF0dXM6
+IEJhY2twb3J0DQo+IFtodHRwczovL2dpdGh1Yi5jb20vbGliZXhwYXQvbGliZXhwYXQvY29tbWl0
+LzUxYzcwMTkwNjliODYyZTg4ZDk0ZWQyMjg2NTkNCj4gZTcwYmRkZDVkZTA5XQ0KPiA+ICtTaWdu
+ZWQtb2ZmLWJ5OiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+ID4gKy0t
+LQ0KPiA+ICsgZXhwYXQvbGliL2V4cGF0LmggICAgfCA0ICsrKy0NCj4gPiArIGV4cGF0L2xpYi94
+bWxwYXJzZS5jIHwgNiArKysrKysNCj4gPiArIDIgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25z
+KCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gKw0KPiA+ICtkaWZmIC0tZ2l0IGEvZXhwYXQvbGliL2V4
+cGF0LmggYi9leHBhdC9saWIvZXhwYXQuaA0KPiA+ICtpbmRleCBkMGQ2MDE1YS4uM2JhNjEzMDQg
+MTAwNjQ0DQo+ID4gKy0tLSBhL2V4cGF0L2xpYi9leHBhdC5oDQo+ID4gKysrKyBiL2V4cGF0L2xp
+Yi9leHBhdC5oDQo+ID4gK0BAIC0xMjcsNyArMTI3LDkgQEAgZW51bSBYTUxfRXJyb3Igew0KPiA+
+ICsgICAvKiBBZGRlZCBpbiAyLjMuMC4gKi8NCj4gPiArICAgWE1MX0VSUk9SX05PX0JVRkZFUiwN
+Cj4gPiArICAgLyogQWRkZWQgaW4gMi40LjAuICovDQo+ID4gKy0gIFhNTF9FUlJPUl9BTVBMSUZJ
+Q0FUSU9OX0xJTUlUX0JSRUFDSA0KPiA+ICsrICBYTUxfRVJST1JfQU1QTElGSUNBVElPTl9MSU1J
+VF9CUkVBQ0gsDQo+ID4gKysgIC8qIEFkZGVkIGluIDIuNi40LiAqLw0KPiA+ICsrICBYTUxfRVJS
+T1JfTk9UX1NUQVJURUQsDQo+ID4gKyB9Ow0KPiA+ICsNCj4gPiArIGVudW0gWE1MX0NvbnRlbnRf
+VHlwZSB7DQo+ID4gK2RpZmYgLS1naXQgYS9leHBhdC9saWIveG1scGFyc2UuYyBiL2V4cGF0L2xp
+Yi94bWxwYXJzZS5jDQo+ID4gK2luZGV4IGQ5Mjg1YjIxLi5mYTAyNTM3ZiAxMDA2NDQNCj4gPiAr
+LS0tIGEvZXhwYXQvbGliL3htbHBhcnNlLmMNCj4gPiArKysrIGIvZXhwYXQvbGliL3htbHBhcnNl
+LmMNCj4gPiArQEAgLTIxODksNiArMjE4OSw5IEBAIFhNTF9TdG9wUGFyc2VyKFhNTF9QYXJzZXIg
+cGFyc2VyLCBYTUxfQm9vbA0KPiByZXN1bWFibGUpIHsNCj4gPiArICAgaWYgKHBhcnNlciA9PSBO
+VUxMKQ0KPiA+ICsgICAgIHJldHVybiBYTUxfU1RBVFVTX0VSUk9SOw0KPiA+ICsgICBzd2l0Y2gg
+KHBhcnNlci0+bV9wYXJzaW5nU3RhdHVzLnBhcnNpbmcpIHsNCj4gPiArKyAgY2FzZSBYTUxfSU5J
+VElBTElaRUQ6DQo+ID4gKysgICAgcGFyc2VyLT5tX2Vycm9yQ29kZSA9IFhNTF9FUlJPUl9OT1Rf
+U1RBUlRFRDsNCj4gPiArKyAgICByZXR1cm4gWE1MX1NUQVRVU19FUlJPUjsNCj4gPiArICAgY2Fz
+ZSBYTUxfU1VTUEVOREVEOg0KPiA+ICsgICAgIGlmIChyZXN1bWFibGUpIHsNCj4gPiArICAgICAg
+IHBhcnNlci0+bV9lcnJvckNvZGUgPSBYTUxfRVJST1JfU1VTUEVOREVEOw0KPiA+ICtAQCAtMjQ3
+NCw2ICsyNDc3LDkgQEAgWE1MX0Vycm9yU3RyaW5nKGVudW0gWE1MX0Vycm9yIGNvZGUpIHsNCj4g
+PiArICAgY2FzZSBYTUxfRVJST1JfQU1QTElGSUNBVElPTl9MSU1JVF9CUkVBQ0g6DQo+ID4gKyAg
+ICAgcmV0dXJuIFhNTF9MKA0KPiA+ICsgICAgICAgICAibGltaXQgb24gaW5wdXQgYW1wbGlmaWNh
+dGlvbiBmYWN0b3IgKGZyb20gRFREIGFuZCBlbnRpdGllcykgYnJlYWNoZWQiKTsNCj4gPiArKyAg
+LyogQWRkZWQgaW4gMi42LjQuICovDQo+ID4gKysgIGNhc2UgWE1MX0VSUk9SX05PVF9TVEFSVEVE
+Og0KPiA+ICsrICAgIHJldHVybiBYTUxfTCgicGFyc2VyIG5vdCBzdGFydGVkIik7DQo+ID4gKyAg
+IH0NCj4gPiArICAgcmV0dXJuIE5VTEw7DQo+ID4gKyB9DQo+ID4gKy0tDQo+ID4gKzIuMzAuMg0K
+PiA+ICsNCj4gPiBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXQvQ1ZF
+LTIwMjQtNTA2MDItMDIucGF0Y2gNCj4gYi9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdC9D
+VkUtMjAyNC01MDYwMi0wMi5wYXRjaA0KPiA+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+ID4gaW5k
+ZXggMDAwMDAwMDAwMC4uZTcxNGRhYWRlNQ0KPiA+IC0tLSAvZGV2L251bGwNCj4gPiArKysgYi9t
+ZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdC9DVkUtMjAyNC01MDYwMi0wMi5wYXRjaA0KPiA+
+IEBAIC0wLDAgKzEsMzggQEANCj4gPiArRnJvbSA1ZmI4OWU3YjNhZmExYzMxNGIzNDgzNGZlNzI5
+Y2QwNjNmNjVhNGQ0IE1vbiBTZXAgMTcgMDA6MDA6MDANCj4gMjAwMQ0KPiA+ICtGcm9tOiBTZWJh
+c3RpYW4gUGlwcGluZyA8c2ViYXN0aWFuQHBpcHBpbmcub3JnPg0KPiA+ICtEYXRlOiBNb24sIDIx
+IE9jdCAyMDI0IDAxOjQ2OjExICswMjAwDQo+ID4gK1N1YmplY3Q6IFtQQVRDSCAyLzJdIGxpYjog
+QmUgZXhwbGljaXQgYWJvdXQgWE1MX1BBUlNJTkcgaW4gWE1MX1N0b3BQYXJzZXINCj4gPiArDQo+
+ID4gK0NWRTogQ1ZFLTIwMjQtNTA2MDINCj4gPiArVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydA0K
+PiBbaHR0cHM6Ly9naXRodWIuY29tL2xpYmV4cGF0L2xpYmV4cGF0L2NvbW1pdC81ZmI4OWU3YjNh
+ZmExYzMxNGIzNDgzNGZlNzI5Yw0KPiBkMDYzZjY1YTRkNF0NCj4gPiArU2lnbmVkLW9mZi1ieTog
+UGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiA+ICstLS0NCj4gPiArIGV4
+cGF0L2xpYi94bWxwYXJzZS5jIHwgNSArKysrLQ0KPiA+ICsgMSBmaWxlIGNoYW5nZWQsIDQgaW5z
+ZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPiA+ICsNCj4gPiArZGlmZiAtLWdpdCBhL2V4cGF0
+L2xpYi94bWxwYXJzZS5jIGIvZXhwYXQvbGliL3htbHBhcnNlLmMNCj4gPiAraW5kZXggZmEwMjUz
+N2YuLjk4M2Y2ZGYwIDEwMDY0NA0KPiA+ICstLS0gYS9leHBhdC9saWIveG1scGFyc2UuYw0KPiA+
+ICsrKysgYi9leHBhdC9saWIveG1scGFyc2UuYw0KPiA+ICtAQCAtMjIwMiw3ICsyMjAyLDcgQEAg
+WE1MX1N0b3BQYXJzZXIoWE1MX1BhcnNlciBwYXJzZXIsIFhNTF9Cb29sDQo+IHJlc3VtYWJsZSkg
+ew0KPiA+ICsgICBjYXNlIFhNTF9GSU5JU0hFRDoNCj4gPiArICAgICBwYXJzZXItPm1fZXJyb3JD
+b2RlID0gWE1MX0VSUk9SX0ZJTklTSEVEOw0KPiA+ICsgICAgIHJldHVybiBYTUxfU1RBVFVTX0VS
+Uk9SOw0KPiA+ICstICBkZWZhdWx0Og0KPiA+ICsrICBjYXNlIFhNTF9QQVJTSU5HOg0KPiA+ICsg
+ICAgIGlmIChyZXN1bWFibGUpIHsNCj4gPiArICNpZmRlZiBYTUxfRFREDQo+ID4gKyAgICAgICBp
+ZiAocGFyc2VyLT5tX2lzUGFyYW1FbnRpdHkpIHsNCj4gPiArQEAgLTIyMTMsNiArMjIxMyw5IEBA
+IFhNTF9TdG9wUGFyc2VyKFhNTF9QYXJzZXIgcGFyc2VyLCBYTUxfQm9vbA0KPiByZXN1bWFibGUp
+IHsNCj4gPiArICAgICAgIHBhcnNlci0+bV9wYXJzaW5nU3RhdHVzLnBhcnNpbmcgPSBYTUxfU1VT
+UEVOREVEOw0KPiA+ICsgICAgIH0gZWxzZQ0KPiA+ICsgICAgICAgcGFyc2VyLT5tX3BhcnNpbmdT
+dGF0dXMucGFyc2luZyA9IFhNTF9GSU5JU0hFRDsNCj4gPiArKyAgICBicmVhazsNCj4gPiArKyAg
+ZGVmYXVsdDoNCj4gPiArKyAgICBhc3NlcnQoMCk7DQo+ID4gKyAgIH0NCj4gPiArICAgcmV0dXJu
+IFhNTF9TVEFUVVNfT0s7DQo+ID4gKyB9DQo+ID4gKy0tDQo+ID4gKzIuMzAuMg0KPiA+ICsNCj4g
+PiAtLQ0KPiA+IDIuMzAuMg0KPiA+DQo+ID4NCj4gPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0K
+PiA+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0aGlzIGdyb3VwLg0K
+PiA+IFZpZXcvUmVwbHkgT25saW5lICgjMjA2OTg3KToNCj4gaHR0cHM6Ly9saXN0cy5vcGVuZW1i
+ZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yMDY5ODcNCj4gPiBNdXRlIFRo
+aXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMDk1MzE2OTgvMzYy
+MDYwMQ0KPiA+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+ID4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVk
+Lm9yZy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViDQo+IFtzdGV2ZUBzYWtvbWFuLmNvbV0NCj4g
+PiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiA+DQo=
 
