@@ -1,79 +1,66 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 081DED41D54
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 13:34:48 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.web11.86951.1731418481892112412
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1AED0D41D79
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 13:36:18 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web11.86980.1731418569354111102
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 05:34:42 -0800
+ Tue, 12 Nov 2024 05:36:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=G1xkwtDR;
- spf=pass (domain: gmail.com, ip: 209.85.208.170, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ff3232ee75so22843871fa.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 05:34:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731418480; x=1732023280; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HvpkCr/mLDyn8zsBSunAs7VlQFfcPC1gTid62+tYb00=;
-        b=G1xkwtDRSBrWDMv/EDyr9saIDuchmnBsxlYk0tzPThPUBxMEPiusmkoofRvCrRMV6y
-         yH01sh69lPr3BvIuDv3/2b/4uxpwbJF5nI8Mcj7ewLQH4kyRG0sjNfA009Jv+91+GTzC
-         fp/L9Cxq34a1SzhakU3A4qoYU/BYtYUDWufs4eUlBlB1Ah8tEKuS1HCq27BQEaiF5qlI
-         q+76U3LDABWd2na1yq8/bFhRc9ot/9y1mYvg1Sm0B/Pqwa8oqFCCQGRBEe77UqZfVq0t
-         YpUM/gcgPJSRi0nv9YTsIUU5TGqbP1qOwUDxWPlGs2ko99N37gl0yVoS+M+6+n4YJMrO
-         ExBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731418480; x=1732023280;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HvpkCr/mLDyn8zsBSunAs7VlQFfcPC1gTid62+tYb00=;
-        b=MvdXt2y4CgY+SuqUdubKIyreVrFLPLrqNMsABSi0AYGV7P/xwWUr1IAqKHRt1Ia+Qp
-         iLEUrjd+VOV8Ua+a7/y8l5OqIF//ZAvSlMBamHEm5798pUcPOsrgTqC/UuMGx+zn4KZD
-         YU9UprkUyZKmxfVNFbABMxvoN84d6nScuypERsnOhIJGTvApfdk+u3+W0vLkR9HHHnJX
-         fyqNlYJNKTih3wBLBFi3Wr1oSNMyKWxU2rZD9hasePQ/bV73tN0PCokPkIWRxdN4wfNb
-         3sexeWzPiIKnOF8mv4IN3h3Vnn5w2GYBoLqTvpyoxzTDRR3AEiYvKaqXAAhYzoJW7VYF
-         DrYQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEG8f4bOpZpva+RcmHtOBVuWvderxRxs2cotiwpXyeenJe6uFTbG8B2DfBNo8fZGnRQhXm+Zl8X6TxeSTJbp2+rQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzS8QJx4XNxr5+FpEKE+9rwywS8hVEmZUFCDm0AnTTj2Z7Li6OC
-	rTORKhwn0g2mTJQQrPx+gk35UKSKnnvUKuOxedKJygb9H21lCJKXFxz3I9i+s7fDE7WIFuiwjkv
-	hzZa07g7LMB7gx9Mim9NsUxWm+oQ=
-X-Google-Smtp-Source: AGHT+IF9zqlbifvMEUOYxTkquVnwzlBu3gzYEF80v0PqA9RjwALgR48jEa+LjoxtaT8eYicHZcKoe7wfOMeGbokIxJQ=
-X-Received: by 2002:a2e:be85:0:b0:2fb:4603:da13 with SMTP id
- 38308e7fff4ca-2ff2028ed3dmr80552271fa.39.1731418479574; Tue, 12 Nov 2024
- 05:34:39 -0800 (PST)
-MIME-Version: 1.0
-References: <20241105153752.3610957-1-jsbronder@cold-front.org>
- <3ac4b13ff08fc83cb2e37fc7caadeb89115e7814.camel@linuxfoundation.org>
- <ZyuQwnMFmfIXDIaa@ravine.members.linode.com> <CANNYZj9Rmrpucd1mtj7jCkPa1b-GS+r5ZJtjS6-A82XjxYw0Kg@mail.gmail.com>
- <60716348d2a4c699ec70bfb4358b3e0d9f4b2fc9.camel@pengutronix.de>
-In-Reply-To: <60716348d2a4c699ec70bfb4358b3e0d9f4b2fc9.camel@pengutronix.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 12 Nov 2024 14:34:28 +0100
-Message-ID: <CANNYZj9Ld6xe2F_0J5i0fasbEAf6c1B3Od7qY3+hjq7NrmSrFA@mail.gmail.com>
-Subject: Re: [OE-core] bitbake.conf: require lz4 instead of lz4c
-To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>
-Cc: jsbronder@cold-front.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>, 
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=D+NNfrDR;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 7364220008;
+	Tue, 12 Nov 2024 13:36:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731418567;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=21FVxlii/qP+PYqR4///U1p5+hO9FbGBTJFj3iRxyXU=;
+	b=D+NNfrDRIFid10WaQ4wHwEMotMOb5q+n6ciigqBI8q/cOcgWHebK6BWXnjPBf3ytG3Thpo
+	XsNrGaEKlrrC66VrXS4vYXf4oyIcgGIf39HyNATY3Sbde0k5WAP9cxTrRoCjEmTQlPbQm/
+	0Nrf0bzxkCxa/Zoc8dtt9ONiwACC421mWSMzlPRYSXBy4iNsnYiktDqEvX3DpD0zBTznO5
+	Qz4HzOITyel1WzUceXAww1O52IAQlgaLPCywirCsNsChBRo6LwdKO9RBQtlzo/siZH73DX
+	KX0t5pt2v+W0jy6AggEaTcENkoJ8b1RE6bPLwFi6NYycg9Wz+k3L5LQi5m4Ing==
+Date: Tue, 12 Nov 2024 14:36:06 +0100
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+To: Jinfeng.Wang.CN@windriver.com
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core][PATCH 1/2]v3 tzdata&tzcode-native: upgrade 2024a ->
+ 2024b
+Message-ID: <ZzNZxr5mKWHXQ6vm@bootlin-mathieu>
+Mail-Followup-To: Jinfeng.Wang.CN@windriver.com,
 	openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <1804B3B536644BBC.30502@lists.openembedded.org>
+ <25b5bbc0-ec05-418a-bd30-6edb7dfbbf92@windriver.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <25b5bbc0-ec05-418a-bd30-6edb7dfbbf92@windriver.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 13:34:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207050
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 13:36:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207051
 
-On Tue, 12 Nov 2024 at 14:20, Enrico J=C3=B6rns <ejo@pengutronix.de> wrote:
-> Thankfully, Justin already contributed the fix to barebox upstream in the=
- meantime and as far as I
-> can see, it was quickly merged and should thus be part of the November re=
-lease.
+On Mon, Nov 11, 2024 at 10:35:30AM +0800, Wang, Jinfeng (CN) via lists.openembedded.org wrote:
+> Ping...
+> 
 
-I'd say you could resend the above patch with a barebox backport.
+Hi,
 
-Alex
+I believe these patches were already merged in master:
+
+https://git.openembedded.org/openembedded-core/commit/?id=0c8f87d5d4ec9f286b1e85d114cb9a728c1ff64b
+https://git.openembedded.org/openembedded-core/commit/?id=b84b29b1827624270cc1698feda2ee87d55c01e4
+
+Is there something missing ?
+
+-- 
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
