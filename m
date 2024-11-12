@@ -1,112 +1,132 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 635CAD32D95
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6360DD32D97
 	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 11:25:57 +0000 (UTC)
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.web10.84476.1731410754360712757
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.84868.1731410747645854230
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 03:25:55 -0800
+ Tue, 12 Nov 2024 03:25:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iW4jGpMc;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-381ee2e10dfso3215991f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 03:25:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1731410753; x=1732015553; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+EnZb57+Ng8gOcS8ktt2TwrsD5BHEEU+MNelM1wwfeM=;
-        b=iW4jGpMcwvREffvSq6myuyGs9jFfv01r/HXMJzWttF6QDPB79GTLNzTNFjLmUrOzus
-         qaIez649/MLHmcxx+SBYk8RxvzXGSPFqdzaC/vAzz6HX3eKnJsCgTMeWsE9QhnA7haBT
-         8CoTKdQG9RDDD+ew8KPmFXE6hBozFbIRaTW30=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731410753; x=1732015553;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=+EnZb57+Ng8gOcS8ktt2TwrsD5BHEEU+MNelM1wwfeM=;
-        b=fZlGFuKsv1Jh5e7GQgiVwP55xRzypuAzRKm3wqe20nj6u5vbtbp6v+XALGV9dqRkwJ
-         CjE0uWkhDWNdKtWXUBd2DeniPmuEoz+OyBwrEhM9nL4BkBK2UkB7FTsoleO+6J1ImdKd
-         Q2J6Kp9Zx8AnbURBg61U1HfqBEcd71srEVQfji5D/ZXIabBGt+XJCMpss31nne6JNytU
-         f0iqHOvMlJjj3phG1W/RvDp3Bl/7uj/ngUzMbIIXC58tc/aSS/tVyNVx0bY3dfavvF2Z
-         /EiHJ1wnnTc14qFI2HJt4oMTn68xlz0+OBH8K7ZfapHOPUQOzeJ//GWvqs2jT+1XnRjD
-         NNNA==
-X-Forwarded-Encrypted: i=1; AJvYcCUPbTpEkzAYeUgjmbSlXeu/6y6NVucM8r63YHfJNgI6byKdO0z7nOSU1fVmN1YgeD2ck8k6AUPVmD1iwfLjfa73eQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yz0CgXqFFRp9PlzZuqyNoWaje+oExknCdwBDdTN7iFiu+aEUaJs
-	a/wezgdQx8bF1h5ffc4fHEhqpps2+Q6e4MUPodEmKWuZ9XcTfx/1jDYMHh5L8NA=
-X-Google-Smtp-Source: AGHT+IEjc6Wemqu9zCaT3EQqMjRXgeCo4je0GnyRngSyi0qbHZtzzDizyjH5047BS/sFLuSQeOabeA==
-X-Received: by 2002:a5d:6c63:0:b0:37c:c842:a16e with SMTP id ffacd0b85a97d-381f1862da0mr12800671f8f.5.1731410752744;
-        Tue, 12 Nov 2024 03:25:52 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:aeea:2252:f7a4:6a05? ([2001:8b0:aba:5f3c:aeea:2252:f7a4:6a05])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97fe6csm15049602f8f.31.2024.11.12.03.25.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 03:25:52 -0800 (PST)
-Message-ID: <10810101792ffe49440847764ed2e4c620e67fe9.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/3] testimage.bbclass: capture RuntimeError
- too
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mikko.rapeli@linaro.org, openembedded-core@lists.openembedded.org
-Date: Tue, 12 Nov 2024 11:25:51 +0000
-In-Reply-To: <20241111131604.364308-3-mikko.rapeli@linaro.org>
-References: <20241111131604.364308-1-mikko.rapeli@linaro.org>
-	 <20241111131604.364308-3-mikko.rapeli@linaro.org>
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1tAp1l-0000sC-GO; Tue, 12 Nov 2024 12:25:45 +0100
+Message-ID: <5fa2e7a2b727448e000035140deb9c0d5f77be98.camel@pengutronix.de>
+Subject: Re: [OE-core] [PATCH 01/47] barebox-tools: upgrade 2024.09.0 ->
+ 2024.10.0
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: alex.kanavin@gmail.com
+Cc: openembedded-core@lists.openembedded.org, wangmy@fujitsu.com
+Date: Tue, 12 Nov 2024 12:25:45 +0100
+In-Reply-To: <CANNYZj__2eakCyxuDz1J0HUDABNXzqOyN7-4689-2A6=A3hdAQ@mail.gmail.com>
+References: <1731403483-21399-1-git-send-email-wangmy@fujitsu.com>
+	 <CANNYZj__2eakCyxuDz1J0HUDABNXzqOyN7-4689-2A6=A3hdAQ@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+User-Agent: Evolution 3.46.4-2 
 MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 11:25:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207045
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207044
 
-On Mon, 2024-11-11 at 13:16 +0000, Mikko Rapeli via lists.openembedded.org =
-wrote:
-> runqemu can fail with RuntimeError exception. Non-cought exception
-> causes cooker process leaks which bind to successive bitbake command
-> line calls and that can cause really odd errors to users, e.g. when
-> build/tmp is wiped and cooker processes expect files to be there.
+Am Dienstag, dem 12.11.2024 um 10:39 +0100 schrieb Alexander Kanavin via li=
+sts.openembedded.org:
+> On Tue, 12 Nov 2024 at 10:25, wangmy via lists.openembedded.org
+> <wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
+> >=20
+> > From: Wang Mingyu <wangmy@fujitsu.com>
+> >=20
+> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+> > ---
+> > =C2=A0.../{barebox-tools_2024.09.0.bb =3D> barebox-tools_2024.10.0.bb}=
+=C2=A0 | 2 +-
+> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> > =C2=A0rename meta/recipes-bsp/barebox/{barebox-tools_2024.09.0.bb =3D> =
+barebox-tools_2024.10.0.bb}
+> > (93%)
+> >=20
+> > diff --git a/meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb b/meta=
+/recipes-
+> > bsp/barebox/barebox-tools_2024.10.0.bb
+> > similarity index 93%
+> > rename from meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb
+> > rename to meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
+> > index 13a308b3da..386656f7ad 100644
+> > --- a/meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb
+> > +++ b/meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
+> > @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df5125d13e000=
+b9ca1f0d3364286c4192"
+> > =C2=A0DEPENDS =3D "bison-native flex-native libusb1"
+> >=20
+> > =C2=A0SRC_URI =3D "https://barebox.org/download/barebox-${PV}.tar.bz2"
+> > -SRC_URI[sha256sum] =3D "4d4ea7e232aeba2b3cb9ccf0dbf8cd8e01c65b6c615f64=
+c3bd0c4f24f23a47da"
+> > +SRC_URI[sha256sum] =3D "955b20bfa7358732d2c0c09ccfd4c1a69087b7e2c610b1=
+6dee7442d71a5af88d"
 >=20
-> Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-> ---
-> =C2=A0meta/classes-recipe/testimage.bbclass | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
+> Main barebox recipe needs to be updated at the same time.
+
+Last time I updated this, I assumed my version bump patch was not taken bec=
+ause patchtest complained
+about a missing description.
+Thus I took a look at other version bumps and decided it might be desired t=
+o have a short note on
+the main changes or a link to the changelog in the commit message.
+Is that the case? Are the changes I see in other recipes all generated by h=
+and?
+
+Another thing I noticed is that I did not get a mail from the AUH for bareb=
+ox-tools 2024.10 so far.
+(But this would update barebox-tools only, maybe for the same reason the ma=
+intainer check failed
+initially (barebox recipe not being a default provider)).
+
+> I think we need to put SRC_URI items into a shared .inc file,
+> otherwise people will easily forget about this, and update one recipe
+> but not the other.
+
+Looks like this currently is the way to ensure this, yes. Can the upgrade h=
+elper handle this
+properly? I wouldn't yet do it now to not interfere with these patches, but=
+ If I should step in,
+just let me know.
+
+
+Thanks and Regards, Enrico
+
+> Alex
 >=20
-> diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/=
-testimage.bbclass
-> index 19075ce1f3..a9b031093a 100644
-> --- a/meta/classes-recipe/testimage.bbclass
-> +++ b/meta/classes-recipe/testimage.bbclass
-> @@ -371,7 +371,7 @@ def testimage_main(d):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 complete =3D True
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if results.hasAnyFailing=
-Test():
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-run_failed_tests_post_actions(d, tc)
-> -=C2=A0=C2=A0=C2=A0 except (KeyboardInterrupt, BlockingIOError) as err:
-> +=C2=A0=C2=A0=C2=A0 except (KeyboardInterrupt, BlockingIOError, RuntimeEr=
-ror) as err:
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if isinstance(err, Keybo=
-ardInterrupt):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =
-bb.error('testimage interrupted, shutting down...')
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 else:
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#207037): https://lists.openembedded.org/g/openembedde=
+d-core/message/207037
+> Mute This Topic: https://lists.openembedded.org/mt/109531959/3616721
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=C2=
+=A0[ejo@pengutronix.de]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 >=20
 
-During review it is hard to understand what the real issue is from this
-description. I don't like the sound of processes leaking and if that is
-happening, adding another exception to this list doesn't feel correct.
-I was going to ask for a better explanation but looking at the code,
-perhaps this error handling path just needs rewriting/improving with
-more of the code in the finally, conditionally?
-
-I just want to make sure we fix the real bug here.
-
-Cheers,
-
-Richard=20
-
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
