@@ -1,132 +1,101 @@
-Return-Path: <ejo@pengutronix.de>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6360DD32D97
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 11:25:57 +0000 (UTC)
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
- by mx.groups.io with SMTP id smtpd.web11.84868.1731410747645854230
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BE09D32D98
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 11:31:47 +0000 (UTC)
+Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+ by mx.groups.io with SMTP id smtpd.web10.84584.1731411096874218014
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 03:25:48 -0800
+ Tue, 12 Nov 2024 03:31:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
-	(envelope-from <ejo@pengutronix.de>)
-	id 1tAp1l-0000sC-GO; Tue, 12 Nov 2024 12:25:45 +0100
-Message-ID: <5fa2e7a2b727448e000035140deb9c0d5f77be98.camel@pengutronix.de>
-Subject: Re: [OE-core] [PATCH 01/47] barebox-tools: upgrade 2024.09.0 ->
- 2024.10.0
-From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org, wangmy@fujitsu.com
-Date: Tue, 12 Nov 2024 12:25:45 +0100
-In-Reply-To: <CANNYZj__2eakCyxuDz1J0HUDABNXzqOyN7-4689-2A6=A3hdAQ@mail.gmail.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=aN7HcUlY;
+ spf=pass (domain: gmail.com, ip: 209.85.208.172, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2fb3da341c9so47616821fa.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 03:31:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731411095; x=1732015895; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QV20mP+16Rvpptit3rVaTbq/ZYILwCi3AAF+OCIMcxA=;
+        b=aN7HcUlYE8OOY7H4ekFh3AMclAzWXtqGyh9+iTDyjI1oR3eItoUdkTGW+s2Sul5m+d
+         3Dc1L7T8GdHD50uKfOnASY44TlsLDNLgw8nnVpSTRsAConmHYbE6Cf4aFPw27TJzRL6f
+         UrzZmlmFNl1k02lhAesQgTEFk7NRYih+yR6aGMMmCbZrn3Wud9zsCXcTAe8u8byZX46i
+         su8SToJO4NwRLtEWucKnroF5BleFtWZ/khLlI4Ak6oXr3s3jQdhB7+jlrHwKQqjprr/N
+         /AKxXkAqG0p4Ku5DSu2F0U933rlnkMhpnRR2fjkGPq/7kdXOUs1vrLrZe5T75xMgCtby
+         sIeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731411095; x=1732015895;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QV20mP+16Rvpptit3rVaTbq/ZYILwCi3AAF+OCIMcxA=;
+        b=rVNGokvVZzqR4MzuR9ygW/SOc8BfvsSq9sS725dY/YRSxt5kdEtkw04YyALueX+hsF
+         tqqu+NOrIfwm0AvgR9qJlgYq35UAXoNshW3NsXWd/S4b8TfA/IAF/fahr18ycbWIbMD9
+         qD532ceYMphhn5R+HHbx3JbFvdF2NUP42p0qdj4XNjWW/W+xJL8Kw1x59c6jyr26ns9x
+         dFzZvJm7NWmnX02Fa+Arhp3J9Bk3jGsGL4IwEuQM6NvSUAA08StECyTb44KV4XY9V9Ry
+         pooQRFzgrfcbbADNpKpH62SX1G/fQ9T8q7d/V0FWyZwi+E7Ba3gc3Qx64seLNn8kEvAx
+         xEug==
+X-Gm-Message-State: AOJu0YzBYYhAuy6IQrzhS39tBsehTakuyAgIlCr+ZiaBJ/jqJNe+oUoG
+	Gdcy618QvjuDL7dYdSD5W0wz+iS4Vx1XQcfcmTMSymNcL8d+KO8VgUyEqpQEUMXDlL7K4Y2l9C7
+	HLo8zQZxyOBQdmqpCdguotjo+36k=
+X-Google-Smtp-Source: AGHT+IH9ihcix4R4Eh+tRgnuBI0zUUzVhu7LZB7OsjK9KiT5e3fWW1mJKcZyczsLexL6Xdd31yFoA8tffIFrZuMJh7I=
+X-Received: by 2002:a05:651c:160c:b0:2fb:5a7e:504f with SMTP id
+ 38308e7fff4ca-2ff202acf05mr82476581fa.35.1731411094605; Tue, 12 Nov 2024
+ 03:31:34 -0800 (PST)
+MIME-Version: 1.0
 References: <1731403483-21399-1-git-send-email-wangmy@fujitsu.com>
-	 <CANNYZj__2eakCyxuDz1J0HUDABNXzqOyN7-4689-2A6=A3hdAQ@mail.gmail.com>
+ <CANNYZj__2eakCyxuDz1J0HUDABNXzqOyN7-4689-2A6=A3hdAQ@mail.gmail.com> <5fa2e7a2b727448e000035140deb9c0d5f77be98.camel@pengutronix.de>
+In-Reply-To: <5fa2e7a2b727448e000035140deb9c0d5f77be98.camel@pengutronix.de>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 12 Nov 2024 12:31:23 +0100
+Message-ID: <CANNYZj-s4bn-bd98DS5M+aQfia=OnBaK94TQ99biOZykPTYZgg@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 01/47] barebox-tools: upgrade 2024.09.0 -> 2024.10.0
+To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>
+Cc: openembedded-core@lists.openembedded.org, wangmy@fujitsu.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
-MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: ejo@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 11:25:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207044
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 11:31:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207046
 
-Am Dienstag, dem 12.11.2024 um 10:39 +0100 schrieb Alexander Kanavin via li=
-sts.openembedded.org:
-> On Tue, 12 Nov 2024 at 10:25, wangmy via lists.openembedded.org
-> <wangmy=3Dfujitsu.com@lists.openembedded.org> wrote:
-> >=20
-> > From: Wang Mingyu <wangmy@fujitsu.com>
-> >=20
-> > Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> > ---
-> > =C2=A0.../{barebox-tools_2024.09.0.bb =3D> barebox-tools_2024.10.0.bb}=
-=C2=A0 | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> > =C2=A0rename meta/recipes-bsp/barebox/{barebox-tools_2024.09.0.bb =3D> =
-barebox-tools_2024.10.0.bb}
-> > (93%)
-> >=20
-> > diff --git a/meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb b/meta=
-/recipes-
-> > bsp/barebox/barebox-tools_2024.10.0.bb
-> > similarity index 93%
-> > rename from meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb
-> > rename to meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
-> > index 13a308b3da..386656f7ad 100644
-> > --- a/meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb
-> > +++ b/meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
-> > @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df5125d13e000=
-b9ca1f0d3364286c4192"
-> > =C2=A0DEPENDS =3D "bison-native flex-native libusb1"
-> >=20
-> > =C2=A0SRC_URI =3D "https://barebox.org/download/barebox-${PV}.tar.bz2"
-> > -SRC_URI[sha256sum] =3D "4d4ea7e232aeba2b3cb9ccf0dbf8cd8e01c65b6c615f64=
-c3bd0c4f24f23a47da"
-> > +SRC_URI[sha256sum] =3D "955b20bfa7358732d2c0c09ccfd4c1a69087b7e2c610b1=
-6dee7442d71a5af88d"
->=20
-> Main barebox recipe needs to be updated at the same time.
+On Tue, 12 Nov 2024 at 12:25, Enrico J=C3=B6rns <ejo@pengutronix.de> wrote:
+> Last time I updated this, I assumed my version bump patch was not taken b=
+ecause patchtest complained
+> about a missing description.
+> Thus I took a look at other version bumps and decided it might be desired=
+ to have a short note on
+> the main changes or a link to the changelog in the commit message.
+> Is that the case? Are the changes I see in other recipes all generated by=
+ hand?
 
-Last time I updated this, I assumed my version bump patch was not taken bec=
-ause patchtest complained
-about a missing description.
-Thus I took a look at other version bumps and decided it might be desired t=
-o have a short note on
-the main changes or a link to the changelog in the commit message.
-Is that the case? Are the changes I see in other recipes all generated by h=
-and?
+The changelog is not required. And missing description is not a hard
+blocker; it's at the discretion of the submitter to add something.
 
-Another thing I noticed is that I did not get a mail from the AUH for bareb=
-ox-tools 2024.10 so far.
-(But this would update barebox-tools only, maybe for the same reason the ma=
-intainer check failed
-initially (barebox recipe not being a default provider)).
+> Another thing I noticed is that I did not get a mail from the AUH for bar=
+ebox-tools 2024.10 so far.
+> (But this would update barebox-tools only, maybe for the same reason the =
+maintainer check failed
+> initially (barebox recipe not being a default provider)).
 
-> I think we need to put SRC_URI items into a shared .inc file,
-> otherwise people will easily forget about this, and update one recipe
-> but not the other.
+The last AUH run got somehow stuck and was killed on timeout. I'd wait
+and see what happens in three days time.
 
-Looks like this currently is the way to ensure this, yes. Can the upgrade h=
-elper handle this
-properly? I wouldn't yet do it now to not interfere with these patches, but=
- If I should step in,
-just let me know.
+> > I think we need to put SRC_URI items into a shared .inc file,
+> > otherwise people will easily forget about this, and update one recipe
+> > but not the other.
+>
+> Looks like this currently is the way to ensure this, yes. Can the upgrade=
+ helper handle this
+> properly? I wouldn't yet do it now to not interfere with these patches, b=
+ut If I should step in,
+> just let me know.
 
+Yes. AUH detects if recipes share an include file, and if so, updates
+them in lockstep and makes a single patch.
 
-Thanks and Regards, Enrico
-
-> Alex
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207037): https://lists.openembedded.org/g/openembedde=
-d-core/message/207037
-> Mute This Topic: https://lists.openembedded.org/mt/109531959/3616721
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub=C2=
-=A0[ejo@pengutronix.de]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
-
---=20
-Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
-Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| https://www.pengutronix.de/ |
-Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
-31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
-=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
+Alex
 
