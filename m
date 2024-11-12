@@ -1,115 +1,95 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <awais.belal@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8FCED597BC
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 23:25:10 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.100761.1731453903750461190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02AABD597B7
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 23:49:11 +0000 (UTC)
+Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
+ by mx.groups.io with SMTP id smtpd.web11.101679.1731455345989217422
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 15:25:04 -0800
+ Tue, 12 Nov 2024 15:49:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J/pBHLZp;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43169902057so51084235e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 15:25:03 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jHXecEXW;
+ spf=pass (domain: gmail.com, ip: 209.85.208.53, mailfrom: awais.belal@gmail.com)
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5cb15b84544so8953189a12.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 15:49:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1731453902; x=1732058702; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TaTQDxa1jjvL3zTywbwyeDK4hePzGSSihFwyYb78zG0=;
-        b=J/pBHLZpvMDpQ7fEMnXS5LCiHYeUFpfra2TP5ayv8hPhWvdMVIDO+EamPE6f5EBpg3
-         bI7y+GsUyvyXEpm7Xq327Kydrj5M6fecT9lptCFxArUvk8DLOjsCUTUGiPovmgirdMPH
-         0kA388wOx3JMNkMqiuDgRGRWwenbDx6FO+Kg0=
+        d=gmail.com; s=20230601; t=1731455344; x=1732060144; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XAKR51bp5fRq1Kyl7vm1B79lNHQTt/VuiJqnfiVmn2w=;
+        b=jHXecEXWnGQ+OIoLNLPdtkIzuDNPzqSWGWhRcS73AtRYz0Bcj6HNtG3aYc07mdOPZ8
+         km4tcS2O6eqyLzGYnUl7jUUQpmrTESITU5Mhgf7a+Fb1z4MWbJvjMfarvd6VteTmSPCJ
+         6cJ91ECaPVI1Kt8YN8wThcR7cSo89jZD5fDZR5jM6DQswWqnvf73Hscho93Po9066SsB
+         PY7iu652fQUL8F140MEGupaZq4YsVrQLXc3U+Ns7DnEzL7Mlrc5d3bL1QRwx/Ebm6wpO
+         aFANdUdD5wIXnA8VMVCiiKKtIbwX2TxWZEUz/pE/G4SJ/4wUGsI0vXx3CS8jKz8u4rOp
+         NTqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731453902; x=1732058702;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=TaTQDxa1jjvL3zTywbwyeDK4hePzGSSihFwyYb78zG0=;
-        b=ouEAtWDYKnUs+Ha2MWN0HXZSb99w6HG8dlbqlqm8VZbDdKgmMKUE6YXbWDhqnDPkYo
-         5NhO0w8SE24vdtFlCbnu6gIiicMgYIud1DoUN0m8VVOJ7BByQRtfsESLPgoYQZzKYzCt
-         CoeNzn0l+fkfO//JT+4Z292V3epURrR3X0pgf3fvh7Rg5YBDW9bSG/vNnxqqsF5xU53R
-         pA9v6yAi/RWMr/v/32TFTzvJ6B0EZRxNkJyKsMZlkT7I2PhdmBxX3yT+rG4Jxmp0avtL
-         xmknj3BJFrCJyCtIAXU4S+XoAA6MufoIIQZk/hy7v55vplQ+jkSnVTNHPuM7/xqTXJcr
-         Fi9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX67d++nRp0uy34GpJCnwfpFX+eG4YAfOPOF81oL5UU9ydFRt+5HevaTx5UbsRDqo8uAWxwj/7/67eWGe3nkJJnbA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yzf1j+3m+CbRI9hMow/m373arjhTXBjiLbnYOwceyVEwF1wiOtl
-	yFELt2izubs0s+v9otXJU69fIUkgCMrS6L4kXenK97+k9xo1CXh4y2BbnmQ7OYY=
-X-Google-Smtp-Source: AGHT+IGvt0klRcqVYmyeNOkMroTfl33CwrGwT7PTwqqOocBB2ABHOEftaDxw2IfQy/pOcS0NUdpMYw==
-X-Received: by 2002:a05:600c:1d10:b0:432:c774:2e2b with SMTP id 5b1f17b1804b1-432cd47da06mr32743375e9.32.1731453902091;
-        Tue, 12 Nov 2024 15:25:02 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a6be:fa93:c5eb:7a4c? ([2001:8b0:aba:5f3c:a6be:fa93:c5eb:7a4c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d5541824sm2596695e9.31.2024.11.12.15.25.00
+        d=1e100.net; s=20230601; t=1731455344; x=1732060144;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XAKR51bp5fRq1Kyl7vm1B79lNHQTt/VuiJqnfiVmn2w=;
+        b=cLXSxdXqWFdMFJl8aHnVvHMNqRYVy4ap096kPPxmNLyUIy4jjt2u9NCFSfurBh1QHQ
+         lq0yIOe02lbczl1KeK1rYzd8CgYMWM+CoXUCGaqDx8dpxNLkljDS10297QbM4mOkwfJX
+         VERZVukvKIhxYM5DqUerbs8rPjlJ2yF5g4jn36idi+itN1XmMJLIDeQBcJ+alZw3lbjJ
+         b1kchszjDuudGqnSkweazM57K/Yr1MvtZUiuOPBsQYe7sagZctct0acQFDKCUkeAqR+g
+         AP7kBRLIzdSttGD37nlMGykuE/Ix4aBXB1Fc2eIOK5WSaENLy0JBB3Y9N3ek4X96LKGu
+         M3gg==
+X-Gm-Message-State: AOJu0YyA+NghNU+nE1O8CeL5MIANc1Ja+dqJkPiUwy1nklgoi26ww+zs
+	T+PqEAgN9hVBzZ+LNni/PqHrrythzsoWx3QM1oY6dEFqcC5StHOr6uCoGikd
+X-Google-Smtp-Source: AGHT+IGPtDyb7n0TDIccRfmq7dSwBQy1J1ZQ/LEpUG9EiD36FBFsY+zatCLyzdZM3N1iXieiuni5nQ==
+X-Received: by 2002:a05:6402:5215:b0:5cf:255e:15a9 with SMTP id 4fb4d7f45d1cf-5cf255e1878mr10834227a12.27.1731455343627;
+        Tue, 12 Nov 2024 15:49:03 -0800 (PST)
+Received: from elitebook.. (ec2-176-34-88-141.eu-west-1.compute.amazonaws.com. [176.34.88.141])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5cf08ca5bdesm5770935a12.11.2024.11.12.15.49.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 15:25:01 -0800 (PST)
-Message-ID: <3323f398b89cd4f4ce522350164dd1ee51c48618.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 8/8] core-image-weston: use
- virtual-x-terminal-emulator instead of matchbox-terminal
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-Date: Tue, 12 Nov 2024 23:25:00 +0000
-In-Reply-To: <18072EC876211D71.19665@lists.openembedded.org>
-References: <20241108170156.2057761-1-ross.burton@arm.com>
-		 <20241108170156.2057761-8-ross.burton@arm.com>
-	 <18072EC876211D71.19665@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        Tue, 12 Nov 2024 15:49:02 -0800 (PST)
+From: Awais B <awais.belal@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Awais B <awais.belal@gmail.com>
+Subject: [PATCH] quilt: fix dependency on ptest-runner
+Date: Wed, 13 Nov 2024 04:48:56 +0500
+Message-Id: <20241112234856.2780842-1-awais.belal@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 23:25:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207070
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 23:49:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207071
 
-On Tue, 2024-11-12 at 09:33 +0000, Richard Purdie via
-lists.openembedded.org wrote:
-> On Fri, 2024-11-08 at 17:01 +0000, Ross Burton via
-> lists.openembedded.org wrote:
-> > Don't hardcode matchbox-terminal, but use the alternative.
-> >=20
-> > Signed-off-by: Ross Burton <ross.burton@arm.com>
-> > ---
-> > =C2=A0meta/recipes-graphics/images/core-image-weston.bb | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/meta/recipes-graphics/images/core-image-weston.bb
-> > b/meta/recipes-graphics/images/core-image-weston.bb
-> > index 62305cc1cee..d5248cf480b 100644
-> > --- a/meta/recipes-graphics/images/core-image-weston.bb
-> > +++ b/meta/recipes-graphics/images/core-image-weston.bb
-> > @@ -7,6 +7,6 @@ LICENSE =3D "MIT"
-> > =C2=A0inherit core-image
-> > =C2=A0
-> > =C2=A0CORE_IMAGE_BASE_INSTALL +=3D "gtk+3-demo"
-> > -CORE_IMAGE_BASE_INSTALL +=3D
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland
-> > matchbox-terminal', '', d)}"
-> > +CORE_IMAGE_BASE_INSTALL +=3D
-> > "${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'weston-xwayland
-> > virtual-x-terminal-emulator', '', d)}"
-> > =C2=A0
-> > =C2=A0QB_MEM =3D "-m 512"
-> >=20
->=20
-> This breaks one of the selftests:
->=20
-> https://valkyrie.yoctoproject.org/#/builders/54/builds/382/steps/14/logs/=
-stdio
->=20
-> ERROR: core-image-weston-1.0-r0 do_rootfs: Package rxvt-unicode
-> cannot be installed into the image because it has incompatible
-> license(s): GPL-3.0-only
+Specifically when using useradd-staticids this fails without
+creating a ptest user entry.
 
-Even with this patch dropped, the series still fails in the no-x11
-build:
+ERROR: Nothing PROVIDES 'ptest-runner' ptest-runner was skipped: Recipe ptest-runner, package ptest-runner: system username "ptest" does not have a static ID defined. Add ptest to one of these files: .../passwd
+...
+...
+Missing or unbuildable dependency chain was: ['my-image-sdk', 'packagegroup-core-sdk', 'quilt', 'ptest-runner']
 
-https://valkyrie.yoctoproject.org/#/builders/25/builds/411/steps/11/logs/st=
-dio
+This is seen when ptest is not even enabled. We fix this by
+making a conditional dependency on the ptest-runner.
 
-Cheers,
+Signed-off-by: Awais B <awais.belal@gmail.com>
+---
+ meta/recipes-devtools/quilt/quilt.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Richard
+diff --git a/meta/recipes-devtools/quilt/quilt.inc b/meta/recipes-devtools/quilt/quilt.inc
+index 19aeae510d..4bae5c6c19 100644
+--- a/meta/recipes-devtools/quilt/quilt.inc
++++ b/meta/recipes-devtools/quilt/quilt.inc
+@@ -61,7 +61,7 @@ do_install:append:class-native () {
+ 
+ # The tests need to run as a non-root user, so pull in the ptest user
+ DEPENDS:append:class-target = "${@bb.utils.contains('PTEST_ENABLED', '1', ' ptest-runner', '', d)}"
+-PACKAGE_WRITE_DEPS += "ptest-runner"
++PACKAGE_WRITE_DEPS += "${@bb.utils.contains('PTEST_ENABLED', '1', 'ptest-runner', '', d)}"
+ 
+ do_install_ptest() {
+ 	install ${UNPACKDIR}/test.sh ${D}${PTEST_PATH}
+-- 
+2.34.1
+
 
