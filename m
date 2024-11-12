@@ -1,183 +1,192 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <gael.portay+rtone@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59147D42BB8
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 17:44:09 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web10.92576.1731433447032433978
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5C92D42BBF
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 19:22:29 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.web10.94960.1731439342021094063
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 09:44:08 -0800
+ Tue, 12 Nov 2024 11:22:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=V7FisHqO;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202411121744030f5d1b6c02df6135aa-hglp1i@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202411121744030f5d1b6c02df6135aa
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 12 Nov 2024 18:44:04 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=UEmhhs9mZXTouwIqSdixD4h4sDYOgGZopWeAYYzvXv8=;
- b=V7FisHqONFrkbS1VZDDzoLjmfMrlrFvd09AGkvpM+9O4NjxUEdOjphDuU783UqYJpIERg3
- n6jWMHpMX8kYCzAtbtAiIER2aiSgkFAoJ8FV2zQsNPVZzkZvjCZwz+eLKQlpNc9mAztTDHQz
- gwTbdBdUGwG/s0oJ4KQ/m0L3zUx8azmGN1qzcUt3YEgbMjhRLN819x6ZAKnMprpY18VHrXPK
- x4qledcB1iVN1nZajWEk2q/XGOMa1aP6L08y1yBxnkkb3GRpi64CgYJBif+lb6bmnCfeBjfW
- WWgsz1q67HhxmDLOEQjEuTMzOmV/X+28OQhc9jlOwoBYbD6SXQQtaqnQ==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=IDFPWnn+;
+ spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: gael.portay+rtone@gmail.com)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4315b957ae8so1235245e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 11:22:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731439339; x=1732044139; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=pTpegVbmfMNFPCAokBFl7m9Uf0EjYJIsWtJ1g4M+4Aw=;
+        b=IDFPWnn+92yKP0ZsxScZa/7/oLifpbhc882Yd2yg2iBIqC/k9h3W+Ex01lHuDP6xEY
+         2VoVnCB1I06qicGsFYJ2xFqLwxj2e9/3u8s8aqogaYMStfJ24k/LhK9SnynJ3/ckT2bH
+         0pFbI813/x7AcBUcilhlKwgIxYTstC7jB1LJHz/FY6lgVze9los5/FvP9wmRSvMUc/JN
+         zF+pBH6poSNdwX+O9z7+AH1W6rMnaW6xA7gsGA1HYHrIVUmrSiMy8p+m6KtvjYduVNDh
+         18zHx6P1R+SUiOmxlg6O97cAXnN1CCwNaGWaSVVesxIfhf/ODBqbJ546P8WwXpFL29yE
+         Styg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731439339; x=1732044139;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=pTpegVbmfMNFPCAokBFl7m9Uf0EjYJIsWtJ1g4M+4Aw=;
+        b=OFcBA4+fCvvVLuBtKdnDUmIGgp0InrVrw8ZiZllWkulLLR45+6nDsxDNGFQplqaHYF
+         aVx1HXZujshsfbokoEqeXpV44DhFXwt0zXcBLW9f4lAvgeUPMsRea3VSU7vIZ3pspZnb
+         nbHU/vGJ10+P8kLdpHzk5jK3WzluI/UFx/bs1nMmLj1mLgRkEYl+laPEy+g6sxLRXYW3
+         53P+hn/VVpXA7p28FP/D9EqXvLR1f5pfWf/4/bRQj7FjY1VH/iaHpOucIVYAz4EB3XpA
+         XarH/sY2VWsU+u1xMgjnQM+YaazZXwyLXIvFIgvwdtoNhUoXKfoJ38eYReble0w3CAE7
+         XAKA==
+X-Gm-Message-State: AOJu0YxoVMnl7DNE7rFZvYWSmlD9B0+uGrH0uZTpK7AlKvNdSAJrChOw
+	GLdvdRSP4Y5VbyjbmPkMt2ByqmsiA1RI5/0JmR88sj6HXsm1fiPmUCTl/v8n
+X-Google-Smtp-Source: AGHT+IEvfGUQQD76RtmoDHXWExs3fn5JC6ghxIUFb8XgPTWQ5eE7kuGeWVeFDaJn82DNKY8yChi9KQ==
+X-Received: by 2002:a05:6000:18a9:b0:37e:d940:a9fe with SMTP id ffacd0b85a97d-381f1828b81mr5962011f8f.13.1731439339210;
+        Tue, 12 Nov 2024 11:22:19 -0800 (PST)
+Received: from archlinux.. ([2a01:e0a:ce:f2f0:2a6b:35ff:feb8:77d9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed97fe9bsm16003712f8f.35.2024.11.12.11.22.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 11:22:18 -0800 (PST)
+Sender: =?UTF-8?B?R2HDq2wgUE9SVEFZ?= <gael.portay@gmail.com>
+From: =?UTF-8?q?Ga=C3=ABl=20PORTAY?= <gael.portay+rtone@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][kirkstone][PATCH v3] expat: patch CVE-2024-50602
-Date: Tue, 12 Nov 2024 18:43:14 +0100
-Message-Id: <20241112174314.1156944-1-peter.marko@siemens.com>
-In-Reply-To: <20241112085129.11176-1-peter.marko@siemens.com>
-References: <20241112085129.11176-1-peter.marko@siemens.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	ChenQi <Qi.Chen@windriver.com>,
+	=?UTF-8?q?Ga=C3=ABl=20PORTAY?= <gael.portay+rtone@gmail.com>
+Subject: [OE-core][PATCH v2] systemd: set better sane time at startup
+Date: Tue, 12 Nov 2024 20:22:14 +0100
+Message-ID: <20241112192214.1644312-1-gael.portay+rtone@gmail.com>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 17:44:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207060
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 19:22:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207061
 
-From: Peter Marko <peter.marko@siemens.com>
+When systemd is started, it sets the system clock to epoch to ensure the
+system clock is reasonably initialized if no working RTC.
 
-Pick commits from https://github.com/libexpat/libexpat/pull/915
+As init process, systemd sets epoch very early to the more recent
+timestamp of[1]:
+ - the build time of systemd (-Dtime-epoch)
+ - the modification time ("mtime") of /var/lib/systemd/timesync/clock
+   (systemd-timesyncd)
+ - the modification time ("mtime") of /usr/lib/clock-epoch (systemd)
 
-Not picking test is suboptimal, but test structure was changed meanwhile
-so we'd have to invent new code.
-Skipping tests was already done in previous expat/kirkstone CVE patches.
+The first epoch timestamp is hard-coded at build-time by the systemd
+recipe (using either SOURCE_DATE_EPOCH, git-tag, or NEWS modification
+time[2]).
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+The second epoch timestamp is maintained at run-time if the system runs
+systemd-timesyncd.
+
+This implements the third epoch timestamp at image build-time, by
+touching the timestamp file /usr/lib/clock-epoch from the package
+post-install script.
+
+[1]: https://github.com/systemd/systemd/commit/863098fdc9cd91e4f760085356ac02c4b7ba6df1
+[2]: https://github.com/systemd/systemd/blob/v256/meson.build#L804-L825
+
+Signed-off-by: Gaël PORTAY <gael.portay+rtone@gmail.com>
 ---
- .../expat/expat/CVE-2024-50602-01.patch       | 56 +++++++++++++++++++
- .../expat/expat/CVE-2024-50602-02.patch       | 38 +++++++++++++
- meta/recipes-core/expat/expat_2.5.0.bb        |  2 +
- 3 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2024-50602-01.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2024-50602-02.patch
+Hello,
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2024-50602-01.patch b/meta/recipes-core/expat/expat/CVE-2024-50602-01.patch
-new file mode 100644
-index 0000000000..6abaa85261
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2024-50602-01.patch
-@@ -0,0 +1,56 @@
-+From 51c7019069b862e88d94ed228659e70bddd5de09 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Mon, 21 Oct 2024 01:42:54 +0200
-+Subject: [PATCH 1/2] lib: Make XML_StopParser refuse to stop/suspend an
-+ unstarted parser
-+
-+CVE: CVE-2024-50602
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/51c7019069b862e88d94ed228659e70bddd5de09]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ expat/lib/expat.h    | 4 +++-
-+ expat/lib/xmlparse.c | 6 ++++++
-+ 2 files changed, 9 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/expat.h b/lib/expat.h
-+index d0d6015a..3ba61304 100644
-+--- a/lib/expat.h
-++++ b/lib/expat.h
-+@@ -127,7 +127,9 @@ enum XML_Error {
-+   /* Added in 2.3.0. */
-+   XML_ERROR_NO_BUFFER,
-+   /* Added in 2.4.0. */
-+-  XML_ERROR_AMPLIFICATION_LIMIT_BREACH
-++  XML_ERROR_AMPLIFICATION_LIMIT_BREACH,
-++  /* Added in 2.6.4. */
-++  XML_ERROR_NOT_STARTED,
-+ };
-+ 
-+ enum XML_Content_Type {
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index d9285b21..fa02537f 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -2189,6 +2189,9 @@ XML_StopParser(XML_Parser parser, XML_Bool resumable) {
-+   if (parser == NULL)
-+     return XML_STATUS_ERROR;
-+   switch (parser->m_parsingStatus.parsing) {
-++  case XML_INITIALIZED:
-++    parser->m_errorCode = XML_ERROR_NOT_STARTED;
-++    return XML_STATUS_ERROR;
-+   case XML_SUSPENDED:
-+     if (resumable) {
-+       parser->m_errorCode = XML_ERROR_SUSPENDED;
-+@@ -2474,6 +2477,9 @@ XML_ErrorString(enum XML_Error code) {
-+   case XML_ERROR_AMPLIFICATION_LIMIT_BREACH:
-+     return XML_L(
-+         "limit on input amplification factor (from DTD and entities) breached");
-++  /* Added in 2.6.4. */
-++  case XML_ERROR_NOT_STARTED:
-++    return XML_L("parser not started");
-+   }
-+   return NULL;
-+ }
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-core/expat/expat/CVE-2024-50602-02.patch b/meta/recipes-core/expat/expat/CVE-2024-50602-02.patch
-new file mode 100644
-index 0000000000..4d99eb738c
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2024-50602-02.patch
-@@ -0,0 +1,38 @@
-+From 5fb89e7b3afa1c314b34834fe729cd063f65a4d4 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Mon, 21 Oct 2024 01:46:11 +0200
-+Subject: [PATCH 2/2] lib: Be explicit about XML_PARSING in XML_StopParser
-+
-+CVE: CVE-2024-50602
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5fb89e7b3afa1c314b34834fe729cd063f65a4d4]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ expat/lib/xmlparse.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index fa02537f..983f6df0 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -2202,7 +2202,7 @@ XML_StopParser(XML_Parser parser, XML_Bool resumable) {
-+   case XML_FINISHED:
-+     parser->m_errorCode = XML_ERROR_FINISHED;
-+     return XML_STATUS_ERROR;
-+-  default:
-++  case XML_PARSING:
-+     if (resumable) {
-+ #ifdef XML_DTD
-+       if (parser->m_isParamEntity) {
-+@@ -2213,6 +2213,9 @@ XML_StopParser(XML_Parser parser, XML_Bool resumable) {
-+       parser->m_parsingStatus.parsing = XML_SUSPENDED;
-+     } else
-+       parser->m_parsingStatus.parsing = XML_FINISHED;
-++    break;
-++  default:
-++    assert(0);
-+   }
-+   return XML_STATUS_OK;
-+ }
-+-- 
-+2.30.2
-+
-diff --git a/meta/recipes-core/expat/expat_2.5.0.bb b/meta/recipes-core/expat/expat_2.5.0.bb
-index 26190383e3..33207ff0da 100644
---- a/meta/recipes-core/expat/expat_2.5.0.bb
-+++ b/meta/recipes-core/expat/expat_2.5.0.bb
-@@ -28,6 +28,8 @@ SRC_URI = "https://github.com/libexpat/libexpat/releases/download/R_${VERSION_TA
- 	   file://CVE-2024-45490-0004.patch \
- 	   file://CVE-2024-45491.patch \
- 	   file://CVE-2024-45492.patch \
-+	   file://CVE-2024-50602-01.patch \
-+	   file://CVE-2024-50602-02.patch \
-            "
+With this patch, one can have a better sane default time set by systemd
+very very very early in the boot (i.e. even before systemd outputs its
+version!).
+
+	# dmesg
+	(...)
+	[    3.347641] Run /sbin/init as init process
+	[    3.350435]   with arguments:
+	[    3.350440]     /sbin/init
+	[    3.350443]   with environment:
+	[    3.350447]     HOME=/
+	[    3.350451]     TERM=linux
+	[    3.431275] EXT4-fs (mmcblk2p2): re-mounted. Opts: (null)
+	[    3.523997] EXT4-fs (mmcblk2p4): recovery complete
+	[    3.527828] EXT4-fs (mmcblk2p4): mounted filesystem with ordered data mode. Opts: (null)
+	[    3.694440] systemd[1]: System time before build time, advancing clock.
+	[    3.714755] systemd[1]: systemd 250.5+ running in system mode (+PAM -AUDIT -SELINUX -APPARMOR +IMA -SMACK -SECCOMP -GCRYPT -GNUTLS +OPENSSL +ACL +BLKID -CURL -ELFUTILS -FIDO2 -IDN2 -IDN -IPTC +KMOD -LIBCRYPTSETUP +LIBFDISK -PCRE2 -PWQUALITY -P11KIT -QRENCODE -BZIP2 -LZ4 -XZ -ZLIB +ZSTD -BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=hybrid)
+
+Thus, one can do time-based related things offline or before the system
+clock is set by the network (if trusting the time does not matter that
+much for sure).
+
+This happens if the system has no hardware clock or if it is way too far
+in the past and if using an old versions of systemd; systemd v250.5 sets
+the system time to April 28, 2022 5:53:22 PM (1651168402).
+
+Also, please set REPRODUCIBLE_TIMESTAMP_ROOTFS to any appropriate value
+if enabling reproducible-builds (the default). Otherwise, bitbake sets
+the timestamp to Friday, March 9, 2018 12:34:56 PM (1520598896, i.e.
+REPRODUCIBLE_TIMESTAMP_ROOTFS[1]).
+
+**Important**: It works on scarthgap and kirkstone; "all" image files
+are timestamped to Tuesday, April 5, 2011 11:00:00 PM (1302044400, i.e.
+SOURCE_DATE_EPOCH_FALLBACK[2]) on master branch; that branch appears to
+not use REPRODUCIBLE_TIMESTAMP_ROOTFS anymore. Therefore, an update of
+the SOURCE_DATE_EPOCH_FALLBACK value should work (I guess).
+
+	root@qemux86-64:~# stat /usr/lib/clock-epoch /etc/timestamp
+	  File: /usr/lib/clock-epoch
+	  Size: 0         	Blocks: 0          IO Block: 1024   regular empty file
+	Device: fd00h/64768d	Inode: 837         Links: 1
+	Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+	Access: 2011-04-05 23:00:00.000000000 +0000
+	Modify: 2011-04-05 23:00:00.000000000 +0000
+	Change: 2011-04-05 23:00:00.000000000 +0000
+	  File: /etc/timestamp
+	  Size: 15        	Blocks: 2          IO Block: 1024   regular file
+	Device: fd00h/64768d	Inode: 510         Links: 1
+	Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/    root)
+	Access: 2011-04-05 23:00:00.000000000 +0000
+	Modify: 2011-04-05 23:00:00.000000000 +0000
+	Change: 2011-04-05 23:00:00.000000000 +0000
+
+	SOURCE_DATE_EPOCH_FALLBACK ??= "1302044400"
+
+	Supports Unix timestamps in seconds, milliseconds, microseconds and nanoseconds.
+	Assuming that this timestamp is in seconds:
+	GMT: Tuesday, April 5, 2011 11:00:00 PM
+	Your time zone: Wednesday, April 6, 2011 1:00:00 AM GMT+02:00 DST
+	Relative: 14 years ago
+
+[1]: https://git.openembedded.org/openembedded-core/tree/meta/conf/bitbake.conf#n689
+[2]: https://git.openembedded.org/openembedded-core/tree/meta/conf/bitbake.conf#n688
+
+Changes since v1:
+ - use pkg_postinst() to touch file /usr/lib/clock-epoch instead of the
+   rootfs post-command rootfs_systemd_timestamp()
+
+Note: v1 is titled "classes: rootfs-postcommands: set better sane time
+to systemd"
+
+https://patchwork.yoctoproject.org/project/oe-core/patch/20241019021935.2105739-1-gael.portay+rtone@gmail.com/
+
+Kind Regards,
+Gaël
+ meta/recipes-core/systemd/systemd_256.6.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/meta/recipes-core/systemd/systemd_256.6.bb b/meta/recipes-core/systemd/systemd_256.6.bb
+index 68f15ab065..f288bedc9e 100644
+--- a/meta/recipes-core/systemd/systemd_256.6.bb
++++ b/meta/recipes-core/systemd/systemd_256.6.bb
+@@ -867,6 +867,10 @@ ALTERNATIVE_TARGET[runlevel] = "${base_bindir}/systemctl"
+ ALTERNATIVE_LINK_NAME[runlevel] = "${base_sbindir}/runlevel"
+ ALTERNATIVE_PRIORITY[runlevel] ?= "300"
  
- UPSTREAM_CHECK_URI = "https://github.com/libexpat/libexpat/releases/"
++pkg_postinst:${PN}:append () {
++	touch $D${libdir}/clock-epoch
++}
++
+ pkg_postinst:${PN}:libc-glibc () {
+ 	if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'false', d)}; then
+ 		sed -e '/^hosts:/s/\s*\<myhostname\>//' \
 -- 
-2.30.2
+2.47.0
 
 
