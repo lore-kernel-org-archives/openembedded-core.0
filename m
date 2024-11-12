@@ -2,93 +2,81 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF4AAD32D7C
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 09:40:06 +0000 (UTC)
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
- by mx.groups.io with SMTP id smtpd.web11.82948.1731404401802891252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D5E07D32D82
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 09:56:26 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web10.82818.1731405384858127281
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 01:40:02 -0800
+ Tue, 12 Nov 2024 01:56:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UGlUVrC7;
- spf=pass (domain: gmail.com, ip: 209.85.208.171, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-2fb6110c8faso48831831fa.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 01:40:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=QlSINm9N;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2fb584a8f81so46737161fa.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 01:56:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731404400; x=1732009200; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=EIY5L54IK/ADd41auPYAUNStR226ZWOvdmVp5hyyHMM=;
-        b=UGlUVrC7OcZL9LGd9/bsgFFMdb5ZHNY027VpbqEtGwr4WrWnciADUjO4HSRkNuzc8S
-         +2DLUYmDqOUIYL0dvO4dfAsfBvQ3snbhTfGXgTDbmkpqr+ilgxMsr2hbPHzeDfGo3TWD
-         p2UcUPEH06HOWwoDF9FuHvkb5/jfZhNt+BC+XZmnbGmAb2hKVEbw/coO39qCnDYKQNUt
-         tEfgAnFWBey0Zogvj+sZU4D76mmyU5xnQW4hfq9Te2N1IX306l2CkAnTmW/4naD0tx19
-         Ix9QB4dPBFqzClZQIqK2gvXHaCCr5FHvsRL0t2/UN0JoEqQcLELkkzicdvR+fp2qqSrw
-         LG3Q==
+        d=gmail.com; s=20230601; t=1731405383; x=1732010183; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=yVQO6WsX7ZTLjRg4FHcUJZClUyLk39nUgrzOnBCdswE=;
+        b=QlSINm9NSRGlnOS94Yplkoj7r6/7Dtdpd3K2Q2yjQuviJEC8yoHJo5Ckplr+/F4lR1
+         XlVDlOzG7/pSs/sNZBoQkO1Dgdu6CK6B/LpnTFuFIrd6WqD8InSDW4YUC23LWdJdqGUc
+         f1AGL/RS8BV6z6uH8ogwTEbfj+F52eATCwecjE18PL2J6ECscqb7roLEPsoThel1+ecd
+         GDWUyY8BC6FSUfc/++QnxOmIIQxja82XECt2Yw+8sv+8XvwmVWLOgVqdg8qiiDeN8H97
+         x2iH46U0rpAvnLbAc5ZUiU8W+FhgHeOKw4ZnGH7+rBuTaVRMyuMwpkzrMskA/NdIrqnA
+         V9VQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731404400; x=1732009200;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EIY5L54IK/ADd41auPYAUNStR226ZWOvdmVp5hyyHMM=;
-        b=wjV1+c6XeZsPkfQP45WCu2yZGINFMPr+U2r3xv/VMXh8GdYf7V3JKcuWaiw3sXPhAy
-         WTsIbAWDGIxVEzVSf4hW49mJPq3dtMGK+Xh7nEoLdC2ivtwWwq+ALHFNAo6FYfAKD8mM
-         z3pnC8uCN/6FgXNtJsfvIGiWSSBqBTR5rZyUXEKqryRSRorWQxqK4WP9ZeDZAWE1uQkb
-         skAQzxEfAejZgKQZAEAeTV54f3eSTSliP4G2ucKrzTNH55r/H+aY4SmG/dSMaFXD177g
-         Ol6Fkt9Xl3OlYUkVp2Mwcx8mCUWcIlb2PVxDSIG7621pf1W96rODHSGiW4X6yxVhp5h4
-         g7qw==
-X-Gm-Message-State: AOJu0YzwDDQsjJt/YHHUQxL7D8UarwDr1VzD47y2rIeOclHQR5HNjJBA
-	fEeyAuZaY6C+Djvva0FUruANfkKWtdEc5BhD6f2siGEFa0vYwE83qla5LpfrjFFTFCDteyU0Gzu
-	ZSIFp5HCh1NxNFWaR0h3FcwJk+kE=
-X-Google-Smtp-Source: AGHT+IFrAMf0r8436AX/KlOjYjmJfrfv1brh87v6KrPbRnq2/X4antmq/DYTMX3LktDTuA13Nsn+OTzCTDb/14w3fZo=
-X-Received: by 2002:a2e:a994:0:b0:2fb:60d8:744d with SMTP id
- 38308e7fff4ca-2ff201b6f49mr77951471fa.19.1731404399576; Tue, 12 Nov 2024
- 01:39:59 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731405383; x=1732010183;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yVQO6WsX7ZTLjRg4FHcUJZClUyLk39nUgrzOnBCdswE=;
+        b=xA/ASiCXiiGgVZqnkFZ1DpiJJe0kofjqp8rMixYHieI10ut3yLp6jB7DRf7jj2PXaJ
+         1rWi5j3Tes2/QuqJBpGnMiRNRsuMvW2hsNkp6R/vIoaMO3cTVN2EaoAjk74BcWgmv6Tt
+         481PKBwzlm9Lty/DMgpC5YVG5tRdmb/0xY3J+NSSF8ZgU4vS9IWdgpncpFdFCq/9mFUU
+         s9T7mtGr4Ody1o8fBMptj+I52LZymhcSvnrev2WXMuGGY3mk8Ga3NOMANmyIbtSb1rHr
+         yBHIqsolp1an7pXVe3vADpu1AoFLUJTESG8Liu9cK8L5L6c8k5ekLkRv7nq8oW44tbe/
+         fVZg==
+X-Gm-Message-State: AOJu0YxrKBatgYbARUCk+tWpwQi62FwNkuU5A3NSiHND0j9H2WL8JP0b
+	T5HzUqqGmkPcekyGzQ96zSD6y4KvJuzhVWuQT5Dy7bCHznohnzYECdIOP/350xKN3BASRnA+O3Y
+	r7kUPS9KxUQUhTt5fXABAnvhABT8=
+X-Google-Smtp-Source: AGHT+IFJkrNxdJWvOkvQmpAkT1jiuxbe40Sl+MhV6/GNa55CMaAoN1QIe+vmhOcktI6+CIYWZUAAPBY1uoXINv4kezY=
+X-Received: by 2002:a2e:a913:0:b0:2fb:5d2c:7509 with SMTP id
+ 38308e7fff4ca-2ff201824damr73020341fa.14.1731405382504; Tue, 12 Nov 2024
+ 01:56:22 -0800 (PST)
 MIME-Version: 1.0
-References: <1731403483-21399-1-git-send-email-wangmy@fujitsu.com>
-In-Reply-To: <1731403483-21399-1-git-send-email-wangmy@fujitsu.com>
+References: <20241111173421.44377-1-gudni.m.g@gmail.com> <20241111173421.44377-3-gudni.m.g@gmail.com>
+In-Reply-To: <20241111173421.44377-3-gudni.m.g@gmail.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 12 Nov 2024 10:39:48 +0100
-Message-ID: <CANNYZj__2eakCyxuDz1J0HUDABNXzqOyN7-4689-2A6=A3hdAQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 01/47] barebox-tools: upgrade 2024.09.0 -> 2024.10.0
-To: =?UTF-8?Q?Enrico_J=C3=B6rns?= <ejo@pengutronix.de>
-Cc: openembedded-core@lists.openembedded.org, wangmy@fujitsu.com
+Date: Tue, 12 Nov 2024 10:56:11 +0100
+Message-ID: <CANNYZj8dY5dwRZnuMEYvi7=PkDo+miZvcTafCn3XhMbzJ5Ah7g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] python3: add bluez5-native to DEPENDS conditionally
+To: gudni.m.g@gmail.com
+Cc: openembedded-core@lists.openembedded.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 09:40:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207037
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 09:56:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207038
 
-On Tue, 12 Nov 2024 at 10:25, wangmy via lists.openembedded.org
-<wangmy=fujitsu.com@lists.openembedded.org> wrote:
->
-> From: Wang Mingyu <wangmy@fujitsu.com>
->
-> Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-> ---
->  .../{barebox-tools_2024.09.0.bb => barebox-tools_2024.10.0.bb}  | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-bsp/barebox/{barebox-tools_2024.09.0.bb => barebox-tools_2024.10.0.bb} (93%)
->
-> diff --git a/meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb b/meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
-> similarity index 93%
-> rename from meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb
-> rename to meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
-> index 13a308b3da..386656f7ad 100644
-> --- a/meta/recipes-bsp/barebox/barebox-tools_2024.09.0.bb
-> +++ b/meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
-> @@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
->  DEPENDS = "bison-native flex-native libusb1"
->
->  SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
-> -SRC_URI[sha256sum] = "4d4ea7e232aeba2b3cb9ccf0dbf8cd8e01c65b6c615f64c3bd0c4f24f23a47da"
-> +SRC_URI[sha256sum] = "955b20bfa7358732d2c0c09ccfd4c1a69087b7e2c610b16dee7442d71a5af88d"
+On Mon, 11 Nov 2024 at 18:34, Gu=C3=B0ni M=C3=A1r Gilbert via
+lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
+wrote:
+> +# Enable support for AF_BLUETOOTH socket family
+> +DEPENDS:append:class-target =3D " ${@bb.utils.contains('DISTRO_FEATURES'=
+, 'bluetooth', 'bluez5-native', '', d)}"
 
-Main barebox recipe needs to be updated at the same time.
+This is brittle and can be improved. If bluez5-native arrives into
+sysroot through some other way than the distro feature, then the
+python support will be quetly enabled even if it wasn't asked for.
 
-I think we need to put SRC_URI items into a shared .inc file,
-otherwise people will easily forget about this, and update one recipe
-but not the other.
+The correct way can be seen in e.g. strace recipe:
+
+PACKAGECONFIG[bluez] =3D
+"ac_cv_header_bluetooth_bluetooth_h=3Dyes,ac_cv_header_bluetooth_bluetooth_=
+h=3Dno,bluez5"
 
 Alex
 
