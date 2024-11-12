@@ -1,101 +1,215 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E54BE6781F
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 20:16:30 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.96795.1731442584096976251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14B50D597A2
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 20:23:20 +0000 (UTC)
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+ by mx.groups.io with SMTP id smtpd.web10.96482.1731442991968823131
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 12:16:24 -0800
+ Tue, 12 Nov 2024 12:23:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ew6Em0Pq;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IjS8QOLM;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019322052671-8fe304b4-72a7-4a99-9bb7-7a9dea858b18-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731442583; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=4dcMHGf9dHqobQZVO52BO165+pppaQ47gHsDDPESi1k=;
-	b=ew6Em0PqyW2EXyChyhJenl/m7rgBNgtY8oz6CIqKlIKHkuNyK6wzBgZ2Eu7UjENt
-	T5+kmnAK9rj8rEDAeuiUZ02t4jTmqBmnR6UEmPJgOCnlE/pIGVHfsNMtY3wZuxLsJ0I
-	hkOuD+E634JZGW8Mkm/3ueZeu+WPRC2og+TRBGH8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731442583;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=4dcMHGf9dHqobQZVO52BO165+pppaQ47gHsDDPESi1k=;
-	b=IjS8QOLMXXfdria3uSn85cYGMlCoRyP8OIQ//FvJL8FhsCp16MNNs48HQVn7zUGD
-	DP+9x97pf8A9xJAvMjvcpcHkZTLlWZ8kwVAO4+NQmE4CV+oINvjjtEqwIDRQGP1KCA9
-	FRHFXGyDrY4uqz2K/d4RPUizcSwMSHa+NvQbsHM8=
-From: patchtest@automation.yoctoproject.org
-To: Peter Marko <peter.marko@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone][PATCH] glib-2.0: patch regression of
- CVE-2023-32665
-In-Reply-To: <20241112195921.1587206-1-peter.marko@siemens.com>
-References: <20241112195921.1587206-1-peter.marko@siemens.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019322052671-8fe304b4-72a7-4a99-9bb7-7a9dea858b18-000000@us-west-2.amazonses.com>
-Date: Tue, 12 Nov 2024 20:16:23 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.12-54.240.27.23
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Bbnrw6qk;
+ spf=pass (domain: gmail.com, ip: 209.85.167.43, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-539f2b95775so7758794e87.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 12:23:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731442990; x=1732047790; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9cOeEfjWEEysGVRKXXXXsXmJq6elvvNQXI5kOtWzLy4=;
+        b=Bbnrw6qkesCAoxmbVHlcWFit5a/jcGWTkFkFCyGKidpwrArMFSeOvC4t2+MxhGzD3E
+         jZQCX6FQ/EaFM7VZWYVpReYmcKzMQY0Myq7L9jdjCMLRqSM38YSlfxSAfgdl8rZYHqA/
+         Geg/YX8uob3Ca6IibQREVmIG3Ipe+dP9GshzNhN5dLo2eoCTGGlwtvYqTj3/5kLE45nP
+         u1LPCEOjqPpwUttx7+H95FCmwUC0/cfTVmQnsom5fzQiXNCFp5ALo9OZBn2AApVK9cVf
+         VwSjRweVj+vr6bUGLsNirFpbIUGBY8+X0SBi7IQGx2PKpMvTU93/17o7pqR3XCaHTeAn
+         BSPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731442990; x=1732047790;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9cOeEfjWEEysGVRKXXXXsXmJq6elvvNQXI5kOtWzLy4=;
+        b=QKGBWRSJACjA3YKbJwhKnoYuIR++LDubjudoTNzWBfGvtClKbpZFyPhgJ6oWuXIXSc
+         9zIcCwziThGR92fTdEguD/JxiD8++TlfIHLY6OmEdeuwTi0i69vMR+Tuj+Bw2QCCR8k0
+         TP2mBoBhv/FNYfzQzo4Ms72r38m1eFTildrHFRPBL+0lhfBqCL/nUQcOrurIP8y7aI6I
+         U1kxV5kGgszgFAZEFtSdzlsPg829PjEc9tWsm3MIrmkTHStSZWC+Rds+X4iI2fOUjy4V
+         K9eORICteFYEfWt+3BWn+G6xkhAh9nqsgu1ucLbUIUpnt/LalF4h87K09MJNxefZV5HD
+         nOfg==
+X-Gm-Message-State: AOJu0Yz5NvTYKqv1Aer/Kas5hamgBmISrGPxJtYPwmO6AyuioWO/9vZu
+	2dF2o7RjY6Y29FVZ0leSxksRjKMWR4CMU8LNlxclw8M+A+HA69GBRBprrlij3Yw6TUkZWl/H2pT
+	AqM9zLzXdfO3faPhWILQSSWNhKnI=
+X-Google-Smtp-Source: AGHT+IFGUw+OzTDT1+l6WWestk1gjUV1/lbO4Uaj8KjoKXpoRtEZHTHkO6WfTLX/XuailtVRfPbUowicT9wYp4onKTw=
+X-Received: by 2002:a05:6512:6d6:b0:536:54ff:51c8 with SMTP id
+ 2adb3069b0e04-53d862c6fa8mr11140083e87.17.1731442989715; Tue, 12 Nov 2024
+ 12:23:09 -0800 (PST)
+MIME-Version: 1.0
+References: <20241112192214.1644312-1-gael.portay+rtone@gmail.com>
+In-Reply-To: <20241112192214.1644312-1-gael.portay+rtone@gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 12 Nov 2024 21:22:58 +0100
+Message-ID: <CANNYZj-TUJahfs4GLfjtcLVJRBOxx4Mf93X8b_9GAu_iToUdgA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v2] systemd: set better sane time at startup
+To: =?UTF-8?B?R2HDq2wgUE9SVEFZ?= <gael.portay+rtone@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>, ChenQi <Qi.Chen@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 20:16:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207065
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 20:23:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207066
 
---NextPart
-Content-Type: text/plain
+I'm sorry, this was probably already covered and I'm just forgetful,
+but why not do this in do_install?
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Alex
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-glib-2.0-patch-regression-of-CVE-2023-32665.patch
-
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+On Tue, 12 Nov 2024 at 20:22, Ga=C3=ABl PORTAY <gael.portay+rtone@gmail.com=
+> wrote:
+>
+> When systemd is started, it sets the system clock to epoch to ensure the
+> system clock is reasonably initialized if no working RTC.
+>
+> As init process, systemd sets epoch very early to the more recent
+> timestamp of[1]:
+>  - the build time of systemd (-Dtime-epoch)
+>  - the modification time ("mtime") of /var/lib/systemd/timesync/clock
+>    (systemd-timesyncd)
+>  - the modification time ("mtime") of /usr/lib/clock-epoch (systemd)
+>
+> The first epoch timestamp is hard-coded at build-time by the systemd
+> recipe (using either SOURCE_DATE_EPOCH, git-tag, or NEWS modification
+> time[2]).
+>
+> The second epoch timestamp is maintained at run-time if the system runs
+> systemd-timesyncd.
+>
+> This implements the third epoch timestamp at image build-time, by
+> touching the timestamp file /usr/lib/clock-epoch from the package
+> post-install script.
+>
+> [1]: https://github.com/systemd/systemd/commit/863098fdc9cd91e4f760085356=
+ac02c4b7ba6df1
+> [2]: https://github.com/systemd/systemd/blob/v256/meson.build#L804-L825
+>
+> Signed-off-by: Ga=C3=ABl PORTAY <gael.portay+rtone@gmail.com>
+> ---
+> Hello,
+>
+> With this patch, one can have a better sane default time set by systemd
+> very very very early in the boot (i.e. even before systemd outputs its
+> version!).
+>
+>         # dmesg
+>         (...)
+>         [    3.347641] Run /sbin/init as init process
+>         [    3.350435]   with arguments:
+>         [    3.350440]     /sbin/init
+>         [    3.350443]   with environment:
+>         [    3.350447]     HOME=3D/
+>         [    3.350451]     TERM=3Dlinux
+>         [    3.431275] EXT4-fs (mmcblk2p2): re-mounted. Opts: (null)
+>         [    3.523997] EXT4-fs (mmcblk2p4): recovery complete
+>         [    3.527828] EXT4-fs (mmcblk2p4): mounted filesystem with order=
+ed data mode. Opts: (null)
+>         [    3.694440] systemd[1]: System time before build time, advanci=
+ng clock.
+>         [    3.714755] systemd[1]: systemd 250.5+ running in system mode =
+(+PAM -AUDIT -SELINUX -APPARMOR +IMA -SMACK -SECCOMP -GCRYPT -GNUTLS +OPENS=
+SL +ACL +BLKID -CURL -ELFUTILS -FIDO2 -IDN2 -IDN -IPTC +KMOD -LIBCRYPTSETUP=
+ +LIBFDISK -PCRE2 -PWQUALITY -P11KIT -QRENCODE -BZIP2 -LZ4 -XZ -ZLIB +ZSTD =
+-BPF_FRAMEWORK -XKBCOMMON +UTMP +SYSVINIT default-hierarchy=3Dhybrid)
+>
+> Thus, one can do time-based related things offline or before the system
+> clock is set by the network (if trusting the time does not matter that
+> much for sure).
+>
+> This happens if the system has no hardware clock or if it is way too far
+> in the past and if using an old versions of systemd; systemd v250.5 sets
+> the system time to April 28, 2022 5:53:22 PM (1651168402).
+>
+> Also, please set REPRODUCIBLE_TIMESTAMP_ROOTFS to any appropriate value
+> if enabling reproducible-builds (the default). Otherwise, bitbake sets
+> the timestamp to Friday, March 9, 2018 12:34:56 PM (1520598896, i.e.
+> REPRODUCIBLE_TIMESTAMP_ROOTFS[1]).
+>
+> **Important**: It works on scarthgap and kirkstone; "all" image files
+> are timestamped to Tuesday, April 5, 2011 11:00:00 PM (1302044400, i.e.
+> SOURCE_DATE_EPOCH_FALLBACK[2]) on master branch; that branch appears to
+> not use REPRODUCIBLE_TIMESTAMP_ROOTFS anymore. Therefore, an update of
+> the SOURCE_DATE_EPOCH_FALLBACK value should work (I guess).
+>
+>         root@qemux86-64:~# stat /usr/lib/clock-epoch /etc/timestamp
+>           File: /usr/lib/clock-epoch
+>           Size: 0               Blocks: 0          IO Block: 1024   regul=
+ar empty file
+>         Device: fd00h/64768d    Inode: 837         Links: 1
+>         Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/  =
+  root)
+>         Access: 2011-04-05 23:00:00.000000000 +0000
+>         Modify: 2011-04-05 23:00:00.000000000 +0000
+>         Change: 2011-04-05 23:00:00.000000000 +0000
+>           File: /etc/timestamp
+>           Size: 15              Blocks: 2          IO Block: 1024   regul=
+ar file
+>         Device: fd00h/64768d    Inode: 510         Links: 1
+>         Access: (0644/-rw-r--r--)  Uid: (    0/    root)   Gid: (    0/  =
+  root)
+>         Access: 2011-04-05 23:00:00.000000000 +0000
+>         Modify: 2011-04-05 23:00:00.000000000 +0000
+>         Change: 2011-04-05 23:00:00.000000000 +0000
+>
+>         SOURCE_DATE_EPOCH_FALLBACK ??=3D "1302044400"
+>
+>         Supports Unix timestamps in seconds, milliseconds, microseconds a=
+nd nanoseconds.
+>         Assuming that this timestamp is in seconds:
+>         GMT: Tuesday, April 5, 2011 11:00:00 PM
+>         Your time zone: Wednesday, April 6, 2011 1:00:00 AM GMT+02:00 DST
+>         Relative: 14 years ago
+>
+> [1]: https://git.openembedded.org/openembedded-core/tree/meta/conf/bitbak=
+e.conf#n689
+> [2]: https://git.openembedded.org/openembedded-core/tree/meta/conf/bitbak=
+e.conf#n688
+>
+> Changes since v1:
+>  - use pkg_postinst() to touch file /usr/lib/clock-epoch instead of the
+>    rootfs post-command rootfs_systemd_timestamp()
+>
+> Note: v1 is titled "classes: rootfs-postcommands: set better sane time
+> to systemd"
+>
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20241019021935.2=
+105739-1-gael.portay+rtone@gmail.com/
+>
+> Kind Regards,
+> Ga=C3=ABl
+>  meta/recipes-core/systemd/systemd_256.6.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-core/systemd/systemd_256.6.bb b/meta/recipes-co=
+re/systemd/systemd_256.6.bb
+> index 68f15ab065..f288bedc9e 100644
+> --- a/meta/recipes-core/systemd/systemd_256.6.bb
+> +++ b/meta/recipes-core/systemd/systemd_256.6.bb
+> @@ -867,6 +867,10 @@ ALTERNATIVE_TARGET[runlevel] =3D "${base_bindir}/sys=
+temctl"
+>  ALTERNATIVE_LINK_NAME[runlevel] =3D "${base_sbindir}/runlevel"
+>  ALTERNATIVE_PRIORITY[runlevel] ?=3D "300"
+>
+> +pkg_postinst:${PN}:append () {
+> +       touch $D${libdir}/clock-epoch
+> +}
+> +
+>  pkg_postinst:${PN}:libc-glibc () {
+>         if ${@bb.utils.contains('PACKAGECONFIG', 'myhostname', 'true', 'f=
+alse', d)}; then
+>                 sed -e '/^hosts:/s/\s*\<myhostname\>//' \
+> --
+> 2.47.0
+>
 
