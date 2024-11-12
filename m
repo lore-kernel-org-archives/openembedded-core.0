@@ -1,103 +1,99 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1593D3ABF5
-	for <webhook@archiver.kernel.org>; Mon, 11 Nov 2024 19:52:11 +0000 (UTC)
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
- by mx.groups.io with SMTP id smtpd.web11.68874.1731354723531185172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BABB0D41D4D
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 03:15:23 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.78367.1731381318272229370
  for <openembedded-core@lists.openembedded.org>;
- Mon, 11 Nov 2024 11:52:04 -0800
+ Mon, 11 Nov 2024 19:15:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=SFppyTgQ;
- spf=pass (domain: baylibre.com, ip: 209.85.222.181, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7b1539faa0bso316648485a.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 11:52:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1731354722; x=1731959522; darn=lists.openembedded.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=1/Y/BqO4Apq7LG9irL2hCE7bUEh14uSaXgll9t10nqg=;
-        b=SFppyTgQohoR4FAEA3YDKPntuprlzg3+BiwD6qcVRHrVJ7ETG9AAb/l7QKE3ZyslLh
-         OT9dCf1M2msj48+kLnPWPn+ZzRKj3twRNN6wVAn9mes0DIP5+KZePvkIilrHYQqJx9Q4
-         vgj8er7YEK5X90scB2KjvbsoIcUKfijIt+h/Hbf7/XOkPWtjExHnk/O++JMLdql6eb3m
-         rF0lkfMCGMEfSIgnig5LlzoIRdmO7t5WD4r7VPejM1BKUcGU79OIU3XLHgDeC6iFaJKs
-         BzMHHWLLhfYmZigDjsu/HyuF8RT3qoV1wQjFAs2q8S2RUCQxsA8PxCvhF6bRdzX7lLej
-         Z+hA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731354722; x=1731959522;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1/Y/BqO4Apq7LG9irL2hCE7bUEh14uSaXgll9t10nqg=;
-        b=mF5Z5RXSnDmi+Ju0J190BABs3npG5Z33BBRtPfyGzMfyCAsE8ElhUSi7uAP2cJq2Gm
-         ZMJ2yFT/sfTWmrJe6vzf472ZxeXub5vIQo0go3R5HWThq2wS8ZaUCgQqfuVQqbz4diCM
-         B8bVshTY7Au/F68yXGzl1gZV6XXK8141Z3yXIupbDmvZ1pFjaJrG2iC3dV3dn4T39yU3
-         PrGWrGbgQgWe1j7OyLTAQZ89DTcWDhdwreQfOxGgywcV631S/SChGKfBYnnZt2xX6Tdd
-         40QkBsr6j27FyZQhCSkAygNlGf5MadUTkcfjAFUGtitr73pZiVYwKmwwJM+ZhVjJ7oDH
-         y0dg==
-X-Forwarded-Encrypted: i=1; AJvYcCXBsZVHRJ+YviNUYqC+0+5rXoY1+Ed79NEbP3isns3lAmPD48XY58HxSBCVHTGbuJuFeuid0xUOB0Hgoc9mUNJiRg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw2wV3etnEYeoHEahsY3iQK855zp54ob3QuykFoKKLwPmqgdj/0
-	70TMYhlhHbpMYwbqMyUmDXCF7vozazMPGiCTF6USwiuhh4ekS64VqkHNOLARiHQ=
-X-Google-Smtp-Source: AGHT+IGNc+yQwIEFYcoXaYDTiVtRbM0uSW8SvVRRaTfSWAkc+HWaJ/ulvEa7WDpOmn2DpXIFCpQJ4Q==
-X-Received: by 2002:a05:620a:1706:b0:7b1:4fd4:e868 with SMTP id af79cd13be357-7b331dc9915mr1682111285a.51.1731354722238;
-        Mon, 11 Nov 2024 11:52:02 -0800 (PST)
-Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7b32acf7f31sm522065885a.129.2024.11.11.11.52.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Nov 2024 11:52:01 -0800 (PST)
-Message-ID: <cd6c4f26-4d06-45bf-952d-8aa91780f30d@baylibre.com>
-Date: Mon, 11 Nov 2024 14:52:01 -0500
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=10462b0a34=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AC2hxLa013103
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 19:15:18 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42uwpmg1ng-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 19:15:17 -0800 (PST)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.39; Mon, 11 Nov 2024 19:15:17 -0800
+Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.39 via Frontend Transport; Mon, 11 Nov 2024 19:15:16 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V2] gdk-pixbuf: enable other loaders by default
+Date: Tue, 12 Nov 2024 11:15:15 +0800
+Message-ID: <20241112031515.2438680-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] Patchtest?
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Cc: Ola x Nilsson <Ola.x.Nilsson@axis.com>
-References: <DB5PR02MB102134FA3962BC6E299ED305BEF582@DB5PR02MB10213.eurprd02.prod.outlook.com>
- <1806FCFEA77DB1DD.19665@lists.openembedded.org>
-Content-Language: en-US
-From: Trevor Gamblin <tgamblin@baylibre.com>
-In-Reply-To: <1806FCFEA77DB1DD.19665@lists.openembedded.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 6TzOYNjePwCsJBaNPhm1xqNzmzP0-Fg1
+X-Authority-Analysis: v=2.4 cv=ZdlPNdVA c=1 sm=1 tr=0 ts=6732c845 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=t7CeM3EgAAAA:8 a=GHR8O2WEAAAA:20 a=p0WdMEafAAAA:8 a=Br9LfDWDAAAA:8 a=Bw9GwAB4ZPJxoN4hxGQA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 6TzOYNjePwCsJBaNPhm1xqNzmzP0-Fg1
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-11_08,2024-11-08_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 bulkscore=0
+ adultscore=0 mlxlogscore=415 clxscore=1015 impostorscore=0
+ lowpriorityscore=0 phishscore=0 mlxscore=0 priorityscore=1501 spamscore=0
+ suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411120025
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 11 Nov 2024 19:52:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206983
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 03:15:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/206984
 
+From: Changqing Li <changqing.li@windriver.com>
 
-On 2024-11-11 13:21, Trevor Gamblin via lists.openembedded.org wrote:
->
-> On 2024-11-11 04:56, Peter Kjellerstedt wrote:
->> Is there some problem with Patchtest? It seems it has not reported
->> on anything for almost three weeks. I would, e.g., have expected it
->> to report on Ola's patch series from an hour ago as the patches are
->> lacking the Signed-off-by trailer.
->
-> It's been down for a bit, yeah. I'm actively getting it set back up 
-> and should hopefully be running again this afternoon...
+Refer [1], upstream gdk-pixbuf disable some loaders by default from
+2.42.11, this makes some format of icons not works well after upgrade
+gdk-pixbuf, report error like:
+matchbox-deskto[501]: Error loading icon: Failed to load /usr/share/pixmaps/xinput_calibrator.xpm: Unrecognized image file format
 
-It's back up and running now.
+Add PACKAGECONFIG gif, others, and fix the same as some other sdks and
+arch linux, disable these loaders by default, refer [2][3][4]
 
-- Trevor
+[1] https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/e052a112075a19fb75f1f2ff3de4c82923de13f2
+[2] https://gitlab.gnome.org/GNOME/gnome-build-meta/-/issues/846
+[3] https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/commit/3ab7810255c64ce8aa2ae3ac10250148588ab49b
+[4] https://gitlab.archlinux.org/archlinux/packaging/packages/gdk-pixbuf2/-/commit/4fa2d98a197781354b66a9710c9d596d502c961b
 
->
-> Sorry about that.
->
->>
->> //Peter
->>
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#206976): https://lists.openembedded.org/g/openembedded-core/message/206976
-> Mute This Topic: https://lists.openembedded.org/mt/109512191/7611679
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+index 9f825a68ef..e32903a451 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+@@ -32,7 +32,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
+ 
+ LIBV = "2.10.0"
+ 
+-GDK_PIXBUF_LOADERS ?= "png jpeg"
++GDK_PIXBUF_LOADERS ?= "png jpeg gif others"
+ 
+ PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
+                  ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+@@ -41,6 +41,8 @@ PACKAGECONFIG:class-native = "${GDK_PIXBUF_LOADERS}"
+ PACKAGECONFIG[png] = "-Dpng=enabled,-Dpng=disabled,libpng"
+ PACKAGECONFIG[jpeg] = "-Djpeg=enabled,-Djpeg=disabled,jpeg"
+ PACKAGECONFIG[tiff] = "-Dtiff=enabled,-Dtiff=disabled,tiff"
++PACKAGECONFIG[gif] = "-Dgif=enabled,-Dgif=disabled"
++PACKAGECONFIG[others] = "-Dothers=enabled,-Dothers=disabled"
+ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ 
+ EXTRA_OEMESON = "-Dman=false"
+-- 
+2.25.1
+
 
