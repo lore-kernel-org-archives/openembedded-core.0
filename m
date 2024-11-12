@@ -1,221 +1,86 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 340F9D42B83
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 13:52:58 +0000 (UTC)
-Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
- by mx.groups.io with SMTP id smtpd.web11.87306.1731419570451068966
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D03BD42B84
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 14:00:08 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.web11.87460.1731420002126136582
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 05:52:50 -0800
+ Tue, 12 Nov 2024 06:00:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vuuelC1f;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.172, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e291f1d659aso5460937276.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 05:52:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=DgzOGc7n;
+ spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4315baec69eso50387855e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 06:00:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731419569; x=1732024369; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qYkodknAnlyjp0L0OF8lNkBFksvNsHzkxS+yTBKibKs=;
-        b=vuuelC1fgjhS6UohMthCj2cufPTGWQBn6SGEHc9OEjpuZJiRwMHLsVHlsJXF8232/P
-         2Hjnv1R4RmRObc4jx7oVMM+wkeqOOz5RhPp4KnwtRSEL9Kx0LCLk7xks/RuANCSPHOyr
-         H9gKlSgYZFtPYcYAB84N6jK9YpTLjI1YNmju9RPZEJxUHQlgLHKN0CJkrAXQu+3N83kj
-         nynbPiwY1EtN/xgXpjK3fiD2f+V+ufA0e74urgEdpfFHT1Kj/2UMqAaqs5SVJam94fhT
-         jIoL4m4rzgBKBE22RBWkICMrkwthJ7DpI0bYzaWHlbA0Aem1Ccilc9MyE00PraKrJ9bV
-         CkdA==
+        d=gmail.com; s=20230601; t=1731420000; x=1732024800; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mvbsw2vbflD2m98H65GWaRTR+tFNAn5glhAMBF//DxA=;
+        b=DgzOGc7nfNvJtfkM31QwNNEe03Xu/eGz92xqzPIrIpGBMUBtI5yrDTQdhuMe9CH+5I
+         W+9DR1typjIaqlXQqqlwQ6zXwy+1yHCioD44pM44vsCqW4zRs+OKbITscQe5MM6RqlEW
+         nogXvCE0xpoVuVjGL7xOO/7aRs5Inj38MMilZj8g6P1cyPXPzDYs2WFiP9d3lezEjfk4
+         OdVsa5eY5lxupNXmChwmNnG6nWF+dEwrtNnBw59663E3QEuDF9zhGzRZ2tXNVpaGcQCh
+         AKlQVAM+6Dly226rPqaMhrq/zv2pH61feUH6afQ16gikg3BjoYItLjfgsLDpEsiodlWH
+         8yDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731419569; x=1732024369;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qYkodknAnlyjp0L0OF8lNkBFksvNsHzkxS+yTBKibKs=;
-        b=NYFhDwKz4pFKkIx+FclCwH+NKAdLV6l7pk48XpTRwEyhfN/Axla6l29uH/B9fkR3eD
-         UZK4KiNR66GOO7l8MqmH9nuGcbH3S1KMY+01UX5qxG/l0NQIT+jkObaLA0vMs+Iddkmn
-         Ieb6/pIt/jpeXhmKRBNsUdQwTlMWNPlDQAsI4KZlB8o8FSoe1lVgW1ZViiDE+bQOBsTs
-         yDM3YHQKO/fFBaMsSRmG4yybHR67G9dDEGj7hzOxq7XLsloLd4XrUn6UzjDl97dOOb/I
-         HCnS6cjfHj61GaqQRVrh+NAS092Um4NA3c2wgzEOMqiai/cwmy1t2O6vicKq1jwzIWhD
-         ACpg==
-X-Gm-Message-State: AOJu0YwS5YLoi/OSW8KTMRxfWlc2vau1rVDC8uYVi4TumrZ3dKNW06LI
-	U7vNHf4/M5/7smzUdKrOOyRRPBQe0K3lGSZhvVcwQE6svj/5NGS4lvLsREks/xp+KWOk0JmS82w
-	fpH8WlgFhgg4NKRMnZVzEbgjKnMN4oXlLfAGvOA==
-X-Google-Smtp-Source: AGHT+IHcmXf8PAdjqgQtaNTay8mxESU4GDIbu7LYZJqvNcs7V5MtNMZ9yPU40YdUXLx1mlgjaVCrDl2TXpWGEClTtqw=
-X-Received: by 2002:a05:6902:c0d:b0:e30:c739:8e5a with SMTP id
- 3f1490d57ef6-e337f8584c9mr13164940276.14.1731419569558; Tue, 12 Nov 2024
- 05:52:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731420000; x=1732024800;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mvbsw2vbflD2m98H65GWaRTR+tFNAn5glhAMBF//DxA=;
+        b=T+Ks8wJf2xgjq0JIJLor0fzWaKa4mIl23PbKvqfzeIyCM0E3o/y7U0Gu+QFCd7fXA1
+         FlyuaHfgPHimi+lgcG5aYS0WeehobonnwGIoJsAduFFTYKrgEPbV0c889VwYzb7bJOAc
+         EUGhbdYiTCxGStdEeB14wf3IxTFRbDp0h4TSfR3s0AhW8883wqkfBFbnXHV7Ke5rwiLd
+         TIRnQ94JJVCcygzO4EOWxbftF7MPZwrYUMcP/6Icp7xKtc0Ub8zjjNYWTVrzXN1yfGBp
+         /Wkis10ibO4UpxQ5YuP93jeOqDJ/8WMLN30w5LooHCNvTVx+meFJkbHJ4ZOX3wJz9yBv
+         Ks8Q==
+X-Gm-Message-State: AOJu0Yweu4He+yLvzk+eiQOiZiu4ETSxwgIZzQARoLNdUfkcqd5kZ8Zv
+	eOY1SDZmQMY/nTTqvjfFgy0nmicRwF+SsqcbKH11F8Mz0oxjmNX9sr92/g==
+X-Google-Smtp-Source: AGHT+IHm46bvqOg3EcYejMZWYAdTbWik1VavMAE027qAhIChSUKiJgna/PpRUkqMEcXrSwaW+Cu9FQ==
+X-Received: by 2002:a05:600c:524d:b0:431:5465:807b with SMTP id 5b1f17b1804b1-432b751dcc3mr128803185e9.32.1731420000368;
+        Tue, 12 Nov 2024 06:00:00 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-381ed99a0efsm15529877f8f.58.2024.11.12.05.59.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Nov 2024 06:00:00 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH] tcl: correctly symlink tclsh to 9.0 version
+Date: Tue, 12 Nov 2024 14:59:55 +0100
+Message-Id: <20241112135955.1770465-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20241111190447.56468-1-peter.marko@siemens.com> <20241112085129.11176-1-peter.marko@siemens.com>
-In-Reply-To: <20241112085129.11176-1-peter.marko@siemens.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Tue, 12 Nov 2024 05:52:38 -0800
-Message-ID: <CAOSpxdZjj3tbVC8jiijEzEG6mNF2nR3C2mOKnne8LG5Gh3KrzA@mail.gmail.com>
-Subject: Re: [OE-core][kirkstone][PATCH v2] expat: patch CVE-2024-50602
-To: peter.marko@siemens.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 13:52:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207054
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 14:00:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207055
 
-Hi Peter,
+From: Alexander Kanavin <alex@linutronix.de>
 
-I think you missed adding the patches to the recipe :-)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/recipes-devtools/tcltk/tcl_9.0.0.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Steve
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.0.bb b/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
+index b3968b5be14..a6e1dfbb5be 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.0.bb
+@@ -47,7 +47,7 @@ do_install() {
+ 	autotools_do_install
+ 	oe_runmake 'DESTDIR=${D}' install-private-headers
+ 	ln -sf ./tclsh${VER} ${D}${bindir}/tclsh
+-	ln -sf tclsh8.6 ${D}${bindir}/tclsh${VER}
++	ln -sf tclsh9.0 ${D}${bindir}/tclsh${VER}
+ 	sed -i "s;-L${B};-L${STAGING_LIBDIR};g" tclConfig.sh
+ 	sed -i "s;'${WORKDIR};'${STAGING_INCDIR};g" tclConfig.sh
+ 	install -d ${D}${bindir_crossscripts}
+-- 
+2.39.5
 
-On Tue, Nov 12, 2024 at 12:52=E2=80=AFAM Peter Marko via
-lists.openembedded.org
-<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
->
-> From: Peter Marko <peter.marko@siemens.com>
->
-> Pick commits from https://github.com/libexpat/libexpat/pull/915
->
-> Not picking test is suboptimal, but test structure was changed meanwhile
-> so we'd have to invent new code.
-> Skipping tests was already done in previous expat/kirkstone CVE patches.
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
-> v2: fixed upstream patch lik in CVE-2024-50602-01.patch
->
->  .../expat/expat/CVE-2024-50602-01.patch       | 56 +++++++++++++++++++
->  .../expat/expat/CVE-2024-50602-02.patch       | 38 +++++++++++++
->  2 files changed, 94 insertions(+)
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2024-50602-01.patch
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2024-50602-02.patch
->
-> diff --git a/meta/recipes-core/expat/expat/CVE-2024-50602-01.patch b/meta=
-/recipes-core/expat/expat/CVE-2024-50602-01.patch
-> new file mode 100644
-> index 0000000000..18dc392f67
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2024-50602-01.patch
-> @@ -0,0 +1,56 @@
-> +From 51c7019069b862e88d94ed228659e70bddd5de09 Mon Sep 17 00:00:00 2001
-> +From: Sebastian Pipping <sebastian@pipping.org>
-> +Date: Mon, 21 Oct 2024 01:42:54 +0200
-> +Subject: [PATCH 1/2] lib: Make XML_StopParser refuse to stop/suspend an
-> + unstarted parser
-> +
-> +CVE: CVE-2024-50602
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5=
-1c7019069b862e88d94ed228659e70bddd5de09]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + expat/lib/expat.h    | 4 +++-
-> + expat/lib/xmlparse.c | 6 ++++++
-> + 2 files changed, 9 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/expat/lib/expat.h b/expat/lib/expat.h
-> +index d0d6015a..3ba61304 100644
-> +--- a/expat/lib/expat.h
-> ++++ b/expat/lib/expat.h
-> +@@ -127,7 +127,9 @@ enum XML_Error {
-> +   /* Added in 2.3.0. */
-> +   XML_ERROR_NO_BUFFER,
-> +   /* Added in 2.4.0. */
-> +-  XML_ERROR_AMPLIFICATION_LIMIT_BREACH
-> ++  XML_ERROR_AMPLIFICATION_LIMIT_BREACH,
-> ++  /* Added in 2.6.4. */
-> ++  XML_ERROR_NOT_STARTED,
-> + };
-> +
-> + enum XML_Content_Type {
-> +diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-> +index d9285b21..fa02537f 100644
-> +--- a/expat/lib/xmlparse.c
-> ++++ b/expat/lib/xmlparse.c
-> +@@ -2189,6 +2189,9 @@ XML_StopParser(XML_Parser parser, XML_Bool resumab=
-le) {
-> +   if (parser =3D=3D NULL)
-> +     return XML_STATUS_ERROR;
-> +   switch (parser->m_parsingStatus.parsing) {
-> ++  case XML_INITIALIZED:
-> ++    parser->m_errorCode =3D XML_ERROR_NOT_STARTED;
-> ++    return XML_STATUS_ERROR;
-> +   case XML_SUSPENDED:
-> +     if (resumable) {
-> +       parser->m_errorCode =3D XML_ERROR_SUSPENDED;
-> +@@ -2474,6 +2477,9 @@ XML_ErrorString(enum XML_Error code) {
-> +   case XML_ERROR_AMPLIFICATION_LIMIT_BREACH:
-> +     return XML_L(
-> +         "limit on input amplification factor (from DTD and entities) br=
-eached");
-> ++  /* Added in 2.6.4. */
-> ++  case XML_ERROR_NOT_STARTED:
-> ++    return XML_L("parser not started");
-> +   }
-> +   return NULL;
-> + }
-> +--
-> +2.30.2
-> +
-> diff --git a/meta/recipes-core/expat/expat/CVE-2024-50602-02.patch b/meta=
-/recipes-core/expat/expat/CVE-2024-50602-02.patch
-> new file mode 100644
-> index 0000000000..e714daade5
-> --- /dev/null
-> +++ b/meta/recipes-core/expat/expat/CVE-2024-50602-02.patch
-> @@ -0,0 +1,38 @@
-> +From 5fb89e7b3afa1c314b34834fe729cd063f65a4d4 Mon Sep 17 00:00:00 2001
-> +From: Sebastian Pipping <sebastian@pipping.org>
-> +Date: Mon, 21 Oct 2024 01:46:11 +0200
-> +Subject: [PATCH 2/2] lib: Be explicit about XML_PARSING in XML_StopParse=
-r
-> +
-> +CVE: CVE-2024-50602
-> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5=
-fb89e7b3afa1c314b34834fe729cd063f65a4d4]
-> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> +---
-> + expat/lib/xmlparse.c | 5 ++++-
-> + 1 file changed, 4 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
-> +index fa02537f..983f6df0 100644
-> +--- a/expat/lib/xmlparse.c
-> ++++ b/expat/lib/xmlparse.c
-> +@@ -2202,7 +2202,7 @@ XML_StopParser(XML_Parser parser, XML_Bool resumab=
-le) {
-> +   case XML_FINISHED:
-> +     parser->m_errorCode =3D XML_ERROR_FINISHED;
-> +     return XML_STATUS_ERROR;
-> +-  default:
-> ++  case XML_PARSING:
-> +     if (resumable) {
-> + #ifdef XML_DTD
-> +       if (parser->m_isParamEntity) {
-> +@@ -2213,6 +2213,9 @@ XML_StopParser(XML_Parser parser, XML_Bool resumab=
-le) {
-> +       parser->m_parsingStatus.parsing =3D XML_SUSPENDED;
-> +     } else
-> +       parser->m_parsingStatus.parsing =3D XML_FINISHED;
-> ++    break;
-> ++  default:
-> ++    assert(0);
-> +   }
-> +   return XML_STATUS_OK;
-> + }
-> +--
-> +2.30.2
-> +
-> --
-> 2.30.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#206987): https://lists.openembedded.org/g/openembedde=
-d-core/message/206987
-> Mute This Topic: https://lists.openembedded.org/mt/109531698/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
 
