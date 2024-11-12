@@ -1,288 +1,221 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 36631D42B82
-	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 13:47:18 +0000 (UTC)
-Received: from EUR05-VI1-obe.outbound.protection.outlook.com (EUR05-VI1-obe.outbound.protection.outlook.com [40.107.21.61])
- by mx.groups.io with SMTP id smtpd.web11.87211.1731419233915977376
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 340F9D42B83
+	for <webhook@archiver.kernel.org>; Tue, 12 Nov 2024 13:52:58 +0000 (UTC)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com [209.85.219.172])
+ by mx.groups.io with SMTP id smtpd.web11.87306.1731419570451068966
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 05:47:14 -0800
+ Tue, 12 Nov 2024 05:52:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=lz7yPKDU;
- spf=pass (domain: siemens.com, ip: 40.107.21.61, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=couVFj4eKLRyKTokW/y+xjdFGSvzObDBkGhz2VKkobZ+f58yArq13xgY0GvMSgkDTpiD61bJv7F8Vra131cy8u6s28rUhpc1ia4fuPvpOyHPvXgJ4A+ZGaqXHjjpt+skPinUVvCaewmJT7A0Yky/0CX1xG56050zx7PukoqqUekMPfWz4RoH1ihwddNKHN64ys2B/Xj3WJMrYPALkaExbT8F73oHw1+p2DsDOkLYdfD2ODqlzyNeQ+7mOo0xog816dW7WsqTMKj8r5V3I85+lMmoY9foPnRhi+H4P9dDw46kYjGhxIc3WeG+TWdo/GHBiXLE7dsapCCMMiTFORRDzw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=AAs7HtfDYtLv3anunzfvC14A78LSLcbWRIfYcQH3mfw=;
- b=pQqFuPvEOWMXnhTzfe2HD/f7El9LW2xL6JZvWY16UOezLz+pHiS13QcT1LJoBAMqR+lBZQmm/EaSlUcmTyT/tLXPOC7Ym3ff2TxkUOOHLP6fpLnxI9x9rNM1bPSuSqSjkBtilYJI0F4q53Ht9l2EzJY07pB0f4jsoWKmyqhuDwQgyX+NkTxP9ME5zam7UdHkE32oAxV4J5hfCiEh/8tqZ7FmQ03RihIbwweSBk7F6N48TTyUnj9l3C88melnB0tKXifvm1WwocsK2UWBHCwIqZbAYvA+x9OQtijqs5HVdeSxs9cklU/+H8k14l9CC36BLjM+6tSvdC8qXZXPy3ebtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AAs7HtfDYtLv3anunzfvC14A78LSLcbWRIfYcQH3mfw=;
- b=lz7yPKDUwfq5pI6/nMc5gYwt22XQhOXc5OVj7w7Pc8MpZF8Rsr47TCpnLBTpfE6+Ajy15aAL3UvUS5YX0uFQbenDKeLk6moWiooMReyGmQjKDgoDETzvQl40hu/JcPD/ldD0R+fT1Tq9FgvHAUAEomOS/pElPwRQAOCJ8tl7aGm+Yxbn04aCY/LekqlCs95MIXKv1XYx7Kla3ql3v0o1xfA2VT6hkjLUvVJr3Z/D4o2+Gb4b4JNtdSfoN6myIUDtfI2qHK758YEwGj3PwXznIC2GC9I7X4HRuWOehLqWVcyiYbcIO5GrZTMIXaIl7R+ihbFsV1sJi/GbQ12Ik12f4Q==
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
- by PA2PR10MB8394.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:41f::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.15; Tue, 12 Nov
- 2024 13:47:08 +0000
-Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c68:267b:6fd1:d3f2%6]) with mapi id 15.20.8158.013; Tue, 12 Nov 2024
- 13:47:08 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "vanusuri@mvista.com" <vanusuri@mvista.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][kirkstone][PATCH] curl: Fix for CVE-2024-9681
-Thread-Topic: [OE-core][kirkstone][PATCH] curl: Fix for CVE-2024-9681
-Thread-Index: AQHbNQeCuiRaJLQRrkim+pli6XoTELKzqHTA
-Date: Tue, 12 Nov 2024 13:47:08 +0000
-Message-ID: 
- <AS1PR10MB56972FC07BDF7F76588523B5FD592@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20241112133330.2828105-1-vanusuri@mvista.com>
-In-Reply-To: <20241112133330.2828105-1-vanusuri@mvista.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=351ef9d9-02e9-41d6-ab76-f628d062201b;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-11-12T13:46:21Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|PA2PR10MB8394:EE_
-x-ms-office365-filtering-correlation-id: 6e50348b-da04-4227-aaa2-08dd03208073
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info: 
- =?us-ascii?Q?/tfMGAtLjChr0707jNI5KNBjmUkBH+XNoMfgM1ftgjOYXvXWThavqKi1dVFD?=
- =?us-ascii?Q?L4ROygvyYbn/vi+3tV3nN1feil8ndrMK2pXa+QpnfexFj+KsjyI8AqpIz/Uw?=
- =?us-ascii?Q?Rl2eawz02weS0mwQY21a7QJ5tO0mQHTZzEhUA18acfG3BJXUnGqQ6YhZgPJ0?=
- =?us-ascii?Q?ZPIX+yvc/ViExURDMz1Lr4rySD4SOZHfxW2zUeaXjjqfRy/+uHN7WXLfrUDu?=
- =?us-ascii?Q?x82Dr77rSXhzL2Nwoa969U249xjERQ9NnDQNpW2bBdDFTW/fF0sPUEIollq4?=
- =?us-ascii?Q?/wmbivrRFGXutLjks5gjUF4BSvEZYjXIGX+H7904e4oXHWMAvmaOQ+wdlSol?=
- =?us-ascii?Q?Ixb2y8JP0J7A2978nXXRXj+Riy2RULIA0klYhfm8vElpE01J6niLYy9DmRXY?=
- =?us-ascii?Q?9VAWdzjYzICV0Lcrf9zVEaDX/3P0PepikJAaIa5UJM8objfiqUxoakmwfe2q?=
- =?us-ascii?Q?E/WhrwuZ5M0hplwaQle6BSInmbA1C0NrVMRIwjn5M8a6CvB0KFpTa6mDhqFN?=
- =?us-ascii?Q?WXTmQYqH6a/PriKnmlLqHuQstHbsHtnS5vtuHo/e4R4O6uB2UVmYrHwB6bZD?=
- =?us-ascii?Q?66PSXcAxSyl5aRctM/EstslD1TyFOgyP3JUndwmUpkw6okvgWOGzGlOi3c2f?=
- =?us-ascii?Q?4DwDo5vdXT/MZg3WGJAMPBeig+YtNJPn7nLnP31ynYabSSWjuVOT7YBjQ66Q?=
- =?us-ascii?Q?eVt6HbeZfOE97bFxB/DtHL+hxjaucAFRYGTSYZd3POQelc31nOAhXL9kCLcH?=
- =?us-ascii?Q?brQHT6c1B2eARFXqaTmHxGi6a2k/SOwRqStzen7ZjKgn1G1QawZGQiD8PB4d?=
- =?us-ascii?Q?9UdLNwqEKN+QlMo6hTGAZLnMQDv4IqyhoVSyWvPZPdgieBV5rVQh3ZdlkK7B?=
- =?us-ascii?Q?ly/xDHU2fMU02NJefxau7prhDv6J8c++UpUSSg9hL5MMErBrNqkT4nFst5vu?=
- =?us-ascii?Q?BIOFr6gdF13nJr8wYRqpuAopyshzsuPcbs7mPjhiUIypvczyVVeCPdo2oYN9?=
- =?us-ascii?Q?jZH2b3r/3lyK7wzdKg/9XQ9IvpB2Eo3KuIzHiDyXhmuKkrUzaLgHn77fTg38?=
- =?us-ascii?Q?R8iJMPR1hKD2upo2kKmayiKnTd472OUEQ/mDUcEpgIn936iDd4bJMURV6+jN?=
- =?us-ascii?Q?CfaxwkDhHLbyLmf1HNJkdzzQpP2VKKekkoIC9yCy9/SrBzkHwMyqqs/mVgTK?=
- =?us-ascii?Q?0LCvVxReD202T8v/Ic9gb1RkEdqn0WjI4lVrGs0lZTA0B4KUflUkJJDuVClQ?=
- =?us-ascii?Q?3ONpg49v5oHzLKBbZDRcpbFBggrT4smZEKYl7qCWhNfhAjpjnRw9iuRudt2+?=
- =?us-ascii?Q?38NU2covbK1A+BIK/yhY/Tvc?=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?qLiNYPFVC/za5dQxLvnRNkM9IkVOHZm22HsEdqG09mvqni1VrvW4tnzgzVel?=
- =?us-ascii?Q?u706DpP/VLAQEoeWB/YG1lRQzilUGEur/cHqW+cozHhE6nFswBjVcy+ki4/E?=
- =?us-ascii?Q?a1riZT2Ws9GiH02cnazvnQzPr7wk/IVTIFIXJ9SLF8YwU+vu59qV48/EeDyK?=
- =?us-ascii?Q?YyiMX55da+xSrf7RbjZWHaOn8avkIzp+aT1MtSq9n1EvyM75gHhmTltsosf5?=
- =?us-ascii?Q?fRyUwCxhEByF0IvLUGv9YtiTd2oQ6rc8tFT2Bj7z7BS5iTfsTOovR/0Qgvau?=
- =?us-ascii?Q?IJelm7doFQZ5Be/984ukGICEreyeB4zVxwCU0s/qNO+wfdas2t/aOtJYYC8R?=
- =?us-ascii?Q?P/HhvjgeUe8dTLSpTY7TYt/G/S/LZcqWpId5SymI7iwTdCDgqGL92uHrgTjD?=
- =?us-ascii?Q?h98FUe+n2YFcIu3nX7MjCG93t+SgmFIJiU7F/YsHPLr5VL1RHmQaQHoRE1hp?=
- =?us-ascii?Q?bOESv6plWClx/4lEOyns0NLIckkocDGXHS4BhqVQU90KjYNHRd2nAIfXKnxJ?=
- =?us-ascii?Q?zGNl+EJfgSc/eokHHxQnf6JZCCsd2G5k0VlgDaUTR/thtsILLZ6RbZJTEL3X?=
- =?us-ascii?Q?GNYYBdWhKwMVsknepXnn93iYQBrAsA+6z0e8n/8ZRSfgIcaNtGC+tGrWWacu?=
- =?us-ascii?Q?jwVsgQSDlIGAD3dTaRaSu/tjuzLN0+AlqbQp1UbCeKn4egpyo1CB2jpm9IO7?=
- =?us-ascii?Q?+Md9fuKf2bPBO+/TamO8+tDS6U+1ZocvdVxS+vp79K9Z9wnaLdUjx7B/kd/u?=
- =?us-ascii?Q?WsmAP+WsOiYtRdss/6mDodKD8y52PuHD/fVQxuDeFQrFq7FnI2cuD561korW?=
- =?us-ascii?Q?lzMw8/rQEzG6P+sQtZZCmACZfbPg0VtJeUwpK4U0zG3zKW6bVt0B+5keIL9Y?=
- =?us-ascii?Q?SpMp26sqw8iBHGcIeBLRK2Ui2rPeX+Cj7B4kHEn5Gl7VkLfBFdyZeWiEpmQq?=
- =?us-ascii?Q?7fcafouaS3CXMAauMCHfAZIi0rU0XzpO1sZrrlAfIAQcclSy+/8doFL6ydH3?=
- =?us-ascii?Q?6HOtNmY9EEzfC/BhpiWFRFuqmSQtLyG+EfrHFqSpQPofmtmWlHPgNRZQjy7G?=
- =?us-ascii?Q?hG7rK4gk5IzuKFBpcXMyHwM3ihRXsmhmKCTp7yKJC5WZQDrWnd4di1wBmq8H?=
- =?us-ascii?Q?TF3jk4KdicBfyD2+P7CuGMvMsHctQoCadOFFlC4tf0kkYFoAjIPOHlGWTGEi?=
- =?us-ascii?Q?sD2O5K8AfeoMgYciwoAc5fi0zcAF4IN16AUs3195XjMAXaaUrPDL8x6aHO9G?=
- =?us-ascii?Q?lU3A92vQGC6Do8D++WVe+MMe9iZzH5fhAbXh3CHbFtX4LhTcVzZEyXPnCKSt?=
- =?us-ascii?Q?jHvawBqZCPRG4U2camjQXsSuQ42hRSoKAIh5S1TEQexsKiO6xWD8T7WBWVoo?=
- =?us-ascii?Q?QXkf457BmOxQ80f3CSnSJ6BB/F12ERX17WReOrQ4QjcDHRWk1YDMipFc5GCg?=
- =?us-ascii?Q?P92ozrjPfDfdXjJSuXtzg9t+d7N3a/UC35lccgx0c5st7O90dsL0R3pXt8ug?=
- =?us-ascii?Q?u8gOL+5vASo24U/gTiNNZgMa3VCYaWc/7nCNkU1U501GroHc7Tmds2oGTkXm?=
- =?us-ascii?Q?bBZcU64ydovSJk3koAVAJnSpu+oaFnhvUj7BPOv0?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vuuelC1f;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.172, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-e291f1d659aso5460937276.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 05:52:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731419569; x=1732024369; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=qYkodknAnlyjp0L0OF8lNkBFksvNsHzkxS+yTBKibKs=;
+        b=vuuelC1fgjhS6UohMthCj2cufPTGWQBn6SGEHc9OEjpuZJiRwMHLsVHlsJXF8232/P
+         2Hjnv1R4RmRObc4jx7oVMM+wkeqOOz5RhPp4KnwtRSEL9Kx0LCLk7xks/RuANCSPHOyr
+         H9gKlSgYZFtPYcYAB84N6jK9YpTLjI1YNmju9RPZEJxUHQlgLHKN0CJkrAXQu+3N83kj
+         nynbPiwY1EtN/xgXpjK3fiD2f+V+ufA0e74urgEdpfFHT1Kj/2UMqAaqs5SVJam94fhT
+         jIoL4m4rzgBKBE22RBWkICMrkwthJ7DpI0bYzaWHlbA0Aem1Ccilc9MyE00PraKrJ9bV
+         CkdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731419569; x=1732024369;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=qYkodknAnlyjp0L0OF8lNkBFksvNsHzkxS+yTBKibKs=;
+        b=NYFhDwKz4pFKkIx+FclCwH+NKAdLV6l7pk48XpTRwEyhfN/Axla6l29uH/B9fkR3eD
+         UZK4KiNR66GOO7l8MqmH9nuGcbH3S1KMY+01UX5qxG/l0NQIT+jkObaLA0vMs+Iddkmn
+         Ieb6/pIt/jpeXhmKRBNsUdQwTlMWNPlDQAsI4KZlB8o8FSoe1lVgW1ZViiDE+bQOBsTs
+         yDM3YHQKO/fFBaMsSRmG4yybHR67G9dDEGj7hzOxq7XLsloLd4XrUn6UzjDl97dOOb/I
+         HCnS6cjfHj61GaqQRVrh+NAS092Um4NA3c2wgzEOMqiai/cwmy1t2O6vicKq1jwzIWhD
+         ACpg==
+X-Gm-Message-State: AOJu0YwS5YLoi/OSW8KTMRxfWlc2vau1rVDC8uYVi4TumrZ3dKNW06LI
+	U7vNHf4/M5/7smzUdKrOOyRRPBQe0K3lGSZhvVcwQE6svj/5NGS4lvLsREks/xp+KWOk0JmS82w
+	fpH8WlgFhgg4NKRMnZVzEbgjKnMN4oXlLfAGvOA==
+X-Google-Smtp-Source: AGHT+IHcmXf8PAdjqgQtaNTay8mxESU4GDIbu7LYZJqvNcs7V5MtNMZ9yPU40YdUXLx1mlgjaVCrDl2TXpWGEClTtqw=
+X-Received: by 2002:a05:6902:c0d:b0:e30:c739:8e5a with SMTP id
+ 3f1490d57ef6-e337f8584c9mr13164940276.14.1731419569558; Tue, 12 Nov 2024
+ 05:52:49 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6e50348b-da04-4227-aaa2-08dd03208073
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Nov 2024 13:47:08.5037
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wW4j28HEv6E/vAB0cdwW1pmAcqQHCvPuXhU7pm02odt3st/RTPKLK5Wv4o/VZcktXUwShGAiR6Scrt14MNzEnw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA2PR10MB8394
+References: <20241111190447.56468-1-peter.marko@siemens.com> <20241112085129.11176-1-peter.marko@siemens.com>
+In-Reply-To: <20241112085129.11176-1-peter.marko@siemens.com>
+From: Steve Sakoman <steve@sakoman.com>
+Date: Tue, 12 Nov 2024 05:52:38 -0800
+Message-ID: <CAOSpxdZjj3tbVC8jiijEzEG6mNF2nR3C2mOKnne8LG5Gh3KrzA@mail.gmail.com>
+Subject: Re: [OE-core][kirkstone][PATCH v2] expat: patch CVE-2024-50602
+To: peter.marko@siemens.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 13:47:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207053
+ <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 13:52:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207054
 
-This patch was already submitted.
-See https://lists.openembedded.org/g/openembedded-core/message/206904
+Hi Peter,
 
-Peter
+I think you missed adding the patches to the recipe :-)
 
-> -----Original Message-----
-> From: openembedded-core@lists.openembedded.org <openembedded-
-> core@lists.openembedded.org> On Behalf Of Vijay Anusuri via
-> lists.openembedded.org
-> Sent: Tuesday, November 12, 2024 14:34
-> To: openembedded-core@lists.openembedded.org
-> Cc: Vijay Anusuri <vanusuri@mvista.com>
-> Subject: [OE-core][kirkstone][PATCH] curl: Fix for CVE-2024-9681
->=20
-> From: Vijay Anusuri <vanusuri@mvista.com>
->=20
-> Ref: https://curl.se/docs/CVE-2024-9681.html
->=20
-> Upstream-Commit:
-> https://github.com/curl/curl/commit/a94973805df96269bf3f3bf0a20ccb9887313
-> 316
->=20
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Steve
+
+On Tue, Nov 12, 2024 at 12:52=E2=80=AFAM Peter Marko via
+lists.openembedded.org
+<peter.marko=3Dsiemens.com@lists.openembedded.org> wrote:
+>
+> From: Peter Marko <peter.marko@siemens.com>
+>
+> Pick commits from https://github.com/libexpat/libexpat/pull/915
+>
+> Not picking test is suboptimal, but test structure was changed meanwhile
+> so we'd have to invent new code.
+> Skipping tests was already done in previous expat/kirkstone CVE patches.
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
 > ---
->  .../curl/curl/CVE-2024-9681.patch             | 88 +++++++++++++++++++
->  meta/recipes-support/curl/curl_7.82.0.bb      |  1 +
->  2 files changed, 89 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2024-9681.patch
->=20
-> diff --git a/meta/recipes-support/curl/curl/CVE-2024-9681.patch
-> b/meta/recipes-support/curl/curl/CVE-2024-9681.patch
+> v2: fixed upstream patch lik in CVE-2024-50602-01.patch
+>
+>  .../expat/expat/CVE-2024-50602-01.patch       | 56 +++++++++++++++++++
+>  .../expat/expat/CVE-2024-50602-02.patch       | 38 +++++++++++++
+>  2 files changed, 94 insertions(+)
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2024-50602-01.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2024-50602-02.patch
+>
+> diff --git a/meta/recipes-core/expat/expat/CVE-2024-50602-01.patch b/meta=
+/recipes-core/expat/expat/CVE-2024-50602-01.patch
 > new file mode 100644
-> index 0000000000..1ba373a1c4
+> index 0000000000..18dc392f67
 > --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2024-9681.patch
-> @@ -0,0 +1,88 @@
-> +From a94973805df96269bf3f3bf0a20ccb9887313316 Mon Sep 17 00:00:00
-> 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Wed, 9 Oct 2024 10:04:35 +0200
-> +Subject: [PATCH] hsts: improve subdomain handling
+> +++ b/meta/recipes-core/expat/expat/CVE-2024-50602-01.patch
+> @@ -0,0 +1,56 @@
+> +From 51c7019069b862e88d94ed228659e70bddd5de09 Mon Sep 17 00:00:00 2001
+> +From: Sebastian Pipping <sebastian@pipping.org>
+> +Date: Mon, 21 Oct 2024 01:42:54 +0200
+> +Subject: [PATCH 1/2] lib: Make XML_StopParser refuse to stop/suspend an
+> + unstarted parser
 > +
-> +- on load, only replace existing HSTS entries if there is a full host
-> +  match
-> +
-> +- on matching, prefer a full host match and secondary the longest tail
-> +  subdomain match
-> +
-> +Closes #15210
-> +
-> +Upstream-Status: Backport
-> [https://github.com/curl/curl/commit/a94973805df96269bf3f3bf0a20ccb988731
-> 3316]
-> +CVE: CVE-2024-9681
-> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> +CVE: CVE-2024-50602
+> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5=
+1c7019069b862e88d94ed228659e70bddd5de09]
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 > +---
-> + lib/hsts.c          | 14 ++++++++++----
-> + tests/data/test1660 |  2 +-
-> + 2 files changed, 11 insertions(+), 5 deletions(-)
+> + expat/lib/expat.h    | 4 +++-
+> + expat/lib/xmlparse.c | 6 ++++++
+> + 2 files changed, 9 insertions(+), 1 deletion(-)
 > +
-> +diff --git a/lib/hsts.c b/lib/hsts.c
-> +index 08e15dc..06d2edf 100644
-> +--- a/lib/hsts.c
-> ++++ b/lib/hsts.c
-> +@@ -247,12 +247,14 @@ CURLcode Curl_hsts_parse(struct hsts *h, const cha=
-r
-> *hostname,
-> + struct stsentry *Curl_hsts(struct hsts *h, const char *hostname,
-> +                            bool subdomain)
-> + {
-> ++  struct stsentry *bestsub =3D NULL;
-> +   if(h) {
-> +     char buffer[MAX_HSTS_HOSTLEN + 1];
-> +     time_t now =3D time(NULL);
-> +     size_t hlen =3D strlen(hostname);
-> +     struct Curl_llist_element *e;
-> +     struct Curl_llist_element *n;
-> ++    size_t blen =3D 0;
+> +diff --git a/expat/lib/expat.h b/expat/lib/expat.h
+> +index d0d6015a..3ba61304 100644
+> +--- a/expat/lib/expat.h
+> ++++ b/expat/lib/expat.h
+> +@@ -127,7 +127,9 @@ enum XML_Error {
+> +   /* Added in 2.3.0. */
+> +   XML_ERROR_NO_BUFFER,
+> +   /* Added in 2.4.0. */
+> +-  XML_ERROR_AMPLIFICATION_LIMIT_BREACH
+> ++  XML_ERROR_AMPLIFICATION_LIMIT_BREACH,
+> ++  /* Added in 2.6.4. */
+> ++  XML_ERROR_NOT_STARTED,
+> + };
 > +
-> +     if((hlen > MAX_HSTS_HOSTLEN) || !hlen)
-> +       return NULL;
-> +@@ -277,15 +279,19 @@ struct stsentry *Curl_hsts(struct hsts *h, const c=
-har
-> *hostname,
-> +         if(ntail < hlen) {
-> +           size_t offs =3D hlen - ntail;
-> +           if((hostname[offs-1] =3D=3D '.') &&
-> +-             Curl_strncasecompare(&hostname[offs], sts->host, ntail))
-> +-            return sts;
-> ++             Curl_strncasecompare(&hostname[offs], sts->host, ntail) &&
-> ++	     (ntail > blen)) {
-> ++            /* save the tail match with the longest tail */
-> ++            bestsub =3D sts;
-> ++            blen =3D ntail;
-> ++	  }
-> +         }
-> +       }
-> +       if(Curl_strcasecompare(hostname, sts->host))
-> +         return sts;
-> +     }
+> + enum XML_Content_Type {
+> +diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+> +index d9285b21..fa02537f 100644
+> +--- a/expat/lib/xmlparse.c
+> ++++ b/expat/lib/xmlparse.c
+> +@@ -2189,6 +2189,9 @@ XML_StopParser(XML_Parser parser, XML_Bool resumab=
+le) {
+> +   if (parser =3D=3D NULL)
+> +     return XML_STATUS_ERROR;
+> +   switch (parser->m_parsingStatus.parsing) {
+> ++  case XML_INITIALIZED:
+> ++    parser->m_errorCode =3D XML_ERROR_NOT_STARTED;
+> ++    return XML_STATUS_ERROR;
+> +   case XML_SUSPENDED:
+> +     if (resumable) {
+> +       parser->m_errorCode =3D XML_ERROR_SUSPENDED;
+> +@@ -2474,6 +2477,9 @@ XML_ErrorString(enum XML_Error code) {
+> +   case XML_ERROR_AMPLIFICATION_LIMIT_BREACH:
+> +     return XML_L(
+> +         "limit on input amplification factor (from DTD and entities) br=
+eached");
+> ++  /* Added in 2.6.4. */
+> ++  case XML_ERROR_NOT_STARTED:
+> ++    return XML_L("parser not started");
 > +   }
-> +-  return NULL; /* no match */
-> ++  return bestsub;
+> +   return NULL;
 > + }
-> +
-> + /*
-> +@@ -447,7 +453,7 @@ static CURLcode hsts_add(struct hsts *h, char *line)
-> +     e =3D Curl_hsts(h, p, subdomain);
-> +     if(!e)
-> +       result =3D hsts_create(h, p, subdomain, expires);
-> +-    else {
-> ++    else if(Curl_strcasecompare(p, e->host)) {
-> +       /* the same host name, use the largest expire time */
-> +       if(expires > e->expires)
-> +         e->expires =3D expires;
-> +diff --git a/tests/data/test1660 b/tests/data/test1660
-> +index cbbcf75..662026b 100644
-> +--- a/tests/data/test1660
-> ++++ b/tests/data/test1660
-> +@@ -52,7 +52,7 @@ this.example [this.example]: 1548400797
-> + Input 12: error 43
-> + Input 13: error 43
-> + Input 14: error 43
-> +-3.example.com [example.com]: 1569905261 includeSubDomains
-> ++3.example.com [3.example.com]: 1569905261 includeSubDomains
-> + 3.example.com [example.com]: 1569905261 includeSubDomains
-> + foo.example.com [example.com]: 1569905261 includeSubDomains
-> + 'foo.xample.com' is not HSTS
 > +--
-> +2.25.1
+> +2.30.2
 > +
-> diff --git a/meta/recipes-support/curl/curl_7.82.0.bb b/meta/recipes-
-> support/curl/curl_7.82.0.bb
-> index ba3abadac9..cda42da4d3 100644
-> --- a/meta/recipes-support/curl/curl_7.82.0.bb
-> +++ b/meta/recipes-support/curl/curl_7.82.0.bb
-> @@ -62,6 +62,7 @@ SRC_URI =3D "https://curl.se/download/${BP}.tar.xz \
->             file://CVE-2024-7264_2.patch \
->             file://CVE-2024-8096.patch \
->             file://0001-url-free-old-conn-better-on-reuse.patch \
-> +           file://CVE-2024-9681.patch \
->             "
->  SRC_URI[sha256sum] =3D
-> "0aaa12d7bd04b0966254f2703ce80dd5c38dbbd76af0297d3d690cdce58a583c"
->=20
+> diff --git a/meta/recipes-core/expat/expat/CVE-2024-50602-02.patch b/meta=
+/recipes-core/expat/expat/CVE-2024-50602-02.patch
+> new file mode 100644
+> index 0000000000..e714daade5
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/CVE-2024-50602-02.patch
+> @@ -0,0 +1,38 @@
+> +From 5fb89e7b3afa1c314b34834fe729cd063f65a4d4 Mon Sep 17 00:00:00 2001
+> +From: Sebastian Pipping <sebastian@pipping.org>
+> +Date: Mon, 21 Oct 2024 01:46:11 +0200
+> +Subject: [PATCH 2/2] lib: Be explicit about XML_PARSING in XML_StopParse=
+r
+> +
+> +CVE: CVE-2024-50602
+> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/5=
+fb89e7b3afa1c314b34834fe729cd063f65a4d4]
+> +Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> +---
+> + expat/lib/xmlparse.c | 5 ++++-
+> + 1 file changed, 4 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
+> +index fa02537f..983f6df0 100644
+> +--- a/expat/lib/xmlparse.c
+> ++++ b/expat/lib/xmlparse.c
+> +@@ -2202,7 +2202,7 @@ XML_StopParser(XML_Parser parser, XML_Bool resumab=
+le) {
+> +   case XML_FINISHED:
+> +     parser->m_errorCode =3D XML_ERROR_FINISHED;
+> +     return XML_STATUS_ERROR;
+> +-  default:
+> ++  case XML_PARSING:
+> +     if (resumable) {
+> + #ifdef XML_DTD
+> +       if (parser->m_isParamEntity) {
+> +@@ -2213,6 +2213,9 @@ XML_StopParser(XML_Parser parser, XML_Bool resumab=
+le) {
+> +       parser->m_parsingStatus.parsing =3D XML_SUSPENDED;
+> +     } else
+> +       parser->m_parsingStatus.parsing =3D XML_FINISHED;
+> ++    break;
+> ++  default:
+> ++    assert(0);
+> +   }
+> +   return XML_STATUS_OK;
+> + }
+> +--
+> +2.30.2
+> +
 > --
-> 2.25.1
-
+> 2.30.2
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#206987): https://lists.openembedded.org/g/openembedde=
+d-core/message/206987
+> Mute This Topic: https://lists.openembedded.org/mt/109531698/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
