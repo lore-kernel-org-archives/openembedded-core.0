@@ -1,95 +1,103 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 871F4D597DC
-	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 03:16:58 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web11.3432.1731467809497396171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DB8D597DF
+	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 03:39:18 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.3817.1731469151970896508
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 19:16:49 -0800
+ Tue, 12 Nov 2024 19:39:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=EhBcOwtv;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-720be27db27so5392629b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 19:16:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731467809; x=1732072609; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=z3l92nJidW3GXLTCDf+6PaAudyjsser0EOV30kxSKe0=;
-        b=EhBcOwtvhJe76R7chgdENO6V3AEZVdFVJliQ5o4cdtqBvNxG2N6iZ1XNhQZdmNM5b0
-         yEAagkNATztpKGEYoE4KJhI8NI3U9PdJ9pmOFVWehvae3rMl+Cf5XGPuYVK2gqW7cn5a
-         nvB2Y8e6S3xmIKyq+sp6bbgF7Rx8I7oJH26/VcGdyqusATqe+tz9QqGqJ2/3S0grcFG8
-         VtDI1SDW1HQUnHS5KaZ10I/k/mF1YpXNZl5F7NlTkGZGaRGGcEirfiQLOXYmqfQHn5ea
-         OrUgfB8yp/Y5MF9EuUHiwtVP+vA4Rij6ayndFIBdRXz32K7YPCHh4kLXeqe24Z6whP8x
-         U88w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731467809; x=1732072609;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=z3l92nJidW3GXLTCDf+6PaAudyjsser0EOV30kxSKe0=;
-        b=fWUq0LwCvd6Pqpj34WPRfjdVa9H72nnpfKNDlCPKzeXYQo0IP3uAmXQcBVtVIkTx/a
-         6irVrXL0R1YYTmmTs/4KDqWqf0wu70gojaCMs7CYeHwvp2/njynlNDPIc8nsDus0ctgM
-         UoPZ2O8oLpLK0xIG8iZWsgZA+0GoWqH0erS2Z+YZDCe0/p26kN8P2QJm1G5HzCCeolh5
-         6HwUSAx95B3iiJXtMpTMJAzmRo2zJzik37wAVj7ZSK/iUsRKOu5nu7HX/FV7ibS9eMbS
-         G1VF7Mf6p+aBhww/Uk/SV7DaGC2A16ZNC3zfUYJJxc9SaYLzT4pnyUVRklq4WOD8e+hv
-         k2Cg==
-X-Gm-Message-State: AOJu0YxPwYPU8xd7oe5f5N4UQhtrZPUnf991WSzAhufFY1VrjJfuqT3V
-	4DiZV2uoRaa69v1povDKtxHcWMdQy3c/6mNpGeUntXvJFYdF0bc7hPXYC/VmP+FMmV/rE+J05OF
-	d
-X-Google-Smtp-Source: AGHT+IFLmqwDVjcgWQ9qkMW2gQULA1PqBsegCnXZ82BK0745s6heBuV4Ks1ftYbVaVszcs900RphCw==
-X-Received: by 2002:a05:6a21:8cca:b0:1db:ff57:562b with SMTP id adf61e73a8af0-1dc5f982de0mr7284924637.31.1731467808814;
-        Tue, 12 Nov 2024 19:16:48 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f64616csm9660213a12.64.2024.11.12.19.16.48
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 19:16:48 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/19] pseudo: Fix envp bug and add posix_spawn wrapper
-Date: Tue, 12 Nov 2024 19:16:12 -0800
-Message-Id: <89b64526ac2bf0609a18c4d44b4835028f686978.1731467662.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1731467662.git.steve@sakoman.com>
-References: <cover.1731467662.git.steve@sakoman.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=O4AakLoY;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=u5wEOibJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010193239a8b99-87a82c44-c264-4d13-9238-053637124afa-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1731469151; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=+jfxotc+wCzxaStszatEo4md01xu4+qs5b6iaKqWEO0=;
+	b=O4AakLoYgkEOFSq4Vw2vrvfe3lMGPL9OyFtJ35m7ZsbJ10MSjJQBLqNaMihvNNoK
+	11hEe1fBHNjD0tAyanQ0arENDmrJMdSI3ynTpI041PDVnKg8Y5WQPLtHJqepbbMyTT6
+	E4g/WOuM1wOstjp+Usaa+ax1JZp0zy0ZUF1vXmLc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731469151;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=+jfxotc+wCzxaStszatEo4md01xu4+qs5b6iaKqWEO0=;
+	b=u5wEOibJ7pvj9I0STOtuVxPbWpubtsmJA9/Vbqg/FllwdyDuLZsy9e64fHoWVv2a
+	rFooVhmiZWkD0daWWscC49Yt18neJKvjtwuOHiYThleBAy+QVzErVEgXZUuWCy8CnC5
+	3+Npb1kt8lFjE1l4scIcvS7lhDsnfK4WzNZhTDlk=
+From: patchtest@automation.yoctoproject.org
+To: Steve Sakoman <steve@sakoman.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][kirkstone 05/19] glib-2.0: patch regression of
+ CVE-2023-32665
+In-Reply-To: 
+ <2400e143477cc93d4698df921bd89ef4b8b4692b.1731467662.git.steve@sakoman.com>
+References: 
+ <2400e143477cc93d4698df921bd89ef4b8b4692b.1731467662.git.steve@sakoman.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010193239a8b99-87a82c44-c264-4d13-9238-053637124afa-000000@us-west-2.amazonses.com>
+Date: Wed, 13 Nov 2024 03:39:11 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.11.13-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 03:16:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207092
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 03:39:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207093
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+--NextPart
+Content-Type: text/plain
 
-Fix pseudo with python 3.13 by adding a wrapper for posix_spawn and
-fixing a NULL pointer dereference in envp handling it uncovered. This
-fixes issues on Fedora 41.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/kirkstone-05-19-glib-2.0-patch-regression-of-CVE-2023-32665.patch
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index b390ca7db9..405d2340ae 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
- 
--SRCREV = "374089f2ed83da4d0d4e58df067142ff99c7eb12"
-+SRCREV = "28dcefb809ce95db997811b5662f0b893b9923e0"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
--- 
-2.34.1
+FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
