@@ -1,103 +1,136 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0DB8D597DF
-	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 03:39:18 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.3817.1731469151970896508
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5814FD41C23
+	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 09:26:50 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web10.8063.1731490003982568653
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 19:39:12 -0800
+ Wed, 13 Nov 2024 01:26:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=O4AakLoY;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=u5wEOibJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 01010193239a8b99-87a82c44-c264-4d13-9238-053637124afa-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731469151; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=+jfxotc+wCzxaStszatEo4md01xu4+qs5b6iaKqWEO0=;
-	b=O4AakLoYgkEOFSq4Vw2vrvfe3lMGPL9OyFtJ35m7ZsbJ10MSjJQBLqNaMihvNNoK
-	11hEe1fBHNjD0tAyanQ0arENDmrJMdSI3ynTpI041PDVnKg8Y5WQPLtHJqepbbMyTT6
-	E4g/WOuM1wOstjp+Usaa+ax1JZp0zy0ZUF1vXmLc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731469151;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=+jfxotc+wCzxaStszatEo4md01xu4+qs5b6iaKqWEO0=;
-	b=u5wEOibJ7pvj9I0STOtuVxPbWpubtsmJA9/Vbqg/FllwdyDuLZsy9e64fHoWVv2a
-	rFooVhmiZWkD0daWWscC49Yt18neJKvjtwuOHiYThleBAy+QVzErVEgXZUuWCy8CnC5
-	3+Npb1kt8lFjE1l4scIcvS7lhDsnfK4WzNZhTDlk=
-From: patchtest@automation.yoctoproject.org
-To: Steve Sakoman <steve@sakoman.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][kirkstone 05/19] glib-2.0: patch regression of
- CVE-2023-32665
-In-Reply-To: 
- <2400e143477cc93d4698df921bd89ef4b8b4692b.1731467662.git.steve@sakoman.com>
-References: 
- <2400e143477cc93d4698df921bd89ef4b8b4692b.1731467662.git.steve@sakoman.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <01010193239a8b99-87a82c44-c264-4d13-9238-053637124afa-000000@us-west-2.amazonses.com>
-Date: Wed, 13 Nov 2024 03:39:11 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.13-54.240.27.191
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=l8YCCWQC;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: joaomarcos.costa@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 3916C1C0008
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 09:26:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731490002;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/i3q8ry8bYi0LPbhaAxtk3TpOdb1RHbr+UfSROjUZZE=;
+	b=l8YCCWQCl1xkWq9qU69rsnngFYYLAwYHHWKDNhXxKfqYCDMBek8Z1CfjMIgAZaQi2Rkhgj
+	kg2y0LXoBkBULhanIRQLenPuAY4uKG5YBMZaQfo1tl8iSr3bqIFozgfBz4qE2LPhHyZfIZ
+	/ZtG6Qy+1wMWjPJkwlEuw4hgXhy2mmUG5s7N8r8UalLyF0xK07CH7H6Cpjp6umMU8EZF+n
+	hAmXbwz7nEMC6gNfo1jrsm4OLNyhST7wjsC1B7PadvXFYUVHztVi+DFkkfW/lNbLIIwSvK
+	T1E9L/mv6/iqoDxzGM9GXoJ+eaPaOG3YFJP/nMS9iVZ0QnlPI/G3Ut9NxteACw==
+Content-Type: multipart/alternative;
+ boundary="------------Uop0o0vnnaGOX5FCXhBr2OKh"
+Message-ID: <637f2f5e-7f27-4f2a-9517-70059040e852@bootlin.com>
+Date: Wed, 13 Nov 2024 10:26:41 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] classes-recipe/core-image: drop debug-tweaks
+ IMAGE_FEATURE
+To: openembedded-core@lists.openembedded.org
+References: <20241107134752.2071720-1-ross.burton@arm.com>
+Content-Language: en-US, fr
+From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
+Organization: Bootlin
+In-Reply-To: <20241107134752.2071720-1-ross.burton@arm.com>
+X-GND-Sasl: joaomarcos.costa@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 03:39:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207093
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 09:26:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207094
 
---NextPart
-Content-Type: text/plain
+This is a multi-part message in MIME format.
+--------------Uop0o0vnnaGOX5FCXhBr2OKh
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello, Ross
 
----
-Testing patch /home/patchtest/share/mboxes/kirkstone-05-19-glib-2.0-patch-regression-of-CVE-2023-32665.patch
+I hope this e-mail finds you well
 
-FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+On 11/7/24 14:47, Ross Burton wrote:
+> Remove the 'debug-tweaks' IMAGE_FEATURE. It sounds friendly and kind to
+> developers, but it results primarily in an image which root can login
+> remotely without a password.  This is incredibly useful for local
+> development and testing purposes, but we really want to be explicit that
+> this is what is happening instead of hiding it behind a vague "debug
+> tweaks" statement.
+>
+> To preserve the eixsting behaviour, debug-tweaks should be replaced with
+> these features:
+>
+>    allow-empty-password empty-root-password allow-root-login post-install-logging
+>
+> Signed-off-by: Ross Burton<ross.burton@arm.com>
+> ---
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+(...)
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+What do you think about simply replacing 'debug-tweaks' with a more 
+explicit term, like 'root-debug-no-password' or something similar?
 
----
+Using a clearer label would make the feature's purpose more transparent 
+without being vague. Plus, it would avoid the need to list all four 
+individual features each time.
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+-- 
+Best regards,
+João Marcos Costa
 
---NextPart
+--------------Uop0o0vnnaGOX5FCXhBr2OKh
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  </head>
+  <body>
+    <p><font face="monospace">Hello, Ross</font></p>
+    <p><font face="monospace">I hope this e-mail finds you well<br>
+      </font></p>
+    <div class="moz-cite-prefix">On 11/7/24 14:47, Ross Burton wrote:<br>
+    </div>
+    <blockquote type="cite"
+      cite="mid:20241107134752.2071720-1-ross.burton@arm.com">
+      <pre class="moz-quote-pre" wrap="">Remove the 'debug-tweaks' IMAGE_FEATURE. It sounds friendly and kind to
+developers, but it results primarily in an image which root can login
+remotely without a password.  This is incredibly useful for local
+development and testing purposes, but we really want to be explicit that
+this is what is happening instead of hiding it behind a vague "debug
+tweaks" statement.
 
---NextPart--
+To preserve the eixsting behaviour, debug-tweaks should be replaced with
+these features:
+
+  allow-empty-password empty-root-password allow-root-login post-install-logging
+
+Signed-off-by: Ross Burton <a class="moz-txt-link-rfc2396E" href="mailto:ross.burton@arm.com">&lt;ross.burton@arm.com&gt;</a>
+---</pre>
+    </blockquote>
+    <p><font face="monospace">(...)</font></p>
+    <font face="monospace">What do you think about simply replacing
+      'debug-tweaks' with a more explicit term, like
+      'root-debug-no-password' or something similar?<br>
+      <br>
+      Using a clearer label would make the feature's purpose more
+      transparent without being vague. Plus, it would avoid the need to
+      list all four individual features each time.</font><span
+    style="white-space: pre-wrap">
+</span>
+    <p></p>
+    <pre class="moz-signature" cols="72">-- 
+Best regards,
+João Marcos Costa</pre>
+  </body>
+</html>
+
+--------------Uop0o0vnnaGOX5FCXhBr2OKh--
 
