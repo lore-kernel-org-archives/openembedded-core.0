@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ABCCD597CF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 50CD2D597D2
 	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 03:16:38 +0000 (UTC)
-Received: from mail-pf1-f170.google.com (mail-pf1-f170.google.com [209.85.210.170])
- by mx.groups.io with SMTP id smtpd.web10.3472.1731467796853028854
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com [209.85.166.176])
+ by mx.groups.io with SMTP id smtpd.web10.3467.1731467789627627345
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 19:16:36 -0800
+ Tue, 12 Nov 2024 19:16:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kqKHuSiT;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.170, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f170.google.com with SMTP id d2e1a72fcca58-71e61b47c6cso5851105b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 19:16:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lsYzJFPk;
+ spf=softfail (domain: sakoman.com, ip: 209.85.166.176, mailfrom: steve@sakoman.com)
+Received: by mail-il1-f176.google.com with SMTP id e9e14a558f8ab-3a3c00f2c75so23039035ab.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 19:16:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731467796; x=1732072596; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731467789; x=1732072589; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GcKWK77yU5IlBhowtt/LNjYNdVqBsNhoD5YVtkt4Lh0=;
-        b=kqKHuSiTzxL9SVkc2xtt37GIn6GmHKdr4GyWUkOedrkLWX+Ze9FEf/MFfpJr+cGMcp
-         uWah0go0Lsmg6Pq+xHe85xPOfiyVEwnZvCtathvbVoatNBqSuj+B1U4OcRiPgowas1rU
-         qbAkAU6HDpl37dZ+bFflckxv9HibrOPOfgQMv1JGWURDK2bA9TTwlNqrinWBnKZ7NWmn
-         DuTGBGj0qMzzSCnzqbPZQ0zrwppKI54g7UYsRUbKByQfpN8zdlMNrb+dbyssAYA4/Ene
-         vYA81+k6v4U771t5NHRz7PLYeDUqMPRN4KgfZYgxS6incwDxtBs9VPQy//UrjTBzo886
-         DBYg==
+        bh=/NpPd/oUahTFQYZhPlH7HzFx7mjpWbnxuVvla11hcNY=;
+        b=lsYzJFPkzY096EnClpabML3JWARyYnsgxJUOlcXOYMeCz8cXEg6Rb8X59P9KriPU+N
+         h/h2cEFsc5Yi/uvCD2TgxnXg+sjrlJdd4ZIsi5nQCLnbIZC3WxTmsFSrtH4/9Y91TY7L
+         wray9heLoJayHfsjxTE7Iean1g9OWtEklomd1lGBd18CYcJKGt8XyeZo0G4mLcfQtsuy
+         vdclpZ1/kiHBBZl/lXYs0d6XwiTWiE7/cBZl41fGjErNDT/ewXvKCXR3R6LQok/vfdfH
+         lFh4Isa6OPB5tQPZkx9jOm4tv0g1xmwgMtTOfHnBVV1iCooP08rXhFFLnqwXqd4dRkn4
+         p//g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731467796; x=1732072596;
+        d=1e100.net; s=20230601; t=1731467789; x=1732072589;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GcKWK77yU5IlBhowtt/LNjYNdVqBsNhoD5YVtkt4Lh0=;
-        b=DcqANLRtNFarlhJR1Pt9HURxMrEHX2BnoRjGONRlwB0SMgqoY3U8kTBIYwNhQ8AxPq
-         uq6vd2zy36eaJA8U6drsgOkVyEjf8nyrtt3dYyA2f6AF/ZrNrOMyvJkQ1lz/5jJqfc+Z
-         UU4VwYuF4oriQ6ZZ2gjJ5dsabR1he/umKFfWI55wJTmHKwuxTDOvY2uefTJNeGLO1wuc
-         wPkTlqBD0ACSSoSMJWyQCOcUMzXGF/RcDQWsmeUC4dvK78WjHbOUdY5QhRjSPGdvs9PD
-         UvPX3W5uhAeTiX2OWAorFX5wpADCZiFILQVlEHwPJVcX3U+zAHxbz1LZ7NdsBxLCfa/N
-         sj+g==
-X-Gm-Message-State: AOJu0YyJXuZeJven8F+XeP03+n+J7OyCpuriHuZ8O1s7ASK3lpfhJBAS
-	bb7McFNUxZ2Y47bgYiblAE2atTpYs9hgG87k16NXGrAzZW1yiz1z43FJOr7cV2B/0XovvSHl3SD
-	G
-X-Google-Smtp-Source: AGHT+IG2ssBuwfuEkpow5rnARXJicqZgtCdGtG5WYA+z7qRLFfUFiANcacDDRUF7Rym/SVbli2mf3Q==
-X-Received: by 2002:a05:6a20:748b:b0:1d9:c78f:4207 with SMTP id adf61e73a8af0-1dc2292c2a4mr25516916637.11.1731467796053;
-        Tue, 12 Nov 2024 19:16:36 -0800 (PST)
+        bh=/NpPd/oUahTFQYZhPlH7HzFx7mjpWbnxuVvla11hcNY=;
+        b=oC2kDSvAmCRUhcM9v+Zng0C2I+wanshnV6RG51w4b6QsHTX812MXtnfUxHo7P4FRo1
+         ZzCuci7hMiIRuQWznWxR/aMmkL3VKpfs4SE+IO6R1XoI7jikCNC9BUBnUX7+npA4e4GX
+         LfY3E2Niom3w0wJcPrnol01ZjvBxg1xRru1tGKWgk5ZU7XjuSHNVYGzmW726mKQCnR/Z
+         dQ+BperYVv0Q4TraIy5aNVi+mZaofPZXIVhonggtgD2YJSeV8wKd/aIrOoGThzpxMkIr
+         uufXqlSrFHK9qXBezipOg34h5EangbmScQLpsdTxQNsQebOKhfM9BPk/DqSJEjJCFIVZ
+         y7qg==
+X-Gm-Message-State: AOJu0YwIu5ZlwURuAMS6XunGCRsO9ENr0kOGApUgeo0kQoOq/PpHFon0
+	E2IXnJx1Y9D8i+5JOuGn5w1Wr2D6CqcjgWTnDMYmGrjLKAtWxR7Bgu7Ek7F1VHgGhLe3FZc1psZ
+	c
+X-Google-Smtp-Source: AGHT+IGGQOjahRf4tDOAwSSNyYU0z/7HCZIRusSLUzCUqkezLQ0QTkoGkC5nkEcUQLTQXyOh8I4Ktw==
+X-Received: by 2002:a05:6e02:1f03:b0:3a5:e532:799d with SMTP id e9e14a558f8ab-3a6f19e86dcmr190153985ab.3.1731467788525;
+        Tue, 12 Nov 2024 19:16:28 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f64616csm9660213a12.64.2024.11.12.19.16.35
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f64616csm9660213a12.64.2024.11.12.19.16.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 19:16:35 -0800 (PST)
+        Tue, 12 Nov 2024 19:16:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 11/19] pseudo: Update to include logic fix
-Date: Tue, 12 Nov 2024 19:16:04 -0800
-Message-Id: <9b06d2741191333c7b11c66e9ab5848f95cb4e42.1731467662.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 06/19] patch.py: Use shlex instead of deprecated pipe
+Date: Tue, 12 Nov 2024 19:15:59 -0800
+Message-Id: <8eec5c4417301ea3b38e6662e7b29c9071f233e1.1731467662.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1731467662.git.steve@sakoman.com>
 References: <cover.1731467662.git.steve@sakoman.com>
@@ -62,33 +62,72 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 03:16:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207084
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207079
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Ola x Nilsson <olani@axis.com>
 
-The logic in the previous commit was reversed, update to fix it.
+The pipe library is deprecated in Python 3.11 and will be removed in
+Python 3.13.  pipe.quote is just an import of shlex.quote anyway.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Clean up imports while we're at it.
+
+Signed-off-by: Ola x Nilsson <olani@axis.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
+(cherry picked from commit 5f33c7b99a991c380d1813da8248ba5470ca4d4e)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oe/patch.py | 11 +++++------
+ 1 file changed, 5 insertions(+), 6 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index f40ad9f6f1..d38c9d79c0 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+diff --git a/meta/lib/oe/patch.py b/meta/lib/oe/patch.py
+index 4ec9caed45..e607148ec7 100644
+--- a/meta/lib/oe/patch.py
++++ b/meta/lib/oe/patch.py
+@@ -2,9 +2,11 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
  
--SRCREV = "cc1f6167cb5065daba1462056e2dce8ff72aa855"
-+SRCREV = "9df045968d739ead0bebacce415d05269694de4e"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
++import os
++import shlex
++import subprocess
+ import oe.path
+ import oe.types
+-import subprocess
  
+ class NotFoundError(bb.BBHandledException):
+     def __init__(self, path):
+@@ -25,8 +27,6 @@ class CmdError(bb.BBHandledException):
+ 
+ 
+ def runcmd(args, dir = None):
+-    import pipes
+-
+     if dir:
+         olddir = os.path.abspath(os.curdir)
+         if not os.path.exists(dir):
+@@ -35,7 +35,7 @@ def runcmd(args, dir = None):
+         # print("cwd: %s -> %s" % (olddir, dir))
+ 
+     try:
+-        args = [ pipes.quote(str(arg)) for arg in args ]
++        args = [ shlex.quote(str(arg)) for arg in args ]
+         cmd = " ".join(args)
+         # print("cmd: %s" % cmd)
+         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, shell=True)
+@@ -215,7 +215,7 @@ class PatchTree(PatchSet):
+         with open(self.seriespath, 'w') as f:
+             for p in patches:
+                 f.write(p)
+-         
++
+     def Import(self, patch, force = None):
+         """"""
+         PatchSet.Import(self, patch, force)
+@@ -919,4 +919,3 @@ def should_apply(parm, d):
+             return False, "applies to later version"
+ 
+     return True, None
+-
 -- 
 2.34.1
 
