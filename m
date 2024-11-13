@@ -1,85 +1,166 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 647BAD41C3D
-	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 12:49:51 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.10984.1731502184905733327
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A5F5D41C3E
+	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 12:51:51 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.11011.1731502309274865187
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Nov 2024 04:49:45 -0800
+ Wed, 13 Nov 2024 04:51:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Z013VTDY;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43159c9f617so55267155e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 04:49:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1731502183; x=1732106983; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WwrDb2/4iOINfcooHVkJuqnKuissUFGCKaCwgAYAphA=;
-        b=Z013VTDYubiCrc52p18UNca+fvcZhLdDg1XwnlIIahW2gvcRi2Y4RZhDiBjCngI4XC
-         3YE5vNJErHZgPLwd02odkss6AOfYXQjgoPoiBe0JhRwfNLrsdiM4DLUCSo9+2Na4QQ9b
-         O2ACvnuxjjlvkJ2EjCDVqlqZJNh8cAwZOdv7Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731502183; x=1732106983;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=WwrDb2/4iOINfcooHVkJuqnKuissUFGCKaCwgAYAphA=;
-        b=AFFJ6LWBuXq1LMDuTYM8Wz5SaGbQ4EzXqIlV6y1CWiApDVhL0XqtJXbOwvjHYkBFrZ
-         TcCSx0O472p1GMgIUdZOqL3J/e38H/iZxE51tQLWSghGkfBIYj29UWeUxCBmLenjvTxn
-         dvDHpKQSh78kezo9BFZzL0icstDhyK6cUpxoLl0VH0n4K36K2JNFBwZ6Jl8n7DHasCwZ
-         kPYfpYGKZKh1yyDVpqBr/DbD1hRUdvXrdGaGY+9qxm/sXGnamwh1sFQ4CZvpZIMCKTXa
-         FrkFvL7i9vgR6FVhf7TxC/xMr3dunUdlLuEKj2XJjyjAk9os6GjnfcJelNP5alIfZQsi
-         DF/A==
-X-Forwarded-Encrypted: i=1; AJvYcCVoEMG98IoogDqU8GfveTUozFwIsvlgZmA1sqYMXiFgKi5Bmq7HZCznXw68IMJoAsymDIqn/kvWTIPrfSZYdFEWrQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwNZjbq6DYa9/DdGds3kgYiWQ6QyCJt5C4YA7wsoJ+GutD4KqMr
-	ALx/VN2A9EMuEA4WmdG12mm6vyzf9PmwzuV8SLbTTuxgS4gncsfQLOQy1Vj+h2g=
-X-Google-Smtp-Source: AGHT+IG0yyxcGMzrMawjYN/DXRl7nKGh0xp0ninpInvFqeaRGZdTLgeUFdvjiZsZnXv78O7lDdmTkA==
-X-Received: by 2002:a05:6000:1541:b0:37d:5141:ee91 with SMTP id ffacd0b85a97d-381f186b3ebmr16744638f8f.18.1731502183313;
-        Wed, 13 Nov 2024 04:49:43 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ab73:49b3:d413:b355? ([2001:8b0:aba:5f3c:ab73:49b3:d413:b355])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432d4788c2asm20249075e9.0.2024.11.13.04.49.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 04:49:42 -0800 (PST)
-Message-ID: <d2d018af97eb31eccef77e18c991cc4e689e4549.camel@linuxfoundation.org>
-Subject: Re: [OE-core] PREMIRRORS ordering seem wrong?
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Joakim.Tjernlund@infinera.com,
- "openembedded-core@lists.openembedded.org"	
- <openembedded-core@lists.openembedded.org>
-Date: Wed, 13 Nov 2024 12:49:41 +0000
-In-Reply-To: <5e358010917ca8fd59bd2d31bdcc12adac6ed478.camel@infinera.com>
-References: <5e358010917ca8fd59bd2d31bdcc12adac6ed478.camel@infinera.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1047f0ff89=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ADBgvnf028584
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 12:51:48 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42uwtua0je-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 12:51:48 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 13 Nov 2024 04:51:47 -0800
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 13 Nov 2024 04:51:47 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] bzip2: fix 'bzip2 --version > /tmp/aaa 2>&1' hang
+Date: Wed, 13 Nov 2024 04:51:47 -0800
+Message-ID: <20241113125147.3276369-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: OMkF4nrV6y1fBF6C3hHElAJA2Wfli-8q
+X-Authority-Analysis: v=2.4 cv=BPnhr0QG c=1 sm=1 tr=0 ts=6734a0e4 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=uPZiAMpXAAAA:8 a=xNf9USuDAAAA:8 a=t7CeM3EgAAAA:8 a=CCpqsmhAAAAA:8 a=HrJoeDBFkZHRldxA6sAA:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=ul9cdbp4aOFLsgKbc677:22
+X-Proofpoint-ORIG-GUID: OMkF4nrV6y1fBF6C3hHElAJA2Wfli-8q
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-12_09,2024-11-12_02,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ malwarescore=0 clxscore=1015 mlxscore=0 mlxlogscore=999 bulkscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411130110
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 12:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207097
+ <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 12:51:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207098
 
-On Wed, 2024-11-13 at 10:30 +0000, Joakim Tjernlund via
-lists.openembedded.org wrote:
-> I have set:
-> INHERIT +=3D "own-mirrors"
-> PREMIRRORS:prepend =3D "my git pre mirror expr."
->=20
-> looking at:
-> =C2=A0bitbake -e my-image | grep PREMIRRORS=3D
-> I see that "my git pre mirror expr." is last in PREMIRRORS variable,
-> that seems wrong?
->=20
-> To me "my git pre mirror expr." should be before the entries added by
-> own-mirrors
+According to [1]
 
-INHERIT in conf files is deferred and not immediately processed.
+As of the current version 1.0.8, bzip2 --version will print version
+info but it will also continue compressing stdin:
 
-Cheers,
+  $ ./bzip2 --version
+  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
 
-Richard
+     Copyright (C) 1996-2019 by Julian Seward.
+
+     This program is free software; [...]
+
+  bzip2: I won't write compressed data to a terminal.
+  bzip2: For help, type: `bzip2 --help'.
+
+Debian (and its downstreams like Ubuntu) will patch this out [2],
+making the < /dev/null unnecessary, port a part of debian patch
+to fix the issue
+
+[1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-a-program-like-bzip2
+[2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy.patch/
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ ...-fix-bzip2-version-tmp-aaa-will-hang.patch | 62 +++++++++++++++++++
+ meta/recipes-extended/bzip2/bzip2_1.0.8.bb    |  1 +
+ 2 files changed, 63 insertions(+)
+ create mode 100644 meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
+
+diff --git a/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
+new file mode 100644
+index 0000000000..84206b2a4d
+--- /dev/null
++++ b/meta/recipes-extended/bzip2/bzip2/0001-fix-bzip2-version-tmp-aaa-will-hang.patch
+@@ -0,0 +1,62 @@
++From a9dd6acbaca836fc4e943e69a31b2e7acda32045 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 13 Nov 2024 19:49:23 +0800
++Subject: [PATCH] fix 'bzip2 --version > /tmp/aaa 2>&1' hang
++
++According to [1]
++
++As of the current version 1.0.8, bzip2 --version will print version
++info but it will also continue compressing stdin:
++
++  $ ./bzip2 --version
++  bzip2, a block-sorting file compressor.  Version 1.0.8, 13-Jul-2019.
++  
++     Copyright (C) 1996-2019 by Julian Seward.
++  
++     This program is free software; [...]
++  
++  bzip2: I won't write compressed data to a terminal.
++  bzip2: For help, type: `bzip2 --help'.
++
++Debian (and its downstreams like Ubuntu) will patch this out [2],
++making the < /dev/null unnecessary:
++
++[1] https://stackoverflow.com/questions/59757176/why-using-dev-null-with-a-program-like-bzip2
++[2] https://sources.debian.org/src/bzip2/1.0.8-6/debian/patches/20-legacy.patch/
++
++Upstream-Status: Submitted [bzip2-devel@sourceware.org]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ bzip2.c | 8 +++++---
++ 1 file changed, 5 insertions(+), 3 deletions(-)
++
++diff --git a/bzip2.c b/bzip2.c
++index d95d280..6ec9871 100644
++--- a/bzip2.c
+++++ b/bzip2.c
++@@ -1890,7 +1890,9 @@ IntNative main ( IntNative argc, Char *argv[] )
++                case '8': blockSize100k    = 8; break;
++                case '9': blockSize100k    = 9; break;
++                case 'V':
++-               case 'L': license();            break;
+++               case 'L': license();
+++                         exit ( 0 );
+++                         break;
++                case 'v': verbosity++; break;
++                case 'h': usage ( progName );
++                          exit ( 0 );
++@@ -1916,8 +1918,8 @@ IntNative main ( IntNative argc, Char *argv[] )
++       if (ISFLAG("--keep"))              keepInputFiles   = True;    else
++       if (ISFLAG("--small"))             smallMode        = True;    else
++       if (ISFLAG("--quiet"))             noisy            = False;   else
++-      if (ISFLAG("--version"))           license();                  else
++-      if (ISFLAG("--license"))           license();                  else
+++      if (ISFLAG("--version"))           { license(); exit ( 0 ); }  else
+++      if (ISFLAG("--license"))           { license(); exit ( 0 ); }  else
++       if (ISFLAG("--exponential"))       workFactor = 1;             else 
++       if (ISFLAG("--repetitive-best"))   redundant(aa->name);        else
++       if (ISFLAG("--repetitive-fast"))   redundant(aa->name);        else
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+index 324276df70..1327c446b3 100644
+--- a/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
++++ b/meta/recipes-extended/bzip2/bzip2_1.0.8.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://sourceware.org/pub/${BPN}/${BPN}-${PV}.tar.gz \
+            file://configure.ac;subdir=${BP} \
+            file://Makefile.am;subdir=${BP} \
+            file://run-ptest \
++           file://0001-fix-bzip2-version-tmp-aaa-will-hang.patch;subdir=${BP} \
+            "
+ SRC_URI[md5sum] = "67e051268d0c475ea773822f7500d0e5"
+ SRC_URI[sha256sum] = "ab5a03176ee106d3f0fa90e381da478ddae405918153cca248e682cd0c4a2269"
+-- 
+2.25.1
+
 
