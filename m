@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 39457D637C4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C1E4D637C1
 	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 20:42:54 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.web10.22188.1731530570724599288
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.21882.1731530567650312346
  for <openembedded-core@lists.openembedded.org>;
- Wed, 13 Nov 2024 12:42:50 -0800
+ Wed, 13 Nov 2024 12:42:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=06xemwTo;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2118dfe6042so38467055ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 12:42:50 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uHlnXccE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21116b187c4so59600535ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 12:42:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731530570; x=1732135370; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731530567; x=1732135367; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oh7wdp8fqAr9lPeGHhDC7vknd1jzz4zIbmOP0rZ48sM=;
-        b=06xemwTo+4EYLyzjLG63y9tiNWCOmTfknA2sG9fKapKiJuW3w82kTic2cawfAgAuN+
-         svfryCoJurXjRCcNUzSsF5VUNY8ORcmWF7xPTBO+zU++03NpN2U2RRX6tnX4qgmPF7cv
-         7G+ANkKz0Aj1naFX0sKaLJ/xTgNfGOeLA7Z8w1F0ZfNbRRkVKK5SmJpqeUJzqHaeU6sm
-         Ke2/iUz2suX83pO3/MwnZVaYAA7QHxC/vrzoZ8GGOszI3I41/T+EpKVTsSR5dxvNWpO0
-         wVOaL9lI31pe9zhZs62fjgbdxsQzLoV01VsTfeMqoTaDyYy2sEvTjg67NEaTZTEl6LQ2
-         wUBA==
+        bh=UD0tpMjzR08rsMBW3pSKtcrG+3qA2maxKenzc5aKv5s=;
+        b=uHlnXccE32ro8RmdJ1N2qdFl6FY2ARRXlF5v+r3V95hJdU9pX+2fcMg2Y6uVJ+x/Xe
+         BwR5i3UT1T71WR6Uhz2+gaJJtF3SU+lC4iYcs0UYNaSEHKU7OsIdUggsBKoqUfAkaRqT
+         DgRICW3gffY0HcnlU47c49gwOkM4RL6CiSnRQHfPBbi1ruzXjtikvg4VAcioMrMiahbo
+         pNZEp5mN7oZSXKflFE1+XiKzAg7xNTTytQ8L9Hij7DS5QsMtmp/BPZJ2usjX0J2Jb6Si
+         ArNZL+O1YLDKZx157ZpbmVlnyF2eyNk+SLDM/0K2w3esymAGzHuAH/UCWaQmCSvTZ6+k
+         7gOg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731530570; x=1732135370;
+        d=1e100.net; s=20230601; t=1731530567; x=1732135367;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oh7wdp8fqAr9lPeGHhDC7vknd1jzz4zIbmOP0rZ48sM=;
-        b=PxeqiwfaCedIulbDoMankdAGT/6K5osoYMERYGkHGJ535KFFy8OvXuZpF1FlsErbOS
-         0nlUr0j20Wb/htw1mmByDOw4+bPzz6HYwrcC5xw48drbehOmZBRS/pB7WjRvT2zxhCeW
-         mMvr4LkAdRb7qWstRuPK5jNVOHM6lF0rE3MY6+yyynLmhMsLMp4VzKSsCnT1/Zizs/uN
-         OeZcO0zK7iPdbsWtDWdOY48pTBevbZY1KPLYQMUrw9mtpiqDkiX/rGRzXDfCGUJc9+21
-         oX01HbxMJMCtYA1sKfLa+MgkULLUaIXkwC3MygpgUm+hOvsZfqS1roxWq2nRe0KblvzI
-         mDXA==
-X-Gm-Message-State: AOJu0YyHxhq9bmAw3zz+KTeCyhsl75Xr0VrFRTFzc4tF0ZjkJwRIh8dU
-	4mtFaLM3YnH2VwsETAQAg2iH8DusZCC6FTu9TKZyARTJBJSuS7O5jR0SA94nBWAWUJ0lf5GSL9W
-	u
-X-Google-Smtp-Source: AGHT+IHFR56025QtEyddEWaDWZI+Q/4bFKLzM0vmEZIW5A9t25bmLobzEsWbghBicP8WPKezchGOCA==
-X-Received: by 2002:a17:902:c951:b0:20e:5777:1b83 with SMTP id d9443c01a7336-211ab952b9cmr108705925ad.24.1731530569939;
-        Wed, 13 Nov 2024 12:42:49 -0800 (PST)
+        bh=UD0tpMjzR08rsMBW3pSKtcrG+3qA2maxKenzc5aKv5s=;
+        b=NR17Dlcydu0xIqdCRFkPneHqwLyE8fZ6REGGO7iSvIPlZrchr+R4h4blzl4R7DmUbn
+         9UdAha1CyWy7EemmDJI5rSD6hSUeCmKvGCC3UbZ177g81f0wSkT1czqeHg2/Uv0djcz7
+         KR/noyr6FfuNSYHbTn/1vUL3T4JE2uH+oP9aeQcgpoubBNwy1y0wAQn5T4ltNjb8j06B
+         WpiDWQSFn5U92RQit1lP/N9jl4+btjwxQkmwYFg3K9n12SrFhAyk9yKoOoZYa4X3cOZI
+         H2L7v+9WOj4lUllewCxm9fhm8fECuNfAb7bzxlw/7JOH1Br9oow6GZn4ai8JkZu13/SS
+         8bhg==
+X-Gm-Message-State: AOJu0YyJUp/vqKyJ2w5o2D/Qv9N4qnyLnJkDxIMGzGbr2Wm1O2a/ZXex
+	kkNhSTRGWjH6LSa/uGhMH+h8BXA7EW75bAsQEG2/fsbwpbv/PX5p0FLjur8Zyo+pnP2uyxhhptS
+	F
+X-Google-Smtp-Source: AGHT+IFWCRJGXotYOWvtNUi6J/Xqd36Hzn/S4xB4chBq3yBOQApJJZzOfOH7ZHklSXGQx4lWKvkyRw==
+X-Received: by 2002:a17:902:d50f:b0:211:31ac:89eb with SMTP id d9443c01a7336-21183d10a1dmr298907465ad.11.1731530566913;
+        Wed, 13 Nov 2024 12:42:46 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e84ee2sm114545595ad.274.2024.11.13.12.42.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-21177e84ee2sm114545595ad.274.2024.11.13.12.42.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Nov 2024 12:42:49 -0800 (PST)
+        Wed, 13 Nov 2024 12:42:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 8/9] enchant2: fix do_fetch error
-Date: Wed, 13 Nov 2024 12:42:23 -0800
-Message-Id: <15337a58f77de3d0a30b73fcd836349df811ca39.1731530398.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 6/9] pseudo: Fix envp bug and add posix_spawn wrapper
+Date: Wed, 13 Nov 2024 12:42:21 -0800
+Message-Id: <782fc8c12deaf713a60c62c34914b585ff150ddf.1731530398.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1731530398.git.steve@sakoman.com>
 References: <cover.1731530398.git.steve@sakoman.com>
@@ -62,31 +62,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 20:42:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207132
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207130
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Change the SRC_URI to the correct value due to the following error:
-WARNING: enchant2-2.6.7-r0 do_fetch: Failed to fetch URL https://github.com/AbiWord/enchant/releases/download/v2.6.7/enchant-2.6.7.tar.gz, attempting MIRRORS if available
+Fix pseudo with python 3.13 by adding a wrapper for posix_spawn and
+fixing a NULL pointer dereference in envp handling it uncovered. This
+fixes issues on Fedora 41.
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit d80e20d70d170397f9827c5a5fc75ad1f2e8cd94)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/enchant/enchant2_2.6.7.bb | 2 +-
+ meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/enchant/enchant2_2.6.7.bb b/meta/recipes-support/enchant/enchant2_2.6.7.bb
-index b31bdc422b..26ff4e8502 100644
---- a/meta/recipes-support/enchant/enchant2_2.6.7.bb
-+++ b/meta/recipes-support/enchant/enchant2_2.6.7.bb
-@@ -14,7 +14,7 @@ inherit autotools pkgconfig github-releases
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
- SRC_URI[sha256sum] = "a1c2e5b59acca000bbfb24810af4a1165733d407f2154786588e076c8cd57bfc"
+diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+index 7d8f71f65d..87c62e0678 100644
+--- a/meta/recipes-devtools/pseudo/pseudo_git.bb
++++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+@@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
+     file://older-glibc-symbols.patch"
+ SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
--GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
-+GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
- 
- S = "${WORKDIR}/enchant-${PV}"
+-SRCREV = "374089f2ed83da4d0d4e58df067142ff99c7eb12"
++SRCREV = "28dcefb809ce95db997811b5662f0b893b9923e0"
+ S = "${WORKDIR}/git"
+ PV = "1.9.0+git"
  
 -- 
 2.34.1
