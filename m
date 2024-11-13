@@ -2,101 +2,122 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 633ADD597D2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C05BD597DB
 	for <webhook@archiver.kernel.org>; Wed, 13 Nov 2024 03:16:48 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web10.3474.1731467799778933772
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+ by mx.groups.io with SMTP id smtpd.web10.3478.1731467807425478725
  for <openembedded-core@lists.openembedded.org>;
- Tue, 12 Nov 2024 19:16:39 -0800
+ Tue, 12 Nov 2024 19:16:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ltrmhRqG;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20c7edf2872so2348015ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 19:16:39 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=VQhHqxRs;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.53, mailfrom: steve@sakoman.com)
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7181caa08a3so3602379a34.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 12 Nov 2024 19:16:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731467799; x=1732072599; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1731467806; x=1732072606; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=GpaiB6LK03zPHcNE/0DIz+ZIKNYrhCPnebwRFzzxcvg=;
-        b=ltrmhRqGNWoCkLLlrT4zBxYA91YTUZixCQ3B670skYk4GD4AMAr52ToPQyIyxzaWXh
-         hpsZh82WZizb78AS6YulwVvnTxEeprsrKVvWgIMG0Na0ERxJzafgLguWplUY6o41E+XN
-         9401B4T0UZZLslCran6S5z0fbEP7Vab5GhCt0pXT/w400SNKK/eB0n4LKRHVREbvamC9
-         3TojZFUx6RpDTD2W1GLugA1rGRmZJCyTBMyz/4NlshDVclNlfjXx3v0N7B8r+CGD8cB7
-         zLBXFubnInz05rqku7LWwGTc2imWctSwq7Mz+5SmG4t45SoUVI4OCp3sn0HqJJwykggn
-         egtg==
+        bh=usguIwgmuvs9D0QCZdRPiXh/b/rh9zwLwi1v7rl6A6I=;
+        b=VQhHqxRsvV+WOOJAwIaUCONdAigasKwD6DOkWTTiX0qA9vQhU6OR3UTEXKixhUBzCp
+         nsHundS2+iedg+qiDxJmmHJjA0qbneCDz44meD+jKJmml8QQ+LAuoGG0tYnEgWWTr5/e
+         cTFfTXfkauAO2bE4upW0W130IL2X4uIVMK/IxaGpJsRWUcEqhppfZzw50jBxQlI9phoM
+         cjOQBkNz4qYLImFKUR3FeKPSmqi0KF90z36lBfR+fq0j8APCRgRrMrBMtdz/tvM2rGZf
+         Ryc3kjabux3QcvQeqvi6th7mv8eelRxK1/r4rK2sdTC2YM7NPrrjR+OPVowZaNSJJ5oB
+         okyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731467799; x=1732072599;
+        d=1e100.net; s=20230601; t=1731467806; x=1732072606;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=GpaiB6LK03zPHcNE/0DIz+ZIKNYrhCPnebwRFzzxcvg=;
-        b=voZHbBh1Bv2ajrFAD5+XC42v1ZgML8AM/9f9vKxPjeIiDfXW8nsLNuFdJzH1xoKAu1
-         jPuY+5ymCLZhaqRyLZnL0KwasMdhsnFHS0jXomUGesM3GtOg8ERvbsqw8bIH+/yy9Z26
-         gxa6xFmowBn0qsv4+oPLltybHuqCBtjzsdT0MP3nFqKMV+rojmKkQ9vIpm+kincyKrm+
-         7Aplm6ZUiL2dUlz8S26t+5mL4oySLXgRyf/zgnK5R1jPOXzr092k9TmN6GUiqATINI5a
-         eFLWuLj2xKo+2FTQUgwutyGOSLEuqEbI3KZhWZ5+IrlAavYvY0BsXZhTWYGjJq/qp9gk
-         ggTg==
-X-Gm-Message-State: AOJu0YxELuf+PCkOLYzmbA8xSK5FABG9/NuSvS0LTC7ous/eN7wLKzSS
-	Mw3rx6xI7+w/q9biHil+H4RO3wUtmN0cYl+1R6h9vkL35WDxBU4hIAIZ3y+7eJQAT6HVQ3YbfdH
-	x
-X-Google-Smtp-Source: AGHT+IHjKKPutfOGlbLVaUURBc8Ih6PoSdqP24eD1ybjtcSA/oTu1Y4iTktCrxeuFLZmiH5I3ZqEhA==
-X-Received: by 2002:a17:902:e807:b0:20a:fd4e:fef6 with SMTP id d9443c01a7336-2118217cb53mr288789005ad.8.1731467799027;
-        Tue, 12 Nov 2024 19:16:39 -0800 (PST)
+        bh=usguIwgmuvs9D0QCZdRPiXh/b/rh9zwLwi1v7rl6A6I=;
+        b=mJ7KFIwNyeF0cqDid5u57WY5NaeQx35Ni9/vrXWFCW4mat4jk9jEZdrBSxtClLQRLx
+         3DYcj7kemGOEfPi8h3hrhD/NcR4bFFUaLO4proMr2Is1gD5vL/AeAoyW78fBv7KYekhK
+         swOou2gFuHT/y5EMsr7c9iga/S9eJWgGeIfDV7gprukhVVknYQ6cbdl1GT2/mdFBfTEH
+         BLDKz80GY8uCrVwgxwTRo3XgmT9WxUAULcS0j8lbgoDWij4WgLhmJ8b2Qgh56OA9txaW
+         MO/k79hQ+T5iaOQ0/vRLJK/8sbLC1XGbTX2qG8Sw3Gs6bDdw3/5tshci/VMs0eZSi/QC
+         mPkg==
+X-Gm-Message-State: AOJu0YyPUDgXXfL20l0OysELyB20Yc8kjKl+A22DlH7zOr6AdDoPlkTn
+	VuYQFX6zvgwVYj29kKyDudrx2HcNKFr18O48BwboPA1DNBtLfOUCxkS2rPoZxVHSrCDAFAMz4HW
+	d
+X-Google-Smtp-Source: AGHT+IEigs6HStaUZeqUyfrefMBSgeNNBCKeq17BhNZ700ME7Pe4uW8+NkgM4Bf29X/zmEGJzD5PDA==
+X-Received: by 2002:a05:6830:6e99:b0:718:c7f:5cbd with SMTP id 46e09a7af769-71a1c26d439mr20364342a34.28.1731467805671;
+        Tue, 12 Nov 2024 19:16:45 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f64616csm9660213a12.64.2024.11.12.19.16.38
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f41f64616csm9660213a12.64.2024.11.12.19.16.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Nov 2024 19:16:38 -0800 (PST)
+        Tue, 12 Nov 2024 19:16:45 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/19] pseudo: Update to pull in syncfs probe fix
-Date: Tue, 12 Nov 2024 19:16:06 -0800
-Message-Id: <40a013f7134aec1d0e953ad4906944072cfb2ca1.1731467662.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 17/19] pseudo: Fix to work with glibc 2.40
+Date: Tue, 12 Nov 2024 19:16:10 -0800
+Message-Id: <63d7c11b46119f0c97d08f2fa837c02e633ab75f.1731467662.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1731467662.git.steve@sakoman.com>
 References: <cover.1731467662.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 13 Nov 2024 03:16:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207086
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207090
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Pulls in the changes:
-
-Eilís 'pidge' Ní Fhlannagáin (1):
-      subports: Add _GNU_SOURCE for syncfs probe
-
-Richard Purdie (1):
-      SECURITY.md: Add file
-
-Wu Zhenyu (1):
-      pseudo.1: Fix a typo
+glibc 2.40 renames some internal header variables. Update our hack to
+work with the new version. These kinds of problems illustrate we need to
+address the issue properly.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/pseudo/files/glibc238.patch | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 134d941609..067fb6b378 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -14,7 +14,7 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
- 
--SRCREV = "ec6151a2b057109b3f798f151a36690af582e166"
-+SRCREV = "a8453eea4d902bbb0e01c786f1cb4a178c3bbee3"
- S = "${WORKDIR}/git"
- PV = "1.9.0+git${SRCPV}"
- 
+diff --git a/meta/recipes-devtools/pseudo/files/glibc238.patch b/meta/recipes-devtools/pseudo/files/glibc238.patch
+index da4b8caee3..dfb5c283f6 100644
+--- a/meta/recipes-devtools/pseudo/files/glibc238.patch
++++ b/meta/recipes-devtools/pseudo/files/glibc238.patch
+@@ -9,7 +9,7 @@ Index: git/pseudo_wrappers.c
+ ===================================================================
+ --- git.orig/pseudo_wrappers.c
+ +++ git/pseudo_wrappers.c
+-@@ -6,6 +6,15 @@
++@@ -6,6 +6,18 @@
+   * SPDX-License-Identifier: LGPL-2.1-only
+   *
+   */
+@@ -21,6 +21,9 @@ Index: git/pseudo_wrappers.c
+ +#undef __GLIBC_USE_ISOC2X
+ +#undef __GLIBC_USE_C2X_STRTOL
+ +#define __GLIBC_USE_C2X_STRTOL 0
+++#undef __GLIBC_USE_ISOC23
+++#undef __GLIBC_USE_C23_STRTOL
+++#define __GLIBC_USE_C23_STRTOL 0
+ +
+  #include <assert.h>
+  #include <stdlib.h>
+@@ -29,7 +32,7 @@ Index: git/pseudo_util.c
+ ===================================================================
+ --- git.orig/pseudo_util.c
+ +++ git/pseudo_util.c
+-@@ -8,6 +8,14 @@
++@@ -8,6 +8,17 @@
+   */
+  /* we need access to RTLD_NEXT for a horrible workaround */
+  #define _GNU_SOURCE
+@@ -41,6 +44,9 @@ Index: git/pseudo_util.c
+ +#undef __GLIBC_USE_ISOC2X
+ +#undef __GLIBC_USE_C2X_STRTOL
+ +#define __GLIBC_USE_C2X_STRTOL 0
+++#undef __GLIBC_USE_ISOC23
+++#undef __GLIBC_USE_C23_STRTOL
+++#define __GLIBC_USE_C23_STRTOL 0
+  
+  #include <ctype.h>
+  #include <errno.h>
 -- 
 2.34.1
 
