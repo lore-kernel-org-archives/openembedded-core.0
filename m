@@ -2,57 +2,57 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9017DD637D4
-	for <webhook@archiver.kernel.org>; Thu, 14 Nov 2024 17:04:59 +0000 (UTC)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
- by mx.groups.io with SMTP id smtpd.web10.43.1731603892198327492
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77688D68B3F
+	for <webhook@archiver.kernel.org>; Thu, 14 Nov 2024 17:05:09 +0000 (UTC)
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web10.45.1731603893544004351
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Nov 2024 09:04:52 -0800
+ Thu, 14 Nov 2024 09:04:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=X9UGvPZk;
- spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb57f97d75so9200191fa.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 09:04:51 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=G+eoRFzT;
+ spf=pass (domain: linaro.org, ip: 209.85.208.177, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ff550d37a6so9094541fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 09:04:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731603890; x=1732208690; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1731603891; x=1732208691; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=I840g7/ZBqDaJH/8K4gH7XEPdgiNACi1XgAydVwRMZM=;
-        b=X9UGvPZkoFQH4ZZujck/YqrbRhgtNAVV5DhNPvW+GCdftixOD6VKl8HdhczOagOR5/
-         5+pYMr7gMcYHodkg9aEmCpFvI0Q4zZkdPHAE3XJ455mfyd2yr51i4G3xrWcchVQjrImn
-         LlOSamWZj573jlqPxsMYRAN+qSfO/Lj4ku0df2wKW0jGDHbYgqMjN76jWwnuzUX2Ld4s
-         ugLI1ghushi/6wP+iCr+31wxjAbU/Q16emc4SUMeM77iIDW/PB40RnNm+HB6LMhIaj8G
-         CvnxMu7mhIjbPLu4NxZkHqelD6pXSpYzVInovdZUHsO3pxY8rq6BR4EWmNxvTvlecn0m
-         mGXA==
+        bh=LETh9576nQNllldXwTUbGgoAKWUhkpITj4jU+EakG5Q=;
+        b=G+eoRFzTc451T4Bpg8Ypekw+AmzeurrWeBZ41AucKQIYqVUwKYWxsbKGN9YLj9TnYA
+         i/y91rYEDTQVJ8zrZWb2t53pnyrZkfGPNKxIJOsy9srGe0tFwISKfyLzqLhJ93E0KTY0
+         gMs9M15GRxV/rwJzYrkonzcsP7vvGZo/utuhawJI0J59krMdssY1UgkxDNDB0ZwUYOaC
+         fPM63lVPrcRZD2FSl+XSYpE6ebKvCevPeTUDKvqtECzS0Nksv8okpAiFR0WNH0JpzfE4
+         mvw1ewSpzEMsG0zrghYAhe161jLUTR3zS9gJL+ftsD2ePm0tekgF2HKWA0RoHoZdbuDH
+         6Fvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731603890; x=1732208690;
+        d=1e100.net; s=20230601; t=1731603891; x=1732208691;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=I840g7/ZBqDaJH/8K4gH7XEPdgiNACi1XgAydVwRMZM=;
-        b=JlX/XOggKqUtoXBbL5OY3WcZ1fWAcdw9739+sKkcbuX26IIsRcl1ucALeEjPDXL+LM
-         xUQBZyxOLlEtswFy9Nc2MYxIFm2bT3tmLemA1ysno8mPAaXOZn0qEPs/i/MDc/Vqc+oo
-         Y1MIkEdRZZiZv6alL6j18PHfwor5+LEA2SCBxN4fyzj8AJ336eECAqOF7ZvRZiOk3i4X
-         0Mv9TcMj5EKgWlUxzrisUjOkMeRiq5Cf4tHxH5HwaOsFWLsTiUzkPgHDFjsKh4f+L+xg
-         MNvvSJA4Jt3qo2juw2JShiWWmieoKHJL6BmU1XjdDDmCS4WAx+EIIqkHvA/nV9ZW+E4n
-         SkcQ==
-X-Gm-Message-State: AOJu0Yy+vXPa4bzvVztvxStb2JPVgF5pqaeW6zO5rSTTeTwopwTlU7uu
-	QIMRlNTS6lAb/ifzCRD1DaZj/xN7vmWZ0GPoOsUDHzgnwjv/dltQMT3NFc73qAonPo+4eZFsxsM
-	9
-X-Google-Smtp-Source: AGHT+IGBKleI+O1DtNtdQE6QdTZR32XchjUSXkR/uh3NzfHBDfmT5DEah/yN1haZ0Khg1UWfiFZwRw==
-X-Received: by 2002:a2e:be20:0:b0:2f5:11f6:1b24 with SMTP id 38308e7fff4ca-2ff201b3185mr127543691fa.18.1731603889757;
-        Thu, 14 Nov 2024 09:04:49 -0800 (PST)
+        bh=LETh9576nQNllldXwTUbGgoAKWUhkpITj4jU+EakG5Q=;
+        b=lgNEpYo51VOfGhJMu3UxGgeNceYk3VssypdTAV0y3u5xiqVrL7QJ9tMFdUlCTy3lS0
+         1YZHjnAFZWEVZgPDsXbvPv18TA1t+SIVxeUXFGhXJ13dfXoyDPgFnDdEtxJxq0zrYOQW
+         mhOuaEb8BrQgsCTKk/eKrDk/XeBPNgTiCiZOyczcFQ8r4p1Ktwe89hnzGYzThEFCURcy
+         LuRp5bSj/z7ZkCXpp6eyi2G16OIW5yKj0ff/0RMATjIHci2ci+EiCwa0veX6GhgICTKW
+         HyVKHw5gdIcjwPSOL+xi0hNW3H92ADRChx8794F6kJZe0/c8l1KRXZt5AuuRSrCbYqnA
+         WSZw==
+X-Gm-Message-State: AOJu0YzDJNtmM/rh6MDbPq5Z6v4d2vugGY0W5nTIUj9zuxzSpFbu+iKE
+	Z24QoA1J25e4lp94kypkeQBO2cDH7cF46Uto2NQddVfABuWZfLv9/vzyca0JI3uINo4vL84hsri
+	A
+X-Google-Smtp-Source: AGHT+IGTJ9KGDiDbzXEO5s6jMIhAQf5+hUlZ8Qk2qhu7LMPSRgt4Pzdey22HnAHqK3tF237GmjjHCQ==
+X-Received: by 2002:a05:651c:248:b0:2ef:21b3:cdef with SMTP id 38308e7fff4ca-2ff20259646mr128051941fa.25.1731603891082;
+        Thu, 14 Nov 2024 09:04:51 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff5977e038sm2336891fa.47.2024.11.14.09.04.47
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff5977e038sm2336891fa.47.2024.11.14.09.04.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 09:04:48 -0800 (PST)
+        Thu, 14 Nov 2024 09:04:50 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/3] linux-firmware: package Qualcomm X1 Elite audio DSP firmware
-Date: Thu, 14 Nov 2024 19:04:44 +0200
-Message-Id: <20241114170445.3092435-2-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 3/3] linux-firmware: package QCS615 Adreno ZAP shader
+Date: Thu, 14 Nov 2024 19:04:45 +0200
+Message-Id: <20241114170445.3092435-3-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241114170445.3092435-1-dmitry.baryshkov@linaro.org>
 References: <20241114170445.3092435-1-dmitry.baryshkov@linaro.org>
@@ -61,53 +61,53 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 17:04:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207174
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 17:05:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207175
 
-Package ADSP firmware usable on Qualcomm X1 Elite CRD and QCP platforms.
+Add a new package with the Adreno ZAP shader for the Qualcomm QCS615
+platform.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- .../recipes-kernel/linux-firmware/linux-firmware_20241110.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
 diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
-index 6475277a079a..daebdca13273 100644
+index daebdca13273..7b23f989e569 100644
 --- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
-@@ -424,7 +424,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
-              ${PN}-qcom-sm8550-audio-tplg \
-              ${PN}-qcom-sm8650-audio-tplg \
--             ${PN}-qcom-x1e80100-adreno \
-+             ${PN}-qcom-x1e80100-adreno ${PN}-qcom-x1e80100-audio \
-              ${PN}-qla2xxx ${PN}-qla2xxx-license \
-              ${PN}-rockchip-license ${PN}-rockchip-dptx \
-              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
-@@ -1472,6 +1472,7 @@ LICENSE:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "Firmware-qcom"
- LICENSE:${PN}-qcom-sm8550-audio-tplg = "Firmware-linaro"
- LICENSE:${PN}-qcom-sm8650-audio-tplg = "Firmware-linaro"
- LICENSE:${PN}-qcom-x1e80100-adreno = "Firmware-qcom"
-+LICENSE:${PN}-qcom-x1e80100-audio = "Firmware-qcom"
- 
- FILES:${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
- FILES:${PN}-qcom-yamato-license = "${nonarch_base_libdir}/firmware/LICENSE.qcom_yamato"
-@@ -1532,6 +1533,7 @@ FILES:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${nonarch_base_libdir}/firmwa
- FILES:${PN}-qcom-sm8550-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8550/*tplg.bin*"
- FILES:${PN}-qcom-sm8650-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8650/*tplg.bin*"
- FILES:${PN}-qcom-x1e80100-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/gen70500_zap.mbn*"
-+FILES:${PN}-qcom-x1e80100-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/battmgr.jsn"
- 
- RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
-@@ -1589,6 +1591,7 @@ RDEPENDS:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sm8550-audio-tplg = "${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-sm8650-audio-tplg = "${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-x1e80100-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-x1e80100-audio = "${PN}-qcom-license"
- 
- RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
- RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+@@ -410,6 +410,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
+              ${PN}-qcom-qcm6490-adreno \
+              ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute ${PN}-qcom-qcm6490-ipa \
++             ${PN}-qcom-qcs615-adreno \
+              ${PN}-qcom-qrb4210-adreno \
+              ${PN}-qcom-qrb4210-audio ${PN}-qcom-qrb4210-compute ${PN}-qcom-qrb4210-modem \
+              ${PN}-qcom-sa8775p-adreno \
+@@ -1450,6 +1451,7 @@ LICENSE:${PN}-qcom-qcm6490-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-compute  = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qcm6490-ipa  = "Firmware-qcom"
++LICENSE:${PN}-qcom-qcs615-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qrb4210-adreno = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qrb4210-audio = "Firmware-qcom"
+ LICENSE:${PN}-qcom-qrb4210-compute  = "Firmware-qcom"
+@@ -1509,6 +1511,7 @@ FILES:${PN}-qcom-qcm6490-adreno = "${nonarch_base_libdir}/firmware/qcom/qc[ms]64
+ FILES:${PN}-qcom-qcm6490-audio = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/adsp*.* ${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/battmgr.jsn"
+ FILES:${PN}-qcom-qcm6490-compute = "${nonarch_base_libdir}/firmware/qcom/qc[ms]6490/cdsp*.*"
+ FILES:${PN}-qcom-qcm6490-ipa = "${nonarch_base_libdir}/firmware/qcom/qcm6490/ipa_fws.mbn"
++FILES:${PN}-qcom-qcs615-adreno = "${nonarch_base_libdir}/firmware/qcom/qcs615/a612_zap.mbn*"
+ FILES:${PN}-qcom-qrb4210-adreno = "${nonarch_base_libdir}/firmware/qcom/qrb4210/a610_zap.mbn*"
+ FILES:${PN}-qcom-qrb4210-audio = "${nonarch_base_libdir}/firmware/qcom/qrb4210/adsp*.*"
+ FILES:${PN}-qcom-qrb4210-compute = "${nonarch_base_libdir}/firmware/qcom/qrb4210/cdsp*.*"
+@@ -1567,6 +1570,7 @@ RPROVIDES:${PN}-qcom-qcm6490-audio = "${PN}-qcom-qcs6490-audio"
+ RDEPENDS:${PN}-qcom-qcm6490-compute = "${PN}-qcom-license"
+ RPROVIDES:${PN}-qcom-qcm6490-compute = "${PN}-qcom-qcs6490-compute"
+ RDEPENDS:${PN}-qcom-qcm6490-ipa = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-qcs615-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qrb4210-adreno = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qrb4210-audio = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-qrb4210-compute = "${PN}-qcom-license"
 -- 
 2.39.5
 
