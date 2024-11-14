@@ -2,144 +2,112 @@ Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8EDF6D68B3C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9017DD637D4
 	for <webhook@archiver.kernel.org>; Thu, 14 Nov 2024 17:04:59 +0000 (UTC)
-Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
- by mx.groups.io with SMTP id smtpd.web10.42.1731603890601694396
+Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com [209.85.208.178])
+ by mx.groups.io with SMTP id smtpd.web10.43.1731603892198327492
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Nov 2024 09:04:50 -0800
+ Thu, 14 Nov 2024 09:04:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=SD+IOYt/;
- spf=pass (domain: linaro.org, ip: 209.85.208.174, mailfrom: dmitry.baryshkov@linaro.org)
-Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2fb3110b964so7887961fa.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 09:04:50 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=X9UGvPZk;
+ spf=pass (domain: linaro.org, ip: 209.85.208.178, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-2fb57f97d75so9200191fa.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 09:04:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1731603888; x=1732208688; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=9MaJQvw7OVjbczmw9dKZTTXdHYWr/ZTcGzXgUy0kVis=;
-        b=SD+IOYt/Nh3LNZPuW0qPbNMEt8eja1xMY9cE1fUABE8m+Kmcd1WPsqKWk2HO1sedhD
-         KmTaBFMIihyGApYzszl34JKsKpa/bfYY6QTXPPNW3T2tc/Iq5Dc+sGk0ctjVUhs8KZG3
-         ra3N9/uO9VWGZKVQYNvO/rZwsHSMa0ie1WIBhqVKbU+uJHfILtR5mJNV5hD/TZSePmWB
-         lqV74/hcXyfHN1ZVdN89/05YSkm0twZJvq5mUzqdD5/zInptwogQSqebzrCbldBJEs5r
-         PCl8NN5NqkoncrAaz46rskt0eVnN9ioW1Op4g3RmayoscLW4X8+vwLC8gFQTMEPOgqAC
-         5PeQ==
+        d=linaro.org; s=google; t=1731603890; x=1732208690; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I840g7/ZBqDaJH/8K4gH7XEPdgiNACi1XgAydVwRMZM=;
+        b=X9UGvPZkoFQH4ZZujck/YqrbRhgtNAVV5DhNPvW+GCdftixOD6VKl8HdhczOagOR5/
+         5+pYMr7gMcYHodkg9aEmCpFvI0Q4zZkdPHAE3XJ455mfyd2yr51i4G3xrWcchVQjrImn
+         LlOSamWZj573jlqPxsMYRAN+qSfO/Lj4ku0df2wKW0jGDHbYgqMjN76jWwnuzUX2Ld4s
+         ugLI1ghushi/6wP+iCr+31wxjAbU/Q16emc4SUMeM77iIDW/PB40RnNm+HB6LMhIaj8G
+         CvnxMu7mhIjbPLu4NxZkHqelD6pXSpYzVInovdZUHsO3pxY8rq6BR4EWmNxvTvlecn0m
+         mGXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731603888; x=1732208688;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=9MaJQvw7OVjbczmw9dKZTTXdHYWr/ZTcGzXgUy0kVis=;
-        b=Hd7+me5WxdB6cFEuDrICsRi1Y5lsNTjAlJMWi0bTW9tbp03DGxlBNDdHpgviNQI8OP
-         Oex5bwBp88btTWzObbE4aEAOjWluqpEX/I8JyX5Q8GC8pIL0LOtL5nre8b801puZ9OVk
-         /mq52PUGyKKbh76hApW83W3aoSAq/MbIW+K3TlCuO/gT+Hxb4ptCFdIpJ262UwgmEzxZ
-         dyQ5k8ubjRQcETF7kIj7omk6st1B7DFHt6I4yM3+qPJpiv0gzwL8sTOMPfLUKgvSctmW
-         xtGVq91A54bT4SVi+nAUm6Z9hdfIdj6Qqu54ePai/oQ+UU0rim4EW6aHhXMtF5pfOUAQ
-         eSLw==
-X-Gm-Message-State: AOJu0YxJzGQXxbdlvSjUdi6XoNWAVpNfubCQK/bD3q3tB9uj19CkpuXP
-	iLf2ZavYfxEEY+d1uH5ghG+jOuzUyr2wE6uyXlVZHXS+Lyy53lMkMOlACJKHcfkruaMRYDTIZvO
-	N
-X-Google-Smtp-Source: AGHT+IGYQWUl5o3R4tXpskAsRc+GFMlaSzmWLQksKN1KQJ+liWdeqQ3YUBnxuLkhV+QUsqCXvEI9Nw==
-X-Received: by 2002:a2e:a906:0:b0:2ff:54c2:baa1 with SMTP id 38308e7fff4ca-2ff5902f3f0mr15637531fa.20.1731603887773;
-        Thu, 14 Nov 2024 09:04:47 -0800 (PST)
+        d=1e100.net; s=20230601; t=1731603890; x=1732208690;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=I840g7/ZBqDaJH/8K4gH7XEPdgiNACi1XgAydVwRMZM=;
+        b=JlX/XOggKqUtoXBbL5OY3WcZ1fWAcdw9739+sKkcbuX26IIsRcl1ucALeEjPDXL+LM
+         xUQBZyxOLlEtswFy9Nc2MYxIFm2bT3tmLemA1ysno8mPAaXOZn0qEPs/i/MDc/Vqc+oo
+         Y1MIkEdRZZiZv6alL6j18PHfwor5+LEA2SCBxN4fyzj8AJ336eECAqOF7ZvRZiOk3i4X
+         0Mv9TcMj5EKgWlUxzrisUjOkMeRiq5Cf4tHxH5HwaOsFWLsTiUzkPgHDFjsKh4f+L+xg
+         MNvvSJA4Jt3qo2juw2JShiWWmieoKHJL6BmU1XjdDDmCS4WAx+EIIqkHvA/nV9ZW+E4n
+         SkcQ==
+X-Gm-Message-State: AOJu0Yy+vXPa4bzvVztvxStb2JPVgF5pqaeW6zO5rSTTeTwopwTlU7uu
+	QIMRlNTS6lAb/ifzCRD1DaZj/xN7vmWZ0GPoOsUDHzgnwjv/dltQMT3NFc73qAonPo+4eZFsxsM
+	9
+X-Google-Smtp-Source: AGHT+IGBKleI+O1DtNtdQE6QdTZR32XchjUSXkR/uh3NzfHBDfmT5DEah/yN1haZ0Khg1UWfiFZwRw==
+X-Received: by 2002:a2e:be20:0:b0:2f5:11f6:1b24 with SMTP id 38308e7fff4ca-2ff201b3185mr127543691fa.18.1731603889757;
+        Thu, 14 Nov 2024 09:04:49 -0800 (PST)
 Received: from umbar.unikie.fi ([192.130.178.90])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff5977e038sm2336891fa.47.2024.11.14.09.04.46
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-2ff5977e038sm2336891fa.47.2024.11.14.09.04.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 09:04:46 -0800 (PST)
+        Thu, 14 Nov 2024 09:04:48 -0800 (PST)
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] linux-firmware: upgrade 20241017 -> 20241110
-Date: Thu, 14 Nov 2024 19:04:43 +0200
-Message-Id: <20241114170445.3092435-1-dmitry.baryshkov@linaro.org>
+Subject: [PATCH 2/3] linux-firmware: package Qualcomm X1 Elite audio DSP firmware
+Date: Thu, 14 Nov 2024 19:04:44 +0200
+Message-Id: <20241114170445.3092435-2-dmitry.baryshkov@linaro.org>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241114170445.3092435-1-dmitry.baryshkov@linaro.org>
+References: <20241114170445.3092435-1-dmitry.baryshkov@linaro.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 17:04:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207173
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207174
 
-License-Update: additional files
+Package ADSP firmware usable on Qualcomm X1 Elite CRD and QCP platforms.
 
 Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
 ---
- ...om-Add-link-for-QCS6490-GPU-firmware.patch | 31 -------------------
- ...20241017.bb => linux-firmware_20241110.bb} |  5 ++-
- 2 files changed, 2 insertions(+), 34 deletions(-)
- delete mode 100644 meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-Add-link-for-QCS6490-GPU-firmware.patch
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20241017.bb => linux-firmware_20241110.bb} (99%)
+ .../recipes-kernel/linux-firmware/linux-firmware_20241110.bb | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-Add-link-for-QCS6490-GPU-firmware.patch b/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-Add-link-for-QCS6490-GPU-firmware.patch
-deleted file mode 100644
-index 7a07ef97f114..000000000000
---- a/meta/recipes-kernel/linux-firmware/linux-firmware/0001-qcom-Add-link-for-QCS6490-GPU-firmware.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 62fa39d0b4384be8f14d837ea79183ad93d0996c Mon Sep 17 00:00:00 2001
--From: Akhil P Oommen <quic_akhilpo@quicinc.com>
--Date: Fri, 1 Nov 2024 21:52:24 +0530
--Subject: [PATCH] qcom: Add link for QCS6490 GPU firmware
--
--Create a symlink between qcom/qcm6490/a660_zap.mbn and
--qcom/qcs6490/a660_zap.mbn.
--
--Signed-off-by: Akhil P Oommen <quic_akhilpo@quicinc.com>
--Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
--Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
--Upstream-Status: Submitted [https://lore.kernel.org/linux-firmware/ctvtlkh4t54wdtwcw3jnbyi7xwks534k5ksvjtv6pt2zrr72wn@h5k6vfk7bzqe]
-----
-- WHENCE | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/WHENCE b/WHENCE
--index bdee94fe33fc..b7ef9bdd5b59 100644
----- a/WHENCE
--+++ b/WHENCE
--@@ -6145,6 +6145,7 @@ File: qcom/sm8250/a650_zap.mbn
-- File: qcom/a660_gmu.bin
-- File: qcom/a660_sqe.fw
-- File: qcom/qcm6490/a660_zap.mbn
--+Link: qcom/qcs6490/a660_zap.mbn -> ../qcm6490/a660_zap.mbn
-- File: qcom/a702_sqe.fw
-- File: qcom/leia_pfp_470.fw
-- File: qcom/leia_pm4_470.fw
---- 
--2.39.5
--
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
-index 708c28b63205..6475277a079a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241017.bb
+diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
+index 6475277a079a..daebdca13273 100644
+--- a/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
 +++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20241110.bb
-@@ -158,7 +158,7 @@ LIC_FILES_CHKSUM = "file://LICENCE.Abilis;md5=b5ee3f410780e56711ad48eadc22b8bc \
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "7dde9aa13fc4707189ecd7d35ee94d92"
-+WHENCE_CHKSUM  = "cc90b04cb170ac983b67b00f4ec8f73d"
+@@ -424,7 +424,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
+              ${PN}-qcom-sm8250-thundercomm-rb5-sensors \
+              ${PN}-qcom-sm8550-audio-tplg \
+              ${PN}-qcom-sm8650-audio-tplg \
+-             ${PN}-qcom-x1e80100-adreno \
++             ${PN}-qcom-x1e80100-adreno ${PN}-qcom-x1e80100-audio \
+              ${PN}-qla2xxx ${PN}-qla2xxx-license \
+              ${PN}-rockchip-license ${PN}-rockchip-dptx \
+              ${PN}-amlogic-vdec-license ${PN}-amlogic-vdec \
+@@ -1472,6 +1472,7 @@ LICENSE:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "Firmware-qcom"
+ LICENSE:${PN}-qcom-sm8550-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-sm8650-audio-tplg = "Firmware-linaro"
+ LICENSE:${PN}-qcom-x1e80100-adreno = "Firmware-qcom"
++LICENSE:${PN}-qcom-x1e80100-audio = "Firmware-qcom"
  
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -240,7 +240,6 @@ PE = "1"
+ FILES:${PN}-qcom-license   = "${nonarch_base_libdir}/firmware/LICENSE.qcom ${nonarch_base_libdir}/firmware/qcom/NOTICE.txt"
+ FILES:${PN}-qcom-yamato-license = "${nonarch_base_libdir}/firmware/LICENSE.qcom_yamato"
+@@ -1532,6 +1533,7 @@ FILES:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${nonarch_base_libdir}/firmwa
+ FILES:${PN}-qcom-sm8550-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8550/*tplg.bin*"
+ FILES:${PN}-qcom-sm8650-audio-tplg = "${nonarch_base_libdir}/firmware/qcom/sm8650/*tplg.bin*"
+ FILES:${PN}-qcom-x1e80100-adreno = "${nonarch_base_libdir}/firmware/qcom/x1e80100/gen70500_zap.mbn*"
++FILES:${PN}-qcom-x1e80100-audio = "${nonarch_base_libdir}/firmware/qcom/x1e80100/adsp*.* ${nonarch_base_libdir}/firmware/qcom/x1e80100/battmgr.jsn"
  
- SRC_URI = "\
-   ${KERNELORG_MIRROR}/linux/kernel/firmware/${BPN}-${PV}.tar.xz \
--  file://0001-qcom-Add-link-for-QCS6490-GPU-firmware.patch \
- "
+ RDEPENDS:${PN}-qcom-venus-1.8 = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-venus-4.2 = "${PN}-qcom-license"
+@@ -1589,6 +1591,7 @@ RDEPENDS:${PN}-qcom-sm8250-thundercomm-rb5-sensors = "${PN}-qcom-license"
+ RDEPENDS:${PN}-qcom-sm8550-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-sm8650-audio-tplg = "${PN}-linaro-license"
+ RDEPENDS:${PN}-qcom-x1e80100-adreno = "${PN}-qcom-license"
++RDEPENDS:${PN}-qcom-x1e80100-audio = "${PN}-qcom-license"
  
- BBCLASSEXTEND = "devupstream:target"
-@@ -248,7 +247,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "a26c38ef5a83272f2b98ce8bf8ca1865a852a3deea49ce5a8dd804b914351273"
-+SRC_URI[sha256sum] = "32e6d3eb5c7fcb69fe5d58976c6deafa0d6552719c6e74835064aff049d25bd7"
- 
- inherit allarch
- 
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-audio = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
+ RRECOMMENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-sc8280xp-lenovo-x13s-compat"
 -- 
 2.39.5
 
