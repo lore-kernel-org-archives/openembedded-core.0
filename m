@@ -1,121 +1,144 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA70AD41D46
-	for <webhook@archiver.kernel.org>; Thu, 14 Nov 2024 12:01:18 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.web10.35824.1731585672579326527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED696D637D3
+	for <webhook@archiver.kernel.org>; Thu, 14 Nov 2024 12:39:18 +0000 (UTC)
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.35966.1731587956225000929
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Nov 2024 04:01:12 -0800
+ Thu, 14 Nov 2024 04:39:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=a8MBoa6r;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43161e7bb25so4719785e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 04:01:12 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=iUhtgc/X;
+ spf=pass (domain: mvista.com, ip: 209.85.215.173, mailfrom: vanusuri@mvista.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7f12ba78072so396198a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 04:39:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1731585671; x=1732190471; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=TF8s6XN00T/PAyngSzyfpp/koTjI68pg7DLVM+QNCUE=;
-        b=a8MBoa6rmKo2JjTWAdgpoFBJFzk8vu1W2O1TvaU2ge2DH8wntgZPrgXQm8NfhWobl0
-         uYcqKB+fvP4Pfmu1ki2o+9dVqLTIPJBdKY1DrvchQbWmVqCCRiLaMs7Po8Om4jR1iKz4
-         7242tSTo2rI8EHvxlY9xb7HDfZQm7k5rI8u5U=
+        d=mvista.com; s=google; t=1731587955; x=1732192755; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=E/wnMEvY/zQKd0OyGb8AK3rY1h8a2tGBiiZg7ElTqN0=;
+        b=iUhtgc/X+Ss/bS7g/s6UBtlhuyy+r8uir5YOlXE2f5/mhdxhldBnod6WRwWo9SxSMN
+         Gqbt2o4LIdupskZeUDOTsWd7NkuQ2grCkAhu+tQ756vMOeRo48k7kmmHhyYL3ecu3379
+         4OkcFVroDa5LSgXAXGKI84zn8WT90x+p+F+Ok=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731585671; x=1732190471;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=TF8s6XN00T/PAyngSzyfpp/koTjI68pg7DLVM+QNCUE=;
-        b=tvVEdfZu245+qHzVAzf++SL5EsA/3pxRsJn8U/HIn/ZQQ0yhkFpuzOKUJV4nWo8mpQ
-         sXVe7ujcMGjV38RY148VL/UYyFHNJh/e2ZnMInpdyQwbVuW7h04zdordEZMcU+scfXRv
-         zPOmUcHk7sVvNDbIT9SzXDQXslasgtmP4WuIwgOv+aj8/+Gjxh05cW6Ug8GAJo4CtynT
-         LgCFDv9244JWiu4IdS6y+JK50gt64+2Tfhb66dZP9Tc6P/rz23cIbAdCQDIB6W3kWIkE
-         jq4IyRkh4u09X2DtNNB0Bqe8ShQ+rdfkIIYWJI6YzmA0xvFyoedF5z805BYLdVYxu8Bm
-         3n6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXa1RIzidR4qRBvanw9/oWguVrNiGh3eERVtLlJ5Iq9pc6dglBtt1fdFEJyZVbVII0aqE7arfN/AfB01QcHKYW9vw==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yxcv9T1VXkBRn8WhAZE7LsaXho/q5gBPAIE4Edu8eX3b9K5hjWM
-	l5Fgq3yWwRr2PXLOmiA7204Ep2u8GmqjtRQAHQjSTvurjUeNCFswenO40xw4jJ5V65SFfYwrLw1
-	6WPQ=
-X-Google-Smtp-Source: AGHT+IGdlSe8et3FOTF1UBYGiip/LdDfK465qaOBwX4KpUen/S4ZwEuxRPocNRi2EUS2Wy6PnPBw4Q==
-X-Received: by 2002:a05:600c:3b87:b0:431:6060:8b22 with SMTP id 5b1f17b1804b1-432cce7203fmr96607895e9.10.1731585670811;
-        Thu, 14 Nov 2024 04:01:10 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:593b:1ea:4243:8543? ([2001:8b0:aba:5f3c:593b:1ea:4243:8543])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dac216a4sm17997105e9.44.2024.11.14.04.01.10
+        d=1e100.net; s=20230601; t=1731587955; x=1732192755;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=E/wnMEvY/zQKd0OyGb8AK3rY1h8a2tGBiiZg7ElTqN0=;
+        b=Y7Wv0nmAB6VSayvKr3YzGwPU/cfa8p/tKgNwt0RrUekSEIuhLF6+qZHPuapKZUW8B/
+         khlI+mkPrXsQT9V0KXiO8AecRRK9k+/dmlQwaWy+wKtRhxLkAk3SX317neIvQWwn9b5y
+         +sGSkxIcrZWf4IMi4mMAECSr1C7ikFF1DWJAmT7DEOt4hgUsK8Yqkcsg+fAIjjsYOnLa
+         +oFheN6LTeqmo2qsUCjdocRDBagY98JK+lPMU1gNTf/mzVtqSfoe+kukH7yyMR8Ckcsa
+         NksMqNh6deJm2i1GBKw9ptgOmcu20Us19hhYTLE1F1bUz00BmZbYVEaxiRu8NzEur50f
+         lDXA==
+X-Gm-Message-State: AOJu0YxiSJ4qrNm7JViMwu0/5D8Ccf+qqPikmLv+zW7TuiJzst5q1Ul3
+	imLwKEXyL/rV7fXlKv8UcImQF4bOWhvXUJ+6cY4/sEfcjTdg06I2iHWvZEvraHv17DVrHkwLURI
+	pDrY=
+X-Google-Smtp-Source: AGHT+IE2INykOojqjV2l5y10UgUAR+50OT3lttMLoWlyB1QG9LISyLyVOoT7X5fpbKB7BIZuijlxLA==
+X-Received: by 2002:a05:6a20:a124:b0:1db:ef5d:48ef with SMTP id adf61e73a8af0-1dc22937e05mr30525760637.14.1731587954727;
+        Thu, 14 Nov 2024 04:39:14 -0800 (PST)
+Received: from MVIN00020.mvista.com ([2401:4900:882c:4c21:71dd:eb14:29e9:677])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7246a5ced45sm1135138b3a.33.2024.11.14.04.39.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 04:01:10 -0800 (PST)
-Message-ID: <fa228c64236225ee3b14f9fd1f78c0c5a98790e5.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] cargo: Increase RUST_MIN_STACK size to avoid
- SIGSEGV in DEBUG builds only.
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Yash.Shinde@windriver.com, Randy MacLeod <randy.macleod@windriver.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
-Date: Thu, 14 Nov 2024 12:01:09 +0000
-In-Reply-To: <cbc0bcd9-ef88-4fa8-9595-e69d8a794c47@windriver.com>
-References: <20241030111601.284064-1-Yash.Shinde@windriver.com>
-	 <90fa600f-7b0a-4dc6-a58a-90997995ce86@windriver.com>
-	 <7a5cd559-7db3-461d-bef6-10e4545e1b8a@windriver.com>
-	 <35d5f2ec-4281-4be1-8040-829dbbdc0d58@windriver.com>
-	 <cbc0bcd9-ef88-4fa8-9595-e69d8a794c47@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+        Thu, 14 Nov 2024 04:39:14 -0800 (PST)
+From: vanusuri@mvista.com
+To: openembedded-core@lists.openembedded.org
+Cc: Vijay Anusuri <vanusuri@mvista.com>
+Subject: [OE-core][kirkstone][PATCH] glib-2.0: Backport fix for CVE-2024-52533
+Date: Thu, 14 Nov 2024 18:09:03 +0530
+Message-Id: <20241114123903.5013-1-vanusuri@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 12:01:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207155
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 12:39:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207156
 
-On Thu, 2024-11-14 at 16:32 +0530, Yash Shinde via lists.openembedded.org w=
-rote:
->=20
-> On 31-10-2024 19:32, Randy MacLeod wrote:
-> >=20
-> > We discussed this issue and agreed that since it doesn't affect YP AB=
-=20
-> > since there are no DEBUG builds done there
-> > and more importantly since it's really a work-around rather than a=20
-> > fix, we'll continue to work with upstream p384
-> > crate owners to resolve the issue. Forcing users to change the stack=
-=20
-> > size, even for debug builds, is not a good policy
-> > and hopefully some of the code-generation tools that are inputs to=20
-> > p384 can be adjusted to reduce stack usage.
-> >=20
-> > ../Randy
-> >=20
-> This issue is now fixed by removing unused mut variables in p384 crate=
-=20
-> and thus reducing the codegen.
-> (https://github.com/RustCrypto/elliptic-curves/commit/7652c5842cde60acc1e=
-739ebbba34614cb158f8b)
->=20
-> The current stable version of the RustCrypto=C2=A0 p384 crate is v0.13.0,=
-=20
-> which is also the default version for building with Rust.
-> But, the fix has been merged into the pre-release versions=20
-> "p384/v0.14.0-pre.2" and "p384/v0.14.0-pre.1." of p384 crate.
->=20
-> I have opened a discussion thread in p384 crate:=20
-> https://github.com/RustCrypto/elliptic-curves/discussions/1102
-> to ask the crate developers either to update p384 crate into new version=
-=20
-> with the fix, or backport it to "v.0.13.0".
->=20
-> We can wait for upstream unless someone wants to merge a patch for=20
-> master now. Let me know your thoughts on this.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Firstly, big thanks for working through this. Getting issues like this
-fixed at source in the upstream is infinitely preferable to carrying
-weird workarounds.
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/glib/-/commit/ec0b708b981af77fef8e4bbb603cde4de4cd2e29
 
-I think it should be fine to wait for the upstream change to filter
-through to us?
+Reference: https://security-tracker.debian.org/tracker/CVE-2024-52533
 
-Cheers,
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+---
+ .../glib-2.0/glib-2.0/CVE-2024-52533.patch    | 49 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-52533.patch
 
-Richard
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-52533.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-52533.patch
+new file mode 100644
+index 0000000000..3a06a9d782
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-52533.patch
+@@ -0,0 +1,49 @@
++From ec0b708b981af77fef8e4bbb603cde4de4cd2e29 Mon Sep 17 00:00:00 2001
++From: Michael Catanzaro <mcatanzaro@redhat.com>
++Date: Thu, 19 Sep 2024 18:35:53 +0100
++Subject: [PATCH] gsocks4aproxy: Fix a single byte buffer overflow in connect
++ messages
++
++`SOCKS4_CONN_MSG_LEN` failed to account for the length of the final nul
++byte in the connect message, which is an addition in SOCKSv4a vs
++SOCKSv4.
++
++This means that the buffer for building and transmitting the connect
++message could be overflowed if the username and hostname are both
++`SOCKS4_MAX_LEN` (255) bytes long.
++
++Proxy configurations are normally statically configured, so the username
++is very unlikely to be near its maximum length, and hence this overflow
++is unlikely to be triggered in practice.
++
++(Commit message by Philip Withnall, diagnosis and fix by Michael
++Catanzaro.)
++
++Fixes: #3461
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/ec0b708b981af77fef8e4bbb603cde4de4cd2e29]
++CVE: CVE-2024-52533
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ gio/gsocks4aproxy.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/gio/gsocks4aproxy.c b/gio/gsocks4aproxy.c
++index 3dad118eb7..b3146d08fd 100644
++--- a/gio/gsocks4aproxy.c
+++++ b/gio/gsocks4aproxy.c
++@@ -79,9 +79,9 @@ g_socks4a_proxy_init (GSocks4aProxy *proxy)
++  * +----+----+----+----+----+----+----+----+----+----+....+----+------+....+------+
++  * | VN | CD | DSTPORT |      DSTIP        | USERID       |NULL| HOST |    | NULL |
++  * +----+----+----+----+----+----+----+----+----+----+....+----+------+....+------+
++- *    1    1      2              4           variable       1    variable
+++ *    1    1      2              4           variable       1    variable    1
++  */
++-#define SOCKS4_CONN_MSG_LEN	    (9 + SOCKS4_MAX_LEN * 2)
+++#define SOCKS4_CONN_MSG_LEN	    (10 + SOCKS4_MAX_LEN * 2)
++ static gint
++ set_connect_msg (guint8      *msg,
++ 		 const gchar *hostname,
++-- 
++GitLab
++
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+index 35b51a3ec9..c628ac19af 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb
+@@ -49,6 +49,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2024-34397_16.patch \
+            file://CVE-2024-34397_17.patch \
+            file://CVE-2024-34397_18.patch \
++           file://CVE-2024-52533.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch"
+ 
+-- 
+2.25.1
+
 
