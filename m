@@ -1,81 +1,133 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22356D68B36
-	for <webhook@archiver.kernel.org>; Thu, 14 Nov 2024 16:28:40 +0000 (UTC)
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
- by mx.groups.io with SMTP id smtpd.web10.41546.1731601712399546203
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17218D68B37
+	for <webhook@archiver.kernel.org>; Thu, 14 Nov 2024 16:33:10 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.41243.1731601989013196069
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Nov 2024 08:28:32 -0800
+ Thu, 14 Nov 2024 08:33:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=BLfO1ypV;
- spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 62DD260007;
-	Thu, 14 Nov 2024 16:28:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731601710;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mXdktXoR2r7cGXetViEpWiWdMs5dAh9W/IAiHE6lJBs=;
-	b=BLfO1ypVCqalhz3Q9eXkr03Dd/PQ12Nr/VgWG8AUHayzDgFhLuzucKxa4trs91pf8nA3Ct
-	bW4wDQED6OPGiMo86muXj2LRFtJOysTsvRUG30rwVwhAzS/mDxTU6CdCiwKJwXKl/vXt99
-	apZOPccf1vJbdW1B/yMMM0DEXPqD7OH6+K1byK/vJQTZ08jGLRmQLGBFNWdhegAGpF9bmf
-	FCw2J06mwg4OEXdOwWbMhVvshxflEMaUmaBzAoyby+aZSGZxduXqoMVr8/NTiM/dDycUmB
-	jtDMuQNI8AIYmmd1vruEJdzBtXYNfYekBjSmjx/o1KeH8q6s+w40fz7b3Vs7Ew==
-Date: Thu, 14 Nov 2024 17:28:28 +0100
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-To: liezhi.yang@windriver.com
-Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com
-Subject: Re: [OE-core] [PATCH v2 1/1] bootchart2: Several fixes
-Message-ID: <ZzYlLDUiQgtvN6aa@bootlin-mathieu>
-Mail-Followup-To: liezhi.yang@windriver.com,
-	openembedded-core@lists.openembedded.org, ross.burton@arm.com
-References: <cover.1731571498.git.liezhi.yang@windriver.com>
- <cfbc483721d4dc7cd442e8cbc344b0c05160cad8.1731571498.git.liezhi.yang@windriver.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4F8E41474
+	for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 08:33:38 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 04AF33F6A8
+	for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 08:33:07 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] sstate: rewrite sstate_archive_package in python
+Date: Thu, 14 Nov 2024 16:33:03 +0000
+Message-Id: <20241114163303.3611020-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cfbc483721d4dc7cd442e8cbc344b0c05160cad8.1731571498.git.liezhi.yang@windriver.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 16:28:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207171
+ <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 16:33:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207172
 
-On Thu, Nov 14, 2024 at 12:25:17AM -0800, Robert Yang via lists.openembedded.org wrote:
-> From: Robert Yang <liezhi.yang@windriver.com>
-> 
-> Fixed Ross' comments:
-> * Add -n to gzip to make the resulting files reproducible, so we don't need to
->   decompress them.
-> 
-> * Makefile: Let bootchartd.conf use EARLY_PREFIX, so that bootchartd.conf can
->   install to correct location.
-> 
-> * Set MANDIR and DOCDIR to make the files install to correct location for
->   bootchart2-native.
-> 
-> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+As sstate_archive_package just calls tar, writing the function in shell
+is actually more complex and opaque than the equivalent python.
 
-Hi Robert,
+Don't check for zstd vs pzstd, we have pzstd in HOSTTOOLS so it will
+always be available.
 
-Thanks for the v2, but I believe this is failing some builds on the
-autobuilder:
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes-global/sstate.bbclass | 53 +++++++++++++++---------------
+ 1 file changed, 26 insertions(+), 27 deletions(-)
 
-ERROR: bootchart2-0.14.9-r0 do_package: QA Issue: bootchart2:
-Files/directories were installed but not shipped in any package:
-  /usr/etc
-  /usr/etc/bootchartd.conf
+diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sst=
+ate.bbclass
+index 8e0391c666f..decfb5adefd 100644
+--- a/meta/classes-global/sstate.bbclass
++++ b/meta/classes-global/sstate.bbclass
+@@ -844,8 +844,7 @@ python sstate_create_and_sign_package () {
+         from tempfile import TemporaryDirectory
+         with TemporaryDirectory(dir=3Dsstate_pkg.parent) as tmp_dir:
+             tmp_pkg =3D Path(tmp_dir) / sstate_pkg.name
+-            d.setVar("TMP_SSTATE_PKG", str(tmp_pkg))
+-            bb.build.exec_func('sstate_archive_package', d)
++            sstate_archive_package(tmp_pkg, d)
+=20
+             from oe.gpg_sign import get_signer
+             signer =3D get_signer(d, 'local')
+@@ -865,8 +864,7 @@ python sstate_create_and_sign_package () {
+         from tempfile import NamedTemporaryFile
+         with NamedTemporaryFile(prefix=3Dsstate_pkg.name, dir=3Dsstate_p=
+kg.parent) as tmp_pkg_fd:
+             tmp_pkg =3D tmp_pkg_fd.name
+-            d.setVar("TMP_SSTATE_PKG", str(tmp_pkg))
+-            bb.build.exec_func('sstate_archive_package',d)
++            sstate_archive_package(tmp_pkg, d)
+             update_file(tmp_pkg, sstate_pkg)
+             # update_file() may have renamed tmp_pkg, which must exist w=
+hen the
+             # NamedTemporaryFile() context handler ends.
+@@ -874,32 +872,33 @@ python sstate_create_and_sign_package () {
+=20
+ }
+=20
+-# Shell function to generate a sstate package from a directory
+-# set as SSTATE_BUILDDIR. Will be run from within SSTATE_BUILDDIR.
++# Function to generate a sstate package from the current directory.
+ # The calling function handles moving the sstate package into the final
+ # destination.
+-sstate_archive_package () {
+-	OPT=3D"-cS"
+-	ZSTD=3D"zstd -${SSTATE_ZSTD_CLEVEL} -T${ZSTD_THREADS}"
+-	# Use pzstd if available
+-	if [ -x "$(command -v pzstd)" ]; then
+-		ZSTD=3D"pzstd -${SSTATE_ZSTD_CLEVEL} -p ${ZSTD_THREADS}"
+-	fi
++def sstate_archive_package(sstate_pkg, d):
++    import subprocess
+=20
+-	# Need to handle empty directories
+-	if [ "$(ls -A)" ]; then
+-		set +e
+-		tar -I "$ZSTD" $OPT -f ${TMP_SSTATE_PKG} *
+-		ret=3D$?
+-		if [ $ret -ne 0 ] && [ $ret -ne 1 ]; then
+-			exit 1
+-		fi
+-		set -e
+-	else
+-		tar -I "$ZSTD" $OPT --file=3D${TMP_SSTATE_PKG} --files-from=3D/dev/nul=
+l
+-	fi
+-	chmod 0664 ${TMP_SSTATE_PKG}
+-}
++    cmd =3D [
++        "tar",
++        "-I", d.expand("pzstd -${SSTATE_ZSTD_CLEVEL} -p${ZSTD_THREADS}")=
+,
++        "-cS",
++        "-f", sstate_pkg,
++    ]
++
++    # tar refuses to create an empty archive unless told explicitly
++    files =3D sorted(os.listdir("."))
++    if not files:
++        files =3D ["--files-from=3D/dev/null"]
++
++    try:
++        subprocess.run(cmd + files, check=3DTrue)
++    except subprocess.CalledProcessError as e:
++        # Ignore error 1 as this is caused by files changing
++        # (link count increasing from hardlinks being created).
++        if e.returncode !=3D 1:
++            raise
++
++    os.chmod(sstate_pkg, 0o664)
+=20
+=20
+ python sstate_report_unihash() {
+--=20
+2.34.1
 
-https://valkyrie.yoctoproject.org/#/builders/25/builds/432/steps/14/logs/stdio
-
-Can you look at this issue please ?
-
--- 
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
