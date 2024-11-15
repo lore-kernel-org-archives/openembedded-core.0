@@ -1,396 +1,209 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <liezhi.yang@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EBBFCD6DDCB
-	for <webhook@archiver.kernel.org>; Fri, 15 Nov 2024 03:27:19 +0000 (UTC)
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
- by mx.groups.io with SMTP id smtpd.web10.12410.1731641230770016497
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE29D6DDEB
+	for <webhook@archiver.kernel.org>; Fri, 15 Nov 2024 08:27:31 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.15790.1731659246959262712
  for <openembedded-core@lists.openembedded.org>;
- Thu, 14 Nov 2024 19:27:10 -0800
+ Fri, 15 Nov 2024 00:27:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=iULb/WeO;
- spf=pass (domain: mvista.com, ip: 209.85.167.181, mailfrom: vanusuri@mvista.com)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3e5f86e59f1so192296b6e.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 14 Nov 2024 19:27:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1731641229; x=1732246029; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=VDuJ33x9C57go2Krzo29vTNW6X60CQl0heN6DWNy6N4=;
-        b=iULb/WeOHwgMZK8JGSdadnEA1Gfw8MK1JfWJ3WreDAnq+DxbWkdh/fU1HhBHAtiJW4
-         hNCuZM0J9OvBGEwngLvIqBlxQMBaSgIlsKSQYFZdZ+L7r9lnBuwsufFh/e6XO/ZEPeej
-         yQfcTiKj6U6ROl0B781DnJuEjeCDhplG8mtrg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731641229; x=1732246029;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VDuJ33x9C57go2Krzo29vTNW6X60CQl0heN6DWNy6N4=;
-        b=hvS96IDrEcbDbTJYi2FBYSmZucA8wwv1PE048rO4W0soEyH4DQlrNrvDnP8UywgG2u
-         ac8zOISBfR6q8por7qeE2VMMlrSY1jupJUdWpqK/wASL4T97Bb2mi1QWU1w9s37Rpe7k
-         j+5w6lHdChdN+neK5Yb9TZdvgzx8YqGymMzDh9Oy5FgK5tNqrIxPqbGIcPJ48pFXtm6Z
-         /QiVoKW0pdE3fNciWSlAU4StPfisXPuxJfBmRxn4e20dxWLUnxTB0nBJTe6d9wgO7d2r
-         5mdcSQNy+o4mfrvF7gicwWPQeTooT7sGi3itV56ann8p3rOaLh3fVqPHxdcSzIkAvKxP
-         fa5Q==
-X-Gm-Message-State: AOJu0YwJTZBKuui8Am0Ersl4GLpW7fta1YkWlJjzm9lnnno/uyzw1yd/
-	703nQa3yS9sRYJBjclyPVCbj4kSarEOI/HB46HTwvv0jYaXfTtpLkHy0Aq7cygc0Pcr2ImRrLhh
-	mrqA=
-X-Google-Smtp-Source: AGHT+IHJyoSlhQYVFpjTqcupQNwDLciVSFBHO+JlDbhDScDZH1/N46C+FqjjZ5fgzjtZucGIwxor+g==
-X-Received: by 2002:a05:6871:7408:b0:288:4313:a3f8 with SMTP id 586e51a60fabf-2962df98890mr905557fac.13.1731641229367;
-        Thu, 14 Nov 2024 19:27:09 -0800 (PST)
-Received: from MVIN00020.mvista.com ([2401:4900:882f:d550:8251:9610:243:c4c6])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7f8c1dcd2d7sm356491a12.81.2024.11.14.19.27.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Nov 2024 19:27:08 -0800 (PST)
-From: vanusuri@mvista.com
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] ghostscript: Backport fix for multiple CVE's
-Date: Fri, 15 Nov 2024 08:56:59 +0530
-Message-Id: <20241115032659.63207-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1049103b3d=liezhi.yang@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AF6P2vb029367
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:26 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42uwtucvvm-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:25 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4AF8RPXf017418
+	for <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:25 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42uwtucvvj-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Nov 2024 08:27:25 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HAOJH96NTdiy2gG6qEjNijW5gCSh6ALw/rCUimuygC+f/cqvkHVrOBONayNaTesARdwuwIuIpJt+wR4ydYYMJUx54V9d2wRWJhpjjz8uaww4jdeUXmSBLd09PEtVfHr+FQKgmZHBg8U3OyPYJrFrDSksGZPb/lc1iOXkC7IU6rtnmFW0/76ULWqiM9a68IwH6rfLSc3eTzkCP3233C6T148nT5CE5t6rqPzUvR8TGH/2Uv9WRUlKBAmAmQg/GFO2Ad0r0CaXUOO4eqqMKAHxKb3tRNVxhdPGZ5/hGxn5xEsTXKqUIXi3IhI9/5zrTvz8CWLHBXeXgKDRhzSfSfu1ow==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=I/Q+qrbKPNUA5m6FDt+lLDNQIBCkuHBc2ATaENuDGxo=;
+ b=UQQ2Avdbf5yLDulyzvB/5W5uML7dJhIY6FhrZqNEwaY7maxHP2svdHXEWKCzSHX8k3tolNJxIX9VK9OpN/uHktEvTOnsWV4Nytp0RPu+Ef0t5hnWHZglkqSU3JohPTX0a9OkX9GBVCQVt7+eR3hhqvxYp+iVChSLH5lo6/kkHvOwKlwGacihU5oH8KztRX5rww+yGL0A7anFRIfGPo8LCVpXxxTCuug4CkHP8FRffkyEzKrsx+eX0Sda47IK5meWnFfZrlYYb3tEQztjepZrRCam3Qy/09cgmlCa8GvK7fzBbEJmfdEc7t06BMMlAvv7gVSKV1HEZYE3VMatpHlZSg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from LV3PR11MB8531.namprd11.prod.outlook.com (2603:10b6:408:1b6::15)
+ by BL1PR11MB5269.namprd11.prod.outlook.com (2603:10b6:208:310::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.19; Fri, 15 Nov
+ 2024 08:27:22 +0000
+Received: from LV3PR11MB8531.namprd11.prod.outlook.com
+ ([fe80::d341:6ff5:fce1:c6d]) by LV3PR11MB8531.namprd11.prod.outlook.com
+ ([fe80::d341:6ff5:fce1:c6d%4]) with mapi id 15.20.8158.017; Fri, 15 Nov 2024
+ 08:27:22 +0000
+Message-ID: <91490e5b-ff0f-4d2c-bc04-71e1ea3a7016@windriver.com>
+Date: Fri, 15 Nov 2024 16:27:15 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v2 1/1] bootchart2: Several fixes
+To: openembedded-core@lists.openembedded.org, ross.burton@arm.com
+References: <cover.1731571498.git.liezhi.yang@windriver.com>
+ <cfbc483721d4dc7cd442e8cbc344b0c05160cad8.1731571498.git.liezhi.yang@windriver.com>
+ <ZzYlLDUiQgtvN6aa@bootlin-mathieu>
+Content-Language: en-US
+From: Robert Yang <liezhi.yang@windriver.com>
+In-Reply-To: <ZzYlLDUiQgtvN6aa@bootlin-mathieu>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TY2PR01CA0020.jpnprd01.prod.outlook.com
+ (2603:1096:404:a::32) To LV3PR11MB8531.namprd11.prod.outlook.com
+ (2603:10b6:408:1b6::15)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: LV3PR11MB8531:EE_|BL1PR11MB5269:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47dfc6a6-dca5-4159-05cd-08dd054f53ba
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?THFUcmFyeGtZTTJCcnJEZHZIbVowaXJGWG5oaE0rdWVKVzBaMlJyWFpHRWVH?=
+ =?utf-8?B?Ly9nOXpnajJsbVdJVnZ4a3Fwb21CRzYrejRFYk1EWXFxWkNTb3pDdlNGRndi?=
+ =?utf-8?B?TmRsdWRnZjNqREJ4Qmc1MWVhUHR1YWRGM3hmZmFWTnQ5aS9OSVNvaXlwQmp1?=
+ =?utf-8?B?VTNGS1lKTlBSemtrOWd3MWR3NEx4SXZhQXRZcFUzZU9oam1KbVd3T3JwSkIy?=
+ =?utf-8?B?YW5abTNDQ3lOZG9yc1lyWmtUNUVFcW93QlZnSWlXaGdkYkg3dStuV0dxK1ZO?=
+ =?utf-8?B?OEZGSjV3SUxJL0R6d2luaGVEQWowTHhJRVYwNXFkSmcvelVvYTlGRytGRkgr?=
+ =?utf-8?B?RkZTMzdlZFZiWk5kMDZwY1NvQUZUbmxEdGZQSDZFTkZuUGdZWTBUQnR0bXZJ?=
+ =?utf-8?B?bm5XamVETjJxeFg0eDFYRmg2dmtJbFVCSElZTHVCVFNrajFkQWFibzVTUkth?=
+ =?utf-8?B?MDRyelpMaWZkMkdodTVsb0dHZ01WSk5OM21xVjFsT2VSZ0xvaDBtT3RwZm9S?=
+ =?utf-8?B?eGJzRzBia01xanZYUi95dzBqYUJwOXdjOFVhTUlYWlpDdjlqV3VVTDZsbm1N?=
+ =?utf-8?B?SU1UTDBScU92V0JpSkdYN01XRC9neEhQSDZuWGpDWElxSG9wc3lRalJWcDZU?=
+ =?utf-8?B?MFIxa2drUjMxd24xSXNaeWR6Mkx6K3JKRytadlZyVmRzWXNRY3VIMnV2cHNu?=
+ =?utf-8?B?YXRQenZDdTViUHE1b1k5QTRHaGJMM1FNOUhyS2d5WU9BR3MvUHI4OGkzdUhV?=
+ =?utf-8?B?Vm1vbHVkeFVLd1VwUDlFSzRlVXBhajlvOGQrRHBBa29vREhnMVJ3Z202Z2tk?=
+ =?utf-8?B?M1FRY3VVUi9yYU85dzg2c1ROd1FOODI2elZvR2t4bWsyUWhQUHVFenJPZUFL?=
+ =?utf-8?B?ZXNYTE5FSmRCcCtuT0s2UjdJVU83bWVSTjFMc01mSG0wUDhTTFNZV0JhWm9E?=
+ =?utf-8?B?aVB6RTJVMmw3WG9SZzNpeFNlbnI0ZG1rZkhTdnZnRFJPSlF6ZXZxMVE4RHlw?=
+ =?utf-8?B?bW1XcUJtS0ZCMytXVkxvSWowVDl2K1dQOTJhVkdydWRWK1M3bTFXcENUSnNu?=
+ =?utf-8?B?OUZhVGpzcUxUWEt6NjFFZmpWUWI2eWhiMHNncmRrbTQ2VzdLbUNkS0liMzdD?=
+ =?utf-8?B?ZXhqQ3QzbEk4aHc2NWlOcDd2U25EQlJUKzJ2eGtZUFN1a3ZqQXNBazZXSVlF?=
+ =?utf-8?B?c2hSZFUzWFBJa3g4dnA2aWRPeFhGdjc0Y1pONnhxL09XMGhYS1hZQ3BiT29G?=
+ =?utf-8?B?WTZYdXZGWFZRRW5CRkNkUW1KSGpFdHpkbkNWNFFKaTJCdmR3UlVqdmlvWXU2?=
+ =?utf-8?B?bWFsNTVIZXV6b3c3NVFYbGdZK2lMc1c2a0E1YTNMU0lCbjFMcmtlcXFIVzB6?=
+ =?utf-8?B?SkllQUZRR3M4VnhncExsMU0yWmhLK2JkUDRmNGhMK3VoZG1MM3VlQWxuTXNE?=
+ =?utf-8?B?WjJmejNxYjhzREpQVWN2M3dYTDUyMTNrenkwZGo0aHAxS0U5WDNBMWRMRkcw?=
+ =?utf-8?B?eG5jditqcWpWY2FIOFVTZjZoZUszWVFkL2tEY2JRazFJVHp0SWQvMWJ0TlBK?=
+ =?utf-8?B?YTBXUGQ1aFlCMXpqUEVtS2VaRGlwWjNKTnF0enhRbTQvVUk1eitEYmNpUlVu?=
+ =?utf-8?B?aFZleVVQbFZRakFnT0FrT3o2bnBoay95VlBpY3c0MWdJSXVQRG8rbFgwL05R?=
+ =?utf-8?Q?9ek++au36Tg/vGQlRaGO?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8531.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?RzNFeXlJTkpyUXZYclZqV0RxbU0vUFlrMnFnUU1FN2U4RTd1L0Q2YVhUM0JT?=
+ =?utf-8?B?QnFuNzk5QWJhcGFaR2VFVmdaektQMGJlNDBCNGpIU3R5M1p6K2JEZVpkdU9I?=
+ =?utf-8?B?dEtTR0pIb0V3cExnalBENDkzOHpLL3RYSW5vMitYWVdLcFF2Ymx2VG9IeDQ5?=
+ =?utf-8?B?UFRZcGVzMld4ZElINHZ4R2dBcXZVeVhOVERDVUF2NjhXd0U1LzFSbzAyakZZ?=
+ =?utf-8?B?RVNtejZrQ29KRUd3YnF2ZU1abzRINkFUZUJMcnZwN1BGajNvYzBJdDZRaGdJ?=
+ =?utf-8?B?enplOU0rOWJ5TUgydUJTNENmMWlqTnl6QjdWeTQ2cC9maW1hR3BIb1ROdng1?=
+ =?utf-8?B?UkI3Mm14a0IvcVpzclZBN21Ha3Z1Y09WdjBkS1JIK1VUZE9tNlNDaHc4TWhW?=
+ =?utf-8?B?QmptdkZQOEVyTXlBOHVrcFNhWXlQUlBsNEliODhNWUFkdldZRHI4QWdJZTdv?=
+ =?utf-8?B?TVRTTXJnYXBsMmdOL1NpSGQrNWsrUHdwTVlmSWI0cnBrREVaVHBSNzRzclZa?=
+ =?utf-8?B?ZEloM3R2M2d5RTdwWXRRQk5HTy9na3k0TXpYdnJEZ1RndXR0cVRGdE9obHhJ?=
+ =?utf-8?B?MnpWc1d1UGpzcGhYYWdPTGhPUWJmQVd0ZU5QWEFaUlRSMEFwUG1wQi90Rkth?=
+ =?utf-8?B?Ym5LTDVXTUpIS3B4YjJZd2Y1aWk2MDBxQjdDc3lFN0l5SmhFQ2Nod0hhL2lG?=
+ =?utf-8?B?dDZ3RnhOQWJKK0tjckV3M0RoQnd4RkVYbHZYRkpJVjQvZHpSY3AzUHpoZGY2?=
+ =?utf-8?B?ZERvdHRRQVE5SldoQVRwYUlHRDR4R0xPZ1dmbzdCRUxrQ1ovSkROQXphMGlD?=
+ =?utf-8?B?SGpFUHV6SDErTW5NUFdBZkp2c21KemZDSXEyeE1FMFh2Vk1rSXhFaHRmNXpy?=
+ =?utf-8?B?WHlBY1dqMysvUkdla1lrLzA4QnE4dGttQ0J2K0pzbXFsV200VVlTaW9YSGQx?=
+ =?utf-8?B?QXZkV0ovNzV4cUxVczFPdVFjdldUNVBOQ05DaEtWcThmdEJneStjaFlCZFRu?=
+ =?utf-8?B?VUx2Q3VwWmZBTFNFM3N5QnhsVUVwU20xZDNXQUdISlJwOW5Jdzl6RTAwc3Nq?=
+ =?utf-8?B?QkVQSi9DdVdPa3I4Tnd6TWwwTGVmN3ZOUWUyWTh5LzlTcVM0ekVRbW9xcElS?=
+ =?utf-8?B?L0ZZd0dXYXh5Zm4wK08xbFl3YmJac0JZS09XYjZWd3I2RWIraGdsMjFLejNQ?=
+ =?utf-8?B?bnBRckZ6aUkyS2laUlB3citNVFNreEdmMDh3ditPK04vWWFSakhSMk9wUjBZ?=
+ =?utf-8?B?bVNsV0swbjV3R3BTOTg1UHpiTS9JdmNxelNSNitPd2NZVUZSczFkYjdRQ00x?=
+ =?utf-8?B?YlpKaitRM0VZaVZhOHVadG9UNVR5L29qYUprOXZGTEk4UEsrOXpYT2g5ZjlO?=
+ =?utf-8?B?UnFSWklSOWhWejFGdWFVQXM0TVVqRzNIa0VIWkRCb2Y5QnR5bGsxWnFhWitL?=
+ =?utf-8?B?bkZIa2pmVlBnS0h2VTRDVUc4TWl1ZTRVSFowNGFxb3VuV1JxR2FNSHE0ZWcr?=
+ =?utf-8?B?MUhwVjZIZzJxRitDYmFWOHNTMGE2WGQ5bXU5MUVyVGJpT2FHMlh2UDZCR1Nx?=
+ =?utf-8?B?OGVHczhFMFZWRTZpUHNKMHVKYWZtb2ZCMmUvTStTbjBhTjcrZWx1Y3k5SnBZ?=
+ =?utf-8?B?QW84OEFQaGd3STNMWEoxS28vRzlIMS8wMTRNUGZmM3ZJZDM2TklpcVJDMGg3?=
+ =?utf-8?B?ZXA2TDdOcllYZ0huaU9SL2dQbTlnZ0Vvd0RZb3AxeG1XL3RRdFhpRnN3bDRI?=
+ =?utf-8?B?ZTZGaGdjbHJZTkdkWXhtRkp2RDdINjRHZUI4eXZLTE1QR1hLYlM5VWI2Z25D?=
+ =?utf-8?B?WVkweXpKUm1mclhHRjFpcmFYUnFUMTdBOTRRWEZycmkyNTQrUzYwYklnMDZy?=
+ =?utf-8?B?RjB2dlFsR2N6ZUpKdHR2Mmg4YzZUZ3Boa3lVUkc5QjlWU0pDcE1NNlExODN2?=
+ =?utf-8?B?d2l1dXJxTWNZaUVObEVDdEtmREhaUnZVdXljUHJPdml5ZUpuN2dabTRaRHBh?=
+ =?utf-8?B?dVBVQ2hmb25DUGEzMi9seWpEWDRPaiswWGdVQm5hM05Gd0VDVys5eWU2MCtv?=
+ =?utf-8?B?S0kwaVUwUGNVLytOMzhOa0w3NVpUSERHR1FNR29weitldnBMeVk2bysvVER4?=
+ =?utf-8?B?dFB1QnFqbE5sOWhlV0ZMYkR4M21rOGFwR3dBYkR4dG5iazF2M1VLK0VUa0wx?=
+ =?utf-8?B?ekE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47dfc6a6-dca5-4159-05cd-08dd054f53ba
+X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8531.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 08:27:22.4314
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mc4A6bnxhD0m3FfK4KyaHhg1SlLzppx9HNbgrhxME8iD0gIOGYoJuK2AQGxgRtIMZf8Oy9bza88cVaTCreHxKMgEaFRfK+5yh5Hg9Qk6UPE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5269
+X-Proofpoint-GUID: 8U2P1Q_nhhjAuQrKeQ_Eb6P_YBE6Cok_
+X-Authority-Analysis: v=2.4 cv=BPnhr0QG c=1 sm=1 tr=0 ts=673705ed cx=c_pps a=IYePPuTyj3qIg1BHBNk0GA==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10
+ a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=K--Kt50OwFa87OWldFYA:9 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: ZRI64eRrbbL4R8ycXSjIMRq2bMexbZZ-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-14_05,2024-11-14_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
+ malwarescore=0 clxscore=1015 mlxscore=0 mlxlogscore=681 bulkscore=0
+ lowpriorityscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411150071
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 03:27:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207181
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207182
 
-From: Vijay Anusuri <vanusuri@mvista.com>
 
-import patch from ubuntu to fix
- CVE-2024-46951
- CVE-2024-46952
- CVE-2024-46953
- CVE-2024-46955
- CVE-2024-46956
 
-Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/ghostscript/tree/debian/patches?h=ubuntu/jammy-security
-Upstream commit
-https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=ada21374f0c90cc3acf7ce0e96302394560c7aee
-&
-https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=1fb76aaddac34530242dfbb9579d9997dae41264
-&
-https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=294a3755e33f453dd92e2a7c4cfceb087ac09d6a
-&
-https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=ca1fc2aefe9796e321d0589afe7efb35063c8b2a
-&
-https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=ea69a1388245ad959d31c272b5ba66d40cebba2c]
+On 11/15/24 00:28, Mathieu Dubois-Briand wrote:
+> On Thu, Nov 14, 2024 at 12:25:17AM -0800, Robert Yang via lists.openembedded.org wrote:
+>> From: Robert Yang <liezhi.yang@windriver.com>
+>>
+>> Fixed Ross' comments:
+>> * Add -n to gzip to make the resulting files reproducible, so we don't need to
+>>    decompress them.
+>>
+>> * Makefile: Let bootchartd.conf use EARLY_PREFIX, so that bootchartd.conf can
+>>    install to correct location.
+>>
+>> * Set MANDIR and DOCDIR to make the files install to correct location for
+>>    bootchart2-native.
+>>
+>> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+> 
+> Hi Robert,
+> 
+> Thanks for the v2, but I believe this is failing some builds on the
+> autobuilder:
+> 
+> ERROR: bootchart2-0.14.9-r0 do_package: QA Issue: bootchart2:
+> Files/directories were installed but not shipped in any package:
+>    /usr/etc
+>    /usr/etc/bootchartd.conf
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- .../ghostscript/CVE-2024-46951.patch          | 31 +++++++++
- .../ghostscript/CVE-2024-46952.patch          | 62 +++++++++++++++++
- .../ghostscript/CVE-2024-46953.patch          | 67 +++++++++++++++++++
- .../ghostscript/CVE-2024-46955.patch          | 60 +++++++++++++++++
- .../ghostscript/CVE-2024-46956.patch          | 30 +++++++++
- .../ghostscript/ghostscript_9.55.0.bb         |  5 ++
- 6 files changed, 255 insertions(+)
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46951.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46952.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46953.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46955.patch
- create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46956.patch
+Sorry, it will be failed when:
+DISTRO_FEATURES:append = " usrmerge"
 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46951.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46951.patch
-new file mode 100644
-index 0000000000..b3481f03a4
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46951.patch
-@@ -0,0 +1,31 @@
-+From ada21374f0c90cc3acf7ce0e96302394560c7aee Mon Sep 17 00:00:00 2001
-+From: Zdenek Hutyra <zhutyra@centrum.cz>
-+Date: Fri, 30 Aug 2024 13:16:39 +0100
-+Subject: PS interpreter - check the type of the Pattern Implementation
-+
-+Bug #707991
-+
-+See bug report for details.
-+
-+CVE-2024-46951
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/ghostscript/tree/debian/patches/CVE-2024-46951.patch?h=ubuntu/jammy-security
-+Upstream commit https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=ada21374f0c90cc3acf7ce0e96302394560c7aee]
-+CVE: CVE-2024-46951
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ psi/zcolor.c | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+--- a/psi/zcolor.c
-++++ b/psi/zcolor.c
-+@@ -5054,6 +5054,9 @@ static int patterncomponent(i_ctx_t * i_
-+             code = array_get(imemory, pImpl, 0, &pPatInst);
-+             if (code < 0)
-+                 return code;
-++
-++            if (!r_is_struct(&pPatInst) || (!r_has_stype(&pPatInst, imemory, st_pattern1_instance) && !r_has_stype(&pPatInst, imemory, st_pattern2_instance)))
-++                return_error(gs_error_typecheck);
-+             cc.pattern = r_ptr(&pPatInst, gs_pattern_instance_t);
-+             if (pattern_instance_uses_base_space(cc.pattern))
-+                 *n = n_comps;
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46952.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46952.patch
-new file mode 100644
-index 0000000000..8b495a6f99
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46952.patch
-@@ -0,0 +1,62 @@
-+From 1fb76aaddac34530242dfbb9579d9997dae41264 Mon Sep 17 00:00:00 2001
-+From: Ken Sharp <Ken.Sharp@artifex.com>
-+Date: Mon, 2 Sep 2024 15:14:01 +0100
-+Subject: PDF interpreter - sanitise W array values in Xref streams
-+
-+Bug #708001 "Buffer overflow in PDF XRef stream"
-+
-+See bug report. I've chosen to fix this by checking the values in the
-+W array; these can (currently at least) only have certain relatively
-+small values.
-+
-+As a future proofing fix I've also updated field_size in
-+pdf_xref_stream_entries() to be a 64-bit integer. This is far bigger
-+than required, but matches the W array values and so prevents the
-+mismatch which could lead to a buffer overrun.
-+
-+CVE-2024-46952
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/ghostscript/tree/debian/patches/CVE-2024-46952.patch?h=ubuntu/jammy-security
-+Upstream commit https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=1fb76aaddac34530242dfbb9579d9997dae41264]
-+CVE: CVE-2024-46952
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ pdf/pdf_xref.c | 20 +++++++++++++++++++-
-+ 1 file changed, 19 insertions(+), 1 deletion(-)
-+
-+--- a/pdf/pdf_xref.c
-++++ b/pdf/pdf_xref.c
-+@@ -53,7 +53,7 @@ static int resize_xref(pdf_context *ctx,
-+ static int read_xref_stream_entries(pdf_context *ctx, pdf_c_stream *s, uint64_t first, uint64_t last, uint64_t *W)
-+ {
-+     uint i, j;
-+-    uint field_width = 0;
-++    uint64_t field_width = 0;
-+     uint32_t type = 0;
-+     uint64_t objnum = 0, gen = 0;
-+     byte *Buffer;
-+@@ -292,6 +292,24 @@ static int pdfi_process_xref_stream(pdf_
-+     }
-+     pdfi_countdown(a);
-+ 
-++    /* W[0] is either:
-++     * 0 (no type field) or a single byte with the type.
-++     * W[1] is either:
-++     * The object number of the next free object, the byte offset of this object in the file or the object5 number of the object stream where this object is stored.
-++     * W[2] is either:
-++     * The generation number to use if this object is used again, the generation number of the object or the index of this object within the object stream.
-++     *
-++     * Object and generation numbers are limited to unsigned 64-bit values, as are bytes offsets in the file, indexes of objects within the stream likewise (actually
-++     * most of these are generally 32-bit max). So we can limit the field widths to 8 bytes, enough to hold a 64-bit number.
-++     * Even if a later version of the spec makes these larger (which seems unlikely!) we still cna't cope with integers > 64-bits.
-++     */
-++    if (W[0] > 1 || W[1] > 8 || W[2] > 8) {
-++        pdfi_close_file(ctx, XRefStrm);
-++        pdfi_countdown(ctx->xref_table);
-++        ctx->xref_table = NULL;
-++        return code;
-++    }
-++
-+     code = pdfi_dict_get_type(ctx, sdict, "Index", PDF_ARRAY, (pdf_obj **)&a);
-+     if (code == gs_error_undefined) {
-+         code = read_xref_stream_entries(ctx, XRefStrm, 0, size - 1, (uint64_t *)W);
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46953.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46953.patch
-new file mode 100644
-index 0000000000..0e36838907
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46953.patch
-@@ -0,0 +1,67 @@
-+From 294a3755e33f453dd92e2a7c4cfceb087ac09d6a Mon Sep 17 00:00:00 2001
-+From: Zdenek Hutyra <zhutyra@centrum.cz>
-+Date: Mon, 27 May 2024 13:38:36 +0100
-+Subject: Bug 707793: Check for overflow validating format string
-+
-+for the output file name
-+
-+CVE-2024-46953
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/ghostscript/tree/debian/patches/CVE-2024-46953.patch?h=ubuntu/jammy-security
-+Upstream commit https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=294a3755e33f453dd92e2a7c4cfceb087ac09d6a]
-+CVE: CVE-2024-46953
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ base/gsdevice.c | 17 +++++++++++++----
-+ 1 file changed, 13 insertions(+), 4 deletions(-)
-+
-+--- a/base/gsdevice.c
-++++ b/base/gsdevice.c
-+@@ -1069,7 +1069,7 @@ static int
-+ gx_parse_output_format(gs_parsed_file_name_t *pfn, const char **pfmt)
-+ {
-+     bool have_format = false, field;
-+-    int width[2], int_width = sizeof(int) * 3, w = 0;
-++    uint width[2], int_width = sizeof(int) * 3, w = 0;
-+     uint i;
-+ 
-+     /* Scan the file name for a format string, and validate it if present. */
-+@@ -1098,6 +1098,8 @@ gx_parse_output_format(gs_parsed_file_na
-+                         default: /* width (field = 0) and precision (field = 1) */
-+                             if (strchr("0123456789", pfn->fname[i])) {
-+                                 width[field] = width[field] * 10 + pfn->fname[i] - '0';
-++                                if (width[field] > max_int)
-++	                                return_error(gs_error_undefinedfilename);
-+                                 continue;
-+                             } else if (0 == field && '.' == pfn->fname[i]) {
-+                                 field++;
-+@@ -1126,8 +1128,10 @@ gx_parse_output_format(gs_parsed_file_na
-+         /* Calculate a conservative maximum width. */
-+         w = max(width[0], width[1]);
-+         w = max(w, int_width) + 5;
-++        if (w > max_int)
-++            return_error(gs_error_undefinedfilename);
-+     }
-+-    return w;
-++    return (int)w;
-+ }
-+ 
-+ /*
-+@@ -1180,10 +1184,15 @@ gx_parse_output_file_name(gs_parsed_file
-+     if (!pfn->fname)
-+         return 0;
-+     code = gx_parse_output_format(pfn, pfmt);
-+-    if (code < 0)
-++    if (code < 0) {
-+         return code;
-+-    if (strlen(pfn->iodev->dname) + pfn->len + code >= gp_file_name_sizeof)
-++    }
-++
-++    if (pfn->len >= gp_file_name_sizeof - strlen(pfn->iodev->dname) ||
-++        code >= gp_file_name_sizeof - strlen(pfn->iodev->dname) - pfn->len) {
-+         return_error(gs_error_undefinedfilename);
-++    }
-++
-+     return 0;
-+ }
-+ 
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46955.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46955.patch
-new file mode 100644
-index 0000000000..9186412a48
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46955.patch
-@@ -0,0 +1,60 @@
-+From ca1fc2aefe9796e321d0589afe7efb35063c8b2a Mon Sep 17 00:00:00 2001
-+From: Zdenek Hutyra <zhutyra@centrum.cz>
-+Date: Fri, 30 Aug 2024 13:11:53 +0100
-+Subject: PS interpreter - check Indexed colour space index
-+
-+Bug #707990 "Out of bounds read when reading color in "Indexed" color space"
-+
-+Check the 'index' is in the valid range (0 to hival) for the colour
-+space.
-+
-+Also a couple of additional checks on the type of the 'proc' for
-+Indexed, DeviceN and Separation spaces. Make sure these really are
-+procs in case the user changed the colour space array.
-+
-+CVE-2024-46955
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/ghostscript/tree/debian/patches/CVE-2024-46955.patch?h=ubuntu/jammy-security
-+Upstream commit https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=ca1fc2aefe9796e321d0589afe7efb35063c8b2a]
-+CVE: CVE-2024-46955
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ psi/zcolor.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+--- a/psi/zcolor.c
-++++ b/psi/zcolor.c
-+@@ -3628,6 +3628,7 @@ static int septransform(i_ctx_t *i_ctx_p
-+         code = array_get(imemory, sepspace, 3, &proc);
-+         if (code < 0)
-+             return code;
-++        check_proc(proc);
-+         *esp = proc;
-+         return o_push_estack;
-+     }
-+@@ -4449,6 +4450,7 @@ static int devicentransform(i_ctx_t *i_c
-+         code = array_get(imemory, devicenspace, 3, &proc);
-+         if (code < 0)
-+             return code;
-++        check_proc(proc);
-+         *esp = proc;
-+         return o_push_estack;
-+     }
-+@@ -4864,6 +4866,7 @@ static int indexedbasecolor(i_ctx_t * i_
-+             code = array_get(imemory, space, 3, &proc);
-+             if (code < 0)
-+                 return code;
-++            check_proc(proc);
-+             *ep = proc;	/* lookup proc */
-+             return o_push_estack;
-+         } else {
-+@@ -4877,6 +4880,9 @@ static int indexedbasecolor(i_ctx_t * i_
-+             if (!r_has_type(op, t_integer))
-+                 return_error (gs_error_typecheck);
-+             index = op->value.intval;
-++            /* Ensure it is in range. See bug #707990 */
-++            if (index < 0 || index > pcs->params.indexed.hival)
-++                return_error(gs_error_rangecheck);
-+             /* And remove it from the stack. */
-+             ref_stack_pop(&o_stack, 1);
-+             op = osp;
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46956.patch b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46956.patch
-new file mode 100644
-index 0000000000..77cf8a7da0
---- /dev/null
-+++ b/meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46956.patch
-@@ -0,0 +1,30 @@
-+From ea69a1388245ad959d31c272b5ba66d40cebba2c Mon Sep 17 00:00:00 2001
-+From: Zdenek Hutyra <zhutyra@centrum.cz>
-+Date: Tue, 23 Jul 2024 11:48:39 +0100
-+Subject: PostScript interpreter - fix buffer length check
-+
-+Bug 707895
-+
-+See bug report for details.
-+
-+CVE-2024-46956
-+
-+Upstream-Status: Backport [import from ubuntu https://git.launchpad.net/ubuntu/+source/ghostscript/tree/debian/patches/CVE-2024-46956.patch?h=ubuntu/jammy-security
-+Upstream commit https://cgit.ghostscript.com/cgi-bin/cgit.cgi/ghostpdl.git/commit/?id=ea69a1388245ad959d31c272b5ba66d40cebba2c]
-+CVE: CVE-2024-46956
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ psi/zfile.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+--- a/psi/zfile.c
-++++ b/psi/zfile.c
-+@@ -440,7 +440,7 @@ file_continue(i_ctx_t *i_ctx_p)
-+         if (code == ~(uint) 0) {    /* all done */
-+             esp -= 5;               /* pop proc, pfen, devlen, iodev , mark */
-+             return o_pop_estack;
-+-        } else if (code > len) {      /* overran string */
-++        } else if (code > len - devlen) {      /* overran string */
-+             return_error(gs_error_rangecheck);
-+         }
-+         else if (iodev != iodev_default(imemory)
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-index 969e637f5e..b6dc08aa25 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_9.55.0.bb
-@@ -56,6 +56,11 @@ SRC_URI_BASE = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/d
-                 file://CVE-2024-29506.patch \
-                 file://CVE-2024-29508-1.patch \
-                 file://CVE-2024-29508-2.patch \
-+                file://CVE-2024-46951.patch \
-+                file://CVE-2024-46952.patch \
-+                file://CVE-2024-46953.patch \
-+                file://CVE-2024-46955.patch \
-+                file://CVE-2024-46956.patch \
- "
- 
- SRC_URI = "${SRC_URI_BASE} \
--- 
-2.25.1
+I will fix it.
 
+// Robert
+
+> 
+> https://valkyrie.yoctoproject.org/#/builders/25/builds/432/steps/14/logs/stdio
+> 
+> Can you look at this issue please ?
+> 
 
