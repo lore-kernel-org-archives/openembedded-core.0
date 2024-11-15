@@ -1,209 +1,197 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <mail2szahir@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE29D6DDEB
-	for <webhook@archiver.kernel.org>; Fri, 15 Nov 2024 08:27:31 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.15790.1731659246959262712
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9116ED6DDF8
+	for <webhook@archiver.kernel.org>; Fri, 15 Nov 2024 12:41:52 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.19952.1731674511706609919
  for <openembedded-core@lists.openembedded.org>;
- Fri, 15 Nov 2024 00:27:27 -0800
+ Fri, 15 Nov 2024 04:41:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1049103b3d=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AF6P2vb029367
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:26 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42uwtucvvm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:25 +0000 (GMT)
-Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4AF8RPXf017418
-	for <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:25 GMT
-Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2173.outbound.protection.outlook.com [104.47.57.173])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42uwtucvvj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Nov 2024 08:27:25 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=HAOJH96NTdiy2gG6qEjNijW5gCSh6ALw/rCUimuygC+f/cqvkHVrOBONayNaTesARdwuwIuIpJt+wR4ydYYMJUx54V9d2wRWJhpjjz8uaww4jdeUXmSBLd09PEtVfHr+FQKgmZHBg8U3OyPYJrFrDSksGZPb/lc1iOXkC7IU6rtnmFW0/76ULWqiM9a68IwH6rfLSc3eTzkCP3233C6T148nT5CE5t6rqPzUvR8TGH/2Uv9WRUlKBAmAmQg/GFO2Ad0r0CaXUOO4eqqMKAHxKb3tRNVxhdPGZ5/hGxn5xEsTXKqUIXi3IhI9/5zrTvz8CWLHBXeXgKDRhzSfSfu1ow==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I/Q+qrbKPNUA5m6FDt+lLDNQIBCkuHBc2ATaENuDGxo=;
- b=UQQ2Avdbf5yLDulyzvB/5W5uML7dJhIY6FhrZqNEwaY7maxHP2svdHXEWKCzSHX8k3tolNJxIX9VK9OpN/uHktEvTOnsWV4Nytp0RPu+Ef0t5hnWHZglkqSU3JohPTX0a9OkX9GBVCQVt7+eR3hhqvxYp+iVChSLH5lo6/kkHvOwKlwGacihU5oH8KztRX5rww+yGL0A7anFRIfGPo8LCVpXxxTCuug4CkHP8FRffkyEzKrsx+eX0Sda47IK5meWnFfZrlYYb3tEQztjepZrRCam3Qy/09cgmlCa8GvK7fzBbEJmfdEc7t06BMMlAvv7gVSKV1HEZYE3VMatpHlZSg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from LV3PR11MB8531.namprd11.prod.outlook.com (2603:10b6:408:1b6::15)
- by BL1PR11MB5269.namprd11.prod.outlook.com (2603:10b6:208:310::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.19; Fri, 15 Nov
- 2024 08:27:22 +0000
-Received: from LV3PR11MB8531.namprd11.prod.outlook.com
- ([fe80::d341:6ff5:fce1:c6d]) by LV3PR11MB8531.namprd11.prod.outlook.com
- ([fe80::d341:6ff5:fce1:c6d%4]) with mapi id 15.20.8158.017; Fri, 15 Nov 2024
- 08:27:22 +0000
-Message-ID: <91490e5b-ff0f-4d2c-bc04-71e1ea3a7016@windriver.com>
-Date: Fri, 15 Nov 2024 16:27:15 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH v2 1/1] bootchart2: Several fixes
-To: openembedded-core@lists.openembedded.org, ross.burton@arm.com
-References: <cover.1731571498.git.liezhi.yang@windriver.com>
- <cfbc483721d4dc7cd442e8cbc344b0c05160cad8.1731571498.git.liezhi.yang@windriver.com>
- <ZzYlLDUiQgtvN6aa@bootlin-mathieu>
-Content-Language: en-US
-From: Robert Yang <liezhi.yang@windriver.com>
-In-Reply-To: <ZzYlLDUiQgtvN6aa@bootlin-mathieu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: TY2PR01CA0020.jpnprd01.prod.outlook.com
- (2603:1096:404:a::32) To LV3PR11MB8531.namprd11.prod.outlook.com
- (2603:10b6:408:1b6::15)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zi9GUXTA;
+ spf=pass (domain: gmail.com, ip: 209.85.215.181, mailfrom: mail2szahir@gmail.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7ea8c4ce232so1590045a12.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 04:41:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1731674511; x=1732279311; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=3y12zMJQZlUsaxkfTR5S4MfTg72G4IhXWeM1khrmmZ0=;
+        b=Zi9GUXTAtR+cxUoaYvtBB6cMqSXzRXNfZFGriCFQP/trRdi3lTHgBwRZuLpTzIO/Ip
+         t9sk9oalZz1n6dwoX+9h7Y3RMv8Y4PtSP3Iw1yti+A3hdw0a51YRSdLrBO0ufyV902Hz
+         yl4UkWEkRECvBeG8YitIS2FYBKBflmrMoSEca5rIwQgoTw9nn0OuY88qwU06NdrC8c6k
+         pcscMSC2zxJ+JN00LVsOb/wof4IZMzdstPePhCX7hevgX5hfCGadD+02Ah9NVVV7tec+
+         XkAAVI2N/bUJFuIcqYXN5v7N7mxqW4tur8IAMpYmnU6fNskhIOrIcFoX5R75VwO0m27C
+         YGlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731674511; x=1732279311;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=3y12zMJQZlUsaxkfTR5S4MfTg72G4IhXWeM1khrmmZ0=;
+        b=MTksy88+AVpSYTLOSnTiPYTSLcZb8nsetbwQfp2w407CII9malhQDpPXz9iK1Bg9pq
+         UHq2eNeeifCfdZHtN93VYJ76E/3Xbh6DnM9cP2EY/e3aB6/lLz0ZDzzBBqs8tHyTe0xh
+         1vGbvrwuLNBuQUHnTjbjF4R1ke8VY9n0KK0x1u0Ba9w9MbC0Oj6SuPMQuleyN3i68psa
+         EgOSX4v8KGteKnN0dpDHILGCM2cv6XvPA3By059QO4lbQkKVLgMQ19H2nvzquujdXJJh
+         36V3osFpCVVjIZ8Gp2Bim/pzFP6ffaCeld88oMgtUXQL8Ae5zp9hEVZy7oynbthXTz15
+         Qmxw==
+X-Gm-Message-State: AOJu0YzhoONHUxHxkivWnJbd4XySGrFqHP97X6lBKZK2KA+eIj5vNW/4
+	ZhsBhNfFaqDrDS18P1L1agvlu8OA5mEjDisr51L6PXLdgAP8eiaA5TUOIA==
+X-Google-Smtp-Source: AGHT+IHqAT5qotkOcu8qpH4+CiuTmP19Mi6l9xkLKcZTgYCwZD1+Xe3m4hMHqYVA1Pn8rUpbApXELA==
+X-Received: by 2002:a05:6a20:3d82:b0:1d9:c615:944f with SMTP id adf61e73a8af0-1dc90b238a2mr3413224637.11.1731674510507;
+        Fri, 15 Nov 2024 04:41:50 -0800 (PST)
+Received: from localhost.localdomain ([2405:201:e02e:c09b:70ed:f8da:86f7:37cc])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-2ea024bdb19sm2819480a91.36.2024.11.15.04.41.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 15 Nov 2024 04:41:50 -0800 (PST)
+From: aszh07 <mail2szahir@gmail.com>
+To: openembedded-core@lists.openembedded.org,
+	zahir.basha@kpit.com
+Subject: [OE-core][master][PATCH V2] alsa-lib: enabling ptest for alsa-lib component
+Date: Fri, 15 Nov 2024 18:11:15 +0530
+Message-Id: <20241115124115.14318-1-mail2szahir@gmail.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8531:EE_|BL1PR11MB5269:EE_
-X-MS-Office365-Filtering-Correlation-Id: 47dfc6a6-dca5-4159-05cd-08dd054f53ba
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info: 
-	=?utf-8?B?THFUcmFyeGtZTTJCcnJEZHZIbVowaXJGWG5oaE0rdWVKVzBaMlJyWFpHRWVH?=
- =?utf-8?B?Ly9nOXpnajJsbVdJVnZ4a3Fwb21CRzYrejRFYk1EWXFxWkNTb3pDdlNGRndi?=
- =?utf-8?B?TmRsdWRnZjNqREJ4Qmc1MWVhUHR1YWRGM3hmZmFWTnQ5aS9OSVNvaXlwQmp1?=
- =?utf-8?B?VTNGS1lKTlBSemtrOWd3MWR3NEx4SXZhQXRZcFUzZU9oam1KbVd3T3JwSkIy?=
- =?utf-8?B?YW5abTNDQ3lOZG9yc1lyWmtUNUVFcW93QlZnSWlXaGdkYkg3dStuV0dxK1ZO?=
- =?utf-8?B?OEZGSjV3SUxJL0R6d2luaGVEQWowTHhJRVYwNXFkSmcvelVvYTlGRytGRkgr?=
- =?utf-8?B?RkZTMzdlZFZiWk5kMDZwY1NvQUZUbmxEdGZQSDZFTkZuUGdZWTBUQnR0bXZJ?=
- =?utf-8?B?bm5XamVETjJxeFg0eDFYRmg2dmtJbFVCSElZTHVCVFNrajFkQWFibzVTUkth?=
- =?utf-8?B?MDRyelpMaWZkMkdodTVsb0dHZ01WSk5OM21xVjFsT2VSZ0xvaDBtT3RwZm9S?=
- =?utf-8?B?eGJzRzBia01xanZYUi95dzBqYUJwOXdjOFVhTUlYWlpDdjlqV3VVTDZsbm1N?=
- =?utf-8?B?SU1UTDBScU92V0JpSkdYN01XRC9neEhQSDZuWGpDWElxSG9wc3lRalJWcDZU?=
- =?utf-8?B?MFIxa2drUjMxd24xSXNaeWR6Mkx6K3JKRytadlZyVmRzWXNRY3VIMnV2cHNu?=
- =?utf-8?B?YXRQenZDdTViUHE1b1k5QTRHaGJMM1FNOUhyS2d5WU9BR3MvUHI4OGkzdUhV?=
- =?utf-8?B?Vm1vbHVkeFVLd1VwUDlFSzRlVXBhajlvOGQrRHBBa29vREhnMVJ3Z202Z2tk?=
- =?utf-8?B?M1FRY3VVUi9yYU85dzg2c1ROd1FOODI2elZvR2t4bWsyUWhQUHVFenJPZUFL?=
- =?utf-8?B?ZXNYTE5FSmRCcCtuT0s2UjdJVU83bWVSTjFMc01mSG0wUDhTTFNZV0JhWm9E?=
- =?utf-8?B?aVB6RTJVMmw3WG9SZzNpeFNlbnI0ZG1rZkhTdnZnRFJPSlF6ZXZxMVE4RHlw?=
- =?utf-8?B?bW1XcUJtS0ZCMytXVkxvSWowVDl2K1dQOTJhVkdydWRWK1M3bTFXcENUSnNu?=
- =?utf-8?B?OUZhVGpzcUxUWEt6NjFFZmpWUWI2eWhiMHNncmRrbTQ2VzdLbUNkS0liMzdD?=
- =?utf-8?B?ZXhqQ3QzbEk4aHc2NWlOcDd2U25EQlJUKzJ2eGtZUFN1a3ZqQXNBazZXSVlF?=
- =?utf-8?B?c2hSZFUzWFBJa3g4dnA2aWRPeFhGdjc0Y1pONnhxL09XMGhYS1hZQ3BiT29G?=
- =?utf-8?B?WTZYdXZGWFZRRW5CRkNkUW1KSGpFdHpkbkNWNFFKaTJCdmR3UlVqdmlvWXU2?=
- =?utf-8?B?bWFsNTVIZXV6b3c3NVFYbGdZK2lMc1c2a0E1YTNMU0lCbjFMcmtlcXFIVzB6?=
- =?utf-8?B?SkllQUZRR3M4VnhncExsMU0yWmhLK2JkUDRmNGhMK3VoZG1MM3VlQWxuTXNE?=
- =?utf-8?B?WjJmejNxYjhzREpQVWN2M3dYTDUyMTNrenkwZGo0aHAxS0U5WDNBMWRMRkcw?=
- =?utf-8?B?eG5jditqcWpWY2FIOFVTZjZoZUszWVFkL2tEY2JRazFJVHp0SWQvMWJ0TlBK?=
- =?utf-8?B?YTBXUGQ1aFlCMXpqUEVtS2VaRGlwWjNKTnF0enhRbTQvVUk1eitEYmNpUlVu?=
- =?utf-8?B?aFZleVVQbFZRakFnT0FrT3o2bnBoay95VlBpY3c0MWdJSXVQRG8rbFgwL05R?=
- =?utf-8?Q?9ek++au36Tg/vGQlRaGO?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8531.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?RzNFeXlJTkpyUXZYclZqV0RxbU0vUFlrMnFnUU1FN2U4RTd1L0Q2YVhUM0JT?=
- =?utf-8?B?QnFuNzk5QWJhcGFaR2VFVmdaektQMGJlNDBCNGpIU3R5M1p6K2JEZVpkdU9I?=
- =?utf-8?B?dEtTR0pIb0V3cExnalBENDkzOHpLL3RYSW5vMitYWVdLcFF2Ymx2VG9IeDQ5?=
- =?utf-8?B?UFRZcGVzMld4ZElINHZ4R2dBcXZVeVhOVERDVUF2NjhXd0U1LzFSbzAyakZZ?=
- =?utf-8?B?RVNtejZrQ29KRUd3YnF2ZU1abzRINkFUZUJMcnZwN1BGajNvYzBJdDZRaGdJ?=
- =?utf-8?B?enplOU0rOWJ5TUgydUJTNENmMWlqTnl6QjdWeTQ2cC9maW1hR3BIb1ROdng1?=
- =?utf-8?B?UkI3Mm14a0IvcVpzclZBN21Ha3Z1Y09WdjBkS1JIK1VUZE9tNlNDaHc4TWhW?=
- =?utf-8?B?QmptdkZQOEVyTXlBOHVrcFNhWXlQUlBsNEliODhNWUFkdldZRHI4QWdJZTdv?=
- =?utf-8?B?TVRTTXJnYXBsMmdOL1NpSGQrNWsrUHdwTVlmSWI0cnBrREVaVHBSNzRzclZa?=
- =?utf-8?B?ZEloM3R2M2d5RTdwWXRRQk5HTy9na3k0TXpYdnJEZ1RndXR0cVRGdE9obHhJ?=
- =?utf-8?B?MnpWc1d1UGpzcGhYYWdPTGhPUWJmQVd0ZU5QWEFaUlRSMEFwUG1wQi90Rkth?=
- =?utf-8?B?Ym5LTDVXTUpIS3B4YjJZd2Y1aWk2MDBxQjdDc3lFN0l5SmhFQ2Nod0hhL2lG?=
- =?utf-8?B?dDZ3RnhOQWJKK0tjckV3M0RoQnd4RkVYbHZYRkpJVjQvZHpSY3AzUHpoZGY2?=
- =?utf-8?B?ZERvdHRRQVE5SldoQVRwYUlHRDR4R0xPZ1dmbzdCRUxrQ1ovSkROQXphMGlD?=
- =?utf-8?B?SGpFUHV6SDErTW5NUFdBZkp2c21KemZDSXEyeE1FMFh2Vk1rSXhFaHRmNXpy?=
- =?utf-8?B?WHlBY1dqMysvUkdla1lrLzA4QnE4dGttQ0J2K0pzbXFsV200VVlTaW9YSGQx?=
- =?utf-8?B?QXZkV0ovNzV4cUxVczFPdVFjdldUNVBOQ05DaEtWcThmdEJneStjaFlCZFRu?=
- =?utf-8?B?VUx2Q3VwWmZBTFNFM3N5QnhsVUVwU20xZDNXQUdISlJwOW5Jdzl6RTAwc3Nq?=
- =?utf-8?B?QkVQSi9DdVdPa3I4Tnd6TWwwTGVmN3ZOUWUyWTh5LzlTcVM0ekVRbW9xcElS?=
- =?utf-8?B?L0ZZd0dXYXh5Zm4wK08xbFl3YmJac0JZS09XYjZWd3I2RWIraGdsMjFLejNQ?=
- =?utf-8?B?bnBRckZ6aUkyS2laUlB3citNVFNreEdmMDh3ditPK04vWWFSakhSMk9wUjBZ?=
- =?utf-8?B?bVNsV0swbjV3R3BTOTg1UHpiTS9JdmNxelNSNitPd2NZVUZSczFkYjdRQ00x?=
- =?utf-8?B?YlpKaitRM0VZaVZhOHVadG9UNVR5L29qYUprOXZGTEk4UEsrOXpYT2g5ZjlO?=
- =?utf-8?B?UnFSWklSOWhWejFGdWFVQXM0TVVqRzNIa0VIWkRCb2Y5QnR5bGsxWnFhWitL?=
- =?utf-8?B?bkZIa2pmVlBnS0h2VTRDVUc4TWl1ZTRVSFowNGFxb3VuV1JxR2FNSHE0ZWcr?=
- =?utf-8?B?MUhwVjZIZzJxRitDYmFWOHNTMGE2WGQ5bXU5MUVyVGJpT2FHMlh2UDZCR1Nx?=
- =?utf-8?B?OGVHczhFMFZWRTZpUHNKMHVKYWZtb2ZCMmUvTStTbjBhTjcrZWx1Y3k5SnBZ?=
- =?utf-8?B?QW84OEFQaGd3STNMWEoxS28vRzlIMS8wMTRNUGZmM3ZJZDM2TklpcVJDMGg3?=
- =?utf-8?B?ZXA2TDdOcllYZ0huaU9SL2dQbTlnZ0Vvd0RZb3AxeG1XL3RRdFhpRnN3bDRI?=
- =?utf-8?B?ZTZGaGdjbHJZTkdkWXhtRkp2RDdINjRHZUI4eXZLTE1QR1hLYlM5VWI2Z25D?=
- =?utf-8?B?WVkweXpKUm1mclhHRjFpcmFYUnFUMTdBOTRRWEZycmkyNTQrUzYwYklnMDZy?=
- =?utf-8?B?RjB2dlFsR2N6ZUpKdHR2Mmg4YzZUZ3Boa3lVUkc5QjlWU0pDcE1NNlExODN2?=
- =?utf-8?B?d2l1dXJxTWNZaUVObEVDdEtmREhaUnZVdXljUHJPdml5ZUpuN2dabTRaRHBh?=
- =?utf-8?B?dVBVQ2hmb25DUGEzMi9seWpEWDRPaiswWGdVQm5hM05Gd0VDVys5eWU2MCtv?=
- =?utf-8?B?S0kwaVUwUGNVLytOMzhOa0w3NVpUSERHR1FNR29weitldnBMeVk2bysvVER4?=
- =?utf-8?B?dFB1QnFqbE5sOWhlV0ZMYkR4M21rOGFwR3dBYkR4dG5iazF2M1VLK0VUa0wx?=
- =?utf-8?B?ekE9PQ==?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 47dfc6a6-dca5-4159-05cd-08dd054f53ba
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8531.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2024 08:27:22.4314
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mc4A6bnxhD0m3FfK4KyaHhg1SlLzppx9HNbgrhxME8iD0gIOGYoJuK2AQGxgRtIMZf8Oy9bza88cVaTCreHxKMgEaFRfK+5yh5Hg9Qk6UPE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR11MB5269
-X-Proofpoint-GUID: 8U2P1Q_nhhjAuQrKeQ_Eb6P_YBE6Cok_
-X-Authority-Analysis: v=2.4 cv=BPnhr0QG c=1 sm=1 tr=0 ts=673705ed cx=c_pps a=IYePPuTyj3qIg1BHBNk0GA==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10
- a=iGHA9ds3AAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=K--Kt50OwFa87OWldFYA:9 a=QEXdDO2ut3YA:10 a=nM-MV4yxpKKO9kiQg6Ot:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: ZRI64eRrbbL4R8ycXSjIMRq2bMexbZZ-
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-14_05,2024-11-14_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 adultscore=0
- malwarescore=0 clxscore=1015 mlxscore=0 mlxlogscore=681 bulkscore=0
- lowpriorityscore=0 phishscore=0 priorityscore=1501 impostorscore=0
- suspectscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2411150071
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 08:27:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207182
+ <openembedded-core@lists.openembedded.org>; Fri, 15 Nov 2024 12:41:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207183
 
+These changes enable ptest for alsa-lib.
 
+1) Removes the test suite execution 'make check-TESTS' call
+using patch file.
 
-On 11/15/24 00:28, Mathieu Dubois-Briand wrote:
-> On Thu, Nov 14, 2024 at 12:25:17AM -0800, Robert Yang via lists.openembedded.org wrote:
->> From: Robert Yang <liezhi.yang@windriver.com>
->>
->> Fixed Ross' comments:
->> * Add -n to gzip to make the resulting files reproducible, so we don't need to
->>    decompress them.
->>
->> * Makefile: Let bootchartd.conf use EARLY_PREFIX, so that bootchartd.conf can
->>    install to correct location.
->>
->> * Set MANDIR and DOCDIR to make the files install to correct location for
->>    bootchart2-native.
->>
->> Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
-> 
-> Hi Robert,
-> 
-> Thanks for the v2, but I believe this is failing some builds on the
-> autobuilder:
-> 
-> ERROR: bootchart2-0.14.9-r0 do_package: QA Issue: bootchart2:
-> Files/directories were installed but not shipped in any package:
->    /usr/etc
->    /usr/etc/bootchartd.conf
+2) Compiled the test directory source code using "oe_runmake check" command.
 
-Sorry, it will be failed when:
-DISTRO_FEATURES:append = " usrmerge"
+3) Copied all the required binaries into PTEST_PATH using do_install_ptest()
+ function.
 
-I will fix it.
+runqemu test result:
+10/19 binaries are failing due to not getting PCM device handle.
+those are,
+chmap, midiloop, pcm-multi-thread, timer, user-ctl-element-set,
+audio_time, pcm_min, queue_timer, playmidi, oldapi.
 
-// Robert
+Below 9 binaries are passed on runqemu ptest,
+config, midi_event, rawmidi, control, pcm,
+client_event_filter,latency,namehint,seq
 
-> 
-> https://valkyrie.yoctoproject.org/#/builders/25/builds/432/steps/14/logs/stdio
-> 
-> Can you look at this issue please ?
-> 
+Signed-off-by: aszh07 <mail2szahir@gmail.com>
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ ...001-remove-check_TESTS-from-automake.patch | 27 +++++++++++++++++++
+ .../alsa/alsa-lib/run-ptest                   | 17 ++++++++++++
+ .../alsa/alsa-lib_1.2.12.bb                   | 16 +++++++++--
+ 4 files changed, 59 insertions(+), 2 deletions(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/0001-remove-check_TESTS-from-automake.patch
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/run-ptest
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 4a48188562..f0ffe11347 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -5,6 +5,7 @@
+ #
+ PTESTS_FAST = "\
+     acl \
++    alsa-lib \
+     apr-util \
+     attr \
+     babeltrace \
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/0001-remove-check_TESTS-from-automake.patch b/meta/recipes-multimedia/alsa/alsa-lib/0001-remove-check_TESTS-from-automake.patch
+new file mode 100644
+index 0000000000..9ef3021cc3
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-lib/0001-remove-check_TESTS-from-automake.patch
+@@ -0,0 +1,27 @@
++From 4afdc83b4069a4505c5928577321eef8097e5258 Mon Sep 17 00:00:00 2001
++From: Zahir Hussain <zahir.basha@kpit.com>
++Date: Mon, 11 Nov 2024 22:08:33 +0530
++Subject: [PATCH] remove check_TESTS from automake
++
++Upstream-Status: Inappropriate [Project-Specific]
++
++Signed-off-by: Zahir Hussain <zahir.basha@kpit.com>
++---
++ test/lsb/Makefile.am | 4 +---
++ 1 file changed, 1 insertion(+), 3 deletions(-)
++
++diff --git a/test/lsb/Makefile.am b/test/lsb/Makefile.am
++index ceb4d71..c537bf0 100644
++--- a/test/lsb/Makefile.am
+++++ b/test/lsb/Makefile.am
++@@ -1,6 +1,4 @@
++-TESTS  = config
++-TESTS += midi_event
++-check_PROGRAMS = $(TESTS)
+++check_PROGRAMS = config midi_event
++ noinst_HEADERS = test.h
++ 
++ AM_CFLAGS = -Wall -pipe
++-- 
++2.25.1
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/run-ptest b/meta/recipes-multimedia/alsa/alsa-lib/run-ptest
+new file mode 100644
+index 0000000000..dad94c23df
+--- /dev/null
++++ b/meta/recipes-multimedia/alsa/alsa-lib/run-ptest
+@@ -0,0 +1,17 @@
++#!/bin/sh
++
++set -eux
++
++for t in *; do
++    if [ -f "$t" ] && [ -x "$t" ] && [ "$t" != "run-ptest" ]; then
++        if "./$t" > "alsa-lib_$t.log" 2>&1; then
++            echo "PASS: $t"
++        else
++            echo "FAIL: $t - Log"
++            cat "alsa-lib_$t.log"
++        fi
++    else
++        echo "SKIP: $t (Not executable or not a file)"
++    fi
++done
++
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb
+index d9136052b7..da743a243b 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.12.bb
+@@ -9,10 +9,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     file://src/socket.c;md5=285675b45e83f571c6a957fe4ab79c93;beginline=9;endline=24 \
+                     "
+ 
+-SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
++SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
++           file://run-ptest \
++           file://0001-remove-check_TESTS-from-automake.patch \
++           "
+ SRC_URI[sha256sum] = "4868cd908627279da5a634f468701625be8cc251d84262c7e5b6a218391ad0d2"
+ 
+-inherit autotools pkgconfig
++inherit autotools pkgconfig ptest
+ 
+ EXTRA_OECONF += " \
+     ${@bb.utils.contains('TARGET_FPU', 'soft', '--with-softfloat', '', d)} \
+@@ -42,3 +45,12 @@ RREPLACES:alsa-conf = "alsa-conf-base"
+ RCONFLICTS:alsa-conf = "alsa-conf-base"
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++do_compile_ptest() {
++        oe_runmake check
++}
++
++do_install_ptest:append() {
++        install -m 0755 ${B}/test/.libs/* "${D}${PTEST_PATH}";
++        install -m 0755 ${B}/test/lsb/.libs/* "${D}${PTEST_PATH}";
++}
+-- 
+2.17.1
+
 
