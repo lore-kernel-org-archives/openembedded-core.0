@@ -1,101 +1,2508 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15EC4D68BEA
-	for <webhook@archiver.kernel.org>; Sat, 16 Nov 2024 11:12:05 +0000 (UTC)
-Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
- by mx.groups.io with SMTP id smtpd.web10.10724.1731755520999303894
- for <openembedded-core@lists.openembedded.org>;
- Sat, 16 Nov 2024 03:12:01 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I/ZqfNdb;
- spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6d40ae72d35so6565126d6.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 16 Nov 2024 03:12:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731755520; x=1732360320; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C3WDTGcWOCvNVYNiSuy1keSImoIRD3Qmfj2ICw6OR6k=;
-        b=I/ZqfNdb9HXmz8bXfpvmLbqgdF/QmROoHo7HSfHaHa+7HjOMqyX2kfaihbc3A2Sa2S
-         8mx3+2lxUhQNgj4L3rRaHxytU+/YVtpbi80qBeKPGlpsLf4//hU2iCsMWm8LoKbfNrvW
-         NjP0b83Q612+Paxj19QLTufI4K6VtmY8wVIpRcXVNdAOQq2ALRulcmY6r9gkSXXl1dUz
-         Egpfwm/h9nztQeyChLzHN7xGJF6mB7mwCMmqOLT0AeMZEkWWxJpVkHO46gRqdNAtcyHY
-         SpwRDcVsGS1CQxzcdfLq6DDhCXgG5IibuEHonpEUsgJuZ8BR/yLvnzJIwAbKAm5pD2zf
-         iUHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731755520; x=1732360320;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C3WDTGcWOCvNVYNiSuy1keSImoIRD3Qmfj2ICw6OR6k=;
-        b=NOYjdkRh6VwS+jTPPkikCqro9uVX9QSQtAwYI8YAin6MjehUffP7XnlW6AMUaseRqK
-         mLDnTD4eJeBmCdz702c1abWvNwB0iy5QuwtbJOnf0n+7uPbJuu1pnASU/W/dtEoJphwY
-         c3Bt8tiaefwm8DRW+8L1TUJw6HpqgC1LIvgQEaINAl7hOBr8o6uGUq/QNf5frR9pt1yS
-         d6k34VTfxGebidb8YZYhI8jjzvPbS3hBenFx+tKPg326kqaUh92eIXHAoZQrU97irKBb
-         UemzaZrnqFJwiT7dnlDXwQcA04vE19Le+qEU8Qx/Slv2WLyG++8/0cus8M4oJfu0CQzw
-         VA1Q==
-X-Gm-Message-State: AOJu0Yy76cHaFxsEi180wsh/Sm0jXNL8Mg6+2ZE8symF3YU88mEAOw8z
-	MlJAOpHaefATT7JjAULqrrXdXLs2VoRIfcXeCNYBTUY1OJsuhLDO+MPSkos7ziko2Nyn8IyJjQB
-	gpY/gKCWXrAFbdwB7pFBzS7owVD0=
-X-Google-Smtp-Source: AGHT+IE+qQtwRVbcja61TUbDw/uUR8woaiJ25y1Km30UpJ5v5340Y3pjDACFi5M6NWKIF0qXPBtnaL3l5cwCo7LqqHY=
-X-Received: by 2002:ad4:5bac:0:b0:6d4:1425:6d2d with SMTP id
- 6a1803df08f44-6d414257073mr12361856d6.43.1731755519895; Sat, 16 Nov 2024
- 03:11:59 -0800 (PST)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68399D68BEC
+	for <webhook@archiver.kernel.org>; Sat, 16 Nov 2024 12:30:15 +0000 (UTC)
+Subject: Re: [PATCH 2/2] python3: add bluez5-native to DEPENDS conditionally
+To: openembedded-core@lists.openembedded.org
+From: =?UTF-8?B?R3XDsG5pIE3DoXIgR2lsYmVydA==?= <gudni.m.g@gmail.com>
+X-Originating-Location: Kopavogur, Capital Region, IS (81.15.100.92)
+X-Originating-Platform: Windows Firefox 132
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-References: <18918.1731589075220106911@lists.openembedded.org> <921.1731754558740077385@lists.openembedded.org>
-In-Reply-To: <921.1731754558740077385@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Sat, 16 Nov 2024 12:11:49 +0100
-Message-ID: <CANNYZj9ZoOQPzZMgDPJccd75xpe7psWTvyaTixsFh744P8a8Mw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 2/2] python3: add bluez5-native to DEPENDS conditionally
-To: gudni.m.g@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Sat, 16 Nov 2024 04:30:12 -0800
+References: <CANNYZj9ZoOQPzZMgDPJccd75xpe7psWTvyaTixsFh744P8a8Mw@mail.gmail.com>
+In-Reply-To: <CANNYZj9ZoOQPzZMgDPJccd75xpe7psWTvyaTixsFh744P8a8Mw@mail.gmail.com>
+Message-ID: <921.1731760212735035587@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="9KDwWBYYvYt9FZJIwY5U"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 16 Nov 2024 11:12:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207189
+ <openembedded-core@lists.openembedded.org>; Sat, 16 Nov 2024 12:30:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207190
 
-On Sat, 16 Nov 2024 at 11:56, Gu=C3=B0ni M=C3=A1r Gilbert via
-lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Hi all,
->
-> I've thought some more about this issue. I think it is best to remove the=
-se two patches I submitted from master-next if you haven't done so already.=
- Using bluez5-native is wrong, I was misunderstanding the 'native' part a l=
-ittle bit.
->
-> Moving forward I think there are really only two possible ways to resolve=
- this (both seem quite cumbersome):
->
-> 1. Build BlueZ, and it dependencies by using a 'target' Python 3. Then af=
-ter BlueZ is done building,  Python should somehow be re-configured and re-=
-built in order to compile with bluetooth support.
-> 2. Create a new recipe called libbluetooth which modifies BlueZ such that=
- only the lib folder is built. This recipe only packages the library. In th=
-is case, we need to create a custom Makefile and a target which only builds=
- the bluetooth library. It should have minimal dependencies. The goal with =
-this approach is to avoid depending on Python at all such that we can avoid=
- building it until we have libbluetooth available for the target build.
->
-> In my opinion I prefer option 2. I am thinking if it is worth it to push =
-a patch to upstream BlueZ to better support only building the library. I'll=
- work on this weekend to build the library locally and see what dependencie=
-s it needs. If it doesn't depend on glib and dbus, then that's perfect.
->
-> For option 1, I am not sure how this can be done. I'm open to any ideas.
+--9KDwWBYYvYt9FZJIwY5U
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-I'm not sure I understand why all this complication is needed. Is
-there a circular build dependency between target bluez5 and target
-python3? Can you show how and where target python is needed by bluez5
-at build time?
+Hi Alexander
 
-Alex
+Looking at the logs below, I find two main culprits:
+
+- gobject-introspection_1.82.0.bb (required by BlueZ hard dependency glib-2=
+.0) which depends on python3 and python3-setuptools
+- libxml2_2.13.4.bb (required by BlueZ) depends on python3. libxml2
+
+For completeness, below is the error messages I get on my machine if python=
+3 DEPENDS on bluez5:
+
+ERROR: 1712 unbuildable tasks were found.##################################=
+################# =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| ETA: =C2=A00:00:00
+These are usually caused by circular dependencies and any circular dependen=
+cy chains found will be printed below. Increase the debug level to see a li=
+st of unbuildable tasks.
+Identifying dependency loops (this may take a short while)...
+ERROR:
+Dependency loop #1 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_collect_spdx_deps (dep=
+endent Tasks ['python3-setuptools_72.1.0.bb:do_unpack', 'python3_3.13.0.bb:=
+do_create_spdx', 'python3-build_1.2.2.bb:do_create_spdx', 'python3-setuptoo=
+ls_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python=
+3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', '=
+python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroo=
+t', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0.44.0.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_create_spdx (dependent=
+ Tasks ['python3-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_pack=
+agedata', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3-setuptools_7=
+2.1.0.bb:do_package', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_deploy_source_date_epoch'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps =
+(dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:d=
+o_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create=
+_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_cr=
+eate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spd=
+x', 'gettext_0.22.5.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (depen=
+dent Tasks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:=
+do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', '=
+shared-mime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collec=
+t_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.b=
+b:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent Tasks ['=
+systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_sp=
+dx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sy=
+sroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4.bb:do_=
+create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create=
+_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_cre=
+ate_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_spdx'=
+, 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'base-files=
+_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_1=
+4.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mime-info_=
+2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_0.51.0.=
+bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.bb:do_c=
+reate_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do=
+_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_create_sp=
+dx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:do_unpac=
+k'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_create_spdx (dependent Tasks ['system=
+d_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy_source_date_epoch', 'qu=
+ilt-native_0.68.bb:do_populate_sysroot', 'systemd_256.7.bb:do_collect_spdx_=
+deps', 'patch_2.7.6.bb:do_populate_sysroot', 'systemd_256.7.bb:do_populate_=
+sysroot', 'systemd_256.7.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependent Tasks ['expa=
+t_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'autoconf-ar=
+chive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spd=
+x', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.bb:do_create_sp=
+dx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx',=
+ 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpack', 'shadow_4=
+.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passw=
+d_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', 'libtool-cro=
+ss_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.=
+10.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.6=
+8.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', '=
+patch_2.7.6.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbu=
+s_1.14.10.bb:do_collect_spdx_deps'])
+Dependency loop #2 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/libxml/libxml2_2.13.4.bb:do_collect_spdx_deps (dependent Tasks ['=
+pkgconfig_git.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-=
+runtime_14.2.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_unpack', 'gcc-cross_=
+14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'autoconf_2.72=
+e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'glibc_2.=
+40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7=
+.6.bb:do_populate_sysroot', 'zlib_1.3.1.bb:do_create_spdx', 'automake_1.17.=
+bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/libxml/libxml2_2.13.4.bb:do_create_spdx (dependent Tasks ['libxml=
+2_2.13.4.bb:do_collect_spdx_deps', 'libxml2_2.13.4.bb:do_packagedata', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_package', 'pa=
+tch_2.7.6.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_deploy_source_date=
+_epoch', 'libxml2_2.13.4.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps =
+(dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:d=
+o_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create=
+_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_cr=
+eate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spd=
+x', 'gettext_0.22.5.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (depen=
+dent Tasks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:=
+do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', '=
+shared-mime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collec=
+t_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.b=
+b:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent Tasks ['=
+systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_sp=
+dx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sy=
+sroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4.bb:do_=
+create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create=
+_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_cre=
+ate_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_spdx'=
+, 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'base-files=
+_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_1=
+4.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mime-info_=
+2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_0.51.0.=
+bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.bb:do_c=
+reate_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do=
+_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_create_sp=
+dx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:do_unpac=
+k'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_create_spdx (dependent Tasks ['system=
+d_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy_source_date_epoch', 'qu=
+ilt-native_0.68.bb:do_populate_sysroot', 'systemd_256.7.bb:do_collect_spdx_=
+deps', 'patch_2.7.6.bb:do_populate_sysroot', 'systemd_256.7.bb:do_populate_=
+sysroot', 'systemd_256.7.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependent Tasks ['expa=
+t_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'autoconf-ar=
+chive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spd=
+x', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.bb:do_create_sp=
+dx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx',=
+ 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpack', 'shadow_4=
+.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passw=
+d_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', 'libtool-cro=
+ss_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.=
+10.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.6=
+8.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', '=
+patch_2.7.6.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbu=
+s_1.14.10.bb:do_collect_spdx_deps'])
+Dependency loop #3 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps =
+(dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:d=
+o_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create=
+_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_cr=
+eate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spd=
+x', 'gettext_0.22.5.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (depen=
+dent Tasks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:=
+do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', '=
+shared-mime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collec=
+t_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.b=
+b:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent Tasks ['=
+systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_sp=
+dx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sy=
+sroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4.bb:do_=
+create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create=
+_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_cre=
+ate_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_spdx'=
+, 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'base-files=
+_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_1=
+4.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mime-info_=
+2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_0.51.0.=
+bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.bb:do_c=
+reate_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do=
+_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_create_sp=
+dx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:do_unpac=
+k'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_create_spdx (dependent Tasks ['system=
+d_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy_source_date_epoch', 'qu=
+ilt-native_0.68.bb:do_populate_sysroot', 'systemd_256.7.bb:do_collect_spdx_=
+deps', 'patch_2.7.6.bb:do_populate_sysroot', 'systemd_256.7.bb:do_populate_=
+sysroot', 'systemd_256.7.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependent Tasks ['expa=
+t_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'autoconf-ar=
+chive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spd=
+x', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.bb:do_create_sp=
+dx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx',=
+ 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpack', 'shadow_4=
+.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passw=
+d_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', 'libtool-cro=
+ss_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.=
+10.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.6=
+8.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', '=
+patch_2.7.6.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbu=
+s_1.14.10.bb:do_collect_spdx_deps'])
+Dependency loop #4 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_collect_spdx_deps (dep=
+endent Tasks ['python3-setuptools_72.1.0.bb:do_unpack', 'python3_3.13.0.bb:=
+do_create_spdx', 'python3-build_1.2.2.bb:do_create_spdx', 'python3-setuptoo=
+ls_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python=
+3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', '=
+python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroo=
+t', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0.44.0.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_create_spdx (dependent=
+ Tasks ['python3-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_pack=
+agedata', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3-setuptools_7=
+2.1.0.bb:do_package', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_deploy_source_date_epoch'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps =
+(dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:d=
+o_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create=
+_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_cr=
+eate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spd=
+x', 'gettext_0.22.5.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (depen=
+dent Tasks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:=
+do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', '=
+shared-mime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collec=
+t_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.b=
+b:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent Tasks ['=
+systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_sp=
+dx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sy=
+sroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4.bb:do_=
+create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create=
+_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_cre=
+ate_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_spdx'=
+, 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'base-files=
+_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_1=
+4.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mime-info_=
+2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_0.51.0.=
+bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.bb:do_c=
+reate_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do=
+_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_create_sp=
+dx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:do_unpac=
+k'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_create_spdx (dependent Tasks ['system=
+d_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy_source_date_epoch', 'qu=
+ilt-native_0.68.bb:do_populate_sysroot', 'systemd_256.7.bb:do_collect_spdx_=
+deps', 'patch_2.7.6.bb:do_populate_sysroot', 'systemd_256.7.bb:do_populate_=
+sysroot', 'systemd_256.7.bb:do_packagedata'])
+Dependency loop #5 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/libxml/libxml2_2.13.4.bb:do_collect_spdx_deps (dependent Tasks ['=
+pkgconfig_git.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-=
+runtime_14.2.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_unpack', 'gcc-cross_=
+14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'autoconf_2.72=
+e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'glibc_2.=
+40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7=
+.6.bb:do_populate_sysroot', 'zlib_1.3.1.bb:do_create_spdx', 'automake_1.17.=
+bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/libxml/libxml2_2.13.4.bb:do_create_spdx (dependent Tasks ['libxml=
+2_2.13.4.bb:do_collect_spdx_deps', 'libxml2_2.13.4.bb:do_packagedata', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_package', 'pa=
+tch_2.7.6.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_deploy_source_date=
+_epoch', 'libxml2_2.13.4.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps =
+(dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:d=
+o_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create=
+_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_cr=
+eate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spd=
+x', 'gettext_0.22.5.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (depen=
+dent Tasks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:=
+do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', '=
+shared-mime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collec=
+t_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.b=
+b:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent Tasks ['=
+systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_sp=
+dx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sy=
+sroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4.bb:do_=
+create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create=
+_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_cre=
+ate_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_spdx'=
+, 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'base-files=
+_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_1=
+4.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mime-info_=
+2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_0.51.0.=
+bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.bb:do_c=
+reate_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do=
+_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_create_sp=
+dx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:do_unpac=
+k'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_create_spdx (dependent Tasks ['system=
+d_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy_source_date_epoch', 'qu=
+ilt-native_0.68.bb:do_populate_sysroot', 'systemd_256.7.bb:do_collect_spdx_=
+deps', 'patch_2.7.6.bb:do_populate_sysroot', 'systemd_256.7.bb:do_populate_=
+sysroot', 'systemd_256.7.bb:do_packagedata'])
+Dependency loop #6 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps =
+(dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:d=
+o_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create=
+_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_cr=
+eate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spd=
+x', 'gettext_0.22.5.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (depen=
+dent Tasks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:=
+do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', '=
+shared-mime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collec=
+t_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.b=
+b:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent Tasks ['=
+systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_sp=
+dx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sy=
+sroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4.bb:do_=
+create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create=
+_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_cre=
+ate_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_spdx'=
+, 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'base-files=
+_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_1=
+4.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mime-info_=
+2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_0.51.0.=
+bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.bb:do_c=
+reate_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do=
+_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_create_sp=
+dx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:do_unpac=
+k'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_create_spdx (dependent Tasks ['system=
+d_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy_source_date_epoch', 'qu=
+ilt-native_0.68.bb:do_populate_sysroot', 'systemd_256.7.bb:do_collect_spdx_=
+deps', 'patch_2.7.6.bb:do_populate_sysroot', 'systemd_256.7.bb:do_populate_=
+sysroot', 'systemd_256.7.bb:do_packagedata'])
+Dependency loop #7 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_collect_spdx_deps (dep=
+endent Tasks ['python3-setuptools_72.1.0.bb:do_unpack', 'python3_3.13.0.bb:=
+do_create_spdx', 'python3-build_1.2.2.bb:do_create_spdx', 'python3-setuptoo=
+ls_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python=
+3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', '=
+python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroo=
+t', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0.44.0.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_create_spdx (dependent=
+ Tasks ['python3-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_pack=
+agedata', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3-setuptools_7=
+2.1.0.bb:do_package', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_deploy_source_date_epoch'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependent Tasks ['expa=
+t_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'autoconf-ar=
+chive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spd=
+x', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.bb:do_create_sp=
+dx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx',=
+ 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpack', 'shadow_4=
+.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passw=
+d_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', 'libtool-cro=
+ss_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.=
+10.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.6=
+8.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', '=
+patch_2.7.6.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbu=
+s_1.14.10.bb:do_collect_spdx_deps'])
+Dependency loop #8 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependent Tasks ['expa=
+t_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'autoconf-ar=
+chive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spd=
+x', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.bb:do_create_sp=
+dx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx',=
+ 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpack', 'shadow_4=
+.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passw=
+d_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', 'libtool-cro=
+ss_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.=
+10.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.6=
+8.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', '=
+patch_2.7.6.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbu=
+s_1.14.10.bb:do_collect_spdx_deps'])
+Dependency loop #9 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_collect_spdx_deps (dep=
+endent Tasks ['python3-setuptools_72.1.0.bb:do_unpack', 'python3_3.13.0.bb:=
+do_create_spdx', 'python3-build_1.2.2.bb:do_create_spdx', 'python3-setuptoo=
+ls_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python=
+3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', '=
+python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroo=
+t', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0.44.0.bb:do_create_spdx=
+', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3-setuptools_72.1.0.bb:do_create_spdx (dependent=
+ Tasks ['python3-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_pack=
+agedata', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3-setuptools_7=
+2.1.0.bb:do_package', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setupt=
+ools_72.1.0.bb:do_deploy_source_date_epoch'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Dependency loop #10 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx'=
+, 'gcc-cross_14.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_creat=
+e_spdx', 'dbus_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_sp=
+dx', 'autoconf_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_=
+sysroot', 'bluez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libt=
+ool-native_2.5.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'sy=
+stemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['b=
+luez5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata'=
+, 'bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package',=
+ 'bluez5_5.79.bb:do_collect_spdx_deps'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_collect_spdx_deps (dependent Task=
+s ['expat_2.6.4.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do=
+_create_spdx', 'automake_1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_crea=
+te_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_=
+spdx', 'glibc_2.40.bb:do_create_spdx', 'util-linux-libuuid_2.40.2.bb:do_cre=
+ate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'xz_5.6.3.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb=
+:do_create_spdx', 'libedit_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:d=
+o_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:=
+do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+unpack', 'zlib_1.3.1.bb:do_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_create_spdx (dependent Tasks ['py=
+thon3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect_spdx_deps', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_package',=
+ 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:do_deploy_sour=
+ce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_collect=
+_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', '=
+glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_c=
+reate_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_creat=
+e_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', =
+'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gob=
+ject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_s=
+pdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_=
+create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_=
+spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject=
+-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspecti=
+on_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_pack=
+age', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.=
+bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks=
+ ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_pop=
+ulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create=
+_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do=
+_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:=
+do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.8=
+2.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.=
+bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do=
+_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_=
+create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create=
+_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['gli=
+b-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'qui=
+lt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata'=
+, 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])
+Dependency loop #11 found:
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_package (dependent Tasks ['pseud=
+o_git.bb:do_populate_sysroot', 'readline_8.2.13.bb:do_packagedata', 'rpm_4.=
+19.1.1.bb:do_populate_sysroot', 'gcc-runtime_14.2.bb:do_packagedata', 'glib=
+-2.0_2.82.1.bb:do_packagedata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'db=
+us_1.14.10.bb:do_packagedata', 'glibc_2.40.bb:do_packagedata', 'bluez5_5.79=
+.bb:do_install', 'systemd_256.7.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-connectivity/bluez5/bluez5_5.79.bb:do_packagedata (dependent Tasks ['b=
+luez5_5.79.bb:do_package'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_package (dependent Tasks ['bluez5=
+_5.79.bb:do_packagedata', 'xz_5.6.3.bb:do_packagedata', 'sqlite3_3.46.1.bb:=
+do_packagedata', 'gdbm_1.24.bb:do_packagedata', 'util-linux-libuuid_2.40.2.=
+bb:do_packagedata', 'libffi_3.4.6.bb:do_packagedata', 'libedit_20240808-3.1=
+.bb:do_packagedata', 'bzip2_1.0.8.bb:do_packagedata', 'libnsl2_git.bb:do_pa=
+ckagedata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'zlib_1.3.1.bb:do_packa=
+gedata', 'libtirpc_1.3.5.bb:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_s=
+ysroot', 'python3_3.13.0.bb:do_install', 'ncurses_6.5.bb:do_packagedata', '=
+opkg-utils_0.7.0.bb:do_packagedata', 'openssl_3.3.1.bb:do_packagedata', 'ps=
+eudo_git.bb:do_populate_sysroot', 'libxcrypt_4.4.36.bb:do_packagedata', 'gc=
+c-runtime_14.2.bb:do_packagedata', 'expat_2.6.4.bb:do_packagedata', 'glibc_=
+2.40.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-devtools/python/python3_3.13.0.bb:do_packagedata (dependent Tasks ['py=
+thon3_3.13.0.bb:do_package'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/libxml/libxml2_2.13.4.bb:do_package (dependent Tasks ['libxml2_2.=
+13.4.bb:do_install', 'pseudo_git.bb:do_populate_sysroot', 'python3_3.13.0.b=
+b:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_sysroot', 'gcc-runtime_14.2=
+.bb:do_packagedata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'zlib_1.3.1.bb=
+:do_packagedata', 'glibc_2.40.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/libxml/libxml2_2.13.4.bb:do_packagedata (dependent Tasks ['libxml=
+2_2.13.4.bb:do_package'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_package (dependent=
+ Tasks ['pseudo_git.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_packaged=
+ata', 'rpm_4.19.1.1.bb:do_populate_sysroot', 'gcc-runtime_14.2.bb:do_packag=
+edata', 'shared-mime-info_2.4.bb:do_install', 'glib-2.0_2.82.1.bb:do_packag=
+edata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'glibc_2.40.bb:do_packageda=
+ta'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_packagedata (depen=
+dent Tasks ['shared-mime-info_2.4.bb:do_package'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_package (dependent Tasks ['libcap_2.7=
+0.bb:do_packagedata', 'pseudo_git.bb:do_populate_sysroot', 'shadow_4.16.0.b=
+b:do_packagedata', 'systemd_256.7.bb:do_install', 'bash-completion_2.14.0.b=
+b:do_packagedata', 'libpam_1.6.1.bb:do_packagedata', 'zstd_1.5.6.bb:do_pack=
+agedata', 'rpm_4.19.1.1.bb:do_populate_sysroot', 'gcc-runtime_14.2.bb:do_pa=
+ckagedata', 'acl_2.3.2.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_pack=
+agedata', 'base-files_3.0.14.bb:do_packagedata', 'dwarfsrcfiles.bb:do_popul=
+ate_sysroot', 'opkg-utils_0.7.0.bb:do_packagedata', 'glibc_2.40.bb:do_packa=
+gedata', 'kmod_33.bb:do_packagedata', 'util-linux_2.40.2.bb:do_packagedata'=
+, 'base-passwd_3.6.4.bb:do_packagedata'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/systemd/systemd_256.7.bb:do_packagedata (dependent Tasks ['system=
+d_256.7.bb:do_package'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_package (dependent Tasks ['pseudo_git.bb:=
+do_populate_sysroot', 'shadow_4.16.0.bb:do_packagedata', 'rpm_4.19.1.1.bb:d=
+o_populate_sysroot', 'gcc-runtime_14.2.bb:do_packagedata', 'base-files_3.0.=
+14.bb:do_packagedata', 'glib-2.0_2.82.1.bb:do_packagedata', 'expat_2.6.4.bb=
+:do_packagedata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'systemd_256.7.bb=
+:do_packagedata', 'base-passwd_3.6.4.bb:do_packagedata', 'glibc_2.40.bb:do_=
+packagedata', 'dbus_1.14.10.bb:do_install'])
+Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/rec=
+ipes-core/dbus/dbus_1.14.10.bb:do_packagedata (dependent Tasks ['dbus_1.14.=
+10.bb:do_package'])
+Halted dependency loops search after 10 matches.
+ERROR: Command execution failed: 1
+
+--9KDwWBYYvYt9FZJIwY5U
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi Alexander</div>
+<div>&nbsp;</div>
+<div>Looking at the logs below, I find two main culprits:</div>
+<div>&nbsp;</div>
+<div>- gobject-introspection_1.82.0.bb (required by BlueZ hard dependency g=
+lib-2.0) which depends on python3 and python3-setuptools</div>
+<div>- libxml2_2.13.4.bb (required by BlueZ) depends on python3. libxml2</d=
+iv>
+<div>&nbsp;</div>
+<div>For completeness, below is the error messages I get on my machine if p=
+ython3 DEPENDS on bluez5:</div>
+<div>&nbsp;</div>
+<div style=3D"padding-left: 40px;">
+<div>ERROR: 1712 unbuildable tasks were found.#############################=
+###################### &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nb=
+sp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &=
+nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;=
+ &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
+p; &nbsp; &nbsp; &nbsp; &nbsp;| ETA: &nbsp;0:00:00<br />These are usually c=
+aused by circular dependencies and any circular dependency chains found wil=
+l be printed below. Increase the debug level to see a list of unbuildable t=
+asks.</div>
+<div>Identifying dependency loops (this may take a short while)...</div>
+<div>ERROR:&nbsp;<br />Dependency loop #1 found:<br />&nbsp; Task /home/bui=
+lder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-connectiv=
+ity/bluez5/bluez5_5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig=
+_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_1=
+4.2.bb:do_create_spdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus=
+_1.14.10.bb:do_create_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'blu=
+ez5_5.79.bb:do_unpack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5=
+.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb=
+:do_populate_sysroot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb=
+:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Tas=
+k /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipe=
+s-connectivity/bluez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['blue=
+z5_5.79.bb:do_deploy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', '=
+bluez5_5.79.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'patch_2.7.6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'b=
+luez5_5.79.bb:do_collect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/=
+build/conf/../../layers/openembedded-core/meta/recipes-devtools/python/pyth=
+on3_3.13.0.bb:do_collect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_cre=
+ate_spdx', 'autoconf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0=
+.68.bb:do_populate_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_=
+1.17.bb:do_create_spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7=
+.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_=
+create_spdx', 'util-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-nativ=
+e_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3=
+.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_cr=
+eate_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create=
+_spdx', 'libnsl2_git.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx'=
+, 'ncurses_6.5.bb:do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedi=
+t_20240808-3.1.bb:do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runt=
+ime_14.2.bb:do_create_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3=
+_3.13.0.bb:do_create_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:d=
+o_create_spdx', 'sqlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb=
+:do_create_spdx'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../la=
+yers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_cr=
+eate_spdx (dependent Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.=
+13.0.bb:do_collect_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', =
+'python3_3.13.0.bb:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'p=
+ython3_3.13.0.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_=
+sysroot'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/ope=
+nembedded-core/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb:do=
+_collect_spdx_deps (dependent Tasks ['python3-setuptools_72.1.0.bb:do_unpac=
+k', 'python3_3.13.0.bb:do_create_spdx', 'python3-build_1.2.2.bb:do_create_s=
+pdx', 'python3-setuptools_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:d=
+o_create_spdx', 'python3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.=
+2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.6=
+8.bb:do_populate_sysroot', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0=
+.44.0.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&nbsp=
+; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/r=
+ecipes-devtools/python/python3-setuptools_72.1.0.bb:do_create_spdx (depende=
+nt Tasks ['python3-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setu=
+ptools_72.1.0.bb:do_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_pa=
+ckagedata', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3-setuptools=
+_72.1.0.bb:do_package', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setu=
+ptools_72.1.0.bb:do_deploy_source_date_epoch'])<br />&nbsp; Task /home/buil=
+der/yocto/build/conf/../../layers/openembedded-core/meta/recipes-gnome/gobj=
+ect-introspection/gobject-introspection_1.82.0.bb:do_collect_spdx_deps (dep=
+endent Tasks ['gobject-introspection_1.82.0.bb:do_unpack', 'glib-2.0-initia=
+l_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'q=
+emu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb:do_create_spdx', 'm=
+eson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libff=
+i_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'patch_2.7.6.bb=
+:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx', 'gobject-introspect=
+ion_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cros=
+s_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.bb:do_create_spdx', '=
+flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'python3_3=
+.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.=
+13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'])<br />&nbsp; Task =
+/home/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-=
+gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_create_spdx =
+(dependent Tasks ['quilt-native_0.68.bb:do_populate_sysroot', 'gobject-intr=
+ospection_1.82.0.bb:do_deploy_source_date_epoch', 'gobject-introspection_1.=
+82.0.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_package',=
+ 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do=
+_populate_sysroot', 'gobject-introspection_1.82.0.bb:do_packagedata'])<br /=
+>&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/=
+meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (depende=
+nt Tasks ['glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.b=
+b:do_populate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0=
+.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:d=
+o_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82=
+.0.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.=
+40.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspec=
+tion_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cro=
+ss_14.2.bb:do_create_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12=
+.1.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.=
+0.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:d=
+o_create_spdx', 'bash-completion_2.14.0.bb:do_create_spdx'])<br />&nbsp; Ta=
+sk /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/recip=
+es-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['glib-=
+2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'quilt=
+-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata', =
+'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popula=
+te_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'])<br />&nbsp; Task /=
+home/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-s=
+upport/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps (depen=
+dent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_crea=
+te_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_create_sp=
+dx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create_spdx'=
+, 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create_spdx'=
+, 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_spdx',=
+ 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_create_s=
+pdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'g=
+ettext_0.22.5.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yocto/bui=
+ld/conf/../../layers/openembedded-core/meta/recipes-support/shared-mime-inf=
+o/shared-mime-info_2.4.bb:do_create_spdx (dependent Tasks ['shared-mime-inf=
+o_2.4.bb:do_package', 'shared-mime-info_2.4.bb:do_deploy_source_date_epoch'=
+, 'quilt-native_0.68.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_p=
+ackagedata', 'shared-mime-info_2.4.bb:do_collect_spdx_deps', 'patch_2.7.6.b=
+b:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_populate_sysroot'])<br =
+/>&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core=
+/meta/recipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent=
+ Tasks ['systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_=
+create_spdx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_po=
+pulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1=
+.4.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:=
+do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.=
+bb:do_create_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_creat=
+e_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_cre=
+ate_spdx', 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'b=
+ase-files_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gc=
+c-cross_14.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-m=
+ime-info_2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltoo=
+l_0.51.0.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.7=
+0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.=
+6.4.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_=
+create_spdx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb=
+:do_unpack'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/=
+openembedded-core/meta/recipes-core/systemd/systemd_256.7.bb:do_create_spdx=
+ (dependent Tasks ['systemd_256.7.bb:do_package', 'systemd_256.7.bb:do_depl=
+oy_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', 'systemd=
+_256.7.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'sys=
+temd_256.7.bb:do_populate_sysroot', 'systemd_256.7.bb:do_packagedata'])<br =
+/>&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core=
+/meta/recipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependent Tas=
+ks ['expat_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'au=
+toconf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popu=
+late_sysroot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:do_cr=
+eate_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_c=
+reate_spdx', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_cr=
+eate_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.bb:do_=
+create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_crea=
+te_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpack', =
+'shadow_4.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'b=
+ase-passwd_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', 'li=
+btool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yocto=
+/build/conf/../../layers/openembedded-core/meta/recipes-core/dbus/dbus_1.14=
+.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.10.bb:do_populate_sysroo=
+t', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.68.bb:do_populate_sysroot=
+', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_popula=
+te_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbus_1.14.10.bb:do_collect_=
+spdx_deps'])</div>
+<div>Dependency loop #2 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-core/libxml/libxml2_2.13.4.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', =
+'gcc-runtime_14.2.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_unpack', 'gcc-c=
+ross_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'gli=
+bc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patc=
+h_2.7.6.bb:do_populate_sysroot', 'zlib_1.3.1.bb:do_create_spdx', 'automake_=
+1.17.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nb=
+sp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta=
+/recipes-core/libxml/libxml2_2.13.4.bb:do_create_spdx (dependent Tasks ['li=
+bxml2_2.13.4.bb:do_collect_spdx_deps', 'libxml2_2.13.4.bb:do_packagedata', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_package',=
+ 'patch_2.7.6.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_deploy_source_=
+date_epoch', 'libxml2_2.13.4.bb:do_populate_sysroot'])<br />&nbsp; Task /ho=
+me/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-sup=
+port/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps (depende=
+nt Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create=
+_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_create_spdx=
+', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create_spdx', =
+'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroo=
+t', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create_spdx', =
+'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_create_spd=
+x', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'get=
+text_0.22.5.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yocto/build=
+/conf/../../layers/openembedded-core/meta/recipes-support/shared-mime-info/=
+shared-mime-info_2.4.bb:do_create_spdx (dependent Tasks ['shared-mime-info_=
+2.4.bb:do_package', 'shared-mime-info_2.4.bb:do_deploy_source_date_epoch', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_pac=
+kagedata', 'shared-mime-info_2.4.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:=
+do_populate_sysroot', 'shared-mime-info_2.4.bb:do_populate_sysroot'])<br />=
+&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/m=
+eta/recipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent T=
+asks ['systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_cr=
+eate_spdx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popu=
+late_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4=
+.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do=
+_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb=
+:do_create_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_creat=
+e_spdx', 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'bas=
+e-files_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-=
+cross_14.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mim=
+e-info_2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_=
+0.51.0.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.=
+bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.=
+4.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_cr=
+eate_spdx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:d=
+o_unpack'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/op=
+enembedded-core/meta/recipes-core/systemd/systemd_256.7.bb:do_create_spdx (=
+dependent Tasks ['systemd_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy=
+_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', 'systemd_2=
+56.7.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'syste=
+md_256.7.bb:do_populate_sysroot', 'systemd_256.7.bb:do_packagedata'])<br />=
+&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/m=
+eta/recipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependent Tasks=
+ ['expat_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'auto=
+conf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popula=
+te_sysroot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:do_crea=
+te_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_cre=
+ate_spdx', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.bb:do_cr=
+eate_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create=
+_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpack', 's=
+hadow_4.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'bas=
+e-passwd_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', 'libt=
+ool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yocto/b=
+uild/conf/../../layers/openembedded-core/meta/recipes-core/dbus/dbus_1.14.1=
+0.bb:do_create_spdx (dependent Tasks ['dbus_1.14.10.bb:do_populate_sysroot'=
+, 'dbus_1.14.10.bb:do_package', 'quilt-native_0.68.bb:do_populate_sysroot',=
+ 'dbus_1.14.10.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate=
+_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbus_1.14.10.bb:do_collect_sp=
+dx_deps'])</div>
+<div>Dependency loop #3 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_co=
+llect_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpac=
+k', 'glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_p=
+opulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb=
+:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_=
+create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_sp=
+dx', 'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx',=
+ 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_cre=
+ate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.b=
+b:do_create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_creat=
+e_spdx', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'=
+])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedde=
+d-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.=
+0.bb:do_create_spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sys=
+root', 'gobject-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobj=
+ect-introspection_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.=
+82.0.bb:do_package', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps'=
+, 'patch_2.7.6.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do=
+_packagedata'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layer=
+s/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collec=
+t_spdx_deps (dependent Tasks ['glib-2.0-initial_2.82.1.bb:do_create_spdx', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx'=
+, 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobjec=
+t-introspection_1.82.0.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysr=
+oot', 'util-linux_2.40.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack'=
+, 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_cr=
+eate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libpcre2_10.44.bb:do_creat=
+e_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_s=
+pdx', 'python3_3.13.0.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spd=
+x', 'zlib_1.3.1.bb:do_create_spdx', 'bash-completion_2.14.0.bb:do_create_sp=
+dx'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembe=
+dded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dep=
+endent Tasks ['glib-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_popul=
+ate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.=
+bb:do_packagedata', 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patc=
+h_2.7.6.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps']=
+)<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded=
+-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_coll=
+ect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-run=
+time_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.=
+0.29.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.=
+4.bb:do_create_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68=
+.bb:do_populate_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.=
+0.bb:do_create_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1=
+.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-inf=
+o_2.4.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb=
+:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx'])<br />&nbsp; Task /ho=
+me/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-sup=
+port/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (dependent Tas=
+ks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:do_deplo=
+y_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', 'shared-m=
+ime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collect_spdx_d=
+eps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_pop=
+ulate_sysroot'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../laye=
+rs/openembedded-core/meta/recipes-core/systemd/systemd_256.7.bb:do_collect_=
+spdx_deps (dependent Tasks ['systemd-systemctl-native.bb:do_create_spdx', '=
+shadow_4.16.0.bb:do_create_spdx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-=
+native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx',=
+ 'python3-jinja2_3.1.4.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx',=
+ 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx'=
+, 'opkg-utils_0.7.0.bb:do_create_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'gl=
+ibc_2.40.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-li=
+nux_2.40.2.bb:do_create_spdx', 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb=
+:do_create_spdx', 'base-files_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:=
+do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_cre=
+ate_spdx', 'shared-mime-info_2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_cr=
+eate_spdx', 'intltool_0.51.0.bb:do_create_spdx', 'shadow_4.16.0.bb:do_creat=
+e_spdx', 'libcap_2.70.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_sp=
+dx', 'base-passwd_3.6.4.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_sp=
+dx', 'kmod_33.bb:do_create_spdx', 'bash-completion_2.14.0.bb:do_create_spdx=
+', 'systemd_256.7.bb:do_unpack'])<br />&nbsp; Task /home/builder/yocto/buil=
+d/conf/../../layers/openembedded-core/meta/recipes-core/systemd/systemd_256=
+.7.bb:do_create_spdx (dependent Tasks ['systemd_256.7.bb:do_package', 'syst=
+emd_256.7.bb:do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'systemd_256.7.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'systemd_256.7.bb:do_populate_sysroot', 'systemd_256.7.bb:d=
+o_packagedata'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../laye=
+rs/openembedded-core/meta/recipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx=
+_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:=
+do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_create_spdx', 'quilt-na=
+tive_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'au=
+tomake_1.17.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'shadow=
+-sysroot_4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'libtool-n=
+ative_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'base=
+-files_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-c=
+ross_14.2.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.1=
+4.10.bb:do_unpack', 'shadow_4.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb=
+:do_create_spdx', 'base-passwd_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:=
+do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task=
+ /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes=
+-core/dbus/dbus_1.14.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.10.b=
+b:do_populate_sysroot', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.68.bb=
+:do_populate_sysroot', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', 'patc=
+h_2.7.6.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbus_1.=
+14.10.bb:do_collect_spdx_deps'])</div>
+<div>Dependency loop #4 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_collect_spdx_deps=
+ (dependent Tasks ['python3-setuptools_72.1.0.bb:do_unpack', 'python3_3.13.=
+0.bb:do_create_spdx', 'python3-build_1.2.2.bb:do_create_spdx', 'python3-set=
+uptools_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'p=
+ython3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0.44.0.bb:do_create=
+_spdx', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&nbsp; Task /home/build=
+er/yocto/build/conf/../../layers/openembedded-core/meta/recipes-devtools/py=
+thon/python3-setuptools_72.1.0.bb:do_create_spdx (dependent Tasks ['python3=
+-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:d=
+o_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_packagedata', 'quilt=
+-native_0.68.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:do_pack=
+age', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:d=
+o_deploy_source_date_epoch'])<br />&nbsp; Task /home/builder/yocto/build/co=
+nf/../../layers/openembedded-core/meta/recipes-gnome/gobject-introspection/=
+gobject-introspection_1.82.0.bb:do_collect_spdx_deps (dependent Tasks ['gob=
+ject-introspection_1.82.0.bb:do_unpack', 'glib-2.0-initial_2.82.1.bb:do_cre=
+ate_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.b=
+b:do_create_spdx', 'gtk-doc_1.34.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_crea=
+te_spdx', 'glibc_2.40.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'bison_3.8.2.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do_c=
+reate_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_creat=
+e_spdx', 'python3-setuptools_72.1.0.bb:do_create_spdx', 'flex_2.6.4.bb:do_c=
+reate_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'python3_3.13.0.bb:do_create=
+_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_=
+spdx', 'zlib_1.3.1.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yoct=
+o/build/conf/../../layers/openembedded-core/meta/recipes-gnome/gobject-intr=
+ospection/gobject-introspection_1.82.0.bb:do_create_spdx (dependent Tasks [=
+'quilt-native_0.68.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.b=
+b:do_deploy_source_date_epoch', 'gobject-introspection_1.82.0.bb:do_populat=
+e_sysroot', 'gobject-introspection_1.82.0.bb:do_package', 'gobject-introspe=
+ction_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot'=
+, 'gobject-introspection_1.82.0.bb:do_packagedata'])<br />&nbsp; Task /home=
+/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-core/=
+glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks ['glib-2.=
+0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'g=
+libc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do_create_sp=
+dx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_=
+spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.82.0.bb:do_=
+create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_crea=
+te_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spd=
+x', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx', 'b=
+ash-completion_2.14.0.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/y=
+octo/build/conf/../../layers/openembedded-core/meta/recipes-core/glib-2.0/g=
+lib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['glib-2.0_2.82.1.bb:do_p=
+ackage', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do=
+_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata', 'glib-2.0_2.82.1.b=
+b:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot', 'glib=
+-2.0_2.82.1.bb:do_collect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto=
+/build/conf/../../layers/openembedded-core/meta/recipes-support/shared-mime=
+-info/shared-mime-info_2.4.bb:do_collect_spdx_deps (dependent Tasks ['pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cro=
+ss_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_create_spdx', 'python3_3.13=
+.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create_spdx', 'itstool_2.0.7.b=
+b:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'glibc_2.40.=
+bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create_spdx', 'shared-mime-inf=
+o_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:d=
+o_populate_sysroot', 'shared-mime-info_2.4.bb:do_create_spdx', 'meson_1.6.0=
+.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'gettext_0.22.5.bb:d=
+o_create_spdx'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../laye=
+rs/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-info=
+_2.4.bb:do_create_spdx (dependent Tasks ['shared-mime-info_2.4.bb:do_packag=
+e', 'shared-mime-info_2.4.bb:do_deploy_source_date_epoch', 'quilt-native_0.=
+68.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_packagedata', 'shar=
+ed-mime-info_2.4.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_populate_sysr=
+oot', 'shared-mime-info_2.4.bb:do_populate_sysroot'])<br />&nbsp; Task /hom=
+e/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-core=
+/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent Tasks ['systemd-s=
+ystemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'lib=
+pam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', '=
+qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4.bb:do_create_sp=
+dx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx', '=
+shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx'=
+, 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'patch_2.=
+7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_spdx', 'acl_2.=
+3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'base-files_3.0.14.b=
+b:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do=
+_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mime-info_2.4.bb:do=
+_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_0.51.0.bb:do_cre=
+ate_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.bb:do_create_spd=
+x', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do_create_s=
+pdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_create_spdx', 'bas=
+h-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:do_unpack'])<br /=
+>&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/=
+meta/recipes-core/systemd/systemd_256.7.bb:do_create_spdx (dependent Tasks =
+['systemd_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy_source_date_epo=
+ch', 'quilt-native_0.68.bb:do_populate_sysroot', 'systemd_256.7.bb:do_colle=
+ct_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'systemd_256.7.bb:do_p=
+opulate_sysroot', 'systemd_256.7.bb:do_packagedata'])</div>
+<div>Dependency loop #5 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-core/libxml/libxml2_2.13.4.bb:do_collect_spdx_deps (dependent Tas=
+ks ['pkgconfig_git.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', =
+'gcc-runtime_14.2.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_unpack', 'gcc-c=
+ross_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'autoconf=
+_2.72e.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'gli=
+bc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patc=
+h_2.7.6.bb:do_populate_sysroot', 'zlib_1.3.1.bb:do_create_spdx', 'automake_=
+1.17.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nb=
+sp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta=
+/recipes-core/libxml/libxml2_2.13.4.bb:do_create_spdx (dependent Tasks ['li=
+bxml2_2.13.4.bb:do_collect_spdx_deps', 'libxml2_2.13.4.bb:do_packagedata', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_package',=
+ 'patch_2.7.6.bb:do_populate_sysroot', 'libxml2_2.13.4.bb:do_deploy_source_=
+date_epoch', 'libxml2_2.13.4.bb:do_populate_sysroot'])<br />&nbsp; Task /ho=
+me/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-sup=
+port/shared-mime-info/shared-mime-info_2.4.bb:do_collect_spdx_deps (depende=
+nt Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create=
+_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.0.29.bb:do_create_spdx=
+', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.4.bb:do_create_spdx', =
+'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysroo=
+t', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.0.bb:do_create_spdx', =
+'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1.bb:do_create_spdx', '=
+patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_create_spd=
+x', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'get=
+text_0.22.5.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yocto/build=
+/conf/../../layers/openembedded-core/meta/recipes-support/shared-mime-info/=
+shared-mime-info_2.4.bb:do_create_spdx (dependent Tasks ['shared-mime-info_=
+2.4.bb:do_package', 'shared-mime-info_2.4.bb:do_deploy_source_date_epoch', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_pac=
+kagedata', 'shared-mime-info_2.4.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:=
+do_populate_sysroot', 'shared-mime-info_2.4.bb:do_populate_sysroot'])<br />=
+&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/m=
+eta/recipes-core/systemd/systemd_256.7.bb:do_collect_spdx_deps (dependent T=
+asks ['systemd-systemctl-native.bb:do_create_spdx', 'shadow_4.16.0.bb:do_cr=
+eate_spdx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_popu=
+late_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'python3-jinja2_3.1.4=
+.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do=
+_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'opkg-utils_0.7.0.bb=
+:do_create_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_=
+spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_creat=
+e_spdx', 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb:do_create_spdx', 'bas=
+e-files_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-=
+cross_14.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_create_spdx', 'shared-mim=
+e-info_2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'intltool_=
+0.51.0.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx', 'libcap_2.70.=
+bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.=
+4.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'kmod_33.bb:do_cr=
+eate_spdx', 'bash-completion_2.14.0.bb:do_create_spdx', 'systemd_256.7.bb:d=
+o_unpack'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/op=
+enembedded-core/meta/recipes-core/systemd/systemd_256.7.bb:do_create_spdx (=
+dependent Tasks ['systemd_256.7.bb:do_package', 'systemd_256.7.bb:do_deploy=
+_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', 'systemd_2=
+56.7.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot', 'syste=
+md_256.7.bb:do_populate_sysroot', 'systemd_256.7.bb:do_packagedata'])</div>
+<div>Dependency loop #6 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_co=
+llect_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpac=
+k', 'glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_p=
+opulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb=
+:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_=
+create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_sp=
+dx', 'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx',=
+ 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_cre=
+ate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.b=
+b:do_create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_creat=
+e_spdx', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'=
+])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedde=
+d-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.=
+0.bb:do_create_spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sys=
+root', 'gobject-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobj=
+ect-introspection_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.=
+82.0.bb:do_package', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps'=
+, 'patch_2.7.6.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do=
+_packagedata'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layer=
+s/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collec=
+t_spdx_deps (dependent Tasks ['glib-2.0-initial_2.82.1.bb:do_create_spdx', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx'=
+, 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobjec=
+t-introspection_1.82.0.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysr=
+oot', 'util-linux_2.40.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack'=
+, 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_cr=
+eate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libpcre2_10.44.bb:do_creat=
+e_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_s=
+pdx', 'python3_3.13.0.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spd=
+x', 'zlib_1.3.1.bb:do_create_spdx', 'bash-completion_2.14.0.bb:do_create_sp=
+dx'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembe=
+dded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dep=
+endent Tasks ['glib-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_popul=
+ate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.=
+bb:do_packagedata', 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patc=
+h_2.7.6.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps']=
+)<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded=
+-core/meta/recipes-support/shared-mime-info/shared-mime-info_2.4.bb:do_coll=
+ect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_spdx', 'gcc-run=
+time_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'xmlto_0.=
+0.29.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spdx', 'libxml2_2.13.=
+4.bb:do_create_spdx', 'itstool_2.0.7.bb:do_create_spdx', 'quilt-native_0.68=
+.bb:do_populate_sysroot', 'glibc_2.40.bb:do_create_spdx', 'qemu-native_9.1.=
+0.bb:do_create_spdx', 'shared-mime-info_2.4.bb:do_unpack', 'glib-2.0_2.82.1=
+.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-inf=
+o_2.4.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'ninja_1.12.1.bb=
+:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx'])<br />&nbsp; Task /ho=
+me/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-sup=
+port/shared-mime-info/shared-mime-info_2.4.bb:do_create_spdx (dependent Tas=
+ks ['shared-mime-info_2.4.bb:do_package', 'shared-mime-info_2.4.bb:do_deplo=
+y_source_date_epoch', 'quilt-native_0.68.bb:do_populate_sysroot', 'shared-m=
+ime-info_2.4.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_collect_spdx_d=
+eps', 'patch_2.7.6.bb:do_populate_sysroot', 'shared-mime-info_2.4.bb:do_pop=
+ulate_sysroot'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../laye=
+rs/openembedded-core/meta/recipes-core/systemd/systemd_256.7.bb:do_collect_=
+spdx_deps (dependent Tasks ['systemd-systemctl-native.bb:do_create_spdx', '=
+shadow_4.16.0.bb:do_create_spdx', 'libpam_1.6.1.bb:do_create_spdx', 'quilt-=
+native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx',=
+ 'python3-jinja2_3.1.4.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx',=
+ 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx'=
+, 'opkg-utils_0.7.0.bb:do_create_spdx', 'zstd_1.5.6.bb:do_create_spdx', 'gl=
+ibc_2.40.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-li=
+nux_2.40.2.bb:do_create_spdx', 'acl_2.3.2.bb:do_create_spdx', 'gperf_3.1.bb=
+:do_create_spdx', 'base-files_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:=
+do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'perl_5.40.0.bb:do_cre=
+ate_spdx', 'shared-mime-info_2.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_cr=
+eate_spdx', 'intltool_0.51.0.bb:do_create_spdx', 'shadow_4.16.0.bb:do_creat=
+e_spdx', 'libcap_2.70.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_sp=
+dx', 'base-passwd_3.6.4.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_sp=
+dx', 'kmod_33.bb:do_create_spdx', 'bash-completion_2.14.0.bb:do_create_spdx=
+', 'systemd_256.7.bb:do_unpack'])<br />&nbsp; Task /home/builder/yocto/buil=
+d/conf/../../layers/openembedded-core/meta/recipes-core/systemd/systemd_256=
+.7.bb:do_create_spdx (dependent Tasks ['systemd_256.7.bb:do_package', 'syst=
+emd_256.7.bb:do_deploy_source_date_epoch', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'systemd_256.7.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_pop=
+ulate_sysroot', 'systemd_256.7.bb:do_populate_sysroot', 'systemd_256.7.bb:d=
+o_packagedata'])</div>
+<div>Dependency loop #7 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_collect_spdx_deps=
+ (dependent Tasks ['python3-setuptools_72.1.0.bb:do_unpack', 'python3_3.13.=
+0.bb:do_create_spdx', 'python3-build_1.2.2.bb:do_create_spdx', 'python3-set=
+uptools_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'p=
+ython3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0.44.0.bb:do_create=
+_spdx', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&nbsp; Task /home/build=
+er/yocto/build/conf/../../layers/openembedded-core/meta/recipes-devtools/py=
+thon/python3-setuptools_72.1.0.bb:do_create_spdx (dependent Tasks ['python3=
+-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:d=
+o_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_packagedata', 'quilt=
+-native_0.68.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:do_pack=
+age', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:d=
+o_deploy_source_date_epoch'])<br />&nbsp; Task /home/builder/yocto/build/co=
+nf/../../layers/openembedded-core/meta/recipes-gnome/gobject-introspection/=
+gobject-introspection_1.82.0.bb:do_collect_spdx_deps (dependent Tasks ['gob=
+ject-introspection_1.82.0.bb:do_unpack', 'glib-2.0-initial_2.82.1.bb:do_cre=
+ate_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.b=
+b:do_create_spdx', 'gtk-doc_1.34.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_crea=
+te_spdx', 'glibc_2.40.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'bison_3.8.2.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do_c=
+reate_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_creat=
+e_spdx', 'python3-setuptools_72.1.0.bb:do_create_spdx', 'flex_2.6.4.bb:do_c=
+reate_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'python3_3.13.0.bb:do_create=
+_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_=
+spdx', 'zlib_1.3.1.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yoct=
+o/build/conf/../../layers/openembedded-core/meta/recipes-gnome/gobject-intr=
+ospection/gobject-introspection_1.82.0.bb:do_create_spdx (dependent Tasks [=
+'quilt-native_0.68.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.b=
+b:do_deploy_source_date_epoch', 'gobject-introspection_1.82.0.bb:do_populat=
+e_sysroot', 'gobject-introspection_1.82.0.bb:do_package', 'gobject-introspe=
+ction_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot'=
+, 'gobject-introspection_1.82.0.bb:do_packagedata'])<br />&nbsp; Task /home=
+/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-core/=
+glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks ['glib-2.=
+0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'g=
+libc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do_create_sp=
+dx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_=
+spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.82.0.bb:do_=
+create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_crea=
+te_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spd=
+x', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx', 'b=
+ash-completion_2.14.0.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/y=
+octo/build/conf/../../layers/openembedded-core/meta/recipes-core/glib-2.0/g=
+lib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['glib-2.0_2.82.1.bb:do_p=
+ackage', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do=
+_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata', 'glib-2.0_2.82.1.b=
+b:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot', 'glib=
+-2.0_2.82.1.bb:do_collect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto=
+/build/conf/../../layers/openembedded-core/meta/recipes-core/dbus/dbus_1.14=
+.10.bb:do_collect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spd=
+x', 'shadow_4.16.0.bb:do_create_spdx', 'autoconf-archive_2024.10.16.bb:do_c=
+reate_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.b=
+b:do_create_spdx', 'automake_1.17.bb:do_create_spdx', 'gettext_0.22.5.bb:do=
+_create_spdx', 'shadow-sysroot_4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_cr=
+eate_spdx', 'libtool-native_2.5.2.bb:do_create_spdx', 'patch_2.7.6.bb:do_po=
+pulate_sysroot', 'base-files_3.0.14.bb:do_create_spdx', 'pkgconfig_git.bb:d=
+o_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'autoconf_2.72e.bb:do_c=
+reate_spdx', 'dbus_1.14.10.bb:do_unpack', 'shadow_4.16.0.bb:do_create_spdx'=
+, 'gcc-runtime_14.2.bb:do_create_spdx', 'base-passwd_3.6.4.bb:do_create_spd=
+x', 'systemd_256.7.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_sp=
+dx'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembe=
+dded-core/meta/recipes-core/dbus/dbus_1.14.10.bb:do_create_spdx (dependent =
+Tasks ['dbus_1.14.10.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_package',=
+ 'quilt-native_0.68.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_deploy_sou=
+rce_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_=
+packagedata', 'dbus_1.14.10.bb:do_collect_spdx_deps'])</div>
+<div>Dependency loop #8 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_co=
+llect_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpac=
+k', 'glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_p=
+opulate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.bb=
+:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_=
+create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_sp=
+dx', 'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx',=
+ 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_cre=
+ate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.b=
+b:do_create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_creat=
+e_spdx', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx'=
+])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedde=
+d-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.=
+0.bb:do_create_spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sys=
+root', 'gobject-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gobj=
+ect-introspection_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1.=
+82.0.bb:do_package', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps'=
+, 'patch_2.7.6.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:do=
+_packagedata'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layer=
+s/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_collec=
+t_spdx_deps (dependent Tasks ['glib-2.0-initial_2.82.1.bb:do_create_spdx', =
+'quilt-native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.bb:do_create=
+_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx'=
+, 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobjec=
+t-introspection_1.82.0.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysr=
+oot', 'util-linux_2.40.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack'=
+, 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_cr=
+eate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libpcre2_10.44.bb:do_creat=
+e_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_s=
+pdx', 'python3_3.13.0.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_spd=
+x', 'zlib_1.3.1.bb:do_create_spdx', 'bash-completion_2.14.0.bb:do_create_sp=
+dx'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembe=
+dded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (dep=
+endent Tasks ['glib-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_popul=
+ate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1.=
+bb:do_packagedata', 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'patc=
+h_2.7.6.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps']=
+)<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded=
+-core/meta/recipes-core/dbus/dbus_1.14.10.bb:do_collect_spdx_deps (dependen=
+t Tasks ['expat_2.6.4.bb:do_create_spdx', 'shadow_4.16.0.bb:do_create_spdx'=
+, 'autoconf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do=
+_populate_sysroot', 'glib-2.0_2.82.1.bb:do_create_spdx', 'automake_1.17.bb:=
+do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx', 'shadow-sysroot_4.6.bb=
+:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:=
+do_create_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'base-files_3.0.14.b=
+b:do_create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do=
+_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'dbus_1.14.10.bb:do_unpa=
+ck', 'shadow_4.16.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx=
+', 'base-passwd_3.6.4.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx'=
+, 'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/=
+yocto/build/conf/../../layers/openembedded-core/meta/recipes-core/dbus/dbus=
+_1.14.10.bb:do_create_spdx (dependent Tasks ['dbus_1.14.10.bb:do_populate_s=
+ysroot', 'dbus_1.14.10.bb:do_package', 'quilt-native_0.68.bb:do_populate_sy=
+sroot', 'dbus_1.14.10.bb:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_p=
+opulate_sysroot', 'dbus_1.14.10.bb:do_packagedata', 'dbus_1.14.10.bb:do_col=
+lect_spdx_deps'])</div>
+<div>Dependency loop #9 found:<br />&nbsp; Task /home/builder/yocto/build/c=
+onf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_=
+5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create_=
+spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_s=
+pdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cre=
+ate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_creat=
+e_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_unp=
+ack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_sp=
+dx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx', =
+'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yo=
+cto/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/blu=
+ez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_depl=
+oy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do_=
+populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.6=
+.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_c=
+ollect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../l=
+ayers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoco=
+nf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate=
+_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create_=
+spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_sp=
+dx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'uti=
+l-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_crea=
+te_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spdx=
+', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgco=
+nfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_g=
+it.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb:=
+do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb:=
+do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cre=
+ate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', 's=
+qlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx'])=
+<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-=
+core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depende=
+nt Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collect=
+_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.bb=
+:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:d=
+o_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&n=
+bsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/met=
+a/recipes-devtools/python/python3-setuptools_72.1.0.bb:do_collect_spdx_deps=
+ (dependent Tasks ['python3-setuptools_72.1.0.bb:do_unpack', 'python3_3.13.=
+0.bb:do_create_spdx', 'python3-build_1.2.2.bb:do_create_spdx', 'python3-set=
+uptools_72.1.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'p=
+ython3-installer_0.7.0.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spd=
+x', 'python3_3.13.0.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_s=
+ysroot', 'glibc_2.40.bb:do_create_spdx', 'python3-wheel_0.44.0.bb:do_create=
+_spdx', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&nbsp; Task /home/build=
+er/yocto/build/conf/../../layers/openembedded-core/meta/recipes-devtools/py=
+thon/python3-setuptools_72.1.0.bb:do_create_spdx (dependent Tasks ['python3=
+-setuptools_72.1.0.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:d=
+o_collect_spdx_deps', 'python3-setuptools_72.1.0.bb:do_packagedata', 'quilt=
+-native_0.68.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:do_pack=
+age', 'patch_2.7.6.bb:do_populate_sysroot', 'python3-setuptools_72.1.0.bb:d=
+o_deploy_source_date_epoch'])<br />&nbsp; Task /home/builder/yocto/build/co=
+nf/../../layers/openembedded-core/meta/recipes-gnome/gobject-introspection/=
+gobject-introspection_1.82.0.bb:do_collect_spdx_deps (dependent Tasks ['gob=
+ject-introspection_1.82.0.bb:do_unpack', 'glib-2.0-initial_2.82.1.bb:do_cre=
+ate_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.b=
+b:do_create_spdx', 'gtk-doc_1.34.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_c=
+reate_spdx', 'opkg-utils_0.7.0.bb:do_create_spdx', 'libffi_3.4.6.bb:do_crea=
+te_spdx', 'glibc_2.40.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysro=
+ot', 'bison_3.8.2.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do_c=
+reate_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_creat=
+e_spdx', 'python3-setuptools_72.1.0.bb:do_create_spdx', 'flex_2.6.4.bb:do_c=
+reate_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'python3_3.13.0.bb:do_create=
+_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_=
+spdx', 'zlib_1.3.1.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/yoct=
+o/build/conf/../../layers/openembedded-core/meta/recipes-gnome/gobject-intr=
+ospection/gobject-introspection_1.82.0.bb:do_create_spdx (dependent Tasks [=
+'quilt-native_0.68.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.b=
+b:do_deploy_source_date_epoch', 'gobject-introspection_1.82.0.bb:do_populat=
+e_sysroot', 'gobject-introspection_1.82.0.bb:do_package', 'gobject-introspe=
+ction_1.82.0.bb:do_collect_spdx_deps', 'patch_2.7.6.bb:do_populate_sysroot'=
+, 'gobject-introspection_1.82.0.bb:do_packagedata'])<br />&nbsp; Task /home=
+/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-core/=
+glib-2.0/glib-2.0_2.82.1.bb:do_collect_spdx_deps (dependent Tasks ['glib-2.=
+0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populate_sysr=
+oot', 'qemu-native_9.1.0.bb:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx=
+', 'gettext_0.22.5.bb:do_create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'g=
+libc_2.40.bb:do_create_spdx', 'gobject-introspection_1.82.0.bb:do_create_sp=
+dx', 'patch_2.7.6.bb:do_populate_sysroot', 'util-linux_2.40.2.bb:do_create_=
+spdx', 'glib-2.0_2.82.1.bb:do_unpack', 'gobject-introspection_1.82.0.bb:do_=
+create_spdx', 'pkgconfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_crea=
+te_spdx', 'libpcre2_10.44.bb:do_create_spdx', 'ninja_1.12.1.bb:do_create_sp=
+dx', 'gcc-runtime_14.2.bb:do_create_spdx', 'python3_3.13.0.bb:do_create_spd=
+x', 'glib-2.0_2.82.1.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx', 'b=
+ash-completion_2.14.0.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/y=
+octo/build/conf/../../layers/openembedded-core/meta/recipes-core/glib-2.0/g=
+lib-2.0_2.82.1.bb:do_create_spdx (dependent Tasks ['glib-2.0_2.82.1.bb:do_p=
+ackage', 'glib-2.0_2.82.1.bb:do_populate_sysroot', 'quilt-native_0.68.bb:do=
+_populate_sysroot', 'glib-2.0_2.82.1.bb:do_packagedata', 'glib-2.0_2.82.1.b=
+b:do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot', 'glib=
+-2.0_2.82.1.bb:do_collect_spdx_deps'])</div>
+<div>Dependency loop #10 found:<br />&nbsp; Task /home/builder/yocto/build/=
+conf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5=
+_5.79.bb:do_collect_spdx_deps (dependent Tasks ['pkgconfig_git.bb:do_create=
+_spdx', 'gcc-runtime_14.2.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_=
+spdx', 'systemd-systemctl-native.bb:do_create_spdx', 'dbus_1.14.10.bb:do_cr=
+eate_spdx', 'readline_8.2.13.bb:do_create_spdx', 'autoconf_2.72e.bb:do_crea=
+te_spdx', 'quilt-native_0.68.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_un=
+pack', 'glibc_2.40.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_create_s=
+pdx', 'glib-2.0_2.82.1.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sysr=
+oot', 'automake_1.17.bb:do_create_spdx', 'systemd_256.7.bb:do_create_spdx',=
+ 'libtool-cross_2.5.2.bb:do_create_spdx'])<br />&nbsp; Task /home/builder/y=
+octo/build/conf/../../layers/openembedded-core/meta/recipes-connectivity/bl=
+uez5/bluez5_5.79.bb:do_create_spdx (dependent Tasks ['bluez5_5.79.bb:do_dep=
+loy_source_date_epoch', 'bluez5_5.79.bb:do_packagedata', 'bluez5_5.79.bb:do=
+_populate_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'patch_2.7.=
+6.bb:do_populate_sysroot', 'bluez5_5.79.bb:do_package', 'bluez5_5.79.bb:do_=
+collect_spdx_deps'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../=
+layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_=
+collect_spdx_deps (dependent Tasks ['expat_2.6.4.bb:do_create_spdx', 'autoc=
+onf-archive_2024.10.16.bb:do_create_spdx', 'quilt-native_0.68.bb:do_populat=
+e_sysroot', 'libtirpc_1.3.5.bb:do_create_spdx', 'automake_1.17.bb:do_create=
+_spdx', 'openssl_3.3.1.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do_create_s=
+pdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'ut=
+il-linux-libuuid_2.40.2.bb:do_create_spdx', 'libtool-native_2.5.2.bb:do_cre=
+ate_spdx', 'patch_2.7.6.bb:do_populate_sysroot', 'xz_5.6.3.bb:do_create_spd=
+x', 'bzip2_1.0.8.bb:do_create_spdx', 'bzip2_1.0.8.bb:do_create_spdx', 'pkgc=
+onfig_git.bb:do_create_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libnsl2_=
+git.bb:do_create_spdx', 'autoconf_2.72e.bb:do_create_spdx', 'ncurses_6.5.bb=
+:do_create_spdx', 'bluez5_5.79.bb:do_create_spdx', 'libedit_20240808-3.1.bb=
+:do_create_spdx', 'gdbm_1.24.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_cr=
+eate_spdx', 'libxcrypt_4.4.36.bb:do_create_spdx', 'python3_3.13.0.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_unpack', 'zlib_1.3.1.bb:do_create_spdx', '=
+sqlite3_3.46.1.bb:do_create_spdx', 'libtool-cross_2.5.2.bb:do_create_spdx']=
+)<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded=
+-core/meta/recipes-devtools/python/python3_3.13.0.bb:do_create_spdx (depend=
+ent Tasks ['python3_3.13.0.bb:do_packagedata', 'python3_3.13.0.bb:do_collec=
+t_spdx_deps', 'quilt-native_0.68.bb:do_populate_sysroot', 'python3_3.13.0.b=
+b:do_package', 'python3_3.13.0.bb:do_populate_sysroot', 'python3_3.13.0.bb:=
+do_deploy_source_date_epoch', 'patch_2.7.6.bb:do_populate_sysroot'])<br />&=
+nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/me=
+ta/recipes-gnome/gobject-introspection/gobject-introspection_1.82.0.bb:do_c=
+ollect_spdx_deps (dependent Tasks ['gobject-introspection_1.82.0.bb:do_unpa=
+ck', 'glib-2.0-initial_2.82.1.bb:do_create_spdx', 'quilt-native_0.68.bb:do_=
+populate_sysroot', 'qemu-native_9.1.0.bb:do_create_spdx', 'gtk-doc_1.34.0.b=
+b:do_create_spdx', 'meson_1.6.0.bb:do_create_spdx', 'opkg-utils_0.7.0.bb:do=
+_create_spdx', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_s=
+pdx', 'patch_2.7.6.bb:do_populate_sysroot', 'bison_3.8.2.bb:do_create_spdx'=
+, 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_cr=
+eate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'python3-setuptools_72.1.0.=
+bb:do_create_spdx', 'flex_2.6.4.bb:do_create_spdx', 'ninja_1.12.1.bb:do_cre=
+ate_spdx', 'python3_3.13.0.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_crea=
+te_spdx', 'python3_3.13.0.bb:do_create_spdx', 'zlib_1.3.1.bb:do_create_spdx=
+'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedd=
+ed-core/meta/recipes-gnome/gobject-introspection/gobject-introspection_1.82=
+.0.bb:do_create_spdx (dependent Tasks ['quilt-native_0.68.bb:do_populate_sy=
+sroot', 'gobject-introspection_1.82.0.bb:do_deploy_source_date_epoch', 'gob=
+ject-introspection_1.82.0.bb:do_populate_sysroot', 'gobject-introspection_1=
+.82.0.bb:do_package', 'gobject-introspection_1.82.0.bb:do_collect_spdx_deps=
+', 'patch_2.7.6.bb:do_populate_sysroot', 'gobject-introspection_1.82.0.bb:d=
+o_packagedata'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../laye=
+rs/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_colle=
+ct_spdx_deps (dependent Tasks ['glib-2.0-initial_2.82.1.bb:do_create_spdx',=
+ 'quilt-native_0.68.bb:do_populate_sysroot', 'qemu-native_9.1.0.bb:do_creat=
+e_spdx', 'meson_1.6.0.bb:do_create_spdx', 'gettext_0.22.5.bb:do_create_spdx=
+', 'libffi_3.4.6.bb:do_create_spdx', 'glibc_2.40.bb:do_create_spdx', 'gobje=
+ct-introspection_1.82.0.bb:do_create_spdx', 'patch_2.7.6.bb:do_populate_sys=
+root', 'util-linux_2.40.2.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_unpack=
+', 'gobject-introspection_1.82.0.bb:do_create_spdx', 'pkgconfig_git.bb:do_c=
+reate_spdx', 'gcc-cross_14.2.bb:do_create_spdx', 'libpcre2_10.44.bb:do_crea=
+te_spdx', 'ninja_1.12.1.bb:do_create_spdx', 'gcc-runtime_14.2.bb:do_create_=
+spdx', 'python3_3.13.0.bb:do_create_spdx', 'glib-2.0_2.82.1.bb:do_create_sp=
+dx', 'zlib_1.3.1.bb:do_create_spdx', 'bash-completion_2.14.0.bb:do_create_s=
+pdx'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openemb=
+edded-core/meta/recipes-core/glib-2.0/glib-2.0_2.82.1.bb:do_create_spdx (de=
+pendent Tasks ['glib-2.0_2.82.1.bb:do_package', 'glib-2.0_2.82.1.bb:do_popu=
+late_sysroot', 'quilt-native_0.68.bb:do_populate_sysroot', 'glib-2.0_2.82.1=
+.bb:do_packagedata', 'glib-2.0_2.82.1.bb:do_deploy_source_date_epoch', 'pat=
+ch_2.7.6.bb:do_populate_sysroot', 'glib-2.0_2.82.1.bb:do_collect_spdx_deps'=
+])</div>
+<div>Dependency loop #11 found:<br />&nbsp; Task /home/builder/yocto/build/=
+conf/../../layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5=
+_5.79.bb:do_package (dependent Tasks ['pseudo_git.bb:do_populate_sysroot', =
+'readline_8.2.13.bb:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_sysroot',=
+ 'gcc-runtime_14.2.bb:do_packagedata', 'glib-2.0_2.82.1.bb:do_packagedata',=
+ 'dwarfsrcfiles.bb:do_populate_sysroot', 'dbus_1.14.10.bb:do_packagedata', =
+'glibc_2.40.bb:do_packagedata', 'bluez5_5.79.bb:do_install', 'systemd_256.7=
+.bb:do_packagedata'])<br />&nbsp; Task /home/builder/yocto/build/conf/../..=
+/layers/openembedded-core/meta/recipes-connectivity/bluez5/bluez5_5.79.bb:d=
+o_packagedata (dependent Tasks ['bluez5_5.79.bb:do_package'])<br />&nbsp; T=
+ask /home/builder/yocto/build/conf/../../layers/openembedded-core/meta/reci=
+pes-devtools/python/python3_3.13.0.bb:do_package (dependent Tasks ['bluez5_=
+5.79.bb:do_packagedata', 'xz_5.6.3.bb:do_packagedata', 'sqlite3_3.46.1.bb:d=
+o_packagedata', 'gdbm_1.24.bb:do_packagedata', 'util-linux-libuuid_2.40.2.b=
+b:do_packagedata', 'libffi_3.4.6.bb:do_packagedata', 'libedit_20240808-3.1.=
+bb:do_packagedata', 'bzip2_1.0.8.bb:do_packagedata', 'libnsl2_git.bb:do_pac=
+kagedata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'zlib_1.3.1.bb:do_packag=
+edata', 'libtirpc_1.3.5.bb:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_sy=
+sroot', 'python3_3.13.0.bb:do_install', 'ncurses_6.5.bb:do_packagedata', 'o=
+pkg-utils_0.7.0.bb:do_packagedata', 'openssl_3.3.1.bb:do_packagedata', 'pse=
+udo_git.bb:do_populate_sysroot', 'libxcrypt_4.4.36.bb:do_packagedata', 'gcc=
+-runtime_14.2.bb:do_packagedata', 'expat_2.6.4.bb:do_packagedata', 'glibc_2=
+.40.bb:do_packagedata'])<br />&nbsp; Task /home/builder/yocto/build/conf/..=
+/../layers/openembedded-core/meta/recipes-devtools/python/python3_3.13.0.bb=
+:do_packagedata (dependent Tasks ['python3_3.13.0.bb:do_package'])<br />&nb=
+sp; Task /home/builder/yocto/build/conf/../../layers/openembedded-core/meta=
+/recipes-core/libxml/libxml2_2.13.4.bb:do_package (dependent Tasks ['libxml=
+2_2.13.4.bb:do_install', 'pseudo_git.bb:do_populate_sysroot', 'python3_3.13=
+.0.bb:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_sysroot', 'gcc-runtime_=
+14.2.bb:do_packagedata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'zlib_1.3.=
+1.bb:do_packagedata', 'glibc_2.40.bb:do_packagedata'])<br />&nbsp; Task /ho=
+me/builder/yocto/build/conf/../../layers/openembedded-core/meta/recipes-cor=
+e/libxml/libxml2_2.13.4.bb:do_packagedata (dependent Tasks ['libxml2_2.13.4=
+.bb:do_package'])<br />&nbsp; Task /home/builder/yocto/build/conf/../../lay=
+ers/openembedded-core/meta/recipes-support/shared-mime-info/shared-mime-inf=
+o_2.4.bb:do_package (dependent Tasks ['pseudo_git.bb:do_populate_sysroot', =
+'libxml2_2.13.4.bb:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_sysroot', =
+'gcc-runtime_14.2.bb:do_packagedata', 'shared-mime-info_2.4.bb:do_install',=
+ 'glib-2.0_2.82.1.bb:do_packagedata', 'dwarfsrcfiles.bb:do_populate_sysroot=
+', 'glibc_2.40.bb:do_packagedata'])<br />&nbsp; Task /home/builder/yocto/bu=
+ild/conf/../../layers/openembedded-core/meta/recipes-support/shared-mime-in=
+fo/shared-mime-info_2.4.bb:do_packagedata (dependent Tasks ['shared-mime-in=
+fo_2.4.bb:do_package'])<br />&nbsp; Task /home/builder/yocto/build/conf/../=
+../layers/openembedded-core/meta/recipes-core/systemd/systemd_256.7.bb:do_p=
+ackage (dependent Tasks ['libcap_2.70.bb:do_packagedata', 'pseudo_git.bb:do=
+_populate_sysroot', 'shadow_4.16.0.bb:do_packagedata', 'systemd_256.7.bb:do=
+_install', 'bash-completion_2.14.0.bb:do_packagedata', 'libpam_1.6.1.bb:do_=
+packagedata', 'zstd_1.5.6.bb:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_=
+sysroot', 'gcc-runtime_14.2.bb:do_packagedata', 'acl_2.3.2.bb:do_packagedat=
+a', 'shared-mime-info_2.4.bb:do_packagedata', 'base-files_3.0.14.bb:do_pack=
+agedata', 'dwarfsrcfiles.bb:do_populate_sysroot', 'opkg-utils_0.7.0.bb:do_p=
+ackagedata', 'glibc_2.40.bb:do_packagedata', 'kmod_33.bb:do_packagedata', '=
+util-linux_2.40.2.bb:do_packagedata', 'base-passwd_3.6.4.bb:do_packagedata'=
+])<br />&nbsp; Task /home/builder/yocto/build/conf/../../layers/openembedde=
+d-core/meta/recipes-core/systemd/systemd_256.7.bb:do_packagedata (dependent=
+ Tasks ['systemd_256.7.bb:do_package'])<br />&nbsp; Task /home/builder/yoct=
+o/build/conf/../../layers/openembedded-core/meta/recipes-core/dbus/dbus_1.1=
+4.10.bb:do_package (dependent Tasks ['pseudo_git.bb:do_populate_sysroot', '=
+shadow_4.16.0.bb:do_packagedata', 'rpm_4.19.1.1.bb:do_populate_sysroot', 'g=
+cc-runtime_14.2.bb:do_packagedata', 'base-files_3.0.14.bb:do_packagedata', =
+'glib-2.0_2.82.1.bb:do_packagedata', 'expat_2.6.4.bb:do_packagedata', 'dwar=
+fsrcfiles.bb:do_populate_sysroot', 'systemd_256.7.bb:do_packagedata', 'base=
+-passwd_3.6.4.bb:do_packagedata', 'glibc_2.40.bb:do_packagedata', 'dbus_1.1=
+4.10.bb:do_install'])<br />&nbsp; Task /home/builder/yocto/build/conf/../..=
+/layers/openembedded-core/meta/recipes-core/dbus/dbus_1.14.10.bb:do_package=
+data (dependent Tasks ['dbus_1.14.10.bb:do_package'])</div>
+<div>Halted dependency loops search after 10 matches.</div>
+<div>ERROR: Command execution failed: 1</div>
+</div>
+
+--9KDwWBYYvYt9FZJIwY5U--
 
