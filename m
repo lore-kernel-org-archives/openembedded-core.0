@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F204D62067
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:17:53 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.4845.1731964652359464121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA02ED62068
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:17:42 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web10.4836.1731964644847072345
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:17:52 -0800
+ Mon, 18 Nov 2024 13:17:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jRBt2KcO;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=GdNJ5lsL;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 01010193412397e3-e1b488a1-0aa8-4290-bc99-b38ac6c16815-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=RmW397A1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=HJyKHggZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 0101019341236f8f-aaa63510-50ac-4be7-b0a0-e45d962b3803-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964672;
+	t=1731964661;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=pIg/vZzcE7kgQf6bdg6SA1eHZZHF575lGbn0Niuq/E4=;
-	b=jRBt2KcOTSzmXkKco71sG71OBa/VMgwuIlN40v9USvgK7hVv+t1Y3PuyOYBsCAeZ
-	rme+wnpFojmPt5pJfVUqBAymGuV6e+aY+wnDjkIGZ3MhOhfakOrQVWK+j3cv6tI+Gwr
-	xTxn0W9FW2UlR2X2UKBJlWkARU56T91LHy7pcX8A=
+	bh=xXYMn4CeRg721g+BnLtJEsB+NuvSvosZ3Q8VMiK4eeA=;
+	b=RmW397A1pHGtVu1df6+Wup6Qd6zDAibALQAjKGIDjbbfTnD3uR2nXG5Kr11ivWGW
+	9WUgj+NKyylkwGe59E28JaIVRZZ5paMgxTKyIfmOfygRm2lpDpI9WFvF3R7a4Jzn5Y/
+	SQL++IlFW55FTFelj7HXs0rgBvYVCe4Q29KD5w5w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964672;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964661;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=pIg/vZzcE7kgQf6bdg6SA1eHZZHF575lGbn0Niuq/E4=;
-	b=GdNJ5lsLTC1Zq0zUt93PzSjVpaRbXGcq9lg8Us3b9biemfHUEuAJNeXIXK9b/gpB
-	rwKgx+pzw9gWmSi1RkhjQEICPaizqtuXp87v2NBx5AiOGzqTCOFfuju6bRPtc/lakBh
-	p+ywYjY+FpZtGDZas+uykfwhaSEAXg/ik2SMMpqw=
-Content-Type: multipart/mixed; boundary="===============3213564741881664566=="
+	bh=xXYMn4CeRg721g+BnLtJEsB+NuvSvosZ3Q8VMiK4eeA=;
+	b=HJyKHggZW2HEudbgKd+hH0/CbOXD2oauX5A72h0i11FopZ/RtmL+uqPPnux0alYv
+	pFqtnpG/AJX0G6WD41MhirQvBc1UlN4q16P1Bf0OnAuX2KTK8l+t5qVUioPYHDdYAt/
+	QdCxnfy6xYU1UXSC7FGFNhdnses7Q1p4BHffVbiw=
+Content-Type: multipart/mixed; boundary="===============0835291538697628864=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libinput: upgrading to 1.26.2 SUCCEEDED
-Message-ID: <01010193412397e3-e1b488a1-0aa8-4290-bc99-b38ac6c16815-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:17:51 +0000
+Subject: [AUH] harfbuzz: upgrading to 10.1.0 SUCCEEDED
+Message-ID: <0101019341236f8f-aaa63510-50ac-4be7-b0a0-e45d962b3803-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:17:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.29
+X-SES-Outgoing: 2024.11.18-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:17:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207338
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:17:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207324
 
---===============3213564741881664566==
+--===============0835291538697628864==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libinput* to *1.26.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *harfbuzz* to *10.1.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libinput-upgrade-1.26.1-1.26.2.patch
+    - apply the patch: git am 0001-harfbuzz-upgrade-10.0.1-10.1.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,76 +72,56 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 9f28da0e973a7a850a3c5840b1284d83b75050b4 Mon Sep 17 00:00:00 2001
+From 097d9d1c8369cccf0270379fb29001c2db3eb06a Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 18 Nov 2024 02:48:48 +0000
-Subject: [PATCH] libinput: upgrade 1.26.1 -> 1.26.2
+Date: Sun, 17 Nov 2024 19:23:38 +0000
+Subject: [PATCH] harfbuzz: upgrade 10.0.1 -> 10.1.0
 
 ---
- .../wayland/{libinput_1.26.1.bb => libinput_1.26.2.bb}          | 2 +-
+ .../harfbuzz/{harfbuzz_10.0.1.bb => harfbuzz_10.1.0.bb}         | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/wayland/{libinput_1.26.1.bb => libinput_1.26.2.bb} (97%)
+ rename meta/recipes-graphics/harfbuzz/{harfbuzz_10.0.1.bb => harfbuzz_10.1.0.bb} (95%)
 
-diff --git a/meta/recipes-graphics/wayland/libinput_1.26.1.bb b/meta/recipes-graphics/wayland/libinput_1.26.2.bb
-similarity index 97%
-rename from meta/recipes-graphics/wayland/libinput_1.26.1.bb
-rename to meta/recipes-graphics/wayland/libinput_1.26.2.bb
-index 487270505a..6a96b0e14a 100644
---- a/meta/recipes-graphics/wayland/libinput_1.26.1.bb
-+++ b/meta/recipes-graphics/wayland/libinput_1.26.2.bb
-@@ -15,7 +15,7 @@ DEPENDS = "libevdev udev mtdev"
- SRC_URI = "git://gitlab.freedesktop.org/libinput/libinput.git;protocol=https;branch=main \
-            file://run-ptest \
-            "
--SRCREV = "124431a5d3186e1c3c3aa144a0634b84b3089486"
-+SRCREV = "3402f380019dc4f882e1d8627029607aca3f4be6"
- S = "${WORKDIR}/git"
+diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb
+similarity index 95%
+rename from meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb
+rename to meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb
+index 3b211251af..4425dd3e1e 100644
+--- a/meta/recipes-graphics/harfbuzz/harfbuzz_10.0.1.bb
++++ b/meta/recipes-graphics/harfbuzz/harfbuzz_10.1.0.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
+                     "
  
- UPSTREAM_CHECK_REGEX = "libinput-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "b2cb13bd351904cb9038f907dc0dee0ae07127061242fe3556b2795c4e9748fc"
++SRC_URI[sha256sum] = "6ce3520f2d089a33cef0fc48321334b8e0b72141f6a763719aaaecd2779ecb82"
+ 
+ DEPENDS += "glib-2.0-native"
+ 
 -- 
 2.44.1
 
 
---===============3213564741881664566==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libinput-upgrade-1.26.1-1.26.2.patch"
-
-RnJvbSA5ZjI4ZGEwZTk3M2E3YTg1MGEzYzU4NDBiMTI4NGQ4M2I3NTA1MGI0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMDI6NDg6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJpbnB1dDogdXBncmFkZSAxLjI2LjEgLT4gMS4yNi4yCgotLS0KIC4uLi93YXlsYW5kL3tsaWJp
-bnB1dF8xLjI2LjEuYmIgPT4gbGliaW5wdXRfMS4yNi4yLmJifSAgICAgICAgICB8IDIgKy0KIDEg
-ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL3tsaWJpbnB1dF8xLjI2LjEuYmIgPT4gbGliaW5wdXRf
-MS4yNi4yLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXls
-YW5kL2xpYmlucHV0XzEuMjYuMS5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xp
-YmlucHV0XzEuMjYuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3Mvd2F5bGFuZC9saWJpbnB1dF8xLjI2LjEuYmIKcmVuYW1lIHRvIG1ldGEv
-cmVjaXBlcy1ncmFwaGljcy93YXlsYW5kL2xpYmlucHV0XzEuMjYuMi5iYgppbmRleCA0ODcyNzA1
-MDVhLi42YTk2YjBlMTRhIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvd2F5bGFu
-ZC9saWJpbnB1dF8xLjI2LjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3dheWxhbmQv
-bGliaW5wdXRfMS4yNi4yLmJiCkBAIC0xNSw3ICsxNSw3IEBAIERFUEVORFMgPSAibGliZXZkZXYg
-dWRldiBtdGRldiIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9saWJp
-bnB1dC9saWJpbnB1dC5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1haW4gXAogICAgICAgICAg
-ICBmaWxlOi8vcnVuLXB0ZXN0IFwKICAgICAgICAgICAgIgotU1JDUkVWID0gIjEyNDQzMWE1ZDMx
-ODZlMWMzYzNhYTE0NGEwNjM0Yjg0YjMwODk0ODYiCitTUkNSRVYgPSAiMzQwMmYzODAwMTlkYzRm
-ODgyZTFkODYyNzAyOTYwN2FjYTNmNGJlNiIKIFMgPSAiJHtXT1JLRElSfS9naXQiCiAKIFVQU1RS
-RUFNX0NIRUNLX1JFR0VYID0gImxpYmlucHV0LSg/UDxwdmVyPlxkK1wuXGQrXC4oPyE5XGQrKVxk
-KykiCi0tIAoyLjQ0LjEKCg==
-
---===============3213564741881664566==
+--===============0835291538697628864==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-minisforum.quirks /usr/share/libinput/50-system-lg.quirks"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/50-system-lg.quirks was added
-  /usr/share/libinput/50-system-minisforum.quirks was added
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61001.0", added "/usr/lib/libharfbuzz-icu.so.0.61010.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61001.0", added "/usr/lib/libharfbuzz-subset.so.0.61010.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-gobject.so.0.61001.0 /usr/lib/libharfbuzz.so.0.61001.0 /usr/lib/libharfbuzz-cairo.so.0.61001.0", added "/usr/lib/libharfbuzz-gobject.so.0.61010.0 /usr/lib/libharfbuzz-cairo.so.0.61010.0 /usr/lib/libharfbuzz.so.0.61010.0"
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61001.0 to libharfbuzz-cairo.so.0.61010.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61001.0 to libharfbuzz-gobject.so.0.61010.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61001.0 to libharfbuzz-icu.so.0.61010.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61001.0 to libharfbuzz.so.0.61010.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61001.0 to libharfbuzz-subset.so.0.61010.0
+  /usr/lib/libharfbuzz-cairo.so.0.61001.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61010.0
+  /usr/lib/libharfbuzz-gobject.so.0.61001.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61010.0
+  /usr/lib/libharfbuzz-icu.so.0.61001.0 moved to /usr/lib/libharfbuzz-icu.so.0.61010.0
+  /usr/lib/libharfbuzz.so.0.61001.0 moved to /usr/lib/libharfbuzz.so.0.61010.0
+  /usr/lib/libharfbuzz-subset.so.0.61001.0 moved to /usr/lib/libharfbuzz-subset.so.0.61010.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -1652,40 +1632,57 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3213564741881664566==
+--===============0835291538697628864==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/libinput: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-bin: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-bin: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-dbg: PKGSIZE changed from 6530936 to 6530952 (+0%)
-packages/core2-64-poky-linux/libinput/libinput-dbg: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-dev: PKGSIZE changed from 219952 to 219936 (-0%)
-packages/core2-64-poky-linux/libinput/libinput-dev: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-doc: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-doc: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-locale: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-locale: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-ptest: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-ptest: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-src: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-src: PKGSIZE changed from 3587187 to 3587165 (-0%)
-packages/core2-64-poky-linux/libinput/libinput-src: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput-staticdev: PV changed from "1.26.1" to "1.26.2"
-packages/core2-64-poky-linux/libinput/libinput: PKGV changed from 1.26.1 [default] to 1.26.2 [default]
-packages/core2-64-poky-linux/libinput/libinput: PKGSIZE changed from 1240598 to 1241153 (+0%)
-packages/core2-64-poky-linux/libinput/libinput: FILELIST: added "/usr/share/libinput/50-system-minisforum.quirks /usr/share/libinput/50-system-lg.quirks"
-packages/core2-64-poky-linux/libinput/libinput: PV changed from "1.26.1" to "1.26.2"
-Changes to packages/core2-64-poky-linux/libinput (sysroot):
-  /usr/share/libinput/50-system-lg.quirks was added
-  /usr/share/libinput/50-system-minisforum.quirks was added
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PKGSIZE changed from 273328 to 281888 (+3%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-bin: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGSIZE changed from 78309176 to 78360888 (+0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: FILELIST: removed "/usr/lib/.debug/libharfbuzz-subset.so.0.61001.0 /usr/lib/.debug/libharfbuzz.so.0.61001.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61001.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61001.0 /usr/lib/.debug/libharfbuzz-icu.so.0.61001.0", added "/usr/lib/.debug/libharfbuzz-icu.so.0.61010.0 /usr/lib/.debug/libharfbuzz-gobject.so.0.61010.0 /usr/lib/.debug/libharfbuzz-subset.so.0.61010.0 /usr/lib/.debug/libharfbuzz.so.0.61010.0 /usr/lib/.debug/libharfbuzz-cairo.so.0.61010.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dbg: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGSIZE changed from 1731053 to 1735496 (+0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-dev: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-doc: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu-dev: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: FILELIST: removed "/usr/lib/libharfbuzz-icu.so.0.61001.0", added "/usr/lib/libharfbuzz-icu.so.0.61010.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-icu: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-locale: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGSIZE changed from 4935038 to 4942077 (+0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-src: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-staticdev: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: FILELIST: removed "/usr/lib/libharfbuzz-subset.so.0.61001.0", added "/usr/lib/libharfbuzz-subset.so.0.61010.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz-subset: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGSIZE changed from 1655754 to 1656198 (+0%)
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: FILELIST: removed "/usr/lib/libharfbuzz-cairo.so.0.61001.0 /usr/lib/libharfbuzz.so.0.61001.0 /usr/lib/libharfbuzz-gobject.so.0.61001.0", added "/usr/lib/libharfbuzz-cairo.so.0.61010.0 /usr/lib/libharfbuzz.so.0.61010.0 /usr/lib/libharfbuzz-gobject.so.0.61010.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz/harfbuzz: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+packages/core2-64-poky-linux/harfbuzz: SRC_URI changed from "https://github.com/harfbuzz/harfbuzz/releases//download/10.0.1/harfbuzz-10.0.1.tar.xz" to "https://github.com/harfbuzz/harfbuzz/releases//download/10.1.0/harfbuzz-10.1.0.tar.xz"
+packages/core2-64-poky-linux/harfbuzz: PV changed from "10.0.1" to "10.1.0"
+packages/core2-64-poky-linux/harfbuzz: PKGV changed from 10.0.1 [default] to 10.1.0 [default]
+Changes to packages/core2-64-poky-linux/harfbuzz (sysroot):
+  /usr/lib/libharfbuzz-cairo.so.0 changed symlink target from libharfbuzz-cairo.so.0.61001.0 to libharfbuzz-cairo.so.0.61010.0
+  /usr/lib/libharfbuzz-gobject.so.0 changed symlink target from libharfbuzz-gobject.so.0.61001.0 to libharfbuzz-gobject.so.0.61010.0
+  /usr/lib/libharfbuzz-icu.so.0 changed symlink target from libharfbuzz-icu.so.0.61001.0 to libharfbuzz-icu.so.0.61010.0
+  /usr/lib/libharfbuzz.so.0 changed symlink target from libharfbuzz.so.0.61001.0 to libharfbuzz.so.0.61010.0
+  /usr/lib/libharfbuzz-subset.so.0 changed symlink target from libharfbuzz-subset.so.0.61001.0 to libharfbuzz-subset.so.0.61010.0
+  /usr/lib/libharfbuzz-cairo.so.0.61001.0 moved to /usr/lib/libharfbuzz-cairo.so.0.61010.0
+  /usr/lib/libharfbuzz-gobject.so.0.61001.0 moved to /usr/lib/libharfbuzz-gobject.so.0.61010.0
+  /usr/lib/libharfbuzz-icu.so.0.61001.0 moved to /usr/lib/libharfbuzz-icu.so.0.61010.0
+  /usr/lib/libharfbuzz.so.0.61001.0 moved to /usr/lib/libharfbuzz.so.0.61010.0
+  /usr/lib/libharfbuzz-subset.so.0.61001.0 moved to /usr/lib/libharfbuzz-subset.so.0.61010.0
 Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-g++ was added
   /sysroot-providers/virtual_x86_64-poky-linux-gcc was added
@@ -3196,5 +3193,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3213564741881664566==--
+--===============0835291538697628864==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-harfbuzz-upgrade-10.0.1-10.1.0.patch"
+
+RnJvbSAwOTdkOWQxYzgzNjljY2NmMDI3MDM3OWZiMjkwMDFjMmRiM2ViMDZhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTcgTm92IDIwMjQgMTk6MjM6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBo
+YXJmYnV6ejogdXBncmFkZSAxMC4wLjEgLT4gMTAuMS4wCgotLS0KIC4uLi9oYXJmYnV6ei97aGFy
+ZmJ1enpfMTAuMC4xLmJiID0+IGhhcmZidXp6XzEwLjEuMC5iYn0gICAgICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1ncmFwaGljcy9oYXJmYnV6ei97aGFyZmJ1enpfMTAuMC4xLmJiID0+IGhhcmZidXp6
+XzEwLjEuMC5iYn0gKDk1JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFy
+ZmJ1enovaGFyZmJ1enpfMTAuMC4xLmJiIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hhcmZidXp6
+L2hhcmZidXp6XzEwLjEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTAuMC4xLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZ3JhcGhpY3MvaGFyZmJ1enovaGFyZmJ1enpfMTAuMS4wLmJiCmluZGV4IDNi
+MjExMjUxYWYuLjQ0MjVkZDNlMWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1ncmFwaGljcy9o
+YXJmYnV6ei9oYXJmYnV6el8xMC4wLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL2hh
+cmZidXp6L2hhcmZidXp6XzEwLjEuMC5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NV
+TSA9ICJmaWxlOi8vQ09QWUlORzttZDU9Yjk4NDI5YjhlOGUzYzJhNjdjZmVmMDFlOTllNDg5M2Qg
+XAogICAgICAgICAgICAgICAgICAgICAiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9
+L2Rvd25sb2FkLyR7UFZ9LyR7QlBOfS0ke1BWfS50YXIueHoiCi1TUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiYjJjYjEzYmQzNTE5MDRjYjkwMzhmOTA3ZGMwZGVlMGFlMDcxMjcwNjEyNDJmZTM1NTZiMjc5
+NWM0ZTk3NDhmYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2Y2UzNTIwZjJkMDg5YTMzY2VmMGZj
+NDgzMjEzMzRiOGUwYjcyMTQxZjZhNzYzNzE5YWFhZWNkMjc3OWVjYjgyIgogCiBERVBFTkRTICs9
+ICJnbGliLTIuMC1uYXRpdmUiCiAKLS0gCjIuNDQuMQoK
+
+--===============0835291538697628864==--
 
