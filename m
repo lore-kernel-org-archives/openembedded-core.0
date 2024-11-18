@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9227DD6205D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B5DD62062
 	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:17:42 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.4679.1731964633083259581
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web10.4848.1731964653465617538
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:17:36 -0800
+ Mon, 18 Nov 2024 13:17:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=IJLcKeTH;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=2+2OnGjy;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019341235b08-2eeb495f-b3dd-4d35-b949-f2b9463379f5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=O06TJ1KK;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=3MGNuK8w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019341234e0b-856e4326-013f-4540-b324-515fb18910c9-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964656;
+	t=1731964653;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=ul2lSj2zQCdauCXwtXajFPfTLaGnWA9ESVWF0wPg8/U=;
-	b=IJLcKeTHQHjkvCsMOdF/pzZfXyvQjODw/aIN4qrrIsdnaNOKF1E5R5kHqlSxn/I7
-	pAgPLbdaCzp6jX+d1KC8twnKFWZBIUQjiBElTXHGHJnfzRduS30jhMj1LQIlR9zT0BW
-	MkmQRbr3hg9Z8Kl+Dk76pJ9ou8Krsm1ei2RMn2BU=
+	bh=n7PupxoQwv/xNkuOzWnf7nEFLeH4pIOJ6snOC3qnmeY=;
+	b=O06TJ1KKjeqdiWq+IDHScmUtiIo5q9etj5QS5zxbZgPwOn7KYM2I4dKFLoB4ZB4E
+	sdp5RSmJO5TL+0dSM7WZNssUzdtsQpCanAg/pXrX/qjURL1sYdkh28YjX+IY8M/rlrM
+	3TBLs9tFPo/CK2BHQ+awOmsyaELr4nj9vW0kE0Zg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964656;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964653;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=ul2lSj2zQCdauCXwtXajFPfTLaGnWA9ESVWF0wPg8/U=;
-	b=2+2OnGjyYZUOSIuXebImEkj3cxEphTB5G1E3Q1+MqJlMVatSMYPjLrAlKoIMa4hw
-	NK/LIg9287lzW9zZXnCxKSiFFBjEqa+773tcCG/i0sCW3Hgt5t33XYh+OIb5EEPdYog
-	+uwvCjyL7kXfL7OzIZj3TiSyDlIpmqV82SW6hPLQ=
-Content-Type: multipart/mixed; boundary="===============7218293575261041506=="
+	bh=n7PupxoQwv/xNkuOzWnf7nEFLeH4pIOJ6snOC3qnmeY=;
+	b=3MGNuK8wdjZfcZUKYWlGXv3xgs1cARi0bp/Dp6XEAbCePleTnZRSbeFPgti2AFIu
+	usngWSIrK0VaTb2NIZLEyTKM2jIbM1a7RnMm/zrlzS2/yxNAwKYZNwlWwwYqGfi1zcY
+	HJbYam37PvE0tVvcTcZO0CDMs8UPpKdM0MRdg1a4=
+Content-Type: multipart/mixed; boundary="===============1957884521237332155=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] texinfo: upgrading to 7.1.1 FAILED
-Message-ID: <0101019341235b08-2eeb495f-b3dd-4d35-b949-f2b9463379f5-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:17:36 +0000
+Subject: [AUH] man-db: upgrading to 2.13.0 FAILED
+Message-ID: <0101019341234e0b-856e4326-013f-4540-b324-515fb18910c9-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:17:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.193
+X-SES-Outgoing: 2024.11.18-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:17:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207317
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207313
 
---===============7218293575261041506==
+--===============1957884521237332155==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,15 +51,14 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *texinfo* to *7.1.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *man-db* to *2.13.0* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe texinfo failed.
+Running 'devtool upgrade' for recipe man-db failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1880 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
 NOTE: Resolving any missing task queue dependencies
 
 Build Configuration:
@@ -75,15 +74,15 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:e7a95121ebe87f7ca423557ac78821ef15f42b65"
+workspace            = "tmp-auh-upgrades:dba9513c0cb0e0f378a9053aab96a25ff5c11b2f"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 13 seconds
+NOTE: Writing buildhistory took: 12 seconds
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
@@ -103,41 +102,36 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:e7a95121ebe87f7ca423557ac78821ef15f42b65"
+workspace            = "tmp-auh-upgrades:dba9513c0cb0e0f378a9053aab96a25ff5c11b2f"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
 done.
 NOTE: Executing Tasks
-WARNING: tmp-recipetool-xy55xy7q: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ktkl_6kd/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-ktkl_6kd/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+WARNING: tmp-recipetool-an3f5r0w: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-il85e07d/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-il85e07d/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 12 seconds
 DEBUG 5 [Errno 25] Inappropriate ioctl for device
 Adding changed files:   0% |                                   | ETA:  --:--:--
 Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  11% |###                                 | ETA:  0:00:11
-Adding changed files:  22% |#######                             | ETA:  0:00:07
-Adding changed files:  33% |###########                         | ETA:  0:00:05
-Adding changed files:  44% |###############                     | ETA:  0:00:04
-Adding changed files:  55% |###################                 | ETA:  0:00:03
-Adding changed files:  66% |#######################             | ETA:  0:00:02
-Adding changed files:  77% |###########################         | ETA:  0:00:01
-Adding changed files:  88% |###############################     | ETA:  0:00:00
-Adding changed files:  99% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:06
+Adding changed files:  17% |######                              | ETA:  0:00:06
+Adding changed files:  34% |############                        | ETA:  0:00:03
+Adding changed files:  51% |##################                  | ETA:  0:00:02
+Adding changed files:  68% |########################            | ETA:  0:00:01
+Adding changed files:  86% |###############################     | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:04
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://ftp.gnu.org/gnu/texinfo/texinfo-7.1.1.tar.gz...
-INFO: Rebasing devtool onto 831d7bfb8b4f58d36e824d1ebe0705cc8da9cc0d
-WARNING: Command 'git rebase 831d7bfb8b4f58d36e824d1ebe0705cc8da9cc0d' failed:
-Auto-merging doc/Makefile.am
-Auto-merging man/Makefile.am
-CONFLICT (content): Merge conflict in man/Makefile.am
+INFO: Fetching https://download.savannah.nongnu.org/releases/man-db/man-db-2.13.0.tar.xz...
+INFO: Rebasing devtool onto 21378b63477c9867e9e54ac1e7e0ac04f25450dd
+WARNING: Command 'git rebase 21378b63477c9867e9e54ac1e7e0ac04f25450dd' failed:
+Auto-merging src/man.c
+CONFLICT (content): Merge conflict in src/man.c
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/texinfo
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/texinfo/texinfo_7.1.1.bb
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/man-db
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/man-db/man-db_2.13.0.bb
 
 
 
@@ -146,5 +140,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============7218293575261041506==--
+--===============1957884521237332155==--
 
