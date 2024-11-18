@@ -1,183 +1,189 @@
-Return-Path: <Deepthi.Hemraj@windriver.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2946D43FE6
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 08:00:05 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.35716.1731916803662263638
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0020D43FEA
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 08:00:25 +0000 (UTC)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+ by mx.groups.io with SMTP id smtpd.web11.36274.1731916820198204941
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 00:00:03 -0800
+ Mon, 18 Nov 2024 00:00:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=105223d229=deepthi.hemraj@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AI6K5Jh029364
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 00:00:03 -0800
-Received: from nam04-bn8-obe.outbound.protection.outlook.com (mail-bn8nam04lp2048.outbound.protection.outlook.com [104.47.74.48])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xusq167e-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 00:00:02 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xbEnUt1O3ZQBjX0+joBRwTCHaDDmkijzSXOYcvVQGMT2tV/M95xJutZ7aYSKkKGUu+tv83C5lehjdW9D2jnKIHTA2Tba90zt+skQ4rOqGcjXYoJyQU3TPsks1QNAhjpjJn3fuxFi4fJegcft7RVR7iyyk0m2rtreO6R2cKNCa0EevjY+iKRtOpKuKZxn1bmYlROSK/OLdRQci66/7t38KwuPHsUg6qRyyI1s25Zv0ISSrltfHqmXlAYxY6SwVOcB2v6SlExzfqNLLWxQmKT2c0nkpfRlJZDD1nof9m474G+pDek2lhDH0/QHs75kdCDER6cDPygZ2f8T5kJTD7zywQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vFbl9XvjYNOcJ0oV732Q56uD7EC2Xa9wK5bCSKYdNrc=;
- b=fHAuu+l3mM6zbeBauMiv8S1EU9wcfLoByJpCGY9tpO3GTGc5FGkNQkWMRBMXCP7Hs0svaEwIcgB+Yk1ZEHkUbdgNrWYd1e3Nm+WMgMJCG0wl24fi8zSdjax5EgK+BNKghHBs3OaULv69f0x4nipZKEfF8Yv1NDahEfclrgaqVNFie0gsp6ICsOjlVthlHWYiNNQOHv9vI+mIeowMykZjdYbU7t8PhRRvxbr6ZYrmNN+H8U2QfYE34ZJoPQ+TIw+WUxn84ImpvvSu0tIyD805cWnu2ewl//buE1XCQUZtde8SH8gk6cVpPgtlIVVHBB6JWNCi6Vj8EU7aLkC/VE25Pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from LV3PR11MB8602.namprd11.prod.outlook.com (2603:10b6:408:1b3::11)
- by DS0PR11MB6399.namprd11.prod.outlook.com (2603:10b6:8:c8::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8158.23; Mon, 18 Nov 2024 08:00:00 +0000
-Received: from LV3PR11MB8602.namprd11.prod.outlook.com
- ([fe80::5e20:4508:a523:df39]) by LV3PR11MB8602.namprd11.prod.outlook.com
- ([fe80::5e20:4508:a523:df39%3]) with mapi id 15.20.8158.023; Mon, 18 Nov 2024
- 07:59:59 +0000
-From: Deepthi.Hemraj@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
-        Sundeep.Kokkonda@windriver.com
-Subject: [scarthgap][PATCH] binutils: stable 2.42 branch update
-Date: Sun, 17 Nov 2024 23:59:44 -0800
-Message-ID: <20241118075944.1914998-1-Deepthi.Hemraj@windriver.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY1P220CA0010.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:59d::12) To LV3PR11MB8602.namprd11.prod.outlook.com
- (2603:10b6:408:1b3::11)
+ dkim=pass header.i=@linaro.org header.s=google header.b=yDOxUi9g;
+ spf=pass (domain: linaro.org, ip: 209.85.167.50, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-53da209492cso3138698e87.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 00:00:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1731916818; x=1732521618; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=Rb+1Z719zZTTwNhKiPHzDd6XUgGjdfN7lCRKQOtCnxI=;
+        b=yDOxUi9gAXVdPtuB1iPy1ucTnQ0Ie9in9bNZFR76GY16yvDjWUHLwRuZiNDxgCazCO
+         lgoI7GlwTt0IYcOswMCcBYe+LYLnCBRB1/1IHlxNf4ClhYsmHQmk+lM57f2nqJy8KtHI
+         M/Xh/C8gf5FgolqBNMKGc+DcxNLHRLMjU3f9GDg+LdQbkVsNBLc+yd/dqAc5lQnp+dBB
+         ghszr6jiQiL23WHg9DGknXEZ/6BQB6vuLCMcLpH1j4xwmg2/uWRZyCR3iUh446AfdeBX
+         OktXsihCnWQveYj/+lERUzBWc3Ws/P9yYP41sE86JRodhSpUwOMnKdjZHFTGZEN8NPkH
+         gaTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1731916818; x=1732521618;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=Rb+1Z719zZTTwNhKiPHzDd6XUgGjdfN7lCRKQOtCnxI=;
+        b=UsaMLWrHJkpHb+4TVNOb2Pxf2G14uZ3AeFKE2nxuU8x9el7elys1pUT8x7CWjhON8w
+         AZczxvYVtklhZ01hxNB6u1wHC1qtPXIEYinIhvqaCv+Tlcb8nJ/56KKaIsYEn94G+cVm
+         /B5Qev7ZeQf2Q1BmdUpLd4E1E99EcEk7F6v39+crZtEtNub1Ob7tms6xa8cbIOhVyQCs
+         dT8wyGhcQ2OJrZ6dVPyQpOQoBNjqqdtaW0AuQxNJpfDtk1/L1lT+zAK+G69bBQwEdJ4j
+         CKebGgzCeCNKRjqzDCpsDBgzhnhQDx8dQ1SoH6CfuAGhThG5mnkxPKbLSkFHtTx642Ba
+         j2YA==
+X-Gm-Message-State: AOJu0YzZO15uPR6YqGx5F6ap+z/XgqT2RILtADPoafZcDU/189PoqhIS
+	CYqpxlnmQ1PJSZU9+P2D69ZKecogpjsHqNaAqjvjsNVX1S6CvWLO/bBBOfxSYftrOrZmS8/4iRl
+	BxgU=
+X-Google-Smtp-Source: AGHT+IE8xXykxQmosIAXheV++U6/BRJh1cK/kBdcl9A8HEMk8WkDEgCrgKTXCp813Pkv7C2lH5AUVw==
+X-Received: by 2002:a05:6512:28c:b0:53d:b4ab:13b9 with SMTP id 2adb3069b0e04-53db4ab1616mr1102321e87.3.1731916817934;
+        Mon, 18 Nov 2024 00:00:17 -0800 (PST)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53da6548c3csm1498453e87.261.2024.11.18.00.00.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Nov 2024 00:00:16 -0800 (PST)
+Date: Mon, 18 Nov 2024 10:00:13 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 3/3] testimage.bbclass: capture RuntimeError too
+Message-ID: <Zzr0Df_92qav6fWq@nuoska>
+References: <20241111131604.364308-1-mikko.rapeli@linaro.org>
+ <20241111131604.364308-3-mikko.rapeli@linaro.org>
+ <10810101792ffe49440847764ed2e4c620e67fe9.camel@linuxfoundation.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV3PR11MB8602:EE_|DS0PR11MB6399:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7ee5f444-c9ea-4e0b-9782-08dd07a70003
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|366016|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?khE85eKWgss6YE/o0om+8PJE3S02CWk6jVa2Lj1eheJ2YkK8EZkzJ8hFg+b9?=
- =?us-ascii?Q?nw9vQA7GFI+pB29RnB5jGBW131XnEdP2NoGHesAP9217i0rptxh78e2HmG0i?=
- =?us-ascii?Q?63YJdq+1gAbCTe2GxE+S8wnElr0WIiOKsQUxoYpuZ+BdpPXxpr6k5upHMt2e?=
- =?us-ascii?Q?RjPbVIibhVOXm7DKEQX40TFam4K5FZP2Xqp8VkJQvzFSnJSmdRtdKLlj7WiW?=
- =?us-ascii?Q?ow9SSftqyzZVoolHF7ZGsYx576S3ZDt9DXuXXPsFvQ/229y8Q1B1b+qlerLr?=
- =?us-ascii?Q?/4DT0fTDbb980r1U7gxjv9zN/hI6HZeh5TmOa/bYhPZphuwB3iALS4miFDVS?=
- =?us-ascii?Q?FD6QR05nbIfOFzypU3udlAw9iCjUfMqS4YNp8wzlBrwvHVQPQXWMqjn5mM26?=
- =?us-ascii?Q?bUUn7hz8a/nuQB27plLNdkdyOZj6xWSAM4bdj9+FgqHXa2KnpdN8d/j/ID6X?=
- =?us-ascii?Q?wZL85FwzICZU8kNR1RQSMINgOatZRKUm9kaB3u1fCsmv0asNmOqoAt267BOT?=
- =?us-ascii?Q?XP8XwgG8O0YEkJ8ZzCI94y8krugPvyRCOVCgHEGctKaA5H8ZpJQV/pnpoPQR?=
- =?us-ascii?Q?WX20pUsbT3PtdVlLwiwyQUS78Kh1+dQq0Sdi674TuZ+hcNeHAeT5XbUimgDc?=
- =?us-ascii?Q?KFP3sMh+3dHCyw2sMG8ayBVxjknqIw/OmN/g0XRhD8VdvXcXPrxf4zsAcznN?=
- =?us-ascii?Q?dPSbGI1Ru7/efOqMKg1tNrB/IMQpyeP0d55Ogkl9/T29gZbNORaRsTVqfN9+?=
- =?us-ascii?Q?lONoFySn2vVEX+m3iqlcxmgSSsu0sbuHLPQfB397zC6EjhIzGhYbvE1TgNJ1?=
- =?us-ascii?Q?6rx4gcPG+XNN8sCZ9e5kX11ZPRuPEIbckZ8nZPck/ByGMG5FiLg3VAR6zrtC?=
- =?us-ascii?Q?w7hK0sUwadqVlXrk87huqaADsnh47Pg+2dUAJTIC//L41QN6TOn5tAzovd7Z?=
- =?us-ascii?Q?UAvtFJ/xZuiSiw+q36wJbMKtoM086rAuDJem8m2ULuoIwoce0cUkrlFCQlPS?=
- =?us-ascii?Q?SX20J6zLEtU5knus8oClIOsYUv7qo05QoamXwB3rlIkJwGCrbvyoCsLEhvdV?=
- =?us-ascii?Q?7FS5NdSysdg0G3rePtgObjlY5dpM1peCB15oS6KJwOvIXftDzmKyMBKkdwMZ?=
- =?us-ascii?Q?yTDSoQ0RPohXMtuIf5v3taIuw2o0Pts0STaA4DtWRQbsblsm/xxH4RsBLwI6?=
- =?us-ascii?Q?tcZiXc5kvCrX/5yHVldlz6fwBLR6dt86DpAizcv8tMPepIui2SoTDRSRElfi?=
- =?us-ascii?Q?GvGcae/xYkSGahGzk9CoTbNT1o/hDnF1KGZ3CSzQf4GQ2/tffJGH6uRc0URF?=
- =?us-ascii?Q?sswliRKgzYl60vQ0b0t/ieqy81V8B92UW99CfSirc00HoS6eEMDvESQ9BktH?=
- =?us-ascii?Q?V5I417Y=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV3PR11MB8602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?GSy6gSt6raCu5AVxVPlG9WRe4eBc21zIXCKXRf1cP+UBLzULcblmX2hhPk3i?=
- =?us-ascii?Q?jj09ddILYiuigOiMQa42VHgwLmQrsWxGdiPtjfOP2ZeFyxId7YkQ5itqhUC1?=
- =?us-ascii?Q?sMMOvJdvJ9iUzvB4fqSifI76GeZKtqOG3gFtvs18/oprQGMpiPF43qhYrbg9?=
- =?us-ascii?Q?6bwCulkEF0x592otLVAutASmPK1CgRfFduMvUHw8qbK/ktgRhaZJNsUk+gd8?=
- =?us-ascii?Q?u1d64LSuBr+s7IBf5L7bAlL7+k1OnBjhg9Q+1fPYqzZKMYk+IXVJ2wwI+TSa?=
- =?us-ascii?Q?hERSky2woIIDUYRIroH7L5IqLjziIaqtyiEK8t6tCmT1RgNel3uUy3WTAj4e?=
- =?us-ascii?Q?YfbE9Z27wdSdnt4Uo80J5OBHy4UiMHIPSQF5U67+wEHO/EPV7PBqGYj5N3Nq?=
- =?us-ascii?Q?Zlc3Dd9+SHcIEm3+hwFbLxPL0c+T/od6/0yFBG29o5JF75lDWgATsPqd6I4W?=
- =?us-ascii?Q?aULKJzqa00cxRWrO2EuVKm+FgazTrpWHQ0zPK3qK0+o/KzFYIDSXb+hb9ybW?=
- =?us-ascii?Q?b+8l6Y/KKQyVI8Z0pQmdqiNPtwcA/I4vHjwKOTlILDiiEjhTWm/qbhp5eTjm?=
- =?us-ascii?Q?Y/XcSYGaICRkvN+cVcsx/7OkGnhJshZAfudh3oNP6pVYO7Pz/0Bx/RaRoPzy?=
- =?us-ascii?Q?po39dVAnuCYfb4WWzy1x4HlrbqhEtSFfmec7M9+iyzrk6SCZ+CtR8ithxvfL?=
- =?us-ascii?Q?iO6bt19rA6VM1eLAyEbmMSbg7LPwVeBS3EE+5o5svio+REsqr6HqDU0L5mb3?=
- =?us-ascii?Q?iNCnb0MBMPEG82UoXwGl+MuwSqeedMEe0PljVnig/6XLRgknvDP1C+osgU0W?=
- =?us-ascii?Q?cjCjBPsJkQ55oERHmhAC0ZYp5m1CHtJjCIhA77Bbwr+iVT9VU9afWGoDxdo5?=
- =?us-ascii?Q?FjrAIOga0gqDzJMJkVdO5m4Y1YsWhK3JAQvHu/uP9NzYax1xKsNzlSF/cy0T?=
- =?us-ascii?Q?WzfVw+KoMWcPMyX09Ve2t2DJ+8HTqPj7jlGC8nV7Fj/XEfoHT1F0jyxAmboj?=
- =?us-ascii?Q?hMqtO5T8lJmHP8ZxP4zSjYU+hgvYg+RgTLwE6o8wqt2DrINr7HnEaZq8GwoX?=
- =?us-ascii?Q?UsdnkMvmA1p3/uOr1cWvIx8aAPmJWk0DM7A0aIU61K01MzYXep4XB62NTP9s?=
- =?us-ascii?Q?y5EQ/DVIk/iNK9iytsgmDTAxL9EJJ6d1RYv/kNKS0mb3+21NUlLRzBGmbiN4?=
- =?us-ascii?Q?ar/edbMjMlzQxbPpYrOs+vE50DRqYD2IOXHcvfHP8rE1dPg4wXjs/a6Qz6Ms?=
- =?us-ascii?Q?ZZs3kwfyCsX4l08rUj6OlTHoGwjOGTdg8J5hvCVqHKBqPRv2AewJMVLpPv/k?=
- =?us-ascii?Q?E4APfImXj6c1I2X5bbMG+h9pRLgwAXHgeeMtWJiYjsmiE+sk98PXBRfsc540?=
- =?us-ascii?Q?T1H0V1ljcno5PRR01Kckm+ySH5mw0mZjPbi3ubIK5o+W2v/zx5d79LYvF8fd?=
- =?us-ascii?Q?aMGxJZfNyo7e6LgVYFC8D63yztBzRrKC+XWBvos1NMz/1SSRdiGNQh4ka/8r?=
- =?us-ascii?Q?C2Y/rfkWSpXYniRWAMqxx7ZBAVIuJ1mAoCXlgEYbxMJm8JoX/fU0jTmqOY3H?=
- =?us-ascii?Q?NF1t1m9WHbSCsKFZWs+6VMpyqpTcdv5++fh6XQJwrhZOyW7nh99DkXiU9XWG?=
- =?us-ascii?Q?pQ=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7ee5f444-c9ea-4e0b-9782-08dd07a70003
-X-MS-Exchange-CrossTenant-AuthSource: LV3PR11MB8602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2024 07:59:59.8547
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: UshTA0KjDHYePhr9RlX4fB5os06Ws5JYWBCJxrxNX+NmOIXOrjHix2+P9mQ6KVP8ijGN+CJmjDhsCBvxAYVkFS+rL7nKEbGyLDHEa7gktpY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB6399
-X-Proofpoint-GUID: 8SV1zn0l0o5CCBCLp1ZNeqRyu1xUuJIY
-X-Proofpoint-ORIG-GUID: 8SV1zn0l0o5CCBCLp1ZNeqRyu1xUuJIY
-X-Authority-Analysis: v=2.4 cv=d9mnygjE c=1 sm=1 tr=0 ts=673af403 cx=c_pps a=r2a4NctkKoQReJT0uaIV7w==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
- a=CCpqsmhAAAAA:8 a=rs4Mc9ggFB7CX9DX5jEA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=ul9cdbp4aOFLsgKbc677:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-18_04,2024-11-14_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 mlxscore=0 impostorscore=0
- phishscore=0 clxscore=1015 malwarescore=0 mlxlogscore=918 spamscore=0
- bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2409260000 definitions=main-2411180066
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <10810101792ffe49440847764ed2e4c620e67fe9.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 08:00:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207208
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 08:00:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207209
 
-From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+Hi,
 
-Below commits on binutils-2.42 stable branch are updated.
-09ba78f0513 LoongArch: ld:Report an error when seeing an unrecognized relocation
-00abcf39930 s390: Add arch15 instructions
-caf72067a77 s390: Relax risbg[n]z, risb{h|l}gz, {rns|ros|rxs}bgt operand constraints
-543a22c7ee3 s390: Simplify (dis)assembly of insn operands with const bits
-7c94c87d463 s390: Align opcodes to lower-case
-fffb4fae823 s390: Flag conditional branch relative insns as condjump
-2d238ecbe50 s390: Use proper string lengths when parsing opcode table flags
-10d0dd2ba2b s390: Whitespace fixes in conditional branch flavor descriptions
-10a143e273c LoongArch: Add elfNN_loongarch_mkobject to initialize LoongArch tdata
-9055fbe5ffb LoongArch: The symbol got type can only be obtained after initialization
+On Tue, Nov 12, 2024 at 11:25:51AM +0000, Richard Purdie wrote:
+> On Mon, 2024-11-11 at 13:16 +0000, Mikko Rapeli via lists.openembedded.org wrote:
+> > runqemu can fail with RuntimeError exception. Non-cought exception
+> > causes cooker process leaks which bind to successive bitbake command
+> > line calls and that can cause really odd errors to users, e.g. when
+> > build/tmp is wiped and cooker processes expect files to be there.
+> > 
+> > Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
+> > ---
+> > �meta/classes-recipe/testimage.bbclass | 2 +-
+> > �1 file changed, 1 insertion(+), 1 deletion(-)
+> > 
+> > diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+> > index 19075ce1f3..a9b031093a 100644
+> > --- a/meta/classes-recipe/testimage.bbclass
+> > +++ b/meta/classes-recipe/testimage.bbclass
+> > @@ -371,7 +371,7 @@ def testimage_main(d):
+> > �������� complete = True
+> > �������� if results.hasAnyFailingTest():
+> > ������������ run_failed_tests_post_actions(d, tc)
+> > -��� except (KeyboardInterrupt, BlockingIOError) as err:
+> > +��� except (KeyboardInterrupt, BlockingIOError, RuntimeError) as err:
+> > �������� if isinstance(err, KeyboardInterrupt):
+> > ������������ bb.error('testimage interrupted, shutting down...')
+> > �������� else:
+> > 
+> 
+> During review it is hard to understand what the real issue is from this
+> description. I don't like the sound of processes leaking and if that is
+> happening, adding another exception to this list doesn't feel correct.
+> I was going to ask for a better explanation but looking at the code,
+> perhaps this error handling path just needs rewriting/improving with
+> more of the code in the finally, conditionally?
+> 
+> I just want to make sure we fix the real bug here.
 
-Tested on qemux86_64.
-There were no additional PASS or FAIL after the update
+Sorry for being unclear. I thought the backtrace would be too verbose.
 
-Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
----
- meta/recipes-devtools/binutils/binutils-2.42.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+The bug happens when runqemu startup fails:
 
-diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
-index 5d5ba3d6dc..bff97b50c3 100644
---- a/meta/recipes-devtools/binutils/binutils-2.42.inc
-+++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
-@@ -20,7 +20,7 @@ UPSTREAM_CHECK_GITTAGREGEX = "binutils-(?P<pver>\d+_(\d_?)*)"
- 
- CVE_STATUS[CVE-2023-25584] = "cpe-incorrect: Applies only for version 2.40 and earlier"
- 
--SRCREV ?= "8a6764d35e5c15d78de8aef8f27af3eefd9d7544"
-+SRCREV ?= "09ba78f051319e8f8861b26fb9340e21ca973c70"
- BINUTILS_GIT_URI ?= "git://sourceware.org/git/binutils-gdb.git;branch=${SRCBRANCH};protocol=https"
- SRC_URI = "\
-      ${BINUTILS_GIT_URI} \
--- 
-2.43.0
+poky/meta/lib/oeqa/targetcontrol.py:            raise RuntimeError("%s - FAILED to start qemu - check the task log and the boot log" % self.pn)
 
+cooker processes do leak when the exceptions are not cought.
+Maybe these are not strictly related but it happens for me. It
+can be that cleanup happens but just slowly, and when I run
+other bitbake commands right after failure they connect to these
+leaked cooker processes which then behave badly, for example when
+build/tmp was already wiped.
+
+Here is a failure log from one of my builds from meta-arm with other
+changes on top which are the root cause for missing rootfs file:
+
+ERROR: core-image-base-1.0-r0 do_testimage: Invalid rootfs /home/builder/src/base/meta-arm/build/tmp/deploy/images/qemuarm64-secureboot/core-image-base-qemuarm64-secureboot.rootfs.wic.qcow2
+ERROR: core-image-base-1.0-r0 do_testimage: Error executing a python function in exec_func_python() autogenerated:
+
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:do_testimage(d)
+     0003:
+File: '/home/builder/src/base/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 122, function: do_testimage
+     0118:    dump-guest-memory {"paging":false,"protocol":"file:%s.img"}
+     0119:}
+     0120:
+     0121:python do_testimage() {
+ *** 0122:    testimage_main(d)
+     0123:}
+     0124:
+     0125:addtask testimage
+     0126:do_testimage[nostamp] = "1"
+File: '/home/builder/src/base/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 364, function: testimage_main
+     0360:    orig_sigterm_handler = signal.signal(signal.SIGTERM, sigterm_exception)
+     0361:    try:
+     0362:        # We need to check if runqemu ends unexpectedly
+     0363:        # or if the worker send us a SIGTERM
+ *** 0364:        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
+     0365:        import threading
+     0366:        try:
+     0367:            threading.Timer(int(d.getVar("TEST_OVERALL_TIMEOUT")), handle_test_timeout, (int(d.getVar("TEST_OVERALL_TIMEOUT")),)).start()
+     0368:        except ValueError:
+File: '/home/builder/src/base/meta-arm/build/../poky/meta/lib/oeqa/core/target/qemu.py', lineno: 91, function: start
+     0087:            except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as err:
+     0088:                msg += "Error running command: %s\n%s\n" % (blcmd, err)
+     0089:            msg += "\n\n===== end: snippet =====\n"
+     0090:
+ *** 0091:            raise RuntimeError("FAILED to start qemu - check the task log and the boot log %s" % (msg))
+     0092:    
+     0093:    def stop(self):
+     0094:        self.runner.stop()
+Exception: RuntimeError: FAILED to start qemu - check the task log and the boot log 
+
+===== start: snippet =====
+
+
+
+===== end: snippet =====
+
+===== start: snippet =====
+
+Error running command: ['tail', '-20', '/home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/testimage/qemu_boot_log.20241031142321']
+Command '['tail', '-20', '/home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/testimage/qemu_boot_log.20241031142321']' returned non-zero exit status 1.
+
+
+===== end: snippet =====
+
+
+ERROR: Logfile of failure stored in: /home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/temp/log.do_testimage.1779338
+NOTE: recipe core-image-base-1.0-r0: task do_testimage: Failed
+ERROR: Task (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage) failed with exit code '1'
+NOTE: Tasks Summary: Attempted 7084 tasks of which 7054 didn't need to be rerun and 1 failed.
+
+Summary: 1 task failed:
+  /home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage
+
+Cheers,
+
+-Mikko
 
