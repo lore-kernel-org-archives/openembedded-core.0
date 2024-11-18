@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B597FD60D03
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:18:25 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.4753.1731964696333534625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3A4AD60CE7
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:18:14 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web10.4900.1731964690584546966
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:18:16 -0800
+ Mon, 18 Nov 2024 13:18:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jTRnkM0v;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=alVY29H5;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101934123f4a3-6fa6c873-c015-4b10-a671-c2ecef5fee2a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=TsS1oeZ1;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=WsUCAFQn;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101934123e9fb-10beee24-e9ad-461a-a5f1-7e16cde79a47-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964695;
+	t=1731964693;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=M7a1iMwRCH7hTMhk9NoNpO4e4rfQn5nhudE6i0d1JUk=;
-	b=jTRnkM0vg+apO532Id3cOstzP3RXjkkkZeX7nxNpGZ/LMp1IKSZLWiFintRAfYXi
-	vJeL/RUn81rtZokbYVQaY2fI1whKjtJw6HmdxnLFM+8yjVz/Fl4gg3eICHDtD0s1cSN
-	VwrfU3Wz9qrz4BABtiUtl/wvWDPmvTEbTkldJ0rE=
+	bh=B6eAS+O4HcefVVxBgcyisM+n8Sjb3ayKikTor/zElYg=;
+	b=TsS1oeZ1dPNwDC+CtNpP/QiUnk1g4fobo2/2vwNHnR8ZOSE3E7G37e81ZgVadg09
+	uM2kjcstvSCDZtow72rKj7v/r7xiyja2/FtNy4i4WQqqjbK4dNRwkc8EIPnGkRHsYsr
+	fwyjxjpq6lnBICNX6xS/hjt0xcXbtcHmVo4tqsL0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964695;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964693;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=M7a1iMwRCH7hTMhk9NoNpO4e4rfQn5nhudE6i0d1JUk=;
-	b=alVY29H501SGEwAzgs8dmAcalStZdQ2GPxBVBRUJYVQ93x4O1Qpo0/fzWG0d/kPC
-	V1h3le219AnYLrRuoIBBYfmiGpTVZmfo3aM3uGv9QxzXw54E5aJ+t+jUskSouqxI1ww
-	QwD9DxSH8xI2EEVhMMnWO/fRxqtp6tXeNqQq+fgI=
-Content-Type: multipart/mixed; boundary="===============3735497698526939771=="
+	bh=B6eAS+O4HcefVVxBgcyisM+n8Sjb3ayKikTor/zElYg=;
+	b=WsUCAFQn6+MBGlpPVPJJ4+1DLwkFOLDmb63c5PqpN9/kiMzpPMJ1xSYj6vC6C+78
+	1dwRXacjixcRmeIohZsPSBaKeTmXnQA6GKeNqlRetW59+EsqfwN2W35LLhXrqnIOP7x
+	FSkbAoQgmz02miF1lZI9IDm59S1CfNsfcBeMoof0=
+Content-Type: multipart/mixed; boundary="===============6189888739452267528=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] sqlite3: upgrading to 3.47.0 SUCCEEDED
-Message-ID: <010101934123f4a3-6fa6c873-c015-4b10-a671-c2ecef5fee2a-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:18:15 +0000
+Subject: [AUH] libnl: upgrading to 3.11.0 SUCCEEDED
+Message-ID: <010101934123e9fb-10beee24-e9ad-461a-a5f1-7e16cde79a47-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:18:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.193
+X-SES-Outgoing: 2024.11.18-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:18:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207371
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:18:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207366
 
---===============3735497698526939771==
+--===============6189888739452267528==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *sqlite3* to *3.47.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libnl* to *3.11.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-sqlite3-upgrade-3.46.1-3.47.0.patch
+    - apply the patch: git am 0001-libnl-upgrade-3.10.0-3.11.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,70 +72,62 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 892453e1abee5e52d7e85bed202ae1bfb289718e Mon Sep 17 00:00:00 2001
+From 2d2ae7108e74c525b089f13ceabcf39fd73a57c7 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 18 Nov 2024 20:26:44 +0000
-Subject: [PATCH] sqlite3: upgrade 3.46.1 -> 3.47.0
+Date: Mon, 18 Nov 2024 16:48:20 +0000
+Subject: [PATCH] libnl: upgrade 3.10.0 -> 3.11.0
 
 ---
- .../sqlite/{sqlite3_3.46.1.bb => sqlite3_3.47.0.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/sqlite/{sqlite3_3.46.1.bb => sqlite3_3.47.0.bb} (69%)
+ .../0001-tests-cksuite-all-netns.c-disable-route_1.patch      | 4 ++--
+ .../libnl/{libnl_3.10.0.bb => libnl_3.11.0.bb}                | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-support/libnl/{libnl_3.10.0.bb => libnl_3.11.0.bb} (96%)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.46.1.bb b/meta/recipes-support/sqlite/sqlite3_3.47.0.bb
-similarity index 69%
-rename from meta/recipes-support/sqlite/sqlite3_3.46.1.bb
-rename to meta/recipes-support/sqlite/sqlite3_3.47.0.bb
-index 62ea4a6ba9..35cc49aee1 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.46.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.47.0.bb
-@@ -4,5 +4,5 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
+diff --git a/meta/recipes-support/libnl/files/0001-tests-cksuite-all-netns.c-disable-route_1.patch b/meta/recipes-support/libnl/files/0001-tests-cksuite-all-netns.c-disable-route_1.patch
+index cc5e3890a1..a52e86abf6 100644
+--- a/meta/recipes-support/libnl/files/0001-tests-cksuite-all-netns.c-disable-route_1.patch
++++ b/meta/recipes-support/libnl/files/0001-tests-cksuite-all-netns.c-disable-route_1.patch
+@@ -1,4 +1,4 @@
+-From 9e45c8809fc4e0aa1dd2ec2ac3e57352049f1b92 Mon Sep 17 00:00:00 2001
++From fb0674cb2735f6696ddb180dd5a23a034ce4fa00 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 20 Aug 2024 19:01:59 +0200
+ Subject: [PATCH] tests/cksuite-all-netns.c: disable route_1
+@@ -17,7 +17,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
- SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz"
--SRC_URI[sha256sum] = "67d3fe6d268e6eaddcae3727fce58fcc8e9c53869bdd07a0c61e38ddf2965071"
-+SRC_URI[sha256sum] = "83eb21a6f6a649f506df8bd3aab85a08f7556ceed5dbd8dea743ea003fc3a957"
+ diff --git a/tests/cksuite-all-netns.c b/tests/cksuite-all-netns.c
+-index 5b9d3a5..b2fc46a 100644
++index 1948c3e..7f57d21 100644
+ --- a/tests/cksuite-all-netns.c
+ +++ b/tests/cksuite-all-netns.c
+ @@ -341,7 +341,7 @@ Suite *make_nl_netns_suite(void)
+diff --git a/meta/recipes-support/libnl/libnl_3.10.0.bb b/meta/recipes-support/libnl/libnl_3.11.0.bb
+similarity index 96%
+rename from meta/recipes-support/libnl/libnl_3.10.0.bb
+rename to meta/recipes-support/libnl/libnl_3.11.0.bb
+index 441c847a73..26c87dbb1c 100644
+--- a/meta/recipes-support/libnl/libnl_3.10.0.bb
++++ b/meta/recipes-support/libnl/libnl_3.11.0.bb
+@@ -19,7 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${BPN}${@d.getVar('PV').replace('.','_')}
+            file://0001-tests-cksuite-all-netns.c-disable-route_1.patch \
+            "
  
+-SRC_URI[sha256sum] = "49b3e2235fdb58f5910bbb3ed0de8143b71ffc220571540502eb6c2471f204f5"
++SRC_URI[sha256sum] = "2a56e1edefa3e68a7c00879496736fdbf62fc94ed3232c0baba127ecfa76874d"
+ 
+ GITHUB_BASE_URI = "https://github.com/thom311/${BPN}/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/libnl(?P<pver>.+)"
 -- 
 2.44.1
 
 
---===============3735497698526939771==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-sqlite3-upgrade-3.46.1-3.47.0.patch"
-
-RnJvbSA4OTI0NTNlMWFiZWU1ZTUyZDdlODViZWQyMDJhZTFiZmIyODk3MThlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMjA6MjY6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
-cWxpdGUzOiB1cGdyYWRlIDMuNDYuMSAtPiAzLjQ3LjAKCi0tLQogLi4uL3NxbGl0ZS97c3FsaXRl
-M18zLjQ2LjEuYmIgPT4gc3FsaXRlM18zLjQ3LjAuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3tzcWxpdGUzXzMuNDYuMS5iYiA9PiBzcWxpdGUzXzMuNDcu
-MC5iYn0gKDY5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3Fs
-aXRlM18zLjQ2LjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ3
-LjAuYmIKc2ltaWxhcml0eSBpbmRleCA2OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvc3FsaXRlL3NxbGl0ZTNfMy40Ni4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9y
-dC9zcWxpdGUvc3FsaXRlM18zLjQ3LjAuYmIKaW5kZXggNjJlYTRhNmJhOS4uMzVjYzQ5YWVlMSAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40Ni4xLmJi
-CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDcuMC5iYgpAQCAt
-NCw1ICs0LDUgQEAgTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3Nx
-bGl0ZTMuaDtlbmRsaW5lPTExO21kNT03ODZkM2RjNTgxZWZmMDNmNGZkOWU0YTc3ZWQwMGM2NiIK
-IAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LnNxbGl0ZS5vcmcvMjAyNC9zcWxpdGUtYXV0b2NvbmYt
-JHtTUUxJVEVfUFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2N2QzZmU2ZDI2OGU2
-ZWFkZGNhZTM3MjdmY2U1OGZjYzhlOWM1Mzg2OWJkZDA3YTBjNjFlMzhkZGYyOTY1MDcxIgorU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjgzZWIyMWE2ZjZhNjQ5ZjUwNmRmOGJkM2FhYjg1YTA4Zjc1NTZj
-ZWVkNWRiZDhkZWE3NDNlYTAwM2ZjM2E5NTciCiAKLS0gCjIuNDQuMQoK
-
---===============3735497698526939771==
+--===============6189888739452267528==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 311232 to 348000 (+12%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1977,35 +1969,98 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3735497698526939771==
+--===============6189888739452267528==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libnl-upgrade-3.10.0-3.11.0.patch"
+
+RnJvbSAyZDJhZTcxMDhlNzRjNTI1YjA4OWYxM2NlYWJjZjM5ZmQ3M2E1N2M3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMTY6NDg6MjAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJubDogdXBncmFkZSAzLjEwLjAgLT4gMy4xMS4wCgotLS0KIC4uLi8wMDAxLXRlc3RzLWNrc3Vp
+dGUtYWxsLW5ldG5zLmMtZGlzYWJsZS1yb3V0ZV8xLnBhdGNoICAgICAgfCA0ICsrLS0KIC4uLi9s
+aWJubC97bGlibmxfMy4xMC4wLmJiID0+IGxpYm5sXzMuMTEuMC5iYn0gICAgICAgICAgICAgICAg
+fCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDMgaW5zZXJ0aW9ucygrKSwgMyBkZWxldGlvbnMoLSkK
+IHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJubC97bGlibmxfMy4xMC4wLmJiID0+IGxp
+Ym5sXzMuMTEuMC5iYn0gKDk2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
+aWJubC9maWxlcy8wMDAxLXRlc3RzLWNrc3VpdGUtYWxsLW5ldG5zLmMtZGlzYWJsZS1yb3V0ZV8x
+LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibmwvZmlsZXMvMDAwMS10ZXN0cy1ja3N1
+aXRlLWFsbC1uZXRucy5jLWRpc2FibGUtcm91dGVfMS5wYXRjaAppbmRleCBjYzVlMzg5MGExLi5h
+NTJlODZhYmY2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJubC9maWxlcy8w
+MDAxLXRlc3RzLWNrc3VpdGUtYWxsLW5ldG5zLmMtZGlzYWJsZS1yb3V0ZV8xLnBhdGNoCisrKyBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm5sL2ZpbGVzLzAwMDEtdGVzdHMtY2tzdWl0ZS1hbGwt
+bmV0bnMuYy1kaXNhYmxlLXJvdXRlXzEucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDllNDVj
+ODgwOWZjNGUwYWExZGQyZWMyYWMzZTU3MzUyMDQ5ZjFiOTIgTW9uIFNlcCAxNyAwMDowMDowMCAy
+MDAxCitGcm9tIGZiMDY3NGNiMjczNWY2Njk2ZGRiMTgwZGQ1YTIzYTAzNGNlNGZhMDAgTW9uIFNl
+cCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBsaW51dHJv
+bml4LmRlPgogRGF0ZTogVHVlLCAyMCBBdWcgMjAyNCAxOTowMTo1OSArMDIwMAogU3ViamVjdDog
+W1BBVENIXSB0ZXN0cy9ja3N1aXRlLWFsbC1uZXRucy5jOiBkaXNhYmxlIHJvdXRlXzEKQEAgLTE3
+LDcgKzE3LDcgQEAgU2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRy
+b25peC5kZT4KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
+IAogZGlmZiAtLWdpdCBhL3Rlc3RzL2Nrc3VpdGUtYWxsLW5ldG5zLmMgYi90ZXN0cy9ja3N1aXRl
+LWFsbC1uZXRucy5jCi1pbmRleCA1YjlkM2E1Li5iMmZjNDZhIDEwMDY0NAoraW5kZXggMTk0OGMz
+ZS4uN2Y1N2QyMSAxMDA2NDQKIC0tLSBhL3Rlc3RzL2Nrc3VpdGUtYWxsLW5ldG5zLmMKICsrKyBi
+L3Rlc3RzL2Nrc3VpdGUtYWxsLW5ldG5zLmMKIEBAIC0zNDEsNyArMzQxLDcgQEAgU3VpdGUgKm1h
+a2VfbmxfbmV0bnNfc3VpdGUodm9pZCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L2xpYm5sL2xpYm5sXzMuMTAuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm5sL2xpYm5s
+XzMuMTEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9saWJubC9saWJubF8zLjEwLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
+b3J0L2xpYm5sL2xpYm5sXzMuMTEuMC5iYgppbmRleCA0NDFjODQ3YTczLi4yNmM4N2RiYjFjIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJubC9saWJubF8zLjEwLjAuYmIKKysr
+IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibmwvbGlibmxfMy4xMS4wLmJiCkBAIC0xOSw3ICsx
+OSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkLyR7QlBOfSR7QGQu
+Z2V0VmFyKCdQVicpLnJlcGxhY2UoJy4nLCdfJyl9CiAgICAgICAgICAgIGZpbGU6Ly8wMDAxLXRl
+c3RzLWNrc3VpdGUtYWxsLW5ldG5zLmMtZGlzYWJsZS1yb3V0ZV8xLnBhdGNoIFwKICAgICAgICAg
+ICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNDliM2UyMjM1ZmRiNThmNTkxMGJiYjNlZDBk
+ZTgxNDNiNzFmZmMyMjA1NzE1NDA1MDJlYjZjMjQ3MWYyMDRmNSIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIyYTU2ZTFlZGVmYTNlNjhhN2MwMDg3OTQ5NjczNmZkYmY2MmZjOTRlZDMyMzJjMGJhYmEx
+MjdlY2ZhNzY4NzRkIgogCiBHSVRIVUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL3Ro
+b20zMTEvJHtCUE59L3JlbGVhc2VzIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicmVsZWFzZXMv
+dGFnL2xpYm5sKD9QPHB2ZXI+LispIgotLSAKMi40NC4xCgo=
+
+--===============6189888739452267528==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9422342 to 9620507 (+2%)
-packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2024/sqlite-autoconf-3460100.tar.gz" to "http://www.sqlite.org/2024/sqlite-autoconf-3470000.tar.gz"
-packages/core2-64-poky-linux/sqlite3: PV changed from "3.46.1" to "3.47.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 682478 to 689098 (+1%)
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.46.1" to "3.47.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.46.1" to "3.47.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.46.1" to "3.47.0"
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1476579 to 1492963 (+1%)
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.46.1" to "3.47.0"
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 6362936 to 6522048 (+3%)
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.46.1" to "3.47.0"
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10691899 to 10888091 (+2%)
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.46.1" to "3.47.0"
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 311232 to 348000 (+12%)
-packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
-packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/libnl: SRC_URI changed from "https://github.com/thom311/libnl/releases/download/libnl3_10_0/libnl-3.10.0.tar.gz file://run-ptest file://0001-tests-cksuite-all-netns.c-disable-route_1.patch" to "https://github.com/thom311/libnl/releases/download/libnl3_11_0/libnl-3.11.0.tar.gz file://run-ptest file://0001-tests-cksuite-all-netns.c-disable-route_1.patch"
+packages/core2-64-poky-linux/libnl: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-cli: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-cli: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-dbg: PKGSIZE changed from 4392056 to 4460968 (+2%)
+packages/core2-64-poky-linux/libnl/libnl-dbg: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-dbg: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-dev: PKGSIZE changed from 293648 to 297016 (+1%)
+packages/core2-64-poky-linux/libnl/libnl-dev: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-dev: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-doc: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-doc: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-genl: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-genl: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-idiag: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-idiag: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-locale: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-locale: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-nf: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-nf: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-ptest: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-ptest: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-route: PKGSIZE changed from 603857 to 620433 (+3%)
+packages/core2-64-poky-linux/libnl/libnl-route: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-route: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-src: PKGSIZE changed from 2977783 to 3019895 (+1%)
+packages/core2-64-poky-linux/libnl/libnl-src: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-src: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-staticdev: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-staticdev: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl-xfrm: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl-xfrm: PV changed from "3.10.0" to "3.11.0"
+packages/core2-64-poky-linux/libnl/libnl: PKGV changed from 3.10.0 [default] to 3.11.0 [default]
+packages/core2-64-poky-linux/libnl/libnl: PV changed from "3.10.0" to "3.11.0"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3847,5 +3902,832 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============3735497698526939771==--
+--===============6189888739452267528==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (0 cached, 921 parsed). 1881 targets, 52 skipped, 0 masked, 0 errors.
+Removing 11 recipes from the core2-64 sysroot...done.
+Removing 54 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux-musl"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:d4843a051557b3fd0058c483b7356d2b16eaa050"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 481 Local 462 Mirrors 0 Missed 19 Current 213 (96% match, 97% complete)
+Removing 3 stale sstate objects for arch x86_64...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 222 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3_3.13.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 225 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_deploy_setscene)
+NOTE: Running setscene task 226 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_package_qa_setscene)
+NOTE: Running setscene task 227 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_package_write_deb_setscene)
+NOTE: Running setscene task 228 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_package_write_ipk_setscene)
+NOTE: Running setscene task 229 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_package_write_rpm_setscene)
+NOTE: Running setscene task 233 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 234 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/iptables/iptables_1.8.10.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 235 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 236 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 237 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 239 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcheck/libcheck_0.15.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 246 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 249 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_populate_lic_setscene)
+NOTE: Running setscene task 252 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 253 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_qa_setscene)
+NOTE: recipe iptables-1.8.10-r0: task do_create_spdx_setscene: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-3.13.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running setscene task 254 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libcheck-0.15.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe elfutils-0.191-r0: task do_create_spdx_setscene: Started
+NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe libmnl-1.0.5-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Started
+NOTE: recipe iptables-1.8.10-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 255 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/iptables/iptables_1.8.10.bb:do_packagedata_setscene)
+NOTE: recipe libnl-1_3.11.0-r0: task do_populate_lic_setscene: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe iptables-1.8.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_deploy_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_qa_setscene: Succeeded
+NOTE: Running setscene task 256 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/iptables/iptables_1.8.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_qa_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 257 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_deb_setscene)
+NOTE: recipe libmnl-1.0.5-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libcheck-0.15.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 262 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_ipk_setscene)
+NOTE: recipe iproute2-6.11.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 263 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 264 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe bash-completion-2.14.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 265 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_packagedata_setscene)
+NOTE: recipe elfutils-0.191-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_populate_lic_setscene: Succeeded
+NOTE: Running setscene task 269 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_packagedata_setscene)
+NOTE: Running setscene task 270 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 275 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Started
+NOTE: recipe python3-3.13.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 277 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/expat/expat_2.6.4.bb:do_packagedata_setscene)
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_qa_setscene: Succeeded
+NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 279 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/util-linux/util-linux-libuuid_2.40.2.bb:do_packagedata_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Started
+NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe iptables-1.8.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: Running setscene task 281 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libedit/libedit_20240808-3.1.bb:do_packagedata_setscene)
+NOTE: recipe libmnl-1.0.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe elfutils-0.191-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 285 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libnsl/libnsl2_git.bb:do_packagedata_setscene)
+NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.14.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 287 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gdbm/gdbm_1.24.bb:do_packagedata_setscene)
+NOTE: recipe libmnl-1.0.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bash-completion-2.14.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 290 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcheck/libcheck_0.15.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 293 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/bash-completion/bash-completion_2.14.0.bb:do_recipe_qa_setscene)
+NOTE: recipe iptables-1.8.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe util-linux-libuuid-2.40.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 294 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcheck/libcheck_0.15.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libedit-20240808-3.1-r1: task do_packagedata_setscene: Started
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 298 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libffi/libffi_3.4.6.bb:do_packagedata_setscene)
+NOTE: recipe libmnl-1.0.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 300 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libmnl/libmnl_1.0.5.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcheck-0.15.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libcheck-0.15.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe libmnl-1.0.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe expat-2.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 317 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_create_spdx_setscene)
+NOTE: recipe bash-completion-2.14.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 319 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_create_spdx_setscene)
+NOTE: recipe elfutils-0.191-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 321 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_packagedata_setscene)
+NOTE: recipe libnsl2-2.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 322 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_packagedata_setscene)
+NOTE: recipe libmnl-1.0.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libedit-20240808-3.1-r1: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.70-r0: task do_create_spdx_setscene: Started
+NOTE: Running setscene task 323 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_packagedata_setscene)
+NOTE: Running setscene task 327 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.7.bb:do_packagedata_setscene)
+NOTE: recipe libcheck-0.15.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe elfutils-0.191-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 331 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libtirpc/libtirpc_1.3.5.bb:do_packagedata_setscene)
+NOTE: recipe libffi-3.4.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 332 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 333 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_write_deb_setscene: Succeeded
+NOTE: Running setscene task 334 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_populate_sysroot_setscene)
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcheck-0.15.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 336 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/elfutils/elfutils_0.191.bb:do_recipe_qa_setscene)
+NOTE: recipe gdbm-1.24-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 337 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.7.bb:do_populate_sysroot_setscene)
+NOTE: recipe libcap-2.70-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 342 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_packagedata_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 344 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libarchive-3.7.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libtirpc-1.3.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libarchive-3.7.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe elfutils-0.191-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe musl-obstack-1.2.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 350 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcheck/libcheck_0.15.2.bb:do_recipe_qa_setscene)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libarchive-3.7.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 354 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_packagedata_setscene)
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: Running setscene task 355 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 356 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-obstack-1.2.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-legacy-error-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 363 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-obstack.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 365 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_package_write_rpm_setscene)
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_deploy_setscene: Succeeded
+NOTE: recipe libcheck-0.15.2-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 369 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_create_spdx_setscene)
+NOTE: recipe elfutils-0.191-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 370 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_packagedata_setscene)
+NOTE: recipe libtirpc-1.3.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 374 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_populate_sysroot_setscene)
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/iptables/1.8.10/temp/log.do_packagedata_setscene.456129
+NOTE: recipe libnl-1_3.11.0-r0: task do_recipe_qa_setscene: Started
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/iptables/iptables_1.8.10.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 375 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/iptables/iptables_1.8.10.bb:do_package_setscene)
+NOTE: recipe argp-standalone-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm_setscene: Started
+NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libcheck-0.15.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-legacy-error-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libarchive-3.7.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_package_write_ipk_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_package_write_rpm_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.46.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.46.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-obstack-1.2.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 377 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/fts/fts_1.2.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 379 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl-legacy-error.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 380 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
+NOTE: Running setscene task 383 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libarchive/libarchive_3.7.7.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 384 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/psmisc/psmisc_23.7.bb:do_packagedata_setscene)
+NOTE: Running setscene task 385 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 386 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_packagedata_setscene)
+NOTE: Running setscene task 389 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/argp-standalone/argp-standalone_1.4.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 390 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 391 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 393 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_packagedata_setscene)
+NOTE: Running setscene task 394 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 395 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.10.1.bb:do_packagedata_setscene)
+NOTE: Running setscene task 396 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.10.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.46.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe file-5.45-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 397 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb:do_packagedata_setscene)
+NOTE: recipe curl-8.10.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe argp-standalone-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 398 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libarchive-3.7.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe gnutls-3.8.7.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe curl-8.10.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-legacy-error-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 399 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_packagedata_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe gnutls-3.8.7.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe fts-1.2.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 400 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libarchive-3.7.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 402 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.1.bb:do_recipe_qa_setscene)
+NOTE: recipe curl-8.10.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 404 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_packagedata_setscene)
+NOTE: recipe file-5.45-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe psmisc-23.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 406 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/ncurses/ncurses_6.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 410 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_packagedata_setscene)
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 412 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/kmod/depmodwrapper-cross_1.0.bb:do_recipe_qa_setscene)
+NOTE: recipe file-5.45-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 415 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/file/file_5.45.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 417 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_create_spdx_setscene)
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 418 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_packagedata_setscene)
+NOTE: recipe gnutls-3.8.7.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 419 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.10.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gnutls-3.8.7.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 420 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.14.bb:do_packagedata_setscene)
+NOTE: Running setscene task 421 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_populate_sysroot_setscene)
+NOTE: recipe libmicrohttpd-1.0.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 422 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.14.bb:do_populate_sysroot_setscene)
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcrypt-1.11.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 423 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_packagedata_setscene)
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Started
+NOTE: recipe lzlib-1.14-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe file-5.45-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe ncurses-6.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 425 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe openssl-3.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe depmodwrapper-cross-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 430 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_packagedata_setscene)
+NOTE: Running setscene task 431 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 434 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/acl_2.3.2.bb:do_recipe_qa_setscene)
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 436 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/curl/curl_8.10.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libgcrypt-1.11.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 438 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_packagedata_setscene)
+NOTE: recipe iptables-1.8.10-r0: task do_package_setscene: Started
+NOTE: recipe file-5.45-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_create_spdx_setscene: Succeeded
+NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.6-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zstd-1.5.6-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe lzlib-1.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 442 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_create_spdx_setscene)
+NOTE: recipe lzlib-1.14-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 443 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 445 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 448 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/lzip/lzlib_1.14.bb:do_recipe_qa_setscene)
+NOTE: recipe acl-2.3.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcrypt-1.11.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe curl-8.10.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 449 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_packagedata_setscene)
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Started
+NOTE: recipe acl-2.3.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 450 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe curl-8.10.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 452 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_packagedata_setscene)
+NOTE: recipe openssl-3.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 454 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/openssl/openssl_3.3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe xz-5.6.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_create_spdx_setscene: Succeeded
+NOTE: Running setscene task 455 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_populate_sysroot_setscene)
+NOTE: recipe lzlib-1.14-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 459 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_recipe_qa_setscene)
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Started
+NOTE: recipe zstd-1.5.6-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zstd-1.5.6-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 461 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb:do_packagedata_setscene)
+NOTE: Running setscene task 463 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/zstd/zstd_1.5.6.bb:do_recipe_qa_setscene)
+NOTE: recipe bzip2-1.0.8-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 465 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_recipe_qa_setscene)
+NOTE: recipe gnutls-3.8.7.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libtasn1-4.19.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.70-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 467 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb:do_populate_sysroot_setscene)
+NOTE: recipe libgcrypt-1.11.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zstd-1.5.6-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe lzlib-1.14-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libgpg-error-1.50-r0: task do_packagedata_setscene: Started
+NOTE: recipe xz-5.6.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 468 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_packagedata_setscene)
+NOTE: Running setscene task 471 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/xz/xz_5.6.3.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-2.70-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcrypt-1.11.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 472 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_populate_sysroot_setscene)
+NOTE: recipe gnutls-3.8.7.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 473 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.10.bb:do_packagedata_setscene)
+NOTE: recipe zstd-1.5.6-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 474 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Started
+NOTE: recipe bzip2-1.0.8-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 476 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-files/base-files_3.0.14.bb:do_packagedata_setscene)
+NOTE: recipe libcap-2.70-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.5-r0: task do_populate_sysroot_setscene: Started
+NOTE: Running setscene task 478 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/base-passwd/base-passwd_3.6.4.bb:do_packagedata_setscene)
+NOTE: recipe libidn2-2.3.7-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 483 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/shadow/shadow_4.16.0.bb:do_packagedata_setscene)
+NOTE: recipe libgpg-error-1.50-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe nettle-3.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 485 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/libidn/libidn2_2.3.7.bb:do_recipe_qa_setscene)
+NOTE: recipe libtasn1-4.19.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 488 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/libtasn1_4.19.0.bb:do_recipe_qa_setscene)
+NOTE: recipe openssl-3.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 489 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_packagedata_setscene)
+NOTE: recipe libseccomp-2.5.5-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libcap-2.70-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 492 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libcap/libcap_2.70.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 494 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_populate_sysroot_setscene)
+NOTE: recipe libtasn1-4.19.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Started
+NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Started
+NOTE: recipe nettle-3.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libcap-2.70-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe nettle-3.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 496 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_packagedata_setscene)
+NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Started
+WARNING: Logfile for failed setscene task is /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux-musl/libgpg-error/1.50/temp/log.do_packagedata_setscene.464961
+WARNING: Setscene task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb:do_packagedata_setscene) failed with exit code '1' - real task will be run instead
+NOTE: Running setscene task 497 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb:do_package_setscene)
+NOTE: recipe libseccomp-2.5.5-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libgpg-error-1.50-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 499 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libseccomp/libseccomp_2.5.5.bb:do_recipe_qa_setscene)
+NOTE: recipe libtasn1-4.19.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe xz-5.6.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 501 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/ptest-runner/ptest-runner_2.4.5.1.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 504 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/sqlite/sqlite3_3.46.1.bb:do_recipe_qa_setscene)
+NOTE: recipe libcap-2.70-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libidn2-2.3.7-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libunistring-1.3-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libseccomp-2.5.5-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe sqlite3-3_3.46.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe base-files-3.0.14-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libunistring-1.3-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libidn2-2.3.7-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libseccomp-2.5.5-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe sqlite3-3_3.46.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe nettle-3.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe base-passwd-3.6.4-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgpg-error-1.50-r0: task do_package_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Started
+NOTE: Running setscene task 599 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 602 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/nettle/nettle_3.10.bb:do_recipe_qa_setscene)
+NOTE: recipe libunistring-1.3-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 604 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libunistring/libunistring_1.3.bb:do_recipe_qa_setscene)
+NOTE: recipe gmp-6.3.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe nettle-3.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libunistring-1.3-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe ptest-runner-2.4.5.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe nettle-3.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe shadow-4.16.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 607 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_packagedata_setscene)
+NOTE: recipe libunistring-1.3-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: Running setscene task 608 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 611 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 612 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe gmp-6.3.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 614 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gmp/gmp_6.3.0.bb:do_recipe_qa_setscene)
+NOTE: Running task 883 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_fetch)
+NOTE: Running task 990 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_fetch)
+NOTE: recipe attr-2.5.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libpam-1.6.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_fetch: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1161 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_unpack)
+NOTE: recipe iproute2-6.11.0-r0: task do_fetch: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_fetch: Succeeded
+NOTE: Running task 1162 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_unpack)
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe attr-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 617 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/attr/attr_2.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libnl-1_3.11.0-r0: task do_unpack: Started
+NOTE: recipe gmp-6.3.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1168 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_patch)
+NOTE: recipe iproute2-6.11.0-r0: task do_unpack: Started
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 624 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux/linux-yocto_6.10.bb:do_recipe_qa_setscene)
+NOTE: recipe libpam-1.6.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 632 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 633 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 635 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/pam/libpam_1.6.1.bb:do_recipe_qa_setscene)
+NOTE: recipe attr-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_patch: Started
+NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_unpack: Succeeded
+NOTE: Running task 1206 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_patch)
+NOTE: recipe cracklib-2.10.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libpam-1.6.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-yocto-6.10.14+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe iproute2-6.11.0-r0: task do_patch: Started
+NOTE: recipe cracklib-2.10.2-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 637 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_packagedata_setscene)
+NOTE: recipe libnl-1_3.11.0-r0: task do_patch: Succeeded
+NOTE: recipe cracklib-2.10.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running task 1222 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_deploy_source_date_epoch)
+NOTE: Running setscene task 638 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 640 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/cracklib/cracklib_2.10.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libgpg-error-1.50-r0: task do_package_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Started
+NOTE: Running setscene task 641 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_packagedata_setscene)
+NOTE: Running setscene task 642 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 644 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb:do_recipe_qa_setscene)
+NOTE: recipe libnl-1_3.11.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_patch: Succeeded
+NOTE: recipe cracklib-2.10.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgpg-error-1.50-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libgpg-error-1.50-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_deploy_source_date_epoch unihash changed to 708822acd65ff50e43334c68b4bcdcc38d5354e1a9281c0cff01a5eaea5d70a8
+NOTE: recipe cracklib-2.10.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe opkg-utils-0.7.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 648 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/opkg-utils/opkg-utils_0.7.0.bb:do_recipe_qa_setscene)
+NOTE: recipe zlib-1.3.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 650 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_recipe_qa_setscene)
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe opkg-utils-0.7.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe zlib-1.3.1-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe iptables-1.8.10-r0: task do_package_setscene: Succeeded
+NOTE: Running setscene task 651 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_packagedata_setscene)
+NOTE: Running setscene task 652 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 654 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/iptables/iptables_1.8.10.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe iptables-1.8.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe iptables-1.8.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 655 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 657 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_recipe_qa_setscene)
+NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 659 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_packagedata_setscene)
+NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 661 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 663 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 664 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Started
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_packagedata_setscene: Succeeded
+NOTE: Running setscene task 666 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_packagedata_setscene)
+NOTE: Running setscene task 667 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_packagedata_setscene)
+NOTE: Running setscene task 668 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_packagedata_setscene)
+NOTE: recipe gcc-runtime-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 669 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 671 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/libgcc_14.2.bb:do_recipe_qa_setscene)
+NOTE: recipe linux-libc-headers-6.10-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe bsd-headers-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe libgcc-14.2.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe musl-1.2.5+git-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 675 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 676 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 678 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/musl_git.bb:do_recipe_qa_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 683 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/bsd-headers.bb:do_recipe_qa_setscene)
+NOTE: recipe musl-1.2.5+git-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 685 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/musl/libssp-nonshared.bb:do_recipe_qa_setscene)
+NOTE: Running setscene task 686 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-cross_14.2.bb:do_populate_sysroot_setscene)
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe bsd-headers-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe libssp-nonshared-1.0-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe gcc-cross-x86_64-14.2.0-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 690 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_populate_sysroot_setscene)
+NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.10-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Running setscene task 691 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/binutils/binutils-cross_2.43.1.bb:do_populate_sysroot_setscene)
+NOTE: Running setscene task 693 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-kernel/linux-libc-headers/linux-libc-headers_6.10.bb:do_recipe_qa_setscene)
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Started
+NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Started
+NOTE: recipe linux-libc-headers-6.10-r0: task do_recipe_qa_setscene: Succeeded
+NOTE: recipe binutils-cross-x86_64-2.43.1-r0: task do_populate_sysroot_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1589 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1690 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgpg-error/libgpg-error_1.50.bb:do_packagedata)
+NOTE: Running task 1726 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/iptables/iptables_1.8.10.bb:do_packagedata)
+NOTE: Running task 1743 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_prepare_recipe_sysroot)
+NOTE: Running task 1809 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_collect_spdx_deps)
+NOTE: recipe libnl-1_3.11.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libgpg-error-1.50-r0: task do_packagedata: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe iptables-1.8.10-r0: task do_packagedata: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1861 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_configure)
+NOTE: recipe libgpg-error-1.50-r0: task do_packagedata: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_configure: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 1875 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_configure)
+NOTE: recipe iproute2-6.11.0-r0: task do_configure: Started
+NOTE: recipe iptables-1.8.10-r0: task do_packagedata: Succeeded
+NOTE: recipe iproute2-6.11.0-r0: task do_configure: Succeeded
+NOTE: Running task 1877 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_compile)
+NOTE: Running task 1878 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_collect_spdx_deps)
+NOTE: recipe iproute2-6.11.0-r0: task do_compile: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_collect_spdx_deps: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_configure: Succeeded
+NOTE: Running task 1879 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_configure_ptest_base)
+NOTE: recipe libnl-1_3.11.0-r0: task do_configure_ptest_base: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_configure_ptest_base: Succeeded
+NOTE: Running task 1880 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_compile)
+NOTE: recipe libnl-1_3.11.0-r0: task do_compile: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_compile: Succeeded
+NOTE: Running task 1881 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_install)
+NOTE: recipe iproute2-6.11.0-r0: task do_install: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_install: Succeeded
+NOTE: Running task 1882 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package)
+NOTE: Running task 1883 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_populate_sysroot)
+NOTE: recipe iproute2-6.11.0-r0: task do_package: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_populate_sysroot: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_populate_sysroot: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_compile: Succeeded
+NOTE: Running task 1884 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_compile_ptest_base)
+NOTE: recipe libnl-1_3.11.0-r0: task do_compile_ptest_base: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_package: Succeeded
+NOTE: Running task 1885 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_packagedata)
+NOTE: recipe iproute2-6.11.0-r0: task do_packagedata: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_packagedata: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_packagedata unihash changed to 85d6e31b001f01dcf65787b40aa4fce3e8e9608ebf6c5b1eba4d25d8abc962cf
+NOTE: Setscene tasks completed
+NOTE: Running task 1886 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_create_spdx)
+NOTE: Running task 1887 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_write_ipk)
+NOTE: Running task 1888 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_write_deb)
+NOTE: recipe iproute2-6.11.0-r0: task do_create_spdx: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_compile_ptest_base: Succeeded
+NOTE: Running task 1889 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_write_rpm)
+NOTE: Running task 1890 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_install)
+NOTE: Running task 1891 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_qa)
+NOTE: recipe iproute2-6.11.0-r0: task do_package_write_ipk: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_package_write_deb: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_install: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_package_qa: Started
+NOTE: recipe iproute2-6.11.0-r0: task do_create_spdx: Succeeded
+NOTE: recipe iproute2-6.11.0-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_write_ipk unihash changed to 8970b3b8c6546174a5231b0ae28cb58c2fda7fe6821b39325f9595e3a9a8c477
+NOTE: recipe iproute2-6.11.0-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_qa unihash changed to 9d5d335abc521555d186718606968b7dc000402ddace8af772b4d62938515a45
+NOTE: recipe iproute2-6.11.0-r0: task do_package_write_rpm: Succeeded
+NOTE: recipe iproute2-6.11.0-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_write_rpm unihash changed to 46eb6fe414491d054256280bc15a36108946b4587e206fbe7554501431eea06d
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-connectivity/iproute2/iproute2_6.11.0.bb:do_package_write_deb unihash changed to 8736b92909bb19d826c291bbc75f5c82583a55b7bbbd8d024e639a3251ddafe3
+NOTE: recipe libnl-1_3.11.0-r0: task do_install: Succeeded
+NOTE: Running task 1892 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_install_ptest_base)
+NOTE: recipe libnl-1_3.11.0-r0: task do_install_ptest_base: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_install_ptest_base: Succeeded
+NOTE: Running task 1893 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package)
+NOTE: Running task 1894 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_populate_sysroot)
+NOTE: recipe libnl-1_3.11.0-r0: task do_populate_sysroot: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_package: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_populate_sysroot unihash changed to 57b148a751dc4b0cdbf3a9e7029d07ea525a1688ef3104b22808f1d44303010c
+NOTE: Setscene tasks completed
+NOTE: recipe libnl-1_3.11.0-r0: task do_package: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package unihash changed to 5c53f174c3b9530f22a5af42bea41ff4f4c9819c1a4762136c512f8cc627d5e4
+NOTE: Setscene task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_packagedata became valid
+NOTE: Running setscene task 694 of 694 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_packagedata_setscene)
+NOTE: recipe libnl-1_3.11.0-r0: task do_packagedata_setscene: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_packagedata_setscene: Succeeded
+NOTE: Setscene tasks completed
+NOTE: Running task 1896 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_create_spdx)
+NOTE: Running task 1897 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_write_ipk)
+NOTE: Running task 1898 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_write_deb)
+NOTE: Running task 1899 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_write_rpm)
+NOTE: Running task 1900 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_qa)
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_write_ipk: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_create_spdx: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_write_deb: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_write_rpm: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_qa: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_write_ipk: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_write_ipk unihash changed to 239c7296a1bfffe2d8ff2812ccd03bce5f64b1217cbc62ab85ad8e632f727143
+NOTE: recipe libnl-1_3.11.0-r0: task do_create_spdx: Succeeded
+NOTE: Running task 1901 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_create_package_spdx)
+NOTE: recipe libnl-1_3.11.0-r0: task do_create_package_spdx: Started
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_qa unihash changed to 4cf538e40edddf97735091d52b928388499cd625135bd4d3b7a1cc1b49760ce2
+NOTE: recipe libnl-1_3.11.0-r0: task do_create_package_spdx: Succeeded
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_write_deb: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_write_deb unihash changed to 71665a0b988c75d613ae13611ad06547772dd607acf126acaee9194a84898806
+NOTE: recipe libnl-1_3.11.0-r0: task do_package_write_rpm: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_package_write_rpm unihash changed to 5cc25820c44b689c57f4478d6b2c30cd62bd5143c1f0ddc8d87b41be19178da8
+NOTE: Running noexec task 1902 of 1902 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libnl/libnl_3.11.0.bb:do_build)
+NOTE: Tasks Summary: Attempted 1902 tasks of which 1863 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 20 seconds
+
+Summary: There were 128 ERROR messages, returning a non-zero exit code.
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-src went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-dbg went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-modules went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-apply went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-staticdev went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-dev went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-doc went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-locale went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-dnpt went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-hl went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-netmap went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-reject went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-snpt went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-ah went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-dst went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-eui64 went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-frag went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-hbh went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-icmp6 went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-ipv6header went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-mh went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-rt went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ip6t-srh went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-clusterip went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-ecn went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-netmap went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-reject went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-ttl went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-ulog went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-ah went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-icmp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-ipt-realm went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-audit went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-checksum went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-classify went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-connmark went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-connsecmark went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-ct went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-dscp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-hmark went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-idletimer went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-led went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-log went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-mark went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-nat went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-nflog went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-nfqueue went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-rateest went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-secmark went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-set went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-synproxy went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-tcpmss went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-tcpoptstrip went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-tee went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-tos went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-tproxy went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-trace went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-addrtype went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-bpf went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-cgroup went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-cluster went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-comment went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-connbytes went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-connlimit went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-conntrack went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-cpu went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-dccp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-devgroup went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-ecn went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-esp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-hashlimit went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-helper went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-ipcomp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-iprange went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-ipvs went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-length went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-limit went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-mac went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-multiport went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-nfacct went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-osf went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-owner went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-physdev went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-pkttype went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-policy went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-quota went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-recent went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-rpfilter went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-sctp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-socket went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-standard went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-statistic went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-string went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-tcp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-time went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-u32 went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: QA Issue: Package version for package iptables-module-xt-udp went backwards which would break package feeds (from 0:1.8.11-r0 to 0:1.8.10-r0) [version-going-backwards]
+ERROR: iptables-1.8.10-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-src went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-dbg went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-ptest went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-staticdev went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-dev went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-doc went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-cs went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-da went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-de went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-eo went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-es went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-fr went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-hu went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-it went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ja went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-nl went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-pl went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-pt went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ro went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-ru went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-sr went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-sv went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-tr went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-uk went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-vi went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-zh-cn went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error-locale-zh-tw went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: QA Issue: Package version for package libgpg-error went backwards which would break package feeds (from 0:1.51-r0 to 0:1.50-r0) [version-going-backwards]
+ERROR: libgpg-error-1.50-r0 do_packagedata_setscene: Fatal QA errors were found, failing task.
+
+--===============6189888739452267528==--
 
