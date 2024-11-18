@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00644D60048
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:17:10 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.4799.1731964615480050437
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07A49D6004F
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:17:21 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.4659.1731964617240623107
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:17:01 -0800
+ Mon, 18 Nov 2024 13:17:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Kuhml94E;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xWGPdsOV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101934122cf6b-8567cabc-5141-498a-bca0-0c33f851f1cf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jzz+OX7h;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=jGTSodg6;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 0101019341231b42-7f12e48d-2ddd-43b0-879c-ae4f2950b4c8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964620;
+	t=1731964640;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=RL+SeFrjc4tFTPzWcf6OWQluaz4JmKSI++J2AUF/pXo=;
-	b=Kuhml94EtOZdJKsxUt9N7S2ujLVE9yEdB5DzLctx2+BTKFzNNiQzdQii1M3Pi/g2
-	IzYnCAY+nACVnn0ZCGyq5Yv5XZQvH9snId6yMoW8TXJOSHuNW8yJ6c1sElB283VkVOh
-	QPUC/1OEMA5ZP2ES+n36ie601OlEhKb2vVw0V3PY=
+	bh=9MGPO4E0tOeDvxZB0K8VC+DHFaUO0dr/Bz8OHjeqv18=;
+	b=jzz+OX7hkgBlxWlxi7umS5RKFEJ6rhUj4oG9lMyGq01pg0v1Oe2oy4F9ycMPlqR+
+	hd4CsPrjfLalnWFkvfuNaF3maqvSSour9CHHSmX7NoJ8ydDKL92cOG7EiORmmz1DaQt
+	hIDerQVHxqX+44Bjh6mLz8bYve/kh9yMCmlE92as=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964620;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964640;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=RL+SeFrjc4tFTPzWcf6OWQluaz4JmKSI++J2AUF/pXo=;
-	b=xWGPdsOVY9ucw1ncbMsGEJDGFRY05Lh9H9+Eq2HUL0RcR7GZFMrijScFqJwDuQ+o
-	54580IwWAy7cxv84wq7hs0vuSnRaiWWLJ6rcP7WNvKzSUnyarJg0Qgr7ii5rxmQwF1/
-	bW8JC1aKo5mztY1hZg5ri0M20YGcnR62lWyw5/jw=
-Content-Type: multipart/mixed; boundary="===============2408390586223650348=="
+	bh=9MGPO4E0tOeDvxZB0K8VC+DHFaUO0dr/Bz8OHjeqv18=;
+	b=jGTSodg6caTqtcN56rYEQGmAtBn8ryV+e/z5mc518SruOkpFudDE1rzaHBoGYtnq
+	DcIP6xI8OWzq3XBpS5T8xoj8x7WO7aFmWermadWM2LhEMMFB3ZC531H9mSrnsThYlH9
+	vBtCSmGjET9ujXVQDkEyDMBrehFNw3jRPMFsFKGY=
+Content-Type: multipart/mixed; boundary="===============1290068100922495681=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Denys Dmytriyenko <denis@denix.org>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] mtd-utils: upgrading to 2.2.1 SUCCEEDED
-Message-ID: <010101934122cf6b-8567cabc-5141-498a-bca0-0c33f851f1cf-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:17:00 +0000
+Subject: [AUH] python3-urllib3: upgrading to 2.2.3 FAILED
+Message-ID: <0101019341231b42-7f12e48d-2ddd-43b0-879c-ae4f2950b4c8-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:17:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.33
+X-SES-Outgoing: 2024.11.18-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:17:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207269
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:17:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207295
 
---===============2408390586223650348==
+--===============1290068100922495681==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,16 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mtd-utils* to *2.2.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-urllib3* to *2.2.3* has Failed(do_compile).
+
+Detailed error information:
+
+do_compile failed
+
+
 
 Next steps:
-    - apply the patch: git am 0001-mtd-utils-upgrade-2.2.0-2.2.1.patch
+    - apply the patch: git am 0001-python3-urllib3-upgrade-2.2.2-2.2.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,101 +78,162 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 95a1be1dbb0b0c271a262bf355acc6c392a601aa Mon Sep 17 00:00:00 2001
+From e6896af46712af60b5af56f433bb750e0118223c Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 16 Nov 2024 18:48:40 +0000
-Subject: [PATCH] mtd-utils: upgrade 2.2.0 -> 2.2.1
+Date: Sun, 17 Nov 2024 03:06:45 +0000
+Subject: [PATCH] python3-urllib3: upgrade 2.2.2 -> 2.2.3
 
 ---
- meta/recipes-devtools/mtd/mtd-utils_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../{python3-urllib3_2.2.2.bb => python3-urllib3_2.2.3.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.2.2.bb => python3-urllib3_2.2.3.bb} (86%)
 
-diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-index a40d79c864..3545f8e426 100644
---- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-+++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-@@ -11,9 +11,9 @@ inherit autotools pkgconfig update-alternatives
- DEPENDS = "zlib e2fsprogs util-linux"
- RDEPENDS:mtd-utils-tests += "bash"
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb b/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+rename to meta/recipes-devtools/python/python3-urllib3_2.2.3.bb
+index 31a03a60b3..e964601bc0 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
  
--PV = "2.2.0"
-+PV = "2.2.1"
+-SRC_URI[sha256sum] = "dd505485549a7a552833da5e6063639d0d177c04f23bc3864e41e5dc5f612168"
++SRC_URI[sha256sum] = "e7d814a81dad81e6caf2ec9fdedb284ecc9c73076b62654547cc64ccdcae26e9"
  
--SRCREV = "31e990c56aba7584cde310685d663bb122f16003"
-+SRCREV = "13ec33609213c1dbd75852a09560a707a7f19a5c"
- SRC_URI = "git://git.infradead.org/mtd-utils.git;branch=master"
+ inherit pypi python_hatchling
  
- S = "${WORKDIR}/git"
 -- 
 2.44.1
 
 
---===============2408390586223650348==
+--===============1290068100922495681==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-mtd-utils-upgrade-2.2.0-2.2.1.patch"
+ filename="0001-python3-urllib3-upgrade-2.2.2-2.2.3.patch"
 
-RnJvbSA5NWExYmUxZGJiMGIwYzI3MWEyNjJiZjM1NWFjYzZjMzkyYTYwMWFhIE1vbiBTZXAgMTcg
+RnJvbSBlNjg5NmFmNDY3MTJhZjYwYjVhZjU2ZjQzM2JiNzUwZTAxMTgyMjNjIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTYgTm92IDIwMjQgMTg6NDg6NDAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
-dGQtdXRpbHM6IHVwZ3JhZGUgMi4yLjAgLT4gMi4yLjEKCi0tLQogbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL210ZC9tdGQtdXRpbHNfZ2l0LmJiIHwgNCArKy0tCiAxIGZpbGUgY2hhbmdlZCwgMiBpbnNl
-cnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9tdGQvbXRkLXV0aWxzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9tdGQvbXRk
-LXV0aWxzX2dpdC5iYgppbmRleCBhNDBkNzljODY0Li4zNTQ1ZjhlNDI2IDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvbXRkL210ZC11dGlsc19naXQuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL210ZC9tdGQtdXRpbHNfZ2l0LmJiCkBAIC0xMSw5ICsxMSw5IEBAIGluaGVy
-aXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyB1cGRhdGUtYWx0ZXJuYXRpdmVzCiBERVBFTkRTID0gInps
-aWIgZTJmc3Byb2dzIHV0aWwtbGludXgiCiBSREVQRU5EUzptdGQtdXRpbHMtdGVzdHMgKz0gImJh
-c2giCiAKLVBWID0gIjIuMi4wIgorUFYgPSAiMi4yLjEiCiAKLVNSQ1JFViA9ICIzMWU5OTBjNTZh
-YmE3NTg0Y2RlMzEwNjg1ZDY2M2JiMTIyZjE2MDAzIgorU1JDUkVWID0gIjEzZWMzMzYwOTIxM2Mx
-ZGJkNzU4NTJhMDk1NjBhNzA3YTdmMTlhNWMiCiBTUkNfVVJJID0gImdpdDovL2dpdC5pbmZyYWRl
-YWQub3JnL210ZC11dGlscy5naXQ7YnJhbmNoPW1hc3RlciIKIAogUyA9ICIke1dPUktESVJ9L2dp
-dCIKLS0gCjIuNDQuMQoK
+CkRhdGU6IFN1biwgMTcgTm92IDIwMjQgMDM6MDY6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXVybGxpYjM6IHVwZ3JhZGUgMi4yLjIgLT4gMi4yLjMKCi0tLQogLi4uL3tweXRob24z
+LXVybGxpYjNfMi4yLjIuYmIgPT4gcHl0aG9uMy11cmxsaWIzXzIuMi4zLmJifSAgICAgIHwgMiAr
+LQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUg
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11cmxsaWIzXzIuMi4yLmJiID0+
+IHB5dGhvbjMtdXJsbGliM18yLjIuMy5iYn0gKDg2JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJsbGliM18yLjIuMi5iYiBiL21ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11cmxsaWIzXzIuMi4zLmJiCnNpbWlsYXJpdHkgaW5k
+ZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11
+cmxsaWIzXzIuMi4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtdXJsbGliM18yLjIuMy5iYgppbmRleCAzMWEwM2E2MGIzLi5lOTY0NjAxYmMwIDEwMDY0
+NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJsbGliM18yLjIu
+Mi5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJsbGliM18y
+LjIuMy5iYgpAQCAtMyw3ICszLDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9naXRodWIuY29tL3No
+YXpvdy91cmxsaWIzIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
+Ly9MSUNFTlNFLnR4dDttZDU9NTJkMjczYTMwNTRjZWQ1NjEyNzVkNGQxNTI2MGVjZGEiCiAKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICJkZDUwNTQ4NTU0OWE3YTU1MjgzM2RhNWU2MDYzNjM5ZDBkMTc3
+YzA0ZjIzYmMzODY0ZTQxZTVkYzVmNjEyMTY4IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImU3ZDgx
+NGE4MWRhZDgxZTZjYWYyZWM5ZmRlZGIyODRlY2M5YzczMDc2YjYyNjU0NTQ3Y2M2NGNjZGNhZTI2
+ZTkiCiAKIGluaGVyaXQgcHlwaSBweXRob25faGF0Y2hsaW5nCiAKLS0gCjIuNDQuMQoK
 
---===============2408390586223650348==
+--===============1290068100922495681==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
-packages/core2-64-poky-linux/mtd-utils: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-dbg: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-dbg: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-dbg: PKGSIZE changed from 8228048 to 8225400 (-0%)
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-dev: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-dev: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-dev: PKGSIZE changed from 38489 to 38504 (+0%)
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-doc: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-doc: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-jffs2: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-jffs2: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-locale: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-locale: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-misc: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-misc: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: PKGSIZE changed from 1440713 to 1456112 (+1%)
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-src: FILELIST: directory renamed /usr/src/debug/mtd-utils/2.2.0/nand-utils -> /usr/src/debug/mtd-utils/2.2.1/nand-utils, directory renamed /usr/src/debug/mtd-utils/2.2.0/misc-utils -> /usr/src/debug/mtd-utils/2.2.1/misc-utils, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/integrity -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/integrity, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/stress/atoms -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/stress/atoms, directory renamed /usr/src/debug/mtd-utils/2.2.0/ubi-utils -> /usr/src/debug/mtd-utils/2.2.1/ubi-utils, directory renamed /usr/src/debug/mtd-utils/2.2.0/include/mtd -> /usr/src/debug/mtd-utils/2.2.1/include/mtd, directory renamed /usr/src/debug/mtd-utils/2.2.0/ubifs-utils/mkfs.ubifs -> /usr/src/debug/mtd-utils/2.2.1/ubifs-utils/mkfs.ubifs, directory renamed /usr/src/debug/mtd-utils/2.2.0/nor-utils -> /usr/src/debug/mtd-utils/2.2.1/nor-utils, di
- rectory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/simple -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/simple, directory renamed /usr/src/debug/mtd-utils/2.2.0/ubifs-utils/mkfs.ubifs/hashtable -> /usr/src/debug/mtd-utils/2.2.1/ubifs-utils/mkfs.ubifs/hashtable, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/utils -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/utils, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/jittertest -> /usr/src/debug/mtd-utils/2.2.1/tests/jittertest, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/checkfs -> /usr/src/debug/mtd-utils/2.2.1/tests/checkfs, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/mtd-tests -> /usr/src/debug/mtd-utils/2.2.1/tests/mtd-tests, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/fs-tests/lib -> /usr/src/debug/mtd-utils/2.2.1/tests/fs-tests/lib, directory renamed /usr/src/debug/mtd-utils/2.2.0/tests/ubi-tests -> /usr/src/debug/mtd-utils/2.2.1/tests/ubi-tests, directory r
- enamed /usr/src/debug/mtd-utils/2.2.0/include/linux -> /usr/src/debug/mtd-utils/2.2.1/include/linux, removed "/usr/src/debug/mtd-utils/2.2.0/lib/libubi_int.h /usr/src/debug/mtd-utils/2.2.0/lib/libubigen.c /usr/src/debug/mtd-utils/2.2.0/lib/libmtd_int.h /usr/src/debug/mtd-utils/2.2.0/include/libiniparser.h /usr/src/debug/mtd-utils/2.2.0/lib/libcrc32.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/jffs2reader.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr_lzo.c /usr/src/debug/mtd-utils/2.2.0/lib/libscan.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/rbtree.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/summary.h /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/jffs2dump.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/rbtree.h /usr/src/debug/mtd-utils/2.2.0/include/xalloc.h /usr/src/debug/mtd-utils/2.2.0/lib/libmtd_legacy.c /usr/src/debug/mtd-utils/2.2.0/include/libubigen.h /usr/src/debug/mtd-utils/2.2.0/include/common.h /usr/src/debug/mtd-utils/2.2.0/include/libmtd.h /usr/src/debug/mtd-utils/2.2.
- 0/lib/libmtd.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr_rtime.c /usr/src/debug/mtd-utils/2.2.0/include/libubi.h /usr/src/debug/mtd-utils/2.2.0/lib/dictionary.c /usr/src/debug/mtd-utils/2.2.0/lib/libfec.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr_zlib.c /usr/src/debug/mtd-utils/2.2.0/include/libscan.h /usr/src/debug/mtd-utils/2.2.0/include/crc32.h /usr/src/debug/mtd-utils/2.2.0/include/libfec.h /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/sumtool.c /usr/src/debug/mtd-utils/2.2.0/lib/libiniparser.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/compr.h /usr/src/debug/mtd-utils/2.2.0/lib/common.c /usr/src/debug/mtd-utils/2.2.0/jffsX-utils/mkfs.jffs2.c /usr/src/debug/mtd-utils/2.2.0/include/dictionary.h /usr/src/debug/mtd-utils/2.2.0/lib/libubi.c", added "/usr/src/debug/mtd-utils/2.2.1/lib/libubi_int.h /usr/src/debug/mtd-utils/2.2.1/lib/libubigen.c /usr/src/debug/mtd-utils/2.2.1/lib/libmtd_int.h /usr/src/debug/mtd-utils/2.2.1/i
- nclude/libiniparser.h /usr/src/debug/mtd-utils/2.2.1/lib/libcrc32.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/jffs2reader.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr_lzo.c /usr/src/debug/mtd-utils/2.2.1/include/list.h /usr/src/debug/mtd-utils/2.2.1/lib/libscan.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/summary.h /usr/src/debug/mtd-utils/2.2.1/include/rbtree.h /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/jffs2dump.c /usr/src/debug/mtd-utils/2.2.1/include/xalloc.h /usr/src/debug/mtd-utils/2.2.1/lib/libmtd_legacy.c /usr/src/debug/mtd-utils/2.2.1/include/libubigen.h /usr/src/debug/mtd-utils/2.2.1/include/common.h /usr/src/debug/mtd-utils/2.2.1/include/libmtd.h /usr/src/debug/mtd-utils/2.2.1/lib/libmtd.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr_rtime.c /usr/src/debug/mtd-utils/2.2.1/include/libubi.h /usr/src/debug/mtd-utils/2.2.1/lib/dictionary.c /usr/src/debug/mtd-utils/2.2.1/lib/rbtree.c /usr/src/debug/mtd-utils/2.2.1/lib/libfec.c /usr/src/debug/mtd-utils/2.2.1/jffsX-ut
- ils/compr.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr_zlib.c /usr/src/debug/mtd-utils/2.2.1/lib/list_sort.c /usr/src/debug/mtd-utils/2.2.1/include/libscan.h /usr/src/debug/mtd-utils/2.2.1/include/crc32.h /usr/src/debug/mtd-utils/2.2.1/include/libfec.h /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/sumtool.c /usr/src/debug/mtd-utils/2.2.1/lib/libiniparser.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/compr.h /usr/src/debug/mtd-utils/2.2.1/lib/common.c /usr/src/debug/mtd-utils/2.2.1/jffsX-utils/mkfs.jffs2.c /usr/src/debug/mtd-utils/2.2.1/include/dictionary.h /usr/src/debug/mtd-utils/2.2.1/lib/libubi.c"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-staticdev: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-staticdev: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-staticdev: PKGSIZE changed from 365684 to 389764 (+7%)
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-tests: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-tests: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-tests: PKGSIZE changed from 1420917 to 1412725 (-1%)
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-ubifs: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils-ubifs: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
-packages/core2-64-poky-linux/mtd-utils/mtd-utils: PV changed from "2.2.0" to "2.2.1"
-packages/core2-64-poky-linux/mtd-utils/mtd-utils: PKGV changed from 2.2.0 [default] to 2.2.1 [default]
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1882 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 921 .bb files complete (920 cached, 1 parsed). 1880 targets, 41 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the core2-64 sysroot...done.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
---===============2408390586223650348==--
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:87a2e51b40a71ae7b6e88497bb26dc31055d4ec5"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 369 Local 357 Mirrors 0 Missed 12 Current 448 (96% match, 98% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 1697 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_recipe_qa)
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_recipe_qa: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_recipe_qa: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_recipe_qa unihash changed to 06c3c50b037002ba0b9b93dd2762e434c07658da506441ed492a4ebf0ccab90f
+NOTE: Setscene tasks completed
+NOTE: Running task 2312 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_fetch)
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_fetch: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_fetch: Succeeded
+NOTE: Running task 2313 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_unpack)
+NOTE: Running task 2314 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_prepare_recipe_sysroot)
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_unpack: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_unpack: Succeeded
+NOTE: Running task 2315 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_patch)
+NOTE: Running task 2316 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_collect_spdx_deps)
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_patch: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_collect_spdx_deps: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_collect_spdx_deps: Succeeded
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_patch: Succeeded
+NOTE: Running task 2317 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_deploy_source_date_epoch)
+NOTE: Running task 2318 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_populate_lic)
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_populate_lic: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_populate_lic unihash changed to e57d8e58a104dd7ff09ccc73fe55ae966bd3b961d0fd63797a379e328f664dc1
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_deploy_source_date_epoch unihash changed to 493e069945c7991e67deda53a612b354a20444809cfa40d1468048de629d551e
+NOTE: Setscene tasks completed
+NOTE: Running task 2319 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_configure)
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_configure: Started
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_configure: Succeeded
+NOTE: Running task 2320 of 2331 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_compile)
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_compile: Started
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| * Getting build dependencies for wheel...
+| 
+| ERROR Missing dependencies:
+| 	hatch-vcs==0.4.0
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/temp/run.do_compile.3354275:157 exit 1 from 'nativepython3 -m build --no-isolation --wheel --outdir /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/dist /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/urllib3-2.2.3'
+| WARNING: Backtrace (BB generated script):
+| 	#1: python_pep517_do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/temp/run.do_compile.3354275, line 157
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/temp/run.do_compile.3354275, line 152
+| 	#3: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/temp/run.do_compile.3354275, line 168
+NOTE: recipe python3-urllib3-2.2.3-r0: task do_compile: Failed
+NOTE: Tasks Summary: Attempted 2320 tasks of which 2310 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 11 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241117030540.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241117030540.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_compile
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/temp/log.do_compile.3354275
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: python3-urllib3-2.2.3-r0 do_compile: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/temp/run.do_compile.3354275' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/python3-urllib3/2.2.3/temp/log.do_compile.3354275
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/python/python3-urllib3_2.2.3.bb:do_compile) failed with exit code '1'
+
+--===============1290068100922495681==--
 
