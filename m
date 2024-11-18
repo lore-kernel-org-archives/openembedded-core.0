@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8704AD60CFC
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:18:15 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web11.4740.1731964682308062185
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B597FD60D03
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:18:25 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.4753.1731964696333534625
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:18:14 -0800
+ Mon, 18 Nov 2024 13:18:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GpmlKj9Q;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FfUMoRqR;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101934123ee3c-3e8f41fb-ccb8-429c-afb1-857c88e53316-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=jTRnkM0v;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=alVY29H5;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101934123f4a3-6fa6c873-c015-4b10-a671-c2ecef5fee2a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964694;
+	t=1731964695;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=bIf1avgGzKOFHUntl/lybYfs0Ips1J9lBYb19LVEQNc=;
-	b=GpmlKj9QwAiX2WadfvuA3kI24MTgH1LwsdZqDWcK/HOLeX+MiSgJ1t2DnrhCumq8
-	CSb6uXr5N7ryh1YNb11c3bgTlfHRnfglDKVzYzKetnpmA8zzC1r0SgDladoIehQzGrI
-	zGdzNNj8o4C4/aEE8Di1Nu1wP1otBBrwFOzu0siQ=
+	bh=M7a1iMwRCH7hTMhk9NoNpO4e4rfQn5nhudE6i0d1JUk=;
+	b=jTRnkM0vg+apO532Id3cOstzP3RXjkkkZeX7nxNpGZ/LMp1IKSZLWiFintRAfYXi
+	vJeL/RUn81rtZokbYVQaY2fI1whKjtJw6HmdxnLFM+8yjVz/Fl4gg3eICHDtD0s1cSN
+	VwrfU3Wz9qrz4BABtiUtl/wvWDPmvTEbTkldJ0rE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964694;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964695;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=bIf1avgGzKOFHUntl/lybYfs0Ips1J9lBYb19LVEQNc=;
-	b=FfUMoRqR6lq8MztsoVuyKMwZ6rXksUhb2lg/U2FmDCGVqtQBvigc3CNj4yQfdWzS
-	fBjjNe/WCNCVSeAMXQ/+UMHofrXXKaR1R/Gr5ks1w/TCj9QVA58itKKIefFnNB4DVHF
-	vo0JbbqULmod3EisQ94Lk/NJUMZXfNg8MC7Lw7Jg=
-Content-Type: multipart/mixed; boundary="===============0189510001618919611=="
+	bh=M7a1iMwRCH7hTMhk9NoNpO4e4rfQn5nhudE6i0d1JUk=;
+	b=alVY29H501SGEwAzgs8dmAcalStZdQ2GPxBVBRUJYVQ93x4O1Qpo0/fzWG0d/kPC
+	V1h3le219AnYLrRuoIBBYfmiGpTVZmfo3aM3uGv9QxzXw54E5aJ+t+jUskSouqxI1ww
+	QwD9DxSH8xI2EEVhMMnWO/fRxqtp6tXeNqQq+fgI=
+Content-Type: multipart/mixed; boundary="===============3735497698526939771=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Alexander Kanavin <alex.kanavin@gmail.com>
+To: Anuj Mittal <anuj.mittal@intel.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] npth: upgrading to 1.8 SUCCEEDED
-Message-ID: <010101934123ee3c-3e8f41fb-ccb8-429c-afb1-857c88e53316-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:18:14 +0000
+Subject: [AUH] sqlite3: upgrading to 3.47.0 SUCCEEDED
+Message-ID: <010101934123f4a3-6fa6c873-c015-4b10-a671-c2ecef5fee2a-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:18:15 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.30
+X-SES-Outgoing: 2024.11.18-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207368
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:18:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207371
 
---===============0189510001618919611==
+--===============3735497698526939771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *npth* to *1.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *sqlite3* to *3.47.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-npth-upgrade-1.7-1.8.patch
+    - apply the patch: git am 0001-sqlite3-upgrade-3.46.1-3.47.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,97 +72,70 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 782eaf92b953cba75f75fb22d96d30fd2022ccb3 Mon Sep 17 00:00:00 2001
+From 892453e1abee5e52d7e85bed202ae1bfb289718e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 18 Nov 2024 17:56:36 +0000
-Subject: [PATCH] npth: upgrade 1.7 -> 1.8
+Date: Mon, 18 Nov 2024 20:26:44 +0000
+Subject: [PATCH] sqlite3: upgrade 3.46.1 -> 3.47.0
 
 ---
- meta/recipes-support/npth/npth/musl-fix.patch | 37 -------------------
- .../npth/{npth_1.7.bb => npth_1.8.bb}         |  6 +--
- 2 files changed, 2 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-support/npth/npth/musl-fix.patch
- rename meta/recipes-support/npth/{npth_1.7.bb => npth_1.8.bb} (73%)
+ .../sqlite/{sqlite3_3.46.1.bb => sqlite3_3.47.0.bb}             | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/sqlite/{sqlite3_3.46.1.bb => sqlite3_3.47.0.bb} (69%)
 
-diff --git a/meta/recipes-support/npth/npth/musl-fix.patch b/meta/recipes-support/npth/npth/musl-fix.patch
-deleted file mode 100644
-index fabe78b14c..0000000000
---- a/meta/recipes-support/npth/npth/musl-fix.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 417abd56fd7bf45cd4948414050615cb1ad59134 Mon Sep 17 00:00:00 2001
--From: NIIBE Yutaka <gniibe@fsij.org>
--Date: Fri, 1 Mar 2024 13:53:52 +0900
--Subject: [PATCH] Fix INSERT_EXPOSE_RWLOCK_API for musl C library.
--
--* configure.ac: Add a case for musl system.
--
--Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git;a=commit;h=417abd56fd7bf45cd4948414050615cb1ad59134]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
--
--GnuPG-bug-id: 5664
--Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-----
-- configure.ac | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index c1091b1..576a26e 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -381,7 +381,10 @@ fi
-- AC_SUBST(INSERT_NO_RWLOCK)
-- 
-- case "${host}" in
---    *-*-linux*|*-*-gnu*)
--+    *-*-linux-musl*)
--+        INSERT_EXPOSE_RWLOCK_API="1"
--+        ;;
--+    *-*-linux-gnu*|*-*-gnu*)
--         INSERT_EXPOSE_RWLOCK_API="defined(__USE_UNIX98) || defined(__USE_XOPEN2K)"
--         ;;
--     *)
---- 
--2.30.2
--
--
-diff --git a/meta/recipes-support/npth/npth_1.7.bb b/meta/recipes-support/npth/npth_1.8.bb
-similarity index 73%
-rename from meta/recipes-support/npth/npth_1.7.bb
-rename to meta/recipes-support/npth/npth_1.8.bb
-index 0cf35565a3..a354af2a7c 100644
---- a/meta/recipes-support/npth/npth_1.7.bb
-+++ b/meta/recipes-support/npth/npth_1.8.bb
-@@ -6,11 +6,9 @@ LICENSE = "LGPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2caced0b25dfefd4c601d92bd15116de"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.46.1.bb b/meta/recipes-support/sqlite/sqlite3_3.47.0.bb
+similarity index 69%
+rename from meta/recipes-support/sqlite/sqlite3_3.46.1.bb
+rename to meta/recipes-support/sqlite/sqlite3_3.47.0.bb
+index 62ea4a6ba9..35cc49aee1 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.46.1.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.47.0.bb
+@@ -4,5 +4,5 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://sqlite3.h;endline=11;md5=786d3dc581eff03f4fd9e4a77ed00c66"
  
--SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2 \
--           file://musl-fix.patch \
--           "
-+SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2"
- 
--SRC_URI[sha256sum] = "8589f56937b75ce33b28d312fccbf302b3b71ec3f3945fde6aaa74027914ad05"
-+SRC_URI[sha256sum] = "8bd24b4f23a3065d6e5b26e98aba9ce783ea4fd781069c1b35d149694e90ca3e"
- 
- inherit autotools multilib_header
+ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz"
+-SRC_URI[sha256sum] = "67d3fe6d268e6eaddcae3727fce58fcc8e9c53869bdd07a0c61e38ddf2965071"
++SRC_URI[sha256sum] = "83eb21a6f6a649f506df8bd3aab85a08f7556ceed5dbd8dea743ea003fc3a957"
  
 -- 
 2.44.1
 
 
---===============0189510001618919611==
+--===============3735497698526939771==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-sqlite3-upgrade-3.46.1-3.47.0.patch"
+
+RnJvbSA4OTI0NTNlMWFiZWU1ZTUyZDdlODViZWQyMDJhZTFiZmIyODk3MThlIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMjA6MjY6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+cWxpdGUzOiB1cGdyYWRlIDMuNDYuMSAtPiAzLjQ3LjAKCi0tLQogLi4uL3NxbGl0ZS97c3FsaXRl
+M18zLjQ2LjEuYmIgPT4gc3FsaXRlM18zLjQ3LjAuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3tzcWxpdGUzXzMuNDYuMS5iYiA9PiBzcWxpdGUzXzMuNDcu
+MC5iYn0gKDY5JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3Fs
+aXRlM18zLjQ2LjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9zcWxpdGUvc3FsaXRlM18zLjQ3
+LjAuYmIKc2ltaWxhcml0eSBpbmRleCA2OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvc3FsaXRlL3NxbGl0ZTNfMy40Ni4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9y
+dC9zcWxpdGUvc3FsaXRlM18zLjQ3LjAuYmIKaW5kZXggNjJlYTRhNmJhOS4uMzVjYzQ5YWVlMSAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvc3FsaXRlL3NxbGl0ZTNfMy40Ni4xLmJi
+CisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3NxbGl0ZS9zcWxpdGUzXzMuNDcuMC5iYgpAQCAt
+NCw1ICs0LDUgQEAgTElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3Nx
+bGl0ZTMuaDtlbmRsaW5lPTExO21kNT03ODZkM2RjNTgxZWZmMDNmNGZkOWU0YTc3ZWQwMGM2NiIK
+IAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LnNxbGl0ZS5vcmcvMjAyNC9zcWxpdGUtYXV0b2NvbmYt
+JHtTUUxJVEVfUFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2N2QzZmU2ZDI2OGU2
+ZWFkZGNhZTM3MjdmY2U1OGZjYzhlOWM1Mzg2OWJkZDA3YTBjNjFlMzhkZGYyOTY1MDcxIgorU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjgzZWIyMWE2ZjZhNjQ5ZjUwNmRmOGJkM2FhYjg1YTA4Zjc1NTZj
+ZWVkNWRiZDhkZWE3NDNlYTAwM2ZjM2E5NTciCiAKLS0gCjIuNDQuMQoK
+
+--===============3735497698526939771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/npth/npth: FILELIST: removed "/usr/lib/libnpth.so.0.2.0", added "/usr/lib/libnpth.so.0.3.0"
-Changes to packages/core2-64-poky-linux/npth (sysroot):
-  /usr/lib/libnpth.so.0 changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
-  /usr/lib/libnpth.so changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
-  /usr/lib/libnpth.so.0.2.0 moved to /usr/lib/libnpth.so.0.3.0
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 311232 to 348000 (+12%)
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -2004,94 +1977,35 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============0189510001618919611==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-npth-upgrade-1.7-1.8.patch"
-
-RnJvbSA3ODJlYWY5MmI5NTNjYmE3NWY3NWZiMjJkOTZkMzBmZDIwMjJjY2IzIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMTc6NTY6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
-cHRoOiB1cGdyYWRlIDEuNyAtPiAxLjgKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9u
-cHRoL211c2wtZml4LnBhdGNoIHwgMzcgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL25wdGgve25w
-dGhfMS43LmJiID0+IG5wdGhfMS44LmJifSAgICAgICAgIHwgIDYgKy0tCiAyIGZpbGVzIGNoYW5n
-ZWQsIDIgaW5zZXJ0aW9ucygrKSwgNDEgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQg
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoL211c2wtZml4LnBhdGNoCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC97bnB0aF8xLjcuYmIgPT4gbnB0aF8xLjguYmJ9ICg3MyUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoL211c2wtZml4LnBh
-dGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoL211c2wtZml4LnBhdGNoCmRlbGV0
-ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBmYWJlNzhiMTRjLi4wMDAwMDAwMDAwCi0tLSBhL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L25wdGgvbnB0aC9tdXNsLWZpeC5wYXRjaAorKysgL2Rldi9udWxs
-CkBAIC0xLDM3ICswLDAgQEAKLUZyb20gNDE3YWJkNTZmZDdiZjQ1Y2Q0OTQ4NDE0MDUwNjE1Y2Ix
-YWQ1OTEzNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IE5JSUJFIFl1dGFrYSA8Z25p
-aWJlQGZzaWoub3JnPgotRGF0ZTogRnJpLCAxIE1hciAyMDI0IDEzOjUzOjUyICswOTAwCi1TdWJq
-ZWN0OiBbUEFUQ0hdIEZpeCBJTlNFUlRfRVhQT1NFX1JXTE9DS19BUEkgZm9yIG11c2wgQyBsaWJy
-YXJ5LgotCi0qIGNvbmZpZ3VyZS5hYzogQWRkIGEgY2FzZSBmb3IgbXVzbCBzeXN0ZW0uCi0KLVVw
-c3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0LmdudXBnLm9yZy9jZ2ktYmluL2dp
-dHdlYi5jZ2k/cD1ucHRoLmdpdDthPWNvbW1pdDtoPTQxN2FiZDU2ZmQ3YmY0NWNkNDk0ODQxNDA1
-MDYxNWNiMWFkNTkxMzRdCi1TaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBs
-aW51dHJvbml4LmRlPgotLS0KLQotR251UEctYnVnLWlkOiA1NjY0Ci1TaWduZWQtb2ZmLWJ5OiBO
-SUlCRSBZdXRha2EgPGduaWliZUBmc2lqLm9yZz4KLS0tLQotIGNvbmZpZ3VyZS5hYyB8IDUgKysr
-Ky0KLSAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRp
-ZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IGMxMDkxYjEuLjU3
-NmEyNmUgMTAwNjQ0Ci0tLS0gYS9jb25maWd1cmUuYWMKLSsrKyBiL2NvbmZpZ3VyZS5hYwotQEAg
-LTM4MSw3ICszODEsMTAgQEAgZmkKLSBBQ19TVUJTVChJTlNFUlRfTk9fUldMT0NLKQotIAotIGNh
-c2UgIiR7aG9zdH0iIGluCi0tICAgICotKi1saW51eCp8Ki0qLWdudSopCi0rICAgICotKi1saW51
-eC1tdXNsKikKLSsgICAgICAgIElOU0VSVF9FWFBPU0VfUldMT0NLX0FQST0iMSIKLSsgICAgICAg
-IDs7Ci0rICAgICotKi1saW51eC1nbnUqfCotKi1nbnUqKQotICAgICAgICAgSU5TRVJUX0VYUE9T
-RV9SV0xPQ0tfQVBJPSJkZWZpbmVkKF9fVVNFX1VOSVg5OCkgfHwgZGVmaW5lZChfX1VTRV9YT1BF
-TjJLKSIKLSAgICAgICAgIDs7Ci0gICAgICopCi0tLSAKLTIuMzAuMgotCi0KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L25wdGgvbnB0aF8xLjcuYmIgYi9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9ucHRoL25wdGhfMS44LmJiCnNpbWlsYXJpdHkgaW5kZXggNzMlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L25wdGgvbnB0aF8xLjcuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1zdXBwb3J0L25wdGgvbnB0aF8xLjguYmIKaW5kZXggMGNmMzU1NjVhMy4uYTM1NGFmMmE3YyAx
-MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoXzEuNy5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9ucHRoL25wdGhfMS44LmJiCkBAIC02LDExICs2LDkgQEAgTElD
-RU5TRSA9ICJMR1BMLTIuMC1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
-UFlJTkcuTElCO21kNT0yY2FjZWQwYjI1ZGZlZmQ0YzYwMWQ5MmJkMTUxMTZkZSIKIFVQU1RSRUFN
-X0NIRUNLX1VSSSA9ICJodHRwczovL2dudXBnLm9yZy9kb3dubG9hZC9pbmRleC5odG1sIgogCi1T
-UkNfVVJJID0gIiR7R05VUEdfTUlSUk9SfS9ucHRoL25wdGgtJHtQVn0udGFyLmJ6MiBcCi0gICAg
-ICAgICAgIGZpbGU6Ly9tdXNsLWZpeC5wYXRjaCBcCi0gICAgICAgICAgICIKK1NSQ19VUkkgPSAi
-JHtHTlVQR19NSVJST1J9L25wdGgvbnB0aC0ke1BWfS50YXIuYnoyIgogCi1TUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiODU4OWY1NjkzN2I3NWNlMzNiMjhkMzEyZmNjYmYzMDJiM2I3MWVjM2YzOTQ1ZmRl
-NmFhYTc0MDI3OTE0YWQwNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4YmQyNGI0ZjIzYTMwNjVk
-NmU1YjI2ZTk4YWJhOWNlNzgzZWE0ZmQ3ODEwNjljMWIzNWQxNDk2OTRlOTBjYTNlIgogCiBpbmhl
-cml0IGF1dG90b29scyBtdWx0aWxpYl9oZWFkZXIKIAotLSAKMi40NC4xCgo=
-
---===============0189510001618919611==
+--===============3735497698526939771==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/npth: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/npth/npth-1.7.tar.bz2 file://musl-fix.patch" to "https://www.gnupg.org/ftp/gcrypt/npth/npth-1.8.tar.bz2"
-packages/core2-64-poky-linux/npth: PV changed from "1.7" to "1.8"
-packages/core2-64-poky-linux/npth/npth-dbg: FILELIST: removed "/usr/lib/.debug/libnpth.so.0.2.0", added "/usr/lib/.debug/libnpth.so.0.3.0"
-packages/core2-64-poky-linux/npth/npth-dbg: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth/npth-dbg: PKGSIZE changed from 45440 to 45960 (+1%)
-packages/core2-64-poky-linux/npth/npth-dbg: PV changed from "1.7" to "1.8"
-packages/core2-64-poky-linux/npth/npth-dev: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth/npth-dev: PKGSIZE changed from 20708 to 21114 (+2%)
-packages/core2-64-poky-linux/npth/npth-dev: PV changed from "1.7" to "1.8"
-packages/core2-64-poky-linux/npth/npth-doc: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth/npth-doc: PV changed from "1.7" to "1.8"
-packages/core2-64-poky-linux/npth/npth-locale: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth/npth-locale: PV changed from "1.7" to "1.8"
-packages/core2-64-poky-linux/npth/npth-src: FILELIST: removed "/usr/src/debug/npth/1.7/src/npth.h /usr/src/debug/npth/1.7/src/npth.c /usr/src/debug/npth/1.7/src/npth-sigev.c", added "/usr/src/debug/npth/1.8/src/npth.h /usr/src/debug/npth/1.8/src/npth.c /usr/src/debug/npth/1.8/src/npth-sigev.c /usr/src/debug/npth/1.8/src/getversion.c"
-packages/core2-64-poky-linux/npth/npth-src: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth/npth-src: PKGSIZE changed from 36882 to 40417 (+10%)
-packages/core2-64-poky-linux/npth/npth-src: PV changed from "1.7" to "1.8"
-packages/core2-64-poky-linux/npth/npth-staticdev: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth/npth-staticdev: PV changed from "1.7" to "1.8"
-packages/core2-64-poky-linux/npth/npth: FILELIST: removed "/usr/lib/libnpth.so.0.2.0", added "/usr/lib/libnpth.so.0.3.0"
-packages/core2-64-poky-linux/npth/npth: PKGV changed from 1.7 [default] to 1.8 [default]
-packages/core2-64-poky-linux/npth/npth: PV changed from "1.7" to "1.8"
-Changes to packages/core2-64-poky-linux/npth (sysroot):
-  /usr/lib/libnpth.so.0 changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
-  /usr/lib/libnpth.so changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
-  /usr/lib/libnpth.so.0.2.0 moved to /usr/lib/libnpth.so.0.3.0
+packages/core2-64-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9422342 to 9620507 (+2%)
+packages/core2-64-poky-linux/sqlite3: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3: SRC_URI changed from "http://www.sqlite.org/2024/sqlite-autoconf-3460100.tar.gz" to "http://www.sqlite.org/2024/sqlite-autoconf-3470000.tar.gz"
+packages/core2-64-poky-linux/sqlite3: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGSIZE changed from 682478 to 689098 (+1%)
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-dev: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-doc: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3-staticdev: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGSIZE changed from 1476579 to 1492963 (+1%)
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3/libsqlite3: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGSIZE changed from 6362936 to 6522048 (+3%)
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-dbg: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGSIZE changed from 10691899 to 10888091 (+2%)
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3-src: PV changed from "3.46.1" to "3.47.0"
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGSIZE changed from 311232 to 348000 (+12%)
+packages/core2-64-poky-linux/sqlite3/sqlite3: PKGV changed from 3.46.1 [default] to 3.47.0 [default]
+packages/core2-64-poky-linux/sqlite3/sqlite3: PV changed from "3.46.1" to "3.47.0"
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3933,5 +3847,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============0189510001618919611==--
+--===============3735497698526939771==--
 
