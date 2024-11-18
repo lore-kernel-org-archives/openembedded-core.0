@@ -2,49 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B83EED60079
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A00C0D60074
 	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:18:04 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.4894.1731964684310811232
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.web11.4707.1731964656226154736
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:18:04 -0800
+ Mon, 18 Nov 2024 13:17:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ZgAyDG/c;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=Yj1n4eej;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101934123c62e-ba96b47f-9438-4c7a-95ed-62b2366737e6-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=anxk9Ihd;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=xq9/eO50;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101934123a4a4-f3097b5d-ae0b-4fc6-aa38-0d8b4fd5071f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964683;
+	t=1731964675;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xDdgncQZ5EbpxMJQgL7Uh1D1/pUe2w3EDpftoW/Ia0c=;
-	b=ZgAyDG/ckH3EFV3Vns5IQTV8DmDsniSb5C1BXeck2KzCbBrU4w1keo8bYgRFwBmR
-	+mOZVhjfmXlWaO2BoEqymq3f1nsfO/Xdn6HQOZ9IDE6ZhS8LnZpiWPofJ6/gO0ENkce
-	8I1O688HsAXm1+1SjzVziv9Uun0j/uBL+5PdkgJE=
+	bh=D4wFT1cAaJ8QNqNaPFosDcmPt7ePso2G0lVAss9fiwc=;
+	b=anxk9IhdgAGZMgy/ziQPoamJfr5uQO0nLwokHl78/WfPsVA3ai+LP6AYfKNLUIDW
+	4SAkkzeDzcg0aftkLUMJDG18dGpy93l/5bBye3Qhynzzhawn+8OgEpGnd9PIQj5kGY7
+	4CKwpDRRprp7UjTzveB2WbI2y93tDho8w1S97acQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964683;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964675;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xDdgncQZ5EbpxMJQgL7Uh1D1/pUe2w3EDpftoW/Ia0c=;
-	b=Yj1n4eejaKJzjdlvNL1XBOwti3SErqMqlzhEBZt00Ktqff02X7V8vj7cjoFMXJv3
-	KJCwboRN49g2c0reBP3CrRgqD4jOT6Km1bepBNb2q9yhDwcE0nqlFw9Px7imUVk9Ax8
-	oOfDVad/zpW9W6kqhRVys3cLiXk7KM2GIB0o/1jg=
-Content-Type: multipart/mixed; boundary="===============0724635965087994256=="
+	bh=D4wFT1cAaJ8QNqNaPFosDcmPt7ePso2G0lVAss9fiwc=;
+	b=xq9/eO506zu6SHujDbcY+kVVUwsL3uyqi7nJK8euuU9S//6YHnVyhK/UWwZNgv3y
+	QhbZKMRXHRQkQr1NmP/vXKJz4jprE19zskuZ2eVkmFbnFBTXMFd2tTXLz9ZfDI7AnIv
+	LZgAAjq5QG/2bJl1Jx0nKe4gt34VagpOUNmzs+PE=
+Content-Type: multipart/mixed; boundary="===============4898572732593134353=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Anuj Mittal <anuj.mittal@intel.com>
+To: Etienne Cordonnier <ecordonnier@snap.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] puzzles: upgrading to 8e83f39eb989d36f10fcf4be7c4dd5eaa0e69f02
- SUCCEEDED
-Message-ID: <010101934123c62e-ba96b47f-9438-4c7a-95ed-62b2366737e6-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:18:03 +0000
+Subject: [AUH] makedumpfile: upgrading to 1.7.6 SUCCEEDED
+Message-ID: <010101934123a4a4-f3097b5d-ae0b-4fc6-aa38-0d8b4fd5071f-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:17:55 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.33
+X-SES-Outgoing: 2024.11.18-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:18:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207354
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207343
 
---===============0724635965087994256==
+--===============4898572732593134353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -52,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *puzzles* to *8e83f39eb989d36f10fcf4be7c4dd5eaa0e69f02* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *makedumpfile* to *1.7.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
+    - apply the patch: git am 0001-makedumpfile-upgrade-1.7.5-1.7.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -73,84 +72,161 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ef01ab06ca961700280c274395c9f060561b2cf7 Mon Sep 17 00:00:00 2001
+From 4a2b78faa0555ec420d8463b1bf22e22fa6a696e Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 18 Nov 2024 09:14:08 +0000
-Subject: [PATCH] puzzles: upgrade to latest revision
+Date: Mon, 18 Nov 2024 04:29:53 +0000
+Subject: [PATCH] makedumpfile: upgrade 1.7.5 -> 1.7.6
 
 ---
- meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../0001-makedumpfile-replace-hardcode-CFLAGS.patch       | 8 ++++----
+ .../{makedumpfile_1.7.5.bb => makedumpfile_1.7.6.bb}      | 2 +-
+ 2 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-kernel/makedumpfile/{makedumpfile_1.7.5.bb => makedumpfile_1.7.6.bb} (97%)
 
-diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
-index b47d3d3f30..17ac1fe7e2 100644
---- a/meta/recipes-sato/puzzles/puzzles_git.bb
-+++ b/meta/recipes-sato/puzzles/puzzles_git.bb
-@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
- SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+index 96a996f616..534d0e51a9 100644
+--- a/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile/0001-makedumpfile-replace-hardcode-CFLAGS.patch
+@@ -1,4 +1,4 @@
+-From 6d16911316cb576db0239f607e60918a222e4436 Mon Sep 17 00:00:00 2001
++From 50e60521bdfbac4fe85b3851684b392ef339312a Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Sun, 24 Apr 2022 17:25:33 +0800
+ Subject: [PATCH] makedumpfile: replace hardcode CFLAGS
+@@ -24,7 +24,7 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  1 file changed, 21 insertions(+), 19 deletions(-)
  
- UPSTREAM_CHECK_COMMITS = "1"
--SRCREV = "1c1899ee1c4e0a83808998359addb1efb66322f8"
-+SRCREV = "8e83f39eb989d36f10fcf4be7c4dd5eaa0e69f02"
- PE = "2"
- PV = "0.0+git"
+ diff --git a/Makefile b/Makefile
+-index 71d8548..22acdd5 100644
++index aa73252..76fcafd 100644
+ --- a/Makefile
+ +++ b/Makefile
+ @@ -8,12 +8,6 @@ ifeq ($(strip $CC),)
+@@ -111,7 +111,7 @@ index 71d8548..22acdd5 100644
+  endif
+  
+  ifeq ($(DEBUG), on)
+-@@ -104,14 +106,14 @@ LIBS := $(LIBS) $(call try-run,\
++@@ -106,14 +108,14 @@ SBINDIR ?= /usr/sbin
+  all: makedumpfile
+  
+  $(OBJ_PART): $(SRC_PART)
+@@ -128,7 +128,7 @@ index 71d8548..22acdd5 100644
+  	@sed -e "s/@DATE@/$(DATE)/" \
+  	     -e "s/@VERSION@/$(VERSION)/" \
+  	     $(VPATH)makedumpfile.8.in > $(VPATH)makedumpfile.8
+-@@ -120,7 +122,7 @@ makedumpfile: $(SRC_BASE) $(OBJ_PART) $(OBJ_ARCH)
++@@ -122,7 +124,7 @@ makedumpfile: $(SRC_BASE) $(OBJ_PART) $(OBJ_ARCH)
+  	     $(VPATH)makedumpfile.conf.5.in > $(VPATH)makedumpfile.conf.5
+  
+  eppic_makedumpfile.so: extension_eppic.c
+diff --git a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.5.bb b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
+similarity index 97%
+rename from meta/recipes-kernel/makedumpfile/makedumpfile_1.7.5.bb
+rename to meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
+index 85b44c4941..21847ece6b 100644
+--- a/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.5.bb
++++ b/meta/recipes-kernel/makedumpfile/makedumpfile_1.7.6.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=751419260aa954499f7abaabaa882bbe"
+ LICENSE = "GPL-2.0-only"
  
+ SRCBRANCH ?= "master"
+-SRCREV = "c266469347d49287be38059d45e7aaa454db9cb2"
++SRCREV = "97a89484e2c960dd64933e1cea7a7248138f8a76"
+ 
+ DEPENDS = "bzip2 zlib elfutils xz"
+ RDEPENDS:${PN}-tools = "perl ${PN}"
 -- 
 2.44.1
 
 
---===============0724635965087994256==
+--===============4898572732593134353==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-puzzles-upgrade-to-latest-revision.patch"
+ filename="0001-makedumpfile-upgrade-1.7.5-1.7.6.patch"
 
-RnJvbSBlZjAxYWIwNmNhOTYxNzAwMjgwYzI3NDM5NWM5ZjA2MDU2MWIyY2Y3IE1vbiBTZXAgMTcg
+RnJvbSA0YTJiNzhmYWEwNTU1ZWM0MjBkODQ2M2IxYmYyMmUyMmZhNmE2OTZlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMDk6MTQ6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-dXp6bGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKLS0tCiBtZXRhL3JlY2lwZXMtc2F0
-by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
-aW9uKCspLCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6
-emxlcy9wdXp6bGVzX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1zYXRvL3B1enpsZXMvcHV6emxlc19n
-aXQuYmIKaW5kZXggYjQ3ZDNkM2YzMC4uMTdhYzFmZTdlMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9w
-dXp6bGVzL3B1enpsZXNfZ2l0LmJiCkBAIC0xMCw3ICsxMCw3IEBAIFJFUVVJUkVEX0RJU1RST19G
-RUFUVVJFUyA9ICJ4MTEiCiBTUkNfVVJJID0gImdpdDovL2dpdC50YXJ0YXJ1cy5vcmcvc2ltb24v
-cHV6emxlcy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNL
-X0NPTU1JVFMgPSAiMSIKLVNSQ1JFViA9ICIxYzE4OTllZTFjNGUwYTgzODA4OTk4MzU5YWRkYjFl
-ZmI2NjMyMmY4IgorU1JDUkVWID0gIjhlODNmMzllYjk4OWQzNmYxMGZjZjRiZTdjNGRkNWVhYTBl
-NjlmMDIiCiBQRSA9ICIyIgogUFYgPSAiMC4wK2dpdCIKIAotLSAKMi40NC4xCgo=
+CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMDQ6Mjk6NTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBt
+YWtlZHVtcGZpbGU6IHVwZ3JhZGUgMS43LjUgLT4gMS43LjYKCi0tLQogLi4uLzAwMDEtbWFrZWR1
+bXBmaWxlLXJlcGxhY2UtaGFyZGNvZGUtQ0ZMQUdTLnBhdGNoICAgICAgIHwgOCArKysrLS0tLQog
+Li4uL3ttYWtlZHVtcGZpbGVfMS43LjUuYmIgPT4gbWFrZWR1bXBmaWxlXzEuNy42LmJifSAgICAg
+IHwgMiArLQogMiBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDUgZGVsZXRpb25zKC0p
+CiByZW5hbWUgbWV0YS9yZWNpcGVzLWtlcm5lbC9tYWtlZHVtcGZpbGUve21ha2VkdW1wZmlsZV8x
+LjcuNS5iYiA9PiBtYWtlZHVtcGZpbGVfMS43LjYuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWtlcm5lbC9tYWtlZHVtcGZpbGUvbWFrZWR1bXBmaWxlLzAwMDEtbWFrZWR1bXBm
+aWxlLXJlcGxhY2UtaGFyZGNvZGUtQ0ZMQUdTLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC9t
+YWtlZHVtcGZpbGUvbWFrZWR1bXBmaWxlLzAwMDEtbWFrZWR1bXBmaWxlLXJlcGxhY2UtaGFyZGNv
+ZGUtQ0ZMQUdTLnBhdGNoCmluZGV4IDk2YTk5NmY2MTYuLjUzNGQwZTUxYTkgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBmaWxlL21ha2VkdW1wZmlsZS8wMDAxLW1ha2Vk
+dW1wZmlsZS1yZXBsYWNlLWhhcmRjb2RlLUNGTEFHUy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMt
+a2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGUvMDAwMS1tYWtlZHVtcGZpbGUtcmVwbGFj
+ZS1oYXJkY29kZS1DRkxBR1MucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDZkMTY5MTEzMTZj
+YjU3NmRiMDIzOWY2MDdlNjA5MThhMjIyZTQ0MzYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIDUwZTYwNTIxYmRmYmFjNGZlODViMzg1MTY4NGIzOTJlZjMzOTMxMmEgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgog
+RGF0ZTogU3VuLCAyNCBBcHIgMjAyMiAxNzoyNTozMyArMDgwMAogU3ViamVjdDogW1BBVENIXSBt
+YWtlZHVtcGZpbGU6IHJlcGxhY2UgaGFyZGNvZGUgQ0ZMQUdTCkBAIC0yNCw3ICsyNCw3IEBAIFNp
+Z25lZC1vZmYtYnk6IE1pbmdsaSBZdSA8bWluZ2xpLnl1QHdpbmRyaXZlci5jb20+CiAgMSBmaWxl
+IGNoYW5nZWQsIDIxIGluc2VydGlvbnMoKyksIDE5IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0
+IGEvTWFrZWZpbGUgYi9NYWtlZmlsZQotaW5kZXggNzFkODU0OC4uMjJhY2RkNSAxMDA2NDQKK2lu
+ZGV4IGFhNzMyNTIuLjc2ZmNhZmQgMTAwNjQ0CiAtLS0gYS9NYWtlZmlsZQogKysrIGIvTWFrZWZp
+bGUKIEBAIC04LDEyICs4LDYgQEAgaWZlcSAoJChzdHJpcCAkQ0MpLCkKQEAgLTExMSw3ICsxMTEs
+NyBAQCBpbmRleCA3MWQ4NTQ4Li4yMmFjZGQ1IDEwMDY0NAogIGVuZGlmCiAgCiAgaWZlcSAoJChE
+RUJVRyksIG9uKQotQEAgLTEwNCwxNCArMTA2LDE0IEBAIExJQlMgOj0gJChMSUJTKSAkKGNhbGwg
+dHJ5LXJ1bixcCitAQCAtMTA2LDE0ICsxMDgsMTQgQEAgU0JJTkRJUiA/PSAvdXNyL3NiaW4KICBh
+bGw6IG1ha2VkdW1wZmlsZQogIAogICQoT0JKX1BBUlQpOiAkKFNSQ19QQVJUKQpAQCAtMTI4LDcg
+KzEyOCw3IEBAIGluZGV4IDcxZDg1NDguLjIyYWNkZDUgMTAwNjQ0CiAgCUBzZWQgLWUgInMvQERB
+VEVALyQoREFURSkvIiBcCiAgCSAgICAgLWUgInMvQFZFUlNJT05ALyQoVkVSU0lPTikvIiBcCiAg
+CSAgICAgJChWUEFUSCltYWtlZHVtcGZpbGUuOC5pbiA+ICQoVlBBVEgpbWFrZWR1bXBmaWxlLjgK
+LUBAIC0xMjAsNyArMTIyLDcgQEAgbWFrZWR1bXBmaWxlOiAkKFNSQ19CQVNFKSAkKE9CSl9QQVJU
+KSAkKE9CSl9BUkNIKQorQEAgLTEyMiw3ICsxMjQsNyBAQCBtYWtlZHVtcGZpbGU6ICQoU1JDX0JB
+U0UpICQoT0JKX1BBUlQpICQoT0JKX0FSQ0gpCiAgCSAgICAgJChWUEFUSCltYWtlZHVtcGZpbGUu
+Y29uZi41LmluID4gJChWUEFUSCltYWtlZHVtcGZpbGUuY29uZi41CiAgCiAgZXBwaWNfbWFrZWR1
+bXBmaWxlLnNvOiBleHRlbnNpb25fZXBwaWMuYwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtl
+cm5lbC9tYWtlZHVtcGZpbGUvbWFrZWR1bXBmaWxlXzEuNy41LmJiIGIvbWV0YS9yZWNpcGVzLWtl
+cm5lbC9tYWtlZHVtcGZpbGUvbWFrZWR1bXBmaWxlXzEuNy42LmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTclCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBmaWxlL21ha2VkdW1w
+ZmlsZV8xLjcuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC9tYWtlZHVtcGZpbGUv
+bWFrZWR1bXBmaWxlXzEuNy42LmJiCmluZGV4IDg1YjQ0YzQ5NDEuLjIxODQ3ZWNlNmIgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvbWFrZWR1bXBmaWxlL21ha2VkdW1wZmlsZV8xLjcu
+NS5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL21ha2VkdW1wZmlsZS9tYWtlZHVtcGZpbGVf
+MS43LjYuYmIKQEAgLTExLDcgKzExLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09Q
+WUlORzttZDU9NzUxNDE5MjYwYWE5NTQ0OTlmN2FiYWFiYWE4ODJiYmUiCiBMSUNFTlNFID0gIkdQ
+TC0yLjAtb25seSIKIAogU1JDQlJBTkNIID89ICJtYXN0ZXIiCi1TUkNSRVYgPSAiYzI2NjQ2OTM0
+N2Q0OTI4N2JlMzgwNTlkNDVlN2FhYTQ1NGRiOWNiMiIKK1NSQ1JFViA9ICI5N2E4OTQ4NGUyYzk2
+MGRkNjQ5MzNlMWNlYTdhNzI0ODEzOGY4YTc2IgogCiBERVBFTkRTID0gImJ6aXAyIHpsaWIgZWxm
+dXRpbHMgeHoiCiBSREVQRU5EUzoke1BOfS10b29scyA9ICJwZXJsICR7UE59IgotLSAKMi40NC4x
+Cgo=
 
---===============0724635965087994256==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-
---===============0724635965087994256==
+--===============4898572732593134353==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 19630424 to 19791960 (+1%)
-packages/core2-64-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3853044 to 3849034 (-0%)
-packages/core2-64-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
-packages/core2-64-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+1c1899ee1c to 0.0+git0+8e83f39eb9
+packages/core2-64-poky-linux/makedumpfile: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-dbg: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-dbg: PKGSIZE changed from 1151528 to 1153280 (+0%)
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-dbg: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-dev: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-dev: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-doc: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-doc: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-locale: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-locale: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-src: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-src: PKGSIZE changed from 690716 to 691972 (+0%)
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-src: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-staticdev: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-staticdev: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-tools: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile-tools: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
+packages/core2-64-poky-linux/makedumpfile/makedumpfile: PV changed from "1.7.5" to "1.7.6"
+packages/core2-64-poky-linux/makedumpfile/makedumpfile: PKGV changed from 1.7.5 [default] to 1.7.6 [default]
 
---===============0724635965087994256==--
+--===============4898572732593134353==--
 
