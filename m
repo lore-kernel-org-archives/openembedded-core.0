@@ -1,87 +1,99 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A14AD6DDC4
-	for <webhook@archiver.kernel.org>; Sun, 17 Nov 2024 12:35:20 +0000 (UTC)
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
- by mx.groups.io with SMTP id smtpd.web11.17310.1731846919236281373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 144AAD10F3E
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 01:49:04 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.31101.1731894543197211914
  for <openembedded-core@lists.openembedded.org>;
- Sun, 17 Nov 2024 04:35:19 -0800
+ Sun, 17 Nov 2024 17:49:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=bKgIuJIj;
- spf=pass (domain: bootlin.com, ip: 217.70.183.193, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 5CD43240004;
-	Sun, 17 Nov 2024 12:35:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1731846917;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=XOiFicb/p5bPnboRaqprUPbmdwTCg0AlaGensYlXgnA=;
-	b=bKgIuJIjd20/vUh9QF9PmkPJ0IrK43WnuSuWzdsIml0iV9bdcn4T8vFr1rkaKWn5MTOwHA
-	vwLK8oFcuSS5P43waqNFVagxYXrSO+7E58BcqPXykTty226MYuvHU6uyf/lzyCTb+6Gxfq
-	XhjasHJ8JZo+p5xzU7UCwgFaorVu4bzYiIMJtQSB5nNhEYWizxlaSV7wQ7N/P9rlcYlt9B
-	/JOCKdEOb0t4U/Kw9nCN9LyAgjOe+me6D9+ne8JIBjhQIQmSqRW+7GYCs1AmpQCYgei7mo
-	aIhfsR2l0HfZhoYTMT/rPQ47aD9UJckL1azeH7GbzmgzQaNWPLIdyzfUl6i40A==
-Date: Sun, 17 Nov 2024 13:35:14 +0100
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH 07/47] gawk: upgrade 5.3.0 -> 5.3.1
-Message-ID: <ZznjAnJKfH8f_mxL@bootlin-mathieu>
-Mail-Followup-To: wangmy@fujitsu.com,
-	openembedded-core@lists.openembedded.org
-References: <1731403483-21399-1-git-send-email-wangmy@fujitsu.com>
- <1731403483-21399-7-git-send-email-wangmy@fujitsu.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1052266a79=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AI1m9Qo006427
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 01:49:02 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xgm0hah4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 01:49:02 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 17 Nov 2024 17:49:00 -0800
+Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 17 Nov 2024 17:49:00 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH V3] gdk-pixbuf: enable other loaders by default
+Date: Mon, 18 Nov 2024 09:48:59 +0800
+Message-ID: <20241118014859.563371-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1731403483-21399-7-git-send-email-wangmy@fujitsu.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-ORIG-GUID: EjLgBqjooxM3zmVZvObqE8dt4LDtCB-T
+X-Proofpoint-GUID: EjLgBqjooxM3zmVZvObqE8dt4LDtCB-T
+X-Authority-Analysis: v=2.4 cv=E4efprdl c=1 sm=1 tr=0 ts=673a9d0e cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=GHR8O2WEAAAA:20 a=p0WdMEafAAAA:8 a=Br9LfDWDAAAA:8 a=t7CeM3EgAAAA:8 a=Bw9GwAB4ZPJxoN4hxGQA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-17_24,2024-11-14_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ clxscore=1015 malwarescore=0 impostorscore=0 adultscore=0 phishscore=0
+ mlxlogscore=406 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
+ mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411180014
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 17 Nov 2024 12:35:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207197
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 01:49:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207198
 
-On Tue, Nov 12, 2024 at 05:24:03PM +0800, wangmy via lists.openembedded.org wrote:
-> From: Wang Mingyu <wangmy@fujitsu.com>
-> 
-> 0001-m4-readline-add-missing-includes.patch
-> removed since it's included in 5.3.1
-> 
-> Changelog:
-> ===========
-> - More subtle issues related to uninitialized array elements have
->   been fixed.
-> - A number of bugs in the debugger related to handling of arrays
->   have been fixed.
-> - Some subtle bugs in the API have been fixed.
-> - Use of MPFR is now possible again on 32-bit Power PC Mac systems.
-> - Race conditions around broken pipes for system() and read and write
->   pipes should now be closed off.
-> - Support for OSF/1 has been removed.
-> - The never-documented --nostalgia option has been removed. It was
->   causing bug reports.
-> - The implementation of printf/sprintf has been thoroughly reworked
->   in order to make the code more maintainable and to fix a goodly
->   number of corner cases.
-> - As usual, there have been several minor code cleanups and bug fixes.
-> 
+From: Changqing Li <changqing.li@windriver.com>
 
-It looks like this patch is breaking some ptests on the autobuilder:
+Refer [1], upstream gdk-pixbuf disable some loaders by default from
+2.42.11, this makes some format of icons not works well after upgrade
+gdk-pixbuf, report error like:
+matchbox-deskto[501]: Error loading icon: Failed to load /usr/share/pixmaps/xinput_calibrator.xpm: Unrecognized image file format
 
-Failed ptests:
-{'gawk': ['printf-corners']}
+Add PACKAGECONFIG gif, others, and fix the same as some other sdks and
+arch linux, enable these loaders by default, refer [2][3][4]
 
-https://valkyrie.yoctoproject.org/#/builders/61/builds/388/steps/12/logs/stdio
-https://valkyrie.yoctoproject.org/#/builders/73/builds/390/steps/12/logs/stdio
+[1] https://gitlab.gnome.org/GNOME/gdk-pixbuf/-/commit/e052a112075a19fb75f1f2ff3de4c82923de13f2
+[2] https://gitlab.gnome.org/GNOME/gnome-build-meta/-/issues/846
+[3] https://gitlab.com/freedesktop-sdk/freedesktop-sdk/-/commit/3ab7810255c64ce8aa2ae3ac10250148588ab49b
+[4] https://gitlab.archlinux.org/archlinux/packaging/packages/gdk-pixbuf2/-/commit/4fa2d98a197781354b66a9710c9d596d502c961b
 
-Can you have a look at this please?
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
+diff --git a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+index 9f825a68ef..e32903a451 100644
+--- a/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
++++ b/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.42.12.bb
+@@ -32,7 +32,7 @@ GIR_MESON_DISABLE_FLAG = "disabled"
+ 
+ LIBV = "2.10.0"
+ 
+-GDK_PIXBUF_LOADERS ?= "png jpeg"
++GDK_PIXBUF_LOADERS ?= "png jpeg gif others"
+ 
+ PACKAGECONFIG = "${GDK_PIXBUF_LOADERS} \
+                  ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
+@@ -41,6 +41,8 @@ PACKAGECONFIG:class-native = "${GDK_PIXBUF_LOADERS}"
+ PACKAGECONFIG[png] = "-Dpng=enabled,-Dpng=disabled,libpng"
+ PACKAGECONFIG[jpeg] = "-Djpeg=enabled,-Djpeg=disabled,jpeg"
+ PACKAGECONFIG[tiff] = "-Dtiff=enabled,-Dtiff=disabled,tiff"
++PACKAGECONFIG[gif] = "-Dgif=enabled,-Dgif=disabled"
++PACKAGECONFIG[others] = "-Dothers=enabled,-Dothers=disabled"
+ PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false"
+ 
+ EXTRA_OEMESON = "-Dman=false"
 -- 
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.25.1
+
 
