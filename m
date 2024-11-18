@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C04BD60CEB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8704AD60CFC
 	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:18:15 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.4887.1731964679134906313
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.web11.4740.1731964682308062185
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:18:13 -0800
+ Mon, 18 Nov 2024 13:18:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=WWJfmrNz;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=q3ULwa9f;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101934123eaf8-28d85d34-067b-4d3e-9750-3f30830d8b04-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=GpmlKj9Q;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FfUMoRqR;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101934123ee3c-3e8f41fb-ccb8-429c-afb1-857c88e53316-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964693;
+	t=1731964694;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=kWcDAQJ7g0fsgW2WZbu1m1TuuzEIcqF/xn6RmjZ5uP0=;
-	b=WWJfmrNzoQwGVfZ0xc07qmEjMzuRIvG2+lSApDUC2pqpIazwlFTWPJ7ldFBobgOT
-	+HnqFr+fxh3+Fs4DXwAfaOOt8hP5f6n0Gp5DD7xT+fpnRMsrvDH1QPlR6sk2cYAc+sp
-	cRVaJvdyDgPTJzcJQxaZBuFGaSxQmlGofXYL1Hj0=
+	bh=bIf1avgGzKOFHUntl/lybYfs0Ips1J9lBYb19LVEQNc=;
+	b=GpmlKj9QwAiX2WadfvuA3kI24MTgH1LwsdZqDWcK/HOLeX+MiSgJ1t2DnrhCumq8
+	CSb6uXr5N7ryh1YNb11c3bgTlfHRnfglDKVzYzKetnpmA8zzC1r0SgDladoIehQzGrI
+	zGdzNNj8o4C4/aEE8Di1Nu1wP1otBBrwFOzu0siQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964693;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964694;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=kWcDAQJ7g0fsgW2WZbu1m1TuuzEIcqF/xn6RmjZ5uP0=;
-	b=q3ULwa9f+FgpB5EsvfOBirktJaSjmiGJ745sh4SiMGmpstupHDH7TUtcpNaxU3ZA
-	Nj2eNzVtPBJF/h2fvZUU1FhX2q201/u5qaj5BLLobp7N6JVuEh3/FOT5BHuhlbf9Ejl
-	TpXa/3FPpyY0tIUOND+L1OsSxh65n7lYddRHiss0=
-Content-Type: multipart/mixed; boundary="===============5932382852491121528=="
+	bh=bIf1avgGzKOFHUntl/lybYfs0Ips1J9lBYb19LVEQNc=;
+	b=FfUMoRqR6lq8MztsoVuyKMwZ6rXksUhb2lg/U2FmDCGVqtQBvigc3CNj4yQfdWzS
+	fBjjNe/WCNCVSeAMXQ/+UMHofrXXKaR1R/Gr5ks1w/TCj9QVA58itKKIefFnNB4DVHF
+	vo0JbbqULmod3EisQ94Lk/NJUMZXfNg8MC7Lw7Jg=
+Content-Type: multipart/mixed; boundary="===============0189510001618919611=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nghttp2: upgrading to 1.64.0 SUCCEEDED
-Message-ID: <010101934123eaf8-28d85d34-067b-4d3e-9750-3f30830d8b04-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:18:13 +0000
+Subject: [AUH] npth: upgrading to 1.8 SUCCEEDED
+Message-ID: <010101934123ee3c-3e8f41fb-ccb8-429c-afb1-857c88e53316-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:18:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.192
+X-SES-Outgoing: 2024.11.18-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207367
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207368
 
---===============5932382852491121528==
+--===============0189510001618919611==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *nghttp2* to *1.64.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *npth* to *1.8* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-nghttp2-upgrade-1.63.0-1.64.0.patch
+    - apply the patch: git am 0001-npth-upgrade-1.7-1.8.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,76 +72,97 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From bdfe32586113f6d5ef3d8992df70b51fd89c8842 Mon Sep 17 00:00:00 2001
+From 782eaf92b953cba75f75fb22d96d30fd2022ccb3 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 18 Nov 2024 17:27:48 +0000
-Subject: [PATCH] nghttp2: upgrade 1.63.0 -> 1.64.0
+Date: Mon, 18 Nov 2024 17:56:36 +0000
+Subject: [PATCH] npth: upgrade 1.7 -> 1.8
 
 ---
- .../nghttp2/{nghttp2_1.63.0.bb => nghttp2_1.64.0.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/nghttp2/{nghttp2_1.63.0.bb => nghttp2_1.64.0.bb} (91%)
+ meta/recipes-support/npth/npth/musl-fix.patch | 37 -------------------
+ .../npth/{npth_1.7.bb => npth_1.8.bb}         |  6 +--
+ 2 files changed, 2 insertions(+), 41 deletions(-)
+ delete mode 100644 meta/recipes-support/npth/npth/musl-fix.patch
+ rename meta/recipes-support/npth/{npth_1.7.bb => npth_1.8.bb} (73%)
 
-diff --git a/meta/recipes-support/nghttp2/nghttp2_1.63.0.bb b/meta/recipes-support/nghttp2/nghttp2_1.64.0.bb
-similarity index 91%
-rename from meta/recipes-support/nghttp2/nghttp2_1.63.0.bb
-rename to meta/recipes-support/nghttp2/nghttp2_1.64.0.bb
-index 43dbf722e9..5d5111a937 100644
---- a/meta/recipes-support/nghttp2/nghttp2_1.63.0.bb
-+++ b/meta/recipes-support/nghttp2/nghttp2_1.64.0.bb
-@@ -5,7 +5,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec"
+diff --git a/meta/recipes-support/npth/npth/musl-fix.patch b/meta/recipes-support/npth/npth/musl-fix.patch
+deleted file mode 100644
+index fabe78b14c..0000000000
+--- a/meta/recipes-support/npth/npth/musl-fix.patch
++++ /dev/null
+@@ -1,37 +0,0 @@
+-From 417abd56fd7bf45cd4948414050615cb1ad59134 Mon Sep 17 00:00:00 2001
+-From: NIIBE Yutaka <gniibe@fsij.org>
+-Date: Fri, 1 Mar 2024 13:53:52 +0900
+-Subject: [PATCH] Fix INSERT_EXPOSE_RWLOCK_API for musl C library.
+-
+-* configure.ac: Add a case for musl system.
+-
+-Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git;a=commit;h=417abd56fd7bf45cd4948414050615cb1ad59134]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+-
+-GnuPG-bug-id: 5664
+-Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
+----
+- configure.ac | 5 ++++-
+- 1 file changed, 4 insertions(+), 1 deletion(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index c1091b1..576a26e 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -381,7 +381,10 @@ fi
+- AC_SUBST(INSERT_NO_RWLOCK)
+- 
+- case "${host}" in
+--    *-*-linux*|*-*-gnu*)
+-+    *-*-linux-musl*)
+-+        INSERT_EXPOSE_RWLOCK_API="1"
+-+        ;;
+-+    *-*-linux-gnu*|*-*-gnu*)
+-         INSERT_EXPOSE_RWLOCK_API="defined(__USE_UNIX98) || defined(__USE_XOPEN2K)"
+-         ;;
+-     *)
+--- 
+-2.30.2
+-
+-
+diff --git a/meta/recipes-support/npth/npth_1.7.bb b/meta/recipes-support/npth/npth_1.8.bb
+similarity index 73%
+rename from meta/recipes-support/npth/npth_1.7.bb
+rename to meta/recipes-support/npth/npth_1.8.bb
+index 0cf35565a3..a354af2a7c 100644
+--- a/meta/recipes-support/npth/npth_1.7.bb
++++ b/meta/recipes-support/npth/npth_1.8.bb
+@@ -6,11 +6,9 @@ LICENSE = "LGPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2caced0b25dfefd4c601d92bd15116de"
+ UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/nghttp2-${PV}.tar.xz"
--SRC_URI[sha256sum] = "4879c75dd32a74421b9857924449460b8341796c0613ba114ab2188e4622354b"
-+SRC_URI[sha256sum] = "88bb94c9e4fd1c499967f83dece36a78122af7d5fb40da2019c56b9ccc6eb9dd"
+-SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2 \
+-           file://musl-fix.patch \
+-           "
++SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2"
  
- inherit cmake manpages python3native github-releases
- PACKAGECONFIG[manpages] = ""
+-SRC_URI[sha256sum] = "8589f56937b75ce33b28d312fccbf302b3b71ec3f3945fde6aaa74027914ad05"
++SRC_URI[sha256sum] = "8bd24b4f23a3065d6e5b26e98aba9ce783ea4fd781069c1b35d149694e90ca3e"
+ 
+ inherit autotools multilib_header
+ 
 -- 
 2.44.1
 
 
---===============5932382852491121528==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-nghttp2-upgrade-1.63.0-1.64.0.patch"
-
-RnJvbSBiZGZlMzI1ODYxMTNmNmQ1ZWYzZDg5OTJkZjcwYjUxZmQ4OWM4ODQyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMTc6Mjc6NDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
-Z2h0dHAyOiB1cGdyYWRlIDEuNjMuMCAtPiAxLjY0LjAKCi0tLQogLi4uL25naHR0cDIve25naHR0
-cDJfMS42My4wLmJiID0+IG5naHR0cDJfMS42NC4wLmJifSAgICAgICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLXN1cHBvcnQvbmdodHRwMi97bmdodHRwMl8xLjYzLjAuYmIgPT4gbmdodHRwMl8xLjY0
-LjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbmdodHRwMi9u
-Z2h0dHAyXzEuNjMuMC5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8x
-LjY0LjAuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjMuMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1
-cHBvcnQvbmdodHRwMi9uZ2h0dHAyXzEuNjQuMC5iYgppbmRleCA0M2RiZjcyMmU5Li41ZDUxMTFh
-OTM3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9uZ2h0dHAyL25naHR0cDJfMS42
-My4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L25naHR0cDIvbmdodHRwMl8xLjY0LjAu
-YmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vQ09QWUlORzttZDU9NzY0YWJkZjMwYjJlYWRkMzdjZTQ3ZGNiY2UwZWExZWMiCiAKIFNS
-Q19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25sb2FkL3Yke1BWfS9uZ2h0dHAyLSR7UFZ9
-LnRhci54eiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0ODc5Yzc1ZGQzMmE3NDQyMWI5ODU3OTI0
-NDQ5NDYwYjgzNDE3OTZjMDYxM2JhMTE0YWIyMTg4ZTQ2MjIzNTRiIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gIjg4YmI5NGM5ZTRmZDFjNDk5OTY3ZjgzZGVjZTM2YTc4MTIyYWY3ZDVmYjQwZGEyMDE5
-YzU2YjljY2M2ZWI5ZGQiCiAKIGluaGVyaXQgY21ha2UgbWFucGFnZXMgcHl0aG9uM25hdGl2ZSBn
-aXRodWItcmVsZWFzZXMKIFBBQ0tBR0VDT05GSUdbbWFucGFnZXNdID0gIiIKLS0gCjIuNDQuMQoK
-
---===============5932382852491121528==
+--===============0189510001618919611==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.2", added "/usr/lib/libnghttp2.so.14.28.3"
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.2 to libnghttp2.so.14.28.3
-  /usr/lib/libnghttp2.so.14.28.2 moved to /usr/lib/libnghttp2.so.14.28.3
+packages/core2-64-poky-linux/npth/npth: FILELIST: removed "/usr/lib/libnpth.so.0.2.0", added "/usr/lib/libnpth.so.0.3.0"
+Changes to packages/core2-64-poky-linux/npth (sysroot):
+  /usr/lib/libnpth.so.0 changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
+  /usr/lib/libnpth.so changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
+  /usr/lib/libnpth.so.0.2.0 moved to /usr/lib/libnpth.so.0.3.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -1983,41 +2004,94 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============5932382852491121528==
+--===============0189510001618919611==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-npth-upgrade-1.7-1.8.patch"
+
+RnJvbSA3ODJlYWY5MmI5NTNjYmE3NWY3NWZiMjJkOTZkMzBmZDIwMjJjY2IzIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMTc6NTY6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+cHRoOiB1cGdyYWRlIDEuNyAtPiAxLjgKCi0tLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9u
+cHRoL211c2wtZml4LnBhdGNoIHwgMzcgLS0tLS0tLS0tLS0tLS0tLS0tLQogLi4uL25wdGgve25w
+dGhfMS43LmJiID0+IG5wdGhfMS44LmJifSAgICAgICAgIHwgIDYgKy0tCiAyIGZpbGVzIGNoYW5n
+ZWQsIDIgaW5zZXJ0aW9ucygrKSwgNDEgZGVsZXRpb25zKC0pCiBkZWxldGUgbW9kZSAxMDA2NDQg
+bWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoL211c2wtZml4LnBhdGNoCiByZW5hbWUgbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC97bnB0aF8xLjcuYmIgPT4gbnB0aF8xLjguYmJ9ICg3MyUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoL211c2wtZml4LnBh
+dGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoL211c2wtZml4LnBhdGNoCmRlbGV0
+ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCBmYWJlNzhiMTRjLi4wMDAwMDAwMDAwCi0tLSBhL21l
+dGEvcmVjaXBlcy1zdXBwb3J0L25wdGgvbnB0aC9tdXNsLWZpeC5wYXRjaAorKysgL2Rldi9udWxs
+CkBAIC0xLDM3ICswLDAgQEAKLUZyb20gNDE3YWJkNTZmZDdiZjQ1Y2Q0OTQ4NDE0MDUwNjE1Y2Ix
+YWQ1OTEzNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IE5JSUJFIFl1dGFrYSA8Z25p
+aWJlQGZzaWoub3JnPgotRGF0ZTogRnJpLCAxIE1hciAyMDI0IDEzOjUzOjUyICswOTAwCi1TdWJq
+ZWN0OiBbUEFUQ0hdIEZpeCBJTlNFUlRfRVhQT1NFX1JXTE9DS19BUEkgZm9yIG11c2wgQyBsaWJy
+YXJ5LgotCi0qIGNvbmZpZ3VyZS5hYzogQWRkIGEgY2FzZSBmb3IgbXVzbCBzeXN0ZW0uCi0KLVVw
+c3RyZWFtLVN0YXR1czogQmFja3BvcnQgW2h0dHBzOi8vZ2l0LmdudXBnLm9yZy9jZ2ktYmluL2dp
+dHdlYi5jZ2k/cD1ucHRoLmdpdDthPWNvbW1pdDtoPTQxN2FiZDU2ZmQ3YmY0NWNkNDk0ODQxNDA1
+MDYxNWNiMWFkNTkxMzRdCi1TaWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgS2FuYXZpbiA8YWxleEBs
+aW51dHJvbml4LmRlPgotLS0KLQotR251UEctYnVnLWlkOiA1NjY0Ci1TaWduZWQtb2ZmLWJ5OiBO
+SUlCRSBZdXRha2EgPGduaWliZUBmc2lqLm9yZz4KLS0tLQotIGNvbmZpZ3VyZS5hYyB8IDUgKysr
+Ky0KLSAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pCi0KLWRp
+ZmYgLS1naXQgYS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IGMxMDkxYjEuLjU3
+NmEyNmUgMTAwNjQ0Ci0tLS0gYS9jb25maWd1cmUuYWMKLSsrKyBiL2NvbmZpZ3VyZS5hYwotQEAg
+LTM4MSw3ICszODEsMTAgQEAgZmkKLSBBQ19TVUJTVChJTlNFUlRfTk9fUldMT0NLKQotIAotIGNh
+c2UgIiR7aG9zdH0iIGluCi0tICAgICotKi1saW51eCp8Ki0qLWdudSopCi0rICAgICotKi1saW51
+eC1tdXNsKikKLSsgICAgICAgIElOU0VSVF9FWFBPU0VfUldMT0NLX0FQST0iMSIKLSsgICAgICAg
+IDs7Ci0rICAgICotKi1saW51eC1nbnUqfCotKi1nbnUqKQotICAgICAgICAgSU5TRVJUX0VYUE9T
+RV9SV0xPQ0tfQVBJPSJkZWZpbmVkKF9fVVNFX1VOSVg5OCkgfHwgZGVmaW5lZChfX1VTRV9YT1BF
+TjJLKSIKLSAgICAgICAgIDs7Ci0gICAgICopCi0tLSAKLTIuMzAuMgotCi0KZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L25wdGgvbnB0aF8xLjcuYmIgYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9ucHRoL25wdGhfMS44LmJiCnNpbWlsYXJpdHkgaW5kZXggNzMlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L25wdGgvbnB0aF8xLjcuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1zdXBwb3J0L25wdGgvbnB0aF8xLjguYmIKaW5kZXggMGNmMzU1NjVhMy4uYTM1NGFmMmE3YyAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnB0aC9ucHRoXzEuNy5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9ucHRoL25wdGhfMS44LmJiCkBAIC02LDExICs2LDkgQEAgTElD
+RU5TRSA9ICJMR1BMLTIuMC1vci1sYXRlciIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
+UFlJTkcuTElCO21kNT0yY2FjZWQwYjI1ZGZlZmQ0YzYwMWQ5MmJkMTUxMTZkZSIKIFVQU1RSRUFN
+X0NIRUNLX1VSSSA9ICJodHRwczovL2dudXBnLm9yZy9kb3dubG9hZC9pbmRleC5odG1sIgogCi1T
+UkNfVVJJID0gIiR7R05VUEdfTUlSUk9SfS9ucHRoL25wdGgtJHtQVn0udGFyLmJ6MiBcCi0gICAg
+ICAgICAgIGZpbGU6Ly9tdXNsLWZpeC5wYXRjaCBcCi0gICAgICAgICAgICIKK1NSQ19VUkkgPSAi
+JHtHTlVQR19NSVJST1J9L25wdGgvbnB0aC0ke1BWfS50YXIuYnoyIgogCi1TUkNfVVJJW3NoYTI1
+NnN1bV0gPSAiODU4OWY1NjkzN2I3NWNlMzNiMjhkMzEyZmNjYmYzMDJiM2I3MWVjM2YzOTQ1ZmRl
+NmFhYTc0MDI3OTE0YWQwNSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4YmQyNGI0ZjIzYTMwNjVk
+NmU1YjI2ZTk4YWJhOWNlNzgzZWE0ZmQ3ODEwNjljMWIzNWQxNDk2OTRlOTBjYTNlIgogCiBpbmhl
+cml0IGF1dG90b29scyBtdWx0aWxpYl9oZWFkZXIKIAotLSAKMi40NC4xCgo=
+
+--===============0189510001618919611==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/nghttp2: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2: SRC_URI changed from "https://github.com/nghttp2/nghttp2/releases//download/v1.63.0/nghttp2-1.63.0.tar.xz" to "https://github.com/nghttp2/nghttp2/releases//download/v1.64.0/nghttp2-1.64.0.tar.xz"
-packages/core2-64-poky-linux/nghttp2: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/libnghttp2: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/libnghttp2: FILELIST: removed "/usr/lib/libnghttp2.so.14.28.2", added "/usr/lib/libnghttp2.so.14.28.3"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PKGSIZE changed from 626968 to 625024 (-0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dbg: FILELIST: removed "/usr/lib/.debug/libnghttp2.so.14.28.2", added "/usr/lib/.debug/libnghttp2.so.14.28.3"
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PKGSIZE changed from 258157 to 258234 (+0%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-dev: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-doc: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-locale: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-proxy: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PKGSIZE changed from 1090681 to 1072650 (-2%)
-packages/core2-64-poky-linux/nghttp2/nghttp2-src: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2-staticdev: PV changed from "1.63.0" to "1.64.0"
-packages/core2-64-poky-linux/nghttp2/nghttp2: PKGV changed from 1.63.0 [default] to 1.64.0 [default]
-packages/core2-64-poky-linux/nghttp2/nghttp2: PV changed from "1.63.0" to "1.64.0"
-Changes to packages/core2-64-poky-linux/nghttp2 (sysroot):
-  /usr/lib/libnghttp2.so.14 changed symlink target from libnghttp2.so.14.28.2 to libnghttp2.so.14.28.3
-  /usr/lib/libnghttp2.so.14.28.2 moved to /usr/lib/libnghttp2.so.14.28.3
+packages/core2-64-poky-linux/npth: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/npth/npth-1.7.tar.bz2 file://musl-fix.patch" to "https://www.gnupg.org/ftp/gcrypt/npth/npth-1.8.tar.bz2"
+packages/core2-64-poky-linux/npth: PV changed from "1.7" to "1.8"
+packages/core2-64-poky-linux/npth/npth-dbg: FILELIST: removed "/usr/lib/.debug/libnpth.so.0.2.0", added "/usr/lib/.debug/libnpth.so.0.3.0"
+packages/core2-64-poky-linux/npth/npth-dbg: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth/npth-dbg: PKGSIZE changed from 45440 to 45960 (+1%)
+packages/core2-64-poky-linux/npth/npth-dbg: PV changed from "1.7" to "1.8"
+packages/core2-64-poky-linux/npth/npth-dev: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth/npth-dev: PKGSIZE changed from 20708 to 21114 (+2%)
+packages/core2-64-poky-linux/npth/npth-dev: PV changed from "1.7" to "1.8"
+packages/core2-64-poky-linux/npth/npth-doc: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth/npth-doc: PV changed from "1.7" to "1.8"
+packages/core2-64-poky-linux/npth/npth-locale: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth/npth-locale: PV changed from "1.7" to "1.8"
+packages/core2-64-poky-linux/npth/npth-src: FILELIST: removed "/usr/src/debug/npth/1.7/src/npth.h /usr/src/debug/npth/1.7/src/npth.c /usr/src/debug/npth/1.7/src/npth-sigev.c", added "/usr/src/debug/npth/1.8/src/npth.h /usr/src/debug/npth/1.8/src/npth.c /usr/src/debug/npth/1.8/src/npth-sigev.c /usr/src/debug/npth/1.8/src/getversion.c"
+packages/core2-64-poky-linux/npth/npth-src: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth/npth-src: PKGSIZE changed from 36882 to 40417 (+10%)
+packages/core2-64-poky-linux/npth/npth-src: PV changed from "1.7" to "1.8"
+packages/core2-64-poky-linux/npth/npth-staticdev: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth/npth-staticdev: PV changed from "1.7" to "1.8"
+packages/core2-64-poky-linux/npth/npth: FILELIST: removed "/usr/lib/libnpth.so.0.2.0", added "/usr/lib/libnpth.so.0.3.0"
+packages/core2-64-poky-linux/npth/npth: PKGV changed from 1.7 [default] to 1.8 [default]
+packages/core2-64-poky-linux/npth/npth: PV changed from "1.7" to "1.8"
+Changes to packages/core2-64-poky-linux/npth (sysroot):
+  /usr/lib/libnpth.so.0 changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
+  /usr/lib/libnpth.so changed symlink target from libnpth.so.0.2.0 to libnpth.so.0.3.0
+  /usr/lib/libnpth.so.0.2.0 moved to /usr/lib/libnpth.so.0.3.0
 Changes to packages/x86_64-linux/binutils-cross-x86_64 (sysroot):
   /sysroot-providers/virtual_x86_64-poky-linux-binutils was added
   /usr/bin/x86_64-poky-linux was added
@@ -3859,5 +3933,5 @@ Changes to packages/x86_64-linux/gcc-cross-x86_64 (sysroot):
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/wide-int-print.h was removed
   /usr/lib/x86_64-poky-linux-musl/gcc/x86_64-poky-linux-musl/14.2.0/plugin/include/xcoff.h was removed
 
---===============5932382852491121528==--
+--===============0189510001618919611==--
 
