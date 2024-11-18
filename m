@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8466FD60CF8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0A86D60CFE
 	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:18:15 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.4898.1731964687807421831
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.4737.1731964680597332243
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:18:07 -0800
+ Mon, 18 Nov 2024 13:18:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=UsO1exy+;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=fMXRVC1L;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101934123d3d6-da8c7c38-b182-463d-8a17-23e4a62fc13e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=iYIyi3ZU;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=uZDnUHWK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101934123f01b-f444633b-b07d-470a-b6b8-ac01cef0cfcb-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964687;
+	t=1731964694;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vHC/oKHkwkAdAmwnYPC0LLp/SdJfABFM3YdqD9bxaxY=;
-	b=UsO1exy+dDP+bsPNmBN4RF3JqdkiPuTQXuwCHozIOpX97yqhpZ3UFJw81lZMf18N
-	9Va7KVmqvRV8Zgt4ggA4xSshxNHhntnsSik/ltnD6F369v0SU75fvVjbJjgss9H2W+O
-	wjGx5sbWoxfoZ1cCwGoEt1rd7b76I58y8q+3fWQs=
+	bh=25Oly+fZ3zum+23pDWFj/AV48fnHKh5Ls3ZUK1yQiNM=;
+	b=iYIyi3ZUjUt85qp/RXAsua3dWgOX2uIjKlMOAvxSw8M894O836ByPIj6GKYROg+N
+	IaZibivRdVZwEVzCqOl7cseBEJPjPct4/Ljqs4Ar1rbACLcIaGdJnzYoMbNJjzZnEYX
+	F8UqVjNElXktLaA9gGQALrst5Yf6VyeJktDnEyZI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964687;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964694;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vHC/oKHkwkAdAmwnYPC0LLp/SdJfABFM3YdqD9bxaxY=;
-	b=fMXRVC1LglnIdeeqpHKaU+pulZa9BAcC0Zi8VwfNd5t9XAgZqvvKzoGguRr9LTsp
-	YOeof3BLgZrI/u9/6v3/4p/Cz//alHR5mtuhleCVdwUMBeiW4HnlHgnrfIVHDbk7257
-	z30rF0TVO/3e4RUlyN58urOO5nP51/UpgVHH7Kyw=
-Content-Type: multipart/mixed; boundary="===============9186027754295170583=="
+	bh=25Oly+fZ3zum+23pDWFj/AV48fnHKh5Ls3ZUK1yQiNM=;
+	b=uZDnUHWKNhWbUHk7B91kS0c5Y/i27ElMUS8joJRPobIJ5/8yJ8cWxkAOlgUqu+0s
+	q90lt0uReE6zLuKCLNLvNoSXG3+XUSohMJaj7gsyvs06x3CORiKBnEDtN9NcvBqkRWH
+	VjyDCALWwIkBYUKVHt/AHECR6UoglbPDovChR+68=
+Content-Type: multipart/mixed; boundary="===============0883022480821234173=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Hongxu Jia <hongxu.jia@windriver.com>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] gnupg: upgrading to 2.5.1 FAILED
-Message-ID: <010101934123d3d6-da8c7c38-b182-463d-8a17-23e4a62fc13e-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:18:07 +0000
+Subject: [AUH] numactl: upgrading to 2.0.19 SUCCEEDED
+Message-ID: <010101934123f01b-f444633b-b07d-470a-b6b8-ac01cef0cfcb-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:18:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.192
+X-SES-Outgoing: 2024.11.18-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:18:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207359
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207369
 
---===============9186027754295170583==
+--===============0883022480821234173==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *gnupg* to *2.5.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *numactl* to *2.0.19* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-gnupg-upgrade-2.5.0-2.5.1.patch
+    - apply the patch: git am 0001-numactl-upgrade-2.0.18-2.0.19.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -78,397 +72,174 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 884a37b3348eea895ffae9a8c5dacb80a762794e Mon Sep 17 00:00:00 2001
+From fa22c3eddaa42a6ab51f0320185ad0ac4bd7621b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 18 Nov 2024 11:53:50 +0000
-Subject: [PATCH] gnupg: upgrade 2.5.0 -> 2.5.1
+Date: Mon, 18 Nov 2024 18:22:50 +0000
+Subject: [PATCH] numactl: upgrade 2.0.18 -> 2.0.19
 
 ---
- ...0001-Woverride-init-is-not-needed-with-gcc-9.patch |  2 +-
- ...e.ac-use-a-custom-value-for-the-location-of-.patch |  6 +++---
- .../gnupg/0001-fix-compile-failure-with-musl.patch    | 11 ++++-------
- .../0002-use-pkgconfig-instead-of-npth-config.patch   |  2 +-
- ...utogen.sh-fix-find-version-for-beta-checking.patch |  2 +-
- meta/recipes-support/gnupg/gnupg/relocate.patch       |  4 ++--
- .../gnupg/{gnupg_2.5.0.bb => gnupg_2.5.1.bb}          |  2 +-
- 7 files changed, 13 insertions(+), 16 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.5.0.bb => gnupg_2.5.1.bb} (97%)
+ .../numactl/numactl/0001-define-run-test-target.patch        | 3 +--
+ .../numactl/numactl/Fix-the-test-output-format.patch         | 5 ++---
+ meta/recipes-support/numactl/numactl_git.bb                  | 4 ++--
+ 3 files changed, 5 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-index 77d7507edc..024f4a9f10 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+diff --git a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
+index 68b3e2491f..2262b5d4ff 100644
+--- a/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
++++ b/meta/recipes-support/numactl/numactl/0001-define-run-test-target.patch
 @@ -1,4 +1,4 @@
--From 6392cb71a23adfd601537049da4e5e06e51d2e50 Mon Sep 17 00:00:00 2001
-+From 69d132c4cca738f148551af24932010fb1029ea1 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Dec 2018 17:37:48 -0800
- Subject: [PATCH] Woverride-init is not needed with gcc 9
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index 12b1447138..702cba4b71 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From a0e986b487891ef8e3bb41b95f969e00edd4923f Mon Sep 17 00:00:00 2001
-+From d9ef954b602c17839c52a1d7dc73e2354e5fbbbb Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-From a5e1fa272f294e739d6caaf629968478796ca53a Mon Sep 17 00:00:00 2001
++From e6d55a81ddcef021f720196ad88aab845644ed28 Mon Sep 17 00:00:00 2001
+ From: Roy Li <rongqing.li@windriver.com>
+ Date: Mon, 19 Oct 2020 14:42:11 -0700
+ Subject: [PATCH] rename test target as run-test
+@@ -11,7 +11,6 @@ not suitable for cross-compile environment, so rename it as run-test.
+ and define test target to compile the test files.
  
- diff --git a/configure.ac b/configure.ac
--index e4f8c0e..fa75ec8 100644
-+index 29592fd..7286862 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1925,7 +1925,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-+@@ -1911,7 +1911,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-  
-  AC_DEFINE_UNQUOTED(GPGTAR_NAME, "gpgtar", [The name of the gpgtar tool])
-  
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch b/meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch
-index fef05cf3c8..13c1a36366 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-fix-compile-failure-with-musl.patch
-@@ -1,4 +1,4 @@
--From 4a7d4d6e45c68708ec95335b0f11d6596b23095a Mon Sep 17 00:00:00 2001
-+From 2e7534f3f7694ba426615b2061c235908097bb9b Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Thu, 22 Aug 2024 15:31:16 +0800
- Subject: [PATCH] fix compile failure with musl
-@@ -20,17 +20,14 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+)
- 
- diff --git a/scd/app.c b/scd/app.c
--index 926ab79..7bf58a2 100644
-+index 525950e..7180178 100644
- --- a/scd/app.c
- +++ b/scd/app.c
--@@ -23,6 +23,7 @@
-- #include <stdlib.h>
-+@@ -24,6 +24,7 @@
-  #include <string.h>
-+ #include <unistd.h>
-  #include <npth.h>
- +#include <unistd.h>
-  
-  #include "scdaemon.h"
-  #include "../common/exechelp.h"
---- 
--2.27.0
+ Signed-off-by: Roy Li <rongqing.li@windriver.com>
 -
-diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-index 945abb55ff..a7a6f03c7d 100644
---- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+ ---
+  Makefile.am | 4 +++-
+  1 file changed, 3 insertions(+), 1 deletion(-)
+diff --git a/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
+index 8345f71d72..a529c6acd5 100644
+--- a/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
++++ b/meta/recipes-support/numactl/numactl/Fix-the-test-output-format.patch
 @@ -1,4 +1,4 @@
--From fa93b5f7c2da0e5846b80de9c6296966ca2a3d83 Mon Sep 17 00:00:00 2001
-+From d5fc05998d7260fd94a558c53f6e6c35a384d163 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:16:30 +0800
- Subject: [PATCH] use pkgconfig instead of npth config
-diff --git a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-index 761fd6c608..8aeb87dfd4 100644
---- a/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0004-autogen.sh-fix-find-version-for-beta-checking.patch
-@@ -1,4 +1,4 @@
--From e8f67e3bbbdbaa17cfe88c1f7a8f488eb4936281 Mon Sep 17 00:00:00 2001
-+From 21396a6e74d188a2198439aa27403c29c1dbcea8 Mon Sep 17 00:00:00 2001
- From: Wenzong Fan <wenzong.fan@windriver.com>
- Date: Wed, 16 Aug 2017 11:23:22 +0800
- Subject: [PATCH] autogen.sh: fix find-version for beta checking
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
-index 5c4d81f87a..6fcbc2d18f 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From 4e556a5edde8a97312abae63f8e9b5f989ca5c91 Mon Sep 17 00:00:00 2001
-+From 3c761174b0ec6f49f184f16a0b0eaade44264edc Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for its
-@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 7 insertions(+), 7 deletions(-)
+-From 29f811d9d381f2ab54b3c8cef77334e32970ef09 Mon Sep 17 00:00:00 2001
++From 862f2d1c9ade6683238c99f8f146cab179cf60ea Mon Sep 17 00:00:00 2001
+ From: Li xin <lixin.fnst@cn.fujitsu.com>
+ Date: Tue, 21 Jul 2015 02:01:22 +0900
+ Subject: [PATCH] Fix the test output format
+@@ -8,14 +8,13 @@ Upstream-Status: Pending
+ Signed-off-by: Roy Li <rongqing.li@windriver.com>
+ Signed-off-by: Li Xin <lixin.fnst@cn.fujitsu.com>
+ Signed-off-by: Xiangyu Chen <xiangyu.chen@windriver.com>
+-
+ ---
+  test/regress  |  6 +++---
+  test/regress2 | 11 +++++------
+  2 files changed, 8 insertions(+), 9 deletions(-)
  
- diff --git a/common/homedir.c b/common/homedir.c
--index 3929108..d3a7b8f 100644
-+index a73182e..9994a9a 100644
- --- a/common/homedir.c
- +++ b/common/homedir.c
- @@ -1439,7 +1439,7 @@ gnupg_socketdir (void)
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.0.bb b/meta/recipes-support/gnupg/gnupg_2.5.1.bb
-similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.5.0.bb
-rename to meta/recipes-support/gnupg/gnupg_2.5.1.bb
-index 9cfdbdf0a4..76bd5a3773 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.0.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.1.bb
-@@ -24,7 +24,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+ diff --git a/test/regress b/test/regress
+-index f06b22f..2fdfacb 100755
++index 1da7784..b0f06ea 100755
+ --- a/test/regress
+ +++ b/test/regress
+ @@ -78,6 +78,7 @@ probe_hardware()
+diff --git a/meta/recipes-support/numactl/numactl_git.bb b/meta/recipes-support/numactl/numactl_git.bb
+index 6c853f1966..f87c9b3e6a 100644
+--- a/meta/recipes-support/numactl/numactl_git.bb
++++ b/meta/recipes-support/numactl/numactl_git.bb
+@@ -10,8 +10,8 @@ inherit autotools-brokensep ptest
  
--SRC_URI[sha256sum] = "2222c827d4e7087f15e7f72739d004abc1d05c6c5f0a5a12b24c6a6cc5d173fb"
-+SRC_URI[sha256sum] = "8a34bb318499867962c939e156666ada93ed81f01926590ac68f3ff79178375e"
+ LIC_FILES_CHKSUM = "file://README.md;beginline=19;endline=32;md5=9f34c3af4ed6f3f5df0da5f3c0835a43"
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+-SRCREV = "3871b1c42fc71bceadafd745d2eff5dddfc2d67e"
+-PV = "2.0.18"
++SRCREV = "3bc85e37d5a30da6790cb7e8bb488bb8f679170f"
++PV = "2.0.19"
+ 
+ SRC_URI = "git://github.com/numactl/numactl;branch=master;protocol=https \
+            file://Fix-the-test-output-format.patch \
 -- 
 2.44.1
 
 
---===============9186027754295170583==
+--===============0883022480821234173==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-gnupg-upgrade-2.5.0-2.5.1.patch"
+ filename="0001-numactl-upgrade-2.0.18-2.0.19.patch"
 
-RnJvbSA4ODRhMzdiMzM0OGVlYTg5NWZmYWU5YThjNWRhY2I4MGE3NjI3OTRlIE1vbiBTZXAgMTcg
+RnJvbSBmYTIyYzNlZGRhYTQyYTZhYjUxZjAzMjAxODVhZDBhYzRiZDc2MjFiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMTE6NTM6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBn
-bnVwZzogdXBncmFkZSAyLjUuMCAtPiAyLjUuMQoKLS0tCiAuLi4wMDAxLVdvdmVycmlkZS1pbml0
-LWlzLW5vdC1uZWVkZWQtd2l0aC1nY2MtOS5wYXRjaCB8ICAyICstCiAuLi5lLmFjLXVzZS1hLWN1
-c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0aW9uLW9mLS5wYXRjaCB8ICA2ICsrKy0tLQogLi4uL2du
-dXBnLzAwMDEtZml4LWNvbXBpbGUtZmFpbHVyZS13aXRoLW11c2wucGF0Y2ggICAgfCAxMSArKysr
-LS0tLS0tLQogLi4uLzAwMDItdXNlLXBrZ2NvbmZpZy1pbnN0ZWFkLW9mLW5wdGgtY29uZmlnLnBh
-dGNoICAgfCAgMiArLQogLi4udXRvZ2VuLnNoLWZpeC1maW5kLXZlcnNpb24tZm9yLWJldGEtY2hl
-Y2tpbmcucGF0Y2ggfCAgMiArLQogbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvcmVs
-b2NhdGUucGF0Y2ggICAgICAgfCAgNCArKy0tCiAuLi4vZ251cGcve2dudXBnXzIuNS4wLmJiID0+
-IGdudXBnXzIuNS4xLmJifSAgICAgICAgICB8ICAyICstCiA3IGZpbGVzIGNoYW5nZWQsIDEzIGlu
-c2VydGlvbnMoKyksIDE2IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0
-L2dudXBnL3tnbnVwZ18yLjUuMC5iYiA9PiBnbnVwZ18yLjUuMS5iYn0gKDk3JSkKCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLVdvdmVycmlkZS1pbml0
-LWlzLW5vdC1uZWVkZWQtd2l0aC1nY2MtOS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2du
-dXBnL2dudXBnLzAwMDEtV292ZXJyaWRlLWluaXQtaXMtbm90LW5lZWRlZC13aXRoLWdjYy05LnBh
-dGNoCmluZGV4IDc3ZDc1MDdlZGMuLjAyNGY0YTlmMTAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDEtV292ZXJyaWRlLWluaXQtaXMtbm90LW5lZWRlZC13
-aXRoLWdjYy05LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAw
-MDEtV292ZXJyaWRlLWluaXQtaXMtbm90LW5lZWRlZC13aXRoLWdjYy05LnBhdGNoCkBAIC0xLDQg
-KzEsNCBAQAotRnJvbSA2MzkyY2I3MWEyM2FkZmQ2MDE1MzcwNDlkYTRlNWUwNmU1MWQyZTUwIE1v
-biBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA2OWQxMzJjNGNjYTczOGYxNDg1NTFhZjI0OTMy
-MDEwZmIxMDI5ZWExIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogS2hlbSBSYWogPHJh
-ai5raGVtQGdtYWlsLmNvbT4KIERhdGU6IFRodSwgMjAgRGVjIDIwMTggMTc6Mzc6NDggLTA4MDAK
-IFN1YmplY3Q6IFtQQVRDSF0gV292ZXJyaWRlLWluaXQgaXMgbm90IG5lZWRlZCB3aXRoIGdjYyA5
-CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLWNvbmZp
-Z3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUtZm9yLXRoZS1sb2NhdGlvbi1vZi0ucGF0Y2ggYi9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLWNvbmZpZ3VyZS5hYy11c2UtYS1j
-dXN0b20tdmFsdWUtZm9yLXRoZS1sb2NhdGlvbi1vZi0ucGF0Y2gKaW5kZXggMTJiMTQ0NzEzOC4u
-NzAyY2JhNGI3MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcv
-MDAwMS1jb25maWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24tb2Yt
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDEtY29uZmln
-dXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0aW9uLW9mLS5wYXRjaApAQCAt
-MSw0ICsxLDQgQEAKLUZyb20gYTBlOTg2YjQ4Nzg5MWVmOGUzYmI0MWI5NWY5NjllMDBlZGQ0OTIz
-ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZDllZjk1NGI2MDJjMTc4MzljNTJhMWQ3
-ZGM3M2UyMzU0ZTVmYmJiYiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFsZXhhbmRl
-ciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogTW9uLCAyMiBKYW4gMjAx
-OCAxODowMDoyMSArMDIwMAogU3ViamVjdDogW1BBVENIXSBjb25maWd1cmUuYWM6IHVzZSBhIGN1
-c3RvbSB2YWx1ZSBmb3IgdGhlIGxvY2F0aW9uIG9mCkBAIC0xMywxMCArMTMsMTAgQEAgU2lnbmVk
-LW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQg
-YS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IGU0ZjhjMGUuLmZhNzVlYzggMTAw
-NjQ0CitpbmRleCAyOTU5MmZkLi43Mjg2ODYyIDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiAr
-KysgYi9jb25maWd1cmUuYWMKLUBAIC0xOTI1LDcgKzE5MjUsNyBAQCBBQ19ERUZJTkVfVU5RVU9U
-RUQoR1BHQ09ORl9ESVNQX05BTUUsICJHUEdDb25mIiwKK0BAIC0xOTExLDcgKzE5MTEsNyBAQCBB
-Q19ERUZJTkVfVU5RVU9URUQoR1BHQ09ORl9ESVNQX05BTUUsICJHUEdDb25mIiwKICAKICBBQ19E
-RUZJTkVfVU5RVU9URUQoR1BHVEFSX05BTUUsICJncGd0YXIiLCBbVGhlIG5hbWUgb2YgdGhlIGdw
-Z3RhciB0b29sXSkKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2du
-dXBnLzAwMDEtZml4LWNvbXBpbGUtZmFpbHVyZS13aXRoLW11c2wucGF0Y2ggYi9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDAxLWZpeC1jb21waWxlLWZhaWx1cmUtd2l0aC1tdXNs
-LnBhdGNoCmluZGV4IGZlZjA1Y2YzYzguLjEzYzFhMzYzNjYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDEtZml4LWNvbXBpbGUtZmFpbHVyZS13aXRoLW11
-c2wucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1maXgt
-Y29tcGlsZS1mYWlsdXJlLXdpdGgtbXVzbC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gNGE3
-ZDRkNmU0NWM2ODcwOGVjOTUzMzViMGYxMWQ2NTk2YjIzMDk1YSBNb24gU2VwIDE3IDAwOjAwOjAw
-IDIwMDEKK0Zyb20gMmU3NTM0ZjNmNzY5NGJhNDI2NjE1YjIwNjFjMjM1OTA4MDk3YmI5YiBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJp
-dmVyLmNvbT4KIERhdGU6IFRodSwgMjIgQXVnIDIwMjQgMTU6MzE6MTYgKzA4MDAKIFN1YmplY3Q6
-IFtQQVRDSF0gZml4IGNvbXBpbGUgZmFpbHVyZSB3aXRoIG11c2wKQEAgLTIwLDE3ICsyMCwxNCBA
-QCBTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRyaXZlci5jb20+CiAg
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspCiAKIGRpZmYgLS1naXQgYS9zY2QvYXBwLmMg
-Yi9zY2QvYXBwLmMKLWluZGV4IDkyNmFiNzkuLjdiZjU4YTIgMTAwNjQ0CitpbmRleCA1MjU5NTBl
-Li43MTgwMTc4IDEwMDY0NAogLS0tIGEvc2NkL2FwcC5jCiArKysgYi9zY2QvYXBwLmMKLUBAIC0y
-Myw2ICsyMyw3IEBACi0gI2luY2x1ZGUgPHN0ZGxpYi5oPgorQEAgLTI0LDYgKzI0LDcgQEAKICAj
-aW5jbHVkZSA8c3RyaW5nLmg+CisgI2luY2x1ZGUgPHVuaXN0ZC5oPgogICNpbmNsdWRlIDxucHRo
-Lmg+CiArI2luY2x1ZGUgPHVuaXN0ZC5oPgogIAogICNpbmNsdWRlICJzY2RhZW1vbi5oIgogICNp
-bmNsdWRlICIuLi9jb21tb24vZXhlY2hlbHAuaCIKLS0tIAotMi4yNy4wCi0KZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDItdXNlLXBrZ2NvbmZpZy1pbnN0
-ZWFkLW9mLW5wdGgtY29uZmlnLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251
-cGcvMDAwMi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0Y2gKaW5kZXgg
-OTQ1YWJiNTVmZi4uYTdhNmYwM2M3ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-Z251cGcvZ251cGcvMDAwMi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0
-Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMi11c2UtcGtnY29u
-ZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGZh
-OTNiNWY3YzJkYTBlNTg0NmI4MGRlOWM2Mjk2OTY2Y2EyYTNkODMgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIGQ1ZmMwNTk5OGQ3MjYwZmQ5NGE1NThjNTNmNmU2YzM1YTM4NGQxNjMgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBTYXVsIFdvbGQgPHNnd0BsaW51eC5pbnRlbC5j
-b20+CiBEYXRlOiBXZWQsIDE2IEF1ZyAyMDE3IDExOjE2OjMwICswODAwCiBTdWJqZWN0OiBbUEFU
-Q0hdIHVzZSBwa2djb25maWcgaW5zdGVhZCBvZiBucHRoIGNvbmZpZwpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwNC1hdXRvZ2VuLnNoLWZpeC1maW5kLXZl
-cnNpb24tZm9yLWJldGEtY2hlY2tpbmcucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVw
-Zy9nbnVwZy8wMDA0LWF1dG9nZW4uc2gtZml4LWZpbmQtdmVyc2lvbi1mb3ItYmV0YS1jaGVja2lu
-Zy5wYXRjaAppbmRleCA3NjFmZDZjNjA4Li44YWViODdkZmQ0IDEwMDY0NAotLS0gYS9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy8wMDA0LWF1dG9nZW4uc2gtZml4LWZpbmQtdmVyc2lv
-bi1mb3ItYmV0YS1jaGVja2luZy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVw
-Zy9nbnVwZy8wMDA0LWF1dG9nZW4uc2gtZml4LWZpbmQtdmVyc2lvbi1mb3ItYmV0YS1jaGVja2lu
-Zy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gZThmNjdlM2JiYmRiYWExN2NmZTg4YzFmN2E4
-ZjQ4OGViNDkzNjI4MSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMjEzOTZhNmU3NGQx
-ODhhMjE5ODQzOWFhMjc0MDNjMjljMWRiY2VhOCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
-b206IFdlbnpvbmcgRmFuIDx3ZW56b25nLmZhbkB3aW5kcml2ZXIuY29tPgogRGF0ZTogV2VkLCAx
-NiBBdWcgMjAxNyAxMToyMzoyMiArMDgwMAogU3ViamVjdDogW1BBVENIXSBhdXRvZ2VuLnNoOiBm
-aXggZmluZC12ZXJzaW9uIGZvciBiZXRhIGNoZWNraW5nCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxvY2F0ZS5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2dudXBnL2dudXBnL3JlbG9jYXRlLnBhdGNoCmluZGV4IDVjNGQ4MWY4N2EuLjZmY2JjMmQx
-OGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9jYXRl
-LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnL3JlbG9jYXRlLnBh
-dGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSA0ZTU1NmE1ZWRkZThhOTczMTJhYmFlNjNmOGU5YjVm
-OTg5Y2E1YzkxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAzYzc2MTE3NGIwZWM2ZjQ5
-ZjE4NGYxNmEwYjBlYWFkZTQ0MjY0ZWRjIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTog
-Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGludGVsLmNvbT4KIERhdGU6IFdlZCwgMTkgU2VwIDIw
-MTggMTQ6NDQ6NDAgKzAxMDAKIFN1YmplY3Q6IFtQQVRDSF0gQWxsb3cgdGhlIGVudmlyb25tZW50
-IHRvIG92ZXJyaWRlIHdoZXJlIGdudXBnIGxvb2tzIGZvciBpdHMKQEAgLTEzLDcgKzEzLDcgQEAg
-U2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAx
-IGZpbGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQogCiBkaWZmIC0t
-Z2l0IGEvY29tbW9uL2hvbWVkaXIuYyBiL2NvbW1vbi9ob21lZGlyLmMKLWluZGV4IDM5MjkxMDgu
-LmQzYTdiOGYgMTAwNjQ0CitpbmRleCBhNzMxODJlLi45OTk0YTlhIDEwMDY0NAogLS0tIGEvY29t
-bW9uL2hvbWVkaXIuYwogKysrIGIvY29tbW9uL2hvbWVkaXIuYwogQEAgLTE0MzksNyArMTQzOSw3
-IEBAIGdudXBnX3NvY2tldGRpciAodm9pZCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2dudXBnL2dudXBnXzIuNS4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251
-cGdfMi41LjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvZ251cGcvZ251cGdfMi41LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBw
-b3J0L2dudXBnL2dudXBnXzIuNS4xLmJiCmluZGV4IDljZmRiZGYwYTQuLjc2YmQ1YTM3NzMgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNS4wLmJiCisrKyBi
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnXzIuNS4xLmJiCkBAIC0yNCw3ICsyNCw3
-IEBAIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZSA9ICIgZmlsZTovLzAwMDEtY29uZmlndXJl
-LmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItCiAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
-ICAgIGZpbGU6Ly9yZWxvY2F0ZS5wYXRjaCIKIFNSQ19VUkk6YXBwZW5kOmNsYXNzLW5hdGl2ZXNk
-ayA9ICIgZmlsZTovL3JlbG9jYXRlLnBhdGNoIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMjIy
-MmM4MjdkNGU3MDg3ZjE1ZTdmNzI3MzlkMDA0YWJjMWQwNWM2YzVmMGE1YTEyYjI0YzZhNmNjNWQx
-NzNmYiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI4YTM0YmIzMTg0OTk4Njc5NjJjOTM5ZTE1NjY2
-NmFkYTkzZWQ4MWYwMTkyNjU5MGFjNjhmM2ZmNzkxNzgzNzVlIgogCiBFWFRSQV9PRUNPTkYgPSAi
-LS1kaXNhYmxlLWxkYXAgXAogCQktLWRpc2FibGUtY2NpZC1kcml2ZXIgXAotLSAKMi40NC4xCgo=
+CkRhdGU6IE1vbiwgMTggTm92IDIwMjQgMTg6MjI6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBu
+dW1hY3RsOiB1cGdyYWRlIDIuMC4xOCAtPiAyLjAuMTkKCi0tLQogLi4uL251bWFjdGwvbnVtYWN0
+bC8wMDAxLWRlZmluZS1ydW4tdGVzdC10YXJnZXQucGF0Y2ggICAgICAgIHwgMyArLS0KIC4uLi9u
+dW1hY3RsL251bWFjdGwvRml4LXRoZS10ZXN0LW91dHB1dC1mb3JtYXQucGF0Y2ggICAgICAgICB8
+IDUgKystLS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L251bWFjdGwvbnVtYWN0bF9naXQuYmIgICAg
+ICAgICAgICAgICAgICB8IDQgKystLQogMyBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyks
+IDcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnVtYWN0
+bC9udW1hY3RsLzAwMDEtZGVmaW5lLXJ1bi10ZXN0LXRhcmdldC5wYXRjaCBiL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L251bWFjdGwvbnVtYWN0bC8wMDAxLWRlZmluZS1ydW4tdGVzdC10YXJnZXQucGF0
+Y2gKaW5kZXggNjhiM2UyNDkxZi4uMjI2MmI1ZDRmZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbnVtYWN0bC9udW1hY3RsLzAwMDEtZGVmaW5lLXJ1bi10ZXN0LXRhcmdldC5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9udW1hY3RsL251bWFjdGwvMDAwMS1kZWZpbmUt
+cnVuLXRlc3QtdGFyZ2V0LnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBhNWUxZmEyNzJmMjk0
+ZTczOWQ2Y2FhZjYyOTk2ODQ3ODc5NmNhNTNhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJv
+bSBlNmQ1NWE4MWRkY2VmMDIxZjcyMDE5NmFkODhhYWI4NDU2NDRlZDI4IE1vbiBTZXAgMTcgMDA6
+MDA6MDAgMjAwMQogRnJvbTogUm95IExpIDxyb25ncWluZy5saUB3aW5kcml2ZXIuY29tPgogRGF0
+ZTogTW9uLCAxOSBPY3QgMjAyMCAxNDo0MjoxMSAtMDcwMAogU3ViamVjdDogW1BBVENIXSByZW5h
+bWUgdGVzdCB0YXJnZXQgYXMgcnVuLXRlc3QKQEAgLTExLDcgKzExLDYgQEAgbm90IHN1aXRhYmxl
+IGZvciBjcm9zcy1jb21waWxlIGVudmlyb25tZW50LCBzbyByZW5hbWUgaXQgYXMgcnVuLXRlc3Qu
+CiBhbmQgZGVmaW5lIHRlc3QgdGFyZ2V0IHRvIGNvbXBpbGUgdGhlIHRlc3QgZmlsZXMuCiAKIFNp
+Z25lZC1vZmYtYnk6IFJveSBMaSA8cm9uZ3FpbmcubGlAd2luZHJpdmVyLmNvbT4KLQogLS0tCiAg
+TWFrZWZpbGUuYW0gfCA0ICsrKy0KICAxIGZpbGUgY2hhbmdlZCwgMyBpbnNlcnRpb25zKCspLCAx
+IGRlbGV0aW9uKC0pCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9udW1hY3RsL251
+bWFjdGwvRml4LXRoZS10ZXN0LW91dHB1dC1mb3JtYXQucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3Vw
+cG9ydC9udW1hY3RsL251bWFjdGwvRml4LXRoZS10ZXN0LW91dHB1dC1mb3JtYXQucGF0Y2gKaW5k
+ZXggODM0NWY3MWQ3Mi4uYTUyOWM2YWNkNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvbnVtYWN0bC9udW1hY3RsL0ZpeC10aGUtdGVzdC1vdXRwdXQtZm9ybWF0LnBhdGNoCisrKyBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L251bWFjdGwvbnVtYWN0bC9GaXgtdGhlLXRlc3Qtb3V0cHV0
+LWZvcm1hdC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjlmODExZDlkMzgxZjJhYjU0YjNj
+OGNlZjc3MzM0ZTMyOTcwZWYwOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gODYyZjJk
+MWM5YWRlNjY4MzIzOGM5OWY4ZjE0NmNhYjE3OWNmNjBlYSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IExpIHhpbiA8bGl4aW4uZm5zdEBjbi5mdWppdHN1LmNvbT4KIERhdGU6IFR1ZSwg
+MjEgSnVsIDIwMTUgMDI6MDE6MjIgKzA5MDAKIFN1YmplY3Q6IFtQQVRDSF0gRml4IHRoZSB0ZXN0
+IG91dHB1dCBmb3JtYXQKQEAgLTgsMTQgKzgsMTMgQEAgVXBzdHJlYW0tU3RhdHVzOiBQZW5kaW5n
+CiBTaWduZWQtb2ZmLWJ5OiBSb3kgTGkgPHJvbmdxaW5nLmxpQHdpbmRyaXZlci5jb20+CiBTaWdu
+ZWQtb2ZmLWJ5OiBMaSBYaW4gPGxpeGluLmZuc3RAY24uZnVqaXRzdS5jb20+CiBTaWduZWQtb2Zm
+LWJ5OiBYaWFuZ3l1IENoZW4gPHhpYW5neXUuY2hlbkB3aW5kcml2ZXIuY29tPgotCiAtLS0KICB0
+ZXN0L3JlZ3Jlc3MgIHwgIDYgKysrLS0tCiAgdGVzdC9yZWdyZXNzMiB8IDExICsrKysrLS0tLS0t
+CiAgMiBmaWxlcyBjaGFuZ2VkLCA4IGluc2VydGlvbnMoKyksIDkgZGVsZXRpb25zKC0pCiAKIGRp
+ZmYgLS1naXQgYS90ZXN0L3JlZ3Jlc3MgYi90ZXN0L3JlZ3Jlc3MKLWluZGV4IGYwNmIyMmYuLjJm
+ZGZhY2IgMTAwNzU1CitpbmRleCAxZGE3Nzg0Li5iMGYwNmVhIDEwMDc1NQogLS0tIGEvdGVzdC9y
+ZWdyZXNzCiArKysgYi90ZXN0L3JlZ3Jlc3MKIEBAIC03OCw2ICs3OCw3IEBAIHByb2JlX2hhcmR3
+YXJlKCkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L251bWFjdGwvbnVtYWN0bF9n
+aXQuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9udW1hY3RsL251bWFjdGxfZ2l0LmJiCmluZGV4
+IDZjODUzZjE5NjYuLmY4N2M5YjNlNmEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0
+L251bWFjdGwvbnVtYWN0bF9naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbnVtYWN0
+bC9udW1hY3RsX2dpdC5iYgpAQCAtMTAsOCArMTAsOCBAQCBpbmhlcml0IGF1dG90b29scy1icm9r
+ZW5zZXAgcHRlc3QKIAogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vUkVBRE1FLm1kO2JlZ2lu
+bGluZT0xOTtlbmRsaW5lPTMyO21kNT05ZjM0YzNhZjRlZDZmM2Y1ZGYwZGE1ZjNjMDgzNWE0MyIK
+IAotU1JDUkVWID0gIjM4NzFiMWM0MmZjNzFiY2VhZGFmZDc0NWQyZWZmNWRkZGZjMmQ2N2UiCi1Q
+ViA9ICIyLjAuMTgiCitTUkNSRVYgPSAiM2JjODVlMzdkNWEzMGRhNjc5MGNiN2U4YmI0ODhiYjhm
+Njc5MTcwZiIKK1BWID0gIjIuMC4xOSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL251
+bWFjdGwvbnVtYWN0bDticmFuY2g9bWFzdGVyO3Byb3RvY29sPWh0dHBzIFwKICAgICAgICAgICAg
+ZmlsZTovL0ZpeC10aGUtdGVzdC1vdXRwdXQtZm9ybWF0LnBhdGNoIFwKLS0gCjIuNDQuMQoK
 
---===============9186027754295170583==
+--===============0883022480821234173==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1882 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 921 .bb files complete (920 cached, 1 parsed). 1880 targets, 41 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the core2-64 sysroot...done.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/core2-64-poky-linux/numactl: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl-dbg: PKGSIZE changed from 724032 to 726768 (+0%)
+packages/core2-64-poky-linux/numactl/numactl-dbg: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl-dbg: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl-dev: PKGSIZE changed from 17644 to 17814 (+1%)
+packages/core2-64-poky-linux/numactl/numactl-dev: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl-dev: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl-doc: PKGSIZE changed from 57254 to 57754 (+1%)
+packages/core2-64-poky-linux/numactl/numactl-doc: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl-doc: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl-locale: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl-locale: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl-ptest: PKGSIZE changed from 251439 to 251473 (+0%)
+packages/core2-64-poky-linux/numactl/numactl-ptest: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl-ptest: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl-src: PKGSIZE changed from 242814 to 243575 (+0%)
+packages/core2-64-poky-linux/numactl/numactl-src: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl-src: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl-staticdev: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl-staticdev: PV changed from "2.0.18" to "2.0.19"
+packages/core2-64-poky-linux/numactl/numactl: PKGSIZE changed from 223136 to 222032 (-0%)
+packages/core2-64-poky-linux/numactl/numactl: PKGV changed from 2.0.18 [default] to 2.0.19 [default]
+packages/core2-64-poky-linux/numactl/numactl: PV changed from "2.0.18" to "2.0.19"
 
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:daff5815875754cfa821b97e6decba6d536bf47a"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 170 Local 158 Mirrors 0 Missed 12 Current 290 (92% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 302 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/readline/readline_8.2.13.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 303 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 314 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 315 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libassuan/libassuan_3.0.1.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 316 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libgcrypt/libgcrypt_1.11.0.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 317 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/libksba/libksba_1.6.7.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 318 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/npth/npth_1.7.bb:do_create_spdx_setscene)
-NOTE: Running task 799 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_recipe_qa)
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gnutls-3.8.7.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libksba-1.6.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libassuan-3.0.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe npth-1.7-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_recipe_qa: Started
-NOTE: recipe readline-8.2.13-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libgcrypt-1.11.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libksba-1.6.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 389 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/zlib/zlib_1.3.1.bb:do_create_spdx_setscene)
-NOTE: recipe gnupg-2.5.1-r0: task do_recipe_qa: Succeeded
-NOTE: recipe bzip2-1.0.8-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe gnutls-3.8.7.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe npth-1.7-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_recipe_qa unihash changed to 6dd0f841849b85c9601fc2f1eef901936ec1547373bf1c7ce9e16efa8de1b25c
-NOTE: recipe libassuan-3.0.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running task 948 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_fetch)
-NOTE: recipe readline-8.2.13-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 434 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_create_spdx_setscene)
-NOTE: recipe gnupg-2.5.1-r0: task do_fetch: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_fetch: Succeeded
-NOTE: Running task 962 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_unpack)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_unpack: Started
-NOTE: recipe zlib-1.3.1-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe libtool-cross-2.5.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 440 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/gcc/gcc-runtime_14.2.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 441 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-runtime-14.2.0-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 445 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-core/glibc/glibc_2.40.bb:do_create_spdx_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 449 of 460 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb:do_recipe_qa_setscene)
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Started
-NOTE: recipe libtool-cross-2.5.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe glibc-2.40+git-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1229 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe gnupg-2.5.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1283 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_patch)
-NOTE: Running task 1284 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_collect_spdx_deps)
-NOTE: recipe gnupg-2.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe gnupg-2.5.1-r0: task do_collect_spdx_deps: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_patch: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_collect_spdx_deps: Succeeded
-NOTE: recipe gnupg-2.5.1-r0: task do_patch: Succeeded
-NOTE: Running task 1285 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1286 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_populate_lic)
-NOTE: recipe gnupg-2.5.1-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_populate_lic: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_deploy_source_date_epoch unihash changed to 00db8dd10a42782edf8785bc36c4a6361c3e8a5058e6479955fc3072c46f37e8
-NOTE: Running task 1287 of 1299 (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_configure)
-NOTE: recipe gnupg-2.5.1-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_populate_lic unihash changed to aacc16a4fdab499bb2374fc0044509da01473b42edb63271e2c112ef8f716699
-NOTE: Setscene tasks completed
-NOTE: recipe gnupg-2.5.1-r0: task do_configure: Started
-NOTE: recipe gnupg-2.5.1-r0: task do_configure: Failed
-NOTE: Tasks Summary: Attempted 1287 tasks of which 1278 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 11 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241118115104.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241118115104.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_configure
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnupg/2.5.1/temp/log.do_configure.797811
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: gnupg-2.5.1-r0 do_configure: QA Issue: gnupg: configure was passed unrecognised options: --enable-gpg-is-gpg2 [unknown-configure-option]
-ERROR: gnupg-2.5.1-r0 do_configure: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/core2-64-poky-linux/gnupg/2.5.1/temp/log.do_configure.797811
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/meta/recipes-support/gnupg/gnupg_2.5.1.bb:do_configure) failed with exit code '1'
-
---===============9186027754295170583==--
+--===============0883022480821234173==--
 
