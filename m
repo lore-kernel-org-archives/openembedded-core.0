@@ -1,89 +1,145 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4817D49239
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 15:31:38 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.43794.1731943889013993236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ACC5D4400A
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 16:21:19 +0000 (UTC)
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+ by mx.groups.io with SMTP id smtpd.web11.45948.1731946875861379610
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 07:31:29 -0800
+ Mon, 18 Nov 2024 08:21:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ztt+pe0S;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43169902057so35904725e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 07:31:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731943887; x=1732548687; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=I7a3oGlQyIL8Rxm8QuAQ/3Ghv2csEZkMIe7tEMGPPNI=;
-        b=Ztt+pe0SboAR/CpbRaVp4zj8mUxLXNYSpgi+7xf2Nch0ngOZ8ymd9OoSeTsdnGo+g1
-         +vTE4t9Uq/1pt/jbkhzyK/Lad0Pnq0RwNiiyUfYSdXDp83rlcIU5rC56qwnhWHiPtiRR
-         oFIlBfKDu8Ua7jvte5opv/hMTzGmq45vD6/3+tTPVNIixNdEChmnj2BopkJPNjD0QJj5
-         KCcj0eQ3oLFpbIRkrsWEl1msYNVWlnHUikLGhzKAha+Py68k4vxff3Mv3F21SoufeU+e
-         as5p59yaJGkhgnUSCbd0KZc67S3p+P0YM3LxmEyvTqDADSD7vNA3X8ZeUOgdba5QU9ox
-         DGBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731943887; x=1732548687;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I7a3oGlQyIL8Rxm8QuAQ/3Ghv2csEZkMIe7tEMGPPNI=;
-        b=HcrriRqciJU1+i4/BAHroDAuXYTlbrf8ZL9BQs2CsdCZZaad5rDgEp6p6L2yEBqoDS
-         ZHjH7nAeHQzudi/u2xM6ZcTj8k/yH7DwyG4HpTkTQmdVx+FhaUI4pput8TmALEgUm0WE
-         QqjLxpMEpDYOQneS6ebk1jk9vEr7m9U5MBYdU2CFfvNvyfcJDy6PML5aeFeVTsTZ8wKB
-         3Xy9RnC21js5R5eTYWpl2A5vhobftxhEvr98k9ytVwrtTjxGiastjvAzRuy0JJaC9VMp
-         pCuZYdiw18ioH2ZhoyLGVQDqXPT6S+l0JQdkD5O6iKg9nViwWUiaMikSshmX6s40EWPy
-         WOlw==
-X-Gm-Message-State: AOJu0YzzwCVzRFMw3UIMW69nYr3mFzyMw/xcRuQ5bkaZs5AQkfBRyIdp
-	/NVq5DxR66I1FUu3mGL8IKFtymHdvsb7TSTgPFmxF1Ja0SK/qxQdQPmFhQ==
-X-Google-Smtp-Source: AGHT+IH8O89QCpVRJ3Spzc98hJEfap87VzxIvOOHde+f880dX1EbXEgSpwOQ7fIARBD9+ixIUHeHkw==
-X-Received: by 2002:a05:6000:2c6:b0:382:1c58:5787 with SMTP id ffacd0b85a97d-38225a89fe4mr12109497f8f.46.1731943886672;
-        Mon, 18 Nov 2024 07:31:26 -0800 (PST)
-Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3823390c818sm8094100f8f.28.2024.11.18.07.31.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 07:31:26 -0800 (PST)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] libpam: drop cracklib from DEPENDS
-Date: Mon, 18 Nov 2024 15:31:18 +0000
-Message-ID: <20241118153118.168460-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=kwfExbrO;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.195, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 2F60660005;
+	Mon, 18 Nov 2024 16:21:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1731946874;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PktGkb1FUYftaIMl2vAt6mo8Dk6X073qfvHc+tjVS0Q=;
+	b=kwfExbrOSDjrZEXZ3vnSAcFfc3Dof18kUWD/zERzgGAjr4NFaQG58AVs5qzaN4Lh8k/qvc
+	4xQzpRD2Kz+TIGnzGXjhl6cVvaY2YiAmiPbLkEFEXii3AZzeo+1EYRdZEHFdHJ948DERSf
+	gJQjilCx1RQIPoBTSIiwOwgZBgOZLemBaizw1eRBxiKgCGvdHElx6CDFoIva40V/AY552T
+	dcDJ1zmQgYActuqT9ulWzUocmriD2hvIVGzyUzMAvH/gwCKUPa8xSkCxbt087CZelHj9Bh
+	kElDW3sq/lAOrkPBZ3Pe9BdyyPr2mCVWNk5ZOFhA+rzn5SKPJsJmEGOCe4FwqA==
+Date: Mon, 18 Nov 2024 17:21:11 +0100
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 07/47] gawk: upgrade 5.3.0 -> 5.3.1
+Message-ID: <ZztpdwDKMBRDYfQx@bootlin-mathieu>
+Mail-Followup-To: "Mingyu Wang (Fujitsu)" <wangmy@fujitsu.com>,
+	openembedded-core@lists.openembedded.org
+References: <1731403483-21399-1-git-send-email-wangmy@fujitsu.com>
+ <1731403483-21399-7-git-send-email-wangmy@fujitsu.com>
+ <ZznjAnJKfH8f_mxL@bootlin-mathieu>
+ <TYWPR01MB1186132D4B68C5FBF61008C73DC272@TYWPR01MB11861.jpnprd01.prod.outlook.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <TYWPR01MB1186132D4B68C5FBF61008C73DC272@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 15:31:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207220
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 16:21:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207221
 
-cracklib was dropped as a dependency in libpam v1.5.0
-See the following commit as reference:
-https://github.com/linux-pam/linux-pam/commit/d702ff714c309069111899fd07c09e31c414c166
+On Mon, Nov 18, 2024 at 01:36:47PM +0000, Mingyu Wang (Fujitsu) wrote:
+> I didn't find ptest error of gawk from the log.
+> I did the ptest of gawk by running ptest-runner and there's no error occurred.
+> Can you tell me how to reproduce the error.
+> 
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
----
- meta/recipes-extended/pam/libpam_1.6.1.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Ok, reproducing the ptest build locally is indeed not straightforward. I
+used the following procedure to reproduce something close to the setup we have
+on the autobuilder, and I did reproduce the ptest failure.
 
-diff --git a/meta/recipes-extended/pam/libpam_1.6.1.bb b/meta/recipes-extended/pam/libpam_1.6.1.bb
-index c9ef40bf23..a48f78187b 100644
---- a/meta/recipes-extended/pam/libpam_1.6.1.bb
-+++ b/meta/recipes-extended/pam/libpam_1.6.1.bb
-@@ -27,7 +27,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
- 
- SRC_URI[sha256sum] = "f8923c740159052d719dbfc2a2f81942d68dd34fcaf61c706a02c9b80feeef8e"
- 
--DEPENDS = "bison-native flex-native cracklib libxml2-native virtual/crypt"
-+DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
- 
- EXTRA_OECONF = "--includedir=${includedir}/security \
-                 --libdir=${base_libdir} \
+First, if you want to use the exact same branch, you can take
+mathieu/master-next-e78c1f31b592 from
+git://git.yoctoproject.org/poky-contrib.
+
+Then, I created a new empty configuration and added entries in
+local.conf, to correspond roughly to what is described in
+https://git.yoctoproject.org/yocto-autobuilder2/tree/config.py. There is
+probably a lot of things not relevant here, but it was good enough to
+build and reproduce locally.
+
+rm -rf build
+source poky/oe-init-build-env
+QEMU_USE_KVM = 'True'
+INHERIT += 'report-error'
+PREMIRRORS = ''
+BB_GENERATE_MIRROR_TARBALLS = '1'
+BB_NUMBER_THREADS = '16'
+BB_NUMBER_PARSE_THREADS = '16'
+PARALLEL_MAKE = '-j 16 -l 75'
+BB_PRESSURE_MAX_CPU = '20000'
+BB_PRESSURE_MAX_IO = '20000'
+XZ_MEMLIMIT = '5%'
+XZ_THREADS = '8'
+ZSTD_THREADS = '8'
+BB_TASK_NICE_LEVEL = '5'
+BB_TASK_NICE_LEVEL:task-testimage = '0'
+BB_TASK_IONICE_LEVEL = '2.7'
+BB_TASK_IONICE_LEVEL:task-testimage = '2.1'
+IMAGE_CLASSES += 'testimage'
+TEST_QEMUBOOT_TIMEOUT = '1500'
+SANITY_TESTED_DISTROS = ''
+SDK_EXT_TYPE = 'minimal'
+SDK_INCLUDE_TOOLCHAIN = '1'
+ESDK_LOCALCONF_REMOVE:append = 'BB_HASHSERVE'
+BB_DISKMON_DIRS = 'STOPTASKS,${TMPDIR},1G,100K STOPTASKS,${DL_DIR},1G
+STOPTASKS,${SSTATE_DIR},1G STOPTASKS,/tmp,100M,30K
+HALT,${TMPDIR},100M,1K HALT,${DL_DIR},100M HALT,${SSTATE_DIR},100M
+HALT,/tmp,10M,1K'
+BB_HEARTBEAT_EVENT = '60'
+BB_LOG_HOST_STAT_ON_INTERVAL = '1'
+BB_LOG_HOST_STAT_CMDS_INTERVAL = 'oe-time-dd-test.sh -c 100 -t 3'
+BB_LOG_HOST_STAT_ON_FAILURE = '1'
+BB_LOG_HOST_STAT_CMDS_FAILURE = 'oe-time-dd-test.sh -l'
+SDK_TOOLCHAIN_LANGS += 'rust'
+BB_SERVER_TIMEOUT = '60'
+BB_LOADFACTOR_MAX = '1.5'
+
+TEST_SUITES = 'ping ssh ptest'
+INHERIT += 'image-buildinfo'
+IMAGE_BUILDINFO_VARS:append = ' IMAGE_BASENAME IMAGE_NAME'
+EOF
+
+Then built my image and ran ptests. The runqemu-gen-tapdevs might or
+might not be needed, more details in
+documentation/dev-manual/runtime-testing.rst.
+
+bitbake core-image-ptest-gawk
+sudo ${BUILDDIR}/../scripts/runqemu-gen-tapdevs 1000 4
+bitbake core-image-ptest-gawk:do_testimage
+
+And I got this output:
+
+WARNING: core-image-ptest-gawk-1.0-r0 do_testimage: There were failing ptests.
+Traceback (most recent call last):
+  File "/home/mathieu/projects/swat/builds/poky-contrib/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mathieu/projects/swat/builds/poky-contrib/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mathieu/projects/swat/builds/poky-contrib/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/mathieu/projects/swat/builds/poky-contrib/meta/lib/oeqa/runtime/cases/ptest.py", line 27, in test_ptestrunner_expectfail
+    self.do_ptestrunner()
+  File "/home/mathieu/projects/swat/builds/poky-contrib/meta/lib/oeqa/runtime/cases/ptest.py", line 120, in do_ptestrunner
+    self.fail(failmsg)
+AssertionError: 
+Failed ptests:
+{'gawk': ['printf-corners']}
+
 -- 
-2.43.0
-
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
