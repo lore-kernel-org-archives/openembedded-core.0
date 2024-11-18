@@ -2,55 +2,55 @@ Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E922CD4922F
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 15:04:38 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.43441.1731942272439442746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4817D49239
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 15:31:38 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web10.43794.1731943889013993236
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 07:04:32 -0800
+ Mon, 18 Nov 2024 07:31:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NFxNb4ty;
- spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4315f24a6bbso35245035e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 07:04:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Ztt+pe0S;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43169902057so35904725e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 07:31:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731942270; x=1732547070; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1731943887; x=1732548687; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=KO/zECCer51goN5ampcuY99JyOWG3pdVdrMQvAq8OUQ=;
-        b=NFxNb4tyCwVJzcYvUMdpqiClDs411DpfFm9XbHErk2YfF4hmftwqqIR9tyXUUE3f/A
-         2rUKlXA0wdlRX1eFgRJmzBcN3JLb//Nc9QDIUiiDBT67wrFZLqCOnstrxc0jvcVJihiU
-         ft/RozPdAX4fLRXcUWmTH/CAgNqZ/eslqX06E9qRxFWKlaF2iglB9qVNraqzoabKYaOl
-         ybb6ndO63zO5w58MUl0oNZtE+YGX4zV5F4bxD5EWnsCSc2ZK1PTX5KkEIVAYRueQY9OJ
-         ulXmuTZuxCJrykOjcvCJP6kxS4pxFRbScxVjOt3+Wdp6LeIWklQAftXJ1exR9PanTGAO
-         KS1g==
+        bh=I7a3oGlQyIL8Rxm8QuAQ/3Ghv2csEZkMIe7tEMGPPNI=;
+        b=Ztt+pe0SboAR/CpbRaVp4zj8mUxLXNYSpgi+7xf2Nch0ngOZ8ymd9OoSeTsdnGo+g1
+         +vTE4t9Uq/1pt/jbkhzyK/Lad0Pnq0RwNiiyUfYSdXDp83rlcIU5rC56qwnhWHiPtiRR
+         oFIlBfKDu8Ua7jvte5opv/hMTzGmq45vD6/3+tTPVNIixNdEChmnj2BopkJPNjD0QJj5
+         KCcj0eQ3oLFpbIRkrsWEl1msYNVWlnHUikLGhzKAha+Py68k4vxff3Mv3F21SoufeU+e
+         as5p59yaJGkhgnUSCbd0KZc67S3p+P0YM3LxmEyvTqDADSD7vNA3X8ZeUOgdba5QU9ox
+         DGBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731942270; x=1732547070;
+        d=1e100.net; s=20230601; t=1731943887; x=1732548687;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KO/zECCer51goN5ampcuY99JyOWG3pdVdrMQvAq8OUQ=;
-        b=UgfgySkWfzWp1C7m2ZfvuaZEAEznWylemotQ6njRJzFI0NWukAVEoW7kP4GOvjpy/N
-         YBMlJf4Npqf9/ut3BKRb3R4uaedgRV93Zz8WTfyrqemlzT/hJShNpPqcm4Zmf1RZ4Il4
-         +DdoeS0jwHhmoWNI5ch7r222P481lk4iHp5LllU4TFUH1ZB5ojfKyzR/S+EnSMx4J4pH
-         LNAdkqIdYUrKN+0y1lPnF0xCx8z5EJkiRZEzuBbeKWM93zkk5SjaaP9b/HPKY6B1VYuO
-         EunWRxEU/5hIGsRmlO/Rtq83IM3Xv3nODtmQ+VygGWlDEk3pLkFT22vvL6G8EwvsMRR1
-         pqJQ==
-X-Gm-Message-State: AOJu0YyFmo5COr+kZ4aDUjcXrlsegs45tLDkZcnSmewtpE9ZIEyeZwij
-	EjMtS4R4zT4CgC+uZ6D5XMx28q3zRbc1D75CaM4mRTySl520PqbbTmypug==
-X-Google-Smtp-Source: AGHT+IHqQaUoIewWkCuZQeUC2a7mB0CHZz8xt9XRfEGq+xU0HzqsPQEKGhCrsClP8C+aHaLXH04lxg==
-X-Received: by 2002:a05:600c:1c97:b0:431:50fa:89c4 with SMTP id 5b1f17b1804b1-432df71c02fmr122459775e9.3.1731942270124;
-        Mon, 18 Nov 2024 07:04:30 -0800 (PST)
+        bh=I7a3oGlQyIL8Rxm8QuAQ/3Ghv2csEZkMIe7tEMGPPNI=;
+        b=HcrriRqciJU1+i4/BAHroDAuXYTlbrf8ZL9BQs2CsdCZZaad5rDgEp6p6L2yEBqoDS
+         ZHjH7nAeHQzudi/u2xM6ZcTj8k/yH7DwyG4HpTkTQmdVx+FhaUI4pput8TmALEgUm0WE
+         QqjLxpMEpDYOQneS6ebk1jk9vEr7m9U5MBYdU2CFfvNvyfcJDy6PML5aeFeVTsTZ8wKB
+         3Xy9RnC21js5R5eTYWpl2A5vhobftxhEvr98k9ytVwrtTjxGiastjvAzRuy0JJaC9VMp
+         pCuZYdiw18ioH2ZhoyLGVQDqXPT6S+l0JQdkD5O6iKg9nViwWUiaMikSshmX6s40EWPy
+         WOlw==
+X-Gm-Message-State: AOJu0YzzwCVzRFMw3UIMW69nYr3mFzyMw/xcRuQ5bkaZs5AQkfBRyIdp
+	/NVq5DxR66I1FUu3mGL8IKFtymHdvsb7TSTgPFmxF1Ja0SK/qxQdQPmFhQ==
+X-Google-Smtp-Source: AGHT+IH8O89QCpVRJ3Spzc98hJEfap87VzxIvOOHde+f880dX1EbXEgSpwOQ7fIARBD9+ixIUHeHkw==
+X-Received: by 2002:a05:6000:2c6:b0:382:1c58:5787 with SMTP id ffacd0b85a97d-38225a89fe4mr12109497f8f.46.1731943886672;
+        Mon, 18 Nov 2024 07:31:26 -0800 (PST)
 Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432da24459bsm166043965e9.6.2024.11.18.07.04.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3823390c818sm8094100f8f.28.2024.11.18.07.31.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 07:04:29 -0800 (PST)
+        Mon, 18 Nov 2024 07:31:26 -0800 (PST)
 From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] libxml2: upgrade 2.13.4 -> 2.13.5
-Date: Mon, 18 Nov 2024 15:04:13 +0000
-Message-ID: <20241118150413.7855-1-gudni.m.g@gmail.com>
+Subject: [PATCH] libpam: drop cracklib from DEPENDS
+Date: Mon, 18 Nov 2024 15:31:18 +0000
+Message-ID: <20241118153118.168460-1-gudni.m.g@gmail.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -58,64 +58,31 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 15:04:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207219
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 15:31:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207220
 
-https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.13.5
-
-Regressions
-* xmlIO: Fix reading from non-regular files like pipes
-* xmlreader: Fix return value of xmlTextReaderReadString
-* parser: Fix loading of parameter entities in external DTDs
-* parser: Fix downstream code that swaps DTDs
-* parser: Fix detection of duplicate attributes
-* string: Fix va_copy fallback
-
-Bug fixes
-* xpath: Fix parsing of non-ASCII names
+cracklib was dropped as a dependency in libpam v1.5.0
+See the following commit as reference:
+https://github.com/linux-pam/linux-pam/commit/d702ff714c309069111899fd07c09e31c414c166
 
 Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
 ---
- meta/recipes-core/libxml/libxml2/install-tests.patch          | 4 ++--
- .../libxml/{libxml2_2.13.4.bb => libxml2_2.13.5.bb}           | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-core/libxml/{libxml2_2.13.4.bb => libxml2_2.13.5.bb} (97%)
+ meta/recipes-extended/pam/libpam_1.6.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
-index 478eeea81b..1c8c13ab5c 100644
---- a/meta/recipes-core/libxml/libxml2/install-tests.patch
-+++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
-@@ -1,4 +1,4 @@
--From 0779511838a8cbd1e0f431c22f28f286a2a37b1b Mon Sep 17 00:00:00 2001
-+From 8c1054eacb430472068f21e4840749c384e8e866 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Mon, 5 Dec 2022 17:02:32 +0000
- Subject: [PATCH] add yocto-specific install-ptest target
-@@ -12,7 +12,7 @@ Signed-off-by: Ross Burton <ross.burton@arm.com>
-  1 file changed, 10 insertions(+)
+diff --git a/meta/recipes-extended/pam/libpam_1.6.1.bb b/meta/recipes-extended/pam/libpam_1.6.1.bb
+index c9ef40bf23..a48f78187b 100644
+--- a/meta/recipes-extended/pam/libpam_1.6.1.bb
++++ b/meta/recipes-extended/pam/libpam_1.6.1.bb
+@@ -27,7 +27,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
  
- diff --git a/Makefile.am b/Makefile.am
--index 0a49d37..1097c63 100644
-+index 4cb9a5c..8adcd7e 100644
- --- a/Makefile.am
- +++ b/Makefile.am
- @@ -27,6 +27,16 @@ check_PROGRAMS = \
-diff --git a/meta/recipes-core/libxml/libxml2_2.13.4.bb b/meta/recipes-core/libxml/libxml2_2.13.5.bb
-similarity index 97%
-rename from meta/recipes-core/libxml/libxml2_2.13.4.bb
-rename to meta/recipes-core/libxml/libxml2_2.13.5.bb
-index 34a1d3fa46..6fbdec30ca 100644
---- a/meta/recipes-core/libxml/libxml2_2.13.4.bb
-+++ b/meta/recipes-core/libxml/libxml2_2.13.5.bb
-@@ -19,7 +19,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://install-tests.patch \
-            "
+ SRC_URI[sha256sum] = "f8923c740159052d719dbfc2a2f81942d68dd34fcaf61c706a02c9b80feeef8e"
  
--SRC_URI[archive.sha256sum] = "65d042e1c8010243e617efb02afda20b85c2160acdbfbcb5b26b80cec6515650"
-+SRC_URI[archive.sha256sum] = "74fc163217a3964257d3be39af943e08861263c4231f9ef5b496b6f6d4c7b2b6"
- SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
+-DEPENDS = "bison-native flex-native cracklib libxml2-native virtual/crypt"
++DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
  
- # Disputed as a security issue, but fixed in d39f780
+ EXTRA_OECONF = "--includedir=${includedir}/security \
+                 --libdir=${base_libdir} \
 -- 
 2.43.0
 
