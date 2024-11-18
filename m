@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C217D6004B
-	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:17:00 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.web10.4790.1731964607557674668
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4436CD6004F
+	for <webhook@archiver.kernel.org>; Mon, 18 Nov 2024 21:17:10 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.4810.1731964629996632695
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 13:16:59 -0800
+ Mon, 18 Nov 2024 13:17:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=j39GWiC2;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=w9PVjxLz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101934122caf5-bbba7cff-50cd-427b-8925-f61eaa4e2168-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=X/zBaeoI;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=FjIXw16C;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101934122f21b-0757f5c3-faea-4597-8a1a-1bde91f33aaa-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1731964619;
+	t=1731964629;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tmIbSP6olIJokH/yHmzD6N7HYq1uZqom4iAOElTfyv8=;
-	b=j39GWiC241YEEFGDxL7nzOmoSVwRnaFwZlQjFta500MsHLDKTFg4S4h4QBvvZjV5
-	mXJlhUa9PBM4hWY43CluZL71U6fwwrrFgnMroftp8xBkYeNFmUCe8rh8aE4TnRYUkUs
-	jGPdp7xLXWF+y1fl2ZuVW+esbYsGAK9Ki6VBYUJY=
+	bh=YxeG5rSfofXg2ZLJoILpMcC+nizSNgxtS2lbOaXHX/Y=;
+	b=X/zBaeoI3Bl0aotjp4eIDKTvOlvlyAZ/3ggMGci4ZM2MvV+QeuYuqQza/F8oVyYo
+	JWw9j07NLzr0YHbqvmbGGEV6kUJy+1DHEhvq2sqMDcNe6ztikcaRshcjKHNZnliHPuI
+	OR8i+0rP5NCartaFIoLlEGz5vpKeASErqqaf7m3U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964619;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1731964629;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tmIbSP6olIJokH/yHmzD6N7HYq1uZqom4iAOElTfyv8=;
-	b=w9PVjxLzan1gmx6a+dg84r4anlsx2PsX902Dynw5vlWynz5oUOj/jDOVI/tW/Sqy
-	bYPnB+ItSKpZ6GBKLiSFzQ3RvuIdCtqHkc+9Vsphr4DyfXxS2xN7+1oc/gmndqn8uAj
-	5qi1L2ct6gEx4jCRpmnCEovKrT6vOaoYcAwBJbes=
-Content-Type: multipart/mixed; boundary="===============3111039744769966741=="
+	bh=YxeG5rSfofXg2ZLJoILpMcC+nizSNgxtS2lbOaXHX/Y=;
+	b=FjIXw16CtFvjbCBajeNE906QrgA0Q8hX/9Q9cxuabY35CEmifUuaqD/fDWqHH0iA
+	BX1u6PFAw2Z+MMJ80pV2uN3BiYtCXlIKZ4mZ6ohHeBG772T5/C+hnA6qJetaU71Asuy
+	TxD+afMvoWkpgtmiDttB7SXlmRs5JdJ454N4gjd4=
+Content-Type: multipart/mixed; boundary="===============1877766736180080263=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] log4cplus: upgrading to 2.1.2 SUCCEEDED
-Message-ID: <010101934122caf5-bbba7cff-50cd-427b-8925-f61eaa4e2168-000000@us-west-2.amazonses.com>
-Date: Mon, 18 Nov 2024 21:16:59 +0000
+To: Wang Mingyu <wangmy@fujitsu.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-license-expression: upgrading to 30.4.0 SUCCEEDED
+Message-ID: <010101934122f21b-0757f5c3-faea-4597-8a1a-1bde91f33aaa-000000@us-west-2.amazonses.com>
+Date: Mon, 18 Nov 2024 21:17:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.18-54.240.27.33
+X-SES-Outgoing: 2024.11.18-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:17:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207266
+ <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:17:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207281
 
---===============3111039744769966741==
+--===============1877766736180080263==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *log4cplus* to *2.1.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-license-expression* to *30.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-log4cplus-upgrade-2.1.1-2.1.2.patch
+    - apply the patch: git am 0001-python3-license-expression-upgrade-30.3.1-30.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,131 +72,108 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 57767521fe69df8ef9777dcfa3e7d4b2978d2ed9 Mon Sep 17 00:00:00 2001
+From 76606746f9b4f035a6bf117df148eda39c631427 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 16 Nov 2024 17:44:18 +0000
-Subject: [PATCH] log4cplus: upgrade 2.1.1 -> 2.1.2
+Date: Sat, 16 Nov 2024 22:21:35 +0000
+Subject: [PATCH] python3-license-expression: upgrade 30.3.1 -> 30.4.0
 
 ---
- .../log4cplus/{log4cplus_2.1.1.bb => log4cplus_2.1.2.bb}        | 2 +-
+ ...xpression_30.3.1.bb => python3-license-expression_30.4.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/log4cplus/{log4cplus_2.1.1.bb => log4cplus_2.1.2.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-license-expression_30.3.1.bb => python3-license-expression_30.4.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/log4cplus/log4cplus_2.1.1.bb b/meta/recipes-devtools/log4cplus/log4cplus_2.1.2.bb
-similarity index 90%
-rename from meta/recipes-devtools/log4cplus/log4cplus_2.1.1.bb
-rename to meta/recipes-devtools/log4cplus/log4cplus_2.1.2.bb
-index be3c787ab2..9a3c31e887 100644
---- a/meta/recipes-devtools/log4cplus/log4cplus_2.1.1.bb
-+++ b/meta/recipes-devtools/log4cplus/log4cplus_2.1.2.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=41e8e060c26822886b592ab4765c756b"
+diff --git a/meta/recipes-devtools/python/python3-license-expression_30.3.1.bb b/meta/recipes-devtools/python/python3-license-expression_30.4.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-license-expression_30.3.1.bb
+rename to meta/recipes-devtools/python/python3-license-expression_30.4.0.bb
+index edf7ead2e4..7a035206da 100644
+--- a/meta/recipes-devtools/python/python3-license-expression_30.3.1.bb
++++ b/meta/recipes-devtools/python/python3-license-expression_30.4.0.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/nexB/license-expression"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://apache-2.0.LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
- SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}-stable/${PV}/${BP}.tar.gz \
-           "
--SRC_URI[sha256sum] = "42dc435928917fd2f847046c4a0c6086b2af23664d198c7fc1b982c0bfe600c1"
-+SRC_URI[sha256sum] = "e2673815ea34886f29b2213fff19cc1a6707a7e65099927a19ea49b4eb018822"
+-SRC_URI[sha256sum] = "60d5bec1f3364c256a92b9a08583d7ea933c7aa272c8d36d04144a89a3858c01"
++SRC_URI[sha256sum] = "6464397f8ed4353cc778999caec43b099f8d8d5b335f282e26a9eb9435522f05"
  
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/log4cplus/files/log4cplus-stable/"
- UPSTREAM_CHECK_REGEX = "log4cplus-stable/(?P<pver>\d+(\.\d+)+)/"
+ inherit pypi ptest python_setuptools_build_meta
+ PYPI_PACKAGE = "license_expression"
 -- 
 2.44.1
 
 
---===============3111039744769966741==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-log4cplus-upgrade-2.1.1-2.1.2.patch"
-
-RnJvbSA1Nzc2NzUyMWZlNjlkZjhlZjk3NzdkY2ZhM2U3ZDRiMjk3OGQyZWQ5IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTYgTm92IDIwMjQgMTc6NDQ6MTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-b2c0Y3BsdXM6IHVwZ3JhZGUgMi4xLjEgLT4gMi4xLjIKCi0tLQogLi4uL2xvZzRjcGx1cy97bG9n
-NGNwbHVzXzIuMS4xLmJiID0+IGxvZzRjcGx1c18yLjEuMi5iYn0gICAgICAgIHwgMiArLQogMSBm
-aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2xvZzRjcGx1cy97bG9nNGNwbHVzXzIuMS4xLmJiID0+IGxvZzRjcGx1
-c18yLjEuMi5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvbG9n
-NGNwbHVzL2xvZzRjcGx1c18yLjEuMS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9sb2c0Y3Bs
-dXMvbG9nNGNwbHVzXzIuMS4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1kZXZ0b29scy9sb2c0Y3BsdXMvbG9nNGNwbHVzXzIuMS4xLmJiCnJlbmFtZSB0
-byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvbG9nNGNwbHVzL2xvZzRjcGx1c18yLjEuMi5iYgppbmRl
-eCBiZTNjNzg3YWIyLi45YTNjMzFlODg3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvbG9nNGNwbHVzL2xvZzRjcGx1c18yLjEuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvbG9nNGNwbHVzL2xvZzRjcGx1c18yLjEuMi5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVT
-X0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9NDFlOGUwNjBjMjY4MjI4ODZiNTkyYWI0NzY1
-Yzc1NmIiCiAKIFNSQ19VUkkgPSAiJHtTT1VSQ0VGT1JHRV9NSVJST1J9L3Byb2plY3QvJHtCUE59
-LyR7QlBOfS1zdGFibGUvJHtQVn0vJHtCUH0udGFyLmd6IFwKICAgICAgICAgICAiCi1TUkNfVVJJ
-W3NoYTI1NnN1bV0gPSAiNDJkYzQzNTkyODkxN2ZkMmY4NDcwNDZjNGEwYzYwODZiMmFmMjM2NjRk
-MTk4YzdmYzFiOTgyYzBiZmU2MDBjMSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlMjY3MzgxNWVh
-MzQ4ODZmMjliMjIxM2ZmZjE5Y2MxYTY3MDdhN2U2NTA5OTkyN2ExOWVhNDliNGViMDE4ODIyIgog
-CiBVUFNUUkVBTV9DSEVDS19VUkkgPSAiaHR0cHM6Ly9zb3VyY2Vmb3JnZS5uZXQvcHJvamVjdHMv
-bG9nNGNwbHVzL2ZpbGVzL2xvZzRjcGx1cy1zdGFibGUvIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVgg
-PSAibG9nNGNwbHVzLXN0YWJsZS8oP1A8cHZlcj5cZCsoXC5cZCspKykvIgotLSAKMi40NC4xCgo=
-
---===============3111039744769966741==
+--===============1877766736180080263==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/core2-64-poky-linux/log4cplus/log4cplus-dev: FILELIST: added "/usr/include/log4cplus/helpers/eventcounter.h"
-packages/core2-64-poky-linux/log4cplus/log4cplus: FILELIST: removed "/usr/lib/liblog4cplusU-2.1.so.9.0.1 /usr/lib/liblog4cplus-2.1.so.9.0.1", added "/usr/lib/liblog4cplus-2.1.so.9.1.1 /usr/lib/liblog4cplusU-2.1.so.9.1.1"
-Changes to packages/core2-64-poky-linux/log4cplus (sysroot):
-  /usr/lib/liblog4cplus-2.1.so.9 changed symlink target from liblog4cplus-2.1.so.9.0.1 to liblog4cplus-2.1.so.9.1.1
-  /usr/lib/liblog4cplus.so changed symlink target from liblog4cplus-2.1.so.9.0.1 to liblog4cplus-2.1.so.9.1.1
-  /usr/lib/liblog4cplusU-2.1.so.9 changed symlink target from liblog4cplusU-2.1.so.9.0.1 to liblog4cplusU-2.1.so.9.1.1
-  /usr/lib/liblog4cplusU.so changed symlink target from liblog4cplusU-2.1.so.9.0.1 to liblog4cplusU-2.1.so.9.1.1
-  /usr/lib/liblog4cplus-2.1.so.9.0.1 moved to /usr/lib/liblog4cplus-2.1.so.9.1.1
-  /usr/lib/liblog4cplusU-2.1.so.9.0.1 moved to /usr/lib/liblog4cplusU-2.1.so.9.1.1
-  /usr/include/log4cplus/helpers/eventcounter.h was added
+Changes to packages/core2-64-poky-linux/python3-license-expression (sysroot):
+  /usr/lib/python3.13/site-packages/license_expression-30.3.1.dist-info moved to /usr/lib/python3.13/site-packages/license_expression-30.4.0.dist-info
 
---===============3111039744769966741==
+--===============1877766736180080263==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-license-expression-upgrade-30.3.1-30.4.0.patch"
+
+RnJvbSA3NjYwNjc0NmY5YjRmMDM1YTZiZjExN2RmMTQ4ZWRhMzljNjMxNDI3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMTYgTm92IDIwMjQgMjI6MjE6MzUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbjogdXBncmFkZSAzMC4zLjEgLT4gMzAuNC4wCgotLS0K
+IC4uLnhwcmVzc2lvbl8zMC4zLjEuYmIgPT4gcHl0aG9uMy1saWNlbnNlLWV4cHJlc3Npb25fMzAu
+NC4wLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlv
+bigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtbGljZW5z
+ZS1leHByZXNzaW9uXzMwLjMuMS5iYiA9PiBweXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC40
+LjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC4zLjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtbGljZW5zZS1leHByZXNzaW9uXzMwLjQuMC5iYgpzaW1pbGFyaXR5
+IGluZGV4IDkxJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtbGljZW5zZS1leHByZXNzaW9uXzMwLjMuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL3B5dGhvbi9weXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC40LjAuYmIKaW5kZXgg
+ZWRmN2VhZDJlNC4uN2EwMzUyMDZkYSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC4zLjEuYmIKKysrIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWxpY2Vuc2UtZXhwcmVzc2lvbl8zMC40LjAu
+YmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9uZXhCL2xp
+Y2Vuc2UtZXhwcmVzc2lvbiIKIExJQ0VOU0UgPSAiQXBhY2hlLTIuMCIKIExJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL2FwYWNoZS0yLjAuTElDRU5TRTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4
+OTg2OTY4ZjQzMjciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI2MGQ1YmVjMWYzMzY0YzI1NmE5
+MmI5YTA4NTgzZDdlYTkzM2M3YWEyNzJjOGQzNmQwNDE0NGE4OWEzODU4YzAxIgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gIjY0NjQzOTdmOGVkNDM1M2NjNzc4OTk5Y2FlYzQzYjA5OWY4ZDhkNWIzMzVm
+MjgyZTI2YTllYjk0MzU1MjJmMDUiCiAKIGluaGVyaXQgcHlwaSBwdGVzdCBweXRob25fc2V0dXB0
+b29sc19idWlsZF9tZXRhCiBQWVBJX1BBQ0tBR0UgPSAibGljZW5zZV9leHByZXNzaW9uIgotLSAK
+Mi40NC4xCgo=
+
+--===============1877766736180080263==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/log4cplus: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus: SRC_URI changed from "https://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/2.1.1/log4cplus-2.1.1.tar.gz" to "https://downloads.sourceforge.net/project/log4cplus/log4cplus-stable/2.1.2/log4cplus-2.1.2.tar.gz"
-packages/core2-64-poky-linux/log4cplus/log4cplus-dbg: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus/log4cplus-dbg: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus/log4cplus-dbg: PKGSIZE changed from 17587272 to 18032320 (+3%)
-packages/core2-64-poky-linux/log4cplus/log4cplus-dbg: FILELIST: removed "/usr/lib/.debug/liblog4cplusU-2.1.so.9.0.1 /usr/lib/.debug/liblog4cplus-2.1.so.9.0.1", added "/usr/lib/.debug/liblog4cplusU-2.1.so.9.1.1 /usr/lib/.debug/liblog4cplus-2.1.so.9.1.1"
-packages/core2-64-poky-linux/log4cplus/log4cplus-dev: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus/log4cplus-dev: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus/log4cplus-dev: PKGSIZE changed from 379660 to 385504 (+2%)
-packages/core2-64-poky-linux/log4cplus/log4cplus-dev: FILELIST: added "/usr/include/log4cplus/helpers/eventcounter.h"
-packages/core2-64-poky-linux/log4cplus/log4cplus-doc: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus/log4cplus-doc: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus/log4cplus-locale: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus/log4cplus-locale: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus/log4cplus-src: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus/log4cplus-src: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus/log4cplus-src: PKGSIZE changed from 717360 to 727975 (+1%)
-packages/core2-64-poky-linux/log4cplus/log4cplus-src: FILELIST: directory renamed /usr/src/debug/log4cplus/2.1.1/include/log4cplus -> /usr/src/debug/log4cplus/2.1.2/include/log4cplus, directory renamed /usr/src/debug/log4cplus/2.1.1/include/log4cplus/spi -> /usr/src/debug/log4cplus/2.1.2/include/log4cplus/spi, directory renamed /usr/src/debug/log4cplus/2.1.1/threadpool -> /usr/src/debug/log4cplus/2.1.2/threadpool, directory renamed /usr/src/debug/log4cplus/2.1.1/include/log4cplus/thread -> /usr/src/debug/log4cplus/2.1.2/include/log4cplus/thread, directory renamed /usr/src/debug/log4cplus/2.1.1/include/log4cplus/internal -> /usr/src/debug/log4cplus/2.1.2/include/log4cplus/internal, directory renamed /usr/src/debug/log4cplus/2.1.1/include/log4cplus/thread/impl -> /usr/src/debug/log4cplus/2.1.2/include/log4cplus/thread/impl, removed "/usr/src/debug/log4cplus/2.1.1/src/loggerimpl.cxx /usr/src/debug/log4cplus/2.1.1/src/timehelper.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helper
- s/appenderattachableimpl.h /usr/src/debug/log4cplus/2.1.1/src/socket-unix.cxx /usr/src/debug/log4cplus/2.1.1/src/clogger.cxx /usr/src/debug/log4cplus/2.1.1/src/pointer.cxx /usr/src/debug/log4cplus/2.1.1/src/snprintf.cxx /usr/src/debug/log4cplus/2.1.1/src/hierarchylocker.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/fileinfo.h /usr/src/debug/log4cplus/2.1.1/src/rootlogger.cxx /usr/src/debug/log4cplus/2.1.1/src/threads.cxx /usr/src/debug/log4cplus/2.1.1/src/syslogappender.cxx /usr/src/debug/log4cplus/2.1.1/src/appenderattachableimpl.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/socket.h /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/connectorthread.h /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/stringhelper.h /usr/src/debug/log4cplus/2.1.1/src/filter.cxx /usr/src/debug/log4cplus/2.1.1/src/exception.cxx /usr/src/debug/log4cplus/2.1.1/src/logger.cxx /usr/src/debug/log4cplus/2.1.1/src/syncprims.cxx /usr/src/debug/log4cplus/2.1.1/src/fac
- tory.cxx /usr/src/debug/log4cplus/2.1.1/src/global-init.cxx /usr/src/debug/log4cplus/2.1.1/src/asyncappender.cxx /usr/src/debug/log4cplus/2.1.1/src/loggingevent.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/snprintf.h /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/property.h /usr/src/debug/log4cplus/2.1.1/src/version.cxx /usr/src/debug/log4cplus/2.1.1/src/loglevel.cxx /usr/src/debug/log4cplus/2.1.1/src/patternlayout.cxx /usr/src/debug/log4cplus/2.1.1/src/env.cxx /usr/src/debug/log4cplus/2.1.1/src/mdc.cxx /usr/src/debug/log4cplus/2.1.1/src/ndc.cxx /usr/src/debug/log4cplus/2.1.1/src/property.cxx /usr/src/debug/log4cplus/2.1.1/src/loglog.cxx /usr/src/debug/log4cplus/2.1.1/src/objectregistry.cxx /usr/src/debug/log4cplus/2.1.1/src/layout.cxx /usr/src/debug/log4cplus/2.1.1/src/log4judpappender.cxx /usr/src/debug/log4cplus/2.1.1/src/socketbuffer.cxx /usr/src/debug/log4cplus/2.1.1/src/socketappender.cxx /usr/src/debug/log4cplus/2.1.1/src/fileappender.cxx /usr/src/de
- bug/log4cplus/2.1.1/src/nullappender.cxx /usr/src/debug/log4cplus/2.1.1/src/consoleappender.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/timehelper.h /usr/src/debug/log4cplus/2.1.1/src/connectorthread.cxx /usr/src/debug/log4cplus/2.1.1/src/hierarchy.cxx /usr/src/debug/log4cplus/2.1.1/src/fileinfo.cxx /usr/src/debug/log4cplus/2.1.1/src/loggingmacros.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/queue.h /usr/src/debug/log4cplus/2.1.1/src/configurator.cxx /usr/src/debug/log4cplus/2.1.1/src/stringhelper.cxx /usr/src/debug/log4cplus/2.1.1/src/queue.cxx /usr/src/debug/log4cplus/2.1.1/src/callbackappender.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/pointer.h /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/socketbuffer.h /usr/src/debug/log4cplus/2.1.1/src/appender.cxx /usr/src/debug/log4cplus/2.1.1/src/lockfile.cxx /usr/src/debug/log4cplus/2.1.1/src/socket.cxx /usr/src/debug/log4cplus/2.1.1/include/log4cplus/helpers/lockfile.h /usr/sr
- c/debug/log4cplus/2.1.1/include/log4cplus/helpers/loglog.h", added "/usr/src/debug/log4cplus/2.1.2/src/loggerimpl.cxx /usr/src/debug/log4cplus/2.1.2/src/timehelper.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/appenderattachableimpl.h /usr/src/debug/log4cplus/2.1.2/src/socket-unix.cxx /usr/src/debug/log4cplus/2.1.2/src/clogger.cxx /usr/src/debug/log4cplus/2.1.2/src/pointer.cxx /usr/src/debug/log4cplus/2.1.2/src/snprintf.cxx /usr/src/debug/log4cplus/2.1.2/src/hierarchylocker.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/fileinfo.h /usr/src/debug/log4cplus/2.1.2/src/rootlogger.cxx /usr/src/debug/log4cplus/2.1.2/src/threads.cxx /usr/src/debug/log4cplus/2.1.2/src/syslogappender.cxx /usr/src/debug/log4cplus/2.1.2/src/appenderattachableimpl.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/socket.h /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/connectorthread.h /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/stringhelper.h /usr/
- src/debug/log4cplus/2.1.2/src/filter.cxx /usr/src/debug/log4cplus/2.1.2/src/exception.cxx /usr/src/debug/log4cplus/2.1.2/src/logger.cxx /usr/src/debug/log4cplus/2.1.2/src/syncprims.cxx /usr/src/debug/log4cplus/2.1.2/src/factory.cxx /usr/src/debug/log4cplus/2.1.2/src/global-init.cxx /usr/src/debug/log4cplus/2.1.2/src/asyncappender.cxx /usr/src/debug/log4cplus/2.1.2/src/loggingevent.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/snprintf.h /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/property.h /usr/src/debug/log4cplus/2.1.2/src/version.cxx /usr/src/debug/log4cplus/2.1.2/src/loglevel.cxx /usr/src/debug/log4cplus/2.1.2/src/patternlayout.cxx /usr/src/debug/log4cplus/2.1.2/src/env.cxx /usr/src/debug/log4cplus/2.1.2/src/mdc.cxx /usr/src/debug/log4cplus/2.1.2/src/ndc.cxx /usr/src/debug/log4cplus/2.1.2/src/eventcounter.cxx /usr/src/debug/log4cplus/2.1.2/src/property.cxx /usr/src/debug/log4cplus/2.1.2/src/loglog.cxx /usr/src/debug/log4cplus/2.1.2/src/objectregistry.
- cxx /usr/src/debug/log4cplus/2.1.2/src/layout.cxx /usr/src/debug/log4cplus/2.1.2/src/log4judpappender.cxx /usr/src/debug/log4cplus/2.1.2/src/socketbuffer.cxx /usr/src/debug/log4cplus/2.1.2/src/socketappender.cxx /usr/src/debug/log4cplus/2.1.2/src/fileappender.cxx /usr/src/debug/log4cplus/2.1.2/src/nullappender.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/eventcounter.h /usr/src/debug/log4cplus/2.1.2/src/consoleappender.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/timehelper.h /usr/src/debug/log4cplus/2.1.2/src/connectorthread.cxx /usr/src/debug/log4cplus/2.1.2/src/hierarchy.cxx /usr/src/debug/log4cplus/2.1.2/src/fileinfo.cxx /usr/src/debug/log4cplus/2.1.2/src/loggingmacros.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/queue.h /usr/src/debug/log4cplus/2.1.2/src/configurator.cxx /usr/src/debug/log4cplus/2.1.2/src/stringhelper.cxx /usr/src/debug/log4cplus/2.1.2/src/queue.cxx /usr/src/debug/log4cplus/2.1.2/src/callbackappender.cxx /usr/src/
- debug/log4cplus/2.1.2/include/log4cplus/helpers/pointer.h /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/socketbuffer.h /usr/src/debug/log4cplus/2.1.2/src/appender.cxx /usr/src/debug/log4cplus/2.1.2/src/lockfile.cxx /usr/src/debug/log4cplus/2.1.2/src/socket.cxx /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/lockfile.h /usr/src/debug/log4cplus/2.1.2/include/log4cplus/helpers/loglog.h"
-packages/core2-64-poky-linux/log4cplus/log4cplus-staticdev: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus/log4cplus-staticdev: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus/log4cplus: PV changed from "2.1.1" to "2.1.2"
-packages/core2-64-poky-linux/log4cplus/log4cplus: PKGV changed from 2.1.1 [default] to 2.1.2 [default]
-packages/core2-64-poky-linux/log4cplus/log4cplus: PKGSIZE changed from 1311091 to 1347971 (+3%)
-packages/core2-64-poky-linux/log4cplus/log4cplus: FILELIST: removed "/usr/lib/liblog4cplusU-2.1.so.9.0.1 /usr/lib/liblog4cplus-2.1.so.9.0.1", added "/usr/lib/liblog4cplusU-2.1.so.9.1.1 /usr/lib/liblog4cplus-2.1.so.9.1.1"
-Changes to packages/core2-64-poky-linux/log4cplus (sysroot):
-  /usr/lib/liblog4cplus-2.1.so.9 changed symlink target from liblog4cplus-2.1.so.9.0.1 to liblog4cplus-2.1.so.9.1.1
-  /usr/lib/liblog4cplus.so changed symlink target from liblog4cplus-2.1.so.9.0.1 to liblog4cplus-2.1.so.9.1.1
-  /usr/lib/liblog4cplusU-2.1.so.9 changed symlink target from liblog4cplusU-2.1.so.9.0.1 to liblog4cplusU-2.1.so.9.1.1
-  /usr/lib/liblog4cplusU.so changed symlink target from liblog4cplusU-2.1.so.9.0.1 to liblog4cplusU-2.1.so.9.1.1
-  /usr/lib/liblog4cplus-2.1.so.9.0.1 moved to /usr/lib/liblog4cplus-2.1.so.9.1.1
-  /usr/lib/liblog4cplusU-2.1.so.9.0.1 moved to /usr/lib/liblog4cplusU-2.1.so.9.1.1
-  /usr/include/log4cplus/helpers/eventcounter.h was added
+packages/core2-64-poky-linux/python3-license-expression: SRC_URI changed from "https://files.pythonhosted.org/packages/source/l/license_expression/license_expression-30.3.1.tar.gz;downloadfilename=license_expression-30.3.1.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/l/license_expression/license_expression-30.4.0.tar.gz;downloadfilename=license_expression-30.4.0.tar.gz file://run-ptest"
+packages/core2-64-poky-linux/python3-license-expression: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dbg: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dbg: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dev: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-dev: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-doc: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-doc: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-locale: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-locale: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-ptest: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-ptest: PKGSIZE changed from 1102218 to 1119992 (+2%)
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-ptest: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-src: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-src: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-staticdev: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression-staticdev: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression: PV changed from "30.3.1" to "30.4.0"
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression: PKGSIZE changed from 1093852 to 1111814 (+2%)
+packages/core2-64-poky-linux/python3-license-expression/python3-license-expression: PKGV changed from 30.3.1 [default] to 30.4.0 [default]
+Changes to packages/core2-64-poky-linux/python3-license-expression (sysroot):
+  /usr/lib/python3.13/site-packages/license_expression-30.3.1.dist-info moved to /usr/lib/python3.13/site-packages/license_expression-30.4.0.dist-info
 
---===============3111039744769966741==--
+--===============1877766736180080263==--
 
