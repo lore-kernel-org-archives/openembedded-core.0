@@ -1,342 +1,116 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <nicolas.dechesne@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B803D62057
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 09:33:39 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web10.16918.1732008811788974152
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2393CD62060
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 09:41:19 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.web11.17181.1732009274654144848
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Nov 2024 01:33:31 -0800
+ Tue, 19 Nov 2024 01:41:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=LqJajt7F;
- spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20cb7139d9dso6446675ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 01:33:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1732008810; x=1732613610; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jZ/Rx3CBlgypm6RBJU+GhXoacaRj0CKoCemvQHtV3Y4=;
-        b=LqJajt7FCvRPrX1UPRuh/KlVplbbx5N1DKIxlMQCPufRTiKABHfBV9Qq2CqgIb1e0Z
-         12eHQ5HptuB5U3nKR+mFRuN1Pr2VHs/D+KFhdM5AqXXsao8TEYbBn0c37JI9yZW+AsH5
-         gSMpCJb80dq4Y2+7ib/JAso2S1bUpXfstGoN4=
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TrZSTvfg;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: nicolas.dechesne@oss.qualcomm.com)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AJ7UN38027045
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:41:14 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=RzNZWQSYbTNPO5McOub1ji1uFc89i5A4psE
+	D0w2XLyg=; b=TrZSTvfgIewydG09L7gPCbLfg1AMcAA2fin7fBIZGF4glBVhv0K
+	Kicse8XHFf2+IfYuS2SAGU+v6SK9BsKV60QuLnBy7zKWwqgXWfbpnnOutcB759MT
+	IifsgTK1mI2E1XJvGrf7gw/yntolfN+lSXGv7KZ2di6PV+d09s+uNjQSVDtOSuGN
+	XCo6793qDPOEmwZru2R4GMfAB+S462fWjS6So8g9AYrGJzT4cXvNdmnbcwjfTmjP
+	dm0Z8LDDD0Y4ao1flUcmotgCVHZtpKvk0WWJS45b5GtUjPR0Qcn4S8IzLGAVkpJ/
+	6Jl1pgIPvqGlRCuu/tQnatUgjVgo4xYhrow==
+Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com [209.85.222.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4308y7t4tf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:41:13 +0000 (GMT)
+Received: by mail-ua1-f70.google.com with SMTP id a1e0cc1a2514c-8564f707b27so352561241.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 01:41:13 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732008810; x=1732613610;
+        d=1e100.net; s=20230601; t=1732009273; x=1732614073;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jZ/Rx3CBlgypm6RBJU+GhXoacaRj0CKoCemvQHtV3Y4=;
-        b=Jm+2d/KEiJvnqGRI9I2z5W+iDqMBaepW6Mhh7CcIku7lwuVyxN6QbF0ZiPHW+ygTk1
-         RHEvKGVvTeVeqtQt5zKan7/TkXAhMze+Mm8cHXA5rFQPTSXgO3EPLOg+iUeEKw2WtXEe
-         8rGoLNUlZ4y3gNWxc920Z8mxzq5l46uzHKzHhOtPdJutceHfovD102FxtNOcw5A8Q/2H
-         T/oJh7rdTJv73nlPksVojB4DlrDzbTKYpCd72yLa5q3TS1gIlmwWrswti1sZhmgyYBH6
-         Ww2Hd7AKDy6BBMKT0xW63VUumimJwqV1e3lE9zJ/BWrTfTYSm6eeRt1AkXULOqlrDBAj
-         SLGA==
-X-Gm-Message-State: AOJu0YwZ9YWeFy344tFVt58/wufJIRqEgTubQTbOJmCPbt5V4FpBq5bH
-	V0YhIa1xBum2Ac0bBUR7tfjAaGxHzi7X9/SzM6/NwFg8MgdvzKc33D4GGHyzFi3ZX4dqg/I+2nh
-	ctUk=
-X-Google-Smtp-Source: AGHT+IGkWW/JkhTzM+7mmrrqdrv5wIrNk8YWGCwhgU8UvG5Yph22Lkpsa9+Yi/saQuO+oLA6Ni1TDg==
-X-Received: by 2002:a17:902:da8b:b0:20c:d2d9:766f with SMTP id d9443c01a7336-211d0d724bdmr204278255ad.14.1732008810345;
-        Tue, 19 Nov 2024 01:33:30 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:882e:fb89:7f83:d84a:1c7c:faba])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0dc2bfbsm71211475ad.50.2024.11.19.01.33.27
+        bh=RzNZWQSYbTNPO5McOub1ji1uFc89i5A4psED0w2XLyg=;
+        b=SZKrr9SaudED/MKRfB+F7O86m21PO2nCJgCED0ae7gjUNvzlKleiGOKCnAKtq8C4xU
+         9rTUoz884iaDF78dsJ7putb9trfpCxlil6jxOQD9SRSUYjhBc7xWxusm7eeiAFdaaOK9
+         UxzBkh3yz+tEOMd1JD5egBu7An+6rVWroW7KVkxyhgdvPSAoLmTuasP7mh9Vb1iUnVod
+         +wqxAFuA0Xx6AxL+qoRNwlodvxH6yw9s6+bosFb4YMLzm0vyQP62NpAoTvqUnh+C8aYK
+         L9Ms8skhOkCXzcKbf4KGBecRWlHTZPfdM4RAgF4f6DaFcizysM9NGs0nZ4FxWrH6VAyU
+         lpqg==
+X-Gm-Message-State: AOJu0YxyqBE1qKp67hM7sxyuwEANnpT4zeuLTZOvfD7v5gPzHz/voYji
+	ylG86r9iIzXgkTaLTImwlioM6C/pulpPh8hf5esI2EEsFJKPjZ80ekJiZTbO4eQZcImnFs4DhWE
+	B0tHfWeCsGnSBgvZQWUknjWq2T3ydS8J0sr1knWD79kS1j7o48lvmhuOz/xGPVYSdfbQKez04hp
+	01QSccQmFZmki6ZCgK
+X-Received: by 2002:a05:6102:c8b:b0:493:bcbd:4633 with SMTP id ada2fe7eead31-4ad630186bfmr13219018137.3.1732009272869;
+        Tue, 19 Nov 2024 01:41:12 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEPTtyiyXAOC1W7YD8l/dAzvI7pOHF0yLxmmJJ8X1QqBa1I6zdROI86GRV0/9DRTtLFnQzoHg==
+X-Received: by 2002:a05:6102:c8b:b0:493:bcbd:4633 with SMTP id ada2fe7eead31-4ad630186bfmr13219004137.3.1732009272449;
+        Tue, 19 Nov 2024 01:41:12 -0800 (PST)
+Received: from hu-ndechesn-ams.qualcomm.com ([212.136.9.4])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20df571a1sm630782266b.80.2024.11.19.01.41.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2024 01:33:29 -0800 (PST)
-From: vanusuri@mvista.com
+        Tue, 19 Nov 2024 01:41:12 -0800 (PST)
+From: Nicolas Dechesne <nicolas.dechesne@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][kirkstone][PATCH] libsoup-2.4: Backport fix for CVE-2024-52530 and CVE-2024-52532
-Date: Tue, 19 Nov 2024 15:03:21 +0530
-Message-Id: <20241119093321.71100-1-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.25.1
+Cc: Nicolas Dechesne <nicolas.dechesne@oss.qualcomm.com>
+Subject: [PATCH] scripts: patchreview: fix failure when running from a different folder
+Date: Tue, 19 Nov 2024 10:41:09 +0100
+Message-Id: <20241119094109.2648950-1-nicolas.dechesne@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: hYHGw2Yn-bLt5ZdsIojEcT6pdnQzTEpl
+X-Proofpoint-GUID: hYHGw2Yn-bLt5ZdsIojEcT6pdnQzTEpl
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
+ mlxlogscore=839 clxscore=1011 suspectscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
+ lowpriorityscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.19.0-2409260000 definitions=main-2411190069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207383
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:41:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207384
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+When running patchreview with --blame, the scripts runs a git log
+command on the analyzed patch. When trying to analyse a layer which is
+not in poky tree, we might be running the git log command from outside
+the git workspace where the file is located, which results in such
+failures:
 
-Upstream-Status: Backport from
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b
-&
-https://gitlab.gnome.org/GNOME/libsoup/-/commit/6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be
-& https://gitlab.gnome.org/GNOME/libsoup/-/commit/29b96fab2512666d7241e46c98cc45b60b795c0c
+Missing Signed-off-by tag ([truncated]/meta-qcom-hwe/recipes-devtools/partition-utils/qcom-ptool/0001-ptool.py-Generate-zero-files-in-output-folder-when-s.patch)
+fatal: not a git repository (or any parent up to mount point /local/mnt)
+Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Fix this situation by setting the current work dir inside the git
+workspace of the patch when running git log.
+
+Signed-off-by: Nicolas Dechesne <nicolas.dechesne@oss.qualcomm.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2024-52530.patch  | 149 ++++++++++++++++++
- .../libsoup-2.4/CVE-2024-52532-1.patch        |  36 +++++
- .../libsoup-2.4/CVE-2024-52532-2.patch        |  42 +++++
- .../libsoup/libsoup-2.4_2.74.2.bb             |   3 +
- 4 files changed, 230 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
+ scripts/contrib/patchreview.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
-new file mode 100644
-index 0000000000..bd62a748eb
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
-@@ -0,0 +1,149 @@
-+From 04df03bc092ac20607f3e150936624d4f536e68b Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Mon, 8 Jul 2024 12:33:15 -0500
-+Subject: [PATCH] headers: Strictly don't allow NUL bytes
-+
-+In the past (2015) this was allowed for some problematic sites. However Chromium also does not allow NUL bytes in either header names or values these days. So this should no longer be a problem.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b]
-+CVE: CVE-2024-52530
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-headers.c      | 15 +++------
-+ tests/header-parsing-test.c | 62 +++++++++++++++++--------------------
-+ 2 files changed, 32 insertions(+), 45 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index a0cf351ac..f30ee467a 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -51,13 +51,14 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
-+ 	 * ignorable trailing whitespace.
-+ 	 */
-+ 
-++	/* No '\0's are allowed */
-++	if (memchr (str, '\0', len))
-++		return FALSE;
-++
-+ 	/* Skip over the Request-Line / Status-Line */
-+ 	headers_start = memchr (str, '\n', len);
-+ 	if (!headers_start)
-+ 		return FALSE;
-+-	/* No '\0's in the Request-Line / Status-Line */
-+-	if (memchr (str, '\0', headers_start - str))
-+-		return FALSE;
-+ 
-+ 	/* We work on a copy of the headers, which we can write '\0's
-+ 	 * into, so that we don't have to individually g_strndup and
-+@@ -69,14 +70,6 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
-+ 	headers_copy[copy_len] = '\0';
-+ 	value_end = headers_copy;
-+ 
-+-	/* There shouldn't be any '\0's in the headers already, but
-+-	 * this is the web we're talking about.
-+-	 */
-+-	while ((p = memchr (headers_copy, '\0', copy_len))) {
-+-		memmove (p, p + 1, copy_len - (p - headers_copy));
-+-		copy_len--;
-+-	}
-+-
-+ 	while (*(value_end + 1)) {
-+ 		name = value_end + 1;
-+ 		name_end = strchr (name, ':');
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index edf8eebb3..715c2c6f2 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -358,24 +358,6 @@ static struct RequestTest {
-+ 	  }
-+ 	},
-+ 
-+-	{ "NUL in header name", "760832",
-+-	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
-+-	  SOUP_STATUS_OK,
-+-	  "GET", "/", SOUP_HTTP_1_1,
-+-	  { { "Host", "example.com" },
-+-	    { NULL }
-+-	  }
-+-	},
-+-
-+-	{ "NUL in header value", "760832",
-+-	  "GET / HTTP/1.1\r\nHost: example\x00" "com\r\n", 35,
-+-	  SOUP_STATUS_OK,
-+-	  "GET", "/", SOUP_HTTP_1_1,
-+-	  { { "Host", "examplecom" },
-+-	    { NULL }
-+-	  }
-+-	},
-+-
-+ 	/************************/
-+ 	/*** INVALID REQUESTS ***/
-+ 	/************************/
-+@@ -448,6 +430,21 @@ static struct RequestTest {
-+ 	  SOUP_STATUS_EXPECTATION_FAILED,
-+ 	  NULL, NULL, -1,
-+ 	  { { NULL } }
-++	},
-++
-++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
-++	{ "NUL in header name", NULL,
-++	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
-++	  SOUP_STATUS_BAD_REQUEST,
-++	  NULL, NULL, -1,
-++	  { { NULL } }
-++	},
-++
-++	{ "NUL in header value", NULL,
-++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-+ 	}
-+ };
-+ static const int num_reqtests = G_N_ELEMENTS (reqtests);
-+@@ -620,22 +617,6 @@ static struct ResponseTest {
-+ 	    { NULL } }
-+ 	},
-+ 
-+-	{ "NUL in header name", "760832",
-+-	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
-+-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
-+-	  { { "Foo", "bar" },
-+-	    { NULL }
-+-	  }
-+-	},
-+-
-+-	{ "NUL in header value", "760832",
-+-	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
-+-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
-+-	  { { "Foo", "bar" },
-+-	    { NULL }
-+-	  }
-+-	},
-+-
-+ 	/********************************/
-+ 	/*** VALID CONTINUE RESPONSES ***/
-+ 	/********************************/
-+@@ -768,6 +749,19 @@ static struct ResponseTest {
-+ 	  { { NULL }
-+ 	  }
-+ 	},
-++
-++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
-++	{ "NUL in header name", NULL,
-++	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
-++	  -1, 0, NULL,
-++	  { { NULL } }
-++	},
-++
-++	{ "NUL in header value", "760832",
-++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
-++	  -1, 0, NULL,
-++	  { { NULL } }
-++	},
-+ };
-+ static const int num_resptests = G_N_ELEMENTS (resptests);
-+ 
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
-new file mode 100644
-index 0000000000..68eb942762
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
-@@ -0,0 +1,36 @@
-+From 6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be Mon Sep 17 00:00:00 2001
-+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
-+Date: Wed, 11 Sep 2024 11:52:11 +0200
-+Subject: [PATCH] websocket: process the frame as soon as we read data
-+
-+Otherwise we can enter in a read loop because we were not
-+validating the data until the all the data was read.
-+
-+Fixes #391
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be]
-+CVE: CVE-2024-52532
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ libsoup/soup-websocket-connection.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
-+index a4095e1..9d5f4f8 100644
-+--- a/libsoup/soup-websocket-connection.c
-++++ b/libsoup/soup-websocket-connection.c
-+@@ -1140,9 +1140,9 @@ soup_websocket_connection_read (SoupWebsocketConnection *self)
-+ 		}
-+ 
-+ 		pv->incoming->len = len + count;
-+-	} while (count > 0);
-+ 
-+-	process_incoming (self);
-++		process_incoming (self);
-++	} while (count > 0 && !pv->close_sent && !pv->io_closing);
-+ 
-+ 	if (end) {
-+ 		if (!pv->close_sent || !pv->close_received) {
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
-new file mode 100644
-index 0000000000..e4e2d03d58
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
-@@ -0,0 +1,42 @@
-+From 29b96fab2512666d7241e46c98cc45b60b795c0c Mon Sep 17 00:00:00 2001
-+From: Ignacio Casal Quinteiro <qignacio@amazon.com>
-+Date: Wed, 2 Oct 2024 11:17:19 +0200
-+Subject: [PATCH] websocket-test: disconnect error copy after the test ends
-+
-+Otherwise the server will have already sent a few more wrong
-+bytes and the client will continue getting errors to copy
-+but the error is already != NULL and it will assert
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/29b96fab2512666d7241e46c98cc45b60b795c0c]
-+CVE: CVE-2024-52532
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ tests/websocket-test.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/tests/websocket-test.c b/tests/websocket-test.c
-+index 06c443bb5..6a48c1f9b 100644
-+--- a/tests/websocket-test.c
-++++ b/tests/websocket-test.c
-+@@ -1539,8 +1539,9 @@ test_receive_invalid_encode_length_64 (Test *test,
-+ 	GError *error = NULL;
-+ 	InvalidEncodeLengthTest context = { test, NULL };
-+ 	guint i;
-++	guint error_id;
-+ 
-+-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
-++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
-+ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
-+ 
-+ 	/* We use 127(\x7f) as payload length with 65535 extended length */
-+@@ -1553,6 +1554,7 @@ test_receive_invalid_encode_length_64 (Test *test,
-+ 	WAIT_UNTIL (error != NULL || received != NULL);
-+ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
-+ 	g_clear_error (&error);
-++        g_signal_handler_disconnect (test->client, error_id);
-+ 	g_assert_null (received);
-+ 
-+         g_thread_join (thread);
-+-- 
-+GitLab
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-index be286e1849..b1962961ce 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
-@@ -13,6 +13,9 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+diff --git a/scripts/contrib/patchreview.py b/scripts/contrib/patchreview.py
+index bceae06561..f976f2f822 100755
+--- a/scripts/contrib/patchreview.py
++++ b/scripts/contrib/patchreview.py
+@@ -47,7 +47,7 @@ def blame_patch(patch):
+     return subprocess.check_output(("git", "log",
+                                     "--follow", "--find-renames", "--diff-filter=A",
+                                     "--format=%s (%aN <%aE>)",
+-                                    "--", patch)).decode("utf-8").splitlines()
++                                    "--", patch), cwd=os.path.dirname(patch)).decode("utf-8").splitlines()
  
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://0001-meson.build-set-c_std-to-gnu99.patch \
-+           file://CVE-2024-52530.patch \
-+           file://CVE-2024-52532-1.patch \
-+           file://CVE-2024-52532-2.patch \
-           "
- SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
+ def patchreview(patches):
  
 -- 
-2.25.1
+2.34.1
 
 
