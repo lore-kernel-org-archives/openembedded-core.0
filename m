@@ -1,241 +1,136 @@
-Return-Path: <victor.kamensky7@gmail.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB30FD60D1F
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 05:03:57 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web11.14040.1731992628673402204
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFD66D4920E
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 05:26:57 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.14222.1731994009577318660
  for <openembedded-core@lists.openembedded.org>;
- Mon, 18 Nov 2024 21:03:48 -0800
+ Mon, 18 Nov 2024 21:26:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QyT2oIQ0;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: victor.kamensky7@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7206304f93aso2138084b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:03:48 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=B4J7VUKv;
+ spf=pass (domain: mvista.com, ip: 209.85.214.177, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-211c1bd70f6so37001065ad.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 18 Nov 2024 21:26:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1731992627; x=1732597427; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1731994009; x=1732598809; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=62iht0gCiYeWypHpAsaV6Q5pngVrRscW29tfV/HBC78=;
-        b=QyT2oIQ01+opF8KKDvGYz/S60947ZGeT7a+0LFkubCypnv+rRkK3/RV9Kx6/Bk63mi
-         R/7H5PClS+LDqhQsSymWlP363vve9oaLMpAR4QXYZoPRY/C4NQdrG4EQ6nl6cBZMx/Q0
-         tIaPXX6bgDr/piNMmQ0ta5yFSABiEsRiQ/10tf9UQdTMXVp0gsOVqlSj/N7bbZaItlJb
-         UQ8iw2C/n8FBu41cB5m0YiYJn3mG4hdOZJb2r+z91BvpcEuAm0d/2eGUdMQ3SIAkbFQE
-         3JTY4wnTca7Ixa9a5mZW0OImDjwylhi9xEQDaJKgdHK2h7hcd81R5OFja7npUnyhHBQx
-         khlg==
+        bh=j//utmCLmHbOfmRxJW3HVRPBa+PJ0D/eZ4j9V3ZnD8k=;
+        b=B4J7VUKv15RRZTRZFrOoWlvc+syO+CNUpQfA0wpnNpV4PG0IKbvVNhRc8iNZJWZiUs
+         ReOWvmBaQ9GmvvWfaCXnx0HvSr0Bv6a3KFdQzuB0rHJ7fcpRSix8a3NNqt7/UzR1cYE4
+         89nbwN16CmCt+2H7L5H98x3VURl/DFPxTsXXw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1731992627; x=1732597427;
+        d=1e100.net; s=20230601; t=1731994009; x=1732598809;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=62iht0gCiYeWypHpAsaV6Q5pngVrRscW29tfV/HBC78=;
-        b=cNRwZudlcIi+IBQZ9CfGPNMkAkzYzHjBnCq3kc8PJnZa0GY3gEpb3VLXJ7YqAdCf+0
-         HUtuQ1rHQORflmAv4L9+SjlG3HrFa/uLCbNubX48Xwvo4TvFcp6/GVWaC/G+LRmb/FXk
-         FYh6NTDC9PUul5H6JmogI+ipEtAZntbZNSYTyDKM+vejTWM/9HRX4qk+p6ZgqMWjsasD
-         FKvOeDIGTG6VRM2ubZ2AUMBlM68kn2+7ORRAaWENunk92BMEaHuEnj1gIdkmWUZugjOJ
-         7sg6I829Ek47VwZhE/RY31CcXUD0VOlLE7QE7AP8G/zQxd3azUcxPlrC621AujYunh1n
-         E64w==
-X-Gm-Message-State: AOJu0YyUuQjdydrjIY/bUSE7f/dxfkpWdWmR5npIbbxFQ5aWnRg9lL3r
-	7zlcPYGXGJH+kfG0HSVHFVCo1ZmYaifT3klYI/EDuPuJCZAiW2wToz50Fg==
-X-Google-Smtp-Source: AGHT+IHybAH3ROCqzWPTcm+xj7W2GlMWA668KwjelqcCsAI7tzkaHrX2WK71745RK2/NgPzYz+197g==
-X-Received: by 2002:a05:6a00:2188:b0:724:603f:1f9e with SMTP id d2e1a72fcca58-7247709d5dcmr21126398b3a.22.1731992627430;
-        Mon, 18 Nov 2024 21:03:47 -0800 (PST)
-Received: from kamensky-p15s.cisco.com ([2601:641:8000:93e0::1731])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724770ee8afsm7346324b3a.23.2024.11.18.21.03.46
+        bh=j//utmCLmHbOfmRxJW3HVRPBa+PJ0D/eZ4j9V3ZnD8k=;
+        b=YG9dFbKnU17LjdaKJe2LlNhGiuqR/3vh7A9VSrLJ3HO7D54KKT4ACm6OMFcaeGHtqP
+         6i6nmxxM1giNi7Qvde1JKuW8yJpEYc8NZL6oYvrEwiemCM4hZ6+AfjiBmHvyxJkI0Xzi
+         Cy/jXvOncyOfsuCQnTR94Bu6s0+mwO2rdR/3aFeT8zuG6shSGCkyT8hmA4E9jb+FqMcV
+         4i54Dnx9ewvdGgVud0bOG2fZwMTE9erR/wghvdYZiquSW8S21PqcrIB3VcKyb/NrIWJK
+         mFyM0r3jbQ4xLZFqLMigQJlf8IvGvBtmbYKTyylW9BwN4PVqNPNXQBzEBDVWol/Scuoh
+         4ndA==
+X-Gm-Message-State: AOJu0YyPDTs3u/ARVe/fjW/fQTBPsHaDAP2aE3nz+/2E6Sd1q/z3ncHo
+	Ot/fnFcdWPjwYmQx0TfTa3DKlBZGiu8ysLOQ5c2t3y4oYTaVd1m3n2el1aZIUunC+vLRhR2sMF1
+	9
+X-Google-Smtp-Source: AGHT+IG13rZ9XkS6ogpHQuvaaekcUakLIo3pjk6S4JV6ZLHXyXFsfFA5BL/0tnTLzAB/7OO6pCOYdw==
+X-Received: by 2002:a17:903:98f:b0:20b:db4:d913 with SMTP id d9443c01a7336-2124e8d02fbmr26030685ad.11.1731994008871;
+        Mon, 18 Nov 2024 21:26:48 -0800 (PST)
+Received: from MVIN00016.mvista.com ([103.250.136.173])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-211d0ec9370sm65513415ad.102.2024.11.18.21.26.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Nov 2024 21:03:46 -0800 (PST)
-From: Victor Kamensky <victor.kamensky7@gmail.com>
+        Mon, 18 Nov 2024 21:26:48 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Victor Kamensky <victor.kamensky7@gmail.com>
-Subject: [PATCH 1/2] systemtap: upgrade 5.1 -> 5.2
-Date: Mon, 18 Nov 2024 21:03:00 -0800
-Message-Id: <20241119050301.4197-1-victor.kamensky7@gmail.com>
-X-Mailer: git-send-email 2.31.1
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] libsoup: fix CVE-2024-52532
+Date: Tue, 19 Nov 2024 10:56:40 +0530
+Message-Id: <20241119052640.55850-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 05:03:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207376
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 05:26:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207378
 
-* removed all backported patches
+Upstream-Status: Backport from https://gitlab.gnome.org/GNOME/libsoup/-/commit/29b96fab2512666d7241e46c98cc45b60b795c0c
 
-* fixed patch fuzz issue
-
-Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- ...ython-modules-to-correct-library-dir.patch | 11 ++--
- ...gcc-version-compatibility-hack-redux.patch | 32 ------------
- ...e.cxx-gcc-version-compatibility-hack.patch | 52 -------------------
- .../systemtap/systemtap_git.inc               |  6 +--
- 4 files changed, 6 insertions(+), 95 deletions(-)
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack-redux.patch
- delete mode 100644 meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack.patch
+ .../libsoup-3.4.4/CVE-2024-52532.patch        | 42 +++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |  4 +-
+ 2 files changed, 45 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52532.patch
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-index 48cf4aee85..ee9baedcda 100644
---- a/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-+++ b/meta/recipes-kernel/systemtap/systemtap/0001-Install-python-modules-to-correct-library-dir.patch
-@@ -1,4 +1,4 @@
--From 2ada22f05460223924efe54080cb4419e2b4c276 Mon Sep 17 00:00:00 2001
-+From 18d088d10c1a0885fa25ac40591e38c8aa545c81 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Fri, 24 Feb 2017 17:53:02 +0200
- Subject: [PATCH] Install python modules to correct library dir.
-@@ -19,7 +19,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 6 insertions(+), 2 deletions(-)
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52532.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52532.patch
+new file mode 100644
+index 0000000000..272abb3abf
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52532.patch
+@@ -0,0 +1,42 @@
++From 29b96fab2512666d7241e46c98cc45b60b795c0c Mon Sep 17 00:00:00 2001
++From: Ignacio Casal Quinteiro <qignacio@amazon.com>
++Date: Wed, 2 Oct 2024 11:17:19 +0200
++Subject: [PATCH] websocket-test: disconnect error copy after the test ends
++
++Otherwise the server will have already sent a few more wrong
++bytes and the client will continue getting errors to copy
++but the error is already != NULL and it will assert.
++
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/29b96fab2512666d7241e46c98cc45b60b795c0c]
++CVE: CVE-2024-52532
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ tests/websocket-test.c | 4 +++-
++ 1 file changed, 3 insertions(+), 1 deletion(-)
++
++diff --git a/tests/websocket-test.c b/tests/websocket-test.c
++index b954b01..9b37780 100644
++--- a/tests/websocket-test.c
+++++ b/tests/websocket-test.c
++@@ -1489,8 +1489,9 @@ test_receive_invalid_encode_length_64 (Test *test,
++ 	GError *error = NULL;
++ 	InvalidEncodeLengthTest context = { test, NULL };
++ 	guint i;
+++	guint error_id;
++ 
++-	g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
+++	error_id = g_signal_connect (test->client, "error", G_CALLBACK (on_error_copy), &error);
++ 	g_signal_connect (test->client, "message", G_CALLBACK (on_binary_message), &received);
++ 
++ 	/* We use 127(\x7f) as payload length with 65535 extended length */
++@@ -1503,6 +1504,7 @@ test_receive_invalid_encode_length_64 (Test *test,
++ 	WAIT_UNTIL (error != NULL || received != NULL);
++ 	g_assert_error (error, SOUP_WEBSOCKET_ERROR, SOUP_WEBSOCKET_CLOSE_PROTOCOL_ERROR);
++ 	g_clear_error (&error);
+++        g_signal_handler_disconnect (test->client, error_id);
++ 	g_assert_null (received);
++ 
++         g_thread_join (thread);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+index 6f7cac4cf8..c21cc8ad0e 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+@@ -11,7 +11,9 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
  
- diff --git a/python/Makefile.am b/python/Makefile.am
--index a254480..578602f 100644
-+index 13618dc2f..9d5cb7bcb 100644
- --- a/python/Makefile.am
- +++ b/python/Makefile.am
- @@ -8,6 +8,10 @@ AUTOMAKE_OPTIONS = subdir-objects
-@@ -35,7 +35,7 @@ index a254480..578602f 100644
-  pkglibexecpython_PYTHON =
- @@ -47,7 +51,7 @@ install-exec-local:
-  if HAVE_PYTHON2_PROBES
-- 	(cd $(srcdir); CFLAGS="$(AM_CPPFLAGS)" $(PYTHON) setup.py build \
-+ 	(cd $(srcdir); CFLAGS="$(CFLAGS) $(AM_CPPFLAGS)" $(PYTHON) setup.py build \
-           --build-base $(shell readlink -f $(builddir))/py2build \
- -	 install --prefix $(DESTDIR)$(prefix) \
- +	 install --root $(DESTDIR) --prefix $(prefix) --prefix $(prefix) --install-lib=${pythondir} \
-@@ -44,13 +44,10 @@ index a254480..578602f 100644
-           --verbose)
- @@ -55,7 +59,7 @@ endif
-  if HAVE_PYTHON3_PROBES
-- 	(cd $(srcdir); CFLAGS="$(AM_CPPFLAGS)" $(PYTHON3) setup.py build \
-+ 	(cd $(srcdir); CFLAGS="$(CFLAGS) $(AM_CPPFLAGS)" $(PYTHON3) setup.py build \
-           --build-base $(shell readlink -f $(builddir))/py3build \
- -	 install --prefix $(DESTDIR)$(prefix) \
- +	 install --root $(DESTDIR) --prefix $(prefix) --install-lib=${python3dir} \
-  	 --single-version-externally-managed \
-  	 --record $(shell readlink -f $(builddir))/py3build/install_files.txt \
-           --verbose)
---- 
--2.7.4
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack-redux.patch b/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack-redux.patch
-deleted file mode 100644
-index 0c2888400d..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack-redux.patch
-+++ /dev/null
-@@ -1,32 +0,0 @@
--From 91caf37e4dfe862f9b68447b1597c0d0f31523c3 Mon Sep 17 00:00:00 2001
--From: "Frank Ch. Eigler" <fche@redhat.com>
--Date: Tue, 7 May 2024 15:04:04 -0400
--Subject: [PATCH] elaborate.cxx: gcc version compatibility hack redux
--
--Note __GNUC__ >= 14 for this diagnostic.
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=91caf37e4dfe862f9b68447b1597c0d0f31523c3]
--Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
-----
-- elaborate.cxx | 2 ++
-- 1 file changed, 2 insertions(+)
--
--diff --git a/elaborate.cxx b/elaborate.cxx
--index 88505559b..c08023f1d 100644
----- a/elaborate.cxx
--+++ b/elaborate.cxx
--@@ -2656,9 +2656,11 @@ symresolution_info::symresolution_info (systemtap_session& s, bool omniscient_un
--   session (s), unmangled_p(omniscient_unmangled), current_function (0), current_probe (0)
-- {
--   #pragma GCC diagnostic push
--+  #if __GNUC__ >= 14
--   // c10s early snapshot GCC complains about this construct, which is
--   // made safe via our dtor usage
--   #pragma GCC diagnostic ignored "-Wdangling-pointer"
--+  #endif
--   saved_session_symbol_resolver = s.symbol_resolver;
--   s.symbol_resolver = this; // save resolver for early PR25841 function resolution
--   #pragma GCC diagnostic pop
---- 
--2.45.2
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack.patch b/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack.patch
-deleted file mode 100644
-index 7cdcc93f14..0000000000
---- a/meta/recipes-kernel/systemtap/systemtap/0001-elaborate.cxx-gcc-version-compatibility-hack.patch
-+++ /dev/null
-@@ -1,52 +0,0 @@
--From d11241bdd05bc4c745c8aef53a2725331e1a93b4 Mon Sep 17 00:00:00 2001
--From: "Frank Ch. Eigler" <fche@redhat.com>
--Date: Tue, 7 May 2024 14:25:12 -0400
--Subject: [PATCH] elaborate.cxx: gcc version compatibility hack
--MIME-Version: 1.0
--Content-Type: text/plain; charset=UTF-8
--Content-Transfer-Encoding: 8bit
--
--Suppress -Wdangling-pointer for a construct that appears valid, but
--one particular GCC snapshot version complains about.
--
--In constructor ‘symresolution_info::symresolution_info(systemtap_session&, bool)’,
--inlined from ‘int semantic_pass_symbols(systemtap_session&)’ at ../systemtap/elaborate.cxx:1872:28:
--../systemtap/elaborate.cxx:2659:21: error: storing the address of local variable ‘sym’ in ‘*s.systemtap_session::symbol_resolver’ [-Werror=dangling-pointer=]
-- 2659 |   s.symbol_resolver = this; // save resolver for early PR25841 function resolution
--      |   ~~~~~~~~~~~~~~~~~~^~~~~~
--../systemtap/elaborate.cxx: In function ‘int semantic_pass_symbols(systemtap_session&)’:
--../systemtap/elaborate.cxx:1872:22: note: ‘sym’ declared here
-- 1872 |   symresolution_info sym (s);
--      |                      ^~~
--../systemtap/elaborate.cxx:1870:43: note: ‘s’ declared here
-- 1870 | semantic_pass_symbols (systemtap_session& s)
--      |                        ~~~~~~~~~~~~~~~~~~~^
--cc1plus: all warnings being treated as errors
--
--Upstream-Status: Backport [https://sourceware.org/git/?p=systemtap.git;a=commit;h=d11241bdd05bc4c745c8aef53a2725331e1a93b4]
--Signed-off-by: Victor Kamensky <victor.kamensky7@gmail.com>
-----
-- elaborate.cxx | 5 +++++
-- 1 file changed, 5 insertions(+)
--
--diff --git a/elaborate.cxx b/elaborate.cxx
--index 8bf9e6c06..88505559b 100644
----- a/elaborate.cxx
--+++ b/elaborate.cxx
--@@ -2655,8 +2655,13 @@ semantic_pass (systemtap_session& s)
-- symresolution_info::symresolution_info (systemtap_session& s, bool omniscient_unmangled):
--   session (s), unmangled_p(omniscient_unmangled), current_function (0), current_probe (0)
-- {
--+  #pragma GCC diagnostic push
--+  // c10s early snapshot GCC complains about this construct, which is
--+  // made safe via our dtor usage
--+  #pragma GCC diagnostic ignored "-Wdangling-pointer"
--   saved_session_symbol_resolver = s.symbol_resolver;
--   s.symbol_resolver = this; // save resolver for early PR25841 function resolution
--+  #pragma GCC diagnostic pop
-- }
-- 
-- 
---- 
--2.45.2
--
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recipes-kernel/systemtap/systemtap_git.inc
-index 80945ad7f8..bbb2105b5a 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,14 +1,12 @@
- LICENSE = "GPL-2.0-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263"
--SRCREV = "3a0c9c15163520dd0d9ab07177da62ce9cc2332f"
--PV = "5.1"
-+SRCREV = "3a92ffe673c1621309a0b60892114495b651c9de"
-+PV = "5.2"
+ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- SRC_URI = "git://sourceware.org/git/systemtap.git;branch=master;protocol=https \
-            file://0001-Do-not-let-configure-write-a-python-location-into-th.patch \
-            file://0001-Install-python-modules-to-correct-library-dir.patch \
-            file://0001-staprun-stapbpf-don-t-support-installing-a-non-root.patch \
--           file://0001-elaborate.cxx-gcc-version-compatibility-hack.patch \
--           file://0001-elaborate.cxx-gcc-version-compatibility-hack-redux.patch \
-            "
+-SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
++SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
++           file://CVE-2024-52532.patch \
++          "
+ SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
  
- COMPATIBLE_HOST = '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|riscv64).*-linux'
+ PROVIDES = "libsoup-3.0"
 -- 
-2.45.0
+2.25.1
 
 
