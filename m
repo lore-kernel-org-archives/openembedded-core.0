@@ -1,150 +1,167 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7780D44150
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 12:07:49 +0000 (UTC)
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
- by mx.groups.io with SMTP id smtpd.web10.19330.1732018066255152681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 282FCD44155
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 12:51:50 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.20352.1732020703352095698
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Nov 2024 04:07:46 -0800
+ Tue, 19 Nov 2024 04:51:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zg93J5ER;
- spf=pass (domain: gmail.com, ip: 209.85.219.182, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e388c3b0b76so2237206276.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 04:07:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732018065; x=1732622865; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=0eZVOncSaCPbX1XUMKsq1T35zllHeNhhejhs5oniE6Y=;
-        b=Zg93J5ERae/AJpHOIE9EWh/s813ZJRatmYU0/cGtsbEFrbJjnupBxo5hSDBlJ17vU2
-         ajXY0Yr9gh8En/ehKh3tHkgXicN+bvPFLgYjtoOWirgKMMZAiFzKCVKCW0wie6uVuKMT
-         7ynJBt+kofBYuYgmJJwiAw8n3mgLAqlyeo7UnKoJygf/5g2gPjI0zyGAYZqVrlxjM1/8
-         pw9VLwP+8+k0I4dkywnv0W++nczyw9CD551i9kbe8vxZn1lJE3t1YrExEi5nLtfNAWnm
-         KECSey5Hs82XknNyP8e6GRuaHeczooTr45lG5ytlJeDjljGpYTH1CbSRCkPnDP+GT95W
-         TqWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732018065; x=1732622865;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0eZVOncSaCPbX1XUMKsq1T35zllHeNhhejhs5oniE6Y=;
-        b=Dz641Q3GQ2voZ6OqlGvYoLRyLuNNYtSQsZ2c1/1mr4IReAA8dGZXUwuPgGTGAL/CNM
-         vXUZfjdHxznD7c+q7b20bRuGkOOMow125oklR4tK1jOU9B1YDI2qgPpfwznEt3fpa7a2
-         oGCTlOvHE7lMM5vJWENG7CP70ggDuPtg+1kE0nOOMZPvgfKZD9INkHYgLKPsRMsRBQ2a
-         PMmV8eU/mWRtDW4Ocq3747hgxoqJY/TUDH050AFV97/kN8c6cJzAe4KptVNB9be81i+N
-         kIeUfGJzHrJfG7XNaTKUptaJZ8GHXK5E+vabNJzU0qF7/Bp5Rr/JzH7ZpKYUBPWwn5ip
-         n6BA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVFC5WJJh1bC9i8dHcSOTaXvWWHXWCFFwDMWPTkWq17xNQ8rvg0EgGDpoDMLGkUZ8Bq+NSu+kCHJwl4ZUKbSt3cQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxDOUliGr4ax8EgKUylPl4GRC+Swm9LOfS8USlxXhwskiFSBNJ0
-	aIjYIH7WWRiMWzzovjAkjXtiTeitI0kQhj6f+SS6zI310SRGQYJMxn4Gq+tdMg1U+wSK1Z6xtkg
-	2FH9hMGMEEzqzBBzjkzBNcDdsvXQ=
-X-Google-Smtp-Source: AGHT+IHHTcRyrWcUY/H0ZDFdMqqVn4SeQimjV7S6Rq2Tq2EEZgnGm7LQ7NxmRNSlNpqZIcqw8o8mtUDLuAOSMipFjAA=
-X-Received: by 2002:a05:6902:2208:b0:e38:87bf:8e65 with SMTP id
- 3f1490d57ef6-e3887bf9531mr9100205276.0.1732018065348; Tue, 19 Nov 2024
- 04:07:45 -0800 (PST)
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA578FEC
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 04:52:12 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 848A43F5A1
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 04:51:42 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] systemd: extract dependencies from .note.dlopen ELF segments
+Date: Tue, 19 Nov 2024 12:51:36 +0000
+Message-Id: <20241119125136.2507561-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-References: <20241022081140.1464860-1-thakur.virendra1810@gmail.com>
- <CANNYZj8VR90wUtudX4FiA-teKaJFrkgK_hohmb2o6iNXeGL96w@mail.gmail.com> <MA0PR01MB9355C27D944D288DF19DEE389D202@MA0PR01MB9355.INDPRD01.PROD.OUTLOOK.COM>
-In-Reply-To: <MA0PR01MB9355C27D944D288DF19DEE389D202@MA0PR01MB9355.INDPRD01.PROD.OUTLOOK.COM>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 19 Nov 2024 13:07:34 +0100
-Message-ID: <CANNYZj9n-DiX3WfUJTqa=s_iKAfLSuNJZ7QuD6+H+PW9_m3ZrQ@mail.gmail.com>
-Subject: Re: [OE-core] [master][PATCH] libyaml: Add libyaml ptest
-To: virendra.thakur@kpit.com
-Cc: "thakur.virendra1810@gmail.com" <thakur.virendra1810@gmail.com>, 
-	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"wangmy@fujitsu.com" <wangmy@fujitsu.com>
-Content-Type: multipart/alternative; boundary="00000000000087a2fc062742e1f0"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 12:07:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207387
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 12:51:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207388
 
---00000000000087a2fc062742e1f0
-Content-Type: text/plain; charset="UTF-8"
+First, this is likely not the final implementation, but a RFC and
+prototype.
 
-On Tue, 19 Nov 2024 at 13:02, Virendra Thakur via lists.openembedded.org
-<virendra.thakur=kpit.com@lists.openembedded.org> wrote:
+Some binaries don't dynamically link to libraries, but instead at runtime
+dlopen() them. This means extra work for distributions as the dependencie=
+s
+are not detected automatically, so libraries may be missing.
 
->
->
-> Below test does not require any argument to be pass. Its is a simple binary
-> > +       test-version and test-reader
->
->
->  run-emitter|run-dumper|run-parser|run-scanner|run-loader
-> Other test require an argument and yaml file which it needs to perform
-> task. Like parsing or emmiting or to perform run-loader test
->
+systemd is one such project which does this, and in an attempt to solve
+the packaging problem it also embeds the names of the libraries that can
+potentially be opened at runtime into ELF notes.  These can be read to
+generate package dependencies.  For example:
 
-This does not quite answer this part of my question:
+packages/cortexa57-poky-linux/systemd/libsystemd-shared: RRECOMMENDS: add=
+ed "libkmod (['>=3D 33']) libzstd (['>=3D 1.5.6'])"
+packages/cortexa57-poky-linux/systemd/libsystemd: RRECOMMENDS: added "lib=
+zstd (['>=3D 1.5.6'])"
 
-How does the test suite work upstream and why can't we
-simply use that?
+I expect this code to be changed before merging. Whilst systemd is the
+main user of his approach right now, I expect to see it used in more
+places in the future so there's a reasonably good argument to merge it
+into the core shlibs code.  Also it currently manually extracts and
+parses the data, whereas maybe we should incorporate pyelftools into
+meta/lib/oe and use that to parse ELF files across all of OE.
 
-I still don't understand why a custom yaml needs to be created.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/recipes-core/systemd/dlopen-deps.inc  | 73 ++++++++++++++++++++++
+ meta/recipes-core/systemd/systemd_256.7.bb |  2 +
+ 2 files changed, 75 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/dlopen-deps.inc
 
-Alex
+diff --git a/meta/recipes-core/systemd/dlopen-deps.inc b/meta/recipes-cor=
+e/systemd/dlopen-deps.inc
+new file mode 100644
+index 00000000000..eaf6ca1f79a
+--- /dev/null
++++ b/meta/recipes-core/systemd/dlopen-deps.inc
+@@ -0,0 +1,73 @@
++PACKAGEFUNCS =3D+ "package_generate_dlopen_deps"
++
++python package_generate_dlopen_deps() {
++    # https://systemd.io/ELF_DLOPEN_METADATA/
++
++    import struct, json
++
++    def extract_segment(filename, segment):
++        """
++        Return the named segment from the ELF.
++        """
++        import tempfile, subprocess
++
++        with tempfile.NamedTemporaryFile() as f:
++            cmd =3D [d.getVar("OBJCOPY"), "--dump-section", f"{segment}=3D=
+{f.name}", filename]
++            subprocess.run(cmd, check=3DTrue)
++            return f.read()
++
++    def parse(buffer, is_little):
++        deps =3D []
++        offset =3D 0
++        while offset < len(buffer):
++            format =3D f"{'<' if is_little else '>'}iii"
++            name_size, desc_size, note_type =3D struct.unpack_from(forma=
+t, buffer, offset)
++            offset +=3D struct.calcsize(format)
++
++            format =3D f"{name_size}s0i{desc_size}s0i"
++            if note_type =3D=3D 0x407c0c0a:
++                name_b, desc_b =3D struct.unpack_from(format, buffer, of=
+fset)
++                name =3D name_b.strip(b"\x00").decode("ascii")
++                if name =3D=3D "FDO":
++                    desc =3D desc_b.strip(b"\x00").decode("utf-8")
++                    deps.append(*json.loads(desc))
++            offset +=3D struct.calcsize(format)
++        return deps
++
++    dep_map =3D {
++        "required": "RDEPENDS",
++        "recommended": "RRECOMMENDS",
++        "suggested": "RSUGGESTS"
++    }
++
++    shlibs =3D oe.package.read_shlib_providers(d)
++
++    for pkg, files in pkgfiles.items():
++        # Skip -dbg packages as we won't need to generate dependencies f=
+or those
++        # but scanning can take time
++        if pkg.endswith("-dbg"):
++            continue
++
++        for f in files:
++            # Skip symlinks, just look for real libraries
++            if cpath.islink(f):
++                continue
++
++            if ".so." in f or f.endswith(".so"):
++                try:
++                    elf =3D oe.qa.ELFFile(f)
++                    elf.open()
++                    for dep in parse(extract_segment(f, ".note.dlopen"),=
+ elf.isLittleEndian()):
++                        for soname in dep["soname"]:
++                            if soname in shlibs:
++                                # TODO assumes the first match is good
++                                package, version =3D list(shlibs[soname]=
+.values())[0]
++                                dependency =3D dep_map[dep["priority"]]
++                                bb.note(f"{pkg}: adding {dependency} on =
+{package} via .note.dlopen")
++                                d.appendVar(f"{dependency}:{pkg}", f" {p=
+ackage} (>=3D {version})")
++                            else:
++                                bb.warn(f"cannot find {soname}")
++                except oe.qa.NotELFFileError as e:
++                    bb.note(f"Cannot extract ELF notes: {e}")
++                    pass
++}
+diff --git a/meta/recipes-core/systemd/systemd_256.7.bb b/meta/recipes-co=
+re/systemd/systemd_256.7.bb
+index f3af4ac44dc..4942d9518aa 100644
+--- a/meta/recipes-core/systemd/systemd_256.7.bb
++++ b/meta/recipes-core/systemd/systemd_256.7.bb
+@@ -909,3 +909,5 @@ pkg_postinst:udev-hwdb () {
+ pkg_prerm:udev-hwdb () {
+ 	rm -f $D${sysconfdir}/udev/hwdb.bin
+ }
++
++require dlopen-deps.inc
+--=20
+2.34.1
 
---00000000000087a2fc062742e1f0
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"g=
-mail_attr">On Tue, 19 Nov 2024 at 13:02, Virendra Thakur via <a href=3D"htt=
-p://lists.openembedded.org">lists.openembedded.org</a> &lt;virendra.thakur=
-=3D<a href=3D"mailto:kpit.com@lists.openembedded.org">kpit.com@lists.openem=
-bedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex"><div class=3D"msg8462282516339188922">
-
-
-
-
-<div dir=3D"ltr">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div id=3D"m_8462282516339188922Signature">
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Below test does not require any argument to be pass. Its is a simple binary=
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 test-version and test-reader=C2=
-=A0</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-<br>
-</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-=C2=A0run-emitter|run-dumper|run-parser|run-scanner|run-loader</div>
-<div style=3D"font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Cali=
-bri,Helvetica,sans-serif;font-size:12pt;color:rgb(0,0,0)">
-Other test require an argument and yaml file which it needs to perform task=
-. Like parsing or emmiting or to perform run-loader test</div></div></div><=
-/div></blockquote></div><div class=3D"gmail_quote"><br></div><div class=3D"=
-gmail_quote">This does not quite answer this part of my question:</div><div=
- class=3D"gmail_quote"><br></div><div class=3D"gmail_quote">How does the te=
-st suite work upstream and why can&#39;t we<br>
-simply use that? <br></div><div class=3D"gmail_quote"><br></div><div class=
-=3D"gmail_quote">I still don&#39;t understand why a custom yaml needs to be=
- created.<br></div><div class=3D"gmail_quote"><br></div><div class=3D"gmail=
-_quote">Alex<br></div></div>
-
---00000000000087a2fc062742e1f0--
 
