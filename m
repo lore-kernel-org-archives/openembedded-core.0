@@ -2,33 +2,33 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 282FCD44155
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 12:51:50 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12629D44157
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 12:56:20 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.20352.1732020703352095698
+ by mx.groups.io with SMTP id smtpd.web11.20435.1732020972917554608
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Nov 2024 04:51:43 -0800
+ Tue, 19 Nov 2024 04:56:13 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EA578FEC
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 04:52:12 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9961F150C
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 04:56:42 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 848A43F5A1
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 04:51:42 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 416763F5A1
+	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 04:56:12 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: extract dependencies from .note.dlopen ELF segments
-Date: Tue, 19 Nov 2024 12:51:36 +0000
-Message-Id: <20241119125136.2507561-1-ross.burton@arm.com>
+Subject: [PATCH v2] systemd: extract dependencies from .note.dlopen ELF segments
+Date: Tue, 19 Nov 2024 12:56:07 +0000
+Message-Id: <20241119125607.2509181-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 12:51:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207388
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 12:56:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207389
 
 First, this is likely not the final implementation, but a RFC and
 prototype.
@@ -55,11 +55,14 @@ into the core shlibs code.  Also it currently manually extracts and
 parses the data, whereas maybe we should incorporate pyelftools into
 meta/lib/oe and use that to parse ELF files across all of OE.
 
+This also means we can remove the explicit dependency on libkmod in udev,
+which now comes in via libsystemd-shared.
+
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
  meta/recipes-core/systemd/dlopen-deps.inc  | 73 ++++++++++++++++++++++
- meta/recipes-core/systemd/systemd_256.7.bb |  2 +
- 2 files changed, 75 insertions(+)
+ meta/recipes-core/systemd/systemd_256.7.bb |  4 +-
+ 2 files changed, 75 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-core/systemd/dlopen-deps.inc
 
 diff --git a/meta/recipes-core/systemd/dlopen-deps.inc b/meta/recipes-cor=
@@ -152,10 +155,20 @@ ackage} (>=3D {version})")
 +}
 diff --git a/meta/recipes-core/systemd/systemd_256.7.bb b/meta/recipes-co=
 re/systemd/systemd_256.7.bb
-index f3af4ac44dc..4942d9518aa 100644
+index f3af4ac44dc..cad74702818 100644
 --- a/meta/recipes-core/systemd/systemd_256.7.bb
 +++ b/meta/recipes-core/systemd/systemd_256.7.bb
-@@ -909,3 +909,5 @@ pkg_postinst:udev-hwdb () {
+@@ -742,8 +742,6 @@ INSANE_SKIP:libsystemd-shared +=3D "libdir"
+ FILES:libsystemd-shared =3D "${rootlibdir}/systemd/libsystemd-shared*.so=
+"
+=20
+ RPROVIDES:udev =3D "hotplug"
+-# This can be removed when we parse .note.dlopen in the ELF
+-RDEPENDS:udev +=3D "libkmod"
+=20
+ RDEPENDS:udev-bash-completion +=3D "bash-completion"
+ RDEPENDS:udev-hwdb +=3D "udev"
+@@ -909,3 +907,5 @@ pkg_postinst:udev-hwdb () {
  pkg_prerm:udev-hwdb () {
  	rm -f $D${sysconfdir}/udev/hwdb.bin
  }
