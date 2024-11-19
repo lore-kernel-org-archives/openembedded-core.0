@@ -1,174 +1,72 @@
-Return-Path: <denis.osterland@diehl.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BF3AD4922B
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 16:21:01 +0000 (UTC)
-Received: from enterprise02.smtp.diehl.com (enterprise02.smtp.diehl.com [193.201.238.220])
- by mx.groups.io with SMTP id smtpd.web11.25584.1732033253934258835
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3881BD591A5
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 16:50:01 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web10.26174.1732034996291665187
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Nov 2024 08:20:54 -0800
+ Tue, 19 Nov 2024 08:49:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@diehl.com header.s=default header.b=g4uVaWJK;
- spf=pass (domain: diehl.com, ip: 193.201.238.220, mailfrom: prvs=0462b29cc=denis.osterland@diehl.com)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Q8bluPMm;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d382677c92so25012836d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 08:49:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1732033254; x=1763569254;
-  h=from:to:subject:date:message-id:mime-version;
-  bh=YLEGxbWR8HRYQkXl5xM4fUyua1e7/KaJ5U/H/XptFrc=;
-  b=g4uVaWJKaVTI1gh8Rt38CaVGILpVgpzetEbW9px/cRx+lxAXKW5J1R6Z
-   7XyQEuJiVBrLSSJTsoFXa6vOerdnYpegE5X0crWFCWcj13zbxQCcuWvFd
-   vkDHbZHbEwDCU+P+FC7GHpBSVLILSMx6dklkiOt5/GLyf5MCPzXeS7yQF
-   qzLrLWU49wSy3hFBpD5uSCfwC2besde3DcI5RAGhA+BmI1vXEFqcy6hLA
-   sBn2h2n4TeoAd875jVyJS3ifc19syhgWT7BLYUeVt6aKw848aXP0JTr80
-   LJZFTQYOiew/15Fx7VXo/fXELKrejTqFy19HsRl7H4GAsL1o8/vSLJEfV
-   g==;
-X-CSE-ConnectionGUID: XUl+RmNiRvGCxysKw9UFZQ==
-X-CSE-MsgGUID: lGWOjoToRkSL0m2e9E44Wg==
-X-ThreatScanner-Verdict: Negative
-IronPort-Data: A9a23:TbUh6K/AfalWWUFoixO3DrUDm36TJUtcMsCJ2f8bNWPdYAtShnVHk
- jtMCC3fZaGVKn+1IIo1b5D1rB1Y6NKQjINT/DAc7nRsSn8MsZXebTjyBk2pZH+YJ8aSEEs24
- 85AMojKcc06FCLS/xv9OeWxoHUs362EG+WlV+CVaiouSFQ8FHh41Eo9xedi2tE5itawWw/lV
- b/aqtXHPF6u0iJ1NWRT86GIs0wqp/X9vjoEo0YzDRxulAa2ey49V8NHdcldVkfQQpVIBrz9A
- OXO3ar/8mLU/xNrAdSg1b3hdgoWQfvSCg7IgWBSA8CebmN5Sl8PPtwTbLxEAXp/iymVh4I2j
- 9ZApIf2RQYkPqmKk+MYFBJCF2ZiPuhGz7mBKmK76ZHQjhWuT5eX+BkdMa1MFdVeoo5KKWFS6
- eRKb3cScQ/Fi+O7wLb9Qe5pwdwgLY6zVL/zwUqMvgw1d95+B8irfpj32DN44NsRrskWQKzSa
- 8RCYmczYUufO0EWNg5HA8hnxruljSbyeTcH9AvF9KE63TPenVd7uFTP3Hg5WfTXH5kPzhbAz
- o7i1z6kav3PHIXHkVJpylr12KmX23u9AN9KfFGB3qYCqEWJwWAOAwEhW1K+oP2o4mazQNs3x
- 3Y8o0LCloBsshXxJjXBd0fg+iLd50dNA4A4/9ASs2lh9IKFum51OUBUFlatWPR+3OcqSDoj0
- EO+nt+BLVRHrL2PRHuBwayfpDW0NDJ9BTdqifgsFFZtD3HL+enfvzqXJjpROPfdYu7dQFkc9
- wu3QB0W3N3/uyKpO5KTpjgrixr0znTAo5VcCg//BgpJ5SshDGKpihDBBfE2Ip+sIa7AJmRts
- kTolOCu0eRNN5SrlRaTb84dDaqK+Ke4Hg/l1AsH85kJr1xB+laveJJb7y4mfgFiNdwcPzPob
- U/X/whW4fe/PlPzNeknOcToW4JzlvKI+dfND5g4avJCb55wb0mA5z1jf0qZ2WzFnEkhkaV5M
- pCeGSqpJSdLUPo5nWrtLwsb+bsE+Qc8wl/Uf5PA60yii7fPSSLJdrhQZTNiach8tstouj799
- M5SMcaPwRhTXODyJyLQ64M7KVERMWN9Aoj7rcFSfOOPLgdqXmY7BJfsLagJItQjz/4Tz7eOp
- yrnMqNF9GfCabT8AV3iQhhehHnHBP6TcVpT0fQQAGuV
-IronPort-HdrOrdr: A9a23:28/n6avk/WRaWPJq/P3WZAZu7skDoNV00zEX/kB9WHVpm6uj5r
- +TdZUgpGPJYVMqM03I9urwW5VpPRjnhPlICOUqUotKdjOW2ldAVbsSiLcKmgeQfxEWldQw6U
- 4fScVD4YbLfD5HZK/BiWGF+rAbruVvmJrDuQ609RdQpG9RCp2IoD0JcjpyBSVNNXB77QFTLu
- vm2iJmzQDQA0j+9K+AdwQ4Y9Q=
-X-Talos-CUID: 9a23:ZNVX029wcXR9Q4iKgveVv34pHoMfd1vc9mn/CF+pEkV2GYC7e2bFrQ==
-X-Talos-MUID: =?us-ascii?q?9a23=3AFcGCGw9OifPEhoLWtYQt+mqQf8NH3IOsD3wKq5Y?=
- =?us-ascii?q?9n5GBbyEhFmvBszviFw=3D=3D?=
-X-IronPort-AV: E=Sophos;i="6.12,166,1728943200"; 
-   d="p7s'346?scan'346,208,346";a="99166983"
-From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
-To: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: linux license
-Date: Tue, 19 Nov 2024 17:20:51 +0100 (CET)
-Message-ID: <936e97ca5ec7458a9c2559e6f46ce90c@diehl.com>
+        d=gmail.com; s=20230601; t=1732034995; x=1732639795; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=JI4cOqEw0vn9OTNDQy001ze7oscmZusYCfvMJcZOuUI=;
+        b=Q8bluPMmzrjfiLrHUF3JC1Nyde6wwPK5XRpxcffJMYJ5UwcA/t7fCHMN7qgkLhVhMH
+         J3o46avsbAtgOXXb3rFpWuBdMW30+1Xz/C15ZmlGENaCBW072umWKmQt4/gn9eXGDGHK
+         a3jdZoWrN1gImzsINO1my6W/uaSriO09c079EbhvPP7RN4dsI1SLu95i/Ep7Vz37XEjp
+         Mv6PGGgIFTisFZV5QQ7qitueDjsa3ZbiL8g24qNknJxmtUbFBFs92PVA2AvpJsbIuY/n
+         A85aWXZeZiw7xYdcDNlkLCMx5woHusgQkKCCcu5qvl+V+LaNf1QklEwL1XbzXPcGMR0Z
+         sDuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732034995; x=1732639795;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JI4cOqEw0vn9OTNDQy001ze7oscmZusYCfvMJcZOuUI=;
+        b=Y+Iwx+dtl3GZ6YjHpRuUOnzW9bA5WaEN8QCEWadhBldgsQW3QUUHrk9XQzO2ZwUFpp
+         J2DhPxMmCzk+cAtLIkXsXOfa5ZpncN0r3izLPtMSYN9jGGUQPVI7WxAqUGuHhmkIf5v2
+         ruy3AVQRSnyYra3egjnCzwvF0D1fpfkD9WGm1EG0uRQ6Fdg/oTWZyuttir2uLTC2BCgt
+         DIBjwBZcZ3gfZzcYK9j9agiYgGPNjXkGyKiXcJLtjDcLUIqE4idvasN/8ljvzxcuoMSv
+         CP9ZHJRAxMDM1Kf4RipLq09mA9fUpdghqavSwSDgF3u0QYel0ok08vd/J+czaOmdXW8S
+         /nKg==
+X-Gm-Message-State: AOJu0Yx4Mtpb6jsWW6hBZ5Vn3mtIFFPeiyvaMkPakz4GncbenyfIIcx+
+	yazZ2rS5Bj+wXQUoJSiSPdZWwRsJpQBz3K4St/gUtN2Gh2cfeo7pvDyD7bKVUPqte4tKcWOj0lk
+	p0xVx6vCOYjVMHYAiTSLGJZyKCDk=
+X-Google-Smtp-Source: AGHT+IHHkHcmMLPeTn2wkE1d5wUo73ukM4dOBeZxCPEh5GX1jx6YEpIIY5BZnped+aaVOGazmCABSC1d10A26835H58=
+X-Received: by 2002:a05:6214:19e7:b0:6d4:8ef:1514 with SMTP id
+ 6a1803df08f44-6d408ef2004mr272097226d6.47.1732034995138; Tue, 19 Nov 2024
+ 08:49:55 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----A6DB86239FADC6FB5A21506E68CDB453"
+References: <CAK5yBb86fozR98DkvKZAaEu5Uw8CzeF0NfA=xJgRO1fx7rDFzA@mail.gmail.com>
+In-Reply-To: <CAK5yBb86fozR98DkvKZAaEu5Uw8CzeF0NfA=xJgRO1fx7rDFzA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 19 Nov 2024 17:49:43 +0100
+Message-ID: <CANNYZj-ugVg+GTa0O7x45jjwQvCg__Lz3eaQ6HTR+deJoEWYyw@mail.gmail.com>
+Subject: Re: [OE-core] Yocto Project Status 19 Nov. 2024 (WW47)
+To: Yocto-mailing-list <yocto@lists.yoctoproject.org>
+Cc: ",openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 16:21:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207394
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 16:50:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207395
 
-This is an S/MIME signed message
+On Tue, 19 Nov 2024 at 16:46, Stephen Jolley via
+lists.openembedded.org
+<sjolley.yp.pm=gmail.com@lists.openembedded.org> wrote:
 
-------A6DB86239FADC6FB5A21506E68CDB453
-Content-Type: text/plain;
-	charset="us-ascii"
-Content-Transfer-Encoding: 7bit
+> Patches in the Pending State: 178 (17%) [last week 175 (16%)]
 
-Hi,
+For once, I don't have to tell anyone off :) These three patches were
+copied from tcl 9.x into tcl 8.x recipe.
 
-Currently linux-yocto.inc claims GPL-2.0-only but LICENSE claims a syscall
-exception.
-Should it be GPL-2.0-with-syscall-exception?
-
-Regards, Denis
-
-------A6DB86239FADC6FB5A21506E68CDB453
-Content-Type: application/x-pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-
-MIIPQAYJKoZIhvcNAQcCoIIPMTCCDy0CAQExDzANBglghkgBZQMEAgEFADALBgkq
-hkiG9w0BBwGgggxWMIIGUTCCBDmgAwIBAgICMAAwDQYJKoZIhvcNAQELBQAwgaMx
-ITAfBgNVBAMMGERpZWhsIEdyb3VwIE1haWwgUm9vdCBDQTELMAkGA1UEBhMCREUx
-EjAQBgNVBAcMCU51ZXJuYmVyZzEUMBIGA1UECgwLRGllaGwgR3JvdXAxFDASBgNV
-BAsMC0RpZWhsIEdyb3VwMQ8wDQYDVQQIDAZCYXllcm4xIDAeBgkqhkiG9w0BCQEW
-EXg1MDktY2FAZGllaGwuY29tMB4XDTE4MDUyOTEyMzIzNVoXDTI4MDUyNjEyMzIz
-NVowgZQxCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xFDASBgNVBAoMC0Rp
-ZWhsIEdyb3VwMRswGQYDVQQLDBJEaWVobCBNZXRlcmluZyBUS0gxHzAdBgNVBAMM
-FkRpZWhsIE1ldGVyaW5nIE1haWwgQ0ExIDAeBgkqhkiG9w0BCQEWEXg1MDktY2FA
-ZGllaGwuY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtISPrKPL
-Zjjh//2n9b+GXgrhijJV2knQVC0+/FS3zGl4p2fboB+Vr4YHz1uilEvhsS1oG4FV
-f1u0dqdmLVxDHBPMO2K1NKKOJN/6LDDfyiZGNqDOJke6FzrmDyPXXTDtgzWZfdnD
-esx63XSxprre30oJ3BxDFS+/8UpuI628SPc1N4125rHeUXG4scKFSjqRPcIOAQ2X
-veGXU2dYHzq7B02NA8tssmtJNwXjyvMjOw6HGZ8SB87TrFQm6drEtM7QhI/mfpGe
-nTZ4nc84n0yKuMveav8IOspYbkOXzi4JapiOUpmccNLZdIiMg5WJQ0Xt9NSp5yD5
-CYKideGrWgX2wNEBpalgjZoPPQDImcWEJx88/yYZ4FwtRD3VueFqpBr4z/bxwVDr
-N2a/sEqnocY9Tm2EQyHFHDCJ9JyYEXB8W0LTFcUAx+uHijwPk/oIB5EeH8UygXlX
-qUqII+BUZ+q5m5sIc4eXQ10UpUEjG/ptIyO1Ee/E0kPOWzHp07pPgXCZohZb3y41
-Ha2pO6rXOsOmPBK2r2++fLWz3NFyfEJCmn6FcBNi003HUEVCup1D9/9yaPHPSieN
-27sjQcQ96GbOitC99p3xMnSlg4N11lGeuTXCZjIGXdZL5/dThQaxneVA+hr2X+i1
-KmqnesMaSBEuBEBDmbDbakEgJFVWtVeXuk8CAwEAAaOBmzCBmDASBgNVHRMBAf8E
-CDAGAQH/AgEAMAsGA1UdDwQEAwIBBjAdBgNVHQ4EFgQUn8t6NGPzWsF+oZYXxmfn
-p4Ok7rIwHwYDVR0jBBgwFoAUZrrYQMMD50v/OCDMgDN7y/GT2P8wNQYDVR0fBC4w
-LDAqoCigJoYkaHR0cDovL2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMA0G
-CSqGSIb3DQEBCwUAA4ICAQAl6hO6b6+GseZi3EAU+zPVhxNZP5Y+YsBnjf13jCGw
-nUVvPz6giwXiCd9KIC4eCqqrJLTHwZe8c/9hSk5CCd6A5XAd3YudrPDvmIwms5Ex
-OREMQkygZO6/qxfXO6IhfUO4HvYQtQexzHOLuxG/KdycVwWapA4acFzBurxFQ3aG
-jvPRgvWxe2Mt3K9wLrEhvGrDmS8yg4bYNyBZGgax6LRhfW4/ShInVUa0koG2Sj+H
-hKpppvqDK4FNgR2dKeCPoo28P9a+K9N3wkLKx4zxaxHegij0DsJOBAVbhk+vDWDO
-gedjtT09c9bsykaXFzykyQeQz7cwrTQ1gDacdcDgywMDQzZKim9O3JpyzvXnD7mb
-CvclM3xp9w6jIJbeaQE7HDlA9YIL/bSRIQq8mJcXArUevLK2MX/Mb+5m3UMU+zXc
-ZqmaneeZeR4bOWrmmhK6bMuce6H+i2YB1vG3BAcSfKQUzZ1m6aKSW1FvjI3SZXQD
-FzRzBwC5ql7i2ugtfOLNYjOO/fvAxNppIZb3IyWN1KBAI7YgS4nx0us/NIlWpTMW
-91WeUtNBCp2sgi3VTi/TUel3RZ9x3tggMUhrksGkFXz2NUL85AdPV6BqJXXXHggd
-121rnduE9ocMt0MFLuDPkMaHqKNzBAcKTcmFM8KYMJ5Z7NBqGtTAgHNVmEnU8gu3
-czCCBf0wggPloAMCAQICAgtcMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYDVQQGEwJE
-RTEPMA0GA1UECAwGQmF5ZXJuMRQwEgYDVQQKDAtEaWVobCBHcm91cDEbMBkGA1UE
-CwwSRGllaGwgTWV0ZXJpbmcgVEtIMR8wHQYDVQQDDBZEaWVobCBNZXRlcmluZyBN
-YWlsIENBMSAwHgYJKoZIhvcNAQkBFhF4NTA5LWNhQGRpZWhsLmNvbTAeFw0yNDAx
-MDIwOTE5MzlaFw0yNjAxMDIwOTE5MzlaMIG8MSIwIAYDVQQDDBlkZW5pcy5vc3Rl
-cmxhbmRAZGllaGwuY29tMSgwJgYJKoZIhvcNAQkBFhlkZW5pcy5vc3RlcmxhbmRA
-ZGllaGwuY29tMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmF5ZXJuMRwwGgYDVQQK
-DBNEaWVobCBNZXRlcmluZyBUSy1IMRwwGgYDVQQLDBNEaWVobCBNZXRlcmluZyBU
-Sy1IMRIwEAYDVQQHDAlOdWVybmJlcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
-ggEKAoIBAQDC4CfZJns8lrNXSkis30SmXgEPwIED4unjF8EoHzBRk5cQphMwuxVY
-uFrZmkB8+FJ7kNnazQ5ddAH+7uh/w7vxEbch92iEpJxYRT6z9U7Mgw0sqGjzWQjd
-sVzCSrWJrOdrHXc65BnAPOpjNDNe1dR8J9Z4a7OZU5NnQqJMT314j2gfGawGDakJ
-Vph7S6v4AVmty1Fi4iRbaIamu8KJFrHQb5E1UVD5drrxW6TS0z/3YkrMQ6qA1fBB
-Y271mRVq/1ByvJMgPJu7LtIyuGwGJw44RxF0JPLlqRWpsIa+z2cI48dkvwb8k0T1
-rNSIj9urOmUEJGF5O8LioUy0vwmxeWF7AgMBAAGjggEtMIIBKTAfBgNVHSMEGDAW
-gBSfy3o0Y/NawX6hlhfGZ+eng6TusjAJBgNVHRIEAjAAMCQGA1UdEQQdMBuBGWRl
-bmlzLm9zdGVybGFuZEBkaWVobC5jb20wNQYDVR0fBC4wLDAqoCigJoYkaHR0cDov
-L2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMDUGCCsGAQUFBwEBBCkwJzAl
-BggrBgEFBQcwAoYZaHR0cDovL3d3dy5kaWVobC5jb20vcGtpLzAJBgNVHRMEAjAA
-MB0GA1UdDgQWBBQK9y4jVYoCDsL7lhhJKjEP5wv1nTALBgNVHQ8EBAMCBaAwHQYD
-VR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBEGCWCGSAGG+EIBAQQEAwIFoDAN
-BgkqhkiG9w0BAQsFAAOCAgEAB27J8TZvm6g0rtQpv4kqYwzkXOkCt27WHHWzl/JZ
-knFwWH4mvlRSrQtKkx8cPb5xqqx7k4qXC7TAef4W5YmnpWDtw7YHQAygAsCV1+i8
-uBhdnBVRYkLi0Brsqb/KaDVCFDAYn82kr8OlDaVl5GazIF5rTTUFVT7QEUewf5e7
-Ej4tkepIMP8DW0mM9VRdiSd+DFQQQsQR91nJZS+Gd0jT2tW6SVtZEGnsdgKi9VOw
-+/u7TPynQA3m70zel9t0RySfc5bfZGqEBK/nqU2g5n/qaHKT9cMM8vTAJOmzMv4W
-p7j6RF851h+6c4kH0UsUR9LdbXsKS0KsKTmjPbmbuMAWSEafskq5lJdhIybBnGcp
-FwOkXw6yLHhvmBQ27hVolbrAgLprlLBm8qLq0G3dPHlLwgnNlD6RAcjaVLOcqH3Q
-HWHbKlVg310S75cll1rM+GAudWdsHWxOUbK7R0lwJf/E+FAXciAsExWzCQarpSFI
-AYJjvnsYTiSWas6b5L/rKtyeWIz5wJ3ovxFaMglCtGNGh3sqKwVgb0PeGJ/hfXkV
-Z3i06A/GFOMDvvZ4kI2OL2wwUftkvi8ID5g2nbX/WQh9y6zhlXtiOlA1IplU+PU3
-OHrFL4SBW0X7j1l+9Jl9kGy/ukAr+9nWZ55nUoV/L9C1GLrAO5KF/fDpO2b7lidQ
-mWUxggKuMIICqgIBATCBmzCBlDELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJheWVy
-bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
-IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
-DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
-CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTExOTE2
-MjA1MVowLwYJKoZIhvcNAQkEMSIEIJq1eha/nnaxAwBieBAg1sbJX2Hl6cf0DJ2D
-Hundjc0gMHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
-FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
-SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
-BIIBABH6MrQMHQtRJeZ3QJDchgVzRx9O7217WA4rNuzTCFWCGAD7zhDQJo71+iwZ
-WIuBkPx7dnzLN1Sx4p/fYWx0Df9UeVpYRlD0igeimVfbtDEuIxe91iEHY88VOO2v
-DIQHya+A7Bt27V88w2hOXF8f0CV6O6z5MmlnIvIqDwW5+6tZ2MM4w07MgCdwz8mH
-fEH9Djb0Mho8ONOLyFOxZq6W2W+gHhti3iXKqwnHUuBp3K00SliFdUYJv7S+ywth
-VO/41YlSDSYhB8nR/dvwNVqsBqMMFILKeTmyiybprw3yV/e561U6jvuRQfpxoJty
-tDWM2rCwfZTb/NLPcWiB9gGouJM=
-
-------A6DB86239FADC6FB5A21506E68CDB453--
-
+Alex
 
