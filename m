@@ -1,116 +1,93 @@
-Return-Path: <nicolas.dechesne@oss.qualcomm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2393CD62060
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 09:41:19 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web11.17181.1732009274654144848
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D603D62072
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 10:34:59 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.web11.17840.1732012497805876721
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Nov 2024 01:41:14 -0800
+ Tue, 19 Nov 2024 02:34:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=TrZSTvfg;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: nicolas.dechesne@oss.qualcomm.com)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AJ7UN38027045
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:41:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=RzNZWQSYbTNPO5McOub1ji1uFc89i5A4psE
-	D0w2XLyg=; b=TrZSTvfgIewydG09L7gPCbLfg1AMcAA2fin7fBIZGF4glBVhv0K
-	Kicse8XHFf2+IfYuS2SAGU+v6SK9BsKV60QuLnBy7zKWwqgXWfbpnnOutcB759MT
-	IifsgTK1mI2E1XJvGrf7gw/yntolfN+lSXGv7KZ2di6PV+d09s+uNjQSVDtOSuGN
-	XCo6793qDPOEmwZru2R4GMfAB+S462fWjS6So8g9AYrGJzT4cXvNdmnbcwjfTmjP
-	dm0Z8LDDD0Y4ao1flUcmotgCVHZtpKvk0WWJS45b5GtUjPR0Qcn4S8IzLGAVkpJ/
-	6Jl1pgIPvqGlRCuu/tQnatUgjVgo4xYhrow==
-Received: from mail-ua1-f70.google.com (mail-ua1-f70.google.com [209.85.222.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4308y7t4tf-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:41:13 +0000 (GMT)
-Received: by mail-ua1-f70.google.com with SMTP id a1e0cc1a2514c-8564f707b27so352561241.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 01:41:13 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Y5SO5IfR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4316a44d1bbso34616575e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 02:34:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1732012496; x=1732617296; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XGx/9HhPnENMmW8Us/bftf8vexT6KKB4PdQW6/nqePg=;
+        b=Y5SO5IfRSQeVAaJcH2esCYIt08k4r1hZ28tuvQidVpG2MgoAlz1yqedeBdHzpyWqXl
+         8pjPiqpIcWi1gDPbP0TXUt/U72k5HO3U20dWMpWF4dupy3hzwVjkWO4RvilNUY/2Gt53
+         /cEXAIkRRMlS8nXsw1zg34Byqw8z2eeLWxCsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732009273; x=1732614073;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RzNZWQSYbTNPO5McOub1ji1uFc89i5A4psED0w2XLyg=;
-        b=SZKrr9SaudED/MKRfB+F7O86m21PO2nCJgCED0ae7gjUNvzlKleiGOKCnAKtq8C4xU
-         9rTUoz884iaDF78dsJ7putb9trfpCxlil6jxOQD9SRSUYjhBc7xWxusm7eeiAFdaaOK9
-         UxzBkh3yz+tEOMd1JD5egBu7An+6rVWroW7KVkxyhgdvPSAoLmTuasP7mh9Vb1iUnVod
-         +wqxAFuA0Xx6AxL+qoRNwlodvxH6yw9s6+bosFb4YMLzm0vyQP62NpAoTvqUnh+C8aYK
-         L9Ms8skhOkCXzcKbf4KGBecRWlHTZPfdM4RAgF4f6DaFcizysM9NGs0nZ4FxWrH6VAyU
-         lpqg==
-X-Gm-Message-State: AOJu0YxyqBE1qKp67hM7sxyuwEANnpT4zeuLTZOvfD7v5gPzHz/voYji
-	ylG86r9iIzXgkTaLTImwlioM6C/pulpPh8hf5esI2EEsFJKPjZ80ekJiZTbO4eQZcImnFs4DhWE
-	B0tHfWeCsGnSBgvZQWUknjWq2T3ydS8J0sr1knWD79kS1j7o48lvmhuOz/xGPVYSdfbQKez04hp
-	01QSccQmFZmki6ZCgK
-X-Received: by 2002:a05:6102:c8b:b0:493:bcbd:4633 with SMTP id ada2fe7eead31-4ad630186bfmr13219018137.3.1732009272869;
-        Tue, 19 Nov 2024 01:41:12 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IEPTtyiyXAOC1W7YD8l/dAzvI7pOHF0yLxmmJJ8X1QqBa1I6zdROI86GRV0/9DRTtLFnQzoHg==
-X-Received: by 2002:a05:6102:c8b:b0:493:bcbd:4633 with SMTP id ada2fe7eead31-4ad630186bfmr13219004137.3.1732009272449;
-        Tue, 19 Nov 2024 01:41:12 -0800 (PST)
-Received: from hu-ndechesn-ams.qualcomm.com ([212.136.9.4])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa20df571a1sm630782266b.80.2024.11.19.01.41.11
+        d=1e100.net; s=20230601; t=1732012496; x=1732617296;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=XGx/9HhPnENMmW8Us/bftf8vexT6KKB4PdQW6/nqePg=;
+        b=GXrzypp3s9TiVFUMpgxektQfnDAvTZb9EOdqVaX7D1O2mmTn5NxLotDVlpdo23BHqW
+         KY/rkZUBweVXBnHpWJHmdQxl4udXeSZI7B5PKXOwmcJo6qvzIIMpItux8ZZj6tcSbK5w
+         LtWegYfsIRQEGfzBa9aUSV+/NgWvbyE10u7QzOLhdNnGFuOIRdRryRar158QoFmx8s5b
+         lK2btAyw9lkzuERLOleHUVjj8ro5WdVgyJ/XcN7aldfRPYvmKMUsZbjqbJ52tntqGB0M
+         PDVQDJ9OLLMLEad/KDV3etwKO9KbOJbpmaLevBtBrT1MYg5Rm3DrEZtSABdnFk/0hxxL
+         8fJw==
+X-Gm-Message-State: AOJu0YwoOnPyNbs1cmmggChGJGfuPvEu+XHxKsRtLtbXoE/ZfKdZpnDR
+	zS8JPbQe3EKloC0HymYQMxQfVpstZVyMXaB98HbNWb8Bh6cXY7xa2IqTAgI9gbNSAnK3LZdZtrL
+	bCCI=
+X-Google-Smtp-Source: AGHT+IHDWw7ofjKDl75j4AGPzS1pB0OHhpFkSbVLblSLF7658Dg66tSQY70H5ONveP+LvhhcCwbqVg==
+X-Received: by 2002:a05:600c:4f15:b0:42c:acb0:ddbd with SMTP id 5b1f17b1804b1-432df71e8b8mr126013025e9.7.1732012495837;
+        Tue, 19 Nov 2024 02:34:55 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4474:2f77:9044:e4d0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-382485e2a89sm5381388f8f.17.2024.11.19.02.34.54
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Nov 2024 01:41:12 -0800 (PST)
-From: Nicolas Dechesne <nicolas.dechesne@oss.qualcomm.com>
+        Tue, 19 Nov 2024 02:34:55 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Nicolas Dechesne <nicolas.dechesne@oss.qualcomm.com>
-Subject: [PATCH] scripts: patchreview: fix failure when running from a different folder
-Date: Tue, 19 Nov 2024 10:41:09 +0100
-Message-Id: <20241119094109.2648950-1-nicolas.dechesne@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [PATCH] bitbake/docuemtnation.conf: Show warnings for BB_DANGLINGAPPENDS_WARNONLY usage
+Date: Tue, 19 Nov 2024 10:34:54 +0000
+Message-ID: <20241119103454.1984004-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: hYHGw2Yn-bLt5ZdsIojEcT6pdnQzTEpl
-X-Proofpoint-GUID: hYHGw2Yn-bLt5ZdsIojEcT6pdnQzTEpl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 spamscore=0
- mlxlogscore=839 clxscore=1011 suspectscore=0 adultscore=0
- priorityscore=1501 phishscore=0 impostorscore=0 bulkscore=0
- lowpriorityscore=0 malwarescore=0 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2409260000 definitions=main-2411190069
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:41:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207384
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 10:34:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207385
 
-When running patchreview with --blame, the scripts runs a git log
-command on the analyzed patch. When trying to analyse a layer which is
-not in poky tree, we might be running the git log command from outside
-the git workspace where the file is located, which results in such
-failures:
+Following bitbake "cooker: Drop support for BB_DANGLINGAPPENDS_WARNONLY",
+show warnings for use of the variable.
 
-Missing Signed-off-by tag ([truncated]/meta-qcom-hwe/recipes-devtools/partition-utils/qcom-ptool/0001-ptool.py-Generate-zero-files-in-output-folder-when-s.patch)
-fatal: not a git repository (or any parent up to mount point /local/mnt)
-Stopping at filesystem boundary (GIT_DISCOVERY_ACROSS_FILESYSTEM not set).
-
-Fix this situation by setting the current work dir inside the git
-workspace of the patch when running git log.
-
-Signed-off-by: Nicolas Dechesne <nicolas.dechesne@oss.qualcomm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- scripts/contrib/patchreview.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/conf/bitbake.conf       | 1 +
+ meta/conf/documentation.conf | 1 -
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/contrib/patchreview.py b/scripts/contrib/patchreview.py
-index bceae06561..f976f2f822 100755
---- a/scripts/contrib/patchreview.py
-+++ b/scripts/contrib/patchreview.py
-@@ -47,7 +47,7 @@ def blame_patch(patch):
-     return subprocess.check_output(("git", "log",
-                                     "--follow", "--find-renames", "--diff-filter=A",
-                                     "--format=%s (%aN <%aE>)",
--                                    "--", patch)).decode("utf-8").splitlines()
-+                                    "--", patch), cwd=os.path.dirname(patch)).decode("utf-8").splitlines()
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 02bbf0e7a52..cfc7316a155 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -86,6 +86,7 @@ USRBINPATH:class-nativesdk = "/usr/bin"
+ # Root home directory
+ ROOT_HOME ??= "/home/root"
  
- def patchreview(patches):
++BB_RENAMED_VARIABLES[BB_DANGLINGAPPENDS_WARNONLY] = "support for the variable was removed as it unconditionally affects all layers"
+ BB_RENAMED_VARIABLES[PNBLACKLIST] = "SKIP_RECIPE"
+ BB_RENAMED_VARIABLES[CVE_CHECK_PN_WHITELIST] = "CVE_CHECK_SKIP_RECIPE"
+ BB_RENAMED_VARIABLES[CVE_CHECK_WHITELIST] = "CVE_CHECK_IGNORE"
+diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
+index d16520a371a..f0912392608 100644
+--- a/meta/conf/documentation.conf
++++ b/meta/conf/documentation.conf
+@@ -77,7 +77,6 @@ AUTOREV[doc] = "When SRCREV is set to the value of this variable, it specifies t
  
--- 
-2.34.1
-
+ B[doc] = "The Build Directory. The OpenEmbedded build system places generated objects into the Build Directory during a recipe's build process."
+ BAD_RECOMMENDATIONS[doc] = "A list of packages not to install despite being recommended by a recipe. Support for this variable exists only when using the IPK or RPM packaging backends."
+-BB_DANGLINGAPPENDS_WARNONLY[doc] = "Defines how BitBake handles situations where an append file (.bbappend) has no corresponding recipe file (.bb)."
+ BB_DISKMON_DIRS[doc] = "Monitors disk space and available inodes during the build and allows you to control the build based on these parameters."
+ BB_DISKMON_WARNINTERVAL[doc] = "Defines the disk space and free inode warning intervals. To set these intervals, define the variable in the conf/local.conf file in the Build Directory."
+ BB_GENERATE_MIRROR_TARBALLS[doc] = "Causes tarballs of the Git repositories to be placed in the DL_DIR directory."
 
