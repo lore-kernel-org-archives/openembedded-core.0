@@ -1,130 +1,93 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A30ED6207C
-	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 17:26:31 +0000 (UTC)
-Received: from mail-vk1-f173.google.com (mail-vk1-f173.google.com [209.85.221.173])
- by mx.groups.io with SMTP id smtpd.web10.27207.1732037186057801207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76AE6D6207F
+	for <webhook@archiver.kernel.org>; Tue, 19 Nov 2024 17:40:11 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.web11.27809.1732038009034199669
  for <openembedded-core@lists.openembedded.org>;
- Tue, 19 Nov 2024 09:26:26 -0800
+ Tue, 19 Nov 2024 09:40:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bwQ0+AKO;
- spf=pass (domain: gmail.com, ip: 209.85.221.173, mailfrom: danismostlikely@gmail.com)
-Received: by mail-vk1-f173.google.com with SMTP id 71dfb90a1353d-514bb6953f4so562544e0c.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:26:25 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google header.b=jctjZKsB;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-382433611d0so2530228f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 09:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732037185; x=1732641985; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=w8MtGxEh3LtoXm36ThrnLEQBhurdfCDzl0izCV3DrP4=;
-        b=bwQ0+AKOz0U9P2JK/mjbfiiNiSCBJ/vs0X+dOzFqBqu7VH5tJcGPG6Sj1qvgyKbGgs
-         TKp5v8zSXQZN0KD0gK6ImwkFnNuE6IhTtlXXGJ9L32xa+0IcUTREy6RMj+yXlxB1kPjU
-         /bkaIH7DP3JoMBPFOPji06Zp9TBfa/3jJ8XYRPisGdvaLdy56DJ8rVh9imiL+PxZPzs8
-         db+pGtmXUSVtjRRvOljxmjrEGQuj1qFT3izykzrzggyxHC52M5srR5O75pWGFwdCyvIV
-         4zloHjmNy86kYcu48z32yZY7Xq34IY0f1QoP7rchRwUxwx7ZTGWJWkEn1Jh1DmU1yvh2
-         ZyAg==
+        d=smile.fr; s=google; t=1732038007; x=1732642807; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ljF75+tFE1Gt8kzRWyhiKv6Mx6pnrYxk2LGroW2dyn0=;
+        b=jctjZKsBOGk2AoDUZYjKoOBiW8nJlmx2EnZWNX0mFh0lsiCBv7l5nKZxT/0IO7H3h0
+         bYq3gpZvHK2tTp/BvzZbRBm1lxZlyEP4z4d/JVd2f5Davro5U/acL8ZZKnK0Lq8HV8nR
+         KAeDE0O+SaZ3N37LZa5JKtRRFDZWbQ79JvaxE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732037185; x=1732641985;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=w8MtGxEh3LtoXm36ThrnLEQBhurdfCDzl0izCV3DrP4=;
-        b=RwyQWwAzZuIyBtpng4eaQL7l7VhfQqO4Yp662ikyA/tGbss/SjlMofa2KFDJeZU4IS
-         w8oiGuEcrj0ejCWs0KdKc0s3Bd0T7GBPLDWNRjhmVDvlnGx+xZTG9/QRoVcxxtQC27O9
-         SeZHyj4h1n8uZxJXv3QLz/icxK76DB8hYjJk4szRj7fD2RFWYLzkYfwc59k9iSSgxnp8
-         b5ng4+17AYhXjVBB6tMeYatnEMIbic/V3qRPDe+aQ5iNsBLar3+s4FrxRUTYpFfPY9h7
-         A5e4eW5xsl+DEPfSYf3lDlnn1u5svMvyxno5hJq0JlY/iFsZFLP9PIrS7ScLmJVPHjus
-         c8GQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU9TKvca3RRc7+Guxgau/crO7NGnDZ6a0vQjAZQ0s1Rvhs+FJpZLqHQfpwzaZqOgMt5YjZyPMLSmM7xZjslgCYQUg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyTwUA1HoHQYF9NAqH6DhqEsrgYAceP5UTzSdRavPm5u9zVuE3B
-	AZZ5aHh9+F5o72Eg/GEbnWz5BOWE9gJK1+LeO6KDyWgF5wvaANaaW+PT+OiY+344AA38wgm20gp
-	x3N2qbv4Dui/6VEL4q0uT92UypJQ+1Aw3
-X-Google-Smtp-Source: AGHT+IGp1NKIYr0QZ7A/Izio+rk8N048/jFdz9suZ0nMx1ETOHUsrAFLRFsCvrvUFbShQ/0p6/FHWFLXp5342e6VTZA=
-X-Received: by 2002:a05:6122:1d09:b0:50c:4efb:835a with SMTP id
- 71dfb90a1353d-5147853ff36mr16260091e0c.1.1732037185007; Tue, 19 Nov 2024
- 09:26:25 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732038007; x=1732642807;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ljF75+tFE1Gt8kzRWyhiKv6Mx6pnrYxk2LGroW2dyn0=;
+        b=Y//p6wvKlWfzCxO4ENLbKNvPGzPsxTQHFQ8hDZsmlfWi+CdniCTmB67M7WJr51UUdP
+         ZK6H50QJWNJQX5C/V//FnsdXP2JX4ZJz5Bu5Lw+cHwFnD2TXvPOBLO9BLtV8NEMl705V
+         lGisMY6uq0wusgD5pFjOVX8JWsZ5rNdEtgfmlFgBTFe23lBgPvwUchfiHCXOcFoXrfE0
+         PdjtbnkMeBSNWrheofHToRY2IGhQZWC9mFa77PMxLDngVC/PonBEYGa1a4ZfJNrDUhKt
+         tAYjIODMyQ6ZHYo8b50Av7tOdemiL1uah/QZTpSC9gx0EQ9unyuNr/ciaNXOkzJ/OrXn
+         w4RA==
+X-Gm-Message-State: AOJu0Yy0tpMUwYBGavVuUE5MKtI0Z142TLsrtcFfS/c5ZsaND5NzHYD/
+	dTQV6yPEUVBj21IglD21Rvoou84b6RDtH5gni04bjWmEu6npil3J+AeMmTGAcPKBzU1+T8zJo+b
+	1
+X-Google-Smtp-Source: AGHT+IHyRSwrT/q6x5YXQs1/Y7dM9lnDh2CGQg4/OhH68IgqSTiEj5Wdn2XNq3R17ja6FOq4c2fpLQ==
+X-Received: by 2002:a05:6000:156a:b0:382:4978:2a93 with SMTP id ffacd0b85a97d-38249782e8cmr7039201f8f.12.1732038007290;
+        Tue, 19 Nov 2024 09:40:07 -0800 (PST)
+Received: from P-ASN-ECS-830T8C3.local (53.1.159.89.rev.sfr.net. [89.159.1.53])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-432dab80582sm200576485e9.19.2024.11.19.09.40.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 19 Nov 2024 09:40:07 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [PATCH] tcl8: fix headers path
+Date: Tue, 19 Nov 2024 18:39:44 +0100
+Message-Id: <20241119173943.1887974-1-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-References: <20241112192214.1644312-1-gael.portay+rtone@gmail.com>
- <CANNYZj-TUJahfs4GLfjtcLVJRBOxx4Mf93X8b_9GAu_iToUdgA@mail.gmail.com> <D5LF0PDI4CHU.2UIPB51BV8TJI@gmail.com>
-In-Reply-To: <D5LF0PDI4CHU.2UIPB51BV8TJI@gmail.com>
-From: Dan McGregor <danismostlikely@gmail.com>
-Date: Tue, 19 Nov 2024 11:26:13 -0600
-Message-ID: <CACS+7ZQnXcEM=h14pJtNq1ty-w5h1dk0tdW+Q7DxpGunbQZn3A@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v2] systemd: set better sane time at startup
-To: gael.portay@gmail.com
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>, =?UTF-8?B?R2HDq2wgUE9SVEFZ?= <gael.portay+rtone@gmail.com>, 
-	openembedded-core@lists.openembedded.org, 
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>, ChenQi <Qi.Chen@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 17:26:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207398
+ <openembedded-core@lists.openembedded.org>; Tue, 19 Nov 2024 17:40:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207399
 
-On Wed, 13 Nov 2024 at 16:48, "Ga=C3=ABl PORTAY via lists.openembedded.org
-<gael.portay=3Dgmail.com@lists.openembedded.org> wrote:
->
-> Alex,
->
-> On Tue Nov 12, 2024 at 9:22 PM CET, Alexander Kanavin wrote:
-> > I'm sorry, this was probably already covered and I'm just forgetful,
-> > but why not do this in do_install?
-> >
->
-> It was initially performed by a rootfs post-command to mimic what does
-> rootfs_update_timestamp() but for systemd. And you argued it is recipe
-> specific and should not be a rootfs post-command.
->
-> The idea was to create the file at image creation time in order to set a
-> better date than the one hardcoded in the systemd binary (taken from the
-> date of the tag IIRC).
->
-> Also, playing with the variable $REPRODUCIBLE_TIMESTAMP_ROOTFS for the
-> reproducible-builds (kirkstone, scarthgap).
->
-> Note: Obviously, it is now the variable $SOURCE_DATE_EPOCH_FALLBACK to
-> play with on the master branch.
->
-> Peter suggested to move it to pkg_postinst:${PN} so the file is created
-> at image creation time.
+From: Yoann Congal <yoann.congal@smile.fr>
 
-This is partly on me, for not paying enough attention to the mailing
-list, but our use case for the
-set-time-epoch PACKAGECONFIG (and time-epoch before it) is because we
-have a requirement
-that the system *always* boot with the time set to the epoch. This
-change breaks that case, but
-otherwise this seems like a reasonable change. How do people feel
-about wrapping the pkg_postinst
-append in this patch inside a PACKAGECONFIG check? Something like
+During the tcl_8.x removal[0] and its reintegration as tcl8_x[1], BPN
+has changed from tcl to tcl8. But, recipes that depends on tcl headers
+search the tcl8.6.15 directory where the current recipe generate a
+tcl88.6.15 ($BPN+$VERSION) directory.
 
-pkg_postinst:${PN}:append () {
-  if ${@bb.utils.contains('PACKAGECONFIG', 'set-time-epoch', 'true',
-'false', d)}; then
-    touch $D${libdir}/clock-epoch
-  fi
-}
+Fix this by hardcoding the base part of the directory name to "tcl".
 
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+This bug was found while fixing the tk recipe from meta-oe. I've checked
+that "expect" from OE-Core still build properly.
+---
+ meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
->
-> > Alex
-> >
->
-> Regards,
-> Ga=C3=ABl
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207136): https://lists.openembedded.org/g/openembedde=
-d-core/message/207136
-> Mute This Topic: https://lists.openembedded.org/mt/109541328/3617261
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [da=
-nismostlikely@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb
+index 3902b3fe76..9d1c724d64 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.15.bb
+@@ -57,8 +57,8 @@ do_install() {
+ 	install -m 0755 tclConfig.sh ${D}${bindir_crossscripts}
+ 	install -m 0755 tclConfig.sh ${D}${libdir}
+ 	for dir in compat generic unix; do
+-		install -d ${D}${includedir}/${BPN}${VER}/$dir
+-		install -m 0644 ${S}/$dir/*.h ${D}${includedir}/${BPN}${VER}/$dir/
++		install -d ${D}${includedir}/tcl${VER}/$dir
++		install -m 0644 ${S}/$dir/*.h ${D}${includedir}/tcl${VER}/$dir/
+ 	done
+ }
+ 
 
