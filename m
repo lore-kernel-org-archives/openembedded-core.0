@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 70D13D6394E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 808DBD63954
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:57:44 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.13848.1732111062172289161
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.13845.1732111056983256422
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:42 -0800
+ Wed, 20 Nov 2024 05:57:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dAv8HkY5;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21210eaa803so37124855ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=htAmb7wE;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20c803787abso7434835ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111061; x=1732715861; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111056; x=1732715856; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2frCu3S0iPIxXvlmiloiv1PEdz3W+5T/tBYyTavbGb8=;
-        b=dAv8HkY5JEnQ1vdF+EbdlDJBVhKM3K5r2cWcYxkxUyZIyfRd3YuxmZHM6mjmkX0PRL
-         NsUGpBKwB/naPuvPgjKr22Pug+nBOCJYtjPkVwaejfTlhaIJhYMdSBRBXlXRj4HYeIAA
-         3/q5279Nxpc6r+f4V41FDDLEYsCUIx1HLs/AUTDkuH0j0UIYLnHQfYm8fNJIA/CT6WeZ
-         UHbTiE5wgmlyxARtfDReNa8Os3eQHxCdEJOO13UaoQBgY/CvPdfLmIYLtGqVyd+E4mmv
-         dhxRh9HQlsipX8rEYkhK/bo9idYHx9mPOgveUtDdHcvC6w+sNgN6DhmPBAD92ybDfGkB
-         M1Jw==
+        bh=C/9ISed6Dq7PhB8BCgyZJZMIPGaOQcl7C3628B3wTcg=;
+        b=htAmb7wESQptlbjlZloyc/keAMoC5WIZNvMPTKAdCcGOMpl4x9z6N3025zV1ww5BVM
+         4w9EpWCxZzH19Bn0CJRPlBp0gOmLyjK7uis6vQrIAETXK5ieXUDfhmceM4V0IuX+wzzq
+         HjSNL02m5ASVNRTPmD0RF1dNiXI2j1cNvkoIrdA7Vrtm9ov4bkSI71ZxGDSoKLBMS/j0
+         j9lXXE/lgTMOuWQtl0EwPh09qIIwA2s9/RoUaarxVFdawuMGEkx6NUPIFfEd3dhF9tTA
+         HWtpzGs9LOc607e41TJARc/k412NEbEMIupcPLrGNxT5XLw3F6I8rT6LRHZSoP8bbtmA
+         fUwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111061; x=1732715861;
+        d=1e100.net; s=20230601; t=1732111056; x=1732715856;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2frCu3S0iPIxXvlmiloiv1PEdz3W+5T/tBYyTavbGb8=;
-        b=axFJcyIsFVl0G9xVTMhuYxC0KEZ39yeOaf/U1ymFAj3TnrxDyl70rNI9Qgm5RBV6Ah
-         0igq8RlJxvexWMrG4njLmn75RLnNCjcYPWxO1N98I5/PeAK6qqjxljJ0/JdSJGUvjw5N
-         XhrVjRevxfQan+77dLngvyg0+46Pvi7kPJhFq2AMBhtmjaytumjVtbhY5C50vuOq/g7r
-         yk+APNW3jyheG1KdwcqujziG7Vlzdfc54hYLSCqdOO/qv1spb4kNnvEgXH5dgpLZHhG5
-         7qNGL0Bh129T1hK9p7CwWdD5mSngmV6fh4YlwOQS5cDiSzJL0aiKYbHWPuXty31XK/d6
-         8Yjg==
-X-Gm-Message-State: AOJu0YyFF9cgQZEgTstisnRFIEQM7KtBM0yKvX0jpcOHr7kdH4iFCrgf
-	Tnih/nqBzor2IEYUIPMuKHGcXGa0AVPn6utuObd/Zdy6Hh3VoaN4Xyqp1YvCMusDiFhjn3WsCOw
+        bh=C/9ISed6Dq7PhB8BCgyZJZMIPGaOQcl7C3628B3wTcg=;
+        b=Gdeh6JghAT+UCaDhSWLIWKSSlZv/k/J8Ebk4DcAW/KwuXfcKc7eale/Gdwh4/db9ts
+         1VVstIwnGbGONZHYTw/tHucwrlJ5J1Ti8LPSDYmg4RT7RvK6u7Wrg78J0BbzwmGW+pc8
+         quNsXEivT89nZEZT4wQh6l+3I+7at+5C/2OvrBsjLBo0sitKxIB0IJ7189pgt0AmlFu4
+         9/A8liQOrQ7uGwKcZjdW8ejWbzqhIvXxaKpA9YldMh2e3/OzBxdFkJyEdKD1arpiABk8
+         2T4kiQpHnHWDhkE569xV4dgRtixQQOZbvuBP3CY6h1tokAsK85c06c8j9i0yF7vJ7AKl
+         EEOw==
+X-Gm-Message-State: AOJu0YxwsoDQmqVKiFlGpeTjI3WIAcDn6zW/IO4lhiBzvFDhseuMMJ98
+	zuoXE5Uzy+KRZJA9vruqxLApo8AHlo0dgT6NIkT8omR3sz6jbrwK8AHMTh+CLLbAg0FpHa9Ms6b
 	I
-X-Google-Smtp-Source: AGHT+IGmRlQEwZ0alwBarxyMpU8Lry7gSHLDZe30X7FsL0vKKiAAoBJKxE0ozZuI4TUbBE/k7y0yiA==
-X-Received: by 2002:a17:903:41c6:b0:20b:ce88:1b9d with SMTP id d9443c01a7336-2126a486965mr28983215ad.45.1732111061435;
-        Wed, 20 Nov 2024 05:57:41 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IEZkVTZ8QHJYgbZhD2Zv4rBxTVhpm0b3SpjRjtOYlf4ikSxNar3SexsdPKx7/twvjYNcFotwg==
+X-Received: by 2002:a17:903:188:b0:205:5d71:561e with SMTP id d9443c01a7336-21269e8379amr49695225ad.26.1732111056279;
+        Wed, 20 Nov 2024 05:57:36 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.40
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:41 -0800 (PST)
+        Wed, 20 Nov 2024 05:57:35 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 19/31] qemurunner: Clean up serial_lock handling
-Date: Wed, 20 Nov 2024 05:56:51 -0800
-Message-Id: <72b930a2482d35a533755de35983d933db97b1a8.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 16/31] cml1.bbclass: do_diffconfig: Don't override .config with .config.orig
+Date: Wed, 20 Nov 2024 05:56:48 -0800
+Message-Id: <aacd87a4499102355fea4022ea4ff86cfc86f946.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
 References: <cover.1732110892.git.steve@sakoman.com>
@@ -62,50 +62,48 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:57:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207443
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207440
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Robert Yang <liezhi.yang@windriver.com>
 
-Avoid "RuntimeError: release unlocked lock" since the lock shouldn't
-be locked even in the error path. Add a try/finally path to ensure
-this.
+Fixed:
+1) $ bitbake virtual/kernel -cmenuconfig
+Do some changes and save the new config to default .config.
+2) $ bitbake virtual/kernel -cdiffconfig
+The config fragment is dumped into ${WORKDIR}/fragment.cfg.
 
+But the .config which was saved by step #1 is overridden by .config.orig, so
+the changes will be lost if run 'bitbake virtual/kernel'
+
+And the following comment is for subprocess.call(), not for shutil.copy(),
+so move subprocess.call() to the correct location.
+    # No need to check the exit code as we know it's going to be
+    # non-zero, but that's what we expect.
+
+Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b0732ee009ca47580d1d2ad75334f4aa50e6efd5)
+(cherry picked from commit 6cccf6b02f92dad514e65fd779ff659b19eb6be7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/qemurunner.py | 11 ++++++-----
- 1 file changed, 6 insertions(+), 5 deletions(-)
+ meta/classes-recipe/cml1.bbclass | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/qemurunner.py b/meta/lib/oeqa/utils/qemurunner.py
-index cda43aad8c..f1c2d2b5c9 100644
---- a/meta/lib/oeqa/utils/qemurunner.py
-+++ b/meta/lib/oeqa/utils/qemurunner.py
-@@ -519,7 +519,6 @@ class QemuRunner:
-                 except Exception as e:
-                     self.logger.warning('Extra log data exception %s' % repr(e))
-                     data = None
--            self.thread.serial_lock.release()
-             return False
+diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bbclass
+index 8c207daec4..0bf171a668 100644
+--- a/meta/classes-recipe/cml1.bbclass
++++ b/meta/classes-recipe/cml1.bbclass
+@@ -93,10 +93,9 @@ python do_diffconfig() {
  
-         with self.thread.serial_lock:
-@@ -822,10 +821,12 @@ class LoggingThread(threading.Thread):
-                     self.logfunc(data, ".stdout")
-                 elif self.serialsock and self.serialsock.fileno() == fd:
-                     if self.serial_lock.acquire(blocking=False):
--                        data = self.recv(1024, self.serialsock)
--                        self.logger.debug("Data received serial thread %s" % data.decode('utf-8', 'replace'))
--                        self.logfunc(data, ".2")
--                        self.serial_lock.release()
-+                        try:
-+                            data = self.recv(1024, self.serialsock)
-+                            self.logger.debug("Data received serial thread %s" % data.decode('utf-8', 'replace'))
-+                            self.logfunc(data, ".2")
-+                        finally:
-+                            self.serial_lock.release()
-                     else:
-                         serial_registered = False
-                         poll.unregister(self.serialsock.fileno())
+     if isdiff:
+         statement = 'diff --unchanged-line-format= --old-line-format= --new-line-format="%L" ' + configorig + ' ' + config + '>' + fragment
+-        subprocess.call(statement, shell=True)
+         # No need to check the exit code as we know it's going to be
+         # non-zero, but that's what we expect.
+-        shutil.copy(configorig, config)
++        subprocess.call(statement, shell=True)
+ 
+         bb.plain("Config fragment has been dumped into:\n %s" % fragment)
+     else:
 -- 
 2.34.1
 
