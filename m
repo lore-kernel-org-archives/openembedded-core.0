@@ -2,73 +2,90 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0B28D711B4
-	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 15:26:15 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web10.16261.1732116367786296417
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AA2B9D711B9
+	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 15:32:15 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.web11.16318.1732116731740382110
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 07:26:07 -0800
+ Wed, 20 Nov 2024 07:32:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QY8lRpm/;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6d413def36cso39459836d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 07:26:07 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=LUa1v+m/;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43155abaf0bso41968815e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 07:32:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732116367; x=1732721167; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=H8Mu0rcAT1doy0WdLuLCa7z8RosWMwbxIElWKvTvACE=;
-        b=QY8lRpm/IztXKH/hWjv//9ZdB/ePMSOmIAQcaCg9+zmBYnfiuOEYx5f5UxwXg99ikw
-         2hEgJRspHRXBSlwGAY880kbrLD2i0A19eHn3K6fOm3tPL2MC18JRLsZE9mpUJ7ZGfs8R
-         zsxbbDGtq6yoq6lanFMchUXxqGGOeKwApodqTyFMLXNsY54sqwEPL71Pwg7Gn+hqoF0d
-         bR4Om5E3Izknj3xCukuRqPP9PjJNmoyVeR7meJIoUSyKF3+Msxakex47/iy2Q1EXCQ4V
-         ibMxqMK+zeOW1SzoE6iXq7rEgZxmk4b0pjxfeGWEvAXml6Lxf0LrhUmsvt93FYNhFgjv
-         aOjw==
+        d=gmail.com; s=20230601; t=1732116730; x=1732721530; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OuPjufug0K7IJOE9+nxBi2GBaoftvvt3G/7iVR1y0xA=;
+        b=LUa1v+m/PVvM56pCRr7/JdcYBUdl1ilWDM+JoOmVCBzfM8tcZURG2dKHgoLljeZ5Pu
+         VzheHMWiIQrPybrGAdPIt3P0RdoZW5wzh+oP1o3OIpj6uAiAg+dK1qyxBMxoFdmpDDA1
+         YxYTOhnxsRYVSzRvVh2xAS0MH5C1qdyrKkUUs3RVTuGFKLvKqfNUQ/+VItKgkBiueHQM
+         iJCP61X+wOte6hukQlq40yqqZLqEHsENEMR51Eh7FX+aX2bgdKrlBi+FjRoPOl27A6IH
+         8NKuR6Nlz8aLqp/SAoNOwYMI2SupiAoFgvnzPNXpq5ly3ReJQ345dPQPgp7yUOToQuPx
+         26RA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732116367; x=1732721167;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1732116730; x=1732721530;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=H8Mu0rcAT1doy0WdLuLCa7z8RosWMwbxIElWKvTvACE=;
-        b=a19uJxHy3vAN21d/aKdfbMVTtr9SLCNkv9YLbRK17uqIfeVM6R1hsR07vjC+mi3qLN
-         gFyhi484nWyaZ6Cdu8fqA03qvRI3ZWKdpdEU8B0c/EgoVBHJA2yTn5pNK67J+tqDopRl
-         3ZGBnvXUKVgcLqvQ2vwASrB4QAlL4IpBZhTDl89MmzTc+13BORE/Zs4OiXJj11e/vkQz
-         82LMg0qBfUwj0bC2sRU7CE7jQiGgvY+uQaL3w2lBvDsIVTy6tTyPxyYMiJZu9DjinJ4w
-         gKuJWec9HHOy0NS8AWxvoEw/eCFseoqslQ8GKIvONDhDDwk+4ezNzhsk+f/wKq5HhVVm
-         I1MQ==
-X-Gm-Message-State: AOJu0YwduSD3+zL9XdLoLykItGroBRwyFKH86+K5VWYOlENcirDw5hgH
-	5Qy/cW/81dxBM8yWkfTU67mkoCn07DC6UpWFueadZAbfEip+nuWVoOD3Y1zs3VAOfeStHrqu2Qz
-	9B+4PhK49qErFIXkIo4u42Fxzrlqbkw==
-X-Google-Smtp-Source: AGHT+IH37/1dNpyEj/1dOWsuFZlBqNH2PW3vekwCfCUvk76BVImVeaVilw+67zpyRPHtH+LwNSBngAW+WbwgpE23HEM=
-X-Received: by 2002:a05:6214:29eb:b0:6d3:f981:345b with SMTP id
- 6a1803df08f44-6d4377b449bmr36941626d6.9.1732116366589; Wed, 20 Nov 2024
- 07:26:06 -0800 (PST)
-MIME-Version: 1.0
-References: <20241120150346.2279992-1-alex.kanavin@gmail.com> <2bffb899-bbeb-4459-8110-7b6fedcffbe7@cherry.de>
-In-Reply-To: <2bffb899-bbeb-4459-8110-7b6fedcffbe7@cherry.de>
+        bh=OuPjufug0K7IJOE9+nxBi2GBaoftvvt3G/7iVR1y0xA=;
+        b=I49nO7QJR3ln/fpoZLbLhNB5j0xlIfoXAVJPzHSop1DZPDjiwNLimJJT0i1KiEEFHh
+         EWipQ+MIE5Yre1q002CFGEppnYdfz7MZaqUGb05yQzY3vJD952Mk1gNBMo6zijK/tYXm
+         dIk01CFs1m5S/tW9w0k9BJPUiUCIg2vstvA6PPQ4DwKpKMr4fCwPiYAhzK2WDotXKl9m
+         HMk2fcBGkcHcN80KtJtS8DMP9GA2aNFktezR1CKOsGcTJ10xR+SytIs4wzbZt2uXhAfY
+         U7FM7dBh2+1D30ZwmWqK+mg/bp0fAsBTiZwpGBmU/ONieUEuWs+I86SLScaKMSGJpKaY
+         rERg==
+X-Gm-Message-State: AOJu0YyWvm0Vff/pFqw6rYVut9bq0pgSNcAS2s5gWOaMznycyg26b4y7
+	D8Q4b27P2OWZ6X00hUhFIuUexLhiQaZyiHha7PIfXAwP2xShxPzF4gK5fw==
+X-Google-Smtp-Source: AGHT+IFGe6LXHmvrSS4ziMTLA4Qt3hVFlIhroO0S2VBvQMTt3Yl+4dBYsTMTiGDtgQPPn1qTYS6dhA==
+X-Received: by 2002:a05:6000:2a8:b0:382:4a45:15ed with SMTP id ffacd0b85a97d-38254b1625cmr1651136f8f.41.1732116729618;
+        Wed, 20 Nov 2024 07:32:09 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825490522csm2363349f8f.17.2024.11.20.07.32.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 07:32:09 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 20 Nov 2024 16:25:54 +0100
-Message-ID: <CANNYZj_TYXjp3O4n-f4izCNPJS0ARqPAcAPC1rVFwJ0FP5QNQg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] package_rpm: use zstd's default compression level
-To: Quentin Schulz <quentin.schulz@cherry.de>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH v2 1/3] bitbake.conf: make ZSTD_COMPRESSION_LEVEL a number rather than a dash-prefixed option
+Date: Wed, 20 Nov 2024 16:32:03 +0100
+Message-Id: <20241120153205.2525735-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 15:26:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207460
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 15:32:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207461
 
-On Wed, 20 Nov 2024 at 16:20, Quentin Schulz <quentin.schulz@cherry.de> wrote:
+From: Alexander Kanavin <alex@linutronix.de>
 
-> Since we have a variable containing the compression level for ZSTD
-> (ZSTD_COMPRESSION_LEVEL), should we use it? The downside is that it's
-> prefixed with a dash, which would need to remove before using it (or
-> update the variable to not contain it and add it where the variable is
-> currently used.
+This allows using it where only a number is needed, such as rpm compression
+setting.
 
-Sure. I can send a v2.
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/conf/bitbake.conf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Alex
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 02bbf0e7a52..b8b321dd1b7 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -881,8 +881,8 @@ XZ_DEFAULTS[vardepsexclude] += "XZ_MEMLIMIT XZ_THREADS"
+ ZSTD_THREADS ?= "${@oe.utils.cpu_count(at_least=2)}"
+ ZSTD_THREADS[vardepvalue] = "1"
+ 
+-ZSTD_COMPRESSION_LEVEL ?= "-3"
+-ZSTD_DEFAULTS ?= "--threads=${ZSTD_THREADS} ${ZSTD_COMPRESSION_LEVEL}"
++ZSTD_COMPRESSION_LEVEL ?= "3"
++ZSTD_DEFAULTS ?= "--threads=${ZSTD_THREADS} -${ZSTD_COMPRESSION_LEVEL}"
+ ZSTD_DEFAULTS[vardepsexclude] = "ZSTD_THREADS"
+ 
+ # Limit the number of threads that OpenMP libraries will use. Otherwise they
+-- 
+2.39.5
+
 
