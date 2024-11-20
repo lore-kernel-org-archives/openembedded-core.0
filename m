@@ -2,220 +2,154 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 397CBD6393D
-	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:57:14 +0000 (UTC)
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
- by mx.groups.io with SMTP id smtpd.web11.13825.1732111032490291940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2367CD63940
+	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:57:24 +0000 (UTC)
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.web11.13833.1732111043349243045
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:12 -0800
+ Wed, 20 Nov 2024 05:57:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zFqGQkVh;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.170, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-21271dc4084so5198955ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:12 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nPjXCGXF;
+ spf=softfail (domain: sakoman.com, ip: 209.85.216.46, mailfrom: steve@sakoman.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-2ea68cd5780so2914132a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111032; x=1732715832; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vDrsBc+64ctmMXFYvIk2rdcKMqK5LQfzy6Cxqtsl/Fc=;
-        b=zFqGQkVhxrvwfl2hnGs+10yEib193ffDOn4emVKRsa+Xja6e2diROylkTkGQxKlmHL
-         31YQuOvMdKrWmduuJpLfVQcmgjx3kgUtCYDB7b89vtkD1xzqQMJyMtGbf/CXVsRBD0rW
-         NIPkqB9uanAeVOCIs6ng3ZXVw6TsEItvRxT8BJZbF5KCXTk6vLYxRuXETVGa6Ygf7Ciw
-         y+4twiZNnMKyXYIAnTlx5MsJUgNgF5ItkzwwRLMAQJepzEFU5O92fqI/SnzCwGacmOeu
-         8/V9aL5jkDQl2lfyLkRnz6FWwBcHAL0LZh2pAB8WOcvvuCzePqN2NFQD3DIZeRWHcMGq
-         Dg1A==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111042; x=1732715842; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zL8+XLybcTzCuyQblf9r5bfxdc0U6oUEkj48auYI1gQ=;
+        b=nPjXCGXFSEpYJRP3wWaYsJHrkaewGinU06ymorpHk8dNaNiSQI0E8MPeT4ctRJNyLi
+         wtbVuc2ERn3Yx5z1FR5LRUcLhBsBolL3jKiWSzm3kqW/MXnjGZ3EKLwO/s3DhCQwGP4d
+         nRvT7DETfqZcr0D+/spNVdcagpbOcnI/1CSLtlzY80yDTdsD4+GZFIEvrqZ13Rw5jO2n
+         6UTMIT9fpG15HovweqFB91JN5bLI/pnUDrwv56omU9N8YUsRjHLr/ufHg4GPNhdYAT+d
+         CwdJ3bS5x6qSLNspXN5Wd2MbKlwqTaMZXYUDHR7KUbxDNe5455MvClvRYD9ybwqkn9zM
+         D+fw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111032; x=1732715832;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vDrsBc+64ctmMXFYvIk2rdcKMqK5LQfzy6Cxqtsl/Fc=;
-        b=Q33lY6aP7QPyp23BBzKzn0PDvyN6tM0CrckdKPFlzRv6Z3mzoPnozmsm021LoDnRg1
-         K7cDUOI3vDmqK5iXkj0UmdmPgzF4RXlUikkn/sc6g5lr4+nbeZSq8FzB2JzwpUi4h6+Z
-         ZxOzq+xIH5xCaitMDFy57Is7p8d25hP4UHdz2azZIkP5JBUW63DbFGSIY5qnRuvkct1V
-         dVyCkQSE6OoreFU0xt1ZXkgHiaR5mP9D8ad6JpGUhbrbsBa354lmKYu30dVNcLVHI1xU
-         zh39xew6DOUL5ic4FdrdYr6VMC9QsjM67OLDLQINGTr4lHUSu088p9BtEmY2Zvc3O510
-         IUng==
-X-Gm-Message-State: AOJu0Yy4s+taG6nyB8agJ7s+cdDfu2Kh8GRHlOzNq3KiBF8WMX8ocPIp
-	T0yxekmf03ynPqnKMorVf9vcpIy60xYd8wKlY4yZDktCxc6FL5OYVyHnSOr60c9izg/GK+Cfc9y
-	v
-X-Google-Smtp-Source: AGHT+IFI1JeuufbajLYEKRzSbcajPiKDiQn4vM1AgCURJxX1o+WrYOxiOE8smvGa54Svanp+OBsHJw==
-X-Received: by 2002:a17:902:f64e:b0:20c:a19b:8ddd with SMTP id d9443c01a7336-2126cb3c32emr26103185ad.51.1732111031465;
-        Wed, 20 Nov 2024 05:57:11 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732111042; x=1732715842;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zL8+XLybcTzCuyQblf9r5bfxdc0U6oUEkj48auYI1gQ=;
+        b=KnC9FT5pgAadB/3A1gHpAZijWaI90PzpAZde6C1gCbYLeFrdlyveJQDSE7ZRNaHJa4
+         ElZ4e6GngQaC7cr3hhyMeamJWJ7FWjULiD6OHZqzMzWmZaz73e0rv3H1SnFcEv3fqPz2
+         QOy1nzkqhnpAjgeiwCWlyQvgSgT8sYetnAYszlei7CbpRsoPVtDnrj4CMlXp/aCyCGOM
+         +Ci6y5Kgx02/VvGcmVWzI4wkfz/+hE4hFMvhBWu33sI6YHCw/l859iVaXlWwlNptwBbF
+         M7mm1X04Y2c4q2yuwEjirf4JN05Y/nS5NNauPCyF8ISOwmpTSjy4cEw0lPmAhUHiGOKz
+         AJgg==
+X-Gm-Message-State: AOJu0YztUJnKZYWY/P0xVmU4HaaFWSIvgR6VzuaTG5wYYVrare3Vripr
+	fSOZK3cmZgGTtvRDY/5VOcactY1TV8UFn+KQB/7QqxDBIg7QGkqjM+aU4DQJXZq/L3N0jkCU7vz
+	W
+X-Google-Smtp-Source: AGHT+IGaZElU8pucn6XaQm4RpFwVaiiiZnpkoP+VefDy1lJjwuLe0QnfMmbkd15pn+X5IJqkB3CBaQ==
+X-Received: by 2002:a17:90b:5281:b0:2ea:9f38:9934 with SMTP id 98e67ed59e1d1-2eaca732f8emr2992263a91.21.1732111042533;
+        Wed, 20 Nov 2024 05:57:22 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.10
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:11 -0800 (PST)
+        Wed, 20 Nov 2024 05:57:22 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 00/31] Patch review
-Date: Wed, 20 Nov 2024 05:56:32 -0800
-Message-Id: <cover.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 07/31] go: upgrade 1.22.7 -> 1.22.8
+Date: Wed, 20 Nov 2024 05:56:39 -0800
+Message-Id: <5e33e88bfa2a30b1c661ce9a3ebf6a68140a5768.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
+References: <cover.1732110892.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:57:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207424
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:57:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207431
 
-Please review this set of changes for styhead and have comments back by
-end of day Friday, November 22
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Upgrade to latest 1.22.x release [1]:
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/464
+$ git --no-pager log --oneline go1.22.7..go1.22.8
+aeccd613c8 (tag: go1.22.8) [release-branch.go1.22] go1.22.8
+b4086b7c16 [release-branch.go1.22] syscall: skip TestAmbientCapsUserns when restricted, document
+6fab4b9a9e [release-branch.go1.22] runtime: size maps.Clone destination bucket array safely
+71655f14ce [release-branch.go1.22] cmd/cgo: correct padding required by alignment
 
-The following changes since commit 92cc48d51c763249b2eb8b4181bc20056fc72264:
+[1] https://github.com/golang/go/compare/go1.22.7...go1.22.8
 
-  glibc: Fix missing randomness in __gen_tempname (2024-11-02 06:21:52 -0700)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 552b9913b25107d7a34611b499b7811896b5f098)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/recipes-devtools/go/{go-1.22.7.inc => go-1.22.8.inc}   | 2 +-
+ ...o-binary-native_1.22.7.bb => go-binary-native_1.22.8.bb} | 6 +++---
+ ...cross-canadian_1.22.7.bb => go-cross-canadian_1.22.8.bb} | 0
+ .../go/{go-cross_1.22.7.bb => go-cross_1.22.8.bb}           | 0
+ .../go/{go-crosssdk_1.22.7.bb => go-crosssdk_1.22.8.bb}     | 0
+ .../go/{go-runtime_1.22.7.bb => go-runtime_1.22.8.bb}       | 0
+ meta/recipes-devtools/go/{go_1.22.7.bb => go_1.22.8.bb}     | 0
+ 7 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.22.7.inc => go-1.22.8.inc} (89%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.22.7.bb => go-binary-native_1.22.8.bb} (78%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.22.7.bb => go-cross-canadian_1.22.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.22.7.bb => go-cross_1.22.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.22.7.bb => go-crosssdk_1.22.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.22.7.bb => go-runtime_1.22.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.22.7.bb => go_1.22.8.bb} (100%)
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/styhead-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/styhead-nut
-
-Aditya Tayade (1):
-  e2fsprogs: removed 'sed -u' option
-
-Alban Bedel (1):
-  util-linux: Add `findmnt` to the bash completion RDEPENDS
-
-Chen Qi (2):
-  toolchain-shar-extract.sh: exit when post-relocate-setup.sh fails
-  libgfortran: fix buildpath QA issue
-
-Claus Stovgaard (1):
-  lib/oe/package-manager: skip processing installed-pkgs with empty
-    globs
-
-Clayton Casciato (1):
-  uboot-sign: fix concat_dtb arguments
-
-Hiago De Franco (1):
-  weston: backport patch to allow neatvnc < v0.9.0
-
-Hongxu Jia (1):
-  gcc-source: Fix racing on building gcc-source-14.2.0 and
-    lib32-gcc-source-14.2.0
-
-Jagadeesh Krishnanjanappa (1):
-  tune-cortexa32: set tune feature as armv8a
-
-Jinfeng Wang (2):
-  tzdata/tzcode-native: upgrade 2024a -> 2024b
-  glib-2.0: fix glib-2.0 ptest failure when upgrading tzdata2024b
-
-Katawann (1):
-  cve-check: add field "modified" to JSON report
-
-Mikko Rapeli (1):
-  ovmf-native: remove .pyc files from install
-
-Pavel Zhukov (1):
-  package_rpm: Check if file exists before open()
-
-Peter Marko (3):
-  cve-check: add support for cvss v4.0
-  go: upgrade 1.22.6 -> 1.22.7
-  go: upgrade 1.22.7 -> 1.22.8
-
-Purushottam Choudhary (1):
-  virglrenderer: Add patch to fix -int-conversion build issue
-
-Regis Dargent (1):
-  udev-extraconf: fix network.sh script did not configure hotplugged
-    interfaces
-
-Richard Purdie (4):
-  pseudo: Fix envp bug and add posix_spawn wrapper
-  oeqa/runtime/ssh: Rework ssh timeout
-  oeqa/runtime/ssh: Fix incorrect timeout fix
-  qemurunner: Clean up serial_lock handling
-
-Robert Yang (1):
-  cml1.bbclass: do_diffconfig: Don't override .config with .config.orig
-
-Ross Burton (3):
-  strace: download release tarballs from GitHub
-  tcl: skip io-13.6 test case
-  groff: fix rare build race in hdtbl
-
-Tom Hochstein (1):
-  weston: Add missing runtime dependency on freerdp
-
-Vijay Anusuri (1):
-  xserver-xorg: upgrade 21.1.13 -> 21.1.14
-
-Wang Mingyu (1):
-  wireless-regdb: upgrade 2024.07.04 -> 2024.10.07
-
-Yoann Congal (1):
-  python3-maturin: sort external libs in wheel files
-
- meta/classes-global/package_rpm.bbclass       | 16 +++-
- meta/classes-recipe/cml1.bbclass              |  3 +-
- meta/classes-recipe/uboot-sign.bbclass        |  2 +-
- meta/classes/cve-check.bbclass                | 11 ++-
- meta/classes/vex.bbclass                      |  1 +
- .../include/arm/armv8a/tune-cortexa32.inc     |  2 +-
- meta/conf/multilib.conf                       |  2 +-
- meta/files/toolchain-shar-extract.sh          |  4 +
- meta/lib/oe/package_manager/__init__.py       | 76 +++++++++----------
- meta/lib/oeqa/runtime/cases/ssh.py            |  4 +-
- meta/lib/oeqa/utils/qemurunner.py             | 11 +--
- .../files/gdatetime-test-fail-0001.patch      | 72 ++++++++++++++++++
- .../files/gdatetime-test-fail-0002.patch      | 65 ++++++++++++++++
- .../files/gdatetime-test-fail-0003.patch      | 63 +++++++++++++++
- meta/recipes-core/glib-2.0/glib.inc           |  3 +
- .../meta/cve-update-nvd2-native.bb            | 14 +++-
- meta/recipes-core/ovmf/ovmf_git.bb            |  1 +
- .../udev/udev-extraconf/network.sh            | 32 --------
- .../util-linux/util-linux_2.40.2.bb           |  2 +-
- .../e2fsprogs/e2fsprogs/run-ptest             |  3 +-
- meta/recipes-devtools/gcc/gcc-source_14.2.bb  |  1 +
- meta/recipes-devtools/gcc/libgfortran.inc     |  2 +-
- .../go/{go-1.22.6.inc => go-1.22.8.inc}       |  2 +-
- ...e_1.22.6.bb => go-binary-native_1.22.8.bb} |  6 +-
- ..._1.22.6.bb => go-cross-canadian_1.22.8.bb} |  0
- ...{go-cross_1.22.6.bb => go-cross_1.22.8.bb} |  0
- ...osssdk_1.22.6.bb => go-crosssdk_1.22.8.bb} |  0
- ...runtime_1.22.6.bb => go-runtime_1.22.8.bb} |  0
- .../go/{go_1.22.6.bb => go_1.22.8.bb}         |  0
- meta/recipes-devtools/pseudo/pseudo_git.bb    |  2 +-
- ...prove-wheel-reproducibility-by-sorti.patch | 55 ++++++++++++++
- .../python/python3-maturin_1.7.1.bb           |  1 +
- meta/recipes-devtools/strace/strace_6.10.bb   |  4 +-
- meta/recipes-devtools/tcltk/tcl/run-ptest     |  2 +
- ...l-Fix-Savannah-66316-missing-grn-dep.patch | 38 ++++++++++
- meta/recipes-extended/groff/groff_1.23.0.bb   |  1 +
- meta/recipes-extended/timezone/timezone.inc   |  6 +-
- ...nversion-fatal-build-error-with-GCC-.patch | 41 ++++++++++
- .../virglrenderer/virglrenderer_1.0.1.bb      |  1 +
- ...1-vnc-Allow-neatvnc-in-version-0.8.0.patch | 27 +++++++
- .../recipes-graphics/wayland/weston_13.0.3.bb |  3 +-
- ...org_21.1.13.bb => xserver-xorg_21.1.14.bb} |  2 +-
- ....07.04.bb => wireless-regdb_2024.10.07.bb} |  2 +-
- scripts/cve-json-to-text.py                   |  2 +
- 44 files changed, 474 insertions(+), 111 deletions(-)
- create mode 100644 meta/recipes-core/glib-2.0/files/gdatetime-test-fail-0001.patch
- create mode 100644 meta/recipes-core/glib-2.0/files/gdatetime-test-fail-0002.patch
- create mode 100644 meta/recipes-core/glib-2.0/files/gdatetime-test-fail-0003.patch
- rename meta/recipes-devtools/go/{go-1.22.6.inc => go-1.22.8.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.6.bb => go-binary-native_1.22.8.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.6.bb => go-cross-canadian_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.6.bb => go-cross_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.6.bb => go-crosssdk_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.6.bb => go-runtime_1.22.8.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.6.bb => go_1.22.8.bb} (100%)
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
- create mode 100644 meta/recipes-extended/groff/files/0001-hdtbl-Fix-Savannah-66316-missing-grn-dep.patch
- create mode 100644 meta/recipes-graphics/virglrenderer/virglrenderer/0001-vrend-Fix-int-conversion-fatal-build-error-with-GCC-.patch
- create mode 100644 meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch
- rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.13.bb => xserver-xorg_21.1.14.bb} (92%)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2024.07.04.bb => wireless-regdb_2024.10.07.bb} (94%)
-
+diff --git a/meta/recipes-devtools/go/go-1.22.7.inc b/meta/recipes-devtools/go/go-1.22.8.inc
+similarity index 89%
+rename from meta/recipes-devtools/go/go-1.22.7.inc
+rename to meta/recipes-devtools/go/go-1.22.8.inc
+index e54a902741..542519b930 100644
+--- a/meta/recipes-devtools/go/go-1.22.7.inc
++++ b/meta/recipes-devtools/go/go-1.22.8.inc
+@@ -15,4 +15,4 @@ SRC_URI += "\
+     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+ "
+-SRC_URI[main.sha256sum] = "66432d87d85e0cfac3edffe637d5930fc4ddf5793313fe11e4a0f333023c879f"
++SRC_URI[main.sha256sum] = "df12c23ebf19dea0f4bf46a22cbeda4a3eca6f474f318390ce774974278440b8"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.7.bb b/meta/recipes-devtools/go/go-binary-native_1.22.8.bb
+similarity index 78%
+rename from meta/recipes-devtools/go/go-binary-native_1.22.7.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.22.8.bb
+index aba317fd38..98799eb503 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.22.8.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+ 
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "fc5d49b7a5035f1f1b265c17aa86e9819e6dc9af8260ad61430ee7fbe27881bb"
+-SRC_URI[go_linux_arm64.sha256sum] = "ed695684438facbd7e0f286c30b7bc2411cfc605516d8127dc25c62fe5b03885"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "a6441d5da40a961039ec22b0aadbc8b513f52b31bb8919c359a7e2c3c5bcf26a"
++SRC_URI[go_linux_amd64.sha256sum] = "5f467d29fc67c7ae6468cb6ad5b047a274bae8180cac5e0b7ddbfeba3e47e18f"
++SRC_URI[go_linux_arm64.sha256sum] = "5c616b32dab04bb8c4c8700478381daea0174dc70083e4026321163879278a4a"
++SRC_URI[go_linux_ppc64le.sha256sum] = "c546f27866510bf8e54e86fe6f58c705af0e894341e5572c91f197a734152c27"
+ 
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb b/meta/recipes-devtools/go/go-cross-canadian_1.22.8.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.22.8.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.22.7.bb b/meta/recipes-devtools/go/go-cross_1.22.8.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.22.7.bb
+rename to meta/recipes-devtools/go/go-cross_1.22.8.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.7.bb b/meta/recipes-devtools/go/go-crosssdk_1.22.8.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.22.8.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.22.7.bb b/meta/recipes-devtools/go/go-runtime_1.22.8.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.22.7.bb
+rename to meta/recipes-devtools/go/go-runtime_1.22.8.bb
+diff --git a/meta/recipes-devtools/go/go_1.22.7.bb b/meta/recipes-devtools/go/go_1.22.8.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.22.7.bb
+rename to meta/recipes-devtools/go/go_1.22.8.bb
 -- 
 2.34.1
 
