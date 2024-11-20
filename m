@@ -1,209 +1,319 @@
-Return-Path: <SunilKumar.Dora@windriver.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 998A2D6E2DC
-	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 08:36:42 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.9214.1732091786408462756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B34CD6E2DB
+	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 08:41:12 +0000 (UTC)
+Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
+ by mx.groups.io with SMTP id smtpd.web10.9261.1732092066862561379
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 00:36:26 -0800
+ Wed, 20 Nov 2024 00:41:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=10540dc7d2=sunilkumar.dora@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AK7EETl001473
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 08:36:25 GMT
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2040.outbound.protection.outlook.com [104.47.56.40])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xjc8c10f-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 08:36:25 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AF2nTuboemVdGB/zvU3H4hNQR9Q78i2QjZ0jFhlZQk1gDCh0fDEpkSfOqjKNIFQlVZzR4PS4mdq7z4aMa9CtmPbXGkuzuMN+ZPu+wHLzM6puwFfhxzSnIyTLz5J4QP/EUX7mfFUuMOOkMZi1WdGb6cXH+74VjkN7mMiIfGCH7x0ePlvCOsJumg+dTQKyGi/3fZlSwCg9W6NVjjB3Pza6uMGs6Q8b9acwDZxg2wpmtYE4eAV4ZxPThSj8b/irUSFirLr2KRiU9djSiD6lxyYGo3XGJTdLyX+J5DnHzGyIjBcEsgS+NhybnCzSO62mZik4+1Vw2MPIZYz2xMom9IFdoQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=K8GwYk3Iy5YwqPXlO8ScX3omUinObhrStqNYdf35qi8=;
- b=URcLAVVbka3eVgOfS4p3bznnbyfokiyW1J3GjiKj3Xhv/u4p/5KyIIcMvD6AEpPPmPfvMVk6rJLYGhptoXxUqja5+uy2cfke/9NHh2+XzyWGiZzp4HQlW/mSEuggFr3n1AUx3BqrChO7WQknaUmsGKmMATjCBLQ7HirGcvKrV55hbmsOEFuS2IqT1WS1m1S6eo5capWpFNa+yg2lliGFvuLPEPIJJsOD/RMxN781l0wwP5VgwM53wwShmv7x0Rqallp4sB+OZWUoLEyV2YhvHkWJDSh7rv2kpW3GhKw5AI5+pVitbumN39jgKzg2edp2iT4BNmMvjQ3bWMNy1TXwBQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
- SJ0PR11MB5133.namprd11.prod.outlook.com (2603:10b6:a03:2ac::24) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.23; Wed, 20 Nov
- 2024 08:36:23 +0000
-Received: from DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::9fa:eb3f:cf26:264d]) by DS0PR11MB7901.namprd11.prod.outlook.com
- ([fe80::9fa:eb3f:cf26:264d%5]) with mapi id 15.20.8158.021; Wed, 20 Nov 2024
- 08:36:22 +0000
-From: sunilkumar.dora@windriver.com
+ dkim=pass header.i=@linaro.org header.s=google header.b=SCEKjlnq;
+ spf=pass (domain: linaro.org, ip: 209.85.167.54, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-539f2b95775so4855230e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 00:41:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1732092065; x=1732696865; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=54ak+jPWg+mA3gyuWxN5NRA/qwAkcWm39pLgJUs2WxU=;
+        b=SCEKjlnqURy6BqY2nYKcFYfu88AneGwF9977ws7bXpWJDynopssHICDk8x/GtUvayS
+         K1Xnql8b8QmZCUzPW2BUp4pMcgL1anNlSgtvBF6JYgxaJYIwd8DLgPqlsByuOeD8O4b/
+         CsJl0EPS5lfI60XiRIoRXZpWOhcrUbGCTMtJU1y7yrYGbVPK9f57gboyAm9r0JsYCTfw
+         UGA7MK6Z9vqrh0o0kxSdwZmriQ2FYwRyJ1YLYalAGV4N0phY4A1ofb3JzhO9oWFXstT+
+         jLl1wnQuL+9Apel5F0Gjtr46MT9EAKfOx0QC0HQD7NdEI1RGcIuI/7pLMVD9/g1h2Lpv
+         Awew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732092065; x=1732696865;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=54ak+jPWg+mA3gyuWxN5NRA/qwAkcWm39pLgJUs2WxU=;
+        b=jzCfb9YW30PrqLXmCLEx1SAUXJ+Fg9mauNAikFqpUkQYWdXZg18MQ7sf7dQsqhgWAS
+         bAZgYUihHMEaCCSvpOwZe6xbqREXhJD4Y3pfS3KemKsiZ5Ay6kYDNt+0Ms6lQhxBaDFc
+         ZSn7ffDOkdm9Izn9H8glbyb+9MWrcK9G5qmQSNt/ngoscl4GkS0syah285kkRb/Vvmy9
+         qB59T3HiMxoAO+mKfJmbNBCg7qjh55ipGfyYvO+FvyIvp7d6TgmifKcZDRkAnR8M1w98
+         od11jPG0I2ImMJH4+pxyVrBAY/n1L5iTHtFqD+33IRafONVyHKk9UPlVE1Evsu4h+WIt
+         RuUQ==
+X-Gm-Message-State: AOJu0YxJq2jOql8rTQKXIFy8HjtqgP3zu9eHcQrc2V+zIrm6UOXDqonJ
+	1+TezeJ/v/WIv6pAZITTtR+3bydmaF1ONCQvO6cQPlKFCkjQ3YWO+q2WhrLa8P3Oa58cOP6PGoD
+	GxXc=
+X-Google-Smtp-Source: AGHT+IFS8dEaudRfNJspV/23WU8ab5o3AYS8XIVW7h49bWmHBEdVrnmXgzK4z1RRfrOo23NpDwFUYg==
+X-Received: by 2002:a05:6512:a84:b0:53d:a9e2:4112 with SMTP id 2adb3069b0e04-53dc1322f87mr1245003e87.7.1732092064795;
+        Wed, 20 Nov 2024 00:41:04 -0800 (PST)
+Received: from nuoska (78-27-76-97.bb.dnainternet.fi. [78.27.76.97])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53dbd478193sm554672e87.227.2024.11.20.00.41.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 00:41:02 -0800 (PST)
+Date: Wed, 20 Nov 2024 10:40:59 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
-Cc: Randy.MacLeod@windriver.com, Naveen.Gowda@windriver.com,
-        Sundeep.Kokkonda@windriver.com
-Subject: [PATCH] rust: Upgrade 1.80.0->1.80.1
-Date: Wed, 20 Nov 2024 00:36:03 -0800
-Message-ID: <20241120083603.1278184-1-sunilkumar.dora@windriver.com>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY3PR05CA0012.namprd05.prod.outlook.com
- (2603:10b6:a03:254::17) To DS0PR11MB7901.namprd11.prod.outlook.com
- (2603:10b6:8:f4::20)
+Subject: Re: [OE-core] wic builds an empty rootfs on second image build with
+ rm_work enabled
+Message-ID: <Zz2gmwR9WbF0Rg-L@nuoska>
+References: <Zyjj-0oflBsZfj1C@nuoska>
+ <553b223a0d437044e587b0ddaf0519803ff57f2f.camel@linuxfoundation.org>
+ <ZztNMmHa7s21MJXI@nuoska>
+ <3c967bf5-9856-4a91-874a-5e40b4b4e7cd@koansoftware.com>
+ <180917DC7939F09D.10466@lists.openembedded.org>
+ <180961F040C68F13.21229@lists.openembedded.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|SJ0PR11MB5133:EE_
-X-MS-Office365-Filtering-Correlation-Id: bccdf030-093c-437b-e935-08dd093e6a10
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|52116014|366016|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?rT3aiNdhIHhD83pDUobydGWLEkFNvsKtO0kJYo3B+Wo9EFohaLKFReLfjRil?=
- =?us-ascii?Q?ukyRUBJsAO7NrEqa1cbB7ADMK4SCRMilcAwBCqvU4NIYAWZBLFCP3LDhPcuD?=
- =?us-ascii?Q?ngzBN+9+8W0i25x6eEo4feHadCLazXZ03B/EZ1YNaM+D6Rrv2nlMzXeHwRbM?=
- =?us-ascii?Q?xHCc8Zvjlygn9hU1fVvt2J4omvFQvrdlMBMm/8aPDGHdxFH2R0+tMGOa4wYT?=
- =?us-ascii?Q?j0KHb9tEeJ80xG0qBUWE6aQ2oDNVz3r0F4zphd3GWqvW5mFphY+Ixqzgu0yE?=
- =?us-ascii?Q?Di1Ey4sme+enyn26zgi++VmlS7ZhDUZ3MIWeDj2iX+l1ufKUbbHcNHRGtPxK?=
- =?us-ascii?Q?JOhmaIh2To/jlHajmwlS2jtGYhRXgnq0eU9Zz3HsBh4VqG+0rz43yvog2PRS?=
- =?us-ascii?Q?l+RhS5MSbuyU323uXUyiDTO8angMZXkPXF15MGLFRKFgLMaE+VJnC+nL+e+p?=
- =?us-ascii?Q?CGyE8cDSRCHd7mW/xdtnzRIOrxhEJcE67cpQfGbTRxejNgs6WbsnQb9ydI6L?=
- =?us-ascii?Q?40E/hL3sK+Mqpuyz46LB8Fp1uQUywflwj01Jk52jRbH8bPs1nCjF5EehwUlB?=
- =?us-ascii?Q?Q9nMN/eIKPPDNdN8VAMr/dNyS/aPtit6wN0OH0QTaliYUxLJalMNrZly8spv?=
- =?us-ascii?Q?eOO6r+cbqMJ0ukja6bczDrV+PfISUHbre9rlgkI4oQka89152+/ICvD0KqdD?=
- =?us-ascii?Q?VsNiEJ7Lg9u01wjwvfZ99v5ytkNYhokIzQX2gStjQOMfFa+B+zfiREx1lolw?=
- =?us-ascii?Q?p/jvIazl9IPlYruTzd/m3ASSFTdUFtrgNHcJYbSeE0Fv1CtwZJW6AsWeq1re?=
- =?us-ascii?Q?7AeGjDCR+BLS3oP82BSW3hK27XbiHIHg61GCw9I9wLYyvL0RP6VBanUV7COu?=
- =?us-ascii?Q?gI2YJQwVXPwm11YI7RpPQzstS76vR7wsgw7HUqnyEfIrs1SjDEJLebPhZN+a?=
- =?us-ascii?Q?lnrDCVleFGeBU+t/48l1tjVK9n23kopo2FGPTEeAAwlNwFPTe5IyDuHg9QEk?=
- =?us-ascii?Q?MEdAJ9vkcBsQRSzO1IogLL6jYmx5GXkuSwlJC4CK2lwYXkyyU7ziGw7o0r5y?=
- =?us-ascii?Q?fRmJf+eNUaFUF4lP3BEE5dMyCaITntInXeGYIkeQEy+/Ac/8R6RjvxcNmiqJ?=
- =?us-ascii?Q?nv7EAij39NWbEhb+yZgx0PHGa8xEGwkG/TU4Fj0SqSkVBhNL+iHGQ8L125s3?=
- =?us-ascii?Q?rqQQoM2XlQM3DDZmAxGBEps9E52t1nvLePaJc2R0cYAmCGtXtuvgg21f9u8U?=
- =?us-ascii?Q?pytUYKzFvFe9/l6SyGp4KJ6zi50jizB2ENT7InyP0pXw2EnXZ6Y3wUSY54tS?=
- =?us-ascii?Q?0VUtYPriebLnWBPOXRYedIgt?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(52116014)(366016)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?oZrf+HcxlSqUbUEM6JIJ0sOwR4VpHPgGx3oq3UZnDWQp1aZK3aXuC5+4Zodz?=
- =?us-ascii?Q?8+OSpVJa9e+ijS097E0de2Pvog/jogoxKznKc8H9WSlRg1OABO4kNoKqcB+M?=
- =?us-ascii?Q?8tSofPFcxphp1aYIpUKQpewp/jadTOkP6vzEVR4fe5iwoUuBVuSb1xyvxZrz?=
- =?us-ascii?Q?9CZXlXhWxVA6eULuy2Ah0DBx2LJAyoSzRVqa/5TsoKHFr6UJmloNm35qZNgz?=
- =?us-ascii?Q?lqpC9QfeclQeyCHnwnsFjF9/UjlmAj7a98xeLh8a0MXMj1+0U11gJ2Wpcpeh?=
- =?us-ascii?Q?LPuu9FyLpQ6Weo1IWdwfLp5TANlt7mALXfxfn54kGzRYqHKE/KDUzEdYZ9o+?=
- =?us-ascii?Q?VNfH0XoJuZ87pH8cc9d8SjRSK/EbBFwXraXvgjweBBKTZLJ3mqkbT4EQRKYo?=
- =?us-ascii?Q?FyY9BlvqemOJQGlwOnYVfLmXiIUh95Pr02Q/IEYjhWXAbzb97fij8cpx7DV3?=
- =?us-ascii?Q?9oGejLCcS3C4wrPpYxrojeAOmBrVdJq3obw649D8AtiZn21AJ9Vkt83fGvoa?=
- =?us-ascii?Q?wmkhI+x85mfWXqBOpRTF2LtedADwgC8LKtv3cYneTCmcgdFPZFBmxR/jsN0p?=
- =?us-ascii?Q?Hd55hVfPRKX2fBlO5Y0NSM1MbPsr8cTkjZTy5As+welMttnQEpMhUwKVPJd3?=
- =?us-ascii?Q?c0KuNBh0Mnnhowtp/Q3nLyKILz3K35myFUJR8cZBw39qlCInOZWIqsS/fFOa?=
- =?us-ascii?Q?e6ZfS1dIFcRDAXid4/fFR66OqfzCqASzjBVVMJqw+vFBIGVnNs8MRy0SEX6Q?=
- =?us-ascii?Q?5IL6kM8lH6uGt0+m7u2aG8rZhOYKqlQngaLW94ehtt7Z8wJqgbKUU6IYOYvt?=
- =?us-ascii?Q?ykdcRnkx6M3uJTBiqH8524Tu6IpmiH3KkxS7A3zAtAGtTwcszolp+LCPvSka?=
- =?us-ascii?Q?Y7b8xlP+P9n1wF2sZu0B/tYILxe6zS0z/i96XcQTuPkxPt1GWKgaj04bGJxn?=
- =?us-ascii?Q?xwAEehQNehQdcMa87zG4k4lrNgvunoXp/tqbF1WqxPWYXhza9mjB5jWWZ8W+?=
- =?us-ascii?Q?2mTvek/tX2INsAFOQD/ol/grt+B2xva7O6lYKn9R1PmpXLqhUtBIjUF/AILf?=
- =?us-ascii?Q?qJViATt/KHB23kXiPma18BWR4CViVrZVV2t4xOBDhB//w6rZ+mORR8cL2ipt?=
- =?us-ascii?Q?di695xtJ1YcFbXwd1Aq46U3wxAcA3zHwW58oM2+d3euLhNxBYsd2yibDYiMC?=
- =?us-ascii?Q?fi6UU1p5xsLLfU2/duPo3aIK0KksCKXQVu8VNFZHBaJAD1OulTRW/lgVzWu2?=
- =?us-ascii?Q?a9yc4fo57T1kOMIZSU6cLBKhABTIfOK9DjQmgKftBYt0jzt0q2x1tQu8yumf?=
- =?us-ascii?Q?vpoCVlEPHsCUtTuy/ZGa7rxLRuAj+Wjj0Cf7MPky2vgPVFyUhatxrW7VCqlA?=
- =?us-ascii?Q?BcpD0WCmRyLvdt5wb/Z7fFlqWmD3lMJbfhldvdHYOOXmtweORA8tykGZSsHc?=
- =?us-ascii?Q?NxwH3GCKXEHfCZ6a+IDiiS5AJuXw2BqXBdxTm3686J8WkxdP1qaczCcCtLIp?=
- =?us-ascii?Q?LQI4dElyl9r315RCzowuEZYyWZrlS+UMmLgCfGqJ15CCNU4URxpMaJuzGUy/?=
- =?us-ascii?Q?qOgF3sa5+pQoe+I3kqFhdIadWrayTdZq6l3B8MEoOcPNx/xR4o2jY1A6iKhp?=
- =?us-ascii?Q?vQ=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bccdf030-093c-437b-e935-08dd093e6a10
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2024 08:36:22.9565
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5cDB315uldHY3LXV+CrBukpdQJfXLEOTg5whOijRqvyw4sXh+g7+t5OxbdPxCF2ShQ5DpDUcdoqGyekcTmEQCQAzV0P+2NcInvdHYWHuHXY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB5133
-X-Proofpoint-GUID: gP6LVVdr5XTsPi1WbfwJv7gn_EY033W8
-X-Authority-Analysis: v=2.4 cv=R6hRGsRX c=1 sm=1 tr=0 ts=673d9f89 cx=c_pps a=TWVVkEr8Ytp/jGYVlMgQuQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=ei4SEBeUAAAA:8
- a=t7CeM3EgAAAA:8 a=QD9Qtey2zKJs_bIMlh0A:9 a=t0EB5k7lhMAKNYPM:21 a=Qixl1SizjlQA:10 a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: gP6LVVdr5XTsPi1WbfwJv7gn_EY033W8
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
- definitions=2024-11-20_05,2024-11-20_01,2024-09-30_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 phishscore=0
- mlxscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=935
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 bulkscore=0
- impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2409260000 definitions=main-2411200059
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <180961F040C68F13.21229@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 08:36:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207417
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 08:41:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207418
 
-From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+Hi,
 
-https://blog.rust-lang.org/2024/08/08/Rust-1.80.1.html
+On Tue, Nov 19, 2024 at 03:33:28PM +0200, Mikko Rapeli via lists.openembedded.org wrote:
+> For reproduction, few things are needed:
+> 
+>  * a failing oeqa runtime test, for example when enabling uki support in meta-arm qemuarm64-secureboot
+>    build the uki.py can be made to always fail:
+> 
+> --- a/meta/lib/oeqa/runtime/cases/uki.py
+> +++ b/meta/lib/oeqa/runtime/cases/uki.py
+> @@ -9,7 +9,7 @@ class UkiTest(OERuntimeTestCase):
+>      @skipIfNotInDataVar('IMAGE_CLASSES', 'uki', 'Test case uki is for images which use uki.bbclass')
+>      def test_uki(self):
+>          uki_filename = self.td.get('UKI_FILENAME')
+> -        status, output = self.target.run('ls /boot/EFI/Linux/%s' % uki_filename)
+> +        status, output = self.target.run('ls /boot/EFI/Linux-FOOBARZOO/%s' % uki_filename)
+>          self.assertEqual(status, 0, output)
+>  
+>          status, output = self.target.run('echo $( cat /sys/firmware/efi/efivars/LoaderEntrySelected-4a67b082-0a4c-41cf-b6c7-440b29bb8c4f  ) | grep %s' % uki_filename)
+> 
+> Another failing oeqa runtime test is ping.py when slirp networking is used.
+> This fails, sometimes, on all meta-arm kas builds that I do. Right now it
+> is passing and I fail to understand why. The failures, when they happen, come
+> from missing "ping" host command, which is really odd. Build host and kas container
+> have /usr/bin/ping and permissions to use it.
+> 
+>  * image with "testimage" in IMAGE_CLASSES and
+>    aldo automatic test execution during build enabled with
+>    TESTIMAGE_AUTO = "1", in local.conf or similar.
+> 
+>  * then two consecutive builds of the image with very little in between rebuilds.
+>    Some debug commands can run but not much more.
+> 
+> Logs from meta-arm build:
+> 
+> $ kas shell ci/qemuarm64-secureboot.yml:ci/uefi-secureboot.yml:ci/testimage.yml
+> 
+> $ ( set -x; bitbake -c clean core-image-base ; bitbake core-image-base ; \
+> wic ls tmp/deploy/images/qemuarm64-secureboot/core-image-base-qemuarm64-secureboot.rootfs.wic:2/ ; \
+> pstree -upln|grep -i cooker ; bitbake core-image-base ; \
+> wic ls tmp/deploy/images/qemuarm64-secureboot/core-image-base-qemuarm64-secureboot.rootfs.wic:2/ ; \
+> pstree -upln|grep -i cooker ) 2>&1 | tee log
+> ...
+> + bitbake -c clean core-image-base
+> ...
+> + bitbake core-image-base
+> ...
+> Traceback (most recent call last):
+>   File "/home/builder/src/base/meta-arm/build/../poky/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>            ^^^^^^^^^^^^^^^^^^^^^
+>   File "/home/builder/src/base/meta-arm/poky/meta/lib/oeqa/runtime/cases/uki.py", line 13, in test_uki
+>     self.assertEqual(status, 0, output)
+> AssertionError: 2 != 0 : ls: cannot access '/boot/EFI/Linux-FOOBARZOO/uki.efi': No such file or directory
+> ...
+> SUMMARY:
+> core-image-base () - Ran 76 tests in 851.573s
+> core-image-base - FAIL - Required tests failed (successes=21, skipped=54, failures=1, errors=0)
+> ERROR: core-image-base-1.0-r0 do_testimage: core-image-base - FAILED - also check the logs in /home/builder/src/base/meta-arm/build/tmp/log
+> ERROR: Logfile of failure stored in: /home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/temp/log.do_testimage.2991270
+> NOTE: recipe core-image-base-1.0-r0: task do_testimage: Failed
+> ERROR: Task (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 7024 tasks of which 6994 didn't need to be rerun and 1 failed.
+> 
+> Summary: 1 task failed:
+>   /home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage
+>     log: /home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/temp/log.do_testimage.2991270
+> Summary: There was 1 ERROR message, returning a non-zero exit code.
+> + wic ls tmp/deploy/images/qemuarm64-secureboot/core-image-base-qemuarm64-secureboot.rootfs.wic:2/
+> debugfs 1.47.0 (5-Feb-2023)
+>       2   40755 (2)      0      0    1024  5-Apr-2011 23:00 .
+>       2   40755 (2)      0      0    1024  5-Apr-2011 23:00 ..
+>      11   40700 (2)      0      0   12288  5-Apr-2011 23:00 lost+found
+>      13  120777 (7)      0      0       7  5-Apr-2011 23:00 bin
+>      14   40755 (2)      0      0    1024  5-Apr-2011 23:00 boot
+>      24   40755 (2)      0      0    1024  5-Apr-2011 23:00 dev
+>      25   40755 (2)      0      0    3072  5-Apr-2011 23:00 etc
+>     539   40755 (2)      0      0    1024  5-Apr-2011 23:00 home
+>     540  120777 (7)      0      0       7  5-Apr-2011 23:00 lib
+>     541   40755 (2)      0      0    1024  5-Apr-2011 23:00 media
+>     542   40755 (2)      0      0    1024  5-Apr-2011 23:00 mnt
+>     543   40555 (2)      0      0    1024  5-Apr-2011 23:00 proc
+>     544   40700 (2)      0      0    1024  5-Apr-2011 23:00 root
+>     545   40755 (2)      0      0    1024  5-Apr-2011 23:00 run
+>     546  120777 (7)      0      0       8  5-Apr-2011 23:00 sbin
+>     547   40755 (2)      0      0    1024  5-Apr-2011 23:00 srv
+>     548   40555 (2)      0      0    1024  5-Apr-2011 23:00 sys
+>     549   41777 (2)      0      0    1024  5-Apr-2011 23:00 tmp
+>     550   40755 (2)      0      0    1024  5-Apr-2011 23:00 usr
+>    5117   40755 (2)      0      0    1024  5-Apr-2011 23:00 var
+> + pstree -upln
+> + grep -i cooker
+>            |-Cooker(2973143,builder)-+-{Cooker}(2973147)
+>            |                         `-Cooker(2973155)
+> + bitbake core-image-base
+> NOTE: Reconnecting to bitbake server...
+> ^^^^^^^^^^
+> Loading cache...done.
+> ...
+> NOTE: recipe core-image-base-1.0-r0: task do_image_qa: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_image_qa: Succeeded
+> NOTE: Running task 7015 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_image)
+> NOTE: recipe core-image-base-1.0-r0: task do_image: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_image: Succeeded
+> NOTE: Running task 7016 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_rootfs_wicenv)
+> NOTE: Running task 7017 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_write_wks_template)
+> NOTE: recipe core-image-base-1.0-r0: task do_rootfs_wicenv: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_rootfs_wicenv: Succeeded
+> NOTE: recipe core-image-base-1.0-r0: task do_write_wks_template: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_write_wks_template: Succeeded
+> NOTE: Running task 7018 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_image_wic)
+> NOTE: recipe core-image-base-1.0-r0: task do_image_wic: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_image_wic: Succeeded
+> NOTE: Running task 7019 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_image_complete)
+> NOTE: recipe core-image-base-1.0-r0: task do_image_complete: Started
+> NOTE: recipe package-index-1.0-r0: task do_package_index: Succeeded
+> NOTE: Running task 7020 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/meta/package-index.bb:do_rm_work)
+> NOTE: recipe package-index-1.0-r0: task do_rm_work: Started
+> NOTE: recipe package-index-1.0-r0: task do_rm_work: Succeeded
+> NOTE: recipe core-image-base-1.0-r0: task do_image_complete: Succeeded
+> NOTE: Running task 7021 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage)
+> NOTE: Running task 7022 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_populate_lic_deploy)
+> NOTE: Running task 7023 of 7027 (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_create_image_spdx)
+> NOTE: recipe core-image-base-1.0-r0: task do_testimage: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_populate_lic_deploy: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_populate_lic_deploy: Succeeded
+> NOTE: recipe core-image-base-1.0-r0: task do_create_image_spdx: Started
+> NOTE: recipe core-image-base-1.0-r0: task do_create_image_spdx: Succeeded
+> QMP Available for connection at /home/builder/src/base/meta-arm/build/tmp/.34zuzopv
+> QMP connected to QEMU at 11/19/24 11:13:04 and took 0.55 seconds
+> QMP released QEMU at 11/19/24 11:13:04 and took 0.06 seconds from connect
+> Bitbake still alive (no events for 600s). Active tasks:
+> /home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage
+> WARNING: core-image-base-1.0-r0 do_testimage: Target didn't reach login banner in 1000 seconds (11/19/24 11:29:44)
+> WARNING: core-image-base-1.0-r0 do_testimage: Last 25 lines of login console (22976):
+> ...
+> [    8.573803] EXT4-fs (vda2): mounted filesystem 2419aa86-8c0c-4bda-919d-7d0d3efe0fb9 r/w with ordered data mode. Quota mode: disabled.
+> [    8.954350] /dev/disk/by-label/root: Can't open blockdev
+> [    8.955290] /dev/disk/by-label/root: Can't open blockdev
+> ERROR: There's no '/dev' on rootfs.
+> ...
+> ERROR: core-image-base-1.0-r0 do_testimage: Error executing a python function in exec_func_python() autogenerated:
+> 
+> The stack trace of python calls that resulted in this exception/failure was:
+> File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+>      0001:
+>  *** 0002:do_testimage(d)
+>      0003:
+> File: '/home/builder/src/base/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 122, function: do_testimage
+>      0118:    dump-guest-memory {"paging":false,"protocol":"file:%s.img"}
+>      0119:}
+>      0120:
+>      0121:python do_testimage() {
+>  *** 0122:    testimage_main(d)
+>      0123:}
+>      0124:
+>      0125:addtask testimage
+>      0126:do_testimage[nostamp] = "1"
+> File: '/home/builder/src/base/meta-arm/build/../poky/meta/classes-recipe/testimage.bbclass', lineno: 364, function: testimage_main
+>      0360:    orig_sigterm_handler = signal.signal(signal.SIGTERM, sigterm_exception)
+>      0361:    try:
+>      0362:        # We need to check if runqemu ends unexpectedly
+>      0363:        # or if the worker send us a SIGTERM
+>  *** 0364:        tc.target.start(params=d.getVar("TEST_QEMUPARAMS"), runqemuparams=d.getVar("TEST_RUNQEMUPARAMS"))
+>      0365:        import threading
+>      0366:        try:
+>      0367:            threading.Timer(int(d.getVar("TEST_OVERALL_TIMEOUT")), handle_test_timeout, (int(d.getVar("TEST_OVERALL_TIMEOUT")),)).start()
+>      0368:        except ValueError:
+> File: '/home/builder/src/base/meta-arm/build/../poky/meta/lib/oeqa/core/target/qemu.py', lineno: 91, function: start
+>      0087:            except (subprocess.CalledProcessError, subprocess.TimeoutExpired, FileNotFoundError) as err:
+>      0088:                msg += "Error running command: %s\n%s\n" % (blcmd, err)
+>      0089:            msg += "\n\n===== end: snippet =====\n"
+>      0090:
+>  *** 0091:            raise RuntimeError("FAILED to start qemu - check the task log and the boot log %s" % (msg))
+>      0092:
+>      0093:    def stop(self):
+>      0094:        self.runner.stop()
+> Exception: RuntimeError: FAILED to start qemu - check the task log and the boot log 
+> 
+> ===== start: snippet =====
+> 
+> 
+> 
+> ===== end: snippet =====
+> 
+> ===== start: snippet =====
+> 
+> Error running command: ['tail', '-20', '/home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/testimage/qemu_boot_log.20241119111231']
+> Command '['tail', '-20', '/home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/testimage/qemu_boot_l
+> og.20241119111231']' returned non-zero exit status 1.
+> ...
+> ERROR: Logfile of failure stored in: /home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/temp/log.do_testimage.3000568
+> NOTE: recipe core-image-base-1.0-r0: task do_testimage: Failed
+> ERROR: Task (/home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage) failed with exit code '1'
+> NOTE: Tasks Summary: Attempted 7024 tasks of which 7000 didn't need to be rerun and 1 failed.
+> 
+> Summary: 1 task failed:
+>   /home/builder/src/base/meta-arm/build/../poky/meta/recipes-core/images/core-image-base.bb:do_testimage
+>     log: /home/builder/src/base/meta-arm/build/tmp/work/qemuarm64_secureboot-poky-linux/core-image-base/1.0/temp/log.do_testimage.3000568
+> Summary: There were 5 WARNING messages.
+> Summary: There was 1 ERROR message, returning a non-zero exit code.
+> + wic ls tmp/deploy/images/qemuarm64-secureboot/core-image-base-qemuarm64-secureboot.rootfs.wic:2/
+> debugfs 1.47.0 (5-Feb-2023)
+>       2   40755 (2)      0      0    1024  5-Apr-2011 23:00 .
+>       2   40755 (2)      0      0    1024  5-Apr-2011 23:00 ..
+>      11   40700 (2)      0      0   12288  5-Apr-2011 23:00 lost+found
+> + pstree -upln
+> + grep -i cooker
+>            |-Cooker(2973143,builder)-+-{Cooker}(2973147)
+>            |                         `-Cooker(2973155)
+> 
+> 
+> So testimage.bbclass and test run failures leak Cooker processes which then somehow corrupts
+> .wic image so that main rootfs is created from an empty directory. I will dig into the
+> Cooker leakage which seems to be the starting point.
 
-Testing Summary for rust_1.80.1
+I can work around this issue with "killall -9 Cooker" between "bitbake core-image-base"
+calls.
 
-Target       pass       skipped
-x86_64       18254         434
-x86          18084         604
-ARM64        18111         577
-ARM          18067         621
-ppc          18035         653
+Or the issue is resolved by changing testimage.bbclass failure reporting
+from bb.fatal() to bb.error():
 
-Signed-off-by: Sunil Dora <SunilKumar.Dora@windriver.com>
----
- meta/recipes-devtools/rust/{cargo_1.80.0.bb => cargo_1.80.1.bb} | 0
- .../rust/{libstd-rs_1.80.0.bb => libstd-rs_1.80.1.bb}           | 0
- ...t-cross-canadian_1.80.0.bb => rust-cross-canadian_1.80.1.bb} | 0
- .../rust/{rust-llvm_1.80.0.bb => rust-llvm_1.80.1.bb}           | 0
- meta/recipes-devtools/rust/rust-source.inc                      | 2 +-
- meta/recipes-devtools/rust/{rust_1.80.0.bb => rust_1.80.1.bb}   | 0
- 6 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/rust/{cargo_1.80.0.bb => cargo_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{libstd-rs_1.80.0.bb => libstd-rs_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-cross-canadian_1.80.0.bb => rust-cross-canadian_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{rust-llvm_1.80.0.bb => rust-llvm_1.80.1.bb} (100%)
- rename meta/recipes-devtools/rust/{rust_1.80.0.bb => rust_1.80.1.bb} (100%)
-
-diff --git a/meta/recipes-devtools/rust/cargo_1.80.0.bb b/meta/recipes-devtools/rust/cargo_1.80.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/cargo_1.80.0.bb
-rename to meta/recipes-devtools/rust/cargo_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/libstd-rs_1.80.0.bb b/meta/recipes-devtools/rust/libstd-rs_1.80.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/libstd-rs_1.80.0.bb
-rename to meta/recipes-devtools/rust/libstd-rs_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.80.0.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.80.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust-cross-canadian_1.80.0.bb
-rename to meta/recipes-devtools/rust/rust-cross-canadian_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/rust-llvm_1.80.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.80.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust-llvm_1.80.0.bb
-rename to meta/recipes-devtools/rust/rust-llvm_1.80.1.bb
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
-index 0cd329fb49..c39c954c49 100644
---- a/meta/recipes-devtools/rust/rust-source.inc
-+++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -11,7 +11,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
-             file://repro-issue-fix-with-cc-crate-hashmap.patch;patchdir=${RUSTSRC} \
-             file://oeqa-selftest-Increase-timeout-in-process-sigpipe-ru.patch;patchdir=${RUSTSRC} \
- "
--SRC_URI[rust.sha256sum] = "0b9ca1e2e45b8a5f0b58db140af0dc92f8311faeb0ad883c5b71a72c02dc6e80"
-+SRC_URI[rust.sha256sum] = "6ab79b70dc57737a1de378f212fcf8852d67fe6cf272d122a15b3ea13be77947"
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -399,9 +399,9 @@ def testimage_main(d):
+     os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
  
- RUSTSRC = "${WORKDIR}/rustc-${RUST_VERSION}-src"
+     if not results or not complete:
+-        bb.fatal('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
++        bb.error('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+     if not results.wasSuccessful():
+-        bb.fatal('%s - FAILED - also check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
++        bb.error('%s - FAILED - also check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
  
-diff --git a/meta/recipes-devtools/rust/rust_1.80.0.bb b/meta/recipes-devtools/rust/rust_1.80.1.bb
-similarity index 100%
-rename from meta/recipes-devtools/rust/rust_1.80.0.bb
-rename to meta/recipes-devtools/rust/rust_1.80.1.bb
--- 
-2.43.0
+ def get_runtime_paths(d):
+     """
 
+I presume bb.fatal() exists right away without cleanup and bb.error() does some cleanup
+which stores the .wic image build state correctly. Or is there some other explanation
+why these workarounds/fixes work?
+
+bb.fatal() is used in a number of cases to exit right away. That should not break things
+for future bitbake calls though.
+
+Cheers,
+
+-Mikko
 
