@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 808DBD63954
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70705D6394D
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:57:44 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.13845.1732111056983256422
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.13948.1732111064143486113
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:37 -0800
+ Wed, 20 Nov 2024 05:57:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=htAmb7wE;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-20c803787abso7434835ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:36 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=w/AX2JSH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21207f0d949so41548525ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111056; x=1732715856; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111063; x=1732715863; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=C/9ISed6Dq7PhB8BCgyZJZMIPGaOQcl7C3628B3wTcg=;
-        b=htAmb7wESQptlbjlZloyc/keAMoC5WIZNvMPTKAdCcGOMpl4x9z6N3025zV1ww5BVM
-         4w9EpWCxZzH19Bn0CJRPlBp0gOmLyjK7uis6vQrIAETXK5ieXUDfhmceM4V0IuX+wzzq
-         HjSNL02m5ASVNRTPmD0RF1dNiXI2j1cNvkoIrdA7Vrtm9ov4bkSI71ZxGDSoKLBMS/j0
-         j9lXXE/lgTMOuWQtl0EwPh09qIIwA2s9/RoUaarxVFdawuMGEkx6NUPIFfEd3dhF9tTA
-         HWtpzGs9LOc607e41TJARc/k412NEbEMIupcPLrGNxT5XLw3F6I8rT6LRHZSoP8bbtmA
-         fUwg==
+        bh=pLmVny/5IVPMXeFYM2mKqbvCDgKKZ8u5FlWGG2z2VKQ=;
+        b=w/AX2JSHLdY7nNS9u7IaiYKxnoi+hf81Lo0n/H3lfkij2kF+3RQnDmoI5ytiShE3lN
+         95cbXXwrTYr9kV4KGWAOBpWoBX40R5oHAbEXoHlP8JhrFfIs5y28zm1Gv93/nyvicCPk
+         9AwnYYC3ZFBEpA1zBUSKSN7bqdnkfPrmed33MC/KfTgRhYatvxd2xudf6bPWRdVHPXDe
+         yOW2TOgXz4rRdVEVIas5boMS7Jc6YE+tVwYF1z9xR6VQQNFWFD0r+wdRn6DFMLyEpmR1
+         FS0vlOah8gX/IdJ19cSkvmu0K048BgQtJoK0CpjIEyLMG/nBQaKPm9O2m+sCDwlrHzRT
+         nOBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111056; x=1732715856;
+        d=1e100.net; s=20230601; t=1732111063; x=1732715863;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=C/9ISed6Dq7PhB8BCgyZJZMIPGaOQcl7C3628B3wTcg=;
-        b=Gdeh6JghAT+UCaDhSWLIWKSSlZv/k/J8Ebk4DcAW/KwuXfcKc7eale/Gdwh4/db9ts
-         1VVstIwnGbGONZHYTw/tHucwrlJ5J1Ti8LPSDYmg4RT7RvK6u7Wrg78J0BbzwmGW+pc8
-         quNsXEivT89nZEZT4wQh6l+3I+7at+5C/2OvrBsjLBo0sitKxIB0IJ7189pgt0AmlFu4
-         9/A8liQOrQ7uGwKcZjdW8ejWbzqhIvXxaKpA9YldMh2e3/OzBxdFkJyEdKD1arpiABk8
-         2T4kiQpHnHWDhkE569xV4dgRtixQQOZbvuBP3CY6h1tokAsK85c06c8j9i0yF7vJ7AKl
-         EEOw==
-X-Gm-Message-State: AOJu0YxwsoDQmqVKiFlGpeTjI3WIAcDn6zW/IO4lhiBzvFDhseuMMJ98
-	zuoXE5Uzy+KRZJA9vruqxLApo8AHlo0dgT6NIkT8omR3sz6jbrwK8AHMTh+CLLbAg0FpHa9Ms6b
-	I
-X-Google-Smtp-Source: AGHT+IEZkVTZ8QHJYgbZhD2Zv4rBxTVhpm0b3SpjRjtOYlf4ikSxNar3SexsdPKx7/twvjYNcFotwg==
-X-Received: by 2002:a17:903:188:b0:205:5d71:561e with SMTP id d9443c01a7336-21269e8379amr49695225ad.26.1732111056279;
-        Wed, 20 Nov 2024 05:57:36 -0800 (PST)
+        bh=pLmVny/5IVPMXeFYM2mKqbvCDgKKZ8u5FlWGG2z2VKQ=;
+        b=J+EefwocqFPSdgkMLWXdIiXtUkgiSnxawlO7FuBza9vCvhTuXAxMN8wXF6Pj+xHo5h
+         FhKUvEf2dwg5nL56i4KCo7W5z3uUiG56MITu2mvBODtmCUgNN/N0VN1/0uOfxBChbpb0
+         5vG1V/zD24tCYBlSBUkHO1aavL4fuk46tggpOtM0Y0j0eLbx0PdQpFhEcOqzez+d2T9p
+         EqiIDoGA4PF/FJ7lwcrfh5Fsk7PhprH8qKJOXPqxmL73Rg8uSIEQvNfvZ+XhVScAHv4G
+         +fGEVlMdSVz60sQgw/ts7rqI0s87OlutunTJD127inyBmIujQKNPvHCl+0yphGIIaWuX
+         mHMQ==
+X-Gm-Message-State: AOJu0YzA79UybGENX+vebVbmnz2g69yDutfoEmfSV9kDfu+Epsv8RvJJ
+	m5bX3LKwZspV0Gf8uYx4/gxOS/+WSUt2Yya4/BU2H2rdviz4eMW3ixSLGcCuDcv8bO37KbNXp2K
+	F
+X-Google-Smtp-Source: AGHT+IHn3bqf7wg6JTb1dzkksd2THEtvNOONBLYTQXbm9fvGm890+gsCsHIGAXuL3CyGM/Rblt74AQ==
+X-Received: by 2002:a17:902:e951:b0:20e:5777:1b81 with SMTP id d9443c01a7336-2127045e494mr21414215ad.50.1732111063424;
+        Wed, 20 Nov 2024 05:57:43 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.35
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:35 -0800 (PST)
+        Wed, 20 Nov 2024 05:57:43 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 16/31] cml1.bbclass: do_diffconfig: Don't override .config with .config.orig
-Date: Wed, 20 Nov 2024 05:56:48 -0800
-Message-Id: <aacd87a4499102355fea4022ea4ff86cfc86f946.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 20/31] ovmf-native: remove .pyc files from install
+Date: Wed, 20 Nov 2024 05:56:52 -0800
+Message-Id: <abc32e9d07027cf84e43a0602c3fcd02e3072274.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
 References: <cover.1732110892.git.steve@sakoman.com>
@@ -62,48 +62,62 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:57:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207440
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207444
 
-From: Robert Yang <liezhi.yang@windriver.com>
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
 
-Fixed:
-1) $ bitbake virtual/kernel -cmenuconfig
-Do some changes and save the new config to default .config.
-2) $ bitbake virtual/kernel -cdiffconfig
-The config fragment is dumped into ${WORKDIR}/fragment.cfg.
+They break builds which share sstate files on different
+machines and paths:
 
-But the .config which was saved by step #1 is overridden by .config.orig, so
-the changes will be lost if run 'bitbake virtual/kernel'
+ERROR: ovmf-edk2-stable202408-r0 do_prepare_recipe_sysroot: Error executing a python function in exec_func_python() autogenerated:
 
-And the following comment is for subprocess.call(), not for shutil.copy(),
-so move subprocess.call() to the correct location.
-    # No need to check the exit code as we know it's going to be
-    # non-zero, but that's what we expect.
+The stack trace of python calls that resulted in this exception/failure was:
+File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
+     0001:
+ *** 0002:extend_recipe_sysroot(d)
+     0003:
+File: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/classes-global/staging.bbclass', lineno: 624, function: extend_recipe_sysroot
+     0620:
+     0621:    # Handle deferred binfiles
+     0622:    for l in binfiles:
+     0623:        (targetdir, dest) = binfiles[l]
+ *** 0624:        staging_copyfile(l, targetdir, dest, postinsts, seendirs)
+     0625:
+     0626:    bb.note("Installed into sysroot: %s" % str(msg_adding))
+     0627:    bb.note("Skipping as already exists in sysroot: %s" % str(msg_exists))
+     0628:
+File: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/meta/classes-global/staging.bbclass', lineno: 165, function: staging_copyfile
+     0161:        os.symlink(linkto, dest)
+     0162:        #bb.warn(c)
+     0163:    else:
+     0164:        try:
+ *** 0165:            os.link(c, dest)
+     0166:        except OSError as err:
+     0167:            if err.errno == errno.EXDEV:
+     0168:                bb.utils.copyfile(c, dest)
+     0169:            else:
+Exception: FileExistsError: [Errno 17] File exists: '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-667282/tmp/sysroots-components/x86_64/ovmf-native/usr/bin/edk2_basetools/BaseTools/Source/Python/AutoGen/__pycache__/WorkspaceAutoGen.cpython-312.pyc' -> '/srv/pokybuild/yocto-worker/oe-selftest-fedora/build/build-st-667282/tmp/work/core2-64-poky-linux/ovmf/edk2-stable202408/recipe-sysroot-native/usr/bin/edk2_basetools/BaseTools/Source/Python/AutoGen/__pycache__/WorkspaceAutoGen.cpython-312.pyc'
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
+Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6cccf6b02f92dad514e65fd779ff659b19eb6be7)
+(cherry picked from commit facd9e17fa53e2fb3a828b3f179cfb659be75d37)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/cml1.bbclass | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ meta/recipes-core/ovmf/ovmf_git.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes-recipe/cml1.bbclass b/meta/classes-recipe/cml1.bbclass
-index 8c207daec4..0bf171a668 100644
---- a/meta/classes-recipe/cml1.bbclass
-+++ b/meta/classes-recipe/cml1.bbclass
-@@ -93,10 +93,9 @@ python do_diffconfig() {
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index 085574c0cb..c86fc72d3e 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -223,6 +223,7 @@ do_compile:class-target() {
  
-     if isdiff:
-         statement = 'diff --unchanged-line-format= --old-line-format= --new-line-format="%L" ' + configorig + ' ' + config + '>' + fragment
--        subprocess.call(statement, shell=True)
-         # No need to check the exit code as we know it's going to be
-         # non-zero, but that's what we expect.
--        shutil.copy(configorig, config)
-+        subprocess.call(statement, shell=True)
+ do_install:class-native() {
+     install -d ${D}/${bindir}/edk2_basetools
++    find ${S}/BaseTools -name \*.pyc -exec rm -rf \{\} \;
+     cp -r ${S}/BaseTools ${D}/${bindir}/${EDK_TOOLS_DIR}
+ }
  
-         bb.plain("Config fragment has been dumped into:\n %s" % fragment)
-     else:
 -- 
 2.34.1
 
