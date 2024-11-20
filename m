@@ -2,57 +2,61 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15A0FD743D7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14123D743D6
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 20:31:17 +0000 (UTC)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com [209.85.222.43])
- by mx.groups.io with SMTP id smtpd.web10.25333.1732134672324872112
+Received: from mail-oo1-f48.google.com (mail-oo1-f48.google.com [209.85.161.48])
+ by mx.groups.io with SMTP id smtpd.web11.25339.1732134675377519037
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 12:31:12 -0800
+ Wed, 20 Nov 2024 12:31:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=NAa2uHc4;
- spf=pass (domain: gmail.com, ip: 209.85.222.43, mailfrom: hiagofranco@gmail.com)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-856e7bc5651so989570241.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 12:31:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RWmGFO3G;
+ spf=pass (domain: gmail.com, ip: 209.85.161.48, mailfrom: hiagofranco@gmail.com)
+Received: by mail-oo1-f48.google.com with SMTP id 006d021491bc7-5ebc27fdc30so107327eaf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 12:31:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732134671; x=1732739471; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732134674; x=1732739474; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=SbJ6YvcQTq+U/Y/197hgNmybRuAZOqK/wPm01RS0Vko=;
-        b=NAa2uHc4bDhejiIASldn99dv5j1fH7nYmy/iG8juyqYsjthOJRXFNoHa8QCPYEQ1HW
-         Bkcejpx3Y4zBnyOoZJ1orn9SsAknAO8Limlbr2IUG8AXk0WqEXzafLMqWG4UWjvi4Uig
-         hndQmr/Ev9YtIk6KkDAw4dd0t0miDAU6pv0FaMtQL95jOolVkS6oBE4rdqZwDSLBWhtA
-         JkFcNDJT56S1GqEgIwBPKgm6CI1aZO7n6aTASoR5z6KjzC819njk03rNFatBmBMNvTed
-         L9RDsXZ9OidOZmA4XiHwy0+f1Gy2p2RXnTCQk04vB0DljH2eTgQnXBZI0CA5P9altaAk
-         CF/g==
+        bh=4UTyyE8o36duOkmqk/oVhyAAIyc5smxp8jbvA2lQL2M=;
+        b=RWmGFO3Gbn464eK9R9QmShdC2VN38DJoNVX/6yllbgyIkchJY6FdMxVMsPJoAS6KA8
+         SHlh42ECAxkbSlSx+0SG8w3N/mC/v/xcIEffX85YeysG87qPqHZRZuKpqU/lAHWF1VWS
+         b6uBJ9TWRAedNAdZ1hOcN+Pj6f3qQVo/arq69tk2mKoSiMdnK1sxHIVblIoLSNVuCojT
+         O9VqzAb7ghusATp88KL3JZc9ozrrQWoniC03umlvQXHPaDfwcDSfeJmrcVh1lrkgpL3P
+         ge4ikj+E8jH6Sf9blX24mFdzUWbjHsQ2kWbECgQihWKlodjCoAlH8kJMyEokrv8JBlNf
+         /wvQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732134671; x=1732739471;
+        d=1e100.net; s=20230601; t=1732134674; x=1732739474;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SbJ6YvcQTq+U/Y/197hgNmybRuAZOqK/wPm01RS0Vko=;
-        b=wZAqCaulL8KrYC9G77woayGKGDQfPWniCBjfiJOEm2O6GgkeQtk/tmzFkCSMWcOilx
-         CzMu03SK9bA12rFr8Yhc2zTj/NgnD746EIGA0ntIkXolBpAvNF39c7VIgI7+yB433rCn
-         sWWSZhDAG7fWChrVIa1XYryMLxhkMa6Q5VzfQNHqStuS5dPYELwYCJw2A/K4FMhbZ2D0
-         9dVz5lCezj5L1L4KPspPn3SeHT8IQngf80pNRJKaoZrwtw4yhHeJWeEWiGg7eO9DRwvV
-         KNJOqIYwqU7RgnuKeTFBWABsT4lnVcvM7oIALv5GrpCl15ipOEG8htWtcp0xZHLWfHZS
-         nrpA==
-X-Gm-Message-State: AOJu0YyZx9aa3yyvB6JNB7uuHZ60iLmIHtvNzW/2HR+kkdscAixZ0JL6
-	875DF9x+cM8DVv8PcVbNJuMvscTLwve8fMKQgfnKm7HRr8u3XX1Ztutqrg==
-X-Google-Smtp-Source: AGHT+IGJh9zGL+jr/68BMKNSUMYYf+HzcB1D350udsgwG4h034nCsRBvYzZdhj3gvqqD+Av42CmPCA==
-X-Received: by 2002:a05:6102:1627:b0:4ad:5ca0:e28e with SMTP id ada2fe7eead31-4adbfcc9764mr1522682137.4.1732134671044;
-        Wed, 20 Nov 2024 12:31:11 -0800 (PST)
+        bh=4UTyyE8o36duOkmqk/oVhyAAIyc5smxp8jbvA2lQL2M=;
+        b=QH9pJ1z3Xt3mNHWpJgp5qx/h++StaO87mFtYuKwMIs8JzpP/y9hZFoOmKkV/Rafmpj
+         fAjfaSyK836HADGb8t8kJKR27+2Lro7oDF8s1mmnOqL7EKSXHVc4A8T/+wLHyZrqHxOG
+         SDy7tXWTV6HpT9u5JDyOy13KN1o/35IcUF7RLnYSn/xExggSlP0DWFbRwRQaI2iKTtIL
+         ehNrYgpeAluxoWkwgosu9WOlK0crDS6juMUn5P4PP4Am1JqdBv30sV6rM5sZyTfs2LwL
+         aROoVOKBIL3UhQKkqwsbG5wHYYrTwbtZdlb1I/DAjmYyyAPrmZFbikdAAS36YWGRI4UN
+         mTmw==
+X-Gm-Message-State: AOJu0YzhPpWSrvnsBHx134KC57jYSjBX8nkk78No54GukwnkNxJXQAVJ
+	H8TBnbrMlIYPEaqCrzNX/ATN3sKvqP2n97ypnszknMjceuWJnfGLXBHYYQ==
+X-Gm-Gg: ASbGncvhhT43LW3TXEPI5EaSCXuJm0to2YjYuT4G8J81IJbT4vvmpBnhAokzmDYAmlH
+	AXaeLlHK7Nzo2MXMrktGFp+PqsbqRx5WU+J2SfD+dItLVafJLhYBPeJnY+MqTW5FQ06EUk/TBys
+	UFT0li3jaV1XILqopUnYarimWsaRiPLOKjUrmjKHz6DeN+e15kvBE4OquE2KJ9+XSEWxBWd+uR+
+	atLoK4YBS7zShuJsTC7eooFQs2HzqcbskJP6I9z2983VLC3kWQ=
+X-Google-Smtp-Source: AGHT+IG9jX7Al2/Kw9qxftNzGVI/RpH77YwH7Dy6vs7OKKf1rq6rLfONqFoZhscbmlZAZnHAo3Telw==
+X-Received: by 2002:a05:6358:9791:b0:1c3:7ff6:4a88 with SMTP id e5c5f4694b2df-1ca664e13ecmr315954055d.25.1732134673925;
+        Wed, 20 Nov 2024 12:31:13 -0800 (PST)
 Received: from hiagof-nb.. ([146.70.98.136])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-856dfe039f8sm1746145241.33.2024.11.20.12.31.08
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-856dfe039f8sm1746145241.33.2024.11.20.12.31.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 12:31:10 -0800 (PST)
+        Wed, 20 Nov 2024 12:31:13 -0800 (PST)
 From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Denys Dmytriyenko <denis@denix.org>,
 	Hiago De Franco <hiago.franco@toradex.com>
-Subject: [PATCH 1/2] libdisplay-info: add recipe
-Date: Wed, 20 Nov 2024 17:30:04 -0300
-Message-Id: <20241120203005.1802141-2-hiagofranco@gmail.com>
+Subject: [PATCH 2/2] weston: upgrade 13.0.3 -> 14.0.1
+Date: Wed, 20 Nov 2024 17:30:05 -0300
+Message-Id: <20241120203005.1802141-3-hiagofranco@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241120203005.1802141-1-hiagofranco@gmail.com>
 References: <20241120203005.1802141-1-hiagofranco@gmail.com>
@@ -62,65 +66,156 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 20:31:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207482
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207483
 
 From: Hiago De Franco <hiago.franco@toradex.com>
 
-libdisplay-info is a EDID and DisplayID library. Goals:
+Key changes are:
 
-- Provide a set of high-level, easy-to-use, opinionated functions as
-  well as low-level functions to access detailed information.
-- Simplicity and correctness over performance and resource usage.
-- Well-tested and fuzzed.
-
-Since commit a16598b038b2 ("backend-drm: make libdisplay-info
-mandatory") from Weston, this library is now mandatory in order to
-build weston 14.0.1 and newer.
-
-This recipe depends on hwdata-native, which support has been submitted to
-meta-openembedded layer at [1].
-
-Therefore, add this recipe.
-
-[1] https://lore.kernel.org/all/20241120160005.8473-1-hiagofranco@gmail.com/
+- Patches have been removed since they were merged upstream and are no
+  longer needed on 14.0.1.
+- Since commit a16598b038b2 ("backend-drm: make libdisplay-info
+  mandatory") from Weston, libdisplay-info is now a build dependency.
+- Since commit f271dd34b617 ("compositor: delete cms-static and
+  cms-colord plugins") from Weston, "deprecated-color-management-colord" have been
+  removed, therefore remove the "colord" PACKAGECONFIG.
 
 Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
 ---
- meta/conf/distro/include/maintainers.inc             |  1 +
- .../libdisplay-info/libdisplay-info_0.2.0.bb         | 12 ++++++++++++
- 2 files changed, 13 insertions(+)
- create mode 100644 meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
+ ...Include-libgen.h-for-basename-signat.patch | 45 -------------------
+ ...1-vnc-Allow-neatvnc-in-version-0.8.0.patch | 27 -----------
+ .../{weston_13.0.3.bb => weston_14.0.1.bb}    |  8 +---
+ 3 files changed, 2 insertions(+), 78 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch
+ rename meta/recipes-graphics/wayland/{weston_13.0.3.bb => weston_14.0.1.bb} (94%)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index d61b88f7de6c..81989506e19c 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -324,6 +324,7 @@ RECIPE_MAINTAINER:pn-libcomps = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libconvert-asn1-perl = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-libdaemon = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libdazzle = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER:pn-libdisplay-info = "Hiago De Franco <hiago.franco@toradex.com>"
- RECIPE_MAINTAINER:pn-libdnf = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER:pn-libedit = "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb b/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-new file mode 100644
-index 000000000000..b98d2e4452a8
---- /dev/null
-+++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-@@ -0,0 +1,12 @@
-+SUMMARY = "EDID and DisplayID library."
-+HOMEPAGE = "https://gitlab.freedesktop.org/emersion/libdisplay-info"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=e4426409957080ee0352128354cea2de"
-+DEPENDS = "hwdata-native"
-+
-+SRC_URI = "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https"
-+SRCREV = "66b802d05b374cd8f388dc6ad1e7ae4f08cb3300"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit meson pkgconfig
+diff --git a/meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch b/meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
+deleted file mode 100644
+index 2a833ee973c6..000000000000
+--- a/meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
++++ /dev/null
+@@ -1,45 +0,0 @@
+-From 1a2a87013eb6af8e5267ecaf61e17b65a31dc662 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Thu, 14 Dec 2023 09:13:54 -0800
+-Subject: [PATCH] libweston,tools: Include libgen.h for basename signature
+-
+-Latest musl has removed the declaration from string.h [1] as it only
+-implements POSIX version alone and string.h in glibc implements GNU
+-version of basename. This now results in compile errors on musl.
+-
+-This might be a warning with older compilers but it is error with
+-Clang-17+ as it treats -Wimplicit-function-declaration as error
+-
+-[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/wayland/weston/-/merge_requests/1420]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- libweston/backend-drm/libbacklight.c | 1 +
+- tools/zunitc/src/zunitc_impl.c       | 1 +
+- 2 files changed, 2 insertions(+)
+-
+-diff --git a/libweston/backend-drm/libbacklight.c b/libweston/backend-drm/libbacklight.c
+-index ca7f2d6..74690fa 100644
+---- a/libweston/backend-drm/libbacklight.c
+-+++ b/libweston/backend-drm/libbacklight.c
+-@@ -41,6 +41,7 @@
+- #include <drm.h>
+- #include <fcntl.h>
+- #include <malloc.h>
+-+#include <libgen.h>
+- #include <string.h>
+- #include <errno.h>
+- 
+-diff --git a/tools/zunitc/src/zunitc_impl.c b/tools/zunitc/src/zunitc_impl.c
+-index 18f0301..9b460fa 100644
+---- a/tools/zunitc/src/zunitc_impl.c
+-+++ b/tools/zunitc/src/zunitc_impl.c
+-@@ -27,6 +27,7 @@
+- 
+- #include <errno.h>
+- #include <fcntl.h>
+-+#include <libgen.h>
+- #include <stdarg.h>
+- #include <stdbool.h>
+- #include <stdio.h>
+diff --git a/meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch b/meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch
+deleted file mode 100644
+index 4ac1c075fdce..000000000000
+--- a/meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch
++++ /dev/null
+@@ -1,27 +0,0 @@
+-From 534cfa08ea0a0c2646b4aec20b16bf95f6d0aae6 Mon Sep 17 00:00:00 2001
+-From: Lukasz Czechowski <lukasz.czechowski@thaumatec.com>
+-Date: Mon, 3 Jun 2024 13:39:27 +0200
+-Subject: [PATCH] vnc: Allow neatvnc in version 0.8.0
+-
+-Neat VNC 0.8.0 does not introduce any changes that breaks API used
+-by VNC backend, so it is safe to extend compatibility.
+-
+-Upstream-Status: Backport [05e5405651054c580b248c4ab2791ed8d66369e3]
+-Signed-off-by: Lukasz Czechowski <lukasz.czechowski@thaumatec.com>
+----
+- libweston/backend-vnc/meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/libweston/backend-vnc/meson.build b/libweston/backend-vnc/meson.build
+-index b7b6916..39b15cf 100644
+---- a/libweston/backend-vnc/meson.build
+-+++ b/libweston/backend-vnc/meson.build
+-@@ -3,7 +3,7 @@ if not get_option('backend-vnc')
+- endif
+- 
+- config_h.set('BUILD_VNC_COMPOSITOR', '1')
+--dep_neatvnc = dependency('neatvnc', version: ['>= 0.7.0', '< 0.8.0'], required: false, fallback: ['neatvnc', 'neatvnc_dep'])
+-+dep_neatvnc = dependency('neatvnc', version: ['>= 0.7.0', '< 0.9.0'], required: false, fallback: ['neatvnc', 'neatvnc_dep'])
+- if not dep_neatvnc.found()
+- 	error('VNC backend requires neatvnc which was not found. Or, you can use \'-Dbackend-vnc=false\'.')
+- endif
+diff --git a/meta/recipes-graphics/wayland/weston_13.0.3.bb b/meta/recipes-graphics/wayland/weston_14.0.1.bb
+similarity index 94%
+rename from meta/recipes-graphics/wayland/weston_13.0.3.bb
+rename to meta/recipes-graphics/wayland/weston_14.0.1.bb
+index 471dc52bb361..50749d7d153c 100644
+--- a/meta/recipes-graphics/wayland/weston_13.0.3.bb
++++ b/meta/recipes-graphics/wayland/weston_14.0.1.bb
+@@ -7,15 +7,13 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d79ee9e66bb0f95d3386a7acae780b70 \
+                     "
+ 
+ SRC_URI = "https://gitlab.freedesktop.org/wayland/weston/-/releases/${PV}/downloads/${BPN}-${PV}.tar.xz \
+-           file://0001-libweston-tools-Include-libgen.h-for-basename-signat.patch \
+-           file://0001-vnc-Allow-neatvnc-in-version-0.8.0.patch \
+            file://weston.png \
+            file://weston.desktop \
+            file://xwayland.weston-start \
+            file://systemd-notify.weston-start \
+            "
+ 
+-SRC_URI[sha256sum] = "27f68d96e3b97d98daadef13a202356524924fa381418fa6716b9136ef099093"
++SRC_URI[sha256sum] = "a8150505b126a59df781fe8c30c8e6f87da7013e179039eb844a5bbbcc7c79b3"
+ 
+ UPSTREAM_CHECK_URI = "https://gitlab.freedesktop.org/wayland/weston/-/tags"
+ UPSTREAM_CHECK_REGEX = "releases/(?P<pver>\d+\.\d+\.(?!9\d+)\d+)"
+@@ -27,7 +25,7 @@ inherit meson pkgconfig useradd
+ require ${THISDIR}/required-distro-features.inc
+ 
+ DEPENDS = "libxkbcommon gdk-pixbuf pixman cairo glib-2.0"
+-DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native"
++DEPENDS += "wayland wayland-protocols libinput virtual/egl pango wayland-native libdisplay-info"
+ 
+ LDFLAGS += "${@bb.utils.contains('DISTRO_FEATURES', 'lto', '-Wl,-z,undefs', '', d)}"
+ 
+@@ -75,8 +73,6 @@ PACKAGECONFIG[webp] = "-Dimage-webp=true,-Dimage-webp=false,libwebp"
+ PACKAGECONFIG[systemd] = "-Dsystemd=true,-Dsystemd=false,systemd dbus"
+ # Weston with Xwayland support (requires X11 and Wayland)
+ PACKAGECONFIG[xwayland] = "-Dxwayland=true,-Dxwayland=false,libxcb libxcursor xcb-util-cursor xwayland"
+-# colord CMS support
+-PACKAGECONFIG[colord] = "-Ddeprecated-color-management-colord=true,-Ddeprecated-color-management-colord=false,colord"
+ # Clients support
+ PACKAGECONFIG[clients] = "-Dsimple-clients=${SIMPLECLIENTS} -Ddemo-clients=true,-Dsimple-clients= -Ddemo-clients=false"
+ # Virtual remote output with GStreamer on DRM backend
 -- 
 2.39.5
 
