@@ -2,56 +2,56 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB026D711BA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A8F7CD711B8
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 15:32:15 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web10.16427.1732116733009951720
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.16426.1732116732076691172
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 07:32:13 -0800
+ Wed, 20 Nov 2024 07:32:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GDO6afeK;
- spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43161c0068bso39986365e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 07:32:12 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cJTa0PwF;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43152b79d25so47992415e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 07:32:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732116731; x=1732721531; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732116730; x=1732721530; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=UlFGTqXQh9bgom3yErdpm3YOj6XEEiYrwqPDE/KW7w4=;
-        b=GDO6afeKOkhvAH6KhAxMwoBepsm47cABdX11PF0RNa4EprBNkOYZ4CELEAATQtapF4
-         2Va8xwLw0dISgxjUqkKwah3tzUpVSAcBz7n469kPUVleP8XJyykJu+ZpCHRul/Ee1k28
-         OoOFOau6KmJ6tO/cpiTxfNMIyCmEvas9ABNbrvOFsxZSD0+bfSok7RQlsNw56SUcKs1C
-         CUTSufHmi8/y6mzqbQ2UjamLaAQxH79GIqLnz84lTGHYqqfiLYbmDKmNaolVo3kDFNbY
-         gOZ2JQ4UM/++mcvfUdTSckIVnOUIDBDKtKN0HaZaxiF+skOSx8BZWahUNbBz2wABhht0
-         RUCg==
+        bh=Y+gdm9Ihcl1EuKlMchYJBAJx6W0hx3xxuUD2FPetQok=;
+        b=cJTa0PwFGFlOc83PuV7P5O1xLmn5JRH2Jmwnhj2V3nKI9DDnht37JsfsIuHTciL8ne
+         oP1bSYCfmoMv3XE3S6kxC8XneuUIGlAYndgw5rDF+xqOucLIDhIceRzt08R/I6vhcvD+
+         aAMNmHLSxoNtK+wiDL8YfquR2vj72vDRGzl7yL8qOn2oR+dtc25cubBfVXqsEvg6/QGV
+         NfL+NBoseeWhLrkwP/VYxi2X/dqXdbbtiTVNc1FLezPOoTWJnhbvi+Ms7hVsPUPFoZ5U
+         vO1xS1lE2sdjBXkZeylC3Hxpj9Fs33lakM8GmnqnFGPmFyefU/QLfKWPx89CjrCVeUME
+         5qgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732116731; x=1732721531;
+        d=1e100.net; s=20230601; t=1732116730; x=1732721530;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UlFGTqXQh9bgom3yErdpm3YOj6XEEiYrwqPDE/KW7w4=;
-        b=RugqDw9xUfTDbWdnETy0hKYKGyWB7BiJzCnF+g1CKdgk1VXjzjhrvFcSoE1bPFvqM3
-         FZhm4lpJ9a+oo7h0xO5QW7jE+tHrsY8QXW7LU8OdPfzESByEvShFj28he3rVNK//nHgf
-         Gd268DhkhyZDNFaNQ0UThtXde2/xzgdoBF+ntZQUbLyjigXhlLuAlq4gDKjDI69dx0Qk
-         L420PhPDN9B2xsikZ3d2GvktL9jW5GyNxpgGYkDdBID9q0n3nZkmEn0racKwrT6sYL5O
-         N4m5eO1udbHiXpHWPlTgTtfxHSb5Qq8VjpenkqRqGNsYgmma04VDww2mlRJU9sPcwni/
-         Zj2A==
-X-Gm-Message-State: AOJu0Yw9oCy0SFVE5Q7vc0o9qhMc/2kDrjc2ALLUOO4ZnFCE7yLdTor/
-	vOL0aSrQtD5tF92yVtwM5jRjm3RBsS+ZxY06Cw9r+TiY377l/Q6DWg8O/w==
-X-Google-Smtp-Source: AGHT+IEk+xyy0Jxpj3e/vxt4KdloL05uppMbLhSyhmAJxP9E6sxN/GO1wPJTcH41/gARPnAmbsw9hw==
-X-Received: by 2002:a05:6000:471a:b0:382:49a5:2229 with SMTP id ffacd0b85a97d-38254b0e3a9mr2708405f8f.39.1732116731169;
-        Wed, 20 Nov 2024 07:32:11 -0800 (PST)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825490522csm2363349f8f.17.2024.11.20.07.32.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        bh=Y+gdm9Ihcl1EuKlMchYJBAJx6W0hx3xxuUD2FPetQok=;
+        b=QkYeMBmi+0Mbxzgtz1biFxl7nqOyELEdRUA+ocTMay0NbrfL7/Qe5ljpIoU33y3YBG
+         QHdahGMdZ9TGjs8vxZSrQzes6TcVvfqHKxBVh91gkYjc1reEYjZcA6s3NZbhXQRK10dE
+         6R4AgXs4oJKOoQK1O+6V3nz0eQjo+wjnfr+O1t7SzOWF/o6xgMiKyblLQ9DhGgotm15I
+         1UA2Up4BhtxNgeX+Xcbz2Wb0UcfSfMe7ZtGJEeZNz0SuRxB4nVkX9BIDK/nD6vxNfwHX
+         lsNa9f9lwMTyCGJcX/wNZKFgadd/5pelBRYsia7HxNs8Vlb7ffM6KF7lzm7dAPs+B9Z2
+         vE2g==
+X-Gm-Message-State: AOJu0Yz1Yt7sDf4nJQnjHfOM+xTsE1J2ikVPFjDtqTqYbM80/Nb2Tml7
+	mNF9oLgNLy9t87rJjXnoTJM0K6u+6CLfp1bwQklF/47I43O48HjjSXqFqA==
+X-Google-Smtp-Source: AGHT+IFXHl0r0UyhOmoDDLhjeoj+56dkCEYgBCGkY+4W6T7WgEQAM4132f6m3QL8Q4gis4DWXXPfZA==
+X-Received: by 2002:a05:600c:310b:b0:431:55af:a22f with SMTP id 5b1f17b1804b1-433489b2b61mr28528035e9.13.1732116730390;
         Wed, 20 Nov 2024 07:32:10 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825490522csm2363349f8f.17.2024.11.20.07.32.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Nov 2024 07:32:09 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH v2 3/3] package_rpm: restrict rpm to 4 threads
-Date: Wed, 20 Nov 2024 16:32:05 +0100
-Message-Id: <20241120153205.2525735-3-alex.kanavin@gmail.com>
+Subject: [PATCH v2 2/3] package_rpm: use zstd's default compression level
+Date: Wed, 20 Nov 2024 16:32:04 +0100
+Message-Id: <20241120153205.2525735-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241120153205.2525735-1-alex.kanavin@gmail.com>
 References: <20241120153205.2525735-1-alex.kanavin@gmail.com>
@@ -61,70 +61,45 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 15:32:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207463
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207462
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-TL;DR version:
+zstd uses 3 by default (and ZSTD_COMPRESSION_LEVEL is set to that),
+while 19 is the highest and slowest.
 
-with this, and the previous compression level changes
-I am seeing drastic speedups in package_write_rpm completion times:
+It's not clear why 19 was picked to begin with, possibly
+I copy-pasted it from rpm's examples without thinking:
+https://git.yoctoproject.org/poky/commit/?h=master-next&id=4a4d5f78a6962dda5f63e9891825c80a8a87bf66
 
-webkitgtk goes from 78 seconds to 37 seconds
-glibc-locale goes from 399 seconds to 58 seconds (!)
+This brings significant speedups in rpm's compression step:
+for example compressing webkitgtk takes 11s instead of 36s.
 
-The long version:
+The rpm size increases from 175648k to 234860k. I think it's
+a worthy default tradeoff.
 
-rpm uses multithreading for two purposes:
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 
-- spawning compressors (which are nowadays themselves
-multi-threaded, so the feature is not as useful as it once
-was)
-- parallel file classification
-
-While the former behaves well on massively parallel CPUs
-(it was written and verified here :), the latter was then added
-by upstream and only benchmarked on their very old, slow laptop,
-apparently:
-https://github.com/rpm-software-management/rpm/commit/41f0e214f2266f02d6185ba11f797716de8125d4
-
-On anything more capable it starts showing pathologic behavior,
-presumably from spawning massive amount of very short-lived threads,
-and then having to synchronize them. For example classifying glibc-locale
-takes
-5m20s with 256 threads (default on my machine!)
-1m49s with 64 threads
-59s with 16 threads
-48s with 8 threads
-
-Even a more typical recipe like webkitgtk is affected:
-47s with 256 threads
-32s with 64 threads
-27s with 16 or 8 threads
-
-I have found that the optimal amount is actually four: this also
-means that only four compressors are running at a time, but
-as they're themselves using threads, and typical recipes are dominated
-by just two or three large packages, this does not affect overall
-completion time.
+zstd fixup
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes-global/package_rpm.bbclass | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-global/package_rpm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index fab8f568781..a3be823c9d8 100644
+index ddc4bf3a6a5..fab8f568781 100644
 --- a/meta/classes-global/package_rpm.bbclass
 +++ b/meta/classes-global/package_rpm.bbclass
-@@ -696,6 +696,7 @@ python do_package_rpm () {
-     cmd = cmd + " --define '_use_internal_dependency_generator 0'"
-     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
-     cmd = cmd + " --define '_build_id_links none'"
-+    cmd = cmd + " --define '_smp_ncpus_max 4'"
-     cmd = cmd + " --define '_source_payload %s'" % rpmbuild_compmode
-     cmd = cmd + " --define '_binary_payload %s'" % rpmbuild_compmode
-     cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
+@@ -10,7 +10,7 @@ IMAGE_PKGTYPE ?= "rpm"
+ 
+ RPM = "rpm"
+ RPMBUILD = "rpmbuild"
+-RPMBUILD_COMPMODE ?= "${@'w19T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))}"
++RPMBUILD_COMPMODE ?= "${@'w%dT%d.zstdio' % (int(d.getVar('ZSTD_COMPRESSION_LEVEL')), int(d.getVar('ZSTD_THREADS')))}"
+ 
+ PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+ 
 -- 
 2.39.5
 
