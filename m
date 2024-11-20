@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9CB1D6395B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B4019D6395F
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:58:04 +0000 (UTC)
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
- by mx.groups.io with SMTP id smtpd.web10.13962.1732111076999856143
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web11.13871.1732111078994911131
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:57 -0800
+ Wed, 20 Nov 2024 05:57:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yaPIAwMV;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7f3e30a43f1so3260410a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:56 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ktwFHhnw;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21269c8df64so10625095ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111076; x=1732715876; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111078; x=1732715878; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=wAqLJ9PPiCl4OjRb0eiyKur4QUBzqMP1Dz6OMIVFeTM=;
-        b=yaPIAwMVZ/dlQXohwGDmhBlJGHGbrt9KYXEuVD8yKSvNBI9KZUbCQVK1CYMqzYyfD0
-         jMQ+hYEHCraKC/OU6uejuC0C0mCVCpgjOjSJg+XR41GFwSGYJrETkeLYm8sjnlkWr61K
-         Qy/ZxYoTI44Ud2FefetST/gGQoxLjMtq4Klklrub97tZhGml8YnANtiOFCCulSgvMdgE
-         SPQboG4DBDqBQK23B5HV8o6BttCm4nIhaCb1ZNdGB0FLUXRbY9O9+l3kviojEsK/oEor
-         Dr9GfdcsWZbC7lnBq7EFLdaDP39chtQ/XBvz4crlQFK/YIRxMDp8/EeHjtFd9gsFC+8s
-         UgxA==
+        bh=r3kBA5DkGas62gUhUUtByt8cuvsHEqu2EMaLijKXcTc=;
+        b=ktwFHhnwhGocSNbEsfRzvzm0RZ2uphCWy43BjYaBKPr+f8PV/z6LJZ9H7b80aAgzTm
+         FGmkH8KuxMiBG/h1LKSo4g0dOfEvfyk1EHEX13dqX6oyoozlatJy9MOaOcz2Ph198eWE
+         Wx21xq4CKuUbxQeHtEW81yYtFx3HiEevxa+7YmdxkP7In3FgkK6z/KR5u8UwV4y3ACp3
+         qmiDHpvcbJY1zy18C/zCBtSpc1xUu8c20Y9gPai4+m74GakVKkMm3MlCa067lSYJaJUB
+         mtB11wZMBtwIHmanj+sNATlCkPPU3idKaysmD7AFDL4maPp9N5G7KmvHCdemTx+Gj+I5
+         AdXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111076; x=1732715876;
+        d=1e100.net; s=20230601; t=1732111078; x=1732715878;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=wAqLJ9PPiCl4OjRb0eiyKur4QUBzqMP1Dz6OMIVFeTM=;
-        b=nnqde6lzmsTbUVPOlUCf2ry4gkVIHmyWfFJbM17uAKiWN789oJgdSY4DhMfr6ag6Bs
-         O/RXzwSbInViU/gWK7Poqp47es5ctKkn2fWedoQZG+PNmbS5RjUqLgPcKgCgN0+ApOC+
-         bi++D92GrmxdHXoEYLn5JQNBa5G7e90wkLBRw855b3hFwjYSgzeCmPXGZakakHzpHgxH
-         HgLnmVgegy0ostq0dPgYplRnI7/HCHChplUgOyDkoBY85OCPNanz8EZOOeTiHubmo+qo
-         56KoC3tKvfRyFk66iTv0qjhex0pxnNmCJsOw4JqI85gq+eDG7ebWqaUzMECmJFtPPPar
-         v9gw==
-X-Gm-Message-State: AOJu0YxI6JIKYxRwpB3wrBPz0lBsqyOANPJ1GROiPV7JWxG7OHSibNoM
-	lCDSee1Dh0SUIZdQd6a2zMyVci8gykn/mDVECxhyqLTWtFrDbkDslZzRzVaiDbtm01cpOs3pIMm
-	M
-X-Google-Smtp-Source: AGHT+IEW4Alh7RxYr6oxHH057sKcq8en03sBF7icENLoY+VUDZlPIeOnJyrUBjJM5LC5jdVBMVSmrg==
-X-Received: by 2002:a05:6a20:4313:b0:1db:e9fc:a9b8 with SMTP id adf61e73a8af0-1ddafd5931cmr4080306637.33.1732111076210;
-        Wed, 20 Nov 2024 05:57:56 -0800 (PST)
+        bh=r3kBA5DkGas62gUhUUtByt8cuvsHEqu2EMaLijKXcTc=;
+        b=oGofbuozB283IeD8PE7Wb0AGmgPqzK2UgSay8D9o1Xs4E2Glb6QDIGyk4w2cag2co7
+         XiGiAKU0ZYj9uWAgw5AMvvo7eNYqfOx9VjdKUrUYnsIUxLl6VetEllJ8Pnj4FLRteNju
+         ttfxmqpCc9ixeAC5+y0jfPL42P/8wkcdcySi6+9hXsObAc2kashbtJMVLFnbtzGkb9Y8
+         8itUhk9VeWrrizHcCiI2LFGovybJR0+VrhVeR4M2ZTdVZurYfFhwMkm8SEtuBT4mSQ1D
+         SPthMOPHxpBjkquTWFSzFZM6Z7eMgHyRQ+iS57TiYPqT8vzchEJ7oL+AwN9PNhaAUxRR
+         LM5A==
+X-Gm-Message-State: AOJu0YzR3zMQjxfaCAr5s/xLY1OPNIqES21wj+SofN4cQ3CoGz84Gcj9
+	ClkFUd1vyHMYeFGQTfr/00A+42xM/x5ujrN/Zi5YjkMXmWJhSKUmVrsw7n8YcMf/k/9fvJeTxVg
+	k
+X-Google-Smtp-Source: AGHT+IFQNv/m8PsRZyUGA2gho9zLdfz/PExKgkZQYsPQtBFgwxPjBHx7IVZf4taxsgg3xCQ+MErWIQ==
+X-Received: by 2002:a17:903:298f:b0:20c:872f:6963 with SMTP id d9443c01a7336-2126a3bb2edmr32593835ad.33.1732111078153;
+        Wed, 20 Nov 2024 05:57:58 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.55
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:56 -0800 (PST)
+        Wed, 20 Nov 2024 05:57:57 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 27/31] python3-maturin: sort external libs in wheel files
-Date: Wed, 20 Nov 2024 05:56:59 -0800
-Message-Id: <6309ead6aa94510ca17d4f7716c62d0ed6b9aad9.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 28/31] udev-extraconf: fix network.sh script did not configure hotplugged interfaces
+Date: Wed, 20 Nov 2024 05:57:00 -0800
+Message-Id: <31d01b27a86f84e62b3cd9698786c894091c352f.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
 References: <cover.1732110892.git.steve@sakoman.com>
@@ -62,98 +62,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:58:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207451
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207452
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Regis Dargent <regis.dargent@gmail.com>
 
-Import a merged patch that sort external libs in the wheel file
-generated by maturin. That improve reproducibility.
+Udev script network.sh is called when a new ethernet interface is plugged (eg. USB).
+Due to some (old) missing files, this script does nothing, instead of configuring the
+interfaces with ifup.
+I just commented the corresponding lines to allow the script to reach the part where
+it calls ifup.
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-CC: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Regis Dargent <regis.dargent@gmail.com>
+
+Fixes [YOCTO 15616]
+
+network.sh relies on (long) missing files (eg. /etc/network/options,
+/etc/init.d/network) to decide if it should configure the new network
+interface (ifup) or put its name in /etc/udev_network_queue for future
+initialization by /etc/init.d/network service.
+The actual result was that the new hotplugged interface was never
+automatically configured.
+Removing the obsolete tests allows the script to do its intended job.
+
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 66da28f85727206c0e647efba93c1be028519fe5)
+(cherry picked from commit 160f7139172ffdf510a0d7d4e85f7fbaac7fd000)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...prove-wheel-reproducibility-by-sorti.patch | 55 +++++++++++++++++++
- .../python/python3-maturin_1.7.1.bb           |  1 +
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
+ .../udev/udev-extraconf/network.sh            | 32 -------------------
+ 1 file changed, 32 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch b/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
-new file mode 100644
-index 0000000000..83b586ff72
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
-@@ -0,0 +1,55 @@
-+From 49b985d7f5a4582bf9e2c58b6220124e2b7aa395 Mon Sep 17 00:00:00 2001
-+From: Yoann Congal <yoann.congal@smile.fr>
-+Date: Thu, 17 Oct 2024 22:17:20 +0200
-+Subject: [PATCH] build_context: improve wheel reproducibility by sorting libs
-+ (#2261)
-+
-+OE-core note: Upstream does not have a commit message for this. Bellow
-+is the message I've sent:
-+> While tracking a reproducibility issue from maturin's output, we found
-+> that the .so file in the output .whl were not ordered the same
-+> every time.
-+>
-+> Order of the external libraries in the .whl comes down to the order
-+> `soname_map` is iterated. But, `std::HashMap` does not provide a stable
-+> order and that create an unstable order in the wheel.
-+>
-+> Switch to `std::BTreeMap` which keeps keys sorted and is iterable
-+> in a stable order.
-+>
-+> This can be tested by building current python3-cryptography :
-+>   SOURCE_DATE_EPOCH=1728915855 maturin build
-+>
-+> Before this commit, the above give two possible outputs (~50% each), the
-+> difference is in the order of libssl and libcrypto.
-+>
-+> After this commit, the output is reproducible.
-+
-+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-+Upstream-Status: Backport [https://github.com/PyO3/maturin/commit/61d54809776e1ca79ff8cc92387d70796d50c16e]
-+---
-+ src/build_context.rs | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/build_context.rs b/src/build_context.rs
-+index 2e498537..6fbd25c1 100644
-+--- a/src/build_context.rs
-++++ b/src/build_context.rs
-+@@ -24,7 +24,7 @@ use normpath::PathExt;
-+ use pep508_rs::Requirement;
-+ use platform_info::*;
-+ use sha2::{Digest, Sha256};
-+-use std::collections::{HashMap, HashSet};
-++use std::collections::{BTreeMap, HashSet};
-+ use std::env;
-+ use std::fmt::{Display, Formatter};
-+ use std::io;
-+@@ -396,7 +396,7 @@ impl BuildContext {
-+         writer.add_directory(&libs_dir)?;
-+ 
-+         let temp_dir = tempfile::tempdir()?;
-+-        let mut soname_map = HashMap::new();
-++        let mut soname_map = BTreeMap::new();
-+         let mut libs_copied = HashSet::new();
-+         for lib in ext_libs.iter().flatten() {
-+             let lib_path = lib.realpath.clone().with_context(|| {
-diff --git a/meta/recipes-devtools/python/python3-maturin_1.7.1.bb b/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
-index b9279f5ab5..8837128896 100644
---- a/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
-+++ b/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
-@@ -12,6 +12,7 @@ SRC_URI:append = "\
-     file://0003-Extract-extension-ABI-name-resolvation-code-as-helpe.patch \
-     file://0004-Fix-cross-compilation-issue-with-linux-ppc-architect.patch \
-     file://0005-Fix-cross-compilation-issue-with-linux-mips64-archit.patch \
-+    file://0001-build_context-improve-wheel-reproducibility-by-sorti.patch \
- "
+diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/recipes-core/udev/udev-extraconf/network.sh
+index 3ee92714af..ace38808cd 100644
+--- a/meta/recipes-core/udev/udev-extraconf/network.sh
++++ b/meta/recipes-core/udev/udev-extraconf/network.sh
+@@ -6,38 +6,6 @@ echo "$INTERFACE" | grep -q wifi && exit 0
+ # udevd does clearenv(). Export shell PATH to children.
+ export PATH
  
- S = "${WORKDIR}/maturin-${PV}"
+-# Check if /etc/init.d/network has been run yet to see if we are 
+-# called by starting /etc/rcS.d/S03udev and not by hotplugging a device
+-#
+-# At this stage, network interfaces should not be brought up
+-# automatically because:
+-# a)	/etc/init.d/network has not been run yet (security issue)
+-# b) 	/var has not been populated yet so /etc/resolv,conf points to 
+-#	oblivion, making the network unusable
+-#
+-
+-spoofp="`grep ^spoofprotect /etc/network/options`"
+-if test -z "$spoofp"
+-then
+-	# This is the default from /etc/init.d/network
+-	spoofp_val=yes
+-else
+-	spoofp_val=${spoofp#spoofprotect=}
+-fi
+-
+-test "$spoofp_val" = yes && spoofp_val=1 || spoofp_val=0
+-
+-# I think it is safe to assume that "lo" will always be there ;)
+-if test "`cat /proc/sys/net/ipv4/conf/lo/rp_filter`" != "$spoofp_val" -a -n "$spoofp_val"
+-then
+-	echo "$INTERFACE" >> /dev/udev_network_queue	
+-	exit 0
+-fi
+-
+-#
+-# Code taken from pcmcia-cs:/etc/pcmcia/network
+-#
+-
+ # if this interface has an entry in /etc/network/interfaces, let ifupdown
+ # handle it
+ if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
 -- 
 2.34.1
 
