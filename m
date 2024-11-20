@@ -2,61 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33458D63947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33197D63943
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:57:24 +0000 (UTC)
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
- by mx.groups.io with SMTP id smtpd.web10.13937.1732111041723553129
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.web11.13829.1732111035916126553
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:21 -0800
+ Wed, 20 Nov 2024 05:57:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Bx3jHVy5;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-20c7ee8fe6bso20286515ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:21 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rhogiC/8;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-20e576dbc42so58917845ad.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111041; x=1732715841; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111035; x=1732715835; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iF1qL6cU+wL65+BWb0ap1CMsN2m4A+H8CHdy0cUwqnU=;
-        b=Bx3jHVy5mr7gj3wLsBOERYwmTKK6WwcwsnSg1DgNXW4jkRUYmWr6Ee3sP013q0/y6L
-         7LqzaSZA7cqroXPggTvhF3z3HR+MlwA73GVya1gyN9g5bsVpozzOnRr9PgAFQOdjzS9h
-         lKYojhWnoeqlnb93E+QtyoAdqLnyEFnK9P7Jh6XpFDwkYLPMhfx7F8f+XpAXwKRJM+Sn
-         0zfUXSrl/8XhNQItp9Ej32JKGgtyf4vJ8ZDLqHToWUrl/z5fXt6IffL3b0lVzYJlFC60
-         xVlWCBuPdUx1afAKfsYAgIiFwh7z9lwCyL7cFaRA7NMGdTog+rPbGXqwbkyLlqRpuldD
-         1F9A==
+        bh=vlLYLpdzGpl9yG9M/aQqTTpQdM2uEHM7JTTNx9AOiGc=;
+        b=rhogiC/8AyjOPy8Bopcv4Egy/wDnbSqWcPNXun4L8L6LZkEqQ/jBrKzdNjz8cX9C2u
+         RsMEefMLZVaBo/1bA54c4bpou4l/1fvqZpx4QTY9W8xV8ltPQmWaXeI8qAhw2uMmdMeF
+         zxjB+eV8/EZJzpjZdPUbaXhKXYbk7ezQPMJlTchBSqs1U6kluYw0n4liESbVx+FYV5ek
+         4TZCyf/JwYmx+fSZBtdOvZ5jkF4hbjpIAVR1i/XEK9cWSVtAgP18gKGWoCozzTYnEFdj
+         Ke0EgP8lw5UslyRyy+Av+K0urEHbfCxtOIAxX0QU7/CTUOHPBUgYEFua5pJxhUGdmJu5
+         H5NQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111041; x=1732715841;
+        d=1e100.net; s=20230601; t=1732111035; x=1732715835;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iF1qL6cU+wL65+BWb0ap1CMsN2m4A+H8CHdy0cUwqnU=;
-        b=CyDMMjGlqlrQB5PTyZ7L+mxRPd/l2wANI9o307L/sbixp7PObuPWLY7md8D3Tg2fmL
-         98v8hYnJuxgf3HydLKn+Sd22QTA6cBmX4S18NY6P97QudQiTfE0QTuvWQUhfT0AVMxFB
-         Fqkf/i6367AgJO+61LBkBeE2dskIwJ8fX8c0KAtoEnhQMrUEeFYWjzTGk3Px7TgxA1Su
-         +wIH7cwNDpkIDrB8lR7BfRB0dni7JCydLog9yOchf1UuZvbunIJGUH0L3zDthlHYs4jW
-         ZZBAAB6eRQGfkbwJyh1SA39cOdIBw/xp8e0hnkr4lGWx0RY8lkvR1Wsmterp9GFzP8Vn
-         u9Kw==
-X-Gm-Message-State: AOJu0Ywcvn4cfQ1BnYBpN8puR9w2ltK9lNsj4z1vL8tVp39JZbskbJR3
-	K9GNA1N13ERH9Ejv+dco5lAqqNnyOzLAF+Hg/nwTmIt/21sx842hmjUhk1g4lGneCHB52VrdkYc
-	e
-X-Gm-Gg: ASbGncuLwpkBkeyA8XhRLc3SY4lqDBWieBVf7LEp5VghqpxSBihOZq21m88VoJRgZjE
-	d/N40AG021dTfmBOsyDDfkBk6ydTe/wrZ7fI2vEyLN1+HoWFD+1vt2n3o+40YkhTiFdfXDGogtG
-	Z0zoI6aC75kWz4D91tT5/s1Arloxc+LIdTEob4ZUczv5f3cVQqUqHsmQF872o0l5m/pevDekJDn
-	cidS7ku1bs/J6y94wgUMQHOByCujF9Xr793j2w=
-X-Google-Smtp-Source: AGHT+IGiycYVlZOvn68ijelPZHNacDBRow/xkkgdgPPnFQuH3dQk6MrywTeE6mL5dlyvK4joBRMljA==
-X-Received: by 2002:a17:902:ccd2:b0:20c:da66:3875 with SMTP id d9443c01a7336-2126a3e8efamr39088145ad.24.1732111040950;
-        Wed, 20 Nov 2024 05:57:20 -0800 (PST)
+        bh=vlLYLpdzGpl9yG9M/aQqTTpQdM2uEHM7JTTNx9AOiGc=;
+        b=OLQF19rbf0MkmFHMltDTciUyd2B9SFlUbKO7dvCn80KrzVkimKM0XaPEPPLTG103BB
+         L75OQzOe6iynzAnCTsQxFg//2rMhKZz5R+V+KtrRdHdChHEqUwQfNg3oexyOYmzWdgDf
+         ihSvTwuMznP/5PFr2/8XabmmuTWIyXx7m7hT53pNLMUE4uLcG28j6mf97QUVzqmB+SXL
+         O9M89foCBtuH2tGzdKd6vUz4ji7nS7r5jgtpBWlg1HIA1xwNBm2dj/zH5rICS8GBaYyw
+         5ddYrpatE29ppbEraDr/DZALqJSoT/+Z/J8TWxAnV0wmKQXf/A3ame/7/x9YmJee0QTd
+         kgCA==
+X-Gm-Message-State: AOJu0YwMuwi90ruy4MYbGq0hn65ep5NiQ9l3zisQ6++YUKTES/vvTE5m
+	VwcqrfBYIxRlP0JDX7v64ELD4IwLvBW5op8Ol1+fJCOxTVVscyWTTDvwI2CRQWKWaskqlyOPCPP
+	H
+X-Google-Smtp-Source: AGHT+IF90yZ/4mz/fk7qrVqhIVHYhKUYNKbb1dKQGWNQHk9l5BTf6D6p9D5nvfYtrKBJhk4f8CbE5A==
+X-Received: by 2002:a17:903:2310:b0:20e:a2f7:8ab9 with SMTP id d9443c01a7336-2126aea848amr25394245ad.27.1732111035100;
+        Wed, 20 Nov 2024 05:57:15 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.20
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:20 -0800 (PST)
+        Wed, 20 Nov 2024 05:57:14 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 06/31] go: upgrade 1.22.6 -> 1.22.7
-Date: Wed, 20 Nov 2024 05:56:38 -0800
-Message-Id: <6d034099570e38d4b6244ab90b4b78f25b1dcc24.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 02/31] cve-check: add support for cvss v4.0
+Date: Wed, 20 Nov 2024 05:56:34 -0800
+Message-Id: <7ce34ce58f83bc02fa2c04bec54e358e8614157e.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
 References: <cover.1732110892.git.steve@sakoman.com>
@@ -66,99 +62,130 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:57:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207430
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207426
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Upgrade to latest 1.22.x release [1]:
+https://nvd.nist.gov/general/news/cvss-v4-0-official-support
 
-$ git --no-pager log --oneline go1.22.6..go1.22.7
-7529d09a11 (tag: go1.22.7) [release-branch.go1.22] go1.22.7
-d4c53812e6 [release-branch.go1.22] go/build/constraint: add parsing limits
-2092294f2b [release-branch.go1.22] encoding/gob: cover missed cases when checking ignore depth
-b232596139 [release-branch.go1.22] go/parser: track depth in nested element lists
-e87be9833e [release-branch.go1.22] runtime: on AIX, fix call to _cgo_sys_thread_create in _rt0_ppc64_aix_lib
-676d6100d8 [release-branch.go1.22] cmd/fix: support go versions with patch release
-0a525a3ed0 [release-branch.go1.22] os: fix Chtimes test flakes
+CVSS v4.0 was released in November 2023
+NVD announced support for it in June 2024
 
-Fixes CVE-2024-34155, CVE-2024-34156 and CVE-2024-34158
-
-[1] https://github.com/golang/go/compare/go1.22.6...go1.22.7
+Current stats are:
+* cvss v4 provided, but also v3, so cve-check showed a value
+sqlite> select count(*) from nvd where scorev4 != 0.0 and scorev3 != 0.0;
+2069
+* only cvss v4 provided, so cve-check did not show any
+sqlite> select count(*) from nvd where scorev4 != 0.0 and scorev3 = 0.0;
+260
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 92d609c49c0870ca10fcc39d52a801109d65a98b)
+(cherry picked from commit 358dbfcd80ae1fa414d294c865dd293670c287f0)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/go/{go-1.22.6.inc => go-1.22.7.inc}   | 2 +-
- ...o-binary-native_1.22.6.bb => go-binary-native_1.22.7.bb} | 6 +++---
- ...cross-canadian_1.22.6.bb => go-cross-canadian_1.22.7.bb} | 0
- .../go/{go-cross_1.22.6.bb => go-cross_1.22.7.bb}           | 0
- .../go/{go-crosssdk_1.22.6.bb => go-crosssdk_1.22.7.bb}     | 0
- .../go/{go-runtime_1.22.6.bb => go-runtime_1.22.7.bb}       | 0
- meta/recipes-devtools/go/{go_1.22.6.bb => go_1.22.7.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.22.6.inc => go-1.22.7.inc} (89%)
- rename meta/recipes-devtools/go/{go-binary-native_1.22.6.bb => go-binary-native_1.22.7.bb} (78%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.22.6.bb => go-cross-canadian_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.22.6.bb => go-cross_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.22.6.bb => go-crosssdk_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.22.6.bb => go-runtime_1.22.7.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.22.6.bb => go_1.22.7.bb} (100%)
+ meta/classes/cve-check.bbclass                   | 10 ++++++----
+ meta/classes/vex.bbclass                         |  1 +
+ meta/recipes-core/meta/cve-update-nvd2-native.bb | 14 ++++++++++----
+ scripts/cve-json-to-text.py                      |  2 ++
+ 4 files changed, 19 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.22.6.inc b/meta/recipes-devtools/go/go-1.22.7.inc
-similarity index 89%
-rename from meta/recipes-devtools/go/go-1.22.6.inc
-rename to meta/recipes-devtools/go/go-1.22.7.inc
-index 834debaf9b..e54a902741 100644
---- a/meta/recipes-devtools/go/go-1.22.6.inc
-+++ b/meta/recipes-devtools/go/go-1.22.7.inc
-@@ -15,4 +15,4 @@ SRC_URI += "\
-     file://0008-src-cmd-dist-buildgo.go-do-not-hardcode-host-compile.patch \
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
- "
--SRC_URI[main.sha256sum] = "9e48d99d519882579917d8189c17e98c373ce25abaebb98772e2927088992a51"
-+SRC_URI[main.sha256sum] = "66432d87d85e0cfac3edffe637d5930fc4ddf5793313fe11e4a0f333023c879f"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.22.6.bb b/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-similarity index 78%
-rename from meta/recipes-devtools/go/go-binary-native_1.22.6.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-index ea4577f20a..aba317fd38 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.22.6.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.22.7.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/classes/cve-check.bbclass b/meta/classes/cve-check.bbclass
+index 6245594dd7..0c92b87f52 100644
+--- a/meta/classes/cve-check.bbclass
++++ b/meta/classes/cve-check.bbclass
+@@ -31,7 +31,7 @@
+ CVE_PRODUCT ??= "${BPN}"
+ CVE_VERSION ??= "${PV}"
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "999805bed7d9039ec3da1a53bfbcafc13e367da52aa823cb60b68ba22d44c616"
--SRC_URI[go_linux_arm64.sha256sum] = "c15fa895341b8eaf7f219fada25c36a610eb042985dc1a912410c1c90098eaf2"
--SRC_URI[go_linux_ppc64le.sha256sum] = "9d99fce3f6f72a76630fe91ec0884dfe3db828def4713368424900fa98bb2bd6"
-+SRC_URI[go_linux_amd64.sha256sum] = "fc5d49b7a5035f1f1b265c17aa86e9819e6dc9af8260ad61430ee7fbe27881bb"
-+SRC_URI[go_linux_arm64.sha256sum] = "ed695684438facbd7e0f286c30b7bc2411cfc605516d8127dc25c62fe5b03885"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "a6441d5da40a961039ec22b0aadbc8b513f52b31bb8919c359a7e2c3c5bcf26a"
+-CVE_CHECK_DB_FILENAME ?= "nvdcve_2-1.db"
++CVE_CHECK_DB_FILENAME ?= "nvdcve_2-2.db"
+ CVE_CHECK_DB_DIR ?= "${STAGING_DIR}/CVE_CHECK"
+ CVE_CHECK_DB_FILE ?= "${CVE_CHECK_DB_DIR}/${CVE_CHECK_DB_FILENAME}"
+ CVE_CHECK_DB_FILE_LOCK ?= "${CVE_CHECK_DB_FILE}.lock"
+@@ -445,9 +445,10 @@ def get_cve_info(d, cve_data):
+             cve_data[row[0]]["NVD-summary"] = row[1]
+             cve_data[row[0]]["NVD-scorev2"] = row[2]
+             cve_data[row[0]]["NVD-scorev3"] = row[3]
+-            cve_data[row[0]]["NVD-modified"] = row[4]
+-            cve_data[row[0]]["NVD-vector"] = row[5]
+-            cve_data[row[0]]["NVD-vectorString"] = row[6]
++            cve_data[row[0]]["NVD-scorev4"] = row[4]
++            cve_data[row[0]]["NVD-modified"] = row[5]
++            cve_data[row[0]]["NVD-vector"] = row[6]
++            cve_data[row[0]]["NVD-vectorString"] = row[7]
+         cursor.close()
+     conn.close()
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.22.6.bb b/meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.22.6.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.22.6.bb b/meta/recipes-devtools/go/go-cross_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.22.6.bb
-rename to meta/recipes-devtools/go/go-cross_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.22.6.bb b/meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.22.6.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.22.6.bb b/meta/recipes-devtools/go/go-runtime_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.22.6.bb
-rename to meta/recipes-devtools/go/go-runtime_1.22.7.bb
-diff --git a/meta/recipes-devtools/go/go_1.22.6.bb b/meta/recipes-devtools/go/go_1.22.7.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.22.6.bb
-rename to meta/recipes-devtools/go/go_1.22.7.bb
+@@ -534,6 +535,7 @@ def cve_write_data_json(d, cve_data, cve_status):
+             cve_item["summary"] = cve_data[cve]["NVD-summary"]
+             cve_item["scorev2"] = cve_data[cve]["NVD-scorev2"]
+             cve_item["scorev3"] = cve_data[cve]["NVD-scorev3"]
++            cve_item["scorev4"] = cve_data[cve]["NVD-scorev4"]
+             cve_item["modified"] = cve_data[cve]["NVD-modified"]
+             cve_item["vector"] = cve_data[cve]["NVD-vector"]
+             cve_item["vectorString"] = cve_data[cve]["NVD-vectorString"]
+diff --git a/meta/classes/vex.bbclass b/meta/classes/vex.bbclass
+index bb16e2a529..01d4e52051 100644
+--- a/meta/classes/vex.bbclass
++++ b/meta/classes/vex.bbclass
+@@ -282,6 +282,7 @@ def cve_write_data_json(d, cve_data, cve_status):
+             cve_item["summary"] = cve_data[cve]["NVD-summary"]
+             cve_item["scorev2"] = cve_data[cve]["NVD-scorev2"]
+             cve_item["scorev3"] = cve_data[cve]["NVD-scorev3"]
++            cve_item["scorev4"] = cve_data[cve]["NVD-scorev4"]
+             cve_item["vector"] = cve_data[cve]["NVD-vector"]
+             cve_item["vectorString"] = cve_data[cve]["NVD-vectorString"]
+         if 'status' in cve_data[cve]:
+diff --git a/meta/recipes-core/meta/cve-update-nvd2-native.bb b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+index 2d23d28c3e..5fbe9095cc 100644
+--- a/meta/recipes-core/meta/cve-update-nvd2-native.bb
++++ b/meta/recipes-core/meta/cve-update-nvd2-native.bb
+@@ -255,7 +255,7 @@ def initialize_db(conn):
+         c.execute("CREATE TABLE IF NOT EXISTS META (YEAR INTEGER UNIQUE, DATE TEXT)")
+ 
+         c.execute("CREATE TABLE IF NOT EXISTS NVD (ID TEXT UNIQUE, SUMMARY TEXT, \
+-            SCOREV2 TEXT, SCOREV3 TEXT, MODIFIED INTEGER, VECTOR TEXT, VECTORSTRING TEXT)")
++            SCOREV2 TEXT, SCOREV3 TEXT, SCOREV4 TEXT, MODIFIED INTEGER, VECTOR TEXT, VECTORSTRING TEXT)")
+ 
+         c.execute("CREATE TABLE IF NOT EXISTS PRODUCTS (ID TEXT, \
+             VENDOR TEXT, PRODUCT TEXT, VERSION_START TEXT, OPERATOR_START TEXT, \
+@@ -361,12 +361,18 @@ def update_db(conn, elt):
+         cvssv3 = cvssv3 or elt['cve']['metrics']['cvssMetricV31'][0]['cvssData']['baseScore']
+     except KeyError:
+         pass
++    cvssv3 = cvssv3 or 0.0
++    try:
++        accessVector = accessVector or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['attackVector']
++        vectorString = vectorString or elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['vectorString']
++        cvssv4 = elt['cve']['metrics']['cvssMetricV40'][0]['cvssData']['baseScore']
++    except KeyError:
++        cvssv4 = 0.0
+     accessVector = accessVector or "UNKNOWN"
+     vectorString = vectorString or "UNKNOWN"
+-    cvssv3 = cvssv3 or 0.0
+ 
+-    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?)",
+-                [cveId, cveDesc, cvssv2, cvssv3, date, accessVector, vectorString]).close()
++    conn.execute("insert or replace into NVD values (?, ?, ?, ?, ?, ?, ?, ?)",
++                [cveId, cveDesc, cvssv2, cvssv3, cvssv4, date, accessVector, vectorString]).close()
+ 
+     try:
+         # Remove any pre-existing CVE configuration. Even for partial database
+diff --git a/scripts/cve-json-to-text.py b/scripts/cve-json-to-text.py
+index 5531ee5eb6..87a5669987 100755
+--- a/scripts/cve-json-to-text.py
++++ b/scripts/cve-json-to-text.py
+@@ -125,6 +125,8 @@ def process_data(filename, data):
+                 lines += "CVSS v2 BASE SCORE: %s\n" % issue["scorev2"]
+             if "scorev3" in issue:
+                 lines += "CVSS v3 BASE SCORE: %s\n" % issue["scorev3"]
++            if "scorev4" in issue:
++                lines += "CVSS v4 BASE SCORE: %s\n" % issue["scorev4"]
+             if "vector" in issue:
+                 lines += "VECTOR: %s\n" % issue["vector"]
+             if "vectorString" in issue:
 -- 
 2.34.1
 
