@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4019D6395F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3F8CD63954
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:58:04 +0000 (UTC)
 Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.web11.13871.1732111078994911131
+ by mx.groups.io with SMTP id smtpd.web11.13874.1732111082076024334
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:59 -0800
+ Wed, 20 Nov 2024 05:58:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ktwFHhnw;
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=G7xk7khP;
  spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-21269c8df64so10625095ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:58 -0800 (PST)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-20cdb889222so52940515ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:58:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111078; x=1732715878; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111081; x=1732715881; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r3kBA5DkGas62gUhUUtByt8cuvsHEqu2EMaLijKXcTc=;
-        b=ktwFHhnwhGocSNbEsfRzvzm0RZ2uphCWy43BjYaBKPr+f8PV/z6LJZ9H7b80aAgzTm
-         FGmkH8KuxMiBG/h1LKSo4g0dOfEvfyk1EHEX13dqX6oyoozlatJy9MOaOcz2Ph198eWE
-         Wx21xq4CKuUbxQeHtEW81yYtFx3HiEevxa+7YmdxkP7In3FgkK6z/KR5u8UwV4y3ACp3
-         qmiDHpvcbJY1zy18C/zCBtSpc1xUu8c20Y9gPai4+m74GakVKkMm3MlCa067lSYJaJUB
-         mtB11wZMBtwIHmanj+sNATlCkPPU3idKaysmD7AFDL4maPp9N5G7KmvHCdemTx+Gj+I5
-         AdXg==
+        bh=4zaN/Yzylp6P9P7K9tZ0wt8u7JVehowjRpt2dPX8B0o=;
+        b=G7xk7khP6cjErQyFdnuW65PFU7eWv7Gc8VHZ8kE9guadHCWXyGbK4tlaWkdMKDxh3K
+         5Ckf0dgqy+PjY+X6gbmcgmQtYv7tYmi4RausZW15J7WJrNMGob6Mpg5DYXg9MznKRKYe
+         v216gHzUPvykiLwl7zIjb07J/hTQmP5ny7KLbr0E6qpXxJcsr2Raz5nw3uTjU4ttFz4y
+         8Rm8PdiVEF6Z11OMeVhbZN6UWpiRV6plvMhv+xJmbE2xKX4ygcUgO4vokI75QbmAzlKU
+         n/T6kYbAl1cwZieoPL3xcWch7JOEj6TnLWfcatBmLzptTdlPfDj/CF0R/AQREVi+ysyY
+         bYWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111078; x=1732715878;
+        d=1e100.net; s=20230601; t=1732111081; x=1732715881;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r3kBA5DkGas62gUhUUtByt8cuvsHEqu2EMaLijKXcTc=;
-        b=oGofbuozB283IeD8PE7Wb0AGmgPqzK2UgSay8D9o1Xs4E2Glb6QDIGyk4w2cag2co7
-         XiGiAKU0ZYj9uWAgw5AMvvo7eNYqfOx9VjdKUrUYnsIUxLl6VetEllJ8Pnj4FLRteNju
-         ttfxmqpCc9ixeAC5+y0jfPL42P/8wkcdcySi6+9hXsObAc2kashbtJMVLFnbtzGkb9Y8
-         8itUhk9VeWrrizHcCiI2LFGovybJR0+VrhVeR4M2ZTdVZurYfFhwMkm8SEtuBT4mSQ1D
-         SPthMOPHxpBjkquTWFSzFZM6Z7eMgHyRQ+iS57TiYPqT8vzchEJ7oL+AwN9PNhaAUxRR
-         LM5A==
-X-Gm-Message-State: AOJu0YzR3zMQjxfaCAr5s/xLY1OPNIqES21wj+SofN4cQ3CoGz84Gcj9
-	ClkFUd1vyHMYeFGQTfr/00A+42xM/x5ujrN/Zi5YjkMXmWJhSKUmVrsw7n8YcMf/k/9fvJeTxVg
-	k
-X-Google-Smtp-Source: AGHT+IFQNv/m8PsRZyUGA2gho9zLdfz/PExKgkZQYsPQtBFgwxPjBHx7IVZf4taxsgg3xCQ+MErWIQ==
-X-Received: by 2002:a17:903:298f:b0:20c:872f:6963 with SMTP id d9443c01a7336-2126a3bb2edmr32593835ad.33.1732111078153;
-        Wed, 20 Nov 2024 05:57:58 -0800 (PST)
+        bh=4zaN/Yzylp6P9P7K9tZ0wt8u7JVehowjRpt2dPX8B0o=;
+        b=hXzEaCJZ2vrWwXcSgSGFrHF576oHetuXj3nuI1gJl9bc8kCjbVAZPjA2MQLMuLi0X8
+         ZAVxCP8vgwNTuwbVDGNDg+oSDJ2W3vQ62gObF3eIbCAsRazu7sNTHOWebx5fBbQPKWhg
+         4nGf9czLp3n8vK6eb1+V1nROnn1xef8yp7+roGP2Ju4rye5FQEKyFQ0obGzHW97rNZ0w
+         tdDi5cU7YSYASWc22NireF1CVUO9YnR5I1150BWb+ptKH/hrWH5DTFa/0wHLCWJCEGMj
+         2MkBXgTgd5nEBtP0Y+zq4aTpk4IAnOs2sSOC1Z/4+uJZtFQfaXrYuVfW852jmK057XxH
+         fbhg==
+X-Gm-Message-State: AOJu0YzZZYcQjD7ooYLHNV4Zsds7cVp9CpIZM0z2d+SOPw4nwsB0iycI
+	m2fkHqnpe+s6TnVaM1vGI1NlnnLpQvblvfwsY76iEFP7zUwrNiFA76A8ZPMITrpT2blSKDiyYR6
+	d
+X-Google-Smtp-Source: AGHT+IHyvqh+qqglnesDTO0ElVjkaNe6Zf+6yG9kwpHx4WlD0X3mIGvu5FSOTnv1DdXkWymgnZqIeg==
+X-Received: by 2002:a17:902:f690:b0:212:5132:9699 with SMTP id d9443c01a7336-2126a389a7dmr39769315ad.24.1732111081281;
+        Wed, 20 Nov 2024 05:58:01 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.57
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.58.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:57 -0800 (PST)
+        Wed, 20 Nov 2024 05:58:01 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 28/31] udev-extraconf: fix network.sh script did not configure hotplugged interfaces
-Date: Wed, 20 Nov 2024 05:57:00 -0800
-Message-Id: <31d01b27a86f84e62b3cd9698786c894091c352f.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 29/31] weston: Add missing runtime dependency on freerdp
+Date: Wed, 20 Nov 2024 05:57:01 -0800
+Message-Id: <c7434957da71c6816f2ca864a2414c842e9a0a7c.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
 References: <cover.1732110892.git.steve@sakoman.com>
@@ -62,79 +62,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:58:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207452
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207453
 
-From: Regis Dargent <regis.dargent@gmail.com>
+From: Tom Hochstein <tom.hochstein@oss.nxp.com>
 
-Udev script network.sh is called when a new ethernet interface is plugged (eg. USB).
-Due to some (old) missing files, this script does nothing, instead of configuring the
-interfaces with ifup.
-I just commented the corresponding lines to allow the script to reach the part where
-it calls ifup.
+With rdp enabled, nothing from freerdp is installed in the rootfs, and
+rdp is not usable. It seems there is no actual build time dependency
+other than the meson check itself, so add an explicit runtime
+dependency.
 
-Signed-off-by: Regis Dargent <regis.dargent@gmail.com>
-
-Fixes [YOCTO 15616]
-
-network.sh relies on (long) missing files (eg. /etc/network/options,
-/etc/init.d/network) to decide if it should configure the new network
-interface (ifup) or put its name in /etc/udev_network_queue for future
-initialization by /etc/init.d/network service.
-The actual result was that the new hotplugged interface was never
-automatically configured.
-Removing the obsolete tests allows the script to do its intended job.
-
+Signed-off-by: Tom Hochstein <tom.hochstein@oss.nxp.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 160f7139172ffdf510a0d7d4e85f7fbaac7fd000)
+(cherry picked from commit 23271a1f908a223b4eb56d6034cbb1ac23da14fe)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../udev/udev-extraconf/network.sh            | 32 -------------------
- 1 file changed, 32 deletions(-)
+ meta/recipes-graphics/wayland/weston_13.0.3.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/recipes-core/udev/udev-extraconf/network.sh
-index 3ee92714af..ace38808cd 100644
---- a/meta/recipes-core/udev/udev-extraconf/network.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/network.sh
-@@ -6,38 +6,6 @@ echo "$INTERFACE" | grep -q wifi && exit 0
- # udevd does clearenv(). Export shell PATH to children.
- export PATH
- 
--# Check if /etc/init.d/network has been run yet to see if we are 
--# called by starting /etc/rcS.d/S03udev and not by hotplugging a device
--#
--# At this stage, network interfaces should not be brought up
--# automatically because:
--# a)	/etc/init.d/network has not been run yet (security issue)
--# b) 	/var has not been populated yet so /etc/resolv,conf points to 
--#	oblivion, making the network unusable
--#
--
--spoofp="`grep ^spoofprotect /etc/network/options`"
--if test -z "$spoofp"
--then
--	# This is the default from /etc/init.d/network
--	spoofp_val=yes
--else
--	spoofp_val=${spoofp#spoofprotect=}
--fi
--
--test "$spoofp_val" = yes && spoofp_val=1 || spoofp_val=0
--
--# I think it is safe to assume that "lo" will always be there ;)
--if test "`cat /proc/sys/net/ipv4/conf/lo/rp_filter`" != "$spoofp_val" -a -n "$spoofp_val"
--then
--	echo "$INTERFACE" >> /dev/udev_network_queue	
--	exit 0
--fi
--
--#
--# Code taken from pcmcia-cs:/etc/pcmcia/network
--#
--
- # if this interface has an entry in /etc/network/interfaces, let ifupdown
- # handle it
- if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
+diff --git a/meta/recipes-graphics/wayland/weston_13.0.3.bb b/meta/recipes-graphics/wayland/weston_13.0.3.bb
+index 19b242d01b..471dc52bb3 100644
+--- a/meta/recipes-graphics/wayland/weston_13.0.3.bb
++++ b/meta/recipes-graphics/wayland/weston_13.0.3.bb
+@@ -62,7 +62,7 @@ PACKAGECONFIG[x11] = "-Dbackend-x11=true,-Dbackend-x11=false,virtual/libx11 libx
+ # Headless Weston
+ PACKAGECONFIG[headless] = "-Dbackend-headless=true,-Dbackend-headless=false"
+ # Weston on RDP
+-PACKAGECONFIG[rdp] = "-Dbackend-rdp=true,-Dbackend-rdp=false,freerdp"
++PACKAGECONFIG[rdp] = "-Dbackend-rdp=true,-Dbackend-rdp=false,freerdp,freerdp"
+ # VA-API desktop recorder
+ PACKAGECONFIG[vaapi] = "-Dbackend-drm-screencast-vaapi=true,-Dbackend-drm-screencast-vaapi=false,libva"
+ # Weston with EGL support
 -- 
 2.34.1
 
