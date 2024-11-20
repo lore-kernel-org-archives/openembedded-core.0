@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C9ACD63958
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A9CB1D6395B
 	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:58:04 +0000 (UTC)
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
- by mx.groups.io with SMTP id smtpd.web11.13865.1732111075647322135
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.13962.1732111076999856143
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:55 -0800
+ Wed, 20 Nov 2024 05:57:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vMNjMC4H;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.180, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-21263dbbbc4so15224075ad.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:55 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=yaPIAwMV;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7f3e30a43f1so3260410a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111075; x=1732715875; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111076; x=1732715876; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oPCMHF49nDAH5fr5PBi7YAsxuxjLpnf+/f4Vg93hGDM=;
-        b=vMNjMC4HsZnivLnFK9gjH9rVqC4OudTPjbfGnt90Cr/PfZsbca0iuIQgS3Ikxv6jF2
-         +CTTLG/qBQM3Df1/EK2x67u0QM9q5LPgO26BVcGKJQHJGsy+d4TbomOnWJr8fM3/HMoC
-         8p+qkE4iROcD5eYx4YaIvwiGFDvbQvzzoP1+ITj0zZLMjV/dX7c5yBckrw2xwuuo0Jw3
-         eOuiaPT3I3hpfX10AefOWDYTqTEoWMDxaBM7q3ghtnLuy9xApxvqbOKWhBhqUpXDjgp8
-         6xvRjbj9GiVvq/ZLlb6vbXbR8G6v8aJhxs4AtZQpO1eXySOpx/z7eMPWLtFv3ABs1Ol1
-         bDMQ==
+        bh=wAqLJ9PPiCl4OjRb0eiyKur4QUBzqMP1Dz6OMIVFeTM=;
+        b=yaPIAwMVZ/dlQXohwGDmhBlJGHGbrt9KYXEuVD8yKSvNBI9KZUbCQVK1CYMqzYyfD0
+         jMQ+hYEHCraKC/OU6uejuC0C0mCVCpgjOjSJg+XR41GFwSGYJrETkeLYm8sjnlkWr61K
+         Qy/ZxYoTI44Ud2FefetST/gGQoxLjMtq4Klklrub97tZhGml8YnANtiOFCCulSgvMdgE
+         SPQboG4DBDqBQK23B5HV8o6BttCm4nIhaCb1ZNdGB0FLUXRbY9O9+l3kviojEsK/oEor
+         Dr9GfdcsWZbC7lnBq7EFLdaDP39chtQ/XBvz4crlQFK/YIRxMDp8/EeHjtFd9gsFC+8s
+         UgxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111075; x=1732715875;
+        d=1e100.net; s=20230601; t=1732111076; x=1732715876;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oPCMHF49nDAH5fr5PBi7YAsxuxjLpnf+/f4Vg93hGDM=;
-        b=E2Rr1QnGFlF99jaiszWZ1lgieoC/kuQQyoJnDFDx8ybC0vC8pSL2fZMhG/ZE7VF32H
-         0H1oxb6CbNKkrecD4dmUqdZ2Rvnl7VRolj1DIsvntURwFrPmlb0YpsTbp3ZwoKTd7Mo3
-         PFP0slnQzzLNhJZv8fWdPOGjrhwSbgp+2o5B/3hyh60fpJ5uiNItqqaKJR0QuJgbNNJj
-         luS/wcJ28nEqSbmvUWeiWpDUf4aW5hIQ8SwZ7MbAVhpfLfK/xSdBnrOahidwjZMGp8fQ
-         3deWs5mbyOiSxu2Uz1QR83Rn/zcK3dWI09unu8R/W7ZJgJHeyEXlEPM/WRP4JShEDjWi
-         hWbA==
-X-Gm-Message-State: AOJu0YyjrrNW4m0d7u+naQhbkFHZIqMCUl2vYIvBxJty8e+yPmh3kPMu
-	nhWwhSLcnOc5/PpwooLW5/Hii20ysbBQ2hVBN//qcxK9radCOgAeSiUMkP1NTL1LGZPBF68gjtm
-	/
-X-Google-Smtp-Source: AGHT+IFccX0LlOFphxQDvBT/DtZlU07DtQdNPWY9dyN5CJMM7++kZsFAfp1Mf5rmOaPaJH3645694w==
-X-Received: by 2002:a17:902:e842:b0:20c:e6e4:9daf with SMTP id d9443c01a7336-2126c0e07b7mr30163795ad.13.1732111074886;
-        Wed, 20 Nov 2024 05:57:54 -0800 (PST)
+        bh=wAqLJ9PPiCl4OjRb0eiyKur4QUBzqMP1Dz6OMIVFeTM=;
+        b=nnqde6lzmsTbUVPOlUCf2ry4gkVIHmyWfFJbM17uAKiWN789oJgdSY4DhMfr6ag6Bs
+         O/RXzwSbInViU/gWK7Poqp47es5ctKkn2fWedoQZG+PNmbS5RjUqLgPcKgCgN0+ApOC+
+         bi++D92GrmxdHXoEYLn5JQNBa5G7e90wkLBRw855b3hFwjYSgzeCmPXGZakakHzpHgxH
+         HgLnmVgegy0ostq0dPgYplRnI7/HCHChplUgOyDkoBY85OCPNanz8EZOOeTiHubmo+qo
+         56KoC3tKvfRyFk66iTv0qjhex0pxnNmCJsOw4JqI85gq+eDG7ebWqaUzMECmJFtPPPar
+         v9gw==
+X-Gm-Message-State: AOJu0YxI6JIKYxRwpB3wrBPz0lBsqyOANPJ1GROiPV7JWxG7OHSibNoM
+	lCDSee1Dh0SUIZdQd6a2zMyVci8gykn/mDVECxhyqLTWtFrDbkDslZzRzVaiDbtm01cpOs3pIMm
+	M
+X-Google-Smtp-Source: AGHT+IEW4Alh7RxYr6oxHH057sKcq8en03sBF7icENLoY+VUDZlPIeOnJyrUBjJM5LC5jdVBMVSmrg==
+X-Received: by 2002:a05:6a20:4313:b0:1db:e9fc:a9b8 with SMTP id adf61e73a8af0-1ddafd5931cmr4080306637.33.1732111076210;
+        Wed, 20 Nov 2024 05:57:56 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.54
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:54 -0800 (PST)
+        Wed, 20 Nov 2024 05:57:56 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 26/31] libgfortran: fix buildpath QA issue
-Date: Wed, 20 Nov 2024 05:56:58 -0800
-Message-Id: <821eed0bc6489aed1b9f93d06481a6c3a03a0260.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 27/31] python3-maturin: sort external libs in wheel files
+Date: Wed, 20 Nov 2024 05:56:59 -0800
+Message-Id: <6309ead6aa94510ca17d4f7716c62d0ed6b9aad9.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
 References: <cover.1732110892.git.steve@sakoman.com>
@@ -62,55 +62,98 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:58:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207450
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207451
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Yoann Congal <yoann.congal@smile.fr>
 
-The '-fdebug-prefix-map' options are used to map source files locations,
-otherwise, DW_AT_comp_dir will contain buildpath.
+Import a merged patch that sort external libs in the wheel file
+generated by maturin. That improve reproducibility.
 
-The '-gno-record-gcc-switches' option is used to fix the buildpath introduced
-by '-fintrinsic-modules-path' option, which is automatically added by fortran.
-Here's some output from 'readelf --debug-dump libgfortran.so.5.0.0' when this
-option is not added:
-"""
-<0><1a37d3>: Abbrev Number: 4 (DW_TAG_compile_unit)
-   <1a37d4>   DW_AT_producer    : (indirect string, offset: 0xd653): GNU Fortran2008 14.2.0 -m64
-                -march=core2 -mtune=core2 -msse3
-                -mfpmath=sse -mshstk -g -O2 -O2 -fstack-protector-strong -fimplicit-none
-                -fno-repack-arrays -fno-underscoring -fcf-protection=full
-                -fallow-leading-underscore -fbuilding-libgfortran -fPIC
-                -fintrinsic-modules-path /ala-lpggp72/qichen/Yocto/builds/build-poky/tmp/work/
-                core2-64-poky-linux/libgfortran/14.2.0/recipe-sysroot-native/usr/bin/x86_64-poky-linux
-                /../../lib/x86_64-poky-linux/gcc/x86_64-poky-linux/14.2.0/finclude
-                -fpre-include=../../../../recipe-sysroot/usr/include/finclude/math-vector-fortran.h
-"""
-
-See https://gcc.gnu.org/pipermail/fortran/2024-October/061204.html for more
-detailed information.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+CC: Tim Orling <tim.orling@konsulko.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1eb084956bcba83782bc2b24cf8cc89459a57e34)
+(cherry picked from commit 66da28f85727206c0e647efba93c1be028519fe5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/libgfortran.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ...prove-wheel-reproducibility-by-sorti.patch | 55 +++++++++++++++++++
+ .../python/python3-maturin_1.7.1.bb           |  1 +
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
 
-diff --git a/meta/recipes-devtools/gcc/libgfortran.inc b/meta/recipes-devtools/gcc/libgfortran.inc
-index c68645e392..2a08872c25 100644
---- a/meta/recipes-devtools/gcc/libgfortran.inc
-+++ b/meta/recipes-devtools/gcc/libgfortran.inc
-@@ -8,7 +8,7 @@ EXTRA_OECONF_PATHS = "\
- # An arm hard float target like raspberrypi4 won't build
- # as CFLAGS don't make it to the fortran compiler otherwise
- # (the configure script sets FC to $GFORTRAN unconditionally)
--export GFORTRAN = "${FC}"
-+export GFORTRAN = "${FC} -fcanon-prefix-map -fdebug-prefix-map=${S}=${TARGET_DBGSRC_DIR} -fdebug-prefix-map=${B}=${TARGET_DBGSRC_DIR} -gno-record-gcc-switches"
+diff --git a/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch b/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
+new file mode 100644
+index 0000000000..83b586ff72
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-maturin/0001-build_context-improve-wheel-reproducibility-by-sorti.patch
+@@ -0,0 +1,55 @@
++From 49b985d7f5a4582bf9e2c58b6220124e2b7aa395 Mon Sep 17 00:00:00 2001
++From: Yoann Congal <yoann.congal@smile.fr>
++Date: Thu, 17 Oct 2024 22:17:20 +0200
++Subject: [PATCH] build_context: improve wheel reproducibility by sorting libs
++ (#2261)
++
++OE-core note: Upstream does not have a commit message for this. Bellow
++is the message I've sent:
++> While tracking a reproducibility issue from maturin's output, we found
++> that the .so file in the output .whl were not ordered the same
++> every time.
++>
++> Order of the external libraries in the .whl comes down to the order
++> `soname_map` is iterated. But, `std::HashMap` does not provide a stable
++> order and that create an unstable order in the wheel.
++>
++> Switch to `std::BTreeMap` which keeps keys sorted and is iterable
++> in a stable order.
++>
++> This can be tested by building current python3-cryptography :
++>   SOURCE_DATE_EPOCH=1728915855 maturin build
++>
++> Before this commit, the above give two possible outputs (~50% each), the
++> difference is in the order of libssl and libcrypto.
++>
++> After this commit, the output is reproducible.
++
++Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
++Upstream-Status: Backport [https://github.com/PyO3/maturin/commit/61d54809776e1ca79ff8cc92387d70796d50c16e]
++---
++ src/build_context.rs | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/src/build_context.rs b/src/build_context.rs
++index 2e498537..6fbd25c1 100644
++--- a/src/build_context.rs
+++++ b/src/build_context.rs
++@@ -24,7 +24,7 @@ use normpath::PathExt;
++ use pep508_rs::Requirement;
++ use platform_info::*;
++ use sha2::{Digest, Sha256};
++-use std::collections::{HashMap, HashSet};
+++use std::collections::{BTreeMap, HashSet};
++ use std::env;
++ use std::fmt::{Display, Formatter};
++ use std::io;
++@@ -396,7 +396,7 @@ impl BuildContext {
++         writer.add_directory(&libs_dir)?;
++ 
++         let temp_dir = tempfile::tempdir()?;
++-        let mut soname_map = HashMap::new();
+++        let mut soname_map = BTreeMap::new();
++         let mut libs_copied = HashSet::new();
++         for lib in ext_libs.iter().flatten() {
++             let lib_path = lib.realpath.clone().with_context(|| {
+diff --git a/meta/recipes-devtools/python/python3-maturin_1.7.1.bb b/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
+index b9279f5ab5..8837128896 100644
+--- a/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
++++ b/meta/recipes-devtools/python/python3-maturin_1.7.1.bb
+@@ -12,6 +12,7 @@ SRC_URI:append = "\
+     file://0003-Extract-extension-ABI-name-resolvation-code-as-helpe.patch \
+     file://0004-Fix-cross-compilation-issue-with-linux-ppc-architect.patch \
+     file://0005-Fix-cross-compilation-issue-with-linux-mips64-archit.patch \
++    file://0001-build_context-improve-wheel-reproducibility-by-sorti.patch \
+ "
  
- do_configure () {
- 	for target in libbacktrace libgfortran
+ S = "${WORKDIR}/maturin-${PV}"
 -- 
 2.34.1
 
