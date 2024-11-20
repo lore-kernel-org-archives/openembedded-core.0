@@ -2,57 +2,57 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 71EA8D63951
-	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:57:34 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.13835.1732111047960091781
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70F45D6394F
+	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 13:57:44 +0000 (UTC)
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+ by mx.groups.io with SMTP id smtpd.web10.13944.1732111054942894369
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 05:57:28 -0800
+ Wed, 20 Nov 2024 05:57:35 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=li4owxFp;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-21271dc4084so5202925ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=qtBR3AV0;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.177, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21116b187c4so32910015ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 05:57:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111047; x=1732715847; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732111054; x=1732715854; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=AmTbQUgFd1YxfIFgU+MPCIeyjMubcm3aDZstOocEug8=;
-        b=li4owxFpYEg6V/jw0ZOYS9Ud/2F+fSOJZMDhNcbAM5GA0V+GnhArWM7IAJAg1z6FRg
-         A+AMGEVPXENrlKdSRbMkY51Thi02oPaGNfRpP96GLVKXBlCv16Ggc8sb0JVr88llaIfF
-         1VTLJn9Cq3+6TDB8Gl9WmfXR4sr5MlpAwgn1tMtLQBZUjaW4M21cmaM5fvuKGH/vK62T
-         Y/zu2Kv8X3aYj2mzVi58Pk1NX8eXbk4HiYxuZ7Z2sZrNdPCvg+A+j1tesK03gE3viXpo
-         XOVvbUlVhoayFiJqzgkSfT1P2xN5FkabGtPGcjnzdBc5r0/RHgBEy72GgwcKBmMDt5RU
-         uUMw==
+        bh=NC6ZejAYjq4zzs89Ie3/1zeIkqzDxLx+DF3EOIoe5U8=;
+        b=qtBR3AV0XbO2g0uPGEu2s3bnJlRYjsfmT71+GIm/+kWSFHurAZJx5lPgsGWSCr5+yM
+         jpydXSXrk93/qDNSbP8O6cRaszSb/n47ssOV3JxgiDHqrgrNDvNl9oBp9cemvbr/NzGs
+         fkfzpydl4g8es4M16b9xJ1YHliuSbXce9dVC7tV0dE2FuZV4ETi82hDY9Ka1m5gTCZWq
+         kR2pbZ9T3tfkYoA22eTX62WBGKOwmSgpkckjhH9rmiAtVkxxXDtz8eimVUX87be2DFoF
+         Bl3Xp6FxItx6iaLBsaP2H1FrjYIcNSD3nkIXSvXE4xu1zH6SykbLs42a3HB2iKGY5mqD
+         JHww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732111047; x=1732715847;
+        d=1e100.net; s=20230601; t=1732111054; x=1732715854;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=AmTbQUgFd1YxfIFgU+MPCIeyjMubcm3aDZstOocEug8=;
-        b=Qzi9E2Bt71Mqn+rMIOVfjX1BFyOmeYZylUpTMFdXZh0/0/2QX8NVrY+MV3Z7+OgA7z
-         EDljVrkmqryq8u5/qt6qOBZTFseMzc6xABJUdv+F+6WFyw0PZXfPfY6BIZFczCEdLCrt
-         WejoW8o4rzFPXmhZ0C4C57AhlHmgEn7FA07mtWb5/wcyJLtT3AOFOX6/y99Akx+JJmjo
-         IFMu4LEjb1+Juc4HlM0BEr7ONx8Tvk5MBQ5lrI8v0+2RwlJz0T+HkK4OIpOFJdh1FOnw
-         OBJOqae+bD4puQFZ/nWsWgk5InejT7wi+Xhy5FMkb4npH4RQFuD/Tbg0QUlCvGdVsgig
-         MXpw==
-X-Gm-Message-State: AOJu0YzEbrVkIqImn/eNwQSIZ6eqPyTMr02KTCmYatZXsdc0RTZMB0LA
-	iOLfFGy4ftMuuoCblgMkG68fAZjkUi6MnhwmOQsF2cgo6pP7Onv/8Bc6vAqk3iFb8y4Orc5fA18
-	J
-X-Google-Smtp-Source: AGHT+IE+p2o97plWrjxw7q9GaI49by3ixctckn/UDQSjIzAroQxj/E4b7+1wxRSysiUkLNq91Zn6ow==
-X-Received: by 2002:a17:903:2312:b0:20c:ee32:7597 with SMTP id d9443c01a7336-2126ca4ea95mr30289225ad.8.1732111047308;
-        Wed, 20 Nov 2024 05:57:27 -0800 (PST)
+        bh=NC6ZejAYjq4zzs89Ie3/1zeIkqzDxLx+DF3EOIoe5U8=;
+        b=uC0BpvFAli8ZMnIpEnGYPgFt5VZayMvNe1W74k2vvnYdNMmthkBpJ5hsD2/tD1VpCn
+         i2AyW27nK88J9JN509U38hrJLegyq2AJQoewDzGzLZCNImD8S2Wa59ZXswMYuPP6iU27
+         swZvA8pkkpijhpmUflqti+czMI+FxNcYLoOvmYXyOQ2g45VqMi5JUqx3cyAD5tW9DTcd
+         IdfoyM/RW1ZLgkGBBlTgOJxp4QST+9F2Zyla4hczSfnZ5rmq/PuRmsORuxGx79aOLMsT
+         4kZfxt8uymFI6ogY84xaBZNtdpZGn0Et8+Hbyxsb+w9irdWjzbYNaQ5kexbtimBqoozN
+         81rg==
+X-Gm-Message-State: AOJu0YzXl55j1nc05ekayKmU27sLONRA/5QeUElfyEN+4eDEfGtcSbVa
+	ywWVc7Nbps+QleQ/4fM2TtTvsdGL1Xkh9+w06dPMZwHOK+qEr8E4phslTnG4i8kL5ueszUVQwK5
+	d
+X-Google-Smtp-Source: AGHT+IHmn73358fXgP7phdR+tuMFVKeq0N7z/L7HM+Osa7z8U5CONNkgcb+WCyQQvbJzH94xmEylow==
+X-Received: by 2002:a17:902:e550:b0:20c:9ec9:9a77 with SMTP id d9443c01a7336-2126a4750abmr29300735ad.37.1732111054060;
+        Wed, 20 Nov 2024 05:57:34 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2127a4db5b3sm4658175ad.233.2024.11.20.05.57.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Nov 2024 05:57:26 -0800 (PST)
+        Wed, 20 Nov 2024 05:57:33 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 10/31] uboot-sign: fix concat_dtb arguments
-Date: Wed, 20 Nov 2024 05:56:42 -0800
-Message-Id: <5b837f65a41fff75517e9e9c241eaaf8e79afc5d.1732110892.git.steve@sakoman.com>
+Subject: [OE-core][styhead 15/31] oeqa/runtime/ssh: Fix incorrect timeout fix
+Date: Wed, 20 Nov 2024 05:56:47 -0800
+Message-Id: <29fa3c132c5c1fdb2352a175b3c882472fea11a8.1732110892.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732110892.git.steve@sakoman.com>
 References: <cover.1732110892.git.steve@sakoman.com>
@@ -61,37 +61,43 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:57:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207434
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 13:57:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207439
 
-From: Clayton Casciato <majortomtosourcecontrol@gmail.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Fixes [YOCTO #15642]
+I'd meant to change the command timeout in the previous change, fix
+the correct one.
 
-Ensure empty argument passed from do_uboot_assemble_fitimage is passed to
-concat_dtb
-
-Signed-off-by: Clayton Casciato <majortomtosourcecontrol@gmail.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b3c473785e5ceef677ff2b77c5fc17f5704c622f)
+(cherry picked from commit bb991988cb23be2c8947171726ada321f27e6eed)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/runtime/cases/ssh.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 3e5f5dcf66..a17be745ce 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -338,7 +338,7 @@ uboot_assemble_fitimage_helper() {
- 	binary="$2"
- 
- 	if [ "${UBOOT_SIGN_ENABLE}" = "1" -a -n "${UBOOT_DTB_BINARY}" ] ; then
--		concat_dtb $type $binary
-+		concat_dtb "$type" "$binary"
- 	fi
- 
- 	if [ "${UBOOT_FITIMAGE_ENABLE}" = "1" -a -n "${SPL_DTB_BINARY}" ]; then
+diff --git a/meta/lib/oeqa/runtime/cases/ssh.py b/meta/lib/oeqa/runtime/cases/ssh.py
+index f5b76edff4..89d64430e5 100644
+--- a/meta/lib/oeqa/runtime/cases/ssh.py
++++ b/meta/lib/oeqa/runtime/cases/ssh.py
+@@ -17,7 +17,7 @@ class SSHTest(OERuntimeTestCase):
+     @OEHasPackage(['dropbear', 'openssh-sshd'])
+     def test_ssh(self):
+         for i in range(5):
+-          status, output = self.target.run("uname -a", timeout=5)
++          status, output = self.target.run("uname -a", timeout=30)
+           if status == 0:
+               break
+           elif status == 255 or status == -signal.SIGTERM:
+@@ -29,7 +29,7 @@ class SSHTest(OERuntimeTestCase):
+               # give it time for the port to open.
+               # We sometimes see -15 (SIGTERM) on slow emulation machines too, likely
+               # from boot/init not being 100% complete, retry for these too.
+-              time.sleep(30)
++              time.sleep(5)
+               continue
+           else:
+               self.fail("uname failed with \"%s\" (exit code %s)" % (output, status))
 -- 
 2.34.1
 
