@@ -1,100 +1,163 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A94D711D8
-	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 18:31:26 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.web10.22139.1732127479951665857
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68DBED711DA
+	for <webhook@archiver.kernel.org>; Wed, 20 Nov 2024 18:33:16 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.web10.22199.1732127586356326473
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 10:31:20 -0800
+ Wed, 20 Nov 2024 10:33:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=e++XgD0E;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=YqICjzPi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101934ad7d546-7acdc7bc-fa3f-43b7-8cec-ea85bea9f198-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1732127479; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=pmo4FXoA/f3ryZwzJ86IFwdrm7cMX/jZyMDc2d8WZpw=;
-	b=e++XgD0EpZYErwD5CtQgDX41Ll+iDjdJabDE+ObXnDG/ehvUy7eVzyp5E/18yvl1
-	x7r2/zJxv/rb1GfyAl1NNknzm6fa/ZhwyZI/deuUjVtqZMoI8BpQ1XDtO/1L2sU9sp1
-	FYxGlzA9RBi3NzVDE0hCFmPq2WDVWeDZL2Tesquo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732127479;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=pmo4FXoA/f3ryZwzJ86IFwdrm7cMX/jZyMDc2d8WZpw=;
-	b=YqICjzPijZLkp0zHfDMtWUjNdy6+I2Yd7/5f4DS5rwPYLFnxbgq4j+lt0YITu6rg
-	r2qlIaQ6bNS68PAsUvB3/ku8+12mFXlkIBtQhLUE8E8AyRQ6sVwR8Wcip7Oo1FrK6+2
-	0Kk55VV6BOql0ujJjITZir0mcujdy7b9u3WXd57g=
-From: patchtest@automation.yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-gnome][PATCH] gdm: allow to unlock keyring when logging in
-In-Reply-To: <20241120182552.1948-1-f_l_k@t-online.de>
-References: <20241120182552.1948-1-f_l_k@t-online.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101934ad7d546-7acdc7bc-fa3f-43b7-8cec-ea85bea9f198-000000@us-west-2.amazonses.com>
-Date: Wed, 20 Nov 2024 18:31:19 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.20-54.240.27.31
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
+Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
+	by mailout07.t-online.de (Postfix) with SMTP id AC6F53D1
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 19:33:04 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.154.160.173]) by fwd72.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1tDpVf-1qpZGD0; Wed, 20 Nov 2024 19:33:03 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] libsecret: add pam support depending on DISTRO_FEATURES
+Date: Wed, 20 Nov 2024 19:35:28 +0100
+Message-ID: <20241120183528.2560-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.47.0
+MIME-Version: 1.0
+X-TOI-EXPURGATEID: 150726::1732127583-837EE365-0F8A4ACE/0/0 CLEAN NORMAL
+X-TOI-MSGID: 62148d9a-c896-4b34-a558-e40cf4137a3d
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 18:31:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207471
+ <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 18:33:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207472
 
---NextPart
-Content-Type: text/plain
+pam module has been ported from gnome-keyring to libsecret
+[https://gitlab.gnome.org/GNOME/libsecret/-/commit/9a37dc839a9be1670afeb6=
+47d9f82b6ef1cd0893]
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Add a PACKAGECONFIG for pam and enable it if pam is in
+DISTRO_FEATURES
 
+Add a patch that disables the pam test, because it would require
+pam_wrapper recipe
+
+[https://gitlab.com/cwrap/pam_wrapper]
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
-Testing patch /home/patchtest/share/mboxes/meta-gnome-gdm-allow-to-unlock-keyring-when-logging-in.patch
+ .../libsecret/0001-pam-disable-tests.patch    | 71 +++++++++++++++++++
+ .../libsecret/libsecret_0.21.4.bb             |  3 +
+ 2 files changed, 74 insertions(+)
+ create mode 100644 meta/recipes-gnome/libsecret/libsecret/0001-pam-disab=
+le-tests.patch
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-gnome/libsecret/libsecret/0001-pam-disable-test=
+s.patch b/meta/recipes-gnome/libsecret/libsecret/0001-pam-disable-tests.p=
+atch
+new file mode 100644
+index 0000000000..28cf7c3651
+--- /dev/null
++++ b/meta/recipes-gnome/libsecret/libsecret/0001-pam-disable-tests.patch
+@@ -0,0 +1,71 @@
++From a028d36dc7b8d0bc33e674d2a0427b171aef2d32 Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Wed, 20 Nov 2024 16:30:07 +0100
++Subject: [PATCH] pam/meson.build: disable tests
++
++Otherwise a recipe for pam_wrapper would be required:
++https://gitlab.com/cwrap/pam_wrapper
++
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
++
++Upstream-Status Inappropriate [oe-specific]
++---
++ pam/meson.build | 42 +++++++++++++++++++++---------------------
++ 1 file changed, 21 insertions(+), 21 deletions(-)
++
++diff --git a/pam/meson.build b/pam/meson.build
++index 8413b58..06d41c4 100644
++--- a/pam/meson.build
+++++ b/pam/meson.build
++@@ -19,27 +19,27 @@ pam_gnome_keyring =3D shared_library('pam_gnome_keyr=
+ing',
++ )
++=20
++ # pam tests
++-pam_wrapper =3D dependency('pam_wrapper', required: true)
++-libpamtest =3D dependency('libpamtest', required: true)
+++#pam_wrapper =3D dependency('pam_wrapper', required: true)
+++#libpamtest =3D dependency('libpamtest', required: true)
++=20
++-subdir('servicedir')
+++#subdir('servicedir')
++=20
++-test_bin =3D executable('pam_test',
++-  sources: [
++-    'test-pam.c',
++-  ],
++-  dependencies: [
++-    libpamtest,
++-    glib_deps,
++-  ],
++-)
+++#test_bin =3D executable('pam_test',
+++#  sources: [
+++#    'test-pam.c',
+++#  ],
+++#  dependencies: [
+++#    libpamtest,
+++#    glib_deps,
+++#  ],
+++#)
++=20
++-test('pam-test',
++-  test_bin,
++-  env: {
++-    'LD_PRELOAD': 'libpam_wrapper.so',
++-    'PAM_WRAPPER': '1',
++-    'PAM_WRAPPER_DEBUGLEVEL': '5',
++-    'PAM_WRAPPER_SERVICE_DIR': meson.current_build_dir() + '/servicedir=
+',
++-  },
++-)
+++#test('pam-test',
+++#  test_bin,
+++#  env: {
+++#    'LD_PRELOAD': 'libpam_wrapper.so',
+++#    'PAM_WRAPPER': '1',
+++#    'PAM_WRAPPER_DEBUGLEVEL': '5',
+++#    'PAM_WRAPPER_SERVICE_DIR': meson.current_build_dir() + '/servicedi=
+r',
+++#  },
+++#)
++--=20
++2.47.0
++
+diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb b/meta/reci=
+pes-gnome/libsecret/libsecret_0.21.4.bb
+index 88c3c73510..1bdd26d500 100644
+--- a/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
++++ b/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
+@@ -13,11 +13,14 @@ inherit gnomebase gi-docgen vala gobject-introspectio=
+n manpages
+=20
+ DEPENDS +=3D "glib-2.0 libgcrypt gettext-native"
+=20
++SRC_URI +=3D "file://0001-pam-disable-tests.patch"
+ SRC_URI[archive.sha256sum] =3D "163d08d783be6d4ab9a979ceb5a4fecbc1d9660d=
+3c34168c581301cd53912b20"
+=20
+ GTKDOC_MESON_OPTION =3D 'gtk_doc'
+=20
++PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
+ PACKAGECONFIG[manpages] =3D "-Dmanpage=3Dtrue,-Dmanpage=3Dfalse,libxslt-=
+native xmlto-native"
++PACKAGECONFIG[pam] =3D "-Dpam=3Dtrue,-Dpam=3Dfalse,libpam"
+=20
+ # http://errors.yoctoproject.org/Errors/Details/20228/
+ ARM_INSTRUCTION_SET:armv4 =3D "arm"
+--=20
+2.47.0
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
