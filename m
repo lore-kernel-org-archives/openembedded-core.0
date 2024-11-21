@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A087E6402E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5B3FDE64030
 	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 21:54:51 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web10.10482.1732226081752053587
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web11.10687.1732226083055642206
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Nov 2024 13:54:41 -0800
+ Thu, 21 Nov 2024 13:54:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sMxUv/7i;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7ea7e2ff5ceso1154085a12.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:54:41 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=U+SEpY+g;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-720d5ada03cso1426236b3a.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:54:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732226081; x=1732830881; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732226082; x=1732830882; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UFqPA8iQabHJfu8ZiG6+BBo6gmR7U6cVUM3KSAJiadI=;
-        b=sMxUv/7ibmZQM2/6FCyYn/pRzliEmbTcnWB3KFB5eX45aAbokz1sIx6IgGZYRyOI2B
-         nT2uXxL7Cr+yFcFM4UzIlg7a0x6zDnebnboJuMz2H2JedY1Q6vArCKbJmsafHJ+s57Yt
-         /EUy0euCDlHdw3wPHdAPHq/NycKiHQFkhAZmZC1nax8oVLYPqDOK/tBPLJNBXAOgfCu5
-         eD+uwkp65e61LDaRBet4P//KNtj08giRKG5aYWxm21Ff95ifFkn54roRorTo4W4y7sQz
-         hb5NjWH921dtHoW02mp/NPLCiUJtXaCEpnlLDC7BK3fCH2uvRLW1VTBX/mG4agOSEaJ9
-         VOYg==
+        bh=4q/ifew6boFRtv/YlUG+sdLt9dG2cRxsNJy7QwA49sY=;
+        b=U+SEpY+g0AwDGHtuPjd4wkF4TBBhZ5Tra46gOwEVQ8LR7n/jfryy62XhwQl0A5opxs
+         T4uBxnhcAIFWj1lQD+jufhKbuRCC/RXzr+MhI2Wq4hRFrfN5VbHBTkIfq1K+83czPD2c
+         A/QsAp0zrZqhFDxj0D17gSkUKEMa7/yYduexMVoriS/xkkvd7RyO5ROCDzYe/bLwfSLA
+         PthT595ZkmP8Z3FdEgRmh0SASXV4aEWXwjuksHlgpUxVv2KX32TTxYLK0fEle8clWNap
+         kxfXRnzL4O4aeL1L+mghreiGtKo2YOIH81iHvNDyIUMaeVuxt+ieF1Xbvv3C2a5JcVNF
+         vEHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732226081; x=1732830881;
+        d=1e100.net; s=20230601; t=1732226082; x=1732830882;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=UFqPA8iQabHJfu8ZiG6+BBo6gmR7U6cVUM3KSAJiadI=;
-        b=uHivKQfymZwiGnC87iRXOQAqBpluF2E64yUFSpLILEHeoIcl2F7aPShTf7ViWm/sgS
-         4q06Bdej+UWV0bHZHCR2nWf/IJrdihfirlpKMVJCOHupaRAHyF6P6l+aN3FhRCZObAFx
-         St/bJfPCdFFUtxkNoysSF6p7aFm6rUSyp3sQMAnsUGMulnvg2MUBaO7XFSv4ZeWtlKiN
-         iiHr9rxN9XVS9IOUTsM5umvSH6VDi4XMFER3OtVWljzUsifOFWyrnq/CDIwBgiFuOHIz
-         ba/mmARIdG2YEtmpYmUMbPWhzvETldnABriWl25ZTUOjHAjzCipZgHpNSK+zT9Ok6OM2
-         hVKw==
-X-Gm-Message-State: AOJu0YxK/kPAABBsLbE9crOEPQWWGb1johVeb1WN1O2VL9/hGYwsv+Qv
-	MtX/C4mAXafkvLtPEqnr5Q2U67mMedP3b+qNZJRquM+zdTOPl7aEZSRVyhB7PvV4LJwaA5SKxdC
-	a
-X-Gm-Gg: ASbGncu8r3olmDiOdrk79uX+S7hIT6XcBz6G4oHH/fUz8nsKWhFdV3gAF720sKGh/AF
-	DNhPpYgP5Otjsnh67mT63XfXgSJWxB6Vmm4aDqXKl4tIITo3hLK5Kh9vOgdDke7X7QUFy0yFUgq
-	uAWwYdMEPnY3CxUeKqqwGMT5CDs41MJoWpGqv3pQgtD3a8Nq3YDVHscFIlaVybRrqthJafPw7EA
-	1dza1HUUJJfFP4rWOPsF2QnEDJ/tngxzUGCqWI=
-X-Google-Smtp-Source: AGHT+IFGRRtYr8g7WB5gl/d115cVXyRJxyfX/CXid67txNhSUWwfPwQ6LyJNPOnR8YXO7YNyzD3DOQ==
-X-Received: by 2002:a05:6a21:339f:b0:1db:db2f:f3a5 with SMTP id adf61e73a8af0-1e09e44ab69mr587342637.21.1732226080964;
-        Thu, 21 Nov 2024 13:54:40 -0800 (PST)
+        bh=4q/ifew6boFRtv/YlUG+sdLt9dG2cRxsNJy7QwA49sY=;
+        b=tT3u7XRPaSw+tF49mXhYNr8ip19RU2bjt/yBbavMQW3+IvLSluszOGWfaOa7RilxGy
+         +9RKEFQxE0FzO0cZhOp0BtBz1X9UooEI1bJoSFT+LXRUpOAZBDHGioHwqbFHoGA5yEHy
+         jqiGhF4VV8kydVlkqaGM+PtYFjb96QeGfKipmTYD6P+z4nGouP5GE/+IIEiN10JM9jqV
+         UvQx1B6ORU4CHMJh9xlK1AZ62lI4Y/DSNpQRahY3DQ9J+FGiV2rmugvb6xky0eS4L9N5
+         djJwztqVeMo0goP33LfHHDTQ0NyLlFka2WLQgiFKlloF+XJDkGbRDZaay3sb3dtf/es2
+         ZM9g==
+X-Gm-Message-State: AOJu0YzC8G/xf7MBybLM3jmsJiVewJK63mUPDU1F1LODjWdtGJ/B3gl4
+	BVQCl2gPZP4o6zV7Nn1YqgvRvrQ1oJatsXtg/UTD8JuG9bK/Filcf2WPC2TS6NqdFoaZzvWKhHV
+	X
+X-Gm-Gg: ASbGnctiWAGjdFNtrsnW56bEcIBh4LSoGtgHUqonhxUG6hO5O/E0MN4JtCZPk9v+xOa
+	YGPWdQhryr/hUfDXDbGrF9nO8ddcUkI6b9p5ZIskjZSGmRO9pA1Q7djo9rZt8rFlD5/IL38lUIf
+	3U7+lYILv8FCPv8wI5RiCgi2gZdMPh//6UbhbEqUBW2/Wd8bsQ2DM8OZxCRRUf7QxQRTaeLBK0d
+	ZMxMsn4igJecBcNRUqflLKDSCMzlv8T7Dww71A=
+X-Google-Smtp-Source: AGHT+IEZgPln74HjRJA5p0moFptlTtx9wKkmp6m7D0dj/nvEM6NjexGbv/Sslvw1dloIj9WQiKI4Ng==
+X-Received: by 2002:a05:6a00:92aa:b0:71e:60fc:ad11 with SMTP id d2e1a72fcca58-724df65b9e2mr554651b3a.16.1732226082210;
+        Thu, 21 Nov 2024 13:54:42 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de47eb05sm249710b3a.75.2024.11.21.13.54.40
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de47eb05sm249710b3a.75.2024.11.21.13.54.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 13:54:40 -0800 (PST)
+        Thu, 21 Nov 2024 13:54:41 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/27] package_rpm: use zstd's default compression level
-Date: Thu, 21 Nov 2024 13:54:03 -0800
-Message-Id: <27395ae862a1beed067a944cbf8622fba31f8566.1732225943.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 14/27] package_rpm: restrict rpm to 4 threads
+Date: Thu, 21 Nov 2024 13:54:04 -0800
+Message-Id: <e1e8f55b12b8d2596137c1aaaa294d362114c293.1732225943.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732225943.git.steve@sakoman.com>
 References: <cover.1732225943.git.steve@sakoman.com>
@@ -66,40 +66,71 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 21:54:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207568
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207569
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-zstd uses 3 by default, while 19 is the highest and slowest.
-It's not clear why 19 was picked to begin with, possibly
-I copy-pasted it from rpm's examples without thinking:
-https://git.yoctoproject.org/poky/commit/?h=master-next&id=4a4d5f78a6962dda5f63e9891825c80a8a87bf66
+TL;DR version:
 
-This brings significant speedups in rpm's compression step:
-for example compressing webkitgtk takes 11s instead of 36s.
+with this, and the previous compression level changes
+I am seeing drastic speedups in package_write_rpm completion times:
 
-The rpm size increases from 175648k to 234860k. I think it's
-a worthy default tradeoff.
+webkitgtk goes from 78 seconds to 37 seconds
+glibc-locale goes from 399 seconds to 58 seconds (!)
+
+The long version:
+
+rpm uses multithreading for two purposes:
+
+- spawning compressors (which are nowadays themselves
+multi-threaded, so the feature is not as useful as it once
+was)
+- parallel file classification
+
+While the former behaves well on massively parallel CPUs
+(it was written and verified here :), the latter was then added
+by upstream and only benchmarked on their very old, slow laptop,
+apparently:
+https://github.com/rpm-software-management/rpm/commit/41f0e214f2266f02d6185ba11f797716de8125d4
+
+On anything more capable it starts showing pathologic behavior,
+presumably from spawning massive amount of very short-lived threads,
+and then having to synchronize them. For example classifying glibc-locale
+takes
+5m20s with 256 threads (default on my machine!)
+1m49s with 64 threads
+59s with 16 threads
+48s with 8 threads
+
+Even a more typical recipe like webkitgtk is affected:
+47s with 256 threads
+32s with 64 threads
+27s with 16 or 8 threads
+
+I have found that the optimal amount is actually four: this also
+means that only four compressors are running at a time, but
+as they're themselves using threads, and typical recipes are dominated
+by just two or three large packages, this does not affect overall
+completion time.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/classes-global/package_rpm.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-global/package_rpm.bbclass | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 2e3e4e8c79..9a5d04c472 100644
+index 9a5d04c472..6d1519a272 100644
 --- a/meta/classes-global/package_rpm.bbclass
 +++ b/meta/classes-global/package_rpm.bbclass
-@@ -10,7 +10,7 @@ IMAGE_PKGTYPE ?= "rpm"
- 
- RPM = "rpm"
- RPMBUILD = "rpmbuild"
--RPMBUILD_COMPMODE ?= "${@'w19T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))}"
-+RPMBUILD_COMPMODE ?= "${@'w3T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))}"
- 
- PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
- 
+@@ -705,6 +705,7 @@ python do_package_rpm () {
+     cmd = cmd + " --define '_use_internal_dependency_generator 0'"
+     cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
+     cmd = cmd + " --define '_build_id_links none'"
++    cmd = cmd + " --define '_smp_ncpus_max 4'"
+     cmd = cmd + " --define '_source_payload %s'" % rpmbuild_compmode
+     cmd = cmd + " --define '_binary_payload %s'" % rpmbuild_compmode
+     cmd = cmd + " --define 'clamp_mtime_to_source_date_epoch 1'"
 -- 
 2.34.1
 
