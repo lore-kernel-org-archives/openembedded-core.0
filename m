@@ -2,71 +2,71 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 385B8D6ED37
-	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 13:42:53 +0000 (UTC)
-Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
- by mx.groups.io with SMTP id smtpd.web10.10901.1732196570667058190
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 370FBD6ED34
+	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 13:43:13 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.web11.10872.1732196585957050004
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Nov 2024 05:42:51 -0800
+ Thu, 21 Nov 2024 05:43:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=TUXcM4Nd;
- spf=pass (domain: gmail.com, ip: 209.85.167.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53dd1829b56so121888e87.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 05:42:50 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=GTm47lPY;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43169902057so7678745e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 05:43:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732196569; x=1732801369; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732196584; x=1732801384; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hx9qJdM41mp+gsxjizrljdrU2E3aWuVAYm6VQuYMqOg=;
-        b=TUXcM4Ndiv8b3fp2UdgLgylUQZjcN5D1PzeKiKZg9kfc8ouCjIYLaUK/hadouQiC6M
-         TAp7+GXzD8KhJsOvLV2ImSjefA3PxyJdGFmkEBKuNOI5nRKDK3nQO66Rv+hjrmyttLZ/
-         BKXce+roppgFAygVX2VAblr+WN2oFmspLcUBfM4KzXnXJ5ypsW5CYwlhw4skLYRZ1km4
-         hYDbi5KLwuURfJ0oKJp6zY+ll5MXICJFaMiJXUZ0EXoPlUizDceaugycLlaNKb9bj3u+
-         Q2QfwyoqsHHV+6U+/0vI5hzKn9LLEosmJOwclv0BKWde+fLiJgEQHQcnwER8YUbp/aKN
-         lZIg==
+        bh=B+x9hPZnhOPdrQQtJYvLvWSJi3JkKu+O9nruz1pyoXQ=;
+        b=GTm47lPYep+9rki0L1L0trP/uqMGyBaE3Tv2dGjf2AcXVWVxLJG/mCK1+xVEK7llPu
+         bmoA1JNN2Ima+hWvhgNKmLrBa5GhQHhHOSvsX7HPfrQ4aIlR9odNxtkS9MwxDyPx/oCi
+         RF/s6OYLCG7AQrn6AJ2LH9clREtEP4PNR3WBdgNwaI/7jvbZn6SvShhX7Amox6tQubd8
+         oNbsW9vEghhjqSoHCVwOcpu1bwAeqJXNofwvSz7Fs2MEMEYaeuOMF96HApBWABBa+6mw
+         nD3BHGlvNq7TX1XE72pAT+iRdraYIWuDjRKV2STwxmAsAdxd32A1jnd34TqsJy8OwwXK
+         emQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732196569; x=1732801369;
+        d=1e100.net; s=20230601; t=1732196584; x=1732801384;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hx9qJdM41mp+gsxjizrljdrU2E3aWuVAYm6VQuYMqOg=;
-        b=tH6eej2Ekc/rF45er7Od3kJ0BYV0JYuSij1jOPgS249wRYJ56GLlXvZtruczG5nzvX
-         QHeGN3fdphlRB/zBNM7igiF05fpbh/YefFOfWbUD2Lo6LlDKJXsEU8GF5rcXSh524lbl
-         wrh0laNJBKOJ2lCxTT7y4joB9X8saE3fv/YhliLOhR/pwa+8OLBrLRv+cdLqIh7wQSVI
-         4lsJo8m6bGPYiBBwyWZV44Z9n8Qz7ObFrbqhyeAofqRBrR+AtlrKQyMFOO1KptseK0le
-         JibmXwpmPwPptGmCAXQPgRLd9vAo80faJ8jXZL4eg/48tHxt0rAg4zKlYZMOZ6So7tEH
-         MTdw==
-X-Gm-Message-State: AOJu0YxUi9yDM4mF5y1F8GkFhRzl/j/hkGkgfKzjJCbbAAnGArO+MYq+
-	MLSx4XrWYJVMuM42b0eLzE7Rrryr2lqosLqTKhkXD4lGrhD7Cnv3tBi3mg==
-X-Gm-Gg: ASbGnctEz/LnzEpzn7ecjDcDeDXPGpfXC667tW+erDTF7UA15SsIs9Fpfbro3Ziv6uh
-	x8QgEcB1UJ7g/SOYIpKU8e61CxV+u5dXXV3TeV4GvpFCMgdWO3zFjUpdc7Zc4Z8YRin5J/UfR/E
-	LwHFk/zJK8bNzWqKBb24J56cJvUrUH7T+n/MWhUFSXy/ATxjPNEN3EBsVTJWhA76czOAZivyMSg
-	RKEYeYKEmLs/NfdjVaQOBSa9aaSBaDFW+EvdcP3XfcNBPrHprnyjtwFz86e4/+FQXr3WRmohQgR
-	ZuBj3KZEScE=
-X-Google-Smtp-Source: AGHT+IH9VgpaASVRarzN1zbUGPxWUv52PKv1AcQjl4RN1p3+KjYuWjjlg0dZA9YnHiV0MpJOkcf9wA==
-X-Received: by 2002:ac2:46c2:0:b0:539:9645:97ab with SMTP id 2adb3069b0e04-53dc13429a3mr2640432e87.33.1732196566858;
-        Thu, 21 Nov 2024 05:42:46 -0800 (PST)
+        bh=B+x9hPZnhOPdrQQtJYvLvWSJi3JkKu+O9nruz1pyoXQ=;
+        b=JzczbgAPAe2BiXEtO14lbx6q6BBoxV3AXDJGKgz1xQfOgNF9R2N4oMJ/8jgJW3BMBT
+         BmDnK+TeYLNEwNZzQVpyju7NOlYOyuq8ds9wG8lD0cnP9XUCCIaj/my0kIPnw6k3GCjz
+         p0HDPNIy0PWq92m9hNLxWdUZzhGilpUuCdzAhyi3jiN4ZVsAzu7uwR7+09y5Z873BMGl
+         CDZrug7JH23Qe3r2ypFMWs2Tfdde5nEbsqtgs87WEvXZ1fzj49glK4bVTLO37+n6jvHj
+         MKVzJTZ4jGRKfF2yDQa5LaLamWm8zNl1H/HpYtO25euZKDzGH8lK7PY5PPuFcmBUj4D0
+         d3XA==
+X-Gm-Message-State: AOJu0YygQcIoAJmHQARfICue0lHlFol4wNhMT1R3D6IOmSS3lB0xHJLw
+	jGByJ1oDX3R/YTRMxfnZNPgr7gONpQuVnuQOxNd/FCm4riAjw7NKaQ6HyQ==
+X-Gm-Gg: ASbGncslA8N3PRPFDcQ0pz65THzImj68tMctcvysop+4LqeWzoAsSCkZV+YshrqjfQO
+	RcQrBV6Us/e+xJPJXakzAKdAqJo3cZZmkFq+LeovvfWRare4r/B0F/pouXEwKsVaffEWlJpKMok
+	GcyfdYQMj/RAV/CrgPueMB0o0qHgHnL/6h3yWU0NSEKB5UHCD/vmZZz8d/0ZrRye/xfyxgXkd3N
+	b8D4jlYkuhPQ9UKhgGBwGh92aYH5V4HhhvNLsoh0xNh0XeBbjoRFGpHizSVuPVUNeUobvfxFzHp
+	pZ2VvKNSv+w=
+X-Google-Smtp-Source: AGHT+IFAI9PfpQ5+LNhQI18mVKdRGlE97kEx4ZY3txyxHe79h8Qt0hU8FqU1LDX8dRQyzVNxYdOMmA==
+X-Received: by 2002:a05:600c:6748:b0:431:6153:a258 with SMTP id 5b1f17b1804b1-433489b3db9mr58126985e9.13.1732196584247;
+        Thu, 21 Nov 2024 05:43:04 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-38254910e82sm5060734f8f.57.2024.11.21.05.42.46
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433b462e30esm58764475e9.28.2024.11.21.05.43.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 05:42:46 -0800 (PST)
+        Thu, 21 Nov 2024 05:43:03 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [scarthgap][PATCH 2/2] package_rpm: restrict rpm to 4 threads
-Date: Thu, 21 Nov 2024 14:42:42 +0100
-Message-Id: <20241121134242.1072796-2-alex.kanavin@gmail.com>
+Subject: [kirkstone][PATCH 2/2] package_rpm: restrict rpm to 4 threads
+Date: Thu, 21 Nov 2024 14:43:00 +0100
+Message-Id: <20241121134300.1074541-2-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241121134242.1072796-1-alex.kanavin@gmail.com>
-References: <20241121134242.1072796-1-alex.kanavin@gmail.com>
+In-Reply-To: <20241121134300.1074541-1-alex.kanavin@gmail.com>
+References: <20241121134300.1074541-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:42:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207534
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:43:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207536
 
 From: Alexander Kanavin <alex@linutronix.de>
 
@@ -115,14 +115,14 @@ completion time.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/classes-global/package_rpm.bbclass | 1 +
+ meta/classes/package_rpm.bbclass | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
-index 9a5d04c472e..6d1519a2728 100644
---- a/meta/classes-global/package_rpm.bbclass
-+++ b/meta/classes-global/package_rpm.bbclass
-@@ -705,6 +705,7 @@ python do_package_rpm () {
+diff --git a/meta/classes/package_rpm.bbclass b/meta/classes/package_rpm.bbclass
+index 3541be07aeb..44b5a4dd6a0 100644
+--- a/meta/classes/package_rpm.bbclass
++++ b/meta/classes/package_rpm.bbclass
+@@ -678,6 +678,7 @@ python do_package_rpm () {
      cmd = cmd + " --define '_use_internal_dependency_generator 0'"
      cmd = cmd + " --define '_binaries_in_noarch_packages_terminate_build 0'"
      cmd = cmd + " --define '_build_id_links none'"
