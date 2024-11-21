@@ -1,420 +1,300 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04B27D75BA7
-	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 03:10:30 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.web10.2641.1732158621681427646
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54271D75BAB
+	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 04:05:00 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.3400.1732161892819184425
  for <openembedded-core@lists.openembedded.org>;
- Wed, 20 Nov 2024 19:10:21 -0800
+ Wed, 20 Nov 2024 20:04:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=O1z+8/By;
- spf=pass (domain: gmail.com, ip: 209.85.216.42, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ea527ae14aso372613a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 19:10:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732158621; x=1732763421; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=+Al//980X74NUP+vdNDc3tjsRahfQ8OLWDAb5zOvb9c=;
-        b=O1z+8/ByDK5BETOMEpUaTbpYEcxpG0202Saoc3JbmvS7FtCPsv1r75Fkk0/28pPq2d
-         vJtiMS4SIeLW9Dv1rVQNOjCqdxXu3pzPlZ/+2KFFoQU+xaxebmiI8p2M2z7QW705nP23
-         muxU21PkYduFX+0GE3W8856c953DKbcaNOfIft04L7oK6DrRaJmKHUv4GG8a+72LlEjd
-         m0bAusu/w7cb+IzLYmJIoj8gHRw4FncwJycR6EmEfxNbLf5fIBA8ethZhhR5pMQe4xSR
-         LSnvr7k5jIQI6a6aGTWSAPy0DOhptwhCpYbdvt1tYfaHYfCZydVJq3ZxzFVlpgCGyiaU
-         S7Jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732158621; x=1732763421;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+Al//980X74NUP+vdNDc3tjsRahfQ8OLWDAb5zOvb9c=;
-        b=cxyhLBaVk+XaNWDSrnFgLOWh788ApecB6AfCDYZ3hNMDkrB/TwDKnj4+wIfwscORXu
-         4F7hR98Aww/D0M/l6t9tZnAc1DManjkZRG965mhuZ3VJ8XUEG8jjr/R50efD540TL2Xe
-         kdICblOesIl0pmehYvrQHMwvnEIPdp6HsvXZFe97+a46Rz8wxxtpVumtGa9CwXD008+m
-         sp/lDiETQgMFhRR4Zu3KsGsjLlfWWBZxKYpI4EUL15Z+x5tmYoZcI1JsuzO8GxO9MB/u
-         Hdy6YYs945y2Be4eyOKNPFrUCM22ynCpqrD5qPBVmOkjdJpIrehl7b75XXMFz7howI3h
-         o5mA==
-X-Forwarded-Encrypted: i=1; AJvYcCX8zPnce8F4Dj0wzGm7YjO/LeUZnk4orE9X5Clc2xE0+iqmkHk7/nUNjaBRzESQW61nhX0eFfxTibv1Gvw9JNSl+w==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YyrVgTknJ5gcP0tl4p5u7fiBdA4a+Ew0O/IWdWEUSABh5Oqmc5I
-	PEVl2KOviMus4JsU2jtGHavRA6wCzrGXVxwLHxvKo65E2ATUB8X5PYn2WV9krcvZE+JjX5sgs0R
-	hZDc338CD2QClXVTsBO5BmG5BTYs+mcAL
-X-Gm-Gg: ASbGncvWOhkY7EjLmIjtetbO+5nsoQPXnlFV5WGhGXWeN/LZD4iUJQYOgXvTS0YqMBm
-	6/Yo+rRD24dMPnY7cJj0En8K1tyTenqAK
-X-Google-Smtp-Source: AGHT+IFbIWq3H/3Z/+gwWVDl3rsdIXfkPLcn8V1eu06Xrxy3VOjoHHxAcGNFs3O+HDKXBR6bsqtEuqH3Gxp1qDjEwQE=
-X-Received: by 2002:a17:90b:1b47:b0:2ea:4150:3f71 with SMTP id
- 98e67ed59e1d1-2eaca709cbemr6282719a91.14.1732158621019; Wed, 20 Nov 2024
- 19:10:21 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=105597799c=changqing.li@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AL3OwnM005294
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 20:04:52 -0800
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xusq4w88-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 20 Nov 2024 20:04:52 -0800 (PST)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4AL44pc0030415;
+	Wed, 20 Nov 2024 20:04:51 -0800
+Received: from nam12-dm6-obe.outbound.protection.outlook.com (mail-dm6nam12lp2177.outbound.protection.outlook.com [104.47.59.177])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xusq4w85-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Nov 2024 20:04:51 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Khw379u78UpwfNILJGGMeKPZhxeR8/dm3Np4qCm4rx2MzoHI73d+Hy9QSFJi0TlHGVUasUuz+tPQxuNhr0Z6D6F2cxl1YUX2cLKEHsHNPIq0FbLD8eGsHlvqLhqCjyRZFj3edf/YPHjboYVS5BL19Pz1riS/yRQn9GdyqlwKCrNh3SgOQGd92p35ocS6iYzCAuZAo76Jwg6KkNC91RC3wZQ8JnTKfaN3Fiux3gPDSGQVO4Q6O4bQ6orEJgblzH6ICqgOA5oIoPdvnNJ6CPqf7OJr4nu3CwUEgq5Vx1r6lQE12Ut9arh0NntPu/iCaDZAJHY8Uzu3WLqhUzyE0hdXKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YsjiCFniqyJzmLvKDIjIlhw8zZSCVDP3cE1cCRcZOyA=;
+ b=Ct9SIGB8/cEdOYxQNtmnjzdEfkaXKWw5waFn0Z2Ge8hwl+7zT1XBt/a16Z51BInSCdF+PG1JD8mV67KuwZetGY+cWNJcusYN9Ymm2VfCitBGRL9rz9JNGfVA4EvVKo/ImBh4bWbz6Uh1rIGEwTXDye5XTdyp8WAF89RLAAn96HsllheXj6bVI4hxglmpRerdT47MmH4msafhChy928tnfPVDIJizqcrT3I3MCAQEthwZIOu4QRtK2jOTJw8r2P7uV764iR7zV8YIAZl45moQA2IhudZNcrP5SwIOSlfiZfZt89fHX6Jt3PnpDxjjA8+nlElifV7s+fdI8zV1YToUFA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com (2603:10b6:8:11f::18)
+ by DM6PR11MB4673.namprd11.prod.outlook.com (2603:10b6:5:2a4::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8158.24; Thu, 21 Nov
+ 2024 04:04:49 +0000
+Received: from DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c]) by DS0PR11MB7312.namprd11.prod.outlook.com
+ ([fe80::8436:b2d3:31a9:1c8c%7]) with mapi id 15.20.8093.018; Thu, 21 Nov 2024
+ 04:04:49 +0000
+Content-Type: multipart/alternative;
+ boundary="------------hMEDgYu9C4gCl2K7cRg0tVAd"
+Message-ID: <f715fbb4-bcea-4ac6-b460-0d99d0603794@windriver.com>
+Date: Thu, 21 Nov 2024 12:04:43 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] rxvt-unicode.inc: disable the terminfo
+ installation by setting TIC to :
+To: Ross Burton <Ross.Burton@arm.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+References: <20241105101214.4095063-1-changqing.li@windriver.com>
+ <B3814EDD-D5B5-423E-AD39-BC71478CBAF7@arm.com>
+Content-Language: en-US
+From: Changqing Li <changqing.li@windriver.com>
+In-Reply-To: <B3814EDD-D5B5-423E-AD39-BC71478CBAF7@arm.com>
+X-ClientProxiedBy: TYAPR01CA0062.jpnprd01.prod.outlook.com
+ (2603:1096:404:2b::26) To DS0PR11MB7312.namprd11.prod.outlook.com
+ (2603:10b6:8:11f::18)
 MIME-Version: 1.0
-References: <20241120121923.3675835-1-Harish.Sadineni@windriver.com> <5d482ba4-cd30-47cc-96bd-88b9eca675c2@windriver.com>
-In-Reply-To: <5d482ba4-cd30-47cc-96bd-88b9eca675c2@windriver.com>
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-Date: Wed, 20 Nov 2024 22:10:09 -0500
-Message-ID: <CADkTA4PzWVTf=1tOdxwj9V=PjKj+XBpyrVn9EF5AN7kRApbQ3g@mail.gmail.com>
-Subject: Re: [PATCH v2] linux: Modify kernel configuration to fix runqlat issue
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org, 
-	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com, 
-	"He, Zhe" <Zhe.He@windriver.com>
-Content-Type: multipart/alternative; boundary="0000000000004cf9990627639b7c"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS0PR11MB7312:EE_|DM6PR11MB4673:EE_
+X-MS-Office365-Filtering-Correlation-Id: b1b812d8-24a1-4434-754e-08dd09e1a46d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?VS9jdVhVVDVYTVZLZFNhaXQ5U2NDYU9peUIvL015S1RmN3loSmxiV0FiR3dr?=
+ =?utf-8?B?VWtjSW9Pc25BUm40YVZRS0VzK0NoQUJsMFpNdWdQNDl5WkxZRHFsTzgxR3hR?=
+ =?utf-8?B?d0FKNzdlRVFnZitiZGUrTFdNUyszeVFHVkJ0bS91ZTF5TFd6cHRPS0EyeWkv?=
+ =?utf-8?B?NGdQZWJjQ2RPVkhzUjlhZTV3dFVseThyaTBFS0NyVW51Q2xPV0pBeURoMjM3?=
+ =?utf-8?B?cUY0RE5RTVNrWGFEa1BxYkdudmRxbURZaWErOUJuM1F3VGo0OExSU0pUS3VU?=
+ =?utf-8?B?WHlLbFpzL2Q3Q1dhVFdFOXo0Rkd6Z1NkOWxBSWZ0NTdhWWh4NkpIU0pIa1Jw?=
+ =?utf-8?B?S05uYkUwbWhjdEtVUHJWQ3RyUmtLNllpOXFic3M1N2dJa1VPWmxSTWZSWndS?=
+ =?utf-8?B?SmxUb1VSdU02M0Y3MDg4NHJFL2dpVGdIVTNoYnJBUFliOHZ4TDl6c2h3dUQ5?=
+ =?utf-8?B?VUlYTGp1aUdXb2hqMHdIa1BDd3Joc0IzT0h6Y2RwVEZOcXdQRUF5eVd5VnRJ?=
+ =?utf-8?B?RkRFNDFLMW1SSEFjRlFLNnVJZDJHN2VaTW9DbWErUW1pS3hQM29FMmR1ZXJ2?=
+ =?utf-8?B?SHFYOWVUdnA0cVRiTFE5bFJ2ckQ2Z05tWUN6bkNwc2Z6Sk9xWFZKY21JTml1?=
+ =?utf-8?B?SjJKME1wOHRLRHg2aTViVDF4WlBtNkkzcUFLUzQ2ZDVwejhFN1p3a09WY1Z1?=
+ =?utf-8?B?dGhNZUljUlNqQ0ltWmFwbDljek8rL3FBTTI3VnpyeXdZcDJJb0xGeG5QTDlp?=
+ =?utf-8?B?NklqNlBXWk90SDQ1bEo1SmJKbi9vWS95RElDeFl1bVNxdmZpaHppeXNoc0tR?=
+ =?utf-8?B?ODh3OGh1cThiQTBCaHBQSkRGdE42c3FDRjJkWGVYSHMyNHo2WVpSZjJYdC9I?=
+ =?utf-8?B?MDdnTUhuZkc3aVZoQVlnaFlpYlk5a0lhSXJsRUIwSnNGcDZTSGwzUGNocHZk?=
+ =?utf-8?B?V204RDFnMGJLQWdnRVB5N1dCNk9xUXl6UzNDVEtmWFlqdTRUNjZCWTk0eUo1?=
+ =?utf-8?B?b0FaM1F5QUYwejNHZng0RjFHeXRvUEZmME55MmRjcUQ3ejc2NndYMFNnTkFo?=
+ =?utf-8?B?ZEhRWU13dHF6eUJVTlhLS1FkYmYrNW1JUTVBTTMzQXRzb2xhZTNHalVDZ0RK?=
+ =?utf-8?B?VU1mMCtlaE1rR0dIU1JMellPdUtYRENPQjZoR1pVdFVwVGJnVGc5WG5OMHE5?=
+ =?utf-8?B?eGMvSE1hZEJHSU9zc2t3TGZuQk4yN0FCQUcxNWgzb1dYanpGWGl1aERZNDJz?=
+ =?utf-8?B?cVVkbWF0aERaRVdCOWpHWFI0REw0QnFKbmVaR0R3SnpoZUpNdkMxeENDRWNV?=
+ =?utf-8?B?bjdBeTB0YkErOW9jTGxuUW1SQzFWTmlpeDF4VTNNRlpxR2lPTDNhbDV4NVFP?=
+ =?utf-8?B?UXJCTUJCSStzZis0UEkvSGtyN1BMalBHRWMwdVlYbklDdU5BZGQ4V3BzL3F2?=
+ =?utf-8?B?RGpTUGwxRHQwNjNwSm5vMlU2WjlodTluRlFSK2lVSWk4SXJPSG9hV0srZ09y?=
+ =?utf-8?B?V0F4Zkg0OUU1V28rMGJhNjkvc1Fzblk3Zm82bElmUVVVZzFNbXZxNkx6QUVt?=
+ =?utf-8?B?TVRFSmZFaVo4OTlMa0dVeW1HT2FjRlJ1aUlyQmJtVnV1NDlKUDdLdnBUV0hD?=
+ =?utf-8?B?enorUFV3d21WNmVOd1VsMjZTUk12SmhiYWRJVEhJeFZIZXVwNVVMTkIrQVVp?=
+ =?utf-8?B?eFk3b2VFQmg2MjlrVVRRdXJEQTYxR1o4amI2VnVhU1h1T3dldXNUeGtTOEd5?=
+ =?utf-8?Q?w6b0SG+GMKiHk2LVRxNvWmry2icS8s16iq2TlYW?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7312.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?L3NoWDB2a0JQd25ZYWYzTUdjRE9MTEhHcDNPU21iMG1Zck8rS1dzZTlkYXZj?=
+ =?utf-8?B?OGY2ZmNiYi9VTXpici9ubEFGNXkrRlhhVTY5cXltK3hLTEdqVXRQK25nbEFR?=
+ =?utf-8?B?MHVTeEZsRE82L0hEOXhNUlRRT05Ed2crSlZMaFE5OTlDY3dLTi9wWk1wNEVI?=
+ =?utf-8?B?dnZJWnNuVEVoaGFLaTVMejlMZTM2b3NZTEZKNGNLUEVyc0hTWE1rU2cySzAv?=
+ =?utf-8?B?R2VYOVVjSmNyRFREYlZQRHpTOU1YbDVpSXFIUGUxVERIMEtrYmpEZGFmQ0hx?=
+ =?utf-8?B?UitEdDNRZERGMWZXaUtUS0xUdHpPTTZVUlhrWU1KWVNWbDJOTmpJTGpxS2ZP?=
+ =?utf-8?B?OFBxV241c3BrYWhvbTh1VGthL1RJRVVBMGlpS1dReldTR0dyR2E5T1p6Rm1H?=
+ =?utf-8?B?b0JTbVZCK3hHMGIzTGJnbzJNYkF0b3B1b2F5RVg4dXlXZnNiR0dzdlB4ZUsx?=
+ =?utf-8?B?a1k5ZFdxWWRVZnJhcDBCcHVROFYyOWNNRHc3dkFuRlBTdjdha1NmQ0xiczRo?=
+ =?utf-8?B?TVJQcGFWT1RMWEZ5cU4zWG5EbXltcm84UmhlMFNTdlpNb1dqMHQrTW94VytJ?=
+ =?utf-8?B?OGhIWWRmRzBtSEFtQk10ZnErb0lvVGFrTnkxVFlyaFR2ajNQbGQvWG5TZXFQ?=
+ =?utf-8?B?eXA3VWkwd1lyZWUrVE51dEdVZkZUYTdHSndsdVd0SzlydFUwRmtBMVc1a3JD?=
+ =?utf-8?B?OUt2TWovdWN4Z1hEWDdwbEtyVUJ0MEtsS3lVdXdtTlNMSXMxOTZlcnNkdnYx?=
+ =?utf-8?B?M1BvaGphZ1hiV1hleW1PdTR2YlgzODRISHg1bkxTUW9pcHpWRHV1Tk01UW1y?=
+ =?utf-8?B?ajcxMm5IbmJrVVBJMkwzd0RXUHZTbjBVRTdhKzNhQ2pEeHd5RlduaUc4dWkv?=
+ =?utf-8?B?bkVRZGpDVzlEMkNzZ3UvWTNEckNMdU9qQlFhZWxjQ3pyeWFQd0lBQ0dydEJT?=
+ =?utf-8?B?NXgvUUJtWTI2a1lIcE1ZMDA1UnFvS3F0RnVLWUQ2WUhOODIvVFBPMlVGd2dF?=
+ =?utf-8?B?MjRDZmxDc0NKZ3RybkJMeEdDcU5mSnRJcFBnMWlFSUhQTEdpa2k0Lythcm1p?=
+ =?utf-8?B?V1N5WWxDNVJEay9XNmFlUXh2UFJSN3BtNWFld0FxYkJPbUZRU3BZZUtEaEQ2?=
+ =?utf-8?B?VzdKcmNFcUNiaHZFQmFiaHQ1WWdNLzdUa1hZaHBPVzA2TGJRL3VBdzVPOXpU?=
+ =?utf-8?B?U3N0WHExNUNFYzRqdEcvbXZHSFVUQWliRHZEMlNjMGNLUzRWL2pCM0xXVkhY?=
+ =?utf-8?B?SUdwWEdQZGM3eCtnUXBIZ2VTWXZ3WmlBLzlWZDVRbERzbVNMS1h6dWxORTlF?=
+ =?utf-8?B?LytjL3hBZUk5WERaamNZeDRUb3dEbU03SDlaMGJiRUhReFBuREx6ODlla0Vi?=
+ =?utf-8?B?ZWNUZ0lSNU9mbHZ6dzMwL3o2NWw4WlEyQzVOamNCNG9CSkI0SS9EK1FwL2Yv?=
+ =?utf-8?B?b0JwOUpKRUtZcENpTEVERzFRYm5hS2s5TFllRXpsa3QwaUhpYm4xSmNaazQy?=
+ =?utf-8?B?SnVwTEJJVThvTjVsV3BkOTBRSy9URlJhTGJvd0VLZGdxK0E1MlRtYTBUdm5B?=
+ =?utf-8?B?Z2tqRWN6SG5TRDZCVkE4Y0JNUWNLYzZoYnZueXFDaHgxTXAvVWs5eXl0bjFy?=
+ =?utf-8?B?VUhoZE83eTZQd3NOL1NnbzVLVnQvZjBaVlpHY05iVXVWSmw1SUNBM1NWeHpG?=
+ =?utf-8?B?Tk1rUDhTa25ndHZ5MUtxaHhMYTcwanh1d1kvOEtiakVhd2hQT3NaR1hzZWVm?=
+ =?utf-8?B?TVhDYnlDL0I1Q0lqUUFiakppa0w1dGVxaWZBNmpDZzc2MUNPR0h4OGdMRk42?=
+ =?utf-8?B?YXhMNlJ4Tzl0N2l4YlRuRlJDbHpwWUExME1LMVEyeEN1Z3NSM01SYlc1N1d0?=
+ =?utf-8?B?Z2c5eFU1cGxUdFF6WnpmZnVmL1cwYmN0cTNZTC84aktYc1p6ZTc5MXpqbGJU?=
+ =?utf-8?B?RmN3a00xS1FJaVVYYWNjSVpyQkM1SXZFRTFncU83Ti9JREJIbGJQTGZ0alMr?=
+ =?utf-8?B?Rm9PakFtWFBOWUxGbEEyeDdNakNodVE3VFBlZm9LSzZVSlBoTEZsQ2wxUzVP?=
+ =?utf-8?B?RU9sS0hlU3ZtS21DR21pWFRGeVQ3ZVNGKzlTNnNRVmIvWUdHb2c2dHN4Q2ZE?=
+ =?utf-8?B?MXdzY29mK3RmSVBaajRqNEJtc0w5ckFnQmFSNldYazRWS24vd1NhWTFwOGVa?=
+ =?utf-8?B?Mnc9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b1b812d8-24a1-4434-754e-08dd09e1a46d
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7312.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2024 04:04:48.9784
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jauVP9UWWTVQ7JCHbMFhSYMyk2OOJ+H0ta70lD/9Tta2AXLgU/FzM/cFptV2UDeYxck5QBIDqtixQXKa7lJuw19lNBw7ctMd5WRRT0eYodM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB4673
+X-Proofpoint-GUID: IGqEDBq-4ONSTzqEJ5bQAk2eCKt748h9
+X-Proofpoint-ORIG-GUID: 3dGZJXXDL4HZ1MNi3JSOel1UeK4J26vy
+X-Authority-Analysis: v=2.4 cv=d9mnygjE c=1 sm=1 tr=0 ts=673eb164 cx=c_pps a=19NZlzvm9lyiwlsJLkNFGw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=Q4-j1AaZAAAA:8
+ a=tSaX5HRWDUtA8DFbX9wA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=7CQSdrXTAAAA:8 a=wvPkM9v7g1_ikmSEda4A:9 a=VF_Ll7obKUu_xVR-:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-21_02,2024-11-20_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 suspectscore=0
+ priorityscore=1501 lowpriorityscore=0 mlxscore=0 impostorscore=0
+ phishscore=0 clxscore=1015 malwarescore=0 mlxlogscore=882 spamscore=0
+ bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411210029
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 03:10:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207499
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 04:05:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207500
 
---0000000000004cf9990627639b7c
-Content-Type: text/plain; charset="UTF-8"
+--------------hMEDgYu9C4gCl2K7cRg0tVAd
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-
-On Wed, Nov 20, 2024 at 5:38=E2=80=AFPM Randy MacLeod <randy.macleod@windri=
-ver.com>
-wrote:
-
-> Hi Harish,
->
->
-> When you are changing the kernel config or any part of the system that
-> you don't normally work on, it's a good idea to CC the people who work on
-> that
-> part of the system. Doubly so, since this is a v2 and Bruce commented on
-> v1. ;-)
->
-
-Thanks Randy! I had completely missed this, and didn't even remember my
-comments on v1. I just had to go back and find them!
-
-Another tip we could add is that on any new version of a patch, summarize
-the new changes in the throw away section, so us with bad memories can
-remember what was motivating the v2.
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4AL3OwnM005294
 
 
+On 11/21/24 00:51, Ross Burton wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender =
+and know the content is safe.
+>
+> On 5 Nov 2024, at 10:12, Changqing Li via lists.openembedded.org<changq=
+ing.li=3Dwindriver.com@lists.openembedded.org>  wrote:
+>> --- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+>> +++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+>> @@ -37,6 +37,7 @@ do_configure:prepend () {
+>> if [ ! -e ${S}/acinclude.m4 ]; then
+>> cp ${S}/aclocal.m4 ${S}/acinclude.m4
+>> fi
+>> + sed -i -e 's#@TIC@#:#g' ${S}/doc/Makefile.in
+>> }
+> A brute-force sed feels ugly and prone to silent breakage.  Wouldn=E2=80=
+=99t this work just as well:
+>
+> EXTRA_OEMAKE =3D =E2=80=9CTIC=3Dtrue=E2=80=9D
+
+Hi, Ross
+
+Thanks for advice.=C2=A0 But this @TIC@ cannot replaced by add configs li=
+ke=20
+EXTRA_OEMAKE.
+
+TIC is defined in configure.ac by "AC_PATH_PROG(TIC, tic, :) ", so TIC=20
+will be native tic path.
+
+and during configure process, configure will replace @TIC@ in=20
+doc/Makefile.in with native tic path.
+
+So in do_install stage, the doc/Makefile already have a hardcode native=20
+tic path, not variable $(TIC)
+
+which could be replaced by pass argument. Seems no interface for us to=20
+pass argument to change TIC.
+
+Regards
+
+Changqing
 
 >
->
-> On 2024-11-20 7:19 a.m., Harish.Sadineni@windriver.com wrote:
->
-> From: Harish Sadineni <Harish.Sadineni@windriver.com> <Harish.Sadineni@wi=
-ndriver.com>
->
-> In Qemu Running "/usr/share/bcc/tools/runqlat 1 5" gives following error:=
--
->
-> Using fewer capitals is usually better:
->
-> s/In Qemu Running/In qemu, running:/
->
->
-> libbpf: kernel BTF is missing at '/sys/kernel/btf/vmlinux', was CONFIG_DE=
-BUG_INFO_BTF enabled?
-> libbpf: failed to find valid kernel BTF
-> modprobe: FATAL: Module kheaders not found in directory /lib/modules/6.10=
-.14-yocto-standard
-> Unable to find kernel headers. Try rebuilding kernel with CONFIG_IKHEADER=
-S=3Dm (module) or installing
-> the kernel development package for your running kernel version.
-> chdir(/lib/modules/6.10.14-yocto-standard/build): No such file or directo=
-ry
-> Traceback (most recent call last):
->   File "/usr/share/bcc/tools/./runqlat", line 293, in <module>
->     b =3D BPF(text=3Dbpf_text)
->   File "/usr/lib/python3.13/site-packages/bcc/__init__.py", line 479, in =
-__init__
->     raise Exception("Failed to compile BPF module %s" % (src_file or "<te=
-xt>"))
->
-> the following patch fixes the error.
->
-> BCC test summary for x86_64:
->
-> Before applying the patch:
->  TOTAL: 95
->  PASS: 29
->  FAIL: 66
-> After applying the patch:
->  TOTAL: 95
->  PASS: 79
->  FAIL: 16
->
-> Better as:
->
->  State    TOTAL  PASS  FAIL
->  Before    95     29    66
->  After     95     79    16
->
->  50 new test cases passed
->
-> s/50 new test cases passed/Note that 50 additional cases pass./
->
-> Please explain if the remaining issues are yet to be looked at or if you
-> know something about the failures. Ideally, you'd fix all the ptests or
-> deliberately skip them with a sensible reason in your commit log. I'm not
-> requiring you to do that yet, I just want to understand the current state=
-.
->
-> Please explain why you added: features/reproducibility/reproducibility.sc=
-c
-> both here and in the v3 commit log.
->
-
-Agreed on this! If something is being provided by that fragment that the
-tests need, it might actually be something that the btf fragment should
-automatically include, or maybe we should be splitting out an option.
-
-I not sure if we want these features as a defaults for debug kernels but I
-> expect that Bruce or Zhe will comment.
->
-For debug, it is probably ok. We don't guard against bloat/size nearly as
-carefully on this.  That being said, there definitely is a difference
-between a debug kernel and "a kernel for running yocto's ptests" and we
-have to guard against that.
-
-Bruce
-
-
-
-> Good work and I look forward having all of the bcc ptests pass.
->
-> ../Randy
->
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com> <Harish.Sa=
-dineni@windriver.com>
-> ---
->  meta/recipes-kernel/linux/linux-yocto_6.10.bb | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/meta/recipes-kernel/linux/linux-yocto_6.10.bb b/meta/recipes=
--kernel/linux/linux-yocto_6.10.bb
-> index 9b2334afd0..d678bce254 100644
-> --- a/meta/recipes-kernel/linux/linux-yocto_6.10.bb
-> +++ b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
-> @@ -64,6 +64,7 @@ KERNEL_FEATURES:append:qemux86-64=3D" cfg/sound.scc cfg=
-/paravirt_kvm.scc"
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("TUNE_FEATURES", "mx32=
-", " cfg/x32.scc", "", d)}"
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
-est", " features/scsi/scsi-debug.scc features/nf_tables/nft_test.scc", "", =
-d)}"
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
-est", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
-> +KERNEL_FEATURES:append =3D " ${@bb.utils.contains("KERNEL_DEBUG", "True"=
-, " features/reproducibility/reproducibility.scc features/debug/debug-btf.s=
-cc", "", d)}"
->  # libteam ptests from meta-oe needs it
->  KERNEL_FEATURES:append =3D " ${@bb.utils.contains("DISTRO_FEATURES", "pt=
-est", " features/net/team/team.scc", "", d)}"
->  # openl2tp tests from meta-networking needs it
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-
---=20
-- Thou shalt not follow the NULL pointer, for chaos and madness await thee
-at its end
-- "Use the force Harry" - Gandalf, Star Trek II
-
---0000000000004cf9990627639b7c
-Content-Type: text/html; charset="UTF-8"
+> Ross
+--------------hMEDgYu9C4gCl2K7cRg0tVAd
+Content-Type: text/html; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4AL3OwnM005294
 
-<div dir=3D"ltr"><div dir=3D"ltr"><div class=3D"gmail_default" style=3D"fon=
-t-size:small"><br></div></div><br><div class=3D"gmail_quote"><div dir=3D"lt=
-r" class=3D"gmail_attr">On Wed, Nov 20, 2024 at 5:38=E2=80=AFPM Randy MacLe=
-od &lt;<a href=3D"mailto:randy.macleod@windriver.com">randy.macleod@windriv=
-er.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><u></u>
-
- =20
-  <div>
-    <div>Hi Harish, <br>
-    </div>
-    <div><br>
-    </div>
-    <div><br>
-      When you are changing the kernel config or any part of the system
-      that<br>
-      you don&#39;t normally work on, it&#39;s a good idea to CC the people=
- who
-      work on that<br>
-      part of the system. Doubly so, since this is a v2 and Bruce
-      commented on v1. ;-)<br></div></div></blockquote><div><br></div><div>=
-<div class=3D"gmail_default" style=3D"font-size:small">Thanks Randy! I had =
-completely missed this, and didn&#39;t even remember my comments on v1. I j=
-ust had to go back and find them!</div><div class=3D"gmail_default" style=
-=3D"font-size:small"><br></div><div class=3D"gmail_default" style=3D"font-s=
-ize:small">Another tip we could add is that on any new version of a patch, =
-summarize the new changes in the throw away section, so us with bad memorie=
-s can remember what was motivating the v2.</div><br></div><div>=C2=A0</div>=
-<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
-left:1px solid rgb(204,204,204);padding-left:1ex"><div><div>
-    </div>
-    <div><br>
-    </div>
-    <div><br>
-    </div>
-    <div>On 2024-11-20 7:19 a.m.,
-      <a href=3D"mailto:Harish.Sadineni@windriver.com" target=3D"_blank">Ha=
-rish.Sadineni@windriver.com</a> wrote:<br>
-    </div>
-    <blockquote type=3D"cite">
-      <pre>From: Harish Sadineni <a href=3D"mailto:Harish.Sadineni@windrive=
-r.com" target=3D"_blank">&lt;Harish.Sadineni@windriver.com&gt;</a>
-
-In Qemu Running &quot;/usr/share/bcc/tools/runqlat 1 5&quot; gives followin=
-g error:-</pre>
-    </blockquote>
-    <p>Using fewer capitals is usually better:<br>
-    </p>
-    <p>s/In Qemu Running/In qemu, running:/</p>
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body text=3D"#000000" bgcolor=3D"#cceed0">
     <p><br>
     </p>
-    <blockquote type=3D"cite">
-      <pre>libbpf: kernel BTF is missing at &#39;/sys/kernel/btf/vmlinux&#3=
-9;, was CONFIG_DEBUG_INFO_BTF enabled?
-libbpf: failed to find valid kernel BTF
-modprobe: FATAL: Module kheaders not found in directory /lib/modules/6.10.1=
-4-yocto-standard
-Unable to find kernel headers. Try rebuilding kernel with CONFIG_IKHEADERS=
-=3Dm (module) or installing
-the kernel development package for your running kernel version.
-chdir(/lib/modules/6.10.14-yocto-standard/build): No such file or directory
-Traceback (most recent call last):
-  File &quot;/usr/share/bcc/tools/./runqlat&quot;, line 293, in &lt;module&=
-gt;
-    b =3D BPF(text=3Dbpf_text)
-  File &quot;/usr/lib/python3.13/site-packages/bcc/__init__.py&quot;, line =
-479, in __init__
-    raise Exception(&quot;Failed to compile BPF module %s&quot; % (src_file=
- or &quot;&lt;text&gt;&quot;))
+    <div class=3D"moz-cite-prefix">On 11/21/24 00:51, Ross Burton wrote:<=
+br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:B3814EDD-D5B5-423E-AD39-BC71478=
+CBAF7@arm.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">CAUTION: This email comes fr=
+om a non Wind River email account!
+Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
 
-the following patch fixes the error.
+On 5 Nov 2024, at 10:12, Changqing Li via lists.openembedded.org <a class=
+=3D"moz-txt-link-rfc2396E" href=3D"mailto:changqing.li=3Dwindriver.com@li=
+sts.openembedded.org">&lt;changqing.li=3Dwindriver.com@lists.openembedded=
+.org&gt;</a> wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre class=3D"moz-quote-pre" wrap=3D"">--- a/meta/recipes-sato/rx=
+vt-unicode/rxvt-unicode.inc
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+@@ -37,6 +37,7 @@ do_configure:prepend () {
+if [ ! -e ${S}/acinclude.m4 ]; then
+cp ${S}/aclocal.m4 ${S}/acinclude.m4
+fi
++ sed -i -e 's#@TIC@#:#g' ${S}/doc/Makefile.in
+}
+</pre>
+      </blockquote>
+      <pre class=3D"moz-quote-pre" wrap=3D"">
+A brute-force sed feels ugly and prone to silent breakage.  Wouldn=E2=80=99=
+t this work just as well:
 
-BCC test summary for x86_64:
-
-Before applying the patch:
- TOTAL: 95
- PASS: 29
- FAIL: 66
-After applying the patch:
- TOTAL: 95
- PASS: 79
- FAIL: 16</pre>
+EXTRA_OEMAKE =3D =E2=80=9CTIC=3Dtrue=E2=80=9D</pre>
     </blockquote>
-    <pre><code>Better as:
-
- <span>State</span>    <span>TOTAL</span>  <span>PASS</span>  <span>FAIL</s=
-pan>=20
- <span>Before</span>    <span>95</span>     <span>29</span>    <span>66</sp=
-an> =20
- <span>After</span>     <span>95</span>     <span>79</span>    <span>16</sp=
-an> =20
-
-
-</code></pre>
-    <p></p>
-    <blockquote type=3D"cite">
-      <pre>50 new test cases passed</pre>
-    </blockquote>
-    <p>s/<span style=3D"white-space:pre-wrap">50 new test cases passed/</sp=
-an><span style=3D"white-space:pre-wrap">Note that 50 additional cases pass.=
-/</span></p>
-    <p><span style=3D"white-space:pre-wrap">Please explain if the remaining=
- issues are yet to be looked at or
-if you know something about the failures. Ideally, you&#39;d fix all the pt=
-ests
-or deliberately skip them with a sensible reason in your commit log.
-I&#39;m not requiring you to do that yet, I just want to understand the cur=
-rent state.
+    <p>Hi, Ross</p>
+    <p>Thanks for advice.&nbsp; But this @TIC@ cannot replaced by add con=
+figs
+      like <span style=3D"white-space: pre-wrap">EXTRA_OEMAKE.</span></p>
+    <p><span style=3D"white-space: pre-wrap">TIC is defined in configure.=
+ac by &quot;</span>AC_PATH_PROG(TIC,
+      tic, :)
+      <span style=3D"white-space: pre-wrap">&quot;,  so TIC will be nativ=
+e tic path.</span></p>
+    <p><span style=3D"white-space: pre-wrap">and during configure process=
+, configure will replace @TIC@ in  doc/Makefile.in with </span><span styl=
+e=3D"white-space: pre-wrap">native tic path.</span></p>
+    <p><span style=3D"white-space: pre-wrap">So in do_install stage, the =
+</span><span style=3D"white-space: pre-wrap">doc/Makefile already have a =
+hardcode native tic path,   not variable $(TIC)</span></p>
+    <p><span style=3D"white-space: pre-wrap">which could be replaced by p=
+ass argument.  Seems no interface for us to pass argument to change TIC.<=
+/span></p>
+    <p><span style=3D"white-space: pre-wrap">
 </span></p>
-    <p><span style=3D"white-space:pre-wrap">Please explain why you added:  =
-</span><span style=3D"white-space:pre-wrap">
-   features/reproducibility/reproducibility.scc=20
-</span><span style=3D"white-space:pre-wrap">both here and in the v3 commit =
-log.</span></p></div></blockquote><div><br></div><div><div class=3D"gmail_d=
-efault" style=3D"font-size:small">Agreed on this! If something is being pro=
-vided by that fragment that the tests need, it might actually be something =
-that the btf fragment should automatically include, or maybe we should be s=
-plitting out an option.</div></div><div><br></div><blockquote class=3D"gmai=
-l_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,20=
-4,204);padding-left:1ex"><div><p><span style=3D"white-space:pre-wrap">
+    <p><span style=3D"white-space: pre-wrap">Regards</span></p>
+    <p><span style=3D"white-space: pre-wrap">Changqing
+</span></p>
+    <blockquote type=3D"cite" cite=3D"mid:B3814EDD-D5B5-423E-AD39-BC71478=
+CBAF7@arm.com">
+      <pre class=3D"moz-quote-pre" wrap=3D"">
 
-I not sure if we want these features as a defaults for debug kernels but I =
-expect that  Bruce or  Zhe
-will comment.</span></p></div></blockquote><div><div class=3D"gmail_default=
-" style=3D"font-size:small">For debug, it is probably ok. We don&#39;t guar=
-d against bloat/size nearly as carefully on this.=C2=A0 That being said, th=
-ere definitely is a difference between a debug kernel and &quot;a kernel fo=
-r running yocto&#39;s=C2=A0ptests&quot; and we have to guard against that.<=
-/div><div class=3D"gmail_default" style=3D"font-size:small"><br></div><div =
-class=3D"gmail_default" style=3D"font-size:small">Bruce</div><br></div><div=
->=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px =
-0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><div><p><spa=
-n style=3D"white-space:pre-wrap">
-</span></p>
-    <p><span style=3D"white-space:pre-wrap">Good work and I look forward ha=
-ving all of the bcc ptests pass.
-</span></p>
-    <p><span style=3D"white-space:pre-wrap">../Randy</span></p>
-    <p><span style=3D"white-space:pre-wrap">
-</span></p>
-    <p><span style=3D"white-space:pre-wrap">
-</span></p>
-    <pre></pre>
-    <blockquote type=3D"cite">
-      <pre>Signed-off-by: Harish Sadineni <a href=3D"mailto:Harish.Sadineni=
-@windriver.com" target=3D"_blank">&lt;Harish.Sadineni@windriver.com&gt;</a>
----
- meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.10.bb" target=3D=
-"_blank">linux-yocto_6.10.bb</a> | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.10.b=
-b" target=3D"_blank">linux-yocto_6.10.bb</a> b/meta/recipes-kernel/linux/<a=
- href=3D"http://linux-yocto_6.10.bb" target=3D"_blank">linux-yocto_6.10.bb<=
-/a>
-index 9b2334afd0..d678bce254 100644
---- a/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.10.bb" targ=
-et=3D"_blank">linux-yocto_6.10.bb</a>
-+++ b/meta/recipes-kernel/linux/<a href=3D"http://linux-yocto_6.10.bb" targ=
-et=3D"_blank">linux-yocto_6.10.bb</a>
-@@ -64,6 +64,7 @@ KERNEL_FEATURES:append:qemux86-64=3D&quot; cfg/sound.scc =
-cfg/paravirt_kvm.scc&quot;
- KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;TUNE_FEATURES=
-&quot;, &quot;mx32&quot;, &quot; cfg/x32.scc&quot;, &quot;&quot;, d)}&quot;
- KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_FEATUR=
-ES&quot;, &quot;ptest&quot;, &quot; features/scsi/scsi-debug.scc features/n=
-f_tables/nft_test.scc&quot;, &quot;&quot;, d)}&quot;
- KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_FEATUR=
-ES&quot;, &quot;ptest&quot;, &quot; features/gpio/mockup.scc features/gpio/=
-sim.scc&quot;, &quot;&quot;, d)}&quot;
-+KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;KERNEL_DEBUG&=
-quot;, &quot;True&quot;, &quot; features/reproducibility/reproducibility.sc=
-c features/debug/debug-btf.scc&quot;, &quot;&quot;, d)}&quot;
- # libteam ptests from meta-oe needs it
- KERNEL_FEATURES:append =3D &quot; ${@bb.utils.contains(&quot;DISTRO_FEATUR=
-ES&quot;, &quot;ptest&quot;, &quot; features/net/team/team.scc&quot;, &quot=
-;&quot;, d)}&quot;
- # openl2tp tests from meta-networking needs it
+Ross
 </pre>
     </blockquote>
-    <p><br>
-    </p>
-    <pre cols=3D"72">--=20
-# Randy MacLeod
-# Wind River Linux</pre>
-  </div>
+  </body>
+</html>
 
-</blockquote></div><div><br clear=3D"all"></div><div><br></div><span class=
-=3D"gmail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_s=
-ignature">- Thou shalt not follow the NULL pointer, for chaos and madness a=
-wait thee at its end<br>- &quot;Use the force Harry&quot; - Gandalf, Star T=
-rek II<br><br></div></div>
-
---0000000000004cf9990627639b7c--
+--------------hMEDgYu9C4gCl2K7cRg0tVAd--
 
