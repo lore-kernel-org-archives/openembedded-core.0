@@ -1,100 +1,102 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20831D6ED2A
-	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 13:16:33 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.10321.1732194985671324187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53DD2D6ED35
+	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 13:42:33 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.web11.10852.1732196547841850881
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Nov 2024 05:16:26 -0800
+ Thu, 21 Nov 2024 05:42:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=ddJn56wP;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=OaxDihjX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101934edde36d-f9e0fb82-e00b-4a0a-a148-278f0f5b895b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1732194984; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=IXB749M0hG1EfXg3v8DVCnH5+UpqiinAOYQ+XApqLp8=;
-	b=ddJn56wPgkn8QBRl77h7mPyBJsqXtV0AnQD7TnnO2uE0qsVeUn9todPecDTXVndf
-	d2ZBILT4h2Jf1k3pxkAZjqTNjDaRJ0mgHnPogIDVNnLgRkyiUKlNhIpwYPULFv/iIvv
-	n9SDM/9VzkJP/fZfZ41F5HSI57MffgI4HjkcC8kQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732194984;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=IXB749M0hG1EfXg3v8DVCnH5+UpqiinAOYQ+XApqLp8=;
-	b=OaxDihjXdE4aE259YrK8/fjM+vuyaoNB8CMy/AVdhR2feoNTfL4j+IweGrWdUPTZ
-	fEsN41ZgLjPlkOdRWYoZ5bl0x2kVRPy20Eewnm0Rbi0EceO4uFZ/IIabwzmV0dM51lp
-	yGOBVapq8Zs8oXhKH/EdVVmJO+xxcHBBQAtFrmUw=
-From: patchtest@automation.yoctoproject.org
-To: Jason Schonberg <schonm@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] webkitgtk: Update - add backported patch to support ICU-76.1
-In-Reply-To: <20241121125737.103202-1-schonm@gmail.com>
-References: <20241121125737.103202-1-schonm@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101934edde36d-f9e0fb82-e00b-4a0a-a148-278f0f5b895b-000000@us-west-2.amazonses.com>
-Date: Thu, 21 Nov 2024 13:16:24 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.21-54.240.27.29
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Xcpcibib;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-3825c05cc90so405828f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 05:42:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732196546; x=1732801346; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=XyQd9edD9v224KMRYgni37ssA5wpXK5AXhO1B4ipv+E=;
+        b=Xcpcibib6ir38K+U118kJViom7bFU27hztEn6CglPzUscoz3UsArsgiJJyhPC55U8i
+         3iaBiXdWS8zXOrJ0Cyh+Nf45QGbKQROCZAdJzVYGA9Zm1dMTCQL6nZfMuBqIopon96kM
+         BTJeYnRcSYGEoaTvtEJzI5Xnpx+xdHJt6toU7/wo+rYM10wsdT7Dij+mgAv5j7qth2Vu
+         +3mX7XEoqtrI8haa4viNIQPSXsfcaJz5H4Fegq3fdwpL8LVXIyQNgA2iGwbglDe5l4vQ
+         LYjNyjts6KwucOhYkjwvG60c/n8Yv8rFmNJ3B2WzmEMeOs8l22m/Ow6w9ZP4mXvyuL09
+         rI2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732196546; x=1732801346;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XyQd9edD9v224KMRYgni37ssA5wpXK5AXhO1B4ipv+E=;
+        b=IiRSibK0YDu0YOMxsASlQdLShwmyuzVtCDtY50BpegjSliE4TID9yEKHeZ4IFejP+n
+         /st3A3jWHXTi4QwEQ5CjJ/hJTOVwK+OgWkCMBfM9NwP8zfgh2iL+hFNC/agcLSINiMPK
+         IMJ/Kjj8iJDlgYND2fc15bFsIjozbo6SpN6e+ldwOpHS+SgxXBO4n9oMSnEVywzjKroM
+         FCQTuC1cKGl9UN0jVYGm+kO7gyfT6XFzH7gHk03idb7K12xrmCO07IMQv7WqzqkJuuIX
+         DLR3P59gLVH2938h/Ibf4kugVMniFgkFeyo24bucYzyMgEdb1t/TsN+wgDUE0hGziMLj
+         K+xw==
+X-Gm-Message-State: AOJu0YxBQhhgnIqyY/R5SBzZuifDA8pWkkvOshecETG5oSOPBzSc1XvG
+	tO/PY3b22Nf2YK+M8DxodOwJ4jNK5YOKqqYX4qGrY+hwk25LQvgKpIAz5w==
+X-Gm-Gg: ASbGnct3rHOAKtiZBCi+H4hoErZ2NtiUzeFM0RUy5G7zkmCN2B2FP5t0qMr/we/j2lv
+	NOQ54sJkEi2+6rSzqTNSXAUL9z7F5QAWUma4HphfenCOCaWV3MphYUofXpXaIMZckns49U2dk5A
+	2Df6MyRZ4P2aUdZ3NnKZNYGSScgMcfO0aqgoNidfPPdmGYMM4Z3+AiYfpS7g8S59ZEXfe7q/RL0
+	Ls19pcpNtd3TrghQ6VpxaXAKBc79kOka/Mz7H4sIb7Sap35Y5aJ9jAkcTJDSGS2DkjuTJBwD/FT
+	pHxAU0Z6vWs=
+X-Google-Smtp-Source: AGHT+IEfZqDy2AjFmKfdRO36Sp3L/YM4BWRtw0UvVdb6Iw6hZ1VeknYtmO4QDZ1QAt0dyOgf/RpUKw==
+X-Received: by 2002:a5d:648a:0:b0:382:4eef:26e with SMTP id ffacd0b85a97d-38254b1c86amr5004173f8f.51.1732196546079;
+        Thu, 21 Nov 2024 05:42:26 -0800 (PST)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-382549052c0sm5225598f8f.7.2024.11.21.05.42.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Nov 2024 05:42:25 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [styhead][PATCH 1/2] package_rpm: use zstd's default compression level
+Date: Thu, 21 Nov 2024 14:42:17 +0100
+Message-Id: <20241121134218.1072729-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.39.5
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:16:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207530
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:42:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207531
 
---NextPart
-Content-Type: text/plain
+From: Alexander Kanavin <alex@linutronix.de>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+zstd uses 3 by default, while 19 is the highest and slowest.
+It's not clear why 19 was picked to begin with, possibly
+I copy-pasted it from rpm's examples without thinking:
+https://git.yoctoproject.org/poky/commit/?h=master-next&id=4a4d5f78a6962dda5f63e9891825c80a8a87bf66
 
+This brings significant speedups in rpm's compression step:
+for example compressing webkitgtk takes 11s instead of 36s.
+
+The rpm size increases from 175648k to 234860k. I think it's
+a worthy default tradeoff.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
-Testing patch /home/patchtest/share/mboxes/webkitgtk-Update---add-backported-patch-to-support-ICU-76.1.patch
+ meta/classes-global/package_rpm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index 474d2491eb0..bf74091da43 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -10,7 +10,7 @@ IMAGE_PKGTYPE ?= "rpm"
+ 
+ RPM = "rpm"
+ RPMBUILD = "rpmbuild"
+-RPMBUILD_COMPMODE ?= "${@'w19T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))}"
++RPMBUILD_COMPMODE ?= "${@'w3T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))}"
+ 
+ PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+ 
+-- 
+2.39.5
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
