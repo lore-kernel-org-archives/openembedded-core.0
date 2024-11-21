@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A8E9E64025
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 801A4E64035
 	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 21:55:11 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web10.10499.1732226102407745681
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web10.10504.1732226104364467339
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Nov 2024 13:55:02 -0800
+ Thu, 21 Nov 2024 13:55:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=R3ZxTrpl;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7f8cc29aaf2so1114612a12.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:55:02 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RBlx1XhU;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7ea8c4ce232so1441062a12.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:55:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732226102; x=1732830902; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732226104; x=1732830904; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2adbw+gKSp180Hz+msll9gYej7+3qi0wvJxkBBiLkoI=;
-        b=R3ZxTrplriI/MDYf6ldflrQ5gjmCBC83zautqLJmPoDWqnSNYTKeuX9XJkmJTK+uBc
-         1RSgBvFo1ug5kjux52hEkpcmIThlfEl0t5GUH6w/qQ3wy1ujTjt3wk5aIq6ysDE2yIxK
-         rdGRLT1r2uacOYXxz5++D0XigdxmrsNVCm0fv7VPEqJCQgvi70c9zLrgQNDEm7J+AbqC
-         ghJaroBzOUUokTk7mu7tbyp+IVt7CwTRKZjUsTRhqJG3JPvf25oUuFJe7p6Q5JEQLtDH
-         KSf9nWDK3pv3FemqVjTZN3QPUB1oZdJbaG6PijzwFsA4YCwngmbIBVgkkUjlaGq70nIc
-         Qrqw==
+        bh=lOB+ffjFydejYmYkZfwbK2xSH+ptntCfbvV9wwzVTXY=;
+        b=RBlx1XhU3sPZvkGdbnGY29GpGM/hnllFtsisF7HcK6Qy6n8Rc+DrKCWG0LRC2pt9v2
+         UAvCg5qopoL6hhw7uA8VmX5yy2KXhCrhW3w67FA0umJP8hRSfFAeQHRi7+u9GIkrtrg3
+         Huuh2foB2m21nv57dqiSNljMRDjEpSv78KfkoMYcvUj+KngxK3y4WcQTZcF/fBtLXWsU
+         AxWF+8lZcq+hDrUjXANiQWbwsNqEvTU38V0z0O80UqfNrKXkg07dLVhqnf8e23/JzPDH
+         nsRf6AlWqSdrTsL1VoWsrfKmfO5Xfuls3njJJxhvWjHan6FmGQ6Em8shQGWHXUgj1tGP
+         bYWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732226102; x=1732830902;
+        d=1e100.net; s=20230601; t=1732226104; x=1732830904;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2adbw+gKSp180Hz+msll9gYej7+3qi0wvJxkBBiLkoI=;
-        b=dcm1cYxLrgq9TebDtRjRWjKvDaLXuTLatO3i6HeaGyHWrPPBG3K8hbSUeU5kco1t6O
-         ZBM9CRycuo1Ywavr8vX8eRJBlaVR4CWTS40BXxRy+C3yQCpWt5jgG9OLRZkHRufO4aTS
-         98v9WTTC78CUXHgZfdVrO6DAtLhzujEShQCDW0ME/oCtxG8pImhnC0D3w1KOUqRcDRl5
-         HU9qEa9/Rh2/WESHkABuNH8QfzfQLmP3g7eY6LcwcCTTDNFQF7W4aixiiDRukBdFSzgA
-         gYAo1FXymgUbSGHvZFd4VOH82+pP5X6zhKE/cFXuITtALDILRJCyui7CX9qDWdBA0eNX
-         eMHA==
-X-Gm-Message-State: AOJu0YxWFx7UPkVoxXnaC9Vbx9NbsGQox4wafPOQ2HfX3uRCMhkFCKAf
-	tZhv3+sVTOXGyuRp74uO18QDee6SvgzXNeT6x+/taiX/IV2FTxlofPwkCoE3SSkyyBBlAUeCil2
-	N
-X-Gm-Gg: ASbGncvEgK5D0Hzy5Ucq0t/eVb7i9/XmAvpQmd1rZS41WXOcWN5TmM2u6ZznQz9Hlzd
-	vgRIK7+0hwlPuNtp+vLrcMQw6O9lw4zBpA2Np3wlhwfHcii6sa1FlJTUMsxl+AL2lPd6vhb/kWS
-	RgWz9+kqG0VmHR7MGiNJXKinp9UYerRSLsQGnk3ihNwpAH1wqJzjfyEcXleVw7AIoxKg1zELlQC
-	EmAsq53E52TSvwr9Uh6Sp7QkgHqxamN20CCeCM=
-X-Google-Smtp-Source: AGHT+IEWCQ9GwM9kCWHdDL6BnVH6gx6LVEp0kiwGZkCcBv+7F5CA/69YvYbra1a3pGKLGvmAzYeTig==
-X-Received: by 2002:a05:6a21:998f:b0:1d9:2b51:3ccd with SMTP id adf61e73a8af0-1e09e3f5399mr863526637.7.1732226101675;
-        Thu, 21 Nov 2024 13:55:01 -0800 (PST)
+        bh=lOB+ffjFydejYmYkZfwbK2xSH+ptntCfbvV9wwzVTXY=;
+        b=gtaGH7EHdSJdJ1y073kfTChOrtackhbSC2ThxQ15FgWvqz7/S0Yh2Rjs9g3sPvOgTp
+         XE9ovbrXYZT7MIjN+PCS2g773IzmvErg3TFAGHLnqX/v5j/biCg+T488fXdKSITZAFiP
+         IRn8TrxIZ6Qt1fkzsMC9TD67DvHxOTztkGsPYE/sCHibGMEGTiDcJxgur5HeW4Fl8ZqK
+         6AD1DycJ1Rsfil/yS0p1eKnWW8X6UlahzS4/u3GX4v4hCHR4/hAnxN4k/Pa+CLLm+abH
+         +hG7XpsyvV1XkfixBZAC2/i5GLKWB16QW63f9cr02c1NosZaJ7tKWE0ezbllEGZV9Z1s
+         QEIQ==
+X-Gm-Message-State: AOJu0Yy/TVOuiN+6hgNOCZ3ac6UgDoWbXwXzzYAVF4LhZsJPXsqk1Pj/
+	M01ZIXeQAn1K/H6OkRXdtQ6fjU2T9xmxP4msbdWFDigDjSGI5Y2jQH8vel71OXpS3yx5jz3BZ1+
+	6
+X-Gm-Gg: ASbGncuN0vIz+xEHrBEteiYwJgcf9GX+o8zospQACmTyT+O8gNjps+3smEXRLtwrc2u
+	R/fcoJUjHL6+OSpwLotWof5FM2WHJOvd/D25214P+UyqiEBSHX8S2GAkHnB3ObIopUjYc2KR0Va
+	1YLHIQ64qc/oobkwJH1zhooGTXYcsEZmTIH+GIb/UgqEnZPwdtB0xTv0fK4yvdCQ3BfrLxehKEe
+	g/FGKOjG4swb+RbDEOsit16M+TUwKY/fFAM6DU=
+X-Google-Smtp-Source: AGHT+IFAZ+5HptGUiUDGLmvJMu6DovfwYUfEmRPdsz7w5zqp337f5EDaC7Nw1vCRvtFinReQiK+inw==
+X-Received: by 2002:a05:6a21:790:b0:1db:f0e0:cfd with SMTP id adf61e73a8af0-1e09e5fecd0mr550077637.44.1732226103580;
+        Thu, 21 Nov 2024 13:55:03 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de47eb05sm249710b3a.75.2024.11.21.13.55.01
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de47eb05sm249710b3a.75.2024.11.21.13.55.03
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 13:55:01 -0800 (PST)
+        Thu, 21 Nov 2024 13:55:03 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 26/27] webkitgtk: fix erroneous use of unsuported DEBUG_LEVELFLAG variable
-Date: Thu, 21 Nov 2024 13:54:16 -0800
-Message-Id: <274319d476d7b4e83c6cfc27e8cd87ab019b66e6.1732225943.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 27/27] llvm: reduce size of -dbg package
+Date: Thu, 21 Nov 2024 13:54:17 -0800
+Message-Id: <194e0e6909687d996f2303ce26baabe109126952.1732225943.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732225943.git.steve@sakoman.com>
 References: <cover.1732225943.git.steve@sakoman.com>
@@ -66,31 +66,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 21:55:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207581
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207582
 
-The version bump to 2.44.3 mistakenly changed the recipe to use
-DEBUG_LEVELFLAG, which is unsupported in scarthgap.
+Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size of
+the debug symbols
 
-Restore the original use of DEBUG_FLAGS
+  Level 1 produces minimal information, enough for making backtraces in
+  parts of the program that you don't plan to debug. This includes
+  descriptions of functions and external variables, and line number
+  tables, but no information about local variables.
+
+This makes the sstate objects a lot more manageable, and packaging
+faster.
 
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-sato/webkit/webkitgtk_2.44.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/llvm/llvm_18.1.6.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-index 90fb7a1d42..a8f825e164 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.44.3.bb
-@@ -93,7 +93,7 @@ EXTRA_OECMAKE = " \
- 
- # Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size of the
- # debug symbols (4.3GB to 700M at time of writing)
--DEBUG_LEVELFLAG = "-g1"
+diff --git a/meta/recipes-devtools/llvm/llvm_18.1.6.bb b/meta/recipes-devtools/llvm/llvm_18.1.6.bb
+index 0496b8ed14..caad611d7a 100644
+--- a/meta/recipes-devtools/llvm/llvm_18.1.6.bb
++++ b/meta/recipes-devtools/llvm/llvm_18.1.6.bb
+@@ -93,6 +93,8 @@ EXTRA_OECMAKE:append:class-nativesdk = "\
+                   -DLLVM_TABLEGEN=${STAGING_BINDIR_NATIVE}/llvm-tblgen${PV} \
+                   -DLLVM_CONFIG_PATH=${STAGING_BINDIR_NATIVE}/llvm-config${PV} \
+                  "
++# Unless DEBUG_BUILD is enabled, pass -g1 to massively reduce the size of the debug symbols
 +DEBUG_FLAGS:append = "${@oe.utils.vartrue('DEBUG_BUILD', '', ' -g1', d)}"
  
- # Javascript JIT is not supported on ARC
- EXTRA_OECMAKE:append:arc = " -DENABLE_JIT=OFF "
+ # patch out build host paths for reproducibility
+ do_compile:prepend:class-target() {
 -- 
 2.34.1
 
