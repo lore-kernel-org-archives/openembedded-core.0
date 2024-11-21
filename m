@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F5BEE64037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8943BE6403C
 	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 21:55:01 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.10491.1732226095188869780
+Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
+ by mx.groups.io with SMTP id smtpd.web11.10703.1732226096526782908
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Nov 2024 13:54:55 -0800
+ Thu, 21 Nov 2024 13:54:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=RKbK5fqd;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-724d23df764so861564b3a.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:54:55 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YXsA/v8O;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-72467c35ddeso1958818b3a.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 13:54:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732226094; x=1732830894; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732226096; x=1732830896; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=SLmXigqoI58DgK7XiIz0/VNXT9LZFROAqvxI19JHSb8=;
-        b=RKbK5fqdESgsPy7oMb8wjmEg+YJcJ1leRcK3AY0mkx3YUVSv8ggkxzKKHE92s/eNtc
-         6CBC2oj7K1i+lWTclXD72Twn7Yc7RqP2IMRc8gMMFR7L+DLoK56wEjN5fC5rNK0yeOJR
-         GbpZbYfk5ueWo6etQQ0nh/t0ycSGDwmGNn3X3MFSYxzO0wqeXSdPksooBHiq2rw+o/r7
-         MbZHS2ijl3AEUMVAlektshWMdpSni3G+9JumwJAr68nDHA9k+RYPZPVrfUjkMDWVAB+A
-         5NtA7lOqeB5f/RAzzZu94f/+IBX4rRAgyrmjifsFidGc+51l3MvOBIFhrmy6v84Arhb2
-         /iMw==
+        bh=xR3XzQwId3B78T0KDvXSYIVDvrN6ffT3J6X+udF+pTA=;
+        b=YXsA/v8OlKsPOgABUA52CCatl4St7g+2rCf4prFJPwNHJlrm4EohUtEiZbJPaKTmOV
+         P+78mhm6edRdNgY4LHimbvVRr1949VgmBj0YcE6gDeRoh6aPZRDT8Z+DAC8XgWDuMxNO
+         ekaCpo9XGmQ87AFK1dbmlHKJDHvFhjukuwL30IZpfWN20+Uxo8nl3jhBKfO5cf5RMgRS
+         8B6q71veE/3vjIZKY3IPxQdttzHbSz6Gy2kjlTQ5DYcBXJQ3zQ3wylP8X2r0wV9d6JB3
+         Nj2F76bsbe1gao6xKrEEEnNQfqCaNmkNwLr+tcG50AuzCh7vfalL02Q9+Y5yKpFZZvJI
+         AzyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732226094; x=1732830894;
+        d=1e100.net; s=20230601; t=1732226096; x=1732830896;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=SLmXigqoI58DgK7XiIz0/VNXT9LZFROAqvxI19JHSb8=;
-        b=uMlz8rgGTn+D7MCVzxtEwjnrH6QoaPr1r7ZwZJpgCEhDh6doVtWAsdLCurSkl7khrv
-         0YPvOcjwqrHwZZe/DoeWLqhc1YNav/GG7OWuis8oSiR7FqkkZp22OH4zRj+PDOxonOAx
-         HeCSQcRF+zffjMr9gpgYvZ7A9POhg1ULQf2TCLXS1h32tf1OBmL4NeTkIWE8lJPBbfXK
-         0bkFBwNbNgXLKM9lGcjCWfX8TALG1DmaTrn4GjhTpiwe4saN1z7tLNKLroTw05DtJjW2
-         OZBTiRa2+c6AxNPIPDvv3SD5r5nkY8NXSjy2fGM+ST0L9Jxmlu4FOw8yNfE9wH0RT0Kj
-         k4fA==
-X-Gm-Message-State: AOJu0YzrmZ0Wx7mrLT8qcTUxH0AwtUP5SGj9aN38hTNiVePLjHu6kwfK
-	MfzA0l0KPZCDU+p6X+rlAlsuf4BuuWgYtKIMu/wLKx7Qb/KQGHD1bAqsmM6/MM/cfJzvQkm6dRk
-	L
-X-Gm-Gg: ASbGnctcWNBNh3e/s3Aw1pdQAOSjnFUwN6ECTpcxGDtztGT2869Z+EQJ/Tc3ClV8jxq
-	SfyDmbFN4m6OTwodFCS9xq0uU+0tF68iF+ygVJq0asyFA5nwbf6flKzzpOji0RTR3Ro36AA5rmW
-	tv/MnJAmmHitYnOzdQU/XWquki+xUSgV/uqR0M/g/fpiMv+qdLxzis2urmEEz3WBZi0I2V4R+lK
-	5seZ7WTuAOhbTrGDAAqZ+51q9fUCRROikF1ZZs=
-X-Google-Smtp-Source: AGHT+IFMzqorGOiaV9AVRMOPt045qQ/KJtjuMhlNBZVeJYUeW7sFp4GRbekSmSITgb1yNvEkWBI3tw==
-X-Received: by 2002:a05:6a00:23cc:b0:71e:76ac:4fc4 with SMTP id d2e1a72fcca58-724df6a2926mr722423b3a.21.1732226094293;
-        Thu, 21 Nov 2024 13:54:54 -0800 (PST)
+        bh=xR3XzQwId3B78T0KDvXSYIVDvrN6ffT3J6X+udF+pTA=;
+        b=P3i+FeT9p1DPaA+w9KWRVDKVuCf6wbUTJCQbqURX4/pe/A2dUg8pOJG+E1keQ85L2R
+         w0DtZk3HOrXhO5hkpqKeLnWF16cVhAhv0cvXApT/Q5nHRK2/wekmWvTDHLb2SuXhJT/s
+         qzEvtk8t+kPwfLUxE3ci86JwmZacwWAgJp8mKOo+vQmgkI+ZNnGyom+2xSchDO8Mk5h5
+         QshqwbyrZGhKUp2oXbdyH0nVP6Jdyn/et96+y5SSUl+/UFCtdSG5rMVlDSR/v6jnn84X
+         euQXB0xxlVdEsESLjBy2NHLFFlKncpTA0BsoFRrgD/NkqmlVawd6BXNQnvID9vJtHgKQ
+         PwVg==
+X-Gm-Message-State: AOJu0YzWsjL5oVE6cPPEcdG5dHqRiC9PdyjkJAD9Mgd1npFkiMF47fi0
+	fqUqoh92xKH8h73MoPRwkkbp7huU6NQLpNy1VErrRLUPVDFMB5yZg1QdOxVvK40AVhKeIE5ahZK
+	o
+X-Gm-Gg: ASbGncve9FlJpXD12ffT7qcW5Dui9cRPtzY2/MQ0h4L/YWacQ6BWYiqlMCM0zlPVDW+
+	E2O99wXnchMYFyoWUlXVLxxi2h2uOynseDdeID8WFichjrrwBtRN8OK4nnXCyrfBjTm79ZkO9Fe
+	u/Fat3ZgmBXtBxNspaSfuIfmuNFGBGieLW6uVFzyKhvsaCTAG/avMPXJS2IrM7FELSlV2303E9s
+	mfjCbHc9AEChGWOJwuMGvlY0Bh/DMOs0ZmYW70=
+X-Google-Smtp-Source: AGHT+IFroI2mk5wNZo52nwZy9QUWfrw5MjCsmqPMe30EzDOJx1+ZMXrLRD8+7U1VPm3zdCfQlFWLow==
+X-Received: by 2002:aa7:91cc:0:b0:724:d05e:3845 with SMTP id d2e1a72fcca58-724d05e39b0mr5601901b3a.4.1732226095728;
+        Thu, 21 Nov 2024 13:54:55 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de47eb05sm249710b3a.75.2024.11.21.13.54.53
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de47eb05sm249710b3a.75.2024.11.21.13.54.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Nov 2024 13:54:54 -0800 (PST)
+        Thu, 21 Nov 2024 13:54:55 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 22/27] tcl: skip io-13.6 test case
-Date: Thu, 21 Nov 2024 13:54:12 -0800
-Message-Id: <12e7c110d14156cd1e6284a79a9d16feac3b4059.1732225943.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 23/27] groff: fix rare build race in hdtbl
+Date: Thu, 21 Nov 2024 13:54:13 -0800
+Message-Id: <135667502437b1b805711b77276466663b17fed3.1732225943.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732225943.git.steve@sakoman.com>
 References: <cover.1732225943.git.steve@sakoman.com>
@@ -66,43 +66,84 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 21:55:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207577
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207578
 
 From: Ross Burton <ross.burton@arm.com>
 
----- Result was:
-{abcdefghj
-01234} 0
----- Result should have been (exact matching):
-{abcdefghj
-} 1 01234 0
-==== io-13.6 FAILED
+It's possible to build the hdtbl examples before grn has been build:
 
-This test is documented as failing on slow machines, so just skip it.
+groff: error: couldn't exec grn: No such file or directory
 
-[ YOCTO #15407 ]
+Backport a dependency fix from upstream.
+
+[ YOCTO #15610 ]
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit f69183586655294c9aed6687cebe57767c2f3eb8)
+(cherry picked from commit d590a32423d05cefc4e7282f971f633b3fa0b941)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/tcltk/tcl/run-ptest | 2 ++
- 1 file changed, 2 insertions(+)
+ ...l-Fix-Savannah-66316-missing-grn-dep.patch | 38 +++++++++++++++++++
+ meta/recipes-extended/groff/groff_1.23.0.bb   |  1 +
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-extended/groff/files/0001-hdtbl-Fix-Savannah-66316-missing-grn-dep.patch
 
-diff --git a/meta/recipes-devtools/tcltk/tcl/run-ptest b/meta/recipes-devtools/tcltk/tcl/run-ptest
-index a403a74bb6..c485e535c7 100644
---- a/meta/recipes-devtools/tcltk/tcl/run-ptest
-+++ b/meta/recipes-devtools/tcltk/tcl/run-ptest
-@@ -15,6 +15,8 @@ SKIP="$SKIP cmdMZ-6.6"
- SKIP="$SKIP exit-1.\*"
- # 15407 15421
- SKIP="$SKIP \*io-46.1"
-+# io-13.6 explicitly says it can fail on slow/loaded machines
-+SKIP="$SKIP io-13.6"
- # 14825
- SKIP="$SKIP socket-\* socket_inet-\*"
+diff --git a/meta/recipes-extended/groff/files/0001-hdtbl-Fix-Savannah-66316-missing-grn-dep.patch b/meta/recipes-extended/groff/files/0001-hdtbl-Fix-Savannah-66316-missing-grn-dep.patch
+new file mode 100644
+index 0000000000..d9455af2ac
+--- /dev/null
++++ b/meta/recipes-extended/groff/files/0001-hdtbl-Fix-Savannah-66316-missing-grn-dep.patch
+@@ -0,0 +1,38 @@
++From 12169aa269341753d491a69e9adb86c58dca039a Mon Sep 17 00:00:00 2001
++From: "G. Branden Robinson" <g.branden.robinson@gmail.com>
++Date: Thu, 10 Oct 2024 18:17:08 -0500
++Subject: [PATCH] [hdtbl]: Fix Savannah #66316 (missing `grn` dep).
++
++* hdtbl.am (HDTBLPROCESSEDEXAMPLEFILES): Declare dependency on `grn`;
++  because `-I` flags are used, it is dragged in even though not
++  explicitly needed.  Resolves race against `grn`'s availability in the
++  build tree.
++
++Fixes <https://savannah.gnu.org/bugs/?66316>.  Thanks to Ross Burton for
++the report.
++
++Upstream-Status: Backport
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ contrib/hdtbl/ChangeLog | 10 ++++++++++
++ contrib/hdtbl/hdtbl.am  |  3 +--
++ 2 files changed, 11 insertions(+), 2 deletions(-)
++
++diff --git a/contrib/hdtbl/hdtbl.am b/contrib/hdtbl/hdtbl.am
++index b6c334c18..3c37174f2 100644
++--- a/contrib/hdtbl/hdtbl.am
+++++ b/contrib/hdtbl/hdtbl.am
++@@ -119,9 +119,8 @@ SUFFIXES += .roff .in .ps
++ 	&& sed -e "s|[@]fontdir[@]|$(fontdir)|" \
++ 	       -e "s|[@]EGREP[@]|$(EGREP)|" $< >$@
++ 
++-
++ $(HDTBLPROCESSEDEXAMPLEFILES): $(DOC_GNU_EPS) groff troff eqn pic tbl \
++-  grops font/devps/stamp contrib/hdtbl/examples/common.roff
+++  grops grn font/devps/stamp contrib/hdtbl/examples/common.roff
++ 
++ uninstall_groffdirs: uninstall-hdtbl-hook
++ uninstall-hdtbl-hook:
++-- 
++2.34.1
++
+diff --git a/meta/recipes-extended/groff/groff_1.23.0.bb b/meta/recipes-extended/groff/groff_1.23.0.bb
+index 0fc4f831d8..8a16321479 100644
+--- a/meta/recipes-extended/groff/groff_1.23.0.bb
++++ b/meta/recipes-extended/groff/groff_1.23.0.bb
+@@ -12,6 +12,7 @@ SRC_URI = "${GNU_MIRROR}/groff/groff-${PV}.tar.gz \
+            file://0001-Make-manpages-mulitlib-identical.patch \
+            file://0001-build-Fix-Savannah-64681-webpage.ps-deps.patch \
+            file://0001-build-meintro_fr.ps-depends-on-tbl.patch \
++           file://0001-hdtbl-Fix-Savannah-66316-missing-grn-dep.patch \
+            "
  
+ SRC_URI[sha256sum] = "6b9757f592b7518b4902eb6af7e54570bdccba37a871fddb2d30ae3863511c13"
 -- 
 2.34.1
 
