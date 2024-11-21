@@ -1,172 +1,160 @@
-Return-Path: <rasmus.villemoes@prevas.dk>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA9A5D75BDA
-	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 09:08:51 +0000 (UTC)
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (EUR03-AM7-obe.outbound.protection.outlook.com [40.107.105.80])
- by mx.groups.io with SMTP id smtpd.web11.6819.1732180127259040972
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 73874D743C9
+	for <webhook@archiver.kernel.org>; Thu, 21 Nov 2024 10:29:42 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.web10.7621.1732184976331845720
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Nov 2024 01:08:48 -0800
+ Thu, 21 Nov 2024 02:29:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@prevas.dk header.s=selector1 header.b=jSVO4F09;
- spf=pass (domain: prevas.dk, ip: 40.107.105.80, mailfrom: rasmus.villemoes@prevas.dk)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kP2qSp/e6EaKSnR8WavzpESrfGPt0Ojl7ftgj14rnGWupQbJMXjfKjLaE4qa8XSZ9/pPO1TWUnpk57VqPm1ZvHelneYQnfZRRTUUNZekQ56CR8CqlmPMsvA72DXvgneeZhfgzBS7pA+D34t8aHNZwsp4IwxuSxqS6nd6SSz3714AIdf+4xnGugAl4WzhIOOGIty88XXgve7/wP4+AmGmNVLWOTtt4NvKjK+w2+mvBoQj4zBdQwdehtVnfrLmW7WJXlNV2wUpgx+yO7GDCa6MCnn5S+fykyldKb4atElC9nBz0lNzmafV5zMQumBDy1PFJfUumVvRWbLOCG7myeKdRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ng4pUyvESRsamNEEk0NwOxnYmNo/qkkLH6+Zv1JIBLo=;
- b=cqMHm4PEbkBAVTlBtJaGVPgOJYlHzVO845KaJH2SLrYGBYL7X4TPUSozY5PFH8fRD/Y9IuEOTS+NAwb5kwZxq6HmN7J6os/04FiVlh1gLQAQk+mfQcj3PxiC/MdN8Hl7EO6dBdO/KrISFW1rsjps2RJM6Xj3J/HhfUItD6IzvxSfBOTia8Qlxba/xDoVFjbAanhTkZEzhMRJdLmTwxD4L7QZv1LEJDOHjYcQtNSIL9dYk8fkHZ4Czy4BJi2jNShu3jq1qTevss0iMQolLJIM0qK4gBRaPrG0M4ta+Wm9XPb1Fvzm3UqaWoiKLJVemSnA+A4FU6e8kPfQ5C+y8XlHpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ng4pUyvESRsamNEEk0NwOxnYmNo/qkkLH6+Zv1JIBLo=;
- b=jSVO4F09POvklXF6ny2Yi0sqeYjoWkdKLrwa8VFpk41aIVHy57MDDHlOFDsC/PsurP/QVbt8ly7Jak7qA1xkbvMLJygLTXuQtetZp4lwQC+KZ6Fnz8/aP62rNGhbPoPABz7mGptbp9s37qdJWnxQ0EjMMQ3GOAYGGe+IWLhKujI=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prevas.dk;
-Received: from DB7PR10MB2475.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:41::17)
- by AS1PR10MB5626.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.14; Thu, 21 Nov
- 2024 09:08:42 +0000
-Received: from DB7PR10MB2475.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7e2c:5309:f792:ded4]) by DB7PR10MB2475.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7e2c:5309:f792:ded4%5]) with mapi id 15.20.8182.004; Thu, 21 Nov 2024
- 09:08:42 +0000
-From: Rasmus Villemoes <ravi@prevas.dk>
-To: openembedded-core@lists.openembedded.org
-CC: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Changqing Li <changqing.li@windriver.com>,
-	emkan@prevas.dk,
-	Rasmus Villemoes <ravi@prevas.dk>
-Subject: [PATCH] bitbake.conf: set FILESYSTEM_PERMS_TABLES using ??=
-Date: Thu, 21 Nov 2024 10:08:47 +0100
-Message-ID: <20241121090847.608522-1-ravi@prevas.dk>
-X-Mailer: git-send-email 2.47.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VR4oa0rW;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-431481433bdso5885815e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 02:29:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1732184975; x=1732789775; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=YMeGWNwgNYUX+ylca6rQcF9He639tsTRdYhDEEPYoiE=;
+        b=VR4oa0rWQp9Mq5vDh+JmtI6ftxibpasNpoo31VjemW7JvCjhQ9NyzEKAC6E+49Xm4O
+         yivk8vi6Xk0WKa0B0DEYK2br8vPOQOaB+/uWRCKatrFr5kpGxRs5CjG8cZovfOnvc6bQ
+         Jt3TtkwPki9ame7NOoqoo94a/O3IQobSkyQ/0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732184975; x=1732789775;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YMeGWNwgNYUX+ylca6rQcF9He639tsTRdYhDEEPYoiE=;
+        b=Kb6wELNiKpAmnpg0xgn/rC9eTXFsqjavq/Mqui+SqhJDoUkoZvdBzRHAf7v/nlvKpm
+         Si5Hd9HoIGqHY8RH2L0ydA1CCPEPYbGxzVEiOaksBHp1vfy8Uxkdbd9YgoBcTfXlyl51
+         Pb2+NhlBvmMPp17hwGmbaIFhTkdznSKNk4FtfRwpPAsJUGrN/V7h3T3uDgOBB/hDK6Bk
+         FtHdyxjonSPpvowHdQFoEvvLXq/ez8JfAOEvFFyDj4t+DqfiXm5YbxCCuHLVlRBgByGj
+         d1FJ2aCvcyGTSKSYZSwZTlc2sibulvdLj4oRzOWlvm9q1iHpE/PGFwt5c7vu5EpnuTlC
+         yThA==
+X-Gm-Message-State: AOJu0YzrbyNfEauXestDd06aIMnhdkqWQM+VqCWdBi6oJit6cAIDXnoA
+	W380jnqsNrO+/BRsOBfABivkUJyTcL1jCCU4Gj66iOjaDpmagj/vDqyNhIceJ9c=
+X-Google-Smtp-Source: AGHT+IHjtD1H53rhamq0Ud+VT8ru4jkPEyuOyrnk1Jiy1h2tPkfEDLYI6mw+/+ior5VcM07YzJbIaQ==
+X-Received: by 2002:a05:600c:3c97:b0:432:d797:4071 with SMTP id 5b1f17b1804b1-4334f026fe4mr48792675e9.32.1732184974600;
+        Thu, 21 Nov 2024 02:29:34 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:67b8:af30:418e:1d3e? ([2001:8b0:aba:5f3c:67b8:af30:418e:1d3e])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-433b46189besm49264715e9.26.2024.11.21.02.29.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 21 Nov 2024 02:29:33 -0800 (PST)
+Message-ID: <9733ac215423b7161005b10918239e8a0964d067.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2] qemu/testimage: Ensure GNU tar is in test
+ images
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Date: Thu, 21 Nov 2024 10:29:33 +0000
+In-Reply-To: <CAMKF1soj2TtPX5KTrO2Hk5YUySYZ9-mDzK6=SbJtej=uYFnDNw@mail.gmail.com>
+References: <20241120213329.2482150-1-richard.purdie@linuxfoundation.org>
+	 <CAMKF1soj2TtPX5KTrO2Hk5YUySYZ9-mDzK6=SbJtej=uYFnDNw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: MM0P280CA0013.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:190:a::19) To DB7PR10MB2475.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:10:41::17)
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB7PR10MB2475:EE_|AS1PR10MB5626:EE_
-X-MS-Office365-Filtering-Correlation-Id: 434cfb74-1baf-4c16-b70b-08dd0a0c186e
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|52116014|366016|376014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?olc717AqzTYNDFCgYdCG6q06js9ARa+9yrADO+WTTDBoBogRb5x33d7G1mMc?=
- =?us-ascii?Q?dycckAPu0I/JXHp57sdYMTPNgJouXopMAmKhxif21oFtyhT+swoyBWrd5Sc6?=
- =?us-ascii?Q?zWqfMRXpheTjYUd+xCQJGcY2kLEi7iIn+h6KShl3ydKvvRUKMj4QrSHqQ9Iq?=
- =?us-ascii?Q?tlp7Hx0djhftj/b9jqhxCx2MINp/4fk/Dd+48CFcytjEJhnW/2YWbM5B+WSs?=
- =?us-ascii?Q?sHFrTtVuXqhenG2izcJVzx44sllo8DNf9/i0Tbr3zPK39mJ+R3NbT3eixn/a?=
- =?us-ascii?Q?BbEtFnDp2/own4xgVeFQUamEpR/H4k/FWzcWevWaHxtnKj2VSsWY1+vYsIG0?=
- =?us-ascii?Q?SSNOE5YSOLn09vI07TXMwr3IovXf6gpRKMbfHSCXYeeQ8jdOYRks3VtC6g/z?=
- =?us-ascii?Q?kghp7M1Gkz6SkI3AMAY33C8lih7ZNycoRgWGe5dEWMHDxurKtWa16qVMB7J3?=
- =?us-ascii?Q?EsOOg29MhhSW9NV1TgBx7DubRgS4FtOYjtGlt1JpHff7dNmGIsXR6kvLwc2z?=
- =?us-ascii?Q?w7dCOPRFJUhHTUAQwfGgHQ9kiCaCzzCp3cS8v5MC/F4mcWQJ9f9J/xL0woNW?=
- =?us-ascii?Q?8HmiUPx5vkcKwSH7AHMYodO9sRJ6MQ3lFalC3azsKMyv80+fO4BbCO54b7v4?=
- =?us-ascii?Q?YowsWYecGhtQmMymfnlT555To7jJoq7ASwEKkmOq5c8hDA5pHcAaHBcRdcHp?=
- =?us-ascii?Q?sdkQ5Z9YRtb7oVU7U4k2d5lzIUL2l77gz6GFMt/8EAGt9fzCObbwsZZJvWlg?=
- =?us-ascii?Q?cSD77XHZy8DpD79sDsL5LKtSKwn8MNVH0S6BwCWtSQdzDAFfp5njbYhalDAl?=
- =?us-ascii?Q?Eg7OMr6PjxFEtntiXO/N/eCbss1lE/ZamQjatap/j+bDs76ruheYiHaE0+ot?=
- =?us-ascii?Q?7jtJuHGX6eo3JTHzhcfNBu5pAERKTYiVtriUKT/JwqDmQ3Xp9HgKdLn1YVH3?=
- =?us-ascii?Q?eWE9n+OVdLm0Lq9iYX3uRpFFJf/HJ1rBVkXPQkR0W5MzLfU9YFPV2MY4BORz?=
- =?us-ascii?Q?g3iqk0QY1uF2ML/lF/aQ2XqeYrCVXSEZnY8SLA3csGhfEsqSmmEG3bVoVxZ9?=
- =?us-ascii?Q?Nnzu3dN+BvINrdNcXwTAvaMYAtOe7EdTmC0IH92ZAtrB4ArhLQMdhslCs8kH?=
- =?us-ascii?Q?ydyE0Qmx/aNyOG78VEPC0id4ujD3LffEe1LpYyX9eIIoS2SlBSDexkN7Rirn?=
- =?us-ascii?Q?9Iu7oyWelJNrMHsK1kwGd67XJAEo7kZNtQfo1GXhjGr00PI/4nRLDXIDYFSP?=
- =?us-ascii?Q?wRsawDN7XdSmeFcsYKhiWhgo/vjv7m9UzuctslmtV88u0m3X4Q1OY6O6LKqc?=
- =?us-ascii?Q?OFyP5sw6XvX1hl3hpVM17smnIxdwjUrc6lvZW3Oatomp97GSU4JcthBjwpxu?=
- =?us-ascii?Q?29llwBU=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB7PR10MB2475.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(366016)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?UI5mMoOGDH6Ups0TqPffgHpBFDh2Qw27y6Qk+4y+NRUfbpr28PpWifnZ+FS7?=
- =?us-ascii?Q?LYIIupyHmVVRbvT9b96COFT4O9kR0gctLylC49DhvO+30R7+TGoiWzx93Nj+?=
- =?us-ascii?Q?ulKbORuzJITKAvaXglE2k+NQzDj6KWFDNKfO76fofuafSdK90gQrx+7YgHhH?=
- =?us-ascii?Q?w+4tkigawRthVm3Dxk85sCpxYx5Gh4oReSz7XInGv3+z6uZ0eXfkXzWnWZJC?=
- =?us-ascii?Q?EsS9Iy7ETsQROv/WJQnyYgHOh57TnsnCv6OU0nxjKcBHamri/mYJ0vKNRcv4?=
- =?us-ascii?Q?rGFJPt0CSlWpD+MnUN0HbQAa1cGb3HFzBz0ZGEC1I/PhsrNsBr28VtLhuO1B?=
- =?us-ascii?Q?Kqtq6s55dN4SfSIVWCIhAfARsWCv0tdY+d0tM7rq8V79ZyoemW0eZHwO7g8f?=
- =?us-ascii?Q?QPgMd4Kuz5g3ZECjAJfSwpFwVmy8ajRhMM6M/YR2pPl2P/m3eTnkkfTd8KyF?=
- =?us-ascii?Q?fq/omCpq37MH8AcI2w0NHIuvE2bNVj/ly1ETthaIYYHwIzdfOopaUKh7ufZz?=
- =?us-ascii?Q?ZCZ3i98dk+s9YiIbmiMwAK5kTMbfb6pZ2FyxMDIiPAhBBf1KugypCkAKVakq?=
- =?us-ascii?Q?fRgV44RZ0NgVPWapYwI7LJzwS8APaRA5+10hVy6vFfFXPJvsqtVn6Xu6Tooi?=
- =?us-ascii?Q?RTb8gcKIXJDjiCo6h1YQZvtT3NSuBqohPspm1KrQE/fdnUg6/+bj910Cp9E4?=
- =?us-ascii?Q?aTHCjCb0qvB4+830uVwqL0ZSN+SqDJUFTUaDf6cazkBbFMd3tehRu63DhE1Z?=
- =?us-ascii?Q?xVCCE8OQsrCOCxuGcYl8IAtyYGexWi9qDFddTXN0KcFB5/8qscebeUa6ma8M?=
- =?us-ascii?Q?CcJp7y+gu13zcjVCphGe37+2F6RkMuxcWySaF+QHQx9q/hze39PF4l894lAa?=
- =?us-ascii?Q?o7y6+qGYViSYBxKPe/+fCCfebtwoHX5MzajegfL/PMdyqW++HWsR7r9ON5W0?=
- =?us-ascii?Q?1jW3PgDFIZ0UZD+MmGHKoQhOcaa1WnA6Ii5JX7mvqfA84j2BOu5oQ5VY4t2j?=
- =?us-ascii?Q?AlFcsOGewUs7ZeqH65bOaQzw+biQf+xxgUbjRTWsFrVmgfj3N3sLePKQi049?=
- =?us-ascii?Q?KX+ikBGbyf18zRxooYvhZJ2gWe3fboZmq/ylhyGc/v2Q02bq+usSV6NDXR4R?=
- =?us-ascii?Q?MNpDiOtuhNAAxOaJRA4c6KuxQTm0H/ybayiMW9n4PEu9/mPfGttiHFCvVCMk?=
- =?us-ascii?Q?2vzX95uxraEey9gLBSZ787cEoaWZot+KEg36fqB2LsGRSjvHGonu2Uw5+zSr?=
- =?us-ascii?Q?tl5gAPniP+pf8/ha7CnToBwcJsnZEu/CMuQNP4a8DK4cyC1yXg9kDM3ORZfk?=
- =?us-ascii?Q?0Jp8HTRj0frunImIQfsaps21Jy0zO6M1fChgSEV2B85fdHufJTkScWF9FxCl?=
- =?us-ascii?Q?z7nYYgF7KR4YLHCt9Xg/w9s9HThAr76xXCptZ4O3bQlkkN5E6pdmY8V5jies?=
- =?us-ascii?Q?fpqYe0r6U1Ns5cC26hmou8s9VHLR6HkTyWtBXhCe96ofDGKryQ492YJMolN0?=
- =?us-ascii?Q?UHRsa/m9zbwO0pUjQrOR71Jyq+ESkXdiCZej5k+RctsGkVWaTws6DbqOjbTv?=
- =?us-ascii?Q?HyRpZcidDVwuk9tkZaUNmbkF4ikGGeCDXgFL/tHlpFL2fTt4x9GW/12gf3dj?=
- =?us-ascii?Q?0Q=3D=3D?=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: 434cfb74-1baf-4c16-b70b-08dd0a0c186e
-X-MS-Exchange-CrossTenant-AuthSource: DB7PR10MB2475.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2024 09:08:42.4077
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MUgFApKe8SaAdmpGR1Js4KJmYH9wYhHYp/BniO/YX82ntGdZAamFNLysJVMrq4Z8qgYDdleorkXDyqFp6x7ToXzd2CabKuvgr353AR83YAY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR10MB5626
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 09:08:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207519
+ <openembedded-core@lists.openembedded.org>; Thu, 21 Nov 2024 10:29:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207520
 
-From: Rasmus Villemoes <ravi@prevas.dk>
+On Wed, 2024-11-20 at 19:08 -0800, Khem Raj wrote:
+> On Wed, Nov 20, 2024 at 1:33=E2=80=AFPM Richard Purdie via
+> lists.openembedded.org
+> <richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
+> >=20
+> > We've seen cases where a ptest (strace) has a 43GB sparse file in the t=
+est
+> > directory. busybox tar doesn't work well with this. The resulting 1.4GB=
+ archive
+> > takes hours to extract too.
+> >=20
+> > Ensure tar is added to our full images and use the sparse option to col=
+lect
+> > files for debugging. This stops crazy build hangs.
+> >=20
+> > Since tar is GPLv3, we have to exclude it from that test code. We don't=
+ boot
+> > any of those images so the debug collection code is safe there, at leas=
+t for now.
+> >=20
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > ---
+> > =C2=A0meta/conf/distro/include/no-gplv3.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 2 ++
+> > =C2=A0meta/conf/machine/include/qemu.inc=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 +++
+> > =C2=A0meta/lib/oeqa/selftest/cases/incompatible_lic.py | 1 +
+> > =C2=A0meta/lib/oeqa/utils/postactions.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 3 ++-
+> > =C2=A04 files changed, 8 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/meta/conf/distro/include/no-gplv3.inc b/meta/conf/distro/i=
+nclude/no-gplv3.inc
+> > index b3eb936d94f..705e05319af 100644
+> > --- a/meta/conf/distro/include/no-gplv3.inc
+> > +++ b/meta/conf/distro/include/no-gplv3.inc
+> > @@ -28,3 +28,5 @@ CORE_IMAGE_BASE_INSTALL:remove:pn-core-image-weston =
+=3D "matchbox-terminal"
+> > =C2=A0# Some python-tests use bash outside of ptest
+> > =C2=A0RDEPENDS:${PN}-tests:remove:class-target:pn-python3 =3D "${MLPREF=
+IX}bash"
+> > =C2=A0INSANE_SKIP:${PN}-tests:pn-python3 =3D "file-rdeps"
+> > +
+> > +MACHINE_ESSENTIAL_EXTRA_RDEPENDS:remove =3D "tar"
+> > diff --git a/meta/conf/machine/include/qemu.inc b/meta/conf/machine/inc=
+lude/qemu.inc
+> > index bb7aec76750..d7392d47623 100644
+> > --- a/meta/conf/machine/include/qemu.inc
+> > +++ b/meta/conf/machine/include/qemu.inc
+> > @@ -28,3 +28,6 @@ KERNEL_FEATURES:append:pn-linux-yocto =3D " features/=
+nfsd/nfsd-enable.scc"
+> > =C2=A0KERNEL_FEATURES:append:pn-linux-yocto-rt =3D " features/nfsd/nfsd=
+-enable.scc"
+> >=20
+> > =C2=A0IMAGE_CLASSES +=3D "qemuboot"
+> > +
+> > +# Use gnu tar so we can handle sparse files in testimage debug archive=
+s
+> > +MACHINE_ESSENTIAL_EXTRA_RDEPENDS +=3D "tar"
+>=20
+> I would suggest adding it where it makes a difference intead of adding
+> it to all qemu images.
 
-This default value of FILESYSTEM_PERMS_TABLES is set before
-local.conf, ${DISTRO}.conf etc. are parsed. So in order for
-${DISTRO}.conf to define the value, it has to use =3D. But that then
-precludes the ${MACHINE}.conf from having final say, unless one there
-resorts to some override hack.
+Which images are going to have the testimage code run against them? It
+can be any of them.
 
-Demote this default setting to a weak default. Then local.conf,
-${DISTRO}.conf, ${MACHINE}.conf etc. can each use ?=3D with the expected
-precedence.
+I initially added this in the image class code but made it conditional
+upon qemu. Putting this into the qemu machine code itself seemed more
+appropriate after looking at it like that.
 
-Signed-off-by: Rasmus Villemoes <ravi@prevas.dk>
----
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So I'm open to better ideas but I need a specific suggesting of where
+you think is better.
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 02bbf0e7a5..daf2d952e4 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -381,7 +381,7 @@ FILESEXTRAPATHS ?=3D "__default:"
- #  base_prefix, prefix, exec_prefix, base_bindir, base_sbindir, base_libdi=
-r,
- #  datadir, sysconfdir, servicedir, sharedstatedir, localstatedir, infodir=
-,
- #  mandir, docdir, bindir, sbindir, libexecdir, libdir and includedir
--FILESYSTEM_PERMS_TABLES ?=3D  "files/fs-perms.txt \
-+FILESYSTEM_PERMS_TABLES ??=3D "files/fs-perms.txt \
-                              files/fs-perms-volatile-log.txt \
-                              files/fs-perms-volatile-tmp.txt"
-=20
---=20
-2.47.0
+> many real world images may not want/have gtar in image and they do use
+> qemu for testing images
+
+How many use the debug collection mechanism in oeqa though?
+
+> doing this means they will be testing something else on qemu as
+> compared to real target.
+
+This isn't doing it for anything other than qemu. Thankfully tar has
+minimal dependencies so whilst it does change the testing, the impact
+is relatively isolated and mainly means we don't expose busybox tar to
+as much automated testing.
+
+As I said, I'm open to there specific proposals but this was the best I
+could come up with. We have a serious issue with the sparse files and
+doing nothing is not an option.
+
+Cheers,
+
+Richard
 
 
