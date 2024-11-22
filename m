@@ -1,122 +1,101 @@
-Return-Path: <martin.jansa@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1EA99D75E47
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 13:40:56 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web11.24626.1732282853886852566
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3EC8BD75E48
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 13:46:26 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web11.24749.1732283183027812259
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 05:40:54 -0800
+ Fri, 22 Nov 2024 05:46:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=P+PO2/DJ;
- spf=pass (domain: gmail.com, ip: 209.85.208.175, mailfrom: martin.jansa@gmail.com)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2fb584a8f81so25044571fa.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 05:40:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732282852; x=1732887652; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+O9O/vE3Gqlr798WzBLILdkrfIS5a2Y+pPyHPs1OzrM=;
-        b=P+PO2/DJQfcZ5cGyDDAdbYR6pyTFB7g+yr4zEZH/n+HbFqiu0/kXDvAsTKQUkY6TdB
-         ENtwrNhR7AHQ4v+FEbF7AIAzoQkF54+3qG6hKqHB+jzd0nRzzSiXdEPfjBJ9P/6aDJic
-         4OverNjRhaXsS/x0wU2vqSTDE817CQXil7JFNVyq7/E9o4vAWKb65YbeuTu/9a5ISck7
-         qVXlxYJNy3Bu6gRjJpNClBA9D10Mcn1IFx+FzUokdnH2vPs3mdegunxNTW18Acv5cJvs
-         9MWpdwz1au3j318hbT3F5nTCyOgjw3w7dtD2D3ZCyQ9yYHF8kpvF0+2hoHEOTXQvsjDS
-         +Yyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732282852; x=1732887652;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+O9O/vE3Gqlr798WzBLILdkrfIS5a2Y+pPyHPs1OzrM=;
-        b=jnbSiYtftP88U9xAU4IwJnLHBmVru1yIHmwwEBFZCSxoFwlvkK3xRWf1DiFo6RtoMA
-         ngnnSQXNILWifqg6LVHyPhAHgwbSYeXz9KJI6Plj3UMO14vGyklCE7zzt3NKLTlJGOPX
-         VQVh+oB35QLg1QiZFaSPHwOnbsPYX4+1oxV+tiJ0PJF//Y+a/yrEXmI5c4XMDDjRdRJJ
-         5AOvg6IrLYbid2LIx56Z80dw2krTCdN8I80sLU3YdLHZ+6FlKNOMC/MrmIgArd1CIG6U
-         2eydPZd74pPJaOS5tCn4fUvlc5bti0pHwH7uKhk5Bn9lKFv3yY9FDt1Ct0blbyfzpcjP
-         Ia5Q==
-X-Gm-Message-State: AOJu0YzYL+6P7586mR1m34dIn3YxnJ+Hddtk4pNNjMEDZDzQRCMlZfhS
-	X1h1Ucsh2QpSlA8io28LXGXadLQtgQ2WJGu4lE8SRyD8Lva34Nx9x1P4sQHCVg5uRhjNYh+m6tQ
-	8JcMSKowQQWyl6wZcQtfik3LzqaWG9O5N
-X-Gm-Gg: ASbGncsSUS2UmnEzjmkiH1O5CB+8KYrqQP2mcV45/str8xYRKsUdfvVWQkysvgT3gEm
-	x8zVes+MEebtSKlQbkNAI8Ug+vMrU836FOA==
-X-Google-Smtp-Source: AGHT+IGqREHbSTyZK23pyI/jBOL6g+ObGbwRqnfxsGUi/RYSUcRy+mYJc4bfWtBREymt0ZUD4tYxjADyE1hMvHeaZyI=
-X-Received: by 2002:a2e:a902:0:b0:2ff:a4c6:b144 with SMTP id
- 38308e7fff4ca-2ffa7180014mr17196271fa.25.1732282851673; Fri, 22 Nov 2024
- 05:40:51 -0800 (PST)
-MIME-Version: 1.0
-References: <20241122133140.1627-1-karem.ibrahim46@gmail.com> <20241122133140.1627-2-karem.ibrahim46@gmail.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=HOsTCkcA;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=BG8T7hcI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 01010193541fac69-c9ae1d2e-1318-4136-93a7-21fc9595e079-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1732283182; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=SfKiGHEHh4/9HFZ2fAbYFfcspvkcwcjPtsvPY5aeyDg=;
+	b=HOsTCkcAEpxsFoOcjTb3fypyJyF/IfOADPj97dBWWTabhHL9TNfTcCBNr53MXAm2
+	stuXKfA7gKzF7YAsjd7nfmCcn83HSthiQW+hvlCrPXPNhUBWlqI9bC1luNV6DKAZg30
+	JXmza+cyZW9hGfaTxz4MNvlLx2x+eXx25gPjDAj4=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732283182;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=SfKiGHEHh4/9HFZ2fAbYFfcspvkcwcjPtsvPY5aeyDg=;
+	b=BG8T7hcIlGu59XC55UDLgrjhYC4nRDkTVbwvg8UfBcSQnuwZ+HHnFUIhu9ummofR
+	cDbw1dilT2pIiFn2hRKlm9c9QldXa2sUYk2sK6puCMaLMOB57oin6sJ20IGr6vpyxV0
+	ZClBM1F3mZGICUu6RzCFErUW0+EvNM2dvTcOKliY=
+From: patchtest@automation.yoctoproject.org
+To: Kareem Ibrahim <karem.ibrahim46@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/1] Added a new cargo-online bbclass for recipes requiring
+ remote crates
 In-Reply-To: <20241122133140.1627-2-karem.ibrahim46@gmail.com>
-From: Martin Jansa <martin.jansa@gmail.com>
-Date: Fri, 22 Nov 2024 14:40:40 +0100
-Message-ID: <CA+chaQe5wbdQjO=KWzCEOadxexo6ke_RRaoesk1GET-Jy5V4GA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/1] Added a new cargo-online bbclass for
- recipes requiring remote crates
-To: karem.ibrahim46@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+References: <20241122133140.1627-2-karem.ibrahim46@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <01010193541fac69-c9ae1d2e-1318-4136-93a7-21fc9595e079-000000@us-west-2.amazonses.com>
+Date: Fri, 22 Nov 2024 13:46:22 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.11.22-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:40:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207617
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:46:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207618
 
-This isn't a fix, it's just very bad work around, see:
-https://git.openembedded.org/openembedded-core/tree/meta/classes-recipe/car=
-go-update-recipe-crates.bbclass
-which you can use to avoid needing the network access during do_compile.
+--NextPart
+Content-Type: text/plain
 
-On Fri, Nov 22, 2024 at 2:32=E2=80=AFPM Kareem Ibrahim via
-lists.openembedded.org
-<karem.ibrahim46=3Dgmail.com@lists.openembedded.org> wrote:
->
-> - This change was intended to abstract user from having to set compile ne=
-twork flag to get remote crates
-> - as network access was disabled by default in kirkstone version
-> - I faced an do_compile error with bitbaking Qualcomm qcrosvm under yocto=
- kirkstone with message "Could not resolve host: github.com"
-> - And after some hours of debugging I noticed that cargo inherited by rec=
-ipe needs remote crates during do_compile of the cargo.bbclass
-> - It was fixed by adding line do_compile[network] =3D "1" to the recipe
-> - So I found it more convenient, since cargo build usually need network a=
-ccess, to abstract users from these details of cargo.bbclass do_compile
->
-> Signed-off-by: Kareem Ibrahim <karem.ibrahim46@gmail.com>
-> ---
->  meta/classes/cargo-online.bbclass | 7 +++++++
->  1 file changed, 7 insertions(+)
->  create mode 100644 meta/classes/cargo-online.bbclass
->
-> diff --git a/meta/classes/cargo-online.bbclass b/meta/classes/cargo-onlin=
-e.bbclass
-> new file mode 100644
-> index 0000000000..175c94e09d
-> --- /dev/null
-> +++ b/meta/classes/cargo-online.bbclass
-> @@ -0,0 +1,7 @@
-> +# This bbclass is added to abstract recipes writers from
-> +# having to set do_compile network flag to 1
-> +# if his cargo package need external remote crates
-> +# as network access was disabled by default since kirkstone version
-> +
-> +inherit cargo
-> +do_compile[network] =3D "1"
-> \ No newline at end of file
-> --
-> 2.25.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207615): https://lists.openembedded.org/g/openembedde=
-d-core/message/207615
-> Mute This Topic: https://lists.openembedded.org/mt/109721978/3617156
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
-rtin.jansa@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
+---
+Testing patch /home/patchtest/share/mboxes/1-1-Added-a-new-cargo-online-bbclass-for-recipes-requiring-remote-crates.patch
+
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
