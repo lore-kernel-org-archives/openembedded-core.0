@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B6056E6ADC3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2B65E6ADCB
 	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 21:27:18 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.35417.1732310828986057280
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.web11.35761.1732310831854128087
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 13:27:09 -0800
+ Fri, 22 Nov 2024 13:27:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=o4xsp2Wl;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-71e625b00bcso2283619b3a.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:27:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=karDr9Mx;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-72467c35ddeso2776912b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:27:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310828; x=1732915628; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310831; x=1732915631; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4pUi+yGJsn6HBDWLWBMH5e1BWADCjiDdHeK54ygFq/Q=;
-        b=o4xsp2WlETbKx1l/5ReSktmleb/byfIyr0yQ9e3WGxZ0JE/OYK7o+0wOkRv+g5VtjF
-         cHqZkoRoa/2mF1gqHHDwvUT+sERUhFxnDcqTi2is31hOwq+pEHU1sb2iQodGfxq6EYZG
-         28X5Gkf8wM+ZQME3aJwN2pOIdSOH/2zEF3UFEsJ/ukndDLyViK87Ge74e16Y/1R/kVxX
-         AbXSrpkF4I9+u+jG8Kydxx+gd6mhQAlNHI4YmPkAbE7/LSQ3myYdDvWQkuiu+kao1Vfy
-         RrCKm0GQ4PpfWN63DyDEhVtpiruv1SULi8+2zYO59UB+IUs+OvAXNRGrBiDyS1C0mHwZ
-         LA5w==
+        bh=BnPhishKfvnqlQV51aDLwF4A2SLdVYRWstd0TnOPIGE=;
+        b=karDr9MxlVExO2QeSLYVZkW5YX23oqKqv/Qu6JIN+sc+T7otdqDZtGMniHxJKTMxlA
+         6y+FhHgOyKcRWNX8mAwHOvtKVrebAG1d6PSM416tWbhf9g1zVxj5nH1AGGTV+nKC1Erp
+         hpe7hxBnuD5gInhIN5QkvXJ4Cu9vKxg2YxuUJGwmzv6k8c+BsYYOSioctxH5PUbUSbzF
+         hU5Idhmm/8CPdPqr986MZgb4T+7uodwvlRdNuQHhzQMC0qnlS5cEkGYcX7MXKzvf8di+
+         /ijdz2R/PX09HhIOpgNR62NHijr6NQZgeiyJdjXAKptFtSkW95nmi4ZR0t7aMwkeF8A8
+         eqNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732310828; x=1732915628;
+        d=1e100.net; s=20230601; t=1732310831; x=1732915631;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4pUi+yGJsn6HBDWLWBMH5e1BWADCjiDdHeK54ygFq/Q=;
-        b=UsNmgAbfzYsDBPnAhqsekKj5S8XpjSlkNadO+nf7OCecaX10BXts3hulm7P0srS/BO
-         AQ07ZCUyGPuU66/dTm0fetGyx4PGhIZbfnCVnqetPijoJ0AcC1Ck64PgfR74dCZlXHwg
-         1C5fYAN5n313ukZBSIZUw8BWpGq7ZG3r3K28vJ8ShycfsRbwk71Rc1wv0hYXWE6INuxb
-         Blhbwg9+VS3AmlQNsyygkVLuAcwpOornxr8ec+9EONcy+RQnnW0iEo1jgQtOwKTR8i6J
-         PPYg/P2Rgk0o8v2076tfxuyEQI9/f/n90HiYJWPKjn5TzuEQfxySneJQuTGKXY0YLcD7
-         q9Yw==
-X-Gm-Message-State: AOJu0YyQux+Y/ZpD01DkrR1Dglrtn/ypJsLEpYyIae9TKExa98tdp3r2
-	pskDvCLHKnvAQ90KMLHGnaGSlg9ZkQJg1J44u4Le+Zhc7XD8uI3P7oorhEf6ar7xXKoSs28KDwA
-	Y
-X-Gm-Gg: ASbGnct8x62jaoFcq1lgz+kHnR5jxNMkKVfrGM7j6683kd9PllvW1Abe4b3bXxecB2K
-	xPMoWHR0oldT3NoyyqyG5QK49cpea64nw+4086GReK4IdapmnJmCqfkQa5PrRMq3luVv6E/nogi
-	derkXUVej06RfbMPPYJYH0b82GVWZxHJk0B8KGCXcAGJA61waCmZvwDgWQiDvYT3WGs+lMPE61K
-	xA4fAjUe1Tf5UxeaMUKOEQxq3ov46eaHAMZRmg=
-X-Google-Smtp-Source: AGHT+IE/U50NSCCMR40UJC9NwGBZgbNp6PO/DhvUfTzMcJV9K5ZKrKX6opwsiRDiJJxvpRiXL26kqw==
-X-Received: by 2002:a17:903:22d1:b0:20c:bbac:2013 with SMTP id d9443c01a7336-2129f758564mr63345735ad.48.1732310828116;
-        Fri, 22 Nov 2024 13:27:08 -0800 (PST)
+        bh=BnPhishKfvnqlQV51aDLwF4A2SLdVYRWstd0TnOPIGE=;
+        b=A1NJZhDhDgsx1xM/I/G2EVuIbi4YaZR2Z6JTn/vlFExWhBjB2+L3GhWI4wyKMRbIpn
+         d5zZreqonCqhLQuQVw+pQy12rZ8F8sns2+tzSBsPu4HRiGaMJUGqpUdMsMiaCQyAOxwt
+         7rEp3FOOG2d1kqQwb5H0E4rgG/m77KoNWLU68j/Q1DF3ys91r59F7aq6Yzk1hUYd86AK
+         K1orf3ELIsok2YNfFhQByqDe/A2ZQJVsxB+9sXrX6EQgfGt7i/YmPg0CrhN3Gr919Gv2
+         mA3DVdRt4b4lGdpE5Mp+19E6bf4keE3ogHebgm/fKGLiTX8JZoKcNiVBbtQID4g5yWXv
+         vzdw==
+X-Gm-Message-State: AOJu0Yz5jcFsNdgE5nhhIrBdwgwYS429j0zEg10Fzxg05tdMJ3DqaHAy
+	ITWTRx0E/sxN7prYX7ygsj7Ix29w32GLFn54KEHt8lnDNuwLTsGQDxJ1gDcOS4AUfQKMrL6nn//
+	u
+X-Gm-Gg: ASbGncvW+Q1uCi7eDU1iIlFcUmZ9YeVVR71YJmzp4Dv/z+mL7IJKhzfTWAaT7r13QNP
+	t0OICmAWcgJU8IlSQmn4l3pSaBPyaLnlsRwRitVuzMqxJS8xsj2izodR06Wel5STu0TJj0RptTy
+	yMrDcoekgPx4kTkednu6evnxNONd9WxfSHdorRBV+t8qg0u8IhyiQxQaPkRTckU1EJYsHVjFfrK
+	j37SrRowjDfC57xHuZcGY+jurLIiycThPhYVhI=
+X-Google-Smtp-Source: AGHT+IFyeD8WJTKI1oxIa7A9KK7N8y80Im8i+4ErvVIVvbnuptblIchHwAlYWv2dc5fJE72QGScU8Q==
+X-Received: by 2002:a17:902:f693:b0:20c:7661:dc9a with SMTP id d9443c01a7336-2129fe097e6mr66873505ad.3.1732310831047;
+        Fri, 22 Nov 2024 13:27:11 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.27.07
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.27.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 13:27:07 -0800 (PST)
+        Fri, 22 Nov 2024 13:27:10 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 13/19] webkitgtk: Fix build on 32bit arm
-Date: Fri, 22 Nov 2024 13:26:32 -0800
-Message-Id: <dbdaeb9ff6bf7ce8478f2d61f2f22f84918c26fe.1732310669.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 15/19] lttng-modules: fix build error after kernel update to 5.15.171
+Date: Fri, 22 Nov 2024 13:26:34 -0800
+Message-Id: <20010748cc532261d8477d03a740a2acb7f6df76.1732310669.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732310669.git.steve@sakoman.com>
 References: <cover.1732310669.git.steve@sakoman.com>
@@ -66,339 +66,122 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 21:27:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207663
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207665
 
-From: Khem Raj <raj.khem@gmail.com>
+From: Liyin Zhang <liyin.zhang.cn@windriver.com>
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Cc: Mingli Yu <mingli.yu@windriver.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+This patch fixes the following build error after kernel rebase.
+lttng-modules-2.13.14/src/probes/../../include/lttng/define_trace.h:87,
+lttng-modules-2.13.14/src/probes/../../include/instrumentation/events/kmem.h:576,
+lttng-modules-2.13.14/src/probes/lttng-probe-kmem.c:35:
+../../include/lttng/tracepoint-event-impl.h:133:6: error: conflicting types for 'trace_mm_page_alloc_zone_locked'; have 'void(struct page *, unsigned int,  int)'
+133 | void trace_##_name(_proto);
+    |      ^~~~~~
+../../include/instrumentation/events/kmem.h:444:1: note: in expansion of macro 'LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP'
+444 | LTTNG_TRACEPOINT_EVENT_INSTANCE_MAP(kmem_mm_page, mm_page_alloc_zone_locked,
+    | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+kernel-source/include/trace/events/kmem.h:9,
+from lttng-modules-2.13.14/src/probes/lttng-probe-kmem.c:24:
+kernel-source/include/linux/tracepoint.h:244:28: note: previous definition of 'trace_mm_page_alloc_zone_locked' with type 'void(struct page *, unsigned int,  int,  int)'
+244 |         static inline void trace_##name(proto)                          \
+    |                            ^~~~~~
+kernel-source/include/linux/tracepoint.h:416:9: note: in expansion of macro '__DECLARE_TRACE'
+416 |         __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+    |         ^~~~~~~~~~~~~~~
+kernel-source/include/linux/tracepoint.h:539:9: note: in expansion of macro 'DECLARE_TRACE'
+539 |         DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+    |         ^~~~~~~~~~~~~
+kernel-source/include/trace/events/kmem.h:259:1: note: in expansion of macro 'DEFINE_EVENT'
+259 | DEFINE_EVENT(mm_page, mm_page_alloc_zone_locked,
+    | ^~~~~~~~~~~~
 
-(From OE-Core rev: 9294ccb9530ce70b2513b2e112644ec5e9f8e701)
-
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
+Signed-off-by: Liyin Zhang <liyin.zhang.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...44e17d258106617b0e6d783d073b188a2548.patch | 296 ++++++++++++++++++
- meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   1 +
- 2 files changed, 297 insertions(+)
- create mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+ ...c-fix-tracepoint-mm_page_alloc_zone_.patch | 61 +++++++++++++++++++
+ .../lttng/lttng-modules_2.13.14.bb            |  1 +
+ 2 files changed, 62 insertions(+)
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
 
-diff --git a/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
 new file mode 100644
-index 0000000000..32f92f7ff5
+index 0000000000..abcc519e81
 --- /dev/null
-+++ b/meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
-@@ -0,0 +1,296 @@
-+From 0d3344e17d258106617b0e6d783d073b188a2548 Mon Sep 17 00:00:00 2001
-+From: Adrian Perez de Castro <aperez@igalia.com>
-+Date: Thu, 2 Jun 2022 11:19:06 +0300
-+Subject: [PATCH] [ARM][NEON] FELightningNEON.cpp fails to build, NEON fast
-+ path seems unused https://bugs.webkit.org/show_bug.cgi?id=241182
++++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+@@ -0,0 +1,61 @@
++From 6479c4ae43e7a2096b97c800ece57defd0ba62b7 Mon Sep 17 00:00:00 2001
++From: Michael Jeanson <mjeanson@efficios.com>
++Date: Tue, 12 Nov 2024 11:19:23 -0500
++Subject: [PATCH] fix: mm/page_alloc: fix tracepoint
++ mm_page_alloc_zone_locked() (v5.15.171)
 +
-+Reviewed by NOBODY (OOPS!).
++See upstream backported commit:
 +
-+Move the NEON fast path for the SVG lighting filter effects into
-+FELightingSoftwareApplier, and arrange to actually use them by
-+forwarding calls to applyPlatformGeneric() into applyPlatformNeon().
++  commit 28e7a507196fefd119e7ca2286840f1a9aad5e8a
++  Author: Wonhyuk Yang <vvghjk1234@gmail.com>
++  Date:   Thu May 19 14:08:54 2022 -0700
 +
-+Some changes were needed to adapt platformApplyNeon() to the current
-+state of filters after r286140. This was not detected because the code
-+bitrotted due to it being guarded with CPU(ARM_TRADITIONAL), which does
-+not get used much these days: CPU(ARM_THUMB2) is more common. It should
-+be possible to use the NEON fast paths also in Thumb mode, but that is
-+left for a follow-up fix.
++    mm/page_alloc: fix tracepoint mm_page_alloc_zone_locked()
 +
-+* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp:
-+(WebCore::FELightingSoftwareApplier::platformApplyNeonWorker):
-+(WebCore::FELightingSoftwareApplier::getPowerCoefficients):
-+(WebCore::FELighting::platformApplyNeonWorker): Deleted.
-+(WebCore::FELighting::getPowerCoefficients): Deleted.
-+* Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h:
-+(WebCore::FELightingSoftwareApplier::applyPlatformNeon):
-+(WebCore::FELighting::platformApplyNeon): Deleted.
-+* Source/WebCore/platform/graphics/filters/DistantLightSource.h:
-+* Source/WebCore/platform/graphics/filters/FELighting.h:
-+* Source/WebCore/platform/graphics/filters/PointLightSource.h:
-+* Source/WebCore/platform/graphics/filters/SpotLightSource.h:
-+* Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h:
++    [ Upstream commit 10e0f7530205799e7e971aba699a7cb3a47456de ]
++
++    Currently, trace point mm_page_alloc_zone_locked() doesn't show correct
++    information.
++
++    First, when alloc_flag has ALLOC_HARDER/ALLOC_CMA, page can be allocated
++    from MIGRATE_HIGHATOMIC/MIGRATE_CMA.  Nevertheless, tracepoint use
++    requested migration type not MIGRATE_HIGHATOMIC and MIGRATE_CMA.
++
++    Second, after commit 44042b4498728 ("mm/page_alloc: allow high-order pages
++    to be stored on the per-cpu lists") percpu-list can store high order
++    pages.  But trace point determine whether it is a refiil of percpu-list by
++    comparing requested order and 0.
++
++    To handle these problems, make mm_page_alloc_zone_locked() only be called
++    by __rmqueue_smallest with correct migration type.  With a new argument
++    called percpu_refill, it can show roughly whether it is a refill of
++    percpu-list.
++
++    Link: https://lkml.kernel.org/r/20220512025307.57924-1-vvghjk1234@gmail.com
++
++Change-Id: Ib76feb79d95e9f93c84c3aa1b946e57ac2e2666a
++Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
++Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
++
++Upstream-Status: Backport [https://git.lttng.org/?p=lttng-modules.git;a=commit;h=6479c4ae43e7a2096b97c800ece57defd0ba62b7]
++
++Signed-off-by: Liyin Zhang <liyin.zhang.cn@windriver.com>
 +---
-+Upstream-Status: Submitted [https://github.com/WebKit/WebKit/pull/1233]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++ include/instrumentation/events/kmem.h | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+ .../cpu/arm/filters/FELightingNEON.cpp        |  4 +-
-+ .../graphics/cpu/arm/filters/FELightingNEON.h | 54 +++++++++----------
-+ .../graphics/filters/DistantLightSource.h     |  4 ++
-+ .../platform/graphics/filters/FELighting.h    |  7 ---
-+ .../graphics/filters/PointLightSource.h       |  4 ++
-+ .../graphics/filters/SpotLightSource.h        |  4 ++
-+ .../software/FELightingSoftwareApplier.h      | 16 ++++++
-+ 7 files changed, 57 insertions(+), 36 deletions(-)
++diff --git a/include/instrumentation/events/kmem.h b/include/instrumentation/events/kmem.h
++index 9a0f0bbf..96a5d9c2 100644
++--- a/include/instrumentation/events/kmem.h
+++++ b/include/instrumentation/events/kmem.h
++@@ -381,6 +381,7 @@ LTTNG_TRACEPOINT_EVENT_MAP(mm_page_alloc, kmem_mm_page_alloc,
++ )
++ 
++ #if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,19,0) || \
+++	LTTNG_KERNEL_RANGE(5,15,171, 5,16,0) || \
++ 	LTTNG_RHEL_KERNEL_RANGE(5,14,0,163,0,0, 5,15,0,0,0,0))
++ 
++ LTTNG_TRACEPOINT_EVENT_CLASS(kmem_mm_page,
++-- 
++2.25.1
 +
-+--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.cpp
-+@@ -49,7 +49,7 @@ short* feLightingConstantsForNeon()
-+     return s_FELightingConstantsForNeon;
-+ }
-+ 
-+-void FELighting::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
-++void FELightingSoftwareApplier::platformApplyNeonWorker(FELightingPaintingDataForNeon* parameters)
-+ {
-+     neonDrawLighting(parameters);
-+ }
-+@@ -464,7 +464,7 @@ TOSTRING(neonDrawLighting) ":" NL
-+     "b .lightStrengthCalculated" NL
-+ ); // NOLINT
-+ 
-+-int FELighting::getPowerCoefficients(float exponent)
-++int FELightingSoftwareApplier::getPowerCoefficients(float exponent)
-+ {
-+     // Calling a powf function from the assembly code would require to save
-+     // and reload a lot of NEON registers. Since the base is in range [0..1]
-+--- a/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-++++ b/Source/WebCore/platform/graphics/cpu/arm/filters/FELightingNEON.h
-+@@ -24,14 +24,15 @@
-+  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+  */
-+ 
-+-#ifndef FELightingNEON_h
-+-#define FELightingNEON_h
-++#pragma once
-+ 
-+ #if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-+ 
-+-#include "FELighting.h"
-++#include "FELightingSoftwareApplier.h"
-++#include "ImageBuffer.h"
-+ #include "PointLightSource.h"
-+ #include "SpotLightSource.h"
-++#include <wtf/ObjectIdentifier.h>
-+ #include <wtf/ParallelJobs.h>
-+ 
-+ namespace WebCore {
-+@@ -93,14 +94,14 @@ extern "C" {
-+ void neonDrawLighting(FELightingPaintingDataForNeon*);
-+ }
-+ 
-+-inline void FELighting::platformApplyNeon(const LightingData& data, const LightSource::PaintingData& paintingData)
-++inline void FELightingSoftwareApplier::applyPlatformNeon(const FELightingSoftwareApplier::LightingData& data, const LightSource::PaintingData& paintingData)
-+ {
-+-    alignas(16) FELightingFloatArgumentsForNeon floatArguments;
-+-    FELightingPaintingDataForNeon neonData = {
-++    WebCore::FELightingFloatArgumentsForNeon alignas(16) floatArguments;
-++    WebCore::FELightingPaintingDataForNeon neonData = {
-+         data.pixels->data(),
-+         1,
-+-        data.widthDecreasedByOne - 1,
-+-        data.heightDecreasedByOne - 1,
-++        data.width - 2,
-++        data.height - 2,
-+         0,
-+         0,
-+         0,
-+@@ -111,23 +112,23 @@ inline void FELighting::platformApplyNeo
-+     // Set light source arguments.
-+     floatArguments.constOne = 1;
-+ 
-+-    auto color = m_lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
-++    auto color = data.lightingColor.toColorTypeLossy<SRGBA<uint8_t>>().resolved();
-+ 
-+     floatArguments.colorRed = color.red;
-+     floatArguments.colorGreen = color.green;
-+     floatArguments.colorBlue = color.blue;
-+     floatArguments.padding4 = 0;
-+ 
-+-    if (m_lightSource->type() == LS_POINT) {
-++    if (data.lightSource->type() == LS_POINT) {
-+         neonData.flags |= FLAG_POINT_LIGHT;
-+-        PointLightSource& pointLightSource = static_cast<PointLightSource&>(m_lightSource.get());
-++        const auto& pointLightSource = *static_cast<const PointLightSource*>(data.lightSource);
-+         floatArguments.lightX = pointLightSource.position().x();
-+         floatArguments.lightY = pointLightSource.position().y();
-+         floatArguments.lightZ = pointLightSource.position().z();
-+         floatArguments.padding2 = 0;
-+-    } else if (m_lightSource->type() == LS_SPOT) {
-++    } else if (data.lightSource->type() == LS_SPOT) {
-+         neonData.flags |= FLAG_SPOT_LIGHT;
-+-        SpotLightSource& spotLightSource = static_cast<SpotLightSource&>(m_lightSource.get());
-++        const auto& spotLightSource = *static_cast<const SpotLightSource*>(data.lightSource);
-+         floatArguments.lightX = spotLightSource.position().x();
-+         floatArguments.lightY = spotLightSource.position().y();
-+         floatArguments.lightZ = spotLightSource.position().z();
-+@@ -145,7 +146,7 @@ inline void FELighting::platformApplyNeo
-+         if (spotLightSource.specularExponent() == 1)
-+             neonData.flags |= FLAG_CONE_EXPONENT_IS_1;
-+     } else {
-+-        ASSERT(m_lightSource->type() == LS_DISTANT);
-++        ASSERT(data.lightSource->type() == LS_DISTANT);
-+         floatArguments.lightX = paintingData.initialLightingData.lightVector.x();
-+         floatArguments.lightY = paintingData.initialLightingData.lightVector.y();
-+         floatArguments.lightZ = paintingData.initialLightingData.lightVector.z();
-+@@ -155,38 +156,39 @@ inline void FELighting::platformApplyNeo
-+     // Set lighting arguments.
-+     floatArguments.surfaceScale = data.surfaceScale;
-+     floatArguments.minusSurfaceScaleDividedByFour = -data.surfaceScale / 4;
-+-    if (m_lightingType == FELighting::DiffuseLighting)
-+-        floatArguments.diffuseConstant = m_diffuseConstant;
-++    if (data.filterType == FilterEffect::Type::FEDiffuseLighting)
-++        floatArguments.diffuseConstant = data.diffuseConstant;
-+     else {
-+         neonData.flags |= FLAG_SPECULAR_LIGHT;
-+-        floatArguments.diffuseConstant = m_specularConstant;
-+-        neonData.specularExponent = getPowerCoefficients(m_specularExponent);
-+-        if (m_specularExponent == 1)
-++        floatArguments.diffuseConstant = data.specularConstant;
-++        neonData.specularExponent = getPowerCoefficients(data.specularExponent);
-++        if (data.specularExponent == 1)
-+             neonData.flags |= FLAG_SPECULAR_EXPONENT_IS_1;
-+     }
-+     if (floatArguments.diffuseConstant == 1)
-+         neonData.flags |= FLAG_DIFFUSE_CONST_IS_1;
-+ 
-+-    int optimalThreadNumber = ((data.widthDecreasedByOne - 1) * (data.heightDecreasedByOne - 1)) / s_minimalRectDimension;
-++    static constexpr int minimalRectDimension = 100 * 100; // Empirical data limit for parallel jobs
-++    int optimalThreadNumber = ((data.width - 2) * (data.height - 2)) / minimalRectDimension;
-+     if (optimalThreadNumber > 1) {
-+         // Initialize parallel jobs
-+-        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&WebCore::FELighting::platformApplyNeonWorker, optimalThreadNumber);
-++        ParallelJobs<FELightingPaintingDataForNeon> parallelJobs(&FELightingSoftwareApplier::platformApplyNeonWorker, optimalThreadNumber);
-+ 
-+         // Fill the parameter array
-+         int job = parallelJobs.numberOfJobs();
-+         if (job > 1) {
-+             int yStart = 1;
-+-            int yStep = (data.heightDecreasedByOne - 1) / job;
-++            int yStep = (data.height - 2) / job;
-+             for (--job; job >= 0; --job) {
-+                 FELightingPaintingDataForNeon& params = parallelJobs.parameter(job);
-+                 params = neonData;
-+                 params.yStart = yStart;
-+-                params.pixels += (yStart - 1) * (data.widthDecreasedByOne + 1) * 4;
-++                params.pixels += (yStart - 1) * data.width * 4;
-+                 if (job > 0) {
-+                     params.absoluteHeight = yStep;
-+                     yStart += yStep;
-+                 } else
-+-                    params.absoluteHeight = data.heightDecreasedByOne - yStart;
-++                    params.absoluteHeight = (data.height - 1) - yStart;
-+             }
-+             parallelJobs.execute();
-+             return;
-+@@ -199,5 +201,3 @@ inline void FELighting::platformApplyNeo
-+ } // namespace WebCore
-+ 
-+ #endif // CPU(ARM_NEON) && COMPILER(GCC_COMPATIBLE)
-+-
-+-#endif // FELightingNEON_h
-+--- a/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-++++ b/Source/WebCore/platform/graphics/filters/DistantLightSource.h
-+@@ -25,6 +25,10 @@
-+ #include "LightSource.h"
-+ #include <wtf/Ref.h>
-+ 
-++namespace WTF {
-++class TextStream;
-++} // namespace WTF
-++
-+ namespace WebCore {
-+ 
-+ class DistantLightSource : public LightSource {
-+--- a/Source/WebCore/platform/graphics/filters/FELighting.h
-++++ b/Source/WebCore/platform/graphics/filters/FELighting.h
-+@@ -35,8 +35,6 @@
-+ 
-+ namespace WebCore {
-+ 
-+-struct FELightingPaintingDataForNeon;
-+-
-+ class FELighting : public FilterEffect {
-+ public:
-+     const Color& lightingColor() const { return m_lightingColor; }
-+@@ -67,11 +65,6 @@ protected:
-+ 
-+     std::unique_ptr<FilterEffectApplier> createSoftwareApplier() const override;
-+ 
-+-#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-+-    static int getPowerCoefficients(float exponent);
-+-    inline void platformApplyNeon(const LightingData&, const LightSource::PaintingData&);
-+-#endif
-+-
-+     Color m_lightingColor;
-+     float m_surfaceScale;
-+     float m_diffuseConstant;
-+--- a/Source/WebCore/platform/graphics/filters/PointLightSource.h
-++++ b/Source/WebCore/platform/graphics/filters/PointLightSource.h
-+@@ -26,6 +26,10 @@
-+ #include "LightSource.h"
-+ #include <wtf/Ref.h>
-+ 
-++namespace WTF {
-++class TextStream;
-++} // namespace WTF
-++
-+ namespace WebCore {
-+ 
-+ class PointLightSource : public LightSource {
-+--- a/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-++++ b/Source/WebCore/platform/graphics/filters/SpotLightSource.h
-+@@ -26,6 +26,10 @@
-+ #include "LightSource.h"
-+ #include <wtf/Ref.h>
-+ 
-++namespace WTF {
-++class TextStream;
-++} // namespace WTF
-++
-+ namespace WebCore {
-+ 
-+ class SpotLightSource : public LightSource {
-+--- a/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-++++ b/Source/WebCore/platform/graphics/filters/software/FELightingSoftwareApplier.h
-+@@ -36,6 +36,7 @@
-+ namespace WebCore {
-+ 
-+ class FELighting;
-++struct FELightingPaintingDataForNeon;
-+ 
-+ class FELightingSoftwareApplier final : public FilterEffectConcreteApplier<FELighting> {
-+     WTF_MAKE_FAST_ALLOCATED;
-+@@ -132,8 +133,23 @@ private:
-+ 
-+     static void applyPlatformGenericPaint(const LightingData&, const LightSource::PaintingData&, int startY, int endY);
-+     static void applyPlatformGenericWorker(ApplyParameters*);
-++
-++#if CPU(ARM_NEON) && CPU(ARM_TRADITIONAL) && COMPILER(GCC_COMPATIBLE)
-++    static int getPowerCoefficients(float exponent);
-++    static void platformApplyNeonWorker(FELightingPaintingDataForNeon*);
-++    inline static void applyPlatformNeon(const LightingData&, const LightSource::PaintingData&);
-++
-++    inline static void applyPlatformGeneric(const LightingData& data, const LightSource::PaintingData& paintingData)
-++    {
-++        applyPlatformNeon(data, paintingData);
-++    }
-++#else
-+     static void applyPlatformGeneric(const LightingData&, const LightSource::PaintingData&);
-++#endif
-++
-+     static void applyPlatform(const LightingData&);
-+ };
-+ 
-+ } // namespace WebCore
-++
-++#include "FELightingNEON.h"
-diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-index a2d455ab92..16acb205b1 100644
---- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-+++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
-@@ -25,6 +25,7 @@ SRC_URI = "https://www.webkitgtk.org/releases/${BP}.tar.xz \
-            file://CVE-2022-48503.patch \
-            file://CVE-2023-32439.patch \
-            file://CVE-2024-40779.patch \
-+           file://0d3344e17d258106617b0e6d783d073b188a2548.patch \
-            "
- SRC_URI[sha256sum] = "0ad9fb6bf28308fe3889faf184bd179d13ac1b46835d2136edbab2c133d00437"
+diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+index a3e29ab7b7..e8af0eca44 100644
+--- a/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
++++ b/meta/recipes-kernel/lttng/lttng-modules_2.13.14.bb
+@@ -11,6 +11,7 @@ include lttng-platforms.inc
  
+ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
+            file://0009-Rename-genhd-wrapper-to-blkdev.patch \
++           file://0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch \
+            "
+ 
+ # Use :append here so that the patch is applied also when using devupstream
 -- 
 2.34.1
 
