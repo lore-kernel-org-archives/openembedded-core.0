@@ -1,162 +1,95 @@
-Return-Path: <f_l_k@t-online.de>
+Return-Path: <aleksandar.nikolic010@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8CFD75E2D
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 11:43:55 +0000 (UTC)
-Received: from mailout12.t-online.de (mailout12.t-online.de [194.25.134.22])
- by mx.groups.io with SMTP id smtpd.web10.22050.1732275828452938423
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B835BD75E2D
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 11:48:25 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.web10.22114.1732276101934146015
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 03:43:48 -0800
+ Fri, 22 Nov 2024 03:48:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.22, mailfrom: f_l_k@t-online.de)
-Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
-	by mailout12.t-online.de (Postfix) with SMTP id 7A0EB714
-	for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 12:43:46 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.36.225]) by fwd76.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tES4g-1PUIkL0; Fri, 22 Nov 2024 12:43:46 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=fPfQDTqY;
+ spf=pass (domain: gmail.com, ip: 209.85.218.49, mailfrom: aleksandar.nikolic010@gmail.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-a9a6acac4c3so327992066b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 03:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732276100; x=1732880900; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=T7NtQTco07syEGjGsctd12Mk2ZjpNfB3RH/k9nlQFWc=;
+        b=fPfQDTqYJkCfVh0m7fC64fUWYYMOnSDUi3vTs25uexQEixcpdwBPoP6kp/cWS6yf+N
+         0v2PRicPWO2dLb4wkkH0qH8ZFzfIS3ln987CGS9jtIS9FODNQi645GcCQWughm8Ii6wK
+         2ORkL4YoC4pB2tlq+w6eEYt5BWkHEyGWedoBjpTNfTEn/BxkNsjtDsFqGpn6DM6lZe2f
+         COce3TLBuLor0ibBqle3XPCwXlWyoAAmmHFxNpDS8D53mp1DFIjztFg9aAPBBWKrZWmz
+         6GYB8XWmFnH2/hP8HPZS/BFDh/EW0Do1HrDxZLJSYwn7qK3CSRHYr449k9T57gaRRsJt
+         jTMA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732276100; x=1732880900;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=T7NtQTco07syEGjGsctd12Mk2ZjpNfB3RH/k9nlQFWc=;
+        b=T5GA9qgOx7SRYz1h32Fo5sJi5hXxBD20bVEzQ2dQwlpAbEqmwmkbOmoB5LFnBx3Vf2
+         B6QW+xSRT+Gwa+vSS24sMLUFNzPMuLKUhHzeNSxauDZ1nGvtfLRRBO7HDaxWhc8CVVpa
+         Jk9ig8aQu/Um5mQ3kakUFXZ90E8yvDAfJho+ES74occDgLtjzGXE/tzsDKoiDuyHwHZA
+         3tjNqZC8bXzuiCm4XhcYYOcktLgn6UE7MxglDZz0DTr5BkEG06T0szg7vs3zYTgNEjC1
+         US0iyGr6h33TgZ9QKHzlTQz4LueqBHerth1Z0tCehqnntrVbZLO5oJ0fPr6c4WhnK+aY
+         nnsg==
+X-Gm-Message-State: AOJu0YxJ0ezzIcO0ouGgnGAT3FuIJ2lpeAu+GKk3XEsVxPSfoXloKDQI
+	3R2ki4BEM4M55Z2vTVHNrsI34r+w55xHGRUaPhcHcxlRV9pjR+MUDHyV4w==
+X-Gm-Gg: ASbGncsBEY5kWFf3waq+x1eeO8DJz7jr6Q2Y5G2t1R3EA3Q1buz+o+8wNoWZ40wQI3b
+	sEeEKOf8yofXV8pLdTDAh7Id2ocKb82g/ad/l/759iihVypl7td6zxF0v49oRzmGdmLs9OPNvXn
+	62LkaRDRUZK7iWBCIgn9Uao4JdEl7OJ96lQulEsKvSLv8abxuqSC7bPUBERr6gkCtHBWLnk1jt5
+	urlqNUy8plTQgHR7hx8xlA2vLuojGtFovS9JDgGXjYmiRSF
+X-Google-Smtp-Source: AGHT+IEpTZ+Hpg/ZoBDm0Z+6GJGJpThrfL21jzpnGwnmAJAbASlTwNG1vd+oPqyb0umjverw3zpmoA==
+X-Received: by 2002:a17:906:2192:b0:aa5:1a39:943e with SMTP id a640c23a62f3a-aa51a399a68mr105402866b.14.1732276099918;
+        Fri, 22 Nov 2024 03:48:19 -0800 (PST)
+Received: from acert-swift3.. ([2a02:810d:640:1648:6dc:bcdc:d29d:d478])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b28fe55sm89068966b.4.2024.11.22.03.48.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Nov 2024 03:48:19 -0800 (PST)
+From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
+X-Google-Original-From: Aleksandar Nikolic <an010@live.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv3] libsecret: add pam support depending on DISTRO_FEATURE
-Date: Fri, 22 Nov 2024 12:43:38 +0100
-Message-ID: <20241122114338.2890-1-f_l_k@t-online.de>
-X-Mailer: git-send-email 2.47.0
+Cc: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+Subject: [kirkstone][PATCH] scripts/install-buildtools: Update to 4.0.22
+Date: Fri, 22 Nov 2024 12:48:17 +0100
+Message-ID: <20241122114817.71668-1-an010@live.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1732275826-DEFE890D-DE8DEFC4/0/0 CLEAN NORMAL
-X-TOI-MSGID: b56739d7-3986-4adc-9d50-be0304d9746b
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:43:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207604
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:48:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207606
 
-pam module has been ported from gnome-keyring to libsecret
-[https://gitlab.gnome.org/GNOME/libsecret/-/commit/9a37dc839a9be1670afeb6=
-47d9f82b6ef1cd0893]
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-Add a PACKAGECONFIG for pam and enable it if pam is in DISTRO_FEATURES
+Update to the 4.0.22 release of the 4.0 series for buildtools.
 
-Add a patch that disables the pam test, because it would require
-pam_wrapper recipe
-
-[https://gitlab.com/cwrap/pam_wrapper]
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 ---
- .../libsecret/0001-pam-disable-tests.patch    | 71 +++++++++++++++++++
- .../libsecret/libsecret_0.21.4.bb             |  3 +
- 2 files changed, 74 insertions(+)
- create mode 100644 meta/recipes-gnome/libsecret/libsecret/0001-pam-disab=
-le-tests.patch
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-gnome/libsecret/libsecret/0001-pam-disable-test=
-s.patch b/meta/recipes-gnome/libsecret/libsecret/0001-pam-disable-tests.p=
-atch
-new file mode 100644
-index 0000000000..b7ef6662bc
---- /dev/null
-+++ b/meta/recipes-gnome/libsecret/libsecret/0001-pam-disable-tests.patch
-@@ -0,0 +1,71 @@
-+From a028d36dc7b8d0bc33e674d2a0427b171aef2d32 Mon Sep 17 00:00:00 2001
-+From: Markus Volk <f_l_k@t-online.de>
-+Date: Wed, 20 Nov 2024 16:30:07 +0100
-+Subject: [PATCH] pam/meson.build: disable tests
-+
-+Otherwise a recipe for pam_wrapper would be required:
-+https://gitlab.com/cwrap/pam_wrapper
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+
-+Upstream-Status: Inappropriate [oe-specific]
-+---
-+ pam/meson.build | 42 +++++++++++++++++++++---------------------
-+ 1 file changed, 21 insertions(+), 21 deletions(-)
-+
-+diff --git a/pam/meson.build b/pam/meson.build
-+index 8413b58..06d41c4 100644
-+--- a/pam/meson.build
-++++ b/pam/meson.build
-+@@ -19,27 +19,27 @@ pam_gnome_keyring =3D shared_library('pam_gnome_keyr=
-ing',
-+ )
-+=20
-+ # pam tests
-+-pam_wrapper =3D dependency('pam_wrapper', required: true)
-+-libpamtest =3D dependency('libpamtest', required: true)
-++#pam_wrapper =3D dependency('pam_wrapper', required: true)
-++#libpamtest =3D dependency('libpamtest', required: true)
-+=20
-+-subdir('servicedir')
-++#subdir('servicedir')
-+=20
-+-test_bin =3D executable('pam_test',
-+-  sources: [
-+-    'test-pam.c',
-+-  ],
-+-  dependencies: [
-+-    libpamtest,
-+-    glib_deps,
-+-  ],
-+-)
-++#test_bin =3D executable('pam_test',
-++#  sources: [
-++#    'test-pam.c',
-++#  ],
-++#  dependencies: [
-++#    libpamtest,
-++#    glib_deps,
-++#  ],
-++#)
-+=20
-+-test('pam-test',
-+-  test_bin,
-+-  env: {
-+-    'LD_PRELOAD': 'libpam_wrapper.so',
-+-    'PAM_WRAPPER': '1',
-+-    'PAM_WRAPPER_DEBUGLEVEL': '5',
-+-    'PAM_WRAPPER_SERVICE_DIR': meson.current_build_dir() + '/servicedir=
-',
-+-  },
-+-)
-++#test('pam-test',
-++#  test_bin,
-++#  env: {
-++#    'LD_PRELOAD': 'libpam_wrapper.so',
-++#    'PAM_WRAPPER': '1',
-++#    'PAM_WRAPPER_DEBUGLEVEL': '5',
-++#    'PAM_WRAPPER_SERVICE_DIR': meson.current_build_dir() + '/servicedi=
-r',
-++#  },
-++#)
-+--=20
-+2.47.0
-+
-diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb b/meta/reci=
-pes-gnome/libsecret/libsecret_0.21.4.bb
-index 88c3c73510..1bdd26d500 100644
---- a/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
-+++ b/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
-@@ -13,11 +13,14 @@ inherit gnomebase gi-docgen vala gobject-introspectio=
-n manpages
-=20
- DEPENDS +=3D "glib-2.0 libgcrypt gettext-native"
-=20
-+SRC_URI +=3D "file://0001-pam-disable-tests.patch"
- SRC_URI[archive.sha256sum] =3D "163d08d783be6d4ab9a979ceb5a4fecbc1d9660d=
-3c34168c581301cd53912b20"
-=20
- GTKDOC_MESON_OPTION =3D 'gtk_doc'
-=20
-+PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
- PACKAGECONFIG[manpages] =3D "-Dmanpage=3Dtrue,-Dmanpage=3Dfalse,libxslt-=
-native xmlto-native"
-+PACKAGECONFIG[pam] =3D "-Dpam=3Dtrue,-Dpam=3Dfalse,libpam"
-=20
- # http://errors.yoctoproject.org/Errors/Details/20228/
- ARM_INSTRUCTION_SET:armv4 =3D "arm"
---=20
-2.47.0
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 9054eb5f36..616330dfdc 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+ 
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-4.0.21'
+-DEFAULT_INSTALLER_VERSION = '4.0.21'
++DEFAULT_RELEASE = 'yocto-4.0.22'
++DEFAULT_INSTALLER_VERSION = '4.0.22'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
+-- 
+2.25.1
 
 
