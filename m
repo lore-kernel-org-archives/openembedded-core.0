@@ -2,90 +2,166 @@ Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0286EE69170
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 15:49:37 +0000 (UTC)
-Received: from mail-oa1-f46.google.com (mail-oa1-f46.google.com [209.85.160.46])
- by mx.groups.io with SMTP id smtpd.web10.27404.1732290571492201400
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA46E69173
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 15:49:56 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web10.27414.1732290588132316483
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 07:49:31 -0800
+ Fri, 22 Nov 2024 07:49:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=gaozSOMY;
- spf=pass (domain: gmail.com, ip: 209.85.160.46, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f46.google.com with SMTP id 586e51a60fabf-27d0e994ae3so1145339fac.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 07:49:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=m1KaFT7I;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-296c184ed6bso1380522fac.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 07:49:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732290570; x=1732895370; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732290587; x=1732895387; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=k5kCXf36uaSWxvQuzdXNSbnSbaSwHZGAS85J9VNlzEQ=;
-        b=gaozSOMY8/pstOZJVvPt5Y/WyM+CMJT0XtHg/p3m0rBMWcUTcb+Ki+xMdLOPfEqgoe
-         uj3bt0Jok9KUrki6Ug8+0g7u6aG2N1ERcovx32V+1Jp/z2dUigm9PUumoo9Wwa1JiSL2
-         p5M1vegxkeNqzRmvqYPl535ypeb2iJNTNyZoyCawHpDUzJCbl4bqmRPgubUNJoxPlGys
-         1lUnGGolFhNbYWDqLwGh6ERLgSihobebnm3Atl+7T36zwLjbcRO+5on6A4noHeDRKu/C
-         dp6AUpEfhrxHfV06r+5QGVu2p3KlzJoOm3KzWmrjBFV1libLAELCswV3aTh2yomPAfmg
-         zEYQ==
+        bh=thPXeSQwUBOWjXbRIk2902YKZ1SdNPnMMMc/Eqqg/N8=;
+        b=m1KaFT7IbGnEP3Edsnnz2Vga56W7JVBt/l5LXTY1XSXzPEpkRuQbD6l6K+REPLbM91
+         4US9A89qQNgcDVwFGHX6Wm88+tHTIwt/eNX2M3rYMNRwOvasdYDyssm9mKXhET27cyIG
+         qWeYHC6NUDsl8O9IyCp40MqI4kAWLhBKthqqacQTg0m9k5uMdS+GFkERlmO6lPt1XoQR
+         2RLJ+Rtoo7NmrsYRFJ+p4MsEWIH4wbuHVEH/5zpG+wJzonC7wf4LnsWb9gvpeiI/bGls
+         yxDpKdJfoCEhzAtvlmttmmXHQRL6Fk4yP+Y4OVKZ5jGhlh2mCYnlpNhwrWP6eGRvYQYR
+         8buw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732290570; x=1732895370;
+        d=1e100.net; s=20230601; t=1732290587; x=1732895387;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=k5kCXf36uaSWxvQuzdXNSbnSbaSwHZGAS85J9VNlzEQ=;
-        b=aepVML14SplDlPvnsh8rnVWHPSBYF0MeWDFpiRyp4u5hJ4YE2kLCGsxnVmCN2VNx28
-         R4gpHcsfl549HQKj3oOzB6UE1pT3FK9y1nMiUEqOLpDB5f+DkOvMovxiX59sdpNYGUSO
-         nID2AVR0rh58CvLqtWmqTqcuzjM9JHybIwh250ggiH2cPw3yF0NonEe8ZYp//3uF7hgo
-         o43tFAc624hh6Tj1ZYsFy5UE0vxQGwwbRgRSUgRP/bhJ6S7kYY6rVPVF9A3iqhsBeofz
-         31o06dpabRvlqGFLk8pRU6+eNeVLDQwF+Rq9b4SYAIkYCr7itGJKot8W/Xm04xEDraDV
-         ItSg==
-X-Gm-Message-State: AOJu0YyEJC1oNeYnQ/Cenz6+ODoiadeAP9VxUiGR0oYygq8RryUepGCk
-	FDUSeJe3zzStMU3qED8XhLW63jNl2qNaSnRSiX0hdjfbiVCShaLzW5dXxg==
-X-Gm-Gg: ASbGncs6m7P2+ydBL0EHqRLFaHQF39mW8xys1Nh9cUIGjuaqzs9SxFJx/VHHX+22QMg
-	xCgAdWI9k4tCWxxe2ZebiC2zSEcEzul73E9wcu5j4ihT33VwZhv5E8I4gfqRVCmnDhxbiQE0sdn
-	tx9L8Kj3Z+Yy3ctVPifRX5FoEJXvD/jDgra1Xa93NR4TwEUYzORgZlNz6FTvvh4wpEWYMUEOMz7
-	WdS57tb/D2qtb4g05UnL1L/BQUP3LjJVBR0hDoi2oCL3506
-X-Google-Smtp-Source: AGHT+IHmBRpM9fLM2goZiebFU4b5zE5sIzw6kODgCgXenyhswfWjNOX+MTcXOAB6EhlWl0SrzY1/Kg==
-X-Received: by 2002:a05:6870:c0d5:b0:297:296a:1039 with SMTP id 586e51a60fabf-297296a1851mr2524477fac.28.1732290570136;
-        Fri, 22 Nov 2024 07:49:30 -0800 (PST)
+        bh=thPXeSQwUBOWjXbRIk2902YKZ1SdNPnMMMc/Eqqg/N8=;
+        b=Bc0vWAzOxKKCmGrSnuMwX2Jx7WCG5bjJO/IOaqucq0tNW49pdelwf0ULsRbe6RWYKz
+         M5dnSJXwtcsvRmFNaEalZQYJ9mes59bSi/sclbQY8+gZc4Ca87k/rlE2KOYSxf/BOfwZ
+         enWG0Flea+2pGuf/aMreETTNU/8cp3UdALH3aX+/D9PtZ5iZpLWt+lKc23XuNi0Kr3e/
+         0nrLB2dx+NR1ad4k+lJCLhxtbgv5VYXCBRiBzhsnp6gTs15plAlEMu82Og86h3xKk6qb
+         Cr9RLkJAD/ZFb6Dc2ZEHm1mrzDMN0IoP/Y6Ee/RqFgOnF8KvGs3N9QreO+9hJzmZoGuX
+         j7Cg==
+X-Gm-Message-State: AOJu0YwdGADGVmoylLgiCWeCJD1dY3O0YSsMg0LzqTRB3IiQI9FtW2o9
+	FRgyiOJX4GKB0sKBU/D8jmjnIAnW+NVYXck5AfYkUI7HpOomSoQQMd0c2w==
+X-Gm-Gg: ASbGncsnS23KvW18riI/5L4LzHKxwgBsh9SZNVk4nq1oqro/cOu/30o7p9O68HspVtt
+	JinK9eg3V7B+arIuTg0YgEWCQYeO2EVQlJNd0JxNVLXBCg8QJND6U4aJ8wd0i5HjNxpl4RMxcJ6
+	t1hMvbzcL7S8F5d/XlUxUxGLTG1uqNe97CoOrCvzZzvvbvFVFK239/rDS9GpvdKy1bEdzTGsd8R
+	8vMa5kWavjTj+H8pN0QvyrpXQ3nvgESi+eKuXq4BUFZvhS8
+X-Google-Smtp-Source: AGHT+IEQI2cGZVqfNZhQN2/A72d25PSoCzi9q6OePKLZIWT4CIyrrbPv56ovCRpHfsjUnl9QjN/2oQ==
+X-Received: by 2002:a05:6870:7013:b0:294:cac8:c780 with SMTP id 586e51a60fabf-29720b46073mr3551742fac.6.1732290586691;
+        Fri, 22 Nov 2024 07:49:46 -0800 (PST)
 Received: from localhost.localdomain ([2601:282:4300:19e0::dc1a])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-71c03772b01sm452141a34.20.2024.11.22.07.49.27
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2971d5e89afsm606442fac.21.2024.11.22.07.49.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 07:49:28 -0800 (PST)
+        Fri, 22 Nov 2024 07:49:45 -0800 (PST)
 From: Joshua Watt <jpewhacker@gmail.com>
 X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] lib: sbom30: Fix build parameters
-Date: Fri, 22 Nov 2024 08:49:18 -0700
-Message-ID: <20241122154918.2133799-1-JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] spdx: Fix SPDX tasks not running when code changes
+Date: Fri, 22 Nov 2024 08:49:39 -0700
+Message-ID: <20241122154939.2133845-1-JPEWhacker@gmail.com>
 X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 15:49:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207625
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 15:49:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207626
 
-Fixes the build parameters code, since the build_parameter property was
-changed to be singular in SPDX 3.0.1
+The SPDX code makes heavy use of python classes. While this works very
+well, the bitbake dependency parser is unable to understand how to deal
+with them, and thus changes to the class code do not cause rebuilds to
+occur. To correct this, add the library files that include SPDX code as
+file checksums for the SPDX tasks. If this method works well for SPDX,
+we will look at implementing something similar in the bitbake dependency
+parser that should allow correct checksums without having to explicitly
+add them to each class.
 
 Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
 ---
- meta/lib/oe/sbom30.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/classes-recipe/create-spdx-image-3.0.bbclass | 3 +++
+ meta/classes-recipe/create-spdx-sdk-3.0.bbclass   | 2 ++
+ meta/classes/create-spdx-3.0.bbclass              | 9 +++++++++
+ 3 files changed, 14 insertions(+)
 
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index e3a9428668e..8433637de80 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -786,7 +786,7 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-                 if not isinstance(value, str):
-                     continue
+diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+index 18e6cf6dfa2..51446162857 100644
+--- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
++++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+@@ -36,6 +36,7 @@ do_create_rootfs_spdx[sstate-inputdirs] = "${SPDXROOTFSDEPLOY}"
+ do_create_rootfs_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
+ do_create_rootfs_spdx[recrdeptask] += "do_create_spdx do_create_package_spdx"
+ do_create_rootfs_spdx[cleandirs] += "${SPDXROOTFSDEPLOY}"
++do_create_rootfs_spdx[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
  
--                build.build_parameters.append(
-+                build.build_parameter.append(
-                     oe.spdx30.DictionaryEntry(key=varname, value=value)
-                 )
+ python do_create_rootfs_spdx_setscene() {
+     sstate_setscene(d)
+@@ -53,6 +54,7 @@ do_create_image_spdx[sstate-inputdirs] = "${SPDXIMAGEWORK}"
+ do_create_image_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
+ do_create_image_spdx[cleandirs] = "${SPDXIMAGEWORK}"
+ do_create_image_spdx[dirs] = "${SPDXIMAGEWORK}"
++do_create_image_spdx[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
  
+ python do_create_image_spdx_setscene() {
+     sstate_setscene(d)
+@@ -72,6 +74,7 @@ do_create_image_sbom_spdx[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
+ do_create_image_sbom_spdx[stamp-extra-info] = "${MACHINE_ARCH}"
+ do_create_image_sbom_spdx[cleandirs] = "${SPDXIMAGEDEPLOYDIR}"
+ do_create_image_sbom_spdx[recrdeptask] += "do_create_spdx do_create_package_spdx"
++do_create_image_sbom_spdx[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
+ 
+ python do_create_image_sbom_spdx_setscene() {
+     sstate_setscene(d)
+diff --git a/meta/classes-recipe/create-spdx-sdk-3.0.bbclass b/meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+index ea01a21cc59..855fb3d09f9 100644
+--- a/meta/classes-recipe/create-spdx-sdk-3.0.bbclass
++++ b/meta/classes-recipe/create-spdx-sdk-3.0.bbclass
+@@ -8,12 +8,14 @@
+ do_populate_sdk[recrdeptask] += "do_create_spdx do_create_package_spdx"
+ do_populate_sdk[cleandirs] += "${SPDXSDKWORK}"
+ do_populate_sdk[postfuncs] += "sdk_create_sbom"
++do_populate_sdk[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
+ POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk = " sdk_host_create_spdx"
+ POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk = " sdk_target_create_spdx"
+ 
+ do_populate_sdk_ext[recrdeptask] += "do_create_spdx do_create_package_spdx"
+ do_populate_sdk_ext[cleandirs] += "${SPDXSDKEXTWORK}"
+ do_populate_sdk_ext[postfuncs] += "sdk_ext_create_sbom"
++do_populate_sdk_ext[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
+ POPULATE_SDK_POST_HOST_COMMAND:append:task-populate-sdk-ext = " sdk_ext_host_create_spdx"
+ POPULATE_SDK_POST_TARGET_COMMAND:append:task-populate-sdk-ext = " sdk_ext_target_create_spdx"
+ 
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index bc23d2d2115..640f5490bda 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -122,6 +122,13 @@ oe.spdx30_tasks.get_package_sources_from_debug[vardepsexclude] += "STAGING_KERNE
+ oe.spdx30_tasks.collect_dep_objsets[vardepsexclude] = "SPDX_MULTILIB_SSTATE_ARCHS"
+ 
+ 
++# SPDX library code makes heavy use of classes, which bitbake cannot easily
++# parse out dependencies. As such, the library code files that make use of
++# classes are explicitly added as file checksum dependencies.
++SPDX3_LIB_DEP_FILES = "\
++    ${COREBASE}/meta/lib/oe/sbom30.py:True \
++    ${COREBASE}/meta/lib/oe/spdx30.py:True \
++    "
+ 
+ python do_create_spdx() {
+     import oe.spdx30_tasks
+@@ -137,6 +144,7 @@ addtask do_create_spdx after \
+ SSTATETASKS += "do_create_spdx"
+ do_create_spdx[sstate-inputdirs] = "${SPDXDEPLOY}"
+ do_create_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
++do_create_spdx[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
+ 
+ python do_create_spdx_setscene () {
+     sstate_setscene(d)
+@@ -160,6 +168,7 @@ addtask do_create_package_spdx after do_create_spdx before do_build do_rm_work
+ SSTATETASKS += "do_create_package_spdx"
+ do_create_package_spdx[sstate-inputdirs] = "${SPDXRUNTIMEDEPLOY}"
+ do_create_package_spdx[sstate-outputdirs] = "${DEPLOY_DIR_SPDX}"
++do_create_package_spdx[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
+ 
+ python do_create_package_spdx_setscene () {
+     sstate_setscene(d)
 -- 
 2.47.0
 
