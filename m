@@ -1,149 +1,183 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E93E69193
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 21:02:48 +0000 (UTC)
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
- by mx.groups.io with SMTP id smtpd.web11.35202.1732309362212621578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 934B1E69194
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 21:26:48 +0000 (UTC)
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.35740.1732310807195375062
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 13:02:42 -0800
+ Fri, 22 Nov 2024 13:26:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=mCfEIQK/;
- spf=pass (domain: gmail.com, ip: 209.85.222.171, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7b1505ef7e3so147723085a.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:02:42 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zMM2rRXL;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-720c2db824eso2622317b3a.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:26:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732309361; x=1732914161; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=vPfgaEndXlu6UloytYmJRE5QpmegwjM4cgD5Xgs/BLM=;
-        b=mCfEIQK/ltwiCtr0y7Ow/r92zl+1t2q9bkd/nZH09IYYNtZvb7S7BdmKNRODmXkUbW
-         3yKAhSYGRPX96gY1mIYc5iuhlrCWw9qUT9zc9sFYgWsxdNFVqtvciHkSOC+MZnTEkc9C
-         R+F3n6onN/Foh/19IpAdQku8BIxv6XPiJ8E5SvRspGLAX0j48brDpK6R9/nj5nUqF+qx
-         YklZI+NtdUFBnJGjQEu2l9vCQl+b/yvTfEPw7CVEe8qKU0cEd0ZQcPWzS3nGLVn5C2sI
-         eVz6ibuvQakf5qHjDCbwYQzGrPweaQIA8/GM7jw3pIg+RLu3DpbigL9zcl1k9EEkKb/1
-         65vg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310806; x=1732915606; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6cUz7hgBxtkMWBbWldvrmh7pshR8an5wBkQMBX0oKI0=;
+        b=zMM2rRXLKicf70lZeXzNV4dcnW50JcuoR2lj0BAvLamXfaThEYHpVLVTuaZ3j0S6Mp
+         TIFfQMrSvvRSt8XwsPmzMvSa7A80KE/42WsfaZaUXqilQdmfbZCu/oHNoImgM5H+zVs1
+         lB6FGcosIiXIMcA8k8J0AEMJbmODXi3j/FnBdeOaoDeIAzkAqSXfmEi5TAFxzEFjSA0T
+         yB8KIESRLhEoSxyg35J+DMNRa820vdrj2HZ7fjE2DKwz6DSdwHqik1vIJx8Vv3x/rc4u
+         UgKLU+4b8ZQU/jz0biUNQbuotwtO8No/aDOyCZxU18eQrlDNMsHdxwTzq/YDMqC9RlhT
+         qt9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732309361; x=1732914161;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=vPfgaEndXlu6UloytYmJRE5QpmegwjM4cgD5Xgs/BLM=;
-        b=DyD4SjLGiLZhogd1CLA/FCzD8/MLpgpyqq30JCMXMZ4sy9vQD4nyplrGm0yCqvm2CV
-         UyfMYNisVunlRU6CuXQVHUQaL7Pu0yOm6FaJOtK1XoFk+Ew/zhvK54OtjLMvddHehKBH
-         Is0WmxS81uErBFffMUJhk74Cx6yBXIxeRxjsTatn2OMnbaj7CR+h4cIbzqG+w2pc++ZI
-         LC87SjHWpuT/ePXIyUqDKTmRdjLFFNBC6PumlizAQUzvvyxGapFccXPJwpeFVcM+x9ph
-         5Dlp7/fFglVdNwrIn1Ndx86z4ug/upUNIkkBRVOTUvHIPJ4Urka1KL/XYa11a3CpJ56s
-         HUHQ==
-X-Gm-Message-State: AOJu0YyyPfS8WcRCcd9teUDAsc8u/ju/hlxDpgGP69IINc2hac0Nne19
-	zwu2yccyGx7Mea/v7YOaoMPn5dN4Lj0K9/ooYlJt913+I8uY6U01
-X-Gm-Gg: ASbGncv4fhrTGGLL4tBqFo3mjDdWeA5xlnq5UbkuIGfPbUkFjAOmsflfsTVoE6nuzVY
-	9UJ9ZZHrNoIsMB/WhLVQKzUTlqDOUeSXO2sz+wE0VWU5evTqu/yq3CyPLoPkSwMP9VWRMbBICp2
-	F+SswH49zqIpS3RhbvZG/Uc5mP4Mjmd0wA6rVclreIcZVKDApUZbf6ePVgtq2RO9z5GF1qVZq3f
-	8hffiasRtnPlvzpUNe4MIQaIYcjM5plPjp2P3cOlEJc2ys0NFZx0suE47vWEuVLQmFE5g3ipzR0
-	68ac/zFbj8bJogstb6Yk9VI7QAb69gH8Q99tFm1+MSBir2MG4VY=
-X-Google-Smtp-Source: AGHT+IE785cz+O+m5i9AnwDUy7EfrjlRjvhA5yegzjlsRQ3gLOyHv6dxo/36Im51psnTcz4HLgveSg==
-X-Received: by 2002:a05:6214:2aa1:b0:6d4:b1e:5418 with SMTP id 6a1803df08f44-6d451130167mr60994716d6.33.1732309361010;
-        Fri, 22 Nov 2024 13:02:41 -0800 (PST)
-Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d451a83775sm14281056d6.4.2024.11.22.13.02.39
+        d=1e100.net; s=20230601; t=1732310806; x=1732915606;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6cUz7hgBxtkMWBbWldvrmh7pshR8an5wBkQMBX0oKI0=;
+        b=FU9JqPNg98m/eACngg5/2kUlxJsxac3WB7ey3C2fAR7gmkzyExpGxP57AT8zNBGyH7
+         5V+ZUw+CKkkfXW+mtXQMZOsFkmdK5LkCNI0ZbtqshlUilEIdTGVekU9Y+3HTJsvIUmy/
+         iF8AmJS8dhv0AWHNgUYKJHFDhoHy8F4QSAurlt1xNvHAO0O0vz51E0IUo0XC9fJv90RB
+         hpoTg0diS+B1so2SCU8YUURRA3f1tn6c5VvZGIa0x1jS7zEerL5Kuync6t/V0cdIYyyR
+         28OvHUAmpoIR5eSsTFpUIyXPvf3kNK7JjrSAI6616ptbh/KZ5HMNxLYhgtchLDCQXE4A
+         KKcw==
+X-Gm-Message-State: AOJu0YyIa4KanYLaNtVmzC14pgoPgk+0EZgFZHGFrhSEWmnLVSYl11YI
+	ZtSNnikLWI1oNwAmeVapLh3fkIhO7wDvr9UG4rNQyI2ytnzZ3BwXVpWUfl5m+MUHgATXSNA0tgC
+	g
+X-Gm-Gg: ASbGnctyVRXuHwnkazTqMhSNafbjA8qhQ0zEJJYGnKcLd6/q8F1+5T3cCEyDE5uhyXh
+	NjbL10ZVuaaK+Pg9USw8IimDMuRewxVQv719XOG6zchHZ0COVwEfQJ9FOEPzc6yLB57TBPJsyN+
+	c+eWE2LeL9OyQyc4jC00bB1efGFBFfI9rBtPgbK7LwGoCJE7Qr9fYeRDlSyob0aVxEa0XQbQ8E4
+	XFXtIbxFZ0o4s4J8xK94jwvUXFw6wBbLkubDrs=
+X-Google-Smtp-Source: AGHT+IEnQDph4CvtFfKg2Hww7J+y/udLp9Djb+w15NRNEHla6ltHzHnKQL3uKkN3WcGV5JqDtoqYNg==
+X-Received: by 2002:a17:902:ea11:b0:20c:ecc9:c50b with SMTP id d9443c01a7336-2129fd5c7d6mr54054395ad.42.1732310805978;
+        Fri, 22 Nov 2024 13:26:45 -0800 (PST)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.26.45
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 13:02:39 -0800 (PST)
-From: bruce.ashfield@gmail.com
-To: richard.purdie@linuxfoundation.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] linux-yocto/6.6: bsp/genericarm64: disable ARM64_SME
-Date: Fri, 22 Nov 2024 16:02:37 -0500
-Message-Id: <20241122210238.2546434-1-bruce.ashfield@gmail.com>
-X-Mailer: git-send-email 2.39.2
+        Fri, 22 Nov 2024 13:26:45 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][kirkstone 00/19] Patch review
+Date: Fri, 22 Nov 2024 13:26:19 -0800
+Message-Id: <cover.1732310669.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 21:02:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207648
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 21:26:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207650
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+Please review this set of changes for kirkstone and have comments back by
+end of day Tuesday, November 26
 
-Integrating the following commit(s) to linux-yocto/.:
+Passed a-full on autobuilder:
 
-1/1 [
-    Author: Ross Burton
-    Email: ross.burton@arm.com
-    Subject: bsp/genericarm64: disable ARM64_SME
-    Date: Thu, 21 Nov 2024 15:53:35 +0000
+https://valkyrie.yoctoproject.org/#/builders/29/builds/505
 
-    From upstream:
+The following changes since commit fb45c5cf8c2b663af293acb069d446610f77ff1a:
 
-        arm64: Kconfig: Make SME depend on BROKEN for now
+  build-appliance-image: Update to kirkstone head revision (2024-11-15 12:18:46 -0800)
 
-        commit 81235ae0c846e1fb46a2c6fe9283fe2b2b24f7dc upstream.
+are available in the Git repository at:
 
-        Although support for SME was merged in v5.19, we've since uncovered a
-        number of issues with the implementation, including issues which might
-        corrupt the FPSIMD/SVE/SME state of arbitrary tasks. While there are
-        patches to address some of these issues, ongoing review has highlighted
-        additional functional problems, and more time is necessary to analyse
-        and fix these.
+  https://git.openembedded.org/openembedded-core-contrib stable/kirkstone-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/kirkstone-nut
 
-        For now, mark SME as BROKEN in the hope that we can fix things properly
-        in the near future. As SME is an OPTIONAL part of ARMv9.2+, and there is
-        very little extant hardware, this should not adversely affect the vast
-        majority of users.
+Aleksandar Nikolic (1):
+  scripts/install-buildtools: Update to 4.0.22
 
-    Signed-off-by: Ross Burton <ross.burton@arm.com>
-    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-]
+Archana Polampalli (6):
+  ffmpeg: fix CVE-2024-32230
+  ffmpeg: fix CVE-2023-51793
+  ffmpeg: fix CVE-2023-50008
+  ffmpeg: fix CVE-2024-31582
+  ffmpeg: fix CVE-2024-31578
+  ffmpeg: fix CVE-2023-51794
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
----
- meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb   | 2 +-
- meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb | 2 +-
- meta/recipes-kernel/linux/linux-yocto_6.6.bb      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Chen Qi (1):
+  toolchain-shar-extract.sh: exit when post-relocate-setup.sh fails
 
-diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-index 99e8248c72..b02aeb2d08 100644
---- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
-@@ -15,7 +15,7 @@ python () {
- }
- 
- SRCREV_machine ?= "67f358194225f9936b9a98ee9366417597be1769"
--SRCREV_meta ?= "ccfbc11e4a21d87bd7ab9f176d1b941c4d44e6bb"
-+SRCREV_meta ?= "0d6304e8cd2ae4269ef1151edef0d9e7b5a1babc"
- 
- SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
-            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
-diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-index dce2633842..0990260ec1 100644
---- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
-@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
- KCONF_BSP_AUDIT_LEVEL = "2"
- 
- SRCREV_machine ?= "c0b4a8f13b976065abdeaa2f1177dbc5cb600b4b"
--SRCREV_meta ?= "ccfbc11e4a21d87bd7ab9f176d1b941c4d44e6bb"
-+SRCREV_meta ?= "0d6304e8cd2ae4269ef1151edef0d9e7b5a1babc"
- 
- PV = "${LINUX_VERSION}+git"
- 
-diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-index a0493142f2..7ddf99a043 100644
---- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-+++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
-@@ -32,7 +32,7 @@ SRCREV_machine:qemux86 ?= "c0b4a8f13b976065abdeaa2f1177dbc5cb600b4b"
- SRCREV_machine:qemux86-64 ?= "c0b4a8f13b976065abdeaa2f1177dbc5cb600b4b"
- SRCREV_machine:qemumips64 ?= "9b078a376adbf198325e1569246106e480191063"
- SRCREV_machine ?= "c0b4a8f13b976065abdeaa2f1177dbc5cb600b4b"
--SRCREV_meta ?= "ccfbc11e4a21d87bd7ab9f176d1b941c4d44e6bb"
-+SRCREV_meta ?= "0d6304e8cd2ae4269ef1151edef0d9e7b5a1babc"
- 
- # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
- # get the <version>/base branch, which is pure upstream -stable, and the same
+Khem Raj (1):
+  webkitgtk: Fix build on 32bit arm
+
+Liyin Zhang (1):
+  lttng-modules: fix build error after kernel update to 5.15.171
+
+Ovidiu Panait (1):
+  webkitgtk: fix perl-native dependency
+
+Regis Dargent (1):
+  udev-extraconf: fix network.sh script did not configure hotplugged
+    interfaces
+
+Ross Burton (1):
+  webkitgtk: reduce size of -dbg package
+
+Steve Sakoman (1):
+  llvm: reduce size of -dbg package
+
+Vijay Anusuri (4):
+  ghostscript: Backport fix for multiple CVE's
+  libsoup: Fix for CVE-2024-52530 and CVE-2024-52532
+  libsoup-2.4: Backport fix for CVE-2024-52530 and CVE-2024-52532
+  glib-2.0: Backport fix for CVE-2024-52533
+
+Wang Mingyu (1):
+  wireless-regdb: upgrade 2024.07.04 -> 2024.10.07
+
+ meta/files/toolchain-shar-extract.sh          |   4 +
+ .../glib-2.0/glib-2.0/CVE-2024-52533.patch    |  49 +++
+ meta/recipes-core/glib-2.0/glib-2.0_2.72.3.bb |   1 +
+ .../udev/udev-extraconf/network.sh            |  32 --
+ meta/recipes-devtools/llvm/llvm_git.bb        |   2 +
+ .../ghostscript/CVE-2024-46951.patch          |  31 ++
+ .../ghostscript/CVE-2024-46952.patch          |  62 ++++
+ .../ghostscript/CVE-2024-46953.patch          |  67 ++++
+ .../ghostscript/CVE-2024-46955.patch          |  60 ++++
+ .../ghostscript/CVE-2024-46956.patch          |  30 ++
+ .../ghostscript/ghostscript_9.55.0.bb         |   5 +
+ ...c-fix-tracepoint-mm_page_alloc_zone_.patch |  61 ++++
+ .../lttng/lttng-modules_2.13.14.bb            |   1 +
+ ....07.04.bb => wireless-regdb_2024.10.07.bb} |   2 +-
+ .../ffmpeg/ffmpeg/CVE-2023-50008.patch        |  29 ++
+ .../ffmpeg/ffmpeg/CVE-2023-51793.patch        |  67 ++++
+ .../ffmpeg/ffmpeg/CVE-2023-51794.patch        |  35 +++
+ .../ffmpeg/ffmpeg/CVE-2024-31578.patch        |  49 +++
+ .../ffmpeg/ffmpeg/CVE-2024-31582.patch        |  34 ++
+ .../ffmpeg/ffmpeg/CVE-2024-32230.patch        |  35 +++
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |   6 +
+ ...44e17d258106617b0e6d783d073b188a2548.patch | 296 ++++++++++++++++++
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb  |   7 +-
+ .../libsoup/libsoup-2.4/CVE-2024-52530.patch  | 149 +++++++++
+ .../libsoup-2.4/CVE-2024-52532-1.patch        |  36 +++
+ .../libsoup-2.4/CVE-2024-52532-2.patch        |  42 +++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |   3 +
+ .../libsoup/libsoup/CVE-2024-52530.patch      | 149 +++++++++
+ .../libsoup/libsoup/CVE-2024-52532-1.patch    |  36 +++
+ .../libsoup/libsoup/CVE-2024-52532-2.patch    |  42 +++
+ meta/recipes-support/libsoup/libsoup_3.0.7.bb |   6 +-
+ scripts/install-buildtools                    |   4 +-
+ 32 files changed, 1395 insertions(+), 37 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2024-52533.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46951.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46952.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46953.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46955.patch
+ create mode 100644 meta/recipes-extended/ghostscript/ghostscript/CVE-2024-46956.patch
+ create mode 100644 meta/recipes-kernel/lttng/lttng-modules/0001-fix-mm-page_alloc-fix-tracepoint-mm_page_alloc_zone_.patch
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2024.07.04.bb => wireless-regdb_2024.10.07.bb} (94%)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50008.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51793.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51794.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31578.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-31582.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-32230.patch
+ create mode 100644 meta/recipes-sato/webkit/webkitgtk/0d3344e17d258106617b0e6d783d073b188a2548.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52530.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52532-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52532-2.patch
+
 -- 
-2.39.2
+2.34.1
 
 
