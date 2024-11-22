@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9C58E6ADC6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9703E6ADC2
 	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 21:27:18 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web10.35425.1732310837418910236
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+ by mx.groups.io with SMTP id smtpd.web11.35760.1732310830198468631
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 13:27:17 -0800
+ Fri, 22 Nov 2024 13:27:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=v5jpaOnp;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-724f0f6300aso209854b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:27:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=z7QrAnJ2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.172, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-21288402a26so25432575ad.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:27:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310837; x=1732915637; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310829; x=1732915629; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=r3kBA5DkGas62gUhUUtByt8cuvsHEqu2EMaLijKXcTc=;
-        b=v5jpaOnpzSJZVT4olxrqQxv4baTf9KqxQ/hltGoscsssVRWUEYGo1jpGymCnTGfUFQ
-         evYla/CIQOlRvMT8u18rq/HQQc0sCldCGA9A2u3Zy3/Sj0/bhTbt27HJUfbOOAL7Ymri
-         +QFhrTPlAOcevYmCjA+MPy7l0qx53ySPyRLt7A+RoF0dgZp5VyZmZgCmgxq11ZyUp1iI
-         XobHBQxcQyMRDoxaE8RWrF1v749NVXRDPtI2+8fKNmHmfcbK0cMvFaqW3FPIjolZ+Xcl
-         q2HMnmP/iGNTLQivSBDkXO86zfi2inNjctvGOUwmFlydccor7ffxtJNYYIj5KNNjHUOT
-         288w==
+        bh=Vu+86QSwUlliW+Kzzzj5D2QPbNLJbsNODniIVdSTnfg=;
+        b=z7QrAnJ2kuvia6W+voA0uI6w4UHGLDPng5UVpvlk2WGJX5mUEOCbS+i1AOYHFydH4v
+         7XVEFMhw+GpI4mFuZnlLR0B7dnMsRFuIEJDKawTDy+654BiLTUCSySzH0sTTPA7HYbgp
+         4YAa/E5YmszttYJq2rXm12ibbqxFGPb82R2wlV3zasPeh7DasTVGSkcEuzISGGsdy+CD
+         oa8rAt7fkRlKp9jKoywtSvmuOVNYQQGz/xLUsRZKkcxQhjWFZ8MthC24JDbBeCtxfZWp
+         pr8c08dsBi1cJkdH/RbKAJd+dkhUaMUxFRJobYG93XMNoAhyJoI3udHaO4WGtRhB8ysh
+         XkcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732310837; x=1732915637;
+        d=1e100.net; s=20230601; t=1732310829; x=1732915629;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r3kBA5DkGas62gUhUUtByt8cuvsHEqu2EMaLijKXcTc=;
-        b=BPjSKOv5ROeGB6JS3faJ/DRceVd3yultc63DFE5txFQuZdTm41+itqS3EPpawihlbJ
-         fzjmOQgENOa1syX+/LoxPjIUj4+HEKSNyDOZK6jBIXj0VzknVMRItEsD71Nzmo+ckHbC
-         Dej7U4O6a455XunQU3ZOmzZcRZXZdFJ+YqceVLFyMOXcUEIlCGhnPntECL/02dfcAQ5N
-         VlVSMFtE9j33f8BP3T3AjmP3rdwpbK4drF7FRDxOARa147NT3ZQ8C9V4I46b3m6QNSU3
-         OtKKjz/qDGCIBOCBv3cM+T4/55R6SNL3z+5vmmau3BgqjPnXDXjDO1pEr9GqJZwMN8fa
-         YwUQ==
-X-Gm-Message-State: AOJu0YwiFXy1+qr/sx0aR5gaURhS6/1EO2QwFuE8eu9N1Yf/hRCYglp2
-	K4CJMbTEm+cmMUx/GG+PF0ow4vdVUpZvtHccfYC9t3iqEaLi+TAiWfoa5IjSfWYAGW7P/gyFcul
-	Q
-X-Gm-Gg: ASbGncuylOSHrOwN7AHhv02C5sgKc9uOK7BbPLzqX62LXJP8N3ECDfi9ly5BQ/7s13g
-	QxJpVrgCDD3i0Rrm9qHQepm1ysWQydLmBVGgh1Fi1vqTBhgPRnqkWX2gRu0TvK8hPoHCyezrzy3
-	wTqEfF6KuJtNw8SbBcsuJgxdZI4nzEHD4Oih98QwMDkHI6Y3/DyIM5U+CiHFwvy+iWGUr3aP8zk
-	F3GBqdY0GiLD5ZaDuzowaYnGJWzDskmQTEtA30=
-X-Google-Smtp-Source: AGHT+IEwqtFWTRIAIrGrQu2uusKHkbz7H695JaaG5ujw0ENg2T724f3EpTSsEzD9wcWWpq6IPRDUxA==
-X-Received: by 2002:a17:903:228d:b0:211:f335:aba with SMTP id d9443c01a7336-2129f5790edmr73162905ad.31.1732310836665;
-        Fri, 22 Nov 2024 13:27:16 -0800 (PST)
+        bh=Vu+86QSwUlliW+Kzzzj5D2QPbNLJbsNODniIVdSTnfg=;
+        b=CmHRaHOHm0bfAzkv8UsqWqcuh0s3FAcxb7csKFOfdvY9PxH2gV6Y9FPzsqvubvkD/W
+         58J1HupXsdsVWKm0FJKNLZFpsKtCad0//CJCip4MeMdvP6h06+YZLsY/N3V1cIdxmh1Q
+         lQJmP9i1dbaoL5bJM/saNYQzZPtlUrfm7+R90FndgTlWA7sb1tqsLSrvPF8Lqyt0iTbL
+         x+795SkIvxxgd5nrUsBnEBNvysr6uFLPU0IYnmiWwBpL/fTAIbrKToEWTyqjRnOSSqGc
+         pJkjy2PwUI/sWqqfaPgbheCWYbRVwLtZbbzyzpFwFD+OMMvty35ozHn5NDNr3ONHvtEa
+         KbMQ==
+X-Gm-Message-State: AOJu0YwwWtlmUd7cJgcg3LfEL7yuhPX8myA/TkVp29KhVrlh3Gr5OoHz
+	RFZfZpIg2FMzdgypzky2Nb5o/aWJWjus5IbvKbh98xni5j8/VKtPdtswZoKKSy8A4RdfjoK5hL8
+	Z
+X-Gm-Gg: ASbGncuUUqsRFwSNZkZ6RsaxT9GedSx6n6wA/EfyG3BnTmNerug7XSrEj4BluhXWJsx
+	jsFGx3E7O04S6SFEVbYJW8kwF8wnd6WiWu8dTBsOU730u/aLpwIMyYMiI8dyUy34ABXf1+ybgpI
+	BpaPjlpWo8/n0M8eGls4JMDPXSpYDXZ9nr/iwn04g0jMSaqmFNTElQxd+0rIYvYQFNJaAe87l0q
+	SA/PLMYLcBhK1UVzJbQin8gLQ0wDhCGtdpxYBg=
+X-Google-Smtp-Source: AGHT+IGq9GgCON9laam+havT5rQvgoWsElNDHIEPW4eUVBrWEHZq8RDUzkq0dpKJBeL4UZ5gzIYy8A==
+X-Received: by 2002:a17:902:f78f:b0:212:4835:10a with SMTP id d9443c01a7336-2129f24ca1dmr64763325ad.34.1732310829483;
+        Fri, 22 Nov 2024 13:27:09 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.27.16
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.27.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 13:27:16 -0800 (PST)
+        Fri, 22 Nov 2024 13:27:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/19] udev-extraconf: fix network.sh script did not configure hotplugged interfaces
-Date: Fri, 22 Nov 2024 13:26:38 -0800
-Message-Id: <8c10f4a4dc12f65212576e6e568fa4369014aaa0.1732310669.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 14/19] webkitgtk: fix perl-native dependency
+Date: Fri, 22 Nov 2024 13:26:33 -0800
+Message-Id: <76cb08195f90b36395d7ad09ab8f2654eda0d204.1732310669.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732310669.git.steve@sakoman.com>
 References: <cover.1732310669.git.steve@sakoman.com>
@@ -66,79 +66,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 21:27:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207669
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207664
 
-From: Regis Dargent <regis.dargent@gmail.com>
+From: Ovidiu Panait <ovidiu.panait@windriver.com>
 
-Udev script network.sh is called when a new ethernet interface is plugged (eg. USB).
-Due to some (old) missing files, this script does nothing, instead of configuring the
-interfaces with ifup.
-I just commented the corresponding lines to allow the script to reach the part where
-it calls ifup.
+Currently, perl-native is missing from DEPENDS for webkitgtk even though
+perlnative bbclass is inherited. This happens because the DEPENDS variable is
+reassigned right after perlnative class is inherited:
 
-Signed-off-by: Regis Dargent <regis.dargent@gmail.com>
+inherit perlnative (DEPENDS += "perl-native")
+...
+DEPENDS = " \
+            ..."
 
-Fixes [YOCTO 15616]
+Adjust the DEPENDS line to use += in order to fix this.
 
-network.sh relies on (long) missing files (eg. /etc/network/options,
-/etc/init.d/network) to decide if it should configure the new network
-interface (ifup) or put its name in /etc/udev_network_queue for future
-initialization by /etc/init.d/network service.
-The actual result was that the new hotplugged interface was never
-automatically configured.
-Removing the obsolete tests allows the script to do its intended job.
-
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Ovidiu Panait <ovidiu.panait@windriver.com>
+Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 160f7139172ffdf510a0d7d4e85f7fbaac7fd000)
+
+(From OE-Core rev: a207c8f42f809340e0794cd326cb5c45e32d7d56)
+
+Signed-off-by: Kai Kang <kai.kang@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../udev/udev-extraconf/network.sh            | 32 -------------------
- 1 file changed, 32 deletions(-)
+ meta/recipes-sato/webkit/webkitgtk_2.36.8.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/udev/udev-extraconf/network.sh b/meta/recipes-core/udev/udev-extraconf/network.sh
-index 3ee92714af..ace38808cd 100644
---- a/meta/recipes-core/udev/udev-extraconf/network.sh
-+++ b/meta/recipes-core/udev/udev-extraconf/network.sh
-@@ -6,38 +6,6 @@ echo "$INTERFACE" | grep -q wifi && exit 0
- # udevd does clearenv(). Export shell PATH to children.
- export PATH
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+index 16acb205b1..a62d99b227 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.36.8.bb
+@@ -36,7 +36,7 @@ REQUIRED_DISTRO_FEATURES = "${@bb.utils.contains('DISTRO_FEATURES', 'wayland', '
  
--# Check if /etc/init.d/network has been run yet to see if we are 
--# called by starting /etc/rcS.d/S03udev and not by hotplugging a device
--#
--# At this stage, network interfaces should not be brought up
--# automatically because:
--# a)	/etc/init.d/network has not been run yet (security issue)
--# b) 	/var has not been populated yet so /etc/resolv,conf points to 
--#	oblivion, making the network unusable
--#
--
--spoofp="`grep ^spoofprotect /etc/network/options`"
--if test -z "$spoofp"
--then
--	# This is the default from /etc/init.d/network
--	spoofp_val=yes
--else
--	spoofp_val=${spoofp#spoofprotect=}
--fi
--
--test "$spoofp_val" = yes && spoofp_val=1 || spoofp_val=0
--
--# I think it is safe to assume that "lo" will always be there ;)
--if test "`cat /proc/sys/net/ipv4/conf/lo/rp_filter`" != "$spoofp_val" -a -n "$spoofp_val"
--then
--	echo "$INTERFACE" >> /dev/udev_network_queue	
--	exit 0
--fi
--
--#
--# Code taken from pcmcia-cs:/etc/pcmcia/network
--#
--
- # if this interface has an entry in /etc/network/interfaces, let ifupdown
- # handle it
- if grep -q "iface \+$INTERFACE" /etc/network/interfaces; then
+ CVE_PRODUCT = "webkitgtk webkitgtk\+"
+ 
+-DEPENDS = " \
++DEPENDS += " \
+           ruby-native \
+           gperf-native \
+           cairo \
 -- 
 2.34.1
 
