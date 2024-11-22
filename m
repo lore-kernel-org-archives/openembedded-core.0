@@ -1,229 +1,660 @@
-Return-Path: <jing.hui.tham@intel.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CD55FE65D10
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 01:23:52 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
- by mx.groups.io with SMTP id smtpd.web10.14611.1732238621175929861
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EFFEAE65D12
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 01:30:12 +0000 (UTC)
+Received: from mailout06.t-online.de (mailout06.t-online.de [194.25.134.19])
+ by mx.groups.io with SMTP id smtpd.web10.14743.1732239003871067341
  for <openembedded-core@lists.openembedded.org>;
- Thu, 21 Nov 2024 17:23:41 -0800
+ Thu, 21 Nov 2024 17:30:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=Z2aJKW4G;
- spf=pass (domain: intel.com, ip: 192.198.163.18, mailfrom: jing.hui.tham@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1732238621; x=1763774621;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=6jBL6gPoi5bcPkBuqhDEUxB1ehO2nrKGHQ8k5RpxkIc=;
-  b=Z2aJKW4GIw7PK/1w+PIA4iU7Se1TTvOyOoIaCplkbrbgVgPMHaMfzYqN
-   nndQwdOgBv6dokhdOWqS2d1s1yTOQbxMYX1oik8pMfTHwBIqwx2vDCFDc
-   fvQAq1k64tRwitzkG91gEwKHLAQjCXOzClFl7eDsinVEjhCdZqAcsdBLd
-   u88x5ucJ48gSo/VVI3FrF/y+saj7cqwHSkty6ObZe2Cmq3nFMVByWvcUc
-   cnQxgg80R5zh7lBoZa4YkL6dVWJ1pqtQcPMg5vF5xzx52Jc7/gMSXASfY
-   gkTnsFknIfvATWuIrlTGXIZn84CTTQuG8Gm0TRo9KfB6MtaW6eZJCvVVN
-   w==;
-X-CSE-ConnectionGUID: TWV2TDfCTz2kLfUBiUKY0A==
-X-CSE-MsgGUID: R0/+NRIETqeqcG2FLxGlnw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11263"; a="31738772"
-X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="31738772"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2024 17:23:40 -0800
-X-CSE-ConnectionGUID: d/0CRbTpSgGCMLF2dAQc/A==
-X-CSE-MsgGUID: QBTHtZZZSuijvRKpNAGKtg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.12,174,1728975600"; 
-   d="scan'208";a="95374756"
-Received: from orsmsx602.amr.corp.intel.com ([10.22.229.15])
-  by orviesa005.jf.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 21 Nov 2024 17:21:33 -0800
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX602.amr.corp.intel.com (10.22.229.15) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39; Thu, 21 Nov 2024 17:21:31 -0800
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.39 via Frontend Transport; Thu, 21 Nov 2024 17:21:31 -0800
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.42) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 21 Nov 2024 17:21:31 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EE5sJw17k+f/k6MxRL1UcKE3fvqtGhoMiR70bHozgY41wUrNunwazxrrUtOKaBfI5sTjkvpqFuQKvHsKtbN8rU4NSPLAjHE+xsLYA65JnZQKCFKT7BS6lzUopybEEFZbbrMnpmRx/v/uAkfNg+Js9kzCaHTRgEWW4aknsNIKvwE2JBQRkFL1n8rAYepR615GNGCmIiu7xEZ8wpRHz2MCfjmaOKK8nqwhz+lcFA5hjG9G00EPbmRzwq6gR2fQK8zFxyHasC0ZSrOMNSCbFu9eAjTVf1T/61lG6wek0LRwr+HacXLvregYz49sgShmdx17jYKDdqsixDvd26vMGF0yZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6jBL6gPoi5bcPkBuqhDEUxB1ehO2nrKGHQ8k5RpxkIc=;
- b=GMT1KfZWiIpW+d2rNacBfqLytIDNge0IkAbPMqT6rT7tOBnEDJSem7dSd9cWTihw+6SKHsomtHiqjyR7xhiFxC9siGiUZ5EE/fqXV0jgnPdmV5FyxiuJcr6X8sxu9ZVTjOzQVC1jzq0f+cg/NcP/HYXNJ4HiXm7kOEppjS6TH+nvtEuiLji5UbGce5fgzm9CsaqU/zwUpMvC4azOjAwEn7orDo0FgY2tArS9/1uk4ybdFMJSHsSnWw/7HAvuimVbpgitwyGHfS2OlT75Fr8kSAxJOApmU/B/VkA2AYOwx33NsbD/5yNb+w5DW3vOsQKRpxtxVjMkS6d+w38cPFcfSA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com (2603:10b6:8:100::19)
- by SA0PR11MB4637.namprd11.prod.outlook.com (2603:10b6:806:97::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8182.17; Fri, 22 Nov
- 2024 01:21:29 +0000
-Received: from DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a]) by DM4PR11MB7760.namprd11.prod.outlook.com
- ([fe80::e210:b6a3:f037:f49a%4]) with mapi id 15.20.8158.021; Fri, 22 Nov 2024
- 01:21:29 +0000
-From: "Tham, Jing Hui" <jing.hui.tham@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>, "Yocto
- (yocto@lists.yoctoproject.org)" <yocto@lists.yoctoproject.org>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-4.0.23.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-4.0.23.rc1)
-Thread-Index: AQHbOCxXsjr6K4OdCE65KOhZlJS39rLCiFCw
-Date: Fri, 22 Nov 2024 01:21:29 +0000
-Message-ID: <DM4PR11MB776007E6DAF575D69DF41FD1A1232@DM4PR11MB7760.namprd11.prod.outlook.com>
-References: <CAOSpxdbKwz6Og979Mj0XUbxvrXtih5g-EY-prd4sypzLw-g8rQ@mail.gmail.com>
-In-Reply-To: <CAOSpxdbKwz6Og979Mj0XUbxvrXtih5g-EY-prd4sypzLw-g8rQ@mail.gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4PR11MB7760:EE_|SA0PR11MB4637:EE_
-x-ms-office365-filtering-correlation-id: 8e3597ec-48e7-4d43-d659-08dd0a93fddf
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|4022899009|366016|7053199007|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?OWxrUEpLOGFXTmRnNUgzd3ZyUGxmd0N2MFpUSVVhVjVmL25QZitCU0VWZ1VP?=
- =?utf-8?B?Z3ZSUURwZEJWTG5McWZ0RUt3NE1nK0JyYXhKOUNMUzc3ZGRZdUxsYVJoYzh4?=
- =?utf-8?B?NHUrTklEODFSTkRSMjkrQmJQTHVjMEFrN3pJb21LYUZMSWhlVUliMFAyR0JM?=
- =?utf-8?B?RXhBVzFLc0g3U3hHUGh6aDhZb2NLWk5SMWFIa0x5dUVxYi9UYTNNWVJ3Rkt1?=
- =?utf-8?B?MG5pblFid0p0QTdobG41L0tGYVdCelBYaUt6c1Z4MU1WS1NjTm1OL2FacUp1?=
- =?utf-8?B?M3hqQXdCTnRRK0piMU1Qa3d1NkR0bk55TzdMSWY0UFNHMzNlTXd3bzdvZUhW?=
- =?utf-8?B?OURKTjVFU2x3NEIyRGVaWVgvSC94M0YzVHBaeFdwUUxiN2F6V0luKzZQdnN0?=
- =?utf-8?B?Ykxkb1oraDNUanhKem9hcS9pQkZrM1Ivb0dQOEd5cHlmbGIzM2hvczZ0M0VD?=
- =?utf-8?B?RlRqQWdKOWxwN0FyVmpQVVgzZWQxbHBvS0o2blRWL1JuRkVmcmhzRWRTRjZB?=
- =?utf-8?B?OWUwWXFUSHlTdWhmdnIvRDBiNDI2WUFFaVcyOU14U045dk1oanRKUm1tb0lS?=
- =?utf-8?B?Zmh5VFZZNEJ0aE4zdWgwdURtbm1sQlNEKzF4RDgvTzNPeXU3SkpvOEwyaDFy?=
- =?utf-8?B?OFZTekRIK2FtcXlWL0xyamhrbGVxb1BrVDlSMFcvV3Z0cllSR2NhZXUweDVG?=
- =?utf-8?B?V0ZKZW9DSkxHcWFqUUszZnFkQ0hBR2VBVkFjVFNyTTE1aGU0Rm5HNUcrdUFY?=
- =?utf-8?B?cXZMNjlydWwzblVhU1pqQndVZ0pTN1RKRGI1OTd5dnhiSWJqajFRSG9SaDd1?=
- =?utf-8?B?RTdkdlI0N3NVRWdoZkRYSXRsUDBYZGNVK1BkL3UydTlnd24zdHAzT3JrRG91?=
- =?utf-8?B?R3owSGhOa1NHWklWVjVkZXQvanZsYjhSSVRrNGx4aDk0NHRPTW9EMVkxT2hN?=
- =?utf-8?B?S2RjRE43VTV6U05PaGwwVnNBb29RTndmWUE5a1BLMGx4eFhPVzZ4TzBCZGFm?=
- =?utf-8?B?akNCalArUS9aVUpBQ0h4UmNibFk5L2xHS1c3K0NPcXc3OWZ5bFJFY213OUJi?=
- =?utf-8?B?NENtZmVab3RkTm5lUFU1Mkx3c2ZsSHlLMTdOQWZsdDVqVkJaUXdDT2FsOFZY?=
- =?utf-8?B?OWh1TWVEZ1JFa3FBbnFPWWdwS1JGOWhaT0NvaE1NZ0h4eHM3OEdnbUZLa2E2?=
- =?utf-8?B?V1BSQWgzZjVCQXJUdnNaZVJ6REI3b3dxR0pGc1ROTnlRY1FYL3BkUUgyN1E1?=
- =?utf-8?B?eURWMFR3d3NrckF3RWt5U0h3Q0RVbHRXK3pEYkRvNi9aaGNGNzZyNDdNZzIx?=
- =?utf-8?B?SWNpNnJNWWNJZ2lmUWJiVWxJbld5QWQvL01KU1hKbEJQZzAyb3NEdmE4VHVt?=
- =?utf-8?B?S0lLeGVNazNwUEZ5Q2RmdVh5VXhWSjJycG1rQjhRVDFrS1JWSWlNYTg4ZU5m?=
- =?utf-8?B?SGlYMlkxY1BWQkJLWXNkeVpNRm9URmFnNXZXV2w3RjdFbTJrNk95VzF1Unkz?=
- =?utf-8?B?WCttVkNzVFlmdjV2MWYvdFN5NnR6OEZuSEtlMzBhNlNHWDFlOXAxeEFhUkt4?=
- =?utf-8?B?NHpaTVlaakt2NHJMdmc5amdYY0hwTlFvUHpMYjZxVk9vbGROLzRySUhadVA3?=
- =?utf-8?B?QTFRbG1YTUxpMFd0SFJqbmV2ZFc5a0ZCWFJqQUR2eWxJcEZsQWhGMUZMOVVm?=
- =?utf-8?B?bUJKNFc0b2thRDY1VU9xMGc0RHhHRmJmMjV1ZHk1RUJkQjMrS0drOU93SXJy?=
- =?utf-8?Q?ASI6cAmvybwGCVH1C4wChq4E8BhtkYY34vjtB8S?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7760.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(4022899009)(366016)(7053199007)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?d3huMnNEbVJsVzQvZ3dhdUVBOG1vTmFINDFxSUo2czl6LzZmVmNSWGdKRlJx?=
- =?utf-8?B?UnBXUEkxeFE1RHNYbnNYMmNSdTMrRURUR3VldXpMeFludGNmUkl3YyswT1R0?=
- =?utf-8?B?NFkvQ0FVQjZ6TnBjbk4wUHBTNHArT0xXTldUTlNoWUxNQ1N0UE9NaFdSL2ND?=
- =?utf-8?B?bjh1bkJqNVRhVjBPVWJUaloxS3hPRWN4UjZGQk9HTTJZbnY0cTh5cW94V21J?=
- =?utf-8?B?OVFUeWovQUhDZXNxVEIvakwzQ1hVUnpQSWRObGVnMUljQ2xCRmtpSldYakxR?=
- =?utf-8?B?V1poWEloU3I0cEpnTXJCTGVkTWpGclVQWjJNUzRtWDYrdndxeDhJRVN1WVNW?=
- =?utf-8?B?WmNsQzlldjFLbmdHT3N5TkNISXd5YkxqdkVxYkNobnNOQU1KRE96cmtaK0J1?=
- =?utf-8?B?cUYybm16U1dDUUNoVVlKaHRmVmJldXNoUkZRcE44VUtmM00zcUFSMnJIRUFT?=
- =?utf-8?B?bk5XZFY2eUVtU2Jjb0tJTnpwUWpLWEs4UWpuT3VwWm8yaUUvYkYzN2tkVktM?=
- =?utf-8?B?QURTOS9CRmF4aGlZVGVuM0xubWh6Uk90em00V3pHUjJLM29MMXU5NGVrWHZo?=
- =?utf-8?B?dE9HYUJXMzJHc1F0QTRqeEpzVStidFVYT3JZRzVGbCtMSUJVZWN4cnhyZDZz?=
- =?utf-8?B?NlBrVmVZNFRtMHFVYmFQcXpJUUNaTENnMU40MGY4OWJDRHZPOVdhbXZSeHpX?=
- =?utf-8?B?d0xHbm5xY2ZQN3VoaHZGWFV6Mm9Idi9UUUVaQmNRMTRuYUV0Nmhnc05ZTmF4?=
- =?utf-8?B?QXFuZlNodUtnN2lmV3doS0EvVVg1S0JKazQ3OG5rM0h4c29aMnRhbGFybHRE?=
- =?utf-8?B?V2hVWHd4RVhrNFBKaVVMZ2t3MDFiWEZqWlFoamdSdnVKNE9tM2JYc055Q05k?=
- =?utf-8?B?ZG8rSkVPV0htdFJuVi9qbHo0cUlFNjZuSnZhSHNUOHlkTkZVUk5mUWwveFl2?=
- =?utf-8?B?MEpNYzQvK0hFaTAwSmJGNVU4TXZZNmNOemNQRkUxb0crVHVWc1diOUtsZkl2?=
- =?utf-8?B?SWpLTDNqc3gyMzBicC85c25WMXhoVU5vbVA4VC9pbXZST2dVeDhjUDRSM2ZP?=
- =?utf-8?B?eDdxY1g2eWNKVkhYdXZWY1ZWQlFreEc0bVVOQkdpeTBUOGNCUDNZM2lEWkYv?=
- =?utf-8?B?SnE4bnNFY3hrdUNZdG5vUlVXOHgrT2pJYk50ZEtwL1ZPVFQvK29qWWFrNlF0?=
- =?utf-8?B?bEQ5OFovVzhLNEdPTHZQU3hZbkdKVEFySGRkWWEzSHM5QmhiOGljTlkydmQ0?=
- =?utf-8?B?ampHUWt2U2IvdnJTcmh5Wm1SM1BkSHduVTJ3VHRtbHozWmFZelJDcGgzdngw?=
- =?utf-8?B?SkhzZEZ2ZExzVmRUZncxVEhsOXdPTUhSVEZhM3dtcUhmMEFubC9qSW01Nm9I?=
- =?utf-8?B?TXViSjBJaDdsSCtIMkg0Nzdsb0hZNG00T2JGVFZpb0RZVjVUTUMxa3JhYUQ1?=
- =?utf-8?B?OGM2UjRFTEdZNEFVU3BPajlOaDdZQ2JPYi9HSTNmSy9CTVlVN014WlZVUHpQ?=
- =?utf-8?B?TzVwd3A3Qk9kbi93YzY4VGY2MVBJczlKSmFxM3RXcEVnaVVFN0thNEFISkRo?=
- =?utf-8?B?N2FQcWR4ZEk0Qnp0bUZyNzZLVTFRdWNqbWQzSGlxZ2w0cjN3bVRnczZiMkpk?=
- =?utf-8?B?MkJEUTJaSi9HZWR6aEcyUkI5Y2dpd3ZiTml3TDZaaEJVb3E4UzAvZmxRK0Vr?=
- =?utf-8?B?MGN2YWhrQlhJTE5QTXV1QWwwTkV0UDhJL01xUXRBZS9LTVlib3pRNjdhRS9i?=
- =?utf-8?B?RVhoUUE4UmNJZ1Z6THUxOVIvNHNtZlc2R1BMdklZMTFWdDdNOG15aGIxM3FS?=
- =?utf-8?B?VUJUMDJ6c1QzaEJTU1ZkUEhOWVlCQmUyQm1GS1F1d0tNVk9EUkx2cm1BSjJV?=
- =?utf-8?B?SER6d2laK2tXWmRySHh0TmFUbjd2Yjk3bEZ4WjV2ckljRzVvNWg4azJyTUdN?=
- =?utf-8?B?ZkxLczgyK1YyRFRwWnZGbTF4YS9SemlFaVNYbGhOc3hVQTlVa1FMbmMrOVVm?=
- =?utf-8?B?WDBmL2MzRHg3T1BLYmFpQWVRVk8xaWJqa2NTRDZqdXlmRkJ4RTNKYmgvVy9Y?=
- =?utf-8?B?ckZtekVpODY1eGFMa29Bb0dxdk9RbkVyaE1Oc1ZhaTB4LzB1RjY2QzlnNDFZ?=
- =?utf-8?Q?ecsIf9z6wm5FX6IOVlXQK4ivy?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.19, mailfrom: f_l_k@t-online.de)
+Received: from fwd76.aul.t-online.de (fwd76.aul.t-online.de [10.223.144.102])
+	by mailout06.t-online.de (Postfix) with SMTP id 07B599A6
+	for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 02:30:00 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.36.225]) by fwd76.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1tEIUh-3GqJmL0; Fri, 22 Nov 2024 02:29:59 +0100
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] gcc: add a backport patch to fix an issue with tzdata 2024b
+Date: Fri, 22 Nov 2024 02:29:41 +0100
+Message-ID: <20241122012941.3055-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7760.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e3597ec-48e7-4d43-d659-08dd0a93fddf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Nov 2024 01:21:29.2178
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: ZAzBt4MgaU54mL536mnOSFLO4ARDwXXP/q2DImTdJZbnJOFqIi5zp+nTj+Ii5dzwE5dVSz2eZ4GMBjGPbLoBgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR11MB4637
-X-OriginatorOrg: intel.com
+X-TOI-EXPURGATEID: 150726::1732238999-45FEA90D-F64E3BD7/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7e4fd6b2-b686-4237-aab5-0b8f7f55648c
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 01:23:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207583
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 01:30:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207584
 
-SGkgQWxsLA0KIA0KUUEgZm9yIHlvY3RvLTQuMC4yMy5yYzEgaXMgY29tcGxldGVkLiBUaGlzIGlz
-IHRoZSBmdWxsIHJlcG9ydCBmb3IgdGhpcyByZWxlYXNlOiAgDQpodHRwczovL2dpdC55b2N0b3By
-b2plY3Qub3JnL2NnaXQvY2dpdC5jZ2kveW9jdG8tdGVzdHJlc3VsdHMtY29udHJpYi90cmVlLz9o
-PWludGVsLXlvY3RvLXRlc3RyZXN1bHRzDQogDQo9PT09PT09IFN1bW1hcnkgPT09PT09PT0NCk5v
-IGhpZ2ggbWlsZXN0b25lIGRlZmVjdHMuDQogDQpObyBuZXcgaXNzdWUgZm91bmQuIA0KIA0KVGhh
-bmtzLA0KSmluZyBIdWkNCg0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206
-IHFhLWJ1aWxkLW5vdGlmaWNhdGlvbkBsaXN0cy55b2N0b3Byb2plY3Qub3JnIDxxYS1idWlsZC0N
-Cj4gbm90aWZpY2F0aW9uQGxpc3RzLnlvY3RvcHJvamVjdC5vcmc+IE9uIEJlaGFsZiBPZiBTdGV2
-ZSBTYWtvbWFuDQo+IFNlbnQ6IFNhdHVyZGF5LCBOb3ZlbWJlciAxNiwgMjAyNCA5OjM1IFBNDQo+
-IFRvOiBZb2N0byAoeW9jdG9AbGlzdHMueW9jdG9wcm9qZWN0Lm9yZykgPHlvY3RvQGxpc3RzLnlv
-Y3RvcHJvamVjdC5vcmc+DQo+IENjOiBxYS1idWlsZC1ub3RpZmljYXRpb25AbGlzdHMueW9jdG9w
-cm9qZWN0Lm9yZw0KPiBTdWJqZWN0OiBbcWEtYnVpbGQtbm90aWZpY2F0aW9uXSBRQSBub3RpZmlj
-YXRpb24gZm9yIGNvbXBsZXRlZCBhdXRvYnVpbGRlcg0KPiBidWlsZCAoeW9jdG8tNC4wLjIzLnJj
-MSkNCj4gDQo+IEEgYnVpbGQgZmxhZ2dlZCBmb3IgUUEgKHlvY3RvLTQuMC4yMy5yYzEpIHdhcyBj
-b21wbGV0ZWQgb24gdGhlIGF1dG9idWlsZGVyDQo+IGFuZCBpcyBhdmFpbGFibGUgYXQ6DQo+IA0K
-PiANCj4gICAgIGh0dHBzOi8vdmFsa3lyaWUueW9jdG8uaW8vcHViL3JlbGVhc2VzL3lvY3RvLTQu
-MC4yMy5yYzENCj4gDQo+IA0KPiBCdWlsZCBVUkw6IGh0dHBzOi8vdmFsa3lyaWUueW9jdG9wcm9q
-ZWN0Lm9yZy8jL2J1aWxkZXJzLzI5L2J1aWxkcy80NDcNCj4gDQo+IEJ1aWxkIGhhc2ggaW5mb3Jt
-YXRpb246DQo+IA0KPiBiaXRiYWtlOiBmYjczYzQ5NWM0NWQxZDQxMDdjZmQ2MGI2N2E1YjRmMTFh
-OTk2NDdiDQo+IG1ldGEtYWdsOiA1MTBhNzNkOGViY2M1ODM5YzNhOTQxYzY4NjE3NWNiODM5MjJj
-MGYzDQo+IG1ldGEtYXJtOiA5MzZjMDJlYzEzNjYxYmQ4NmEwNWY3ZjkwZTFiOTIwZDUwOTJkNjcw
-DQo+IG1ldGEtYXdzOiA1N2U0YzFjYjQ1MDc4ZWVlZTI5NTc1NDIyNmViOGU1OTgwMmExMzdjDQo+
-IG1ldGEtY2xhbmc6IDhiYzg5M2Q3MzVlNWY3NzlhMmRjZGMzOTkyNjIxZDVhYjM3MTgwMGQNCj4g
-bWV0YS1ncGx2MjogZDJmOGI1Y2RiMjg1YjcyYTRlZDkzNDUwZjY3MDNjYTI3YWE0MmU4YQ0KPiBt
-ZXRhLWludGVsOiA4NTE0YzYwYWMxYTlhMTdiYTIwYjE3ZmExNzYxMTk3MjhhOTFkY2Y5DQo+IG1l
-dGEtbWluZ3c6IDg3YzIyYWJiMWYxMWJlNDMwY2FmNDM3MmU2YjgzM2RjN2Q3NzU2NGUNCj4gbWV0
-YS1vcGVuZW1iZWRkZWQ6IDRhZDQxYmFlZDYyMzZkNDk5ODA0Y2JmYzRmMTc0MDQyZDg0ZmNlOTcN
-Cj4gbWV0YS12aXJ0dWFsaXphdGlvbjogYzk5NmRmMzM3NjNmMjkyZGE1ZTc1MTNjNTc0MjcyZDdk
-ZTIzZWFmYw0KPiBvZWNvcmU6IGZiNDVjNWNmOGMyYjY2M2FmMjkzYWNiMDY5ZDQ0NjYxMGY3N2Zm
-MWENCj4gcG9reTogOGUwOTI4NTJiNjNlOTk4ZDk5MGI4ZjhlMWFhOTEyOTdkZWM0NDMwZg0KPiAN
-Cj4gDQo+IA0KPiBUaGlzIGlzIGFuIGF1dG9tYXRlZCBtZXNzYWdlIGZyb20gdGhlIFlvY3RvIFBy
-b2plY3QgQXV0b2J1aWxkZXINCj4gR2l0OiBnaXQ6Ly9naXQueW9jdG9wcm9qZWN0Lm9yZy95b2N0
-by1hdXRvYnVpbGRlcjINCj4gRW1haWw6IHJpY2hhcmQucHVyZGllQGxpbnV4Zm91bmRhdGlvbi5v
-cmcNCj4gDQo+IA0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiBMaW5rczogWW91IHJlY2Vp
-dmUgYWxsIG1lc3NhZ2VzIHNlbnQgdG8gdGhpcyBncm91cC4NCj4gVmlldy9SZXBseSBPbmxpbmUg
-KCM0ODApOiBodHRwczovL2xpc3RzLnlvY3RvcHJvamVjdC5vcmcvZy9xYS1idWlsZC0NCj4gbm90
-aWZpY2F0aW9uL21lc3NhZ2UvNDgwDQo+IE11dGUgVGhpcyBUb3BpYzogaHR0cHM6Ly9saXN0cy55
-b2N0b3Byb2plY3Qub3JnL210LzEwOTYxMDI5Mi82NDI0MDQ0DQo+IEdyb3VwIE93bmVyOiBxYS1i
-dWlsZC1ub3RpZmljYXRpb24rb3duZXJAbGlzdHMueW9jdG9wcm9qZWN0Lm9yZw0KPiBVbnN1YnNj
-cmliZTogaHR0cHM6Ly9saXN0cy55b2N0b3Byb2plY3Qub3JnL2cvcWEtYnVpbGQtDQo+IG5vdGlm
-aWNhdGlvbi9sZWF2ZS8xMzU4MTgwMi82NDI0MDQ0LzE3NDY4MTM4OTcveHl6enkNCj4gW2ppbmcu
-aHVpLnRoYW1AaW50ZWwuY29tXQ0KPiAtPS09LT0tPS09LT0tPS09LT0tPS09LQ0KPiANCg0K
+There is an issue in the std::chrono::tzdb parser that causes problems
+since the tzdata-2024b release started using %z in the main format.
+
+As a real world problem I encounter an issue with the waybar clock module=
+,
+which ignores the timezone setting and only shows system time.
+
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
+---
+ meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
+ ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 567 ++++++++++++++++++
+ 2 files changed, 568 insertions(+)
+ create mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a=
+710bea66ad651720d71c938b8.patch
+
+diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-14.2.inc
+index f05484cfc0..9cfb246294 100644
+--- a/meta/recipes-devtools/gcc/gcc-14.2.inc
++++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
+@@ -68,6 +68,7 @@ SRC_URI =3D "${BASEURI} \
+            file://0023-Fix-install-path-of-linux64.h.patch \
+            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=
+ \
+            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
++           file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch=
+ \
+ "
+=20
+ S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
+diff --git a/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea6=
+6ad651720d71c938b8.patch b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fff=
+e3fc82a710bea66ad651720d71c938b8.patch
+new file mode 100644
+index 0000000000..ca6fc92e07
+--- /dev/null
++++ b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad6517=
+20d71c938b8.patch
+@@ -0,0 +1,567 @@
++From ab884fffe3fc82a710bea66ad651720d71c938b8 Mon Sep 17 00:00:00 2001
++From: Jonathan Wakely <jwakely@redhat.com>
++Date: Tue, 30 Apr 2024 09:52:13 +0100
++Subject: [PATCH] libstdc++: Fix std::chrono::tzdb to work with vanguard =
+format
++
++I found some issues in the std::chrono::tzdb parser by testing the
++tzdata "vanguard" format, which uses new features that aren't enabled in
++the "main" and "rearguard" data formats.
++
++Since 2024a the keyword "minimum" is no longer valid for the FROM and TO
++fields in a Rule line, which means that "m" is now a valid abbreviation
++for "maximum". Previously we expected either "mi" or "ma". For backwards
++compatibility, a FROM field beginning with "mi" is still supported and
++is treated as 1900. The "maximum" keyword is only allowed in TO now,
++because it makes no sense in FROM. To support these changes the
++minmax_year and minmax_year2 classes for parsing FROM and TO are
++replaced with a single years_from_to class that reads both fields.
++
++The vanguard format makes use of %z in Zone FORMAT fields, which caused
++an exception to be thrown from ZoneInfo::set_abbrev because no % or /
++characters were expected when a Zone doesn't use a named Rule. The
++ZoneInfo::to(sys_info&) function now uses format_abbrev_str to replace
++any %z with the current offset. Although format_abbrev_str also checks
++for %s and STD/DST formats, those only make sense when a named Rule is
++in effect, so won't occur when ZoneInfo::to(sys_info&) is used.
++
++Since making this change on trunk, the tzdata-2024b release started
++using %z in the main format, not just vanguard. This makes a backport to
++release branches necessary (see PR 116657).
++
++This change also implements a feature that has always been missing from
++time_zone::_M_get_sys_info: finding the Rule that is active before the
++specified time point, so that we can correctly handle %s in the FORMAT
++for the first new sys_info that gets created. This requires implementing
++a poorly documented feature of zic, to get the LETTERS field from a
++later transition, as described at
++https://mm.icann.org/pipermail/tz/2024-April/058891.html
++In order for this to work we need to be able to distinguish an empty
++letters field (as used by CE%sT where the variable part is either empty
++or "S") from "the letters field is not known for this transition". The
++tzdata file uses "-" for an empty letters field, which libstdc++ was
++previously replacing with "" when the Rule was parsed. Instead, we now
++preserve the "-" in the Rule object, so that "" can be used for the case
++where we don't know the letters (and so need to decide it).
++
++libstdc++-v3/ChangeLog:
++
++	* src/c++20/tzdb.cc (minmax_year, minmax_year2): Remove.
++	(years_from_to): New class replacing minmax_year and
++	minmax_year2.
++	(format_abbrev_str, select_std_or_dst_abbrev): Move earlier in
++	the file. Handle "-" for letters.
++	(ZoneInfo::to): Use format_abbrev_str to expand %z.
++	(ZoneInfo::set_abbrev): Remove exception. Change parameter from
++	reference to value.
++	(operator>>(istream&, Rule&)): Do not clear letters when it
++	contains "-".
++	(time_zone::_M_get_sys_info): Add missing logic to find the Rule
++	in effect before the time point.
++	* testsuite/std/time/tzdb/1.cc: Adjust for vanguard format using
++	"GMT" as the Zone name, not as a Link to "Etc/GMT".
++	* testsuite/std/time/time_zone/sys_info_abbrev.cc: New test.
++
++(cherry picked from commit 0ca8d56f2085715f27ee536c6c344bc47af49cdd)
++
++Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=3Dgcc.gi=
+t;h=3D5ceea2ac106d6dd1aa8175670b15a801316cf1c9]
++
++Signed-off-by: Markus Volk <f_l_k@t-online.de>
++---
++ libstdc++-v3/src/c++20/tzdb.cc                | 265 +++++++++++-------
++ .../std/time/time_zone/sys_info_abbrev.cc     | 106 +++++++
++ libstdc++-v3/testsuite/std/time/tzdb/1.cc     |   6 +-
++ 3 files changed, 274 insertions(+), 103 deletions(-)
++ create mode 100644 libstdc++-v3/testsuite/std/time/time_zone/sys_info_a=
+bbrev.cc
++
++diff --git a/libstdc++-v3/src/c++20/tzdb.cc b/libstdc++-v3/src/c++20/tzd=
+b.cc
++index c7c7cc9deee6..7e8cce7ce8cf 100644
++--- a/libstdc++-v3/src/c++20/tzdb.cc
+++++ b/libstdc++-v3/src/c++20/tzdb.cc
++@@ -342,51 +342,103 @@ namespace std::chrono
++       friend istream& operator>>(istream&, on_day&);
++     };
++=20
++-    // Wrapper for chrono::year that reads a year, or one of the keywor=
+ds
++-    // "minimum" or "maximum", or an unambiguous prefix of a keyword.
++-    struct minmax_year
+++    // Wrapper for two chrono::year values, which reads the FROM and TO
+++    // fields of a Rule line. The FROM field is a year and TO is a year=
+ or
+++    // one of the keywords "maximum" or "only" (or an abbreviation of t=
+hose).
+++    // For backwards compatibility, the keyword "minimum" is recognized
+++    // for FROM and interpreted as 1900.
+++    struct years_from_to
++     {
++-      year& y;
+++      year& from;
+++      year& to;
++=20
++-      friend istream& operator>>(istream& in, minmax_year&& y)
+++      friend istream& operator>>(istream& in, years_from_to&& yy)
++       {
++-	if (ws(in).peek() =3D=3D 'm') // keywords "minimum" or "maximum"
+++	string s;
+++	auto c =3D ws(in).peek();
+++	if (c =3D=3D 'm') [[unlikely]] // keyword "minimum"
++ 	  {
++-	    string s;
++-	    in >> s; // extract the rest of the word, but only look at s[1]
++-	    if (s[1] =3D=3D 'a')
++-	      y.y =3D year::max();
++-	    else if (s[1] =3D=3D 'i')
++-	      y.y =3D year::min();
++-	    else
++-	      in.setstate(ios::failbit);
+++	    in >> s; // extract the rest of the word
+++	    yy.from =3D year(1900);
+++	  }
+++	else if (int num =3D 0; in >> num) [[likely]]
+++	  yy.from =3D year{num};
+++
+++	c =3D ws(in).peek();
+++	if (c =3D=3D 'm') // keyword "maximum"
+++	  {
+++	    in >> s; // extract the rest of the word
+++	    yy.to =3D year::max();
+++	  }
+++	else if (c =3D=3D 'o') // keyword "only"
+++	  {
+++	    in >> s; // extract the rest of the word
+++	    yy.to =3D yy.from;
++ 	  }
++ 	else if (int num =3D 0; in >> num)
++-	  y.y =3D year{num};
+++	  yy.to =3D year{num};
+++
++ 	return in;
++       }
++     };
++=20
++-    // As above for minmax_year, but also supports the keyword "only",
++-    // meaning that the TO year is the same as the FROM year.
++-    struct minmax_year2
+++    bool
+++    select_std_or_dst_abbrev(string& abbrev, minutes save)
++     {
++-      minmax_year to;
++-      year from;
+++      if (size_t pos =3D abbrev.find('/'); pos !=3D string::npos)
+++	{
+++	  // Select one of "STD/DST" for standard or daylight.
+++	  if (save =3D=3D 0min)
+++	    abbrev.erase(pos);
+++	  else
+++	    abbrev.erase(0, pos + 1);
+++	  return true;
+++	}
+++      return false;
+++    }
++=20
++-      friend istream& operator>>(istream& in, minmax_year2&& y)
++-      {
++-	if (ws(in).peek() =3D=3D 'o') // keyword "only"
++-	  {
++-	    string s;
++-	    in >> s; // extract the whole keyword
++-	    y.to.y =3D y.from;
++-	  }
++-	else
++-	  in >> std::move(y.to);
++-	return in;
++-      }
++-    };
+++    // Set the sys_info::abbrev string by expanding any placeholders.
+++    void
+++    format_abbrev_str(sys_info& info, string_view letters =3D {})
+++    {
+++      if (size_t pos =3D info.abbrev.find('%'); pos !=3D string::npos)
+++	{
+++	  if (info.abbrev[pos + 1] =3D=3D 's')
+++	    {
+++	      // Expand "%s" to the variable part, given by Rule::letters.
+++	      if (letters =3D=3D "-")
+++		info.abbrev.erase(pos, 2);
+++	      else
+++		info.abbrev.replace(pos, 2, letters);
+++	    }
+++	  else if (info.abbrev[pos + 1] =3D=3D 'z')
+++	    {
+++	      // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
+++	      hh_mm_ss<seconds> t(info.offset);
+++	      string z(1, "+-"[t.is_negative()]);
+++	      long val =3D t.hours().count();
+++	      int digits =3D 2;
+++	      if (int m =3D t.minutes().count())
+++		{
+++		  digits =3D 4;
+++		  val *=3D 100;
+++		  val +=3D m;
+++		  if (int s =3D t.seconds().count())
+++		    {
+++		      digits =3D 6;
+++		      val *=3D 100;
+++		      val +=3D s;
+++		    }
+++		}
+++	      auto sval =3D std::to_string(val);
+++	      z +=3D string(digits - sval.size(), '0');
+++	      z +=3D sval;
+++	      info.abbrev.replace(pos, 2, z);
+++	    }
+++	}
+++      else
+++	select_std_or_dst_abbrev(info.abbrev, info.save);
+++    }
++=20
++     // A time zone information record.
++     // Zone  NAME        STDOFF  RULES   FORMAT  [UNTIL]
++@@ -462,6 +514,7 @@ namespace std::chrono
++ 	info.offset =3D offset();
++ 	info.save =3D minutes(m_save);
++ 	info.abbrev =3D format();
+++	format_abbrev_str(info); // expand %z
++ 	return true;
++       }
++=20
++@@ -469,12 +522,9 @@ namespace std::chrono
++       friend class time_zone;
++=20
++       void
++-      set_abbrev(const string& abbrev)
+++      set_abbrev(string abbrev)
++       {
++-	// In practice, the FORMAT field never needs expanding here.
++-	if (abbrev.find_first_of("/%") !=3D abbrev.npos)
++-	  __throw_runtime_error("std::chrono::time_zone: invalid data");
++-	m_buf =3D abbrev;
+++	m_buf =3D std::move(abbrev);
++ 	m_pos =3D 0;
++ 	m_expanded =3D true;
++       }
++@@ -544,9 +594,7 @@ namespace std::chrono
++=20
++ 	// Rule  NAME  FROM  TO  TYPE  IN  ON  AT  SAVE  LETTER/S
++=20
++-	in >> quoted(rule.name)
++-	   >> minmax_year{rule.from}
++-	   >> minmax_year2{rule.to, rule.from};
+++	in >> quoted(rule.name) >> years_from_to{rule.from, rule.to};
++=20
++ 	if (char type; in >> type && type !=3D '-')
++ 	  in.setstate(ios::failbit);
++@@ -557,7 +605,7 @@ namespace std::chrono
++ 	if (save_time.indicator !=3D at_time::Wall)
++ 	  {
++ 	    // We don't actually store the save_time.indicator, because we
++-	    // assume that it's always deducable from the actual offset value.
+++	    // assume that it's always deducible from the offset value.
++ 	    auto expected =3D save_time.time =3D=3D 0s
++ 			      ? at_time::Standard
++ 			      : at_time::Daylight;
++@@ -567,8 +615,6 @@ namespace std::chrono
++ 	rule.save =3D save_time.time;
++=20
++ 	in >> rule.letters;
++-	if (rule.letters =3D=3D "-")
++-	  rule.letters.clear();
++ 	return in;
++       }
++=20
++@@ -719,58 +765,6 @@ namespace std::chrono
++ #endif // TZDB_DISABLED
++   };
++=20
++-#ifndef TZDB_DISABLED
++-  namespace
++-  {
++-    bool
++-    select_std_or_dst_abbrev(string& abbrev, minutes save)
++-    {
++-      if (size_t pos =3D abbrev.find('/'); pos !=3D string::npos)
++-	{
++-	  // Select one of "STD/DST" for standard or daylight.
++-	  if (save =3D=3D 0min)
++-	    abbrev.erase(pos);
++-	  else
++-	    abbrev.erase(0, pos + 1);
++-	  return true;
++-	}
++-      return false;
++-    }
++-
++-    // Set the sys_info::abbrev string by expanding any placeholders.
++-    void
++-    format_abbrev_str(sys_info& info, string_view letters =3D {})
++-    {
++-      if (size_t pos =3D info.abbrev.find("%s"); pos !=3D string::npos)
++-	{
++-	  // Expand "%s" to the variable part, given by Rule::letters.
++-	  info.abbrev.replace(pos, 2, letters);
++-	}
++-      else if (size_t pos =3D info.abbrev.find("%z"); pos !=3D string::=
+npos)
++-	{
++-	  // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
++-	  hh_mm_ss<seconds> t(info.offset);
++-	  string z(1, "+-"[t.is_negative()]);
++-	  long val =3D t.hours().count();
++-	  if (minutes m =3D t.minutes(); m !=3D m.zero())
++-	    {
++-	      val *=3D 100;
++-	      val +=3D m.count();
++-	      if (seconds s =3D t.seconds(); s !=3D s.zero())
++-		{
++-		  val *=3D 100;
++-		  val +=3D s.count();
++-		}
++-	    }
++-	  z +=3D std::to_string(val);
++-	  info.abbrev.replace(pos, 2, z);
++-	}
++-      else
++-	select_std_or_dst_abbrev(info.abbrev, info.save);
++-    }
++-  }
++-#endif // TZDB_DISABLED
++-
++   // Implementation of std::chrono::time_zone::get_info(const sys_time<=
+D>&)
++   sys_info
++   time_zone::_M_get_sys_info(sys_seconds tp) const
++@@ -839,12 +833,72 @@ namespace std::chrono
++     info.abbrev =3D ri.format();
++=20
++     string_view letters;
++-    if (i !=3D infos.begin())
+++    if (i !=3D infos.begin() && i[-1].expanded())
+++      letters =3D i[-1].next_letters();
+++
+++    if (letters.empty())
++       {
++-	if (i[-1].expanded())
++-	  letters =3D i[-1].next_letters();
++-	// XXX else need to find Rule active before this time and use it
++-	// to know the initial offset, save, and letters.
+++	sys_seconds t =3D info.begin - seconds(1);
+++	const year_month_day date(chrono::floor<days>(t));
+++
+++	// Try to find a Rule active before this time, to get initial
+++	// SAVE and LETTERS values. There may not be a Rule for the period
+++	// before the first DST transition, so find the earliest DST->STD
+++	// transition and use the LETTERS from that.
+++	const Rule* active_rule =3D nullptr;
+++	sys_seconds active_rule_start =3D sys_seconds::min();
+++	const Rule* first_std =3D nullptr;
+++	for (const auto& rule : rules)
+++	  {
+++	    if (rule.save =3D=3D minutes(0))
+++	      {
+++		if (!first_std)
+++		  first_std =3D &rule;
+++		else if (rule.from < first_std->from)
+++		  first_std =3D &rule;
+++		else if (rule.from =3D=3D first_std->from)
+++		  {
+++		    if (rule.start_time(rule.from, {})
+++			  < first_std->start_time(first_std->from, {}))
+++		      first_std =3D &rule;
+++		  }
+++	      }
+++
+++	    year y =3D date.year();
+++
+++	    if (y > rule.to) // rule no longer applies at time t
+++	      continue;
+++	    if (y < rule.from) // rule doesn't apply yet at time t
+++	      continue;
+++
+++	    sys_seconds rule_start;
+++
+++	    seconds offset{}; // appropriate for at_time::Universal
+++	    if (rule.when.indicator =3D=3D at_time::Wall)
+++	      offset =3D info.offset;
+++	    else if (rule.when.indicator =3D=3D at_time::Standard)
+++	      offset =3D ri.offset();
+++
+++	    // Time the rule takes effect this year:
+++	    rule_start =3D rule.start_time(y, offset);
+++
+++	    if (rule_start >=3D t && rule.from < y)
+++	      {
+++		// Try this rule in the previous year.
+++		rule_start =3D rule.start_time(--y, offset);
+++	      }
+++
+++	    if (active_rule_start < rule_start && rule_start < t)
+++	      {
+++		active_rule_start =3D rule_start;
+++		active_rule =3D &rule;
+++	      }
+++	  }
+++
+++	if (active_rule)
+++	  letters =3D active_rule->letters;
+++	else if (first_std)
+++	  letters =3D first_std->letters;
++       }
++=20
++     const Rule* curr_rule =3D nullptr;
++@@ -2069,9 +2123,11 @@ namespace std::chrono
++ 	      istringstream in2(std::move(rules));
++ 	      in2 >> rules_time;
++ 	      inf.m_save =3D duration_cast<minutes>(rules_time.time);
+++	      // If the FORMAT is "STD/DST" then we can choose the right one
+++	      // now, so that we store a shorter string.
++ 	      select_std_or_dst_abbrev(fmt, inf.m_save);
++ 	    }
++-	  inf.set_abbrev(fmt);
+++	  inf.set_abbrev(std::move(fmt));
++ 	}
++=20
++       // YEAR [MONTH [DAY [TIME]]]
++@@ -2082,7 +2138,12 @@ namespace std::chrono
++ 	  abbrev_month m{January};
++ 	  int d =3D 1;
++ 	  at_time t{};
+++	  // XXX DAY should support ON format, e.g. lastSun or Sun>=3D8
++ 	  in >> m >> d >> t;
+++	  // XXX UNTIL field should be interpreted
+++	  // "using the rules in effect just before the transition"
+++	  // so might need to store as year_month_day and hh_mm_ss and only
+++	  // convert to a sys_time once we know the offset in effect.
++ 	  inf.m_until =3D sys_days(year(y)/m.m/day(d)) + seconds(t.time);
++ 	}
++       else
++diff --git a/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.c=
+c b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
++new file mode 100644
++index 000000000000..f1a8fff02f58
++--- /dev/null
+++++ b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
++@@ -0,0 +1,106 @@
+++// { dg-do run { target c++20 } }
+++// { dg-require-effective-target tzdb }
+++// { dg-require-effective-target cxx11_abi }
+++// { dg-xfail-run-if "no weak override on AIX" { powerpc-ibm-aix* } }
+++
+++#include <chrono>
+++#include <fstream>
+++#include <testsuite_hooks.h>
+++
+++static bool override_used =3D false;
+++
+++namespace __gnu_cxx
+++{
+++  const char* zoneinfo_dir_override() {
+++    override_used =3D true;
+++    return "./";
+++  }
+++}
+++
+++using namespace std::chrono;
+++
+++void
+++test_format()
+++{
+++  std::ofstream("tzdata.zi") << R"(# version test_1
+++Zone Africa/Bissau -1:2:20 - LMT 1912 Ja 1 1u
+++                   -1      - %z  1975
+++                   0       - GMT
+++Zon Some/Zone 1:2:3   - %z 1900
+++              1:23:45 - %z 1950
+++Zo Another/Zone 1:2:3 -     AZ0     1901
+++                1     Roolz A%sZ    2000
+++                1     Roolz SAZ/DAZ 2005
+++                1     Roolz %z
+++Rule Roolz 1950 max - April 1 2 1 D
+++Rul  Roolz 1950 max - Oct   1 1 0 S
+++Z Strange/Zone 1       - X%sX    1980
+++               1       - FOO/BAR 1990
+++               2:00    - %zzz    1995
+++               0:9     - %zzz    1996
+++               0:8:7   - %zzz    1997
+++               0:6:5.5 - %zzz    1998
+++)";
+++
+++  const auto& db =3D reload_tzdb();
+++  VERIFY( override_used ); // If this fails then XFAIL for the target.
+++  VERIFY( db.version =3D=3D "test_1" );
+++
+++  // Test formatting %z as
+++  auto tz =3D locate_zone("Africa/Bissau");
+++  auto inf =3D tz->get_info(sys_days(1974y/1/1));
+++  VERIFY( inf.abbrev =3D=3D "-01" );
+++
+++  tz =3D locate_zone("Some/Zone");
+++  inf =3D tz->get_info(sys_days(1899y/1/1));
+++  VERIFY( inf.abbrev =3D=3D "+010203" );
+++  inf =3D tz->get_info(sys_days(1955y/1/1));
+++  VERIFY( inf.abbrev =3D=3D "+012345" );
+++
+++  tz =3D locate_zone("Another/Zone");
+++  // Test formatting %s as the LETTER/S field from the active Rule.
+++  inf =3D tz->get_info(sys_days(1910y/January/1));
+++  VERIFY( inf.abbrev =3D=3D "ASZ" );
+++  inf =3D tz->get_info(sys_days(1950y/January/1));
+++  VERIFY( inf.abbrev =3D=3D "ASZ" );
+++  inf =3D tz->get_info(sys_days(1950y/June/1));
+++  VERIFY( inf.abbrev =3D=3D "ADZ" );
+++  inf =3D tz->get_info(sys_days(1999y/January/1));
+++  VERIFY( inf.abbrev =3D=3D "ASZ" );
+++  inf =3D tz->get_info(sys_days(1999y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "ADZ" );
+++  // Test formatting STD/DST according to the active Rule.
+++  inf =3D tz->get_info(sys_days(2000y/January/2));
+++  VERIFY( inf.abbrev =3D=3D "SAZ" );
+++  inf =3D tz->get_info(sys_days(2001y/January/1));
+++  VERIFY( inf.abbrev =3D=3D "SAZ" );
+++  inf =3D tz->get_info(sys_days(2001y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "DAZ" );
+++  // Test formatting %z as the offset determined by the active Rule.
+++  inf =3D tz->get_info(sys_days(2005y/January/2));
+++  VERIFY( inf.abbrev =3D=3D "+01" );
+++  inf =3D tz->get_info(sys_days(2006y/January/1));
+++  VERIFY( inf.abbrev =3D=3D "+01" );
+++  inf =3D tz->get_info(sys_days(2006y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "+02" );
+++
+++  // Test formatting %z, %s and S/D for a Zone with no associated Rules=
+.
+++  tz =3D locate_zone("Strange/Zone");
+++  inf =3D tz->get_info(sys_days(1979y/January/1));
+++  VERIFY( inf.abbrev =3D=3D "XX" ); // No Rule means nothing to use for=
+ %s.
+++  inf =3D tz->get_info(sys_days(1981y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "FOO" ); // Always standard time means firs=
+t string.
+++  inf =3D tz->get_info(sys_days(1994y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "+02zz" );
+++  inf =3D tz->get_info(sys_days(1995y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "+0009zz" );
+++  inf =3D tz->get_info(sys_days(1996y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "+000807zz" );
+++  inf =3D tz->get_info(sys_days(1997y/July/1));
+++  VERIFY( inf.abbrev =3D=3D "+000606zz" );
+++}
+++
+++int main()
+++{
+++  test_format();
+++}
++diff --git a/libstdc++-v3/testsuite/std/time/tzdb/1.cc b/libstdc++-v3/te=
+stsuite/std/time/tzdb/1.cc
++index 796f3a8b4256..7a31c1c20ba7 100644
++--- a/libstdc++-v3/testsuite/std/time/tzdb/1.cc
+++++ b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
++@@ -39,11 +39,15 @@ test_locate()
++   const tzdb& db =3D get_tzdb();
++   const time_zone* tz =3D db.locate_zone("GMT");
++   VERIFY( tz !=3D nullptr );
++-  VERIFY( tz->name() =3D=3D "Etc/GMT" );
++   VERIFY( tz =3D=3D std::chrono::locate_zone("GMT") );
++   VERIFY( tz =3D=3D db.locate_zone("Etc/GMT") );
++   VERIFY( tz =3D=3D db.locate_zone("Etc/GMT+0") );
++=20
+++  // Since 2022f GMT is now a Zone and Etc/GMT a link instead of vice v=
+ersa,
+++  // but only when using the vanguard format. As of 2024a, the main and
+++  // rearguard formats still have Etc/GMT as a Zone and GMT as a link.
+++  VERIFY( tz->name() =3D=3D "GMT" || tz->name() =3D=3D "Etc/GMT" );
+++
++   VERIFY( db.locate_zone(db.current_zone()->name()) =3D=3D db.current_z=
+one() );
++ }
++=20
++--=20
++2.43.5
++
+--=20
+2.47.0
+
 
