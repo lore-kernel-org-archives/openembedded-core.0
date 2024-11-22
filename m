@@ -1,362 +1,152 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 274CEE69191
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 20:16:38 +0000 (UTC)
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
- by mx.groups.io with SMTP id smtpd.web11.34220.1732306589790061830
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78F58E69194
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 21:02:48 +0000 (UTC)
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+ by mx.groups.io with SMTP id smtpd.web10.34901.1732309363571049464
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 12:16:29 -0800
+ Fri, 22 Nov 2024 13:02:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zd/tbkv/;
- spf=pass (domain: gmail.com, ip: 209.85.160.48, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-297078d8eaeso1669188fac.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 12:16:29 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bZa+fODx;
+ spf=pass (domain: gmail.com, ip: 209.85.160.170, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-460b16d4534so15846851cf.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:02:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732306588; x=1732911388; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jzw8ub7anGkxH2oJXkyj9ENow9/Qy+leHUoUjAMMyVo=;
-        b=Zd/tbkv/5Fqs59/XGZbtoekuO8RHK5CXLObg92iR/upA+UeNMIp8WnnjYsjVkXWYI3
-         2I+p34Hek6Z2jE4zGpxZ+jd560uREj+SJBC1rIbSLLl4pYp2uaCP70dYKoMwI7BBS996
-         qTa7+BnWGDJ9YHaRM+CDaxXWvDXGFSmZ25fs5LIJIopsv+yEwK8z+oPw3T6p7FlC5ouz
-         ZPCVDZ3EXbFa/7vti/lqjJ0ncuU3DbwpoLHjCpRvIq//uiDadO2yEVFCM4z98czBT2Xg
-         mE3gY9PGCCVvXUpJaMQ2RemvlYE6x0KZmzCTOc4/ZT5SLIopR7iZYaolP7sFaqTCnrBj
-         qocg==
+        d=gmail.com; s=20230601; t=1732309362; x=1732914162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RcM4L8edhbFzfBrqFG4uKKcv5IZ0pYD1XSq333EbdG4=;
+        b=bZa+fODxp3bc13HkQJkIvhq1pFRKWgQlVrd6dIIp0oLFrA+WM8gv6zLGqE81MWQgxa
+         Ns30pyueMehKWLwGcpHv2Rl7mKS6iB6xhsCaJY3nvGC9hfjrx2uZ2WwQYQQK1JAXy2dW
+         0UDGFX4GKmrlJs55kp4CAa/MZLDuuxWYzoIIetd7Fg2JEfQ9w2SHGfYhQmhzI8yugY3r
+         Smqjs+tIoWpHN5Qw49wbVav79FQ2Q6q7+bI9wdF2uvXy0uzlWPKeS4HjXKWb2cLN0VbH
+         Geic1c6fmhVhM1WqwUVQ6VHVcXdP+DeEY+bmb/wAj8DPlFSB9LMVMwxEwl6d+gvQdrMo
+         +wAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732306588; x=1732911388;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jzw8ub7anGkxH2oJXkyj9ENow9/Qy+leHUoUjAMMyVo=;
-        b=CTAxBKYDcbyn6sCMc/FI0R+AasfFWbIeEPRgei9t9HCiZ8SHZzLJM5lSNtSYlJL3Qj
-         vhIXIfNFefFTMM457U7rx1qm4E/a1TO88F1NeopA7aum+/PzmSg9QRzDItYsPh4U2zTb
-         oFwTboqFb8h4yDe2ASJFw2r9YAi1Pwdn/JTTpyDpiPA+QpcUQGzdTpF4pN67FmywOD4H
-         dtdW2Hz+lee/A94feuANrO0XsUKMVgPoBaqitEZf07RiS9XyKQec6SBxESIBsrMj80k8
-         c+vhAXyYOz6jhWC+uZT2rYeiTmHnjK9NATQSxPz9ePRSpEhYPxiOEybCRZ7CfnklPSBS
-         R7Fw==
-X-Gm-Message-State: AOJu0YxP0VO5bhNR3o/VVlnLau4f/a2+VOHEh6NNt3pxp4Jqsbt6jrQ8
-	2KOTvOIFsH8+Qe+kJq3syiaxSPUd3N8iXw0DFT3aWaR4LpB88N7fOHO1mA==
-X-Gm-Gg: ASbGncsIGN0TW+09DGDEeI+CXLP9jboiSBtJvgKiJnuHmtqgagWHdbHTSwvFRvpsT2q
-	v8bDXnUWIyekbOYJx1X2f3RgAyxW/6i9CfR+8GVdRwwHPCVuU7V4/NDfcGYGtPhV4xoGB2YzowQ
-	wOUZcmY9hC9eug/8366x4DQn30TxGafvnNClZhuRC/XJutprDKrHk2GSnMM7vMa/48Y4TB+Kq3E
-	dbuvBFYaxP171r44zvTOxzxdzKI0OHe0ExdPgboWqQiPcxY
-X-Google-Smtp-Source: AGHT+IEXBJRC6j6wc+Y8uNJji6QujlFVs4JHVgG83qchvWdq0K3K6pXPZT3hEWMRwBNqIyXvjXw6jw==
-X-Received: by 2002:a05:6871:818b:b0:277:c113:5b26 with SMTP id 586e51a60fabf-29720c5df28mr5159301fac.7.1732306588286;
-        Fri, 22 Nov 2024 12:16:28 -0800 (PST)
-Received: from localhost.localdomain ([2601:282:4300:19e0::dc1a])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2971d5e5147sm795744fac.22.2024.11.22.12.16.25
+        d=1e100.net; s=20230601; t=1732309362; x=1732914162;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RcM4L8edhbFzfBrqFG4uKKcv5IZ0pYD1XSq333EbdG4=;
+        b=UJycwnZiUn/icc3pCTHQksOIDSDPeVIV3nz7eSVEtLLRhjRaicJbBs5yH77Sj81C5S
+         PyInc+9kCHeBv3NF49LjDtMv6TJZFc+L9Kqfrb5pMs16e1YzC+EbVGqlBYL0BcSzpYjY
+         +dPTzNNseialA2fz9+mtWwalPj9LuXIR5AdoNS+8evZKb5QTa+zXXgxgufZCq9qeWgyK
+         WdZz1strdvB9BWbFRcdLTGbs8BhEwoZdRSFI9AETh+OpStLU8pS1bpBnYMcK/CRpMcEo
+         B3zprcqMX8lT6b6HXLSSXJb9IQ93e0AC3bd/il/VZeO5yBQHJzBEMdjILX5NcfhAmNRf
+         4+eg==
+X-Gm-Message-State: AOJu0Yx3lBgBlBO4lpfA5eFpVaCsE4GtUkYw02Dq7jsSZw8sTGWoZf1G
+	6TpS8CyCty4/VZb+Lvf+0p5Ml3GtFXGR8V1NtjPJFXDElfYZTnT1XKjtjGxQ
+X-Gm-Gg: ASbGncsKuju18A4TJAHQQIXK/jG+ui/PAINVqjqB4pow8ynvExjRq42WEQiE7d8LsR7
+	diF8kusQ04pUwZvBqeBDtNqDZTtyVw0WO3/s7/hahYIiThLtTw5sqRJ7z7cYp5IAuDAhR1f9xzW
+	3VUabqLWLHPPz17NAjQPyQTfdGPttBeyJyajIiZd7seHrV3n07B9a8bvtuRpiW1kKJUJQw5EfZD
+	VUSGShTwtsmDNMIemg1J/7Kx1LLaS5w2+mhaqnPrtJ0jhLr+FpB4g6s1vfdfR1982gq+ymyvNGZ
+	uugXiEvzEWxGujwROBP5ssNRL+S23k2UtdUkKZlw8fJ3tw0a+7Y=
+X-Google-Smtp-Source: AGHT+IGgrFm/HhNaxhSxJbMcvX7ZqTefSunfQQuHDnNSb6xjH0IINfT+LEUfNbyw2d5Hc47g0HA8gg==
+X-Received: by 2002:a05:6214:d66:b0:6cb:c85c:5654 with SMTP id 6a1803df08f44-6d450e69926mr66931626d6.4.1732309362418;
+        Fri, 22 Nov 2024 13:02:42 -0800 (PST)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d451a83775sm14281056d6.4.2024.11.22.13.02.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 12:16:26 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] spdx: Add do_deploy_build_sbom_spdx
-Date: Fri, 22 Nov 2024 13:16:23 -0700
-Message-ID: <20241122201623.2247149-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        Fri, 22 Nov 2024 13:02:41 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] linux-yocto/6.10: bsp/genericarm64: disable ARM64_SME
+Date: Fri, 22 Nov 2024 16:02:38 -0500
+Message-Id: <20241122210238.2546434-2-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20241122210238.2546434-1-bruce.ashfield@gmail.com>
+References: <20241122210238.2546434-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 20:16:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207647
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 21:02:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207649
 
-Adds a task that can be used to generate a stand alone SBoM for a given
-build of a recipe. This SBoM includes the inputs and output for the
-build, as well as the build and runtime dependencies. The dependencies
-however will be added as unresolved imports to the OE SPDX alias, so as
-to avoid pulling in the entire dependency tree (that is, the generated
-SBoM is focused on just the specific recipe, not the entire build
-dependency tree).
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+Integrating the following commit(s) to linux-yocto/.:
+
+1/1 [
+    Author: Ross Burton
+    Email: ross.burton@arm.com
+    Subject: bsp/genericarm64: disable ARM64_SME
+    Date: Thu, 21 Nov 2024 15:53:35 +0000
+
+    From upstream:
+
+        arm64: Kconfig: Make SME depend on BROKEN for now
+
+        commit 81235ae0c846e1fb46a2c6fe9283fe2b2b24f7dc upstream.
+
+        Although support for SME was merged in v5.19, we've since uncovered a
+        number of issues with the implementation, including issues which might
+        corrupt the FPSIMD/SVE/SME state of arbitrary tasks. While there are
+        patches to address some of these issues, ongoing review has highlighted
+        additional functional problems, and more time is necessary to analyse
+        and fix these.
+
+        For now, mark SME as BROKEN in the hope that we can fix things properly
+        in the near future. As SME is an OPTIONAL part of ARMv9.2+, and there is
+        very little extant hardware, this should not adversely affect the vast
+        majority of users.
+
+    Signed-off-by: Ross Burton <ross.burton@arm.com>
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/classes/create-spdx-3.0.bbclass | 25 ++++++++++++
- meta/lib/oe/sbom30.py                | 55 ++++++++++++++++----------
- meta/lib/oe/spdx30_tasks.py          | 59 ++++++++++++++++++++++++++--
- meta/lib/oeqa/selftest/cases/spdx.py | 20 +++++++++-
- 4 files changed, 133 insertions(+), 26 deletions(-)
+ meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_6.10.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
-index 640f5490bda..3b421bfda67 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -117,6 +117,8 @@ SPDX_PACKAGE_SUPPLIER[doc] = "The base variable name to describe the Agent who \
- IMAGE_CLASSES:append = " create-spdx-image-3.0"
- SDK_CLASSES += "create-spdx-sdk-3.0"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb
+index fa78313a9e..7c0425bb27 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.10.bb
+@@ -15,7 +15,7 @@ python () {
+ }
  
-+SPDXRECIPEBUILDDEPLOYDIR = "${SPDXDIR}/recipe-build-deploy"
-+
- oe.spdx30_tasks.set_timestamp_now[vardepsexclude] = "SPDX_INCLUDE_TIMESTAMPS"
- oe.spdx30_tasks.get_package_sources_from_debug[vardepsexclude] += "STAGING_KERNEL_DIR"
- oe.spdx30_tasks.collect_dep_objsets[vardepsexclude] = "SPDX_MULTILIB_SSTATE_ARCHS"
-@@ -179,6 +181,29 @@ do_create_package_spdx[dirs] = "${SPDXRUNTIMEDEPLOY}"
- do_create_package_spdx[cleandirs] = "${SPDXRUNTIMEDEPLOY}"
- do_create_package_spdx[rdeptask] = "do_create_spdx"
+ SRCREV_machine ?= "3e91e02b6041d6720a5cf2f64323bb9b73f20765"
+-SRCREV_meta ?= "3a72fcf6df4fd9edc8c5933393be76cea6cb4a42"
++SRCREV_meta ?= "af06ad75b8da89e99d2cc0090ce2a7877ef51391"
  
-+python do_deploy_build_sbom_spdx() {
-+    import oe.spdx30_tasks
-+    from pathlib import Path
-+
-+    deploydir = Path(d.getVar("SPDXRECIPEBUILDDEPLOYDIR"))
-+    spdx_path = deploydir / (d.getVar("PN") + "-build.spdx.json")
-+
-+    oe.spdx30_tasks.create_build_sbom(d, spdx_path)
-+}
-+addtask do_deploy_build_sbom_spdx after do_create_spdx do_create_package_spdx
-+SSTATETASKS += "do_deploy_build_sbom_spdx"
-+SSTATE_SKIP_CREATION:task-create-recipe-sbom = "1"
-+do_deploy_build_sbom_spdx[sstate-inputdirs] = "${SPDXRECIPEBUILDDEPLOYDIR}"
-+do_deploy_build_sbom_spdx[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}"
-+do_deploy_build_sbom_spdx[stamp-extra-info] = "${MACHINE_ARCH}"
-+do_deploy_build_sbom_spdx[cleandirs] = "${SPDXRECIPEBUILDDEPLOYDIR}"
-+do_deploy_build_sbom_spdx[file-checksums] += "${SPDX3_LIB_DEP_FILES}"
-+
-+python do_deploy_build_sbom_spdx_setscene() {
-+    sstate_setscene(d)
-+}
-+addtask do_deploy_build_sbom_spdx_setscene
-+
- python spdx30_build_started_handler () {
-     import oe.spdx30_tasks
-     d = e.data.createCopy()
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 8433637de80..56cdd7ba4c6 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -824,32 +824,29 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.10;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb
+index d21fd63d38..891dcb596a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.10.bb
+@@ -18,7 +18,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
  
-         return objset
+ SRCREV_machine ?= "bbe3d1be4e9c03765cb4f93155eabfc0724d3bee"
+-SRCREV_meta ?= "3a72fcf6df4fd9edc8c5933393be76cea6cb4a42"
++SRCREV_meta ?= "af06ad75b8da89e99d2cc0090ce2a7877ef51391"
  
--    def expand_collection(self, *, add_objectsets=[]):
-+    def merge_doc(self, other):
-+        imports = {e.externalSpdxId: e for e in self.doc.import_}
-+
-+        for e in other.doc.import_:
-+            if e.externalSpdxId not in imports:
-+                imports[e.externalSpdxId] = e
-+
-+        self.objects |= other.objects
-+        self.doc.import_ = sorted(imports.values(), key=lambda e: e.externalSpdxId)
-+
-+    def expand_collection(self):
-         """
-         Expands a collection to pull in all missing elements
+ PV = "${LINUX_VERSION}+git"
  
-         Returns the set of ids that could not be found to link into the document
-         """
-         missing_spdxids = set()
--        imports = {e.externalSpdxId: e for e in self.doc.import_}
--
--        def merge_doc(other):
--            nonlocal imports
--
--            for e in other.doc.import_:
--                if not e.externalSpdxId in imports:
--                    imports[e.externalSpdxId] = e
--
--            self.objects |= other.objects
--
--        for o in add_objectsets:
--            merge_doc(o)
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.10.bb b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
+index 7b1b6685b5..1d5b8af337 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.10.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.10.bb
+@@ -29,7 +29,7 @@ SRCREV_machine:qemux86 ?= "bbe3d1be4e9c03765cb4f93155eabfc0724d3bee"
+ SRCREV_machine:qemux86-64 ?= "bbe3d1be4e9c03765cb4f93155eabfc0724d3bee"
+ SRCREV_machine:qemumips64 ?= "61cac1396fe9250a4b7a5cc6ae3deb9dda4290c3"
+ SRCREV_machine ?= "bbe3d1be4e9c03765cb4f93155eabfc0724d3bee"
+-SRCREV_meta ?= "3a72fcf6df4fd9edc8c5933393be76cea6cb4a42"
++SRCREV_meta ?= "af06ad75b8da89e99d2cc0090ce2a7877ef51391"
  
-         needed_spdxids = self.link()
-         provided_spdxids = set(self.obj_by_id.keys())
- 
-         while True:
--            import_spdxids = set(imports.keys())
-+            import_spdxids = set(e.externalSpdxId for e in self.doc.import_)
-             searching_spdxids = (
-                 needed_spdxids - provided_spdxids - missing_spdxids - import_spdxids
-             )
-@@ -869,7 +866,7 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-                     bb.fatal(f"{spdxid} not found in {dep_path}")
-                 provided_spdxids |= dep_provided
-                 needed_spdxids |= dep_objset.missing_ids
--                merge_doc(dep_objset)
-+                self.merge_doc(dep_objset)
-             else:
-                 missing_spdxids.add(spdxid)
- 
-@@ -880,8 +877,6 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-                 f"Linked document doesn't match missing SPDX ID list. Got: {missing}\nExpected: {missing_spdxids}"
-             )
- 
--        self.doc.import_ = sorted(imports.values(), key=lambda e: e.externalSpdxId)
--
-         return missing_spdxids
- 
- 
-@@ -1061,7 +1056,14 @@ def find_by_spdxid(d, spdxid, *, required=False):
-     return find_jsonld(d, *jsonld_hash_path(spdxid), required=required)
- 
- 
--def create_sbom(d, name, root_elements, add_objectsets=[]):
-+def create_sbom(
-+    d,
-+    name,
-+    root_elements,
-+    add_objectsets=[],
-+    expand=True,
-+    import_missing=False,
-+):
-     objset = ObjectSet.new_objset(d, name)
- 
-     sbom = objset.add(
-@@ -1074,8 +1076,19 @@ def create_sbom(d, name, root_elements, add_objectsets=[]):
-         )
-     )
- 
--    missing_spdxids = objset.expand_collection(add_objectsets=add_objectsets)
--    if missing_spdxids:
-+    for o in add_objectsets:
-+        objset.merge_doc(o)
-+
-+    if expand:
-+        missing_spdxids = objset.expand_collection()
-+    else:
-+        missing_spdxids = objset.link()
-+
-+    if import_missing:
-+        for m in missing_spdxids:
-+            objset.doc.import_.append(oe.spdx30.ExternalMap(externalSpdxId=m))
-+
-+    elif missing_spdxids:
-         bb.warn(
-             "The following SPDX IDs were unable to be resolved:\n  "
-             + "\n  ".join(sorted(list(missing_spdxids)))
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 5aeed5cd6fc..2a2031bab3b 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -773,6 +773,14 @@ def create_spdx(d):
-     oe.sbom30.write_recipe_jsonld_doc(d, build_objset, "recipes", deploydir)
- 
- 
-+def get_package_data(d, package):
-+    localdata = bb.data.createCopy(d)
-+    pkg_name = d.getVar("PKG:%s" % package) or package
-+    localdata.setVar("PKG", pkg_name)
-+    localdata.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + ":" + package)
-+    return localdata
-+
-+
- def create_package_spdx(d):
-     deploy_dir_spdx = Path(d.getVar("DEPLOY_DIR_SPDX"))
-     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
-@@ -798,10 +806,8 @@ def create_package_spdx(d):
- 
-     pkgdest = Path(d.getVar("PKGDEST"))
-     for package in d.getVar("PACKAGES").split():
--        localdata = bb.data.createCopy(d)
-         pkg_name = d.getVar("PKG:%s" % package) or package
--        localdata.setVar("PKG", pkg_name)
--        localdata.setVar("OVERRIDES", d.getVar("OVERRIDES", False) + ":" + package)
-+        localdata = get_package_data(d, package)
- 
-         if not oe.packagedata.packaged(package, localdata):
-             continue
-@@ -1146,6 +1152,53 @@ def create_image_sbom_spdx(d):
-     make_image_link(spdx_path, ".spdx.json")
- 
- 
-+def create_build_sbom(d, dest):
-+    pn = d.getVar("PN")
-+    deploydir = Path(d.getVar("SPDXRECIPEBUILDDEPLOYDIR"))
-+    pkg_arch = d.getVar("SSTATE_PKGARCH")
-+
-+    spdx_path = deploydir / (pn + "-build.spdx.json")
-+
-+    add_objsets = []
-+
-+    build, build_objset = oe.sbom30.find_root_obj_in_jsonld(
-+        d,
-+        "recipes",
-+        pn,
-+        oe.spdx30.build_Build,
-+    )
-+    add_objsets.append(build_objset)
-+
-+    bb.build.exec_func("read_subpackage_metadata", d)
-+
-+    for package in d.getVar("PACKAGES").split():
-+        pkg_name = d.getVar("PKG:%s" % package) or package
-+        localdata = get_package_data(d, package)
-+
-+        if not oe.packagedata.packaged(package, localdata):
-+            continue
-+
-+        pkg_objset, _ = oe.sbom30.load_jsonld_by_arch(
-+            d,
-+            pkg_arch,
-+            "packages",
-+            pkg_name,
-+            required=True,
-+        )
-+        add_objsets.append(pkg_objset)
-+
-+    sbom_objset, _ = oe.sbom30.create_sbom(
-+        d,
-+        pn + "-build",
-+        [build],
-+        add_objectsets=add_objsets,
-+        expand=False,
-+        import_missing=True,
-+    )
-+
-+    oe.sbom30.write_jsonld_doc(d, sbom_objset, dest)
-+
-+
- def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
-     sdk_name = toolchain_outputname + "-" + sdk_type
-     sdk_packages = oe.sdk.sdk_list_installed_packages(d, sdk_type == "target")
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index 83840702199..5e104b0c668 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -120,7 +120,15 @@ class SPDX3CheckBase(object):
-         return self.check_spdx_file(filename)
- 
-     def check_objset_missing_ids(self, objset):
--        if objset.missing_ids:
-+        import oe.spdx30
-+
-+        missing = objset.missing_ids
-+
-+        for doc in objset.foreach_type(oe.spdx30.SpdxDocument):
-+            for i in doc.import_:
-+                missing.discard(i.externalSpdxId)
-+
-+        if missing:
-             self.assertTrue(
-                 False,
-                 "The following SPDXIDs are unresolved:\n  "
-@@ -137,7 +145,6 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-             "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/packages/base-files.spdx.json",
-         )
- 
--
-     def test_gcc_include_source(self):
-         import oe.spdx30
- 
-@@ -197,3 +204,12 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
- 
-         # Document should be fully linked
-         self.check_objset_missing_ids(objset)
-+
-+    def test_deploy_build_sbom_spdx_bash(self):
-+        objset = self.check_recipe_spdx(
-+            "bash",
-+            "{DEPLOY_DIR_IMAGE}/bash-build.spdx.json",
-+            task="deploy_build_sbom_spdx",
-+        )
-+
-+        self.check_objset_missing_ids(objset)
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
-2.47.0
+2.39.2
 
 
