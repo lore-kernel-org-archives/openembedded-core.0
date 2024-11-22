@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F15D75E5B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4940E6919F
 	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 21:27:08 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.web11.35758.1732310825030970169
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.35415.1732310826313014158
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 13:27:05 -0800
+ Fri, 22 Nov 2024 13:27:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gIPjcL4j;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.173, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-212874cd62cso18025895ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:27:04 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=rmyBPhEB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-724d8422f37so1791780b3a.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:27:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310824; x=1732915624; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310825; x=1732915625; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=8xhdifjKpJM7/1EfysM3L+1uNi05F+v2FSkP9STdI2E=;
-        b=gIPjcL4jmrCrDXUX8golQeaYyEveVwIxV92CMhawxhNJBlm/0Pe5J8OYhmGVDzqu1X
-         fCBTV6gWjtoDJXG1vqYKNoRwZBeVFw+b67+Qa8wSLeUxW3AhI/QVCsedGcpkdIC7iFcT
-         10AjHSfoxoeZTPn9aaGn19ZvpXkLmoxFJe0BC+dSeAZ7GwMCqHCyhjtBlxBaZtKtU3gY
-         ut/WAmUjw2tzgWTX6h2atk4uDeG+nh5v7FeEY8o+BQd/zPbo+bBalG4jgnEhQ7z9VcUn
-         BByHCVyt12J3LEU0CcS5WFsH9pSODAnFcq2j9QS9a1VgxotyvyNAkO8APfwaa9B1OkSr
-         C37Q==
+        bh=PR7F7XTsh9EYwx+6XSEGfF16KAwGmVjEKrYXOk1ZuZw=;
+        b=rmyBPhEB5Ed4DQJZ/RWg0xpV5IBxB7sP0oyiuVMCFAxeNyXixKR930zRWUHTMHRjdg
+         nJ4sHfJeyB+4FkqP8demjNIfo6v8P3XzyUmNVNekRAj6DEE5cX50R6D2/kU9INbtt8aA
+         OuBJy9IfZSpgX1iR6QLFiNpCSjKvPJEc44pOTUBA/luDDO51NSy52XhNglg16JT/VjuS
+         NmhNRMjgZlC26reAdiL0S2F82FGTZozTELpLGe9tB1XXpa+bellXkRZsLN4Op2g85wd/
+         STPPGLJ3Sp/up+GfQdtl7rklD3dIpQYCFbQ2o3ONlb/grmEMBfXuOz7bb3iIGO7iOAzV
+         w/tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732310824; x=1732915624;
+        d=1e100.net; s=20230601; t=1732310825; x=1732915625;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=8xhdifjKpJM7/1EfysM3L+1uNi05F+v2FSkP9STdI2E=;
-        b=XNFyoN4V50P+Z4I63oXzOX09p9+2GxES0HKpsvnV2WXm8NApZnt/EzE/pfqoCQY7bK
-         7jH/bKBvxxgz9DR8DYcVtzlsM53i44hhF1brA7dVEYiYW9tXY1VK+o2BjQotrzHZwKjR
-         5smdppGVwoamE2nUKnkGu4yZKzl0s14Y+MHHZJOc0qguvq+b2yplgDUQb8CbZChs2uoz
-         VLV6tg9FGbVBVPgk1WMi2ZEC4lRh+zMFybPXftzzS5bmBChLskVmEywWdwgYzsU07qsL
-         ZRKLhiiNIJ52RMeRGRrcyWscggb5CSXRDYJI/o20VmDHzYbOic5tvTgCOdXfnMEORUCI
-         9rrg==
-X-Gm-Message-State: AOJu0YyE4ktf+5IajsaBLcgjAoXwQS5xurrrPDGdxq7kunhbgM/PhdJm
-	ekJdbjr0/0B5jhOrkw1jT6Dg7dVLGkge1JvWIoh0HtOZYSl4tBmQ9aM6O+lcriu3BwFQx72ZBuZ
-	u
-X-Gm-Gg: ASbGncuEbs0IE4Imo8VDFA6fA+InNKDSWmdtFHA8qtaffJ5Psuzn6M2qNKs13DsW5kN
-	g/kNDNrsvM6bA+XQkHvDAW8MzGqqFz5xqYsDcq3IQipsN2hGCnCg403+t8Wp34d97CpVc8vfpY4
-	BS2B3164e5nt/kMBcdORVgjN/7pUKZCwwEj2kQSFtdzSObZyicZmJMnk3Kkv2OSnVNVbjhiXZRc
-	VrsMEcKVN+CLrbsidO/0PN8HWL4czkCwNumPnU=
-X-Google-Smtp-Source: AGHT+IGf2+lE+wMTYZCJaFbioCzVEl6YTdzBTxZ4oQnMNOmExa8Z9+6f0UGQdrofWHQCTvhSokqglw==
-X-Received: by 2002:a17:902:c949:b0:20b:6624:70b2 with SMTP id d9443c01a7336-2129f5db7b8mr48662935ad.19.1732310822904;
-        Fri, 22 Nov 2024 13:27:02 -0800 (PST)
+        bh=PR7F7XTsh9EYwx+6XSEGfF16KAwGmVjEKrYXOk1ZuZw=;
+        b=gRUgCW1kHzw954AEnpjxTjZOAw2zpc7JjQRGvm/wgoq/S990J3xX330gWUVGz0wrUV
+         I3zPQ1Lll4PInr2ThE1nWBXBaFCrOYushkViDFkkNkRbF9Vt3XNJ8OyD8oSc8ohgqbjd
+         tzj5Y2NfcEtZBUGNo/SilvlROSDvRQi1UgO47FW7WfCHXM6cAO05jBpM3t2f854gM6PZ
+         eeX0XOTXmdye7Sc6duZfQDejKhqCcvOxo6nlJNPleZiR5wdRh71qxFInKnpY5zFfYwi1
+         fg4T/UejNYVvCxs5a7RL+V3uMDlqjUY6zWb5JKgwto7vjsz48J+FZeAJeHxc/CFpjudO
+         PDzQ==
+X-Gm-Message-State: AOJu0YykULpcgFau0KyOJmqRtMTuwKppzXJEA0VofW+2YhdE39IJqdrm
+	4icr/dYDRxg1JkV3ThIGa1KbNASNMAMsPbtXMSYdHBicag8IlxqEYtO8M1SHfVCAsFh/dcg2fCF
+	M
+X-Gm-Gg: ASbGncs7GayHoJbAy0XdCEF4zXS7E+fsvrva0qTYf6XyXyxqsdq+dNibjcxgcYPkcUg
+	IypLZD23WVlrd0hvIzTsQE00PUQjy1YFGzVTYi6iYDSFFrJlaNlOI5qUXAM4ji/mj3b8/XeZU4W
+	G5wUVDCwoBeks78YgtJtK0QYxnAfapiDP1e7j5FBurMJX8CclBerw5iZLMwLRb8EMJc5xoMe8Aq
+	9kHB1Tdr4Vw99rxWfpKAzoC2s8u+ER62PbtlYo=
+X-Google-Smtp-Source: AGHT+IHqWWUzX8Y8KA2+PFXireCGpkKByfMf6SUiAc3aYfBA4baI6nlPbfYfI1TmgsDP9PnLXKsOcg==
+X-Received: by 2002:a17:902:e84f:b0:212:2fde:1a1c with SMTP id d9443c01a7336-2129f82d755mr60600755ad.47.1732310825574;
+        Fri, 22 Nov 2024 13:27:05 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.27.02
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.27.05
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 13:27:02 -0800 (PST)
+        Fri, 22 Nov 2024 13:27:05 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/19] ffmpeg: fix CVE-2023-51794
-Date: Fri, 22 Nov 2024 13:26:29 -0800
-Message-Id: <248dc3b20971fb95f0ceb2a34959f857c89ae008.1732310669.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 12/19] scripts/install-buildtools: Update to 4.0.22
+Date: Fri, 22 Nov 2024 13:26:31 -0800
+Message-Id: <ca09d02ae7628d7d003aaaaa7b600aa6d58d515c.1732310669.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732310669.git.steve@sakoman.com>
 References: <cover.1732310669.git.steve@sakoman.com>
@@ -66,74 +66,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 21:27:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207662
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-Buffer Overflow vulnerability in Ffmpeg v.N113007-g8d24a28d06 allows a
-local attacker to execute arbitrary code via the libavfilter/af_stereowiden.c:120:69.
+Update to the 4.0.22 release of the 4.0 series for buildtools.
 
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2023-51794.patch        | 35 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51794.patch
+ scripts/install-buildtools | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51794.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51794.patch
-new file mode 100644
-index 0000000000..a33ae5ffe9
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51794.patch
-@@ -0,0 +1,35 @@
-+From 50f0f8c53c818f73fe2d752708e2fa9d2a2d8a07 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sat, 23 Dec 2023 04:03:01 +0100
-+Subject: [PATCH] avfilter/af_stereowiden: Check length
-+
-+Fixes: out of array access
-+Fixes: tickets/10746/poc13ffmpeg
-+
-+Found-by: Zeng Yunxiang
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+
-+CVE: CVE-2023-51794
-+
-+Upstream-Status: Backport [https://github.com/ffmpeg/FFmpeg/commit/50f0f8c53c818f73fe2d752708e2fa9d2a2d8a07]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ libavfilter/af_stereowiden.c | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/libavfilter/af_stereowiden.c b/libavfilter/af_stereowiden.c
-+index 7cce1a8..f1a5b10 100644
-+--- a/libavfilter/af_stereowiden.c
-++++ b/libavfilter/af_stereowiden.c
-+@@ -74,6 +74,8 @@ static int config_input(AVFilterLink *inlink)
-+
-+     s->length = s->delay * inlink->sample_rate / 1000;
-+     s->length *= 2;
-++    if (s->length == 0)
-++        return AVERROR(EINVAL);
-+     s->buffer = av_calloc(s->length, sizeof(*s->buffer));
-+     if (!s->buffer)
-+         return AVERROR(ENOMEM);
-+--
-+2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index ae02310af8..80a4e5b96f 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -34,6 +34,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://CVE-2023-50008.patch \
-            file://CVE-2024-31582.patch \
-            file://CVE-2024-31578.patch \
-+           file://CVE-2023-51794.patch \
-           "
+diff --git a/scripts/install-buildtools b/scripts/install-buildtools
+index 9054eb5f36..616330dfdc 100755
+--- a/scripts/install-buildtools
++++ b/scripts/install-buildtools
+@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
  
- SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
+ DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
+ DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
+-DEFAULT_RELEASE = 'yocto-4.0.21'
+-DEFAULT_INSTALLER_VERSION = '4.0.21'
++DEFAULT_RELEASE = 'yocto-4.0.22'
++DEFAULT_INSTALLER_VERSION = '4.0.22'
+ DEFAULT_BUILDDATE = '202110XX'
+ 
+ # Python version sanity check
 -- 
 2.34.1
 
