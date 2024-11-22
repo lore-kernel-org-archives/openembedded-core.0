@@ -1,101 +1,86 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <soumya.sambu@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90953D75E29
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 11:16:55 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.22044.1732274209400534398
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B501FD75E2B
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 11:41:05 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.22024.1732275661740766763
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 03:16:49 -0800
+ Fri, 22 Nov 2024 03:41:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Phy7K2jV;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=PIY6UdBp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101935396bf15-744494a9-d0c7-4c9f-b069-c13db945ff78-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1732274208; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=vmKolGzA703bmU9BlnblfRRybki4G/tzr70URIS9d6M=;
-	b=Phy7K2jVcNvPRjzzo/SKrCuPcoU8lZjATyXofdjz+IlbhoFtBFMTdpufjwhWqILz
-	ORi1TBOrNgn5fesNOM2zYyFyqC1/uJTG+aRfqY7o943Esd5MUNbOMKCExl2zp0C6lv4
-	tFHsc4wyGopnmnZEBNeULklJgjbK5kawjQuugamo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732274208;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=vmKolGzA703bmU9BlnblfRRybki4G/tzr70URIS9d6M=;
-	b=PIY6UdBpPhzHeW9TvtGpqMuh1Rg1FBBwpAmTCHTWMNvtCFtuoalNZ4XdchvMY43p
-	lLpDv0alsTxQMZqIWvhNb3GxmLVmzqZqwcwuGJdcRivFZvdgqj/uvF4iLuC4dtfrR/z
-	z979qd8Td9ddlAW5HTX228ksBuYEAlZhVZVHQha8=
-From: patchtest@automation.yoctoproject.org
-To: Markus Volk <f_l_k@t-online.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][PATCHv2] libsecret: add pam support depending on
- DISTRO_FEATURE
-In-Reply-To: <20241122110448.2060-1-f_l_k@t-online.de>
-References: <20241122110448.2060-1-f_l_k@t-online.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101935396bf15-744494a9-d0c7-4c9f-b069-c13db945ff78-000000@us-west-2.amazonses.com>
-Date: Fri, 22 Nov 2024 11:16:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.22-54.240.27.45
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=10568bfe45=soumya.sambu@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AMAK9LZ031573
+	for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:41:01 GMT
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 42xjc8erqn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:41:00 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Fri, 22 Nov 2024 03:40:59 -0800
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Fri, 22 Nov 2024 03:40:58 -0800
+From: ssambu <soumya.sambu@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][scarthgap][PATCH 1/1] python3-urllib3: upgrade 2.2.1 -> 2.2.2
+Date: Fri, 22 Nov 2024 11:40:54 +0000
+Message-ID: <20241122114054.1397467-1-soumya.sambu@windriver.com>
+X-Mailer: git-send-email 2.40.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-GUID: 5jso8RCxaYopHUrMSGXiLRZy40xRQMoL
+X-Authority-Analysis: v=2.4 cv=R6hRGsRX c=1 sm=1 tr=0 ts=67406dcc cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=NEAV23lmAAAA:8 a=IpJZQVW2AAAA:8 a=P-IC7800AAAA:8 a=ag1SF4gXAAAA:8 a=t7CeM3EgAAAA:8
+ a=P_7dJ33Kvfd_49dsVRYA:9 a=IawgGOuG5U0WyFbmm1f5:22 a=d3PnA9EDa4IxuAV0gXij:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 5jso8RCxaYopHUrMSGXiLRZy40xRQMoL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-22_04,2024-11-21_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 phishscore=0
+ mlxscore=0 malwarescore=0 adultscore=0 spamscore=0 mlxlogscore=917
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 bulkscore=0
+ impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2409260000 definitions=main-2411220099
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:16:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207601
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:41:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207602
 
---NextPart
-Content-Type: text/plain
+From: Trevor Gamblin <tgamblin@baylibre.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+(From OE-Core rev: 32fdd5673c25084af4ba295b271455cd92ca09d5)
 
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
-Testing patch /home/patchtest/share/mboxes/PATCHv2-libsecret-add-pam-support-depending-on-DISTRO_FEATURE.patch
+ .../{python3-urllib3_2.2.1.bb => python3-urllib3_2.2.2.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.2.1.bb => python3-urllib3_2.2.2.bb} (86%)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-devtools/python/python3-urllib3_2.2.1.bb b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-urllib3_2.2.1.bb
+rename to meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+index fc1828b4ee..31a03a60b3 100644
+--- a/meta/recipes-devtools/python/python3-urllib3_2.2.1.bb
++++ b/meta/recipes-devtools/python/python3-urllib3_2.2.2.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/shazow/urllib3"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=52d273a3054ced561275d4d15260ecda"
+ 
+-SRC_URI[sha256sum] = "d0570876c61ab9e520d776c38acbbb5b05a776d3f9ff98a5c8fd5162a444cf19"
++SRC_URI[sha256sum] = "dd505485549a7a552833da5e6063639d0d177c04f23bc3864e41e5dc5f612168"
+ 
+ inherit pypi python_hatchling
+ 
+-- 
+2.40.0
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
