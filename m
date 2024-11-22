@@ -2,72 +2,72 @@ Return-Path: <aleksandar.nikolic010@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BA376D75E30
-	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 11:48:25 +0000 (UTC)
-Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
- by mx.groups.io with SMTP id smtpd.web10.22113.1732276095441061887
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94A3FD75E30
+	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 11:48:55 +0000 (UTC)
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.web10.22118.1732276130632978552
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 03:48:15 -0800
+ Fri, 22 Nov 2024 03:48:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hhAGOxeC;
- spf=pass (domain: gmail.com, ip: 209.85.208.45, mailfrom: aleksandar.nikolic010@gmail.com)
-Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-5cef772621eso2557076a12.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 03:48:15 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=RNiZYDow;
+ spf=pass (domain: gmail.com, ip: 209.85.218.47, mailfrom: aleksandar.nikolic010@gmail.com)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-a9ed49edd41so338518666b.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 03:48:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732276094; x=1732880894; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732276129; x=1732880929; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1lh1Vis//C3AiB6rn5tzCFtc0gisnYdyDkhZv8ChCnM=;
-        b=hhAGOxeCmFoBk1qbaGqJKik6IjgKFmqr2Q1vCqN8S6SetRYIJlv6gWb1qOAcI03QRa
-         e69yCSCdUCReTejzVAcAytVjWS2KE8BT1zdNaz82B2FiwLo1WxYasxVeZxngHGjUMhUz
-         yey2B27XaEF0kJHVye7968iYOE/wtSHz3ajZtsy8b4FeggqumU6/MgHsHKf9VuQT3hoT
-         lBS1njcgxEv3xp9eUsNkpXDX0ohDeMim7p9XGCLv7Q+h8/CH26QaLkhQxPMRg8gEBQ/v
-         HlHCvLm8DuZGPBh9Ft4+ugiee852gpJns6V+T3Sz0L0pK8OueEsbubw/QOaQlRsGvcON
-         0++A==
+        bh=DHGk1JCrOcBfFgTQwIIbov9nkzM4We1YPfS2bbJSGus=;
+        b=RNiZYDowIMvMxyoSH4l2ZKIE8u0zlGSKO9rgYpf8w5KOZkoSLNJvznv9jR5DShLOYf
+         qbKgoYnJPKZT1bmi9bbcVn+L8gieZdmdXTyrcnSWlHIMDrzaVnvnt1qWtudSJvqStfXn
+         YvGnwSQ+IBubJPvJprx03wxgRRLN0m/GuSDyFlsoHA9pfC6AEIfL8rv8kcbV/v4vAh1s
+         h1mi3gFoPhCbmCCgDmM5y5q3pBazUhAs6jl4BgXaFRAD7a1MbkWWYZqCo/tALZmCOuaM
+         pygMIq/a0lELEcIHLTQQdihza0RYKUdVhRQ7CEChLqr4+dSnGFRk2zgC41BpL9ywFWHN
+         zYUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732276094; x=1732880894;
+        d=1e100.net; s=20230601; t=1732276129; x=1732880929;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1lh1Vis//C3AiB6rn5tzCFtc0gisnYdyDkhZv8ChCnM=;
-        b=GYNNkoJJbGKsBL/HXzsbO9B/wE2PMfcIFZAAGbDKwsBqE2Jix1tMQZ1CIogxlqQr5E
-         1jJnZKK3s7gj/I59v4GC4b5A2kW/MNYHQEXdNlblBiM+r2gcLSshgeXXIWo5379RLktR
-         TBhcGbsqQjU4+M0L2s2tCeEVz5fOzV8C8LLxS53mvWIb+2MZn70fImFPMOIreRh8noev
-         5Lxe+kG4+EYencH9HA3m3gSaho+Je85uAq4tJMw+y3gObd5+Ix1GkKueqgG5hXDxocb5
-         a1ivpea214TvmKtEVToLcFX7C+IMJLtLdYSRDB3yPap1qA6dNhY5HPZT36wK5xIdG5FI
-         1o9A==
-X-Gm-Message-State: AOJu0YwOyOC0nX8ymUjovyaLqcf3zhSK454eHMpeiiU4LfNeiaM5VgZw
-	oIBIrQMOo12+DG6l055AOj4BaZr8vk6cwnDax+jllN1QCViAYR48SaQfyw==
-X-Gm-Gg: ASbGncsgkH4bR5EnRDbBvWTqGXW33d9cGSenM8lVbxAOlg+nraWupE40US6Vv1RLxnN
-	2yy8HiA++P2MlAppVLacn6MJ2EW5kE3rsYky3q6zTOLdqPN6ZjuXqeDsa9PPqB0zS85mk3ViY5L
-	FSv7e0zZzJGD9XRNjj9h0nulpm0byFTpaNiZqDoSlHgvPHdHyCSs+mAouYkiSVaya8mwzABJOUE
-	siJpjIuYlOfabYchOmIE+c9AUysjWyB7ntTLPgM0u2fGY+Z
-X-Google-Smtp-Source: AGHT+IGXIXgssF3a3cS6HeV3nmpa+sHnSG05dOB9exdnXUSRmE0VIG1JOAOJAn+L5n3CUYhQ0d4LpA==
-X-Received: by 2002:a05:6402:3595:b0:5cf:baf3:d567 with SMTP id 4fb4d7f45d1cf-5d0206260c3mr1921972a12.14.1732276093383;
-        Fri, 22 Nov 2024 03:48:13 -0800 (PST)
+        bh=DHGk1JCrOcBfFgTQwIIbov9nkzM4We1YPfS2bbJSGus=;
+        b=XRE/ZfG3cZAaL7jNjlZryFHLVGi/V9SaGkEX3IyzPZrtsFrbfijsfw0nwGaouaiUDR
+         LbrnELlTSyYeOMbTPwAMbfpD0J/Ap2ljJtRBtMt2VOfVDN4/fqaxqaJkb3EJUnsget2l
+         zFOuQHQYekaZ5V3iSPJs1edx4YiryhzC60921dwQ2CpakaOTF0CdKI9YYL2ipfLTuIai
+         wra8oZXkK7DnIalMpkuKXGAXB0ehYley3JjlyfAyu5PtFO+7f6UGm5r8D8mC56csCKnb
+         nX6I0qKFiIuzKil5pOvSUtpfjoA4EBM82QziUAYDLrw0UlgvqqVAluBuSeI4HbqJALNX
+         lvcA==
+X-Gm-Message-State: AOJu0YxpJTsLwousJ05cjZV90JS92D1LP7kICX+Wt/GDUMtjMI7aub6+
+	2MEY92oD2nLvnlwSblBTNOO4BHB8izHzKMTDiaACLISsHY0m71pgGAuz6A==
+X-Gm-Gg: ASbGnctipr4aABfoVFdJOmGo+0hEC6s3pQdT04wPa+54Tm3nUohjeLqkih9swWqtBKU
+	uS8BBvazDHeg4txFNHq9f0qdXZ235lub5scTh3B1Cy6qS+1an92uezaojdBtDwd1AJJLTJM16GM
+	kHABditiE2Qx0ao4F+6Ig0ttT2fI0o9HIKNCvyVotRF0Dk/D1zJprJ6jwHvg73uwlqYqIy9EyBS
+	77MdVel89YqN5ZpM4ZpJHGNyCilcPEWzthA+TtSTzPZq1XQ
+X-Google-Smtp-Source: AGHT+IHQlmUaWj85l68bIBxHbl8GegrsiN74YvB78DlY+SAX0fXwjn85F5Rp/SDkVlFVPmJA/r5rdA==
+X-Received: by 2002:a17:907:7ba2:b0:aa4:c721:fac0 with SMTP id a640c23a62f3a-aa509d3fb60mr272658866b.40.1732276128797;
+        Fri, 22 Nov 2024 03:48:48 -0800 (PST)
 Received: from acert-swift3.. ([2a02:810d:640:1648:6dc:bcdc:d29d:d478])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-5d01d41aea8sm815133a12.85.2024.11.22.03.48.12
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-aa50b5b88basm89680166b.184.2024.11.22.03.48.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 03:48:12 -0800 (PST)
+        Fri, 22 Nov 2024 03:48:48 -0800 (PST)
 From: Aleksandar Nikolic <aleksandar.nikolic010@gmail.com>
 X-Google-Original-From: Aleksandar Nikolic <an010@live.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
-Subject: [scarthgap][PATCH] scripts/install-buildtools: Update to 5.0.5
-Date: Fri, 22 Nov 2024 12:48:04 +0100
-Message-ID: <20241122114805.71642-1-an010@live.com>
+Subject: [PATCH] scripts/install-buildtools: Update to 5.1
+Date: Fri, 22 Nov 2024 12:48:47 +0100
+Message-ID: <20241122114847.71756-1-an010@live.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:48:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207605
+ <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 11:48:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207607
 
 From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 
-Update to the 5.0.5 release of the 5.0 series for buildtools.
+Update to the 5.1 release of the 5.1 series for buildtools.
 
 Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
 ---
@@ -75,7 +75,7 @@ Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 92a4c9dfb1..ee6bfb89eb 100755
+index 92a4c9dfb1..6387287ade 100755
 --- a/scripts/install-buildtools
 +++ b/scripts/install-buildtools
 @@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
@@ -84,8 +84,8 @@ index 92a4c9dfb1..ee6bfb89eb 100755
  DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
 -DEFAULT_RELEASE = 'yocto-5.0.3'
 -DEFAULT_INSTALLER_VERSION = '5.0.3'
-+DEFAULT_RELEASE = 'yocto-5.0.5'
-+DEFAULT_INSTALLER_VERSION = '5.0.5'
++DEFAULT_RELEASE = 'yocto-5.1'
++DEFAULT_INSTALLER_VERSION = '5.1'
  DEFAULT_BUILDDATE = '202110XX'
  
  # Python version sanity check
