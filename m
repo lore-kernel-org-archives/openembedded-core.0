@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CB83E69199
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F92EE6919D
 	for <webhook@archiver.kernel.org>; Fri, 22 Nov 2024 21:26:58 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web11.35742.1732310810549919578
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.web10.35400.1732310813417694785
  for <openembedded-core@lists.openembedded.org>;
- Fri, 22 Nov 2024 13:26:50 -0800
+ Fri, 22 Nov 2024 13:26:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=brYdrmoE;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-72483f6e2fbso2356296b3a.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:26:50 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LoWrWekm;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.176, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2127d4140bbso25725295ad.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 13:26:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310810; x=1732915610; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732310813; x=1732915613; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=1qcg5w89ndt7AYrRASP8KEQIvt/KOAzHUdzvSeJv2bc=;
-        b=brYdrmoEEwj3iHVL/631PVrOTPm7ugP17fWAhwQeb1gBkp67IskpEv+DPkWBogWOU4
-         skK9eTleKzCKVVehY0HrVUyuwkUmkZCK1G0W0oolUKnLHCAcpNZokHaOUzcQieN0BD6r
-         C16Hvq72+hXCTZYMl87ZJcqSv5HjKwUqv+MeXZgnLv4dpQinZmE9fIxrTR69xGzXa0nh
-         DJ5OAZ1XOvBlCEkhzBBUdWB03wmzslUdT9pBxH9CifJsAXUxc754o6kCVIB6iDLVLyYr
-         4zIt0Dj+FjCn0lxgvGmcf5bFWZzjFlHHMEr5WZV8tsKkwvxxPX3dK8WTTYSq8GQW3x6X
-         Q//g==
+        bh=ZTA4alSFwCYkav6k9/jPqqXoI8kNOjIZkYy2hH5epdM=;
+        b=LoWrWekmMAFf4ge/TlaTTFogi/f+yCwLiptzYa+dlDYF+vfTGhJyjqvpUnqutAkuep
+         ub2c1f5KoAMRraglql/usCit+sG4+Kg6u1dbw2oDuxTlWeVqJoIMTTwBj4rbYXJ2BWPZ
+         ySErOo6VFFj8P/BqZqtPQ1XDodCfib430t6oHTRUzzp+65uAQh3sEhXn65uXHJo91Ipy
+         RGymvS6IGaA60JhYUPcRk+Qp+1W6OB2rDpH4a9DEMe/S7GCL15n4aGu9SMgQKSJGG7hT
+         SgyMeNWORbnj0UYrLdvYs9ipaOGEVLxvlq/l1vkZHhf8KDFlHfkJ8pWc/fSWAAffzNSc
+         BiYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732310810; x=1732915610;
+        d=1e100.net; s=20230601; t=1732310813; x=1732915613;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=1qcg5w89ndt7AYrRASP8KEQIvt/KOAzHUdzvSeJv2bc=;
-        b=CBkHhOe0qfsEf+rimp6ULlgTBS/FAi2xCcvmkmKtWcOzAPP8UjlN5Ue6BYmw63K+1d
-         edmbLBV/BVNqQkf35TbbWLj8c9L7zDzKujLE57yM+Q+rHxdwoCdTkKs5gszbcP8VGooM
-         4KX+8Bw/GHMTvvFGbbbDjV1WNwYCybeyp39SLA4cy5yVaHnkRBW/s76BBxUaEW51gbjZ
-         Mh+8zFpK4C73KnSnSRGDg5yHyUMYpgikvHv3F5Oahqk+Bja+0TRZAHgjSPtmZq+Ouwgg
-         h7ayweqKkc4+1x5JTxJ7oxXXICmEuWOtAPKSZgl+Jtj/I/WyaKCE2PHoqhnCTjgGRJsL
-         fzZw==
-X-Gm-Message-State: AOJu0Yz0IZu5RPQkjNBlpZYrblleLbKgSjdXoFRTWRUSckYV+x+B+ZJN
-	ANUmE1ozYpFp4stwNA/2oVdeQ8mGoTblLF+urbLxaoCeSvwKUsErWivjEgMNkAUjXJecOmG1ejI
-	U
-X-Gm-Gg: ASbGncs4cKr0dUfNNcPirjeb9xCwepFacBmwNkkidp8+XIMq1F6wTUqE+vwHZidvyDT
-	IaKlturRGiracXaHndyBCaI15FIY+tjpPhEKqgdDNR+ThG7K7w9d1QFHQMXzvVr4Tfcx7YAyhWM
-	/1ei8DbIfDH2k3S7X9ZXNfGG2eu9La3vqZchUr4sFvm7yl5IHKd81n9epf5RHOMKN0uKqAWBU98
-	dsqpkVXhN/P1V/tgcpZ92wAYr5sF+jqDIu9dAU=
-X-Google-Smtp-Source: AGHT+IFbOHxzyo6yT3Qzpy4BrQCrtfNAAmxyGDQxfWurQyuXy9ZXVWJMqUAWNevxXxsqJ4n7akHo1w==
-X-Received: by 2002:a17:902:f54a:b0:20c:da98:d752 with SMTP id d9443c01a7336-2129f5d853dmr57216855ad.16.1732310809735;
-        Fri, 22 Nov 2024 13:26:49 -0800 (PST)
+        bh=ZTA4alSFwCYkav6k9/jPqqXoI8kNOjIZkYy2hH5epdM=;
+        b=ugDG5oNGtC0aYTPmkKvhJ90X0RfghU3Kz6Bde1njQochUO2eI2OgUtPVkwBcPnwVl0
+         BHh0DaihWeeiDQKBrLMWPCExLgpt+1CbOkuJp+UeSL5/3oIvJsHzHVX3LEY1XtFGFqBG
+         VWHe21E81wCNVJElz/5b7fShgiRvkN2qA8bSvprYdHFZ1XBv7wAPoF+u1Kb1BhmcNSLm
+         tfejKZaDPY+nG1QMOmSJQeZ7lQLTi+zNdvYq3wykuOfyOuB7eP33zyAbvPQuHN6a1J4z
+         GMWw4UwOx74HPzVdxYCu0S0isspxBCYJbtlUKi68iVFzvoxUPiLirHSncx1Iw2zDgBNU
+         QYBA==
+X-Gm-Message-State: AOJu0YzL9CdUBTZxZcowOHIhOaABv7+WcdIk3rTUHgdmvqTn6h4DguHw
+	FucBwzVwgRuQ/9wIF9nWkG29YNMLWV7f6JERSS14C7V6jdU2fvfPo13eIld3MWpxFhujoimyWym
+	s
+X-Gm-Gg: ASbGnctCdNln3vazL050ERx89jt/oiJw8QQtmihqfWgwbp7z7wEq+PKbFMX1InROxIS
+	tDW3OJi9hOJjdccIltX/cCOe3ROMtbW/s81iC9aZaEUuAMEUW1LO/Gt9yxshnFpXYW9DciXx6yd
+	BnCx35Gt/g77y3srr4aWgzeQ1rcluVSfWoao6Lj5TAbMkgp1AeWdch+h6tET0mjmxtvmkT+U0Ke
+	jdHnRO+F+SaQ52q7G50OFExJq4/WzrSmi6wvBk=
+X-Google-Smtp-Source: AGHT+IHooj/9n0rWVFGzjKTd75kNsUDATByA1JGKY+316Ifiy0YHn8aeATv+dtesPRhLk8DbNSS2oA==
+X-Received: by 2002:a17:903:32cd:b0:20b:3f70:2e05 with SMTP id d9443c01a7336-2129f288ba5mr63264625ad.41.1732310812548;
+        Fri, 22 Nov 2024 13:26:52 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.26.49
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfe6fasm20814095ad.160.2024.11.22.13.26.50
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Nov 2024 13:26:49 -0800 (PST)
+        Fri, 22 Nov 2024 13:26:51 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/19] libsoup: Fix for CVE-2024-52530 and CVE-2024-52532
-Date: Fri, 22 Nov 2024 13:26:21 -0800
-Message-Id: <5c96ff64b5c29e589d776d23dbbed64ad526a997.1732310669.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 03/19] libsoup-2.4: Backport fix for CVE-2024-52530 and CVE-2024-52532
+Date: Fri, 22 Nov 2024 13:26:22 -0800
+Message-Id: <87b0badcb1d10eddae31ac7b282a4e44778d63af.1732310669.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732310669.git.steve@sakoman.com>
 References: <cover.1732310669.git.steve@sakoman.com>
@@ -66,7 +66,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 22 Nov 2024 21:26:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207652
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207653
 
 From: Vijay Anusuri <vanusuri@mvista.com>
 
@@ -79,20 +79,20 @@ https://gitlab.gnome.org/GNOME/libsoup/-/commit/6adc0e3eb74c257ed4e2a23eb4b2774f
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../libsoup/libsoup/CVE-2024-52530.patch      | 149 ++++++++++++++++++
- .../libsoup/libsoup/CVE-2024-52532-1.patch    |  36 +++++
- .../libsoup/libsoup/CVE-2024-52532-2.patch    |  42 +++++
- meta/recipes-support/libsoup/libsoup_3.0.7.bb |   6 +-
- 4 files changed, 232 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52530.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52532-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52532-2.patch
+ .../libsoup/libsoup-2.4/CVE-2024-52530.patch  | 149 ++++++++++++++++++
+ .../libsoup-2.4/CVE-2024-52532-1.patch        |  36 +++++
+ .../libsoup-2.4/CVE-2024-52532-2.patch        |  42 +++++
+ .../libsoup/libsoup-2.4_2.74.2.bb             |   3 +
+ 4 files changed, 230 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52530.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52530.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
 new file mode 100644
 index 0000000000..bd62a748eb
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52530.patch
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52530.patch
 @@ -0,0 +1,149 @@
 +From 04df03bc092ac20607f3e150936624d4f536e68b Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
@@ -243,11 +243,11 @@ index 0000000000..bd62a748eb
 +-- 
 +GitLab
 +
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-1.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-1.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
 new file mode 100644
-index 0000000000..8fdf50aed4
+index 0000000000..68eb942762
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-1.patch
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-1.patch
 @@ -0,0 +1,36 @@
 +From 6adc0e3eb74c257ed4e2a23eb4b2774fdb0d67be Mon Sep 17 00:00:00 2001
 +From: Ignacio Casal Quinteiro <qignacio@amazon.com>
@@ -263,33 +263,33 @@ index 0000000000..8fdf50aed4
 +CVE: CVE-2024-52532
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ libsoup/websocket/soup-websocket-connection.c | 4 ++--
++ libsoup/soup-websocket-connection.c | 4 ++--
 + 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/libsoup/websocket/soup-websocket-connection.c b/libsoup/websocket/soup-websocket-connection.c
-+index a1a730473..a14481340 100644
-+--- a/libsoup/websocket/soup-websocket-connection.c
-++++ b/libsoup/websocket/soup-websocket-connection.c
-+@@ -1199,9 +1199,9 @@ soup_websocket_connection_read (SoupWebsocketConnection *self)
++diff --git a/libsoup/soup-websocket-connection.c b/libsoup/soup-websocket-connection.c
++index a4095e1..9d5f4f8 100644
++--- a/libsoup/soup-websocket-connection.c
+++++ b/libsoup/soup-websocket-connection.c
++@@ -1140,9 +1140,9 @@ soup_websocket_connection_read (SoupWebsocketConnection *self)
 + 		}
 + 
-+ 		priv->incoming->len = len + count;
++ 		pv->incoming->len = len + count;
 +-	} while (count > 0);
 + 
 +-	process_incoming (self);
 ++		process_incoming (self);
-++	} while (count > 0 && !priv->close_sent && !priv->io_closing);
+++	} while (count > 0 && !pv->close_sent && !pv->io_closing);
 + 
 + 	if (end) {
-+ 		if (!priv->close_sent || !priv->close_received) {
++ 		if (!pv->close_sent || !pv->close_received) {
 +-- 
-+GitLab
++2.25.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-2.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-2.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
 new file mode 100644
 index 0000000000..e4e2d03d58
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52532-2.patch
++++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2024-52532-2.patch
 @@ -0,0 +1,42 @@
 +From 29b96fab2512666d7241e46c98cc45b60b795c0c Mon Sep 17 00:00:00 2001
 +From: Ignacio Casal Quinteiro <qignacio@amazon.com>
@@ -333,23 +333,20 @@ index 0000000000..e4e2d03d58
 +-- 
 +GitLab
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-index 59cc4a1d0a..919fef5107 100644
---- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-@@ -11,7 +11,11 @@ DEPENDS = "glib-2.0 glib-2.0-native libxml2 sqlite3 libpsl nghttp2"
+diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+index be286e1849..b1962961ce 100644
+--- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
++++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.2.bb
+@@ -13,6 +13,9 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
  
- SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- 
--SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz"
-+SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://0001-meson.build-set-c_std-to-gnu99.patch \
 +           file://CVE-2024-52530.patch \
 +           file://CVE-2024-52532-1.patch \
 +           file://CVE-2024-52532-2.patch \
-+          "
- SRC_URI[sha256sum] = "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
+           "
+ SRC_URI[sha256sum] = "f0a427656e5fe19e1df71c107e88dfa1b2e673c25c547b7823b6018b40d01159"
  
- PROVIDES = "libsoup-3.0"
 -- 
 2.34.1
 
