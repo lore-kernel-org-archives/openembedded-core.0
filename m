@@ -2,1307 +2,155 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D5701E6ADF8
-	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 11:31:52 +0000 (UTC)
-Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
- by mx.groups.io with SMTP id smtpd.web11.45939.1732361504931921330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19DF3E6ADF8
+	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 12:17:53 +0000 (UTC)
+Received: from mailout10.t-online.de (mailout10.t-online.de [194.25.134.21])
+ by mx.groups.io with SMTP id smtpd.web10.46099.1732364262537703060
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Nov 2024 03:31:45 -0800
+ Sat, 23 Nov 2024 04:17:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
-Received: from fwd71.aul.t-online.de (fwd71.aul.t-online.de [10.223.144.97])
-	by mailout01.t-online.de (Postfix) with SMTP id F12BF80B
-	for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 12:31:42 +0100 (CET)
-Received: from [192.168.178.67] ([84.163.36.244]) by fwd71.t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.21, mailfrom: f_l_k@t-online.de)
+Received: from fwd77.aul.t-online.de (fwd77.aul.t-online.de [10.223.144.103])
+	by mailout10.t-online.de (Postfix) with SMTP id E76DD414;
+	Sat, 23 Nov 2024 13:17:40 +0100 (CET)
+Received: from [192.168.178.67] ([84.163.36.244]) by fwd77.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tEoMY-11oijA0; Sat, 23 Nov 2024 12:31:42 +0100
-Date: Sat, 23 Nov 2024 12:31:37 +0100
+	esmtp id 1tEp52-1egOIq0; Sat, 23 Nov 2024 13:17:40 +0100
+Date: Sat, 23 Nov 2024 13:17:35 +0100
 From: Markus Volk <f_l_k@t-online.de>
-Subject: Re: [oe-core][Scarthgap][PATCHv2] gcc: add a backport patch to fix an
- issue with tzdata 2024b
-To: openembedded-core@lists.openembedded.org
-Message-Id: <POIENS.4F0UXXGOCSXN@t-online.de>
-In-Reply-To: <180A952F7BFFF851.23999@lists.openembedded.org>
-References: <180A952F7BFFF851.23999@lists.openembedded.org>
+Subject: Re: [oe-core][PATCH] gcc: add a backport patch to fix an issue with
+ tzdata 2024b
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Martin Jansa <martin.jansa@gmail.com>,
+	openembedded-core@lists.openembedded.org
+Message-Id: <BTKENS.XCDO3GCTQU892@t-online.de>
+In-Reply-To: <180A9579BCE9D834.32265@lists.openembedded.org>
+References: <20241122012941.3055-1-f_l_k@t-online.de>
+	<CA+chaQcL_dGkNAgVXD3JWvKFObQ=73tfSbkJcdFHbkDH9HqD5w@mail.gmail.com>
+	<CAOSpxdaeYv3DEcSXHs4j0c-+XZaR=PfokWF09TCuJ8QKpABEBg@mail.gmail.com>
+	<R8HENS.P1NP684GLCTM2@t-online.de>
+	<180A9579BCE9D834.32265@lists.openembedded.org>
 X-Mailer: geary/46.0
 MIME-Version: 1.0
-Content-Type: multipart/alternative; boundary="=-o4wEcQN3Mu2Da0C8iYil"
-X-TOI-EXPURGATEID: 150726::1732361502-E57EE6C2-252B5A8A/0/0 CLEAN NORMAL
-X-TOI-MSGID: 736c140f-bcb2-487c-8272-fa1a36d67599
+Content-Type: multipart/alternative; boundary="=-nc3Ga8DYVzInIlhI/5DV"
+X-TOI-EXPURGATEID: 150726::1732364260-47FE5864-09FCA4C6/0/0 CLEAN NORMAL
+X-TOI-MSGID: 8b0e8475-8eab-42b5-a8ee-b032f6a86561
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 11:31:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207681
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 12:17:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207682
 
---=-o4wEcQN3Mu2Da0C8iYil
+--=-nc3Ga8DYVzInIlhI/5DV
 Content-Type: text/plain; charset=us-ascii; format=flowed
 
-remove <file://file://>
+I managed to work around the ninja-native problem by simply calling 
+'bitbake -c do_configure gcc', which works, and then bitbake gcc
 
-On Sat, Nov 23 2024 at 12:23:50 PM +01:00:00, Markus Volk 
+Like this ninja-native also fails, but gcc is built. So I can at least 
+confirm that the patch is applied and gcc compiles on scarthgap.
+For kirkstone this patch does not apply and to me it looks like the gcc 
+version used is too old to even support c++20 time zone support in 
+<chrono>.
+
+<https://gcc.gnu.org/pipermail/libstdc++-cvs/2022q4/039034.html>
+
+
+On Sat, Nov 23 2024 at 12:29:08 PM +01:00:00, Markus Volk 
 <f_l_k@t-online.de> wrote:
-> There is an issue in the std::chrono::tzdb parser that causes problems
-> since the tzdata-2024b release started using %z in the main format.
+> It's not that I didnt't try, but it seams like I cant build gcc for 
+> scarthgap from my host system (which is based on master branch)
 > 
-> As a real world problem I encounter an issue with the waybar clock 
-> module,
-> which ignores the timezone setting and only shows system time.
-> 
-> Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> ---
->  meta/recipes-devtools/gcc/gcc-13.3.inc        |   1 +
->  ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 549 
-> ++++++++++++++++++
->  2 files changed, 550 insertions(+)
->  create mode 100644 
-> meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-> 
-> diff --git a/meta/recipes-devtools/gcc/gcc-13.3.inc 
-> b/meta/recipes-devtools/gcc/gcc-13.3.inc
-> index 90f5ef88a9..ffe90c7188 100644
-> --- a/meta/recipes-devtools/gcc/gcc-13.3.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-13.3.inc
-> @@ -66,6 +66,7 @@ SRC_URI = "${BASEURI} \
->             
-> file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch 
-> <file://0024-avoid-hardcoded-build-paths-into-ppc-libgcc.patch/> \
->             file://0025-gcc-testsuite-tweaks-for-mips-OE.patch 
-> <file://0025-gcc-testsuite-tweaks-for-mips-oe.patch/> \
->             file://0027-Fix-gcc-vect-module-testcases.patch 
-> <file://0027-fix-gcc-vect-module-testcases.patch/> \
-> +           
-> file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch 
-> <file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch/> \
->  "
->  SRC_URI[sha256sum] = 
-> "0845e9621c9543a13f484e94584a49ffc0129970e9914624235fc1d061a0c083"
-> 
-> diff --git 
-> a/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch 
-> b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-> new file mode 100644
-> index 0000000000..e5abdcc703
-> --- /dev/null
-> +++ 
-> b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-> @@ -0,0 +1,549 @@
-> +From ab884fffe3fc82a710bea66ad651720d71c938b8 Mon Sep 17 00:00:00 
-> 2001
-> +From: Jonathan Wakely <jwakely@redhat.com 
-> <mailto:jwakely@redhat.com>>
-> +Date: Tue, 30 Apr 2024 09:52:13 +0100
-> +Subject: [PATCH] libstdc++: Fix std::chrono::tzdb to work with 
-> vanguard format
-> +
-> +I found some issues in the std::chrono::tzdb parser by testing the
-> +tzdata "vanguard" format, which uses new features that aren't 
-> enabled in
-> +the "main" and "rearguard" data formats.
-> +
-> +Since 2024a the keyword "minimum" is no longer valid for the FROM 
-> and TO
-> +fields in a Rule line, which means that "m" is now a valid 
-> abbreviation
-> +for "maximum". Previously we expected either "mi" or "ma". For 
-> backwards
-> +compatibility, a FROM field beginning with "mi" is still supported 
-> and
-> +is treated as 1900. The "maximum" keyword is only allowed in TO now,
-> +because it makes no sense in FROM. To support these changes the
-> +minmax_year and minmax_year2 classes for parsing FROM and TO are
-> +replaced with a single years_from_to class that reads both fields.
-> +
-> +The vanguard format makes use of %z in Zone FORMAT fields, which 
-> caused
-> +an exception to be thrown from ZoneInfo::set_abbrev because no % or /
-> +characters were expected when a Zone doesn't use a named Rule. The
-> +ZoneInfo::to(sys_info&) function now uses format_abbrev_str to 
-> replace
-> +any %z with the current offset. Although format_abbrev_str also 
-> checks
-> +for %s and STD/DST formats, those only make sense when a named Rule 
-> is
-> +in effect, so won't occur when ZoneInfo::to(sys_info&) is used.
-> +
-> +Since making this change on trunk, the tzdata-2024b release started
-> +using %z in the main format, not just vanguard. This makes a 
-> backport to
-> +release branches necessary (see PR 116657).
-> +
-> +This change also implements a feature that has always been missing 
-> from
-> +time_zone::_M_get_sys_info: finding the Rule that is active before 
-> the
-> +specified time point, so that we can correctly handle %s in the 
-> FORMAT
-> +for the first new sys_info that gets created. This requires 
-> implementing
-> +a poorly documented feature of zic, to get the LETTERS field from a
-> +later transition, as described at
-> +<https://mm.icann.org/pipermail/tz/2024-April/058891.html>
-> +In order for this to work we need to be able to distinguish an empty
-> +letters field (as used by CE%sT where the variable part is either 
-> empty
-> +or "S") from "the letters field is not known for this transition". 
-> The
-> +tzdata file uses "-" for an empty letters field, which libstdc++ was
-> +previously replacing with "" when the Rule was parsed. Instead, we 
-> now
-> +preserve the "-" in the Rule object, so that "" can be used for the 
-> case
-> +where we don't know the letters (and so need to decide it).
-> +
-> +(cherry picked from commit 0ca8d56f2085715f27ee536c6c344bc47af49cdd)
-> +
-> +Upstream-Status: Backport 
-> [<https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=5ceea2ac106d6dd1aa8175670b15a801316cf1c9>]
-> +
-> +Signed-off-by: Markus Volk <f_l_k@t-online.de 
-> <mailto:f_l_k@t-online.de>>
-> +---
-> + libstdc++-v3/src/c++20/tzdb.cc                | 265 
-> +++++++++++-------
-> + .../std/time/time_zone/sys_info_abbrev.cc     | 106 +++++++
-> + libstdc++-v3/testsuite/std/time/tzdb/1.cc     |   6 +-
-> + 3 files changed, 274 insertions(+), 103 deletions(-)
-> + create mode 100644 
-> libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-> +
-> +diff --git a/libstdc++-v3/src/c++20/tzdb.cc 
-> b/libstdc++-v3/src/c++20/tzdb.cc
-> +index c7c7cc9deee6..7e8cce7ce8cf 100644
-> +--- a/libstdc++-v3/src/c++20/tzdb.cc
-> ++++ b/libstdc++-v3/src/c++20/tzdb.cc
-> +@@ -342,51 +342,103 @@ namespace std::chrono
-> +       friend istream& operator>>(istream&, on_day&);
-> +     };
-> +
-> +-    // Wrapper for chrono::year that reads a year, or one of the 
-> keywords
-> +-    // "minimum" or "maximum", or an unambiguous prefix of a 
-> keyword.
-> +-    struct minmax_year
-> ++    // Wrapper for two chrono::year values, which reads the FROM 
-> and TO
-> ++    // fields of a Rule line. The FROM field is a year and TO is a 
-> year or
-> ++    // one of the keywords "maximum" or "only" (or an abbreviation 
-> of those).
-> ++    // For backwards compatibility, the keyword "minimum" is 
-> recognized
-> ++    // for FROM and interpreted as 1900.
-> ++    struct years_from_to
-> +     {
-> +-      year& y;
-> ++      year& from;
-> ++      year& to;
-> +
-> +-      friend istream& operator>>(istream& in, minmax_year&& y)
-> ++      friend istream& operator>>(istream& in, years_from_to&& yy)
-> +       {
-> +-	if (ws(in).peek() == 'm') // keywords "minimum" or "maximum"
-> ++	string s;
-> ++	auto c = ws(in).peek();
-> ++	if (c == 'm') [[unlikely]] // keyword "minimum"
-> + 	  {
-> +-	    string s;
-> +-	    in >> s; // extract the rest of the word, but only look at s[1]
-> +-	    if (s[1] == 'a')
-> +-	      y.y = year::max();
-> +-	    else if (s[1] == 'i')
-> +-	      y.y = year::min();
-> +-	    else
-> +-	      in.setstate(ios::failbit);
-> ++	    in >> s; // extract the rest of the word
-> ++	    yy.from = year(1900);
-> ++	  }
-> ++	else if (int num = 0; in >> num) [[likely]]
-> ++	  yy.from = year{num};
-> ++
-> ++	c = ws(in).peek();
-> ++	if (c == 'm') // keyword "maximum"
-> ++	  {
-> ++	    in >> s; // extract the rest of the word
-> ++	    yy.to = year::max();
-> ++	  }
-> ++	else if (c == 'o') // keyword "only"
-> ++	  {
-> ++	    in >> s; // extract the rest of the word
-> ++	    yy.to = yy.from;
-> + 	  }
-> + 	else if (int num = 0; in >> num)
-> +-	  y.y = year{num};
-> ++	  yy.to = year{num};
-> ++
-> + 	return in;
-> +       }
-> +     };
-> +
-> +-    // As above for minmax_year, but also supports the keyword 
-> "only",
-> +-    // meaning that the TO year is the same as the FROM year.
-> +-    struct minmax_year2
-> ++    bool
-> ++    select_std_or_dst_abbrev(string& abbrev, minutes save)
-> +     {
-> +-      minmax_year to;
-> +-      year from;
-> ++      if (size_t pos = abbrev.find('/'); pos != string::npos)
-> ++	{
-> ++	  // Select one of "STD/DST" for standard or daylight.
-> ++	  if (save == 0min)
-> ++	    abbrev.erase(pos);
-> ++	  else
-> ++	    abbrev.erase(0, pos + 1);
-> ++	  return true;
-> ++	}
-> ++      return false;
-> ++    }
-> +
-> +-      friend istream& operator>>(istream& in, minmax_year2&& y)
-> +-      {
-> +-	if (ws(in).peek() == 'o') // keyword "only"
-> +-	  {
-> +-	    string s;
-> +-	    in >> s; // extract the whole keyword
-> +-	    y.to.y = y.from;
-> +-	  }
-> +-	else
-> +-	  in >> std::move(y.to);
-> +-	return in;
-> +-      }
-> +-    };
-> ++    // Set the sys_info::abbrev string by expanding any 
-> placeholders.
-> ++    void
-> ++    format_abbrev_str(sys_info& info, string_view letters = {})
-> ++    {
-> ++      if (size_t pos = info.abbrev.find('%'); pos != string::npos)
-> ++	{
-> ++	  if (info.abbrev[pos + 1] == 's')
-> ++	    {
-> ++	      // Expand "%s" to the variable part, given by Rule::letters.
-> ++	      if (letters == "-")
-> ++		info.abbrev.erase(pos, 2);
-> ++	      else
-> ++		info.abbrev.replace(pos, 2, letters);
-> ++	    }
-> ++	  else if (info.abbrev[pos + 1] == 'z')
-> ++	    {
-> ++	      // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or 
-> +/-hhmmss.
-> ++	      hh_mm_ss<seconds> t(info.offset);
-> ++	      string z(1, "+-"[t.is_negative()]);
-> ++	      long val = t.hours().count();
-> ++	      int digits = 2;
-> ++	      if (int m = t.minutes().count())
-> ++		{
-> ++		  digits = 4;
-> ++		  val *= 100;
-> ++		  val += m;
-> ++		  if (int s = t.seconds().count())
-> ++		    {
-> ++		      digits = 6;
-> ++		      val *= 100;
-> ++		      val += s;
-> ++		    }
-> ++		}
-> ++	      auto sval = std::to_string(val);
-> ++	      z += string(digits - sval.size(), '0');
-> ++	      z += sval;
-> ++	      info.abbrev.replace(pos, 2, z);
-> ++	    }
-> ++	}
-> ++      else
-> ++	select_std_or_dst_abbrev(info.abbrev, info.save);
-> ++    }
-> +
-> +     // A time zone information record.
-> +     // Zone  NAME        STDOFF  RULES   FORMAT  [UNTIL]
-> +@@ -462,6 +514,7 @@ namespace std::chrono
-> + 	info.offset = offset();
-> + 	info.save = minutes(m_save);
-> + 	info.abbrev = format();
-> ++	format_abbrev_str(info); // expand %z
-> + 	return true;
-> +       }
-> +
-> +@@ -469,12 +522,9 @@ namespace std::chrono
-> +       friend class time_zone;
-> +
-> +       void
-> +-      set_abbrev(const string& abbrev)
-> ++      set_abbrev(string abbrev)
-> +       {
-> +-	// In practice, the FORMAT field never needs expanding here.
-> +-	if (abbrev.find_first_of("/%") != abbrev.npos)
-> +-	  __throw_runtime_error("std::chrono::time_zone: invalid data");
-> +-	m_buf = abbrev;
-> ++	m_buf = std::move(abbrev);
-> + 	m_pos = 0;
-> + 	m_expanded = true;
-> +       }
-> +@@ -544,9 +594,7 @@ namespace std::chrono
-> +
-> + 	// Rule  NAME  FROM  TO  TYPE  IN  ON  AT  SAVE  LETTER/S
-> +
-> +-	in >> quoted(rule.name)
-> +-	   >> minmax_year{rule.from}
-> +-	   >> minmax_year2{rule.to, rule.from};
-> ++	in >> quoted(rule.name) >> years_from_to{rule.from, rule.to};
-> +
-> + 	if (char type; in >> type && type != '-')
-> + 	  in.setstate(ios::failbit);
-> +@@ -557,7 +605,7 @@ namespace std::chrono
-> + 	if (save_time.indicator != at_time::Wall)
-> + 	  {
-> + 	    // We don't actually store the save_time.indicator, because we
-> +-	    // assume that it's always deducable from the actual offset 
-> value.
-> ++	    // assume that it's always deducible from the offset value.
-> + 	    auto expected = save_time.time == 0s
-> + 			      ? at_time::Standard
-> + 			      : at_time::Daylight;
-> +@@ -567,8 +615,6 @@ namespace std::chrono
-> + 	rule.save = save_time.time;
-> +
-> + 	in >> rule.letters;
-> +-	if (rule.letters == "-")
-> +-	  rule.letters.clear();
-> + 	return in;
-> +       }
-> +
-> +@@ -719,58 +765,6 @@ namespace std::chrono
-> + #endif // TZDB_DISABLED
-> +   };
-> +
-> +-#ifndef TZDB_DISABLED
-> +-  namespace
-> +-  {
-> +-    bool
-> +-    select_std_or_dst_abbrev(string& abbrev, minutes save)
-> +-    {
-> +-      if (size_t pos = abbrev.find('/'); pos != string::npos)
-> +-	{
-> +-	  // Select one of "STD/DST" for standard or daylight.
-> +-	  if (save == 0min)
-> +-	    abbrev.erase(pos);
-> +-	  else
-> +-	    abbrev.erase(0, pos + 1);
-> +-	  return true;
-> +-	}
-> +-      return false;
-> +-    }
-> +-
-> +-    // Set the sys_info::abbrev string by expanding any 
-> placeholders.
-> +-    void
-> +-    format_abbrev_str(sys_info& info, string_view letters = {})
-> +-    {
-> +-      if (size_t pos = info.abbrev.find("%s"); pos != string::npos)
-> +-	{
-> +-	  // Expand "%s" to the variable part, given by Rule::letters.
-> +-	  info.abbrev.replace(pos, 2, letters);
-> +-	}
-> +-      else if (size_t pos = info.abbrev.find("%z"); pos != 
-> string::npos)
-> +-	{
-> +-	  // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
-> +-	  hh_mm_ss<seconds> t(info.offset);
-> +-	  string z(1, "+-"[t.is_negative()]);
-> +-	  long val = t.hours().count();
-> +-	  if (minutes m = t.minutes(); m != m.zero())
-> +-	    {
-> +-	      val *= 100;
-> +-	      val += m.count();
-> +-	      if (seconds s = t.seconds(); s != s.zero())
-> +-		{
-> +-		  val *= 100;
-> +-		  val += s.count();
-> +-		}
-> +-	    }
-> +-	  z += std::to_string(val);
-> +-	  info.abbrev.replace(pos, 2, z);
-> +-	}
-> +-      else
-> +-	select_std_or_dst_abbrev(info.abbrev, info.save);
-> +-    }
-> +-  }
-> +-#endif // TZDB_DISABLED
-> +-
-> +   // Implementation of std::chrono::time_zone::get_info(const 
-> sys_time<D>&)
-> +   sys_info
-> +   time_zone::_M_get_sys_info(sys_seconds tp) const
-> +@@ -839,12 +833,72 @@ namespace std::chrono
-> +     info.abbrev = ri.format();
-> +
-> +     string_view letters;
-> +-    if (i != infos.begin())
-> ++    if (i != infos.begin() && i[-1].expanded())
-> ++      letters = i[-1].next_letters();
-> ++
-> ++    if (letters.empty())
-> +       {
-> +-	if (i[-1].expanded())
-> +-	  letters = i[-1].next_letters();
-> +-	// XXX else need to find Rule active before this time and use it
-> +-	// to know the initial offset, save, and letters.
-> ++	sys_seconds t = info.begin - seconds(1);
-> ++	const year_month_day date(chrono::floor<days>(t));
-> ++
-> ++	// Try to find a Rule active before this time, to get initial
-> ++	// SAVE and LETTERS values. There may not be a Rule for the period
-> ++	// before the first DST transition, so find the earliest DST->STD
-> ++	// transition and use the LETTERS from that.
-> ++	const Rule* active_rule = nullptr;
-> ++	sys_seconds active_rule_start = sys_seconds::min();
-> ++	const Rule* first_std = nullptr;
-> ++	for (const auto& rule : rules)
-> ++	  {
-> ++	    if (rule.save == minutes(0))
-> ++	      {
-> ++		if (!first_std)
-> ++		  first_std = &rule;
-> ++		else if (rule.from < first_std->from)
-> ++		  first_std = &rule;
-> ++		else if (rule.from == first_std->from)
-> ++		  {
-> ++		    if (rule.start_time(rule.from, {})
-> ++			  < first_std->start_time(first_std->from, {}))
-> ++		      first_std = &rule;
-> ++		  }
-> ++	      }
-> ++
-> ++	    year y = date.year();
-> ++
-> ++	    if (y > rule.to) // rule no longer applies at time t
-> ++	      continue;
-> ++	    if (y < rule.from) // rule doesn't apply yet at time t
-> ++	      continue;
-> ++
-> ++	    sys_seconds rule_start;
-> ++
-> ++	    seconds offset{}; // appropriate for at_time::Universal
-> ++	    if (rule.when.indicator == at_time::Wall)
-> ++	      offset = info.offset;
-> ++	    else if (rule.when.indicator == at_time::Standard)
-> ++	      offset = ri.offset();
-> ++
-> ++	    // Time the rule takes effect this year:
-> ++	    rule_start = rule.start_time(y, offset);
-> ++
-> ++	    if (rule_start >= t && rule.from < y)
-> ++	      {
-> ++		// Try this rule in the previous year.
-> ++		rule_start = rule.start_time(--y, offset);
-> ++	      }
-> ++
-> ++	    if (active_rule_start < rule_start && rule_start < t)
-> ++	      {
-> ++		active_rule_start = rule_start;
-> ++		active_rule = &rule;
-> ++	      }
-> ++	  }
-> ++
-> ++	if (active_rule)
-> ++	  letters = active_rule->letters;
-> ++	else if (first_std)
-> ++	  letters = first_std->letters;
-> +       }
-> +
-> +     const Rule* curr_rule = nullptr;
-> +@@ -2069,9 +2123,11 @@ namespace std::chrono
-> + 	      istringstream in2(std::move(rules));
-> + 	      in2 >> rules_time;
-> + 	      inf.m_save = duration_cast<minutes>(rules_time.time);
-> ++	      // If the FORMAT is "STD/DST" then we can choose the right 
-> one
-> ++	      // now, so that we store a shorter string.
-> + 	      select_std_or_dst_abbrev(fmt, inf.m_save);
-> + 	    }
-> +-	  inf.set_abbrev(fmt);
-> ++	  inf.set_abbrev(std::move(fmt));
-> + 	}
-> +
-> +       // YEAR [MONTH [DAY [TIME]]]
-> +@@ -2082,7 +2138,12 @@ namespace std::chrono
-> + 	  abbrev_month m{January};
-> + 	  int d = 1;
-> + 	  at_time t{};
-> ++	  // XXX DAY should support ON format, e.g. lastSun or Sun>=8
-> + 	  in >> m >> d >> t;
-> ++	  // XXX UNTIL field should be interpreted
-> ++	  // "using the rules in effect just before the transition"
-> ++	  // so might need to store as year_month_day and hh_mm_ss and only
-> ++	  // convert to a sys_time once we know the offset in effect.
-> + 	  inf.m_until = sys_days(year(y)/m.m/day(d)) + seconds(t.time);
-> + 	}
-> +       else
-> +diff --git 
-> a/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc 
-> b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-> +new file mode 100644
-> +index 000000000000..f1a8fff02f58
-> +--- /dev/null
-> ++++ b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-> +@@ -0,0 +1,106 @@
-> ++// { dg-do run { target c++20 } }
-> ++// { dg-require-effective-target tzdb }
-> ++// { dg-require-effective-target cxx11_abi }
-> ++// { dg-xfail-run-if "no weak override on AIX" { powerpc-ibm-aix* } 
-> }
-> ++
-> ++#include <chrono>
-> ++#include <fstream>
-> ++#include <testsuite_hooks.h>
-> ++
-> ++static bool override_used = false;
-> ++
-> ++namespace __gnu_cxx
-> ++{
-> ++  const char* zoneinfo_dir_override() {
-> ++    override_used = true;
-> ++    return "./";
-> ++  }
-> ++}
-> ++
-> ++using namespace std::chrono;
-> ++
-> ++void
-> ++test_format()
-> ++{
-> ++  std::ofstream("tzdata.zi") << R"(# version test_1
-> ++Zone Africa/Bissau -1:2:20 - LMT 1912 Ja 1 1u
-> ++                   -1      - %z  1975
-> ++                   0       - GMT
-> ++Zon Some/Zone 1:2:3   - %z 1900
-> ++              1:23:45 - %z 1950
-> ++Zo Another/Zone 1:2:3 -     AZ0     1901
-> ++                1     Roolz A%sZ    2000
-> ++                1     Roolz SAZ/DAZ 2005
-> ++                1     Roolz %z
-> ++Rule Roolz 1950 max - April 1 2 1 D
-> ++Rul  Roolz 1950 max - Oct   1 1 0 S
-> ++Z Strange/Zone 1       - X%sX    1980
-> ++               1       - FOO/BAR 1990
-> ++               2:00    - %zzz    1995
-> ++               0:9     - %zzz    1996
-> ++               0:8:7   - %zzz    1997
-> ++               0:6:5.5 - %zzz    1998
-> ++)";
-> ++
-> ++  const auto& db = reload_tzdb();
-> ++  VERIFY( override_used ); // If this fails then XFAIL for the 
-> target.
-> ++  VERIFY( db.version == "test_1" );
-> ++
-> ++  // Test formatting %z as
-> ++  auto tz = locate_zone("Africa/Bissau");
-> ++  auto inf = tz->get_info(sys_days(1974y/1/1));
-> ++  VERIFY( inf.abbrev == "-01" );
-> ++
-> ++  tz = locate_zone("Some/Zone");
-> ++  inf = tz->get_info(sys_days(1899y/1/1));
-> ++  VERIFY( inf.abbrev == "+010203" );
-> ++  inf = tz->get_info(sys_days(1955y/1/1));
-> ++  VERIFY( inf.abbrev == "+012345" );
-> ++
-> ++  tz = locate_zone("Another/Zone");
-> ++  // Test formatting %s as the LETTER/S field from the active Rule.
-> ++  inf = tz->get_info(sys_days(1910y/January/1));
-> ++  VERIFY( inf.abbrev == "ASZ" );
-> ++  inf = tz->get_info(sys_days(1950y/January/1));
-> ++  VERIFY( inf.abbrev == "ASZ" );
-> ++  inf = tz->get_info(sys_days(1950y/June/1));
-> ++  VERIFY( inf.abbrev == "ADZ" );
-> ++  inf = tz->get_info(sys_days(1999y/January/1));
-> ++  VERIFY( inf.abbrev == "ASZ" );
-> ++  inf = tz->get_info(sys_days(1999y/July/1));
-> ++  VERIFY( inf.abbrev == "ADZ" );
-> ++  // Test formatting STD/DST according to the active Rule.
-> ++  inf = tz->get_info(sys_days(2000y/January/2));
-> ++  VERIFY( inf.abbrev == "SAZ" );
-> ++  inf = tz->get_info(sys_days(2001y/January/1));
-> ++  VERIFY( inf.abbrev == "SAZ" );
-> ++  inf = tz->get_info(sys_days(2001y/July/1));
-> ++  VERIFY( inf.abbrev == "DAZ" );
-> ++  // Test formatting %z as the offset determined by the active Rule.
-> ++  inf = tz->get_info(sys_days(2005y/January/2));
-> ++  VERIFY( inf.abbrev == "+01" );
-> ++  inf = tz->get_info(sys_days(2006y/January/1));
-> ++  VERIFY( inf.abbrev == "+01" );
-> ++  inf = tz->get_info(sys_days(2006y/July/1));
-> ++  VERIFY( inf.abbrev == "+02" );
-> ++
-> ++  // Test formatting %z, %s and S/D for a Zone with no associated 
-> Rules.
-> ++  tz = locate_zone("Strange/Zone");
-> ++  inf = tz->get_info(sys_days(1979y/January/1));
-> ++  VERIFY( inf.abbrev == "XX" ); // No Rule means nothing to use for 
-> %s.
-> ++  inf = tz->get_info(sys_days(1981y/July/1));
-> ++  VERIFY( inf.abbrev == "FOO" ); // Always standard time means 
-> first string.
-> ++  inf = tz->get_info(sys_days(1994y/July/1));
-> ++  VERIFY( inf.abbrev == "+02zz" );
-> ++  inf = tz->get_info(sys_days(1995y/July/1));
-> ++  VERIFY( inf.abbrev == "+0009zz" );
-> ++  inf = tz->get_info(sys_days(1996y/July/1));
-> ++  VERIFY( inf.abbrev == "+000807zz" );
-> ++  inf = tz->get_info(sys_days(1997y/July/1));
-> ++  VERIFY( inf.abbrev == "+000606zz" );
-> ++}
-> ++
-> ++int main()
-> ++{
-> ++  test_format();
-> ++}
-> +diff --git a/libstdc++-v3/testsuite/std/time/tzdb/1.cc 
-> b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-> +index 796f3a8b4256..7a31c1c20ba7 100644
-> +--- a/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-> ++++ b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-> +@@ -39,11 +39,15 @@ test_locate()
-> +   const tzdb& db = get_tzdb();
-> +   const time_zone* tz = db.locate_zone("GMT");
-> +   VERIFY( tz != nullptr );
-> +-  VERIFY( tz->name() == "Etc/GMT" );
-> +   VERIFY( tz == std::chrono::locate_zone("GMT") );
-> +   VERIFY( tz == db.locate_zone("Etc/GMT") );
-> +   VERIFY( tz == db.locate_zone("Etc/GMT+0") );
-> +
-> ++  // Since 2022f GMT is now a Zone and Etc/GMT a link instead of 
-> vice versa,
-> ++  // but only when using the vanguard format. As of 2024a, the main 
-> and
-> ++  // rearguard formats still have Etc/GMT as a Zone and GMT as a 
-> link.
-> ++  VERIFY( tz->name() == "GMT" || tz->name() == "Etc/GMT" );
-> ++
-> +   VERIFY( db.locate_zone(db.current_zone()->name()) == 
-> db.current_zone() );
-> + }
-> +
-> +--
-> +2.43.5
-> +
-> --
-> 2.47.0
+> I'm lacking pipes due to python 3.13
+> ERROR: ninja-native-1.11.1-r0 do_compile: 
+> ExecutionError('/home/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/run.do_compile.175990', 
+> 1, None, None)
+> ERROR: Logfile of failure stored in: 
+> /home/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/log.do_compile.175990
+> Log data follows:
+> | DEBUG: Executing shell function do_compile
+> | Traceback (most recent call last):
+> | File 
+> "/home/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/git/./configure.py", 
+> line 26, in <module>
+> | import pipes
+> | ModuleNotFoundError: No module named 'pipes'
+> | WARNING: 
+> /home/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/run.do_compile.175990:142 
+> exit 1 from 'python3 ./configure.py --bootstrap'
+> | WARNING: Backtrace (BB generated script):
+> | #1: do_compile, 
+> /home/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/run.do_compile.175990, 
+> line 142
+> | #2: main, 
+> /home/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/run.do_compile.175990, 
+> line 146
+> ERROR: Task 
+> (virtual:native:/home/flk/poky/meta/recipes-devtools/ninja/ninja_1.11.1.bb:do_compile) 
+> failed with exit code '1'
 > 
 > 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207679): 
-> <https://lists.openembedded.org/g/openembedded-core/message/207679>
-> Mute This Topic: <https://lists.openembedded.org/mt/109738329/3618223>
-> Group Owner: openembedded-core+owner@lists.openembedded.org 
-> <mailto:openembedded-core+owner@lists.openembedded.org>
-> Unsubscribe: 
-> <https://lists.openembedded.org/g/openembedded-core/unsub> 
-> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
+> On Sat, Nov 23 2024 at 12:00:27 PM +01:00:00, Markus Volk 
+> <f_l_k@t-online.de> wrote:
+>> On Fri, Nov 22 2024 at 05:33:29 AM -08:00:00, Steve Sakoman 
+>> <steve@sakoman.com> wrote:
+>>> Markus, could you send versions of this patch for stable branches 
+>>> too?
+>>> (styhead, scarthgap, kirkstone)
+>> 
+>> I have sent the patches, but only verified that they would apply. I 
+>> can't comile test them as I dont have buildsystems set up for any of 
+>> these branches
 
 
---=-o4wEcQN3Mu2Da0C8iYil
+--=-nc3Ga8DYVzInIlhI/5DV
 Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
 
-<div id="geary-body" dir="auto"><div>remove <a href="file://file://">file://file://</a></div></div><div id="geary-quote" dir="auto"><br>On Sat, Nov 23 2024 at 12:23:50 PM +01:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">There is an issue in the std::chrono::tzdb parser that causes problems
-since the tzdata-2024b release started using %z in the main format.
-
-As a real world problem I encounter an issue with the waybar clock module,
-which ignores the timezone setting and only shows system time.
-
-Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
----
- meta/recipes-devtools/gcc/gcc-13.3.inc        |   1 +
- ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 549 ++++++++++++++++++
- 2 files changed, 550 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-
-diff --git a/meta/recipes-devtools/gcc/gcc-13.3.inc b/meta/recipes-devtools/gcc/gcc-13.3.inc
-index 90f5ef88a9..ffe90c7188 100644
---- a/meta/recipes-devtools/gcc/gcc-13.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-13.3.inc
-@@ -66,6 +66,7 @@ SRC_URI = "${BASEURI} \
-            <a href="file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch">file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch</a> \
-            <a href="file://0025-gcc-testsuite-tweaks-for-mips-OE.patch">file://0025-gcc-testsuite-tweaks-for-mips-OE.patch</a> \
-            <a href="file://0027-Fix-gcc-vect-module-testcases.patch">file://0027-Fix-gcc-vect-module-testcases.patch</a> \
-+           <a href="file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch">file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch</a> \
- "
- SRC_URI[sha256sum] = "0845e9621c9543a13f484e94584a49ffc0129970e9914624235fc1d061a0c083"
- 
-diff --git a/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-new file mode 100644
-index 0000000000..e5abdcc703
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-@@ -0,0 +1,549 @@
-+From ab884fffe3fc82a710bea66ad651720d71c938b8 Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely &lt;<a href="mailto:jwakely@redhat.com">jwakely@redhat.com</a>&gt;
-+Date: Tue, 30 Apr 2024 09:52:13 +0100
-+Subject: [PATCH] libstdc++: Fix std::chrono::tzdb to work with vanguard format
-+
-+I found some issues in the std::chrono::tzdb parser by testing the
-+tzdata "vanguard" format, which uses new features that aren't enabled in
-+the "main" and "rearguard" data formats.
-+
-+Since 2024a the keyword "minimum" is no longer valid for the FROM and TO
-+fields in a Rule line, which means that "m" is now a valid abbreviation
-+for "maximum". Previously we expected either "mi" or "ma". For backwards
-+compatibility, a FROM field beginning with "mi" is still supported and
-+is treated as 1900. The "maximum" keyword is only allowed in TO now,
-+because it makes no sense in FROM. To support these changes the
-+minmax_year and minmax_year2 classes for parsing FROM and TO are
-+replaced with a single years_from_to class that reads both fields.
-+
-+The vanguard format makes use of %z in Zone FORMAT fields, which caused
-+an exception to be thrown from ZoneInfo::set_abbrev because no % or /
-+characters were expected when a Zone doesn't use a named Rule. The
-+ZoneInfo::to(sys_info&amp;) function now uses format_abbrev_str to replace
-+any %z with the current offset. Although format_abbrev_str also checks
-+for %s and STD/DST formats, those only make sense when a named Rule is
-+in effect, so won't occur when ZoneInfo::to(sys_info&amp;) is used.
-+
-+Since making this change on trunk, the tzdata-2024b release started
-+using %z in the main format, not just vanguard. This makes a backport to
-+release branches necessary (see PR 116657).
-+
-+This change also implements a feature that has always been missing from
-+time_zone::_M_get_sys_info: finding the Rule that is active before the
-+specified time point, so that we can correctly handle %s in the FORMAT
-+for the first new sys_info that gets created. This requires implementing
-+a poorly documented feature of zic, to get the LETTERS field from a
-+later transition, as described at
-+<a href="https://mm.icann.org/pipermail/tz/2024-April/058891.html">https://mm.icann.org/pipermail/tz/2024-April/058891.html</a>
-+In order for this to work we need to be able to distinguish an empty
-+letters field (as used by CE%sT where the variable part is either empty
-+or "S") from "the letters field is not known for this transition". The
-+tzdata file uses "-" for an empty letters field, which libstdc++ was
-+previously replacing with "" when the Rule was parsed. Instead, we now
-+preserve the "-" in the Rule object, so that "" can be used for the case
-+where we don't know the letters (and so need to decide it).
-+
-+(cherry picked from commit 0ca8d56f2085715f27ee536c6c344bc47af49cdd)
-+
-+Upstream-Status: Backport [<a href="https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=5ceea2ac106d6dd1aa8175670b15a801316cf1c9">https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=5ceea2ac106d6dd1aa8175670b15a801316cf1c9</a>]
-+
-+Signed-off-by: Markus Volk &lt;<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>&gt;
-+---
-+ libstdc++-v3/src/c++20/tzdb.cc                | 265 +++++++++++-------
-+ .../std/time/time_zone/sys_info_abbrev.cc     | 106 +++++++
-+ libstdc++-v3/testsuite/std/time/tzdb/1.cc     |   6 +-
-+ 3 files changed, 274 insertions(+), 103 deletions(-)
-+ create mode 100644 libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+
-+diff --git a/libstdc++-v3/src/c++20/tzdb.cc b/libstdc++-v3/src/c++20/tzdb.cc
-+index c7c7cc9deee6..7e8cce7ce8cf 100644
-+--- a/libstdc++-v3/src/c++20/tzdb.cc
-++++ b/libstdc++-v3/src/c++20/tzdb.cc
-+@@ -342,51 +342,103 @@ namespace std::chrono
-+       friend istream&amp; operator&gt;&gt;(istream&amp;, on_day&amp;);
-+     };
-+ 
-+-    // Wrapper for chrono::year that reads a year, or one of the keywords
-+-    // "minimum" or "maximum", or an unambiguous prefix of a keyword.
-+-    struct minmax_year
-++    // Wrapper for two chrono::year values, which reads the FROM and TO
-++    // fields of a Rule line. The FROM field is a year and TO is a year or
-++    // one of the keywords "maximum" or "only" (or an abbreviation of those).
-++    // For backwards compatibility, the keyword "minimum" is recognized
-++    // for FROM and interpreted as 1900.
-++    struct years_from_to
-+     {
-+-      year&amp; y;
-++      year&amp; from;
-++      year&amp; to;
-+ 
-+-      friend istream&amp; operator&gt;&gt;(istream&amp; in, minmax_year&amp;&amp; y)
-++      friend istream&amp; operator&gt;&gt;(istream&amp; in, years_from_to&amp;&amp; yy)
-+       {
-+-	if (ws(in).peek() == 'm') // keywords "minimum" or "maximum"
-++	string s;
-++	auto c = ws(in).peek();
-++	if (c == 'm') [[unlikely]] // keyword "minimum"
-+ 	  {
-+-	    string s;
-+-	    in &gt;&gt; s; // extract the rest of the word, but only look at s[1]
-+-	    if (s[1] == 'a')
-+-	      y.y = year::max();
-+-	    else if (s[1] == 'i')
-+-	      y.y = year::min();
-+-	    else
-+-	      in.setstate(ios::failbit);
-++	    in &gt;&gt; s; // extract the rest of the word
-++	    yy.from = year(1900);
-++	  }
-++	else if (int num = 0; in &gt;&gt; num) [[likely]]
-++	  yy.from = year{num};
-++
-++	c = ws(in).peek();
-++	if (c == 'm') // keyword "maximum"
-++	  {
-++	    in &gt;&gt; s; // extract the rest of the word
-++	    yy.to = year::max();
-++	  }
-++	else if (c == 'o') // keyword "only"
-++	  {
-++	    in &gt;&gt; s; // extract the rest of the word
-++	    yy.to = yy.from;
-+ 	  }
-+ 	else if (int num = 0; in &gt;&gt; num)
-+-	  y.y = year{num};
-++	  yy.to = year{num};
-++
-+ 	return in;
-+       }
-+     };
-+ 
-+-    // As above for minmax_year, but also supports the keyword "only",
-+-    // meaning that the TO year is the same as the FROM year.
-+-    struct minmax_year2
-++    bool
-++    select_std_or_dst_abbrev(string&amp; abbrev, minutes save)
-+     {
-+-      minmax_year to;
-+-      year from;
-++      if (size_t pos = abbrev.find('/'); pos != string::npos)
-++	{
-++	  // Select one of "STD/DST" for standard or daylight.
-++	  if (save == 0min)
-++	    abbrev.erase(pos);
-++	  else
-++	    abbrev.erase(0, pos + 1);
-++	  return true;
-++	}
-++      return false;
-++    }
-+ 
-+-      friend istream&amp; operator&gt;&gt;(istream&amp; in, minmax_year2&amp;&amp; y)
-+-      {
-+-	if (ws(in).peek() == 'o') // keyword "only"
-+-	  {
-+-	    string s;
-+-	    in &gt;&gt; s; // extract the whole keyword
-+-	    y.to.y = y.from;
-+-	  }
-+-	else
-+-	  in &gt;&gt; std::move(y.to);
-+-	return in;
-+-      }
-+-    };
-++    // Set the sys_info::abbrev string by expanding any placeholders.
-++    void
-++    format_abbrev_str(sys_info&amp; info, string_view letters = {})
-++    {
-++      if (size_t pos = info.abbrev.find('%'); pos != string::npos)
-++	{
-++	  if (info.abbrev[pos + 1] == 's')
-++	    {
-++	      // Expand "%s" to the variable part, given by Rule::letters.
-++	      if (letters == "-")
-++		info.abbrev.erase(pos, 2);
-++	      else
-++		info.abbrev.replace(pos, 2, letters);
-++	    }
-++	  else if (info.abbrev[pos + 1] == 'z')
-++	    {
-++	      // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
-++	      hh_mm_ss&lt;seconds&gt; t(info.offset);
-++	      string z(1, "+-"[t.is_negative()]);
-++	      long val = t.hours().count();
-++	      int digits = 2;
-++	      if (int m = t.minutes().count())
-++		{
-++		  digits = 4;
-++		  val *= 100;
-++		  val += m;
-++		  if (int s = t.seconds().count())
-++		    {
-++		      digits = 6;
-++		      val *= 100;
-++		      val += s;
-++		    }
-++		}
-++	      auto sval = std::to_string(val);
-++	      z += string(digits - sval.size(), '0');
-++	      z += sval;
-++	      info.abbrev.replace(pos, 2, z);
-++	    }
-++	}
-++      else
-++	select_std_or_dst_abbrev(info.abbrev, info.save);
-++    }
-+ 
-+     // A time zone information record.
-+     // Zone  NAME        STDOFF  RULES   FORMAT  [UNTIL]
-+@@ -462,6 +514,7 @@ namespace std::chrono
-+ 	info.offset = offset();
-+ 	info.save = minutes(m_save);
-+ 	info.abbrev = format();
-++	format_abbrev_str(info); // expand %z
-+ 	return true;
-+       }
-+ 
-+@@ -469,12 +522,9 @@ namespace std::chrono
-+       friend class time_zone;
-+ 
-+       void
-+-      set_abbrev(const string&amp; abbrev)
-++      set_abbrev(string abbrev)
-+       {
-+-	// In practice, the FORMAT field never needs expanding here.
-+-	if (abbrev.find_first_of("/%") != abbrev.npos)
-+-	  __throw_runtime_error("std::chrono::time_zone: invalid data");
-+-	m_buf = abbrev;
-++	m_buf = std::move(abbrev);
-+ 	m_pos = 0;
-+ 	m_expanded = true;
-+       }
-+@@ -544,9 +594,7 @@ namespace std::chrono
-+ 
-+ 	// Rule  NAME  FROM  TO  TYPE  IN  ON  AT  SAVE  LETTER/S
-+ 
-+-	in &gt;&gt; quoted(rule.name)
-+-	   &gt;&gt; minmax_year{rule.from}
-+-	   &gt;&gt; minmax_year2{rule.to, rule.from};
-++	in &gt;&gt; quoted(rule.name) &gt;&gt; years_from_to{rule.from, rule.to};
-+ 
-+ 	if (char type; in &gt;&gt; type &amp;&amp; type != '-')
-+ 	  in.setstate(ios::failbit);
-+@@ -557,7 +605,7 @@ namespace std::chrono
-+ 	if (save_time.indicator != at_time::Wall)
-+ 	  {
-+ 	    // We don't actually store the save_time.indicator, because we
-+-	    // assume that it's always deducable from the actual offset value.
-++	    // assume that it's always deducible from the offset value.
-+ 	    auto expected = save_time.time == 0s
-+ 			      ? at_time::Standard
-+ 			      : at_time::Daylight;
-+@@ -567,8 +615,6 @@ namespace std::chrono
-+ 	rule.save = save_time.time;
-+ 
-+ 	in &gt;&gt; rule.letters;
-+-	if (rule.letters == "-")
-+-	  rule.letters.clear();
-+ 	return in;
-+       }
-+ 
-+@@ -719,58 +765,6 @@ namespace std::chrono
-+ #endif // TZDB_DISABLED
-+   };
-+ 
-+-#ifndef TZDB_DISABLED
-+-  namespace
-+-  {
-+-    bool
-+-    select_std_or_dst_abbrev(string&amp; abbrev, minutes save)
-+-    {
-+-      if (size_t pos = abbrev.find('/'); pos != string::npos)
-+-	{
-+-	  // Select one of "STD/DST" for standard or daylight.
-+-	  if (save == 0min)
-+-	    abbrev.erase(pos);
-+-	  else
-+-	    abbrev.erase(0, pos + 1);
-+-	  return true;
-+-	}
-+-      return false;
-+-    }
-+-
-+-    // Set the sys_info::abbrev string by expanding any placeholders.
-+-    void
-+-    format_abbrev_str(sys_info&amp; info, string_view letters = {})
-+-    {
-+-      if (size_t pos = info.abbrev.find("%s"); pos != string::npos)
-+-	{
-+-	  // Expand "%s" to the variable part, given by Rule::letters.
-+-	  info.abbrev.replace(pos, 2, letters);
-+-	}
-+-      else if (size_t pos = info.abbrev.find("%z"); pos != string::npos)
-+-	{
-+-	  // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
-+-	  hh_mm_ss&lt;seconds&gt; t(info.offset);
-+-	  string z(1, "+-"[t.is_negative()]);
-+-	  long val = t.hours().count();
-+-	  if (minutes m = t.minutes(); m != m.zero())
-+-	    {
-+-	      val *= 100;
-+-	      val += m.count();
-+-	      if (seconds s = t.seconds(); s != s.zero())
-+-		{
-+-		  val *= 100;
-+-		  val += s.count();
-+-		}
-+-	    }
-+-	  z += std::to_string(val);
-+-	  info.abbrev.replace(pos, 2, z);
-+-	}
-+-      else
-+-	select_std_or_dst_abbrev(info.abbrev, info.save);
-+-    }
-+-  }
-+-#endif // TZDB_DISABLED
-+-
-+   // Implementation of std::chrono::time_zone::get_info(const sys_time&lt;D&gt;&amp;)
-+   sys_info
-+   time_zone::_M_get_sys_info(sys_seconds tp) const
-+@@ -839,12 +833,72 @@ namespace std::chrono
-+     info.abbrev = ri.format();
-+ 
-+     string_view letters;
-+-    if (i != infos.begin())
-++    if (i != infos.begin() &amp;&amp; i[-1].expanded())
-++      letters = i[-1].next_letters();
-++
-++    if (letters.empty())
-+       {
-+-	if (i[-1].expanded())
-+-	  letters = i[-1].next_letters();
-+-	// XXX else need to find Rule active before this time and use it
-+-	// to know the initial offset, save, and letters.
-++	sys_seconds t = info.begin - seconds(1);
-++	const year_month_day date(chrono::floor&lt;days&gt;(t));
-++
-++	// Try to find a Rule active before this time, to get initial
-++	// SAVE and LETTERS values. There may not be a Rule for the period
-++	// before the first DST transition, so find the earliest DST-&gt;STD
-++	// transition and use the LETTERS from that.
-++	const Rule* active_rule = nullptr;
-++	sys_seconds active_rule_start = sys_seconds::min();
-++	const Rule* first_std = nullptr;
-++	for (const auto&amp; rule : rules)
-++	  {
-++	    if (rule.save == minutes(0))
-++	      {
-++		if (!first_std)
-++		  first_std = &amp;rule;
-++		else if (rule.from &lt; first_std-&gt;from)
-++		  first_std = &amp;rule;
-++		else if (rule.from == first_std-&gt;from)
-++		  {
-++		    if (rule.start_time(rule.from, {})
-++			  &lt; first_std-&gt;start_time(first_std-&gt;from, {}))
-++		      first_std = &amp;rule;
-++		  }
-++	      }
-++
-++	    year y = date.year();
-++
-++	    if (y &gt; rule.to) // rule no longer applies at time t
-++	      continue;
-++	    if (y &lt; rule.from) // rule doesn't apply yet at time t
-++	      continue;
-++
-++	    sys_seconds rule_start;
-++
-++	    seconds offset{}; // appropriate for at_time::Universal
-++	    if (rule.when.indicator == at_time::Wall)
-++	      offset = info.offset;
-++	    else if (rule.when.indicator == at_time::Standard)
-++	      offset = ri.offset();
-++
-++	    // Time the rule takes effect this year:
-++	    rule_start = rule.start_time(y, offset);
-++
-++	    if (rule_start &gt;= t &amp;&amp; rule.from &lt; y)
-++	      {
-++		// Try this rule in the previous year.
-++		rule_start = rule.start_time(--y, offset);
-++	      }
-++
-++	    if (active_rule_start &lt; rule_start &amp;&amp; rule_start &lt; t)
-++	      {
-++		active_rule_start = rule_start;
-++		active_rule = &amp;rule;
-++	      }
-++	  }
-++
-++	if (active_rule)
-++	  letters = active_rule-&gt;letters;
-++	else if (first_std)
-++	  letters = first_std-&gt;letters;
-+       }
-+ 
-+     const Rule* curr_rule = nullptr;
-+@@ -2069,9 +2123,11 @@ namespace std::chrono
-+ 	      istringstream in2(std::move(rules));
-+ 	      in2 &gt;&gt; rules_time;
-+ 	      inf.m_save = duration_cast&lt;minutes&gt;(rules_time.time);
-++	      // If the FORMAT is "STD/DST" then we can choose the right one
-++	      // now, so that we store a shorter string.
-+ 	      select_std_or_dst_abbrev(fmt, inf.m_save);
-+ 	    }
-+-	  inf.set_abbrev(fmt);
-++	  inf.set_abbrev(std::move(fmt));
-+ 	}
-+ 
-+       // YEAR [MONTH [DAY [TIME]]]
-+@@ -2082,7 +2138,12 @@ namespace std::chrono
-+ 	  abbrev_month m{January};
-+ 	  int d = 1;
-+ 	  at_time t{};
-++	  // XXX DAY should support ON format, e.g. lastSun or Sun&gt;=8
-+ 	  in &gt;&gt; m &gt;&gt; d &gt;&gt; t;
-++	  // XXX UNTIL field should be interpreted
-++	  // "using the rules in effect just before the transition"
-++	  // so might need to store as year_month_day and hh_mm_ss and only
-++	  // convert to a sys_time once we know the offset in effect.
-+ 	  inf.m_until = sys_days(year(y)/m.m/day(d)) + seconds(t.time);
-+ 	}
-+       else
-+diff --git a/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+new file mode 100644
-+index 000000000000..f1a8fff02f58
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+@@ -0,0 +1,106 @@
-++// { dg-do run { target c++20 } }
-++// { dg-require-effective-target tzdb }
-++// { dg-require-effective-target cxx11_abi }
-++// { dg-xfail-run-if "no weak override on AIX" { powerpc-ibm-aix* } }
-++
-++#include &lt;chrono&gt;
-++#include &lt;fstream&gt;
-++#include &lt;testsuite_hooks.h&gt;
-++
-++static bool override_used = false;
-++
-++namespace __gnu_cxx
-++{
-++  const char* zoneinfo_dir_override() {
-++    override_used = true;
-++    return "./";
-++  }
-++}
-++
-++using namespace std::chrono;
-++
-++void
-++test_format()
-++{
-++  std::ofstream("tzdata.zi") &lt;&lt; R"(# version test_1
-++Zone Africa/Bissau -1:2:20 - LMT 1912 Ja 1 1u
-++                   -1      - %z  1975
-++                   0       - GMT
-++Zon Some/Zone 1:2:3   - %z 1900
-++              1:23:45 - %z 1950
-++Zo Another/Zone 1:2:3 -     AZ0     1901
-++                1     Roolz A%sZ    2000
-++                1     Roolz SAZ/DAZ 2005
-++                1     Roolz %z
-++Rule Roolz 1950 max - April 1 2 1 D
-++Rul  Roolz 1950 max - Oct   1 1 0 S
-++Z Strange/Zone 1       - X%sX    1980
-++               1       - FOO/BAR 1990
-++               2:00    - %zzz    1995
-++               0:9     - %zzz    1996
-++               0:8:7   - %zzz    1997
-++               0:6:5.5 - %zzz    1998
-++)";
-++
-++  const auto&amp; db = reload_tzdb();
-++  VERIFY( override_used ); // If this fails then XFAIL for the target.
-++  VERIFY( db.version == "test_1" );
-++
-++  // Test formatting %z as
-++  auto tz = locate_zone("Africa/Bissau");
-++  auto inf = tz-&gt;get_info(sys_days(1974y/1/1));
-++  VERIFY( inf.abbrev == "-01" );
-++
-++  tz = locate_zone("Some/Zone");
-++  inf = tz-&gt;get_info(sys_days(1899y/1/1));
-++  VERIFY( inf.abbrev == "+010203" );
-++  inf = tz-&gt;get_info(sys_days(1955y/1/1));
-++  VERIFY( inf.abbrev == "+012345" );
-++
-++  tz = locate_zone("Another/Zone");
-++  // Test formatting %s as the LETTER/S field from the active Rule.
-++  inf = tz-&gt;get_info(sys_days(1910y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz-&gt;get_info(sys_days(1950y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz-&gt;get_info(sys_days(1950y/June/1));
-++  VERIFY( inf.abbrev == "ADZ" );
-++  inf = tz-&gt;get_info(sys_days(1999y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz-&gt;get_info(sys_days(1999y/July/1));
-++  VERIFY( inf.abbrev == "ADZ" );
-++  // Test formatting STD/DST according to the active Rule.
-++  inf = tz-&gt;get_info(sys_days(2000y/January/2));
-++  VERIFY( inf.abbrev == "SAZ" );
-++  inf = tz-&gt;get_info(sys_days(2001y/January/1));
-++  VERIFY( inf.abbrev == "SAZ" );
-++  inf = tz-&gt;get_info(sys_days(2001y/July/1));
-++  VERIFY( inf.abbrev == "DAZ" );
-++  // Test formatting %z as the offset determined by the active Rule.
-++  inf = tz-&gt;get_info(sys_days(2005y/January/2));
-++  VERIFY( inf.abbrev == "+01" );
-++  inf = tz-&gt;get_info(sys_days(2006y/January/1));
-++  VERIFY( inf.abbrev == "+01" );
-++  inf = tz-&gt;get_info(sys_days(2006y/July/1));
-++  VERIFY( inf.abbrev == "+02" );
-++
-++  // Test formatting %z, %s and S/D for a Zone with no associated Rules.
-++  tz = locate_zone("Strange/Zone");
-++  inf = tz-&gt;get_info(sys_days(1979y/January/1));
-++  VERIFY( inf.abbrev == "XX" ); // No Rule means nothing to use for %s.
-++  inf = tz-&gt;get_info(sys_days(1981y/July/1));
-++  VERIFY( inf.abbrev == "FOO" ); // Always standard time means first string.
-++  inf = tz-&gt;get_info(sys_days(1994y/July/1));
-++  VERIFY( inf.abbrev == "+02zz" );
-++  inf = tz-&gt;get_info(sys_days(1995y/July/1));
-++  VERIFY( inf.abbrev == "+0009zz" );
-++  inf = tz-&gt;get_info(sys_days(1996y/July/1));
-++  VERIFY( inf.abbrev == "+000807zz" );
-++  inf = tz-&gt;get_info(sys_days(1997y/July/1));
-++  VERIFY( inf.abbrev == "+000606zz" );
-++}
-++
-++int main()
-++{
-++  test_format();
-++}
-+diff --git a/libstdc++-v3/testsuite/std/time/tzdb/1.cc b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-+index 796f3a8b4256..7a31c1c20ba7 100644
-+--- a/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-++++ b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-+@@ -39,11 +39,15 @@ test_locate()
-+   const tzdb&amp; db = get_tzdb();
-+   const time_zone* tz = db.locate_zone("GMT");
-+   VERIFY( tz != nullptr );
-+-  VERIFY( tz-&gt;name() == "Etc/GMT" );
-+   VERIFY( tz == std::chrono::locate_zone("GMT") );
-+   VERIFY( tz == db.locate_zone("Etc/GMT") );
-+   VERIFY( tz == db.locate_zone("Etc/GMT+0") );
-+ 
-++  // Since 2022f GMT is now a Zone and Etc/GMT a link instead of vice versa,
-++  // but only when using the vanguard format. As of 2024a, the main and
-++  // rearguard formats still have Etc/GMT as a Zone and GMT as a link.
-++  VERIFY( tz-&gt;name() == "GMT" || tz-&gt;name() == "Etc/GMT" );
-++
-+   VERIFY( db.locate_zone(db.current_zone()-&gt;name()) == db.current_zone() );
-+ }
-+ 
-+-- 
-+2.43.5
-+
-<div>-- 
-</div>2.47.0
-
-</div><div class="plaintext" style="white-space: break-spaces;">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#207679): <a href="https://lists.openembedded.org/g/openembedded-core/message/207679">https://lists.openembedded.org/g/openembedded-core/message/207679</a>
-Mute This Topic: <a href="https://lists.openembedded.org/mt/109738329/3618223">https://lists.openembedded.org/mt/109738329/3618223</a>
-Group Owner: <a href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a href="mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-
-</div></blockquote></div>
---=-o4wEcQN3Mu2Da0C8iYil--
+<div id=3D"geary-body" dir=3D"auto"><div><div>I managed to work around the =
+ninja-native problem by simply calling 'bitbake -c do_configure gcc', which=
+ works, and then bitbake gcc</div><div><br></div><div>Like this ninja-nativ=
+e also fails, but gcc is built. So I can at least confirm that the patch is=
+ applied and gcc compiles on scarthgap.</div><div>For kirkstone this patch =
+does not apply and to me it looks like the gcc version used is too old to e=
+ven support c++20 time zone support in &lt;chrono&gt;.</div><div><br></div>=
+</div><div><a href=3D"https://gcc.gnu.org/pipermail/libstdc++-cvs/2022q4/03=
+9034.html">https://gcc.gnu.org/pipermail/libstdc++-cvs/2022q4/039034.html</=
+a></div><div><br></div></div><div id=3D"geary-quote" dir=3D"auto"><br>On Sa=
+t, Nov 23 2024 at 12:29:08 PM +01:00:00, Markus Volk &lt;f_l_k@t-online.de&=
+gt; wrote:<br><blockquote type=3D"cite"><div id=3D"geary-body" dir=3D"auto"=
+><div>It's not that I didnt't try, but it seams like I cant build gcc for s=
+carthgap from my host system (which is based on master branch)</div><div><b=
+r></div><div>I'm lacking pipes due to python 3.13</div><div>ERROR: ninja-na=
+tive-1.11.1-r0 do_compile: ExecutionError('/home/flk/poky/build-test/tmp/wo=
+rk/x86_64-linux/ninja-native/1.11.1/temp/run.do_compile.175990', 1, None, N=
+one)</div><div>ERROR: Logfile of failure stored in: /home/flk/poky/build-te=
+st/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/log.do_compile.175990</di=
+v><div>Log data follows:</div><div>| DEBUG: Executing shell function do_com=
+pile</div><div>| Traceback (most recent call last):</div><div>|   File "/ho=
+me/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/git/./conf=
+igure.py", line 26, in &lt;module&gt;</div><div>|     import pipes</div><di=
+v>| ModuleNotFoundError: No module named 'pipes'</div><div>| WARNING: /home=
+/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/run.do_=
+compile.175990:142 exit 1 from 'python3 ./configure.py --bootstrap'</div><d=
+iv>| WARNING: Backtrace (BB generated script):</div><div>| 	#1: do_compile,=
+ /home/flk/poky/build-test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/r=
+un.do_compile.175990, line 142</div><div>| 	#2: main, /home/flk/poky/build-=
+test/tmp/work/x86_64-linux/ninja-native/1.11.1/temp/run.do_compile.175990, =
+line 146</div><div>ERROR: Task (virtual:native:/home/flk/poky/meta/recipes-=
+devtools/ninja/ninja_1.11.1.bb:do_compile) failed with exit code '1'</div><=
+div><br></div></div><div id=3D"geary-quote" dir=3D"auto"><br>On Sat, Nov 23=
+ 2024 at 12:00:27 PM +01:00:00, Markus Volk &lt;f_l_k@t-online.de&gt; wrote=
+:<br><blockquote type=3D"cite"><div id=3D"geary-body" dir=3D"auto">On Fri, =
+Nov 22 2024 at 05:33:29 AM -08:00:00, Steve Sakoman &lt;steve@sakoman.com&g=
+t; wrote:<br><blockquote type=3D"cite"><div class=3D"plaintext" style=3D"wh=
+ite-space: break-spaces;">Markus, could you send versions of this patch for=
+ stable branches too?
+(styhead, scarthgap, kirkstone)</div></blockquote><div><br></div><div>I hav=
+e sent the patches, but only verified that they would apply. I can't comile=
+ test them as I dont have buildsystems set up for any of these branches</di=
+v></div></blockquote></div>
+</blockquote></div>
+--=-nc3Ga8DYVzInIlhI/5DV--
 
 
