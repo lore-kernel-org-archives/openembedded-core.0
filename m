@@ -2,35 +2,35 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E954E6ADFD
-	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 13:08:53 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web10.46644.1732367328523126131
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 32CCBE6ADFE
+	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 13:09:33 +0000 (UTC)
+Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
+ by mx.groups.io with SMTP id smtpd.web10.46650.1732367363484587402
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Nov 2024 05:08:48 -0800
+ Sat, 23 Nov 2024 05:09:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd75.aul.t-online.de (fwd75.aul.t-online.de [10.223.144.101])
-	by mailout11.t-online.de (Postfix) with SMTP id 19FCE17D
-	for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 14:08:46 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.36.244]) by fwd75.t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
+Received: from fwd87.aul.t-online.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout02.t-online.de (Postfix) with SMTP id BD344658
+	for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 14:09:21 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.36.244]) by fwd87.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tEpsT-0iJtjN0; Sat, 23 Nov 2024 14:08:45 +0100
+	esmtp id 1tEpt3-2dHkZd0; Sat, 23 Nov 2024 14:09:21 +0100
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][Scarthgap][PATCH] ninja: fix build with python 3.13
-Date: Sat, 23 Nov 2024 14:08:36 +0100
-Message-ID: <20241123130836.1169713-1-f_l_k@t-online.de>
+Subject: [oe-core][Kirkstone][PATCH] ninja: fix build with python 3.13
+Date: Sat, 23 Nov 2024 14:09:15 +0100
+Message-ID: <20241123130915.1169777-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1732367325-A3FF0C97-4CA7BA4C/0/0 CLEAN NORMAL
-X-TOI-MSGID: b7fbff10-068a-45be-b8ac-a8b1f8012316
+X-TOI-EXPURGATEID: 150726::1732367361-F0FF7700-B30D13C9/0/0 CLEAN NORMAL
+X-TOI-MSGID: 1c7068d7-efb9-4241-8e2c-24150245e712
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 13:08:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207683
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 13:09:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207684
 
 python 3.13 removed the pipes module. Thus build fails for host machines =
 that run python 3.13
@@ -40,7 +40,7 @@ This commit adds a backport patch to use subprocess module instead
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
  ...4efb41c039789b81f0dc0d67c1ed0faea17c.patch | 62 +++++++++++++++++++
- meta/recipes-devtools/ninja/ninja_1.11.1.bb   |  5 +-
+ meta/recipes-devtools/ninja/ninja_1.10.2.bb   |  5 +-
  2 files changed, 66 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/ninja/ninja/885b4efb41c039789b8=
 1f0dc0d67c1ed0faea17c.patch
@@ -120,14 +120,14 @@ nv_keys)
 + import subprocess
 + import sys
 +=20
-diff --git a/meta/recipes-devtools/ninja/ninja_1.11.1.bb b/meta/recipes-d=
-evtools/ninja/ninja_1.11.1.bb
-index 8e297ec4d4..b74150bc64 100644
---- a/meta/recipes-devtools/ninja/ninja_1.11.1.bb
-+++ b/meta/recipes-devtools/ninja/ninja_1.11.1.bb
+diff --git a/meta/recipes-devtools/ninja/ninja_1.10.2.bb b/meta/recipes-d=
+evtools/ninja/ninja_1.10.2.bb
+index 1509a54c9e..e7b82ed9ec 100644
+--- a/meta/recipes-devtools/ninja/ninja_1.10.2.bb
++++ b/meta/recipes-devtools/ninja/ninja_1.10.2.bb
 @@ -8,7 +8,10 @@ DEPENDS =3D "re2c-native ninja-native"
 =20
- SRCREV =3D "a524bf3f6bacd1b4ad85d719eed2737d8562f27a"
+ SRCREV =3D "e72d1d581c945c158ed68d9bc48911063022a2c6"
 =20
 -SRC_URI =3D "git://github.com/ninja-build/ninja.git;branch=3Drelease;pro=
 tocol=3Dhttps"
