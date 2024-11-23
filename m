@@ -1,128 +1,174 @@
-Return-Path: <hiagofranco@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E17E1E66883
-	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 19:38:34 +0000 (UTC)
-Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com [209.85.221.182])
- by mx.groups.io with SMTP id smtpd.web11.54203.1732390706795137412
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F869E66887
+	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 20:50:35 +0000 (UTC)
+Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+ by mx.groups.io with SMTP id smtpd.web11.55458.1732395027529069141
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Nov 2024 11:38:26 -0800
+ Sat, 23 Nov 2024 12:50:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RtNz+41h;
- spf=pass (domain: gmail.com, ip: 209.85.221.182, mailfrom: hiagofranco@gmail.com)
-Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-5151e429d53so91707e0c.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 11:38:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=D+jPypKe;
+ spf=pass (domain: gmail.com, ip: 209.85.210.45, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-7181a8af549so1819901a34.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 12:50:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732390705; x=1732995505; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1732395027; x=1732999827; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=atb25WKL44/D7zlQkVjtAM4s/z/QxPUmc3bFsUIrqx8=;
-        b=RtNz+41hMw3GJHCvXv/HFHMVYfMBZqFrUmJ7viTQLBqdQdHMaVNyuxhNwvHPIDjmNZ
-         eSo7LCzjhyXhWiOsDLuKvmLbzwRsYyFjSYuE6i2BQD0tPbvwyRMBgxQM/W6p7CCr+A9b
-         Zf7xwq5K87izRfvGBJ46cHaHcXpDgGYBc/ha5SMB3nYJT41V+wpAX74X0PKHqFcWITm5
-         ZmblmlbRMzEHyt6rxVU6tf7Rz6YTS3bbpCzYBFPsngTEsM7tWNyNpZ8Ctw2fs1WufrNv
-         8ovlXkLnYEAIh6dtqk9WCjiqmFrxhMWgeHnf4Yg46A/UU8AuTyfR4SnIs7y7DR4fOgqJ
-         jNmQ==
+        bh=WT/16Emf+KMa+zbmWQHxBHeZIpFsFOh3l1S7GVgZ0eo=;
+        b=D+jPypKe75SFlLGuTKL2SNT/LfHhih0hrPWZeBl/97/yq2WOM39r84rOy1fhlTMiE1
+         7Ayqt8ASIjTBwJtvfm0LRcw6tev+jG/DU9FQl2PBzzfOzxGD/7bn+48+Mb1SslmbVNH3
+         EZo4tnl4Ddair3Uy6uE5Hhf5VA1B6bX1HQ/Inec+lCdItagKAIMDVas4B+y9qiX5BPwH
+         MEgxpl4s4OiCfMhOJCqhsWTPpD7/u4hYVGRxMGkZu5Fn3L8NsJ8Ugx2QK5YnsSten7UJ
+         GMLtcR1p+FOJKRze6fnSta2OSt/qJvVlfNg9gM0hvSE+4ydHpGDo5No7o4DEuyx8t+tV
+         ITRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732390705; x=1732995505;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1732395027; x=1732999827;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=atb25WKL44/D7zlQkVjtAM4s/z/QxPUmc3bFsUIrqx8=;
-        b=O5ptvBYoU1grKvVTfd8ffuNvvyOh0S6F3kJzuliobi/sXEPYMY95kjjNmjpI4EbkA2
-         YKA2HXkpGgxg6P8EbL1/nuEJKyYKxH4xbrZl/3r1cGKNGzPqq3chdEMYAK/P+x4wHuuv
-         YJxpdqDdLL8z0HIVr3SVwFH7hHlWPSb8f79jor+zSdXU5C8tHVYA8hFgPE463WoFarll
-         U+QIB7qXbKTsuotLWLM9Yg96U3ZcrvvqHuw1OT9eUpCrzJ2tu+7vvGjSMMLpYPw/OTnW
-         x58R3UAnHWTOkmVb4HWj4FG9fgruDn+R9xJfIPJY4XQZLaorNGEB3Am/TBOTDrF/bmAk
-         I9iw==
-X-Gm-Message-State: AOJu0YwPHE7lRIRDK8oAvmU3Goh59wkmaffOeLqTZ0hg/ACBYW5mAvf9
-	7QLiWlTZd657UJAdFd0UwV7l5ZgPoX8euTOM5OEJCrRAY7E0M2Fx9WpK8g==
-X-Gm-Gg: ASbGnctCnmkQCpJF7djzXqrWoG6VTkRs1E193jIIfsXZxiMxW6Ap81coExTlk+e9QdC
-	Kkn9q60zvBxR+TeZUXc6NlPv1AkyL3s1WlFEnWLG7LCBhUcKHoKotPJP+rEu9/DtU5Oo7xGyGjS
-	/R6i9NJ50MTMh7Kxneh+ogsoaxsasG0QRumghPAiK94gXLE2fKL4sUDgdK0YSWptOJ+YP5FHrXj
-	IrOgYxjOdzlQuGT3q3cDpXJC9I42BsqRXMKjxTW8mH6jzJrIwI=
-X-Google-Smtp-Source: AGHT+IHWLagF59z7HZFoIquKsIncCC+N17WnUj8JMJeoea7KsEDOsj/LWii4oVMRdTvo+lWJsXYNkA==
-X-Received: by 2002:a05:6122:4d8d:b0:50d:83e1:94fb with SMTP id 71dfb90a1353d-51500ad9579mr7816108e0c.12.1732390705318;
-        Sat, 23 Nov 2024 11:38:25 -0800 (PST)
-Received: from hiagof-nb.. ([146.70.98.177])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-514faf3a95fsm508162e0c.15.2024.11.23.11.38.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2024 11:38:24 -0800 (PST)
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Denys Dmytriyenko <denis@denix.org>,
-	Hiago De Franco <hiago.franco@toradex.com>
-Subject: [PATCH v2 2/3] libdisplay-info: add recipe
-Date: Sat, 23 Nov 2024 16:35:28 -0300
-Message-Id: <20241123193527.1435268-3-hiagofranco@gmail.com>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20241123193527.1435268-1-hiagofranco@gmail.com>
-References: <20241123193527.1435268-1-hiagofranco@gmail.com>
+        bh=WT/16Emf+KMa+zbmWQHxBHeZIpFsFOh3l1S7GVgZ0eo=;
+        b=Cf3Y5sIY0XkNO3wkHYQo2fJcLlRCxDySKr3q92Vn0kxIn235kYpLygl4kjGdTQk6ny
+         tFgIt61W9qY+c1VplsT+UtFYjwekOQc1DuBySOCOi9WhvaWTl8T/aAoRtRlKKo464+8N
+         EaMxE1yoy/HcamDLoAQnaO+2wumbmuEs+Vo7NV6HGU6iWf6q/OAadtfhsAxmiB6tYarn
+         DXD77J328Pbbsli6rQmfEUj2S3zQaRQpidzqmDFtXB1jtf/5ZQpwvpPZcvC3z7uKDX9m
+         aajaDAiZ51lDsVS27iSW8Ia/OLxhJsY9wf+AbU/i6sMWIkz1av9jO+b8ZmU8vqjuaQA0
+         xTFw==
+X-Gm-Message-State: AOJu0YxNOrCH50jISabPPk73Ye7X5UbE6dE5Q7mkA8WX/9pBTFxLj12D
+	y28WZ7xkqmzlj0e7z3XdGyVAppnTaeUnBNRSCpuSTOIdPw8cQF1BkkyX5SnZQMu1eriSqzp197e
+	NAutWefmTugVlTjmKw2zkGJYbmzNGJJvR
+X-Gm-Gg: ASbGncu2kBkuiLdrPvh2uIYvFnmhrYxpDANv+afD3AsRVDndqakEnZ2E4NL4MlruI14
+	Yqi7mDLASmqaKodGr25Vf9w8HH8ht0Fo=
+X-Google-Smtp-Source: AGHT+IGYLVNs3pXmBjoRVRyASLr4HN7BGOLa9AgF4Bu9RSiqijcUx0DW9ZjpIymSlU92nkwJwg/ohk8qkXkeIyIinXQ=
+X-Received: by 2002:a05:6830:6f04:b0:718:1090:3d10 with SMTP id
+ 46e09a7af769-71c04cf0227mr7146189a34.26.1732395026753; Sat, 23 Nov 2024
+ 12:50:26 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241121161620.2141006-1-tgamblin@baylibre.com>
+In-Reply-To: <20241121161620.2141006-1-tgamblin@baylibre.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Sat, 23 Nov 2024 12:50:00 -0800
+Message-ID: <CAMKF1sohjKLGfs_i7iimUx80SWzWs+eKOmkWA_4iPKaQ9bh96A@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] python3-setuptools: upgrade 72.1.0 -> 75.6.0
+To: tgamblin@baylibre.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 19:38:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207692
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 20:50:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207694
 
-From: Hiago De Franco <hiago.franco@toradex.com>
+this regresses python3-zopeinterface build
 
-libdisplay-info is a EDID and DisplayID library. Goals:
+https://0x0.st/X5Ls.do_compi
 
-- Provide a set of high-level, easy-to-use, opinionated functions as
-  well as low-level functions to access detailed information.
-- Simplicity and correctness over performance and resource usage.
-- Well-tested and fuzzed.
-
-Since commit a16598b038b2 ("backend-drm: make libdisplay-info
-mandatory") from Weston, this library is now mandatory in order to
-build weston 14.0.1 and newer.
-
-Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
----
- meta/conf/distro/include/maintainers.inc         |  1 +
- .../libdisplay-info/libdisplay-info_0.2.0.bb     | 16 ++++++++++++++++
- 2 files changed, 17 insertions(+)
- create mode 100644 meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 04208ebbf22b..53bb9d024e8a 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -325,6 +325,7 @@ RECIPE_MAINTAINER:pn-libcomps = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libconvert-asn1-perl = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-libdaemon = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libdazzle = "Alexander Kanavin <alex.kanavin@gmail.com>"
-+RECIPE_MAINTAINER:pn-libdisplay-info = "Hiago De Franco <hiago.franco@toradex.com>"
- RECIPE_MAINTAINER:pn-libdnf = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
- RECIPE_MAINTAINER:pn-libedit = "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb b/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-new file mode 100644
-index 000000000000..629f0d420fee
---- /dev/null
-+++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
-@@ -0,0 +1,16 @@
-+SUMMARY = "EDID and DisplayID library"
-+DESCRIPTION = "The goal of this library is to provide a set of high-level, \
-+easy-to-use, and opinionated functions, as well as low-level functions for \
-+accessing detailed information, prioritizing simplicity and correctness over \
-+performance and resource usage, while being well-tested and fuzzed."
-+HOMEPAGE = "https://gitlab.freedesktop.org/emersion/libdisplay-info"
-+LICENSE = "MIT"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=e4426409957080ee0352128354cea2de"
-+DEPENDS = "hwdata-native"
-+
-+SRC_URI = "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https"
-+SRCREV = "66b802d05b374cd8f388dc6ad1e7ae4f08cb3300"
-+
-+S = "${WORKDIR}/git"
-+
-+inherit meson pkgconfig
--- 
-2.39.5
-
+On Thu, Nov 21, 2024 at 8:16=E2=80=AFAM Trevor Gamblin via
+lists.openembedded.org <tgamblin=3Dbaylibre.com@lists.openembedded.org>
+wrote:
+>
+> Changelog: https://github.com/pypa/setuptools/blob/main/NEWS.rst
+>
+> 0001-conditionally-do-not-fetch-code-by-easy_install.patch had to be
+> adjusted to apply on top of 75.6.0.
+>
+> Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+> ---
+>  ...onally-do-not-fetch-code-by-easy_install.patch | 15 +++++++++++----
+>  ...ols_72.1.0.bb =3D> python3-setuptools_75.6.0.bb} |  2 +-
+>  2 files changed, 12 insertions(+), 5 deletions(-)
+>  rename meta/recipes-devtools/python/{python3-setuptools_72.1.0.bb =3D> p=
+ython3-setuptools_75.6.0.bb} (95%)
+>
+> diff --git a/meta/recipes-devtools/python/python3-setuptools/0001-conditi=
+onally-do-not-fetch-code-by-easy_install.patch b/meta/recipes-devtools/pyth=
+on/python3-setuptools/0001-conditionally-do-not-fetch-code-by-easy_install.=
+patch
+> index 16b316e9cc2..527160735f0 100644
+> --- a/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-=
+do-not-fetch-code-by-easy_install.patch
+> +++ b/meta/recipes-devtools/python/python3-setuptools/0001-conditionally-=
+do-not-fetch-code-by-easy_install.patch
+> @@ -1,4 +1,4 @@
+> -From 80fe63816eb3bfd1f5b6d354e1f2442805cff4e0 Mon Sep 17 00:00:00 2001
+> +From 00611eb8151825632bc36c189109626d9223037f Mon Sep 17 00:00:00 2001
+>  From: Hongxu Jia <hongxu.jia@windriver.com>
+>  Date: Tue, 17 Jul 2018 10:13:38 +0800
+>  Subject: [PATCH] conditionally do not fetch code by easy_install
+> @@ -11,18 +11,22 @@ when that ever gets removed this patch can also be de=
+leted.
+>
+>  Upstream-Status: Denied [https://github.com/pypa/setuptools/issues/4735]
+>  Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> +
+> +Update to apply against v75.6.0.
+> +
+> +Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+>  ---
+>   setuptools/command/easy_install.py | 5 +++++
+>   1 file changed, 5 insertions(+)
+>
+>  diff --git a/setuptools/command/easy_install.py b/setuptools/command/eas=
+y_install.py
+> -index 858fb20..62bd853 100644
+> +index 66fe68f7a..8647c2082 100644
+>  --- a/setuptools/command/easy_install.py
+>  +++ b/setuptools/command/easy_install.py
+> -@@ -672,6 +672,11 @@ class easy_install(Command):
+> +@@ -673,6 +673,11 @@ class easy_install(Command):
+>               os.path.exists(tmpdir) and _rmtree(tmpdir)
+>
+> -     def easy_install(self, spec, deps=3DFalse):
+> +     def easy_install(self, spec, deps: bool =3D False) -> Distribution =
+| None:
+>  +        if os.environ.get('NO_FETCH_BUILD', None):
+>  +            log.error("ERROR: Do not try to fetch `%s' for building. "
+>  +                      "Please add its native recipe to DEPENDS." % spec=
+)
+> @@ -31,3 +35,6 @@ index 858fb20..62bd853 100644
+>           with self._tmpdir() as tmpdir:
+>               if not isinstance(spec, Requirement):
+>                   if URL_SCHEME(spec):
+> +--
+> +2.39.5
+> +
+> diff --git a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb b/=
+meta/recipes-devtools/python/python3-setuptools_75.6.0.bb
+> similarity index 95%
+> rename from meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
+> rename to meta/recipes-devtools/python/python3-setuptools_75.6.0.bb
+> index 5a01111934c..c0e4b7031d7 100644
+> --- a/meta/recipes-devtools/python/python3-setuptools_72.1.0.bb
+> +++ b/meta/recipes-devtools/python/python3-setuptools_75.6.0.bb
+> @@ -13,7 +13,7 @@ SRC_URI:append:class-native =3D " file://0001-condition=
+ally-do-not-fetch-code-by-e
+>  SRC_URI +=3D " \
+>              file://0001-_distutils-sysconfig.py-make-it-possible-to-subs=
+tite.patch"
+>
+> -SRC_URI[sha256sum] =3D "8d243eff56d095e5817f796ede6ae32941278f542e0f9418=
+67cc05ae52b162ec"
+> +SRC_URI[sha256sum] =3D "8199222558df7c86216af4f84c30e9b34a61d8ba19366cc9=
+14424cdbd28252f6"
+>
+>  DEPENDS +=3D "python3"
+>
+> --
+> 2.39.5
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#207545): https://lists.openembedded.org/g/openembedde=
+d-core/message/207545
+> Mute This Topic: https://lists.openembedded.org/mt/109706467/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
+j.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
