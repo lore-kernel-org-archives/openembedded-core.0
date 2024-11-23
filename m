@@ -1,166 +1,108 @@
-Return-Path: <simone.p.weiss@posteo.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85369D75E5D
-	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 17:43:44 +0000 (UTC)
-Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
- by mx.groups.io with SMTP id smtpd.web10.51723.1732383819552084975
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07342E6919C
+	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 19:38:25 +0000 (UTC)
+Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
+ by mx.groups.io with SMTP id smtpd.web10.53813.1732390701008122990
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Nov 2024 09:43:40 -0800
+ Sat, 23 Nov 2024 11:38:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=QZ+3vGpb;
- spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
-Received: from submission (posteo.de [185.67.36.169]) 
-	by mout01.posteo.de (Postfix) with ESMTPS id 20345240027
-	for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 18:43:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
-	t=1732383817; bh=FRAFOIcqjZqNeX1jAhQlOZo8y94e4Ikc809Q9hs8ZCY=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 Content-Transfer-Encoding:From;
-	b=QZ+3vGpbnC5xY8y/e8RwmINXaN9rtQAeu7kw8SK1+7y43cB/6wPgONDzFxu1NozSC
-	 OYADMiWi5ArjAVOxF4bwtmJIxeC4FgJv/jBylFaryhBU2rGZaZatfjXeq/TZeiLza9
-	 kXjUKx1rap8sqdL2A4sTTpkCeX5Hwxg3XWvMAScAEGQoSy2+ZhnPSPoxYnLFAyLNJ0
-	 aKjNtjBHaWh67sgJdLKiY/PGU1VsgivTzoLmrOZKT08nGWGzlNft1tnwYNO2D60Fuq
-	 QTQADrx/dD6tfO4ubnjibM/s6USzAk7xxvBxeHZHx9zoPqYgYWNYTDWiFi5lZG7W6e
-	 SACJuargGfGoQ==
-Received: from customer (localhost [127.0.0.1])
-	by submission (posteo.de) with ESMTPSA id 4XwfTN1cr3z6tw2;
-	Sat, 23 Nov 2024 18:43:35 +0100 (CET)
-From: simone.p.weiss@posteo.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HCXHTN5A;
+ spf=pass (domain: gmail.com, ip: 209.85.221.172, mailfrom: hiagofranco@gmail.com)
+Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-514ce0ab49dso941488e0c.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 11:38:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732390700; x=1732995500; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=dfYRdQnybzYOZpkb/w2VvRILnd87BEc+GsQ8xuq1MzA=;
+        b=HCXHTN5Ah463QlM/h0qx6WoxzbLZsDlsdHPalVpbdISz4X3d92M4aQfbc+MdaLQyG0
+         AEOAZA7oh0X9g4CycyDOHgbXQ+of9b6mP5d2Mun4vI5BsknKNe/kphy/l68A/JqBahjM
+         JFWQn3VN+o7xQqSw7aP2WdoBRTwI8RUhCKJ8/I+TiAEmxMc2HLnsLk9C35NNPSHoUlJy
+         rcstDK+DnPPG+SoPYLPrMLVmF1bzWKmO++yhGtSdc7JMTlLi1jmGX1n4VUKPk2YJinTi
+         LURThDd1gR4xAcvJlJlNQ9bJc7yT3xKa95D+rZKP6/2x7q1YmxJafoL3eqwKv5HznHRn
+         qRWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732390700; x=1732995500;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dfYRdQnybzYOZpkb/w2VvRILnd87BEc+GsQ8xuq1MzA=;
+        b=Ty9n4Ach7qT+COJz4qmSvok/coKGBVpOZBUcVQuP6sUXQQPSZNkTq+ykTPuVffonKw
+         h7cuPaXfRJ7FG4B3fGL5NzkaU83klYB73jO9IamwBdWyr8MQjQ1U7/ne6gJthL05IwTj
+         txg4KB+KzOX+1srxI49tWezQESmB5vIxuRmyIvbu7xG70OIIYxHehaV4oGpASyzpVMS5
+         TkHvDaRFrsh6FLeCM+Z5royyvtHR9FDGDxGZOiuKGoY59PqwNbTN80Djqt6qS67IZIlH
+         wr8VNmlJgTIJ+N0dsMaaHD6V4DPqzgHuZ2X3D+pL+zGOroNqr3MoUL9ZHLAbf++l02IL
+         i7bQ==
+X-Gm-Message-State: AOJu0YxJwr1tMYFlIL2Fa1RRPHkWyN+e5HjYrp1ZhWQhjs89afGgs1X3
+	Ty73EtBYCCWlHm0koXhYPuhekaThLZjqYBY6r5AnRCPrfmAiKwL4U/a+9w==
+X-Gm-Gg: ASbGncvknbedO692aeadPD4xQaOwBBozH+OSoTw9Jv5y4xv+3wu6H5rVVZ/ECyj7MTe
+	d05AzG50XTw2c4J7rgG0afr0wKWaD0KB+ZnSoyPevezpsW4nUBZTSflbquE1GaOlS6NzItmVZjK
+	KCzDqQimVIy1kgvuC6cbv822PKnyldCqnJ24Pl+TO8VCkhzLM/pCN9Rwg4bmb9HONKrDYu6y57P
+	hPo6ioqBTKfB6e/5QTHlQkfDA6EJX9e9mZnQwttYFQoGYz9PUw=
+X-Google-Smtp-Source: AGHT+IHNzAwfGsIBY0u4nzr07RBQIyJ+G6mTgMMZ3zyDvfdpk0tZos60zFituAWZ5Ln1jmr/mxeggA==
+X-Received: by 2002:a05:6122:4d0a:b0:50d:4b8d:673c with SMTP id 71dfb90a1353d-51500063519mr7799457e0c.0.1732390699667;
+        Sat, 23 Nov 2024 11:38:19 -0800 (PST)
+Received: from hiagof-nb.. ([146.70.98.177])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-514faf3a95fsm508162e0c.15.2024.11.23.11.38.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 23 Nov 2024 11:38:18 -0800 (PST)
+From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
-Subject: [PATCH] gnutls: Upgrade to 3.8.8
-Date: Sat, 23 Nov 2024 17:43:22 +0000
-Message-Id: <20241123174322.2034861-1-simone.p.weiss@posteo.com>
+Cc: Denys Dmytriyenko <denis@denix.org>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: [PATCH v2 0/3] weston: upgrade and add libdisplay-info recipe
+Date: Sat, 23 Nov 2024 16:35:26 -0300
+Message-Id: <20241123193527.1435268-1-hiagofranco@gmail.com>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 17:43:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207689
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 19:38:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207690
 
-From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+From: Hiago De Franco <hiago.franco@toradex.com>
 
-In 3.8.7 is that the linkage to compression libraries were changed to use=
- a new
-tool called dlwrap, this caused issues during the last upgrade but is res=
-olved
-now with the update to 3.8.8. Remove the workarounds for the update hence=
-.
+This series aims to upgrade weston from version 13.0.3 to 14.0.1.
 
-Changes in 3.8.8 include:
-* libgnutls:
-   * Experimental support for X25519MLKEM768 and SecP256r1MLKEM768
-     key exchange in TLS 1.3
-   * All records included in an OCSP response are now checked in TLS
-   * Handling of malformed compress_certificate extension is now more sta=
-ndard
-     compliant
-* More flexible library linking options for compression libraries, TPM, a=
-nd
-  liboqs support. The configure options, --with-zstd, --with-brotli, --wi=
-th-zlib,
-   --with-tpm2, and --with-liboqs now take 4 states:
-   yes/link/dlopen/no, to specify how the libraries are linked or
-   loaded.
+Since commit a16598b038b2 ("backend-drm: make libdisplay-info
+mandatory") from Weston, libdisplay-info is now a build dependency,
+therefore I am also adding libdisplay-info recipe into this series.
 
-Do not set a specific library linking option but use the default(yes).
+In order to build libdisplay-info, hwdata-native is needed, which today
+is at meta-openembedded layer. Therefore, add this recipe to oe-core
+and we can later remove it from meta-oe.
 
-Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
----
- .../gnutls/gnutls/conditional.patch           | 42 -------------------
- .../{gnutls_3.8.7.1.bb =3D> gnutls_3.8.8.bb}    |  6 +--
- 2 files changed, 1 insertion(+), 47 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/gnutls/conditional.patch
- rename meta/recipes-support/gnutls/{gnutls_3.8.7.1.bb =3D> gnutls_3.8.8.=
-bb} (94%)
+v1:
+  - https://lore.kernel.org/all/20241120203005.1802141-1-hiagofranco@gmail.com/
 
-diff --git a/meta/recipes-support/gnutls/gnutls/conditional.patch b/meta/=
-recipes-support/gnutls/gnutls/conditional.patch
-deleted file mode 100644
-index 2ff532fb53..0000000000
---- a/meta/recipes-support/gnutls/gnutls/conditional.patch
-+++ /dev/null
-@@ -1,42 +0,0 @@
--From 292f96f26d7ce80e4a165c903c4fd569b85c1c1f Mon Sep 17 00:00:00 2001
--From: Daiki Ueno <ueno@gnu.org>
--Date: Fri, 16 Aug 2024 09:42:15 +0900
--Subject: [PATCH] build: fix setting AM_CONDITIONAL for brotli and zstd
--
--As the with_{libbrotli,libzsttd} variables are unset if configured
--with --without-{brotli,zstd}, check the unequality to "no" doesn't
--work; use explicit matching with "yes" instead.
--
--Signed-off-by: Daiki Ueno <ueno@gnu.org>
--
--Upstream-Status: Backport
--Signed-off-by: Ross Burton <ross.burton@arm.com>
-----
-- configure.ac | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/configure.ac b/configure.ac
--index 95ec4c1515..a476176800 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -1158,7 +1158,7 @@ if test x$ac_brotli !=3D xno; then
-- else
--     AC_MSG_RESULT(no)
-- fi
---AM_CONDITIONAL(HAVE_LIBBROTLI, test "$with_libbrotlienc" !=3D "no" && t=
-est "$with_libbrotlidec" !=3D "no")
--+AM_CONDITIONAL(HAVE_LIBBROTLI, test "$with_libbrotlienc" =3D yes && tes=
-t "$with_libbrotlidec" =3D yes)
--=20
-- AS_IF([test "$ac_cv_dlopen_soname_works" =3D yes], [
--     save_CFLAGS=3D$CFLAGS
--@@ -1203,7 +1203,7 @@ if test x$ac_zstd !=3D xno; then
-- else
--     AC_MSG_RESULT(no)
-- fi
---AM_CONDITIONAL(HAVE_LIBZSTD, test "$with_libzstd" !=3D "no")
--+AM_CONDITIONAL(HAVE_LIBZSTD, test "$with_libzstd" =3D yes)
--=20
-- AS_IF([test "$ac_cv_dlopen_soname_works" =3D yes], [
--     save_CFLAGS=3D$CFLAGS
----=20
--GitLab
--
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb b/meta/recipes=
--support/gnutls/gnutls_3.8.8.bb
-similarity index 94%
-rename from meta/recipes-support/gnutls/gnutls_3.8.7.1.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.8.bb
-index b381520e2e..213b9ff803 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.8.bb
-@@ -21,15 +21,11 @@ SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.g=
-etVar('PV').split('.')[1]}"
- SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls=
--${PV}.tar.xz \
-            file://arm_eabi.patch \
-            file://0001-Creating-.hmac-file-should-be-excuted-in-target-e=
-nvi.patch \
--           file://conditional.patch \
-            file://run-ptest \
-            file://Add-ptest-support.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "9ca0ddaccce28a74fa18d738744190afb3b0daebef74e6ad=
-686bf7bef99abd60"
--
--# This is only needed for 3.8.7.1, remove when upgrading to 3.8.8 onward=
-s
--S =3D "${WORKDIR}/gnutls-3.8.7"
-+SRC_URI[sha256sum] =3D "ac4f020e583880b51380ed226e59033244bc536cad2623f2=
-e26f5afa2939d8fb"
-=20
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
-=20
---=20
+v2:
+  - Added hwdata recipe, with DESCRIPTION variable.
+  - DESCRIPTION added to libdisplay-info and SUMMARY fixed.
+
+Hiago De Franco (3):
+  hwdata: add recipe from meta-openembedded
+  libdisplay-info: add recipe
+  weston: upgrade 13.0.3 -> 14.0.1
+
+ meta/conf/distro/include/maintainers.inc      |  2 +
+ ...Include-libgen.h-for-basename-signat.patch | 45 -------------------
+ ...1-vnc-Allow-neatvnc-in-version-0.8.0.patch | 27 -----------
+ .../{weston_13.0.3.bb => weston_14.0.1.bb}    |  8 +---
+ meta/recipes-support/hwdata/hwdata_0.389.bb   | 30 +++++++++++++
+ .../libdisplay-info/libdisplay-info_0.2.0.bb  | 16 +++++++
+ 6 files changed, 50 insertions(+), 78 deletions(-)
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
+ delete mode 100644 meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch
+ rename meta/recipes-graphics/wayland/{weston_13.0.3.bb => weston_14.0.1.bb} (94%)
+ create mode 100644 meta/recipes-support/hwdata/hwdata_0.389.bb
+ create mode 100644 meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
+
+-- 
 2.39.5
 
 
