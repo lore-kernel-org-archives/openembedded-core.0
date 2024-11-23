@@ -2,35 +2,35 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 914C6E6ADF1
-	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 10:48:02 +0000 (UTC)
-Received: from mailout11.t-online.de (mailout11.t-online.de [194.25.134.85])
- by mx.groups.io with SMTP id smtpd.web11.45445.1732358875548787701
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A248BE6ADF1
+	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 10:51:32 +0000 (UTC)
+Received: from mailout09.t-online.de (mailout09.t-online.de [194.25.134.84])
+ by mx.groups.io with SMTP id smtpd.web10.45217.1732359091428358538
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Nov 2024 02:47:56 -0800
+ Sat, 23 Nov 2024 02:51:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.85, mailfrom: f_l_k@t-online.de)
-Received: from fwd86.aul.t-online.de (fwd86.aul.t-online.de [10.223.144.112])
-	by mailout11.t-online.de (Postfix) with SMTP id 039B0731
-	for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 11:47:48 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.163.36.244]) by fwd86.t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.84, mailfrom: f_l_k@t-online.de)
+Received: from fwd88.aul.t-online.de (fwd88.aul.t-online.de [10.223.144.114])
+	by mailout09.t-online.de (Postfix) with SMTP id BFE288F3
+	for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 11:51:28 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.163.36.244]) by fwd88.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tEng3-0kDJc90; Sat, 23 Nov 2024 11:47:47 +0100
+	esmtp id 1tEnjb-18EtXt0; Sat, 23 Nov 2024 11:51:27 +0100
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][Styhead][PATCH] gcc: add a backport patch to fix an issue with tzdata 2024b
-Date: Sat, 23 Nov 2024 11:47:40 +0100
-Message-ID: <20241123104740.2965-1-f_l_k@t-online.de>
+Subject: [oe-core][Kirkstone][PATCH] gcc: add a backport patch to fix an issue with tzdata 2024b
+Date: Sat, 23 Nov 2024 11:51:21 +0100
+Message-ID: <20241123105121.3499-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1732358867-5F7FC459-2FB77C9E/0/0 CLEAN NORMAL
-X-TOI-MSGID: 395ea811-2a43-4147-81d8-abfe2d6772b6
+X-TOI-EXPURGATEID: 150726::1732359087-167F2C42-709EF321/0/0 CLEAN NORMAL
+X-TOI-MSGID: 7e1adc92-4fc9-4444-8838-41b1f277593d
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 10:48:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207675
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 10:51:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207676
 
 There is an issue in the std::chrono::tzdb parser that causes problems
 since the tzdata-2024b release started using %z in the main format.
@@ -41,27 +41,26 @@ which ignores the timezone setting and only shows system time.
 
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
+ meta/recipes-devtools/gcc/gcc-11.5.inc        |   1 +
  ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 549 ++++++++++++++++++
  2 files changed, 550 insertions(+)
  create mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a=
 710bea66ad651720d71c938b8.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-14.2.inc
-index f05484cfc0..9cfb246294 100644
---- a/meta/recipes-devtools/gcc/gcc-14.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
-@@ -68,6 +68,7 @@ SRC_URI =3D "${BASEURI} \
-            file://0023-Fix-install-path-of-linux64.h.patch \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch=
- \
-            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-+           file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch=
- \
+diff --git a/meta/recipes-devtools/gcc/gcc-11.5.inc b/meta/recipes-devtoo=
+ls/gcc/gcc-11.5.inc
+index f17ec9da5c..5ef581c22c 100644
+--- a/meta/recipes-devtools/gcc/gcc-11.5.inc
++++ b/meta/recipes-devtools/gcc/gcc-11.5.inc
+@@ -69,6 +69,7 @@ SRC_URI =3D "\
+ 	   file://0002-aarch64-add-armv9-a-to-march.patch \
+ 	   file://0003-aarch64-Enable-FP16-feature-by-default-for-Armv9.patch \
+ 	   file://0004-arm-add-armv9-a-architecture-to-march.patch \
++	   file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch \
  "
 =20
- S =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
+ SRC_URI[sha256sum] =3D "a6e21868ead545cf87f0c01f84276e4b5281d672098591c1=
+c896241f09363478"
 diff --git a/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea6=
 6ad651720d71c938b8.patch b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fff=
 e3fc82a710bea66ad651720d71c938b8.patch
