@@ -1,98 +1,166 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <simone.p.weiss@posteo.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AF9D6D1BDC2
-	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 14:27:53 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.47910.1732372063373007768
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85369D75E5D
+	for <webhook@archiver.kernel.org>; Sat, 23 Nov 2024 17:43:44 +0000 (UTC)
+Received: from mout01.posteo.de (mout01.posteo.de [185.67.36.65])
+ by mx.groups.io with SMTP id smtpd.web10.51723.1732383819552084975
  for <openembedded-core@lists.openembedded.org>;
- Sat, 23 Nov 2024 06:27:44 -0800
+ Sat, 23 Nov 2024 09:43:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AQqGvEeU;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4314f38d274so36419485e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 06:27:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1732372062; x=1732976862; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0BrpVe4JIA95VkME44qc8pmeEA0C8LIT/sjhrUbAtcg=;
-        b=AQqGvEeUKvPsHeoHoKJMASHlHyQ2QvFiFooLm2mwGDnpQBOjfN4mMkXUHyNYTgUc+M
-         Dy19TNcdUic4n9xesX+J4KiO/EdZatccvJ+JvuKbzYKeHQ2+Up6QlwVniuzsUHucx4EO
-         bVV1vjBcA3cSE45aW2hg9unrg5YB1AYheHv0k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732372062; x=1732976862;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=0BrpVe4JIA95VkME44qc8pmeEA0C8LIT/sjhrUbAtcg=;
-        b=QglPhdWipqiz3THdBfvqN1PmvY23B9MunjdncZxl7QPxgorwge2WnH/S0tnTKKOGpx
-         zKg+ys3/e7FZ0HVOPHHF38RJIhifBEHg+RUG4N/9LQpZXyz+5M7QdHkFT/h0siyzuLAv
-         HDGc7fGav3lWCh1PvfoLXyi3cr0C8OwRbtBcbTSOP13l0a540kv/ukZr+tD9Tjzz00tr
-         o8VSo042vrEiRIIhA83z+6W/TFdOuyt4zW+xjzHSbX3z7Nr6ViLJEaf7+aEKINZPd6TV
-         qLd/7vRxBCmd5ITowe/DVGn/ytU7aywW+6XTF5swIr1bGjPFo2VVQ7e1Fp1VPDFrDb92
-         KV3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVtkjJd5bqXwYbXEycJhPGt1GnwguQzP3PO7/DirxAOibNqFiXxOi0RVUprVmrsQ/XVj/DtrR63le4/DzWwFnD5LQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw8+WIonAw259rQ60uS2trkC6+Lr5SjEPCTS8CRw3/NxDsTjxtQ
-	H/cYdFfWKoD7qt+zoKF4Av3WPNqzvkcxWS620Ap//rvZ+cHSAw3oFge0ia6xkto=
-X-Gm-Gg: ASbGncsMfWCt7m1bm4N8vqhkzp1+vtoWTgGmBm3xGeqSCfzJp7oijBbJZtdmXS40Z9e
-	ZLdMYUE0AGNjzOHxVFYWl+q0EoZ6TkEfuW/Z+IezCRYTdNfYb+4TT6zhI59txqc5la+Kn56C44y
-	+h5v7lzqQ+0rzRK4UUgZKj9stfZTqbdJlYeQrGzZZTk/EWvX/NZgBc2zNiBgPn/XUzM1zMuk8qL
-	EMC0MBoDBOa67wxoNS5uP6zViT0slxLt/mxmFIMIHQLGRBUTq5t4sMek/o9yz75gaL18wI8s4sU
-	uju53jHeBpP6WmV9IV6ArnY+qQYncXv76Bgc
-X-Google-Smtp-Source: AGHT+IHI4becB58YNeimy53zGdohZ3/lHuUU5GTZA/TkREqfL5vOUmt4I7J55aYTbDBsRzgiA3TS1g==
-X-Received: by 2002:a5d:64a9:0:b0:382:4fa4:e544 with SMTP id ffacd0b85a97d-38260b3caf5mr6643680f8f.6.1732372061438;
-        Sat, 23 Nov 2024 06:27:41 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:4aac:8e83:cfd2:609? ([2001:8b0:aba:5f3c:4aac:8e83:cfd2:609])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fafe147sm5341859f8f.30.2024.11.23.06.27.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Nov 2024 06:27:40 -0800 (PST)
-Message-ID: <d870ae24a80c7de6082cc4ff99c080e97cf1aee4.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH] spdx: Add do_deploy_build_sbom_spdx
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: JPEWhacker@gmail.com, openembedded-core@lists.openembedded.org
-Date: Sat, 23 Nov 2024 14:27:39 +0000
-In-Reply-To: <20241122201623.2247149-1-JPEWhacker@gmail.com>
-References: <20241122201623.2247149-1-JPEWhacker@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@posteo.com header.s=2017 header.b=QZ+3vGpb;
+ spf=pass (domain: posteo.com, ip: 185.67.36.65, mailfrom: simone.p.weiss@posteo.com)
+Received: from submission (posteo.de [185.67.36.169]) 
+	by mout01.posteo.de (Postfix) with ESMTPS id 20345240027
+	for <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 18:43:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=posteo.com; s=2017;
+	t=1732383817; bh=FRAFOIcqjZqNeX1jAhQlOZo8y94e4Ikc809Q9hs8ZCY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 Content-Transfer-Encoding:From;
+	b=QZ+3vGpbnC5xY8y/e8RwmINXaN9rtQAeu7kw8SK1+7y43cB/6wPgONDzFxu1NozSC
+	 OYADMiWi5ArjAVOxF4bwtmJIxeC4FgJv/jBylFaryhBU2rGZaZatfjXeq/TZeiLza9
+	 kXjUKx1rap8sqdL2A4sTTpkCeX5Hwxg3XWvMAScAEGQoSy2+ZhnPSPoxYnLFAyLNJ0
+	 aKjNtjBHaWh67sgJdLKiY/PGU1VsgivTzoLmrOZKT08nGWGzlNft1tnwYNO2D60Fuq
+	 QTQADrx/dD6tfO4ubnjibM/s6USzAk7xxvBxeHZHx9zoPqYgYWNYTDWiFi5lZG7W6e
+	 SACJuargGfGoQ==
+Received: from customer (localhost [127.0.0.1])
+	by submission (posteo.de) with ESMTPSA id 4XwfTN1cr3z6tw2;
+	Sat, 23 Nov 2024 18:43:35 +0100 (CET)
+From: simone.p.weiss@posteo.com
+To: openembedded-core@lists.openembedded.org
+Cc: =?UTF-8?q?Simone=20Wei=C3=9F?= <simone.p.weiss@posteo.com>
+Subject: [PATCH] gnutls: Upgrade to 3.8.8
+Date: Sat, 23 Nov 2024 17:43:22 +0000
+Message-Id: <20241123174322.2034861-1-simone.p.weiss@posteo.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 14:27:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207687
+ <openembedded-core@lists.openembedded.org>; Sat, 23 Nov 2024 17:43:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207689
 
-On Fri, 2024-11-22 at 13:16 -0700, Joshua Watt via lists.openembedded.org w=
-rote:
-> Adds a task that can be used to generate a stand alone SBoM for a given
-> build of a recipe. This SBoM includes the inputs and output for the
-> build, as well as the build and runtime dependencies. The dependencies
-> however will be added as unresolved imports to the OE SPDX alias, so as
-> to avoid pulling in the entire dependency tree (that is, the generated
-> SBoM is focused on just the specific recipe, not the entire build
-> dependency tree).
->=20
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
-> =C2=A0meta/classes/create-spdx-3.0.bbclass | 25 ++++++++++++
-> =C2=A0meta/lib/oe/sbom30.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 55 ++++++++++++++++--------=
---
-> =C2=A0meta/lib/oe/spdx30_tasks.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 59 ++++++++++++++++++++++++++--
-> =C2=A0meta/lib/oeqa/selftest/cases/spdx.py | 20 +++++++++-
-> =C2=A04 files changed, 133 insertions(+), 26 deletions(-)
+From: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
 
-One of the other selftests may need a tweak after this:
+In 3.8.7 is that the linkage to compression libraries were changed to use=
+ a new
+tool called dlwrap, this caused issues during the last upgrade but is res=
+olved
+now with the update to 3.8.8. Remove the workarounds for the update hence=
+.
 
-https://valkyrie.yoctoproject.org/#/builders/76/builds/477/steps/14/logs/st=
-dio
+Changes in 3.8.8 include:
+* libgnutls:
+   * Experimental support for X25519MLKEM768 and SecP256r1MLKEM768
+     key exchange in TLS 1.3
+   * All records included in an OCSP response are now checked in TLS
+   * Handling of malformed compress_certificate extension is now more sta=
+ndard
+     compliant
+* More flexible library linking options for compression libraries, TPM, a=
+nd
+  liboqs support. The configure options, --with-zstd, --with-brotli, --wi=
+th-zlib,
+   --with-tpm2, and --with-liboqs now take 4 states:
+   yes/link/dlopen/no, to specify how the libraries are linked or
+   loaded.
 
-Cheers,
+Do not set a specific library linking option but use the default(yes).
 
-Richard
+Signed-off-by: Simone Wei=C3=9F <simone.p.weiss@posteo.com>
+---
+ .../gnutls/gnutls/conditional.patch           | 42 -------------------
+ .../{gnutls_3.8.7.1.bb =3D> gnutls_3.8.8.bb}    |  6 +--
+ 2 files changed, 1 insertion(+), 47 deletions(-)
+ delete mode 100644 meta/recipes-support/gnutls/gnutls/conditional.patch
+ rename meta/recipes-support/gnutls/{gnutls_3.8.7.1.bb =3D> gnutls_3.8.8.=
+bb} (94%)
+
+diff --git a/meta/recipes-support/gnutls/gnutls/conditional.patch b/meta/=
+recipes-support/gnutls/gnutls/conditional.patch
+deleted file mode 100644
+index 2ff532fb53..0000000000
+--- a/meta/recipes-support/gnutls/gnutls/conditional.patch
++++ /dev/null
+@@ -1,42 +0,0 @@
+-From 292f96f26d7ce80e4a165c903c4fd569b85c1c1f Mon Sep 17 00:00:00 2001
+-From: Daiki Ueno <ueno@gnu.org>
+-Date: Fri, 16 Aug 2024 09:42:15 +0900
+-Subject: [PATCH] build: fix setting AM_CONDITIONAL for brotli and zstd
+-
+-As the with_{libbrotli,libzsttd} variables are unset if configured
+-with --without-{brotli,zstd}, check the unequality to "no" doesn't
+-work; use explicit matching with "yes" instead.
+-
+-Signed-off-by: Daiki Ueno <ueno@gnu.org>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- configure.ac | 4 ++--
+- 1 file changed, 2 insertions(+), 2 deletions(-)
+-
+-diff --git a/configure.ac b/configure.ac
+-index 95ec4c1515..a476176800 100644
+---- a/configure.ac
+-+++ b/configure.ac
+-@@ -1158,7 +1158,7 @@ if test x$ac_brotli !=3D xno; then
+- else
+-     AC_MSG_RESULT(no)
+- fi
+--AM_CONDITIONAL(HAVE_LIBBROTLI, test "$with_libbrotlienc" !=3D "no" && t=
+est "$with_libbrotlidec" !=3D "no")
+-+AM_CONDITIONAL(HAVE_LIBBROTLI, test "$with_libbrotlienc" =3D yes && tes=
+t "$with_libbrotlidec" =3D yes)
+-=20
+- AS_IF([test "$ac_cv_dlopen_soname_works" =3D yes], [
+-     save_CFLAGS=3D$CFLAGS
+-@@ -1203,7 +1203,7 @@ if test x$ac_zstd !=3D xno; then
+- else
+-     AC_MSG_RESULT(no)
+- fi
+--AM_CONDITIONAL(HAVE_LIBZSTD, test "$with_libzstd" !=3D "no")
+-+AM_CONDITIONAL(HAVE_LIBZSTD, test "$with_libzstd" =3D yes)
+-=20
+- AS_IF([test "$ac_cv_dlopen_soname_works" =3D yes], [
+-     save_CFLAGS=3D$CFLAGS
+---=20
+-GitLab
+-
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb b/meta/recipes=
+-support/gnutls/gnutls_3.8.8.bb
+similarity index 94%
+rename from meta/recipes-support/gnutls/gnutls_3.8.7.1.bb
+rename to meta/recipes-support/gnutls/gnutls_3.8.8.bb
+index b381520e2e..213b9ff803 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.7.1.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.8.bb
+@@ -21,15 +21,11 @@ SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.g=
+etVar('PV').split('.')[1]}"
+ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls=
+-${PV}.tar.xz \
+            file://arm_eabi.patch \
+            file://0001-Creating-.hmac-file-should-be-excuted-in-target-e=
+nvi.patch \
+-           file://conditional.patch \
+            file://run-ptest \
+            file://Add-ptest-support.patch \
+            "
+=20
+-SRC_URI[sha256sum] =3D "9ca0ddaccce28a74fa18d738744190afb3b0daebef74e6ad=
+686bf7bef99abd60"
+-
+-# This is only needed for 3.8.7.1, remove when upgrading to 3.8.8 onward=
+s
+-S =3D "${WORKDIR}/gnutls-3.8.7"
++SRC_URI[sha256sum] =3D "ac4f020e583880b51380ed226e59033244bc536cad2623f2=
+e26f5afa2939d8fb"
+=20
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
+=20
+--=20
+2.39.5
+
 
