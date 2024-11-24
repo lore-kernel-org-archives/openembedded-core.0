@@ -1,134 +1,100 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 257DED68BFE
-	for <webhook@archiver.kernel.org>; Sun, 24 Nov 2024 17:59:48 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web11.1641.1732471180182107410
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0A2D68BFF
+	for <webhook@archiver.kernel.org>; Sun, 24 Nov 2024 18:16:28 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.web11.1920.1732472181906952413
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Nov 2024 09:59:40 -0800
+ Sun, 24 Nov 2024 10:16:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=AIMLVsbO;
- spf=pass (domain: gmail.com, ip: 209.85.214.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2124ccf03edso34972885ad.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 09:59:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732471179; x=1733075979; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=5blW304xlVY693k0AH/E3LdJOEfo5MT9DOSstiyWDk0=;
-        b=AIMLVsbORku/6/eKH+5lAg2FQF1qxJNIwRAuo18wQen0wYDkOedIXByGOuNCcYdJym
-         kSMQ0z+eWDnz9z5vxSw4UNUjC7gwIBXvB2QFB2muME1M7V+LLGx92n33zTGOUj2sj2Ib
-         TBNS5PxDmh0sjl+arSs6kIwX/NNiCx6clT9LRtD4le7E4h0vz6Nx+6euv3tZih5hnYIo
-         QcI3+qJ2U+W6NZV7MUCt+nxXgHTBxOUBjW3lm2AkdM+F0Yd4OKW6hsS/1fO/51bvN/Yf
-         /I0Cp1i3XcqGKtlmr8TqoYRoR8lK8DAL8gfEmks6Ruvlz2SpqXLLEDVXOW0hPGmMTGmw
-         6qxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732471179; x=1733075979;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5blW304xlVY693k0AH/E3LdJOEfo5MT9DOSstiyWDk0=;
-        b=oNEaleOV3fIWFPuy0Afjs0KqXAvK8XrqNNRexuHffSv6DP9Laxk9IOfwQdtt6Onk7f
-         HrvpDSEbYoT3oK4vXVbWAbEjcjmkM+02wSJC2Np4kdPfAgPwKM2lHaYw5Xge0MZyR3kK
-         E5Ai66fO0MQVtRlFdSu0s+ihikG+E8uCvQ0xBl6bYhJFpBtPDGcYRLpSbfOkHWA0ePhv
-         oZwHkBWUXaEznLZzgytW32do2N1K1YrztS2JyxNDt8ilnvl9oK8k6AuejF1d1QBVJ7nW
-         LPA6FtZDCFAVF4NQ7s4o+mjcwLHFdyvRPSyKE/2CdnoP7QbwGxREXeq7QhYLJm72u1+k
-         B7WQ==
-X-Gm-Message-State: AOJu0Yx/oEH2EGW/PV9lfMvZIxsL9K9EQDGSnQKChFilCPcdOd3rVUA2
-	52E94mxKSb0tycSgIoYTPyfXeWqsvmj71BxXc19jiTG5UmG6CtSRp3L3sQ==
-X-Gm-Gg: ASbGncvWIyeDMbq63baR0ZNuPB45q/gtQlYHJh+4hUnQSL+etRoC6skHtKCgSH5ostr
-	f1moTUj4VQaXhY4+UxAbZC/P2/bSaL/Oqfmtu/uJ0h8Tdq5l1VEpavemSaRc0XmsJfatBp0mY00
-	kUzs+kGj8nWab5F7X0WbJ2+7H1xkPm5v2fDdImv/BPpWyHP7Hsx9K8ey4v1RG/hThGrv2YZxIpN
-	j0ssf6pYNYNSlIN5PbL82ASUdtHneYcoxrFVvfsLUnGfYF4brQV
-X-Google-Smtp-Source: AGHT+IFjMWY02vvqBG0UTv3EW3QFnZyoVyjYIJdDpsy5ofRGsfVLGfUUVty4chQ9k2mOaA4aJADtFw==
-X-Received: by 2002:a17:902:ecc5:b0:20c:c704:629e with SMTP id d9443c01a7336-2129f838c2emr138912445ad.56.1732471179291;
-        Sun, 24 Nov 2024 09:59:39 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::4338])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724ea6a23a4sm4035357b3a.60.2024.11.24.09.59.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Nov 2024 09:59:38 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH] qemu: Fix build on riscv64
-Date: Sun, 24 Nov 2024 09:59:35 -0800
-Message-ID: <20241124175936.3682310-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.47.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DDVUMelc;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=X08qDEhI;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101935f6390d2-4f9585a6-5bda-4bcc-8fc0-143bbeb7c698-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1732472181; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=L6gdVmB0JZKhGHKC/RC4xZqWKnZ3Ahy/bXxIHbuF+BA=;
+	b=DDVUMelc5CEcXwOLDfdVm1L2TACdb9q2W+MmpKoxEPwtumyAPZ/r9VvSqkhX2pjs
+	ED5/z7ZsSvpejgOJGwd+5kYZ/eV18KIN8cPgunji321CaH8CzqrZu3J2xCaqljO66J8
+	1/cBTmXGgxBIKUB6MXBOnuXpeUHwmGJRCscT9AZQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732472181;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=L6gdVmB0JZKhGHKC/RC4xZqWKnZ3Ahy/bXxIHbuF+BA=;
+	b=X08qDEhIBm1gDj0dh5LLWWlf+0HW6iWXeNsPQ4anhP7JlpyrvcYMKLL48lUWawrP
+	Y3CCSdUGwXTnxg72JD2L0grNWkMU3APi1w6FDBagijeDh+wz4Kvf/LuHi7HBEhS8VOA
+	L8Fwduj7H2rjh6uq5L0nOIRwPJsL3p0U17csdoyI=
+From: patchtest@automation.yoctoproject.org
+To: Khem Raj <raj.khem@gmail.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] qemu: Fix build on riscv64
+In-Reply-To: <20241124175936.3682310-1-raj.khem@gmail.com>
+References: <20241124175936.3682310-1-raj.khem@gmail.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101935f6390d2-4f9585a6-5bda-4bcc-8fc0-143bbeb7c698-000000@us-west-2.amazonses.com>
+Date: Sun, 24 Nov 2024 18:16:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.11.24-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 17:59:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207712
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 18:16:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207713
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- ...o-riscv.c-fix-riscv64-build-on-musl-.patch | 41 +++++++++++++++++++
- 2 files changed, 42 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/0001-util-util-cpuinfo-riscv.c-fix-riscv64-build-on-musl-.patch
+Testing patch /home/patchtest/share/mboxes/qemu-Fix-build-on-riscv64.patch
 
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 02cd7c8dc8f..041a24e711c 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -33,6 +33,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
-            file://0010-configure-lookup-meson-exutable-from-PATH.patch \
-            file://0011-qemu-Ensure-pip-and-the-python-venv-aren-t-used-for-.patch \
-            file://0001-sched_attr-Do-not-define-for-glibc-2.41.patch \
-+           file://0001-util-util-cpuinfo-riscv.c-fix-riscv64-build-on-musl-.patch \
-            file://qemu-guest-agent.init \
-            file://qemu-guest-agent.udev \
-            "
-diff --git a/meta/recipes-devtools/qemu/qemu/0001-util-util-cpuinfo-riscv.c-fix-riscv64-build-on-musl-.patch b/meta/recipes-devtools/qemu/qemu/0001-util-util-cpuinfo-riscv.c-fix-riscv64-build-on-musl-.patch
-new file mode 100644
-index 00000000000..16762e033eb
---- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/0001-util-util-cpuinfo-riscv.c-fix-riscv64-build-on-musl-.patch
-@@ -0,0 +1,41 @@
-+From f60ea4ae2298f0f077a97648c138283357337370 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Milan=20P=2E=20Stani=C4=87?= <mps@arvanta.net>
-+Date: Thu, 5 Sep 2024 16:17:50 +0200
-+Subject: [PATCH] util/util/cpuinfo-riscv.c: fix riscv64 build on musl libc
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+build fails on musl libc (alpine linux) with this error:
-+
-+../util/cpuinfo-riscv.c: In function 'cpuinfo_init':
-+../util/cpuinfo-riscv.c:63:21: error: '__NR_riscv_hwprobe' undeclared (first use in this function); did you mean 'riscv_hwprobe'?
-+   63 |         if (syscall(__NR_riscv_hwprobe, &pair, 1, 0, NULL, 0) == 0
-+      |                     ^~~~~~~~~~~~~~~~~~
-+      |                     riscv_hwprobe
-+../util/cpuinfo-riscv.c:63:21: note: each undeclared identifier is reported only once for each function it appears in
-+ninja: subcommand failed
-+
-+add '#include "asm/unistd.h"' to util/cpuinfo-riscv.c fixes build
-+
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/c5757f808bd74db7ef1a90ee28334f3b5afb8179]
-+Signed-off-by: Milan P. Stanić <mps@arvanta.net>
-+---
-+ util/cpuinfo-riscv.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/util/cpuinfo-riscv.c b/util/cpuinfo-riscv.c
-+index 497ce12680..8cacc67645 100644
-+--- a/util/cpuinfo-riscv.c
-++++ b/util/cpuinfo-riscv.c
-+@@ -9,6 +9,7 @@
-+ #ifdef CONFIG_ASM_HWPROBE_H
-+ #include <asm/hwprobe.h>
-+ #include <sys/syscall.h>
-++#include <asm/unistd.h>
-+ #endif
-+ 
-+ unsigned cpuinfo;
-+-- 
-+2.46.0
-+
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
