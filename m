@@ -1,100 +1,69 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B0A2D68BFF
-	for <webhook@archiver.kernel.org>; Sun, 24 Nov 2024 18:16:28 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.1920.1732472181906952413
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 792FCD75E34
+	for <webhook@archiver.kernel.org>; Sun, 24 Nov 2024 19:12:28 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.web11.2812.1732475540017142430
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Nov 2024 10:16:22 -0800
+ Sun, 24 Nov 2024 11:12:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DDVUMelc;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=X08qDEhI;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101935f6390d2-4f9585a6-5bda-4bcc-8fc0-143bbeb7c698-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1732472181; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=L6gdVmB0JZKhGHKC/RC4xZqWKnZ3Ahy/bXxIHbuF+BA=;
-	b=DDVUMelc5CEcXwOLDfdVm1L2TACdb9q2W+MmpKoxEPwtumyAPZ/r9VvSqkhX2pjs
-	ED5/z7ZsSvpejgOJGwd+5kYZ/eV18KIN8cPgunji321CaH8CzqrZu3J2xCaqljO66J8
-	1/cBTmXGgxBIKUB6MXBOnuXpeUHwmGJRCscT9AZQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732472181;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=L6gdVmB0JZKhGHKC/RC4xZqWKnZ3Ahy/bXxIHbuF+BA=;
-	b=X08qDEhIBm1gDj0dh5LLWWlf+0HW6iWXeNsPQ4anhP7JlpyrvcYMKLL48lUWawrP
-	Y3CCSdUGwXTnxg72JD2L0grNWkMU3APi1w6FDBagijeDh+wz4Kvf/LuHi7HBEhS8VOA
-	L8Fwduj7H2rjh6uq5L0nOIRwPJsL3p0U17csdoyI=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] qemu: Fix build on riscv64
-In-Reply-To: <20241124175936.3682310-1-raj.khem@gmail.com>
-References: <20241124175936.3682310-1-raj.khem@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101935f6390d2-4f9585a6-5bda-4bcc-8fc0-143bbeb7c698-000000@us-west-2.amazonses.com>
-Date: Sun, 24 Nov 2024 18:16:20 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.24-54.240.27.193
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=UWH26e5G;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20241124191216e27fea516aeff0d861-kta4ni@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20241124191216e27fea516aeff0d861
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 24 Nov 2024 20:12:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=+ca1VIPi9Atje0VUylquM4F7Tu4wDdFZ9g7/yKRLdNU=;
+ b=UWH26e5GYz+LI4AA7qvOxbkUA1zs1VVVVuzJfQiujLx08IfPsZ+vOUq6lvQvK0M1mWY0aT
+ h9P1I17/8lqXF1kmdMoJLC316An3UUUhRc2CaEyRprViC6ICPMPILS2ftWRTeC/ayv9F0tVk
+ KRF2zRksUMmbCX7j+zOI6w5a3QWoaiRSG7PSQhe+9RymChtjfCCjztUqw89e/kBGvJssR/K5
+ Yebz4SwwGCkKaF6kDc53vV3wc/vLx8Lezoor0xlBk8oD1d9XyV08wBYuAe/p9dOwiXYxcMom
+ gFB0BzttKDvpQWviqEiURvlGBadzGRgobpc6EfopLxRUU9kcSnD2F7Kg==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH] libssh2: mark CVE-2023-48795 as fixed
+Date: Sun, 24 Nov 2024 20:11:26 +0100
+Message-Id: <20241124191126.24876-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 18:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207713
+ <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 19:12:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207714
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+NVD DB has typo in version (1.11.10 instead of 1.11.1)
+Version 1.11.1 is the currently the latest one, there is no .10
 
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/qemu-Fix-build-on-riscv64.patch
+If someone wants, correction can be requested from NVD instead of this patch.
+But in current NVD CVE enrichment situation that may be problematic.
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+ meta/recipes-support/libssh2/libssh2_1.11.1.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 6d2580072b..c7013142c0 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -50,3 +50,6 @@ do_install_ptest() {
+ 	mkdir -p ${D}${PTEST_PATH}/docs
+ 	cp -r ${S}/docs/* ${D}${PTEST_PATH}/docs/
+ }
++
++# should be removed when upgrading to 1.11.10 or higher
++CVE_STATUS[CVE-2023-48795] = "fixed-version: fixed since version 1.11.1"
+-- 
+2.30.2
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
