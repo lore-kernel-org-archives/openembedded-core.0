@@ -2,127 +2,135 @@ Return-Path: <denis.osterland@diehl.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 463F2D5806C
-	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 11:56:43 +0000 (UTC)
-Received: from enterprise01.smtp.diehl.com (enterprise01.smtp.diehl.com [193.201.238.219])
- by mx.groups.io with SMTP id smtpd.web11.17119.1732535801933737590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 477B5D5806C
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 11:58:13 +0000 (UTC)
+Received: from enterprise02.smtp.diehl.com (enterprise02.smtp.diehl.com [193.201.238.220])
+ by mx.groups.io with SMTP id smtpd.web10.17015.1732535879918154693
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 03:56:42 -0800
+ Mon, 25 Nov 2024 03:58:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@diehl.com header.s=default header.b=LkyqVzww;
- spf=pass (domain: diehl.com, ip: 193.201.238.219, mailfrom: prvs=052d57505=denis.osterland@diehl.com)
+ dkim=pass header.i=@diehl.com header.s=default header.b=dbYrsWjq;
+ spf=pass (domain: diehl.com, ip: 193.201.238.220, mailfrom: prvs=052d57505=denis.osterland@diehl.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1732535802; x=1764071802;
+  t=1732535880; x=1764071880;
   h=from:to:subject:date:message-id:mime-version;
-  bh=qBJReiSGRXKFlfVwO88k5ZaULGiVDywTbZ9GWrXyNAk=;
-  b=LkyqVzwwGE33oVLxa10xiRa+egK7mbOcZkqkzZ4H8kGvrWoyxGI8mVm+
-   gg4dzIRqEKZsRgL2Z+lOTc10kXqpTVMc311wh2Z9khMOzNUlkis8z9T4I
-   upBMm0WrPJIDOVn3iNHGfFsI6yYZJP3DJ4kJHhXiFghudz7tK3EV/3qF8
-   fGO7KsJMmjtY2YsqpFZyEtGFTIG3J9u72RPB/xAO3GbIl+IxUm4Bzw9ia
-   WG17OXV/Wf5V/VQetR5Pq0SQC85cX6tBvezafE456YuHMxqQfaotXdeZx
-   XrcH3G+eWaigcauOtYctdBWlGTcIn9bRLYtuh56+5Cd6C7td+wgH2xEio
+  bh=XxgQMwAROYyJhNg9gsKzHNzUL3MmpgykcJ6GcYop5Bc=;
+  b=dbYrsWjqDAUpJkCqLJY++RMtEtBulkP6x3rljpN/Yj8WTj3yYWszrVqo
+   VVl7mfwflriK5a28ADUhT1Go1ZvD+dzrgFEd6UoOG9l8ybwPPCD/GJdIf
+   VLtBd0yz2SkZQVfVoMW7B4i2b52JyoYuFp5whv4gi/FtdQc0ZL5MfPk7e
+   4dQTvE2mYj8s/feXhy5ccrPEVPNSJqEYUIyzMGdtIqFfpCZChLRpBn5NO
+   Fs0r3Yndxye8bYmonz+HcQPAWr1KV3MONo/VxXfwZ6Mynb+wOef5E5YkS
+   GTT6HmdXKpky907r4tK+BuZgJpAnSu3omSVNQ+O/Ij2BsrnIODZIl/prf
    g==;
-X-CSE-ConnectionGUID: S1tfQiCGT9OtlVeWDDeJUA==
-X-CSE-MsgGUID: 88QnoyhGQ7OQGwnTpKIyiw==
+X-CSE-ConnectionGUID: 6V1d/BLKTJ2g2HU/zxvVkQ==
+X-CSE-MsgGUID: M9xF+SLhSGmUO47COuBWgw==
 X-ThreatScanner-Verdict: Negative
-IronPort-Data: A9a23:X/51I6pPFSJ447/gWxkuH73malheBmICZRIvgKrLsJaIsI4StFGz/
- xJOGSnaY6zbJjuqJcY+dc3tpgkBpNWMmYgyDEcu+BmBJVpRrMvACJKBcVyY00i6I8aSEE49t
- 5QVOtOdcJpuEi6C/Eugb7Pt8SFwjvvSH+GkBOPJait8GAQ1Qnlwhxg/kbAziINj0Ie3CVLR5
- o34+KUzVHeswyZwM2kd96OErlR3v//p53YDv1M4bOxWplK2e1w9VfrzconqfiOoKmUtIsa6W
- /rbnvb+/W7I5FEhC96llvDwdUhNSaTWehSNz3phXe6pmBwazhDeqZ3XR8fwE28PzW3hovhx1
- MlV59v3Sgo4JevAmekdV19TFCQ5NrdCv6PEZHiIt4qY1UmeLjitm51S4DoN0f4lFpxfWScWn
- cEwKCwRdkLEwP2p3/S3S+RsgoIoK8ysJIAe/SkI8d2iNhpVfHy5a/2Mvbdl4QoNauBy8df2N
- sBBNmQ+NE2aMxYRYFoZV8k3zLeljSLxKWRT+APErvVrujiCxwFPi7W8a9C9lv5m5yl2thvC+
- jiWrzyR7jUyboH3Je+tqyr07gP3tXqlHtpUTPvgq6YCbGS7ngQ7EAcRWUawvc63g0u/X8M3A
- 0EP80LCl4BrnKCQZoe7BkfQTEKs5EZGB4MJSbFismlh94KPi+qnLjldJtJ+QIx+3CMGbWRC/
- kOEmdrvGQtuvNW9IVqB9q2ZpC+FIiMcK2kPf0csFWPpNPG6/enfJjqWJjpSOPbdYu/dQFkc8
- BjTxMQKvIj/uOZQv0mNEfIrtBr3znTBZlZdCgw6xQtJ5CshDGKuT9TABVQ2cZ+shWtWJ7WMl
- CFspiSQ0AwBJarUiCK0Qc4iIOCO+/K7PQLwrVNNIrB0olxB+1b7FWxRyD17NkxmLZ5ePzTue
- leVtQJc5JsVN3yvBUN1S9vpTZRwi/GwU42+DJg4bfIXCnR1XAOK+iB1I0mLw233lEEqnYkzO
- JqbdYCnCnNy5aFPlWLrGLtCgeN0rsw47TODfJb83hSI6OW5XVGKT4sdE3qfb/9suctopy2Qq
- b6zLfCizA1SVuD7aCTb/YMfaFsNN3UTAZHtt9cRcfaOJAdjEmwtB/Ldh7Q7dORYc799z7+Or
- iv7Ax8ekQGl7ZHaFTi3hrlYQOuHdf5CQbgTZ0TA4X7AN6AfXLuS
-IronPort-HdrOrdr: A9a23:z6P2xaNFD1kz28BcTq6jsMiBIKoaSvp037BL7SBMoHNuGPBw+/
- rCoB15737JYVQqN03I8OroUMK9qBjnm6Kdj7N8AYuf
-X-Talos-CUID: 9a23:SVBNY20ieLZvX8f1+Z5RTLxfIZk5fETc51jscmikDVhkd5G5RH2t0fYx
-X-Talos-MUID: =?us-ascii?q?9a23=3APleFHg6li7mBvvgZVy2jM1Scxow4s52oD1ENvqx?=
- =?us-ascii?q?ZnPCrKipMIxS8nTWoF9o=3D?=
+IronPort-Data: A9a23:OYp3Pa9FIdlcow/Bae6SDrUDm36TJUtcMsCJ2f8bNWPdYAtShnVHk
+ jtMCC3fZaGVKn+1IIo1b5D1rB1Y6NKQjINT/DAc7nRsSn8MsZXebTjyBkuvYinCdMaSEEls4
+ c5CMIidfM06Qy7Q/R3xPuPt9yUi2frWGrehU7fKNn54GF45Fit41Rg5wb9i2dY13NHpCQjlV
+ b/aqtXHPF6u0iJ1NWRT86GIs0wqp/X9vjoEo0YzDRxulAa2ey49V8NHdcldVkfQQpVIBrz9A
+ OXO3ar/8mLU/xNrAdSg1b3hdgoWQfvSCg7IgWBSA8CebmN5Sl8PPtwTbLxEAXp/iymVh4I2j
+ 9ZApIf2RQYkPqmKk+MYFBJCF2ZiPuhGz7mBKmK76ZHQjhWuT5eX+BkdMa1MFdVeoo5KKWFS6
+ eRKb3cScQ/Fi+O7wLb9Qe5pwdwgLY6zVL/zwUqMvgw1d95+B8irfpj32DN44NsRrskSF6eFb
+ ZYXMzMxNEzNaUITMFtHV5k0kOz22CKhf21S9AvF9KE63TPenVd7uFTP3Hg5WfTXH5kPzhbAz
+ o7i1z6kav3PHIXHkVJpylr12KmX23u9AN9KfFGB3qYCqEWJwWAOAwEhW1K+oP2o4mazQNs3x
+ 3Y8o0LCloBsshXxJjXBd0fg+iLd50RAA4A4/9ASs2lh9IKFum51OUBUFlatWPR+3OcqSDoj0
+ EO+nt+BLVRHrL2PRHuBwayfpDW0NDJ9BTdqifgsFFZtD3HL+enfvzqXJjpROPfdYu7dQFkc9
+ wu3QB0W3N3/uyKpO5KTpjgrixr0znTAo5VcCg//BgpJ5SshDGKpihDBBfE2Ip+sIa7AJmRts
+ kTolODA0rkCSruptxCvGupXPIzu9eabDj7l1AsH85kJr1xB+laveJJb7y4mfgFiNdwcPzPob
+ U/X/whW4fe/PlPzNeknOcToW4JzlvKI+dfND5g4avJCb55wb0mA5z1jf0qZ2WzFnEkhkaV5M
+ pCeGSqpJSdLV/Q9nWfnLwsb+Zp61g59/kfTfr/+8jP7jpG5eVSqRqhQZTNiach8tstouj799
+ M5SMcaPwRhTXODyJyLQ64M7KVERMWN9Aoj7rcFSfOOPLgdqXmY7BJfsLagJItQjz/4Tz7eOp
+ yrnMqNF9GfCabT8AV3iQhhehHnHBP6TcVpT0fQQAGuV
+IronPort-HdrOrdr: A9a23:IFhboKDpIUxuVp3lHemV55DYdb4zR+YMi2TDsHoBLiC9E/bo8/
+ xG+c5xvyMc5wxhPU3I5urwXpVoLUmwyXcN2+cs1O6ZPTUO21HYTr2Kj7GSoAEIQBefygc178
+ 4JT0EUMrLN5DZB4foS6TPIauod/A==
+X-Talos-CUID: =?us-ascii?q?9a23=3AlKRFGmlhlwDnm6lkzNgmc+/hBvbXOSPjlXuXCWu?=
+ =?us-ascii?q?bNUQzR+e1dBiC6L1akPM7zg=3D=3D?=
+X-Talos-MUID: 9a23:I+dAsgYmmHc9JeBTkm78qnJZEMdTzKGTLxxSurIbkfaLKnkl
 X-IronPort-AV: E=Sophos;i="6.12,182,1728943200"; 
-   d="p7s'346?scan'346,208,346";a="105747847"
+   d="p7s'346?scan'346,208,346";a="99682959"
 From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
 To: "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 2/3] spdx: add support for WITH operator
-Date: Mon, 25 Nov 2024 12:56:40 +0100 (CET)
-Message-ID: <b4f524ba554e48738c2307d44b8304ae@diehl.com>
+Subject: [PATCH 3/3] linux-yocto: add WITH Linux-syscall-note to LICENSE
+Date: Mon, 25 Nov 2024 12:57:58 +0100 (CET)
+Message-ID: <2719f782df504dd4bfd191575ee52d01@diehl.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----406447E7A0F2AE2519306665374AC305"
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----E4528EBBD940E981574FA1EE488EDA83"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 11:56:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207745
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 11:58:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207746
 
 This is an S/MIME signed message
 
-------406447E7A0F2AE2519306665374AC305
+------E4528EBBD940E981574FA1EE488EDA83
 Content-Type: text/plain;
 	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Adds the + operator for use in LICENSE field.
-It is replaced by SPDX WITH operator.
+According to Linux COPYING file this exception is made to GPL v2.
 
 Signed-off-by: Denis Osterland-Heim <denis.osterland@diehl.com>
 ---
- meta/lib/oe/license.py      | 4 ++--
- meta/lib/oe/spdx30_tasks.py | 4 ++++
- 2 files changed, 6 insertions(+), 2 deletions(-)
+ meta/files/common-licenses/Linux-syscall-note | 25 +++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc     |  2 +-
+ 2 files changed, 26 insertions(+), 1 deletion(-)
+ create mode 100644 meta/files/common-licenses/Linux-syscall-note
 
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 3c15db782f..223f98acd5 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -47,9 +47,9 @@ class InvalidLicense(LicenseError):
-     def __str__(self):
-         return "invalid characters in license '%s'" % self.license
-
--license_operator_chars = '&|() '
-+license_operator_chars = '&|()+ '
- license_operator = re.compile(r'([' + license_operator_chars + '])')
--license_pattern = re.compile(r'[a-zA-Z0-9.+_\-]+$')
-+license_pattern = re.compile(r'[a-zA-Z0-9._\-]+$')
-
- class LicenseVisitor(ast.NodeVisitor):
-     """Get elements based on OpenEmbedded license strings"""
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 5aeed5cd6f..17a1ce44e7 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -97,6 +97,9 @@ def add_license_expression(d, objset, license_expression,
-license_data):
-         if l == "|":
-             return "OR"
-
-+        if l == "+":
-+            return "WITH"
+diff --git a/meta/files/common-licenses/Linux-syscall-note
+b/meta/files/common-licenses/Linux-syscall-note
+new file mode 100644
+index 0000000000..9abdad71fa
+--- /dev/null
++++ b/meta/files/common-licenses/Linux-syscall-note
+@@ -0,0 +1,25 @@
++SPDX-Exception-Identifier: Linux-syscall-note
++SPDX-URL: https://spdx.org/licenses/Linux-syscall-note.html
++SPDX-Licenses: GPL-2.0, GPL-2.0+, GPL-1.0+, LGPL-2.0, LGPL-2.0+, LGPL-2.1,
+LGPL-2.1+, GPL-2.0-only, GPL-2.0-or-later
++Usage-Guide:
++  This exception is used together with one of the above SPDX-Licenses
++  to mark user space API (uapi) header files so they can be included
++  into non GPL compliant user space application code.
++  To use this exception add it with the keyword WITH to one of the
++  identifiers in the SPDX-Licenses tag:
++    SPDX-License-Identifier: <SPDX-License> WITH Linux-syscall-note
++License-Text:
 +
-         if l == "CLOSED":
-             return "NONE"
-@@ -115,6 +118,7 @@ def add_license_expression(d, objset,
-license_expression, license_data):
-         .replace(")", " ) ")
-         .replace("|", " | ")
-         .replace("&", " & ")
-+        .replace("+", " + ")
-         .split()
-     )
-     spdx_license_expression = " ".join(convert(l) for l in lic_split)
++   NOTE! This copyright does *not* cover user programs that use kernel
++ services by normal system calls - this is merely considered normal use
++ of the kernel, and does *not* fall under the heading of "derived work".
++ Also note that the GPL below is copyrighted by the Free Software
++ Foundation, but the instance of code that it refers to (the Linux
++ kernel) is copyrighted by me and others who actually wrote it.
++
++ Also note that the only valid version of the GPL as far as the kernel
++ is concerned is _this_ particular version of the license (ie v2, not
++ v2.2 or v3.x or whatever), unless explicitly otherwise stated.
++
++                       Linus Torvalds
++
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc
+b/meta/recipes-kernel/linux/linux-yocto.inc
+index 0132fcffb3..3de8318c39 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -1,6 +1,6 @@
+ SUMMARY = "Linux kernel"
+ SECTION = "kernel"
+-LICENSE = "GPL-2.0-only"
++LICENSE = "GPL-2.0-only + Linux-syscall-note"
+ HOMEPAGE = "https://www.yoctoproject.org/"
+
+ LIC_FILES_CHKSUM ?= "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 --
 2.45.2
 
-------406447E7A0F2AE2519306665374AC305
+------E4528EBBD940E981574FA1EE488EDA83
 Content-Type: application/x-pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -199,17 +207,17 @@ bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
 IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
 DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
 CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTEyNTEx
-NTY0MFowLwYJKoZIhvcNAQkEMSIEIBKB7/BpI/8gC30ZLPrTXILh5HjKYuntox4w
-QBwApd+6MHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
+NTc1OFowLwYJKoZIhvcNAQkEMSIEIDlBVWMV9FQu9nd209ww04612AsUvr/H1iat
+M5C+TCMMMHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
 FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
 SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
-BIIBAFHkAlaz8naVv7iCGAReimMJAJyY2QWFjZ6GGaPxBnFp1ScNO2x0KFN0Y0Bn
-2njAltTsZr6aD/ixqaIfZllaNKA1TjQJ6uCa8HrmC2boQyRLzs4uf+JxOTeOWLA3
-Uq40jVBHx4q1c376mkhk6xxEVhp66VFXQSnpb42/GjLyvG3JqhynI4BEkLDovtQq
-vkoMcKqIQN0BNKUsp4ezpCNQwMQ/Ju/QUlF6ALCeis+OgikmiSR7g6HnIIOFV2W0
-6beqZl9XdsryoFrlJuz9xaUR1RMiHodizxiwZv5ilQE8b7zmbKFQa3l3C11xEs3d
-6SxG2o6rHosBXHFxWndONOBcQdM=
+BIIBAEtgqnboxmx7bgs70czJynGrX4Geo8G4V991AMhlmweBcaAMpO99GDZIHjFQ
+2X0ZgSJXsXM3lRksB1r0ZwcvPdBVDiJNuzoCs9bIlckik2WhBxOs1AlZtFgPjr7m
+CBz28nqq2t5Vva+VTMJU0ncoUwvaafIOUsnAH+Cbsm8KhJ0xN2vBVphEs3Rpq0cC
+ctgPY8GeFKV1qfqvGDqc6elbk5fptEWsMMKCxbks234EgAHlmP06JyaLB4joEKm3
+x1ER4MgnwSU0oYzyxWGOzAgMNLnHySVolNrpbO4DRQlPPu6iFAmV/6KFQvCkJCq1
+opA0BqIYvTFq3VZf1fxG6Jk9uuk=
 
-------406447E7A0F2AE2519306665374AC305--
+------E4528EBBD940E981574FA1EE488EDA83--
 
 
