@@ -2,67 +2,67 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 236A6D58D7B
-	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 18:34:26 +0000 (UTC)
-Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
- by mx.groups.io with SMTP id smtpd.web10.25850.1732559663875734753
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2875ED58D7C
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 18:36:56 +0000 (UTC)
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
+ by mx.groups.io with SMTP id smtpd.web10.25913.1732559812364189189
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 10:34:23 -0800
+ Mon, 25 Nov 2024 10:36:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UdVDdytn;
- spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-71d4c462ab1so597356a34.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 10:34:23 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=cNVmsl28;
+ spf=pass (domain: gmail.com, ip: 209.85.167.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3ea5120dd60so521739b6e.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 10:36:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732559663; x=1733164463; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732559811; x=1733164611; darn=lists.openembedded.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=UNEsjpzEVnm6a+9fWxxYhaPz2OzVgac+S9dLxsJYcOI=;
-        b=UdVDdytnGNy2E8IjfYTEljpbj7GPjtk/b+QHmZUooAxsbMWkdUjAaijLaFl/9xZv0F
-         QSUp8FTA0CBdnbTJBZT/P5kTkViS++1ZEU0XfMledX/O1V8erwLSpJroOKkD9Nbj6wjX
-         ltafD+LdOciQ4k/EBTsuqNZg77Uj7C2dnhfRiJ1N6AiIo8IK/j6WckqcMuKXB27vmQJd
-         COvWEQsBlyZwVplA/Szt07FjumrgCdmXVtajOCr1TV39hgwwS0e9OrNxJfU7c5t4wwvM
-         rbb9VtzoSGWlXhnBf/jtWMSphajBc6v95C0YmT1ysFMmzaPN8/5vN5n+M8Q3/1vE5omN
-         59lg==
+        bh=nCcwwWt8ls7aywPCaDVJjzU//RwDeP+8IIddbjyvVd8=;
+        b=cNVmsl28g1gCxVdoe0CSr7OQ5iNIHDYyWwdCVGGyRTSfaeYXcpWFsY4oexstnFPw0y
+         azvYgj189UDAX3OACXpxA0jXe69itIdvWqZIlMsZjdQwHI+Qhe3mV7uK/xqMWSDyOSgv
+         CbMLQIYh3ktJfqYxeC8jCykyI/SPAwlxDfOFZG9H5sQ5HU0H1P+fOsgz+tABrzucmw+g
+         PbljLAbWBK5hfTm3ziTGoD9v/kCzAcw2III49esUNzv1WQnVhOHavAqUxLYElsfkb9sc
+         6IEuGQqmJ6Stz/O2aMPz4f5lwH8wLjPd9eTnS+HZO4CygPg4FC64I4l0Peim7bCkYLB6
+         7KVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732559663; x=1733164463;
+        d=1e100.net; s=20230601; t=1732559811; x=1733164611;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=UNEsjpzEVnm6a+9fWxxYhaPz2OzVgac+S9dLxsJYcOI=;
-        b=nos+9I/S6gr9LbWm2WN0h1AYOpqz8YhNtVWAlC6Aka+R7R1t4c67Y9fRkwF5LPFYoH
-         8baT+cVLzOkQagAW6IfLN9mED3yF1euG5wxZ9mxVWUb0KEAYN2XyusqXcNIA+T4+3/uh
-         NqcryZ3k8xH0WVZh64GIQl4gN0L/0aFOxZGeizdmLKlP9+pYwKThd17+G21jgxRXVjF7
-         DwMow5zTLsl4Fk4tdpF6QI2XXBqja9WuYa094Y5oaG47xUM5jBTVRt+i6JgJXINQgl4N
-         L33efJw+uFVdrq1/NuMi+d8TrhleDKWaIbhGURWpRSWyRm6rRrpJJAn7Sq3sg96f7MbK
-         9YTA==
-X-Gm-Message-State: AOJu0YytcU8R9SSJrKGCvj2/5asDFWwmcmJDKP3NNWQfpS7u+iX7v6N1
-	F/UJsvkErTN8qjIYLQ25n/I6i+cbJtow0yZ9F2rZTkU+8McmR43mg83vxxomBbH+DB71CoH71CE
-	u6IqmLv1+J1euR1EwnoP8c81LuXY=
-X-Gm-Gg: ASbGncuzN9+7fVIocozCfzNycwNEq5NfDMkSUu0AP8OhQryTKn8d4f3NuIgaiAurbrS
-	UNCRN5Ds5lRCh6/Y8iRLTep+Mvb4g2HMIi/PMKEjv8bA4CddwqxOIAybxl/GZLw==
-X-Google-Smtp-Source: AGHT+IG/K12lJ6P+Z9phYENcCqze3m4xUQGL4okVuTp0UYZKAzzsKZ700ZC+kt+1tTT/3q3KqQo+PvdUIIrzI9/m748=
-X-Received: by 2002:a05:6830:349e:b0:71d:5a8a:1a2f with SMTP id
- 46e09a7af769-71d5a8a1bfdmr681874a34.14.1732559663027; Mon, 25 Nov 2024
- 10:34:23 -0800 (PST)
+        bh=nCcwwWt8ls7aywPCaDVJjzU//RwDeP+8IIddbjyvVd8=;
+        b=catuSQ4g9ewBxrRS610x+HomDPFgFsqc5y/Gfzu+sZ4CRDYewDECZ2/yDZmriqN8oB
+         FcWOZ6CTUEh6hBlATPtmNdd/GFMVlWbI0LRGPYcJPhnnnyqQAtcZQ1jdarvDyuD9S369
+         5PNR5sQZ17nENn7M0oq1OxCLUFqJdNVI+TJ+lEMDLDRP8ZQUv0FUcFvwOWlqoQVO24Zn
+         mgggDboH20pezSRB6KyDEwQpXgkrMwdObFfgCt69VPZvEjKWlZgyRR5Tgl8MWbMnTZzf
+         jijzMgIOnpYsDsWjiFOAzfMJ0lY/lP5j5hMpvYmxwWvc6bLqAx0JDR42sDYMzvuzImVz
+         e6qg==
+X-Gm-Message-State: AOJu0Yz5iuzkTJ5ipk2RTmfhBNPYlkeIkt/gfbaskfjlV/A57PYBTHFl
+	l+76kLQzLs4KiQ1BcyDlmWIdESR3R1BRBOum7OM6Y/19HHlL5zslwPtXM5PuYd06+E8PVRpfCgA
+	TZWQcjJnN05+Io5SqnM9bg9lnEBA=
+X-Gm-Gg: ASbGncsSQJVcg/oKMUHvfaRy/X/QC71QIqn1dj3Upp7jMllLzOGIxYzm0Rf1lvNyZxy
+	zBALTTzhHF4JGqaciqgtBdT7pU8GKShsei2gjUSRWTHGvX5FCwFHydnpxBhzLpw==
+X-Google-Smtp-Source: AGHT+IHYawvCcje0NR639tpmWcPzWTJteOCimBGPGREN/5L+LQcBgnC7lwDsRg7wrLOT9DV3Xt2THMeido8dTGyPyLo=
+X-Received: by 2002:a05:6808:2185:b0:3ea:4f8c:e54e with SMTP id
+ 5614622812f47-3ea4f8cf698mr3006229b6e.17.1732559811431; Mon, 25 Nov 2024
+ 10:36:51 -0800 (PST)
 MIME-Version: 1.0
-References: <20241125120127.2205232-1-alex.kanavin@gmail.com> <20241125120127.2205232-15-alex.kanavin@gmail.com>
-In-Reply-To: <20241125120127.2205232-15-alex.kanavin@gmail.com>
+References: <20241125120127.2205232-1-alex.kanavin@gmail.com> <20241125120127.2205232-8-alex.kanavin@gmail.com>
+In-Reply-To: <20241125120127.2205232-8-alex.kanavin@gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 25 Nov 2024 10:34:12 -0800
-Message-ID: <CAMKF1srY--yRX9W-n2WB2WerNry+-a+Yh=hfun7AR_r39fZ8fw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 15/35] mtd-utils: upgrade 2.2.0 -> 2.2.1
+Date: Mon, 25 Nov 2024 10:36:40 -0800
+Message-ID: <CAMKF1so3Azx6swzqwshQ4W5SRGo0H28hCboqN1mpovEcPrkFpA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 08/35] gawk: upgrade 5.3.0 -> 5.3.1
 To: alex.kanavin@gmail.com
 Cc: openembedded-core@lists.openembedded.org, 
 	Alexander Kanavin <alex@linutronix.de>
-Content-Type: multipart/alternative; boundary="000000000000445c880627c0fb37"
+Content-Type: multipart/alternative; boundary="0000000000001cd3340627c1044d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 18:34:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207794
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 18:36:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207795
 
---000000000000445c880627c0fb37
+--0000000000001cd3340627c1044d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -74,40 +74,161 @@ edded.org
 >
 > Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
->  meta/recipes-devtools/mtd/mtd-utils_git.bb | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  ...c-re-enable-disabled-printf-features.patch | 35 +++++++++++++++++
+>  ...001-m4-readline-add-missing-includes.patch | 38 -------------------
+>  .../gawk/{gawk_5.3.0.bb =3D> gawk_5.3.1.bb}     |  4 +-
+>  3 files changed, 37 insertions(+), 40 deletions(-)
+>  create mode 100644
+> meta/recipes-extended/gawk/gawk/0001-configure.ac-re-enable-disabled-prin=
+tf-features.patch
+>  delete mode 100644
+> meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.pat=
+ch
+>  rename meta/recipes-extended/gawk/{gawk_5.3.0.bb =3D> gawk_5.3.1.bb} (94=
+%)
 >
+> diff --git
+> a/meta/recipes-extended/gawk/gawk/0001-configure.ac-re-enable-disabled-pr=
+intf-features.patch
+> b/meta/recipes-extended/gawk/gawk/0001-configure.ac-re-enable-disabled-pr=
+intf-features.patch
+> new file mode 100644
+> index 00000000000..4fe60c7cb83
+> --- /dev/null
+> +++
+> b/meta/recipes-extended/gawk/gawk/0001-configure.ac-re-enable-disabled-pr=
+intf-features.patch
+> @@ -0,0 +1,35 @@
+> +From 879fb11c7c006a8533a092fb75b38d84cc570d83 Mon Sep 17 00:00:00 2001
+> +From: Alexander Kanavin <alex@linutronix.de>
+> +Date: Fri, 22 Nov 2024 12:13:58 +0100
+> +Subject: [PATCH] configure.ac: re-enable disabled printf features
+> +
+> +This is needed for ptests to pass for one thing.
+> +
+> +Upstream-Status: Inappropriate [needs a config option]
+> +Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> +---
+> + configure.ac | 4 ++--
+> + 1 file changed, 2 insertions(+), 2 deletions(-)
+> +
+> +diff --git a/configure.ac b/configure.ac
+> +index cb99ffe..5fe792f 100644
+> +--- a/configure.ac
+> ++++ b/configure.ac
+> +@@ -398,7 +398,7 @@ int main()
+> + ])],
+> +       has_f_format=3Dyes,
+> +       has_f_format=3Dno,
+> +-      has_f_format=3Dno  dnl Cross-compiling, assuming the worst.
+> ++      has_f_format=3Dyes  dnl Cross-compiling in oe-core
 
-If it is Locked at the SRCREV pointing to release point then maybe rename
-the recipe to reflect the PV
+
+Does this work if you pass is via EXTRA_OECONF
 
 
-> diff --git a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> index a40d79c8649..3545f8e4262 100644
-> --- a/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> +++ b/meta/recipes-devtools/mtd/mtd-utils_git.bb
-> @@ -11,9 +11,9 @@ inherit autotools pkgconfig update-alternatives
->  DEPENDS =3D "zlib e2fsprogs util-linux"
->  RDEPENDS:mtd-utils-tests +=3D "bash"
+> + )
+> + if test "$has_f_format" =3D yes
+> + then
+> +@@ -427,7 +427,7 @@ int main()
+> + ])],
+> +       has_a_format=3Dyes,
+> +       has_a_format=3Dno,
+> +-      has_a_format=3Dno  dnl Cross-compiling, assuming the worst.
+> ++      has_a_format=3Dyes  dnl Cross-compiling in oe-core
+> + )
+> + if test "$has_a_format" =3D yes
+> + then
+> diff --git
+> a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.p=
+atch
+> b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.p=
+atch
+> deleted file mode 100644
+> index 6fffd1f373a..00000000000
+> ---
+> a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes.p=
+atch
+> +++ /dev/null
+> @@ -1,38 +0,0 @@
+> -From 4f4e84f139e2a8682f1374a592f2636c43ad857b Mon Sep 17 00:00:00 2001
+> -From: Ross Burton <ross.burton@arm.com>
+> -Date: Tue, 21 May 2024 15:10:11 +0000
+> -Subject: [PATCH] m4/readline: add missing includes
+> -
+> -The cross-specific code fragment only includes stdio.h, where the native
+> -fragment also includes fcntl.h and unistd.h.  This is important because
+> -GCC 14.1 has made the implicit definitions an error:
+> -
+> -conftest.c: In function 'main':
+> -conftest.c:144:9: error: implicit declaration of function 'close'; did
+> you mean 'pclose'? [-Wimplicit-function-declaration]
+> -conftest.c:146:14: error: implicit declaration of function 'open'; did
+> you mean 'popen'? [-Wimplicit-function-declaration]
+> -
+> -Add the missing includes so that the check doesn't always fail due to
+> -these errors.
+> -
+> -Upstream-Status: Backport [
+> https://git.savannah.gnu.org/cgit/gawk.git/commit/?id=3Dc1613c310d71b87f5=
+09458e0259ecd10eda2b140
+> ]
+> -Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ----
+> - m4/readline.m4 | 2 ++
+> - 1 file changed, 2 insertions(+)
+> -
+> -diff --git a/m4/readline.m4 b/m4/readline.m4
+> -index 38f96326..efd52d4e 100644
+> ---- a/m4/readline.m4
+> -+++ b/m4/readline.m4
+> -@@ -66,6 +66,8 @@ dnl action if false:
+> - dnl action if cross compiling:
+> -               [AC_LINK_IFELSE(
+> -                       [AC_LANG_PROGRAM([[#include <stdio.h>
+> -+#include <fcntl.h>
+> -+#include <unistd.h>
+> - #include <readline/readline.h>
+> - #include <readline/history.h>]],              dnl includes
+> -                       dnl function body
+> ---
+> -2.34.1
+> -
+> diff --git a/meta/recipes-extended/gawk/gawk_5.3.0.bb
+> b/meta/recipes-extended/gawk/gawk_5.3.1.bb
+> similarity index 94%
+> rename from meta/recipes-extended/gawk/gawk_5.3.0.bb
+> rename to meta/recipes-extended/gawk/gawk_5.3.1.bb
+> index ac9d8500d60..bd72fbf2808 100644
+> --- a/meta/recipes-extended/gawk/gawk_5.3.0.bb
+> +++ b/meta/recipes-extended/gawk/gawk_5.3.1.bb
+> @@ -16,11 +16,11 @@ PACKAGECONFIG[readline] =3D
+> "--with-readline,--without-readline,readline"
+>  PACKAGECONFIG[mpfr] =3D "--with-mpfr,--without-mpfr, mpfr"
 >
-> -PV =3D "2.2.0"
-> +PV =3D "2.2.1"
+>  SRC_URI =3D "${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \
+> -           file://0001-m4-readline-add-missing-includes.patch \
+>             file://run-ptest \
+> +
+>  file://0001-configure.ac-re-enable-disabled-printf-features.patch \
+>             "
 >
-> -SRCREV =3D "31e990c56aba7584cde310685d663bb122f16003"
-> +SRCREV =3D "13ec33609213c1dbd75852a09560a707a7f19a5c"
->  SRC_URI =3D "git://git.infradead.org/mtd-utils.git;branch=3Dmaster"
+> -SRC_URI[sha256sum] =3D
+> "378f8864ec21cfceaa048f7e1869ac9b4597b449087caf1eb55e440d30273336"
+> +SRC_URI[sha256sum] =3D
+> "fa41b3a85413af87fb5e3a7d9c8fa8d4a20728c67651185bb49c38a7f9382b1e"
 >
->  S =3D "${WORKDIR}/git"
+>  inherit autotools gettext texinfo update-alternatives
+>
 > --
 > 2.39.5
 >
 >
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#207762):
-> https://lists.openembedded.org/g/openembedded-core/message/207762
-> Mute This Topic: https://lists.openembedded.org/mt/109769671/1997914
+> View/Reply Online (#207756):
+> https://lists.openembedded.org/g/openembedded-core/message/207756
+> Mute This Topic: https://lists.openembedded.org/mt/109769662/1997914
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
 > raj.khem@gmail.com]
@@ -115,7 +236,7 @@ the recipe to reflect the PV
 >
 >
 
---000000000000445c880627c0fb37
+--0000000000001cd3340627c1044d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -131,49 +252,190 @@ get=3D"_blank">alex@linutronix.de</a>&gt;<br>
 Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" =
 target=3D"_blank">alex@linutronix.de</a>&gt;<br>
 ---<br>
-=C2=A0meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">mtd-utils_git.bb</a> | 4 ++--<br>
-=C2=A01 file changed, 2 insertions(+), 2 deletions(-)<br>
-</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">If it is Locked =
-at the SRCREV pointing to release point then maybe rename the recipe to ref=
-lect the PV=C2=A0</div><div dir=3D"auto"><br></div><blockquote class=3D"gma=
-il_quote" style=3D"margin:0 0 0 .8ex;border-left:1px #ccc solid;padding-lef=
-t:1ex"><br>
-diff --git a/meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" =
-rel=3D"noreferrer" target=3D"_blank">mtd-utils_git.bb</a> b/meta/recipes-de=
-vtools/mtd/<a href=3D"http://mtd-utils_git.bb" rel=3D"noreferrer" target=3D=
-"_blank">mtd-utils_git.bb</a><br>
-index a40d79c8649..3545f8e4262 100644<br>
---- a/meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">mtd-utils_git.bb</a><br>
-+++ b/meta/recipes-devtools/mtd/<a href=3D"http://mtd-utils_git.bb" rel=3D"=
-noreferrer" target=3D"_blank">mtd-utils_git.bb</a><br>
-@@ -11,9 +11,9 @@ inherit autotools pkgconfig update-alternatives<br>
-=C2=A0DEPENDS =3D &quot;zlib e2fsprogs util-linux&quot;<br>
-=C2=A0RDEPENDS:mtd-utils-tests +=3D &quot;bash&quot;<br>
+=C2=A0...c-re-enable-disabled-printf-features.patch | 35 +++++++++++++++++<=
+br>
+=C2=A0...001-m4-readline-add-missing-includes.patch | 38 ------------------=
+-<br>
+=C2=A0.../gawk/{<a href=3D"http://gawk_5.3.0.bb" rel=3D"noreferrer" target=
+=3D"_blank">gawk_5.3.0.bb</a> =3D&gt; <a href=3D"http://gawk_5.3.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">gawk_5.3.1.bb</a>}=C2=A0 =C2=A0 =C2=A0|=
+=C2=A0 4 +-<br>
+=C2=A03 files changed, 37 insertions(+), 40 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-extended/gawk/gawk/0001-configure.ac-=
+re-enable-disabled-printf-features.patch<br>
+=C2=A0delete mode 100644 meta/recipes-extended/gawk/gawk/0001-m4-readline-a=
+dd-missing-includes.patch<br>
+=C2=A0rename meta/recipes-extended/gawk/{<a href=3D"http://gawk_5.3.0.bb" r=
+el=3D"noreferrer" target=3D"_blank">gawk_5.3.0.bb</a> =3D&gt; <a href=3D"ht=
+tp://gawk_5.3.1.bb" rel=3D"noreferrer" target=3D"_blank">gawk_5.3.1.bb</a>}=
+ (94%)<br>
 <br>
--PV =3D &quot;2.2.0&quot;<br>
-+PV =3D &quot;2.2.1&quot;<br>
+diff --git a/meta/recipes-extended/gawk/gawk/0001-configure.ac-re-enable-di=
+sabled-printf-features.patch b/meta/recipes-extended/gawk/gawk/0001-configu=
+re.ac-re-enable-disabled-printf-features.patch<br>
+new file mode 100644<br>
+index 00000000000..4fe60c7cb83<br>
+--- /dev/null<br>
++++ b/meta/recipes-extended/gawk/gawk/0001-configure.ac-re-enable-disabled-=
+printf-features.patch<br>
+@@ -0,0 +1,35 @@<br>
++From 879fb11c7c006a8533a092fb75b38d84cc570d83 Mon Sep 17 00:00:00 2001<br>
++From: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de" target=
+=3D"_blank">alex@linutronix.de</a>&gt;<br>
++Date: Fri, 22 Nov 2024 12:13:58 +0100<br>
++Subject: [PATCH] <a href=3D"http://configure.ac" rel=3D"noreferrer" target=
+=3D"_blank">configure.ac</a>: re-enable disabled printf features<br>
++<br>
++This is needed for ptests to pass for one thing.<br>
++<br>
++Upstream-Status: Inappropriate [needs a config option]<br>
++Signed-off-by: Alexander Kanavin &lt;<a href=3D"mailto:alex@linutronix.de"=
+ target=3D"_blank">alex@linutronix.de</a>&gt;<br>
++---<br>
++ <a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank">conf=
+igure.ac</a> | 4 ++--<br>
++ 1 file changed, 2 insertions(+), 2 deletions(-)<br>
++<br>
++diff --git a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"=
+_blank">configure.ac</a> b/<a href=3D"http://configure.ac" rel=3D"noreferre=
+r" target=3D"_blank">configure.ac</a><br>
++index cb99ffe..5fe792f 100644<br>
++--- a/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a><br>
+++++ b/<a href=3D"http://configure.ac" rel=3D"noreferrer" target=3D"_blank"=
+>configure.ac</a><br>
++@@ -398,7 +398,7 @@ int main()<br>
++ ])],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0has_f_format=3Dyes,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0has_f_format=3Dno,<br>
++-=C2=A0 =C2=A0 =C2=A0 has_f_format=3Dno=C2=A0 dnl Cross-compiling, assumin=
+g the worst.<br>
+++=C2=A0 =C2=A0 =C2=A0 has_f_format=3Dyes=C2=A0 dnl Cross-compiling in oe-c=
+ore</blockquote><div dir=3D"auto"><br></div><div dir=3D"auto">Does this wor=
+k if you pass is via EXTRA_OECONF=C2=A0</div><div dir=3D"auto"><br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border-left:1px =
+#ccc solid;padding-left:1ex" dir=3D"auto"><br>
++ )<br>
++ if test &quot;$has_f_format&quot; =3D yes<br>
++ then<br>
++@@ -427,7 +427,7 @@ int main()<br>
++ ])],<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0has_a_format=3Dyes,<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0has_a_format=3Dno,<br>
++-=C2=A0 =C2=A0 =C2=A0 has_a_format=3Dno=C2=A0 dnl Cross-compiling, assumin=
+g the worst.<br>
+++=C2=A0 =C2=A0 =C2=A0 has_a_format=3Dyes=C2=A0 dnl Cross-compiling in oe-c=
+ore<br>
++ )<br>
++ if test &quot;$has_a_format&quot; =3D yes<br>
++ then<br>
+diff --git a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-i=
+ncludes.patch b/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missin=
+g-includes.patch<br>
+deleted file mode 100644<br>
+index 6fffd1f373a..00000000000<br>
+--- a/meta/recipes-extended/gawk/gawk/0001-m4-readline-add-missing-includes=
+.patch<br>
++++ /dev/null<br>
+@@ -1,38 +0,0 @@<br>
+-From 4f4e84f139e2a8682f1374a592f2636c43ad857b Mon Sep 17 00:00:00 2001<br>
+-From: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" target=3D"_bl=
+ank">ross.burton@arm.com</a>&gt;<br>
+-Date: Tue, 21 May 2024 15:10:11 +0000<br>
+-Subject: [PATCH] m4/readline: add missing includes<br>
+-<br>
+-The cross-specific code fragment only includes stdio.h, where the native<b=
+r>
+-fragment also includes fcntl.h and unistd.h.=C2=A0 This is important becau=
+se<br>
+-GCC 14.1 has made the implicit definitions an error:<br>
+-<br>
+-conftest.c: In function &#39;main&#39;:<br>
+-conftest.c:144:9: error: implicit declaration of function &#39;close&#39;;=
+ did you mean &#39;pclose&#39;? [-Wimplicit-function-declaration]<br>
+-conftest.c:146:14: error: implicit declaration of function &#39;open&#39;;=
+ did you mean &#39;popen&#39;? [-Wimplicit-function-declaration]<br>
+-<br>
+-Add the missing includes so that the check doesn&#39;t always fail due to<=
+br>
+-these errors.<br>
+-<br>
+-Upstream-Status: Backport [<a href=3D"https://git.savannah.gnu.org/cgit/ga=
+wk.git/commit/?id=3Dc1613c310d71b87f509458e0259ecd10eda2b140" rel=3D"norefe=
+rrer" target=3D"_blank">https://git.savannah.gnu.org/cgit/gawk.git/commit/?=
+id=3Dc1613c310d71b87f509458e0259ecd10eda2b140</a>]<br>
+-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targ=
+et=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+----<br>
+- m4/readline.m4 | 2 ++<br>
+- 1 file changed, 2 insertions(+)<br>
+-<br>
+-diff --git a/m4/readline.m4 b/m4/readline.m4<br>
+-index 38f96326..efd52d4e 100644<br>
+---- a/m4/readline.m4<br>
+-+++ b/m4/readline.m4<br>
+-@@ -66,6 +66,8 @@ dnl action if false:<br>
+- dnl action if cross compiling:<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0[AC_LINK_IFELSE(<br=
+>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0[AC_LANG_PROGRAM([[#include &lt;stdio.h&gt;<br>
+-+#include &lt;fcntl.h&gt;<br>
+-+#include &lt;unistd.h&gt;<br>
+- #include &lt;readline/readline.h&gt;<br>
+- #include &lt;readline/history.h&gt;]],=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 dnl includes<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0dnl function body<br>
+--- <br>
+-2.34.1<br>
+-<br>
+diff --git a/meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.0.bb" re=
+l=3D"noreferrer" target=3D"_blank">gawk_5.3.0.bb</a> b/meta/recipes-extende=
+d/gawk/<a href=3D"http://gawk_5.3.1.bb" rel=3D"noreferrer" target=3D"_blank=
+">gawk_5.3.1.bb</a><br>
+similarity index 94%<br>
+rename from meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.0.bb" rel=
+=3D"noreferrer" target=3D"_blank">gawk_5.3.0.bb</a><br>
+rename to meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.1.bb" rel=
+=3D"noreferrer" target=3D"_blank">gawk_5.3.1.bb</a><br>
+index ac9d8500d60..bd72fbf2808 100644<br>
+--- a/meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.0.bb" rel=3D"no=
+referrer" target=3D"_blank">gawk_5.3.0.bb</a><br>
++++ b/meta/recipes-extended/gawk/<a href=3D"http://gawk_5.3.1.bb" rel=3D"no=
+referrer" target=3D"_blank">gawk_5.3.1.bb</a><br>
+@@ -16,11 +16,11 @@ PACKAGECONFIG[readline] =3D &quot;--with-readline,--wit=
+hout-readline,readline&quot;<br>
+=C2=A0PACKAGECONFIG[mpfr] =3D &quot;--with-mpfr,--without-mpfr, mpfr&quot;<=
+br>
 <br>
--SRCREV =3D &quot;31e990c56aba7584cde310685d663bb122f16003&quot;<br>
-+SRCREV =3D &quot;13ec33609213c1dbd75852a09560a707a7f19a5c&quot;<br>
-=C2=A0SRC_URI =3D &quot;git://<a href=3D"http://git.infradead.org/mtd-utils=
-.git;branch=3Dmaster" rel=3D"noreferrer" target=3D"_blank">git.infradead.or=
-g/mtd-utils.git;branch=3Dmaster</a>&quot;<br>
+=C2=A0SRC_URI =3D &quot;${GNU_MIRROR}/gawk/gawk-${PV}.tar.gz \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-m4-readline-add-missi=
+ng-includes.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 file://run-ptest \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-configure.ac-re-enabl=
+e-disabled-printf-features.patch \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
 <br>
-=C2=A0S =3D &quot;${WORKDIR}/git&quot;<br>
+-SRC_URI[sha256sum] =3D &quot;378f8864ec21cfceaa048f7e1869ac9b4597b449087ca=
+f1eb55e440d30273336&quot;<br>
++SRC_URI[sha256sum] =3D &quot;fa41b3a85413af87fb5e3a7d9c8fa8d4a20728c676511=
+85bb49c38a7f9382b1e&quot;<br>
+<br>
+=C2=A0inherit autotools gettext texinfo update-alternatives<br>
+<br>
 -- <br>
 2.39.5<br>
 <br>
 <br>
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 Links: You receive all messages sent to this group.<br>
-View/Reply Online (#207762): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/207762" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/207762</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109769671/199=
+View/Reply Online (#207756): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/207756" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/207756</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109769662/199=
 7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/109769671/1997914</a><br>
+t/109769662/1997914</a><br>
 Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
 .org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
 br>
@@ -185,5 +447,5 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
 <br>
 </blockquote></div></div>
 
---000000000000445c880627c0fb37--
+--0000000000001cd3340627c1044d--
 
