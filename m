@@ -2,96 +2,99 @@ Return-Path: <denis.osterland@diehl.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C198D58069
-	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 11:54:03 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 433CFD5806A
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 11:55:13 +0000 (UTC)
 Received: from enterprise01.smtp.diehl.com (enterprise01.smtp.diehl.com [193.201.238.219])
- by mx.groups.io with SMTP id smtpd.web11.17082.1732535632517881500
+ by mx.groups.io with SMTP id smtpd.web10.16986.1732535706432341611
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 03:53:53 -0800
+ Mon, 25 Nov 2024 03:55:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@diehl.com header.s=default header.b=ENd/Fa9m;
+ dkim=pass header.i=@diehl.com header.s=default header.b=D2WK7PLC;
  spf=pass (domain: diehl.com, ip: 193.201.238.219, mailfrom: prvs=052d57505=denis.osterland@diehl.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1732535632; x=1764071632;
+  t=1732535706; x=1764071706;
   h=from:to:subject:date:message-id:mime-version;
-  bh=MYV8NIcip1LuKdH3pffC7zk51pWBY+9ckMRYlwpUFDE=;
-  b=ENd/Fa9mtqPglyPBehHd72mbV6FKaCLMMqYqiZaamzM+rBsClQPtgoh6
-   9KLpFcEWbkTrk+1cZG4/mv/nZ2DWRty5Fa4Jahd7mpYuQ/VqecnTwPe4I
-   GHjGKs9u7Zaib7hF/lj17vAI9mKKse5ps6xRqdsapKNqGl/+xu8SLhRGO
-   Ly4/VKVHV3GuWqteZB/XZ8pq+gDFXJY2IuWhhNrNisLgp7wwvwKhjgxaN
-   Kh151E8u1IXKiYE8HY+AGQCJmbtezDYBcCUM4yvF2/ZAuNU4Y2KNhWf0J
-   xNHz/fbtJFBxEuRG2bXnm88eNdXoFGABLYm1b5CUeEt/2AwR+xW6o0n8F
-   A==;
-X-CSE-ConnectionGUID: LQyuFERpQK6xg/gz2GRKFw==
-X-CSE-MsgGUID: 0hUE0U2NRz2pxpvOlwssXw==
+  bh=hpuYhSJEcbUppAwwx+CN13CvivJ8853wgun+rF9qWF4=;
+  b=D2WK7PLCnWlq168FKUawkB6KVarLjerCFGwU2gEfNoU74vpWh7NdGFUx
+   V+fglpmQYoaJz8nRHKNe/UjpzAmBfb4vtRcZnr8O6AzoL57g0YEN8AMKb
+   n5Z9DZWh3dBhR3D9kxH6RKcwktyg3bkfcC6VkP/m+h87DZeTavUH/UC3V
+   lYKO1I/Wgs3jubOE4CPDb6d39+egObhf8SylOiRFF+apHhaZzSATkSjd4
+   wratBY2dMi1ePj2Dr83m5g8KWQkQLuOVhJXmWinBxJeJA1bMhqkTl1Ddc
+   JyP3XpNPKMprPhRtAz4/4CZnt9YD/wf1Rf8cYgrWBY+JdTIzLjTfBWCB1
+   Q==;
+X-CSE-ConnectionGUID: rBNRYUKbQ5q8YDLamHi6Og==
+X-CSE-MsgGUID: kvQpOkPmRpSt/E7WCdEIRw==
 X-ThreatScanner-Verdict: Negative
-IronPort-Data: A9a23:ZKFOO6/v4iOk5RHroNgHDrUDmn6TJUtcMsCJ2f8bNWPdYAtShnVHk
- jtMCC3fZaGVKn+1IIo1b5D1rB1Y6NKQjINT/DAc7nRsSn8MsZXebTjyBhavZynJdcCZRhk+t
- ZhDMoWaJ5FoQC7VrEfwPrG4oSki2PGFTOf2WOeaYHEhGFRpEH182UlvweIy2NRh2ojmCVLlV
- b/aqtXHPF6u0iJ1NWRT86GIs0wqp/X9vjoEo0YzDRxulAa2ey49V8NHdcldVkfQQpVIBrz9A
- OXO3ar/8mLU/xNrAdSg1b3hdgoWQfvSCg7IgWBSA8CebmN5Sl8PPtwTbLxEAXp/iymVh4I2j
- 9ZApIf2RQYkPqmKk+MYFBJCF2ZiPuhGz7mBKmK76ZHQjhWuT5eX+BkdMa1MFdVeoo5KKWFS6
- eRKb3cScQ/Fi+O7wLb9Qe5pwdwgLY6zVL/zwUqMvgw1d95+B8irfpj32DN44NsRrskRTPrTP
- sFHYzQ1PUTLaE1CZl0eVM0yxO2m1iGgLWcG9AvF9KE63TPenVd7uFTP3Hg5WfTXH5kPzhbAz
- o7i1z6kav3PHIXHkVJpylr12KmX23u9AN9KfFGB3qYCqEWJwWAOAwEhW1K+oP2o4mazQNs3x
- 3Y8o0LCloBsshXxJjXBd0fg+iLd50RAA4A4/9ASs2lh9IKFum51OUBUFlatWPR+3OcqSDoj0
- EO+nt+BLVRHrL2PRHuBwayfpDW0NDJ9BTdqifgsFFZtD3HL+enfvzqXJjpROPfdYu7dQFkc9
- wu3QB0W3N3/uyKpO5KTpjgrixr0znTAo5VcCg//BgpJ5SshDGKpihDBBfE2Ip+sIa7AJmRts
- kTolOC61fETI7y3jBWuHvUCW767vdm/ExPD1AsH85kJr1xB+laveJJb7y4mfgFiNdwcPzPob
- U/X/whW4fe/PlPzNeknOcToW4JzlvKI+dfND5g4avJCb55wb0mA5z1jf0qZ2WzFnEkhkaV5M
- pCeGSqpJS9CVPs7k2fqGY/x15dzxh0TnV6JY6rplQy3yaS5YGGOUocaZQ7mgucRqfnsTB/u2
- 9FHOs2Hzh9SXOHzbmzc9pQeBVQLNmQgQ5fupspac+SOLgZrFCcmEfC5/F86U9U92fQP0L6Yu
- CjmACe01WbCuJEOEi3SAlgLVV8ldcwXQa4TVcD0AWuV5g==
-IronPort-HdrOrdr: A9a23:vCzj/ataITdAQh5wSsmJBdhU7skDUNV00zEX/kB9WHVpm62j5r
- iTdZEgviMc5wx+ZJhNo7290dC7MBfhHMdOkO4s1NSZPTUO2lHYVb2KhLGKq1fd8kbFmdK1u5
- 0NT4FOTPD9CFhkgd3riTPIcOrJp7G8gcaVbErlvhVQpEVRGsRdxhY8DgqACEV5SCtLFfMCdK
- ah2g==
-X-Talos-CUID: =?us-ascii?q?9a23=3Acpz8nmhaqYwrD+GVHpFKuzqdkDJuVkTM0Vn9GVe?=
- =?us-ascii?q?BKjh5R/qaWwW/woBKjJ87?=
-X-Talos-MUID: 9a23:GVRwgwptkp3nnpp6eokez2liCeow3v6IMlJXiYUepe6AKjdrCyjI2Q==
+IronPort-Data: A9a23:BldFuqvFfd6HAPrUOn/2chpWjufnVExeMUV32f8akzHdYApBs4E2v
+ jNfGTXfaa7OOz2rZJFrKNbltk0b+s+CkIcnDUA5nZ0HZ2lPqM/IQ8zGNS8cVAvNdMOTRxg24
+ 50SYIDJcJ4+FyDW/Rv1beK88XN2i/CEF7T1UrLOai4vS189GHZ/h0Jox+Ri29Q02IXoCVuA6
+ Y6pyyGzEFa9wzp1OWsI6qWF7wtst++t/SgZsVo3ee1RsTcyslFMZH5IDfrgdyuQrvBoNu6mW
+ /6Ri/a683LCuRssB9Oh1L38dwoBWLqVIQvLik1QHaO4hkAqmsBJ6UpICRZmQR8R0120t9Bt1
+ M0f8tuzRBYyeKHNleQZFRJfFmZ1J6kB5LyCIU+598eJyxWbMDq0q8mCd3raTrD0gM4vRzkmy
+ NQYNCwVPFfEmP2phr66R+lowM8kKY7zP4JY4hlcIUri4YUbrerrG+OSjeJl4QrcpvyiPN7Sb
+ sATNGRlZx+QPEMXMAhMWM9iw+ym2COvKWYHpF7M/vZusznYwTIq3em2OrI5WDAoqeZ9wxzE/
+ DKWpwwVJjlAabRzHBLcqirEatfnxH29AMRKUuXlrpaGuXXLrkQLEhoaSFCnlvewj0+6Srp3J
+ lcdksYUhfFaGHeDEJ+kBXVUnFbe5kRAAoMKT7VggO2w4vG8DzixVzFsogFpOIROWP8eHVQCy
+ lKPltX1Mj1j2JX9YW6d7LqdsQSpMiETK2IYDQdcJefSy4C+yG2bpkunoudLSMZZvPWscd3D6
+ 2niQBwFulkmpZVjO5NXX7zwq2nESpDhFmbZ7+hMN46vxlsRiIWNP+RE5bVHhBrpwUnwolSp5
+ RA5d8aiAO8mF7urrh2wY+80Qaj51tqhOTj8gABIEMx0n9it0ybLkYF47DRsL0h2apxCcjjze
+ AnfuA5R4NlYO37Cga1fOtr3W55slPimTI+/PhzXRoMmjpxZeAKB/TooYlWM0nrpmU4gua0+N
+ JefN82rCB72DIw+lGfpG7hDj+JDKiYWxn3qXbf49xGdyYGCI1PKdpwJHXq0cbVshE+DiECPm
+ zpFDOON0xhZXej0byXb/IJWJlcQIFA/BIvqsIpQbuOFLw9sFW0tBvOXxqkuE7GJhIwMzqGYp
+ DfkCgkBkwCXaWD7FDhmo0tLMNvHNauTZ1piVcDwFT5EA0QeXLs=
+IronPort-HdrOrdr: A9a23:PY3FoK5Pn06C2W637wPXwBjXdLJyesId70hD6qkRc20oTiX8ra
+ uTdZsgpHzJYEp7YgBGpTntAsa9qFnnhPxICPAqTNOftVDdyQ6VxeJZgbcKvQeMJ8SkzJ866U
+ 4IScEXNDSXNzZHZK7BijVQeOxB/DDoysGVbKjlvg9QpRYDUdAY0+/jYTzraXGfZGN9dOAE/A
+ D23Ls7mwad
+X-Talos-CUID: 9a23:75IS3mPzfxfV4u5DQgNBzn8pOcocL2SN/Vv0KkqYCDhOR+jA
+X-Talos-MUID: 9a23:t3GVUAp4auA25t4hfR0ezzJ8Dd9P4JyrMlg2jdIr5PavOQFRASjI2Q==
 X-IronPort-AV: E=Sophos;i="6.12,182,1728943200"; 
-   d="p7s'346?scan'346,208,346";a="105747546"
+   d="p7s'346?scan'346,208,346";a="105747665"
 From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
 To: "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 0/3] add basic SPDX WITH operator support
-Date: Mon, 25 Nov 2024 12:53:50 +0100 (CET)
-Message-ID: <960ad56c5ce145deb1fe2e30efaca670@diehl.com>
+Subject: [PATCH 1/3] lib/license: add missing oe include
+Date: Mon, 25 Nov 2024 12:55:04 +0100 (CET)
+Message-ID: <a31ff5bfc6644142b26f751b9235a123@diehl.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----076F295ACE5902BD56C36FB856B411D9"
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----262CFFF44C63C07129ADD3A624BA1291"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 11:54:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207743
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 11:55:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207744
 
 This is an S/MIME signed message
 
-------076F295ACE5902BD56C36FB856B411D9
+------262CFFF44C63C07129ADD3A624BA1291
 Content-Type: text/plain;
 	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Adds '+' to the list of operators, which is replaced by SPDX WITH operator.
-Copy Linux LICESES/exceptions/Linux-syscall-note to common-licenses.
+Needed by oe.qa.handle_error().
 
-Denis Osterland-Heim (3):
-  lib/license: add missing oe include
-  spdx: add support for WITH operator
-  linux-yocto: add WITH Linux-syscall-note to LICENSE
+Signed-off-by: Denis Osterland-Heim <denis.osterland@diehl.com>
+---
+ meta/lib/oe/license.py | 1 +
+ 1 file changed, 1 insertion(+)
 
- meta/files/common-licenses/Linux-syscall-note | 25 +++++++++++++++++++
- meta/lib/oe/license.py                        |  5 ++--
- meta/lib/oe/spdx30_tasks.py                   |  4 +++
- meta/recipes-kernel/linux/linux-yocto.inc     |  2 +-
- 4 files changed, 33 insertions(+), 3 deletions(-)
- create mode 100644 meta/files/common-licenses/Linux-syscall-note
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 32c77fa204..3c15db782f 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -7,6 +7,7 @@
 
+ import ast
+ import re
++import oe
+ from fnmatch import fnmatchcase as fnmatch
+
+ def license_ok(license, dont_want_licenses):
 --
 2.45.2
 
-------076F295ACE5902BD56C36FB856B411D9
+------262CFFF44C63C07129ADD3A624BA1291
 Content-Type: application/x-pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -168,17 +171,17 @@ bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
 IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
 DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
 CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTEyNTEx
-NTM1MFowLwYJKoZIhvcNAQkEMSIEINe8k1nSudFtuVq+/YYDhgFi78zFu/1UVl3i
-hEwCBef7MHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
+NTUwNFowLwYJKoZIhvcNAQkEMSIEILRO6YqlKdjII9uCbG6YJCtanKDM5E+A6a0X
+roIFkeMxMHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
 FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
 SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
-BIIBAEtVQF+6AE1JmTXV9AoU5rYyl5jx9iFQkKRZ2p2Ae58250NeQmqrop00KD9Q
-tozu05iTEVanBw/k1qutw81gic2my+/AIKht/yhs1SrYVWGrtsIcs+wQiUAODAik
-9iUXKWtuQPe84Faow4k1QpZ2ehtcQ0gfICnx44WQ3KSjeFI8+/neQ3KxyXxueiYy
-lvC2Cm9hZBI7qQHQ5aziIXo90QmUykPY78WM0C9H6sLX1EkZqvWNEFqZsAWWVQ68
-O8I/EDOxAjq2AY7+WkSQ+hxLHzA+6BjydfbldnZUsrSNJfL/cEFQLrr+g4OWU6S8
-ALnGq6fh6DtGPZ11aHdPJuigrSY=
+BIIBACqbX9AOT2G7S7pa31AkYWsHRbK+XqaLNvBmzh+QUozpCgDAKHFqxRNvEBN0
+0sI0Ny7R6cocAQCHLCcvDqJNyNnlh0f/JuGEUOIk26ZC4uY/z+pG8nXzALxF3QFO
+0DPAsrTNDMz9Rl3S/LlbKm6WfrTClpXfgg3wozU2HD1qcGFgVOPBUZTwaqp0a4UO
+MTqS4cUvfDhydN47rwe1TZjJrKE7R0tL4MPRwCXQlpmWA76dDbo4EU+uJvAUmLaF
+QNAYJewazhErrtIyYckgMGeD8sEKEUvvjicbiCbClydbQCOtNc6YzfIYWHwb+NAC
+QbQBv/GU2HvGTxRJdtD5g63fY6s=
 
-------076F295ACE5902BD56C36FB856B411D9--
+------262CFFF44C63C07129ADD3A624BA1291--
 
 
