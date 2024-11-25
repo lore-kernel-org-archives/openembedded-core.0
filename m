@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E468D5806E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FD34D5807E
 	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 12:01:53 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.web11.17228.1732536111446406647
+Received: from mail-lf1-f41.google.com (mail-lf1-f41.google.com [209.85.167.41])
+ by mx.groups.io with SMTP id smtpd.web10.17096.1732536110435709170
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 04:01:51 -0800
+ Mon, 25 Nov 2024 04:01:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JF/JXtv5;
- spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3825a721ae5so2353819f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:51 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CxmmkB/e;
+ spf=pass (domain: gmail.com, ip: 209.85.167.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lf1-f41.google.com with SMTP id 2adb3069b0e04-539eb97f26aso4777077e87.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732536110; x=1733140910; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732536108; x=1733140908; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=iAUI1pHQQWQ8+BWYLOiq5wLtPeNihQi6haERLUnH81c=;
-        b=JF/JXtv51vDySU7WijE0Urrryi9A14Qv4kTO6wjEF9E1p3T1bpQNd17xxsm31wW1zQ
-         GcPwpCDXAi07dhJBIyDkLxPV319vR659WGkphYIZTdAJhcf2d4yGiA6IzytX1GMXA12P
-         MqTQuB9vA/rkHwyjAxJh0mTxw8LhTitaDQdNcA97w09oQ5UZqoqx9bxyNNcshndkvecp
-         kO13D9bQX4IWnc/zehChAM1hsogLNxa2qv7p3RMiSNeDrwmMxGp9nU3yKB6tq1iJFRVc
-         WMntTiQJQvu7Sk2WqMEnN4Go8tkNNnk2pqgEu0E9LGOLiui7LUh+7exxQhwL024lLme2
-         xwAw==
+        bh=aacLE2AGsg+f2GkKLe1uEZQu+XnEfe/u5GE0NP5qjq4=;
+        b=CxmmkB/eNcgzsL9gjcL8xyf8MF875WTjqnD/X/4oRku5QlUOprwr6LD/oI0TvBzHRV
+         twv/xpPHJITRe0KiCZel2227HZQhlNu1oBbHm4qynFR2zgMNLzi+HxCQl9oNraNleqYT
+         DF+QpAuR6ZRSABoqqe5CrKJ8PX5dSh44/qgdINPtQ6GBtXEBjYPFU8Zxl0oif/AjGfBl
+         T06enA+02Itw9Ytf8Hl938Yy/usWxwFHDNDml70Plwf3xPPxuwsPwA3f/uhG/80hgRlz
+         ZsQQ8i9Va70pbIhBxdXQ8YGm9tETT2VvCIZxC8QpbiLYG6xvn9D2Z7r2VvTn++lS8Yzn
+         heWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732536110; x=1733140910;
+        d=1e100.net; s=20230601; t=1732536108; x=1733140908;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iAUI1pHQQWQ8+BWYLOiq5wLtPeNihQi6haERLUnH81c=;
-        b=fSpwLoCkY3f9ux4DYEH9uVwtybo6ww7QLjKHTaez2xyndbwauTKnPru8CNc7uOJ8qt
-         kmMWaDuwziUfkv91l7MIDFmcq4BD/SQxBbXVbV9tSeflxIoAGzRLjl8bM+gsWvyC1Sw0
-         4Kd783AzQjtuQnMUjdElMfRQHnqWVW0T+wHbqVuNRnf4jSTXmxALbCGrrGXFPiHEKK0w
-         VJXn4KfBu9ZtwYc7HNvR5HtZb+7+uJUxL//49j2lt+xzaY61jz9G2lUNYHlbxR7hdfsY
-         CSKLUNSoQ2SUIWOJHtk6ZpukEx5P/7RR8URgR4l7Idnaz5WYdCDE9UHmDIXmawB7eIcA
-         8tZg==
-X-Gm-Message-State: AOJu0YxAGUkwMy6mKn6BzbNJxP0Oa2mV7zQjtMipALDn1uqK/GwgEk24
-	D2ZSXOy3Z9Na8jZ+e9eBr5eN1rqsugCEQSc/A2GpRADePexIhFXO/QOhDw==
-X-Gm-Gg: ASbGnct1vEOm6lyp22f5GI5H86ER5MC+FPFsgJEC8eGK/cx9ekuqMrZZS/ZSQpqUgF8
-	yqpdraoMAlphJ9YPpG2NDtc1pU8r0+HcfkmGfwpk/RWOdo7NuvIV+RTRtUSaUS5MvNkrMeVQlIy
-	W+Pwk5GWbnmrlchQLspIhxMqEvrW5XTO6vcv5yjI5XVNbw+niLMr7VAPJxzONj8WTXP2LEPjdf2
-	0ihi7R3QaoGFU1lwqkcJpdUXEgt9Wq9wckrKqqUDoFRYgNSoHEZj3SObGQLOWbNFjiItJ6y3Y1R
-	JfT4vWcE6mo=
-X-Google-Smtp-Source: AGHT+IG2JkzflcZPH94o5c5Mz8gWkR0RrFOZbzqmQgk070w0IXxmJvc8WzO5J4xVvhQiEucxRUHIhA==
-X-Received: by 2002:a05:6000:1fa3:b0:382:4aab:eb9b with SMTP id ffacd0b85a97d-38259d4fabdmr13468050f8f.27.1732536109680;
-        Mon, 25 Nov 2024 04:01:49 -0800 (PST)
+        bh=aacLE2AGsg+f2GkKLe1uEZQu+XnEfe/u5GE0NP5qjq4=;
+        b=oo6tBrOmfuWaydMs80Pfn9Q/skzQQN8gex9WtU3+ErvpYj6r5rsRMo+w9Q5rY930u6
+         dBGnYcvIQZr9qPZwW/WqK40D0+JmnrBl6C4+n9iKcHdrGyQjB06yTdWOqOcJVrMsZ+QV
+         VyHGUA8bUjmQ6TxuXw6zNJN/pgE4lB25m1TrZbjyRyylf92NYgdrbLshlSQRySzeT5bt
+         uoYwUIglDhIMVO82ESadLgVMpsMTxTQL+rQJ7pHUB8NXNW8bX2F84Z1qWfHiaa4Pd/B0
+         HzqyZ0DUypceDRDWBblhjnd2h6f97dn9701OQTWznf6mCg9tOGQ9jAfiOwcm5mucCTOG
+         HyFA==
+X-Gm-Message-State: AOJu0Yyr2nqagYkp0EaACClqiu64+DHwvnu6lrLKXUJFWB2nUyzAApNi
+	53g86xN1yRZl3J8lbj5t9mJkjaSe7TywlxqvMdyIuilPGIdLH7G1qFpuCA==
+X-Gm-Gg: ASbGncvE2F/JIBul1Sd30lVvt2F0pgqtsY7Fl9tAgi+WF8711Pxppahej6Zyc3NYw27
+	T0xedfxmVrZNShcsEtmDFXR+UBrCEx/StQm/JmQr1TNkvFx85rf3iK8Z7IRivHMPF069HJ/tDqx
+	1lWPu8NEnOGHoiGTxPvSJGWtJeg9IVhxJ9tiMFs7Om0CFqDoWZ7gpCgnMSaD+wXAbZUZ3L6+NmJ
+	WnsoH+3/DJt95TthfVVieMRjZmQK2+9wQ+BZxk0tK6PK1chwKxziqk97LAJrAuk/tYvReM1nuBn
+	Is/ee+r5gdA=
+X-Google-Smtp-Source: AGHT+IGtOx2IlytV7w9qviDj651aCbSMWIImMRWOqIzcMP/O+EWPxWJsZOMi1jYiELJ08w7PxS0BcQ==
+X-Received: by 2002:a05:6512:3e0e:b0:539:f807:ada5 with SMTP id 2adb3069b0e04-53dd35a5ca0mr5952614e87.3.1732536108302;
+        Mon, 25 Nov 2024 04:01:48 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.49
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 04:01:49 -0800 (PST)
+        Mon, 25 Nov 2024 04:01:47 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 26/35] python3-xmltodict: upgrade 0.13.0 -> 0.14.2
-Date: Mon, 25 Nov 2024 13:01:18 +0100
-Message-Id: <20241125120127.2205232-26-alex.kanavin@gmail.com>
+Subject: [PATCH 24/35] python3-psutil: upgrade 6.0.0 -> 6.1.0
+Date: Mon, 25 Nov 2024 13:01:16 +0100
+Message-Id: <20241125120127.2205232-24-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241125120127.2205232-1-alex.kanavin@gmail.com>
 References: <20241125120127.2205232-1-alex.kanavin@gmail.com>
@@ -66,31 +66,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 12:01:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207774
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207772
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.2.bb} | 2 +-
+ .../python/{python3-psutil_6.0.0.bb => python3-psutil_6.1.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.2.bb} (86%)
+ rename meta/recipes-devtools/python/{python3-psutil_6.0.0.bb => python3-psutil_6.1.0.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
-rename to meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-index e8e275647c7..e99fa3826e1 100644
---- a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
-+++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/martinblech/xmltodict"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
+diff --git a/meta/recipes-devtools/python/python3-psutil_6.0.0.bb b/meta/recipes-devtools/python/python3-psutil_6.1.0.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-psutil_6.0.0.bb
+rename to meta/recipes-devtools/python/python3-psutil_6.1.0.bb
+index 787bc61e89a..bbff7f3fe52 100644
+--- a/meta/recipes-devtools/python/python3-psutil_6.0.0.bb
++++ b/meta/recipes-devtools/python/python3-psutil_6.1.0.bb
+@@ -3,7 +3,7 @@ LICENSE = "BSD-3-Clause"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=a9c72113a843d0d732a0ac1c200d81b1"
+ HOMEPAGE = "https://pypi.org/project/psutil/"
  
--SRC_URI[sha256sum] = "341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56"
-+SRC_URI[sha256sum] = "201e7c28bb210e374999d1dde6382923ab0ed1a8a5faeece48ab525b7810a553"
+-SRC_URI[sha256sum] = "8faae4f310b6d969fa26ca0545338b21f73c6b15db7c4a8d934a5482faa818f2"
++SRC_URI[sha256sum] = "353815f59a7f64cdaca1c0307ee13558a0512f6db064e92fe833784f08539c7a"
  
- PYPI_PACKAGE = "xmltodict"
+ inherit pypi python_setuptools_build_meta
  
 -- 
 2.39.5
