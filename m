@@ -1,89 +1,117 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <ejo@pengutronix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E7BC9E668A2
-	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 10:46:12 +0000 (UTC)
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
- by mx.groups.io with SMTP id smtpd.web10.16094.1732531563020215534
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E83A6E668A3
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 10:50:32 +0000 (UTC)
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+ by mx.groups.io with SMTP id smtpd.web11.16244.1732531831052129053
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 02:46:03 -0800
+ Mon, 25 Nov 2024 02:50:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hzf1iSfw;
- spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d4531d1309so22722716d6.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 02:46:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732531562; x=1733136362; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1KKF9HpmwdmfJCE/gnnxFjk2wcT0f8yw+KFv8pjaDlA=;
-        b=hzf1iSfwFGHfgKvRSTH2Lp3EyuegfoGhSOpMR0pg7LtOM1ZzVpGRoTQ1/raZXfxsX5
-         fk7CQXv2ggGoyAE1Y90K1z5smWcru9+uVnVfRGK7orc7Tre9I6oC8IrrjvbURNveWN5k
-         wPGmhUNDD8xL3Z0Cch+wcxVa1TWX5ntEaMUCVfwAS+hKE4Ae/tXJc3bKX95FB1R0+UtV
-         1CJx9VmFFS7z75roiEqS3SUVU0vHYbYfiwOmaqC0E4MvHHQilXAH4wZW0MVTzYNw4k85
-         Lxrfha5CnWzOV33WLrV0FuSxWVLJKggHhUW13ncBX7n2xFBMclXxlr+t/ZTrdDLJwoTB
-         s9zQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732531562; x=1733136362;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1KKF9HpmwdmfJCE/gnnxFjk2wcT0f8yw+KFv8pjaDlA=;
-        b=AQYMWYpW02sgOfrZ/76uBL3jCoumW8B5LjmZU8AqopogDnQVvYd6ZjuijkHJPAlEN0
-         rR3csGTuuHj63ldi7VY0GeHRLSATO7Sx+CY9BTENg8ZwEoOjm4V/CHurBd2hlW/5/y7K
-         NUjR/pqh5yd0pjRjKffpYeiUoQIPKB1MTNadAMIJ6Rza4Vs3TFiLdn11wMMCuYo7wGaJ
-         pYP0031K/22y3IQ8WRQOPtZP1T0+tu6hZ3Ey4zKns0l93Jx9iO+1ew+c8bjj9Qcd486K
-         pZuYjftxOPUU4kv8PF+IehIuUo83oz73myKHu0gyteUcNLunHzV4j0a8x2sy98UGtlcx
-         g2HA==
-X-Gm-Message-State: AOJu0Yxs9BQrT31CZtSQGQPl7JnPOPfuan1Rfd9TJunrS7RliRkP7cvl
-	0ROa/CCxg3Wc59fQ3P0KjRnyc4qOwgcmjyiquuWr6Ic3wGC0I00sX+xcgRUbv6l0/LaGxMzVYit
-	mcbd95sW3RvwDWifBymRxFc7Nub4e4g==
-X-Gm-Gg: ASbGnctPE1BEHbXxptKb6PPl/WS9fdkbreHZ+9BRjZ2kuvu4A985dNLfzKCw1dFifUy
-	zUBj0AucEFlrJqR6iie+Qxt3QqubUX9TpB9u9Di1An8K1uH2jB5/n8AlrAoJp+UHI9A==
-X-Google-Smtp-Source: AGHT+IHtsXZ8qYGtK62IQy18qwtX/jqXXSlWta/J+DDoE3R9uhWrnXsANfvhJxtwW/it80xB5bOqByddROzAN60zZHc=
-X-Received: by 2002:a05:6214:cc4:b0:6d4:1d6f:8fb9 with SMTP id
- 6a1803df08f44-6d451362880mr251073166d6.47.1732531562087; Mon, 25 Nov 2024
- 02:46:02 -0800 (PST)
-MIME-Version: 1.0
-References: <20241124162328.702209-1-gudni.m.g@gmail.com> <5971.1732465555239353230@lists.openembedded.org>
-In-Reply-To: <5971.1732465555239353230@lists.openembedded.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Mon, 25 Nov 2024 11:45:51 +0100
-Message-ID: <CANNYZj_C_zs7-j7W-y29sM7kxd3+6ApW-i=2Mhc2vXYZMyhXyg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] python3-rdflib: drop python3-isodate from RDEPENDS
-To: gudni.m.g@gmail.com
-Cc: openembedded-core@lists.openembedded.org
+ dkim=none (message not signed); spf=pass (domain: pengutronix.de, ip: 185.203.201.7, mailfrom: ejo@pengutronix.de)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
+	(envelope-from <ejo@pengutronix.de>)
+	id 1tFWfl-00042H-A7; Mon, 25 Nov 2024 11:50:29 +0100
+Message-ID: <9bed2a3b5cc813ef7e245f231918311f5ed065b6.camel@pengutronix.de>
+Subject: Re: [PATCH 3/3] barebox: move version checksum to common .inc
+From: Enrico =?ISO-8859-1?Q?J=F6rns?= <ejo@pengutronix.de>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, yocto@pengutronix.de
+Date: Mon, 25 Nov 2024 11:50:28 +0100
+In-Reply-To: <CANNYZj-gecZZxzQfHNuBgo+3P+u-YZ6qL-TaJ2ZfVq1cgTrh3Q@mail.gmail.com>
+References: <20241125102227.1216656-1-ejo@pengutronix.de>
+	 <20241125102227.1216656-3-ejo@pengutronix.de>
+	 <CANNYZj-gecZZxzQfHNuBgo+3P+u-YZ6qL-TaJ2ZfVq1cgTrh3Q@mail.gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
+MIME-Version: 1.0
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: ejo@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 10:46:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207732
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 10:50:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207733
 
-Perhaps we can move it to meta-python then? Typically oe-core should
-not be carrying recipes without consumers (unless those recipes are
-for 'core' embedded functionality).
+Am Montag, dem 25.11.2024 um 11:39 +0100 schrieb Alexander Kanavin:
+> The actual .inc isn't in the commit.
 
-Alex
+Indeed, this somehow slipped through..
+Will fix. Thanks!
 
-On Sun, 24 Nov 2024 at 17:26, Gu=C3=B0ni M=C3=A1r Gilbert via
-lists.openembedded.org <gudni.m.g=3Dgmail.com@lists.openembedded.org>
-wrote:
->
-> Note: I don't see any recipes in openembedded-core which depend on python=
-3-isodate after this commit.
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207711): https://lists.openembedded.org/g/openembedde=
-d-core/message/207711
-> Mute This Topic: https://lists.openembedded.org/mt/109756524/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
-ex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+Enrico
+
+> Alex
+>=20
+> On Mon, 25 Nov 2024 at 11:23, Enrico J=C3=B6rns <ejo@pengutronix.de> wrot=
+e:
+> >=20
+> > This makes it more obvious to update barebox and barebox-tools together
+> > and should help the AUH to update both.
+> >=20
+> > Suggested-by: Alexander Kanavin <alex.kanavin@gmail.com>
+> > Signed-off-by: Enrico J=C3=B6rns <ejo@pengutronix.de>
+> > ---
+> > =C2=A0meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb | 3 ++-
+> > =C2=A0meta/recipes-bsp/barebox/barebox_2024.10.0.bb=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 3 ++-
+> > =C2=A02 files changed, 4 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb b/meta=
+/recipes-
+> > bsp/barebox/barebox-tools_2024.10.0.bb
+> > index 386656f7ad..25d6a5c062 100644
+> > --- a/meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
+> > +++ b/meta/recipes-bsp/barebox/barebox-tools_2024.10.0.bb
+> > @@ -8,7 +8,8 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Df5125d13e000=
+b9ca1f0d3364286c4192"
+> > =C2=A0DEPENDS =3D "bison-native flex-native libusb1"
+> >=20
+> > =C2=A0SRC_URI =3D "https://barebox.org/download/barebox-${PV}.tar.bz2"
+> > -SRC_URI[sha256sum] =3D "955b20bfa7358732d2c0c09ccfd4c1a69087b7e2c610b1=
+6dee7442d71a5af88d"
+> > +
+> > +require barebox-version.inc
+> >=20
+> > =C2=A0S =3D "${WORKDIR}/barebox-${PV}"
+> > =C2=A0B =3D "${WORKDIR}/build"
+> > diff --git a/meta/recipes-bsp/barebox/barebox_2024.10.0.bb b/meta/recip=
+es-
+> > bsp/barebox/barebox_2024.10.0.bb
+> > index c886fcfba3..aa63be4080 100644
+> > --- a/meta/recipes-bsp/barebox/barebox_2024.10.0.bb
+> > +++ b/meta/recipes-bsp/barebox/barebox_2024.10.0.bb
+> > @@ -14,4 +14,5 @@ inherit barebox
+> > =C2=A0SRC_URI =3D "https://barebox.org/download/barebox-${PV}.tar.bz2=
+=C2=A0\
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file=
+://0001-lib-lz4-use-lz4-instead-of-lz4c.patch=C2=A0\
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "
+> > -SRC_URI[sha256sum] =3D "955b20bfa7358732d2c0c09ccfd4c1a69087b7e2c610b1=
+6dee7442d71a5af88d"
+> > +
+> > +require barebox-version.inc
+> > --
+> > 2.39.5
+> >=20
+>=20
+
+--=20
+Pengutronix e.K.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Enrico J=C3=B6rns=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|
+Embedded Linux Consulting & Support=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| https://www.pengutronix.de/ |
+Steuerwalder Str. 21=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0| Phone: +49-5121-206917-180=C2=A0=C2=A0|
+31137 Hildesheim, Germany=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0| Fax:=C2=A0=C2=
+=A0=C2=A0+49-5121-206917-9=C2=A0=C2=A0=C2=A0=C2=A0|
 
