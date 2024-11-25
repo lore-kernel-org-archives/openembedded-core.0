@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E583D5807A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E468D5806E
 	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 12:01:53 +0000 (UTC)
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
- by mx.groups.io with SMTP id smtpd.web10.17089.1732536103642425611
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.web11.17228.1732536111446406647
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 04:01:44 -0800
+ Mon, 25 Nov 2024 04:01:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=RoOuso5T;
- spf=pass (domain: gmail.com, ip: 209.85.167.42, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-53dded7be84so1696937e87.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=JF/JXtv5;
+ spf=pass (domain: gmail.com, ip: 209.85.221.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3825a721ae5so2353819f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732536102; x=1733140902; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732536110; x=1733140910; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=bdW1om60pyxxaJtX0Z7uazOYUtzfEsIIERbdUaKIa9w=;
-        b=RoOuso5TCRsKsTNmV336bEpLdyiYSrPslQqUgIiMM+SXy9cH2z8maIDm0Bn2/8wOFK
-         BaV8stgP9iRESGlER+EyvRZhfsswtuT5s9Jtris0SUy8RZCmvNGT+7CE4eR8wjVJ8ju2
-         12al0ucFU7pIgtk0iEaaI1nlnrnIzKB3GI2qfBlKMLK2SkIKdyrv3wmz3R97tpD9TQzd
-         HazCHt3PpwIL0v4H5FTzOGL+/xNsFOI2rzeNc7FhGwaMk6hNKjo2r24zdJGcMpa+HBgg
-         RVgHC+xNHMz0+KWxt68kN0h4keJno4axmRG983BMeQ+G0GGpO9//IemdGDL2NKxk39D0
-         /QTA==
+        bh=iAUI1pHQQWQ8+BWYLOiq5wLtPeNihQi6haERLUnH81c=;
+        b=JF/JXtv51vDySU7WijE0Urrryi9A14Qv4kTO6wjEF9E1p3T1bpQNd17xxsm31wW1zQ
+         GcPwpCDXAi07dhJBIyDkLxPV319vR659WGkphYIZTdAJhcf2d4yGiA6IzytX1GMXA12P
+         MqTQuB9vA/rkHwyjAxJh0mTxw8LhTitaDQdNcA97w09oQ5UZqoqx9bxyNNcshndkvecp
+         kO13D9bQX4IWnc/zehChAM1hsogLNxa2qv7p3RMiSNeDrwmMxGp9nU3yKB6tq1iJFRVc
+         WMntTiQJQvu7Sk2WqMEnN4Go8tkNNnk2pqgEu0E9LGOLiui7LUh+7exxQhwL024lLme2
+         xwAw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732536102; x=1733140902;
+        d=1e100.net; s=20230601; t=1732536110; x=1733140910;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=bdW1om60pyxxaJtX0Z7uazOYUtzfEsIIERbdUaKIa9w=;
-        b=wo6mdmd1dBp7l3Ppb6JUVVcMqXAhNNMYICbyh4DaGVUNmqqGDMovu3RuWIBA0eegwL
-         NWKRELpvcfBpQyXLr14x92o1q/bUswcZu+r0tE6nbldi91A4kvPin4CO8BjoWgbL/56z
-         jz8sS5xR2cn+wj06lk3mnZf3J8UZ2xrDymMrtncRiAYvNkTHF45LB89aSD8LRP49PjMh
-         BT4eNkxYtjSJ2FYpdV6vyzo6Ob4fzMJX4nteZaJGZjxShY3sTxaTgp5xs7UEJukZRGz4
-         X2xJrCFRnr/s1t34fYjb9o7NZb910+VZ6l+Wl3z/upe1iu6c6U2nSgNwVu78QQT2GCTA
-         tQYQ==
-X-Gm-Message-State: AOJu0Ywx9ESFCelsgmwTkAhofcg1vX/lgON8PFFI2enx4ymIw5iSCmTM
-	c7e7GiyxsCqr0GyWMmC/ieHigu7vMlDx7XCPiWMKU1jZGbV4k19Tp6LiDw==
-X-Gm-Gg: ASbGnctFzSLt48e/cE2MWbw2uFMpFQnl0WJev25E/Nei//utUITpf7/BRAh8kZWrPj5
-	pPXDafZFQp8QAKm4mwYgBA7I0NZTJ4TDGM1AbEAvpW2LtJ/0FU4vZCszhEVze7DIIuscyx79uwL
-	5guX4z/eubrN5k44jr3M+WVuXYWbDgZxjshCiCWZzpgQ8CLJv8gRzp6ikH0HhhB+FyU2DQeNdwn
-	4m7esdfvL3D1iqq4w6z4lj7RA4qHXjr4NPKmhZRcjQsFqevyFDZj8iPJi4CSN7F6NsoiHzV1e3H
-	udOuwoKM+sI=
-X-Google-Smtp-Source: AGHT+IFVg12oQUydAODbePIDUIrctUS7EeuzLLcC1vo/A0XbXKBFmHPj4h0mO5DPApSa5IAj6jEz0Q==
-X-Received: by 2002:a05:6512:3192:b0:53d:e5fd:a445 with SMTP id 2adb3069b0e04-53de5fda6afmr1009981e87.32.1732536101573;
-        Mon, 25 Nov 2024 04:01:41 -0800 (PST)
+        bh=iAUI1pHQQWQ8+BWYLOiq5wLtPeNihQi6haERLUnH81c=;
+        b=fSpwLoCkY3f9ux4DYEH9uVwtybo6ww7QLjKHTaez2xyndbwauTKnPru8CNc7uOJ8qt
+         kmMWaDuwziUfkv91l7MIDFmcq4BD/SQxBbXVbV9tSeflxIoAGzRLjl8bM+gsWvyC1Sw0
+         4Kd783AzQjtuQnMUjdElMfRQHnqWVW0T+wHbqVuNRnf4jSTXmxALbCGrrGXFPiHEKK0w
+         VJXn4KfBu9ZtwYc7HNvR5HtZb+7+uJUxL//49j2lt+xzaY61jz9G2lUNYHlbxR7hdfsY
+         CSKLUNSoQ2SUIWOJHtk6ZpukEx5P/7RR8URgR4l7Idnaz5WYdCDE9UHmDIXmawB7eIcA
+         8tZg==
+X-Gm-Message-State: AOJu0YxAGUkwMy6mKn6BzbNJxP0Oa2mV7zQjtMipALDn1uqK/GwgEk24
+	D2ZSXOy3Z9Na8jZ+e9eBr5eN1rqsugCEQSc/A2GpRADePexIhFXO/QOhDw==
+X-Gm-Gg: ASbGnct1vEOm6lyp22f5GI5H86ER5MC+FPFsgJEC8eGK/cx9ekuqMrZZS/ZSQpqUgF8
+	yqpdraoMAlphJ9YPpG2NDtc1pU8r0+HcfkmGfwpk/RWOdo7NuvIV+RTRtUSaUS5MvNkrMeVQlIy
+	W+Pwk5GWbnmrlchQLspIhxMqEvrW5XTO6vcv5yjI5XVNbw+niLMr7VAPJxzONj8WTXP2LEPjdf2
+	0ihi7R3QaoGFU1lwqkcJpdUXEgt9Wq9wckrKqqUDoFRYgNSoHEZj3SObGQLOWbNFjiItJ6y3Y1R
+	JfT4vWcE6mo=
+X-Google-Smtp-Source: AGHT+IG2JkzflcZPH94o5c5Mz8gWkR0RrFOZbzqmQgk070w0IXxmJvc8WzO5J4xVvhQiEucxRUHIhA==
+X-Received: by 2002:a05:6000:1fa3:b0:382:4aab:eb9b with SMTP id ffacd0b85a97d-38259d4fabdmr13468050f8f.27.1732536109680;
+        Mon, 25 Nov 2024 04:01:49 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.41
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 04:01:41 -0800 (PST)
+        Mon, 25 Nov 2024 04:01:49 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 16/35] npth: upgrade 1.7 -> 1.8
-Date: Mon, 25 Nov 2024 13:01:08 +0100
-Message-Id: <20241125120127.2205232-16-alex.kanavin@gmail.com>
+Subject: [PATCH 26/35] python3-xmltodict: upgrade 0.13.0 -> 0.14.2
+Date: Mon, 25 Nov 2024 13:01:18 +0100
+Message-Id: <20241125120127.2205232-26-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241125120127.2205232-1-alex.kanavin@gmail.com>
 References: <20241125120127.2205232-1-alex.kanavin@gmail.com>
@@ -66,81 +66,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 12:01:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207763
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207774
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-support/npth/npth/musl-fix.patch | 37 -------------------
- .../npth/{npth_1.7.bb => npth_1.8.bb}         |  6 +--
- 2 files changed, 2 insertions(+), 41 deletions(-)
- delete mode 100644 meta/recipes-support/npth/npth/musl-fix.patch
- rename meta/recipes-support/npth/{npth_1.7.bb => npth_1.8.bb} (73%)
+ ...{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-xmltodict_0.13.0.bb => python3-xmltodict_0.14.2.bb} (86%)
 
-diff --git a/meta/recipes-support/npth/npth/musl-fix.patch b/meta/recipes-support/npth/npth/musl-fix.patch
-deleted file mode 100644
-index fabe78b14c5..00000000000
---- a/meta/recipes-support/npth/npth/musl-fix.patch
-+++ /dev/null
-@@ -1,37 +0,0 @@
--From 417abd56fd7bf45cd4948414050615cb1ad59134 Mon Sep 17 00:00:00 2001
--From: NIIBE Yutaka <gniibe@fsij.org>
--Date: Fri, 1 Mar 2024 13:53:52 +0900
--Subject: [PATCH] Fix INSERT_EXPOSE_RWLOCK_API for musl C library.
--
--* configure.ac: Add a case for musl system.
--
--Upstream-Status: Backport [https://git.gnupg.org/cgi-bin/gitweb.cgi?p=npth.git;a=commit;h=417abd56fd7bf45cd4948414050615cb1ad59134]
--Signed-off-by: Alexander Kanavin <alex@linutronix.de>
----
--
--GnuPG-bug-id: 5664
--Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-----
-- configure.ac | 5 ++++-
-- 1 file changed, 4 insertions(+), 1 deletion(-)
--
--diff --git a/configure.ac b/configure.ac
--index c1091b1..576a26e 100644
----- a/configure.ac
--+++ b/configure.ac
--@@ -381,7 +381,10 @@ fi
-- AC_SUBST(INSERT_NO_RWLOCK)
-- 
-- case "${host}" in
---    *-*-linux*|*-*-gnu*)
--+    *-*-linux-musl*)
--+        INSERT_EXPOSE_RWLOCK_API="1"
--+        ;;
--+    *-*-linux-gnu*|*-*-gnu*)
--         INSERT_EXPOSE_RWLOCK_API="defined(__USE_UNIX98) || defined(__USE_XOPEN2K)"
--         ;;
--     *)
---- 
--2.30.2
--
--
-diff --git a/meta/recipes-support/npth/npth_1.7.bb b/meta/recipes-support/npth/npth_1.8.bb
-similarity index 73%
-rename from meta/recipes-support/npth/npth_1.7.bb
-rename to meta/recipes-support/npth/npth_1.8.bb
-index 0cf35565a36..a354af2a7c2 100644
---- a/meta/recipes-support/npth/npth_1.7.bb
-+++ b/meta/recipes-support/npth/npth_1.8.bb
-@@ -6,11 +6,9 @@ LICENSE = "LGPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=2caced0b25dfefd4c601d92bd15116de"
- UPSTREAM_CHECK_URI = "https://gnupg.org/download/index.html"
+diff --git a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
+rename to meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
+index e8e275647c7..e99fa3826e1 100644
+--- a/meta/recipes-devtools/python/python3-xmltodict_0.13.0.bb
++++ b/meta/recipes-devtools/python/python3-xmltodict_0.14.2.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/martinblech/xmltodict"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=01441d50dc74476db58a41ac10cb9fa2"
  
--SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2 \
--           file://musl-fix.patch \
--           "
-+SRC_URI = "${GNUPG_MIRROR}/npth/npth-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "341595a488e3e01a85a9d8911d8912fd922ede5fecc4dce437eb4b6c8d037e56"
++SRC_URI[sha256sum] = "201e7c28bb210e374999d1dde6382923ab0ed1a8a5faeece48ab525b7810a553"
  
--SRC_URI[sha256sum] = "8589f56937b75ce33b28d312fccbf302b3b71ec3f3945fde6aaa74027914ad05"
-+SRC_URI[sha256sum] = "8bd24b4f23a3065d6e5b26e98aba9ce783ea4fd781069c1b35d149694e90ca3e"
- 
- inherit autotools multilib_header
+ PYPI_PACKAGE = "xmltodict"
  
 -- 
 2.39.5
