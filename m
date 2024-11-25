@@ -1,120 +1,122 @@
-Return-Path: <danismostlikely@gmail.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6080ED58D5F
-	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 15:47:45 +0000 (UTC)
-Received: from mail-il1-f170.google.com (mail-il1-f170.google.com [209.85.166.170])
- by mx.groups.io with SMTP id smtpd.web11.21774.1732549663650615251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 64E16D58D64
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 16:13:55 +0000 (UTC)
+Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
+ by mx.groups.io with SMTP id smtpd.web10.22266.1732551231717255923
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 07:47:43 -0800
+ Mon, 25 Nov 2024 08:13:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=T5Y+DUpw;
- spf=pass (domain: gmail.com, ip: 209.85.166.170, mailfrom: danismostlikely@gmail.com)
-Received: by mail-il1-f170.google.com with SMTP id e9e14a558f8ab-3a76156af6bso15707505ab.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 07:47:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NKumKqgG;
+ spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5ee1c3dbeb9so2337254eaf.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 08:13:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732549662; x=1733154462; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QbSYFoQIt1sf/epBKYjr1WXpKkr7IJWeqqO9QoymQNI=;
-        b=T5Y+DUpwiw9HdJDe9QZV5Qgbz0wVK0ovYv0V0EkBbujjZ4EGGxscZWWzoyS1KhRUaE
-         ufy1FVft1rJoxpPrq7UhJ8zD0DJi2sh9FRDqLlvIDF/DIsA3gvmXl1TuNQfq/qbmkaKc
-         Y0aAduGRT5U0YoQpr5tTRwwHYdcdO6h+qWP1rQcd2Ft3m5Okx02z8LNvRHvqJHsTE0bi
-         YEja6NyiWYDjdkawArJpFQkJtCiCLXy7cz4Z6oznx3hSSeGxAvQD1hyEzrKCA9scZryG
-         /HriM2XbL9Wh/MZlxldPFaKgFPCo58LoKBgdozipst63PVldNtonpLghWjqRQVRYqHdo
-         OO6g==
+        d=gmail.com; s=20230601; t=1732551231; x=1733156031; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2/hycAuqCNIQaV6EBZYHUiXZ0FoB+I8lpfQOcZp4Tek=;
+        b=NKumKqgGQdSURLspgmGtAd1kMjRd+c4xZh1c/iyv/++KHnafseCuOW2/8dqvet0QTy
+         cNPoNX9Vn7tBq4PgOW1zowZGp9lESARxwnXaIVKXf6jptm6OoZuH7PhyKmz9p2dwLG6z
+         wHSwPt9nfZ0I8ULj9r2sMF7QzeDLNC2wlb5saEx34XAI6NAb2Sr0i6A4c7gvyLbtDxoD
+         zAWCMr60T3hktdl6tpJsEupcLRpHkv+Hzy+2xMePnJNOOt0YUtR6HqX9Wmohe/uKpdVe
+         eC6kpzi+EeDFQ/uj5vBl+VhallsBPUOC8DCKTLk/2DGrkJejV6t7qkSc7vc8CEC50Lzq
+         UN/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732549662; x=1733154462;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QbSYFoQIt1sf/epBKYjr1WXpKkr7IJWeqqO9QoymQNI=;
-        b=OqFRTOydJElXimkR+knny16JuKwN1Y4+nWegQqKVQmpqIvMC4pmnUkC6EWj+reIyBL
-         ihnUHsfaTO08fNyuNHMCvmPKDMBtVDrKlcDkV1kw5gueZwtP0LOfNlkYlZD3RMtpby6T
-         cDvsy6PbCuKUR57jzinbj46iaW2cUMjdVan8q7eCn51RC+rfeGDuYBVCuRDQ1ifUNx9g
-         OZKe9hz1DBdT4e/LhHLfOn1U+9Mq/UHQVrn9fFKpVjGPD+tdtnohT6CDFGQExvrO4h6H
-         K+bX5kPTViXxyta7dQUvJYZNil6w/z6yTCLMiISQuDQRVrGjP1dlA7lDKNGkWniEhHpI
-         gcJA==
-X-Gm-Message-State: AOJu0YwZQXgKh4qGguAHNVkO+Qq2ZCq35iIM0EKvXFc1qbtQKt4VZNbW
-	ZjC/D7pYx9031F68F9uznI9t6IbsVbqUM3CN+9QTi9PmiwhaXNVVdfJjYg==
-X-Gm-Gg: ASbGnctLc7JcWtLNqdMhzy6O2tV9LR4e0Dx1PTW5Qob5ZfbdpSoje3wcqcYJRtoW2QW
-	WanU5qGSi9jECYMV+rxpUyQs2pG39c4zXjEF1w72icyX73yojU4hWlL+Ic4ig/nkY03wg2evF79
-	Zk2nD0Tz1NoC8cI/G8oWkG55x+8nplrlxXtimvTD4TsOyWuvX9PdjOOAwFhQ083apktsHF048zO
-	mjOc1Cnr9PLOIApZprtwph4IdoXFpWu7y4zDMl+aHbcVqTw6Cyyno5wIKkhM3cVOp2JhVg6JxBw
-	28iDVQ==
-X-Google-Smtp-Source: AGHT+IGofaoGuzjW7WWqorRFPloAiZWGfpbR/RaHcshvfvcF4xdqgd6txsJXjwJIMpnhVF7m6sYeng==
-X-Received: by 2002:a05:6e02:160c:b0:3a7:7a68:44e2 with SMTP id e9e14a558f8ab-3a79aeacd6dmr147695325ab.15.1732549662632;
-        Mon, 25 Nov 2024 07:47:42 -0800 (PST)
-Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3a79acb8808sm17793305ab.74.2024.11.25.07.47.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 07:47:41 -0800 (PST)
-From: Dan McGregor <danismostlikely@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Dan McGregor <dan.mcgregor@usask.ca>
-Subject: [PATCH] systemd: more optimistic dlopen notes processing
-Date: Mon, 25 Nov 2024 09:47:39 -0600
-Message-ID: <20241125154739.416548-1-danismostlikely@gmail.com>
-X-Mailer: git-send-email 2.47.0
+        d=1e100.net; s=20230601; t=1732551231; x=1733156031;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=2/hycAuqCNIQaV6EBZYHUiXZ0FoB+I8lpfQOcZp4Tek=;
+        b=Z4SGEgKVMwONrsJ4zRLD3Of8ITe6rgzTZC8iKCifV0kll+gqwsRFNj5kL7m7Niip9D
+         omD7WJhePM3ghYDpeVUw0iMlVqzvn39TIHtG+hoPlFjwPNxwphoLvLqz/gB4KTiNnd8L
+         l8US/B0da28mgITg3FWAEkuL8Ft6klvOtXg1BGIiUkKrQnuvqn/patkNhyWo5BugvOZH
+         f99aesUpy+avV2Iw0PZqdMBdszu0EAK8PyH5p42urhTC4uzfFRniEpwVLAjS0ZkHzsFP
+         fRm4sSpt/18JzY2OHauN1p9SiJuiz5eHGYWrsqtBCy6uc+i4+S5m055K4vvSCMqJUb1h
+         p0MQ==
+X-Gm-Message-State: AOJu0YyIAIy42tL3jLR7M05XPxSCkz+hOTc+YOdTx+TUwTpJzsrKUyLE
+	i8dbkU0WUCLy29iS7Q9C1w9p7JxITVYQOodq1ahW2uOTbxcqyvCOYmykM+xKUDbsIa3hrfi/Wbh
+	5PZ5rZ5Rh36i8hcM9AFxYP5hwNIVFsA==
+X-Gm-Gg: ASbGnctJK8ANR+c2MfXvzjnA529QIMjNJ2aBN5TyCufSdWv3RmIxoCozPVdB/zFBrW/
+	9CQW2ceShorimm+aTsUkaRjgnc4fbRXg=
+X-Google-Smtp-Source: AGHT+IFqnF5IqWtbvnFyTMhlHrvkwpwtFFg5PqbJLWvJB2NaPKif8tfb4hNP8R0noDEJIXux5cTa0VPbwWqh36CPZ0I=
+X-Received: by 2002:a05:6830:6405:b0:713:d159:ec with SMTP id
+ 46e09a7af769-71c03c50e6fmr10629261a34.10.1732551230658; Mon, 25 Nov 2024
+ 08:13:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241125080135.808368-1-Deepthi.Hemraj@windriver.com>
+In-Reply-To: <20241125080135.808368-1-Deepthi.Hemraj@windriver.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 25 Nov 2024 08:13:24 -0800
+Message-ID: <CAMKF1sqFkN=w8bnwWKmFUm21jGdTd_7dwjCygK77XMsudaHBHQ@mail.gmail.com>
+Subject: Re: [scarthgap][PATCH] glibc: stable 2.39 branch updates
+To: Deepthi.Hemraj@windriver.com
+Cc: openembedded-core@lists.openembedded.org, Randy.MacLeod@windriver.com, 
+	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com, steve@sakoman.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 15:47:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207790
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 16:13:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207791
 
-From: Dan McGregor <dan.mcgregor@usask.ca>
+LGTM
 
-Ignore shared object names that differ from names we've already
-processed only by their version number. This assumes that the
-highest priority is first in the list, and ignores those later
-in the list if we've alredy found one.
-
-I saw this with the qrencode PACKAGECONFIG enabled. Its note lists
-both libqrencode.so.4 and libqrencode.so.3, which led to a packaging
-warning.
-
-Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
----
- meta/recipes-core/systemd/dlopen-deps.inc | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/dlopen-deps.inc b/meta/recipes-core/systemd/dlopen-deps.inc
-index e0b333398c2..18768d43491 100644
---- a/meta/recipes-core/systemd/dlopen-deps.inc
-+++ b/meta/recipes-core/systemd/dlopen-deps.inc
-@@ -3,7 +3,7 @@ PACKAGEFUNCS =+ "package_generate_dlopen_deps"
- python package_generate_dlopen_deps() {
-     # https://systemd.io/ELF_DLOPEN_METADATA/
- 
--    import struct, json
-+    import struct, json, re
- 
-     def extract_segment(filename, segment):
-         """
-@@ -66,14 +66,18 @@ python package_generate_dlopen_deps() {
-                     elf = oe.qa.ELFFile(f)
-                     elf.open()
-                     for dep in parse(extract_segment(f, ".note.dlopen"), elf.isLittleEndian()):
-+                        # Ignore sonames if a higher priority version is found
-+                        seen_sonames = []
-                         for soname in dep["soname"]:
-+                            base_soname = re.sub(r'\.so($|\..*$)', '', soname)
-                             if soname in shlibs:
-                                 # TODO assumes the first match is good
-                                 package, version = list(shlibs[soname].values())[0]
-                                 dependency = dep_map[dep["priority"]]
-                                 bb.note(f"{pkg}: adding {dependency} on {package} via .note.dlopen")
-                                 d.appendVar(f"{dependency}:{pkg}", f" {package} (>= {version})")
--                            else:
-+                                seen_sonames.append(base_soname)
-+                            elif base_soname not in seen_sonames:
-                                 bb.warn(f"cannot find {soname}")
-                 except oe.qa.NotELFFileError as e:
-                     bb.note(f"Cannot extract ELF notes: {e}")
--- 
-2.47.0
-
+On Mon, Nov 25, 2024 at 12:01=E2=80=AFAM <Deepthi.Hemraj@windriver.com> wro=
+te:
+>
+> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+>
+> Below commits on glibc-2.39 stable branch are updated.
+> dcaf51b41e elf: Change ldconfig auxcache magic number (bug 32231)
+> b3c51635ef Make tst-strtod-underflow type-generic
+> b74be22f65 Add crt1-2.0.o for glibc 2.0 compatibility tests
+> fcdf98f38c Add tests of more strtod special cases
+> 3edc0f22a6 Add more tests of strtod end pointer
+> 988de94538 Make tst-strtod2 and tst-strtod5 type-generic
+> a2f7087237 powerpc64le: Build new strtod tests with long double ABI flags=
+ (bug 32145)
+> 6624318c89 Do not set errno for overflowing NaN payload in strtod/nan (bu=
+g 32045)
+> 63bcc01744 Improve NaN payload testing
+> 86369c9ee4 Make __strtod_internal tests type-generic
+> a7be595c67 Fix strtod subnormal rounding (bug 30220)
+> 9cfeccf65a More thoroughly test underflow / errno in tst-strtod-round
+> 293e4e3c90 Test errno setting on strtod overflow in tst-strtod-round
+> d8b4fc3653 Add tests of fread
+> 373aab3e52 stdio-common: Add new test for fdopen
+>
+> Testresults:
+> After update    |Before update   |Difference
+> PASS: 4889      |PASS: 4885      |PASS: +4
+> FAIL: 229       |FAIL: 229       |FAIL: 0
+> XPASS: 4        |XPASS: 4        |XPASS: 0
+> XFAIL: 16       |XFAIL: 16       |XFAIL: 0
+> UNSUPPORTED: 227|UNSUPPORTED: 227|UNSUPPORTED: 0
+>
+> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> ---
+>  meta/recipes-core/glibc/glibc-version.inc | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-cor=
+e/glibc/glibc-version.inc
+> index dc162b2946..b3b21bd07d 100644
+> --- a/meta/recipes-core/glibc/glibc-version.inc
+> +++ b/meta/recipes-core/glibc/glibc-version.inc
+> @@ -1,6 +1,6 @@
+>  SRCBRANCH ?=3D "release/2.39/master"
+>  PV =3D "2.39+git"
+> -SRCREV_glibc ?=3D "84f6bfce2c37e32b9888321fc3131ffbbe6deeba"
+> +SRCREV_glibc ?=3D "dcaf51b41e259387602774829c45222d0507f90a"
+>  SRCREV_localedef ?=3D "fab74f31b3811df543e24b6de47efdf45b538abc"
+>
+>  GLIBC_GIT_URI ?=3D "git://sourceware.org/git/glibc.git;protocol=3Dhttps"
+> --
+> 2.43.0
+>
 
