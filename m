@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 066EFD58088
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 145A9D58090
 	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 12:02:04 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web10.17106.1732536114014893200
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.web10.17109.1732536117414105844
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 04:01:54 -0800
+ Mon, 25 Nov 2024 04:01:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=DN2nL5Y+;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3824446d2bcso3886197f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=jx8xxY4W;
+ spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-432d9bb168cso30205715e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732536112; x=1733140912; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732536116; x=1733140916; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+BhHdqsNCEPYwjckYE+QEW77eGR0WLg/Jw53rfO9tM0=;
-        b=DN2nL5Y+I4gYMeRFUeqQRGoRHsg/+8hcFDA7FGYN00D6emGNPp4isHDz8IDzlNFbmJ
-         HoiZnB+tO59UDCVqPNT5xuiBfTBCCiWRT/jugkuKFQQL7vIQeF3F+GJ+k7slG6Z5x45e
-         hkq+K8Ysm5n4Hg85WNNc9AHA8D+XXN4ZOQdaMH/AP+TFXDRy7/zF3ix/DvLf3DO8Nm2h
-         XWMd83J8M6jFQw6htLaCjc2DxxYCzJF000EdbEsZF6HTN9kLo/93BIzV9Pe8D+99n1tH
-         7a/oxxgwtcBvI7nJwZ61G+uErTLbZoFVZ/8kem7bgKQ0/+n2VeMJFbhHC5ZQyOW6YIEx
-         SaSg==
+        bh=Hn4Vmi+/A0btgNTY6o+rmYl9V975jPZRrB8MckEmVvw=;
+        b=jx8xxY4WgJ7fqN9lpfXQ7GwDmnyJFPAQKNkJuNqBxOVLY4vhMxLbLpT5UDs+qmovpY
+         6+kRHsjxinB3M1FDzca0jObsudKyZhEb3+c+gzhPdRFH/hEZjE/9RfNsnPTLhmspvQzv
+         D/frpq+eHDgXbFHg540xbDFJ0v3M1cHmJVNmJCxmkWzkvxrVvM/b7FguSEudfyv49nCG
+         UayjhHlS37qYHhww3WwgMvDyC+CRHOw19s0ppqWhv86WzSG9pQIO3jIbpH/kg1DiFxsu
+         Ys8HMGd42VDYUpwcKOi48ZLvjNlGWHPrOSiiZ1xiMp0nk+vlWBbvIT6+Dh3KLHa67tgK
+         W+OQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732536112; x=1733140912;
+        d=1e100.net; s=20230601; t=1732536116; x=1733140916;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+BhHdqsNCEPYwjckYE+QEW77eGR0WLg/Jw53rfO9tM0=;
-        b=a6w62cDLFPouuErIcyjBkBSubFA7tBQ3V82l8Erd2DQ0U9/bMC9UQWMaLZKrZH1Ltq
-         hCdBkNrQW+OMkCpQ4J3iK8ygaZYbUOOFcHoDeqSNf9aQIeeu5eqq0+PQjcjMIfeSb9eo
-         P9z89Oew4S5p+lkz1pqrFrLRyTlUQ63RFATk1u5WcKJ5EuvxNxqI2MOeyOAhon3gz0Fd
-         N/axLuoZr4EFC1f2Ma/Oy+A9h7HOxK+msEM7ENKC7iXzzG3DVRpsXx+izFl/6vety1P7
-         pyX5Er67YaTig5CA6B/heFnfyH/A9WS9DlSLt5atPfmln92X5ruYxG/YdwBOikXAdcfF
-         aVFA==
-X-Gm-Message-State: AOJu0YxBBLvf0nE5/ewxexnkoTahPtr3dYBRrDq8WI3a/WoqJXpS8N5g
-	vmok/cAVvsqyga0Q7VMVf1iNTemcWsJZFEcR5v8XDgrbifsYut1aJtr+Ww==
-X-Gm-Gg: ASbGncssZXaSuVb+VNvS5LzaT6B29KJmklDufaQufn5thVpMceAOyC/3MsjBYGteFff
-	qZdn8jsadukx5hZ2rUCLcIGqpKe9qUYuypEcMXjs+RWbUUBZcMqJuyhIelxenhUkQ6JvxeYayIa
-	stnz1PwiOsaYsTmnhzi7PWC9nXb6YPP5rPN0rtbKgY6ZO6vvg8ezWGHhv111W1eU3ZMQNqCdYKh
-	MaEm5QENgINcenAAH9wbgs+v4yWpIKVUH8i11me9UXcKKP3NVcajGTMQFrt0pnst7N+Oxlm2Sur
-	NrmFAEY1OWo=
-X-Google-Smtp-Source: AGHT+IHqmYerQCtS8nrBeoLYAe+USPxbsn9NaH+wNzj6/CtG3tCezXO6ucv9j1eOAwgD6tFz4eGn5Q==
-X-Received: by 2002:a05:6000:389:b0:382:5206:8b82 with SMTP id ffacd0b85a97d-38260b64481mr12748983f8f.29.1732536112175;
-        Mon, 25 Nov 2024 04:01:52 -0800 (PST)
+        bh=Hn4Vmi+/A0btgNTY6o+rmYl9V975jPZRrB8MckEmVvw=;
+        b=U2Lrz6F6dX4Vk0eIQr3YHGwix3eThasdZBqyDwFfcFEyiyHNu60mSYlgZkn4GYFN9Y
+         XrVXLw6F4MK0OLXQrM69CBqCINkdjaJwQx6vv0d0Y/lFgv6TSIs+3d4YaLElhzT4yxEn
+         Vuxey6WdDJwxS/urWvWRUyrdyCBXIB+lZWz+0NzXwkJ9XZErvl/t8rejFayepHdgxg9Q
+         ueFYN1gz4sx/fB0ei53kFA2bpKkw6eZ6cbh/cSXqHEfY+KbwdTwPzH9Sp2L4OuoNkUsY
+         6Tua0Tj31PQ+kG+YmR6xFMNKfVuuvnq3ngvqVcSJwmTu1iGaXaQ0lpICBNyi9fh7Hcf4
+         PZ1g==
+X-Gm-Message-State: AOJu0YzaVDZQe6ZNGyCNJZ5JoS63BqVfiKUhBhroCgeL1jMVZ19QAy1n
+	h9kCTtVEw0+aRHGGUG2UG1LY0TOqKVzV0R1+GdnF37RYPDRfAQqKA4V9lQ==
+X-Gm-Gg: ASbGncvhJ/ETVNrtC8YpWAlG9CRf23T4h9irr35NG0EjAnhkZnSQH2oYgrF+666Sct3
+	HpkMzz5LwiaBum8yZK2VzwxtQrp+CUgT3gYkUjX0tsxgd7qgb6nwvDAbjHSUx7cZ3uNDDO6bX52
+	EzZZc/r+sN08HZi+0+dqw7WMMNQ9fNLnmPtCdZAzpv/JF3Yl8R+T2frxe97XjKTtrisN/wmzqJZ
+	hToHNvVPwqN7wcChjnFskWSb5GgiuPT0AfmRYO3Lr8SGtaMk3U1qjWcSOvOcbJqLhb02Iijk6EC
+	LqXwuayQdFA=
+X-Google-Smtp-Source: AGHT+IFykSaA3B4RjzzHDq5ljgcfKNzWOkyuuTZ5zyxP7OZwQrdC7L+5GqPQ/OeVcpHKzTKgNEdlTA==
+X-Received: by 2002:a05:600c:3ace:b0:431:57cf:f13d with SMTP id 5b1f17b1804b1-433cda09dbcmr105641785e9.3.1732536115302;
+        Mon, 25 Nov 2024 04:01:55 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 04:01:51 -0800 (PST)
+        Mon, 25 Nov 2024 04:01:54 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 29/35] sudo: upgrade 1.9.15p5 -> 1.9.16p1
-Date: Mon, 25 Nov 2024 13:01:21 +0100
-Message-Id: <20241125120127.2205232-29-alex.kanavin@gmail.com>
+Subject: [PATCH 33/35] enchant2: correct SRC_URI and other uris
+Date: Mon, 25 Nov 2024 13:01:25 +0100
+Message-Id: <20241125120127.2205232-33-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241125120127.2205232-1-alex.kanavin@gmail.com>
 References: <20241125120127.2205232-1-alex.kanavin@gmail.com>
@@ -66,67 +66,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 12:02:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207777
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207781
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-License-Update: copyright years
+https://github.com/AbiWord/enchant confirms
+the correct locations.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../files/0001-sudo.conf.in-fix-conflict-with-multilib.patch   | 3 +--
- meta/recipes-extended/sudo/sudo.inc                            | 2 +-
- .../sudo/{sudo_1.9.15p5.bb => sudo_1.9.16p1.bb}                | 2 +-
- 3 files changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/sudo/{sudo_1.9.15p5.bb => sudo_1.9.16p1.bb} (96%)
+ meta/recipes-support/enchant/enchant2_2.8.2.bb | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-index 041c717e005..ec0384e257a 100644
---- a/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-+++ b/meta/recipes-extended/sudo/files/0001-sudo.conf.in-fix-conflict-with-multilib.patch
-@@ -1,4 +1,4 @@
--From 6e835350b7413210c410d3578cfab804186b7a4f Mon Sep 17 00:00:00 2001
-+From 61ae82a2ba502492b6a78f248258abb71daeb227 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Tue, 17 Nov 2020 11:13:40 +0800
- Subject: [PATCH] sudo.conf.in: fix conflict with multilib
-@@ -15,7 +15,6 @@ Update the comments in sudo.conf.in to avoid the conflict.
- Signed-off-by: Kai Kang <kai.kang@windriver.com>
+diff --git a/meta/recipes-support/enchant/enchant2_2.8.2.bb b/meta/recipes-support/enchant/enchant2_2.8.2.bb
+index f0da896e591..e26fb640f4f 100644
+--- a/meta/recipes-support/enchant/enchant2_2.8.2.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.2.bb
+@@ -2,8 +2,8 @@ SUMMARY = "Enchant Spell checker API Library"
+ DESCRIPTION = "A library (and command-line program) that wraps a number of \
+ different spelling libraries and programs with a consistent interface."
+ SECTION = "libs"
+-HOMEPAGE = "https://abiword.github.io/enchant/"
+-BUGTRACKER = "https://github.com/AbiWord/enchant/issues/"
++HOMEPAGE = "https://rrthomas.github.io/enchant/"
++BUGTRACKER = "https://github.com/rrthomas/enchant/issues"
+ LICENSE = "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
  
- Upstream-Status: Inappropriate [OE configuration specific]
--
- ---
-  examples/sudo.conf.in | 8 ++++----
-  1 file changed, 4 insertions(+), 4 deletions(-)
-diff --git a/meta/recipes-extended/sudo/sudo.inc b/meta/recipes-extended/sudo/sudo.inc
-index feb1cf35a75..0afbf669f08 100644
---- a/meta/recipes-extended/sudo/sudo.inc
-+++ b/meta/recipes-extended/sudo/sudo.inc
-@@ -4,7 +4,7 @@ HOMEPAGE = "http://www.sudo.ws"
- BUGTRACKER = "http://www.sudo.ws/bugs/"
- SECTION = "admin"
- LICENSE = "ISC & BSD-3-Clause & BSD-2-Clause & Zlib"
--LIC_FILES_CHKSUM = "file://LICENSE.md;md5=5100e20d35f9015f9eef6bdb27ba194f \
-+LIC_FILES_CHKSUM = "file://LICENSE.md;md5=0a6876cbeb2aa51837935ba3fd82ee87 \
-                     file://plugins/sudoers/redblack.c;beginline=1;endline=46;md5=03e35317699ba00b496251e0dfe9f109 \
-                     file://lib/util/reallocarray.c;beginline=3;endline=15;md5=397dd45c7683e90b9f8bf24638cf03bf \
-                     file://lib/util/fnmatch.c;beginline=3;endline=27;md5=004d7d2866ba1f5b41174906849d2e0f \
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb b/meta/recipes-extended/sudo/sudo_1.9.16p1.bb
-similarity index 96%
-rename from meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-rename to meta/recipes-extended/sudo/sudo_1.9.16p1.bb
-index 2fd2ae6d052..5907b0556de 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.15p5.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.16p1.bb
-@@ -7,7 +7,7 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
+@@ -14,7 +14,7 @@ inherit autotools pkgconfig github-releases
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
+ SRC_URI[sha256sum] = "8f19535adb5577b83b00e02f330fe9b9eb40dd21f19e2899636fc4d3a7696375"
  
- PAM_SRC_URI = "file://sudo.pam"
+-GITHUB_BASE_URI = "https://github.com/AbiWord/enchant/releases"
++GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
  
--SRC_URI[sha256sum] = "558d10b9a1991fb3b9fa7fa7b07ec4405b7aefb5b3cb0b0871dbc81e3a88e558"
-+SRC_URI[sha256sum] = "404994e23ae8bcf4be59ed6fd3759ad70a8cefa9bcf71640b33f176afec243b0"
+ S = "${WORKDIR}/enchant-${PV}"
  
- DEPENDS += " virtual/crypt ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'libpam', '', d)}"
- RDEPENDS:${PN} += " ${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam-plugin-limits pam-plugin-keyinit', '', d)}"
 -- 
 2.39.5
 
