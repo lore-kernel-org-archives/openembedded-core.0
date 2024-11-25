@@ -1,96 +1,125 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E14AD3B7C7
-	for <webhook@archiver.kernel.org>; Sun, 24 Nov 2024 23:15:19 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.web10.7067.1732490118857566868
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCA0D3B7D7
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 04:55:51 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.12130.1732510548555689215
  for <openembedded-core@lists.openembedded.org>;
- Sun, 24 Nov 2024 15:15:19 -0800
+ Sun, 24 Nov 2024 20:55:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DoWyIJCw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3824a089b2cso2304178f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 15:15:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1732490117; x=1733094917; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=081qjXIo7mnCXbBNyRAAbPk6pNVANyEqb1sMgEE8nMI=;
-        b=DoWyIJCwBWlJLbieYtc/Aiwjnfj0qRN7TXlUJSAc8ggZgjYGyJKVVxg/U3AoXQMnlK
-         cnDIeE8tRzW9oEbHiYxdbnE6WgGF91KisCZu9hBBaofG9z5g2o+QWfgOHgk9CjCVc5of
-         QLwEf7unuZeOFlFcOPck4IiE4ew1bSw6htSls=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732490117; x=1733094917;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=081qjXIo7mnCXbBNyRAAbPk6pNVANyEqb1sMgEE8nMI=;
-        b=F83E17P1LpXvkD6eTfaMXI7HftDCrWDzPc2xusPgv57DHUsZ6dTX5f0zCD8LoUmgIO
-         cNVQNAvGT3k4wZY6XfcmNCCHiFs0sb/DzoXjHBFoOUli/wROWk4ntPlXbW4sGh+FOySe
-         9v+jEg2MSXbap/+H6GgaS/Rc6MkRA5RtL8BYjlXXm4cYMwUdVgaagMxoFCBrwQ11SASX
-         N/rTZZOjxmiuaJhfQG8mpKxSFsASPJTg2BaJso5uUs7N8kzzZtHd75fDDlFj1N9LQczw
-         DWJ6k1TrN7Xuimbjr/psfGS5B9xRJ9yp0s5BcqnvDMP5OZcOLQm6cRh2Gehu0rK85fKO
-         C5pQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXu6D5/PG2D9qw3uB4Az/LXrGC7qvxERcdIxUQGvb8mqDTRJNU42IkzIfIlLshJSc6yNj7i8ZvIF3+qgbVFc43jTg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YzOwJHLdQ1NDpXupqonzAL1f1FplrQZWjbo0OH/YAQ6gLrO1MTm
-	PTTY52BsHLMvSykWYCLQJSAtQDXjeyYVhFDj1z7aFDgHZNvcbP9qpdm7yxgwLdY=
-X-Gm-Gg: ASbGncvxVUBWIqpE13Lf6vpOeDXIHreWQpxGEByd+vpnGhlo5xNU3uQ/bYPuWzB2/qA
-	BsiUwHxEUoXW04EwPQKEC94ZD+2CsPB1lTA5c0u/QR7vaS8AP1JxNBYE3oHg/3HvJ1gs0Jf1oyA
-	tWsk4LGC+LqNOcElPQYhJuAd6giw2EXKD6ZxEzwW+QFIbrmN6o5e3sM1KBitkIGD1WMZ87EULFB
-	DQt8k2iKb6ICokdOXWf/SNoeI268RaoA8IV6pJ1sesQmVqludbnSj4xXiogtfcnhyPMOAVBLdtG
-	FUSvt4SSZJmt454wpj3UTxXEJEbrJ40X3EdI
-X-Google-Smtp-Source: AGHT+IFRTo4Adx3AsDmJjmQc5vQXp1ljiluGDxOzM3QWg1d2gF8LNA3hefuDzbeeWwhdWCs4xQKTMA==
-X-Received: by 2002:a5d:6d08:0:b0:382:4a66:f517 with SMTP id ffacd0b85a97d-38260b452e2mr8560584f8f.4.1732490117154;
-        Sun, 24 Nov 2024 15:15:17 -0800 (PST)
-Received: from ?IPv6:2001:8b0:aba:5f3c:ee8c:e89f:d600:4e6? ([2001:8b0:aba:5f3c:ee8c:e89f:d600:4e6])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fb2683bsm8883621f8f.48.2024.11.24.15.15.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 24 Nov 2024 15:15:16 -0800 (PST)
-Message-ID: <46bb5927613108458f41a3e273b719d434d535ea.camel@linuxfoundation.org>
-Subject: Re: [yocto-security] OE-core CVE metrics for master on Sun 17 Nov
- 2024 01:00:01 AM HST
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: peter.marko@siemens.com, "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, 
- "yocto-security@lists.yoctoproject.org"
-	 <yocto-security@lists.yoctoproject.org>
-Date: Sun, 24 Nov 2024 23:15:14 +0000
-In-Reply-To: <AS1PR10MB56975B57EF4DE96ECDC4A156FD2D2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-References: <20241117112234.0C8111003F5@builder.sakoman.com>
-	 <AS1PR10MB56975B57EF4DE96ECDC4A156FD2D2@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.0-1 
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=10598c1d70=changqing.li@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AP4s2OF032252
+	for <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 20:55:48 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433b799d00-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 20:55:47 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Sun, 24 Nov 2024 20:55:47 -0800
+Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Sun, 24 Nov 2024 20:55:46 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [scarthgap][PATCH] acpica: fix CVE-2024-24856
+Date: Mon, 25 Nov 2024 12:55:45 +0800
+Message-ID: <20241125045545.3821180-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Authority-Analysis: v=2.4 cv=atbgCjZV c=1 sm=1 tr=0 ts=67440354 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=_OkILIDVsgnTJI8HqdYA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: T-jMegxDu7LVEIoJEo7qQ11joQN2-vCP
+X-Proofpoint-ORIG-GUID: T-jMegxDu7LVEIoJEo7qQ11joQN2-vCP
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.62.30
+ definitions=2024-11-25_02,2024-11-21_01,2024-09-30_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 phishscore=0
+ adultscore=0 mlxlogscore=854 bulkscore=0 lowpriorityscore=0 clxscore=1015
+ malwarescore=0 spamscore=0 impostorscore=0 mlxscore=0 priorityscore=1501
+ classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2409260000 definitions=main-2411250040
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 24 Nov 2024 23:15:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207718
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:55:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207719
 
-On Sun, 2024-11-24 at 22:38 +0000, Peter Marko via lists.yoctoproject.org w=
-rote:
-> Would be cool if there were also reports for styhead branch,
-> including graph on
-> https://valkyrie.yocto.io/pub/non-release/patchmetrics/.=09
+From: Changqing Li <changqing.li@windriver.com>
 
-The metrics were already being collected as I did that a while ago. You
-can see them in the logs here:
+The memory allocation function ACPI_ALLOCATE_ZEROED does not guarantee a
+successful allocation, but the subsequent code directly dereferences the
+pointer that receives it, which may lead to null pointer dereference. To
+fix this issue, a null pointer check should be added. If it is null,
+return exception code AE_NO_MEMORY.
 
-https://git.yoctoproject.org/yocto-metrics/log/
+Refer: https://nvd.nist.gov/vuln/detail/CVE-2024-24856
 
-What was missing was being added to the graphs so I just pushed that:
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+---
+ .../acpica/acpica_20240322.bb                 |  3 +-
+ .../acpica/files/CVE-2024-24856.patch         | 31 +++++++++++++++++++
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/acpica/files/CVE-2024-24856.patch
 
-https://git.yoctoproject.org/yocto-metrics/commit/?id=3D9e87ae4f3d056c4c07f=
-e411cf2d2054897ceb1ac
+diff --git a/meta/recipes-extended/acpica/acpica_20240322.bb b/meta/recipes-extended/acpica/acpica_20240322.bb
+index 90e3599d32..1f93c0d435 100644
+--- a/meta/recipes-extended/acpica/acpica_20240322.bb
++++ b/meta/recipes-extended/acpica/acpica_20240322.bb
+@@ -16,7 +16,8 @@ COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ 
+ DEPENDS = "m4-native flex-native bison-native"
+ 
+-SRC_URI = "git://github.com/acpica/acpica;protocol=https;branch=master"
++SRC_URI = "git://github.com/acpica/acpica;protocol=https;branch=master \
++           file://CVE-2024-24856.patch"
+ SRCREV = "170fc3076a86777077637f10b05c32ac21ac13aa"
+ 
+ S = "${WORKDIR}/git"
+diff --git a/meta/recipes-extended/acpica/files/CVE-2024-24856.patch b/meta/recipes-extended/acpica/files/CVE-2024-24856.patch
+new file mode 100644
+index 0000000000..c0c9c00d12
+--- /dev/null
++++ b/meta/recipes-extended/acpica/files/CVE-2024-24856.patch
+@@ -0,0 +1,31 @@
++From 4d4547cf13cca820ff7e0f859ba83e1a610b9fd0 Mon Sep 17 00:00:00 2001
++From: Huai-Yuan Liu <qq810974084@gmail.com>
++Date: Tue, 9 Apr 2024 23:23:39 +0800
++Subject: [PATCH] check null return of ACPI_ALLOCATE_ZEROED in
++ AcpiDbConvertToPackage
++
++ACPI_ALLOCATE_ZEROED may fails, Elements might be null and will cause null pointer dereference later.
++
++Signed-off-by: Huai-Yuan Liu <qq810974084@gmail.com>
++
++CVE: CVE-2024-24856
++Upstream-Status: Backport [https://github.com/acpica/acpica/pull/946/commits/4d4547cf13cca820ff7e0f859ba83e1a610b9fd0]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ source/components/debugger/dbconvert.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/source/components/debugger/dbconvert.c b/source/components/debugger/dbconvert.c
++index 6a41000036..32ad5be179 100644
++--- a/source/components/debugger/dbconvert.c
+++++ b/source/components/debugger/dbconvert.c
++@@ -354,6 +354,8 @@ AcpiDbConvertToPackage (
++ 
++     Elements = ACPI_ALLOCATE_ZEROED (
++         DB_DEFAULT_PKG_ELEMENTS * sizeof (ACPI_OBJECT));
+++    if (!Elements)
+++        return (AE_NO_MEMORY);
++ 
++     This = String;
++     for (i = 0; i < (DB_DEFAULT_PKG_ELEMENTS - 1); i++)
+-- 
+2.25.1
 
-Thanks for the CVE patches, it is appreciated. I'd noticed the builder
-issue but not got around to doing something with it yet.
-
-Cheers,
-
-Richard
 
