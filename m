@@ -2,99 +2,127 @@ Return-Path: <denis.osterland@diehl.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 433CFD5806A
-	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 11:55:13 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 463F2D5806C
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 11:56:43 +0000 (UTC)
 Received: from enterprise01.smtp.diehl.com (enterprise01.smtp.diehl.com [193.201.238.219])
- by mx.groups.io with SMTP id smtpd.web10.16986.1732535706432341611
+ by mx.groups.io with SMTP id smtpd.web11.17119.1732535801933737590
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 03:55:06 -0800
+ Mon, 25 Nov 2024 03:56:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@diehl.com header.s=default header.b=D2WK7PLC;
+ dkim=pass header.i=@diehl.com header.s=default header.b=LkyqVzww;
  spf=pass (domain: diehl.com, ip: 193.201.238.219, mailfrom: prvs=052d57505=denis.osterland@diehl.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
-  t=1732535706; x=1764071706;
+  t=1732535802; x=1764071802;
   h=from:to:subject:date:message-id:mime-version;
-  bh=hpuYhSJEcbUppAwwx+CN13CvivJ8853wgun+rF9qWF4=;
-  b=D2WK7PLCnWlq168FKUawkB6KVarLjerCFGwU2gEfNoU74vpWh7NdGFUx
-   V+fglpmQYoaJz8nRHKNe/UjpzAmBfb4vtRcZnr8O6AzoL57g0YEN8AMKb
-   n5Z9DZWh3dBhR3D9kxH6RKcwktyg3bkfcC6VkP/m+h87DZeTavUH/UC3V
-   lYKO1I/Wgs3jubOE4CPDb6d39+egObhf8SylOiRFF+apHhaZzSATkSjd4
-   wratBY2dMi1ePj2Dr83m5g8KWQkQLuOVhJXmWinBxJeJA1bMhqkTl1Ddc
-   JyP3XpNPKMprPhRtAz4/4CZnt9YD/wf1Rf8cYgrWBY+JdTIzLjTfBWCB1
-   Q==;
-X-CSE-ConnectionGUID: rBNRYUKbQ5q8YDLamHi6Og==
-X-CSE-MsgGUID: kvQpOkPmRpSt/E7WCdEIRw==
+  bh=qBJReiSGRXKFlfVwO88k5ZaULGiVDywTbZ9GWrXyNAk=;
+  b=LkyqVzwwGE33oVLxa10xiRa+egK7mbOcZkqkzZ4H8kGvrWoyxGI8mVm+
+   gg4dzIRqEKZsRgL2Z+lOTc10kXqpTVMc311wh2Z9khMOzNUlkis8z9T4I
+   upBMm0WrPJIDOVn3iNHGfFsI6yYZJP3DJ4kJHhXiFghudz7tK3EV/3qF8
+   fGO7KsJMmjtY2YsqpFZyEtGFTIG3J9u72RPB/xAO3GbIl+IxUm4Bzw9ia
+   WG17OXV/Wf5V/VQetR5Pq0SQC85cX6tBvezafE456YuHMxqQfaotXdeZx
+   XrcH3G+eWaigcauOtYctdBWlGTcIn9bRLYtuh56+5Cd6C7td+wgH2xEio
+   g==;
+X-CSE-ConnectionGUID: S1tfQiCGT9OtlVeWDDeJUA==
+X-CSE-MsgGUID: 88QnoyhGQ7OQGwnTpKIyiw==
 X-ThreatScanner-Verdict: Negative
-IronPort-Data: A9a23:BldFuqvFfd6HAPrUOn/2chpWjufnVExeMUV32f8akzHdYApBs4E2v
- jNfGTXfaa7OOz2rZJFrKNbltk0b+s+CkIcnDUA5nZ0HZ2lPqM/IQ8zGNS8cVAvNdMOTRxg24
- 50SYIDJcJ4+FyDW/Rv1beK88XN2i/CEF7T1UrLOai4vS189GHZ/h0Jox+Ri29Q02IXoCVuA6
- Y6pyyGzEFa9wzp1OWsI6qWF7wtst++t/SgZsVo3ee1RsTcyslFMZH5IDfrgdyuQrvBoNu6mW
- /6Ri/a683LCuRssB9Oh1L38dwoBWLqVIQvLik1QHaO4hkAqmsBJ6UpICRZmQR8R0120t9Bt1
- M0f8tuzRBYyeKHNleQZFRJfFmZ1J6kB5LyCIU+598eJyxWbMDq0q8mCd3raTrD0gM4vRzkmy
- NQYNCwVPFfEmP2phr66R+lowM8kKY7zP4JY4hlcIUri4YUbrerrG+OSjeJl4QrcpvyiPN7Sb
- sATNGRlZx+QPEMXMAhMWM9iw+ym2COvKWYHpF7M/vZusznYwTIq3em2OrI5WDAoqeZ9wxzE/
- DKWpwwVJjlAabRzHBLcqirEatfnxH29AMRKUuXlrpaGuXXLrkQLEhoaSFCnlvewj0+6Srp3J
- lcdksYUhfFaGHeDEJ+kBXVUnFbe5kRAAoMKT7VggO2w4vG8DzixVzFsogFpOIROWP8eHVQCy
- lKPltX1Mj1j2JX9YW6d7LqdsQSpMiETK2IYDQdcJefSy4C+yG2bpkunoudLSMZZvPWscd3D6
- 2niQBwFulkmpZVjO5NXX7zwq2nESpDhFmbZ7+hMN46vxlsRiIWNP+RE5bVHhBrpwUnwolSp5
- RA5d8aiAO8mF7urrh2wY+80Qaj51tqhOTj8gABIEMx0n9it0ybLkYF47DRsL0h2apxCcjjze
- AnfuA5R4NlYO37Cga1fOtr3W55slPimTI+/PhzXRoMmjpxZeAKB/TooYlWM0nrpmU4gua0+N
- JefN82rCB72DIw+lGfpG7hDj+JDKiYWxn3qXbf49xGdyYGCI1PKdpwJHXq0cbVshE+DiECPm
- zpFDOON0xhZXej0byXb/IJWJlcQIFA/BIvqsIpQbuOFLw9sFW0tBvOXxqkuE7GJhIwMzqGYp
- DfkCgkBkwCXaWD7FDhmo0tLMNvHNauTZ1piVcDwFT5EA0QeXLs=
-IronPort-HdrOrdr: A9a23:PY3FoK5Pn06C2W637wPXwBjXdLJyesId70hD6qkRc20oTiX8ra
- uTdZsgpHzJYEp7YgBGpTntAsa9qFnnhPxICPAqTNOftVDdyQ6VxeJZgbcKvQeMJ8SkzJ866U
- 4IScEXNDSXNzZHZK7BijVQeOxB/DDoysGVbKjlvg9QpRYDUdAY0+/jYTzraXGfZGN9dOAE/A
- D23Ls7mwad
-X-Talos-CUID: 9a23:75IS3mPzfxfV4u5DQgNBzn8pOcocL2SN/Vv0KkqYCDhOR+jA
-X-Talos-MUID: 9a23:t3GVUAp4auA25t4hfR0ezzJ8Dd9P4JyrMlg2jdIr5PavOQFRASjI2Q==
+IronPort-Data: A9a23:X/51I6pPFSJ447/gWxkuH73malheBmICZRIvgKrLsJaIsI4StFGz/
+ xJOGSnaY6zbJjuqJcY+dc3tpgkBpNWMmYgyDEcu+BmBJVpRrMvACJKBcVyY00i6I8aSEE49t
+ 5QVOtOdcJpuEi6C/Eugb7Pt8SFwjvvSH+GkBOPJait8GAQ1Qnlwhxg/kbAziINj0Ie3CVLR5
+ o34+KUzVHeswyZwM2kd96OErlR3v//p53YDv1M4bOxWplK2e1w9VfrzconqfiOoKmUtIsa6W
+ /rbnvb+/W7I5FEhC96llvDwdUhNSaTWehSNz3phXe6pmBwazhDeqZ3XR8fwE28PzW3hovhx1
+ MlV59v3Sgo4JevAmekdV19TFCQ5NrdCv6PEZHiIt4qY1UmeLjitm51S4DoN0f4lFpxfWScWn
+ cEwKCwRdkLEwP2p3/S3S+RsgoIoK8ysJIAe/SkI8d2iNhpVfHy5a/2Mvbdl4QoNauBy8df2N
+ sBBNmQ+NE2aMxYRYFoZV8k3zLeljSLxKWRT+APErvVrujiCxwFPi7W8a9C9lv5m5yl2thvC+
+ jiWrzyR7jUyboH3Je+tqyr07gP3tXqlHtpUTPvgq6YCbGS7ngQ7EAcRWUawvc63g0u/X8M3A
+ 0EP80LCl4BrnKCQZoe7BkfQTEKs5EZGB4MJSbFismlh94KPi+qnLjldJtJ+QIx+3CMGbWRC/
+ kOEmdrvGQtuvNW9IVqB9q2ZpC+FIiMcK2kPf0csFWPpNPG6/enfJjqWJjpSOPbdYu/dQFkc8
+ BjTxMQKvIj/uOZQv0mNEfIrtBr3znTBZlZdCgw6xQtJ5CshDGKuT9TABVQ2cZ+shWtWJ7WMl
+ CFspiSQ0AwBJarUiCK0Qc4iIOCO+/K7PQLwrVNNIrB0olxB+1b7FWxRyD17NkxmLZ5ePzTue
+ leVtQJc5JsVN3yvBUN1S9vpTZRwi/GwU42+DJg4bfIXCnR1XAOK+iB1I0mLw233lEEqnYkzO
+ JqbdYCnCnNy5aFPlWLrGLtCgeN0rsw47TODfJb83hSI6OW5XVGKT4sdE3qfb/9suctopy2Qq
+ b6zLfCizA1SVuD7aCTb/YMfaFsNN3UTAZHtt9cRcfaOJAdjEmwtB/Ldh7Q7dORYc799z7+Or
+ iv7Ax8ekQGl7ZHaFTi3hrlYQOuHdf5CQbgTZ0TA4X7AN6AfXLuS
+IronPort-HdrOrdr: A9a23:z6P2xaNFD1kz28BcTq6jsMiBIKoaSvp037BL7SBMoHNuGPBw+/
+ rCoB15737JYVQqN03I8OroUMK9qBjnm6Kdj7N8AYuf
+X-Talos-CUID: 9a23:SVBNY20ieLZvX8f1+Z5RTLxfIZk5fETc51jscmikDVhkd5G5RH2t0fYx
+X-Talos-MUID: =?us-ascii?q?9a23=3APleFHg6li7mBvvgZVy2jM1Scxow4s52oD1ENvqx?=
+ =?us-ascii?q?ZnPCrKipMIxS8nTWoF9o=3D?=
 X-IronPort-AV: E=Sophos;i="6.12,182,1728943200"; 
-   d="p7s'346?scan'346,208,346";a="105747665"
+   d="p7s'346?scan'346,208,346";a="105747847"
 From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
 To: "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/3] lib/license: add missing oe include
-Date: Mon, 25 Nov 2024 12:55:04 +0100 (CET)
-Message-ID: <a31ff5bfc6644142b26f751b9235a123@diehl.com>
+Subject: [PATCH 2/3] spdx: add support for WITH operator
+Date: Mon, 25 Nov 2024 12:56:40 +0100 (CET)
+Message-ID: <b4f524ba554e48738c2307d44b8304ae@diehl.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----262CFFF44C63C07129ADD3A624BA1291"
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----406447E7A0F2AE2519306665374AC305"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 11:55:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207744
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 11:56:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207745
 
 This is an S/MIME signed message
 
-------262CFFF44C63C07129ADD3A624BA1291
+------406447E7A0F2AE2519306665374AC305
 Content-Type: text/plain;
 	charset="us-ascii"
 Content-Transfer-Encoding: 7bit
 
-Needed by oe.qa.handle_error().
+Adds the + operator for use in LICENSE field.
+It is replaced by SPDX WITH operator.
 
 Signed-off-by: Denis Osterland-Heim <denis.osterland@diehl.com>
 ---
- meta/lib/oe/license.py | 1 +
- 1 file changed, 1 insertion(+)
+ meta/lib/oe/license.py      | 4 ++--
+ meta/lib/oe/spdx30_tasks.py | 4 ++++
+ 2 files changed, 6 insertions(+), 2 deletions(-)
 
 diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index 32c77fa204..3c15db782f 100644
+index 3c15db782f..223f98acd5 100644
 --- a/meta/lib/oe/license.py
 +++ b/meta/lib/oe/license.py
-@@ -7,6 +7,7 @@
+@@ -47,9 +47,9 @@ class InvalidLicense(LicenseError):
+     def __str__(self):
+         return "invalid characters in license '%s'" % self.license
 
- import ast
- import re
-+import oe
- from fnmatch import fnmatchcase as fnmatch
+-license_operator_chars = '&|() '
++license_operator_chars = '&|()+ '
+ license_operator = re.compile(r'([' + license_operator_chars + '])')
+-license_pattern = re.compile(r'[a-zA-Z0-9.+_\-]+$')
++license_pattern = re.compile(r'[a-zA-Z0-9._\-]+$')
 
- def license_ok(license, dont_want_licenses):
+ class LicenseVisitor(ast.NodeVisitor):
+     """Get elements based on OpenEmbedded license strings"""
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 5aeed5cd6f..17a1ce44e7 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -97,6 +97,9 @@ def add_license_expression(d, objset, license_expression,
+license_data):
+         if l == "|":
+             return "OR"
+
++        if l == "+":
++            return "WITH"
++
+         if l == "CLOSED":
+             return "NONE"
+@@ -115,6 +118,7 @@ def add_license_expression(d, objset,
+license_expression, license_data):
+         .replace(")", " ) ")
+         .replace("|", " | ")
+         .replace("&", " & ")
++        .replace("+", " + ")
+         .split()
+     )
+     spdx_license_expression = " ".join(convert(l) for l in lic_split)
 --
 2.45.2
 
-------262CFFF44C63C07129ADD3A624BA1291
+------406447E7A0F2AE2519306665374AC305
 Content-Type: application/x-pkcs7-signature; name="smime.p7s"
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="smime.p7s"
@@ -171,17 +199,17 @@ bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
 IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
 DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
 CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTEyNTEx
-NTUwNFowLwYJKoZIhvcNAQkEMSIEILRO6YqlKdjII9uCbG6YJCtanKDM5E+A6a0X
-roIFkeMxMHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
+NTY0MFowLwYJKoZIhvcNAQkEMSIEIBKB7/BpI/8gC30ZLPrTXILh5HjKYuntox4w
+QBwApd+6MHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
 FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
 SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
-BIIBACqbX9AOT2G7S7pa31AkYWsHRbK+XqaLNvBmzh+QUozpCgDAKHFqxRNvEBN0
-0sI0Ny7R6cocAQCHLCcvDqJNyNnlh0f/JuGEUOIk26ZC4uY/z+pG8nXzALxF3QFO
-0DPAsrTNDMz9Rl3S/LlbKm6WfrTClpXfgg3wozU2HD1qcGFgVOPBUZTwaqp0a4UO
-MTqS4cUvfDhydN47rwe1TZjJrKE7R0tL4MPRwCXQlpmWA76dDbo4EU+uJvAUmLaF
-QNAYJewazhErrtIyYckgMGeD8sEKEUvvjicbiCbClydbQCOtNc6YzfIYWHwb+NAC
-QbQBv/GU2HvGTxRJdtD5g63fY6s=
+BIIBAFHkAlaz8naVv7iCGAReimMJAJyY2QWFjZ6GGaPxBnFp1ScNO2x0KFN0Y0Bn
+2njAltTsZr6aD/ixqaIfZllaNKA1TjQJ6uCa8HrmC2boQyRLzs4uf+JxOTeOWLA3
+Uq40jVBHx4q1c376mkhk6xxEVhp66VFXQSnpb42/GjLyvG3JqhynI4BEkLDovtQq
+vkoMcKqIQN0BNKUsp4ezpCNQwMQ/Ju/QUlF6ALCeis+OgikmiSR7g6HnIIOFV2W0
+6beqZl9XdsryoFrlJuz9xaUR1RMiHodizxiwZv5ilQE8b7zmbKFQa3l3C11xEs3d
+6SxG2o6rHosBXHFxWndONOBcQdM=
 
-------262CFFF44C63C07129ADD3A624BA1291--
+------406447E7A0F2AE2519306665374AC305--
 
 
