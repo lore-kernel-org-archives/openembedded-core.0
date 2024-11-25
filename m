@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D789D5807E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 62CE4D58080
 	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 12:01:43 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.web10.17081.1732536097316394843
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+ by mx.groups.io with SMTP id smtpd.web11.17204.1732536096470718446
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 04:01:37 -0800
+ Mon, 25 Nov 2024 04:01:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=ku9lvF8y;
- spf=pass (domain: gmail.com, ip: 209.85.128.43, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43167ff0f91so39706185e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:37 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=joWfcEvs;
+ spf=pass (domain: gmail.com, ip: 209.85.208.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ff550d37a6so47725101fa.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 04:01:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732536096; x=1733140896; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1732536095; x=1733140895; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Q9PjFNCh0Meaw7Q5KrnwIt+ZJ8aty0qg/8hpDmKEOcY=;
-        b=ku9lvF8yy64K7WR17M/S9KPburufvAD9HPQeAmVMn9Dew3aa2F58jdAq/fzK2vjEeZ
-         /1tnA3reviSwXPMuzRUVH1euMBZqk12I3D8Rg1gc8Wj9Uqtijs2e+SkKlkcd1tgwK5E7
-         cl2zaEoVgvnmQTjrwqaRQR6SLbfxfOgrDqsH3KkW+NJRUVDmlbsPVWc69guzW21L93ub
-         IsvNYVT+HXQ/n3rRfhuuIoxk8axJaIB/nTDjyFHMPwOQcyFhkctAw9VjtPSG/c+BlpAM
-         Mb8Wvyd/1Z0JHHs3JKIH0vfmZCHTsJ+NNmqzHg/RNYlax5hQ58nOVOo5ejVGruz2Gdou
-         73OA==
+        bh=cWWLxVtv7aPiitJ4wv2kj2mDXtDmprNQ/DGgNxkCmKI=;
+        b=joWfcEvsrukobJ+8YGdPMnwMNWH4A12f7vEHKMPbZc3L4ALZhBYf5FIUXYpk4rNlAS
+         JYNCUy+YYqH0UKg8nmt9NeQeZwWAxoRjK8XS1jddNH0jhnA1OtkiDgB6+gFTzSfkvnnJ
+         RhaaTFQBHpNzX9/m5CuF4m8h21JgMFZZtU0FSQctZU5sFt8neGkAPqp5ltZaDwuZOAZm
+         MhpvN7B8MMrvxLziDlz1QR6nVlg4XBS9XIeXTtoCAjqAdMwIpQUyJmXdLxpoDnNnj0Nx
+         3rZtrioAWSCSnyTNynXr78gjJHjSQL+D1r2U3OpmlH/M48t/k8FhJNlkijCMu0ZZ+I5z
+         83Ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732536096; x=1733140896;
+        d=1e100.net; s=20230601; t=1732536095; x=1733140895;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Q9PjFNCh0Meaw7Q5KrnwIt+ZJ8aty0qg/8hpDmKEOcY=;
-        b=sJTb5n8Wsbnz4Nnj80mTtQ7LNWCEfsr8OFu/DTkYtjAIzh/ZRhfaWAeO6DX9m5tsHl
-         5DvqNNVailSdynsoYDYG31SdKVg7Ai42C0S3NujactRWLJbMBqtNwF7FzRhh3UW0DDPS
-         ojg0DypyWVEAAsq+FonIHwu7E/KSn0fshWtW3gN2it0fV5Vl4FBYofZDPkxLgXnBSvkF
-         9vvpmFejU0itZHOZnFULfghaxAsP3mGu05FCttc70R1EWgoyc5QrqUmNj6hvC64nZfx/
-         9QVcTCxfnggq6IEIuET2Mmpnq9G0u7cvR2B8mKi5lL9SjVvHaAoy0wtZroWxOairrVmS
-         CiHA==
-X-Gm-Message-State: AOJu0Yykdf+qX2MEPt6g7Fgr4lk5TJyWFLZJEUV5VVyzAwhaLBcY81a6
-	jGgV97qxQlmTRwVta9ZMD1V5hmzNI3mH8FCCosQdHHQQqdIqvCkOFSxF2g==
-X-Gm-Gg: ASbGncsIGgQBB69/cW/fCrobrophI62jkdVq1gT/5BympBxOTdk7u6ddk8LX+WHYvjj
-	SiOPF4bjtz5/9r4VjdjDBlgixQxjTJ7yzNreYxf4cl3eEzGyJLiDLuU4vMzXg7ZxexQpr6DgGJS
-	qrDxVce4v4flEeNIOY4d3LAUpA6DR1CuUVrz4q2pT0eAgrIef/ZJIRQjGw4cBMxjPuv2x5+RFe6
-	UGVbpYNUk7Ru2UjD1wAwT32fZ3AsCMK4Bc4bRUN1EV47PxP9W7hmoxiFTR98/j56BZdhluR97He
-	9YU7u4CdD3E=
-X-Google-Smtp-Source: AGHT+IGBSMsEcO2fBwdSku6D+hyjVvHclaNZ8EEi6TkCXnkR+7HPXxUdhmZGOuVN7eHg6xF+BReTtw==
-X-Received: by 2002:a05:600c:1c09:b0:42c:a8cb:6a75 with SMTP id 5b1f17b1804b1-433ce427e93mr113006525e9.17.1732536095411;
-        Mon, 25 Nov 2024 04:01:35 -0800 (PST)
+        bh=cWWLxVtv7aPiitJ4wv2kj2mDXtDmprNQ/DGgNxkCmKI=;
+        b=R99eDe/UqcwZGZt+w5mu/OozJQaj1bFglzUGL/+6F01cnpp2F7P4VKvpvvmZ/TZP75
+         TbIHV+O1oCvYM7X8Ndq4Vg+OGxIXqDh8sX7lacT12xIWxi+GiZdCBWYOOCm8G/yXdj2P
+         K4nLa5fl4WN6ujQ7hLyfRW/SsbW0Qg96lLL8+lWDqNcGd4hyiWYBP7BkSg2hYVA6JKHL
+         WtQIbzj4N957obW4bdUMoIFJTKOgflmXJD+dKaeI4FUMsQvsVMVPv+nyJ8Smhz8x6yut
+         SpGV1ftxqo1pKu0CH4e4fD3uWnDHslMkqk4upNcBl4xkWdzN0ItAQBJaPM2nPo2ZMfOx
+         GWnA==
+X-Gm-Message-State: AOJu0YwkqgIlkyMuGEBxJ0XfnZnFAlYCooGmKuhXoc3+ucr4S/9x9dS3
+	GBqS7MgKhJ9O/0nySvnVdg3CHxD9HxDUDltG3YLCxqutpMWuLBpalIDf/g==
+X-Gm-Gg: ASbGnct0vI6rNdKV1B47oCLhpTe5wQurgRfov67nHEXrFnEkKr2i201ttxhm7ncWloc
+	54xsZj1G4js3unyJ+RpbPEajObDP9Cfl4gpawlcMgC77YXq/5XUR3ULh7T6gdoNTfMvr+KcppWL
+	Mj3fG/WMdMe6Hjgm549sJMz5YsFfqDltrzqmzDflpBalo6N6iu4apOAe2y7e0YNlCqfn8Uf4Nuc
+	2Jp5JN3SN4b4oSZD92OmUYP3KjmMgs9wMGvVsY44+VVGcA1x51BlbzYAD7oHXzvE/TrPBuUdj8g
+	96gwkgtly34=
+X-Google-Smtp-Source: AGHT+IG5jwHTImVVJngtj7h0bKngFgEbBHi7ZhqVNw708fFOuzKsPNbux3D/BstdTfnM58euFtWIHA==
+X-Received: by 2002:a05:651c:247:b0:2fb:8774:4412 with SMTP id 38308e7fff4ca-2ffa71a571amr52591971fa.24.1732536094024;
+        Mon, 25 Nov 2024 04:01:34 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.34
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4349e80e51esm44881115e9.33.2024.11.25.04.01.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 04:01:35 -0800 (PST)
+        Mon, 25 Nov 2024 04:01:33 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 09/35] gstreamer1.0: upgrade 1.24.6 -> 1.24.9
-Date: Mon, 25 Nov 2024 13:01:01 +0100
-Message-Id: <20241125120127.2205232-9-alex.kanavin@gmail.com>
+Subject: [PATCH 07/35] ffmpeg: upgrade 7.0.2 -> 7.1
+Date: Mon, 25 Nov 2024 13:00:59 +0100
+Message-Id: <20241125120127.2205232-7-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241125120127.2205232-1-alex.kanavin@gmail.com>
 References: <20241125120127.2205232-1-alex.kanavin@gmail.com>
@@ -66,370 +66,156 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 12:01:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207755
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207754
 
 From: Alexander Kanavin <alex@linutronix.de>
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- ...ct-has-a-different-signature-on-musl.patch |  2 +-
- ...tools_1.24.6.bb => gst-devtools_1.24.9.bb} |  2 +-
- ...1.24.6.bb => gstreamer1.0-libav_1.24.9.bb} |  2 +-
- ...ialized-warnings-when-compiling-with.patch |  2 +-
- ...-avoid-including-sys-poll.h-directly.patch |  2 +-
- ...issing-opencv-data-dir-in-yocto-buil.patch |  2 +-
- ....bb => gstreamer1.0-plugins-bad_1.24.9.bb} |  2 +-
- ...et-caps-from-src-pad-when-query-caps.patch |  2 +-
- ...parse-enhance-SSA-text-lines-parsing.patch |  2 +-
- ...iv-fb-Make-sure-config.h-is-included.patch |  2 +-
- ...bb => gstreamer1.0-plugins-base_1.24.9.bb} |  2 +-
- ...bb => gstreamer1.0-plugins-good_1.24.9.bb} |  2 +-
- ...bb => gstreamer1.0-plugins-ugly_1.24.9.bb} |  2 +-
- ....24.6.bb => gstreamer1.0-python_1.24.9.bb} |  2 +-
- ....bb => gstreamer1.0-rtsp-server_1.24.9.bb} |  2 +-
- ...-required-lines-accidentally-removed.patch | 33 +++++++++++++++++++
- ...1.24.6.bb => gstreamer1.0-vaapi_1.24.9.bb} |  6 ++--
- ...spect-the-idententaion-used-in-meson.patch |  2 +-
- ...ts-add-support-for-install-the-tests.patch |  4 +--
- ...s-use-a-dictionaries-for-environment.patch |  2 +-
- ...er-script-to-run-the-installed_tests.patch |  2 +-
- ...er1.0_1.24.6.bb => gstreamer1.0_1.24.9.bb} |  2 +-
- 22 files changed, 58 insertions(+), 23 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.24.6.bb => gst-devtools_1.24.9.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.24.6.bb => gstreamer1.0-libav_1.24.9.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.24.6.bb => gstreamer1.0-plugins-bad_1.24.9.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.24.6.bb => gstreamer1.0-plugins-base_1.24.9.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.24.6.bb => gstreamer1.0-plugins-good_1.24.9.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.24.6.bb => gstreamer1.0-plugins-ugly_1.24.9.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.24.6.bb => gstreamer1.0-python_1.24.9.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.24.6.bb => gstreamer1.0-rtsp-server_1.24.9.bb} (90%)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-vaapi_1.24.6.bb => gstreamer1.0-vaapi_1.24.9.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.24.6.bb => gstreamer1.0_1.24.9.bb} (97%)
+ ...figure-improve-check-for-POSIX-ioctl.patch | 48 -----------------
+ ...lpdsp_armv5te-fix-label-format-to-wo.patch | 52 -------------------
+ .../ffmpeg/{ffmpeg_7.0.2.bb => ffmpeg_7.1.bb} |  9 ++--
+ 3 files changed, 3 insertions(+), 106 deletions(-)
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-configure-improve-check-for-POSIX-ioctl.patch
+ delete mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_7.0.2.bb => ffmpeg_7.1.bb} (96%)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-index f2bb664140f..7423cebc39d 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools/0001-connect-has-a-different-signature-on-musl.patch
-@@ -1,4 +1,4 @@
--From d0e3b04007d60755cf1c092c1cac29e832290b86 Mon Sep 17 00:00:00 2001
-+From 9749abecad3ffcd497e216f813f935f0937e6453 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Sun, 9 Sep 2018 17:38:10 -0700
- Subject: [PATCH] connect has a different signature on musl
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.9.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.24.9.bb
-index 1b448f7c558..63779b5aff8 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.24.9.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-configure-improve-check-for-POSIX-ioctl.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-configure-improve-check-for-POSIX-ioctl.patch
+deleted file mode 100644
+index b7c8cb21356..00000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-configure-improve-check-for-POSIX-ioctl.patch
++++ /dev/null
+@@ -1,48 +0,0 @@
+-From 82b5617b8197246cf5b2af98a28f2aa37b8c8aa1 Mon Sep 17 00:00:00 2001
+-From: Ramiro Polla <ramiro.polla@gmail.com>
+-Date: Thu, 29 Aug 2024 15:40:00 +0200
+-Subject: [PATCH] configure: improve check for POSIX ioctl
+-
+-Instead of relying on system #ifdefs which may or may not be correct,
+-detect the POSIX ioctl signature at configure time.
+-
+-Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/00b64fca55a3a009c9d0e391c85f4fd3291e5d12]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- configure          | 2 ++
+- libavdevice/v4l2.c | 2 +-
+- 2 files changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/configure b/configure
+-index 8642513..d70b0bb 100755
+---- a/configure
+-+++ b/configure
+-@@ -2517,6 +2517,7 @@ HAVE_LIST="
+-     opencl_videotoolbox
+-     perl
+-     pod2man
+-+    posix_ioctl
+-     texi2html
+-     xmllint
+-     zlib_gzip
+-@@ -7131,6 +7132,7 @@ perl -v            > /dev/null 2>&1 && enable perl      || disable perl
+- pod2man --help     > /dev/null 2>&1 && enable pod2man   || disable pod2man
+- rsync --help 2> /dev/null | grep -q 'contimeout' && enable rsync_contimeout || disable rsync_contimeout
+- xmllint --version  > /dev/null 2>&1 && enable xmllint   || disable xmllint
+-+test_code cc sys/ioctl.h "int ioctl(int, int, ...)" && enable posix_ioctl
+- 
+- # check V4L2 codecs available in the API
+- if enabled v4l2_m2m; then
+-diff --git a/libavdevice/v4l2.c b/libavdevice/v4l2.c
+-index 50ac47e..ee01711 100644
+---- a/libavdevice/v4l2.c
+-+++ b/libavdevice/v4l2.c
+-@@ -107,7 +107,7 @@ struct video_data {
+-     int (*open_f)(const char *file, int oflag, ...);
+-     int (*close_f)(int fd);
+-     int (*dup_f)(int fd);
+--#if defined(__sun) || defined(__BIONIC__) || defined(__musl__) /* POSIX-like */
+-+#if HAVE_POSIX_IOCTL
+-     int (*ioctl_f)(int fd, int request, ...);
+- #else
+-     int (*ioctl_f)(int fd, unsigned long int request, ...);
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch
+deleted file mode 100644
+index b7cd048165c..00000000000
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch
++++ /dev/null
+@@ -1,52 +0,0 @@
+-From e52fc2c11c3935085ccf1a5707ce50223ad62b58 Mon Sep 17 00:00:00 2001
+-From: Ross Burton <ross.burton@arm.com>
+-Date: Thu, 8 Aug 2024 18:04:17 +0100
+-Subject: [PATCH] libavcodec/arm/mlpdsp_armv5te: fix label format to work with
+- binutils 2.43
+-
+-binutils 2.43 has stricter validation for labels[1] and results in errors
+-when building ffmpeg for armv5:
+-
+-src/libavcodec/arm/mlpdsp_armv5te.S:232: Error: junk at end of line, first unrecognized character is `0'
+-
+-Remove the leading zero in the "01" label to resolve this error.
+-
+-[1] https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=226749d5a6ff0d5c607d6428d6c81e1e7e7a994b
+-
+-Upstream-Status: Submitted [https://ffmpeg.org//pipermail/ffmpeg-devel/2024-August/332149.html]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- libavcodec/arm/mlpdsp_armv5te.S | 6 +++---
+- 1 file changed, 3 insertions(+), 3 deletions(-)
+-
+-diff --git a/libavcodec/arm/mlpdsp_armv5te.S b/libavcodec/arm/mlpdsp_armv5te.S
+-index 4f9aa48..d315686 100644
+---- a/libavcodec/arm/mlpdsp_armv5te.S
+-+++ b/libavcodec/arm/mlpdsp_armv5te.S
+-@@ -229,7 +229,7 @@ A .endif
+-   .endif
+- 
+-         // Begin loop
+--01:
+-+1:
+-   .if TOTAL_TAPS == 0
+-         // Things simplify a lot in this case
+-         // In fact this could be pipelined further if it's worth it...
+-@@ -241,7 +241,7 @@ A .endif
+-         str     ST0, [PST, #-4]!
+-         str     ST0, [PST, #4 * (MAX_BLOCKSIZE + MAX_FIR_ORDER)]
+-         str     ST0, [PSAMP], #4 * MAX_CHANNELS
+--        bne     01b
+-+        bne     1b
+-   .else
+-     .if \fir_taps & 1
+-       .set LOAD_REG, 1
+-@@ -333,7 +333,7 @@ T       orr     AC0, AC0, AC1
+-         str     ST3, [PST, #-4]!
+-         str     ST2, [PST, #4 * (MAX_BLOCKSIZE + MAX_FIR_ORDER)]
+-         str     ST3, [PSAMP], #4 * MAX_CHANNELS
+--        bne     01b
+-+        bne     1b
+-   .endif
+-         b       99f
+- 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
+similarity index 96%
+rename from meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
+rename to meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
+index db0aa608266..35dbda8c3d9 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
+@@ -22,13 +22,10 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv2.1;md5=bd7a443320af8c812e4c18d1b79df004 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
  
--SRC_URI[sha256sum] = "8beb9e98ed136c29f4ec10396dd6c8708a5645cdacda90af1b7196057de17672"
-+SRC_URI[sha256sum] = "cf1de1aafa6eb4fd0365932b251528e2340b88697541e021628c5f7259970fb8"
- 
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.9.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.9.bb
-index 40360065518..a5cfc8632ad 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.24.9.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "4bbd08481a390f907e342aa3f25ab885c80ec0a53f3b14244cf733cc8622f2bf"
-+SRC_URI[sha256sum] = "32682e9ae508ee01f4fb134b3a520081e2ac007220997577624b1d16171d456c"
- 
- S = "${WORKDIR}/gst-libav-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-index da455c8b204..f721103229b 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
-@@ -1,4 +1,4 @@
--From 653f194c2ce141bbb7a7440f65ea279cf4fe3f78 Mon Sep 17 00:00:00 2001
-+From fce75512714cc21bd02fa1df95da4cea34bc3118 Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Tue, 26 Jan 2016 15:16:01 -0800
- Subject: [PATCH] fix maybe-uninitialized warnings when compiling with -Os
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-index 9b77bfeb487..28d834dbd40 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
-@@ -1,4 +1,4 @@
--From 441b90195aff1ececa9ea6dd228546fa3c16bf84 Mon Sep 17 00:00:00 2001
-+From 48b7c48d484096f44ef5f6ac9df35c1e8c1aceff Mon Sep 17 00:00:00 2001
- From: Andre McCurdy <armccurdy@gmail.com>
- Date: Wed, 3 Feb 2016 18:05:41 -0800
- Subject: [PATCH] avoid including <sys/poll.h> directly
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-index 0214ce3eecf..5143009657a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
-@@ -1,4 +1,4 @@
--From d3121e8febdb5cb00511624983c24e50441b64e8 Mon Sep 17 00:00:00 2001
-+From 21bf2b1bb9f98d83c7257b0492a0dc70f5d0b9d9 Mon Sep 17 00:00:00 2001
- From: Andrey Zhizhikin <andrey.z@gmail.com>
- Date: Mon, 27 Jan 2020 10:22:35 +0000
- Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.9.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.9.bb
-index 48e69550397..be2628d14a6 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.24.9.bb
-@@ -10,7 +10,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0002-avoid-including-sys-poll.h-directly.patch \
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            "
--SRC_URI[sha256sum] = "8f4d965513e7827c1f547c1e749e4ef2812b371974fe64857fe5029a19c5b64c"
-+SRC_URI[sha256sum] = "36fcf7a9af0a753b43bb03b9835246f74d72f7124369e66a1e2dc7b04f5a5cab"
- 
- S = "${WORKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-index 0c2c34aa0db..cec68bd1f4a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
-@@ -1,4 +1,4 @@
--From ffe65c3e4998042b030b91c09a706a03768a1e40 Mon Sep 17 00:00:00 2001
-+From 87865e7c96e40553bc39f7697fbc2ef68451725c Mon Sep 17 00:00:00 2001
- From: zhouming <b42586@freescale.com>
- Date: Wed, 14 May 2014 10:16:20 +0800
- Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-index abca62a4914..9e2e9a702c3 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
-@@ -1,4 +1,4 @@
--From 1cd4da7d4739dcfa2b66899ef8a49e5ed88d41b8 Mon Sep 17 00:00:00 2001
-+From 2dee5ae9ad92a06c73dd72f2ff2f731ce85a8baa Mon Sep 17 00:00:00 2001
- From: Mingke Wang <mingke.wang@freescale.com>
- Date: Thu, 19 Mar 2015 14:17:10 +0800
- Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-index 40c91c9df69..032be93692c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
-@@ -1,4 +1,4 @@
--From 48652bcf057b74460eadf8cb943b6381fca4423f Mon Sep 17 00:00:00 2001
-+From 170070d4e7c653c68cdc6401eebfa94fa7d58838 Mon Sep 17 00:00:00 2001
- From: Carlos Rafael Giani <crg7475@mailbox.org>
- Date: Tue, 21 May 2019 14:01:11 +0200
- Subject: [PATCH] viv-fb: Make sure config.h is included
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.9.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.9.bb
-index 7c3390d52df..996a06500e7 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.24.9.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "cf52b535a0ce7ec974756891818f34f06317c2e136abb24149e18c23ecc229b5"
-+SRC_URI[sha256sum] = "5bb3b946907d3ce04dd842b610c8111c2b0611351b25a1fa22af5efa897857cb"
- 
- S = "${WORKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.9.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.9.bb
-index 9d93ca09677..95f03b1da27 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.24.9.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "996b9c8d1d246ed43be304718b6086e5a17d4ae8114d1920aed9ea75b920ba2d"
-+SRC_URI[sha256sum] = "897de50bff337e3ca2f86f1eaa28e0828d83024156162a50c4ea0af86e29799f"
- 
- S = "${WORKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.9.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.9.bb
-index 7b7de75dacb..45abe686596 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.24.9.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "5dfdbb2978ab282e637255cd875cf5b7b93fc83db62f8a0b1af02c85c84a75c4"
-+SRC_URI[sha256sum] = "4b6b30110f38cd05eb67422297142b75a55fe00003105f48b13603e6761cc3b6"
- 
- S = "${WORKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.9.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.9.bb
-index cf38c2b8764..25c9179bfdd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.24.9.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "692e88820e097b30e5f92d37d0955c709a0a17b27f874a1907405244825bd700"
-+SRC_URI[sha256sum] = "80e61d587c34cbac79e46c927b71cf32c4bf9bb0868ce5aa4b7444bdad83f42e"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.9.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.9.bb
-index cdb74afbfc4..776e177b9fe 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.24.9.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "b0bdda26173f13f5521c829367963824a74fd0ce8f52bcab674d7e727f74e93c"
-+SRC_URI[sha256sum] = "299c9aafac3c91bbebe4cd481ed4e4ade8cb2b0677097bc4a8dcf6d4364c9804"
- 
- S = "${WORKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch
-new file mode 100644
-index 00000000000..404ee5fb782
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi/0001-meson-Re-added-required-lines-accidentally-removed.patch
-@@ -0,0 +1,33 @@
-+From 75730490d2c0416ae8ad4d3e2a47ccb66d260d9f Mon Sep 17 00:00:00 2001
-+From: Nirbheek Chauhan <nirbheek@centricular.com>
-+Date: Fri, 13 Sep 2024 14:37:10 +0530
-+Subject: [PATCH] meson: Re-added required: lines accidentally removed
-+
-+Broke in e3f086c648171c3c993f5dd73e2d025480c3729e
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3801
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/7512>
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/577df3a02f7f26283b2749c58ae7738bbdf4be4c]
-+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-+---
-+ meson.build | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/meson.build b/meson.build
-+index 1a8301f..6c61773 100644
-+--- a/meson.build
-++++ b/meson.build
-+@@ -80,9 +80,9 @@ else
-+ endif
-+ 
-+ libva_dep = dependency('libva', version: libva_req)
-+-libva_drm_dep = dependency('libva-drm', version: libva_req)
-+-libva_wayland_dep = dependency('libva-wayland', version: libva_req)
-+-libva_x11_dep = dependency('libva-x11', version: libva_req)
-++libva_drm_dep = dependency('libva-drm', required: get_option('drm'), version: libva_req)
-++libva_wayland_dep = dependency('libva-wayland', required: get_option('wayland'), version: libva_req)
-++libva_x11_dep = dependency('libva-x11', required: get_option('x11'), version: libva_req)
-+ 
-+ libdrm_dep = dependency('libdrm', version: libdrm_req, required: get_option('drm'))
-+ libudev_dep = dependency('libudev', required: get_option('drm'))
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.9.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.9.bb
-index 015eb86316e..0cc62e345eb 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-vaapi_1.24.9.bb
-@@ -9,9 +9,11 @@ REALPN = "gstreamer-vaapi"
- LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING.LIB;md5=4fbd65380cdd255951079008b364516c"
- 
--SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz"
-+SRC_URI = "https://gstreamer.freedesktop.org/src/${REALPN}/${REALPN}-${PV}.tar.xz \
-+           file://0001-meson-Re-added-required-lines-accidentally-removed.patch \
+-SRC_URI = " \
+-    https://www.ffmpeg.org/releases/${BP}.tar.xz \
+-    file://0001-libavcodec-arm-mlpdsp_armv5te-fix-label-format-to-wo.patch \
+-    file://0001-configure-improve-check-for-POSIX-ioctl.patch \
+-"
++SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
 +           "
  
--SRC_URI[sha256sum] = "b5caa057e7efc51cd70504a59e5d9c7a5406d8268723c8283dd61be27fd8cacc"
-+SRC_URI[sha256sum] = "c2373e9b4d6655535d355207f60084b0fb3b28566fe9bb4ca1da714439da4ae1"
+-SRC_URI[sha256sum] = "8646515b638a3ad303e23af6a3587734447cb8fc0a0c064ecdb8e95c4fd8b389"
++SRC_URI[sha256sum] = "40973d44970dbc83ef302b0609f2e74982be2d85916dd2ee7472d30678a7abe6"
  
- S = "${WORKDIR}/${REALPN}-${PV}"
- DEPENDS = "libva gstreamer1.0 gstreamer1.0-plugins-base gstreamer1.0-plugins-bad"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-index 80e6ca3f99c..e696eaaaff1 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0001-tests-respect-the-idententaion-used-in-meson.patch
-@@ -1,4 +1,4 @@
--From 9c932b1c17d62a3e54c2dc55b1f75dc48d73134c Mon Sep 17 00:00:00 2001
-+From bcf818265ae8b2eb668fffbbedb19c1162032c2a Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 11 Apr 2021 19:48:13 +0100
- Subject: [PATCH] tests: respect the idententaion used in meson
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-index 4d88706a4aa..32e1e85b770 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-@@ -1,4 +1,4 @@
--From 32707203ac17cd7130224445aa760f36d4cec579 Mon Sep 17 00:00:00 2001
-+From 0efdfdf9e5055944a463eea43e5539aa7ea7206a Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 11 Apr 2021 19:48:13 +0100
- Subject: [PATCH] tests: add support for install the tests
-@@ -19,7 +19,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
-  create mode 100644 tests/check/template.test.in
- 
- diff --git a/meson.build b/meson.build
--index 1d87075..6aaf23c 100644
-+index 830a601..3f9fdce 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -645,6 +645,10 @@ if bashcomp_dep.found()
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-index 8d0c6dbf34c..f40969042b6 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0003-tests-use-a-dictionaries-for-environment.patch
-@@ -1,4 +1,4 @@
--From fca19b2f5db1be4daef4ea00c60a64120fa08178 Mon Sep 17 00:00:00 2001
-+From 21b89d16e2ca79db212587bfea4aa18470984c90 Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sat, 24 Apr 2021 10:34:47 +0100
- Subject: [PATCH] tests: use a dictionaries for environment
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-index cd795fe0ec8..24f336c1057 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0004-tests-add-helper-script-to-run-the-installed_tests.patch
-@@ -1,4 +1,4 @@
--From 5f80e65b73fee2d081ff4ffb442f71eb5b0ccfc4 Mon Sep 17 00:00:00 2001
-+From 9bffd7eb9113f6535d8b82ca316e6f133241bd8d Mon Sep 17 00:00:00 2001
- From: Jose Quaresma <quaresma.jose@gmail.com>
- Date: Sun, 2 May 2021 01:58:01 +0100
- Subject: [PATCH] tests: add helper script to run the installed_tests
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.9.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.9.bb
-index 71ff327675b..a756f9e3a2c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.24.9.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-            "
--SRC_URI[sha256sum] = "64342060d7c6f9e36a35e3be38a4f5ac3b41ed93b0853619be45141ef3cc1b9d"
-+SRC_URI[sha256sum] = "ebf47b6beef508a00c8557d4c1f1713e5c7ef9ba70dac45deed80e182bcf260f"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
+ # https://nvd.nist.gov/vuln/detail/CVE-2023-39018
+ # https://github.com/bramp/ffmpeg-cli-wrapper/issues/291
 -- 
 2.39.5
 
