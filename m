@@ -1,119 +1,72 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 106A4D58D7E
-	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 18:38:26 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.web11.26302.1732559897479263339
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36A84D3B7D1
+	for <webhook@archiver.kernel.org>; Mon, 25 Nov 2024 18:54:46 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.web11.26685.1732560878566654081
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 10:38:17 -0800
+ Mon, 25 Nov 2024 10:54:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=VR5y1/9y;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20241125183814d65976ae0ccecdb915-gjzpel@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20241125183814d65976ae0ccecdb915
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 25 Nov 2024 19:38:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=b+kkzVUBLxEr85luybolgfWydA4pkbKLkEyNnIWEPIg=;
- b=VR5y1/9yP943MK9SzfV87VErnVblWo2Brpl5hBVhlLj8Wa5UJwkTry02Z58ZrNyWJTQXM+
- 2cBxA7/0SvvwL1D2+70yClZ0TZ+Jjrv3nwPycaipJuR68AIUxRLx/TftF0jDciHsBY8GDsQ2
- XIHV5sNrZwbN6DM+GKvvWNbLjzDvGd2/2OxN+vcpwoffrBjAihgbfXiwthCH6OtMdffxeh2M
- n9OjbJ6gQTlnMdmJhJG4rTdCr6ojkz7kYX07oFw7kvHtM8DTSKg2/DUhMHaCX/AI3SHnFJKn
- sceszFDjQ+pEIiXvKaAZwNumze35kMa7UtDv60cvkbx3HCpBnU6cCLLA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH 2/2] init-manager: define VIRTUAL-RUNTIME_keymaps for all init managers
-Date: Mon, 25 Nov 2024 19:36:36 +0100
-Message-Id: <20241125183636.15293-2-peter.marko@siemens.com>
-In-Reply-To: <20241125183636.15293-1-peter.marko@siemens.com>
-References: <20241125183636.15293-1-peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Pqq9/LfR;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-46679337c24so24723891cf.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 10:54:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732560877; x=1733165677; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=h8huParjeQ6DI+7wGnY7RznocA9IVf62CIb6C4Bp+VE=;
+        b=Pqq9/LfRU7NlhvKllTmh8e7fQ0k+hh2nLBaGtCsjWgqeC71dqjsso1sJ35XB/if/1c
+         lObwd/CD8kdaaUP4vxP6zQYQekJcBF1zoKQdyz5Ah2T09Qlc99rTgLp6EiunZnBDO+im
+         mlu0hFnYLyycSARILn2zP29997FlVnrHws0q+dECAAcnRu/qIZBmDkogAAViqfBqrdS1
+         Qz51Rq1RPPKBABTtd+grOwSku4YIvfX/okfMn7NNugbXa/LaZ1MB947nJAtG6aOk5F8e
+         RQNZvmBPvfiT5m9zkHfKHwM2V7/Qsfk8SbwSISUFOOz/3HcM6k2RRXadhXRrObO6l701
+         Z5Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732560877; x=1733165677;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=h8huParjeQ6DI+7wGnY7RznocA9IVf62CIb6C4Bp+VE=;
+        b=f4+Th1UrCXCsn5fokkoY+Tcrl7omVyI5E/DF+zN/fGuKBFX0WcPgDpxjbXc+DwKeGK
+         KPlpvX0ViX6hR9brAvbgucIVwqPoUlCaKPFoIdVGSPZLCHwABcWdZqwRb6FtZSLFPvCa
+         TjDDTy34/WvgEPWUXi3N8NQVtZrNG664j+brZ0RMijIWkfRoPoXZCTV1ZCm+liIWy5Kk
+         N0zq02e1QA6YwkUnaDwCWy2B3tZnHuRjcFr+oFfoEHC7tGobLY6LK/LWeWHXf+7o8SVV
+         pBxNC8eDr51POgtFcPdfIKw+Tywpx9hYzBMQ/+RkJnmvmp88GTGo4WtOp4KQuZmhatVg
+         FwCw==
+X-Gm-Message-State: AOJu0Yxyic1aH2w9TEZ+7vnmrqE2F1svakGpGZFACxoRGGacyWvYYT96
+	xXRcqf/m2ZDRfpbv9pVVGAbXgvCfEgOHipIG5kDpNr4TC7/Zy1js3+74X1XH+ijLM06znA+EM9t
+	xcGgudffgO8dR2t467RiSbHUHd2o=
+X-Gm-Gg: ASbGncui0iqoOk3AW/N2B1kJpT5H/iW3WO1FwOAU6gB5rLuESAREmE6BncX8RIH4lRp
+	HSFHszs/yTdUE+B5EIO4G9kfCpMO17xHmFSAOWgUfXOrHwYJekr9YX9z9oh3fkhQS5Q==
+X-Google-Smtp-Source: AGHT+IGDy/WK39IBZ6Sfv5+uP74jGsgzfTDLMdFJNRrPntuWmz/36GWPhlfgGVZeRHTzK+P7tsFZVLKQb6VOtrj3i3M=
+X-Received: by 2002:a05:6214:226e:b0:6d4:257a:91 with SMTP id
+ 6a1803df08f44-6d450e6ae4amr213363176d6.1.1732560877581; Mon, 25 Nov 2024
+ 10:54:37 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+References: <20241125120127.2205232-1-alex.kanavin@gmail.com>
+ <20241125120127.2205232-8-alex.kanavin@gmail.com> <CAMKF1so3Azx6swzqwshQ4W5SRGo0H28hCboqN1mpovEcPrkFpA@mail.gmail.com>
+In-Reply-To: <CAMKF1so3Azx6swzqwshQ4W5SRGo0H28hCboqN1mpovEcPrkFpA@mail.gmail.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 25 Nov 2024 19:54:26 +0100
+Message-ID: <CANNYZj-8Qhbqfy1dC7oWH+TagfQ33h6Fp=ZSkrxrSeLHuN_VYA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 08/35] gawk: upgrade 5.3.0 -> 5.3.1
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex@linutronix.de>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 18:38:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207797
+ <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 18:54:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207798
 
-From: Peter Marko <peter.marko@siemens.com>
+On Mon, 25 Nov 2024 at 19:36, Khem Raj <raj.khem@gmail.com> wrote:
+> Does this work if you pass is via EXTRA_OECONF
 
-VIRTUAL-RUNTIME_keymaps is defined in some init managers and also in
-some package groups. Defining distro features in recipes is wrong.
-Define it in all init managers instead.
+No. I tried.
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- meta/conf/distro/include/init-manager-none.inc            | 1 +
- meta/conf/distro/include/init-manager-systemd.inc         | 1 +
- meta/conf/distro/include/init-manager-sysvinit.inc        | 1 +
- meta/recipes-core/packagegroups/packagegroup-base.bb      | 3 ---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 3 ---
- 5 files changed, 3 insertions(+), 6 deletions(-)
-
-diff --git a/meta/conf/distro/include/init-manager-none.inc b/meta/conf/distro/include/init-manager-none.inc
-index 6ece5c9906..3972e6d8aa 100644
---- a/meta/conf/distro/include/init-manager-none.inc
-+++ b/meta/conf/distro/include/init-manager-none.inc
-@@ -2,3 +2,4 @@ VIRTUAL-RUNTIME_init_manager ??= "sysvinit"
- VIRTUAL-RUNTIME_initscripts ??= "initscripts"
- VIRTUAL-RUNTIME_login_manager ??= "busybox"
- VIRTUAL-RUNTIME_dev_manager ??= "udev"
-+VIRTUAL-RUNTIME_keymaps ?= "keymaps"
-diff --git a/meta/conf/distro/include/init-manager-systemd.inc b/meta/conf/distro/include/init-manager-systemd.inc
-index 0a76647459..8132135c25 100644
---- a/meta/conf/distro/include/init-manager-systemd.inc
-+++ b/meta/conf/distro/include/init-manager-systemd.inc
-@@ -5,5 +5,6 @@ VIRTUAL-RUNTIME_init_manager ??= "systemd"
- VIRTUAL-RUNTIME_initscripts ??= "systemd-compat-units"
- VIRTUAL-RUNTIME_login_manager ??= "shadow-base"
- VIRTUAL-RUNTIME_dev_manager ??= "systemd"
-+VIRTUAL-RUNTIME_keymaps ?= "keymaps"
- # systemd hardcodes /root in its source codes, other values are not offically supported
- ROOT_HOME ?= "/root"
-diff --git a/meta/conf/distro/include/init-manager-sysvinit.inc b/meta/conf/distro/include/init-manager-sysvinit.inc
-index e2d17b358d..cfb3438632 100644
---- a/meta/conf/distro/include/init-manager-sysvinit.inc
-+++ b/meta/conf/distro/include/init-manager-sysvinit.inc
-@@ -5,3 +5,4 @@ VIRTUAL-RUNTIME_init_manager ??= "sysvinit"
- VIRTUAL-RUNTIME_initscripts ??= "initscripts"
- VIRTUAL-RUNTIME_login_manager ??= "busybox"
- VIRTUAL-RUNTIME_dev_manager ??= "udev"
-+VIRTUAL-RUNTIME_keymaps ?= "keymaps"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 70a1035003..cb9d1f07af 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -39,9 +39,6 @@ PACKAGES = ' \
-             \
-             '
- 
--# Override by distro if needed
--VIRTUAL-RUNTIME_keymaps ?= "keymaps"
--
- #
- # packagegroup-base contain stuff needed for base system (machine related)
- #
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index fa06092e27..5cdd161811 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -9,9 +9,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- inherit packagegroup
- 
--# Distro can override the following VIRTUAL-RUNTIME providers:
--VIRTUAL-RUNTIME_keymaps ?= "keymaps"
--
- EFI_PROVIDER ??= "grub-efi"
- 
- SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
--- 
-2.30.2
-
+Alex
 
