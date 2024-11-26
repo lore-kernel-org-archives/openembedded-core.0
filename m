@@ -2,21 +2,21 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6BF9CD5A6CE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D595D5A6CD
 	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 02:25:49 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.36918.1732587941994443879
+ by mx.groups.io with SMTP id smtpd.web10.36605.1732587944522092065
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 18:25:42 -0800
+ Mon, 25 Nov 2024 18:25:44 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1060df9989=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgEB007184;
-	Tue, 26 Nov 2024 02:25:41 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgEE007184;
+	Tue, 26 Nov 2024 02:25:43 GMT
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-2
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-5
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 26 Nov 2024 02:25:40 +0000 (GMT)
+	Tue, 26 Nov 2024 02:25:43 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -27,19 +27,19 @@ Received: from ala-lpggp7.wrs.com (147.11.136.210) by
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <steve@sakoman.com>
-Subject: [kirkstone][PATCH V2 02/13] ovmf: Fix CVE-2022-36764
-Date: Mon, 25 Nov 2024 18:25:15 -0800
-Message-ID: <20241126022526.3389121-2-hongxu.jia@windriver.com>
+Subject: [kirkstone][PATCH V2 05/13] ovmf: Fix CVE-2023-45232, CVE-2023-45233
+Date: Mon, 25 Nov 2024 18:25:18 -0800
+Message-ID: <20241126022526.3389121-5-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 References: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: c1z4G9Yd49d81MWprz2vk_LOehV_1PKr
-X-Proofpoint-GUID: c1z4G9Yd49d81MWprz2vk_LOehV_1PKr
-X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531a5 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=QyXUC8HyAAAA:8
- a=N6i3clLbqkvBenj-L78A:9 a=UjeNzV11mqK6jmm6:21 a=RVmHIydaz68A:10 a=bkWp_v3HvcftT6DRAIDL:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: F4ec9Be_rfRosMfaL1gvYACCHXRpZfIE
+X-Proofpoint-GUID: F4ec9Be_rfRosMfaL1gvYACCHXRpZfIE
+X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531a7 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=BqEg4_3jAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8
+ a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=j_Np6efUvlMYPEyndcoA:9 a=ZVzpeaB-rz25krDJ:21 a=bkWp_v3HvcftT6DRAIDL:22 a=0mFWnFbQd5xWBqmg7tTt:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-11-26_01,2024-11-25_01,2024-11-22_01
@@ -52,764 +52,955 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 02:25:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207826
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207829
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-EDK2 is susceptible to a vulnerability in the Tcg2MeasurePeImage()
-function, allowing a user to trigger a heap buffer overflow via a local
-network. Successful exploitation of this vulnerability may result in a
-compromise of confidentiality, integrity, and/or availability.
+CVE-2023-45232:
+EDK2's Network Package is susceptible to an infinite loop vulnerability
+when parsing unknown options in the Destination Options header of IPv6.
+This vulnerability can be exploited by an attacker to gain unauthorized
+access and potentially lead to a loss of Availability.
+
+CVE-2023-45233:
+EDK2's Network Package is susceptible to an infinite lop vulnerability
+when parsing a PadN option in the Destination Options header of IPv6.
+This vulnerability can be exploited by an attacker to gain unauthorized
+access and potentially lead to a loss of Availability.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2022-36764
+https://nvd.nist.gov/vuln/detail/CVE-2023-45232
+https://nvd.nist.gov/vuln/detail/CVE-2023-45233
 
 Upstream-patches:
-https://github.com/tianocore/edk2/commit/c7b27944218130cca3bbb20314ba5b88b5=
-de4aa4
-https://github.com/tianocore/edk2/commit/0d341c01eeabe0ab5e76693b36e728b8f5=
-38a40e
-https://github.com/tianocore/edk2/commit/8f6d343ae639fba8e4b80e45257275e230=
-83431f
+https://github.com/tianocore/edk2/commit/4df0229ef992d4f2721a8508787ebf9dc8=
+1fbd6e
+https://github.com/tianocore/edk2/commit/c9c87f08dd6ace36fa843424522c3558a8=
+374cac
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ovmf/ovmf/CVE-2022-36764-0001.patch       | 271 +++++++++++++++++
- .../ovmf/ovmf/CVE-2022-36764-0002.patch       | 281 ++++++++++++++++++
- .../ovmf/ovmf/CVE-2022-36764-0003.patch       |  48 +++
- meta/recipes-core/ovmf/ovmf_git.bb            |   3 +
- 4 files changed, 603 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0001.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0002.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0003.patch
+ .../CVE-2023-45232-CVE-2023-45233-0001.patch  | 360 +++++++++++++++
+ .../CVE-2023-45232-CVE-2023-45233-0002.patch  | 417 ++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
+ 3 files changed, 779 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-452=
+33-0001.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-452=
+33-0002.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0001.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2022-36764-0001.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001=
+.patch b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001.pat=
+ch
 new file mode 100644
-index 0000000000..a552f36b2c
+index 0000000000..d43e971d9d
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0001.patch
-@@ -0,0 +1,271 @@
-+From c7b27944218130cca3bbb20314ba5b88b5de4aa4 Mon Sep 17 00:00:00 2001
-+From: "Douglas Flick [MSFT]" <doug.edk2@gmail.com>
-+Date: Fri, 12 Jan 2024 02:16:04 +0800
-+Subject: [PATCH] SecurityPkg: DxeTpm2MeasureBootLib: SECURITY PATCH 4118 -=
- CVE
-+  2022-36764
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001.patch
+@@ -0,0 +1,360 @@
++From 4df0229ef992d4f2721a8508787ebf9dc81fbd6e Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Fri, 26 Jan 2024 05:54:50 +0800
++Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45232 Patch
 +
-+This commit contains the patch files and tests for DxeTpm2MeasureBootLib
-+CVE 2022-36764.
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538
 +
-+Cc: Jiewen Yao <jiewen.yao@intel.com>
++Bug Details:
++PixieFail Bug #4
++CVE-2023-45232
++CVSS 7.5 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')
++
++Infinite loop when parsing unknown options in the Destination Options
++header
++
++PixieFail Bug #5
++CVE-2023-45233
++CVSS 7.5 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')
++
++Infinite loop when parsing a PadN option in the Destination Options
++header
++
++Change Overview:
++
++Most importantly this change corrects the following incorrect math
++and cleans up the code.
++
++>   // It is a PadN option
++>   //
++> - Offset =3D (UINT8)(Offset + *(Option + Offset + 1) + 2);
++> + OptDataLen =3D ((EFI_IP6_OPTION *)(Option + Offset))->Length;
++> + Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);
++
++> case Ip6OptionSkip:
++> - Offset =3D (UINT8)(Offset + *(Option + Offset + 1));
++>   OptDataLen =3D ((EFI_IP6_OPTION *)(Option + Offset))->Length;
++>   Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);
++
++Additionally, this change also corrects incorrect math where the calling
++function was calculating the HDR EXT optionLen as a uint8 instead of a
++uint16
++
++> - OptionLen =3D (UINT8)((*Option + 1) * 8 - 2);
++> + OptionLen =3D IP6_HDR_EXT_LEN (*Option) -
++IP6_COMBINED_SIZE_OF_NEXT_HDR_AND_LEN;
++
++Additionally this check adds additional logic to santize the incoming
++data
++
++Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
 +
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
++Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2022-36764
++CVE: CVE-2023-45232, CVE-2023-45233
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/c7b279=
-44218130cca3bbb20314ba5b88b5de4aa4]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/4df022=
+9ef992d4f2721a8508787ebf9dc81fbd6e]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ .../DxeTpm2MeasureBootLib.c                   | 12 ++--
-+ .../DxeTpm2MeasureBootLibSanitization.c       | 46 +++++++++++++-
-+ .../DxeTpm2MeasureBootLibSanitization.h       | 28 ++++++++-
-+ .../DxeTpm2MeasureBootLibSanitizationTest.c   | 60 ++++++++++++++++---
-+ 4 files changed, 131 insertions(+), 15 deletions(-)
++ NetworkPkg/Ip6Dxe/Ip6Nd.h     | 35 ++++++++++++++++
++ NetworkPkg/Ip6Dxe/Ip6Option.c | 76 ++++++++++++++++++++++++++++++-----
++ NetworkPkg/Ip6Dxe/Ip6Option.h | 71 ++++++++++++++++++++++++++++++++
++ 3 files changed, 171 insertions(+), 11 deletions(-)
 +
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootL=
-ib.c b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.c
-+index 0475103d6e..714cc8e03e 100644
-+--- a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.c
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLib.c
-+@@ -378,7 +378,6 @@ Exit:
-+   @retval EFI_OUT_OF_RESOURCES   No enough resource to measure image.=0D
-+   @retval EFI_UNSUPPORTED        ImageType is unsupported or PE image is =
-mal-format.=0D
-+   @retval other error value=0D
-+-=0D
-+ **/=0D
-+ EFI_STATUS=0D
-+ EFIAPI=0D
-+@@ -405,6 +404,7 @@ Tcg2MeasurePeImage (
-+   Status    =3D EFI_UNSUPPORTED;=0D
-+   ImageLoad =3D NULL;=0D
-+   EventPtr  =3D NULL;=0D
-++  Tcg2Event =3D NULL;=0D
-+ =0D
-+   Tcg2Protocol =3D MeasureBootProtocols->Tcg2Protocol;=0D
-+   CcProtocol   =3D MeasureBootProtocols->CcProtocol;=0D
-+@@ -420,18 +420,22 @@ Tcg2MeasurePeImage (
-+   }=0D
-+ =0D
-+   FilePathSize =3D (UINT32)GetDevicePathSize (FilePath);=0D
-++  Status       =3D SanitizePeImageEventSize (FilePathSize, &EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    return EFI_UNSUPPORTED;=0D
-++  }=0D
-+ =0D
-+   //=0D
-+   // Determine destination PCR by BootPolicy=0D
-+   //=0D
-+-  EventSize =3D sizeof (*ImageLoad) - sizeof (ImageLoad->DevicePath) + Fi=
-lePathSize;=0D
-+-  EventPtr  =3D AllocateZeroPool (EventSize + sizeof (EFI_TCG2_EVENT) - s=
-izeof (Tcg2Event->Event));=0D
-++  // from a malicious GPT disk partition=0D
-++  EventPtr =3D AllocateZeroPool (EventSize);=0D
-+   if (EventPtr =3D=3D NULL) {=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
-+   }=0D
-+ =0D
-+   Tcg2Event                       =3D (EFI_TCG2_EVENT *)EventPtr;=0D
-+-  Tcg2Event->Size                 =3D EventSize + sizeof (EFI_TCG2_EVENT)=
- - sizeof (Tcg2Event->Event);=0D
-++  Tcg2Event->Size                 =3D EventSize;=0D
-+   Tcg2Event->Header.HeaderSize    =3D sizeof (EFI_TCG2_EVENT_HEADER);=0D
-+   Tcg2Event->Header.HeaderVersion =3D EFI_TCG2_EVENT_HEADER_VERSION;=0D
-+   ImageLoad                       =3D (EFI_IMAGE_LOAD_EVENT *)Tcg2Event->=
-Event;=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootL=
-ibSanitization.c b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2Measure=
-BootLibSanitization.c
-+index e2309655d3..2a4d52c6d5 100644
-+--- a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLibSanit=
-ization.c
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLibSanit=
-ization.c
-+@@ -151,7 +151,7 @@ SanitizeEfiPartitionTableHeader (
-+ }=0D
-+ =0D
-+ /**=0D
-+-  This function will validate that the allocation size from the primary h=
-eader is sane=0D
-++ This function will validate that the allocation size from the primary he=
-ader is sane=0D
-+   It will check the following:=0D
-+     - AllocationSize does not overflow=0D
-+ =0D
-+@@ -273,3 +273,47 @@ SanitizePrimaryHeaderGptEventSize (
-+ =0D
-+   return EFI_SUCCESS;=0D
-+ }=0D
-++=0D
-++/**=0D
-++  This function will validate that the PeImage Event Size from the loaded=
- image is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
-++=0D
-++  @param[in] FilePathSize - Size of the file path.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePeImageEventSize (=0D
-++  IN  UINT32  FilePathSize,=0D
-++  OUT UINT32  *EventSize=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS  Status;=0D
-++=0D
-++  // Replacing logic:=0D
-++  // sizeof (*ImageLoad) - sizeof (ImageLoad->DevicePath) + FilePathSize;=
-=0D
-++  Status =3D SafeUint32Add (OFFSET_OF (EFI_IMAGE_LOAD_EVENT, DevicePath),=
- FilePathSize, EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "EventSize would overflow!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
-++  }=0D
-++=0D
-++  // Replacing logic:=0D
-++  // EventSize + sizeof (EFI_TCG2_EVENT) - sizeof (Tcg2Event->Event)=0D
-++  Status =3D SafeUint32Add (*EventSize, OFFSET_OF (EFI_TCG2_EVENT, Event)=
-, EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "EventSize would overflow!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
-++  }=0D
-++=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootL=
-ibSanitization.h b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2Measure=
-BootLibSanitization.h
-+index 048b738987..8f72ba4240 100644
-+--- a/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLibSanit=
-ization.h
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/DxeTpm2MeasureBootLibSanit=
-ization.h
-+@@ -9,6 +9,9 @@
-+   Tcg2MeasureGptTable() function will receive untrusted GPT partition tab=
-le, and parse=0D
-+   partition data carefully.=0D
-+ =0D
-++  Tcg2MeasurePeImage() function will accept untrusted PE/COFF image and v=
-alidate its=0D
-++  data structure within this image buffer before use.=0D
-++=0D
-+   Copyright (c) Microsoft Corporation.<BR>=0D
-+   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ =0D
-+@@ -110,4 +113,27 @@ SanitizePrimaryHeaderGptEventSize (
-+   OUT UINT32                            *EventSize=0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Nd.h b/NetworkPkg/Ip6Dxe/Ip6Nd.h
++index 860934a167..bf64e9114e 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Nd.h
+++++ b/NetworkPkg/Ip6Dxe/Ip6Nd.h
++@@ -56,13 +56,48 @@ VOID
++   VOID  *Context=0D
 +   );=0D
 + =0D
-+-#endif // DXE_TPM2_MEASURE_BOOT_LIB_SANITATION_=0D
-++/**=0D
-++  This function will validate that the PeImage Event Size from the loaded=
- image is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
-++=0D
-++  @param[in] FilePathSize - Size of the file path.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePeImageEventSize (=0D
-++  IN  UINT32  FilePathSize,=0D
-++  OUT UINT32  *EventSize=0D
+++//=0D
+++// Per RFC8200 Section 4.2=0D
+++//=0D
+++//   Two of the currently-defined extension headers -- the Hop-by-Hop=0D
+++//   Options header and the Destination Options header -- carry a variabl=
+e=0D
+++//   number of type-length-value (TLV) encoded "options", of the followin=
+g=0D
+++//   format:=0D
+++//=0D
+++//      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -=0D
+++//      |  Option Type  |  Opt Data Len |  Option Data=0D
+++//      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -=0D
+++//=0D
+++//      Option Type          8-bit identifier of the type of option.=0D
+++//=0D
+++//      Opt Data Len         8-bit unsigned integer.  Length of the Optio=
+n=0D
+++//                           Data field of this option, in octets.=0D
+++//=0D
+++//      Option Data          Variable-length field.  Option-Type-specific=
+=0D
+++//                           data.=0D
+++//=0D
++ typedef struct _IP6_OPTION_HEADER {=0D
+++  ///=0D
+++  /// identifier of the type of option.=0D
+++  ///=0D
++   UINT8    Type;=0D
+++  ///=0D
+++  /// Length of the Option Data field of this option, in octets.=0D
+++  ///=0D
++   UINT8    Length;=0D
+++  ///=0D
+++  /// Option-Type-specific data.=0D
+++  ///=0D
++ } IP6_OPTION_HEADER;=0D
++ =0D
++ STATIC_ASSERT (sizeof (IP6_OPTION_HEADER) =3D=3D 2, "IP6_OPTION_HEADER is=
+ expected to be exactly 2 bytes long.");=0D
++ =0D
+++#define IP6_NEXT_OPTION_OFFSET(offset, length)  (offset + sizeof(IP6_OPTI=
+ON_HEADER) + length)=0D
+++STATIC_ASSERT (=0D
+++  IP6_NEXT_OPTION_OFFSET (0, 0) =3D=3D 2,=0D
+++  "The next option is minimally the combined size of the option tag and l=
+ength"=0D
 ++  );=0D
 ++=0D
-++#endif // DXE_TPM2_MEASURE_BOOT_LIB_VALIDATION_=0D
-+diff --git a/SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnitTest/Dx=
-eTpm2MeasureBootLibSanitizationTest.c b/SecurityPkg/Library/DxeTpm2MeasureB=
-ootLib/InternalUnitTest/DxeTpm2MeasureBootLibSanitizationTest.c
-+index 3eb9763e3c..820e99aeb9 100644
-+--- a/SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnitTest/DxeTpm2Me=
-asureBootLibSanitizationTest.c
-++++ b/SecurityPkg/Library/DxeTpm2MeasureBootLib/InternalUnitTest/DxeTpm2Me=
-asureBootLibSanitizationTest.c
-+@@ -72,10 +72,10 @@ TestSanitizeEfiPartitionTableHeader (
-+   PrimaryHeader.Header.Revision          =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_REVISION;=0D
-+   PrimaryHeader.Header.HeaderSize        =3D sizeof (EFI_PARTITION_TABLE_=
-HEADER);=0D
-+   PrimaryHeader.MyLBA                    =3D 1;=0D
-+-  PrimaryHeader.AlternateLBA             =3D 2;=0D
-+-  PrimaryHeader.FirstUsableLBA           =3D 3;=0D
-+-  PrimaryHeader.LastUsableLBA            =3D 4;=0D
-+-  PrimaryHeader.PartitionEntryLBA        =3D 5;=0D
-++  PrimaryHeader.PartitionEntryLBA        =3D 2;=0D
-++  PrimaryHeader.AlternateLBA             =3D 3;=0D
-++  PrimaryHeader.FirstUsableLBA           =3D 4;=0D
-++  PrimaryHeader.LastUsableLBA            =3D 5;=0D
-+   PrimaryHeader.NumberOfPartitionEntries =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_NUMBER_OF_PARTITION_ENTRIES;=0D
-+   PrimaryHeader.SizeOfPartitionEntry     =3D DEFAULT_PRIMARY_TABLE_HEADER=
-_SIZE_OF_PARTITION_ENTRY;=0D
-+   PrimaryHeader.PartitionEntryArrayCRC32 =3D 0; // Purposely invalid=0D
-+@@ -187,11 +187,6 @@ TestSanitizePrimaryHeaderGptEventSize (
-+   EFI_STATUS                  Status;=0D
-+   EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-+   UINTN                       NumberOfPartition;=0D
-+-  EFI_GPT_DATA                *GptData;=0D
-+-  EFI_TCG2_EVENT              *Tcg2Event;=0D
-+-=0D
-+-  Tcg2Event =3D NULL;=0D
-+-  GptData   =3D NULL;=0D
++ typedef struct _IP6_ETHE_ADDR_OPTION {=0D
++   UINT8    Type;=0D
++   UINT8    Length;=0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Option.c b/NetworkPkg/Ip6Dxe/Ip6Option.c
++index 8718d5d875..fd97ce116f 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Option.c
+++++ b/NetworkPkg/Ip6Dxe/Ip6Option.c
++@@ -17,7 +17,8 @@
++   @param[in]  IpSb              The IP6 service data.=0D
++   @param[in]  Packet            The to be validated packet.=0D
++   @param[in]  Option            The first byte of the option.=0D
++-  @param[in]  OptionLen         The length of the whole option.=0D
+++  @param[in]  OptionLen         The length of all options, expressed in b=
+yte length of octets.=0D
+++                                Maximum length is 2046 bytes or ((n + 1) =
+* 8) - 2 where n is 255.=0D
++   @param[in]  Pointer           Identifies the octet offset within=0D
++                                 the invoking packet where the error was d=
+etected.=0D
 + =0D
-+   // Test that a normal PrimaryHeader passes validation=0D
-+   PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-+@@ -225,6 +220,52 @@ TestSanitizePrimaryHeaderGptEventSize (
-+   return UNIT_TEST_PASSED;=0D
-+ }=0D
-+ =0D
-++/**=0D
-++  This function tests the SanitizePeImageEventSize function.=0D
-++  It's intent is to test that the untrusted input from a file path when g=
-enerating a=0D
-++  EFI_IMAGE_LOAD_EVENT structure will not cause an overflow when calculat=
-ing=0D
-++  the event size when allocating space=0D
++@@ -31,12 +32,33 @@ Ip6IsOptionValid (
++   IN IP6_SERVICE  *IpSb,=0D
++   IN NET_BUF      *Packet,=0D
++   IN UINT8        *Option,=0D
++-  IN UINT8        OptionLen,=0D
+++  IN UINT16       OptionLen,=0D
++   IN UINT32       Pointer=0D
++   )=0D
++ {=0D
++-  UINT8  Offset;=0D
++-  UINT8  OptionType;=0D
+++  UINT16  Offset;=0D
+++  UINT8   OptionType;=0D
+++  UINT8   OptDataLen;=0D
 ++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
-++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizePeImageEventSize (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  UINT32      EventSize;=0D
-++  UINTN       ExistingLogicEventSize;=0D
-++  UINT32      FilePathSize;=0D
-++  EFI_STATUS  Status;=0D
-++=0D
-++  FilePathSize =3D 255;=0D
-++=0D
-++  // Test that a normal PE image passes validation=0D
-++  Status =3D SanitizePeImageEventSize (FilePathSize, &EventSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_SUCCESS);=0D
-++=0D
-++  // Test that the event size is correct compared to the existing logic=0D
-++  ExistingLogicEventSize  =3D OFFSET_OF (EFI_IMAGE_LOAD_EVENT, DevicePath=
-) + FilePathSize;=0D
-++  ExistingLogicEventSize +=3D OFFSET_OF (EFI_TCG2_EVENT, Event);=0D
-++=0D
-++  if (EventSize !=3D ExistingLogicEventSize) {=0D
-++    UT_LOG_ERROR ("SanitizePeImageEventSize returned an incorrect event s=
-ize. Expected %u, got %u\n", ExistingLogicEventSize, EventSize);=0D
-++    return UNIT_TEST_ERROR_TEST_FAILED;=0D
+++  if (Option =3D=3D NULL) {=0D
+++    ASSERT (Option !=3D NULL);=0D
+++    return FALSE;=0D
 ++  }=0D
 ++=0D
-++  // Test that the event size may not overflow=0D
-++  Status =3D SanitizePeImageEventSize (MAX_UINT32, &EventSize);=0D
-++  UT_ASSERT_EQUAL (Status, EFI_BAD_BUFFER_SIZE);=0D
+++  if ((OptionLen <=3D 0) || (OptionLen > IP6_MAX_EXT_DATA_LENGTH)) {=0D
+++    ASSERT (OptionLen > 0 && OptionLen <=3D IP6_MAX_EXT_DATA_LENGTH);=0D
+++    return FALSE;=0D
+++  }=0D
 ++=0D
-++  DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
+++  if (Packet =3D=3D NULL) {=0D
+++    ASSERT (Packet !=3D NULL);=0D
+++    return FALSE;=0D
+++  }=0D
 ++=0D
-++  return UNIT_TEST_PASSED;=0D
-++}=0D
-++=0D
-+ // *--------------------------------------------------------------------*=
-=0D
-+ // *  Unit Test Code Main Function=0D
-+ // *--------------------------------------------------------------------*=
-=0D
-+@@ -267,6 +308,7 @@ UefiTestMain (
-+   AddTestCase (Tcg2MeasureBootLibValidationTestSuite, "Tests Validating E=
-FI Partition Table", "Common.Tcg2MeasureBootLibValidation", TestSanitizeEfi=
-PartitionTableHeader, NULL, NULL, NULL);=0D
-+   AddTestCase (Tcg2MeasureBootLibValidationTestSuite, "Tests Primary head=
-er gpt event checks for overflow", "Common.Tcg2MeasureBootLibValidation", T=
-estSanitizePrimaryHeaderAllocationSize, NULL, NULL, NULL);=0D
-+   AddTestCase (Tcg2MeasureBootLibValidationTestSuite, "Tests Primary head=
-er allocation size checks for overflow", "Common.Tcg2MeasureBootLibValidati=
-on", TestSanitizePrimaryHeaderGptEventSize, NULL, NULL, NULL);=0D
-++  AddTestCase (Tcg2MeasureBootLibValidationTestSuite, "Tests PE Image and=
- FileSize checks for overflow", "Common.Tcg2MeasureBootLibValidation", Test=
-SanitizePeImageEventSize, NULL, NULL, NULL);=0D
+++  if (IpSb =3D=3D NULL) {=0D
+++    ASSERT (IpSb !=3D NULL);=0D
+++    return FALSE;=0D
+++  }=0D
 + =0D
-+   Status =3D RunAllTestSuites (Framework);=0D
++   Offset =3D 0;=0D
 + =0D
++@@ -54,7 +76,8 @@ Ip6IsOptionValid (
++         //=0D
++         // It is a PadN option=0D
++         //=0D
++-        Offset =3D (UINT8)(Offset + *(Option + Offset + 1) + 2);=0D
+++        OptDataLen =3D ((IP6_OPTION_HEADER *)(Option + Offset))->Length;=
+=0D
+++        Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);=0D
++         break;=0D
++       case Ip6OptionRouterAlert:=0D
++         //=0D
++@@ -69,7 +92,8 @@ Ip6IsOptionValid (
++         //=0D
++         switch (OptionType & Ip6OptionMask) {=0D
++           case Ip6OptionSkip:=0D
++-            Offset =3D (UINT8)(Offset + *(Option + Offset + 1));=0D
+++            OptDataLen =3D ((IP6_OPTION_HEADER *)(Option + Offset))->Leng=
+th;=0D
+++            Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);=0D
++             break;=0D
++           case Ip6OptionDiscard:=0D
++             return FALSE;=0D
++@@ -308,7 +332,7 @@ Ip6IsExtsValid (
++   UINT32               Pointer;=0D
++   UINT32               Offset;=0D
++   UINT8                *Option;=0D
++-  UINT8                OptionLen;=0D
+++  UINT16               OptionLen;=0D
++   BOOLEAN              Flag;=0D
++   UINT8                CountD;=0D
++   UINT8                CountA;=0D
++@@ -385,6 +409,36 @@ Ip6IsExtsValid (
++       // Fall through=0D
++       //=0D
++       case IP6_DESTINATION:=0D
+++        //=0D
+++        // See https://www.rfc-editor.org/rfc/rfc2460#section-4.2 page 23=
+=0D
+++        //=0D
+++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-=
++-+=0D
+++        // |  Next Header  |  Hdr Ext Len  |                             =
+  |=0D
+++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                             =
+  +=0D
+++        // |                                                             =
+  |=0D
+++        // .                                                             =
+  .=0D
+++        // .                            Options                          =
+  .=0D
+++        // .                                                             =
+  .=0D
+++        // |                                                             =
+  |=0D
+++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-=
++-+=0D
+++        //=0D
+++        //=0D
+++        //   Next Header    8-bit selector.  Identifies the type of heade=
+r=0D
+++        //                  immediately following the Destination Options=
+=0D
+++        //                  header.  Uses the same values as the IPv4=0D
+++        //                  Protocol field [RFC-1700 et seq.].=0D
+++        //=0D
+++        //   Hdr Ext Len    8-bit unsigned integer.  Length of the=0D
+++        //                  Destination Options header in 8-octet units, =
+not=0D
+++        //                  including the first 8 octets.=0D
+++        //=0D
+++        //   Options        Variable-length field, of length such that th=
+e=0D
+++        //                  complete Destination Options header is an=0D
+++        //                  integer multiple of 8 octets long.  Contains =
+one=0D
+++        //                  or  more TLV-encoded options, as described in=
+=0D
+++        //                  section 4.2.=0D
+++        //=0D
+++=0D
++         if (*NextHeader =3D=3D IP6_DESTINATION) {=0D
++           CountD++;=0D
++         }=0D
++@@ -398,7 +452,7 @@ Ip6IsExtsValid (
++ =0D
++         Offset++;=0D
++         Option    =3D ExtHdrs + Offset;=0D
++-        OptionLen =3D (UINT8)((*Option + 1) * 8 - 2);=0D
+++        OptionLen =3D IP6_HDR_EXT_LEN (*Option) - sizeof (IP6_EXT_HDR);=0D
++         Option++;=0D
++         Offset++;=0D
++ =0D
++@@ -430,7 +484,7 @@ Ip6IsExtsValid (
++           //=0D
++           // Ignore the routing header and proceed to process the next he=
+ader.=0D
++           //=0D
++-          Offset =3D Offset + (RoutingHead->HeaderLen + 1) * 8;=0D
+++          Offset =3D Offset + IP6_HDR_EXT_LEN (RoutingHead->HeaderLen);=0D
++ =0D
++           if (UnFragmentLen !=3D NULL) {=0D
++             *UnFragmentLen =3D Offset;=0D
++@@ -441,7 +495,7 @@ Ip6IsExtsValid (
++           // to the packet's source address, pointing to the unrecognized=
+ routing=0D
++           // type.=0D
++           //=0D
++-          Pointer =3D Offset + 2 + sizeof (EFI_IP6_HEADER);=0D
+++          Pointer =3D Offset + sizeof (IP6_EXT_HDR) + sizeof (EFI_IP6_HEA=
+DER);=0D
++           if ((IpSb !=3D NULL) && (Packet !=3D NULL) &&=0D
++               !IP6_IS_MULTICAST (&Packet->Ip.Ip6->DestinationAddress))=0D
++           {=0D
++@@ -527,7 +581,7 @@ Ip6IsExtsValid (
++         //=0D
++         // RFC2402, Payload length is specified in 32-bit words, minus "2=
+".=0D
++         //=0D
++-        OptionLen =3D (UINT8)((*Option + 2) * 4);=0D
+++        OptionLen =3D ((UINT16)(*Option + 2) * 4);=0D
++         Offset    =3D Offset + OptionLen;=0D
++         break;=0D
++ =0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Option.h b/NetworkPkg/Ip6Dxe/Ip6Option.h
++index bd8e223c8a..fb07c28f5a 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Option.h
+++++ b/NetworkPkg/Ip6Dxe/Ip6Option.h
++@@ -12,6 +12,77 @@
++ =0D
++ #define IP6_FRAGMENT_OFFSET_MASK  (~0x3)=0D
++ =0D
+++//=0D
+++// For more information see RFC 8200, Section 4.3, 4.4, and 4.6=0D
+++//=0D
+++//  This example format is from section 4.6=0D
+++//  This does not apply to fragment headers=0D
+++//=0D
+++//     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
+++//    |  Next Header  |  Hdr Ext Len  |                               |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +=0D
+++//    |                                                               |=0D
+++//    .                                                               .=0D
+++//    .                  Header-Specific Data                         .=0D
+++//    .                                                               .=0D
+++//    |                                                               |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//=0D
+++//      Next Header           8-bit selector.  Identifies the type of=0D
+++//                            header immediately following the extension=
+=0D
+++//                            header.  Uses the same values as the IPv4=0D
+++//                            Protocol field [IANA-PN].=0D
+++//=0D
+++//      Hdr Ext Len           8-bit unsigned integer.  Length of the=0D
+++//                            Destination Options header in 8-octet units=
+,=0D
+++//                            not including the first 8 octets.=0D
+++=0D
+++//=0D
+++// These defines apply to the following:=0D
+++//   1. Hop by Hop=0D
+++//   2. Routing=0D
+++//   3. Destination=0D
+++//=0D
+++typedef struct _IP6_EXT_HDR {=0D
+++  ///=0D
+++  /// The Next Header field identifies the type of header immediately=0D
+++  ///=0D
+++  UINT8    NextHeader;=0D
+++  ///=0D
+++  /// The Hdr Ext Len field specifies the length of the Hop-by-Hop Option=
+s=0D
+++  ///=0D
+++  UINT8    HdrExtLen;=0D
+++  ///=0D
+++  /// Header-Specific Data=0D
+++  ///=0D
+++} IP6_EXT_HDR;=0D
+++=0D
+++STATIC_ASSERT (=0D
+++  sizeof (IP6_EXT_HDR) =3D=3D 2,=0D
+++  "The combined size of Next Header and Len is two 8 bit fields"=0D
+++  );=0D
+++=0D
+++//=0D
+++// IPv6 extension headers contain an 8-bit length field which describes t=
+he size of=0D
+++// the header. However, the length field only includes the size of the ex=
+tension=0D
+++// header options, not the size of the first 8 bytes of the header. There=
+fore, in=0D
+++// order to calculate the full size of the extension header, we add 1 (to=
+ account=0D
+++// for the first 8 bytes omitted by the length field reporting) and then =
+multiply=0D
+++// by 8 (since the size is represented in 8-byte units).=0D
+++//=0D
+++// a is the length field of the extension header (UINT8)=0D
+++// The result may be up to 2046 octets (UINT16)=0D
+++//=0D
+++#define IP6_HDR_EXT_LEN(a)  (((UINT16)((UINT8)(a)) + 1) * 8)=0D
+++=0D
+++// This is the maxmimum length permissible by a extension header=0D
+++// Length is UINT8 of 8 octets not including the first 8 octets=0D
+++#define IP6_MAX_EXT_DATA_LENGTH  (IP6_HDR_EXT_LEN (MAX_UINT8) - sizeof(IP=
+6_EXT_HDR))=0D
+++STATIC_ASSERT (=0D
+++  IP6_MAX_EXT_DATA_LENGTH =3D=3D 2046,=0D
+++  "Maximum data length is ((MAX_UINT8 + 1) * 8) - 2"=0D
+++  );=0D
+++=0D
++ typedef struct _IP6_FRAGMENT_HEADER {=0D
++   UINT8     NextHeader;=0D
++   UINT8     Reserved;=0D
 +--=20
 +2.40.0
 +
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0002.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2022-36764-0002.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002=
+.patch b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002.pat=
+ch
 new file mode 100644
-index 0000000000..22a7713f52
+index 0000000000..c6834a852e
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0002.patch
-@@ -0,0 +1,281 @@
-+From 0d341c01eeabe0ab5e76693b36e728b8f538a40e Mon Sep 17 00:00:00 2001
-+From: "Douglas Flick [MSFT]" <doug.edk2@gmail.com>
-+Date: Fri, 12 Jan 2024 02:16:05 +0800
-+Subject: [PATCH] SecurityPkg: DxeTpmMeasureBootLib: SECURITY PATCH 4118 - =
-CVE=20
-+ 2022-36764
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002.patch
+@@ -0,0 +1,417 @@
++From c9c87f08dd6ace36fa843424522c3558a8374cac Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Fri, 26 Jan 2024 05:54:51 +0800
++Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45232 Unit Te=
+sts
 +
-+This commit contains the patch files and tests for DxeTpmMeasureBootLib
-+CVE 2022-36764.
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538
 +
-+Cc: Jiewen Yao <jiewen.yao@intel.com>
++Unit tests to confirm that..
++
++Infinite loop when parsing unknown options in the Destination Options
++header
++
++and
++
++Infinite loop when parsing a PadN option in the Destination Options
++header
++
++... have been patched
++
++This patch tests the following functions:
++Ip6IsOptionValid
++
++Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
 +
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
++Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2022-36764
++CVE: CVE-2023-45232, CVE-2023-45233
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/0d341c=
-01eeabe0ab5e76693b36e728b8f538a40e]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/c9c87f=
+08dd6ace36fa843424522c3558a8374cac]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ .../DxeTpmMeasureBootLib.c                    | 13 ++-
-+ .../DxeTpmMeasureBootLibSanitization.c        | 44 +++++++++
-+ .../DxeTpmMeasureBootLibSanitization.h        | 23 +++++
-+ .../DxeTpmMeasureBootLibSanitizationTest.c    | 98 +++++++++++++++++--
-+ 4 files changed, 168 insertions(+), 10 deletions(-)
++ .../Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf    |  10 +-
++ .../Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp | 278 ++++++++++++++++++
++ .../Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h   |  40 +++
++ 3 files changed, 324 insertions(+), 4 deletions(-)
++ create mode 100644 NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
 +
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib=
-.c b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.c
-+index 669ab19134..a9fc440a09 100644
-+--- a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.c
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib.c
-+@@ -17,6 +17,7 @@
++diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf b/NetworkPk=
+g/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
++index 6e4de0745f..ba29dbabad 100644
++--- a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
+++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
++@@ -1,13 +1,13 @@
++ ## @file=0D
++-# Unit test suite for the Ip6Dxe using Google Test=0D
+++# Unit test suite for the Ip6DxeGoogleTest using Google Test=0D
++ #=0D
++ # Copyright (c) Microsoft Corporation.<BR>=0D
++ # SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ ##=0D
++ [Defines]=0D
++   INF_VERSION         =3D 0x00010017=0D
++-  BASE_NAME           =3D Ip6DxeUnitTest=0D
++-  FILE_GUID           =3D 4F05D17D-D3E7-4AAE-820C-576D46D2D34A=0D
+++  BASE_NAME           =3D Ip6DxeGoogleTest=0D
+++  FILE_GUID           =3D AE39981C-B7FE-41A8-A9C2-F41910477CA3=0D
++   VERSION_STRING      =3D 1.0=0D
++   MODULE_TYPE         =3D HOST_APPLICATION=0D
++ #=0D
++@@ -16,9 +16,11 @@
++ #  VALID_ARCHITECTURES           =3D IA32 X64 AARCH64=0D
++ #=0D
++ [Sources]=0D
+++  ../Ip6Option.c=0D
+++  Ip6OptionGoogleTest.h=0D
++   Ip6DxeGoogleTest.cpp=0D
++   Ip6OptionGoogleTest.cpp=0D
++-  ../Ip6Option.c=0D
+++  Ip6OptionGoogleTest.h=0D
 + =0D
-+ Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=0D
-+ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++Copyright (c) Microsoft Corporation.<BR>=0D
++ [Packages]=0D
++   MdePkg/MdePkg.dec=0D
++diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp b/Networ=
+kPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
++index f2cd90e1a9..29f8a4a96e 100644
++--- a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
+++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
++@@ -12,6 +12,7 @@ extern "C" {
++   #include <Library/DebugLib.h>=0D
++   #include "../Ip6Impl.h"=0D
++   #include "../Ip6Option.h"=0D
+++  #include "Ip6OptionGoogleTest.h"=0D
++ }=0D
 + =0D
-+ Copyright (c) Microsoft Corporation.<BR>=0D
-+ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+@@ -345,18 +346,22 @@ TcgMeasurePeImage (
-+   ImageLoad     =3D NULL;=0D
-+   SectionHeader =3D NULL;=0D
-+   Sha1Ctx       =3D NULL;=0D
-++  TcgEvent      =3D NULL;=0D
-+   FilePathSize  =3D (UINT32)GetDevicePathSize (FilePath);=0D
++ /////////////////////////////////////////////////////////////////////////=
+=0D
++@@ -127,3 +128,280 @@ TEST_F (Ip6OptionValidationTest, InvalidPrefixInfoOp=
+tionLengthShouldReturnFalse)
 + =0D
-+-  //=0D
-+   // Determine destination PCR by BootPolicy=0D
-+   //=0D
-+-  EventSize =3D sizeof (*ImageLoad) - sizeof (ImageLoad->DevicePath) + Fi=
-lePathSize;=0D
-+-  TcgEvent  =3D AllocateZeroPool (EventSize + sizeof (TCG_PCR_EVENT));=0D
-++  Status =3D SanitizePeImageEventSize (FilePathSize, &EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    return EFI_UNSUPPORTED;=0D
-++  }=0D
-++=0D
-++  TcgEvent =3D AllocateZeroPool (EventSize);=0D
-+   if (TcgEvent =3D=3D NULL) {=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
-+   }=0D
-+ =0D
-+-  TcgEvent->EventSize =3D EventSize;=0D
-++  TcgEvent->EventSize =3D EventSize - sizeof (TCG_PCR_EVENT_HDR);=0D
-+   ImageLoad           =3D (EFI_IMAGE_LOAD_EVENT *)TcgEvent->Event;=0D
-+ =0D
-+   switch (ImageType) {=0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib=
-Sanitization.c b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBoot=
-LibSanitization.c
-+index a3fa46f5e6..c989851cec 100644
-+--- a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLibSanitiz=
-ation.c
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLibSanitiz=
-ation.c
-+@@ -239,3 +239,47 @@ SanitizePrimaryHeaderGptEventSize (
-+ =0D
-+   return EFI_SUCCESS;=0D
++   EXPECT_FALSE (Ip6IsNDOptionValid (option, optionLen));=0D
 + }=0D
 ++=0D
-++/**=0D
-++  This function will validate that the PeImage Event Size from the loaded=
- image is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
-++=0D
-++  @param[in] FilePathSize - Size of the file path.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
-++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
-++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
-++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePeImageEventSize (=0D
-++  IN  UINT32  FilePathSize,=0D
-++  OUT UINT32  *EventSize=0D
-++  )=0D
-++{=0D
-++  EFI_STATUS  Status;=0D
-++=0D
-++  // Replacing logic:=0D
-++  // sizeof (*ImageLoad) - sizeof (ImageLoad->DevicePath) + FilePathSize;=
+++////////////////////////////////////////////////////////////////////////=
 =0D
-++  Status =3D SafeUint32Add (OFFSET_OF (EFI_IMAGE_LOAD_EVENT, DevicePath),=
- FilePathSize, EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "EventSize would overflow!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
+++// Ip6IsOptionValid Tests=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++=0D
+++// Define a fixture for your tests if needed=0D
+++class Ip6IsOptionValidTest : public ::testing::Test {=0D
+++protected:=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
+++    )=0D
+++  {=0D
+++    // Initialize any resources or variables=0D
 ++  }=0D
 ++=0D
-++  // Replacing logic:=0D
-++  // EventSize + sizeof (TCG_PCR_EVENT_HDR)=0D
-++  Status =3D SafeUint32Add (*EventSize, sizeof (TCG_PCR_EVENT_HDR), Event=
-Size);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "EventSize would overflow!\n"));=0D
-++    return EFI_BAD_BUFFER_SIZE;=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++    // Clean up any resources or variables=0D
 ++  }=0D
+++};=0D
 ++=0D
-++  return EFI_SUCCESS;=0D
+++// Test Description=0D
+++// Verify that a NULL option is Invalid=0D
+++TEST_F (Ip6IsOptionValidTest, NullOptionShouldReturnTrue) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  IP6_SERVICE  *IpSb =3D NULL;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  EXPECT_FALSE (Ip6IsOptionValid (IpSb, &Packet, NULL, 0, 0));=0D
 ++}=0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLib=
-Sanitization.h b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBoot=
-LibSanitization.h
-+index 0d9d00c281..2248495813 100644
-+--- a/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLibSanitiz=
-ation.h
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/DxeTpmMeasureBootLibSanitiz=
-ation.h
-+@@ -111,4 +111,27 @@ SanitizePrimaryHeaderGptEventSize (
-+   OUT UINT32                            *EventSize=0D
-+   );=0D
-+ =0D
-++/**=0D
-++  This function will validate that the PeImage Event Size from the loaded=
- image is sane=0D
-++  It will check the following:=0D
-++    - EventSize does not overflow=0D
 ++=0D
-++  @param[in] FilePathSize - Size of the file path.=0D
-++  @param[out] EventSize - Pointer to the event size.=0D
+++// Test Description=0D
+++// Verify that an unknown option with a length of 0 and type of <unknown>=
+ does not cause an infinite loop=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLength0)=
+ {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
 ++=0D
-++  @retval EFI_SUCCESS=0D
-++    The event size is valid.=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
 ++=0D
-++  @retval EFI_OUT_OF_RESOURCES=0D
-++    Overflow would have occurred.=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
 ++=0D
-++  @retval EFI_INVALID_PARAMETER=0D
-++    One of the passed parameters was invalid.=0D
-++**/=0D
-++EFI_STATUS=0D
-++SanitizePeImageEventSize (=0D
-++  IN  UINT32  FilePathSize,=0D
-++  OUT UINT32  *EventSize=0D
-++  );=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
 ++=0D
-+ #endif // DXE_TPM_MEASURE_BOOT_LIB_VALIDATION_=0D
-+diff --git a/SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitTest/Dxe=
-TpmMeasureBootLibSanitizationTest.c b/SecurityPkg/Library/DxeTpmMeasureBoot=
-Lib/InternalUnitTest/DxeTpmMeasureBootLibSanitizationTest.c
-+index eeb928cdb0..c41498be45 100644
-+--- a/SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitTest/DxeTpmMeas=
-ureBootLibSanitizationTest.c
-++++ b/SecurityPkg/Library/DxeTpmMeasureBootLib/InternalUnitTest/DxeTpmMeas=
-ureBootLibSanitizationTest.c
-+@@ -1,8 +1,8 @@
-+ /** @file=0D
-+-This file includes the unit test cases for the DxeTpmMeasureBootLibSaniti=
-zationTest.c.=0D
-++  This file includes the unit test cases for the DxeTpmMeasureBootLibSani=
-tizationTest.c.=0D
-+ =0D
-+-Copyright (c) Microsoft Corporation.<BR>=0D
-+-SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++  Copyright (c) Microsoft Corporation.<BR>=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 0;    // This will cause an infinite loop if th=
+e function is not working correctly=0D
+++=0D
+++  // This should be a valid option even though the length is 0=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that an unknown option with a length of 1 and type of <unknown>=
+ does not cause an infinite loop=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLength1)=
+ {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 1;    // This will cause an infinite loop if th=
+e function is not working correctly=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that an unknown option with a length of 2 and type of <unknown>=
+ does not cause an infinite loop=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyIpSkipUnknownOption) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 2;    // Valid length for an unknown option=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that Ip6OptionPad1 is valid with a length of 0=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyIp6OptionPad1) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D Ip6OptionPad1;=0D
+++  optionHeader.Length =3D 0;=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that Ip6OptionPadN doesn't overflow with various lengths=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyIp6OptionPadN) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D Ip6OptionPadN;=0D
+++  optionHeader.Length =3D 0xFF;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFE;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFD;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFC;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify an unknown option doesn't cause an infinite loop with various l=
+engths=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLengthAt=
+temptOverflow) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 0xFF;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFE;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFD;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFC;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that the function supports multiple options=0D
+++TEST_F (Ip6IsOptionValidTest, MultiOptionSupport) {=0D
+++  UINT16   HdrLen;=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  UINT8              ExtHdr[1024] =3D { 0 };=0D
+++  UINT8              *Cursor      =3D ExtHdr;=0D
+++  IP6_OPTION_HEADER  *Option      =3D (IP6_OPTION_HEADER *)ExtHdr;=0D
+++=0D
+++  // Let's start chaining options=0D
+++=0D
+++  Option->Type   =3D 23;   // Unknown Option=0D
+++  Option->Length =3D 0xFC;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 0xFC;=0D
+++=0D
+++  Option       =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type =3D Ip6OptionPad1;=0D
+++=0D
+++  Cursor +=3D sizeof (1);=0D
+++=0D
+++  // Type and length aren't processed, instead it just moves the pointer =
+forward by 4 bytes=0D
+++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type   =3D Ip6OptionRouterAlert;=0D
+++  Option->Length =3D 4;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 4;=0D
+++=0D
+++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type   =3D Ip6OptionPadN;=0D
+++  Option->Length =3D 0xFC;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 0xFC;=0D
+++=0D
+++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type   =3D Ip6OptionRouterAlert;=0D
+++  Option->Length =3D 4;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 4;=0D
+++=0D
+++  // Total 524=0D
+++=0D
+++  HdrLen =3D (UINT16)(Cursor - ExtHdr);=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, ExtHdr, HdrLen, 0));=0D
+++}=0D
++diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h b/NetworkP=
+kg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
++new file mode 100644
++index 0000000000..0509b6ae30
++--- /dev/null
+++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
++@@ -0,0 +1,40 @@
+++/** @file=0D
+++  Exposes the functions needed to test the Ip6Option module.=0D
+++=0D
+++  Copyright (c) Microsoft Corporation=0D
 ++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ **/=0D
-+ =0D
-+ #include <Uefi.h>=0D
-+@@ -186,9 +186,6 @@ TestSanitizePrimaryHeaderGptEventSize (
-+   EFI_STATUS                  Status;=0D
-+   EFI_PARTITION_TABLE_HEADER  PrimaryHeader;=0D
-+   UINTN                       NumberOfPartition;=0D
-+-  EFI_GPT_DATA                *GptData;=0D
-+-=0D
-+-  GptData =3D NULL;=0D
-+ =0D
-+   // Test that a normal PrimaryHeader passes validation=0D
-+   PrimaryHeader.NumberOfPartitionEntries =3D 5;=0D
-+@@ -222,6 +219,94 @@ TestSanitizePrimaryHeaderGptEventSize (
-+   return UNIT_TEST_PASSED;=0D
-+ }=0D
-+ =0D
-++/**=0D
-++  This function tests the SanitizePeImageEventSize function.=0D
-++  It's intent is to test that the untrusted input from a file path for an=
-=0D
-++  EFI_IMAGE_LOAD_EVENT structure will not cause an overflow when calculat=
-ing=0D
-++  the event size when allocating space.=0D
-++=0D
-++  @param[in] Context  The unit test context.=0D
-++=0D
-++  @retval UNIT_TEST_PASSED  The test passed.=0D
-++  @retval UNIT_TEST_ERROR_TEST_FAILED  The test failed.=0D
 ++**/=0D
-++UNIT_TEST_STATUS=0D
-++EFIAPI=0D
-++TestSanitizePeImageEventSize (=0D
-++  IN UNIT_TEST_CONTEXT  Context=0D
-++  )=0D
-++{=0D
-++  UINT32                    EventSize;=0D
-++  UINTN                     ExistingLogicEventSize;=0D
-++  UINT32                    FilePathSize;=0D
-++  EFI_STATUS                Status;=0D
-++  EFI_DEVICE_PATH_PROTOCOL  DevicePath;=0D
-++  EFI_IMAGE_LOAD_EVENT      *ImageLoadEvent;=0D
-++  UNIT_TEST_STATUS          TestStatus;=0D
 ++=0D
-++  TestStatus =3D UNIT_TEST_ERROR_TEST_FAILED;=0D
+++#ifndef IP6_OPTION_HEADER_GOOGLE_TEST_H_=0D
+++#define IP6_OPTION_HEADER_GOOGLE_TEST_H_=0D
 ++=0D
-++  // Generate EFI_DEVICE_PATH_PROTOCOL test data=0D
-++  DevicePath.Type      =3D 0;=0D
-++  DevicePath.SubType   =3D 0;=0D
-++  DevicePath.Length[0] =3D 0;=0D
-++  DevicePath.Length[1] =3D 0;=0D
+++#include <Uefi.h>=0D
+++#include "../Ip6Impl.h"=0D
 ++=0D
-++  // Generate EFI_IMAGE_LOAD_EVENT test data=0D
-++  ImageLoadEvent =3D AllocateZeroPool (sizeof (EFI_IMAGE_LOAD_EVENT) + si=
-zeof (EFI_DEVICE_PATH_PROTOCOL));=0D
-++  if (ImageLoadEvent =3D=3D NULL) {=0D
-++    DEBUG ((DEBUG_ERROR, "%a: AllocateZeroPool failed\n", __func__));=0D
-++    goto Exit;=0D
-++  }=0D
+++/**=0D
+++  Validate the IP6 option format for both the packets we received=0D
+++  and that we will transmit. It will compute the ICMPv6 error message fie=
+lds=0D
+++  if the option is malformatted.=0D
 ++=0D
-++  // Populate EFI_IMAGE_LOAD_EVENT54 test data=0D
-++  ImageLoadEvent->ImageLocationInMemory =3D (EFI_PHYSICAL_ADDRESS)0x12345=
-678;=0D
-++  ImageLoadEvent->ImageLengthInMemory   =3D 0x1000;=0D
-++  ImageLoadEvent->ImageLinkTimeAddress  =3D (UINTN)ImageLoadEvent;=0D
-++  ImageLoadEvent->LengthOfDevicePath    =3D sizeof (EFI_DEVICE_PATH_PROTO=
-COL);=0D
-++  CopyMem (ImageLoadEvent->DevicePath, &DevicePath, sizeof (EFI_DEVICE_PA=
-TH_PROTOCOL));=0D
+++  @param[in]  IpSb              The IP6 service data.=0D
+++  @param[in]  Packet            The to be validated packet.=0D
+++  @param[in]  Option            The first byte of the option.=0D
+++  @param[in]  OptionLen         The length of the whole option.=0D
+++  @param[in]  Pointer           Identifies the octet offset within=0D
+++                                the invoking packet where the error was d=
+etected.=0D
 ++=0D
-++  FilePathSize =3D 255;=0D
 ++=0D
-++  // Test that a normal PE image passes validation=0D
-++  Status =3D SanitizePeImageEventSize (FilePathSize, &EventSize);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    UT_LOG_ERROR ("SanitizePeImageEventSize failed with %r\n", Status);=0D
-++    goto Exit;=0D
-++  }=0D
+++  @retval TRUE     The option is properly formatted.=0D
+++  @retval FALSE    The option is malformatted.=0D
 ++=0D
-++  // Test that the event size is correct compared to the existing logic=0D
-++  ExistingLogicEventSize  =3D OFFSET_OF (EFI_IMAGE_LOAD_EVENT, DevicePath=
-) + FilePathSize;=0D
-++  ExistingLogicEventSize +=3D sizeof (TCG_PCR_EVENT_HDR);=0D
+++**/=0D
+++BOOLEAN=0D
+++Ip6IsOptionValid (=0D
+++  IN IP6_SERVICE  *IpSb,=0D
+++  IN NET_BUF      *Packet,=0D
+++  IN UINT8        *Option,=0D
+++  IN UINT16       OptionLen,=0D
+++  IN UINT32       Pointer=0D
+++  );=0D
 ++=0D
-++  if (EventSize !=3D ExistingLogicEventSize) {=0D
-++    UT_LOG_ERROR ("SanitizePeImageEventSize returned an incorrect event s=
-ize. Expected %u, got %u\n", ExistingLogicEventSize, EventSize);=0D
-++    goto Exit;=0D
-++  }=0D
-++=0D
-++  // Test that the event size may not overflow=0D
-++  Status =3D SanitizePeImageEventSize (MAX_UINT32, &EventSize);=0D
-++  if (Status !=3D EFI_BAD_BUFFER_SIZE) {=0D
-++    UT_LOG_ERROR ("SanitizePeImageEventSize succeded when it was supposed=
- to fail with %r\n", Status);=0D
-++    goto Exit;=0D
-++  }=0D
-++=0D
-++  TestStatus =3D UNIT_TEST_PASSED;=0D
-++Exit:=0D
-++=0D
-++  if (ImageLoadEvent !=3D NULL) {=0D
-++    FreePool (ImageLoadEvent);=0D
-++  }=0D
-++=0D
-++  if (TestStatus =3D=3D UNIT_TEST_ERROR_TEST_FAILED) {=0D
-++    DEBUG ((DEBUG_ERROR, "%a: Test failed\n", __func__));=0D
-++  } else {=0D
-++    DEBUG ((DEBUG_INFO, "%a: Test passed\n", __func__));=0D
-++  }=0D
-++=0D
-++  return TestStatus;=0D
-++}=0D
-++=0D
-+ // *--------------------------------------------------------------------*=
-=0D
-+ // *  Unit Test Code Main Function=0D
-+ // *--------------------------------------------------------------------*=
-=0D
-+@@ -265,6 +350,7 @@ UefiTestMain (
-+   AddTestCase (TcgMeasureBootLibValidationTestSuite, "Tests Validating EF=
-I Partition Table", "Common.TcgMeasureBootLibValidation", TestSanitizeEfiPa=
-rtitionTableHeader, NULL, NULL, NULL);=0D
-+   AddTestCase (TcgMeasureBootLibValidationTestSuite, "Tests Primary heade=
-r gpt event checks for overflow", "Common.TcgMeasureBootLibValidation", Tes=
-tSanitizePrimaryHeaderAllocationSize, NULL, NULL, NULL);=0D
-+   AddTestCase (TcgMeasureBootLibValidationTestSuite, "Tests Primary heade=
-r allocation size checks for overflow", "Common.TcgMeasureBootLibValidation=
-", TestSanitizePrimaryHeaderGptEventSize, NULL, NULL, NULL);=0D
-++  AddTestCase (TcgMeasureBootLibValidationTestSuite, "Tests PE Image and =
-FileSize checks for overflow", "Common.TcgMeasureBootLibValidation", TestSa=
-nitizePeImageEventSize, NULL, NULL, NULL);=0D
-+ =0D
-+   Status =3D RunAllTestSuites (Framework);=0D
-+ =0D
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0003.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2022-36764-0003.patch
-new file mode 100644
-index 0000000000..89386c0c29
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2022-36764-0003.patch
-@@ -0,0 +1,48 @@
-+From 8f6d343ae639fba8e4b80e45257275e23083431f Mon Sep 17 00:00:00 2001
-+From: "Douglas Flick [MSFT]" <doug.edk2@gmail.com>
-+Date: Fri, 12 Jan 2024 02:16:06 +0800
-+Subject: [PATCH] SecurityPkg: : Adding CVE 2022-36764 to SecurityFixes.yaml
-+
-+This creates / adds a security file that tracks the security fixes
-+found in this package and can be used to find the fixes that were
-+applied.
-+
-+Cc: Jiewen Yao <jiewen.yao@intel.com>
-+
-+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Jiewen Yao <jiewen.yao@intel.com>
-+
-+CVE: CVE-2022-36764
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/8f6d34=
-3ae639fba8e4b80e45257275e23083431f]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ SecurityPkg/SecurityFixes.yaml | 14 ++++++++++++++
-+ 1 file changed, 14 insertions(+)
-+
-+diff --git a/SecurityPkg/SecurityFixes.yaml b/SecurityPkg/SecurityFixes.ya=
-ml
-+index f9e3e7be74..833fb827a9 100644
-+--- a/SecurityPkg/SecurityFixes.yaml
-++++ b/SecurityPkg/SecurityFixes.yaml
-+@@ -20,3 +20,17 @@ CVE_2022_36763:
-+   - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4117=0D
-+   - https://bugzilla.tianocore.org/show_bug.cgi?id=3D2168=0D
-+   - https://bugzilla.tianocore.org/show_bug.cgi?id=3D1990=0D
-++CVE_2022_36764:=0D
-++  commit_titles:=0D
-++     - "SecurityPkg: DxeTpm2MeasureBootLib: SECURITY PATCH 4118 - CVE 202=
-2-36764"=0D
-++     - "SecurityPkg: DxeTpmMeasureBootLib: SECURITY PATCH 4118 - CVE 2022=
--36764"=0D
-++     - "SecurityPkg: : Adding CVE 2022-36764 to SecurityFixes.yaml"=0D
-++  cve: CVE-2022-36764=0D
-++  date_reported: 2022-10-25 12:23 UTC=0D
-++  description: Heap Buffer Overflow in Tcg2MeasurePeImage()=0D
-++  note:=0D
-++  files_impacted:=0D
-++  - Library\DxeTpm2MeasureBootLib\DxeTpm2MeasureBootLib.c=0D
-++  - Library\DxeTpmMeasureBootLib\DxeTpmMeasureBootLib.c=0D
-++  links:=0D
-++  - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4118=0D
+++#endif // __IP6_OPTION_HEADER_GOOGLE_TEST_H__=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index 78d86ad879..59e5598a1b 100644
+index e46b3ddebe..fc87cdf441 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -30,6 +30,9 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+@@ -37,6 +37,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
 =3Dmaster;protocol=3Dhttps \
-            file://CVE-2022-36763-0001.patch \
-            file://CVE-2022-36763-0002.patch \
-            file://CVE-2022-36763-0003.patch \
-+           file://CVE-2022-36764-0001.patch \
-+           file://CVE-2022-36764-0002.patch \
-+           file://CVE-2022-36764-0003.patch \
+            file://CVE-2023-45230-0002.patch \
+            file://CVE-2023-45231-0001.patch \
+            file://CVE-2023-45231-0002.patch \
++           file://CVE-2023-45232-CVE-2023-45233-0001.patch \
++           file://CVE-2023-45232-CVE-2023-45233-0002.patch \
             "
 =20
  PV =3D "edk2-stable202202"
