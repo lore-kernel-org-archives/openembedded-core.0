@@ -2,99 +2,127 @@ Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E77B8D59D82
-	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 00:10:37 +0000 (UTC)
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
- by mx.groups.io with SMTP id smtpd.web11.34492.1732579834899624208
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CAC95D59D85
+	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 00:10:47 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.34495.1732579840419800203
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 16:10:34 -0800
+ Mon, 25 Nov 2024 16:10:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=iwMc/Yx2;
- spf=pass (domain: gmail.com, ip: 209.85.214.169, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-212348d391cso49125015ad.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 16:10:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=i/saoL2g;
+ spf=pass (domain: gmail.com, ip: 209.85.210.180, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-724d57a9f7cso4028614b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 16:10:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732579834; x=1733184634; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=tLXSr1vmj8Ka16qBMCdT87AfWhry/3puiT/77AUXApI=;
-        b=iwMc/Yx2y4IcsJHR4fFc6pWfMuEbEklNOsqTmyKo7ivm17SVoFgviUeEgbvtN/EwtT
-         nEkf33bfpN1b0Qb8FkMHuz6z7okwbOz+iiNhV0zhpeR7IlETsjFi1MZfeGIDet7Sxe0K
-         f7Lb34A22eejnQN/j7iGHmBQqkU0Zir5nzGbBxt0RbOPR5l213KMzcso2nZYBpuCnOy2
-         GZATLsSw+74eO4TwLsUl0+ch7/qq+xyG6Lc+7MCt5jWCHhDNUfJqFBGwf7iHywtHstCg
-         cEexbSc6FmY/RDVXgGv88AWyFhHXs/1rUEAAokskJAe2/Xw5r+Uq3PMNftQVvjpj0qRX
-         Ijlg==
+        d=gmail.com; s=20230601; t=1732579840; x=1733184640; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7yVhrd5QeFr4f/y9EHGCKMy97ANOQhGO61RtYLi44M0=;
+        b=i/saoL2gt8j2OzW+HJKsXGyAgPbSw6H/kpz48Kua7iLfAzVJlqjOKr6RXVAgdOwNa7
+         Z+gsD/hhss1Gjt9aAqlp9y2hbF3XSIfTrfWJXvBWIcchpeQ4CwybStAOwv+1rpbMls+n
+         bUHR5aP6jB/p9iAhrxnzPtom6BMEyctRzmKpQTMngIUo/vsLg2nifdOFq4jTfB2osJiS
+         8ZyIuPj/RJz5hCBwT2bhzTmVZHzBruYSNC9nS3ocX/sn95DFw46Usvqu3FYXH3hldh2Y
+         7n6LWDHv2ltaN8a6xD2xvfDsoS8SiiEFuD9jdyHFy5RD773JMzkBlGUu1xXvBD77VTE7
+         +V4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732579834; x=1733184634;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=tLXSr1vmj8Ka16qBMCdT87AfWhry/3puiT/77AUXApI=;
-        b=VjlMJ7BPeJ1I11zXyqUxa/G+ojkrcO6ApO+HkP5k4Hgn76PCVZrrVg6+LEOG4teWEQ
-         J33DWqhiVB7B8XNoh883sf5TtBWPViAyBH56kVEu6/kHYB5qH0vo210WDkosSKkahFCD
-         IwqbkeAkBju4V2iLZ3MBP2t5L5ESuHMGsLC+UAI1vZUuhLY/X6XbdOhjgRWsbVxjzShA
-         ncAxsYRlrK9B9E4PYBaBL+S6vxvmQMHTliineYSmEuBCFBlNcVQO+NzChI7qM/vN6AQJ
-         w0JzNTuwTBHELUPeWqbEKmOhuuKPSwM30n4+2i2oVCu293ep1rZc6UDF7x00gSEgXK6A
-         zyag==
-X-Gm-Message-State: AOJu0YzTHTsnh6i+QSUAVP/6Xr4FeN4Y9tOHo+kOHHoc8R4Z8FOjNXSa
-	zTDLLFPXxs//2UO7lbfj0MYdurgB473401unWVjFKvbNfmE5UB0W7pqsCQ==
-X-Gm-Gg: ASbGnctDgSIL6b9pPxrov5olo12m0rmpqwCNlxVVMQIkYH3HJTEBZ2fLdhvNczCGASc
-	EawWgsYukQWVD0bKBK9PJhawTtCRw9S9g9FEU0tnkOVg5iD/8T9tW0DODLruQ1Omz+xmH9E+a0y
-	8i7IjcxCaBslVbixTjiJetk/wulKCfJqHqLF6KkvVJpToEwxkz0TblX8hil085eHoQ/gAEgzyEa
-	GQGq7sw2s/6R0WMjvqElmi19IvgduhR1BX/Hi/+O5uyixe2BCSPWFR/Bq8acZi/
-X-Google-Smtp-Source: AGHT+IH0z3rKn+fkt9oueFnYCbyjflxoNtC7fSwocB41kCdpgpFRIO1SOxlBRXDhu4AGzm1Z+lvisw==
-X-Received: by 2002:a17:902:f54a:b0:212:5bb9:90a7 with SMTP id d9443c01a7336-2129f68fb09mr180319625ad.20.1732579833997;
-        Mon, 25 Nov 2024 16:10:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732579840; x=1733184640;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7yVhrd5QeFr4f/y9EHGCKMy97ANOQhGO61RtYLi44M0=;
+        b=A9THzadbz4zKsD4xFf6qLcsQiVTQKgj/EZRnPLlki+s01P0krF1ph+rV1ITB7qnciJ
+         MvWO8JaX72FmRIItXiaE9zfe+4jajKsI6gNBTShwLT+CJTAaoqzo4kZZ0aMwPelGu0nI
+         4XnHRb0DIbmVlcQELzJY4jqzC7pH1KIersZlJA5mWxpcO3QDX18oIzIzknBsICVFOhiK
+         mSQc+WESiIeLyL8krerNdsryQTf+ecTWppo+vPv/Wz/ohc7ajkNWKnRsf8tLPaEWAXUT
+         zGViQiW4W7C2oVGaFtpSk7LCcG9p/wsBdjTwh837zsszD8lHZuxFEgDRQytXTre0YW4u
+         kLow==
+X-Gm-Message-State: AOJu0YywV7CpnlbCKatHDzNOpgmc2+SmVF2SZm1yhVYvM6p0vIbkm3ae
+	P6NhRjThxT4rA2HfYSeov/jxpD2GHE95kO+/T2RYQFQqdelguLFibxI8dw==
+X-Gm-Gg: ASbGncuWjc9iu+HnkJU0LE+eME8i895LQDtop2AwQ7sIkhjtTljb3ggrzP8jDWnZtgD
+	1Hp7m+ElufXwR5wmH2Ue9woVDzAF2iIsb87q1ukebFEkPt3o8962aEnzzUYs7PSPCDv/kBgCTqY
+	YRJf43/JgX7QCcofRI+sp/rmuqhpWBm0sSo95uGxcINmMcnrgxg8ZBVi3QHOVbm70gHqDrO5cVt
+	Is2qPhmULxPPy5vz4JUscb738Rx+PKF1G50DraW26jkALnEeAcibt++MkMCAKCL
+X-Google-Smtp-Source: AGHT+IES9DyM0uEuGepTaxTG3o6pda/UCl6cW+ZSNFj4wuLknL4cUg3Hnz+SegzVE/1LfCv57gr7zg==
+X-Received: by 2002:a17:903:18b:b0:212:37e:3fcd with SMTP id d9443c01a7336-2129f290e12mr179376905ad.56.1732579839596;
+        Mon, 25 Nov 2024 16:10:39 -0800 (PST)
 Received: from localhost.localdomain ([2804:1b3:a7c1:5c7a:1bbe:c924:2a5:636])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dba1b40sm71383655ad.87.2024.11.25.16.10.31
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dba1b40sm71383655ad.87.2024.11.25.16.10.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 25 Nov 2024 16:10:33 -0800 (PST)
+        Mon, 25 Nov 2024 16:10:39 -0800 (PST)
 From: Hiago De Franco <hiagofranco@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Denys Dmytriyenko <denis@denix.org>,
 	Ross Burton <Ross.Burton@arm.com>,
 	Hiago De Franco <hiago.franco@toradex.com>
-Subject: [PATCH v3 0/3] weston: upgrade and add libdisplay-info recipe
-Date: Mon, 25 Nov 2024 21:08:33 -0300
-Message-Id: <20241126000836.6901-1-hiagofranco@gmail.com>
+Subject: [PATCH v3 2/3] libdisplay-info: add recipe
+Date: Mon, 25 Nov 2024 21:08:35 -0300
+Message-Id: <20241126000836.6901-3-hiagofranco@gmail.com>
 X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20241126000836.6901-1-hiagofranco@gmail.com>
+References: <20241126000836.6901-1-hiagofranco@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 00:10:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207803
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 00:10:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207805
 
 From: Hiago De Franco <hiago.franco@toradex.com>
 
-v1: https://lore.kernel.org/all/20241120203005.1802141-1-hiagofranco@gmail.com/
+libdisplay-info is a EDID and DisplayID library. Goals:
 
-v2: https://lore.kernel.org/all/20241123193527.1435268-1-hiagofranco@gmail.com/
-  - Added hwdata recipe, with DESCRIPTION variable.
-  - DESCRIPTION added to libdisplay-info and SUMMARY fixed.
+- Provide a set of high-level, easy-to-use, opinionated functions as
+  well as low-level functions to access detailed information.
+- Simplicity and correctness over performance and resource usage.
+- Well-tested and fuzzed.
 
-v3:
-  - Added lib_package to inherit in libdisplay-info recipe.
+Since commit a16598b038b2 ("backend-drm: make libdisplay-info
+mandatory") from Weston, this library is now mandatory in order to
+build weston 14.0.1 and newer.
 
-Hiago De Franco (3):
-  hwdata: add recipe from meta-openembedded
-  libdisplay-info: add recipe
-  weston: upgrade 13.0.3 -> 14.0.1
-
- meta/conf/distro/include/maintainers.inc      |  2 +
- ...Include-libgen.h-for-basename-signat.patch | 45 -------------------
- ...1-vnc-Allow-neatvnc-in-version-0.8.0.patch | 27 -----------
- .../{weston_13.0.3.bb => weston_14.0.1.bb}    |  8 +---
- meta/recipes-support/hwdata/hwdata_0.389.bb   | 30 +++++++++++++
- .../libdisplay-info/libdisplay-info_0.2.0.bb  | 16 +++++++
- 6 files changed, 50 insertions(+), 78 deletions(-)
- delete mode 100644 meta/recipes-graphics/wayland/weston/0001-libweston-tools-Include-libgen.h-for-basename-signat.patch
- delete mode 100644 meta/recipes-graphics/wayland/weston/0001-vnc-Allow-neatvnc-in-version-0.8.0.patch
- rename meta/recipes-graphics/wayland/{weston_13.0.3.bb => weston_14.0.1.bb} (94%)
- create mode 100644 meta/recipes-support/hwdata/hwdata_0.389.bb
+Signed-off-by: Hiago De Franco <hiago.franco@toradex.com>
+---
+ meta/conf/distro/include/maintainers.inc         |  1 +
+ .../libdisplay-info/libdisplay-info_0.2.0.bb     | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+)
  create mode 100644 meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
 
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 04208ebbf22b..53bb9d024e8a 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -325,6 +325,7 @@ RECIPE_MAINTAINER:pn-libcomps = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libconvert-asn1-perl = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-libdaemon = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libdazzle = "Alexander Kanavin <alex.kanavin@gmail.com>"
++RECIPE_MAINTAINER:pn-libdisplay-info = "Hiago De Franco <hiago.franco@toradex.com>"
+ RECIPE_MAINTAINER:pn-libdnf = "Alexander Kanavin <alex.kanavin@gmail.com>"
+ RECIPE_MAINTAINER:pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+ RECIPE_MAINTAINER:pn-libedit = "Khem Raj <raj.khem@gmail.com>"
+diff --git a/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb b/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
+new file mode 100644
+index 000000000000..f5156cc9f736
+--- /dev/null
++++ b/meta/recipes-support/libdisplay-info/libdisplay-info_0.2.0.bb
+@@ -0,0 +1,16 @@
++SUMMARY = "EDID and DisplayID library"
++DESCRIPTION = "The goal of this library is to provide a set of high-level, \
++easy-to-use, and opinionated functions, as well as low-level functions for \
++accessing detailed information, prioritizing simplicity and correctness over \
++performance and resource usage, while being well-tested and fuzzed."
++HOMEPAGE = "https://gitlab.freedesktop.org/emersion/libdisplay-info"
++LICENSE = "MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=e4426409957080ee0352128354cea2de"
++DEPENDS = "hwdata-native"
++
++SRC_URI = "git://gitlab.freedesktop.org/emersion/libdisplay-info.git;branch=main;protocol=https"
++SRCREV = "66b802d05b374cd8f388dc6ad1e7ae4f08cb3300"
++
++S = "${WORKDIR}/git"
++
++inherit meson pkgconfig lib_package
 -- 
 2.39.5
 
