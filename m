@@ -2,44 +2,45 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C89BD5A6D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 998B5D5A6D7
 	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 02:25:49 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.36921.1732587946201212792
+ by mx.groups.io with SMTP id smtpd.web10.36607.1732587948987724656
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 18:25:46 -0800
+ Mon, 25 Nov 2024 18:25:49 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1060df9989=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgEG007184;
-	Tue, 26 Nov 2024 02:25:45 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgEJ007184;
+	Tue, 26 Nov 2024 02:25:48 GMT
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-7
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-10
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 26 Nov 2024 02:25:45 +0000 (GMT)
+	Tue, 26 Nov 2024 02:25:47 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Mon, 25 Nov 2024 18:25:27 -0800
+ 15.1.2507.43; Mon, 25 Nov 2024 18:25:28 -0800
 Received: from ala-lpggp7.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Mon, 25 Nov 2024 18:25:27 -0800
+ 15.1.2507.43 via Frontend Transport; Mon, 25 Nov 2024 18:25:28 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <steve@sakoman.com>
-Subject: [kirkstone][PATCH V2 07/13] ovmf: Fix CVE-2023-45235
-Date: Mon, 25 Nov 2024 18:25:20 -0800
-Message-ID: <20241126022526.3389121-7-hongxu.jia@windriver.com>
+Subject: [kirkstone][PATCH V2 10/13] ovmf: Fix CVE-2023-45236
+Date: Mon, 25 Nov 2024 18:25:23 -0800
+Message-ID: <20241126022526.3389121-10-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 References: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 5B5HWFdgOEsEaHQBJLoLMc0lnvtJPmQ7
-X-Proofpoint-GUID: 5B5HWFdgOEsEaHQBJLoLMc0lnvtJPmQ7
-X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531a9 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=48vgC7mUAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8
- a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=bJ2ErkxXyr4Sfw2grsoA:9 a=HBbDodJDE692NyCK:21 a=bkWp_v3HvcftT6DRAIDL:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 3zOusUDuk54uAWSgJEiQkmwzXITFMzXO
+X-Proofpoint-GUID: 3zOusUDuk54uAWSgJEiQkmwzXITFMzXO
+X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531ab cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=BqEg4_3jAAAA:8 a=XkRKQH6RAAAA:8 a=QQrwgld0AAAA:8
+ a=VKio34HhAAAA:8 a=48vgC7mUAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8 a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=3BdHYBrw8BYaSRmUyCUA:9 a=M8StELapO-GijCwn:21 a=lBZTsuZDXdQA:10 a=Hv90Ch-Tvl0A:10 a=RVmHIydaz68A:10 a=bkWp_v3HvcftT6DRAIDL:22 a=0mFWnFbQd5xWBqmg7tTt:22
+ a=1gUyE30hU_ULiMxJiLUW:22 a=GixL4z90Y-kx4mQuXZm8:22 a=ALVy6clGPs_Yy9GZ8Zsv:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-11-26_01,2024-11-25_01,2024-11-22_01
@@ -52,85 +53,91 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 02:25:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207831
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207834
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-EDK2's Network Package is susceptible to a buffer overflow vulnerability
-when handling Server ID option from a DHCPv6 proxy Advertise message.
-This vulnerability can be exploited by an attacker to gain unauthorized
-access and potentially lead to a loss of Confidentiality, Integrity
-and/or Availability.
+EDK2's Network Package is susceptible to a predictable TCP Initial
+Sequence Number. This vulnerability can be exploited by an attacker
+to gain unauthorized access and potentially lead to a loss of
+Confidentiality.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-45235
+https://nvd.nist.gov/vuln/detail/CVE-2023-45236
 
-Upstream-patches:
-https://github.com/tianocore/edk2/commit/fac297724e6cc343430cd0104e55cd7a96=
-d1151e
-https://github.com/tianocore/edk2/commit/ff2986358f75d8f58ef08a66fe673539c9=
-c48f41
+Upstream-patch:
+https://github.com/tianocore/edk2/commit/1904a64bcc18199738e5be183d28887ac5=
+d837d7
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ovmf/ovmf/CVE-2023-45235-0001.patch       | 243 +++++++++++
- .../ovmf/ovmf/CVE-2023-45235-0002.patch       | 379 ++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
- 3 files changed, 624 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
+ .../ovmf/ovmf/CVE-2023-45236.patch            | 829 ++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
+ 2 files changed, 830 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45236.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45236.patch b/meta/recipe=
+s-core/ovmf/ovmf/CVE-2023-45236.patch
 new file mode 100644
-index 0000000000..264172f623
+index 0000000000..ac43392ce6
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
-@@ -0,0 +1,243 @@
-+From fac297724e6cc343430cd0104e55cd7a96d1151e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45236.patch
+@@ -0,0 +1,829 @@
++From 1904a64bcc18199738e5be183d28887ac5d837d7 Mon Sep 17 00:00:00 2001
 +From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:55 +0800
-+Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45235 P=
-atch
++Date: Wed, 8 May 2024 22:56:29 -0700
++Subject: [PATCH] NetworkPkg TcpDxe: SECURITY PATCH CVE-2023-45236
 +
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540
++REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4541
++REF: https://www.rfc-editor.org/rfc/rfc1948.txt
++REF: https://www.rfc-editor.org/rfc/rfc6528.txt
++REF: https://www.rfc-editor.org/rfc/rfc9293.txt
 +
-+Bug Details:
-+PixieFail Bug #7
-+CVE-2023-45235
-+CVSS 8.3 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H
-+CWE-119 Improper Restriction of Operations within the Bounds of
-+ a Memory Buffer
++Bug Overview:
++PixieFail Bug #8
++CVE-2023-45236
++CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N
++CWE-200 Exposure of Sensitive Information to an Unauthorized Actor
 +
-+Buffer overflow when handling Server ID option from a DHCPv6 proxy
-+Advertise message
++Updates TCP ISN generation to use a cryptographic hash of the
++connection's identifying parameters and a secret key.
++This prevents an attacker from guessing the ISN used for some other
++connection.
 +
-+Change Overview:
++This is follows the guidance in RFC 1948, RFC 6528, and RFC 9293.
 +
-+Performs two checks
++RFC: 9293 Section 3.4.1.  Initial Sequence Number Selection
 +
-+1. Checks that the length of the duid is accurate
-+> + //
-+> + // Check that the minimum and maximum requirements are met
-+> + //
-+> + if ((OpLen < PXEBC_MIN_SIZE_OF_DUID) ||
-+(OpLen > PXEBC_MAX_SIZE_OF_DUID)) {
-+> +  Status =3D EFI_INVALID_PARAMETER;
-+> +  goto ON_ERROR;
-+> + }
++   A TCP implementation MUST use the above type of "clock" for clock-
++   driven selection of initial sequence numbers (MUST-8), and SHOULD
++   generate its initial sequence numbers with the expression:
 +
-+2. Ensures that the amount of data written to the buffer is tracked and
-+never exceeds that
-+> + //
-+> + // Check that the option length is valid.
-+> + //
-+> + if ((DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN)
-+ > DiscoverLenNeeded) {
-+> +     Status =3D EFI_OUT_OF_RESOURCES;
-+> +     goto ON_ERROR;
-+> + }
++   ISN =3D M + F(localip, localport, remoteip, remoteport, secretkey)
 +
-+Additional code clean up and fix for memory leak in case Option was NULL
++   where M is the 4 microsecond timer, and F() is a pseudorandom
++   function (PRF) of the connection's identifying parameters ("localip,
++   localport, remoteip, remoteport") and a secret key ("secretkey")
++   (SHLD-1).  F() MUST NOT be computable from the outside (MUST-9), or
++   an attacker could still guess at sequence numbers from the ISN used
++   for some other connection.  The PRF could be implemented as a
++   cryptographic hash of the concatenation of the TCP connection
++   parameters and some secret data.  For discussion of the selection of
++   a specific hash algorithm and management of the secret key data,
++   please see Section 3 of [42].
++
++   For each connection there is a send sequence number and a receive
++   sequence number.  The initial send sequence number (ISS) is chosen by
++   the data sending TCP peer, and the initial receive sequence number
++   (IRS) is learned during the connection-establishing procedure.
++
++   For a connection to be established or initialized, the two TCP peers
++   must synchronize on each other's initial sequence numbers.  This is
++   done in an exchange of connection-establishing segments carrying a
++   control bit called "SYN" (for synchronize) and the initial sequence
++   numbers.  As a shorthand, segments carrying the SYN bit are also
++   called "SYNs".  Hence, the solution requires a suitable mechanism for
++   picking an initial sequence number and a slightly involved handshake
++   to exchange the ISNs.
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -138,661 +145,873 @@ atch
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45235
++CVE: CVE-2023-45236
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/fac297=
-724e6cc343430cd0104e55cd7a96d1151e]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1904a6=
+4bcc18199738e5be183d28887ac5d837d7]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c | 77 ++++++++++++++++++++++------
-+ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h | 17 ++++++
-+ 2 files changed, 78 insertions(+), 16 deletions(-)
++ NetworkPkg/SecurityFixes.yaml |  22 +++
++ NetworkPkg/TcpDxe/TcpDriver.c |  92 ++++++++++++-
++ NetworkPkg/TcpDxe/TcpDxe.inf  |   8 +-
++ NetworkPkg/TcpDxe/TcpFunc.h   |  23 ++--
++ NetworkPkg/TcpDxe/TcpInput.c  |  13 +-
++ NetworkPkg/TcpDxe/TcpMain.h   |  59 ++++++--
++ NetworkPkg/TcpDxe/TcpMisc.c   | 244 ++++++++++++++++++++++++++++++++--
++ NetworkPkg/TcpDxe/TcpTimer.c  |   3 +-
++ 8 files changed, 415 insertions(+), 49 deletions(-)
 +
-+diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c b/NetworkPkg/UefiPxeBcDx=
-e/PxeBcDhcp6.c
-+index 2b2d372889..7fd1281c11 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
-++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
-+@@ -887,6 +887,7 @@ PxeBcRequestBootService (
-+   EFI_STATUS                       Status;=0D
-+   EFI_DHCP6_PACKET                 *IndexOffer;=0D
-+   UINT8                            *Option;=0D
-++  UINTN                            DiscoverLenNeeded;=0D
++diff --git a/NetworkPkg/SecurityFixes.yaml b/NetworkPkg/SecurityFixes.yaml
++index 2b2c794697..ab355419cc 100644
++--- a/NetworkPkg/SecurityFixes.yaml
+++++ b/NetworkPkg/SecurityFixes.yaml
++@@ -121,6 +121,28 @@ CVE_2023_45235:
++     - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
++     - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
++     - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45236:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: TcpDxe: SECURITY PATCH CVE-2023-45236 Patch"=0D
+++  cve: CVE-2023-45236=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 08 - edk2/NetworkPkg: Predictable TCP Initial Sequenc=
+e Numbers"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg/Include/Library/NetLib.h=0D
+++    - NetworkPkg/TcpDxe/TcpDriver.c=0D
+++    - NetworkPkg/TcpDxe/TcpDxe.inf=0D
+++    - NetworkPkg/TcpDxe/TcpFunc.h=0D
+++    - NetworkPkg/TcpDxe/TcpInput.c=0D
+++    - NetworkPkg/TcpDxe/TcpMain.h=0D
+++    - NetworkPkg/TcpDxe/TcpMisc.c=0D
+++    - NetworkPkg/TcpDxe/TcpTimer.c=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4541=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45236=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
++ CVE_2023_45237:=0D
++   commit_titles:=0D
++     - "NetworkPkg:: SECURITY PATCH CVE 2023-45237"=0D
++diff --git a/NetworkPkg/TcpDxe/TcpDriver.c b/NetworkPkg/TcpDxe/TcpDriver.c
++index 8fe6badd68..40bba4080c 100644
++--- a/NetworkPkg/TcpDxe/TcpDriver.c
+++++ b/NetworkPkg/TcpDxe/TcpDriver.c
++@@ -83,6 +83,12 @@ EFI_SERVICE_BINDING_PROTOCOL  gTcpServiceBinding =3D {
++   TcpServiceBindingDestroyChild=0D
++ };=0D
 + =0D
-+   PxeBc      =3D &Private->PxeBc;=0D
-+   Request    =3D Private->Dhcp6Request;=0D
-+@@ -899,7 +900,8 @@ PxeBcRequestBootService (
-+     return EFI_DEVICE_ERROR;=0D
-+   }=0D
-+ =0D
-+-  Discover =3D AllocateZeroPool (sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET)=
-);=0D
-++  DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
-++  Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
-+   if (Discover =3D=3D NULL) {=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
-+   }=0D
-+@@ -924,16 +926,34 @@ PxeBcRequestBootService (
-+                DHCP6_OPT_SERVER_ID=0D
-+                );=0D
-+     if (Option =3D=3D NULL) {=0D
-+-      return EFI_NOT_FOUND;=0D
-++      Status =3D EFI_NOT_FOUND;=0D
-++      goto ON_ERROR;=0D
-+     }=0D
-+ =0D
-+     //=0D
-+     // Add Server ID Option.=0D
-+     //=0D
-+     OpLen =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)Option)->OpLen);=0D
-+-    CopyMem (DiscoverOpt, Option, OpLen + 4);=0D
-+-    DiscoverOpt +=3D (OpLen + 4);=0D
-+-    DiscoverLen +=3D (OpLen + 4);=0D
+++//=0D
+++// This is the handle for the Hash2ServiceBinding Protocol instance this =
+driver produces=0D
+++// if the platform does not provide one.=0D
+++//=0D
+++EFI_HANDLE  mHash2ServiceHandle =3D NULL;=0D
 ++=0D
-++    //=0D
-++    // Check that the minimum and maximum requirements are met=0D
-++    //=0D
-++    if ((OpLen < PXEBC_MIN_SIZE_OF_DUID) || (OpLen > PXEBC_MAX_SIZE_OF_DU=
-ID)) {=0D
-++      Status =3D EFI_INVALID_PARAMETER;=0D
-++      goto ON_ERROR;=0D
-++    }=0D
-++=0D
-++    //=0D
-++    // Check that the option length is valid.=0D
-++    //=0D
-++    if ((DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN) >=
- DiscoverLenNeeded) {=0D
-++      Status =3D EFI_OUT_OF_RESOURCES;=0D
-++      goto ON_ERROR;=0D
-++    }=0D
-++=0D
-++    CopyMem (DiscoverOpt, Option, OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE=
-_AND_LEN);=0D
-++    DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-++    DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-+   }=0D
++ /**=0D
++   Create and start the heartbeat timer for the TCP driver.=0D
 + =0D
-+   while (RequestLen < Request->Length) {=0D
-+@@ -944,16 +964,24 @@ PxeBcRequestBootService (
-+         (OpCode !=3D DHCP6_OPT_SERVER_ID)=0D
-+         )=0D
-+     {=0D
-++      //=0D
-++      // Check that the option length is valid.=0D
-++      //=0D
-++      if (DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN >=
- DiscoverLenNeeded) {=0D
-++        Status =3D EFI_OUT_OF_RESOURCES;=0D
-++        goto ON_ERROR;=0D
-++      }=0D
-++=0D
-+       //=0D
-+       // Copy all the options except IA option and Server ID=0D
-+       //=0D
-+-      CopyMem (DiscoverOpt, RequestOpt, OpLen + 4);=0D
-+-      DiscoverOpt +=3D (OpLen + 4);=0D
-+-      DiscoverLen +=3D (OpLen + 4);=0D
-++      CopyMem (DiscoverOpt, RequestOpt, OpLen + PXEBC_COMBINED_SIZE_OF_OP=
-T_CODE_AND_LEN);=0D
-++      DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
-=0D
-++      DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
-=0D
-+     }=0D
++@@ -165,6 +171,23 @@ TcpDriverEntryPoint (
++   EFI_STATUS  Status;=0D
++   UINT32      Random;=0D
 + =0D
-+-    RequestOpt +=3D (OpLen + 4);=0D
-+-    RequestLen +=3D (OpLen + 4);=0D
-++    RequestOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-++    RequestLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
+++  //=0D
+++  // Initialize the Secret used for hashing TCP sequence numbers=0D
+++  //=0D
+++  // Normally this should be regenerated periodically, but since=0D
+++  // this is only used for UEFI networking and not a general purpose=0D
+++  // operating system, it is not necessary to regenerate it.=0D
+++  //=0D
+++  Status =3D PseudoRandomU32 (&mTcpGlobalSecret);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Get a random number used to generate a random port number=0D
+++  // Intentionally not linking this to mTcpGlobalSecret to avoid leaking =
+information about the secret=0D
+++  //=0D
++   Status =3D PseudoRandomU32 (&Random);=0D
++   if (EFI_ERROR (Status)) {=0D
++     DEBUG ((DEBUG_ERROR, "%a Failed to generate random number: %r\n", __f=
+unc__, Status));=0D
++@@ -207,9 +230,8 @@ TcpDriverEntryPoint (
 +   }=0D
 + =0D
 +   //=0D
-+@@ -2154,6 +2182,7 @@ PxeBcDhcp6Discover (
-+   UINT16                           OpLen;=0D
-+   UINT32                           Xid;=0D
-+   EFI_STATUS                       Status;=0D
-++  UINTN                            DiscoverLenNeeded;=0D
-+ =0D
-+   PxeBc    =3D &Private->PxeBc;=0D
-+   Mode     =3D PxeBc->Mode;=0D
-+@@ -2169,7 +2198,8 @@ PxeBcDhcp6Discover (
-+     return EFI_DEVICE_ERROR;=0D
-+   }=0D
-+ =0D
-+-  Discover =3D AllocateZeroPool (sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET)=
++-  // Initialize ISS and random port.=0D
+++  // Initialize the random port.=0D
++   //=0D
++-  mTcpGlobalIss   =3D Random % mTcpGlobalIss;=0D
++   mTcp4RandomPort =3D (UINT16)(TCP_PORT_KNOWN + (Random % TCP_PORT_KNOWN)=
 );=0D
-++  DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
-++  Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
-+   if (Discover =3D=3D NULL) {=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
++   mTcp6RandomPort =3D mTcp4RandomPort;=0D
++ =0D
++@@ -224,6 +246,8 @@ TcpDriverEntryPoint (
++   @param[in]  IpVersion          IP_VERSION_4 or IP_VERSION_6.=0D
++ =0D
++   @retval EFI_OUT_OF_RESOURCES   Failed to allocate some resources.=0D
+++  @retval EFI_UNSUPPORTED        Service Binding Protocols are unavailabl=
+e.=0D
+++  @retval EFI_ALREADY_STARTED    The TCP driver is already started on the=
+ controller.=0D
++   @retval EFI_SUCCESS            A new IP6 service binding private was cr=
+eated.=0D
++ =0D
++ **/=0D
++@@ -234,11 +258,13 @@ TcpCreateService (
++   IN UINT8       IpVersion=0D
++   )=0D
++ {=0D
++-  EFI_STATUS        Status;=0D
++-  EFI_GUID          *IpServiceBindingGuid;=0D
++-  EFI_GUID          *TcpServiceBindingGuid;=0D
++-  TCP_SERVICE_DATA  *TcpServiceData;=0D
++-  IP_IO_OPEN_DATA   OpenData;=0D
+++  EFI_STATUS                    Status;=0D
+++  EFI_GUID                      *IpServiceBindingGuid;=0D
+++  EFI_GUID                      *TcpServiceBindingGuid;=0D
+++  TCP_SERVICE_DATA              *TcpServiceData;=0D
+++  IP_IO_OPEN_DATA               OpenData;=0D
+++  EFI_SERVICE_BINDING_PROTOCOL  *Hash2ServiceBinding;=0D
+++  EFI_HASH2_PROTOCOL            *Hash2Protocol;=0D
++ =0D
++   if (IpVersion =3D=3D IP_VERSION_4) {=0D
++     IpServiceBindingGuid  =3D &gEfiIp4ServiceBindingProtocolGuid;=0D
++@@ -272,6 +298,33 @@ TcpCreateService (
++     return EFI_UNSUPPORTED;=0D
 +   }=0D
-+@@ -2185,22 +2215,37 @@ PxeBcDhcp6Discover (
-+   DiscoverLen             =3D sizeof (EFI_DHCP6_HEADER);=0D
-+   RequestLen              =3D DiscoverLen;=0D
++ =0D
+++  Status =3D gBS->LocateProtocol (&gEfiHash2ProtocolGuid, NULL, (VOID **)=
+&Hash2Protocol);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    //=0D
+++    // If we can't find the Hashing protocol, then we need to create one.=
+=0D
+++    //=0D
+++=0D
+++    //=0D
+++    // Platform is expected to publish the hash service binding protocol =
+to support TCP.=0D
+++    //=0D
+++    Status =3D gBS->LocateProtocol (=0D
+++                    &gEfiHash2ServiceBindingProtocolGuid,=0D
+++                    NULL,=0D
+++                    (VOID **)&Hash2ServiceBinding=0D
+++                    );=0D
+++    if (EFI_ERROR (Status) || (Hash2ServiceBinding =3D=3D NULL) || (Hash2=
+ServiceBinding->CreateChild =3D=3D NULL)) {=0D
+++      return EFI_UNSUPPORTED;=0D
+++    }=0D
+++=0D
+++    //=0D
+++    // Create an instance of the hash protocol for this controller.=0D
+++    //=0D
+++    Status =3D Hash2ServiceBinding->CreateChild (Hash2ServiceBinding, &mH=
+ash2ServiceHandle);=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      return EFI_UNSUPPORTED;=0D
+++    }=0D
+++  }=0D
+++=0D
++   //=0D
++   // Create the TCP service data.=0D
++   //=0D
++@@ -423,6 +476,7 @@ TcpDestroyService (
++   EFI_STATUS                               Status;=0D
++   LIST_ENTRY                               *List;=0D
++   TCP_DESTROY_CHILD_IN_HANDLE_BUF_CONTEXT  Context;=0D
+++  EFI_SERVICE_BINDING_PROTOCOL             *Hash2ServiceBinding;=0D
++ =0D
++   ASSERT ((IpVersion =3D=3D IP_VERSION_4) || (IpVersion =3D=3D IP_VERSION=
+_6));=0D
++ =0D
++@@ -439,6 +493,30 @@ TcpDestroyService (
++     return EFI_SUCCESS;=0D
++   }=0D
 + =0D
 ++  //=0D
-++  // The request packet is generated by the UEFI network stack. In the DH=
-CP4 DORA and DHCP6 SARR sequence,=0D
-++  // the first (discover in DHCP4 and solicit in DHCP6) and third (reques=
-t in both DHCP4 and DHCP6) are=0D
-++  // generated by the DHCP client (the UEFI network stack in this case). =
-By the time this function executes,=0D
-++  // the DHCP sequence already has been executed once (see UEFI Specifica=
-tion Figures 24.2 and 24.3), with=0D
-++  // Private->Dhcp6Request being a cached copy of the DHCP6 request packe=
-t that UEFI network stack previously=0D
-++  // generated and sent.=0D
+++  // Destroy the Hash2ServiceBinding instance if it is created by Tcp dri=
+ver.=0D
 ++  //=0D
-++  // Therefore while this code looks like it could overflow, in practice =
-it's not possible.=0D
-++  //=0D
-+   while (RequestLen < Request->Length) {=0D
-+     OpCode =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)RequestOpt)->OpCode);=0D
-+     OpLen  =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)RequestOpt)->OpLen);=0D
-+     if ((OpCode !=3D EFI_DHCP6_IA_TYPE_NA) &&=0D
-+         (OpCode !=3D EFI_DHCP6_IA_TYPE_TA))=0D
-+     {=0D
-++      if (DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN >=
- DiscoverLenNeeded) {=0D
-++        Status =3D EFI_OUT_OF_RESOURCES;=0D
-++        goto ON_ERROR;=0D
+++  if (mHash2ServiceHandle !=3D NULL) {=0D
+++    Status =3D gBS->LocateProtocol (=0D
+++                    &gEfiHash2ServiceBindingProtocolGuid,=0D
+++                    NULL,=0D
+++                    (VOID **)&Hash2ServiceBinding=0D
+++                    );=0D
+++    if (EFI_ERROR (Status) || (Hash2ServiceBinding =3D=3D NULL) || (Hash2=
+ServiceBinding->DestroyChild =3D=3D NULL)) {=0D
+++      return EFI_UNSUPPORTED;=0D
+++    }=0D
+++=0D
+++    //=0D
+++    // Destroy the instance of the hashing protocol for this controller.=
+=0D
+++    //=0D
+++    Status =3D Hash2ServiceBinding->DestroyChild (Hash2ServiceBinding, &m=
+Hash2ServiceHandle);=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      return EFI_UNSUPPORTED;=0D
+++    }=0D
+++=0D
+++    mHash2ServiceHandle =3D NULL;=0D
+++  }=0D
+++=0D
++   Status =3D gBS->OpenProtocol (=0D
++                   NicHandle,=0D
++                   ServiceBindingGuid,=0D
++diff --git a/NetworkPkg/TcpDxe/TcpDxe.inf b/NetworkPkg/TcpDxe/TcpDxe.inf
++index cf5423f4c5..76de4cf9ec 100644
++--- a/NetworkPkg/TcpDxe/TcpDxe.inf
+++++ b/NetworkPkg/TcpDxe/TcpDxe.inf
++@@ -6,6 +6,7 @@
++ #  stack has been loaded in system. This driver supports both IPv4 and IP=
+v6 network stack.=0D
++ #=0D
++ #  Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
+=0D
+++#  Copyright (c) Microsoft Corporation=0D
++ #=0D
++ #  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ #=0D
++@@ -68,7 +69,6 @@
++   NetLib=0D
++   IpIoLib=0D
++ =0D
++-=0D
++ [Protocols]=0D
++   ## SOMETIMES_CONSUMES=0D
++   ## SOMETIMES_PRODUCES=0D
++@@ -81,6 +81,12 @@
++   gEfiIp6ServiceBindingProtocolGuid             ## TO_START=0D
++   gEfiTcp6ProtocolGuid                          ## BY_START=0D
++   gEfiTcp6ServiceBindingProtocolGuid            ## BY_START=0D
+++  gEfiHash2ProtocolGuid                         ## BY_START=0D
+++  gEfiHash2ServiceBindingProtocolGuid           ## BY_START=0D
+++=0D
+++[Guids]=0D
+++  gEfiHashAlgorithmMD5Guid                      ## CONSUMES=0D
+++  gEfiHashAlgorithmSha256Guid                   ## CONSUMES=0D
++ =0D
++ [Depex]=0D
++   gEfiHash2ServiceBindingProtocolGuid=0D
++diff --git a/NetworkPkg/TcpDxe/TcpFunc.h b/NetworkPkg/TcpDxe/TcpFunc.h
++index a7af01fff2..c707bee3e5 100644
++--- a/NetworkPkg/TcpDxe/TcpFunc.h
+++++ b/NetworkPkg/TcpDxe/TcpFunc.h
++@@ -2,7 +2,7 @@
++   Declaration of external functions shared in TCP driver.=0D
++ =0D
++   Copyright (c) 2009 - 2014, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -36,8 +36,11 @@ VOID
++ =0D
++   @param[in, out]  Tcb               Pointer to the TCP_CB of this TCP in=
+stance.=0D
++ =0D
+++  @retval EFI_SUCCESS             The operation completed successfully=0D
+++  @retval others                  The underlying functions failed and cou=
+ld not complete the operation=0D
+++=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ TcpInitTcbLocal (=0D
++   IN OUT TCP_CB  *Tcb=0D
++   );=0D
++@@ -128,17 +131,6 @@ TcpCloneTcb (
++   IN TCP_CB  *Tcb=0D
++   );=0D
++ =0D
++-/**=0D
++-  Compute an ISS to be used by a new connection.=0D
++-=0D
++-  @return The result ISS.=0D
++-=0D
++-**/=0D
++-TCP_SEQNO=0D
++-TcpGetIss (=0D
++-  VOID=0D
++-  );=0D
++-=0D
++ /**=0D
++   Get the local mss.=0D
++ =0D
++@@ -202,8 +194,11 @@ TcpFormatNetbuf (
++   @param[in, out]  Tcb          Pointer to the TCP_CB that wants to initi=
+ate a=0D
++                                 connection.=0D
++ =0D
+++  @retval EFI_SUCCESS             The operation completed successfully=0D
+++  @retval others                  The underlying functions failed and cou=
+ld not complete the operation=0D
+++=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ TcpOnAppConnect (=0D
++   IN OUT TCP_CB  *Tcb=0D
++   );=0D
++diff --git a/NetworkPkg/TcpDxe/TcpInput.c b/NetworkPkg/TcpDxe/TcpInput.c
++index fb1aa827f8..0477a15d0c 100644
++--- a/NetworkPkg/TcpDxe/TcpInput.c
+++++ b/NetworkPkg/TcpDxe/TcpInput.c
++@@ -724,6 +724,7 @@ TcpInput (
++   TCP_SEQNO   Urg;=0D
++   UINT16      Checksum;=0D
++   INT32       Usable;=0D
+++  EFI_STATUS  Status;=0D
++ =0D
++   ASSERT ((Version =3D=3D IP_VERSION_4) || (Version =3D=3D IP_VERSION_6))=
+;=0D
++ =0D
++@@ -872,7 +873,17 @@ TcpInput (
++       Tcb->LocalEnd.Port  =3D Head->DstPort;=0D
++       Tcb->RemoteEnd.Port =3D Head->SrcPort;=0D
++ =0D
++-      TcpInitTcbLocal (Tcb);=0D
+++      Status =3D TcpInitTcbLocal (Tcb);=0D
+++      if (EFI_ERROR (Status)) {=0D
+++        DEBUG (=0D
+++          (DEBUG_ERROR,=0D
+++           "TcpInput: discard a segment because failed to init local end =
+for TCB %p\n",=0D
+++           Tcb)=0D
+++          );=0D
+++=0D
+++        goto DISCARD;=0D
 ++      }=0D
 ++=0D
-+       //=0D
-+       // Copy all the options except IA option.=0D
-+       //=0D
-+-      CopyMem (DiscoverOpt, RequestOpt, OpLen + 4);=0D
-+-      DiscoverOpt +=3D (OpLen + 4);=0D
-+-      DiscoverLen +=3D (OpLen + 4);=0D
-++      CopyMem (DiscoverOpt, RequestOpt, OpLen + PXEBC_COMBINED_SIZE_OF_OP=
-T_CODE_AND_LEN);=0D
-++      DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
++       TcpInitTcbPeer (Tcb, Seg, &Option);=0D
++ =0D
++       TcpSetState (Tcb, TCP_SYN_RCVD);=0D
++diff --git a/NetworkPkg/TcpDxe/TcpMain.h b/NetworkPkg/TcpDxe/TcpMain.h
++index c0c9b7f46e..4d5566ab93 100644
++--- a/NetworkPkg/TcpDxe/TcpMain.h
+++++ b/NetworkPkg/TcpDxe/TcpMain.h
++@@ -3,7 +3,7 @@
++   It is the common head file for all Tcp*.c in TCP driver.=0D
++ =0D
++   Copyright (c) 2009 - 2016, Intel Corporation. All rights reserved.<BR>=
 =0D
-++      DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
-=0D
-+     }=0D
-+ =0D
-+-    RequestOpt +=3D (OpLen + 4);=0D
-+-    RequestLen +=3D (OpLen + 4);=0D
-++    RequestOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-++    RequestLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-+   }=0D
-+ =0D
-+   Status =3D PxeBc->UdpWrite (=0D
-+diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h b/NetworkPkg/UefiPxeBcDx=
-e/PxeBcDhcp6.h
-+index c86f6d391b..6357d27fae 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h
-++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h
-+@@ -34,6 +34,23 @@
-+ #define PXEBC_ADDR_START_DELIMITER        '['=0D
-+ #define PXEBC_ADDR_END_DELIMITER          ']'=0D
-+ =0D
-++//=0D
-++// A DUID consists of a 2-octet type code represented in network byte=0D
-++// order, followed by a variable number of octets that make up the=0D
-++// actual identifier.  The length of the DUID (not including the type=0D
-++// code) is at least 1 octet and at most 128 octets.=0D
-++//=0D
-++#define PXEBC_MIN_SIZE_OF_DUID  (sizeof(UINT16) + 1)=0D
-++#define PXEBC_MAX_SIZE_OF_DUID  (sizeof(UINT16) + 128)=0D
-++=0D
-++//=0D
-++// This define represents the combineds code and length field from=0D
-++// https://datatracker.ietf.org/doc/html/rfc3315#section-22.1=0D
-++//=0D
-++#define PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN  \=0D
-++      (sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->OpCode) + \=0D
-++      sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->OpLen))=0D
-++=0D
-+ #define GET_NEXT_DHCP6_OPTION(Opt) \=0D
-+   (EFI_DHCP6_PACKET_OPTION *) ((UINT8 *) (Opt) + \=0D
-+   sizeof (EFI_DHCP6_PACKET_OPTION) + (NTOHS ((Opt)->OpLen)) - 1)=0D
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
-new file mode 100644
-index 0000000000..0e814a0212
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
-@@ -0,0 +1,379 @@
-+From ff2986358f75d8f58ef08a66fe673539c9c48f41 Mon Sep 17 00:00:00 2001
-+From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:56 +0800
-+Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45235 U=
-nit=20
-+ Tests
-+
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540
-+
-+Unit tests to confirm that the bug..
-+
-+Buffer overflow when handling Server ID option from a DHCPv6 proxy
-+Advertise message
-+
-+..has been patched.
-+
-+This patch contains unit tests for the following functions:
-+PxeBcRequestBootService
-+PxeBcDhcp6Discover
-+
-+Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
-+
-+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+
-+CVE: CVE-2023-45235
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/ff2986=
-358f75d8f58ef08a66fe673539c9c48f41]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ .../GoogleTest/PxeBcDhcp6GoogleTest.cpp       | 278 +++++++++++++++++-
-+ .../GoogleTest/PxeBcDhcp6GoogleTest.h         |  18 ++
-+ 2 files changed, 294 insertions(+), 2 deletions(-)
-+
-+diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp b=
-/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
-+index 8260eeee50..bd423ebadf 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
-++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
-+@@ -4,7 +4,9 @@
-+   Copyright (c) Microsoft Corporation=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
 +   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
 + **/=0D
-+-#include <gtest/gtest.h>=0D
-++#include <Library/GoogleTestLib.h>=0D
-++#include <GoogleTest/Library/MockUefiLib.h>=0D
-++#include <GoogleTest/Library/MockUefiRuntimeServicesTableLib.h>=0D
++@@ -13,6 +13,7 @@
 + =0D
-+ extern "C" {=0D
-+   #include <Uefi.h>=0D
-+@@ -19,7 +21,8 @@ extern "C" {
-+ // Definitions=0D
-+ /////////////////////////////////////////////////////////////////////////=
-//////=0D
++ #include <Protocol/ServiceBinding.h>=0D
++ #include <Protocol/DriverBinding.h>=0D
+++#include <Protocol/Hash2.h>=0D
++ #include <Library/IpIoLib.h>=0D
++ #include <Library/DevicePathLib.h>=0D
++ #include <Library/PrintLib.h>=0D
++@@ -31,7 +32,7 @@ extern EFI_UNICODE_STRING_TABLE      *gTcpControllerName=
+Table;
 + =0D
-+-#define PACKET_SIZE  (1500)=0D
-++#define PACKET_SIZE            (1500)=0D
-++#define REQUEST_OPTION_LENGTH  (120)=0D
++ extern LIST_ENTRY  mTcpRunQue;=0D
++ extern LIST_ENTRY  mTcpListenQue;=0D
++-extern TCP_SEQNO   mTcpGlobalIss;=0D
+++extern TCP_SEQNO   mTcpGlobalSecret;=0D
++ extern UINT32      mTcpTick;=0D
 + =0D
-+ typedef struct {=0D
-+   UINT16    OptionCode;   // The option code for DHCP6_OPT_SERVER_ID (e.g=
-., 0x03)=0D
-+@@ -76,6 +79,26 @@ MockConfigure (
-+ }=0D
++ ///=0D
++@@ -45,14 +46,6 @@ extern UINT32      mTcpTick;
 + =0D
-+ // Needed by PxeBcSupport=0D
-++EFI_STATUS=0D
-++PxeBcDns6 (=0D
-++  IN PXEBC_PRIVATE_DATA  *Private,=0D
-++  IN     CHAR16          *HostName,=0D
-++  OUT EFI_IPv6_ADDRESS   *IpAddress=0D
-++  )=0D
-++{=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-++UINT32=0D
-++PxeBcBuildDhcp6Options (=0D
-++  IN  PXEBC_PRIVATE_DATA       *Private,=0D
-++  OUT EFI_DHCP6_PACKET_OPTION  **OptList,=0D
-++  IN  UINT8                    *Buffer=0D
-++  )=0D
-++{=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-+ EFI_STATUS=0D
-+ EFIAPI=0D
-+ QueueDpc (=0D
-+@@ -159,6 +182,10 @@ TEST_F (PxeBcHandleDhcp6OfferTest, BasicUsageTest) {
-+   ASSERT_EQ (PxeBcHandleDhcp6Offer (&(PxeBcHandleDhcp6OfferTest::Private)=
-), EFI_DEVICE_ERROR);=0D
-+ }=0D
++ #define TCP_EXPIRE_TIME  65535=0D
 + =0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++// PxeBcCacheDnsServerAddresses Tests=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++=0D
-+ class PxeBcCacheDnsServerAddressesTest : public ::testing::Test {=0D
-+ public:=0D
-+   PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
-+@@ -298,3 +325,250 @@ TEST_F (PxeBcCacheDnsServerAddressesTest, MultipleDn=
-sEntries) {
-+     FreePool (Private.DnsServer);=0D
-+   }=0D
-+ }=0D
-++=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++// PxeBcRequestBootServiceTest Test Cases=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++=0D
-++class PxeBcRequestBootServiceTest : public ::testing::Test {=0D
-++public:=0D
-++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
-++  EFI_UDP6_PROTOCOL Udp6Read;=0D
-++=0D
-++protected:=0D
-++  // Add any setup code if needed=0D
-++  virtual void=0D
-++  SetUp (=0D
-++    )=0D
-++  {=0D
-++    Private.Dhcp6Request =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET=
-_SIZE);=0D
-++=0D
-++    // Need to setup the EFI_PXE_BASE_CODE_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  UdpWrite=0D
-++    //  UdpRead=0D
-++=0D
-++    Private.PxeBc.UdpWrite =3D (EFI_PXE_BASE_CODE_UDP_WRITE)MockUdpWrite;=
-=0D
-++    Private.PxeBc.UdpRead  =3D (EFI_PXE_BASE_CODE_UDP_READ)MockUdpRead;=0D
-++=0D
-++    // Need to setup EFI_UDP6_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  Configure=0D
-++=0D
-++    Udp6Read.Configure =3D (EFI_UDP6_CONFIGURE)MockConfigure;=0D
-++    Private.Udp6Read   =3D &Udp6Read;=0D
-++  }=0D
-++=0D
-++  // Add any cleanup code if needed=0D
-++  virtual void=0D
-++  TearDown (=0D
-++    )=0D
-++  {=0D
-++    if (Private.Dhcp6Request !=3D NULL) {=0D
-++      FreePool (Private.Dhcp6Request);=0D
-++    }=0D
-++=0D
-++    // Clean up any resources or variables=0D
-++  }=0D
-++};=0D
-++=0D
-++TEST_F (PxeBcRequestBootServiceTest, ServerDiscoverBasicUsageTest) {=0D
-++  PxeBcRequestBootServiceTest::Private.OfferBuffer[0].Dhcp6.OfferType =3D=
- PxeOfferTypeProxyBinl;=0D
-++=0D
-++  DHCP6_OPTION_SERVER_ID  Server =3D { 0 };=0D
-++=0D
-++  Server.OptionCode =3D  HTONS (DHCP6_OPT_SERVER_ID);=0D
-++  Server.OptionLen  =3D HTONS (16); // valid length=0D
-++  UINT8  Index =3D 0;=0D
-++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.OfferBuffer[=
-Index].Dhcp6.Packet.Offer;=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &Server, sizeof (Server));=0D
-++  Cursor +=3D sizeof (Server);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_SUCCESS);=0D
-++}=0D
-++=0D
-++TEST_F (PxeBcRequestBootServiceTest, AttemptDiscoverOverFlowExpectFailure=
-) {=0D
-++  PxeBcRequestBootServiceTest::Private.OfferBuffer[0].Dhcp6.OfferType =3D=
- PxeOfferTypeProxyBinl;=0D
-++=0D
-++  DHCP6_OPTION_SERVER_ID  Server =3D { 0 };=0D
-++=0D
-++  Server.OptionCode =3D  HTONS (DHCP6_OPT_SERVER_ID);=0D
-++  Server.OptionLen  =3D HTONS (1500); // This length would overflow witho=
-ut a check=0D
-++  UINT8  Index =3D 0;=0D
-++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.OfferBuffer[=
-Index].Dhcp6.Packet.Offer;=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &Server, sizeof (Server));=0D
-++  Cursor +=3D sizeof (Server);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  // This is going to be stopped by the duid overflow check=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_INVALID_PARAMETER);=0D
-++}=0D
-++=0D
-++TEST_F (PxeBcRequestBootServiceTest, RequestBasicUsageTest) {=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
-++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D 0; // valid length=0D
-++=0D
-++  UINT8  Index =3D 0;=0D
-++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.Dhcp6Request=
-[Index];=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_SUCCESS);=0D
-++}=0D
-++=0D
-++TEST_F (PxeBcRequestBootServiceTest, AttemptRequestOverFlowExpectFailure)=
- {=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
-++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D 1500; // this length would overflow without a che=
-ck=0D
-++=0D
-++  UINT8  Index =3D 0;=0D
-++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.Dhcp6Request=
-[Index];=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_OUT_OF_RESOURCES);=0D
-++}=0D
-++=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++// PxeBcDhcp6Discover Test=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++=0D
-++class PxeBcDhcp6DiscoverTest : public ::testing::Test {=0D
-++public:=0D
-++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
-++  EFI_UDP6_PROTOCOL Udp6Read;=0D
-++=0D
-++protected:=0D
-++  MockUefiRuntimeServicesTableLib RtServicesMock;=0D
-++=0D
-++  // Add any setup code if needed=0D
-++  virtual void=0D
-++  SetUp (=0D
-++    )=0D
-++  {=0D
-++    Private.Dhcp6Request =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET=
-_SIZE);=0D
-++=0D
-++    // Need to setup the EFI_PXE_BASE_CODE_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  UdpWrite=0D
-++    //  UdpRead=0D
-++=0D
-++    Private.PxeBc.UdpWrite =3D (EFI_PXE_BASE_CODE_UDP_WRITE)MockUdpWrite;=
-=0D
-++    Private.PxeBc.UdpRead  =3D (EFI_PXE_BASE_CODE_UDP_READ)MockUdpRead;=0D
-++=0D
-++    // Need to setup EFI_UDP6_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  Configure=0D
-++=0D
-++    Udp6Read.Configure =3D (EFI_UDP6_CONFIGURE)MockConfigure;=0D
-++    Private.Udp6Read   =3D &Udp6Read;=0D
-++  }=0D
-++=0D
-++  // Add any cleanup code if needed=0D
-++  virtual void=0D
-++  TearDown (=0D
-++    )=0D
-++  {=0D
-++    if (Private.Dhcp6Request !=3D NULL) {=0D
-++      FreePool (Private.Dhcp6Request);=0D
-++    }=0D
-++=0D
-++    // Clean up any resources or variables=0D
-++  }=0D
-++};=0D
-++=0D
-++// Test Description=0D
-++// This will cause an overflow by an untrusted packet during the option p=
-arsing=0D
-++TEST_F (PxeBcDhcp6DiscoverTest, BasicOverflowTest) {=0D
-++  EFI_IPv6_ADDRESS         DestIp     =3D { 0 };=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
-++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D HTONS (0xFFFF); // overflow=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Private.Dhcp6Request->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
-++=0D
-++  Private.Dhcp6Request->Length =3D (UINT16)(Cursor - (UINT8 *)Private.Dhc=
-p6Request);=0D
-++=0D
-++  EXPECT_CALL (RtServicesMock, gRT_GetTime)=0D
-++    .WillOnce (::testing::Return (0));=0D
-++=0D
-++  ASSERT_EQ (=0D
-++    PxeBcDhcp6Discover (=0D
-++      &(PxeBcDhcp6DiscoverTest::Private),=0D
-++      0,=0D
-++      NULL,=0D
-++      FALSE,=0D
-++      (EFI_IP_ADDRESS *)&DestIp=0D
-++      ),=0D
-++    EFI_OUT_OF_RESOURCES=0D
-++    );=0D
-++}=0D
-++=0D
-++// Test Description=0D
-++// This will test that we can handle a packet with a valid option length=
-=0D
-++TEST_F (PxeBcDhcp6DiscoverTest, BasicUsageTest) {=0D
-++  EFI_IPv6_ADDRESS         DestIp     =3D { 0 };=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
-++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D HTONS (0x30);=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Private.Dhcp6Request->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
-++=0D
-++  Private.Dhcp6Request->Length =3D (UINT16)(Cursor - (UINT8 *)Private.Dhc=
-p6Request);=0D
-++=0D
-++  EXPECT_CALL (RtServicesMock, gRT_GetTime)=0D
-++    .WillOnce (::testing::Return (0));=0D
-++=0D
-++  ASSERT_EQ (=0D
-++    PxeBcDhcp6Discover (=0D
-++      &(PxeBcDhcp6DiscoverTest::Private),=0D
-++      0,=0D
-++      NULL,=0D
-++      FALSE,=0D
-++      (EFI_IP_ADDRESS *)&DestIp=0D
-++      ),=0D
-++    EFI_SUCCESS=0D
-++    );=0D
-++}=0D
-+diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h b/N=
-etworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
-+index b17c314791..0d825e4425 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
-++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
-+@@ -47,4 +47,22 @@ PxeBcCacheDnsServerAddresses (
-+   IN PXEBC_DHCP6_PACKET_CACHE  *Cache6=0D
++-///=0D
++-/// The implementation selects the initial send sequence number and the u=
+nit to=0D
++-/// be added when it is increased.=0D
++-///=0D
++-#define TCP_BASE_ISS         0x4d7e980b=0D
++-#define TCP_ISS_INCREMENT_1  2048=0D
++-#define TCP_ISS_INCREMENT_2  100=0D
++-=0D
++ typedef union {=0D
++   EFI_TCP4_CONFIG_DATA    Tcp4CfgData;=0D
++   EFI_TCP6_CONFIG_DATA    Tcp6CfgData;=0D
++@@ -774,4 +767,50 @@ Tcp6Poll (
++   IN EFI_TCP6_PROTOCOL  *This=0D
 +   );=0D
 + =0D
 ++/**=0D
-++  Build and send out the request packet for the bootfile, and parse the r=
-eply.=0D
+++  Retrieves the Initial Sequence Number (ISN) for a TCP connection identi=
+fied by local=0D
+++  and remote IP addresses and ports.=0D
 ++=0D
-++  @param[in]  Private               The pointer to PxeBc private data.=0D
-++  @param[in]  Index                 PxeBc option boot item type.=0D
+++  This method is based on https://datatracker.ietf.org/doc/html/rfc9293#s=
+ection-3.4.1=0D
+++  Where the ISN is computed as follows:=0D
+++    ISN =3D TimeStamp + MD5(LocalIP, LocalPort, RemoteIP, RemotePort, Sec=
+ret)=0D
 ++=0D
-++  @retval     EFI_SUCCESS           Successfully discovered the boot file=
-.=0D
-++  @retval     EFI_OUT_OF_RESOURCES  Failed to allocate resources.=0D
-++  @retval     EFI_NOT_FOUND         Can't get the PXE reply packet.=0D
-++  @retval     Others                Failed to discover the boot file.=0D
+++  Otherwise:=0D
+++    ISN =3D M + F(localip, localport, remoteip, remoteport, secretkey)=0D
+++=0D
+++    "Here M is the 4 microsecond timer, and F() is a pseudorandom functio=
+n (PRF) of the=0D
+++    connection's identifying parameters ("localip, localport, remoteip, r=
+emoteport")=0D
+++    and a secret key ("secretkey") (SHLD-1). F() MUST NOT be computable f=
+rom the=0D
+++    outside (MUST-9), or an attacker could still guess at sequence number=
+s from the=0D
+++    ISN used for some other connection. The PRF could be implemented as a=
+=0D
+++    cryptographic hash of the concatenation of the TCP connection paramet=
+ers and some=0D
+++    secret data. For discussion of the selection of a specific hash algor=
+ithm and=0D
+++    management of the secret key data."=0D
+++=0D
+++  @param[in]       LocalIp        A pointer to the local IP address of th=
+e TCP connection.=0D
+++  @param[in]       LocalIpSize    The size, in bytes, of the LocalIp buff=
+er.=0D
+++  @param[in]       LocalPort      The local port number of the TCP connec=
+tion.=0D
+++  @param[in]       RemoteIp       A pointer to the remote IP address of t=
+he TCP connection.=0D
+++  @param[in]       RemoteIpSize   The size, in bytes, of the RemoteIp buf=
+fer.=0D
+++  @param[in]       RemotePort     The remote port number of the TCP conne=
+ction.=0D
+++  @param[out]      Isn            A pointer to the variable that will rec=
+eive the Initial=0D
+++                                  Sequence Number (ISN).=0D
+++=0D
+++  @retval EFI_SUCCESS             The operation completed successfully, a=
+nd the ISN was=0D
+++                                  retrieved.=0D
+++  @retval EFI_INVALID_PARAMETER   One or more of the input parameters are=
+ invalid.=0D
+++  @retval EFI_UNSUPPORTED         The operation is not supported.=0D
 ++=0D
 ++**/=0D
 ++EFI_STATUS=0D
-++PxeBcRequestBootService (=0D
-++  IN  PXEBC_PRIVATE_DATA  *Private,=0D
-++  IN  UINT32              Index=0D
+++TcpGetIsn (=0D
+++  IN UINT8       *LocalIp,=0D
+++  IN UINTN       LocalIpSize,=0D
+++  IN UINT16      LocalPort,=0D
+++  IN UINT8       *RemoteIp,=0D
+++  IN UINTN       RemoteIpSize,=0D
+++  IN UINT16      RemotePort,=0D
+++  OUT TCP_SEQNO  *Isn=0D
 ++  );=0D
 ++=0D
-+ #endif // PXE_BC_DHCP6_GOOGLE_TEST_H_=0D
++ #endif=0D
++diff --git a/NetworkPkg/TcpDxe/TcpMisc.c b/NetworkPkg/TcpDxe/TcpMisc.c
++index c93212d47d..3310306f63 100644
++--- a/NetworkPkg/TcpDxe/TcpMisc.c
+++++ b/NetworkPkg/TcpDxe/TcpMisc.c
++@@ -3,7 +3,7 @@
++ =0D
++   (C) Copyright 2014 Hewlett-Packard Development Company, L.P.<BR>=0D
++   Copyright (c) 2009 - 2017, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -20,7 +20,34 @@ LIST_ENTRY  mTcpListenQue =3D {
++   &mTcpListenQue=0D
++ };=0D
++ =0D
++-TCP_SEQNO  mTcpGlobalIss =3D TCP_BASE_ISS;=0D
+++//=0D
+++// The Session secret=0D
+++// This must be initialized to a random value at boot time=0D
+++//=0D
+++TCP_SEQNO  mTcpGlobalSecret;=0D
+++=0D
+++//=0D
+++// Union to hold either an IPv4 or IPv6 address=0D
+++// This is used to simplify the ISN hash computation=0D
+++//=0D
+++typedef union {=0D
+++  UINT8    IPv4[4];=0D
+++  UINT8    IPv6[16];=0D
+++} NETWORK_ADDRESS;=0D
+++=0D
+++//=0D
+++// The ISN is computed by hashing this structure=0D
+++// It is initialized with the local and remote IP addresses and ports=0D
+++// and the secret=0D
+++//=0D
+++//=0D
+++typedef struct {=0D
+++  UINT16             LocalPort;=0D
+++  UINT16             RemotePort;=0D
+++  NETWORK_ADDRESS    LocalAddress;=0D
+++  NETWORK_ADDRESS    RemoteAddress;=0D
+++  TCP_SEQNO          Secret;=0D
+++} ISN_HASH_CTX;=0D
++ =0D
++ CHAR16  *mTcpStateName[] =3D {=0D
++   L"TCP_CLOSED",=0D
++@@ -41,12 +68,18 @@ CHAR16  *mTcpStateName[] =3D {
++ =0D
++   @param[in, out]  Tcb               Pointer to the TCP_CB of this TCP in=
+stance.=0D
++ =0D
+++  @retval EFI_SUCCESS             The operation completed successfully=0D
+++  @retval others                  The underlying functions failed and cou=
+ld not complete the operation=0D
+++=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ TcpInitTcbLocal (=0D
++   IN OUT TCP_CB  *Tcb=0D
++   )=0D
++ {=0D
+++  TCP_SEQNO   Isn;=0D
+++  EFI_STATUS  Status;=0D
+++=0D
++   //=0D
++   // Compute the checksum of the fixed parts of pseudo header=0D
++   //=0D
++@@ -57,6 +90,16 @@ TcpInitTcbLocal (
++                      0x06,=0D
++                      0=0D
++                      );=0D
+++=0D
+++    Status =3D TcpGetIsn (=0D
+++               Tcb->LocalEnd.Ip.v4.Addr,=0D
+++               sizeof (IPv4_ADDRESS),=0D
+++               Tcb->LocalEnd.Port,=0D
+++               Tcb->RemoteEnd.Ip.v4.Addr,=0D
+++               sizeof (IPv4_ADDRESS),=0D
+++               Tcb->RemoteEnd.Port,=0D
+++               &Isn=0D
+++               );=0D
++   } else {=0D
++     Tcb->HeadSum =3D NetIp6PseudoHeadChecksum (=0D
++                      &Tcb->LocalEnd.Ip.v6,=0D
++@@ -64,9 +107,25 @@ TcpInitTcbLocal (
++                      0x06,=0D
++                      0=0D
++                      );=0D
+++=0D
+++    Status =3D TcpGetIsn (=0D
+++               Tcb->LocalEnd.Ip.v6.Addr,=0D
+++               sizeof (IPv6_ADDRESS),=0D
+++               Tcb->LocalEnd.Port,=0D
+++               Tcb->RemoteEnd.Ip.v6.Addr,=0D
+++               sizeof (IPv6_ADDRESS),=0D
+++               Tcb->RemoteEnd.Port,=0D
+++               &Isn=0D
+++               );=0D
+++  }=0D
+++=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "TcpInitTcbLocal: failed to get isn\n"));=0D
+++    ASSERT (FALSE);=0D
+++    return Status;=0D
++   }=0D
++ =0D
++-  Tcb->Iss    =3D TcpGetIss ();=0D
+++  Tcb->Iss    =3D Isn;=0D
++   Tcb->SndUna =3D Tcb->Iss;=0D
++   Tcb->SndNxt =3D Tcb->Iss;=0D
++ =0D
++@@ -82,6 +141,8 @@ TcpInitTcbLocal (
++   Tcb->RetxmitSeqMax =3D 0;=0D
++ =0D
++   Tcb->ProbeTimerOn =3D FALSE;=0D
+++=0D
+++  return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -506,18 +567,162 @@ TcpCloneTcb (
++ }=0D
++ =0D
++ /**=0D
++-  Compute an ISS to be used by a new connection.=0D
++-=0D
++-  @return The resulting ISS.=0D
+++  Retrieves the Initial Sequence Number (ISN) for a TCP connection identi=
+fied by local=0D
+++  and remote IP addresses and ports.=0D
+++=0D
+++  This method is based on https://datatracker.ietf.org/doc/html/rfc9293#s=
+ection-3.4.1=0D
+++  Where the ISN is computed as follows:=0D
+++    ISN =3D TimeStamp + MD5(LocalIP, LocalPort, RemoteIP, RemotePort, Sec=
+ret)=0D
+++=0D
+++  Otherwise:=0D
+++    ISN =3D M + F(localip, localport, remoteip, remoteport, secretkey)=0D
+++=0D
+++    "Here M is the 4 microsecond timer, and F() is a pseudorandom functio=
+n (PRF) of the=0D
+++    connection's identifying parameters ("localip, localport, remoteip, r=
+emoteport")=0D
+++    and a secret key ("secretkey") (SHLD-1). F() MUST NOT be computable f=
+rom the=0D
+++    outside (MUST-9), or an attacker could still guess at sequence number=
+s from the=0D
+++    ISN used for some other connection. The PRF could be implemented as a=
+=0D
+++    cryptographic hash of the concatenation of the TCP connection paramet=
+ers and some=0D
+++    secret data. For discussion of the selection of a specific hash algor=
+ithm and=0D
+++    management of the secret key data."=0D
+++=0D
+++  @param[in]       LocalIp        A pointer to the local IP address of th=
+e TCP connection.=0D
+++  @param[in]       LocalIpSize    The size, in bytes, of the LocalIp buff=
+er.=0D
+++  @param[in]       LocalPort      The local port number of the TCP connec=
+tion.=0D
+++  @param[in]       RemoteIp       A pointer to the remote IP address of t=
+he TCP connection.=0D
+++  @param[in]       RemoteIpSize   The size, in bytes, of the RemoteIp buf=
+fer.=0D
+++  @param[in]       RemotePort     The remote port number of the TCP conne=
+ction.=0D
+++  @param[out]      Isn            A pointer to the variable that will rec=
+eive the Initial=0D
+++                                  Sequence Number (ISN).=0D
+++=0D
+++  @retval EFI_SUCCESS             The operation completed successfully, a=
+nd the ISN was=0D
+++                                  retrieved.=0D
+++  @retval EFI_INVALID_PARAMETER   One or more of the input parameters are=
+ invalid.=0D
+++  @retval EFI_UNSUPPORTED         The operation is not supported.=0D
++ =0D
++ **/=0D
++-TCP_SEQNO=0D
++-TcpGetIss (=0D
++-  VOID=0D
+++EFI_STATUS=0D
+++TcpGetIsn (=0D
+++  IN UINT8       *LocalIp,=0D
+++  IN UINTN       LocalIpSize,=0D
+++  IN UINT16      LocalPort,=0D
+++  IN UINT8       *RemoteIp,=0D
+++  IN UINTN       RemoteIpSize,=0D
+++  IN UINT16      RemotePort,=0D
+++  OUT TCP_SEQNO  *Isn=0D
++   )=0D
++ {=0D
++-  mTcpGlobalIss +=3D TCP_ISS_INCREMENT_1;=0D
++-  return mTcpGlobalIss;=0D
+++  EFI_STATUS          Status;=0D
+++  EFI_HASH2_PROTOCOL  *Hash2Protocol;=0D
+++  EFI_HASH2_OUTPUT    HashResult;=0D
+++  ISN_HASH_CTX        IsnHashCtx;=0D
+++  EFI_TIME            TimeStamp;=0D
+++=0D
+++  //=0D
+++  // Check that the ISN pointer is valid=0D
+++  //=0D
+++  if (Isn =3D=3D NULL) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // The local ip may be a v4 or v6 address and may not be NULL=0D
+++  //=0D
+++  if ((LocalIp =3D=3D NULL) || (LocalIpSize =3D=3D 0) || (RemoteIp =3D=3D=
+ NULL) || (RemoteIpSize =3D=3D 0)) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // the local ip may be a v4 or v6 address=0D
+++  //=0D
+++  if ((LocalIpSize !=3D sizeof (EFI_IPv4_ADDRESS)) && (LocalIpSize !=3D s=
+izeof (EFI_IPv6_ADDRESS))) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Locate the Hash Protocol=0D
+++  //=0D
+++  Status =3D gBS->LocateProtocol (&gEfiHash2ProtocolGuid, NULL, (VOID **)=
+&Hash2Protocol);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_NET, "Failed to locate Hash Protocol: %r\n", Status));=
+=0D
+++=0D
+++    //=0D
+++    // TcpCreateService(..) is expected to be called prior to this functi=
+on=0D
+++    //=0D
+++    ASSERT_EFI_ERROR (Status);=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Initialize the hash algorithm=0D
+++  //=0D
+++  Status =3D Hash2Protocol->HashInit (Hash2Protocol, &gEfiHashAlgorithmSh=
+a256Guid);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_NET, "Failed to initialize sha256 hash algorithm: %r\n"=
+, Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  IsnHashCtx.LocalPort  =3D LocalPort;=0D
+++  IsnHashCtx.RemotePort =3D RemotePort;=0D
+++  IsnHashCtx.Secret     =3D mTcpGlobalSecret;=0D
+++=0D
+++  //=0D
+++  // Check the IP address family and copy accordingly=0D
+++  //=0D
+++  if (LocalIpSize =3D=3D sizeof (EFI_IPv4_ADDRESS)) {=0D
+++    CopyMem (&IsnHashCtx.LocalAddress.IPv4, LocalIp, LocalIpSize);=0D
+++  } else if (LocalIpSize =3D=3D sizeof (EFI_IPv6_ADDRESS)) {=0D
+++    CopyMem (&IsnHashCtx.LocalAddress.IPv6, LocalIp, LocalIpSize);=0D
+++  } else {=0D
+++    return EFI_INVALID_PARAMETER; // Unsupported address size=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Repeat the process for the remote IP address=0D
+++  //=0D
+++  if (RemoteIpSize =3D=3D sizeof (EFI_IPv4_ADDRESS)) {=0D
+++    CopyMem (&IsnHashCtx.RemoteAddress.IPv4, RemoteIp, RemoteIpSize);=0D
+++  } else if (RemoteIpSize =3D=3D sizeof (EFI_IPv6_ADDRESS)) {=0D
+++    CopyMem (&IsnHashCtx.RemoteAddress.IPv6, RemoteIp, RemoteIpSize);=0D
+++  } else {=0D
+++    return EFI_INVALID_PARAMETER; // Unsupported address size=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Compute the hash=0D
+++  // Update the hash with the data=0D
+++  //=0D
+++  Status =3D Hash2Protocol->HashUpdate (Hash2Protocol, (UINT8 *)&IsnHashC=
+tx, sizeof (IsnHashCtx));=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_NET, "Failed to update hash: %r\n", Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Finalize the hash and retrieve the result=0D
+++  //=0D
+++  Status =3D Hash2Protocol->HashFinal (Hash2Protocol, &HashResult);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_NET, "Failed to finalize hash: %r\n", Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  Status =3D gRT->GetTime (&TimeStamp, NULL);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // copy the first 4 bytes of the hash result into the ISN=0D
+++  //=0D
+++  CopyMem (Isn, HashResult.Md5Hash, sizeof (*Isn));=0D
+++=0D
+++  //=0D
+++  // now add the timestamp to the ISN as 4 microseconds units (1000 / 4 =
+=3D 250)=0D
+++  //=0D
+++  *Isn +=3D (TCP_SEQNO)TimeStamp.Nanosecond * 250;=0D
+++=0D
+++  return Status;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -721,17 +926,28 @@ TcpFormatNetbuf (
++   @param[in, out]  Tcb          Pointer to the TCP_CB that wants to initi=
+ate a=0D
++                                 connection.=0D
++ =0D
+++  @retval EFI_SUCCESS             The operation completed successfully=0D
+++  @retval others                  The underlying functions failed and cou=
+ld not complete the operation=0D
+++=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ TcpOnAppConnect (=0D
++   IN OUT TCP_CB  *Tcb=0D
++   )=0D
++ {=0D
++-  TcpInitTcbLocal (Tcb);=0D
+++  EFI_STATUS  Status;=0D
+++=0D
+++  Status =3D TcpInitTcbLocal (Tcb);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    return Status;=0D
+++  }=0D
+++=0D
++   TcpSetState (Tcb, TCP_SYN_SENT);=0D
++ =0D
++   TcpSetTimer (Tcb, TCP_TIMER_CONNECT, Tcb->ConnectTimeout);=0D
++   TcpToSendData (Tcb, 1);=0D
+++=0D
+++  return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++ /**=0D
++diff --git a/NetworkPkg/TcpDxe/TcpTimer.c b/NetworkPkg/TcpDxe/TcpTimer.c
++index 5d2e124977..065b1bdf5f 100644
++--- a/NetworkPkg/TcpDxe/TcpTimer.c
+++++ b/NetworkPkg/TcpDxe/TcpTimer.c
++@@ -2,7 +2,7 @@
++   TCP timer related functions.=0D
++ =0D
++   Copyright (c) 2009 - 2010, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -483,7 +483,6 @@ TcpTickingDpc (
++   INT16       Index;=0D
++ =0D
++   mTcpTick++;=0D
++-  mTcpGlobalIss +=3D TCP_ISS_INCREMENT_2;=0D
++ =0D
++   //=0D
++   // Don't use LIST_FOR_EACH, which isn't delete safe.=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index ac6a0a40e7..ceebb53438 100644
+index 47ed2c7cd3..dbfed086e4 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -41,6 +41,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+@@ -49,6 +49,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
 =3Dmaster;protocol=3Dhttps \
-            file://CVE-2023-45232-CVE-2023-45233-0002.patch \
-            file://CVE-2023-45234-0001.patch \
-            file://CVE-2023-45234-0002.patch \
-+           file://CVE-2023-45235-0001.patch \
-+           file://CVE-2023-45235-0002.patch \
+            file://CVE-2023-45229-0004.patch \
+            file://CVE-2023-45237-0001.patch \
+            file://CVE-2023-45237-0002.patch \
++           file://CVE-2023-45236.patch \
             "
 =20
  PV =3D "edk2-stable202202"
