@@ -2,21 +2,21 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5D595D5A6CD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C89BD5A6D1
 	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 02:25:49 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.36605.1732587944522092065
+ by mx.groups.io with SMTP id smtpd.web11.36921.1732587946201212792
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 18:25:44 -0800
+ Mon, 25 Nov 2024 18:25:46 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1060df9989=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgEE007184;
-	Tue, 26 Nov 2024 02:25:43 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgEG007184;
+	Tue, 26 Nov 2024 02:25:45 GMT
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-5
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-7
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 26 Nov 2024 02:25:43 +0000 (GMT)
+	Tue, 26 Nov 2024 02:25:45 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -27,19 +27,19 @@ Received: from ala-lpggp7.wrs.com (147.11.136.210) by
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <steve@sakoman.com>
-Subject: [kirkstone][PATCH V2 05/13] ovmf: Fix CVE-2023-45232, CVE-2023-45233
-Date: Mon, 25 Nov 2024 18:25:18 -0800
-Message-ID: <20241126022526.3389121-5-hongxu.jia@windriver.com>
+Subject: [kirkstone][PATCH V2 07/13] ovmf: Fix CVE-2023-45235
+Date: Mon, 25 Nov 2024 18:25:20 -0800
+Message-ID: <20241126022526.3389121-7-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 References: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: F4ec9Be_rfRosMfaL1gvYACCHXRpZfIE
-X-Proofpoint-GUID: F4ec9Be_rfRosMfaL1gvYACCHXRpZfIE
-X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531a7 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=BqEg4_3jAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8
- a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=j_Np6efUvlMYPEyndcoA:9 a=ZVzpeaB-rz25krDJ:21 a=bkWp_v3HvcftT6DRAIDL:22 a=0mFWnFbQd5xWBqmg7tTt:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: 5B5HWFdgOEsEaHQBJLoLMc0lnvtJPmQ7
+X-Proofpoint-GUID: 5B5HWFdgOEsEaHQBJLoLMc0lnvtJPmQ7
+X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531a9 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=48vgC7mUAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8
+ a=QyXUC8HyAAAA:8 a=pGLkceISAAAA:8 a=bJ2ErkxXyr4Sfw2grsoA:9 a=HBbDodJDE692NyCK:21 a=bkWp_v3HvcftT6DRAIDL:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-11-26_01,2024-11-25_01,2024-11-22_01
@@ -52,102 +52,85 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 02:25:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207829
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207831
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-CVE-2023-45232:
-EDK2's Network Package is susceptible to an infinite loop vulnerability
-when parsing unknown options in the Destination Options header of IPv6.
+EDK2's Network Package is susceptible to a buffer overflow vulnerability
+when handling Server ID option from a DHCPv6 proxy Advertise message.
 This vulnerability can be exploited by an attacker to gain unauthorized
-access and potentially lead to a loss of Availability.
-
-CVE-2023-45233:
-EDK2's Network Package is susceptible to an infinite lop vulnerability
-when parsing a PadN option in the Destination Options header of IPv6.
-This vulnerability can be exploited by an attacker to gain unauthorized
-access and potentially lead to a loss of Availability.
+access and potentially lead to a loss of Confidentiality, Integrity
+and/or Availability.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-45232
-https://nvd.nist.gov/vuln/detail/CVE-2023-45233
+https://nvd.nist.gov/vuln/detail/CVE-2023-45235
 
 Upstream-patches:
-https://github.com/tianocore/edk2/commit/4df0229ef992d4f2721a8508787ebf9dc8=
-1fbd6e
-https://github.com/tianocore/edk2/commit/c9c87f08dd6ace36fa843424522c3558a8=
-374cac
+https://github.com/tianocore/edk2/commit/fac297724e6cc343430cd0104e55cd7a96=
+d1151e
+https://github.com/tianocore/edk2/commit/ff2986358f75d8f58ef08a66fe673539c9=
+c48f41
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../CVE-2023-45232-CVE-2023-45233-0001.patch  | 360 +++++++++++++++
- .../CVE-2023-45232-CVE-2023-45233-0002.patch  | 417 ++++++++++++++++++
+ .../ovmf/ovmf/CVE-2023-45235-0001.patch       | 243 +++++++++++
+ .../ovmf/ovmf/CVE-2023-45235-0002.patch       | 379 ++++++++++++++++++
  meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
- 3 files changed, 779 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-452=
-33-0001.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-452=
-33-0002.patch
+ 3 files changed, 624 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001=
-.patch b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001.pat=
-ch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
 new file mode 100644
-index 0000000000..d43e971d9d
+index 0000000000..264172f623
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001.patch
-@@ -0,0 +1,360 @@
-+From 4df0229ef992d4f2721a8508787ebf9dc81fbd6e Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
+@@ -0,0 +1,243 @@
++From fac297724e6cc343430cd0104e55cd7a96d1151e Mon Sep 17 00:00:00 2001
 +From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:50 +0800
-+Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45232 Patch
++Date: Fri, 26 Jan 2024 05:54:55 +0800
++Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45235 P=
+atch
 +
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540
 +
 +Bug Details:
-+PixieFail Bug #4
-+CVE-2023-45232
-+CVSS 7.5 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-+CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')
++PixieFail Bug #7
++CVE-2023-45235
++CVSS 8.3 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H
++CWE-119 Improper Restriction of Operations within the Bounds of
++ a Memory Buffer
 +
-+Infinite loop when parsing unknown options in the Destination Options
-+header
-+
-+PixieFail Bug #5
-+CVE-2023-45233
-+CVSS 7.5 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-+CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')
-+
-+Infinite loop when parsing a PadN option in the Destination Options
-+header
++Buffer overflow when handling Server ID option from a DHCPv6 proxy
++Advertise message
 +
 +Change Overview:
 +
-+Most importantly this change corrects the following incorrect math
-+and cleans up the code.
++Performs two checks
 +
-+>   // It is a PadN option
-+>   //
-+> - Offset =3D (UINT8)(Offset + *(Option + Offset + 1) + 2);
-+> + OptDataLen =3D ((EFI_IP6_OPTION *)(Option + Offset))->Length;
-+> + Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);
++1. Checks that the length of the duid is accurate
++> + //
++> + // Check that the minimum and maximum requirements are met
++> + //
++> + if ((OpLen < PXEBC_MIN_SIZE_OF_DUID) ||
++(OpLen > PXEBC_MAX_SIZE_OF_DUID)) {
++> +  Status =3D EFI_INVALID_PARAMETER;
++> +  goto ON_ERROR;
++> + }
 +
-+> case Ip6OptionSkip:
-+> - Offset =3D (UINT8)(Offset + *(Option + Offset + 1));
-+>   OptDataLen =3D ((EFI_IP6_OPTION *)(Option + Offset))->Length;
-+>   Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);
++2. Ensures that the amount of data written to the buffer is tracked and
++never exceeds that
++> + //
++> + // Check that the option length is valid.
++> + //
++> + if ((DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN)
++ > DiscoverLenNeeded) {
++> +     Status =3D EFI_OUT_OF_RESOURCES;
++> +     goto ON_ERROR;
++> + }
 +
-+Additionally, this change also corrects incorrect math where the calling
-+function was calculating the HDR EXT optionLen as a uint8 instead of a
-+uint16
-+
-+> - OptionLen =3D (UINT8)((*Option + 1) * 8 - 2);
-+> + OptionLen =3D IP6_HDR_EXT_LEN (*Option) -
-+IP6_COMBINED_SIZE_OF_NEXT_HDR_AND_LEN;
-+
-+Additionally this check adds additional logic to santize the incoming
-+data
++Additional code clean up and fix for memory leak in case Option was NULL
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -155,382 +138,247 @@ index 0000000000..d43e971d9d
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45232, CVE-2023-45233
++CVE: CVE-2023-45235
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/4df022=
-9ef992d4f2721a8508787ebf9dc81fbd6e]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/fac297=
+724e6cc343430cd0104e55cd7a96d1151e]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ NetworkPkg/Ip6Dxe/Ip6Nd.h     | 35 ++++++++++++++++
-+ NetworkPkg/Ip6Dxe/Ip6Option.c | 76 ++++++++++++++++++++++++++++++-----
-+ NetworkPkg/Ip6Dxe/Ip6Option.h | 71 ++++++++++++++++++++++++++++++++
-+ 3 files changed, 171 insertions(+), 11 deletions(-)
++ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c | 77 ++++++++++++++++++++++------
++ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h | 17 ++++++
++ 2 files changed, 78 insertions(+), 16 deletions(-)
 +
-+diff --git a/NetworkPkg/Ip6Dxe/Ip6Nd.h b/NetworkPkg/Ip6Dxe/Ip6Nd.h
-+index 860934a167..bf64e9114e 100644
-+--- a/NetworkPkg/Ip6Dxe/Ip6Nd.h
-++++ b/NetworkPkg/Ip6Dxe/Ip6Nd.h
-+@@ -56,13 +56,48 @@ VOID
-+   VOID  *Context=0D
-+   );=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c b/NetworkPkg/UefiPxeBcDx=
+e/PxeBcDhcp6.c
++index 2b2d372889..7fd1281c11 100644
++--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
+++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
++@@ -887,6 +887,7 @@ PxeBcRequestBootService (
++   EFI_STATUS                       Status;=0D
++   EFI_DHCP6_PACKET                 *IndexOffer;=0D
++   UINT8                            *Option;=0D
+++  UINTN                            DiscoverLenNeeded;=0D
 + =0D
-++//=0D
-++// Per RFC8200 Section 4.2=0D
-++//=0D
-++//   Two of the currently-defined extension headers -- the Hop-by-Hop=0D
-++//   Options header and the Destination Options header -- carry a variabl=
-e=0D
-++//   number of type-length-value (TLV) encoded "options", of the followin=
-g=0D
-++//   format:=0D
-++//=0D
-++//      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -=0D
-++//      |  Option Type  |  Opt Data Len |  Option Data=0D
-++//      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -=0D
-++//=0D
-++//      Option Type          8-bit identifier of the type of option.=0D
-++//=0D
-++//      Opt Data Len         8-bit unsigned integer.  Length of the Optio=
-n=0D
-++//                           Data field of this option, in octets.=0D
-++//=0D
-++//      Option Data          Variable-length field.  Option-Type-specific=
-=0D
-++//                           data.=0D
-++//=0D
-+ typedef struct _IP6_OPTION_HEADER {=0D
-++  ///=0D
-++  /// identifier of the type of option.=0D
-++  ///=0D
-+   UINT8    Type;=0D
-++  ///=0D
-++  /// Length of the Option Data field of this option, in octets.=0D
-++  ///=0D
-+   UINT8    Length;=0D
-++  ///=0D
-++  /// Option-Type-specific data.=0D
-++  ///=0D
-+ } IP6_OPTION_HEADER;=0D
++   PxeBc      =3D &Private->PxeBc;=0D
++   Request    =3D Private->Dhcp6Request;=0D
++@@ -899,7 +900,8 @@ PxeBcRequestBootService (
++     return EFI_DEVICE_ERROR;=0D
++   }=0D
 + =0D
-+ STATIC_ASSERT (sizeof (IP6_OPTION_HEADER) =3D=3D 2, "IP6_OPTION_HEADER is=
- expected to be exactly 2 bytes long.");=0D
++-  Discover =3D AllocateZeroPool (sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET)=
+);=0D
+++  DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
+++  Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
++   if (Discover =3D=3D NULL) {=0D
++     return EFI_OUT_OF_RESOURCES;=0D
++   }=0D
++@@ -924,16 +926,34 @@ PxeBcRequestBootService (
++                DHCP6_OPT_SERVER_ID=0D
++                );=0D
++     if (Option =3D=3D NULL) {=0D
++-      return EFI_NOT_FOUND;=0D
+++      Status =3D EFI_NOT_FOUND;=0D
+++      goto ON_ERROR;=0D
++     }=0D
 + =0D
-++#define IP6_NEXT_OPTION_OFFSET(offset, length)  (offset + sizeof(IP6_OPTI=
-ON_HEADER) + length)=0D
-++STATIC_ASSERT (=0D
-++  IP6_NEXT_OPTION_OFFSET (0, 0) =3D=3D 2,=0D
-++  "The next option is minimally the combined size of the option tag and l=
-ength"=0D
-++  );=0D
++     //=0D
++     // Add Server ID Option.=0D
++     //=0D
++     OpLen =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)Option)->OpLen);=0D
++-    CopyMem (DiscoverOpt, Option, OpLen + 4);=0D
++-    DiscoverOpt +=3D (OpLen + 4);=0D
++-    DiscoverLen +=3D (OpLen + 4);=0D
 ++=0D
-+ typedef struct _IP6_ETHE_ADDR_OPTION {=0D
-+   UINT8    Type;=0D
-+   UINT8    Length;=0D
-+diff --git a/NetworkPkg/Ip6Dxe/Ip6Option.c b/NetworkPkg/Ip6Dxe/Ip6Option.c
-+index 8718d5d875..fd97ce116f 100644
-+--- a/NetworkPkg/Ip6Dxe/Ip6Option.c
-++++ b/NetworkPkg/Ip6Dxe/Ip6Option.c
-+@@ -17,7 +17,8 @@
-+   @param[in]  IpSb              The IP6 service data.=0D
-+   @param[in]  Packet            The to be validated packet.=0D
-+   @param[in]  Option            The first byte of the option.=0D
-+-  @param[in]  OptionLen         The length of the whole option.=0D
-++  @param[in]  OptionLen         The length of all options, expressed in b=
-yte length of octets.=0D
-++                                Maximum length is 2046 bytes or ((n + 1) =
-* 8) - 2 where n is 255.=0D
-+   @param[in]  Pointer           Identifies the octet offset within=0D
-+                                 the invoking packet where the error was d=
-etected.=0D
+++    //=0D
+++    // Check that the minimum and maximum requirements are met=0D
+++    //=0D
+++    if ((OpLen < PXEBC_MIN_SIZE_OF_DUID) || (OpLen > PXEBC_MAX_SIZE_OF_DU=
+ID)) {=0D
+++      Status =3D EFI_INVALID_PARAMETER;=0D
+++      goto ON_ERROR;=0D
+++    }=0D
+++=0D
+++    //=0D
+++    // Check that the option length is valid.=0D
+++    //=0D
+++    if ((DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN) >=
+ DiscoverLenNeeded) {=0D
+++      Status =3D EFI_OUT_OF_RESOURCES;=0D
+++      goto ON_ERROR;=0D
+++    }=0D
+++=0D
+++    CopyMem (DiscoverOpt, Option, OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE=
+_AND_LEN);=0D
+++    DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
+++    DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
++   }=0D
 + =0D
-+@@ -31,12 +32,33 @@ Ip6IsOptionValid (
-+   IN IP6_SERVICE  *IpSb,=0D
-+   IN NET_BUF      *Packet,=0D
-+   IN UINT8        *Option,=0D
-+-  IN UINT8        OptionLen,=0D
-++  IN UINT16       OptionLen,=0D
-+   IN UINT32       Pointer=0D
-+   )=0D
-+ {=0D
-+-  UINT8  Offset;=0D
-+-  UINT8  OptionType;=0D
-++  UINT16  Offset;=0D
-++  UINT8   OptionType;=0D
-++  UINT8   OptDataLen;=0D
++   while (RequestLen < Request->Length) {=0D
++@@ -944,16 +964,24 @@ PxeBcRequestBootService (
++         (OpCode !=3D DHCP6_OPT_SERVER_ID)=0D
++         )=0D
++     {=0D
+++      //=0D
+++      // Check that the option length is valid.=0D
+++      //=0D
+++      if (DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN >=
+ DiscoverLenNeeded) {=0D
+++        Status =3D EFI_OUT_OF_RESOURCES;=0D
+++        goto ON_ERROR;=0D
+++      }=0D
 ++=0D
-++  if (Option =3D=3D NULL) {=0D
-++    ASSERT (Option !=3D NULL);=0D
-++    return FALSE;=0D
-++  }=0D
-++=0D
-++  if ((OptionLen <=3D 0) || (OptionLen > IP6_MAX_EXT_DATA_LENGTH)) {=0D
-++    ASSERT (OptionLen > 0 && OptionLen <=3D IP6_MAX_EXT_DATA_LENGTH);=0D
-++    return FALSE;=0D
-++  }=0D
-++=0D
-++  if (Packet =3D=3D NULL) {=0D
-++    ASSERT (Packet !=3D NULL);=0D
-++    return FALSE;=0D
-++  }=0D
-++=0D
-++  if (IpSb =3D=3D NULL) {=0D
-++    ASSERT (IpSb !=3D NULL);=0D
-++    return FALSE;=0D
-++  }=0D
-+ =0D
-+   Offset =3D 0;=0D
-+ =0D
-+@@ -54,7 +76,8 @@ Ip6IsOptionValid (
-+         //=0D
-+         // It is a PadN option=0D
-+         //=0D
-+-        Offset =3D (UINT8)(Offset + *(Option + Offset + 1) + 2);=0D
-++        OptDataLen =3D ((IP6_OPTION_HEADER *)(Option + Offset))->Length;=
-=0D
-++        Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);=0D
-+         break;=0D
-+       case Ip6OptionRouterAlert:=0D
-+         //=0D
-+@@ -69,7 +92,8 @@ Ip6IsOptionValid (
-+         //=0D
-+         switch (OptionType & Ip6OptionMask) {=0D
-+           case Ip6OptionSkip:=0D
-+-            Offset =3D (UINT8)(Offset + *(Option + Offset + 1));=0D
-++            OptDataLen =3D ((IP6_OPTION_HEADER *)(Option + Offset))->Leng=
-th;=0D
-++            Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);=0D
-+             break;=0D
-+           case Ip6OptionDiscard:=0D
-+             return FALSE;=0D
-+@@ -308,7 +332,7 @@ Ip6IsExtsValid (
-+   UINT32               Pointer;=0D
-+   UINT32               Offset;=0D
-+   UINT8                *Option;=0D
-+-  UINT8                OptionLen;=0D
-++  UINT16               OptionLen;=0D
-+   BOOLEAN              Flag;=0D
-+   UINT8                CountD;=0D
-+   UINT8                CountA;=0D
-+@@ -385,6 +409,36 @@ Ip6IsExtsValid (
-+       // Fall through=0D
 +       //=0D
-+       case IP6_DESTINATION:=0D
-++        //=0D
-++        // See https://www.rfc-editor.org/rfc/rfc2460#section-4.2 page 23=
++       // Copy all the options except IA option and Server ID=0D
++       //=0D
++-      CopyMem (DiscoverOpt, RequestOpt, OpLen + 4);=0D
++-      DiscoverOpt +=3D (OpLen + 4);=0D
++-      DiscoverLen +=3D (OpLen + 4);=0D
+++      CopyMem (DiscoverOpt, RequestOpt, OpLen + PXEBC_COMBINED_SIZE_OF_OP=
+T_CODE_AND_LEN);=0D
+++      DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
 =0D
-++        //=0D
-++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-=
-+-+=0D
-++        // |  Next Header  |  Hdr Ext Len  |                             =
-  |=0D
-++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                             =
-  +=0D
-++        // |                                                             =
-  |=0D
-++        // .                                                             =
-  .=0D
-++        // .                            Options                          =
-  .=0D
-++        // .                                                             =
-  .=0D
-++        // |                                                             =
-  |=0D
-++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-=
-+-+=0D
-++        //=0D
-++        //=0D
-++        //   Next Header    8-bit selector.  Identifies the type of heade=
-r=0D
-++        //                  immediately following the Destination Options=
+++      DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
 =0D
-++        //                  header.  Uses the same values as the IPv4=0D
-++        //                  Protocol field [RFC-1700 et seq.].=0D
-++        //=0D
-++        //   Hdr Ext Len    8-bit unsigned integer.  Length of the=0D
-++        //                  Destination Options header in 8-octet units, =
-not=0D
-++        //                  including the first 8 octets.=0D
-++        //=0D
-++        //   Options        Variable-length field, of length such that th=
-e=0D
-++        //                  complete Destination Options header is an=0D
-++        //                  integer multiple of 8 octets long.  Contains =
-one=0D
-++        //                  or  more TLV-encoded options, as described in=
++     }=0D
++ =0D
++-    RequestOpt +=3D (OpLen + 4);=0D
++-    RequestLen +=3D (OpLen + 4);=0D
+++    RequestOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
+++    RequestLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
++   }=0D
++ =0D
++   //=0D
++@@ -2154,6 +2182,7 @@ PxeBcDhcp6Discover (
++   UINT16                           OpLen;=0D
++   UINT32                           Xid;=0D
++   EFI_STATUS                       Status;=0D
+++  UINTN                            DiscoverLenNeeded;=0D
++ =0D
++   PxeBc    =3D &Private->PxeBc;=0D
++   Mode     =3D PxeBc->Mode;=0D
++@@ -2169,7 +2198,8 @@ PxeBcDhcp6Discover (
++     return EFI_DEVICE_ERROR;=0D
++   }=0D
++ =0D
++-  Discover =3D AllocateZeroPool (sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET)=
+);=0D
+++  DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
+++  Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
++   if (Discover =3D=3D NULL) {=0D
++     return EFI_OUT_OF_RESOURCES;=0D
++   }=0D
++@@ -2185,22 +2215,37 @@ PxeBcDhcp6Discover (
++   DiscoverLen             =3D sizeof (EFI_DHCP6_HEADER);=0D
++   RequestLen              =3D DiscoverLen;=0D
++ =0D
+++  //=0D
+++  // The request packet is generated by the UEFI network stack. In the DH=
+CP4 DORA and DHCP6 SARR sequence,=0D
+++  // the first (discover in DHCP4 and solicit in DHCP6) and third (reques=
+t in both DHCP4 and DHCP6) are=0D
+++  // generated by the DHCP client (the UEFI network stack in this case). =
+By the time this function executes,=0D
+++  // the DHCP sequence already has been executed once (see UEFI Specifica=
+tion Figures 24.2 and 24.3), with=0D
+++  // Private->Dhcp6Request being a cached copy of the DHCP6 request packe=
+t that UEFI network stack previously=0D
+++  // generated and sent.=0D
+++  //=0D
+++  // Therefore while this code looks like it could overflow, in practice =
+it's not possible.=0D
+++  //=0D
++   while (RequestLen < Request->Length) {=0D
++     OpCode =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)RequestOpt)->OpCode);=0D
++     OpLen  =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)RequestOpt)->OpLen);=0D
++     if ((OpCode !=3D EFI_DHCP6_IA_TYPE_NA) &&=0D
++         (OpCode !=3D EFI_DHCP6_IA_TYPE_TA))=0D
++     {=0D
+++      if (DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN >=
+ DiscoverLenNeeded) {=0D
+++        Status =3D EFI_OUT_OF_RESOURCES;=0D
+++        goto ON_ERROR;=0D
+++      }=0D
+++=0D
++       //=0D
++       // Copy all the options except IA option.=0D
++       //=0D
++-      CopyMem (DiscoverOpt, RequestOpt, OpLen + 4);=0D
++-      DiscoverOpt +=3D (OpLen + 4);=0D
++-      DiscoverLen +=3D (OpLen + 4);=0D
+++      CopyMem (DiscoverOpt, RequestOpt, OpLen + PXEBC_COMBINED_SIZE_OF_OP=
+T_CODE_AND_LEN);=0D
+++      DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
 =0D
-++        //                  section 4.2.=0D
-++        //=0D
-++=0D
-+         if (*NextHeader =3D=3D IP6_DESTINATION) {=0D
-+           CountD++;=0D
-+         }=0D
-+@@ -398,7 +452,7 @@ Ip6IsExtsValid (
-+ =0D
-+         Offset++;=0D
-+         Option    =3D ExtHdrs + Offset;=0D
-+-        OptionLen =3D (UINT8)((*Option + 1) * 8 - 2);=0D
-++        OptionLen =3D IP6_HDR_EXT_LEN (*Option) - sizeof (IP6_EXT_HDR);=0D
-+         Option++;=0D
-+         Offset++;=0D
-+ =0D
-+@@ -430,7 +484,7 @@ Ip6IsExtsValid (
-+           //=0D
-+           // Ignore the routing header and proceed to process the next he=
-ader.=0D
-+           //=0D
-+-          Offset =3D Offset + (RoutingHead->HeaderLen + 1) * 8;=0D
-++          Offset =3D Offset + IP6_HDR_EXT_LEN (RoutingHead->HeaderLen);=0D
-+ =0D
-+           if (UnFragmentLen !=3D NULL) {=0D
-+             *UnFragmentLen =3D Offset;=0D
-+@@ -441,7 +495,7 @@ Ip6IsExtsValid (
-+           // to the packet's source address, pointing to the unrecognized=
- routing=0D
-+           // type.=0D
-+           //=0D
-+-          Pointer =3D Offset + 2 + sizeof (EFI_IP6_HEADER);=0D
-++          Pointer =3D Offset + sizeof (IP6_EXT_HDR) + sizeof (EFI_IP6_HEA=
-DER);=0D
-+           if ((IpSb !=3D NULL) && (Packet !=3D NULL) &&=0D
-+               !IP6_IS_MULTICAST (&Packet->Ip.Ip6->DestinationAddress))=0D
-+           {=0D
-+@@ -527,7 +581,7 @@ Ip6IsExtsValid (
-+         //=0D
-+         // RFC2402, Payload length is specified in 32-bit words, minus "2=
-".=0D
-+         //=0D
-+-        OptionLen =3D (UINT8)((*Option + 2) * 4);=0D
-++        OptionLen =3D ((UINT16)(*Option + 2) * 4);=0D
-+         Offset    =3D Offset + OptionLen;=0D
-+         break;=0D
-+ =0D
-+diff --git a/NetworkPkg/Ip6Dxe/Ip6Option.h b/NetworkPkg/Ip6Dxe/Ip6Option.h
-+index bd8e223c8a..fb07c28f5a 100644
-+--- a/NetworkPkg/Ip6Dxe/Ip6Option.h
-++++ b/NetworkPkg/Ip6Dxe/Ip6Option.h
-+@@ -12,6 +12,77 @@
-+ =0D
-+ #define IP6_FRAGMENT_OFFSET_MASK  (~0x3)=0D
-+ =0D
-++//=0D
-++// For more information see RFC 8200, Section 4.3, 4.4, and 4.6=0D
-++//=0D
-++//  This example format is from section 4.6=0D
-++//  This does not apply to fragment headers=0D
-++//=0D
-++//     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+++      DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
 =0D
-++//    |  Next Header  |  Hdr Ext Len  |                               |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +=0D
-++//    |                                                               |=0D
-++//    .                                                               .=0D
-++//    .                  Header-Specific Data                         .=0D
-++//    .                                                               .=0D
-++//    |                                                               |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
++     }=0D
++ =0D
++-    RequestOpt +=3D (OpLen + 4);=0D
++-    RequestLen +=3D (OpLen + 4);=0D
+++    RequestOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
+++    RequestLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
++   }=0D
++ =0D
++   Status =3D PxeBc->UdpWrite (=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h b/NetworkPkg/UefiPxeBcDx=
+e/PxeBcDhcp6.h
++index c86f6d391b..6357d27fae 100644
++--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h
+++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h
++@@ -34,6 +34,23 @@
++ #define PXEBC_ADDR_START_DELIMITER        '['=0D
++ #define PXEBC_ADDR_END_DELIMITER          ']'=0D
++ =0D
 ++//=0D
-++//      Next Header           8-bit selector.  Identifies the type of=0D
-++//                            header immediately following the extension=
-=0D
-++//                            header.  Uses the same values as the IPv4=0D
-++//                            Protocol field [IANA-PN].=0D
+++// A DUID consists of a 2-octet type code represented in network byte=0D
+++// order, followed by a variable number of octets that make up the=0D
+++// actual identifier.  The length of the DUID (not including the type=0D
+++// code) is at least 1 octet and at most 128 octets.=0D
 ++//=0D
-++//      Hdr Ext Len           8-bit unsigned integer.  Length of the=0D
-++//                            Destination Options header in 8-octet units=
-,=0D
-++//                            not including the first 8 octets.=0D
+++#define PXEBC_MIN_SIZE_OF_DUID  (sizeof(UINT16) + 1)=0D
+++#define PXEBC_MAX_SIZE_OF_DUID  (sizeof(UINT16) + 128)=0D
 ++=0D
 ++//=0D
-++// These defines apply to the following:=0D
-++//   1. Hop by Hop=0D
-++//   2. Routing=0D
-++//   3. Destination=0D
+++// This define represents the combineds code and length field from=0D
+++// https://datatracker.ietf.org/doc/html/rfc3315#section-22.1=0D
 ++//=0D
-++typedef struct _IP6_EXT_HDR {=0D
-++  ///=0D
-++  /// The Next Header field identifies the type of header immediately=0D
-++  ///=0D
-++  UINT8    NextHeader;=0D
-++  ///=0D
-++  /// The Hdr Ext Len field specifies the length of the Hop-by-Hop Option=
-s=0D
-++  ///=0D
-++  UINT8    HdrExtLen;=0D
-++  ///=0D
-++  /// Header-Specific Data=0D
-++  ///=0D
-++} IP6_EXT_HDR;=0D
+++#define PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN  \=0D
+++      (sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->OpCode) + \=0D
+++      sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->OpLen))=0D
 ++=0D
-++STATIC_ASSERT (=0D
-++  sizeof (IP6_EXT_HDR) =3D=3D 2,=0D
-++  "The combined size of Next Header and Len is two 8 bit fields"=0D
-++  );=0D
-++=0D
-++//=0D
-++// IPv6 extension headers contain an 8-bit length field which describes t=
-he size of=0D
-++// the header. However, the length field only includes the size of the ex=
-tension=0D
-++// header options, not the size of the first 8 bytes of the header. There=
-fore, in=0D
-++// order to calculate the full size of the extension header, we add 1 (to=
- account=0D
-++// for the first 8 bytes omitted by the length field reporting) and then =
-multiply=0D
-++// by 8 (since the size is represented in 8-byte units).=0D
-++//=0D
-++// a is the length field of the extension header (UINT8)=0D
-++// The result may be up to 2046 octets (UINT16)=0D
-++//=0D
-++#define IP6_HDR_EXT_LEN(a)  (((UINT16)((UINT8)(a)) + 1) * 8)=0D
-++=0D
-++// This is the maxmimum length permissible by a extension header=0D
-++// Length is UINT8 of 8 octets not including the first 8 octets=0D
-++#define IP6_MAX_EXT_DATA_LENGTH  (IP6_HDR_EXT_LEN (MAX_UINT8) - sizeof(IP=
-6_EXT_HDR))=0D
-++STATIC_ASSERT (=0D
-++  IP6_MAX_EXT_DATA_LENGTH =3D=3D 2046,=0D
-++  "Maximum data length is ((MAX_UINT8 + 1) * 8) - 2"=0D
-++  );=0D
-++=0D
-+ typedef struct _IP6_FRAGMENT_HEADER {=0D
-+   UINT8     NextHeader;=0D
-+   UINT8     Reserved;=0D
++ #define GET_NEXT_DHCP6_OPTION(Opt) \=0D
++   (EFI_DHCP6_PACKET_OPTION *) ((UINT8 *) (Opt) + \=0D
++   sizeof (EFI_DHCP6_PACKET_OPTION) + (NTOHS ((Opt)->OpLen)) - 1)=0D
 +--=20
 +2.40.0
 +
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002=
-.patch b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002.pat=
-ch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
 new file mode 100644
-index 0000000000..c6834a852e
+index 0000000000..0e814a0212
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002.patch
-@@ -0,0 +1,417 @@
-+From c9c87f08dd6ace36fa843424522c3558a8374cac Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
+@@ -0,0 +1,379 @@
++From ff2986358f75d8f58ef08a66fe673539c9c48f41 Mon Sep 17 00:00:00 2001
 +From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:51 +0800
-+Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45232 Unit Te=
-sts
++Date: Fri, 26 Jan 2024 05:54:56 +0800
++Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45235 U=
+nit=20
++ Tests
 +
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540
 +
-+Unit tests to confirm that..
++Unit tests to confirm that the bug..
 +
-+Infinite loop when parsing unknown options in the Destination Options
-+header
++Buffer overflow when handling Server ID option from a DHCPv6 proxy
++Advertise message
 +
-+and
++..has been patched.
 +
-+Infinite loop when parsing a PadN option in the Destination Options
-+header
-+
-+... have been patched
-+
-+This patch tests the following functions:
-+Ip6IsOptionValid
++This patch contains unit tests for the following functions:
++PxeBcRequestBootService
++PxeBcDhcp6Discover
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -538,89 +386,127 @@ sts
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45232, CVE-2023-45233
++CVE: CVE-2023-45235
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/c9c87f=
-08dd6ace36fa843424522c3558a8374cac]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/ff2986=
+358f75d8f58ef08a66fe673539c9c48f41]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ .../Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf    |  10 +-
-+ .../Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp | 278 ++++++++++++++++++
-+ .../Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h   |  40 +++
-+ 3 files changed, 324 insertions(+), 4 deletions(-)
-+ create mode 100644 NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
++ .../GoogleTest/PxeBcDhcp6GoogleTest.cpp       | 278 +++++++++++++++++-
++ .../GoogleTest/PxeBcDhcp6GoogleTest.h         |  18 ++
++ 2 files changed, 294 insertions(+), 2 deletions(-)
 +
-+diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf b/NetworkPk=
-g/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
-+index 6e4de0745f..ba29dbabad 100644
-+--- a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
-++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
-+@@ -1,13 +1,13 @@
-+ ## @file=0D
-+-# Unit test suite for the Ip6Dxe using Google Test=0D
-++# Unit test suite for the Ip6DxeGoogleTest using Google Test=0D
-+ #=0D
-+ # Copyright (c) Microsoft Corporation.<BR>=0D
-+ # SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ ##=0D
-+ [Defines]=0D
-+   INF_VERSION         =3D 0x00010017=0D
-+-  BASE_NAME           =3D Ip6DxeUnitTest=0D
-+-  FILE_GUID           =3D 4F05D17D-D3E7-4AAE-820C-576D46D2D34A=0D
-++  BASE_NAME           =3D Ip6DxeGoogleTest=0D
-++  FILE_GUID           =3D AE39981C-B7FE-41A8-A9C2-F41910477CA3=0D
-+   VERSION_STRING      =3D 1.0=0D
-+   MODULE_TYPE         =3D HOST_APPLICATION=0D
-+ #=0D
-+@@ -16,9 +16,11 @@
-+ #  VALID_ARCHITECTURES           =3D IA32 X64 AARCH64=0D
-+ #=0D
-+ [Sources]=0D
-++  ../Ip6Option.c=0D
-++  Ip6OptionGoogleTest.h=0D
-+   Ip6DxeGoogleTest.cpp=0D
-+   Ip6OptionGoogleTest.cpp=0D
-+-  ../Ip6Option.c=0D
-++  Ip6OptionGoogleTest.h=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp b=
+/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
++index 8260eeee50..bd423ebadf 100644
++--- a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
+++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
++@@ -4,7 +4,9 @@
++   Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ **/=0D
++-#include <gtest/gtest.h>=0D
+++#include <Library/GoogleTestLib.h>=0D
+++#include <GoogleTest/Library/MockUefiLib.h>=0D
+++#include <GoogleTest/Library/MockUefiRuntimeServicesTableLib.h>=0D
 + =0D
-+ [Packages]=0D
-+   MdePkg/MdePkg.dec=0D
-+diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp b/Networ=
-kPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
-+index f2cd90e1a9..29f8a4a96e 100644
-+--- a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
-++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
-+@@ -12,6 +12,7 @@ extern "C" {
-+   #include <Library/DebugLib.h>=0D
-+   #include "../Ip6Impl.h"=0D
-+   #include "../Ip6Option.h"=0D
-++  #include "Ip6OptionGoogleTest.h"=0D
-+ }=0D
-+ =0D
++ extern "C" {=0D
++   #include <Uefi.h>=0D
++@@ -19,7 +21,8 @@ extern "C" {
++ // Definitions=0D
 + /////////////////////////////////////////////////////////////////////////=
-=0D
-+@@ -127,3 +128,280 @@ TEST_F (Ip6OptionValidationTest, InvalidPrefixInfoOp=
-tionLengthShouldReturnFalse)
+//////=0D
 + =0D
-+   EXPECT_FALSE (Ip6IsNDOptionValid (option, optionLen));=0D
++-#define PACKET_SIZE  (1500)=0D
+++#define PACKET_SIZE            (1500)=0D
+++#define REQUEST_OPTION_LENGTH  (120)=0D
++ =0D
++ typedef struct {=0D
++   UINT16    OptionCode;   // The option code for DHCP6_OPT_SERVER_ID (e.g=
+., 0x03)=0D
++@@ -76,6 +79,26 @@ MockConfigure (
++ }=0D
++ =0D
++ // Needed by PxeBcSupport=0D
+++EFI_STATUS=0D
+++PxeBcDns6 (=0D
+++  IN PXEBC_PRIVATE_DATA  *Private,=0D
+++  IN     CHAR16          *HostName,=0D
+++  OUT EFI_IPv6_ADDRESS   *IpAddress=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
+++UINT32=0D
+++PxeBcBuildDhcp6Options (=0D
+++  IN  PXEBC_PRIVATE_DATA       *Private,=0D
+++  OUT EFI_DHCP6_PACKET_OPTION  **OptList,=0D
+++  IN  UINT8                    *Buffer=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
++ EFI_STATUS=0D
++ EFIAPI=0D
++ QueueDpc (=0D
++@@ -159,6 +182,10 @@ TEST_F (PxeBcHandleDhcp6OfferTest, BasicUsageTest) {
++   ASSERT_EQ (PxeBcHandleDhcp6Offer (&(PxeBcHandleDhcp6OfferTest::Private)=
+), EFI_DEVICE_ERROR);=0D
++ }=0D
++ =0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++// PxeBcCacheDnsServerAddresses Tests=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++=0D
++ class PxeBcCacheDnsServerAddressesTest : public ::testing::Test {=0D
++ public:=0D
++   PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
++@@ -298,3 +325,250 @@ TEST_F (PxeBcCacheDnsServerAddressesTest, MultipleDn=
+sEntries) {
++     FreePool (Private.DnsServer);=0D
++   }=0D
 + }=0D
 ++=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++// Ip6IsOptionValid Tests=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++// PxeBcRequestBootServiceTest Test Cases=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
 ++=0D
-++// Define a fixture for your tests if needed=0D
-++class Ip6IsOptionValidTest : public ::testing::Test {=0D
+++class PxeBcRequestBootServiceTest : public ::testing::Test {=0D
+++public:=0D
+++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
+++  EFI_UDP6_PROTOCOL Udp6Read;=0D
+++=0D
 ++protected:=0D
 ++  // Add any setup code if needed=0D
 ++  virtual void=0D
 ++  SetUp (=0D
 ++    )=0D
 ++  {=0D
-++    // Initialize any resources or variables=0D
+++    Private.Dhcp6Request =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET=
+_SIZE);=0D
+++=0D
+++    // Need to setup the EFI_PXE_BASE_CODE_PROTOCOL=0D
+++    // The function under test really only needs the following:=0D
+++    //  UdpWrite=0D
+++    //  UdpRead=0D
+++=0D
+++    Private.PxeBc.UdpWrite =3D (EFI_PXE_BASE_CODE_UDP_WRITE)MockUdpWrite;=
+=0D
+++    Private.PxeBc.UdpRead  =3D (EFI_PXE_BASE_CODE_UDP_READ)MockUdpRead;=0D
+++=0D
+++    // Need to setup EFI_UDP6_PROTOCOL=0D
+++    // The function under test really only needs the following:=0D
+++    //  Configure=0D
+++=0D
+++    Udp6Read.Configure =3D (EFI_UDP6_CONFIGURE)MockConfigure;=0D
+++    Private.Udp6Read   =3D &Udp6Read;=0D
 ++  }=0D
 ++=0D
 ++  // Add any cleanup code if needed=0D
@@ -628,379 +514,285 @@ tionLengthShouldReturnFalse)
 ++  TearDown (=0D
 ++    )=0D
 ++  {=0D
+++    if (Private.Dhcp6Request !=3D NULL) {=0D
+++      FreePool (Private.Dhcp6Request);=0D
+++    }=0D
+++=0D
+++    // Clean up any resources or variables=0D
+++  }=0D
+++};=0D
+++=0D
+++TEST_F (PxeBcRequestBootServiceTest, ServerDiscoverBasicUsageTest) {=0D
+++  PxeBcRequestBootServiceTest::Private.OfferBuffer[0].Dhcp6.OfferType =3D=
+ PxeOfferTypeProxyBinl;=0D
+++=0D
+++  DHCP6_OPTION_SERVER_ID  Server =3D { 0 };=0D
+++=0D
+++  Server.OptionCode =3D  HTONS (DHCP6_OPT_SERVER_ID);=0D
+++  Server.OptionLen  =3D HTONS (16); // valid length=0D
+++  UINT8  Index =3D 0;=0D
+++=0D
+++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.OfferBuffer[=
+Index].Dhcp6.Packet.Offer;=0D
+++=0D
+++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
+++=0D
+++  CopyMem (Cursor, &Server, sizeof (Server));=0D
+++  Cursor +=3D sizeof (Server);=0D
+++=0D
+++  // Update the packet length=0D
+++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
+++  Packet->Size   =3D PACKET_SIZE;=0D
+++=0D
+++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
+ate), Index), EFI_SUCCESS);=0D
+++}=0D
+++=0D
+++TEST_F (PxeBcRequestBootServiceTest, AttemptDiscoverOverFlowExpectFailure=
+) {=0D
+++  PxeBcRequestBootServiceTest::Private.OfferBuffer[0].Dhcp6.OfferType =3D=
+ PxeOfferTypeProxyBinl;=0D
+++=0D
+++  DHCP6_OPTION_SERVER_ID  Server =3D { 0 };=0D
+++=0D
+++  Server.OptionCode =3D  HTONS (DHCP6_OPT_SERVER_ID);=0D
+++  Server.OptionLen  =3D HTONS (1500); // This length would overflow witho=
+ut a check=0D
+++  UINT8  Index =3D 0;=0D
+++=0D
+++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.OfferBuffer[=
+Index].Dhcp6.Packet.Offer;=0D
+++=0D
+++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
+++=0D
+++  CopyMem (Cursor, &Server, sizeof (Server));=0D
+++  Cursor +=3D sizeof (Server);=0D
+++=0D
+++  // Update the packet length=0D
+++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
+++  Packet->Size   =3D PACKET_SIZE;=0D
+++=0D
+++  // This is going to be stopped by the duid overflow check=0D
+++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
+ate), Index), EFI_INVALID_PARAMETER);=0D
+++}=0D
+++=0D
+++TEST_F (PxeBcRequestBootServiceTest, RequestBasicUsageTest) {=0D
+++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
+n't really matter=0D
+++=0D
+++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
+++  RequestOpt.OpLen  =3D 0; // valid length=0D
+++=0D
+++  UINT8  Index =3D 0;=0D
+++=0D
+++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.Dhcp6Request=
+[Index];=0D
+++=0D
+++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
+++=0D
+++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
+++  Cursor +=3D sizeof (RequestOpt);=0D
+++=0D
+++  // Update the packet length=0D
+++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
+++  Packet->Size   =3D PACKET_SIZE;=0D
+++=0D
+++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
+ate), Index), EFI_SUCCESS);=0D
+++}=0D
+++=0D
+++TEST_F (PxeBcRequestBootServiceTest, AttemptRequestOverFlowExpectFailure)=
+ {=0D
+++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
+n't really matter=0D
+++=0D
+++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
+++  RequestOpt.OpLen  =3D 1500; // this length would overflow without a che=
+ck=0D
+++=0D
+++  UINT8  Index =3D 0;=0D
+++=0D
+++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.Dhcp6Request=
+[Index];=0D
+++=0D
+++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
+++=0D
+++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
+++  Cursor +=3D sizeof (RequestOpt);=0D
+++=0D
+++  // Update the packet length=0D
+++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
+++  Packet->Size   =3D PACKET_SIZE;=0D
+++=0D
+++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
+ate), Index), EFI_OUT_OF_RESOURCES);=0D
+++}=0D
+++=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++// PxeBcDhcp6Discover Test=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++=0D
+++class PxeBcDhcp6DiscoverTest : public ::testing::Test {=0D
+++public:=0D
+++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
+++  EFI_UDP6_PROTOCOL Udp6Read;=0D
+++=0D
+++protected:=0D
+++  MockUefiRuntimeServicesTableLib RtServicesMock;=0D
+++=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
+++    )=0D
+++  {=0D
+++    Private.Dhcp6Request =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET=
+_SIZE);=0D
+++=0D
+++    // Need to setup the EFI_PXE_BASE_CODE_PROTOCOL=0D
+++    // The function under test really only needs the following:=0D
+++    //  UdpWrite=0D
+++    //  UdpRead=0D
+++=0D
+++    Private.PxeBc.UdpWrite =3D (EFI_PXE_BASE_CODE_UDP_WRITE)MockUdpWrite;=
+=0D
+++    Private.PxeBc.UdpRead  =3D (EFI_PXE_BASE_CODE_UDP_READ)MockUdpRead;=0D
+++=0D
+++    // Need to setup EFI_UDP6_PROTOCOL=0D
+++    // The function under test really only needs the following:=0D
+++    //  Configure=0D
+++=0D
+++    Udp6Read.Configure =3D (EFI_UDP6_CONFIGURE)MockConfigure;=0D
+++    Private.Udp6Read   =3D &Udp6Read;=0D
+++  }=0D
+++=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++    if (Private.Dhcp6Request !=3D NULL) {=0D
+++      FreePool (Private.Dhcp6Request);=0D
+++    }=0D
+++=0D
 ++    // Clean up any resources or variables=0D
 ++  }=0D
 ++};=0D
 ++=0D
 ++// Test Description=0D
-++// Verify that a NULL option is Invalid=0D
-++TEST_F (Ip6IsOptionValidTest, NullOptionShouldReturnTrue) {=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  IP6_SERVICE  *IpSb =3D NULL;=0D
+++// This will cause an overflow by an untrusted packet during the option p=
+arsing=0D
+++TEST_F (PxeBcDhcp6DiscoverTest, BasicOverflowTest) {=0D
+++  EFI_IPv6_ADDRESS         DestIp     =3D { 0 };=0D
+++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
+n't really matter=0D
 ++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
+++  RequestOpt.OpLen  =3D HTONS (0xFFFF); // overflow=0D
 ++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++  UINT8  *Cursor =3D (UINT8 *)(Private.Dhcp6Request->Dhcp6.Option);=0D
 ++=0D
-++  EXPECT_FALSE (Ip6IsOptionValid (IpSb, &Packet, NULL, 0, 0));=0D
+++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
+++  Cursor +=3D sizeof (RequestOpt);=0D
+++=0D
+++  Private.Dhcp6Request->Length =3D (UINT16)(Cursor - (UINT8 *)Private.Dhc=
+p6Request);=0D
+++=0D
+++  EXPECT_CALL (RtServicesMock, gRT_GetTime)=0D
+++    .WillOnce (::testing::Return (0));=0D
+++=0D
+++  ASSERT_EQ (=0D
+++    PxeBcDhcp6Discover (=0D
+++      &(PxeBcDhcp6DiscoverTest::Private),=0D
+++      0,=0D
+++      NULL,=0D
+++      FALSE,=0D
+++      (EFI_IP_ADDRESS *)&DestIp=0D
+++      ),=0D
+++    EFI_OUT_OF_RESOURCES=0D
+++    );=0D
 ++}=0D
 ++=0D
 ++// Test Description=0D
-++// Verify that an unknown option with a length of 0 and type of <unknown>=
- does not cause an infinite loop=0D
-++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLength0)=
- {=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  UINT32  DeadCode =3D 0xDeadC0de;=0D
-++  // Don't actually use this pointer, just pass it to the function, nothi=
-ng will be done with it=0D
-++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++// This will test that we can handle a packet with a valid option length=
+=0D
+++TEST_F (PxeBcDhcp6DiscoverTest, BasicUsageTest) {=0D
+++  EFI_IPv6_ADDRESS         DestIp     =3D { 0 };=0D
+++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
+n't really matter=0D
 ++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
+++  RequestOpt.OpLen  =3D HTONS (0x30);=0D
 ++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++  UINT8  *Cursor =3D (UINT8 *)(Private.Dhcp6Request->Dhcp6.Option);=0D
 ++=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
+++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
+++  Cursor +=3D sizeof (RequestOpt);=0D
 ++=0D
-++  optionHeader.Type   =3D 23;   // Unknown Option=0D
-++  optionHeader.Length =3D 0;    // This will cause an infinite loop if th=
-e function is not working correctly=0D
+++  Private.Dhcp6Request->Length =3D (UINT16)(Cursor - (UINT8 *)Private.Dhc=
+p6Request);=0D
 ++=0D
-++  // This should be a valid option even though the length is 0=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
+++  EXPECT_CALL (RtServicesMock, gRT_GetTime)=0D
+++    .WillOnce (::testing::Return (0));=0D
+++=0D
+++  ASSERT_EQ (=0D
+++    PxeBcDhcp6Discover (=0D
+++      &(PxeBcDhcp6DiscoverTest::Private),=0D
+++      0,=0D
+++      NULL,=0D
+++      FALSE,=0D
+++      (EFI_IP_ADDRESS *)&DestIp=0D
+++      ),=0D
+++    EFI_SUCCESS=0D
+++    );=0D
 ++}=0D
-++=0D
-++// Test Description=0D
-++// Verify that an unknown option with a length of 1 and type of <unknown>=
- does not cause an infinite loop=0D
-++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLength1)=
- {=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  UINT32  DeadCode =3D 0xDeadC0de;=0D
-++  // Don't actually use this pointer, just pass it to the function, nothi=
-ng will be done with it=0D
-++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
-++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
-++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
-++=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D 23;   // Unknown Option=0D
-++  optionHeader.Length =3D 1;    // This will cause an infinite loop if th=
-e function is not working correctly=0D
-++=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++}=0D
-++=0D
-++// Test Description=0D
-++// Verify that an unknown option with a length of 2 and type of <unknown>=
- does not cause an infinite loop=0D
-++TEST_F (Ip6IsOptionValidTest, VerifyIpSkipUnknownOption) {=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  UINT32  DeadCode =3D 0xDeadC0de;=0D
-++  // Don't actually use this pointer, just pass it to the function, nothi=
-ng will be done with it=0D
-++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
-++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
-++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
-++=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D 23;   // Unknown Option=0D
-++  optionHeader.Length =3D 2;    // Valid length for an unknown option=0D
-++=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++}=0D
-++=0D
-++// Test Description=0D
-++// Verify that Ip6OptionPad1 is valid with a length of 0=0D
-++TEST_F (Ip6IsOptionValidTest, VerifyIp6OptionPad1) {=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  UINT32  DeadCode =3D 0xDeadC0de;=0D
-++  // Don't actually use this pointer, just pass it to the function, nothi=
-ng will be done with it=0D
-++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
-++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
-++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
-++=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D Ip6OptionPad1;=0D
-++  optionHeader.Length =3D 0;=0D
-++=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++}=0D
-++=0D
-++// Test Description=0D
-++// Verify that Ip6OptionPadN doesn't overflow with various lengths=0D
-++TEST_F (Ip6IsOptionValidTest, VerifyIp6OptionPadN) {=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  UINT32  DeadCode =3D 0xDeadC0de;=0D
-++  // Don't actually use this pointer, just pass it to the function, nothi=
-ng will be done with it=0D
-++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
-++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
-++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
-++=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D Ip6OptionPadN;=0D
-++  optionHeader.Length =3D 0xFF;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++=0D
-++  optionHeader.Length =3D 0xFE;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++=0D
-++  optionHeader.Length =3D 0xFD;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++=0D
-++  optionHeader.Length =3D 0xFC;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++}=0D
-++=0D
-++// Test Description=0D
-++// Verify an unknown option doesn't cause an infinite loop with various l=
-engths=0D
-++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLengthAt=
-temptOverflow) {=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  UINT32  DeadCode =3D 0xDeadC0de;=0D
-++  // Don't actually use this pointer, just pass it to the function, nothi=
-ng will be done with it=0D
-++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
-++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
-++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
-++=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D 23;   // Unknown Option=0D
-++  optionHeader.Length =3D 0xFF;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++=0D
-++  optionHeader.Length =3D 0xFE;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++=0D
-++  optionHeader.Length =3D 0xFD;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++=0D
-++  optionHeader.Length =3D 0xFC;=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
-izeof (optionHeader), 0));=0D
-++}=0D
-++=0D
-++// Test Description=0D
-++// Verify that the function supports multiple options=0D
-++TEST_F (Ip6IsOptionValidTest, MultiOptionSupport) {=0D
-++  UINT16   HdrLen;=0D
-++  NET_BUF  Packet =3D { 0 };=0D
-++  // we need to define enough of the packet to make the function work=0D
-++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
-s defined above=0D
-++  UINT32  DeadCode =3D 0xDeadC0de;=0D
-++  // Don't actually use this pointer, just pass it to the function, nothi=
-ng will be done with it=0D
-++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
-++=0D
-++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
-, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
-++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
-++=0D
-++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
-++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
-++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
-++=0D
-++  UINT8              ExtHdr[1024] =3D { 0 };=0D
-++  UINT8              *Cursor      =3D ExtHdr;=0D
-++  IP6_OPTION_HEADER  *Option      =3D (IP6_OPTION_HEADER *)ExtHdr;=0D
-++=0D
-++  // Let's start chaining options=0D
-++=0D
-++  Option->Type   =3D 23;   // Unknown Option=0D
-++  Option->Length =3D 0xFC;=0D
-++=0D
-++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 0xFC;=0D
-++=0D
-++  Option       =3D (IP6_OPTION_HEADER *)Cursor;=0D
-++  Option->Type =3D Ip6OptionPad1;=0D
-++=0D
-++  Cursor +=3D sizeof (1);=0D
-++=0D
-++  // Type and length aren't processed, instead it just moves the pointer =
-forward by 4 bytes=0D
-++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
-++  Option->Type   =3D Ip6OptionRouterAlert;=0D
-++  Option->Length =3D 4;=0D
-++=0D
-++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 4;=0D
-++=0D
-++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
-++  Option->Type   =3D Ip6OptionPadN;=0D
-++  Option->Length =3D 0xFC;=0D
-++=0D
-++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 0xFC;=0D
-++=0D
-++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
-++  Option->Type   =3D Ip6OptionRouterAlert;=0D
-++  Option->Length =3D 4;=0D
-++=0D
-++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 4;=0D
-++=0D
-++  // Total 524=0D
-++=0D
-++  HdrLen =3D (UINT16)(Cursor - ExtHdr);=0D
-++=0D
-++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, ExtHdr, HdrLen, 0));=0D
-++}=0D
-+diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h b/NetworkP=
-kg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
-+new file mode 100644
-+index 0000000000..0509b6ae30
-+--- /dev/null
-++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
-+@@ -0,0 +1,40 @@
-++/** @file=0D
-++  Exposes the functions needed to test the Ip6Option module.=0D
-++=0D
-++  Copyright (c) Microsoft Corporation=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++**/=0D
-++=0D
-++#ifndef IP6_OPTION_HEADER_GOOGLE_TEST_H_=0D
-++#define IP6_OPTION_HEADER_GOOGLE_TEST_H_=0D
-++=0D
-++#include <Uefi.h>=0D
-++#include "../Ip6Impl.h"=0D
-++=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h b/N=
+etworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
++index b17c314791..0d825e4425 100644
++--- a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
+++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
++@@ -47,4 +47,22 @@ PxeBcCacheDnsServerAddresses (
++   IN PXEBC_DHCP6_PACKET_CACHE  *Cache6=0D
++   );=0D
++ =0D
 ++/**=0D
-++  Validate the IP6 option format for both the packets we received=0D
-++  and that we will transmit. It will compute the ICMPv6 error message fie=
-lds=0D
-++  if the option is malformatted.=0D
+++  Build and send out the request packet for the bootfile, and parse the r=
+eply.=0D
 ++=0D
-++  @param[in]  IpSb              The IP6 service data.=0D
-++  @param[in]  Packet            The to be validated packet.=0D
-++  @param[in]  Option            The first byte of the option.=0D
-++  @param[in]  OptionLen         The length of the whole option.=0D
-++  @param[in]  Pointer           Identifies the octet offset within=0D
-++                                the invoking packet where the error was d=
-etected.=0D
+++  @param[in]  Private               The pointer to PxeBc private data.=0D
+++  @param[in]  Index                 PxeBc option boot item type.=0D
 ++=0D
-++=0D
-++  @retval TRUE     The option is properly formatted.=0D
-++  @retval FALSE    The option is malformatted.=0D
+++  @retval     EFI_SUCCESS           Successfully discovered the boot file=
+.=0D
+++  @retval     EFI_OUT_OF_RESOURCES  Failed to allocate resources.=0D
+++  @retval     EFI_NOT_FOUND         Can't get the PXE reply packet.=0D
+++  @retval     Others                Failed to discover the boot file.=0D
 ++=0D
 ++**/=0D
-++BOOLEAN=0D
-++Ip6IsOptionValid (=0D
-++  IN IP6_SERVICE  *IpSb,=0D
-++  IN NET_BUF      *Packet,=0D
-++  IN UINT8        *Option,=0D
-++  IN UINT16       OptionLen,=0D
-++  IN UINT32       Pointer=0D
+++EFI_STATUS=0D
+++PxeBcRequestBootService (=0D
+++  IN  PXEBC_PRIVATE_DATA  *Private,=0D
+++  IN  UINT32              Index=0D
 ++  );=0D
 ++=0D
-++#endif // __IP6_OPTION_HEADER_GOOGLE_TEST_H__=0D
++ #endif // PXE_BC_DHCP6_GOOGLE_TEST_H_=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index e46b3ddebe..fc87cdf441 100644
+index ac6a0a40e7..ceebb53438 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -37,6 +37,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+@@ -41,6 +41,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
 =3Dmaster;protocol=3Dhttps \
-            file://CVE-2023-45230-0002.patch \
-            file://CVE-2023-45231-0001.patch \
-            file://CVE-2023-45231-0002.patch \
-+           file://CVE-2023-45232-CVE-2023-45233-0001.patch \
-+           file://CVE-2023-45232-CVE-2023-45233-0002.patch \
+            file://CVE-2023-45232-CVE-2023-45233-0002.patch \
+            file://CVE-2023-45234-0001.patch \
+            file://CVE-2023-45234-0002.patch \
++           file://CVE-2023-45235-0001.patch \
++           file://CVE-2023-45235-0002.patch \
             "
 =20
  PV =3D "edk2-stable202202"
