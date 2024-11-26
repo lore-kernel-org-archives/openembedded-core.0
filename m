@@ -1,95 +1,100 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5882BD6553B
-	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 18:00:54 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web10.52802.1732644043705113083
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 60C21D6553B
+	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 18:07:04 +0000 (UTC)
+Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
+ by mx.groups.io with SMTP id smtpd.web10.52961.1732644421971755149
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 10:00:44 -0800
+ Tue, 26 Nov 2024 10:07:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=o67ienNl;
- spf=pass (domain: baylibre.com, ip: 209.85.128.42, mailfrom: tgamblin@baylibre.com)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-434a044dce2so26287325e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 10:00:43 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bYUQOev/;
+ spf=pass (domain: gmail.com, ip: 209.85.166.182, mailfrom: danismostlikely@gmail.com)
+Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3a7750318a2so23869375ab.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 10:07:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1732644042; x=1733248842; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=r5/naeg0dBBusGpVzdgpGynpZlX14LfA7bFms+Z0c58=;
-        b=o67ienNlOWOzO2FdSIlDwQWtRRgMRaCIkQPYp9aLJVa/CzM1taI6pw44jR6RA1Eruv
-         1ImKNsSBmaEbJcQSCdSd176+rIzINiOpiuOokSQEa6ZMVJ+ZZSz2ZNgs1kHAufj5cpzi
-         OfOQbQBiq5dc3xu7y2r6GCi+CP0WNVeYKU8+dzO6GLvA8p7HxO8BIlHecLkL5aBEykEA
-         56VENiHplERLbhRrbaPl58gmZtTU1dT2cdxatGbh6TV76R6Ge/N4vRUPy6FxeBehbfrL
-         2QK08UNH1lmQ8DDUzInqtZ72As6HizOQCxQlxqi/VSgD1baFbQ8RnP1a/fEIx4Jjl8jW
-         GoEg==
+        d=gmail.com; s=20230601; t=1732644421; x=1733249221; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EuKMWSKoGSuis2izNfUj+gY1b+STsN6nwbmbFN4fGj0=;
+        b=bYUQOev/0ybjDvQC5uT2/CqJDpNZhsTN2FvNzDcOp6uoH7T92UItcqa/hXM8YvwXIu
+         b5+1TNZvh1f9jOeRIWf1rOq8u1KbQuWNjzcQOchLb9Escs9V+t44GbQoA9aFgP2K+e9i
+         AohfOsTz4jmGTE75mfHHjU1jDgiUxvAF8O28bBOZOO/gGx4gD67A8ofgefdQEnitHzzE
+         61P1BE8npBk6Cbz6WcrPsKo9+Hsc+HLQdbLTg0jh/ji3RjaJYzm/Z0813UNgS4+RA0W4
+         dpVSlHY3bJv5WhO29JeENUBIJvjp4IgOEWW1glQT/IShaut8aKZQDTgf2vsMmsgarw3R
+         euYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732644042; x=1733248842;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r5/naeg0dBBusGpVzdgpGynpZlX14LfA7bFms+Z0c58=;
-        b=DYUKLLKrShtmB7yH8Rw+16x9KrEDUPyFZkQ5SX9+4ju56f37GfP7CeA+szzByVzoX7
-         IlcohDw32c7vz9WChXC4xb19mez2CSqfU3R7VE+V7lcw7I18hAqkFB+T8uQQzm+ej5Xe
-         pMn9raY2tLUaBlIWNba0b+uG8nK/AhuMkQEMxABZkwfpnvVa8RdekgUectKlrHbxGXM7
-         2/9TwoCwFnnlRn1NcNmakiRgcmMyNEptiD+7PsBs61yWY4k/Kp/Hxh358gLqb5RzCypN
-         lQfE7nV9ASd5FVH7C/PCpoQR6br1CUUfwxRff4EsaqZ0spd78y3cx9LI7rDD6OZCDIZ0
-         ksUw==
-X-Gm-Message-State: AOJu0YxTEenYrFAzHmG5AyvHOzmyod4mSaU76owip3or+wdkfgJicrVb
-	9Z4G6wur6B6sfy+6ns7TYbeLToVejBQdVp/YZ67QGn7Gt1322osYaTPSdyUvpbLcBq0b1OS/xbo
-	O
-X-Gm-Gg: ASbGncudExFQygq/5BS02rot12xMw30UQl3JYV6BO4C8nBk2NwydoucBm5ZmqzBO2sl
-	U9r/tDin+NW88X+KabGbWrxeR5Ic7fQA7SdoF056UZwQ3lX4O2YASbTaWni3Z8fLWs/qbMORT45
-	9OYKmY9wo262BqF+z9sjqKFSvsrIY+JQ4+ghuDwo7Qt7zaZMjZeIMHJt+ZwvsIV4U6f1GWs/IEW
-	OJAT/o+UY9dWazVGqWhJF6CvfnLdqWpzwH6pCt62YeN1TMrgYt29WPWxXsget8GXdlwSKfGfUsZ
-	pzaRcS7NkVdji0i7t6lLjZfeLHH5ECw=
-X-Google-Smtp-Source: AGHT+IH5asiocXUjqkjRuMfrU+xyn1KpDWilmJwbwnes7Fy6a89fflTnU+asGjTvkrM3CgALcug2+A==
-X-Received: by 2002:a05:600c:3549:b0:434:a923:9321 with SMTP id 5b1f17b1804b1-434a9dbb626mr2253925e9.5.1732644041666;
-        Tue, 26 Nov 2024 10:00:41 -0800 (PST)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fad658esm14251104f8f.8.2024.11.26.10.00.40
+        d=1e100.net; s=20230601; t=1732644421; x=1733249221;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=EuKMWSKoGSuis2izNfUj+gY1b+STsN6nwbmbFN4fGj0=;
+        b=JfyxKZU+yrv6j/em4QRDm8R6TIaQav/jiI2eKQ4zNTfgBYr9Cmi3gkfG8lbepWzEOT
+         olTnvcwWE+AVQE4hrhwn0O6huXAA9CVSjbD1VPXGKRdvFZDfNkN/60aN6D2ChZdFFDz5
+         aYzI5BBGgMWByTN99zr60ocEMDfPDSQJklE21fBRuYe4iqK9a4uHJJT19dHV6b8ZhuHk
+         AHRjkXrCvNu3sBWwIDXIgA3ML1S1VDDVKlfxdVInja79pS6BQmU/aLAHddgezm2X7G9v
+         ns4Z6+1eeGdMFOVLcBVwZVzGDRrd7bkU78kXK80VVf0mimZw/QdBFQR1Jk8UaYUr17U6
+         xonA==
+X-Gm-Message-State: AOJu0YzrLMRMLbE9zlXRW5N1XHPHjD91pTZw/l1+wWYQn1kM56xF7e8B
+	itkgEH6hsQEm2Q1Ygf4lVAtP/fHeu5bcJos6JZ9XizFiuA/RNV63VypIzQ==
+X-Gm-Gg: ASbGncu5LbcpJLqEtvPRp3qA8NpJXI9lAfRqxWKrkIcYJeyoXGG/admVRu/cRimx5ne
+	JlX1SLq7tYgQMYvIGaHQqvs81kDGm513i3epnn1jmq60RhoMLkvhHvsMDDLbUCdgBewfFVRPcMx
+	orPyqzYHMn2SvMkIlAWuuZW32mqEEC9+2PrxkU7JlFNBalKe2yQ0JAE8SHcl6l/L0LRms6fDRnJ
+	CxE4QxLxbrAbRtnuOEtMyk4OlLwkfRGFFDo4eQoop9RiDbfgsy1VTVqhG8nIzeuqDFY3v09hWQu
+	huwrig==
+X-Google-Smtp-Source: AGHT+IHajDzZIOrwHlp1Ft5g0C7MIVEfKhWYfhuHGzoz8EiXUSwHEmTsc6br4H1TQyj56VJCjlwSKw==
+X-Received: by 2002:a05:6e02:13a6:b0:3a7:4674:d637 with SMTP id e9e14a558f8ab-3a7c55259a8mr297015ab.3.1732644420201;
+        Tue, 26 Nov 2024 10:07:00 -0800 (PST)
+Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e1de859f85sm2251899173.30.2024.11.26.10.06.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 10:00:41 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
+        Tue, 26 Nov 2024 10:06:59 -0800 (PST)
+From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [OE-core][PATCH] python3-numpy: inherit pkgconfig
-Date: Tue, 26 Nov 2024 13:00:36 -0500
-Message-Id: <20241126180036.2500959-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+Cc: Dan McGregor <dan.mcgregor@usask.ca>
+Subject: [PATCH v4 1/2] python3: do not overwrite FILES contents
+Date: Tue, 26 Nov 2024 12:06:41 -0600
+Message-ID: <20241126180642.2022572-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.47.0
+In-Reply-To: <CANNYZj98i-RU060Hjxx3PgX6guCvfkzY5-_mE78-yVwz4Ks5ug@mail.gmail.com>
+References: <CANNYZj98i-RU060Hjxx3PgX6guCvfkzY5-_mE78-yVwz4Ks5ug@mail.gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 18:00:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207878
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 18:07:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207879
 
-This was supposed to be added in oe-core commit fd656aaf7fbe
-("python3-numpy: upgrade 1.26.4 -> 2.1.3"), but it somehow got missed in
-the final version of that patch. Add it now to fix possible do_compile
-errors.
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+Instead of relying completely on the python packaging manifest,
+allow some default values. This is useful for the edge cases that
+can't be found automatically by the create_manifest step.
+
+In particular, tkinter can't be built for python3-native, so its
+consistently missed in manifest updates.
+
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
- meta/recipes-devtools/python/python3-numpy_2.1.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3_3.13.0.bb | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb b/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-index da75dff1e0..0120bee439 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "aa08e04e08aaf974d4458def539dece0d28146d866a39da5639596f492
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+diff --git a/meta/recipes-devtools/python/python3_3.13.0.bb b/meta/recipes-devtools/python/python3_3.13.0.bb
+index 8db5b813738..fd926811a74 100644
+--- a/meta/recipes-devtools/python/python3_3.13.0.bb
++++ b/meta/recipes-devtools/python/python3_3.13.0.bb
+@@ -360,7 +360,6 @@ python(){
+             newpackages.append(pypackage)
  
--inherit ptest python_mesonpy github-releases cython
-+inherit pkgconfig ptest python_mesonpy github-releases cython
- 
- S = "${WORKDIR}/numpy-${PV}"
+         # "Build" python's manifest FILES, RDEPENDS and SUMMARY
+-        d.setVar('FILES:' + pypackage, '')
+         for value in python_manifest[key]['files']:
+             d.appendVar('FILES:' + pypackage, ' ' + value)
  
 -- 
-2.39.5
+2.47.0
 
 
