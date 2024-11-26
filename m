@@ -2,21 +2,21 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F815D5A6D6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5ADD4D5A6C2
 	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 02:25:49 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web11.36920.1732587943773550356
+ by mx.groups.io with SMTP id smtpd.web10.36606.1732587945439127342
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 18:25:43 -0800
+ Mon, 25 Nov 2024 18:25:45 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1060df9989=hongxu.jia@windriver.com)
 Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgED007184;
-	Tue, 26 Nov 2024 02:25:43 GMT
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AQ1KgEF007184;
+	Tue, 26 Nov 2024 02:25:44 GMT
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-4
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618aq0g-6
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Tue, 26 Nov 2024 02:25:42 +0000 (GMT)
+	Tue, 26 Nov 2024 02:25:44 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
@@ -27,19 +27,19 @@ Received: from ala-lpggp7.wrs.com (147.11.136.210) by
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <steve@sakoman.com>
-Subject: [kirkstone][PATCH V2 04/13] ovmf: Fix CVE-2023-45231
-Date: Mon, 25 Nov 2024 18:25:17 -0800
-Message-ID: <20241126022526.3389121-4-hongxu.jia@windriver.com>
+Subject: [kirkstone][PATCH V2 06/13] ovmf: Fix CVE-2023-45234
+Date: Mon, 25 Nov 2024 18:25:19 -0800
+Message-ID: <20241126022526.3389121-6-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 References: <20241126022526.3389121-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: x-xF2LDaIqfF_J0bj_adBDZvRRS_dbJ5
-X-Proofpoint-GUID: x-xF2LDaIqfF_J0bj_adBDZvRRS_dbJ5
-X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531a6 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8 a=QyXUC8HyAAAA:8
- a=pGLkceISAAAA:8 a=M0iPxMNiYaO_7JsmHxAA:9 a=bkWp_v3HvcftT6DRAIDL:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: VTx3dvk2yL8sJuWCgMXotuwTjoaWCIIr
+X-Proofpoint-GUID: VTx3dvk2yL8sJuWCgMXotuwTjoaWCIIr
+X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=674531a8 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=hqBzw_eTAAAA:8 a=t7CeM3EgAAAA:8 a=yMhMjlubAAAA:8 a=QyXUC8HyAAAA:8
+ a=pGLkceISAAAA:8 a=TKEFbNRbccsZTNP2VF0A:9 a=b6HyuUDsIA2fvkGo:21 a=RVmHIydaz68A:10 a=bkWp_v3HvcftT6DRAIDL:22 a=FdTzh2GWekK77mhwV6Dw:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-11-26_01,2024-11-25_01,2024-11-22_01
@@ -52,67 +52,71 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 02:25:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207828
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207830
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-EDK2's Network Package is susceptible to an out-of-bounds read
-vulnerability when processing  Neighbor Discovery Redirect message. This
+EDK2's Network Package is susceptible to a buffer overflow vulnerability
+when processing DNS Servers option from a DHCPv6 Advertise message. This
 vulnerability can be exploited by an attacker to gain unauthorized access
-and potentially lead to a loss of Confidentiality.
+and potentially lead to a loss of Confidentiality, Integrity and/or
+Availability.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-45231
+https://nvd.nist.gov/vuln/detail/CVE-2023-45234
 
 Upstream-patches:
-https://github.com/tianocore/edk2/commit/bbfee34f4188ac00371abe1389ae9c9fb9=
-89a0cd
-https://github.com/tianocore/edk2/commit/6f77463d72807ec7f4ed6518c3dac29a10=
-40df9f
+https://github.com/tianocore/edk2/commit/1b53515d53d303166b2bbd31e2cc7f16fd=
+0aecd7
+https://github.com/tianocore/edk2/commit/458c582685fc0e8057d2511c5a0394078d=
+988c17
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ovmf/ovmf/CVE-2023-45231-0001.patch       |  65 +++++
- .../ovmf/ovmf/CVE-2023-45231-0002.patch       | 250 ++++++++++++++++++
+ .../ovmf/ovmf/CVE-2023-45234-0001.patch       | 154 ++++++
+ .../ovmf/ovmf/CVE-2023-45234-0002.patch       | 485 ++++++++++++++++++
  meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
- 3 files changed, 317 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45231-0001.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45231-0002.patch
+ 3 files changed, 641 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45234-0001.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45234-0002.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45231-0001.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45231-0001.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45234-0001.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45234-0001.patch
 new file mode 100644
-index 0000000000..7aa9b27407
+index 0000000000..463b4b824d
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45231-0001.patch
-@@ -0,0 +1,65 @@
-+From bbfee34f4188ac00371abe1389ae9c9fb989a0cd Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45234-0001.patch
+@@ -0,0 +1,154 @@
++From 1b53515d53d303166b2bbd31e2cc7f16fd0aecd7 Mon Sep 17 00:00:00 2001
 +From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:48 +0800
-+Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45231 Patch
++Date: Fri, 26 Jan 2024 05:54:52 +0800
++Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45234 P=
+atch
 +
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4536
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4539
 +
-+Bug Overview:
-+PixieFail Bug #3
-+CVE-2023-45231
-+CVSS 6.5 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
-+CWE-125 Out-of-bounds Read
++Bug Details:
++PixieFail Bug #6
++CVE-2023-45234
++CVSS 8.3 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H
++CWE-119 Improper Restriction of Operations within the Bounds of
++ a Memory Buffer
 +
-+Out-of-bounds read when handling a ND Redirect message with truncated
-+options
++Buffer overflow when processing DNS Servers option in a DHCPv6
++Advertise message
 +
 +Change Overview:
 +
-+Adds a check to prevent truncated options from being parsed
-++  //
-++  // Cannot process truncated options.
-++  // Cannot process options with a length of 0 as there is no Type
-+field.
-++  //
-++  if (OptionLen < sizeof (IP6_OPTION_HEADER)) {
-++    return FALSE;
-++  }
++Introduces a function to cache the Dns Server and perform sanitizing
++on the incoming DnsServerLen to ensure that the length is valid
++
++> + EFI_STATUS
++> + PxeBcCacheDnsServerAddresses (
++> +  IN PXEBC_PRIVATE_DATA        *Private,
++> +  IN PXEBC_DHCP6_PACKET_CACHE  *Cache6
++> +  )
++
++Additional code cleanup
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -120,64 +124,168 @@ index 0000000000..7aa9b27407
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45231
++CVE: CVE-2023-45234
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/bbfee3=
-4f4188ac00371abe1389ae9c9fb989a0cd]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1b5351=
+5d53d303166b2bbd31e2cc7f16fd0aecd7]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ NetworkPkg/Ip6Dxe/Ip6Option.c | 8 ++++++++
-+ 1 file changed, 8 insertions(+)
++ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c | 71 +++++++++++++++++++++++++---
++ 1 file changed, 65 insertions(+), 6 deletions(-)
 +
-+diff --git a/NetworkPkg/Ip6Dxe/Ip6Option.c b/NetworkPkg/Ip6Dxe/Ip6Option.c
-+index 199eea124d..8718d5d875 100644
-+--- a/NetworkPkg/Ip6Dxe/Ip6Option.c
-++++ b/NetworkPkg/Ip6Dxe/Ip6Option.c
-+@@ -137,6 +137,14 @@ Ip6IsNDOptionValid (
-+     return FALSE;=0D
-+   }=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c b/NetworkPkg/UefiPxeBcDx=
+e/PxeBcDhcp6.c
++index 425e0cf806..2b2d372889 100644
++--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
+++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
++@@ -3,6 +3,7 @@
 + =0D
-++  //=0D
-++  // Cannot process truncated options.=0D
-++  // Cannot process options with a length of 0 as there is no Type field.=
++   (C) Copyright 2014 Hewlett-Packard Development Company, L.P.<BR>=0D
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
 =0D
+++  Copyright (c) Microsoft Corporation=0D
++ =0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++@@ -1312,6 +1313,65 @@ PxeBcSelectDhcp6Offer (
++   }=0D
++ }=0D
++ =0D
+++/**=0D
+++  Cache the DHCPv6 DNS Server addresses=0D
+++=0D
+++  @param[in] Private               The pointer to PXEBC_PRIVATE_DATA.=0D
+++  @param[in] Cache6                The pointer to PXEBC_DHCP6_PACKET_CACH=
+E.=0D
+++=0D
+++  @retval    EFI_SUCCESS           Cache the DHCPv6 DNS Server address su=
+ccessfully.=0D
+++  @retval    EFI_OUT_OF_RESOURCES  Failed to allocate resources.=0D
+++  @retval    EFI_DEVICE_ERROR      The DNS Server Address Length provided=
+ by a untrusted=0D
+++                                   option is not a multiple of 16 bytes (=
+sizeof (EFI_IPv6_ADDRESS)).=0D
+++**/=0D
+++EFI_STATUS=0D
+++PxeBcCacheDnsServerAddresses (=0D
+++  IN PXEBC_PRIVATE_DATA        *Private,=0D
+++  IN PXEBC_DHCP6_PACKET_CACHE  *Cache6=0D
+++  )=0D
+++{=0D
+++  UINT16  DnsServerLen;=0D
+++=0D
+++  DnsServerLen =3D NTOHS (Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->Op=
+Len);=0D
 ++  //=0D
-++  if (OptionLen < sizeof (IP6_OPTION_HEADER)) {=0D
-++    return FALSE;=0D
+++  // Make sure that the number is nonzero=0D
+++  //=0D
+++  if (DnsServerLen =3D=3D 0) {=0D
+++    return EFI_DEVICE_ERROR;=0D
 ++  }=0D
 ++=0D
-+   Offset =3D 0;=0D
+++  //=0D
+++  // Make sure the DnsServerlen is a multiple of EFI_IPv6_ADDRESS (16)=0D
+++  //=0D
+++  if (DnsServerLen % sizeof (EFI_IPv6_ADDRESS) !=3D 0) {=0D
+++    return EFI_DEVICE_ERROR;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // This code is currently written to only support a single DNS Server i=
+nstead=0D
+++  // of multiple such as is spec defined (RFC3646, Section 3). The proper=
+ behavior=0D
+++  // would be to allocate the full space requested, CopyMem all of the da=
+ta,=0D
+++  // and then add a DnsServerCount field to Private and update additional=
+ code=0D
+++  // that depends on this.=0D
+++  //=0D
+++  // To support multiple DNS servers the `AllocationSize` would need to b=
+e changed to DnsServerLen=0D
+++  //=0D
+++  // This is tracked in https://bugzilla.tianocore.org/show_bug.cgi?id=3D=
+1886=0D
+++  //=0D
+++  Private->DnsServer =3D AllocateZeroPool (sizeof (EFI_IPv6_ADDRESS));=0D
+++  if (Private->DnsServer =3D=3D NULL) {=0D
+++    return EFI_OUT_OF_RESOURCES;=0D
+++  }=0D
+++=0D
+++  //=0D
+++  // Intentionally only copy over the first server address.=0D
+++  // To support multiple DNS servers, the `Length` would need to be chang=
+ed to DnsServerLen=0D
+++  //=0D
+++  CopyMem (Private->DnsServer, Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER=
+]->Data, sizeof (EFI_IPv6_ADDRESS));=0D
+++=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
++ /**=0D
++   Handle the DHCPv6 offer packet.=0D
++ =0D
++@@ -1335,6 +1395,7 @@ PxeBcHandleDhcp6Offer (
++   UINT32                    SelectIndex;=0D
++   UINT32                    Index;=0D
++ =0D
+++  ASSERT (Private !=3D NULL);=0D
++   ASSERT (Private->SelectIndex > 0);=0D
++   SelectIndex =3D (UINT32)(Private->SelectIndex - 1);=0D
++   ASSERT (SelectIndex < PXEBC_OFFER_MAX_NUM);=0D
++@@ -1342,15 +1403,13 @@ PxeBcHandleDhcp6Offer (
++   Status =3D EFI_SUCCESS;=0D
 + =0D
 +   //=0D
++-  // First try to cache DNS server address if DHCP6 offer provides.=0D
+++  // First try to cache DNS server addresses if DHCP6 offer provides.=0D
++   //=0D
++   if (Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER] !=3D NULL) {=0D
++-    Private->DnsServer =3D AllocateZeroPool (NTOHS (Cache6->OptList[PXEBC=
+_DHCP6_IDX_DNS_SERVER]->OpLen));=0D
++-    if (Private->DnsServer =3D=3D NULL) {=0D
++-      return EFI_OUT_OF_RESOURCES;=0D
+++    Status =3D PxeBcCacheDnsServerAddresses (Private, Cache6);=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      return Status;=0D
++     }=0D
++-=0D
++-    CopyMem (Private->DnsServer, Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERV=
+ER]->Data, sizeof (EFI_IPv6_ADDRESS));=0D
++   }=0D
++ =0D
++   if (Cache6->OfferType =3D=3D PxeOfferTypeDhcpBinl) {=0D
 +--=20
 +2.40.0
 +
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45231-0002.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45231-0002.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45234-0002.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45234-0002.patch
 new file mode 100644
-index 0000000000..fbc2c4416e
+index 0000000000..4bc7ac16d6
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45231-0002.patch
-@@ -0,0 +1,250 @@
-+From 6f77463d72807ec7f4ed6518c3dac29a1040df9f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45234-0002.patch
+@@ -0,0 +1,485 @@
++From 458c582685fc0e8057d2511c5a0394078d988c17 Mon Sep 17 00:00:00 2001
 +From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:49 +0800
-+Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45231 Unit Te=
-sts
++Date: Fri, 26 Jan 2024 05:54:53 +0800
++Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45234 U=
+nit=20
++ Tests
 +
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4536
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4539
 +
-+Validates that the patch for...
++Unit tests to that the bug..
 +
-+Out-of-bounds read when handling a ND Redirect message with truncated
-+options
++Buffer overflow when processing DNS Servers option in a DHCPv6 Advertise
++message
 +
-+.. has been fixed
++..has been patched
 +
-+Tests the following function to ensure that an out of bounds read does
-+not occur
-+Ip6OptionValidation
++This contains tests for the following functions:
++PxeBcHandleDhcp6Offer
++PxeBcCacheDnsServerAddresses
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -185,31 +293,448 @@ sts
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45231
++CVE: CVE-2023-45234
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/6f7746=
-3d72807ec7f4ed6518c3dac29a1040df9f]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/458c58=
+2685fc0e8057d2511c5a0394078d988c17]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ .../Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.cpp    |  20 +++
-+ .../Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf    |  42 ++++++
-+ .../Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp | 129 ++++++++++++++++++
-+ 3 files changed, 191 insertions(+)
-+ create mode 100644 NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.cpp
-+ create mode 100644 NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
-+ create mode 100644 NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
++ .../GoogleTest/PxeBcDhcp6GoogleTest.cpp       | 300 ++++++++++++++++++
++ .../GoogleTest/PxeBcDhcp6GoogleTest.h         |  50 +++
++ .../GoogleTest/UefiPxeBcDxeGoogleTest.cpp     |  19 ++
++ .../GoogleTest/UefiPxeBcDxeGoogleTest.inf     |  48 +++
++ 4 files changed, 417 insertions(+)
++ create mode 100644 NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTes=
+t.cpp
++ create mode 100644 NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTes=
+t.h
++ create mode 100644 NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleT=
+est.cpp
++ create mode 100644 NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleT=
+est.inf
 +
-+diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.cpp b/NetworkPk=
-g/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.cpp
++diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp b=
+/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
 +new file mode 100644
-+index 0000000000..6ebfd5fdfb
++index 0000000000..8260eeee50
 +--- /dev/null
-++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.cpp
-+@@ -0,0 +1,20 @@
+++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
++@@ -0,0 +1,300 @@
 ++/** @file=0D
-++  Acts as the main entry point for the tests for the Ip6Dxe module.=0D
+++  Host based unit test for PxeBcDhcp6.c.=0D
 ++=0D
+++  Copyright (c) Microsoft Corporation=0D
+++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++**/=0D
+++#include <gtest/gtest.h>=0D
+++=0D
+++extern "C" {=0D
+++  #include <Uefi.h>=0D
+++  #include <Library/BaseLib.h>=0D
+++  #include <Library/DebugLib.h>=0D
+++  #include "../PxeBcImpl.h"=0D
+++  #include "../PxeBcDhcp6.h"=0D
+++  #include "PxeBcDhcp6GoogleTest.h"=0D
+++}=0D
+++=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++// Definitions=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++=0D
+++#define PACKET_SIZE  (1500)=0D
+++=0D
+++typedef struct {=0D
+++  UINT16    OptionCode;   // The option code for DHCP6_OPT_SERVER_ID (e.g=
+., 0x03)=0D
+++  UINT16    OptionLen;    // The length of the option (e.g., 16 bytes)=0D
+++  UINT8     ServerId[16]; // The 16-byte DHCPv6 Server Identifier=0D
+++} DHCP6_OPTION_SERVER_ID;=0D
+++=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++/// Symbol Definitions=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++=0D
+++EFI_STATUS=0D
+++MockUdpWrite (=0D
+++  IN EFI_PXE_BASE_CODE_PROTOCOL      *This,=0D
+++  IN UINT16                          OpFlags,=0D
+++  IN EFI_IP_ADDRESS                  *DestIp,=0D
+++  IN EFI_PXE_BASE_CODE_UDP_PORT      *DestPort,=0D
+++  IN EFI_IP_ADDRESS                  *GatewayIp   OPTIONAL,=0D
+++  IN EFI_IP_ADDRESS                  *SrcIp       OPTIONAL,=0D
+++  IN OUT EFI_PXE_BASE_CODE_UDP_PORT  *SrcPort     OPTIONAL,=0D
+++  IN UINTN                           *HeaderSize  OPTIONAL,=0D
+++  IN VOID                            *HeaderPtr   OPTIONAL,=0D
+++  IN UINTN                           *BufferSize,=0D
+++  IN VOID                            *BufferPtr=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
+++EFI_STATUS=0D
+++MockUdpRead (=0D
+++  IN EFI_PXE_BASE_CODE_PROTOCOL      *This,=0D
+++  IN UINT16                          OpFlags,=0D
+++  IN OUT EFI_IP_ADDRESS              *DestIp      OPTIONAL,=0D
+++  IN OUT EFI_PXE_BASE_CODE_UDP_PORT  *DestPort    OPTIONAL,=0D
+++  IN OUT EFI_IP_ADDRESS              *SrcIp       OPTIONAL,=0D
+++  IN OUT EFI_PXE_BASE_CODE_UDP_PORT  *SrcPort     OPTIONAL,=0D
+++  IN UINTN                           *HeaderSize  OPTIONAL,=0D
+++  IN VOID                            *HeaderPtr   OPTIONAL,=0D
+++  IN OUT UINTN                       *BufferSize,=0D
+++  IN VOID                            *BufferPtr=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
+++EFI_STATUS=0D
+++MockConfigure (=0D
+++  IN EFI_UDP6_PROTOCOL     *This,=0D
+++  IN EFI_UDP6_CONFIG_DATA  *UdpConfigData OPTIONAL=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
+++// Needed by PxeBcSupport=0D
+++EFI_STATUS=0D
+++EFIAPI=0D
+++QueueDpc (=0D
+++  IN EFI_TPL            DpcTpl,=0D
+++  IN EFI_DPC_PROCEDURE  DpcProcedure,=0D
+++  IN VOID               *DpcContext    OPTIONAL=0D
+++  )=0D
+++{=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++// PxeBcHandleDhcp6OfferTest Tests=0D
+++/////////////////////////////////////////////////////////////////////////=
+//////=0D
+++=0D
+++class PxeBcHandleDhcp6OfferTest : public ::testing::Test {=0D
+++public:=0D
+++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
+++  EFI_UDP6_PROTOCOL Udp6Read;=0D
+++  EFI_PXE_BASE_CODE_MODE Mode =3D { 0 };=0D
+++=0D
+++protected:=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
+++    )=0D
+++  {=0D
+++    Private.Dhcp6Request =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET=
+_SIZE);=0D
+++=0D
+++    // Need to setup the EFI_PXE_BASE_CODE_PROTOCOL=0D
+++    // The function under test really only needs the following:=0D
+++    //  UdpWrite=0D
+++    //  UdpRead=0D
+++=0D
+++    Private.PxeBc.UdpWrite =3D (EFI_PXE_BASE_CODE_UDP_WRITE)MockUdpWrite;=
+=0D
+++    Private.PxeBc.UdpRead  =3D (EFI_PXE_BASE_CODE_UDP_READ)MockUdpRead;=0D
+++=0D
+++    // Need to setup EFI_UDP6_PROTOCOL=0D
+++    // The function under test really only needs the following:=0D
+++    //  Configure=0D
+++=0D
+++    Udp6Read.Configure =3D (EFI_UDP6_CONFIGURE)MockConfigure;=0D
+++    Private.Udp6Read   =3D &Udp6Read;=0D
+++=0D
+++    // Need to setup the EFI_PXE_BASE_CODE_MODE=0D
+++    Private.PxeBc.Mode =3D &Mode;=0D
+++=0D
+++    // for this test it doesn't really matter what the Dhcpv6 ack is set =
+to=0D
+++  }=0D
+++=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++    if (Private.Dhcp6Request !=3D NULL) {=0D
+++      FreePool (Private.Dhcp6Request);=0D
+++    }=0D
+++=0D
+++    // Clean up any resources or variables=0D
+++  }=0D
+++};=0D
+++=0D
+++// Note:=0D
+++// Testing PxeBcHandleDhcp6Offer() is difficult because it depends on a=0D
+++// properly setup Private structure. Attempting to properly test this fun=
+ction=0D
+++// without a signficant refactor is a fools errand. Instead, we will test=
+=0D
+++// that we can prevent an overflow in the function.=0D
+++TEST_F (PxeBcHandleDhcp6OfferTest, BasicUsageTest) {=0D
+++  PXEBC_DHCP6_PACKET_CACHE  *Cache6 =3D NULL;=0D
+++  EFI_DHCP6_PACKET_OPTION   Option  =3D { 0 };=0D
+++=0D
+++  Private.SelectIndex =3D 1; // SelectIndex is 1-based=0D
+++  Cache6              =3D &Private.OfferBuffer[Private.SelectIndex - 1].D=
+hcp6;=0D
+++=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER] =3D &Option;=0D
+++  // Setup the DHCPv6 offer packet=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpCode =3D DHCP6_OPT_SERVE=
+R_ID;=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpLen  =3D NTOHS (1337);=0D
+++=0D
+++  ASSERT_EQ (PxeBcHandleDhcp6Offer (&(PxeBcHandleDhcp6OfferTest::Private)=
+), EFI_DEVICE_ERROR);=0D
+++}=0D
+++=0D
+++class PxeBcCacheDnsServerAddressesTest : public ::testing::Test {=0D
+++public:=0D
+++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
+++=0D
+++protected:=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
+++    )=0D
+++  {=0D
+++  }=0D
+++=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++  }=0D
+++};=0D
+++=0D
+++// Test Description=0D
+++// Test that we cache the DNS server address from the DHCPv6 offer packet=
+=0D
+++TEST_F (PxeBcCacheDnsServerAddressesTest, BasicUsageTest) {=0D
+++  UINT8                     SearchPattern[16] =3D { 0xDE, 0xAD, 0xBE, 0xE=
+F, 0xDE, 0xAD, 0xBE, 0xEF, 0xDE, 0xAD, 0xBE, 0xEF, 0xDE, 0xAD, 0xBE, 0xEF }=
+;=0D
+++  EFI_DHCP6_PACKET_OPTION   *Option;=0D
+++  PXEBC_DHCP6_PACKET_CACHE  *Cache6 =3D NULL;=0D
+++=0D
+++  Option =3D (EFI_DHCP6_PACKET_OPTION *)AllocateZeroPool (sizeof (EFI_DHC=
+P6_PACKET_OPTION) + sizeof (SearchPattern));=0D
+++  ASSERT_NE (Option, nullptr);=0D
+++=0D
+++  Option->OpCode =3D DHCP6_OPT_SERVER_ID;=0D
+++  Option->OpLen  =3D NTOHS (sizeof (SearchPattern));=0D
+++  CopyMem (Option->Data, SearchPattern, sizeof (SearchPattern));=0D
+++=0D
+++  Private.SelectIndex                         =3D 1; // SelectIndex is 1-=
+based=0D
+++  Cache6                                      =3D &Private.OfferBuffer[Pr=
+ivate.SelectIndex - 1].Dhcp6;=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER] =3D Option;=0D
+++=0D
+++  Private.DnsServer =3D nullptr;=0D
+++=0D
+++  ASSERT_EQ (PxeBcCacheDnsServerAddresses (&(PxeBcCacheDnsServerAddresses=
+Test::Private), Cache6), EFI_SUCCESS);=0D
+++  ASSERT_NE (Private.DnsServer, nullptr);=0D
+++  ASSERT_EQ (CompareMem (Private.DnsServer, SearchPattern, sizeof (Search=
+Pattern)), 0);=0D
+++=0D
+++  if (Private.DnsServer) {=0D
+++    FreePool (Private.DnsServer);=0D
+++  }=0D
+++=0D
+++  if (Option) {=0D
+++    FreePool (Option);=0D
+++  }=0D
+++}=0D
+++// Test Description=0D
+++// Test that we can prevent an overflow in the function=0D
+++TEST_F (PxeBcCacheDnsServerAddressesTest, AttemptOverflowTest) {=0D
+++  EFI_DHCP6_PACKET_OPTION   Option  =3D { 0 };=0D
+++  PXEBC_DHCP6_PACKET_CACHE  *Cache6 =3D NULL;=0D
+++=0D
+++  Private.SelectIndex                         =3D 1; // SelectIndex is 1-=
+based=0D
+++  Cache6                                      =3D &Private.OfferBuffer[Pr=
+ivate.SelectIndex - 1].Dhcp6;=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER] =3D &Option;=0D
+++  // Setup the DHCPv6 offer packet=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpCode =3D DHCP6_OPT_SERVE=
+R_ID;=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpLen  =3D NTOHS (1337);=0D
+++=0D
+++  Private.DnsServer =3D NULL;=0D
+++=0D
+++  ASSERT_EQ (PxeBcCacheDnsServerAddresses (&(PxeBcCacheDnsServerAddresses=
+Test::Private), Cache6), EFI_DEVICE_ERROR);=0D
+++  ASSERT_EQ (Private.DnsServer, nullptr);=0D
+++=0D
+++  if (Private.DnsServer) {=0D
+++    FreePool (Private.DnsServer);=0D
+++  }=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Test that we can prevent an underflow in the function=0D
+++TEST_F (PxeBcCacheDnsServerAddressesTest, AttemptUnderflowTest) {=0D
+++  EFI_DHCP6_PACKET_OPTION   Option  =3D { 0 };=0D
+++  PXEBC_DHCP6_PACKET_CACHE  *Cache6 =3D NULL;=0D
+++=0D
+++  Private.SelectIndex                         =3D 1; // SelectIndex is 1-=
+based=0D
+++  Cache6                                      =3D &Private.OfferBuffer[Pr=
+ivate.SelectIndex - 1].Dhcp6;=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER] =3D &Option;=0D
+++  // Setup the DHCPv6 offer packet=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpCode =3D DHCP6_OPT_SERVE=
+R_ID;=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpLen  =3D NTOHS (2);=0D
+++=0D
+++  Private.DnsServer =3D NULL;=0D
+++=0D
+++  ASSERT_EQ (PxeBcCacheDnsServerAddresses (&(PxeBcCacheDnsServerAddresses=
+Test::Private), Cache6), EFI_DEVICE_ERROR);=0D
+++  ASSERT_EQ (Private.DnsServer, nullptr);=0D
+++=0D
+++  if (Private.DnsServer) {=0D
+++    FreePool (Private.DnsServer);=0D
+++  }=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Test that we can handle recursive dns (multiple dns entries)=0D
+++TEST_F (PxeBcCacheDnsServerAddressesTest, MultipleDnsEntries) {=0D
+++  EFI_DHCP6_PACKET_OPTION   Option  =3D { 0 };=0D
+++  PXEBC_DHCP6_PACKET_CACHE  *Cache6 =3D NULL;=0D
+++=0D
+++  Private.SelectIndex                         =3D 1; // SelectIndex is 1-=
+based=0D
+++  Cache6                                      =3D &Private.OfferBuffer[Pr=
+ivate.SelectIndex - 1].Dhcp6;=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER] =3D &Option;=0D
+++  // Setup the DHCPv6 offer packet=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpCode =3D DHCP6_OPT_SERVE=
+R_ID;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  addresses[2] =3D {=0D
+++    // 2001:db8:85a3::8a2e:370:7334=0D
+++    { 0x20, 0x01, 0x0d, 0xb8, 0x85, 0xa3, 0x00, 0x00, 0x00, 0x00, 0x8a, 0=
+x2e, 0x03, 0x70, 0x73, 0x34 },=0D
+++    // fe80::d478:91c3:ecd7:4ff9=0D
+++    { 0xfe, 0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xd4, 0x78, 0x91, 0=
+xc3, 0xec, 0xd7, 0x4f, 0xf9 }=0D
+++  };=0D
+++=0D
+++  CopyMem (Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->Data, &addresses,=
+ sizeof (addresses));=0D
+++=0D
+++  Cache6->OptList[PXEBC_DHCP6_IDX_DNS_SERVER]->OpLen =3D NTOHS (sizeof (a=
+ddresses));=0D
+++=0D
+++  Private.DnsServer =3D NULL;=0D
+++=0D
+++  ASSERT_EQ (PxeBcCacheDnsServerAddresses (&(PxeBcCacheDnsServerAddresses=
+Test::Private), Cache6), EFI_SUCCESS);=0D
+++=0D
+++  ASSERT_NE (Private.DnsServer, nullptr);=0D
+++=0D
+++  //=0D
+++  // This is expected to fail until DnsServer supports multiple DNS serve=
+rs=0D
+++  //=0D
+++  // This is tracked in https://bugzilla.tianocore.org/show_bug.cgi?id=3D=
+1886=0D
+++  //=0D
+++  // Disabling:=0D
+++  // ASSERT_EQ (CompareMem(Private.DnsServer, &addresses, sizeof(addresse=
+s)), 0);=0D
+++=0D
+++  if (Private.DnsServer) {=0D
+++    FreePool (Private.DnsServer);=0D
+++  }=0D
+++}=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h b/N=
+etworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
++new file mode 100644
++index 0000000000..b17c314791
++--- /dev/null
+++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
++@@ -0,0 +1,50 @@
+++/** @file=0D
+++  This file exposes the internal interfaces which may be unit tested=0D
+++  for the PxeBcDhcp6Dxe driver.=0D
+++=0D
+++  Copyright (c) Microsoft Corporation.<BR>=0D
+++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++**/=0D
+++=0D
+++#ifndef PXE_BC_DHCP6_GOOGLE_TEST_H_=0D
+++#define PXE_BC_DHCP6_GOOGLE_TEST_H_=0D
+++=0D
+++//=0D
+++// Minimal includes needed to compile=0D
+++//=0D
+++#include <Uefi.h>=0D
+++#include "../PxeBcImpl.h"=0D
+++=0D
+++/**=0D
+++  Handle the DHCPv6 offer packet.=0D
+++=0D
+++  @param[in]  Private             The pointer to PXEBC_PRIVATE_DATA.=0D
+++=0D
+++  @retval     EFI_SUCCESS           Handled the DHCPv6 offer packet succe=
+ssfully.=0D
+++  @retval     EFI_NO_RESPONSE       No response to the following request =
+packet.=0D
+++  @retval     EFI_OUT_OF_RESOURCES  Failed to allocate resources.=0D
+++  @retval     EFI_BUFFER_TOO_SMALL  Can't cache the offer pacet.=0D
+++=0D
+++**/=0D
+++EFI_STATUS=0D
+++PxeBcHandleDhcp6Offer (=0D
+++  IN PXEBC_PRIVATE_DATA  *Private=0D
+++  );=0D
+++=0D
+++/**=0D
+++  Cache the DHCPv6 Server address=0D
+++=0D
+++  @param[in] Private               The pointer to PXEBC_PRIVATE_DATA.=0D
+++  @param[in] Cache6                The pointer to PXEBC_DHCP6_PACKET_CACH=
+E.=0D
+++=0D
+++  @retval    EFI_SUCCESS           Cache the DHCPv6 Server address succes=
+sfully.=0D
+++  @retval    EFI_OUT_OF_RESOURCES  Failed to allocate resources.=0D
+++  @retval    EFI_DEVICE_ERROR      Failed to cache the DHCPv6 Server addr=
+ess.=0D
+++**/=0D
+++EFI_STATUS=0D
+++PxeBcCacheDnsServerAddresses (=0D
+++  IN PXEBC_PRIVATE_DATA        *Private,=0D
+++  IN PXEBC_DHCP6_PACKET_CACHE  *Cache6=0D
+++  );=0D
+++=0D
+++#endif // PXE_BC_DHCP6_GOOGLE_TEST_H_=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleTest.cpp=
+ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleTest.cpp
++new file mode 100644
++index 0000000000..cc4fdf525b
++--- /dev/null
+++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleTest.cpp
++@@ -0,0 +1,19 @@
+++/** @file=0D
+++  Acts as the main entry point for the tests for the UefiPxeBcDxe module.=
+=0D
 ++  Copyright (c) Microsoft Corporation=0D
 ++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
 ++**/=0D
@@ -229,35 +754,39 @@ g/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.cpp
 ++  testing::InitGoogleTest (&argc, argv);=0D
 ++  return RUN_ALL_TESTS ();=0D
 ++}=0D
-+diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf b/NetworkPk=
-g/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
++diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleTest.inf=
+ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleTest.inf
 +new file mode 100644
-+index 0000000000..6e4de0745f
++index 0000000000..301dcdf611
 +--- /dev/null
-++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
-+@@ -0,0 +1,42 @@
+++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/UefiPxeBcDxeGoogleTest.inf
++@@ -0,0 +1,48 @@
 ++## @file=0D
-++# Unit test suite for the Ip6Dxe using Google Test=0D
+++# Unit test suite for the UefiPxeBcDxe using Google Test=0D
 ++#=0D
 ++# Copyright (c) Microsoft Corporation.<BR>=0D
 ++# SPDX-License-Identifier: BSD-2-Clause-Patent=0D
 ++##=0D
 ++[Defines]=0D
-++  INF_VERSION         =3D 0x00010017=0D
-++  BASE_NAME           =3D Ip6DxeUnitTest=0D
-++  FILE_GUID           =3D 4F05D17D-D3E7-4AAE-820C-576D46D2D34A=0D
-++  VERSION_STRING      =3D 1.0=0D
-++  MODULE_TYPE         =3D HOST_APPLICATION=0D
+++INF_VERSION    =3D 0x00010005=0D
+++BASE_NAME      =3D UefiPxeBcDxeGoogleTest=0D
+++FILE_GUID      =3D 77D45C64-EC1E-4174-887B-886E89FD1EDF=0D
+++MODULE_TYPE    =3D HOST_APPLICATION=0D
+++VERSION_STRING =3D 1.0=0D
+++=0D
 ++#=0D
 ++# The following information is for reference only and not required by the=
  build tools.=0D
 ++#=0D
-++#  VALID_ARCHITECTURES           =3D IA32 X64 AARCH64=0D
+++#  VALID_ARCHITECTURES           =3D IA32 X64=0D
 ++#=0D
+++=0D
 ++[Sources]=0D
-++  Ip6DxeGoogleTest.cpp=0D
-++  Ip6OptionGoogleTest.cpp=0D
-++  ../Ip6Option.c=0D
+++  UefiPxeBcDxeGoogleTest.cpp=0D
+++  PxeBcDhcp6GoogleTest.cpp=0D
+++  PxeBcDhcp6GoogleTest.h=0D
+++  ../PxeBcDhcp6.c=0D
+++  ../PxeBcSupport.c=0D
 ++=0D
 ++[Packages]=0D
 ++  MdePkg/MdePkg.dec=0D
@@ -273,174 +802,29 @@ g/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
 ++=0D
 ++[Protocols]=0D
 ++  gEfiDhcp6ServiceBindingProtocolGuid=0D
+++  gEfiDns6ServiceBindingProtocolGuid=0D
+++  gEfiDns6ProtocolGuid=0D
 ++=0D
 ++[Pcd]=0D
 ++  gEfiNetworkPkgTokenSpaceGuid.PcdDhcp6UidType=0D
 ++=0D
 ++[Guids]=0D
 ++  gZeroGuid=0D
-+diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp b/Networ=
-kPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
-+new file mode 100644
-+index 0000000000..f2cd90e1a9
-+--- /dev/null
-++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
-+@@ -0,0 +1,129 @@
-++/** @file=0D
-++  Tests for Ip6Option.c.=0D
-++=0D
-++  Copyright (c) Microsoft Corporation=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++**/=0D
-++#include <gtest/gtest.h>=0D
-++=0D
-++extern "C" {=0D
-++  #include <Uefi.h>=0D
-++  #include <Library/BaseLib.h>=0D
-++  #include <Library/DebugLib.h>=0D
-++  #include "../Ip6Impl.h"=0D
-++  #include "../Ip6Option.h"=0D
-++}=0D
-++=0D
-++/////////////////////////////////////////////////////////////////////////=
-=0D
-++// Defines=0D
-++///////////////////////////////////////////////////////////////////////=0D
-++=0D
-++#define IP6_PREFIX_INFO_OPTION_DATA_LEN    32=0D
-++#define OPTION_HEADER_IP6_PREFIX_DATA_LEN  (sizeof (IP6_OPTION_HEADER) + =
-IP6_PREFIX_INFO_OPTION_DATA_LEN)=0D
-++=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++// Symbol Definitions=0D
-++// These functions are not directly under test - but required to compile=
-=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++UINT32  mIp6Id;=0D
-++=0D
-++EFI_STATUS=0D
-++Ip6SendIcmpError (=0D
-++  IN IP6_SERVICE       *IpSb,=0D
-++  IN NET_BUF           *Packet,=0D
-++  IN EFI_IPv6_ADDRESS  *SourceAddress       OPTIONAL,=0D
-++  IN EFI_IPv6_ADDRESS  *DestinationAddress,=0D
-++  IN UINT8             Type,=0D
-++  IN UINT8             Code,=0D
-++  IN UINT32            *Pointer             OPTIONAL=0D
-++  )=0D
-++{=0D
-++  // ..=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++// Ip6OptionValidation Tests=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++=0D
-++// Define a fixture for your tests if needed=0D
-++class Ip6OptionValidationTest : public ::testing::Test {=0D
-++protected:=0D
-++  // Add any setup code if needed=0D
-++  virtual void=0D
-++  SetUp (=0D
-++    )=0D
-++  {=0D
-++    // Initialize any resources or variables=0D
-++  }=0D
-++=0D
-++  // Add any cleanup code if needed=0D
-++  virtual void=0D
-++  TearDown (=0D
-++    )=0D
-++  {=0D
-++    // Clean up any resources or variables=0D
-++  }=0D
-++};=0D
-++=0D
-++// Test Description:=0D
-++// Null option should return false=0D
-++TEST_F (Ip6OptionValidationTest, NullOptionShouldReturnFalse) {=0D
-++  UINT8   *option   =3D nullptr;=0D
-++  UINT16  optionLen =3D 10; // Provide a suitable length=0D
-++=0D
-++  EXPECT_FALSE (Ip6IsNDOptionValid (option, optionLen));=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// Truncated option should return false=0D
-++TEST_F (Ip6OptionValidationTest, TruncatedOptionShouldReturnFalse) {=0D
-++  UINT8   option[]  =3D { 0x01 }; // Provide a truncated option=0D
-++  UINT16  optionLen =3D 1;=0D
-++=0D
-++  EXPECT_FALSE (Ip6IsNDOptionValid (option, optionLen));=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// Ip6OptionPrefixInfo Option with zero length should return false=0D
-++TEST_F (Ip6OptionValidationTest, OptionWithZeroLengthShouldReturnFalse) {=
-=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D Ip6OptionPrefixInfo;=0D
-++  optionHeader.Length =3D 0;=0D
-++  UINT8  option[sizeof (IP6_OPTION_HEADER)];=0D
-++=0D
-++  CopyMem (option, &optionHeader, sizeof (IP6_OPTION_HEADER));=0D
-++  UINT16  optionLen =3D sizeof (IP6_OPTION_HEADER);=0D
-++=0D
-++  EXPECT_FALSE (Ip6IsNDOptionValid (option, optionLen));=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// Ip6OptionPrefixInfo Option with valid length should return true=0D
-++TEST_F (Ip6OptionValidationTest, ValidPrefixInfoOptionShouldReturnTrue) {=
-=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D Ip6OptionPrefixInfo;=0D
-++  optionHeader.Length =3D 4; // Length 4 * 8 =3D 32=0D
-++  UINT8  option[OPTION_HEADER_IP6_PREFIX_DATA_LEN];=0D
-++=0D
-++  CopyMem (option, &optionHeader, sizeof (IP6_OPTION_HEADER));=0D
-++=0D
-++  EXPECT_TRUE (Ip6IsNDOptionValid (option, IP6_PREFIX_INFO_OPTION_DATA_LE=
-N));=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// Ip6OptionPrefixInfo Option with invalid length should return false=0D
-++TEST_F (Ip6OptionValidationTest, InvalidPrefixInfoOptionLengthShouldRetur=
-nFalse) {=0D
-++  IP6_OPTION_HEADER  optionHeader;=0D
-++=0D
-++  optionHeader.Type   =3D Ip6OptionPrefixInfo;=0D
-++  optionHeader.Length =3D 3; // Length 3 * 8 =3D 24 (Invalid)=0D
-++  UINT8  option[sizeof (IP6_OPTION_HEADER)];=0D
-++=0D
-++  CopyMem (option, &optionHeader, sizeof (IP6_OPTION_HEADER));=0D
-++  UINT16  optionLen =3D sizeof (IP6_OPTION_HEADER);=0D
-++=0D
-++  EXPECT_FALSE (Ip6IsNDOptionValid (option, optionLen));=0D
-++}=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index 957a74aabe..e46b3ddebe 100644
+index fc87cdf441..ac6a0a40e7 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -35,6 +35,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+@@ -39,6 +39,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
 =3Dmaster;protocol=3Dhttps \
-            file://CVE-2022-36764-0003.patch \
-            file://CVE-2023-45230-0001.patch \
-            file://CVE-2023-45230-0002.patch \
-+           file://CVE-2023-45231-0001.patch \
-+           file://CVE-2023-45231-0002.patch \
+            file://CVE-2023-45231-0002.patch \
+            file://CVE-2023-45232-CVE-2023-45233-0001.patch \
+            file://CVE-2023-45232-CVE-2023-45233-0002.patch \
++           file://CVE-2023-45234-0001.patch \
++           file://CVE-2023-45234-0002.patch \
             "
 =20
  PV =3D "edk2-stable202202"
