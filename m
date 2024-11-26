@@ -1,110 +1,91 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8B48D66B84
-	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 22:42:05 +0000 (UTC)
-Received: from mail-oo1-f51.google.com (mail-oo1-f51.google.com [209.85.161.51])
- by mx.groups.io with SMTP id smtpd.web10.59320.1732660918505562968
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1533AD66B84
+	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 23:15:06 +0000 (UTC)
+Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
+ by mx.groups.io with SMTP id smtpd.web11.60334.1732662905624725297
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 14:41:58 -0800
+ Tue, 26 Nov 2024 15:15:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=hQnCV4eZ;
- spf=pass (domain: gmail.com, ip: 209.85.161.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-oo1-f51.google.com with SMTP id 006d021491bc7-5f201a932b2so460195eaf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 14:41:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=CnzweFkQ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-2969ae2c99fso3378492fac.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 15:15:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732660917; x=1733265717; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GPLL1rhmQtciBQ+J9gXjrOWskFcgWK29OgyGE5xMUMs=;
-        b=hQnCV4eZKXVvczgW6kJtJikLdfJXVfoeRiRvNWT38FeW6Xp0yzBfwdUhEdHo85nGb4
-         6iJt9YAwGUSltVualA/Hl5RV0o0XvOwKfw6Uoce173UyyVLtRDE9higYLSMjmSAa+rkZ
-         4UEejUQeh8kiH3GewHOZ+wr+FGmSvOfgUWGFOqhjHfBKjT9cidChINnjZUVniTe7RtrW
-         tc2jSWwnpEevprCljQjmELrHXIr2mTPy8bD0+tEXURNiJyP8B8rGzyCjlVndpA36tCaF
-         YnbPZ9g6VuLWLAe+qX54eO/4fdlcfQjhpelLZrIGI+L1ce0fCAemCCRUzSh/miQnDWL0
-         Unow==
+        d=gmail.com; s=20230601; t=1732662904; x=1733267704; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=5XDcvhPpa+E6OVe5jWQhPPV5UhAQmRjwTslcMsni0cA=;
+        b=CnzweFkQgfpeYwgnd+t5roE4v63ttO18VZ3yspj17+yp7OxYWefvyUzG+RafTolpBD
+         FaJ/WetE9sSsclpxuvTlZGZD1OO2xJEchOd7BEjLK0rgHJkKitqjRemcfOdKOj5HrxtP
+         Nd7RzIS9qvktYV0Ao0OqAmsGO4woacKLgEjVzenUKwnW3S494NIjYKaELP02ZK7E3eS9
+         vE7J6rm5jRFb006SmgszVYqEBfz7mksBOqa+J0tX59Aoi8Vx6wba2q0k+jgSrH652WzI
+         BdLT8WuTjjZiUZ7qrtucEs7VtPBUpo+J7AZpztArSTf4OQFpuxVHZGmbQsko80TRlihI
+         rMuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732660917; x=1733265717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GPLL1rhmQtciBQ+J9gXjrOWskFcgWK29OgyGE5xMUMs=;
-        b=BUZjJqv5PS+CB39ddcG+Y75nIROQsc40reKoBQHlc7TspeSMQLQVo/JkoUDck2dDHu
-         Yyo6LT17vbEsxbmxNvD2akSTAemrDb73TubSg3VTk87DPeFlJ9sf0jN22ZTtkvZspVQi
-         x5JXoq9seF1F+HXMeen6X2ua/YmORn3Db1HDYOot0a5nZjE4AgYwV+xO//fXaq08rywG
-         B3qHIEJqwrE0uIZ4uFPCYjfRgzwWg8Gp8kzKn1EAIb8AmEtPeKMEwgCaBLdYVYhP+lFB
-         qbMjon6mJTESTbsZpvX372v80HJMLqkjWI7cFfi8wBF3e3M3uuNQfHGlOLAY4pG8xlut
-         ma3g==
-X-Gm-Message-State: AOJu0YzTn/GeYFsnWRIUrfEH2SbbzjwuxcSYBgeKB2UiBpq9NHdKfO5r
-	/teB74uT4dWz8wIY5Gx2b7Q43Ji3VoUOrF2DzMqf5kFal0H6ADkwihhVTbTy7A24yu2nn6ed8XN
-	Jb/1IviK24UeQcxudhWy9povh84c=
-X-Gm-Gg: ASbGncvMprqx0w0nYbsxP/Ri5GCSZIIvyojSNiBwZTfeV9VG0t05cX500KPmftM2FY/
-	atRvW+5aOHM6+lrtihqj4BjUR4V49Hw==
-X-Google-Smtp-Source: AGHT+IHd2//59mZFVFmqVDBZ5cJ3lWD4ZjZ01JhtwuiVAoYizftL7SnpJgzOpAGs0ogOxSG2LF8p9vJYMm3AmiRDiPg=
-X-Received: by 2002:a05:6830:f89:b0:710:f375:a6c9 with SMTP id
- 46e09a7af769-71d65c93264mr489761a34.7.1732660917665; Tue, 26 Nov 2024
- 14:41:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732662904; x=1733267704;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5XDcvhPpa+E6OVe5jWQhPPV5UhAQmRjwTslcMsni0cA=;
+        b=M9ihB0RExIUmWPuao1pYjlmplPtvDx11o34t00hybwDeQ/rFTr5i/YVZX5gBnka5cZ
+         JUxcR6E4nkOZJIBT4ZDoCch6bJVtH4NEk7x1Za/yjjWFfbRcI5vooJqJPi4KnDx/Zc6m
+         vBRhG3A9wQCgW+BLDgwjw1G12CwMSZK/2Smdx4Jai3NFDUAwlhxAQvRUeEXecGoHc/kz
+         Dzxofn00PmcQO2/5RJyEyXyl9hCzxNsgtmt49tc6w1fhT0QAhnoacGO3BQCAdqEJRBnw
+         Ga/G1Hoc5qzAAx1n0h4cQ2yPRdy15k6zxaOCmMDQOxdTb8720UvdHPtveDIe6l75Bq6L
+         zU9A==
+X-Gm-Message-State: AOJu0YzyOBA40f2gdI/jfCwvegnu2PejRYAKKdmm3rf1nqxcKCHcWcia
+	ZI2X/0S24MV67fK6GevJhneWX0rbfSAgBzQRDIDZQUolFHE3Jb7kAQoWWg==
+X-Gm-Gg: ASbGncvJS52r50e78AftRhtYV1YrwxpzvrsmX55ZpJ0MlsbNaGVvrt5TVlK9xBhMOB/
+	61+MYe4Jgo4/jrVJibk9Q/VDo+2X0GKFwNyeQhqva1h/9OQeDzoZqzG4E1BjkIXsRPNRiM17rgP
+	n3G83ZkNWUKzTAewRnZrsRSMOR41E60hnuDUBoAVZhYOjgdR3mGHSmQJYP0b6T2mnjhQdUmo732
+	1FmAk6OAqxca4uSIAvr9dt3Oe/6yeaJQOv8ZT3FGUeKCBaf
+X-Google-Smtp-Source: AGHT+IG8NUW1STw486UIg1I2EQuLUsTHc8FvZ4w2TFTgNGCPKTaRBh6SZOOupNHE3EJZ9IzerSTnrA==
+X-Received: by 2002:a05:6870:3329:b0:296:ee2e:a23c with SMTP id 586e51a60fabf-29dc3f9684dmr894624fac.5.1732662903825;
+        Tue, 26 Nov 2024 15:15:03 -0800 (PST)
+Received: from localhost.localdomain ([2601:282:4300:19e0::dc1a])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2971d67c79csm4368549fac.31.2024.11.26.15.15.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 26 Nov 2024 15:15:02 -0800 (PST)
+From: Joshua Watt <jpewhacker@gmail.com>
+X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+Subject: [OE-core][PATCH] lib: oe: license: Add missing import
+Date: Tue, 26 Nov 2024 16:14:58 -0700
+Message-ID: <20241126231458.2858039-1-JPEWhacker@gmail.com>
+X-Mailer: git-send-email 2.47.1
 MIME-Version: 1.0
-References: <20241126214448.2781380-1-JPEWhacker@gmail.com>
-In-Reply-To: <20241126214448.2781380-1-JPEWhacker@gmail.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 26 Nov 2024 14:41:31 -0800
-Message-ID: <CAMKF1sqnZz6CkeE_LgoioUA8fr+GhsCxAHzrG7WFGt18z83BAQ@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] classes/go-vendor: Use UNPACKDIR instead of WORKDIR
-To: JPEWhacker@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 22:42:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207887
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 23:15:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207888
 
-On Tue, Nov 26, 2024 at 1:45=E2=80=AFPM Joshua Watt via lists.openembedded.=
-org
-<JPEWhacker=3Dgmail.com@lists.openembedded.org> wrote:
->
-> modules.txt is provided using file:// in SRC_URI, therefore it will be
-> found in UNPACKDIR instead of WORKDIR
->
-> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/go-vendor.bbclass | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/classes/go-vendor.bbclass b/meta/classes/go-vendor.bbcl=
-ass
-> index 1bbb99ac794..38ea69ab50a 100644
-> --- a/meta/classes/go-vendor.bbclass
-> +++ b/meta/classes/go-vendor.bbclass
-> @@ -156,7 +156,7 @@ python do_go_vendor() {
->                  shutil.copy2(rootdirLicese, subdirLicense)
->
->      # Copy vendor manifest
-> -    modules_txt_src =3D os.path.join(d.getVar('WORKDIR'), "modules.txt")
-> +    modules_txt_src =3D os.path.join(d.getVar('UNPACKDIR'), "modules.txt=
-")
+The code in this file uses oe.qa, but it was not imported resulting an
+an exception when a license error was detected
 
-yes, thanks for fixing it.
+Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/lib/oe/license.py | 1 +
+ 1 file changed, 1 insertion(+)
 
->      bb.debug(1, "cp %s --> %s" % (modules_txt_src, vendor_dir))
->      shutil.copy2(modules_txt_src, vendor_dir)
->
-> --
-> 2.47.1
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207885): https://lists.openembedded.org/g/openembedde=
-d-core/message/207885
-> Mute This Topic: https://lists.openembedded.org/mt/109797450/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index 32c77fa204d..6f882c3812c 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -7,6 +7,7 @@
+ 
+ import ast
+ import re
++import oe.qa
+ from fnmatch import fnmatchcase as fnmatch
+ 
+ def license_ok(license, dont_want_licenses):
+-- 
+2.47.1
+
 
