@@ -1,85 +1,74 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A845D3B980
-	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 11:12:02 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.web11.43799.1732619520729681957
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AF8CD3B985
+	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 11:18:42 +0000 (UTC)
+Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+ by mx.groups.io with SMTP id smtpd.web11.43928.1732619912684288552
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 03:12:01 -0800
+ Tue, 26 Nov 2024 03:18:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F9xqI/zn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4349cc45219so22403575e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 03:12:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UwYo091d;
+ spf=pass (domain: gmail.com, ip: 209.85.219.49, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6d413def36cso45636836d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 03:18:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1732619518; x=1733224318; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=kd+TEWJGNkVz7RX/dvC0ExSZ3Qfh1FmptfFj8murXIg=;
-        b=F9xqI/znE+vc3r+g8QFUuJve6gBqgaTlvepUwoXyiMGiafzvrIpxpPOteroNRv74zB
-         u2W+oOT5zPb577FFYXWFsTWfYeMxfG63olhEHbOHRzbrmjNCK+z3+YkPcs9ya+4087bw
-         sjsT2YLshj26+oQORPhIo15z2I74Jshc33msg=
+        d=gmail.com; s=20230601; t=1732619912; x=1733224712; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RTe6C9BNOd2Pf9X1twb0fOqgQMh/YiXTwkENHpQy54E=;
+        b=UwYo091dJiLF3njTcvZ+NMqHoMbpDun2A8Vgs/P4u8s+E8sl/fKGCGteqp1aZ8QfSS
+         xLxZzg2Zvxln1NoPNpa1N0XABltsSvGolWs9y/ZBk10krIorqGvEkWf/oaCxMaiBZtSt
+         vhv5h9fHJ5yj+BqFgtW2DQuRaKOHfnuzGkBNUrRb8wcCaU7I8kIauDZObRC5IyxMe/r8
+         fFa8tEAtzPD+eD8UKSE9WIuCiUEtvJObS9l2QN4YPNm/9t5/GswCmsPrY5DKPMr+O00o
+         0QkL3O0OjqNhP0tgKQMNHNwh6NQfPjlqwPFF3Yl4dSlnU9Vqmu0rc5sXyKv7CqTDH2m6
+         LEIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732619518; x=1733224318;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kd+TEWJGNkVz7RX/dvC0ExSZ3Qfh1FmptfFj8murXIg=;
-        b=BnQ0ROxCde9aSSUV08O3NFjErf26s2tTWDjeVSRryTVsWj8nLFuDi/NW3RD2R5uZLY
-         wEGYeYPitW+NqWHcf1hRltIhtLpcH9D2It0s6CMRJuV4n9iZWc3gu934DfF89Pjj8aWa
-         /2wcj7RNNdX6+mHAScWe3k3sXFQyYZynIZIazOApxZCFVLYA7rwoMobRbCdWim8b0t2r
-         RYIdfMs+q582J4CgY81PeRiF6qkQ2kzXqrUJFpgmQJqdtKufW8tSQFah2A9RaK48BI6t
-         yS/h5LGoJduf1+7KksauSTbgkmux7Th2OpfUCTX+xTsLMvzqv/L2HmkTyVgqF0JNAzy+
-         4FOg==
-X-Gm-Message-State: AOJu0YxBVr7BHpQLmssDnxLmSso40LL1+p6cnldkskNJqaS3tycmnjI8
-	3J03nDkkaJBUNLRneriyvr7PW4YKpxffk9NDstePGexRsuo4UvXQ6wOwsnPPInPGdtOScWryKLM
-	q
-X-Gm-Gg: ASbGncuhJcO8148vt8KlzE/3ajrtKynJS7/BviBAcZqZf/gkZdeHiIJRszIyqlbZkxA
-	GMCDQcfDKwe82Wd5rl5ybIYykEEL0y0Q7xrZ5+pnSiqnYaRCUxT6cqNIKCQ0C8rtq3eJLw8qkRD
-	8r22ScDFCX9eSUraafrkrBMuuV28SctQ7Uzkm0MSbS9EtmrbzzeC6uwbSCqrBEXXIN9aCdAIOTU
-	hWcu+aUF9OgwziMbjKEJaPce9Ju2aJ6v2GJLg9cgc5IM2HY7fYPrFTsib4lG7+72itOmANBFDLw
-	dfA=
-X-Google-Smtp-Source: AGHT+IE6nskMq3ZuNy/o4so+w8ReoLDK46TcHyUMDXzhiBCCHPej+Rte6E7cvKX3p2Ux6g/++ZVawg==
-X-Received: by 2002:a05:6000:1541:b0:382:22c6:7bcb with SMTP id ffacd0b85a97d-38260b455f0mr13054735f8f.3.1732619518234;
-        Tue, 26 Nov 2024 03:11:58 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:cd02:66d6:ae48:875b])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fbedad6sm12952247f8f.91.2024.11.26.03.11.57
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 03:11:57 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] resulttool/store: Fix permissions of logarchive
-Date: Tue, 26 Nov 2024 11:11:56 +0000
-Message-ID: <20241126111156.3207482-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
+        d=1e100.net; s=20230601; t=1732619912; x=1733224712;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RTe6C9BNOd2Pf9X1twb0fOqgQMh/YiXTwkENHpQy54E=;
+        b=wB8mr0IV5p4YTh1z/h+MeRQhJXG3xG3TiXzhDQhkKM2r83B7jkePUDsSLwMZXtX3Af
+         x9TRPaQXHUaiZmpQJz8aqFLJSE/NaOSXU2czop5VPrJ459myq/hYQu21IJmcGjXLLmqS
+         7Jsg6Zr9KGhOFvoxUWP5eobc7hdPtXfMrFR4HswkmWTsYqqK4woUKSkeUHmDDVKyG/87
+         PhPULFp388OACmfcJJQQowrLhnhmulGkF7WV+/RJnRsu5PA09MI2tT8X2R0pwsxzIcHW
+         k/0We43HKbfNsN+BXdqBK9iWWmb2dIkeWS8efQD14B8YivOTQ6MW3Kw6Epd9hxj3IXoL
+         4FtQ==
+X-Gm-Message-State: AOJu0YwaJv6fdnqF2lFW4Ngp4ARkCJTGhzvgfMuVfyVP3xOIfpJiX2ci
+	JDDz4ZPudfaTP2XhmtHSn4xqzFq/j3wSsG8I2hlOcbD3gkeSp3hluWiHwEwq1Tbq6U3q9w6XFKp
+	gs3DwZRtYeHKGf7615LZO2E5DD0M=
+X-Gm-Gg: ASbGnctexkDWfX6OhKbs6YSyVsU4GvSYeoiOAc9q7mEK1itYxeGyAvl8p9S/9HwroCH
+	hffLiDNqqMBBCxstbXFlx3L3Qp7eepH1J8Yk0Zh0y8aoXRYLs8+yc01AR5sW3tMpNCw==
+X-Google-Smtp-Source: AGHT+IFm6/8IQ4ScDb3E0tlQKMFXjVZyzYHVdJ4YKa6ELT4zKE65qeqVay4JHowRjKuaIrD92deoY0hp9XRxTsWqQaw=
+X-Received: by 2002:ad4:4eec:0:b0:6d4:2226:b05e with SMTP id
+ 6a1803df08f44-6d451374bfemr259708856d6.43.1732619911760; Tue, 26 Nov 2024
+ 03:18:31 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <TYWPR01MB11861AA75103D416B518D1CEEDC2F2@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+In-Reply-To: <TYWPR01MB11861AA75103D416B518D1CEEDC2F2@TYWPR01MB11861.jpnprd01.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 26 Nov 2024 12:18:20 +0100
+Message-ID: <CANNYZj82P1RMCicKPN5z9gvwbcVJgzXrVp7F09UbfFXok0ob-Q@mail.gmail.com>
+Subject: Re: [OE-core] conflict between tcl8 and tcl
+To: wangmy@fujitsu.com
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 11:12:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207846
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 11:18:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207847
 
-We want the results directory to be visable to other users, tweak the
-permissions of the created directory to ensure this is the case.
+On Tue, 26 Nov 2024 at 03:46, wangmy via lists.openembedded.org
+<wangmy=fujitsu.com@lists.openembedded.org> wrote:
+> There're lots of conflicts between tcl8-doc and tcl-doc.
+> Currently considering two modification options:
+> 1. Using priority to resolve the conflict. For example, set the priority of tcl to be high and setting the priority of tcl8 to be low
+> 2. Rename the directory where the conflicting files of tcl8 are located, such as adding the tcl8 version number, to distinguish it from tcl
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- scripts/lib/resulttool/store.py | 1 +
- 1 file changed, 1 insertion(+)
+I think option 2 is a better one. What is the reason for installing both though?
 
-diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
-index 578910d234d..b143334e699 100644
---- a/scripts/lib/resulttool/store.py
-+++ b/scripts/lib/resulttool/store.py
-@@ -87,6 +87,7 @@ def store(args, logger):
-             if args.logfile_archive:
-                 logdir = args.logfile_archive + "/" + tagname
-                 shutil.copytree(tempdir, logdir)
-+                os.chmod(logdir, 0o755)
-                 for root, dirs,  files in os.walk(logdir):
-                     for name in files:
-                         if not name.endswith(".log"):
+Alex
 
