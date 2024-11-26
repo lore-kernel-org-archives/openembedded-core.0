@@ -1,102 +1,96 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <danismostlikely@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BC75D5A6C3
-	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 01:30:28 +0000 (UTC)
-Received: from esa12.hc1455-7.c3s2.iphmx.com (esa12.hc1455-7.c3s2.iphmx.com [139.138.37.100])
- by mx.groups.io with SMTP id smtpd.web10.35682.1732584617878888554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC20ED5A6C5
+	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 01:55:28 +0000 (UTC)
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+ by mx.groups.io with SMTP id smtpd.web10.36124.1732586122724548801
  for <openembedded-core@lists.openembedded.org>;
- Mon, 25 Nov 2024 17:30:23 -0800
+ Mon, 25 Nov 2024 17:55:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=sXNIxChz;
- spf=pass (domain: fujitsu.com, ip: 139.138.37.100, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1732584623; x=1764120623;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references;
-  bh=Fvz27Jme778Qm9NFEgig796HIII7REmKMwPH6ugXVdQ=;
-  b=sXNIxChzjbNksYK/MFYFx1puVLB3Rkg5rcJ2uR4iAJgShrTIRkoCsxH4
-   1c/GIkYItmRJcrcqxO/GIEwaeT/hD0p2blJJrS6SreJAKJ9bOt8leQWL5
-   RAbCF+wpg2620LrifgeeNIeqduKuy38nZ+4ZC1LvXv28wKFrAXdJXp5vi
-   GnWKACUT45Ctcb+4J8fU6kIQ9M2zhNVpjFXvXXZu4Fpg/+0kZLwlyupnE
-   m2+FoF6xM+bfoSE2V6n7rUKdKJBcxE8n0TWg9bWDWjx7OYwtNK6ROj6kn
-   zkX7fLg3R+SiB01xm20MDkDlyyzYQeO4zAHm9iyKXqtdh09VtyBKfr55W
-   g==;
-X-CSE-ConnectionGUID: 50tXgBmRRsaeUcBTzToCkg==
-X-CSE-MsgGUID: THuWIaJrRiquamka/JZW1g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11267"; a="160592040"
-X-IronPort-AV: E=Sophos;i="6.12,184,1728918000"; 
-   d="scan'208";a="160592040"
-Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
-  by esa12.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2024 10:30:21 +0900
-Received: from oym-m3.gw.nic.fujitsu.com (oym-nat-oym-m3.gw.nic.fujitsu.com [192.168.87.60])
-	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 6E141C2260
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 10:30:19 +0900 (JST)
-Received: from kws-ab3.gw.nic.fujitsu.com (kws-ab3.gw.nic.fujitsu.com [192.51.206.21])
-	by oym-m3.gw.nic.fujitsu.com (Postfix) with ESMTP id 06A33D562A
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 10:30:19 +0900 (JST)
-Received: from edo.cn.fujitsu.com (edo.cn.fujitsu.com [10.167.33.5])
-	by kws-ab3.gw.nic.fujitsu.com (Postfix) with ESMTP id 8FE372007B73D
-	for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 10:30:18 +0900 (JST)
-Received: from localhost.localdomain.localdomain (unknown [10.193.128.200])
-	by edo.cn.fujitsu.com (Postfix) with ESMTP id 3F6BE1A006C;
-	Tue, 26 Nov 2024 09:30:18 +0800 (CST)
-From: wangmy@fujitsu.com
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=PxNw3B+o;
+ spf=pass (domain: gmail.com, ip: 209.85.166.169, mailfrom: danismostlikely@gmail.com)
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3a79911ac70so18281035ab.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 25 Nov 2024 17:55:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732586121; x=1733190921; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pQdGz2Pxdg5jiOKF3MdEDLrd6BT+hD249fkAsmu3ev0=;
+        b=PxNw3B+oxBY+oL2z2Q6CGYS736DDPxi7qKINEDZnTucb8FjB1CjWLHvRr6/UqCOHqI
+         fiCvh+QvAvzHVLGcFDEPco02AJl72nY/Y7L+O+BvuJYI9JHom3Y3qJAsbpwBnwwI/l6w
+         iVwAFVdUMw9eV7M6Zt9Wrw5kHvoTt/YJkj4Oy0NfrKYLCBlN0QYGY4F+sQgm3yzj6XFK
+         k2fJ9mQyBkjCRMAarsyjbwoBMo1O/y09Er2h5nuyZdZHDOXYjpfEaYx2s6D5ED03phYE
+         nYAUAPGPd1VgbNPovz5Jwf7eSDDwsoEGBiHTvL0yYE1Kgi5xg4ZlE5/woTr+6qRMILbW
+         TDhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732586121; x=1733190921;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pQdGz2Pxdg5jiOKF3MdEDLrd6BT+hD249fkAsmu3ev0=;
+        b=vruKiUf8FVZVzHz3pg8hXsc57olT0bKpPiI1K2ZINSxS50ugc9ImmvgH9YgkfTEXrq
+         hzWiQgn8xjdEkEzkAabCp71ZdxMyyo4Yao5ZrvZzJJpgoKrBxSjVA/oDAa22u5IQSiEm
+         PTP3XLTrn7FtUfZclKPUUCduqmU77HNmbzX58tCJIaNWPMuWEFqBaWWl/mC9yhdK5ZuH
+         y0rIp11BCytwd7caZYoxNvJepYVxUaEDz9Itc1pHOBKs+BBJIY5eIuS3eh/m8Rr7UJbP
+         IazclZH7PUhk6ZPKPXX+ByC3E3FmFoOZ/MRdcczAKFgBR+U5am8E7UMCi7nqqSydUX0i
+         fNQQ==
+X-Gm-Message-State: AOJu0YwSI6VtOdy7KXlplp679bFIGvaAi+IknL6aFZpuTU8VDWvWTqn7
+	C/F6cxeatlbjuZ9rjzRHTKcOfiK/tYz5hDlInNIlfzkM6//uAb2gAWLXXg==
+X-Gm-Gg: ASbGnctmpW5qsudJcI0FqFbc2ETiZB1Zu9AWW1TAklIaoWaggyfga2mEFb0/jVOEVx8
+	yJxjPGkAc2BeYrc8qn+2myQTXD6Mhoa/LNCSJRLSKbxbtC5CUzCpXbieJcDjNwtDZqqbipCM3LN
+	03aWwRLt0X0rRV/mj666J1+YnRlYjB1P2VGZ4bt+u11FCg3ISbv8dyj7fAT7iSq7lysbFWAWTZ9
+	HYlIighOLYYZ4g0C/Pv09mRZH9F+4S6ooqYP0M6hOliTTV3VX7bGAJqeo/beYhfUTWTyKl1VH21
+	sXx7AQ==
+X-Google-Smtp-Source: AGHT+IFDHtEoKWhyWgp11p2lhlUbR9sKN31Kj8oO3hTbn8i0wgCh6I/ZotGYL02TNrxGB3cSDogmHw==
+X-Received: by 2002:a05:6e02:18ce:b0:3a7:86ab:be6c with SMTP id e9e14a558f8ab-3a79af54861mr174924995ab.15.1732586121597;
+        Mon, 25 Nov 2024 17:55:21 -0800 (PST)
+Received: from nebuchadnezzar.home.dankm.pro ([204.83.204.143])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4e1ebbbe159sm1635698173.161.2024.11.25.17.55.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 25 Nov 2024 17:55:20 -0800 (PST)
+From: Dan McGregor <danismostlikely@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 11/16] python3-hypothesis: upgrade 6.118.6 -> 6.119.4
-Date: Tue, 26 Nov 2024 09:29:57 +0800
-Message-Id: <1732584602-4785-11-git-send-email-wangmy@fujitsu.com>
-X-Mailer: git-send-email 1.8.3.1
-In-Reply-To: <1732584602-4785-1-git-send-email-wangmy@fujitsu.com>
-References: <1732584602-4785-1-git-send-email-wangmy@fujitsu.com>
-X-TM-AS-GCONF: 00
-X-TM-AS-Product-Ver: IMSS-9.1.0.1417-9.0.0.1002-28820.003
-X-TM-AS-User-Approved-Sender: Yes
-X-TMASE-Version: IMSS-9.1.0.1417-9.0.1002-28820.003
-X-TMASE-Result: 10--1.591500-10.000000
-X-TMASE-MatchedRID: 7cZymtcOvx2jz0nOeth/yUIIxwDaU5mrBgA+oehWZhE+++3dUGxY376p
-	xbTOjavy+7QcRaVoa8nGKIf6hBf7VaGGOyqBK41vEXjPIvKd74BzNCdGumZsSZsoi2XrUn/J8m+
-	hzBStanvIM9mETCO70ydET58jp62S2WrH1WkwDOBhe9NW3l1J/4kjW1lnW2bCR3RSXCmBcFsYC+
-	M1fTaZh3Yp+O9wFA+DvZ5kcEmRVstv5LI3/JjpsPECdGE/5jHZS7+RMq/2CK6rA4c7UV2fQpvi2
-	PQO/FFQiz2ujrPVx9yEIU1NtMkm0Q==
-X-TMASE-SNAP-Result: 1.821001.0001-0-1-22:0,33:0,34:0-0
+Cc: Dan McGregor <dan.mcgregor@usask.ca>
+Subject: [PATCH] python3: package tkinter's shared objects
+Date: Mon, 25 Nov 2024 19:55:18 -0600
+Message-ID: <20241126015518.2463257-1-danismostlikely@gmail.com>
+X-Mailer: git-send-email 2.47.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 01:30:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207817
+ <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 01:55:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207824
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Dan McGregor <dan.mcgregor@usask.ca>
 
-Changelog:
- https://hypothesis.readthedocs.io/en/latest/changes.html
+Seems every time python is updated this gets removed. That's likely
+because the tk option can't be enabled in python3-native without
+creating a dependency loop.
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+For now, re-add the tkinter packaging info to the manifest.
+
+Signed-off-by: Dan McGregor <dan.mcgregor@usask.ca>
 ---
- ...hon3-hypothesis_6.118.6.bb => python3-hypothesis_6.119.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.118.6.bb => python3-hypothesis_6.119.4.bb} (91%)
+ meta/recipes-devtools/python/python3/python3-manifest.json | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.118.6.bb b/meta/recipes-devtools/python/python3-hypothesis_6.119.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.118.6.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.119.4.bb
-index f5f7642d67..66e7b2e967 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.118.6.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.119.4.bb
-@@ -13,7 +13,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
- 
--SRC_URI[sha256sum] = "96e7d86034658100f50f3150917bc8a0cf7ea94af49d36efb167cb8e66f035db"
-+SRC_URI[sha256sum] = "1a7d12709c0e96c1d85aca76d1594b34b5958623e00511592eba674acd4f3392"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
+diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b/meta/recipes-devtools/python/python3/python3-manifest.json
+index 4b7f9cc7e33..3ed99b9012d 100644
+--- a/meta/recipes-devtools/python/python3/python3-manifest.json
++++ b/meta/recipes-devtools/python/python3/python3-manifest.json
+@@ -1092,6 +1092,7 @@
+             "core"
+         ],
+         "files": [
++            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_tkinter.*.so",
+             "${libdir}/python${PYTHON_MAJMIN}/tkinter"
+         ],
+         "cached": []
 -- 
-2.34.1
+2.47.0
 
 
