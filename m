@@ -1,122 +1,118 @@
-Return-Path: <tgamblin@baylibre.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A05AD6D23E
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 21:27:03 +0000 (UTC)
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.web10.81988.1732742821340095309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A9CDD6D241
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 21:37:13 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web11.82659.1732743427250167196
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 13:27:01 -0800
+ Wed, 27 Nov 2024 13:37:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=mmyT9JNp;
- spf=pass (domain: baylibre.com, ip: 209.85.222.182, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-7b66ea49407so23887885a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 13:27:01 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=UwLibs+f;
+ spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7fc22a88bcbso85971a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 13:37:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1732742820; x=1733347620; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ikCt4NCAWwzrVlQcArMmIZXKZrGRKXrGuRCw1ObwBWs=;
-        b=mmyT9JNpYH6GMEpKkI07lMu0iBS29UXNr0ATj7A9pMTJ2AQ6LV7dspfWnqPCFJpxwR
-         ZlIt13ZpWrjOWU0bRvZmZnY5pnUEw2D3jYD8PG+df04aWCM/tHo7QWWBHqZUN04dxrp/
-         Gs8P9Qg9dDXm7PdQkOyY+D1Don1amXc1YNM0+Ilk1gwDqVsqY+9eSUOOAV2ukc9hodAJ
-         xuos3B1BOksIRPHNGs/byYadIHaz7n4mBxP2sei45AegGI4FPM8vf2LeHFWXjOCi+p47
-         xdckLY/oOXqG4RZGXJ1zlBD7hlgFNj+riy0HnLSEbPhPx4q7MTUo9TEYMhDq66Ih3Ydv
-         Facg==
+        d=gmail.com; s=20230601; t=1732743426; x=1733348226; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=6zak13zXgPEs7K02prwnJ5o1p6zhppC0gh5jISqkfYQ=;
+        b=UwLibs+fGSJHNgx6gp3YozpNpxO7yAVpIbFuuFgCN93kWss5GYoONj4tSSsbFUkE1J
+         6GHK7QYoFvnRtZiFOBms3dGwKmblGSmFFPYzWwKhD9n5Dal4nDI6zg6FiZjVK5fkBmKJ
+         qzlEBW43SqpA/pFScRh380uSnATTEmc7ox4S0aMKVPvkySgypDACWnU5yovqAGjJrnUX
+         rqq4YSIvU+fCQYSqDh6CHdDCfYakeN9/Cix7oaEk6o4BwP0AUlUOWEn3UQeDqAHZ5JZo
+         qSV9orxSumRKoRpe0tQ9E0P8NtQxUXMYue9pX1HLvxoFaKDj7LDO4Sfx7nEpNSW23SDL
+         I35g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732742820; x=1733347620;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ikCt4NCAWwzrVlQcArMmIZXKZrGRKXrGuRCw1ObwBWs=;
-        b=JQB5NAk16dWZXCT8kVIwtqyHqweowyg7C3sQygbel1lCs4bHOFlNUH1u4no5fWm4xu
-         pQMQNBzZYqAZs3vFmWL0oSZ+5hJxJHqqfYH47I/ph+r3IYoxZaMnDKtGzrvHxTLb0o+S
-         8aIHsHaqVjiiqn3bJKo1Gt7WLrAIOGw4gjupX0ZNRu8prE1MvYcbJQ1pGbfbHR2m+hFc
-         YAhkbGAc1JeVEd3UIVWSHy0SMyRWxEDmRjJmBRMzGD0OmGsD/tE9OjAg9QupU0qBFnPn
-         Ho6lIZNCBI7mkgCa8MBHCpzQX/cfvxLg6Sd02t2eEw+qRgJxqK8U8w/N5bBgGSlr5X2L
-         YwzA==
-X-Gm-Message-State: AOJu0YyduqAEaPwUyqS8/9Of0bdHyCxA9ng5rXEnoSIVTblYEunT0oiG
-	DLn85ZhlzXESGI7tH9VRoS8z3Lh05PLY5GimlONSe+jxIVQZf9Wa5ZAANzvsBJ3I/8grGYD43nH
-	/
-X-Gm-Gg: ASbGnctubyrbGp+FbJhkMN2E85wDOwJTbJZYgfDULi5+AzctcHH+o0kW1Q7XS1KXYo7
-	ICQG8JavVCVyJ0w3TBb1YA+bqOkaWmckfts7h7gRYWDsOLzgBXBOswwpx6QlPvJbFDbz4a+F08I
-	OPD7kor2yMITSVVx5kgmRdfaf8MLwGb2gCEQwppazDBjyhoqfYeUQpc3JlWMQ/bsjtD7422G4h/
-	irlj+CZGtVR1aTmhMrVOBgxM1DPcpYAMJLzC3HgW1FderkdH4FH+PDHFRaEhhoFgh95eI2ntvFU
-	OVwTUYGwYlU0HBwovUCwTv9CcE/ALsY=
-X-Google-Smtp-Source: AGHT+IHWUkqRaKUb7dbbl95/uw7EFvpfT3QZu9WvxwRNEdb/9fKRrRlJzAZvmH2l3jv8eiPiZphaVQ==
-X-Received: by 2002:a05:620a:190f:b0:7a6:75e6:3c21 with SMTP id af79cd13be357-7b68396134dmr144865885a.1.1732742819509;
-        Wed, 27 Nov 2024 13:26:59 -0800 (PST)
-Received: from megalith.oryx-coho.ts.net (d24-150-219-207.home.cgocable.net. [24.150.219.207])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4653c3ed11dsm73972531cf.21.2024.11.27.13.26.58
+        d=1e100.net; s=20230601; t=1732743426; x=1733348226;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6zak13zXgPEs7K02prwnJ5o1p6zhppC0gh5jISqkfYQ=;
+        b=H4/tpVAnM1SQsndxQKyzgHcZMLfx0WJRmOtQxl+ZpY6O8K8fUDwH55/cn0ncCg3QUR
+         JQOBPVPUMqj3SvmORjXRkYvZFcsoUvLkbWDfIymdNv8XqNQoCK/VGq3VguoV893hSpmX
+         huYtGPVh9VLJlcsAflL5ygRxo0ZToTQ0JFxW+D6ICcnCLbEsmYdQHM78NnPuFE2uHPo8
+         +8iLkhbWTBgtXPm7VlFF52R33XTRvMfQ/7nFAnD1spjA5TXxy2bdTbyql1M1ruVkF5cP
+         fwYdkerIsnVL/mXHZzWLZ111hNYqOoyiiUul9otq62ADw2Xl3Me2vvrfFkL59mUqxYjJ
+         Et0A==
+X-Forwarded-Encrypted: i=1; AJvYcCXVDZ8JUFbElHS2R1dHtQ94ctHJeG8Gc4Gee0e5mFsQOJS2966IKmjtB/GZ9hmJF+GBIplYKJ24PhjbFqScxiTO0A==@lists.openembedded.org
+X-Gm-Message-State: AOJu0Yypm5JUclAkbe63E2SNucH7IFZFu1VAzNi5yRwmy0IH75+2zxAA
+	RryG7aqcFcXEkAyTqv4mPvzWMTL1AIucSTf3/DZJQDJ+0MoNZmDm
+X-Gm-Gg: ASbGncst6ETjbP4baZAhqzBiY2aqmBNFbJBf8l0jPK3hEGGQojDrFUt26qFwYYzJ7sZ
+	N1a0XImsttOLsgMk753DurXrH7ClWPELk+FdW3owTHby9AkTzie0jt35hx/Azc6My1t9np5NIh/
+	eX7yGu34NOBMrKn8aqGiO843/LuFCC7AGGZGteWZwivTVqM8lLdUGRrx117ZxrG30ehTgt+TWRn
+	doKnMgaAfbzRBA/v1EyHg8bkxakRFGi0Vl5JTYbg3mvnmXj
+X-Google-Smtp-Source: AGHT+IHITi02QSdJYI8xcmw3g3fv2VjmuLqMixd0RlsC2nl4zCKebYRjwBOIjLXumOYcfCJAS4bGYw==
+X-Received: by 2002:a05:6a21:788a:b0:1db:e358:48a8 with SMTP id adf61e73a8af0-1e0e0ac69a0mr6998801637.10.1732743426394;
+        Wed, 27 Nov 2024 13:37:06 -0800 (PST)
+Received: from hiago-nb ([67.159.246.222])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725417fbaf9sm23685b3a.104.2024.11.27.13.37.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 13:26:59 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Trevor Gamblin <tgamblin@baylibre.com>
-Subject: [OE-core][PATCH v2] python3-numpy: inherit pkgconfig
-Date: Wed, 27 Nov 2024 16:26:56 -0500
-Message-Id: <20241127212656.1195916-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.39.5
+        Wed, 27 Nov 2024 13:37:05 -0800 (PST)
+Date: Wed, 27 Nov 2024 18:37:02 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org,
+	Ross Burton <Ross.Burton@arm.com>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: Re: [OE-core] [PATCH v3 1/3] hwdata: add recipe from
+ meta-openembedded
+Message-ID: <20241127213702.enfxvjc66ckqjhmv@hiago-nb>
+References: <20241126000836.6901-1-hiagofranco@gmail.com>
+ <20241126000836.6901-2-hiagofranco@gmail.com>
+ <CAMKF1spfQeh1i07Wwg5ndJ7uJpQ=Pz1eeCWc1J1KBLUfY78=9A@mail.gmail.com>
+ <20241126121716.eqskoqfleyrn4fgu@hiago-nb>
+ <CANNYZj_-a3mU3z3jqxCqharjZ2pdPubPQi5jH2wko+jejLWu2Q@mail.gmail.com>
+ <20241127191310.34ytvodxrpkf77bu@hiago-nb>
+ <20241127195040.GA20070@denix.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20241127195040.GA20070@denix.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 21:27:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207966
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 21:37:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207967
 
-This was supposed to be added in oe-core commit fd656aaf7fbe
-("python3-numpy: upgrade 1.26.4 -> 2.1.3"), but it somehow got missed in
-the final version of that patch. Add it now to fix possible do_compile
-errors on some systems, due to host paths sneaking into the meson build
-options, e.g.:
+On Wed, Nov 27, 2024 at 02:50:40PM -0500, Denys Dmytriyenko wrote:
+> On Wed, Nov 27, 2024 at 04:13:10PM -0300, Hiago De Franco wrote:
+> > On Tue, Nov 26, 2024 at 01:21:09PM +0100, Alexander Kanavin wrote:
+> > > On Tue, 26 Nov 2024 at 13:17, Hiago De Franco via
+> > > lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
+> > > wrote:
+> > > >
+> > > > On Mon, Nov 25, 2024 at 04:51:37PM -0800, Khem Raj wrote:
+> > > > > Don’t forget to send a patch to remove it from meta-oe once it get merged
+> > > > > into core layer here
+> > > >
+> > > > Sure, thanks. I will do it once this is merged.
+> > > 
+> > > You don't need to wait for that. Khem will take care of not applying
+> > > it too soon.
+> > > 
+> > > Alex
+> > 
+> > Hi Alex, I just saw that Richard merged the patches.
+> > The patch to remove hw-data from meta-oe is here:
+> > https://lore.kernel.org/all/20241127190841.137119-1-hiagofranco@gmail.com/
+> 
+> Hi Hiago,
+> 
+> Just wanted to thank you for listening to and addressing all the review 
+> comments while working through the multiple revisions of your submission.
 
-| Build machine cpu family: x86_64
-| Build machine cpu: x86_64
-| Host machine cpu family: x86_64
-| Host machine cpu: x86_64
-| Target machine cpu family: x86_64
-| Target machine cpu: x86_64
-| Program python3 found: YES (/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux-musl/python3-numpy/2.1.3/recipe-sysroot-native/usr/bin/nativepython3)
-| Did not find pkg-config by name 'pkg-config'
-| Found pkg-config: NO
-| Run-time dependency python found: NO (tried pkgconfig, pkgconfig and sysconfig)
-|
-| ../numpy-2.1.3/meson.build:41:12: ERROR: Python dependency not found
-|
-| A full log can be found at /home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux-musl/python3-numpy/2.1.3/build/meson-logs/meson-log.txt
+Hi Denys, it is my pleasure, thanks for the help!
 
-and notably (meson-log.txt snippet):
+> 
+> Regards,
+> Denys
 
-|x86_64-poky-linux-musl-g++ -m64 -march=core2 -mtune=core2 -msse3 -mfpmath=sse -fstack protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/media/build/poky/build/tmp/work/core2-64-poky-linux-musl/python3-numpy/2.1.3/recipe-sysroot -I/media/build/poky/build/tmp/work/core2-64-poky-linux-musl/python3-numpy/2.1.3/recipe-sysroot/usr/include/python3.13 -I/usr/include/python3.13
-
-A bug has been filed about this and the related gcc issue: https://bugzilla.yoctoproject.org/show_bug.cgi?id=15672
-
-With pkgconfig on the inherit line, all include directives in
-meson-log.txt end up looking something like:
-
-|-I/home/tgamblin/workspace/yocto/poky/build/tmp/work/core2-64-poky-linux-musl/python3-numpy/2.1.3/recipe-sysroot/usr/include/python3.13
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/recipes-devtools/python/python3-numpy_2.1.3.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb b/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-index da75dff1e04..0120bee4390 100644
---- a/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-+++ b/meta/recipes-devtools/python/python3-numpy_2.1.3.bb
-@@ -18,7 +18,7 @@ SRC_URI[sha256sum] = "aa08e04e08aaf974d4458def539dece0d28146d866a39da5639596f492
- GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
- 
--inherit ptest python_mesonpy github-releases cython
-+inherit pkgconfig ptest python_mesonpy github-releases cython
- 
- S = "${WORKDIR}/numpy-${PV}"
- 
--- 
-2.39.5
-
+Cheers,
+Hiago
 
