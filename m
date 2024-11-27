@@ -1,116 +1,86 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <denis@denix.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C3FED6D231
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 19:24:52 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.web10.79614.1732735491751209037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A21D6D233
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 19:50:52 +0000 (UTC)
+Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
+ by mx.groups.io with SMTP id smtpd.web11.80425.1732737047737258690
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 11:24:52 -0800
+ Wed, 27 Nov 2024 11:50:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=Rwp171AS;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20241127192449074349ebcd314c4c01-ladd8l@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20241127192449074349ebcd314c4c01
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 27 Nov 2024 20:24:49 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=SCCdfyc/4k8gjkhRv+K5LtrEdvqvp7829kaGmOdb8jk=;
- b=Rwp171AS/HRMiGmyOrS3I8QekMjCuPQqIrzytyRWo7G+U5CR1e48xfEcly3qx4ZtLF+vAs
- 3AkOgjEC2eOqYAyQfeeglzA1MP+iSid4AzpriXAs6oXeexWUMR/wICaWXbZ6GYLAIEh/Osee
- HdKrlHZxyzBTypqEXBAh56WrA+eG1z3MtMU4PoBYhJRuAD+wcFeYUnVK7h2xuQBJmujzjDS8
- 0SQ2RGIPo6fqRFgdFwYAYNtGwEGtX77oq5M5vFVDLHL9xsvRlx+D3fINfp1INVpChutp3Hat
- 4s3K1umW/di41SHI+HMh6zFUWOHCjUdUehcD8xGkB1YJZxxk+JUU4+DA==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [OE-core][PATCH v3 2/2] default-providers: define keymaps virtual runtime provider
-Date: Wed, 27 Nov 2024 20:23:34 +0100
-Message-Id: <20241127192334.17381-2-peter.marko@siemens.com>
-In-Reply-To: <20241127192334.17381-1-peter.marko@siemens.com>
-References: <20241127172455.15722-1-peter.marko@siemens.com>
- <20241127192334.17381-1-peter.marko@siemens.com>
+ dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
+Received: from localhost (localhost [127.0.0.1])
+	by mailout4.zoneedit.com (Postfix) with ESMTP id CBA9640C8E;
+	Wed, 27 Nov 2024 19:50:46 +0000 (UTC)
+Received: from mailout4.zoneedit.com ([127.0.0.1])
+	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Oirm90ebR6l2; Wed, 27 Nov 2024 19:50:46 +0000 (UTC)
+Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8C0C740A28;
+	Wed, 27 Nov 2024 19:50:41 +0000 (UTC)
+Received: by mail.denix.org (Postfix, from userid 1000)
+	id EC2441640E9; Wed, 27 Nov 2024 14:50:40 -0500 (EST)
+Date: Wed, 27 Nov 2024 14:50:40 -0500
+From: Denys Dmytriyenko <denis@denix.org>
+To: Hiago De Franco <hiagofranco@gmail.com>
+Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
+	Khem Raj <raj.khem@gmail.com>,
+	openembedded-core@lists.openembedded.org,
+	Ross Burton <Ross.Burton@arm.com>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: Re: [OE-core] [PATCH v3 1/3] hwdata: add recipe from
+ meta-openembedded
+Message-ID: <20241127195040.GA20070@denix.org>
+References: <20241126000836.6901-1-hiagofranco@gmail.com>
+ <20241126000836.6901-2-hiagofranco@gmail.com>
+ <CAMKF1spfQeh1i07Wwg5ndJ7uJpQ=Pz1eeCWc1J1KBLUfY78=9A@mail.gmail.com>
+ <20241126121716.eqskoqfleyrn4fgu@hiago-nb>
+ <CANNYZj_-a3mU3z3jqxCqharjZ2pdPubPQi5jH2wko+jejLWu2Q@mail.gmail.com>
+ <20241127191310.34ytvodxrpkf77bu@hiago-nb>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20241127191310.34ytvodxrpkf77bu@hiago-nb>
+User-Agent: Mutt/1.5.20 (2009-06-14)
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 19:24:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207960
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 19:50:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207961
 
-From: Peter Marko <peter.marko@siemens.com>
+On Wed, Nov 27, 2024 at 04:13:10PM -0300, Hiago De Franco wrote:
+> On Tue, Nov 26, 2024 at 01:21:09PM +0100, Alexander Kanavin wrote:
+> > On Tue, 26 Nov 2024 at 13:17, Hiago De Franco via
+> > lists.openembedded.org <hiagofranco=3Dgmail.com@lists.openembedded.or=
+g>
+> > wrote:
+> > >
+> > > On Mon, Nov 25, 2024 at 04:51:37PM -0800, Khem Raj wrote:
+> > > > Don=E2=80=99t forget to send a patch to remove it from meta-oe on=
+ce it get merged
+> > > > into core layer here
+> > >
+> > > Sure, thanks. I will do it once this is merged.
+> >=20
+> > You don't need to wait for that. Khem will take care of not applying
+> > it too soon.
+> >=20
+> > Alex
+>=20
+> Hi Alex, I just saw that Richard merged the patches.
+> The patch to remove hw-data from meta-oe is here:
+> https://lore.kernel.org/all/20241127190841.137119-1-hiagofranco@gmail.c=
+om/
 
-VIRTUAL-RUNTIME_keymaps is defined in busybox init manager and also in
-some package groups. Defining distro features in recipes is wrong.
-Also this is not directly related to init manager.
-So move all these definitions to default-providers.inc
+Hi Hiago,
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
-v2: moved VIRTUAL-RUNTIME_keymaps to default-providers.inc
-v3: no change
+Just wanted to thank you for listening to and addressing all the review=20
+comments while working through the multiple revisions of your submission.
 
- meta/conf/distro/include/default-providers.inc            | 1 +
- meta/conf/distro/include/init-manager-mdev-busybox.inc    | 1 -
- meta/recipes-core/packagegroups/packagegroup-base.bb      | 3 ---
- meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 3 ---
- 4 files changed, 1 insertion(+), 7 deletions(-)
-
-diff --git a/meta/conf/distro/include/default-providers.inc b/meta/conf/distro/include/default-providers.inc
-index b32c4e0d25..506d77811f 100644
---- a/meta/conf/distro/include/default-providers.inc
-+++ b/meta/conf/distro/include/default-providers.inc
-@@ -29,6 +29,7 @@ VIRTUAL-RUNTIME_getopt ?= "util-linux-getopt"
- VIRTUAL-RUNTIME_base-utils ?= "busybox"
- VIRTUAL-RUNTIME_base-utils-hwclock ?= "busybox-hwclock"
- VIRTUAL-RUNTIME_base-utils-syslog ?= "busybox-syslog"
-+VIRTUAL-RUNTIME_keymaps ?= "keymaps"
- 
- #
- # Default recipe providers
-diff --git a/meta/conf/distro/include/init-manager-mdev-busybox.inc b/meta/conf/distro/include/init-manager-mdev-busybox.inc
-index 12091cba68..d9b05e1781 100644
---- a/meta/conf/distro/include/init-manager-mdev-busybox.inc
-+++ b/meta/conf/distro/include/init-manager-mdev-busybox.inc
-@@ -3,5 +3,4 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED:append = " systemd sysvinit"
- VIRTUAL-RUNTIME_dev_manager ??= "busybox-mdev"
- VIRTUAL-RUNTIME_init_manager ??= "busybox"
- VIRTUAL-RUNTIME_initscripts ??= "initscripts"
--VIRTUAL-RUNTIME_keymaps ??= "keymaps"
- VIRTUAL-RUNTIME_login_manager ??= "busybox"
-diff --git a/meta/recipes-core/packagegroups/packagegroup-base.bb b/meta/recipes-core/packagegroups/packagegroup-base.bb
-index 70a1035003..cb9d1f07af 100644
---- a/meta/recipes-core/packagegroups/packagegroup-base.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-base.bb
-@@ -39,9 +39,6 @@ PACKAGES = ' \
-             \
-             '
- 
--# Override by distro if needed
--VIRTUAL-RUNTIME_keymaps ?= "keymaps"
--
- #
- # packagegroup-base contain stuff needed for base system (machine related)
- #
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-index fa06092e27..5cdd161811 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
-@@ -9,9 +9,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
- 
- inherit packagegroup
- 
--# Distro can override the following VIRTUAL-RUNTIME providers:
--VIRTUAL-RUNTIME_keymaps ?= "keymaps"
--
- EFI_PROVIDER ??= "grub-efi"
- 
- SYSVINIT_SCRIPTS = "${@bb.utils.contains('MACHINE_FEATURES', 'rtc', '${VIRTUAL-RUNTIME_base-utils-hwclock}', '', d)} \
--- 
-2.30.2
-
+Regards,
+Denys
 
