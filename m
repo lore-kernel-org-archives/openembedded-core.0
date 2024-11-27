@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E873D5A6DA
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:12:17 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.64675.1732680735264120006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BF1D3B9BD
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:12:27 +0000 (UTC)
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.64678.1732680738477532029
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 20:12:15 -0800
+ Tue, 26 Nov 2024 20:12:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=u8X+GbwY;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7252b5d7b1dso313321b3a.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:15 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sq64G9D+;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7f8b37edeb7so5519046a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680734; x=1733285534; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680738; x=1733285538; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=KbHg2LwIPLRvTFdwdKV44HmOkdogxZMkEjTV7ZUJdhY=;
-        b=u8X+GbwYBBKrRRy9Ke2ZrYoItlMydKcIlFj7bPraM5nZMKV1yURgrTknD4wjazqrT8
-         rvTnRWKVDrYVfk6EI0cIJ6EpS0CFdvB8YWgVkmoSoO+6JO7q4VTW5e1SldGTjwxPWNAW
-         YYtApO5OU2OfIXFVQq9Bu1fYmT6DsiDHPVZnZfi7ynkpg+t6UbW+Eyg7HWDUk7wr/M2J
-         WHUSZgAtBgfxyb6KzYVL+jmD1lQk7zEKwK+hWCSAhq7hDrbA9QA5EVNMjAk10Bn7G2Ov
-         bGL+X2r5Xko72Z1jjcDK0+VGXFX0rFLa3WbbI34ewKrtOBhm1jp/VxlZ93IUQCP7TH7I
-         1Kqw==
+        bh=oSamagVjNvA8/jA2D8jx8hVF1kVQsEeqECk/DpIUGeE=;
+        b=sq64G9D+zTfpMTqeGDpa9H4C2zg8FX8u02MXw7PlPr7/N6D2FeGcx83puBcnZcYBuy
+         /oAu6rG0BawxbeysdjbHTVnjtefuIcqYoFd5cnB8cA/e/Gk205dcpJJamchwKmy10McD
+         snOmNyIskSLOMLCk1JRQ0urcsvzsTYkAmTZzL1HpxMH3fRh1nJY1SPmxW2dwlx6Yf5dH
+         UAIrJNmg7aulV6JgGlXFwJVbmYePYHuNAYCbAOtqSQib5VXNi6C4Kvk8C3SyELPvuNL3
+         wrtxKVu0YT+4QxCeWvWlPFjOERrF9EwkHisUQe49LtFZ5QvrRaYA0fKpFUX68bPPV0yR
+         03bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732680734; x=1733285534;
+        d=1e100.net; s=20230601; t=1732680738; x=1733285538;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=KbHg2LwIPLRvTFdwdKV44HmOkdogxZMkEjTV7ZUJdhY=;
-        b=U9PdclU++o34LmBc3keKqVYBK5WUN2uO7OwnTidjcrvAng1C9P14xiaoPwkZdi5o3e
-         scMH2PVV/znhoqyfqG6iTC1AX7oTBlVvS5LxtEU2thgN6A1JYHS8azWXSe3niXnMKqIr
-         Gxa1gerXQBsTjDPaGH5FNWpK11ZhWFlST3HuJvBDeQAvKjNbdB0OYqthxq13sK1navCB
-         F7m7Me1hdReu63SiN6Bizd4e14csewJIxnjIQg/i/fL+7pgAgPOaIzvmYpo1d6408y2R
-         xr1oTOtVzCJ/luIXNXAttDBxS2sA5c3xvSmWt/9qldYLUPto/q3cFmyIbM3OL6V4Fb35
-         qw3g==
-X-Gm-Message-State: AOJu0Yz83JyEo88L1yjGteM/x3fS618yD4OqcYZb9GZKO/ugQ6RoVCLl
-	lZLqFn4ctcG5UA7YKNFj+0qQlzwSxGkIPbZxQ5SDR9Lm3va2gqva9GaxsFG5QpmOmnNyqkomi/W
-	M
-X-Gm-Gg: ASbGncu0hFcBeQ7eBVpKpKm3lG5UuZ7qdIhmd4jmjrP40iY3tImNOigYTK9A7hXztgq
-	SYn7d96/C4+0XHLl9TRKBzRNPDOtOOdohVMiTVVSdKOg2WC3JN2+b2GdXV+kYFt1I4rMc3AaLi/
-	RL+y2eYjLmOcOl+LzOl+4vVW2ty5tM28ut5kyXxa/hiKvTkGSmecl6j+/2i6f+ahi10jQU8th75
-	FMXfCP977U4nUCnQvaXg07rPFkA3+2jJmCs59c=
-X-Google-Smtp-Source: AGHT+IFThhdzBPsYfPURB0KdAlTZ/yYwDoINklQ/c6txFh75AQst/VQqRHDNRYp0iP9uCR2/TxtwCA==
-X-Received: by 2002:a05:6a00:1747:b0:71e:41a6:a0c6 with SMTP id d2e1a72fcca58-7252fc2100emr2714862b3a.13.1732680734503;
-        Tue, 26 Nov 2024 20:12:14 -0800 (PST)
+        bh=oSamagVjNvA8/jA2D8jx8hVF1kVQsEeqECk/DpIUGeE=;
+        b=k9MPMgvJw5Zy84f7+pO/d04okvUPJ7ERSrASzxfxRPAqkFL/TLClUmfcXxof4q38Ox
+         Fmx2RpmSUk0YYgI8Gntsp6hKlaOjh1EwGf8M0AmSxV+u1bZcd2eil1r/jEcYeFs6+iqF
+         XeOCPdke01Xf48+7QzVrBAgMLYCPvl8HL/306TIjiZ/E4s9VRY7F6RZleNJ+4PGSefho
+         iC9VFBAn4D+hc0Ge8N/u1bkaJZ+VZh2lCOEXxzbs/fbLFS6+I2WX1VgFaxk8Rsv4NuWe
+         lN+p6zHqlDvXZBqRPv9LA8W7FbloWN8GDpkfBaKpVkPdoM9d6sImYaJVvnVmhMtQaIcw
+         1T4Q==
+X-Gm-Message-State: AOJu0YxzQmGriz74H2RwIx52GVkJGDfVowC7tCKpYupmYX8hnlJ+ok5/
+	I5eB04cLRJFqSYao15r05Lqej+KKjkfSMzOeL0EZ91r8fUbQGNQ4nlgWo4g2haTuc/l+wguWDLA
+	9
+X-Gm-Gg: ASbGnctzL60bOactp9lYeqYHLdnGCeMw62JpgVlW0uTlRMe31T5NdrL9Ex6T7xt/oVi
+	ruEbFg+11cJFoN4vHTplkvKxd0GH3cujRQmMiDZmSG0icknNkhRFH+iKHwy94JludMUsB+qGGFx
+	P9OwM9jM6obw+qv3+CDgkVE7zmBw/NC1BqtNhU1AY6DheZjcsYCyJxARID+KbGywq0vRi0mcyr6
+	YHkqeQeyOHtWzEKLGIV44siZPMUagsnEZmOh1o=
+X-Google-Smtp-Source: AGHT+IH/xSV4z7SO4/EeTJdvqMse4jWxv+AMqPOoXm2xeZ5lgKq50uf6yaskMe8GyYRevk1E6lnRmQ==
+X-Received: by 2002:a05:6a20:7349:b0:1e0:c8d9:337a with SMTP id adf61e73a8af0-1e0e0b4b612mr3222800637.27.1732680737698;
+        Tue, 26 Nov 2024 20:12:17 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 20:12:14 -0800 (PST)
+        Tue, 26 Nov 2024 20:12:17 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 15/18] kexec-tools: update COMPATIBLE_HOST because of makedumpfile
-Date: Tue, 26 Nov 2024 20:11:35 -0800
-Message-Id: <6922821ab9a0e72e666e57e4b941e5821503509e.1732680538.git.steve@sakoman.com>
+Subject: [OE-core][styhead 17/18] package_rpm: use zstd's default compression level
+Date: Tue, 26 Nov 2024 20:11:37 -0800
+Message-Id: <9ec8b99470ed744c8eca0b23f99ba54210984080.1732680538.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732680538.git.steve@sakoman.com>
 References: <cover.1732680538.git.steve@sakoman.com>
@@ -65,50 +65,41 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:12:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207909
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:12:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207911
 
-From: Kai Kang <kai.kang@windriver.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-makedumpfile is not compatible with mipsarcho32 and riscv32, so set for
-kexec-tools accordingly.
+zstd uses 3 by default, while 19 is the highest and slowest.
+It's not clear why 19 was picked to begin with, possibly
+I copy-pasted it from rpm's examples without thinking:
+https://git.yoctoproject.org/poky/commit/?h=master-next&id=4a4d5f78a6962dda5f63e9891825c80a8a87bf66
 
-And update packagegroup-core-tools-testapps too.
+This brings significant speedups in rpm's compression step:
+for example compressing webkitgtk takes 11s instead of 36s.
 
-Signed-off-by: Kai Kang <kai.kang@windriver.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 9107d9c09c7dab385c6034778cefadca3613be9c)
+The rpm size increases from 175648k to 234860k. I think it's
+a worthy default tradeoff.
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../packagegroups/packagegroup-core-tools-testapps.bb          | 1 +
- meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb                | 3 +++
- 2 files changed, 4 insertions(+)
+ meta/classes-global/package_rpm.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-index 34af40a43f..180660adab 100644
---- a/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-+++ b/meta/recipes-core/packagegroups/packagegroup-core-tools-testapps.bb
-@@ -13,6 +13,7 @@ inherit packagegroup
- KEXECTOOLS ?= "kexec"
- KEXECTOOLS:e5500-64b ?= ""
- KEXECTOOLS:microblaze ?= ""
-+KEXECTOOLS:mipsarcho32 ?= ""
- KEXECTOOLS:nios2 ?= ""
- KEXECTOOLS:riscv64 ?= ""
- KEXECTOOLS:riscv32 ?= ""
-diff --git a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
-index 2c2901f19e..4edd6b2c65 100644
---- a/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
-+++ b/meta/recipes-kernel/kexec/kexec-tools_2.0.29.bb
-@@ -81,5 +81,8 @@ SYSTEMD_SERVICE:kdump = "kdump.service"
- SECURITY_PIE_CFLAGS:remove = "-fPIE -pie"
+diff --git a/meta/classes-global/package_rpm.bbclass b/meta/classes-global/package_rpm.bbclass
+index ddc4bf3a6a..b2b7fafa17 100644
+--- a/meta/classes-global/package_rpm.bbclass
++++ b/meta/classes-global/package_rpm.bbclass
+@@ -10,7 +10,7 @@ IMAGE_PKGTYPE ?= "rpm"
  
- COMPATIBLE_HOST = '(x86_64.*|i.86.*|arm.*|aarch64.*|powerpc.*|mips.*)-(linux|freebsd.*)'
-+# makedumpfile would not compile on mips/rv32
-+COMPATIBLE_HOST:mipsarcho32 = "null"
-+COMPATIBLE_HOST:riscv32 = "null"
+ RPM = "rpm"
+ RPMBUILD = "rpmbuild"
+-RPMBUILD_COMPMODE ?= "${@'w19T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))}"
++RPMBUILD_COMPMODE ?= "${@'w3T%d.zstdio' % int(d.getVar('ZSTD_THREADS'))}"
  
- INSANE_SKIP:${PN} = "arch"
+ PKGWRITEDIRRPM = "${WORKDIR}/deploy-rpms"
+ 
 -- 
 2.34.1
 
