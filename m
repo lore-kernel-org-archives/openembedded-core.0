@@ -2,130 +2,109 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 975C3D6D235
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 19:59:12 +0000 (UTC)
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
- by mx.groups.io with SMTP id smtpd.web11.80587.1732737548855309138
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A2670D6D236
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 20:00:52 +0000 (UTC)
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+ by mx.groups.io with SMTP id smtpd.web11.80638.1732737648772640950
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 11:59:08 -0800
+ Wed, 27 Nov 2024 12:00:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=bbDJ7KXg;
- spf=pass (domain: gmail.com, ip: 209.85.214.177, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-21260cfc918so484065ad.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 11:59:08 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=erLlarQD;
+ spf=pass (domain: gmail.com, ip: 209.85.210.46, mailfrom: raj.khem@gmail.com)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-71d3e506981so41188a34.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 12:00:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732737547; x=1733342347; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4OHwTOUk2ynTdbld0Knl9EFB1JcfPdz3LjpXtSRgWhE=;
-        b=bbDJ7KXgm7VyK8DxhX/2fDGJZSi3kAvGhxUkF19bcQRkBrbY038iPZvIiQdPKykM5C
-         FjQV3Dw9tIbxY/IxZqqcuUFJo9yLmYmiuqp8NWCT/d1C6+/NNOFW1NQidZr1rF8GEhA0
-         m7VIw2Op8FP3IwZYyasHf3EhNrzPwryx91nQHhSZslSTe1Q4SDH5wyaxYAt+oBgtmkS/
-         4JXMTIr1G+lLQRFIYx+18qItHzhilOzxEiXxMECh7e5KgVlFZpn6zxXE/oKJH/fuDHRg
-         od38uRev84mNXNzLC37NpE28zYQ9Y5/LB1P3fdo24knWEXk3kgr+V7X9wWWIZegG5oko
-         ArKQ==
+        d=gmail.com; s=20230601; t=1732737648; x=1733342448; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=G0tQigcHLLGwNsqh+mKWk5brg6ojQhoQPsvB9M11zaU=;
+        b=erLlarQDTVgoXZhSgURHqJYgH0YUEVjlMYyKsRAO3vCV52SNvd0y5QdMsP0csUB0ji
+         VAihiACT236+63fIYS+BZKWvt0QHA5mpvquH4yLChg4F21FpJZPO3NP8WHbHbVnWkWXA
+         rvzIdZkLXkBryC1ozrCtf0/cXsbXB/zCfx6MkTPE1IrntNAPitgT3KppnKbl5NUZZhXr
+         vg4cpdsSXUwNwuydV2vi2YXGjXEcJNox7wc/UmqEJ2R47V0QI6RYvK2dtWyqqdTRAX99
+         CqCM+izTTYzrHFBuNlZP+q34KrDjTNVXEWHh+lK4xruo5XCoxiJI5ELXZCSjDuTC00ug
+         5gKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732737547; x=1733342347;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4OHwTOUk2ynTdbld0Knl9EFB1JcfPdz3LjpXtSRgWhE=;
-        b=G9dtxptNotoMCLHJ724MQcxVg6XeK3LXzErc7CPW+ZK+x4OJgD+aJzBU+tCFdlA78s
-         7z0YD5mCdlpKbr2PvQEwE01Dmbt7a4hbrG1A+7EPEezCE+f1eYnsG3vnCIrGhN2UuqHn
-         Ts9IVmdiTE0nCJqYD2wcYoNl9spXyM0pAWzpcsv97/BYxBRrNGVoy6NHgkv/+EDqv5Y8
-         dB/uqmiWAPJIVu9MZt1fF+/5S1YHTVcZkR791PiPvsliwVPPURcW4BnhYCckAb5o1h7A
-         E3QkKaSA416TSDGzixeMjfBmMsMHsK45xgxJSSmjkO3cgei8amHwXEIsIRuFVCXU7jMr
-         K6Pg==
-X-Gm-Message-State: AOJu0YwC30JkI+ZK+x5+OyN5PJlQbH8Jt9mA9a2ZmVFdPu+RFh49dwFu
-	JC5j9lWcXv+ewcmLUDePJSIJ+1aBNafQoNJoAZqe2/KE66m/xucLq6mxJsWA
-X-Gm-Gg: ASbGncsu+wlTsl12pMTxN305tNWpQT6q1z7EOFV0BWM4zc0KLEAyhQE3WxD2A6oL4Ag
-	LCEH8VMd6HdGzu5DKdTdtrBqb7p/wtmRHZu+XUMAJ97osDY9UapDRBun5Eysux1KBGFkjO/XYWS
-	WQzfI27bAtzhay7JewpYD67wkHTjOD274UV3fwCL+n4aF8qo6+HnDWX/PsKI6D4JYTnH5J/gAjU
-	Dey9MsPNZt0u8KGh7Oa9bbZp43IsdquPBHdgpqIyNxSw3whf8R+
-X-Google-Smtp-Source: AGHT+IH9paPyu1qhUBLktFoBna5uWcduAHRWWgaK1+A73kPtapGgB1EPZIyoI+K4lZrHlUm1Ey4P9g==
-X-Received: by 2002:a17:902:cf07:b0:20c:5909:cc48 with SMTP id d9443c01a7336-21501b63d18mr60586135ad.40.1732737547040;
-        Wed, 27 Nov 2024 11:59:07 -0800 (PST)
-Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::4338])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dba5a7esm106958465ad.83.2024.11.27.11.59.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 11:59:06 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH v2 1/2] seatd: Create seat user and package systemd service
-Date: Wed, 27 Nov 2024 11:59:03 -0800
-Message-ID: <20241127195904.91647-1-raj.khem@gmail.com>
-X-Mailer: git-send-email 2.47.1
+        d=1e100.net; s=20230601; t=1732737648; x=1733342448;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=G0tQigcHLLGwNsqh+mKWk5brg6ojQhoQPsvB9M11zaU=;
+        b=bctqsWnXJHes26cRNZKY9tSE68tcQ2Zh0sU1qLPgccFtSlFTMISDpkfxeJEW5YMcvh
+         89K3tU668l5M83vDVXfzK1PtzmqPxYvK60g9tGA9DL2orkdVw0zlTCWy5RhJRjsBT+Nf
+         luMVWndV5YaWx5BVGrcuRDef35ezoxBH3XX7DLzqHp8bjaaccNeLCpjK6o6pggAza1CK
+         dmMRaeNIsyXri2zyOj71tnK/VguiRSNw2OxKF0YhcrW4Dr4eWVR1tUHN5E2xKj976G4b
+         5n3rj4Xg+RalN0omXvUIKu/rYT5lwDKr0vPqneOKGNazprArYmDr40cGXfUb4Q6sENI/
+         k2bw==
+X-Gm-Message-State: AOJu0Yz3LnTwCmBYKk82eTMlFo6YD6iKckPjZbIyEvi0ExhB4R08viLf
+	QL97WW5PQv2A6uQkk7DJFM9R/fTglndx9xZ+owMZlFiLxLYqgq5sgfqi2UaOn531YLsE35wMwJF
+	2zNxAljTIoI0pxxdN37iUJdyXXdzq9wed
+X-Gm-Gg: ASbGncvVTGpkJxeOQZqh8yoAPWPsiUKebYNAoPNrcgkmUfU52923GIv2J9LKHiUjE7s
+	nIq58BeNtY1poXH2Ftgv69Fgn83avDg==
+X-Google-Smtp-Source: AGHT+IGl3IbMkk3DnjlxxCV92CKSgoBkpzIuMB2Ju3++7es5DyN2XoK9BrQ0XeEMqTeMsgltENdgTaMx78h6VSg8vCg=
+X-Received: by 2002:a05:6830:43a1:b0:710:f3cb:5b9d with SMTP id
+ 46e09a7af769-71d65d28523mr4070117a34.24.1732737646906; Wed, 27 Nov 2024
+ 12:00:46 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20241127005121.683644-1-raj.khem@gmail.com> <20241127005121.683644-2-raj.khem@gmail.com>
+ <6251c0723200d0c0a3f3d49a6477a10c4de9a9f1.camel@linuxfoundation.org>
+In-Reply-To: <6251c0723200d0c0a3f3d49a6477a10c4de9a9f1.camel@linuxfoundation.org>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Wed, 27 Nov 2024 12:00:21 -0800
+Message-ID: <CAMKF1srA=K=2ky23m_pfPy7eymc2WzES7MnS3DfGpRhBHADuNQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 2/2] weston-init: Make weston user member of
+ seat group
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 19:59:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207963
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 20:00:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207964
 
-With latest version seatd does not work properly if
-user access permissions are not correctly set, therefore
-create 'seat' group and package the seatd.service file
-and enable it by default with systemd distro feature
+On Wed, Nov 27, 2024 at 3:45=E2=80=AFAM Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
+>
+> On Tue, 2024-11-26 at 16:51 -0800, Khem Raj via lists.openembedded.org wr=
+ote:
+> > This enables weston launch to access the seatd socket
+> > /run/seatd.sock to communicate properly to acquire seat
+> >
+> > Signed-off-by: Khem Raj <raj.khem@gmail.com>
+> > ---
+> >  meta/recipes-graphics/wayland/weston-init.bb | 3 +--
+> >  1 file changed, 1 insertion(+), 2 deletions(-)
+> >
+> > diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipe=
+s-graphics/wayland/weston-init.bb
+> > index 3de697ec34e..52ffba336aa 100644
+> > --- a/meta/recipes-graphics/wayland/weston-init.bb
+> > +++ b/meta/recipes-graphics/wayland/weston-init.bb
+> > @@ -102,6 +102,5 @@ FILES:${PN} +=3D "\
+> >  CONFFILES:${PN} +=3D "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir=
+}/default/weston"
+> >
+> >  SYSTEMD_SERVICE:${PN} =3D "weston.service weston.socket"
+> > -USERADD_PARAM:${PN} =3D "--home /home/weston --shell /bin/sh --user-gr=
+oup -G video,input,render,wayland weston"
+> > +USERADD_PARAM:${PN} =3D "--home /home/weston --shell /bin/sh --user-gr=
+oup -G video,input,render,seat,wayland weston"
+> >  GROUPADD_PARAM:${PN} =3D "-r wayland; -r render"
+> > -
+> >
+>
+>
+> https://valkyrie.yoctoproject.org/#/builders/3/builds/558/steps/11/logs/s=
+tdio
+>
 
-set logind to systemd when using systemd as default init system
+yeah saw that in my CI as well overnight, I have sent a v2 to address it.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
----
-v2: Use seat group instead of video group in init file
-
- meta/recipes-core/seatd/seatd/init     |  2 +-
- meta/recipes-core/seatd/seatd_0.9.1.bb | 11 +++++++++--
- 2 files changed, 10 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-core/seatd/seatd/init b/meta/recipes-core/seatd/seatd/init
-index 0589c765ac7..405000c16f3 100644
---- a/meta/recipes-core/seatd/seatd/init
-+++ b/meta/recipes-core/seatd/seatd/init
-@@ -15,7 +15,7 @@ killproc() {
- 
- case "$1" in
-   start)
--        seatd -g video -n 1 > /tmp/seatd-start-notify &
-+        seatd -g seat -n 1 > /tmp/seatd-start-notify &
-         [ -s /tmp/seatd-start-notify ] && exit 0
-         sleep 0.1
-         [ -s /tmp/seatd-start-notify ] && exit 0
-diff --git a/meta/recipes-core/seatd/seatd_0.9.1.bb b/meta/recipes-core/seatd/seatd_0.9.1.bb
-index 8da57acc567..8ee43a3dc8f 100644
---- a/meta/recipes-core/seatd/seatd_0.9.1.bb
-+++ b/meta/recipes-core/seatd/seatd_0.9.1.bb
-@@ -11,7 +11,7 @@ SRC_URI = "git://git.sr.ht/~kennylevinsen/seatd;protocol=https;branch=master \
- SRCREV = "566ffeb032af42865dc1210e48cec08368059bb9"
- S = "${WORKDIR}/git"
- 
--inherit meson pkgconfig update-rc.d
-+inherit meson pkgconfig systemd update-rc.d useradd
- 
- # https://www.openwall.com/lists/musl/2020/01/20/3
- CFLAGS:append:libc-musl:powerpc64le = " -Wno-error=overflow"
-@@ -22,14 +22,21 @@ PACKAGECONFIG ?= " \
- "
- 
- PACKAGECONFIG[libseat-builtin] = "-Dlibseat-builtin=enabled,-Dlibseat-builtin=disabled"
--PACKAGECONFIG[systemd] = ",,systemd"
-+PACKAGECONFIG[systemd] = "-Dlibseat-logind=systemd,,systemd"
- 
- do_install:append() {
-         if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
-                 install -Dm755 ${UNPACKDIR}/init ${D}/${sysconfdir}/init.d/seatd
-+        else
-+                install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${systemd_unitdir}/system/seatd.service
-         fi
- }
- 
-+USERADD_PACKAGES = "${PN}"
-+GROUPADD_PARAM:${PN} = "-r seat"
-+
- INITSCRIPT_NAME = "seatd"
- INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
- INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
-+
-+SYSTEMD_SERVICE:${PN} = "seatd.service"
+> Cheers,
+>
+> Richard
+>
 
