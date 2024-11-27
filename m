@@ -1,131 +1,82 @@
-Return-Path: <archana.polampalli@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B163D609C0
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 09:24:59 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.67973.1732699490969758252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FDD4D609CD
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 10:13:39 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.web11.68781.1732702408624302562
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 01:24:51 -0800
+ Wed, 27 Nov 2024 02:13:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=10610f3413=archana.polampalli@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AR80Ppe023954
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 09:24:50 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 433618cb0s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 09:24:49 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 27 Nov 2024 01:24:48 -0800
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 01:24:47 -0800
-From: <archana.polampalli@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [oe-core][kirkstone][PATCH 5/5] ffmpeg: fix CVE-2024-7055
-Date: Wed, 27 Nov 2024 09:24:38 +0000
-Message-ID: <20241127092438.760275-5-archana.polampalli@windriver.com>
-X-Mailer: git-send-email 2.40.0
-In-Reply-To: <20241127092438.760275-1-archana.polampalli@windriver.com>
-References: <20241127092438.760275-1-archana.polampalli@windriver.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bK75zMoa;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-434a7ee3d60so3500885e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 02:13:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1732702406; x=1733307206; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=OM27RBoltvYjh7nLtGJ3R+mkJrsPBizbWWabfDUgAMw=;
+        b=bK75zMoaRa7sYyMlKED7JRR8A9o1JqdwdwfVTZ459c/L/D7T1+tkvipYpXl/VHSoGb
+         ofDWlyrvqznlBN4U+9gH1yMejk/XfmlglP36pF6fVbFXjbzvwHRofkGMellbyW3Bp3o4
+         9CZRYp+O84Md2qwSelcFQzfILuEC5eLQ64m+o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732702406; x=1733307206;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OM27RBoltvYjh7nLtGJ3R+mkJrsPBizbWWabfDUgAMw=;
+        b=Y6vqzQEuh1hoWSChkwm6bUkjaIOps4VruYw5SYZSK/OXKl/V2ARm2kFl+q4LbkDx5m
+         wciNMuV2fkXUOr3wmdBrnD2Onb/NwvHFl+AKztLEGEN92WBWPcTQTdFAGy494ygfIE1z
+         Gt04INhfHFDOveKM/Hae7uLDlbo1AfHTVpQO+O0PolpWWGu5J2b5klLLWn0jT/SZepmv
+         5ZaQcMA04OMnqJGIbeoh1tVAD8Ze2uK7z8fWBzSNgF5VZvSLNHTxA8NMbq6cUZ0oAZxP
+         YknYIL9a7wF1v4+d6TkgI2fsqG1elKVVgS6KWUpQNKZ9FyE4N7nNAVXeVdmqyBoDiu3y
+         OCOQ==
+X-Gm-Message-State: AOJu0Yxg2YnCU7ygAIZnE9W56YhOmBzvT0G0fM0/xz7ABzbweREhRooC
+	54Yoz4WqSE5dXlaIOnvKFvo4Zv2CLAhM5F8yeGcROPjUwr8TObmh6iws/Nl58BwBMxn9dfJvPdk
+	f
+X-Gm-Gg: ASbGncszbIswUGehF5/W9yfcalc9JGpclIHoN94bng8zO+z2tsrpJVB/CtU3MdEhKke
+	5SCWCx7kap/xB+Gvzwk2ehcCMCI/7gkux1AUI3wL91uzVQpl+OGi86ylG6RK1xGFwweGJnyweX0
+	d7GWTwdSqJjeQhV4MIcASXSyMVN1dkoLtsW/SfeHR0VkmazRo07oadd+av+42ELY320Rb6sChtr
+	DPcsBIRrxHfWt/TdxTtM1DXAT5bzkLSTsEyjMvWX4S7RIbazLuNeXEagwOMvPD/ugdhB0CXpgcd
+	Ag==
+X-Google-Smtp-Source: AGHT+IH01ZgjmOSekye2Vv+X9xdJQz2rNtfpZXnp0x7ZYbPdp3bk4MUV3G8S14SdkJp+wUR5JmKT7A==
+X-Received: by 2002:a5d:6d09:0:b0:37c:f561:1130 with SMTP id ffacd0b85a97d-385c6828cafmr1741945f8f.18.1732702406099;
+        Wed, 27 Nov 2024 02:13:26 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d8f2:574:7ade:5a68])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3825fbed85bsm15874598f8f.90.2024.11.27.02.13.24
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Nov 2024 02:13:25 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] selftest/static-group: Add seat
+Date: Wed, 27 Nov 2024 10:13:24 +0000
+Message-ID: <20241127101324.3335729-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: C6ewsrGcgq6X5hpZjoBA8pHoTZug6Hed
-X-Proofpoint-GUID: C6ewsrGcgq6X5hpZjoBA8pHoTZug6Hed
-X-Authority-Analysis: v=2.4 cv=O65rvw9W c=1 sm=1 tr=0 ts=6746e561 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=NIfUrUhfAAAA:8 a=emhf11hzAAAA:8 a=t7CeM3EgAAAA:8 a=xEbhLbR42Mu_ZiyaIJsA:9 a=HLUCug_QN4oeKp6PugZw:22
- a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-11-27_04,2024-11-26_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 suspectscore=0
- clxscore=1015 mlxscore=0 bulkscore=0 mlxlogscore=999 spamscore=0
- priorityscore=1501 lowpriorityscore=0 adultscore=0 malwarescore=0
- impostorscore=0 classifier=spam authscore=0 adjust=0 reason=mlx
- scancount=1 engine=8.21.0-2409260000 definitions=main-2411270077
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 09:24:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207922
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:13:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207923
 
-From: Archana Polampalli <archana.polampalli@windriver.com>
+With a group added to the seatd recipe, we need an entry in our
+static group file for selftest.
 
-A vulnerability was found in FFmpeg up to 7.0.1. It has been classified as critical.
-This affects the function pnm_decode_frame in the library /libavcodec/pnmdec.c.
-The manipulation leads to heap-based buffer overflow. It is possible to initiate
-the attack remotely. The exploit has been disclosed to the public and may be used.
-Upgrading to version 7.0.2 is able to address this issue. It is recommended to upgrade
-the affected component. The associated identifier of this vulnerability is VDB-273651.
-
-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../ffmpeg/ffmpeg/CVE-2024-7055.patch         | 38 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch
+ meta-selftest/files/static-group | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch
-new file mode 100644
-index 0000000000..0a573330a2
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2024-7055.patch
-@@ -0,0 +1,38 @@
-+From 5372bfe01e4a04357ab4465c1426cf8c6412dfd5 Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Thu, 18 Jul 2024 21:12:54 +0200
-+Subject: [PATCH 4/4] avcodec/pnmdec: Use 64bit for input size check
-+
-+Fixes: out of array read
-+Fixes: poc3
-+
-+Reported-by: VulDB CNA Team
-+Found-by: CookedMelon
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+(cherry picked from commit 3faadbe2a27e74ff5bb5f7904ec27bb1f5287dc8)
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+
-+CVE: CVE-2024-7055
-+
-+Upstream-Status: Backport [https://git.videolan.org/?p=ffmpeg.git;a=commitdiff;h=5372bfe01e4a04357ab4465c1426cf8c6412dfd5]
-+
-+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
-+---
-+ libavcodec/pnmdec.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libavcodec/pnmdec.c b/libavcodec/pnmdec.c
-+index 01f9dad..1b3f20a 100644
-+--- a/libavcodec/pnmdec.c
-++++ b/libavcodec/pnmdec.c
-+@@ -256,7 +256,7 @@ static int pnm_decode_frame(AVCodecContext *avctx, void *data,
-+         }
-+         break;
-+     case AV_PIX_FMT_GBRPF32:
-+-        if (avctx->width * avctx->height * 12 > s->bytestream_end - s->bytestream)
-++        if (avctx->width * avctx->height * 12LL > s->bytestream_end - s->bytestream)
-+             return AVERROR_INVALIDDATA;
-+         scale = 1.f / s->scale;
-+         if (s->endian) {
-+--
-+2.40.0
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-index 8e0fc090ac..7b03b7cbc0 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
-@@ -39,6 +39,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://CVE-2023-47342.patch \
-            file://CVE-2023-50007.patch \
-            file://CVE-2023-51796.patch \
-+           file://CVE-2024-7055.patch \
-           "
- 
- SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
--- 
-2.40.0
-
+diff --git a/meta-selftest/files/static-group b/meta-selftest/files/static-group
+index f7a66de24de..441123e2c55 100644
+--- a/meta-selftest/files/static-group
++++ b/meta-selftest/files/static-group
+@@ -27,3 +27,4 @@ render:x:527:
+ sgx:x:528:
+ ptest:x:529:
+ xuser:x:530:
++seat:x:531:
 
