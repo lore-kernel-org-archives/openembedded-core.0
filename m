@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E4E9ED6D221
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5BDAD6D224
 	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 18:50:21 +0000 (UTC)
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.web11.79043.1732733413575275983
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+ by mx.groups.io with SMTP id smtpd.web11.79047.1732733419436883398
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 10:50:13 -0800
+ Wed, 27 Nov 2024 10:50:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lZ4JjxBN;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-724d23df764so103944b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:50:13 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Kb334IUq;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.179, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-723f37dd76cso103333b3a.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:50:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732733413; x=1733338213; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732733419; x=1733338219; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=cSIK5jpwpMDWv2Y6LShrZtrxBaoWOfT5QXYtaGzLr+U=;
-        b=lZ4JjxBNOQWm6/by1oHdvb+uyuB02ble09K0jha6QaGNPQCBRPk4yQOnbcCCVl1RLm
-         F410aIp3JRNH6i9Eg11AGeK1i0CBu0xwqHmL35PEp92nSl71eZgaFE/dDdLoepHdY+SL
-         JDB7WZrPljmXrx7JFuuiwL4Lynf9TradrtJ6Cm05DpTW/cJnHXVnt25VAafix53RGcyn
-         MqKOqNNjO+GCjzayCOhWY4ly/4b4W/3ZQ+bowoUWbO62qlZQJBkIYP28YNY6wd5xkFNt
-         VT2XS/kZ/5n7BUs/LbxWC85SaPrbw2LOElYZmJ/S84ccAaXHw1VVJyBLydWU60KlGdmt
-         tndw==
+        bh=XWWaUv2S0ZFtwcxnhN4KxEwoAgYmfiuky8uvvv0AJwk=;
+        b=Kb334IUq3ztsoG9VaUGgT1SzIhMZ8pRH/Yt75RHyG7i6qn9Hv4s3YcQBSt1+HqhNIP
+         7UpzC9W9AahshVPW9dtfPQ1fkkidMln2aWFckGRlObaHwmeX3Kxa0wzoQVh/P78L0ci9
+         kro+sVHhoR0Zpt2qd37Fb8W9tHZuyb2pBB3gryslMwQ893f8QoRSOYY8T7M80aG7sFhr
+         sJrKXjntlJNigbceLbCiWdQj+lJrjIP47psSNNL5Owqp5qSKqiOa4csmWV7a+5NStKJk
+         oGVOIK4yeposWz6iyzP61/eqE3ffIIQ+/8PDDC21naQpzsiyD/tkDc6FbgmitIrZJJxa
+         nzAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732733413; x=1733338213;
+        d=1e100.net; s=20230601; t=1732733419; x=1733338219;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cSIK5jpwpMDWv2Y6LShrZtrxBaoWOfT5QXYtaGzLr+U=;
-        b=DwWFE+0hjlxidnhm5TsktgTkcWokmEdApit9n8x91DA5miP0It0JrjSBZr+47xdTW2
-         FzF8VCsxUQyz1C0nhbvPCF50oSNR66Dz3L32xRb2G4L1hIBtZ2K37/bz5Lsp1EWmIY18
-         Z4PC3cyF7g38DydGun5ozl+FJC+UICdG0agAqqq1J7XemoUfL+0GOeOiGWUbSnzntW4a
-         sKvllLCSTni6DUhrHXjEF5bKS2HEYhnKBf70tf6Qi0o0qZHiTxPGI/WSNElz6HOWiUSZ
-         LBf9QDYE/YsB/8hWT1e5rEerpA/VgCNPUweBRzW5Piu8/1UgyQTNEZDCPy+Z5QSa4RcS
-         MOhg==
-X-Gm-Message-State: AOJu0Yw8RdAMY1pYzvhLy2V3KChNEHE7xorSG0BNTDtV6LBDSZbpibLO
-	P/rcxaeb9QRCQLU4zHURffFfhp2PAOUrOEMcATq6Tk4zBpZo1Pkk3wFIaByLGZ9omWebzBwJtMJ
-	t
-X-Gm-Gg: ASbGncuOhLtSBiLNEwwhXDonX/3TellHSlbodqRBfGnafFOi007xt0OewQ+X1fFKRd5
-	MnwHomH6AlXloL6kbKnmVHzX8lz1uFktqwv4oT+P/4bnr6IzPzLBJTmVVNefGN5u8AnGYFfM4CG
-	Oz80kNFN7wbkFFmpIz3oHsUfQ7MARTYJR91QaSP6jxbBYMFG8i+jKqTpYTrijkRIHpyW9PVGCX8
-	C1N4z8A5shVfwHOT3NZmH8PFwYOro61dJj3w8M=
-X-Google-Smtp-Source: AGHT+IGp1I4vq6eNTn9eZFcedMEYeOyi60ccEjkraomiFZqRpLt6sC6NvrUFX+NrYSIriX9T5Scu6Q==
-X-Received: by 2002:a05:6a00:3d0c:b0:71e:6ef2:6c11 with SMTP id d2e1a72fcca58-72530045bd6mr4968411b3a.9.1732733412654;
-        Wed, 27 Nov 2024 10:50:12 -0800 (PST)
+        bh=XWWaUv2S0ZFtwcxnhN4KxEwoAgYmfiuky8uvvv0AJwk=;
+        b=aBKCCoNLjm7nLlOfq8jqcJaG7kfScBwOBvaE2TvN/CcHbrCG+3poP7S+6Gn/PH+9s0
+         IKUIzC+B4SmqwjoJPcyDkCbusHeYZ+MlG+ZascerBWCDpLE7RtqlhH7zIZ/slMQwHEA6
+         uMYpZOv9muH0y7btArPmTMfqWg8Wsbe/uFWc68sr/nqSK3mxgiRJEAi82ZLWOYlcnhti
+         B807iWuzAF7fb7wW4tTfHfQBhJ6LsSq6PgEVNs2mc6dYJ9hlXf/ouSqR9qrHXD93Li+z
+         9s7BcSbj09PpApf2z3R+zBmfvXlSQ6ZxvwFZnEa2Sngpauynj0tk+TbemGZ9qhkmEyHs
+         PPDQ==
+X-Gm-Message-State: AOJu0YxPJpUcw+5NeQIRBe4NqHLNheRysKQblqo2PiQOuz+/v2aVJgN8
+	cuRPpS1/7MZrT41aM1Bb/w75embW+NXm4+JOOaDY7v1M5F7PxgBhkDEbp43O1TxZNt8oVP7e13x
+	y
+X-Gm-Gg: ASbGncvN1v1iD2WMvoVS18X607ffBRvOsc/VmR5VArVkVgphJPC0xyyooStkXiHV+b8
+	FNm/Xhb2zjmBYcDLi2DSq3yGVf0vClWA2JBaRkhmMvb+dRu13gBnJx5lR9i+wl9Nb+IbrH5hqrP
+	rnR2WptjiXmi+eYPwro6mVgOgajhdcSNrrd/4x/tEVJz+tL/WSRTXs9fMSQ3FbBConP872gM/CD
+	2kpEpbEB1MC83mgNrCGVK6HXxFUf1icnC3pGKU=
+X-Google-Smtp-Source: AGHT+IELRJBKcsRXLftfkfPN6//V2rlVRP+WPcvf3mCRv3IFn7QJi/4u8FA9aomAOvR6oYES6yM+fw==
+X-Received: by 2002:a05:6a00:b47:b0:725:99f:9732 with SMTP id d2e1a72fcca58-72530041cd1mr5547516b3a.13.1732733418634;
+        Wed, 27 Nov 2024 10:50:18 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72522e0375asm3403519b3a.94.2024.11.27.10.50.12
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72522e0375asm3403519b3a.94.2024.11.27.10.50.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 10:50:12 -0800 (PST)
+        Wed, 27 Nov 2024 10:50:18 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 01/14] python3-pip: fix CVE-2023-5752
-Date: Wed, 27 Nov 2024 10:49:54 -0800
-Message-Id: <862c0338fba06077a26c775b49f993eac63762c9.1732733274.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/14] ffmpeg: fix CVE-2023-51798
+Date: Wed, 27 Nov 2024 10:49:58 -0800
+Message-Id: <b6c00d2c64036b2b851cdbb3b6efd60bc839fa5b.1732733274.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732733274.git.steve@sakoman.com>
 References: <cover.1732733274.git.steve@sakoman.com>
@@ -66,90 +66,85 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 18:50:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207943
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207947
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-When installing a package from a Mercurial VCS URL (ie "pip install
-hg+...") with pip prior to v23.3, the specified Mercurial revision could
-be used to inject arbitrary configuration options to the "hg clone" call
-(ie "--config"). Controlling the Mercurial configuration can modify how
-and which repository is installed. This vulnerability does not affect
-users who aren't installing from Mercurial.
+Buffer Overflow vulnerability in Ffmpeg v.N113007-g8d24a28d06 allows a local attacker
+to execute arbitrary code via a floating point exception (FPE) error at
+libavfilter/vf_minterpolate.c:1078:60 in interpolate.
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-5752
-
-Upstream patches:
-https://github.com/pypa/pip/pull/12306/commits/389cb799d0da9a840749fcd14878928467ed49b4
-
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- .../python/python3-pip/CVE-2023-5752.patch    | 34 +++++++++++++++++++
- .../python/python3-pip_22.0.3.bb              |  8 +++--
- 2 files changed, 39 insertions(+), 3 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch
+ .../ffmpeg/ffmpeg/CVE-2023-51798.patch        | 45 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51798.patch
 
-diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch b/meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51798.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51798.patch
 new file mode 100644
-index 0000000000..ef66a59021
+index 0000000000..6250486c05
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch
-@@ -0,0 +1,34 @@
-+From b16dd80c50deaa4753045d93ed281d348509293f Mon Sep 17 00:00:00 2001
-+From: Pradyun Gedam <pradyunsg@users.noreply.github.com>
-+Date: Sun, 1 Oct 2023 14:10:25 +0100
-+Subject: [PATCH] Use `-r=...` instead of `-r ...` for hg
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-51798.patch
+@@ -0,0 +1,45 @@
++From c9e6162554cc7d04a56e2edd1f6f1479c6f8b62f Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sat, 30 Dec 2023 02:51:32 +0100
++Subject: [PATCH] avfilter/vf_minterpolate: Check pts before division
 +
-+This ensures that the resulting revision can not be misinterpreted as an
-+option.
++Fixes: FPE
++Fixes: tickets/10758/poc20ffmpeg
 +
-+Upstream-Status: Backport
-+[https://github.com/pypa/pip/pull/12306/commits/389cb799d0da9a840749fcd14878928467ed49b4]
++Discovered by Zeng Yunxiang
 +
-+CVE: CVE-2023-5752
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++(cherry picked from commit 68146f06f852078866b3ef1564556e3a272920c7)
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
 +
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++CVE: CVE-2023-51798
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/c9e6162554cc7d04a56e2edd1f6f1479c6f8b62f]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 +---
-+ src/pip/_internal/vcs/mercurial.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ libavfilter/vf_minterpolate.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
 +
-+diff --git a/src/pip/_internal/vcs/mercurial.py b/src/pip/_internal/vcs/mercurial.py
-+index 2a005e0..e440c12 100644
-+--- a/src/pip/_internal/vcs/mercurial.py
-++++ b/src/pip/_internal/vcs/mercurial.py
-+@@ -31,7 +31,7 @@ class Mercurial(VersionControl):
-+ 
-+     @staticmethod
-+     def get_base_rev_args(rev: str) -> List[str]:
-+-        return [rev]
-++        return [f"-r={rev}"]
-+ 
-+     def fetch_new(
-+         self, dest: str, url: HiddenText, rev_options: RevOptions, verbosity: int
-+-- 
-+2.25.1
++diff --git a/libavfilter/vf_minterpolate.c b/libavfilter/vf_minterpolate.c
++index 97d0e96..9296e67 100644
++--- a/libavfilter/vf_minterpolate.c
+++++ b/libavfilter/vf_minterpolate.c
++@@ -1078,8 +1078,13 @@ static void interpolate(AVFilterLink *inlink, AVFrame *avf_out)
++     pts = av_rescale(avf_out->pts, (int64_t) ALPHA_MAX * outlink->time_base.num * inlink->time_base.den,
++                                    (int64_t)             outlink->time_base.den * inlink->time_base.num);
 +
-diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-index 6e28b87ba3..28eab9c3de 100644
---- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
-@@ -34,9 +34,11 @@ LIC_FILES_CHKSUM = "\
++-    alpha = (pts - mi_ctx->frames[1].avf->pts * ALPHA_MAX) / (mi_ctx->frames[2].avf->pts - mi_ctx->frames[1].avf->pts);
++-    alpha = av_clip(alpha, 0, ALPHA_MAX);
+++    if (mi_ctx->frames[2].avf->pts > mi_ctx->frames[1].avf->pts) {
+++        alpha = (pts - mi_ctx->frames[1].avf->pts * ALPHA_MAX) / (mi_ctx->frames[2].avf->pts - mi_ctx->frames[1].avf->pts);
+++        alpha = av_clip(alpha, 0, ALPHA_MAX);
+++    } else {
+++        av_log(ctx, AV_LOG_DEBUG, "duplicate input PTS detected\n");
+++        alpha = 0;
+++    }
++
++     if (alpha == 0 || alpha == ALPHA_MAX) {
++         av_frame_copy(avf_out, alpha ? mi_ctx->frames[2].avf : mi_ctx->frames[1].avf);
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+index 80a4e5b96f..b8bd77972b 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+@@ -35,6 +35,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2024-31582.patch \
+            file://CVE-2024-31578.patch \
+            file://CVE-2023-51794.patch \
++           file://CVE-2023-51798.patch \
+           "
  
- inherit pypi python_setuptools_build_meta
- 
--SRC_URI += "file://0001-change-shebang-to-python3.patch"
--SRC_URI += "file://no_shebang_mangling.patch"
--SRC_URI += "file://reproducible.patch"
-+SRC_URI += "file://0001-change-shebang-to-python3.patch \
-+            file://no_shebang_mangling.patch \
-+            file://reproducible.patch \
-+            file://CVE-2023-5752.patch \
-+           "
- 
- SRC_URI[sha256sum] = "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c5349d70aa581b333d0"
- 
+ SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
 -- 
 2.34.1
 
