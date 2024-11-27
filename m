@@ -1,86 +1,93 @@
-Return-Path: <denis@denix.org>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0A21D6D233
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 19:50:52 +0000 (UTC)
-Received: from mailout4.zoneedit.com (mailout4.zoneedit.com [64.68.198.64])
- by mx.groups.io with SMTP id smtpd.web11.80425.1732737047737258690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 975EDD6D236
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 19:59:12 +0000 (UTC)
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.80586.1732737548651363071
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 11:50:48 -0800
+ Wed, 27 Nov 2024 11:59:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: denix.org, ip: 64.68.198.64, mailfrom: denis@denix.org)
-Received: from localhost (localhost [127.0.0.1])
-	by mailout4.zoneedit.com (Postfix) with ESMTP id CBA9640C8E;
-	Wed, 27 Nov 2024 19:50:46 +0000 (UTC)
-Received: from mailout4.zoneedit.com ([127.0.0.1])
-	by localhost (zmo14-pco.easydns.vpn [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id Oirm90ebR6l2; Wed, 27 Nov 2024 19:50:46 +0000 (UTC)
-Received: from mail.denix.org (pool-100-15-87-159.washdc.fios.verizon.net [100.15.87.159])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mailout4.zoneedit.com (Postfix) with ESMTPSA id 8C0C740A28;
-	Wed, 27 Nov 2024 19:50:41 +0000 (UTC)
-Received: by mail.denix.org (Postfix, from userid 1000)
-	id EC2441640E9; Wed, 27 Nov 2024 14:50:40 -0500 (EST)
-Date: Wed, 27 Nov 2024 14:50:40 -0500
-From: Denys Dmytriyenko <denis@denix.org>
-To: Hiago De Franco <hiagofranco@gmail.com>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	openembedded-core@lists.openembedded.org,
-	Ross Burton <Ross.Burton@arm.com>,
-	Hiago De Franco <hiago.franco@toradex.com>
-Subject: Re: [OE-core] [PATCH v3 1/3] hwdata: add recipe from
- meta-openembedded
-Message-ID: <20241127195040.GA20070@denix.org>
-References: <20241126000836.6901-1-hiagofranco@gmail.com>
- <20241126000836.6901-2-hiagofranco@gmail.com>
- <CAMKF1spfQeh1i07Wwg5ndJ7uJpQ=Pz1eeCWc1J1KBLUfY78=9A@mail.gmail.com>
- <20241126121716.eqskoqfleyrn4fgu@hiago-nb>
- <CANNYZj_-a3mU3z3jqxCqharjZ2pdPubPQi5jH2wko+jejLWu2Q@mail.gmail.com>
- <20241127191310.34ytvodxrpkf77bu@hiago-nb>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zrw7lWff;
+ spf=pass (domain: gmail.com, ip: 209.85.214.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-2128383b86eso593595ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 11:59:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1732737548; x=1733342348; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fF2uGsGMOUadHoG3HTDFPl9W3TZuViS91e4qkLTwOo8=;
+        b=Zrw7lWffm0VStiYkiGEN/Q0LxupF5VslFELIuqhsJ7GJwXrjWHwuVU4VPgIR4ww5sc
+         H/IjVV6jSULq4mq0rzUp0n3RtV9/OCAKrbRiJc+IvSvMH8oO6Bnk+J5/6+Mm6WiD5v2q
+         w8gm2hh0xw2+UZnoNd2A2HmnzkCK8qaqAh4GAhF3lUgkmx4UJ+JlGoUxXWG0cf5/ByHk
+         PbYn3mSCWLUTXzJ2yEcvWhxlwSlMgtYOg3i5MBomjmgKS+agsH73jomiftQ8m6X+HiG7
+         5Vmn9Lg5rfoXZJtIjLyZuTjAZwVva5XBOw66RHL+bfQGB+tgEY1KGBjRJV8cJJNG1d0/
+         L2BA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1732737548; x=1733342348;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fF2uGsGMOUadHoG3HTDFPl9W3TZuViS91e4qkLTwOo8=;
+        b=lKZlQ8dHvE0GKG5QpCZ5VosrNJZoGJY1ebjexT6BJcWSRp6SLJ1Rppk4/4cqSZuOqP
+         XBBWxwyomAS0m+PCR4lKHxAHJ6MsSOdzlzAAR747BWfcwRZ3YmPeV4c4Yo1xcVfCLY+X
+         cpjjVNUyJmpsFtpkh2KQil6dB9RNstvImbFU3d+Tn3HfUAza65u+/wDBQ1WT9krxOyAi
+         UyzXgJrnSmdfzm6XrpDLIhKHP1fCeFHr45qjMNVAOxqsX9GlirGSe5CSuIPQZ2Sc5c+7
+         MahQP0uNQidg81vHVwClXsIl7+tyoJNMRLreffLO+CiZ+YH523e0MA+/EY/RWSsjqFSX
+         GPfA==
+X-Gm-Message-State: AOJu0YxWVCxuOGBqH5pWEYNgbGLkOsRuOfkQNiTiLG9eYN/jNLzAui16
+	Cw7gRJdh49wdppSML7BTRCY5z5gyoI5uTB9xLDNPa6x/HyMRtQmN67txOZrp
+X-Gm-Gg: ASbGncttivIMrY1StR5qN0aHEinMUscYX6uq8OEJe1H3K5A25Y7aEzD+nqNenJtuk8j
+	4CdIZ+ykEZitLL0wZoyeMQUbpv6gBMcf9mXtJSHn+sUX9U4DjBfGATZEK5kSgbGawGnZGowW9Vb
+	jCqUZNzTW/JR4JDppOHnY6lBNXEQ7pvr9cN+m0CjnotHax1/P0KPjYnYUjur+CsMH3dGjeWLqPf
+	Q8nt3edPBlioAB7vEFv8Pr+HeVJSjbKJeDeLCWgVHYV9m8oHf4C
+X-Google-Smtp-Source: AGHT+IE/dJ1Va08iALTpypyDsVIFbUseMFx40Zu63XHsJlko0q4e9JsoAF+6Dw+8pLpwmMKYgD5HBA==
+X-Received: by 2002:a17:902:db03:b0:211:ef94:7a92 with SMTP id d9443c01a7336-21501d58398mr41347025ad.55.1732737547786;
+        Wed, 27 Nov 2024 11:59:07 -0800 (PST)
+Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::4338])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dba5a7esm106958465ad.83.2024.11.27.11.59.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 27 Nov 2024 11:59:07 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH v2 2/2] weston-init: Make weston user member of seat group
+Date: Wed, 27 Nov 2024 11:59:04 -0800
+Message-ID: <20241127195904.91647-2-raj.khem@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20241127195904.91647-1-raj.khem@gmail.com>
+References: <20241127195904.91647-1-raj.khem@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20241127191310.34ytvodxrpkf77bu@hiago-nb>
-User-Agent: Mutt/1.5.20 (2009-06-14)
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 19:50:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207961
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 19:59:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207962
 
-On Wed, Nov 27, 2024 at 04:13:10PM -0300, Hiago De Franco wrote:
-> On Tue, Nov 26, 2024 at 01:21:09PM +0100, Alexander Kanavin wrote:
-> > On Tue, 26 Nov 2024 at 13:17, Hiago De Franco via
-> > lists.openembedded.org <hiagofranco=3Dgmail.com@lists.openembedded.or=
-g>
-> > wrote:
-> > >
-> > > On Mon, Nov 25, 2024 at 04:51:37PM -0800, Khem Raj wrote:
-> > > > Don=E2=80=99t forget to send a patch to remove it from meta-oe on=
-ce it get merged
-> > > > into core layer here
-> > >
-> > > Sure, thanks. I will do it once this is merged.
-> >=20
-> > You don't need to wait for that. Khem will take care of not applying
-> > it too soon.
-> >=20
-> > Alex
->=20
-> Hi Alex, I just saw that Richard merged the patches.
-> The patch to remove hw-data from meta-oe is here:
-> https://lore.kernel.org/all/20241127190841.137119-1-hiagofranco@gmail.c=
-om/
+This enables weston launch to access the seatd socket
+/run/seatd.sock to communicate properly to acquire seat
 
-Hi Hiago,
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+v2: Create seat group as well
 
-Just wanted to thank you for listening to and addressing all the review=20
-comments while working through the multiple revisions of your submission.
+ meta/recipes-graphics/wayland/weston-init.bb | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-Regards,
-Denys
+diff --git a/meta/recipes-graphics/wayland/weston-init.bb b/meta/recipes-graphics/wayland/weston-init.bb
+index 3de697ec34e..5723655a9bb 100644
+--- a/meta/recipes-graphics/wayland/weston-init.bb
++++ b/meta/recipes-graphics/wayland/weston-init.bb
+@@ -102,6 +102,5 @@ FILES:${PN} += "\
+ CONFFILES:${PN} += "${sysconfdir}/xdg/weston/weston.ini ${sysconfdir}/default/weston"
+ 
+ SYSTEMD_SERVICE:${PN} = "weston.service weston.socket"
+-USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input,render,wayland weston"
+-GROUPADD_PARAM:${PN} = "-r wayland; -r render"
+-
++USERADD_PARAM:${PN} = "--home /home/weston --shell /bin/sh --user-group -G video,input,render,seat,wayland weston"
++GROUPADD_PARAM:${PN} = "-r wayland; -r render; -r seat"
 
