@@ -1,659 +1,507 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F15BD5A6DA
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:12:27 +0000 (UTC)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com [209.85.167.179])
- by mx.groups.io with SMTP id smtpd.web10.64676.1732680737600218897
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E9867E6ADF9
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 05:29:37 +0000 (UTC)
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+ by mx.groups.io with SMTP id smtpd.web10.65537.1732685372638667024
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 20:12:17 -0800
+ Tue, 26 Nov 2024 21:29:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=eChMxnW7;
- spf=softfail (domain: sakoman.com, ip: 209.85.167.179, mailfrom: steve@sakoman.com)
-Received: by mail-oi1-f179.google.com with SMTP id 5614622812f47-3ea5a7a5e48so815905b6e.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:17 -0800 (PST)
+ dkim=pass header.i=@mvista.com header.s=google header.b=ASqldqFe;
+ spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: hprajapati@mvista.com)
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-21271dc4084so57857255ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 21:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680737; x=1733285537; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=IMpUc/7W4lnpBdDrByKnhx8eqgmwGDX++OhKioT2ahM=;
-        b=eChMxnW7KUT7aPkm2OVxEDlgxo6lI+TsTLhHYhenebq/C7dl6FvoOM9JNxt2qJ5sX0
-         1G9/5gfjJpOMvgqOCYCR5kaOhCr2mmbQBWKQyFEh5vfHS8Qa2x9HUkIClYUZcM4YglCZ
-         uCfh/E5wyS4BOLAXSuaIGHJ26jw5XpOKyfLxG7zWTKUepWRnFp3ov3WXC8gZBAMjGAVh
-         Zra7HTCZPtmCo0s1rVq+uOtAoB12xk72UETyYNWoE6OGP5M9+UXmoIjBptM83+ErGiXH
-         O1Z1e/nk5JYf2D9Gysg4/icQlRYZA23dhfrPpyZxlbzQuqrHdqx0ixFk8uHWB47bszjA
-         IXIw==
+        d=mvista.com; s=google; t=1732685372; x=1733290172; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ke+QHpSYgHG52olMth5uEDPeKBWnUK931EtBnWlAJw8=;
+        b=ASqldqFe1jyPF2odOzgQ5ChFHF4akYYRktm1Xn6qAIPs+LPU0g+fo9HwO2dbusxS+3
+         lp83abLuo42vpj4YYdabc/sEUYMfEc8247rYm4rzfUWGt0Psq8QcC1JTc0pBuKrAHQqm
+         SoNDYstRt4CeDJmSivliaalQQJvKNnw0J+vHY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732680737; x=1733285537;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IMpUc/7W4lnpBdDrByKnhx8eqgmwGDX++OhKioT2ahM=;
-        b=mfBz4MHT/fXDCZgIyTtPwYiMJwf3LqaIwPQxP4p2qUhdFvZ6JGDeZU8uP0W16xGhXv
-         M8R5egW46TJmYF31lfp5tbcNrZiq1ViemOH4LaeTuIzZFtQnSPlLIFIQDsr+eCYK3RBD
-         MhznWUcbtgLg5xNscUeR93PMvKEJ/+fet5DzfsCKYIdiMWYvnQIgSV5dv3AFtN/rB4hz
-         VsUeY9+fO+bwKjEasGznyz6cd28EHW3zML0WHk8oNTbjnIcXtHLrlrKlstu3m5xAqux3
-         Mg+snaAu2vkCT/ByQgzBq2y23p+1EwMeAF1RY6E+wOk5xnsZday1QmCz1maOIttqIoqk
-         okHQ==
-X-Gm-Message-State: AOJu0YynoTOmoW4VBSj2Sk81sGw2PtYH106ZHowcK/xlaQJ0Q9HALGKk
-	ZSAFLkEEOsbB5oa6jn7fHLpvFtjKMO6ft0xvCGTLpjbQe+Zu00S72VufMR6KUnIR+paIDB+XISh
-	1
-X-Gm-Gg: ASbGncsSdqKe+2e1W+a3FRlf83tNsX/CtothB0eomhNY10AE04xt/6FbxlMPvDtpQQL
-	3qib1oadCAIjopkT/fY0e4RWW4St8YaBrg4sECJuHZ6AxuUBEjxZ+J6dDljhjSPi1uUIazY2eXC
-	hbZwoEeVvj0nfYdSwEn2EpMWhVSHlCrdNKaW1j7BSpEn1IfNUuAKe9lLlZ1ARiqZwvEpS2rHTvU
-	+GkJT9S/hoc9He9ZPIgizJg1I3gXxHszksXBXw=
-X-Google-Smtp-Source: AGHT+IEDPFeNyH5gMw646HBvaUprTsQ5umDFw6BWJgfXlKy6CVoSFH45nLVSnK1DwwEWNOzOo0CkhA==
-X-Received: by 2002:a05:6808:2219:b0:3e6:60dc:5aee with SMTP id 5614622812f47-3ea6db8721cmr1530730b6e.3.1732680736227;
-        Tue, 26 Nov 2024 20:12:16 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.15
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1732685372; x=1733290172;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ke+QHpSYgHG52olMth5uEDPeKBWnUK931EtBnWlAJw8=;
+        b=c5gM5Zh35ZsdsVvTCLssXr9ErxtDG8mfhOfbzM/fFJr4qlhsm08RgVzwiUcgX6NK+0
+         MxpUTxStFJQN5md2iIhWFPSNJOoSQxsqftYPc8uaRhrsbsS6B/JnBNJE727BJkik/GE3
+         nAIGx/5cjtiN0EnPp8zSoMav3DjkDBFzH31DlC5yrAzG+wiipiySMFTXlqpwqWIGBpq3
+         pPq80fG0VYBohuL5aCiQZXJ9vlW9uJ5xcr7f3uPEQA0wQ0fRGXb15QuIU1+R0FXH+Gfp
+         R9nPZEcfsgjaCZcTkFCkbalvMJF03DltUSWK5w8SMzwl92hKxg8g49bQPkFcxp/sXOQq
+         NTNw==
+X-Gm-Message-State: AOJu0YyuzZ8bSYBeV9c/nRmrQT01r07aew5z0v/S62sp2RAkr8PTIH9r
+	k4omIkn7QpgcV/p87JZQ3d2KnAxNfokXYbwk37ybDVHVbe1WT9DMErKBFjA6QTztlEs5FEq2l3W
+	L
+X-Gm-Gg: ASbGncsPFEazcwoZiAcHcSiJFyDy7hAGp9cP/AGnflsnTzteutN0tSaqv5zF5A/5b/j
+	14gc0eVx5lA/vxHeL0DjN4RGHzV5zKR5NpKg9HGwVHAge5HQr6o86OehorCw5Ix/jm8dxVMbR+o
+	w/JwZJsYMqzFED4xqt6Lwg0/P7ZlmXFpTr2UQkycytcz922gMnT+w+WPL8xLghevI/Q92zrb+Mz
+	MXadI/lm3+iYzt99nxVrsWynVameGAB/llDEKWSsDw+n1B0JMdSGCV+W1AW6zqQkKE=
+X-Google-Smtp-Source: AGHT+IEiL3rnNhSqNzM/DHXQCM7iWYFDQ0oRL+V05Fg3F6HtwxAiBa71OQCVCRGjvre03g+rlst/NQ==
+X-Received: by 2002:a17:902:ea12:b0:211:6b21:5a87 with SMTP id d9443c01a7336-21501f6411dmr22316525ad.56.1732685371720;
+        Tue, 26 Nov 2024 21:29:31 -0800 (PST)
+Received: from MVIN00016.mvista.com ([2409:40c1:103f:6bce:d322:816c:7372:a687])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dc23a35sm94416875ad.250.2024.11.26.21.29.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 20:12:15 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Tue, 26 Nov 2024 21:29:31 -0800 (PST)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 16/18] gcc: add a backport patch to fix an issue with tzdata 2024b
-Date: Tue, 26 Nov 2024 20:11:36 -0800
-Message-Id: <08dfd3849bd804f4760ebeca226645e65709a65a.1732680538.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1732680538.git.steve@sakoman.com>
-References: <cover.1732680538.git.steve@sakoman.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] libsndfile: fix CVE-2024-50612
+Date: Wed, 27 Nov 2024 10:59:21 +0530
+Message-Id: <20241127052921.25800-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:12:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207910
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 05:29:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207913
 
-From: Markus Volk <f_l_k@t-online.de>
+Upstream-Status: Backport from https://github.com/libsndfile/libsndfile/commit/4755f5bd7854611d92ad0f1295587b439f9950ba
 
-There is an issue in the std::chrono::tzdb parser that causes problems
-since the tzdata-2024b release started using %z in the main format.
-
-As a real world problem I encounter an issue with the waybar clock module,
-which ignores the timezone setting and only shows system time.
-
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 39018429f05511053ab12e23e7f4487ea25ee529)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
- ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 549 ++++++++++++++++++
- 2 files changed, 550 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
+ .../libsndfile1/CVE-2024-50612.patch          | 412 ++++++++++++++++++
+ .../libsndfile/libsndfile1_1.2.2.bb           |   1 +
+ 2 files changed, 413 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch
 
-diff --git a/meta/recipes-devtools/gcc/gcc-14.2.inc b/meta/recipes-devtools/gcc/gcc-14.2.inc
-index f05484cfc0..9cfb246294 100644
---- a/meta/recipes-devtools/gcc/gcc-14.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-14.2.inc
-@@ -68,6 +68,7 @@ SRC_URI = "${BASEURI} \
-            file://0023-Fix-install-path-of-linux64.h.patch \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
-            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-+           file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch \
- "
- 
- S = "${TMPDIR}/work-shared/gcc-${PV}-${PR}/${SOURCEDIR}"
-diff --git a/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch
 new file mode 100644
-index 0000000000..e5abdcc703
+index 0000000000..d96f2915c4
 --- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-@@ -0,0 +1,549 @@
-+From ab884fffe3fc82a710bea66ad651720d71c938b8 Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely <jwakely@redhat.com>
-+Date: Tue, 30 Apr 2024 09:52:13 +0100
-+Subject: [PATCH] libstdc++: Fix std::chrono::tzdb to work with vanguard format
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch
+@@ -0,0 +1,412 @@
++From 4755f5bd7854611d92ad0f1295587b439f9950ba Mon Sep 17 00:00:00 2001
++From: Arthur Taylor <art@ified.ca>
++Date: Fri, 15 Nov 2024 19:46:53 -0800
++Subject: [PATCH] src/ogg: better error checking for vorbis. Fixes #1035
 +
-+I found some issues in the std::chrono::tzdb parser by testing the
-+tzdata "vanguard" format, which uses new features that aren't enabled in
-+the "main" and "rearguard" data formats.
-+
-+Since 2024a the keyword "minimum" is no longer valid for the FROM and TO
-+fields in a Rule line, which means that "m" is now a valid abbreviation
-+for "maximum". Previously we expected either "mi" or "ma". For backwards
-+compatibility, a FROM field beginning with "mi" is still supported and
-+is treated as 1900. The "maximum" keyword is only allowed in TO now,
-+because it makes no sense in FROM. To support these changes the
-+minmax_year and minmax_year2 classes for parsing FROM and TO are
-+replaced with a single years_from_to class that reads both fields.
-+
-+The vanguard format makes use of %z in Zone FORMAT fields, which caused
-+an exception to be thrown from ZoneInfo::set_abbrev because no % or /
-+characters were expected when a Zone doesn't use a named Rule. The
-+ZoneInfo::to(sys_info&) function now uses format_abbrev_str to replace
-+any %z with the current offset. Although format_abbrev_str also checks
-+for %s and STD/DST formats, those only make sense when a named Rule is
-+in effect, so won't occur when ZoneInfo::to(sys_info&) is used.
-+
-+Since making this change on trunk, the tzdata-2024b release started
-+using %z in the main format, not just vanguard. This makes a backport to
-+release branches necessary (see PR 116657).
-+
-+This change also implements a feature that has always been missing from
-+time_zone::_M_get_sys_info: finding the Rule that is active before the
-+specified time point, so that we can correctly handle %s in the FORMAT
-+for the first new sys_info that gets created. This requires implementing
-+a poorly documented feature of zic, to get the LETTERS field from a
-+later transition, as described at
-+https://mm.icann.org/pipermail/tz/2024-April/058891.html
-+In order for this to work we need to be able to distinguish an empty
-+letters field (as used by CE%sT where the variable part is either empty
-+or "S") from "the letters field is not known for this transition". The
-+tzdata file uses "-" for an empty letters field, which libstdc++ was
-+previously replacing with "" when the Rule was parsed. Instead, we now
-+preserve the "-" in the Rule object, so that "" can be used for the case
-+where we don't know the letters (and so need to decide it).
-+
-+(cherry picked from commit 0ca8d56f2085715f27ee536c6c344bc47af49cdd)
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=5ceea2ac106d6dd1aa8175670b15a801316cf1c9]
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/4755f5bd7854611d92ad0f1295587b439f9950ba]
++CVE: CVE-2024-50612
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ libstdc++-v3/src/c++20/tzdb.cc                | 265 +++++++++++-------
-+ .../std/time/time_zone/sys_info_abbrev.cc     | 106 +++++++
-+ libstdc++-v3/testsuite/std/time/tzdb/1.cc     |   6 +-
-+ 3 files changed, 274 insertions(+), 103 deletions(-)
-+ create mode 100644 libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
++ src/ogg.c        |  12 ++--
++ src/ogg_opus.c   |  17 +++--
++ src/ogg_vorbis.c | 170 ++++++++++++++++++++++++++---------------------
++ 3 files changed, 114 insertions(+), 85 deletions(-)
 +
-+diff --git a/libstdc++-v3/src/c++20/tzdb.cc b/libstdc++-v3/src/c++20/tzdb.cc
-+index c7c7cc9deee6..7e8cce7ce8cf 100644
-+--- a/libstdc++-v3/src/c++20/tzdb.cc
-++++ b/libstdc++-v3/src/c++20/tzdb.cc
-+@@ -342,51 +342,103 @@ namespace std::chrono
-+       friend istream& operator>>(istream&, on_day&);
-+     };
++diff --git a/src/ogg.c b/src/ogg.c
++index 8cd4379..534c8f7 100644
++--- a/src/ogg.c
+++++ b/src/ogg.c
++@@ -211,12 +211,16 @@ ogg_read_first_page (SF_PRIVATE *psf, OGG_PRIVATE *odata)
 + 
-+-    // Wrapper for chrono::year that reads a year, or one of the keywords
-+-    // "minimum" or "maximum", or an unambiguous prefix of a keyword.
-+-    struct minmax_year
-++    // Wrapper for two chrono::year values, which reads the FROM and TO
-++    // fields of a Rule line. The FROM field is a year and TO is a year or
-++    // one of the keywords "maximum" or "only" (or an abbreviation of those).
-++    // For backwards compatibility, the keyword "minimum" is recognized
-++    // for FROM and interpreted as 1900.
-++    struct years_from_to
-+     {
-+-      year& y;
-++      year& from;
-++      year& to;
++ int
++ ogg_write_page (SF_PRIVATE *psf, ogg_page *page)
++-{	int bytes ;
+++{	int n ;
 + 
-+-      friend istream& operator>>(istream& in, minmax_year&& y)
-++      friend istream& operator>>(istream& in, years_from_to&& yy)
-+       {
-+-	if (ws(in).peek() == 'm') // keywords "minimum" or "maximum"
-++	string s;
-++	auto c = ws(in).peek();
-++	if (c == 'm') [[unlikely]] // keyword "minimum"
-+ 	  {
-+-	    string s;
-+-	    in >> s; // extract the rest of the word, but only look at s[1]
-+-	    if (s[1] == 'a')
-+-	      y.y = year::max();
-+-	    else if (s[1] == 'i')
-+-	      y.y = year::min();
-+-	    else
-+-	      in.setstate(ios::failbit);
-++	    in >> s; // extract the rest of the word
-++	    yy.from = year(1900);
-++	  }
-++	else if (int num = 0; in >> num) [[likely]]
-++	  yy.from = year{num};
++-	bytes = psf_fwrite (page->header, 1, page->header_len, psf) ;
++-	bytes += psf_fwrite (page->body, 1, page->body_len, psf) ;
+++	n = psf_fwrite (page->header, 1, page->header_len, psf) ;
+++	if (n == page->header_len)
+++		n += psf_fwrite (page->body, 1, page->body_len, psf) ;
++ 
++-	return bytes == page->header_len + page->body_len ;
+++	if (n != page->body_len + page->header_len)
+++		return -1 ;
 ++
-++	c = ws(in).peek();
-++	if (c == 'm') // keyword "maximum"
-++	  {
-++	    in >> s; // extract the rest of the word
-++	    yy.to = year::max();
-++	  }
-++	else if (c == 'o') // keyword "only"
-++	  {
-++	    in >> s; // extract the rest of the word
-++	    yy.to = yy.from;
-+ 	  }
-+ 	else if (int num = 0; in >> num)
-+-	  y.y = year{num};
-++	  yy.to = year{num};
-++
-+ 	return in;
-+       }
-+     };
+++	return n ;
++ } /* ogg_write_page */
 + 
-+-    // As above for minmax_year, but also supports the keyword "only",
-+-    // meaning that the TO year is the same as the FROM year.
-+-    struct minmax_year2
-++    bool
-++    select_std_or_dst_abbrev(string& abbrev, minutes save)
-+     {
-+-      minmax_year to;
-+-      year from;
-++      if (size_t pos = abbrev.find('/'); pos != string::npos)
-++	{
-++	  // Select one of "STD/DST" for standard or daylight.
-++	  if (save == 0min)
-++	    abbrev.erase(pos);
-++	  else
-++	    abbrev.erase(0, pos + 1);
-++	  return true;
-++	}
-++      return false;
-++    }
++ sf_count_t
++diff --git a/src/ogg_opus.c b/src/ogg_opus.c
++index 596bb69..8e3800a 100644
++--- a/src/ogg_opus.c
+++++ b/src/ogg_opus.c
++@@ -827,15 +827,16 @@ ogg_opus_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
 + 
-+-      friend istream& operator>>(istream& in, minmax_year2&& y)
-+-      {
-+-	if (ws(in).peek() == 'o') // keyword "only"
-+-	  {
-+-	    string s;
-+-	    in >> s; // extract the whole keyword
-+-	    y.to.y = y.from;
-+-	  }
-+-	else
-+-	  in >> std::move(y.to);
-+-	return in;
-+-      }
-+-    };
-++    // Set the sys_info::abbrev string by expanding any placeholders.
-++    void
-++    format_abbrev_str(sys_info& info, string_view letters = {})
-++    {
-++      if (size_t pos = info.abbrev.find('%'); pos != string::npos)
-++	{
-++	  if (info.abbrev[pos + 1] == 's')
-++	    {
-++	      // Expand "%s" to the variable part, given by Rule::letters.
-++	      if (letters == "-")
-++		info.abbrev.erase(pos, 2);
-++	      else
-++		info.abbrev.replace(pos, 2, letters);
-++	    }
-++	  else if (info.abbrev[pos + 1] == 'z')
-++	    {
-++	      // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
-++	      hh_mm_ss<seconds> t(info.offset);
-++	      string z(1, "+-"[t.is_negative()]);
-++	      long val = t.hours().count();
-++	      int digits = 2;
-++	      if (int m = t.minutes().count())
-++		{
-++		  digits = 4;
-++		  val *= 100;
-++		  val += m;
-++		  if (int s = t.seconds().count())
-++		    {
-++		      digits = 6;
-++		      val *= 100;
-++		      val += s;
-++		    }
-++		}
-++	      auto sval = std::to_string(val);
-++	      z += string(digits - sval.size(), '0');
-++	      z += sval;
-++	      info.abbrev.replace(pos, 2, z);
-++	    }
-++	}
-++      else
-++	select_std_or_dst_abbrev(info.abbrev, info.save);
-++    }
-+ 
-+     // A time zone information record.
-+     // Zone  NAME        STDOFF  RULES   FORMAT  [UNTIL]
-+@@ -462,6 +514,7 @@ namespace std::chrono
-+ 	info.offset = offset();
-+ 	info.save = minutes(m_save);
-+ 	info.abbrev = format();
-++	format_abbrev_str(info); // expand %z
-+ 	return true;
-+       }
-+ 
-+@@ -469,12 +522,9 @@ namespace std::chrono
-+       friend class time_zone;
-+ 
-+       void
-+-      set_abbrev(const string& abbrev)
-++      set_abbrev(string abbrev)
-+       {
-+-	// In practice, the FORMAT field never needs expanding here.
-+-	if (abbrev.find_first_of("/%") != abbrev.npos)
-+-	  __throw_runtime_error("std::chrono::time_zone: invalid data");
-+-	m_buf = abbrev;
-++	m_buf = std::move(abbrev);
-+ 	m_pos = 0;
-+ 	m_expanded = true;
-+       }
-+@@ -544,9 +594,7 @@ namespace std::chrono
-+ 
-+ 	// Rule  NAME  FROM  TO  TYPE  IN  ON  AT  SAVE  LETTER/S
-+ 
-+-	in >> quoted(rule.name)
-+-	   >> minmax_year{rule.from}
-+-	   >> minmax_year2{rule.to, rule.from};
-++	in >> quoted(rule.name) >> years_from_to{rule.from, rule.to};
-+ 
-+ 	if (char type; in >> type && type != '-')
-+ 	  in.setstate(ios::failbit);
-+@@ -557,7 +605,7 @@ namespace std::chrono
-+ 	if (save_time.indicator != at_time::Wall)
-+ 	  {
-+ 	    // We don't actually store the save_time.indicator, because we
-+-	    // assume that it's always deducable from the actual offset value.
-++	    // assume that it's always deducible from the offset value.
-+ 	    auto expected = save_time.time == 0s
-+ 			      ? at_time::Standard
-+ 			      : at_time::Daylight;
-+@@ -567,8 +615,6 @@ namespace std::chrono
-+ 	rule.save = save_time.time;
-+ 
-+ 	in >> rule.letters;
-+-	if (rule.letters == "-")
-+-	  rule.letters.clear();
-+ 	return in;
-+       }
-+ 
-+@@ -719,58 +765,6 @@ namespace std::chrono
-+ #endif // TZDB_DISABLED
-+   };
-+ 
-+-#ifndef TZDB_DISABLED
-+-  namespace
-+-  {
-+-    bool
-+-    select_std_or_dst_abbrev(string& abbrev, minutes save)
-+-    {
-+-      if (size_t pos = abbrev.find('/'); pos != string::npos)
-+-	{
-+-	  // Select one of "STD/DST" for standard or daylight.
-+-	  if (save == 0min)
-+-	    abbrev.erase(pos);
-+-	  else
-+-	    abbrev.erase(0, pos + 1);
-+-	  return true;
-+-	}
-+-      return false;
-+-    }
-+-
-+-    // Set the sys_info::abbrev string by expanding any placeholders.
-+-    void
-+-    format_abbrev_str(sys_info& info, string_view letters = {})
-+-    {
-+-      if (size_t pos = info.abbrev.find("%s"); pos != string::npos)
-+-	{
-+-	  // Expand "%s" to the variable part, given by Rule::letters.
-+-	  info.abbrev.replace(pos, 2, letters);
-+-	}
-+-      else if (size_t pos = info.abbrev.find("%z"); pos != string::npos)
-+-	{
-+-	  // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
-+-	  hh_mm_ss<seconds> t(info.offset);
-+-	  string z(1, "+-"[t.is_negative()]);
-+-	  long val = t.hours().count();
-+-	  if (minutes m = t.minutes(); m != m.zero())
-+-	    {
-+-	      val *= 100;
-+-	      val += m.count();
-+-	      if (seconds s = t.seconds(); s != s.zero())
-+-		{
-+-		  val *= 100;
-+-		  val += s.count();
++ 	/* The first page MUST only contain the header, so flush it out now */
++ 	ogg_stream_packetin (&odata->ostream, &op) ;
++-	for ( ; (nn = ogg_stream_flush (&odata->ostream, &odata->opage)) ; )
++-	{	if (! (nn = ogg_write_page (psf, &odata->opage)))
+++	while (ogg_stream_flush (&odata->ostream, &odata->opage))
+++	{	nn = ogg_write_page (psf, &odata->opage) ;
+++		if (nn < 0)
++ 		{	psf_log_printf (psf, "Opus : Failed to write header!\n") ;
++ 			if (psf->error)
++ 				return psf->error ;
++ 			return SFE_INTERNAL ;
++ 			} ;
++ 		psf->dataoffset += nn ;
 +-		}
-+-	    }
-+-	  z += std::to_string(val);
-+-	  info.abbrev.replace(pos, 2, z);
-+-	}
-+-      else
-+-	select_std_or_dst_abbrev(info.abbrev, info.save);
-+-    }
-+-  }
-+-#endif // TZDB_DISABLED
+++		} ;
++ 
++ 	/*
++ 	** Metadata Tags (manditory)
++@@ -850,15 +851,16 @@ ogg_opus_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
++ 	vorbiscomment_write_tags (psf, &op, &opustags_ident, opus_get_version_string (), - (OGG_OPUS_COMMENT_PAD)) ;
++ 	op.packetno = 2 ;
++ 	ogg_stream_packetin (&odata->ostream, &op) ;
++-	for ( ; (nn = ogg_stream_flush (&odata->ostream, &odata->opage)) ; )
++-	{	if (! (nn = ogg_write_page (psf, &odata->opage)))
+++	while (ogg_stream_flush (&odata->ostream, &odata->opage))
+++	{	nn = ogg_write_page (psf, &odata->opage) ;
+++		if (nn < 0)
++ 		{	psf_log_printf (psf, "Opus : Failed to write comments!\n") ;
++ 			if (psf->error)
++ 				return psf->error ;
++ 			return SFE_INTERNAL ;
++ 			} ;
++ 		psf->dataoffset += nn ;
++-		}
+++		} ;
++ 
++ 	return 0 ;
++ } /* ogg_opus_write_header */
++@@ -1132,7 +1134,8 @@ ogg_opus_write_out (SF_PRIVATE *psf, OGG_PRIVATE *odata, OPUS_PRIVATE *oopus)
++ 		if (nbytes > 0)
++ 		{	oopus->u.encode.last_segments -= ogg_page_segments (&odata->opage) ;
++ 			oopus->pg_pos = oopus->pkt_pos ;
++-			ogg_write_page (psf, &odata->opage) ;
+++			if (ogg_write_page (psf, &odata->opage) < 0)
+++				return -1 ;
++ 			}
++ 		else
++ 			break ;
++diff --git a/src/ogg_vorbis.c b/src/ogg_vorbis.c
++index f9428ed..2cdbed3 100644
++--- a/src/ogg_vorbis.c
+++++ b/src/ogg_vorbis.c
++@@ -82,28 +82,6 @@
++ /* How many seconds in the future to not bother bisection searching for. */
++ #define VORBIS_SEEK_THRESHOLD 2
++ 
++-typedef int convert_func (SF_PRIVATE *psf, int, void *, int, int, float **) ;
 +-
-+   // Implementation of std::chrono::time_zone::get_info(const sys_time<D>&)
-+   sys_info
-+   time_zone::_M_get_sys_info(sys_seconds tp) const
-+@@ -839,12 +833,72 @@ namespace std::chrono
-+     info.abbrev = ri.format();
++-static int	vorbis_read_header (SF_PRIVATE *psf) ;
++-static int	vorbis_write_header (SF_PRIVATE *psf, int calc_length) ;
++-static int	vorbis_close (SF_PRIVATE *psf) ;
++-static int	vorbis_command (SF_PRIVATE *psf, int command, void *data, int datasize) ;
++-static int	vorbis_byterate (SF_PRIVATE *psf) ;
++-static int	vorbis_calculate_granulepos (SF_PRIVATE *psf, uint64_t *gp_out) ;
++-static int	vorbis_skip (SF_PRIVATE *psf, uint64_t target_gp) ;
++-static int	vorbis_seek_trysearch (SF_PRIVATE *psf, uint64_t target_gp) ;
++-static sf_count_t	vorbis_seek (SF_PRIVATE *psf, int mode, sf_count_t offset) ;
++-static sf_count_t	vorbis_read_s (SF_PRIVATE *psf, short *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_read_i (SF_PRIVATE *psf, int *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_read_f (SF_PRIVATE *psf, float *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_read_d (SF_PRIVATE *psf, double *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t len) ;
++-static sf_count_t	vorbis_read_sample (SF_PRIVATE *psf, void *ptr, sf_count_t lens, convert_func *transfn) ;
++-static int	vorbis_rnull (SF_PRIVATE *psf, int samples, void *vptr, int off , int channels, float **pcm) ;
++-
++ typedef struct
++ {	int id ;
++ 	const char *name ;
++@@ -145,6 +123,45 @@ typedef struct
++ 	sf_count_t last_page ;
++ } VORBIS_PRIVATE ;
 + 
-+     string_view letters;
-+-    if (i != infos.begin())
-++    if (i != infos.begin() && i[-1].expanded())
-++      letters = i[-1].next_letters();
+++typedef int convert_func (SF_PRIVATE *psf, int, void *, int, int, float **) ;
 ++
-++    if (letters.empty())
-+       {
-+-	if (i[-1].expanded())
-+-	  letters = i[-1].next_letters();
-+-	// XXX else need to find Rule active before this time and use it
-+-	// to know the initial offset, save, and letters.
-++	sys_seconds t = info.begin - seconds(1);
-++	const year_month_day date(chrono::floor<days>(t));
+++static int	vorbis_read_header (SF_PRIVATE *psf) ;
+++static int	vorbis_write_header (SF_PRIVATE *psf, int calc_length) ;
+++static int	vorbis_close (SF_PRIVATE *psf) ;
+++static int	vorbis_command (SF_PRIVATE *psf, int command, void *data, int datasize) ;
+++static int	vorbis_byterate (SF_PRIVATE *psf) ;
+++static int	vorbis_calculate_granulepos (SF_PRIVATE *psf, uint64_t *gp_out) ;
+++static int	vorbis_skip (SF_PRIVATE *psf, uint64_t target_gp) ;
+++static int	vorbis_seek_trysearch (SF_PRIVATE *psf, uint64_t target_gp) ;
+++static sf_count_t	vorbis_seek (SF_PRIVATE *psf, int mode, sf_count_t offset) ;
+++static sf_count_t	vorbis_read_s (SF_PRIVATE *psf, short *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_read_i (SF_PRIVATE *psf, int *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_read_f (SF_PRIVATE *psf, float *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_read_d (SF_PRIVATE *psf, double *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t len) ;
+++static sf_count_t	vorbis_read_sample (SF_PRIVATE *psf, void *ptr, sf_count_t lens, convert_func *transfn) ;
+++static int	vorbis_write_samples (SF_PRIVATE *psf, OGG_PRIVATE *odata, VORBIS_PRIVATE *vdata, int in_frames) ;
+++static int	vorbis_rnull (SF_PRIVATE *psf, int samples, void *vptr, int off , int channels, float **pcm) ;
+++static void	vorbis_log_error (SF_PRIVATE *psf, int error) ;
 ++
-++	// Try to find a Rule active before this time, to get initial
-++	// SAVE and LETTERS values. There may not be a Rule for the period
-++	// before the first DST transition, so find the earliest DST->STD
-++	// transition and use the LETTERS from that.
-++	const Rule* active_rule = nullptr;
-++	sys_seconds active_rule_start = sys_seconds::min();
-++	const Rule* first_std = nullptr;
-++	for (const auto& rule : rules)
-++	  {
-++	    if (rule.save == minutes(0))
-++	      {
-++		if (!first_std)
-++		  first_std = &rule;
-++		else if (rule.from < first_std->from)
-++		  first_std = &rule;
-++		else if (rule.from == first_std->from)
-++		  {
-++		    if (rule.start_time(rule.from, {})
-++			  < first_std->start_time(first_std->from, {}))
-++		      first_std = &rule;
-++		  }
-++	      }
 ++
-++	    year y = date.year();
+++static void
+++vorbis_log_error(SF_PRIVATE *psf, int error) {
+++	switch (error)
+++	{	case 0: return;
+++		case OV_EIMPL:		psf->error = SFE_UNIMPLEMENTED ; break ;
+++		case OV_ENOTVORBIS:	psf->error = SFE_MALFORMED_FILE ; break ;
+++		case OV_EBADHEADER:	psf->error = SFE_MALFORMED_FILE ; break ;
+++		case OV_EVERSION:	psf->error = SFE_UNSUPPORTED_ENCODING ; break ;
+++		case OV_EFAULT:
+++		case OV_EINVAL:
+++		default: psf->error = SFE_INTERNAL ;
+++		} ;
+++} ;
 ++
-++	    if (y > rule.to) // rule no longer applies at time t
-++	      continue;
-++	    if (y < rule.from) // rule doesn't apply yet at time t
-++	      continue;
-++
-++	    sys_seconds rule_start;
-++
-++	    seconds offset{}; // appropriate for at_time::Universal
-++	    if (rule.when.indicator == at_time::Wall)
-++	      offset = info.offset;
-++	    else if (rule.when.indicator == at_time::Standard)
-++	      offset = ri.offset();
-++
-++	    // Time the rule takes effect this year:
-++	    rule_start = rule.start_time(y, offset);
-++
-++	    if (rule_start >= t && rule.from < y)
-++	      {
-++		// Try this rule in the previous year.
-++		rule_start = rule.start_time(--y, offset);
-++	      }
-++
-++	    if (active_rule_start < rule_start && rule_start < t)
-++	      {
-++		active_rule_start = rule_start;
-++		active_rule = &rule;
-++	      }
-++	  }
-++
-++	if (active_rule)
-++	  letters = active_rule->letters;
-++	else if (first_std)
-++	  letters = first_std->letters;
-+       }
++ static int
++ vorbis_read_header (SF_PRIVATE *psf)
++ {	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
++@@ -380,7 +397,6 @@ vorbis_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
++ 	{	ogg_packet header ;
++ 		ogg_packet header_comm ;
++ 		ogg_packet header_code ;
++-		int result ;
 + 
-+     const Rule* curr_rule = nullptr;
-+@@ -2069,9 +2123,11 @@ namespace std::chrono
-+ 	      istringstream in2(std::move(rules));
-+ 	      in2 >> rules_time;
-+ 	      inf.m_save = duration_cast<minutes>(rules_time.time);
-++	      // If the FORMAT is "STD/DST" then we can choose the right one
-++	      // now, so that we store a shorter string.
-+ 	      select_std_or_dst_abbrev(fmt, inf.m_save);
-+ 	    }
-+-	  inf.set_abbrev(fmt);
-++	  inf.set_abbrev(std::move(fmt));
++ 		vorbis_analysis_headerout (&vdata->vdsp, &vdata->vcomment, &header, &header_comm, &header_code) ;
++ 		ogg_stream_packetin (&odata->ostream, &header) ; /* automatically placed in its own page */
++@@ -390,9 +406,9 @@ vorbis_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
++ 		/* This ensures the actual
++ 		 * audio data will start on a new page, as per spec
++ 		 */
++-		while ((result = ogg_stream_flush (&odata->ostream, &odata->opage)) != 0)
++-		{	ogg_write_page (psf, &odata->opage) ;
++-			} ;
+++		while (ogg_stream_flush (&odata->ostream, &odata->opage))
+++			if (ogg_write_page (psf, &odata->opage) < 0)
+++				return -1 ;
 + 	}
 + 
-+       // YEAR [MONTH [DAY [TIME]]]
-+@@ -2082,7 +2138,12 @@ namespace std::chrono
-+ 	  abbrev_month m{January};
-+ 	  int d = 1;
-+ 	  at_time t{};
-++	  // XXX DAY should support ON format, e.g. lastSun or Sun>=8
-+ 	  in >> m >> d >> t;
-++	  // XXX UNTIL field should be interpreted
-++	  // "using the rules in effect just before the transition"
-++	  // so might need to store as year_month_day and hh_mm_ss and only
-++	  // convert to a sys_time once we know the offset in effect.
-+ 	  inf.m_until = sys_days(year(y)/m.m/day(d)) + seconds(t.time);
-+ 	}
-+       else
-+diff --git a/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+new file mode 100644
-+index 000000000000..f1a8fff02f58
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+@@ -0,0 +1,106 @@
-++// { dg-do run { target c++20 } }
-++// { dg-require-effective-target tzdb }
-++// { dg-require-effective-target cxx11_abi }
-++// { dg-xfail-run-if "no weak override on AIX" { powerpc-ibm-aix* } }
-++
-++#include <chrono>
-++#include <fstream>
-++#include <testsuite_hooks.h>
-++
-++static bool override_used = false;
-++
-++namespace __gnu_cxx
-++{
-++  const char* zoneinfo_dir_override() {
-++    override_used = true;
-++    return "./";
-++  }
-++}
-++
-++using namespace std::chrono;
-++
-++void
-++test_format()
-++{
-++  std::ofstream("tzdata.zi") << R"(# version test_1
-++Zone Africa/Bissau -1:2:20 - LMT 1912 Ja 1 1u
-++                   -1      - %z  1975
-++                   0       - GMT
-++Zon Some/Zone 1:2:3   - %z 1900
-++              1:23:45 - %z 1950
-++Zo Another/Zone 1:2:3 -     AZ0     1901
-++                1     Roolz A%sZ    2000
-++                1     Roolz SAZ/DAZ 2005
-++                1     Roolz %z
-++Rule Roolz 1950 max - April 1 2 1 D
-++Rul  Roolz 1950 max - Oct   1 1 0 S
-++Z Strange/Zone 1       - X%sX    1980
-++               1       - FOO/BAR 1990
-++               2:00    - %zzz    1995
-++               0:9     - %zzz    1996
-++               0:8:7   - %zzz    1997
-++               0:6:5.5 - %zzz    1998
-++)";
-++
-++  const auto& db = reload_tzdb();
-++  VERIFY( override_used ); // If this fails then XFAIL for the target.
-++  VERIFY( db.version == "test_1" );
-++
-++  // Test formatting %z as
-++  auto tz = locate_zone("Africa/Bissau");
-++  auto inf = tz->get_info(sys_days(1974y/1/1));
-++  VERIFY( inf.abbrev == "-01" );
-++
-++  tz = locate_zone("Some/Zone");
-++  inf = tz->get_info(sys_days(1899y/1/1));
-++  VERIFY( inf.abbrev == "+010203" );
-++  inf = tz->get_info(sys_days(1955y/1/1));
-++  VERIFY( inf.abbrev == "+012345" );
-++
-++  tz = locate_zone("Another/Zone");
-++  // Test formatting %s as the LETTER/S field from the active Rule.
-++  inf = tz->get_info(sys_days(1910y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz->get_info(sys_days(1950y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz->get_info(sys_days(1950y/June/1));
-++  VERIFY( inf.abbrev == "ADZ" );
-++  inf = tz->get_info(sys_days(1999y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz->get_info(sys_days(1999y/July/1));
-++  VERIFY( inf.abbrev == "ADZ" );
-++  // Test formatting STD/DST according to the active Rule.
-++  inf = tz->get_info(sys_days(2000y/January/2));
-++  VERIFY( inf.abbrev == "SAZ" );
-++  inf = tz->get_info(sys_days(2001y/January/1));
-++  VERIFY( inf.abbrev == "SAZ" );
-++  inf = tz->get_info(sys_days(2001y/July/1));
-++  VERIFY( inf.abbrev == "DAZ" );
-++  // Test formatting %z as the offset determined by the active Rule.
-++  inf = tz->get_info(sys_days(2005y/January/2));
-++  VERIFY( inf.abbrev == "+01" );
-++  inf = tz->get_info(sys_days(2006y/January/1));
-++  VERIFY( inf.abbrev == "+01" );
-++  inf = tz->get_info(sys_days(2006y/July/1));
-++  VERIFY( inf.abbrev == "+02" );
-++
-++  // Test formatting %z, %s and S/D for a Zone with no associated Rules.
-++  tz = locate_zone("Strange/Zone");
-++  inf = tz->get_info(sys_days(1979y/January/1));
-++  VERIFY( inf.abbrev == "XX" ); // No Rule means nothing to use for %s.
-++  inf = tz->get_info(sys_days(1981y/July/1));
-++  VERIFY( inf.abbrev == "FOO" ); // Always standard time means first string.
-++  inf = tz->get_info(sys_days(1994y/July/1));
-++  VERIFY( inf.abbrev == "+02zz" );
-++  inf = tz->get_info(sys_days(1995y/July/1));
-++  VERIFY( inf.abbrev == "+0009zz" );
-++  inf = tz->get_info(sys_days(1996y/July/1));
-++  VERIFY( inf.abbrev == "+000807zz" );
-++  inf = tz->get_info(sys_days(1997y/July/1));
-++  VERIFY( inf.abbrev == "+000606zz" );
-++}
-++
-++int main()
-++{
-++  test_format();
-++}
-+diff --git a/libstdc++-v3/testsuite/std/time/tzdb/1.cc b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-+index 796f3a8b4256..7a31c1c20ba7 100644
-+--- a/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-++++ b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-+@@ -39,11 +39,15 @@ test_locate()
-+   const tzdb& db = get_tzdb();
-+   const time_zone* tz = db.locate_zone("GMT");
-+   VERIFY( tz != nullptr );
-+-  VERIFY( tz->name() == "Etc/GMT" );
-+   VERIFY( tz == std::chrono::locate_zone("GMT") );
-+   VERIFY( tz == db.locate_zone("Etc/GMT") );
-+   VERIFY( tz == db.locate_zone("Etc/GMT+0") );
++ 	return 0 ;
++@@ -402,6 +418,7 @@ static int
++ vorbis_close (SF_PRIVATE *psf)
++ {	OGG_PRIVATE* odata = psf->container_data ;
++ 	VORBIS_PRIVATE *vdata = psf->codec_data ;
+++	int ret = 0 ;
 + 
-++  // Since 2022f GMT is now a Zone and Etc/GMT a link instead of vice versa,
-++  // but only when using the vanguard format. As of 2024a, the main and
-++  // rearguard formats still have Etc/GMT as a Zone and GMT as a link.
-++  VERIFY( tz->name() == "GMT" || tz->name() == "Etc/GMT" );
-++
-+   VERIFY( db.locate_zone(db.current_zone()->name()) == db.current_zone() );
-+ }
++ 	if (odata == NULL || vdata == NULL)
++ 		return 0 ;
++@@ -412,34 +429,14 @@ vorbis_close (SF_PRIVATE *psf)
++ 	if (psf->file.mode == SFM_WRITE)
++ 	{
++ 		if (psf->write_current <= 0)
++-			vorbis_write_header (psf, 0) ;
++-
++-		vorbis_analysis_wrote (&vdata->vdsp, 0) ;
++-		while (vorbis_analysis_blockout (&vdata->vdsp, &vdata->vblock) == 1)
++-		{
+++			ret = vorbis_write_header (psf, 0) ;
 + 
++-		/* analysis, assume we want to use bitrate management */
++-			vorbis_analysis (&vdata->vblock, NULL) ;
++-			vorbis_bitrate_addblock (&vdata->vblock) ;
++-
++-			while (vorbis_bitrate_flushpacket (&vdata->vdsp, &odata->opacket))
++-			{	/* weld the packet into the bitstream */
++-				ogg_stream_packetin (&odata->ostream, &odata->opacket) ;
++-
++-				/* write out pages (if any) */
++-				while (!odata->eos)
++-				{	int result = ogg_stream_pageout (&odata->ostream, &odata->opage) ;
++-					if (result == 0) break ;
++-					ogg_write_page (psf, &odata->opage) ;
++-
++-		/* this could be set above, but for illustrative purposes, I do
++-		   it here (to show that vorbis does know where the stream ends) */
++-
++-					if (ogg_page_eos (&odata->opage)) odata->eos = 1 ;
++-				}
++-			}
++-		}
++-	}
+++		if (ret == 0)
+++		{	/* A write of zero samples tells Vorbis the stream is done and to
+++			   flush. */
+++			ret = vorbis_write_samples (psf, odata, vdata, 0) ;
+++			} ;
+++		} ;
++ 
++ 	/* ogg_page and ogg_packet structs always point to storage in
++ 	   libvorbis.  They are never freed or manipulated directly */
++@@ -449,7 +446,7 @@ vorbis_close (SF_PRIVATE *psf)
++ 	vorbis_comment_clear (&vdata->vcomment) ;
++ 	vorbis_info_clear (&vdata->vinfo) ;
++ 
++-	return 0 ;
+++	return ret ;
++ } /* vorbis_close */
++ 
++ int
++@@ -688,33 +685,40 @@ vorbis_read_d (SF_PRIVATE *psf, double *ptr, sf_count_t lens)
++ /*==============================================================================
++ */
++ 
++-static void
+++static int
++ vorbis_write_samples (SF_PRIVATE *psf, OGG_PRIVATE *odata, VORBIS_PRIVATE *vdata, int in_frames)
++-{
++-	vorbis_analysis_wrote (&vdata->vdsp, in_frames) ;
+++{	int ret ;
+++
+++	if ((ret = vorbis_analysis_wrote (&vdata->vdsp, in_frames)) != 0)
+++		return ret ;
++ 
++ 	/*
++ 	**	Vorbis does some data preanalysis, then divvies up blocks for
++ 	**	more involved (potentially parallel) processing. Get a single
++ 	**	block for encoding now.
++ 	*/
++-	while (vorbis_analysis_blockout (&vdata->vdsp, &vdata->vblock) == 1)
+++	while ((ret = vorbis_analysis_blockout (&vdata->vdsp, &vdata->vblock)) == 1)
++ 	{
++ 		/* analysis, assume we want to use bitrate management */
++-		vorbis_analysis (&vdata->vblock, NULL) ;
++-		vorbis_bitrate_addblock (&vdata->vblock) ;
+++		if ((ret = vorbis_analysis (&vdata->vblock, NULL)) != 0)
+++			return ret ;
+++		if ((ret = vorbis_bitrate_addblock (&vdata->vblock)) != 0)
+++			return ret ;
++ 
++-		while (vorbis_bitrate_flushpacket (&vdata->vdsp, &odata->opacket))
+++		while ((ret = vorbis_bitrate_flushpacket (&vdata->vdsp, &odata->opacket)) == 1)
++ 		{
++ 			/* weld the packet into the bitstream */
++-			ogg_stream_packetin (&odata->ostream, &odata->opacket) ;
+++			if ((ret = ogg_stream_packetin (&odata->ostream, &odata->opacket)) != 0)
+++				return ret ;
++ 
++ 			/* write out pages (if any) */
++ 			while (!odata->eos)
++-			{	int result = ogg_stream_pageout (&odata->ostream, &odata->opage) ;
++-				if (result == 0)
+++			{	ret = ogg_stream_pageout (&odata->ostream, &odata->opage) ;
+++				if (ret == 0)
++ 					break ;
++-				ogg_write_page (psf, &odata->opage) ;
+++
+++				if (ogg_write_page (psf, &odata->opage) < 0)
+++					return -1 ;
++ 
++ 				/*	This could be set above, but for illustrative purposes, I do
++ 				**	it here (to show that vorbis does know where the stream ends) */
++@@ -722,16 +726,22 @@ vorbis_write_samples (SF_PRIVATE *psf, OGG_PRIVATE *odata, VORBIS_PRIVATE *vdata
++ 					odata->eos = 1 ;
++ 				} ;
++ 			} ;
+++		if (ret != 0)
+++			return ret ;
++ 		} ;
+++	if (ret != 0)
+++		return ret ;
++ 
++ 	vdata->gp += in_frames ;
+++
+++	return 0 ;
++ } /* vorbis_write_data */
++ 
++ 
++ static sf_count_t
++ vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t lens)
++ {
++-	int i, m, j = 0 ;
+++	int i, m, j = 0, ret ;
++ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
++ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
++ 	int in_frames = lens / psf->sf.channels ;
++@@ -740,14 +750,17 @@ vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t lens)
++ 		for (m = 0 ; m < psf->sf.channels ; m++)
++ 			buffer [m][i] = (float) (ptr [j++]) / 32767.0f ;
++ 
++-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
+++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)))
+++	{	vorbis_log_error (psf, ret) ;
+++		return 0 ;
+++		} ;
++ 
++ 	return lens ;
++ } /* vorbis_write_s */
++ 
++ static sf_count_t
++ vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t lens)
++-{	int i, m, j = 0 ;
+++{	int i, m, j = 0, ret ;
++ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
++ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
++ 	int in_frames = lens / psf->sf.channels ;
++@@ -756,14 +769,17 @@ vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t lens)
++ 		for (m = 0 ; m < psf->sf.channels ; m++)
++ 			buffer [m][i] = (float) (ptr [j++]) / 2147483647.0f ;
++ 
++-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
+++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)))
+++	{	vorbis_log_error (psf, ret) ;
+++		return 0 ;
+++		} ;
++ 
++ 	return lens ;
++ } /* vorbis_write_i */
++ 
++ static sf_count_t
++ vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t lens)
++-{	int i, m, j = 0 ;
+++{	int i, m, j = 0, ret ;
++ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
++ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
++ 	int in_frames = lens / psf->sf.channels ;
++@@ -772,14 +788,17 @@ vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t lens)
++ 		for (m = 0 ; m < psf->sf.channels ; m++)
++ 			buffer [m][i] = ptr [j++] ;
++ 
++-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
+++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)) != 0)
+++	{	vorbis_log_error (psf, ret) ;
+++		return 0 ;
+++		} ;
++ 
++ 	return lens ;
++ } /* vorbis_write_f */
++ 
++ static sf_count_t
++ vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t lens)
++-{	int i, m, j = 0 ;
+++{	int i, m, j = 0, ret ;
++ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
++ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
++ 	int in_frames = lens / psf->sf.channels ;
++@@ -788,7 +807,10 @@ vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t lens)
++ 		for (m = 0 ; m < psf->sf.channels ; m++)
++ 			buffer [m][i] = (float) ptr [j++] ;
++ 
++-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
+++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)) != 0)
+++	{	vorbis_log_error (psf, ret) ;
+++		return 0 ;
+++		} ;
++ 
++ 	return lens ;
++ } /* vorbis_write_d */
++@@ -884,7 +906,7 @@ vorbis_seek_trysearch (SF_PRIVATE *psf, uint64_t target_gp)
++ 		return 0 ;
++ 
++ 	/*	Search for a position a half large-block before our target. As Vorbis is
++-	**	lapped, every sample position come from two blocks, the "left" half of
+++	**	lapped, every sample position comes from two blocks, the "left" half of
++ 	**	one block and the "right" half of the previous block.  The granule
++ 	**	position of an Ogg page of a Vorbis stream is the sample offset of the
++ 	**	last finished sample in the stream that can be decoded from a page.  A
 +-- 
-+2.43.5
++2.25.1
 +
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+index a9ee7c3575..2a1b96d5e7 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+@@ -10,6 +10,7 @@ LICENSE = "LGPL-2.1-only"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
+            file://noopus.patch \
+            file://cve-2022-33065.patch \
++           file://CVE-2024-50612.patch \
+           "
+ GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
+ 
 -- 
-2.34.1
+2.25.1
 
 
