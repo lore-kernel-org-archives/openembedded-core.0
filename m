@@ -1,191 +1,102 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B928D6ACF5
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 16:43:21 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.web11.76123.1732725800113312201
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A0FD6ACF6
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 16:46:31 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.web10.76116.1732725981873674857
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 08:43:20 -0800
+ Wed, 27 Nov 2024 08:46:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CVDIgiI/;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-6d41b209858so48158326d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 08:43:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732725799; x=1733330599; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I8/5R3+/zGNT6VVWYNPJBzuRcCfhqXJAWNe3U2GRZEM=;
-        b=CVDIgiI/PNr0QQKZDSMImnifJoeqM6Pou2cbh6fmcFuLPb+CehQo315VHmVwBGgBfU
-         FDswYB/GyufA/ZxH59qzB5dSaWJzOS13Z7VvtY3KpuzGE2K2SQRGI7SeEDreoMWTDai6
-         v09VUfi1I9o+/2Km39PF2SMeVVHkrCSTs3MFEXpzQ/8Pu/X6kkRkgzmaAHOahu2EGR1C
-         3Nyg0cpkIiJNtO6BgJHLhwOoGshx+GmwL8VklhMFWB+6xaq4YMtMnGeYqRLythBqTexG
-         w3kjIrF1qa5ESDeYFoulyGvMQTpS2rAeMSev9eiB3MBsvdNCsmCMpNRoZEi7JpNvSrVk
-         lKvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732725799; x=1733330599;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I8/5R3+/zGNT6VVWYNPJBzuRcCfhqXJAWNe3U2GRZEM=;
-        b=iRc6R2bicwIcycNcq3kmgysw/7404wOWjuGoB/1rRW9A3pVuR3ZqFMnKqOUh3VEJRW
-         g1fDlN+cv4h9RrCK9U8jUtq4azMLQG7dpHtFmIFOINfSRghyhoJcN1ySclcwK+qeEZyv
-         QzmnFPWp9uXrKLmuyiJ3dHGTcjsM8MJ+VdN5+Kt/MeHxVIfeMzFba8adT99WxotwYV+w
-         VnEbSL4raW2G1Q16/EOs5Fu3nzxjGy6ICvjQw3+Uuk6vV7flLawNitSV2M54Spj5z18P
-         DG+asWFNe89Qr4kI6WxX/zbDu2dpIMoWpz25J+Fg4r2DkIvtfHiOQXiMIfDJgmDZ4X60
-         OVOA==
-X-Gm-Message-State: AOJu0YxQNOBSnBuikEvyTjrA+RZb/10ZQqpap77/gpR/GYZLJQ8Yu0ho
-	aY/dOh1loNJN2hAGjqIWrzfEvJXHzGhk681+S/JxWhw7w0Il2Gv1gDAhQsq7GFHK0t7OFYhw/2Z
-	Yxv/MQsjp03Idi5v/NW7GrT0H/GM=
-X-Gm-Gg: ASbGncu+CGoxTN5KehLmHYgZiC0RETFcaCzPbNXr32r+h64oXgn6dBTA1GzXMNCgd8/
-	JieZzknUBsvD8UcWFbeozebYL+IAla4AfsQrsi+QRHUWP+VzkUK4F0eZ/8AG/
-X-Google-Smtp-Source: AGHT+IHeqp9/w1uqzYmsHvsb0wMpFBiq9m9pXTXMVf/e6ydBatsPuzMLnM/V56d1ZvcYgKc2c+ihe78hKv/Zw0zWwa0=
-X-Received: by 2002:ad4:4ea5:0:b0:6d4:257a:99 with SMTP id 6a1803df08f44-6d864df656dmr46988566d6.44.1732725798175;
- Wed, 27 Nov 2024 08:43:18 -0800 (PST)
-MIME-Version: 1.0
-References: <7c42e340baae4038324e250583e9395fb8d90463.1732725209.git.joerg.sommer@navimatix.de>
-In-Reply-To: <7c42e340baae4038324e250583e9395fb8d90463.1732725209.git.joerg.sommer@navimatix.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 27 Nov 2024 17:43:07 +0100
-Message-ID: <CANNYZj-x3YpWssLwcp5yaxE3hOb8=nyr+v_bOYtwNtYOEq3Czw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] lib/oe/utils.cpu_count: Raise maximum count
- from 64 to 192
-To: joerg.sommer@navimatix.de
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000b18cb70627e7a9da"
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Lz52cv2E;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=wvwS3ij4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101936e843f17-5f46d389-3af9-4dfc-a148-b093d6da7c3b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
+	t=1732725981; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=vTDfgcJFi/S/3E9dpL5ljyb1ZfWdJ++23lgV1joNGwY=;
+	b=Lz52cv2E1mJCRLujTEw2LA5WovxgvRAseup99cLV2T7W1nYjPDqsJkqTq5vdug1U
+	Kr1Hz/eCbAROARKgaA+eq78Fsy6HICwa+O4Sa/USNzhgfROlmH6U33hfSb81AF/hWIe
+	rz8lpgJRtf1k6bwI11rn2zpX+0UNZK0a43+McqQk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732725981;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=vTDfgcJFi/S/3E9dpL5ljyb1ZfWdJ++23lgV1joNGwY=;
+	b=wvwS3ij4/FJ8UKdNu4e26yc9uSeP6JBFGj9HuKkeowGpk1abdbVzZ79R9a4BRPPP
+	uiejH7H+d2Nc4hwyRvKWpwNybw2KdVi10OjSaTpd7BNHFdU5Z7kl71LvoKVYN50nVxg
+	Z78354XZ/H0BD65vNByks6d2diIoG34a/cNQf9sw=
+From: patchtest@automation.yoctoproject.org
+To: =?utf-8?b?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] lib/oe/utils.cpu_count: Raise maximum count from 64 to 192
+In-Reply-To: 
+ <7c42e340baae4038324e250583e9395fb8d90463.1732725209.git.joerg.sommer@navimatix.de>
+References: 
+ <7c42e340baae4038324e250583e9395fb8d90463.1732725209.git.joerg.sommer@navimatix.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101936e843f17-5f46d389-3af9-4dfc-a148-b093d6da7c3b-000000@us-west-2.amazonses.com>
+Date: Wed, 27 Nov 2024 16:46:20 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2024.11.27-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 16:43:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207937
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 16:46:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207938
 
---000000000000b18cb70627e7a9da
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-Please read the original rationale for picking 64, and provide benchmarks
-that actually show better completion times with the new setting.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Alex
+---
+Testing patch /home/patchtest/share/mboxes/lib-oe-utils.cpu_count-Raise-maximum-count-from-64-to-192.patch
 
-On Wed 27. Nov 2024 at 17.33, J=C3=B6rg Sommer via lists.openembedded.org
-<joerg.sommer=3Dnavimatix.de@lists.openembedded.org> wrote:
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
-> From: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
->
-> We have a system with 96 CPUs and 128 are not uncommon. The border of 64
-> limits the number of parallel tasks make or ninja spawns, because the val=
-ue
-> goes into `PARALLEL_MAKE ?=3D "-j ${@oe.utils.cpu_count()}"`. If only a
-> single
-> recipe gets build (e.g. rust, due to dependencies) this leaves one third =
-of
-> our CPUs idle.
->
-> Signed-off-by: J=C3=B6rg Sommer <joerg.sommer@navimatix.de>
-> ---
->  meta/lib/oe/utils.py | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
-> index c9c7a47041..354237b643 100644
-> --- a/meta/lib/oe/utils.py
-> +++ b/meta/lib/oe/utils.py
-> @@ -251,7 +251,7 @@ def trim_version(version, num_parts=3D2):
->      trimmed =3D ".".join(parts[:num_parts])
->      return trimmed
->
-> -def cpu_count(at_least=3D1, at_most=3D64):
-> +def cpu_count(at_least=3D1, at_most=3D192):
->      cpus =3D len(os.sched_getaffinity(0))
->      return max(min(cpus, at_most), at_least)
->
-> --
-> 2.45.2
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207936):
-> https://lists.openembedded.org/g/openembedded-core/message/207936
-> Mute This Topic: https://lists.openembedded.org/mt/109808873/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> alex.kanavin@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
---000000000000b18cb70627e7a9da
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
-<div dir=3D"auto">Please read the original rationale for picking 64, and pr=
-ovide benchmarks that actually show better completion times with the new se=
-tting.</div><div dir=3D"auto"><br></div><div dir=3D"auto">Alex</div><div><b=
-r><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Wed 2=
-7. Nov 2024 at 17.33, J=C3=B6rg Sommer via <a href=3D"http://lists.openembe=
-dded.org">lists.openembedded.org</a> &lt;joerg.sommer=3D<a href=3D"mailto:n=
-avimatix.de@lists.openembedded.org">navimatix.de@lists.openembedded.org</a>=
-&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px =
-0px 0px 0.8ex;border-left-width:1px;border-left-style:solid;padding-left:1e=
-x;border-left-color:rgb(204,204,204)">From: J=C3=B6rg Sommer &lt;<a href=3D=
-"mailto:joerg.sommer@navimatix.de" target=3D"_blank">joerg.sommer@navimatix=
-.de</a>&gt;<br>
-<br>
-We have a system with 96 CPUs and 128 are not uncommon. The border of 64<br=
->
-limits the number of parallel tasks make or ninja spawns, because the value=
-<br>
-goes into `PARALLEL_MAKE ?=3D &quot;-j ${@oe.utils.cpu_count()}&quot;`. If =
-only a single<br>
-recipe gets build (e.g. rust, due to dependencies) this leaves one third of=
-<br>
-our CPUs idle.<br>
-<br>
-Signed-off-by: J=C3=B6rg Sommer &lt;<a href=3D"mailto:joerg.sommer@navimati=
-x.de" target=3D"_blank">joerg.sommer@navimatix.de</a>&gt;<br>
----<br>
-=C2=A0meta/lib/oe/utils.py | 2 +-<br>
-=C2=A01 file changed, 1 insertion(+), 1 deletion(-)<br>
-<br>
-diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py<br>
-index c9c7a47041..354237b643 100644<br>
---- a/meta/lib/oe/utils.py<br>
-+++ b/meta/lib/oe/utils.py<br>
-@@ -251,7 +251,7 @@ def trim_version(version, num_parts=3D2):<br>
-=C2=A0 =C2=A0 =C2=A0trimmed =3D &quot;.&quot;.join(parts[:num_parts])<br>
-=C2=A0 =C2=A0 =C2=A0return trimmed<br>
-<br>
--def cpu_count(at_least=3D1, at_most=3D64):<br>
-+def cpu_count(at_least=3D1, at_most=3D192):<br>
-=C2=A0 =C2=A0 =C2=A0cpus =3D len(os.sched_getaffinity(0))<br>
-=C2=A0 =C2=A0 =C2=A0return max(min(cpus, at_most), at_least)<br>
-<br>
--- <br>
-2.45.2<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#207936): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/207936" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/207936</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109808873/168=
-6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/109808873/1686489</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
-rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+---
 
---000000000000b18cb70627e7a9da--
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
