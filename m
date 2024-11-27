@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 73E11D3B9BD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81106D5A6D8
 	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:12:17 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.web10.64671.1732680729365442173
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.64892.1732680734033597200
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 20:12:09 -0800
+ Tue, 26 Nov 2024 20:12:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=cFAT9QMk;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.176, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-7fc41dab8e3so1326204a12.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:09 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=13U5pGTv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-724f74d6457so3683164b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680729; x=1733285529; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680733; x=1733285533; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FWkhdiQThyDxsp/gq0cnwgI9PXMr5ybdNQFBiMZTqVs=;
-        b=cFAT9QMkMVYY8iSxyE+PU8adAqpZoB1VCuiUTwi8cJREe0Hy+77fqUsHEgbUFNxqts
-         RmQDiwsXBzI0cothSllYz3R2pkt8Tpabfvk6J8nbzayWd1UVCFyu0jaOkdyI/Siyl4+q
-         z2IJbhobJzwM+jc1spzsxnycKgnTQGSJ4Kk3uILXeYB/S548EB+sxjwQ4DxU5eRKwQ9J
-         IEdif3gLnJZrMB3wSZhwso0z8BtMr82kFlPZCT3pb/jZGPm0vEznVK3IbkQlgex7dXnV
-         adyrtZNHWtvUpGfu2mgRrNHw7KP4PEHhTEuupLr0ne/J1SvrcNcDhEF6HP3hbIZitFUb
-         E1xA==
+        bh=UYPIUGXNHlKBtU0DlTzXV0RGuclt6W53R1WMtbTtnyk=;
+        b=13U5pGTvln7PqQfQxZ27Uv5KvSGiXhS4/1NbPWuREoxzI2A2TgaXxLxid9y5cfASa2
+         pAq8cSJhojpGAYvoQnSyybiIBNcacnY5h9ySOb+apdA+5tTz1VZsYAc86PzGKlKH6yNm
+         UuWQshpiZ5S51JHdhV2q1tbirdyFRGl4BpXSK5Ld/B64GrorEAWwTG6oAyQSt/eswlsb
+         BJpo9l1ckbcccO2RtsmqnjUYRU3DQ6ZTbA6G+BzS/pWTr/63Iio7AKhDV1hvG198GC5+
+         yNRmqIs8owlZhLwnoy3YHaWx5/Ngqcd2bs1a4hjc+DW9TVqL0mT9+8a+X7tVx0gVRiNn
+         Xuug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732680729; x=1733285529;
+        d=1e100.net; s=20230601; t=1732680733; x=1733285533;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FWkhdiQThyDxsp/gq0cnwgI9PXMr5ybdNQFBiMZTqVs=;
-        b=rD3og9POABgKBqB6JPyInCxUGGMfFtBZei85nZ5/U7cTVCVvIqX+p3Hj1GDl4mJKRJ
-         pZYQBxwh5Ro2aLp7t5KNPRLkKEc4roGZZ/RYD8yufbW4RAb3AFOTDMUnjWdmvfnCA5K2
-         Z8JOniNHKxcNPBKiGb8Qo0CnTHshg39VBbBdJAYU1Dl5d/q8+pe8ml7rn7QN0CzIXDiM
-         zLAyUk89wmXXTIIfIen8beyxUoyKyusQgGPWlQVT3eC601kTsex0JNumd2wIAH1NnGAw
-         b9ZXK5rDcIu2/Py+nYJlHc4jpy4Dpos/Lyh6fg0bvOsopkvt9UzelKmB67D4gzkXOr21
-         G2jw==
-X-Gm-Message-State: AOJu0Yyofk7H1pbwMM0oP3eu/3nubf0gy0y6lTIn7WW0dZGiRmyVV1+t
-	6QIBL8+HmmZs6+7Yhm9AHWQYxbFlA7AGGNyEzCT6ZOMn+eu/5MlaFtZZtuHd0wls1B8n3OivfzG
-	N
-X-Gm-Gg: ASbGncuMt9D6u/030nfrxy5srDIdi32fFFo5SSVuj8NQ8nI5jV0SSilZ4ldvXEGqpVx
-	lKxEjrch/sCsK5lEoViH0wk5wZkamgD7IsSGipspXkRTM54ahWFxesHtb5VzPXvnfPgKiEgRjmL
-	Ej58zp2X+h7++9NU0rWRJwrPjutbjlCIRJXLuNUv6vAzaHYOBrnfYGDLXnuJkxryOTmk7Zz4C/5
-	y+WPxzriI2icJgz33dcJ1dF2O3010eVYes7J1o=
-X-Google-Smtp-Source: AGHT+IEW68RVvRMzgwbFRwJbU/reIXxSZ8eQjLdYF29eOgR/9d++L+SSMjh7tLqreU49kUCH6YVVog==
-X-Received: by 2002:a05:6a21:2d87:b0:1e0:c954:ea7c with SMTP id adf61e73a8af0-1e0e0b16a5emr2903750637.27.1732680728655;
-        Tue, 26 Nov 2024 20:12:08 -0800 (PST)
+        bh=UYPIUGXNHlKBtU0DlTzXV0RGuclt6W53R1WMtbTtnyk=;
+        b=XfHIAh60JUKXmzH1hkHlWfYwDSIq4iGgW2POKLHWkZoHbDEzGa+1XvNZkKuu44bU3q
+         9r3k0qTQyrHx99WQFhwj/SWjiA8iLckcI3zQNvzUvojOaP2P5n2qlSKG7HuEMDQ6NMVX
+         OnMqZDL3bg7arZA2gsVdiCQBWzX0DN+XhYki8mfU72/tZkYqWXV61zQEwiDWp+/ARX7l
+         F9PsNFNH6RNgE5OpkhHrasb0NgNwlenZ+RWPZFTGIuSWSpQpZXtpM6QbkilEl+1Ds0Ow
+         v9X+TvgdeCqOMiPcltf0nTrI2uqdxZgbCP7ZrxjyHYIaHtvAs1S6TFdSlBqi0T1Aqej8
+         55cg==
+X-Gm-Message-State: AOJu0YxGC4KlNZ12kJK8tCXFuOPJNj1zL308ptwyJdLDt6bM2wvcrucc
+	zzy6Mvz33iM3KwHQbl4yULSXzThMOWReWy1te7heVshlPnddYwXE6cOuxYW0BBQQQlUuPC6ukwI
+	Q
+X-Gm-Gg: ASbGnctOjDyuvtwF8/xQexY1EPyHSBNm9FQZq7gJtcWHFUMjeHpD2kShCyFVhh0eYph
+	iu2NiDbqJbWNxUARwxYfdC19zM/CWyOHv5HYBIOZJxK0YoeJb/1+ar1us8N0Ep7aWsdBhaUkln1
+	Y1viXYbUIvwvYD7uB+If7S1Q5jf6slvRembNSKOGnCKMs6XXeg4BtMxTHW8CTN2Pob2wVYN8mvn
+	BvG21iWmNQ8O9z4EoJX5kApGVP7VJ1UgMEZs08=
+X-Google-Smtp-Source: AGHT+IFmzDqslajGgAftfh94yy9C1qNcCsWSrtj9fQUK2EVUznR6jHoqDtWCQmDvj25n+TZz/PrR3Q==
+X-Received: by 2002:a05:6a00:1887:b0:724:591e:ea20 with SMTP id d2e1a72fcca58-7253009a6e0mr2204241b3a.14.1732680733235;
+        Tue, 26 Nov 2024 20:12:13 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.07
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 20:12:08 -0800 (PST)
+        Tue, 26 Nov 2024 20:12:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 11/18] ffmpeg: fix packaging examples
-Date: Tue, 26 Nov 2024 20:11:31 -0800
-Message-Id: <24bf3ad245fa2dba14a59477279c6db3c8bcd088.1732680538.git.steve@sakoman.com>
+Subject: [OE-core][styhead 14/18] selftest/sstatetests: run CDN mirror check only once
+Date: Tue, 26 Nov 2024 20:11:34 -0800
+Message-Id: <6ffde2643e6ee8a2a0eddca173a254dbdc4a79bb.1732680538.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732680538.git.steve@sakoman.com>
 References: <cover.1732680538.git.steve@sakoman.com>
@@ -66,42 +66,39 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:12:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207905
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207908
 
-From: Martin Jansa <martin.jansa@gmail.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-* I've noticed that ffmpeg package isn't created in my builds, due
-  to --disable-programs in EXTRA_OECONF added by our .bbappend, but
-  was surprised that lib32-ffmpeg is created.
+The first no-fail check was an attempt to work around the old
+CDN's instability (and it didn't really help); it should not be necessary
+with the new CDN, and only delays a-full completion.
 
-* lib32-ffmpeg was created only because it contained the examples
-  which are installed in /usr/share/ffmpeg even when PN is lib32-ffmpeg
-  as we pass --datadir=${datadir}/ffmpeg in EXTRA_OECONF here
-
-* --disable-programs controls ${bindir}/ffprobe ${bindir}/ffmpeg and
-  ${datadir}/ffmpeg/ffprobe.xsd ${datadir}/ffmpeg/libvpx-*.ffpreset
-
-Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d7bf828b6431a254201675e41047f53da47912f5)
+(cherry picked from commit 7f75c42b7fcf60a9ca58d3ded9047df675d76dc2)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/lib/oeqa/selftest/cases/sstatetests.py | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-index bb6b71735c..db0aa60826 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb
-@@ -182,6 +182,6 @@ FILES:libavutil = "${libdir}/libavutil${SOLIBS}"
- FILES:libpostproc = "${libdir}/libpostproc${SOLIBS}"
- FILES:libswresample = "${libdir}/libswresample${SOLIBS}"
- FILES:libswscale = "${libdir}/libswscale${SOLIBS}"
--FILES:${PN}-examples = "${datadir}/${PN}/examples"
-+FILES:${PN}-examples = "${datadir}/${BPN}/examples"
+diff --git a/meta/lib/oeqa/selftest/cases/sstatetests.py b/meta/lib/oeqa/selftest/cases/sstatetests.py
+index faaf7f6b0c..fa0172dd6d 100644
+--- a/meta/lib/oeqa/selftest/cases/sstatetests.py
++++ b/meta/lib/oeqa/selftest/cases/sstatetests.py
+@@ -978,12 +978,10 @@ MACHINE = "{}"
  
- CVE_PRODUCT = "ffmpeg libswresample libavcodec"
+     def test_cdn_mirror_qemux86_64(self):
+         exceptions = []
+-        self.run_test("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, ignore_errors = True)
+         self.run_test("qemux86-64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
+ 
+     def test_cdn_mirror_qemuarm64(self):
+         exceptions = []
+-        self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions, ignore_errors = True)
+         self.run_test("qemuarm64", "core-image-minimal core-image-full-cmdline core-image-sato-sdk", exceptions)
+ 
+     def test_local_cache_qemux86_64(self):
 -- 
 2.34.1
 
