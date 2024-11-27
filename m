@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 092E5D6D226
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 18:50:22 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.78781.1732733414809613072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066E7D6D226
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 18:50:32 +0000 (UTC)
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.web10.78790.1732733422080438291
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 10:50:14 -0800
+ Wed, 27 Nov 2024 10:50:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=ffRo+vEg;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7251abe0e69so111641b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:50:14 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LnPYOSyC;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.173, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-724f1004c79so71095b3a.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:50:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732733414; x=1733338214; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732733421; x=1733338221; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=fozTslo/T0djC5yNMUvXWVW671uUVLvFF+VeY5u2+Pc=;
-        b=ffRo+vEg6DFDGbc66M2F7ibNuQQXHnH/wnOi0msLrSMFAnBh/E4qh9mkJsWqfSv+IH
-         VsGLMRQeXLh85iGufmLl/Z2ANcNVATbEkRCcd+gi9QhxP9l04CnEfboV6n3XFGwnTKzj
-         4esLI4EHuysI/s6j+YGb7mPpQ3j59FkZwCsOEmPJ3oDz32Jrt5LxC2nOa9BkuYfAZ5tq
-         z+05nozeMcEqU/wLgOFQarZssSyA9HKh6i+MdFDOCsrmf0G2xwPnk+KmsJAv6RHtxC4R
-         Xnmq/llN+pFKThruLhWsc3NXnv73EAdvlCGqmhRuRg5aMzcard3XrpTCVFHaR6hKsR46
-         WNJA==
+        bh=1UpDQbVOcjVqEe1BZSnCHsE9JKI74E8LLqSTbLjbo1w=;
+        b=LnPYOSyC1ge18j17i5NbgRQcT9GnKmJGkHQVjJtQUKWILx0FYnqD7nhIBzGiNkTNHq
+         EYDhRx5aFWDjX1dGFbOd+HfXxdJ5HcJ+FVMs3R4G3EUFy3uEvPdc3uNFD2AeS8KDskMb
+         krWs0egMTtJQywB7o1hHo21lM+B1MMkoYz6tAmufLk1tJLoSt8vFVClf0+UP5I944NwG
+         wH9GyBvBvXhOsxrj8jBMIVnpTGin8JUAliY+oiPo7532p5P9uUeHMaztVdcE4SNI0YSV
+         w5y09jI1sepUw0bMSftqXPy6j2RLo75s78ekRztGeM1YVravD3xx7lq4P4nZTx01IGRB
+         OpBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732733414; x=1733338214;
+        d=1e100.net; s=20230601; t=1732733421; x=1733338221;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=fozTslo/T0djC5yNMUvXWVW671uUVLvFF+VeY5u2+Pc=;
-        b=LCFYnkUIqeI4yvPUBl9qUedoVfO7RvoXwO/euCaXf57x1MaLF8RUM6M81Ll9FkqVeW
-         Cwml7P3BsCGX4dmbMdcvAlwev9ysuC4eNphjHsrhhxyMeNZDT8lY01veRxHb5MwrsF0n
-         zwuCiGeuVl1eHejE18VMbnNX/P8/KHSoN+rNvAhaXnsM02h5ssEt2WJq8UFtgNAyMiKp
-         GkCsQ7Rq+fOjADm7t4M68LV19IWDuoRX3MibOQ535XooUUmez6LtOByMYAZNaZ5eIbrK
-         ZXoVgq2dz8gexAN+eVQr3l6TUwB6CxBat5N1e7Exxd2MjBlEsCGAQPSIJ1zNSB2MrE8D
-         eQbg==
-X-Gm-Message-State: AOJu0YwwkKhKteaoTvYR1Koc2941fGUJt1/WZkaipYw8j41HvL+5Rli7
-	vS1bdIJw06OrpI/1M1jxibteQOl4OWHRwWEZKEwTmWcLFT3QNA2D2tlKFeOpN8lJjtIUHyEXypl
-	c
-X-Gm-Gg: ASbGncsi8PK4ySWgAFTSzI3DrIwoE4WHMjwSCeWe/mcelNsFb6SAwo0wXwcB4YhhqGc
-	Ai1iw893kaI1UF+irYlPkKy/3NG/aurTq3E2EyzyZEUQqvCyOk9365LSo/S/ZZY5edcSEdd/7dZ
-	nzeVfHLAA+vItl3p3QEKaZ61Ixukn0Dxohtame/t+Wcq1Wg1SQl3EbS8QqZhVYlCIFNH0UVh56z
-	kwewYsCi1Kef/Gm01ZDRdpBDPk2nBtrOHpiJGk=
-X-Google-Smtp-Source: AGHT+IHChOtlGZfeOWi5n2zXm9GgahKKum4AsHIj+/NF1YowxWlZ5gbJPGr4JUy7u+QnFfEHi3jcFA==
-X-Received: by 2002:a05:6a00:230b:b0:724:5d26:d904 with SMTP id d2e1a72fcca58-7253014341cmr5041116b3a.18.1732733414082;
-        Wed, 27 Nov 2024 10:50:14 -0800 (PST)
+        bh=1UpDQbVOcjVqEe1BZSnCHsE9JKI74E8LLqSTbLjbo1w=;
+        b=Aln2kqCWBV1PTLXsajopgVimoX8rASeGWv/zu9Fh6f81w+rs0P/0QIeUYvYupLhjI5
+         z6HpebL+3+BgT+rXNGZpm8/Bw/gNQUmi0sSzlFaJFmhKF2KXLJqGTLAac7vYr9p9Lkyi
+         rG9thNdHMmvyzI8laFHw50plsFvnGrQm941ZMcCC7Nuvih1/jJqljFLEi5q7CwbO5nRP
+         HcL7YP04LBnlZ823qISBYYy9D9B1ywjxKFCosKzBxm1n8xLpY9VpV5nBMOn/tsIGaMOQ
+         hxCjTxZ38AAgKXCLvmJoJc7OTBvOyn/AqcLsNBPWxjO3QLUug7TM7yQxtKIyxtm9tQSX
+         5Ovg==
+X-Gm-Message-State: AOJu0YzSbArb7P2VSBzn/c/0V4B+yeCfoH0/YId2Ae7sLlzNCqpK8Axp
+	r90gGt8o4gNrGoT2m2xNpsAKkasZzfd3AoyvKvh4nLg7LUAL0/m3P5Z4RyunwXK/RMwnpIK7Av4
+	Y
+X-Gm-Gg: ASbGncsbTey/1v4z+h9a1e6SvsBRH0t9R/1yWC+o8ldbJYWh9PCOO5ej67asadMzbYl
+	/tI7chUGhlqlSyIT31L3cE9epCrj4CiGCdJLzjoMSTXiRoaX5NeSkuHObxzdS3N9ddSn3LMTUB6
+	iTBzqYBwwhQ5gk8muZhjOcOmTWT8ZRsmHuqO3+DbFiM85DELuknHo3RZeRR99dfAHvGzbDwBkpU
+	W9NpZKUkbpwLdExVyQw8jFSRdyDZeyowpOQ37U=
+X-Google-Smtp-Source: AGHT+IEofE1YPJQApqIIw0ZkkulCeJBvMlDZ7d2fOg6fePfSZEgq2HCR5FkOwt9a4W0a9NwU6V4QVQ==
+X-Received: by 2002:a05:6a00:230a:b0:71e:f14:869c with SMTP id d2e1a72fcca58-72530030396mr5765680b3a.6.1732733421392;
+        Wed, 27 Nov 2024 10:50:21 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72522e0375asm3403519b3a.94.2024.11.27.10.50.13
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72522e0375asm3403519b3a.94.2024.11.27.10.50.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 10:50:13 -0800 (PST)
+        Wed, 27 Nov 2024 10:50:20 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 02/14] builder: set CVE_PRODUCT
-Date: Wed, 27 Nov 2024 10:49:55 -0800
-Message-Id: <941a645b3b18418e020ada9ebdd19f425f03dfc8.1732733274.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 07/14] ffmpeg: fix CVE-2023-50007
+Date: Wed, 27 Nov 2024 10:50:00 -0800
+Message-Id: <88a1fc5a6445e72e6cc78c39a6feff3aa96beea6.1732733274.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732733274.git.steve@sakoman.com>
 References: <cover.1732733274.git.steve@sakoman.com>
@@ -65,35 +65,119 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 18:50:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207944
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 18:50:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207949
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Archana Polampalli <archana.polampalli@windriver.com>
 
-Builder is a common word and there are many other builder components
-which makes us to ignore CVEs for all of them.
-There is already 1 ignored and currently 3 new ones.
+Buffer Overflow vulnerability in Ffmpeg v.n6.1-3-g466799d4f5 allows a local attacker
+to execute arbitrary code via theav_samples_set_silence function in the
+libavutil/samplefmt.c:260:9 component.
 
-Instead, set product to yocto to filter them.
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-graphics/builder/builder_0.1.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ .../ffmpeg/ffmpeg/CVE-2023-50007.patch        | 78 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb |  1 +
+ 2 files changed, 79 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch
 
-diff --git a/meta/recipes-graphics/builder/builder_0.1.bb b/meta/recipes-graphics/builder/builder_0.1.bb
-index 39be3bd63f..719db90530 100644
---- a/meta/recipes-graphics/builder/builder_0.1.bb
-+++ b/meta/recipes-graphics/builder/builder_0.1.bb
-@@ -29,5 +29,5 @@ do_install () {
- 	chown  builder.builder ${D}${sysconfdir}/mini_x/session.d/builder_session.sh
- }
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch
+new file mode 100644
+index 0000000000..fd4dc486ee
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2023-50007.patch
+@@ -0,0 +1,78 @@
++From b1942734c7cbcdc9034034373abcc9ecb9644c47 Mon Sep 17 00:00:00 2001
++From: Paul B Mahol <onemda@gmail.com>
++Date: Mon, 27 Nov 2023 11:45:34 +0100
++Subject: [PATCH 2/4] avfilter/af_afwtdn: fix crash with EOF handling
++
++CVE: CVE-2023-50007
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/b1942734c7cbcdc9034034373abcc9ecb9644c47]
++
++Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
++---
++ libavfilter/af_afwtdn.c | 34 +++++++++++++++++++---------------
++ 1 file changed, 19 insertions(+), 15 deletions(-)
++
++diff --git a/libavfilter/af_afwtdn.c b/libavfilter/af_afwtdn.c
++index 09b504d..1839190 100644
++--- a/libavfilter/af_afwtdn.c
+++++ b/libavfilter/af_afwtdn.c
++@@ -410,6 +410,7 @@ typedef struct AudioFWTDNContext {
++
++     uint64_t sn;
++     int64_t eof_pts;
+++    int eof;
++
++     int wavelet_type;
++     int channels;
++@@ -1071,7 +1072,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
++         s->drop_samples = 0;
++     } else {
++         if (s->padd_samples < 0 && eof) {
++-            out->nb_samples += s->padd_samples;
+++            out->nb_samples = FFMAX(0, out->nb_samples + s->padd_samples);
++             s->padd_samples = 0;
++         }
++         if (!eof)
++@@ -1210,23 +1211,26 @@ static int activate(AVFilterContext *ctx)
++
++     FF_FILTER_FORWARD_STATUS_BACK(outlink, inlink);
++
++-    ret = ff_inlink_consume_samples(inlink, s->nb_samples, s->nb_samples, &in);
++-    if (ret < 0)
++-        return ret;
++-    if (ret > 0)
++-        return filter_frame(inlink, in);
+++    if (!s->eof) {
+++        ret = ff_inlink_consume_samples(inlink, s->nb_samples, s->nb_samples, &in);
+++        if (ret < 0)
+++            return ret;
+++        if (ret > 0)
+++            return filter_frame(inlink, in);
+++    }
++
++     if (ff_inlink_acknowledge_status(inlink, &status, &pts)) {
++-        if (status == AVERROR_EOF) {
++-            while (s->padd_samples != 0) {
++-                ret = filter_frame(inlink, NULL);
++-                if (ret < 0)
++-                    return ret;
++-            }
++-            ff_outlink_set_status(outlink, status, pts);
++-            return ret;
++-        }
+++        if (status == AVERROR_EOF)
+++            s->eof = 1;
++     }
+++
+++    if (s->eof && s->padd_samples != 0) {
+++        return filter_frame(inlink, NULL);
+++    } else if (s->eof) {
+++        ff_outlink_set_status(outlink, AVERROR_EOF, s->eof_pts);
+++        return 0;
+++    }
+++
++     FF_FILTER_FORWARD_WANTED(outlink, inlink);
++
++     return FFERROR_NOT_READY;
++--
++2.40.0
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+index d233ced662..ee13081e4d 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_5.0.1.bb
+@@ -37,6 +37,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2023-51794.patch \
+            file://CVE-2023-51798.patch \
+            file://CVE-2023-47342.patch \
++           file://CVE-2023-50007.patch \
+           "
  
--# -4178 is an unrelated 'builder'
--CVE_CHECK_IGNORE = "CVE-2008-4178"
-+# do not report CVEs for other builder apps
-+CVE_PRODUCT = "yoctoproject:builder"
+ SRC_URI[sha256sum] = "ef2efae259ce80a240de48ec85ecb062cecca26e4352ffb3fda562c21a93007b"
 -- 
 2.34.1
 
