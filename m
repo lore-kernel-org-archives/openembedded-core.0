@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77274D66BBB
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:12:07 +0000 (UTC)
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.web10.64669.1732680726317445428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C00D66BBD
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:12:17 +0000 (UTC)
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web10.64670.1732680727666560224
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 20:12:06 -0800
+ Tue, 26 Nov 2024 20:12:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=2MIHR2Z1;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.169, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-724e14b90cfso4481064b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=veoXhggl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7f71f2b136eso5118218a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680725; x=1733285525; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680727; x=1733285527; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iSHODsRCg6oFVq4PP3wcKTGzoUScDfKIeeXtpdDFV0g=;
-        b=2MIHR2Z1hUGdzUpQ+zf4qmm7vUGAO9+Ic2edLSRo/VUQtxsNzUbFZkQqRfshgwWS7H
-         EyGA2xwBFkk6NDUZoyBfhwF6rLXFPeRstHKMuq5BjOMc/uJU9hcS/HhxWJP581YhUrEK
-         H9RQbSdsgY9lYv0NevQ49IhMvCm1iK2cZ9pCD9yjVfOt0PDOmuA1YP8J0oxf7pxQeIDk
-         RmvHq0KD3bg1bOlnIUzqn0qjJz4PJDox1zsE2PbR8WGKK1pjnAFzEzRKQOnVjxQN9Ty5
-         544PTwhKWIkGD4rh0LT8rZj5DNcmYor5frFeGNAwLPKFHKRP6mIC3aE/LamyQGs53Jbc
-         ffcA==
+        bh=TT9ht49fM0Sh0yxYc/tnLG5X7KPDLQ4Hq8o0IGhc318=;
+        b=veoXhgglAg6Hz6/U3Gpi6VR7byfscXlnH3rQHMhxz/alYJj6xwZrA8RO5KX6kk6uyC
+         RZGTBZGvjmUlNrC+pUyf83hmSR+3lakb9n3jQPvLo1aJR25MrKUV3i6RX2Cp4KmI7ZLD
+         +96V2Agc66jbGLmiDP4e3cmDoI/uku4e326hyTgoEAM099Cv5W2WkyHGZRIO4a5sgBND
+         zJsW0StNG/4EGR9s8dYmgA3rOw/NbstOq8tUDL8H31Sx0os3ugfLhA/QJeoxfpekUdOK
+         ibm8s66ItNSU/9fRCaZ+56ECUgZPffM3fz9SnL22HlQyht9cx3rbMJBR5dxaG43nm9JQ
+         dWfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732680725; x=1733285525;
+        d=1e100.net; s=20230601; t=1732680727; x=1733285527;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=iSHODsRCg6oFVq4PP3wcKTGzoUScDfKIeeXtpdDFV0g=;
-        b=itmP4mrrqGyAveA44Hgp9rYg+Uw3Z9/vz3HUUJsTRREIEmh62FCq+GgfStAeQTX58y
-         RNHb1oJtWV6mLHbaBS+o5U8LooHgvbD8BZeAiHjmN7hbWD6HIvJP8IsjsN6UEWIH319o
-         IOpTH23Oy3c5ZlMU4LeXRvo7o6bivC3cCdBNP8ChOQJOsAkGFLSL/0RsZm3TVftuDXLa
-         lBdeRU5ZxB4M7+MoDF1w8JR7wO/0/f+nmL1zsPd7bNrlbcPqhgQTRxAnJ/DhYJxy3jTK
-         ABMpN/u+ISAgLjjYeCyicm570KVrqhu2pBKIo3HbhLkvX8MF5fX6RW+odBBVRDiRRRZG
-         m1ug==
-X-Gm-Message-State: AOJu0YwJ4bXUVgmpRUXIij/p/asKh3n3cEPwdfS7mXfOc3m5RgV+XTTj
-	EekLYEo6oleVj9yXyRyGc1BYB0v388CQMXJaTq5baBGNCAwIS6Vm92kStSEQmRFeNe0711tqAJ1
-	/
-X-Gm-Gg: ASbGnctdnAkn8CwGgt7HtoUmWLxg5H7/guBx/QdciJVEZaQ1u92KsMCT5+vBesd5y6c
-	kPODjB/ZmwJppIMf2qwQyaPXb6/WYGUUueBPmGMR78/UNfTbZBs4SUaLMrox9c+IHK76BIYCWSQ
-	0lwdgZz9CCIdtUMJp+9dpJZZTEpRGKLdfEPMTZSEC6C5EwVV40eWDvM1eLWLq0udWcdrZ1d1EMV
-	123N8AA7xCw9lRf3tHCKXjgtqV0ZJDzF9snLG8=
-X-Google-Smtp-Source: AGHT+IG2IjYZxMYVgTq/njlLL3MLxtSHSBNePrFbwIKHBzV9JIZUgath5UMgC8yI2hjl/WDTpz5tdA==
-X-Received: by 2002:a05:6a00:1887:b0:725:2b93:3583 with SMTP id d2e1a72fcca58-7253014c613mr2161494b3a.21.1732680725526;
-        Tue, 26 Nov 2024 20:12:05 -0800 (PST)
+        bh=TT9ht49fM0Sh0yxYc/tnLG5X7KPDLQ4Hq8o0IGhc318=;
+        b=FNgU2goEmKvxVqO6obahxOC90WxlHZF1IyaLvEDhuL1Ck+w6ZEfyGNBX0wlD9Phd2T
+         zxb+rrPQotqK4/fszle4pJI57EYdl2MVXqCA7n2O4103lno8hKNFT+ETcTEbKRzUNDJG
+         R5mtaiB8z9z4BVj0qAr7OB5jtcE3RA8k6BvRmTBGjhtwub2lPBGthNPoDctY3w188ryM
+         lVQqMTIa/wIxd21Y6H7FEXz+5sj5X62SL1LnILzvk9YIw0AEMJEYv4Udtwbc3fiXaZiA
+         gt3cr4Ceb6Kfd7aVrf+iROwLYZ550Vu2v9rqVBQ6MZgFkeeM6Hlu9f6NOEXKxDJIhExI
+         U00A==
+X-Gm-Message-State: AOJu0Yz6KZc6yuizPDfu+Wo2oxaSYUiFHxLyQYGWoM8A+foxFXjyy32I
+	QaDDLGMwoKT7aGL4UCf3kpwFgIhoFC/hyXZKb99HXOEI6Ojt7W50l+8/bKqHBGLWSYo/QXjiMF8
+	m
+X-Gm-Gg: ASbGnct1jJp9TsHQU36gcpISXFZBFyMjZzSpcTNx8oUeGClDtSI999oPZY3Hg5T6r7o
+	WLRWAQAQEUUcY0azH0u+UyfMHf0/HiJ8JOkJEEtVIuM5vEncAmq2ZAW05BkC4FESbNjB15h71NC
+	vjMlh9Ii7ge9wdqZpqyGI6Di1zqhNoHVU1EgVJbh7Nf5imAQgw5verHl8TSc9VX3+JIb3FkVkNe
+	1juAspIkuO5dwj3RYeasvezQfcpcOxCKi1kiDk=
+X-Google-Smtp-Source: AGHT+IHJtrH89g9qt7pz442k8cBMFdtD13KzmdpaucEMayP5O76Dlc6lqySYs+HQf2oQfxA9EAkQYA==
+X-Received: by 2002:a05:6a20:6f0a:b0:1e0:d766:8da1 with SMTP id adf61e73a8af0-1e0e0c033c3mr2622435637.39.1732680726912;
+        Tue, 26 Nov 2024 20:12:06 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.05
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 20:12:05 -0800 (PST)
+        Tue, 26 Nov 2024 20:12:06 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 09/18] scripts/install-buildtools: Update to 5.1
-Date: Tue, 26 Nov 2024 20:11:29 -0800
-Message-Id: <4f58037a49ef538d89d9c6df81b1b2d8a2eab4d7.1732680538.git.steve@sakoman.com>
+Subject: [OE-core][styhead 10/18] systemd: fix broken links for sysvinit-compatible commands
+Date: Tue, 26 Nov 2024 20:11:30 -0800
+Message-Id: <681e3d20c2ac16778e302b468ec278aed9562639.1732680538.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732680538.git.steve@sakoman.com>
 References: <cover.1732680538.git.steve@sakoman.com>
@@ -65,34 +65,62 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:12:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207903
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:12:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207904
 
-From: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+From: Yi Zhao <yi.zhao@windriver.com>
 
-Update to the 5.1 release of the 5.1 series for buildtools.
+Since commit[1], PACKAGECONFIG[sysvinit] is not enabled by default when
+sysvinit is not in DISTRO_FEATURES, which causes the following
+sysvinit-compatible commands/services to not be built and installed:
 
-Signed-off-by: Aleksandar Nikolic <aleksandar.nikolic@zeiss.com>
+  runlevel
+  telinit
+  rc-local.service
+  systemd-initctl
+  systemd-initctl.service
+  systemd-rc-local-generator
+  systemd-sysv-generator
+  systemd-update-utmp-runlevel.service
+
+Therefore, links to these commands/services should only be created when
+PACKAGECONFIG[sysvinit] is enabled.
+
+[1] https://git.openembedded.org/openembedded-core/commit/?id=3668235fd60a9027608f37251c4b453ed21b3687
+
+Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a20b698f1acdee972cf1ff570b09a2e2c36bef1a)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/install-buildtools | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-core/systemd/systemd_256.5.bb | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/scripts/install-buildtools b/scripts/install-buildtools
-index 92a4c9dfb1..6387287ade 100755
---- a/scripts/install-buildtools
-+++ b/scripts/install-buildtools
-@@ -57,8 +57,8 @@ logger = scriptutils.logger_create(PROGNAME, stream=sys.stdout)
+diff --git a/meta/recipes-core/systemd/systemd_256.5.bb b/meta/recipes-core/systemd/systemd_256.5.bb
+index 68f15ab065..af810c0fcd 100644
+--- a/meta/recipes-core/systemd/systemd_256.5.bb
++++ b/meta/recipes-core/systemd/systemd_256.5.bb
+@@ -339,7 +339,7 @@ do_install() {
+ 	install -d ${D}${systemd_system_unitdir}/rescue.target.wants
  
- DEFAULT_INSTALL_DIR = os.path.join(os.path.split(scripts_path)[0],'buildtools')
- DEFAULT_BASE_URL = 'https://downloads.yoctoproject.org/releases/yocto'
--DEFAULT_RELEASE = 'yocto-5.0.3'
--DEFAULT_INSTALLER_VERSION = '5.0.3'
-+DEFAULT_RELEASE = 'yocto-5.1'
-+DEFAULT_INSTALLER_VERSION = '5.1'
- DEFAULT_BUILDDATE = '202110XX'
+ 	# Create symlinks for systemd-update-utmp-runlevel.service
+-	if ${@bb.utils.contains('PACKAGECONFIG', 'utmp', 'true', 'false', d)}; then
++	if ${@bb.utils.contains('PACKAGECONFIG', 'utmp', 'true', 'false', d)} && ${@bb.utils.contains('PACKAGECONFIG', 'sysvinit', 'true', 'false', d)}; then
+ 		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_system_unitdir}/graphical.target.wants/systemd-update-utmp-runlevel.service
+ 		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_system_unitdir}/multi-user.target.wants/systemd-update-utmp-runlevel.service
+ 		ln -sf ../systemd-update-utmp-runlevel.service ${D}${systemd_system_unitdir}/poweroff.target.wants/systemd-update-utmp-runlevel.service
+@@ -841,7 +841,9 @@ python do_warn_musl() {
+ }
+ addtask warn_musl before do_configure
  
- # Python version sanity check
+-ALTERNATIVE:${PN} = "halt reboot shutdown poweroff runlevel ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
++ALTERNATIVE:${PN} = "halt reboot shutdown poweroff \
++                     ${@bb.utils.contains('PACKAGECONFIG', 'sysvinit', 'runlevel', '', d)} \
++                     ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolv-conf', '', d)}"
+ 
+ ALTERNATIVE_TARGET[resolv-conf] = "${sysconfdir}/resolv-conf.systemd"
+ ALTERNATIVE_LINK_NAME[resolv-conf] = "${sysconfdir}/resolv.conf"
 -- 
 2.34.1
 
