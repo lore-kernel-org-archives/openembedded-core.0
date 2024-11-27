@@ -1,118 +1,141 @@
-Return-Path: <hiagofranco@gmail.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A9CDD6D241
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 21:37:13 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.82659.1732743427250167196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ACE40D6D24E
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 23:36:13 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.84798.1732750566970692173
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 13:37:07 -0800
+ Wed, 27 Nov 2024 15:36:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=UwLibs+f;
- spf=pass (domain: gmail.com, ip: 209.85.215.179, mailfrom: hiagofranco@gmail.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7fc22a88bcbso85971a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 13:37:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732743426; x=1733348226; darn=lists.openembedded.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6zak13zXgPEs7K02prwnJ5o1p6zhppC0gh5jISqkfYQ=;
-        b=UwLibs+fGSJHNgx6gp3YozpNpxO7yAVpIbFuuFgCN93kWss5GYoONj4tSSsbFUkE1J
-         6GHK7QYoFvnRtZiFOBms3dGwKmblGSmFFPYzWwKhD9n5Dal4nDI6zg6FiZjVK5fkBmKJ
-         qzlEBW43SqpA/pFScRh380uSnATTEmc7ox4S0aMKVPvkySgypDACWnU5yovqAGjJrnUX
-         rqq4YSIvU+fCQYSqDh6CHdDCfYakeN9/Cix7oaEk6o4BwP0AUlUOWEn3UQeDqAHZ5JZo
-         qSV9orxSumRKoRpe0tQ9E0P8NtQxUXMYue9pX1HLvxoFaKDj7LDO4Sfx7nEpNSW23SDL
-         I35g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732743426; x=1733348226;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=6zak13zXgPEs7K02prwnJ5o1p6zhppC0gh5jISqkfYQ=;
-        b=H4/tpVAnM1SQsndxQKyzgHcZMLfx0WJRmOtQxl+ZpY6O8K8fUDwH55/cn0ncCg3QUR
-         JQOBPVPUMqj3SvmORjXRkYvZFcsoUvLkbWDfIymdNv8XqNQoCK/VGq3VguoV893hSpmX
-         huYtGPVh9VLJlcsAflL5ygRxo0ZToTQ0JFxW+D6ICcnCLbEsmYdQHM78NnPuFE2uHPo8
-         +8iLkhbWTBgtXPm7VlFF52R33XTRvMfQ/7nFAnD1spjA5TXxy2bdTbyql1M1ruVkF5cP
-         fwYdkerIsnVL/mXHZzWLZ111hNYqOoyiiUul9otq62ADw2Xl3Me2vvrfFkL59mUqxYjJ
-         Et0A==
-X-Forwarded-Encrypted: i=1; AJvYcCXVDZ8JUFbElHS2R1dHtQ94ctHJeG8Gc4Gee0e5mFsQOJS2966IKmjtB/GZ9hmJF+GBIplYKJ24PhjbFqScxiTO0A==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yypm5JUclAkbe63E2SNucH7IFZFu1VAzNi5yRwmy0IH75+2zxAA
-	RryG7aqcFcXEkAyTqv4mPvzWMTL1AIucSTf3/DZJQDJ+0MoNZmDm
-X-Gm-Gg: ASbGncst6ETjbP4baZAhqzBiY2aqmBNFbJBf8l0jPK3hEGGQojDrFUt26qFwYYzJ7sZ
-	N1a0XImsttOLsgMk753DurXrH7ClWPELk+FdW3owTHby9AkTzie0jt35hx/Azc6My1t9np5NIh/
-	eX7yGu34NOBMrKn8aqGiO843/LuFCC7AGGZGteWZwivTVqM8lLdUGRrx117ZxrG30ehTgt+TWRn
-	doKnMgaAfbzRBA/v1EyHg8bkxakRFGi0Vl5JTYbg3mvnmXj
-X-Google-Smtp-Source: AGHT+IHITi02QSdJYI8xcmw3g3fv2VjmuLqMixd0RlsC2nl4zCKebYRjwBOIjLXumOYcfCJAS4bGYw==
-X-Received: by 2002:a05:6a21:788a:b0:1db:e358:48a8 with SMTP id adf61e73a8af0-1e0e0ac69a0mr6998801637.10.1732743426394;
-        Wed, 27 Nov 2024 13:37:06 -0800 (PST)
-Received: from hiago-nb ([67.159.246.222])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725417fbaf9sm23685b3a.104.2024.11.27.13.37.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 13:37:05 -0800 (PST)
-Date: Wed, 27 Nov 2024 18:37:02 -0300
-From: Hiago De Franco <hiagofranco@gmail.com>
-To: Denys Dmytriyenko <denis@denix.org>
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	openembedded-core@lists.openembedded.org,
-	Ross Burton <Ross.Burton@arm.com>,
-	Hiago De Franco <hiago.franco@toradex.com>
-Subject: Re: [OE-core] [PATCH v3 1/3] hwdata: add recipe from
- meta-openembedded
-Message-ID: <20241127213702.enfxvjc66ckqjhmv@hiago-nb>
-References: <20241126000836.6901-1-hiagofranco@gmail.com>
- <20241126000836.6901-2-hiagofranco@gmail.com>
- <CAMKF1spfQeh1i07Wwg5ndJ7uJpQ=Pz1eeCWc1J1KBLUfY78=9A@mail.gmail.com>
- <20241126121716.eqskoqfleyrn4fgu@hiago-nb>
- <CANNYZj_-a3mU3z3jqxCqharjZ2pdPubPQi5jH2wko+jejLWu2Q@mail.gmail.com>
- <20241127191310.34ytvodxrpkf77bu@hiago-nb>
- <20241127195040.GA20070@denix.org>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1061310084=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4ARNVK0Z014252
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 15:36:06 -0800
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671c8cyk-4
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 15:36:05 -0800 (PST)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Wed, 27 Nov 2024 15:36:01 -0800
+Received: from ala-lpggp7.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 15:36:01 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 4/4] scocat: upgrade 1.8.0.0 -> 1.8.0.1
+Date: Wed, 27 Nov 2024 15:36:00 -0800
+Message-ID: <20241127233600.4124020-4-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20241127233600.4124020-1-hongxu.jia@windriver.com>
+References: <20241127233600.4124020-1-hongxu.jia@windriver.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20241127195040.GA20070@denix.org>
+Content-Type: text/plain
+X-Proofpoint-GUID: WxX0nzA-_OY-CMzlJuUUF_H949YZAjnD
+X-Proofpoint-ORIG-GUID: WxX0nzA-_OY-CMzlJuUUF_H949YZAjnD
+X-Authority-Analysis: v=2.4 cv=QYicvtbv c=1 sm=1 tr=0 ts=6747ace5 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=-AnQz9JOAAAA:8 a=rFFRleaeAAAA:8 a=t7CeM3EgAAAA:8 a=0tM9zMZimARFnrHklU0A:9 a=3bnadFWGKyIZm4bBUiDd:22
+ a=YLtI_f64H5IAZ6mI3Lwl:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-11-27_10,2024-11-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 spamscore=0
+ mlxlogscore=999 suspectscore=0 adultscore=0 mlxscore=0 malwarescore=0
+ bulkscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2411270185
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 21:37:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207967
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 23:36:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207971
 
-On Wed, Nov 27, 2024 at 02:50:40PM -0500, Denys Dmytriyenko wrote:
-> On Wed, Nov 27, 2024 at 04:13:10PM -0300, Hiago De Franco wrote:
-> > On Tue, Nov 26, 2024 at 01:21:09PM +0100, Alexander Kanavin wrote:
-> > > On Tue, 26 Nov 2024 at 13:17, Hiago De Franco via
-> > > lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
-> > > wrote:
-> > > >
-> > > > On Mon, Nov 25, 2024 at 04:51:37PM -0800, Khem Raj wrote:
-> > > > > Don’t forget to send a patch to remove it from meta-oe once it get merged
-> > > > > into core layer here
-> > > >
-> > > > Sure, thanks. I will do it once this is merged.
-> > > 
-> > > You don't need to wait for that. Khem will take care of not applying
-> > > it too soon.
-> > > 
-> > > Alex
-> > 
-> > Hi Alex, I just saw that Richard merged the patches.
-> > The patch to remove hw-data from meta-oe is here:
-> > https://lore.kernel.org/all/20241127190841.137119-1-hiagofranco@gmail.com/
-> 
-> Hi Hiago,
-> 
-> Just wanted to thank you for listening to and addressing all the review 
-> comments while working through the multiple revisions of your submission.
+Rebase 0001-fix-compile-procan.c-failed.patch to 1.8.0.1
 
-Hi Denys, it is my pleasure, thanks for the help!
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+---
+ .../0001-fix-compile-procan.c-failed.patch    | 30 +++++++++----------
+ .../{socat_1.8.0.0.bb => socat_1.8.0.1.bb}    |  2 +-
+ 2 files changed, 16 insertions(+), 16 deletions(-)
+ rename meta/recipes-connectivity/socat/{socat_1.8.0.0.bb => socat_1.8.0.1.bb} (95%)
 
-> 
-> Regards,
-> Denys
+diff --git a/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch b/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch
+index 9051ae1abe..ea00dfa0a9 100644
+--- a/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch
++++ b/meta/recipes-connectivity/socat/files/0001-fix-compile-procan.c-failed.patch
+@@ -1,7 +1,7 @@
+-From 4f887cc665c9a48b83e20ef4abe57afa7e365e0e Mon Sep 17 00:00:00 2001
+-From: Hongxu Jia <hongxu.jia@eng.windriver.com>
+-Date: Tue, 5 Dec 2023 23:02:22 -0800
+-Subject: [PATCH v2] fix compile procan.c failed
++From c4c3d5f2d4dfe8167205e8d20b4cb7a197706c16 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Wed, 27 Nov 2024 04:09:59 -0800
++Subject: [PATCH] fix compile procan.c failed
+ 
+ 1. Compile socat failed if out of tree build (build dir != source dir)
+ ...
+@@ -24,23 +24,23 @@ C source compile. Use first word of $(CC) to defeine marco CC
+ [1] https://repo.or.cz/socat.git/commit/cd5673dbd0786c94e0b3ace7e35fab14c01e3185
+ 
+ Upstream-Status: Submitted [socat@dest-unreach.org]
+-Signed-off-by: Hongxu Jia <hongxu.jia@eng.windriver.com>
++
++Rebase to 1.8.0.1
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+ ---
+- Makefile.in | 10 +++++-----
+- 1 file changed, 5 insertions(+), 5 deletions(-)
++ Makefile.in | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index c01b1a4..48dad69 100644
++index 631d31d..103d4d1 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -109,8 +109,8 @@ depend: $(CFILES) $(HFILES)
+- socat: socat.o libxio.a
++@@ -110,7 +110,7 @@ socat: socat.o libxio.a
+  	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ socat.o libxio.a $(CLIBS)
+  
+--procan.o: procan.c
+--	$(CC) $(CFLAGS) -c -D CC=\"$(CC)\" -o $@ procan.c
+-+procan.o: $(srcdir)/procan.c
+-+	$(CC) $(CFLAGS) -c -D CC=\"$(firstword $(CC))\" -o $@ $(srcdir)/procan.c
++ procan.o: $(srcdir)/procan.c
++-	$(CC) $(CFLAGS) -c -D CC="\"$(CC)\"" -o $@ $(srcdir)/procan.c
+++	$(CC) $(CFLAGS) -c -D CC="\"$(firstword $(CC))\"" -o $@ $(srcdir)/procan.c
+  
+  PROCAN_OBJS=procan_main.o procan.o procan-cdefs.o hostan.o error.o sycls.o sysutils.o utils.o vsnprintf_r.o snprinterr.o
+  procan: $(PROCAN_OBJS)
+@@ -58,5 +58,5 @@ index c01b1a4..48dad69 100644
+  	$(INSTALL) -m 755 filan $(DESTDIR)$(BINDEST)
+  	mkdir -p $(DESTDIR)$(MANDEST)/man1
+ -- 
+-2.42.0
++2.25.1
+ 
+diff --git a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb b/meta/recipes-connectivity/socat/socat_1.8.0.1.bb
+similarity index 95%
+rename from meta/recipes-connectivity/socat/socat_1.8.0.0.bb
+rename to meta/recipes-connectivity/socat/socat_1.8.0.1.bb
+index 912605c95c..95b4017040 100644
+--- a/meta/recipes-connectivity/socat/socat_1.8.0.0.bb
++++ b/meta/recipes-connectivity/socat/socat_1.8.0.1.bb
+@@ -13,7 +13,7 @@ SRC_URI = "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz2 \
+            file://0001-fix-compile-procan.c-failed.patch \
+ "
+ 
+-SRC_URI[sha256sum] = "e1de683dd22ee0e3a6c6bbff269abe18ab0c9d7eb650204f125155b9005faca7"
++SRC_URI[sha256sum] = "6a283565db7cf86292c6f70504c58abb03e29888adeed5a6c5f3457e803c1b81"
+ 
+ inherit autotools
+ 
+-- 
+2.25.1
 
-Cheers,
-Hiago
 
