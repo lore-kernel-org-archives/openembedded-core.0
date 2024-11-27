@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C30D66BBF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 80C4AD3B9BE
 	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:12:17 +0000 (UTC)
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
- by mx.groups.io with SMTP id smtpd.web10.64672.1732680731201563546
+Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
+ by mx.groups.io with SMTP id smtpd.web11.64891.1732680732522886928
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 20:12:11 -0800
+ Tue, 26 Nov 2024 20:12:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WcpkOXK7;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.182, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-724e7d5d5b2so4730530b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=odbnQUxp;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.170, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-7ea8c4ce232so5568709a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:12:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680730; x=1733285530; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680732; x=1733285532; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=oWuOyCgrBrh3EN0Cps5LUohtDFWhmI5daNF56h0sHOo=;
-        b=WcpkOXK7VVGk3IscvKzX2K7rOqL4F4JGI0zkSySgErS4/IojNlp/+NDmqNYQxGhMPs
-         JEl340xutt89KPMKMmZy7jBhSUVqtYe1nR6bvzGLvUvJpgZ+UxDxNK1EJ0Cd57jJyosk
-         /UxaTU7oo69eDe26IM+TQNzWHq9LyytFh21IaYtY9hfTfdM9BorQ+Z1EAEATC0/DIKU4
-         rL53FI05fibGxFqXMil1wGGm5CYymAb4V6haKuRP7FeTtGrG8+yjs6aX9Rr+hwcqW8BI
-         2913ewxhXMve62FxiLJNMuW7fBKBAZvnlF0chwBseQThI5qga650QipBH2K1tMjLKBex
-         +HqA==
+        bh=QF87IdLUt9OH85ynMkiwRlV70diyi+gR7IUWpkgdjLQ=;
+        b=odbnQUxplNF5BdFuf2zQIW2bM5O2Bvp02DFsF2K97shHMLTr8N5oJ2bBj3aK6v+7Gd
+         W3bUSMYstJ8C9ox4+xdDQ92nSMoOlUCH5cXzvc7KdPjJoIIGjHr8o5RxgRbxdQ0XXgWt
+         lrilhm+okBYeDSunihuWPFCF4DsPDC7hlE0P2PL7hEFw5XVav14jzF7E1YNbpuaFcbE+
+         xsx9Krq1TikYv1p8vKhqUVAfXK42BmFT1oZoNsxoIdswouftgIihv/ZFDjvB2eH78gGI
+         nIqPHSSghTEg+J9uYvrk3hbuHSaxtdh9Ei7yt2Csa0PS8ddPD/MDr0r5e6CJZ++hm1Ah
+         OTrg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732680730; x=1733285530;
+        d=1e100.net; s=20230601; t=1732680732; x=1733285532;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oWuOyCgrBrh3EN0Cps5LUohtDFWhmI5daNF56h0sHOo=;
-        b=iW73wXCAPB7ZwucFUq//kM2YUydPuJMOzyK0WYPall3/Z6BhrU7gRwLiY7FNDfFoJx
-         Gsh5baB9HfPh7KzHOkya4dNKWwQ4Y8N6GlBHRjXvG75KnBh1pi+TGNIB9olrob5KcLAQ
-         C2W+e3l5H1OSJS3ToLlYgNFvtQyYjucKKqdKZIhW2UVNgcELi6dOmBQvjR/ZgYCGX6gB
-         IGosi01TkoF/DtP3bbJx2bfj3E1Cw006iuuGFvRS5XhSy5JPpcsa4DdGniosBssSyhmH
-         dBR8NGXGwykA7m0gKFMGagsKrIecVE7KtHIFVQv2p08DZJktRmtShE8EU/CowqFqkz3U
-         zi4g==
-X-Gm-Message-State: AOJu0YwHcceLurMyj/AFjf9DDv76I6TzaKsWa2OBVw18V6WXtAub15KH
-	XK3ddyUUQz/lfNmCFcMRV6rCroGGHjygeQqV//LywCdhOzUHZaLlEvB8ur+ZY6CVLAdczSEzqlM
-	L
-X-Gm-Gg: ASbGncuO+PgQK5OqOmItiVnaMgObuIMH43CQVfd3XU27MCMmF3YUX2Zj1XCFr/x0LaI
-	03I1VhnY1usq81KugPHIAD8kcG5ygU+4uc9upTD2rYBNa/KClCmmQR9sE6VRrwseVpFqu+kU2R4
-	mavelPQ+/9fvI+zYS6xPSW+Utchm1NmumELH27U6Aq4OylBycNiQ9Yd/07YP1wSeWMwWAYpoWyA
-	C7xpZSBMUCCEkyC0GgonFS0tnkmb5Hw+AuQa94=
-X-Google-Smtp-Source: AGHT+IEx6H57LGA3O4OkvgJl9NnobF4iCfIVl9xL75UTQUaqpql/oPmDEgJNSF1hFNQ7Vk+iI3+Jvw==
-X-Received: by 2002:a05:6a00:230b:b0:724:f86e:e3d9 with SMTP id d2e1a72fcca58-72530045af1mr2244554b3a.14.1732680730185;
-        Tue, 26 Nov 2024 20:12:10 -0800 (PST)
+        bh=QF87IdLUt9OH85ynMkiwRlV70diyi+gR7IUWpkgdjLQ=;
+        b=PJ4Jt93u4CR2HtEYsTfL13aSbgPsUPXgq2zMgNogFxTtVGvuUYDZB1bnziz7+gL8Kz
+         /xa5YNvcymyu90NYQOIwaAvAnDdpniRklwVfFxgrn6ntW5AdUSN1NKHbTuNRzAGlwpDr
+         1uSOTXbPNyobeLTEuQGvN/H7XjsoG0QSsSxc1mWc7nR6bWPvboCvqr2puGOyjsz7vvms
+         ZXOhteTWHaWIaPmy9GcKTSnk1yuWPjJGHFkQ8kOWVPrtclT+wUQOSFVivHQ0eCCZBZyw
+         WLLm9QmGEPciZiRJjQDcHid/fx3leXDKap3gUTkJHxqWzFbuVLZE49XW/V8O1JTHWs1g
+         OZFw==
+X-Gm-Message-State: AOJu0YxC1fy0cPLEoViBvYJF2lj9XOpNRglJ36fzpu+42FumkzdBECxA
+	CYFbbjtptzltdtdNrHHx+C1zje0q5RfOhEY0Wn2akr0gMEy3iknH5zjXhGgAZjiCMbNm80M4RnT
+	D
+X-Gm-Gg: ASbGncu8lwLllCJzldnx6b7kHZvKbvoF+Juv8ndW0zq0LdNsMnRzrkQjidpSzZV0p4m
+	j56KJi7QbDLBCnMr2w+Sg+SWE9gG0lwYSYc8jh2mc5bpSq4phNfEGod79yjTNT/FoMfAmO+vXdt
+	yVy67sIQkqjN+Jw7f8d3LIooVycvYesjX0SYeN+BchC6iWxZSi+EysLf1cENv/njLCKyps4TNbj
+	swBek/02qYchZBOlJ8dqlNIffYirVwj0+JFA2w=
+X-Google-Smtp-Source: AGHT+IE0bssANU7s1jJocPpAdCIVKSylDHgKSEobdEpNwpVW6/0Us4f5y0jSm6y6+dKI3WsemEKRsw==
+X-Received: by 2002:a05:6a21:3289:b0:1e0:d14b:d54c with SMTP id adf61e73a8af0-1e0e0b58d0fmr2954492637.30.1732680731725;
+        Tue, 26 Nov 2024 20:12:11 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.09
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.12.11
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 20:12:09 -0800 (PST)
+        Tue, 26 Nov 2024 20:12:11 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 12/18] shadow: use update-alternatives to handle groups.1
-Date: Tue, 26 Nov 2024 20:11:32 -0800
-Message-Id: <822d70b7ccc2e5922de99a7703ec7eb3f814e29f.1732680538.git.steve@sakoman.com>
+Subject: [OE-core][styhead 13/18] openssl: Fix SDK environment script to avoid unbound variable
+Date: Tue, 26 Nov 2024 20:11:33 -0800
+Message-Id: <a57192131cbcb65e17b11f47aa0f90ef63258280.1732680538.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732680538.git.steve@sakoman.com>
 References: <cover.1732680538.git.steve@sakoman.com>
@@ -66,49 +66,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:12:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207906
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207907
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This patch fixes the following error at do_rootfs:
+Avoid errors like:
 
-  update-alternatives: Error: not linking /PATH/TO/rootfs/usr/share
-  /man/man1/groups.1 to /usr/share/man/man1/groups.1.coreutils since
-  /PATH/TO/rootfs/usr/share/man/man1/groups.1 exists and is not a link
+buildtools/sysroots/x86_64-pokysdk-linux/environment-setup.d/openssl.sh: line 6: BB_ENV_PASSTHROUGH_ADDITIONS: unbound variable
 
-The problem can be reproduced by adding the following lines to local.conf
-and then building an image:
+by setting an explicit empty default value.
 
-  EXTRA_IMAGE_FEATURES:append = " doc-pkgs"
-  IMAGE_INSTALL:append = " shadow coreutils"
-
-groups.1 is handled by update-alternatives in coreutils recipe, so
-do it in shadow recipe too.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 78c8eb60097df2e16c699464c39ff9142fc1ae69)
+(cherry picked from commit 5a2a4910a22668f25679a47deaa9e2ed28665efa)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-extended/shadow/shadow.inc | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ .../recipes-connectivity/openssl/files/environment.d-openssl.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/shadow/shadow.inc b/meta/recipes-extended/shadow/shadow.inc
-index b5e77b9874..171d6e27c3 100644
---- a/meta/recipes-extended/shadow/shadow.inc
-+++ b/meta/recipes-extended/shadow/shadow.inc
-@@ -200,9 +200,10 @@ ALTERNATIVE_LINK_NAME[vipw] = "${base_sbindir}/vipw"
- ALTERNATIVE_LINK_NAME[vigr] = "${base_sbindir}/vigr"
- ALTERNATIVE_LINK_NAME[nologin] = "${base_sbindir}/nologin"
- 
--ALTERNATIVE:${PN}-doc = "chfn.1 chsh.1"
-+ALTERNATIVE:${PN}-doc = "chfn.1 chsh.1 groups.1"
- ALTERNATIVE_LINK_NAME[chfn.1] = "${mandir}/man1/chfn.1"
- ALTERNATIVE_LINK_NAME[chsh.1] = "${mandir}/man1/chsh.1"
-+ALTERNATIVE_LINK_NAME[groups.1] = "${mandir}/man1/groups.1"
- 
- ALTERNATIVE:${PN}-base = "newgrp groups login su"
- ALTERNATIVE_LINK_NAME[login] = "${base_bindir}/login"
+diff --git a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+index f90088aab7..aadf1edcb6 100644
+--- a/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
++++ b/meta/recipes-connectivity/openssl/files/environment.d-openssl.sh
+@@ -3,4 +3,4 @@ export SSL_CERT_DIR="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs"
+ export SSL_CERT_FILE="$OECORE_NATIVE_SYSROOT/usr/lib/ssl/certs/ca-certificates.crt"
+ export OPENSSL_MODULES="$OECORE_NATIVE_SYSROOT/usr/lib/ossl-modules/"
+ export OPENSSL_ENGINES="$OECORE_NATIVE_SYSROOT/usr/lib/engines-3"
+-export BB_ENV_PASSTHROUGH_ADDITIONS="$BB_ENV_PASSTHROUGH_ADDITIONS SSL_CERT_DIR SSL_CERT_FILE OPENSSL_CONF OPENSSL_MODULES OPENSSL_ENGINES"
++export BB_ENV_PASSTHROUGH_ADDITIONS="${BB_ENV_PASSTHROUGH_ADDITIONS:-} SSL_CERT_DIR SSL_CERT_FILE OPENSSL_CONF OPENSSL_MODULES OPENSSL_ENGINES"
 -- 
 2.34.1
 
