@@ -2,150 +2,104 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 806FBD66BB4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F445D66BB3
 	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 04:11:47 +0000 (UTC)
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.web10.64658.1732680704438508623
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web11.64878.1732680705808853627
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 20:11:44 -0800
+ Tue, 26 Nov 2024 20:11:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YMGh4776;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.177, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-724f42c1c38so3369795b3a.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:11:44 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=3CYnHOjH;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7251abe0e69so2043332b3a.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 20:11:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680704; x=1733285504; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=leygUT2LtvPW5c+2Kpc+dQXoZucfmMiveH3azC8AOz4=;
-        b=YMGh4776DIXUNn97A/guM4n1SPtMfhcmoXsnbgqq71JLwBN1ieQzy/oOIBQDs2IvvH
-         6tvR9TWQcIDThqfwuODcdbizYuH9tg4yDWKm6VJj+CoS9NdUi5BLsMxOZzZ73gMh+Q1q
-         XiefofgzftnLloQef3EznSY6Ro5Sp7ToZ+NiSweaJI+UMU62+HbxCGAFYTeAy+l2vSxX
-         YGauZhiYn7TK10ztjOz5jdp5IrArmcSgsXRT+4uHU11DwgWmMLrN8JPuED5tdMZCzNhD
-         3wx2DmuyDcZNQ0ntU9mzsYR7s76+Yi1syXnTWiEpkkVFUpUxfXns8i+wI0RftWRGarvj
-         9hgQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732680705; x=1733285505; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=d2W8/Loxw9zJzvVRcMrnftM1xFBCF62L+k6TX1olBBs=;
+        b=3CYnHOjHTsGy+xhXnvGobJM4hC0W654xav0KbV6NgASNVtJo6acPdVDqvuZIlY3CLj
+         gdOc0q5kn8j9ZXH8TPueCw5VByYE9dm/jos1LbOtKDBZS0GSLMb81NncXOYLTKS6wVcn
+         eSYY5wpMrt9igRQDrjRqKu1QCbP7Q7RwF6VS0JWFPdFxEtNSrrANiZ30qEz1do4XDx1q
+         ZPK0qzceEvCeCwu3p3NmcNckF4/fCLg1zPhltwb28rTSOmRzyDpk+No1laT6AOqt02qY
+         TQu8MIQdRvNfWkgIGbCn4V7eHgZ5SU5gbkxVX81Krwvw3p87uBc2YqO2xFBbRr4B56OC
+         4/uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732680704; x=1733285504;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=leygUT2LtvPW5c+2Kpc+dQXoZucfmMiveH3azC8AOz4=;
-        b=BBYJXQO2u/yRBrBX5dztZP99ra7PzwtOBa63TLVMcdONrhttfX8pBk5q57q7UG2dn7
-         MF6oCA89vhTVIVhmEp7+e1Xk9dw/LFhFOe+dQQSXOQM2a1WmKz4c1jsHVYk8pVQvxQ/2
-         XTMzDJr4sKlPtGYEI77/OXo4C0xE7CXNHNHVSva63sMGeWeqhbIic2puaaWp6jC7bXbR
-         BpjGOwx88qXnoRBJ+qBkVVaDHfVTKvwSMSSPmPgdgOJvpuSjFxtWGRWlnw+wLowaEJCl
-         1qS1BHEAXqStPsbrBeUzFvprgrzh1IE7TwG6TlMV7l4Dut+g7udOYvW8f62A06/x6TMe
-         2cwA==
-X-Gm-Message-State: AOJu0YzWfcjI5KXykWuVwgrUCkKLLCA4o9k+WAB7K0eAvSI6P6Q/Dvv0
-	xVA2sUutg0haiWKEH8635dHntLuY3oESnN+BjD0HF0Z0ad9V0ps58qLxde0+0k9eDqWQE8fzrd1
-	q
-X-Gm-Gg: ASbGncuvup8wJoQngxLqVPTK97JGt13LTPhE0qT51Iy5U3spkNkGy0lb8lLvCff9smT
-	h55TEEe951pFJ97nBKETsLXFjq9ZNg23BObjALkxxAoI8OofQiSBNOhyP5wOOsIphUIzqidGaRm
-	GKDkRcMw81W1yYADe8PZG2r6DxCzb2y2BgXRJLMg5q7NxbXfhmHlhaogy+2W9dfneomAISRVxnW
-	wiIsnWV8qMk7Wl1P1UcxvKNczkuhNIQ1m9vpzY=
-X-Google-Smtp-Source: AGHT+IHed+9/U8aJoL+ikZbABU4D/kKuc2+K7rXrhnWxI7Uh7c432sIapSEgdaMrNBzdDyMrlW11SQ==
-X-Received: by 2002:a05:6a00:1956:b0:71d:e93e:f542 with SMTP id d2e1a72fcca58-725301740d7mr2297476b3a.21.1732680703438;
-        Tue, 26 Nov 2024 20:11:43 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732680705; x=1733285505;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=d2W8/Loxw9zJzvVRcMrnftM1xFBCF62L+k6TX1olBBs=;
+        b=fs+mNbbkK9ESdaeWnT60Jr+0yWHcG94Ks4w2qhia08AHkj6O9XQQpmsSlp4GTLEkI7
+         80oOwrVtPaizUcucEFHEPSBOJzizqnyV7t/YysaX8Nhw1dHuFIEUyy4HaZf4cK4c/irC
+         W+E2EJ8fcNGVk6OkjpemQWskWyidF1QEdnQcEiHKXyh4FDTBHdYk11f08tnFic9EKBef
+         uOmBnNR7+s6kkzEhTEvELx9rCPQQnGjgpRjt31/nlkkZOInI43Hs/GvtRBFdAlrvbTOz
+         eBS8A4SJhEfXdHcO4RxXgaUeabzK2jJZCvCnIw6Jz0IhsRA1KjmwFvQOimkLJMCPpiR0
+         FMsw==
+X-Gm-Message-State: AOJu0Yy5JrN69Qs2KDwiutrtLkuVg0YU57SpSB6xo2iVrKs/83MjETbp
+	yq6CCl061LlQCx2Og6CcMQ+O+EPrJrpcZi/xOMdW7HvG6sUd8k6/tC/mOa1M//8jfqCNk22Mvrz
+	x
+X-Gm-Gg: ASbGncuoWb+nB5nDqKMVKNshwsZ/NnjQK8HuycX/bky1vf8MFrA8J9WgKtiDAKqsnSJ
+	VRS7+NxytgYmZYUcnvSObZ5rx6R29Fg9XB4TX1RZYL4nDVvmDqIIirjpYqARqagHsAV1ia17AYp
+	Lw+H1SeLsu5ww43aZT4V4HDWw+9RGiielIg8QakFNhqMMABLBvB1EkDaWGwtixH0aJ6ZfhQqzN8
+	dI97CKFMn5lKLSpnAM6kIrp9j9b+/mBhbjVijc=
+X-Google-Smtp-Source: AGHT+IEoeaqqseYYzLU5sSq3FRw1FcQMF4b9RL56bnntWi1uEtR7tGgalaEMJuCR/W7r58i8Ks+kPQ==
+X-Received: by 2002:a05:6a00:4654:b0:71e:4c18:8e3b with SMTP id d2e1a72fcca58-72530013a13mr2602798b3a.2.1732680705028;
+        Tue, 26 Nov 2024 20:11:45 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.11.42
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-724de485c84sm9240796b3a.80.2024.11.26.20.11.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 20:11:43 -0800 (PST)
+        Tue, 26 Nov 2024 20:11:44 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 00/18] Patch review
-Date: Tue, 26 Nov 2024 20:11:20 -0800
-Message-Id: <cover.1732680538.git.steve@sakoman.com>
+Subject: [OE-core][styhead 01/18] cve-check: do not skip cve status description after :
+Date: Tue, 26 Nov 2024 20:11:21 -0800
+Message-Id: <4921605aab4c9588e5c96de3afe08e9d35f51145.1732680538.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1732680538.git.steve@sakoman.com>
+References: <cover.1732680538.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 04:11:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207894
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207895
 
-Please review this set of changes for styhead and have comments back by
-end of day Thursday, November 28
+From: Peter Marko <peter.marko@siemens.com>
 
-Passed a-full on autobuilder:
+Correct maxsplit parameter from 5 to 4 to not drop text if
+description contains ":".
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/532
+Example:
+>>> "detail: cpe:vendor:product:description:cont".split(':', 5)
+['detail', ' cpe', 'vendor', 'product', 'description', 'xxx']
+>>> "detail: cpe:vendor:product:description:cont".split(':', 4)
+['detail', ' cpe', 'vendor', 'product', 'description:xxx']
 
-The following changes since commit 045d50e63bcaf13056ce749c616eecc4d4516958:
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 3c4d8ca41ac0b429af92bf0ea84f1dfd0cda9e1f)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ meta/lib/oe/cve_check.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  e2fsprogs: removed 'sed -u' option (2024-11-22 05:46:04 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/styhead-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/styhead-nut
-
-Aleksandar Nikolic (1):
-  scripts/install-buildtools: Update to 5.1
-
-Alexander Kanavin (3):
-  selftest/sstatetests: run CDN mirror check only once
-  package_rpm: use zstd's default compression level
-  package_rpm: restrict rpm to 4 threads
-
-Bruce Ashfield (3):
-  linux-yocto/6.10: genericarm64.cfg: enable CONFIG_DMA_CMA
-  linux-yocto/6.10: cfg: gpio: allow to re-enable the deprecated GPIO
-    sysfs interface
-  linux-yocto/6.10: bsp/genericarm64: disable ARM64_SME
-
-Chen Qi (1):
-  shadow: use update-alternatives to handle groups.1
-
-Jinfeng Wang (1):
-  tzdata/tzcode-native: upgrade 2024a -> 2024b
-
-Kai Kang (1):
-  kexec-tools: update COMPATIBLE_HOST because of makedumpfile
-
-Markus Volk (1):
-  gcc: add a backport patch to fix an issue with tzdata 2024b
-
-Martin Jansa (1):
-  ffmpeg: fix packaging examples
-
-Peter Marko (2):
-  cve-check: do not skip cve status description after :
-  cve-check: fix malformed cve status description with : characters
-
-Richard Purdie (1):
-  openssl: Fix SDK environment script to avoid unbound variable
-
-Vijay Anusuri (1):
-  xwayland: upgrade 24.1.3 -> 24.1.4
-
-Wang Mingyu (1):
-  xwayland: upgrade 24.1.2 -> 24.1.3
-
-Yi Zhao (1):
-  systemd: fix broken links for sysvinit-compatible commands
-
- meta/classes-global/package_rpm.bbclass       |   3 +-
- meta/lib/oe/cve_check.py                      |   4 +-
- meta/lib/oeqa/selftest/cases/sstatetests.py   |   2 -
- .../openssl/files/environment.d-openssl.sh    |   2 +-
- .../packagegroup-core-tools-testapps.bb       |   1 +
- meta/recipes-core/systemd/systemd_256.5.bb    |   6 +-
- meta/recipes-devtools/gcc/gcc-14.2.inc        |   1 +
- ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 549 ++++++++++++++++++
- meta/recipes-extended/shadow/shadow.inc       |   3 +-
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- ...{xwayland_24.1.2.bb => xwayland_24.1.4.bb} |   2 +-
- .../kexec/kexec-tools_2.0.29.bb               |   3 +
- .../linux/linux-yocto-rt_6.10.bb              |   2 +-
- .../linux/linux-yocto-tiny_6.10.bb            |   2 +-
- meta/recipes-kernel/linux/linux-yocto_6.10.bb |   2 +-
- .../recipes-multimedia/ffmpeg/ffmpeg_7.0.2.bb |   2 +-
- scripts/install-buildtools                    |   4 +-
- 17 files changed, 575 insertions(+), 19 deletions(-)
- create mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
- rename meta/recipes-graphics/xwayland/{xwayland_24.1.2.bb => xwayland_24.1.4.bb} (96%)
-
+diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+index 487f30dc25..268adfb528 100644
+--- a/meta/lib/oe/cve_check.py
++++ b/meta/lib/oe/cve_check.py
+@@ -239,7 +239,7 @@ def decode_cve_status(d, cve):
+     if not status:
+         return {}
+ 
+-    status_split = status.split(':', 5)
++    status_split = status.split(':', 4)
+     status_out = {}
+     status_out["detail"] = status_split[0]
+     product = "*"
 -- 
 2.34.1
 
