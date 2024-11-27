@@ -2,146 +2,154 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E52CAD6D223
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4E9ED6D221
 	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 18:50:21 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web11.79044.1732733416319456097
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+ by mx.groups.io with SMTP id smtpd.web11.79043.1732733413575275983
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 10:50:16 -0800
+ Wed, 27 Nov 2024 10:50:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=oPt7RrAC;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-724e7d5d5b2so101020b3a.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:50:16 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=lZ4JjxBN;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.175, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-724d23df764so103944b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:50:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732733415; x=1733338215; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732733413; x=1733338213; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CY0T1I6lYqMksIMQyUkKGu2Ghv1V9ibQI1n+7EC7h4M=;
-        b=oPt7RrACGkmKoe9JG+YhVwhcuQPhPZqFoqz2p170BbMbFR9+wAbMwsKatWiDz1WOII
-         C3CnTctnIr/sxy6nDpfn5pqMOQ1NqmmVT51MC0dNucuopF7xMi71o9fgMJzFKIcHJynx
-         49rqfNQjRpVxF9dBlwoOzgmc4WU1XDu3iqjkJR1Kuy40mjxQW5dGgMSL0Nid4hgQDjU2
-         DRVwPRs2TKnAmqIEVfyOJcBVOjDfg9yqoptZ1f7FX6//cWZnDag542QlvCZACNy5hPKP
-         2vo1JjUBlhyWHkgy6ALOIrCCSY67GdsI0NViD+UG7UK1wUnbJ2g6c47km3KUrdpodIQJ
-         JaaQ==
+        bh=cSIK5jpwpMDWv2Y6LShrZtrxBaoWOfT5QXYtaGzLr+U=;
+        b=lZ4JjxBNOQWm6/by1oHdvb+uyuB02ble09K0jha6QaGNPQCBRPk4yQOnbcCCVl1RLm
+         F410aIp3JRNH6i9Eg11AGeK1i0CBu0xwqHmL35PEp92nSl71eZgaFE/dDdLoepHdY+SL
+         JDB7WZrPljmXrx7JFuuiwL4Lynf9TradrtJ6Cm05DpTW/cJnHXVnt25VAafix53RGcyn
+         MqKOqNNjO+GCjzayCOhWY4ly/4b4W/3ZQ+bowoUWbO62qlZQJBkIYP28YNY6wd5xkFNt
+         VT2XS/kZ/5n7BUs/LbxWC85SaPrbw2LOElYZmJ/S84ccAaXHw1VVJyBLydWU60KlGdmt
+         tndw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732733415; x=1733338215;
+        d=1e100.net; s=20230601; t=1732733413; x=1733338213;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CY0T1I6lYqMksIMQyUkKGu2Ghv1V9ibQI1n+7EC7h4M=;
-        b=KX7r39hypl1B1EsDQ/KTVScuYP44LQmClF1H4wLuxVH5KryPEng6SOF1xt5NsacVB9
-         kRRWmY4PEIu+GFjkW8h0fcOQzIr+sGQKyP/UxnIKmhYV4trEC0JORSWuhFZIar9Sgz82
-         l9Uok1UeuTuTGO6M9kyZGi9KL8hlJlwDSuDd5dta7+LOZ2+nJGYO4OKA2FpbqaGJndVq
-         EWhwlo1OW52jOOvlgpBbsE+WyWqgYJPnOYVO4JThR0NIPwoRsl96qd2n+NVhDwIWEzJl
-         1GRdtRX4q1XV2uHRp09iaIx1CiWYSUotz4KYb7QeJFM6o+XZFmaLMRTlPHEMA78mtnoP
-         br6A==
-X-Gm-Message-State: AOJu0YwLS0JgM3aSI3W3i6R1SozLBo3L33h7XDBa9XpmpR3pddLNO3pu
-	upthgDhMOQ4TQAtd0Ww3kMdIZ8vNFkV5hcMoEkql67Yn/r1jtI5u7Iq0zIEwkigPFCoIClbyXlI
-	u
-X-Gm-Gg: ASbGncsgol3at+ObMj3QiNm9E8XCy9k6eW710uYdjOPhuZt24drJjcIn3hGwcxzZTt3
-	9b6XRKuk6ZNXWV0ROfW3Fd5R9xpkUiE+bicPNz99Tmk9ucc2siXkOJwetGN7I6lFI8KpNVquVy4
-	UHHG0mGX0YowPE8yAXrXNQryBBcPz/uxJdP/UFVM8QPWGyr3OAfs910rQb4MLBlFq/HMPtRmMxc
-	9E8B2r4U92GHsFa4siFA110no+McMHp0cGRjD0=
-X-Google-Smtp-Source: AGHT+IE6+Ue8dzCNNg8d1LQak2mPIXm67OKVRzKYSG/yYCv/4Lulxikt6t/4AezUMRBZIFHGPeKdIw==
-X-Received: by 2002:a05:6a00:c8b:b0:71e:744a:3fbc with SMTP id d2e1a72fcca58-725301411b9mr5461649b3a.21.1732733415498;
-        Wed, 27 Nov 2024 10:50:15 -0800 (PST)
+        bh=cSIK5jpwpMDWv2Y6LShrZtrxBaoWOfT5QXYtaGzLr+U=;
+        b=DwWFE+0hjlxidnhm5TsktgTkcWokmEdApit9n8x91DA5miP0It0JrjSBZr+47xdTW2
+         FzF8VCsxUQyz1C0nhbvPCF50oSNR66Dz3L32xRb2G4L1hIBtZ2K37/bz5Lsp1EWmIY18
+         Z4PC3cyF7g38DydGun5ozl+FJC+UICdG0agAqqq1J7XemoUfL+0GOeOiGWUbSnzntW4a
+         sKvllLCSTni6DUhrHXjEF5bKS2HEYhnKBf70tf6Qi0o0qZHiTxPGI/WSNElz6HOWiUSZ
+         LBf9QDYE/YsB/8hWT1e5rEerpA/VgCNPUweBRzW5Piu8/1UgyQTNEZDCPy+Z5QSa4RcS
+         MOhg==
+X-Gm-Message-State: AOJu0Yw8RdAMY1pYzvhLy2V3KChNEHE7xorSG0BNTDtV6LBDSZbpibLO
+	P/rcxaeb9QRCQLU4zHURffFfhp2PAOUrOEMcATq6Tk4zBpZo1Pkk3wFIaByLGZ9omWebzBwJtMJ
+	t
+X-Gm-Gg: ASbGncuOhLtSBiLNEwwhXDonX/3TellHSlbodqRBfGnafFOi007xt0OewQ+X1fFKRd5
+	MnwHomH6AlXloL6kbKnmVHzX8lz1uFktqwv4oT+P/4bnr6IzPzLBJTmVVNefGN5u8AnGYFfM4CG
+	Oz80kNFN7wbkFFmpIz3oHsUfQ7MARTYJR91QaSP6jxbBYMFG8i+jKqTpYTrijkRIHpyW9PVGCX8
+	C1N4z8A5shVfwHOT3NZmH8PFwYOro61dJj3w8M=
+X-Google-Smtp-Source: AGHT+IGp1I4vq6eNTn9eZFcedMEYeOyi60ccEjkraomiFZqRpLt6sC6NvrUFX+NrYSIriX9T5Scu6Q==
+X-Received: by 2002:a05:6a00:3d0c:b0:71e:6ef2:6c11 with SMTP id d2e1a72fcca58-72530045bd6mr4968411b3a.9.1732733412654;
+        Wed, 27 Nov 2024 10:50:12 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72522e0375asm3403519b3a.94.2024.11.27.10.50.14
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72522e0375asm3403519b3a.94.2024.11.27.10.50.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 10:50:15 -0800 (PST)
+        Wed, 27 Nov 2024 10:50:12 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 03/14] coreutils: fix CVE-2024-0684
-Date: Wed, 27 Nov 2024 10:49:56 -0800
-Message-Id: <3d9a4cacd5f051134f190afcab2c71b3286cf9e5.1732733274.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 01/14] python3-pip: fix CVE-2023-5752
+Date: Wed, 27 Nov 2024 10:49:54 -0800
+Message-Id: <862c0338fba06077a26c775b49f993eac63762c9.1732733274.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1732733274.git.steve@sakoman.com>
 References: <cover.1732733274.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 18:50:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207945
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207943
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-Backport patch with tweaks for the current version to fix
-CVE-2024-0684.
+When installing a package from a Mercurial VCS URL (ie "pip install
+hg+...") with pip prior to v23.3, the specified Mercurial revision could
+be used to inject arbitrary configuration options to the "hg clone" call
+(ie "--config"). Controlling the Mercurial configuration can modify how
+and which repository is installed. This vulnerability does not affect
+users who aren't installing from Mercurial.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2023-5752
+
+Upstream patches:
+https://github.com/pypa/pip/pull/12306/commits/389cb799d0da9a840749fcd14878928467ed49b4
+
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...0001-split-do-not-shrink-hold-buffer.patch | 42 +++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_9.0.bb  |  1 +
- 2 files changed, 43 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils/0001-split-do-not-shrink-hold-buffer.patch
+ .../python/python3-pip/CVE-2023-5752.patch    | 34 +++++++++++++++++++
+ .../python/python3-pip_22.0.3.bb              |  8 +++--
+ 2 files changed, 39 insertions(+), 3 deletions(-)
+ create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch
 
-diff --git a/meta/recipes-core/coreutils/coreutils/0001-split-do-not-shrink-hold-buffer.patch b/meta/recipes-core/coreutils/coreutils/0001-split-do-not-shrink-hold-buffer.patch
+diff --git a/meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch b/meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch
 new file mode 100644
-index 0000000000..3eab65dcf1
+index 0000000000..ef66a59021
 --- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils/0001-split-do-not-shrink-hold-buffer.patch
-@@ -0,0 +1,42 @@
-+From 80dca40bbb36b7b1630bb5a43d62b3ff21b4e064 Mon Sep 17 00:00:00 2001
-+From: Chen Qi <Qi.Chen@windriver.com>
-+Date: Mon, 25 Nov 2024 23:43:49 -0800
-+Subject: [PATCH] split: do not shrink hold buffer
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/python/python3-pip/CVE-2023-5752.patch
+@@ -0,0 +1,34 @@
++From b16dd80c50deaa4753045d93ed281d348509293f Mon Sep 17 00:00:00 2001
++From: Pradyun Gedam <pradyunsg@users.noreply.github.com>
++Date: Sun, 1 Oct 2023 14:10:25 +0100
++Subject: [PATCH] Use `-r=...` instead of `-r ...` for hg
 +
-+* src/split.c (line_bytes_split): Do not shrink hold buffer.
-+If it’s large for this batch it’s likely to be large for the next
-+batch, and for ‘split’ it’s not worth the complexity/CPU hassle to
-+shrink it.  Do not assume hold_size can be bufsize.
++This ensures that the resulting revision can not be misinterpreted as an
++option.
 +
-+CVE: CVE-2024-0684
++Upstream-Status: Backport
++[https://github.com/pypa/pip/pull/12306/commits/389cb799d0da9a840749fcd14878928467ed49b4]
 +
-+Upstream-Status: Backport [c4c5ed8f4e9cd55a12966d4f520e3a13101637d9]
++CVE: CVE-2023-5752
 +
-+The original patch is tweaked to fit the current version.
-+
-+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
 +---
-+ src/split.c | 3 ---
-+ 1 file changed, 3 deletions(-)
++ src/pip/_internal/vcs/mercurial.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/split.c b/src/split.c
-+index 4b1b144..e44e867 100644
-+--- a/src/split.c
-++++ b/src/split.c
-+@@ -785,10 +785,7 @@ line_bytes_split (uintmax_t n_bytes, char *buf, size_t bufsize)
-+             {
-+               cwrite (n_out == 0, hold, n_hold);
-+               n_out += n_hold;
-+-              if (n_hold > bufsize)
-+-                hold = xrealloc (hold, bufsize);
-+               n_hold = 0;
-+-              hold_size = bufsize;
-+             }
++diff --git a/src/pip/_internal/vcs/mercurial.py b/src/pip/_internal/vcs/mercurial.py
++index 2a005e0..e440c12 100644
++--- a/src/pip/_internal/vcs/mercurial.py
+++++ b/src/pip/_internal/vcs/mercurial.py
++@@ -31,7 +31,7 @@ class Mercurial(VersionControl):
 + 
-+           /* Output to eol if present.  */
++     @staticmethod
++     def get_base_rev_args(rev: str) -> List[str]:
++-        return [rev]
+++        return [f"-r={rev}"]
++ 
++     def fetch_new(
++         self, dest: str, url: HiddenText, rev_options: RevOptions, verbosity: int
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-core/coreutils/coreutils_9.0.bb b/meta/recipes-core/coreutils/coreutils_9.0.bb
-index 8a2fbeca32..1cce9192ec 100644
---- a/meta/recipes-core/coreutils/coreutils_9.0.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.0.bb
-@@ -20,6 +20,7 @@ SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-            file://0001-local.mk-fix-cross-compiling-problem.patch \
-            file://e8b56ebd536e82b15542a00c888109471936bfda.patch \
-            file://run-ptest \
-+           file://0001-split-do-not-shrink-hold-buffer.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-pip_22.0.3.bb b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+index 6e28b87ba3..28eab9c3de 100644
+--- a/meta/recipes-devtools/python/python3-pip_22.0.3.bb
++++ b/meta/recipes-devtools/python/python3-pip_22.0.3.bb
+@@ -34,9 +34,11 @@ LIC_FILES_CHKSUM = "\
  
- SRC_URI[sha256sum] = "ce30acdf4a41bc5bb30dd955e9eaa75fa216b4e3deb08889ed32433c7b3b97ce"
+ inherit pypi python_setuptools_build_meta
+ 
+-SRC_URI += "file://0001-change-shebang-to-python3.patch"
+-SRC_URI += "file://no_shebang_mangling.patch"
+-SRC_URI += "file://reproducible.patch"
++SRC_URI += "file://0001-change-shebang-to-python3.patch \
++            file://no_shebang_mangling.patch \
++            file://reproducible.patch \
++            file://CVE-2023-5752.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "f29d589df8c8ab99c060e68ad294c4a9ed896624f6368c5349d70aa581b333d0"
+ 
 -- 
 2.34.1
 
