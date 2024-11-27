@@ -2,75 +2,114 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BD8DD66B9A
-	for <webhook@archiver.kernel.org>; Tue, 26 Nov 2024 23:26:46 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.60237.1732663596668103392
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78618D66BA2
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 00:51:26 +0000 (UTC)
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.61696.1732668685341302030
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 15:26:36 -0800
+ Tue, 26 Nov 2024 16:51:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f2bCI5gK;
- spf=pass (domain: gmail.com, ip: 209.85.214.175, mailfrom: raj.khem@gmail.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2124ccf03edso61876625ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 15:26:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=HJpzt/Qc;
+ spf=pass (domain: gmail.com, ip: 209.85.215.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7fc8f0598cdso19915a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 16:51:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1732663596; x=1733268396; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=McP/a+7C/sjrFBZUU2fNhzY5vB0iFfzdB0gkK8DCbOs=;
-        b=f2bCI5gKCE1yv2v39Yp8rkGzvGYLKtlZAJOUFqhV4AWUVBQTQ9lwvWkPETN2p2KcVt
-         iL4iQv9Y1fA0AGcVDZ/30R+owuTmAM9POSndjkVvpjy29tJAMg4CkK9RzmoZs4P0jycU
-         PPq+HtabhOh+NCEP1vZs4L1gEH4tDZdJzbkLq11aZzdl9Dsi9OCW4BYczmEm7LyfglBK
-         QPuJKgaHPpusuMt+C+4YzsWJ09dVNh+eSFmJy1abNXV66ceZgCbbzTeHPbHMMLgtLDn9
-         LgPqF8ZcoBPrdW/NlTVqZ9Y0jiqJl35Ssqz+dJWjARJ9efMp689D6tW51QOwQhafb7A/
-         jHtQ==
+        d=gmail.com; s=20230601; t=1732668684; x=1733273484; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uwyz8eZo6tz+lYldf7+5kINb/RzYNkd6b3z01ZAP/G4=;
+        b=HJpzt/QcLRzLL5kI7I78GzMxjNAG6BVUBRWO0Q2TGhMowGj2xNatu0Z46H6RRLOI5s
+         PPc02wtCUWvclB3DRxaXXQqG4bcBzTdy7Y2+Rb/SgpFoOI98C4p1YOBsMYEOMbihejhX
+         xgierZFJRlhOwbCrscDBeNWOpygCRkXaLhALj/m+GjHuzJ8Yi662hA47qYrYZWvujRzQ
+         50n98S3hN3YkOJ7yAzDsY/hMMic8b3bj62N5oWp2ZEbX9DpyzcIx2zYiKgxeZxnOA8N4
+         LZOOzFCA3+sMnFydWngxiMGXYZU+XsxxfRxKE4mtVhyHxrin5/QdnfTb5+hhPzK4u2CD
+         RK2A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732663596; x=1733268396;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=McP/a+7C/sjrFBZUU2fNhzY5vB0iFfzdB0gkK8DCbOs=;
-        b=TwMKG58QNNi27nkI1jvzwaKr66H2D5BNJTeXNaOMoKI0pgKGaItNuZqYNSVWXM3mrx
-         ZIhwCOdys0kTpp2aK2ZfOcXBkU+SjhDPryZwnSmcF72Q9v9xLGGz8Jtf3roLV70joQ5u
-         xjsggmJzrMh/o11Vrp38WLsUyCWFR074iP9hTz1rA9cUQPeC/uz2oYcbc01lQ/LjDRCB
-         QEL5GsofFMXKiMklBm2eC6ORadlW/K5aG7Gp/THh7oYTysgtcqar3AzdDthU77suiy2J
-         U1+AB+uNKixdS+64kp1uYcVdy+7peDmBaLQfO1VJnqiptw+rmxeZl6r6K1W8keLsCJ7o
-         ez9Q==
-X-Gm-Message-State: AOJu0YwGzz0E3ihpWgPNbO4HBmrQV5X5LdZxgxNbWxiz0CqM0R2rbeTB
-	e0BoHHOD5XvPw4hO2Ax8pYP5GniUqq9qhY0+LNzCmCmoLTK5pQR+
-X-Gm-Gg: ASbGncsLO+oKUwjhXcw4JL13Dii/MYbrof8WmUJwRhy6cofSOZtTsQR1QEnaCQItPea
-	uX9pLCEvS4WxRlpy0luiBsbhevY+/OxmdQwH7RU+SdCWglilusgCuR7EruLZNKnuLaR9bUztC3G
-	F9Xxhk6UQQ8IvEefE5nJjR2K4yaXSfxufpq2UERtmIrp2UgAenaZ2AOOMyENADAJUEQCM3kZEZd
-	+TtudH7JUrlnajEsZXhEakSdmdxYWSepOdurGk9LP0DkeXEk0sz
-X-Google-Smtp-Source: AGHT+IFjSu4yM9ojI4JjJCbzU2T2PVv93z7lEhhDPvqPd9rleKCket+63rPxbypbRplFArO9ZV/1dQ==
-X-Received: by 2002:a17:903:32c6:b0:20e:57c8:6ab3 with SMTP id d9443c01a7336-21501087088mr10280205ad.4.1732663596018;
-        Tue, 26 Nov 2024 15:26:36 -0800 (PST)
+        d=1e100.net; s=20230601; t=1732668684; x=1733273484;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=uwyz8eZo6tz+lYldf7+5kINb/RzYNkd6b3z01ZAP/G4=;
+        b=NAyCPAJIq0XQIzrWaL6gnsBjQ/20e0anI9ks8vGV3qBPnTzKtQPI9IqS5TXzs0aWCm
+         4z6Gi76byjNYe+Jm8FNbBuACc19sKgV5BJq1IrnVwC9Gh4vaY/Eq+ST4LnLoiuqaIYen
+         6yGco8b1yZ03kVo3Puu/z3MuFZiDDP3AMAI8yID+47xJ5mOlvPsH8nhy0QNU0YEaVl64
+         Q9xyGHeZJoN8cjhhAg2m2o2iMiaEe3LjDBU7H83RztX9SqQdsPoLD9vSbU4CuvnX1MqS
+         SHROS9oN6BEPH9zG02kuJ8ULyp1Uhe1aUGaEgtXmv971sEDn4+Ic70BlBdzTsCBU31o7
+         sXew==
+X-Gm-Message-State: AOJu0YygpQ9VXFxEbr9c4pikCt0R1k6RpG0/INhPwAi2K8JZYBYDxE0S
+	DRVfu69nb3HGm0l5dksIkiD2tAYmT92W1uTJige1W7QikmNQzNzA6fpdbA==
+X-Gm-Gg: ASbGnctX0HAtcHCWp3m4x2OPp9rtkQiRevxzXzuaGsDLU1BnMBkO++FANUpVjCgODRs
+	06b9DFC2Dfldjsyi8tW2WtNz7ZBE58t5QyxNFNmlFe+6Vs2fXoaQKzswq9AfrvY5wPX3/CXtoFH
+	lClRKZ8DI0rQWRVS+blF9EWmbKceJrPVGSuHyBMyq2et3c2BpQTa2XaBxELmf/Oeshnbe8cMc1g
+	RA/lVxIJT7DkRhSCFD2CdPkloUCc88X3ReL6Fl5lqFyreU4oqlD
+X-Google-Smtp-Source: AGHT+IHhcWPOU2kqHOFYBofDPjedHbOg1lBMpWJbJppwk8iwyWVeAYotJFKuqD5FNRTMVZLJ7QSdfQ==
+X-Received: by 2002:a05:6a20:4393:b0:1e0:d5be:bf75 with SMTP id adf61e73a8af0-1e0e11badd8mr1896057637.17.1732668684432;
+        Tue, 26 Nov 2024 16:51:24 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::4338])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129dbfa1edsm90279865ad.158.2024.11.26.15.26.34
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fbcc1e41d7sm8092209a12.23.2024.11.26.16.51.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 15:26:35 -0800 (PST)
+        Tue, 26 Nov 2024 16:51:24 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-To: wangmy@fujitsu.com
-Cc: openembedded-core@lists.openembedded.org
-Subject: [OE-core] [PATCH 42/47] seatd: upgrade 0.8.0 -> 0.9.1
-Date: Tue, 26 Nov 2024 15:26:34 -0800
-Message-ID: <20241126232634.612174-1-raj.khem@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <raj.khem@gmail.com>
+Subject: [PATCH 1/2] seatd: Create seat user and package systemd service
+Date: Tue, 26 Nov 2024 16:51:20 -0800
+Message-ID: <20241127005121.683644-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <1731403483-21399-42-git-send-email-wangmy@fujitsu.com>
-References: <1731403483-21399-42-git-send-email-wangmy@fujitsu.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 23:26:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207889
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 00:51:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207890
 
-I am seeing a strange behavior on RPI4 after this seatd upgrade where default tty is now tty0 instead of tty7 on which the weston is running. So on boot into graphical.target previously one would see the weston UI on screen, now we see a virtual console. After logging in doing
+With latest version seatd does not work properly if
+user access permissions are not correctly set, therefore
+create 'seat' group and package the seatd.service file
+and enable it by default with systemd distro feature
 
-chvt 7 
+set logind to systemd when using systemd as default init system
 
-does bring up the UI onto screen but this is not an expected change. I am also seeing same behavior on IMX8 machines. 
+Signed-off-by: Khem Raj <raj.khem@gmail.com>
+---
+ meta/recipes-core/seatd/seatd_0.9.1.bb | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
+diff --git a/meta/recipes-core/seatd/seatd_0.9.1.bb b/meta/recipes-core/seatd/seatd_0.9.1.bb
+index 8da57acc567..8ee43a3dc8f 100644
+--- a/meta/recipes-core/seatd/seatd_0.9.1.bb
++++ b/meta/recipes-core/seatd/seatd_0.9.1.bb
+@@ -11,7 +11,7 @@ SRC_URI = "git://git.sr.ht/~kennylevinsen/seatd;protocol=https;branch=master \
+ SRCREV = "566ffeb032af42865dc1210e48cec08368059bb9"
+ S = "${WORKDIR}/git"
+ 
+-inherit meson pkgconfig update-rc.d
++inherit meson pkgconfig systemd update-rc.d useradd
+ 
+ # https://www.openwall.com/lists/musl/2020/01/20/3
+ CFLAGS:append:libc-musl:powerpc64le = " -Wno-error=overflow"
+@@ -22,14 +22,21 @@ PACKAGECONFIG ?= " \
+ "
+ 
+ PACKAGECONFIG[libseat-builtin] = "-Dlibseat-builtin=enabled,-Dlibseat-builtin=disabled"
+-PACKAGECONFIG[systemd] = ",,systemd"
++PACKAGECONFIG[systemd] = "-Dlibseat-logind=systemd,,systemd"
+ 
+ do_install:append() {
+         if [ "${VIRTUAL-RUNTIME_init_manager}" != "systemd" ]; then
+                 install -Dm755 ${UNPACKDIR}/init ${D}/${sysconfdir}/init.d/seatd
++        else
++                install -Dm644 ${S}/contrib/systemd/seatd.service ${D}${systemd_unitdir}/system/seatd.service
+         fi
+ }
+ 
++USERADD_PACKAGES = "${PN}"
++GROUPADD_PARAM:${PN} = "-r seat"
++
+ INITSCRIPT_NAME = "seatd"
+ INITSCRIPT_PARAMS = "start 9 5 2 . stop 20 0 1 6 ."
+ INHIBIT_UPDATERCD_BBCLASS = "${@oe.utils.conditional('VIRTUAL-RUNTIME_init_manager', 'systemd', '1', '', d)}"
++
++SYSTEMD_SERVICE:${PN} = "seatd.service"
 
