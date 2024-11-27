@@ -1,497 +1,237 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <denis.osterland@diehl.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F878D609A4
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 06:28:38 +0000 (UTC)
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
- by mx.groups.io with SMTP id smtpd.web10.66152.1732688915251870896
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 973DDD609AA
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 07:34:58 +0000 (UTC)
+Received: from enterprise02.smtp.diehl.com (enterprise02.smtp.diehl.com [193.201.238.220])
+ by mx.groups.io with SMTP id smtpd.web10.66794.1732692896184581737
  for <openembedded-core@lists.openembedded.org>;
- Tue, 26 Nov 2024 22:28:35 -0800
+ Tue, 26 Nov 2024 23:34:57 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=gsvY4bsW;
- spf=pass (domain: mvista.com, ip: 209.85.214.174, mailfrom: hprajapati@mvista.com)
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21262a191a5so58177625ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 26 Nov 2024 22:28:35 -0800 (PST)
+ dkim=pass header.i=@diehl.com header.s=default header.b=BvbeugdB;
+ spf=pass (domain: diehl.com, ip: 193.201.238.220, mailfrom: prvs=054070342=denis.osterland@diehl.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1732688914; x=1733293714; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=SW13mya+Xq3NqFM1nzSccEfMxzlW3YyeTIc0gzr210k=;
-        b=gsvY4bsWyb+arnh0723z1C58/luD10hkT1sVUquzNbQpJib9eSIle8Lklp9bxNMZB/
-         VTzbJpA3QNs4hryje4NCXXzry4u8d2RQtoKp70MkIFARkuFyD1CGCfDr0xLxrvo0Q6bG
-         ckz5hB3LOmJrL2YsSveAurS0I75CcH6nIC9NM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732688914; x=1733293714;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SW13mya+Xq3NqFM1nzSccEfMxzlW3YyeTIc0gzr210k=;
-        b=xKB2/JdOL0Zaq9qQw7zDKsoNUzFs37ky2MzEdAX93SXN9AWkLayLHK+Zn2bBQ1Vt/Z
-         PfIfwaiC6Q0vBFia1qsTDKVCdxZ5ZJg3CIDzxWHbuPFgQeQOmH0/p2oZlEOg0DCl07Ny
-         mf+0uQI0cCsqSzySnLkVD17JYHPWx8eyDZUloDWBZlxgffCfjoveCDcsd/CLVEpeEiqH
-         Y/1we83iC7i/06zow1MtjTicOo2YJ8+xydvK3BVmrBe7VnBlh7r+f0tZSajKnKmTAZb5
-         NwuM8gg+2UZ1wEKxMVhh1efCsU85BwUgGAGgWMH/wqSUhxjOr7JnbuO8iZveEK2SwO7k
-         578g==
-X-Gm-Message-State: AOJu0Ywo7sdYk1BA2if8m3fwoiSAGhfLP0elqERSeACLAzzv3SOl4JxU
-	YpOliVQ1LlEIR17xTCxkdpjnFUKyEM7aoEsdRy5zgp9bW0+P2PcOhIdWFE5OWVNgRzypPczb0L1
-	F
-X-Gm-Gg: ASbGncuUCXWHT63TVxyOFyDm/Je8AEC/4EAKUZLr9JtL6U9dm6jKMCklU1OCuo02unh
-	Y5nA80RxIl6Hwz0bCluOGmA786HQXiUDWtr8KMo0ulwcGXStNWXcGju8xR28WqepNcjGvEP4rab
-	c1meOmgHg+rwwUL9mCt5x+8xAfRLlSyTnvUDoAN48eil4iWcB6siuLPxloW1HlZYEA74CctzQLt
-	QU5apSvEVrDNFTKzXx28HS26UHMx3AgOWiZNpgLw4V/yQB9aE0hca5LaDSPl8L9SAs=
-X-Google-Smtp-Source: AGHT+IE1+3YDMRt4mH0olCNnUS7kzu6nNISspJnS1sXrX+JTbrnqPVW8MsOq8ijzCn8+apxnwEFpug==
-X-Received: by 2002:a17:902:d487:b0:20c:895d:b41c with SMTP id d9443c01a7336-21501d58562mr24608955ad.41.1732688914237;
-        Tue, 26 Nov 2024 22:28:34 -0800 (PST)
-Received: from MVIN00016.mvista.com ([2409:40c1:103f:6bce:d322:816c:7372:a687])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129db8c783sm94840565ad.25.2024.11.26.22.28.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 26 Nov 2024 22:28:33 -0800 (PST)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [kirkstone][PATCH] libsndfile: fix CVE-2024-50612
-Date: Wed, 27 Nov 2024 11:58:24 +0530
-Message-Id: <20241127062824.82354-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.25.1
+  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
+  t=1732692896; x=1764228896;
+  h=from:to:subject:date:message-id:mime-version;
+  bh=2cRB/r3bwJJBex/VZm16Uc0BhzM1VG0vd1U9X27H7O8=;
+  b=BvbeugdBXp+zGWL13j213/wjL7k9nSw1s/D4MjfcwDKNQ3PGFu0Ta4zK
+   +ZePhLYPx8QsO9kRjXJmvah1TJ4yAgxj1IBArD9P7GXixQ4cB5pk7uwim
+   GYNk4jJRbdxz0xBZbUKrNkGnmAt8qR4l/6G4I7a2U3+OSnKxxSzvVK/OB
+   6b/oQAB4VsBXOvq2U2/k6Te6nyEGg89woscWjIKc205ZHek91YrzJXTNN
+   sjD6kbJH8QwzMAWGZYlN2C1AamjDfr8AeN7Pn0Pj07kmJ42Gorw3FesjD
+   h5XKocFOyiCAPGTotaDwUDrO61OqhlWgQDcWIyuQzfYYCFKwG7GUgs8VA
+   g==;
+X-CSE-ConnectionGUID: F3d6wxYGSMODudSiLtIkMg==
+X-CSE-MsgGUID: ST+vSOt2RGarvcU6voLi0A==
+X-ThreatScanner-Verdict: Negative
+IronPort-Data: A9a23:aAHrY6MDB0agNYbvrR2bl8FynXyQoLVcMsEvi/8bNHDolHp+jmZWi
+ jtAB3bOJ7/RMSHyZpovP9PnsQ9E7KZh/KYgFVsx+Dd1EGkiRaHtWY/Idh/7MXvMJJzPQRw3t
+ sxGNdKZcJFtQiSN/hr8O+Ht9iMjjq+FTbT3BeOfYi4uTwI/F3lxhR47w7A3jtc33bBVbyuEo
+ cv2osbWJF6i3XlsMWkPtOeYqRxptejvoj5wUnkWPJin63eFxiFFZH5mGYmxM2fgEM4THeOrX
+ KDPzby5+iXS+BJqAcmh1ar4N009RPjZJwzW4ka6IJNO8SWu3ARqlP5TCdIcdVtP2XLOnN1g0
+ 5NBtJGwTUEiOaiLk/4ZFAVbViFJO+tN4ruffDv+6aSvIzb9nwjRL49GVAduVbAw+vprGTMJs
+ uMHN3YBbx2Dg6S9x7f8UuptwZxLECWQB29sh50a5WmfVZ4bfK3+r4X2Cf5whGk52ZoWEKaPa
+ cdENDQ1NErOaRZEa1lOUco3xLv0jyKjKm0Jo1+r/qdmuGK7IC6dclTOGIePJobaFZ09cmKw/
+ D+uE7HRW0lCXDCn4WPbtCrq3qmXwHuTtLs6TNWQ7uRtjECY2lsdARgXUUrTifSigyZSYfoGQ
+ 6Av0nRo9PJaGHCDFIGnA0Th+iDc5XbwZvILewEEwFDUokbry1bBboQ0ZmYpQMArssYwWQsr2
+ jeh9/v1BSZiuaGiUnmU8LGZt1uaYUD5+kdbOEfo5SNcizXSiNlbYiDnF76PI4bs5jHBIgwc9
+ hjRxMQIaxf/uuZQv0mz1QivbztBPfElRCZtjuncdjrNAg+U+OdJzmFngLTWxa8oEWqXcrWOl
+ FZfl5aB/NEhNrSquDGBe+QpAJCqwvnQZVUwgXY3d3Ug3zio6XWsYtgKpjp5Pl8vPscJeTuva
+ 0jW0e9TzMYLeivwK/YnJdvqUazGzoC5fTjhfvzZaNtVJJ9qaAKd+ChoaWac3m3tlA4nlqRX1
+ ZKzIJf8XCZHUP4PIDyefNtez4QM2noE6mrJW5vGkQqg9bvGTSvAIVsCGB7UBgwj14ucrRnY6
+ ZBcNcaOzxhFS/HzbjX/+J4SNhYBKn1TLZfupspac+SOLgZrFCQqDOXc6bcgYJB+2aNNm+HF+
+ 3uwVkNVxBz4n3KvFOmRQik7LuO1G88v6ytgZ0TAIGqV5pTqWq73hI93Snf9VeBPGDBLpRKsc
+ 8Q4Rg==
+IronPort-HdrOrdr: A9a23:Bh95z6l4veFYVc1L9ix0Y3fXgn3pDfKl3DAbv31ZSRFFG/Fw9/
+ rBoB17726HtN91YhpQ/exoV5PwP080maQFnrX5Xo3SIDUO2lHYXb2KhLGKq0yDakjDG/Zmuc
+ hdmsNFea3N5DZB/LXHyTj9OewNhPOA96elj/rfyXBCcSFGApsL0y5JTiygPglTXgdpOboVfa
+ Dw2uN34xWnYmoedcm2Cz0oWOLZt8TXmJ+OW29hOzcXrCeLyR2ngYSKayRwHS1uKg+nA41Sll
+ QtXzaJnJlLtcvLqSM0MFWz03xp8uGA9jKLPr32+7UoFgk=
+X-Talos-CUID: =?us-ascii?q?9a23=3AdUFz12i7tb6atP4uDsuMf4hLBTJuXCbRkmjAEmC?=
+ =?us-ascii?q?DLEFFVbGuSHuM2aBBnJ87?=
+X-Talos-MUID: 9a23:/PjIKQbEEwypT+BTjAOvmgpFKJ1SzK20Fkswz4sBn8jcHHkl
+X-IronPort-AV: E=Sophos;i="6.12,188,1728943200"; 
+   d="p7s'346?scan'346,208,346";a="99898512"
+From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>,
+	"openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [PATCH 2/3] spdx: add support for WITH operator
+Date: Wed, 27 Nov 2024 08:34:52 +0100 (CET)
+Message-ID: <9d9eb049a3bf4709bedd274ed0d97fff@diehl.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----AF5C2A56BADD0B8BEC8E345E5D1302D0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 06:28:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207914
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 07:34:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207915
 
-Upstream-Status: Backport from https://github.com/libsndfile/libsndfile/commit/4755f5bd7854611d92ad0f1295587b439f9950ba
+This is an S/MIME signed message
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../libsndfile1/CVE-2024-50612.patch          | 402 ++++++++++++++++++
- .../libsndfile/libsndfile1_1.0.31.bb          |   1 +
- 2 files changed, 403 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch
+------AF5C2A56BADD0B8BEC8E345E5D1302D0
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch
-new file mode 100644
-index 0000000000..9e4b5f8ce0
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch
-@@ -0,0 +1,402 @@
-+From 4755f5bd7854611d92ad0f1295587b439f9950ba Mon Sep 17 00:00:00 2001
-+From: Arthur Taylor <art@ified.ca>
-+Date: Fri, 15 Nov 2024 19:46:53 -0800
-+Subject: [PATCH] src/ogg: better error checking for vorbis. Fixes #1035
-+
-+Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/4755f5bd7854611d92ad0f1295587b439f9950ba]
-+CVE: CVE-2024-50612
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ src/ogg.c        |  12 ++--
-+ src/ogg_opus.c   |  17 +++--
-+ src/ogg_vorbis.c | 167 +++++++++++++++++++++++++++--------------------
-+ 3 files changed, 114 insertions(+), 82 deletions(-)
-+
-+diff --git a/src/ogg.c b/src/ogg.c
-+index 7a4a167..c6e76e3 100644
-+--- a/src/ogg.c
-++++ b/src/ogg.c
-+@@ -209,12 +209,16 @@ ogg_read_first_page (SF_PRIVATE *psf, OGG_PRIVATE *odata)
-+ 
-+ int
-+ ogg_write_page (SF_PRIVATE *psf, ogg_page *page)
-+-{	int bytes ;
-++{	int n ;
-+ 
-+-	bytes = psf_fwrite (page->header, 1, page->header_len, psf) ;
-+-	bytes += psf_fwrite (page->body, 1, page->body_len, psf) ;
-++	n = psf_fwrite (page->header, 1, page->header_len, psf) ;
-++	if (n == page->header_len)
-++		n += psf_fwrite (page->body, 1, page->body_len, psf) ;
-+ 
-+-	return bytes == page->header_len + page->body_len ;
-++	if (n != page->body_len + page->header_len)
-++		return -1 ;
-++
-++	return n ;
-+ } /* ogg_write_page */
-+ 
-+ sf_count_t
-+diff --git a/src/ogg_opus.c b/src/ogg_opus.c
-+index d937ada..5ad53ac 100644
-+--- a/src/ogg_opus.c
-++++ b/src/ogg_opus.c
-+@@ -815,15 +815,16 @@ ogg_opus_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
-+ 
-+ 	/* The first page MUST only contain the header, so flush it out now */
-+ 	ogg_stream_packetin (&odata->ostream, &op) ;
-+-	for ( ; (nn = ogg_stream_flush (&odata->ostream, &odata->opage)) ; )
-+-	{	if (! (nn = ogg_write_page (psf, &odata->opage)))
-++	while (ogg_stream_flush (&odata->ostream, &odata->opage))
-++	{	nn = ogg_write_page (psf, &odata->opage) ;
-++		if (nn < 0)
-+ 		{	psf_log_printf (psf, "Opus : Failed to write header!\n") ;
-+ 			if (psf->error)
-+ 				return psf->error ;
-+ 			return SFE_INTERNAL ;
-+ 			} ;
-+ 		psf->dataoffset += nn ;
-+-		}
-++		} ;
-+ 
-+ 	/*
-+ 	** Metadata Tags (manditory)
-+@@ -838,15 +839,16 @@ ogg_opus_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
-+ 	vorbiscomment_write_tags (psf, &op, &opustags_ident, opus_get_version_string (), - (OGG_OPUS_COMMENT_PAD)) ;
-+ 	op.packetno = 2 ;
-+ 	ogg_stream_packetin (&odata->ostream, &op) ;
-+-	for ( ; (nn = ogg_stream_flush (&odata->ostream, &odata->opage)) ; )
-+-	{	if (! (nn = ogg_write_page (psf, &odata->opage)))
-++	while (ogg_stream_flush (&odata->ostream, &odata->opage))
-++	{	nn = ogg_write_page (psf, &odata->opage) ;
-++		if (nn < 0)
-+ 		{	psf_log_printf (psf, "Opus : Failed to write comments!\n") ;
-+ 			if (psf->error)
-+ 				return psf->error ;
-+ 			return SFE_INTERNAL ;
-+ 			} ;
-+ 		psf->dataoffset += nn ;
-+-		}
-++		} ;
-+ 
-+ 	return 0 ;
-+ } /* ogg_opus_write_header */
-+@@ -1124,7 +1126,8 @@ ogg_opus_write_out (SF_PRIVATE *psf, OGG_PRIVATE *odata, OPUS_PRIVATE *oopus)
-+ 			*/
-+ 			oopus->u.encode.last_segments -= odata->opage.header [26] ;
-+ 			oopus->pg_pos = oopus->pkt_pos ;
-+-			ogg_write_page (psf, &odata->opage) ;
-++			if (ogg_write_page (psf, &odata->opage) < 0)
-++				return -1 ;
-+ 			}
-+ 		else
-+ 			break ;
-+diff --git a/src/ogg_vorbis.c b/src/ogg_vorbis.c
-+index 5f53651..fa5709f 100644
-+--- a/src/ogg_vorbis.c
-++++ b/src/ogg_vorbis.c
-+@@ -78,26 +78,6 @@
-+ 
-+ #include "ogg.h"
-+ 
-+-typedef int convert_func (SF_PRIVATE *psf, int, void *, int, int, float **) ;
-+-
-+-static int	vorbis_read_header (SF_PRIVATE *psf) ;
-+-static int	vorbis_write_header (SF_PRIVATE *psf, int calc_length) ;
-+-static int	vorbis_close (SF_PRIVATE *psf) ;
-+-static int	vorbis_command (SF_PRIVATE *psf, int command, void *data, int datasize) ;
-+-static int	vorbis_byterate (SF_PRIVATE *psf) ;
-+-static sf_count_t	vorbis_calculate_page_duration (SF_PRIVATE *psf) ;
-+-static sf_count_t	vorbis_seek (SF_PRIVATE *psf, int mode, sf_count_t offset) ;
-+-static sf_count_t	vorbis_read_s (SF_PRIVATE *psf, short *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_read_i (SF_PRIVATE *psf, int *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_read_f (SF_PRIVATE *psf, float *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_read_d (SF_PRIVATE *psf, double *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t len) ;
-+-static sf_count_t	vorbis_read_sample (SF_PRIVATE *psf, void *ptr, sf_count_t lens, convert_func *transfn) ;
-+-static int	vorbis_rnull (SF_PRIVATE *psf, int samples, void *vptr, int off , int channels, float **pcm) ;
-+-
-+ typedef struct
-+ {	int id ;
-+ 	const char *name ;
-+@@ -143,6 +123,46 @@ typedef struct
-+ 	sf_count_t last_page ;
-+ } VORBIS_PRIVATE ;
-+ 
-++typedef int convert_func (SF_PRIVATE *psf, int, void *, int, int, float **) ;
-++
-++static int	vorbis_read_header (SF_PRIVATE *psf) ;
-++static int	vorbis_write_header (SF_PRIVATE *psf, int calc_length) ;
-++static int	vorbis_close (SF_PRIVATE *psf) ;
-++static int	vorbis_command (SF_PRIVATE *psf, int command, void *data, int datasize) ;
-++static int	vorbis_byterate (SF_PRIVATE *psf) ;
-++static sf_count_t	vorbis_calculate_page_duration (SF_PRIVATE *psf) ;
-++static int	vorbis_calculate_granulepos (SF_PRIVATE *psf, uint64_t *gp_out) ;
-++static int	vorbis_skip (SF_PRIVATE *psf, uint64_t target_gp) ;
-++static int	vorbis_seek_trysearch (SF_PRIVATE *psf, uint64_t target_gp) ;
-++static sf_count_t	vorbis_seek (SF_PRIVATE *psf, int mode, sf_count_t offset) ;
-++static sf_count_t	vorbis_read_s (SF_PRIVATE *psf, short *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_read_i (SF_PRIVATE *psf, int *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_read_f (SF_PRIVATE *psf, float *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_read_d (SF_PRIVATE *psf, double *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t len) ;
-++static sf_count_t	vorbis_read_sample (SF_PRIVATE *psf, void *ptr, sf_count_t lens, convert_func *transfn) ;
-++static int	vorbis_write_samples (SF_PRIVATE *psf, OGG_PRIVATE *odata, VORBIS_PRIVATE *vdata, int in_frames) ;
-++static int	vorbis_rnull (SF_PRIVATE *psf, int samples, void *vptr, int off , int channels, float **pcm) ;
-++static void	vorbis_log_error (SF_PRIVATE *psf, int error) ;
-++
-++
-++static void
-++vorbis_log_error(SF_PRIVATE *psf, int error) {
-++	switch (error)
-++	{	case 0: return;
-++		case OV_EIMPL:		psf->error = SFE_UNIMPLEMENTED ; break ;
-++		case OV_ENOTVORBIS:	psf->error = SFE_MALFORMED_FILE ; break ;
-++		case OV_EBADHEADER:	psf->error = SFE_MALFORMED_FILE ; break ;
-++		case OV_EVERSION:	psf->error = SFE_UNSUPPORTED_ENCODING ; break ;
-++		case OV_EFAULT:
-++		case OV_EINVAL:
-++		default: psf->error = SFE_INTERNAL ;
-++		} ;
-++} ;
-++
-+ static int
-+ vorbis_read_header (SF_PRIVATE *psf)
-+ {	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
-+@@ -386,7 +406,6 @@ vorbis_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
-+ 	{	ogg_packet header ;
-+ 		ogg_packet header_comm ;
-+ 		ogg_packet header_code ;
-+-		int result ;
-+ 
-+ 		vorbis_analysis_headerout (&vdata->vdsp, &vdata->vcomment, &header, &header_comm, &header_code) ;
-+ 		ogg_stream_packetin (&odata->ostream, &header) ; /* automatically placed in its own page */
-+@@ -396,9 +415,9 @@ vorbis_write_header (SF_PRIVATE *psf, int UNUSED (calc_length))
-+ 		/* This ensures the actual
-+ 		 * audio data will start on a new page, as per spec
-+ 		 */
-+-		while ((result = ogg_stream_flush (&odata->ostream, &odata->opage)) != 0)
-+-		{	ogg_write_page (psf, &odata->opage) ;
-+-			} ;
-++		while (ogg_stream_flush (&odata->ostream, &odata->opage))
-++			if (ogg_write_page (psf, &odata->opage) < 0)
-++				return -1 ;
-+ 	}
-+ 
-+ 	return 0 ;
-+@@ -408,6 +427,7 @@ static int
-+ vorbis_close (SF_PRIVATE *psf)
-+ {	OGG_PRIVATE* odata = psf->container_data ;
-+ 	VORBIS_PRIVATE *vdata = psf->codec_data ;
-++	int ret = 0 ;
-+ 
-+ 	if (odata == NULL || vdata == NULL)
-+ 		return 0 ;
-+@@ -418,34 +438,14 @@ vorbis_close (SF_PRIVATE *psf)
-+ 	if (psf->file.mode == SFM_WRITE)
-+ 	{
-+ 		if (psf->write_current <= 0)
-+-			vorbis_write_header (psf, 0) ;
-+-
-+-		vorbis_analysis_wrote (&vdata->vdsp, 0) ;
-+-		while (vorbis_analysis_blockout (&vdata->vdsp, &vdata->vblock) == 1)
-+-		{
-++			ret = vorbis_write_header (psf, 0) ;
-+ 
-+-		/* analysis, assume we want to use bitrate management */
-+-			vorbis_analysis (&vdata->vblock, NULL) ;
-+-			vorbis_bitrate_addblock (&vdata->vblock) ;
-+-
-+-			while (vorbis_bitrate_flushpacket (&vdata->vdsp, &odata->opacket))
-+-			{	/* weld the packet into the bitstream */
-+-				ogg_stream_packetin (&odata->ostream, &odata->opacket) ;
-+-
-+-				/* write out pages (if any) */
-+-				while (!odata->eos)
-+-				{	int result = ogg_stream_pageout (&odata->ostream, &odata->opage) ;
-+-					if (result == 0) break ;
-+-					ogg_write_page (psf, &odata->opage) ;
-+-
-+-		/* this could be set above, but for illustrative purposes, I do
-+-		   it here (to show that vorbis does know where the stream ends) */
-+-
-+-					if (ogg_page_eos (&odata->opage)) odata->eos = 1 ;
-+-				}
-+-			}
-+-		}
-+-	}
-++		if (ret == 0)
-++		{	/* A write of zero samples tells Vorbis the stream is done and to
-++			   flush. */
-++			ret = vorbis_write_samples (psf, odata, vdata, 0) ;
-++			} ;
-++		} ;
-+ 
-+ 	/* ogg_page and ogg_packet structs always point to storage in
-+ 	   libvorbis.  They are never freed or manipulated directly */
-+@@ -455,7 +455,7 @@ vorbis_close (SF_PRIVATE *psf)
-+ 	vorbis_comment_clear (&vdata->vcomment) ;
-+ 	vorbis_info_clear (&vdata->vinfo) ;
-+ 
-+-	return 0 ;
-++	return ret ;
-+ } /* vorbis_close */
-+ 
-+ int
-+@@ -686,33 +686,40 @@ vorbis_read_d (SF_PRIVATE *psf, double *ptr, sf_count_t lens)
-+ /*==============================================================================
-+ */
-+ 
-+-static void
-++static int
-+ vorbis_write_samples (SF_PRIVATE *psf, OGG_PRIVATE *odata, VORBIS_PRIVATE *vdata, int in_frames)
-+-{
-+-	vorbis_analysis_wrote (&vdata->vdsp, in_frames) ;
-++{	int ret ;
-++
-++	if ((ret = vorbis_analysis_wrote (&vdata->vdsp, in_frames)) != 0)
-++		return ret ;
-+ 
-+ 	/*
-+ 	**	Vorbis does some data preanalysis, then divvies up blocks for
-+ 	**	more involved (potentially parallel) processing. Get a single
-+ 	**	block for encoding now.
-+ 	*/
-+-	while (vorbis_analysis_blockout (&vdata->vdsp, &vdata->vblock) == 1)
-++	while ((ret = vorbis_analysis_blockout (&vdata->vdsp, &vdata->vblock)) == 1)
-+ 	{
-+ 		/* analysis, assume we want to use bitrate management */
-+-		vorbis_analysis (&vdata->vblock, NULL) ;
-+-		vorbis_bitrate_addblock (&vdata->vblock) ;
-++		if ((ret = vorbis_analysis (&vdata->vblock, NULL)) != 0)
-++			return ret ;
-++		if ((ret = vorbis_bitrate_addblock (&vdata->vblock)) != 0)
-++			return ret ;
-+ 
-+-		while (vorbis_bitrate_flushpacket (&vdata->vdsp, &odata->opacket))
-++		while ((ret = vorbis_bitrate_flushpacket (&vdata->vdsp, &odata->opacket)) == 1)
-+ 		{
-+ 			/* weld the packet into the bitstream */
-+-			ogg_stream_packetin (&odata->ostream, &odata->opacket) ;
-++			if ((ret = ogg_stream_packetin (&odata->ostream, &odata->opacket)) != 0)
-++				return ret ;
-+ 
-+ 			/* write out pages (if any) */
-+ 			while (!odata->eos)
-+-			{	int result = ogg_stream_pageout (&odata->ostream, &odata->opage) ;
-+-				if (result == 0)
-++			{	ret = ogg_stream_pageout (&odata->ostream, &odata->opage) ;
-++				if (ret == 0)
-+ 					break ;
-+-				ogg_write_page (psf, &odata->opage) ;
-++
-++				if (ogg_write_page (psf, &odata->opage) < 0)
-++					return -1 ;
-+ 
-+ 				/*	This could be set above, but for illustrative purposes, I do
-+ 				**	it here (to show that vorbis does know where the stream ends) */
-+@@ -720,16 +727,22 @@ vorbis_write_samples (SF_PRIVATE *psf, OGG_PRIVATE *odata, VORBIS_PRIVATE *vdata
-+ 					odata->eos = 1 ;
-+ 				} ;
-+ 			} ;
-++		if (ret != 0)
-++			return ret ;
-+ 		} ;
-++	if (ret != 0)
-++		return ret ;
-+ 
-+ 	vdata->loc += in_frames ;
-++
-++	return 0 ;
-+ } /* vorbis_write_data */
-+ 
-+ 
-+ static sf_count_t
-+ vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t lens)
-+ {
-+-	int i, m, j = 0 ;
-++	int i, m, j = 0, ret ;
-+ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
-+ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
-+ 	int in_frames = lens / psf->sf.channels ;
-+@@ -738,14 +751,17 @@ vorbis_write_s (SF_PRIVATE *psf, const short *ptr, sf_count_t lens)
-+ 		for (m = 0 ; m < psf->sf.channels ; m++)
-+ 			buffer [m][i] = (float) (ptr [j++]) / 32767.0f ;
-+ 
-+-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
-++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)))
-++	{	vorbis_log_error (psf, ret) ;
-++		return 0 ;
-++		} ;
-+ 
-+ 	return lens ;
-+ } /* vorbis_write_s */
-+ 
-+ static sf_count_t
-+ vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t lens)
-+-{	int i, m, j = 0 ;
-++{	int i, m, j = 0, ret ;
-+ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
-+ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
-+ 	int in_frames = lens / psf->sf.channels ;
-+@@ -754,14 +770,17 @@ vorbis_write_i (SF_PRIVATE *psf, const int *ptr, sf_count_t lens)
-+ 		for (m = 0 ; m < psf->sf.channels ; m++)
-+ 			buffer [m][i] = (float) (ptr [j++]) / 2147483647.0f ;
-+ 
-+-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
-++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)))
-++	{	vorbis_log_error (psf, ret) ;
-++		return 0 ;
-++		} ;
-+ 
-+ 	return lens ;
-+ } /* vorbis_write_i */
-+ 
-+ static sf_count_t
-+ vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t lens)
-+-{	int i, m, j = 0 ;
-++{	int i, m, j = 0, ret ;
-+ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
-+ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
-+ 	int in_frames = lens / psf->sf.channels ;
-+@@ -770,14 +789,17 @@ vorbis_write_f (SF_PRIVATE *psf, const float *ptr, sf_count_t lens)
-+ 		for (m = 0 ; m < psf->sf.channels ; m++)
-+ 			buffer [m][i] = ptr [j++] ;
-+ 
-+-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
-++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)) != 0)
-++	{	vorbis_log_error (psf, ret) ;
-++		return 0 ;
-++		} ;
-+ 
-+ 	return lens ;
-+ } /* vorbis_write_f */
-+ 
-+ static sf_count_t
-+ vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t lens)
-+-{	int i, m, j = 0 ;
-++{	int i, m, j = 0, ret ;
-+ 	OGG_PRIVATE *odata = (OGG_PRIVATE *) psf->container_data ;
-+ 	VORBIS_PRIVATE *vdata = (VORBIS_PRIVATE *) psf->codec_data ;
-+ 	int in_frames = lens / psf->sf.channels ;
-+@@ -786,7 +808,10 @@ vorbis_write_d (SF_PRIVATE *psf, const double *ptr, sf_count_t lens)
-+ 		for (m = 0 ; m < psf->sf.channels ; m++)
-+ 			buffer [m][i] = (float) ptr [j++] ;
-+ 
-+-	vorbis_write_samples (psf, odata, vdata, in_frames) ;
-++	if ((ret = vorbis_write_samples (psf, odata, vdata, in_frames)) != 0)
-++	{	vorbis_log_error (psf, ret) ;
-++		return 0 ;
-++		} ;
-+ 
-+ 	return lens ;
-+ } /* vorbis_write_d */
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-index 0c654fd853..20240635f7 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.0.31.bb
-@@ -12,6 +12,7 @@ SRC_URI = "https://github.com/libsndfile/libsndfile/releases/download/${PV}/libs
-            file://noopus.patch \
-            file://0001-flac-Fix-improper-buffer-reusing-732.patch \
-            file://CVE-2022-33065.patch \
-+           file://CVE-2024-50612.patch \
-           "
- UPSTREAM_CHECK_URI = "https://github.com/libsndfile/libsndfile/releases/"
- 
--- 
-2.25.1
+Hi,
+
+> -----Original Message-----
+> From: Peter Kjellerstedt <peter.kjellerstedt@axis.com> 
+> Sent: Tuesday, November 26, 2024 6:40 PM
+> To: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>; openembedded-core@lists.openembedded.org
+> Subject: RE: [OE-core] [PATCH 2/3] spdx: add support for WITH operator
+>
+> I have some concerns about this change:
+> * The above change does not really implement support for WITH. It 
+>   only supports converting a LICENSE expression containing a 
+>   WITH clause (expressed using the "+" operator) from bitbake 
+>   format into SPDX format. All the actual handling of WITH clauses 
+>   is missing.
+Right, it is just a first step.
+
+> * There are a lot of complexities related to the incompatible 
+>   license handling (which is the main reason for the license 
+>   handling in meta/lib/oe/license.py). There will be problems if 
+>   someone  specifies a LICENSE as "Foo + Exception | Bar". E.g., 
+>   consider what should happen if "Foo" is in INCOMPATIBLE_LICENSE.
+Good point. Would definetly require more logic.
+
+> * We also used to use "+" to indicate "or later". This can be seen 
+>   in obsolete_license_list(). Weird things will probably happen if 
+>   an old LICENSE like "GPL2+ & LGPLv2+" is encountered.
+Right, as specified by SPDX. [^1]
+This is really a blocking point for '+'.
+
+>
+> It would probably be easier to just add a GPL-2.0-with-syscall-exception 
+> (as was initially suggested), but containing the full GPL-2.0 license as 
+> well as the exception (compare to, e.g., Apache-2.0-with-LLVM-exception.
+I agree.
+
+>
+> I also note that out of the six licenses used in OE-Core/OpenEmbedded 
+> that use exceptions:
+>
+> Apache-2.0-with-LLVM-exception
+> GPL-2.0-with-GCC-exception [^2]
+> GPL-2.0-with-OpenSSL-exception
+> GPL-3-with-bison-exception [^3]
+> GPL-3.0-with-GCC-exception [^4]
+> GPL-3.0-with-autoconf-exception [^5]
+>
+> only Apache-2.0-with-LLVM-exception and GPL-2.0-with-OpenSSL-exception 
+> contain the actual license text. The other use an "insert <license> here" 
+> reference. gcc has covered it by using "GPL-3.0-with-GCC-exception & 
+> GPL-3.0-only", but that is not the case for most other recipes.
+Right.
+Apache-2.0-with-LLVM-exception and GPL-2.0-with-OpenSSL-exception are not listed on spdx.org/licenses
+and the others are listed with the "insert <license> here".
+The clean way would be to implement the WITH operator.
+To avoid the effort and improve the situation, maybe it would be an idea to copy
+GPL-2.0-only together with GPL-2.0-with-GCC-exception into GPL-2.0-only-with-GCC-exception.
+
+Regards, Denis
+
+>
+> //Peter
+
+[^1]: https://spdx.github.io/spdx-spec/v2.3/SPDX-license-expressions/
+[^2]: https://spdx.org/licenses/GPL-2.0-with-GCC-exception.html
+[^3]: https://spdx.org/licenses/GPL-2.0-with-bison-exception.html
+[^4]: https://spdx.org/licenses/GPL-3.0-with-GCC-exception.html
+[^5]: https://spdx.org/licenses/GPL-3.0-with-autoconf-exception.html
+
+------AF5C2A56BADD0B8BEC8E345E5D1302D0
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIPQAYJKoZIhvcNAQcCoIIPMTCCDy0CAQExDzANBglghkgBZQMEAgEFADALBgkq
+hkiG9w0BBwGgggxWMIIGUTCCBDmgAwIBAgICMAAwDQYJKoZIhvcNAQELBQAwgaMx
+ITAfBgNVBAMMGERpZWhsIEdyb3VwIE1haWwgUm9vdCBDQTELMAkGA1UEBhMCREUx
+EjAQBgNVBAcMCU51ZXJuYmVyZzEUMBIGA1UECgwLRGllaGwgR3JvdXAxFDASBgNV
+BAsMC0RpZWhsIEdyb3VwMQ8wDQYDVQQIDAZCYXllcm4xIDAeBgkqhkiG9w0BCQEW
+EXg1MDktY2FAZGllaGwuY29tMB4XDTE4MDUyOTEyMzIzNVoXDTI4MDUyNjEyMzIz
+NVowgZQxCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xFDASBgNVBAoMC0Rp
+ZWhsIEdyb3VwMRswGQYDVQQLDBJEaWVobCBNZXRlcmluZyBUS0gxHzAdBgNVBAMM
+FkRpZWhsIE1ldGVyaW5nIE1haWwgQ0ExIDAeBgkqhkiG9w0BCQEWEXg1MDktY2FA
+ZGllaGwuY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtISPrKPL
+Zjjh//2n9b+GXgrhijJV2knQVC0+/FS3zGl4p2fboB+Vr4YHz1uilEvhsS1oG4FV
+f1u0dqdmLVxDHBPMO2K1NKKOJN/6LDDfyiZGNqDOJke6FzrmDyPXXTDtgzWZfdnD
+esx63XSxprre30oJ3BxDFS+/8UpuI628SPc1N4125rHeUXG4scKFSjqRPcIOAQ2X
+veGXU2dYHzq7B02NA8tssmtJNwXjyvMjOw6HGZ8SB87TrFQm6drEtM7QhI/mfpGe
+nTZ4nc84n0yKuMveav8IOspYbkOXzi4JapiOUpmccNLZdIiMg5WJQ0Xt9NSp5yD5
+CYKideGrWgX2wNEBpalgjZoPPQDImcWEJx88/yYZ4FwtRD3VueFqpBr4z/bxwVDr
+N2a/sEqnocY9Tm2EQyHFHDCJ9JyYEXB8W0LTFcUAx+uHijwPk/oIB5EeH8UygXlX
+qUqII+BUZ+q5m5sIc4eXQ10UpUEjG/ptIyO1Ee/E0kPOWzHp07pPgXCZohZb3y41
+Ha2pO6rXOsOmPBK2r2++fLWz3NFyfEJCmn6FcBNi003HUEVCup1D9/9yaPHPSieN
+27sjQcQ96GbOitC99p3xMnSlg4N11lGeuTXCZjIGXdZL5/dThQaxneVA+hr2X+i1
+KmqnesMaSBEuBEBDmbDbakEgJFVWtVeXuk8CAwEAAaOBmzCBmDASBgNVHRMBAf8E
+CDAGAQH/AgEAMAsGA1UdDwQEAwIBBjAdBgNVHQ4EFgQUn8t6NGPzWsF+oZYXxmfn
+p4Ok7rIwHwYDVR0jBBgwFoAUZrrYQMMD50v/OCDMgDN7y/GT2P8wNQYDVR0fBC4w
+LDAqoCigJoYkaHR0cDovL2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMA0G
+CSqGSIb3DQEBCwUAA4ICAQAl6hO6b6+GseZi3EAU+zPVhxNZP5Y+YsBnjf13jCGw
+nUVvPz6giwXiCd9KIC4eCqqrJLTHwZe8c/9hSk5CCd6A5XAd3YudrPDvmIwms5Ex
+OREMQkygZO6/qxfXO6IhfUO4HvYQtQexzHOLuxG/KdycVwWapA4acFzBurxFQ3aG
+jvPRgvWxe2Mt3K9wLrEhvGrDmS8yg4bYNyBZGgax6LRhfW4/ShInVUa0koG2Sj+H
+hKpppvqDK4FNgR2dKeCPoo28P9a+K9N3wkLKx4zxaxHegij0DsJOBAVbhk+vDWDO
+gedjtT09c9bsykaXFzykyQeQz7cwrTQ1gDacdcDgywMDQzZKim9O3JpyzvXnD7mb
+CvclM3xp9w6jIJbeaQE7HDlA9YIL/bSRIQq8mJcXArUevLK2MX/Mb+5m3UMU+zXc
+ZqmaneeZeR4bOWrmmhK6bMuce6H+i2YB1vG3BAcSfKQUzZ1m6aKSW1FvjI3SZXQD
+FzRzBwC5ql7i2ugtfOLNYjOO/fvAxNppIZb3IyWN1KBAI7YgS4nx0us/NIlWpTMW
+91WeUtNBCp2sgi3VTi/TUel3RZ9x3tggMUhrksGkFXz2NUL85AdPV6BqJXXXHggd
+121rnduE9ocMt0MFLuDPkMaHqKNzBAcKTcmFM8KYMJ5Z7NBqGtTAgHNVmEnU8gu3
+czCCBf0wggPloAMCAQICAgtcMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYDVQQGEwJE
+RTEPMA0GA1UECAwGQmF5ZXJuMRQwEgYDVQQKDAtEaWVobCBHcm91cDEbMBkGA1UE
+CwwSRGllaGwgTWV0ZXJpbmcgVEtIMR8wHQYDVQQDDBZEaWVobCBNZXRlcmluZyBN
+YWlsIENBMSAwHgYJKoZIhvcNAQkBFhF4NTA5LWNhQGRpZWhsLmNvbTAeFw0yNDAx
+MDIwOTE5MzlaFw0yNjAxMDIwOTE5MzlaMIG8MSIwIAYDVQQDDBlkZW5pcy5vc3Rl
+cmxhbmRAZGllaGwuY29tMSgwJgYJKoZIhvcNAQkBFhlkZW5pcy5vc3RlcmxhbmRA
+ZGllaGwuY29tMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmF5ZXJuMRwwGgYDVQQK
+DBNEaWVobCBNZXRlcmluZyBUSy1IMRwwGgYDVQQLDBNEaWVobCBNZXRlcmluZyBU
+Sy1IMRIwEAYDVQQHDAlOdWVybmJlcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+ggEKAoIBAQDC4CfZJns8lrNXSkis30SmXgEPwIED4unjF8EoHzBRk5cQphMwuxVY
+uFrZmkB8+FJ7kNnazQ5ddAH+7uh/w7vxEbch92iEpJxYRT6z9U7Mgw0sqGjzWQjd
+sVzCSrWJrOdrHXc65BnAPOpjNDNe1dR8J9Z4a7OZU5NnQqJMT314j2gfGawGDakJ
+Vph7S6v4AVmty1Fi4iRbaIamu8KJFrHQb5E1UVD5drrxW6TS0z/3YkrMQ6qA1fBB
+Y271mRVq/1ByvJMgPJu7LtIyuGwGJw44RxF0JPLlqRWpsIa+z2cI48dkvwb8k0T1
+rNSIj9urOmUEJGF5O8LioUy0vwmxeWF7AgMBAAGjggEtMIIBKTAfBgNVHSMEGDAW
+gBSfy3o0Y/NawX6hlhfGZ+eng6TusjAJBgNVHRIEAjAAMCQGA1UdEQQdMBuBGWRl
+bmlzLm9zdGVybGFuZEBkaWVobC5jb20wNQYDVR0fBC4wLDAqoCigJoYkaHR0cDov
+L2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMDUGCCsGAQUFBwEBBCkwJzAl
+BggrBgEFBQcwAoYZaHR0cDovL3d3dy5kaWVobC5jb20vcGtpLzAJBgNVHRMEAjAA
+MB0GA1UdDgQWBBQK9y4jVYoCDsL7lhhJKjEP5wv1nTALBgNVHQ8EBAMCBaAwHQYD
+VR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBEGCWCGSAGG+EIBAQQEAwIFoDAN
+BgkqhkiG9w0BAQsFAAOCAgEAB27J8TZvm6g0rtQpv4kqYwzkXOkCt27WHHWzl/JZ
+knFwWH4mvlRSrQtKkx8cPb5xqqx7k4qXC7TAef4W5YmnpWDtw7YHQAygAsCV1+i8
+uBhdnBVRYkLi0Brsqb/KaDVCFDAYn82kr8OlDaVl5GazIF5rTTUFVT7QEUewf5e7
+Ej4tkepIMP8DW0mM9VRdiSd+DFQQQsQR91nJZS+Gd0jT2tW6SVtZEGnsdgKi9VOw
++/u7TPynQA3m70zel9t0RySfc5bfZGqEBK/nqU2g5n/qaHKT9cMM8vTAJOmzMv4W
+p7j6RF851h+6c4kH0UsUR9LdbXsKS0KsKTmjPbmbuMAWSEafskq5lJdhIybBnGcp
+FwOkXw6yLHhvmBQ27hVolbrAgLprlLBm8qLq0G3dPHlLwgnNlD6RAcjaVLOcqH3Q
+HWHbKlVg310S75cll1rM+GAudWdsHWxOUbK7R0lwJf/E+FAXciAsExWzCQarpSFI
+AYJjvnsYTiSWas6b5L/rKtyeWIz5wJ3ovxFaMglCtGNGh3sqKwVgb0PeGJ/hfXkV
+Z3i06A/GFOMDvvZ4kI2OL2wwUftkvi8ID5g2nbX/WQh9y6zhlXtiOlA1IplU+PU3
+OHrFL4SBW0X7j1l+9Jl9kGy/ukAr+9nWZ55nUoV/L9C1GLrAO5KF/fDpO2b7lidQ
+mWUxggKuMIICqgIBATCBmzCBlDELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJheWVy
+bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
+IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
+DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
+CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTEyNzA3
+MzQ1MlowLwYJKoZIhvcNAQkEMSIEIOdQqTac4aKEHfhysc+K+X3mTCY2LBNAG0xI
+XRo/Cd/FMHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
+FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
+SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
+BIIBALOJ8qCVeJJrWwXEZF4Kz0IuV4CuZl0Jp22P6Un+/5kluiHoDkkSaGQTEJrW
+VGXnn30+gEUk9s8soPgwRmVNV9hD/DEVJriC3NSrd/lh+1N9xezBlgHh2jjE75uQ
+Z0ssHP56/S9VEH7bpyWmCsgnczKtTPcdQLcC/wCNFi0P6T8a5N0npWmmNiEuelm1
+avOpPgYg7u536skoGXaTM0F3hPHFFkFOFYnExobVQe6qTPB+qf/RiexzpGKIqhzk
+PviQJf2YBsbPDHOL8+rXF28EOolmymoKnPeTXIF623L8UqLj7dgXTU8YHxhz9pLu
+cmPcw+gvo4tf6/+7op2alBrDbkw=
+
+------AF5C2A56BADD0B8BEC8E345E5D1302D0--
 
 
