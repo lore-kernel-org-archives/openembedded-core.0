@@ -1,117 +1,103 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <hiagofranco@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2FDA9D6D229
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 18:50:42 +0000 (UTC)
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
- by mx.groups.io with SMTP id smtpd.web10.78799.1732733432338358345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68922D6D22D
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 19:13:22 +0000 (UTC)
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+ by mx.groups.io with SMTP id smtpd.web11.79621.1732734795302539780
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 10:50:32 -0800
+ Wed, 27 Nov 2024 11:13:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=KJ4kMRAr;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.176, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-7253bc4d25eso90995b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 10:50:32 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Zg82B7ID;
+ spf=pass (domain: gmail.com, ip: 209.85.214.179, mailfrom: hiagofranco@gmail.com)
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2127d4140bbso291095ad.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 11:13:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1732733431; x=1733338231; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NZrENFngfW2X4gynVh5g9yUxj3wwToqsy6RIxHOF/x4=;
-        b=KJ4kMRArETwenEZjtrdSC5+TV9NdxCllzH29+5KQxjiCKJPLdONKnMeoG9yluQ6mjz
-         LQBiMZ6fdv7EIYP+JbzEVjeOIqhVqk2FJt8klP5F2MvkQbAtjlvSv89GW2i6lAFTyFQ1
-         R+MUfEAHUoaYI8ud1BuyCFkdVSKet1k84E4jOHRTOaitdisEH9vzjHARxGJzmDUrBSwH
-         oSwbHVo+nfawAL9VkFKalHrvykYOSNHy271RJpAKz1MBP0MHFyeasw+Py4KuZiwJumEF
-         1NxdxiSGa237XfNegBpW+VSABIIoCDVbtUsmgaNxsLWaCAZxoshmLTZUV1vxFxA/Xn6r
-         R85Q==
+        d=gmail.com; s=20230601; t=1732734795; x=1733339595; darn=lists.openembedded.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=hERzFE4B5KAHalCvehW0gxjC1WjLtk3TPdKgTWHXUaA=;
+        b=Zg82B7IDLtHUNFxg575joIe1QbmKLIK2OPfMDhT9DkVmoxCKzO0Vbat7xyyNf7hNtZ
+         IFfiGlAswlRB3200nLHiKWnSHMVQ9kGASMjFC0dCDF+7x9mqUqqMC1qxVrnMjZ0akmQO
+         D/9K8x2FwaZw1eyXfvXt+rvTOotzRNljQx9Om43aSm2myiVzyUy7eXiXUlqyiTNzht2+
+         W/uQgdtLJz2JTprCO5Ro0ch8fN8ErX+YrrhcJf+sbk9DSqkvWAFrvzfaY5ei1HF/m9QK
+         ZVMqJLTgkYd61jla6yAiS3zhBH7V129wJtH0RxgKJS74ddGon4dIlk4L575SlqeHKn2J
+         OMjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1732733431; x=1733338231;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NZrENFngfW2X4gynVh5g9yUxj3wwToqsy6RIxHOF/x4=;
-        b=Eb5EjRx20woAEnFTFt9NjbVO19d8QUT+tJ8Nr9ApK4Bp8hNoFRieqyocftGraB1egZ
-         8ffK/On+FTV5riU5ExV+KxhmpUC7OENXwV4sUWoBWgSYLRhCiuBAXpNBknNMxldqcKK4
-         ASStaaC9Plpr2H4cpwI3wZsoKPH8AifDg4RHE391E6rWLPJZXMEAovXAdFhsvI81aAYs
-         HN5SHuoeI9i/UN9weEnvVSZUp54UdIAcdWQ2PA2++z8DmHU6H0lyIrNm5yhKzEUTNdUl
-         ECZM7OqDdl79F1N7JKH4EhWRpLkL1G0qEGn7pBXVOf38Lun2Gn6A5OtcYaC526O4cpeL
-         B54w==
-X-Gm-Message-State: AOJu0YzwJiWy0lj4Dwf+vKMkTgU7Q/0SclKajXeop8JggZ6+tGsqCe5n
-	yMOHWhDC/g1dlAIYQNtUY6kyfXPlkAjHFMjRhN7ScZdwjp9BL9YKXcFX41b3GiQdiuVu/mHKE5z
-	Y
-X-Gm-Gg: ASbGnctVGLU116oDEg/k/zZ2SgQdNPBCRhpyFQC2GLgWCo1fnm9TIDFvq3fR6pHPnj0
-	3LXS13/+IgAx0ka+Gp5bePLgaH6iPDkA92ZXKPndRVz0mW/6D6WfCfuc2VAQIQ/anNuLsestUHG
-	RqzByUmzrzIgVVyeuY5vsjlGS7QGCtd3N1+ZoXmBxe8zAzE42ivos5vhTqlOsTCAhlo0Fn0bFVA
-	07PwB6thndcizIZwAfM2Vggdi0ZGbRg+/h2XaM=
-X-Google-Smtp-Source: AGHT+IHrkrgtx5NG5hbb4I2syD4huheTvdwHFeWDLKpepBE+sUfByq638CJPSEUJTo9c42Svjzhntg==
-X-Received: by 2002:a05:6a00:1782:b0:724:d733:a7ee with SMTP id d2e1a72fcca58-7253f34a2ccmr532327b3a.7.1732733431507;
-        Wed, 27 Nov 2024 10:50:31 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-72522e0375asm3403519b3a.94.2024.11.27.10.50.30
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20230601; t=1732734795; x=1733339595;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=hERzFE4B5KAHalCvehW0gxjC1WjLtk3TPdKgTWHXUaA=;
+        b=bY3a1cizv3SqV/VvFiFqo+SDZf9nzYk+9KH5in6HElNySvCljUQFWG9mvxIDn4R+fd
+         Ut+VbF1P78j59pLiD+Sm3ZGIef2JpMjSOKc5UV1POnnEz2KDsFDmuz5k3ko4ISLz1EzH
+         KiIFiQLSra8dPOpOehMynZu5fQOQMqzjCaocPKoyJyHJQwxGJtxpFEg83FFmitJ73XeF
+         ZwF9nzztQv1eCYF3FL+HJB9pIDBqPhSlsOX9go7AHfB8IUhVRWpAajdKuZusn9mX6PUL
+         WCEiKEguajK4xPXPV1pg3stI/+DbyBCCnrk6J8TM/LJvP2gmXUWBVAI2nM3kBHao4nZ9
+         8RdA==
+X-Forwarded-Encrypted: i=1; AJvYcCUrbBEOsXW+m33c3AOHHMVGpj1RGFxtQiVI6je7JoihIYQDVnMfy5jeT1yP5pn8STtWkjaIG5mXxn1kzZjpQE4XOQ==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YylZi8s5jsD+tR4KCqpaQHpjQUe5NzUra0sCU37obReOrlEHe8x
+	rMPF8kzspef4W/dhC/b+UuBolkKMFeumPDKzsOwhCaRFU/dup0jeqh6UHIfi
+X-Gm-Gg: ASbGnctggo/hAVkEeGuyUoWFXtI99/IXDR5osWWTVNScl9MWbyC6Uc0Anw/n9dpE9GE
+	0cE9qet5V139fZi1JV1U7S84DdyO4UYxWEA1p3+kjjxpGKzKhuLlHGw13lAfTdmu5/ssBdH7bsH
+	lg9GlXIZ87mykZL4Jau+yPDAgB5DzO+qH4LaKLXkHhlISnZicXVRm6E1nDKZ7kw8ttsWs4yEAA/
+	DFwpHChMoQPZGYw0rc4lkl19yOpZEeP2QDEeFmjDx/3d0sR
+X-Google-Smtp-Source: AGHT+IEKHAsd1VrPuGzYBQlhAobvVZR1R/AOCFCfpTReX7KSU8pXpy/9YrHCFdaH86ZvAImbVeAwkg==
+X-Received: by 2002:a17:903:2447:b0:212:45b8:4667 with SMTP id d9443c01a7336-21501c5ff37mr46013515ad.39.1732734794603;
+        Wed, 27 Nov 2024 11:13:14 -0800 (PST)
+Received: from hiago-nb ([67.159.246.222])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2129db8d578sm106184395ad.31.2024.11.27.11.13.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 27 Nov 2024 10:50:31 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 14/14] gstreamer1.0: improve test reliability
-Date: Wed, 27 Nov 2024 10:50:07 -0800
-Message-Id: <13b13b81b91f618c13cf972067c47bd810de852f.1732733274.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1732733274.git.steve@sakoman.com>
-References: <cover.1732733274.git.steve@sakoman.com>
+        Wed, 27 Nov 2024 11:13:14 -0800 (PST)
+Date: Wed, 27 Nov 2024 16:13:10 -0300
+From: Hiago De Franco <hiagofranco@gmail.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
+Cc: Khem Raj <raj.khem@gmail.com>, openembedded-core@lists.openembedded.org,
+	Denys Dmytriyenko <denis@denix.org>,
+	Ross Burton <Ross.Burton@arm.com>,
+	Hiago De Franco <hiago.franco@toradex.com>
+Subject: Re: [OE-core] [PATCH v3 1/3] hwdata: add recipe from
+ meta-openembedded
+Message-ID: <20241127191310.34ytvodxrpkf77bu@hiago-nb>
+References: <20241126000836.6901-1-hiagofranco@gmail.com>
+ <20241126000836.6901-2-hiagofranco@gmail.com>
+ <CAMKF1spfQeh1i07Wwg5ndJ7uJpQ=Pz1eeCWc1J1KBLUfY78=9A@mail.gmail.com>
+ <20241126121716.eqskoqfleyrn4fgu@hiago-nb>
+ <CANNYZj_-a3mU3z3jqxCqharjZ2pdPubPQi5jH2wko+jejLWu2Q@mail.gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CANNYZj_-a3mU3z3jqxCqharjZ2pdPubPQi5jH2wko+jejLWu2Q@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 18:50:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207956
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 19:13:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207957
 
-From: Ross Burton <ross.burton@arm.com>
+On Tue, Nov 26, 2024 at 01:21:09PM +0100, Alexander Kanavin wrote:
+> On Tue, 26 Nov 2024 at 13:17, Hiago De Franco via
+> lists.openembedded.org <hiagofranco=gmail.com@lists.openembedded.org>
+> wrote:
+> >
+> > On Mon, Nov 25, 2024 at 04:51:37PM -0800, Khem Raj wrote:
+> > > Don’t forget to send a patch to remove it from meta-oe once it get merged
+> > > into core layer here
+> >
+> > Sure, thanks. I will do it once this is merged.
+> 
+> You don't need to wait for that. Khem will take care of not applying
+> it too soon.
+> 
+> Alex
 
-First, libcheck has the ability to increase all test timeouts by an arbitrary
-multiplier. Because we run our tests on loaded build machines,
-increase all timeouts by 10x to reduce the chance of load causing failures.
+Hi Alex, I just saw that Richard merged the patches.
+The patch to remove hw-data from meta-oe is here:
+https://lore.kernel.org/all/20241127190841.137119-1-hiagofranco@gmail.com/
 
-Second, use GST_CHECKS_IGNORE to list test cases that should be skipped.
+Thanks!
 
-Drop skip-aggregator-test.patch as this is now redundant, and also skip
-gstnetclientclock.c:test_functioning as this is very sensitive to load.
-
-[ YOCTO #14808 ]
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 669d0df81f651f7c033c8cb7872cac5bfe670a4f)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../gstreamer/gstreamer1.0/run-ptest             | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
-
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-index 0cfa955f03..7d0312005f 100755
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
-@@ -1,2 +1,16 @@
--#!/usr/bin/env sh
-+#! /bin/sh
-+
-+# Multiply all timeouts by ten so they're more likely to work
-+# on a loaded system.
-+export CK_TIMEOUT_MULTIPLIER=5
-+
-+# Skip some tests that we know are problematic
-+export GST_CHECKS_IGNORE=""
-+# gstnetclientclock.c:test_functioning is very sensitive to load
-+GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,test_functioning"
-+
-+# aggregator.c:test_infinite_seek_50_src_live is known to be flaky
-+# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/410
-+GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,test_infinite_seek_50_src_live"
-+
- gnome-desktop-testing-runner gstreamer
--- 
-2.34.1
-
+Hiago.
 
