@@ -1,102 +1,119 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44A0FD6ACF6
-	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 16:46:31 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.web10.76116.1732725981873674857
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ECCDD6ACF7
+	for <webhook@archiver.kernel.org>; Wed, 27 Nov 2024 17:26:01 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.web10.77061.1732728357155307323
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 08:46:21 -0800
+ Wed, 27 Nov 2024 09:25:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Lz52cv2E;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=wvwS3ij4;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101936e843f17-5f46d389-3af9-4dfc-a148-b093d6da7c3b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1732725981; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=vTDfgcJFi/S/3E9dpL5ljyb1ZfWdJ++23lgV1joNGwY=;
-	b=Lz52cv2E1mJCRLujTEw2LA5WovxgvRAseup99cLV2T7W1nYjPDqsJkqTq5vdug1U
-	Kr1Hz/eCbAROARKgaA+eq78Fsy6HICwa+O4Sa/USNzhgfROlmH6U33hfSb81AF/hWIe
-	rz8lpgJRtf1k6bwI11rn2zpX+0UNZK0a43+McqQk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732725981;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=vTDfgcJFi/S/3E9dpL5ljyb1ZfWdJ++23lgV1joNGwY=;
-	b=wvwS3ij4/FJ8UKdNu4e26yc9uSeP6JBFGj9HuKkeowGpk1abdbVzZ79R9a4BRPPP
-	uiejH7H+d2Nc4hwyRvKWpwNybw2KdVi10OjSaTpd7BNHFdU5Z7kl71LvoKVYN50nVxg
-	Z78354XZ/H0BD65vNByks6d2diIoG34a/cNQf9sw=
-From: patchtest@automation.yoctoproject.org
-To: =?utf-8?b?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] lib/oe/utils.cpu_count: Raise maximum count from 64 to 192
-In-Reply-To: 
- <7c42e340baae4038324e250583e9395fb8d90463.1732725209.git.joerg.sommer@navimatix.de>
-References: 
- <7c42e340baae4038324e250583e9395fb8d90463.1732725209.git.joerg.sommer@navimatix.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101936e843f17-5f46d389-3af9-4dfc-a148-b093d6da7c3b-000000@us-west-2.amazonses.com>
-Date: Wed, 27 Nov 2024 16:46:20 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.27-54.240.27.29
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=gFFnflew;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-202411271725537f585b0d0240f06fcf-kuhkca@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202411271725537f585b0d0240f06fcf
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 27 Nov 2024 18:25:54 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=Qo6pBqXoElZDio9GRfBzccye2zbZHiFRIlgLWAR+IOI=;
+ b=gFFnflewCesdYpa9ZAVORbL0B1xxeMHHNFX+JpI4ylTYxfCqhXlsos5AO8u7pR4bKMMFOI
+ 83lD0+fHGl18IF5caNx3jCyH2nFpZUmUvrqib5F9LNzBkYJ2bJJzTg+E3kll0DeOCZNsUbk2
+ fcd9hcBcm9lKLHTZkE6duKrkg3D0DeXjDuA+TvTYDyCpbFRXzWDIvvyAieFyojLXPX0QG0su
+ HdeOoce+O5/qsHUlaxtOjO3rNtHKS5mtCswBHh8VKgnLcPKCJ261kmh8GE8sRQAhlz5I5VD1
+ n2ptKrsOLXApgG3Fv7H3FwSVr/mH269Rbc6pWcgam6sTCAwL2paSKhyA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][PATCH v2 1/2] init-manager: define dev_manager for all init managers
+Date: Wed, 27 Nov 2024 18:24:54 +0100
+Message-Id: <20241127172455.15722-1-peter.marko@siemens.com>
+In-Reply-To: <20241125183636.15293-1-peter.marko@siemens.com>
+References: <20241125183636.15293-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 16:46:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207938
+ <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 17:26:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207939
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Currently VIRTUAL-RUNTIME_dev_manager is defined by some init managers
+with "??=" and in packagegroup-core-boot with "?=".
+This means that this variable is different in this package group and in
+all other the recipes.
+This was discovered when trying to use new feature INIT_MANAGER when
+migrating to scarthgap and using systemd distro. After deleting all
+VIRTUAL_RUNTIME providers defined in init-manager-systemd udev was
+installed additionally via packagegroup-core-boot.
 
+Hiaving a distro settings overriden in single recipe is wrong and needs
+to be corrected. Therefore let's define the setting in all init managers
+and remove it from packagegroup-core-boot.
+
+core-image-tiny-initramfs has a dilemma - use busybox-mdev even if
+distro does not enable it in busybox recipe to keep the image tiny, or
+rather not install it even if distro enables it in busybox.
+This patch chooses the first option.
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/lib-oe-utils.cpu_count-Raise-maximum-count-from-64-to-192.patch
+ meta/conf/distro/include/init-manager-none.inc            | 1 +
+ meta/conf/distro/include/init-manager-sysvinit.inc        | 1 +
+ meta/recipes-core/images/core-image-tiny-initramfs.bb     | 3 +++
+ meta/recipes-core/packagegroups/packagegroup-core-boot.bb | 1 -
+ 4 files changed, 5 insertions(+), 1 deletion(-)
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+diff --git a/meta/conf/distro/include/init-manager-none.inc b/meta/conf/distro/include/init-manager-none.inc
+index bbedf898f7..6ece5c9906 100644
+--- a/meta/conf/distro/include/init-manager-none.inc
++++ b/meta/conf/distro/include/init-manager-none.inc
+@@ -1,3 +1,4 @@
+ VIRTUAL-RUNTIME_init_manager ??= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ??= "initscripts"
+ VIRTUAL-RUNTIME_login_manager ??= "busybox"
++VIRTUAL-RUNTIME_dev_manager ??= "udev"
+diff --git a/meta/conf/distro/include/init-manager-sysvinit.inc b/meta/conf/distro/include/init-manager-sysvinit.inc
+index aa2393944d..e2d17b358d 100644
+--- a/meta/conf/distro/include/init-manager-sysvinit.inc
++++ b/meta/conf/distro/include/init-manager-sysvinit.inc
+@@ -4,3 +4,4 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED:append = " systemd"
+ VIRTUAL-RUNTIME_init_manager ??= "sysvinit"
+ VIRTUAL-RUNTIME_initscripts ??= "initscripts"
+ VIRTUAL-RUNTIME_login_manager ??= "busybox"
++VIRTUAL-RUNTIME_dev_manager ??= "udev"
+diff --git a/meta/recipes-core/images/core-image-tiny-initramfs.bb b/meta/recipes-core/images/core-image-tiny-initramfs.bb
+index 7a71d55b1e..c2aa68c788 100644
+--- a/meta/recipes-core/images/core-image-tiny-initramfs.bb
++++ b/meta/recipes-core/images/core-image-tiny-initramfs.bb
+@@ -6,6 +6,9 @@ first 'init' program more efficiently. core-image-tiny-initramfs doesn't \
+ actually generate an image but rather generates boot and rootfs artifacts \
+ that can subsequently be picked up by external image generation tools such as wic."
+ 
++# if distro does not override VIRTUAL-RUNTIME_dev_manager and default in different, busybox is compiled without mdev support
++# however this keeps the image small by not installing heavy-weight manager and in initramfs it may not even be necessary
++# override in distro if needed
+ VIRTUAL-RUNTIME_dev_manager ?= "busybox-mdev"
+ 
+ PACKAGE_INSTALL = "initramfs-live-boot-tiny packagegroup-core-boot dropbear ${VIRTUAL-RUNTIME_base-utils} ${VIRTUAL-RUNTIME_dev_manager} base-passwd ${ROOTFS_BOOTSTRAP_INSTALL}"
+diff --git a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+index fecc3334ea..fa06092e27 100644
+--- a/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
++++ b/meta/recipes-core/packagegroups/packagegroup-core-boot.bb
+@@ -10,7 +10,6 @@ PACKAGE_ARCH = "${MACHINE_ARCH}"
+ inherit packagegroup
+ 
+ # Distro can override the following VIRTUAL-RUNTIME providers:
+-VIRTUAL-RUNTIME_dev_manager ?= "udev"
+ VIRTUAL-RUNTIME_keymaps ?= "keymaps"
+ 
+ EFI_PROVIDER ??= "grub-efi"
+-- 
+2.30.2
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
