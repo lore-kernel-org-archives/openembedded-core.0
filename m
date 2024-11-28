@@ -2,59 +2,60 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF6A8D690E2
-	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 07:11:15 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.89658.1732777872414709994
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EBFD690E4
+	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 07:46:56 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web10.89943.1732780007083362992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 23:11:12 -0800
+ Wed, 27 Nov 2024 23:46:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1062761e67=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS6e5jo016388
-	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 07:11:11 GMT
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1062761e67=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS5WYI1005896
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 23:46:46 -0800
 Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671arqxn-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 436719rquu-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 07:11:11 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 23:46:46 -0800 (PST)
 Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 27 Nov 2024 23:11:10 -0800
+ 15.1.2507.43; Wed, 27 Nov 2024 23:46:45 -0800
 Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 23:11:09 -0800
+ 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 23:46:45 -0800
 From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATCH V2] python3-zipp: fix CVE-2024-5569
-Date: Thu, 28 Nov 2024 15:11:08 +0800
-Message-ID: <20241128071108.246729-1-hongxu.jia@windriver.com>
+Subject: [kirkstone][PATCH] python3-zipp: fix CVE-2024-5569
+Date: Thu, 28 Nov 2024 15:46:44 +0800
+Message-ID: <20241128074644.358235-1-hongxu.jia@windriver.com>
 X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: ogvVyXAK7RbCNWzhqKV75KpN2MXjQIKJ
-X-Authority-Analysis: v=2.4 cv=TIS/S0la c=1 sm=1 tr=0 ts=6748178f cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=0DMlDUsRAAAA:8 a=w-5QW0ztb0MrwPyDrKIA:9
+X-Proofpoint-ORIG-GUID: -Qw0SHCbLe8SFX2Ia6fWT3g69gAHWVo1
+X-Proofpoint-GUID: -Qw0SHCbLe8SFX2Ia6fWT3g69gAHWVo1
+X-Authority-Analysis: v=2.4 cv=Z/8WHGRA c=1 sm=1 tr=0 ts=67481fe6 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=0DMlDUsRAAAA:8 a=bakMVDwbw1lgnBgjYqwA:9
  a=cmuagjC9wImHlllo:21 a=FdTzh2GWekK77mhwV6Dw:22 a=168rQcPrDVj8xHztDHWJ:22
-X-Proofpoint-GUID: ogvVyXAK7RbCNWzhqKV75KpN2MXjQIKJ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-11-28_06,2024-11-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=793 adultscore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2411280056
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=850 malwarescore=0 adultscore=0
+ phishscore=0 spamscore=0 clxscore=1015 bulkscore=0 suspectscore=0
+ mlxscore=0 priorityscore=1501 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2411120000
+ definitions=main-2411280061
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 07:11:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207978
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 07:46:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207979
 
 According to [1] which provided the fix link [2], but upstream author
 reworked it later [3][4][5]
 
-Backport all the patches for tracing
+Backport and rebase all the patches for tracing
 
 [1] https://nvd.nist.gov/vuln/detail/CVE-2024-5569
 [2] https://github.com/jaraco/zipp/commit/fd604bd34f0343472521a36da1fbd22e793e14fd
@@ -64,13 +65,13 @@ Backport all the patches for tracing
 
 Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../0001-Add-SanitizedNames-mixin.patch       | 88 ++++++++++++++++++
- ...Names-in-CompleteDirs.-Fixes-broken-.patch | 29 ++++++
- .../0003-Removed-SanitizedNames.patch         | 93 +++++++++++++++++++
+ .../0001-Add-SanitizedNames-mixin.patch       | 89 +++++++++++++++++
+ ...Names-in-CompleteDirs.-Fixes-broken-.patch | 30 ++++++
+ .../0003-Removed-SanitizedNames.patch         | 95 +++++++++++++++++++
  ...-loop-when-zipfile-begins-with-more-.patch | 48 ++++++++++
- ...ath.rstrip-to-consolidate-checks-for.patch | 29 ++++++
- .../python/python3-zipp_3.17.0.bb             |  8 ++
- 6 files changed, 295 insertions(+)
+ ...ath.rstrip-to-consolidate-checks-for.patch | 30 ++++++
+ .../python/python3-zipp_3.7.0.bb              |  8 ++
+ 6 files changed, 300 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
  create mode 100644 meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
  create mode 100644 meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
@@ -79,28 +80,29 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 
 diff --git a/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch b/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
 new file mode 100644
-index 0000000000..1e244e651e
+index 0000000000..a352e7b9bd
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
-@@ -0,0 +1,88 @@
-+From bbdbd3afc6748eb09e4f98e53549c0b9e90c6221 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,89 @@
++From ef2227e35d1ae833b7bfa1674a45f58c732ae1a6 Mon Sep 17 00:00:00 2001
 +From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Fri, 31 May 2024 11:56:42 -0400
++Date: Wed, 27 Nov 2024 23:27:57 -0800
 +Subject: [PATCH 1/5] Add SanitizedNames mixin.
 +
 +Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/564fcc10cdbfdaecdb33688e149827465931c9e0]
 +CVE: CVE-2024-5569
++Rebase to v3.7.0
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ zipp/__init__.py | 62 ++++++++++++++++++++++++++++++++++++++++++++++++
++ zipp.py | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 + 1 file changed, 62 insertions(+)
 +
-+diff --git a/zipp/__init__.py b/zipp/__init__.py
-+index becd010..6c3e0c2 100644
-+--- a/zipp/__init__.py
-++++ b/zipp/__init__.py
-+@@ -84,6 +84,68 @@ class InitializedState:
-+         super().__init__(*args, **kwargs)
++diff --git a/zipp.py b/zipp.py
++index 26b723c..8f0950f 100644
++--- a/zipp.py
+++++ b/zipp.py
++@@ -68,6 +68,68 @@ def _difference(minuend, subtrahend):
++     return itertools.filterfalse(set(subtrahend).__contains__, minuend)
 + 
 + 
 ++class SanitizedNames:
@@ -165,74 +167,77 @@ index 0000000000..1e244e651e
 ++        return joined + '/' * name.endswith('/')
 ++
 ++
-+ class CompleteDirs(InitializedState, zipfile.ZipFile):
++ class CompleteDirs(zipfile.ZipFile):
 +     """
 +     A ZipFile subclass that ensures that implied directories
 +-- 
-+2.34.1
++2.25.1
 +
 diff --git a/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch b/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
 new file mode 100644
-index 0000000000..68840c4e7c
+index 0000000000..d2ea4d49a1
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
-@@ -0,0 +1,29 @@
-+From 32fda539edd83403a96537a9d9fbcd797bd53b0f Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,30 @@
++From 8b09dbf95b3ba78a63f220941e31ac92f4ad192c Mon Sep 17 00:00:00 2001
 +From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Thu, 28 Nov 2024 14:07:33 +0800
++Date: Wed, 27 Nov 2024 23:31:57 -0800
 +Subject: [PATCH 2/5] Employ SanitizedNames in CompleteDirs. Fixes broken test.
 +
 +Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/58115d2be968644ce71ce6bcc9b79826c82a1806]
 +Remove test code
++Rebase to v3.7.0
 +CVE: CVE-2024-5569
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ zipp/__init__.py | 2 +-
++ zipp.py | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/zipp/__init__.py b/zipp/__init__.py
-+index 6c3e0c2..e980e9b 100644
-+--- a/zipp/__init__.py
-++++ b/zipp/__init__.py
-+@@ -146,7 +146,7 @@ class SanitizedNames:
++diff --git a/zipp.py b/zipp.py
++index 8f0950f..29d2572 100644
++--- a/zipp.py
+++++ b/zipp.py
++@@ -130,7 +130,7 @@ class SanitizedNames:
 +         return joined + '/' * name.endswith('/')
 + 
 + 
-+-class CompleteDirs(InitializedState, zipfile.ZipFile):
-++class CompleteDirs(InitializedState, SanitizedNames, zipfile.ZipFile):
++-class CompleteDirs(zipfile.ZipFile):
+++class CompleteDirs(SanitizedNames, zipfile.ZipFile):
 +     """
 +     A ZipFile subclass that ensures that implied directories
 +     are always included in the namelist.
 +-- 
-+2.34.1
++2.25.1
 +
 diff --git a/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch b/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
 new file mode 100644
-index 0000000000..796b5adc54
+index 0000000000..45a7dc5bb1
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
-@@ -0,0 +1,93 @@
-+From b71f159320a971349fee88ee183bd0afaf088569 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,95 @@
++From b52b8af403e64607ae8d5e4cd18d4099d63e7264 Mon Sep 17 00:00:00 2001
 +From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Thu, 28 Nov 2024 14:10:17 +0800
++Date: Wed, 27 Nov 2024 23:33:11 -0800
 +Subject: [PATCH 3/5] Removed SanitizedNames.
 +
 +Restores expectations around special characters in zipfiles, but also restores the infinite loop.
 +
 +Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/3cb5609002263eb19f7b5efda82d96f1f57fe876]
 +Remove test codes
++Rebase to v3.7.0
 +CVE: CVE-2024-5569
++
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ zipp/__init__.py | 64 +-----------------------------------------------
++ zipp.py | 64 +--------------------------------------------------------
 + 1 file changed, 1 insertion(+), 63 deletions(-)
 +
-+diff --git a/zipp/__init__.py b/zipp/__init__.py
-+index e980e9b..becd010 100644
-+--- a/zipp/__init__.py
-++++ b/zipp/__init__.py
-+@@ -84,69 +84,7 @@ class InitializedState:
-+         super().__init__(*args, **kwargs)
++diff --git a/zipp.py b/zipp.py
++index 29d2572..26b723c 100644
++--- a/zipp.py
+++++ b/zipp.py
++@@ -68,69 +68,7 @@ def _difference(minuend, subtrahend):
++     return itertools.filterfalse(set(subtrahend).__contains__, minuend)
 + 
 + 
 +-class SanitizedNames:
@@ -297,23 +302,23 @@ index 0000000000..796b5adc54
 +-        return joined + '/' * name.endswith('/')
 +-
 +-
-+-class CompleteDirs(InitializedState, SanitizedNames, zipfile.ZipFile):
-++class CompleteDirs(InitializedState, zipfile.ZipFile):
++-class CompleteDirs(SanitizedNames, zipfile.ZipFile):
+++class CompleteDirs(zipfile.ZipFile):
 +     """
 +     A ZipFile subclass that ensures that implied directories
 +     are always included in the namelist.
 +-- 
-+2.34.1
++2.25.1
 +
 diff --git a/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch b/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
 new file mode 100644
-index 0000000000..e1c18669af
+index 0000000000..46871122a9
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
 @@ -0,0 +1,48 @@
-+From a92d9a4fcdfe510befcbe182db5f1982f9839d2d Mon Sep 17 00:00:00 2001
++From ef4ee19919bd49a9c1207ff8d87f83dd48aed436 Mon Sep 17 00:00:00 2001
 +From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Thu, 28 Nov 2024 14:12:38 +0800
++Date: Wed, 27 Nov 2024 23:35:28 -0800
 +Subject: [PATCH 4/5] Address infinite loop when zipfile begins with more than
 + one leading slash.
 +
@@ -321,17 +326,18 @@ index 0000000000..e1c18669af
 +
 +Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/f89b93f0370dd85d23d243e25dfc1f99f4d8de48]
 +Remove test codes
++Rebase to v3.7.0
 +CVE: CVE-2024-5569
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ zipp/__init__.py | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
++ zipp.py | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
 +
-+diff --git a/zipp/__init__.py b/zipp/__init__.py
-+index becd010..e43d1de 100644
-+--- a/zipp/__init__.py
-++++ b/zipp/__init__.py
-+@@ -35,7 +35,7 @@ def _parents(path):
++diff --git a/zipp.py b/zipp.py
++index 26b723c..236af49 100644
++--- a/zipp.py
+++++ b/zipp.py
++@@ -37,7 +37,7 @@ def _parents(path):
 + def _ancestry(path):
 +     """
 +     Given a path with elements separated by
@@ -340,11 +346,10 @@ index 0000000000..e1c18669af
 + 
 +     >>> list(_ancestry('b/d'))
 +     ['b/d', 'b']
-+@@ -47,9 +47,14 @@ def _ancestry(path):
++@@ -49,9 +49,13 @@ def _ancestry(path):
 +     ['b']
 +     >>> list(_ancestry(''))
 +     []
-++
 ++    Multiple separators are treated like a single.
 ++
 ++    >>> list(_ancestry('//b//d///f//'))
@@ -357,32 +362,33 @@ index 0000000000..e1c18669af
 +         path, tail = posixpath.split(path)
 + 
 +-- 
-+2.34.1
++2.25.1
 +
 diff --git a/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch b/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
 new file mode 100644
-index 0000000000..2464fc777d
+index 0000000000..de91c68361
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
-@@ -0,0 +1,29 @@
-+From 5b4e4ff80e46d786ca1ebd726b399e6301d5c231 Mon Sep 17 00:00:00 2001
+@@ -0,0 +1,30 @@
++From 9084bc59784cb240628996c1cb95f4f786ebedcc Mon Sep 17 00:00:00 2001
 +From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Mon, 26 Aug 2024 11:46:25 -0400
++Date: Wed, 27 Nov 2024 23:38:28 -0800
 +Subject: [PATCH 5/5] Prefer simpler path.rstrip to consolidate checks for
 + empty or only paths.
 +
 +Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/cc61e6140f0dfde2ff372db932442cf6df890f09]
++Rebase to v3.7.0
 +CVE: CVE-2024-5569
 +Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ zipp/__init__.py | 2 +-
++ zipp.py | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/zipp/__init__.py b/zipp/__init__.py
-+index e43d1de..3d93e1e 100644
-+--- a/zipp/__init__.py
-++++ b/zipp/__init__.py
-+@@ -54,7 +54,7 @@ def _ancestry(path):
++diff --git a/zipp.py b/zipp.py
++index 236af49..87c4219 100644
++--- a/zipp.py
+++++ b/zipp.py
++@@ -55,7 +55,7 @@ def _ancestry(path):
 +     ['//b//d///f', '//b//d', '//b']
 +     """
 +     path = path.rstrip(posixpath.sep)
@@ -392,13 +398,13 @@ index 0000000000..2464fc777d
 +         path, tail = posixpath.split(path)
 + 
 +-- 
-+2.34.1
++2.25.1
 +
-diff --git a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-index e9e220e315..eea7a17f88 100644
---- a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-+++ b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-@@ -9,6 +9,14 @@ DEPENDS += "python3-setuptools-scm-native"
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.7.0.bb b/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
+index 495e7f51f0..d9db1b4408 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
+@@ -9,6 +9,14 @@ DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
  
  inherit pypi python_setuptools_build_meta
  
@@ -410,9 +416,9 @@ index e9e220e315..eea7a17f88 100644
 +    file://0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch \
 +"
 +
- DEPENDS += "python3-toml-native"
+ DEPENDS += "${PYTHON_PN}-toml-native"
  
- RDEPENDS:${PN} += "python3-compression \
+ RDEPENDS:${PN} += "${PYTHON_PN}-compression \
 -- 
 2.34.1
 
