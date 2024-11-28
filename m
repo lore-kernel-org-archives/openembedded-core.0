@@ -1,570 +1,415 @@
-Return-Path: <changqing.li@windriver.com>
+Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 412B3D5E39F
-	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 04:56:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF187D66BAF
+	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 06:49:25 +0000 (UTC)
 Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.88205.1732769767912703507
+ by mx.groups.io with SMTP id smtpd.web11.89958.1732776563845004452
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 20:56:08 -0800
+ Wed, 27 Nov 2024 22:49:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1062ca15bd=changqing.li@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS4TG89023394
-	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 04:56:07 GMT
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671armtw-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1062761e67=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS6ZFEW030852
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 06:49:23 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671b0q07-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 04:56:06 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 06:49:22 +0000 (GMT)
+Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 27 Nov 2024 20:56:05 -0800
-Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 20:56:04 -0800
-From: <changqing.li@windriver.com>
+ 15.1.2507.43; Wed, 27 Nov 2024 22:49:21 -0800
+Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
+ ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 22:49:20 -0800
+From: Hongxu Jia <hongxu.jia@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [scarthgap][PATCH] libsoup: fix CVE-2024-52530, CVE-2024-52531
-Date: Thu, 28 Nov 2024 12:56:03 +0800
-Message-ID: <20241128045603.107120-1-changqing.li@windriver.com>
-X-Mailer: git-send-email 2.25.1
+Subject: [scarthgap][PATCH] python3-zipp: fix CVE-2024-5569
+Date: Thu, 28 Nov 2024 14:49:20 +0800
+Message-ID: <20241128064920.139214-1-hongxu.jia@windriver.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: 4-JGbeKqvI1n6CxcGpi37xlvIkBd8X95
-X-Authority-Analysis: v=2.4 cv=TIS/S0la c=1 sm=1 tr=0 ts=6747f7e6 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8 a=A1X0JdhQAAAA:8
- a=SH4T4DA_CCWaxCUPtK8A:9 a=1IMH6UyMEjLNDkUd:21 a=FdTzh2GWekK77mhwV6Dw:22 a=Z31ocT7rh6aUJxSkT1EX:22
-X-Proofpoint-GUID: 4-JGbeKqvI1n6CxcGpi37xlvIkBd8X95
+X-Proofpoint-GUID: vThH24FpKj4HTSeZ3Z4cCW2aENd4OiGg
+X-Proofpoint-ORIG-GUID: vThH24FpKj4HTSeZ3Z4cCW2aENd4OiGg
+X-Authority-Analysis: v=2.4 cv=TIe/S0la c=1 sm=1 tr=0 ts=67481272 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=0DMlDUsRAAAA:8 a=0UIqs_TCDM9Tqfb3_acA:9
+ a=cmuagjC9wImHlllo:21 a=FdTzh2GWekK77mhwV6Dw:22 a=168rQcPrDVj8xHztDHWJ:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-11-28_04,2024-11-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 clxscore=1015
- priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
- mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2411280038
+ definitions=2024-11-28_06,2024-11-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
+ phishscore=0 mlxscore=0 bulkscore=0 impostorscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 suspectscore=0 spamscore=0 lowpriorityscore=0
+ mlxlogscore=793 classifier=spam authscore=0 adjust=0 reason=mlx
+ scancount=1 engine=8.21.0-2411120000 definitions=main-2411280052
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 04:56:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207975
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 06:49:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207976
 
-From: Changqing Li <changqing.li@windriver.com>
+According to [1] which provided the fix link [2], but upstream author
+reworked it later [3][4][5]
 
-CVE-2024-52531:
-GNOME libsoup before 3.6.1 allows a buffer overflow in applications that
-perform conversion to UTF-8 in soup_header_parse_param_list_strict.
-Input received over the network cannot trigger this.
+Backport all the patches for tracing
 
-Refer:
-https://nvd.nist.gov/vuln/detail/CVE-2024-52531
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-5569
+[2] https://github.com/jaraco/zipp/commit/fd604bd34f0343472521a36da1fbd22e793e14fd
+[3] https://github.com/jaraco/zipp/commit/3cb5609002263eb19f7b5efda82d96f1f57fe876
+[4] https://github.com/jaraco/zipp/commit/f89b93f0370dd85d23d243e25dfc1f99f4d8de48
+[5] https://github.com/jaraco/zipp/commit/cc61e6140f0dfde2ff372db932442cf6df890f09
 
-CVE-2024-52530:
-GNOME libsoup before 3.6.0 allows HTTP request smuggling in some
-configurations because '\0' characters at the end of header names are
-ignored, i.e., a "Transfer-Encoding\0: chunked" header is treated the
-same as a "Transfer-Encoding: chunked" header.
-
-Refer:
-https://nvd.nist.gov/vuln/detail/CVE-2024-52530
-
-Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- .../libsoup-3.4.4/CVE-2024-52530.patch        | 150 ++++++++++++++++++
- .../libsoup-3.4.4/CVE-2024-52531-1.patch      | 116 ++++++++++++++
- .../libsoup-3.4.4/CVE-2024-52531-2.patch      |  40 +++++
- .../libsoup-3.4.4/CVE-2024-52531-3.patch      | 136 ++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.4.4.bb |   4 +
- 5 files changed, 446 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch
+ .../0001-Add-SanitizedNames-mixin.patch       | 88 ++++++++++++++++++
+ ...Names-in-CompleteDirs.-Fixes-broken-.patch | 28 ++++++
+ .../0003-Removed-SanitizedNames.patch         | 92 +++++++++++++++++++
+ ...-loop-when-zipfile-begins-with-more-.patch | 47 ++++++++++
+ ...ath.rstrip-to-consolidate-checks-for.patch | 28 ++++++
+ .../python/python3-zipp_3.17.0.bb             |  8 ++
+ 6 files changed, 291 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
+ create mode 100644 meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
+ create mode 100644 meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
+ create mode 100644 meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
+ create mode 100644 meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch
+diff --git a/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch b/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
 new file mode 100644
-index 00000000000..fb6d5c3c6f6
+index 0000000000..13cfcd98db
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch
-@@ -0,0 +1,150 @@
-+From 04df03bc092ac20607f3e150936624d4f536e68b Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Mon, 8 Jul 2024 12:33:15 -0500
-+Subject: [PATCH] headers: Strictly don't allow NUL bytes
++++ b/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
+@@ -0,0 +1,88 @@
++From bbdbd3afc6748eb09e4f98e53549c0b9e90c6221 Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Fri, 31 May 2024 11:56:42 -0400
++Subject: [PATCH 1/5] Add SanitizedNames mixin.
 +
-+In the past (2015) this was allowed for some problematic sites. However Chromium also does not allow NUL bytes in either header names or values these days. So this should no longer be a problem.
++Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/564fcc10cdbfdaecdb33688e149827465931c9e0]
 +
-+CVE: CVE-2024-52530
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ libsoup/soup-headers.c      | 15 +++------
-+ tests/header-parsing-test.c | 62 +++++++++++++++++--------------------
-+ 2 files changed, 32 insertions(+), 45 deletions(-)
++ zipp/__init__.py | 62 ++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 62 insertions(+)
 +
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index a0cf351ac..f30ee467a 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -51,13 +51,14 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
-+ 	 * ignorable trailing whitespace.
-+ 	 */
++diff --git a/zipp/__init__.py b/zipp/__init__.py
++index becd010..6c3e0c2 100644
++--- a/zipp/__init__.py
+++++ b/zipp/__init__.py
++@@ -84,6 +84,68 @@ class InitializedState:
++         super().__init__(*args, **kwargs)
 + 
-++	/* No '\0's are allowed */
-++	if (memchr (str, '\0', len))
-++		return FALSE;
-++
-+ 	/* Skip over the Request-Line / Status-Line */
-+ 	headers_start = memchr (str, '\n', len);
-+ 	if (!headers_start)
-+ 		return FALSE;
-+-	/* No '\0's in the Request-Line / Status-Line */
-+-	if (memchr (str, '\0', headers_start - str))
-+-		return FALSE;
 + 
-+ 	/* We work on a copy of the headers, which we can write '\0's
-+ 	 * into, so that we don't have to individually g_strndup and
-+@@ -69,14 +70,6 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
-+ 	headers_copy[copy_len] = '\0';
-+ 	value_end = headers_copy;
+++class SanitizedNames:
+++    """
+++    ZipFile mix-in to ensure names are sanitized.
+++    """
+++
+++    def namelist(self):
+++        return list(map(self._sanitize, super().namelist()))
+++
+++    @staticmethod
+++    def _sanitize(name):
+++        r"""
+++        Ensure a relative path with posix separators and no dot names.
+++
+++        Modeled after
+++        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
+++        but provides consistent cross-platform behavior.
+++
+++        >>> san = SanitizedNames._sanitize
+++        >>> san('/foo/bar')
+++        'foo/bar'
+++        >>> san('//foo.txt')
+++        'foo.txt'
+++        >>> san('foo/.././bar.txt')
+++        'foo/bar.txt'
+++        >>> san('foo../.bar.txt')
+++        'foo../.bar.txt'
+++        >>> san('\\foo\\bar.txt')
+++        'foo/bar.txt'
+++        >>> san('D:\\foo.txt')
+++        'D/foo.txt'
+++        >>> san('\\\\server\\share\\file.txt')
+++        'server/share/file.txt'
+++        >>> san('\\\\?\\GLOBALROOT\\Volume3')
+++        '?/GLOBALROOT/Volume3'
+++        >>> san('\\\\.\\PhysicalDrive1\\root')
+++        'PhysicalDrive1/root'
+++
+++        Retain any trailing slash.
+++        >>> san('abc/')
+++        'abc/'
+++
+++        Raises a ValueError if the result is empty.
+++        >>> san('../..')
+++        Traceback (most recent call last):
+++        ...
+++        ValueError: Empty filename
+++        """
+++
+++        def allowed(part):
+++            return part and part not in {'..', '.'}
+++
+++        # Remove the drive letter.
+++        # Don't use ntpath.splitdrive, because that also strips UNC paths
+++        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
+++        clean = bare.replace('\\', '/')
+++        parts = clean.split('/')
+++        joined = '/'.join(filter(allowed, parts))
+++        if not joined:
+++            raise ValueError("Empty filename")
+++        return joined + '/' * name.endswith('/')
+++
+++
++ class CompleteDirs(InitializedState, zipfile.ZipFile):
++     """
++     A ZipFile subclass that ensures that implied directories
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch b/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
+new file mode 100644
+index 0000000000..f6911bfb76
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
+@@ -0,0 +1,28 @@
++From 32fda539edd83403a96537a9d9fbcd797bd53b0f Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Thu, 28 Nov 2024 14:07:33 +0800
++Subject: [PATCH 2/5] Employ SanitizedNames in CompleteDirs. Fixes broken test.
++
++Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/58115d2be968644ce71ce6bcc9b79826c82a1806]
++Remove test code
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ zipp/__init__.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/zipp/__init__.py b/zipp/__init__.py
++index 6c3e0c2..e980e9b 100644
++--- a/zipp/__init__.py
+++++ b/zipp/__init__.py
++@@ -146,7 +146,7 @@ class SanitizedNames:
++         return joined + '/' * name.endswith('/')
 + 
-+-	/* There shouldn't be any '\0's in the headers already, but
-+-	 * this is the web we're talking about.
-+-	 */
-+-	while ((p = memchr (headers_copy, '\0', copy_len))) {
-+-		memmove (p, p + 1, copy_len - (p - headers_copy));
-+-		copy_len--;
-+-	}
-+-
-+ 	while (*(value_end + 1)) {
-+ 		name = value_end + 1;
-+ 		name_end = strchr (name, ':');
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index edf8eebb3..715c2c6f2 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -358,24 +358,6 @@ static struct RequestTest {
-+ 	  }
-+ 	},
 + 
-+-	{ "NUL in header name", "760832",
-+-	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
-+-	  SOUP_STATUS_OK,
-+-	  "GET", "/", SOUP_HTTP_1_1,
-+-	  { { "Host", "example.com" },
-+-	    { NULL }
-+-	  }
-+-	},
-+-
-+-	{ "NUL in header value", "760832",
-+-	  "GET / HTTP/1.1\r\nHost: example\x00" "com\r\n", 35,
-+-	  SOUP_STATUS_OK,
-+-	  "GET", "/", SOUP_HTTP_1_1,
-+-	  { { "Host", "examplecom" },
-+-	    { NULL }
-+-	  }
-+-	},
-+-
-+ 	/************************/
-+ 	/*** INVALID REQUESTS ***/
-+ 	/************************/
-+@@ -448,6 +430,21 @@ static struct RequestTest {
-+ 	  SOUP_STATUS_EXPECTATION_FAILED,
-+ 	  NULL, NULL, -1,
-+ 	  { { NULL } }
-++	},
-++
-++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
-++	{ "NUL in header name", NULL,
-++	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
-++	  SOUP_STATUS_BAD_REQUEST,
-++	  NULL, NULL, -1,
-++	  { { NULL } }
-++	},
-++
-++	{ "NUL in header value", NULL,
-++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
-++	  SOUP_STATUS_BAD_REQUEST,
-++           NULL, NULL, -1,
-++	  { { NULL } }
-+ 	}
-+ };
-+ static const int num_reqtests = G_N_ELEMENTS (reqtests);
-+@@ -620,22 +617,6 @@ static struct ResponseTest {
-+ 	    { NULL } }
-+ 	},
++-class CompleteDirs(InitializedState, zipfile.ZipFile):
+++class CompleteDirs(InitializedState, SanitizedNames, zipfile.ZipFile):
++     """
++     A ZipFile subclass that ensures that implied directories
++     are always included in the namelist.
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch b/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
+new file mode 100644
+index 0000000000..689bb4a303
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
+@@ -0,0 +1,92 @@
++From b71f159320a971349fee88ee183bd0afaf088569 Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Thu, 28 Nov 2024 14:10:17 +0800
++Subject: [PATCH 3/5] Removed SanitizedNames.
++
++Restores expectations around special characters in zipfiles, but also restores the infinite loop.
++
++Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/3cb5609002263eb19f7b5efda82d96f1f57fe876]
++Remove test codes
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ zipp/__init__.py | 64 +-----------------------------------------------
++ 1 file changed, 1 insertion(+), 63 deletions(-)
++
++diff --git a/zipp/__init__.py b/zipp/__init__.py
++index e980e9b..becd010 100644
++--- a/zipp/__init__.py
+++++ b/zipp/__init__.py
++@@ -84,69 +84,7 @@ class InitializedState:
++         super().__init__(*args, **kwargs)
 + 
-+-	{ "NUL in header name", "760832",
-+-	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
-+-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
-+-	  { { "Foo", "bar" },
-+-	    { NULL }
-+-	  }
-+-	},
++ 
++-class SanitizedNames:
++-    """
++-    ZipFile mix-in to ensure names are sanitized.
++-    """
 +-
-+-	{ "NUL in header value", "760832",
-+-	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
-+-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
-+-	  { { "Foo", "bar" },
-+-	    { NULL }
-+-	  }
-+-	},
++-    def namelist(self):
++-        return list(map(self._sanitize, super().namelist()))
 +-
-+ 	/********************************/
-+ 	/*** VALID CONTINUE RESPONSES ***/
-+ 	/********************************/
-+@@ -768,6 +749,19 @@ static struct ResponseTest {
-+ 	  { { NULL }
-+ 	  }
-+ 	},
++-    @staticmethod
++-    def _sanitize(name):
++-        r"""
++-        Ensure a relative path with posix separators and no dot names.
++-
++-        Modeled after
++-        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
++-        but provides consistent cross-platform behavior.
++-
++-        >>> san = SanitizedNames._sanitize
++-        >>> san('/foo/bar')
++-        'foo/bar'
++-        >>> san('//foo.txt')
++-        'foo.txt'
++-        >>> san('foo/.././bar.txt')
++-        'foo/bar.txt'
++-        >>> san('foo../.bar.txt')
++-        'foo../.bar.txt'
++-        >>> san('\\foo\\bar.txt')
++-        'foo/bar.txt'
++-        >>> san('D:\\foo.txt')
++-        'D/foo.txt'
++-        >>> san('\\\\server\\share\\file.txt')
++-        'server/share/file.txt'
++-        >>> san('\\\\?\\GLOBALROOT\\Volume3')
++-        '?/GLOBALROOT/Volume3'
++-        >>> san('\\\\.\\PhysicalDrive1\\root')
++-        'PhysicalDrive1/root'
++-
++-        Retain any trailing slash.
++-        >>> san('abc/')
++-        'abc/'
++-
++-        Raises a ValueError if the result is empty.
++-        >>> san('../..')
++-        Traceback (most recent call last):
++-        ...
++-        ValueError: Empty filename
++-        """
++-
++-        def allowed(part):
++-            return part and part not in {'..', '.'}
++-
++-        # Remove the drive letter.
++-        # Don't use ntpath.splitdrive, because that also strips UNC paths
++-        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
++-        clean = bare.replace('\\', '/')
++-        parts = clean.split('/')
++-        joined = '/'.join(filter(allowed, parts))
++-        if not joined:
++-            raise ValueError("Empty filename")
++-        return joined + '/' * name.endswith('/')
++-
++-
++-class CompleteDirs(InitializedState, SanitizedNames, zipfile.ZipFile):
+++class CompleteDirs(InitializedState, zipfile.ZipFile):
++     """
++     A ZipFile subclass that ensures that implied directories
++     are always included in the namelist.
++-- 
++2.34.1
++
+diff --git a/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch b/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
+new file mode 100644
+index 0000000000..95e30be55f
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
+@@ -0,0 +1,47 @@
++From a92d9a4fcdfe510befcbe182db5f1982f9839d2d Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Thu, 28 Nov 2024 14:12:38 +0800
++Subject: [PATCH 4/5] Address infinite loop when zipfile begins with more than
++ one leading slash.
++
++Alternate and more surgical fix for jaraco/zipp#119. Ref python/cpython#123270
++
++Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/f89b93f0370dd85d23d243e25dfc1f99f4d8de48]
++Remove test codes
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ zipp/__init__.py | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/zipp/__init__.py b/zipp/__init__.py
++index becd010..e43d1de 100644
++--- a/zipp/__init__.py
+++++ b/zipp/__init__.py
++@@ -35,7 +35,7 @@ def _parents(path):
++ def _ancestry(path):
++     """
++     Given a path with elements separated by
++-    posixpath.sep, generate all elements of that path
+++    posixpath.sep, generate all elements of that path.
++ 
++     >>> list(_ancestry('b/d'))
++     ['b/d', 'b']
++@@ -47,9 +47,14 @@ def _ancestry(path):
++     ['b']
++     >>> list(_ancestry(''))
++     []
 ++
-++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
-++	{ "NUL in header name", NULL,
-++	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
-++	  -1, 0, NULL,
-++	  { { NULL } }
-++	},
+++    Multiple separators are treated like a single.
 ++
-++	{ "NUL in header value", "760832",
-++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
-++	  -1, 0, NULL,
-++	  { { NULL } }
-++	},
-+ };
-+ static const int num_resptests = G_N_ELEMENTS (resptests);
+++    >>> list(_ancestry('//b//d///f//'))
+++    ['//b//d///f', '//b//d', '//b']
++     """
++     path = path.rstrip(posixpath.sep)
++-    while path and path != posixpath.sep:
+++    while path and not path.endswith(posixpath.sep):
++         yield path
++         path, tail = posixpath.split(path)
 + 
 +-- 
-+GitLab
++2.34.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch
+diff --git a/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch b/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
 new file mode 100644
-index 00000000000..c8e855c1289
+index 0000000000..81468d4143
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch
-@@ -0,0 +1,116 @@
-+From 4ec9e3d286b6d3e982cb0fc3564dee0bf8d87ede Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Tue, 27 Aug 2024 12:18:58 -0500
-+Subject: [PATCH] fuzzing: Cover soup_header_parse_param_list
++++ b/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
+@@ -0,0 +1,28 @@
++From 5b4e4ff80e46d786ca1ebd726b399e6301d5c231 Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Mon, 26 Aug 2024 11:46:25 -0400
++Subject: [PATCH 5/5] Prefer simpler path.rstrip to consolidate checks for
++ empty or only paths.
 +
-+CVE: CVE-2024-52531
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/diffs?commit_id=4ec9e3d286b6d3e982cb0fc3564dee0bf8d87ede]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+
++Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/cc61e6140f0dfde2ff372db932442cf6df890f09]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ fuzzing/fuzz.h                   |  9 +++++++--
-+ fuzzing/fuzz_header_parsing.c    | 19 +++++++++++++++++++
-+ fuzzing/fuzz_header_parsing.dict |  8 ++++++++
-+ fuzzing/meson.build              |  2 ++
-+ 4 files changed, 36 insertions(+), 2 deletions(-)
-+ create mode 100644 fuzzing/fuzz_header_parsing.c
-+ create mode 100644 fuzzing/fuzz_header_parsing.dict
++ zipp/__init__.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/fuzzing/fuzz.h b/fuzzing/fuzz.h
-+index 0d380285..f3bd28ee 100644
-+--- a/fuzzing/fuzz.h
-++++ b/fuzzing/fuzz.h
-+@@ -1,13 +1,14 @@
-+ #include "libsoup/soup.h"
-+ 
-+ int LLVMFuzzerTestOneInput (const unsigned char *data, size_t size);
-++static int set_logger = 0;
-+ 
-+ #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
-+ static GLogWriterOutput
-+ empty_logging_func (GLogLevelFlags log_level, const GLogField *fields,
-+                     gsize n_fields, gpointer user_data)
-+ {
-+-  return G_LOG_WRITER_HANDLED;
-++        return G_LOG_WRITER_HANDLED;
-+ }
-+ #endif
-+ 
-+@@ -16,6 +17,10 @@ static void
-+ fuzz_set_logging_func (void)
-+ {
-+ #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
-+-  g_log_set_writer_func (empty_logging_func, NULL, NULL);
-++        if (!set_logger)
-++        {
-++                set_logger = 1;
-++                g_log_set_writer_func (empty_logging_func, NULL, NULL);
-++        }
-+ #endif
-+ }
-+diff --git a/fuzzing/fuzz_header_parsing.c b/fuzzing/fuzz_header_parsing.c
-+new file mode 100644
-+index 00000000..a8e5c1f9
-+--- /dev/null
-++++ b/fuzzing/fuzz_header_parsing.c
-+@@ -0,0 +1,19 @@
-++#include "fuzz.h"
-++
-++int
-++LLVMFuzzerTestOneInput (const unsigned char *data, size_t size)
-++{
-++        GHashTable *elements;
-++
-++        // We only accept NUL terminated strings
-++        if (!size || data[size - 1] != '\0')
-++                return 0;
-++
-++        fuzz_set_logging_func ();
-++
-++        elements = soup_header_parse_param_list((char*)data);
-++
-++        g_hash_table_unref(elements);
-++
-++        return 0;
-++}
-+\ No newline at end of file
-+diff --git a/fuzzing/fuzz_header_parsing.dict b/fuzzing/fuzz_header_parsing.dict
-+new file mode 100644
-+index 00000000..1562ca3a
-+--- /dev/null
-++++ b/fuzzing/fuzz_header_parsing.dict
-+@@ -0,0 +1,8 @@
-++"*=UTF-8''"
-++"*=iso-8859-1''"
-++"'"
-++"''"
-++"="
-++"*="
-++"""
-++";"
-+\ No newline at end of file
-+diff --git a/fuzzing/meson.build b/fuzzing/meson.build
-+index b14cbb50..5dd0f417 100644
-+--- a/fuzzing/meson.build
-++++ b/fuzzing/meson.build
-+@@ -5,6 +5,7 @@ fuzz_targets = [
-+   'fuzz_cookie_parse',
-+   'fuzz_content_sniffer',
-+   'fuzz_date_time',
-++  'fuzz_header_parsing',
-+ ]
-+ 
-+ fuzzing_args = '-fsanitize=fuzzer,address,undefined'
-+@@ -34,6 +35,7 @@ if have_fuzzing and (fuzzing_feature.enabled() or fuzzing_feature.auto())
-+         '-runs=200000',
-+         '-artifact_prefix=meson-logs/' + target + '-',
-+         '-print_final_stats=1',
-++        '-max_len=4096',
-+       ] + extra_args,
-+       env: [
-+         'ASAN_OPTIONS=fast_unwind_on_malloc=0',
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch
-new file mode 100644
-index 00000000000..7e0d81ba4c3
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch
-@@ -0,0 +1,40 @@
-+From 825fda3425546847b42ad5270544e9388ff349fe Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Tue, 27 Aug 2024 13:52:08 -0500
-+Subject: [PATCH] tests: Add test for passing invalid UTF-8 to
-+ soup_header_parse_semi_param_list()
-+
-+CVE: CVE-2024-52531
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/diffs?commit_id=825fda3425546847b42ad5270544e9388ff349fe]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+---
-+ tests/header-parsing-test.c | 11 +++++++++++
-+ 1 file changed, 11 insertions(+)
-+
-+diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
-+index 715c2c6f..5e423d2b 100644
-+--- a/tests/header-parsing-test.c
-++++ b/tests/header-parsing-test.c
-+@@ -825,6 +825,17 @@ static struct ParamListTest {
-+ 	    { "filename", "t\xC3\xA9st.txt" },
-+ 	  },
-+ 	},
-++
-++        /* This tests invalid UTF-8 data which *should* never be passed here but it was designed to be robust against it. */
-++        { TRUE,
-++              "invalid*=\x69\x27\x27\x93\x93\x93\x93\xff\x61\x61\x61\x61\x61\x61\x61\x62\x63\x64\x65\x0a; filename*=iso-8859-1''\x69\x27\x27\x93\x93\x93\x93\xff\x61\x61\x61\x61\x61\x61\x61\x62\x63\x64\x65\x0a; foo",
-++              {
-++                    { "filename", "i''\302\223\302\223\302\223\302\223\303\277aaaaaaabcde" },
-++                    { "invalid", "\302\223\302\223\302\223\302\223\303\277aaaaaaabcde" },
-++                    { "foo", NULL },
-++
-++                },
-++        }
-+ };
-+ static const int num_paramlisttests = G_N_ELEMENTS (paramlisttests);
++diff --git a/zipp/__init__.py b/zipp/__init__.py
++index e43d1de..3d93e1e 100644
++--- a/zipp/__init__.py
+++++ b/zipp/__init__.py
++@@ -54,7 +54,7 @@ def _ancestry(path):
++     ['//b//d///f', '//b//d', '//b']
++     """
++     path = path.rstrip(posixpath.sep)
++-    while path and not path.endswith(posixpath.sep):
+++    while path.rstrip(posixpath.sep):
++         yield path
++         path, tail = posixpath.split(path)
 + 
 +-- 
-+2.25.1
++2.34.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch
-new file mode 100644
-index 00000000000..a47c8747c56
---- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch
-@@ -0,0 +1,136 @@
-+From a35222dd0bfab2ac97c10e86b95f762456628283 Mon Sep 17 00:00:00 2001
-+From: Patrick Griffis <pgriffis@igalia.com>
-+Date: Tue, 27 Aug 2024 13:53:26 -0500
-+Subject: [PATCH] headers: Be more robust against invalid input when parsing
-+ params
-+
-+If you pass invalid input to a function such as soup_header_parse_param_list_strict()
-+it can cause an overflow if it decodes the input to UTF-8.
-+
-+This should never happen with valid UTF-8 input which libsoup's client API
-+ensures, however it's server API does not currently.
-+
-+CVE: CVE-2024-52531
-+Upstream-Status: Backport
-+[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/diffs?commit_id=a35222dd0bfab2ac97c10e86b95f762456628283]
-+
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
-+
-+---
-+ libsoup/soup-headers.c | 46 ++++++++++++++++++++++--------------------
-+ 1 file changed, 24 insertions(+), 22 deletions(-)
-+
-+diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
-+index f30ee467..613e1905 100644
-+--- a/libsoup/soup-headers.c
-++++ b/libsoup/soup-headers.c
-+@@ -646,8 +646,9 @@ soup_header_contains (const char *header, const char *token)
-+ }
-+ 
-+ static void
-+-decode_quoted_string (char *quoted_string)
-++decode_quoted_string_inplace (GString *quoted_gstring)
-+ {
-++	char *quoted_string = quoted_gstring->str;
-+ 	char *src, *dst;
-+ 
-+ 	src = quoted_string + 1;
-+@@ -661,10 +662,11 @@ decode_quoted_string (char *quoted_string)
-+ }
-+ 
-+ static gboolean
-+-decode_rfc5987 (char *encoded_string)
-++decode_rfc5987_inplace (GString *encoded_gstring)
-+ {
-+ 	char *q, *decoded;
-+ 	gboolean iso_8859_1 = FALSE;
-++	const char *encoded_string = encoded_gstring->str;
-+ 
-+ 	q = strchr (encoded_string, '\'');
-+ 	if (!q)
-+@@ -696,14 +698,7 @@ decode_rfc5987 (char *encoded_string)
-+ 		decoded = utf8;
-+ 	}
-+ 
-+-	/* If encoded_string was UTF-8, then each 3-character %-escape
-+-	 * will be converted to a single byte, and so decoded is
-+-	 * shorter than encoded_string. If encoded_string was
-+-	 * iso-8859-1, then each 3-character %-escape will be
-+-	 * converted into at most 2 bytes in UTF-8, and so it's still
-+-	 * shorter.
-+-	 */
-+-	strcpy (encoded_string, decoded);
-++	g_string_assign (encoded_gstring, decoded);
-+ 	g_free (decoded);
-+ 	return TRUE;
-+ }
-+@@ -713,15 +708,17 @@ parse_param_list (const char *header, char delim, gboolean strict)
-+ {
-+ 	GHashTable *params;
-+ 	GSList *list, *iter;
-+-	char *item, *eq, *name_end, *value;
-+-	gboolean override, duplicated;
-+ 
-+ 	params = g_hash_table_new_full (soup_str_case_hash, 
-+ 					soup_str_case_equal,
-+-					g_free, NULL);
-++					g_free, g_free);
-+ 
-+ 	list = parse_list (header, delim);
-+ 	for (iter = list; iter; iter = iter->next) {
-++		char *item, *eq, *name_end;
-++		gboolean override, duplicated;
-++		GString *parsed_value = NULL;
-++
-+ 		item = iter->data;
-+ 		override = FALSE;
-+ 
-+@@ -736,19 +733,19 @@ parse_param_list (const char *header, char delim, gboolean strict)
-+ 
-+ 			*name_end = '\0';
-+ 
-+-			value = (char *)skip_lws (eq + 1);
-++			parsed_value = g_string_new ((char *)skip_lws (eq + 1));
-+ 
-+ 			if (name_end[-1] == '*' && name_end > item + 1) {
-+ 				name_end[-1] = '\0';
-+-				if (!decode_rfc5987 (value)) {
-++				if (!decode_rfc5987_inplace (parsed_value)) {
-++					g_string_free (parsed_value, TRUE);
-+ 					g_free (item);
-+ 					continue;
-+ 				}
-+ 				override = TRUE;
-+-			} else if (*value == '"')
-+-				decode_quoted_string (value);
-+-		} else
-+-			value = NULL;
-++			} else if (parsed_value->str[0] == '"')
-++				decode_quoted_string_inplace (parsed_value);
-++		}
-+ 
-+ 		duplicated = g_hash_table_lookup_extended (params, item, NULL, NULL);
-+ 
-+@@ -756,11 +753,16 @@ parse_param_list (const char *header, char delim, gboolean strict)
-+ 			soup_header_free_param_list (params);
-+ 			params = NULL;
-+ 			g_slist_foreach (iter, (GFunc)g_free, NULL);
-++			if (parsed_value)
-++				g_string_free (parsed_value, TRUE);
-+ 			break;
-+-		} else if (override || !duplicated)
-+-			g_hash_table_replace (params, item, value);
-+-		else
-++		} else if (override || !duplicated) {
-++			g_hash_table_replace (params, item, parsed_value ? g_string_free (parsed_value, FALSE) : NULL);
-++		} else {
-++			if (parsed_value)
-++				g_string_free (parsed_value, TRUE);
-+ 			g_free (item);
-++		}
-+ 	}
-+ 
-+ 	g_slist_free (list);
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-index 0e667155891..b2e32b892a0 100644
---- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
-@@ -14,6 +14,10 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
- SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2024-52532-0001.patch \
-            file://CVE-2024-52532-0002.patch \
-+           file://CVE-2024-52530.patch \
-+           file://CVE-2024-52531-1.patch \
-+           file://CVE-2024-52531-2.patch \
-+           file://CVE-2024-52531-3.patch \
-           "
- SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
+index e9e220e315..eea7a17f88 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
+@@ -9,6 +9,14 @@ DEPENDS += "python3-setuptools-scm-native"
  
+ inherit pypi python_setuptools_build_meta
+ 
++SRC_URI += " \
++    file://0001-Add-SanitizedNames-mixin.patch \
++    file://0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch \
++    file://0003-Removed-SanitizedNames.patch \
++    file://0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch \
++    file://0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch \
++"
++
+ DEPENDS += "python3-toml-native"
+ 
+ RDEPENDS:${PN} += "python3-compression \
 -- 
-2.25.1
+2.34.1
 
 
