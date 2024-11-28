@@ -2,55 +2,54 @@ Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 591AED6D254
-	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 01:47:04 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.86614.1732758418804031257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 412B3D5E39F
+	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 04:56:15 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.88205.1732769767912703507
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 17:46:58 -0800
+ Wed, 27 Nov 2024 20:56:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1062ca15bd=changqing.li@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS0f0QR006545
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 17:46:58 -0800
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1062ca15bd=changqing.li@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS4TG89023394
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 04:56:07 GMT
 Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 436719rg0r-1
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671armtw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 17:46:58 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 04:56:06 +0000 (GMT)
 Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
  ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 27 Nov 2024 17:46:57 -0800
+ 15.1.2507.43; Wed, 27 Nov 2024 20:56:05 -0800
 Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
  ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 17:46:56 -0800
+ 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 20:56:04 -0800
 From: <changqing.li@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH V2] libsoup: fix CVE-2024-52531
-Date: Thu, 28 Nov 2024 09:46:56 +0800
-Message-ID: <20241128014656.2840113-1-changqing.li@windriver.com>
+Subject: [scarthgap][PATCH] libsoup: fix CVE-2024-52530, CVE-2024-52531
+Date: Thu, 28 Nov 2024 12:56:03 +0800
+Message-ID: <20241128045603.107120-1-changqing.li@windriver.com>
 X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: JtysJZZ2Vv_mxi0isFIu9Bll3hjEcJBl
-X-Proofpoint-GUID: JtysJZZ2Vv_mxi0isFIu9Bll3hjEcJBl
-X-Authority-Analysis: v=2.4 cv=Z/8WHGRA c=1 sm=1 tr=0 ts=6747cb92 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8 a=uZ5qXiJthfZSyKJJ8b8A:9
- a=AFZSVh-ye9kRu7Yu:21 a=FdTzh2GWekK77mhwV6Dw:22 a=Z31ocT7rh6aUJxSkT1EX:22
+X-Proofpoint-ORIG-GUID: 4-JGbeKqvI1n6CxcGpi37xlvIkBd8X95
+X-Authority-Analysis: v=2.4 cv=TIS/S0la c=1 sm=1 tr=0 ts=6747f7e6 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=GHR8O2WEAAAA:20 a=t7CeM3EgAAAA:8 a=V2sgnzSHAAAA:8 a=A1X0JdhQAAAA:8
+ a=SH4T4DA_CCWaxCUPtK8A:9 a=1IMH6UyMEjLNDkUd:21 a=FdTzh2GWekK77mhwV6Dw:22 a=Z31ocT7rh6aUJxSkT1EX:22
+X-Proofpoint-GUID: 4-JGbeKqvI1n6CxcGpi37xlvIkBd8X95
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-11-28_01,2024-11-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=999 malwarescore=0 adultscore=0
- phishscore=0 spamscore=0 clxscore=1015 bulkscore=0 suspectscore=0
- mlxscore=0 priorityscore=1501 classifier=spam authscore=0 adjust=0
- reason=mlx scancount=1 engine=8.21.0-2411120000
- definitions=main-2411280013
+ definitions=2024-11-28_04,2024-11-27_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2411280038
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 01:47:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207974
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 04:56:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207975
 
 From: Changqing Li <changqing.li@windriver.com>
 
@@ -61,24 +60,190 @@ Input received over the network cannot trigger this.
 
 Refer:
 https://nvd.nist.gov/vuln/detail/CVE-2024-52531
-https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/
+
+CVE-2024-52530:
+GNOME libsoup before 3.6.0 allows HTTP request smuggling in some
+configurations because '\0' characters at the end of header names are
+ignored, i.e., a "Transfer-Encoding\0: chunked" header is treated the
+same as a "Transfer-Encoding: chunked" header.
+
+Refer:
+https://nvd.nist.gov/vuln/detail/CVE-2024-52530
 
 Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
- .../libsoup/libsoup/CVE-2024-52531-1.patch    | 116 +++++++++++++++
- .../libsoup/libsoup/CVE-2024-52531-2.patch    |  40 ++++++
- .../libsoup/libsoup/CVE-2024-52531-3.patch    | 136 ++++++++++++++++++
- meta/recipes-support/libsoup/libsoup_3.0.7.bb |   3 +
- 4 files changed, 295 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch
- create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch
+ .../libsoup-3.4.4/CVE-2024-52530.patch        | 150 ++++++++++++++++++
+ .../libsoup-3.4.4/CVE-2024-52531-1.patch      | 116 ++++++++++++++
+ .../libsoup-3.4.4/CVE-2024-52531-2.patch      |  40 +++++
+ .../libsoup-3.4.4/CVE-2024-52531-3.patch      | 136 ++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |   4 +
+ 5 files changed, 446 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch
+new file mode 100644
+index 00000000000..fb6d5c3c6f6
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch
+@@ -0,0 +1,150 @@
++From 04df03bc092ac20607f3e150936624d4f536e68b Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Mon, 8 Jul 2024 12:33:15 -0500
++Subject: [PATCH] headers: Strictly don't allow NUL bytes
++
++In the past (2015) this was allowed for some problematic sites. However Chromium also does not allow NUL bytes in either header names or values these days. So this should no longer be a problem.
++
++CVE: CVE-2024-52530
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/04df03bc092ac20607f3e150936624d4f536e68b]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ libsoup/soup-headers.c      | 15 +++------
++ tests/header-parsing-test.c | 62 +++++++++++++++++--------------------
++ 2 files changed, 32 insertions(+), 45 deletions(-)
++
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index a0cf351ac..f30ee467a 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -51,13 +51,14 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
++ 	 * ignorable trailing whitespace.
++ 	 */
++ 
+++	/* No '\0's are allowed */
+++	if (memchr (str, '\0', len))
+++		return FALSE;
+++
++ 	/* Skip over the Request-Line / Status-Line */
++ 	headers_start = memchr (str, '\n', len);
++ 	if (!headers_start)
++ 		return FALSE;
++-	/* No '\0's in the Request-Line / Status-Line */
++-	if (memchr (str, '\0', headers_start - str))
++-		return FALSE;
++ 
++ 	/* We work on a copy of the headers, which we can write '\0's
++ 	 * into, so that we don't have to individually g_strndup and
++@@ -69,14 +70,6 @@ soup_headers_parse (const char *str, int len, SoupMessageHeaders *dest)
++ 	headers_copy[copy_len] = '\0';
++ 	value_end = headers_copy;
++ 
++-	/* There shouldn't be any '\0's in the headers already, but
++-	 * this is the web we're talking about.
++-	 */
++-	while ((p = memchr (headers_copy, '\0', copy_len))) {
++-		memmove (p, p + 1, copy_len - (p - headers_copy));
++-		copy_len--;
++-	}
++-
++ 	while (*(value_end + 1)) {
++ 		name = value_end + 1;
++ 		name_end = strchr (name, ':');
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index edf8eebb3..715c2c6f2 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -358,24 +358,6 @@ static struct RequestTest {
++ 	  }
++ 	},
++ 
++-	{ "NUL in header name", "760832",
++-	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
++-	  SOUP_STATUS_OK,
++-	  "GET", "/", SOUP_HTTP_1_1,
++-	  { { "Host", "example.com" },
++-	    { NULL }
++-	  }
++-	},
++-
++-	{ "NUL in header value", "760832",
++-	  "GET / HTTP/1.1\r\nHost: example\x00" "com\r\n", 35,
++-	  SOUP_STATUS_OK,
++-	  "GET", "/", SOUP_HTTP_1_1,
++-	  { { "Host", "examplecom" },
++-	    { NULL }
++-	  }
++-	},
++-
++ 	/************************/
++ 	/*** INVALID REQUESTS ***/
++ 	/************************/
++@@ -448,6 +430,21 @@ static struct RequestTest {
++ 	  SOUP_STATUS_EXPECTATION_FAILED,
++ 	  NULL, NULL, -1,
++ 	  { { NULL } }
+++	},
+++
+++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
+++	{ "NUL in header name", NULL,
+++	  "GET / HTTP/1.1\r\nHost\x00: example.com\r\n", 36,
+++	  SOUP_STATUS_BAD_REQUEST,
+++	  NULL, NULL, -1,
+++	  { { NULL } }
+++	},
+++
+++	{ "NUL in header value", NULL,
+++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
+++	  SOUP_STATUS_BAD_REQUEST,
+++           NULL, NULL, -1,
+++	  { { NULL } }
++ 	}
++ };
++ static const int num_reqtests = G_N_ELEMENTS (reqtests);
++@@ -620,22 +617,6 @@ static struct ResponseTest {
++ 	    { NULL } }
++ 	},
++ 
++-	{ "NUL in header name", "760832",
++-	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
++-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
++-	  { { "Foo", "bar" },
++-	    { NULL }
++-	  }
++-	},
++-
++-	{ "NUL in header value", "760832",
++-	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
++-	  SOUP_HTTP_1_1, SOUP_STATUS_OK, "OK",
++-	  { { "Foo", "bar" },
++-	    { NULL }
++-	  }
++-	},
++-
++ 	/********************************/
++ 	/*** VALID CONTINUE RESPONSES ***/
++ 	/********************************/
++@@ -768,6 +749,19 @@ static struct ResponseTest {
++ 	  { { NULL }
++ 	  }
++ 	},
+++
+++	// https://gitlab.gnome.org/GNOME/libsoup/-/issues/377
+++	{ "NUL in header name", NULL,
+++	  "HTTP/1.1 200 OK\r\nF\x00oo: bar\r\n", 28,
+++	  -1, 0, NULL,
+++	  { { NULL } }
+++	},
+++
+++	{ "NUL in header value", "760832",
+++	  "HTTP/1.1 200 OK\r\nFoo: b\x00" "ar\r\n", 28,
+++	  -1, 0, NULL,
+++	  { { NULL } }
+++	},
++ };
++ static const int num_resptests = G_N_ELEMENTS (resptests);
++ 
++-- 
++GitLab
++
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch
 new file mode 100644
 index 00000000000..c8e855c1289
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch
 @@ -0,0 +1,116 @@
 +From 4ec9e3d286b6d3e982cb0fc3564dee0bf8d87ede Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
@@ -196,11 +361,11 @@ index 00000000000..c8e855c1289
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch
 new file mode 100644
 index 00000000000..7e0d81ba4c3
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch
 @@ -0,0 +1,40 @@
 +From 825fda3425546847b42ad5270544e9388ff349fe Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
@@ -242,11 +407,11 @@ index 00000000000..7e0d81ba4c3
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch
+diff --git a/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch
 new file mode 100644
 index 00000000000..a47c8747c56
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch
++++ b/meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch
 @@ -0,0 +1,136 @@
 +From a35222dd0bfab2ac97c10e86b95f762456628283 Mon Sep 17 00:00:00 2001
 +From: Patrick Griffis <pgriffis@igalia.com>
@@ -384,19 +549,20 @@ index 00000000000..a47c8747c56
 +-- 
 +2.25.1
 +
-diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-index 919fef51071..869f0f1696b 100644
---- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-+++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
-@@ -15,6 +15,9 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2024-52530.patch \
-            file://CVE-2024-52532-1.patch \
-            file://CVE-2024-52532-2.patch \
+diff --git a/meta/recipes-support/libsoup/libsoup_3.4.4.bb b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+index 0e667155891..b2e32b892a0 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.4.4.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.4.4.bb
+@@ -14,6 +14,10 @@ SHRT_VER = "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.')[1]}"
+ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2024-52532-0001.patch \
+            file://CVE-2024-52532-0002.patch \
++           file://CVE-2024-52530.patch \
 +           file://CVE-2024-52531-1.patch \
 +           file://CVE-2024-52531-2.patch \
 +           file://CVE-2024-52531-3.patch \
            "
- SRC_URI[sha256sum] = "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
+ SRC_URI[sha256sum] = "291c67725f36ed90ea43efff25064b69c5a2d1981488477c05c481a3b4b0c5aa"
  
 -- 
 2.25.1
