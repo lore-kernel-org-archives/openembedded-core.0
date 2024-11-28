@@ -2,424 +2,418 @@ Return-Path: <hongxu.jia@eng.windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18EBFD690E4
-	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 07:46:56 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.89943.1732780007083362992
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C2DDD690E7
+	for <webhook@archiver.kernel.org>; Thu, 28 Nov 2024 08:14:56 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.90185.1732781687647352853
  for <openembedded-core@lists.openembedded.org>;
- Wed, 27 Nov 2024 23:46:47 -0800
+ Thu, 28 Nov 2024 00:14:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=1062761e67=hongxu.jia@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS5WYI1005896
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 23:46:46 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 436719rquu-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 27 Nov 2024 23:46:46 -0800 (PST)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 27 Nov 2024 23:46:45 -0800
-Received: from pek-lpg-core5.wrs.com (147.11.136.210) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 27 Nov 2024 23:46:45 -0800
-From: Hongxu Jia <hongxu.jia@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [kirkstone][PATCH] python3-zipp: fix CVE-2024-5569
-Date: Thu, 28 Nov 2024 15:46:44 +0800
-Message-ID: <20241128074644.358235-1-hongxu.jia@windriver.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=1062761e67=hongxu.jia@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4AS7MYBU012894
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 08:14:47 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671arsh8-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 08:14:46 +0000 (GMT)
+Received: from m0250812.ppops.net (m0250812.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4AS8C6ta019491
+	for <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 08:14:46 GMT
+Received: from nam10-dm6-obe.outbound.protection.outlook.com (mail-dm6nam10lp2049.outbound.protection.outlook.com [104.47.58.49])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43671arsh6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 Nov 2024 08:14:46 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GslQxgEkeJdfCH3O4jw54Hwz7znWRcJCmmF8kqf4xSpsOs6ObRMc/jTTfcyJ0r74UOOBxgtYwV0fqTyp6OMQ+4d7xx3w6s7SR4V4SNigJQeYvjvVDrNKqb51vUNlvgnRssrVD2uoT49thJllweLC3IUpfthgvjkuvCrpNWadwwhCvIUFfRRHkEqEctjwrVfZm1MyTm+HhYTMrRTVpXE6EYY0s+5DHT6THtraf/1oclgNptQo/25S/yK0tC070MHE+AW9VySjZA0Isu+/os/HtStT1WQWgo5pcNEr4AwNhpVt9aCmBCCDwDTNYROfaitxkybjX4M4m6kEuV2Kg9Uphw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rCq0MHDoECBJH+Ft6Gugp82/q9R9F4SvSTfM/klMej4=;
+ b=NXszwPOWibUA7DhADT67Hw2vn3eOzyglI9+juN5Z70Hm9JvwYqBtDJ2VuBNiGF6nwHoOGKjq/dVIuH6A0v1+3DNtVMZvQb9+sJgjQIDuLY/wgmMp6v5NHOSKHdY3lBZCweE2DfMzJOhUlTDRU48ah1qvwG6jLSY0bEMW3/YI5p2JiQzD64GivGxxozPbuqkHGwuCPuLH0PSQDBDE/ega3c2xpD905sjnxGrB6DAUaNqkFZAS4jPi53GrRDxNfxMIZfkbGfPn1zN0w918UEsYvutgydoV3ESNe6Z1gsOLkNtVNcUIJVz229OlABJ1o/v1Q+3AgVl4aN4gnQjHCdW54g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com (2603:10b6:510:269::20)
+ by PH8PR11MB6754.namprd11.prod.outlook.com (2603:10b6:510:1c9::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.13; Thu, 28 Nov
+ 2024 08:14:43 +0000
+Received: from PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e]) by PH7PR11MB7608.namprd11.prod.outlook.com
+ ([fe80::ef64:bc9f:eb8c:e6e%4]) with mapi id 15.20.8207.010; Thu, 28 Nov 2024
+ 08:14:43 +0000
+From: "Jia, Hongxu" <Hongxu.Jia@windriver.com>
+To: Steve Sakoman <steve@sakoman.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [scarthgap][PATCH V2 1/2] ovmf: fix CVE-2024-38796
+Thread-Topic: [scarthgap][PATCH V2 1/2] ovmf: fix CVE-2024-38796
+Thread-Index: AQHbQPmetV/LhK0V7U+Dr3s0LwR9sLLMV+kp
+Date: Thu, 28 Nov 2024 08:14:42 +0000
+Message-ID: 
+ <PH7PR11MB7608241D1C8A86F81747C10C94292@PH7PR11MB7608.namprd11.prod.outlook.com>
+References: <20241126032653.326194-1-hongxu.jia@windriver.com>
+ <CAOSpxdYdYuymtPpcXGtp2FfjwJXuZQYh4jNxqb-fE4mg-X=_yg@mail.gmail.com>
+In-Reply-To: 
+ <CAOSpxdYdYuymtPpcXGtp2FfjwJXuZQYh4jNxqb-fE4mg-X=_yg@mail.gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH7PR11MB7608:EE_|PH8PR11MB6754:EE_
+x-ms-office365-filtering-correlation-id: 0b94e698-f27b-41ed-f95f-08dd0f84b699
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|1800799024|366016|7053199007|8096899003|38070700018;
+x-microsoft-antispam-message-info: 
+ =?utf-8?B?OUloZXgydmM4SUJCczJ1SE16anpXU0dvNiswQW1nOTJhNkJ3MGZOMHU4TVVo?=
+ =?utf-8?B?OUNzRVpMU2xFdm5OR3laVEVobGg3bDFuS1JadjlzMjVSekdJZG1POW9uSXE3?=
+ =?utf-8?B?QlJXVHVFUWFXZHVFcWxha0gvQlRoZDdFd25WT1lVUHVuYjU3aWw2T3BqMi9z?=
+ =?utf-8?B?ZWN4YlRXYmxKcnczQlh0ZUJORWhsVmVsYXRIWHY5WnkxYzAzNTRkR3AyNzNR?=
+ =?utf-8?B?YzJYQWlGbllDaDF2S2pGZWU1ZVFxVTB3RnRKdVV2TzBzL0wzV2JJSUR4RHVi?=
+ =?utf-8?B?dGRpTUowano3UnRjcXQ2ZU1raytYeUZRdlhrRFMzZ1FTODRKQWZja1gvUis0?=
+ =?utf-8?B?dUxvL25FQ1l3M21JdGt5cEhiSkkxZUk0aTJ1QnkyZkc3amVIQWNqWWpQUEtT?=
+ =?utf-8?B?WG1xakIzSGhoQXNEcTZpeHM2RkxzeXJlSGk0bHN1VlB3MVdkbjhpUDlJWGxF?=
+ =?utf-8?B?akJCOFoxWkgvSHVsQlJwZ1VWSXdPcWNYL29qaGsvaXVrUGgrNXRRblZaMmp4?=
+ =?utf-8?B?bjMxQVVkQVpTV3lNR0hkU1JvTkJRQ2hEVnF1MWx6VzBmTFdsWnFZMmR5ZXlw?=
+ =?utf-8?B?d1hXcEMrWHh6RzJNNDdJNjlNbnVmSFBnamFGSlBuUDV2RzFNbGxOSmVhMUdH?=
+ =?utf-8?B?ZTZTWHFiZmo1YU1UK1p4ZU1MclNnanJQQkF6blFuYWpFVHFXNEVNL1N6SHlL?=
+ =?utf-8?B?Vjk1OEM2djNwNm9MdkVUUW9rVElxL2FvTHFSS0FJMGlLMFR1dEtLc2Z1cUta?=
+ =?utf-8?B?T1p0Vk9ZNDBXMjNOc3MvTzRHeHcya29QeWQ3M0hkeFhjMmgrRHBwaFVJRWxt?=
+ =?utf-8?B?N0ZiR2RMZ2FSZDlhNDlReUZ3em5RejFyaDZrMUtYaGtFRFV1alhGd3ZZaklJ?=
+ =?utf-8?B?K1c3T0hBdTdudXB5V3p4cFNaSmVLRDIwUmtTL2V5ZEZwMkFHTkFsdS9WRUhH?=
+ =?utf-8?B?a2R6MjA0ZXo4OTdXSXpHTTlPRXl2UVVwbzR6ZHQzY29SZXVxN1pDQWRNa0FW?=
+ =?utf-8?B?cHU1eXdiOUQ5L0crRWRYSXVXOXR0T0IzQUpOWC9BSDZ0Vnh4UFBxRU9qVFdE?=
+ =?utf-8?B?aU1rY1VUaXVkNlN1NEtUbHNERm1hM0M4LzlBZzNKTGxTckZ0YWRDNHdiY3oy?=
+ =?utf-8?B?anhCTEJsaXZDQm8zV3VSaDdqV3pPVnVvcThpdkgxY0JsRmJpaDRXSVdDVk94?=
+ =?utf-8?B?bEM4MzcyVWFONEhxSjhFRllDMlRsTEZmblU3Q3k1b0RCVUhpKzIwSTBoU2NG?=
+ =?utf-8?B?TitUQURuMTlHVVhrNzFkSk9uSVRuSGtGaGNKS2xoaitiQm1FdFp0Zy8wTDY2?=
+ =?utf-8?B?OWczQVJQaGxMUmNWckdMeXRqTGl0Zkp5YkpWYnpvODNjeUdMdXhUQkFQemdp?=
+ =?utf-8?B?cTFNamdwdGZjUTlINEdRUTF5MVAyZ0EwK1g3MlhtSUM2bUlra1RsQ01vdWRi?=
+ =?utf-8?B?V1Fld0xwb1BpUHRmQVR1bDVkeCt6Z1YzOXJESDVTMCtVaFNrZDluLzJPdC9B?=
+ =?utf-8?B?S3I4Uzk5MGZBc00vMkUvVG90QmIvOUQwMENBNW44Q1c2TnM3Z0dHbWtRaG5w?=
+ =?utf-8?B?bnZURStNN3hZR2JjakVUb2pQdGJMNnh0UDZST0E1TFRwZXdPQWhkQWFIZ1Vu?=
+ =?utf-8?B?T1BkYmp4WGpNb3l3c1Q4K0NzUzFlbnhIRDFzZnkyU2FqSWNFVFpLWllhSWRk?=
+ =?utf-8?B?dWQwM21XRFRyQVR3SGlQKzZPd3RsN2dveTQ3dFNpeGpJc2VpRUV6bVdoZHZi?=
+ =?utf-8?B?Z3hXOGlVbGJ5UHMyK3RiV1U0ekM2ODl2K3VLcmh2RndLVEh6KzdNZHlKdUto?=
+ =?utf-8?Q?zfaVhvnEb97nXcmoP6HqYobf89I9LfdDHHlR0=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB7608.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7053199007)(8096899003)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?ZUUxdURIdlNxbEJET3VmazlEcUpqcG5nMGxVN1RoRWVXQ2RVTWI5UWRnM29h?=
+ =?utf-8?B?clpjN3ZBOVZGRXNLcVRoQVB4YmYxSTNKVlpRNTNKdlFwL2hVYTNZSHFQb1RR?=
+ =?utf-8?B?UzZTaW93dllmQ2RvbHRoY25aQWExbjhKL1c5T1hHL284U3h4WENSNkZ3cStO?=
+ =?utf-8?B?U0JWRHBTU3E0c2pIcFBLOXl5enFaYk5va1RnWkszVVgyd2RPcFQzV1lsWGRt?=
+ =?utf-8?B?S3V0bWlDazhiNDdVTkxPT3Y5azF2aURpeVhNTnVkVHlXcm01NDg4c1JrOStr?=
+ =?utf-8?B?M0JheUZKaG1ZVmVzTVNtcDNLNllIMERGNGZvMTFwQjRBMFNhRE00SkZUeURu?=
+ =?utf-8?B?dW9IQWUzUitKWDJqR2R0bW1iTTg0Tk55cjYydWREYUQ4TlhBY1J2eHdYNUJh?=
+ =?utf-8?B?VFJSU0dRMDhaY2dycjkzZEVnMitkVmpabWtOdTk5OVNVOUxDejVpWllKT3lM?=
+ =?utf-8?B?VU5iYTRvQlFPSHpQK3U0Vm5DZ0JNdHFRQllUbVc5eHlvcjA5bjZERFpsNm83?=
+ =?utf-8?B?ejNDa3dSTkFJOFNaOWtCajlVQWdZdnNhUnIycEFURGZMKzViZnIyOENnSmRm?=
+ =?utf-8?B?VGd4NFF6dkRmb1JEOFNRR1NHQW1GazEzYmVGUitEMVNiS2dXd0JvNWk4c1R3?=
+ =?utf-8?B?Tmx6RGswUHo5NWk3NWhyUXhOaVZML2ZJckd6SzFkWmV2empBZW45elBzeDNy?=
+ =?utf-8?B?ZEl4RU5YVXBuVmYxcWp2OWZzU1R3dlJScTF5YWtHQit5Um9GSmZldjNGczZZ?=
+ =?utf-8?B?RlNCbUdMbmFIQWl4clRtS1lESjh0Njl1MUVOdk5PamZLV2JDWG5YS2NxK3FU?=
+ =?utf-8?B?Nmd0OTA3QnNpQ1NoTFh6MjBsSUZHQ3ZiRDErWTREWjZIbWdIQ0lVckVCci9j?=
+ =?utf-8?B?bGJKMEpNQXRjemZYSU1UbDJabStTNDJsVnZ1QkxHWk9NdHdyNk43ZDltY21t?=
+ =?utf-8?B?RUhWZ2IzcG9jZmE0d3p6M3g3citOU3U5WXRUKzJCR3MvZ0FST0N6TEhNeGRa?=
+ =?utf-8?B?M01sVXduMTB3SEI4M1dDT2YzaXBacTZGbS9NVlA4TDZtWERkcW5MVVBGUWJ0?=
+ =?utf-8?B?N3hUTGZZWUV4UkZpUEwxR1g1em9mNldkTlhMZ2UxMUlhRFNQbG1uUUNOSld5?=
+ =?utf-8?B?MUxxN0t5aWtXcU15SnZpdm9yYWpaMzVyVDFvaDFwSDhXKzE5NUlhY3dNcXoz?=
+ =?utf-8?B?ZGpUMGcyRnJtbTlkenlNYkhpcUYydERkbFJMMVVGS3NOZ1dGUVdRM21rcVc5?=
+ =?utf-8?B?K3djVHFadzM1QnJoYW1IQUJ1bzM1S3VrNjEwMFdtRXhBNmpzdWM1SnVGSU14?=
+ =?utf-8?B?QWxLZXp2c01Bd2o0WXpQS0xYSFVsTzhTVWF1MENDdGJPZ25RNHY0TFZSdC9U?=
+ =?utf-8?B?RHJKdC9TanUyRXMrY2JlVllXTzdPeEt0VkVpMUhGb0RhaHlCY3FlaElldFU0?=
+ =?utf-8?B?NWRKU1UzaGZPam55R3lyeUY3ODBERDNKSlNNU1B0bUJFVjdSRTdxVjVPVlAz?=
+ =?utf-8?B?RGJWckQ3aGtzV2FvVEVMSHpmd2lFQUEwVnVhVm9PU2piSjRpeDhBa1hVb1FF?=
+ =?utf-8?B?TW14a2RFOGxKMHpJOGFwdXBNaTRlZFd5eHdYZ1ZPVmVybjdUU3BuandCMWIw?=
+ =?utf-8?B?THRmUTNSVldlcC9pUnJSVkJoK0hWTGNrUTA2a1cyY0lmTk0wdit3ZmptYmhX?=
+ =?utf-8?B?aFo4eGFFczNBVHhidThlaHNXcnJhTU5QN2wrRmJoZklWTkRPZmhUb2oyU3p5?=
+ =?utf-8?B?VCtPUC9xRm50N2t4WDRtSks5T1FSWHRERnhER1pJazMyRFVnSGRwMVg1UnVW?=
+ =?utf-8?B?RkI4RVRuYlZkeUYzYzNNNDRiVWwrZGlsWXBkMnRGTkRiRmprQmtEVlJvOWtW?=
+ =?utf-8?B?ejl6OGxqRFdGY2hjZzQ5Y1dTMDdMU1YxVzdrdUpnVVZHZGVEdjRRRDhKY0gy?=
+ =?utf-8?B?aEloUzA5WnNPMVFhS2ptY3U1RDFyKytuOGM3UW41bDUvYVNyazY0anZqZk5U?=
+ =?utf-8?B?eFZhS3h6dWpzQ2x0cDFGZUJVNDBWR01TajFkTzFhNGkrZEZ0aEVtNStNSVhp?=
+ =?utf-8?B?c0l4WjM2RkhkZjhYZWpFaGEyWVFxU3JDbDZIU3lpc3B4ODBMN0laVlN2dVhZ?=
+ =?utf-8?Q?3LAxTdG3vL9G705HrCb25G8RO?=
+Content-Type: multipart/alternative;
+	boundary="_000_PH7PR11MB7608241D1C8A86F81747C10C94292PH7PR11MB7608namp_"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: -Qw0SHCbLe8SFX2Ia6fWT3g69gAHWVo1
-X-Proofpoint-GUID: -Qw0SHCbLe8SFX2Ia6fWT3g69gAHWVo1
-X-Authority-Analysis: v=2.4 cv=Z/8WHGRA c=1 sm=1 tr=0 ts=67481fe6 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=VlfZXiiP6vEA:10 a=PYnjg3YJAAAA:8 a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=0DMlDUsRAAAA:8 a=bakMVDwbw1lgnBgjYqwA:9
- a=cmuagjC9wImHlllo:21 a=FdTzh2GWekK77mhwV6Dw:22 a=168rQcPrDVj8xHztDHWJ:22
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB7608.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0b94e698-f27b-41ed-f95f-08dd0f84b699
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2024 08:14:42.9508
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: m2i/QZHXRU8pB/zliIfq79DypPtpEGJnxMo9Y+Nt80tak2N2AwXIPwBaZSloU3Xq7ZEF5A3wnFMv4Cg7NwluADccf6r4IGbiPksxdJODWMc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB6754
+X-Proofpoint-ORIG-GUID: Gom6gUAArgnXrqQ1iWYaYECzxzq_0aY6
+X-Authority-Analysis: v=2.4 cv=TIS/S0la c=1 sm=1 tr=0 ts=67482676 cx=c_pps a=SX8rmsjRxG1z7ITso5uGAQ==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=VlfZXiiP6vEA:10 a=bRTqI5nwn0kA:10 a=iGHA9ds3AAAA:8
+ a=NEAV23lmAAAA:8 a=_enOPnqeAAAA:8 a=t7CeM3EgAAAA:8 a=Q4-j1AaZAAAA:8 a=yMhMjlubAAAA:8 a=QyXUC8HyAAAA:8 a=UBFVfQAFWYhimOpKR3UA:9 a=QEXdDO2ut3YA:10 a=gzwx834IRbmEMfkN:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=T1a-OTYGVawA:10
+ a=ImwWUX5h3JJ3gRE9moBe:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=XAbD3I9PDrnSMThV5XoS:22 a=FdTzh2GWekK77mhwV6Dw:22 a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-GUID: GaM2cNyxFD9M0-VvCi2Nj5M3VhX0bkfP
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2024-11-28_06,2024-11-27_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- lowpriorityscore=0 mlxlogscore=850 malwarescore=0 adultscore=0
- phishscore=0 spamscore=0 clxscore=1015 bulkscore=0 suspectscore=0
- mlxscore=0 priorityscore=1501 classifier=spam authscore=0 adjust=0
- reason=mlx scancount=1 engine=8.21.0-2411120000
- definitions=main-2411280061
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 spamscore=0
+ suspectscore=0 malwarescore=0 mlxlogscore=999 adultscore=0 clxscore=1015
+ priorityscore=1501 bulkscore=0 impostorscore=0 lowpriorityscore=0
+ mlxscore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2411280064
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 07:46:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207979
+ <openembedded-core@lists.openembedded.org>; Thu, 28 Nov 2024 08:14:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/207980
 
-According to [1] which provided the fix link [2], but upstream author
-reworked it later [3][4][5]
+--_000_PH7PR11MB7608241D1C8A86F81747C10C94292PH7PR11MB7608namp_
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Backport and rebase all the patches for tracing
+SGkgU3RldmUsDQoNCkkgYW0gYWZyYWlkIHRoZSBpc3N1ZSB3YXMgY2F1c2VkIGJ5ICBDUigiXk0i
+KSBpbiBvdm1mIHNvdXJjZSBjb2RlDQoNClRoZSBzb3VyY2Ugb2Ygb3ZtZiB1c2UgQ1IgKF5NKSBh
+cyBuZXcgbGluZSwgd2Ugc2hvdWxkIHVzZSAnZ2l0IGFtIC0ta2VlcC1jciB4eHh4LnBhdGNoJyB0
+byBhcHBseSB0aGUgcGF0Y2gsDQpvdGhlcndpc2UgZG9fcGF0Y2ggZmFpbGVkDQoNCkJ1dCBJIGRv
+IG5vdCBrbm93IGhvdyB5b3UgYXBwbHkgdGhlIHBhdGNoIHRvIHlvdXIgYnVpbGQgb3IgdmlhIHBh
+dGNodGVzdCBhdXRvbWF0aWNhbGx5LCBkbyB5b3UgdXNlIGdpdCBhbSB3aXRoIG9wdGlvbiAtLWtl
+ZXAtY3I/DQoNCg0KLy9Ib25neHUNCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fDQpG
+cm9tOiBTdGV2ZSBTYWtvbWFuIDxzdGV2ZUBzYWtvbWFuLmNvbT4NClNlbnQ6IFRodXJzZGF5LCBO
+b3ZlbWJlciAyOCwgMjAyNCAyOjI0IEFNDQpUbzogSmlhLCBIb25neHUgPEhvbmd4dS5KaWFAd2lu
+ZHJpdmVyLmNvbT4NCkNjOiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3Jn
+IDxvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPg0KU3ViamVjdDogUmU6
+IFtzY2FydGhnYXBdW1BBVENIIFYyIDEvMl0gb3ZtZjogZml4IENWRS0yMDI0LTM4Nzk2DQoNCkNB
+VVRJT046IFRoaXMgZW1haWwgY29tZXMgZnJvbSBhIG5vbiBXaW5kIFJpdmVyIGVtYWlsIGFjY291
+bnQhDQpEbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRhY2htZW50cyB1bmxlc3MgeW91IHJl
+Y29nbml6ZSB0aGUgc2VuZGVyIGFuZCBrbm93IHRoZSBjb250ZW50IGlzIHNhZmUuDQoNCkknbSBh
+bHNvIGdldHRpbmcgYnVpbGQgdGltZSBlcnJvcnMgb24gdGhlIHNjYXJ0aGdhcCB2ZXJzaW9uIChh
+bHNvDQpzZWVtcyB0byBiZSBsaW5lIGVuZGluZyByZWxhdGVkKToNCg0KaHR0cHM6Ly9lcnJvcnMu
+eW9jdG9wcm9qZWN0Lm9yZy9FcnJvcnMvRGV0YWlscy84MzY1NTUvDQoNClN0ZXZlDQoNCk9uIE1v
+biwgTm92IDI1LCAyMDI0IGF0IDc6MjbigK9QTSBIb25neHUgSmlhIDxob25neHUuamlhQHdpbmRy
+aXZlci5jb20+IHdyb3RlOg0KPg0KPiBCYWNrcG9ydCBmaXggZnJvbSB1cHN0cmVhbSB0byByZXNv
+bHZlIENWRS0yMDI0LTM4Nzk2DQo+DQo+ICAgaHR0cHM6Ly9naXRodWIuY29tL3RpYW5vY29yZS9l
+ZGsyL2NvbW1pdC9jOTUyMzNiODUyNWNhNjgyODkyMWFmZmQxNDk2MTQ2Y2ZmMjYyZTY1DQo+DQo+
+IFNpZ25lZC1vZmYtYnk6IEhvbmd4dSBKaWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4NCj4g
+LS0tDQo+ICAuLi4tRml4LW92ZXJmbG93LWlzc3VlLWluLUJhc2VQZUNvZmZMaWIucGF0Y2ggfCAz
+NiArKysrKysrKysrKysrKysrKysrDQo+ICBtZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0
+LmJiICAgICAgICAgICAgfCAgMSArDQo+ICAyIGZpbGVzIGNoYW5nZWQsIDM3IGluc2VydGlvbnMo
+KykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWYvMDAw
+MS1NZGVQa2ctRml4LW92ZXJmbG93LWlzc3VlLWluLUJhc2VQZUNvZmZMaWIucGF0Y2gNCj4NCj4g
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZi8wMDAxLU1kZVBrZy1GaXgt
+b3ZlcmZsb3ctaXNzdWUtaW4tQmFzZVBlQ29mZkxpYi5wYXRjaCBiL21ldGEvcmVjaXBlcy1jb3Jl
+L292bWYvb3ZtZi8wMDAxLU1kZVBrZy1GaXgtb3ZlcmZsb3ctaXNzdWUtaW4tQmFzZVBlQ29mZkxp
+Yi5wYXRjaA0KPiBuZXcgZmlsZSBtb2RlIDEwMDY0NA0KPiBpbmRleCAwMDAwMDAwMDAwLi5jNmUx
+NWM1MDY5DQo+IC0tLSAvZGV2L251bGwNCj4gKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9v
+dm1mLzAwMDEtTWRlUGtnLUZpeC1vdmVyZmxvdy1pc3N1ZS1pbi1CYXNlUGVDb2ZmTGliLnBhdGNo
+DQo+IEBAIC0wLDAgKzEsMzYgQEANCj4gK0Zyb20gNWY3YmQzZjNjNDc0N2Q1YmIyNzMzZjAxN2Y4
+YzViOTNiNjNhNzRlMyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206IERvdWcgRmxp
+Y2sgPGRvdWdmbGlja0BtaWNyb3NvZnQuY29tPg0KPiArRGF0ZTogRnJpLCAyMiBOb3YgMjAyNCAx
+MzowMzozMyArMDgwMA0KPiArU3ViamVjdDogW1BBVENIXSBNZGVQa2c6IEZpeCBvdmVyZmxvdyBp
+c3N1ZSBpbiBCYXNlUGVDb2ZmTGliDQo+ICsNCj4gK1RoZSBSZWxvY0Rpci0+U2l6ZSBpcyBhIFVJ
+TlQzMiB2YWx1ZSwgYW5kIFJlbG9jRGlyLT5WaXJ0dWFsQWRkcmVzcyBpcw0KPiArYWxzbyBhIFVJ
+TlQzMiB2YWx1ZS4gVGhlIGN1cnJlbnQgY29kZSBkb2VzIG5vdCBjaGVjayBmb3Igb3ZlcmZsb3cg
+d2hlbg0KPiArYWRkaW5nIFJlbG9jRGlyLT5TaXplIHRvIFJlbG9jRGlyLT5WaXJ0dWFsQWRkcmVz
+cy4gVGhpcyBwYXRjaCBhZGRzIGENCj4gK2NoZWNrIHRvIGVuc3VyZSB0aGF0IHRoZSBhZGRpdGlv
+biBkb2VzIG5vdCBvdmVyZmxvdy4NCj4gKw0KPiArU2lnbmVkLW9mZi1ieTogRG91ZyBGbGljayA8
+ZG91Z2ZsaWNrQG1pY3Jvc29mdC5jb20+DQo+ICtBdXRob3JlZC1ieTogc3JpcmFhbXggZ29iaWNo
+ZXR0aXBhbGF5YW0gPHNyaS4uQGludGVsLmNvbT4NCj4gKw0KPiArQ1ZFOiBDVkUtMjAyNC0zODc5
+Ng0KPiArVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL3RpYW5v
+Y29yZS9lZGsyL2NvbW1pdC9jOTUyMzNiODUyNWNhNjgyODkyMWFmZmQxNDk2MTQ2Y2ZmMjYyZTY1
+XQ0KPiArU2lnbmVkLW9mZi1ieTogSG9uZ3h1IEppYSA8aG9uZ3h1LmppYUB3aW5kcml2ZXIuY29t
+Pg0KPiArLS0tDQo+ICsgTWRlUGtnL0xpYnJhcnkvQmFzZVBlQ29mZkxpYi9CYXNlUGVDb2ZmLmMg
+fCAyICstDQo+ICsgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
+DQo+ICsNCj4gK2RpZmYgLS1naXQgYS9NZGVQa2cvTGlicmFyeS9CYXNlUGVDb2ZmTGliL0Jhc2VQ
+ZUNvZmYuYyBiL01kZVBrZy9MaWJyYXJ5L0Jhc2VQZUNvZmZMaWIvQmFzZVBlQ29mZi5jDQo+ICtp
+bmRleCA4NmZmMmU3Li4xMjgwOTBkIDEwMDY0NA0KPiArLS0tIGEvTWRlUGtnL0xpYnJhcnkvQmFz
+ZVBlQ29mZkxpYi9CYXNlUGVDb2ZmLmMNCj4gKysrKyBiL01kZVBrZy9MaWJyYXJ5L0Jhc2VQZUNv
+ZmZMaWIvQmFzZVBlQ29mZi5jDQo+ICtAQCAtMTA1NCw3ICsxMDU0LDcgQEAgUGVDb2ZmTG9hZGVy
+UmVsb2NhdGVJbWFnZSAoDQo+ICsgICAgIFJlbG9jRGlyID0gJkhkci5UZS0+RGF0YURpcmVjdG9y
+eVswXTsNCj4gKyAgIH0NCj4gKw0KPiArLSAgaWYgKChSZWxvY0RpciAhPSBOVUxMKSAmJiAoUmVs
+b2NEaXItPlNpemUgPiAwKSkgew0KPiArKyAgaWYgKChSZWxvY0RpciAhPSBOVUxMKSAmJiAoUmVs
+b2NEaXItPlNpemUgPiAwKSAmJiAoUmVsb2NEaXItPlNpemUgLSAxIDwgTUFYX1VJTlQzMiAtIFJl
+bG9jRGlyLT5WaXJ0dWFsQWRkcmVzcykpIHsNCj4gKyAgICAgUmVsb2NCYXNlICAgID0gKEVGSV9J
+TUFHRV9CQVNFX1JFTE9DQVRJT04gKilQZUNvZmZMb2FkZXJJbWFnZUFkZHJlc3MgKEltYWdlQ29u
+dGV4dCwgUmVsb2NEaXItPlZpcnR1YWxBZGRyZXNzLCBUZVN0cmlwcGVkT2Zmc2V0KTsNCj4gKyAg
+ICAgUmVsb2NCYXNlRW5kID0gKEVGSV9JTUFHRV9CQVNFX1JFTE9DQVRJT04gKilQZUNvZmZMb2Fk
+ZXJJbWFnZUFkZHJlc3MgKA0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgSW1hZ2VDb250ZXh0LA0KPiArLS0NCj4gKzIuMzQuMQ0KPiArDQo+IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0LmJiIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvb3ZtZi9vdm1mX2dpdC5iYg0KPiBpbmRleCAzNWNhOGQxODM0Li5jYzJhYzQyNjhj
+IDEwMDY0NA0KPiAtLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0LmJiDQo+ICsr
+KyBiL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZl9naXQuYmINCj4gQEAgLTI0LDYgKzI0LDcg
+QEAgU1JDX1VSSSA9ICJnaXRzbTovL2dpdGh1Yi5jb20vdGlhbm9jb3JlL2VkazIuZ2l0O2JyYW5j
+aD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMgXA0KPiAgICAgICAgICAgICBmaWxlOi8vMDAwMi1CYXNl
+VG9vbHMtbWFrZWZpbGUtYWRqdXN0LXRvLWJ1aWxkLWluLXVuZGVyLWJpdGJha2UucGF0Y2ggXA0K
+PiAgICAgICAgICAgICBmaWxlOi8vMDAwMy1kZWJ1Zy1wcmVmaXgtbWFwLnBhdGNoIFwNCj4gICAg
+ICAgICAgICAgZmlsZTovLzAwMDQtcmVwcm9kdWNpYmxlLnBhdGNoIFwNCj4gKyAgICAgICAgICAg
+ZmlsZTovLzAwMDEtTWRlUGtnLUZpeC1vdmVyZmxvdy1pc3N1ZS1pbi1CYXNlUGVDb2ZmTGliLnBh
+dGNoIFwNCj4gICAgICAgICAgICAgIg0KPg0KPiAgUFYgPSAiZWRrMi1zdGFibGUyMDI0MDIiDQo+
+IC0tDQo+IDIuMjUuMQ0KPg0K
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2024-5569
-[2] https://github.com/jaraco/zipp/commit/fd604bd34f0343472521a36da1fbd22e793e14fd
-[3] https://github.com/jaraco/zipp/commit/3cb5609002263eb19f7b5efda82d96f1f57fe876
-[4] https://github.com/jaraco/zipp/commit/f89b93f0370dd85d23d243e25dfc1f99f4d8de48
-[5] https://github.com/jaraco/zipp/commit/cc61e6140f0dfde2ff372db932442cf6df890f09
+--_000_PH7PR11MB7608241D1C8A86F81747C10C94292PH7PR11MB7608namp_
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: base64
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
----
- .../0001-Add-SanitizedNames-mixin.patch       | 89 +++++++++++++++++
- ...Names-in-CompleteDirs.-Fixes-broken-.patch | 30 ++++++
- .../0003-Removed-SanitizedNames.patch         | 95 +++++++++++++++++++
- ...-loop-when-zipfile-begins-with-more-.patch | 48 ++++++++++
- ...ath.rstrip-to-consolidate-checks-for.patch | 30 ++++++
- .../python/python3-zipp_3.7.0.bb              |  8 ++
- 6 files changed, 300 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
- create mode 100644 meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
- create mode 100644 meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
- create mode 100644 meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
- create mode 100644 meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
+PGh0bWw+DQo8aGVhZD4NCjxtZXRhIGh0dHAtZXF1aXY9IkNvbnRlbnQtVHlwZSIgY29udGVudD0i
+dGV4dC9odG1sOyBjaGFyc2V0PXV0Zi04Ij4NCjxzdHlsZSB0eXBlPSJ0ZXh0L2NzcyIgc3R5bGU9
+ImRpc3BsYXk6bm9uZTsiPiBQIHttYXJnaW4tdG9wOjA7bWFyZ2luLWJvdHRvbTowO30gPC9zdHls
+ZT4NCjwvaGVhZD4NCjxib2R5IGRpcj0ibHRyIj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29m
+IiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01T
+Rm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAx
+MnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpIaSBTdGV2ZSw8L2Rpdj4NCjxkaXYgY2xhc3M9
+ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRl
+ZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJp
+ZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQo8YnI+DQo8L2Rpdj4N
+CjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBB
+cHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGlj
+YSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpJ
+IGFtIGFmcmFpZCB0aGUgaXNzdWUgd2FzIGNhdXNlZCBieSAmbmJzcDtDUigmcXVvdDteTSZxdW90
+OykgaW4gb3ZtZiBzb3VyY2UgY29kZTwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxlbWVudFRvUHJvb2Yi
+IHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9udCwgQXB0b3NfTVNG
+b250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBmb250LXNpemU6IDEy
+cHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NCjxicj4NCjwvZGl2Pg0KPGRpdiBjbGFzcz0iZWxl
+bWVudFRvUHJvb2YiIHN0eWxlPSJmb250LWZhbWlseTogQXB0b3MsIEFwdG9zX0VtYmVkZGVkRm9u
+dCwgQXB0b3NfTVNGb250U2VydmljZSwgQ2FsaWJyaSwgSGVsdmV0aWNhLCBzYW5zLXNlcmlmOyBm
+b250LXNpemU6IDEycHQ7IGNvbG9yOiByZ2IoMCwgMCwgMCk7Ij4NClRoZSBzb3VyY2Ugb2Ygb3Zt
+ZiB1c2UgQ1IgKF5NKSBhcyBuZXcgbGluZSwgd2Ugc2hvdWxkIHVzZSAnZ2l0IGFtIC0ta2VlcC1j
+ciZuYnNwO3h4eHgucGF0Y2gnIHRvIGFwcGx5IHRoZSBwYXRjaCw8L2Rpdj4NCjxkaXYgY2xhc3M9
+ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRl
+ZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJp
+ZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDApOyI+DQpvdGhlcndpc2UgZG9f
+cGF0Y2ggZmFpbGVkPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9vZiIgc3R5bGU9ImZv
+bnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19NU0ZvbnRTZXJ2aWNl
+LCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTogMTJwdDsgY29sb3I6
+IHJnYigwLCAwLCAwKTsiPg0KPGJyPg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJlbGVtZW50VG9Qcm9v
+ZiIgc3R5bGU9ImZvbnQtZmFtaWx5OiBBcHRvcywgQXB0b3NfRW1iZWRkZWRGb250LCBBcHRvc19N
+U0ZvbnRTZXJ2aWNlLCBDYWxpYnJpLCBIZWx2ZXRpY2EsIHNhbnMtc2VyaWY7IGZvbnQtc2l6ZTog
+MTJwdDsgY29sb3I6IHJnYigwLCAwLCAwKTsiPg0KQnV0IEkgZG8gbm90IGtub3cgaG93IHlvdSBh
+cHBseSB0aGUgcGF0Y2ggdG8geW91ciBidWlsZCBvciB2aWEgcGF0Y2h0ZXN0IGF1dG9tYXRpY2Fs
+bHksIGRvIHlvdSB1c2UgZ2l0IGFtIHdpdGggb3B0aW9uIC0ta2VlcC1jcj88YnI+DQo8YnI+DQo8
+L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9udC1mYW1pbHk6IEFw
+dG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2UsIENhbGlicmksIEhl
+bHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjogcmdiKDAsIDAsIDAp
+OyI+DQo8YnI+DQo8L2Rpdj4NCjxkaXYgY2xhc3M9ImVsZW1lbnRUb1Byb29mIiBzdHlsZT0iZm9u
+dC1mYW1pbHk6IEFwdG9zLCBBcHRvc19FbWJlZGRlZEZvbnQsIEFwdG9zX01TRm9udFNlcnZpY2Us
+IENhbGlicmksIEhlbHZldGljYSwgc2Fucy1zZXJpZjsgZm9udC1zaXplOiAxMnB0OyBjb2xvcjog
+cmdiKDAsIDAsIDApOyI+DQovL0hvbmd4dTwvZGl2Pg0KPGRpdiBpZD0iYXBwZW5kb25zZW5kIj48
+L2Rpdj4NCjxociBzdHlsZT0iZGlzcGxheTppbmxpbmUtYmxvY2s7d2lkdGg6OTglIiB0YWJpbmRl
+eD0iLTEiPg0KPGRpdiBpZD0iZGl2UnBseUZ3ZE1zZyIgZGlyPSJsdHIiPjxmb250IGZhY2U9IkNh
+bGlicmksIHNhbnMtc2VyaWYiIHN0eWxlPSJmb250LXNpemU6MTFwdCIgY29sb3I9IiMwMDAwMDAi
+PjxiPkZyb206PC9iPiBTdGV2ZSBTYWtvbWFuICZsdDtzdGV2ZUBzYWtvbWFuLmNvbSZndDs8YnI+
+DQo8Yj5TZW50OjwvYj4gVGh1cnNkYXksIE5vdmVtYmVyIDI4LCAyMDI0IDI6MjQgQU08YnI+DQo8
+Yj5Ubzo8L2I+IEppYSwgSG9uZ3h1ICZsdDtIb25neHUuSmlhQHdpbmRyaXZlci5jb20mZ3Q7PGJy
+Pg0KPGI+Q2M6PC9iPiBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnICZs
+dDtvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnJmd0Ozxicj4NCjxiPlN1
+YmplY3Q6PC9iPiBSZTogW3NjYXJ0aGdhcF1bUEFUQ0ggVjIgMS8yXSBvdm1mOiBmaXggQ1ZFLTIw
+MjQtMzg3OTY8L2ZvbnQ+DQo8ZGl2PiZuYnNwOzwvZGl2Pg0KPC9kaXY+DQo8ZGl2IGNsYXNzPSJC
+b2R5RnJhZ21lbnQiPjxmb250IHNpemU9IjIiPjxzcGFuIHN0eWxlPSJmb250LXNpemU6MTFwdDsi
+Pg0KPGRpdiBjbGFzcz0iUGxhaW5UZXh0Ij5DQVVUSU9OOiBUaGlzIGVtYWlsIGNvbWVzIGZyb20g
+YSBub24gV2luZCBSaXZlciBlbWFpbCBhY2NvdW50ITxicj4NCkRvIG5vdCBjbGljayBsaW5rcyBv
+ciBvcGVuIGF0dGFjaG1lbnRzIHVubGVzcyB5b3UgcmVjb2duaXplIHRoZSBzZW5kZXIgYW5kIGtu
+b3cgdGhlIGNvbnRlbnQgaXMgc2FmZS48YnI+DQo8YnI+DQpJJ20gYWxzbyBnZXR0aW5nIGJ1aWxk
+IHRpbWUgZXJyb3JzIG9uIHRoZSBzY2FydGhnYXAgdmVyc2lvbiAoYWxzbzxicj4NCnNlZW1zIHRv
+IGJlIGxpbmUgZW5kaW5nIHJlbGF0ZWQpOjxicj4NCjxicj4NCjxhIGhyZWY9Imh0dHBzOi8vZXJy
+b3JzLnlvY3RvcHJvamVjdC5vcmcvRXJyb3JzL0RldGFpbHMvODM2NTU1LyI+aHR0cHM6Ly9lcnJv
+cnMueW9jdG9wcm9qZWN0Lm9yZy9FcnJvcnMvRGV0YWlscy84MzY1NTUvPC9hPjxicj4NCjxicj4N
+ClN0ZXZlPGJyPg0KPGJyPg0KT24gTW9uLCBOb3YgMjUsIDIwMjQgYXQgNzoyNuKAr1BNIEhvbmd4
+dSBKaWEgJmx0O2hvbmd4dS5qaWFAd2luZHJpdmVyLmNvbSZndDsgd3JvdGU6PGJyPg0KJmd0Ozxi
+cj4NCiZndDsgQmFja3BvcnQgZml4IGZyb20gdXBzdHJlYW0gdG8gcmVzb2x2ZSBDVkUtMjAyNC0z
+ODc5Njxicj4NCiZndDs8YnI+DQomZ3Q7Jm5ic3A7Jm5ic3A7IDxhIGhyZWY9Imh0dHBzOi8vZ2l0
+aHViLmNvbS90aWFub2NvcmUvZWRrMi9jb21taXQvYzk1MjMzYjg1MjVjYTY4Mjg5MjFhZmZkMTQ5
+NjE0NmNmZjI2MmU2NSI+DQpodHRwczovL2dpdGh1Yi5jb20vdGlhbm9jb3JlL2VkazIvY29tbWl0
+L2M5NTIzM2I4NTI1Y2E2ODI4OTIxYWZmZDE0OTYxNDZjZmYyNjJlNjU8L2E+PGJyPg0KJmd0Ozxi
+cj4NCiZndDsgU2lnbmVkLW9mZi1ieTogSG9uZ3h1IEppYSAmbHQ7aG9uZ3h1LmppYUB3aW5kcml2
+ZXIuY29tJmd0Ozxicj4NCiZndDsgLS0tPGJyPg0KJmd0OyZuYnNwOyAuLi4tRml4LW92ZXJmbG93
+LWlzc3VlLWluLUJhc2VQZUNvZmZMaWIucGF0Y2ggfCAzNiArKysrKysrKysrKysrKysrKysrPGJy
+Pg0KJmd0OyZuYnNwOyBtZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0LmJiJm5ic3A7Jm5i
+c3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7Jm5ic3A7
+IHwmbmJzcDsgMSArPGJyPg0KJmd0OyZuYnNwOyAyIGZpbGVzIGNoYW5nZWQsIDM3IGluc2VydGlv
+bnMoKyk8YnI+DQomZ3Q7Jm5ic3A7IGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtY29y
+ZS9vdm1mL292bWYvMDAwMS1NZGVQa2ctRml4LW92ZXJmbG93LWlzc3VlLWluLUJhc2VQZUNvZmZM
+aWIucGF0Y2g8YnI+DQomZ3Q7PGJyPg0KJmd0OyBkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
+cmUvb3ZtZi9vdm1mLzAwMDEtTWRlUGtnLUZpeC1vdmVyZmxvdy1pc3N1ZS1pbi1CYXNlUGVDb2Zm
+TGliLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9vdm1mLzAwMDEtTWRlUGtnLUZpeC1v
+dmVyZmxvdy1pc3N1ZS1pbi1CYXNlUGVDb2ZmTGliLnBhdGNoPGJyPg0KJmd0OyBuZXcgZmlsZSBt
+b2RlIDEwMDY0NDxicj4NCiZndDsgaW5kZXggMDAwMDAwMDAwMC4uYzZlMTVjNTA2OTxicj4NCiZn
+dDsgLS0tIC9kZXYvbnVsbDxicj4NCiZndDsgKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvb3ZtZi9v
+dm1mLzAwMDEtTWRlUGtnLUZpeC1vdmVyZmxvdy1pc3N1ZS1pbi1CYXNlUGVDb2ZmTGliLnBhdGNo
+PGJyPg0KJmd0OyBAQCAtMCwwICsxLDM2IEBAPGJyPg0KJmd0OyArRnJvbSA1ZjdiZDNmM2M0NzQ3
+ZDViYjI3MzNmMDE3ZjhjNWI5M2I2M2E3NGUzIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMTxicj4N
+CiZndDsgK0Zyb206IERvdWcgRmxpY2sgJmx0O2RvdWdmbGlja0BtaWNyb3NvZnQuY29tJmd0Ozxi
+cj4NCiZndDsgK0RhdGU6IEZyaSwgMjIgTm92IDIwMjQgMTM6MDM6MzMgKzA4MDA8YnI+DQomZ3Q7
+ICtTdWJqZWN0OiBbUEFUQ0hdIE1kZVBrZzogRml4IG92ZXJmbG93IGlzc3VlIGluIEJhc2VQZUNv
+ZmZMaWI8YnI+DQomZ3Q7ICs8YnI+DQomZ3Q7ICtUaGUgUmVsb2NEaXItJmd0O1NpemUgaXMgYSBV
+SU5UMzIgdmFsdWUsIGFuZCBSZWxvY0Rpci0mZ3Q7VmlydHVhbEFkZHJlc3MgaXM8YnI+DQomZ3Q7
+ICthbHNvIGEgVUlOVDMyIHZhbHVlLiBUaGUgY3VycmVudCBjb2RlIGRvZXMgbm90IGNoZWNrIGZv
+ciBvdmVyZmxvdyB3aGVuPGJyPg0KJmd0OyArYWRkaW5nIFJlbG9jRGlyLSZndDtTaXplIHRvIFJl
+bG9jRGlyLSZndDtWaXJ0dWFsQWRkcmVzcy4gVGhpcyBwYXRjaCBhZGRzIGE8YnI+DQomZ3Q7ICtj
+aGVjayB0byBlbnN1cmUgdGhhdCB0aGUgYWRkaXRpb24gZG9lcyBub3Qgb3ZlcmZsb3cuPGJyPg0K
+Jmd0OyArPGJyPg0KJmd0OyArU2lnbmVkLW9mZi1ieTogRG91ZyBGbGljayAmbHQ7ZG91Z2ZsaWNr
+QG1pY3Jvc29mdC5jb20mZ3Q7PGJyPg0KJmd0OyArQXV0aG9yZWQtYnk6IHNyaXJhYW14IGdvYmlj
+aGV0dGlwYWxheWFtICZsdDtzcmkuLkBpbnRlbC5jb20mZ3Q7PGJyPg0KJmd0OyArPGJyPg0KJmd0
+OyArQ1ZFOiBDVkUtMjAyNC0zODc5Njxicj4NCiZndDsgK1Vwc3RyZWFtLVN0YXR1czogQmFja3Bv
+cnQgWzxhIGhyZWY9Imh0dHBzOi8vZ2l0aHViLmNvbS90aWFub2NvcmUvZWRrMi9jb21taXQvYzk1
+MjMzYjg1MjVjYTY4Mjg5MjFhZmZkMTQ5NjE0NmNmZjI2MmU2NSI+aHR0cHM6Ly9naXRodWIuY29t
+L3RpYW5vY29yZS9lZGsyL2NvbW1pdC9jOTUyMzNiODUyNWNhNjgyODkyMWFmZmQxNDk2MTQ2Y2Zm
+MjYyZTY1PC9hPl08YnI+DQomZ3Q7ICtTaWduZWQtb2ZmLWJ5OiBIb25neHUgSmlhICZsdDtob25n
+eHUuamlhQHdpbmRyaXZlci5jb20mZ3Q7PGJyPg0KJmd0OyArLS0tPGJyPg0KJmd0OyArIE1kZVBr
+Zy9MaWJyYXJ5L0Jhc2VQZUNvZmZMaWIvQmFzZVBlQ29mZi5jIHwgMiArLTxicj4NCiZndDsgKyAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSk8YnI+DQomZ3Q7ICs8
+YnI+DQomZ3Q7ICtkaWZmIC0tZ2l0IGEvTWRlUGtnL0xpYnJhcnkvQmFzZVBlQ29mZkxpYi9CYXNl
+UGVDb2ZmLmMgYi9NZGVQa2cvTGlicmFyeS9CYXNlUGVDb2ZmTGliL0Jhc2VQZUNvZmYuYzxicj4N
+CiZndDsgK2luZGV4IDg2ZmYyZTcuLjEyODA5MGQgMTAwNjQ0PGJyPg0KJmd0OyArLS0tIGEvTWRl
+UGtnL0xpYnJhcnkvQmFzZVBlQ29mZkxpYi9CYXNlUGVDb2ZmLmM8YnI+DQomZ3Q7ICsrKysgYi9N
+ZGVQa2cvTGlicmFyeS9CYXNlUGVDb2ZmTGliL0Jhc2VQZUNvZmYuYzxicj4NCiZndDsgK0BAIC0x
+MDU0LDcgKzEwNTQsNyBAQCBQZUNvZmZMb2FkZXJSZWxvY2F0ZUltYWdlICg8YnI+DQomZ3Q7ICsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgUmVsb2NEaXIgPSAmYW1wO0hkci5UZS0mZ3Q7RGF0YURp
+cmVjdG9yeVswXTs8YnI+DQomZ3Q7ICsmbmJzcDsmbmJzcDsgfTxicj4NCiZndDsgKzxicj4NCiZn
+dDsgKy0mbmJzcDsgaWYgKChSZWxvY0RpciAhPSBOVUxMKSAmYW1wOyZhbXA7IChSZWxvY0Rpci0m
+Z3Q7U2l6ZSAmZ3Q7IDApKSB7PGJyPg0KJmd0OyArKyZuYnNwOyBpZiAoKFJlbG9jRGlyICE9IE5V
+TEwpICZhbXA7JmFtcDsgKFJlbG9jRGlyLSZndDtTaXplICZndDsgMCkgJmFtcDsmYW1wOyAoUmVs
+b2NEaXItJmd0O1NpemUgLSAxICZsdDsgTUFYX1VJTlQzMiAtIFJlbG9jRGlyLSZndDtWaXJ0dWFs
+QWRkcmVzcykpIHs8YnI+DQomZ3Q7ICsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgUmVsb2NCYXNl
+Jm5ic3A7Jm5ic3A7Jm5ic3A7ID0gKEVGSV9JTUFHRV9CQVNFX1JFTE9DQVRJT04gKilQZUNvZmZM
+b2FkZXJJbWFnZUFkZHJlc3MgKEltYWdlQ29udGV4dCwgUmVsb2NEaXItJmd0O1ZpcnR1YWxBZGRy
+ZXNzLCBUZVN0cmlwcGVkT2Zmc2V0KTs8YnI+DQomZ3Q7ICsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsgUmVsb2NCYXNlRW5kID0gKEVGSV9JTUFHRV9CQVNFX1JFTE9DQVRJT04gKilQZUNvZmZMb2Fk
+ZXJJbWFnZUFkZHJlc3MgKDxicj4NCiZndDsgKyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZu
+YnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNw
+OyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyZuYnNwOyBJbWFnZUNvbnRleHQs
+PGJyPg0KJmd0OyArLS08YnI+DQomZ3Q7ICsyLjM0LjE8YnI+DQomZ3Q7ICs8YnI+DQomZ3Q7IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9vdm1mL292bWZfZ2l0LmJiIGIvbWV0YS9yZWNp
+cGVzLWNvcmUvb3ZtZi9vdm1mX2dpdC5iYjxicj4NCiZndDsgaW5kZXggMzVjYThkMTgzNC4uY2My
+YWM0MjY4YyAxMDA2NDQ8YnI+DQomZ3Q7IC0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3Zt
+Zl9naXQuYmI8YnI+DQomZ3Q7ICsrKyBiL21ldGEvcmVjaXBlcy1jb3JlL292bWYvb3ZtZl9naXQu
+YmI8YnI+DQomZ3Q7IEBAIC0yNCw2ICsyNCw3IEBAIFNSQ19VUkkgPSAmcXVvdDtnaXRzbTovL2dp
+dGh1Yi5jb20vdGlhbm9jb3JlL2VkazIuZ2l0O2JyYW5jaD1tYXN0ZXI7cHJvdG9jb2w9aHR0cHMg
+XDxicj4NCiZndDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgPGEgaHJlZj0iZmlsZTovLzAwMDItQmFzZVRvb2xz
+LW1ha2VmaWxlLWFkanVzdC10by1idWlsZC1pbi11bmRlci1iaXRiYWtlLnBhdGNoIj4NCmZpbGU6
+Ly8wMDAyLUJhc2VUb29scy1tYWtlZmlsZS1hZGp1c3QtdG8tYnVpbGQtaW4tdW5kZXItYml0YmFr
+ZS5wYXRjaDwvYT4gXDxicj4NCiZndDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgPGEgaHJlZj0iZmlsZTovLzAw
+MDMtZGVidWctcHJlZml4LW1hcC5wYXRjaCI+ZmlsZTovLzAwMDMtZGVidWctcHJlZml4LW1hcC5w
+YXRjaDwvYT4gXDxicj4NCiZndDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsgPGEgaHJlZj0iZmlsZTovLzAwMDQt
+cmVwcm9kdWNpYmxlLnBhdGNoIj5maWxlOi8vMDAwNC1yZXByb2R1Y2libGUucGF0Y2g8L2E+IFw8
+YnI+DQomZ3Q7ICsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsmbmJzcDsgPGEgaHJlZj0iZmlsZTovLzAwMDEtTWRlUGtnLUZpeC1vdmVyZmxvdy1p
+c3N1ZS1pbi1CYXNlUGVDb2ZmTGliLnBhdGNoIj4NCmZpbGU6Ly8wMDAxLU1kZVBrZy1GaXgtb3Zl
+cmZsb3ctaXNzdWUtaW4tQmFzZVBlQ29mZkxpYi5wYXRjaDwvYT4gXDxicj4NCiZndDsmbmJzcDsm
+bmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJzcDsmbmJz
+cDsmbmJzcDsgJnF1b3Q7PGJyPg0KJmd0Ozxicj4NCiZndDsmbmJzcDsgUFYgPSAmcXVvdDtlZGsy
+LXN0YWJsZTIwMjQwMiZxdW90Ozxicj4NCiZndDsgLS08YnI+DQomZ3Q7IDIuMjUuMTxicj4NCiZn
+dDs8YnI+DQo8L2Rpdj4NCjwvc3Bhbj48L2ZvbnQ+PC9kaXY+DQo8L2JvZHk+DQo8L2h0bWw+DQo=
 
-diff --git a/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch b/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
-new file mode 100644
-index 0000000000..a352e7b9bd
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-zipp/0001-Add-SanitizedNames-mixin.patch
-@@ -0,0 +1,89 @@
-+From ef2227e35d1ae833b7bfa1674a45f58c732ae1a6 Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Wed, 27 Nov 2024 23:27:57 -0800
-+Subject: [PATCH 1/5] Add SanitizedNames mixin.
-+
-+Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/564fcc10cdbfdaecdb33688e149827465931c9e0]
-+CVE: CVE-2024-5569
-+Rebase to v3.7.0
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ zipp.py | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 62 insertions(+)
-+
-+diff --git a/zipp.py b/zipp.py
-+index 26b723c..8f0950f 100644
-+--- a/zipp.py
-++++ b/zipp.py
-+@@ -68,6 +68,68 @@ def _difference(minuend, subtrahend):
-+     return itertools.filterfalse(set(subtrahend).__contains__, minuend)
-+ 
-+ 
-++class SanitizedNames:
-++    """
-++    ZipFile mix-in to ensure names are sanitized.
-++    """
-++
-++    def namelist(self):
-++        return list(map(self._sanitize, super().namelist()))
-++
-++    @staticmethod
-++    def _sanitize(name):
-++        r"""
-++        Ensure a relative path with posix separators and no dot names.
-++
-++        Modeled after
-++        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
-++        but provides consistent cross-platform behavior.
-++
-++        >>> san = SanitizedNames._sanitize
-++        >>> san('/foo/bar')
-++        'foo/bar'
-++        >>> san('//foo.txt')
-++        'foo.txt'
-++        >>> san('foo/.././bar.txt')
-++        'foo/bar.txt'
-++        >>> san('foo../.bar.txt')
-++        'foo../.bar.txt'
-++        >>> san('\\foo\\bar.txt')
-++        'foo/bar.txt'
-++        >>> san('D:\\foo.txt')
-++        'D/foo.txt'
-++        >>> san('\\\\server\\share\\file.txt')
-++        'server/share/file.txt'
-++        >>> san('\\\\?\\GLOBALROOT\\Volume3')
-++        '?/GLOBALROOT/Volume3'
-++        >>> san('\\\\.\\PhysicalDrive1\\root')
-++        'PhysicalDrive1/root'
-++
-++        Retain any trailing slash.
-++        >>> san('abc/')
-++        'abc/'
-++
-++        Raises a ValueError if the result is empty.
-++        >>> san('../..')
-++        Traceback (most recent call last):
-++        ...
-++        ValueError: Empty filename
-++        """
-++
-++        def allowed(part):
-++            return part and part not in {'..', '.'}
-++
-++        # Remove the drive letter.
-++        # Don't use ntpath.splitdrive, because that also strips UNC paths
-++        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
-++        clean = bare.replace('\\', '/')
-++        parts = clean.split('/')
-++        joined = '/'.join(filter(allowed, parts))
-++        if not joined:
-++            raise ValueError("Empty filename")
-++        return joined + '/' * name.endswith('/')
-++
-++
-+ class CompleteDirs(zipfile.ZipFile):
-+     """
-+     A ZipFile subclass that ensures that implied directories
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch b/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
-new file mode 100644
-index 0000000000..d2ea4d49a1
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-zipp/0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch
-@@ -0,0 +1,30 @@
-+From 8b09dbf95b3ba78a63f220941e31ac92f4ad192c Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Wed, 27 Nov 2024 23:31:57 -0800
-+Subject: [PATCH 2/5] Employ SanitizedNames in CompleteDirs. Fixes broken test.
-+
-+Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/58115d2be968644ce71ce6bcc9b79826c82a1806]
-+Remove test code
-+Rebase to v3.7.0
-+CVE: CVE-2024-5569
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ zipp.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/zipp.py b/zipp.py
-+index 8f0950f..29d2572 100644
-+--- a/zipp.py
-++++ b/zipp.py
-+@@ -130,7 +130,7 @@ class SanitizedNames:
-+         return joined + '/' * name.endswith('/')
-+ 
-+ 
-+-class CompleteDirs(zipfile.ZipFile):
-++class CompleteDirs(SanitizedNames, zipfile.ZipFile):
-+     """
-+     A ZipFile subclass that ensures that implied directories
-+     are always included in the namelist.
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch b/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
-new file mode 100644
-index 0000000000..45a7dc5bb1
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-zipp/0003-Removed-SanitizedNames.patch
-@@ -0,0 +1,95 @@
-+From b52b8af403e64607ae8d5e4cd18d4099d63e7264 Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Wed, 27 Nov 2024 23:33:11 -0800
-+Subject: [PATCH 3/5] Removed SanitizedNames.
-+
-+Restores expectations around special characters in zipfiles, but also restores the infinite loop.
-+
-+Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/3cb5609002263eb19f7b5efda82d96f1f57fe876]
-+Remove test codes
-+Rebase to v3.7.0
-+CVE: CVE-2024-5569
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ zipp.py | 64 +--------------------------------------------------------
-+ 1 file changed, 1 insertion(+), 63 deletions(-)
-+
-+diff --git a/zipp.py b/zipp.py
-+index 29d2572..26b723c 100644
-+--- a/zipp.py
-++++ b/zipp.py
-+@@ -68,69 +68,7 @@ def _difference(minuend, subtrahend):
-+     return itertools.filterfalse(set(subtrahend).__contains__, minuend)
-+ 
-+ 
-+-class SanitizedNames:
-+-    """
-+-    ZipFile mix-in to ensure names are sanitized.
-+-    """
-+-
-+-    def namelist(self):
-+-        return list(map(self._sanitize, super().namelist()))
-+-
-+-    @staticmethod
-+-    def _sanitize(name):
-+-        r"""
-+-        Ensure a relative path with posix separators and no dot names.
-+-
-+-        Modeled after
-+-        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
-+-        but provides consistent cross-platform behavior.
-+-
-+-        >>> san = SanitizedNames._sanitize
-+-        >>> san('/foo/bar')
-+-        'foo/bar'
-+-        >>> san('//foo.txt')
-+-        'foo.txt'
-+-        >>> san('foo/.././bar.txt')
-+-        'foo/bar.txt'
-+-        >>> san('foo../.bar.txt')
-+-        'foo../.bar.txt'
-+-        >>> san('\\foo\\bar.txt')
-+-        'foo/bar.txt'
-+-        >>> san('D:\\foo.txt')
-+-        'D/foo.txt'
-+-        >>> san('\\\\server\\share\\file.txt')
-+-        'server/share/file.txt'
-+-        >>> san('\\\\?\\GLOBALROOT\\Volume3')
-+-        '?/GLOBALROOT/Volume3'
-+-        >>> san('\\\\.\\PhysicalDrive1\\root')
-+-        'PhysicalDrive1/root'
-+-
-+-        Retain any trailing slash.
-+-        >>> san('abc/')
-+-        'abc/'
-+-
-+-        Raises a ValueError if the result is empty.
-+-        >>> san('../..')
-+-        Traceback (most recent call last):
-+-        ...
-+-        ValueError: Empty filename
-+-        """
-+-
-+-        def allowed(part):
-+-            return part and part not in {'..', '.'}
-+-
-+-        # Remove the drive letter.
-+-        # Don't use ntpath.splitdrive, because that also strips UNC paths
-+-        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
-+-        clean = bare.replace('\\', '/')
-+-        parts = clean.split('/')
-+-        joined = '/'.join(filter(allowed, parts))
-+-        if not joined:
-+-            raise ValueError("Empty filename")
-+-        return joined + '/' * name.endswith('/')
-+-
-+-
-+-class CompleteDirs(SanitizedNames, zipfile.ZipFile):
-++class CompleteDirs(zipfile.ZipFile):
-+     """
-+     A ZipFile subclass that ensures that implied directories
-+     are always included in the namelist.
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch b/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
-new file mode 100644
-index 0000000000..46871122a9
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-zipp/0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch
-@@ -0,0 +1,48 @@
-+From ef4ee19919bd49a9c1207ff8d87f83dd48aed436 Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Wed, 27 Nov 2024 23:35:28 -0800
-+Subject: [PATCH 4/5] Address infinite loop when zipfile begins with more than
-+ one leading slash.
-+
-+Alternate and more surgical fix for jaraco/zipp#119. Ref python/cpython#123270
-+
-+Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/f89b93f0370dd85d23d243e25dfc1f99f4d8de48]
-+Remove test codes
-+Rebase to v3.7.0
-+CVE: CVE-2024-5569
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ zipp.py | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/zipp.py b/zipp.py
-+index 26b723c..236af49 100644
-+--- a/zipp.py
-++++ b/zipp.py
-+@@ -37,7 +37,7 @@ def _parents(path):
-+ def _ancestry(path):
-+     """
-+     Given a path with elements separated by
-+-    posixpath.sep, generate all elements of that path
-++    posixpath.sep, generate all elements of that path.
-+ 
-+     >>> list(_ancestry('b/d'))
-+     ['b/d', 'b']
-+@@ -49,9 +49,13 @@ def _ancestry(path):
-+     ['b']
-+     >>> list(_ancestry(''))
-+     []
-++    Multiple separators are treated like a single.
-++
-++    >>> list(_ancestry('//b//d///f//'))
-++    ['//b//d///f', '//b//d', '//b']
-+     """
-+     path = path.rstrip(posixpath.sep)
-+-    while path and path != posixpath.sep:
-++    while path and not path.endswith(posixpath.sep):
-+         yield path
-+         path, tail = posixpath.split(path)
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch b/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
-new file mode 100644
-index 0000000000..de91c68361
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-zipp/0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch
-@@ -0,0 +1,30 @@
-+From 9084bc59784cb240628996c1cb95f4f786ebedcc Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Wed, 27 Nov 2024 23:38:28 -0800
-+Subject: [PATCH 5/5] Prefer simpler path.rstrip to consolidate checks for
-+ empty or only paths.
-+
-+Upstream-Status: Backport [https://github.com/jaraco/zipp/commit/cc61e6140f0dfde2ff372db932442cf6df890f09]
-+Rebase to v3.7.0
-+CVE: CVE-2024-5569
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ zipp.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/zipp.py b/zipp.py
-+index 236af49..87c4219 100644
-+--- a/zipp.py
-++++ b/zipp.py
-+@@ -55,7 +55,7 @@ def _ancestry(path):
-+     ['//b//d///f', '//b//d', '//b']
-+     """
-+     path = path.rstrip(posixpath.sep)
-+-    while path and not path.endswith(posixpath.sep):
-++    while path.rstrip(posixpath.sep):
-+         yield path
-+         path, tail = posixpath.split(path)
-+ 
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-zipp_3.7.0.bb b/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
-index 495e7f51f0..d9db1b4408 100644
---- a/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
-+++ b/meta/recipes-devtools/python/python3-zipp_3.7.0.bb
-@@ -9,6 +9,14 @@ DEPENDS += "${PYTHON_PN}-setuptools-scm-native"
- 
- inherit pypi python_setuptools_build_meta
- 
-+SRC_URI += " \
-+    file://0001-Add-SanitizedNames-mixin.patch \
-+    file://0002-Employ-SanitizedNames-in-CompleteDirs.-Fixes-broken-.patch \
-+    file://0003-Removed-SanitizedNames.patch \
-+    file://0004-Address-infinite-loop-when-zipfile-begins-with-more-.patch \
-+    file://0005-Prefer-simpler-path.rstrip-to-consolidate-checks-for.patch \
-+"
-+
- DEPENDS += "${PYTHON_PN}-toml-native"
- 
- RDEPENDS:${PN} += "${PYTHON_PN}-compression \
--- 
-2.34.1
-
+--_000_PH7PR11MB7608241D1C8A86F81747C10C94292PH7PR11MB7608namp_--
 
