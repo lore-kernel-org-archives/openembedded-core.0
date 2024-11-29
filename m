@@ -2,35 +2,35 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4199AD6EC16
-	for <webhook@archiver.kernel.org>; Fri, 29 Nov 2024 14:46:15 +0000 (UTC)
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.web10.116414.1732891567303213416
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57D5ED729E1
+	for <webhook@archiver.kernel.org>; Fri, 29 Nov 2024 14:50:25 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web10.116475.1732891823075009415
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Nov 2024 06:46:07 -0800
+ Fri, 29 Nov 2024 06:50:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
-Received: from fwd71.aul.t-online.de (fwd71.aul.t-online.de [10.223.144.97])
-	by mailout02.t-online.de (Postfix) with SMTP id 575D917B5
-	for <openembedded-core@lists.openembedded.org>; Fri, 29 Nov 2024 15:46:05 +0100 (CET)
-Received: from intel-corei7-64.fritz.box ([84.154.172.109]) by fwd71.t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd87.aul.t-online.de (fwd87.aul.t-online.de [10.223.144.113])
+	by mailout01.t-online.de (Postfix) with SMTP id 8C2B81829
+	for <openembedded-core@lists.openembedded.org>; Fri, 29 Nov 2024 15:50:20 +0100 (CET)
+Received: from intel-corei7-64.fritz.box ([84.154.172.109]) by fwd87.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1tH2Fw-1PWV8b0; Fri, 29 Nov 2024 15:46:04 +0100
+	esmtp id 1tH2Jz-3zacCn0; Fri, 29 Nov 2024 15:50:15 +0100
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-ore][PATCHv2] libsecret: add pam support depending on DISTRO_FEATURES
-Date: Fri, 29 Nov 2024 15:45:56 +0100
-Message-ID: <20241129144556.2259-1-f_l_k@t-online.de>
+Subject: [oe-ore][PATCHv3] libsecret: add pam support depending on DISTRO_FEATURES
+Date: Fri, 29 Nov 2024 15:50:12 +0100
+Message-ID: <20241129145012.8093-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.47.0
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1732891564-63FEB6C2-37B2F174/0/0 CLEAN NORMAL
-X-TOI-MSGID: 14f01168-bf6b-4604-a5af-ba2d812c437c
+X-TOI-EXPURGATEID: 150726::1732891816-E3FFD700-60D5A80F/0/0 CLEAN NORMAL
+X-TOI-MSGID: 8abd9a74-05e5-49b4-9f5c-150ec1772c6a
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Nov 2024 14:46:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208018
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Nov 2024 14:50:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208019
 
 pam module has been ported from gnome-keyring to libsecret
 [https://gitlab.gnome.org/GNOME/libsecret/-/commit/9a37dc839a9be1670afeb6=
@@ -56,8 +56,8 @@ Signed-off-by: Markus Volk <f_l_k@t-online.de>
  meta/recipes-devtools/cmocka/files/run-ptest  | 10 ++++
  ...rapper-add-pc_sysrootdir-to-pc-files.patch | 49 +++++++++++++++++++
  .../pam-wrapper/pam-wrapper_1.1.7.bb          | 23 +++++++++
- .../libsecret/libsecret_0.21.4.bb             |  5 +-
- 7 files changed, 173 insertions(+), 2 deletions(-)
+ .../libsecret/libsecret_0.21.4.bb             |  3 +-
+ 7 files changed, 172 insertions(+), 1 deletion(-)
  create mode 100644 meta/recipes-devtools/cmocka/cmocka_1.1.7.bb
  create mode 100644 meta/recipes-devtools/cmocka/files/0001-include-Check=
 -for-previous-declaration-of-uintptr_t.patch
@@ -324,10 +324,10 @@ index 0000000000..8df3295eb6
 +
 diff --git a/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb b/meta/reci=
 pes-gnome/libsecret/libsecret_0.21.4.bb
-index 88c3c73510..fd3f7a38c3 100644
+index 88c3c73510..dfda1554cd 100644
 --- a/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
 +++ b/meta/recipes-gnome/libsecret/libsecret_0.21.4.bb
-@@ -8,16 +8,17 @@ HOMEPAGE =3D "https://github.com/GNOME/libsecret"
+@@ -8,7 +8,6 @@ HOMEPAGE =3D "https://github.com/GNOME/libsecret"
  BUGTRACKER =3D "https://gitlab.gnome.org/GNOME/libsecret/issues"
  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D23c2a5e0106b99d75238986559bb5=
 fc6"
@@ -335,18 +335,16 @@ fc6"
 -
  inherit gnomebase gi-docgen vala gobject-introspection manpages
 =20
--DEPENDS +=3D "glib-2.0 libgcrypt gettext-native"
-+DEPENDS +=3D "glib-2.0 libgcrypt gettext-native pam-wrapper"
-=20
- SRC_URI[archive.sha256sum] =3D "163d08d783be6d4ab9a979ceb5a4fecbc1d9660d=
-3c34168c581301cd53912b20"
+ DEPENDS +=3D "glib-2.0 libgcrypt gettext-native"
+@@ -17,7 +16,9 @@ SRC_URI[archive.sha256sum] =3D "163d08d783be6d4ab9a979c=
+eb5a4fecbc1d9660d3c34168c58
 =20
  GTKDOC_MESON_OPTION =3D 'gtk_doc'
 =20
 +PACKAGECONFIG ?=3D "${@bb.utils.filter('DISTRO_FEATURES', 'pam', d)}"
  PACKAGECONFIG[manpages] =3D "-Dmanpage=3Dtrue,-Dmanpage=3Dfalse,libxslt-=
 native xmlto-native"
-+PACKAGECONFIG[pam] =3D "-Dpam=3Dtrue,-Dpam=3Dfalse,libpam"
++PACKAGECONFIG[pam] =3D "-Dpam=3Dtrue,-Dpam=3Dfalse,libpam pam-wrapper"
 =20
  # http://errors.yoctoproject.org/Errors/Details/20228/
  ARM_INSTRUCTION_SET:armv4 =3D "arm"
