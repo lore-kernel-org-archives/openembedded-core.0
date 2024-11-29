@@ -2,49 +2,49 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65BA3D729E1
-	for <webhook@archiver.kernel.org>; Fri, 29 Nov 2024 15:02:25 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.web10.116711.1732892543847525743
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5387DD729E5
+	for <webhook@archiver.kernel.org>; Fri, 29 Nov 2024 15:02:35 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.web11.117440.1732892544444003095
  for <openembedded-core@lists.openembedded.org>;
- Fri, 29 Nov 2024 07:02:24 -0800
+ Fri, 29 Nov 2024 07:02:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=dXZmr9zU;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=mCz2oecD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101937871c7c1-784ead6b-b115-4c74-a0cf-7f279f0fe8b5-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=Qql24H2t;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=C/s1jgJ/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101937871cae3-bf1faa99-593c-4479-97da-f0be5a715507-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
 	t=1732892543; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=YnprX5IcBAYMeFaUQi6nf5pNIjWlqTP/m6AKwevLMfk=;
-	b=dXZmr9zUD7a8qpzAYVBmwkIaE2HNJUs30IRmBW2rJ9lB7zMCbygbrelkWR7rHfAd
-	7FfhQwmR+hkPoKlernKU5QIUfiCGK6/Bwb8XdFB5aEdFni1FW/DPwkpdQMpsohF3HwM
-	pdLPoIrTDfyXgw+Ksp7UPPz44czWpxT1c8nYPht8=
+	bh=JxT8etVYYoMUvt3xi41lgHo8b3tFYyETA9pD4/PKbLA=;
+	b=Qql24H2tEpnEmVOOA/ogooMoQJLDqN59yVsyJAZ5rnf005X0Psun4FFav7JxOA6o
+	rG8pqohyYMWl7amOe0fkh7wJgAL/AhdB8GN01QfYPkLqgbLiX2r6yyJiISIREGZodmF
+	kTSOPc2uxC7mU9WzhhGDRA4f2L3VGfkoPpIoXh0g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1732892543;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=YnprX5IcBAYMeFaUQi6nf5pNIjWlqTP/m6AKwevLMfk=;
-	b=mCz2oecDgqDRGKt8bB8Wv6HgPMEZgGarvmrduVFiYIyp9JlsOSq7zFT/5J2+eS++
-	45zw0usVqzvczxwRmC1Coqh1+TbbsUiDDyrVes5aFdsThBC/nfBGyMXNMh16rLFThrG
-	bsdnCdAWhXV10K4dosjgMLYI5lP82BVDEOG8shzk=
+	bh=JxT8etVYYoMUvt3xi41lgHo8b3tFYyETA9pD4/PKbLA=;
+	b=C/s1jgJ/PdFsTsP8231+r/NaAqMBtTPRQXxEv71WtZZ95OY0Tm1DqQuqzcut0CyR
+	ejhtxLusTAOxgT4HYTjK47XD+UEWdy8N6/77xWDbtDTcBhHdqmS2FfoiQuexxT01Xrl
+	w7ZDmtUdHCDd+oLrHmgo9SWlt++U2QTa9pjZZuGo=
 From: patchtest@automation.yoctoproject.org
 To: Markus Volk <f_l_k@t-online.de>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-ore][PATCHv2] libsecret: add pam support depending on
+Subject: Patchtest results for [oe-ore][PATCHv3] libsecret: add pam support depending on
  DISTRO_FEATURES
-In-Reply-To: <20241129144556.2259-1-f_l_k@t-online.de>
-References: <20241129144556.2259-1-f_l_k@t-online.de>
+In-Reply-To: <20241129145012.8093-1-f_l_k@t-online.de>
+References: <20241129145012.8093-1-f_l_k@t-online.de>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101937871c7c1-784ead6b-b115-4c74-a0cf-7f279f0fe8b5-000000@us-west-2.amazonses.com>
-Date: Fri, 29 Nov 2024 15:02:22 +0000
+Message-ID: <010101937871cae3-bf1faa99-593c-4479-97da-f0be5a715507-000000@us-west-2.amazonses.com>
+Date: Fri, 29 Nov 2024 15:02:23 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.11.29-54.240.27.30
+X-SES-Outgoing: 2024.11.29-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 29 Nov 2024 15:02:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208021
+ <openembedded-core@lists.openembedded.org>; Fri, 29 Nov 2024 15:02:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208022
 
 --NextPart
 Content-Type: text/plain
@@ -54,7 +54,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/oe-ore-PATCHv2-libsecret-add-pam-support-depending-on-DISTRO_FEATURES.patch
+Testing patch /home/patchtest/share/mboxes/oe-ore-PATCHv3-libsecret-add-pam-support-depending-on-DISTRO_FEATURES.patch
 
 FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 FAIL: test summary presence: SUMMARY is missing in newly added recipe (test_metadata.TestMetadata.test_summary_presence)
