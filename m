@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 102E9D10DBC
-	for <webhook@archiver.kernel.org>; Sun,  1 Dec 2024 10:05:59 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.148756.1733047552396771918
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA4AD10DA3
+	for <webhook@archiver.kernel.org>; Sun,  1 Dec 2024 10:06:09 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.web11.149805.1733047559132749057
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Dec 2024 02:05:52 -0800
+ Sun, 01 Dec 2024 02:05:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=KwAEeeLK;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=pDZPiUaC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019381af065d-3ce94828-8986-48e8-ae3e-8aeb2045f73e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=U0/HA3VT;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DDGHWaqv;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019381af20c0-0750d901-27f4-440e-8ec9-a8e8c0da1b05-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733047551;
+	t=1733047558;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=tMrGg77nw1T3yVRwtf+VG74P0NvoiKy9GoAKHH1NxsU=;
-	b=KwAEeeLKNxZg45LOMCWiwtM4FPPZvxAjpBfP65F47j7DOifwDaZnx+IVSOHkSgDf
-	CyGmBOgEqO20ft8UT720zukFvd7P4nglNpMj0ylRn5tm8Q9cZkmly1SXhFBSfTVIsYm
-	CYzDfcQRhXBG1l7/gQx5tVABpN3dtXW/EQB+yxG0=
+	bh=lyaalXPMZiLSOQ6vmcVyRvyYTjBisYfwSRJauoUrOmU=;
+	b=U0/HA3VTiPvbHVdrRkKDoN4hAqp4/8+asb8qDFko2y1ghsm0KCGnj9L2xL6OuJN+
+	M/IbOfBy629WdWX7xAKzVxaroS4ucNYeiFnm3GUeQeUe1LzPBLBqezlA7vmFAGYi/4t
+	0JmNOv6l3r9FGj7E4GOM/stKgqYu4Ia7uvgEB1AE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047551;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047558;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=tMrGg77nw1T3yVRwtf+VG74P0NvoiKy9GoAKHH1NxsU=;
-	b=pDZPiUaC5UsxfpWBVbSMGsKijzZdI9jzfNctAPKDHsWQY2duNunx1/nm1lBFrg6m
-	zbs9RLB/e/cinMCoeoHiw62b/Cg3ALhh7uuHaQu1ZaBtOrIcfGNo/ey989Snii7RL9j
-	FoHrSEkQ/jbvTg+lAzQ6Scv4WEpTj8di/jI/OOoI=
-Content-Type: multipart/mixed; boundary="===============1926418630630342718=="
+	bh=lyaalXPMZiLSOQ6vmcVyRvyYTjBisYfwSRJauoUrOmU=;
+	b=DDGHWaqv5GYmICoaayx/sO2NiiGGH/akO+lz6cXfMMN108W+tJUv+yBqW6Hu80Ba
+	czrrQ5i5nYPSfGimTlpIKAFLDINC/T/XWGCpsNr9qyRh5X8X3C+Stm36IQ69UkbrNQT
+	wCM+495xgQfv5ExDz9Yaxttkljs/tc8YWtfFuRww=
+Content-Type: multipart/mixed; boundary="===============6778674768397407518=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Cc: 
-Subject: [AUH] xf86-video-fbdev: upgrading to 0.5.1 FAILED
-Message-ID: <0101019381af065d-3ce94828-8986-48e8-ae3e-8aeb2045f73e-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Dec 2024 10:05:51 +0000
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-dtc: upgrading to 1.7.2 FAILED
+Message-ID: <0101019381af20c0-0750d901-27f4-440e-8ec9-a8e8c0da1b05-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Dec 2024 10:05:58 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.01-54.240.27.191
+X-SES-Outgoing: 2024.12.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 01 Dec 2024 10:05:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208053
+ <openembedded-core@lists.openembedded.org>; Sun, 01 Dec 2024 10:06:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208070
 
---===============1926418630630342718==
+--===============6778674768397407518==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,11 +51,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *xf86-video-fbdev* to *0.5.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-dtc* to *1.7.2* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  upgrade xf86-video-fbdev -V 0.5.1
+Running 'devtool upgrade' for recipe python3-dtc failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1877 entries from dependency cache.
@@ -74,7 +74,7 @@ TARGET_FPU           = ""
 meta                 
 meta-poky            
 meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:09e69f87658789ba3a13148f3e22db22f56e864b"
+workspace            = "tmp-auh-upgrades:87d44a6dbcde87ccd4cc70d723ee3ead9e2148f8"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
 Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
@@ -83,48 +83,20 @@ NOTE: Executing Tasks
 NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (0 cached, 922 parsed). 1878 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:09e69f87658789ba3a13148f3e22db22f56e864b"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: Failed to fetch URL https://www.x.org/releases//individual/driver/xf86-video-fbdev-0.5.1.tar.bz2, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241201061316.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241201061316.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Fetching https://www.x.org/releases//individual/driver/xf86-video-fbdev-0.5.1.tar.bz2...
-ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y8zsue4a/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y8zsue4a/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y8zsue4a/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y8zsue4a/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
- cipetool-y8zsue4a/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y8zsue4a/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget -t 2 -T 100 -O /srv/pokybuild/yocto-worker/auh/build/build/downloads/xf86-video-fbdev-0.5.1.tar.bz2.tmp -P /srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://www.x.org/releases//individual/driver/xf86-video-fbdev-0.5.1.tar.bz2' --progress=dot -v failed with exit code 8, see logfile for output
-ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.x.org/releases//individual/driver/xf86-video-fbdev-0.5.1.tar.bz2')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-y8zsue4a/work/temp/log.do_fetch.86054
-ERROR: Failed to fetch URL https://www.x.org/releases//individual/driver/xf86-video-fbdev-0.5.1.tar.bz2
+INFO: Rebasing devtool onto 2d10aa2afe35527728db30b35ec491ecb6959e5c
+WARNING: Command 'git rebase 2d10aa2afe35527728db30b35ec491ecb6959e5c' failed:
+Auto-merging libfdt/fdt_overlay.c
+Auto-merging libfdt/libfdt.h
+Auto-merging libfdt/version.lds
+CONFLICT (content): Merge conflict in libfdt/version.lds
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-dtc
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3-dtc/python3-dtc_1.7.2.bb
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -132,5 +104,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============1926418630630342718==--
+--===============6778674768397407518==--
 
