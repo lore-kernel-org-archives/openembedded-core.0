@@ -2,48 +2,52 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E0A6D10DA1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EE03D10DA3
 	for <webhook@archiver.kernel.org>; Sun,  1 Dec 2024 10:05:58 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.web11.149801.1733047556866462461
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.web11.149798.1733047553199512490
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Dec 2024 02:05:56 -0800
+ Sun, 01 Dec 2024 02:05:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=cXHjDbup;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=D5nUWFSk;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019381af1780-552d6f22-9ef0-458d-8d46-53d963a43a53-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=S8XwtgcF;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=sREVL+OL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 0101019381af0853-c807946c-9441-4335-a4fe-0d1a4e94bf5a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733047556;
+	t=1733047552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=REBDHQjYkIoVelNh6B/xy97Qi+oL6ZH5MsC6Be07xQw=;
-	b=cXHjDbuprMRu1D04Ahm8KQYySO/Vdz1Wr1BDNtB/Bo3+Ny0ddcnVfDgjoMFW6pH9
-	1JVNyP/tQ4jekN2sPRyOtopZDfpU4VoVEsz4QcsO+9GrEy5rr3qN/Hj/sqkwXBfbYmZ
-	lKEyvo/7jfZ383/QIE36WzsOuqM/4kx01lLUyL8k=
+	bh=c8GxlZwOfwwOubHFaDPnRykAmtswaq9B6Z9WGXG0X5c=;
+	b=S8XwtgcFnBJqZDn09T3eQ7tetD0CLuZ8o+R677WXGL1xy27BNclDHyG0s5nltIDq
+	Kd275OkRNHcMMkIPmtHSuBZYSq4Bu3qUlG6DAPNxBby5+LifMtCM7bPRjJUl88UPDc9
+	+XfceED7EHSJGO9qb6kFKi/q6rIozNc8TIUyNisE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047556;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047552;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=REBDHQjYkIoVelNh6B/xy97Qi+oL6ZH5MsC6Be07xQw=;
-	b=D5nUWFSklIHbLDnIrXHO/CES5S7bMjO+E9+jYVQEFaULyTa2BRtVvfuAuAPQUAcA
-	Q9Vyvt+TJB024gJ0xPQmdrp62EmPYyWNEYZQ5iL+UKvSAMh0UAhhu8bNeiTgnQQ0Wca
-	v2lUBm4Jv40DiM7JeDcT/bRQEGE3xmdjjVn4ESrI=
-Content-Type: multipart/mixed; boundary="===============5347065796967017776=="
+	bh=c8GxlZwOfwwOubHFaDPnRykAmtswaq9B6Z9WGXG0X5c=;
+	b=sREVL+OLiadr/pig10kF+P2K4VFWJBgpyd8JR8g7Og/L97ePbDBJDWcYmKOz9s4D
+	8C19g0ynFctztmfW9IzjpxSli1H9Pl2julOespjxwhP5pEyaGg9t2EyI1QOSJNvkdT6
+	CfN+EwQ5oLzoMQqUtq30LlR8B7Yth99iK1GPzkzA=
+Content-Type: multipart/mixed; boundary="===============8220189954850305350=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
+To: Randy MacLeod <Randy.MacLeod@windriver.com>, 
+	Randy MacLeod <Randy.MacLeod@windriver.com>, 
+	Randy MacLeod <Randy.MacLeod@windriver.com>, 
+	Randy MacLeod <Randy.MacLeod@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] git: upgrading to 2.47.1 SUCCEEDED
-Message-ID: <0101019381af1780-552d6f22-9ef0-458d-8d46-53d963a43a53-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Dec 2024 10:05:55 +0000
+Subject: [AUH] rust-llvm,libstd-rs,cargo,rust: upgrading to
+ 1.83.0,1.83.0,1.83.0,1.83.0 FAILED
+Message-ID: <0101019381af0853-c807946c-9441-4335-a4fe-0d1a4e94bf5a-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Dec 2024 10:05:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.01-54.240.27.45
+X-SES-Outgoing: 2024.12.01-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Dec 2024 10:05:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208065
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208056
 
---===============5347065796967017776==
+--===============8220189954850305350==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,172 +55,94 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *git* to *2.47.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *rust-llvm,libstd-rs,cargo,rust* to *1.83.0,1.83.0,1.83.0,1.83.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-git-upgrade-2.47.0-2.47.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade rust-llvm -V 1.83.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:09e69f87658789ba3a13148f3e22db22f56e864b"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 11 Local 11 Mirrors 0 Missed 0 Current 22 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 113 tasks of which 110 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 922 .bb files complete (0 cached, 922 parsed). 1878 targets, 41 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:09e69f87658789ba3a13148f3e22db22f56e864b"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 9 Mirrors 0 Missed 1 Current 18 (90% match, 96% complete)
+done.
+NOTE: Executing Tasks
+WARNING: tmp-recipetool-648wbw0e: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-amvuheie/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-amvuheie/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
+NOTE: Tasks Summary: Attempted 93 tasks of which 90 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+DEBUG 5 [Errno 25] Inappropriate ioctl for device
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                    | ETA:  0:22:07
+Adding changed files:   0% |                                    | ETA:  0:16:52
+Adding changed files:   0% |                                    | ETA:  0:15:26
+Adding changed files:   0% |                                    | ETA:  0:14:27
+Adding changed files:   0% |                                    | ETA:  0:13:56
+Adding changed files:   0% |                                    | ETA:  0:13:38
+Adding changed files:   0% |                                    | ETA:  0:13:26
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://static.rust-lang.org/dist/rustc-1.83.0-src.tar.xz;name=rust...
+ERROR: Execution of 'git add -f -A "src/gcc/fixincludes/tests/base/objc/runtime.h" "src/gcc/fixincludes/tests/base/obstack.h" "src/gcc/fixincludes/tests/base/os/availability.h" "src/gcc/fixincludes/tests/base/os/base.h" "src/gcc/fixincludes/tests/base/os/trace.h" "src/gcc/fixincludes/tests/base/pixrect/memvar.h" "src/gcc/fixincludes/tests/base/pthread.h" "src/gcc/fixincludes/tests/base/reg_types.h" "src/gcc/fixincludes/tests/base/regex.h" "src/gcc/fixincludes/tests/base/regexp.h" "src/gcc/fixincludes/tests/base/rpc/auth.h" "src/gcc/fixincludes/tests/base/rpc/rpc.h" "src/gcc/fixincludes/tests/base/rpc/xdr.h" "src/gcc/fixincludes/tests/base/rpcsvc/rstat.h" "src/gcc/fixincludes/tests/base/rpcsvc/rusers.h" "src/gcc/fixincludes/tests/base/rtldef/decc$types.h" "src/gcc/fixincludes/tests/base/rtldef/if.h" "src/gcc/fixincludes/tests/base/rtldef/resolv.h" "src/gcc/fixincludes/tests/base/rtldef/setjmp.h" "src/gcc/fixincludes/tests/base/rtldef/signal.h" "src/gcc/fixincludes/tests/base/rtldef/st
+ dio.h" "src/gcc/fixincludes/tests/base/rtldef/string.h" "src/gcc/fixincludes/tests/base/rtldef/wait.h" "src/gcc/fixincludes/tests/base/setjmp.h" "src/gcc/fixincludes/tests/base/signal.h" "src/gcc/fixincludes/tests/base/sparc/asm_linkage.h" "src/gcc/fixincludes/tests/base/spawn.h" "src/gcc/fixincludes/tests/base/stdarg.h" "src/gcc/fixincludes/tests/base/stdint-aix.h" "src/gcc/fixincludes/tests/base/stdint-darwin.h" "src/gcc/fixincludes/tests/base/stdint-hpux11.h" "src/gcc/fixincludes/tests/base/stdint-newlib.h" "src/gcc/fixincludes/tests/base/stdint.h" "src/gcc/fixincludes/tests/base/stdio.h" "src/gcc/fixincludes/tests/base/stdio_tag.h" "src/gcc/fixincludes/tests/base/stdlib.h" "src/gcc/fixincludes/tests/base/string.h" "src/gcc/fixincludes/tests/base/strings.h" "src/gcc/fixincludes/tests/base/sundev/vuid_event.h" "src/gcc/fixincludes/tests/base/sunwindow/win_lock.h" "src/gcc/fixincludes/tests/base/sym.h" "src/gcc/fixincludes/tests/base/sys/_inttypes.h" "src/gcc/fixincludes/tests/base
+ /sys/cdefs.h" "src/gcc/fixincludes/tests/base/sys/feature_tests.h" "src/gcc/fixincludes/tests/base/sys/file.h" "src/gcc/fixincludes/tests/base/sys/int_const.h" "src/gcc/fixincludes/tests/base/sys/int_limits.h" "src/gcc/fixincludes/tests/base/sys/inttypes.h" "src/gcc/fixincludes/tests/base/sys/machine.h" "src/gcc/fixincludes/tests/base/sys/mman.h" "src/gcc/fixincludes/tests/base/sys/pthread.h" "src/gcc/fixincludes/tests/base/sys/signal.h" "src/gcc/fixincludes/tests/base/sys/socket.h" "src/gcc/fixincludes/tests/base/sys/spinlock.h" "src/gcc/fixincludes/tests/base/sys/stat.h" "src/gcc/fixincludes/tests/base/sys/sysmacros.h" "src/gcc/fixincludes/tests/base/sys/time.h" "src/gcc/fixincludes/tests/base/sys/types.h" "src/gcc/fixincludes/tests/base/sys/ucontext.h" "src/gcc/fixincludes/tests/base/sys/wait.h" "src/gcc/fixincludes/tests/base/testing.h" "src/gcc/fixincludes/tests/base/tgmath.h" "src/gcc/fixincludes/tests/base/time.h" "src/gcc/fixincludes/tests/base/tinfo.h" "src/gcc/fixincludes/
+ tests/base/types/vxTypesBase.h" "src/gcc/fixincludes/tests/base/unistd.h" "src/gcc/fixincludes/tests/base/yvals.h" "src/gcc/gcc/ABOUT-GCC-NLS" "src/gcc/gcc/BASE-VER" "src/gcc/gcc/COPYING" "src/gcc/gcc/COPYING.LIB" "src/gcc/gcc/COPYING3" "src/gcc/gcc/COPYING3.LIB" "src/gcc/gcc/ChangeLog" "src/gcc/gcc/ChangeLog-1997" "src/gcc/gcc/ChangeLog-1998" "src/gcc/gcc/ChangeLog-1999" "src/gcc/gcc/ChangeLog-2000" "src/gcc/gcc/ChangeLog-2001" "src/gcc/gcc/ChangeLog-2002" "src/gcc/gcc/ChangeLog-2003" "src/gcc/gcc/ChangeLog-2004" "src/gcc/gcc/ChangeLog-2005" "src/gcc/gcc/ChangeLog-2006" "src/gcc/gcc/ChangeLog-2007" "src/gcc/gcc/ChangeLog-2008" "src/gcc/gcc/ChangeLog-2009" "src/gcc/gcc/ChangeLog-2010" "src/gcc/gcc/ChangeLog-2011" "src/gcc/gcc/ChangeLog-2012" "src/gcc/gcc/ChangeLog-2013" "src/gcc/gcc/ChangeLog-2014" "src/gcc/gcc/ChangeLog-2015" "src/gcc/gcc/ChangeLog-2016" "src/gcc/gcc/ChangeLog-2017" "src/gcc/gcc/ChangeLog-2018" "src/gcc/gcc/ChangeLog-2019" "src/gcc/gcc/ChangeLog-2020" "src/gcc/gcc/
+ ChangeLog-2021" "src/gcc/gcc/ChangeLog-2022"' failed with exit code 128:
+fatal: pathspec 'src/gcc/fixincludes/tests/base/rtldef/decc.h' did not match any files
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 3daea66f7ddc7bcd6ccaed15b5dc5bc6e15b6caa Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Dec 2024 07:01:59 +0000
-Subject: [PATCH] git: upgrade 2.47.0 -> 2.47.1
-
----
- ...config.mak.uname-do-not-force-RHEL-7-specific-build-.patch | 2 +-
- meta/recipes-devtools/git/git/fixsort.patch                   | 4 ++--
- meta/recipes-devtools/git/{git_2.47.0.bb => git_2.47.1.bb}    | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/git/{git_2.47.0.bb => git_2.47.1.bb} (98%)
-
-diff --git a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
-index e5135928f0..fc514b535c 100644
---- a/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
-+++ b/meta/recipes-devtools/git/git/0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch
-@@ -1,4 +1,4 @@
--From 348811a6f818408a31551d0830dcfe31c55d06a8 Mon Sep 17 00:00:00 2001
-+From 5702d4d02fdc343e5627f2492e0f6f59de9567d1 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Mon, 7 Feb 2022 10:13:15 +0100
- Subject: [PATCH] config.mak.uname: do not force RHEL-7 specific build settings
-diff --git a/meta/recipes-devtools/git/git/fixsort.patch b/meta/recipes-devtools/git/git/fixsort.patch
-index d9a3672f1d..d47052f936 100644
---- a/meta/recipes-devtools/git/git/fixsort.patch
-+++ b/meta/recipes-devtools/git/git/fixsort.patch
-@@ -1,7 +1,7 @@
--From 83ae059943d3efd824978a759bcfd894ce5085d4 Mon Sep 17 00:00:00 2001
-+From c0ebeb2e2df3fba12ab864a533150954f9eb935c Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Wed, 17 Feb 2021 17:57:13 +0000
--Subject: [PATCH] [PATCH] generate-configlist.sh: Fix determinism issue
-+Subject: [PATCH] generate-configlist.sh: Fix determinism issue
- 
- Currently git binaries are not entirely reproducible, at least partly
- due to config-list.h differing in order depending on the system's
-diff --git a/meta/recipes-devtools/git/git_2.47.0.bb b/meta/recipes-devtools/git/git_2.47.1.bb
-similarity index 98%
-rename from meta/recipes-devtools/git/git_2.47.0.bb
-rename to meta/recipes-devtools/git/git_2.47.1.bb
-index 67356874b5..8b5bfecd6a 100644
---- a/meta/recipes-devtools/git/git_2.47.0.bb
-+++ b/meta/recipes-devtools/git/git_2.47.1.bb
-@@ -164,4 +164,4 @@ EXTRA_OECONF += "ac_cv_snprintf_returns_bogus=no \
-                  "
- EXTRA_OEMAKE += "NO_GETTEXT=1"
- 
--SRC_URI[tarball.sha256sum] = "a84a7917e0ab608312834413f01fc01edc7844f9f9002ba69f3b4f4bcb8d937a"
-+SRC_URI[tarball.sha256sum] = "f4c4e98667800585d218dfdf415eb72f73baa7abcac4569e2ce497970f8d6665"
--- 
-2.44.1
-
-
---===============5347065796967017776==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-git-upgrade-2.47.0-2.47.1.patch"
-
-RnJvbSAzZGFlYTY2ZjdkZGM3YmNkNmNjYWVkMTViNWRjNWJjNmUxNWI2Y2FhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBEZWMgMjAyNCAwNzowMTo1OSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdp
-dDogdXBncmFkZSAyLjQ3LjAgLT4gMi40Ny4xCgotLS0KIC4uLmNvbmZpZy5tYWsudW5hbWUtZG8t
-bm90LWZvcmNlLVJIRUwtNy1zcGVjaWZpYy1idWlsZC0ucGF0Y2ggfCAyICstCiBtZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvZ2l0L2dpdC9maXhzb3J0LnBhdGNoICAgICAgICAgICAgICAgICAgIHwgNCAr
-Ky0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L3tnaXRfMi40Ny4wLmJiID0+IGdpdF8yLjQ3
-LjEuYmJ9ICAgIHwgMiArLQogMyBmaWxlcyBjaGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDQgZGVs
-ZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC97Z2l0XzIuNDcuMC5i
-YiA9PiBnaXRfMi40Ny4xLmJifSAoOTglKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9naXQvZ2l0LzAwMDEtY29uZmlnLm1hay51bmFtZS1kby1ub3QtZm9yY2UtUkhFTC03LXNw
-ZWNpZmljLWJ1aWxkLS5wYXRjaCBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0LzAwMDEt
-Y29uZmlnLm1hay51bmFtZS1kby1ub3QtZm9yY2UtUkhFTC03LXNwZWNpZmljLWJ1aWxkLS5wYXRj
-aAppbmRleCBlNTEzNTkyOGYwLi5mYzUxNGI1MzVjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvZ2l0L2dpdC8wMDAxLWNvbmZpZy5tYWsudW5hbWUtZG8tbm90LWZvcmNlLVJIRUwt
-Ny1zcGVjaWZpYy1idWlsZC0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2dpdC9n
-aXQvMDAwMS1jb25maWcubWFrLnVuYW1lLWRvLW5vdC1mb3JjZS1SSEVMLTctc3BlY2lmaWMtYnVp
-bGQtLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSAzNDg4MTFhNmY4MTg0MDhhMzE1NTFkMDgz
-MGRjZmUzMWM1NWQwNmE4IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSA1NzAyZDRkMDJm
-ZGMzNDNlNTYyN2YyNDkyZTBmNmY1OWRlOTU2N2QxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
-RnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KIERhdGU6IE1vbiwg
-NyBGZWIgMjAyMiAxMDoxMzoxNSArMDEwMAogU3ViamVjdDogW1BBVENIXSBjb25maWcubWFrLnVu
-YW1lOiBkbyBub3QgZm9yY2UgUkhFTC03IHNwZWNpZmljIGJ1aWxkIHNldHRpbmdzCmRpZmYgLS1n
-aXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC9maXhzb3J0LnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2dpdC9naXQvZml4c29ydC5wYXRjaAppbmRleCBkOWEzNjcyZjFkLi5k
-NDcwNTJmOTM2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdC9maXhz
-b3J0LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0L2ZpeHNvcnQucGF0
-Y2gKQEAgLTEsNyArMSw3IEBACi1Gcm9tIDgzYWUwNTk5NDNkM2VmZDgyNDk3OGE3NTliY2ZkODk0
-Y2U1MDg1ZDQgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGMwZWJlYjJlMmRmM2ZiYTEy
-YWI4NjRhNTMzMTUwOTU0ZjllYjkzNWMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBS
-aWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERhdGU6
-IFdlZCwgMTcgRmViIDIwMjEgMTc6NTc6MTMgKzAwMDAKLVN1YmplY3Q6IFtQQVRDSF0gW1BBVENI
-XSBnZW5lcmF0ZS1jb25maWdsaXN0LnNoOiBGaXggZGV0ZXJtaW5pc20gaXNzdWUKK1N1YmplY3Q6
-IFtQQVRDSF0gZ2VuZXJhdGUtY29uZmlnbGlzdC5zaDogRml4IGRldGVybWluaXNtIGlzc3VlCiAK
-IEN1cnJlbnRseSBnaXQgYmluYXJpZXMgYXJlIG5vdCBlbnRpcmVseSByZXByb2R1Y2libGUsIGF0
-IGxlYXN0IHBhcnRseQogZHVlIHRvIGNvbmZpZy1saXN0LmggZGlmZmVyaW5nIGluIG9yZGVyIGRl
-cGVuZGluZyBvbiB0aGUgc3lzdGVtJ3MKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9naXQvZ2l0XzIuNDcuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQvZ2l0XzIuNDcu
-MS5iYgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvZ2l0L2dpdF8yLjQ3LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9naXQv
-Z2l0XzIuNDcuMS5iYgppbmRleCA2NzM1Njg3NGI1Li44YjViZmVjZDZhIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvZ2l0L2dpdF8yLjQ3LjAuYmIKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2dpdC9naXRfMi40Ny4xLmJiCkBAIC0xNjQsNCArMTY0LDQgQEAgRVhUUkFfT0VD
-T05GICs9ICJhY19jdl9zbnByaW50Zl9yZXR1cm5zX2JvZ3VzPW5vIFwKICAgICAgICAgICAgICAg
-ICAgIgogRVhUUkFfT0VNQUtFICs9ICJOT19HRVRURVhUPTEiCiAKLVNSQ19VUklbdGFyYmFsbC5z
-aGEyNTZzdW1dID0gImE4NGE3OTE3ZTBhYjYwODMxMjgzNDQxM2YwMWZjMDFlZGM3ODQ0ZjlmOTAw
-MmJhNjlmM2I0ZjRiY2I4ZDkzN2EiCitTUkNfVVJJW3RhcmJhbGwuc2hhMjU2c3VtXSA9ICJmNGM0
-ZTk4NjY3ODAwNTg1ZDIxOGRmZGY0MTVlYjcyZjczYmFhN2FiY2FjNDU2OWUyY2U0OTc5NzBmOGQ2
-NjY1IgotLSAKMi40NC4xCgo=
-
---===============5347065796967017776==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/git/git-bash-completion: PKGSIZE changed from 93629 to 93627 (-0%)
-packages/core2-64-poky-linux/git/git-bash-completion: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-bash-completion: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-dbg: PKGSIZE changed from 92205376 to 92199984 (-0%)
-packages/core2-64-poky-linux/git/git-dbg: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-dbg: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-dev: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-dev: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-doc: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-doc: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-locale: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-locale: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-perltools: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-perltools: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-src: PKGSIZE changed from 9840724 to 9841580 (+0%)
-packages/core2-64-poky-linux/git/git-src: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-src: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-staticdev: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-staticdev: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git-tk: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git-tk: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/git: PKGSIZE changed from 24449877 to 24453653 (+0%)
-packages/core2-64-poky-linux/git/git: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/git: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git/gitweb: PV changed from "2.47.0" to "2.47.1"
-packages/core2-64-poky-linux/git/gitweb: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git: SRC_URI changed from "https://cdn.kernel.org/pub/software/scm/git/git-2.47.0.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch" to "https://cdn.kernel.org/pub/software/scm/git/git-2.47.1.tar.gz;name=tarball file://fixsort.patch file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch"
-packages/core2-64-poky-linux/git: PKGV changed from 2.47.0 [default] to 2.47.1 [default]
-packages/core2-64-poky-linux/git: PV changed from "2.47.0" to "2.47.1"
-
---===============5347065796967017776==--
+--===============8220189954850305350==--
 
