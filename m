@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F537D10DAF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE008D10DCF
 	for <webhook@archiver.kernel.org>; Sun,  1 Dec 2024 10:06:09 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.web10.148756.1733047552396771918
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.web11.149801.1733047556866462461
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Dec 2024 02:06:08 -0800
+ Sun, 01 Dec 2024 02:05:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=UXsGbN0E;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=DxRJIgep;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 0101019381af47c7-4c445c36-2f45-4054-931d-135465c31c6e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=DVb2M0FW;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=dVjj5MTC;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 0101019381af23a0-9a8b2e4e-e531-4564-8997-3f48433caff0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733047568;
+	t=1733047559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=LxBoux/RMx+MWj0nRFXeMnhljqg01KeGmgx/mqJqcyA=;
-	b=UXsGbN0EKOMEqV6ISnNPYE9aMo6iQO7nDdx/WhBHVZMl1uAZpwptzvJdjl5qEXle
-	AF653yYcQND0m6lO+KK6B48wnGiWwzYWX5Drx7xQQjEeMLg7s1/7pNgbwKGyiaROVST
-	bnHyfTG9rQk4Q85AkiqT02U/WNud+amXiuzl73P0=
+	bh=UYOpRuTA+lt9ViY7OzUp+6Pkc1CnOavbOLbalLucCwg=;
+	b=DVb2M0FWrDbaBSeG0klOL++mkNR0TKSm7Pm+XWyjD+Je9ZpXaCZgB1v4b2q+TEat
+	cOvn0mCLxP1dTdf4begsKsNjgq8DdGIEx7Gl7UCxVzFI81BrGWWV3DNAuuSZ2qmC3US
+	x6Y9fmuI4NHAjqwTRS4SbOypyvPWkWGq0w2h9O18=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047568;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=LxBoux/RMx+MWj0nRFXeMnhljqg01KeGmgx/mqJqcyA=;
-	b=DxRJIgepXGBToUVWCOAlFLvMt2IF4G9QQ0SfJc69Y3xKeOnhJFgulnb/e3y93Vn7
-	njcHDe5kETMg1+eNFlPpxye+BJyElFIYYVOjah3N4X75/IXrXm2Tp3rWE68sF7qXq54
-	xtooYHeb3Bbxs4YxmsEjPgIOkBqewfmvRS1U3NzM=
-Content-Type: multipart/mixed; boundary="===============7749309546589935081=="
+	bh=UYOpRuTA+lt9ViY7OzUp+6Pkc1CnOavbOLbalLucCwg=;
+	b=dVjj5MTCmAXRUkHzSfpz5VnGm8AzbWz1dKpPTFpWy68DTcEy1Z9AxxbGfg1fhkfR
+	1Js9sJweFzlKk8+Ts+cv5LU8HK+x4WS1VDkLRDdcNymMoqbTVGDFHWXgpoheNAIkfTQ
+	b4tfgHHN4uuH6kCFCs6JISIhJh2MP/vQ9mJqc1kw=
+Content-Type: multipart/mixed; boundary="===============0307317010546074002=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Yi Zhao <yi.zhao@windriver.com>
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] debianutils: upgrading to 5.21 SUCCEEDED
-Message-ID: <0101019381af47c7-4c445c36-2f45-4054-931d-135465c31c6e-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Dec 2024 10:06:08 +0000
+Subject: [AUH] python3-markdown: upgrading to 3.7 FAILED
+Message-ID: <0101019381af23a0-9a8b2e4e-e531-4564-8997-3f48433caff0-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Dec 2024 10:05:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.01-54.240.27.191
+X-SES-Outgoing: 2024.12.01-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Dec 2024 10:06:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208101
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208072
 
---===============7749309546589935081==
+--===============0307317010546074002==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,122 +51,86 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *debianutils* to *5.21* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-markdown* to *3.7* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-debianutils-upgrade-5.20-5.21.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  upgrade python3-markdown -V 3.7
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1877 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:56d8fa66b9a859209ce55b5de8352c0e9d6c3fb0"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 922 .bb files complete (0 cached, 922 parsed). 1878 targets, 41 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.9.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "5.1"
+TUNE_FEATURES        = "m64 core2"
+TARGET_FPU           = ""
+meta                 
+meta-poky            
+meta-yocto-bsp       
+workspace            = "tmp-auh-upgrades:56d8fa66b9a859209ce55b5de8352c0e9d6c3fb0"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241201071403.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20241201071403.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz...
+ERROR: Fetcher failure: Fetch command export PSEUDO_DISABLED=1; export SSL_CERT_FILE="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export GIT_SSL_CAINFO="/srv/pokybuild/yocto-worker/auh/build/buildtools/sysroots/x86_64-pokysdk-linux/etc/ssl/certs/ca-certificates.crt"; export PATH="/srv/pokybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/usr/bin:/srv/pokybuild/yocto-worker/auh/build/scripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5z48w202/work/recipe-sysroot-native/usr/bin/x86_64-poky-linux:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5z48w202/work/recipe-sysroot/usr/bin/crossscripts:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5z48w202/work/recipe-sysroot-native/usr/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5z48w202/work/recipe-sysroot-native/usr/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/re
+ cipetool-5z48w202/work/recipe-sysroot-native/sbin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5z48w202/work/recipe-sysroot-native/bin:/srv/pokybuild/yocto-worker/auh/build/bitbake/bin:/srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools"; export HOME="/srv/pokybuild"; /usr/bin/env wget -t 2 -T 100 -O /srv/pokybuild/yocto-worker/auh/build/build/downloads/Markdown-3.7.tar.gz.tmp -P /srv/pokybuild/yocto-worker/auh/build/build/downloads 'https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz' --progress=dot -v failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-5z48w202/work/temp/log.do_fetch.815938
+ERROR: Failed to fetch URL https://files.pythonhosted.org/packages/source/M/Markdown/Markdown-3.7.tar.gz;downloadfilename=Markdown-3.7.tar.gz
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 08dad15389138a0cec0d62023e2d575a23456b75 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Dec 2024 09:27:48 +0000
-Subject: [PATCH] debianutils: upgrade 5.20 -> 5.21
-
----
- .../debianutils/{debianutils_5.20.bb => debianutils_5.21.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/debianutils/{debianutils_5.20.bb => debianutils_5.21.bb} (97%)
-
-diff --git a/meta/recipes-support/debianutils/debianutils_5.20.bb b/meta/recipes-support/debianutils/debianutils_5.21.bb
-similarity index 97%
-rename from meta/recipes-support/debianutils/debianutils_5.20.bb
-rename to meta/recipes-support/debianutils/debianutils_5.21.bb
-index 61438121da..e0485b24a3 100644
---- a/meta/recipes-support/debianutils/debianutils_5.20.bb
-+++ b/meta/recipes-support/debianutils/debianutils_5.21.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://debian/copyright;md5=4b667f30411d21bc8fd7db85d502a8e9
- SRC_URI = "git://salsa.debian.org/debian/debianutils.git;protocol=https;branch=master \
-            "
- 
--SRCREV = "9f3d6fa6b8d91849a78d681294fa8ea7bfa9086f"
-+SRCREV = "ae002b498f2e310c934a0b3f0992e83391f108c7"
- 
- inherit autotools update-alternatives
- 
--- 
-2.44.1
-
-
---===============7749309546589935081==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-debianutils-upgrade-5.20-5.21.patch"
-
-RnJvbSAwOGRhZDE1Mzg5MTM4YTBjZWMwZDYyMDIzZTJkNTc1YTIzNDU2Yjc1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBEZWMgMjAyNCAwOToyNzo0OCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGRl
-YmlhbnV0aWxzOiB1cGdyYWRlIDUuMjAgLT4gNS4yMQoKLS0tCiAuLi4vZGViaWFudXRpbHMve2Rl
-YmlhbnV0aWxzXzUuMjAuYmIgPT4gZGViaWFudXRpbHNfNS4yMS5iYn0gICAgfCAyICstCiAxIGZp
-bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9kZWJpYW51dGlscy97ZGViaWFudXRpbHNfNS4yMC5iYiA9PiBkZWJpYW51
-dGlsc181LjIxLmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2Rl
-YmlhbnV0aWxzL2RlYmlhbnV0aWxzXzUuMjAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9kZWJp
-YW51dGlscy9kZWJpYW51dGlsc181LjIxLmJiCnNpbWlsYXJpdHkgaW5kZXggOTclCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2RlYmlhbnV0aWxzL2RlYmlhbnV0aWxzXzUuMjAuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2RlYmlhbnV0aWxzL2RlYmlhbnV0aWxzXzUu
-MjEuYmIKaW5kZXggNjE0MzgxMjFkYS4uZTA0ODViMjRhMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
-cGVzLXN1cHBvcnQvZGViaWFudXRpbHMvZGViaWFudXRpbHNfNS4yMC5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtc3VwcG9ydC9kZWJpYW51dGlscy9kZWJpYW51dGlsc181LjIxLmJiCkBAIC0xMSw3ICsx
-MSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL2RlYmlhbi9jb3B5cmlnaHQ7bWQ1PTRi
-NjY3ZjMwNDExZDIxYmM4ZmQ3ZGI4NWQ1MDJhOGU5CiBTUkNfVVJJID0gImdpdDovL3NhbHNhLmRl
-Ymlhbi5vcmcvZGViaWFuL2RlYmlhbnV0aWxzLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFz
-dGVyIFwKICAgICAgICAgICAgIgogCi1TUkNSRVYgPSAiOWYzZDZmYTZiOGQ5MTg0OWE3OGQ2ODEy
-OTRmYThlYTdiZmE5MDg2ZiIKK1NSQ1JFViA9ICJhZTAwMmI0OThmMmUzMTBjOTM0YTBiM2YwOTky
-ZTgzMzkxZjEwOGM3IgogCiBpbmhlcml0IGF1dG90b29scyB1cGRhdGUtYWx0ZXJuYXRpdmVzCiAK
-LS0gCjIuNDQuMQoK
-
---===============7749309546589935081==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/core2-64-poky-linux/debianutils/debianutils-src: PKGSIZE changed from 30127 to 33339 (+11%)
-
---===============7749309546589935081==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/core2-64-poky-linux/debianutils/debianutils-dbg: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils-dbg: PKGSIZE changed from 74416 to 78064 (+5%)
-packages/core2-64-poky-linux/debianutils/debianutils-dbg: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-dev: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils-dev: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-doc: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils-doc: PKGSIZE changed from 13622 to 14141 (+4%)
-packages/core2-64-poky-linux/debianutils/debianutils-doc: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-locale: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils-locale: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-run-parts: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils-run-parts: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-src: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils-src: PKGSIZE changed from 30127 to 33339 (+11%)
-packages/core2-64-poky-linux/debianutils/debianutils-src: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils/debianutils-staticdev: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils-staticdev: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils/debianutils: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils/debianutils: PKGV changed from 5.20 [default] to 5.21 [default]
-packages/core2-64-poky-linux/debianutils: PV changed from "5.20" to "5.21"
-packages/core2-64-poky-linux/debianutils: PKGV changed from 5.20 [default] to 5.21 [default]
-
---===============7749309546589935081==--
+--===============0307317010546074002==--
 
