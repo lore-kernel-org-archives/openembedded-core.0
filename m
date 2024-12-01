@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA602D49776
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28B3D49775
 	for <webhook@archiver.kernel.org>; Sun,  1 Dec 2024 10:06:10 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web10.148768.1733047567763627579
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.web10.148760.1733047555842754100
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Dec 2024 02:06:09 -0800
+ Sun, 01 Dec 2024 02:05:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fHruwCCD;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oGtcF8BJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019381af4a67-657bcbb8-fc4e-431a-b8a1-d7c4da53ea8f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=AbFXlYmJ;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=KqqtGflK;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 0101019381af2335-0c212484-ff2d-4a9d-aae2-0957ee457a4e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733047569;
+	t=1733047559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=1SlWDDRDfD8pef3nnbvgt4l5zG3kASOPOXhXMj7xIjo=;
-	b=fHruwCCDSxl9esvZgJYE9D4XJCnGx8/LvIpfBdbHWAlnCwou2DIUWTrSdojgxCQr
-	U8tT9D7BrHFK+TPR7SgFB+ZQ1sz/KJURQvGe5VvPxbaCEwLoik2P/NuWMSUFnHwVPqV
-	dAUn3jpeDIS3w8jB8yaUfkx2v349R+VsWuTxRyg4=
+	bh=4vHgLmfFvEanjSCQ1XcNotRSyqjKpkRsp6O28Bda9EQ=;
+	b=AbFXlYmJcjClUAwMIg2u9R0ZcLjo5wJrvcObk249h6J5WJX41FJ2zNI33w1Zg56u
+	HVMcYJ6+/GkbC6AjrXobchECStj9t1cKwRohB2vvAKj/MbTYS7wjoFb/Fw2DMMq26Tn
+	EukNrHwSs0YqqVOJB90X2XYnw4J3QR16jdHhT45Q=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047569;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=1SlWDDRDfD8pef3nnbvgt4l5zG3kASOPOXhXMj7xIjo=;
-	b=oGtcF8BJcLV5qoOUsFBxxqhhQdxcps41zrwXWwmgbhdcrZkB0sRnln4lfTP4oo4a
-	uLDbYgeOe7e+T2X2sTtvGiAHpgy+HdI2QVeF2T6wRCSEQlCwQAUUIiFA/MBFbC93kbV
-	VIofCLJ9bxrV7Q+40xa/9TJm3hadkJjnuudOYB6c=
-Content-Type: multipart/mixed; boundary="===============6189398449947295987=="
+	bh=4vHgLmfFvEanjSCQ1XcNotRSyqjKpkRsp6O28Bda9EQ=;
+	b=KqqtGflKRd2c/NXB8e1n/0J/U8jnLVXUgJrIOzHsRVUE9MjiBfvKPjy+UrhqCK3q
+	3OYlouS8BIiP6i1Vx6bagXSLZQHR6JR6BarSpQb3Ki/4kXSC75ryNli/4n36wTP3zGi
+	rVwBB7Z2iQSpO23907j+/85SqLoCh4LZUDC7MBp8=
+Content-Type: multipart/mixed; boundary="===============9109602632753222849=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] re2c: upgrading to 4.0.1 SUCCEEDED
-Message-ID: <0101019381af4a67-657bcbb8-fc4e-431a-b8a1-d7c4da53ea8f-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Dec 2024 10:06:09 +0000
+Subject: [AUH] python3-hatchling: upgrading to 1.26.3 SUCCEEDED
+Message-ID: <0101019381af2335-0c212484-ff2d-4a9d-aae2-0957ee457a4e-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Dec 2024 10:05:58 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.01-54.240.27.193
+X-SES-Outgoing: 2024.12.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Dec 2024 10:06:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208102
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208073
 
---===============6189398449947295987==
+--===============9109602632753222849==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *re2c* to *4.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-hatchling* to *1.26.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-re2c-upgrade-4.0-4.0.1.patch
+    - apply the patch: git am 0001-python3-hatchling-upgrade-1.25.0-1.26.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,92 +72,127 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 587e05edeafb63e19888f36a62a12cfc969c450c Mon Sep 17 00:00:00 2001
+From 63375dac6321d3cae3f354f99ef9e685b600753b Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 1 Dec 2024 09:48:12 +0000
-Subject: [PATCH] re2c: upgrade 4.0 -> 4.0.1
+Date: Sun, 1 Dec 2024 07:10:08 +0000
+Subject: [PATCH] python3-hatchling: upgrade 1.25.0 -> 1.26.3
 
 ---
- meta/recipes-support/re2c/{re2c_4.0.bb => re2c_4.0.1.bb} | 2 +-
+ ...{python3-hatchling_1.25.0.bb => python3-hatchling_1.26.3.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/re2c/{re2c_4.0.bb => re2c_4.0.1.bb} (90%)
+ rename meta/recipes-devtools/python/{python3-hatchling_1.25.0.bb => python3-hatchling_1.26.3.bb} (85%)
 
-diff --git a/meta/recipes-support/re2c/re2c_4.0.bb b/meta/recipes-support/re2c/re2c_4.0.1.bb
-similarity index 90%
-rename from meta/recipes-support/re2c/re2c_4.0.bb
-rename to meta/recipes-support/re2c/re2c_4.0.1.bb
-index fd7d36b632..b876d2b844 100644
---- a/meta/recipes-support/re2c/re2c_4.0.bb
-+++ b/meta/recipes-support/re2c/re2c_4.0.1.bb
-@@ -7,7 +7,7 @@ LICENSE = "PD"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+diff --git a/meta/recipes-devtools/python/python3-hatchling_1.25.0.bb b/meta/recipes-devtools/python/python3-hatchling_1.26.3.bb
+similarity index 85%
+rename from meta/recipes-devtools/python/python3-hatchling_1.25.0.bb
+rename to meta/recipes-devtools/python/python3-hatchling_1.26.3.bb
+index 111b447815..590456ad9b 100644
+--- a/meta/recipes-devtools/python/python3-hatchling_1.25.0.bb
++++ b/meta/recipes-devtools/python/python3-hatchling_1.26.3.bb
+@@ -8,7 +8,7 @@ inherit pypi python_hatchling
+ DEPENDS += "python3-pluggy-native python3-pathspec-native python3-packaging-native python3-editables-native python3-trove-classifiers-native"
+ DEPENDS:remove:class-native = "python3-hatchling-native"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6281c6bf52e684d5727ac293667c8031a4aa9010636512da5aee45f19987c1ee"
-+SRC_URI[sha256sum] = "7c35d54fdf2c4b5981b80362d1c742aec4d011589673e02f2e9566f7e66c44af"
- GITHUB_BASE_URI = "https://github.com/skvadrik/re2c/releases"
+-SRC_URI[sha256sum] = "7064631a512610b52250a4d3ff1bd81551d6d1431c4eb7b72e734df6c74f4262"
++SRC_URI[sha256sum] = "b672a9c36a601a06c4e88a1abb1330639ee8e721e0535a37536e546a667efc7a"
  
- BBCLASSEXTEND = "native nativesdk"
+ do_compile:prepend() {
+     export PYTHONPATH=src
 -- 
 2.44.1
 
 
---===============6189398449947295987==
+--===============9109602632753222849==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 722150 to 625862 (-13%)
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: FILELIST: directory renamed /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info -> /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info, removed "/usr/lib/python3.13/site-packages/hatchling/licenses/__pycache__/parse.cpython-313.pyc /usr/lib/python3.13/site-packages/hatchling/licenses/parse.py", added "/usr/lib/python3.13/site-packages/hatchling/cli/dep/__pycache__/core.cpython-313.pyc /usr/lib/python3.13/site-packages/hatchling/cli/dep/core.py"
+Changes to packages/core2-64-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info moved to /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/core.py was added
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/__pycache__/core.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/hatchling/licenses/parse.py was removed
+  /usr/lib/python3.13/site-packages/hatchling/licenses/__pycache__/parse.cpython-313.pyc was removed
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info moved to /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/core.py was added
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/__pycache__/core.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/hatchling/licenses/parse.py was removed
+  /usr/lib/python3.13/site-packages/hatchling/licenses/__pycache__/parse.cpython-313.pyc was removed
+
+--===============9109602632753222849==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="0001-re2c-upgrade-4.0-4.0.1.patch"
+Content-Disposition: attachment;
+ filename="0001-python3-hatchling-upgrade-1.25.0-1.26.3.patch"
 
-RnJvbSA1ODdlMDVlZGVhZmI2M2UxOTg4OGYzNmE2MmExMmNmYzk2OWM0NTBjIE1vbiBTZXAgMTcg
+RnJvbSA2MzM3NWRhYzYzMjFkM2NhZTNmMzU0Zjk5ZWY5ZTY4NWI2MDA3NTNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMSBEZWMgMjAyNCAwOTo0ODoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
-MmM6IHVwZ3JhZGUgNC4wIC0+IDQuMC4xCgotLS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMv
-e3JlMmNfNC4wLmJiID0+IHJlMmNfNC4wLjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQv
-cmUyYy97cmUyY180LjAuYmIgPT4gcmUyY180LjAuMS5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9t
-ZXRhL3JlY2lwZXMtc3VwcG9ydC9yZTJjL3JlMmNfNC4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBv
-cnQvcmUyYy9yZTJjXzQuMC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1l
-dGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMvcmUyY180LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1zdXBwb3J0L3JlMmMvcmUyY180LjAuMS5iYgppbmRleCBmZDdkMzZiNjMyLi5iODc2ZDJiODQ0
-IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9yZTJjL3JlMmNfNC4wLmJiCisrKyBi
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMvcmUyY180LjAuMS5iYgpAQCAtNyw3ICs3LDcgQEAg
-TElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTY0
-ZWNhNGQ4YTNiNjdmOWRjNzY1NjA5NDczMWEyYzhkIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JB
-U0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjYyODFjNmJmNTJlNjg0ZDU3MjdhYzI5MzY2N2M4MDMxYTRhYTkwMTA2MzY1MTJk
-YTVhZWU0NWYxOTk4N2MxZWUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiN2MzNWQ1NGZkZjJjNGI1
-OTgxYjgwMzYyZDFjNzQyYWVjNGQwMTE1ODk2NzNlMDJmMmU5NTY2ZjdlNjZjNDRhZiIKIEdJVEhV
-Ql9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vc2t2YWRyaWsvcmUyYy9yZWxlYXNlcyIK
-IAogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgotLSAKMi40NC4xCgo=
+CkRhdGU6IFN1biwgMSBEZWMgMjAyNCAwNzoxMDowOCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtaGF0Y2hsaW5nOiB1cGdyYWRlIDEuMjUuMCAtPiAxLjI2LjMKCi0tLQogLi4ue3B5dGhv
+bjMtaGF0Y2hsaW5nXzEuMjUuMC5iYiA9PiBweXRob24zLWhhdGNobGluZ18xLjI2LjMuYmJ9IHwg
+MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
+bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oYXRjaGxpbmdfMS4yNS4w
+LmJiID0+IHB5dGhvbjMtaGF0Y2hsaW5nXzEuMjYuMy5iYn0gKDg1JSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjUuMC5iYiBi
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oYXRjaGxpbmdfMS4yNi4zLmJi
+CnNpbWlsYXJpdHkgaW5kZXggODUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
+eXRob24vcHl0aG9uMy1oYXRjaGxpbmdfMS4yNS4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjYuMy5iYgppbmRleCAxMTFiNDQ3
+ODE1Li41OTA0NTZhZDliIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjUuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtaGF0Y2hsaW5nXzEuMjYuMy5iYgpAQCAtOCw3ICs4LDcgQEAgaW5oZXJp
+dCBweXBpIHB5dGhvbl9oYXRjaGxpbmcKIERFUEVORFMgKz0gInB5dGhvbjMtcGx1Z2d5LW5hdGl2
+ZSBweXRob24zLXBhdGhzcGVjLW5hdGl2ZSBweXRob24zLXBhY2thZ2luZy1uYXRpdmUgcHl0aG9u
+My1lZGl0YWJsZXMtbmF0aXZlIHB5dGhvbjMtdHJvdmUtY2xhc3NpZmllcnMtbmF0aXZlIgogREVQ
+RU5EUzpyZW1vdmU6Y2xhc3MtbmF0aXZlID0gInB5dGhvbjMtaGF0Y2hsaW5nLW5hdGl2ZSIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gIjcwNjQ2MzFhNTEyNjEwYjUyMjUwYTRkM2ZmMWJkODE1NTFk
+NmQxNDMxYzRlYjdiNzJlNzM0ZGY2Yzc0ZjQyNjIiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjY3
+MmE5YzM2YTYwMWEwNmM0ZTg4YTFhYmIxMzMwNjM5ZWU4ZTcyMWUwNTM1YTM3NTM2ZTU0NmE2Njdl
+ZmM3YSIKIAogZG9fY29tcGlsZTpwcmVwZW5kKCkgewogICAgIGV4cG9ydCBQWVRIT05QQVRIPXNy
+YwotLSAKMi40NC4xCgo=
 
---===============6189398449947295987==
+--===============9109602632753222849==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/core2-64-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9424302 to 9622467 (+2%)
-packages/core2-64-poky-linux/re2c: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c: SRC_URI changed from "https://github.com/skvadrik/re2c/releases/download/4.0/re2c-4.0.tar.xz" to "https://github.com/skvadrik/re2c/releases/download/4.0.1/re2c-4.0.1.tar.xz"
-packages/core2-64-poky-linux/re2c: PV changed from "4.0" to "4.0.1"
-packages/core2-64-poky-linux/re2c/re2c-dbg: PKGSIZE changed from 174622560 to 174624408 (+0%)
-packages/core2-64-poky-linux/re2c/re2c-dbg: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c/re2c-dbg: PV changed from "4.0" to "4.0.1"
-packages/core2-64-poky-linux/re2c/re2c-dev: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c/re2c-dev: PV changed from "4.0" to "4.0.1"
-packages/core2-64-poky-linux/re2c/re2c-doc: PKGSIZE changed from 1630547 to 1631316 (+0%)
-packages/core2-64-poky-linux/re2c/re2c-doc: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c/re2c-doc: PV changed from "4.0" to "4.0.1"
-packages/core2-64-poky-linux/re2c/re2c-locale: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c/re2c-locale: PV changed from "4.0" to "4.0.1"
-packages/core2-64-poky-linux/re2c/re2c-src: PKGSIZE changed from 1675903 to 1675916 (+0%)
-packages/core2-64-poky-linux/re2c/re2c-src: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c/re2c-src: PV changed from "4.0" to "4.0.1"
-packages/core2-64-poky-linux/re2c/re2c-staticdev: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c/re2c-staticdev: PV changed from "4.0" to "4.0.1"
-packages/core2-64-poky-linux/re2c/re2c: PKGSIZE changed from 11091786 to 11091788 (+0%)
-packages/core2-64-poky-linux/re2c/re2c: PKGV changed from 4.0 [default] to 4.0.1 [default]
-packages/core2-64-poky-linux/re2c/re2c: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/python3-hatchling: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.25.0.tar.gz;downloadfilename=hatchling-1.25.0.tar.gz" to "https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.26.3.tar.gz;downloadfilename=hatchling-1.26.3.tar.gz"
+packages/core2-64-poky-linux/python3-hatchling: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling: PV changed from "1.25.0" to "1.26.3"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dbg: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dbg: PV changed from "1.25.0" to "1.26.3"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dev: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-dev: PV changed from "1.25.0" to "1.26.3"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-doc: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-doc: PV changed from "1.25.0" to "1.26.3"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-locale: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-locale: PV changed from "1.25.0" to "1.26.3"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-src: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-src: PV changed from "1.25.0" to "1.26.3"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-staticdev: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling-staticdev: PV changed from "1.25.0" to "1.26.3"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: PKGSIZE changed from 722150 to 625862 (-13%)
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: FILELIST: directory renamed /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info/licenses -> /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info/licenses, directory renamed /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info -> /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info, removed "/usr/lib/python3.13/site-packages/hatchling/licenses/parse.py /usr/lib/python3.13/site-packages/hatchling/licenses/__pycache__/parse.cpython-313.pyc", added "/usr/lib/python3.13/site-packages/hatchling/cli/dep/core.py /usr/lib/python3.13/site-packages/hatchling/cli/dep/__pycache__/core.cpython-313.pyc"
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: PKGV changed from 1.25.0 [default] to 1.26.3 [default]
+packages/core2-64-poky-linux/python3-hatchling/python3-hatchling: PV changed from "1.25.0" to "1.26.3"
+Changes to packages/core2-64-poky-linux/python3-hatchling (sysroot):
+  /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info moved to /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/core.py was added
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/__pycache__/core.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/hatchling/licenses/parse.py was removed
+  /usr/lib/python3.13/site-packages/hatchling/licenses/__pycache__/parse.cpython-313.pyc was removed
+Changes to packages/x86_64-linux/python3-hatchling-native (sysroot):
+  /usr/lib/python3.13/site-packages/hatchling-1.25.0.dist-info moved to /usr/lib/python3.13/site-packages/hatchling-1.26.3.dist-info
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/core.py was added
+  /usr/lib/python3.13/site-packages/hatchling/cli/dep/__pycache__/core.cpython-313.pyc was added
+  /usr/lib/python3.13/site-packages/hatchling/licenses/parse.py was removed
+  /usr/lib/python3.13/site-packages/hatchling/licenses/__pycache__/parse.cpython-313.pyc was removed
 
---===============6189398449947295987==--
+--===============9109602632753222849==--
 
