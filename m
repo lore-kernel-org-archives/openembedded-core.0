@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C902FD49779
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA602D49776
 	for <webhook@archiver.kernel.org>; Sun,  1 Dec 2024 10:06:10 +0000 (UTC)
 Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.web11.149806.1733047559256529005
+ by mx.groups.io with SMTP id smtpd.web10.148768.1733047567763627579
  for <openembedded-core@lists.openembedded.org>;
- Sun, 01 Dec 2024 02:05:59 -0800
+ Sun, 01 Dec 2024 02:06:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=MDYlL8jL;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=IWGKGzZf;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019381af21a8-1f6d9d58-b9dc-46e1-955f-773f358e7675-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=fHruwCCD;
+ dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=oGtcF8BJ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 0101019381af4a67-657bcbb8-fc4e-431a-b8a1-d7c4da53ea8f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733047558;
+	t=1733047569;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=4q36BT8WUKMr9Po1uvspfLuf4rkfyitujI2PsE8SVEY=;
-	b=MDYlL8jLMHi0fv68Kp4p5Fl2bfLjlgQtj2pe2C+wqp5/+nIMJm96B8LJtkAP0Tfz
-	UQDfoq1Pj/h8SYeLB6P7pi/tjvtiszPbo34WNnchP9UyxR8dDr3AYyjkZ2wTMZaC2FO
-	aSZ8UNKWL4hjsYVPeWZkJxqpcgoGqsCPpO0Kcq20=
+	bh=1SlWDDRDfD8pef3nnbvgt4l5zG3kASOPOXhXMj7xIjo=;
+	b=fHruwCCDSxl9esvZgJYE9D4XJCnGx8/LvIpfBdbHWAlnCwou2DIUWTrSdojgxCQr
+	U8tT9D7BrHFK+TPR7SgFB+ZQ1sz/KJURQvGe5VvPxbaCEwLoik2P/NuWMSUFnHwVPqV
+	dAUn3jpeDIS3w8jB8yaUfkx2v349R+VsWuTxRyg4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047558;
+	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733047569;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=4q36BT8WUKMr9Po1uvspfLuf4rkfyitujI2PsE8SVEY=;
-	b=IWGKGzZf4DpAHJUNUC5geQ2LvY2wZPqyzTffOZCO5HelNh4AcZ1CtM5ZsRq6OrJp
-	DAvQrB+FDFPvWtqSesOA2CYMZbE9TFoQGkaFny8yr3kRuu41uvUhhAEChz+Wz/iVvpG
-	KjoywpcbI4Es14C+vgywSh/6lXFIaND5g4JpOOo4=
-Content-Type: multipart/mixed; boundary="===============8401524393365967385=="
+	bh=1SlWDDRDfD8pef3nnbvgt4l5zG3kASOPOXhXMj7xIjo=;
+	b=oGtcF8BJcLV5qoOUsFBxxqhhQdxcps41zrwXWwmgbhdcrZkB0sRnln4lfTP4oo4a
+	uLDbYgeOe7e+T2X2sTtvGiAHpgy+HdI2QVeF2T6wRCSEQlCwQAUUIiFA/MBFbC93kbV
+	VIofCLJ9bxrV7Q+40xa/9TJm3hadkJjnuudOYB6c=
+Content-Type: multipart/mixed; boundary="===============6189398449947295987=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-maturin: upgrading to 1.7.6 FAILED
-Message-ID: <0101019381af21a8-1f6d9d58-b9dc-46e1-955f-773f358e7675-000000@us-west-2.amazonses.com>
-Date: Sun, 1 Dec 2024 10:05:58 +0000
+Subject: [AUH] re2c: upgrading to 4.0.1 SUCCEEDED
+Message-ID: <0101019381af4a67-657bcbb8-fc4e-431a-b8a1-d7c4da53ea8f-000000@us-west-2.amazonses.com>
+Date: Sun, 1 Dec 2024 10:06:09 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2024.12.01-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 01 Dec 2024 10:06:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208071
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208102
 
---===============8401524393365967385==
+--===============6189398449947295987==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,118 +51,113 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-maturin* to *1.7.6* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *re2c* to *4.0.1* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-re2c-upgrade-4.0-4.0.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe python3-maturin failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1877 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:56d8fa66b9a859209ce55b5de8352c0e9d6c3fb0"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 922 .bb files complete (0 cached, 922 parsed). 1878 targets, 41 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:56d8fa66b9a859209ce55b5de8352c0e9d6c3fb0"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-WARNING: tmp-recipetool-jmt2nyca: the directory /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-e_6xq06c/emptysrc (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-e_6xq06c/emptysrc) pointed to by the S variable doesn't exist - please set S within the recipe to point to where the source has been unpacked to
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-DEBUG 5 [Errno 25] Inappropriate ioctl for device
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-Removing 1 recipes from the core2-64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.9.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.1"
-TUNE_FEATURES        = "m64 core2"
-TARGET_FPU           = ""
-meta                 
-meta-poky            
-meta-yocto-bsp       
-workspace            = "tmp-auh-upgrades:56d8fa66b9a859209ce55b5de8352c0e9d6c3fb0"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 29 Local 29 Mirrors 0 Missed 0 Current 64 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 312 tasks of which 311 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://files.pythonhosted.org/packages/source/m/maturin/maturin-1.7.6.tar.gz;downloadfilename=maturin-1.7.6.tar.gz...
-INFO: Rebasing devtool onto d5a40f85c8bc31a767492d31531ca6cf769d76c1
-WARNING: Command 'git rebase d5a40f85c8bc31a767492d31531ca6cf769d76c1' failed:
-Auto-merging src/python_interpreter/config.rs
-CONFLICT (content): Merge conflict in src/python_interpreter/config.rs
-Auto-merging src/target.rs
-CONFLICT (content): Merge conflict in src/target.rs
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Running extra recipe upgrade task: do_update_crates
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/python3-maturin
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/python3-maturin/python3-maturin_1.7.6.bb
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============8401524393365967385==--
+
+-- >8 --
+From 587e05edeafb63e19888f36a62a12cfc969c450c Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 1 Dec 2024 09:48:12 +0000
+Subject: [PATCH] re2c: upgrade 4.0 -> 4.0.1
+
+---
+ meta/recipes-support/re2c/{re2c_4.0.bb => re2c_4.0.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/re2c/{re2c_4.0.bb => re2c_4.0.1.bb} (90%)
+
+diff --git a/meta/recipes-support/re2c/re2c_4.0.bb b/meta/recipes-support/re2c/re2c_4.0.1.bb
+similarity index 90%
+rename from meta/recipes-support/re2c/re2c_4.0.bb
+rename to meta/recipes-support/re2c/re2c_4.0.1.bb
+index fd7d36b632..b876d2b844 100644
+--- a/meta/recipes-support/re2c/re2c_4.0.bb
++++ b/meta/recipes-support/re2c/re2c_4.0.1.bb
+@@ -7,7 +7,7 @@ LICENSE = "PD"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
+-SRC_URI[sha256sum] = "6281c6bf52e684d5727ac293667c8031a4aa9010636512da5aee45f19987c1ee"
++SRC_URI[sha256sum] = "7c35d54fdf2c4b5981b80362d1c742aec4d011589673e02f2e9566f7e66c44af"
+ GITHUB_BASE_URI = "https://github.com/skvadrik/re2c/releases"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+-- 
+2.44.1
+
+
+--===============6189398449947295987==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-re2c-upgrade-4.0-4.0.1.patch"
+
+RnJvbSA1ODdlMDVlZGVhZmI2M2UxOTg4OGYzNmE2MmExMmNmYzk2OWM0NTBjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMSBEZWMgMjAyNCAwOTo0ODoxMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
+MmM6IHVwZ3JhZGUgNC4wIC0+IDQuMC4xCgotLS0KIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMv
+e3JlMmNfNC4wLmJiID0+IHJlMmNfNC4wLjEuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+cmUyYy97cmUyY180LjAuYmIgPT4gcmUyY180LjAuMS5iYn0gKDkwJSkKCmRpZmYgLS1naXQgYS9t
+ZXRhL3JlY2lwZXMtc3VwcG9ydC9yZTJjL3JlMmNfNC4wLmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvcmUyYy9yZTJjXzQuMC4xLmJiCnNpbWlsYXJpdHkgaW5kZXggOTAlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMvcmUyY180LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1zdXBwb3J0L3JlMmMvcmUyY180LjAuMS5iYgppbmRleCBmZDdkMzZiNjMyLi5iODc2ZDJiODQ0
+IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9yZTJjL3JlMmNfNC4wLmJiCisrKyBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMvcmUyY180LjAuMS5iYgpAQCAtNyw3ICs3LDcgQEAg
+TElDRU5TRSA9ICJQRCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTY0
+ZWNhNGQ4YTNiNjdmOWRjNzY1NjA5NDczMWEyYzhkIgogCiBTUkNfVVJJID0gIiR7R0lUSFVCX0JB
+U0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjYyODFjNmJmNTJlNjg0ZDU3MjdhYzI5MzY2N2M4MDMxYTRhYTkwMTA2MzY1MTJk
+YTVhZWU0NWYxOTk4N2MxZWUiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiN2MzNWQ1NGZkZjJjNGI1
+OTgxYjgwMzYyZDFjNzQyYWVjNGQwMTE1ODk2NzNlMDJmMmU5NTY2ZjdlNjZjNDRhZiIKIEdJVEhV
+Ql9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vc2t2YWRyaWsvcmUyYy9yZWxlYXNlcyIK
+IAogQkJDTEFTU0VYVEVORCA9ICJuYXRpdmUgbmF0aXZlc2RrIgotLSAKMi40NC4xCgo=
+
+--===============6189398449947295987==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/core2-64-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 9424302 to 9622467 (+2%)
+packages/core2-64-poky-linux/re2c: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c: SRC_URI changed from "https://github.com/skvadrik/re2c/releases/download/4.0/re2c-4.0.tar.xz" to "https://github.com/skvadrik/re2c/releases/download/4.0.1/re2c-4.0.1.tar.xz"
+packages/core2-64-poky-linux/re2c: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/re2c/re2c-dbg: PKGSIZE changed from 174622560 to 174624408 (+0%)
+packages/core2-64-poky-linux/re2c/re2c-dbg: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c/re2c-dbg: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/re2c/re2c-dev: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c/re2c-dev: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/re2c/re2c-doc: PKGSIZE changed from 1630547 to 1631316 (+0%)
+packages/core2-64-poky-linux/re2c/re2c-doc: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c/re2c-doc: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/re2c/re2c-locale: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c/re2c-locale: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/re2c/re2c-src: PKGSIZE changed from 1675903 to 1675916 (+0%)
+packages/core2-64-poky-linux/re2c/re2c-src: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c/re2c-src: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/re2c/re2c-staticdev: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c/re2c-staticdev: PV changed from "4.0" to "4.0.1"
+packages/core2-64-poky-linux/re2c/re2c: PKGSIZE changed from 11091786 to 11091788 (+0%)
+packages/core2-64-poky-linux/re2c/re2c: PKGV changed from 4.0 [default] to 4.0.1 [default]
+packages/core2-64-poky-linux/re2c/re2c: PV changed from "4.0" to "4.0.1"
+
+--===============6189398449947295987==--
 
