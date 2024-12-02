@@ -1,98 +1,118 @@
-Return-Path: <peter@pjd.dev>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB7B1D10DBA
-	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 08:06:37 +0000 (UTC)
-Received: from fout-a5-smtp.messagingengine.com (fout-a5-smtp.messagingengine.com [103.168.172.148])
- by mx.groups.io with SMTP id smtpd.web11.169510.1733126793132250005
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DE308D10DC2
+	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 08:36:17 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+ by mx.groups.io with SMTP id smtpd.web11.169802.1733128574874847436
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 00:06:33 -0800
+ Mon, 02 Dec 2024 00:36:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pjd.dev header.s=fm2 header.b=ZFOg7rko;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=qG0OkgY2;
- spf=pass (domain: pjd.dev, ip: 103.168.172.148, mailfrom: peter@pjd.dev)
-Received: from phl-compute-04.internal (phl-compute-04.phl.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id 40A4013805EA;
-	Mon,  2 Dec 2024 03:06:32 -0500 (EST)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-04.internal (MEProxy); Mon, 02 Dec 2024 03:06:32 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pjd.dev; h=cc:cc
-	:content-transfer-encoding:content-type:date:date:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to; s=fm2; t=1733126792; x=1733213192; bh=q3wYRm1VMdo6ITuPItE5y
-	cryUmf3VS/jJzro78N1g2o=; b=ZFOg7rkodogH0T6w7pDOg2FsYENUc07pRG1gl
-	wrnnVo1kNcp9tk3NoQcqyX9i/glBhDvW01qTyi/d5Ko3GAUN+FAQ5vt0ksqZP9l6
-	RzwoLZbB5zK3IaL71mcy3yacZWk1XCBwKrcH+L/TqAJKutqSqPGwG7uYL317Lwjl
-	gLbxgKxH/0X+MPgglJ/Fi2Bp4V65E+LNT75w+idSkfJf9as8Er726mJCRcuZvZ2C
-	0Bu2tD8nMbzLolMhzys3zRS0s09Ghhn9a2a7KglGft+nAX1O1A774rKsnZfdM8XS
-	ViYtCsDDbFffmHSXaq4uWglsWHrHDP95dsoQSjkmwruAhc+MQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
-	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=
-	1733126792; x=1733213192; bh=q3wYRm1VMdo6ITuPItE5ycryUmf3VS/jJzr
-	o78N1g2o=; b=qG0OkgY2w0Iks/1+2LafLHmj0kZdi0tZxoSAxyHOdxBjdx0ffea
-	mU0u5DI4tpWD5Tq5YWvB1ssLrmBbyx9ciw6kge2j18OtAb4hHluNJGwChrrutrLZ
-	hHsLM8AjB3V5D+Uv6uKR1qs/IUWg3zmtuOOy1RigcIQ0Qu93nOmf+ucCoFtb/QzL
-	Lu++DN6Wg7D5Zstc7hZKnbCi0vr87eHLVn1Ra5X9W3MUMj3aG6G2znK7wsr/iS5x
-	9Zu3N6iPtb8PWFFiQ0HLsthoxlDRRBXBziFbyeM3MDbf3XnECvweVIK4GAO5zitD
-	IK+kfaQvbA3Rl95U3Hj4z0C9GcGU6rlzO1g==
-X-ME-Sender: <xms:h2pNZzxF2JUhqhiEl9glsxQ5V59zG-xO6LyiIblh8cLH85Iq3Y0cvw>
-    <xme:h2pNZ7R-jz5zavGvl_GWirOkSwhOWYRL_fyntVyvv-kn9lc6OtmO9DJYUEQ-FkC04
-    9VkmSH06AquyNXIH1Q>
-X-ME-Received: <xmr:h2pNZ9UCP2zUIi8aCYS0OdJYCMDuNIykOCWdngnULWTLNpquLXW48385HnVKGHSL5qf5kHn3nwLmWD-Y4A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefuddrheekgdduudegucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggvpdfu
-    rfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucenucfjughrpefhvfevuf
-    ffkffoggfgsedtkeertdertddtnecuhfhrohhmpefrvghtvghrucffvghlvghvohhrhigr
-    shcuoehpvghtvghrsehpjhgurdguvghvqeenucggtffrrghtthgvrhhnpeffheejvdekhe
-    ekgeehkedtudehjeejfeegveffgeekkeejvdeikeehiefhgfevvdenucffohhmrghinhep
-    ghhithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrg
-    hilhhfrhhomhepphgvthgvrhesphhjugdruggvvhdpnhgspghrtghpthhtohepvddpmhho
-    uggvpehsmhhtphhouhhtpdhrtghpthhtohepohhpvghnvghmsggvugguvgguqdgtohhrvg
-    eslhhishhtshdrohhpvghnvghmsggvugguvggurdhorhhgpdhrtghpthhtohepphgvthgv
-    rhesphhjugdruggvvh
-X-ME-Proxy: <xmx:iGpNZ9j-nkror89X8mzWeyJLsHd4gOwiZHqYNIgY67tmK_58jeJx7g>
-    <xmx:iGpNZ1BWDBpgHXZf-Xno9ISGDbeQgsrHQ9X9HknO_v9XCoLKwczaSg>
-    <xmx:iGpNZ2I8c5_NPw5j3vMpTNiVCJ6AlkDfFz6Ry7Bq_C8BqGgCHF62Ww>
-    <xmx:iGpNZ0BTRoVYnVpNm6F8jJW2yipjIK9xqdVbJQPJuD2pmW-cSKwwcA>
-    <xmx:iGpNZ4PdjevUyAkhb1No2MVk4DX893QSv4n_Dw1OAXvtglTn0goKzdUD>
-Feedback-ID: i9e814621:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 2 Dec 2024 03:06:31 -0500 (EST)
-From: Peter Delevoryas <peter@pjd.dev>
-To: openembedded-core@lists.openembedded.org
-Cc: peter@pjd.dev
-Subject: [PATCH 0/1] ncurses: Add alacritty terminfo
-Date: Mon,  2 Dec 2024 00:06:28 -0800
-Message-ID: <20241202080629.1639470-1-peter@pjd.dev>
-X-Mailer: git-send-email 2.43.5
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=XwPyoaUL;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id AA73E1C000B;
+	Mon,  2 Dec 2024 08:36:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1733128573;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=HJriwX8LNkCF9jxt5jMGlsEaE16hWHteN17BTCx5vco=;
+	b=XwPyoaULCpgH6m78q0EvUFwLZWjTZ84vN+imI//gAWsv2icS7vG9shdaOLnxOjadjY0x7s
+	UD+S8HF+CyervUiVJt7p8qdbzTHiZTHp58BNZkXtbDjrE5NmVwFVzNXcfEBewu4qgP6qBr
+	psB/crnefVvXfJw6OUEqWXkDXHlTvLMtnSO57L67z74vBfQMx2yGT+Fb9ofu/+eFrXTt9q
+	aUmWbRv3Nf/qreKOuCFN3kRLiNPJQbSLkmLU4sEq48/YQTMJYgxGkEZynYSQPetNoLFcoL
+	8UOgS8GK+drV8qB5mquUarYVP0s6Hg7nApHgw35uxpmRsmuD41mYv8sI3pxuqQ==
+Date: Mon, 2 Dec 2024 09:36:11 +0100
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+To: Deepthi.Hemraj@windriver.com
+Cc: openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, Randy.MacLeod@windriver.com,
+	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
+Subject: Re: [OE-core] [PATCH V3 1/2] rust-cross-canadian: Fix environment
+ setup script conflicts for multilibs
+Message-ID: <Z01xe5AYXZr0A2vE@bootlin-mathieu>
+Mail-Followup-To: Deepthi.Hemraj@windriver.com,
+	openembedded-core@lists.openembedded.org,
+	richard.purdie@linuxfoundation.org, Randy.MacLeod@windriver.com,
+	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
+References: <20241129080820.330411-1-Deepthi.Hemraj@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241129080820.330411-1-Deepthi.Hemraj@windriver.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 08:06:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208125
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 08:36:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208127
 
-I use the alacritty terminal emulator and work on the OpenBMC project [1]. I
-find that when I login to BMCs, I can't use ctrl-l, ctrl-n, or ctrl-p to clear
-the screen or select previously executed shell commands. From my testing locally
-with an OpenBMC image, I think all that's necessary is to update this recipe
-to copy alacritty terminal info, which is already part of the latest terminfo
-library distribution.
+On Fri, Nov 29, 2024 at 12:08:19AM -0800, Hemraj, Deepthi via lists.openembedded.org wrote:
+> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> 
+> YOCTO [#15061]
+> The target independent variables like CARGO_HTTP_MULTIPLEXING and
+> CARGO_HTTP_CAINFO should be handled by the nativesdk-cargo recipe,
+> rather than being managed within rust-cross-canadian.
+> 
+> The build section of the Cargo configuration file is also
+> target-independent and hence moved to nativesdk-cargo.
+> 
+> The nativesdk-cargo recipe can then gather these entries from the individual
+> target-specific files to generate the final cargo_home/config file.
+> Target-specific configurations are specific to the rust-cross-canadian
+> variant and should remain there.
+> 
+> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
+> ---
 
-[1]: https://github.com/openbmc/openbmc
+Hi,
 
-Peter Delevoryas (1):
-  ncurses: Add alacritty terminfo
+I believe these patches are breaking some builds on the autobuilder:
 
- meta/recipes-core/ncurses/ncurses.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+...
+Caused by:
+  could not parse TOML configuration in `/srv/pokybuild/yocto-worker/beaglebone/build/build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/core-image-sato/1.0/testimage-sdk/sysroots/cortexa8hf-neon-poky-linux-gnueabi/home/cargo/config`
+Caused by:
+  TOML parse error at line 3, column 1
+    |
+  3 | [target.armv7-poky-linux-gnueabihf]
+    | ^
+  invalid table header
+  dotted key `target` attempted to extend non-table type (string)
+
+https://valkyrie.yoctoproject.org/#/builders/2/builds/558/steps/12/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/60/builds/558/steps/12/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/80/builds/488/steps/13/logs/stdio
+
+oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0/testimage-sdk/environment-setup-core2-64-poky-linux > /dev/null; cd /srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0/testimage-sdk//hello; cargo build;' returned non-zero exit status 101
+Standard Output: warning: `/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0/testimage-sdk/sysroots/core2-64-poky-linux/home/cargo/config` is deprecated in favor of `config.toml`
+note: if you need to support cargo 1.38 or earlier, you can symlink `config` to `config.toml`
+warning: unused config key `build.linker` in `/srv/pokybuild/yocto-worker/genericx86-64/build/build/tmp/work/genericx86_64-poky-linux/core-image-sato/1.0/testimage-sdk/sysroots/core2-64-poky-linux/home/cargo/config`
+error: process didn't exit successfully: `rustc -vV` (exit status: 1)
+--- stdout
+rustc 1.80.1 (3f5fd8dd4 2024-08-06) (built from a source tarball)
+binary: rustc
+commit-hash: 3f5fd8dd41153bc5fdca9427e9e05be2c767ba23
+commit-date: 2024-08-06
+host: x86_64-pokysdk-linux-gnu
+release: 1.80.1
+--- stderr
+error: Error loading target specification: Could not find specification for target "x86_64-pokysdk-linux-gnu". Run `rustc --print target-list` for a list of built-in targets
+
+https://valkyrie.yoctoproject.org/#/builders/4/builds/563/steps/12/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/19/builds/559/steps/12/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/31/builds/549/steps/13/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/32/builds/541/steps/13/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/39/builds/546/steps/13/logs/stdio
+https://valkyrie.yoctoproject.org/#/builders/41/builds/494/steps/13/logs/stdio
+
+Can you have a look at these issues, please ?
 
 -- 
-2.43.5
-
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
