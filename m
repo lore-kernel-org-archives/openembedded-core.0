@@ -2,111 +2,154 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6867D7833E
-	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 18:04:40 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.web11.180787.1733162671313005219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D2779E69E82
+	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 18:12:10 +0000 (UTC)
+Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com [209.85.219.171])
+ by mx.groups.io with SMTP id smtpd.web11.180975.1733163129554436209
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 10:04:31 -0800
+ Mon, 02 Dec 2024 10:12:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gEAN+7kO;
- spf=softfail (domain: sakoman.com, ip: 209.85.128.182, mailfrom: steve@sakoman.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-6ef7a0b65f4so15561617b3.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 10:04:31 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=zZil7SR2;
+ spf=softfail (domain: sakoman.com, ip: 209.85.219.171, mailfrom: steve@sakoman.com)
+Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-e3978c00a5aso3687982276.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 10:12:09 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733162670; x=1733767470; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=I6ZEeeUZa4ykg5/sVaA5ZvSgvK7k8KZyAlgOp0UuWyQ=;
-        b=gEAN+7kOIa7Blk4uZ+ZWKLx7ynyr47IMaicmae1txjqDmjQsA8m3dnh3oYMNEFxsiM
-         NU9OkuElxHXyknZ/xARGOtwlfHZnE8DPyFh6k++C3j5LZqiSd8OHCn9x8t84piKa8/03
-         DOpWWASGqlF3pSUVZNjji2UouCojVtw0HiLAAYykwmV2u2w9sF4xYjcaQemiF51GK2za
-         I/2TIIrN5GephYleRhskOpRD85hLdG106V3oN9l9K5wvNM/Cpgi5KgVGgQUE1R6YPYbI
-         Oiv5/lNZGiAAYOUIokkRTX4XNBt9Fgp26zREISrFJImypD0j/vaKMDVpYx7V+5iwjqp4
-         ecIQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733163129; x=1733767929; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=WadenMv3wJpDeXsO1T5hwlIxQGsBtrrOvl68xGsgAjU=;
+        b=zZil7SR2e8RhmdzUjPHxyZKoKZGVcbuYDotRHVCXm03TSUYSsC1F6lhDZ+VV81DeRb
+         uhnZfYoCR945OHhEOSU2r97sJ7IU7H0ulRYV09u3sVoYW6i7BXcFfmDBJuRAP+q9vKqu
+         IpLtrk78c8KRiz3vyw04MM+1xuhCelCxke7Rh9Bgruz5+WwVtU2/cfLOdFv7XaZKWGpr
+         29cnmGcsThYGAQ++xPLbeQY6D/EpEQEp3HYqMgh4grW6P4fPgtN2MArMqPA34Vmd+pdp
+         Kfr1xXouvE+vGNTJ3c00ZDTWsC45tZ3MeonDzM9FofZWZE57F6GKwgu1fy7Q5Qhj4qYM
+         7KcA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733162670; x=1733767470;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=I6ZEeeUZa4ykg5/sVaA5ZvSgvK7k8KZyAlgOp0UuWyQ=;
-        b=mIBsf6qk3H120Udi4gAUUJxs1IKuY4xMfwYYJ7MruwPhcILPQ51bnUG1ZtHtumzsO4
-         BEjaZvhvzz/PDmfOEY+qz8ue4Zj6o15dZ6eTu7MfV3W6TkctaN3FKX528XZWAaNGHLEJ
-         aPGpq9c9m4NJKMpsyWq+11udubSn4cNMHNg5mv3urlP+cWZAj59raPz8//MZHMQm1B9L
-         j6YqYGMHkoIVLQUCuAo+kyd33TdZ3WQyQi1Zs8Wy2slKs8cjnKT4VllYFXsJBs+y2rTU
-         N7WnSkc2bs5FrPsa8oXl8u3X9QAz7qsm7XVJSRWLB4aSPgo9ja3RPT5byAFh3XMwT/AE
-         Uonw==
-X-Gm-Message-State: AOJu0YwlIM4dcG6pu4hxHLz3Idn+aaA+AQnzPiPUfCQOQ9aoWdXoQ0oM
-	RCzvHmWBcNHD6/8mQL+nBrZbb72q7wYSdVkOegaPs+yLyu/sIjOuRChMGTXDsNCD47lNj5ZH4VY
-	0R6m2skn6mfVRfzIvI0qjJIwPRSbN1LtrJErlmMt9lxEoinBt
-X-Gm-Gg: ASbGncumfe0+R84rEPPKKXJvKYoyh4l9zrvW/nCthCjpODBuFaWikgLmFKAaLaq2+S3
-	WfvKZbhgDFl505S8JI/A7RsCDB0cDcWE=
-X-Google-Smtp-Source: AGHT+IGNyP54RKbR74vQyhME9bRctOSJBACibBvUxOFdPARkMJ1ddYSrYmk+pNbxmxzOUF+JR20QccfE5CE/JryB64c=
-X-Received: by 2002:a05:6902:2b85:b0:e38:fbd:48db with SMTP id
- 3f1490d57ef6-e395b8d7f66mr20844171276.29.1733162670271; Mon, 02 Dec 2024
- 10:04:30 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733163129; x=1733767929;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=WadenMv3wJpDeXsO1T5hwlIxQGsBtrrOvl68xGsgAjU=;
+        b=Ovyhh34I069eR5rHAQn/5m+ua9U8sMG0U8t7T04vEf3/OjA9x4wwPgq/AwFPP4KvS/
+         KdIs5R5pr2pQPJx2fBBjVBNK7W/xlaYOqkRx34rH5LhEt7Bj/uMKOyhzW1FXqtVX9wQY
+         cls96WtacBTXYLAYfzkC9jASDP71Yt69q1/n7JS1EGfUQ1ivhLKUWW7eQZJvrv5BUwf7
+         lwV3wWeGrcLz1VeNLNfbW1ylgiPFK/fb5HOnJfyqg9+ObgFz1rbbZH3KcPGnzSlQOcI5
+         CHzLZhFNkX34KNvT4TxKIXe6yuny1JbH17bte7+iLZeHIAXCDmM02ykm83LD/8a6Q95W
+         X9xQ==
+X-Gm-Message-State: AOJu0YysruhcdAwt+cgmTlffr3z9CrCRciDwrAhLZq3gYO8f7TR1qQ1Z
+	RFchcJ5ftChuwQfZhmoK49DvY1lYDuX7gpQFBrerCga43QTXQ77gWkHR60iMvNjloIxNuyRRFnB
+	2QBP3krxtrfQXSwAEg38ialyVGHH/UTIcxP2sKVVZPhIQp+rT
+X-Gm-Gg: ASbGncupl9ET5xrytHqqTCXut2ekCVDjlZ24JWZjwvwulANZBiYlg6hs101RRLzy0yq
+	EIutSdSH/mArEGkK4p6IUExh4ztyPoIg=
+X-Google-Smtp-Source: AGHT+IEmkYDZzVbj+504mbKT6tuN0DMEaPpUHNXdb14XmtRzRuSCI6qd2+htJ3kQqlLWCehg45CKPcZP7TwUPTmkQYQ=
+X-Received: by 2002:a05:6902:cc6:b0:e39:82b5:21da with SMTP id
+ 3f1490d57ef6-e3982b529afmr14282931276.38.1733163128526; Mon, 02 Dec 2024
+ 10:12:08 -0800 (PST)
 MIME-Version: 1.0
-References: <CADcMJG_mX3pXOexbA_Gk_VMY4qVaJTna5Gc5ZW-9_R-LncSBpQ@mail.gmail.com>
-In-Reply-To: <CADcMJG_mX3pXOexbA_Gk_VMY4qVaJTna5Gc5ZW-9_R-LncSBpQ@mail.gmail.com>
+References: <20241128064920.139214-1-hongxu.jia@windriver.com> <01010193719307ee-69bcdc26-337f-49a8-a70c-c4dc22095749-000000@us-west-2.amazonses.com>
+In-Reply-To: <01010193719307ee-69bcdc26-337f-49a8-a70c-c4dc22095749-000000@us-west-2.amazonses.com>
 From: Steve Sakoman <steve@sakoman.com>
-Date: Mon, 2 Dec 2024 10:04:19 -0800
-Message-ID: <CAOSpxdaHk817fp+vXNieUV4XiZp4d9Qhb4BPK7YDv-+u+r3Wmg@mail.gmail.com>
-Subject: Re: [BACKPORT] rootfs: Ensure run-postinsts is not uninstalled for read-only-rootfs-delayed-postinsts
-To: Nicolas Gillen <nicolas.gillen@agregio-solutions.com>
+Date: Mon, 2 Dec 2024 10:11:57 -0800
+Message-ID: <CAOSpxdYeXEUUZ1Ofge2_gdyJ17BxupCK=RN2A0RNiscmjonQkA@mail.gmail.com>
+Subject: Re: [OE-core] Patchtest results for [scarthgap][PATCH] python3-zipp:
+ fix CVE-2024-5569
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000004cc9cc06284d61fb"
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 18:04:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208152
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 18:12:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208153
 
---0000000000004cc9cc06284d61fb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Nov 28, 2024 at 4:27=E2=80=AFAM Nicolas Gillen <
-nicolas.gillen@agregio-solutions.com> wrote:
-
-> Hello,
+On Wed, Nov 27, 2024 at 11:01=E2=80=AFPM Patchtest via lists.openembedded.o=
+rg
+<patchtest=3Dautomation.yoctoproject.org@lists.openembedded.org> wrote:
 >
-> I need to have postinstall scripts working on a read-only file system on
-> Scarthcap.
-> That's why I would like to have the commit
-> 60f587475dda99eaa07848880058b69286b8900e
-> <https://git.openembedded.org/openembedded-core/commit/meta/lib/oe/rootfs=
-.py?id=3D60f587475dda99eaa07848880058b69286b8900e>
-> from master backported to Scarthgap.
+> Thank you for your submission. Patchtest identified one
+> or more issues with the patch. Please see the log below for
+> more information:
 >
-> Please let me know if there is a better format to request this.
+> ---
+> Testing patch /home/patchtest/share/mboxes/scarthgap-python3-zipp-fix-CVE=
+-2024-5569.patch
 >
+> FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in pa=
+tch file. Correct or include the CVE tag in the patch with format: "CVE: CV=
+E-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
-This is fine.  I've added the patch to my scarthgap test queue.
+Also the patch filenames should refer to the CVE, i.e.
+CVE-2024-5569-1.patch, CVE2024-5569-2.patch, ...
 
 Thanks,
 
 Steve
 
---0000000000004cc9cc06284d61fb
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote">=
-<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 28, 2024 at 4:27=E2=80=AF=
-AM Nicolas Gillen &lt;<a href=3D"mailto:nicolas.gillen@agregio-solutions.co=
-m">nicolas.gillen@agregio-solutions.com</a>&gt; wrote:<br></div><blockquote=
- class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px so=
-lid rgb(204,204,204);padding-left:1ex"><div dir=3D"ltr"><div>Hello,<br><br>=
-</div><div>I need to have postinstall scripts=C2=A0working on a read-only f=
-ile system on Scarthcap.</div><div>That&#39;s why I would like to have the =
-commit=C2=A0<a href=3D"https://git.openembedded.org/openembedded-core/commi=
-t/meta/lib/oe/rootfs.py?id=3D60f587475dda99eaa07848880058b69286b8900e" targ=
-et=3D"_blank">60f587475dda99eaa07848880058b69286b8900e</a> from master back=
-ported to Scarthgap.</div><div><br></div><div>Please let me know if there i=
-s a better format to request this.</div></div></blockquote><div><br></div><=
-div>This is fine.=C2=A0 I&#39;ve added the patch to my scarthgap test queue=
-.</div><div><br></div><div>Thanks,</div><div><br></div><div>Steve=C2=A0</di=
-v></div></div>
-
---0000000000004cc9cc06284d61fb--
+>
+> PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_=
+uri_left_files)
+> PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ig=
+nore)
+> PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_=
+presence)
+> PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_b=
+y_presence)
+> PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_s=
+tatus_presence_format)
+> PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+> PASS: test commit message presence (test_mbox.TestMbox.test_commit_messag=
+e_presence)
+> PASS: test commit message user tags (test_mbox.TestMbox.test_commit_messa=
+ge_user_tags)
+> PASS: test lic files chksum modified not mentioned (test_metadata.TestMet=
+adata.test_lic_files_chksum_modified_not_mentioned)
+> PASS: test max line length (test_metadata.TestMetadata.test_max_line_leng=
+th)
+> PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+> PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+> PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+> PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+> PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_le=
+ft_files)
+> PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_li=
+st)
+>
+> SKIP: pretest pylint: No python related patches, skipping test (test_pyth=
+on_pylint.PyLint.pretest_pylint)
+> SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.tes=
+t_bugzilla_entry_format)
+> SKIP: test lic files chksum presence: No added recipes, skipping test (te=
+st_metadata.TestMetadata.test_lic_files_chksum_presence)
+> SKIP: test license presence: No added recipes, skipping test (test_metada=
+ta.TestMetadata.test_license_presence)
+> SKIP: test pylint: No python related patches, skipping test (test_python_=
+pylint.PyLint.test_pylint)
+> SKIP: test series merge on head: Merge test is disabled for now (test_mbo=
+x.TestMbox.test_series_merge_on_head)
+> SKIP: test summary presence: No added recipes, skipping test (test_metada=
+ta.TestMetadata.test_summary_presence)
+>
+> ---
+>
+> Please address the issues identified and
+> submit a new revision of the patch, or alternatively, reply to this
+> email with an explanation of why the patch should be accepted. If you
+> believe these results are due to an error in patchtest, please submit a
+> bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+> under 'Yocto Project Subprojects'). For more information on specific
+> failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+> you!
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#207977): https://lists.openembedded.org/g/openembedde=
+d-core/message/207977
+> Mute This Topic: https://lists.openembedded.org/mt/109819082/3620601
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
+eve@sakoman.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
