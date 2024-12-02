@@ -1,101 +1,69 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB638D7830E
-	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 11:33:38 +0000 (UTC)
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
- by mx.groups.io with SMTP id smtpd.web11.172089.1733139217576576623
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF7E4D7830F
+	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 11:37:18 +0000 (UTC)
+Received: from mailout01.t-online.de (mailout01.t-online.de [194.25.134.80])
+ by mx.groups.io with SMTP id smtpd.web11.172127.1733139436376526392
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 03:33:37 -0800
+ Mon, 02 Dec 2024 03:37:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=S0ZJuIQn;
- spf=pass (domain: bootlin.com, ip: 217.70.183.199, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 9B996FF80C;
-	Mon,  2 Dec 2024 11:33:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733139215;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=4nVBFzT1vsoi/Awdgo7hM926rz9w0TKcIubBCzF1tLw=;
-	b=S0ZJuIQnvlkUH7FYvHzL/mlLOonq7MKrPWGphNM4LylA6EHfjQ10NSUvxz1zc/zOW8ARMf
-	DydXH7SkHepxQsZ38ukFo9kvLCIrBVxkeAJWXxr0QsrAY1GykjkXSbhdVX4jjFMdJ6HMxA
-	S5nhAnAsLGFcQxg6jwx03lTSRzT+84w/tdFm31GNDkdZMBPC2kxM+3GDInzIkd1HTq8G+G
-	Brd42zzJDAlkV+MRoOsWiqRpksv4UmRRi81/pbY6B3F2ccLWn8jJKP5Nb3MaSM1LccoRNv
-	CGxVvRwiCLVD6dKt44RE4wRkFKzfacLXNtFGAogntVCDk2SqJ5g+Axu5W1NYRA==
-Date: Mon, 2 Dec 2024 12:33:34 +0100
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-To: colinmca242@gmail.com
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.80, mailfrom: f_l_k@t-online.de)
+Received: from fwd80.aul.t-online.de (fwd80.aul.t-online.de [10.223.144.106])
+	by mailout01.t-online.de (Postfix) with SMTP id 258481013;
+	Mon,  2 Dec 2024 12:37:14 +0100 (CET)
+Received: from [192.168.178.67] ([84.154.160.60]) by fwd80.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1tI4jp-1CicwS0; Mon, 2 Dec 2024 12:37:13 +0100
+Date: Mon, 02 Dec 2024 12:37:08 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [RFC][oe-core][PATCH] pam: update 1.6.1 -> 1.7.0
+To: Alexander Kanavin <alex.kanavin@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core] [PATCH] cve-check: Add versioned CVSS vector strings
-Message-ID: <Z02bDqe_cY6uqij-@bootlin-mathieu>
-Mail-Followup-To: colinmca242@gmail.com,
-	openembedded-core@lists.openembedded.org
-References: <20241130175038.870014-1-colinmca242@gmail.com>
+Message-Id: <WX6VNS.5H7C19CD19ZL2@t-online.de>
+In-Reply-To: <CANNYZj9jpLRJyrE8LUbRv7LwmyFA6BgwqbDvPumR=Zvv5oUohQ@mail.gmail.com>
+References: <20241202105339.58026-1-f_l_k@t-online.de>
+	<CANNYZj9jpLRJyrE8LUbRv7LwmyFA6BgwqbDvPumR=Zvv5oUohQ@mail.gmail.com>
+X-Mailer: geary/46.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241130175038.870014-1-colinmca242@gmail.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Type: multipart/alternative; boundary="=-Hl6cMZ4qOaxGxx108Zau"
+X-TOI-EXPURGATEID: 150726::1733139433-38FF926E-A59DDB72/0/0 CLEAN NORMAL
+X-TOI-MSGID: d9df3843-d006-4890-81a4-541e9e23a74c
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 11:33:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208139
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 11:37:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208140
 
-On Sat, Nov 30, 2024 at 05:50:38PM +0000, Colin McAllister via lists.openembedded.org wrote:
-> Currently, cve-check includes a vector string for each CVE included in
-> the issue list for each package. This vector string is the lowest
-> CVSS version that's available. For example, if a CVE has both a v2 and
-> v3.1 vector strint, the v2 vector string is only included.
+--=-Hl6cMZ4qOaxGxx108Zau
+Content-Type: text/plain; charset=us-ascii; format=flowed
+
+On Mon, Dec 2 2024 at 12:06:17 +01:00:00, Alexander Kanavin 
+<alex.kanavin@gmail.com> wrote:
+> Please see my comment elsewhere, it's better to split this into
+> several patches, each dealing with a particular issue (in particular
+> the version update shouldn't be bundled with all the other changes).
 > 
-> This patch adds each supported vector string (v2, v3, and v4). For v3,
-> v3.1 is preferred over v3. If a vector string is not available for a
-> given verison, the string will default to "UNKNOWN".
-> 
-> Signed-off-by: Colin McAllister <colinmca242@gmail.com>
+> Alex
 
-Hi Colin,
+Fair enough. I haven't gotten around to cleaning it up yet and there is 
+also still
+a patch in it with ;apply=no that needs to be deleted. I'd better wait 
+for the update
+and add the changes afterwards. I just wanted to submit the patch for 
+review to see
+if that would even be an optionat all
 
-Thanks for your new patch. As for last week, it seems to be triggering
-some issues on the autobuilder:
 
-ERROR: cve-update-nvd2-native-1.0-r0 do_unpack: Error executing a python function in exec_func_python() autogenerated:
-The stack trace of python calls that resulted in this exception/failure was:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:do_unpack(d)
-     0003:
-File: '/srv/pokybuild/yocto-worker/oe-selftest-debian/build/meta/recipes-core/meta/cve-update-nvd2-native.bb', lineno: 105, function: do_unpack
-     0101:do_fetch[vardeps] = ""
-     0102:
-     0103:python do_unpack() {
-     0104:    import shutil
- *** 0105:    shutil.copyfile(d.getVar("CVE_CHECK_DB_DLDIR_FILE"), d.getVar("CVE_CHECK_DB_FILE"))
-     0106:}
-     0107:do_unpack[lockfiles] += "${CVE_CHECK_DB_DLDIR_LOCK} ${CVE_CHECK_DB_FILE_LOCK}"
-     0108:
-     0109:def cleanup_db_download(db_file, db_tmp_file):
-File: '/usr/lib/python3.9/shutil.py', lineno: 264, function: copyfile
-     0260:
-     0261:    if not follow_symlinks and _islink(src):
-     0262:        os.symlink(os.readlink(src), dst)
-     0263:    else:
- *** 0264:        with open(src, 'rb') as fsrc, open(dst, 'wb') as fdst:
-     0265:            # macOS
-     0266:            if _HAS_FCOPYFILE:
-     0267:                try:
-     0268:                    _fastcopy_fcopyfile(fsrc, fdst, posix._COPYFILE_DATA)
-Exception: FileNotFoundError: [Errno 2] No such file or directory: '/srv/autobuilder/valkyrie.yocto.io/current_sources/CVE_CHECK2/nvdcve_2-3.db'
+--=-Hl6cMZ4qOaxGxx108Zau
+Content-Type: text/html; charset=us-ascii
 
-https://valkyrie.yoctoproject.org/#/builders/76/builds/524/steps/15/logs/stdio
-https://valkyrie.yoctoproject.org/#/builders/35/builds/532/steps/14/logs/stdio
+<div id="geary-body" dir="auto">On Mon, Dec 2 2024 at 12:06:17 +01:00:00, Alexander Kanavin &lt;alex.kanavin@gmail.com&gt; wrote:<br><blockquote type="cite"><div class="plaintext" style="white-space: break-spaces;">Please see my comment elsewhere, it's better to split this into
+several patches, each dealing with a particular issue (in particular
+the version update shouldn't be bundled with all the other changes).
 
-Is this something you can fix ?
+Alex</div></blockquote><div><br></div><div><div>Fair enough. I haven't gotten around to cleaning it up yet and there is also still</div><div>a patch in it with ;apply=no that needs to be deleted. I'd better wait for the update</div><div>and add the changes afterwards. I just wanted to submit the patch for review to see</div><div>if that would even be an optionat all</div></div></div>
+--=-Hl6cMZ4qOaxGxx108Zau--
 
--- 
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
