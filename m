@@ -1,100 +1,129 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 64937D78305
-	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 10:31:48 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.web10.170386.1733135506356481850
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A662D78306
+	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 10:37:18 +0000 (UTC)
+Received: from mailout08.t-online.de (mailout08.t-online.de [194.25.134.20])
+ by mx.groups.io with SMTP id smtpd.web10.170453.1733135832308277014
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 02:31:46 -0800
+ Mon, 02 Dec 2024 02:37:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OQ27xDSd;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=edrsk7gs;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 0101019386ed1777-29074201-8c85-4e25-86ab-ab3e4b3329da-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733135505; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=vlkqkd3o9NNhVEppw2qazF4YXumQbwgXlVL9gkXEHgQ=;
-	b=OQ27xDSdXFqevnhfwjqk0cJqTkDhwiVUhFZt62/XnVD1fKPikyIk/hWvxstQgmOV
-	rtIqm4LqCRcdDJIzr4HpsZZ9l2kkV6cedfQqreUcRicCkVgj2wDyBIpF6NlexZaObRg
-	0mZcx9fcsbl3W6C8X0895X//CnNJuBwbUUB7p9Ec=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733135505;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=vlkqkd3o9NNhVEppw2qazF4YXumQbwgXlVL9gkXEHgQ=;
-	b=edrsk7gsU1u4wHMLR8LUuEcT1GHX0dDvHz4RV0S0c5LjmPc9Gg8A1PUxOb0SeJjR
-	tN8eFTVq1UjtHLcZaOi3X+2qb4L+itlG9nnL9SJ9+HZlBIoa3tJkMz5Geh9e7V2Ag8b
-	8v3/A8GdZE+ZIPZomV9kYGH4ozIxoe6UO3TE16oU=
-From: patchtest@automation.yoctoproject.org
-To: ghislain.mange@smile.fr
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-oe][PATCH 1/2] wireshark: fix Qt5/6 configuration
-In-Reply-To: <20241202101830.3490907-1-ghislain.mange@smile.fr>
-References: <20241202101830.3490907-1-ghislain.mange@smile.fr>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <0101019386ed1777-29074201-8c85-4e25-86ab-ab3e4b3329da-000000@us-west-2.amazonses.com>
-Date: Mon, 2 Dec 2024 10:31:45 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.02-54.240.27.192
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.20, mailfrom: f_l_k@t-online.de)
+Received: from fwd86.aul.t-online.de (fwd86.aul.t-online.de [10.223.144.112])
+	by mailout08.t-online.de (Postfix) with SMTP id 94B40A83;
+	Mon,  2 Dec 2024 11:37:09 +0100 (CET)
+Received: from [192.168.178.67] ([84.154.160.60]) by fwd86.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1tI3ng-09pMNU0; Mon, 2 Dec 2024 11:37:08 +0100
+Date: Mon, 02 Dec 2024 11:37:05 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [OE-core] [oe-ore][PATCHv4] libsecret: add pam support depending
+ on DISTRO_FEATURES
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org
+Message-Id: <T54VNS.XA4ZGCLO7PS3@t-online.de>
+In-Reply-To: <Z013Th944PYfoHa-@bootlin-mathieu>
+References: <20241130085222.17448-1-f_l_k@t-online.de>
+	<Z013Th944PYfoHa-@bootlin-mathieu>
+X-Mailer: geary/46.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-bnpr3ww1nMnvnWX1ihcj"
+X-TOI-EXPURGATEID: 150726::1733135828-AE7FA459-994CF10B/0/0 CLEAN NORMAL
+X-TOI-MSGID: 99ae4474-0730-4cb8-94ac-5a51163bae51
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 10:31:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208133
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 10:37:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208135
 
---NextPart
-Content-Type: text/plain
+--=-bnpr3ww1nMnvnWX1ihcj
+Content-Type: text/plain; charset=us-ascii; format=flowed
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On Mon, Dec 2 2024 at 10:01:02 +01:00:00, Mathieu Dubois-Briand 
+<mathieu.dubois-briand@bootlin.com> wrote:
+> ERROR: Nothing PROVIDES 'libpam' (but 
+> /srv/pokybuild/yocto-worker/check-layer/build/meta/recipes-devtools/pam-wrapper/pam-wrapper_1.1.7.bb 
+> DEPENDS on or otherwise requires it)
+> libpam was skipped: one of 'pam systemd' needs to be in 
+> DISTRO_FEATURES
+> ERROR: Required build target 'meta-world-pkgdata' has no buildable 
+> providers.
+> Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 
+> 'pam-wrapper', 'libpam']
+> 
+> <https://valkyrie.yoctoproject.org/#/builders/27/builds/566/steps/11/logs/stdio>
+> 
+> Can you have a look at this issue, please ?
 
----
-Testing patch /home/patchtest/share/mboxes/meta-oe-1-2-wireshark-fix-Qt5-6-configuration.patch
+Hi,
+I've been testing a patch for a few days that should also fix this 
+problem. In libpam the autotools buildsystem was removed. This patch 
+switches to meson. The pam recipe was split into two parts and now 
+compiles twice. First only the libs are packaged and then the libpam 
+modules. This breaks a dependency loop and it is now possible to link 
+against systemd and enable 'logind' support for the modules.
 
-FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
+The patch is invasive, but my tests so far are promising. It compiles 
+for x86-64/arm/arm64 and mutlilib and it seems to fix the build for 
+libpam-native (and this missing DISTRO_FEATURES issue). And, although 
+not yet compilable, it also reduces the dependency loops between 
+systemd<->shadow
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+One file is still packed into libpam-modules. This should be moved to 
+the appropriate module, but I'm not sure what the /run/sepermit 
+directory is needed for. There is also a patch added that fixes a 
+problem in meson when checking for keyring. But when I wanted to send 
+it upstream, I saw that the problem was already solved and submitted 
+nicer by Alexander Kanavin
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+The ptest part is also still missing. When xtests is enabled, the tests 
+compile without errors, but by default they are neither built nor 
+installed. So I wanted to ask first, what of this is still needed? I 
+will therefore send the patch as RFC for review
 
 
---NextPart--
+--=-bnpr3ww1nMnvnWX1ihcj
+Content-Type: text/html; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto">On Mon, Dec 2 2024 at 10:01:02 +01:00:0=
+0, Mathieu Dubois-Briand &lt;mathieu.dubois-briand@bootlin.com&gt; wrote:<b=
+r><blockquote type=3D"cite"><div class=3D"plaintext" style=3D"white-space: =
+break-spaces;">ERROR: Nothing PROVIDES 'libpam' (but /srv/pokybuild/yocto-w=
+orker/check-layer/build/meta/recipes-devtools/pam-wrapper/pam-wrapper_1.1.7=
+.bb DEPENDS on or otherwise requires it)
+libpam was skipped: one of 'pam systemd' needs to be in DISTRO_FEATURES
+ERROR: Required build target 'meta-world-pkgdata' has no buildable provider=
+s.
+Missing or unbuildable dependency chain was: ['meta-world-pkgdata', 'pam-wr=
+apper', 'libpam']
+
+<a href=3D"https://valkyrie.yoctoproject.org/#/builders/27/builds/566/steps=
+/11/logs/stdio">https://valkyrie.yoctoproject.org/#/builders/27/builds/566/=
+steps/11/logs/stdio</a>
+
+Can you have a look at this issue, please ?</div></blockquote><div><br></di=
+v><div><div>Hi,</div><div>I've been testing a patch for a few days that sho=
+uld also fix this problem. In libpam the autotools buildsystem was removed.=
+ This patch switches to meson. The pam recipe was split into two parts and =
+now compiles twice. First only the libs are packaged and then the libpam mo=
+dules. This breaks a dependency loop and it is now possible to link against=
+ systemd and enable 'logind' support for the modules.</div><div><br></div><=
+div>The patch is invasive, but my tests so far are promising. It compiles f=
+or x86-64/arm/arm64 and mutlilib and it seems to fix the build for libpam-n=
+ative (and this missing DISTRO_FEATURES issue). And, although not yet compi=
+lable, it also reduces the dependency loops between systemd&lt;-&gt;shadow<=
+/div><div><br></div><div>One file is still packed into libpam-modules. This=
+ should be moved to the appropriate module, but I'm not sure what the /run/=
+sepermit directory is needed for. There is also a patch added that fixes a =
+problem in meson when checking for keyring. But when I wanted to send it up=
+stream, I saw that the problem was already solved and submitted nicer by Al=
+exander Kanavin</div><div><br></div><div>The ptest part is also still missi=
+ng. When xtests is enabled, the tests compile without errors, but by defaul=
+t they are neither built nor installed. So I wanted to ask first, what of t=
+his is still needed? I will therefore send the patch as RFC for review</div=
+></div></div>
+--=-bnpr3ww1nMnvnWX1ihcj--
+
 
