@@ -1,90 +1,116 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50FE5E69E9C
-	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 23:21:39 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.web11.7111.1733181694702776065
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CB87E69E9E
+	for <webhook@archiver.kernel.org>; Mon,  2 Dec 2024 23:38:49 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.web11.7429.1733182718534659308
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 15:21:35 -0800
+ Mon, 02 Dec 2024 15:38:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FDHX4qJk;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-434a766b475so44788535e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 15:21:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1733181692; x=1733786492; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=FzCzQMkDr4PbfSTIq5MHybNnFzrUsqElZBp2sl9c/PY=;
-        b=FDHX4qJk36M/rJM2GMw05kNBSl+VGgQom/cbszuHhBIjDMQVKCI7zN1SgBYFcXvELn
-         ZNP+SJrVZ7u/Oi5e0ygtSxaUT+d7rWFJNOCtDref+DMZEbl4OWQh5FeWV3kragnwZqyI
-         PqFVndPEKM3xNd60NWpDpg2aJcGRKTh2+sE+U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733181692; x=1733786492;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FzCzQMkDr4PbfSTIq5MHybNnFzrUsqElZBp2sl9c/PY=;
-        b=sLT9tQRtS6hgOn/OLKJck/KFXhTLreHMhm/nRkSwjDqcozQtSObMxfA2Pf2lvWPyVL
-         LLm7hyF7EV15oy9anGRJzsEOovoFytDUc6jksMg84nlqBtHsxtEeZn2M+/WsTDqxy6/F
-         QVkJV/TU17PyvOSvMaEmJjzUrxzExka65KptDTkjTkv+kM4T0E5TiPsRsxjPrEqAbJ72
-         MRkw6pQeSjkC/SNuscR+mWUlqizfmvQ2Sjo/EUWC+drafX9/mVyFhWkzhs2LF5YyPoSV
-         BzQ0tckD8vCL6EkoZOC84raDz1YJ/xC0LbdMoajDt/gNpDV1usi4ISaxpJzH0UokfwoG
-         Fn8w==
-X-Gm-Message-State: AOJu0YxBrNiKExhaZoUnFj945TKDVWuzMcfrGIPrmPkijDPmUzTdfZ4q
-	7YxekG0y2y32+PfZRONjMJR2tj4WkllTEDjYmKDo4onFSO0NkfAp8h5s2Pxw+R63i75sqPdSSs1
-	e
-X-Gm-Gg: ASbGnctVLhdZxsAd7J71nON9gOb06LJ+EjIqTR7uteqT7nZQthBpxfmZrZDu364yUnA
-	/9nxPViTgTCeDKnk92rGK/o23m0ehs3OLwEWC2Zr+1o/4nTShoXqMKK129JhIllkWQmxI1DjlBW
-	nY1hnWN+Kj6ttj8QgOROB7yRUqVu65zq/rkaBER59rThc/28UH6NFeC+7xPCMLQHXe4L1dS5n6I
-	iVcw6SJ1Dg58OdNSEsa2ePVHz1dVDWIr0V6kYj6fUOIho6HmNKC4HYqjherNEmKUef5tjqcVrwa
-	7w==
-X-Google-Smtp-Source: AGHT+IFxUi6ew7fQ3CfLVl8ih1zBe+yA2YoWCcRusGKUJ4cz8kUDVdzze0bzGM9tSsjkfJOnZhUweQ==
-X-Received: by 2002:a05:600c:46ca:b0:434:a2a6:ed0d with SMTP id 5b1f17b1804b1-434d0a23a81mr2090295e9.29.1733181692447;
-        Mon, 02 Dec 2024 15:21:32 -0800 (PST)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9d38:5367:893d:ab7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434b0f70cbfsm172236205e9.36.2024.12.02.15.21.31
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 15:21:31 -0800 (PST)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=g/dOe9Wl;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-2024120223383563fbe55899888dd969-dvvsdu@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 2024120223383563fbe55899888dd969
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 03 Dec 2024 00:38:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=6a6YFJBk0JqBkM1HaY1L0EfwNRoZ35IZSDtuXRMV4GQ=;
+ b=g/dOe9Wl9iA/MtlS3ITD8diiNG6hzBg5Vt0fOMi7+PTOKE0z4DSmha9atPui0+DStxYWO5
+ n66mY0/aL0gVHN9kgWAmNHRpSHqG8VbKY68HlLzuGmz1hJey1GmeliXqlfu1NRa9xezE6LmE
+ v/ugE75awe2sv3KTaQQlhrGriJ68964YBuFNfgRhkbxNDUTZ96zjLXSYCHY9K7Apb70uFj3T
+ XPtj16IUWHKv26HNfgL9dRfgjOmw2olIDx+VH5P4ZLlxogAq07iDj5SQdZJbnBKVHxuEQeY6
+ 8cEVmFoZAVRtDGgg7g4hp8dwUHXwT+QJcDonJLVnIN+ivzj8Hthvs/0A==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] buildhistory: Drop git-gc call as obsolete
-Date: Mon,  2 Dec 2024 23:21:30 +0000
-Message-ID: <20241202232130.33442-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.45.2
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] qemu: patch CVE-2024-6505
+Date: Tue,  3 Dec 2024 00:37:14 +0100
+Message-Id: <20241202233714.2808602-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 23:21:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208162
+ <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 23:38:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208163
 
-buildhistory used to result in many individual objects in the repo which
-could affect performance. This gc call was added over a decade ago to avoid
-those performance issues. Modern git calls git-gc when needed and this kind
-of workaround should no longer be needed.
+Backport patch [3] as linked from [1] via [2].
 
-There is a small chance this is contributing to problems with the autobuilder
-buildhistory repositories, so simplifying the code may help that too.
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-6505
+[2] https://bugzilla.redhat.com/show_bug.cgi?id=2295760
+[3] https://gitlab.com/qemu-project/qemu/-/commit/f1595ceb
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes/buildhistory.bbclass | 1 -
- 1 file changed, 1 deletion(-)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2024-6505.patch             | 40 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
 
-diff --git a/meta/classes/buildhistory.bbclass b/meta/classes/buildhistory.bbclass
-index ce3abaa69d4..d735dd5fb5d 100644
---- a/meta/classes/buildhistory.bbclass
-+++ b/meta/classes/buildhistory.bbclass
-@@ -877,7 +877,6 @@ END
- 			# Porcelain output looks like "?? packages/foo/bar"
- 			# Ensure we commit metadata-revs with the first commit
- 			buildhistory_single_commit "$CMDLINE" "$HOSTNAME" dummy
--			git gc --auto --quiet
- 		else
- 			buildhistory_single_commit "$CMDLINE" "$HOSTNAME"
- 		fi
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 1c0e8a93f1..95d9c9de5a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -120,6 +120,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2024-4467-0005.patch \
+            file://CVE-2023-3019-0001.patch \
+            file://CVE-2023-3019-0002.patch \
++           file://CVE-2024-6505.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
+new file mode 100644
+index 0000000000..f9ee36f8ed
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
+@@ -0,0 +1,40 @@
++From f1595ceb9aad36a6c1da95bcb77ab9509b38822d Mon Sep 17 00:00:00 2001
++From: Akihiko Odaki <akihiko.odaki@daynix.com>
++Date: Mon, 1 Jul 2024 20:58:04 +0900
++Subject: [PATCH] virtio-net: Ensure queue index fits with RSS
++
++Ensure the queue index points to a valid queue when software RSS
++enabled. The new calculation matches with the behavior of Linux's TAP
++device with the RSS eBPF program.
++
++Fixes: 4474e37a5b3a ("virtio-net: implement RX RSS processing")
++Reported-by: Zhibin Hu <huzhibin5@huawei.com>
++Cc: qemu-stable@nongnu.org
++Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
++
++CVE: CVE-2024-6505
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/f1595ceb9aad36a6c1da95bcb77ab9509b38822d]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ hw/net/virtio-net.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
++index 8f30972708..5635620a31 100644
++--- a/hw/net/virtio-net.c
+++++ b/hw/net/virtio-net.c
++@@ -1752,7 +1752,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
++     if (!no_rss && n->rss_data.enabled && n->rss_data.enabled_software_rss) {
++         int index = virtio_net_process_rss(nc, buf, size);
++         if (index >= 0) {
++-            NetClientState *nc2 = qemu_get_subqueue(n->nic, index);
+++            NetClientState *nc2 =
+++                qemu_get_subqueue(n->nic, index % n->curr_queue_pairs);
++             return virtio_net_receive_rcu(nc2, buf, size, true);
++         }
++     }
++-- 
++2.30.2
++
+-- 
+2.30.2
+
 
