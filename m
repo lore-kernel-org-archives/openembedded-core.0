@@ -2,259 +2,212 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C449E64A97
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81A97E64A93
 	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 13:37:34 +0000 (UTC)
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
- by mx.groups.io with SMTP id smtpd.web11.19579.1733233050527642410
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+ by mx.groups.io with SMTP id smtpd.web11.19578.1733233048870646228
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 05:37:30 -0800
+ Tue, 03 Dec 2024 05:37:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dbel5ROt;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21572ca3cccso24676975ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=wXRPgzE/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.177, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-7ee11ff7210so3814761a12.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233050; x=1733837850; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5Y8uTAisc/YWKFOj5iCEx/HCA8u7jm/RlidoOFbjIMw=;
-        b=dbel5ROtNO47ottUmjmJXnsXkXtEOdUG+q1jgAtGsk6m4WDQMvRxHvkF9TEFHbNiBN
-         uPpWjIL2CRmHrYsoPuBqdrzlCKPmUIKrniCR0uvcr004N6r90MjMdFl74VJAGD5nDNcd
-         yjyfAch4TbhX1VqP1smAlfxkaGxkFopj8YV1y3PfY4foye2Ogqv5dt6VzVXl4DqlwkrA
-         SivSocn4bWs7vQOYR9uDhf1aARFponJb1dzdQ+6qrpjl0/7HvTM2fWchnr1rUr5GliqH
-         i0UrcRUrxXmYphgxTETsyvYycRyHM6OwCl307zZBmyNRqddxt2rkPDxZuoJg4DA1nZvh
-         Twzg==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233048; x=1733837848; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CFISD6tGcCKuSCwAklja1HO44AKoVgznDwn8YD6l0p8=;
+        b=wXRPgzE/w111flC9lTH9C1hoERSaqmUn3lqeLUrhGne17UmEbAGSWdrSa+xX4LXMkM
+         LpRTyYmCHRN8+gcrjuDwXDFkyQo9nJ63QNygiUkP7MrnAOensfbPtI0E/EX5kP01BZhN
+         capV15xYJiCM6KJCOj2/awDyGV92uSou5nWk0ff3JYVPL7pKacHqQMFI/fVfO5tCfWv2
+         6SSno3HroWAikRguHQ/491Ek7XC3WzdpdbLbRbtE213Xvtxj6kQKV5fY/xyp+v5Rrb6d
+         K3Jd9cvKQ3BLXdDZFt6x0Ny+vV9temW1thuwzsac5LIwMp682hnGBc+KKn2egGWGb0Mz
+         JEuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733233050; x=1733837850;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5Y8uTAisc/YWKFOj5iCEx/HCA8u7jm/RlidoOFbjIMw=;
-        b=kI0kj4IfSR9ODzz5E59pSXx5ixFw7p9e8GkW8Oys/zCFT3ORCVivWqo3fj1RXA9rKL
-         QmfUIMnv7GUS8XyYBs4oskanWeFJgBaw4LEb9Xxz41iSCeTXfACssPnqjv1d9Jd74p4f
-         uBOGrpiNdpzo/WMtOml1o/LPGt3Ysv38TGKimE9UOFPVsugpu7Dl5oT2KAAdjZ+2RvPF
-         9Ap4EUHYwnpisiG6WUCLuCP+D7/Y4Kaa2N+pR7azBVIjW9M1zCip67JcB43N11f1Ql3J
-         gMmUf/EWQlDK03uFf3Voqs2xbtrWgEKNfZxZw75UGqXSOjkUiUj11iWRq3s/2SCozgjh
-         WNCA==
-X-Gm-Message-State: AOJu0YyJqOaec4Sbnpt9YdxEbDa0hxJQvgs0/5SLU2cJPGjbSztpTRpm
-	FAGdMJj+H3TmX64rtXgdFyUoDd86Ss4G7yHOC7x4LUvuDsdR79IIxP6sCpiGGETzBf79eaoagyp
-	f
-X-Gm-Gg: ASbGnctMEnCpWY97ThHar4H64cuUxZqx8BDWmUVfrnYmWvAz9cWDYcu8S6/IjCr+pKp
-	t4htd06n+4Nuv0vcQI6uUS2bizzClnV4qYQfBcNEX3CGAUdTGjPmSuDWanPSqYC2h7+0JXBnM4+
-	HBR+kiyx1+axSWmXu0hS4QfVFDfoEFQus/3YX4/8LD5xO034P20t9S/LC3Y9Mzsn1P/iqMcW37T
-	EJzlmIbHy/axTvgup1BRfloXugSsjfi96svoyA=
-X-Google-Smtp-Source: AGHT+IHv33axVJ8ZYevgD+fubojq/L5PkuUQZzRonhGrFLwkRz3gz25z+LBvjuNr7tsUlv0R2Yapcg==
-X-Received: by 2002:a17:902:f688:b0:215:a964:e680 with SMTP id d9443c01a7336-215bd200355mr28964585ad.25.1733233049786;
-        Tue, 03 Dec 2024 05:37:29 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733233048; x=1733837848;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CFISD6tGcCKuSCwAklja1HO44AKoVgznDwn8YD6l0p8=;
+        b=PNFCXKcIi+VMus6BssjRJxmEJCmCgo8VKULO9Hu25nD7I3H4CoVbm1kSzFMjt8REF0
+         XSEImLzP4vq4QGMTZJ3Gv1ZgvtWEd+41gXRX6Mb3f/Iuu0FA2Gy7xtRSpoWKvDKDTjgH
+         2diyUScsMAW+6uzi5LNAhMITjaCdtqgy51atcS0aDATGnayUPFeT0/UWIHHCPNODS2Cz
+         02SmFuRHebHbxtFRIFxhxFAg7l952XuZ0C9nIKzwe9RUppCxd56ImNTUhaAMXoD8CTZO
+         w7328i0X11uBVIrVRmjYnQ/e1Gu/TEIrXalWldtr8HnPJWd5EyfMINqcW3for2VLVMv+
+         PBZg==
+X-Gm-Message-State: AOJu0YzJk3jX+bblh9RnVWAXwZmkWmwaWA2CDyXxjacW3F9y4IL/tNp7
+	qgJIC/V7Yy4c+H12Wa8GsSfaXM3kc1+CxRy94IDsD0HBt9mLIb3EeHEgpu5wHu+/gCpuywJwxKP
+	s
+X-Gm-Gg: ASbGncv8hggfMOMLbZTY1hv2lCdJCcyXtRRACTLIryHwnRd+77H6c+w9et/Aq2SOc7p
+	V+96Y4NqLmQMjHLzv9EZe0+1CwVmnsZbijKhmN1Cb3ZVZcbcIoJivSxf+jRDPlv3IBAsDoVubDv
+	4vh6ZjD0eLw3QSFNfzwGcHdcKQrtyt/tR1jsJ5/KhLqKUddLwAa+n4V5YBD8dQ/pXFzk5/TVEKk
+	3EaOJLBAUgESE2gj0XjnaIvvJdctrLKiNnqMqI=
+X-Google-Smtp-Source: AGHT+IGvQgz/fZ4rg4PMUTEGtZzCxDYE9XX562vivILmqUNkEfneHShVlRT1izFmGvaVajZGfmYp3Q==
+X-Received: by 2002:a05:6a20:9185:b0:1e0:de01:4407 with SMTP id adf61e73a8af0-1e16541223emr3771660637.37.1733233048037;
+        Tue, 03 Dec 2024 05:37:28 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.29
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 05:37:29 -0800 (PST)
+        Tue, 03 Dec 2024 05:37:27 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 01/16] python3-zipp: fix CVE-2024-5569
-Date: Tue,  3 Dec 2024 05:37:05 -0800
-Message-Id: <ec77cfe12f0790c7e3cf2d9bf00e47b4c653997c.1733232895.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 00/16] Patch review
+Date: Tue,  3 Dec 2024 05:37:04 -0800
+Message-Id: <cover.1733232895.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1733232895.git.steve@sakoman.com>
-References: <cover.1733232895.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 13:37:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208190
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208189
 
-From: Jiaying Song <jiaying.song.cn@windriver.com>
+Please review this set of changes to scarthgap and have comments back by
+end of day Thursday, December 5
 
-A Denial of Service (DoS) vulnerability exists in the jaraco/zipp
-library, affecting all versions prior to 3.19.1. The vulnerability is
-triggered when processing a specially crafted zip file that leads to an
-infinite loop. This issue also impacts the zipfile module of CPython, as
-features from the third-party zipp library are later merged into
-CPython, and the affected code is identical in both projects. The
-infinite loop can be initiated through the use of functions affecting
-the `Path` module in both zipp and zipfile, such as `joinpath`, the
-overloaded division operator, and `iterdir`. Although the infinite loop
-is not resource exhaustive, it prevents the application from responding.
-The vulnerability was addressed in version 3.19.1 of jaraco/zipp.
+Passed a-full on autobuilder:
 
-References:
-https://nvd.nist.gov/vuln/detail/CVE-2024-5569
+https://valkyrie.yoctoproject.org/#/builders/29/builds/560
 
-Upstream patches:
-https://github.com/jaraco/zipp/pull/120/commits/79a309fe54dc6b7934fb72e9f31bcb58f2e9f547
-https://github.com/jaraco/zipp/pull/120/commits/564fcc10cdbfdaecdb33688e149827465931c9e0
-https://github.com/jaraco/zipp/pull/120/commits/58115d2be968644ce71ce6bcc9b79826c82a1806
-https://github.com/jaraco/zipp/pull/120/commits/c18417ed2953e181728a7dac07bff88a2190abf7
+The following changes since commit dac630ab5ee7aa6c5c7c294093adbd11b116c765:
 
-Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
----
- .../python/python3-zipp/CVE-2024-5569.patch   | 138 ++++++++++++++++++
- .../python/python3-zipp_3.17.0.bb             |   1 +
- 2 files changed, 139 insertions(+)
+  llvm: reduce size of -dbg package (2024-11-22 05:42:54 -0800)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+Aleksandar Nikolic (1):
+  scripts/install-buildtools: Update to 5.0.5
+
+Changqing Li (2):
+  acpica: fix CVE-2024-24856
+  libsoup: fix CVE-2024-52530, CVE-2024-52531
+
+Deepthi Hemraj (1):
+  glibc: stable 2.39 branch updates
+
+Florian Kreutzer (1):
+  dropbear: backport fix for concurrent channel open/close
+
+Gassner, Tobias.ext (1):
+  rootfs: Ensure run-postinsts is not uninstalled for
+    read-only-rootfs-delayed-postinsts
+
+Hitendra Prajapati (1):
+  libsndfile: fix CVE-2024-50612
+
+Jiaying Song (1):
+  python3-zipp: fix CVE-2024-5569
+
+Jinfeng Wang (1):
+  tzdata&tzcode-native: upgrade 2024a -> 2024b
+
+Markus Volk (2):
+  gcc: add a backport patch to fix an issue with tzdata 2024b
+  ninja: fix build with python 3.13
+
+Peter Marko (1):
+  builder: set CVE_PRODUCT
+
+Robert Yang (1):
+  libgcrypt: Fix building error with '-O2' in sysroot path
+
+Soumya Sambu (1):
+  python3-requests: upgrade 2.32.1 -> 2.32.2
+
+Trevor Gamblin (1):
+  python3-urllib3: upgrade 2.2.1 -> 2.2.2
+
+Yogita Urade (1):
+  qemu: upgrade 8.2.3 -> 8.2.7
+
+ meta/lib/oe/rootfs.py                         |    4 +
+ meta/lib/oeqa/selftest/cases/overlayfs.py     |   41 +-
+ ...e-channels-when-a-PID-hasn-t-started.patch |   45 +
+ .../recipes-core/dropbear/dropbear_2022.83.bb |    1 +
+ .../glib-2.0/gdatetime-test-fail-0001.patch   |   72 +
+ .../glib-2.0/gdatetime-test-fail-0002.patch   |   65 +
+ .../glib-2.0/gdatetime-test-fail-0003.patch   |   63 +
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |    3 +
+ meta/recipes-core/glibc/glibc-version.inc     |    2 +-
+ meta/recipes-devtools/gcc/gcc-13.3.inc        |    1 +
+ ...4fffe3fc82a710bea66ad651720d71c938b8.patch |  549 ++++++++
+ ...4efb41c039789b81f0dc0d67c1ed0faea17c.patch |   62 +
+ meta/recipes-devtools/ninja/ninja_1.11.1.bb   |    5 +-
+ ...s_2.31.0.bb => python3-requests_2.32.0.bb} |    2 +-
+ ...lib3_2.2.1.bb => python3-urllib3_2.2.2.bb} |    2 +-
+ .../python/python3-zipp/CVE-2024-5569.patch   |  138 ++
+ .../python/python3-zipp_3.17.0.bb             |    1 +
+ ...u-native_8.2.3.bb => qemu-native_8.2.7.bb} |    0
+ ...e_8.2.3.bb => qemu-system-native_8.2.7.bb} |    0
+ meta/recipes-devtools/qemu/qemu.inc           |   14 +-
+ ...kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch |   75 --
+ ...kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch |   73 -
+ ...cv-kvm-change-timer-regs-size-to-u64.patch |  107 --
+ .../qemu/qemu/CVE-2024-4467-0001.patch        |  112 --
+ .../qemu/qemu/CVE-2024-4467-0002.patch        |   55 -
+ .../qemu/qemu/CVE-2024-4467-0003.patch        |   57 -
+ .../qemu/qemu/CVE-2024-4467-0004.patch        | 1187 -----------------
+ .../qemu/qemu/CVE-2024-4467-0005.patch        |  239 ----
+ .../qemu/qemu/CVE-2024-7409-0001.patch        |  167 ---
+ .../qemu/qemu/CVE-2024-7409-0002.patch        |  175 ---
+ .../qemu/qemu/CVE-2024-7409-0003.patch        |  126 --
+ .../qemu/qemu/CVE-2024-7409-0004.patch        |  164 ---
+ .../qemu/{qemu_8.2.3.bb => qemu_8.2.7.bb}     |    0
+ .../acpica/acpica_20240322.bb                 |    3 +-
+ .../acpica/files/CVE-2024-24856.patch         |   31 +
+ meta/recipes-extended/timezone/timezone.inc   |    6 +-
+ meta/recipes-graphics/builder/builder_0.1.bb  |    3 +-
+ .../libsndfile1/CVE-2024-50612.patch          |  412 ++++++
+ .../libsndfile/libsndfile1_1.2.2.bb           |    1 +
+ ...ilding-error-with-O2-in-sysroot-path.patch |   64 +
+ ...ilding-error-with-O2-in-sysroot-path.patch |   39 -
+ .../libgcrypt/libgcrypt_1.10.3.bb             |    2 +-
+ .../libsoup-3.4.4/CVE-2024-52530.patch        |  150 +++
+ .../libsoup-3.4.4/CVE-2024-52531-1.patch      |  116 ++
+ .../libsoup-3.4.4/CVE-2024-52531-2.patch      |   40 +
+ .../libsoup-3.4.4/CVE-2024-52531-3.patch      |  136 ++
+ meta/recipes-support/libsoup/libsoup_3.4.4.bb |    4 +
+ scripts/install-buildtools                    |    4 +-
+ 48 files changed, 2016 insertions(+), 2602 deletions(-)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/gdatetime-test-fail-0001.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/gdatetime-test-fail-0002.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/gdatetime-test-fail-0003.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
+ create mode 100644 meta/recipes-devtools/ninja/ninja/885b4efb41c039789b81f0dc0d67c1ed0faea17c.patch
+ rename meta/recipes-devtools/python/{python3-requests_2.31.0.bb => python3-requests_2.32.0.bb} (84%)
+ rename meta/recipes-devtools/python/{python3-urllib3_2.2.1.bb => python3-urllib3_2.2.2.bb} (86%)
  create mode 100644 meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch
+ rename meta/recipes-devtools/qemu/{qemu-native_8.2.3.bb => qemu-native_8.2.7.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu-system-native_8.2.3.bb => qemu-system-native_8.2.7.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0001.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0002.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0003.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0004.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0005.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
+ rename meta/recipes-devtools/qemu/{qemu_8.2.3.bb => qemu_8.2.7.bb} (100%)
+ create mode 100644 meta/recipes-extended/acpica/files/CVE-2024-24856.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50612.patch
+ create mode 100644 meta/recipes-support/libgcrypt/files/0001-Fix-building-error-with-O2-in-sysroot-path.patch
+ delete mode 100644 meta/recipes-support/libgcrypt/files/0002-libgcrypt-fix-building-error-with-O2-in-sysroot-path.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52530.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup-3.4.4/CVE-2024-52531-3.patch
 
-diff --git a/meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch b/meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch
-new file mode 100644
-index 0000000000..1cc43243bf
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch
-@@ -0,0 +1,138 @@
-+From b1804347ec2db16452a7bff2b469d2c66776b904 Mon Sep 17 00:00:00 2001
-+From: "Jason R. Coombs" <jaraco@jaraco.com>
-+Date: Fri, 31 May 2024 11:20:57 -0400
-+Subject: [PATCH] fix CVE-2024-5569
-+
-+The patch includes the following changes:
-+c18417e Add news fragment.
-+58115d2 Employ SanitizedNames in CompleteDirs. Fixes broken test.
-+564fcc1 Add SanitizedNames mixin.
-+79a309f Add some assertions about malformed paths.
-+
-+Upstream-Status: Backport
-+[https://github.com/jaraco/zipp/pull/120/commits/79a309fe54dc6b7934fb72e9f31bcb58f2e9f547]
-+[https://github.com/jaraco/zipp/pull/120/commits/564fcc10cdbfdaecdb33688e149827465931c9e0]
-+[https://github.com/jaraco/zipp/pull/120/commits/58115d2be968644ce71ce6bcc9b79826c82a1806]
-+[https://github.com/jaraco/zipp/pull/120/commits/c18417ed2953e181728a7dac07bff88a2190abf7]
-+
-+CVE: CVE-2024-5569
-+
-+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
-+---
-+ newsfragments/119.bugfix.rst |  1 +
-+ tests/test_path.py           | 17 ++++++++++
-+ zipp/__init__.py             | 64 +++++++++++++++++++++++++++++++++++-
-+ 3 files changed, 81 insertions(+), 1 deletion(-)
-+ create mode 100644 newsfragments/119.bugfix.rst
-+
-+diff --git a/newsfragments/119.bugfix.rst b/newsfragments/119.bugfix.rst
-+new file mode 100644
-+index 0000000..6c72e2d
-+--- /dev/null
-++++ b/newsfragments/119.bugfix.rst
-+@@ -0,0 +1 @@
-++Improved handling of malformed zip files.
-+\ No newline at end of file
-+diff --git a/tests/test_path.py b/tests/test_path.py
-+index a77a5de..3752243 100644
-+--- a/tests/test_path.py
-++++ b/tests/test_path.py
-+@@ -575,3 +575,20 @@ class TestPath(unittest.TestCase):
-+         zipp.Path(alpharep)
-+         with self.assertRaises(KeyError):
-+             alpharep.getinfo('does-not-exist')
-++    
-++    def test_malformed_paths(self):
-++        """
-++        Path should handle malformed paths.
-++        """
-++        data = io.BytesIO()
-++        zf = zipfile.ZipFile(data, "w")
-++        zf.writestr("/one-slash.txt", b"content")
-++        zf.writestr("//two-slash.txt", b"content")
-++        zf.writestr("../parent.txt", b"content")
-++        zf.filename = ''
-++        root = zipfile.Path(zf)
-++        assert list(map(str, root.iterdir())) == [
-++            'one-slash.txt',
-++            'two-slash.txt',
-++            'parent.txt',
-++        ]
-+diff --git a/zipp/__init__.py b/zipp/__init__.py
-+index becd010..e980e9b 100644
-+--- a/zipp/__init__.py
-++++ b/zipp/__init__.py
-+@@ -84,7 +84,69 @@ class InitializedState:
-+         super().__init__(*args, **kwargs)
-+ 
-+ 
-+-class CompleteDirs(InitializedState, zipfile.ZipFile):
-++class SanitizedNames:
-++    """
-++    ZipFile mix-in to ensure names are sanitized.
-++    """
-++
-++    def namelist(self):
-++        return list(map(self._sanitize, super().namelist()))
-++
-++    @staticmethod
-++    def _sanitize(name):
-++        r"""
-++        Ensure a relative path with posix separators and no dot names.
-++
-++        Modeled after
-++        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
-++        but provides consistent cross-platform behavior.
-++
-++        >>> san = SanitizedNames._sanitize
-++        >>> san('/foo/bar')
-++        'foo/bar'
-++        >>> san('//foo.txt')
-++        'foo.txt'
-++        >>> san('foo/.././bar.txt')
-++        'foo/bar.txt'
-++        >>> san('foo../.bar.txt')
-++        'foo../.bar.txt'
-++        >>> san('\\foo\\bar.txt')
-++        'foo/bar.txt'
-++        >>> san('D:\\foo.txt')
-++        'D/foo.txt'
-++        >>> san('\\\\server\\share\\file.txt')
-++        'server/share/file.txt'
-++        >>> san('\\\\?\\GLOBALROOT\\Volume3')
-++        '?/GLOBALROOT/Volume3'
-++        >>> san('\\\\.\\PhysicalDrive1\\root')
-++        'PhysicalDrive1/root'
-++
-++        Retain any trailing slash.
-++        >>> san('abc/')
-++        'abc/'
-++
-++        Raises a ValueError if the result is empty.
-++        >>> san('../..')
-++        Traceback (most recent call last):
-++        ...
-++        ValueError: Empty filename
-++        """
-++
-++        def allowed(part):
-++            return part and part not in {'..', '.'}
-++
-++        # Remove the drive letter.
-++        # Don't use ntpath.splitdrive, because that also strips UNC paths
-++        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
-++        clean = bare.replace('\\', '/')
-++        parts = clean.split('/')
-++        joined = '/'.join(filter(allowed, parts))
-++        if not joined:
-++            raise ValueError("Empty filename")
-++        return joined + '/' * name.endswith('/')
-++
-++
-++class CompleteDirs(InitializedState, SanitizedNames, zipfile.ZipFile):
-+     """
-+     A ZipFile subclass that ensures that implied directories
-+     are always included in the namelist.
-+-- 
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-index e9e220e315..9f756887b5 100644
---- a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-+++ b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
-@@ -3,6 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
- 
-+SRC_URI += "file://CVE-2024-5569.patch"
- SRC_URI[sha256sum] = "84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0"
- 
- DEPENDS += "python3-setuptools-scm-native"
 -- 
 2.34.1
 
