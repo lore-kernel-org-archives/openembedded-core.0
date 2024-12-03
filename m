@@ -2,173 +2,114 @@ Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 876CCE6C5F0
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 02:42:41 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1148E6C5EE
+	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 03:05:31 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.web10.10640.1733193752237691047
+ by mx.groups.io with SMTP id smtpd.web11.11101.1733195128549480025
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 18:42:32 -0800
+ Mon, 02 Dec 2024 19:05:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=h+jXVGwL;
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Hd11MbcY;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2IMVSr021908
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Dec 2024 02:42:31 GMT
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2KMsVK010851
+	for <openembedded-core@lists.openembedded.org>; Tue, 3 Dec 2024 03:05:28 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	B+sgutxkMsYb+KhTeVS6tX+AhzMaFZzThQvQaCVBC0M=; b=h+jXVGwLdr1yo0kL
-	77o87CH1EItYm4LwhdrFXGh2DDePB21dz5BxMADcAdxitg7fmVO4KJzuiQyJ5aZ7
-	UIvh0q5V+t/mX4zwzSqeXh4SkhxwdC1kt4yDYncIBBi5xP5/Wy1XsD0XVxnjqMVi
-	tXIuEnOXx6cGlv67eSQhNlZNxjr1HVMbjqkZQT2YtBl9hxgx8EE2rCxQnMqG9ezm
-	RVwY+ryUZeNqe92N4FYLbXweTzajClz24Hq64Thmd8ulUZkxor9yqJktga3yvtZI
-	Dg/6gClxkZyXjEnk3qg70xBUmDCwvHVHzEjBwHF/cbzml1sFM+u7asmrtmyPUnDy
-	SJZ5AA==
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437rdees63-1
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=8e/gcrbTuRq
+	dpSIPn/fvjiIvD9toiazoGTsiE6PC76M=; b=Hd11MbcY93YkSIUFiMqzshqWg3p
+	F1g04ciA53w1LGf2zruPWU+HBN8Yn8xFOntkyReu4j+Kmry2HBYa+OzbCBnaxhNJ
+	uA5LfVyA6ixy1AIyFjNlRtcVhIYi6IguXWe9GevAXYBykzJzsageZzk/BYtRtVGy
+	8u9/KLNiR9H9vGz/Th4JOETFAOP3rwyhxXMBIdgEx4bV8CllWufgwA1H1RYVYo8n
+	a60PtmtHGz6gwMo5w10hcSW2xDtMYmeznSYUNaZ882FdRGTab3Vk4v98QyCAkY8q
+	zEHPqwSALQAQ6z81jR/7fB/G7Pv7zL+WsXz3Fdo+OmvMIfyXNqam7F5o6Cw==
+Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4393mpbk0d-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 02:42:31 +0000 (GMT)
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-6ef8494edb2so19434247b3.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 18:42:31 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 03:05:27 +0000 (GMT)
+Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-7eaac1e95ffso3868526a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 19:05:27 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733193750; x=1733798550;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1733195127; x=1733799927;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=B+sgutxkMsYb+KhTeVS6tX+AhzMaFZzThQvQaCVBC0M=;
-        b=G8Jx1+4NAeJukI7mObKPZHXtQNANe0ifoNYqpLM9Y1E1FOmg2kGguZUmrpF3AxkscS
-         DsY2PzQO1rmTCXZ7GoBtv/t9rtFLGvIDhWKhyKMeh8iA+ZRsDciFVm7/9ZfNYMX0NrxA
-         okQjOoKCZb+Fi0sGmzeNBNYbnnGgJ6FxpWRz4Ti8dib8oWUibfaL2yLHERv05YqXbfsz
-         lyz3HAbDqyzVAT+OWiI2vrq+ChOII0WNagM4Yss/X9u8YGkfHNzqrPqlTabldLAxgEui
-         ipHbf0N/6t1TAI0ekNf5JAPThdI67YNs8cEJI6mL0X5XO9ApxcneLqFHSOsowtgZmcsU
-         xLhQ==
-X-Gm-Message-State: AOJu0YyvhF2R6CvcbGLZSoa07TzxM4Hmz18z9zZjDxCuvhiRQfSsVc5F
-	gGbzN33ZfhhMd9Om6NxtB2syIo8vg0t7lMGN/6Gwk0o/pcF6jKchuxQg+atMriyhBX2Dn9cET5g
-	EOTDIiPqZb2EVeawYzZz4Eyv9+1mKhZiQQDmo3lkZTa2zu8L3Fh/icEH+Gype69PtPFKrs5FYck
-	xiQbE4jKM06B8fRObqm8H2FefYngKMicNupQFKFADaxszuaTbF++fqi9OrFlSKPA==
-X-Gm-Gg: ASbGncuj2tzFPrdirENfUAhaawDMfPTCoGIIhtNKWZhHpPZGTtljmN6/nlVSZbjCWqc
-	N1R+DeiASah/379KeJ5TcjG21+OZcIfd4ig==
-X-Received: by 2002:a05:690c:b1b:b0:6ef:4ed2:7df4 with SMTP id 00721157ae682-6efad1b518dmr12980647b3.33.1733193750395;
-        Mon, 02 Dec 2024 18:42:30 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IHGZg8m/+FzXq7NLaiqc4h9LjNVGMCPq24jHYFBZDCeiIYpDIyEs0tQj92vJuZ5gn8+dmpeIZUVxH/fR9EUZhY=
-X-Received: by 2002:a05:690c:b1b:b0:6ef:4ed2:7df4 with SMTP id
- 00721157ae682-6efad1b518dmr12980537b3.33.1733193750085; Mon, 02 Dec 2024
- 18:42:30 -0800 (PST)
+        bh=8e/gcrbTuRqdpSIPn/fvjiIvD9toiazoGTsiE6PC76M=;
+        b=uAxNxutk/DU6I5yGSMcO4fCDn/qsHfhPwtVaBP7SX6/eNWM1i2Ud5N2Iw0OpxnOAZP
+         oGh8Lo8aV2n+AtQBw51OB93ioihNtvCM8hRApWHf6nbgEwebXj4oTGABOo+KLWNSMaX8
+         Z7SY1JriBpLJQ3mZRiXPi3ajqDv9aO2g2sui48N3dPqI6kAQpTWiQfOEQKkEKDbsuxQ9
+         RGITKFTqW7AcpELOtyI7NEBoZXLqG8NFP/B4vroFtVgMEOznRu6TUzjXVHG4TCnMZ7Kn
+         EyBzimgd8AloXA26jXnk62t4VADckFM6ZnCquLt7FTBH7s1TwaLDSoKVbNw8o9f3sXPZ
+         WaUQ==
+X-Gm-Message-State: AOJu0YwkCUPdCdq/UyiCJnse+87CFzQ2WDGH4iPQt4xERvEYPofKbtfT
+	5dt6iYH8MuC4fXWDNdvXI8jchayvyKjd++LsaMah4NwGMNIblXOxguQ51R7J6wE6ialag2hUlbk
+	ND9CZB3F18Qua8JoJ5i6xxU2DFZT3PeWuEAHQNHkcE4G2lNqaoXQ+6zfqaMQaRXRmVMz94XcqaP
+	YrpjAEbOdnvRo=
+X-Gm-Gg: ASbGnctr1Z34fdu8d5oZ8NxM7TKK9CWza26D8vPDviK6Q7mWb40WTanpksi+yaFbhTw
+	l7cYy1pTiQUu1kHYfIJw6VkpZRLO3O/e/5Bv+oZF1zjyRNJwaBkZQbnzwwi6ht/MZ7gkgqTBMAT
+	9f+1S+fcjKe7kd/GpFvVHV9Dmvbiaj1A0hhGHsCWmwU+3kWfcs3OGprB9x6WWn6YDVsqv/eMzXg
+	v7M1VvA4RMO5vGpuc9H1hjk7iJ8YgPOnf9uLUi1KBsL0XCCHhqLy31HVGP5tkT21huIHaY0Pg==
+X-Received: by 2002:a05:6a21:9999:b0:1e0:d51b:10c5 with SMTP id adf61e73a8af0-1e1653c81b0mr1506648637.20.1733195126910;
+        Mon, 02 Dec 2024 19:05:26 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IH2zGkjGwT1jJxUApifb3+1CjTlmkfZdn/kymFmwD4zToFJkh/MQu+vWvOcjG/Se4QW+28W3A==
+X-Received: by 2002:a05:6a21:9999:b0:1e0:d51b:10c5 with SMTP id adf61e73a8af0-1e1653c81b0mr1506612637.20.1733195126505;
+        Mon, 02 Dec 2024 19:05:26 -0800 (PST)
+Received: from evatuf.domocacupe ([187.34.86.240])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725417612b5sm9315462b3a.30.2024.12.02.19.05.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Dec 2024 19:05:26 -0800 (PST)
+From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: mathieu.dubois-briand@bootlin.com, peter.kjellerstedt@axis.com
+Subject: [PATCH v2 2/3] systemd: split long line in pkg_postinst
+Date: Tue,  3 Dec 2024 00:05:19 -0300
+Message-Id: <20241203030520.1288256-2-ricardo.salveti@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241203030520.1288256-1-ricardo.salveti@oss.qualcomm.com>
+References: <20241203030520.1288256-1-ricardo.salveti@oss.qualcomm.com>
 MIME-Version: 1.0
-References: <20241129033654.1275825-1-ricardo.salveti@oss.qualcomm.com> <DB5PR02MB102136B5A51F5964FFE6DC3ADEF352@DB5PR02MB10213.eurprd02.prod.outlook.com>
-In-Reply-To: <DB5PR02MB102136B5A51F5964FFE6DC3ADEF352@DB5PR02MB10213.eurprd02.prod.outlook.com>
-From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
-Date: Mon, 2 Dec 2024 23:41:53 -0300
-Message-ID: <CAA_5yovo1N-5_BS1_G8OjrMETtgxHjfUiUaNpjBND9bVi3jfuw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/2] systemd: drop deprecated rootlibdir,
- rootprefix and split-usr options
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: LbPosbINbVtzHwSshrhdByciYdAIyOrZ
-X-Proofpoint-GUID: LbPosbINbVtzHwSshrhdByciYdAIyOrZ
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-ORIG-GUID: uJKt5hEm4YBRH_8X7mM6zI4qgJbVlBqW
+X-Proofpoint-GUID: uJKt5hEm4YBRH_8X7mM6zI4qgJbVlBqW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
  definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
- adultscore=0 malwarescore=0 mlxlogscore=999 phishscore=0 suspectscore=0
- impostorscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412030021
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=829
+ impostorscore=0 mlxscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 adultscore=0 spamscore=0 priorityscore=1501
+ clxscore=1011 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412030024
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 02:42:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208171
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 03:05:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208173
 
-On Mon, Dec 2, 2024 at 4:50=E2=80=AFPM Peter Kjellerstedt
-<peter.kjellerstedt@axis.com> wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
-.openembedded.org> On Behalf Of Ricardo Salveti via lists.openembedded.org
-> > Sent: den 29 november 2024 04:37
-> > To: openembedded-core@lists.openembedded.org
-> > Subject: [OE-core] [PATCH 1/2] systemd: drop deprecated rootlibdir, roo=
-tprefix and split-usr options
-> >
-> > Support for split-usr and unmerged-usr were both removed as part of the
-> > systemd 255 release, so remove the current deprecated rootlibdir,
-> > rootprefix and split-usr options from the recipe.
-> >
-> > Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
-> > ---
-> >  meta/recipes-core/systemd/systemd_256.8.bb | 15 +++++----------
-> >  1 file changed, 5 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-=
-core/systemd/systemd_256.8.bb
-> > index c17100a636a..26d2237ce3a 100644
-> > --- a/meta/recipes-core/systemd/systemd_256.8.bb
-> > +++ b/meta/recipes-core/systemd/systemd_256.8.bb
-> > @@ -69,7 +69,7 @@ PAM_PLUGINS =3D " \
-> >  "
-> >
-> >  PACKAGECONFIG ??=3D " \
-> > -    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit efi ldconfig pam =
-pni-names selinux smack usrmerge polkit seccomp', d)} \
-> > +    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit efi ldconfig pam =
-pni-names selinux smack polkit seccomp', d)} \
-> >      ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo', 'coredump=
- elfutils', '', d)} \
-> >      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} =
-\
-> >      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)=
-} \
-> > @@ -218,7 +218,6 @@ def build_epoch(d):
-> >  PACKAGECONFIG[set-time-epoch] =3D "${@build_epoch(d)},-Dtime-epoch=3D0=
-"
-> >  PACKAGECONFIG[timedated] =3D "-Dtimedated=3Dtrue,-Dtimedated=3Dfalse"
-> >  PACKAGECONFIG[timesyncd] =3D "-Dtimesyncd=3Dtrue,-Dtimesyncd=3Dfalse"
-> > -PACKAGECONFIG[usrmerge] =3D "-Dsplit-usr=3Dfalse,-Dsplit-usr=3Dtrue"
-> >  PACKAGECONFIG[sbinmerge] =3D "-Dsplit-bin=3Dfalse,-Dsplit-bin=3Dtrue"
-> >  PACKAGECONFIG[userdb] =3D "-Duserdb=3Dtrue,-Duserdb=3Dfalse"
-> >  PACKAGECONFIG[utmp] =3D "-Dutmp=3Dtrue,-Dutmp=3Dfalse"
-> > @@ -240,14 +239,10 @@ CFLAGS:append =3D " --sysroot=3D${STAGING_DIR_TAR=
-GET}"
-> >
-> >  # Helper variables to clarify locations.  This mirrors the logic in sy=
-stemd's
-> >  # build system.
-> > -rootprefix ?=3D "${root_prefix}"
-> > -rootlibdir ?=3D "${base_libdir}"
-> > -rootlibexecdir =3D "${rootprefix}/lib"
-> > +rootlibexecdir =3D "${nonarch_base_libdir}"
->
-> Why use ${nonarch_base_libdir} here? ${nonarch_libdir} should be
-> more appropriate now that usrmerge is removed.
+Cosmetic change only to avoid max line length patchset failures when
+changing the target line.
 
-Agree, will change on v2.
+Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+---
+v2: separated cosmetic change to avoid max line length failures
 
-> >  EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
-> >                    -Dnobody-group=3Dnogroup \
-> > -                  -Drootlibdir=3D${rootlibdir} \
-> > -                  -Drootprefix=3D${rootprefix} \
-> >                    -Ddefault-locale=3DC \
-> >                    -Dmode=3Drelease \
-> >                    -Dsystem-alloc-uid-min=3D101 \
-> > @@ -403,7 +398,7 @@ do_install() {
-> >  }
-> >
-> >  python populate_packages:prepend (){
-> > -    systemdlibdir =3D d.getVar("rootlibdir")
-> > +    systemdlibdir =3D d.getVar("nonarch_base_libdir")
->
-> This should be using base_libdir (or libdir as suggested above).
+ meta/recipes-core/systemd/systemd_256.8.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Yeah, nonarch will fail on cases where it is different than
-base_libdir/libdir, as noticed by Mathieu. Will fix on v2.
+diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.8.bb
+index 5bec9cb976f..6004d911ea8 100644
+--- a/meta/recipes-core/systemd/systemd_256.8.bb
++++ b/meta/recipes-core/systemd/systemd_256.8.bb
+@@ -899,7 +899,8 @@ pkg_prerm:${PN}:libc-glibc () {
+ PACKAGE_WRITE_DEPS += "qemu-native"
+ pkg_postinst:udev-hwdb () {
+ 	if test -n "$D"; then
+-		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX} rootlibexecdir="${rootlibexecdir}" PREFERRED_PROVIDER_udev="${PREFERRED_PROVIDER_udev}" base_bindir="${base_bindir}"
++		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX} \
++			rootlibexecdir="${rootlibexecdir}" PREFERRED_PROVIDER_udev="${PREFERRED_PROVIDER_udev}" base_bindir="${base_bindir}"
+ 	else
+ 		systemd-hwdb update
+ 	fi
+-- 
+2.34.1
 
-Same for the other suggestions.
-
-Thanks for the review.
-
-Cheers,
-
-Ricardo
 
