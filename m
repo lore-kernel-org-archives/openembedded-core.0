@@ -1,427 +1,489 @@
-Return-Path: <ricardo.salveti@oss.qualcomm.com>
+Return-Path: <changqing.li@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84CFEE6C5F4
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 03:05:41 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.web10.10981.1733195132147750017
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B7707E6C5F6
+	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 03:26:11 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.web10.11285.1733196369147655200
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 19:05:32 -0800
+ Mon, 02 Dec 2024 19:26:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Ya1o4oSF;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.180.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2I62B5006221
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Dec 2024 03:05:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=xguYEzxbbZW
-	6FG57R01iC1yudDGJmhXzGfkY3japwLw=; b=Ya1o4oSF5nIU6sLrVF+zkxNwLQg
-	/N2hPkuA9VYtiMUQC9sTfDWNHmiwtY46dm+BdfJf9yA6/RwnR3Vdz/jM69Gh2Ttq
-	tsO3I90WjopcagGu3DD/UnANChikM1rjk7ayeUabVQGrBCbzVVVw3rqMYMlv3Kr3
-	qZin6iviB6eL6SRl5ppsgIWn8umSq4ozLZRsMugOQxJ8PT9DHuw7h0cVABkopOB+
-	kVE1ynmOb1GVFAXEr+dopgDht2cwYKJCo6L8BD6/xl4XpE3JkUIQJawRNyUOjaGp
-	aGiztJKD46s9qVHVz6C+vklHZ8Kku/s+XsejnCYgP8GJolpbRutdpdSZeww==
-Received: from mail-pf1-f197.google.com (mail-pf1-f197.google.com [209.85.210.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437t1geq8g-1
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=2067c8c0a9=changqing.li@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B33J3XP014418
+	for <openembedded-core@lists.openembedded.org>; Tue, 3 Dec 2024 03:26:08 GMT
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 437qx12tvw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 03:05:31 +0000 (GMT)
-Received: by mail-pf1-f197.google.com with SMTP id d2e1a72fcca58-7250da8a2a5so4657963b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 19:05:30 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733195130; x=1733799930;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xguYEzxbbZW6FG57R01iC1yudDGJmhXzGfkY3japwLw=;
-        b=eDJrA3e02VzcKtflyIJ+sPUnGhaQ1MQ1vbyJneeo3ngZ93Dyqe/TS+mFSsENi727Nv
-         j1ODI7Y29aDKtleRvlJScVNbsXryDziJ4/2VKkszwezy+feUEB9V+/FW84lakMX8igLj
-         5bmBnjy7dGJXo16R2j6CcWX8FNxyUjZyelQDWypNlwloro0bdFK9/9qezzF2KoQzq0Kh
-         iUg6Xj495x5b58aExalnbyqFGLNk9ZZr77+RFxajR2FBwE51uOwry4yXxISk5E4AC0LB
-         IWMol8sSQ/kfyNwJwMrI0ogQAakdKzChvt4B03DYX9R51XhuOBxKClF1Wk9LM05r47iq
-         3ptQ==
-X-Gm-Message-State: AOJu0YzFnFzw81dJNcBu+/4Y/iyusVsTRITgxpOsLhsJk2wMQpR576sv
-	g25WBFsqGRi9YUlo5aFDgK8BmyVY+kKIXYLRtN64ztNpZkZhK12y2qbHjJEdTeUlBUJjs+OWllg
-	N1dGj5CwUom9hn+6tGwYQjW5Eqy7Bcp8cG6m9IZvvrYpLscua34kpgEM4DGH5Dnf/E42wrWb86U
-	sNHUxMlgp8LBM=
-X-Gm-Gg: ASbGncuC823YyWNquyK0VvyfkYFy45OD3g1cGL3ThkatMNknwz+MbgyMqLj/u6P62T6
-	7egXEDU9c1JdsxxIclVBvxzDJh12JM2P11gfunPOd9bkC+/bZ3i1jYs+OBzxM2r2/vG2q1WKar9
-	5bLQ7VCnCCa6NuBON/poyIxjMC2nsZpHup9hLYIIooO4NEmLm2MkIZGrn/+zUdnVmY8Ez976X7Q
-	sjOVyfqXU0RvFE3j2bIyFgzea1zoPLl/FNbl1mo5YadBpt3lj3EpDNMzXs26SZSbZNV4YiEyw==
-X-Received: by 2002:a05:6a20:e549:b0:1e0:d2f5:6ee8 with SMTP id adf61e73a8af0-1e16540f268mr1351012637.40.1733195129351;
-        Mon, 02 Dec 2024 19:05:29 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IE8ukLPlpEwXydA9D9QdLQHujYoO3+Hh2sFgNX9YAHccElzsCHt2lrml1rcry9DEXGLVsj0ww==
-X-Received: by 2002:a05:6a20:e549:b0:1e0:d2f5:6ee8 with SMTP id adf61e73a8af0-1e16540f268mr1350959637.40.1733195128504;
-        Mon, 02 Dec 2024 19:05:28 -0800 (PST)
-Received: from evatuf.domocacupe ([187.34.86.240])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-725417612b5sm9315462b3a.30.2024.12.02.19.05.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Dec 2024 19:05:28 -0800 (PST)
-From: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: mathieu.dubois-briand@bootlin.com, peter.kjellerstedt@axis.com
-Subject: [PATCH v2 3/3] systemd: remove custom rootlibexecdir and replace with nonarch_libdir
-Date: Tue,  3 Dec 2024 00:05:20 -0300
-Message-Id: <20241203030520.1288256-3-ricardo.salveti@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20241203030520.1288256-1-ricardo.salveti@oss.qualcomm.com>
-References: <20241203030520.1288256-1-ricardo.salveti@oss.qualcomm.com>
+	for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 03:26:07 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Mon, 2 Dec 2024 19:26:06 -0800
+Received: from pek-lpg-core2.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
+ 15.1.2507.43 via Frontend Transport; Mon, 2 Dec 2024 19:26:06 -0800
+From: <changqing.li@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH] sysvinit: upgrade 3.04 -> 3.11
+Date: Tue, 3 Dec 2024 11:26:05 +0800
+Message-ID: <20241203032605.2651655-1-changqing.li@windriver.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: dS21ei9HSKhbMfS4vF2yQN6FotRtVeAz
-X-Proofpoint-ORIG-GUID: dS21ei9HSKhbMfS4vF2yQN6FotRtVeAz
+Content-Type: text/plain
+X-Proofpoint-GUID: jtYO9UiyqUVvBJnDaRHC5nuHD5NKreTk
+X-Authority-Analysis: v=2.4 cv=EuYorTcA c=1 sm=1 tr=0 ts=674e7a50 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=RZcAm9yDv7YA:10 a=NEAV23lmAAAA:8 a=5KEJ3k9QAAAA:8 a=20KFwNOVAAAA:8 a=CCpqsmhAAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8
+ a=KlJKwSvTAAAA:8 a=hc3Y6PCLAAAA:8 a=QyXUC8HyAAAA:8 a=6sJjxqMxkPgO8Xa_p6IA:9 a=GUWpzuUKvtD1TzFp:21 a=olg2BfGzmf2haRflzj8J:22 a=ul9cdbp4aOFLsgKbc677:22 a=FdTzh2GWekK77mhwV6Dw:22 a=hg6DrcduIUDBMDTMTUZT:22 a=S5bhdcXtTeLX7qDPhYnx:22
+X-Proofpoint-ORIG-GUID: jtYO9UiyqUVvBJnDaRHC5nuHD5NKreTk
 X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
- definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 mlxscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 clxscore=1015 suspectscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2412030024
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-02_14,2024-12-03_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 phishscore=0
+ clxscore=1015 priorityscore=1501 suspectscore=0 adultscore=0 mlxscore=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=999
+ malwarescore=0 classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
+ engine=8.21.0-2411120000 definitions=main-2412030027
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 03:05:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208174
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 03:26:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208175
 
-The rootprefix build option was deprecated in systemd 255, making the
-custom rootlibexecdir unnecessary, so remove it in favor of the standard
-nonarch_libdir definition.
+From: Changqing Li <changqing.li@windriver.com>
 
-Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+Refresh patches:
+crypt-lib.patch
+install.patch
+pidof-add-m-option.patch
+realpath.patch
+
+Drop patches since upstream already include these changes:
+0001-hddown-include-libgen.h-for-basename-API.patch
+sysvinit_remove_linux_fs.patch
+
+Refer:
+https://github.com/slicer69/sysvinit/releases
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
 ---
-v2: replaced nonarch_base_libdir with nonarch_libdir as we can assume
-usrmerge is used.
+ ...wn-include-libgen.h-for-basename-API.patch | 38 --------------
+ .../sysvinit/sysvinit/crypt-lib.patch         | 19 ++++---
+ .../sysvinit/sysvinit/install.patch           | 52 ++++++-------------
+ .../sysvinit/pidof-add-m-option.patch         | 30 ++++++-----
+ .../sysvinit/sysvinit/realpath.patch          | 14 ++---
+ .../sysvinit/sysvinit_remove_linux_fs.patch   | 17 ------
+ .../{sysvinit_3.04.bb => sysvinit_3.11.bb}    |  4 +-
+ 7 files changed, 53 insertions(+), 121 deletions(-)
+ delete mode 100644 meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch
+ delete mode 100644 meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch
+ rename meta/recipes-core/sysvinit/{sysvinit_3.04.bb => sysvinit_3.11.bb} (95%)
 
- meta/recipes-core/systemd/systemd_256.8.bb | 186 ++++++++++-----------
- 1 file changed, 91 insertions(+), 95 deletions(-)
-
-diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-core/systemd/systemd_256.8.bb
-index 6004d911ea8..c1915d7e941 100644
---- a/meta/recipes-core/systemd/systemd_256.8.bb
-+++ b/meta/recipes-core/systemd/systemd_256.8.bb
-@@ -237,10 +237,6 @@ RESOLV_CONF ??= ""
- # the eBPFs, so that it can find needed system includes in there.
- CFLAGS:append = " --sysroot=${STAGING_DIR_TARGET}"
- 
--# Helper variables to clarify locations.  This mirrors the logic in systemd's
--# build system.
--rootlibexecdir = "${nonarch_libdir}"
+diff --git a/meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch b/meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch
+deleted file mode 100644
+index 5e4053bad1d..00000000000
+--- a/meta/recipes-core/sysvinit/sysvinit/0001-hddown-include-libgen.h-for-basename-API.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From a07c1d94e79840c59563741b45e690e77d4f3dfa Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Sun, 3 Dec 2023 20:09:30 -0800
+-Subject: [PATCH] hddown: include libgen.h for basename API
 -
- EXTRA_OEMESON += "-Dnobody-user=nobody \
-                   -Dnobody-group=nogroup \
-                   -Ddefault-locale=C \
-@@ -290,8 +286,8 @@ do_install() {
- 	fi
+-musl has removed the non-prototype declaration of basename from string.h [1] which now results in build errors with clang-17+ compiler
+-
+-include libgen.h for using the posix declaration of the funciton.
+-
+-Fixes
+-
+-hddown.c:135:8: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+-  135 |                         ptr = basename(lnk);
+-      |                             ^ ~~~~~~~~~~~~~
+-
+-[1] https://git.musl-libc.org/cgit/musl/commit/?id=725e17ed6dff4d0cd22487bb64470881e86a92e7
+-
+-Upstream-Status: Submitted [https://github.com/slicer69/sysvinit/pull/21]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/hddown.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/src/hddown.c b/src/hddown.c
+-index 7a2cf28..3b31bc0 100644
+---- a/src/hddown.c
+-+++ b/src/hddown.c
+-@@ -24,6 +24,7 @@ char *v_hddown = "@(#)hddown.c  1.02  22-Apr-2003  miquels@cistron.nl";
+- #ifndef _GNU_SOURCE
+- #define _GNU_SOURCE
+- #endif
+-+#include <libgen.h>
+- #include <stdio.h>
+- #include <stdlib.h>
+- #include <unistd.h>
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
+index 5c39fb001b1..24c81822187 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/crypt-lib.patch
+@@ -1,4 +1,4 @@
+-From c3a068cf24a22bea7349849ec111ae8d91a54db4 Mon Sep 17 00:00:00 2001
++From 49250c8e0ef563aafd5bbea62612f3d15fdee3af Mon Sep 17 00:00:00 2001
+ From: Jeff Dike <jdike@x86_64.user-mode-linux.org>
+ Date: Wed, 14 Jul 2010 14:35:52 -0400
+ Subject: [PATCH] sysvinit - Remove sulogin dependency on /usr/lib*/libcrypt.a
+@@ -9,19 +9,19 @@ Upstream-Status: Inappropriate [configuration]
+ # build environment.  This patch checks for $LCRYPT in the environment
+ # and uses it if it's there.
+ # - jdike@linux.intel.com
+-
+ ---
+- src/Makefile | 11 ++---------
+- 1 file changed, 2 insertions(+), 9 deletions(-)
++ src/Makefile | 12 ++----------
++ 1 file changed, 2 insertions(+), 10 deletions(-)
  
- 	# Provide support for initramfs
--	[ ! -e ${D}/init ] && ln -s ${rootlibexecdir}/systemd/systemd ${D}/init
--	[ ! -e ${D}/${base_sbindir}/udevd ] && ln -s ${rootlibexecdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
-+	[ ! -e ${D}/init ] && ln -s ${nonarch_libdir}/systemd/systemd ${D}/init
-+	[ ! -e ${D}/${base_sbindir}/udevd ] && ln -s ${nonarch_libdir}/systemd/systemd-udevd ${D}/${base_sbindir}/udevd
+ diff --git a/src/Makefile b/src/Makefile
+-index 5b1a5a2..b686394 100644
++index 0210171..f696247 100644
+ --- a/src/Makefile
+ +++ b/src/Makefile
+-@@ -97,15 +97,8 @@ else
+- endif
++@@ -101,16 +101,8 @@ endif
+  
+- # Additional libs for GNU libc.
++ ROOT	?= $(DESTDIR)
++ 
++-# Additional libs for GNU libc.
+ -ifneq ($(wildcard $(ROOT)/usr/lib*/libcrypt.*),)
+ -  SULOGINLIBS	+= -lcrypt
+ -endif
+@@ -36,3 +36,6 @@ index 5b1a5a2..b686394 100644
+  endif
+  
+  all:		$(BIN) $(SBIN) $(USRBIN)
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/sysvinit/sysvinit/install.patch b/meta/recipes-core/sysvinit/sysvinit/install.patch
+index bc6d493c2ba..536bd771041 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/install.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/install.patch
+@@ -1,19 +1,18 @@
+-From 5e35aa105e7a2e85db2a89fee4114090b1ac55be Mon Sep 17 00:00:00 2001
++From f73a2c768687f3fed0ab570f47fa2157e5d4e586 Mon Sep 17 00:00:00 2001
+ From: Qing He <qing.he@intel.com>
+ Date: Fri, 18 Jun 2010 09:40:30 +0800
+ Subject: [PATCH] sysvinit: upgrade to version 2.88dsf
  
- 	install -d ${D}${sysconfdir}/udev/rules.d/
- 	install -d ${D}${nonarch_libdir}/tmpfiles.d
-@@ -304,7 +300,7 @@ do_install() {
- 	if ${@bb.utils.contains('DISTRO_FEATURES','sysvinit','true','false',d)}; then
- 		install -d ${D}${sysconfdir}/init.d
- 		install -m 0755 ${UNPACKDIR}/init ${D}${sysconfdir}/init.d/systemd-udevd
--		sed -i s%@UDEVD@%${rootlibexecdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
-+		sed -i s%@UDEVD@%${nonarch_libdir}/systemd/systemd-udevd% ${D}${sysconfdir}/init.d/systemd-udevd
- 		install -Dm 0755 ${S}/src/systemctl/systemd-sysv-install.SKELETON ${D}${systemd_unitdir}/systemd-sysv-install
- 	fi
+ Upstream-Status: Submitted [https://github.com/slicer69/sysvinit/pull/13]
+-
+ ---
+- src/Makefile | 53 +++++++++++++++++++++++++++++-----------------------
+- 1 file changed, 30 insertions(+), 23 deletions(-)
++ src/Makefile | 37 ++++++++++++++++++++++---------------
++ 1 file changed, 22 insertions(+), 15 deletions(-)
  
-@@ -323,8 +319,8 @@ do_install() {
- 	# if the user requests /tmp be on persistent storage (i.e. not volatile)
- 	# then don't use a tmpfs for /tmp
- 	if ! ${@bb.utils.contains('FILESYSTEM_PERMS_TABLES', 'files/fs-perms-volatile-tmp.txt', 'true', 'false', d)}; then
--		rm -f ${D}${rootlibexecdir}/systemd/system/tmp.mount
--		rm -f ${D}${rootlibexecdir}/systemd/system/local-fs.target.wants/tmp.mount
-+		rm -f ${D}${nonarch_libdir}/systemd/system/tmp.mount
-+		rm -f ${D}${nonarch_libdir}/systemd/system/local-fs.target.wants/tmp.mount
- 	fi
+ diff --git a/src/Makefile b/src/Makefile
+-index 1b368dc..5b1a5a2 100644
++index 21cbb2e..0210171 100644
+ --- a/src/Makefile
+ +++ b/src/Makefile
+-@@ -77,7 +77,14 @@ else
++@@ -80,7 +80,14 @@ else
+    INSTALL_DATA	= install -m 644
+  endif
+  INSTALL_DIR	= install -m 755 -d
+@@ -29,7 +28,7 @@ index 1b368dc..5b1a5a2 100644
+  
+  ifeq ($(WITH_SELINUX),yes)
+    SELINUX_DEF	=  -DWITH_SELINUX
+-@@ -191,43 +198,43 @@ clobber:	cleanobjs
++@@ -196,31 +203,31 @@ clobber:	cleanobjs
+  distclean:	clobber
+  
+  install:	all
+@@ -55,43 +54,26 @@ index 1b368dc..5b1a5a2 100644
+ -		ln -sf halt $(ROOT)/sbin/reboot
+ -		ln -sf halt $(ROOT)/sbin/poweroff
+ -		ln -sf init $(ROOT)/sbin/telinit
+--		ln -sf /sbin/killall5 $(ROOT)/bin/pidof
++-		ln -sf ../sbin/killall5 $(ROOT)/bin/pidof
+ -		if [ ! -f $(ROOT)/usr/bin/lastb ]; then \
+ -			ln -sf last $(ROOT)/usr/bin/lastb; \
+ +		ln -sf halt $(ROOT)$(base_sbindir)/reboot
+ +		ln -sf halt $(ROOT)$(base_sbindir)/poweroff
+ +		ln -sf init $(ROOT)$(base_sbindir)/telinit
+-+		ln -sf $(base_sbindir)/killall5 $(ROOT)$(base_bindir)/pidof
+++		ln -sf ..$(base_sbindir)/killall5 $(ROOT)$(base_bindir)/pidof
+ +		if [ ! -f $(ROOT)$(bindir)/lastb ]; then \
+ +			ln -sf last $(ROOT)$(bindir)/lastb; \
+  		fi
+ -		$(INSTALL_DIR) $(ROOT)/usr/include/
+ -		$(INSTALL_DATA) initreq.h $(ROOT)/usr/include/
+--		$(INSTALL_DIR) $(ROOT)$(MANDIR)/man1/
+--		$(INSTALL_DIR) $(ROOT)$(MANDIR)/man5/
+--		$(INSTALL_DIR) $(ROOT)$(MANDIR)/man8/
+ +		$(INSTALL_DIR) $(ROOT)$(includedir)/
+ +		$(INSTALL_DATA) initreq.h $(ROOT)$(includedir)/
+-+		$(INSTALL_DIR) $(ROOT)$(mandir)/man1/
+-+		$(INSTALL_DIR) $(ROOT)$(mandir)/man5/
+-+		$(INSTALL_DIR) $(ROOT)$(mandir)/man8/
+- 		for man in $(MAN1); do \
+--			$(INSTALL_DATA) ../man/$$man $(ROOT)$(MANDIR)/man1/; \
+--			sed -i "1{ $(MANDB); }" $(ROOT)$(MANDIR)/man1/$$man ; \
+-+			$(INSTALL_DATA) ../man/$$man $(ROOT)$(mandir)/man1/; \
+-+			sed -i "1{ $(MANDB); }" $(ROOT)$(mandir)/man1/$$man ; \
+- 		done
+- 		for man in $(MAN5); do \
+--			$(INSTALL_DATA) ../man/$$man $(ROOT)$(MANDIR)/man5/; \
+--			sed -i "1{ $(MANDB); }" $(ROOT)$(MANDIR)/man5/$$man ; \
+-+			$(INSTALL_DATA) ../man/$$man $(ROOT)$(mandir)/man5/; \
+-+			sed -i "1{ $(MANDB); }" $(ROOT)$(mandir)/man5/$$man ; \
+- 		done
+- 		for man in $(MAN8); do \
+--			$(INSTALL_DATA) ../man/$$man $(ROOT)$(MANDIR)/man8/; \
+--			sed -i "1{ $(MANDB); }" $(ROOT)$(MANDIR)/man8/$$man ; \
+-+			$(INSTALL_DATA) ../man/$$man $(ROOT)$(mandir)/man8/; \
+-+			sed -i "1{ $(MANDB); }" $(ROOT)$(mandir)/man8/$$man ; \
+- 		done
+- ifeq ($(ROOT),)
+- 		#
++ 		for man in $(MANPAGES) ; do \
++-		    targetdir=$(ROOT)$(MANDIR)/$$(dirname $$man)/man$${man##*.}; \
+++		    targetdir=$(ROOT)$(mandir)/$$(dirname $$man)/man$${man##*.}; \
++ 		    $(INSTALL_DIR) $$targetdir; \
++ 		    $(INSTALL_DATA) ../man/$$man $$targetdir/$$(basename $$man); \
++ 		    sed -i "1{ $(MANDB); }" $$targetdir/$$(basename $$man); \
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch b/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
+index 8ef292ed129..66da6fb4032 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/pidof-add-m-option.patch
+@@ -1,4 +1,4 @@
+-From 0e441712d0e366a0384ff3fa879f5a2d2607c24f Mon Sep 17 00:00:00 2001
++From 2b19b36409b8de0621b9aeb0d13748e947a5bbfb Mon Sep 17 00:00:00 2001
+ From: Hongxu Jia <hongxu.jia@windriver.com>
+ Date: Wed, 24 Jul 2013 17:07:22 +0800
+ Subject: [PATCH] pidof: add -m option
+@@ -14,7 +14,6 @@ Upstream-Status: Backport
+ Imported patch from: https://bugzilla.redhat.com/attachment.cgi?id=658166
  
- 	install -d ${D}${systemd_system_unitdir}/graphical.target.wants
-@@ -388,11 +384,11 @@ do_install() {
- 	fi
+ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+-
+ ---
+  man/pidof.8    |  6 +++++
+  src/killall5.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++---
+@@ -45,17 +44,17 @@ index 6866cb3..a87d878 100644
+  .TP
+  .B 0
+ diff --git a/src/killall5.c b/src/killall5.c
+-index b0728fa..72289e3 100644
++index 6f7528a..34d656b 100644
+ --- a/src/killall5.c
+ +++ b/src/killall5.c
+ @@ -121,6 +121,7 @@ typedef struct _s_nfs
+  
+  /* List of processes. */
+- PROC *plist;
+-+PROC *olist;
++ PROC *plist = NULL;
+++PROC *olist = NULL;
+  
+  /* List of processes to omit. */
+- OMIT *omit;
++ OMIT *omit = NULL;
+ @@ -356,6 +357,20 @@ static void clear_mnt(void)
+  	}
+  }
+@@ -85,7 +84,7 @@ index b0728fa..72289e3 100644
+  	struct dirent	*d;
+  	char		path[PATH_MAX+1];
+  	char		buf[PATH_MAX+1];
+-@@ -670,6 +686,17 @@ int readproc()
++@@ -671,6 +687,17 @@ int readproc()
+  		p->next = plist;
+  		plist = p;
+  		p->pid = pid;
+@@ -103,7 +102,7 @@ index b0728fa..72289e3 100644
+  	}
+  	closedir(dir);
+  
+-@@ -870,6 +897,26 @@ PIDQ_HEAD *pidof(char *prog)
++@@ -877,6 +904,26 @@ PIDQ_HEAD *pidof(char *prog)
+  	return q;
+  }
+  
+@@ -130,7 +129,7 @@ index b0728fa..72289e3 100644
+  /* Give usage message and exit. */
+  void usage(void)
+  {
+-@@ -920,6 +967,7 @@ void nsyslog(int pri, char *fmt, ...)
++@@ -927,6 +974,7 @@ void nsyslog(int pri, char *fmt, ...)
+  #define PIDOF_OMIT	0x02
+  #define PIDOF_NETFS	0x04
+  #define PIDOF_QUIET     0x08
+@@ -138,7 +137,7 @@ index b0728fa..72289e3 100644
+  
+  /*
+   *	Pidof functionality.
+-@@ -937,6 +985,7 @@ int main_pidof(int argc, char **argv)
++@@ -944,6 +992,7 @@ int main_pidof(int argc, char **argv)
+  	char		tmp[512];
+          char            sep = ' ';
+  
+@@ -146,7 +145,7 @@ index b0728fa..72289e3 100644
+  	omit = (OMIT*)0;
+  	nlist = (NFS*)0;
+  	opterr = 0;
+-@@ -944,7 +993,7 @@ int main_pidof(int argc, char **argv)
++@@ -951,7 +1000,7 @@ int main_pidof(int argc, char **argv)
+  	if ((token = getenv("PIDOF_NETFS")) && (strcmp(token,"no") != 0))
+  		flags |= PIDOF_NETFS;
+  
+@@ -155,7 +154,7 @@ index b0728fa..72289e3 100644
+  		case '?':
+  			nsyslog(LOG_ERR,"invalid options on command line!\n");
+  			closelog();
+-@@ -995,6 +1044,9 @@ int main_pidof(int argc, char **argv)
++@@ -1002,6 +1051,9 @@ int main_pidof(int argc, char **argv)
+                  case 'z':
+                          list_dz_processes = TRUE;
+                          break;
+@@ -165,7 +164,7 @@ index b0728fa..72289e3 100644
+  		case 'n':
+  			flags |= PIDOF_NETFS;
+  			break;
+-@@ -1026,10 +1078,13 @@ int main_pidof(int argc, char **argv)
++@@ -1033,10 +1085,13 @@ int main_pidof(int argc, char **argv)
+  			pid_t spid = 0;
+  			while ((p = get_next_from_pid_q(q))) {
+  				if ((flags & PIDOF_OMIT) && omit) {
+@@ -181,7 +180,7 @@ index b0728fa..72289e3 100644
+  					}
+  
+  					/*
+-@@ -1071,6 +1126,7 @@ int main_pidof(int argc, char **argv)
++@@ -1078,6 +1133,7 @@ int main_pidof(int argc, char **argv)
+  		printf("\n");
+          }
+  
+@@ -189,3 +188,6 @@ index b0728fa..72289e3 100644
+  	clear_mnt();
+  
+  	closelog();
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/sysvinit/sysvinit/realpath.patch b/meta/recipes-core/sysvinit/sysvinit/realpath.patch
+index b559aa3b490..7a669d01111 100644
+--- a/meta/recipes-core/sysvinit/sysvinit/realpath.patch
++++ b/meta/recipes-core/sysvinit/sysvinit/realpath.patch
+@@ -1,4 +1,4 @@
+-From eb158c97f19d473d01befe96359a7f93ae834517 Mon Sep 17 00:00:00 2001
++From 50e6b3a0fc7c083e6514a55ac93e5591aaeb787d Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 19 Nov 2015 00:10:03 +0000
+ Subject: [PATCH] Fix build on musl use realpath() API its available on all
+@@ -10,7 +10,6 @@ However for Linux it should always work
+ Upstream-Status: Inappropriate [Linux specific]
  
- 	if ${@bb.utils.contains('PACKAGECONFIG', 'pni-names', 'true', 'false', d)}; then
--		if ! grep -q '^NamePolicy=.*mac' ${D}${rootlibexecdir}/systemd/network/99-default.link; then
--			sed -i '/^NamePolicy=/s/$/ mac/' ${D}${rootlibexecdir}/systemd/network/99-default.link
-+		if ! grep -q '^NamePolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
-+			sed -i '/^NamePolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
- 		fi
--		if ! grep -q 'AlternativeNamesPolicy=.*mac' ${D}${rootlibexecdir}/systemd/network/99-default.link; then
--			sed -i '/AlternativeNamesPolicy=/s/$/ mac/' ${D}${rootlibexecdir}/systemd/network/99-default.link
-+		if ! grep -q 'AlternativeNamesPolicy=.*mac' ${D}${nonarch_libdir}/systemd/network/99-default.link; then
-+			sed -i '/AlternativeNamesPolicy=/s/$/ mac/' ${D}${nonarch_libdir}/systemd/network/99-default.link
- 		fi
- 	fi
- }
-@@ -478,7 +474,7 @@ RDEPENDS:${PN}-initramfs = "${PN}"
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  src/killall5.c   | 4 ++--
+  src/mountpoint.c | 1 +
+@@ -18,10 +17,10 @@ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+  3 files changed, 4 insertions(+), 2 deletions(-)
  
- FILES:${PN}-gui = "${bindir}/systemadm"
+ diff --git a/src/killall5.c b/src/killall5.c
+-index a664954..9798423 100644
++index 34d656b..bc19d7f 100644
+ --- a/src/killall5.c
+ +++ b/src/killall5.c
+-@@ -977,9 +977,9 @@ int matches(PROC *o, PROC *p)
++@@ -910,9 +910,9 @@ int matches(PROC *o, PROC *p)
+  	char *oargv1, *pargv1;
+  	if ((o->argv0 && p->argv0 && !strcmp(o->argv0,p->argv0))) {
+  		if (o->argv1 && p->argv1) {
+@@ -34,7 +33,7 @@ index a664954..9798423 100644
+  			if (! strcmp(oargv1, pargv1)) {
+  				ret = 1;
+ diff --git a/src/mountpoint.c b/src/mountpoint.c
+-index b24335e..5f20522 100644
++index 184b1f6..c55b0df 100644
+ --- a/src/mountpoint.c
+ +++ b/src/mountpoint.c
+ @@ -23,6 +23,7 @@
+@@ -46,7 +45,7 @@ index b24335e..5f20522 100644
+  #include <unistd.h>
+  #include <stdlib.h>
+ diff --git a/src/wall.c b/src/wall.c
+-index d3a2c70..00826e9 100644
++index e527613..1d363ca 100644
+ --- a/src/wall.c
+ +++ b/src/wall.c
+ @@ -30,6 +30,7 @@
+@@ -57,3 +56,6 @@ index d3a2c70..00826e9 100644
+  #include "init.h"
+  
+  
++-- 
++2.25.1
++
+diff --git a/meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch b/meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch
+deleted file mode 100644
+index 89d65c23b71..00000000000
+--- a/meta/recipes-core/sysvinit/sysvinit/sysvinit_remove_linux_fs.patch
++++ /dev/null
+@@ -1,17 +0,0 @@
+-# From glibc 2.36, <linux/mount.h> (included from <linux/fs.h>) and 
+-# <sys/mount.h> (included from glibc) are no longer compatible:
+-# https://sourceware.org/glibc/wiki/Release/2.36#Usage_of_.3Clinux.2Fmount.h.3E_and_.3Csys.2Fmount.h.3E
+-
+-Upstream-Status: Pending
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+---- sysvinit-3.04/src/sulogin.c.orig	2022-08-07 23:07:42.952576274 +0200
+-+++ sysvinit-3.04/src/sulogin.c	2022-08-07 23:08:26.511470983 +0200
+-@@ -51,7 +51,6 @@
+- #ifdef __linux__
+- #  include <sys/statfs.h>
+- #  include <sys/mount.h>
+--#  include <linux/fs.h>
+- #  include <linux/magic.h>
+- #  include <linux/major.h>
+- #  ifndef TMPFS_MAGIC
+diff --git a/meta/recipes-core/sysvinit/sysvinit_3.04.bb b/meta/recipes-core/sysvinit/sysvinit_3.11.bb
+similarity index 95%
+rename from meta/recipes-core/sysvinit/sysvinit_3.04.bb
+rename to meta/recipes-core/sysvinit/sysvinit_3.11.bb
+index 27ab4162a79..e8eab275644 100644
+--- a/meta/recipes-core/sysvinit/sysvinit_3.04.bb
++++ b/meta/recipes-core/sysvinit/sysvinit_3.11.bb
+@@ -16,15 +16,13 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BP}.tar.xz \
+            file://pidof-add-m-option.patch \
+            file://realpath.patch \
+            file://0001-include-sys-sysmacros.h-for-major-minor-defines-in-g.patch \
+-           file://sysvinit_remove_linux_fs.patch \
+            file://rcS-default \
+            file://rc \
+            file://rcS \
+            file://bootlogd.init \
+            file://01_bootlogd \
+-           file://0001-hddown-include-libgen.h-for-basename-API.patch \
+            "
+-SRC_URI[sha256sum] = "2a621fe6e4528bc91308b74867ddaaebbdf7753f02395c0c5bae817bd2b7e3a5"
++SRC_URI[sha256sum] = "04f1b7d67413af1c09c41acc1e3ce946f2d0f7a1e47c9978744bc542864e13d4"
  
--FILES:${PN}-vconsole-setup = "${rootlibexecdir}/systemd/systemd-vconsole-setup \
-+FILES:${PN}-vconsole-setup = "${nonarch_libdir}/systemd/systemd-vconsole-setup \
-                               ${systemd_system_unitdir}/systemd-vconsole-setup.service \
-                               ${systemd_system_unitdir}/sysinit.target.wants/systemd-vconsole-setup.service"
+ S = "${WORKDIR}/sysvinit-${PV}"
  
-@@ -494,7 +490,7 @@ FILES:${PN}-zsh-completion = "${datadir}/zsh/site-functions"
- 
- FILES:${PN}-binfmt = "${sysconfdir}/binfmt.d/ \
-                       ${exec_prefix}/lib/binfmt.d \
--                      ${rootlibexecdir}/systemd/systemd-binfmt \
-+                      ${nonarch_libdir}/systemd/systemd-binfmt \
-                       ${systemd_system_unitdir}/proc-sys-fs-binfmt_misc.* \
-                       ${systemd_system_unitdir}/systemd-binfmt.service"
- RRECOMMENDS:${PN}-binfmt = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', 'kernel-module-binfmt-misc', '', d)}"
-@@ -502,7 +498,7 @@ RRECOMMENDS:${PN}-binfmt = "${@bb.utils.contains('PACKAGECONFIG', 'binfmt', 'ker
- RDEPENDS:${PN}-vconsole-setup = "${@bb.utils.contains('PACKAGECONFIG', 'vconsole', 'kbd kbd-consolefonts kbd-keymaps', '', d)}"
- 
- 
--FILES:${PN}-journal-gatewayd = "${rootlibexecdir}/systemd/systemd-journal-gatewayd \
-+FILES:${PN}-journal-gatewayd = "${nonarch_libdir}/systemd/systemd-journal-gatewayd \
-                                 ${systemd_system_unitdir}/systemd-journal-gatewayd.service \
-                                 ${systemd_system_unitdir}/systemd-journal-gatewayd.socket \
-                                 ${systemd_system_unitdir}/sockets.target.wants/systemd-journal-gatewayd.socket \
-@@ -510,13 +506,13 @@ FILES:${PN}-journal-gatewayd = "${rootlibexecdir}/systemd/systemd-journal-gatewa
-                                "
- SYSTEMD_SERVICE:${PN}-journal-gatewayd = "systemd-journal-gatewayd.socket"
- 
--FILES:${PN}-journal-upload = "${rootlibexecdir}/systemd/systemd-journal-upload \
-+FILES:${PN}-journal-upload = "${nonarch_libdir}/systemd/systemd-journal-upload \
-                               ${systemd_system_unitdir}/systemd-journal-upload.service \
-                               ${sysconfdir}/systemd/journal-upload.conf \
-                              "
- SYSTEMD_SERVICE:${PN}-journal-upload = "systemd-journal-upload.service"
- 
--FILES:${PN}-journal-remote = "${rootlibexecdir}/systemd/systemd-journal-remote \
-+FILES:${PN}-journal-remote = "${nonarch_libdir}/systemd/systemd-journal-remote \
-                               ${sysconfdir}/systemd/journal-remote.conf \
-                               ${systemd_system_unitdir}/systemd-journal-remote.service \
-                               ${systemd_system_unitdir}/systemd-journal-remote.socket \
-@@ -543,10 +539,10 @@ FILES:${PN}-container = "${sysconfdir}/dbus-1/system.d/org.freedesktop.import1.c
-                          ${systemd_system_unitdir}/systemd-machined.service \
-                          ${systemd_system_unitdir}/dbus-org.freedesktop.machine1.service \
-                          ${systemd_system_unitdir}/var-lib-machines.mount \
--                         ${rootlibexecdir}/systemd/systemd-import \
--                         ${rootlibexecdir}/systemd/systemd-importd \
--                         ${rootlibexecdir}/systemd/systemd-machined \
--                         ${rootlibexecdir}/systemd/systemd-pull \
-+                         ${nonarch_libdir}/systemd/systemd-import \
-+                         ${nonarch_libdir}/systemd/systemd-importd \
-+                         ${nonarch_libdir}/systemd/systemd-machined \
-+                         ${nonarch_libdir}/systemd/systemd-pull \
-                          ${exec_prefix}/lib/tmpfiles.d/systemd-nspawn.conf \
-                          ${exec_prefix}/lib/tmpfiles.d/README \
-                          ${systemd_system_unitdir}/systemd-nspawn@.service \
-@@ -597,15 +593,15 @@ FILES:${PN}-extra-utils = "\
-                         ${systemd_system_unitdir}/sysinit.target.wants/systemd-pcrphase.path \
-                         ${systemd_system_unitdir}/sysinit.target.wants/systemd-pcrphase-sysinit.path \
-                         ${systemd_system_unitdir}/multi-user.target.wants/systemd-ask-password-wall.path \
--                        ${rootlibexecdir}/systemd/systemd-resolve-host \
--                        ${rootlibexecdir}/systemd/systemd-ac-power \
--                        ${rootlibexecdir}/systemd/systemd-activate \
--                        ${rootlibexecdir}/systemd/systemd-measure \
--                        ${rootlibexecdir}/systemd/systemd-pcrphase \
--                        ${rootlibexecdir}/systemd/systemd-socket-proxyd \
--                        ${rootlibexecdir}/systemd/systemd-reply-password \
--                        ${rootlibexecdir}/systemd/systemd-sleep \
--                        ${rootlibexecdir}/systemd/system-sleep \
-+                        ${nonarch_libdir}/systemd/systemd-resolve-host \
-+                        ${nonarch_libdir}/systemd/systemd-ac-power \
-+                        ${nonarch_libdir}/systemd/systemd-activate \
-+                        ${nonarch_libdir}/systemd/systemd-measure \
-+                        ${nonarch_libdir}/systemd/systemd-pcrphase \
-+                        ${nonarch_libdir}/systemd/systemd-socket-proxyd \
-+                        ${nonarch_libdir}/systemd/systemd-reply-password \
-+                        ${nonarch_libdir}/systemd/systemd-sleep \
-+                        ${nonarch_libdir}/systemd/system-sleep \
-                         ${systemd_system_unitdir}/systemd-hibernate.service \
-                         ${systemd_system_unitdir}/systemd-hybrid-sleep.service \
-                         ${systemd_system_unitdir}/systemd-pcrphase-initrd.service \
-@@ -613,22 +609,22 @@ FILES:${PN}-extra-utils = "\
-                         ${systemd_system_unitdir}/systemd-pcrphase-sysinit.service \
-                         ${systemd_system_unitdir}/systemd-suspend.service \
-                         ${systemd_system_unitdir}/sleep.target \
--                        ${rootlibexecdir}/systemd/systemd-initctl \
-+                        ${nonarch_libdir}/systemd/systemd-initctl \
-                         ${systemd_system_unitdir}/systemd-initctl.service \
-                         ${systemd_system_unitdir}/systemd-initctl.socket \
-                         ${systemd_system_unitdir}/sockets.target.wants/systemd-initctl.socket \
--                        ${rootlibexecdir}/systemd/system-generators/systemd-gpt-auto-generator \
--                        ${rootlibexecdir}/systemd/systemd-cgroups-agent \
-+                        ${nonarch_libdir}/systemd/system-generators/systemd-gpt-auto-generator \
-+                        ${nonarch_libdir}/systemd/systemd-cgroups-agent \
- "
- 
- FILES:${PN}-mime = "${MIMEDIR}"
- RRECOMMENDS:${PN} += "${PN}-mime"
- 
- FILES:${PN}-udev-rules = "\
--                        ${rootlibexecdir}/udev/rules.d/70-uaccess.rules \
--                        ${rootlibexecdir}/udev/rules.d/71-seat.rules \
--                        ${rootlibexecdir}/udev/rules.d/73-seat-late.rules \
--                        ${rootlibexecdir}/udev/rules.d/99-systemd.rules \
-+                        ${nonarch_libdir}/udev/rules.d/70-uaccess.rules \
-+                        ${nonarch_libdir}/udev/rules.d/71-seat.rules \
-+                        ${nonarch_libdir}/udev/rules.d/73-seat-late.rules \
-+                        ${nonarch_libdir}/udev/rules.d/99-systemd.rules \
- "
- 
- CONFFILES:${PN} = "${sysconfdir}/systemd/coredump.conf \
-@@ -672,7 +668,7 @@ FILES:${PN} = " ${base_bindir}/* \
-                 ${sysconfdir}/X11/xinit/xinitrc.d/* \
-                 ${sysconfdir}/ssh/ssh_config.d/20-systemd-ssh-proxy.conf \
-                 ${sysconfdir}/ssh/sshd_config.d/20-systemd-userdb.conf \
--                ${rootlibexecdir}/systemd/* \
-+                ${nonarch_libdir}/systemd/* \
-                 ${libdir}/systemd/libsystemd-core* \
-                 ${libdir}/pam.d \
-                 ${nonarch_libdir}/pam.d \
-@@ -698,8 +694,8 @@ FILES:${PN} = " ${base_bindir}/* \
-                 ${exec_prefix}/lib/environment.d \
-                 ${exec_prefix}/lib/pcrlock.d \
-                 ${localstatedir} \
--                ${rootlibexecdir}/modprobe.d/systemd.conf \
--                ${rootlibexecdir}/modprobe.d/README \
-+                ${nonarch_libdir}/modprobe.d/systemd.conf \
-+                ${nonarch_libdir}/modprobe.d/README \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.timedate1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.locale1.conf \
-                 ${datadir}/dbus-1/system.d/org.freedesktop.network1.conf \
-@@ -742,58 +738,58 @@ RDEPENDS:udev-bash-completion += "bash-completion"
- RDEPENDS:udev-hwdb += "udev"
- 
- FILES:udev += "${base_sbindir}/udevd \
--               ${rootlibexecdir}/systemd/network/99-default.link \
--               ${rootlibexecdir}/systemd/systemd-udevd \
--               ${rootlibexecdir}/udev/accelerometer \
--               ${rootlibexecdir}/udev/ata_id \
--               ${rootlibexecdir}/udev/cdrom_id \
--               ${rootlibexecdir}/udev/collect \
--               ${rootlibexecdir}/udev/dmi_memory_id \
--               ${rootlibexecdir}/udev/fido_id \
--               ${rootlibexecdir}/udev/findkeyboards \
--               ${rootlibexecdir}/udev/iocost \
--               ${rootlibexecdir}/udev/keyboard-force-release.sh \
--               ${rootlibexecdir}/udev/keymap \
--               ${rootlibexecdir}/udev/mtd_probe \
--               ${rootlibexecdir}/udev/scsi_id \
--               ${rootlibexecdir}/udev/v4l_id \
--               ${rootlibexecdir}/udev/keymaps \
--               ${rootlibexecdir}/udev/rules.d/50-udev-default.rules \
--               ${rootlibexecdir}/udev/rules.d/60-autosuspend.rules \
--               ${rootlibexecdir}/udev/rules.d/60-autosuspend-chromiumos.rules \
--               ${rootlibexecdir}/udev/rules.d/60-block.rules \
--               ${rootlibexecdir}/udev/rules.d/60-cdrom_id.rules \
--               ${rootlibexecdir}/udev/rules.d/60-dmi-id.rules \
--               ${rootlibexecdir}/udev/rules.d/60-drm.rules \
--               ${rootlibexecdir}/udev/rules.d/60-evdev.rules \
--               ${rootlibexecdir}/udev/rules.d/60-fido-id.rules \
--               ${rootlibexecdir}/udev/rules.d/60-infiniband.rules \
--               ${rootlibexecdir}/udev/rules.d/60-input-id.rules \
--               ${rootlibexecdir}/udev/rules.d/60-persistent-alsa.rules \
--               ${rootlibexecdir}/udev/rules.d/60-persistent-input.rules \
--               ${rootlibexecdir}/udev/rules.d/60-persistent-storage.rules \
--               ${rootlibexecdir}/udev/rules.d/60-persistent-storage-mtd.rules \
--               ${rootlibexecdir}/udev/rules.d/60-persistent-storage-tape.rules \
--               ${rootlibexecdir}/udev/rules.d/60-persistent-v4l.rules \
--               ${rootlibexecdir}/udev/rules.d/60-sensor.rules \
--               ${rootlibexecdir}/udev/rules.d/60-serial.rules \
--               ${rootlibexecdir}/udev/rules.d/61-autosuspend-manual.rules \
--               ${rootlibexecdir}/udev/rules.d/64-btrfs.rules \
--               ${rootlibexecdir}/udev/rules.d/70-camera.rules \
--               ${rootlibexecdir}/udev/rules.d/70-joystick.rules \
--               ${rootlibexecdir}/udev/rules.d/70-memory.rules \
--               ${rootlibexecdir}/udev/rules.d/70-mouse.rules \
--               ${rootlibexecdir}/udev/rules.d/70-power-switch.rules \
--               ${rootlibexecdir}/udev/rules.d/70-touchpad.rules \
--               ${rootlibexecdir}/udev/rules.d/75-net-description.rules \
--               ${rootlibexecdir}/udev/rules.d/75-probe_mtd.rules \
--               ${rootlibexecdir}/udev/rules.d/78-sound-card.rules \
--               ${rootlibexecdir}/udev/rules.d/80-drivers.rules \
--               ${rootlibexecdir}/udev/rules.d/80-net-setup-link.rules \
--               ${rootlibexecdir}/udev/rules.d/81-net-dhcp.rules \
--               ${rootlibexecdir}/udev/rules.d/90-vconsole.rules \
--               ${rootlibexecdir}/udev/rules.d/90-iocost.rules \
--               ${rootlibexecdir}/udev/rules.d/README \
-+               ${nonarch_libdir}/systemd/network/99-default.link \
-+               ${nonarch_libdir}/systemd/systemd-udevd \
-+               ${nonarch_libdir}/udev/accelerometer \
-+               ${nonarch_libdir}/udev/ata_id \
-+               ${nonarch_libdir}/udev/cdrom_id \
-+               ${nonarch_libdir}/udev/collect \
-+               ${nonarch_libdir}/udev/dmi_memory_id \
-+               ${nonarch_libdir}/udev/fido_id \
-+               ${nonarch_libdir}/udev/findkeyboards \
-+               ${nonarch_libdir}/udev/iocost \
-+               ${nonarch_libdir}/udev/keyboard-force-release.sh \
-+               ${nonarch_libdir}/udev/keymap \
-+               ${nonarch_libdir}/udev/mtd_probe \
-+               ${nonarch_libdir}/udev/scsi_id \
-+               ${nonarch_libdir}/udev/v4l_id \
-+               ${nonarch_libdir}/udev/keymaps \
-+               ${nonarch_libdir}/udev/rules.d/50-udev-default.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-autosuspend.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-autosuspend-chromiumos.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-block.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-cdrom_id.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-dmi-id.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-drm.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-evdev.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-fido-id.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-infiniband.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-input-id.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-persistent-alsa.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-persistent-input.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-persistent-storage.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-persistent-storage-mtd.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-persistent-storage-tape.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-persistent-v4l.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-sensor.rules \
-+               ${nonarch_libdir}/udev/rules.d/60-serial.rules \
-+               ${nonarch_libdir}/udev/rules.d/61-autosuspend-manual.rules \
-+               ${nonarch_libdir}/udev/rules.d/64-btrfs.rules \
-+               ${nonarch_libdir}/udev/rules.d/70-camera.rules \
-+               ${nonarch_libdir}/udev/rules.d/70-joystick.rules \
-+               ${nonarch_libdir}/udev/rules.d/70-memory.rules \
-+               ${nonarch_libdir}/udev/rules.d/70-mouse.rules \
-+               ${nonarch_libdir}/udev/rules.d/70-power-switch.rules \
-+               ${nonarch_libdir}/udev/rules.d/70-touchpad.rules \
-+               ${nonarch_libdir}/udev/rules.d/75-net-description.rules \
-+               ${nonarch_libdir}/udev/rules.d/75-probe_mtd.rules \
-+               ${nonarch_libdir}/udev/rules.d/78-sound-card.rules \
-+               ${nonarch_libdir}/udev/rules.d/80-drivers.rules \
-+               ${nonarch_libdir}/udev/rules.d/80-net-setup-link.rules \
-+               ${nonarch_libdir}/udev/rules.d/81-net-dhcp.rules \
-+               ${nonarch_libdir}/udev/rules.d/90-vconsole.rules \
-+               ${nonarch_libdir}/udev/rules.d/90-iocost.rules \
-+               ${nonarch_libdir}/udev/rules.d/README \
-                ${sysconfdir}/udev \
-                ${sysconfdir}/init.d/systemd-udevd \
-                ${systemd_system_unitdir}/*udev* \
-@@ -805,7 +801,7 @@ FILES:udev += "${base_sbindir}/udevd \
-               "
- 
- FILES:udev-bash-completion = "${datadir}/bash-completion/completions/udevadm"
--FILES:udev-hwdb = "${rootlibexecdir}/udev/hwdb.d \
-+FILES:udev-hwdb = "${nonarch_libdir}/udev/hwdb.d \
-                    "
- 
- RCONFLICTS:${PN} = "tiny-init ${@bb.utils.contains('PACKAGECONFIG', 'resolved', 'resolvconf', '', d)}"
-@@ -900,7 +896,7 @@ PACKAGE_WRITE_DEPS += "qemu-native"
- pkg_postinst:udev-hwdb () {
- 	if test -n "$D"; then
- 		$INTERCEPT_DIR/postinst_intercept update_udev_hwdb ${PKG} mlprefix=${MLPREFIX} binprefix=${MLPREFIX} \
--			rootlibexecdir="${rootlibexecdir}" PREFERRED_PROVIDER_udev="${PREFERRED_PROVIDER_udev}" base_bindir="${base_bindir}"
-+			rootlibexecdir="${nonarch_libdir}" PREFERRED_PROVIDER_udev="${PREFERRED_PROVIDER_udev}" base_bindir="${base_bindir}"
- 	else
- 		systemd-hwdb update
- 	fi
 -- 
-2.34.1
+2.25.1
 
 
