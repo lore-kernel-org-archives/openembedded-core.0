@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A8A8E64AA3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A97AE64AA6
 	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 13:38:04 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web11.19592.1733233077551795160
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+ by mx.groups.io with SMTP id smtpd.web11.19591.1733233075663722592
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 05:37:57 -0800
+ Tue, 03 Dec 2024 05:37:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=SXCoLdOA;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-211fb27cc6bso44544915ad.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:57 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tozLPqRO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21583cf5748so21033995ad.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233077; x=1733837877; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233075; x=1733837875; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=BBGfNT3q3EOpwM6LB3o9HKtIYE6zkIUNBtcGwXfdh/o=;
-        b=SXCoLdOAmPdcD86AXXBXCeTwQ+MFqEIFgeiZ/oa4LjKreMk53sG1/8EZh8aT+r90MK
-         FWxX78RZAq7q7NAQoBLD0puCVg+NmLyHZTmSY7ztJiNYhlLxERTiRLwKak2xjzAw/qzI
-         a9GQR7F1txcd8JBFgwJH4nLo2NboYFBpcM/c8Jjc6ODlQkidiBdi8yOaJiB3rcLc35Qx
-         LwhS6C2yAcqoieN9qfD2bOCIdNkOxpI/hnCOOAOALX0ibK88mr9jjc9vHxCwf7z5P+6u
-         r0qFbnsNoHcOZoluWkpvU1oqHa9xhTMhs/qwNMeh0OYABecBLWwqKBkdyIesbkPkSb7z
-         pwJg==
+        bh=QOcJs0m8NDhEEMao40XAlH96WUHYxgDP0r+4kn36He4=;
+        b=tozLPqROshUDvG+dTrnSS4fN7dqH37BO6hu81ff7V7NuqSbRAH5xLFii1XgVM230DQ
+         vxV+TvosIWv+KfENVNjtjS4qfYhk9UKfwbtF69g9W5SB6MjDJnWoe6A2dAGFDPl0oCw7
+         EVzP+UQnGeAbX7LZj90cvWev3VTxeRiVvdwLZ7qPmWKG8yDBqkPEJYEWBgoEwhsXlI4B
+         WvI4I3m+E1yYwoOMvBpqPwBlLJB852cAD8F7mvqi44toyhli/YYJs2GJWt4kqw4z0QRL
+         GRxSme/Eser9tPArj4nAH05cfnH9KaO0KxxCI9+gQ5EqxP+NqSWGnbq1i4OJf7CWRwJx
+         hUbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733233077; x=1733837877;
+        d=1e100.net; s=20230601; t=1733233075; x=1733837875;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=BBGfNT3q3EOpwM6LB3o9HKtIYE6zkIUNBtcGwXfdh/o=;
-        b=rg74fyzyTouTlbYTZNXnFQ5zQdlYr6ZvAGNBVaidk1RmngLwY+90DFUlU5hab9w4sc
-         fOrg42uTgbuvIBGVoq8vlFbUe1pgkWYjxiXbfrCE/TTwST3Gb1OhC51A5BElq8Ov4eSX
-         eKX57J9FK62MYTGozXrvwCl8WTTxMOLMMgSl73k3AhHGxjCJfCkNS1HDoKr19jImd8mg
-         ZJ+Upj4tGP1p808+77VLsNhoV+XSr9bZeGH9vUGNLpL/MgzAFAxqyemAZjrEHYl4Vfzc
-         ac9RFE/vVE/PcYg+LJSvwvaBxki8IQk6fdjLidNlCNdmHFSWYQtVl3k5rhCh1nKstt41
-         lu2A==
-X-Gm-Message-State: AOJu0YzqHbG1BVYfW6vDLHRjDSA63KxBE2wBVYIn5SLdyKFfNV7yemXU
-	22nVNJQsgiaizkjIeB/HSbpBrB6uig9Ri2DWw/HXDWpOKwKdnkWcCDuX8IaAYPtA5q8nOUcxk5C
-	7
-X-Gm-Gg: ASbGncvXRnGKKNxcJU9SJpIAw2povDYAlaU+juS0rCRccxCkV0kl4IxFg7J92I34ISy
-	+f0tW3fzE0fz6T3PeRoU7dhmQwCoDs+S3iwOHNyFNq2nSMt4ZmZIazPIDZD8fHrPoErIQlFrhLW
-	z1lG7LlTkZSH5nDYtvKhxfh4WVjvj2sgqUBJ746h+/OYmVumptg22Cg2xjx3ZhIzkzLBZaqNjAG
-	FwyQ79bArnatEKAlT0W6fZXWaTjSBCZpQ0dhM8=
-X-Google-Smtp-Source: AGHT+IGAIhz+70SHPjsdvZ/v3CImyrAw6sUDYBWyy36u+4HEekSODwtKs88uePLUJBg0EKImRkeFAA==
-X-Received: by 2002:a17:902:f542:b0:215:5d8c:7e47 with SMTP id d9443c01a7336-215d00b97c9mr3069545ad.36.1733233076804;
-        Tue, 03 Dec 2024 05:37:56 -0800 (PST)
+        bh=QOcJs0m8NDhEEMao40XAlH96WUHYxgDP0r+4kn36He4=;
+        b=Z1Tyre+FCai8iSUe/lciuu/J/+b4uJAEGDyqYHbeKEC5eBFfs3kl2l65b236uPKmMh
+         xRjvHLDbT1vuWu3dpPr1O2/mLTKx0eHlYC1Vvm3MoTKjd44sJdEUnuNsCKoGdA892EVX
+         rju+02oFoUDNWGGa89mK7sKrYKGxJzYjMMEH96Hr4bG982PlMgF6RKEFEhYP20FjZ3d8
+         zvjlG8vt0n+DItEfUid15gDaM1OEt96QNOukCAoJizibV6SNvImVOwqG/fc9usFDVL0w
+         +hQUUm7AJy/pj45rBjK3wEqcWGKge9tEAc6n7lXsA9eTP70mfzbiG5uedxYMJzUxgI35
+         5AgA==
+X-Gm-Message-State: AOJu0YzIy9j+bmwIL7415P73RQs4R36btIuLjhhhjG9iEkmzUvVBrExe
+	9Tvpx6KwB69vjWw9x6V0wEbxrp9LAW8CKxwxzk0Fd8+RCTaMZ3FPxJErqo/TjiiOlXa/1aRSVAe
+	/
+X-Gm-Gg: ASbGncv50JmGlk121TK/sDVRWf/KyyetNcKbNQw3m5/vTu0Mip07a1h6nsS7HdC72OX
+	0E//SQi7xoJotaTGmtaDQjjglTvLmOwTX0pCdX0v9pk6Tvv+ow6NQlRt7h+paHU9JYXhKAdYXh7
+	uphRuuXvnb2LP9zFMxc07zGeopK4/83sn9Jcmzl5hamMmW8ASuwBCJNLD6uW9y8wcE+tPic5ZMK
+	be9l1u5dsmoGElr3fmOvUwd9dtTgBA5tn0mAxU=
+X-Google-Smtp-Source: AGHT+IHfHjZ2FS5U2X9C6Ha2coBMOL9oFETjoo50o2gY3UlqXowX1STYkwgXGQsHyZcVdgCU7vp5uQ==
+X-Received: by 2002:a17:902:e5cf:b0:215:6e01:ad07 with SMTP id d9443c01a7336-215bcfc3bcamr34734805ad.6.1733233074933;
+        Tue, 03 Dec 2024 05:37:54 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.56
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 05:37:56 -0800 (PST)
+        Tue, 03 Dec 2024 05:37:54 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 16/16] rootfs: Ensure run-postinsts is not uninstalled for read-only-rootfs-delayed-postinsts
-Date: Tue,  3 Dec 2024 05:37:20 -0800
-Message-Id: <e0c4f2f69723f64a29ba35c4de5fb1a7c79ef718.1733232895.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 15/16] dropbear: backport fix for concurrent channel open/close
+Date: Tue,  3 Dec 2024 05:37:19 -0800
+Message-Id: <808972c0418a64fbed2134b55f25fb90e5d498e9.1733232895.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733232895.git.steve@sakoman.com>
 References: <cover.1733232895.git.steve@sakoman.com>
@@ -66,102 +66,90 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 13:38:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208205
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208204
 
-From: "Gassner, Tobias.ext" <tobias.gassner.ext@karlstorz.com>
+From: Florian Kreutzer <florian.kreutzer.oss@rohde-schwarz.com>
 
-This patch ensures that pkg_postinst_ontarget task is executed for read only rootfs when
-read-only-rootfs-delayed-postinsts is set as IMAGE_FEATURES. The issue was that run-postinsts
-could be uninstalled at the end of rootfs construction and that shouldn't happen for
-the delayed usecase.
+Prevents sporadic crashes of dropbear server when multiple channels are
+active at the same time.
 
-In addition to the fix, a test in meta/lib/oeqa/selftest/cases/overlayfs.py testing
-the fix has been implemented.
+Upstream discussion:
+https://github.com/mkj/dropbear/pull/326/commits
+https://github.com/mkj/dropbear/issues/321
 
-Signed-off-by: Gassner, Tobias.ext <tobias.gassner.ext@karlstorz.com>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
-(cherry picked from commit 60f587475dda99eaa07848880058b69286b8900e)
+Issue was introduced in dropbear-2022.83 and fixed in v2024.86.
+
+Signed-off-by: Florian Kreutzer <florian.kreutzer.oss@rohde-schwarz.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oe/rootfs.py                     |  4 +++
- meta/lib/oeqa/selftest/cases/overlayfs.py | 41 ++++++++++++++++++++++-
- 2 files changed, 44 insertions(+), 1 deletion(-)
+ ...e-channels-when-a-PID-hasn-t-started.patch | 45 +++++++++++++++++++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch
 
-diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
-index 8cd48f9450..5abce4ad7d 100644
---- a/meta/lib/oe/rootfs.py
-+++ b/meta/lib/oe/rootfs.py
-@@ -269,7 +269,11 @@ class Rootfs(object, metaclass=ABCMeta):
-                 self.pm.remove(["run-postinsts"])
+diff --git a/meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch b/meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch
+new file mode 100644
+index 0000000000..dff6534027
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch
+@@ -0,0 +1,45 @@
++From 5c34e70b80e5fc539f96e029b56b95cdee556010 Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Sun, 8 Sep 2024 11:07:41 +0200
++Subject: Don't close channels when a PID hasn't started
++
++If check_close() ran prior to a server channel exec/shell
++request, it would send a close immediately.
++This fix changes it to exclude write_fd==FD_UNINIT from
++being closed there.
++
++When a channel was closed by the time shell/exec request
++was received, then data sent hits an assertion.
++This fixes #321 on Github.
++
++The "pid == 0" check was initially added to avoid waiting
++to close a channel when a process has never been launched
++(which is correct), but that isn't correct in the case
++of the closed-fd test.
++
++Fixes: 8e6f73e879ca ("- Remove "flushing" handling for exited processes)
++
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/71521d1b78706a70d3570b860e65234cefdc8c81]
++
++Signed-off-by: Florian Kreutzer <florian.kreutzer.oss@rohde-schwarz.com>
++---
++ common-channel.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/common-channel.c b/common-channel.c
++index be5b57f..9926972 100644
++--- a/common-channel.c
+++++ b/common-channel.c
++@@ -317,7 +317,8 @@ static void check_close(struct Channel *channel) {
++ 
++ 	if ((channel->recv_eof && !write_pending(channel))
++ 		/* have a server "session" and child has exited */
++-		|| (channel->type->check_close && close_allowed)) {
+++		|| (channel->writefd != FD_UNINIT
+++			&& channel->type->check_close && close_allowed)) {
++ 		close_chan_fd(channel, channel->writefd, SHUT_WR);
++ 	}
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+index 686cb8a809..772e08eaed 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+@@ -14,6 +14,7 @@ RCONFLICTS:${PN} = "openssh-sshd openssh"
  
-         image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
-+                                        True, False, self.d) and \
-+                      not bb.utils.contains("IMAGE_FEATURES",
-+                                        "read-only-rootfs-delayed-postinsts",
-                                         True, False, self.d)
-+
-         image_rorfs_force = self.d.getVar('FORCE_RO_REMOVE')
- 
-         if image_rorfs or image_rorfs_force == "1":
-diff --git a/meta/lib/oeqa/selftest/cases/overlayfs.py b/meta/lib/oeqa/selftest/cases/overlayfs.py
-index e31063567b..580fbdcb9c 100644
---- a/meta/lib/oeqa/selftest/cases/overlayfs.py
-+++ b/meta/lib/oeqa/selftest/cases/overlayfs.py
-@@ -5,7 +5,7 @@
- #
- 
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake, runqemu
-+from oeqa.utils.commands import bitbake, runqemu, get_bb_vars
- from oeqa.core.decorator import OETestTag
- from oeqa.core.decorator.data import skipIfNotMachine
- 
-@@ -466,6 +466,45 @@ IMAGE_INSTALL:append = " overlayfs-user"
-             line = getline_qemu(output, "Read-only file system")
-             self.assertTrue(line, msg=output)
- 
-+    @skipIfNotMachine("qemux86-64", "tests are qemux86-64 specific currently")
-+    def test_postinst_on_target_for_read_only_rootfs(self):
-+        """
-+        Summary:  The purpose of this test case is to verify that post-installation
-+                  on target scripts are executed even if using read-only rootfs when
-+                  read-only-rootfs-delayed-postinsts is set
-+        Expected: The test files are created on first boot
-+        """
-+
-+        import oe.path
-+
-+        vars = get_bb_vars(("IMAGE_ROOTFS", "sysconfdir"), "core-image-minimal")
-+        sysconfdir = vars["sysconfdir"]
-+        self.assertIsNotNone(sysconfdir)
-+        # Need to use oe.path here as sysconfdir starts with /
-+        targettestdir = os.path.join(sysconfdir, "postinst-test")
-+
-+        config = self.get_working_config()
-+
-+        args = {
-+            'OVERLAYFS_INIT_OPTION': "",
-+            'OVERLAYFS_ETC_USE_ORIG_INIT_NAME': 1,
-+            'OVERLAYFS_ROOTFS_TYPE': "ext4",
-+            'OVERLAYFS_ETC_CREATE_MOUNT_DIRS': 1
-+        }
-+
-+        # read-only-rootfs is already set in get_working_config()
-+        config += 'EXTRA_IMAGE_FEATURES += "read-only-rootfs-delayed-postinsts"\n'
-+        config += 'CORE_IMAGE_EXTRA_INSTALL = "postinst-delayed-b"\n'
-+
-+        self.write_config(config.format(**args))
-+
-+        res = bitbake('core-image-minimal')
-+
-+        with runqemu('core-image-minimal', image_fstype='wic') as qemu:
-+            for filename in ("rootfs", "delayed-a", "delayed-b"):
-+                status, output = qemu.run_serial("test -f %s && echo found" % os.path.join(targettestdir, filename))
-+                self.assertIn("found", output, "%s was not present on boot" % filename)
-+
-     def get_working_config(self):
-         return """
- # Use systemd as init manager
+ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://0001-urandom-xauth-changes-to-options.h.patch \
++           file://0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch \
+            file://init \
+            file://dropbearkey.service \
+            file://dropbear@.service \
 -- 
 2.34.1
 
