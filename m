@@ -1,110 +1,141 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF78AE64AAF
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 14:06:34 +0000 (UTC)
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
- by mx.groups.io with SMTP id smtpd.web10.20587.1733234793343386551
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D790EE64AAD
+	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 14:07:54 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.web10.20620.1733234873157116918
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 06:06:33 -0800
+ Tue, 03 Dec 2024 06:07:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=GHFq4n01;
- spf=pass (domain: gmail.com, ip: 209.85.160.181, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4669eecd88dso44260641cf.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 06:06:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733234792; x=1733839592; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=VzBcW4mjoU3hsiIpTgDcKGq2qWX0uzseW/dPjaMN+9E=;
-        b=GHFq4n01MxgXT1luCdr6e/ooe7hVgLOfXXHTbhPe5ejjk87R0Swom8XW9msaAy0Rrt
-         CL0x46oBhgcLjQPDn+7cunleS5OszN3gj3G3vUDm6hRKYDdfe5PNSg4JG9ODZVtsguM+
-         an9xMDwvdDTpnHSPg9upGkQSozvunzVdHPW2iFAfzpskT+IpM7f9OMDQBmrh3ZzmIwnE
-         oXES7Co4y3n0uJwkpj3nk4+UdUndZgnG6T0sYPVLuKi89nvw4E1m8Kasa1DpdVlyvP8j
-         wZoQfqBmESquC+xFH2bjv1FZrmkB/Vgq64unYYKOQ5NqON+9a9aQ3b9O/woDzzEj5NV5
-         Gc2Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733234792; x=1733839592;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=VzBcW4mjoU3hsiIpTgDcKGq2qWX0uzseW/dPjaMN+9E=;
-        b=xJwmdmtpmSiTEI30BAaxK/RH85xznrsGoLAFrZHLhV6ZldJIJZejJV7qzM8dYoyhT9
-         Q732TSzRHI6wjo3LXCIXJgxLKeIAvxEEXu5Tux8p8NW+pRs4k9gHZQyA7fjoSDXHcDnv
-         miMiCgxDZqU83BHXZOxbmdOQxIR/manOe76NB7l//ZCxx4awkNMy3braGMjxXHiaIBr6
-         0nwUbiJnFmJoLJ2Qe8SuCtpu5aQe82Fqpg7YkbeDq4vBYxFtJsSH+q7CJUJHZlOlnFOj
-         vdcx7PKS03UNkJz1mmZwBQDSpNMclHMkt48z8II81h7bOn9Yx2Du2BaPJvUFb7T9Bzpn
-         rbjg==
-X-Gm-Message-State: AOJu0YwXAb7Qfx6xHslAreiRJ7T08vinzsChFX/1skVqwrnnIFcg2NoK
-	t142SQMpGqAPlqAx+VFO5f9UNpMjRqhfNNFSviQ2v3rsZlbVEi2HEwLy/e+UV230Nv1dU9FidOu
-	7L0GAJaiV+hUqcMhm3nj4ADJctjs=
-X-Gm-Gg: ASbGncvtOgUPVjycrPg3+YIKss7m6CesKvn2GK+UTcVeGUwI20mVIPSiqEA9fiiA1MI
-	H1YHG+N8bToTK/ubTdxVTU270JmEAtmm9HVWeo44IDCXcZM3UY9UfG8P87JZH7y1cmw==
-X-Google-Smtp-Source: AGHT+IH0G5+O7dL2UcQY/geejxNKQEBLOiQJ0mXLXc57O7+Og/87L8PFMtqAW3kMTuiTElpFaraSlX8CNDBlodx//u8=
-X-Received: by 2002:a05:6214:ccb:b0:6d8:ab3c:5c8 with SMTP id
- 6a1803df08f44-6d8b7457b96mr43340436d6.49.1733234790532; Tue, 03 Dec 2024
- 06:06:30 -0800 (PST)
-MIME-Version: 1.0
-References: <20241203135613.1955725-1-f_l_k@t-online.de>
-In-Reply-To: <20241203135613.1955725-1-f_l_k@t-online.de>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 3 Dec 2024 15:06:19 +0100
-Message-ID: <CANNYZj_9Ri731S32=AzWhN5o0Nmj5G_hYUpxoGpNfObxPZYrzA@mail.gmail.com>
-Subject: Re: [RFC][oe-core][PATCHv2 1/2] libpam: add more PACKAGECONFIG options
-To: f_l_k@t-online.de
+ dkim=none (message not signed); spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
+Received: from fwd79.aul.t-online.de (fwd79.aul.t-online.de [10.223.144.105])
+	by mailout07.t-online.de (Postfix) with SMTP id 454041505;
+	Tue,  3 Dec 2024 15:07:50 +0100 (CET)
+Received: from [192.168.178.67] ([79.219.235.82]) by fwd79.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1tITZ5-476R3Q0; Tue, 3 Dec 2024 15:07:47 +0100
+Date: Tue, 03 Dec 2024 15:07:46 +0100
+From: Markus Volk <f_l_k@t-online.de>
+Subject: Re: [OE-core] [oe-ore][PATCHv4] libsecret: add pam support depending
+ on DISTRO_FEATURES
+To: ross.burton@arm.com
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <YK8XNS.89RO2UFNG11R1@t-online.de>
+In-Reply-To: <827A4F56-2328-4ED9-9E3E-6096EAC35E46@arm.com>
+References: <20241130085222.17448-1-f_l_k@t-online.de>
+	<827A4F56-2328-4ED9-9E3E-6096EAC35E46@arm.com>
+X-Mailer: geary/46.0
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="=-1DCO7oNVptxO1Ve9LP2D"
+X-TOI-EXPURGATEID: 150726::1733234867-527ECDD7-1F247843/0/0 CLEAN NORMAL
+X-TOI-MSGID: 720b647d-5d03-4b3a-8a5a-643122cac71e
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 14:06:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208214
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 14:07:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208215
 
-Thanks, these look basically ok to me.
+--=-1DCO7oNVptxO1Ve9LP2D
+Content-Type: text/plain; charset=windows-1251; format=flowed
+Content-Transfer-Encoding: quoted-printable
 
-Alex
+Got it. Currently I have issues to access the gnome gitlab. Will send a=20
+patch there later
 
-On Tue, 3 Dec 2024 at 14:56, Markus Volk via lists.openembedded.org
-<f_l_k=t-online.de@lists.openembedded.org> wrote:
->
-> Use ?= instead of ??=
->
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-> ---
->  meta/recipes-extended/pam/libpam_1.7.0.bb | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-extended/pam/libpam_1.7.0.bb b/meta/recipes-extended/pam/libpam_1.7.0.bb
-> index ec1c868d21..2c134c1378 100644
-> --- a/meta/recipes-extended/pam/libpam_1.7.0.bb
-> +++ b/meta/recipes-extended/pam/libpam_1.7.0.bb
-> @@ -35,9 +35,14 @@ S = "${WORKDIR}/Linux-PAM-${PV}"
->
->  inherit meson gettext pkgconfig systemd ptest github-releases
->
-> -PACKAGECONFIG ??= ""
-> +PACKAGECONFIG ?= ""
->  PACKAGECONFIG[audit] = "-Daudit=enabled,-Daudit=disabled,audit,"
-> +PACKAGECONFIG[examples] = "-Dexamples=true,-Dexamples=false"
-> +PACKAGECONFIG[openssl] = "-Dopenssl=enabled,-Dopenssl=disabled,openssl"
-> +PACKAGECONFIG[selinux] = "-Dselinux=enabled,-Dselinux=disabled,libselinux"
-> +PACKAGECONFIG[systemd] = "-Dlogind=enabled,-Dlogind=disabled,systemd"
->  PACKAGECONFIG[userdb] = "-Dpam_userdb=enabled -Ddb=gdbm,-Dpam_userdb=disabled,gdbm,"
-> +PACKAGECONFIG[xtests] = "-Dxtests=true,-Dxtests=false"
->
->  PACKAGES += "${PN}-runtime ${PN}-xtests"
->  FILES:${PN} = " \
-> --
-> 2.47.0
->
->
-> -=-=-=-=-=-=-=-=-=-=-=-
+On Tue, Dec 3 2024 at 12:42:10 PM +00:00:00, Ross Burton via=20
+lists.openembedded.org <ross.burton=3Darm.com@lists.openembedded.org>=20
+wrote:
+> On 30 Nov 2024, at 08:52, Markus Volk via lists.openembedded.org=20
+> <f_l_k=3Dt-online.de@lists.openembedded.org=20
+> <mailto:f_l_k=3Dt-online.de@lists.openembedded.org>> wrote:
+>>  Add a recipe for pam_wrapper, needed to build the tests
+>>=20
+>>  [<https://gitlab.com/cwrap/pam_wrapper>]
+>>=20
+>>  Import cmocka recipe from meta-oe
+>> =20
+>> [<https://git.openembedded.org/meta-openembedded/tree/meta-oe/recipes-te=
+st/cmocka/cmocka_1.1.7.bb>]
+>=20
+> Adding two new recipes for tests that we don=E2=80=99t even build yet alo=
+ne=20
+> install or run doesn=E2=80=99t seem like a good idea.
+>=20
+> I still think my original comment holds up: a patch to add a=20
+> =E2=80=98tests=E2=80=99 option to meson which wraps all of the test cases=
+ (and=20
+> their dependencies) so we can disable the tests entirely should be=20
+> upstreamable and mean we don=E2=80=99t need dependencies for tests we nev=
+er=20
+> build.
+>=20
+> Cheers,
+> Ross
+>=20
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#208210): https://lists.openembedded.org/g/openembedded-core/message/208210
-> Mute This Topic: https://lists.openembedded.org/mt/109899981/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+> View/Reply Online (#208187):=20
+> <https://lists.openembedded.org/g/openembedded-core/message/208187>
+> Mute This Topic: <https://lists.openembedded.org/mt/109845617/3618223>
+> Group Owner: openembedded-core+owner@lists.openembedded.org=20
+> <mailto:openembedded-core+owner@lists.openembedded.org>
+> Unsubscribe:=20
+> <https://lists.openembedded.org/g/openembedded-core/unsub>=20
+> [f_l_k@t-online.de <mailto:f_l_k@t-online.de>]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>=20
+
+
+--=-1DCO7oNVptxO1Ve9LP2D
+Content-Type: text/html; charset=windows-1251
+Content-Transfer-Encoding: quoted-printable
+
+<div id=3D"geary-body" dir=3D"auto"><div>Got it. Currently I have issues to=
+ access the gnome gitlab. Will send a patch there later</div></div><div id=
+=3D"geary-quote" dir=3D"auto"><br>On Tue, Dec 3 2024 at 12:42:10 PM +00:00:=
+00, Ross Burton via lists.openembedded.org &lt;ross.burton=3Darm.com@lists.=
+openembedded.org&gt; wrote:<br><blockquote type=3D"cite"><div class=3D"plai=
+ntext" style=3D"white-space: break-spaces;">On 30 Nov 2024, at 08:52, Marku=
+s Volk via lists.openembedded.org &lt;<a href=3D"mailto:f_l_k=3Dt-online.de=
+@lists.openembedded.org">f_l_k=3Dt-online.de@lists.openembedded.org</a>&gt;=
+ wrote:
+<blockquote> Add a recipe for pam_wrapper, needed to build the tests
+=20
+ [<a href=3D"https://gitlab.com/cwrap/pam_wrapper">https://gitlab.com/cwrap=
+/pam_wrapper</a>]
+=20
+ Import cmocka recipe from meta-oe
+ [<a href=3D"https://git.openembedded.org/meta-openembedded/tree/meta-oe/re=
+cipes-test/cmocka/cmocka_1.1.7.bb">https://git.openembedded.org/meta-openem=
+bedded/tree/meta-oe/recipes-test/cmocka/cmocka_1.1.7.bb</a>]
+</blockquote>
+Adding two new recipes for tests that we don=E2=80=99t even build yet alone=
+ install or run doesn=E2=80=99t seem like a good idea.
+
+I still think my original comment holds up: a patch to add a =E2=80=98tests=
+=E2=80=99 option to meson which wraps all of the test cases (and their depe=
+ndencies) so we can disable the tests entirely should be upstreamable and m=
+ean we don=E2=80=99t need dependencies for tests we never build.
+
+Cheers,
+Ross</div><div class=3D"plaintext" style=3D"white-space: break-spaces;">
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#208187): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/208187">https://lists.openembedded.org/g/openembedd=
+ed-core/message/208187</a>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/109845617/361=
+8223">https://lists.openembedded.org/mt/109845617/3618223</a>
+Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
+rg">openembedded-core+owner@lists.openembedded.org</a>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a hre=
+f=3D"mailto:f_l_k@t-online.de">f_l_k@t-online.de</a>]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+</div></blockquote></div>
+--=-1DCO7oNVptxO1Ve9LP2D--
+
 
