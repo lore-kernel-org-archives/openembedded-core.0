@@ -1,201 +1,174 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ricardo.salveti@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4EC2AE6C5EA
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 01:55:11 +0000 (UTC)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
- by mx.groups.io with SMTP id smtpd.web10.9810.1733190902114190086
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 876CCE6C5F0
+	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 02:42:41 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.web10.10640.1733193752237691047
  for <openembedded-core@lists.openembedded.org>;
- Mon, 02 Dec 2024 17:55:02 -0800
+ Mon, 02 Dec 2024 18:42:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=nU9CufEL;
- spf=pass (domain: gmail.com, ip: 209.85.210.44, mailfrom: raj.khem@gmail.com)
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-71d5ecf9556so2022770a34.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 17:55:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733190901; x=1733795701; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=tiVdg5zqxrw3uqEeosif96TrWkYrGSsN6xw2UOW77xA=;
-        b=nU9CufELw596iMgt/9X63NKQG9U1H8vhMchriFHrDjRVQUT6/kN3fJK7E0dqOIVLhg
-         3f6RfFtta3pwXRtfmXT7jp9UEf0yU/R6WZbfkZr3ARmCPszETNm1Ei2uGVvaHGJ45w9h
-         xwhkZU0mEiLcb2l/BoarvMk+lY/SdRYhz8fB+Sb5I9qSTdRoMxaFVstKNg418nhecAeh
-         sox8k5vW/j7B5SS7C3S2euRmSzfwAXDno+KQ5sTcr3CAwckke9vaCv7aQ4mIxNIiOGuU
-         fN8eTA7zBSRRLIqi47OpkpHf8tD2tuF+dzT5PTbaN7FGFmPENtQY2sgHG98or2Rtfzpo
-         zI9A==
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=h+jXVGwL;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: ricardo.salveti@oss.qualcomm.com)
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B2IMVSr021908
+	for <openembedded-core@lists.openembedded.org>; Tue, 3 Dec 2024 02:42:31 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	B+sgutxkMsYb+KhTeVS6tX+AhzMaFZzThQvQaCVBC0M=; b=h+jXVGwLdr1yo0kL
+	77o87CH1EItYm4LwhdrFXGh2DDePB21dz5BxMADcAdxitg7fmVO4KJzuiQyJ5aZ7
+	UIvh0q5V+t/mX4zwzSqeXh4SkhxwdC1kt4yDYncIBBi5xP5/Wy1XsD0XVxnjqMVi
+	tXIuEnOXx6cGlv67eSQhNlZNxjr1HVMbjqkZQT2YtBl9hxgx8EE2rCxQnMqG9ezm
+	RVwY+ryUZeNqe92N4FYLbXweTzajClz24Hq64Thmd8ulUZkxor9yqJktga3yvtZI
+	Dg/6gClxkZyXjEnk3qg70xBUmDCwvHVHzEjBwHF/cbzml1sFM+u7asmrtmyPUnDy
+	SJZ5AA==
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com [209.85.128.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 437rdees63-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 02:42:31 +0000 (GMT)
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-6ef8494edb2so19434247b3.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 02 Dec 2024 18:42:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733190901; x=1733795701;
+        d=1e100.net; s=20230601; t=1733193750; x=1733798550;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=tiVdg5zqxrw3uqEeosif96TrWkYrGSsN6xw2UOW77xA=;
-        b=XlUJWd/aPNp1h9POlPUU6WX3cC09Vsr6t2RBC9C8DfO4VA80lgmsKqmY5kGAV40bLb
-         O+FFMDxiMcZrTLt/5wwgoeF5lk1aw0NQ/DVIxBE3zafxh/kEQ3f+gcGR5hZEfiyzacgq
-         PmAEpdnFOkYE6RCpkCux1J2L5Dl3Q4sT5Cw40IZdRlm0rIrsDJW0At4+uKd4i4Zt+mOE
-         wkcTzy1PriP9HPG398zmTsJv/6D7IjN1k9TA9KJynXY00/4uJksxalJYTwNs/RX4gfkL
-         5ymY5H7d8zIbp2nOlgpZ8WN6dYFTfHYX4730KmP5GvBPmraAXcy5NMokdX4d4aMKJh96
-         ofRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXocI+Y52d/WYxJAPmaNn+Kui5t8f1Pd1YwUcMjOy3hh1KHC1ehtgs/0PiXpoSTufpPxKT8xEPgW+W7tcZNYstgrA==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YwSiRwvyNe0aQN1C+vnyKwZpte9KfxrgJQifhbZtZXG1i64b14u
-	GBn7LLAJCn3gG8/GPZKLCQ6glocUQlTHo2PqaKFp3EqqvPR7SYxJLRQoYrIZCrdERou4yUrnPOS
-	DBvW482GjCHtnexG3LkCL6ed07Srh+GkD
-X-Gm-Gg: ASbGncvWAmwDXYv9VmHzzs7Rc1LOhq6aiwJEqLBhFYgDgX9JrkAeBl04AS2GQgqiIrj
-	6bDiE1MnfPFUwmeJ02F8G2LRyIilLaQ==
-X-Google-Smtp-Source: AGHT+IFW+fOjuchsqOCuvxhDU65pTTbU4yEnOrxpMNZZUxV5zC0weB0ADOBA5fsSvuI+tVJuy0XbG6rb55iBQN/Esys=
-X-Received: by 2002:a05:6830:258a:b0:710:ea11:3d34 with SMTP id
- 46e09a7af769-71dad63756dmr1154752a34.12.1733190901329; Mon, 02 Dec 2024
- 17:55:01 -0800 (PST)
+        bh=B+sgutxkMsYb+KhTeVS6tX+AhzMaFZzThQvQaCVBC0M=;
+        b=G8Jx1+4NAeJukI7mObKPZHXtQNANe0ifoNYqpLM9Y1E1FOmg2kGguZUmrpF3AxkscS
+         DsY2PzQO1rmTCXZ7GoBtv/t9rtFLGvIDhWKhyKMeh8iA+ZRsDciFVm7/9ZfNYMX0NrxA
+         okQjOoKCZb+Fi0sGmzeNBNYbnnGgJ6FxpWRz4Ti8dib8oWUibfaL2yLHERv05YqXbfsz
+         lyz3HAbDqyzVAT+OWiI2vrq+ChOII0WNagM4Yss/X9u8YGkfHNzqrPqlTabldLAxgEui
+         ipHbf0N/6t1TAI0ekNf5JAPThdI67YNs8cEJI6mL0X5XO9ApxcneLqFHSOsowtgZmcsU
+         xLhQ==
+X-Gm-Message-State: AOJu0YyvhF2R6CvcbGLZSoa07TzxM4Hmz18z9zZjDxCuvhiRQfSsVc5F
+	gGbzN33ZfhhMd9Om6NxtB2syIo8vg0t7lMGN/6Gwk0o/pcF6jKchuxQg+atMriyhBX2Dn9cET5g
+	EOTDIiPqZb2EVeawYzZz4Eyv9+1mKhZiQQDmo3lkZTa2zu8L3Fh/icEH+Gype69PtPFKrs5FYck
+	xiQbE4jKM06B8fRObqm8H2FefYngKMicNupQFKFADaxszuaTbF++fqi9OrFlSKPA==
+X-Gm-Gg: ASbGncuj2tzFPrdirENfUAhaawDMfPTCoGIIhtNKWZhHpPZGTtljmN6/nlVSZbjCWqc
+	N1R+DeiASah/379KeJ5TcjG21+OZcIfd4ig==
+X-Received: by 2002:a05:690c:b1b:b0:6ef:4ed2:7df4 with SMTP id 00721157ae682-6efad1b518dmr12980647b3.33.1733193750395;
+        Mon, 02 Dec 2024 18:42:30 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IHGZg8m/+FzXq7NLaiqc4h9LjNVGMCPq24jHYFBZDCeiIYpDIyEs0tQj92vJuZ5gn8+dmpeIZUVxH/fR9EUZhY=
+X-Received: by 2002:a05:690c:b1b:b0:6ef:4ed2:7df4 with SMTP id
+ 00721157ae682-6efad1b518dmr12980537b3.33.1733193750085; Mon, 02 Dec 2024
+ 18:42:30 -0800 (PST)
 MIME-Version: 1.0
-References: <20241202043514.3046780-1-Deepthi.Hemraj@windriver.com>
- <5a5f693b-6def-4763-89d0-91168d1085a4@windriver.com> <CAMKF1sqcPw0_=9XRfmyAGuc-3ny_p9uswUxM_0uOotGdoundJg@mail.gmail.com>
- <b0722ab2-7d99-4b0c-aa1f-45413dd75ee6@windriver.com>
-In-Reply-To: <b0722ab2-7d99-4b0c-aa1f-45413dd75ee6@windriver.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 2 Dec 2024 17:54:35 -0800
-Message-ID: <CAMKF1sq20qvm-+p9c4vthyzRGKmmMTsBaLjGtE26xDPJgJ3z2Q@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] gcc-sanitizers: Add riscv64 as compatible host
-To: Randy MacLeod <randy.macleod@windriver.com>
-Cc: Deepthi.Hemraj@windriver.com, openembedded-core@lists.openembedded.org, 
-	Naveen.Gowda@windriver.com, Sundeep.Kokkonda@windriver.com
+References: <20241129033654.1275825-1-ricardo.salveti@oss.qualcomm.com> <DB5PR02MB102136B5A51F5964FFE6DC3ADEF352@DB5PR02MB10213.eurprd02.prod.outlook.com>
+In-Reply-To: <DB5PR02MB102136B5A51F5964FFE6DC3ADEF352@DB5PR02MB10213.eurprd02.prod.outlook.com>
+From: "Ricardo de Araujo (Salveti)" <ricardo.salveti@oss.qualcomm.com>
+Date: Mon, 2 Dec 2024 23:41:53 -0300
+Message-ID: <CAA_5yovo1N-5_BS1_G8OjrMETtgxHjfUiUaNpjBND9bVi3jfuw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/2] systemd: drop deprecated rootlibdir,
+ rootprefix and split-usr options
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: LbPosbINbVtzHwSshrhdByciYdAIyOrZ
+X-Proofpoint-GUID: LbPosbINbVtzHwSshrhdByciYdAIyOrZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1039,Hydra:6.0.680,FMLib:17.12.60.29
+ definitions=2024-09-06_09,2024-09-06_01,2024-09-02_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0 mlxscore=0
+ adultscore=0 malwarescore=0 mlxlogscore=999 phishscore=0 suspectscore=0
+ impostorscore=0 clxscore=1011 lowpriorityscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2412030021
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 01:55:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208170
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 02:42:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208171
 
-On Mon, Dec 2, 2024 at 5:14=E2=80=AFPM Randy MacLeod
-<randy.macleod@windriver.com> wrote:
+On Mon, Dec 2, 2024 at 4:50=E2=80=AFPM Peter Kjellerstedt
+<peter.kjellerstedt@axis.com> wrote:
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
+.openembedded.org> On Behalf Of Ricardo Salveti via lists.openembedded.org
+> > Sent: den 29 november 2024 04:37
+> > To: openembedded-core@lists.openembedded.org
+> > Subject: [OE-core] [PATCH 1/2] systemd: drop deprecated rootlibdir, roo=
+tprefix and split-usr options
+> >
+> > Support for split-usr and unmerged-usr were both removed as part of the
+> > systemd 255 release, so remove the current deprecated rootlibdir,
+> > rootprefix and split-usr options from the recipe.
+> >
+> > Signed-off-by: Ricardo Salveti <ricardo.salveti@oss.qualcomm.com>
+> > ---
+> >  meta/recipes-core/systemd/systemd_256.8.bb | 15 +++++----------
+> >  1 file changed, 5 insertions(+), 10 deletions(-)
+> >
+> > diff --git a/meta/recipes-core/systemd/systemd_256.8.bb b/meta/recipes-=
+core/systemd/systemd_256.8.bb
+> > index c17100a636a..26d2237ce3a 100644
+> > --- a/meta/recipes-core/systemd/systemd_256.8.bb
+> > +++ b/meta/recipes-core/systemd/systemd_256.8.bb
+> > @@ -69,7 +69,7 @@ PAM_PLUGINS =3D " \
+> >  "
+> >
+> >  PACKAGECONFIG ??=3D " \
+> > -    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit efi ldconfig pam =
+pni-names selinux smack usrmerge polkit seccomp', d)} \
+> > +    ${@bb.utils.filter('DISTRO_FEATURES', 'acl audit efi ldconfig pam =
+pni-names selinux smack polkit seccomp', d)} \
+> >      ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo', 'coredump=
+ elfutils', '', d)} \
+> >      ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} =
+\
+> >      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)=
+} \
+> > @@ -218,7 +218,6 @@ def build_epoch(d):
+> >  PACKAGECONFIG[set-time-epoch] =3D "${@build_epoch(d)},-Dtime-epoch=3D0=
+"
+> >  PACKAGECONFIG[timedated] =3D "-Dtimedated=3Dtrue,-Dtimedated=3Dfalse"
+> >  PACKAGECONFIG[timesyncd] =3D "-Dtimesyncd=3Dtrue,-Dtimesyncd=3Dfalse"
+> > -PACKAGECONFIG[usrmerge] =3D "-Dsplit-usr=3Dfalse,-Dsplit-usr=3Dtrue"
+> >  PACKAGECONFIG[sbinmerge] =3D "-Dsplit-bin=3Dfalse,-Dsplit-bin=3Dtrue"
+> >  PACKAGECONFIG[userdb] =3D "-Duserdb=3Dtrue,-Duserdb=3Dfalse"
+> >  PACKAGECONFIG[utmp] =3D "-Dutmp=3Dtrue,-Dutmp=3Dfalse"
+> > @@ -240,14 +239,10 @@ CFLAGS:append =3D " --sysroot=3D${STAGING_DIR_TAR=
+GET}"
+> >
+> >  # Helper variables to clarify locations.  This mirrors the logic in sy=
+stemd's
+> >  # build system.
+> > -rootprefix ?=3D "${root_prefix}"
+> > -rootlibdir ?=3D "${base_libdir}"
+> > -rootlibexecdir =3D "${rootprefix}/lib"
+> > +rootlibexecdir =3D "${nonarch_base_libdir}"
 >
-> On 2024-12-02 6:50 p.m., Khem Raj wrote:
->
-> On Mon, Dec 2, 2024 at 3:14=E2=80=AFPM Randy MacLeod via
-> lists.openembedded.org
-> <randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> On 2024-12-01 11:35 p.m., Deepthi.Hemraj@windriver.com wrote:
->
-> From: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
->
-> RISC-V offers several virtual memory address schemes (Sv39, Sv48, and Sv5=
-7),
-> but ASan currently supports only Sv39 on RISC-V64.
-> For RISC-V64 Sv39, ASan uses custom allocator configurations
-> tuned to manage large allocations efficiently.
-> These tunings are incompatible with larger address spaces like
-> Sv48/Sv57 due to differences in region sizes and alignment.
->
-> For riscv64, Asan's tuning for Sv39 can be enabled in qemu
-> by using the appropriate flag in the command line as shown below:
-> runqemu nographic qemuparams=3D"-cpu rv64,sv39=3Dtrue"
->
-> Additionally, the COMPATIBLE_HOST list in gcc-sanitizers has been
-> updated to include riscv64. All necessary tests were successfully
-> conducted on both hardware(Microchip PolarFire SoC)
-> and the qemurisv64 environment, with ASan effectively
-> detecting memory errors in both scenarios.
->
->
-> Hi Deepthi,
->
->
-> Nice! Thanks for confirming that the qemu command line option allows gcc-=
-sanitizers to
->
-> work without any code changes.
->
->
-> One concern is testing: testers would have know that this flag was needed=
- for gcc-sanitizers.
->
-> You could add a comment or documentation note as a hint but that doesn't =
-automate and is error prone for people.
->
-> I did note that "spacemonkeydelivers" (!) maintains that :
->
-> "Indeed ASAN was ported to RISC-V when Sv39 was the default addressing mo=
-de, and changes to run it in Sv48/Sv57 must be made.
-> The issue is related to the way how the address space is split between st=
-ack, heap and shadow versions of them."
-> https://github.com/google/sanitizers/issues/1707#issuecomment-1852404560
->
-> its ok to use Sv39, other modes are not as common yet.
->
-> Khem,
->
-> Are you saying that we should config qemu-native (target?) for riscv64 to=
- default to SV39 ?
+> Why use ${nonarch_base_libdir} here? ${nonarch_libdir} should be
+> more appropriate now that usrmerge is removed.
 
-yes with 6.6+ kernel it should work ok.
+Agree, will change on v2.
 
+> >  EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
+> >                    -Dnobody-group=3Dnogroup \
+> > -                  -Drootlibdir=3D${rootlibdir} \
+> > -                  -Drootprefix=3D${rootprefix} \
+> >                    -Ddefault-locale=3DC \
+> >                    -Dmode=3Drelease \
+> >                    -Dsystem-alloc-uid-min=3D101 \
+> > @@ -403,7 +398,7 @@ do_install() {
+> >  }
+> >
+> >  python populate_packages:prepend (){
+> > -    systemdlibdir =3D d.getVar("rootlibdir")
+> > +    systemdlibdir =3D d.getVar("nonarch_base_libdir")
 >
-> ../Randy
->
-> so I don't think we've gotten to the best possible general purpose fix bu=
-t rather a (helpful) work-around.
->
-> I don't think we should merge this since there's more work to do for a pr=
-oper fix.
->
-> ../Randy
->
->
->
->
-> Signed-off-by: Deepthi Hemraj <Deepthi.Hemraj@windriver.com>
-> ---
->  meta/recipes-devtools/gcc/gcc-sanitizers.inc | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-devtools/gcc/gcc-sanitizers.inc b/meta/recipes-=
-devtools/gcc/gcc-sanitizers.inc
-> index 524ebd4ba4..8c98e9cf8a 100644
-> --- a/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> +++ b/meta/recipes-devtools/gcc/gcc-sanitizers.inc
-> @@ -73,13 +73,14 @@ RRECOMMENDS:${PN}:append:x86 =3D " liblsan"
->  RRECOMMENDS:${PN}:append:x86-64 =3D " liblsan libtsan"
->  RRECOMMENDS:${PN}:append:powerpc64 =3D " liblsan libtsan"
->  RRECOMMENDS:${PN}:append:aarch64 =3D " liblsan libtsan"
-> +RRECOMMENDS:${PN}:append:riscv64 =3D " liblsan libtsan"
->
->  do_package_write_ipk[depends] +=3D "virtual/${MLPREFIX}${TARGET_PREFIX}c=
-ompilerlibs:do_packagedata"
->  do_package_write_deb[depends] +=3D "virtual/${MLPREFIX}${TARGET_PREFIX}c=
-ompilerlibs:do_packagedata"
->  do_package_write_rpm[depends] +=3D "virtual/${MLPREFIX}${TARGET_PREFIX}c=
-ompilerlibs:do_packagedata"
->
->  # Only x86, powerpc, sparc, s390, arm, aarch64 and loongarch64 are suppo=
-rted
-> -COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|sparc|s390|arm|aarch64|loongar=
-ch64).*-linux'
-> +COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|sparc|s390|arm|aarch64|loongar=
-ch64|riscv64).*-linux'
->  # musl is currently broken entirely
->  COMPATIBLE_HOST:libc-musl =3D 'null'
->
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#208161): https://lists.openembedded.org/g/openembedde=
-d-core/message/208161
-> Mute This Topic: https://lists.openembedded.org/mt/109874858/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ra=
-j.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
+> This should be using base_libdir (or libdir as suggested above).
+
+Yeah, nonarch will fail on cases where it is different than
+base_libdir/libdir, as noticed by Mathieu. Will fix on v2.
+
+Same for the other suggestions.
+
+Thanks for the review.
+
+Cheers,
+
+Ricardo
 
