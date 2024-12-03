@@ -2,655 +2,2774 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A12A9E64AA7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A01A1E64AA4
 	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 13:37:54 +0000 (UTC)
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
- by mx.groups.io with SMTP id smtpd.web10.19392.1733233070292976804
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+ by mx.groups.io with SMTP id smtpd.web11.19589.1733233068567940165
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 05:37:50 -0800
+ Tue, 03 Dec 2024 05:37:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PhQ3opfF;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.179, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-2155157c31fso29350935ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:50 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=t/Q6e0vZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.171, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2155312884fso38423175ad.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233069; x=1733837869; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233068; x=1733837868; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ksnnqwdZq95cLOeXlX7o7Otgt9YYrAenjJgVcqd/ajQ=;
-        b=PhQ3opfFCSoLeHGEVnfKRQyntJPjtcYzxYkVBPVoxd576sVVlKKLjrjzOFNQ+QrDlA
-         /WshGFqmFmF53WrVXNzS48VPamAhhoJ0v8T2oueIFDrg9/ynSs8wtu+5wbhqiA/qW4so
-         WGt57y1Co6JuKu+1RVUerZH0d28pqja0XSoHgWBCuc7Ij6CuiUS7RtobgoF0RZr8LZbg
-         By5Mo2BKFdYL8931QMaLvAL6SJ5KbnovmCf+oUFWRMw+e6Q9Tx6Id85H+5yyGrbN7zV+
-         pmuINLogJpbLQ59N6shTR8cMYhmjc7OL85KfKl4aeOTW2/JH02jAHvDMLqhzFd5W98Ln
-         fHVg==
+        bh=YCcwLxp9ugiFwG4kq5n85l5yYT63vhWM5VjJFySF15c=;
+        b=t/Q6e0vZLrpwrxWBln3iLCqV/mtM3fihSwqWz8egMmUaaFKao2bOrZYOSgbqQc6zz6
+         cbHp6AyuUzgatX2DtJTCh5LOdCPkm0L8aF/O5wXRunNLfQS/LnHVusPN1txZRTeud+mt
+         4V+ra/rsiq3vluchKyGFen/nUYqSfBICTDFzuIbEjUQe6HP5+7sgEoOYz5V33KQOrAsS
+         BmmrIuIbBnhmP9AxGD7dmhvvAsmsm4uyVrewa6WkLJ3dqwPNRAI4CytDHeop+3+fqtX1
+         CEl8EHtIONhDPyhi+ZAoHzH2jjuelr/VM/1WlxmzKjOpjhm4HH2kkp4XyJ0e9bKFs0y/
+         joxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733233069; x=1733837869;
+        d=1e100.net; s=20230601; t=1733233068; x=1733837868;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ksnnqwdZq95cLOeXlX7o7Otgt9YYrAenjJgVcqd/ajQ=;
-        b=rxYxYBMkwayAtT0lvyXoWHzTzgUxpkF6KDGCHgk6eOnvChK+nDg0eibGsDy6FSRdY8
-         885PVj+7TBniBwtqjeqmjPZgDfAuHs8yDSqix/RaRssmh8XehCeRLz4TyOAE5/2SZMN+
-         q62tDNw3fAjYdojubZluAfWw3/bJqB3s13PBJ0PNO4bjZlCTeZcTfCIPoxybmD9mEJah
-         alonefbj+ae97H9n1P+eogJKZo6zBvkUGz4pTyXs+T9SC6vg7eMRnIzVcONl2HtTAl8j
-         CHvnNcOQkwbo9nwxrQA/xaaJCYVHdy75zWxczoZtHOQIbIKfrpnWa7nQZNUx+zZggIb/
-         4TcQ==
-X-Gm-Message-State: AOJu0YzBn1YtMOfFaOFwN1MX0podb/jVrAETLBRqaKLxcGk9ac9otVnD
-	DEaC6zyArc5lasVKOwz0SXz1ZD/07fl+1Oa6Dw5oyb0E6n43LvjOpoftSuHAxsnD9z2pWXA4wUJ
-	7
-X-Gm-Gg: ASbGncu88z3MxT4q+MW8osRdG5euxP3Wb5e/PlPVmXPFHMRvsdyCeez46T+1CeGElGW
-	XElEhqMslxEspRk9aGxymjhN9QIHJaFTz3Iq3IJYZSMYoJb6cBehCjOy1s8lAEMcJvhw/iOJfC8
-	kLjEM1rkZA10A++sAP6RpwQIJp7Y8GXx/C4km1bgy52QQTQjrXdXtdEymPsve/H6AZyDsUEYEFU
-	VrzPR/umd0X4x5frZwFsqqm2RgOH8z3YhZwiT8=
-X-Google-Smtp-Source: AGHT+IGMqEKuQLp6GIuM6NH3xm2rJLQ9lHUO5MVns4IDfVHrWxcBJm5hpjMqKjL7mxjKdn25LFXVyQ==
-X-Received: by 2002:a17:902:e845:b0:215:9c06:272a with SMTP id d9443c01a7336-2159c062adbmr115921795ad.24.1733233068995;
-        Tue, 03 Dec 2024 05:37:48 -0800 (PST)
+        bh=YCcwLxp9ugiFwG4kq5n85l5yYT63vhWM5VjJFySF15c=;
+        b=oq47Dk6PrOKb6BLVQvkVfP7OzxzpiUQAEA4xYwvXBwbGx1FsWB4s/ehjVSdEynCtKx
+         Ob0ljsDaytPAWJ3W5wgNNzfD/3KBo+9zhQ4pJXjdnjVPKTPSEtUYAz07nKv3dPh2ODcP
+         1iSJCs1aeH0g8KHai+ehepppFya+8otETV7ESmSDeC6jb04By8L6YQDbxebZrrkF0yQa
+         Agb139/szpwbuX2ka/vVkypaLAJnGYDSdeb+KnoX95D17XC8xmY/U2jj+fb9+UJCUAAw
+         GvDyTKIF2ktyur821YI9O8DwVueSuKh8GVXpWRYCqsxVyLwVcYoWhMWxQtSDKPy/R76r
+         44HA==
+X-Gm-Message-State: AOJu0Ywzg2zH6GUWpAx3nCOG16LitKkIMs6PFRyc0WZThoSIS6sXxX/b
+	VYx4UeZa0wMCVbxer5L3rJ8VkfyUdfWrXayfHXMRH2PaGe6pSy2j3WAkn07RY4xijEhiBDWh0H8
+	3
+X-Gm-Gg: ASbGncuSLg5FsT7V1xfuHF7lCdM9vT9VyjF2lDNzuuV44t1fyBR4QNlVHm9bHvzNnXn
+	m7nnjOn0c0v8DjJt/rn77cLAXJIiXu7RXuq9sgKi5YL4Nvg4KsHiFWNMZRl9XLJsz5CLs3sCsuW
+	WRJZtrXounHiLftOIm8D9fJaLuwHOEegqSjUZp+dt8EdrFroAEF3ou4x32bCMo1TyItFiGh46dT
+	vTJWXJK6ezrExXFXWSKKxBnEBUuDnkUB8+8hKM=
+X-Google-Smtp-Source: AGHT+IFVdnsJ+h9UuZKrGy2gITQNjYzmJsiMstBttW2/50m1djK1978h/VieJXs5dW5qbanyGTE1WA==
+X-Received: by 2002:a17:902:d2c3:b0:215:50fb:ae4a with SMTP id d9443c01a7336-215bd0ed305mr26601135ad.0.1733233066666;
+        Tue, 03 Dec 2024 05:37:46 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.48
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 05:37:48 -0800 (PST)
+        Tue, 03 Dec 2024 05:37:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/16] gcc: add a backport patch to fix an issue with tzdata 2024b
-Date: Tue,  3 Dec 2024 05:37:16 -0800
-Message-Id: <05d05d9c199de6ec81d2ee9b06f0bff84a9144be.1733232895.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/16] qemu: upgrade 8.2.3 -> 8.2.7
+Date: Tue,  3 Dec 2024 05:37:15 -0800
+Message-Id: <7983ad282c37f8c1125da5bab96489e5d0039948.1733232895.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733232895.git.steve@sakoman.com>
 References: <cover.1733232895.git.steve@sakoman.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 13:37:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208201
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208200
 
-From: Markus Volk <f_l_k@t-online.de>
+From: Yogita Urade <yogita.urade@windriver.com>
 
-There is an issue in the std::chrono::tzdb parser that causes problems
-since the tzdata-2024b release started using %z in the main format.
+This includes fix for: CVE-2024-4693, CVE-2024-6505 and CVE-2024-7730
 
-As a real world problem I encounter an issue with the waybar clock module,
-which ignores the timezone setting and only shows system time.
+General changelog for 8.2: https://wiki.qemu.org/ChangeLog/8.2
 
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Droped:
+0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch
+0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch
+0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch
+CVE-2024-4467 and CVE-2024-7409 since already contained the fix.
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/gcc/gcc-13.3.inc        |   1 +
- ...4fffe3fc82a710bea66ad651720d71c938b8.patch | 549 ++++++++++++++++++
- 2 files changed, 550 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
+ ...u-native_8.2.3.bb => qemu-native_8.2.7.bb} |    0
+ ...e_8.2.3.bb => qemu-system-native_8.2.7.bb} |    0
+ meta/recipes-devtools/qemu/qemu.inc           |   14 +-
+ ...kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch |   75 --
+ ...kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch |   73 -
+ ...cv-kvm-change-timer-regs-size-to-u64.patch |  107 --
+ .../qemu/qemu/CVE-2024-4467-0001.patch        |  112 --
+ .../qemu/qemu/CVE-2024-4467-0002.patch        |   55 -
+ .../qemu/qemu/CVE-2024-4467-0003.patch        |   57 -
+ .../qemu/qemu/CVE-2024-4467-0004.patch        | 1187 -----------------
+ .../qemu/qemu/CVE-2024-4467-0005.patch        |  239 ----
+ .../qemu/qemu/CVE-2024-7409-0001.patch        |  167 ---
+ .../qemu/qemu/CVE-2024-7409-0002.patch        |  175 ---
+ .../qemu/qemu/CVE-2024-7409-0003.patch        |  126 --
+ .../qemu/qemu/CVE-2024-7409-0004.patch        |  164 ---
+ .../qemu/{qemu_8.2.3.bb => qemu_8.2.7.bb}     |    0
+ 16 files changed, 1 insertion(+), 2550 deletions(-)
+ rename meta/recipes-devtools/qemu/{qemu-native_8.2.3.bb => qemu-native_8.2.7.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu-system-native_8.2.3.bb => qemu-system-native_8.2.7.bb} (100%)
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0001.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0002.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0003.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0004.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0005.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
+ delete mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
+ rename meta/recipes-devtools/qemu/{qemu_8.2.3.bb => qemu_8.2.7.bb} (100%)
 
-diff --git a/meta/recipes-devtools/gcc/gcc-13.3.inc b/meta/recipes-devtools/gcc/gcc-13.3.inc
-index 90f5ef88a9..ffe90c7188 100644
---- a/meta/recipes-devtools/gcc/gcc-13.3.inc
-+++ b/meta/recipes-devtools/gcc/gcc-13.3.inc
-@@ -66,6 +66,7 @@ SRC_URI = "${BASEURI} \
-            file://0024-Avoid-hardcoded-build-paths-into-ppc-libgcc.patch \
-            file://0025-gcc-testsuite-tweaks-for-mips-OE.patch \
-            file://0027-Fix-gcc-vect-module-testcases.patch \
-+           file://gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch \
- "
- SRC_URI[sha256sum] = "0845e9621c9543a13f484e94584a49ffc0129970e9914624235fc1d061a0c083"
+diff --git a/meta/recipes-devtools/qemu/qemu-native_8.2.3.bb b/meta/recipes-devtools/qemu/qemu-native_8.2.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-native_8.2.3.bb
+rename to meta/recipes-devtools/qemu/qemu-native_8.2.7.bb
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_8.2.3.bb b/meta/recipes-devtools/qemu/qemu-system-native_8.2.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-system-native_8.2.3.bb
+rename to meta/recipes-devtools/qemu/qemu-system-native_8.2.7.bb
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e9f63b9eaf..40ee267a42 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -40,18 +40,6 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://0005-tests-tcg-Check-that-shmat-does-not-break-proc-self-.patch \
+            file://qemu-guest-agent.init \
+            file://qemu-guest-agent.udev \
+-           file://CVE-2024-4467-0001.patch \
+-           file://CVE-2024-4467-0002.patch \
+-           file://CVE-2024-4467-0003.patch \
+-           file://CVE-2024-4467-0004.patch \
+-           file://CVE-2024-4467-0005.patch \
+-           file://CVE-2024-7409-0001.patch \
+-           file://CVE-2024-7409-0002.patch \
+-           file://CVE-2024-7409-0003.patch \
+-           file://CVE-2024-7409-0004.patch \
+-           file://0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch \
+-           file://0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch \
+-           file://0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-new file mode 100644
-index 0000000000..e5abdcc703
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/gcc.git-ab884fffe3fc82a710bea66ad651720d71c938b8.patch
-@@ -0,0 +1,549 @@
-+From ab884fffe3fc82a710bea66ad651720d71c938b8 Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely <jwakely@redhat.com>
-+Date: Tue, 30 Apr 2024 09:52:13 +0100
-+Subject: [PATCH] libstdc++: Fix std::chrono::tzdb to work with vanguard format
-+
-+I found some issues in the std::chrono::tzdb parser by testing the
-+tzdata "vanguard" format, which uses new features that aren't enabled in
-+the "main" and "rearguard" data formats.
-+
-+Since 2024a the keyword "minimum" is no longer valid for the FROM and TO
-+fields in a Rule line, which means that "m" is now a valid abbreviation
-+for "maximum". Previously we expected either "mi" or "ma". For backwards
-+compatibility, a FROM field beginning with "mi" is still supported and
-+is treated as 1900. The "maximum" keyword is only allowed in TO now,
-+because it makes no sense in FROM. To support these changes the
-+minmax_year and minmax_year2 classes for parsing FROM and TO are
-+replaced with a single years_from_to class that reads both fields.
-+
-+The vanguard format makes use of %z in Zone FORMAT fields, which caused
-+an exception to be thrown from ZoneInfo::set_abbrev because no % or /
-+characters were expected when a Zone doesn't use a named Rule. The
-+ZoneInfo::to(sys_info&) function now uses format_abbrev_str to replace
-+any %z with the current offset. Although format_abbrev_str also checks
-+for %s and STD/DST formats, those only make sense when a named Rule is
-+in effect, so won't occur when ZoneInfo::to(sys_info&) is used.
-+
-+Since making this change on trunk, the tzdata-2024b release started
-+using %z in the main format, not just vanguard. This makes a backport to
-+release branches necessary (see PR 116657).
-+
-+This change also implements a feature that has always been missing from
-+time_zone::_M_get_sys_info: finding the Rule that is active before the
-+specified time point, so that we can correctly handle %s in the FORMAT
-+for the first new sys_info that gets created. This requires implementing
-+a poorly documented feature of zic, to get the LETTERS field from a
-+later transition, as described at
-+https://mm.icann.org/pipermail/tz/2024-April/058891.html
-+In order for this to work we need to be able to distinguish an empty
-+letters field (as used by CE%sT where the variable part is either empty
-+or "S") from "the letters field is not known for this transition". The
-+tzdata file uses "-" for an empty letters field, which libstdc++ was
-+previously replacing with "" when the Rule was parsed. Instead, we now
-+preserve the "-" in the Rule object, so that "" can be used for the case
-+where we don't know the letters (and so need to decide it).
-+
-+(cherry picked from commit 0ca8d56f2085715f27ee536c6c344bc47af49cdd)
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/git/gitweb.cgi?p=gcc.git;h=5ceea2ac106d6dd1aa8175670b15a801316cf1c9]
-+
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+---
-+ libstdc++-v3/src/c++20/tzdb.cc                | 265 +++++++++++-------
-+ .../std/time/time_zone/sys_info_abbrev.cc     | 106 +++++++
-+ libstdc++-v3/testsuite/std/time/tzdb/1.cc     |   6 +-
-+ 3 files changed, 274 insertions(+), 103 deletions(-)
-+ create mode 100644 libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+
-+diff --git a/libstdc++-v3/src/c++20/tzdb.cc b/libstdc++-v3/src/c++20/tzdb.cc
-+index c7c7cc9deee6..7e8cce7ce8cf 100644
-+--- a/libstdc++-v3/src/c++20/tzdb.cc
-++++ b/libstdc++-v3/src/c++20/tzdb.cc
-+@@ -342,51 +342,103 @@ namespace std::chrono
-+       friend istream& operator>>(istream&, on_day&);
-+     };
-+ 
-+-    // Wrapper for chrono::year that reads a year, or one of the keywords
-+-    // "minimum" or "maximum", or an unambiguous prefix of a keyword.
-+-    struct minmax_year
-++    // Wrapper for two chrono::year values, which reads the FROM and TO
-++    // fields of a Rule line. The FROM field is a year and TO is a year or
-++    // one of the keywords "maximum" or "only" (or an abbreviation of those).
-++    // For backwards compatibility, the keyword "minimum" is recognized
-++    // for FROM and interpreted as 1900.
-++    struct years_from_to
-+     {
-+-      year& y;
-++      year& from;
-++      year& to;
-+ 
-+-      friend istream& operator>>(istream& in, minmax_year&& y)
-++      friend istream& operator>>(istream& in, years_from_to&& yy)
-+       {
-+-	if (ws(in).peek() == 'm') // keywords "minimum" or "maximum"
-++	string s;
-++	auto c = ws(in).peek();
-++	if (c == 'm') [[unlikely]] // keyword "minimum"
-+ 	  {
-+-	    string s;
-+-	    in >> s; // extract the rest of the word, but only look at s[1]
-+-	    if (s[1] == 'a')
-+-	      y.y = year::max();
-+-	    else if (s[1] == 'i')
-+-	      y.y = year::min();
-+-	    else
-+-	      in.setstate(ios::failbit);
-++	    in >> s; // extract the rest of the word
-++	    yy.from = year(1900);
-++	  }
-++	else if (int num = 0; in >> num) [[likely]]
-++	  yy.from = year{num};
-++
-++	c = ws(in).peek();
-++	if (c == 'm') // keyword "maximum"
-++	  {
-++	    in >> s; // extract the rest of the word
-++	    yy.to = year::max();
-++	  }
-++	else if (c == 'o') // keyword "only"
-++	  {
-++	    in >> s; // extract the rest of the word
-++	    yy.to = yy.from;
-+ 	  }
-+ 	else if (int num = 0; in >> num)
-+-	  y.y = year{num};
-++	  yy.to = year{num};
-++
-+ 	return in;
-+       }
-+     };
-+ 
-+-    // As above for minmax_year, but also supports the keyword "only",
-+-    // meaning that the TO year is the same as the FROM year.
-+-    struct minmax_year2
-++    bool
-++    select_std_or_dst_abbrev(string& abbrev, minutes save)
-+     {
-+-      minmax_year to;
-+-      year from;
-++      if (size_t pos = abbrev.find('/'); pos != string::npos)
-++	{
-++	  // Select one of "STD/DST" for standard or daylight.
-++	  if (save == 0min)
-++	    abbrev.erase(pos);
-++	  else
-++	    abbrev.erase(0, pos + 1);
-++	  return true;
-++	}
-++      return false;
-++    }
-+ 
-+-      friend istream& operator>>(istream& in, minmax_year2&& y)
-+-      {
-+-	if (ws(in).peek() == 'o') // keyword "only"
-+-	  {
-+-	    string s;
-+-	    in >> s; // extract the whole keyword
-+-	    y.to.y = y.from;
-+-	  }
-+-	else
-+-	  in >> std::move(y.to);
-+-	return in;
-+-      }
-+-    };
-++    // Set the sys_info::abbrev string by expanding any placeholders.
-++    void
-++    format_abbrev_str(sys_info& info, string_view letters = {})
-++    {
-++      if (size_t pos = info.abbrev.find('%'); pos != string::npos)
-++	{
-++	  if (info.abbrev[pos + 1] == 's')
-++	    {
-++	      // Expand "%s" to the variable part, given by Rule::letters.
-++	      if (letters == "-")
-++		info.abbrev.erase(pos, 2);
-++	      else
-++		info.abbrev.replace(pos, 2, letters);
-++	    }
-++	  else if (info.abbrev[pos + 1] == 'z')
-++	    {
-++	      // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
-++	      hh_mm_ss<seconds> t(info.offset);
-++	      string z(1, "+-"[t.is_negative()]);
-++	      long val = t.hours().count();
-++	      int digits = 2;
-++	      if (int m = t.minutes().count())
-++		{
-++		  digits = 4;
-++		  val *= 100;
-++		  val += m;
-++		  if (int s = t.seconds().count())
-++		    {
-++		      digits = 6;
-++		      val *= 100;
-++		      val += s;
-++		    }
-++		}
-++	      auto sval = std::to_string(val);
-++	      z += string(digits - sval.size(), '0');
-++	      z += sval;
-++	      info.abbrev.replace(pos, 2, z);
-++	    }
-++	}
-++      else
-++	select_std_or_dst_abbrev(info.abbrev, info.save);
-++    }
-+ 
-+     // A time zone information record.
-+     // Zone  NAME        STDOFF  RULES   FORMAT  [UNTIL]
-+@@ -462,6 +514,7 @@ namespace std::chrono
-+ 	info.offset = offset();
-+ 	info.save = minutes(m_save);
-+ 	info.abbrev = format();
-++	format_abbrev_str(info); // expand %z
-+ 	return true;
-+       }
-+ 
-+@@ -469,12 +522,9 @@ namespace std::chrono
-+       friend class time_zone;
-+ 
-+       void
-+-      set_abbrev(const string& abbrev)
-++      set_abbrev(string abbrev)
-+       {
-+-	// In practice, the FORMAT field never needs expanding here.
-+-	if (abbrev.find_first_of("/%") != abbrev.npos)
-+-	  __throw_runtime_error("std::chrono::time_zone: invalid data");
-+-	m_buf = abbrev;
-++	m_buf = std::move(abbrev);
-+ 	m_pos = 0;
-+ 	m_expanded = true;
-+       }
-+@@ -544,9 +594,7 @@ namespace std::chrono
-+ 
-+ 	// Rule  NAME  FROM  TO  TYPE  IN  ON  AT  SAVE  LETTER/S
-+ 
-+-	in >> quoted(rule.name)
-+-	   >> minmax_year{rule.from}
-+-	   >> minmax_year2{rule.to, rule.from};
-++	in >> quoted(rule.name) >> years_from_to{rule.from, rule.to};
-+ 
-+ 	if (char type; in >> type && type != '-')
-+ 	  in.setstate(ios::failbit);
-+@@ -557,7 +605,7 @@ namespace std::chrono
-+ 	if (save_time.indicator != at_time::Wall)
-+ 	  {
-+ 	    // We don't actually store the save_time.indicator, because we
-+-	    // assume that it's always deducable from the actual offset value.
-++	    // assume that it's always deducible from the offset value.
-+ 	    auto expected = save_time.time == 0s
-+ 			      ? at_time::Standard
-+ 			      : at_time::Daylight;
-+@@ -567,8 +615,6 @@ namespace std::chrono
-+ 	rule.save = save_time.time;
-+ 
-+ 	in >> rule.letters;
-+-	if (rule.letters == "-")
-+-	  rule.letters.clear();
-+ 	return in;
-+       }
-+ 
-+@@ -719,58 +765,6 @@ namespace std::chrono
-+ #endif // TZDB_DISABLED
-+   };
-+ 
-+-#ifndef TZDB_DISABLED
-+-  namespace
-+-  {
-+-    bool
-+-    select_std_or_dst_abbrev(string& abbrev, minutes save)
-+-    {
-+-      if (size_t pos = abbrev.find('/'); pos != string::npos)
-+-	{
-+-	  // Select one of "STD/DST" for standard or daylight.
-+-	  if (save == 0min)
-+-	    abbrev.erase(pos);
-+-	  else
-+-	    abbrev.erase(0, pos + 1);
-+-	  return true;
-+-	}
-+-      return false;
-+-    }
-+-
-+-    // Set the sys_info::abbrev string by expanding any placeholders.
-+-    void
-+-    format_abbrev_str(sys_info& info, string_view letters = {})
-+-    {
-+-      if (size_t pos = info.abbrev.find("%s"); pos != string::npos)
-+-	{
-+-	  // Expand "%s" to the variable part, given by Rule::letters.
-+-	  info.abbrev.replace(pos, 2, letters);
-+-	}
-+-      else if (size_t pos = info.abbrev.find("%z"); pos != string::npos)
-+-	{
-+-	  // Expand "%z" to the UT offset as +/-hh, +/-hhmm, or +/-hhmmss.
-+-	  hh_mm_ss<seconds> t(info.offset);
-+-	  string z(1, "+-"[t.is_negative()]);
-+-	  long val = t.hours().count();
-+-	  if (minutes m = t.minutes(); m != m.zero())
-+-	    {
-+-	      val *= 100;
-+-	      val += m.count();
-+-	      if (seconds s = t.seconds(); s != s.zero())
-+-		{
-+-		  val *= 100;
-+-		  val += s.count();
-+-		}
-+-	    }
-+-	  z += std::to_string(val);
-+-	  info.abbrev.replace(pos, 2, z);
-+-	}
-+-      else
-+-	select_std_or_dst_abbrev(info.abbrev, info.save);
-+-    }
-+-  }
-+-#endif // TZDB_DISABLED
-+-
-+   // Implementation of std::chrono::time_zone::get_info(const sys_time<D>&)
-+   sys_info
-+   time_zone::_M_get_sys_info(sys_seconds tp) const
-+@@ -839,12 +833,72 @@ namespace std::chrono
-+     info.abbrev = ri.format();
-+ 
-+     string_view letters;
-+-    if (i != infos.begin())
-++    if (i != infos.begin() && i[-1].expanded())
-++      letters = i[-1].next_letters();
-++
-++    if (letters.empty())
-+       {
-+-	if (i[-1].expanded())
-+-	  letters = i[-1].next_letters();
-+-	// XXX else need to find Rule active before this time and use it
-+-	// to know the initial offset, save, and letters.
-++	sys_seconds t = info.begin - seconds(1);
-++	const year_month_day date(chrono::floor<days>(t));
-++
-++	// Try to find a Rule active before this time, to get initial
-++	// SAVE and LETTERS values. There may not be a Rule for the period
-++	// before the first DST transition, so find the earliest DST->STD
-++	// transition and use the LETTERS from that.
-++	const Rule* active_rule = nullptr;
-++	sys_seconds active_rule_start = sys_seconds::min();
-++	const Rule* first_std = nullptr;
-++	for (const auto& rule : rules)
-++	  {
-++	    if (rule.save == minutes(0))
-++	      {
-++		if (!first_std)
-++		  first_std = &rule;
-++		else if (rule.from < first_std->from)
-++		  first_std = &rule;
-++		else if (rule.from == first_std->from)
-++		  {
-++		    if (rule.start_time(rule.from, {})
-++			  < first_std->start_time(first_std->from, {}))
-++		      first_std = &rule;
-++		  }
-++	      }
-++
-++	    year y = date.year();
-++
-++	    if (y > rule.to) // rule no longer applies at time t
-++	      continue;
-++	    if (y < rule.from) // rule doesn't apply yet at time t
-++	      continue;
-++
-++	    sys_seconds rule_start;
-++
-++	    seconds offset{}; // appropriate for at_time::Universal
-++	    if (rule.when.indicator == at_time::Wall)
-++	      offset = info.offset;
-++	    else if (rule.when.indicator == at_time::Standard)
-++	      offset = ri.offset();
-++
-++	    // Time the rule takes effect this year:
-++	    rule_start = rule.start_time(y, offset);
-++
-++	    if (rule_start >= t && rule.from < y)
-++	      {
-++		// Try this rule in the previous year.
-++		rule_start = rule.start_time(--y, offset);
-++	      }
-++
-++	    if (active_rule_start < rule_start && rule_start < t)
-++	      {
-++		active_rule_start = rule_start;
-++		active_rule = &rule;
-++	      }
-++	  }
-++
-++	if (active_rule)
-++	  letters = active_rule->letters;
-++	else if (first_std)
-++	  letters = first_std->letters;
-+       }
-+ 
-+     const Rule* curr_rule = nullptr;
-+@@ -2069,9 +2123,11 @@ namespace std::chrono
-+ 	      istringstream in2(std::move(rules));
-+ 	      in2 >> rules_time;
-+ 	      inf.m_save = duration_cast<minutes>(rules_time.time);
-++	      // If the FORMAT is "STD/DST" then we can choose the right one
-++	      // now, so that we store a shorter string.
-+ 	      select_std_or_dst_abbrev(fmt, inf.m_save);
-+ 	    }
-+-	  inf.set_abbrev(fmt);
-++	  inf.set_abbrev(std::move(fmt));
-+ 	}
-+ 
-+       // YEAR [MONTH [DAY [TIME]]]
-+@@ -2082,7 +2138,12 @@ namespace std::chrono
-+ 	  abbrev_month m{January};
-+ 	  int d = 1;
-+ 	  at_time t{};
-++	  // XXX DAY should support ON format, e.g. lastSun or Sun>=8
-+ 	  in >> m >> d >> t;
-++	  // XXX UNTIL field should be interpreted
-++	  // "using the rules in effect just before the transition"
-++	  // so might need to store as year_month_day and hh_mm_ss and only
-++	  // convert to a sys_time once we know the offset in effect.
-+ 	  inf.m_until = sys_days(year(y)/m.m/day(d)) + seconds(t.time);
-+ 	}
-+       else
-+diff --git a/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+new file mode 100644
-+index 000000000000..f1a8fff02f58
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/std/time/time_zone/sys_info_abbrev.cc
-+@@ -0,0 +1,106 @@
-++// { dg-do run { target c++20 } }
-++// { dg-require-effective-target tzdb }
-++// { dg-require-effective-target cxx11_abi }
-++// { dg-xfail-run-if "no weak override on AIX" { powerpc-ibm-aix* } }
-++
-++#include <chrono>
-++#include <fstream>
-++#include <testsuite_hooks.h>
-++
-++static bool override_used = false;
-++
-++namespace __gnu_cxx
-++{
-++  const char* zoneinfo_dir_override() {
-++    override_used = true;
-++    return "./";
-++  }
-++}
-++
-++using namespace std::chrono;
-++
-++void
-++test_format()
-++{
-++  std::ofstream("tzdata.zi") << R"(# version test_1
-++Zone Africa/Bissau -1:2:20 - LMT 1912 Ja 1 1u
-++                   -1      - %z  1975
-++                   0       - GMT
-++Zon Some/Zone 1:2:3   - %z 1900
-++              1:23:45 - %z 1950
-++Zo Another/Zone 1:2:3 -     AZ0     1901
-++                1     Roolz A%sZ    2000
-++                1     Roolz SAZ/DAZ 2005
-++                1     Roolz %z
-++Rule Roolz 1950 max - April 1 2 1 D
-++Rul  Roolz 1950 max - Oct   1 1 0 S
-++Z Strange/Zone 1       - X%sX    1980
-++               1       - FOO/BAR 1990
-++               2:00    - %zzz    1995
-++               0:9     - %zzz    1996
-++               0:8:7   - %zzz    1997
-++               0:6:5.5 - %zzz    1998
-++)";
-++
-++  const auto& db = reload_tzdb();
-++  VERIFY( override_used ); // If this fails then XFAIL for the target.
-++  VERIFY( db.version == "test_1" );
-++
-++  // Test formatting %z as
-++  auto tz = locate_zone("Africa/Bissau");
-++  auto inf = tz->get_info(sys_days(1974y/1/1));
-++  VERIFY( inf.abbrev == "-01" );
-++
-++  tz = locate_zone("Some/Zone");
-++  inf = tz->get_info(sys_days(1899y/1/1));
-++  VERIFY( inf.abbrev == "+010203" );
-++  inf = tz->get_info(sys_days(1955y/1/1));
-++  VERIFY( inf.abbrev == "+012345" );
-++
-++  tz = locate_zone("Another/Zone");
-++  // Test formatting %s as the LETTER/S field from the active Rule.
-++  inf = tz->get_info(sys_days(1910y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz->get_info(sys_days(1950y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz->get_info(sys_days(1950y/June/1));
-++  VERIFY( inf.abbrev == "ADZ" );
-++  inf = tz->get_info(sys_days(1999y/January/1));
-++  VERIFY( inf.abbrev == "ASZ" );
-++  inf = tz->get_info(sys_days(1999y/July/1));
-++  VERIFY( inf.abbrev == "ADZ" );
-++  // Test formatting STD/DST according to the active Rule.
-++  inf = tz->get_info(sys_days(2000y/January/2));
-++  VERIFY( inf.abbrev == "SAZ" );
-++  inf = tz->get_info(sys_days(2001y/January/1));
-++  VERIFY( inf.abbrev == "SAZ" );
-++  inf = tz->get_info(sys_days(2001y/July/1));
-++  VERIFY( inf.abbrev == "DAZ" );
-++  // Test formatting %z as the offset determined by the active Rule.
-++  inf = tz->get_info(sys_days(2005y/January/2));
-++  VERIFY( inf.abbrev == "+01" );
-++  inf = tz->get_info(sys_days(2006y/January/1));
-++  VERIFY( inf.abbrev == "+01" );
-++  inf = tz->get_info(sys_days(2006y/July/1));
-++  VERIFY( inf.abbrev == "+02" );
-++
-++  // Test formatting %z, %s and S/D for a Zone with no associated Rules.
-++  tz = locate_zone("Strange/Zone");
-++  inf = tz->get_info(sys_days(1979y/January/1));
-++  VERIFY( inf.abbrev == "XX" ); // No Rule means nothing to use for %s.
-++  inf = tz->get_info(sys_days(1981y/July/1));
-++  VERIFY( inf.abbrev == "FOO" ); // Always standard time means first string.
-++  inf = tz->get_info(sys_days(1994y/July/1));
-++  VERIFY( inf.abbrev == "+02zz" );
-++  inf = tz->get_info(sys_days(1995y/July/1));
-++  VERIFY( inf.abbrev == "+0009zz" );
-++  inf = tz->get_info(sys_days(1996y/July/1));
-++  VERIFY( inf.abbrev == "+000807zz" );
-++  inf = tz->get_info(sys_days(1997y/July/1));
-++  VERIFY( inf.abbrev == "+000606zz" );
-++}
-++
-++int main()
-++{
-++  test_format();
-++}
-+diff --git a/libstdc++-v3/testsuite/std/time/tzdb/1.cc b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-+index 796f3a8b4256..7a31c1c20ba7 100644
-+--- a/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-++++ b/libstdc++-v3/testsuite/std/time/tzdb/1.cc
-+@@ -39,11 +39,15 @@ test_locate()
-+   const tzdb& db = get_tzdb();
-+   const time_zone* tz = db.locate_zone("GMT");
-+   VERIFY( tz != nullptr );
-+-  VERIFY( tz->name() == "Etc/GMT" );
-+   VERIFY( tz == std::chrono::locate_zone("GMT") );
-+   VERIFY( tz == db.locate_zone("Etc/GMT") );
-+   VERIFY( tz == db.locate_zone("Etc/GMT+0") );
-+ 
-++  // Since 2022f GMT is now a Zone and Etc/GMT a link instead of vice versa,
-++  // but only when using the vanguard format. As of 2024a, the main and
-++  // rearguard formats still have Etc/GMT as a Zone and GMT as a link.
-++  VERIFY( tz->name() == "GMT" || tz->name() == "Etc/GMT" );
-++
-+   VERIFY( db.locate_zone(db.current_zone()->name()) == db.current_zone() );
-+ }
-+ 
-+-- 
-+2.43.5
-+
+@@ -68,7 +56,7 @@ SRC_URI:append:class-native = " \
+ 	file://0012-linux-user-workaround-for-missing-MAP_SHARED_VALIDAT.patch \
+         "
+ 
+-SRC_URI[sha256sum] = "dc747fb366809455317601c4876bd1f6829a32a23e83fb76e45ab12c2a569964"
++SRC_URI[sha256sum] = "1f0604f296ab9acb4854c054764a1ba408643fc299bd54a6500cccfaaca65b55"
+ 
+ CVE_STATUS[CVE-2007-0998] = "not-applicable-config: The VNC server can expose host files uder some circumstances. We don't enable it by default."
+ 
+diff --git a/meta/recipes-devtools/qemu/qemu/0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch b/meta/recipes-devtools/qemu/qemu/0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch
+deleted file mode 100644
+index 39a6a85162..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/0001-target-riscv-kvm-change-KVM_REG_RISCV_FP_F-to-u32.patch
++++ /dev/null
+@@ -1,75 +0,0 @@
+-From bbdcc89678daa5cb131ef22a6cd41a5f7f9dcea9 Mon Sep 17 00:00:00 2001
+-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+-Date: Fri, 8 Dec 2023 15:38:31 -0300
+-Subject: [PATCH 1/3] target/riscv/kvm: change KVM_REG_RISCV_FP_F to u32
+-
+-KVM_REG_RISCV_FP_F regs have u32 size according to the API, but by using
+-kvm_riscv_reg_id() in RISCV_FP_F_REG() we're returning u64 sizes when
+-running with TARGET_RISCV64. The most likely reason why no one noticed
+-this is because we're not implementing kvm_cpu_synchronize_state() in
+-RISC-V yet.
+-
+-Create a new helper that returns a KVM ID with u32 size and use it in
+-RISCV_FP_F_REG().
+-
+-Reported-by: Andrew Jones <ajones@ventanamicro.com>
+-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+-Message-ID: <20231208183835.2411523-2-dbarboza@ventanamicro.com>
+-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-(cherry picked from commit 49c211ffca00fdf7c0c29072c224e88527a14838)
+-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+-
+-Upstream-Status: Backport [bbdcc89678daa5cb131ef22a6cd41a5f7f9dcea9]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- target/riscv/kvm/kvm-cpu.c | 11 ++++++++---
+- 1 file changed, 8 insertions(+), 3 deletions(-)
+-
+-diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
+-index c1675158fe..2eef2be86a 100644
+---- a/target/riscv/kvm/kvm-cpu.c
+-+++ b/target/riscv/kvm/kvm-cpu.c
+-@@ -72,6 +72,11 @@ static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
+-     return id;
+- }
+- 
+-+static uint64_t kvm_riscv_reg_id_u32(uint64_t type, uint64_t idx)
+-+{
+-+    return KVM_REG_RISCV | KVM_REG_SIZE_U32 | type | idx;
+-+}
+-+
+- #define RISCV_CORE_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CORE, \
+-                  KVM_REG_RISCV_CORE_REG(name))
+- 
+-@@ -81,7 +86,7 @@ static uint64_t kvm_riscv_reg_id(CPURISCVState *env, uint64_t type,
+- #define RISCV_TIMER_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_TIMER, \
+-                  KVM_REG_RISCV_TIMER_REG(name))
+- 
+--#define RISCV_FP_F_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_F, idx)
+-+#define RISCV_FP_F_REG(idx)  kvm_riscv_reg_id_u32(KVM_REG_RISCV_FP_F, idx)
+- 
+- #define RISCV_FP_D_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_D, idx)
+- 
+-@@ -586,7 +591,7 @@ static int kvm_riscv_get_regs_fp(CPUState *cs)
+-     if (riscv_has_ext(env, RVF)) {
+-         uint32_t reg;
+-         for (i = 0; i < 32; i++) {
+--            ret = kvm_get_one_reg(cs, RISCV_FP_F_REG(env, i), &reg);
+-+            ret = kvm_get_one_reg(cs, RISCV_FP_F_REG(i), &reg);
+-             if (ret) {
+-                 return ret;
+-             }
+-@@ -620,7 +625,7 @@ static int kvm_riscv_put_regs_fp(CPUState *cs)
+-         uint32_t reg;
+-         for (i = 0; i < 32; i++) {
+-             reg = env->fpr[i];
+--            ret = kvm_set_one_reg(cs, RISCV_FP_F_REG(env, i), &reg);
+-+            ret = kvm_set_one_reg(cs, RISCV_FP_F_REG(i), &reg);
+-             if (ret) {
+-                 return ret;
+-             }
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch b/meta/recipes-devtools/qemu/qemu/0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch
+deleted file mode 100644
+index 9480d3e0b5..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/0002-target-riscv-kvm-change-KVM_REG_RISCV_FP_D-to-u64.patch
++++ /dev/null
+@@ -1,73 +0,0 @@
+-From 125b95d79e746cbab6b72683b3382dd372e38c61 Mon Sep 17 00:00:00 2001
+-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+-Date: Fri, 8 Dec 2023 15:38:32 -0300
+-Subject: [PATCH 2/3] target/riscv/kvm: change KVM_REG_RISCV_FP_D to u64
+-
+-KVM_REG_RISCV_FP_D regs are always u64 size. Using kvm_riscv_reg_id() in
+-RISCV_FP_D_REG() ends up encoding the wrong size if we're running with
+-TARGET_RISCV32.
+-
+-Create a new helper that returns a KVM ID with u64 size and use it with
+-RISCV_FP_D_REG().
+-
+-Reported-by: Andrew Jones <ajones@ventanamicro.com>
+-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+-Message-ID: <20231208183835.2411523-3-dbarboza@ventanamicro.com>
+-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-(cherry picked from commit 450bd6618fda3d2e2ab02b2fce1c79efd5b66084)
+-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+-
+-Upstream-Status: Backport [125b95d79e746cbab6b72683b3382dd372e38c61]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- target/riscv/kvm/kvm-cpu.c | 11 ++++++++---
+- 1 file changed, 8 insertions(+), 3 deletions(-)
+-
+-diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
+-index 2eef2be86a..82ed4455a5 100644
+---- a/target/riscv/kvm/kvm-cpu.c
+-+++ b/target/riscv/kvm/kvm-cpu.c
+-@@ -77,6 +77,11 @@ static uint64_t kvm_riscv_reg_id_u32(uint64_t type, uint64_t idx)
+-     return KVM_REG_RISCV | KVM_REG_SIZE_U32 | type | idx;
+- }
+- 
+-+static uint64_t kvm_riscv_reg_id_u64(uint64_t type, uint64_t idx)
+-+{
+-+    return KVM_REG_RISCV | KVM_REG_SIZE_U64 | type | idx;
+-+}
+-+
+- #define RISCV_CORE_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CORE, \
+-                  KVM_REG_RISCV_CORE_REG(name))
+- 
+-@@ -88,7 +93,7 @@ static uint64_t kvm_riscv_reg_id_u32(uint64_t type, uint64_t idx)
+- 
+- #define RISCV_FP_F_REG(idx)  kvm_riscv_reg_id_u32(KVM_REG_RISCV_FP_F, idx)
+- 
+--#define RISCV_FP_D_REG(env, idx)  kvm_riscv_reg_id(env, KVM_REG_RISCV_FP_D, idx)
+-+#define RISCV_FP_D_REG(idx)  kvm_riscv_reg_id_u64(KVM_REG_RISCV_FP_D, idx)
+- 
+- #define KVM_RISCV_GET_CSR(cs, env, csr, reg) \
+-     do { \
+-@@ -579,7 +584,7 @@ static int kvm_riscv_get_regs_fp(CPUState *cs)
+-     if (riscv_has_ext(env, RVD)) {
+-         uint64_t reg;
+-         for (i = 0; i < 32; i++) {
+--            ret = kvm_get_one_reg(cs, RISCV_FP_D_REG(env, i), &reg);
+-+            ret = kvm_get_one_reg(cs, RISCV_FP_D_REG(i), &reg);
+-             if (ret) {
+-                 return ret;
+-             }
+-@@ -613,7 +618,7 @@ static int kvm_riscv_put_regs_fp(CPUState *cs)
+-         uint64_t reg;
+-         for (i = 0; i < 32; i++) {
+-             reg = env->fpr[i];
+--            ret = kvm_set_one_reg(cs, RISCV_FP_D_REG(env, i), &reg);
+-+            ret = kvm_set_one_reg(cs, RISCV_FP_D_REG(i), &reg);
+-             if (ret) {
+-                 return ret;
+-             }
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch b/meta/recipes-devtools/qemu/qemu/0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch
+deleted file mode 100644
+index 1ea1bcfe70..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/0003-target-riscv-kvm-change-timer-regs-size-to-u64.patch
++++ /dev/null
+@@ -1,107 +0,0 @@
+-From cbae1080988e0f1af0fb4c816205f7647f6de16f Mon Sep 17 00:00:00 2001
+-From: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+-Date: Fri, 8 Dec 2023 15:38:33 -0300
+-Subject: [PATCH 3/3] target/riscv/kvm: change timer regs size to u64
+-
+-KVM_REG_RISCV_TIMER regs are always u64 according to the KVM API, but at
+-this moment we'll return u32 regs if we're running a RISCV32 target.
+-
+-Use the kvm_riscv_reg_id_u64() helper in RISCV_TIMER_REG() to fix it.
+-
+-Reported-by: Andrew Jones <ajones@ventanamicro.com>
+-Signed-off-by: Daniel Henrique Barboza <dbarboza@ventanamicro.com>
+-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+-Message-ID: <20231208183835.2411523-4-dbarboza@ventanamicro.com>
+-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+-(cherry picked from commit 10f86d1b845087d14b58d65dd2a6e3411d1b6529)
+-Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
+-
+-Upstream-Status: Backport [cbae1080988e0f1af0fb4c816205f7647f6de16f]
+-
+-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+----
+- target/riscv/kvm/kvm-cpu.c | 26 +++++++++++++-------------
+- 1 file changed, 13 insertions(+), 13 deletions(-)
+-
+-diff --git a/target/riscv/kvm/kvm-cpu.c b/target/riscv/kvm/kvm-cpu.c
+-index 82ed4455a5..ddbe820e10 100644
+---- a/target/riscv/kvm/kvm-cpu.c
+-+++ b/target/riscv/kvm/kvm-cpu.c
+-@@ -88,7 +88,7 @@ static uint64_t kvm_riscv_reg_id_u64(uint64_t type, uint64_t idx)
+- #define RISCV_CSR_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_CSR, \
+-                  KVM_REG_RISCV_CSR_REG(name))
+- 
+--#define RISCV_TIMER_REG(env, name)  kvm_riscv_reg_id(env, KVM_REG_RISCV_TIMER, \
+-+#define RISCV_TIMER_REG(name)  kvm_riscv_reg_id_u64(KVM_REG_RISCV_TIMER, \
+-                  KVM_REG_RISCV_TIMER_REG(name))
+- 
+- #define RISCV_FP_F_REG(idx)  kvm_riscv_reg_id_u32(KVM_REG_RISCV_FP_F, idx)
+-@@ -111,17 +111,17 @@ static uint64_t kvm_riscv_reg_id_u64(uint64_t type, uint64_t idx)
+-         } \
+-     } while (0)
+- 
+--#define KVM_RISCV_GET_TIMER(cs, env, name, reg) \
+-+#define KVM_RISCV_GET_TIMER(cs, name, reg) \
+-     do { \
+--        int ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(env, name), &reg); \
+-+        int ret = kvm_get_one_reg(cs, RISCV_TIMER_REG(name), &reg); \
+-         if (ret) { \
+-             abort(); \
+-         } \
+-     } while (0)
+- 
+--#define KVM_RISCV_SET_TIMER(cs, env, name, reg) \
+-+#define KVM_RISCV_SET_TIMER(cs, name, reg) \
+-     do { \
+--        int ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(env, name), &reg); \
+-+        int ret = kvm_set_one_reg(cs, RISCV_TIMER_REG(name), &reg); \
+-         if (ret) { \
+-             abort(); \
+-         } \
+-@@ -649,10 +649,10 @@ static void kvm_riscv_get_regs_timer(CPUState *cs)
+-         return;
+-     }
+- 
+--    KVM_RISCV_GET_TIMER(cs, env, time, env->kvm_timer_time);
+--    KVM_RISCV_GET_TIMER(cs, env, compare, env->kvm_timer_compare);
+--    KVM_RISCV_GET_TIMER(cs, env, state, env->kvm_timer_state);
+--    KVM_RISCV_GET_TIMER(cs, env, frequency, env->kvm_timer_frequency);
+-+    KVM_RISCV_GET_TIMER(cs, time, env->kvm_timer_time);
+-+    KVM_RISCV_GET_TIMER(cs, compare, env->kvm_timer_compare);
+-+    KVM_RISCV_GET_TIMER(cs, state, env->kvm_timer_state);
+-+    KVM_RISCV_GET_TIMER(cs, frequency, env->kvm_timer_frequency);
+- 
+-     env->kvm_timer_dirty = true;
+- }
+-@@ -666,8 +666,8 @@ static void kvm_riscv_put_regs_timer(CPUState *cs)
+-         return;
+-     }
+- 
+--    KVM_RISCV_SET_TIMER(cs, env, time, env->kvm_timer_time);
+--    KVM_RISCV_SET_TIMER(cs, env, compare, env->kvm_timer_compare);
+-+    KVM_RISCV_SET_TIMER(cs, time, env->kvm_timer_time);
+-+    KVM_RISCV_SET_TIMER(cs, compare, env->kvm_timer_compare);
+- 
+-     /*
+-      * To set register of RISCV_TIMER_REG(state) will occur a error from KVM
+-@@ -676,7 +676,7 @@ static void kvm_riscv_put_regs_timer(CPUState *cs)
+-      * TODO If KVM changes, adapt here.
+-      */
+-     if (env->kvm_timer_state) {
+--        KVM_RISCV_SET_TIMER(cs, env, state, env->kvm_timer_state);
+-+        KVM_RISCV_SET_TIMER(cs, state, env->kvm_timer_state);
+-     }
+- 
+-     /*
+-@@ -685,7 +685,7 @@ static void kvm_riscv_put_regs_timer(CPUState *cs)
+-      * during the migration.
+-      */
+-     if (migration_is_running(migrate_get_current()->state)) {
+--        KVM_RISCV_GET_TIMER(cs, env, frequency, reg);
+-+        KVM_RISCV_GET_TIMER(cs, frequency, reg);
+-         if (reg != env->kvm_timer_frequency) {
+-             error_report("Dst Hosts timer frequency != Src Hosts");
+-         }
+--- 
+-2.25.1
+-
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0001.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0001.patch
+deleted file mode 100644
+index dbcc71bb4e..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0001.patch
++++ /dev/null
+@@ -1,112 +0,0 @@
+-From bd385a5298d7062668e804d73944d52aec9549f1 Mon Sep 17 00:00:00 2001
+-From: Kevin Wolf <kwolf@redhat.com>
+-Date: Fri, 16 Aug 2024 08:29:04 +0000
+-Subject: [PATCH] qcow2: Don't open data_file with BDRV_O_NO_IO
+-
+-One use case for 'qemu-img info' is verifying that untrusted images
+-don't reference an unwanted external file, be it as a backing file or an
+-external data file. To make sure that calling 'qemu-img info' can't
+-already have undesired side effects with a malicious image, just don't
+-open the data file at all with BDRV_O_NO_IO. If nothing ever tries to do
+-I/O, we don't need to have it open.
+-
+-This changes the output of iotests case 061, which used 'qemu-img info'
+-to show that opening an image with an invalid data file fails. After
+-this patch, it succeeds. Replace this part of the test with a qemu-io
+-call, but keep the final 'qemu-img info' to show that the invalid data
+-file is correctly displayed in the output.
+-
+-Fixes: CVE-2024-4467
+-Cc: qemu-stable@nongnu.org
+-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+-Reviewed-by: Eric Blake <eblake@redhat.com>
+-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+-Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
+-
+-CVE: CVE-2024-4667
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/bd385a5298d7062668e804d73944d52aec9549f1]
+-
+-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+----
+- block/qcow2.c              | 17 ++++++++++++++++-
+- tests/qemu-iotests/061     |  6 ++++--
+- tests/qemu-iotests/061.out |  8 ++++++--
+- 3 files changed, 26 insertions(+), 5 deletions(-)
+-
+-diff --git a/block/qcow2.c b/block/qcow2.c
+-index 13e032bd5..7af7c0bee 100644
+---- a/block/qcow2.c
+-+++ b/block/qcow2.c
+-@@ -1636,7 +1636,22 @@ qcow2_do_open(BlockDriverState *bs, QDict *options, int flags,
+-         goto fail;
+-     }
+-
+--    if (open_data_file) {
+-+    if (open_data_file && (flags & BDRV_O_NO_IO)) {
+-+        /*
+-+         * Don't open the data file for 'qemu-img info' so that it can be used
+-+         * to verify that an untrusted qcow2 image doesn't refer to external
+-+         * files.
+-+         *
+-+         * Note: This still makes has_data_file() return true.
+-+         */
+-+        if (s->incompatible_features & QCOW2_INCOMPAT_DATA_FILE) {
+-+            s->data_file = NULL;
+-+        } else {
+-+            s->data_file = bs->file;
+-+        }
+-+        qdict_extract_subqdict(options, NULL, "data-file.");
+-+        qdict_del(options, "data-file");
+-+    } else if (open_data_file) {
+-         /* Open external data file */
+-         bdrv_graph_co_rdunlock();
+-         s->data_file = bdrv_co_open_child(NULL, options, "data-file", bs,
+-diff --git a/tests/qemu-iotests/061 b/tests/qemu-iotests/061
+-index 53c7d428e..b71ac097d 100755
+---- a/tests/qemu-iotests/061
+-+++ b/tests/qemu-iotests/061
+-@@ -326,12 +326,14 @@ $QEMU_IMG amend -o "data_file=foo" "$TEST_IMG"
+- echo
+- _make_test_img -o "compat=1.1,data_file=$TEST_IMG.data" 64M
+- $QEMU_IMG amend -o "data_file=foo" "$TEST_IMG"
+--_img_info --format-specific
+-+$QEMU_IO -c "read 0 4k" "$TEST_IMG" 2>&1 | _filter_testdir | _filter_imgfmt
+-+$QEMU_IO -c "open -o data-file.filename=$TEST_IMG.data,file.filename=$TEST_IMG" -c "read 0 4k" | _filter_qemu_io
+- TEST_IMG="data-file.filename=$TEST_IMG.data,file.filename=$TEST_IMG" _img_info --format-specific --image-opts
+-
+- echo
+- $QEMU_IMG amend -o "data_file=" --image-opts "data-file.filename=$TEST_IMG.data,file.filename=$TEST_IMG"
+--_img_info --format-specific
+-+$QEMU_IO -c "read 0 4k" "$TEST_IMG" 2>&1 | _filter_testdir | _filter_imgfmt
+-+$QEMU_IO -c "open -o data-file.filename=$TEST_IMG.data,file.filename=$TEST_IMG" -c "read 0 4k" | _filter_qemu_io
+- TEST_IMG="data-file.filename=$TEST_IMG.data,file.filename=$TEST_IMG" _img_info --format-specific --image-opts
+-
+- echo
+-diff --git a/tests/qemu-iotests/061.out b/tests/qemu-iotests/061.out
+-index 139fc6817..24c33add7 100644
+---- a/tests/qemu-iotests/061.out
+-+++ b/tests/qemu-iotests/061.out
+-@@ -545,7 +545,9 @@ Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864
+- qemu-img: data-file can only be set for images that use an external data file
+-
+- Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=67108864 data_file=TEST_DIR/t.IMGFMT.data
+--qemu-img: Could not open 'TEST_DIR/t.IMGFMT': Could not open 'foo': No such file or directory
+-+qemu-io: can't open device TEST_DIR/t.IMGFMT: Could not open 'foo': No such file or directory
+-+read 4096/4096 bytes at offset 0
+-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+- image: TEST_DIR/t.IMGFMT
+- file format: IMGFMT
+- virtual size: 64 MiB (67108864 bytes)
+-@@ -560,7 +562,9 @@ Format specific information:
+-     corrupt: false
+-     extended l2: false
+-
+--qemu-img: Could not open 'TEST_DIR/t.IMGFMT': 'data-file' is required for this image
+-+qemu-io: can't open device TEST_DIR/t.IMGFMT: 'data-file' is required for this image
+-+read 4096/4096 bytes at offset 0
+-+4 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+- image: TEST_DIR/t.IMGFMT
+- file format: IMGFMT
+- virtual size: 64 MiB (67108864 bytes)
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0002.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0002.patch
+deleted file mode 100644
+index 686176189c..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0002.patch
++++ /dev/null
+@@ -1,55 +0,0 @@
+-From 2eb42a728d27a43fdcad5f37d3f65706ce6deba5 Mon Sep 17 00:00:00 2001
+-From: Kevin Wolf <kwolf@redhat.com>
+-Date: Fri, 16 Aug 2024 09:35:24 +0000
+-Subject: [PATCH] iotests/244: Don't store data-file with protocol in image
+-
+-We want to disable filename parsing for data files because it's too easy
+-to abuse in malicious image files. Make the test ready for the change by
+-passing the data file explicitly in command line options.
+-
+-Cc: qemu-stable@nongnu.org
+-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+-Reviewed-by: Eric Blake <eblake@redhat.com>
+-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+-Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
+-
+-CVE: CVE-2024-4467
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/2eb42a728d27a43fdcad5f37d3f65706ce6deba5]
+-
+-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+----
+- tests/qemu-iotests/244 | 19 ++++++++++++++++---
+- 1 file changed, 16 insertions(+), 3 deletions(-)
+-
+-diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
+-index 3e61fa25b..bb9cc6512 100755
+---- a/tests/qemu-iotests/244
+-+++ b/tests/qemu-iotests/244
+-@@ -215,9 +215,22 @@ $QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
+- $QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
+-
+- # blkdebug doesn't support copy offloading, so this tests the error path
+--$QEMU_IMG amend -f $IMGFMT -o "data_file=blkdebug::$TEST_IMG.data" "$TEST_IMG"
+--$QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$TEST_IMG"
+--$QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$TEST_IMG"
+-+test_img_with_blkdebug="json:{
+-+    'driver': 'qcow2',
+-+    'file': {
+-+        'driver': 'file',
+-+        'filename': '$TEST_IMG'
+-+    },
+-+    'data-file': {
+-+        'driver': 'blkdebug',
+-+        'image': {
+-+            'driver': 'file',
+-+            'filename': '$TEST_IMG.data'
+-+        }
+-+    }
+-+}"
+-+$QEMU_IMG convert -f $IMGFMT -O $IMGFMT -n -C "$TEST_IMG.src" "$test_img_with_blkdebug"
+-+$QEMU_IMG compare -f $IMGFMT -F $IMGFMT "$TEST_IMG.src" "$test_img_with_blkdebug"
+-
+- echo
+- echo "=== Flushing should flush the data file ==="
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0003.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0003.patch
+deleted file mode 100644
+index 02611d6732..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0003.patch
++++ /dev/null
+@@ -1,57 +0,0 @@
+-From 7e1110664ecbc4826f3c978ccb06b6c1bce823e6 Mon Sep 17 00:00:00 2001
+-From: Kevin Wolf <kwolf@redhat.com>
+-Date: Fri, 16 Aug 2024 10:24:58 +0000
+-Subject: [PATCH] iotests/270: Don't store data-file with json: prefix in image
+-
+-We want to disable filename parsing for data files because it's too easy
+-to abuse in malicious image files. Make the test ready for the change by
+-passing the data file explicitly in command line options.
+-
+-Cc: qemu-stable@nongnu.org
+-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+-Reviewed-by: Eric Blake <eblake@redhat.com>
+-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+-Reviewed-by: Hanna Czenczek <hreitz@redhat.com>
+-
+-CVE: CVE-2024-4467
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/7e1110664ecbc4826f3c978ccb06b6c1bce823e6]
+-
+-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+----
+- tests/qemu-iotests/270 | 14 +++++++++++---
+- 1 file changed, 11 insertions(+), 3 deletions(-)
+-
+-diff --git a/tests/qemu-iotests/270 b/tests/qemu-iotests/270
+-index 74352342d..c37b674aa 100755
+---- a/tests/qemu-iotests/270
+-+++ b/tests/qemu-iotests/270
+-@@ -60,8 +60,16 @@ _make_test_img -o cluster_size=2M,data_file="$TEST_IMG.orig" \
+- # "write" 2G of data without using any space.
+- # (qemu-img create does not like it, though, because null-co does not
+- # support image creation.)
+--$QEMU_IMG amend -o data_file="json:{'driver':'null-co',,'size':'4294967296'}" \
+--    "$TEST_IMG"
+-+test_img_with_null_data="json:{
+-+    'driver': '$IMGFMT',
+-+    'file': {
+-+        'filename': '$TEST_IMG'
+-+    },
+-+    'data-file': {
+-+        'driver': 'null-co',
+-+        'size':'4294967296'
+-+    }
+-+}"
+-
+- # This gives us a range of:
+- #   2^31 - 512 + 768 - 1 = 2^31 + 255 > 2^31
+-@@ -74,7 +82,7 @@ $QEMU_IMG amend -o data_file="json:{'driver':'null-co',,'size':'4294967296'}" \
+- # on L2 boundaries, we need large L2 tables; hence the cluster size of
+- # 2 MB.  (Anything from 256 kB should work, though, because then one L2
+- # table covers 8 GB.)
+--$QEMU_IO -c "write 768 $((2 ** 31 - 512))" "$TEST_IMG" | _filter_qemu_io
+-+$QEMU_IO -c "write 768 $((2 ** 31 - 512))" "$test_img_with_null_data" | _filter_qemu_io
+-
+- _check_test_img
+-
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0004.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0004.patch
+deleted file mode 100644
+index 7568a453c4..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0004.patch
++++ /dev/null
+@@ -1,1187 +0,0 @@
+-From 6bc30f19498547fac9cef98316a65cf6c1f14205 Mon Sep 17 00:00:00 2001
+-From: Stefan Hajnoczi <stefanha@redhat.com>
+-Date: Tue, 5 Dec 2023 13:20:02 -0500
+-Subject: [PATCH] graph-lock: remove AioContext locking
+-
+-Stop acquiring/releasing the AioContext lock in
+-bdrv_graph_wrlock()/bdrv_graph_unlock() since the lock no longer has any
+-effect.
+-
+-The distinction between bdrv_graph_wrunlock() and
+-bdrv_graph_wrunlock_ctx() becomes meaningless and they can be collapsed
+-into one function.
+-
+-Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+-Reviewed-by: Eric Blake <eblake@redhat.com>
+-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+-Message-ID: <20231205182011.1976568-6-stefanha@redhat.com>
+-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
+-
+-CVE: CVE-2024-4467
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/6bc30f19498547fac9cef98316a65cf6c1f14205]
+-
+-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+----
+- block.c                            | 50 +++++++++++++++---------------
+- block/backup.c                     |  4 +--
+- block/blklogwrites.c               |  8 ++---
+- block/blkverify.c                  |  4 +--
+- block/block-backend.c              | 11 +++----
+- block/commit.c                     | 16 +++++-----
+- block/graph-lock.c                 | 44 ++------------------------
+- block/mirror.c                     | 22 ++++++-------
+- block/qcow2.c                      |  4 +--
+- block/quorum.c                     |  8 ++---
+- block/replication.c                | 14 ++++-----
+- block/snapshot.c                   |  4 +--
+- block/stream.c                     | 12 +++----
+- block/vmdk.c                       | 20 ++++++------
+- blockdev.c                         |  8 ++---
+- blockjob.c                         | 12 +++----
+- include/block/graph-lock.h         | 21 ++-----------
+- scripts/block-coroutine-wrapper.py |  4 +--
+- tests/unit/test-bdrv-drain.c       | 40 ++++++++++++------------
+- tests/unit/test-bdrv-graph-mod.c   | 20 ++++++------
+- 20 files changed, 133 insertions(+), 193 deletions(-)
+-
+-diff --git a/block.c b/block.c
+-index bfb0861ec..25e1ebc60 100644
+---- a/block.c
+-+++ b/block.c
+-@@ -1708,12 +1708,12 @@ bdrv_open_driver(BlockDriverState *bs, BlockDriver *drv, const char *node_name,
+- open_failed:
+-     bs->drv = NULL;
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     if (bs->file != NULL) {
+-         bdrv_unref_child(bs, bs->file);
+-         assert(!bs->file);
+-     }
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     g_free(bs->opaque);
+-     bs->opaque = NULL;
+-@@ -3575,9 +3575,9 @@ int bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
+-
+-     bdrv_ref(drain_bs);
+-     bdrv_drained_begin(drain_bs);
+--    bdrv_graph_wrlock(backing_hd);
+-+    bdrv_graph_wrlock();
+-     ret = bdrv_set_backing_hd_drained(bs, backing_hd, errp);
+--    bdrv_graph_wrunlock(backing_hd);
+-+    bdrv_graph_wrunlock();
+-     bdrv_drained_end(drain_bs);
+-     bdrv_unref(drain_bs);
+-
+-@@ -3790,13 +3790,13 @@ BdrvChild *bdrv_open_child(const char *filename,
+-         return NULL;
+-     }
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     ctx = bdrv_get_aio_context(bs);
+-     aio_context_acquire(ctx);
+-     child = bdrv_attach_child(parent, bs, bdref_key, child_class, child_role,
+-                               errp);
+-     aio_context_release(ctx);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     return child;
+- }
+-@@ -4650,9 +4650,9 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+-         aio_context_release(ctx);
+-     }
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     tran_commit(tran);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     QTAILQ_FOREACH_REVERSE(bs_entry, bs_queue, entry) {
+-         BlockDriverState *bs = bs_entry->state.bs;
+-@@ -4669,9 +4669,9 @@ int bdrv_reopen_multiple(BlockReopenQueue *bs_queue, Error **errp)
+-     goto cleanup;
+-
+- abort:
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     tran_abort(tran);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     QTAILQ_FOREACH_SAFE(bs_entry, bs_queue, entry, next) {
+-         if (bs_entry->prepared) {
+-@@ -4852,12 +4852,12 @@ bdrv_reopen_parse_file_or_backing(BDRVReopenState *reopen_state,
+-     }
+-
+-     bdrv_graph_rdunlock_main_loop();
+--    bdrv_graph_wrlock(new_child_bs);
+-+    bdrv_graph_wrlock();
+-
+-     ret = bdrv_set_file_or_backing_noperm(bs, new_child_bs, is_backing,
+-                                           tran, errp);
+-
+--    bdrv_graph_wrunlock_ctx(ctx);
+-+    bdrv_graph_wrunlock();
+-
+-     if (old_ctx != ctx) {
+-         aio_context_release(ctx);
+-@@ -5209,14 +5209,14 @@ static void bdrv_close(BlockDriverState *bs)
+-         bs->drv = NULL;
+-     }
+-
+--    bdrv_graph_wrlock(bs);
+-+    bdrv_graph_wrlock();
+-     QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
+-         bdrv_unref_child(bs, child);
+-     }
+-
+-     assert(!bs->backing);
+-     assert(!bs->file);
+--    bdrv_graph_wrunlock(bs);
+-+    bdrv_graph_wrunlock();
+-
+-     g_free(bs->opaque);
+-     bs->opaque = NULL;
+-@@ -5509,9 +5509,9 @@ int bdrv_drop_filter(BlockDriverState *bs, Error **errp)
+-     bdrv_graph_rdunlock_main_loop();
+-
+-     bdrv_drained_begin(child_bs);
+--    bdrv_graph_wrlock(bs);
+-+    bdrv_graph_wrlock();
+-     ret = bdrv_replace_node_common(bs, child_bs, true, true, errp);
+--    bdrv_graph_wrunlock(bs);
+-+    bdrv_graph_wrunlock();
+-     bdrv_drained_end(child_bs);
+-
+-     return ret;
+-@@ -5561,7 +5561,7 @@ int bdrv_append(BlockDriverState *bs_new, BlockDriverState *bs_top,
+-     aio_context_acquire(old_context);
+-     new_context = NULL;
+-
+--    bdrv_graph_wrlock(bs_top);
+-+    bdrv_graph_wrlock();
+-
+-     child = bdrv_attach_child_noperm(bs_new, bs_top, "backing",
+-                                      &child_of_bds, bdrv_backing_role(bs_new),
+-@@ -5593,7 +5593,7 @@ out:
+-     tran_finalize(tran, ret);
+-
+-     bdrv_refresh_limits(bs_top, NULL, NULL);
+--    bdrv_graph_wrunlock(bs_top);
+-+    bdrv_graph_wrunlock();
+-
+-     bdrv_drained_end(bs_top);
+-     bdrv_drained_end(bs_new);
+-@@ -5620,7 +5620,7 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+-     bdrv_ref(old_bs);
+-     bdrv_drained_begin(old_bs);
+-     bdrv_drained_begin(new_bs);
+--    bdrv_graph_wrlock(new_bs);
+-+    bdrv_graph_wrlock();
+-
+-     bdrv_replace_child_tran(child, new_bs, tran);
+-
+-@@ -5631,7 +5631,7 @@ int bdrv_replace_child_bs(BdrvChild *child, BlockDriverState *new_bs,
+-
+-     tran_finalize(tran, ret);
+-
+--    bdrv_graph_wrunlock(new_bs);
+-+    bdrv_graph_wrunlock();
+-     bdrv_drained_end(old_bs);
+-     bdrv_drained_end(new_bs);
+-     bdrv_unref(old_bs);
+-@@ -5718,9 +5718,9 @@ BlockDriverState *bdrv_insert_node(BlockDriverState *bs, QDict *options,
+-     bdrv_ref(bs);
+-     bdrv_drained_begin(bs);
+-     bdrv_drained_begin(new_node_bs);
+--    bdrv_graph_wrlock(new_node_bs);
+-+    bdrv_graph_wrlock();
+-     ret = bdrv_replace_node(bs, new_node_bs, errp);
+--    bdrv_graph_wrunlock(new_node_bs);
+-+    bdrv_graph_wrunlock();
+-     bdrv_drained_end(new_node_bs);
+-     bdrv_drained_end(bs);
+-     bdrv_unref(bs);
+-@@ -5975,7 +5975,7 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
+-
+-     bdrv_ref(top);
+-     bdrv_drained_begin(base);
+--    bdrv_graph_wrlock(base);
+-+    bdrv_graph_wrlock();
+-
+-     if (!top->drv || !base->drv) {
+-         goto exit_wrlock;
+-@@ -6015,7 +6015,7 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
+-      * That's a FIXME.
+-      */
+-     bdrv_replace_node_common(top, base, false, false, &local_err);
+--    bdrv_graph_wrunlock(base);
+-+    bdrv_graph_wrunlock();
+-
+-     if (local_err) {
+-         error_report_err(local_err);
+-@@ -6052,7 +6052,7 @@ int bdrv_drop_intermediate(BlockDriverState *top, BlockDriverState *base,
+-     goto exit;
+-
+- exit_wrlock:
+--    bdrv_graph_wrunlock(base);
+-+    bdrv_graph_wrunlock();
+- exit:
+-     bdrv_drained_end(base);
+-     bdrv_unref(top);
+-diff --git a/block/backup.c b/block/backup.c
+-index 8aae5836d..ec29d6b81 100644
+---- a/block/backup.c
+-+++ b/block/backup.c
+-@@ -496,10 +496,10 @@ BlockJob *backup_job_create(const char *job_id, BlockDriverState *bs,
+-     block_copy_set_speed(bcs, speed);
+-
+-     /* Required permissions are taken by copy-before-write filter target */
+--    bdrv_graph_wrlock(target);
+-+    bdrv_graph_wrlock();
+-     block_job_add_bdrv(&job->common, "target", target, 0, BLK_PERM_ALL,
+-                        &error_abort);
+--    bdrv_graph_wrunlock(target);
+-+    bdrv_graph_wrunlock();
+-
+-     return &job->common;
+-
+-diff --git a/block/blklogwrites.c b/block/blklogwrites.c
+-index 84e03f309..ba717dab4 100644
+---- a/block/blklogwrites.c
+-+++ b/block/blklogwrites.c
+-@@ -251,9 +251,9 @@ static int blk_log_writes_open(BlockDriverState *bs, QDict *options, int flags,
+-     ret = 0;
+- fail_log:
+-     if (ret < 0) {
+--        bdrv_graph_wrlock(NULL);
+-+        bdrv_graph_wrlock();
+-         bdrv_unref_child(bs, s->log_file);
+--        bdrv_graph_wrunlock(NULL);
+-+        bdrv_graph_wrunlock();
+-         s->log_file = NULL;
+-     }
+- fail:
+-@@ -265,10 +265,10 @@ static void blk_log_writes_close(BlockDriverState *bs)
+- {
+-     BDRVBlkLogWritesState *s = bs->opaque;
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_unref_child(bs, s->log_file);
+-     s->log_file = NULL;
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+- }
+-
+- static int64_t coroutine_fn GRAPH_RDLOCK
+-diff --git a/block/blkverify.c b/block/blkverify.c
+-index 9b17c4664..ec45d8335 100644
+---- a/block/blkverify.c
+-+++ b/block/blkverify.c
+-@@ -151,10 +151,10 @@ static void blkverify_close(BlockDriverState *bs)
+- {
+-     BDRVBlkverifyState *s = bs->opaque;
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_unref_child(bs, s->test_file);
+-     s->test_file = NULL;
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+- }
+-
+- static int64_t coroutine_fn GRAPH_RDLOCK
+-diff --git a/block/block-backend.c b/block/block-backend.c
+-index 86315d62c..a2348b31e 100644
+---- a/block/block-backend.c
+-+++ b/block/block-backend.c
+-@@ -885,7 +885,6 @@ void blk_remove_bs(BlockBackend *blk)
+- {
+-     ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+-     BdrvChild *root;
+--    AioContext *ctx;
+-
+-     GLOBAL_STATE_CODE();
+-
+-@@ -915,10 +914,9 @@ void blk_remove_bs(BlockBackend *blk)
+-     root = blk->root;
+-     blk->root = NULL;
+-
+--    ctx = bdrv_get_aio_context(root->bs);
+--    bdrv_graph_wrlock(root->bs);
+-+    bdrv_graph_wrlock();
+-     bdrv_root_unref_child(root);
+--    bdrv_graph_wrunlock_ctx(ctx);
+-+    bdrv_graph_wrunlock();
+- }
+-
+- /*
+-@@ -929,16 +927,15 @@ void blk_remove_bs(BlockBackend *blk)
+- int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
+- {
+-     ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
+--    AioContext *ctx = bdrv_get_aio_context(bs);
+-
+-     GLOBAL_STATE_CODE();
+-     bdrv_ref(bs);
+--    bdrv_graph_wrlock(bs);
+-+    bdrv_graph_wrlock();
+-     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
+-                                        BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                                        blk->perm, blk->shared_perm,
+-                                        blk, errp);
+--    bdrv_graph_wrunlock_ctx(ctx);
+-+    bdrv_graph_wrunlock();
+-     if (blk->root == NULL) {
+-         return -EPERM;
+-     }
+-diff --git a/block/commit.c b/block/commit.c
+-index 69cc75be0..1dd7a65ff 100644
+---- a/block/commit.c
+-+++ b/block/commit.c
+-@@ -100,9 +100,9 @@ static void commit_abort(Job *job)
+-     bdrv_graph_rdunlock_main_loop();
+-
+-     bdrv_drained_begin(commit_top_backing_bs);
+--    bdrv_graph_wrlock(commit_top_backing_bs);
+-+    bdrv_graph_wrlock();
+-     bdrv_replace_node(s->commit_top_bs, commit_top_backing_bs, &error_abort);
+--    bdrv_graph_wrunlock(commit_top_backing_bs);
+-+    bdrv_graph_wrunlock();
+-     bdrv_drained_end(commit_top_backing_bs);
+-
+-     bdrv_unref(s->commit_top_bs);
+-@@ -339,7 +339,7 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+-      * this is the responsibility of the interface (i.e. whoever calls
+-      * commit_start()).
+-      */
+--    bdrv_graph_wrlock(top);
+-+    bdrv_graph_wrlock();
+-     s->base_overlay = bdrv_find_overlay(top, base);
+-     assert(s->base_overlay);
+-
+-@@ -370,19 +370,19 @@ void commit_start(const char *job_id, BlockDriverState *bs,
+-         ret = block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
+-                                  iter_shared_perms, errp);
+-         if (ret < 0) {
+--            bdrv_graph_wrunlock(top);
+-+            bdrv_graph_wrunlock();
+-             goto fail;
+-         }
+-     }
+-
+-     if (bdrv_freeze_backing_chain(commit_top_bs, base, errp) < 0) {
+--        bdrv_graph_wrunlock(top);
+-+        bdrv_graph_wrunlock();
+-         goto fail;
+-     }
+-     s->chain_frozen = true;
+-
+-     ret = block_job_add_bdrv(&s->common, "base", base, 0, BLK_PERM_ALL, errp);
+--    bdrv_graph_wrunlock(top);
+-+    bdrv_graph_wrunlock();
+-
+-     if (ret < 0) {
+-         goto fail;
+-@@ -434,9 +434,9 @@ fail:
+-      * otherwise this would fail because of lack of permissions. */
+-     if (commit_top_bs) {
+-         bdrv_drained_begin(top);
+--        bdrv_graph_wrlock(top);
+-+        bdrv_graph_wrlock();
+-         bdrv_replace_node(commit_top_bs, top, &error_abort);
+--        bdrv_graph_wrunlock(top);
+-+        bdrv_graph_wrunlock();
+-         bdrv_drained_end(top);
+-     }
+- }
+-diff --git a/block/graph-lock.c b/block/graph-lock.c
+-index 079e878d9..c81162b14 100644
+---- a/block/graph-lock.c
+-+++ b/block/graph-lock.c
+-@@ -106,27 +106,12 @@ static uint32_t reader_count(void)
+-     return rd;
+- }
+-
+--void no_coroutine_fn bdrv_graph_wrlock(BlockDriverState *bs)
+-+void no_coroutine_fn bdrv_graph_wrlock(void)
+- {
+--    AioContext *ctx = NULL;
+--
+-     GLOBAL_STATE_CODE();
+-     assert(!qatomic_read(&has_writer));
+-     assert(!qemu_in_coroutine());
+-
+--    /*
+--     * Release only non-mainloop AioContext. The mainloop often relies on the
+--     * BQL and doesn't lock the main AioContext before doing things.
+--     */
+--    if (bs) {
+--        ctx = bdrv_get_aio_context(bs);
+--        if (ctx != qemu_get_aio_context()) {
+--            aio_context_release(ctx);
+--        } else {
+--            ctx = NULL;
+--        }
+--    }
+--
+-     /* Make sure that constantly arriving new I/O doesn't cause starvation */
+-     bdrv_drain_all_begin_nopoll();
+-
+-@@ -155,27 +140,13 @@ void no_coroutine_fn bdrv_graph_wrlock(BlockDriverState *bs)
+-     } while (reader_count() >= 1);
+-
+-     bdrv_drain_all_end();
+--
+--    if (ctx) {
+--        aio_context_acquire(bdrv_get_aio_context(bs));
+--    }
+- }
+-
+--void no_coroutine_fn bdrv_graph_wrunlock_ctx(AioContext *ctx)
+-+void no_coroutine_fn bdrv_graph_wrunlock(void)
+- {
+-     GLOBAL_STATE_CODE();
+-     assert(qatomic_read(&has_writer));
+-
+--    /*
+--     * Release only non-mainloop AioContext. The mainloop often relies on the
+--     * BQL and doesn't lock the main AioContext before doing things.
+--     */
+--    if (ctx && ctx != qemu_get_aio_context()) {
+--        aio_context_release(ctx);
+--    } else {
+--        ctx = NULL;
+--    }
+--
+-     WITH_QEMU_LOCK_GUARD(&aio_context_list_lock) {
+-         /*
+-          * No need for memory barriers, this works in pair with
+-@@ -197,17 +168,6 @@ void no_coroutine_fn bdrv_graph_wrunlock_ctx(AioContext *ctx)
+-      * progress.
+-      */
+-     aio_bh_poll(qemu_get_aio_context());
+--
+--    if (ctx) {
+--        aio_context_acquire(ctx);
+--    }
+--}
+--
+--void no_coroutine_fn bdrv_graph_wrunlock(BlockDriverState *bs)
+--{
+--    AioContext *ctx = bs ? bdrv_get_aio_context(bs) : NULL;
+--
+--    bdrv_graph_wrunlock_ctx(ctx);
+- }
+-
+- void coroutine_fn bdrv_graph_co_rdlock(void)
+-diff --git a/block/mirror.c b/block/mirror.c
+-index abbddb39e..f9db6f0f7 100644
+---- a/block/mirror.c
+-+++ b/block/mirror.c
+-@@ -768,7 +768,7 @@ static int mirror_exit_common(Job *job)
+-          * check for an op blocker on @to_replace, and we have our own
+-          * there.
+-          */
+--        bdrv_graph_wrlock(target_bs);
+-+        bdrv_graph_wrlock();
+-         if (bdrv_recurse_can_replace(src, to_replace)) {
+-             bdrv_replace_node(to_replace, target_bs, &local_err);
+-         } else {
+-@@ -777,7 +777,7 @@ static int mirror_exit_common(Job *job)
+-                        "would not lead to an abrupt change of visible data",
+-                        to_replace->node_name, target_bs->node_name);
+-         }
+--        bdrv_graph_wrunlock(target_bs);
+-+        bdrv_graph_wrunlock();
+-         bdrv_drained_end(to_replace);
+-         if (local_err) {
+-             error_report_err(local_err);
+-@@ -800,9 +800,9 @@ static int mirror_exit_common(Job *job)
+-      * valid.
+-      */
+-     block_job_remove_all_bdrv(bjob);
+--    bdrv_graph_wrlock(mirror_top_bs);
+-+    bdrv_graph_wrlock();
+-     bdrv_replace_node(mirror_top_bs, mirror_top_bs->backing->bs, &error_abort);
+--    bdrv_graph_wrunlock(mirror_top_bs);
+-+    bdrv_graph_wrunlock();
+-
+-     bdrv_drained_end(target_bs);
+-     bdrv_unref(target_bs);
+-@@ -1916,13 +1916,13 @@ static BlockJob *mirror_start_job(
+-      */
+-     bdrv_disable_dirty_bitmap(s->dirty_bitmap);
+-
+--    bdrv_graph_wrlock(bs);
+-+    bdrv_graph_wrlock();
+-     ret = block_job_add_bdrv(&s->common, "source", bs, 0,
+-                              BLK_PERM_WRITE_UNCHANGED | BLK_PERM_WRITE |
+-                              BLK_PERM_CONSISTENT_READ,
+-                              errp);
+-     if (ret < 0) {
+--        bdrv_graph_wrunlock(bs);
+-+        bdrv_graph_wrunlock();
+-         goto fail;
+-     }
+-
+-@@ -1967,17 +1967,17 @@ static BlockJob *mirror_start_job(
+-             ret = block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
+-                                      iter_shared_perms, errp);
+-             if (ret < 0) {
+--                bdrv_graph_wrunlock(bs);
+-+                bdrv_graph_wrunlock();
+-                 goto fail;
+-             }
+-         }
+-
+-         if (bdrv_freeze_backing_chain(mirror_top_bs, target, errp) < 0) {
+--            bdrv_graph_wrunlock(bs);
+-+            bdrv_graph_wrunlock();
+-             goto fail;
+-         }
+-     }
+--    bdrv_graph_wrunlock(bs);
+-+    bdrv_graph_wrunlock();
+-
+-     QTAILQ_INIT(&s->ops_in_flight);
+-
+-@@ -2003,12 +2003,12 @@ fail:
+-
+-     bs_opaque->stop = true;
+-     bdrv_drained_begin(bs);
+--    bdrv_graph_wrlock(bs);
+-+    bdrv_graph_wrlock();
+-     assert(mirror_top_bs->backing->bs == bs);
+-     bdrv_child_refresh_perms(mirror_top_bs, mirror_top_bs->backing,
+-                              &error_abort);
+-     bdrv_replace_node(mirror_top_bs, bs, &error_abort);
+--    bdrv_graph_wrunlock(bs);
+-+    bdrv_graph_wrunlock();
+-     bdrv_drained_end(bs);
+-
+-     bdrv_unref(mirror_top_bs);
+-diff --git a/block/qcow2.c b/block/qcow2.c
+-index 7af7c0bee..77dd49d4f 100644
+---- a/block/qcow2.c
+-+++ b/block/qcow2.c
+-@@ -2822,9 +2822,9 @@ qcow2_do_close(BlockDriverState *bs, bool close_data_file)
+-     if (close_data_file && has_data_file(bs)) {
+-         GLOBAL_STATE_CODE();
+-         bdrv_graph_rdunlock_main_loop();
+--        bdrv_graph_wrlock(NULL);
+-+        bdrv_graph_wrlock();
+-         bdrv_unref_child(bs, s->data_file);
+--        bdrv_graph_wrunlock(NULL);
+-+        bdrv_graph_wrunlock();
+-         s->data_file = NULL;
+-         bdrv_graph_rdlock_main_loop();
+-     }
+-diff --git a/block/quorum.c b/block/quorum.c
+-index 505b8b3e1..db8fe891c 100644
+---- a/block/quorum.c
+-+++ b/block/quorum.c
+-@@ -1037,14 +1037,14 @@ static int quorum_open(BlockDriverState *bs, QDict *options, int flags,
+-
+- close_exit:
+-     /* cleanup on error */
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     for (i = 0; i < s->num_children; i++) {
+-         if (!opened[i]) {
+-             continue;
+-         }
+-         bdrv_unref_child(bs, s->children[i]);
+-     }
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-     g_free(s->children);
+-     g_free(opened);
+- exit:
+-@@ -1057,11 +1057,11 @@ static void quorum_close(BlockDriverState *bs)
+-     BDRVQuorumState *s = bs->opaque;
+-     int i;
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     for (i = 0; i < s->num_children; i++) {
+-         bdrv_unref_child(bs, s->children[i]);
+-     }
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     g_free(s->children);
+- }
+-diff --git a/block/replication.c b/block/replication.c
+-index 5ded5f1ca..424b537ff 100644
+---- a/block/replication.c
+-+++ b/block/replication.c
+-@@ -560,7 +560,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+-             return;
+-         }
+-
+--        bdrv_graph_wrlock(bs);
+-+        bdrv_graph_wrlock();
+-
+-         bdrv_ref(hidden_disk->bs);
+-         s->hidden_disk = bdrv_attach_child(bs, hidden_disk->bs, "hidden disk",
+-@@ -568,7 +568,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+-                                            &local_err);
+-         if (local_err) {
+-             error_propagate(errp, local_err);
+--            bdrv_graph_wrunlock(bs);
+-+            bdrv_graph_wrunlock();
+-             aio_context_release(aio_context);
+-             return;
+-         }
+-@@ -579,7 +579,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+-                                               BDRV_CHILD_DATA, &local_err);
+-         if (local_err) {
+-             error_propagate(errp, local_err);
+--            bdrv_graph_wrunlock(bs);
+-+            bdrv_graph_wrunlock();
+-             aio_context_release(aio_context);
+-             return;
+-         }
+-@@ -592,7 +592,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+-         if (!top_bs || !bdrv_is_root_node(top_bs) ||
+-             !check_top_bs(top_bs, bs)) {
+-             error_setg(errp, "No top_bs or it is invalid");
+--            bdrv_graph_wrunlock(bs);
+-+            bdrv_graph_wrunlock();
+-             reopen_backing_file(bs, false, NULL);
+-             aio_context_release(aio_context);
+-             return;
+-@@ -600,7 +600,7 @@ static void replication_start(ReplicationState *rs, ReplicationMode mode,
+-         bdrv_op_block_all(top_bs, s->blocker);
+-         bdrv_op_unblock(top_bs, BLOCK_OP_TYPE_DATAPLANE, s->blocker);
+-
+--        bdrv_graph_wrunlock(bs);
+-+        bdrv_graph_wrunlock();
+-
+-         s->backup_job = backup_job_create(
+-                                 NULL, s->secondary_disk->bs, s->hidden_disk->bs,
+-@@ -691,12 +691,12 @@ static void replication_done(void *opaque, int ret)
+-     if (ret == 0) {
+-         s->stage = BLOCK_REPLICATION_DONE;
+-
+--        bdrv_graph_wrlock(NULL);
+-+        bdrv_graph_wrlock();
+-         bdrv_unref_child(bs, s->secondary_disk);
+-         s->secondary_disk = NULL;
+-         bdrv_unref_child(bs, s->hidden_disk);
+-         s->hidden_disk = NULL;
+--        bdrv_graph_wrunlock(NULL);
+-+        bdrv_graph_wrunlock();
+-
+-         s->error = 0;
+-     } else {
+-diff --git a/block/snapshot.c b/block/snapshot.c
+-index c4d40e80d..6fd720aef 100644
+---- a/block/snapshot.c
+-+++ b/block/snapshot.c
+-@@ -292,9 +292,9 @@ int bdrv_snapshot_goto(BlockDriverState *bs,
+-         }
+-
+-         /* .bdrv_open() will re-attach it */
+--        bdrv_graph_wrlock(NULL);
+-+        bdrv_graph_wrlock();
+-         bdrv_unref_child(bs, fallback);
+--        bdrv_graph_wrunlock(NULL);
+-+        bdrv_graph_wrunlock();
+-
+-         ret = bdrv_snapshot_goto(fallback_bs, snapshot_id, errp);
+-         open_ret = drv->bdrv_open(bs, options, bs->open_flags, &local_err);
+-diff --git a/block/stream.c b/block/stream.c
+-index 01fe7c0f1..048c2d282 100644
+---- a/block/stream.c
+-+++ b/block/stream.c
+-@@ -99,9 +99,9 @@ static int stream_prepare(Job *job)
+-             }
+-         }
+-
+--        bdrv_graph_wrlock(s->target_bs);
+-+        bdrv_graph_wrlock();
+-         bdrv_set_backing_hd_drained(unfiltered_bs, base, &local_err);
+--        bdrv_graph_wrunlock(s->target_bs);
+-+        bdrv_graph_wrunlock();
+-
+-         /*
+-          * This call will do I/O, so the graph can change again from here on.
+-@@ -366,10 +366,10 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+-      * already have our own plans. Also don't allow resize as the image size is
+-      * queried only at the job start and then cached.
+-      */
+--    bdrv_graph_wrlock(bs);
+-+    bdrv_graph_wrlock();
+-     if (block_job_add_bdrv(&s->common, "active node", bs, 0,
+-                            basic_flags | BLK_PERM_WRITE, errp)) {
+--        bdrv_graph_wrunlock(bs);
+-+        bdrv_graph_wrunlock();
+-         goto fail;
+-     }
+-
+-@@ -389,11 +389,11 @@ void stream_start(const char *job_id, BlockDriverState *bs,
+-         ret = block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
+-                                  basic_flags, errp);
+-         if (ret < 0) {
+--            bdrv_graph_wrunlock(bs);
+-+            bdrv_graph_wrunlock();
+-             goto fail;
+-         }
+-     }
+--    bdrv_graph_wrunlock(bs);
+-+    bdrv_graph_wrunlock();
+-
+-     s->base_overlay = base_overlay;
+-     s->above_base = above_base;
+-diff --git a/block/vmdk.c b/block/vmdk.c
+-index d6971c706..bf78e1238 100644
+---- a/block/vmdk.c
+-+++ b/block/vmdk.c
+-@@ -272,7 +272,7 @@ static void vmdk_free_extents(BlockDriverState *bs)
+-     BDRVVmdkState *s = bs->opaque;
+-     VmdkExtent *e;
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     for (i = 0; i < s->num_extents; i++) {
+-         e = &s->extents[i];
+-         g_free(e->l1_table);
+-@@ -283,7 +283,7 @@ static void vmdk_free_extents(BlockDriverState *bs)
+-             bdrv_unref_child(bs, e->file);
+-         }
+-     }
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     g_free(s->extents);
+- }
+-@@ -1247,9 +1247,9 @@ vmdk_parse_extents(const char *desc, BlockDriverState *bs, QDict *options,
+-                             0, 0, 0, 0, 0, &extent, errp);
+-             if (ret < 0) {
+-                 bdrv_graph_rdunlock_main_loop();
+--                bdrv_graph_wrlock(NULL);
+-+                bdrv_graph_wrlock();
+-                 bdrv_unref_child(bs, extent_file);
+--                bdrv_graph_wrunlock(NULL);
+-+                bdrv_graph_wrunlock();
+-                 bdrv_graph_rdlock_main_loop();
+-                 goto out;
+-             }
+-@@ -1266,9 +1266,9 @@ vmdk_parse_extents(const char *desc, BlockDriverState *bs, QDict *options,
+-             g_free(buf);
+-             if (ret) {
+-                 bdrv_graph_rdunlock_main_loop();
+--                bdrv_graph_wrlock(NULL);
+-+                bdrv_graph_wrlock();
+-                 bdrv_unref_child(bs, extent_file);
+--                bdrv_graph_wrunlock(NULL);
+-+                bdrv_graph_wrunlock();
+-                 bdrv_graph_rdlock_main_loop();
+-                 goto out;
+-             }
+-@@ -1277,9 +1277,9 @@ vmdk_parse_extents(const char *desc, BlockDriverState *bs, QDict *options,
+-             ret = vmdk_open_se_sparse(bs, extent_file, bs->open_flags, errp);
+-             if (ret) {
+-                 bdrv_graph_rdunlock_main_loop();
+--                bdrv_graph_wrlock(NULL);
+-+                bdrv_graph_wrlock();
+-                 bdrv_unref_child(bs, extent_file);
+--                bdrv_graph_wrunlock(NULL);
+-+                bdrv_graph_wrunlock();
+-                 bdrv_graph_rdlock_main_loop();
+-                 goto out;
+-             }
+-@@ -1287,9 +1287,9 @@ vmdk_parse_extents(const char *desc, BlockDriverState *bs, QDict *options,
+-         } else {
+-             error_setg(errp, "Unsupported extent type '%s'", type);
+-             bdrv_graph_rdunlock_main_loop();
+--            bdrv_graph_wrlock(NULL);
+-+            bdrv_graph_wrlock();
+-             bdrv_unref_child(bs, extent_file);
+--            bdrv_graph_wrunlock(NULL);
+-+            bdrv_graph_wrunlock();
+-             bdrv_graph_rdlock_main_loop();
+-             ret = -ENOTSUP;
+-             goto out;
+-diff --git a/blockdev.c b/blockdev.c
+-index c91f49e7b..9e1381169 100644
+---- a/blockdev.c
+-+++ b/blockdev.c
+-@@ -1611,9 +1611,9 @@ static void external_snapshot_abort(void *opaque)
+-             }
+-
+-             bdrv_drained_begin(state->new_bs);
+--            bdrv_graph_wrlock(state->old_bs);
+-+            bdrv_graph_wrlock();
+-             bdrv_replace_node(state->new_bs, state->old_bs, &error_abort);
+--            bdrv_graph_wrunlock(state->old_bs);
+-+            bdrv_graph_wrunlock();
+-             bdrv_drained_end(state->new_bs);
+-
+-             bdrv_unref(state->old_bs); /* bdrv_replace_node() ref'ed old_bs */
+-@@ -3657,7 +3657,7 @@ void qmp_x_blockdev_change(const char *parent, const char *child,
+-     BlockDriverState *parent_bs, *new_bs = NULL;
+-     BdrvChild *p_child;
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-
+-     parent_bs = bdrv_lookup_bs(parent, parent, errp);
+-     if (!parent_bs) {
+-@@ -3693,7 +3693,7 @@ void qmp_x_blockdev_change(const char *parent, const char *child,
+-     }
+-
+- out:
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+- }
+-
+- BlockJobInfoList *qmp_query_block_jobs(Error **errp)
+-diff --git a/blockjob.c b/blockjob.c
+-index b7a29052b..731041231 100644
+---- a/blockjob.c
+-+++ b/blockjob.c
+-@@ -199,7 +199,7 @@ void block_job_remove_all_bdrv(BlockJob *job)
+-      * to process an already freed BdrvChild.
+-      */
+-     aio_context_release(job->job.aio_context);
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     aio_context_acquire(job->job.aio_context);
+-     while (job->nodes) {
+-         GSList *l = job->nodes;
+-@@ -212,7 +212,7 @@ void block_job_remove_all_bdrv(BlockJob *job)
+-
+-         g_slist_free_1(l);
+-     }
+--    bdrv_graph_wrunlock_ctx(job->job.aio_context);
+-+    bdrv_graph_wrunlock();
+- }
+-
+- bool block_job_has_bdrv(BlockJob *job, BlockDriverState *bs)
+-@@ -514,7 +514,7 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+-     int ret;
+-     GLOBAL_STATE_CODE();
+-
+--    bdrv_graph_wrlock(bs);
+-+    bdrv_graph_wrlock();
+-
+-     if (job_id == NULL && !(flags & JOB_INTERNAL)) {
+-         job_id = bdrv_get_device_name(bs);
+-@@ -523,7 +523,7 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+-     job = job_create(job_id, &driver->job_driver, txn, bdrv_get_aio_context(bs),
+-                      flags, cb, opaque, errp);
+-     if (job == NULL) {
+--        bdrv_graph_wrunlock(bs);
+-+        bdrv_graph_wrunlock();
+-         return NULL;
+-     }
+-
+-@@ -563,11 +563,11 @@ void *block_job_create(const char *job_id, const BlockJobDriver *driver,
+-         goto fail;
+-     }
+-
+--    bdrv_graph_wrunlock(bs);
+-+    bdrv_graph_wrunlock();
+-     return job;
+-
+- fail:
+--    bdrv_graph_wrunlock(bs);
+-+    bdrv_graph_wrunlock();
+-     job_early_fail(&job->job);
+-     return NULL;
+- }
+-diff --git a/include/block/graph-lock.h b/include/block/graph-lock.h
+-index 22b5db1ed..d7545e82d 100644
+---- a/include/block/graph-lock.h
+-+++ b/include/block/graph-lock.h
+-@@ -110,34 +110,17 @@ void unregister_aiocontext(AioContext *ctx);
+-  *
+-  * The wrlock can only be taken from the main loop, with BQL held, as only the
+-  * main loop is allowed to modify the graph.
+-- *
+-- * If @bs is non-NULL, its AioContext is temporarily released.
+-- *
+-- * This function polls. Callers must not hold the lock of any AioContext other
+-- * than the current one and the one of @bs.
+-  */
+- void no_coroutine_fn TSA_ACQUIRE(graph_lock) TSA_NO_TSA
+--bdrv_graph_wrlock(BlockDriverState *bs);
+-+bdrv_graph_wrlock(void);
+-
+- /*
+-  * bdrv_graph_wrunlock:
+-  * Write finished, reset global has_writer to 0 and restart
+-  * all readers that are waiting.
+-- *
+-- * If @bs is non-NULL, its AioContext is temporarily released.
+-- */
+--void no_coroutine_fn TSA_RELEASE(graph_lock) TSA_NO_TSA
+--bdrv_graph_wrunlock(BlockDriverState *bs);
+--
+--/*
+-- * bdrv_graph_wrunlock_ctx:
+-- * Write finished, reset global has_writer to 0 and restart
+-- * all readers that are waiting.
+-- *
+-- * If @ctx is non-NULL, its lock is temporarily released.
+-  */
+- void no_coroutine_fn TSA_RELEASE(graph_lock) TSA_NO_TSA
+--bdrv_graph_wrunlock_ctx(AioContext *ctx);
+-+bdrv_graph_wrunlock(void);
+-
+- /*
+-  * bdrv_graph_co_rdlock:
+-diff --git a/scripts/block-coroutine-wrapper.py b/scripts/block-coroutine-wrapper.py
+-index a38e5833f..38364fa55 100644
+---- a/scripts/block-coroutine-wrapper.py
+-+++ b/scripts/block-coroutine-wrapper.py
+-@@ -261,8 +261,8 @@ def gen_no_co_wrapper(func: FuncDecl) -> str:
+-         graph_lock='    bdrv_graph_rdlock_main_loop();'
+-         graph_unlock='    bdrv_graph_rdunlock_main_loop();'
+-     elif func.graph_wrlock:
+--        graph_lock='    bdrv_graph_wrlock(NULL);'
+--        graph_unlock='    bdrv_graph_wrunlock(NULL);'
+-+        graph_lock='    bdrv_graph_wrlock();'
+-+        graph_unlock='    bdrv_graph_wrunlock();'
+-
+-     return f"""\
+- /*
+-diff --git a/tests/unit/test-bdrv-drain.c b/tests/unit/test-bdrv-drain.c
+-index 704d1a3f3..d9754dfeb 100644
+---- a/tests/unit/test-bdrv-drain.c
+-+++ b/tests/unit/test-bdrv-drain.c
+-@@ -807,9 +807,9 @@ static void test_blockjob_common_drain_node(enum drain_type drain_type,
+-     tjob->bs = src;
+-     job = &tjob->common;
+-
+--    bdrv_graph_wrlock(target);
+-+    bdrv_graph_wrlock();
+-     block_job_add_bdrv(job, "target", target, 0, BLK_PERM_ALL, &error_abort);
+--    bdrv_graph_wrunlock(target);
+-+    bdrv_graph_wrunlock();
+-
+-     switch (result) {
+-     case TEST_JOB_SUCCESS:
+-@@ -991,11 +991,11 @@ static void bdrv_test_top_close(BlockDriverState *bs)
+- {
+-     BdrvChild *c, *next_c;
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     QLIST_FOREACH_SAFE(c, &bs->children, next, next_c) {
+-         bdrv_unref_child(bs, c);
+-     }
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+- }
+-
+- static int coroutine_fn GRAPH_RDLOCK
+-@@ -1085,10 +1085,10 @@ static void do_test_delete_by_drain(bool detach_instead_of_delete,
+-
+-     null_bs = bdrv_open("null-co://", NULL, NULL, BDRV_O_RDWR | BDRV_O_PROTOCOL,
+-                         &error_abort);
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_attach_child(bs, null_bs, "null-child", &child_of_bds,
+-                       BDRV_CHILD_DATA, &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     /* This child will be the one to pass to requests through to, and
+-      * it will stall until a drain occurs */
+-@@ -1096,21 +1096,21 @@ static void do_test_delete_by_drain(bool detach_instead_of_delete,
+-                                     &error_abort);
+-     child_bs->total_sectors = 65536 >> BDRV_SECTOR_BITS;
+-     /* Takes our reference to child_bs */
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     tts->wait_child = bdrv_attach_child(bs, child_bs, "wait-child",
+-                                         &child_of_bds,
+-                                         BDRV_CHILD_DATA | BDRV_CHILD_PRIMARY,
+-                                         &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     /* This child is just there to be deleted
+-      * (for detach_instead_of_delete == true) */
+-     null_bs = bdrv_open("null-co://", NULL, NULL, BDRV_O_RDWR | BDRV_O_PROTOCOL,
+-                         &error_abort);
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_attach_child(bs, null_bs, "null-child", &child_of_bds, BDRV_CHILD_DATA,
+-                       &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     blk = blk_new(qemu_get_aio_context(), BLK_PERM_ALL, BLK_PERM_ALL);
+-     blk_insert_bs(blk, bs, &error_abort);
+-@@ -1193,14 +1193,14 @@ static void no_coroutine_fn detach_indirect_bh(void *opaque)
+-
+-     bdrv_dec_in_flight(data->child_b->bs);
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_unref_child(data->parent_b, data->child_b);
+-
+-     bdrv_ref(data->c);
+-     data->child_c = bdrv_attach_child(data->parent_b, data->c, "PB-C",
+-                                       &child_of_bds, BDRV_CHILD_DATA,
+-                                       &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+- }
+-
+- static void coroutine_mixed_fn detach_by_parent_aio_cb(void *opaque, int ret)
+-@@ -1298,7 +1298,7 @@ static void TSA_NO_TSA test_detach_indirect(bool by_parent_cb)
+-     /* Set child relationships */
+-     bdrv_ref(b);
+-     bdrv_ref(a);
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     child_b = bdrv_attach_child(parent_b, b, "PB-B", &child_of_bds,
+-                                 BDRV_CHILD_DATA, &error_abort);
+-     child_a = bdrv_attach_child(parent_b, a, "PB-A", &child_of_bds,
+-@@ -1308,7 +1308,7 @@ static void TSA_NO_TSA test_detach_indirect(bool by_parent_cb)
+-     bdrv_attach_child(parent_a, a, "PA-A",
+-                       by_parent_cb ? &child_of_bds : &detach_by_driver_cb_class,
+-                       BDRV_CHILD_DATA, &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     g_assert_cmpint(parent_a->refcnt, ==, 1);
+-     g_assert_cmpint(parent_b->refcnt, ==, 1);
+-@@ -1727,7 +1727,7 @@ static void test_drop_intermediate_poll(void)
+-      * Establish the chain last, so the chain links are the first
+-      * elements in the BDS.parents lists
+-      */
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     for (i = 0; i < 3; i++) {
+-         if (i) {
+-             /* Takes the reference to chain[i - 1] */
+-@@ -1735,7 +1735,7 @@ static void test_drop_intermediate_poll(void)
+-                               &chain_child_class, BDRV_CHILD_COW, &error_abort);
+-         }
+-     }
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     job = block_job_create("job", &test_simple_job_driver, NULL, job_node,
+-                            0, BLK_PERM_ALL, 0, 0, NULL, NULL, &error_abort);
+-@@ -1982,10 +1982,10 @@ static void do_test_replace_child_mid_drain(int old_drain_count,
+-     new_child_bs->total_sectors = 1;
+-
+-     bdrv_ref(old_child_bs);
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_attach_child(parent_bs, old_child_bs, "child", &child_of_bds,
+-                       BDRV_CHILD_COW, &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-     parent_s->setup_completed = true;
+-
+-     for (i = 0; i < old_drain_count; i++) {
+-@@ -2016,9 +2016,9 @@ static void do_test_replace_child_mid_drain(int old_drain_count,
+-     g_assert(parent_bs->quiesce_counter == old_drain_count);
+-     bdrv_drained_begin(old_child_bs);
+-     bdrv_drained_begin(new_child_bs);
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_replace_node(old_child_bs, new_child_bs, &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-     bdrv_drained_end(new_child_bs);
+-     bdrv_drained_end(old_child_bs);
+-     g_assert(parent_bs->quiesce_counter == new_drain_count);
+-diff --git a/tests/unit/test-bdrv-graph-mod.c b/tests/unit/test-bdrv-graph-mod.c
+-index 074adcbb9..8ee6ef38d 100644
+---- a/tests/unit/test-bdrv-graph-mod.c
+-+++ b/tests/unit/test-bdrv-graph-mod.c
+-@@ -137,10 +137,10 @@ static void test_update_perm_tree(void)
+-
+-     blk_insert_bs(root, bs, &error_abort);
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_attach_child(filter, bs, "child", &child_of_bds,
+-                       BDRV_CHILD_DATA, &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     aio_context_acquire(qemu_get_aio_context());
+-     ret = bdrv_append(filter, bs, NULL);
+-@@ -206,11 +206,11 @@ static void test_should_update_child(void)
+-
+-     bdrv_set_backing_hd(target, bs, &error_abort);
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     g_assert(target->backing->bs == bs);
+-     bdrv_attach_child(filter, target, "target", &child_of_bds,
+-                       BDRV_CHILD_DATA, &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-     aio_context_acquire(qemu_get_aio_context());
+-     bdrv_append(filter, bs, &error_abort);
+-     aio_context_release(qemu_get_aio_context());
+-@@ -248,7 +248,7 @@ static void test_parallel_exclusive_write(void)
+-     bdrv_ref(base);
+-     bdrv_ref(fl1);
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_attach_child(top, fl1, "backing", &child_of_bds,
+-                       BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                       &error_abort);
+-@@ -260,7 +260,7 @@ static void test_parallel_exclusive_write(void)
+-                       &error_abort);
+-
+-     bdrv_replace_node(fl1, fl2, &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     bdrv_drained_end(fl2);
+-     bdrv_drained_end(fl1);
+-@@ -367,7 +367,7 @@ static void test_parallel_perm_update(void)
+-      */
+-     bdrv_ref(base);
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_attach_child(top, ws, "file", &child_of_bds, BDRV_CHILD_DATA,
+-                       &error_abort);
+-     c_fl1 = bdrv_attach_child(ws, fl1, "first", &child_of_bds,
+-@@ -380,7 +380,7 @@ static void test_parallel_perm_update(void)
+-     bdrv_attach_child(fl2, base, "backing", &child_of_bds,
+-                       BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                       &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     /* Select fl1 as first child to be active */
+-     s->selected = c_fl1;
+-@@ -434,11 +434,11 @@ static void test_append_greedy_filter(void)
+-     BlockDriverState *base = no_perm_node("base");
+-     BlockDriverState *fl = exclusive_writer_node("fl1");
+-
+--    bdrv_graph_wrlock(NULL);
+-+    bdrv_graph_wrlock();
+-     bdrv_attach_child(top, base, "backing", &child_of_bds,
+-                       BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY,
+-                       &error_abort);
+--    bdrv_graph_wrunlock(NULL);
+-+    bdrv_graph_wrunlock();
+-
+-     aio_context_acquire(qemu_get_aio_context());
+-     bdrv_append(fl, base, &error_abort);
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0005.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0005.patch
+deleted file mode 100644
+index bcdd0fbed8..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-4467-0005.patch
++++ /dev/null
+@@ -1,239 +0,0 @@
+-From 7ead946998610657d38d1a505d5f25300d4ca613 Mon Sep 17 00:00:00 2001
+-From: Kevin Wolf <kwolf@redhat.com>
+-Date: Thu, 25 Apr 2024 14:56:02 +0000
+-Subject: [PATCH] block: Parse filenames only when explicitly requested
+-
+-When handling image filenames from legacy options such as -drive or from
+-tools, these filenames are parsed for protocol prefixes, including for
+-the json:{} pseudo-protocol.
+-
+-This behaviour is intended for filenames that come directly from the
+-command line and for backing files, which may come from the image file
+-itself. Higher level management tools generally take care to verify that
+-untrusted images don't contain a bad (or any) backing file reference;
+-'qemu-img info' is a suitable tool for this.
+-
+-However, for other files that can be referenced in images, such as
+-qcow2 data files or VMDK extents, the string from the image file is
+-usually not verified by management tools - and 'qemu-img info' wouldn't
+-be suitable because in contrast to backing files, it already opens these
+-other referenced files. So here the string should be interpreted as a
+-literal local filename. More complex configurations need to be specified
+-explicitly on the command line or in QMP...
+-
+-CVE: CVE-2024-4467
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/7ead946998610657d38d1a505d5f25300d4ca613]
+-
+-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+----
+- block.c | 94 ++++++++++++++++++++++++++++++++++-----------------------
+- 1 file changed, 57 insertions(+), 37 deletions(-)
+-
+-diff --git a/block.c b/block.c
+-index 25e1ebc60..f3cb32cd7 100644
+---- a/block.c
+-+++ b/block.c
+-@@ -86,6 +86,7 @@ static BlockDriverState *bdrv_open_inherit(const char *filename,
+-                                            BlockDriverState *parent,
+-                                            const BdrvChildClass *child_class,
+-                                            BdrvChildRole child_role,
+-+                                           bool parse_filename,
+-                                            Error **errp);
+-
+- static bool bdrv_recurse_has_child(BlockDriverState *bs,
+-@@ -2047,7 +2048,8 @@ static void parse_json_protocol(QDict *options, const char **pfilename,
+-  * block driver has been specified explicitly.
+-  */
+- static int bdrv_fill_options(QDict **options, const char *filename,
+--                             int *flags, Error **errp)
+-+                             int *flags, bool allow_parse_filename,
+-+                             Error **errp)
+- {
+-     const char *drvname;
+-     bool protocol = *flags & BDRV_O_PROTOCOL;
+-@@ -2089,7 +2091,7 @@ static int bdrv_fill_options(QDict **options, const char *filename,
+-     if (protocol && filename) {
+-         if (!qdict_haskey(*options, "filename")) {
+-             qdict_put_str(*options, "filename", filename);
+--            parse_filename = true;
+-+            parse_filename = allow_parse_filename;
+-         } else {
+-             error_setg(errp, "Can't specify 'file' and 'filename' options at "
+-                              "the same time");
+-@@ -3675,7 +3677,8 @@ int bdrv_open_backing_file(BlockDriverState *bs, QDict *parent_options,
+-     }
+-
+-     backing_hd = bdrv_open_inherit(backing_filename, reference, options, 0, bs,
+--                                   &child_of_bds, bdrv_backing_role(bs), errp);
+-+                                   &child_of_bds, bdrv_backing_role(bs), true,
+-+                                   errp);
+-     if (!backing_hd) {
+-         bs->open_flags |= BDRV_O_NO_BACKING;
+-         error_prepend(errp, "Could not open backing file: ");
+-@@ -3712,7 +3715,8 @@ free_exit:
+- static BlockDriverState *
+- bdrv_open_child_bs(const char *filename, QDict *options, const char *bdref_key,
+-                    BlockDriverState *parent, const BdrvChildClass *child_class,
+--                   BdrvChildRole child_role, bool allow_none, Error **errp)
+-+                   BdrvChildRole child_role, bool allow_none,
+-+                   bool parse_filename, Error **errp)
+- {
+-     BlockDriverState *bs = NULL;
+-     QDict *image_options;
+-@@ -3743,7 +3747,8 @@ bdrv_open_child_bs(const char *filename, QDict *options, const char *bdref_key,
+-     }
+-
+-     bs = bdrv_open_inherit(filename, reference, image_options, 0,
+--                           parent, child_class, child_role, errp);
+-+                           parent, child_class, child_role, parse_filename,
+-+                           errp);
+-     if (!bs) {
+-         goto done;
+-     }
+-@@ -3753,6 +3758,33 @@ done:
+-     return bs;
+- }
+-
+-+static BdrvChild *bdrv_open_child_common(const char *filename,
+-+                                         QDict *options, const char *bdref_key,
+-+                                         BlockDriverState *parent,
+-+                                         const BdrvChildClass *child_class,
+-+                                         BdrvChildRole child_role,
+-+                                         bool allow_none, bool parse_filename,
+-+                                         Error **errp)
+-+{
+-+    BlockDriverState *bs;
+-+    BdrvChild *child;
+-+
+-+    GLOBAL_STATE_CODE();
+-+
+-+    bs = bdrv_open_child_bs(filename, options, bdref_key, parent, child_class,
+-+                            child_role, allow_none, parse_filename, errp);
+-+    if (bs == NULL) {
+-+        return NULL;
+-+    }
+-+
+-+    bdrv_graph_wrlock();
+-+    child = bdrv_attach_child(parent, bs, bdref_key, child_class, child_role,
+-+                              errp);
+-+    bdrv_graph_wrunlock();
+-+
+-+    return child;
+-+}
+-+
+- /*
+-  * Opens a disk image whose options are given as BlockdevRef in another block
+-  * device's options.
+-@@ -3778,31 +3810,15 @@ BdrvChild *bdrv_open_child(const char *filename,
+-                            BdrvChildRole child_role,
+-                            bool allow_none, Error **errp)
+- {
+--    BlockDriverState *bs;
+--    BdrvChild *child;
+--    AioContext *ctx;
+--
+--    GLOBAL_STATE_CODE();
+--
+--    bs = bdrv_open_child_bs(filename, options, bdref_key, parent, child_class,
+--                            child_role, allow_none, errp);
+--    if (bs == NULL) {
+--        return NULL;
+--    }
+--
+--    bdrv_graph_wrlock();
+--    ctx = bdrv_get_aio_context(bs);
+--    aio_context_acquire(ctx);
+--    child = bdrv_attach_child(parent, bs, bdref_key, child_class, child_role,
+--                              errp);
+--    aio_context_release(ctx);
+--    bdrv_graph_wrunlock();
+--
+--    return child;
+-+   return bdrv_open_child_common(filename, options, bdref_key, parent,
+-+                                  child_class, child_role, allow_none, false,
+-+                                  errp);
+- }
+-
+- /*
+-- * Wrapper on bdrv_open_child() for most popular case: open primary child of bs.
+-+ * This does mostly the same as bdrv_open_child(), but for opening the primary
+-+ * child of a node. A notable difference from bdrv_open_child() is that it
+-+ * enables filename parsing for protocol names (including json:).
+-  *
+-  * The caller must hold the lock of the main AioContext and no other AioContext.
+-  * @parent can move to a different AioContext in this function. Callers must
+-@@ -3819,8 +3835,8 @@ int bdrv_open_file_child(const char *filename,
+-     role = parent->drv->is_filter ?
+-         (BDRV_CHILD_FILTERED | BDRV_CHILD_PRIMARY) : BDRV_CHILD_IMAGE;
+-
+--    if (!bdrv_open_child(filename, options, bdref_key, parent,
+--                         &child_of_bds, role, false, errp))
+-+    if (!bdrv_open_child_common(filename, options, bdref_key, parent,
+-+                                &child_of_bds, role, false, true, errp))
+-     {
+-         return -EINVAL;
+-     }
+-@@ -3865,7 +3881,8 @@ BlockDriverState *bdrv_open_blockdev_ref(BlockdevRef *ref, Error **errp)
+-
+-     }
+-
+--    bs = bdrv_open_inherit(NULL, reference, qdict, 0, NULL, NULL, 0, errp);
+-+    bs = bdrv_open_inherit(NULL, reference, qdict, 0, NULL, NULL, 0, false,
+-+                           errp);
+-     obj = NULL;
+-     qobject_unref(obj);
+-     visit_free(v);
+-@@ -3962,7 +3979,7 @@ static BlockDriverState * no_coroutine_fn
+- bdrv_open_inherit(const char *filename, const char *reference, QDict *options,
+-                   int flags, BlockDriverState *parent,
+-                   const BdrvChildClass *child_class, BdrvChildRole child_role,
+--                  Error **errp)
+-+                  bool parse_filename, Error **errp)
+- {
+-     int ret;
+-     BlockBackend *file = NULL;
+-@@ -4011,9 +4028,11 @@ bdrv_open_inherit(const char *filename, const char *reference, QDict *options,
+-     }
+-
+-     /* json: syntax counts as explicit options, as if in the QDict */
+--    parse_json_protocol(options, &filename, &local_err);
+--    if (local_err) {
+--        goto fail;
+-+    if (parse_filename) {
+-+        parse_json_protocol(options, &filename, &local_err);
+-+        if (local_err) {
+-+            goto fail;
+-+        }
+-     }
+-
+-     bs->explicit_options = qdict_clone_shallow(options);
+-@@ -4038,7 +4057,8 @@ bdrv_open_inherit(const char *filename, const char *reference, QDict *options,
+-                                      parent->open_flags, parent->options);
+-     }
+-
+--    ret = bdrv_fill_options(&options, filename, &flags, &local_err);
+-+    ret = bdrv_fill_options(&options, filename, &flags, parse_filename,
+-+                            &local_err);
+-     if (ret < 0) {
+-         goto fail;
+-     }
+-@@ -4107,7 +4127,7 @@ bdrv_open_inherit(const char *filename, const char *reference, QDict *options,
+-
+-         file_bs = bdrv_open_child_bs(filename, options, "file", bs,
+-                                      &child_of_bds, BDRV_CHILD_IMAGE,
+--                                     true, &local_err);
+-+                                     true, true, &local_err);
+-         if (local_err) {
+-             goto fail;
+-         }
+-@@ -4270,7 +4290,7 @@ BlockDriverState *bdrv_open(const char *filename, const char *reference,
+-     GLOBAL_STATE_CODE();
+-
+-     return bdrv_open_inherit(filename, reference, options, flags, NULL,
+--                             NULL, 0, errp);
+-+                             NULL, 0, true, errp);
+- }
+-
+- /* Return true if the NULL-terminated @list contains @str */
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
+deleted file mode 100644
+index 631e93a6d2..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0001.patch
++++ /dev/null
+@@ -1,167 +0,0 @@
+-From fb1c2aaa981e0a2fa6362c9985f1296b74f055ac Mon Sep 17 00:00:00 2001
+-From: Eric Blake <eblake@redhat.com>
+-Date: Wed, 7 Aug 2024 08:50:01 -0500
+-Subject: [PATCH] nbd/server: Plumb in new args to nbd_client_add()
+-
+-Upcoming patches to fix a CVE need to track an opaque pointer passed
+-in by the owner of a client object, as well as request for a time
+-limit on how fast negotiation must complete.  Prepare for that by
+-changing the signature of nbd_client_new() and adding an accessor to
+-get at the opaque pointer, although for now the two servers
+-(qemu-nbd.c and blockdev-nbd.c) do not change behavior even though
+-they pass in a new default timeout value.
+-
+-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@yandex-team.ru>
+-Signed-off-by: Eric Blake <eblake@redhat.com>
+-Message-ID: <20240807174943.771624-11-eblake@redhat.com>
+-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+-[eblake: s/LIMIT/MAX_SECS/ as suggested by Dan]
+-Signed-off-by: Eric Blake <eblake@redhat.com>
+-
+-CVE: CVE-2024-7409
+-
+-Upstream-Status: Backport [https://github.com/qemu/qemu/commit/fb1c2aaa981e0a2fa6362c9985f1296b74f055ac]
+-
+-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+----
+- blockdev-nbd.c      |  6 ++++--
+- include/block/nbd.h | 11 ++++++++++-
+- nbd/server.c        | 20 +++++++++++++++++---
+- qemu-nbd.c          |  4 +++-
+- 4 files changed, 34 insertions(+), 7 deletions(-)
+-
+-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+-index 213012435..267a1de90 100644
+---- a/blockdev-nbd.c
+-+++ b/blockdev-nbd.c
+-@@ -64,8 +64,10 @@ static void nbd_accept(QIONetListener *listener, QIOChannelSocket *cioc,
+-     nbd_update_server_watch(nbd_server);
+-
+-     qio_channel_set_name(QIO_CHANNEL(cioc), "nbd-server");
+--    nbd_client_new(cioc, nbd_server->tlscreds, nbd_server->tlsauthz,
+--                   nbd_blockdev_client_closed);
+-+    /* TODO - expose handshake timeout as QMP option */
+-+    nbd_client_new(cioc, NBD_DEFAULT_HANDSHAKE_MAX_SECS,
+-+                   nbd_server->tlscreds, nbd_server->tlsauthz,
+-+                   nbd_blockdev_client_closed, NULL);
+- }
+-
+- static void nbd_update_server_watch(NBDServerData *s)
+-diff --git a/include/block/nbd.h b/include/block/nbd.h
+-index 4e7bd6342..1d4d65922 100644
+---- a/include/block/nbd.h
+-+++ b/include/block/nbd.h
+-@@ -33,6 +33,12 @@ typedef struct NBDMetaContexts NBDMetaContexts;
+-
+- extern const BlockExportDriver blk_exp_nbd;
+-
+-+/*
+-+ * NBD_DEFAULT_HANDSHAKE_MAX_SECS: Number of seconds in which client must
+-+ * succeed at NBD_OPT_GO before being forcefully dropped as too slow.
+-+ */
+-+#define NBD_DEFAULT_HANDSHAKE_MAX_SECS 10
+-+
+- /* Handshake phase structs - this struct is passed on the wire */
+-
+- typedef struct NBDOption {
+-@@ -403,9 +409,12 @@ AioContext *nbd_export_aio_context(NBDExport *exp);
+- NBDExport *nbd_export_find(const char *name);
+-
+- void nbd_client_new(QIOChannelSocket *sioc,
+-+                    uint32_t handshake_max_secs,
+-                     QCryptoTLSCreds *tlscreds,
+-                     const char *tlsauthz,
+--                    void (*close_fn)(NBDClient *, bool));
+-+                    void (*close_fn)(NBDClient *, bool),
+-+                    void *owner);
+-+void *nbd_client_owner(NBDClient *client);
+- void nbd_client_get(NBDClient *client);
+- void nbd_client_put(NBDClient *client);
+-
+-diff --git a/nbd/server.c b/nbd/server.c
+-index 091b57119..f8881936e 100644
+---- a/nbd/server.c
+-+++ b/nbd/server.c
+-@@ -124,12 +124,14 @@ struct NBDMetaContexts {
+- struct NBDClient {
+-     int refcount; /* atomic */
+-     void (*close_fn)(NBDClient *client, bool negotiated);
+-+    void *owner;
+-
+-     QemuMutex lock;
+-
+-     NBDExport *exp;
+-     QCryptoTLSCreds *tlscreds;
+-     char *tlsauthz;
+-+    uint32_t handshake_max_secs;
+-     QIOChannelSocket *sioc; /* The underlying data channel */
+-     QIOChannel *ioc; /* The current I/O channel which may differ (eg TLS) */
+-
+-@@ -3160,6 +3162,7 @@ static coroutine_fn void nbd_co_client_start(void *opaque)
+-
+-     qemu_co_mutex_init(&client->send_lock);
+-
+-+    /* TODO - utilize client->handshake_max_secs */
+-     if (nbd_negotiate(client, &local_err)) {
+-         if (local_err) {
+-             error_report_err(local_err);
+-@@ -3174,14 +3177,17 @@ static coroutine_fn void nbd_co_client_start(void *opaque)
+- }
+-
+- /*
+-- * Create a new client listener using the given channel @sioc.
+-+ * Create a new client listener using the given channel @sioc and @owner.
+-  * Begin servicing it in a coroutine.  When the connection closes, call
+-- * @close_fn with an indication of whether the client completed negotiation.
+-+ * @close_fn with an indication of whether the client completed negotiation
+-+ * within @handshake_max_secs seconds (0 for unbounded).
+-  */
+- void nbd_client_new(QIOChannelSocket *sioc,
+-+                    uint32_t handshake_max_secs,
+-                     QCryptoTLSCreds *tlscreds,
+-                     const char *tlsauthz,
+--                    void (*close_fn)(NBDClient *, bool))
+-+                    void (*close_fn)(NBDClient *, bool),
+-+                    void *owner)
+- {
+-     NBDClient *client;
+-     Coroutine *co;
+-@@ -3194,13 +3200,21 @@ void nbd_client_new(QIOChannelSocket *sioc,
+-         object_ref(OBJECT(client->tlscreds));
+-     }
+-     client->tlsauthz = g_strdup(tlsauthz);
+-+    client->handshake_max_secs = handshake_max_secs;
+-     client->sioc = sioc;
+-     qio_channel_set_delay(QIO_CHANNEL(sioc), false);
+-     object_ref(OBJECT(client->sioc));
+-     client->ioc = QIO_CHANNEL(sioc);
+-     object_ref(OBJECT(client->ioc));
+-     client->close_fn = close_fn;
+-+    client->owner = owner;
+-
+-     co = qemu_coroutine_create(nbd_co_client_start, client);
+-     qemu_coroutine_enter(co);
+- }
+-+
+-+void *
+-+nbd_client_owner(NBDClient *client)
+-+{
+-+    return client->owner;
+-+}
+-diff --git a/qemu-nbd.c b/qemu-nbd.c
+-index 186e6468b..5fa399c0b 100644
+---- a/qemu-nbd.c
+-+++ b/qemu-nbd.c
+-@@ -389,7 +389,9 @@ static void nbd_accept(QIONetListener *listener, QIOChannelSocket *cioc,
+-
+-     nb_fds++;
+-     nbd_update_server_watch();
+--    nbd_client_new(cioc, tlscreds, tlsauthz, nbd_client_closed);
+-+    /* TODO - expose handshake timeout as command line option */
+-+    nbd_client_new(cioc, NBD_DEFAULT_HANDSHAKE_MAX_SECS,
+-+                   tlscreds, tlsauthz, nbd_client_closed, NULL);
+- }
+-
+- static void nbd_update_server_watch(void)
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
+deleted file mode 100644
+index ca8ef0b44d..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0002.patch
++++ /dev/null
+@@ -1,175 +0,0 @@
+-From c8a76dbd90c2f48df89b75bef74917f90a59b623 Mon Sep 17 00:00:00 2001
+-From: Eric Blake <eblake@redhat.com>
+-Date: Tue, 6 Aug 2024 13:53:00 -0500
+-Subject: [PATCH] nbd/server: CVE-2024-7409: Cap default max-connections to 100
+-
+-Allowing an unlimited number of clients to any web service is a recipe
+-for a rudimentary denial of service attack: the client merely needs to
+-open lots of sockets without closing them, until qemu no longer has
+-any more fds available to allocate.
+-
+-For qemu-nbd, we default to allowing only 1 connection unless more are
+-explicitly asked for (-e or --shared); this was historically picked as
+-a nice default (without an explicit -t, a non-persistent qemu-nbd goes
+-away after a client disconnects, without needing any additional
+-follow-up commands), and we are not going to change that interface now
+-(besides, someday we want to point people towards qemu-storage-daemon
+-instead of qemu-nbd).
+-
+-But for qemu proper, and the newer qemu-storage-daemon, the QMP
+-nbd-server-start command has historically had a default of unlimited
+-number of connections, in part because unlike qemu-nbd it is
+-inherently persistent until nbd-server-stop.  Allowing multiple client
+-sockets is particularly useful for clients that can take advantage of
+-MULTI_CONN (creating parallel sockets to increase throughput),
+-although known clients that do so (such as libnbd's nbdcopy) typically
+-use only 8 or 16 connections (the benefits of scaling diminish once
+-more sockets are competing for kernel attention).  Picking a number
+-large enough for typical use cases, but not unlimited, makes it
+-slightly harder for a malicious client to perform a denial of service
+-merely by opening lots of connections withot progressing through the
+-handshake.
+-
+-This change does not eliminate CVE-2024-7409 on its own, but reduces
+-the chance for fd exhaustion or unlimited memory usage as an attack
+-surface.  On the other hand, by itself, it makes it more obvious that
+-with a finite limit, we have the problem of an unauthenticated client
+-holding 100 fds opened as a way to block out a legitimate client from
+-being able to connect; thus, later patches will further add timeouts
+-to reject clients that are not making progress.
+-
+-This is an INTENTIONAL change in behavior, and will break any client
+-of nbd-server-start that was not passing an explicit max-connections
+-parameter, yet expects more than 100 simultaneous connections.  We are
+-not aware of any such client (as stated above, most clients aware of
+-MULTI_CONN get by just fine on 8 or 16 connections, and probably cope
+-with later connections failing by relying on the earlier connections;
+-libvirt has not yet been passing max-connections, but generally
+-creates NBD servers with the intent for a single client for the sake
+-of live storage migration; meanwhile, the KubeSAN project anticipates
+-a large cluster sharing multiple clients [up to 8 per node, and up to
+-100 nodes in a cluster], but it currently uses qemu-nbd with an
+-explicit --shared=0 rather than qemu-storage-daemon with
+-nbd-server-start).
+-
+-We considered using a deprecation period (declare that omitting
+-max-parameters is deprecated, and make it mandatory in 3 releases -
+-then we don't need to pick an arbitrary default); that has zero risk
+-of breaking any apps that accidentally depended on more than 100
+-connections, and where such breakage might not be noticed under unit
+-testing but only under the larger loads of production usage.  But it
+-does not close the denial-of-service hole until far into the future,
+-and requires all apps to change to add the parameter even if 100 was
+-good enough.  It also has a drawback that any app (like libvirt) that
+-is accidentally relying on an unlimited default should seriously
+-consider their own CVE now, at which point they are going to change to
+-pass explicit max-connections sooner than waiting for 3 qemu releases.
+-Finally, if our changed default breaks an app, that app can always
+-pass in an explicit max-parameters with a larger value.
+-
+-It is also intentional that the HMP interface to nbd-server-start is
+-not changed to expose max-connections (any client needing to fine-tune
+-things should be using QMP).
+-
+-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+-Signed-off-by: Eric Blake <eblake@redhat.com>
+-Message-ID: <20240807174943.771624-12-eblake@redhat.com>
+-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+-[ericb: Expand commit message to summarize Dan's argument for why we
+-break corner-case back-compat behavior without a deprecation period]
+-Signed-off-by: Eric Blake <eblake@redhat.com>
+-
+-CVE: CVE-2024-7409
+-
+-Upstream-Status: Backport [https://github.com/qemu/qemu/commit/c8a76dbd90c2f48df89b75bef74917f90a59b623]
+-
+-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+----
+- block/monitor/block-hmp-cmds.c | 3 ++-
+- blockdev-nbd.c                 | 8 ++++++++
+- include/block/nbd.h            | 7 +++++++
+- qapi/block-export.json         | 4 ++--
+- 4 files changed, 19 insertions(+), 3 deletions(-)
+-
+-diff --git a/block/monitor/block-hmp-cmds.c b/block/monitor/block-hmp-cmds.c
+-index c729cbf1e..78a697585 100644
+---- a/block/monitor/block-hmp-cmds.c
+-+++ b/block/monitor/block-hmp-cmds.c
+-@@ -415,7 +415,8 @@ void hmp_nbd_server_start(Monitor *mon, const QDict *qdict)
+-         goto exit;
+-     }
+-
+--    nbd_server_start(addr, NULL, NULL, 0, &local_err);
+-+    nbd_server_start(addr, NULL, NULL, NBD_DEFAULT_MAX_CONNECTIONS,
+-+                     &local_err);
+-     qapi_free_SocketAddress(addr);
+-     if (local_err != NULL) {
+-         goto exit;
+-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+-index 267a1de90..24ba5382d 100644
+---- a/blockdev-nbd.c
+-+++ b/blockdev-nbd.c
+-@@ -170,6 +170,10 @@ void nbd_server_start(SocketAddress *addr, const char *tls_creds,
+-
+- void nbd_server_start_options(NbdServerOptions *arg, Error **errp)
+- {
+-+    if (!arg->has_max_connections) {
+-+        arg->max_connections = NBD_DEFAULT_MAX_CONNECTIONS;
+-+    }
+-+
+-     nbd_server_start(arg->addr, arg->tls_creds, arg->tls_authz,
+-                      arg->max_connections, errp);
+- }
+-@@ -182,6 +186,10 @@ void qmp_nbd_server_start(SocketAddressLegacy *addr,
+- {
+-     SocketAddress *addr_flat = socket_address_flatten(addr);
+-
+-+    if (!has_max_connections) {
+-+        max_connections = NBD_DEFAULT_MAX_CONNECTIONS;
+-+    }
+-+
+-     nbd_server_start(addr_flat, tls_creds, tls_authz, max_connections, errp);
+-     qapi_free_SocketAddress(addr_flat);
+- }
+-diff --git a/include/block/nbd.h b/include/block/nbd.h
+-index 1d4d65922..d4f8b21ae 100644
+---- a/include/block/nbd.h
+-+++ b/include/block/nbd.h
+-@@ -39,6 +39,13 @@ extern const BlockExportDriver blk_exp_nbd;
+-  */
+- #define NBD_DEFAULT_HANDSHAKE_MAX_SECS 10
+-
+-+/*
+-+ * NBD_DEFAULT_MAX_CONNECTIONS: Number of client sockets to allow at
+-+ * once; must be large enough to allow a MULTI_CONN-aware client like
+-+ * nbdcopy to create its typical number of 8-16 sockets.
+-+ */
+-+#define NBD_DEFAULT_MAX_CONNECTIONS 100
+-+
+- /* Handshake phase structs - this struct is passed on the wire */
+-
+- typedef struct NBDOption {
+-diff --git a/qapi/block-export.json b/qapi/block-export.json
+-index 7874a49ba..1d255d77e 100644
+---- a/qapi/block-export.json
+-+++ b/qapi/block-export.json
+-@@ -28,7 +28,7 @@
+- # @max-connections: The maximum number of connections to allow at the
+- #     same time, 0 for unlimited.  Setting this to 1 also stops the
+- #     server from advertising multiple client support (since 5.2;
+--#     default: 0)
+-+#     default: 100)
+- #
+- # Since: 4.2
+- ##
+-@@ -63,7 +63,7 @@
+- # @max-connections: The maximum number of connections to allow at the
+- #     same time, 0 for unlimited.  Setting this to 1 also stops the
+- #     server from advertising multiple client support (since 5.2;
+--#     default: 0).
+-+#     default: 100).
+- #
+- # Returns: error if the server is already running.
+- #
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
+deleted file mode 100644
+index b2b9b15c54..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0003.patch
++++ /dev/null
+@@ -1,126 +0,0 @@
+-From b9b72cb3ce15b693148bd09cef7e50110566d8a0 Mon Sep 17 00:00:00 2001
+-From: Eric Blake <eblake@redhat.com>
+-Date: Thu, 8 Aug 2024 16:05:08 -0500
+-Subject: [PATCH] nbd/server: CVE-2024-7409: Drop non-negotiating clients
+-
+-A client that opens a socket but does not negotiate is merely hogging
+-qemu's resources (an open fd and a small amount of memory); and a
+-malicious client that can access the port where NBD is listening can
+-attempt a denial of service attack by intentionally opening and
+-abandoning lots of unfinished connections.  The previous patch put a
+-default bound on the number of such ongoing connections, but once that
+-limit is hit, no more clients can connect (including legitimate ones).
+-The solution is to insist that clients complete handshake within a
+-reasonable time limit, defaulting to 10 seconds.  A client that has
+-not successfully completed NBD_OPT_GO by then (including the case of
+-where the client didn't know TLS credentials to even reach the point
+-of NBD_OPT_GO) is wasting our time and does not deserve to stay
+-connected.  Later patches will allow fine-tuning the limit away from
+-the default value (including disabling it for doing integration
+-testing of the handshake process itself).
+-
+-Note that this patch in isolation actually makes it more likely to see
+-qemu SEGV after nbd-server-stop, as any client socket still connected
+-when the server shuts down will now be closed after 10 seconds rather
+-than at the client's whims.  That will be addressed in the next patch.
+-
+-For a demo of this patch in action:
+-$ qemu-nbd -f raw -r -t -e 10 file &
+-$ nbdsh --opt-mode -c '
+-H = list()
+-for i in range(20):
+-  print(i)
+-  H.insert(i, nbd.NBD())
+-  H[i].set_opt_mode(True)
+-  H[i].connect_uri("nbd://localhost")
+-'
+-$ kill $!
+-
+-where later connections get to start progressing once earlier ones are
+-forcefully dropped for taking too long, rather than hanging.
+-
+-Suggested-by: Daniel P. Berrangé <berrange@redhat.com>
+-Signed-off-by: Eric Blake <eblake@redhat.com>
+-Message-ID: <20240807174943.771624-13-eblake@redhat.com>
+-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+-[eblake: rebase to changes earlier in series, reduce scope of timer]
+-Signed-off-by: Eric Blake <eblake@redhat.com>
+-
+-CVE: CVE-2024-7409
+-
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/b9b72cb3ce15b693148bd09cef7e50110566d8a0]
+-
+-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+----
+- nbd/server.c     | 28 +++++++++++++++++++++++++++-
+- nbd/trace-events |  1 +
+- 2 files changed, 28 insertions(+), 1 deletion(-)
+-
+-diff --git a/nbd/server.c b/nbd/server.c
+-index f8881936e..6155e329a 100644
+---- a/nbd/server.c
+-+++ b/nbd/server.c
+-@@ -3155,22 +3155,48 @@ static void nbd_client_receive_next_request(NBDClient *client)
+-     }
+- }
+-
+-+static void nbd_handshake_timer_cb(void *opaque)
+-+{
+-+    QIOChannel *ioc = opaque;
+-+
+-+    trace_nbd_handshake_timer_cb();
+-+    qio_channel_shutdown(ioc, QIO_CHANNEL_SHUTDOWN_BOTH, NULL);
+-+}
+-+
+- static coroutine_fn void nbd_co_client_start(void *opaque)
+- {
+-     NBDClient *client = opaque;
+-     Error *local_err = NULL;
+-+    QEMUTimer *handshake_timer = NULL;
+-
+-     qemu_co_mutex_init(&client->send_lock);
+-
+--    /* TODO - utilize client->handshake_max_secs */
+-+    /*
+-+     * Create a timer to bound the time spent in negotiation. If the
+-+     * timer expires, it is likely nbd_negotiate will fail because the
+-+     * socket was shutdown.
+-+     */
+-+    if (client->handshake_max_secs > 0) {
+-+        handshake_timer = aio_timer_new(qemu_get_aio_context(),
+-+                                        QEMU_CLOCK_REALTIME,
+-+                                        SCALE_NS,
+-+                                        nbd_handshake_timer_cb,
+-+                                        client->sioc);
+-+        timer_mod(handshake_timer,
+-+                  qemu_clock_get_ns(QEMU_CLOCK_REALTIME) +
+-+                  client->handshake_max_secs * NANOSECONDS_PER_SECOND);
+-+    }
+-+
+-     if (nbd_negotiate(client, &local_err)) {
+-         if (local_err) {
+-             error_report_err(local_err);
+-         }
+-+        timer_free(handshake_timer);
+-         client_close(client, false);
+-         return;
+-     }
+-
+-+    timer_free(handshake_timer);
+-     WITH_QEMU_LOCK_GUARD(&client->lock) {
+-         nbd_client_receive_next_request(client);
+-     }
+-diff --git a/nbd/trace-events b/nbd/trace-events
+-index 00ae3216a..cbd0a4ab7 100644
+---- a/nbd/trace-events
+-+++ b/nbd/trace-events
+-@@ -76,6 +76,7 @@ nbd_co_receive_request_payload_received(uint64_t cookie, uint64_t len) "Payload
+- nbd_co_receive_ext_payload_compliance(uint64_t from, uint64_t len) "client sent non-compliant write without payload flag: from=0x%" PRIx64 ", len=0x%" PRIx64
+- nbd_co_receive_align_compliance(const char *op, uint64_t from, uint64_t len, uint32_t align) "client sent non-compliant unaligned %s request: from=0x%" PRIx64 ", len=0x%" PRIx64 ", align=0x%" PRIx32
+- nbd_trip(void) "Reading request"
+-+nbd_handshake_timer_cb(void) "client took too long to negotiate"
+-
+- # client-connection.c
+- nbd_connect_thread_sleep(uint64_t timeout) "timeout %" PRIu64
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
+deleted file mode 100644
+index 9515c631ad..0000000000
+--- a/meta/recipes-devtools/qemu/qemu/CVE-2024-7409-0004.patch
++++ /dev/null
+@@ -1,164 +0,0 @@
+-From 3e7ef738c8462c45043a1d39f702a0990406a3b3 Mon Sep 17 00:00:00 2001
+-From: Eric Blake <eblake@redhat.com>
+-Date: Wed, 7 Aug 2024 12:23:13 -0500
+-Subject: [PATCH] nbd/server: CVE-2024-7409: Close stray clients at server-stop
+-
+-A malicious client can attempt to connect to an NBD server, and then
+-intentionally delay progress in the handshake, including if it does
+-not know the TLS secrets.  Although the previous two patches reduce
+-this behavior by capping the default max-connections parameter and
+-killing slow clients, they did not eliminate the possibility of a
+-client waiting to close the socket until after the QMP nbd-server-stop
+-command is executed, at which point qemu would SEGV when trying to
+-dereference the NULL nbd_server global which is no longer present.
+-This amounts to a denial of service attack.  Worse, if another NBD
+-server is started before the malicious client disconnects, I cannot
+-rule out additional adverse effects when the old client interferes
+-with the connection count of the new server (although the most likely
+-is a crash due to an assertion failure when checking
+-nbd_server->connections > 0).
+-
+-For environments without this patch, the CVE can be mitigated by
+-ensuring (such as via a firewall) that only trusted clients can
+-connect to an NBD server.  Note that using frameworks like libvirt
+-that ensure that TLS is used and that nbd-server-stop is not executed
+-while any trusted clients are still connected will only help if there
+-is also no possibility for an untrusted client to open a connection
+-but then stall on the NBD handshake.
+-
+-Given the previous patches, it would be possible to guarantee that no
+-clients remain connected by having nbd-server-stop sleep for longer
+-than the default handshake deadline before finally freeing the global
+-nbd_server object, but that could make QMP non-responsive for a long
+-time.  So intead, this patch fixes the problem by tracking all client
+-sockets opened while the server is running, and forcefully closing any
+-such sockets remaining without a completed handshake at the time of
+-nbd-server-stop, then waiting until the coroutines servicing those
+-sockets notice the state change.  nbd-server-stop now has a second
+-AIO_WAIT_WHILE_UNLOCKED (the first is indirectly through the
+-blk_exp_close_all_type() that disconnects all clients that completed
+-handshakes), but forced socket shutdown is enough to progress the
+-coroutines and quickly tear down all clients before the server is
+-freed, thus finally fixing the CVE.
+-
+-This patch relies heavily on the fact that nbd/server.c guarantees
+-that it only calls nbd_blockdev_client_closed() from the main loop
+-(see the assertion in nbd_client_put() and the hoops used in
+-nbd_client_put_nonzero() to achieve that); if we did not have that
+-guarantee, we would also need a mutex protecting our accesses of the
+-list of connections to survive re-entrancy from independent iothreads.
+-
+-Although I did not actually try to test old builds, it looks like this
+-problem has existed since at least commit 862172f45c (v2.12.0, 2017) -
+-even back when that patch started using a QIONetListener to handle
+-listening on multiple sockets, nbd_server_free() was already unaware
+-that the nbd_blockdev_client_closed callback can be reached later by a
+-client thread that has not completed handshakes (and therefore the
+-client's socket never got added to the list closed in
+-nbd_export_close_all), despite that patch intentionally tearing down
+-the QIONetListener to prevent new clients.
+-
+-Reported-by: Alexander Ivanov <alexander.ivanov@virtuozzo.com>
+-Fixes: CVE-2024-7409
+-CC: qemu-stable@nongnu.org
+-Signed-off-by: Eric Blake <eblake@redhat.com>
+-Message-ID: <20240807174943.771624-14-eblake@redhat.com>
+-Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
+-
+-CVE: CVE-2024-7409
+-
+-Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/3e7ef738c8462c45043a1d39f702a0990406a3b3]
+-
+-Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+----
+- blockdev-nbd.c | 35 ++++++++++++++++++++++++++++++++++-
+- 1 file changed, 34 insertions(+), 1 deletion(-)
+-
+-diff --git a/blockdev-nbd.c b/blockdev-nbd.c
+-index 24ba5382d..f73409ae4 100644
+---- a/blockdev-nbd.c
+-+++ b/blockdev-nbd.c
+-@@ -21,12 +21,18 @@
+- #include "io/channel-socket.h"
+- #include "io/net-listener.h"
+-
+-+typedef struct NBDConn {
+-+    QIOChannelSocket *cioc;
+-+    QLIST_ENTRY(NBDConn) next;
+-+} NBDConn;
+-+
+- typedef struct NBDServerData {
+-     QIONetListener *listener;
+-     QCryptoTLSCreds *tlscreds;
+-     char *tlsauthz;
+-     uint32_t max_connections;
+-     uint32_t connections;
+-+    QLIST_HEAD(, NBDConn) conns;
+- } NBDServerData;
+-
+- static NBDServerData *nbd_server;
+-@@ -51,6 +57,14 @@ int nbd_server_max_connections(void)
+-
+- static void nbd_blockdev_client_closed(NBDClient *client, bool ignored)
+- {
+-+    NBDConn *conn = nbd_client_owner(client);
+-+
+-+    assert(qemu_in_main_thread() && nbd_server);
+-+
+-+    object_unref(OBJECT(conn->cioc));
+-+    QLIST_REMOVE(conn, next);
+-+    g_free(conn);
+-+
+-     nbd_client_put(client);
+-     assert(nbd_server->connections > 0);
+-     nbd_server->connections--;
+-@@ -60,14 +74,20 @@ static void nbd_blockdev_client_closed(NBDClient *client, bool ignored)
+- static void nbd_accept(QIONetListener *listener, QIOChannelSocket *cioc,
+-                        gpointer opaque)
+- {
+-+    NBDConn *conn = g_new0(NBDConn, 1);
+-+
+-+    assert(qemu_in_main_thread() && nbd_server);
+-     nbd_server->connections++;
+-+    object_ref(OBJECT(cioc));
+-+    conn->cioc = cioc;
+-+    QLIST_INSERT_HEAD(&nbd_server->conns, conn, next);
+-     nbd_update_server_watch(nbd_server);
+-
+-     qio_channel_set_name(QIO_CHANNEL(cioc), "nbd-server");
+-     /* TODO - expose handshake timeout as QMP option */
+-     nbd_client_new(cioc, NBD_DEFAULT_HANDSHAKE_MAX_SECS,
+-                    nbd_server->tlscreds, nbd_server->tlsauthz,
+--                   nbd_blockdev_client_closed, NULL);
+-+                   nbd_blockdev_client_closed, conn);
+- }
+-
+- static void nbd_update_server_watch(NBDServerData *s)
+-@@ -81,12 +101,25 @@ static void nbd_update_server_watch(NBDServerData *s)
+-
+- static void nbd_server_free(NBDServerData *server)
+- {
+-+    NBDConn *conn, *tmp;
+-+
+-     if (!server) {
+-         return;
+-     }
+-
+-+    /*
+-+     * Forcefully close the listener socket, and any clients that have
+-+     * not yet disconnected on their own.
+-+     */
+-     qio_net_listener_disconnect(server->listener);
+-     object_unref(OBJECT(server->listener));
+-+    QLIST_FOREACH_SAFE(conn, &server->conns, next, tmp) {
+-+        qio_channel_shutdown(QIO_CHANNEL(conn->cioc), QIO_CHANNEL_SHUTDOWN_BOTH,
+-+                             NULL);
+-+    }
+-+
+-+    AIO_WAIT_WHILE_UNLOCKED(NULL, server->connections > 0);
+-+
+-     if (server->tlscreds) {
+-         object_unref(OBJECT(server->tlscreds));
+-     }
+---
+-2.40.0
+diff --git a/meta/recipes-devtools/qemu/qemu_8.2.3.bb b/meta/recipes-devtools/qemu/qemu_8.2.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu_8.2.3.bb
+rename to meta/recipes-devtools/qemu/qemu_8.2.7.bb
 -- 
 2.34.1
 
