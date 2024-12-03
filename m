@@ -1,156 +1,86 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A97AE64AA6
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 13:38:04 +0000 (UTC)
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
- by mx.groups.io with SMTP id smtpd.web11.19591.1733233075663722592
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BD54EE64AA3
+	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 13:43:34 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web11.19710.1733233414180323877
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 05:37:55 -0800
+ Tue, 03 Dec 2024 05:43:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=tozLPqRO;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.182, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-21583cf5748so21033995ad.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:55 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=bw8sgZWm;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434a0fd9778so51242435e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:43:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233075; x=1733837875; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QOcJs0m8NDhEEMao40XAlH96WUHYxgDP0r+4kn36He4=;
-        b=tozLPqROshUDvG+dTrnSS4fN7dqH37BO6hu81ff7V7NuqSbRAH5xLFii1XgVM230DQ
-         vxV+TvosIWv+KfENVNjtjS4qfYhk9UKfwbtF69g9W5SB6MjDJnWoe6A2dAGFDPl0oCw7
-         EVzP+UQnGeAbX7LZj90cvWev3VTxeRiVvdwLZ7qPmWKG8yDBqkPEJYEWBgoEwhsXlI4B
-         WvI4I3m+E1yYwoOMvBpqPwBlLJB852cAD8F7mvqi44toyhli/YYJs2GJWt4kqw4z0QRL
-         GRxSme/Eser9tPArj4nAH05cfnH9KaO0KxxCI9+gQ5EqxP+NqSWGnbq1i4OJf7CWRwJx
-         hUbQ==
+        d=linuxfoundation.org; s=google; t=1733233412; x=1733838212; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=keexoJzQl3xEd8zSj6v04aNXoUklMTtM/rmwPKhzedw=;
+        b=bw8sgZWmYg3IA+ccRwCeuG7Rrp30Ot2KAQHHRrrY7jEo2qVMtC5T62U+YJzDTyOsQQ
+         dmsf2gRg4Ge6106wnlo7FAIeD/4zh/KLvxmZDM7VZURABw2F/PZT4+RcYlGIk7lMkFnc
+         iHVQtNEYOav+79Yv8w1QkjtpSRgCx0rhdelBY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733233075; x=1733837875;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QOcJs0m8NDhEEMao40XAlH96WUHYxgDP0r+4kn36He4=;
-        b=Z1Tyre+FCai8iSUe/lciuu/J/+b4uJAEGDyqYHbeKEC5eBFfs3kl2l65b236uPKmMh
-         xRjvHLDbT1vuWu3dpPr1O2/mLTKx0eHlYC1Vvm3MoTKjd44sJdEUnuNsCKoGdA892EVX
-         rju+02oFoUDNWGGa89mK7sKrYKGxJzYjMMEH96Hr4bG982PlMgF6RKEFEhYP20FjZ3d8
-         zvjlG8vt0n+DItEfUid15gDaM1OEt96QNOukCAoJizibV6SNvImVOwqG/fc9usFDVL0w
-         +hQUUm7AJy/pj45rBjK3wEqcWGKge9tEAc6n7lXsA9eTP70mfzbiG5uedxYMJzUxgI35
-         5AgA==
-X-Gm-Message-State: AOJu0YzIy9j+bmwIL7415P73RQs4R36btIuLjhhhjG9iEkmzUvVBrExe
-	9Tvpx6KwB69vjWw9x6V0wEbxrp9LAW8CKxwxzk0Fd8+RCTaMZ3FPxJErqo/TjiiOlXa/1aRSVAe
-	/
-X-Gm-Gg: ASbGncv50JmGlk121TK/sDVRWf/KyyetNcKbNQw3m5/vTu0Mip07a1h6nsS7HdC72OX
-	0E//SQi7xoJotaTGmtaDQjjglTvLmOwTX0pCdX0v9pk6Tvv+ow6NQlRt7h+paHU9JYXhKAdYXh7
-	uphRuuXvnb2LP9zFMxc07zGeopK4/83sn9Jcmzl5hamMmW8ASuwBCJNLD6uW9y8wcE+tPic5ZMK
-	be9l1u5dsmoGElr3fmOvUwd9dtTgBA5tn0mAxU=
-X-Google-Smtp-Source: AGHT+IHfHjZ2FS5U2X9C6Ha2coBMOL9oFETjoo50o2gY3UlqXowX1STYkwgXGQsHyZcVdgCU7vp5uQ==
-X-Received: by 2002:a17:902:e5cf:b0:215:6e01:ad07 with SMTP id d9443c01a7336-215bcfc3bcamr34734805ad.6.1733233074933;
-        Tue, 03 Dec 2024 05:37:54 -0800 (PST)
-Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.53
+        d=1e100.net; s=20230601; t=1733233412; x=1733838212;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=keexoJzQl3xEd8zSj6v04aNXoUklMTtM/rmwPKhzedw=;
+        b=WAZBHLr7Og5ZLcZl8ZHc+nQBulSSihQNL7nyz3cyVmXRHzEaJs9qQxKJjzCmk6zB7A
+         JKTqM9snsi4joEmGJpRYycDGmwh1uSQUFMx6Jv8Mn1OSYjpSJf/JZlkcwEY7HktpTcO0
+         FzZkor1KIzhxnwoffOj198ASWmFTnIjcNgg7SKpZuS5B3uUgMf0Xm1zNUEhc5ru2sqxr
+         vVk3zsks/uH/oRN1wp0zMNRQySQ9B27n9/ORQNOlGV2TrAAmndxNiHEco+083Q6t3hcN
+         4csvBHVUIoUwmwmr9BgoJUkTWvOYwYO0KC9g5jDHHvE2H/fExJj0sQuEcudXidvZQ+CO
+         Fetw==
+X-Gm-Message-State: AOJu0YzkKobylDcvSIGvj5hRwTgqx1XGR4nTomHATiszCQpMmkJW3d3v
+	qinEkHRrA8/8HwHNIx2hifmboqm16iBqHkVg+8bgKxc11exjAunPX6Kb0urYkZLeuLGCka6xzNt
+	m
+X-Gm-Gg: ASbGncsPcmyrWvuW4wFcEgIhzAodtym+x75Npcrpa6Pr91ydAMp9WHB3zWXqIh7KtH8
+	PQR01w6lB7uNE21DmCjKAJby1Hh2/Zo49rh63sbsHSt7Zzj2grsf+Plxv06YdIz4Hlc8efFdOQP
+	Vj53GNGeDi0oFr4HZIZbhPFZ6d00Z2MVWf9mTDuSFJ6LsMuU68XMABSoFjFMtG40YCAQkj3vDeH
+	ZufTOslsI7xoWpHYgRQKWNXBiGocHLpcUlLgJYYB0T/Q2sfywYJdq+nKNqkEMkd2b2qMAaWPSNr
+	kKw=
+X-Google-Smtp-Source: AGHT+IEhatldiTEPuRZD4pwuQJ3tCs18piZr04XErRk8PpW1PfBCtTenpAskpXkJyIzmitJHjMYOtQ==
+X-Received: by 2002:a05:600c:3aca:b0:42c:b187:bde9 with SMTP id 5b1f17b1804b1-434d0a23a76mr25260745e9.30.1733233412251;
+        Tue, 03 Dec 2024 05:43:32 -0800 (PST)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f4bb:940d:7186:f454])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434aa7e4c89sm219381165e9.41.2024.12.03.05.43.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 05:37:54 -0800 (PST)
-From: Steve Sakoman <steve@sakoman.com>
+        Tue, 03 Dec 2024 05:43:31 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/16] dropbear: backport fix for concurrent channel open/close
-Date: Tue,  3 Dec 2024 05:37:19 -0800
-Message-Id: <808972c0418a64fbed2134b55f25fb90e5d498e9.1733232895.git.steve@sakoman.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <cover.1733232895.git.steve@sakoman.com>
-References: <cover.1733232895.git.steve@sakoman.com>
+Subject: [PATCH] oeqa/gitarchive: Fix syntax warning
+Date: Tue,  3 Dec 2024 13:43:30 +0000
+Message-ID: <20241203134331.95402-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.45.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 13:38:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208204
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 13:43:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208206
 
-From: Florian Kreutzer <florian.kreutzer.oss@rohde-schwarz.com>
+The backslash characters cause syntax warnings, mark the strings are raw
+to avoid this.
 
-Prevents sporadic crashes of dropbear server when multiple channels are
-active at the same time.
-
-Upstream discussion:
-https://github.com/mkj/dropbear/pull/326/commits
-https://github.com/mkj/dropbear/issues/321
-
-Issue was introduced in dropbear-2022.83 and fixed in v2024.86.
-
-Signed-off-by: Florian Kreutzer <florian.kreutzer.oss@rohde-schwarz.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...e-channels-when-a-PID-hasn-t-started.patch | 45 +++++++++++++++++++
- .../recipes-core/dropbear/dropbear_2022.83.bb |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch
+ meta/lib/oeqa/utils/gitarchive.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch b/meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch
-new file mode 100644
-index 0000000000..dff6534027
---- /dev/null
-+++ b/meta/recipes-core/dropbear/dropbear/0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch
-@@ -0,0 +1,45 @@
-+From 5c34e70b80e5fc539f96e029b56b95cdee556010 Mon Sep 17 00:00:00 2001
-+From: Matt Johnston <matt@ucc.asn.au>
-+Date: Sun, 8 Sep 2024 11:07:41 +0200
-+Subject: Don't close channels when a PID hasn't started
-+
-+If check_close() ran prior to a server channel exec/shell
-+request, it would send a close immediately.
-+This fix changes it to exclude write_fd==FD_UNINIT from
-+being closed there.
-+
-+When a channel was closed by the time shell/exec request
-+was received, then data sent hits an assertion.
-+This fixes #321 on Github.
-+
-+The "pid == 0" check was initially added to avoid waiting
-+to close a channel when a process has never been launched
-+(which is correct), but that isn't correct in the case
-+of the closed-fd test.
-+
-+Fixes: 8e6f73e879ca ("- Remove "flushing" handling for exited processes)
-+
-+Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/71521d1b78706a70d3570b860e65234cefdc8c81]
-+
-+Signed-off-by: Florian Kreutzer <florian.kreutzer.oss@rohde-schwarz.com>
-+---
-+ common-channel.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/common-channel.c b/common-channel.c
-+index be5b57f..9926972 100644
-+--- a/common-channel.c
-++++ b/common-channel.c
-+@@ -317,7 +317,8 @@ static void check_close(struct Channel *channel) {
-+ 
-+ 	if ((channel->recv_eof && !write_pending(channel))
-+ 		/* have a server "session" and child has exited */
-+-		|| (channel->type->check_close && close_allowed)) {
-++		|| (channel->writefd != FD_UNINIT
-++			&& channel->type->check_close && close_allowed)) {
-+ 		close_chan_fd(channel, channel->writefd, SHUT_WR);
-+ 	}
-+ 
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-index 686cb8a809..772e08eaed 100644
---- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
-+++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
-@@ -14,6 +14,7 @@ RCONFLICTS:${PN} = "openssh-sshd openssh"
+diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
+index a826646059a..7e1d5057482 100644
+--- a/meta/lib/oeqa/utils/gitarchive.py
++++ b/meta/lib/oeqa/utils/gitarchive.py
+@@ -146,7 +146,7 @@ def expand_tag_strings(repo, name_pattern, msg_subj_pattern, msg_body_pattern,
+         keyws['tag_number'] = '{tag_number}'
+         tag_re = format_str(name_pattern, keyws)
+         # Replace parentheses for proper regex matching
+-        tag_re = tag_re.replace('(', '\(').replace(')', '\)') + '$'
++        tag_re = tag_re.replace('(', r'\(').replace(')', r'\)') + '$'
+         # Inject regex group pattern for 'tag_number'
+         tag_re = tag_re.format(tag_number='(?P<tag_number>[0-9]{1,5})')
  
- SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
-            file://0001-urandom-xauth-changes-to-options.h.patch \
-+           file://0007-Don-t-close-channels-when-a-PID-hasn-t-started.patch \
-            file://init \
-            file://dropbearkey.service \
-            file://dropbear@.service \
--- 
-2.34.1
-
 
