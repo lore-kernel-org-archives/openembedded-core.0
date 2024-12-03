@@ -1,160 +1,261 @@
-Return-Path: <rasmus.villemoes@prevas.dk>
+Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6538BE64A8C
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 13:18:24 +0000 (UTC)
-Received: from EUR05-DB8-obe.outbound.protection.outlook.com (EUR05-DB8-obe.outbound.protection.outlook.com [40.107.20.83])
- by mx.groups.io with SMTP id smtpd.web10.18874.1733231894253556187
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C449E64A97
+	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 13:37:34 +0000 (UTC)
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.19579.1733233050527642410
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 05:18:15 -0800
+ Tue, 03 Dec 2024 05:37:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@prevas.dk header.s=selector1 header.b=hcaMOwIn;
- spf=pass (domain: prevas.dk, ip: 40.107.20.83, mailfrom: rasmus.villemoes@prevas.dk)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=YA7FDg2+Mtfff79RGQiSTt2nTPGpdic4jigB/EWgIZqRgjbw1QpCQ1A+cB+XQTbgHahqMRBYt+CX1gwURv8P3UcVbX2NgELaYKN73uItFLi2jYsZh0zP5PsF7yX7pi9guHiJFRtL71V1//ekRggGgPMG0Puj420He+r2dNzPGQc9wvUlDd0xd7sqoLt26Sy1GPISU+xcnFb0uFPaBnsbDYx5hBTrNN7jxKMuwKbo7MVwtX7gcqKUB6qwj09KdWmaVCHDpriS7gyK1jazrZgmRNwJpA/xuf32aY4oV6NvBwT32a2BCfHghEoHSDieuOg3fP0tU8/mVfReUiWVBeyKRg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uS5IEUg9TWR0Updob5FDSiUBRfXDP6Fa2DZUHGNWQ34=;
- b=ilIouHnledQ2wsrT1WO0fV2bL+cS/BMXZDX6J8kHZRErCNiPvwY2BjXrPOEmI3v15HUqp92nEq4kxBIwHOZ7tX8vuh2CNNdFo1G8AsImks5mr7p6iys8k3AamSA364YjUdAR6uJHU7url85Enn4tnP39bkZR1OyOQt+CNKmMpdvTcHGzzXGdvnAkx3iCSsWFjysn/E6feqlKZWzaUNp3d3mA88EcDznE6nqfBrqT01wnR7Pm3q9VLjGFVU+FT+tMu31uR5sUvyUIc705E3T6YAMAjwYxN3Sph7FO3I6nZJahC3LeoNLGjokMhChl2VLnXOZT4MnD+JXzFRYS5GH6hw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=prevas.dk; dmarc=pass action=none header.from=prevas.dk;
- dkim=pass header.d=prevas.dk; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=prevas.dk;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uS5IEUg9TWR0Updob5FDSiUBRfXDP6Fa2DZUHGNWQ34=;
- b=hcaMOwInB1oaNXlLoI/1lVg/sa7oYf0WicaN5ltGivm5WVodc2T2Arc7FhBMiPDkFPYNcyvnXgXg3pVOHxAA5q6tOQSSDWaRwV5TaAoFcc+bnrpe3cWp9n0jQucPM+NfkR8QmT4jlBpoLJtYMg4/FBWvLZQP+jQko3nL1FzYI5A=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=prevas.dk;
-Received: from VI1PR10MB2477.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:803:87::20)
- by AS4PR10MB6134.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:585::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.7; Tue, 3 Dec
- 2024 13:18:09 +0000
-Received: from VI1PR10MB2477.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4e8:da5:4265:ce59]) by VI1PR10MB2477.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::4e8:da5:4265:ce59%4]) with mapi id 15.20.8230.008; Tue, 3 Dec 2024
- 13:18:08 +0000
-From: Rasmus Villemoes <ravi@prevas.dk>
-To: denis.osterland@diehl.com
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v2] linux-yocto: add and use
- GPL-2.0-with-syscall-note license
-In-Reply-To: <7568332ffcb1456abdd1677fabb9fc8f@diehl.com> (Denis
-	OSTERLAND-HEIM via lists openembedded org's message of "Tue, 3 Dec
-	2024 13:18:54 +0100 (CET)")
-References: <7568332ffcb1456abdd1677fabb9fc8f@diehl.com>
-Date: Tue, 03 Dec 2024 14:18:07 +0100
-Message-ID: <87ttbkhpm8.fsf@prevas.dk>
-User-Agent: Gnus/5.13 (Gnus v5.13)
-Content-Type: text/plain
-X-ClientProxiedBy: MM0P280CA0074.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:190:8::28) To VI1PR10MB2477.EURPRD10.PROD.OUTLOOK.COM
- (2603:10a6:803:87::20)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=dbel5ROt;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.181, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-21572ca3cccso24676975ad.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 05:37:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733233050; x=1733837850; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Y8uTAisc/YWKFOj5iCEx/HCA8u7jm/RlidoOFbjIMw=;
+        b=dbel5ROtNO47ottUmjmJXnsXkXtEOdUG+q1jgAtGsk6m4WDQMvRxHvkF9TEFHbNiBN
+         uPpWjIL2CRmHrYsoPuBqdrzlCKPmUIKrniCR0uvcr004N6r90MjMdFl74VJAGD5nDNcd
+         yjyfAch4TbhX1VqP1smAlfxkaGxkFopj8YV1y3PfY4foye2Ogqv5dt6VzVXl4DqlwkrA
+         SivSocn4bWs7vQOYR9uDhf1aARFponJb1dzdQ+6qrpjl0/7HvTM2fWchnr1rUr5GliqH
+         i0UrcRUrxXmYphgxTETsyvYycRyHM6OwCl307zZBmyNRqddxt2rkPDxZuoJg4DA1nZvh
+         Twzg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733233050; x=1733837850;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5Y8uTAisc/YWKFOj5iCEx/HCA8u7jm/RlidoOFbjIMw=;
+        b=kI0kj4IfSR9ODzz5E59pSXx5ixFw7p9e8GkW8Oys/zCFT3ORCVivWqo3fj1RXA9rKL
+         QmfUIMnv7GUS8XyYBs4oskanWeFJgBaw4LEb9Xxz41iSCeTXfACssPnqjv1d9Jd74p4f
+         uBOGrpiNdpzo/WMtOml1o/LPGt3Ysv38TGKimE9UOFPVsugpu7Dl5oT2KAAdjZ+2RvPF
+         9Ap4EUHYwnpisiG6WUCLuCP+D7/Y4Kaa2N+pR7azBVIjW9M1zCip67JcB43N11f1Ql3J
+         gMmUf/EWQlDK03uFf3Voqs2xbtrWgEKNfZxZw75UGqXSOjkUiUj11iWRq3s/2SCozgjh
+         WNCA==
+X-Gm-Message-State: AOJu0YyJqOaec4Sbnpt9YdxEbDa0hxJQvgs0/5SLU2cJPGjbSztpTRpm
+	FAGdMJj+H3TmX64rtXgdFyUoDd86Ss4G7yHOC7x4LUvuDsdR79IIxP6sCpiGGETzBf79eaoagyp
+	f
+X-Gm-Gg: ASbGnctMEnCpWY97ThHar4H64cuUxZqx8BDWmUVfrnYmWvAz9cWDYcu8S6/IjCr+pKp
+	t4htd06n+4Nuv0vcQI6uUS2bizzClnV4qYQfBcNEX3CGAUdTGjPmSuDWanPSqYC2h7+0JXBnM4+
+	HBR+kiyx1+axSWmXu0hS4QfVFDfoEFQus/3YX4/8LD5xO034P20t9S/LC3Y9Mzsn1P/iqMcW37T
+	EJzlmIbHy/axTvgup1BRfloXugSsjfi96svoyA=
+X-Google-Smtp-Source: AGHT+IHv33axVJ8ZYevgD+fubojq/L5PkuUQZzRonhGrFLwkRz3gz25z+LBvjuNr7tsUlv0R2Yapcg==
+X-Received: by 2002:a17:902:f688:b0:215:a964:e680 with SMTP id d9443c01a7336-215bd200355mr28964585ad.25.1733233049786;
+        Tue, 03 Dec 2024 05:37:29 -0800 (PST)
+Received: from hexa.. ([98.142.47.158])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2153540d792sm84560225ad.66.2024.12.03.05.37.29
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 03 Dec 2024 05:37:29 -0800 (PST)
+From: Steve Sakoman <steve@sakoman.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][scarthgap 01/16] python3-zipp: fix CVE-2024-5569
+Date: Tue,  3 Dec 2024 05:37:05 -0800
+Message-Id: <ec77cfe12f0790c7e3cf2d9bf00e47b4c653997c.1733232895.git.steve@sakoman.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1733232895.git.steve@sakoman.com>
+References: <cover.1733232895.git.steve@sakoman.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1PR10MB2477:EE_|AS4PR10MB6134:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2b199e3c-a59a-4b75-8459-08dd139cee1a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?63RqzLwyDjmFWUQm5l7xVAy8bEGtkhwO/el0IajjtQ7+nUjRQVklVUhZLqTT?=
- =?us-ascii?Q?RtvaxOb0Tpw3/UmTDK/kONUg3QN0X6/7JdZqmjF9shg5T6KJK+gpc5QgaDWi?=
- =?us-ascii?Q?IrdUo6RqLeh/N/feTmc6zw5CTYJpwckeUVQfzzDuP6WVq1ipQKLpXJFxq8YH?=
- =?us-ascii?Q?7RDqd/CmwxevXkSxGmZHfFgCxbhHKKZVvZxlTiIoYuL4AguXBg0eMfbltgN3?=
- =?us-ascii?Q?PVEAGRX14E5BKbGD4sj0nblzpAWrDly+Yxw31wPeYaaXNxX6itgEofBVm+BP?=
- =?us-ascii?Q?CueXIFXNfaXLwTwJ5weQy5DpA7tjDZpF7mMraT80/Upkeog4Xc4pnYh3TT1s?=
- =?us-ascii?Q?VwdZmC04RvMJCciuRGp12vA9e10sg0iHmKo3MIqUsKWtpPxKkJis3whqcYVB?=
- =?us-ascii?Q?LXIIVZmdINEugi5q8d81Km4Oex5NBR0R4tSdvHYrFCUmKRV3xAQo0quTBdCV?=
- =?us-ascii?Q?VT48Lt/M5jVgRj6F9PMZoIdqhsGq8YkLLjz+bffvYf6ZkNsjVg0hxkYyRP3r?=
- =?us-ascii?Q?QM9tcl1L+PdY8x8Y8iKqe6HaxYRaHIA43O4MKb2DJMwM1pYoQ0khH4QgG3ql?=
- =?us-ascii?Q?i+mt//UruLmgyUKeKqlP/5yg+qO7pT1VUQKq4exO9duDN3l8oOoSu+drGj8/?=
- =?us-ascii?Q?MNsEzrwpzIBk8bgfd++WHCJ6GOtke7eFQbA264z2ga2E8aGnROwv/z+M1bM9?=
- =?us-ascii?Q?m9PEI5tCgvRHAS4JA9QIWmEoCmxZDIPApoVQ3X3AzfWusZ8R6luC9HNlrd29?=
- =?us-ascii?Q?1b71MY7VCHiLDI+ck/Hfcg/FLb5bgo3gHZZ/vahbp7pycLnUxJTOfK27NgcM?=
- =?us-ascii?Q?LN+AsXtfiUKMGyZ8gSU10AS0v8ppmwuNPJyFEdoyrWXX0uVVmLfrGL/lig+k?=
- =?us-ascii?Q?t3JnG/XppWrQL8l1BLM4ZXEH+Jf6ZqyCZ2/aEDpz8hPTBcHqhtujin1vd5/x?=
- =?us-ascii?Q?eniSIY7vxYjCb67JHFPfA5AUhSlQbVd16usIDZ2MDq6/Ptsds56owlPDgZFv?=
- =?us-ascii?Q?LISYy9hB+yN60jdqW4gJLO1W7OY2ZGhcOSVdZbqt19TgWUgOe3VAB3P9d9F6?=
- =?us-ascii?Q?JldvAbngPTpkUx6thYmbkuJfMgb145dGRbSaI4Hy23RgY/gLVrfqdxTV4+oD?=
- =?us-ascii?Q?bEJCP6UMtFeXJ5Ht56/diBsWo7TQzun4vMIJIvIDBy3BBvUab/c+nxhgA4vu?=
- =?us-ascii?Q?SQ7/cKi3BuOk4I9tiKne/ncO39CJsfiexC1+gYKrHOPX07WfyK/31sJTCZLK?=
- =?us-ascii?Q?EsTnnD7qzWadRZdf0xmzWgsA+4ZwI6urgxNkl8gp0ZGQ2+xMWejtTUbbp00R?=
- =?us-ascii?Q?ZBy2fALWrTkWWNrAhj3ZeYt3IGzhwHGG6BCZjTefn/yYB68BLT3SFR6zRakS?=
- =?us-ascii?Q?sYT5XZXdwvggdjdwLrXcZKUEee1sDGocejOhnR8KzUmLBGL0Ig=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR10MB2477.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?PymQGRGjwb7atJvjoTS//jGpZ41BI7yfzfOdZ/1Xb3UbiyzSbi7u7zeWoxNN?=
- =?us-ascii?Q?ROGjBHnG/I7MjFei7rA6VYYGMeUSpaCiTkSDzWiYew3dnkDqkwoEH6cV9A4j?=
- =?us-ascii?Q?33U0kNElUPhOojVvVsfKOd0cSmLgrdpSy6e5XKhim6uVL57hrU+ed3bnkbNe?=
- =?us-ascii?Q?UsOoT1WNGVnul+DkCgXKBeIsti9xBzBJidCLaRkm6b/s2ZF+hk5iPJksg/Ge?=
- =?us-ascii?Q?7EHJSMXpcAXNgo4bBo2DOGyNGEdFC4lXIezg6fdKM3cMKvOfoGxDqq63Sn4c?=
- =?us-ascii?Q?SkBDbMpvGkVd/5+Dh88OYXbvDTKrnXlz/H2T3MLrQ9br/TfOVO7TjiaD1bHK?=
- =?us-ascii?Q?9A/P78XyvOcQjKcakrrdbVSoeyFRCd9K9+q95YbhGpjRaV1oOlmNiAdSmChO?=
- =?us-ascii?Q?d1B5F/VhLU0Y7QlnsJ8uQ0ayUajOeifSPhYLce4/48Tw8skxMplqAi6ECKOo?=
- =?us-ascii?Q?1cmL/AjJZEPszfMlv2AOe5Gxpb27xWi9eavSsX1FScgCVBW1bUxTFKUAZDg+?=
- =?us-ascii?Q?Tpyytp3saYOD4ZA015C5rEe11I+fiKhaz8Ts5Gggap6hTmEpQZinc5xsIMrD?=
- =?us-ascii?Q?59ypQ6WzpxYcmW+GoM6UgMvlnR6hHmszRZ+v3OtvUDrFf9KxC8iZbvcRpsRO?=
- =?us-ascii?Q?Rv315KASfyhSlSEqgYfTSNNd0aJ57crF9na2Jsnzeo1agKvXdVa7GgojGds/?=
- =?us-ascii?Q?sjYLTHzHNCFPq3lfGKo+ZR+Wg0LHtljLA8LgqF6RyLzVYsty66QXJI617rAf?=
- =?us-ascii?Q?sC9lmi3Ln2jm4e4CqjUMY7BiDBZKPEWymuuY8qFUuzJQl+6uzzW/wviyFtRX?=
- =?us-ascii?Q?a3Mp5CiFn87h/kKDUZrgod9E34tS7YnbuPZwsdlU99xGRNXdJqZKxDdVDH3z?=
- =?us-ascii?Q?Im1P3FfPnTtmVXpr5aX7DsnEKQwUpaG4GBG7PJ0ZiYu8zEqvzx1oM0+43ed+?=
- =?us-ascii?Q?BdgRDZY5INtYZnEeNQMYd2XOPOJNrNWmqvBUmnFNMvXoMs1ek1ssQ90XAuwC?=
- =?us-ascii?Q?8FPsPtPm6YA55d1/HjbS54uICigKvyNSLNYYgxw6RgBF/UDoeAvmuEeOQJii?=
- =?us-ascii?Q?gGXu2t/Z5qV+eRc134ShGiR8DFaSxS+6zyBLaysYdMI1y49/WPbDi9M6W+ge?=
- =?us-ascii?Q?5yBC10oHWkI9DHUhqD/N4BjHXnTqvKrNKaoHsgSLmsfZGuwA25J6Evvt5OHy?=
- =?us-ascii?Q?Mm3unlA90MgOa14fpR8pLD99XSWF6omQs8FgQpv7nyHLcY/Y36FD3p7sGqik?=
- =?us-ascii?Q?4kIo1GmBwGB7jt7vsfc6oSHFc7H/Hz55jrWKIttlrHNz/2FD93yUDoTrXErG?=
- =?us-ascii?Q?77gv5QRMTUT2GfcyGMHVR+FD1ymUHE3OI/nuFLYBbFkM0lJVthCNo/Z2rToD?=
- =?us-ascii?Q?t4Zl7NQSaUEWp9HCQOaCLpc9Fxrw7b0zozQjpmk0pUVUHaH5NkF6Ay/QjAoW?=
- =?us-ascii?Q?Y4NuR23JRazveCnml7GByQ4aKjO7uAL69F0tCGDJnGjxP0RBQb8QVcQu7eJ8?=
- =?us-ascii?Q?+MwzFENJ5wXsEjZEpUwCecFDzYEYqjp0Dt0fhknM0kD7khTFTvt4cvX/dHU8?=
- =?us-ascii?Q?cUlgsVU9KqPFZBEPEYAZ63LzRbxx2rjpcQWwhT1Yma+W8zy598iR9HkXRT+D?=
- =?us-ascii?Q?fQ=3D=3D?=
-X-OriginatorOrg: prevas.dk
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2b199e3c-a59a-4b75-8459-08dd139cee1a
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR10MB2477.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Dec 2024 13:18:08.8463
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d350cf71-778d-4780-88f5-071a4cb1ed61
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: I2Z8BAJ8c26fR9+G2j4M4FVDOeEYNEzaoKkGTcjjCivE3VL+n1MsWe3FMQ4SQ+hrUH5ZLL00MME84XaIPVK4MYHxfaEl1EVyTYdE89mDbEs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR10MB6134
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 13:18:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208188
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 13:37:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208190
 
-On Tue, Dec 03 2024, "Denis OSTERLAND-HEIM via lists.openembedded.org" <denis.osterland=diehl.com@lists.openembedded.org> wrote:
+From: Jiaying Song <jiaying.song.cn@windriver.com>
 
-> See Linux COPYING, LICENSES/preferred/GPL-2.0
-> and LICENSES/exceptions/Linux-syscall-note.
->
-> +
-[snip GPL text]
-> +
-> +   NOTE! This copyright does *not* cover user programs that use kernel
-> + services by normal system calls - this is merely considered normal use
-> + of the kernel, and does *not* fall under the heading of "derived work".
-> + Also note that the GPL below is copyrighted by the Free Software
+A Denial of Service (DoS) vulnerability exists in the jaraco/zipp
+library, affecting all versions prior to 3.19.1. The vulnerability is
+triggered when processing a specially crafted zip file that leads to an
+infinite loop. This issue also impacts the zipfile module of CPython, as
+features from the third-party zipp library are later merged into
+CPython, and the affected code is identical in both projects. The
+infinite loop can be initiated through the use of functions affecting
+the `Path` module in both zipp and zipfile, such as `joinpath`, the
+overloaded division operator, and `iterdir`. Although the infinite loop
+is not resource exhaustive, it prevents the application from responding.
+The vulnerability was addressed in version 3.19.1 of jaraco/zipp.
 
-So since you're combining thbe GPL text and the syscall-note text, why
-not take an exact copy of the COPYING file as it existed in the kernel
-tree before the current split. That would also make word "below" actually make
-sense. I.e.,
+References:
+https://nvd.nist.gov/vuln/detail/CVE-2024-5569
 
-  git show b3358a116:COPYING
+Upstream patches:
+https://github.com/jaraco/zipp/pull/120/commits/79a309fe54dc6b7934fb72e9f31bcb58f2e9f547
+https://github.com/jaraco/zipp/pull/120/commits/564fcc10cdbfdaecdb33688e149827465931c9e0
+https://github.com/jaraco/zipp/pull/120/commits/58115d2be968644ce71ce6bcc9b79826c82a1806
+https://github.com/jaraco/zipp/pull/120/commits/c18417ed2953e181728a7dac07bff88a2190abf7
 
-Rasmus
+Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ .../python/python3-zipp/CVE-2024-5569.patch   | 138 ++++++++++++++++++
+ .../python/python3-zipp_3.17.0.bb             |   1 +
+ 2 files changed, 139 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch
+
+diff --git a/meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch b/meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch
+new file mode 100644
+index 0000000000..1cc43243bf
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-zipp/CVE-2024-5569.patch
+@@ -0,0 +1,138 @@
++From b1804347ec2db16452a7bff2b469d2c66776b904 Mon Sep 17 00:00:00 2001
++From: "Jason R. Coombs" <jaraco@jaraco.com>
++Date: Fri, 31 May 2024 11:20:57 -0400
++Subject: [PATCH] fix CVE-2024-5569
++
++The patch includes the following changes:
++c18417e Add news fragment.
++58115d2 Employ SanitizedNames in CompleteDirs. Fixes broken test.
++564fcc1 Add SanitizedNames mixin.
++79a309f Add some assertions about malformed paths.
++
++Upstream-Status: Backport
++[https://github.com/jaraco/zipp/pull/120/commits/79a309fe54dc6b7934fb72e9f31bcb58f2e9f547]
++[https://github.com/jaraco/zipp/pull/120/commits/564fcc10cdbfdaecdb33688e149827465931c9e0]
++[https://github.com/jaraco/zipp/pull/120/commits/58115d2be968644ce71ce6bcc9b79826c82a1806]
++[https://github.com/jaraco/zipp/pull/120/commits/c18417ed2953e181728a7dac07bff88a2190abf7]
++
++CVE: CVE-2024-5569
++
++Signed-off-by: Jiaying Song <jiaying.song.cn@windriver.com>
++---
++ newsfragments/119.bugfix.rst |  1 +
++ tests/test_path.py           | 17 ++++++++++
++ zipp/__init__.py             | 64 +++++++++++++++++++++++++++++++++++-
++ 3 files changed, 81 insertions(+), 1 deletion(-)
++ create mode 100644 newsfragments/119.bugfix.rst
++
++diff --git a/newsfragments/119.bugfix.rst b/newsfragments/119.bugfix.rst
++new file mode 100644
++index 0000000..6c72e2d
++--- /dev/null
+++++ b/newsfragments/119.bugfix.rst
++@@ -0,0 +1 @@
+++Improved handling of malformed zip files.
++\ No newline at end of file
++diff --git a/tests/test_path.py b/tests/test_path.py
++index a77a5de..3752243 100644
++--- a/tests/test_path.py
+++++ b/tests/test_path.py
++@@ -575,3 +575,20 @@ class TestPath(unittest.TestCase):
++         zipp.Path(alpharep)
++         with self.assertRaises(KeyError):
++             alpharep.getinfo('does-not-exist')
+++    
+++    def test_malformed_paths(self):
+++        """
+++        Path should handle malformed paths.
+++        """
+++        data = io.BytesIO()
+++        zf = zipfile.ZipFile(data, "w")
+++        zf.writestr("/one-slash.txt", b"content")
+++        zf.writestr("//two-slash.txt", b"content")
+++        zf.writestr("../parent.txt", b"content")
+++        zf.filename = ''
+++        root = zipfile.Path(zf)
+++        assert list(map(str, root.iterdir())) == [
+++            'one-slash.txt',
+++            'two-slash.txt',
+++            'parent.txt',
+++        ]
++diff --git a/zipp/__init__.py b/zipp/__init__.py
++index becd010..e980e9b 100644
++--- a/zipp/__init__.py
+++++ b/zipp/__init__.py
++@@ -84,7 +84,69 @@ class InitializedState:
++         super().__init__(*args, **kwargs)
++ 
++ 
++-class CompleteDirs(InitializedState, zipfile.ZipFile):
+++class SanitizedNames:
+++    """
+++    ZipFile mix-in to ensure names are sanitized.
+++    """
+++
+++    def namelist(self):
+++        return list(map(self._sanitize, super().namelist()))
+++
+++    @staticmethod
+++    def _sanitize(name):
+++        r"""
+++        Ensure a relative path with posix separators and no dot names.
+++
+++        Modeled after
+++        https://github.com/python/cpython/blob/bcc1be39cb1d04ad9fc0bd1b9193d3972835a57c/Lib/zipfile/__init__.py#L1799-L1813
+++        but provides consistent cross-platform behavior.
+++
+++        >>> san = SanitizedNames._sanitize
+++        >>> san('/foo/bar')
+++        'foo/bar'
+++        >>> san('//foo.txt')
+++        'foo.txt'
+++        >>> san('foo/.././bar.txt')
+++        'foo/bar.txt'
+++        >>> san('foo../.bar.txt')
+++        'foo../.bar.txt'
+++        >>> san('\\foo\\bar.txt')
+++        'foo/bar.txt'
+++        >>> san('D:\\foo.txt')
+++        'D/foo.txt'
+++        >>> san('\\\\server\\share\\file.txt')
+++        'server/share/file.txt'
+++        >>> san('\\\\?\\GLOBALROOT\\Volume3')
+++        '?/GLOBALROOT/Volume3'
+++        >>> san('\\\\.\\PhysicalDrive1\\root')
+++        'PhysicalDrive1/root'
+++
+++        Retain any trailing slash.
+++        >>> san('abc/')
+++        'abc/'
+++
+++        Raises a ValueError if the result is empty.
+++        >>> san('../..')
+++        Traceback (most recent call last):
+++        ...
+++        ValueError: Empty filename
+++        """
+++
+++        def allowed(part):
+++            return part and part not in {'..', '.'}
+++
+++        # Remove the drive letter.
+++        # Don't use ntpath.splitdrive, because that also strips UNC paths
+++        bare = re.sub('^([A-Z]):', r'\1', name, flags=re.IGNORECASE)
+++        clean = bare.replace('\\', '/')
+++        parts = clean.split('/')
+++        joined = '/'.join(filter(allowed, parts))
+++        if not joined:
+++            raise ValueError("Empty filename")
+++        return joined + '/' * name.endswith('/')
+++
+++
+++class CompleteDirs(InitializedState, SanitizedNames, zipfile.ZipFile):
++     """
++     A ZipFile subclass that ensures that implied directories
++     are always included in the namelist.
++-- 
++2.25.1
++
+diff --git a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
+index e9e220e315..9f756887b5 100644
+--- a/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
++++ b/meta/recipes-devtools/python/python3-zipp_3.17.0.bb
+@@ -3,6 +3,7 @@ HOMEPAGE = "https://github.com/jaraco/zipp"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=141643e11c48898150daa83802dbc65f"
+ 
++SRC_URI += "file://CVE-2024-5569.patch"
+ SRC_URI[sha256sum] = "84e64a1c28cf7e91ed2078bb8cc8c259cb19b76942096c8d7b84947690cabaf0"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+-- 
+2.34.1
+
 
