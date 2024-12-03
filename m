@@ -1,705 +1,556 @@
-Return-Path: <Yogita.Urade@windriver.com>
+Return-Path: <denis.osterland@diehl.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BE38E69E88
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 10:14:53 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web10.15909.1733220889939769834
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A821E64A86
+	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 12:19:04 +0000 (UTC)
+Received: from enterprise01.smtp.diehl.com (enterprise01.smtp.diehl.com [193.201.238.219])
+ by mx.groups.io with SMTP id smtpd.web11.17838.1733228337183413465
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 02:14:49 -0800
+ Tue, 03 Dec 2024 04:18:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=20671b3c9a=yogita.urade@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B37Jgn8011232
-	for <openembedded-core@lists.openembedded.org>; Tue, 3 Dec 2024 02:14:49 -0800
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 437xv7tvva-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 02:14:49 -0800 (PST)
-Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Tue, 3 Dec 2024 02:14:47 -0800
-From: yurade <yogita.urade@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][scarthgap][PATCH 1/1] Revert "ruby: upgrade 3.2.2 -> 3.3.5"
-Date: Tue, 3 Dec 2024 10:14:26 +0000
-Message-ID: <20241203101426.2227535-1-yogita.urade@windriver.com>
-X-Mailer: git-send-email 2.40.0
+ dkim=pass header.i=@diehl.com header.s=default header.b=v2LM8T2L;
+ spf=pass (domain: diehl.com, ip: 193.201.238.219, mailfrom: prvs=060cb58a4=denis.osterland@diehl.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
+  t=1733228337; x=1764764337;
+  h=from:to:subject:date:message-id:mime-version;
+  bh=G1QBw2njEOhX15eZroZaFFdvV7LbfQqiarQi8pRN/0M=;
+  b=v2LM8T2LgwttCnJ5xLwALoioNib7fwIAdEEoWNURQQbYZwtqIr0SBwh0
+   2tdlEkvc/AN6WIksec6+WISpsXaHAkkdTt8iZmhovOrbcU8t7vlKYAlBx
+   dKbickSq8g0AdamFUTcEk+VOrbXExJfw9+9zmdv2fss7hsl174GwsaMZp
+   hoAdiIAr0fjHl3w7//eh7aaVzDa42JqNJTp+kqPZ7q7iPFeQeuyDdQi35
+   rS701ZrNTpWYl/tgv4F5/XF1lu7vuCuanZ6VEvHU9gRd5Kgq67c88T3lq
+   ++e2WhO535Gv9Ez2IAExirL4S5A/3CUvxLvqNcKRiZKCG9Nu8CF4YaOF6
+   g==;
+X-CSE-ConnectionGUID: +7XiPdukS727SwzJ1mtkyg==
+X-CSE-MsgGUID: osffrjDtT02AWyOC8QCbIg==
+X-ThreatScanner-Verdict: Negative
+IronPort-Data: A9a23:MjEkGKr4oIvhaQYTvd2pSal6IQleBmICZRIvgKrLsJaIsI4StFGz/
+ xJOGSnaY6zbJjuqJcY+dc3tpgkBpNWMmYgyDEcu+BmBJVpRrMvACJKBcVyY00i6dZyTRk854
+ Z0XYIPLdZxoF3ON+E/ybee99nJ3j/jVSuv2VbaYMXl7Hlc0Qnhx2Bw9lbRjjtFk2NPkD1LR5
+ I74/qUzVHeswyZwM2kd96OErlR3v//p53YDv1M4bOxWplK2e1w9VfrzconqfiOoKmUtIsa6W
+ /rbnvb+/W7I5FEhC96llvDwdUhNSaTWehSNz3phXe6pmBwazhDeqZ3XR8fwE28PzW3hovhx1
+ MlV59v3Sgo4JevAmekdV19TFCQ5NrdCv6PEZHiIt4qY1UmeLjitm51S4DoN0f4lFpxfWScWn
+ cEwKCwRdkLEwP2p3/S3S+RsgoIoK8ysJIAe/SkI8d2iNhpVfHy5a/2Mvbdl4QoNauBy8df2O
+ JtJYGFhNBnKMhEXYQkbVJwwxbvy3nD0LWFS9gjL+PVrujiCxwFPi7W8a9C9lv5m5yl2thvC+
+ jiWrzyR7jUyboH3Je+tqyr07gP3tXqlHtpUTPvgq6YCbGS7ngQ7EAcRWUawvc63g0u/X8M3A
+ 0EP80LCl4BrnKCQZoe7BkfQTEKs5EZGB4MKS7Zismlh94KPi+qnLjldJtJ+QIx+3CMGbWRC/
+ kOEmdrvGQtuvNW9IVqB9q2ZpC+FIiMcK2kPf0csFWPpNPG6/enfJjqWJjpSOPbdYu/dQFkc8
+ BjTxMQKvIj/uOZQv0mNEfIrtBr3znTBZlZdCgw6xQtJ5CshDGKuT9TABVQ2cZ+shWtWJ7WMl
+ CFspiSQ0AwBJdLSpC21TPgOJ+7zuM2aIh+FhEJsDpZ0olxB+1b7FWxRyD17NkxmLZ5ePzTue
+ leVtQJc5JsVN3yvBUN1S9vpTZRwi/GwU42+DJg4bfIXCnR1XAOK+iB1I0mLw233lEEqnYkzO
+ JqbdYCnCnNy5aFPlWLoGb9GjOZ2rsw47WTIS57hzTi77eLETUGEbpxVCXCET+9suctopy2Qq
+ b6zLfCizA1SVuD7aCTb/YMfaFsNN3UTAZHtt9cRcfaOJAdjEmwtB/Ldh7Q7dORYc799z7+Or
+ iv7Ax8ekQGl7ZHaFTi3hrlYQOuHdf5CQbgTYETA4X7AN6AfXLuS
+IronPort-HdrOrdr: A9a23:cIkqHaFTku7lK2QIpLqEh8eALOsnbusQ8zAXPiFKKSC9Hfb2qy
+ nDpp4mPHzP6Qr5OktPpTnoAsDpKk80nqQY3WB+B9qfYDU=
+X-Talos-CUID: =?us-ascii?q?9a23=3A9BOHK2oZvXcTq6sdzvnMwL/mUYN6QnzlwGrTGBD?=
+ =?us-ascii?q?iVl12Wp/MTEOT6awxxg=3D=3D?=
+X-Talos-MUID: 9a23:BOwkEwWRraWwU6Tq/Dj3ij94Nut03/z0IX8ctr5WguKOFCMlbg==
+X-IronPort-AV: E=Sophos;i="6.12,205,1728943200"; 
+   d="p7s'346?scan'346,208,346";a="106603515"
+From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
+To: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: [PATCH v2] linux-yocto: add and use GPL-2.0-with-syscall-note
+ license
+Date: Tue, 3 Dec 2024 13:18:54 +0100 (CET)
+Message-ID: <7568332ffcb1456abdd1677fabb9fc8f@diehl.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [147.11.136.210]
-X-ClientProxiedBy: ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) To
- ala-exchng01.corp.ad.wrs.com (147.11.82.252)
-X-Proofpoint-GUID: rC9EA9tAD6h3AeTuRByTvAQoGlZUXTlR
-X-Authority-Analysis: v=2.4 cv=RpA/LDmK c=1 sm=1 tr=0 ts=674eda19 cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=RZcAm9yDv7YA:10 a=b4LDLZbEAAAA:8 a=Twlkf-z8AAAA:8 a=NEAV23lmAAAA:8 a=mDV3o1hIAAAA:8 a=-fKjk79AAAAA:8
- a=A1X0JdhQAAAA:8 a=w2PP7KgtAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=9Wbp7B8dAAAA:8 a=svO6gwnVAAAA:8 a=cd34Doh_AAAA:8 a=cETuxoCwAAAA:8 a=v12xRLZ1AAAA:8 a=fk1lIlRQAAAA:8 a=F7opxe6ksRFA80excgQA:9 a=p97NfMmiahrsBjvO:21 a=g_-jsAev3ssA:10
- a=20T61YgZp4ItGotXEy2O:22 a=-74SuR6ZdpOK_LpdRCUo:22 a=yfRUlTaMxgxjPDvNZr5O:22 a=CDB6uwv3NW-08_pL9N3q:22 a=FdTzh2GWekK77mhwV6Dw:22 a=BESxJfN36ujmTJQqZ0Zq:22 a=5awQwY9Y38-QVGG67zo_:22 a=DGTqSDpDppWLBvRNt63D:22 a=tb6VMGFFq-HsUJGUQiVL:22
- a=AgWhkyGJzIdW_ONjbm8h:22 a=U75ogvRika4pmaD_UPO0:22
-X-Proofpoint-ORIG-GUID: rC9EA9tAD6h3AeTuRByTvAQoGlZUXTlR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-02_14,2024-12-03_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- impostorscore=0 spamscore=0 bulkscore=0 malwarescore=0 adultscore=0
- phishscore=0 mlxlogscore=999 clxscore=1015 suspectscore=0
- priorityscore=1501 mlxscore=0 classifier=spam authscore=0 adjust=0
- reason=mlx scancount=1 engine=8.21.0-2411120000
- definitions=main-2412030087
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----E59C62C4934B6E5F8F470A803B73E8A5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 10:14:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208185
+ <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 12:19:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208186
 
-From: Yogita Urade <yogita.urade@windriver.com>
+This is an S/MIME signed message
 
-This reverts commit 0402f54b66438ec6e9f06f02652e148dce6480b3.
+------E59C62C4934B6E5F8F470A803B73E8A5
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-This isn't a minor version upgrade.
-$git log v3_2_2..v3_3_5 --oneline  | wc -l
-6924
+See Linux COPYING, LICENSES/preferred/GPL-2.0
+and LICENSES/exceptions/Linux-syscall-note.
 
-Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+Signed-off-by: Denis Osterland-Heim <denis.osterland@diehl.com>
 ---
- ...Alignof-to-define-ALIGN_OF-when-poss.patch | 51 ++++++++++
- ...e.in-do-not-write-host-cross-cc-item.patch | 32 +++++++
- ...Obey-LDFLAGS-for-the-link-of-libruby.patch | 25 +++++
- ...-Makefile.in-filter-out-f-prefix-map.patch | 42 ++++++++
- ...eproducible-change-fixing-784225-too.patch | 26 ++---
- .../0006-Make-gemspecs-reproducible.patch     | 18 ++--
- .../ruby/ruby/CVE-2023-36617_1.patch          | 55 +++++++++++
- .../ruby/ruby/CVE-2023-36617_2.patch          | 51 ++++++++++
- .../ruby/ruby/CVE-2024-27281.patch            | 96 +++++++++++++++++++
- .../ruby/ruby/CVE-2024-27282.patch            | 27 ++++++
- .../ruby/ruby/remove_has_include_macros.patch | 35 +++++++
- .../ruby/{ruby_3.3.5.bb => ruby_3.2.2.bb}     | 13 ++-
- 12 files changed, 446 insertions(+), 25 deletions(-)
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
- create mode 100644 meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
- rename meta/recipes-devtools/ruby/{ruby_3.3.5.bb => ruby_3.2.2.bb} (88%)
+v1 -> v2:
+  * add full GPL-2.0 license text
 
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
+ .../GPL-2.0-with-Linux-syscall-note           | 357 ++++++++++++++++++
+ meta/recipes-kernel/linux/linux-yocto.inc     |   2 +-
+ 2 files changed, 358 insertions(+), 1 deletion(-)
+ create mode 100644 meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note
+
+diff --git a/meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note b/meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note
 new file mode 100644
-index 0000000000..ab7ae1eb23
+index 0000000000..90b059c286
 --- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-@@ -0,0 +1,51 @@
-+From 6b3c202b46b9312c5bb0789145f13d8086e70948 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 15 Jan 2023 02:34:17 -0800
-+Subject: [PATCH] fiddle: Use C11 _Alignof to define ALIGN_OF when possible
++++ b/meta/files/common-licenses/GPL-2.0-with-Linux-syscall-note
+@@ -0,0 +1,357 @@
 +
-+WG14 N2350 made very clear that it is an UB having type definitions
-+within "offsetof" [1]. This patch enhances the implementation of macro
-+ALIGN_OF to use builtin "_Alignof" to avoid undefined behavior
-+when using std=c11 or newer
++		    GNU GENERAL PUBLIC LICENSE
++		       Version 2, June 1991
 +
-+clang 16+ has started to flag this [2]
++ Copyright (C) 1989, 1991 Free Software Foundation, Inc.
++                       51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++ Everyone is permitted to copy and distribute verbatim copies
++ of this license document, but changing it is not allowed.
 +
-+Fixes build when using -std >= gnu11 and using clang16+
++			    Preamble
 +
-+Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
-+may support C11, exclude those compiler versions
++  The licenses for most software are designed to take away your
++freedom to share and change it.  By contrast, the GNU General Public
++License is intended to guarantee your freedom to share and change free
++software--to make sure the software is free for all its users.  This
++General Public License applies to most of the Free Software
++Foundation's software and to any other program whose authors commit to
++using it.  (Some other Free Software Foundation software is covered by
++the GNU Library General Public License instead.)  You can apply it to
++your programs, too.
 +
-+[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
-+[2] https://reviews.llvm.org/D133574
++  When we speak of free software, we are referring to freedom, not
++price.  Our General Public Licenses are designed to make sure that you
++have the freedom to distribute copies of free software (and charge for
++this service if you wish), that you receive source code or can get it
++if you want it, that you can change the software or use pieces of it
++in new free programs; and that you know you can do these things.
 +
-+Upstream-Status: Submitted [https://github.com/ruby/fiddle/pull/120]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ ext/fiddle/fiddle.h | 12 +++++++++++-
-+ 1 file changed, 11 insertions(+), 1 deletion(-)
++  To protect your rights, we need to make restrictions that forbid
++anyone to deny you these rights or to ask you to surrender the rights.
++These restrictions translate to certain responsibilities for you if you
++distribute copies of the software, or if you modify it.
 +
-+diff --git a/ext/fiddle/fiddle.h b/ext/fiddle/fiddle.h
-+index 10eb9ce..ffb395e 100644
-+--- a/ext/fiddle/fiddle.h
-++++ b/ext/fiddle/fiddle.h
-+@@ -196,7 +196,17 @@
-+ #endif
-+ #define TYPE_UINTPTR_T (-TYPE_INTPTR_T)
++  For example, if you distribute copies of such a program, whether
++gratis or for a fee, you must give the recipients all the rights that
++you have.  You must make sure that they, too, receive or can get the
++source code.  And you must show them these terms so they know their
++rights.
 +
-+-#define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, align_x)
-++/* GCC releases before GCC 4.9 had a bug in _Alignof.  See GCC bug 52023
-++   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=52023>.
-++   clang versions < 8.0.0 have the same bug.  */
-++#if (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112 \
-++     || (defined __GNUC__ && __GNUC__ < 4 + (__GNUC_MINOR__ < 9) \
-++         && !defined __clang__) \
-++     || (defined __clang__ && __clang_major__ < 8))
-++# define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, align_x)
-++#else
-++# define ALIGN_OF(type) _Alignof(type)
-++#endif
++  We protect your rights with two steps: (1) copyright the software, and
++(2) offer you this license which gives you legal permission to copy,
++distribute and/or modify the software.
 +
-+ #define ALIGN_VOIDP  ALIGN_OF(void*)
-+ #define ALIGN_CHAR   ALIGN_OF(char)
-+--
-+2.39.0
-diff --git a/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-new file mode 100644
-index 0000000000..e35a461f76
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-@@ -0,0 +1,32 @@
-+From 2368d07660a93a2c41d63f3ab6054ca4daeef820 Mon Sep 17 00:00:00 2001
-+From: Alexander Kanavin <alex.kanavin@gmail.com>
-+Date: Tue, 17 Nov 2020 18:31:40 +0000
-+Subject: [PATCH] template/Makefile.in: do not write host cross-cc items into
-+ target config
++  Also, for each author's protection and ours, we want to make certain
++that everyone understands that there is no warranty for this free
++software.  If the software is modified by someone else and passed on, we
++want its recipients to know that what they have is not the original, so
++that any problems introduced by others will not reflect on the original
++authors' reputations.
 +
-+This helps reproducibility.
++  Finally, any free program is threatened constantly by software
++patents.  We wish to avoid the danger that redistributors of a free
++program will individually obtain patent licenses, in effect making the
++program proprietary.  To prevent this, we have made it clear that any
++patent must be licensed for everyone's free use or not licensed at all.
 +
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-+---
-+ template/Makefile.in | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++  The precise terms and conditions for copying, distribution and
++modification follow.
 +
-+diff --git a/template/Makefile.in b/template/Makefile.in
-+index 10dc826..940ee07 100644
-+--- a/template/Makefile.in
-++++ b/template/Makefile.in
-+@@ -657,11 +657,11 @@ mjit_config.h:
-+	echo '#endif'; \
-+	quote MJIT_MIN_HEADER_NAME "$(MJIT_MIN_HEADER_NAME)"; \
-+	sep=,; \
-+-	quote "MJIT_CC_COMMON  " $(MJIT_CC); \
-++	quote "MJIT_CC_COMMON  " ; \
-+	quote "MJIT_CFLAGS      MJIT_ARCHFLAG" $(MJIT_CFLAGS); \
-+	quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
-+	quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
-+-	quote "MJIT_LDSHARED   " $(MJIT_LDSHARED); \
-++	quote "MJIT_LDSHARED   " ; \
-+	quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-+	quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
-+	quote 'PRELOADENV       "@PRELOADENV@"'; \
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-new file mode 100644
-index 0000000000..96ae86263b
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-libruby.patch
-@@ -0,0 +1,25 @@
-+From 21d8e7700fa0a9c4bf569dd366134060ae858832 Mon Sep 17 00:00:00 2001
-+From: Christopher Larson <chris_larson@mentor.com>
-+Date: Thu, 5 May 2016 10:59:07 -0700
-+Subject: [PATCH] Obey LDFLAGS for the link of libruby
++		    GNU GENERAL PUBLIC LICENSE
++   TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
 +
-+Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-+Upstream-Status: Pending
++  0. This License applies to any program or other work which contains
++a notice placed by the copyright holder saying it may be distributed
++under the terms of this General Public License.  The "Program", below,
++refers to any such program or work, and a "work based on the Program"
++means either the Program or any derivative work under copyright law:
++that is to say, a work containing the Program or a portion of it,
++either verbatim or with modifications and/or translated into another
++language.  (Hereinafter, translation is included without limitation in
++the term "modification".)  Each licensee is addressed as "you".
 +
-+---
-+ template/Makefile.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++Activities other than copying, distribution and modification are not
++covered by this License; they are outside its scope.  The act of
++running the Program is not restricted, and the output from the Program
++is covered only if its contents constitute a work based on the
++Program (independent of having been made by running the Program).
++Whether that is true depends on what the Program does.
 +
-+diff --git a/template/Makefile.in b/template/Makefile.in
-+index 1456313..15b98a4 100644
-+--- a/template/Makefile.in
-++++ b/template/Makefile.in
-+@@ -127,7 +127,7 @@ ENABLE_SHARED = @ENABLE_SHARED@
-+ LDSHARED = @LIBRUBY_LDSHARED@
-+ DLDSHARED = @DLDSHARED@
-+ XDLDFLAGS = @DLDFLAGS@
-+-DLDFLAGS = @LIBRUBY_DLDFLAGS@ $(XLDFLAGS) $(ARCH_FLAG)
-++DLDFLAGS = @LIBRUBY_DLDFLAGS@ @LDFLAGS@ $(XLDFLAGS) $(ARCH_FLAG)
-+ SOLIBS = @SOLIBS@
-+ ENABLE_DEBUG_ENV = @ENABLE_DEBUG_ENV@
-+ MAINLIBS = $(YJIT_LIBS) @MAINLIBS@
-diff --git a/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch b/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
-new file mode 100644
-index 0000000000..b0d9a2e0ed
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-out-f-prefix-map.patch
-@@ -0,0 +1,42 @@
-+Subject: [PATCH] template/Makefile.in: filter out -f*prefix-map
++  1. You may copy and distribute verbatim copies of the Program's
++source code as you receive it, in any medium, provided that you
++conspicuously and appropriately publish on each copy an appropriate
++copyright notice and disclaimer of warranty; keep intact all the
++notices that refer to this License and to the absence of any warranty;
++and give any other recipients of the Program a copy of this License
++along with the Program.
 +
-+If we add DEBUG_PREFIX_MAP into LDFLAGS, ruby and ruby-dbg are no longer
-+reproducible.  Fix this.
++You may charge a fee for the physical act of transferring a copy, and
++you may at your option offer warranty protection in exchange for a fee.
 +
-+Upstream-Status: Inappropriate [oe-core specific]
-+Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
-+---
-+--- a/tool/mjit_archflag.sh
-++++ b/tool/mjit_archflag.sh
-+@@ -7,6 +7,20 @@ quote() {
-+     echo
-+ }
++  2. You may modify your copy or copies of the Program or any portion
++of it, thus forming a work based on the Program, and copy and
++distribute such modifications or work under the terms of Section 1
++above, provided that you also meet all of these conditions:
 +
-++quote_filtered() {
-++    printf "#${indent}define $1"
-++    while shift && [ "$#" -gt 0 ]; do
-++	case "$1" in
-++	    -ffile-prefix-map=*|-fdebug-prefix-map=*|-fmacro-prefix-map=*)
-++		;;
-++	    *)
-++		printf ' "%s"'$sep "$1"
-++		;;
-++	esac
-++    done
-++    echo
-++}
-++
-+ archs=""
-+ arch_flag=""
++    a) You must cause the modified files to carry prominent notices
++    stating that you changed the files and the date of any change.
 +
-+--- a/template/Makefile.in
-++++ b/template/Makefile.in
-+@@ -666,7 +666,7 @@ mjit_config.h:
-+	quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
-+	quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
-+	quote "MJIT_LDSHARED   " ; \
-+-	quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-++	quote_filtered "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-+	quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
-+	quote 'PRELOADENV       "@PRELOADENV@"'; \
-+	indent=$${archs:+'  '}; \
-diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-index 0902a201ec..41f206523e 100644
---- a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch
-@@ -12,20 +12,20 @@ Upstream-Status: Backport [debian]
-  1 file changed, 3 insertions(+), 1 deletion(-)
++    b) You must cause any work that you distribute or publish, that in
++    whole or in part contains or is derived from the Program or any
++    part thereof, to be licensed as a whole at no charge to all third
++    parties under the terms of this License.
++
++    c) If the modified program normally reads commands interactively
++    when run, you must cause it, when started running for such
++    interactive use in the most ordinary way, to print or display an
++    announcement including an appropriate copyright notice and a
++    notice that there is no warranty (or else, saying that you provide
++    a warranty) and that users may redistribute the program under
++    these conditions, and telling the user how to view a copy of this
++    License.  (Exception: if the Program itself is interactive but
++    does not normally print such an announcement, your work based on
++    the Program is not required to print an announcement.)
++
++These requirements apply to the modified work as a whole.  If
++identifiable sections of that work are not derived from the Program,
++and can be reasonably considered independent and separate works in
++themselves, then this License, and its terms, do not apply to those
++sections when you distribute them as separate works.  But when you
++distribute the same sections as part of a whole which is a work based
++on the Program, the distribution of the whole must be on the terms of
++this License, whose permissions for other licensees extend to the
++entire whole, and thus to each and every part regardless of who wrote it.
++
++Thus, it is not the intent of this section to claim rights or contest
++your rights to work written entirely by you; rather, the intent is to
++exercise the right to control the distribution of derivative or
++collective works based on the Program.
++
++In addition, mere aggregation of another work not based on the Program
++with the Program (or with a work based on the Program) on a volume of
++a storage or distribution medium does not bring the other work under
++the scope of this License.
++
++  3. You may copy and distribute the Program (or a work based on it,
++under Section 2) in object code or executable form under the terms of
++Sections 1 and 2 above provided that you also do one of the following:
++
++    a) Accompany it with the complete corresponding machine-readable
++    source code, which must be distributed under the terms of Sections
++    1 and 2 above on a medium customarily used for software interchange; or,
++
++    b) Accompany it with a written offer, valid for at least three
++    years, to give any third party, for a charge no more than your
++    cost of physically performing source distribution, a complete
++    machine-readable copy of the corresponding source code, to be
++    distributed under the terms of Sections 1 and 2 above on a medium
++    customarily used for software interchange; or,
++
++    c) Accompany it with the information you received as to the offer
++    to distribute corresponding source code.  (This alternative is
++    allowed only for noncommercial distribution and only if you
++    received the program in object code or executable form with such
++    an offer, in accord with Subsection b above.)
++
++The source code for a work means the preferred form of the work for
++making modifications to it.  For an executable work, complete source
++code means all the source code for all modules it contains, plus any
++associated interface definition files, plus the scripts used to
++control compilation and installation of the executable.  However, as a
++special exception, the source code distributed need not include
++anything that is normally distributed (in either source or binary
++form) with the major components (compiler, kernel, and so on) of the
++operating system on which the executable runs, unless that component
++itself accompanies the executable.
++
++If distribution of executable or object code is made by offering
++access to copy from a designated place, then offering equivalent
++access to copy the source code from the same place counts as
++distribution of the source code, even though third parties are not
++compelled to copy the source along with the object code.
++
++  4. You may not copy, modify, sublicense, or distribute the Program
++except as expressly provided under this License.  Any attempt
++otherwise to copy, modify, sublicense or distribute the Program is
++void, and will automatically terminate your rights under this License.
++However, parties who have received copies, or rights, from you under
++this License will not have their licenses terminated so long as such
++parties remain in full compliance.
++
++  5. You are not required to accept this License, since you have not
++signed it.  However, nothing else grants you permission to modify or
++distribute the Program or its derivative works.  These actions are
++prohibited by law if you do not accept this License.  Therefore, by
++modifying or distributing the Program (or any work based on the
++Program), you indicate your acceptance of this License to do so, and
++all its terms and conditions for copying, distributing or modifying
++the Program or works based on it.
++
++  6. Each time you redistribute the Program (or any work based on the
++Program), the recipient automatically receives a license from the
++original licensor to copy, distribute or modify the Program subject to
++these terms and conditions.  You may not impose any further
++restrictions on the recipients' exercise of the rights granted herein.
++You are not responsible for enforcing compliance by third parties to
++this License.
++
++  7. If, as a consequence of a court judgment or allegation of patent
++infringement or for any other reason (not limited to patent issues),
++conditions are imposed on you (whether by court order, agreement or
++otherwise) that contradict the conditions of this License, they do not
++excuse you from the conditions of this License.  If you cannot
++distribute so as to satisfy simultaneously your obligations under this
++License and any other pertinent obligations, then as a consequence you
++may not distribute the Program at all.  For example, if a patent
++license would not permit royalty-free redistribution of the Program by
++all those who receive copies directly or indirectly through you, then
++the only way you could satisfy both it and this License would be to
++refrain entirely from distribution of the Program.
++
++If any portion of this section is held invalid or unenforceable under
++any particular circumstance, the balance of the section is intended to
++apply and the section as a whole is intended to apply in other
++circumstances.
++
++It is not the purpose of this section to induce you to infringe any
++patents or other property right claims or to contest validity of any
++such claims; this section has the sole purpose of protecting the
++integrity of the free software distribution system, which is
++implemented by public license practices.  Many people have made
++generous contributions to the wide range of software distributed
++through that system in reliance on consistent application of that
++system; it is up to the author/donor to decide if he or she is willing
++to distribute software through any other system and a licensee cannot
++impose that choice.
++
++This section is intended to make thoroughly clear what is believed to
++be a consequence of the rest of this License.
++
++  8. If the distribution and/or use of the Program is restricted in
++certain countries either by patents or by copyrighted interfaces, the
++original copyright holder who places the Program under this License
++may add an explicit geographical distribution limitation excluding
++those countries, so that distribution is permitted only in or among
++countries not thus excluded.  In such case, this License incorporates
++the limitation as if written in the body of this License.
++
++  9. The Free Software Foundation may publish revised and/or new versions
++of the General Public License from time to time.  Such new versions will
++be similar in spirit to the present version, but may differ in detail to
++address new problems or concerns.
++
++Each version is given a distinguishing version number.  If the Program
++specifies a version number of this License which applies to it and "any
++later version", you have the option of following the terms and conditions
++either of that version or of any later version published by the Free
++Software Foundation.  If the Program does not specify a version number of
++this License, you may choose any version ever published by the Free Software
++Foundation.
++
++  10. If you wish to incorporate parts of the Program into other free
++programs whose distribution conditions are different, write to the author
++to ask for permission.  For software which is copyrighted by the Free
++Software Foundation, write to the Free Software Foundation; we sometimes
++make exceptions for this.  Our decision will be guided by the two goals
++of preserving the free status of all derivatives of our free software and
++of promoting the sharing and reuse of software generally.
++
++			    NO WARRANTY
++
++  11. BECAUSE THE PROGRAM IS LICENSED FREE OF CHARGE, THERE IS NO WARRANTY
++FOR THE PROGRAM, TO THE EXTENT PERMITTED BY APPLICABLE LAW.  EXCEPT WHEN
++OTHERWISE STATED IN WRITING THE COPYRIGHT HOLDERS AND/OR OTHER PARTIES
++PROVIDE THE PROGRAM "AS IS" WITHOUT WARRANTY OF ANY KIND, EITHER EXPRESSED
++OR IMPLIED, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF
++MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.  THE ENTIRE RISK AS
++TO THE QUALITY AND PERFORMANCE OF THE PROGRAM IS WITH YOU.  SHOULD THE
++PROGRAM PROVE DEFECTIVE, YOU ASSUME THE COST OF ALL NECESSARY SERVICING,
++REPAIR OR CORRECTION.
++
++  12. IN NO EVENT UNLESS REQUIRED BY APPLICABLE LAW OR AGREED TO IN WRITING
++WILL ANY COPYRIGHT HOLDER, OR ANY OTHER PARTY WHO MAY MODIFY AND/OR
++REDISTRIBUTE THE PROGRAM AS PERMITTED ABOVE, BE LIABLE TO YOU FOR DAMAGES,
++INCLUDING ANY GENERAL, SPECIAL, INCIDENTAL OR CONSEQUENTIAL DAMAGES ARISING
++OUT OF THE USE OR INABILITY TO USE THE PROGRAM (INCLUDING BUT NOT LIMITED
++TO LOSS OF DATA OR DATA BEING RENDERED INACCURATE OR LOSSES SUSTAINED BY
++YOU OR THIRD PARTIES OR A FAILURE OF THE PROGRAM TO OPERATE WITH ANY OTHER
++PROGRAMS), EVEN IF SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE
++POSSIBILITY OF SUCH DAMAGES.
++
++		     END OF TERMS AND CONDITIONS
++
++	    How to Apply These Terms to Your New Programs
++
++  If you develop a new program, and you want it to be of the greatest
++possible use to the public, the best way to achieve this is to make it
++free software which everyone can redistribute and change under these terms.
++
++  To do so, attach the following notices to the program.  It is safest
++to attach them to the start of each source file to most effectively
++convey the exclusion of warranty; and each file should have at least
++the "copyright" line and a pointer to where the full notice is found.
++
++    <one line to give the program's name and a brief idea of what it does.>
++    Copyright (C) <year>  <name of author>
++
++    This program is free software; you can redistribute it and/or modify
++    it under the terms of the GNU General Public License as published by
++    the Free Software Foundation; either version 2 of the License, or
++    (at your option) any later version.
++
++    This program is distributed in the hope that it will be useful,
++    but WITHOUT ANY WARRANTY; without even the implied warranty of
++    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++    GNU General Public License for more details.
++
++    You should have received a copy of the GNU General Public License
++    along with this program; if not, write to the Free Software
++    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
++
++
++Also add information on how to contact you by electronic and paper mail.
++
++If the program is interactive, make it output a short notice like this
++when it starts in an interactive mode:
++
++    Gnomovision version 69, Copyright (C) year name of author
++    Gnomovision comes with ABSOLUTELY NO WARRANTY; for details type `show w'.
++    This is free software, and you are welcome to redistribute it
++    under certain conditions; type `show c' for details.
++
++The hypothetical commands `show w' and `show c' should show the appropriate
++parts of the General Public License.  Of course, the commands you use may
++be called something other than `show w' and `show c'; they could even be
++mouse-clicks or menu items--whatever suits your program.
++
++You should also get your employer (if you work as a programmer) or your
++school, if any, to sign a "copyright disclaimer" for the program, if
++necessary.  Here is a sample; alter the names:
++
++  Yoyodyne, Inc., hereby disclaims all copyright interest in the program
++  `Gnomovision' (which makes passes at compilers) written by James Hacker.
++
++  <signature of Ty Coon>, 1 April 1989
++  Ty Coon, President of Vice
++
++This General Public License does not permit incorporating your program into
++proprietary programs.  If your program is a subroutine library, you may
++consider it more useful to permit linking proprietary applications with the
++library.  If this is what you want to do, use the GNU Library General
++Public License instead of this License.
++
++
++
++   NOTE! This copyright does *not* cover user programs that use kernel
++ services by normal system calls - this is merely considered normal use
++ of the kernel, and does *not* fall under the heading of "derived work".
++ Also note that the GPL below is copyrighted by the Free Software
++ Foundation, but the instance of code that it refers to (the Linux
++ kernel) is copyrighted by me and others who actually wrote it.
++
++ Also note that the only valid version of the GPL as far as the kernel
++ is concerned is _this_ particular version of the license (ie v2, not
++ v2.2 or v3.x or whatever), unless explicitly otherwise stated.
++
++			Linus Torvalds
++
+diff --git a/meta/recipes-kernel/linux/linux-yocto.inc b/meta/recipes-kernel/linux/linux-yocto.inc
+index 0132fcffb3..1765974666 100644
+--- a/meta/recipes-kernel/linux/linux-yocto.inc
++++ b/meta/recipes-kernel/linux/linux-yocto.inc
+@@ -1,6 +1,6 @@
+ SUMMARY = "Linux kernel"
+ SECTION = "kernel"
+-LICENSE = "GPL-2.0-only"
++LICENSE = "GPL-2.0-with-Linux-syscall-note"
+ HOMEPAGE = "https://www.yoctoproject.org/"
  
- diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.rb
--index d6eac7f..4b2e95e 100644
-+index 0d72cee..eb7bc25 100644
- --- a/lib/rubygems/specification.rb
- +++ b/lib/rubygems/specification.rb
--@@ -1707,7 +1707,9 @@ class Gem::Specification < Gem::BasicSpecification
--                 raise(Gem::InvalidSpecificationException,
--                       "invalid date format in specification: #{date.inspect}")
--               end
---            when Time, DateLike then
--+            when Time then
--+              Time.utc(date.utc.year, date.utc.month, date.utc.day)
--+            when DateLike then
--               Time.utc(date.year, date.month, date.day)
--             else
--               TODAY
-+@@ -1691,7 +1691,9 @@ class Gem::Specification < Gem::BasicSpecification
-+         raise(Gem::InvalidSpecificationException,
-+               "invalid date format in specification: #{date.inspect}")
-+       end
-+-    when Time, DateLike then
-++    when Time then
-++      Time.utc(date.utc.year, date.utc.month, date.utc.day)
-++    when DateLike then
-+       Time.utc(date.year, date.month, date.day)
-+     else
-+       TODAY
- -- 
--2.40.0
-+2.25.1
- 
-diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-index d32e209129..0a87cae17f 100644
---- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-+++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.patch
-@@ -7,6 +7,7 @@ Without an explicit date, they will get the current date and make the
- build unreproducible
- 
- Upstream-Status: Backport [debian]
-+
- ---
-  ext/bigdecimal/bigdecimal.gemspec | 1 +
-  ext/fiddle/fiddle.gemspec         | 1 +
-@@ -16,12 +17,12 @@ Upstream-Status: Backport [debian]
-  5 files changed, 5 insertions(+)
- 
- diff --git a/ext/bigdecimal/bigdecimal.gemspec b/ext/bigdecimal/bigdecimal.gemspec
--index f9f3b45..b9a469d 100644
-+index d215757..5148d56 100644
- --- a/ext/bigdecimal/bigdecimal.gemspec
- +++ b/ext/bigdecimal/bigdecimal.gemspec
--@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
--   s.name          = name
--   s.version       = source_version
-+@@ -4,6 +4,7 @@ Gem::Specification.new do |s|
-+   s.name          = "bigdecimal"
-+   s.version       = "3.1.3"
-    s.authors       = ["Kenta Murata", "Zachary Scott", "Shigeo Kobayashi"]
- +  s.date          = RUBY_RELEASE_DATE
-    s.email         = ["mrkn@mrkn.jp"]
-@@ -40,10 +41,10 @@ index 8781093..efdca32 100644
-    spec.email         = ["aaron@tenderlovemaking.com", "hsbt@ruby-lang.org"]
-  
- diff --git a/ext/io/console/io-console.gemspec b/ext/io/console/io-console.gemspec
--index d4f5276..8f89611 100644
-+index d26a757..cc88c55 100644
- --- a/ext/io/console/io-console.gemspec
- +++ b/ext/io/console/io-console.gemspec
--@@ -4,6 +4,7 @@ _VERSION = "0.7.1"
-+@@ -4,6 +4,7 @@ _VERSION = "0.6.0"
-  Gem::Specification.new do |s|
-    s.name = "io-console"
-    s.version = _VERSION
-@@ -64,7 +65,7 @@ index 1f4798e..48743cf 100644
-    spec.email         = ["knu@idaemons.org", "ume@mahoroba.org"]
-  
- diff --git a/lib/rdoc/rdoc.gemspec b/lib/rdoc/rdoc.gemspec
--index 93a281c..cc5c155 100644
-+index 3c96f7d..fec0872 100644
- --- a/lib/rdoc/rdoc.gemspec
- +++ b/lib/rdoc/rdoc.gemspec
- @@ -7,6 +7,7 @@ end
-@@ -75,6 +76,3 @@ index 93a281c..cc5c155 100644
-    s.version = RDoc::VERSION
-  
-    s.authors = [
---- 
--2.40.0
--
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
-new file mode 100644
-index 0000000000..0b1eb23801
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
-@@ -0,0 +1,55 @@
-+From 2ebb50d2dc302917a6f57c1239dc9e700dfe0e34 Mon Sep 17 00:00:00 2001
-+From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-+Date: Thu, 27 Jul 2023 15:53:01 +0800
-+Subject: [PATCH] Fix quadratic backtracking on invalid relative URI
-+
-+https://hackerone.com/reports/1958260
-+
-+CVE: CVE-2023-36617
-+
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/9010ee2536adda10a0555ae1ed6fe2f5808e6bf1]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ lib/uri/rfc2396_parser.rb |  4 ++--
-+ test/uri/test_parser.rb   | 12 ++++++++++++
-+ 2 files changed, 14 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/uri/rfc2396_parser.rb b/lib/uri/rfc2396_parser.rb
-+index 76a8f99..00c66cf 100644
-+--- a/lib/uri/rfc2396_parser.rb
-++++ b/lib/uri/rfc2396_parser.rb
-+@@ -497,8 +497,8 @@ module URI
-+       ret = {}
-+
-+       # for URI::split
-+-      ret[:ABS_URI] = Regexp.new('\A\s*' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
-+-      ret[:REL_URI] = Regexp.new('\A\s*' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
-++      ret[:ABS_URI] = Regexp.new('\A\s*+' + pattern[:X_ABS_URI] + '\s*\z', Regexp::EXTENDED)
-++      ret[:REL_URI] = Regexp.new('\A\s*+' + pattern[:X_REL_URI] + '\s*\z', Regexp::EXTENDED)
-+
-+       # for URI::extract
-+       ret[:URI_REF]     = Regexp.new(pattern[:URI_REF])
-+diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-+index 72fb590..721e05e 100644
-+--- a/test/uri/test_parser.rb
-++++ b/test/uri/test_parser.rb
-+@@ -79,4 +79,16 @@ class URI::TestParser < Test::Unit::TestCase
-+     assert_equal([nil, nil, "example.com", nil, nil, "", nil, nil, nil], URI.split("//example.com"))
-+     assert_equal([nil, nil, "[0::0]", nil, nil, "", nil, nil, nil], URI.split("//[0::0]"))
-+   end
-++
-++  def test_rfc2822_parse_relative_uri
-++    pre = ->(length) {
-++      " " * length + "\0"
-++    }
-++    parser = URI::RFC2396_Parser.new
-++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |uri|
-++      assert_raise(URI::InvalidURIError) do
-++        parser.split(uri)
-++      end
-++    end
-++  end
-+ end
-+--
-+2.25.1
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-new file mode 100644
-index 0000000000..0ee295210e
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-@@ -0,0 +1,51 @@
-+From eea5868120509c245216c4b5c2d4b5db1c593d0e Mon Sep 17 00:00:00 2001
-+From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-+Date: Thu, 27 Jul 2023 16:16:30 +0800
-+Subject: [PATCH] Fix quadratic backtracking on invalid port number
-+
-+https://hackerone.com/reports/1958260
-+
-+CVE: CVE-2023-36617
-+
-+Upstream-Status: Backport [https://github.com/ruby/uri/commit/9d7bcef1e6ad23c9c6e4932f297fb737888144c8]
-+
-+Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-+---
-+ lib/uri/rfc3986_parser.rb |  2 +-
-+ test/uri/test_parser.rb   | 10 ++++++++++
-+ 2 files changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
-+index dd24a40..9b1663d 100644
-+--- a/lib/uri/rfc3986_parser.rb
-++++ b/lib/uri/rfc3986_parser.rb
-+@@ -100,7 +100,7 @@ module URI
-+         QUERY: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
-+         FRAGMENT: /\A(?:%\h\h|[!$&-.0-;=@-Z_a-z~\/?])*\z/,
-+         OPAQUE: /\A(?:[^\/].*)?\z/,
-+-        PORT: /\A[\x09\x0a\x0c\x0d ]*\d*[\x09\x0a\x0c\x0d ]*\z/,
-++        PORT: /\A[\x09\x0a\x0c\x0d ]*+\d*[\x09\x0a\x0c\x0d ]*\z/,
-+       }
-+     end
-+
-+diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-+index 721e05e..cee0acb 100644
-+--- a/test/uri/test_parser.rb
-++++ b/test/uri/test_parser.rb
-+@@ -91,4 +91,14 @@ class URI::TestParser < Test::Unit::TestCase
-+       end
-+     end
-+   end
-++
-++  def test_rfc3986_port_check
-++    pre = ->(length) {"\t" * length + "a"}
-++    uri = URI.parse("http://my.example.com")
-++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |port|
-++      assert_raise(URI::InvalidComponentError) do
-++        uri.port = port
-++      end
-++    end
-++  end
-+ end
-+--
-+2.25.1
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
-new file mode 100644
-index 0000000000..ab8e3f7c4c
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
-@@ -0,0 +1,96 @@
-+From da7a0c7553ef7250ca665a3fecdc01dbaacbb43d Mon Sep 17 00:00:00 2001
-+From: Nobuyoshi Nakada <nobu@...>
-+Date: Mon, 15 Apr 2024 11:40:00 +0000
-+Subject: [PATCH] Filter marshaled objets
-+
-+CVE: CVE-2024-27281
-+Upstream-Status: Backport [https://github.com/ruby/rdoc/commit/da7a0c7553ef7250ca665a3fecdc01dbaacbb43d]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/rdoc/store.rb | 45 ++++++++++++++++++++++++++-------------------
-+ 1 file changed, 26 insertions(+), 19 deletions(-)
-+
-+diff --git a/lib/rdoc/store.rb b/lib/rdoc/store.rb
-+index 9fc540d..5b663d7 100644
-+--- a/lib/rdoc/store.rb
-++++ b/lib/rdoc/store.rb
-+@@ -556,9 +556,7 @@ class RDoc::Store
-+   def load_cache
-+     #orig_enc = @encoding
-+
-+-    File.open cache_path, 'rb' do |io|
-+-      @cache = Marshal.load io
-+-    end
-++    @cache = marshal_load(cache_path)
-+
-+     load_enc = @cache[:encoding]
-+
-+@@ -615,9 +613,7 @@ class RDoc::Store
-+   def load_class_data klass_name
-+     file = class_file klass_name
-+
-+-    File.open file, 'rb' do |io|
-+-      Marshal.load io
-+-    end
-++    marshal_load(file)
-+   rescue Errno::ENOENT => e
-+     error = MissingFileError.new(self, file, klass_name)
-+     error.set_backtrace e.backtrace
-+@@ -630,14 +626,10 @@ class RDoc::Store
-+   def load_method klass_name, method_name
-+     file = method_file klass_name, method_name
-+
-+-    File.open file, 'rb' do |io|
-+-      obj = Marshal.load io
-+-      obj.store = self
-+-      obj.parent =
-+-        find_class_or_module(klass_name) || load_class(klass_name) unless
-+-          obj.parent
-+-      obj
-+-    end
-++    obj = marshal_load(file)
-++    obj.store = self
-++    obj.parent ||= find_class_or_module(klass_name) || load_class(klass_name)
-++    obj
-+   rescue Errno::ENOENT => e
-+     error = MissingFileError.new(self, file, klass_name + method_name)
-+     error.set_backtrace e.backtrace
-+@@ -650,11 +642,9 @@ class RDoc::Store
-+   def load_page page_name
-+     file = page_file page_name
-+
-+-    File.open file, 'rb' do |io|
-+-      obj = Marshal.load io
-+-      obj.store = self
-+-      obj
-+-    end
-++    obj = marshal_load(file)
-++    obj.store = self
-++    obj
-+   rescue Errno::ENOENT => e
-+     error = MissingFileError.new(self, file, page_name)
-+     error.set_backtrace e.backtrace
-+@@ -976,4 +966,21 @@ class RDoc::Store
-+     @unique_modules
-+   end
-+
-++  private
-++  def marshal_load(file)
-++    File.open(file, 'rb') {|io| Marshal.load(io, MarshalFilter)}
-++  end
-++
-++  MarshalFilter = proc do |obj|
-++    case obj
-++    when true, false, nil, Array, Class, Encoding, Hash, Integer, String, Symbol, RDoc::Text
-++    else
-++      unless obj.class.name.start_with("RDoc::")
-++        raise TypeError, "not permitted class: #{obj.class.name}"
-++      end
-++    end
-++    obj
-++  end
-++  private_constant :MarshalFilter
-++
-+ end
-+--
-+2.25.1
-diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch b/meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
-new file mode 100644
-index 0000000000..0740ad81e9
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
-@@ -0,0 +1,27 @@
-+From 989a2355808a63fc45367785c82ffd46d18c900a Mon Sep 17 00:00:00 2001
-+From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-+Date: Fri, 12 Apr 2024 15:01:47 +1000
-+Subject: [PATCH] Fix Use-After-Free issue for Regexp
-+
-+Co-authored-by: Isaac Peka <7493006+isaac-peka@users.noreply.github.com>
-+
-+Upstream-Status: Backport [https://github.com/ruby/ruby/commit/989a2355808a63fc45367785c82ffd46d18c900a]
-+CVE: CVE-2024-27282
-+Signed-off-by: Ashish Sharma <asharma@mvista.com>
-+
-+ regexec.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/regexec.c b/regexec.c
-+index 73694ab14a0b0a..140691ad42489f 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -3449,8 +3449,8 @@ match_at(regex_t* reg, const UChar* str, const UChar* end,
-+     CASE(OP_MEMORY_END_PUSH_REC)  MOP_IN(OP_MEMORY_END_PUSH_REC);
-+       GET_MEMNUM_INC(mem, p);
-+       STACK_GET_MEM_START(mem, stkp); /* should be before push mem-end. */
-+-      STACK_PUSH_MEM_END(mem, s);
-+       mem_start_stk[mem] = GET_STACK_INDEX(stkp);
-++      STACK_PUSH_MEM_END(mem, s);
-+       MOP_OUT;
-+       JUMP;
-diff --git a/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch b/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
-new file mode 100644
-index 0000000000..1808a6384a
---- /dev/null
-+++ b/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
-@@ -0,0 +1,35 @@
-+From e74b57febec9bd806e29025e6eeb8091e7021d75 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sun, 26 Jan 2020 11:27:40 -0800
-+Subject: [PATCH] Filter out __has_include* compiler defines
-+
-+They are internal to compiler and this header is later on includes in C
-+files, but newer gcc >= 10 complains about it.
-+
-+error in initial header file:
-+| In file included from /tmp/20200124-86625-14hiju4.c:1:
-+| /tmp/20200124-86625-11y6l6i.h:13849:9: error: "__has_include" cannot be used as a macro name
-+| 13849 | #define __has_include __has_include
-+|       |         ^~~~~~~~~~~~~
-+| compilation terminated due to -Wfatal-errors.
-+
-+Upstream-Status: Pending
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+
-+---
-+ common.mk | 2 ++
-+ 1 file changed, 2 insertions(+)
-+
-+diff --git a/common.mk b/common.mk
-+index 664f750..3b8fbe6 100644
-+--- a/common.mk
-++++ b/common.mk
-+@@ -238,6 +238,8 @@ $(TIMESTAMPDIR)/$(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).time: probes.h vm.$(OBJE
-+	$(ECHO) building $(@F:.time=.h)
-+	$(Q)$(MINIRUBY) $(tooldir)/mjit_tabs.rb "$(MJIT_TABS)" \
-+		$(CPP) -DMJIT_HEADER $(MJIT_HEADER_FLAGS) $(CFLAGS) $(XCFLAGS) $(CPPFLAGS) $(srcdir)/vm.c $(CPPOUTFLAG)$(@F:.time=.h).new
-++	$(Q)sed -i -e "/#define __has_include __has_include/d" $(@F:.time=.h).new
-++	$(Q)sed -i -e "/#define __has_include_next __has_include_next/d" $(@F:.time=.h).new
-+	$(Q) $(IFCHANGE) "--timestamp=$@" $(@F:.time=.h) $(@F:.time=.h).new
-+
-+ $(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).h: $(TIMESTAMPDIR)/$(MJIT_HEADER:.h=)$(MJIT_HEADER_SUFFIX).time
-diff --git a/meta/recipes-devtools/ruby/ruby_3.3.5.bb b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
-similarity index 88%
-rename from meta/recipes-devtools/ruby/ruby_3.3.5.bb
-rename to meta/recipes-devtools/ruby/ruby_3.2.2.bb
-index fb0d711765..508154dad5 100644
---- a/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-+++ b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
-@@ -10,7 +10,7 @@ LICENSE = "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2.0-only | ISC | MIT"
- LIC_FILES_CHKSUM = "file://COPYING;md5=5b8c87559868796979806100db3f3805 \
-                     file://BSDL;md5=8b50bc6de8f586dc66790ba11d064d75 \
-                     file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--                    file://LEGAL;md5=81e6a4d81533b9263da4c3485a0ad883 \
-+                    file://LEGAL;md5=bcd74b47bbaf2051c5e49811a5faa97a \
-                     "
- 
- DEPENDS = "zlib openssl libyaml gdbm readline libffi"
-@@ -20,12 +20,21 @@ DEPENDS:append:class-nativesdk = " ruby-native"
- SHRT_VER = "${@oe.utils.trim_version("${PV}", 2)}"
- SRC_URI = "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.tar.gz \
-            file://0001-extmk-fix-cross-compilation-of-external-gems.patch \
-+           file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
-+           file://remove_has_include_macros.patch \
-            file://run-ptest \
-+           file://0001-template-Makefile.in-do-not-write-host-cross-cc-item.patch \
-+           file://0002-template-Makefile.in-filter-out-f-prefix-map.patch \
-            file://0003-rdoc-build-reproducible-documentation.patch \
-            file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generated-M.patch \
-            file://0005-Mark-Gemspec-reproducible-change-fixing-784225-too.patch \
-            file://0006-Make-gemspecs-reproducible.patch \
-            file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv.patch \
-+           file://0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch \
-+           file://CVE-2023-36617_1.patch \
-+           file://CVE-2023-36617_2.patch \
-+           file://CVE-2024-27281.patch \
-+           file://CVE-2024-27282.patch \
-            "
- UPSTREAM_CHECK_URI = "https://www.ruby-lang.org/en/downloads/"
- 
-@@ -46,7 +55,7 @@ do_configure:prepend() {
- 
- DEPENDS:append:libc-musl = " libucontext"
- 
--SRC_URI[sha256sum] = "3781a3504222c2f26cb4b9eb9c1a12dbf4944d366ce24a9ff8cf99ecbce75196"
-+SRC_URI[sha256sum] = "96c57558871a6748de5bc9f274e93f4b5aad06cd8f37befa0e8d94e7b8a423bc"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
+ LIC_FILES_CHKSUM ?= "file://COPYING;md5=d7810fab7487fb0aad327b76f1be7cd7"
 -- 
-2.40.0
+2.45.2
+
+------E59C62C4934B6E5F8F470A803B73E8A5
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIPQAYJKoZIhvcNAQcCoIIPMTCCDy0CAQExDzANBglghkgBZQMEAgEFADALBgkq
+hkiG9w0BBwGgggxWMIIGUTCCBDmgAwIBAgICMAAwDQYJKoZIhvcNAQELBQAwgaMx
+ITAfBgNVBAMMGERpZWhsIEdyb3VwIE1haWwgUm9vdCBDQTELMAkGA1UEBhMCREUx
+EjAQBgNVBAcMCU51ZXJuYmVyZzEUMBIGA1UECgwLRGllaGwgR3JvdXAxFDASBgNV
+BAsMC0RpZWhsIEdyb3VwMQ8wDQYDVQQIDAZCYXllcm4xIDAeBgkqhkiG9w0BCQEW
+EXg1MDktY2FAZGllaGwuY29tMB4XDTE4MDUyOTEyMzIzNVoXDTI4MDUyNjEyMzIz
+NVowgZQxCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xFDASBgNVBAoMC0Rp
+ZWhsIEdyb3VwMRswGQYDVQQLDBJEaWVobCBNZXRlcmluZyBUS0gxHzAdBgNVBAMM
+FkRpZWhsIE1ldGVyaW5nIE1haWwgQ0ExIDAeBgkqhkiG9w0BCQEWEXg1MDktY2FA
+ZGllaGwuY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtISPrKPL
+Zjjh//2n9b+GXgrhijJV2knQVC0+/FS3zGl4p2fboB+Vr4YHz1uilEvhsS1oG4FV
+f1u0dqdmLVxDHBPMO2K1NKKOJN/6LDDfyiZGNqDOJke6FzrmDyPXXTDtgzWZfdnD
+esx63XSxprre30oJ3BxDFS+/8UpuI628SPc1N4125rHeUXG4scKFSjqRPcIOAQ2X
+veGXU2dYHzq7B02NA8tssmtJNwXjyvMjOw6HGZ8SB87TrFQm6drEtM7QhI/mfpGe
+nTZ4nc84n0yKuMveav8IOspYbkOXzi4JapiOUpmccNLZdIiMg5WJQ0Xt9NSp5yD5
+CYKideGrWgX2wNEBpalgjZoPPQDImcWEJx88/yYZ4FwtRD3VueFqpBr4z/bxwVDr
+N2a/sEqnocY9Tm2EQyHFHDCJ9JyYEXB8W0LTFcUAx+uHijwPk/oIB5EeH8UygXlX
+qUqII+BUZ+q5m5sIc4eXQ10UpUEjG/ptIyO1Ee/E0kPOWzHp07pPgXCZohZb3y41
+Ha2pO6rXOsOmPBK2r2++fLWz3NFyfEJCmn6FcBNi003HUEVCup1D9/9yaPHPSieN
+27sjQcQ96GbOitC99p3xMnSlg4N11lGeuTXCZjIGXdZL5/dThQaxneVA+hr2X+i1
+KmqnesMaSBEuBEBDmbDbakEgJFVWtVeXuk8CAwEAAaOBmzCBmDASBgNVHRMBAf8E
+CDAGAQH/AgEAMAsGA1UdDwQEAwIBBjAdBgNVHQ4EFgQUn8t6NGPzWsF+oZYXxmfn
+p4Ok7rIwHwYDVR0jBBgwFoAUZrrYQMMD50v/OCDMgDN7y/GT2P8wNQYDVR0fBC4w
+LDAqoCigJoYkaHR0cDovL2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMA0G
+CSqGSIb3DQEBCwUAA4ICAQAl6hO6b6+GseZi3EAU+zPVhxNZP5Y+YsBnjf13jCGw
+nUVvPz6giwXiCd9KIC4eCqqrJLTHwZe8c/9hSk5CCd6A5XAd3YudrPDvmIwms5Ex
+OREMQkygZO6/qxfXO6IhfUO4HvYQtQexzHOLuxG/KdycVwWapA4acFzBurxFQ3aG
+jvPRgvWxe2Mt3K9wLrEhvGrDmS8yg4bYNyBZGgax6LRhfW4/ShInVUa0koG2Sj+H
+hKpppvqDK4FNgR2dKeCPoo28P9a+K9N3wkLKx4zxaxHegij0DsJOBAVbhk+vDWDO
+gedjtT09c9bsykaXFzykyQeQz7cwrTQ1gDacdcDgywMDQzZKim9O3JpyzvXnD7mb
+CvclM3xp9w6jIJbeaQE7HDlA9YIL/bSRIQq8mJcXArUevLK2MX/Mb+5m3UMU+zXc
+ZqmaneeZeR4bOWrmmhK6bMuce6H+i2YB1vG3BAcSfKQUzZ1m6aKSW1FvjI3SZXQD
+FzRzBwC5ql7i2ugtfOLNYjOO/fvAxNppIZb3IyWN1KBAI7YgS4nx0us/NIlWpTMW
+91WeUtNBCp2sgi3VTi/TUel3RZ9x3tggMUhrksGkFXz2NUL85AdPV6BqJXXXHggd
+121rnduE9ocMt0MFLuDPkMaHqKNzBAcKTcmFM8KYMJ5Z7NBqGtTAgHNVmEnU8gu3
+czCCBf0wggPloAMCAQICAgtcMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYDVQQGEwJE
+RTEPMA0GA1UECAwGQmF5ZXJuMRQwEgYDVQQKDAtEaWVobCBHcm91cDEbMBkGA1UE
+CwwSRGllaGwgTWV0ZXJpbmcgVEtIMR8wHQYDVQQDDBZEaWVobCBNZXRlcmluZyBN
+YWlsIENBMSAwHgYJKoZIhvcNAQkBFhF4NTA5LWNhQGRpZWhsLmNvbTAeFw0yNDAx
+MDIwOTE5MzlaFw0yNjAxMDIwOTE5MzlaMIG8MSIwIAYDVQQDDBlkZW5pcy5vc3Rl
+cmxhbmRAZGllaGwuY29tMSgwJgYJKoZIhvcNAQkBFhlkZW5pcy5vc3RlcmxhbmRA
+ZGllaGwuY29tMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmF5ZXJuMRwwGgYDVQQK
+DBNEaWVobCBNZXRlcmluZyBUSy1IMRwwGgYDVQQLDBNEaWVobCBNZXRlcmluZyBU
+Sy1IMRIwEAYDVQQHDAlOdWVybmJlcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+ggEKAoIBAQDC4CfZJns8lrNXSkis30SmXgEPwIED4unjF8EoHzBRk5cQphMwuxVY
+uFrZmkB8+FJ7kNnazQ5ddAH+7uh/w7vxEbch92iEpJxYRT6z9U7Mgw0sqGjzWQjd
+sVzCSrWJrOdrHXc65BnAPOpjNDNe1dR8J9Z4a7OZU5NnQqJMT314j2gfGawGDakJ
+Vph7S6v4AVmty1Fi4iRbaIamu8KJFrHQb5E1UVD5drrxW6TS0z/3YkrMQ6qA1fBB
+Y271mRVq/1ByvJMgPJu7LtIyuGwGJw44RxF0JPLlqRWpsIa+z2cI48dkvwb8k0T1
+rNSIj9urOmUEJGF5O8LioUy0vwmxeWF7AgMBAAGjggEtMIIBKTAfBgNVHSMEGDAW
+gBSfy3o0Y/NawX6hlhfGZ+eng6TusjAJBgNVHRIEAjAAMCQGA1UdEQQdMBuBGWRl
+bmlzLm9zdGVybGFuZEBkaWVobC5jb20wNQYDVR0fBC4wLDAqoCigJoYkaHR0cDov
+L2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMDUGCCsGAQUFBwEBBCkwJzAl
+BggrBgEFBQcwAoYZaHR0cDovL3d3dy5kaWVobC5jb20vcGtpLzAJBgNVHRMEAjAA
+MB0GA1UdDgQWBBQK9y4jVYoCDsL7lhhJKjEP5wv1nTALBgNVHQ8EBAMCBaAwHQYD
+VR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBEGCWCGSAGG+EIBAQQEAwIFoDAN
+BgkqhkiG9w0BAQsFAAOCAgEAB27J8TZvm6g0rtQpv4kqYwzkXOkCt27WHHWzl/JZ
+knFwWH4mvlRSrQtKkx8cPb5xqqx7k4qXC7TAef4W5YmnpWDtw7YHQAygAsCV1+i8
+uBhdnBVRYkLi0Brsqb/KaDVCFDAYn82kr8OlDaVl5GazIF5rTTUFVT7QEUewf5e7
+Ej4tkepIMP8DW0mM9VRdiSd+DFQQQsQR91nJZS+Gd0jT2tW6SVtZEGnsdgKi9VOw
++/u7TPynQA3m70zel9t0RySfc5bfZGqEBK/nqU2g5n/qaHKT9cMM8vTAJOmzMv4W
+p7j6RF851h+6c4kH0UsUR9LdbXsKS0KsKTmjPbmbuMAWSEafskq5lJdhIybBnGcp
+FwOkXw6yLHhvmBQ27hVolbrAgLprlLBm8qLq0G3dPHlLwgnNlD6RAcjaVLOcqH3Q
+HWHbKlVg310S75cll1rM+GAudWdsHWxOUbK7R0lwJf/E+FAXciAsExWzCQarpSFI
+AYJjvnsYTiSWas6b5L/rKtyeWIz5wJ3ovxFaMglCtGNGh3sqKwVgb0PeGJ/hfXkV
+Z3i06A/GFOMDvvZ4kI2OL2wwUftkvi8ID5g2nbX/WQh9y6zhlXtiOlA1IplU+PU3
+OHrFL4SBW0X7j1l+9Jl9kGy/ukAr+9nWZ55nUoV/L9C1GLrAO5KF/fDpO2b7lidQ
+mWUxggKuMIICqgIBATCBmzCBlDELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJheWVy
+bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
+IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
+DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
+CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTIwMzEy
+MTg1NFowLwYJKoZIhvcNAQkEMSIEIF9oLQgxJGFQ5GksihwQ45vJlaUK3ProII9N
+y3e3T63+MHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
+FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
+SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
+BIIBAI1P2Hq52hq8UXepEPCzuzSvTXw7p+Er03kRH1xqNZTFVodIWV1jZ/DeAEa2
+GxWXdBTVl9Xqh7I2mwUsW39vhrpTp75H9LO8z37dmM7Rm0ZlavOi+EcpPQgLG67Z
+UtNTybNllImFunTWID0gEDW7FvLbBCdzXkgSL91RM6GnWRVEvbEm0CsMT/wMwB12
+uXy2n2HfgFDlNJ5a6WnXpmwTr409lfg25ikZW3df6vohmqFE9I8/tlV/n5CIJstm
+frCLnKzrF8Ki+gHh9MsENP17rjMKhDV0QXSz9cuYoUnWZ6+VVexUmG8mQd5Q922I
+At4wYIdzv0ePzgqdrXIsp7ySlSU=
+
+------E59C62C4934B6E5F8F470A803B73E8A5--
 
 
