@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0E26E7716D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0D46E7716B
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 06:50:01 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.web11.8163.1733294994185416138
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web11.8160.1733294992073031793
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 22:49:54 -0800
+ Tue, 03 Dec 2024 22:49:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=eOuFncRQ;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-385deda28b3so3109231f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 22:49:53 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Y/MTwyLp;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434a742481aso52671675e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 22:49:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733294992; x=1733899792; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1733294990; x=1733899790; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=98y6NtjSEHrpd1OBDNw40zsXQQ47ywIMdt1gxrMwNrQ=;
-        b=eOuFncRQcTkpMBSnIepHT64TsxvIpFrCDk5MJJ6aOWMq/a9rixHC5IhbKqSbpjSxn4
-         8muqAb3APcGxmTIFDV0qItURb85dY4a1+sZuXKwsvuFmd8qYJCnBvvfPX2YIE2wwW9a0
-         gScutTumnJMeyjHNMrjxLebVe62gLkW0AJ6MM66QuR2Y6yttupCQsQEHJc5lR+v8m+RL
-         F/YRf1VWFQ1dMXV0NN26e2IEg8Cz1zmEcl7k+sGmtvXa22aeKoY4/qajcTxRTS68TxEf
-         G/naOnJPW1ztl35+kbIHVBzQEckg9FO4uuw3tjQp3oldwxFgCUSrwRgOlmpteOISYON3
-         wsfA==
+        bh=CxxKRtT3Sedo7mdS2tDC0fArPE0B5X8cdYS7nqsLjQA=;
+        b=Y/MTwyLpRjucFhl+lOkeFr0XEi7A1JlkIE4I2CpstDMltbrVXMudKZapQl6vUpJdAu
+         kRaJQSeSROxKo+wBjhQC8Ij2zgROx9Xwj7A0liAbljrC56P9Vkf1VfgcZnYlDKk8JYFy
+         mHg/wmy7gxbUzBOWV8RuR4vc1wTxLlGMEOvNxv4tdrfaPttk/JI8TGnFfs5k8UoyfYSJ
+         FDEpDMet4NOhed7/dNAR9TOIN992y1z1mgaLb5AB9am/q4v8wdtw//4t28W8KUrFCQAD
+         jAErOHzHIpu5kEhfgaCroW9IRCclfX8fYlLFc+FQYZb/CYYM1s//R5tbvyt0cyyuSB1N
+         RI6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733294992; x=1733899792;
+        d=1e100.net; s=20230601; t=1733294990; x=1733899790;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=98y6NtjSEHrpd1OBDNw40zsXQQ47ywIMdt1gxrMwNrQ=;
-        b=FONgmSvcAIC4wvnCPLEGwEf9L03QJqcZh4rjfA7dqFzqngMPuCvOJQ7OQ5FKLaKJR5
-         YQESFoApdDKPQELb4uYVymVk9gqoGdmDUt0vde9mzPNF1pd1V8MWiSRXiPw8mIjuaVyY
-         xpvNGtKJ4Ce8B9P7lPf69SuyEbxTm0yW/UJoxXgGYvJGn0vSGX61KGlijckJHc52LHRa
-         L/H2j8qSAcWOpOADeO6UuN2Vl0FpcP0yAv4ZMaqQM6idNADIWcLGkT5rgc8yMpvZAZa1
-         w3QT6MpJ06GPrkVu08coW3FIh55YDcZY1tH4uRZQpO3jIQtmdew4KbRspRFnYqlgeSoi
-         0p8A==
-X-Gm-Message-State: AOJu0Yzoqpd9rZOvzETBfGMv0klP0bml9i2Oep/M9UCe1pmEAnvC09me
-	88ZQoa1P+w3vc+D75TQbPpucuPHCfRcbrLGKWuDdG+YUZuJFBaPT10IAig==
-X-Gm-Gg: ASbGncsn67Mdxp9LgPZMoAoMr4mEjr95cT6TeUf+r6YoQj39IQAf6lShmYxnx2yL2lP
-	R3kghCJdmf77wg7AiboqgTQ/FDePoaYjAtQSkrMGqu1V6rp97MQLiKdZKCi2LEPKhGjaiWeDaMT
-	8UCYvkRgj5hHnUAsjgTf+ifISo8/DZX4sms0d6RUQe7y33/Bd8NlYUqYP+d5TDmcAdbGjQJqyfu
-	KQ8o78zNAtFHCavmqFrHVwupKPpopj42m6XV/yA/73mXFn6BOKWBdy3YuMOiQKQ0JZmRweR8B2a
-	Qo/aEUnoFqk=
-X-Google-Smtp-Source: AGHT+IGERSfwDe56aZ8Mi2t9+LSf1MFn1++7VRUWJ0E30V14vG0v9g0gT8MV5f1JwwszGL3UOWAc8A==
-X-Received: by 2002:a05:6000:2aa:b0:385:f349:fffb with SMTP id ffacd0b85a97d-385fd42a35fmr4242206f8f.45.1733294992549;
-        Tue, 03 Dec 2024 22:49:52 -0800 (PST)
+        bh=CxxKRtT3Sedo7mdS2tDC0fArPE0B5X8cdYS7nqsLjQA=;
+        b=uOveRB8pfUGBr4RvKNuCKzKi73Nmb9P3AT/ZzAeFEqHLtVUztX9tYpg/0EtmLcpjhG
+         1lZyyBv8ryIqeh8Uo7RS43RYaVtAAWNInnThFVx8SpfIxTSydYgVwu1C+jKkFjBZvt0F
+         YMK/abjfQS7fSN682YyBP4BNKXsBu2nRAUuuVRE3dAh48WNi9pjX2rTXw6JA+8GM0R9k
+         KK2GSt0t7GFa84ZmA3U3dicfwhz8zoqVc5GnF7f9o+nyORCKCNsc/qXZ1FEnItARwity
+         nKqLL4GjGKiFi1wP1BCw6X/INr3Q3seVLyCxV4CIt8yUsOhFyydpjS23i+0vOeOv3AIy
+         St+Q==
+X-Gm-Message-State: AOJu0YyKt1XZKfU390WNAp2pwTM5WPySTKInc4w5LRG4+3E1GVDQ7THz
+	Qz/mqdDBE5GBPYOqhSpyuYUD0BFu8KXJ0c5qtNirVVOUdDfhO15QRGv4qw==
+X-Gm-Gg: ASbGncuXtSR5D6Ymp65pH8TCCVTPEhNm+SLmZCnjmIzfC0b1GwPiguEmzPSJmhVjkHR
+	hpWTAavt5R381jTbKR3+3OxwKNwAlylFHjkuX23kbIsZEFjvNLg//q4lqw6OxclrKBy7ve9EWMm
+	xqU1TrrjjwzRzXvB1jTRvlo9QeRuOF1nVWtCiLBpx/d86PMhTu+e7eKOiAPQXGxhQCeEqGJ2L3x
+	da2jwpxR2605pCfdZPtXBFpsmzYSvDHIcNX85JTCdmmJoJFW5XsVj64w6atOZ0LHVFptyuL1gS2
+	p48eZGC7efE=
+X-Google-Smtp-Source: AGHT+IFNP+sUtKE5nN8511kBi3WBbnufQO8lbnnitr83mVmfOmYXybG22qln6+UEIBuiVhK80NXICQ==
+X-Received: by 2002:a05:6000:2c6:b0:385:f6c7:90c6 with SMTP id ffacd0b85a97d-385fd3f9082mr4607483f8f.20.1733294990429;
+        Tue, 03 Dec 2024 22:49:50 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f343f293sm7435757f8f.36.2024.12.03.22.49.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f343f293sm7435757f8f.36.2024.12.03.22.49.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 22:49:52 -0800 (PST)
+        Tue, 03 Dec 2024 22:49:50 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 23/37] utfcpp: update 4.0.5 -> 4.0.6
-Date: Wed,  4 Dec 2024 07:49:06 +0100
-Message-Id: <20241204064920.817016-23-alex.kanavin@gmail.com>
+Subject: [PATCH 20/37] btrfs-tools: update 6.10.1 -> 6.11
+Date: Wed,  4 Dec 2024 07:49:03 +0100
+Message-Id: <20241204064920.817016-20-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241204064920.817016-1-alex.kanavin@gmail.com>
 References: <20241204064920.817016-1-alex.kanavin@gmail.com>
@@ -66,32 +66,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 06:50:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208251
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208249
 
 From: Alexander Kanavin <alex@linutronix.de>
 
+Use github, as kernel.org has the needed tag, but not the branch it's on.
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../recipes-support/utfcpp/{utfcpp_4.0.5.bb => utfcpp_4.0.6.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/utfcpp/{utfcpp_4.0.5.bb => utfcpp_4.0.6.bb} (89%)
+ ...Add-a-possibility-to-specify-where-python-modules-ar.patch | 2 +-
+ .../{btrfs-tools_6.10.1.bb => btrfs-tools_6.11.bb}            | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/btrfs-tools/{btrfs-tools_6.10.1.bb => btrfs-tools_6.11.bb} (94%)
 
-diff --git a/meta/recipes-support/utfcpp/utfcpp_4.0.5.bb b/meta/recipes-support/utfcpp/utfcpp_4.0.6.bb
-similarity index 89%
-rename from meta/recipes-support/utfcpp/utfcpp_4.0.5.bb
-rename to meta/recipes-support/utfcpp/utfcpp_4.0.6.bb
-index 5ac6fd369ae..21f1879c4fb 100644
---- a/meta/recipes-support/utfcpp/utfcpp_4.0.5.bb
-+++ b/meta/recipes-support/utfcpp/utfcpp_4.0.6.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=e4224ccaecb14d942c71d31bef20d78c \
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+index fbd1b05a7fa..59ea5a66dac 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools/0001-Add-a-possibility-to-specify-where-python-modules-ar.patch
+@@ -1,4 +1,4 @@
+-From cb7f8a6c3538ee3086d15c4d2c9f2a2f4f38db3b Mon Sep 17 00:00:00 2001
++From 76e635a56c5973671da3a8a2fd4fc32e823bf8c9 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 23 May 2018 21:20:35 +0300
+ Subject: [PATCH] Add a possibility to specify where python modules are
+diff --git a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.1.bb b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.11.bb
+similarity index 94%
+rename from meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.1.bb
+rename to meta/recipes-devtools/btrfs-tools/btrfs-tools_6.11.bb
+index f37272d7ab9..fa0599d28d7 100644
+--- a/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.10.1.bb
++++ b/meta/recipes-devtools/btrfs-tools/btrfs-tools_6.11.bb
+@@ -15,10 +15,10 @@ LIC_FILES_CHKSUM = " \
+ SECTION = "base"
+ DEPENDS = "util-linux zlib"
  
- SRC_URI = "gitsm://github.com/nemtrif/utfcpp;protocol=https;branch=master"
- 
--SRCREV = "6be08bbea14ffa0a5c594257fb6285a054395cd7"
-+SRCREV = "b26a5f718f4f370af1852a0d5c6ae8fa031ba7d0"
- 
+-SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/kdave/btrfs-progs.git;branch=master;protocol=https \
++SRC_URI = "git://github.com/kdave/btrfs-progs.git;branch=master;protocol=https \
+            file://0001-Add-a-possibility-to-specify-where-python-modules-ar.patch \
+            "
+-SRCREV = "a00c2b25474b5306ef29a790adb5fd5afbaba9a2"
++SRCREV = "8859114eaee39c117ff95f5b60b4e81fc22f96e7"
  S = "${WORKDIR}/git"
  
+ PACKAGECONFIG ??= " \
 -- 
 2.39.5
 
