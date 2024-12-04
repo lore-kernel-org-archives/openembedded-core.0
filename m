@@ -1,78 +1,82 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E0E0E7716D
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 10:55:23 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
- by mx.groups.io with SMTP id smtpd.web10.11251.1733309712303319021
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E43E7716B
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 11:35:33 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.web11.11872.1733312132889687476
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 02:55:12 -0800
+ Wed, 04 Dec 2024 03:35:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=WJkF9V65;
- spf=pass (domain: bootlin.com, ip: 217.70.183.197, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2C0B01C0004;
-	Wed,  4 Dec 2024 10:55:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733309710;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VPWT8HqOKk8BX+2C8XiZphgnlBV2i+udv0B60IO/h20=;
-	b=WJkF9V65tvB7XJPim6ZfCpr1wG+nPFpi9veOJA12L2xKaMzn52aSJtL40qLlRh/RJW5Lvq
-	8t8GXDse+Jy/jZBtKIBq/29qT4QPpI9d6PT0g21SmmLJQZqXzbxR1jvDz4ZLyUAkaPAKTZ
-	leUKNrcKUqIu4IcurLKd6p9m9BzkmAH0N5TkDE//RjbfPxo0Twj9FbqSyruvPfaLRevV+6
-	5A1Bc5Stg4QRReyoBxLdrKxVX3jT1PuT6s7m1qgvB24LWkL2/fgGk2778ug6Fgs1VBckVm
-	rZzWbhrhVXJwX0r5H9JjBQDYjjgIDFI6Za5PTpr8dJBWtk1Uza1O04w6UPW6pg==
-Date: Wed, 4 Dec 2024 11:55:09 +0100
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-To: alex.kanavin@gmail.com
-Cc: openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-Subject: Re: [OE-core] [PATCH 35/37] librsvg: update 2.58.2 -> 2.59.2
-Message-ID: <Z1A1DRlmtB8eR7bk@bootlin-mathieu>
-Mail-Followup-To: alex.kanavin@gmail.com,
-	openembedded-core@lists.openembedded.org,
-	Alexander Kanavin <alex@linutronix.de>
-References: <20241204064920.817016-1-alex.kanavin@gmail.com>
- <20241204064920.817016-35-alex.kanavin@gmail.com>
+ dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2091FEC
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Dec 2024 03:35:59 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 95FE63F71E
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Dec 2024 03:35:31 -0800 (PST)
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/2] classes/utility-tasks: port do_listtasks to use bb.build.listtasks
+Date: Wed,  4 Dec 2024 11:35:24 +0000
+Message-Id: <20241204113525.1311910-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20241204064920.817016-35-alex.kanavin@gmail.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 10:55:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208276
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 11:35:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208277
 
-On Wed, Dec 04, 2024 at 07:49:18AM +0100, Alexander Kanavin via lists.openembedded.org wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
-> 
-> Upstream has moved from autotools to meson, which requires a substantial
-> amount of tweaks to the recipe.
-> 
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Instead of iterating every datastore value by hand to find tasks, use
+the new bb.build.listtasks() function (bitbake 185c4b)
 
-Hi Alexander,
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ meta/classes-global/utility-tasks.bbclass | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-I believe this rsvg update is breaking builds on the autobuilder,
-because of a failed patch apply:
+diff --git a/meta/classes-global/utility-tasks.bbclass b/meta/classes-glo=
+bal/utility-tasks.bbclass
+index ae2da330b86..394cc3158d5 100644
+--- a/meta/classes-global/utility-tasks.bbclass
++++ b/meta/classes-global/utility-tasks.bbclass
+@@ -9,18 +9,17 @@ do_listtasks[nostamp] =3D "1"
+ python do_listtasks() {
+     taskdescs =3D {}
+     maxlen =3D 0
+-    for e in d.keys():
+-        if d.getVarFlag(e, 'task'):
+-            maxlen =3D max(maxlen, len(e))
+-            if e.endswith('_setscene'):
+-                desc =3D "%s (setscene version)" % (d.getVarFlag(e[:-9],=
+ 'doc') or '')
+-            else:
+-                desc =3D d.getVarFlag(e, 'doc') or ''
+-            taskdescs[e] =3D desc
+-
+-    tasks =3D sorted(taskdescs.keys())
+-    for taskname in tasks:
+-        bb.plain("%s  %s" % (taskname.ljust(maxlen), taskdescs[taskname]=
+))
++    for t in bb.build.listtasks(d):
++        maxlen =3D max(maxlen, len(t))
++
++        if t.endswith('_setscene'):
++            desc =3D "%s (setscene version)" % (d.getVarFlag(t[:-9], 'do=
+c') or '')
++        else:
++            desc =3D d.getVarFlag(t, 'doc') or ''
++        taskdescs[t] =3D desc
++
++    for task, doc in sorted(taskdescs.items()):
++        bb.plain("%s  %s" % (task.ljust(maxlen), doc))
+ }
+=20
+ CLEANFUNCS ?=3D ""
+--=20
+2.34.1
 
-ERROR: librsvg-2.59.2-r0 do_patch: Applying patch '0001-gdk-pixbuf-loader-meson.build-do-not-look-for-gdk-pi.patch' on target directory '/srv/pokybuild/yocto-worker/genericarm64/build/build/tmp/work/armv8a-poky-linux/librsvg/2.59.2/librsvg-2.59.2'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/genericarm64/build/build/tmp/work/armv8a-poky-linux/librsvg/2.59.2/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: Applying patch 0001-gdk-pixbuf-loader-meson.build-do-not-look-for-gdk-pi.patch
-patching file gdk-pixbuf-loader/meson.build
-Hunk #1 FAILED at 36 (different line endings).
-1 out of 1 hunk FAILED -- rejects in file gdk-pixbuf-loader/meson.build
-Patch 0001-gdk-pixbuf-loader-meson.build-do-not-look-for-gdk-pi.patch does not apply (enforce with -f)
-
-https://valkyrie.yoctoproject.org/#/builders/60/builds/584/steps/11/logs/stdio
-
-Can you have a look at this issue, please ?
-
--- 
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
 
