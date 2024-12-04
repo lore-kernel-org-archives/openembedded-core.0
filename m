@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9AC9E77175
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:55:15 +0000 (UTC)
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
- by mx.groups.io with SMTP id smtpd.web11.21218.1733334908351074306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B28D1E77170
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:55:25 +0000 (UTC)
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+ by mx.groups.io with SMTP id smtpd.web10.21475.1733334918760765046
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:55:08 -0800
+ Wed, 04 Dec 2024 09:55:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NMhN0EYb;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7fc8f0598cdso966551a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:08 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=iOgX5V4A;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.180, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-724f383c5bfso80678b3a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334908; x=1733939708; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334918; x=1733939718; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FqCFXr63BV/To2djs8Pkrk4glJPRCZ8K3tC2riG44o4=;
-        b=NMhN0EYbE62A4DKKmeFdFqdI8E4eieBTPVPKqJAri50p9VQ2o0WVg1Z0B8HwNxrRE/
-         LmOxLlRq4I7nIFqrr9p3MAN0NFRRTSNWPjLBkS2Ev7PPiam+U9Z6HXUNnTV6RwFnW4Ay
-         kZIw3uKDeemC/zZtfoC78JP+ZQxxbTB0AvIsrTSPxEWYRdT5qbwNxkgKuCioX6H6qAEr
-         +F7GvhlBxe8AOh2vyKmtzfFBKGkZIN4yq6KrIuFWN8taKB1q+J3Ueq345T1pdTb6TFTv
-         mjp+zJvY0sqldQ7dnAKyeY8L9Kj2rQy9dYcaCs/zQ3BPvm99dpsZ4lmgaZkWEJmcVlU0
-         qhGw==
+        bh=XfzWDQuldLBRV/426rQRCXomSc0p8wOJ3mkhF9+GmKM=;
+        b=iOgX5V4AL3Geo6mfbqGWRV3TF+kODrtAUbeC/JyxGv0A1UmWdIue9z6egXkmf+sQt8
+         mfJ28JTPhuEQ+vosCwUHusBJLzs6YLBtRWAyO8M2NnYq3w0+rY+13kGurJAwQVlIDvWl
+         eLZq4TyYVeiKazCleeBCx6uOTiUgodLLnhbALfqmMQox2q4eBu2kbS+adSb0qXWYbBBV
+         6rddq6QGKc9WasPc8jaunxK1YUm4S2IqkRfYpd1Jc2ERTyvyDaL3U623BcJ3BrhcnKaQ
+         TU0Jzj+pIDxzxwxq/yxCzqoR7NbqDv4MiULToeEd0vJS6HiERYvbCnf8iMXj6nioABsO
+         lOYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334908; x=1733939708;
+        d=1e100.net; s=20230601; t=1733334918; x=1733939718;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FqCFXr63BV/To2djs8Pkrk4glJPRCZ8K3tC2riG44o4=;
-        b=htlOHQh/3de6QKkG1QQbQ7MgrrxtisaUShhgiXOvy02oq/YaU1kuedAn+ASnWketGO
-         nZTLH/I1I8mwr6rXepZA52wL2DPZqL1EtLQulVGpB7ohTtRFbckT9wfHf7ECsfo9ljF5
-         oLNpZG502vbfbeldiwWTlJknFbImvghGAI8D7kVJa9c2HeTGWLBTlMXAUGDaleJQy1DI
-         LJBslsuj2pAqGQ79KuI+4EYW2hp5ISxzsnTDI+Nly3X4+kqc3R0wcQBhTL/xGJCRue8/
-         hyuvtxhFP73Vwy7WG7pf0i9eQGrtIBN6VFiC8vLc8spkeHCJJNSygN17fT5GxwT0G7+D
-         OPag==
-X-Gm-Message-State: AOJu0Yy0szXSMJVp+fl1cnnH9gdRz/TLXWqjUiBB4NLPrcCee4SuW1hx
-	wt11O4wU7ebxuEv2deAUHyEbcilgb0/+hKX5rn709jSiTgCyfTSkWP6ApwuObJXbC2Ke49gwNQ9
-	K
-X-Gm-Gg: ASbGnctv3E/zXe+P8qh7WCDYOCBA9m5M/1HkUvby5AXOSmv9MORf24U2JTqx27FmiVF
-	KVq3ZBspVWLPCY264mYvO5D7qYSzxu9cNoeF/gOramVYgGmlVyz1nzfQKv0MtILY0poE4jkx7Of
-	wQLetdmoxAhNMs19zvbx8VjMNbG+YIu6lnmMy/cvNdTsiAXsxD8qxpMdgqFhXVk92T0Itjv9LP4
-	VfUeu/KE6Ub7vkDk2i26bTO2gaXOnhksD8LeVY=
-X-Google-Smtp-Source: AGHT+IFa3NBMrcv7FIeE96Z6BxAn0GR8dWgopfdibflbIec28d29r5mFYXxyIX0BF9oWqfRspIkzOw==
-X-Received: by 2002:a05:6a20:b4a0:b0:1d4:f7b7:f20 with SMTP id adf61e73a8af0-1e17d441f33mr332727637.21.1733334907464;
-        Wed, 04 Dec 2024 09:55:07 -0800 (PST)
+        bh=XfzWDQuldLBRV/426rQRCXomSc0p8wOJ3mkhF9+GmKM=;
+        b=RFVBDT7DEQTjoC+O38cMwmeW6lCUxTV73YkE6W/jd/XFXIGx1ASSSzuLlhiE+nVa9+
+         lNcl/rFwg1ztEvG/ZFrg9WrLnPUH663N+LUma9AN5HazuM89Oyd8LzSiN1tbp2JDNrj7
+         Dgp4uafCdAjMrCIPoWqjsgobwlp+SP0lVJl9KK7ekH6MfDzJitGygPl2zr/pn5lj3Y0o
+         mDdpO5eqdn4oTU/L5gAcmBUSPkI89an7n3nfTD8ZOoJRzi2AlfeCnQhl8GXs7CXT1a28
+         ADvESTMF7TG1d2XFZj5jjL/U9rboiT4EX62LFuT527Rv3loplQec2Xv1QIQmfSu9hb1t
+         UjAg==
+X-Gm-Message-State: AOJu0Yx+sg429gWRtdBmkO6B5HqbuUd4i/OaM52VNLpC7nv/BG9zUn98
+	pyt6Z1cVNFySNaN8bmcxiLCJK71EkSSRqFOyp2WL20j42M7t6OP5eHtNwOyqYoC0cRKM2rxYy0u
+	W
+X-Gm-Gg: ASbGncvmwQCvODWK9MRgVk+t2zooNFC0x+WCqanlFEd5YcLWo/+NcMGDgC6F6ujFEUe
+	MrywGuej/AvZzRkPodEda9pTWmQzZOadM+k/0TQwxGlW9ezHsXbqPF9XaJ97ZZOb9VNOqF2UXoo
+	oxZQ499qWdZgXNvfDWTiLjKM0H0jq2mTowgZg0EVNNIUQawVL4hvLwZGXDyuaI4yIASPzSjx+PG
+	BfVpE+jjVZCMMWk/ii/YpTv95y2KyLw4Cm359M=
+X-Google-Smtp-Source: AGHT+IGp9xgQEfei7mmE3eXuE6eIeK/Hh7sYVCb0v/l51O7xfVY7IUFgGe6G2+LeeMImkhSv8k8Avw==
+X-Received: by 2002:a05:6a00:ad2:b0:724:e582:19fd with SMTP id d2e1a72fcca58-72587ee6238mr8464865b3a.3.1733334918049;
+        Wed, 04 Dec 2024 09:55:18 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.06
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:55:06 -0800 (PST)
+        Wed, 04 Dec 2024 09:55:17 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 30/38] resulttool: Allow store to filter to specific revisions
-Date: Wed,  4 Dec 2024 09:53:57 -0800
-Message-Id: <5588459188ea21cb7a2064828245d39f1328c6cb.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 37/38] resulttool: Trim the precision of duration information
+Date: Wed,  4 Dec 2024 09:54:04 -0800
+Message-Id: <4ec9bb7e1a02de8223fb7485fc47cb43ad19093c.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -65,43 +65,56 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:55:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208313
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:55:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208320
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We have a challenge on the autobuilder where test results from both OE-Core
-and poky are being mixed together during result storage which is confusing the
-data. Add a way to filter to specific revisions as the least worst way to fix
-the various issues this is causing.
+The duration values have pointless amounts of precision. Removing some of the
+least significant digits reduces result size and makes the results easier to read.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3f276a0dc65341668788853be2cf27ab6aa12b13)
+(cherry picked from commit a789a2e6d97bb8efd663226a17db8d1ca6c1e40f)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/resulttool/store.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ scripts/lib/resulttool/resultutils.py | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
 
-diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
-index e0951f0a8f..430213bbfe 100644
---- a/scripts/lib/resulttool/store.py
-+++ b/scripts/lib/resulttool/store.py
-@@ -65,6 +65,9 @@ def store(args, logger):
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index 9cba8639a3..760e426de0 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -131,6 +131,22 @@ def strip_logs(results):
+                     del newresults[res]['result']['ptestresult.sections'][i]['log']
+     return newresults
  
-         for r in revisions:
-             results = revisions[r]
-+            if args.revision and r[0] != args.revision:
-+                logger.info('skipping %s as non-matching' % r[0])
-+                continue
-             keywords = {'commit': r[0], 'branch': r[1], "commit_count": r[2]}
-             subprocess.check_call(["find", tempdir, "!", "-path", "./.git/*", "-delete"])
-             resultutils.save_resultsdata(results, tempdir, ptestlogs=True)
-@@ -102,3 +105,5 @@ def register_commands(subparsers):
-                               help='add executed-by configuration to each result file')
-     parser_build.add_argument('-t', '--extra-test-env', default='',
-                               help='add extra test environment data to each result file configuration')
-+    parser_build.add_argument('-r', '--revision', default='',
-+                              help='only store data for the specified revision')
++# For timing numbers, crazy amounts of precision don't make sense and just confuse
++# the logs. For numbers over 1, trim to 3 decimal places, for numbers less than 1,
++# trim to 4 significant digits
++def trim_durations(results):
++    for res in results:
++        if 'result' not in results[res]:
++            continue
++        for entry in results[res]['result']:
++            if 'duration' in results[res]['result'][entry]:
++                duration = results[res]['result'][entry]['duration']
++                if duration > 1:
++                    results[res]['result'][entry]['duration'] = float("%.3f" % duration)
++                elif duration < 1:
++                    results[res]['result'][entry]['duration'] = float("%.4g" % duration)
++    return results
++
+ def handle_cleanups(results):
+     # Remove pointless path duplication from old format reproducibility results
+     for res2 in results:
+@@ -194,6 +210,7 @@ def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, p
+         resultsout = results[res]
+         if not ptestjson:
+             resultsout = strip_logs(results[res])
++        trim_durations(resultsout)
+         handle_cleanups(resultsout)
+         with open(dst, 'w') as f:
+             f.write(json.dumps(resultsout, sort_keys=True, indent=1))
 -- 
 2.34.1
 
