@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA6FE77175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 86D8CE77171
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:55 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.web10.21457.1733334888956324543
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web11.21206.1733334894000401887
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:49 -0800
+ Wed, 04 Dec 2024 09:54:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DUxf+7Ct;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7fc88476a02so58965a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:48 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=vV8h8VBO;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7fbbe0fb0b8so57359a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334888; x=1733939688; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334893; x=1733939693; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=CS6ldFKk8PgBT9GaTqdembmsijoMfX4VV8EOWuGbeBA=;
-        b=DUxf+7Ct5zH+Sld36it1kCHzIRrn+XrjaD5LBBfB7Smq1/QyisbKtM3FviZLDyEoDI
-         gu4wyR/GgMb0XprYLDImbSC2Z8k0/X0dP7paaQWzyWSmLmNaLdg8NpPXewbSXKDCP0mj
-         7nxrbFW7AD+Vp70wUfrw+TTZZ+dDWROCMULOGqKEH536gYS/v/60l0JFBecSoeeujnia
-         /HRA/KQlH+YseiVNUzxH48o+sBO89fGAzcIOuLW6k/xWopmFTaPsTG9WcVjstyFh6M9z
-         fF2UZyGZoo4n40GnTm1ocmPmhFEZCLZLRoBsRTMdx7dnD2+pz1WHMRnb7KOUpEBRerI8
-         tjKw==
+        bh=h8+L2IA34KDxtKm3m9EgGHnGWzjdXNl8DXPr4N3V2ok=;
+        b=vV8h8VBOS4huFBEd3RwNH3JD3WHQkTL65lZUCsfNebna+FT1FQ7rBOMccp4JhPaTfI
+         7U0NP8X/WNK+nfe1MUJO1aTXKi7Ex4wdWhWNvSetHvPW9GezKaG22SHe6y1PT/BCIQTR
+         7YRz0/PXxVdVADSU0nqy3e07C3pzzkuApcS/XMKCNe0WCD7Tr5YbK/lDc6d9J903eQ1h
+         s9GX7QwF199B3rOtUH9WX9as60CCMgVbPkGS9Baa6lk/YmuCwi9fR4ceosNrRheyhk1f
+         rYh+RhO+0mSi6Xhs/JqPnA9MtdsFUFAhzY6eHSUl8a1Sa8bswKlEL9927TrupFIl2q/X
+         gf6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334888; x=1733939688;
+        d=1e100.net; s=20230601; t=1733334893; x=1733939693;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=CS6ldFKk8PgBT9GaTqdembmsijoMfX4VV8EOWuGbeBA=;
-        b=Vx5LFJcghUeE5zNM0iKgvwaYgFtlZuky0KfvdNW+jmuEi57ivUR17Dl/6Rw0ClNF1d
-         LZh0aN46SvcUTnPwiy3xD9XIUuy/gHZ3rFNyismHQkcm3V5n48xH0cqi7MNc5iWFVn7y
-         ZLtZ4m8hy+qY8arET+cTnvYBXm97JFyzn6Z27+WtWrVgVGJUVOBEaIiYF5MpDM5jECCJ
-         b6C4hgwUK7jyp8WSQT5e3xnZMGF0El7lZ8lD0U/q3o4bjm+nPWMrcVgsZGrD1uWDERol
-         29iQvPLlkbFaqNpk4mOVucy863/5C5RblQ0Yp1gJLnmgiOVw/E8PSx8nrRyRUBprpZVX
-         jIRA==
-X-Gm-Message-State: AOJu0Yz0hzVjo7bGT2Yu7T3iyXSRGChez0FATlxfKB06FrIqNFgpT3GR
-	GLtfw3LiPVWwE1iQ3i0NGcWq8+iuKtIp29obJ56QrNGJ7o88XRGlHtHj5FCQbu+dN6cglvhsOrc
-	b
-X-Gm-Gg: ASbGnctuCcoXCn7lpLt8yuEeFISbvOxK0aNrGLJFMi4UT4dqwggJToSMmOZaomRJJbv
-	3vsY/iSVYHgzn/8r2uL1JF8xx0hBFlJDtfWMsEg/nJIezo7BSAhgpJXyjtBBWnRmVqoHeyWznfc
-	ARVhGcek4QAp6Gs5CopH68E/hhe2Q5A/wfQtNl2seMMrhezejsfckthoxt/85eFjJWcPDQPnBu0
-	BjWHjP6CefdL3HENbiAE+gyQ760tI2zXx4MpMY=
-X-Google-Smtp-Source: AGHT+IHivMuzAgZ5MzI/LzruTxTjLouHiWh6XptCiXNJuVF7/DNpshR5/B6QbjSC79CV2jh+hNqFfw==
-X-Received: by 2002:a05:6a20:cfa6:b0:1dc:bdbd:9017 with SMTP id adf61e73a8af0-1e165412f33mr10752158637.40.1733334888196;
-        Wed, 04 Dec 2024 09:54:48 -0800 (PST)
+        bh=h8+L2IA34KDxtKm3m9EgGHnGWzjdXNl8DXPr4N3V2ok=;
+        b=OW9gAgi9EcKg6n/9U5XnCFkwXkmReKKuLuIuVPLBMFPG+7mIgUgtrL+65fHSq5KJfE
+         a7udWhJsZvfcNGCGzqhCugmc+ePt6jNlYEjHy1aoF9EXOU+6/GxSG2Q86XxzoJmyHbFE
+         4YLdGy19uvhzquvbZtJ4G5UYwKghcsXVWcxz7/S3i5o9cTn2xBIax1nz/7Jj/qo2y0+F
+         pxx1YRI4rc5YEf+EnDES6JTJQFl6+vOfspEyq/zLajC8pQsJaRJe3VwfV3eMuv+6LQWW
+         n4wuDHyPEUdtDw5NCPJCOXOKvFE3AEuNXbHr9kwlhmA5g/+74+FO6r4vuhLYPSULttHJ
+         5jPQ==
+X-Gm-Message-State: AOJu0YwOIlvER78bbAOzXQUa5kw4KEYcu3thjWmseFsygkcQxbZGYPYi
+	HCk85Rn3izuZ0LS+Gx2uokz8ODN3w9QvIVvl5XkBHrupO3TVX7jqtye9hhNkunZ4RKjuMmSzmuX
+	V
+X-Gm-Gg: ASbGncstl8q2tz7dr3qBluw8Fk3V3A3LOuuj+jlPqLTSU8rZeB8cAr2/AzrxiVU/bS6
+	Jnh71VFIfWHt8MqFniVuL0zwBugVXEyGNuYqMF1i4+6+e7BlJQPZiyIo/mEEs8kCBTHMKtHYxrB
+	QUjH8o5zEJMIrSOoAwJb1cDOQ3g4nXzD8pqLIwMmYpLW9O4sCJ1LQjLhA6NGpCwdcbjol94qO6p
+	F3HhldfZb/1+qKxZVflWOxSxo2qj1u6JzuV+Fo=
+X-Google-Smtp-Source: AGHT+IGKhO5NHAk75gIEQUKWF4zsIP18yE/VUFnO46rjSGwH71X2JkJE416RSms2v+esoBxzfYlKIQ==
+X-Received: by 2002:a05:6a20:43a7:b0:1e0:c56f:7db4 with SMTP id adf61e73a8af0-1e1653a270dmr11355595637.2.1733334893186;
+        Wed, 04 Dec 2024 09:54:53 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.47
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:47 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:52 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 19/38] qemu: ignore CVE-2022-36648
-Date: Wed,  4 Dec 2024 09:53:46 -0800
-Message-Id: <bd01091c33c1de6ae7e1605301e3f73350ee7e7e.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 22/38] qemu: patch CVE-2024-6505
+Date: Wed,  4 Dec 2024 09:53:49 -0800
+Message-Id: <7e725e126689cc44055e27a05efafb7b52e89192.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,34 +66,82 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208302
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208305
 
 From: Peter Marko <peter.marko@siemens.com>
 
-The CVE has disputed flag in NVD DB.
+Backport patch [3] as linked from [1] via [2].
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2024-6505
+[2] https://bugzilla.redhat.com/show_bug.cgi?id=2295760
+[3] https://gitlab.com/qemu-project/qemu/-/commit/f1595ceb
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-devtools/qemu/qemu.inc | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2024-6505.patch             | 40 +++++++++++++++++++
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 1c0e8a93f1..cc78d7db06 100644
+index cc78d7db06..a43785c79d 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -148,6 +148,11 @@ CVE_CHECK_IGNORE += "CVE-2023-0664"
- # RHEL specific issue
- CVE_CHECK_IGNORE += "CVE-2023-2680"
+@@ -120,6 +120,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2024-4467-0005.patch \
+            file://CVE-2023-3019-0001.patch \
+            file://CVE-2023-3019-0002.patch \
++           file://CVE-2024-6505.patch \
+            "
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-+# The CVE has disputed flag in NVD DB and also descrition contains:
-+# Note: This has been disputed by multiple third parties as not a valid vulnerability
-+#       due to the rocker device not falling within the virtualization use case.
-+CVE_CHECK_IGNORE += "CVE-2022-36648"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch b/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
+new file mode 100644
+index 0000000000..f9ee36f8ed
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-6505.patch
+@@ -0,0 +1,40 @@
++From f1595ceb9aad36a6c1da95bcb77ab9509b38822d Mon Sep 17 00:00:00 2001
++From: Akihiko Odaki <akihiko.odaki@daynix.com>
++Date: Mon, 1 Jul 2024 20:58:04 +0900
++Subject: [PATCH] virtio-net: Ensure queue index fits with RSS
 +
- COMPATIBLE_HOST:mipsarchn32 = "null"
- COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
++Ensure the queue index points to a valid queue when software RSS
++enabled. The new calculation matches with the behavior of Linux's TAP
++device with the RSS eBPF program.
++
++Fixes: 4474e37a5b3a ("virtio-net: implement RX RSS processing")
++Reported-by: Zhibin Hu <huzhibin5@huawei.com>
++Cc: qemu-stable@nongnu.org
++Signed-off-by: Akihiko Odaki <akihiko.odaki@daynix.com>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Jason Wang <jasowang@redhat.com>
++
++CVE: CVE-2024-6505
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/f1595ceb9aad36a6c1da95bcb77ab9509b38822d]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ hw/net/virtio-net.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
++
++diff --git a/hw/net/virtio-net.c b/hw/net/virtio-net.c
++index 8f30972708..5635620a31 100644
++--- a/hw/net/virtio-net.c
+++++ b/hw/net/virtio-net.c
++@@ -1752,7 +1752,8 @@ static ssize_t virtio_net_receive_rcu(NetClientState *nc, const uint8_t *buf,
++     if (!no_rss && n->rss_data.enabled && n->rss_data.enabled_software_rss) {
++         int index = virtio_net_process_rss(nc, buf, size);
++         if (index >= 0) {
++-            NetClientState *nc2 = qemu_get_subqueue(n->nic, index);
+++            NetClientState *nc2 =
+++                qemu_get_subqueue(n->nic, index % n->curr_queue_pairs);
++             return virtio_net_receive_rcu(nc2, buf, size, true);
++         }
++     }
++-- 
++2.30.2
++
 -- 
 2.34.1
 
