@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6A40AE7716D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7040DE77170
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:55 +0000 (UTC)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
- by mx.groups.io with SMTP id smtpd.web10.21458.1733334890584128217
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+ by mx.groups.io with SMTP id smtpd.web10.21454.1733334886673452223
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:50 -0800
+ Wed, 04 Dec 2024 09:54:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gAJrglBH;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.181, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-72599fc764bso377293b3a.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:50 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kBwio8Ne;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7fbbe0fb0b8so57258a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334890; x=1733939690; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334886; x=1733939686; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gY/fQ1Fddhax3H+Fv27nWRPLCWNLxUrDvc7W9EMEdPs=;
-        b=gAJrglBHrhOtESkQwkDBJcjoTYBjRMmIQdA02M6XsuzLYrPLDXX3a+4DOTlO6RtxhH
-         9lZSteOhPOM745bTI1quy7fsIJ6qRqU/YNjYdaov+PIrVZ/2vnd6dVY7tsyPpDtW4Xy3
-         DGu6j8dv9HlsEXzeP6QaRzUD4vr31UN7LpaG9m3cE2zHXGkBAo369FUBDVRTkjIs+rtn
-         BxSNZK4ua2sxwj2jwCR5hgCOG3rfDssDXHv5j0mdqJJC1GRhoRcaNJhKKB8WkgNRigpW
-         sUoL97rfBUZ2ucrmyK973S1xt74L8KIGrJPiTAnOjn+14iQ6ZwahHh1CYnTLS9WxR1yo
-         +F+w==
+        bh=NGoBZwPKYWLZGl+gFI0fsPV8j+YBgvYrZ1RZ4VApPzg=;
+        b=kBwio8NeEUj+988ePSAMobTM1dKVwX1V4EXEMpZkAGOZ/xqyIzQmT6WzwWaPOCixjl
+         wxykXlD0JTfUElriuKLR8GOIRkxzbCCQy7Fv+xbmtUF98IkzkmcSxaUbyGcTVjXHWzy6
+         Sv0Wi33X7S4yCCf4BI0oc4XN8Dj8Lw6wnWV3QxggdfUPghL19+PhAdMXm29PGeR6BAxo
+         /JEgsBYjb6d9kcBCaBMensa4GRCNvNoigvNV/0WM1JDGTXzGDpQO2BBUU2uJO/c5FPkD
+         aFdiVv2JGKy99SEJzFz/NXw0djsuRuhPlY+EJvl1yj0gAWDB9GhMEyxmPOu6fZGc2Qmr
+         kf2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334890; x=1733939690;
+        d=1e100.net; s=20230601; t=1733334886; x=1733939686;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=gY/fQ1Fddhax3H+Fv27nWRPLCWNLxUrDvc7W9EMEdPs=;
-        b=LlZbqiEuZ1lbYb1gGq5BHxetIjrf6BjY2/6YCsZJW2HzKNDJ2WhzUC6JpdsA0FNz3w
-         6ZDGPK5sVqzQca66rwN/ycus1g6MroeT7taroxr4WkENJJ7IgfdjVWjDmq74SqcHX/13
-         9TxUSbJF1n7TS5BZBdHgwlvx9onlrGMA+gXGmLSlEonkEWcsXeisY4ocSeBXaN1km2a4
-         nhj7ztDcubwHmGgXQ13qHrQ54almqz8g8ePBHCYs6nVG0rPoOryB7bGOqlMqoXk8uK5U
-         a5Otc7ahfIUoQIFI+C7IGW/M2JcH/8WADAN/Qfnpp2GKGxZFWiBPEqKfvR3STEhwwgIK
-         sVtA==
-X-Gm-Message-State: AOJu0YwHnAaksRJ2aM07KVdmLLpH6KDQjBlVmClMIc4X9QryVzA/dSo4
-	SfRVyPSyl1Cu3Bm4Uxb7oiAMWL7XinnecpJrPREgQun8CmTSh8T8JxFGXh0mR0xeJVSB8pi7ArK
-	4
-X-Gm-Gg: ASbGnctUqRY7+nzwspYYdbUt8AsF+zPiVsYVHd4Xy7hS6BuyUyspnNXNNpU84bIGsBT
-	JYBuvv907NNTmPP7UFTLQHELfjdiOYsAHLZHhmSqhoxRai/UAHbH6HqnJSl9OkByRqOvKuanFPq
-	qKsxeTlCMbIjYJ78SmOU0tgrER1T54qk3eeEBwRO93/T5PMJMhdzE+7GEXKlnvnxigK/7mmGO/6
-	S1iUSzEXHQCjWOl8dDONs3wotHnY4SOWkbNM3g=
-X-Google-Smtp-Source: AGHT+IH7ASZTAeyuBFlg8/W2KB50rJmJ1cXSwL5aMvMOJ3SIex7qtBAESqNUhBRAxB9ibQ2s7qeRcg==
-X-Received: by 2002:a17:902:dace:b0:215:65c2:f3f2 with SMTP id d9443c01a7336-215f3c56e3emr3339935ad.6.1733334889845;
-        Wed, 04 Dec 2024 09:54:49 -0800 (PST)
+        bh=NGoBZwPKYWLZGl+gFI0fsPV8j+YBgvYrZ1RZ4VApPzg=;
+        b=AGzCelnKHowtFFG0PuPsgdDaZOYJrUVjRMcxjnDLh55pFLi803geiBFbuX7IrE9H3T
+         KGkIZUc49VZaI/tnde3eVEKmcagrpDsVGkw+XgluAPG7wzJtDRCZ6ucT4dYuqQlS1Yjc
+         Gf44Va6yjNOkjXkNWIk6oxVtju3vfO17OQqEXiblUGTq6/MsjbZItqBOEW48vrNaoHC8
+         byz85i33H46mAetsls5KHBQRAu7wLvlus/DO71E2Uj/EFpy5kIi9wOhfPle08jKCjJCF
+         uR99XZsjoy4hVnPyAftSRQacxViqXwUPdm8OUNVBJIoQrEfCxUpgUUDDZmmeLsMcLRtp
+         ZC2A==
+X-Gm-Message-State: AOJu0YxGVKWKYCqLm0mToPONa0DWdZOnQV5MQINeAkKeYKjOqcGhyhZ4
+	h4CiZNZ5mjqwkCUihHUeJMxJQkSIZvduLarLYA7tMPK0AAJZP/xb7T2DouPyZghm18QHi9nt5Io
+	V
+X-Gm-Gg: ASbGncuNxDlPmz/NXXWr8+dYZPX7zrzcWtpQSt3wp0CKyPDRS4BEoqHH7ML8fYneIqh
+	QxPAmo3c19d326JxuZa4Z9qLuQy2mQ9Trir/3CN8OIhM6Kewv8dvAxjiHatUhVMo8IDjtZinVc+
+	6+CbI7l1stVCAS0HuGlWsmvVqJ7ogw1zrP2Exsag5mAMIGbdydaLHjSQrr2htua5bHiAlDXOuCN
+	BocXX/+tk8DXbHn14QL3+yuVPodVuhsgME2/88=
+X-Google-Smtp-Source: AGHT+IGMIFCsPEPzikx3Nup1X4cz+psT5p/ZfFYj6MAr9Q8KtYnlkJHjnHADrADOvosY9Hsx+g1oPQ==
+X-Received: by 2002:a05:6a20:7f8f:b0:1db:eb56:be7c with SMTP id adf61e73a8af0-1e1653f333bmr11485022637.35.1733334885949;
+        Wed, 04 Dec 2024 09:54:45 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.49
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:49 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:45 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 20/38] grub: ignore CVE-2024-1048 and CVE-2023-4001
-Date: Wed,  4 Dec 2024 09:53:47 -0800
-Message-Id: <823f7ab85cff010c777616ed5db0e0c41f6cc4e6.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 18/38] gnupg: ignore CVE-2022-3515
+Date: Wed,  4 Dec 2024 09:53:45 -0800
+Message-Id: <12007a6d19db220e6540948de9818332192ecde1.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,33 +66,29 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208303
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208301
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Same was done in newer Yocto releases.
-See commit: f99b25355133fe8f65a55737270e67ea10b79d52
-See commit: 40cd768368167f81de5bb55e9ff0584035f4c1b4
+This is vulnerability of libksba and we use fixed libksba version
+(currently 1.6.4).
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-bsp/grub/grub2.inc | 2 ++
+ meta/recipes-support/gnupg/gnupg_2.3.7.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 2718379474..3e96426b82 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -49,6 +49,8 @@ SRC_URI[sha256sum] = "23b64b4c741569f9426ed2e3d0e6780796fca081bee4c99f62aa3f53ae
- CVE_CHECK_IGNORE += "CVE-2019-14865"
- # Applies only to SUSE
- CVE_CHECK_IGNORE += "CVE-2021-46705"
-+# not-applicable-platform: Applies only to RHEL/Fedora
-+CVE_CHECK_IGNORE += "CVE-2024-1048 CVE-2023-4001"
+diff --git a/meta/recipes-support/gnupg/gnupg_2.3.7.bb b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
+index 7a29a5659a..7075a61898 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.3.7.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
+@@ -87,3 +87,5 @@ lcl_maybe_fortify:mipsarch = ""
  
- DEPENDS = "flex-native bison-native gettext-native"
- 
+ # upstream-wontfix: Upstream doesn't seem to be keen on merging the proposed commit - https://dev.gnupg.org/T5993
+ CVE_CHECK_IGNORE += "CVE-2022-3219"
++# cpe-incorrect: this is vulnerability of libksba and we use fixed libksba version
++CVE_CHECK_IGNORE += "CVE-2022-3515"
 -- 
 2.34.1
 
