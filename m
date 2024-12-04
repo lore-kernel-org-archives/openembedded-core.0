@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98871E77170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9AC9E77175
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:55:15 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web10.21467.1733334906058967235
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+ by mx.groups.io with SMTP id smtpd.web11.21218.1733334908351074306
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:55:06 -0800
+ Wed, 04 Dec 2024 09:55:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PwpMGrJv;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7fbd9be84bdso56883a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:06 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=NMhN0EYb;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.172, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-7fc8f0598cdso966551a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334905; x=1733939705; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334908; x=1733939708; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uFA4VYSueA0SJ2dDR/xkHsPoevhxVn1ldTCtk+b/dkM=;
-        b=PwpMGrJv3ZZJL1+obNjSLxwkcFrnxyg9H1lGSpghO/XxPnLpC6XoTO/RmcsZd6FRrf
-         48ojb6mZBqr36Xm8mlKyV68xyztLlJJLA+Ec60khYrhIqBeUNacUkmqauU8HmwVLU7N/
-         +Xz3dMLeY4ypolrYjEuFm8ZMQ/PUdhpRi4SMk1BfHrC26CkPEARVociPQ/iZZEy962K6
-         HGpiFYiWh+FbHvRhUIpSxURwZEvYpO/3Tf/pzLXNSZXZSoBX1DVl7D7jns2r6zWWihb9
-         lqnkOadLA626m7MAEWjzBYfsMhBqZ7rZM5TQRXvEjXA4jrEvs/VvWxzQSna8HjjVzwqA
-         YE3A==
+        bh=FqCFXr63BV/To2djs8Pkrk4glJPRCZ8K3tC2riG44o4=;
+        b=NMhN0EYbE62A4DKKmeFdFqdI8E4eieBTPVPKqJAri50p9VQ2o0WVg1Z0B8HwNxrRE/
+         LmOxLlRq4I7nIFqrr9p3MAN0NFRRTSNWPjLBkS2Ev7PPiam+U9Z6HXUNnTV6RwFnW4Ay
+         kZIw3uKDeemC/zZtfoC78JP+ZQxxbTB0AvIsrTSPxEWYRdT5qbwNxkgKuCioX6H6qAEr
+         +F7GvhlBxe8AOh2vyKmtzfFBKGkZIN4yq6KrIuFWN8taKB1q+J3Ueq345T1pdTb6TFTv
+         mjp+zJvY0sqldQ7dnAKyeY8L9Kj2rQy9dYcaCs/zQ3BPvm99dpsZ4lmgaZkWEJmcVlU0
+         qhGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334905; x=1733939705;
+        d=1e100.net; s=20230601; t=1733334908; x=1733939708;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=uFA4VYSueA0SJ2dDR/xkHsPoevhxVn1ldTCtk+b/dkM=;
-        b=LKTOUl1GbuWBL6Z8LZFYmD5UMf4b1KeIE58M1JNDQv8Pi68VLIVqJowWIDCifjV3Bf
-         aiDOSZxZoRxHMJyFBhpRYOBbSpfKoGjSyMZaswfXmSthjYOcLdnM4QEp3i0Ag4QDzopY
-         +RIpbDQJsYLTeD0RBF8HePoSUkevTZ+MEek8/5UrZbb6f2xV/FlHpro7qkgnHiJyFLY8
-         oWUBwInjkIVig1MvGWIdyoAv8F0IaH2zKdbZSWS6ZErjhKXy6C6MlXpx8H3Hir3SFSXa
-         rDKmiPsBgVRcGeeVK9Ugzk9ZlFZ+GYrMoPJADDsNajekOnx1GM94mDyuBnjvcjzWg1mr
-         U2eA==
-X-Gm-Message-State: AOJu0YxcTFerNJeSU6ZS+YE3UHadBHm5cFHR9S3pFZbvfsUXYvVg8/AK
-	qZQSXoaw2QJ1D9bkZNV33YuZruvYpZmgzUDHqWgriXnUcvhRkcfoZGzL4AKyUWxJWyAHYL9E9My
-	k
-X-Gm-Gg: ASbGncsSN3T+T67GHbsoz9jmtZwPIviCd6t2Podypu87h2jY+MLdDN5A4lcqlLVdoAa
-	iXvEQJb+X7N0U17gZzDB431Q3LwV1E09xlvsNNdEdA6aOdFC/m1B1aAT1JegQ7qDa4/tdcBA6TQ
-	flt/1wyXFQ4J0kSiGSBCMk35bcYGvTU0l1bSxn13kUVVduGEd4SYcbOQGi55Looaxn1axWqrslN
-	48SsTbdOKO533Cj+o334SQIWdDW2gAIpinAqag=
-X-Google-Smtp-Source: AGHT+IE8V74Ljwbke1J6o9g+jk61rdmpjmmeSCrkMKMOw3xclt3kaSa2unTQ0Llxm92bhyZL0vJzLw==
-X-Received: by 2002:a05:6a20:748e:b0:1e0:d1f7:9437 with SMTP id adf61e73a8af0-1e1654134a8mr13635098637.38.1733334905253;
-        Wed, 04 Dec 2024 09:55:05 -0800 (PST)
+        bh=FqCFXr63BV/To2djs8Pkrk4glJPRCZ8K3tC2riG44o4=;
+        b=htlOHQh/3de6QKkG1QQbQ7MgrrxtisaUShhgiXOvy02oq/YaU1kuedAn+ASnWketGO
+         nZTLH/I1I8mwr6rXepZA52wL2DPZqL1EtLQulVGpB7ohTtRFbckT9wfHf7ECsfo9ljF5
+         oLNpZG502vbfbeldiwWTlJknFbImvghGAI8D7kVJa9c2HeTGWLBTlMXAUGDaleJQy1DI
+         LJBslsuj2pAqGQ79KuI+4EYW2hp5ISxzsnTDI+Nly3X4+kqc3R0wcQBhTL/xGJCRue8/
+         hyuvtxhFP73Vwy7WG7pf0i9eQGrtIBN6VFiC8vLc8spkeHCJJNSygN17fT5GxwT0G7+D
+         OPag==
+X-Gm-Message-State: AOJu0Yy0szXSMJVp+fl1cnnH9gdRz/TLXWqjUiBB4NLPrcCee4SuW1hx
+	wt11O4wU7ebxuEv2deAUHyEbcilgb0/+hKX5rn709jSiTgCyfTSkWP6ApwuObJXbC2Ke49gwNQ9
+	K
+X-Gm-Gg: ASbGnctv3E/zXe+P8qh7WCDYOCBA9m5M/1HkUvby5AXOSmv9MORf24U2JTqx27FmiVF
+	KVq3ZBspVWLPCY264mYvO5D7qYSzxu9cNoeF/gOramVYgGmlVyz1nzfQKv0MtILY0poE4jkx7Of
+	wQLetdmoxAhNMs19zvbx8VjMNbG+YIu6lnmMy/cvNdTsiAXsxD8qxpMdgqFhXVk92T0Itjv9LP4
+	VfUeu/KE6Ub7vkDk2i26bTO2gaXOnhksD8LeVY=
+X-Google-Smtp-Source: AGHT+IFa3NBMrcv7FIeE96Z6BxAn0GR8dWgopfdibflbIec28d29r5mFYXxyIX0BF9oWqfRspIkzOw==
+X-Received: by 2002:a05:6a20:b4a0:b0:1d4:f7b7:f20 with SMTP id adf61e73a8af0-1e17d441f33mr332727637.21.1733334907464;
+        Wed, 04 Dec 2024 09:55:07 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.04
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:55:04 -0800 (PST)
+        Wed, 04 Dec 2024 09:55:06 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 29/38] selftest/reproducible: Clean up pathnames
-Date: Wed,  4 Dec 2024 09:53:56 -0800
-Message-Id: <13d844b15deba49a54676fa6f83ab4526ec74b9a.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 30/38] resulttool: Allow store to filter to specific revisions
+Date: Wed,  4 Dec 2024 09:53:57 -0800
+Message-Id: <5588459188ea21cb7a2064828245d39f1328c6cb.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,41 +66,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:55:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208312
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208313
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-There are several problems with these paths. Firstly they contain full
-system paths which depend upon where the test was run. These are pretty
-pointless and just take up a lot of space making the results files large.
-
-Secondly, they contain the same path twice. The reference and target path
-will always be the same thing in two different locations.
-
-Strip off the prefix and remove the duplication. This does change the output
-data but that can't really be avoided. It does shrink the results data and makes
-it more readable.
+We have a challenge on the autobuilder where test results from both OE-Core
+and poky are being mixed together during result storage which is confusing the
+data. Add a way to filter to specific revisions as the least worst way to fix
+the various issues this is causing.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 81a44de36e864b08687451fd85aeba7c529fd7f7)
+(cherry picked from commit 3f276a0dc65341668788853be2cf27ab6aa12b13)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/resulttool/store.py | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index df7d9cc159..08c23227d3 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -191,7 +191,7 @@ class ReproducibleTests(OESelftestTestCase):
+diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
+index e0951f0a8f..430213bbfe 100644
+--- a/scripts/lib/resulttool/store.py
++++ b/scripts/lib/resulttool/store.py
+@@ -65,6 +65,9 @@ def store(args, logger):
  
-     def write_package_list(self, package_class, name, packages):
-         self.extraresults['reproducible']['files'].setdefault(package_class, {})[name] = [
--                {'reference': p.reference, 'test': p.test} for p in packages]
-+                p.reference.split("/./")[1] for p in packages]
- 
-     def copy_file(self, source, dest):
-         bb.utils.mkdirhier(os.path.dirname(dest))
+         for r in revisions:
+             results = revisions[r]
++            if args.revision and r[0] != args.revision:
++                logger.info('skipping %s as non-matching' % r[0])
++                continue
+             keywords = {'commit': r[0], 'branch': r[1], "commit_count": r[2]}
+             subprocess.check_call(["find", tempdir, "!", "-path", "./.git/*", "-delete"])
+             resultutils.save_resultsdata(results, tempdir, ptestlogs=True)
+@@ -102,3 +105,5 @@ def register_commands(subparsers):
+                               help='add executed-by configuration to each result file')
+     parser_build.add_argument('-t', '--extra-test-env', default='',
+                               help='add extra test environment data to each result file configuration')
++    parser_build.add_argument('-r', '--revision', default='',
++                              help='only store data for the specified revision')
 -- 
 2.34.1
 
