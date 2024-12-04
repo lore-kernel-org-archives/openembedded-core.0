@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F340E7716D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 98871E77170
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:55:15 +0000 (UTC)
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
- by mx.groups.io with SMTP id smtpd.web11.21220.1733334910487995645
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+ by mx.groups.io with SMTP id smtpd.web10.21467.1733334906058967235
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:55:10 -0800
+ Wed, 04 Dec 2024 09:55:06 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LvhkWOXv;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fcdb53cca6so64906a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:10 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=PwpMGrJv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7fbd9be84bdso56883a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334910; x=1733939710; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334905; x=1733939705; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=N+Ej6xPFqCU399vWOIIr1CMedQCmL0CSW9xkukxEKGE=;
-        b=LvhkWOXvyirg6Xvicj2kXeklHNtjmjhbipA+HIgDY3ybbxfUtUhMugP5UJu5925bCN
-         PBwoekxTebREAcO35/+nUtAFcv02ylXbztgpTMfk+Q6Tg/8t62lwWPoVug2eMpq3q86Y
-         yaY9FtLxLlW+rwU2jCe/bjRqM0FNBfEyj9EPAiaNDtOzD7w1GzMErEh+rYxmi9PFmvyy
-         ECd2sfEfv2I0W12INXAxtNtAOjDsiuOPMs3xFYav3/Mndi+7vrvQZ4z2N9P6xo0fEJPT
-         N1neeKKsDRrqvzDPZidWEZiuG+C8Pm6aNA1+UjEcuXlkfiUn/dG+0Zu/htm1GieOeh7N
-         2zDg==
+        bh=uFA4VYSueA0SJ2dDR/xkHsPoevhxVn1ldTCtk+b/dkM=;
+        b=PwpMGrJv3ZZJL1+obNjSLxwkcFrnxyg9H1lGSpghO/XxPnLpC6XoTO/RmcsZd6FRrf
+         48ojb6mZBqr36Xm8mlKyV68xyztLlJJLA+Ec60khYrhIqBeUNacUkmqauU8HmwVLU7N/
+         +Xz3dMLeY4ypolrYjEuFm8ZMQ/PUdhpRi4SMk1BfHrC26CkPEARVociPQ/iZZEy962K6
+         HGpiFYiWh+FbHvRhUIpSxURwZEvYpO/3Tf/pzLXNSZXZSoBX1DVl7D7jns2r6zWWihb9
+         lqnkOadLA626m7MAEWjzBYfsMhBqZ7rZM5TQRXvEjXA4jrEvs/VvWxzQSna8HjjVzwqA
+         YE3A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334910; x=1733939710;
+        d=1e100.net; s=20230601; t=1733334905; x=1733939705;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N+Ej6xPFqCU399vWOIIr1CMedQCmL0CSW9xkukxEKGE=;
-        b=qbRcNFGPjISLMrBNfLQV1V7lx9UlTWoBRykoFUhhnVsGaZwUWA/rNzccKjtKbMggic
-         GK9gnHEtwxmEs94GZfTXHn5pK/JlvbIiPBa446ZoAyEh2zpme5rfzSUrxzH1J42EIWnB
-         imz3kJzB7nyh0LQbXECnfyikLSxQ6/Tscd8ZpR4C7KnD1ZuTxF9lK9Tr27VMTAZRnfKu
-         oYV6xx6goEboK/BD0KRpjQcPzvS5r73KBbzMAmFYVNejs0TM2r4dt616/jehJzUZRvlw
-         7eAuhOkSr3BUtdE3Vll5Kh/I0OC8YP6rRyAWgmc3RPtuQ62KVuQKn0CvqZnQaQyBEGaC
-         mKVQ==
-X-Gm-Message-State: AOJu0Yy3bGlGKW0m6FWFfBvkooElnYvmU58a/q2qKeyrR941P2qZK62S
-	238+iLs58YvWuJ/tQss4PmcxT0BepIsYneMjabNJUUH9X1TtQFPXPbdtNJd/+twkO7ZqSPBqlqi
-	M
-X-Gm-Gg: ASbGncs3giuZvoZMyiw1wdDNbQAmLcAODmkWkuXYVAwhtmLck6/y258tNCowiqOCIPa
-	q9n7N5zovqnFaAxmhT7O1JJ2vULvNgUQfKHH91wWta5j2KMpEwf5lVUQzPyTsSy5s6x6OSDrEl4
-	ICdfi2mdM5mBOi01rEAAL01VtAZ2MN3Yb8jO/R5EMp2RWZVJaOruXf9aKQeJB+o85Yb2mXZATcM
-	ICE6TPsCk3S2/JEexLM8HpZ5CXtmvuRNtHhmdQ=
-X-Google-Smtp-Source: AGHT+IEdLMfoLUQDvrf39uq7MBOcK/LosRSHJyp0Qtydkk20S4iFStQiBY+KcDqKZEEQOFHdmkkgOA==
-X-Received: by 2002:a05:6a21:3289:b0:1e0:eb49:b81b with SMTP id adf61e73a8af0-1e1653f6b69mr12369773637.31.1733334909642;
-        Wed, 04 Dec 2024 09:55:09 -0800 (PST)
+        bh=uFA4VYSueA0SJ2dDR/xkHsPoevhxVn1ldTCtk+b/dkM=;
+        b=LKTOUl1GbuWBL6Z8LZFYmD5UMf4b1KeIE58M1JNDQv8Pi68VLIVqJowWIDCifjV3Bf
+         aiDOSZxZoRxHMJyFBhpRYOBbSpfKoGjSyMZaswfXmSthjYOcLdnM4QEp3i0Ag4QDzopY
+         +RIpbDQJsYLTeD0RBF8HePoSUkevTZ+MEek8/5UrZbb6f2xV/FlHpro7qkgnHiJyFLY8
+         oWUBwInjkIVig1MvGWIdyoAv8F0IaH2zKdbZSWS6ZErjhKXy6C6MlXpx8H3Hir3SFSXa
+         rDKmiPsBgVRcGeeVK9Ugzk9ZlFZ+GYrMoPJADDsNajekOnx1GM94mDyuBnjvcjzWg1mr
+         U2eA==
+X-Gm-Message-State: AOJu0YxcTFerNJeSU6ZS+YE3UHadBHm5cFHR9S3pFZbvfsUXYvVg8/AK
+	qZQSXoaw2QJ1D9bkZNV33YuZruvYpZmgzUDHqWgriXnUcvhRkcfoZGzL4AKyUWxJWyAHYL9E9My
+	k
+X-Gm-Gg: ASbGncsSN3T+T67GHbsoz9jmtZwPIviCd6t2Podypu87h2jY+MLdDN5A4lcqlLVdoAa
+	iXvEQJb+X7N0U17gZzDB431Q3LwV1E09xlvsNNdEdA6aOdFC/m1B1aAT1JegQ7qDa4/tdcBA6TQ
+	flt/1wyXFQ4J0kSiGSBCMk35bcYGvTU0l1bSxn13kUVVduGEd4SYcbOQGi55Looaxn1axWqrslN
+	48SsTbdOKO533Cj+o334SQIWdDW2gAIpinAqag=
+X-Google-Smtp-Source: AGHT+IE8V74Ljwbke1J6o9g+jk61rdmpjmmeSCrkMKMOw3xclt3kaSa2unTQ0Llxm92bhyZL0vJzLw==
+X-Received: by 2002:a05:6a20:748e:b0:1e0:d1f7:9437 with SMTP id adf61e73a8af0-1e1654134a8mr13635098637.38.1733334905253;
+        Wed, 04 Dec 2024 09:55:05 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.08
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:55:09 -0800 (PST)
+        Wed, 04 Dec 2024 09:55:04 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 31/38] resulttool: Use single space indentation in json output
-Date: Wed,  4 Dec 2024 09:53:58 -0800
-Message-Id: <cae6106f152c8c44e2d85179ad7e6831b974ffd5.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 29/38] selftest/reproducible: Clean up pathnames
+Date: Wed,  4 Dec 2024 09:53:56 -0800
+Message-Id: <13d844b15deba49a54676fa6f83ab4526ec74b9a.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,77 +66,41 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:55:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208314
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208312
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Using 4 space indentation in resulted in hundreds of megabytes of extra file size
-in general use. Reduce this to make filesizes more managable and reduce the processing
-cost. Some level of indentation and spacing does make the files more readable and allows
-use of git diff so we need to retain some of it.
+There are several problems with these paths. Firstly they contain full
+system paths which depend upon where the test was run. These are pretty
+pointless and just take up a lot of space making the results files large.
+
+Secondly, they contain the same path twice. The reference and target path
+will always be the same thing in two different locations.
+
+Strip off the prefix and remove the duplication. This does change the output
+data but that can't really be avoided. It does shrink the results data and makes
+it more readable.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a274cdcaf852cca9497f0358f44dda99c06aacbe)
+(cherry picked from commit 81a44de36e864b08687451fd85aeba7c529fd7f7)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/core/runner.py              | 2 +-
- scripts/lib/resulttool/manualexecution.py | 2 +-
- scripts/lib/resulttool/report.py          | 2 +-
- scripts/lib/resulttool/resultutils.py     | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/reproducible.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
-index d50690ab37..a246c7d26b 100644
---- a/meta/lib/oeqa/core/runner.py
-+++ b/meta/lib/oeqa/core/runner.py
-@@ -347,7 +347,7 @@ class OETestResultJSONHelper(object):
-             os.makedirs(write_dir, exist_ok=True)
-         test_results = self._get_existing_testresults_if_available(write_dir)
-         test_results[result_id] = {'configuration': configuration, 'result': test_result}
--        json_testresults = json.dumps(test_results, sort_keys=True, indent=4)
-+        json_testresults = json.dumps(test_results, sort_keys=True, indent=1)
-         self._write_file(write_dir, self.testresult_filename, json_testresults)
-         if has_bb:
-             bb.utils.unlockfile(lf)
-diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
-index ecb27c5933..ae0861ac6b 100755
---- a/scripts/lib/resulttool/manualexecution.py
-+++ b/scripts/lib/resulttool/manualexecution.py
-@@ -22,7 +22,7 @@ def load_json_file(f):
- def write_json_file(f, json_data):
-     os.makedirs(os.path.dirname(f), exist_ok=True)
-     with open(f, 'w') as filedata:
--        filedata.write(json.dumps(json_data, sort_keys=True, indent=4))
-+        filedata.write(json.dumps(json_data, sort_keys=True, indent=1))
+diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
+index df7d9cc159..08c23227d3 100644
+--- a/meta/lib/oeqa/selftest/cases/reproducible.py
++++ b/meta/lib/oeqa/selftest/cases/reproducible.py
+@@ -191,7 +191,7 @@ class ReproducibleTests(OESelftestTestCase):
  
- class ManualTestRunner(object):
+     def write_package_list(self, package_class, name, packages):
+         self.extraresults['reproducible']['files'].setdefault(package_class, {})[name] = [
+-                {'reference': p.reference, 'test': p.test} for p in packages]
++                p.reference.split("/./")[1] for p in packages]
  
-diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
-index a349510ab8..1c100b00ab 100644
---- a/scripts/lib/resulttool/report.py
-+++ b/scripts/lib/resulttool/report.py
-@@ -256,7 +256,7 @@ class ResultsTextReport(object):
-                 if selected_test_case_only:
-                     print_selected_testcase_result(raw_results, selected_test_case_only)
-                 else:
--                    print(json.dumps(raw_results, sort_keys=True, indent=4))
-+                    print(json.dumps(raw_results, sort_keys=True, indent=1))
-             else:
-                 print('Could not find raw test result for %s' % raw_test)
-             return 0
-diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index c5521d81bd..8fd4e0a9cf 100644
---- a/scripts/lib/resulttool/resultutils.py
-+++ b/scripts/lib/resulttool/resultutils.py
-@@ -169,7 +169,7 @@ def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, p
-         if not ptestjson:
-             resultsout = strip_ptestresults(results[res])
-         with open(dst, 'w') as f:
--            f.write(json.dumps(resultsout, sort_keys=True, indent=4))
-+            f.write(json.dumps(resultsout, sort_keys=True, indent=1))
-         for res2 in results[res]:
-             if ptestlogs and 'result' in results[res][res2]:
-                 seriesresults = results[res][res2]['result']
+     def copy_file(self, source, dest):
+         bb.utils.mkdirhier(os.path.dirname(dest))
 -- 
 2.34.1
 
