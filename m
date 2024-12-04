@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7040DE77170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8DA6FE77175
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:55 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web10.21454.1733334886673452223
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.web10.21457.1733334888956324543
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:46 -0800
+ Wed, 04 Dec 2024 09:54:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kBwio8Ne;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7fbbe0fb0b8so57258a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:46 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=DUxf+7Ct;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.181, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-7fc88476a02so58965a12.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334886; x=1733939686; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334888; x=1733939688; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NGoBZwPKYWLZGl+gFI0fsPV8j+YBgvYrZ1RZ4VApPzg=;
-        b=kBwio8NeEUj+988ePSAMobTM1dKVwX1V4EXEMpZkAGOZ/xqyIzQmT6WzwWaPOCixjl
-         wxykXlD0JTfUElriuKLR8GOIRkxzbCCQy7Fv+xbmtUF98IkzkmcSxaUbyGcTVjXHWzy6
-         Sv0Wi33X7S4yCCf4BI0oc4XN8Dj8Lw6wnWV3QxggdfUPghL19+PhAdMXm29PGeR6BAxo
-         /JEgsBYjb6d9kcBCaBMensa4GRCNvNoigvNV/0WM1JDGTXzGDpQO2BBUU2uJO/c5FPkD
-         aFdiVv2JGKy99SEJzFz/NXw0djsuRuhPlY+EJvl1yj0gAWDB9GhMEyxmPOu6fZGc2Qmr
-         kf2w==
+        bh=CS6ldFKk8PgBT9GaTqdembmsijoMfX4VV8EOWuGbeBA=;
+        b=DUxf+7Ct5zH+Sld36it1kCHzIRrn+XrjaD5LBBfB7Smq1/QyisbKtM3FviZLDyEoDI
+         gu4wyR/GgMb0XprYLDImbSC2Z8k0/X0dP7paaQWzyWSmLmNaLdg8NpPXewbSXKDCP0mj
+         7nxrbFW7AD+Vp70wUfrw+TTZZ+dDWROCMULOGqKEH536gYS/v/60l0JFBecSoeeujnia
+         /HRA/KQlH+YseiVNUzxH48o+sBO89fGAzcIOuLW6k/xWopmFTaPsTG9WcVjstyFh6M9z
+         fF2UZyGZoo4n40GnTm1ocmPmhFEZCLZLRoBsRTMdx7dnD2+pz1WHMRnb7KOUpEBRerI8
+         tjKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334886; x=1733939686;
+        d=1e100.net; s=20230601; t=1733334888; x=1733939688;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NGoBZwPKYWLZGl+gFI0fsPV8j+YBgvYrZ1RZ4VApPzg=;
-        b=AGzCelnKHowtFFG0PuPsgdDaZOYJrUVjRMcxjnDLh55pFLi803geiBFbuX7IrE9H3T
-         KGkIZUc49VZaI/tnde3eVEKmcagrpDsVGkw+XgluAPG7wzJtDRCZ6ucT4dYuqQlS1Yjc
-         Gf44Va6yjNOkjXkNWIk6oxVtju3vfO17OQqEXiblUGTq6/MsjbZItqBOEW48vrNaoHC8
-         byz85i33H46mAetsls5KHBQRAu7wLvlus/DO71E2Uj/EFpy5kIi9wOhfPle08jKCjJCF
-         uR99XZsjoy4hVnPyAftSRQacxViqXwUPdm8OUNVBJIoQrEfCxUpgUUDDZmmeLsMcLRtp
-         ZC2A==
-X-Gm-Message-State: AOJu0YxGVKWKYCqLm0mToPONa0DWdZOnQV5MQINeAkKeYKjOqcGhyhZ4
-	h4CiZNZ5mjqwkCUihHUeJMxJQkSIZvduLarLYA7tMPK0AAJZP/xb7T2DouPyZghm18QHi9nt5Io
-	V
-X-Gm-Gg: ASbGncuNxDlPmz/NXXWr8+dYZPX7zrzcWtpQSt3wp0CKyPDRS4BEoqHH7ML8fYneIqh
-	QxPAmo3c19d326JxuZa4Z9qLuQy2mQ9Trir/3CN8OIhM6Kewv8dvAxjiHatUhVMo8IDjtZinVc+
-	6+CbI7l1stVCAS0HuGlWsmvVqJ7ogw1zrP2Exsag5mAMIGbdydaLHjSQrr2htua5bHiAlDXOuCN
-	BocXX/+tk8DXbHn14QL3+yuVPodVuhsgME2/88=
-X-Google-Smtp-Source: AGHT+IGMIFCsPEPzikx3Nup1X4cz+psT5p/ZfFYj6MAr9Q8KtYnlkJHjnHADrADOvosY9Hsx+g1oPQ==
-X-Received: by 2002:a05:6a20:7f8f:b0:1db:eb56:be7c with SMTP id adf61e73a8af0-1e1653f333bmr11485022637.35.1733334885949;
-        Wed, 04 Dec 2024 09:54:45 -0800 (PST)
+        bh=CS6ldFKk8PgBT9GaTqdembmsijoMfX4VV8EOWuGbeBA=;
+        b=Vx5LFJcghUeE5zNM0iKgvwaYgFtlZuky0KfvdNW+jmuEi57ivUR17Dl/6Rw0ClNF1d
+         LZh0aN46SvcUTnPwiy3xD9XIUuy/gHZ3rFNyismHQkcm3V5n48xH0cqi7MNc5iWFVn7y
+         ZLtZ4m8hy+qY8arET+cTnvYBXm97JFyzn6Z27+WtWrVgVGJUVOBEaIiYF5MpDM5jECCJ
+         b6C4hgwUK7jyp8WSQT5e3xnZMGF0El7lZ8lD0U/q3o4bjm+nPWMrcVgsZGrD1uWDERol
+         29iQvPLlkbFaqNpk4mOVucy863/5C5RblQ0Yp1gJLnmgiOVw/E8PSx8nrRyRUBprpZVX
+         jIRA==
+X-Gm-Message-State: AOJu0Yz0hzVjo7bGT2Yu7T3iyXSRGChez0FATlxfKB06FrIqNFgpT3GR
+	GLtfw3LiPVWwE1iQ3i0NGcWq8+iuKtIp29obJ56QrNGJ7o88XRGlHtHj5FCQbu+dN6cglvhsOrc
+	b
+X-Gm-Gg: ASbGnctuCcoXCn7lpLt8yuEeFISbvOxK0aNrGLJFMi4UT4dqwggJToSMmOZaomRJJbv
+	3vsY/iSVYHgzn/8r2uL1JF8xx0hBFlJDtfWMsEg/nJIezo7BSAhgpJXyjtBBWnRmVqoHeyWznfc
+	ARVhGcek4QAp6Gs5CopH68E/hhe2Q5A/wfQtNl2seMMrhezejsfckthoxt/85eFjJWcPDQPnBu0
+	BjWHjP6CefdL3HENbiAE+gyQ760tI2zXx4MpMY=
+X-Google-Smtp-Source: AGHT+IHivMuzAgZ5MzI/LzruTxTjLouHiWh6XptCiXNJuVF7/DNpshR5/B6QbjSC79CV2jh+hNqFfw==
+X-Received: by 2002:a05:6a20:cfa6:b0:1dc:bdbd:9017 with SMTP id adf61e73a8af0-1e165412f33mr10752158637.40.1733334888196;
+        Wed, 04 Dec 2024 09:54:48 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.45
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.47
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:45 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:47 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 18/38] gnupg: ignore CVE-2022-3515
-Date: Wed,  4 Dec 2024 09:53:45 -0800
-Message-Id: <12007a6d19db220e6540948de9818332192ecde1.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 19/38] qemu: ignore CVE-2022-36648
+Date: Wed,  4 Dec 2024 09:53:46 -0800
+Message-Id: <bd01091c33c1de6ae7e1605301e3f73350ee7e7e.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,29 +66,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208301
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208302
 
 From: Peter Marko <peter.marko@siemens.com>
 
-This is vulnerability of libksba and we use fixed libksba version
-(currently 1.6.4).
+The CVE has disputed flag in NVD DB.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/recipes-support/gnupg/gnupg_2.3.7.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/qemu/qemu.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.3.7.bb b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
-index 7a29a5659a..7075a61898 100644
---- a/meta/recipes-support/gnupg/gnupg_2.3.7.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.3.7.bb
-@@ -87,3 +87,5 @@ lcl_maybe_fortify:mipsarch = ""
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 1c0e8a93f1..cc78d7db06 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -148,6 +148,11 @@ CVE_CHECK_IGNORE += "CVE-2023-0664"
+ # RHEL specific issue
+ CVE_CHECK_IGNORE += "CVE-2023-2680"
  
- # upstream-wontfix: Upstream doesn't seem to be keen on merging the proposed commit - https://dev.gnupg.org/T5993
- CVE_CHECK_IGNORE += "CVE-2022-3219"
-+# cpe-incorrect: this is vulnerability of libksba and we use fixed libksba version
-+CVE_CHECK_IGNORE += "CVE-2022-3515"
++# The CVE has disputed flag in NVD DB and also descrition contains:
++# Note: This has been disputed by multiple third parties as not a valid vulnerability
++#       due to the rocker device not falling within the virtualization use case.
++CVE_CHECK_IGNORE += "CVE-2022-36648"
++
+ COMPATIBLE_HOST:mipsarchn32 = "null"
+ COMPATIBLE_HOST:mipsarchn64 = "null"
+ COMPATIBLE_HOST:riscv32 = "null"
 -- 
 2.34.1
 
