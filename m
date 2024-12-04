@@ -2,167 +2,125 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76564E77170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 85F39E77171
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:02:06 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web10.24603.1733342518531605215
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+ by mx.groups.io with SMTP id smtpd.web11.24283.1733342516748244604
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 12:01:58 -0800
+ Wed, 04 Dec 2024 12:01:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=JidEgZrt;
- spf=pass (domain: gmail.com, ip: 209.85.215.173, mailfrom: raj.khem@gmail.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7fcdb53cca6so159029a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:01:58 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=bYIGS04S;
+ spf=pass (domain: gmail.com, ip: 209.85.214.181, mailfrom: raj.khem@gmail.com)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-215bb7bb9f9so999005ad.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:01:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733342518; x=1733947318; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dBcN44TqbuAoaDPYPDYo6GlJAu1oLb7g1E+cPazeyls=;
-        b=JidEgZrtbiDNXf1LDF4EWJxTLs0u6vi92uskWyUqN4JOjHzCJvBP5molcmt7dosMp1
-         JuS07e+scLf3j4okSHdKrKEpXJk7/g9b8X3oQtMq2MjUqL+ew89bCKnm5l3qvZMAQ1cl
-         BT/YHnPsy4anbUJn7RgluZfspHnPQyc1oSDvQHzuDz1ZMtqss+GfNH5H+PZnEpMs70B5
-         UTc2Z/Sk3blE06bf/ESa5+0CXE7T2XwOzv/vSdLIVZtmv7rDoDvyMSzTyqM353mqyxt4
-         duq2jOtLf6uRamRk3O9WQJ5xcOSGi61i083UbFdUJDIN5RFVYB9AnaBVzdtVbXnOrMl0
-         IncA==
+        d=gmail.com; s=20230601; t=1733342516; x=1733947316; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1jfDZtG/LfOHjiNrHVRJv1/hyZwURG9uFZoIvCBdSbI=;
+        b=bYIGS04SMvP++a25O5vCxMwNPQ2jMz5P9/NoNenUlBppKnp57OT6TTLvMVhcbcH0jo
+         BrLzeVBBU4vu57sJCZptqbbfaCSG0w0usjirJwU0PVwfUy10cvGU8A1ktIy5HzZEIIon
+         i9CGPWQkrqfv83X2JzH+AV3pwEgUR0BWldHjC2RyCSVjXHd4Irk7yk7ApTprr+v1EJKp
+         IYJ5NPrBCXhitf8T4WKByW0vx4nrNEQxzIU3uOo5sUjAI7aOecHGtFVGFWBTiYtloGo/
+         JcgssdrnIO89/whCYi9y/0nNY1dfZ+9HIkWeULOkOcYZkZ4ICPcWdUAleO34mvetxLWt
+         RuDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733342518; x=1733947318;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dBcN44TqbuAoaDPYPDYo6GlJAu1oLb7g1E+cPazeyls=;
-        b=rsKSxxJn/ZiWRPh4epIlMVcxqozkzobVGPJ2mnBgzBcEC51v8TJrIxjH9n5LPFU98N
-         BReOvToB5FK0k63fnQE2L6rqnPILCvEWD59Ly9XA80pSBNX8lxzelr49IbDo3/k/Se+V
-         181VMZchC15+OwzinLf3XZnQklZMStny03FJ7CDplzJnGVBGmpB/ww4oiXaPWsnOCWX8
-         bwteFWHtA2OgiPW7x4YpqtGwZxOiX1F4YRAy/4eLTRiXiG8x2yY4oxfPwLoy9ob599pQ
-         QSSz8BqeZWfKuaKwIgqKxA6I/wYoNcGlcMhSNKY/CNTg26dgVZmYCJDDEPfrUPZB0oBE
-         UPlQ==
-X-Gm-Message-State: AOJu0YytJeQ2Y/+m+Y57R3TVBiUADEAxE746+41hvamdpYegktJ9sjTY
-	z9Wk5S/EvCxZgxv6WZGZrXByKZnB6qBvzQpxcpAW3XZdzmQXhbE4iNauoLkn
-X-Gm-Gg: ASbGncvEad3FkHtTM/n5MN8IMqzvb/cTUYdDWtHb3Cj1jc3DQf5n9aIlvZrN/3Zi+eW
-	enLKpeYRX9c7kErOYxmhefMCndEPdDgDRm+5bX/b5Gi+POtf6hqWMaSJapPUy8LDtVBq6R2BLfO
-	wddKWaF9zGbSsFH/Qe84XTtX6EUZN2uHDsJcYW6mRW4GvKoxIKMl0l8TO2bXdEZDbzJARC7psPP
-	3uTTxY8hF4IWx5NyCtPbuYW+5juH0sjAErDKnpr4MuJgcPy2bZP
-X-Google-Smtp-Source: AGHT+IFqgm0criVGHYt3xI1Evf9xcXuvMa3Osf9VpXVA0RIMTLRGHl1ziTmj4YEQIn0zufqYt9tSng==
-X-Received: by 2002:a05:6a20:430d:b0:1db:ebf4:2cb8 with SMTP id adf61e73a8af0-1e1654132b6mr12724725637.38.1733342517428;
-        Wed, 04 Dec 2024 12:01:57 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733342516; x=1733947316;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1jfDZtG/LfOHjiNrHVRJv1/hyZwURG9uFZoIvCBdSbI=;
+        b=jBxTTUqrgUHeDbZbtTBU0s6LSAUwu7Fh7bsqnHI1gIoxUPrzo0ol+xAEuPUOFgNd2v
+         SJ1nhJv0RFt+dBkBtNdsw/Q46kv5/UlVQ08yx9uxigj8G3VckTAT3af2zAnqxMshsWq4
+         3YNbJia9MG6QVCxCuQwmLCm6193Lg13ZXj2mxnRKbJNBOC8uJ4uxZNingEcW3cOKFQmy
+         4itOi62TapPUimM3rgJ78DRFGT3e16S1eC25Uy2DfT2/z+2x2sm6z15UN9DqIolQ3SGx
+         TptmohzH/f6rqeDXHAQOda5cD5v0jCz1AM9W+Hv/uPjlmX07gCIWJQziL9SFA+eBLiur
+         X7zg==
+X-Gm-Message-State: AOJu0YwTMqYiTevk15FAa5isb9g5/5xCG12p0uXbmxrnjr7PrT+5DQk9
+	TDuABuvGuWPZcEqrdqr38NSbG7UeFuCpCeI1jX4EcCuy0UMz3M8LMy/jYnZ2
+X-Gm-Gg: ASbGncv6DrBMpN5AgP2utdL7yfnVpKFhTADl4ngktwUuLF+W2TbvggTjIZt/4hI7yL2
+	Ei+k9rnksjdung55h1GNcvtEwV+eYI2qXkjYFh+R9qJs9Tbt2zc1M/4IWXHU+Q3oOpCpCT+y5Mt
+	2Rr+fKPkU0MgTphmk/2Sv/K2rqa9Iv8vYsKHN/55Gu4gQ28RgpJK5yaq3PaHhvCc9H5aOcqdYO1
+	sPWyV4MOIjDboXiz4Pmo+IhoBtoDfeMykwbNV3LgPhqMGcGO/iA
+X-Google-Smtp-Source: AGHT+IHhMQgVDSVUvEJYcDpxEpC+9UPDU2rYBLiC1sjI1JohTF2vVAJsXZq5K+qguNyQN9YIbuwDLA==
+X-Received: by 2002:a17:903:41ca:b0:215:6cb2:7877 with SMTP id d9443c01a7336-215d002890bmr68539775ad.4.1733342515639;
+        Wed, 04 Dec 2024 12:01:55 -0800 (PST)
 Received: from apollo.hsd1.ca.comcast.net ([2601:646:8201:fd20::9a42])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254184943csm12749803b3a.191.2024.12.04.12.01.56
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254184943csm12749803b3a.191.2024.12.04.12.01.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 12:01:56 -0800 (PST)
+        Wed, 04 Dec 2024 12:01:55 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <raj.khem@gmail.com>
-Subject: [PATCH 3/3] musl: Update riscv syscalls till 6.10 kernel
-Date: Wed,  4 Dec 2024 12:01:53 -0800
-Message-ID: <20241204200153.2360387-3-raj.khem@gmail.com>
+Subject: [PATCH 1/3] ffmpeg: Fix RISCV build
+Date: Wed,  4 Dec 2024 12:01:51 -0800
+Message-ID: <20241204200153.2360387-1-raj.khem@gmail.com>
 X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241204200153.2360387-1-raj.khem@gmail.com>
-References: <20241204200153.2360387-1-raj.khem@gmail.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:02:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208327
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208325
 
-Some packages e.g. ffmpeg have started using __NR_riscv_hwprobe
-to detect Zba and Zbb at run-time.
+Issue found with LLD linker
+
+| riscv64-yoe-linux-ld.lld: error: relocation R_RISCV_64 cannot be used against symbol '
+   ↪ ff_h264_weight_pixels16_8_rvv'; recompile with -fPIC
+   | >>> defined in libavcodec/riscv/h264dsp_rvv.o
+   | >>> referenced by libavcodec/riscv/h264dsp_rvv.o:(ff_h264_weight_funcs_8_rvv)
 
 Signed-off-by: Khem Raj <raj.khem@gmail.com>
 ---
- ...for-r32-rv64-from-kernel-6.4-through.patch | 70 +++++++++++++++++++
- meta/recipes-core/musl/musl_git.bb            |  1 +
- 2 files changed, 71 insertions(+)
- create mode 100644 meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch
+ ...e-RISC-V-fn-pointers-to-.data.rel.ro.patch | 26 +++++++++++++++++++
+ meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb  |  1 +
+ 2 files changed, 27 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavc-h264dsp-move-RISC-V-fn-pointers-to-.data.rel.ro.patch
 
-diff --git a/meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch b/meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavc-h264dsp-move-RISC-V-fn-pointers-to-.data.rel.ro.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavc-h264dsp-move-RISC-V-fn-pointers-to-.data.rel.ro.patch
 new file mode 100644
-index 00000000000..78ba903ca6a
+index 00000000000..9dc10f12198
 --- /dev/null
-+++ b/meta/recipes-core/musl/musl/0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch
-@@ -0,0 +1,70 @@
-+From 31dce8e958f5185e7fda653214da12bbc75f244e Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Wed, 4 Dec 2024 11:16:43 -0800
-+Subject: [PATCH] Update syscalls for r32/rv64 from kernel 6.4 through 6.10
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/0001-lavc-h264dsp-move-RISC-V-fn-pointers-to-.data.rel.ro.patch
+@@ -0,0 +1,26 @@
++From 93f277f05cc71f69930bd680ac6eae5457b963f3 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?R=C3=A9mi=20Denis-Courmont?= <remi@remlab.net>
++Date: Sat, 16 Nov 2024 08:57:54 +0200
++Subject: [PATCH] lavc/h264dsp: move RISC-V fn pointers to .data.rel.ro
 +
-+Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2024/12/04/3]
++This should fix PIC builds.
++
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/c3051d94a7939de93acd647d3a1719ce56c0c4f5]
 +Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ arch/riscv32/bits/syscall.h.in | 11 +++++++++++
-+ arch/riscv64/bits/syscall.h.in | 11 +++++++++++
-+ 2 files changed, 22 insertions(+)
++ libavcodec/riscv/h264dsp_rvv.S | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/arch/riscv32/bits/syscall.h.in b/arch/riscv32/bits/syscall.h.in
-+index 9228d840..a54d9ffc 100644
-+--- a/arch/riscv32/bits/syscall.h.in
-++++ b/arch/riscv32/bits/syscall.h.in
-+@@ -216,6 +216,7 @@
-+ #define __NR_perf_event_open 241
-+ #define __NR_accept4 242
-+ #define __NR_arch_specific_syscall 244
-++#define __NR_riscv_hwprobe 258
-+ #define __NR_prlimit64 261
-+ #define __NR_fanotify_init 262
-+ #define __NR_fanotify_mark 263
-+@@ -295,6 +296,16 @@
-+ #define __NR_cachestat		451
-+ #define __NR_fchmodat2		452
-+ #define __NR_futex __NR_futex_time64
-++#define __NR_map_shadow_stack 453
-++#define __NR_futex_wake 454
-++#define __NR_futex_wait 455
-++#define __NR_futex_requeue 456
-++#define __NR_statmount 457
-++#define __NR_listmount 458
-++#define __NR_lsm_get_self_attr 459
-++#define __NR_lsm_list_modules 461
-++#define __NR_lsm_set_self_attr 460
-++#define __NR_mseal 462
++diff --git a/libavcodec/riscv/h264dsp_rvv.S b/libavcodec/riscv/h264dsp_rvv.S
++index 422ac02..97c6708 100644
++--- a/libavcodec/riscv/h264dsp_rvv.S
+++++ b/libavcodec/riscv/h264dsp_rvv.S
++@@ -176,7 +176,7 @@ endfunc
 + 
-+ #define __NR_sysriscv __NR_arch_specific_syscall
-+ #define __NR_riscv_flush_icache (__NR_sysriscv + 15)
-+diff --git a/arch/riscv64/bits/syscall.h.in b/arch/riscv64/bits/syscall.h.in
-+index e362bd0e..6991a89c 100644
-+--- a/arch/riscv64/bits/syscall.h.in
-++++ b/arch/riscv64/bits/syscall.h.in
-+@@ -242,6 +242,7 @@
-+ #define __NR_accept4 242
-+ #define __NR_recvmmsg 243
-+ #define __NR_arch_specific_syscall 244
-++#define __NR_riscv_hwprobe 258
-+ #define __NR_wait4 260
-+ #define __NR_prlimit64 261
-+ #define __NR_fanotify_init 262
-+@@ -304,6 +305,16 @@
-+ #define __NR_set_mempolicy_home_node	450
-+ #define __NR_cachestat		451
-+ #define __NR_fchmodat2		452
-++#define __NR_map_shadow_stack 453
-++#define __NR_futex_wake 454
-++#define __NR_futex_wait 455
-++#define __NR_futex_requeue 456
-++#define __NR_statmount 457
-++#define __NR_listmount 458
-++#define __NR_lsm_get_self_attr 459
-++#define __NR_lsm_list_modules 461
-++#define __NR_lsm_set_self_attr 460
-++#define __NR_mseal 462
-+ 
-+ #define __NR_sysriscv __NR_arch_specific_syscall
-+ #define __NR_riscv_flush_icache (__NR_sysriscv + 15)
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 2ce16d041dd..9d33df49968 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -13,6 +13,7 @@ PV = "${BASEVER}+git"
- SRC_URI = "git://git.musl-libc.org/musl;branch=master \
-            file://0001-Make-dynamic-linker-a-relative-symlink-to-libc.patch \
-            file://0002-ldso-Use-syslibdir-and-libdir-as-default-pathes-to-l.patch \
-+           file://0001-Update-syscalls-for-r32-rv64-from-kernel-6.4-through.patch \
-           "
++         .global ff_h264_weight_funcs_8_rvv
++         .hidden ff_h264_weight_funcs_8_rvv
++-const ff_h264_weight_funcs_8_rvv
+++const ff_h264_weight_funcs_8_rvv, relocate=1
++         .irp    w, 16, 8, 4, 2
++ #if __riscv_xlen == 32
++         .word   ff_h264_weight_pixels\w\()_8_rvv
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
+index 35dbda8c3d9..1c72d503d3c 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_7.1.bb
+@@ -23,6 +23,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+                     file://COPYING.LGPLv3;md5=e6a600fd5e1d9cbde2d983680233ad02"
  
- S = "${WORKDIR}/git"
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
++           file://0001-lavc-h264dsp-move-RISC-V-fn-pointers-to-.data.rel.ro.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "40973d44970dbc83ef302b0609f2e74982be2d85916dd2ee7472d30678a7abe6"
 
