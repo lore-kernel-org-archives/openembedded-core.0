@@ -2,785 +2,413 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A0828E77175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AF13AE77176
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 06:49:51 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.web11.8159.1733294990218287037
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.web10.8183.1733294990955813059
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 22:49:50 -0800
+ Tue, 03 Dec 2024 22:49:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=E6Au9qwr;
- spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-385eed29d7fso337714f8f.0
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=ljNshfe3;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434ab938e37so41318255e9.0
         for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 22:49:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20230601; t=1733294989; x=1733899789; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=+S9BpyQkaiB/z2D8MRK17TVcEGMdg/+XC1NxaOXJBRk=;
-        b=E6Au9qwre4IKGw4De7ZfvGyYnDnVWfzPgRNsnFAicdGmCsawdp7g6Q54fVyTH6ob2y
-         PVpTCzAmpPvcLAmaBdbm/k+NHr+NAyy2wu82OFAZKdEw1ouKeT8FfXSThpcCHrWvMQtV
-         3kWzXvzptNtKiTJCFgQa2U8wIMQwncDXkxnHm8Dvm7nVA05Sn0b8UiCPmUXtoQzznR82
-         ATUGhhcPk+glEUo6vHvfLYAqGugnEiDdQo3oYrxd1/cKta9x/WXNwhY98tNn8NrEm5Du
-         DFG01RvhiiPUTVHFFQAfAp0dDek6tcRfOeXoLtrRlZzPZFo0StCrICGkiXplWzvdaXxv
-         CNuQ==
+        bh=Igz7GBAMIrXPPi9v/XKmz8VslQBZCrtblk4oE87e9XA=;
+        b=ljNshfe3OFdCha3pdGegaMRxh5mpQiC7Xqby7RDmRcq3ejhKPW9X+CgmOY16yvbxy1
+         RsT0yoyLS1LWyl1cuHWE0A3OtAd+mSPRAOeRmul7AKi8rbWlv585+X6or5HQx3FL4tqB
+         citCwUHuvzTdVxXBKoihLtIxaOeevV0yELNwZkE/3jJM5F4qnZVI3cvch7w46Nd4QSAw
+         CeUiicknP+D/dao8U/YTtS1KUQ0r3dYyL5ylVI93joGlLKgEiHu20snR/c3D/snQzxNX
+         82bXCtWEyhKrb9aRzbazKpPpBdZl7myloZOBX6TPUR7hGGdqkvYHwv5SvpGQ4y4Typm1
+         3w/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20230601; t=1733294989; x=1733899789;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=+S9BpyQkaiB/z2D8MRK17TVcEGMdg/+XC1NxaOXJBRk=;
-        b=PmS+Q1RXlT9fJfhMeto2DZuJIWmclawWL3c1DhyWXsftZ7AJ5qXQ5QaiLhFzPcDW7g
-         EQOYeP3WidEVOgv27jDRhqTybnB3FP3TDdwYHtknUoVW6Eq49KQqciMyDZCs2M9UVhlL
-         g2WESApcoxQNMFzFVn4xvDOaWGsBR61CoO2oFNzh5XYHxj35ifNuylNbOQq8iKYrR3aL
-         eJQ7Gayi50AAccuyIFM6cbfg6Mcr7MJDhefXqp2E0mcYSeOpDUNr+H9QxmBmU+o+nur1
-         zfkjze85L5PVL4K22TZahn63t1jUm5KNLhOWCo+OlSxXQSQtACATViIJGwqUuazMJgT8
-         53Lg==
-X-Gm-Message-State: AOJu0YySaQIn93O8XRnJCDKWtQnbe42NmQdMvHEPpfKChUht/ScnJ9/g
-	7uzL+NIjyVBcHkynetTIFvv/2f5z93F97Hn7ZNCxzAHx8j+w8ToWCQHubA==
-X-Gm-Gg: ASbGnctn9ZpJUwH4OPPyh6l7zmit8kCdID7JB3vHU0d4O3E8pbsLk35yVpFykRg5sj2
-	7WlHdeHIZbhZas40mHLY3Qcr2CV05Bv1UIbNReo1eUqSsKuRPlsqBjW6O1s9YXf4kQEKMaqmaO3
-	/VKEB1E9ZMZqbF5+UVfGwqcwvXQ4Ga8Z5tO2ciHCQXYT1iY6rK+fjZJeDY3zcSk4mM2PoNj5GRz
-	RxEk5AqtOjjqkhk+cVRDeefeJ2YZf+6rRXTu/zSyiVjzWtt579VAliVKh7DMXW7mgvXbGaBjM8r
-	KdX83beaZgs=
-X-Google-Smtp-Source: AGHT+IHRI6FZpYMP/C4mIxb1p0ozKowt220JoA1hb3UnblY8Scco3eFc6xdcxK4e03Y8TQGv9ELrSw==
-X-Received: by 2002:a5d:5f48:0:b0:385:f07a:f4af with SMTP id ffacd0b85a97d-385f07af622mr10115258f8f.0.1733294988338;
-        Tue, 03 Dec 2024 22:49:48 -0800 (PST)
+        bh=Igz7GBAMIrXPPi9v/XKmz8VslQBZCrtblk4oE87e9XA=;
+        b=wdnYbrFJqYaz1auqs4h+RuIzjVijK2imo2Jt3Q6WEIJ5zEPhiamTbrgJZhWyi2W/bB
+         ksXXzNfiiQv0QFsvw5eFB+hhi9Q7+aUK8s/ruvcPEHNczcPlLs+lXZjXKb/gtEHSXIz1
+         8+q60NcMI3zazGqcldznU9x+OKqlg8tNajpBwJ3dnYaP31Qgb/54GdHH5tnk9tiic0xS
+         Ik6+hZ9w9QZi5/rY26gDaGbSzLZgcAFt8lpXax8+jtduror6Oh+ofPhdVZAvIXbxizaQ
+         P4LvRHXBQ9Z8tuwhDPdpx2mqrcDqPMtdkL84nNwLItlD7H0+XgHw++xNv1rK7NVEAsX7
+         dUxQ==
+X-Gm-Message-State: AOJu0YzvYguNbDOIcRsE9d84xn55yPm9mUyk9zT1y6fkHE9aJCOU69gI
+	49dcp0TKUU2kgE5Hg850dXHxI74g3OzGn+C+PXN9uVFj/1tOCsCzIoT2eQ==
+X-Gm-Gg: ASbGncvi1vxBUCTH/2mGJM1cTplL7NXFFZoMnxyZJyCyWqEbpnXIH+oSfyVuTAUMCFn
+	Q0k7P1m7GGudtVZkU+EWurvmW39sGdNuqcRJvt/sKAUYnvESbArVS3RERb7MOuPSHYjqVgUkXbd
+	yTuLHqYH4XmDJ52OCJjZV7Y7pinHJfO+hcyjYrY4VICX5Qjo+BwDbU2SzuyYKUdU+3ZcmQYRHqM
+	Aiwvu40pxL8gJblpBcZdzGpdVLT52zByKj7mTeuErWGL6u3ZVGx+7aAWnAwostgZoDOlb5v9ROX
+	QbVsj63g7Ec=
+X-Google-Smtp-Source: AGHT+IHUCsieBIrwbD8YilictSMyI7+r7TipXyYJvnnrz722suS9xIf+TPfNW82FVMYicNbGljVMfQ==
+X-Received: by 2002:a5d:59a6:0:b0:385:f979:7683 with SMTP id ffacd0b85a97d-38607c0e1fdmr2472852f8f.37.1733294989131;
+        Tue, 03 Dec 2024 22:49:49 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f343f293sm7435757f8f.36.2024.12.03.22.49.47
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f343f293sm7435757f8f.36.2024.12.03.22.49.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 22:49:47 -0800 (PST)
+        Tue, 03 Dec 2024 22:49:48 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 18/37] libtool: update 2.5.2 -> 2.5.4
-Date: Wed,  4 Dec 2024 07:49:01 +0100
-Message-Id: <20241204064920.817016-18-alex.kanavin@gmail.com>
+Subject: [PATCH 19/37] ovmf: update 202408 -> 202411
+Date: Wed,  4 Dec 2024 07:49:02 +0100
+Message-Id: <20241204064920.817016-19-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241204064920.817016-1-alex.kanavin@gmail.com>
 References: <20241204064920.817016-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 06:49:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208247
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208248
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-2.5.2 was a beta, upstream made two stable releases since:
-https://savannah.gnu.org/news/?id=10676
-https://savannah.gnu.org/news/?id=10693
-
-Drop libtool/0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch
-(merged upstream)
-
-Apply all patches unconditionally; the two conditional patches weren't specific
-to respective variants, and this significantly simplifies version updates or
-other modifications.
-
-License-Update: change of FSF address to a URI
-
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../libtool/libtool-2.5.2.inc                 | 36 ----------------
- .../libtool/libtool-2.5.4.inc                 | 37 ++++++++++++++++
- ...-cross_2.5.2.bb => libtool-cross_2.5.4.bb} |  1 -
- ...ative_2.5.2.bb => libtool-native_2.5.4.bb} |  0
- ...-trailing-slashes-on-install-command.patch | 36 ----------------
- ...root-paths-being-encoded-into-RPATH.patch} | 24 +++++++----
- ...ncode-RATHS-which-match-default-lin.patch} | 25 +++++++----
- ...-libtool-remove-help2man-dependency.patch} | 23 +++++++---
- ...-libtool-to-handle-sysroots-by-defa.patch} | 19 +++++---
- ...-static-libs-for-internal-compiler-.patch} | 21 ++++++---
- ... 0006-libtool-Fix-tools-path-issues.patch} | 19 ++++++--
- ...problem-with-libtoolize-in-multilib.patch} | 23 +++++++---
- ...inking-when-cross-compiling-its-poi.patch} | 43 +++++++++++++------
- .../{libtool_2.5.2.bb => libtool_2.5.4.bb}    |  2 -
- ...ol_2.5.2.bb => nativesdk-libtool_2.5.4.bb} |  2 -
- 15 files changed, 176 insertions(+), 135 deletions(-)
- delete mode 100644 meta/recipes-devtools/libtool/libtool-2.5.2.inc
- create mode 100644 meta/recipes-devtools/libtool/libtool-2.5.4.inc
- rename meta/recipes-devtools/libtool/{libtool-cross_2.5.2.bb => libtool-cross_2.5.4.bb} (98%)
- rename meta/recipes-devtools/libtool/{libtool-native_2.5.2.bb => libtool-native_2.5.4.bb} (100%)
- delete mode 100644 meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch
- rename meta/recipes-devtools/libtool/libtool/{0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch => 0001-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch} (75%)
- rename meta/recipes-devtools/libtool/libtool/{0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch => 0002-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch} (79%)
- rename meta/recipes-devtools/libtool/libtool/{dont-depend-on-help2man.patch => 0003-libtool-remove-help2man-dependency.patch} (58%)
- rename meta/recipes-devtools/libtool/libtool/{0006-libtool.m4-Handle-as-a-sysroot-correctly.patch => 0004-libtool.m4-Change-libtool-to-handle-sysroots-by-defa.patch} (66%)
- rename meta/recipes-devtools/libtool/libtool/{0008-libtool-Check-for-static-libs-for-internal-compiler-.patch => 0005-libtool-Check-for-static-libs-for-internal-compiler-.patch} (66%)
- rename meta/recipes-devtools/libtool/libtool/{nohardcodepaths.patch => 0006-libtool-Fix-tools-path-issues.patch} (54%)
- rename meta/recipes-devtools/libtool/libtool/{multilib.patch => 0007-libtool-Fix-problem-with-libtoolize-in-multilib.patch} (54%)
- rename meta/recipes-devtools/libtool/libtool/{fixinstall.patch => 0008-libtool-Avoid-relinking-when-cross-compiling-its-poi.patch} (70%)
- rename meta/recipes-devtools/libtool/{libtool_2.5.2.bb => libtool_2.5.4.bb} (91%)
- rename meta/recipes-devtools/libtool/{nativesdk-libtool_2.5.2.bb => nativesdk-libtool_2.5.4.bb} (93%)
+ ...ovmf-update-path-to-native-BaseTools.patch |  7 ++--
+ ...ile-adjust-to-build-in-under-bitbake.patch |  7 ++--
+ .../ovmf/ovmf/0003-debug-prefix-map.patch     | 35 ++++++++++---------
+ .../ovmf/ovmf/0004-reproducible.patch         | 25 +++++++------
+ meta/recipes-core/ovmf/ovmf_git.bb            |  4 +--
+ 5 files changed, 45 insertions(+), 33 deletions(-)
 
-diff --git a/meta/recipes-devtools/libtool/libtool-2.5.2.inc b/meta/recipes-devtools/libtool/libtool-2.5.2.inc
-deleted file mode 100644
-index bde80e12ce7..00000000000
---- a/meta/recipes-devtools/libtool/libtool-2.5.2.inc
-+++ /dev/null
-@@ -1,36 +0,0 @@
--SUMMARY = "Generic library support script"
--DESCRIPTION = "This is GNU libtool, a generic library support script. \
--Libtool hides the complexity of generating special library types \
--(such as shared libraries) behind a consistent interface."
--HOMEPAGE = "http://www.gnu.org/software/libtool/libtool.html"
--SECTION = "devel"
--LICENSE = "GPL-2.0-only & LGPL-2.1-only"
--LIC_FILES_CHKSUM = "file://COPYING;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
--    file://libltdl/COPYING.LIB;md5=4fbd65380cdd255951079008b364516c "
--
--SRC_URI = "https://alpha.gnu.org/gnu/libtool/libtool-${PV}.tar.gz \
--           file://0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch \
--           file://0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch \
--           file://0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch \
--           file://dont-depend-on-help2man.patch \
--           file://0006-libtool.m4-Handle-as-a-sysroot-correctly.patch \
--           file://0008-libtool-Check-for-static-libs-for-internal-compiler-.patch \
--           file://nohardcodepaths.patch \
--          "
--
--SRC_URI[sha256sum] = "29275fb45b236d6ff720a433f9cd5f61ea2f52cc3aa2e5f89ba57726bda54793"
--
--inherit autotools texinfo
--EXTRA_AUTORECONF = "--exclude=libtoolize"
--
--CACHED_CONFIGUREVARS += "ac_cv_path_GREP=grep"
--
--DEPENDS = "libtool-native"
--
--PACKAGES =+ "libltdl"
--FILES:${PN} += "${datadir}/aclocal"
--
--FILES:${PN}-dev:remove = "${datadir}/aclocal"
--FILES:libltdl = "${libdir}/libltdl${SOLIBS}"
--
--export CONFIG_SHELL="/bin/bash"
-diff --git a/meta/recipes-devtools/libtool/libtool-2.5.4.inc b/meta/recipes-devtools/libtool/libtool-2.5.4.inc
-new file mode 100644
-index 00000000000..86ce446916a
---- /dev/null
-+++ b/meta/recipes-devtools/libtool/libtool-2.5.4.inc
-@@ -0,0 +1,37 @@
-+SUMMARY = "Generic library support script"
-+DESCRIPTION = "This is GNU libtool, a generic library support script. \
-+Libtool hides the complexity of generating special library types \
-+(such as shared libraries) behind a consistent interface."
-+HOMEPAGE = "http://www.gnu.org/software/libtool/libtool.html"
-+SECTION = "devel"
-+LICENSE = "GPL-2.0-only & LGPL-2.1-only"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=570a9b3749dd0463a1778803b12a6dce \
-+    file://libltdl/COPYING.LIB;md5=4bf661c1e3793e55c8d1051bc5e0ae21 "
-+
-+SRC_URI = "${GNU_MIRROR}/libtool/libtool-${PV}.tar.gz \
-+           file://0001-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch \
-+           file://0002-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch \
-+           file://0003-libtool-remove-help2man-dependency.patch \
-+           file://0004-libtool.m4-Change-libtool-to-handle-sysroots-by-defa.patch \
-+           file://0005-libtool-Check-for-static-libs-for-internal-compiler-.patch \
-+           file://0006-libtool-Fix-tools-path-issues.patch \
-+           file://0007-libtool-Fix-problem-with-libtoolize-in-multilib.patch \
-+           file://0008-libtool-Avoid-relinking-when-cross-compiling-its-poi.patch \
-+          "
-+
-+SRC_URI[sha256sum] = "da8ebb2ce4dcf46b90098daf962cffa68f4b4f62ea60f798d0ef12929ede6adf"
-+
-+inherit autotools texinfo
-+EXTRA_AUTORECONF = "--exclude=libtoolize"
-+
-+CACHED_CONFIGUREVARS += "ac_cv_path_GREP=grep"
-+
-+DEPENDS = "libtool-native"
-+
-+PACKAGES =+ "libltdl"
-+FILES:${PN} += "${datadir}/aclocal"
-+
-+FILES:${PN}-dev:remove = "${datadir}/aclocal"
-+FILES:libltdl = "${libdir}/libltdl${SOLIBS}"
-+
-+export CONFIG_SHELL="/bin/bash"
-diff --git a/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb b/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb
-similarity index 98%
-rename from meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb
-rename to meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb
-index 18849cb8ef6..32d03c2f8ac 100644
---- a/meta/recipes-devtools/libtool/libtool-cross_2.5.2.bb
-+++ b/meta/recipes-devtools/libtool/libtool-cross_2.5.4.bb
-@@ -1,7 +1,6 @@
- require libtool-${PV}.inc
- 
- PACKAGES = ""
--SRC_URI += "file://fixinstall.patch"
- 
- datadir = "${STAGING_DIR_TARGET}${target_datadir}"
- 
-diff --git a/meta/recipes-devtools/libtool/libtool-native_2.5.2.bb b/meta/recipes-devtools/libtool/libtool-native_2.5.4.bb
-similarity index 100%
-rename from meta/recipes-devtools/libtool/libtool-native_2.5.2.bb
-rename to meta/recipes-devtools/libtool/libtool-native_2.5.4.bb
-diff --git a/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch b/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch
-deleted file mode 100644
-index d5d906e6b62..00000000000
---- a/meta/recipes-devtools/libtool/libtool/0001-ltmain.in-Handle-trailing-slashes-on-install-command.patch
-+++ /dev/null
-@@ -1,36 +0,0 @@
--From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Subject: [PATCH 01/12] ltmain.in: Handle trailing slashes on install commands correctly
--
--A command like:
--
--libtool --mode=install /usr/bin/install -c gck-roots-store-standalone.la '/image/usr/lib/gnome-keyring/standalone/'
--
--where the path ends with a trailing slash currently fails. This occurs in
--software like gnome-keyring or pulseaudio and is because the comparision
--code doesn't see the paths as equal. Strip both paths to ensure this works
--reliably.
--
--Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
--
--Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00010.html]
--
--Index: libtool-2.5.0/build-aux/ltmain.in
--===================================================================
----- libtool-2.5.0.orig/build-aux/ltmain.in
--+++ libtool-2.5.0/build-aux/ltmain.in
--@@ -2382,8 +2382,14 @@ func_mode_install ()
-- 	func_append dir "$objdir"
-- 
-- 	if test -n "$relink_command"; then
--+	  # Strip any trailing slash from the destination.
--+	  func_stripname '' '/' "$libdir"
--+	  destlibdir=$func_stripname_result
--+	  func_stripname '' '/' "$destdir"
--+	  s_destdir=$func_stripname_result
--+
-- 	  # Determine the prefix the user has applied to our future dir.
---	  inst_prefix_dir=`$ECHO "$destdir" | $SED -e "s%$libdir\$%%"`
--+	  inst_prefix_dir=`$ECHO "X$s_destdir" | $Xsed -e "s%$destlibdir\$%%"`
-- 
-- 	  # Don't allow the user to place us outside of our expected
-- 	  # location b/c this prevents finding dependent libraries that
-diff --git a/meta/recipes-devtools/libtool/libtool/0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch b/meta/recipes-devtools/libtool/libtool/0001-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch
-similarity index 75%
-rename from meta/recipes-devtools/libtool/libtool/0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch
-rename to meta/recipes-devtools/libtool/libtool/0001-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch
-index a6b3313d716..bcffb7d1ae3 100644
---- a/meta/recipes-devtools/libtool/libtool/0004-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0001-ltmain.sh-Fix-sysroot-paths-being-encoded-into-RPATH.patch
-@@ -1,5 +1,7 @@
-+From 16354097285634daf0240d428bc49fba95c3a291 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Subject: [PATCH 04/12] ltmain.sh: Fix sysroot paths being encoded into RPATHs
-+Date: Tue, 26 Nov 2024 09:57:35 +0000
-+Subject: [PATCH 1/7] ltmain.sh: Fix sysroot paths being encoded into RPATHs
- 
- There is a bug where RPATHs could end up containing sysroot values when
- cross compiling which is obviously incorrect. Strip out sysroot components
-@@ -8,12 +10,15 @@ from libdir when building RPATH values to avoid this.
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
- Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00009.html]
-+---
-+ build-aux/ltmain.in | 14 ++++++++++++--
-+ 1 file changed, 12 insertions(+), 2 deletions(-)
- 
--Index: libtool-2.5.0/build-aux/ltmain.in
--===================================================================
----- libtool-2.5.0.orig/build-aux/ltmain.in
--+++ libtool-2.5.0/build-aux/ltmain.in
--@@ -7584,9 +7584,11 @@ func_mode_link ()
-+diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
-+index fa157775..c31faebd 100644
-+--- a/build-aux/ltmain.in
-++++ b/build-aux/ltmain.in
-+@@ -7764,9 +7764,11 @@ func_mode_link ()
-  	  test relink = "$opt_mode" || rpath=$compile_rpath$rpath
-  	  for libdir in $rpath; do
-  	    if test -n "$hardcode_libdir_flag_spec"; then
-@@ -27,7 +32,7 @@ Index: libtool-2.5.0/build-aux/ltmain.in
-  		if test -z "$hardcode_libdirs"; then
-  		  hardcode_libdirs=$libdir
-  		else
--@@ -8316,6 +8318,10 @@ func_mode_link ()
-+@@ -8496,6 +8498,10 @@ func_mode_link ()
-        hardcode_libdirs=
-        for libdir in $compile_rpath $finalize_rpath; do
-  	if test -n "$hardcode_libdir_flag_spec"; then
-@@ -38,7 +43,7 @@ Index: libtool-2.5.0/build-aux/ltmain.in
-  	  if test -n "$hardcode_libdir_separator"; then
-  	    if test -z "$hardcode_libdirs"; then
-  	      hardcode_libdirs=$libdir
--@@ -8367,6 +8373,10 @@ func_mode_link ()
-+@@ -8547,6 +8553,10 @@ func_mode_link ()
-        hardcode_libdirs=
-        for libdir in $finalize_rpath; do
-  	if test -n "$hardcode_libdir_flag_spec"; then
-@@ -49,3 +54,6 @@ Index: libtool-2.5.0/build-aux/ltmain.in
-  	  if test -n "$hardcode_libdir_separator"; then
-  	    if test -z "$hardcode_libdirs"; then
-  	      hardcode_libdirs=$libdir
-+-- 
+diff --git a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-Ba=
+seTools.patch b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native=
+-BaseTools.patch
+index 89ef8d91fcf..cee5042846c 100644
+--- a/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools=
+.patch
++++ b/meta/recipes-core/ovmf/ovmf/0001-ovmf-update-path-to-native-BaseTools=
+.patch
+@@ -1,7 +1,7 @@
+-From 5f52c2582ae2226ef324332e352bb4c51b597656 Mon Sep 17 00:00:00 2001
++From 61583b59620946683551f43c6110e656604a252f Mon Sep 17 00:00:00 2001
+ From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+ Date: Thu, 9 Jun 2016 02:23:01 -0700
+-Subject: [PATCH] ovmf: update path to native BaseTools
++Subject: [PATCH 1/4] ovmf: update path to native BaseTools
+=20
+ BaseTools is a set of utilities to build EDK-based firmware. These utiliti=
+es
+ are used during the build process. Thus, they need to be built natively.
+@@ -28,3 +28,6 @@ index 279f0d099a..285f061bf4 100755
+    echo $EDK_TOOLS_PATH
+    source edksetup.sh BaseTools
+  else
++--=20
 +2.39.5
 +
-diff --git a/meta/recipes-devtools/libtool/libtool/0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch b/meta/recipes-devtools/libtool/libtool/0002-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch
-similarity index 79%
-rename from meta/recipes-devtools/libtool/libtool/0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch
-rename to meta/recipes-devtools/libtool/libtool/0002-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch
-index 54e602f1182..2ece455969b 100644
---- a/meta/recipes-devtools/libtool/libtool/0005-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0002-ltmain.in-Don-t-encode-RATHS-which-match-default-lin.patch
-@@ -1,5 +1,8 @@
-+From 59b6032698d10306ffb3be3cbf76690409d7f9a6 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
--Subject: [PATCH 05/12] ltmain.in: Don't encode RATHS which match default linker paths
-+Date: Tue, 26 Nov 2024 09:57:36 +0000
-+Subject: [PATCH 2/7] ltmain.in: Don't encode RATHS which match default linker
-+ paths
- 
- We don't want to add RPATHS which match default linker search paths, they're
- a waste of space. This patch filters libtools list of paths to encoode and
-@@ -11,12 +14,15 @@ the paths before comparision.
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
- Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00013.html]
-+---
-+ build-aux/ltmain.in | 34 ++++++++++++++++++++++++++++------
-+ 1 file changed, 28 insertions(+), 6 deletions(-)
- 
--Index: libtool-2.5.0/build-aux/ltmain.in
--===================================================================
----- libtool-2.5.0.orig/build-aux/ltmain.in
--+++ libtool-2.5.0/build-aux/ltmain.in
--@@ -7602,8 +7602,16 @@ func_mode_link ()
-+diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
-+index c31faebd..44c7d81e 100644
-+--- a/build-aux/ltmain.in
-++++ b/build-aux/ltmain.in
-+@@ -7782,8 +7782,16 @@ func_mode_link ()
-  		  esac
-  		fi
-  	      else
-@@ -35,7 +41,7 @@ Index: libtool-2.5.0/build-aux/ltmain.in
-  	      fi
-  	    elif test -n "$runpath_var"; then
-  	      case "$perm_rpath " in
--@@ -8336,8 +8344,16 @@ func_mode_link ()
-+@@ -8516,8 +8524,16 @@ func_mode_link ()
-  	      esac
-  	    fi
-  	  else
-@@ -54,7 +60,7 @@ Index: libtool-2.5.0/build-aux/ltmain.in
-  	  fi
-  	elif test -n "$runpath_var"; then
-  	  case "$perm_rpath " in
--@@ -8391,8 +8407,14 @@ func_mode_link ()
-+@@ -8571,8 +8587,14 @@ func_mode_link ()
-  	      esac
-  	    fi
-  	  else
-@@ -71,3 +77,6 @@ Index: libtool-2.5.0/build-aux/ltmain.in
-  	  fi
-  	elif test -n "$runpath_var"; then
-  	  case "$finalize_perm_rpath " in
-+-- 
+diff --git a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-=
+build-in-under-bitbake.patch b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-m=
+akefile-adjust-to-build-in-under-bitbake.patch
+index 01101c24831..11d97c739a0 100644
+--- a/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
+n-under-bitbake.patch
++++ b/meta/recipes-core/ovmf/ovmf/0002-BaseTools-makefile-adjust-to-build-i=
+n-under-bitbake.patch
+@@ -1,7 +1,7 @@
+-From 7cf91acf8a19a8052d05e272fad9f7e2f5b9597e Mon Sep 17 00:00:00 2001
++From aacbf7c91732b9959e569e90844cf9de078b2f14 Mon Sep 17 00:00:00 2001
+ From: Ricardo Neri <ricardo.neri-calderon@linux.intel.com>
+ Date: Fri, 26 Jul 2019 17:34:26 -0400
+-Subject: [PATCH] BaseTools: makefile: adjust to build in under bitbake
++Subject: [PATCH 2/4] BaseTools: makefile: adjust to build in under bitbake
+=20
+ Prepend the build flags with those of bitbake. This is to build
+ using the bitbake native sysroot include and library directories.
+@@ -64,3 +64,6 @@ index d369908a09..22c670f316 100644
+  ifeq ($(HOST_ARCH), IA32)=0D
+  #=0D
+  # Snow Leopard  is a 32-bit and 64-bit environment. uname -m returns i386=
+, but gcc defaults=0D
++--=20
 +2.39.5
 +
-diff --git a/meta/recipes-devtools/libtool/libtool/dont-depend-on-help2man.patch b/meta/recipes-devtools/libtool/libtool/0003-libtool-remove-help2man-dependency.patch
-similarity index 58%
-rename from meta/recipes-devtools/libtool/libtool/dont-depend-on-help2man.patch
-rename to meta/recipes-devtools/libtool/libtool/0003-libtool-remove-help2man-dependency.patch
-index 0013d165445..b174827eef7 100644
---- a/meta/recipes-devtools/libtool/libtool/dont-depend-on-help2man.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0003-libtool-remove-help2man-dependency.patch
-@@ -1,13 +1,21 @@
-+From e3e8422333239c47ad613e2f41ee04244556d3be Mon Sep 17 00:00:00 2001
-+From: Marko Lindqvist <cazfi74@gmail.com>
-+Date: Mon, 7 Jan 2013 01:49:28 +0200
-+Subject: [PATCH 3/7] libtool: remove help2man dependency
-+
- Upstream-Status: Inappropriate
- 
- Signed-off-by: Marko Lindqvist <cazfi74@gmail.com>
- Updated by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ Makefile.am | 17 -----------------
-+ 1 file changed, 17 deletions(-)
- 
- diff --git a/Makefile.am b/Makefile.am
--index 7bd7f72..c29860e 100644
-+index 51c1fbdb..4962c3ad 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -411,21 +411,6 @@ $(notes_txt): $(notes_texi)
-+@@ -408,23 +408,6 @@ $(notes_txt): $(notes_texi)
-  	$(AM_V_GEN)$(MAKEINFO) -P '$(srcdir)/doc' --no-headers \
-  	    $(MAKEINFOFLAGS) -o '$@' '$(notes_texi)'
-  
-@@ -22,10 +30,15 @@ index 7bd7f72..c29860e 100644
- -# manual pages if the sources for the build-tree files we want to
- -# run have changed.
- -$(libtool_1): $(ltmain_sh)
---	$(AM_V_GEN)$(update_mans) --help-option=--help-all libtool
-+-	$(AM_V_GEN)$(update_mans) -n 'Provide generalized library-building support services' --help-option=--help-all libtool
- -$(libtoolize_1): $(libtoolize_in)
---	$(AM_V_GEN)$(update_mans) libtoolize
-+-	$(AM_V_GEN)$(update_mans) -n 'Prepare a package to use libtool' libtoolize
-+-
-+-
- -
-- 
-  ## ------------- ##
-  ## Installation. ##
-+ ## ------------- ##
-+-- 
+diff --git a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch b/meta=
+/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+index 08821650fa8..73910535a71 100644
+--- a/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
++++ b/meta/recipes-core/ovmf/ovmf/0003-debug-prefix-map.patch
+@@ -1,7 +1,7 @@
+-From 415beee5adacae425f725cf9910784a0cdfa17dc Mon Sep 17 00:00:00 2001
++From 96fa2a7f2f54f1e6330275b5eba07e1efdbd865b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 14 Jun 2021 19:56:28 +0200
+-Subject: [PATCH] debug prefix map
++Subject: [PATCH 3/4] debug prefix map
+=20
+ We want to pass ${DEBUG_PREFIX_MAP} to gcc commands and also pass in
+  --debug-prefix-map to nasm (we carry a patch to nasm for this). The
+@@ -22,19 +22,19 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.co=
+m>
+  1 file changed, 9 insertions(+), 9 deletions(-)
+=20
+ diff --git a/BaseTools/Conf/tools_def.template b/BaseTools/Conf/tools_def.=
+template
+-index 76aaae7261..4829d5cd5d 100755
++index 14f3b643c4..4987488e88 100755
+ --- a/BaseTools/Conf/tools_def.template
+ +++ b/BaseTools/Conf/tools_def.template
+-@@ -894,7 +894,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D --add-gnu-debug=
+link=3D"$(DEBUG_DIR)/$(MODULE_
+- *_*_*_DTCPP_PATH                   =3D DEF(DTCPP_BIN)=0D
++@@ -896,7 +896,7 @@ NOOPT_*_*_OBJCOPY_ADDDEBUGFLAG     =3D --add-gnu-debug=
+link=3D"$(DEBUG_DIR)/$(MODULE_
+  *_*_*_DTC_PATH                     =3D DEF(DTC_BIN)=0D
+  =0D
+--DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builtin =
+-fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h -fn=
+o-common=0D
+-+DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builtin =
+-fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h -fn=
+o-common ENV(GCC_PREFIX_MAP)=0D
+- DEFINE GCC_ARM_CC_FLAGS            =3D DEF(GCC_ALL_CC_FLAGS) -mlittle-end=
+ian -mabi=3Daapcs -fno-short-enums -funsigned-char -ffunction-sections -fda=
+ta-sections -fomit-frame-pointer -Wno-address -mthumb -fno-pic -fno-pie=0D
++ # All supported GCC archs except LOONGARCH64 support -mstack-protector-gu=
+ard=3Dglobal, so set that on everything except LOONGARCH64=0D
++-DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builtin =
+-fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h -fn=
+o-common -fstack-protector=0D
+++DEFINE GCC_ALL_CC_FLAGS            =3D -g -Os -fshort-wchar -fno-builtin =
+-fno-strict-aliasing -Wall -Werror -Wno-array-bounds -include AutoGen.h -fn=
+o-common -fstack-protector ENV(GCC_PREFIX_MAP)=0D
++ DEFINE GCC_IA32_X64_CC_FLAGS       =3D -mstack-protector-guard=3Dglobal=0D
++ DEFINE GCC_ARM_CC_FLAGS            =3D DEF(GCC_ALL_CC_FLAGS) -mlittle-end=
+ian -mabi=3Daapcs -fno-short-enums -funsigned-char -ffunction-sections -fda=
+ta-sections -fomit-frame-pointer -Wno-address -mthumb -fno-pic -fno-pie -ms=
+tack-protector-guard=3Dglobal=0D
+  DEFINE GCC_LOONGARCH64_CC_FLAGS    =3D DEF(GCC_ALL_CC_FLAGS) -mabi=3Dlp64=
+d -fno-asynchronous-unwind-tables -Wno-address -fno-short-enums -fsigned-ch=
+ar -ffunction-sections -fdata-sections=0D
+- DEFINE GCC_ARM_CC_XIPFLAGS         =3D -mno-unaligned-access=0D
+-@@ -915,8 +915,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      =3D DEF(GCC_ARM_DLI=
+NK_FLAGS) -Wl,--entry,Refere
++@@ -918,8 +918,8 @@ DEFINE GCC_ARM_ASLDLINK_FLAGS      =3D DEF(GCC_ARM_DLI=
+NK_FLAGS) -Wl,--entry,Refere
+  DEFINE GCC_AARCH64_ASLDLINK_FLAGS  =3D DEF(GCC_AARCH64_DLINK_FLAGS) -Wl,-=
+-entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT) DEF(GCC_ARM_AARCH64_ASLDL=
+INK_FLAGS)=0D
+  DEFINE GCC_LOONGARCH64_ASLDLINK_FLAGS =3D DEF(GCC_LOONGARCH64_DLINK_FLAGS=
+) -Wl,--entry,ReferenceAcpiTable -u $(IMAGE_ENTRY_POINT)=0D
+  DEFINE GCC_IA32_X64_DLINK_FLAGS    =3D DEF(GCC_IA32_X64_DLINK_COMMON) --e=
+ntry _$(IMAGE_ENTRY_POINT) --file-alignment 0x20 --section-alignment 0x20 -=
+Map $(DEST_DIR_DEBUG)/$(BASE_NAME).map=0D
+@@ -45,7 +45,7 @@ index 76aaae7261..4829d5cd5d 100755
+  DEFINE GCC_VFRPP_FLAGS             =3D -x c -E -P -DVFRCOMPILE --include =
+$(MODULE_NAME)StrDefs.h=0D
+  DEFINE GCC_ASLPP_FLAGS             =3D -x c -E -include AutoGen.h=0D
+  DEFINE GCC_ASLCC_FLAGS             =3D -x c=0D
+-@@ -1069,7 +1069,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           =3D -mabi=
+=3Dlp64d -march=3Dloongarch64 DEF(
++@@ -1072,7 +1072,7 @@ DEFINE GCC5_LOONGARCH64_PP_FLAGS           =3D -mabi=
+=3Dlp64d -march=3Dloongarch64 DEF(
+  *_GCC48_IA32_DLINK2_FLAGS         =3D DEF(GCC48_IA32_DLINK2_FLAGS)=0D
+  *_GCC48_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
+  *_GCC48_IA32_OBJCOPY_FLAGS        =3D=0D
+@@ -54,7 +54,7 @@ index 76aaae7261..4829d5cd5d 100755
+  =0D
+    DEBUG_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS)=0D
+  RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32_CC_FLAGS) -Wno-unuse=
+d-but-set-variable=0D
+-@@ -1097,7 +1097,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32=
+_CC_FLAGS) -Wno-unused-but-set
++@@ -1100,7 +1100,7 @@ RELEASE_GCC48_IA32_CC_FLAGS       =3D DEF(GCC48_IA32=
+_CC_FLAGS) -Wno-unused-but-set
+  *_GCC48_X64_DLINK2_FLAGS         =3D DEF(GCC48_X64_DLINK2_FLAGS)=0D
+  *_GCC48_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)=0D
+  *_GCC48_X64_OBJCOPY_FLAGS        =3D=0D
+@@ -63,7 +63,7 @@ index 76aaae7261..4829d5cd5d 100755
+  =0D
+    DEBUG_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS)=0D
+  RELEASE_GCC48_X64_CC_FLAGS       =3D DEF(GCC48_X64_CC_FLAGS) -Wno-unused-=
+but-set-variable=0D
+-@@ -1206,7 +1206,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D DEF(GCC48_AARCH=
+64_CC_FLAGS) -Wno-unused-but-s
++@@ -1209,7 +1209,7 @@ RELEASE_GCC48_AARCH64_CC_FLAGS   =3D DEF(GCC48_AARCH=
+64_CC_FLAGS) -Wno-unused-but-s
+  *_GCC49_IA32_DLINK2_FLAGS         =3D DEF(GCC49_IA32_DLINK2_FLAGS)=0D
+  *_GCC49_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
+  *_GCC49_IA32_OBJCOPY_FLAGS        =3D=0D
+@@ -72,7 +72,7 @@ index 76aaae7261..4829d5cd5d 100755
+  =0D
+    DEBUG_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS)=0D
+  RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32_CC_FLAGS) -Wno-unuse=
+d-but-set-variable -Wno-unused-const-variable=0D
+-@@ -1234,7 +1234,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32=
+_CC_FLAGS) -Wno-unused-but-set
++@@ -1237,7 +1237,7 @@ RELEASE_GCC49_IA32_CC_FLAGS       =3D DEF(GCC49_IA32=
+_CC_FLAGS) -Wno-unused-but-set
+  *_GCC49_X64_DLINK2_FLAGS         =3D DEF(GCC49_X64_DLINK2_FLAGS)=0D
+  *_GCC49_X64_RC_FLAGS             =3D DEF(GCC_X64_RC_FLAGS)=0D
+  *_GCC49_X64_OBJCOPY_FLAGS        =3D=0D
+@@ -81,7 +81,7 @@ index 76aaae7261..4829d5cd5d 100755
+  =0D
+    DEBUG_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS)=0D
+  RELEASE_GCC49_X64_CC_FLAGS       =3D DEF(GCC49_X64_CC_FLAGS) -Wno-unused-=
+but-set-variable -Wno-unused-const-variable=0D
+-@@ -1493,7 +1493,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z commo=
+n-page-size=3D0x20
++@@ -1496,7 +1496,7 @@ RELEASE_GCCNOLTO_AARCH64_DLINK_XIPFLAGS =3D -z commo=
+n-page-size=3D0x20
+  *_GCC5_IA32_DLINK2_FLAGS         =3D DEF(GCC5_IA32_DLINK2_FLAGS) -no-pie=
+=0D
+  *_GCC5_IA32_RC_FLAGS             =3D DEF(GCC_IA32_RC_FLAGS)=0D
+  *_GCC5_IA32_OBJCOPY_FLAGS        =3D=0D
+@@ -90,7 +90,7 @@ index 76aaae7261..4829d5cd5d 100755
+  =0D
+    DEBUG_GCC5_IA32_CC_FLAGS       =3D DEF(GCC5_IA32_CC_FLAGS) -flto=0D
+    DEBUG_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X64_DLINK_FLAGS) -flto=
+ -Os -Wl,-m,elf_i386,--oformat=3Delf32-i386=0D
+-@@ -1525,7 +1525,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X=
+64_DLINK_FLAGS) -flto -Os -Wl,
++@@ -1528,7 +1528,7 @@ RELEASE_GCC5_IA32_DLINK_FLAGS    =3D DEF(GCC5_IA32_X=
+64_DLINK_FLAGS) -flto -Os -Wl,
+  *_GCC5_X64_DLINK2_FLAGS          =3D DEF(GCC5_X64_DLINK2_FLAGS)=0D
+  *_GCC5_X64_RC_FLAGS              =3D DEF(GCC_X64_RC_FLAGS)=0D
+  *_GCC5_X64_OBJCOPY_FLAGS         =3D=0D
+@@ -99,3 +99,6 @@ index 76aaae7261..4829d5cd5d 100755
+  =0D
+    DEBUG_GCC5_X64_CC_FLAGS        =3D DEF(GCC5_X64_CC_FLAGS) -flto -DUSING=
+_LTO=0D
+    DEBUG_GCC5_X64_DLINK_FLAGS     =3D DEF(GCC5_X64_DLINK_FLAGS) -flto -Os=
+=0D
++--=20
 +2.39.5
 +
-diff --git a/meta/recipes-devtools/libtool/libtool/0006-libtool.m4-Handle-as-a-sysroot-correctly.patch b/meta/recipes-devtools/libtool/libtool/0004-libtool.m4-Change-libtool-to-handle-sysroots-by-defa.patch
-similarity index 66%
-rename from meta/recipes-devtools/libtool/libtool/0006-libtool.m4-Handle-as-a-sysroot-correctly.patch
-rename to meta/recipes-devtools/libtool/libtool/0004-libtool.m4-Change-libtool-to-handle-sysroots-by-defa.patch
-index feb1048b554..e8fc1bff9c6 100644
---- a/meta/recipes-devtools/libtool/libtool/0006-libtool.m4-Handle-as-a-sysroot-correctly.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0004-libtool.m4-Change-libtool-to-handle-sysroots-by-defa.patch
-@@ -1,20 +1,22 @@
--libtool.m4: Change libtool to handle sysroots by default
-+From 3bb376ff4832e2bd1aaee5530b4b926e3f7407c0 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Sat, 14 Sep 2013 09:01:38 +0000
-+Subject: [PATCH 4/7] libtool.m4: Change libtool to handle sysroots by default
- 
- Rather than using no sysroot by default, always query gcc to obtain the sysroot.
- 
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
- 
- Upstream-Status: Inappropriate [Upstream are unlikely to accept this change of default]
--
- ---
-  m4/libtool.m4 | 6 +++---
-  1 file changed, 3 insertions(+), 3 deletions(-)
- 
--Index: libtool-2.5.0/m4/libtool.m4
--===================================================================
----- libtool-2.5.0.orig/m4/libtool.m4
--+++ libtool-2.5.0/m4/libtool.m4
--@@ -1253,18 +1253,18 @@ dnl lt_sysroot will always be passed unq
-+diff --git a/m4/libtool.m4 b/m4/libtool.m4
-+index 8d323b3e..3650c87c 100644
-+--- a/m4/libtool.m4
-++++ b/m4/libtool.m4
-+@@ -1288,18 +1288,18 @@ dnl lt_sysroot will always be passed unquoted.  We quote it here
-  dnl in case the user passed a directory name.
-  lt_sysroot=
-  case $with_sysroot in #(
-@@ -36,3 +38,6 @@ Index: libtool-2.5.0/m4/libtool.m4
-   *)
-     AC_MSG_RESULT([$with_sysroot])
-     AC_MSG_ERROR([The sysroot must be an absolute path.])
-+-- 
+diff --git a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch b/meta/rec=
+ipes-core/ovmf/ovmf/0004-reproducible.patch
+index aba5d9e134e..ae0ca0c15cf 100644
+--- a/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
++++ b/meta/recipes-core/ovmf/ovmf/0004-reproducible.patch
+@@ -1,7 +1,7 @@
+-From f4ba093ea8a8a8c333c08605b3a6ff1c82712613 Mon Sep 17 00:00:00 2001
++From fc2d3c17ff2a7b39e8d47b788eeaac5e1487cdee Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 14 Jun 2021 19:57:30 +0200
+-Subject: [PATCH] reproducible
++Subject: [PATCH 4/4] reproducible
+=20
+ This patch fixes various things which make the build more reproducible. So=
+me changes
+ here only change intermediate artefacts but that means when you have two b=
+uild trees
+@@ -35,7 +35,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  4 files changed, 24 insertions(+), 16 deletions(-)
+=20
+ diff --git a/BaseTools/Source/C/GenFw/Elf64Convert.c b/BaseTools/Source/C/=
+GenFw/Elf64Convert.c
+-index 9d04fc612e..83fd6c9c05 100644
++index 897045b2be..a66003f44a 100644
+ --- a/BaseTools/Source/C/GenFw/Elf64Convert.c
+ +++ b/BaseTools/Source/C/GenFw/Elf64Convert.c
+ @@ -13,6 +13,8 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
+@@ -56,7 +56,7 @@ index 9d04fc612e..83fd6c9c05 100644
+  =0D
+    //=0D
+    // Add more space in the .debug data region for the DllCharacteristicsE=
+x=0D
+-@@ -2299,7 +2301,7 @@ WriteDebug64 (
++@@ -2308,7 +2310,7 @@ WriteDebug64 (
+    EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY         *Nb10;=0D
+    EFI_IMAGE_DEBUG_EX_DLLCHARACTERISTICS_ENTRY *DllEntry;=0D
+  =0D
+@@ -65,7 +65,7 @@ index 9d04fc612e..83fd6c9c05 100644
+  =0D
+    NtHdr =3D (EFI_IMAGE_OPTIONAL_HEADER_UNION *)(mCoffFile + mNtHdrOffset)=
+;=0D
+    DataDir =3D &NtHdr->Pe32Plus.OptionalHeader.DataDirectory[EFI_IMAGE_DIR=
+ECTORY_ENTRY_DEBUG];=0D
+-@@ -2332,7 +2334,7 @@ WriteDebug64 (
++@@ -2341,7 +2343,7 @@ WriteDebug64 (
+  =0D
+    Nb10 =3D (EFI_IMAGE_DEBUG_CODEVIEW_NB10_ENTRY*)(Dir + 1);=0D
+    Nb10->Signature =3D CODEVIEW_SIGNATURE_NB10;=0D
+@@ -89,10 +89,10 @@ index 45b39d7878..3fed7d1736 100644
+          if Input not in self.Inputs:=0D
+              self.Inputs.append(Input)=0D
+ diff --git a/BaseTools/Source/Python/AutoGen/GenMake.py b/BaseTools/Source=
+/Python/AutoGen/GenMake.py
+-index fbd35d4989..5ddd544d17 100755
++index 6d9c60b702..83ac267647 100755
+ --- a/BaseTools/Source/Python/AutoGen/GenMake.py
+ +++ b/BaseTools/Source/Python/AutoGen/GenMake.py
+-@@ -575,7 +575,7 @@ cleanlib:
++@@ -576,7 +576,7 @@ cleanlib:
+                  os.remove(RespFileList)=0D
+  =0D
+          # convert source files and binary files to build targets=0D
+@@ -101,7 +101,7 @@ index fbd35d4989..5ddd544d17 100755
+          if len(self.ResultFileList) =3D=3D 0 and len(MyAgo.SourceFileList=
+) !=3D 0:=0D
+              EdkLogger.error("build", AUTOGEN_ERROR, "Nothing to build",=0D
+                              ExtraData=3D"[%s]" % str(MyAgo))=0D
+-@@ -726,7 +726,7 @@ cleanlib:
++@@ -727,7 +727,7 @@ cleanlib:
+          OutputFile =3D ''=0D
+          DepsFileList =3D []=0D
+  =0D
+@@ -110,7 +110,7 @@ index fbd35d4989..5ddd544d17 100755
+              if Cmd[2]:=0D
+                  for CopyCmd in Cmd[2]:=0D
+                      Src, Dst =3D CopyCmd=0D
+-@@ -759,7 +759,7 @@ cleanlib:
++@@ -760,7 +760,7 @@ cleanlib:
+              self.BuildTargetList.append('\t%s' % CmdString)=0D
+  =0D
+              self.ParseSecCmd(DepsFileList, Cmd[1])=0D
+@@ -119,7 +119,7 @@ index fbd35d4989..5ddd544d17 100755
+                  self.BuildTargetList.append('%s : %s' % (self.ReplaceMacr=
+o(SecOutputFile), self.ReplaceMacro(SecDepsFile)))=0D
+                  self.BuildTargetList.append('\t%s' % self.ReplaceMacro(Se=
+cCmd))=0D
+              self.FfsOutputFileList =3D []=0D
+-@@ -798,13 +798,13 @@ cleanlib:
++@@ -799,13 +799,13 @@ cleanlib:
+  =0D
+      def CommandExceedLimit(self):=0D
+          FlagDict =3D {=0D
+@@ -140,7 +140,7 @@ index fbd35d4989..5ddd544d17 100755
+                     }=0D
+  =0D
+          RespDict =3D {}=0D
+-@@ -1007,9 +1007,9 @@ cleanlib:
++@@ -1008,9 +1008,9 @@ cleanlib:
+                  if not self.ObjTargetDict.get(T.Target.SubDir):=0D
+                      self.ObjTargetDict[T.Target.SubDir] =3D set()=0D
+                  self.ObjTargetDict[T.Target.SubDir].add(NewFile)=0D
+@@ -175,3 +175,6 @@ index 65a2176ca9..318b9611ce 100755
+  =0D
+          # Ignore generating makefile when it is a binary module=0D
+          if self.IsBinaryModule:=0D
++--=20
 +2.39.5
 +
-diff --git a/meta/recipes-devtools/libtool/libtool/0008-libtool-Check-for-static-libs-for-internal-compiler-.patch b/meta/recipes-devtools/libtool/libtool/0005-libtool-Check-for-static-libs-for-internal-compiler-.patch
-similarity index 66%
-rename from meta/recipes-devtools/libtool/libtool/0008-libtool-Check-for-static-libs-for-internal-compiler-.patch
-rename to meta/recipes-devtools/libtool/libtool/0005-libtool-Check-for-static-libs-for-internal-compiler-.patch
-index c103ebb7bfc..5a4411c8e50 100644
---- a/meta/recipes-devtools/libtool/libtool/0008-libtool-Check-for-static-libs-for-internal-compiler-.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0005-libtool-Check-for-static-libs-for-internal-compiler-.patch
-@@ -1,5 +1,8 @@
-+From 9f16cd0624641e489665415150792d9054af8a7a Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
--Subject: [PATCH 08/12] libtool: Check for static libs for internal compiler libraries
-+Date: Tue, 26 Nov 2024 09:57:39 +0000
-+Subject: [PATCH 5/7] libtool: Check for static libs for internal compiler
-+ libraries
- 
- Libtool checks only for libraries linked as -l* when trying to
- find internal compiler libraries. Clang, however uses the absolute
-@@ -14,12 +17,15 @@ https://crbug.com/749263
- https://debbugs.gnu.org/cgi/bugreport.cgi?bug=27866
- 
- Upstream-Status: Submitted [https://lists.gnu.org/archive/html/libtool-patches/2021-10/msg00016.html]
-+---
-+ m4/libtool.m4 | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: libtool-2.5.0/m4/libtool.m4
--===================================================================
----- libtool-2.5.0.orig/m4/libtool.m4
--+++ libtool-2.5.0/m4/libtool.m4
--@@ -7553,7 +7553,7 @@ if AC_TRY_EVAL(ac_compile); then
-+diff --git a/m4/libtool.m4 b/m4/libtool.m4
-+index 3650c87c..51493a10 100644
-+--- a/m4/libtool.m4
-++++ b/m4/libtool.m4
-+@@ -7708,7 +7708,7 @@ if AC_TRY_EVAL(ac_compile); then
-    for p in `eval "$output_verbose_link_cmd"`; do
-      case $prev$p in
-  
-@@ -28,3 +34,6 @@ Index: libtool-2.5.0/m4/libtool.m4
-         # Some compilers place space between "-{L,R,l}" and the path.
-         # Remove the space.
-         if test x-L = x"$p" ||
-+-- 
-+2.39.5
-+
-diff --git a/meta/recipes-devtools/libtool/libtool/nohardcodepaths.patch b/meta/recipes-devtools/libtool/libtool/0006-libtool-Fix-tools-path-issues.patch
-similarity index 54%
-rename from meta/recipes-devtools/libtool/libtool/nohardcodepaths.patch
-rename to meta/recipes-devtools/libtool/libtool/0006-libtool-Fix-tools-path-issues.patch
-index fcbce7286b4..9788433ab82 100644
---- a/meta/recipes-devtools/libtool/libtool/nohardcodepaths.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0006-libtool-Fix-tools-path-issues.patch
-@@ -1,3 +1,8 @@
-+From c04839effba0538c982422275c5cda5947aa0e85 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Tue, 3 Feb 2015 14:24:58 +0000
-+Subject: [PATCH 6/7] libtool: Fix tools path issues
-+
- If for example you build on a machine with /bin/grep, then restore that sstate
- onto a machine with /usr/bin/grep, things will fail. Simply don't bother
- hardcoding paths.
-@@ -5,11 +10,14 @@ hardcoding paths.
- RP 2015/2/3
- 
- Upstream-Status: Inappropriate
-+---
-+ libtoolize.in | 10 +++++-----
-+ 1 file changed, 5 insertions(+), 5 deletions(-)
- 
--Index: libtool-2.4.5/libtoolize.in
--===================================================================
----- libtool-2.4.5.orig/libtoolize.in
--+++ libtool-2.4.5/libtoolize.in
-+diff --git a/libtoolize.in b/libtoolize.in
-+index 6c15aa57..8beb670e 100644
-+--- a/libtoolize.in
-++++ b/libtoolize.in
- @@ -40,11 +40,11 @@
-  
-  : ${AUTOCONF="autoconf"}
-@@ -27,3 +35,6 @@ Index: libtool-2.4.5/libtoolize.in
-  
-  
-  ## -------------------------- ##
-+-- 
-+2.39.5
-+
-diff --git a/meta/recipes-devtools/libtool/libtool/multilib.patch b/meta/recipes-devtools/libtool/libtool/0007-libtool-Fix-problem-with-libtoolize-in-multilib.patch
-similarity index 54%
-rename from meta/recipes-devtools/libtool/libtool/multilib.patch
-rename to meta/recipes-devtools/libtool/libtool/0007-libtool-Fix-problem-with-libtoolize-in-multilib.patch
-index 018f0666520..bcb372bbc12 100644
---- a/meta/recipes-devtools/libtool/libtool/multilib.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0007-libtool-Fix-problem-with-libtoolize-in-multilib.patch
-@@ -1,3 +1,8 @@
-+From 083cf39140cd894ea306b67411d6088c13a9e286 Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Mon, 30 Jul 2018 17:00:01 +0000
-+Subject: [PATCH 7/7] libtool: Fix problem with libtoolize in multilib
-+
- Without this patch /usr/bin/libtoolize is different for each multilib
- since their host-triplets are different, despite there being no difference in
- the functionality of libtoolize itself.
-@@ -7,17 +12,23 @@ libXX-libtool couldn't be installed into the same system.
- 
- Upstream-Status: Inappropriate
- RP 2018/7/30
-+---
-+ libtoolize.in | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
- 
--Index: libtool-2.4.6/libtoolize.in
--===================================================================
----- libtool-2.4.6.orig/libtoolize.in
--+++ libtool-2.4.6/libtoolize.in
--@@ -113,7 +113,7 @@ You must 'cd' to the top directory of yo
-+diff --git a/libtoolize.in b/libtoolize.in
-+index 8beb670e..c89a093c 100644
-+--- a/libtoolize.in
-++++ b/libtoolize.in
-+@@ -139,7 +139,7 @@ You must 'cd' to the top directory of your package before you run
-  When reporting a bug, please describe a test case to reproduce it and
-  include the following information:
-  
- -       host-triplet:   @host_triplet@
- +       host-triplet    <redacted>
--        version:        $progname (GNU @PACKAGE@) @VERSION@
-+        version:        $progname $scriptversion
-         automake:       `($AUTOMAKE --version) 2>/dev/null |$SED 1q`
-         autoconf:       `($AUTOCONF --version) 2>/dev/null |$SED 1q`
-+-- 
-+2.39.5
-+
-diff --git a/meta/recipes-devtools/libtool/libtool/fixinstall.patch b/meta/recipes-devtools/libtool/libtool/0008-libtool-Avoid-relinking-when-cross-compiling-its-poi.patch
-similarity index 70%
-rename from meta/recipes-devtools/libtool/libtool/fixinstall.patch
-rename to meta/recipes-devtools/libtool/libtool/0008-libtool-Avoid-relinking-when-cross-compiling-its-poi.patch
-index 94601b1beb8..267c3ab1405 100644
---- a/meta/recipes-devtools/libtool/libtool/fixinstall.patch
-+++ b/meta/recipes-devtools/libtool/libtool/0008-libtool-Avoid-relinking-when-cross-compiling-its-poi.patch
-@@ -1,5 +1,10 @@
-+From 78eac8c99451681f4c403b3ea727ee61651a3c1a Mon Sep 17 00:00:00 2001
-+From: Richard Purdie <richard.purdie@linuxfoundation.org>
-+Date: Wed, 16 Nov 2011 16:58:34 +0000
-+Subject: [PATCH] libtool: Avoid relinking when cross compiling, its pointless
-+
- There is no point in having "executable" binaries in the .libs
--directory linked with different rpaths to the target which 
-+directory linked with different rpaths to the target which
- could concivably be run on the build system when cross compiling.
- 
- This patch removes the extra rpaths ($compile_rpath) so that the
-@@ -17,12 +22,15 @@ Upstream-Status: Inappropriate [upstream are unlikely to take a patch like this]
- RP 2011/11/16
- 
- Updated by: Robert Yang <liezhi.yang@windriver.com>
-+---
-+ build-aux/ltmain.in | 56 ++++++++++++++++++++++-----------------------
-+ 1 file changed, 28 insertions(+), 28 deletions(-)
- 
--Index: libtool-2.5.2/build-aux/ltmain.in
--===================================================================
----- libtool-2.5.2.orig/build-aux/ltmain.in
--+++ libtool-2.5.2/build-aux/ltmain.in
--@@ -2381,7 +2381,7 @@ func_mode_install ()
-+diff --git a/build-aux/ltmain.in b/build-aux/ltmain.in
-+index fa157775..816ea5a0 100644
-+--- a/build-aux/ltmain.in
-++++ b/build-aux/ltmain.in
-+@@ -2513,7 +2513,7 @@ func_mode_install ()
-  	dir=$func_dirname_result
-  	func_append dir "$objdir"
-  
-@@ -31,7 +39,7 @@ Index: libtool-2.5.2/build-aux/ltmain.in
-  	  # Strip any trailing slash from the destination.
-  	  func_stripname '' '/' "$libdir"
-  	  destlibdir=$func_stripname_result
--@@ -2419,7 +2419,7 @@ func_mode_install ()
-+@@ -2552,7 +2552,7 @@ func_mode_install ()
-  	  shift
-  
-  	  srcname=$realname
-@@ -40,17 +48,18 @@ Index: libtool-2.5.2/build-aux/ltmain.in
-  
-  	  # Install the shared library and build the symlinks.
-  	  func_show_eval "$install_shared_prog $dir/$srcname $destdir/$realname" \
--@@ -6276,17 +6276,17 @@ func_mode_link ()
-+@@ -6411,18 +6411,18 @@ func_mode_link ()
-  	    # Hardcode the library path.
-  	    # Skip directories that are in the system default run-time
-  	    # search path.
- -	    case " $sys_lib_dlsearch_path " in
- -	    *" $absdir "*) ;;
- -	    *)
---	      case "$compile_rpath " in
-+-	      case "$compile_rpath$compile_rpath_tail " in
- -	      *" $absdir "*) ;;
- -	      *) case $absdir in
- -                 "$progdir/"*) func_append compile_rpath " $absdir" ;;
-+-                 *) func_append compile_rpath_tail " $absdir" ;;
- -		 esac
- -	      esac
- -	      ;;
-@@ -58,10 +67,11 @@ Index: libtool-2.5.2/build-aux/ltmain.in
- +	    #case " $sys_lib_dlsearch_path " in
- +	    #*" $absdir "*) ;;
- +	    #*)
--+	    #  case "$compile_rpath " in
-++	    #  case "$compile_rpath$compile_rpath_tail " in
- +	    #  *" $absdir "*) ;;
- +	    #  *) case $absdir in
- +            #     "$progdir/"*) func_append compile_rpath " $absdir" ;;
-++            #     *) func_append compile_rpath_tail " $absdir" ;;
- +	#	 esac
- +	    #  esac
- +	    #  ;;
-@@ -69,17 +79,18 @@ Index: libtool-2.5.2/build-aux/ltmain.in
-  	    case " $sys_lib_dlsearch_path " in
-  	    *" $libdir "*) ;;
-  	    *)
--@@ -6352,17 +6352,17 @@ func_mode_link ()
-+@@ -6488,18 +6488,18 @@ func_mode_link ()
-  	    # Hardcode the library path.
-  	    # Skip directories that are in the system default run-time
-  	    # search path.
- -	    case " $sys_lib_dlsearch_path " in
- -	    *" $absdir "*) ;;
- -	    *)
---	      case "$compile_rpath " in
-+-	      case "$compile_rpath$compile_rpath_tail " in
- -	      *" $absdir "*) ;;
- -	      *) case $absdir in
- -                 "$progdir/"*) func_append compile_rpath " $absdir" ;;
-+-                 *) func_append compile_rpath_tail " $absdir" ;;
- -		 esac
- -	      esac
- -	      ;;
-@@ -87,10 +98,11 @@ Index: libtool-2.5.2/build-aux/ltmain.in
- +	    #case " $sys_lib_dlsearch_path " in
- +	    #*" $absdir "*) ;;
- +	    #*)
--+	    #  case "$compile_rpath " in
-++	    #  case "$compile_rpath$compile_rpath_tail " in
- +	    #  *" $absdir "*) ;;
- +	    #  *) case $absdir in
- +            #     "$progdir/"*) func_append compile_rpath " $absdir" ;;
-++            #     *) func_append compile_rpath_tail " $absdir" ;;
- +	#	 esac
- +	    #  esac
- +	    #  ;;
-@@ -98,7 +110,7 @@ Index: libtool-2.5.2/build-aux/ltmain.in
-  	    case " $sys_lib_dlsearch_path " in
-  	    *" $libdir "*) ;;
-  	    *)
--@@ -6705,8 +6705,8 @@ func_mode_link ()
-+@@ -6843,8 +6843,8 @@ func_mode_link ()
-  		  eval libdir=`$SED -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
-  		  test -z "$libdir" && \
-  		    func_fatal_error "'$deplib' is not a valid libtool archive"
-@@ -109,3 +121,6 @@ Index: libtool-2.5.2/build-aux/ltmain.in
-  
-  		  path=-L$absdir
-  		fi
-+-- 
-+2.39.5
-+
-diff --git a/meta/recipes-devtools/libtool/libtool_2.5.2.bb b/meta/recipes-devtools/libtool/libtool_2.5.4.bb
-similarity index 91%
-rename from meta/recipes-devtools/libtool/libtool_2.5.2.bb
-rename to meta/recipes-devtools/libtool/libtool_2.5.4.bb
-index c1e315aece4..835f2da9948 100644
---- a/meta/recipes-devtools/libtool/libtool_2.5.2.bb
-+++ b/meta/recipes-devtools/libtool/libtool_2.5.4.bb
-@@ -1,8 +1,6 @@
- require libtool-${PV}.inc
- require remove-buildpaths.inc
- 
--SRC_URI += "file://multilib.patch"
--
- RDEPENDS:${PN} += "bash"
- 
- #
-diff --git a/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.2.bb b/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb
-similarity index 93%
-rename from meta/recipes-devtools/libtool/nativesdk-libtool_2.5.2.bb
-rename to meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb
-index 2589bd617ee..3669c8ba2ea 100644
---- a/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.2.bb
-+++ b/meta/recipes-devtools/libtool/nativesdk-libtool_2.5.4.bb
-@@ -3,8 +3,6 @@ require remove-buildpaths.inc
- 
- FILESEXTRAPATHS =. "${FILE_DIRNAME}/libtool:"
- 
--SRC_URI += "file://fixinstall.patch"
--
- inherit nativesdk
- 
- S = "${WORKDIR}/libtool-${PV}"
--- 
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index e7617364533..9aa831badca 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -26,8 +26,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps \
+            file://0004-reproducible.patch \
+            "
+=20
+-PV =3D "edk2-stable202408"
+-SRCREV =3D "b158dad150bf02879668f72ce306445250838201"
++PV =3D "edk2-stable202411"
++SRCREV =3D "0f3867fa6ef0553e26c42f7d71ff6bdb98429742"
+ UPSTREAM_CHECK_GITTAGREGEX =3D "(?P<pver>edk2-stable.*)"
+=20
+ CVE_PRODUCT =3D "edk2"
+--=20
 2.39.5
 
 
