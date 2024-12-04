@@ -2,182 +2,153 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 94F86E77170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B61FCE7716D
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:36:36 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web10.25422.1733344594464527439
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+ by mx.groups.io with SMTP id smtpd.web11.25142.1733344591208253196
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 12:36:34 -0800
+ Wed, 04 Dec 2024 12:36:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FfIQ5/eg;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7f71f2b1370so135594a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:34 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=S2uhsWtT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7251331e756so247646b3a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344594; x=1733949394; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344590; x=1733949390; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J3bhmjqvLnBP1LaISkKcgyJpywGaytYP2D0HxkK+hDc=;
-        b=FfIQ5/egMe7JDf04MPT1pHk1udoAAK5ONXuAzwiazzgPQ8G8KVgxfc4f42zCEXUDdv
-         de2IDnANYnE3V+sWqNgVJnGPKkeYsa8kfn//8CVdFB3mfn6yABl2OpRyJC/ckWhno89X
-         byvaHg65Om70lGMePBhax8zslsJm+pSfX2ylWttZsWFia9o0CpzdsK1FFAJ+Qvt41ArW
-         NZNOfraArVFjic+gGVWsGwnzFe/AGpSkPLQC6V1PkRPyVO52pYsUFs0CWZJ4o5kWRMqK
-         caWYiJQZgkwpz3vYn7LL1/4SgsKEXSUAHoZaTCB1dZdQtLjYUXM/IG1gW/2ogP553jDR
-         VXXQ==
+        bh=h+mbgeuOb4sdkmC/N3++cFgqYxyRXrffzVp8sNa9NBI=;
+        b=S2uhsWtTAMNAvqoYMd24KBgkIx/zXGeAx9gyGs78RDsvMKsPBfmR7An8m6/I2Pwwsi
+         Lg62zi5Z5wWarH8nBDAgovVFhSmgZrq/3sBrNFQ9z00RtRaCWuBBWa9LiNpSSNGFKE81
+         b7Bxy/Uycl3ufuTIQ3Lv+qQ6wQYB2izxkfdexSJvsyGu5xBW3qXrK9j49ttRRLa1s9rR
+         PaDhiYXU8IqGwlsWcR0Bvwn1YdichlUAnVg6nTxet+XDN1PmAwm7ASBjlBZi9weIo5cf
+         90ktDNFAzdtd1bD0BO24Y8AN2cD9tUh5ejb+QfdnOaRtMqL8lIW6njAXwxWk5yFjV5tN
+         cNTA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733344594; x=1733949394;
+        d=1e100.net; s=20230601; t=1733344590; x=1733949390;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J3bhmjqvLnBP1LaISkKcgyJpywGaytYP2D0HxkK+hDc=;
-        b=IqLg5fbpozCv8DM/flyqzHzPMyYM1+ucsQ63sMEVuXpIuZR1F8xTJLaUY3beSbEVf9
-         +cwp70on3hmuBk0d9j8kAENf+rHvqRtaU5+eCViwN09WrNa67m33TviEcvEXimxsexZ5
-         zVteF7hLhpDOB4S9K/Sl58gHRdMIoGNPCibhQnmZ1UiIbxvk+COVPlIIcnluZwecSMFK
-         ycK8I2Nvg605oLhATuyeJmZhNLKMnimGMmXRUlnl6McwvhfprDgnzyd7SAtJeyNpY/bv
-         w7d2azFuXUIOHaxMCMFQkPf3Gpn/AQD1k40OkJo/Q8jYEHPJXNflrO1tk2yhQQBcGXpK
-         Dmsw==
-X-Gm-Message-State: AOJu0YxvzXfI6EyDLNNdmXJYfxQC70vDQcu/8yco5d28bEVkV71kCrjt
-	LtjqGcMbMtklOG3le7gfLCYW11EJic7007Ju4JQBGF2vf56wEHIQ16yOevnzkOJE01vGlUxj44i
-	U
-X-Gm-Gg: ASbGncutjK+F1phRnEJ6qTlbG2EDJwU8znRptNwj3aN7tvZkOfyfnBRt/lvV6mSJ+Ds
-	la9C+0eB6nj6Fh7AVp+F9CvmYPBxJEcPuPI55hvxOdlwOT3smu3wb2MRIvD4+IK+TJ24R+1f+Q0
-	npJowderK7MpmOOd45RDqYqnmmdJrcNpqFc3pcmgKGmXa9PCjf7EZtwlmkaIx7pGyoEEqfO3Iyi
-	XI44M6qYP766WapFn1+1iKewZhRZeazt9SRQPQ=
-X-Google-Smtp-Source: AGHT+IEkVFHuLVE1SedAoyV9KVGDr8dgMWxOl6qkFzJktVWOkYNthBaNTcZpDLyzDTvrq9Z8LLm4sw==
-X-Received: by 2002:a05:6a20:7285:b0:1d9:78c:dcf2 with SMTP id adf61e73a8af0-1e16bef0a05mr10082096637.43.1733344593648;
-        Wed, 04 Dec 2024 12:36:33 -0800 (PST)
+        bh=h+mbgeuOb4sdkmC/N3++cFgqYxyRXrffzVp8sNa9NBI=;
+        b=grcknj3TTHGqMbo/XYLUkMAVTiu/u/QmphSIq0zdDvHjNb64+wmrgrlDFf4WyyH162
+         havrvYVSrjrrraxIsqEs1Up+AVi17d+tzfGwMfJlLQxA0IPN0BU1yDm7wDMazv6/1jzC
+         nl4cbQ6aP0NX7m/VU0TAPYLqohTTv2ot1CFlLwDJwxFRx8EE4h8wbLC+N1LqQfyKrSK1
+         zD6WV6urdDtnhMqUPCr7aT8Q63gXNfl6koVifoSiI7smaXc2WT0lHUt6J40fGsKfTyyd
+         fQpeXz6c+KC+LBle023YZ7hL0CUxfstww5yAjY5zdRp7YT/kwUHuoLB8KGTVmMy1K+LZ
+         CKLQ==
+X-Gm-Message-State: AOJu0YzP8I01a7gVDN7U43vNV/c9bMxv96Ci3VwHM75H3wJd5Rwx3hiI
+	PKESoHLqflHD3cN3TI54YBMCLvDnyHrYCNljuDio8TqpBPHLwHEvU1jXA+NSObJpuhe3bqAu/75
+	u
+X-Gm-Gg: ASbGnctRYTw0awXpDqXpf/rzzM25P4XMoPwg4Y5w1k0pDgS75oLTfYDgXhjxBw748g9
+	bBnqba20Hhi+2ml4I3xeh2+WlQ7F7YvTAcr1ZpP0DSR3+hyo05uiWPRVVN9PpGqmMYvM16Q5460
+	NRChUEqxBYSnmjDgZ05K4RCP+O3dZiMJj3NX+TkURNP+TF3Gr74gfE1UlDTVWWiZcIXUHT144Fk
+	zd49oWSXWo0r9WpiMfpmSAL0z735t8KYYo1KIg=
+X-Google-Smtp-Source: AGHT+IGWci49NEZjPmqHVxwrBPCcdkD4H+Y2XiUc2e774WSafGqb9c/yDjwOVDOg4vuwEvmeZmfP0Q==
+X-Received: by 2002:a05:6a00:3c88:b0:725:973f:9d53 with SMTP id d2e1a72fcca58-725973fa0b5mr2935484b3a.15.1733344590475;
+        Wed, 04 Dec 2024 12:36:30 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.33
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 12:36:33 -0800 (PST)
+        Wed, 04 Dec 2024 12:36:30 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/15] do_package/sstate/sstatesig: Change timestamp clamping to hash output only
-Date: Wed,  4 Dec 2024 12:36:10 -0800
-Message-Id: <9df0bf5775ec96773e77c489ba6a443037d65ab6.1733344462.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 01/15] ovmf: fix CVE-2024-38796
+Date: Wed,  4 Dec 2024 12:36:08 -0800
+Message-Id: <01743182b7a4bcbd47157a49da7af7b41546434c.1733344462.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733344462.git.steve@sakoman.com>
 References: <cover.1733344462.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:36:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208331
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208329
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-The code was changing the timestamps of the files in the do_package output,
-particularly the files added for debug sources. This was to do two things:
+Backport fix from upstream to resolve CVE-2024-38796
 
-a) make do_package sstate more reproducible
-b) ensure better hash equivalence matching
+  https://github.com/tianocore/edk2/commit/c95233b8525ca6828921affd1496146c=
+ff262e65
 
-Unfortuately the debug source files are hardlinks into the source tree for
-efficiency so touching these, touches a lot of files in ${B} and ${S}. This
-causes unpredictable effects if compile is run again for example, or could
-cause compiling in the install task.
-
-The hash equivalence matching is of key importance but we can mimic that
-using clamping of the file timestamps in the depsig output used to generate
-the hashes.
-
-This patch drops the global timestamp clamping, instead allowing the files
-to retain their creation timestamps into sstate. This makes do_package sstate
-slightly less reproducibile. We could clamp the sstate timestamps but that
-would lead to two different sets of timestamps depending on whether the
-data came from sstate or not. I'd prefer to have consistent code behaviour,
-rather than differing behavhour depending on whether data came from sstate
-or not.
-
-If we wanted to have reproducibiliy and fix the "corruption" of S/B and have
-consistent codepaths, the only other option would be two copies of the
-sources, which could end up huge and seems the least desireable option.
-
-This patch therefore drops the timestamp clamping in the sstate files
-and tweaks the depsig data generation to clamp the timestamps for do_package
-instead since this seems the best compromise.
-
-I validated that rpm/deb/ipk files still generate correctly as before.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 475759fdab7200488b2a568b2ba1aa31a456d113)
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/classes-global/sstate.bbclass | 16 ----------------
- meta/lib/oe/sstatesig.py           |  7 ++++++-
- 2 files changed, 6 insertions(+), 17 deletions(-)
+ ...-Fix-overflow-issue-in-BasePeCoffLib.patch | 36 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-is=
+sue-in-BasePeCoffLib.patch
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index 93df5fa9e6..567797305f 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -648,15 +648,6 @@ def sstate_package(ss, d):
- 
-     tmpdir = d.getVar('TMPDIR')
- 
--    fixtime = False
--    if ss['task'] == "package":
--        fixtime = True
--
--    def fixtimestamp(root, path):
--        f = os.path.join(root, path)
--        if os.lstat(f).st_mtime > sde:
--            os.utime(f, (sde, sde), follow_symlinks=False)
--
-     sstatebuild = d.expand("${WORKDIR}/sstate-build-%s/" % ss['task'])
-     sde = int(d.getVar("SOURCE_DATE_EPOCH") or time.time())
-     d.setVar("SSTATE_CURRTASK", ss['task'])
-@@ -671,8 +662,6 @@ def sstate_package(ss, d):
-         # to sstate tasks but there aren't many of these so better just avoid them entirely.
-         for walkroot, dirs, files in os.walk(state[1]):
-             for file in files + dirs:
--                if fixtime:
--                    fixtimestamp(walkroot, file)
-                 srcpath = os.path.join(walkroot, file)
-                 if not os.path.islink(srcpath):
-                     continue
-@@ -694,11 +683,6 @@ def sstate_package(ss, d):
-         bb.utils.mkdirhier(plain)
-         bb.utils.mkdirhier(pdir)
-         bb.utils.rename(plain, pdir)
--        if fixtime:
--            fixtimestamp(pdir, "")
--            for walkroot, dirs, files in os.walk(pdir):
--                for file in files + dirs:
--                    fixtimestamp(walkroot, file)
- 
-     d.setVar('SSTATE_BUILDDIR', sstatebuild)
-     d.setVar('SSTATE_INSTDIR', sstatebuild)
-diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
-index a46e5502ab..d818fce8f1 100644
---- a/meta/lib/oe/sstatesig.py
-+++ b/meta/lib/oe/sstatesig.py
-@@ -524,6 +524,7 @@ def OEOuthashBasic(path, sigfile, task, d):
-     if task == "package":
-         include_timestamps = True
-         include_root = False
-+        source_date_epoch = float(d.getVar("SOURCE_DATE_EPOCH"))
-     hash_version = d.getVar('HASHEQUIV_HASH_VERSION')
-     extra_sigdata = d.getVar("HASHEQUIV_EXTRA_SIGDATA")
- 
-@@ -615,7 +616,11 @@ def OEOuthashBasic(path, sigfile, task, d):
-                         raise Exception(msg).with_traceback(e.__traceback__)
- 
-                 if include_timestamps:
--                    update_hash(" %10d" % s.st_mtime)
-+                    # Need to clamp to SOURCE_DATE_EPOCH
-+                    if s.st_mtime > source_date_epoch:
-+                        update_hash(" %10d" % source_date_epoch)
-+                    else:
-+                        update_hash(" %10d" % s.st_mtime)
- 
-                 update_hash(" ")
-                 if stat.S_ISBLK(s.st_mode) or stat.S_ISCHR(s.st_mode):
--- 
+diff --git a/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-issue-in-=
+BasePeCoffLib.patch b/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-=
+issue-in-BasePeCoffLib.patch
+new file mode 100644
+index 0000000000..c6e15c5069
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-issue-in-BasePeC=
+offLib.patch
+@@ -0,0 +1,36 @@
++From 5f7bd3f3c4747d5bb2733f017f8c5b93b63a74e3 Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Fri, 22 Nov 2024 13:03:33 +0800
++Subject: [PATCH] MdePkg: Fix overflow issue in BasePeCoffLib
++
++The RelocDir->Size is a UINT32 value, and RelocDir->VirtualAddress is
++also a UINT32 value. The current code does not check for overflow when
++adding RelocDir->Size to RelocDir->VirtualAddress. This patch adds a
++check to ensure that the addition does not overflow.
++
++Signed-off-by: Doug Flick <dougflick@microsoft.com>
++Authored-by: sriraamx gobichettipalayam <sri..@intel.com>
++
++CVE: CVE-2024-38796
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/c95233=
+b8525ca6828921affd1496146cff262e65]
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ MdePkg/Library/BasePeCoffLib/BasePeCoff.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/MdePkg/Library/BasePeCoffLib/BasePeCoff.c b/MdePkg/Library/Ba=
+sePeCoffLib/BasePeCoff.c
++index 86ff2e7..128090d 100644
++--- a/MdePkg/Library/BasePeCoffLib/BasePeCoff.c
+++++ b/MdePkg/Library/BasePeCoffLib/BasePeCoff.c
++@@ -1054,7 +1054,7 @@ PeCoffLoaderRelocateImage (
++     RelocDir =3D &Hdr.Te->DataDirectory[0];=0D
++   }=0D
++ =0D
++-  if ((RelocDir !=3D NULL) && (RelocDir->Size > 0)) {=0D
+++  if ((RelocDir !=3D NULL) && (RelocDir->Size > 0) && (RelocDir->Size - 1=
+ < MAX_UINT32 - RelocDir->VirtualAddress)) {=0D
++     RelocBase    =3D (EFI_IMAGE_BASE_RELOCATION *)PeCoffLoaderImageAddres=
+s (ImageContext, RelocDir->VirtualAddress, TeStrippedOffset);=0D
++     RelocBaseEnd =3D (EFI_IMAGE_BASE_RELOCATION *)PeCoffLoaderImageAddres=
+s (=0D
++                                                   ImageContext,=0D
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index 35ca8d1834..cc2ac4268c 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -24,6 +24,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps \
+            file://0002-BaseTools-makefile-adjust-to-build-in-under-bitbake=
+.patch \
+            file://0003-debug-prefix-map.patch \
+            file://0004-reproducible.patch \
++           file://0001-MdePkg-Fix-overflow-issue-in-BasePeCoffLib.patch \
+            "
+=20
+ PV =3D "edk2-stable202402"
+--=20
 2.34.1
 
 
