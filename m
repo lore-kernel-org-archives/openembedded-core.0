@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31516E77170
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31974E77171
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:35 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web10.21447.1733334874381009127
+Received: from mail-oa1-f44.google.com (mail-oa1-f44.google.com [209.85.160.44])
+ by mx.groups.io with SMTP id smtpd.web11.21187.1733334864944944245
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:34 -0800
+ Wed, 04 Dec 2024 09:54:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=QfK7c6is;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7fcc8533607so81984a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:34 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=hnlduqd5;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.44, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f44.google.com with SMTP id 586e51a60fabf-29e65257182so66836fac.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334874; x=1733939674; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334864; x=1733939664; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=2MsgZZpDi+rqL51w4wNmVsolAe0Wj7MD0E8uu+RqxP8=;
-        b=QfK7c6isWQxsnl8o2mq6Qq2XtmYslvy8x0LfZAFowZfy4QXJ0tIJwG4zguzUG3VRwG
-         kQbmx1jvM9Pc8/rT0CtrnLAlyK09v6ZNnELiKAI2lw/zr2xvVSxMK60pNserwreV0gyx
-         sMpvYIB4VqR1gZ4/90DrWUIm22985kd7oOdAb7MY+OvCkZwhXkrq/UODvbApVpStojL6
-         8U7oi9k5TQX6KQAx5HSjdTq0nA0NjLYvDfgdWxk+DoeLN7czjflC/noiFwxunFCpo++P
-         +5t2gniMabfgKBkqLQvs0fgVqsfPq2z/siJTEO1MoBhtt/ugVVmlAQ1v6ZHgkGhst5Xp
-         0IoQ==
+        bh=pHqZa/eQmDd2LS/7+QelvXXAbyYlc0B/VNKqRim6lyg=;
+        b=hnlduqd5BPG0auHXkjZMpWwqAX6nks0KW9yPfLjkNT57NE5naIfuOL1QXozif4BtOJ
+         0j0hNS0IGYj4m/yqc5PJKpBBwCoV+9axDzXUTrIwJshP+cFMwUPUcczPxjY5L6eD8BKL
+         XbIwBIgfJefj8oIeignw+hPRPCqEbsrMSISguji3j8kI/sc+YKhocRhzQmO7pKrX+dW+
+         QePJ8hzdrw10vVWxzJSthoBGEw75PKP8s+iSgHlxMDzGZpcDk/OyAuvQz/A053KDJVU+
+         8ajDnqteagxXSl7nO6IctxuJ5WBdJytozyrX5GY4EcsA79LDF09QJLwiXr9EzgF1fS/y
+         VO5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334874; x=1733939674;
+        d=1e100.net; s=20230601; t=1733334864; x=1733939664;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=2MsgZZpDi+rqL51w4wNmVsolAe0Wj7MD0E8uu+RqxP8=;
-        b=m1SF4h5cNv5le0ErwICb4pqliFlfFZ0KM08ODNAiAQvhayqMEnjCFRFK7dx8MsJape
-         VrHeM9tqUXDNgKsFMKDKxXgP5YSwmzMfuUdeyNBl1BuFtNot9TUgwNOLRDe4iTjeg+mh
-         vJc0hpJxbIEVQt0oERjKPKaqkS55aQ4cTXsNRtDW1vx3y0xtDtGWNl4IvWbU3qtD241o
-         GeN4uNz3pRg+6/PlJJ2KUHDK5+PIu6JZSiQb4jPmBzfQhG42YHmHeCVXrhIwSpICTxtn
-         vlwFsqrISOAKsfepSjXcVDhGMSiLDTrEuMQilQLRxQd814Q2fSRwPhMAnnRCuiZCWb/F
-         hjCQ==
-X-Gm-Message-State: AOJu0YwAZyCPNbPX+6xwTxmjhh70c6foHmjpxKP1fNjC6LHxpnM9UjfJ
-	rJrOYhvH+lU9WdLaIwt2Q2Mqdwqo9PG1uzVq8GxVGtnZHHPba4u0ngOJ5Ke8QmFpaQIO6FsjOzJ
-	3
-X-Gm-Gg: ASbGncueEtcJ0Mnh7Mf0veA+uSOqUt3y6Mp8dKDYI+fI8Lg43xi1TcSyVDoGf0XsPtn
-	eSUZOWCHm4+AIjmuesUdkQwRbHRc2BH+S5Qmd0x002L0dgoSQoJVvese0WhrYcKlcisc2qlbnHQ
-	zjefNrt3QOVObp9j9yS8+S9d/GqD8n0Dj9aZBv2viC3jlcjJuAkAKKjM7jGoydxggKbahtWhABh
-	AUfPO/JxrlYyc999dZrJVmAFOGS5KIe7sfso0U=
-X-Google-Smtp-Source: AGHT+IGmGj4oOOC258+4bgYizRK5m7dm76RSd2Efj8mijw4yzWW2AoxBpLbsL+bOApibr3mlgHz0Og==
-X-Received: by 2002:a05:6a20:2d13:b0:1e1:f5a:c027 with SMTP id adf61e73a8af0-1e165413276mr8713447637.43.1733334873054;
-        Wed, 04 Dec 2024 09:54:33 -0800 (PST)
+        bh=pHqZa/eQmDd2LS/7+QelvXXAbyYlc0B/VNKqRim6lyg=;
+        b=VPMyr8dZPp46ymra1RCNbDCdPs4HHIC5mklg4njvhU20H/XnJptRbHOeiUj66J9Om6
+         X9hZwhME4PhUoOX7kO3sRb7Bo+88X3l1KJrgKr2Cp0xO408ovUiHA4t77dpGPScacki+
+         hracP6pjNQ/Jkupz7upA79q9erPaIjyULwK4bQY8z02cxiYpQk7SyD3MQK4AWm6kXKFy
+         nMNgygcgd498hHlv4zQxvoAKCl5RdFZJF7M7I1r5p6/umVN9mDjGvTA0+YuH617tWq6i
+         pQkkD0Lp1XTufeKmM1IMx5RA7VtFRKRcLsYMszmE32BkEguU7CYvWeKnbKclj9GAWZqT
+         DT1g==
+X-Gm-Message-State: AOJu0Yx0h49SyxF46aAyrxapV/zbTgvhfLYVXALdyD54KpvzwYLuPLAI
+	I/D10Valx9u+hsvzXGFf+StkkSpGAU8rpDOc8vwj4HoM/g/yAt+GOpE5g5v3sScD96tuRI1lKEM
+	w
+X-Gm-Gg: ASbGncsIU/1mluzwB7mf0FNwPZdxNV769zINjKE+ihTHyg67fw3geFzCoiCpcT3Umb2
+	UmNjzuK1tfG0FhJ9PSC39cJG1phmsc7GR/tX3phKcySSIPUJO57qO0Z49TMK/7l3AaeLu6oGSdD
+	E45aJef02Rwz1cwAXgF2fDuU7u5HmpaCbTutaSItua0svwbVCW+nFGjiDc/J1R7ogIbFtPYTQKU
+	uRbZ1F5ITzGIuXdFE2kJMmIfTqqDm1ZWkYZpOk=
+X-Google-Smtp-Source: AGHT+IEGD5O2wt0NcIhhP3nwQcso5ZolJlXl9zkLcrq92sczQxtGpihEYw7VOcjfVdnUN7by7x18Ug==
+X-Received: by 2002:a05:6870:8290:b0:29e:287e:3706 with SMTP id 586e51a60fabf-29e88623be3mr6892423fac.17.1733334863389;
+        Wed, 04 Dec 2024 09:54:23 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.32
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:32 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:22 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 10/38] ovmf: Fix CVE-2023-45236
-Date: Wed,  4 Dec 2024 09:53:37 -0800
-Message-Id: <a9cd3321558e95f61ed4c5eca0dcf5a3f4704925.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 05/38] ovmf: Fix CVE-2023-45232, CVE-2023-45233
+Date: Wed,  4 Dec 2024 09:53:32 -0800
+Message-Id: <c84eb03f07687d2e0df1e2033599fa2cf79c6b4d.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,91 +66,102 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208293
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208288
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-EDK2's Network Package is susceptible to a predictable TCP Initial
-Sequence Number. This vulnerability can be exploited by an attacker
-to gain unauthorized access and potentially lead to a loss of
-Confidentiality.
+CVE-2023-45232:
+EDK2's Network Package is susceptible to an infinite loop vulnerability
+when parsing unknown options in the Destination Options header of IPv6.
+This vulnerability can be exploited by an attacker to gain unauthorized
+access and potentially lead to a loss of Availability.
+
+CVE-2023-45233:
+EDK2's Network Package is susceptible to an infinite lop vulnerability
+when parsing a PadN option in the Destination Options header of IPv6.
+This vulnerability can be exploited by an attacker to gain unauthorized
+access and potentially lead to a loss of Availability.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-45236
+https://nvd.nist.gov/vuln/detail/CVE-2023-45232
+https://nvd.nist.gov/vuln/detail/CVE-2023-45233
 
-Upstream-patch:
-https://github.com/tianocore/edk2/commit/1904a64bcc18199738e5be183d28887ac5=
-d837d7
+Upstream-patches:
+https://github.com/tianocore/edk2/commit/4df0229ef992d4f2721a8508787ebf9dc8=
+1fbd6e
+https://github.com/tianocore/edk2/commit/c9c87f08dd6ace36fa843424522c3558a8=
+374cac
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ovmf/ovmf/CVE-2023-45236.patch            | 829 ++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
- 2 files changed, 830 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45236.patch
+ .../CVE-2023-45232-CVE-2023-45233-0001.patch  | 360 +++++++++++++++
+ .../CVE-2023-45232-CVE-2023-45233-0002.patch  | 417 ++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
+ 3 files changed, 779 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-452=
+33-0001.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-452=
+33-0002.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45236.patch b/meta/recipe=
-s-core/ovmf/ovmf/CVE-2023-45236.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001=
+.patch b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001.pat=
+ch
 new file mode 100644
-index 0000000000..ac43392ce6
+index 0000000000..d43e971d9d
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45236.patch
-@@ -0,0 +1,829 @@
-+From 1904a64bcc18199738e5be183d28887ac5d837d7 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0001.patch
+@@ -0,0 +1,360 @@
++From 4df0229ef992d4f2721a8508787ebf9dc81fbd6e Mon Sep 17 00:00:00 2001
 +From: Doug Flick <dougflick@microsoft.com>
-+Date: Wed, 8 May 2024 22:56:29 -0700
-+Subject: [PATCH] NetworkPkg TcpDxe: SECURITY PATCH CVE-2023-45236
++Date: Fri, 26 Jan 2024 05:54:50 +0800
++Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45232 Patch
 +
-+REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4541
-+REF: https://www.rfc-editor.org/rfc/rfc1948.txt
-+REF: https://www.rfc-editor.org/rfc/rfc6528.txt
-+REF: https://www.rfc-editor.org/rfc/rfc9293.txt
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538
 +
-+Bug Overview:
-+PixieFail Bug #8
-+CVE-2023-45236
-+CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:N/A:N
-+CWE-200 Exposure of Sensitive Information to an Unauthorized Actor
++Bug Details:
++PixieFail Bug #4
++CVE-2023-45232
++CVSS 7.5 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')
 +
-+Updates TCP ISN generation to use a cryptographic hash of the
-+connection's identifying parameters and a secret key.
-+This prevents an attacker from guessing the ISN used for some other
-+connection.
++Infinite loop when parsing unknown options in the Destination Options
++header
 +
-+This is follows the guidance in RFC 1948, RFC 6528, and RFC 9293.
++PixieFail Bug #5
++CVE-2023-45233
++CVSS 7.5 : CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
++CWE-835 Loop with Unreachable Exit Condition ('Infinite Loop')
 +
-+RFC: 9293 Section 3.4.1.  Initial Sequence Number Selection
++Infinite loop when parsing a PadN option in the Destination Options
++header
 +
-+   A TCP implementation MUST use the above type of "clock" for clock-
-+   driven selection of initial sequence numbers (MUST-8), and SHOULD
-+   generate its initial sequence numbers with the expression:
++Change Overview:
 +
-+   ISN =3D M + F(localip, localport, remoteip, remoteport, secretkey)
++Most importantly this change corrects the following incorrect math
++and cleans up the code.
 +
-+   where M is the 4 microsecond timer, and F() is a pseudorandom
-+   function (PRF) of the connection's identifying parameters ("localip,
-+   localport, remoteip, remoteport") and a secret key ("secretkey")
-+   (SHLD-1).  F() MUST NOT be computable from the outside (MUST-9), or
-+   an attacker could still guess at sequence numbers from the ISN used
-+   for some other connection.  The PRF could be implemented as a
-+   cryptographic hash of the concatenation of the TCP connection
-+   parameters and some secret data.  For discussion of the selection of
-+   a specific hash algorithm and management of the secret key data,
-+   please see Section 3 of [42].
++>   // It is a PadN option
++>   //
++> - Offset =3D (UINT8)(Offset + *(Option + Offset + 1) + 2);
++> + OptDataLen =3D ((EFI_IP6_OPTION *)(Option + Offset))->Length;
++> + Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);
 +
-+   For each connection there is a send sequence number and a receive
-+   sequence number.  The initial send sequence number (ISS) is chosen by
-+   the data sending TCP peer, and the initial receive sequence number
-+   (IRS) is learned during the connection-establishing procedure.
++> case Ip6OptionSkip:
++> - Offset =3D (UINT8)(Offset + *(Option + Offset + 1));
++>   OptDataLen =3D ((EFI_IP6_OPTION *)(Option + Offset))->Length;
++>   Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);
 +
-+   For a connection to be established or initialized, the two TCP peers
-+   must synchronize on each other's initial sequence numbers.  This is
-+   done in an exchange of connection-establishing segments carrying a
-+   control bit called "SYN" (for synchronize) and the initial sequence
-+   numbers.  As a shorthand, segments carrying the SYN bit are also
-+   called "SYNs".  Hence, the solution requires a suitable mechanism for
-+   picking an initial sequence number and a slightly involved handshake
-+   to exchange the ISNs.
++Additionally, this change also corrects incorrect math where the calling
++function was calculating the HDR EXT optionLen as a uint8 instead of a
++uint16
++
++> - OptionLen =3D (UINT8)((*Option + 1) * 8 - 2);
++> + OptionLen =3D IP6_HDR_EXT_LEN (*Option) -
++IP6_COMBINED_SIZE_OF_NEXT_HDR_AND_LEN;
++
++Additionally this check adds additional logic to santize the incoming
++data
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -158,873 +169,852 @@ index 0000000000..ac43392ce6
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45236
++CVE: CVE-2023-45232, CVE-2023-45233
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1904a6=
-4bcc18199738e5be183d28887ac5d837d7]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/4df022=
+9ef992d4f2721a8508787ebf9dc81fbd6e]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ NetworkPkg/SecurityFixes.yaml |  22 +++
-+ NetworkPkg/TcpDxe/TcpDriver.c |  92 ++++++++++++-
-+ NetworkPkg/TcpDxe/TcpDxe.inf  |   8 +-
-+ NetworkPkg/TcpDxe/TcpFunc.h   |  23 ++--
-+ NetworkPkg/TcpDxe/TcpInput.c  |  13 +-
-+ NetworkPkg/TcpDxe/TcpMain.h   |  59 ++++++--
-+ NetworkPkg/TcpDxe/TcpMisc.c   | 244 ++++++++++++++++++++++++++++++++--
-+ NetworkPkg/TcpDxe/TcpTimer.c  |   3 +-
-+ 8 files changed, 415 insertions(+), 49 deletions(-)
++ NetworkPkg/Ip6Dxe/Ip6Nd.h     | 35 ++++++++++++++++
++ NetworkPkg/Ip6Dxe/Ip6Option.c | 76 ++++++++++++++++++++++++++++++-----
++ NetworkPkg/Ip6Dxe/Ip6Option.h | 71 ++++++++++++++++++++++++++++++++
++ 3 files changed, 171 insertions(+), 11 deletions(-)
 +
-+diff --git a/NetworkPkg/SecurityFixes.yaml b/NetworkPkg/SecurityFixes.yaml
-+index 2b2c794697..ab355419cc 100644
-+--- a/NetworkPkg/SecurityFixes.yaml
-++++ b/NetworkPkg/SecurityFixes.yaml
-+@@ -121,6 +121,28 @@ CVE_2023_45235:
-+     - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-+     - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-+     - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-++CVE_2023_45236:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: TcpDxe: SECURITY PATCH CVE-2023-45236 Patch"=0D
-++  cve: CVE-2023-45236=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 08 - edk2/NetworkPkg: Predictable TCP Initial Sequenc=
-e Numbers"=0D
-++  note:=0D
-++  files_impacted:=0D
-++    - NetworkPkg/Include/Library/NetLib.h=0D
-++    - NetworkPkg/TcpDxe/TcpDriver.c=0D
-++    - NetworkPkg/TcpDxe/TcpDxe.inf=0D
-++    - NetworkPkg/TcpDxe/TcpFunc.h=0D
-++    - NetworkPkg/TcpDxe/TcpInput.c=0D
-++    - NetworkPkg/TcpDxe/TcpMain.h=0D
-++    - NetworkPkg/TcpDxe/TcpMisc.c=0D
-++    - NetworkPkg/TcpDxe/TcpTimer.c=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4541=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45236=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-+ CVE_2023_45237:=0D
-+   commit_titles:=0D
-+     - "NetworkPkg:: SECURITY PATCH CVE 2023-45237"=0D
-+diff --git a/NetworkPkg/TcpDxe/TcpDriver.c b/NetworkPkg/TcpDxe/TcpDriver.c
-+index 8fe6badd68..40bba4080c 100644
-+--- a/NetworkPkg/TcpDxe/TcpDriver.c
-++++ b/NetworkPkg/TcpDxe/TcpDriver.c
-+@@ -83,6 +83,12 @@ EFI_SERVICE_BINDING_PROTOCOL  gTcpServiceBinding =3D {
-+   TcpServiceBindingDestroyChild=0D
-+ };=0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Nd.h b/NetworkPkg/Ip6Dxe/Ip6Nd.h
++index 860934a167..bf64e9114e 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Nd.h
+++++ b/NetworkPkg/Ip6Dxe/Ip6Nd.h
++@@ -56,13 +56,48 @@ VOID
++   VOID  *Context=0D
++   );=0D
 + =0D
 ++//=0D
-++// This is the handle for the Hash2ServiceBinding Protocol instance this =
-driver produces=0D
-++// if the platform does not provide one.=0D
+++// Per RFC8200 Section 4.2=0D
 ++//=0D
-++EFI_HANDLE  mHash2ServiceHandle =3D NULL;=0D
-++=0D
-+ /**=0D
-+   Create and start the heartbeat timer for the TCP driver.=0D
-+ =0D
-+@@ -165,6 +171,23 @@ TcpDriverEntryPoint (
-+   EFI_STATUS  Status;=0D
-+   UINT32      Random;=0D
-+ =0D
-++  //=0D
-++  // Initialize the Secret used for hashing TCP sequence numbers=0D
-++  //=0D
-++  // Normally this should be regenerated periodically, but since=0D
-++  // this is only used for UEFI networking and not a general purpose=0D
-++  // operating system, it is not necessary to regenerate it.=0D
-++  //=0D
-++  Status =3D PseudoRandomU32 (&mTcpGlobalSecret);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
-unc__, Status));=0D
-++    return Status;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Get a random number used to generate a random port number=0D
-++  // Intentionally not linking this to mTcpGlobalSecret to avoid leaking =
-information about the secret=0D
-++  //=0D
-+   Status =3D PseudoRandomU32 (&Random);=0D
-+   if (EFI_ERROR (Status)) {=0D
-+     DEBUG ((DEBUG_ERROR, "%a Failed to generate random number: %r\n", __f=
-unc__, Status));=0D
-+@@ -207,9 +230,8 @@ TcpDriverEntryPoint (
-+   }=0D
-+ =0D
-+   //=0D
-+-  // Initialize ISS and random port.=0D
-++  // Initialize the random port.=0D
-+   //=0D
-+-  mTcpGlobalIss   =3D Random % mTcpGlobalIss;=0D
-+   mTcp4RandomPort =3D (UINT16)(TCP_PORT_KNOWN + (Random % TCP_PORT_KNOWN)=
-);=0D
-+   mTcp6RandomPort =3D mTcp4RandomPort;=0D
-+ =0D
-+@@ -224,6 +246,8 @@ TcpDriverEntryPoint (
-+   @param[in]  IpVersion          IP_VERSION_4 or IP_VERSION_6.=0D
-+ =0D
-+   @retval EFI_OUT_OF_RESOURCES   Failed to allocate some resources.=0D
-++  @retval EFI_UNSUPPORTED        Service Binding Protocols are unavailabl=
-e.=0D
-++  @retval EFI_ALREADY_STARTED    The TCP driver is already started on the=
- controller.=0D
-+   @retval EFI_SUCCESS            A new IP6 service binding private was cr=
-eated.=0D
-+ =0D
-+ **/=0D
-+@@ -234,11 +258,13 @@ TcpCreateService (
-+   IN UINT8       IpVersion=0D
-+   )=0D
-+ {=0D
-+-  EFI_STATUS        Status;=0D
-+-  EFI_GUID          *IpServiceBindingGuid;=0D
-+-  EFI_GUID          *TcpServiceBindingGuid;=0D
-+-  TCP_SERVICE_DATA  *TcpServiceData;=0D
-+-  IP_IO_OPEN_DATA   OpenData;=0D
-++  EFI_STATUS                    Status;=0D
-++  EFI_GUID                      *IpServiceBindingGuid;=0D
-++  EFI_GUID                      *TcpServiceBindingGuid;=0D
-++  TCP_SERVICE_DATA              *TcpServiceData;=0D
-++  IP_IO_OPEN_DATA               OpenData;=0D
-++  EFI_SERVICE_BINDING_PROTOCOL  *Hash2ServiceBinding;=0D
-++  EFI_HASH2_PROTOCOL            *Hash2Protocol;=0D
-+ =0D
-+   if (IpVersion =3D=3D IP_VERSION_4) {=0D
-+     IpServiceBindingGuid  =3D &gEfiIp4ServiceBindingProtocolGuid;=0D
-+@@ -272,6 +298,33 @@ TcpCreateService (
-+     return EFI_UNSUPPORTED;=0D
-+   }=0D
-+ =0D
-++  Status =3D gBS->LocateProtocol (&gEfiHash2ProtocolGuid, NULL, (VOID **)=
-&Hash2Protocol);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    //=0D
-++    // If we can't find the Hashing protocol, then we need to create one.=
+++//   Two of the currently-defined extension headers -- the Hop-by-Hop=0D
+++//   Options header and the Destination Options header -- carry a variabl=
+e=0D
+++//   number of type-length-value (TLV) encoded "options", of the followin=
+g=0D
+++//   format:=0D
+++//=0D
+++//      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -=0D
+++//      |  Option Type  |  Opt Data Len |  Option Data=0D
+++//      +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+- - - - - - - - -=0D
+++//=0D
+++//      Option Type          8-bit identifier of the type of option.=0D
+++//=0D
+++//      Opt Data Len         8-bit unsigned integer.  Length of the Optio=
+n=0D
+++//                           Data field of this option, in octets.=0D
+++//=0D
+++//      Option Data          Variable-length field.  Option-Type-specific=
 =0D
-++    //=0D
-++=0D
-++    //=0D
-++    // Platform is expected to publish the hash service binding protocol =
-to support TCP.=0D
-++    //=0D
-++    Status =3D gBS->LocateProtocol (=0D
-++                    &gEfiHash2ServiceBindingProtocolGuid,=0D
-++                    NULL,=0D
-++                    (VOID **)&Hash2ServiceBinding=0D
-++                    );=0D
-++    if (EFI_ERROR (Status) || (Hash2ServiceBinding =3D=3D NULL) || (Hash2=
-ServiceBinding->CreateChild =3D=3D NULL)) {=0D
-++      return EFI_UNSUPPORTED;=0D
-++    }=0D
-++=0D
-++    //=0D
-++    // Create an instance of the hash protocol for this controller.=0D
-++    //=0D
-++    Status =3D Hash2ServiceBinding->CreateChild (Hash2ServiceBinding, &mH=
-ash2ServiceHandle);=0D
-++    if (EFI_ERROR (Status)) {=0D
-++      return EFI_UNSUPPORTED;=0D
-++    }=0D
-++  }=0D
-++=0D
-+   //=0D
-+   // Create the TCP service data.=0D
-+   //=0D
-+@@ -423,6 +476,7 @@ TcpDestroyService (
-+   EFI_STATUS                               Status;=0D
-+   LIST_ENTRY                               *List;=0D
-+   TCP_DESTROY_CHILD_IN_HANDLE_BUF_CONTEXT  Context;=0D
-++  EFI_SERVICE_BINDING_PROTOCOL             *Hash2ServiceBinding;=0D
+++//                           data.=0D
+++//=0D
++ typedef struct _IP6_OPTION_HEADER {=0D
+++  ///=0D
+++  /// identifier of the type of option.=0D
+++  ///=0D
++   UINT8    Type;=0D
+++  ///=0D
+++  /// Length of the Option Data field of this option, in octets.=0D
+++  ///=0D
++   UINT8    Length;=0D
+++  ///=0D
+++  /// Option-Type-specific data.=0D
+++  ///=0D
++ } IP6_OPTION_HEADER;=0D
 + =0D
-+   ASSERT ((IpVersion =3D=3D IP_VERSION_4) || (IpVersion =3D=3D IP_VERSION=
-_6));=0D
++ STATIC_ASSERT (sizeof (IP6_OPTION_HEADER) =3D=3D 2, "IP6_OPTION_HEADER is=
+ expected to be exactly 2 bytes long.");=0D
 + =0D
-+@@ -439,6 +493,30 @@ TcpDestroyService (
-+     return EFI_SUCCESS;=0D
-+   }=0D
-+ =0D
-++  //=0D
-++  // Destroy the Hash2ServiceBinding instance if it is created by Tcp dri=
-ver.=0D
-++  //=0D
-++  if (mHash2ServiceHandle !=3D NULL) {=0D
-++    Status =3D gBS->LocateProtocol (=0D
-++                    &gEfiHash2ServiceBindingProtocolGuid,=0D
-++                    NULL,=0D
-++                    (VOID **)&Hash2ServiceBinding=0D
-++                    );=0D
-++    if (EFI_ERROR (Status) || (Hash2ServiceBinding =3D=3D NULL) || (Hash2=
-ServiceBinding->DestroyChild =3D=3D NULL)) {=0D
-++      return EFI_UNSUPPORTED;=0D
-++    }=0D
-++=0D
-++    //=0D
-++    // Destroy the instance of the hashing protocol for this controller.=
-=0D
-++    //=0D
-++    Status =3D Hash2ServiceBinding->DestroyChild (Hash2ServiceBinding, &m=
-Hash2ServiceHandle);=0D
-++    if (EFI_ERROR (Status)) {=0D
-++      return EFI_UNSUPPORTED;=0D
-++    }=0D
-++=0D
-++    mHash2ServiceHandle =3D NULL;=0D
-++  }=0D
-++=0D
-+   Status =3D gBS->OpenProtocol (=0D
-+                   NicHandle,=0D
-+                   ServiceBindingGuid,=0D
-+diff --git a/NetworkPkg/TcpDxe/TcpDxe.inf b/NetworkPkg/TcpDxe/TcpDxe.inf
-+index cf5423f4c5..76de4cf9ec 100644
-+--- a/NetworkPkg/TcpDxe/TcpDxe.inf
-++++ b/NetworkPkg/TcpDxe/TcpDxe.inf
-+@@ -6,6 +6,7 @@
-+ #  stack has been loaded in system. This driver supports both IPv4 and IP=
-v6 network stack.=0D
-+ #=0D
-+ #  Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
-=0D
-++#  Copyright (c) Microsoft Corporation=0D
-+ #=0D
-+ #  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ #=0D
-+@@ -68,7 +69,6 @@
-+   NetLib=0D
-+   IpIoLib=0D
-+ =0D
-+-=0D
-+ [Protocols]=0D
-+   ## SOMETIMES_CONSUMES=0D
-+   ## SOMETIMES_PRODUCES=0D
-+@@ -81,6 +81,12 @@
-+   gEfiIp6ServiceBindingProtocolGuid             ## TO_START=0D
-+   gEfiTcp6ProtocolGuid                          ## BY_START=0D
-+   gEfiTcp6ServiceBindingProtocolGuid            ## BY_START=0D
-++  gEfiHash2ProtocolGuid                         ## BY_START=0D
-++  gEfiHash2ServiceBindingProtocolGuid           ## BY_START=0D
-++=0D
-++[Guids]=0D
-++  gEfiHashAlgorithmMD5Guid                      ## CONSUMES=0D
-++  gEfiHashAlgorithmSha256Guid                   ## CONSUMES=0D
-+ =0D
-+ [Depex]=0D
-+   gEfiHash2ServiceBindingProtocolGuid=0D
-+diff --git a/NetworkPkg/TcpDxe/TcpFunc.h b/NetworkPkg/TcpDxe/TcpFunc.h
-+index a7af01fff2..c707bee3e5 100644
-+--- a/NetworkPkg/TcpDxe/TcpFunc.h
-++++ b/NetworkPkg/TcpDxe/TcpFunc.h
-+@@ -2,7 +2,7 @@
-+   Declaration of external functions shared in TCP driver.=0D
-+ =0D
-+   Copyright (c) 2009 - 2014, Intel Corporation. All rights reserved.<BR>=
-=0D
-+-=0D
-++  Copyright (c) Microsoft Corporation=0D
-+   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ =0D
-+ **/=0D
-+@@ -36,8 +36,11 @@ VOID
-+ =0D
-+   @param[in, out]  Tcb               Pointer to the TCP_CB of this TCP in=
-stance.=0D
-+ =0D
-++  @retval EFI_SUCCESS             The operation completed successfully=0D
-++  @retval others                  The underlying functions failed and cou=
-ld not complete the operation=0D
-++=0D
-+ **/=0D
-+-VOID=0D
-++EFI_STATUS=0D
-+ TcpInitTcbLocal (=0D
-+   IN OUT TCP_CB  *Tcb=0D
-+   );=0D
-+@@ -128,17 +131,6 @@ TcpCloneTcb (
-+   IN TCP_CB  *Tcb=0D
-+   );=0D
-+ =0D
-+-/**=0D
-+-  Compute an ISS to be used by a new connection.=0D
-+-=0D
-+-  @return The result ISS.=0D
-+-=0D
-+-**/=0D
-+-TCP_SEQNO=0D
-+-TcpGetIss (=0D
-+-  VOID=0D
-+-  );=0D
-+-=0D
-+ /**=0D
-+   Get the local mss.=0D
-+ =0D
-+@@ -202,8 +194,11 @@ TcpFormatNetbuf (
-+   @param[in, out]  Tcb          Pointer to the TCP_CB that wants to initi=
-ate a=0D
-+                                 connection.=0D
-+ =0D
-++  @retval EFI_SUCCESS             The operation completed successfully=0D
-++  @retval others                  The underlying functions failed and cou=
-ld not complete the operation=0D
-++=0D
-+ **/=0D
-+-VOID=0D
-++EFI_STATUS=0D
-+ TcpOnAppConnect (=0D
-+   IN OUT TCP_CB  *Tcb=0D
-+   );=0D
-+diff --git a/NetworkPkg/TcpDxe/TcpInput.c b/NetworkPkg/TcpDxe/TcpInput.c
-+index fb1aa827f8..0477a15d0c 100644
-+--- a/NetworkPkg/TcpDxe/TcpInput.c
-++++ b/NetworkPkg/TcpDxe/TcpInput.c
-+@@ -724,6 +724,7 @@ TcpInput (
-+   TCP_SEQNO   Urg;=0D
-+   UINT16      Checksum;=0D
-+   INT32       Usable;=0D
-++  EFI_STATUS  Status;=0D
-+ =0D
-+   ASSERT ((Version =3D=3D IP_VERSION_4) || (Version =3D=3D IP_VERSION_6))=
-;=0D
-+ =0D
-+@@ -872,7 +873,17 @@ TcpInput (
-+       Tcb->LocalEnd.Port  =3D Head->DstPort;=0D
-+       Tcb->RemoteEnd.Port =3D Head->SrcPort;=0D
-+ =0D
-+-      TcpInitTcbLocal (Tcb);=0D
-++      Status =3D TcpInitTcbLocal (Tcb);=0D
-++      if (EFI_ERROR (Status)) {=0D
-++        DEBUG (=0D
-++          (DEBUG_ERROR,=0D
-++           "TcpInput: discard a segment because failed to init local end =
-for TCB %p\n",=0D
-++           Tcb)=0D
-++          );=0D
-++=0D
-++        goto DISCARD;=0D
-++      }=0D
-++=0D
-+       TcpInitTcbPeer (Tcb, Seg, &Option);=0D
-+ =0D
-+       TcpSetState (Tcb, TCP_SYN_RCVD);=0D
-+diff --git a/NetworkPkg/TcpDxe/TcpMain.h b/NetworkPkg/TcpDxe/TcpMain.h
-+index c0c9b7f46e..4d5566ab93 100644
-+--- a/NetworkPkg/TcpDxe/TcpMain.h
-++++ b/NetworkPkg/TcpDxe/TcpMain.h
-+@@ -3,7 +3,7 @@
-+   It is the common head file for all Tcp*.c in TCP driver.=0D
-+ =0D
-+   Copyright (c) 2009 - 2016, Intel Corporation. All rights reserved.<BR>=
-=0D
-+-=0D
-++  Copyright (c) Microsoft Corporation=0D
-+   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ =0D
-+ **/=0D
-+@@ -13,6 +13,7 @@
-+ =0D
-+ #include <Protocol/ServiceBinding.h>=0D
-+ #include <Protocol/DriverBinding.h>=0D
-++#include <Protocol/Hash2.h>=0D
-+ #include <Library/IpIoLib.h>=0D
-+ #include <Library/DevicePathLib.h>=0D
-+ #include <Library/PrintLib.h>=0D
-+@@ -31,7 +32,7 @@ extern EFI_UNICODE_STRING_TABLE      *gTcpControllerName=
-Table;
-+ =0D
-+ extern LIST_ENTRY  mTcpRunQue;=0D
-+ extern LIST_ENTRY  mTcpListenQue;=0D
-+-extern TCP_SEQNO   mTcpGlobalIss;=0D
-++extern TCP_SEQNO   mTcpGlobalSecret;=0D
-+ extern UINT32      mTcpTick;=0D
-+ =0D
-+ ///=0D
-+@@ -45,14 +46,6 @@ extern UINT32      mTcpTick;
-+ =0D
-+ #define TCP_EXPIRE_TIME  65535=0D
-+ =0D
-+-///=0D
-+-/// The implementation selects the initial send sequence number and the u=
-nit to=0D
-+-/// be added when it is increased.=0D
-+-///=0D
-+-#define TCP_BASE_ISS         0x4d7e980b=0D
-+-#define TCP_ISS_INCREMENT_1  2048=0D
-+-#define TCP_ISS_INCREMENT_2  100=0D
-+-=0D
-+ typedef union {=0D
-+   EFI_TCP4_CONFIG_DATA    Tcp4CfgData;=0D
-+   EFI_TCP6_CONFIG_DATA    Tcp6CfgData;=0D
-+@@ -774,4 +767,50 @@ Tcp6Poll (
-+   IN EFI_TCP6_PROTOCOL  *This=0D
-+   );=0D
-+ =0D
-++/**=0D
-++  Retrieves the Initial Sequence Number (ISN) for a TCP connection identi=
-fied by local=0D
-++  and remote IP addresses and ports.=0D
-++=0D
-++  This method is based on https://datatracker.ietf.org/doc/html/rfc9293#s=
-ection-3.4.1=0D
-++  Where the ISN is computed as follows:=0D
-++    ISN =3D TimeStamp + MD5(LocalIP, LocalPort, RemoteIP, RemotePort, Sec=
-ret)=0D
-++=0D
-++  Otherwise:=0D
-++    ISN =3D M + F(localip, localport, remoteip, remoteport, secretkey)=0D
-++=0D
-++    "Here M is the 4 microsecond timer, and F() is a pseudorandom functio=
-n (PRF) of the=0D
-++    connection's identifying parameters ("localip, localport, remoteip, r=
-emoteport")=0D
-++    and a secret key ("secretkey") (SHLD-1). F() MUST NOT be computable f=
-rom the=0D
-++    outside (MUST-9), or an attacker could still guess at sequence number=
-s from the=0D
-++    ISN used for some other connection. The PRF could be implemented as a=
-=0D
-++    cryptographic hash of the concatenation of the TCP connection paramet=
-ers and some=0D
-++    secret data. For discussion of the selection of a specific hash algor=
-ithm and=0D
-++    management of the secret key data."=0D
-++=0D
-++  @param[in]       LocalIp        A pointer to the local IP address of th=
-e TCP connection.=0D
-++  @param[in]       LocalIpSize    The size, in bytes, of the LocalIp buff=
-er.=0D
-++  @param[in]       LocalPort      The local port number of the TCP connec=
-tion.=0D
-++  @param[in]       RemoteIp       A pointer to the remote IP address of t=
-he TCP connection.=0D
-++  @param[in]       RemoteIpSize   The size, in bytes, of the RemoteIp buf=
-fer.=0D
-++  @param[in]       RemotePort     The remote port number of the TCP conne=
-ction.=0D
-++  @param[out]      Isn            A pointer to the variable that will rec=
-eive the Initial=0D
-++                                  Sequence Number (ISN).=0D
-++=0D
-++  @retval EFI_SUCCESS             The operation completed successfully, a=
-nd the ISN was=0D
-++                                  retrieved.=0D
-++  @retval EFI_INVALID_PARAMETER   One or more of the input parameters are=
- invalid.=0D
-++  @retval EFI_UNSUPPORTED         The operation is not supported.=0D
-++=0D
-++**/=0D
-++EFI_STATUS=0D
-++TcpGetIsn (=0D
-++  IN UINT8       *LocalIp,=0D
-++  IN UINTN       LocalIpSize,=0D
-++  IN UINT16      LocalPort,=0D
-++  IN UINT8       *RemoteIp,=0D
-++  IN UINTN       RemoteIpSize,=0D
-++  IN UINT16      RemotePort,=0D
-++  OUT TCP_SEQNO  *Isn=0D
+++#define IP6_NEXT_OPTION_OFFSET(offset, length)  (offset + sizeof(IP6_OPTI=
+ON_HEADER) + length)=0D
+++STATIC_ASSERT (=0D
+++  IP6_NEXT_OPTION_OFFSET (0, 0) =3D=3D 2,=0D
+++  "The next option is minimally the combined size of the option tag and l=
+ength"=0D
 ++  );=0D
 ++=0D
-+ #endif=0D
-+diff --git a/NetworkPkg/TcpDxe/TcpMisc.c b/NetworkPkg/TcpDxe/TcpMisc.c
-+index c93212d47d..3310306f63 100644
-+--- a/NetworkPkg/TcpDxe/TcpMisc.c
-++++ b/NetworkPkg/TcpDxe/TcpMisc.c
-+@@ -3,7 +3,7 @@
++ typedef struct _IP6_ETHE_ADDR_OPTION {=0D
++   UINT8    Type;=0D
++   UINT8    Length;=0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Option.c b/NetworkPkg/Ip6Dxe/Ip6Option.c
++index 8718d5d875..fd97ce116f 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Option.c
+++++ b/NetworkPkg/Ip6Dxe/Ip6Option.c
++@@ -17,7 +17,8 @@
++   @param[in]  IpSb              The IP6 service data.=0D
++   @param[in]  Packet            The to be validated packet.=0D
++   @param[in]  Option            The first byte of the option.=0D
++-  @param[in]  OptionLen         The length of the whole option.=0D
+++  @param[in]  OptionLen         The length of all options, expressed in b=
+yte length of octets.=0D
+++                                Maximum length is 2046 bytes or ((n + 1) =
+* 8) - 2 where n is 255.=0D
++   @param[in]  Pointer           Identifies the octet offset within=0D
++                                 the invoking packet where the error was d=
+etected.=0D
 + =0D
-+   (C) Copyright 2014 Hewlett-Packard Development Company, L.P.<BR>=0D
-+   Copyright (c) 2009 - 2017, Intel Corporation. All rights reserved.<BR>=
++@@ -31,12 +32,33 @@ Ip6IsOptionValid (
++   IN IP6_SERVICE  *IpSb,=0D
++   IN NET_BUF      *Packet,=0D
++   IN UINT8        *Option,=0D
++-  IN UINT8        OptionLen,=0D
+++  IN UINT16       OptionLen,=0D
++   IN UINT32       Pointer=0D
++   )=0D
++ {=0D
++-  UINT8  Offset;=0D
++-  UINT8  OptionType;=0D
+++  UINT16  Offset;=0D
+++  UINT8   OptionType;=0D
+++  UINT8   OptDataLen;=0D
+++=0D
+++  if (Option =3D=3D NULL) {=0D
+++    ASSERT (Option !=3D NULL);=0D
+++    return FALSE;=0D
+++  }=0D
+++=0D
+++  if ((OptionLen <=3D 0) || (OptionLen > IP6_MAX_EXT_DATA_LENGTH)) {=0D
+++    ASSERT (OptionLen > 0 && OptionLen <=3D IP6_MAX_EXT_DATA_LENGTH);=0D
+++    return FALSE;=0D
+++  }=0D
+++=0D
+++  if (Packet =3D=3D NULL) {=0D
+++    ASSERT (Packet !=3D NULL);=0D
+++    return FALSE;=0D
+++  }=0D
+++=0D
+++  if (IpSb =3D=3D NULL) {=0D
+++    ASSERT (IpSb !=3D NULL);=0D
+++    return FALSE;=0D
+++  }=0D
++ =0D
++   Offset =3D 0;=0D
++ =0D
++@@ -54,7 +76,8 @@ Ip6IsOptionValid (
++         //=0D
++         // It is a PadN option=0D
++         //=0D
++-        Offset =3D (UINT8)(Offset + *(Option + Offset + 1) + 2);=0D
+++        OptDataLen =3D ((IP6_OPTION_HEADER *)(Option + Offset))->Length;=
 =0D
-+-=0D
+++        Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);=0D
++         break;=0D
++       case Ip6OptionRouterAlert:=0D
++         //=0D
++@@ -69,7 +92,8 @@ Ip6IsOptionValid (
++         //=0D
++         switch (OptionType & Ip6OptionMask) {=0D
++           case Ip6OptionSkip:=0D
++-            Offset =3D (UINT8)(Offset + *(Option + Offset + 1));=0D
+++            OptDataLen =3D ((IP6_OPTION_HEADER *)(Option + Offset))->Leng=
+th;=0D
+++            Offset     =3D IP6_NEXT_OPTION_OFFSET (Offset, OptDataLen);=0D
++             break;=0D
++           case Ip6OptionDiscard:=0D
++             return FALSE;=0D
++@@ -308,7 +332,7 @@ Ip6IsExtsValid (
++   UINT32               Pointer;=0D
++   UINT32               Offset;=0D
++   UINT8                *Option;=0D
++-  UINT8                OptionLen;=0D
+++  UINT16               OptionLen;=0D
++   BOOLEAN              Flag;=0D
++   UINT8                CountD;=0D
++   UINT8                CountA;=0D
++@@ -385,6 +409,36 @@ Ip6IsExtsValid (
++       // Fall through=0D
++       //=0D
++       case IP6_DESTINATION:=0D
+++        //=0D
+++        // See https://www.rfc-editor.org/rfc/rfc2460#section-4.2 page 23=
+=0D
+++        //=0D
+++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-=
++-+=0D
+++        // |  Next Header  |  Hdr Ext Len  |                             =
+  |=0D
+++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                             =
+  +=0D
+++        // |                                                             =
+  |=0D
+++        // .                                                             =
+  .=0D
+++        // .                            Options                          =
+  .=0D
+++        // .                                                             =
+  .=0D
+++        // |                                                             =
+  |=0D
+++        // +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-=
++-+=0D
+++        //=0D
+++        //=0D
+++        //   Next Header    8-bit selector.  Identifies the type of heade=
+r=0D
+++        //                  immediately following the Destination Options=
+=0D
+++        //                  header.  Uses the same values as the IPv4=0D
+++        //                  Protocol field [RFC-1700 et seq.].=0D
+++        //=0D
+++        //   Hdr Ext Len    8-bit unsigned integer.  Length of the=0D
+++        //                  Destination Options header in 8-octet units, =
+not=0D
+++        //                  including the first 8 octets.=0D
+++        //=0D
+++        //   Options        Variable-length field, of length such that th=
+e=0D
+++        //                  complete Destination Options header is an=0D
+++        //                  integer multiple of 8 octets long.  Contains =
+one=0D
+++        //                  or  more TLV-encoded options, as described in=
+=0D
+++        //                  section 4.2.=0D
+++        //=0D
+++=0D
++         if (*NextHeader =3D=3D IP6_DESTINATION) {=0D
++           CountD++;=0D
++         }=0D
++@@ -398,7 +452,7 @@ Ip6IsExtsValid (
++ =0D
++         Offset++;=0D
++         Option    =3D ExtHdrs + Offset;=0D
++-        OptionLen =3D (UINT8)((*Option + 1) * 8 - 2);=0D
+++        OptionLen =3D IP6_HDR_EXT_LEN (*Option) - sizeof (IP6_EXT_HDR);=0D
++         Option++;=0D
++         Offset++;=0D
++ =0D
++@@ -430,7 +484,7 @@ Ip6IsExtsValid (
++           //=0D
++           // Ignore the routing header and proceed to process the next he=
+ader.=0D
++           //=0D
++-          Offset =3D Offset + (RoutingHead->HeaderLen + 1) * 8;=0D
+++          Offset =3D Offset + IP6_HDR_EXT_LEN (RoutingHead->HeaderLen);=0D
++ =0D
++           if (UnFragmentLen !=3D NULL) {=0D
++             *UnFragmentLen =3D Offset;=0D
++@@ -441,7 +495,7 @@ Ip6IsExtsValid (
++           // to the packet's source address, pointing to the unrecognized=
+ routing=0D
++           // type.=0D
++           //=0D
++-          Pointer =3D Offset + 2 + sizeof (EFI_IP6_HEADER);=0D
+++          Pointer =3D Offset + sizeof (IP6_EXT_HDR) + sizeof (EFI_IP6_HEA=
+DER);=0D
++           if ((IpSb !=3D NULL) && (Packet !=3D NULL) &&=0D
++               !IP6_IS_MULTICAST (&Packet->Ip.Ip6->DestinationAddress))=0D
++           {=0D
++@@ -527,7 +581,7 @@ Ip6IsExtsValid (
++         //=0D
++         // RFC2402, Payload length is specified in 32-bit words, minus "2=
+".=0D
++         //=0D
++-        OptionLen =3D (UINT8)((*Option + 2) * 4);=0D
+++        OptionLen =3D ((UINT16)(*Option + 2) * 4);=0D
++         Offset    =3D Offset + OptionLen;=0D
++         break;=0D
++ =0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Option.h b/NetworkPkg/Ip6Dxe/Ip6Option.h
++index bd8e223c8a..fb07c28f5a 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Option.h
+++++ b/NetworkPkg/Ip6Dxe/Ip6Option.h
++@@ -12,6 +12,77 @@
++ =0D
++ #define IP6_FRAGMENT_OFFSET_MASK  (~0x3)=0D
++ =0D
+++//=0D
+++// For more information see RFC 8200, Section 4.3, 4.4, and 4.6=0D
+++//=0D
+++//  This example format is from section 4.6=0D
+++//  This does not apply to fragment headers=0D
+++//=0D
+++//     +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
+++//    |  Next Header  |  Hdr Ext Len  |                               |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               +=0D
+++//    |                                                               |=0D
+++//    .                                                               .=0D
+++//    .                  Header-Specific Data                         .=0D
+++//    .                                                               .=0D
+++//    |                                                               |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//=0D
+++//      Next Header           8-bit selector.  Identifies the type of=0D
+++//                            header immediately following the extension=
+=0D
+++//                            header.  Uses the same values as the IPv4=0D
+++//                            Protocol field [IANA-PN].=0D
+++//=0D
+++//      Hdr Ext Len           8-bit unsigned integer.  Length of the=0D
+++//                            Destination Options header in 8-octet units=
+,=0D
+++//                            not including the first 8 octets.=0D
+++=0D
+++//=0D
+++// These defines apply to the following:=0D
+++//   1. Hop by Hop=0D
+++//   2. Routing=0D
+++//   3. Destination=0D
+++//=0D
+++typedef struct _IP6_EXT_HDR {=0D
+++  ///=0D
+++  /// The Next Header field identifies the type of header immediately=0D
+++  ///=0D
+++  UINT8    NextHeader;=0D
+++  ///=0D
+++  /// The Hdr Ext Len field specifies the length of the Hop-by-Hop Option=
+s=0D
+++  ///=0D
+++  UINT8    HdrExtLen;=0D
+++  ///=0D
+++  /// Header-Specific Data=0D
+++  ///=0D
+++} IP6_EXT_HDR;=0D
+++=0D
+++STATIC_ASSERT (=0D
+++  sizeof (IP6_EXT_HDR) =3D=3D 2,=0D
+++  "The combined size of Next Header and Len is two 8 bit fields"=0D
+++  );=0D
+++=0D
+++//=0D
+++// IPv6 extension headers contain an 8-bit length field which describes t=
+he size of=0D
+++// the header. However, the length field only includes the size of the ex=
+tension=0D
+++// header options, not the size of the first 8 bytes of the header. There=
+fore, in=0D
+++// order to calculate the full size of the extension header, we add 1 (to=
+ account=0D
+++// for the first 8 bytes omitted by the length field reporting) and then =
+multiply=0D
+++// by 8 (since the size is represented in 8-byte units).=0D
+++//=0D
+++// a is the length field of the extension header (UINT8)=0D
+++// The result may be up to 2046 octets (UINT16)=0D
+++//=0D
+++#define IP6_HDR_EXT_LEN(a)  (((UINT16)((UINT8)(a)) + 1) * 8)=0D
+++=0D
+++// This is the maxmimum length permissible by a extension header=0D
+++// Length is UINT8 of 8 octets not including the first 8 octets=0D
+++#define IP6_MAX_EXT_DATA_LENGTH  (IP6_HDR_EXT_LEN (MAX_UINT8) - sizeof(IP=
+6_EXT_HDR))=0D
+++STATIC_ASSERT (=0D
+++  IP6_MAX_EXT_DATA_LENGTH =3D=3D 2046,=0D
+++  "Maximum data length is ((MAX_UINT8 + 1) * 8) - 2"=0D
+++  );=0D
+++=0D
++ typedef struct _IP6_FRAGMENT_HEADER {=0D
++   UINT8     NextHeader;=0D
++   UINT8     Reserved;=0D
++--=20
++2.40.0
++
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002=
+.patch b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002.pat=
+ch
+new file mode 100644
+index 0000000000..c6834a852e
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45232-CVE-2023-45233-0002.patch
+@@ -0,0 +1,417 @@
++From c9c87f08dd6ace36fa843424522c3558a8374cac Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Fri, 26 Jan 2024 05:54:51 +0800
++Subject: [PATCH] NetworkPkg: Ip6Dxe: SECURITY PATCH CVE-2023-45232 Unit Te=
+sts
++
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538
++
++Unit tests to confirm that..
++
++Infinite loop when parsing unknown options in the Destination Options
++header
++
++and
++
++Infinite loop when parsing a PadN option in the Destination Options
++header
++
++... have been patched
++
++This patch tests the following functions:
++Ip6IsOptionValid
++
++Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
++
++Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
++Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
++
++CVE: CVE-2023-45232, CVE-2023-45233
++
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/c9c87f=
+08dd6ace36fa843424522c3558a8374cac]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ .../Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf    |  10 +-
++ .../Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp | 278 ++++++++++++++++++
++ .../Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h   |  40 +++
++ 3 files changed, 324 insertions(+), 4 deletions(-)
++ create mode 100644 NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
++
++diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf b/NetworkPk=
+g/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
++index 6e4de0745f..ba29dbabad 100644
++--- a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
+++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6DxeGoogleTest.inf
++@@ -1,13 +1,13 @@
++ ## @file=0D
++-# Unit test suite for the Ip6Dxe using Google Test=0D
+++# Unit test suite for the Ip6DxeGoogleTest using Google Test=0D
++ #=0D
++ # Copyright (c) Microsoft Corporation.<BR>=0D
++ # SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ ##=0D
++ [Defines]=0D
++   INF_VERSION         =3D 0x00010017=0D
++-  BASE_NAME           =3D Ip6DxeUnitTest=0D
++-  FILE_GUID           =3D 4F05D17D-D3E7-4AAE-820C-576D46D2D34A=0D
+++  BASE_NAME           =3D Ip6DxeGoogleTest=0D
+++  FILE_GUID           =3D AE39981C-B7FE-41A8-A9C2-F41910477CA3=0D
++   VERSION_STRING      =3D 1.0=0D
++   MODULE_TYPE         =3D HOST_APPLICATION=0D
++ #=0D
++@@ -16,9 +16,11 @@
++ #  VALID_ARCHITECTURES           =3D IA32 X64 AARCH64=0D
++ #=0D
++ [Sources]=0D
+++  ../Ip6Option.c=0D
+++  Ip6OptionGoogleTest.h=0D
++   Ip6DxeGoogleTest.cpp=0D
++   Ip6OptionGoogleTest.cpp=0D
++-  ../Ip6Option.c=0D
+++  Ip6OptionGoogleTest.h=0D
++ =0D
++ [Packages]=0D
++   MdePkg/MdePkg.dec=0D
++diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp b/Networ=
+kPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
++index f2cd90e1a9..29f8a4a96e 100644
++--- a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
+++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.cpp
++@@ -12,6 +12,7 @@ extern "C" {
++   #include <Library/DebugLib.h>=0D
++   #include "../Ip6Impl.h"=0D
++   #include "../Ip6Option.h"=0D
+++  #include "Ip6OptionGoogleTest.h"=0D
++ }=0D
++ =0D
++ /////////////////////////////////////////////////////////////////////////=
+=0D
++@@ -127,3 +128,280 @@ TEST_F (Ip6OptionValidationTest, InvalidPrefixInfoOp=
+tionLengthShouldReturnFalse)
++ =0D
++   EXPECT_FALSE (Ip6IsNDOptionValid (option, optionLen));=0D
++ }=0D
+++=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++// Ip6IsOptionValid Tests=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++=0D
+++// Define a fixture for your tests if needed=0D
+++class Ip6IsOptionValidTest : public ::testing::Test {=0D
+++protected:=0D
+++  // Add any setup code if needed=0D
+++  virtual void=0D
+++  SetUp (=0D
+++    )=0D
+++  {=0D
+++    // Initialize any resources or variables=0D
+++  }=0D
+++=0D
+++  // Add any cleanup code if needed=0D
+++  virtual void=0D
+++  TearDown (=0D
+++    )=0D
+++  {=0D
+++    // Clean up any resources or variables=0D
+++  }=0D
+++};=0D
+++=0D
+++// Test Description=0D
+++// Verify that a NULL option is Invalid=0D
+++TEST_F (Ip6IsOptionValidTest, NullOptionShouldReturnTrue) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  IP6_SERVICE  *IpSb =3D NULL;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  EXPECT_FALSE (Ip6IsOptionValid (IpSb, &Packet, NULL, 0, 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that an unknown option with a length of 0 and type of <unknown>=
+ does not cause an infinite loop=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLength0)=
+ {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 0;    // This will cause an infinite loop if th=
+e function is not working correctly=0D
+++=0D
+++  // This should be a valid option even though the length is 0=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that an unknown option with a length of 1 and type of <unknown>=
+ does not cause an infinite loop=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLength1)=
+ {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 1;    // This will cause an infinite loop if th=
+e function is not working correctly=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that an unknown option with a length of 2 and type of <unknown>=
+ does not cause an infinite loop=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyIpSkipUnknownOption) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 2;    // Valid length for an unknown option=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that Ip6OptionPad1 is valid with a length of 0=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyIp6OptionPad1) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D Ip6OptionPad1;=0D
+++  optionHeader.Length =3D 0;=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that Ip6OptionPadN doesn't overflow with various lengths=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyIp6OptionPadN) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D Ip6OptionPadN;=0D
+++  optionHeader.Length =3D 0xFF;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFE;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFD;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFC;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify an unknown option doesn't cause an infinite loop with various l=
+engths=0D
+++TEST_F (Ip6IsOptionValidTest, VerifyNoInfiniteLoopOnUnknownOptionLengthAt=
+temptOverflow) {=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  IP6_OPTION_HEADER  optionHeader;=0D
+++=0D
+++  optionHeader.Type   =3D 23;   // Unknown Option=0D
+++  optionHeader.Length =3D 0xFF;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFE;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFD;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++=0D
+++  optionHeader.Length =3D 0xFC;=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, (UINT8 *)&optionHeader, s=
+izeof (optionHeader), 0));=0D
+++}=0D
+++=0D
+++// Test Description=0D
+++// Verify that the function supports multiple options=0D
+++TEST_F (Ip6IsOptionValidTest, MultiOptionSupport) {=0D
+++  UINT16   HdrLen;=0D
+++  NET_BUF  Packet =3D { 0 };=0D
+++  // we need to define enough of the packet to make the function work=0D
+++  // The function being tested will pass IpSb to Ip6SendIcmpError which i=
+s defined above=0D
+++  UINT32  DeadCode =3D 0xDeadC0de;=0D
+++  // Don't actually use this pointer, just pass it to the function, nothi=
+ng will be done with it=0D
+++  IP6_SERVICE  *IpSb =3D (IP6_SERVICE *)&DeadCode;=0D
+++=0D
+++  EFI_IPv6_ADDRESS  SourceAddress      =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IPv6_ADDRESS  DestinationAddress =3D { 0x20, 0x01, 0x0d, 0xb8, 0x00=
+, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0x00, 0x00, 0x42, 0x83, 0x29 };=0D
+++  EFI_IP6_HEADER    Ip6Header          =3D { 0 };=0D
+++=0D
+++  Ip6Header.SourceAddress      =3D SourceAddress;=0D
+++  Ip6Header.DestinationAddress =3D DestinationAddress;=0D
+++  Packet.Ip.Ip6                =3D &Ip6Header;=0D
+++=0D
+++  UINT8              ExtHdr[1024] =3D { 0 };=0D
+++  UINT8              *Cursor      =3D ExtHdr;=0D
+++  IP6_OPTION_HEADER  *Option      =3D (IP6_OPTION_HEADER *)ExtHdr;=0D
+++=0D
+++  // Let's start chaining options=0D
+++=0D
+++  Option->Type   =3D 23;   // Unknown Option=0D
+++  Option->Length =3D 0xFC;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 0xFC;=0D
+++=0D
+++  Option       =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type =3D Ip6OptionPad1;=0D
+++=0D
+++  Cursor +=3D sizeof (1);=0D
+++=0D
+++  // Type and length aren't processed, instead it just moves the pointer =
+forward by 4 bytes=0D
+++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type   =3D Ip6OptionRouterAlert;=0D
+++  Option->Length =3D 4;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 4;=0D
+++=0D
+++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type   =3D Ip6OptionPadN;=0D
+++  Option->Length =3D 0xFC;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 0xFC;=0D
+++=0D
+++  Option         =3D (IP6_OPTION_HEADER *)Cursor;=0D
+++  Option->Type   =3D Ip6OptionRouterAlert;=0D
+++  Option->Length =3D 4;=0D
+++=0D
+++  Cursor +=3D sizeof (IP6_OPTION_HEADER) + 4;=0D
+++=0D
+++  // Total 524=0D
+++=0D
+++  HdrLen =3D (UINT16)(Cursor - ExtHdr);=0D
+++=0D
+++  EXPECT_TRUE (Ip6IsOptionValid (IpSb, &Packet, ExtHdr, HdrLen, 0));=0D
+++}=0D
++diff --git a/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h b/NetworkP=
+kg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
++new file mode 100644
++index 0000000000..0509b6ae30
++--- /dev/null
+++++ b/NetworkPkg/Ip6Dxe/GoogleTest/Ip6OptionGoogleTest.h
++@@ -0,0 +1,40 @@
+++/** @file=0D
+++  Exposes the functions needed to test the Ip6Option module.=0D
+++=0D
 ++  Copyright (c) Microsoft Corporation=0D
-+   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ =0D
-+ **/=0D
-+@@ -20,7 +20,34 @@ LIST_ENTRY  mTcpListenQue =3D {
-+   &mTcpListenQue=0D
-+ };=0D
-+ =0D
-+-TCP_SEQNO  mTcpGlobalIss =3D TCP_BASE_ISS;=0D
-++//=0D
-++// The Session secret=0D
-++// This must be initialized to a random value at boot time=0D
-++//=0D
-++TCP_SEQNO  mTcpGlobalSecret;=0D
+++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++**/=0D
 ++=0D
-++//=0D
-++// Union to hold either an IPv4 or IPv6 address=0D
-++// This is used to simplify the ISN hash computation=0D
-++//=0D
-++typedef union {=0D
-++  UINT8    IPv4[4];=0D
-++  UINT8    IPv6[16];=0D
-++} NETWORK_ADDRESS;=0D
+++#ifndef IP6_OPTION_HEADER_GOOGLE_TEST_H_=0D
+++#define IP6_OPTION_HEADER_GOOGLE_TEST_H_=0D
 ++=0D
-++//=0D
-++// The ISN is computed by hashing this structure=0D
-++// It is initialized with the local and remote IP addresses and ports=0D
-++// and the secret=0D
-++//=0D
-++//=0D
-++typedef struct {=0D
-++  UINT16             LocalPort;=0D
-++  UINT16             RemotePort;=0D
-++  NETWORK_ADDRESS    LocalAddress;=0D
-++  NETWORK_ADDRESS    RemoteAddress;=0D
-++  TCP_SEQNO          Secret;=0D
-++} ISN_HASH_CTX;=0D
-+ =0D
-+ CHAR16  *mTcpStateName[] =3D {=0D
-+   L"TCP_CLOSED",=0D
-+@@ -41,12 +68,18 @@ CHAR16  *mTcpStateName[] =3D {
-+ =0D
-+   @param[in, out]  Tcb               Pointer to the TCP_CB of this TCP in=
-stance.=0D
-+ =0D
-++  @retval EFI_SUCCESS             The operation completed successfully=0D
-++  @retval others                  The underlying functions failed and cou=
-ld not complete the operation=0D
+++#include <Uefi.h>=0D
+++#include "../Ip6Impl.h"=0D
 ++=0D
-+ **/=0D
-+-VOID=0D
-++EFI_STATUS=0D
-+ TcpInitTcbLocal (=0D
-+   IN OUT TCP_CB  *Tcb=0D
-+   )=0D
-+ {=0D
-++  TCP_SEQNO   Isn;=0D
-++  EFI_STATUS  Status;=0D
+++/**=0D
+++  Validate the IP6 option format for both the packets we received=0D
+++  and that we will transmit. It will compute the ICMPv6 error message fie=
+lds=0D
+++  if the option is malformatted.=0D
 ++=0D
-+   //=0D
-+   // Compute the checksum of the fixed parts of pseudo header=0D
-+   //=0D
-+@@ -57,6 +90,16 @@ TcpInitTcbLocal (
-+                      0x06,=0D
-+                      0=0D
-+                      );=0D
+++  @param[in]  IpSb              The IP6 service data.=0D
+++  @param[in]  Packet            The to be validated packet.=0D
+++  @param[in]  Option            The first byte of the option.=0D
+++  @param[in]  OptionLen         The length of the whole option.=0D
+++  @param[in]  Pointer           Identifies the octet offset within=0D
+++                                the invoking packet where the error was d=
+etected.=0D
 ++=0D
-++    Status =3D TcpGetIsn (=0D
-++               Tcb->LocalEnd.Ip.v4.Addr,=0D
-++               sizeof (IPv4_ADDRESS),=0D
-++               Tcb->LocalEnd.Port,=0D
-++               Tcb->RemoteEnd.Ip.v4.Addr,=0D
-++               sizeof (IPv4_ADDRESS),=0D
-++               Tcb->RemoteEnd.Port,=0D
-++               &Isn=0D
-++               );=0D
-+   } else {=0D
-+     Tcb->HeadSum =3D NetIp6PseudoHeadChecksum (=0D
-+                      &Tcb->LocalEnd.Ip.v6,=0D
-+@@ -64,9 +107,25 @@ TcpInitTcbLocal (
-+                      0x06,=0D
-+                      0=0D
-+                      );=0D
 ++=0D
-++    Status =3D TcpGetIsn (=0D
-++               Tcb->LocalEnd.Ip.v6.Addr,=0D
-++               sizeof (IPv6_ADDRESS),=0D
-++               Tcb->LocalEnd.Port,=0D
-++               Tcb->RemoteEnd.Ip.v6.Addr,=0D
-++               sizeof (IPv6_ADDRESS),=0D
-++               Tcb->RemoteEnd.Port,=0D
-++               &Isn=0D
-++               );=0D
-++  }=0D
+++  @retval TRUE     The option is properly formatted.=0D
+++  @retval FALSE    The option is malformatted.=0D
 ++=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_ERROR, "TcpInitTcbLocal: failed to get isn\n"));=0D
-++    ASSERT (FALSE);=0D
-++    return Status;=0D
-+   }=0D
-+ =0D
-+-  Tcb->Iss    =3D TcpGetIss ();=0D
-++  Tcb->Iss    =3D Isn;=0D
-+   Tcb->SndUna =3D Tcb->Iss;=0D
-+   Tcb->SndNxt =3D Tcb->Iss;=0D
-+ =0D
-+@@ -82,6 +141,8 @@ TcpInitTcbLocal (
-+   Tcb->RetxmitSeqMax =3D 0;=0D
-+ =0D
-+   Tcb->ProbeTimerOn =3D FALSE;=0D
+++**/=0D
+++BOOLEAN=0D
+++Ip6IsOptionValid (=0D
+++  IN IP6_SERVICE  *IpSb,=0D
+++  IN NET_BUF      *Packet,=0D
+++  IN UINT8        *Option,=0D
+++  IN UINT16       OptionLen,=0D
+++  IN UINT32       Pointer=0D
+++  );=0D
 ++=0D
-++  return EFI_SUCCESS;=0D
-+ }=0D
-+ =0D
-+ /**=0D
-+@@ -506,18 +567,162 @@ TcpCloneTcb (
-+ }=0D
-+ =0D
-+ /**=0D
-+-  Compute an ISS to be used by a new connection.=0D
-+-=0D
-+-  @return The resulting ISS.=0D
-++  Retrieves the Initial Sequence Number (ISN) for a TCP connection identi=
-fied by local=0D
-++  and remote IP addresses and ports.=0D
-++=0D
-++  This method is based on https://datatracker.ietf.org/doc/html/rfc9293#s=
-ection-3.4.1=0D
-++  Where the ISN is computed as follows:=0D
-++    ISN =3D TimeStamp + MD5(LocalIP, LocalPort, RemoteIP, RemotePort, Sec=
-ret)=0D
-++=0D
-++  Otherwise:=0D
-++    ISN =3D M + F(localip, localport, remoteip, remoteport, secretkey)=0D
-++=0D
-++    "Here M is the 4 microsecond timer, and F() is a pseudorandom functio=
-n (PRF) of the=0D
-++    connection's identifying parameters ("localip, localport, remoteip, r=
-emoteport")=0D
-++    and a secret key ("secretkey") (SHLD-1). F() MUST NOT be computable f=
-rom the=0D
-++    outside (MUST-9), or an attacker could still guess at sequence number=
-s from the=0D
-++    ISN used for some other connection. The PRF could be implemented as a=
-=0D
-++    cryptographic hash of the concatenation of the TCP connection paramet=
-ers and some=0D
-++    secret data. For discussion of the selection of a specific hash algor=
-ithm and=0D
-++    management of the secret key data."=0D
-++=0D
-++  @param[in]       LocalIp        A pointer to the local IP address of th=
-e TCP connection.=0D
-++  @param[in]       LocalIpSize    The size, in bytes, of the LocalIp buff=
-er.=0D
-++  @param[in]       LocalPort      The local port number of the TCP connec=
-tion.=0D
-++  @param[in]       RemoteIp       A pointer to the remote IP address of t=
-he TCP connection.=0D
-++  @param[in]       RemoteIpSize   The size, in bytes, of the RemoteIp buf=
-fer.=0D
-++  @param[in]       RemotePort     The remote port number of the TCP conne=
-ction.=0D
-++  @param[out]      Isn            A pointer to the variable that will rec=
-eive the Initial=0D
-++                                  Sequence Number (ISN).=0D
-++=0D
-++  @retval EFI_SUCCESS             The operation completed successfully, a=
-nd the ISN was=0D
-++                                  retrieved.=0D
-++  @retval EFI_INVALID_PARAMETER   One or more of the input parameters are=
- invalid.=0D
-++  @retval EFI_UNSUPPORTED         The operation is not supported.=0D
-+ =0D
-+ **/=0D
-+-TCP_SEQNO=0D
-+-TcpGetIss (=0D
-+-  VOID=0D
-++EFI_STATUS=0D
-++TcpGetIsn (=0D
-++  IN UINT8       *LocalIp,=0D
-++  IN UINTN       LocalIpSize,=0D
-++  IN UINT16      LocalPort,=0D
-++  IN UINT8       *RemoteIp,=0D
-++  IN UINTN       RemoteIpSize,=0D
-++  IN UINT16      RemotePort,=0D
-++  OUT TCP_SEQNO  *Isn=0D
-+   )=0D
-+ {=0D
-+-  mTcpGlobalIss +=3D TCP_ISS_INCREMENT_1;=0D
-+-  return mTcpGlobalIss;=0D
-++  EFI_STATUS          Status;=0D
-++  EFI_HASH2_PROTOCOL  *Hash2Protocol;=0D
-++  EFI_HASH2_OUTPUT    HashResult;=0D
-++  ISN_HASH_CTX        IsnHashCtx;=0D
-++  EFI_TIME            TimeStamp;=0D
-++=0D
-++  //=0D
-++  // Check that the ISN pointer is valid=0D
-++  //=0D
-++  if (Isn =3D=3D NULL) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // The local ip may be a v4 or v6 address and may not be NULL=0D
-++  //=0D
-++  if ((LocalIp =3D=3D NULL) || (LocalIpSize =3D=3D 0) || (RemoteIp =3D=3D=
- NULL) || (RemoteIpSize =3D=3D 0)) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // the local ip may be a v4 or v6 address=0D
-++  //=0D
-++  if ((LocalIpSize !=3D sizeof (EFI_IPv4_ADDRESS)) && (LocalIpSize !=3D s=
-izeof (EFI_IPv6_ADDRESS))) {=0D
-++    return EFI_INVALID_PARAMETER;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Locate the Hash Protocol=0D
-++  //=0D
-++  Status =3D gBS->LocateProtocol (&gEfiHash2ProtocolGuid, NULL, (VOID **)=
-&Hash2Protocol);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_NET, "Failed to locate Hash Protocol: %r\n", Status));=
-=0D
-++=0D
-++    //=0D
-++    // TcpCreateService(..) is expected to be called prior to this functi=
-on=0D
-++    //=0D
-++    ASSERT_EFI_ERROR (Status);=0D
-++    return Status;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Initialize the hash algorithm=0D
-++  //=0D
-++  Status =3D Hash2Protocol->HashInit (Hash2Protocol, &gEfiHashAlgorithmSh=
-a256Guid);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_NET, "Failed to initialize sha256 hash algorithm: %r\n"=
-, Status));=0D
-++    return Status;=0D
-++  }=0D
-++=0D
-++  IsnHashCtx.LocalPort  =3D LocalPort;=0D
-++  IsnHashCtx.RemotePort =3D RemotePort;=0D
-++  IsnHashCtx.Secret     =3D mTcpGlobalSecret;=0D
-++=0D
-++  //=0D
-++  // Check the IP address family and copy accordingly=0D
-++  //=0D
-++  if (LocalIpSize =3D=3D sizeof (EFI_IPv4_ADDRESS)) {=0D
-++    CopyMem (&IsnHashCtx.LocalAddress.IPv4, LocalIp, LocalIpSize);=0D
-++  } else if (LocalIpSize =3D=3D sizeof (EFI_IPv6_ADDRESS)) {=0D
-++    CopyMem (&IsnHashCtx.LocalAddress.IPv6, LocalIp, LocalIpSize);=0D
-++  } else {=0D
-++    return EFI_INVALID_PARAMETER; // Unsupported address size=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Repeat the process for the remote IP address=0D
-++  //=0D
-++  if (RemoteIpSize =3D=3D sizeof (EFI_IPv4_ADDRESS)) {=0D
-++    CopyMem (&IsnHashCtx.RemoteAddress.IPv4, RemoteIp, RemoteIpSize);=0D
-++  } else if (RemoteIpSize =3D=3D sizeof (EFI_IPv6_ADDRESS)) {=0D
-++    CopyMem (&IsnHashCtx.RemoteAddress.IPv6, RemoteIp, RemoteIpSize);=0D
-++  } else {=0D
-++    return EFI_INVALID_PARAMETER; // Unsupported address size=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Compute the hash=0D
-++  // Update the hash with the data=0D
-++  //=0D
-++  Status =3D Hash2Protocol->HashUpdate (Hash2Protocol, (UINT8 *)&IsnHashC=
-tx, sizeof (IsnHashCtx));=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_NET, "Failed to update hash: %r\n", Status));=0D
-++    return Status;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // Finalize the hash and retrieve the result=0D
-++  //=0D
-++  Status =3D Hash2Protocol->HashFinal (Hash2Protocol, &HashResult);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    DEBUG ((DEBUG_NET, "Failed to finalize hash: %r\n", Status));=0D
-++    return Status;=0D
-++  }=0D
-++=0D
-++  Status =3D gRT->GetTime (&TimeStamp, NULL);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    return Status;=0D
-++  }=0D
-++=0D
-++  //=0D
-++  // copy the first 4 bytes of the hash result into the ISN=0D
-++  //=0D
-++  CopyMem (Isn, HashResult.Md5Hash, sizeof (*Isn));=0D
-++=0D
-++  //=0D
-++  // now add the timestamp to the ISN as 4 microseconds units (1000 / 4 =
-=3D 250)=0D
-++  //=0D
-++  *Isn +=3D (TCP_SEQNO)TimeStamp.Nanosecond * 250;=0D
-++=0D
-++  return Status;=0D
-+ }=0D
-+ =0D
-+ /**=0D
-+@@ -721,17 +926,28 @@ TcpFormatNetbuf (
-+   @param[in, out]  Tcb          Pointer to the TCP_CB that wants to initi=
-ate a=0D
-+                                 connection.=0D
-+ =0D
-++  @retval EFI_SUCCESS             The operation completed successfully=0D
-++  @retval others                  The underlying functions failed and cou=
-ld not complete the operation=0D
-++=0D
-+ **/=0D
-+-VOID=0D
-++EFI_STATUS=0D
-+ TcpOnAppConnect (=0D
-+   IN OUT TCP_CB  *Tcb=0D
-+   )=0D
-+ {=0D
-+-  TcpInitTcbLocal (Tcb);=0D
-++  EFI_STATUS  Status;=0D
-++=0D
-++  Status =3D TcpInitTcbLocal (Tcb);=0D
-++  if (EFI_ERROR (Status)) {=0D
-++    return Status;=0D
-++  }=0D
-++=0D
-+   TcpSetState (Tcb, TCP_SYN_SENT);=0D
-+ =0D
-+   TcpSetTimer (Tcb, TCP_TIMER_CONNECT, Tcb->ConnectTimeout);=0D
-+   TcpToSendData (Tcb, 1);=0D
-++=0D
-++  return EFI_SUCCESS;=0D
-+ }=0D
-+ =0D
-+ /**=0D
-+diff --git a/NetworkPkg/TcpDxe/TcpTimer.c b/NetworkPkg/TcpDxe/TcpTimer.c
-+index 5d2e124977..065b1bdf5f 100644
-+--- a/NetworkPkg/TcpDxe/TcpTimer.c
-++++ b/NetworkPkg/TcpDxe/TcpTimer.c
-+@@ -2,7 +2,7 @@
-+   TCP timer related functions.=0D
-+ =0D
-+   Copyright (c) 2009 - 2010, Intel Corporation. All rights reserved.<BR>=
-=0D
-+-=0D
-++  Copyright (c) Microsoft Corporation=0D
-+   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ =0D
-+ **/=0D
-+@@ -483,7 +483,6 @@ TcpTickingDpc (
-+   INT16       Index;=0D
-+ =0D
-+   mTcpTick++;=0D
-+-  mTcpGlobalIss +=3D TCP_ISS_INCREMENT_2;=0D
-+ =0D
-+   //=0D
-+   // Don't use LIST_FOR_EACH, which isn't delete safe.=0D
+++#endif // __IP6_OPTION_HEADER_GOOGLE_TEST_H__=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index 47ed2c7cd3..dbfed086e4 100644
+index e46b3ddebe..fc87cdf441 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -49,6 +49,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+@@ -37,6 +37,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
 =3Dmaster;protocol=3Dhttps \
-            file://CVE-2023-45229-0004.patch \
-            file://CVE-2023-45237-0001.patch \
-            file://CVE-2023-45237-0002.patch \
-+           file://CVE-2023-45236.patch \
+            file://CVE-2023-45230-0002.patch \
+            file://CVE-2023-45231-0001.patch \
+            file://CVE-2023-45231-0002.patch \
++           file://CVE-2023-45232-CVE-2023-45233-0001.patch \
++           file://CVE-2023-45232-CVE-2023-45233-0002.patch \
             "
 =20
  PV =3D "edk2-stable202202"
