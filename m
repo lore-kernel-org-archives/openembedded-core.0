@@ -2,153 +2,420 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DE8E77178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6996FE77176
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:45 +0000 (UTC)
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
- by mx.groups.io with SMTP id smtpd.web11.21196.1733334877404854001
+Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
+ by mx.groups.io with SMTP id smtpd.web11.21198.1733334880597978660
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:37 -0800
+ Wed, 04 Dec 2024 09:54:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Lqx62FrX;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7fcdb53d849so60528a12.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:37 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=nNitYB+e;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7fc1f1748a3so55505a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334877; x=1733939677; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334880; x=1733939680; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=R86+1f2BqeCIyUrkGojdMpZUbYnS7SgJ/6IrCorA8tI=;
-        b=Lqx62FrXk5YkvOAmnjMvDQVwY6BHs4/zXCfvDZdqhUxBw4KpuzJu1hJzOl3/Px5CZD
-         dXbDP+1mxRvB+ekGEjTqpekAGc2k0EEACqcbcm+jSBA3MBsZ8inD74WZpC2nFqiELU2k
-         LRdRxmMpp+Dk7IRmBAOsRRb38MIefikSMOOYlIvCzm2l/dXYXpGg80HmunnKmpBerX0z
-         O44Sq1Wi2RCQANIRp/E/eeOB8OjALAhEjlMn/SwJ2+MzOn+uo+5AZy/G2dnFshQrE6EK
-         NSjmVWtGnBjFMQLoxnArO6TCUbeF/W3Xf+l+opsryp9pAApYqnOTfbIauxptvpHhFTTO
-         np9g==
+        bh=fVgVViLDMO7W37UKXh6Lyw+wRzu8D3+sjJ5zfmDnMR8=;
+        b=nNitYB+exlHg91Uq4x+M87Tn4x6GWfJn/DyJN0gzrmvobTclAciZLOvwdhgm15g3aa
+         zPNI8MMzWA9A0hNPwsHCTCwOLmYSBSVO4zabnH1AO9H12dpSPbPQ4dK/kae/iWWKdW2E
+         keSXZrBN5mpiVvwM1sBWoWiGohM0c0eQtY+Rv0o3tTcRMT3qcBk+CdKeJx9BAlKuPvVV
+         MhH+HUaYM7ucFtGnTRHQHI9xn4NEvzhuatbiRuzbvHgj4cGELPtkWCHl0S/tioHxkltU
+         7FT50ee1HvDs16jpxh080RVlSjD85/uMchX4nE8aj3MK6/x+EQTPTJaiQt/f4rxXh5Ix
+         nl5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334877; x=1733939677;
+        d=1e100.net; s=20230601; t=1733334880; x=1733939680;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=R86+1f2BqeCIyUrkGojdMpZUbYnS7SgJ/6IrCorA8tI=;
-        b=dh5BB7r6wtlN34ujIQK/T7QQiSLDKcEYoj5/Vb36EKoNSfg6flIeOVJA9B53NT3k1h
-         ZR8fqASBXg6Z2+QldA5Ai+Gy2H5hKrkvq0pfx/YWbVZS8QF3Pwyf1Ycrcn77Ri/QhsQs
-         uhrST7sxEWOqs7qupIRv2yE4Q2rL0csz2KUP3wromeJFGCDFdxVAc1AQzdoyvuzkDh+r
-         ctUtVQA+ENOLU9Dk49EdTXzXQ/k8cSgGrThHgeEDT+cO2e1671nGkcb1QjZ5btsXIg3D
-         CsDjuCpIW1Km4Z0Q78m+BRUQByVhXNPUryWa/SLnirJk9so5N07zxUF5anTg17MixKvO
-         joBg==
-X-Gm-Message-State: AOJu0YyifkgcKsc7FHFWGeR2gW6nUQianNdolGpoVamE08M7t4ECjmXa
-	7F6t5mKrFdEvWAId/qobHszqn07qVpPEZGaiANrXY712FhCMi5w59NlW6rUukkziU62hwXvSRO9
-	p
-X-Gm-Gg: ASbGncshk+hPUXVerE85+ZzMPuEjCQL+XjkOzl79q8WJXF2scRaqCP8TJVzwlKoMHQ7
-	dUi9Qb+QbXkQMl687E9uXvpX8oLSZFWE2G9ZZyFpX22Bu7U12vBRYtb6r3CCzRylf01mGk5Ztny
-	oE4LNPqFZXQnZ9w1g7ZZst39tDRtvfkAFYaRT+6V28CYBZep1d6M8n4xkrswLPQ1h5rKyLWS9MT
-	X5dj8rS5y2aRyHJtT/RVotEEgJmZ7wA3mbLyZU=
-X-Google-Smtp-Source: AGHT+IEoM4Oip0z1/rNHLWzqOSWA4nIkRKp5H7eaVml2VJSQBAlnC1+UXZQDfxNONjuv6fDlbhuS5A==
-X-Received: by 2002:a05:6a21:33a4:b0:1db:e82e:c802 with SMTP id adf61e73a8af0-1e16bef4882mr8821724637.41.1733334876633;
-        Wed, 04 Dec 2024 09:54:36 -0800 (PST)
+        bh=fVgVViLDMO7W37UKXh6Lyw+wRzu8D3+sjJ5zfmDnMR8=;
+        b=R9um2xOum3qPdg4cALtAPy1unhgfnD3j3FlbVfOl08ooAa9wCSeSpyOQCiTkJf/WDm
+         OeVutzJn3ATFJ69b7yS9SRxhBTMq2H+y0wEZ4rCymFNVdUfHAYiwN+RA3mpX4WwOgYVZ
+         5wHS73iSUCQhdEBZr5aGRawzXI6vIdeyT77xRP3/MSShPK37PEsKLVeKdjthnJoLcqDv
+         eyHIsOb3stVGe5HHt9bwbF5Pw3uCHd2Tk5Mg+wzo9OpWBYPrZnGvxF5df5GM2da+20xA
+         FOspeGi+JGjPOx9nn8dXPHmMw2VSvHJtqltX47vK1DibpjdDSOSa9mE34s4y03es35rs
+         mpmg==
+X-Gm-Message-State: AOJu0Yxi3Zw/qlm4OIrjKnUzfPWalfcFJjVs0dUrjF0C4AICOXjnacay
+	YFzoZGxpbZeqW3pt/t+g4kLpOmVP2BYWgsQmwq7cRQiImqxY3xHqLRGVb8dJWxB8FjyoBCsW0rG
+	3
+X-Gm-Gg: ASbGncvDKuFaVC0o+q7qSziPLPwDrEKJM3/1A38FY9zaXhWNT32Djr9ukjRJ40MW+dV
+	KPS3LNhsIG1elZFUD/x8P7LrZkjC0z5h9s07XEJyHBPJSV4ZfPSlehwlVT3cjDUCgYB2dxLweEo
+	Jxf7PP+6RjAkgBcuBOhg7ZoSbvLqGCTOgEfYMYU8xRH76EkZe8wD7XpPfbBKFgXB5baHeMewOLJ
+	Re0BBaVR9cEyo0BeVsbd4kVqLwKU0PXwZJGPtw=
+X-Google-Smtp-Source: AGHT+IHjNgJUyjLnf5x9q7B0MGSnFKRD0vDZVKYyOsrjZYfFWmQtHZYtr36l0dOx8Z4IqjgQQDd/Mg==
+X-Received: by 2002:a05:6a20:748f:b0:1e0:ed9b:14f6 with SMTP id adf61e73a8af0-1e1653f3ebamr10290235637.32.1733334879739;
+        Wed, 04 Dec 2024 09:54:39 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.35
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:36 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:39 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 12/38] ovmf: fix CVE-2024-38796
-Date: Wed,  4 Dec 2024 09:53:39 -0800
-Message-Id: <c3d1be52b4dc18e6980bf6c3f2e2cb7fba9f986e.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 14/38] libsoup: fix CVE-2024-52531
+Date: Wed,  4 Dec 2024 09:53:41 -0800
+Message-Id: <1159c7ef071fa2849f44e921c9b7c27fcbb6bfb3.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208295
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208297
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Backport a fix from upstream to resolve CVE-2024-38796
+CVE-2024-52531:
+GNOME libsoup before 3.6.1 allows a buffer overflow in applications that
+perform conversion to UTF-8 in soup_header_parse_param_list_strict.
+Input received over the network cannot trigger this.
 
-    https://github.com/tianocore/edk2/commit/c95233b8525ca6828921affd149614=
-6cff262e65
+Refer:
+https://nvd.nist.gov/vuln/detail/CVE-2024-52531
+https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...-Fix-overflow-issue-in-BasePeCoffLib.patch | 37 +++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-is=
-sue-in-BasePeCoffLib.patch
+ .../libsoup/libsoup/CVE-2024-52531-1.patch    | 116 +++++++++++++++
+ .../libsoup/libsoup/CVE-2024-52531-2.patch    |  40 ++++++
+ .../libsoup/libsoup/CVE-2024-52531-3.patch    | 136 ++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.0.7.bb |   3 +
+ 4 files changed, 295 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-issue-in-=
-BasePeCoffLib.patch b/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-=
-issue-in-BasePeCoffLib.patch
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch
 new file mode 100644
-index 0000000000..8d36bdf1c1
+index 0000000000..c8e855c128
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-issue-in-BasePeC=
-offLib.patch
-@@ -0,0 +1,37 @@
-+From c4d6af8428375c0343fcfd20bf1465e6d4be4690 Mon Sep 17 00:00:00 2001
-+From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 22 Nov 2024 17:44:27 +0800
-+Subject: [PATCH] MdePkg: Fix overflow issue in BasePeCoffLib
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-1.patch
+@@ -0,0 +1,116 @@
++From 4ec9e3d286b6d3e982cb0fc3564dee0bf8d87ede Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Tue, 27 Aug 2024 12:18:58 -0500
++Subject: [PATCH] fuzzing: Cover soup_header_parse_param_list
 +
-+The RelocDir->Size is a UINT32 value, and RelocDir->VirtualAddress is
-+also a UINT32 value. The current code does not check for overflow when
-+adding RelocDir->Size to RelocDir->VirtualAddress. This patch adds a
-+check to ensure that the addition does not overflow.
++CVE: CVE-2024-52531
++Upstream-Status: Backport
++[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/diffs?commit_id=4ec9e3d286b6d3e982cb0fc3564dee0bf8d87ede]
 +
-+Signed-off-by: Doug Flick <dougflick@microsoft.com>
-+Authored-by: sriraamx gobichettipalayam <sri..@intel.com>
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
 +
-+CVE: CVE-2024-38796
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/c95233=
-b8525ca6828921affd1496146cff262e65]
-+
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 +---
-+ MdePkg/Library/BasePeCoffLib/BasePeCoff.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ fuzzing/fuzz.h                   |  9 +++++++--
++ fuzzing/fuzz_header_parsing.c    | 19 +++++++++++++++++++
++ fuzzing/fuzz_header_parsing.dict |  8 ++++++++
++ fuzzing/meson.build              |  2 ++
++ 4 files changed, 36 insertions(+), 2 deletions(-)
++ create mode 100644 fuzzing/fuzz_header_parsing.c
++ create mode 100644 fuzzing/fuzz_header_parsing.dict
 +
-+diff --git a/MdePkg/Library/BasePeCoffLib/BasePeCoff.c b/MdePkg/Library/Ba=
-sePeCoffLib/BasePeCoff.c
-+index 6d8d9faeb8..2339b111b5 100644
-+--- a/MdePkg/Library/BasePeCoffLib/BasePeCoff.c
-++++ b/MdePkg/Library/BasePeCoffLib/BasePeCoff.c
-+@@ -1014,7 +1014,7 @@ PeCoffLoaderRelocateImage (
-+     RelocDir =3D &Hdr.Te->DataDirectory[0];=0D
-+   }=0D
-+ =0D
-+-  if ((RelocDir !=3D NULL) && (RelocDir->Size > 0)) {=0D
-++  if ((RelocDir !=3D NULL) && (RelocDir->Size > 0) && (RelocDir->Size - 1=
- < MAX_UINT32 - RelocDir->VirtualAddress)) {=0D
-+     RelocBase    =3D (EFI_IMAGE_BASE_RELOCATION *)PeCoffLoaderImageAddres=
-s (ImageContext, RelocDir->VirtualAddress, TeStrippedOffset);=0D
-+     RelocBaseEnd =3D (EFI_IMAGE_BASE_RELOCATION *)PeCoffLoaderImageAddres=
-s (=0D
-+                                                   ImageContext,=0D
-+--=20
-+2.34.1
++diff --git a/fuzzing/fuzz.h b/fuzzing/fuzz.h
++index 0d380285..f3bd28ee 100644
++--- a/fuzzing/fuzz.h
+++++ b/fuzzing/fuzz.h
++@@ -1,13 +1,14 @@
++ #include "libsoup/soup.h"
++ 
++ int LLVMFuzzerTestOneInput (const unsigned char *data, size_t size);
+++static int set_logger = 0;
++ 
++ #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
++ static GLogWriterOutput
++ empty_logging_func (GLogLevelFlags log_level, const GLogField *fields,
++                     gsize n_fields, gpointer user_data)
++ {
++-  return G_LOG_WRITER_HANDLED;
+++        return G_LOG_WRITER_HANDLED;
++ }
++ #endif
++ 
++@@ -16,6 +17,10 @@ static void
++ fuzz_set_logging_func (void)
++ {
++ #ifdef FUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION
++-  g_log_set_writer_func (empty_logging_func, NULL, NULL);
+++        if (!set_logger)
+++        {
+++                set_logger = 1;
+++                g_log_set_writer_func (empty_logging_func, NULL, NULL);
+++        }
++ #endif
++ }
++diff --git a/fuzzing/fuzz_header_parsing.c b/fuzzing/fuzz_header_parsing.c
++new file mode 100644
++index 00000000..a8e5c1f9
++--- /dev/null
+++++ b/fuzzing/fuzz_header_parsing.c
++@@ -0,0 +1,19 @@
+++#include "fuzz.h"
+++
+++int
+++LLVMFuzzerTestOneInput (const unsigned char *data, size_t size)
+++{
+++        GHashTable *elements;
+++
+++        // We only accept NUL terminated strings
+++        if (!size || data[size - 1] != '\0')
+++                return 0;
+++
+++        fuzz_set_logging_func ();
+++
+++        elements = soup_header_parse_param_list((char*)data);
+++
+++        g_hash_table_unref(elements);
+++
+++        return 0;
+++}
++\ No newline at end of file
++diff --git a/fuzzing/fuzz_header_parsing.dict b/fuzzing/fuzz_header_parsing.dict
++new file mode 100644
++index 00000000..1562ca3a
++--- /dev/null
+++++ b/fuzzing/fuzz_header_parsing.dict
++@@ -0,0 +1,8 @@
+++"*=UTF-8''"
+++"*=iso-8859-1''"
+++"'"
+++"''"
+++"="
+++"*="
+++"""
+++";"
++\ No newline at end of file
++diff --git a/fuzzing/meson.build b/fuzzing/meson.build
++index b14cbb50..5dd0f417 100644
++--- a/fuzzing/meson.build
+++++ b/fuzzing/meson.build
++@@ -5,6 +5,7 @@ fuzz_targets = [
++   'fuzz_cookie_parse',
++   'fuzz_content_sniffer',
++   'fuzz_date_time',
+++  'fuzz_header_parsing',
++ ]
++ 
++ fuzzing_args = '-fsanitize=fuzzer,address,undefined'
++@@ -34,6 +35,7 @@ if have_fuzzing and (fuzzing_feature.enabled() or fuzzing_feature.auto())
++         '-runs=200000',
++         '-artifact_prefix=meson-logs/' + target + '-',
++         '-print_final_stats=1',
+++        '-max_len=4096',
++       ] + extra_args,
++       env: [
++         'ASAN_OPTIONS=fast_unwind_on_malloc=0',
++-- 
++2.25.1
 +
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index 1dba709824..e626d306a4 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -53,6 +53,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://CVE-2022-36765-0001.patch \
-            file://CVE-2022-36765-0002.patch \
-            file://CVE-2022-36765-0003.patch \
-+           file://0001-MdePkg-Fix-overflow-issue-in-BasePeCoffLib.patch \
-            "
-=20
- PV =3D "edk2-stable202202"
---=20
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch
+new file mode 100644
+index 0000000000..7e0d81ba4c
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-2.patch
+@@ -0,0 +1,40 @@
++From 825fda3425546847b42ad5270544e9388ff349fe Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Tue, 27 Aug 2024 13:52:08 -0500
++Subject: [PATCH] tests: Add test for passing invalid UTF-8 to
++ soup_header_parse_semi_param_list()
++
++CVE: CVE-2024-52531
++Upstream-Status: Backport
++[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/diffs?commit_id=825fda3425546847b42ad5270544e9388ff349fe]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++---
++ tests/header-parsing-test.c | 11 +++++++++++
++ 1 file changed, 11 insertions(+)
++
++diff --git a/tests/header-parsing-test.c b/tests/header-parsing-test.c
++index 715c2c6f..5e423d2b 100644
++--- a/tests/header-parsing-test.c
+++++ b/tests/header-parsing-test.c
++@@ -825,6 +825,17 @@ static struct ParamListTest {
++ 	    { "filename", "t\xC3\xA9st.txt" },
++ 	  },
++ 	},
+++
+++        /* This tests invalid UTF-8 data which *should* never be passed here but it was designed to be robust against it. */
+++        { TRUE,
+++              "invalid*=\x69\x27\x27\x93\x93\x93\x93\xff\x61\x61\x61\x61\x61\x61\x61\x62\x63\x64\x65\x0a; filename*=iso-8859-1''\x69\x27\x27\x93\x93\x93\x93\xff\x61\x61\x61\x61\x61\x61\x61\x62\x63\x64\x65\x0a; foo",
+++              {
+++                    { "filename", "i''\302\223\302\223\302\223\302\223\303\277aaaaaaabcde" },
+++                    { "invalid", "\302\223\302\223\302\223\302\223\303\277aaaaaaabcde" },
+++                    { "foo", NULL },
+++
+++                },
+++        }
++ };
++ static const int num_paramlisttests = G_N_ELEMENTS (paramlisttests);
++ 
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch
+new file mode 100644
+index 0000000000..a47c8747c5
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2024-52531-3.patch
+@@ -0,0 +1,136 @@
++From a35222dd0bfab2ac97c10e86b95f762456628283 Mon Sep 17 00:00:00 2001
++From: Patrick Griffis <pgriffis@igalia.com>
++Date: Tue, 27 Aug 2024 13:53:26 -0500
++Subject: [PATCH] headers: Be more robust against invalid input when parsing
++ params
++
++If you pass invalid input to a function such as soup_header_parse_param_list_strict()
++it can cause an overflow if it decodes the input to UTF-8.
++
++This should never happen with valid UTF-8 input which libsoup's client API
++ensures, however it's server API does not currently.
++
++CVE: CVE-2024-52531
++Upstream-Status: Backport
++[https://gitlab.gnome.org/GNOME/libsoup/-/merge_requests/407/diffs?commit_id=a35222dd0bfab2ac97c10e86b95f762456628283]
++
++Signed-off-by: Changqing Li <changqing.li@windriver.com>
++
++---
++ libsoup/soup-headers.c | 46 ++++++++++++++++++++++--------------------
++ 1 file changed, 24 insertions(+), 22 deletions(-)
++
++diff --git a/libsoup/soup-headers.c b/libsoup/soup-headers.c
++index f30ee467..613e1905 100644
++--- a/libsoup/soup-headers.c
+++++ b/libsoup/soup-headers.c
++@@ -646,8 +646,9 @@ soup_header_contains (const char *header, const char *token)
++ }
++ 
++ static void
++-decode_quoted_string (char *quoted_string)
+++decode_quoted_string_inplace (GString *quoted_gstring)
++ {
+++	char *quoted_string = quoted_gstring->str;
++ 	char *src, *dst;
++ 
++ 	src = quoted_string + 1;
++@@ -661,10 +662,11 @@ decode_quoted_string (char *quoted_string)
++ }
++ 
++ static gboolean
++-decode_rfc5987 (char *encoded_string)
+++decode_rfc5987_inplace (GString *encoded_gstring)
++ {
++ 	char *q, *decoded;
++ 	gboolean iso_8859_1 = FALSE;
+++	const char *encoded_string = encoded_gstring->str;
++ 
++ 	q = strchr (encoded_string, '\'');
++ 	if (!q)
++@@ -696,14 +698,7 @@ decode_rfc5987 (char *encoded_string)
++ 		decoded = utf8;
++ 	}
++ 
++-	/* If encoded_string was UTF-8, then each 3-character %-escape
++-	 * will be converted to a single byte, and so decoded is
++-	 * shorter than encoded_string. If encoded_string was
++-	 * iso-8859-1, then each 3-character %-escape will be
++-	 * converted into at most 2 bytes in UTF-8, and so it's still
++-	 * shorter.
++-	 */
++-	strcpy (encoded_string, decoded);
+++	g_string_assign (encoded_gstring, decoded);
++ 	g_free (decoded);
++ 	return TRUE;
++ }
++@@ -713,15 +708,17 @@ parse_param_list (const char *header, char delim, gboolean strict)
++ {
++ 	GHashTable *params;
++ 	GSList *list, *iter;
++-	char *item, *eq, *name_end, *value;
++-	gboolean override, duplicated;
++ 
++ 	params = g_hash_table_new_full (soup_str_case_hash, 
++ 					soup_str_case_equal,
++-					g_free, NULL);
+++					g_free, g_free);
++ 
++ 	list = parse_list (header, delim);
++ 	for (iter = list; iter; iter = iter->next) {
+++		char *item, *eq, *name_end;
+++		gboolean override, duplicated;
+++		GString *parsed_value = NULL;
+++
++ 		item = iter->data;
++ 		override = FALSE;
++ 
++@@ -736,19 +733,19 @@ parse_param_list (const char *header, char delim, gboolean strict)
++ 
++ 			*name_end = '\0';
++ 
++-			value = (char *)skip_lws (eq + 1);
+++			parsed_value = g_string_new ((char *)skip_lws (eq + 1));
++ 
++ 			if (name_end[-1] == '*' && name_end > item + 1) {
++ 				name_end[-1] = '\0';
++-				if (!decode_rfc5987 (value)) {
+++				if (!decode_rfc5987_inplace (parsed_value)) {
+++					g_string_free (parsed_value, TRUE);
++ 					g_free (item);
++ 					continue;
++ 				}
++ 				override = TRUE;
++-			} else if (*value == '"')
++-				decode_quoted_string (value);
++-		} else
++-			value = NULL;
+++			} else if (parsed_value->str[0] == '"')
+++				decode_quoted_string_inplace (parsed_value);
+++		}
++ 
++ 		duplicated = g_hash_table_lookup_extended (params, item, NULL, NULL);
++ 
++@@ -756,11 +753,16 @@ parse_param_list (const char *header, char delim, gboolean strict)
++ 			soup_header_free_param_list (params);
++ 			params = NULL;
++ 			g_slist_foreach (iter, (GFunc)g_free, NULL);
+++			if (parsed_value)
+++				g_string_free (parsed_value, TRUE);
++ 			break;
++-		} else if (override || !duplicated)
++-			g_hash_table_replace (params, item, value);
++-		else
+++		} else if (override || !duplicated) {
+++			g_hash_table_replace (params, item, parsed_value ? g_string_free (parsed_value, FALSE) : NULL);
+++		} else {
+++			if (parsed_value)
+++				g_string_free (parsed_value, TRUE);
++ 			g_free (item);
+++		}
++ 	}
++ 
++ 	g_slist_free (list);
++-- 
++2.25.1
++
+diff --git a/meta/recipes-support/libsoup/libsoup_3.0.7.bb b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+index 919fef5107..869f0f1696 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.0.7.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.0.7.bb
+@@ -15,6 +15,9 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
+            file://CVE-2024-52530.patch \
+            file://CVE-2024-52532-1.patch \
+            file://CVE-2024-52532-2.patch \
++           file://CVE-2024-52531-1.patch \
++           file://CVE-2024-52531-2.patch \
++           file://CVE-2024-52531-3.patch \
+           "
+ SRC_URI[sha256sum] = "ebdf90cf3599c11acbb6818a9d9e3fc9d2c68e56eb829b93962972683e1bf7c8"
+ 
+-- 
 2.34.1
 
 
