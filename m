@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A946E77175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52F96E77178
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:35 +0000 (UTC)
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
- by mx.groups.io with SMTP id smtpd.web10.21445.1733334870614155355
+Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+ by mx.groups.io with SMTP id smtpd.web11.21194.1733334872678931721
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:30 -0800
+ Wed, 04 Dec 2024 09:54:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sD0cVgM/;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-724e6c53fe2so71770b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:30 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uQFMyv3X;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7f71f2b1370so45972a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334870; x=1733939670; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334872; x=1733939672; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=DS0lPaOwy2cum74D5/0Yn12IvODsDLSCpPUYKLMeQRo=;
-        b=sD0cVgM/bMdVCiFuFj7XqwjmCGfAnWi8Ifi8wcY0rUxkefZJCw9r3QMIsENH61TOnP
-         M1xFXXZU3bjuSIVTL3OedKLkrlwZ6ejJWOTFWbZ+HghrVEI4WPor4ErDEpc0e1oCVgvC
-         0dIk1+1unKtEz8zJxjqLg0gk8EOx5zvKTqayNPV3V2Xw3okgG62m8RjI7yhAqLnwXivM
-         78SWsb2y1YK/PvCYvXqRVl9D/uoyaEDPfNa8k8cTags7IX9Yrvf52zliy++7XyAX2/Xm
-         ApWBFbV7ofMIZHxwU1DRjW8wmfcMMDsxrMTKL8I9R2s0+/F35Rhvsy1TbKEIRTnEbm8S
-         UP2Q==
+        bh=43rumM2z5GtFAskhgVa/d7/FbvZyw1KH84p++R5C2d0=;
+        b=uQFMyv3XY9gQhFxRtkILO+Ab+0P7VSAugUIpDUaahm995duWfD1YRVWqEWNu4kjTUw
+         5T62GQg7l12Z/+TH3Psn/EWKd8en8Ix+h8Y+gzY8LroVpqFVlQk6pFQdEAeYBlArntVE
+         g3pUhao1IzNyY8OsfCWM2IoOkBNaVc24EhA0VRvoktg2/vLTKa57hVkRW2AH0W20AFuQ
+         vXjEfemgq5sgIRkqwF9yB1D18tZercXYQIX8RZ1cn5zogYNS8DU5w4vhVf6uyzFyQ2xv
+         DHXYRlYYeQgTVmh3UyvHBEmIT31qqFhQGT3a4DetTq9HH0EhNCyZn7C7fNNMvN2P2jPC
+         2ucg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334870; x=1733939670;
+        d=1e100.net; s=20230601; t=1733334872; x=1733939672;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=DS0lPaOwy2cum74D5/0Yn12IvODsDLSCpPUYKLMeQRo=;
-        b=W5uez4pGBc3VT/4SnrBS/wSJuJmD8RII8Acw6FarsFCXOKqaTMZRfDaQuJ5luYUX8Y
-         His0RLhR9FonPYYXnwC2lTtHU2YfIrzwhTbXE44fQD1XpUKTWNVxF2zxmn9f/US1Nanf
-         /q2sVmbi0Iaj2YQbdb9HkYBovhb99qarYGUkAd1ydc9YXnsGtPGQwD1fikyeeaDuKkeC
-         fUNmic8W5BJ1fqFCbUsncnJkeb5BN8A0AR/CUrylhfYlNm9pYGMPq+ISY/1TQ2sk0LxY
-         UtXGisMa2D94V8j/PIAdPLw7hfohc8tOlwjyaeG16A2xJN1PSp1MRKAv38Krdv4oN+s9
-         nNKg==
-X-Gm-Message-State: AOJu0YyfO4eU4iU1Ja2eFqtqurlMAPmEBBg+UgXi4mQUTQU8NlmnolPb
-	JgmBEkiCrsJWKdKH0i7beuIqtlUPdrTSihkEN/LfTxhc67kkRaguGPGk+dSS0CbYdN0yA744LN+
-	n
-X-Gm-Gg: ASbGnctXegqKj3fJYQqK+UC7Qb9NA1bd/agIxtP13LA3rOAik4nazp8uO5AqdIX9OLe
-	b0jdR8seUw9hkUUPjwjsG0XVjX52kIRHKnd7tI7yGy+lYGd8BcEjYqeDq/tfaef7z9759caXtvE
-	IP3VevHOVIjmvCIcI4bw/MrjCAPPbPTFlG9IeQelSsxFqhYPNSwN6YI2VvPkGAy3QANhNWjEWwG
-	aHCQdiabvfk2QGJT2H30ikBnUui7YAvw+MZMnQ=
-X-Google-Smtp-Source: AGHT+IE/tKBdVcRxVpthlDZp3CtQXocUpgPbQYpv/ngzyFXDE9fpb3nZGofCQBCmS30Pao9wmwiX7w==
-X-Received: by 2002:a17:902:dac8:b0:215:8550:a95d with SMTP id d9443c01a7336-215d00d3395mr61507235ad.52.1733334868940;
-        Wed, 04 Dec 2024 09:54:28 -0800 (PST)
+        bh=43rumM2z5GtFAskhgVa/d7/FbvZyw1KH84p++R5C2d0=;
+        b=RdiwHJ8fpvQ3VKnMcnMdk6NigYWCgV4A+hFzJoquDHx5nStnUf92bZMEAuAaJaLrFJ
+         BgaB/a4zWcT4zx7gT4QgzPi4IzTcaX5swu+vzhNApTmlIm7BaHHqmxrks6sjyStSQq8K
+         0hefKCO0r6mjjmVDvEJAyfn62K1hvf2xoo+ZBSZwOhKmyCMfs0LQGFwdcI0Wp8Y3Ji6k
+         hPgopQnPNyhIxZCMTZUdMrtqzo+8hL/aCkxqFwsqI+MpdJ2Ao7RD8uHxr/VkLFQa/uN5
+         iArIcdhQO0fkVqtlTGVbuj7xyJ5KfTiBYepOYpiheUBuBbuz60AcrmWLSciSJ4uZ9Y5n
+         OdNQ==
+X-Gm-Message-State: AOJu0YxQuQ0x347gd7JitFQm38goy/UZ476/XxAbCUMXDHYpHpq4tNQg
+	AG/QbzrPmKR6rndb3taaQJosXsIL8MbluHKybjwQ5f2gW2TncuvM1nUcmsA/1nQ4ynnMiQoBemY
+	J
+X-Gm-Gg: ASbGncsBHWxOQYDN/UzWMbpVocJAlYV+5uoty06WFE/nCO9fZ3OS3ciDMOSpCcjCpOJ
+	uAixrtyGSc3l/M2B2laKJnSH4K27pgRaMLf2yI4p486QSdsvZL/G2OViprXAV1H4c32DxZ03F0H
+	84/ImbSVJN9Kg9JdL6UorYu2cLd1NywaoiDJBwy7xseX6ULpoIkkGstbcJkHqQywn1f2c5sn4+U
+	QlZtp8RmeCXO1A9E4a2MSxzWmRUM4PEikMsYs0=
+X-Google-Smtp-Source: AGHT+IFNA5PtC0d9d+oEn66o3b3uBAZdaSeP2seYA+NJDvFaiRSjMe+C2m3nma0mMbRzyoDxCNenjw==
+X-Received: by 2002:a05:6a21:2d89:b0:1e0:f059:db8 with SMTP id adf61e73a8af0-1e16bef49b1mr7993069637.44.1733334871023;
+        Wed, 04 Dec 2024 09:54:31 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.28
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:28 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:30 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 08/38] ovmf: Fix CVE-2023-45229
-Date: Wed,  4 Dec 2024 09:53:35 -0800
-Message-Id: <23a87c571ae4cdd285a96af0d458906aaf8c4571.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 09/38] ovmf: Fix CVE-2023-45237
+Date: Wed,  4 Dec 2024 09:53:36 -0800
+Message-Id: <6f8bdaad9d22e65108f859a695277ce1b20ef7c6.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,79 +66,201 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208291
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208292
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-EDK2's Network Package is susceptible to an out-of-bounds read
-vulnerability when processing the IA_NA or IA_TA option in a DHCPv6
-Advertise message. This vulnerability can be exploited by an attacker
-to gain unauthorized access and potentially lead to a loss of
-Confidentiality.
+EDK2's Network Package is susceptible to a predictable TCP Initial Sequence
+Number. This vulnerability can be exploited by an attacker to gain
+unauthorized access and potentially lead to a loss of Confidentiality.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-45229
+https://nvd.nist.gov/vuln/detail/CVE-2023-45237
 
 Upstream-patches:
-https://github.com/tianocore/edk2/commit/1dbb10cc52dc8ef49bb700daa1cefc76b2=
-6d52e0
-https://github.com/tianocore/edk2/commit/07362769ab7a7d74dbea1c7a7a3662c7b5=
-d1f097
-https://github.com/tianocore/edk2/commit/1c440a5eceedc64e892877eeac0f1a4938=
-f5abbb
-https://github.com/tianocore/edk2/commit/1d0b95f6457d225c5108302a9da74b4ed7=
-aa5a38
+https://github.com/tianocore/edk2/commit/cf07238e5fa4f8b1138ac1c9e80530b4d4=
+e59f1c
+https://github.com/tianocore/edk2/commit/4c4ceb2ceb80c42fd5545b2a4bd80321f0=
+7f4345
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ovmf/ovmf/CVE-2023-45229-0001.patch       | 604 ++++++++++++++++++
- .../ovmf/ovmf/CVE-2023-45229-0002.patch       | 539 ++++++++++++++++
- .../ovmf/ovmf/CVE-2023-45229-0003.patch       | 244 +++++++
- .../ovmf/ovmf/CVE-2023-45229-0004.patch       | 157 +++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   4 +
- 5 files changed, 1548 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch
+ .../ovmf/ovmf/CVE-2023-45237-0001.patch       |   78 +
+ .../ovmf/ovmf/CVE-2023-45237-0002.patch       | 1288 +++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |    2 +
+ 3 files changed, 1368 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch
 new file mode 100644
-index 0000000000..9d8549b27d
+index 0000000000..d1dcb8dc44
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch
-@@ -0,0 +1,604 @@
-+From 1dbb10cc52dc8ef49bb700daa1cefc76b26d52e0 Mon Sep 17 00:00:00 2001
-+From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
-+Date: Fri, 26 Jan 2024 05:54:46 +0800
-+Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Patch
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0001.patch
+@@ -0,0 +1,78 @@
++From cf07238e5fa4f8b1138ac1c9e80530b4d4e59f1c Mon Sep 17 00:00:00 2001
++From: Pierre Gondois <pierre.gondois@arm.com>
++Date: Fri, 11 Aug 2023 16:33:06 +0200
++Subject: [PATCH] MdePkg/Rng: Add GUID to describe Arm Rndr Rng algorithms
 +
-+REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534
++BZ: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4441
 +
-+Bug Details:
-+PixieFail Bug #1
-+CVE-2023-45229
-+CVSS 6.5 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
-+CWE-125 Out-of-bounds Read
++The EFI_RNG_PROTOCOL can rely on the RngLib. The RngLib has multiple
++implementations, some of them are unsafe (e.g. BaseRngLibTimerLib).
++To allow the RngDxe to detect when such implementation is used,
++a GetRngGuid() function is added in a following patch.
++
++Prepare GetRngGuid() return values and add a gEfiRngAlgorithmArmRndr
++to describe a Rng algorithm accessed through Arm's RNDR instruction.
++[1] states that the implementation of this algorithm should be
++compliant to NIST SP900-80. The compliance is not guaranteed.
++
++[1] Arm Architecture Reference Manual Armv8, for A-profile architecture
++sK12.1 'Properties of the generated random number'
++
++Signed-off-by: Pierre Gondois <pierre.gondois@arm.com>
++Reviewed-by: Sami Mujawar <sami.mujawar@arm.com>
++Reviewed-by: Liming Gao <gaoliming@byosoft.com.cn>
++Acked-by: Ard Biesheuvel <ardb@kernel.org>
++Tested-by: Kun Qin <kun.qin@microsoft.com>
++
++CVE: CVE-2023-45237
++
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/cf0723=
+8e5fa4f8b1138ac1c9e80530b4d4e59f1c]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ MdePkg/Include/Protocol/Rng.h | 10 ++++++++++
++ MdePkg/MdePkg.dec             |  1 +
++ 2 files changed, 11 insertions(+)
++
++diff --git a/MdePkg/Include/Protocol/Rng.h b/MdePkg/Include/Protocol/Rng.h
++index baf425587b..38bde53240 100644
++--- a/MdePkg/Include/Protocol/Rng.h
+++++ b/MdePkg/Include/Protocol/Rng.h
++@@ -67,6 +67,15 @@ typedef EFI_GUID EFI_RNG_ALGORITHM;
++   { \=0D
++     0xe43176d7, 0xb6e8, 0x4827, {0xb7, 0x84, 0x7f, 0xfd, 0xc4, 0xb6, 0x85=
+, 0x61 } \=0D
++   }=0D
+++///=0D
+++/// The Arm Architecture states the RNDR that the DRBG algorithm should b=
+e compliant=0D
+++/// with NIST SP800-90A, while not mandating a particular algorithm, so a=
+s to be=0D
+++/// inclusive of different geographies.=0D
+++///=0D
+++#define EFI_RNG_ALGORITHM_ARM_RNDR \=0D
+++  { \=0D
+++    0x43d2fde3, 0x9d4e, 0x4d79,  {0x02, 0x96, 0xa8, 0x9b, 0xca, 0x78, 0x0=
+8, 0x41} \=0D
+++  }=0D
++ =0D
++ /**=0D
++   Returns information about the random number generation implementation.=
+=0D
++@@ -146,5 +155,6 @@ extern EFI_GUID  gEfiRngAlgorithmSp80090Ctr256Guid;
++ extern EFI_GUID  gEfiRngAlgorithmX9313DesGuid;=0D
++ extern EFI_GUID  gEfiRngAlgorithmX931AesGuid;=0D
++ extern EFI_GUID  gEfiRngAlgorithmRaw;=0D
+++extern EFI_GUID  gEfiRngAlgorithmArmRndr;=0D
++ =0D
++ #endif=0D
++diff --git a/MdePkg/MdePkg.dec b/MdePkg/MdePkg.dec
++index 59b405928b..a449dbc556 100644
++--- a/MdePkg/MdePkg.dec
+++++ b/MdePkg/MdePkg.dec
++@@ -594,6 +594,7 @@
++   gEfiRngAlgorithmX9313DesGuid       =3D { 0x63c4785a, 0xca34, 0x4012, {0=
+xa3, 0xc8, 0x0b, 0x6a, 0x32, 0x4f, 0x55, 0x46 }}=0D
++   gEfiRngAlgorithmX931AesGuid        =3D { 0xacd03321, 0x777e, 0x4d3d, {0=
+xb1, 0xc8, 0x20, 0xcf, 0xd8, 0x88, 0x20, 0xc9 }}=0D
++   gEfiRngAlgorithmRaw                =3D { 0xe43176d7, 0xb6e8, 0x4827, {0=
+xb7, 0x84, 0x7f, 0xfd, 0xc4, 0xb6, 0x85, 0x61 }}=0D
+++  gEfiRngAlgorithmArmRndr            =3D { 0x43d2fde3, 0x9d4e, 0x4d79, {0=
+x02, 0x96, 0xa8, 0x9b, 0xca, 0x78, 0x08, 0x41 }}=0D
++ =0D
++   ## Include/Protocol/AdapterInformation.h=0D
++   gEfiAdapterInfoMediaStateGuid       =3D { 0xD7C74207, 0xA831, 0x4A26, {=
+0xB1, 0xF5, 0xD1, 0x93, 0x06, 0x5C, 0xE8, 0xB6 }}=0D
++--=20
++2.40.0
++
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch
+new file mode 100644
+index 0000000000..722a6cd530
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45237-0002.patch
+@@ -0,0 +1,1288 @@
++From 4c4ceb2ceb80c42fd5545b2a4bd80321f07f4345 Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Wed, 8 May 2024 22:56:28 -0700
++Subject: [PATCH] NetworkPkg: SECURITY PATCH CVE-2023-45237
++
++REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4542
++
++Bug Overview:
++PixieFail Bug #9
++CVE-2023-45237
++CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N
++CWE-338 Use of Cryptographically Weak Pseudo-Random Number Generator (PRNG)
++
++Use of a Weak PseudoRandom Number Generator
 +
 +Change Overview:
 +
-+Introduce Dhcp6SeekInnerOptionSafe which performs checks before seeking
-+the Inner Option from a DHCP6 Option.
++Updates all Instances of NET_RANDOM (NetRandomInitSeed ()) to either
 +
 +>
 +> EFI_STATUS
-+> Dhcp6SeekInnerOptionSafe (
-+>  IN  UINT16  IaType,
-+>  IN  UINT8   *Option,
-+>  IN  UINT32  OptionLen,
-+>  OUT UINT8   **IaInnerOpt,
-+>  OUT UINT16  *IaInnerLen
++> EFIAPI
++> PseudoRandomU32 (
++>  OUT UINT32  *Output
 +>  );
 +>
 +
-+Lots of code cleanup to improve code readability.
++or (depending on the use case)
++
++>
++> EFI_STATUS
++> EFIAPI
++> PseudoRandom (
++>  OUT  VOID   *Output,
++>  IN   UINTN  OutputLength
++>  );
++>
++
++This is because the use of
++
++Example:
++
++The following code snippet PseudoRandomU32 () function is used:
++
++>
++> UINT32         Random;
++>
++> Status =3D PseudoRandomU32 (&Random);
++> if (EFI_ERROR (Status)) {
++>   DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n",
++__func__, Status));
++>   return Status;
++> }
++>
++
++This also introduces a new PCD to enable/disable the use of the
++secure implementation of algorithms for PseudoRandom () and
++instead depend on the default implementation. This may be required for
++some platforms where the UEFI Spec defined algorithms are not available.
++
++>
++> PcdEnforceSecureRngAlgorithms
++>
++
++If the platform does not have any one of the UEFI defined
++secure RNG algorithms then the driver will assert.
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -146,1740 +268,1348 @@ index 0000000000..9d8549b27d
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45229
++CVE: CVE-2023-45237
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1dbb10=
-cc52dc8ef49bb700daa1cefc76b26d52e0]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/4c4ceb=
+2ceb80c42fd5545b2a4bd80321f07f4345]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h | 138 +++++++++++++++++++---
-+ NetworkPkg/Dhcp6Dxe/Dhcp6Io.c   | 203 +++++++++++++++++++++-----------
-+ 2 files changed, 256 insertions(+), 85 deletions(-)
++ NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c          |  10 +-
++ NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c          |  11 +-
++ NetworkPkg/DnsDxe/DnsDhcp.c                |  10 +-
++ NetworkPkg/DnsDxe/DnsImpl.c                |  11 +-
++ NetworkPkg/HttpBootDxe/HttpBootDhcp6.c     |  10 +-
++ NetworkPkg/IScsiDxe/IScsiCHAP.c            |  19 ++-
++ NetworkPkg/IScsiDxe/IScsiMisc.c            |  14 +--
++ NetworkPkg/IScsiDxe/IScsiMisc.h            |   6 +-
++ NetworkPkg/Include/Library/NetLib.h        |  40 +++++--
++ NetworkPkg/Ip4Dxe/Ip4Driver.c              |  10 +-
++ NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c          |   9 +-
++ NetworkPkg/Ip6Dxe/Ip6Driver.c              |  17 ++-
++ NetworkPkg/Ip6Dxe/Ip6If.c                  |  12 +-
++ NetworkPkg/Ip6Dxe/Ip6Mld.c                 |  12 +-
++ NetworkPkg/Ip6Dxe/Ip6Nd.c                  |  33 +++++-
++ NetworkPkg/Ip6Dxe/Ip6Nd.h                  |   8 +-
++ NetworkPkg/Library/DxeNetLib/DxeNetLib.c   | 130 ++++++++++++++++++---
++ NetworkPkg/Library/DxeNetLib/DxeNetLib.inf |  14 ++-
++ NetworkPkg/NetworkPkg.dec                  |   7 ++
++ NetworkPkg/SecurityFixes.yaml              |  39 +++++++
++ NetworkPkg/TcpDxe/TcpDriver.c              |  15 ++-
++ NetworkPkg/TcpDxe/TcpDxe.inf               |   3 +
++ NetworkPkg/Udp4Dxe/Udp4Driver.c            |  10 +-
++ NetworkPkg/Udp6Dxe/Udp6Driver.c            |  11 +-
++ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c       |   9 +-
++ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c       |  11 +-
++ NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c      |  12 +-
++ 27 files changed, 410 insertions(+), 83 deletions(-)
 +
-+diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h b/NetworkPkg/Dhcp6Dxe/Dhcp6Im=
-pl.h
-+index f2422c2f28..220e7c68f1 100644
-+--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h
-++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h
-+@@ -45,6 +45,20 @@ typedef struct _DHCP6_INSTANCE  DHCP6_INSTANCE;
-+ #define DHCP6_SERVICE_SIGNATURE   SIGNATURE_32 ('D', 'H', '6', 'S')=0D
-+ #define DHCP6_INSTANCE_SIGNATURE  SIGNATURE_32 ('D', 'H', '6', 'I')=0D
++diff --git a/NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c b/NetworkPkg/Dhcp4Dxe/Dhcp4=
+Driver.c
++index 8c37e93be3..892caee368 100644
++--- a/NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c
+++++ b/NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c
++@@ -1,6 +1,7 @@
++ /** @file=0D
 + =0D
-++#define DHCP6_PACKET_ALL        0=0D
-++#define DHCP6_PACKET_STATEFUL   1=0D
-++#define DHCP6_PACKET_STATELESS  2=0D
-++=0D
-++#define DHCP6_BASE_PACKET_SIZE  1024=0D
-++=0D
-++#define DHCP6_PORT_CLIENT  546=0D
-++#define DHCP6_PORT_SERVER  547=0D
-++=0D
-++#define DHCP_CHECK_MEDIA_WAITING_TIME  EFI_TIMER_PERIOD_SECONDS(20)=0D
-++=0D
-++#define DHCP6_INSTANCE_FROM_THIS(Instance)  CR ((Instance), DHCP6_INSTANC=
-E, Dhcp6, DHCP6_INSTANCE_SIGNATURE)=0D
-++#define DHCP6_SERVICE_FROM_THIS(Service)    CR ((Service), DHCP6_SERVICE,=
- ServiceBinding, DHCP6_SERVICE_SIGNATURE)=0D
-++=0D
-+ //=0D
-+ // For more information on DHCP options see RFC 8415, Section 21.1=0D
-+ //=0D
-+@@ -59,12 +73,10 @@ typedef struct _DHCP6_INSTANCE  DHCP6_INSTANCE;
-+ //    |                      (option-len octets)                      |=0D
-+ //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-+ //=0D
-+-#define DHCP6_SIZE_OF_OPT_CODE  (sizeof(UINT16))=0D
-+-#define DHCP6_SIZE_OF_OPT_LEN   (sizeof(UINT16))=0D
-++#define DHCP6_SIZE_OF_OPT_CODE  (sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->=
-OpCode))=0D
-++#define DHCP6_SIZE_OF_OPT_LEN   (sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->=
-OpLen))=0D
++ Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
 + =0D
-+-//=0D
-+ // Combined size of Code and Length=0D
-+-//=0D
-+ #define DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN  (DHCP6_SIZE_OF_OPT_CODE + \=
++ **/=0D
++@@ -189,6 +190,13 @@ Dhcp4CreateService (
++ {=0D
++   DHCP_SERVICE  *DhcpSb;=0D
++   EFI_STATUS    Status;=0D
+++  UINT32        Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++   *Service =3D NULL;=0D
++   DhcpSb   =3D AllocateZeroPool (sizeof (DHCP_SERVICE));=0D
++@@ -203,7 +211,7 @@ Dhcp4CreateService (
++   DhcpSb->Image        =3D ImageHandle;=0D
++   InitializeListHead (&DhcpSb->Children);=0D
++   DhcpSb->DhcpState =3D Dhcp4Stopped;=0D
++-  DhcpSb->Xid       =3D NET_RANDOM (NetRandomInitSeed ());=0D
+++  DhcpSb->Xid       =3D Random;=0D
++   CopyMem (=0D
++     &DhcpSb->ServiceBinding,=0D
++     &mDhcp4ServiceBindingTemplate,=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c b/NetworkPkg/Dhcp6Dxe/Dhcp6=
+Driver.c
++index b591a4605b..e7f2787a98 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c
++@@ -3,7 +3,7 @@
++   implementation for Dhcp6 Driver.=0D
++ =0D
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
 =0D
-+                                               DHCP6_SIZE_OF_OPT_LEN)=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
 + =0D
-+@@ -73,34 +85,122 @@ STATIC_ASSERT (
-+   "Combined size of Code and Length must be 4 per RFC 8415"=0D
-+   );=0D
-+ =0D
-+-//=0D
-+ // Offset to the length is just past the code=0D
-+-//=0D
-+-#define DHCP6_OPT_LEN_OFFSET(a)  (a + DHCP6_SIZE_OF_OPT_CODE)=0D
-++#define DHCP6_OFFSET_OF_OPT_LEN(a)  (a + DHCP6_SIZE_OF_OPT_CODE)=0D
-+ STATIC_ASSERT (=0D
-+-  DHCP6_OPT_LEN_OFFSET (0) =3D=3D 2,=0D
-++  DHCP6_OFFSET_OF_OPT_LEN (0) =3D=3D 2,=0D
-+   "Offset of length is + 2 past start of option"=0D
-+   );=0D
-+ =0D
-+-#define DHCP6_OPT_DATA_OFFSET(a)  (a + DHCP6_SIZE_OF_COMBINED_CODE_AND_LE=
-N)=0D
-++#define DHCP6_OFFSET_OF_OPT_DATA(a)  (a + DHCP6_SIZE_OF_COMBINED_CODE_AND=
-_LEN)=0D
-+ STATIC_ASSERT (=0D
-+-  DHCP6_OPT_DATA_OFFSET (0) =3D=3D 4,=0D
-++  DHCP6_OFFSET_OF_OPT_DATA (0) =3D=3D 4,=0D
-+   "Offset to option data should be +4 from start of option"=0D
-+   );=0D
-++//=0D
-++// Identity Association options (both NA (Non-Temporary) and TA (Temporar=
-y Association))=0D
-++// are defined in RFC 8415 and are a deriviation of a TLV stucture=0D
-++// For more information on IA_NA see Section 21.4=0D
-++// For more information on IA_TA see Section 21.5=0D
-++//=0D
-++//=0D
-++//  The format of IA_NA and IA_TA option:=0D
-++//=0D
-++//     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//    |          OPTION_IA_NA         |          option-len           |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//    |                        IAID (4 octets)                        |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//    |                        T1 (only for IA_NA)                    |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//    |                        T2 (only for IA_NA)                    |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//    |                                                               |=0D
-++//    .                  IA_NA-options/IA_TA-options                  .=0D
-++//    .                                                               .=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//=0D
-++#define DHCP6_SIZE_OF_IAID           (sizeof(UINT32))=0D
-++#define DHCP6_SIZE_OF_TIME_INTERVAL  (sizeof(UINT32))=0D
-+ =0D
-+-#define DHCP6_PACKET_ALL        0=0D
-+-#define DHCP6_PACKET_STATEFUL   1=0D
-+-#define DHCP6_PACKET_STATELESS  2=0D
-++// Combined size of IAID, T1, and T2=0D
-++#define DHCP6_SIZE_OF_COMBINED_IAID_T1_T2  (DHCP6_SIZE_OF_IAID +  \=0D
-++                                            DHCP6_SIZE_OF_TIME_INTERVAL +=
- \=0D
-++                                            DHCP6_SIZE_OF_TIME_INTERVAL)=
-=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_SIZE_OF_COMBINED_IAID_T1_T2 =3D=3D 12,=0D
-++  "Combined size of IAID, T1, T2 must be 12 per RFC 8415"=0D
-++  );=0D
-+ =0D
-+-#define DHCP6_BASE_PACKET_SIZE  1024=0D
-++// This is the size of IA_TA without options=0D
-++#define DHCP6_MIN_SIZE_OF_IA_TA  (DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN + \=
-=0D
-++                                  DHCP6_SIZE_OF_IAID)=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_MIN_SIZE_OF_IA_TA =3D=3D 8,=0D
-++  "Minimum combined size of IA_TA per RFC 8415"=0D
-++  );=0D
-+ =0D
-+-#define DHCP6_PORT_CLIENT  546=0D
-+-#define DHCP6_PORT_SERVER  547=0D
-++// Offset to a IA_TA inner option=0D
-++#define DHCP6_OFFSET_OF_IA_TA_INNER_OPT(a)  (a + DHCP6_MIN_SIZE_OF_IA_TA)=
-=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_OFFSET_OF_IA_TA_INNER_OPT (0) =3D=3D 8,=0D
-++  "Offset of IA_TA Inner option is + 8 past start of option"=0D
-++  );=0D
-+ =0D
-+-#define DHCP_CHECK_MEDIA_WAITING_TIME  EFI_TIMER_PERIOD_SECONDS(20)=0D
-++// This is the size of IA_NA without options (16)=0D
-++#define DHCP6_MIN_SIZE_OF_IA_NA  DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN + \=
-=0D
-++                                 DHCP6_SIZE_OF_COMBINED_IAID_T1_T2=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_MIN_SIZE_OF_IA_NA =3D=3D 16,=0D
-++  "Minimum combined size of IA_TA per RFC 8415"=0D
-++  );=0D
-+ =0D
-+-#define DHCP6_INSTANCE_FROM_THIS(Instance)  CR ((Instance), DHCP6_INSTANC=
-E, Dhcp6, DHCP6_INSTANCE_SIGNATURE)=0D
-+-#define DHCP6_SERVICE_FROM_THIS(Service)    CR ((Service), DHCP6_SERVICE,=
- ServiceBinding, DHCP6_SERVICE_SIGNATURE)=0D
-++#define DHCP6_OFFSET_OF_IA_NA_INNER_OPT(a)  (a + DHCP6_MIN_SIZE_OF_IA_NA)=
-=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_OFFSET_OF_IA_NA_INNER_OPT (0) =3D=3D 16,=0D
-++  "Offset of IA_NA Inner option is + 16 past start of option"=0D
-++  );=0D
++ **/=0D
++@@ -123,6 +123,13 @@ Dhcp6CreateService (
++ {=0D
++   DHCP6_SERVICE  *Dhcp6Srv;=0D
++   EFI_STATUS     Status;=0D
+++  UINT32         Random;=0D
 ++=0D
-++#define DHCP6_OFFSET_OF_IA_NA_T1(a)  (a + \=0D
-++                                   DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN + =
-\=0D
-++                                   DHCP6_SIZE_OF_IAID)=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_OFFSET_OF_IA_NA_T1 (0) =3D=3D 8,=0D
-++  "Offset of IA_NA Inner option is + 8 past start of option"=0D
-++  );=0D
-++=0D
-++#define DHCP6_OFFSET_OF_IA_NA_T2(a)  (a + \=0D
-++                                   DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN +\=
-=0D
-++                                   DHCP6_SIZE_OF_IAID + \=0D
-++                                   DHCP6_SIZE_OF_TIME_INTERVAL)=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_OFFSET_OF_IA_NA_T2 (0) =3D=3D 12,=0D
-++  "Offset of IA_NA Inner option is + 12 past start of option"=0D
-++  );=0D
-++=0D
-++//=0D
-++// For more information see RFC 8415 Section 21.13=0D
-++//=0D
-++// The format of the Status Code Option:=0D
-++//=0D
-++//     0                   1                   2                   3=0D
-++//     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//    |       OPTION_STATUS_CODE      |         option-len            |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//    |          status-code          |                               |=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |=0D
-++//    .                                                               .=0D
-++//    .                        status-message                         .=0D
-++//    .                                                               .=0D
-++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
-++//=0D
-++#define DHCP6_OFFSET_OF_STATUS_CODE(a)  (a + DHCP6_SIZE_OF_COMBINED_CODE_=
-AND_LEN)=0D
-++STATIC_ASSERT (=0D
-++  DHCP6_OFFSET_OF_STATUS_CODE (0) =3D=3D 4,=0D
-++  "Offset of status is + 4 past start of option"=0D
-++  );=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
 + =0D
-+ extern EFI_IPv6_ADDRESS    mAllDhcpRelayAndServersAddress;=0D
-+ extern EFI_DHCP6_PROTOCOL  gDhcp6ProtocolTemplate;=0D
-+diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-+index bf5aa7a769..89d16484a5 100644
-+--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-+@@ -598,8 +598,8 @@ Dhcp6UpdateIaInfo (
-+   // The inner options still start with 2 bytes option-code and 2 bytes o=
-ption-len.=0D
-+   //=0D
-+   if (Instance->Config->IaDescriptor.Type =3D=3D Dhcp6OptIana) {=0D
-+-    T1 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(Option + 8)));=0D
-+-    T2 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(Option + 12)));=0D
-++    T1 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T1 (O=
-ption))));=0D
-++    T2 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T2 (O=
-ption))));=0D
-+     //=0D
-+     // Refer to RFC3155 Chapter 22.4. If a client receives an IA_NA with =
-T1 greater than T2,=0D
-+     // and both T1 and T2 are greater than 0, the client discards the IA_=
-NA option and processes=0D
-+@@ -609,13 +609,14 @@ Dhcp6UpdateIaInfo (
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
++   *Service =3D NULL;=0D
++   Dhcp6Srv =3D AllocateZeroPool (sizeof (DHCP6_SERVICE));=0D
++@@ -147,7 +154,7 @@ Dhcp6CreateService (
++   Dhcp6Srv->Signature  =3D DHCP6_SERVICE_SIGNATURE;=0D
++   Dhcp6Srv->Controller =3D Controller;=0D
++   Dhcp6Srv->Image      =3D ImageHandle;=0D
++-  Dhcp6Srv->Xid        =3D (0xffffff & NET_RANDOM (NetRandomInitSeed ()))=
+;=0D
+++  Dhcp6Srv->Xid        =3D (0xffffff & Random);=0D
 + =0D
-+-    IaInnerOpt =3D Option + 16;=0D
-+-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 2=
-))) - 12);=0D
-++    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
-++    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
-ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_COMBINED_IAID_T1_T2);=0D
-+   } else {=0D
-+-    T1         =3D 0;=0D
-+-    T2         =3D 0;=0D
-+-    IaInnerOpt =3D Option + 8;=0D
-+-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 2=
-))) - 4);=0D
-++    T1 =3D 0;=0D
-++    T2 =3D 0;=0D
++   CopyMem (=0D
++     &Dhcp6Srv->ServiceBinding,=0D
++diff --git a/NetworkPkg/DnsDxe/DnsDhcp.c b/NetworkPkg/DnsDxe/DnsDhcp.c
++index 933565a32d..9eb3c1d2d8 100644
++--- a/NetworkPkg/DnsDxe/DnsDhcp.c
+++++ b/NetworkPkg/DnsDxe/DnsDhcp.c
++@@ -2,6 +2,7 @@
++ Functions implementation related with DHCPv4/v6 for DNS driver.=0D
++ =0D
++ Copyright (c) 2015 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -277,6 +278,7 @@ GetDns4ServerFromDhcp4 (
++   EFI_DHCP4_TRANSMIT_RECEIVE_TOKEN  Token;=0D
++   BOOLEAN                           IsDone;=0D
++   UINTN                             Index;=0D
+++  UINT32                            Random;=0D
++ =0D
++   Image      =3D Instance->Service->ImageHandle;=0D
++   Controller =3D Instance->Service->ControllerHandle;=0D
++@@ -292,6 +294,12 @@ GetDns4ServerFromDhcp4 (
++   Data          =3D NULL;=0D
++   InterfaceInfo =3D NULL;=0D
++ =0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
 ++=0D
-++    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
-++    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
-ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_IAID);=0D
-+   }=0D
++   ZeroMem ((UINT8 *)ParaList, sizeof (ParaList));=0D
++ =0D
++   ZeroMem (&MnpConfigData, sizeof (EFI_MANAGED_NETWORK_CONFIG_DATA));=0D
++@@ -467,7 +475,7 @@ GetDns4ServerFromDhcp4 (
++ =0D
++   Status =3D Dhcp4->Build (Dhcp4, &SeedPacket, 0, NULL, 2, ParaList, &Tok=
+en.Packet);=0D
++ =0D
++-  Token.Packet->Dhcp4.Header.Xid =3D HTONL (NET_RANDOM (NetRandomInitSeed=
+ ()));=0D
+++  Token.Packet->Dhcp4.Header.Xid =3D Random;=0D
++ =0D
++   Token.Packet->Dhcp4.Header.Reserved =3D HTONS ((UINT16)0x8000);=0D
++ =0D
++diff --git a/NetworkPkg/DnsDxe/DnsImpl.c b/NetworkPkg/DnsDxe/DnsImpl.c
++index d311812800..c2629bb8df 100644
++--- a/NetworkPkg/DnsDxe/DnsImpl.c
+++++ b/NetworkPkg/DnsDxe/DnsImpl.c
++@@ -2,6 +2,7 @@
++ DnsDxe support functions implementation.=0D
++ =0D
++ Copyright (c) 2016 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -1963,6 +1964,14 @@ ConstructDNSQuery (
++   NET_FRAGMENT       Frag;=0D
++   DNS_HEADER         *DnsHeader;=0D
++   DNS_QUERY_SECTION  *DnsQuery;=0D
+++  EFI_STATUS         Status;=0D
+++  UINT32             Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
 + =0D
 +   //=0D
-+@@ -641,7 +642,7 @@ Dhcp6UpdateIaInfo (
-+   Option  =3D Dhcp6SeekOption (IaInnerOpt, IaInnerLen, Dhcp6OptStatusCode=
-);=0D
++   // Messages carried by UDP are restricted to 512 bytes (not counting th=
+e IP=0D
++@@ -1977,7 +1986,7 @@ ConstructDNSQuery (
++   // Fill header=0D
++   //=0D
++   DnsHeader                    =3D (DNS_HEADER *)Frag.Bulk;=0D
++-  DnsHeader->Identification    =3D (UINT16)NET_RANDOM (NetRandomInitSeed =
+());=0D
+++  DnsHeader->Identification    =3D (UINT16)Random;=0D
++   DnsHeader->Flags.Uint16      =3D 0x0000;=0D
++   DnsHeader->Flags.Bits.RD     =3D 1;=0D
++   DnsHeader->Flags.Bits.OpCode =3D DNS_FLAGS_OPCODE_STANDARD;=0D
++diff --git a/NetworkPkg/HttpBootDxe/HttpBootDhcp6.c b/NetworkPkg/HttpBootD=
+xe/HttpBootDhcp6.c
++index b22cef4ff5..f964515b0f 100644
++--- a/NetworkPkg/HttpBootDxe/HttpBootDhcp6.c
+++++ b/NetworkPkg/HttpBootDxe/HttpBootDhcp6.c
++@@ -2,6 +2,7 @@
++   Functions implementation related with DHCPv6 for HTTP boot driver.=0D
 + =0D
-+   if (Option !=3D NULL) {=0D
-+-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 4)));=0D
-++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_OPT_LE=
-N (Option))));=0D
-+     if (StsCode !=3D Dhcp6StsSuccess) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
-+@@ -661,6 +662,87 @@ Dhcp6UpdateIaInfo (
-+   return Status;=0D
++ Copyright (c) 2015 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -951,6 +952,7 @@ HttpBootDhcp6Sarr (
++   UINT32                    OptCount;=0D
++   UINT8                     Buffer[HTTP_BOOT_DHCP6_OPTION_MAX_SIZE];=0D
++   EFI_STATUS                Status;=0D
+++  UINT32                    Random;=0D
++ =0D
++   Dhcp6 =3D Private->Dhcp6;=0D
++   ASSERT (Dhcp6 !=3D NULL);=0D
++@@ -961,6 +963,12 @@ HttpBootDhcp6Sarr (
++   OptCount =3D HttpBootBuildDhcp6Options (Private, OptList, Buffer);=0D
++   ASSERT (OptCount > 0);=0D
++ =0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
++   Retransmit =3D AllocateZeroPool (sizeof (EFI_DHCP6_RETRANSMISSION));=0D
++   if (Retransmit =3D=3D NULL) {=0D
++     return EFI_OUT_OF_RESOURCES;=0D
++@@ -976,7 +984,7 @@ HttpBootDhcp6Sarr (
++   Config.IaInfoEvent           =3D NULL;=0D
++   Config.RapidCommit           =3D FALSE;=0D
++   Config.ReconfigureAccept     =3D FALSE;=0D
++-  Config.IaDescriptor.IaId     =3D NET_RANDOM (NetRandomInitSeed ());=0D
+++  Config.IaDescriptor.IaId     =3D Random;=0D
++   Config.IaDescriptor.Type     =3D EFI_DHCP6_IA_TYPE_NA;=0D
++   Config.SolicitRetransmission =3D Retransmit;=0D
++   Retransmit->Irt              =3D 4;=0D
++diff --git a/NetworkPkg/IScsiDxe/IScsiCHAP.c b/NetworkPkg/IScsiDxe/IScsiCH=
+AP.c
++index b507f11cd4..bebb1ac29b 100644
++--- a/NetworkPkg/IScsiDxe/IScsiCHAP.c
+++++ b/NetworkPkg/IScsiDxe/IScsiCHAP.c
++@@ -3,6 +3,7 @@
++   Configuration.=0D
++ =0D
++ Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -576,16 +577,24 @@ IScsiCHAPToSendReq (
++         //=0D
++         // CHAP_I=3D<I>=0D
++         //=0D
++-        IScsiGenRandom ((UINT8 *)&AuthData->OutIdentifier, 1);=0D
+++        Status =3D IScsiGenRandom ((UINT8 *)&AuthData->OutIdentifier, 1);=
+=0D
+++        if (EFI_ERROR (Status)) {=0D
+++          break;=0D
+++        }=0D
+++=0D
++         AsciiSPrint (ValueStr, sizeof (ValueStr), "%d", AuthData->OutIden=
+tifier);=0D
++         IScsiAddKeyValuePair (Pdu, ISCSI_KEY_CHAP_IDENTIFIER, ValueStr);=
+=0D
++         //=0D
++         // CHAP_C=3D<C>=0D
++         //=0D
++-        IScsiGenRandom (=0D
++-          (UINT8 *)AuthData->OutChallenge,=0D
++-          AuthData->Hash->DigestSize=0D
++-          );=0D
+++        Status =3D IScsiGenRandom (=0D
+++                   (UINT8 *)AuthData->OutChallenge,=0D
+++                   AuthData->Hash->DigestSize=0D
+++                   );=0D
+++        if (EFI_ERROR (Status)) {=0D
+++          break;=0D
+++        }=0D
+++=0D
++         BinToHexStatus =3D IScsiBinToHex (=0D
++                            (UINT8 *)AuthData->OutChallenge,=0D
++                            AuthData->Hash->DigestSize,=0D
++diff --git a/NetworkPkg/IScsiDxe/IScsiMisc.c b/NetworkPkg/IScsiDxe/IScsiMi=
+sc.c
++index b3ea90158f..cd77f1a13e 100644
++--- a/NetworkPkg/IScsiDxe/IScsiMisc.c
+++++ b/NetworkPkg/IScsiDxe/IScsiMisc.c
++@@ -2,6 +2,7 @@
++   Miscellaneous routines for iSCSI driver.=0D
++ =0D
++ Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -474,20 +475,17 @@ IScsiNetNtoi (
++   @param[in, out]  Rand       The buffer to contain random numbers.=0D
++   @param[in]       RandLength The length of the Rand buffer.=0D
++ =0D
+++  @retval EFI_SUCCESS on success=0D
+++  @retval others      on error=0D
+++=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ IScsiGenRandom (=0D
++   IN OUT UINT8  *Rand,=0D
++   IN     UINTN  RandLength=0D
++   )=0D
++ {=0D
++-  UINT32  Random;=0D
++-=0D
++-  while (RandLength > 0) {=0D
++-    Random  =3D NET_RANDOM (NetRandomInitSeed ());=0D
++-    *Rand++ =3D (UINT8)(Random);=0D
++-    RandLength--;=0D
++-  }=0D
+++  return PseudoRandom (Rand, RandLength);=0D
 + }=0D
 + =0D
++ /**=0D
++diff --git a/NetworkPkg/IScsiDxe/IScsiMisc.h b/NetworkPkg/IScsiDxe/IScsiMi=
+sc.h
++index a951eee70e..91b2cd2261 100644
++--- a/NetworkPkg/IScsiDxe/IScsiMisc.h
+++++ b/NetworkPkg/IScsiDxe/IScsiMisc.h
++@@ -2,6 +2,7 @@
++   Miscellaneous definitions for iSCSI driver.=0D
++ =0D
++ Copyright (c) 2004 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -202,8 +203,11 @@ IScsiNetNtoi (
++   @param[in, out]  Rand       The buffer to contain random numbers.=0D
++   @param[in]       RandLength The length of the Rand buffer.=0D
++ =0D
+++  @retval EFI_SUCCESS on success=0D
+++  @retval others      on error=0D
+++=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ IScsiGenRandom (=0D
++   IN OUT UINT8  *Rand,=0D
++   IN     UINTN  RandLength=0D
++diff --git a/NetworkPkg/Include/Library/NetLib.h b/NetworkPkg/Include/Libr=
+ary/NetLib.h
++index 8c0e62b388..e8108b79db 100644
++--- a/NetworkPkg/Include/Library/NetLib.h
+++++ b/NetworkPkg/Include/Library/NetLib.h
++@@ -3,6 +3,7 @@
++   It provides basic functions for the UEFI network stack.=0D
++ =0D
++ Copyright (c) 2005 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -539,8 +540,6 @@ extern EFI_IPv4_ADDRESS  mZeroIp4Addr;
++ #define TICKS_PER_MS      10000U=0D
++ #define TICKS_PER_SECOND  10000000U=0D
++ =0D
++-#define NET_RANDOM(Seed)  ((UINT32) ((UINT32) (Seed) * 1103515245UL + 123=
+45) % 4294967295UL)=0D
++-=0D
++ /**=0D
++   Extract a UINT32 from a byte stream.=0D
++ =0D
++@@ -580,19 +579,40 @@ NetPutUint32 (
++   );=0D
++ =0D
++ /**=0D
++-  Initialize a random seed using current time and monotonic count.=0D
+++  Generate a Random output data given a length.=0D
++ =0D
++-  Get current time and monotonic count first. Then initialize a random se=
+ed=0D
++-  based on some basic mathematics operation on the hour, day, minute, sec=
+ond,=0D
++-  nanosecond and year of the current time and the monotonic count value.=
+=0D
+++  @param[out] Output - The buffer to store the generated random data.=0D
+++  @param[in] OutputLength - The length of the output buffer.=0D
++ =0D
++-  @return The random seed initialized with current time.=0D
+++  @retval EFI_SUCCESS           On Success=0D
+++  @retval EFI_INVALID_PARAMETER Pointer is null or size is zero=0D
+++  @retval EFI_NOT_FOUND         RNG protocol not found=0D
+++  @retval Others                Error from RngProtocol->GetRNG()=0D
++ =0D
+++  @return Status code=0D
++ **/=0D
++-UINT32=0D
+++EFI_STATUS=0D
++ EFIAPI=0D
++-NetRandomInitSeed (=0D
++-  VOID=0D
+++PseudoRandom (=0D
+++  OUT  VOID   *Output,=0D
+++  IN   UINTN  OutputLength=0D
+++  );=0D
+++=0D
 ++/**=0D
-++  Seeks the Inner Options from a DHCP6 Option=0D
+++  Generate a 32-bit pseudo-random number.=0D
 ++=0D
-++  @param[in]  IaType          The type of the IA option.=0D
-++  @param[in]  Option          The pointer to the DHCP6 Option.=0D
-++  @param[in]  OptionLen       The length of the DHCP6 Option.=0D
-++  @param[out] IaInnerOpt      The pointer to the IA inner option.=0D
-++  @param[out] IaInnerLen      The length of the IA inner option.=0D
+++  @param[out] Output - The buffer to store the generated random number.=0D
 ++=0D
-++  @retval EFI_SUCCESS         Seek the inner option successfully.=0D
-++  @retval EFI_DEVICE_ERROR    The OptionLen is invalid. On Error,=0D
-++                              the pointers are not modified=0D
+++  @retval EFI_SUCCESS           On Success=0D
+++  @retval EFI_NOT_FOUND         RNG protocol not found=0D
+++  @retval Others                Error from RngProtocol->GetRNG()=0D
+++=0D
+++  @return Status code=0D
 ++**/=0D
 ++EFI_STATUS=0D
-++Dhcp6SeekInnerOptionSafe (=0D
-++  IN  UINT16  IaType,=0D
-++  IN  UINT8   *Option,=0D
-++  IN  UINT32  OptionLen,=0D
-++  OUT UINT8   **IaInnerOpt,=0D
-++  OUT UINT16  *IaInnerLen=0D
-++  )=0D
-++{=0D
-++  UINT16  IaInnerLenTmp;=0D
-++  UINT8   *IaInnerOptTmp;=0D
-++=0D
-++  if (Option =3D=3D NULL) {=0D
-++    ASSERT (Option !=3D NULL);=0D
-++    return EFI_DEVICE_ERROR;=0D
+++EFIAPI=0D
+++PseudoRandomU32 (=0D
+++  OUT  UINT32  *Output=0D
++   );=0D
++ =0D
++ #define NET_LIST_USER_STRUCT(Entry, Type, Field)        \=0D
++diff --git a/NetworkPkg/Ip4Dxe/Ip4Driver.c b/NetworkPkg/Ip4Dxe/Ip4Driver.c
++index ec483ff01f..683423f38d 100644
++--- a/NetworkPkg/Ip4Dxe/Ip4Driver.c
+++++ b/NetworkPkg/Ip4Dxe/Ip4Driver.c
++@@ -2,6 +2,7 @@
++   The driver binding and service binding protocol for IP4 driver.=0D
++ =0D
++ Copyright (c) 2005 - 2019, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ (C) Copyright 2015 Hewlett-Packard Development Company, L.P.<BR>=0D
++ =0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++@@ -549,11 +550,18 @@ Ip4DriverBindingStart (
++   EFI_IP4_CONFIG2_PROTOCOL  *Ip4Cfg2;=0D
++   UINTN                     Index;=0D
++   IP4_CONFIG2_DATA_ITEM     *DataItem;=0D
+++  UINT32                    Random;=0D
++ =0D
++   IpSb     =3D NULL;=0D
++   Ip4Cfg2  =3D NULL;=0D
++   DataItem =3D NULL;=0D
++ =0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
 ++  }=0D
 ++=0D
-++  if (IaInnerOpt =3D=3D NULL) {=0D
-++    ASSERT (IaInnerOpt !=3D NULL);=0D
-++    return EFI_DEVICE_ERROR;=0D
++   //=0D
++   // Test for the Ip4 service binding protocol=0D
++   //=0D
++@@ -653,7 +661,7 @@ Ip4DriverBindingStart (
++   //=0D
++   // Initialize the IP4 ID=0D
++   //=0D
++-  mIp4Id =3D (UINT16)NET_RANDOM (NetRandomInitSeed ());=0D
+++  mIp4Id =3D (UINT16)Random;=0D
++ =0D
++   return Status;=0D
++ =0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c b/NetworkPkg/Ip6Dxe/Ip6Conf=
+igImpl.c
++index 70e232ce6c..4c1354d26c 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c
+++++ b/NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c
++@@ -2276,6 +2276,13 @@ Ip6ConfigInitInstance (
++   UINTN                 Index;=0D
++   UINT16                IfIndex;=0D
++   IP6_CONFIG_DATA_ITEM  *DataItem;=0D
+++  UINT32                Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++   IpSb =3D IP6_SERVICE_FROM_IP6_CONFIG_INSTANCE (Instance);=0D
++ =0D
++@@ -2381,7 +2388,7 @@ Ip6ConfigInitInstance (
++     // The NV variable is not set, so generate a random IAID, and write d=
+own the=0D
++     // fresh new configuration as the NV variable now.=0D
++     //=0D
++-    Instance->IaId =3D NET_RANDOM (NetRandomInitSeed ());=0D
+++    Instance->IaId =3D Random;=0D
++ =0D
++     for (Index =3D 0; Index < IpSb->SnpMode.HwAddressSize; Index++) {=0D
++       Instance->IaId |=3D (IpSb->SnpMode.CurrentAddress.Addr[Index] << ((=
+Index << 3) & 31));=0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Driver.c b/NetworkPkg/Ip6Dxe/Ip6Driver.c
++index b483a7d136..cbe011dad4 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Driver.c
+++++ b/NetworkPkg/Ip6Dxe/Ip6Driver.c
++@@ -3,7 +3,7 @@
++ =0D
++   Copyright (c) 2009 - 2019, Intel Corporation. All rights reserved.<BR>=
+=0D
++   (C) Copyright 2015 Hewlett-Packard Development Company, L.P.<BR>=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -316,7 +316,11 @@ Ip6CreateService (
++   IpSb->CurHopLimit       =3D IP6_HOP_LIMIT;=0D
++   IpSb->LinkMTU           =3D IP6_MIN_LINK_MTU;=0D
++   IpSb->BaseReachableTime =3D IP6_REACHABLE_TIME;=0D
++-  Ip6UpdateReachableTime (IpSb);=0D
+++  Status                  =3D Ip6UpdateReachableTime (IpSb);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    goto ON_ERROR;=0D
 ++  }=0D
 ++=0D
-++  if (IaInnerLen =3D=3D NULL) {=0D
-++    ASSERT (IaInnerLen !=3D NULL);=0D
-++    return EFI_DEVICE_ERROR;=0D
++   //=0D
++   // RFC4861 RETRANS_TIMER: 1,000 milliseconds=0D
++   //=0D
++@@ -516,11 +520,18 @@ Ip6DriverBindingStart (
++   EFI_STATUS               Status;=0D
++   EFI_IP6_CONFIG_PROTOCOL  *Ip6Cfg;=0D
++   IP6_CONFIG_DATA_ITEM     *DataItem;=0D
+++  UINT32                   Random;=0D
++ =0D
++   IpSb     =3D NULL;=0D
++   Ip6Cfg   =3D NULL;=0D
++   DataItem =3D NULL;=0D
++ =0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
 ++  }=0D
 ++=0D
-++  if (IaType =3D=3D Dhcp6OptIana) {=0D
-++    // Verify we have a fully formed IA_NA=0D
-++    if (OptionLen < DHCP6_MIN_SIZE_OF_IA_NA) {=0D
-++      return EFI_DEVICE_ERROR;=0D
++   //=0D
++   // Test for the Ip6 service binding protocol=0D
++   //=0D
++@@ -656,7 +667,7 @@ Ip6DriverBindingStart (
++   //=0D
++   // Initialize the IP6 ID=0D
++   //=0D
++-  mIp6Id =3D NET_RANDOM (NetRandomInitSeed ());=0D
+++  mIp6Id =3D Random;=0D
++ =0D
++   return EFI_SUCCESS;=0D
++ =0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6If.c b/NetworkPkg/Ip6Dxe/Ip6If.c
++index 4629c05f25..f3d11c4d21 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6If.c
+++++ b/NetworkPkg/Ip6Dxe/Ip6If.c
++@@ -2,7 +2,7 @@
++   Implement IP6 pseudo interface.=0D
++ =0D
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -89,6 +89,14 @@ Ip6SetAddress (
++   IP6_PREFIX_LIST_ENTRY  *PrefixEntry;=0D
++   UINT64                 Delay;=0D
++   IP6_DELAY_JOIN_LIST    *DelayNode;=0D
+++  EFI_STATUS             Status;=0D
+++  UINT32                 Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++   NET_CHECK_SIGNATURE (Interface, IP6_INTERFACE_SIGNATURE);=0D
++ =0D
++@@ -164,7 +172,7 @@ Ip6SetAddress (
++   // Thus queue the address to be processed in Duplicate Address Detectio=
+n module=0D
++   // after the delay time (in milliseconds).=0D
++   //=0D
++-  Delay =3D (UINT64)NET_RANDOM (NetRandomInitSeed ());=0D
+++  Delay =3D (UINT64)Random;=0D
++   Delay =3D MultU64x32 (Delay, IP6_ONE_SECOND_IN_MS);=0D
++   Delay =3D RShiftU64 (Delay, 32);=0D
++ =0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Mld.c b/NetworkPkg/Ip6Dxe/Ip6Mld.c
++index e6b2b653e2..498a118543 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Mld.c
+++++ b/NetworkPkg/Ip6Dxe/Ip6Mld.c
++@@ -696,7 +696,15 @@ Ip6UpdateDelayTimer (
++   IN OUT IP6_MLD_GROUP  *Group=0D
++   )=0D
++ {=0D
++-  UINT32  Delay;=0D
+++  UINT32      Delay;=0D
+++  EFI_STATUS  Status;=0D
+++  UINT32      Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++   //=0D
++   // If the Query packet specifies a Maximum Response Delay of zero, perf=
+orm timer=0D
++@@ -715,7 +723,7 @@ Ip6UpdateDelayTimer (
++   // is less than the remaining value of the running timer.=0D
++   //=0D
++   if ((Group->DelayTimer =3D=3D 0) || (Delay < Group->DelayTimer)) {=0D
++-    Group->DelayTimer =3D Delay / 4294967295UL * NET_RANDOM (NetRandomIni=
+tSeed ());=0D
+++    Group->DelayTimer =3D Delay / 4294967295UL * Random;=0D
++   }=0D
++ =0D
++   return EFI_SUCCESS;=0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Nd.c b/NetworkPkg/Ip6Dxe/Ip6Nd.c
++index c10c7017f8..72aa45c10f 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Nd.c
+++++ b/NetworkPkg/Ip6Dxe/Ip6Nd.c
++@@ -2,7 +2,7 @@
++   Implementation of Neighbor Discovery support routines.=0D
++ =0D
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -16,17 +16,28 @@ EFI_MAC_ADDRESS  mZeroMacAddress;
++ =0D
++   @param[in, out] IpSb     Points to the IP6_SERVICE.=0D
++ =0D
+++  @retval EFI_SUCCESS           ReachableTime Updated=0D
+++  @retval others                Failed to update ReachableTime=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ Ip6UpdateReachableTime (=0D
++   IN OUT IP6_SERVICE  *IpSb=0D
++   )=0D
++ {=0D
++-  UINT32  Random;=0D
+++  UINT32      Random;=0D
+++  EFI_STATUS  Status;=0D
++ =0D
++-  Random              =3D (NetRandomInitSeed () / 4294967295UL) * IP6_RAN=
+DOM_FACTOR_SCALE;=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  Random              =3D (Random / 4294967295UL) * IP6_RANDOM_FACTOR_SCA=
+LE;=0D
++   Random              =3D Random + IP6_MIN_RANDOM_FACTOR_SCALED;=0D
++   IpSb->ReachableTime =3D (IpSb->BaseReachableTime * Random) / IP6_RANDOM=
+_FACTOR_SCALE;=0D
+++=0D
+++  return EFI_SUCCESS;=0D
++ }=0D
++ =0D
++ /**=0D
++@@ -972,10 +983,17 @@ Ip6InitDADProcess (
++   IP6_SERVICE                               *IpSb;=0D
++   EFI_STATUS                                Status;=0D
++   UINT32                                    MaxDelayTick;=0D
+++  UINT32                                    Random;=0D
++ =0D
++   NET_CHECK_SIGNATURE (IpIf, IP6_INTERFACE_SIGNATURE);=0D
++   ASSERT (AddressInfo !=3D NULL);=0D
++ =0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
++   //=0D
++   // Do nothing if we have already started DAD on the address.=0D
++   //=0D
++@@ -1014,7 +1032,7 @@ Ip6InitDADProcess (
++   Entry->Transmit    =3D 0;=0D
++   Entry->Receive     =3D 0;=0D
++   MaxDelayTick       =3D IP6_MAX_RTR_SOLICITATION_DELAY / IP6_TIMER_INTER=
+VAL_IN_MS;=0D
++-  Entry->RetransTick =3D (MaxDelayTick * ((NET_RANDOM (NetRandomInitSeed =
+()) % 5) + 1)) / 5;=0D
+++  Entry->RetransTick =3D (MaxDelayTick * ((Random % 5) + 1)) / 5;=0D
++   Entry->AddressInfo =3D AddressInfo;=0D
++   Entry->Callback    =3D Callback;=0D
++   Entry->Context     =3D Context;=0D
++@@ -2078,7 +2096,10 @@ Ip6ProcessRouterAdvertise (
++     // in BaseReachableTime and recompute a ReachableTime.=0D
++     //=0D
++     IpSb->BaseReachableTime =3D ReachableTime;=0D
++-    Ip6UpdateReachableTime (IpSb);=0D
+++    Status                  =3D Ip6UpdateReachableTime (IpSb);=0D
+++    if (EFI_ERROR (Status)) {=0D
+++      goto Exit;=0D
+++    }=0D
++   }=0D
++ =0D
++   if (RetransTimer !=3D 0) {=0D
++diff --git a/NetworkPkg/Ip6Dxe/Ip6Nd.h b/NetworkPkg/Ip6Dxe/Ip6Nd.h
++index bf64e9114e..5795e23c7d 100644
++--- a/NetworkPkg/Ip6Dxe/Ip6Nd.h
+++++ b/NetworkPkg/Ip6Dxe/Ip6Nd.h
++@@ -2,7 +2,7 @@
++   Definition of Neighbor Discovery support routines.=0D
++ =0D
++   Copyright (c) 2009 - 2012, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -780,10 +780,10 @@ Ip6OnArpResolved (
++ /**=0D
++   Update the ReachableTime in IP6 service binding instance data, in milli=
+seconds.=0D
++ =0D
++-  @param[in, out] IpSb     Points to the IP6_SERVICE.=0D
++-=0D
+++  @retval EFI_SUCCESS           ReachableTime Updated=0D
+++  @retval others                Failed to update ReachableTime=0D
++ **/=0D
++-VOID=0D
+++EFI_STATUS=0D
++ Ip6UpdateReachableTime (=0D
++   IN OUT IP6_SERVICE  *IpSb=0D
++   );=0D
++diff --git a/NetworkPkg/Library/DxeNetLib/DxeNetLib.c b/NetworkPkg/Library=
+/DxeNetLib/DxeNetLib.c
++index fd4a9e15a8..01c13c08d2 100644
++--- a/NetworkPkg/Library/DxeNetLib/DxeNetLib.c
+++++ b/NetworkPkg/Library/DxeNetLib/DxeNetLib.c
++@@ -3,6 +3,7 @@
++ =0D
++ Copyright (c) 2005 - 2018, Intel Corporation. All rights reserved.<BR>=0D
++ (C) Copyright 2015 Hewlett Packard Enterprise Development LP<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ **/=0D
++ =0D
++@@ -31,6 +32,7 @@ SPDX-License-Identifier: BSD-2-Clause-Patent
++ #include <Library/DevicePathLib.h>=0D
++ #include <Library/PrintLib.h>=0D
++ #include <Library/UefiLib.h>=0D
+++#include <Protocol/Rng.h>=0D
++ =0D
++ #define NIC_ITEM_CONFIG_SIZE  (sizeof (NIC_IP4_CONFIG_INFO) + sizeof (EFI=
+_IP4_ROUTE_TABLE) * MAX_IP4_CONFIG_IN_VARIABLE)=0D
++ #define DEFAULT_ZERO_START    ((UINTN) ~0)=0D
++@@ -127,6 +129,25 @@ GLOBAL_REMOVE_IF_UNREFERENCED VLAN_DEVICE_PATH  mNetV=
+lanDevicePathTemplate =3D {
++   0=0D
++ };=0D
++ =0D
+++//=0D
+++// These represent UEFI SPEC defined algorithms that should be supported =
+by=0D
+++// the RNG protocol and are generally considered secure.=0D
+++//=0D
+++// The order of the algorithms in this array is important. This order is =
+the order=0D
+++// in which the algorithms will be tried by the RNG protocol.=0D
+++// If your platform needs to use a specific algorithm for the random numb=
+er generator,=0D
+++// then you should place that algorithm first in the array.=0D
+++//=0D
+++GLOBAL_REMOVE_IF_UNREFERENCED EFI_GUID  *mSecureHashAlgorithms[] =3D {=0D
+++  &gEfiRngAlgorithmSp80090Ctr256Guid,  // SP800-90A DRBG CTR using AES-25=
+6=0D
+++  &gEfiRngAlgorithmSp80090Hmac256Guid, // SP800-90A DRBG HMAC using SHA-2=
+56=0D
+++  &gEfiRngAlgorithmSp80090Hash256Guid, // SP800-90A DRBG Hash using SHA-2=
+56=0D
+++  &gEfiRngAlgorithmArmRndr,            // unspecified SP800-90A DRBG via =
+ARM RNDR register=0D
+++  &gEfiRngAlgorithmRaw,                // Raw data from NRBG (or TRNG)=0D
+++};=0D
+++=0D
+++#define SECURE_HASH_ALGORITHMS_SIZE  (sizeof (mSecureHashAlgorithms) / si=
+zeof (EFI_GUID *))=0D
+++=0D
++ /**=0D
++   Locate the handles that support SNP, then open one of them=0D
++   to send the syslog packets. The caller isn't required to close=0D
++@@ -884,34 +905,107 @@ Ip6Swap128 (
++ }=0D
++ =0D
++ /**=0D
++-  Initialize a random seed using current time and monotonic count.=0D
+++  Generate a Random output data given a length.=0D
++ =0D
++-  Get current time and monotonic count first. Then initialize a random se=
+ed=0D
++-  based on some basic mathematics operation on the hour, day, minute, sec=
+ond,=0D
++-  nanosecond and year of the current time and the monotonic count value.=
+=0D
+++  @param[out] Output - The buffer to store the generated random data.=0D
+++  @param[in] OutputLength - The length of the output buffer.=0D
++ =0D
++-  @return The random seed initialized with current time.=0D
+++  @retval EFI_SUCCESS           On Success=0D
+++  @retval EFI_INVALID_PARAMETER Pointer is null or size is zero=0D
+++  @retval EFI_NOT_FOUND         RNG protocol not found=0D
+++  @retval Others                Error from RngProtocol->GetRNG()=0D
++ =0D
+++  @return Status code=0D
++ **/=0D
++-UINT32=0D
+++EFI_STATUS=0D
++ EFIAPI=0D
++-NetRandomInitSeed (=0D
++-  VOID=0D
+++PseudoRandom (=0D
+++  OUT  VOID   *Output,=0D
+++  IN   UINTN  OutputLength=0D
++   )=0D
++ {=0D
++-  EFI_TIME  Time;=0D
++-  UINT32    Seed;=0D
++-  UINT64    MonotonicCount;=0D
+++  EFI_RNG_PROTOCOL  *RngProtocol;=0D
+++  EFI_STATUS        Status;=0D
+++  UINTN             AlgorithmIndex;=0D
+++=0D
+++  if ((Output =3D=3D NULL) || (OutputLength =3D=3D 0)) {=0D
+++    return EFI_INVALID_PARAMETER;=0D
+++  }=0D
+++=0D
+++  Status =3D gBS->LocateProtocol (&gEfiRngProtocolGuid, NULL, (VOID **)&R=
+ngProtocol);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "Failed to locate EFI_RNG_PROTOCOL: %r\n", Statu=
+s));=0D
+++    ASSERT_EFI_ERROR (Status);=0D
+++    return Status;=0D
+++  }=0D
+++=0D
+++  if (PcdGetBool (PcdEnforceSecureRngAlgorithms)) {=0D
+++    for (AlgorithmIndex =3D 0; AlgorithmIndex < SECURE_HASH_ALGORITHMS_SI=
+ZE; AlgorithmIndex++) {=0D
+++      Status =3D RngProtocol->GetRNG (RngProtocol, mSecureHashAlgorithms[=
+AlgorithmIndex], OutputLength, (UINT8 *)Output);=0D
+++      if (!EFI_ERROR (Status)) {=0D
+++        //=0D
+++        // Secure Algorithm was supported on this platform=0D
+++        //=0D
+++        return EFI_SUCCESS;=0D
+++      } else if (Status =3D=3D EFI_UNSUPPORTED) {=0D
+++        //=0D
+++        // Secure Algorithm was not supported on this platform=0D
+++        //=0D
+++        DEBUG ((DEBUG_ERROR, "Failed to generate random data using secure=
+ algorithm %d: %r\n", AlgorithmIndex, Status));=0D
+++=0D
+++        //=0D
+++        // Try the next secure algorithm=0D
+++        //=0D
+++        continue;=0D
+++      } else {=0D
+++        //=0D
+++        // Some other error occurred=0D
+++        //=0D
+++        DEBUG ((DEBUG_ERROR, "Failed to generate random data using secure=
+ algorithm %d: %r\n", AlgorithmIndex, Status));=0D
+++        ASSERT_EFI_ERROR (Status);=0D
+++        return Status;=0D
+++      }=0D
 ++    }=0D
 ++=0D
 ++    //=0D
-++    IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
-++=0D
-++    // Verify the IaInnerLen is valid.=0D
-++    IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)DHCP6_OFF=
-SET_OF_OPT_LEN (Option)));=0D
-++    if (IaInnerLenTmp < DHCP6_SIZE_OF_COMBINED_IAID_T1_T2) {=0D
-++      return EFI_DEVICE_ERROR;=0D
-++    }=0D
-++=0D
-++    IaInnerLenTmp -=3D DHCP6_SIZE_OF_COMBINED_IAID_T1_T2;=0D
-++  } else if (IaType =3D=3D Dhcp6OptIata) {=0D
-++    // Verify the OptionLen is valid.=0D
-++    if (OptionLen < DHCP6_MIN_SIZE_OF_IA_TA) {=0D
-++      return EFI_DEVICE_ERROR;=0D
-++    }=0D
-++=0D
-++    IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
-++=0D
-++    // Verify the IaInnerLen is valid.=0D
-++    IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OF=
-FSET_OF_OPT_LEN (Option))));=0D
-++    if (IaInnerLenTmp < DHCP6_SIZE_OF_IAID) {=0D
-++      return EFI_DEVICE_ERROR;=0D
-++    }=0D
-++=0D
-++    IaInnerLenTmp -=3D DHCP6_SIZE_OF_IAID;=0D
-++  } else {=0D
-++    return EFI_DEVICE_ERROR;=0D
+++    // If we get here, we failed to generate random data using any secure=
+ algorithm=0D
+++    // Platform owner should ensure that at least one secure algorithm is=
+ supported=0D
+++    //=0D
+++    ASSERT_EFI_ERROR (Status);=0D
+++    return Status;=0D
 ++  }=0D
 ++=0D
-++  *IaInnerOpt =3D IaInnerOptTmp;=0D
-++  *IaInnerLen =3D IaInnerLenTmp;=0D
-++=0D
+++  //=0D
+++  // Lets try using the default algorithm (which may not be secure)=0D
+++  //=0D
+++  Status =3D RngProtocol->GetRNG (RngProtocol, NULL, OutputLength, (UINT8=
+ *)Output);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random data: %r\n", __fun=
+c__, Status));=0D
+++    ASSERT_EFI_ERROR (Status);=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++-  gRT->GetTime (&Time, NULL);=0D
++-  Seed  =3D (Time.Hour << 24 | Time.Day << 16 | Time.Minute << 8 | Time.S=
+econd);=0D
++-  Seed ^=3D Time.Nanosecond;=0D
++-  Seed ^=3D Time.Year << 7;=0D
 ++  return EFI_SUCCESS;=0D
 ++}=0D
 ++=0D
+++/**=0D
+++  Generate a 32-bit pseudo-random number.=0D
++ =0D
++-  gBS->GetNextMonotonicCount (&MonotonicCount);=0D
++-  Seed +=3D (UINT32)MonotonicCount;=0D
+++  @param[out] Output - The buffer to store the generated random number.=0D
++ =0D
++-  return Seed;=0D
+++  @retval EFI_SUCCESS           On Success=0D
+++  @retval EFI_NOT_FOUND         RNG protocol not found=0D
+++  @retval Others                Error from RngProtocol->GetRNG()=0D
+++=0D
+++  @return Status code=0D
+++**/=0D
+++EFI_STATUS=0D
+++EFIAPI=0D
+++PseudoRandomU32 (=0D
+++  OUT UINT32  *Output=0D
+++  )=0D
+++{=0D
+++  return PseudoRandom (Output, sizeof (*Output));=0D
++ }=0D
++ =0D
 + /**=0D
-+   Seek StatusCode Option in package. A Status Code option may appear in t=
-he=0D
-+   options field of a DHCP message and/or in the options field of another =
-option.=0D
-+@@ -684,6 +766,12 @@ Dhcp6SeekStsOption (
-+   UINT8   *IaInnerOpt;=0D
-+   UINT16  IaInnerLen;=0D
-+   UINT16  StsCode;=0D
-++  UINT32  OptionLen;=0D
-++=0D
-++  // OptionLen is the length of the Options excluding the DHCP header.=0D
-++  // Length of the EFI_DHCP6_PACKET from the first byte of the Header fie=
-ld to the last=0D
-++  // byte of the Option[] field.=0D
-++  OptionLen =3D Packet->Length - sizeof (Packet->Dhcp6.Header);=0D
++diff --git a/NetworkPkg/Library/DxeNetLib/DxeNetLib.inf b/NetworkPkg/Libra=
+ry/DxeNetLib/DxeNetLib.inf
++index 8145d256ec..a8f534a293 100644
++--- a/NetworkPkg/Library/DxeNetLib/DxeNetLib.inf
+++++ b/NetworkPkg/Library/DxeNetLib/DxeNetLib.inf
++@@ -3,6 +3,7 @@
++ #=0D
++ #  Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>=
+=0D
++ #  (C) Copyright 2015 Hewlett Packard Enterprise Development LP<BR>=0D
+++#  Copyright (c) Microsoft Corporation=0D
++ #  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ #=0D
++ ##=0D
++@@ -49,7 +50,11 @@
++   gEfiSmbiosTableGuid                           ## SOMETIMES_CONSUMES  ##=
+ SystemTable=0D
++   gEfiSmbios3TableGuid                          ## SOMETIMES_CONSUMES  ##=
+ SystemTable=0D
++   gEfiAdapterInfoMediaStateGuid                 ## SOMETIMES_CONSUMES=0D
++-=0D
+++  gEfiRngAlgorithmRaw                           ## CONSUMES=0D
+++  gEfiRngAlgorithmSp80090Ctr256Guid             ## CONSUMES=0D
+++  gEfiRngAlgorithmSp80090Hmac256Guid            ## CONSUMES=0D
+++  gEfiRngAlgorithmSp80090Hash256Guid            ## CONSUMES=0D
+++  gEfiRngAlgorithmArmRndr                       ## CONSUMES=0D
 + =0D
-+   //=0D
-+   // Seek StatusCode option directly in DHCP message body. That is, searc=
-h in=0D
-+@@ -691,12 +779,12 @@ Dhcp6SeekStsOption (
-+   //=0D
-+   *Option =3D Dhcp6SeekOption (=0D
-+               Packet->Dhcp6.Option,=0D
-+-              Packet->Length - 4,=0D
-++              OptionLen,=0D
-+               Dhcp6OptStatusCode=0D
-+               );=0D
++ [Protocols]=0D
++   gEfiSimpleNetworkProtocolGuid                 ## SOMETIMES_CONSUMES=0D
++@@ -59,3 +64,10 @@
++   gEfiComponentNameProtocolGuid                 ## SOMETIMES_CONSUMES=0D
++   gEfiComponentName2ProtocolGuid                ## SOMETIMES_CONSUMES=0D
++   gEfiAdapterInformationProtocolGuid            ## SOMETIMES_CONSUMES=0D
+++  gEfiRngProtocolGuid                           ## CONSUMES=0D
+++=0D
+++[FixedPcd]=0D
+++  gEfiNetworkPkgTokenSpaceGuid.PcdEnforceSecureRngAlgorithms ## CONSUMES=
+=0D
+++=0D
+++[Depex]=0D
+++  gEfiRngProtocolGuid=0D
++diff --git a/NetworkPkg/NetworkPkg.dec b/NetworkPkg/NetworkPkg.dec
++index 928e84fec4..ff335e957c 100644
++--- a/NetworkPkg/NetworkPkg.dec
+++++ b/NetworkPkg/NetworkPkg.dec
++@@ -5,6 +5,7 @@
++ #=0D
++ # Copyright (c) 2009 - 2021, Intel Corporation. All rights reserved.<BR>=
+=0D
++ # (C) Copyright 2015-2020 Hewlett Packard Enterprise Development LP<BR>=0D
+++# Copyright (c) Microsoft Corporation=0D
++ #=0D
++ # SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ #=0D
++@@ -127,6 +128,12 @@
++   # @Prompt Indicates whether SnpDxe creates event for ExitBootServices()=
+ call.=0D
++   gEfiNetworkPkgTokenSpaceGuid.PcdSnpCreateExitBootServicesEvent|TRUE|BOO=
+LEAN|0x1000000C=0D
 + =0D
-+   if (*Option !=3D NULL) {=0D
-+-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + 4)));=0D
-++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_STATUS=
-_CODE (*Option))));=0D
-+     if (StsCode !=3D Dhcp6StsSuccess) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
-+@@ -707,7 +795,7 @@ Dhcp6SeekStsOption (
-+   //=0D
-+   *Option =3D Dhcp6SeekIaOption (=0D
-+               Packet->Dhcp6.Option,=0D
-+-              Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
-++              OptionLen,=0D
-+               &Instance->Config->IaDescriptor=0D
-+               );=0D
-+   if (*Option =3D=3D NULL) {=0D
-+@@ -715,52 +803,35 @@ Dhcp6SeekStsOption (
-+   }=0D
+++  ## Enforces the use of Secure UEFI spec defined RNG algorithms for all =
+network connections.=0D
+++  # TRUE  - Enforce the use of Secure UEFI spec defined RNG algorithms.=0D
+++  # FALSE - Do not enforce and depend on the default implementation of RN=
+G algorithm from the provider.=0D
+++  # @Prompt Enforce the use of Secure UEFI spec defined RNG algorithms.=0D
+++  gEfiNetworkPkgTokenSpaceGuid.PcdEnforceSecureRngAlgorithms|TRUE|BOOLEAN=
+|0x1000000D=0D
+++=0D
++ [PcdsFixedAtBuild, PcdsPatchableInModule, PcdsDynamic, PcdsDynamicEx]=0D
++   ## IPv6 DHCP Unique Identifier (DUID) Type configuration (From RFCs 331=
+5 and 6355).=0D
++   # 01 =3D DUID Based on Link-layer Address Plus Time [DUID-LLT]=0D
++diff --git a/NetworkPkg/SecurityFixes.yaml b/NetworkPkg/SecurityFixes.yaml
++index 7e900483fe..2b2c794697 100644
++--- a/NetworkPkg/SecurityFixes.yaml
+++++ b/NetworkPkg/SecurityFixes.yaml
++@@ -121,3 +121,42 @@ CVE_2023_45235:
++     - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
++     - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
++     - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45237:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg:: SECURITY PATCH CVE 2023-45237"=0D
+++  cve: CVE-2023-45237=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 09 - Use of a Weak PseudoRandom Number Generator"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg/Dhcp4Dxe/Dhcp4Driver.c=0D
+++    - NetworkPkg/Dhcp6Dxe/Dhcp6Driver.c=0D
+++    - NetworkPkg/DnsDxe/DnsDhcp.c=0D
+++    - NetworkPkg/DnsDxe/DnsImpl.c=0D
+++    - NetworkPkg/HttpBootDxe/HttpBootDhcp6.c=0D
+++    - NetworkPkg/IScsiDxe/IScsiCHAP.c=0D
+++    - NetworkPkg/IScsiDxe/IScsiMisc.c=0D
+++    - NetworkPkg/IScsiDxe/IScsiMisc.h=0D
+++    - NetworkPkg/Include/Library/NetLib.h=0D
+++    - NetworkPkg/Ip4Dxe/Ip4Driver.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6ConfigImpl.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Driver.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6If.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Mld.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Nd.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Nd.h=0D
+++    - NetworkPkg/Library/DxeNetLib/DxeNetLib.c=0D
+++    - NetworkPkg/Library/DxeNetLib/DxeNetLib.inf=0D
+++    - NetworkPkg/NetworkPkg.dec=0D
+++    - NetworkPkg/TcpDxe/TcpDriver.c=0D
+++    - NetworkPkg/Udp4Dxe/Udp4Driver.c=0D
+++    - NetworkPkg/Udp6Dxe/Udp6Driver.c=0D
+++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c=0D
+++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c=0D
+++    - NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4542=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45237=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
++diff --git a/NetworkPkg/TcpDxe/TcpDriver.c b/NetworkPkg/TcpDxe/TcpDriver.c
++index 98a90e0210..8fe6badd68 100644
++--- a/NetworkPkg/TcpDxe/TcpDriver.c
+++++ b/NetworkPkg/TcpDxe/TcpDriver.c
++@@ -2,7 +2,7 @@
++   The driver binding and service binding protocol for the TCP driver.=0D
 + =0D
-+   //=0D
-+-  // The format of the IA_NA option is:=0D
-++  // Calculate the distance from Packet->Dhcp6.Option to the IA option.=0D
-+   //=0D
-+-  //     0                   1                   2                   3=0D
-+-  //     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
 =0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |          OPTION_IA_NA         |          option-len           |=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |                        IAID (4 octets)                        |=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |                              T1                               |=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |                              T2                               |=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |                                                               |=
-=0D
-+-  //    .                         IA_NA-options                         .=
-=0D
-+-  //    .                                                               .=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-++  // Packet->Size and Packet->Length are both UINT32 type, and Packet->Si=
-ze is=0D
-++  // the size of the whole packet, including the DHCP header, and Packet-=
->Length=0D
-++  // is the length of the DHCP message body, excluding the DHCP header.=0D
-+   //=0D
-+-  // The format of the IA_TA option is:=0D
-++  // (*Option - Packet->Dhcp6.Option) is the number of bytes from the sta=
-rt of=0D
-++  // DHCP6 option area to the start of the IA option.=0D
-+   //=0D
-+-  //     0                   1                   2                   3=0D
-+-  //     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |         OPTION_IA_TA          |          option-len           |=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |                        IAID (4 octets)                        |=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-+-  //    |                                                               |=
-=0D
-+-  //    .                         IA_TA-options                         .=
-=0D
-+-  //    .                                                               .=
-=0D
-+-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
-=0D
-++  // Dhcp6SeekInnerOptionSafe() is searching starting from the start of t=
-he=0D
-++  // IA option to the end of the DHCP6 option area, thus subtract the spa=
-ce=0D
-++  // up until this option=0D
-+   //=0D
-++  OptionLen =3D OptionLen - (*Option - Packet->Dhcp6.Option);=0D
-+ =0D
-+   //=0D
-+-  // sizeof (option-code + option-len + IaId)           =3D 8=0D
-+-  // sizeof (option-code + option-len + IaId + T1)      =3D 12=0D
-+-  // sizeof (option-code + option-len + IaId + T1 + T2) =3D 16=0D
-+-  //=0D
-+-  // The inner options still start with 2 bytes option-code and 2 bytes o=
-ption-len.=0D
-++  // Seek the inner option=0D
-+   //=0D
-+-  if (Instance->Config->IaDescriptor.Type =3D=3D Dhcp6OptIana) {=0D
-+-    IaInnerOpt =3D *Option + 16;=0D
-+-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + =
-2))) - 12);=0D
-+-  } else {=0D
-+-    IaInnerOpt =3D *Option + 8;=0D
-+-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + =
-2))) - 4);=0D
-++  if (EFI_ERROR (=0D
-++        Dhcp6SeekInnerOptionSafe (=0D
-++          Instance->Config->IaDescriptor.Type,=0D
-++          *Option,=0D
-++          OptionLen,=0D
-++          &IaInnerOpt,=0D
-++          &IaInnerLen=0D
-++          )=0D
-++        ))=0D
-++  {=0D
-++    return EFI_DEVICE_ERROR;=0D
-+   }=0D
-+ =0D
-+   //=0D
-+@@ -784,7 +855,7 @@ Dhcp6SeekStsOption (
-+   //=0D
-+   *Option =3D Dhcp6SeekOption (IaInnerOpt, IaInnerLen, Dhcp6OptStatusCode=
-);=0D
-+   if (*Option !=3D NULL) {=0D
-+-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + 4)));=0D
-++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)((DHCP6_OFFSET_OF_STATU=
-S_CODE (*Option)))));=0D
-+     if (StsCode !=3D Dhcp6StsSuccess) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
-+@@ -1105,7 +1176,7 @@ Dhcp6SendRequestMsg (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              Instance->AdSelect->Dhcp6.Option,=0D
-+-             Instance->AdSelect->Length - 4,=0D
-++             Instance->AdSelect->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+              Dhcp6OptServerId=0D
-+              );=0D
-+   if (Option =3D=3D NULL) {=0D
-+@@ -1289,7 +1360,7 @@ Dhcp6SendDeclineMsg (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              LastReply->Dhcp6.Option,=0D
-+-             LastReply->Length - 4,=0D
-++             LastReply->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+              Dhcp6OptServerId=0D
-+              );=0D
-+   if (Option =3D=3D NULL) {=0D
-+@@ -1448,7 +1519,7 @@ Dhcp6SendReleaseMsg (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              LastReply->Dhcp6.Option,=0D
-+-             LastReply->Length - 4,=0D
-++             LastReply->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+              Dhcp6OptServerId=0D
-+              );=0D
-+   if (Option =3D=3D NULL) {=0D
-+@@ -1673,7 +1744,7 @@ Dhcp6SendRenewRebindMsg (
-+ =0D
-+     Option =3D Dhcp6SeekOption (=0D
-+                LastReply->Dhcp6.Option,=0D
-+-               LastReply->Length - 4,=0D
-++               LastReply->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+                Dhcp6OptServerId=0D
-+                );=0D
-+     if (Option =3D=3D NULL) {=0D
-+@@ -2208,7 +2279,7 @@ Dhcp6HandleReplyMsg (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              Packet->Dhcp6.Option,=0D
-+-             Packet->Length - 4,=0D
-++             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+              Dhcp6OptRapidCommit=0D
-+              );=0D
-+ =0D
-+@@ -2354,7 +2425,7 @@ Dhcp6HandleReplyMsg (
-+     //=0D
-+     // Any error status code option is found.=0D
-+     //=0D
-+-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 4)));=0D
-++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)((DHCP6_OFFSET_OF_STATU=
-S_CODE (Option)))));=0D
-+     switch (StsCode) {=0D
-+       case Dhcp6StsUnspecFail:=0D
-+         //=0D
-+@@ -2487,7 +2558,7 @@ Dhcp6SelectAdvertiseMsg (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              AdSelect->Dhcp6.Option,=0D
-+-             AdSelect->Length - 4,=0D
-++             AdSelect->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+              Dhcp6OptServerUnicast=0D
-+              );=0D
-+ =0D
-+@@ -2498,7 +2569,7 @@ Dhcp6SelectAdvertiseMsg (
-+       return EFI_OUT_OF_RESOURCES;=0D
-+     }=0D
-+ =0D
-+-    CopyMem (Instance->Unicast, Option + 4, sizeof (EFI_IPv6_ADDRESS));=0D
-++    CopyMem (Instance->Unicast, DHCP6_OFFSET_OF_OPT_DATA (Option), sizeof=
- (EFI_IPv6_ADDRESS));=0D
-+   }=0D
-+ =0D
-+   //=0D
-+@@ -2551,7 +2622,7 @@ Dhcp6HandleAdvertiseMsg (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              Packet->Dhcp6.Option,=0D
-+-             Packet->Length - 4,=0D
-++             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+              Dhcp6OptRapidCommit=0D
-+              );=0D
-+ =0D
-+@@ -2645,7 +2716,7 @@ Dhcp6HandleAdvertiseMsg (
-+       CopyMem (Instance->AdSelect, Packet, Packet->Size);=0D
-+ =0D
-+       if (Option !=3D NULL) {=0D
-+-        Instance->AdPref =3D *(Option + 4);=0D
-++        Instance->AdPref =3D *(DHCP6_OFFSET_OF_OPT_DATA (Option));=0D
-+       }=0D
-+     } else {=0D
-+       //=0D
-+@@ -2714,11 +2785,11 @@ Dhcp6HandleStateful (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              Packet->Dhcp6.Option,=0D
-+-             Packet->Length - 4,=0D
-++             Packet->Length - DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN,=0D
-+              Dhcp6OptClientId=0D
-+              );=0D
-+ =0D
-+-  if ((Option =3D=3D NULL) || (CompareMem (Option + 4, ClientId->Duid, Cl=
-ientId->Length) !=3D 0)) {=0D
-++  if ((Option =3D=3D NULL) || (CompareMem (DHCP6_OFFSET_OF_OPT_DATA (Opti=
-on), ClientId->Duid, ClientId->Length) !=3D 0)) {=0D
-+     goto ON_CONTINUE;=0D
-+   }=0D
-+ =0D
-+@@ -2727,7 +2798,7 @@ Dhcp6HandleStateful (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              Packet->Dhcp6.Option,=0D
-+-             Packet->Length - 4,=0D
-++             Packet->Length - DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN,=0D
-+              Dhcp6OptServerId=0D
-+              );=0D
-+ =0D
-+@@ -2832,7 +2903,7 @@ Dhcp6HandleStateless (
-+   //=0D
-+   Option =3D Dhcp6SeekOption (=0D
-+              Packet->Dhcp6.Option,=0D
-+-             Packet->Length - 4,=0D
-++             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
-+              Dhcp6OptServerId=0D
-+              );=0D
-+ =0D
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch
-new file mode 100644
-index 0000000000..7ce5c98789
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch
-@@ -0,0 +1,539 @@
-+From 07362769ab7a7d74dbea1c7a7a3662c7b5d1f097 Mon Sep 17 00:00:00 2001
-+From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
-+Date: Fri, 26 Jan 2024 05:54:47 +0800
-+Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Unit=
-=20
-+ Tests
-+
-+REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534
-+
-+These tests confirm that the report bug...
-+
-+"Out-of-bounds read when processing IA_NA/IA_TA options in a
-+DHCPv6 Advertise message"
-+
-+..has been patched.
-+
-+The following functions are tested to confirm an out of bounds read is
-+patched and that the correct statuses are returned:
-+
-+Dhcp6SeekInnerOptionSafe
-+Dhcp6SeekStsOption
-+
-+TCBZ4534
-+CVE-2023-45229
-+CVSS 6.5 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
-+CWE-125 Out-of-bounds Read
-+
-+Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
-+
-+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+
-+CVE: CVE-2023-45229
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/073627=
-69ab7a7d74dbea1c7a7a3662c7b5d1f097]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ NetworkPkg/Dhcp6Dxe/Dhcp6Io.c                 |   2 +-
-+ .../GoogleTest/Dhcp6DxeGoogleTest.inf         |   1 +
-+ .../Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp | 365 +++++++++++++++++-
-+ .../Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h   |  58 +++
-+ 4 files changed, 423 insertions(+), 3 deletions(-)
-+ create mode 100644 NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h
-+
-+diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-+index 89d16484a5..3b8feb4a20 100644
-+--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-+@@ -816,7 +816,7 @@ Dhcp6SeekStsOption (
-+   // IA option to the end of the DHCP6 option area, thus subtract the spa=
-ce=0D
-+   // up until this option=0D
-+   //=0D
-+-  OptionLen =3D OptionLen - (*Option - Packet->Dhcp6.Option);=0D
-++  OptionLen =3D OptionLen - (UINT32)(*Option - Packet->Dhcp6.Option);=0D
-+ =0D
-+   //=0D
-+   // Seek the inner option=0D
-+diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf b/Netwo=
-rkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
-+index 8e9119a371..12532ed30c 100644
-+--- a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
-++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
-+@@ -18,6 +18,7 @@
-+ [Sources]=0D
-+   Dhcp6DxeGoogleTest.cpp=0D
-+   Dhcp6IoGoogleTest.cpp=0D
-++  Dhcp6IoGoogleTest.h=0D
-+   ../Dhcp6Io.c=0D
-+   ../Dhcp6Utility.c=0D
-+ =0D
-+diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp b/Networ=
-kPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
-+index 7ee40e4af4..7db253a7b8 100644
-+--- a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
-++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
-+@@ -13,6 +13,7 @@ extern "C" {
-+   #include <Library/BaseMemoryLib.h>=0D
-+   #include "../Dhcp6Impl.h"=0D
-+   #include "../Dhcp6Utility.h"=0D
-++  #include "Dhcp6IoGoogleTest.h"=0D
-+ }=0D
-+ =0D
-+ ////////////////////////////////////////////////////////////////////////=
-=0D
-+@@ -21,7 +22,35 @@ extern "C" {
-+ =0D
-+ #define DHCP6_PACKET_MAX_LEN  1500=0D
-+ =0D
-++// This definition is used by this test but is also required to compile=0D
-++// by Dhcp6Io.c=0D
-++#define DHCPV6_OPTION_IA_NA  3=0D
-++#define DHCPV6_OPTION_IA_TA  4=0D
-++=0D
-++#define SEARCH_PATTERN      0xDEADC0DE=0D
-++#define SEARCH_PATTERN_LEN  sizeof(SEARCH_PATTERN)=0D
-++=0D
-+ ////////////////////////////////////////////////////////////////////////=
-=0D
-++// Test structures for IA_NA and IA_TA options=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++typedef struct {=0D
-++  UINT16    Code;=0D
-++  UINT16    Len;=0D
-++  UINT32    IAID;=0D
-++} DHCPv6_OPTION;=0D
-++=0D
-++typedef struct {=0D
-++  DHCPv6_OPTION    Header;=0D
-++  UINT32           T1;=0D
-++  UINT32           T2;=0D
-++  UINT8            InnerOptions[0];=0D
-++} DHCPv6_OPTION_IA_NA;=0D
-++=0D
-++typedef struct {=0D
-++  DHCPv6_OPTION    Header;=0D
-++  UINT8            InnerOptions[0];=0D
-++} DHCPv6_OPTION_IA_TA;=0D
-++=0D
-+ ////////////////////////////////////////////////////////////////////////=
-=0D
-+ // Symbol Definitions=0D
-+ // These functions are not directly under test - but required to compile=
-=0D
-+@@ -210,7 +239,7 @@ TEST_F (Dhcp6AppendETOptionTest, InvalidDataExpectBuff=
-erTooSmall) {
-+   Status =3D Dhcp6AppendETOption (=0D
-+              Dhcp6AppendETOptionTest::Packet,=0D
-+              &Cursor,=0D
-+-             &Instance, // Instance is not used in this function=0D
-++             &Instance,                    // Instance is not used in thi=
-s function=0D
-+              &ElapsedTime=0D
-+              );=0D
-+ =0D
-+@@ -240,7 +269,7 @@ TEST_F (Dhcp6AppendETOptionTest, ValidDataExpectSucces=
-s) {
-+   Status =3D Dhcp6AppendETOption (=0D
-+              Dhcp6AppendETOptionTest::Packet,=0D
-+              &Cursor,=0D
-+-             &Instance, // Instance is not used in this function=0D
-++             &Instance,                    // Instance is not used in thi=
-s function=0D
-+              &ElapsedTime=0D
-+              );=0D
-+ =0D
-+@@ -476,3 +505,335 @@ TEST_F (Dhcp6AppendIaOptionTest, IaTaValidDataExpect=
-Success) {
-+   // verify that the status is EFI_SUCCESS=0D
-+   ASSERT_EQ (Status, EFI_SUCCESS);=0D
-+ }=0D
-++=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++// Dhcp6SeekInnerOptionSafe Tests=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++=0D
-++// Define a fixture for your tests if needed=0D
-++class Dhcp6SeekInnerOptionSafeTest : public ::testing::Test {=0D
-++protected:=0D
-++  // Add any setup code if needed=0D
-++  virtual void=0D
-++  SetUp (=0D
-++    )=0D
-++  {=0D
-++    // Initialize any resources or variables=0D
-++  }=0D
-++=0D
-++  // Add any cleanup code if needed=0D
-++  virtual void=0D
-++  TearDown (=0D
-++    )=0D
-++  {=0D
-++    // Clean up any resources or variables=0D
-++  }=0D
-++};=0D
-++=0D
-++// Test Description:=0D
-++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
-hen the IANA option is found.=0D
-++TEST_F (Dhcp6SeekInnerOptionSafeTest, IANAValidOptionExpectSuccess) {=0D
-++  EFI_STATUS           Result;=0D
-++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_NA) + SEARCH_PATTE=
-RN_LEN] =3D { 0 };=0D
-++  UINT32               OptionLength                                      =
-        =3D sizeof (Option);=0D
-++  DHCPv6_OPTION_IA_NA  *OptionPtr                                        =
-        =3D (DHCPv6_OPTION_IA_NA *)Option;=0D
-++  UINT32               SearchPattern                                     =
-        =3D SEARCH_PATTERN;=0D
-++=0D
-++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
-++  UINT8   *InnerOptionPtr     =3D NULL;=0D
-++  UINT16  InnerOptionLength   =3D 0;=0D
-++=0D
-++  OptionPtr->Header.Code =3D Dhcp6OptIana;=0D
-++  OptionPtr->Header.Len  =3D HTONS (4 + 12); // Valid length has to be mo=
-re than 12=0D
-++  OptionPtr->Header.IAID =3D 0x12345678;=0D
-++  OptionPtr->T1          =3D 0x11111111;=0D
-++  OptionPtr->T2          =3D 0x22222222;=0D
-++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
-=0D
-++=0D
-++  Result =3D Dhcp6SeekInnerOptionSafe (=0D
-++             Dhcp6OptIana,=0D
-++             Option,=0D
-++             OptionLength,=0D
-++             &InnerOptionPtr,=0D
-++             &InnerOptionLength=0D
-++             );=0D
-++  ASSERT_EQ (Result, EFI_SUCCESS);=0D
-++  ASSERT_EQ (InnerOptionLength, 4);=0D
-++  ASSERT_EQ (CompareMem (InnerOptionPtr, &SearchPattern, SearchPatternLen=
-gth), 0);=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_DEIVCE_ER=
-ROR when the IANA option size is invalid.=0D
-++TEST_F (Dhcp6SeekInnerOptionSafeTest, IANAInvalidSizeExpectFail) {=0D
-++  // Lets add an inner option of bytes we expect to find=0D
-++  EFI_STATUS           Status;=0D
-++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_NA) + SEARCH_PATTE=
-RN_LEN] =3D { 0 };=0D
-++  UINT32               OptionLength                                      =
-        =3D sizeof (Option);=0D
-++  DHCPv6_OPTION_IA_NA  *OptionPtr                                        =
-        =3D (DHCPv6_OPTION_IA_NA *)Option;=0D
-++  UINT32               SearchPattern                                     =
-        =3D SEARCH_PATTERN;=0D
-++=0D
-++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
-++  UINT8   *InnerOptionPtr     =3D NULL;=0D
-++  UINT16  InnerOptionLength   =3D 0;=0D
-++=0D
-++  OptionPtr->Header.Code =3D Dhcp6OptIana;=0D
-++  OptionPtr->Header.Len  =3D HTONS (4); // Set the length to lower than e=
-xpected (12)=0D
-++  OptionPtr->Header.IAID =3D 0x12345678;=0D
-++  OptionPtr->T1          =3D 0x11111111;=0D
-++  OptionPtr->T2          =3D 0x22222222;=0D
-++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
-=0D
-++=0D
-++  // Set the InnerOptionLength to be less than the size of the option=0D
-++  Status =3D Dhcp6SeekInnerOptionSafe (=0D
-++             Dhcp6OptIana,=0D
-++             Option,=0D
-++             OptionLength,=0D
-++             &InnerOptionPtr,=0D
-++             &InnerOptionLength=0D
-++             );=0D
-++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
-++=0D
-++  // Now set the OptionLength to be less than the size of the option=0D
-++  OptionLength =3D sizeof (DHCPv6_OPTION_IA_NA) - 1;=0D
-++  Status       =3D Dhcp6SeekInnerOptionSafe (=0D
-++                   Dhcp6OptIana,=0D
-++                   Option,=0D
-++                   OptionLength,=0D
-++                   &InnerOptionPtr,=0D
-++                   &InnerOptionLength=0D
-++                   );=0D
-++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
-hen the IATA option is found=0D
-++TEST_F (Dhcp6SeekInnerOptionSafeTest, IATAValidOptionExpectSuccess) {=0D
-++  // Lets add an inner option of bytes we expect to find=0D
-++  EFI_STATUS           Status;=0D
-++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_TA) + SEARCH_PATTE=
-RN_LEN] =3D { 0 };=0D
-++  UINT32               OptionLength                                      =
-        =3D sizeof (Option);=0D
-++  DHCPv6_OPTION_IA_TA  *OptionPtr                                        =
-        =3D (DHCPv6_OPTION_IA_TA *)Option;=0D
-++  UINT32               SearchPattern                                     =
-        =3D SEARCH_PATTERN;=0D
-++=0D
-++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
-++  UINT8   *InnerOptionPtr     =3D NULL;=0D
-++  UINT16  InnerOptionLength   =3D 0;=0D
-++=0D
-++  OptionPtr->Header.Code =3D Dhcp6OptIata;=0D
-++  OptionPtr->Header.Len  =3D HTONS (4 + 4); // Valid length has to be mor=
-e than 4=0D
-++  OptionPtr->Header.IAID =3D 0x12345678;=0D
-++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
-=0D
-++=0D
-++  Status =3D Dhcp6SeekInnerOptionSafe (=0D
-++             Dhcp6OptIata,=0D
-++             Option,=0D
-++             OptionLength,=0D
-++             &InnerOptionPtr,=0D
-++             &InnerOptionLength=0D
-++             );=0D
-++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
-++  ASSERT_EQ (InnerOptionLength, 4);=0D
-++  ASSERT_EQ (CompareMem (InnerOptionPtr, &SearchPattern, SearchPatternLen=
-gth), 0);=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
-hen the IATA option size is invalid.=0D
-++TEST_F (Dhcp6SeekInnerOptionSafeTest, IATAInvalidSizeExpectFail) {=0D
-++  // Lets add an inner option of bytes we expect to find=0D
-++  EFI_STATUS           Status;=0D
-++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_TA) + SEARCH_PATTE=
-RN_LEN] =3D { 0 };=0D
-++  UINT32               OptionLength                                      =
-        =3D sizeof (Option);=0D
-++  DHCPv6_OPTION_IA_TA  *OptionPtr                                        =
-        =3D (DHCPv6_OPTION_IA_TA *)Option;=0D
-++  UINT32               SearchPattern                                     =
-        =3D SEARCH_PATTERN;=0D
-++=0D
-++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
-++  UINT8   *InnerOptionPtr     =3D NULL;=0D
-++  UINT16  InnerOptionLength   =3D 0;=0D
-++=0D
-++  OptionPtr->Header.Code =3D Dhcp6OptIata;=0D
-++  OptionPtr->Header.Len  =3D HTONS (2); // Set the length to lower than e=
-xpected (4)=0D
-++  OptionPtr->Header.IAID =3D 0x12345678;=0D
-++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
-=0D
-++=0D
-++  Status =3D Dhcp6SeekInnerOptionSafe (=0D
-++             Dhcp6OptIata,=0D
-++             Option,=0D
-++             OptionLength,=0D
-++             &InnerOptionPtr,=0D
-++             &InnerOptionLength=0D
-++             );=0D
-++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
-++=0D
-++  // Now lets try modifying the OptionLength to be less than the size of =
-the option=0D
-++  OptionLength =3D sizeof (DHCPv6_OPTION_IA_TA) - 1;=0D
-++  Status       =3D Dhcp6SeekInnerOptionSafe (=0D
-++                   Dhcp6OptIata,=0D
-++                   Option,=0D
-++                   OptionLength,=0D
-++                   &InnerOptionPtr,=0D
-++                   &InnerOptionLength=0D
-++                   );=0D
-++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// This test verifies that any other Option Type fails=0D
-++TEST_F (Dhcp6SeekInnerOptionSafeTest, InvalidOption) {=0D
-++  // Lets add an inner option of bytes we expect to find=0D
-++  EFI_STATUS           Result;=0D
-++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_TA) + SEARCH_PATTE=
-RN_LEN] =3D { 0 };=0D
-++  UINT32               OptionLength                                      =
-        =3D sizeof (Option);=0D
-++  DHCPv6_OPTION_IA_TA  *OptionPtr                                        =
-        =3D (DHCPv6_OPTION_IA_TA *)Option;=0D
-++  UINT32               SearchPattern                                     =
-        =3D SEARCH_PATTERN;=0D
-++=0D
-++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
-++  UINT8   *InnerOptionPtr     =3D NULL;=0D
-++  UINT16  InnerOptionLength   =3D 0;=0D
-++=0D
-++  OptionPtr->Header.Code =3D 0xC0DE;=0D
-++  OptionPtr->Header.Len  =3D HTONS (2); // Set the length to lower than e=
-xpected (4)=0D
-++  OptionPtr->Header.IAID =3D 0x12345678;=0D
-++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
-=0D
-++=0D
-++  Result =3D Dhcp6SeekInnerOptionSafe (0xC0DE, Option, OptionLength, &Inn=
-erOptionPtr, &InnerOptionLength);=0D
-++  ASSERT_EQ (Result, EFI_DEVICE_ERROR);=0D
-++}=0D
-++=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++// Dhcp6SeekStsOption Tests=0D
-++////////////////////////////////////////////////////////////////////////=
-=0D
-++=0D
-++#define PACKET_SIZE  (1500)=0D
-++=0D
-++class Dhcp6SeekStsOptionTest : public ::testing::Test {=0D
-++public:=0D
-++  DHCP6_INSTANCE Instance      =3D { 0 };=0D
-++  EFI_DHCP6_PACKET *Packet     =3D NULL;=0D
-++  EFI_DHCP6_CONFIG_DATA Config =3D { 0 };=0D
-++=0D
-++protected:=0D
-++  // Add any setup code if needed=0D
-++  virtual void=0D
-++  SetUp (=0D
-++    )=0D
-++  {=0D
-++    // Allocate a packet=0D
-++    Packet =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET_SIZE);=0D
-++    ASSERT_NE (Packet, nullptr);=0D
-++=0D
-++    // Initialize the packet=0D
-++    Packet->Size =3D PACKET_SIZE;=0D
-++=0D
-++    Instance.Config =3D &Config;=0D
-++  }=0D
-++=0D
-++  // Add any cleanup code if needed=0D
-++  virtual void=0D
-++  TearDown (=0D
-++    )=0D
-++  {=0D
-++    // Clean up any resources or variables=0D
-++    FreePool (Packet);=0D
-++  }=0D
-++};=0D
-++=0D
-++// Test Description:=0D
-++// This test verifies that Dhcp6SeekStsOption returns EFI_DEVICE_ERROR wh=
-en the option is invalid=0D
-++// This verifies that the calling function is working as expected=0D
-++TEST_F (Dhcp6SeekStsOptionTest, SeekIATAOptionExpectFail) {=0D
-++  EFI_STATUS    Status;=0D
-++  UINT8         *Option             =3D NULL;=0D
-++  UINT32        SearchPattern       =3D SEARCH_PATTERN;=0D
-++  UINT16        SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
-++  UINT16        *Len                =3D NULL;=0D
-++  EFI_DHCP6_IA  Ia                  =3D { 0 };=0D
-++=0D
-++  Ia.Descriptor.Type                =3D DHCPV6_OPTION_IA_TA;=0D
-++  Ia.IaAddressCount                 =3D 1;=0D
-++  Ia.IaAddress[0].PreferredLifetime =3D 0xDEADBEEF;=0D
-++  Ia.IaAddress[0].ValidLifetime     =3D 0xDEADAAAA;=0D
-++  Ia.IaAddress[0].IpAddress         =3D mAllDhcpRelayAndServersAddress;=0D
-++=0D
-++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
-++=0D
-++  Option =3D Dhcp6SeekStsOptionTest::Packet->Dhcp6.Option;=0D
-++=0D
-++  // Let's append the option to the packet=0D
-++  Status =3D Dhcp6AppendOption (=0D
-++             Dhcp6SeekStsOptionTest::Packet,=0D
-++             &Option,=0D
-++             Dhcp6OptStatusCode,=0D
-++             SearchPatternLength,=0D
-++             (UINT8 *)&SearchPattern=0D
-++             );=0D
-++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
-++=0D
-++  // Inner option length - this will be overwritten later=0D
-++  Len =3D (UINT16 *)(Option + 2);=0D
-++=0D
-++  // Fill in the inner IA option=0D
-++  Status =3D Dhcp6AppendIaOption (=0D
-++             Dhcp6SeekStsOptionTest::Packet,=0D
-++             &Option,=0D
-++             &Ia,=0D
-++             0x12345678,=0D
-++             0x11111111,=0D
-++             0x22222222=0D
-++             );=0D
-++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
-++=0D
-++  // overwrite the len of inner Ia option=0D
-++  *Len =3D HTONS (3);=0D
-++=0D
-++  Dhcp6SeekStsOptionTest::Instance.Config->IaDescriptor.Type =3D DHCPV6_O=
-PTION_IA_TA;=0D
-++=0D
-++  Option =3D NULL;=0D
-++  Status =3D Dhcp6SeekStsOption (&(Dhcp6SeekStsOptionTest::Instance), Dhc=
-p6SeekStsOptionTest::Packet, &Option);=0D
-++=0D
-++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
-++}=0D
-++=0D
-++// Test Description:=0D
-++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
-hen the IATA option size is invalid.=0D
-++TEST_F (Dhcp6SeekStsOptionTest, SeekIANAOptionExpectSuccess) {=0D
-++  EFI_STATUS    Status              =3D EFI_NOT_FOUND;=0D
-++  UINT8         *Option             =3D NULL;=0D
-++  UINT32        SearchPattern       =3D SEARCH_PATTERN;=0D
-++  UINT16        SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
-++  EFI_DHCP6_IA  Ia                  =3D { 0 };=0D
-++=0D
-++  Ia.Descriptor.Type                =3D DHCPV6_OPTION_IA_NA;=0D
-++  Ia.IaAddressCount                 =3D 1;=0D
-++  Ia.IaAddress[0].PreferredLifetime =3D 0x11111111;=0D
-++  Ia.IaAddress[0].ValidLifetime     =3D 0x22222222;=0D
-++  Ia.IaAddress[0].IpAddress         =3D mAllDhcpRelayAndServersAddress;=0D
-++  Packet->Length                    =3D sizeof (EFI_DHCP6_HEADER);=0D
-++=0D
-++  Option =3D Dhcp6SeekStsOptionTest::Packet->Dhcp6.Option;=0D
-++=0D
-++  Status =3D Dhcp6AppendOption (=0D
-++             Dhcp6SeekStsOptionTest::Packet,=0D
-++             &Option,=0D
-++             Dhcp6OptStatusCode,=0D
-++             SearchPatternLength,=0D
-++             (UINT8 *)&SearchPattern=0D
-++             );=0D
-++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
-++=0D
-++  Status =3D Dhcp6AppendIaOption (=0D
-++             Dhcp6SeekStsOptionTest::Packet,=0D
-++             &Option,=0D
-++             &Ia,=0D
-++             0x12345678,=0D
-++             0x11111111,=0D
-++             0x22222222=0D
-++             );=0D
-++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
-++=0D
-++  Dhcp6SeekStsOptionTest::Instance.Config->IaDescriptor.Type =3D DHCPV6_O=
-PTION_IA_NA;=0D
-++=0D
-++  Option =3D NULL;=0D
-++  Status =3D Dhcp6SeekStsOption (&(Dhcp6SeekStsOptionTest::Instance), Dhc=
-p6SeekStsOptionTest::Packet, &Option);=0D
-++=0D
-++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
-++}=0D
-+diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h b/NetworkP=
-kg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h
-+new file mode 100644
-+index 0000000000..aed3b89082
-+--- /dev/null
-++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h
-+@@ -0,0 +1,58 @@
-++/** @file=0D
-++  Acts as header for private functions under test in Dhcp6Io.c=0D
-++=0D
++-=0D
 ++  Copyright (c) Microsoft Corporation=0D
-++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++**/=0D
-++=0D
-++#ifndef DHCP6_IO_GOOGLE_TEST_H_=0D
-++#define DHCP6_IO_GOOGLE_TEST_H_=0D
-++=0D
-++/////////////////////////////////////////////////////////////////////////=
-///////=0D
-++// These are the functions that are being unit tested=0D
-++/////////////////////////////////////////////////////////////////////////=
-///////=0D
-++=0D
-++#include <Uefi.h>=0D
-++=0D
-++/**=0D
-++  Seeks the Inner Options from a DHCP6 Option=0D
-++=0D
-++  @param[in]  IaType          The type of the IA option.=0D
-++  @param[in]  Option          The pointer to the DHCP6 Option.=0D
-++  @param[in]  OptionLen       The length of the DHCP6 Option.=0D
-++  @param[out] IaInnerOpt      The pointer to the IA inner option.=0D
-++  @param[out] IaInnerLen      The length of the IA inner option.=0D
-++=0D
-++  @retval EFI_SUCCESS         Seek the inner option successfully.=0D
-++  @retval EFI_DEVICE_ERROR    The OptionLen is invalid.=0D
-++*/=0D
-++EFI_STATUS=0D
-++Dhcp6SeekInnerOptionSafe (=0D
-++  UINT16  IaType,=0D
-++  UINT8   *Option,=0D
-++  UINT32  OptionLen,=0D
-++  UINT8   **IaInnerOpt,=0D
-++  UINT16  *IaInnerLen=0D
-++  );=0D
-++=0D
-++/**=0D
-++  Seek StatusCode Option in package. A Status Code option may appear in t=
-he=0D
-++  options field of a DHCP message and/or in the options field of another =
-option.=0D
-++  See details in section 22.13, RFC3315.=0D
-++=0D
-++  @param[in]       Instance        The pointer to the Dhcp6 instance.=0D
-++  @param[in]       Packet          The pointer to reply messages.=0D
-++  @param[out]      Option          The pointer to status code option.=0D
-++=0D
-++  @retval EFI_SUCCESS              Seek status code option successfully.=
-=0D
-++  @retval EFI_DEVICE_ERROR         An unexpected error.=0D
-++=0D
-++**/=0D
-++EFI_STATUS=0D
-++Dhcp6SeekStsOption (=0D
-++  IN     DHCP6_INSTANCE    *Instance,=0D
-++  IN     EFI_DHCP6_PACKET  *Packet,=0D
-++  OUT    UINT8             **Option=0D
-++  );=0D
-++=0D
-++#endif // DHCP6_IO_GOOGLE_TEST_H=0D
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch
-new file mode 100644
-index 0000000000..bf4e8eda1f
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch
-@@ -0,0 +1,244 @@
-+From 1c440a5eceedc64e892877eeac0f1a4938f5abbb Mon Sep 17 00:00:00 2001
-+From: Doug Flick <dougflick@microsoft.com>
-+Date: Tue, 13 Feb 2024 10:46:00 -0800
-+Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Relat=
-ed=20
-+ Patch
-+
-+REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4673
-+REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534
-+
-+This was not part of the Quarkslab bugs however the same pattern
-+as CVE-2023-45229 exists in Dhcp6UpdateIaInfo.
-+
-+This patch replaces the code in question with the safe function
-+created to patch CVE-2023-45229
-+
-+>
-+>   if (EFI_ERROR (
-+>        Dhcp6SeekInnerOptionSafe (
-+>          Instance->Config->IaDescriptor.Type,
-+>          Option,
-+>          OptionLen,
-+>          &IaInnerOpt,
-+>          &IaInnerLen
-+>          )
-+>        ))
-+>  {
-+>    return EFI_DEVICE_ERROR;
-+>  }
-+>
-+
-+Additionally corrects incorrect usage of macro to read the status
-+
-+> - StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)DHCP6_OFFSET_OF_OPT_LEN
-+ (Option)));
-+> + StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)
-+DHCP6_OFFSET_OF_STATUS_CODE (Option));
-+
-+Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
-+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+Reviewed-by: Leif Lindholm <quic_llindhol@quicinc.com>
-+
-+CVE: CVE-2023-45229
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1c440a=
-5eceedc64e892877eeac0f1a4938f5abbb]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ NetworkPkg/Dhcp6Dxe/Dhcp6Io.c | 70 ++++++++++++++++++++++++++---------
-+ NetworkPkg/Dhcp6Dxe/Dhcp6Io.h | 22 +++++++++++
-+ 2 files changed, 75 insertions(+), 17 deletions(-)
-+
-+diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-+index 3b8feb4a20..a9bffae353 100644
-+--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
-+@@ -528,13 +528,23 @@ Dhcp6UpdateIaInfo (
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -163,7 +163,13 @@ TcpDriverEntryPoint (
++   )=0D
 + {=0D
 +   EFI_STATUS  Status;=0D
-+   UINT8       *Option;=0D
-++  UINT32      OptionLen;=0D
-+   UINT8       *IaInnerOpt;=0D
-+   UINT16      IaInnerLen;=0D
-+   UINT16      StsCode;=0D
-+   UINT32      T1;=0D
-+   UINT32      T2;=0D
++-  UINT32      Seed;=0D
+++  UINT32      Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a Failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
 + =0D
-++  T1 =3D 0;=0D
-++  T2 =3D 0;=0D
-++=0D
-+   ASSERT (Instance->Config !=3D NULL);=0D
-++=0D
-++  // OptionLen is the length of the Options excluding the DHCP header.=0D
-++  // Length of the EFI_DHCP6_PACKET from the first byte of the Header fie=
-ld to the last=0D
-++  // byte of the Option[] field.=0D
-++  OptionLen =3D Packet->Length - sizeof (Packet->Dhcp6.Header);=0D
-++=0D
 +   //=0D
-+   // If the reply was received in response to a solicit with rapid commit=
- option,=0D
-+   // request, renew or rebind message, the client updates the information=
- it has=0D
-+@@ -549,13 +559,29 @@ Dhcp6UpdateIaInfo (
++   // Install the TCP Driver Binding Protocol=0D
++@@ -203,9 +209,8 @@ TcpDriverEntryPoint (
 +   //=0D
-+   Option =3D Dhcp6SeekIaOption (=0D
-+              Packet->Dhcp6.Option,=0D
-+-             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
-++             OptionLen,=0D
-+              &Instance->Config->IaDescriptor=0D
-+              );=0D
-+   if (Option =3D=3D NULL) {=0D
++   // Initialize ISS and random port.=0D
++   //=0D
++-  Seed            =3D NetRandomInitSeed ();=0D
++-  mTcpGlobalIss   =3D NET_RANDOM (Seed) % mTcpGlobalIss;=0D
++-  mTcp4RandomPort =3D (UINT16)(TCP_PORT_KNOWN + (NET_RANDOM (Seed) % TCP_=
+PORT_KNOWN));=0D
+++  mTcpGlobalIss   =3D Random % mTcpGlobalIss;=0D
+++  mTcp4RandomPort =3D (UINT16)(TCP_PORT_KNOWN + (Random % TCP_PORT_KNOWN)=
+);=0D
++   mTcp6RandomPort =3D mTcp4RandomPort;=0D
++ =0D
++   return EFI_SUCCESS;=0D
++diff --git a/NetworkPkg/TcpDxe/TcpDxe.inf b/NetworkPkg/TcpDxe/TcpDxe.inf
++index c0acbdca57..cf5423f4c5 100644
++--- a/NetworkPkg/TcpDxe/TcpDxe.inf
+++++ b/NetworkPkg/TcpDxe/TcpDxe.inf
++@@ -82,5 +82,8 @@
++   gEfiTcp6ProtocolGuid                          ## BY_START=0D
++   gEfiTcp6ServiceBindingProtocolGuid            ## BY_START=0D
++ =0D
+++[Depex]=0D
+++  gEfiHash2ServiceBindingProtocolGuid=0D
+++=0D
++ [UserExtensions.TianoCore."ExtraFiles"]=0D
++   TcpDxeExtra.uni=0D
++diff --git a/NetworkPkg/Udp4Dxe/Udp4Driver.c b/NetworkPkg/Udp4Dxe/Udp4Driv=
+er.c
++index cb917fcfc9..c7ea16f4cd 100644
++--- a/NetworkPkg/Udp4Dxe/Udp4Driver.c
+++++ b/NetworkPkg/Udp4Dxe/Udp4Driver.c
++@@ -1,6 +1,7 @@
++ /** @file=0D
++ =0D
++ Copyright (c) 2006 - 2018, Intel Corporation. All rights reserved.<BR>=0D
+++Copyright (c) Microsoft Corporation=0D
++ SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -555,6 +556,13 @@ Udp4DriverEntryPoint (
++   )=0D
++ {=0D
++   EFI_STATUS  Status;=0D
+++  UINT32      Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++   //=0D
++   // Install the Udp4DriverBinding and Udp4ComponentName protocols.=0D
++@@ -571,7 +579,7 @@ Udp4DriverEntryPoint (
++     //=0D
++     // Initialize the UDP random port.=0D
++     //=0D
++-    mUdp4RandomPort =3D (UINT16)(((UINT16)NetRandomInitSeed ()) % UDP4_PO=
+RT_KNOWN + UDP4_PORT_KNOWN);=0D
+++    mUdp4RandomPort =3D (UINT16)(((UINT16)Random) % UDP4_PORT_KNOWN + UDP=
+4_PORT_KNOWN);=0D
++   }=0D
++ =0D
++   return Status;=0D
++diff --git a/NetworkPkg/Udp6Dxe/Udp6Driver.c b/NetworkPkg/Udp6Dxe/Udp6Driv=
+er.c
++index ae96fb9966..edb758d57c 100644
++--- a/NetworkPkg/Udp6Dxe/Udp6Driver.c
+++++ b/NetworkPkg/Udp6Dxe/Udp6Driver.c
++@@ -2,7 +2,7 @@
++   Driver Binding functions and Service Binding functions for the Network =
+driver module.=0D
++ =0D
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -596,6 +596,13 @@ Udp6DriverEntryPoint (
++   )=0D
++ {=0D
++   EFI_STATUS  Status;=0D
+++  UINT32      Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++   //=0D
++   // Install the Udp6DriverBinding and Udp6ComponentName protocols.=0D
++@@ -614,7 +621,7 @@ Udp6DriverEntryPoint (
++     // Initialize the UDP random port.=0D
++     //=0D
++     mUdp6RandomPort =3D (UINT16)(=0D
++-                               ((UINT16)NetRandomInitSeed ()) %=0D
+++                               ((UINT16)Random) %=0D
++                                UDP6_PORT_KNOWN +=0D
++                                UDP6_PORT_KNOWN=0D
++                                );=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c b/NetworkPkg/UefiPxeBcDx=
+e/PxeBcDhcp4.c
++index 91146b78cb..452038c219 100644
++--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c
+++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp4.c
++@@ -2,7 +2,7 @@
++   Functions implementation related with DHCPv4 for UefiPxeBc Driver.=0D
++ =0D
++   Copyright (c) 2009 - 2018, Intel Corporation. All rights reserved.<BR>=
+=0D
++-=0D
+++  Copyright (c) Microsoft Corporation=0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++ **/=0D
++@@ -1381,6 +1381,12 @@ PxeBcDhcp4Discover (
++   UINT8                             VendorOptLen;=0D
++   UINT32                            Xid;=0D
++ =0D
+++  Status =3D PseudoRandomU32 (&Xid);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
+++  }=0D
+++=0D
++   Mode   =3D Private->PxeBc.Mode;=0D
++   Dhcp4  =3D Private->Dhcp4;=0D
++   Status =3D EFI_SUCCESS;=0D
++@@ -1471,7 +1477,6 @@ PxeBcDhcp4Discover (
++   //=0D
++   // Set fields of the token for the request packet.=0D
++   //=0D
++-  Xid                                 =3D NET_RANDOM (NetRandomInitSeed (=
+));=0D
++   Token.Packet->Dhcp4.Header.Xid      =3D HTONL (Xid);=0D
++   Token.Packet->Dhcp4.Header.Reserved =3D HTONS ((UINT16)((IsBCast) ? 0x8=
+000 : 0x0));=0D
++   CopyMem (&Token.Packet->Dhcp4.Header.ClientAddr, &Private->StationIp, s=
+izeof (EFI_IPv4_ADDRESS));=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c b/NetworkPkg/UefiPxeBcDx=
+e/PxeBcDhcp6.c
++index 7fd1281c11..bcabbd2219 100644
++--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
+++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
++@@ -2180,7 +2180,7 @@ PxeBcDhcp6Discover (
++   UINTN                            ReadSize;=0D
++   UINT16                           OpCode;=0D
++   UINT16                           OpLen;=0D
++-  UINT32                           Xid;=0D
+++  UINT32                           Random;=0D
++   EFI_STATUS                       Status;=0D
++   UINTN                            DiscoverLenNeeded;=0D
++ =0D
++@@ -2198,6 +2198,12 @@ PxeBcDhcp6Discover (
 +     return EFI_DEVICE_ERROR;=0D
 +   }=0D
 + =0D
-++  //=0D
-++  // Calculate the distance from Packet->Dhcp6.Option to the IA option.=0D
-++  //=0D
-++  // Packet->Size and Packet->Length are both UINT32 type, and Packet->Si=
-ze is=0D
-++  // the size of the whole packet, including the DHCP header, and Packet-=
->Length=0D
-++  // is the length of the DHCP message body, excluding the DHCP header.=0D
-++  //=0D
-++  // (*Option - Packet->Dhcp6.Option) is the number of bytes from the sta=
-rt of=0D
-++  // DHCP6 option area to the start of the IA option.=0D
-++  //=0D
-++  // Dhcp6SeekInnerOptionSafe() is searching starting from the start of t=
-he=0D
-++  // IA option to the end of the DHCP6 option area, thus subtract the spa=
-ce=0D
-++  // up until this option=0D
-++  //=0D
-++  OptionLen =3D OptionLen - (UINT32)(Option - Packet->Dhcp6.Option);=0D
-++=0D
-+   //=0D
-+   // The format of the IA_NA option is:=0D
-+   //=0D
-+@@ -591,32 +617,32 @@ Dhcp6UpdateIaInfo (
-+   //=0D
-+ =0D
-+   //=0D
-+-  // sizeof (option-code + option-len + IaId)           =3D 8=0D
-+-  // sizeof (option-code + option-len + IaId + T1)      =3D 12=0D
-+-  // sizeof (option-code + option-len + IaId + T1 + T2) =3D 16=0D
-+-  //=0D
-+-  // The inner options still start with 2 bytes option-code and 2 bytes o=
-ption-len.=0D
-++  // Seek the inner option=0D
-+   //=0D
-++  if (EFI_ERROR (=0D
-++        Dhcp6SeekInnerOptionSafe (=0D
-++          Instance->Config->IaDescriptor.Type,=0D
-++          Option,=0D
-++          OptionLen,=0D
-++          &IaInnerOpt,=0D
-++          &IaInnerLen=0D
-++          )=0D
-++        ))=0D
-++  {=0D
-++    return EFI_DEVICE_ERROR;=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "%a failed to generate random number: %r\n", __f=
+unc__, Status));=0D
+++    return Status;=0D
 ++  }=0D
 ++=0D
-+   if (Instance->Config->IaDescriptor.Type =3D=3D Dhcp6OptIana) {=0D
-+     T1 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T1 (O=
-ption))));=0D
-+     T2 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T2 (O=
-ption))));=0D
++   DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
++   Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
++   if (Discover =3D=3D NULL) {=0D
++@@ -2207,8 +2213,7 @@ PxeBcDhcp6Discover (
++   //=0D
++   // Build the discover packet by the cached request packet before.=0D
++   //=0D
++-  Xid                     =3D NET_RANDOM (NetRandomInitSeed ());=0D
++-  Discover->TransactionId =3D HTONL (Xid);=0D
+++  Discover->TransactionId =3D HTONL (Random);=0D
++   Discover->MessageType   =3D Request->Dhcp6.Header.MessageType;=0D
++   RequestOpt              =3D Request->Dhcp6.Option;=0D
++   DiscoverOpt             =3D Discover->DhcpOptions;=0D
++diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c b/NetworkPkg/UefiPxeBcD=
+xe/PxeBcDriver.c
++index d84aca7e85..4cd915b411 100644
++--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c
+++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDriver.c
++@@ -3,6 +3,7 @@
++ =0D
++   (C) Copyright 2014 Hewlett-Packard Development Company, L.P.<BR>=0D
++   Copyright (c) 2007 - 2019, Intel Corporation. All rights reserved.<BR>=
+=0D
+++  Copyright (c) Microsoft Corporation=0D
++ =0D
++   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
++ =0D
++@@ -892,6 +893,13 @@ PxeBcCreateIp6Children (
++   PXEBC_PRIVATE_PROTOCOL       *Id;=0D
++   EFI_SIMPLE_NETWORK_PROTOCOL  *Snp;=0D
++   UINTN                        Index;=0D
+++  UINT32                       Random;=0D
+++=0D
+++  Status =3D PseudoRandomU32 (&Random);=0D
+++  if (EFI_ERROR (Status)) {=0D
+++    DEBUG ((DEBUG_ERROR, "Failed to generate random number using EFI_RNG_=
+PROTOCOL: %r\n", Status));=0D
+++    return Status;=0D
+++  }=0D
++ =0D
++   if (Private->Ip6Nic !=3D NULL) {=0D
 +     //=0D
-+     // Refer to RFC3155 Chapter 22.4. If a client receives an IA_NA with =
-T1 greater than T2,=0D
-+     // and both T1 and T2 are greater than 0, the client discards the IA_=
-NA option and processes=0D
-+-    // the remainder of the message as though the server had not  include=
-d the invalid IA_NA option.=0D
-++    // the remainder of the message as though the server had not included=
- the invalid IA_NA option.=0D
-+     //=0D
-+     if ((T1 > T2) && (T2 > 0)) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
-+-=0D
-+-    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
-+-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
-ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_COMBINED_IAID_T1_T2);=0D
-+-  } else {=0D
-+-    T1 =3D 0;=0D
-+-    T2 =3D 0;=0D
-+-=0D
-+-    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
-+-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
-ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_IAID);=0D
++@@ -935,9 +943,9 @@ PxeBcCreateIp6Children (
 +   }=0D
 + =0D
 +   //=0D
-+@@ -642,7 +668,7 @@ Dhcp6UpdateIaInfo (
-+   Option  =3D Dhcp6SeekOption (IaInnerOpt, IaInnerLen, Dhcp6OptStatusCode=
-);=0D
-+ =0D
-+   if (Option !=3D NULL) {=0D
-+-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_OPT_LE=
-N (Option))));=0D
-++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_STATUS=
-_CODE (Option))));=0D
-+     if (StsCode !=3D Dhcp6StsSuccess) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
-+@@ -703,15 +729,21 @@ Dhcp6SeekInnerOptionSafe (
-+   }=0D
-+ =0D
-+   if (IaType =3D=3D Dhcp6OptIana) {=0D
-++    //=0D
-+     // Verify we have a fully formed IA_NA=0D
-++    //=0D
-+     if (OptionLen < DHCP6_MIN_SIZE_OF_IA_NA) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
-+ =0D
-++    //=0D
-++    // Get the IA Inner Option and Length=0D
-+     //=0D
-+     IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
-+ =0D
-++    //=0D
-+     // Verify the IaInnerLen is valid.=0D
-++    //=0D
-+     IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)DHCP6_OFF=
-SET_OF_OPT_LEN (Option)));=0D
-+     if (IaInnerLenTmp < DHCP6_SIZE_OF_COMBINED_IAID_T1_T2) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+@@ -719,14 +751,18 @@ Dhcp6SeekInnerOptionSafe (
-+ =0D
-+     IaInnerLenTmp -=3D DHCP6_SIZE_OF_COMBINED_IAID_T1_T2;=0D
-+   } else if (IaType =3D=3D Dhcp6OptIata) {=0D
-++    //=0D
-+     // Verify the OptionLen is valid.=0D
-++    //=0D
-+     if (OptionLen < DHCP6_MIN_SIZE_OF_IA_TA) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+     }=0D
-+ =0D
-+     IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
-+ =0D
-++    //=0D
-+     // Verify the IaInnerLen is valid.=0D
-++    //=0D
-+     IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OF=
-FSET_OF_OPT_LEN (Option))));=0D
-+     if (IaInnerLenTmp < DHCP6_SIZE_OF_IAID) {=0D
-+       return EFI_DEVICE_ERROR;=0D
-+diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h
-+index 051a652f2b..ab0e1ac27f 100644
-+--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h
-++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h
-+@@ -217,4 +217,26 @@ Dhcp6OnTimerTick (
-+   IN VOID       *Context=0D
-+   );=0D
-+ =0D
-++/**=0D
-++  Seeks the Inner Options from a DHCP6 Option=0D
-++=0D
-++  @param[in]  IaType          The type of the IA option.=0D
-++  @param[in]  Option          The pointer to the DHCP6 Option.=0D
-++  @param[in]  OptionLen       The length of the DHCP6 Option.=0D
-++  @param[out] IaInnerOpt      The pointer to the IA inner option.=0D
-++  @param[out] IaInnerLen      The length of the IA inner option.=0D
-++=0D
-++  @retval EFI_SUCCESS         Seek the inner option successfully.=0D
-++  @retval EFI_DEVICE_ERROR    The OptionLen is invalid. On Error,=0D
-++                              the pointers are not modified=0D
-++**/=0D
-++EFI_STATUS=0D
-++Dhcp6SeekInnerOptionSafe (=0D
-++  IN  UINT16  IaType,=0D
-++  IN  UINT8   *Option,=0D
-++  IN  UINT32  OptionLen,=0D
-++  OUT UINT8   **IaInnerOpt,=0D
-++  OUT UINT16  *IaInnerLen=0D
-++  );=0D
-++=0D
-+ #endif=0D
-+--=20
-+2.40.0
-+
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch
-new file mode 100644
-index 0000000000..85d204972d
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch
-@@ -0,0 +1,157 @@
-+From 1d0b95f6457d225c5108302a9da74b4ed7aa5a38 Mon Sep 17 00:00:00 2001
-+From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
-+Date: Fri, 26 Jan 2024 05:54:57 +0800
-+Subject: [PATCH] NetworkPkg: : Adds a SecurityFix.yaml file
-+
-+This creates / adds a security file that tracks the security fixes
-+found in this package and can be used to find the fixes that were
-+applied.
-+
-+Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
-+
-+Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
-+Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
-+
-+CVE: CVE_2023_45229
-+
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1d0b95=
-f6457d225c5108302a9da74b4ed7aa5a38]
-+
-+Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
-+---
-+ NetworkPkg/SecurityFixes.yaml | 123 ++++++++++++++++++++++++++++++++++
-+ 1 file changed, 123 insertions(+)
-+ create mode 100644 NetworkPkg/SecurityFixes.yaml
-+
-+diff --git a/NetworkPkg/SecurityFixes.yaml b/NetworkPkg/SecurityFixes.yaml
-+new file mode 100644
-+index 0000000000..7e900483fe
-+--- /dev/null
-++++ b/NetworkPkg/SecurityFixes.yaml
-+@@ -0,0 +1,123 @@
-++## @file=0D
-++# Security Fixes for SecurityPkg=0D
-++#=0D
-++# Copyright (c) Microsoft Corporation=0D
-++# SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-++##=0D
-++CVE_2023_45229:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Patch"=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Unit Tests"=0D
-++  cve: CVE-2023-45229=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 01 - edk2/NetworkPkg: Out-of-bounds read when process=
-ing IA_NA/IA_TA options in a DHCPv6 Advertise message"=0D
-++  note:=0D
-++  files_impacted:=0D
-++    - NetworkPkg\Dhcp6Dxe\Dhcp6Io.c=0D
-++    - NetworkPkg\Dhcp6Dxe\Dhcp6Impl.h=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45229=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-++CVE_2023_45230:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45230 Patch"=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45230 Unit Tests"=0D
-++  cve: CVE-2023-45230=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 02 - edk2/NetworkPkg: Buffer overflow in the DHCPv6 c=
-lient via a long Server ID option"=0D
-++  note:=0D
-++  files_impacted:=0D
-++    - NetworkPkg\Dhcp6Dxe\Dhcp6Io.c=0D
-++    - NetworkPkg\Dhcp6Dxe\Dhcp6Impl.h=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4535=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45230=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-++CVE_2023_45231:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45231 Patch"=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45231 Unit Tests"=0D
-++  cve: CVE-2023-45231=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 03 - edk2/NetworkPkg: Out-of-bounds read when handlin=
-g a ND Redirect message with truncated options"=0D
-++  note:=0D
-++  files_impacted:=0D
-++    - NetworkPkg/Ip6Dxe/Ip6Option.c=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4536=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45231=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-++CVE_2023_45232:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Patch"=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Unit Tests"=0D
-++  cve: CVE-2023-45232=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 04 - edk2/NetworkPkg: Infinite loop when parsing unkn=
-own options in the Destination Options header"=0D
-++  note:=0D
-++  files_impacted:=0D
-++    - NetworkPkg/Ip6Dxe/Ip6Option.c=0D
-++    - NetworkPkg/Ip6Dxe/Ip6Option.h=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45232=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-++CVE_2023_45233:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Patch"=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Unit Tests"=0D
-++  cve: CVE-2023-45233=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 05 - edk2/NetworkPkg: Infinite loop when parsing a Pa=
-dN option in the Destination Options header "=0D
-++  note: This was fixed along with CVE-2023-45233=0D
-++  files_impacted:=0D
-++    - NetworkPkg/Ip6Dxe/Ip6Option.c=0D
-++    - NetworkPkg/Ip6Dxe/Ip6Option.h=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45233=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-++CVE_2023_45234:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45234 Patch"=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45234 Unit Tests"=0D
-++  cve: CVE-2023-45234=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 06 - edk2/NetworkPkg: Buffer overflow when processing=
- DNS Servers option in a DHCPv6 Advertise message"=0D
-++  note:=0D
-++  files_impacted:=0D
-++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4539=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45234=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
-++CVE_2023_45235:=0D
-++  commit_titles:=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45235 Patch"=0D
-++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45235 Unit Tests"=0D
-++  cve: CVE-2023-45235=0D
-++  date_reported: 2023-08-28 13:56 UTC=0D
-++  description: "Bug 07 - edk2/NetworkPkg: Buffer overflow when handling S=
-erver ID option from a DHCPv6 proxy Advertise message"=0D
-++  note:=0D
-++  files_impacted:=0D
-++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c=0D
-++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h=0D
-++  links:=0D
-++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540=0D
-++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45235=0D
-++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
-++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
-epts.html=0D
-++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
-ores-edk-ii-ipv6-network-stack.html=0D
++-  // Generate a random IAID for the Dhcp6 assigned address.=0D
+++  // Set a random IAID for the Dhcp6 assigned address.=0D
++   //=0D
++-  Private->IaId =3D NET_RANDOM (NetRandomInitSeed ());=0D
+++  Private->IaId =3D Random;=0D
++   if (Private->Snp !=3D NULL) {=0D
++     for (Index =3D 0; Index < Private->Snp->Mode->HwAddressSize; Index++)=
+ {=0D
++       Private->IaId |=3D (Private->Snp->Mode->CurrentAddress.Addr[Index] =
+<< ((Index << 3) & 31));=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index ceebb53438..6ac72772d1 100644
+index 6ac72772d1..47ed2c7cd3 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -43,6 +43,10 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branc=
-h=3Dmaster;protocol=3Dhttps \
-            file://CVE-2023-45234-0002.patch \
-            file://CVE-2023-45235-0001.patch \
-            file://CVE-2023-45235-0002.patch \
-+           file://CVE-2023-45229-0001.patch \
-+           file://CVE-2023-45229-0002.patch \
-+           file://CVE-2023-45229-0003.patch \
-+           file://CVE-2023-45229-0004.patch \
+@@ -47,6 +47,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps \
+            file://CVE-2023-45229-0002.patch \
+            file://CVE-2023-45229-0003.patch \
+            file://CVE-2023-45229-0004.patch \
++           file://CVE-2023-45237-0001.patch \
++           file://CVE-2023-45237-0002.patch \
             "
 =20
  PV =3D "edk2-stable202202"
