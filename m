@@ -2,97 +2,153 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 68636E77175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77DE8E77178
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:45 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.web11.21203.1733334885106681093
+Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
+ by mx.groups.io with SMTP id smtpd.web11.21196.1733334877404854001
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:45 -0800
+ Wed, 04 Dec 2024 09:54:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=gePQivXI;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.171, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-7fd10cd5b1aso46468a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:45 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=Lqx62FrX;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.173, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-7fcdb53d849so60528a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334884; x=1733939684; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334877; x=1733939677; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=odbSBHJr73ogjhiGW8IBVPsVNe4jPZnBnI3grSXL+/o=;
-        b=gePQivXImoQChvZwYwPREApVgqOicdZ6CjYHO+6940g1+l8ixRj9mWsy7L+35w5qPf
-         vxz6lSVsPxf/Lzs2FlVDZTeaO6RY/hQXKzTc/uiUS55HWmh0nQFmj80DOssu/vxXS7p1
-         EAzxPeSOEL0jXw7lMymWD6+NyPnsfcWOPJVeZjBTmySWFsFtGKl4IaHRZL7whO2U0zqZ
-         ggGcHl3Xi+AVRXgt1LFBukjyQK6/O6LxNhhnnoMwLlURYqaXFyKz2mGfmxh8FkyK7jj3
-         hNDjWdhC6VK/VlZXnDItkCWCpkSm9x+ET0r4QOLlNyUIcpEp1TmmbmP9mRJoPLYvF00X
-         FmNQ==
+        bh=R86+1f2BqeCIyUrkGojdMpZUbYnS7SgJ/6IrCorA8tI=;
+        b=Lqx62FrXk5YkvOAmnjMvDQVwY6BHs4/zXCfvDZdqhUxBw4KpuzJu1hJzOl3/Px5CZD
+         dXbDP+1mxRvB+ekGEjTqpekAGc2k0EEACqcbcm+jSBA3MBsZ8inD74WZpC2nFqiELU2k
+         LRdRxmMpp+Dk7IRmBAOsRRb38MIefikSMOOYlIvCzm2l/dXYXpGg80HmunnKmpBerX0z
+         O44Sq1Wi2RCQANIRp/E/eeOB8OjALAhEjlMn/SwJ2+MzOn+uo+5AZy/G2dnFshQrE6EK
+         NSjmVWtGnBjFMQLoxnArO6TCUbeF/W3Xf+l+opsryp9pAApYqnOTfbIauxptvpHhFTTO
+         np9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334884; x=1733939684;
+        d=1e100.net; s=20230601; t=1733334877; x=1733939677;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=odbSBHJr73ogjhiGW8IBVPsVNe4jPZnBnI3grSXL+/o=;
-        b=JF7ABQD4YeAS2OYl+MY8o0lwihtYjP9eqla5yjZsPdxomWJyREmhe7PA8mzpf5m9LY
-         lwsPLWwmUChAbnNrIVVIZUy/vUuB0MyOHd+ArR/CzqZEPjYOahOz1pl4MhtDZG7zJ4zj
-         OaZmuLiGeskrTzCiYdYN3D63gIsuXciI2ebwU/SlwWNLRT1uk1HGyeyMrz8L3ROWx1Zr
-         9LGc1y//j9raHGJ9oVUaseBWVMq9egUMIucWxJ67JjAOcfSEtTen+NOV4+3nQQzBP9Zb
-         hdBh3yYQAWbI2PI29moKEg4oPZIA0L3ER3ZiKLP5GuKnwghGvUNtW8Gad85H8YIYUI0k
-         nZKg==
-X-Gm-Message-State: AOJu0YzlWFTWWKuNx8Ap6FoTf+3rx55/y5BVtod3yB2Iv3oHvs9aKWuk
-	MTeVl28x5JurIhDmAULsCpPvxkhpq6W3Ble8bm7Q8liMf7UX+ekyleUnI+9+iR6u4jy29T/Nu35
-	o
-X-Gm-Gg: ASbGncvoxXhEfQBDSdkUHrKDudMjXK2bW21DKnGsSv3Z4ntA4Le6UULpaP+Ju7MdCtW
-	C9EqjMpOzx9zNFvvb0djyqKX5vPXQ8GuXZyCoxo9571F66PuWE3vu4phvtbBfNOAvueQHK9X1yO
-	xcPYkHKa5uEQ5h41dznrMqXI/Gzfc5/i61VB/VPXjV7+D0e9ok0Y/0R1SF67gl4nRm5DVNg3I3B
-	IHfy38nl6Vz560Z9geafC/A4SQuUHBziVG7Lpg=
-X-Google-Smtp-Source: AGHT+IHlqAO2pWG7T1K61GbMutaQe3bFW+Tqp6P6TsdvYfF29LAwBjvdGusxFW7NcsNcU+OVSikTow==
-X-Received: by 2002:a05:6a20:7f8f:b0:1e0:d32f:24e2 with SMTP id adf61e73a8af0-1e16bef1948mr9549421637.38.1733334884375;
-        Wed, 04 Dec 2024 09:54:44 -0800 (PST)
+        bh=R86+1f2BqeCIyUrkGojdMpZUbYnS7SgJ/6IrCorA8tI=;
+        b=dh5BB7r6wtlN34ujIQK/T7QQiSLDKcEYoj5/Vb36EKoNSfg6flIeOVJA9B53NT3k1h
+         ZR8fqASBXg6Z2+QldA5Ai+Gy2H5hKrkvq0pfx/YWbVZS8QF3Pwyf1Ycrcn77Ri/QhsQs
+         uhrST7sxEWOqs7qupIRv2yE4Q2rL0csz2KUP3wromeJFGCDFdxVAc1AQzdoyvuzkDh+r
+         ctUtVQA+ENOLU9Dk49EdTXzXQ/k8cSgGrThHgeEDT+cO2e1671nGkcb1QjZ5btsXIg3D
+         CsDjuCpIW1Km4Z0Q78m+BRUQByVhXNPUryWa/SLnirJk9so5N07zxUF5anTg17MixKvO
+         joBg==
+X-Gm-Message-State: AOJu0YyifkgcKsc7FHFWGeR2gW6nUQianNdolGpoVamE08M7t4ECjmXa
+	7F6t5mKrFdEvWAId/qobHszqn07qVpPEZGaiANrXY712FhCMi5w59NlW6rUukkziU62hwXvSRO9
+	p
+X-Gm-Gg: ASbGncshk+hPUXVerE85+ZzMPuEjCQL+XjkOzl79q8WJXF2scRaqCP8TJVzwlKoMHQ7
+	dUi9Qb+QbXkQMl687E9uXvpX8oLSZFWE2G9ZZyFpX22Bu7U12vBRYtb6r3CCzRylf01mGk5Ztny
+	oE4LNPqFZXQnZ9w1g7ZZst39tDRtvfkAFYaRT+6V28CYBZep1d6M8n4xkrswLPQ1h5rKyLWS9MT
+	X5dj8rS5y2aRyHJtT/RVotEEgJmZ7wA3mbLyZU=
+X-Google-Smtp-Source: AGHT+IEoM4Oip0z1/rNHLWzqOSWA4nIkRKp5H7eaVml2VJSQBAlnC1+UXZQDfxNONjuv6fDlbhuS5A==
+X-Received: by 2002:a05:6a21:33a4:b0:1db:e82e:c802 with SMTP id adf61e73a8af0-1e16bef4882mr8821724637.41.1733334876633;
+        Wed, 04 Dec 2024 09:54:36 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.43
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:43 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:36 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 17/38] cpio: ignore CVE-2023-7216
-Date: Wed,  4 Dec 2024 09:53:44 -0800
-Message-Id: <50d8a653104abb9b5cd8a708a7bd97446e894bcf.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 12/38] ovmf: fix CVE-2024-38796
+Date: Wed,  4 Dec 2024 09:53:39 -0800
+Message-Id: <c3d1be52b4dc18e6980bf6c3f2e2cb7fba9f986e.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208300
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208295
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hongxu Jia <hongxu.jia@windriver.com>
 
-Same was done in newer Yocto releases.
-See commit See commit 0f2cd2bbaddba3b8c80d71db274bbcd941d0e60e
+Backport a fix from upstream to resolve CVE-2024-38796
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
+    https://github.com/tianocore/edk2/commit/c95233b8525ca6828921affd149614=
+6cff262e65
+
+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
 ---
- meta/recipes-extended/cpio/cpio_2.14.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ ...-Fix-overflow-issue-in-BasePeCoffLib.patch | 37 +++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |  1 +
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-is=
+sue-in-BasePeCoffLib.patch
 
-diff --git a/meta/recipes-extended/cpio/cpio_2.14.bb b/meta/recipes-extended/cpio/cpio_2.14.bb
-index c0b97ee166..0fbab82cca 100644
---- a/meta/recipes-extended/cpio/cpio_2.14.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.14.bb
-@@ -16,6 +16,8 @@ inherit autotools gettext texinfo
- 
- # Issue applies to use of cpio in SUSE/OBS, doesn't apply to us
- CVE_CHECK_IGNORE += "CVE-2010-4226"
-+# disputed: intended behaviour, see https://lists.gnu.org/archive/html/bug-cpio/2024-03/msg00000.html
-+CVE_CHECK_IGNORE += "CVE-2023-7216"
- 
- EXTRA_OECONF += "DEFAULT_RMT_DIR=${sbindir}"
- 
--- 
+diff --git a/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-issue-in-=
+BasePeCoffLib.patch b/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-=
+issue-in-BasePeCoffLib.patch
+new file mode 100644
+index 0000000000..8d36bdf1c1
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/0001-MdePkg-Fix-overflow-issue-in-BasePeC=
+offLib.patch
+@@ -0,0 +1,37 @@
++From c4d6af8428375c0343fcfd20bf1465e6d4be4690 Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Fri, 22 Nov 2024 17:44:27 +0800
++Subject: [PATCH] MdePkg: Fix overflow issue in BasePeCoffLib
++
++The RelocDir->Size is a UINT32 value, and RelocDir->VirtualAddress is
++also a UINT32 value. The current code does not check for overflow when
++adding RelocDir->Size to RelocDir->VirtualAddress. This patch adds a
++check to ensure that the addition does not overflow.
++
++Signed-off-by: Doug Flick <dougflick@microsoft.com>
++Authored-by: sriraamx gobichettipalayam <sri..@intel.com>
++
++CVE: CVE-2024-38796
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/c95233=
+b8525ca6828921affd1496146cff262e65]
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++---
++ MdePkg/Library/BasePeCoffLib/BasePeCoff.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/MdePkg/Library/BasePeCoffLib/BasePeCoff.c b/MdePkg/Library/Ba=
+sePeCoffLib/BasePeCoff.c
++index 6d8d9faeb8..2339b111b5 100644
++--- a/MdePkg/Library/BasePeCoffLib/BasePeCoff.c
+++++ b/MdePkg/Library/BasePeCoffLib/BasePeCoff.c
++@@ -1014,7 +1014,7 @@ PeCoffLoaderRelocateImage (
++     RelocDir =3D &Hdr.Te->DataDirectory[0];=0D
++   }=0D
++ =0D
++-  if ((RelocDir !=3D NULL) && (RelocDir->Size > 0)) {=0D
+++  if ((RelocDir !=3D NULL) && (RelocDir->Size > 0) && (RelocDir->Size - 1=
+ < MAX_UINT32 - RelocDir->VirtualAddress)) {=0D
++     RelocBase    =3D (EFI_IMAGE_BASE_RELOCATION *)PeCoffLoaderImageAddres=
+s (ImageContext, RelocDir->VirtualAddress, TeStrippedOffset);=0D
++     RelocBaseEnd =3D (EFI_IMAGE_BASE_RELOCATION *)PeCoffLoaderImageAddres=
+s (=0D
++                                                   ImageContext,=0D
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
+mf_git.bb
+index 1dba709824..e626d306a4 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -53,6 +53,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
+=3Dmaster;protocol=3Dhttps \
+            file://CVE-2022-36765-0001.patch \
+            file://CVE-2022-36765-0002.patch \
+            file://CVE-2022-36765-0003.patch \
++           file://0001-MdePkg-Fix-overflow-issue-in-BasePeCoffLib.patch \
+            "
+=20
+ PV =3D "edk2-stable202202"
+--=20
 2.34.1
 
 
