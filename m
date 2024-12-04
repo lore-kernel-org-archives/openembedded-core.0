@@ -1,278 +1,261 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <Yogita.Urade@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE077E77166
-	for <webhook@archiver.kernel.org>; Tue,  3 Dec 2024 22:39:08 +0000 (UTC)
-Received: from mail-oa1-f47.google.com (mail-oa1-f47.google.com [209.85.160.47])
- by mx.groups.io with SMTP id smtpd.web10.813.1733265540027969207
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C92B7E7716B
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 05:24:00 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.7190.1733289838447487448
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 14:39:00 -0800
+ Tue, 03 Dec 2024 21:23:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=A5vk7ML1;
- spf=pass (domain: gmail.com, ip: 209.85.160.47, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oa1-f47.google.com with SMTP id 586e51a60fabf-29645a83b1bso3465511fac.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 14:38:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733265539; x=1733870339; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KD+2W3Aj+3zVC2XCPb/xlRU+sivR+uUgFccjROC340w=;
-        b=A5vk7ML1pwkf844MGfffdy5wcy+xDKtLTeyWW5RnhGvBhAIiAEulQI4J3GRwYWiGjP
-         7eETIlOR/oA4WbkPQhbuihnHGfHAX4yiHrLjFFrZtllj+HCKQRluNbilcTnJVm+Pguv9
-         HSzDiRtx4JfzclhG6lfn8tpMwOT+35dBMzYYO1pI8jp6Vr0j27q1OLtFbEb0cCtgq42s
-         o31Scv6bRLKPg5ZiklpxBd/fMM4ehi3TbtF1y2yQrf6uqo5/sp69AMB7wZaorGd4MByr
-         Z08ZbmqNWo4VceLRgEGCjQL4HWsN3EVIQjINWFnZjs1R+RQXExOImAi7/BYmyFiBEg9F
-         nG9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733265539; x=1733870339;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KD+2W3Aj+3zVC2XCPb/xlRU+sivR+uUgFccjROC340w=;
-        b=Mn4iTCntqyv77oYYLdpXsoCZFkfdKlovEuxXugirTSMeTMFQLVRuQLSO9f/yPUR14P
-         3bG2GootAPcvEM7F3SJZwoJ/oiZ0BxKIbzVU7Bum6eGqQ/t4vKXJPWVQLDgchJ7PlpDT
-         Fzw670UhE1zKLOFwtNZ+Uvp8VHcZbaB4PsS1aILV99wIeLt8Hlve1AU4nNHdov8yM2fr
-         SAxEWnJcBKK52R7/59w/WQW+x1/QQpUp8l6c+sJkuKLq2HH+An/4sAlUz2VD4vnplqxo
-         gwOCjHVIsSIZnoYXt9gZxCr8tcqiYV488FgIrBjIoUEF1Djg2BXXyZKQIQ6s4KT9581p
-         JpRA==
-X-Gm-Message-State: AOJu0YxhnQX9XDScWVosr6o60QnaGr44gFU/vyeqWHoB2el9XdFXEdOf
-	uCttqCYrGK2TdK5H3bA0lksysNT/UMQDRZ1k1Z6aELfHKPAnZwNHsaXFhQ==
-X-Gm-Gg: ASbGncvd5vCJgpfK7Q0HThgXMM/+gZBuXeIW0lyoZBuKKzZAxBNMmhApoDHYuqggatk
-	DjmrT6/u9GOYOZY8DEJEYFD7miSSGnuapxMfpuqMgZcYRGgysHTtLM2/Nc32s06Ge2ly3cOLsDV
-	zfykUb2k6MeXOjsQOkZeL3Mop27OhDlXDOd1by3DAYiKeiolWBh+5YTWibhNywKu5UcGCHyKybB
-	hZnApWI58ZdDz/HwjKO7MzS5wFacvmxqVXiJKw/zQ/eN20V
-X-Google-Smtp-Source: AGHT+IHUFqKVD/i9RDiciOTVk7T5eqdPgC8OlO3iib6rkFkPZWPdStvey0B76jlygarQUAdMmpT4Zw==
-X-Received: by 2002:a05:6870:7022:b0:295:ef93:3df7 with SMTP id 586e51a60fabf-29e9b17c2d0mr1639858fac.18.1733265538677;
-        Tue, 03 Dec 2024 14:38:58 -0800 (PST)
-Received: from localhost.localdomain ([2601:282:4300:19e0::dc1a])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-29de928c9b7sm4037836fac.22.2024.12.03.14.38.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 14:38:57 -0800 (PST)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH 5/5] lib: oeqa: spdx: Add tests for extra options
-Date: Tue,  3 Dec 2024 15:37:10 -0700
-Message-ID: <20241203223844.2689172-6-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.47.1
-In-Reply-To: <20241203223844.2689172-1-JPEWhacker@gmail.com>
-References: <20241203223844.2689172-1-JPEWhacker@gmail.com>
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2068a148a2=yogita.urade@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4512f9025637
+	for <openembedded-core@lists.openembedded.org>; Tue, 3 Dec 2024 21:23:58 -0800
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [147.11.82.252])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43833q3ykg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 21:23:57 -0800 (PST)
+Received: from blr-linux-engg1.wrs.com (147.11.136.210) by
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.43; Tue, 3 Dec 2024 21:23:55 -0800
+From: yurade <yogita.urade@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [OE-core][kirkstone][PATCH 2/2] qemu: fix CVE-2024-3447
+Date: Wed, 4 Dec 2024 05:23:35 +0000
+Message-ID: <20241204052335.323403-2-yogita.urade@windriver.com>
+X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20241204052335.323403-1-yogita.urade@windriver.com>
+References: <20241204052335.323403-1-yogita.urade@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="UTF-8"
+X-Originating-IP: [147.11.136.210]
+X-ClientProxiedBy: ala-exchng01.corp.ad.wrs.com (147.11.82.252) To
+ ala-exchng01.corp.ad.wrs.com (147.11.82.252)
+X-Proofpoint-ORIG-GUID: bht9_Nw1ZlRvUDiQ9SlbQZMncsfrgEp-
+X-Authority-Analysis: v=2.4 cv=bqq2BFai c=1 sm=1 tr=0 ts=674fe76d cx=c_pps a=/ZJR302f846pc/tyiSlYyQ==:117 a=/ZJR302f846pc/tyiSlYyQ==:17 a=HCiNrPZc1L8A:10 a=IkcTkHD0fZMA:10 a=RZcAm9yDv7YA:10 a=PYnjg3YJAAAA:8 a=p0WdMEafAAAA:8 a=ID6ng7r3AAAA:8
+ a=cm27Pg_UAAAA:8 a=t7CeM3EgAAAA:8 a=KKAkSRfTAAAA:8 a=69wJf7TsAAAA:8 a=pGLkceISAAAA:8 a=9qUTvQc-AAAA:8 a=wdMnOkrvCAHKwH8y8AoA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=AkheI1RvQwOzcTXhi5f4:22 a=FdTzh2GWekK77mhwV6Dw:22 a=cvBusfyB2V15izCimMoJ:22
+ a=Fg1AiH1G6rFz08G2ETeA:22 a=axOgMmt4Ejcwn1cqzmsR:22
+X-Proofpoint-GUID: bht9_Nw1ZlRvUDiQ9SlbQZMncsfrgEp-
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-04_03,2024-12-03_03,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 adultscore=0
+ malwarescore=0 priorityscore=1501 mlxscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 suspectscore=0 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2411120000
+ definitions=main-2412040042
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4B4512f9025637
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 22:39:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208226
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 05:24:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208228
 
-Adds a test for several of the extra options provided by the SPDX
-classes. In particular, these are the options that can produce
-non-reproducible results, so are not enabled by default in OE core. This
-test takes care to configure the build so that the tests do run in a
-reproducible manner so that pre-built test objects can be pulled from
-sstate
+From: Yogita Urade <yogita.urade@windriver.com>
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+A heap-based buffer overflow was found in the SDHCI device
+emulation of QEMU. The bug is triggered when both
+`s->data_count` and the size of `s->fifo_buffer` are set to
+0x200, leading to an out-of-bound access. A malicious guest
+could use this flaw to crash the QEMU process on the host,
+resulting in a denial of service condition.
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2024-3447
+
+Upstream patch:
+https://gitlab.com/qemu-project/qemu/-/commit/2429cb7a9f460b544f4b07bcf02=
+dbdedfc4dcb39
+
+Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
 ---
- meta/lib/oe/sbom30.py                |  13 +--
- meta/lib/oeqa/selftest/cases/spdx.py | 118 +++++++++++++++++++++++----
- 2 files changed, 108 insertions(+), 23 deletions(-)
+ meta/recipes-devtools/qemu/qemu.inc           |   1 +
+ .../qemu/qemu/CVE-2024-3447.patch             | 137 ++++++++++++++++++
+ 2 files changed, 138 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2024-3447.patch
 
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index 7d01715ce24..9a3b188dbbb 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -875,16 +875,11 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-             else:
-                 missing_spdxids.add(spdxid)
- 
--        bb.debug(1, "Linking...")
--        missing = self.link()
--        if missing != missing_spdxids:
--            bb.fatal(
--                f"Linked document doesn't match missing SPDX ID list. Got: {missing}\nExpected: {missing_spdxids}"
--            )
--
-         self.doc.import_ = sorted(imports.values(), key=lambda e: e.externalSpdxId)
--
--        return missing_spdxids
-+        bb.debug(1, "Linking...")
-+        self.link()
-+        self.missing_ids -= set(imports.keys())
-+        return self.missing_ids
- 
- 
- def load_jsonld(d, path, required=False):
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
-index 83840702199..9b35793d139 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -7,9 +7,11 @@
- import json
- import os
- import textwrap
-+import hashlib
- from pathlib import Path
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars, runCmd
-+import oe.spdx30
- 
- 
- class SPDX22Check(OESelftestTestCase):
-@@ -73,8 +75,6 @@ class SPDX3CheckBase(object):
-     """
- 
-     def check_spdx_file(self, filename):
--        import oe.spdx30
--
-         self.assertExists(filename)
- 
-         # Read the file
-@@ -86,13 +86,16 @@ class SPDX3CheckBase(object):
-         return objset
- 
-     def check_recipe_spdx(self, target_name, spdx_path, *, task=None, extraconf=""):
--        config = textwrap.dedent(
--            f"""\
--            INHERIT:remove = "create-spdx"
--            INHERIT += "{self.SPDX_CLASS}"
--            {extraconf}
--            """
-+        config = (
-+            textwrap.dedent(
-+                f"""\
-+                INHERIT:remove = "create-spdx"
-+                INHERIT += "{self.SPDX_CLASS}"
-+                """
-+            )
-+            + textwrap.dedent(extraconf)
-         )
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/=
+qemu/qemu.inc
+index c9b2d49c7f..b38bec19cd 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -127,6 +127,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.t=
+ar.xz \
+            file://CVE-2024-3446-0004.patch \
+            file://CVE-2024-3446-0005.patch \
+            file://CVE-2024-3446-0006.patch \
++           file://CVE-2024-3447.patch \
+            "
+ UPSTREAM_CHECK_REGEX =3D "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
+=20
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2024-3447.patch b/meta/r=
+ecipes-devtools/qemu/qemu/CVE-2024-3447.patch
+new file mode 100644
+index 0000000000..e403e3ec25
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2024-3447.patch
+@@ -0,0 +1,137 @@
++From 2429cb7a9f460b544f4b07bcf02dbdedfc4dcb39 Mon Sep 17 00:00:00 2001
++From: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
++Date: Tue, 3 Dec 2024 08:19:23 +0000
++Subject: [PATCH] hw/sd/sdhci: Do not update TRNMOD when Command Inhibit =
+(DAT)
++ is set Per "SD Host Controller Standard Specification Version 3.00":
 +
-         self.write_config(config)
- 
-         if task:
-@@ -120,11 +123,17 @@ class SPDX3CheckBase(object):
-         return self.check_spdx_file(filename)
- 
-     def check_objset_missing_ids(self, objset):
--        if objset.missing_ids:
-+        for o in objset.foreach_type(oe.spdx30.SpdxDocument):
-+            doc = o
-+            break
-+        else:
-+            self.assertTrue(False, "Unable to find SpdxDocument")
++  * 2.2.5 Transfer Mode Register (Offset 00Ch)
 +
-+        missing_ids = objset.missing_ids - set(i.externalSpdxId for i in doc.import_)
-+        if missing_ids:
-             self.assertTrue(
-                 False,
--                "The following SPDXIDs are unresolved:\n  "
--                + "\n  ".join(objset.missing_ids),
-+                "The following SPDXIDs are unresolved:\n  " + "\n  ".join(missing_ids),
-             )
- 
- 
-@@ -188,12 +197,93 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-         objset = self.check_recipe_spdx(
-             "baremetal-helloworld",
-             "{DEPLOY_DIR_IMAGE}/baremetal-helloworld-image-{MACHINE}.spdx.json",
--            extraconf=textwrap.dedent(
--                """\
-+            extraconf="""\
-                 TCLIBC = "baremetal"
-+                """,
-+        )
++    Writes to this register shall be ignored when the Command
++    Inhibit (DAT) in the Present State register is 1.
 +
-+        # Document should be fully linked
-+        self.check_objset_missing_ids(objset)
++Do not update the TRNMOD register when Command Inhibit (DAT)
++bit is set to avoid the present-status register going out of
++sync, leading to malicious guest using DMA mode and overflowing
++the FIFO buffer:
 +
-+    def test_extra_opts(self):
-+        HOST_SPDXID = "http://foo.bar/spdx/bar2"
++  $ cat << EOF | qemu-system-i386 \
++                     -display none -nographic -nodefaults \
++                     -machine accel=3Dqtest -m 512M \
++                     -device sdhci-pci,sd-spec-version=3D3 \
++                     -device sd-card,drive=3Dmydrive \
++                     -drive if=3Dnone,index=3D0,file=3Dnull-co://,format=
+=3Draw,id=3Dmydrive \
++                     -qtest stdio
++  outl 0xcf8 0x80001013
++  outl 0xcfc 0x91
++  outl 0xcf8 0x80001001
++  outl 0xcfc 0x06000000
++  write 0x9100002c 0x1 0x05
++  write 0x91000058 0x1 0x16
++  write 0x91000005 0x1 0x04
++  write 0x91000028 0x1 0x08
++  write 0x16 0x1 0x21
++  write 0x19 0x1 0x20
++  write 0x9100000c 0x1 0x01
++  write 0x9100000e 0x1 0x20
++  write 0x9100000f 0x1 0x00
++  write 0x9100000c 0x1 0x00
++  write 0x91000020 0x1 0x00
++  EOF
 +
-+        EXTRACONF = textwrap.dedent(
-+            f"""\
-+            SPDX_INVOKED_BY_name = "CI Tool"
-+            SPDX_INVOKED_BY_type = "software"
++Stack trace (part):
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++=3D=3D89993=3D=3DERROR: AddressSanitizer: heap-buffer-overflow on addres=
+s
++0x615000029900 at pc 0x55d5f885700d bp 0x7ffc1e1e9470 sp 0x7ffc1e1e9468
++WRITE of size 1 at 0x615000029900 thread T0
++    #0 0x55d5f885700c in sdhci_write_dataport hw/sd/sdhci.c:564:39
++    #1 0x55d5f8849150 in sdhci_write hw/sd/sdhci.c:1223:13
++    #2 0x55d5fa01db63 in memory_region_write_accessor system/memory.c:49=
+7:5
++    #3 0x55d5fa01d245 in access_with_adjusted_size system/memory.c:573:1=
+8
++    #4 0x55d5fa01b1a9 in memory_region_dispatch_write system/memory.c:15=
+21:16
++    #5 0x55d5fa09f5c9 in flatview_write_continue system/physmem.c:2711:2=
+3
++    #6 0x55d5fa08f78b in flatview_write system/physmem.c:2753:12
++    #7 0x55d5fa08f258 in address_space_write system/physmem.c:2860:18
++    ...
++0x615000029900 is located 0 bytes to the right of 512-byte region
++[0x615000029700,0x615000029900) allocated by thread T0 here:
++    #0 0x55d5f7237b27 in __interceptor_calloc
++    #1 0x7f9e36dd4c50 in g_malloc0
++    #2 0x55d5f88672f7 in sdhci_pci_realize hw/sd/sdhci-pci.c:36:5
++    #3 0x55d5f844b582 in pci_qdev_realize hw/pci/pci.c:2092:9
++    #4 0x55d5fa2ee74b in device_set_realized hw/core/qdev.c:510:13
++    #5 0x55d5fa325bfb in property_set_bool qom/object.c:2358:5
++    #6 0x55d5fa31ea45 in object_property_set qom/object.c:1472:5
++    #7 0x55d5fa332509 in object_property_set_qobject om/qom-qobject.c:28=
+:10
++    #8 0x55d5fa31f6ed in object_property_set_bool qom/object.c:1541:15
++    #9 0x55d5fa2e2948 in qdev_realize hw/core/qdev.c:292:12
++    #10 0x55d5f8eed3f1 in qdev_device_add_from_qdict system/qdev-monitor=
+.c:719:10
++    #11 0x55d5f8eef7ff in qdev_device_add system/qdev-monitor.c:738:11
++    #12 0x55d5f8f211f0 in device_init_func system/vl.c:1200:11
++    #13 0x55d5fad0877d in qemu_opts_foreach util/qemu-option.c:1135:14
++    #14 0x55d5f8f0df9c in qemu_create_cli_devices system/vl.c:2638:5
++    #15 0x55d5f8f0db24 in qmp_x_exit_preconfig system/vl.c:2706:5
++    #16 0x55d5f8f14dc0 in qemu_init system/vl.c:3737:9
++    ...
++SUMMARY: AddressSanitizer: heap-buffer-overflow hw/sd/sdhci.c:564:39
++in sdhci_write_dataport
 +
-+            SPDX_ON_BEHALF_OF_name = "John Doe"
-+            SPDX_ON_BEHALF_OF_type = "person"
-+            SPDX_ON_BEHALF_OF_id_email = "John.Doe@noreply.com"
++Add assertions to ensure the fifo_buffer[] is not overflowed by
++malicious accesses to the Buffer Data Port register.
 +
-+            SPDX_PACKAGE_SUPPLIER_name = "ACME Embedded Widgets"
-+            SPDX_PACKAGE_SUPPLIER_type = "organization"
++Fixes: CVE-2024-3447
++Cc: qemu-stable@nongnu.org
++Fixes: d7dfca08 ("hw/sdhci: introduce standard SD host controller")
++Buglink: https://bugs.chromium.org/p/oss-fuzz/issues/detail?id=3D58813
 +
-+            SPDX_AUTHORS += "authorA"
-+            SPDX_AUTHORS_authorA_ref = "SPDX_ON_BEHALF_OF"
++Reported-by: Alexander Bulekov <alxndr@bu.edu>
++Reported-by: Chuhong Yuan <hslester96@gmail.com>
++Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
++Message-Id: <CAFEAcA9iLiv1XGTGKeopgMa8Y9+8kvptvsb8z2OBeuy+5=3DNUfg@mail.=
+gmail.com>
++Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@linaro.org>
++Message-Id: <20240409145524.27913-1-philmd@linaro.org>
++(cherry picked from commit 9e4b27ca)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 +
-+            SPDX_BUILD_HOST = "host"
++CVE: CVE-2024-3447
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit=
+/2429cb7a9f460b544f4b07bcf02dbdedfc4dcb39]
 +
-+            SPDX_IMPORTS += "host"
-+            SPDX_IMPORTS_host_spdxid = "{HOST_SPDXID}"
++Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
++---
++ hw/sd/sdhci.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
 +
-+            SPDX_INCLUDE_BUILD_VARIABLES = "1"
-+            SPDX_INCLUDE_BITBAKE_PARENT_BUILD = "1"
-+            SPDX_INCLUDE_TIMESTAMPS = "1"
++diff --git a/hw/sd/sdhci.c b/hw/sd/sdhci.c
++index e0bbc9034..211daa4bb 100644
++--- a/hw/sd/sdhci.c
+++++ b/hw/sd/sdhci.c
++@@ -471,6 +471,7 @@ static uint32_t sdhci_read_dataport(SDHCIState *s, u=
+nsigned size)
++     }
 +
-+            SPDX_PRETTY = "1"
-+            """
-+        )
-+        extraconf_hash = hashlib.sha1(EXTRACONF.encode("utf-8")).hexdigest()
++     for (i =3D 0; i < size; i++) {
+++        assert(s->data_count < s->buf_maxsz);
++         value |=3D s->fifo_buffer[s->data_count] << i * 8;
++         s->data_count++;
++         /* check if we've read all valid data (blksize bytes) from buff=
+er */
++@@ -559,6 +560,7 @@ static void sdhci_write_dataport(SDHCIState *s, uint=
+32_t value, unsigned size)
++     }
 +
-+        objset = self.check_recipe_spdx(
-+            "core-image-minimal",
-+            "{DEPLOY_DIR_IMAGE}/core-image-minimal-{MACHINE}.rootfs.spdx.json",
-+            # Many SPDX variables do not trigger a rebuild, since they are
-+            # intended to record information at the time of the build. As such,
-+            # the extra configuration alone may not trigger a rebuild, and even
-+            # if it does, the task hash won't necessarily be unique. In order
-+            # to make sure rebuilds happen, but still allow these test objects
-+            # to be pulled from sstate (e.g. remain reproducible), change the
-+            # namespace prefix to include the hash of the extra configuration
-+            extraconf=textwrap.dedent(
-+                f"""\
-+                SPDX_NAMESPACE_PREFIX = "http://spdx.org/spdxdocs/{extraconf_hash}"
-                 """
--            ),
-+            )
-+            + EXTRACONF,
-         )
- 
-         # Document should be fully linked
-         self.check_objset_missing_ids(objset)
++     for (i =3D 0; i < size; i++) {
+++        assert(s->data_count < s->buf_maxsz);
++         s->fifo_buffer[s->data_count] =3D value & 0xFF;
++         s->data_count++;
++         value >>=3D 8;
++@@ -1184,6 +1186,12 @@ sdhci_write(void *opaque, hwaddr offset, uint64_t=
+ val, unsigned size)
++         if (!(s->capareg & R_SDHC_CAPAB_SDMA_MASK)) {
++             value &=3D ~SDHC_TRNS_DMA;
++         }
+++
+++        /* TRNMOD writes are inhibited while Command Inhibit (DAT) is t=
+rue */
+++        if (s->prnsts & SDHC_DATA_INHIBIT) {
+++            mask |=3D 0xffff;
+++        }
+++
++         MASKED_WRITE(s->trnmod, mask, value & SDHC_TRNMOD_MASK);
++         MASKED_WRITE(s->cmdreg, mask >> 16, value >> 16);
 +
-+        for o in objset.foreach_type(oe.spdx30.SoftwareAgent):
-+            if o.name == "CI Tool":
-+                break
-+        else:
-+            self.assertTrue(False, "Unable to find software tool")
-+
-+        for o in objset.foreach_type(oe.spdx30.Person):
-+            if o.name == "John Doe":
-+                break
-+        else:
-+            self.assertTrue(False, "Unable to find person")
-+
-+        for o in objset.foreach_type(oe.spdx30.Organization):
-+            if o.name == "ACME Embedded Widgets":
-+                break
-+        else:
-+            self.assertTrue(False, "Unable to find organization")
-+
-+        for o in objset.foreach_type(oe.spdx30.SpdxDocument):
-+            doc = o
-+            break
-+        else:
-+            self.assertTrue(False, "Unable to find SpdxDocument")
-+
-+        for i in doc.import_:
-+            if i.externalSpdxId == HOST_SPDXID:
-+                break
-+        else:
-+            self.assertTrue(False, "Unable to find imported Host SpdxID")
--- 
-2.47.1
++--
++2.40.0
+--=20
+2.40.0
 
 
