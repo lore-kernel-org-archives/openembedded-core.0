@@ -1,94 +1,667 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <tgamblin@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23F04E7716B
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 13:59:44 +0000 (UTC)
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
- by mx.groups.io with SMTP id smtpd.web10.15017.1733320783459719855
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24CB2E7716E
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 14:06:04 +0000 (UTC)
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.web10.15195.1733321158856021401
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 05:59:43 -0800
+ Wed, 04 Dec 2024 06:05:59 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=gm1 header.b=IR1tScTJ;
- spf=pass (domain: bootlin.com, ip: 217.70.183.201, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8A97E1BF209;
-	Wed,  4 Dec 2024 13:59:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1733320781;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=LXCVLi6dY4tzztoDr6sgFqAlTUee21tZ9l2CPzWcN9M=;
-	b=IR1tScTJUAkHRLxlVaEX4WJ9ZxzmbDgo73KQbq1yUCwxjFq0As1Qvl4pYLM+cxWTuhGBH9
-	DMzwKQ0f7GUFGwUoHJab8Nxv3RM40QR1r8CKl/fDxTdG6KwMfGzgATONYrqvZD7fXNg4/Y
-	L09c00V/190aL5Y7EQtupUcoshV3Xx4XOFfieimSw7ASC3AMPnvuhQcTUuCysgd9z1GApH
-	JeK1ZNYJcOkwq/emrrO77FUHK4Xx3q/EoeH3m/RPdcT7NzYc0QNV0Eg8CVjXelZyCDXUaJ
-	5mqxxmSnsQeiKwmEbU9PRWgIzcs5Tvi2hwbtn0TIRD66BQRYEd2p3iSYwfEmMw==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 04 Dec 2024 14:59:41 +0100
-Message-Id: <D62YXQ3EDJGJ.12OTUUX79NSHM@bootlin.com>
-Subject: Re: [OE-core] [PATCH] sysvinit: upgrade 3.04 -> 3.11
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <changqing.li@windriver.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.18.2-0-ge037c095a049
-References: <20241203032605.2651655-1-changqing.li@windriver.com>
-In-Reply-To: <20241203032605.2651655-1-changqing.li@windriver.com>
-X-GND-Sasl: mathieu.dubois-briand@bootlin.com
+ dkim=pass header.i=@baylibre-com.20230601.gappssmtp.com header.s=20230601 header.b=GCwam18G;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.42, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-6d8d44e177cso1059806d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 06:05:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1733321158; x=1733925958; darn=lists.openembedded.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gI5bmd9EzV855nKj/uFMhFFrjYLy3vwHr9oO5Sgq9oQ=;
+        b=GCwam18GRSvLqk3pqe0mb8nRSlWUAaKzapE/sTid4kvKSm4oDA0oGmyj5m+xtbU/gh
+         xZ2v6LHwXSo1HclgaGQcTqrPydR6qIYSIQbFqdmPcPhaL2VxUIY4hXtq0I6i5eri9Cgc
+         VPtDr1mRYtGrv2wfdCzCwZJh2eMPQKFwdImPcnXf8UiOif3Ea28z0KI+SkCxhpPFZ2bM
+         hFdAbpu7zyqrgARFqONWNrvRax52BuK1hN/G/6hIBI0GtxYjDLoDnNRwqjBfGGz1JL5z
+         o36paE/uE6qMWx+XkXP9zbDJL3rUM4PtiSU5pieE1am72zl3+EaDFtCGURYH1YhReSG6
+         7OVA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733321158; x=1733925958;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gI5bmd9EzV855nKj/uFMhFFrjYLy3vwHr9oO5Sgq9oQ=;
+        b=cMpeP9Rx+OA310fit+pzyYmcEKc2tljL3XCBmTZktQWaNhjjRzotTJnazn5H+xvAAU
+         ly1r/u17hy8EKYEHKXoQAyv4vlI+Dw0XGkLSiVwvKSMFmSwc0+lpBR/hfisuY7ASuj2u
+         LWdY1sb7jic43YatnKaKHJwApPehRIeJ9UYHZWctMsT5okJL/TryHNgqQx8fW95IIeH+
+         X6IU4QD9rHlqE+G4uLdY6QMa9yYmYY86NReWQmwMQ7mF8Kxz4hOfv6EJ0oqn3a1Rq5UL
+         7/T/fbIggOTLUyFqWWlHUDzHB7NaT5CaOIzQoKgYQG4l9/rmy4LWjzhZZFNAaf3ijZWb
+         I7dA==
+X-Forwarded-Encrypted: i=1; AJvYcCV4dhftaRmkIqXF7r8QFnjr3tmoOLmXTfcJW3plof/cCMuIkuUbOnxjV3kzIJ7gdA2CboHkFZAgPq2qxPAsALgAcg==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzK0zpgGkGoFCaJmhPDczBr8pVhwP2yp/4nXpm302cviuenpcvD
+	JQxDuOy0KHr21WTyygo/wUl8zoG1zqXNMF4qRMKL34hnLKxyH2bpKxnpPQip2Cc=
+X-Gm-Gg: ASbGnctgJMBElE1xPKt8bMgZrfG7lBlU76WlUAx4JHB7OW7sDOYvGqp4x5DrfJgJ2ky
+	VNVtAr9C9lmB5R36a0fXAJxmdEdjV470oRIl5Du6shkcIyMYDAdAhOxn2JrkzY2V+fRP3HiwYVl
+	diZ3a9xCcvbQphLvc9QGVsGuqEqLtfDqWvAghgpXix5Zbn58fPtIN1bbzbptgHCRWaDHzjj/SU/
+	vD150JENFDONa3siUKOM8/P9z8hnypyibAPW9GStSmA98CRbVhGOZDeerlOhEp+eVaNIZ38zSKY
+	n5+8O/PSMCg/HRehYA==
+X-Google-Smtp-Source: AGHT+IFLVYqauxcqV/OVwG2G7NeadMzCdjXPOyzM6xqjqA6iWUPzAwogbdLdPujqgmZwrxRXv6d4Tg==
+X-Received: by 2002:a05:6214:4106:b0:6d8:af73:fbdd with SMTP id 6a1803df08f44-6d8af740230mr145188216d6.15.1733321156238;
+        Wed, 04 Dec 2024 06:05:56 -0800 (PST)
+Received: from [192.168.40.12] (d24-150-219-207.home.cgocable.net. [24.150.219.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6d898d3aa4bsm49146626d6.70.2024.12.04.06.05.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 04 Dec 2024 06:05:55 -0800 (PST)
+Message-ID: <0d4b8ad3-40dd-47f7-96b2-6f76728cd7b0@baylibre.com>
+Date: Wed, 4 Dec 2024 09:05:54 -0500
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 01/37] maintainers.inc: unassign myself (don't
+ panic!)
+To: alex.kanavin@gmail.com, openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>
+References: <20241204064920.817016-1-alex.kanavin@gmail.com>
+Content-Language: en-US
+From: Trevor Gamblin <tgamblin@baylibre.com>
+In-Reply-To: <20241204064920.817016-1-alex.kanavin@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 13:59:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208281
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 14:06:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208282
 
-On Tue Dec 3, 2024 at 4:26 AM CET, Changqing Li via lists.openembedded.org =
-wrote:
-> From: Changqing Li <changqing.li@windriver.com>
+
+On 2024-12-04 01:48, Alexander Kanavin via lists.openembedded.org wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
 >
-> Refresh patches:
-> crypt-lib.patch
-> install.patch
-> pidof-add-m-option.patch
-> realpath.patch
+> For a very long time my focus hasn't been these recipes
+> in particular; rather I'm trying to ensure oe-core as a whole
+> doesn't fall too far behind upstream releases. To better reflect
+> this reality, I wish to be no longer listed for any specific
+> recipes.
+I'll probably send a patch to add myself as maintainer for meson (since 
+I've been bashing my head against it for numpy) and your Python recipes 
+soon.
 >
-> Drop patches since upstream already include these changes:
-> 0001-hddown-include-libgen.h-for-basename-API.patch
-> sysvinit_remove_linux_fs.patch
->
-> Refer:
-> https://github.com/slicer69/sysvinit/releases
->
-> Signed-off-by: Changqing Li <changqing.li@windriver.com>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 > ---
-
-Hi,
-
-I believe this patch is breaking the qa-extras2 build on the
-autobuilder:
-
-ERROR: sysvinit-3.11-r0 do_package: Error executing a python function in ex=
-ec_func_python() autogenerated:
-The stack trace of python calls that resulted in this exception/failure was=
-:
-File: 'exec_func_python() autogenerated', lineno: 2, function: <module>
-     0001:
- *** 0002:apply_update_alternative_renames(d)
-     0003:
-[...]
-Exception: FileNotFoundError: [Errno 2] no such directory /srv/pokybuild/yo=
-cto-worker/qa-extras2/build/build/tmp/work/core2-64-poky-linux/sysvinit/3.1=
-1/package/usr/usr
-
-https://valkyrie.yoctoproject.org/#/builders/26/builds/579/steps/25/logs/st=
-dio
-
-Can you look at this issue, please ?
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
-
+>   meta/conf/distro/include/maintainers.inc | 190 +++++++++++------------
+>   1 file changed, 95 insertions(+), 95 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+> index 4cac0647c2a..6d37b202b5c 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -52,15 +52,15 @@ RECIPE_MAINTAINER:pn-autoconf = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-autoconf-archive = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-babeltrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-babeltrace2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-babeltrace = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-babeltrace2 = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-barebox = "Enrico Jörns <yocto@pengutronix.de>"
+>   RECIPE_MAINTAINER:pn-barebox-tools = "Enrico Jörns <yocto@pengutronix.de>"
+>   RECIPE_MAINTAINER:pn-baremetal-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
+>   RECIPE_MAINTAINER:pn-base-files = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-base-passwd = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-bash = "Hongxu Jia <hongxu.jia@windriver.com>"
+> -RECIPE_MAINTAINER:pn-bash-completion = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-bash-completion = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-bc = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-bind = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-binutils = "Khem Raj <raj.khem@gmail.com>"
+> @@ -70,12 +70,12 @@ RECIPE_MAINTAINER:pn-binutils-testsuite = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-binutils-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-bison = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-blktool = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-blktrace = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-blktrace = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-bluez5 = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-bmaptool = "Trevor Woerner <twoerner@gmail.com>"
+> -RECIPE_MAINTAINER:pn-boost = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-boost-build-native = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-bootchart2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-boost = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-boost-build-native = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-bootchart2 = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-bsd-headers = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-btrfs-tools = "Wang Mingyu <wangmy@fujitsu.com>"
+>   RECIPE_MAINTAINER:pn-build-appliance-image = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> @@ -88,11 +88,11 @@ RECIPE_MAINTAINER:pn-buildtools-make-tarball = "Richard Purdie <richard.purdie@l
+>   RECIPE_MAINTAINER:pn-busybox = "Andrej Valek <andrej.v@skyrain.eu>"
+>   RECIPE_MAINTAINER:pn-busybox-inittab = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-bzip2 = "Denys Dmytriyenko <denis@denix.org>"
+> -RECIPE_MAINTAINER:pn-ca-certificates = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-ca-certificates = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-cairo = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-cargo = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+>   RECIPE_MAINTAINER:pn-cargo-c-native = "Frederic Martinsons <frederic.martinsons@gmail.com>"
+> -RECIPE_MAINTAINER:pn-cantarell-fonts = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-cantarell-fonts = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-ccache = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-cdrtools-native = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-chrpath = "Yi Zhao <yi.zhao@windriver.com>"
+> @@ -124,7 +124,7 @@ RECIPE_MAINTAINER:pn-core-image-sato-dev = "Richard Purdie <richard.purdie@linux
+>   RECIPE_MAINTAINER:pn-coreutils = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-cpio = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-cracklib = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-createrepo-c = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-createrepo-c = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-cronie = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-cross-localedef-native = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-cryptodev-linux = "Robert Yang <liezhi.yang@windriver.com>"
+> @@ -142,15 +142,15 @@ RECIPE_MAINTAINER:pn-debianutils = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-debugedit = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-dejagnu = "Nathan Rossi <nathan@nathanrossi.com>"
+>   RECIPE_MAINTAINER:pn-depmodwrapper-cross = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-desktop-file-utils = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-desktop-file-utils = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-dhcpcd = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-diffoscope = "Joshua Watt <JPEWhacker@gmail.com>"
+>   RECIPE_MAINTAINER:pn-diffstat = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-diffutils = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-distcc = "Hongxu Jia <hongxu.jia@windriver.com>"
+>   RECIPE_MAINTAINER:pn-distcc-config = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-dmidecode = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-dnf = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-dmidecode = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-dnf = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-docbook-xml-dtd4 = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
+> @@ -158,22 +158,22 @@ RECIPE_MAINTAINER:pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-dpkg = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-dropbear = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-dtc = "Wang Mingyu <wangmy@fujitsu.com>"
+> -RECIPE_MAINTAINER:pn-dwarfsrcfiles = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-dwarfsrcfiles = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-e2fsprogs = "Robert Yang <liezhi.yang@windriver.com>"
+> -RECIPE_MAINTAINER:pn-ed = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-ed = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-efivar = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-efibootmgr = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-elfutils = "Zang Ruochen <zangruochen@loongson.cn>"
+>   RECIPE_MAINTAINER:pn-ell = "Zang Ruochen <zangruochen@loongson.cn>"
+>   RECIPE_MAINTAINER:pn-enchant2 = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-encodings = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-epiphany = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-epiphany = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-erofs-utils = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-ethtool = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+>   RECIPE_MAINTAINER:pn-eudev = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-expat = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-expect = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-ffmpeg = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-expect = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-ffmpeg = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-file = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-flac = "Michael Opdenacker <michael@opdenacker.org>"
+> @@ -195,16 +195,16 @@ RECIPE_MAINTAINER:pn-gcc-runtime = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-gcc-sanitizers = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-gcc-source-14.2.0 = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-gconf = "Ross Burton <ross.burton@arm.com>"
+> -RECIPE_MAINTAINER:pn-gcr = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-gcr = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-gdb = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-gdb-cross-${TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-gdb-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <raj.khem@gmail.com>"
+> -RECIPE_MAINTAINER:pn-gdbm = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-gdbm = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-gdk-pixbuf = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-gettext = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-gettext-minimal-native = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-ghostscript = "Hongxu Jia <hongxu.jia@windriver.com>"
+> -RECIPE_MAINTAINER:pn-gi-docgen = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-gi-docgen = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-git = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-glew = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-glib-2.0 = "Anuj Mittal <anuj.mittal@intel.com>"
+> @@ -230,10 +230,10 @@ RECIPE_MAINTAINER:pn-go-cross-canadian-${TRANSLATED_TARGET_ARCH} = "Khem Raj <ra
+>   RECIPE_MAINTAINER:pn-go-crosssdk-${SDK_SYS} = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-go-helloworld = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-go-runtime = "Khem Raj <raj.khem@gmail.com>"
+> -RECIPE_MAINTAINER:pn-gobject-introspection = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-gperf = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-gobject-introspection = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-gperf = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-gpgme = "Hongxu Jia <hongxu.jia@windriver.com>"
+> -RECIPE_MAINTAINER:pn-gptfdisk = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-gptfdisk = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-gcompat = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-graphene = "Markus Volk <f_l_k@t-online.de>"
+>   RECIPE_MAINTAINER:pn-grep = "Denys Dmytriyenko <denis@denix.org>"
+> @@ -256,18 +256,18 @@ RECIPE_MAINTAINER:pn-gstreamer1.0-rtsp-server = "Anuj Mittal <anuj.mittal@intel.
+>   RECIPE_MAINTAINER:pn-gstreamer1.0-vaapi = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-gtk+3 = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-gtk4 = "Markus Volk <f_l_k@t-online.de>"
+> -RECIPE_MAINTAINER:pn-gtk-doc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-gtk-doc = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-gzip = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-harfbuzz = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-hdparm = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-help2man = "Hongxu Jia <hongxu.jia@windriver.com>"
+>   RECIPE_MAINTAINER:pn-hicolor-icon-theme = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-hwdata = "Hiago De Franco <hiago.franco@toradex.com>"
+> -RECIPE_MAINTAINER:pn-hwlatdetect = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-hwlatdetect = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-i2c-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-icecc-create-env = "Joshua Watt <JPEWhacker@gmail.com>"
+>   RECIPE_MAINTAINER:pn-icon-naming-utils = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> -RECIPE_MAINTAINER:pn-icu = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-icu = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-ifupdown = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-igt-gpu-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-inetutils = "Tom Rini <trini@konsulko.com>"
+> @@ -285,7 +285,7 @@ RECIPE_MAINTAINER:pn-initramfs-module-install = "Anuj Mittal <anuj.mittal@intel.
+>   RECIPE_MAINTAINER:pn-initramfs-module-install-efi = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-initramfs-module-setup-live = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-initscripts = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-intltool = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-intltool = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-iproute2 = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+>   RECIPE_MAINTAINER:pn-iptables = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+>   RECIPE_MAINTAINER:pn-iputils = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+> @@ -296,12 +296,12 @@ RECIPE_MAINTAINER:pn-libjpeg-turbo = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-json-c = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-json-glib = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-jquery = "Joshua Watt <JPEWhacker@gmail.com>"
+> -RECIPE_MAINTAINER:pn-kbd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-kbd = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-kea = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-kern-tools-native = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+>   RECIPE_MAINTAINER:pn-kernel-devsrc = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+>   RECIPE_MAINTAINER:pn-kexec-tools = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-keymaps = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-keymaps = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-kmod = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-kmscube = "Carlos Rafael Giani <crg7475@mailbox.org>"
+>   RECIPE_MAINTAINER:pn-l3afpad = "Anuj Mittal <anuj.mittal@intel.com>"
+> @@ -309,8 +309,8 @@ RECIPE_MAINTAINER:pn-lame = "Michael Opdenacker <michael@opdenacker.org>"
+>   RECIPE_MAINTAINER:pn-ldconfig-native = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-less = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-libacpi = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-libadwaita = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libaio = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libadwaita = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libaio = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libarchive = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>   RECIPE_MAINTAINER:pn-libassuan = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libatomic-ops = "Anuj Mittal <anuj.mittal@intel.com>"
+> @@ -319,25 +319,25 @@ RECIPE_MAINTAINER:pn-libc-test = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libcap = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-libcap-ng = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-libcap-ng-python = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-libcgroup = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libcgroup = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-libcomps = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libcomps = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libconvert-asn1-perl = "Tim Orling <tim.orling@konsulko.com>"
+> -RECIPE_MAINTAINER:pn-libdaemon = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libdazzle = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libdaemon = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libdazzle = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libdisplay-info = "Hiago De Franco <hiago.franco@toradex.com>"
+> -RECIPE_MAINTAINER:pn-libdnf = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libdnf = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libdrm = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>   RECIPE_MAINTAINER:pn-libedit = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-libepoxy = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-liberation-fonts = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-liberation-fonts = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libevdev = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libevent = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-libexif = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libfakekey = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libffi = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libfm = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libfm-extra = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libexif = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libfakekey = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libffi = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libfm = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libfm-extra = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libfontenc = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libgcc = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-libgcc-initial = "Khem Raj <raj.khem@gmail.com>"
+> @@ -348,24 +348,24 @@ RECIPE_MAINTAINER:pn-libgloss = "Alejandro Hernandez <alejandro@enedino.org>"
+>   RECIPE_MAINTAINER:pn-libglu = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-libgpg-error = "Hongxu Jia <hongxu.jia@windriver.com>"
+>   RECIPE_MAINTAINER:pn-libgudev = "Ross Burton <ross.burton@arm.com>"
+> -RECIPE_MAINTAINER:pn-libhandy = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libhandy = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libical = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-libice = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libidn2 = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-libinput = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-libjitterentropy = "Ross Burton <ross.burton@arm.com>"
+> -RECIPE_MAINTAINER:pn-libksba = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libksba = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libmatchbox = "Ross Burton <ross.burton@arm.com>"
+> -RECIPE_MAINTAINER:pn-libmd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libmicrohttpd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libmd = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libmicrohttpd = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libmnl = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-libmpc = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-libmodule-build-perl = "Tim Orling <tim.orling@konsulko.com>"
+> -RECIPE_MAINTAINER:pn-libmodulemd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libnl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libmodulemd = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libnl = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libnotify = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libnsl2 = "Khem Raj <raj.khem@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libnss-mdns = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libnss-mdns = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libnss-nis = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-libogg = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libpam = "Anuj Mittal <anuj.mittal@intel.com>"
+> @@ -375,10 +375,10 @@ RECIPE_MAINTAINER:pn-libpcre = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-libpcre2 = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libpipeline = "Wang Mingyu <wangmy@fujitsu.com>"
+>   RECIPE_MAINTAINER:pn-libpng = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-libportal = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libportal = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libproxy = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-libpthread-stubs = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libptytty = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libpthread-stubs = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libptytty = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libpsl = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-librepo = "Wang Mingyu <wangmy@fujitsu.com>"
+>   RECIPE_MAINTAINER:pn-librsvg = "Anuj Mittal <anuj.mittal@intel.com>"
+> @@ -386,7 +386,7 @@ RECIPE_MAINTAINER:pn-libstd-rs = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+>   RECIPE_MAINTAINER:pn-libsamplerate0 = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libsdl2 = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-libseccomp = "Simone Weiß <simone.p.weiss@posteo.net>"
+> -RECIPE_MAINTAINER:pn-libsecret = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libsecret = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libslirp = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libsm = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libsndfile1 = "Unassigned <unassigned@yoctoproject.org>"
+> @@ -399,7 +399,7 @@ RECIPE_MAINTAINER:pn-libtasn1 = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libtest-fatal-perl = "Tim Orling <tim.orling@konsulko.com>"
+>   RECIPE_MAINTAINER:pn-libtest-needs-perl = "Tim Orling <tim.orling@konsulko.com>"
+>   RECIPE_MAINTAINER:pn-libtest-warnings-perl = "Tim Orling <tim.orling@konsulko.com>"
+> -RECIPE_MAINTAINER:pn-libtheora = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libtheora = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libtimedate-perl = "Tim Orling <tim.orling@konsulko.com>"
+>   RECIPE_MAINTAINER:pn-libtirpc = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
+> @@ -418,8 +418,8 @@ RECIPE_MAINTAINER:pn-libva = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libva-initial = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libva-utils = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-libvorbis = "Zang Ruochen <zangruochen@loongson.cn>"
+> -RECIPE_MAINTAINER:pn-libwebp = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-libwpe = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libwebp = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-libwpe = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libx11 = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libx11-compose-data = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxau = "Unassigned <unassigned@yoctoproject.org>"
+> @@ -455,15 +455,15 @@ RECIPE_MAINTAINER:pn-libxrender = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxres = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxscrnsaver = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxshmfence = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-libxslt = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-libxslt = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxt = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxtst = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxv = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxvmc = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libxxf86vm = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-libyaml = "Wang Mingyu <wangmy@fujitsu.com>"
+> -RECIPE_MAINTAINER:pn-lighttpd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-linux-dummy = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-lighttpd = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-linux-dummy = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-linux-firmware = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>   RECIPE_MAINTAINER:pn-linux-libc-headers = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+>   RECIPE_MAINTAINER:pn-linux-yocto = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+> @@ -480,7 +480,7 @@ RECIPE_MAINTAINER:pn-ltp = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-lttng-modules = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-lttng-tools = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-lttng-ust = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> -RECIPE_MAINTAINER:pn-lua = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-lua = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-lz4 = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-lzo = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-lzip = "Denys Dmytriyenko <denis@denix.org>"
+> @@ -510,7 +510,7 @@ RECIPE_MAINTAINER:pn-menu-cache = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-mesa = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>   RECIPE_MAINTAINER:pn-mesa-demos = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+>   RECIPE_MAINTAINER:pn-mesa-gl = "Otavio Salvador <otavio.salvador@ossystems.com.br>"
+> -RECIPE_MAINTAINER:pn-meson = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-meson = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-meta-environment-${MACHINE} = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-meta-environment-extsdk-${MACHINE} = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-meta-extsdk-toolchain = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> @@ -523,10 +523,10 @@ RECIPE_MAINTAINER:pn-mini-x-session = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-minicom = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-mkfontscale = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-mmc-utils = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-mobile-broadband-provider-info = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-mobile-broadband-provider-info = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-modutils-initscripts = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-mpfr = "Khem Raj <raj.khem@gmail.com>"
+> -RECIPE_MAINTAINER:pn-mpg123 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-mpg123 = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-msmtp = "Wang Mingyu <wangmy@fujitsu.com>"
+>   RECIPE_MAINTAINER:pn-mtd-utils = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-mtdev = "Anuj Mittal <anuj.mittal@intel.com>"
+> @@ -551,15 +551,15 @@ RECIPE_MAINTAINER:pn-netbase = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-nettle = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-nfs-export-root = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-nfs-utils = "Robert Yang <liezhi.yang@windriver.com>"
+> -RECIPE_MAINTAINER:pn-nghttp2 = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-nghttp2 = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-ninja = "Khem Raj <raj.khem@gmail.com>"
+> -RECIPE_MAINTAINER:pn-npth = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-npth = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-nss-myhostname = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-numactl = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-ofono = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-opensbi = "Thomas Perrot <thomas.perrot@bootlin.com>"
+>   RECIPE_MAINTAINER:pn-openssh = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-openssl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-openssl = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-opkg = "Alex Stewart <alex.stewart@ni.com>"
+>   RECIPE_MAINTAINER:pn-opkg-arch-config = "Alex Stewart <alex.stewart@ni.com>"
+>   RECIPE_MAINTAINER:pn-opkg-keyrings = "Alex Stewart <alex.stewart@ni.com>"
+> @@ -568,7 +568,7 @@ RECIPE_MAINTAINER:pn-orc = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-os-release = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-ovmf = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-ovmf-shell-image = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-p11-kit = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-p11-kit = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-package-index = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-pango = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-parted = "Hongxu Jia <hongxu.jia@windriver.com>"
+> @@ -576,10 +576,10 @@ RECIPE_MAINTAINER:pn-patch = "Hongxu Jia <hongxu.jia@windriver.com>"
+>   RECIPE_MAINTAINER:pn-patchelf = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-pbzip2 = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-pciutils = "Chen Qi <Qi.Chen@windriver.com>"
+> -RECIPE_MAINTAINER:pn-pcmanfm = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-pcmanfm = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-perf = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+> -RECIPE_MAINTAINER:pn-perl = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-perlcross = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-perl = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-perlcross = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-picolibc = "Alejandro Hernandez <alejandro@enedino.org>"
+>   RECIPE_MAINTAINER:pn-picolibc-helloworld = "Alejandro Hernandez <alejandro@enedino.org>"
+>   RECIPE_MAINTAINER:pn-piglit = "Ross Burton <ross.burton@arm.com>"
+> @@ -589,15 +589,15 @@ RECIPE_MAINTAINER:pn-pixman = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-pkgconf = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-pkgconfig = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-pm-utils = "Ross Burton <ross.burton@arm.com>"
+> -RECIPE_MAINTAINER:pn-pointercal-xinput = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-pointercal-xinput = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-pong-clock = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-popt = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-powertop = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-powertop = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-ppp = "Hongxu Jia <hongxu.jia@windriver.com>"
+>   RECIPE_MAINTAINER:pn-ppp-dialin = "Hongxu Jia <hongxu.jia@windriver.com>"
+> -RECIPE_MAINTAINER:pn-procps = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-procps = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-pseudo = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> -RECIPE_MAINTAINER:pn-psmisc = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-psmisc = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-psplash = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-ptest-runner = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-pulseaudio = "Unassigned <unassigned@yoctoproject.org>"
+> @@ -655,7 +655,7 @@ RECIPE_MAINTAINER:pn-python3-libarchive-c = "Joshua Watt <JPEWhacker@gmail.com>"
+>   RECIPE_MAINTAINER:pn-python3-lxml = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-python3-magic = "Joshua Watt <JPEWhacker@gmail.com>"
+>   RECIPE_MAINTAINER:pn-python3-mako = "Trevor Gamblin <tgamblin@baylibre.com>"
+> -RECIPE_MAINTAINER:pn-python3-markdown = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-python3-markdown = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-python3-markupsafe = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-python3-maturin = "Tim Orling <tim.orling@konsulko.com>"
+>   RECIPE_MAINTAINER:pn-python3-meson-python = "Tim Orling <tim.orling@konsulko.com>"
+> @@ -699,7 +699,7 @@ RECIPE_MAINTAINER:pn-python3-setuptools = "Trevor Gamblin <tgamblin@baylibre.com
+>   RECIPE_MAINTAINER:pn-python3-setuptools-rust = "Tim Orling <tim.orling@konsulko.com>"
+>   RECIPE_MAINTAINER:pn-python3-setuptools-scm = "Trevor Gamblin <tgamblin@baylibre.com>"
+>   RECIPE_MAINTAINER:pn-python3-six = "Zang Ruochen <zangruochen@loongson.cn>"
+> -RECIPE_MAINTAINER:pn-python3-smartypants = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-python3-smartypants = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-python3-smmap = "Trevor Gamblin <tgamblin@baylibre.com>"
+>   RECIPE_MAINTAINER:pn-python3-snowballstemmer = "Tim Orling <tim.orling@konsulko.com>"
+>   RECIPE_MAINTAINER:pn-python3-sortedcontainers = "Tim Orling <tim.orling@konsulko.com>"
+> @@ -717,7 +717,7 @@ RECIPE_MAINTAINER:pn-python3-subunit = "Trevor Gamblin <tgamblin@baylibre.com>"
+>   RECIPE_MAINTAINER:pn-python3-testtools = "Trevor Gamblin <tgamblin@baylibre.com>"
+>   RECIPE_MAINTAINER:pn-python3-trove-classifiers = "Trevor Gamblin <tgamblin@baylibre.com>"
+>   RECIPE_MAINTAINER:pn-python3-typing-extensions = "Tim Orling <tim.orling@konsulko.com>"
+> -RECIPE_MAINTAINER:pn-python3-typogrify = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-python3-typogrify = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-python3-unittest-automake-output = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-python3-uritools = "Marta Rybczynska <mrybczynska@syslinbit.com>"
+>   RECIPE_MAINTAINER:pn-python3-urllib3 = "Tim Orling <tim.orling@konsulko.com>"
+> @@ -747,7 +747,7 @@ RECIPE_MAINTAINER:pn-rng-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
+>   RECIPE_MAINTAINER:pn-rpm = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-rt-tests = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-rt-tests = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-ruby = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-run-postinsts = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-rust = "Randy MacLeod <Randy.MacLeod@windriver.com>"
+> @@ -758,7 +758,7 @@ RECIPE_MAINTAINER:pn-sato-screenshot = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-sato-icon-theme = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-sbc = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-screen = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-seatd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-seatd = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-sed = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-serf = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-setserial = "Yi Zhao <yi.zhao@windriver.com>"
+> @@ -768,7 +768,7 @@ RECIPE_MAINTAINER:pn-shadow-securetty = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-shadow-sysroot = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-shaderc = "Jose Quaresma <quaresma.jose@gmail.com>"
+>   RECIPE_MAINTAINER:pn-shared-mime-info = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-shutdown-desktop = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-shutdown-desktop = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-signing-keys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-slang = "Yi Zhao <yi.zhao@windriver.com>"
+>   RECIPE_MAINTAINER:pn-socat = "Hongxu Jia <hongxu.jia@windriver.com>"
+> @@ -779,7 +779,7 @@ RECIPE_MAINTAINER:pn-spirv-tools = "Jose Quaresma <quaresma.jose@gmail.com>"
+>   RECIPE_MAINTAINER:pn-sqlite3 = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-squashfs-tools = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-ssh-pregen-hostkeys = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> -RECIPE_MAINTAINER:pn-startup-notification = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-startup-notification = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-strace = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-stress-ng = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-subversion = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+> @@ -787,7 +787,7 @@ RECIPE_MAINTAINER:pn-sudo = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-swig = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-sysfsutils = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-sysklogd = "Chen Qi <Qi.Chen@windriver.com>"
+> -RECIPE_MAINTAINER:pn-syslinux = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-syslinux = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-sysstat = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-systemd = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-systemd-boot = "Chen Qi <Qi.Chen@windriver.com>"
+> @@ -813,7 +813,7 @@ RECIPE_MAINTAINER:pn-tcp-wrappers = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-testexport-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-texinfo = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-texinfo-dummy-native = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-tiff = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-tiff = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-time = "Robert Yang <liezhi.yang@windriver.com>"
+>   RECIPE_MAINTAINER:pn-ttf-bitstream-vera = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-ttyrun = "Ross Burton <ross.burton@arm.com>"
+> @@ -827,17 +827,17 @@ RECIPE_MAINTAINER:pn-unifdef = "Ross Burton <ross.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-uninative-tarball = "Richard Purdie <richard.purdie@linuxfoundation.org>"
+>   RECIPE_MAINTAINER:pn-unzip = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-update-rc.d = "Ross Burton <ross.burton@arm.com>"
+> -RECIPE_MAINTAINER:pn-usbutils = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-usbutils = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-util-linux = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-util-linux-libuuid = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-util-macros = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-utfcpp = "Anuj Mittal <anuj.mittal@intel.com>"
+> -RECIPE_MAINTAINER:pn-v86d = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-vala = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-valgrind = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-v86d = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-vala = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-valgrind = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-vim = "Tom Rini <trini@konsulko.com>"
+>   RECIPE_MAINTAINER:pn-vim-tiny = "Tom Rini <trini@konsulko.com>"
+> -RECIPE_MAINTAINER:pn-virglrenderer = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-virglrenderer = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-volatile-binds = "Chen Qi <Qi.Chen@windriver.com>"
+>   RECIPE_MAINTAINER:pn-vte = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-vulkan-headers = "Anuj Mittal <anuj.mittal@intel.com>"
+> @@ -848,12 +848,12 @@ RECIPE_MAINTAINER:pn-vulkan-utility-libraries = "Anuj Mittal <anuj.mittal@intel.
+>   RECIPE_MAINTAINER:pn-vulkan-validation-layers = "Vincent Davis Jr <vince@underview.tech>"
+>   RECIPE_MAINTAINER:pn-vulkan-volk = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-waffle = "Ross Burton <ross.burton@arm.com>"
+> -RECIPE_MAINTAINER:pn-watchdog = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> -RECIPE_MAINTAINER:pn-watchdog-config = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-watchdog = "Unassigned <unassigned@yoctoproject.org>"
+> +RECIPE_MAINTAINER:pn-watchdog-config = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-wayland = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-wayland-protocols = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-wayland-utils = "Denys Dmytriyenko <denis@denix.org>"
+> -RECIPE_MAINTAINER:pn-webkitgtk = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-webkitgtk = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-weston = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-weston-init = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-wget = "Yi Zhao <yi.zhao@windriver.com>"
+> @@ -861,7 +861,7 @@ RECIPE_MAINTAINER:pn-which = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-wic-tools = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-wireless-regdb = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-wpa-supplicant = "Changhyeok Bae <changhyeok.bae@gmail.com>"
+> -RECIPE_MAINTAINER:pn-wpebackend-fdo = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-wpebackend-fdo = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-x11perf = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-x264 = "Anuj Mittal <anuj.mittal@intel.com>"
+>   RECIPE_MAINTAINER:pn-xauth = "Unassigned <unassigned@yoctoproject.org>"
+> @@ -911,8 +911,8 @@ RECIPE_MAINTAINER:pn-xuser-account = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-xvinfo = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-xwayland = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-xwininfo = "Unassigned <unassigned@yoctoproject.org>"
+> -RECIPE_MAINTAINER:pn-xxhash = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-xxhash = "Unassigned <unassigned@yoctoproject.org>"
+>   RECIPE_MAINTAINER:pn-xz = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-zip = "Denys Dmytriyenko <denis@denix.org>"
+>   RECIPE_MAINTAINER:pn-zlib = "Denys Dmytriyenko <denis@denix.org>"
+> -RECIPE_MAINTAINER:pn-zstd = "Alexander Kanavin <alex.kanavin@gmail.com>"
+> +RECIPE_MAINTAINER:pn-zstd = "Unassigned <unassigned@yoctoproject.org>"
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#208230): https://lists.openembedded.org/g/openembedded-core/message/208230
+> Mute This Topic: https://lists.openembedded.org/mt/109915731/7611679
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [tgamblin@baylibre.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
 
