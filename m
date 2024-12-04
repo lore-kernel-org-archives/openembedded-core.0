@@ -2,80 +2,78 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 75E43E7716B
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 11:35:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8668CE7716D
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 11:35:43 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.web11.11872.1733312132889687476
+ by mx.groups.io with SMTP id smtpd.web10.11992.1733312133264096628
  for <openembedded-core@lists.openembedded.org>;
  Wed, 04 Dec 2024 03:35:33 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F2091FEC
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Dec 2024 03:35:59 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A01601474
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Dec 2024 03:36:00 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.oss.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 95FE63F71E
-	for <openembedded-core@lists.openembedded.org>; Wed,  4 Dec 2024 03:35:31 -0800 (PST)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 451C73F71E
+	for <openembedded-core@lists.openembedded.org>; Wed,  4 Dec 2024 03:35:32 -0800 (PST)
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] classes/utility-tasks: port do_listtasks to use bb.build.listtasks
-Date: Wed,  4 Dec 2024 11:35:24 +0000
-Message-Id: <20241204113525.1311910-1-ross.burton@arm.com>
+Subject: [PATCH 2/2] scripts/devtool: use bb.util.listtasks instead of __BBTASKS
+Date: Wed,  4 Dec 2024 11:35:25 +0000
+Message-Id: <20241204113525.1311910-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20241204113525.1311910-1-ross.burton@arm.com>
+References: <20241204113525.1311910-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 11:35:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208277
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 11:35:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208278
 
-Instead of iterating every datastore value by hand to find tasks, use
-the new bb.build.listtasks() function (bitbake 185c4b)
+Don't access private variables, instead use the new bb.build.listtasks()
+function (from bitbake 185c4b)
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-global/utility-tasks.bbclass | 23 +++++++++++------------
- 1 file changed, 11 insertions(+), 12 deletions(-)
+ scripts/lib/devtool/build.py    | 2 +-
+ scripts/lib/devtool/utilcmds.py | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/classes-global/utility-tasks.bbclass b/meta/classes-glo=
-bal/utility-tasks.bbclass
-index ae2da330b86..394cc3158d5 100644
---- a/meta/classes-global/utility-tasks.bbclass
-+++ b/meta/classes-global/utility-tasks.bbclass
-@@ -9,18 +9,17 @@ do_listtasks[nostamp] =3D "1"
- python do_listtasks() {
-     taskdescs =3D {}
-     maxlen =3D 0
--    for e in d.keys():
--        if d.getVarFlag(e, 'task'):
--            maxlen =3D max(maxlen, len(e))
--            if e.endswith('_setscene'):
--                desc =3D "%s (setscene version)" % (d.getVarFlag(e[:-9],=
- 'doc') or '')
--            else:
--                desc =3D d.getVarFlag(e, 'doc') or ''
--            taskdescs[e] =3D desc
--
--    tasks =3D sorted(taskdescs.keys())
--    for taskname in tasks:
--        bb.plain("%s  %s" % (taskname.ljust(maxlen), taskdescs[taskname]=
-))
-+    for t in bb.build.listtasks(d):
-+        maxlen =3D max(maxlen, len(t))
-+
-+        if t.endswith('_setscene'):
-+            desc =3D "%s (setscene version)" % (d.getVarFlag(t[:-9], 'do=
-c') or '')
-+        else:
-+            desc =3D d.getVarFlag(t, 'doc') or ''
-+        taskdescs[t] =3D desc
-+
-+    for task, doc in sorted(taskdescs.items()):
-+        bb.plain("%s  %s" % (task.ljust(maxlen), doc))
- }
+diff --git a/scripts/lib/devtool/build.py b/scripts/lib/devtool/build.py
+index 935ffab46c5..0b2c3d33dc1 100644
+--- a/scripts/lib/devtool/build.py
++++ b/scripts/lib/devtool/build.py
+@@ -49,7 +49,7 @@ def build(args, config, basepath, workspace):
+         rd =3D parse_recipe(config, tinfoil, args.recipename, appends=3D=
+True, filter_workspace=3DFalse)
+         if not rd:
+             return 1
+-        deploytask =3D 'do_deploy' in rd.getVar('__BBTASKS')
++        deploytask =3D 'do_deploy' in bb.build.listtasks(rd)
+     finally:
+         tinfoil.shutdown()
 =20
- CLEANFUNCS ?=3D ""
+diff --git a/scripts/lib/devtool/utilcmds.py b/scripts/lib/devtool/utilcm=
+ds.py
+index 964817766b7..bf39f71b118 100644
+--- a/scripts/lib/devtool/utilcmds.py
++++ b/scripts/lib/devtool/utilcmds.py
+@@ -64,7 +64,7 @@ def configure_help(args, config, basepath, workspace):
+         b =3D rd.getVar('B')
+         s =3D rd.getVar('S')
+         configurescript =3D os.path.join(s, 'configure')
+-        confdisabled =3D 'noexec' in rd.getVarFlags('do_configure') or '=
+do_configure' not in (rd.getVar('__BBTASKS', False) or [])
++        confdisabled =3D 'noexec' in rd.getVarFlags('do_configure') or '=
+do_configure' not in (bb.build.listtasks(rd))
+         configureopts =3D oe.utils.squashspaces(rd.getVar('CONFIGUREOPTS=
+') or '')
+         extra_oeconf =3D oe.utils.squashspaces(rd.getVar('EXTRA_OECONF')=
+ or '')
+         extra_oecmake =3D oe.utils.squashspaces(rd.getVar('EXTRA_OECMAKE=
+') or '')
 --=20
 2.34.1
 
