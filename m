@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2CE2E77172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA6E1E7716D
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:55:25 +0000 (UTC)
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
- by mx.groups.io with SMTP id smtpd.web11.21230.1733334917409318544
+Received: from mail-oa1-f41.google.com (mail-oa1-f41.google.com [209.85.160.41])
+ by mx.groups.io with SMTP id smtpd.web11.21231.1733334920369201705
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:55:17 -0800
+ Wed, 04 Dec 2024 09:55:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=z0D6plU0;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.174, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-7f4325168c8so41947a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:17 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=YApjSwHZ;
+ spf=softfail (domain: sakoman.com, ip: 209.85.160.41, mailfrom: steve@sakoman.com)
+Received: by mail-oa1-f41.google.com with SMTP id 586e51a60fabf-29e7516ee77so85950fac.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334917; x=1733939717; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334919; x=1733939719; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=FnaZhybdWFaTCIToIn958yGf4orHlQ2sE8z/gLz75zU=;
-        b=z0D6plU0PR3S/m8tk1YRqc4XE77AjgG6pfiXR7/lvATpVzAQuTIRib0vK314Ge5E+g
-         VLwQ4xUK23FEgiPxc6RuANkT8Ct+is0Sk+ORKBBNDtB2ZkqXMgla69HxQ08HSVDwi+uP
-         Xt5lvWAZmICvOlny0FTbn7lKYQNxeQKDtRqpHrnbpPYDvidq9GdeDGpvHdi9vBR9WnSN
-         UWvXKaqfVBOxajFgWzy2AG/wjAfQRCmld3kgSiqX/BDs9SJ92Y9aggX5KYdkCMT6r5CL
-         S1CGLHxeJWoUvszCvy+lxuh+zMOy3ckTF7Khno+W3bcjf8R0Id2+YEr3jTvRITEcC/p+
-         nKrQ==
+        bh=Y+NwRdnPeGyLdeW8vUheYvwrmmGsNozJQ75TO2JAWes=;
+        b=YApjSwHZtA+7U17m2DWlScD44M0EwRLv7nyHgHBxNCnx3GQXZPmKiw47LZajUfFCaA
+         cj4AZHg2iignNUoVUFcqoRSaCUdKovf+0F9Ar5PCGDOt+HFqPc3l+TTdwrz5Kz99bz/P
+         Pi6Tcp6D4DMzPL5Y7HQ0WIcR72UzEJS4yVFXdeAue950IPaRpawfPwuMb1V0pBFBnAgf
+         YR0Ypt749WrqGtJNfY2r/4ZvqOkSVPAdaUu6HoA7/QjWI1PX+R0eOvbVxRgBiP+RvCHv
+         J4eOPeYPf+bI2tISY269qHc6RvF27mI3P4IGrko3ZpeYoULvUZqbRhNRTSeWjkB0K39K
+         8yaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334917; x=1733939717;
+        d=1e100.net; s=20230601; t=1733334919; x=1733939719;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=FnaZhybdWFaTCIToIn958yGf4orHlQ2sE8z/gLz75zU=;
-        b=Wf/gygOMI2vmtqXAUoUC9YtChKM4uSf8ANQ4oRpBWXEIqffAd/L1LNvReyib/HQX1y
-         hlpJZYTicFHbO/frIhk5WobKKwg0Iceqnce+f0vKYOhm56I2/3ymDr7GMjTCpuuEogP7
-         ocZh614JBt2QoTSNIcq11chk7XzPnqRbBSg/NkMWAgM7IdVm2G5UJ1D8EDXBu4iv0JUW
-         DloSqnCAjmR5/UwF05Ysomnj57/JR4fIMaMr0fkMCjHe99608kDt/DoQMaxJqMd0ZlKS
-         /Q8hW9dkmEkZ9h4Fm2fl2FEwgck7F8Gc1Eg4Doq89+hdWvCP14gdW/UfdtiBJZO3GeeS
-         d0Yw==
-X-Gm-Message-State: AOJu0YzGp4d2TRRUcVbsVg2fUZccto/sfW1a0nLt6WGejqSiN1V8EPSJ
-	iS6d0yAN1BQc0f9OlPeimnGABUbu8X0m2htE+bchJNXpDsVPm/zkbMj5qjJl+6NNjFSGVj1RbsU
-	d
-X-Gm-Gg: ASbGncvfJJE1Xs+GwovZIxvI+d3gVwizhhG22oicRpc8YRIHgWqlmcHo5bO6vAi7n6a
-	uhmDxUgWijCtdHL4sTBIQJw2QUstNJQVYBPFgFtPmiIZNiNYsHcABh9Zekt46DHIByucCOb0yuA
-	3IQJ2ZU7SfPlcGeM7W+CuLdKwKoufbhT9uKcw69wIBzrA/3VZ4RCDUheRLUMmdcA3F88oufz73I
-	NZ+mrVQRG+k7v5I+dpU3w6CGoFLCqe/KTUZ0ZU=
-X-Google-Smtp-Source: AGHT+IHZlV++2VEuJsS+psZmCbnvhHKIo4XHtM8No75usczVDM23yiQRXSfr19HXcW7dPDKi3wys3Q==
-X-Received: by 2002:a05:6a20:a110:b0:1dc:154a:81fa with SMTP id adf61e73a8af0-1e1653c598cmr12710119637.26.1733334916706;
-        Wed, 04 Dec 2024 09:55:16 -0800 (PST)
+        bh=Y+NwRdnPeGyLdeW8vUheYvwrmmGsNozJQ75TO2JAWes=;
+        b=skW/BggBSPo8SjP1n6lyGGv7YX3nMkc4A4FdtCLaqsXnfzdecKUYoqQ1jLC1xGFfcB
+         7y+1yib9/hU0ZrxwsZFEn+rff8AlJCod+T1zTzOjTi9V+mMsVPMrIcjAip0UVmj5Dh/L
+         OAPfxrpmO5tYa5l31eriFT2kJxLGIq2hdzirjS2I4jTvTLrWD+r0or4skNGyj8+yOqFF
+         Wuxi2TIjAFsC6rUPYb13/OJu3//1sDKLXpnaVbmGUFGI6aN0oFfkMlSHcVogdceptBCb
+         Ii7huVPrUxpUMJmDspOZ40YG0faVRxrcHWL30MZmaUQp1gnHIMKDcsqVPMIbYSdTKZ/4
+         hUbg==
+X-Gm-Message-State: AOJu0YxUSoES3uUAqBmXWj5t9e5yIPESK9FdjhP+pIUG8TWlAdHohuzA
+	uKgwejV62ZPB64oFFaM2yNzfV/Cv/LzlrVlbfGrkhqqxtQ2/RGOIoLtozHrGsjsTiHqTOCECpx5
+	/
+X-Gm-Gg: ASbGncvBAO+/hrViSUWImlSybMdGkprwr8E6+WXi+QpuKGfg4ndoBEytib98+SYYfI6
+	gNEd19x5oLgZJDqR5rftuP/5Mivmx8J7EmRuPnkBkKn1dPhkUwoTSW5QxiW783tDsmKpDKPD0/w
+	lErw8VurEIedMiY3mFEKRNmTPaP6DdT3ZczNbwFBtbEBeMiCcedyNEVsCtsunhjJ2b+CIXCH0X/
+	k4rizUuVwF8t77S2qrw+hESzAJwERz6mTUiHFg=
+X-Google-Smtp-Source: AGHT+IEnfiyQHn4UWsOngR/N/wAvc2NunUtzSSlBKehY7Wwnp1+BmWvJWvTj0LiBdePOynlxq0+KbA==
+X-Received: by 2002:a05:6870:e310:b0:29e:2bbd:51ba with SMTP id 586e51a60fabf-29e88560cb3mr7888310fac.9.1733334919478;
+        Wed, 04 Dec 2024 09:55:19 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.16
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:55:16 -0800 (PST)
+        Wed, 04 Dec 2024 09:55:19 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 36/38] resulttool: Clean up repoducible build logs
-Date: Wed,  4 Dec 2024 09:54:03 -0800
-Message-Id: <cf1b4eb85ca3cb62c9746c6dc8f6dc9c4802c142.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 38/38] resulttool: Improve repo layout for oeselftest results
+Date: Wed,  4 Dec 2024 09:54:05 -0800
+Message-Id: <e42b6a40a3a01e328966bb5ee1bb3e0993975b15.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,61 +66,36 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:55:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208319
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208321
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-We've improved the data stored for reproduicible builds. Teach resulttool how
-to apply those cleanups when reprocessing data so we can reduce results file
-sizes and make the data easier to process.
+Having all oe-selftest results on top of each other results in a large 640MB
+json file which is hard to use. Split the results out per machine and test type.
+
+This also stops the toolchain raw logs from overwriting each other meaning more
+than one MACHINE is preserved.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit b799c57ae6d61c1b1c7035c8a2c4ba6ee08d1a81)
+(cherry picked from commit 4b890f04bc7d147b4a11b824a84f3d2abd75ac54)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/resulttool/resultutils.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ scripts/lib/resulttool/resultutils.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index b9b93afaa6..9cba8639a3 100644
+index 760e426de0..b8fc79a6ac 100644
 --- a/scripts/lib/resulttool/resultutils.py
 +++ b/scripts/lib/resulttool/resultutils.py
-@@ -131,6 +131,27 @@ def strip_logs(results):
-                     del newresults[res]['result']['ptestresult.sections'][i]['log']
-     return newresults
- 
-+def handle_cleanups(results):
-+    # Remove pointless path duplication from old format reproducibility results
-+    for res2 in results:
-+        try:
-+            section = results[res2]['result']['reproducible']['files']
-+            for pkgtype in section:
-+                for filelist in section[pkgtype].copy():
-+                    if section[pkgtype][filelist] and type(section[pkgtype][filelist][0]) == dict:
-+                        newlist = []
-+                        for entry in section[pkgtype][filelist]:
-+                            newlist.append(entry["reference"].split("/./")[1])
-+                        section[pkgtype][filelist] = newlist
-+
-+        except KeyError:
-+            pass
-+    # Remove pointless duplicate rawlogs data
-+    try:
-+        del results[res2]['result']['reproducible.rawlogs']
-+    except KeyError:
-+        pass
-+
- def decode_log(logdata):
-     if isinstance(logdata, str):
-         return logdata
-@@ -173,6 +194,7 @@ def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, p
-         resultsout = results[res]
-         if not ptestjson:
-             resultsout = strip_logs(results[res])
-+        handle_cleanups(resultsout)
-         with open(dst, 'w') as f:
-             f.write(json.dumps(resultsout, sort_keys=True, indent=1))
-         for res2 in results[res]:
+@@ -34,7 +34,7 @@ regression_map = {
+     "manual": ['TEST_TYPE', 'TEST_MODULE', 'IMAGE_BASENAME', 'MACHINE']
+ }
+ store_map = {
+-    "oeselftest": ['TEST_TYPE'],
++    "oeselftest": ['TEST_TYPE', 'TESTSERIES', 'MACHINE'],
+     "runtime": ['TEST_TYPE', 'DISTRO', 'MACHINE', 'IMAGE_BASENAME'],
+     "sdk": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
+     "sdkext": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
 -- 
 2.34.1
 
