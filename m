@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7411E77176
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F340E7716D
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:55:15 +0000 (UTC)
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.web11.21221.1733334911879829287
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+ by mx.groups.io with SMTP id smtpd.web11.21220.1733334910487995645
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:55:11 -0800
+ Wed, 04 Dec 2024 09:55:10 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=kAtPFsl7;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7fccc26ad01so54719a12.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:11 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=LvhkWOXv;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.180, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-7fcdb53cca6so64906a12.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:55:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334911; x=1733939711; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334910; x=1733939710; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=J0YW9nNwAJxA+JY6f2JW0z0/pArnkXFeXomGiSNZrmA=;
-        b=kAtPFsl7CT7Iqp+Iqb91FcuB3yugcVoauWxT7ZO83oclJNPEkOzOyzqmB9ONd5GGw0
-         +hdDsbRBs6Cw6/jbm0rCzj96YHNSslqnowdf7vSAevSGYOAV5NgzL0d3C11lYyke3CbB
-         Swzv9PArrwIJvPP7wZT82WiN64BXXaqTPmn2PNkJa+XA10hFAli2uwLEQG4DqSbcRHxC
-         yC5pAp8t9D92megjB3vwZFL23/W5lNMOmFhFoU3MkTgaWMDEf368X/hTDpSDDvlWGaGh
-         FuP1fafw1pkLtpKsMvdm5us3UAiaqaNpXAg+DyQ1bwzHUeT6bn+Pi9mMBjdTzf7JmfI8
-         xeQg==
+        bh=N+Ej6xPFqCU399vWOIIr1CMedQCmL0CSW9xkukxEKGE=;
+        b=LvhkWOXvyirg6Xvicj2kXeklHNtjmjhbipA+HIgDY3ybbxfUtUhMugP5UJu5925bCN
+         PBwoekxTebREAcO35/+nUtAFcv02ylXbztgpTMfk+Q6Tg/8t62lwWPoVug2eMpq3q86Y
+         yaY9FtLxLlW+rwU2jCe/bjRqM0FNBfEyj9EPAiaNDtOzD7w1GzMErEh+rYxmi9PFmvyy
+         ECd2sfEfv2I0W12INXAxtNtAOjDsiuOPMs3xFYav3/Mndi+7vrvQZ4z2N9P6xo0fEJPT
+         N1neeKKsDRrqvzDPZidWEZiuG+C8Pm6aNA1+UjEcuXlkfiUn/dG+0Zu/htm1GieOeh7N
+         2zDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334911; x=1733939711;
+        d=1e100.net; s=20230601; t=1733334910; x=1733939710;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=J0YW9nNwAJxA+JY6f2JW0z0/pArnkXFeXomGiSNZrmA=;
-        b=RAuSLY7qi58xksSCsLHEJpiWzRZzLNp2NiOomYpfUL7KGnGtC98/B+MtKD2FHii+JK
-         ozoqSvgWq6mbJUtsS+0jDzthm1RJT5ORDS7DAeLZx92AiM0PUl0Lpk85K3R2uJPwZYdc
-         LrlLEnhGnJ+mu2LI/MZ0UVEAXZ1MzU4h9KCFNT9Qkw9Vjyr9p6VOWCVskaYKZH87wnMd
-         V2xcoguZ7RV5ZFVEpsgYAba0aqtmkD8hy7ZDff52pwy0CVNEVAGYkn/o5kwNwvSqfffJ
-         KGQEPmX7VaxVihzisEzT2lKQ9FGEquCtyP/3YSxjGU/bpZ4L5RB40Y4XHJ5jTlgu7obq
-         yW/A==
-X-Gm-Message-State: AOJu0YwB9A0MMfYKn2Q+G5LucUcUvqqeaDLcWgTQ/OFX8haZ/QZq8OaO
-	hV2bj18PrNy1ryPvZzviHWD4qlpEevq7vakU0DOOlDumaJnE1WcqjllCMUQbEr6mik8zqu5OjRH
-	E
-X-Gm-Gg: ASbGnctzStSCNvzOqBPlspKfKolvEyUSMn3WUc8CoiYRxN5rdasbC2x7rV+56DZxyGF
-	W/SP4bNpZM6YE7Xi9P8YnsIsYFbM0U9TIg7ngQkJSDXoYWbaZSREqg3ZCvGnUI1wdAoc9Mvbhql
-	zxOPYM/+Vahm8IrtNudPxz0Jp3Eg5PlJABUu/soNnCH3a2pJ/4rAj0+1knFNbVapdB+0S+IRTZF
-	iqsgYIfIejhE074WVPZGWd/LQbPzCEmP4mVgzU=
-X-Google-Smtp-Source: AGHT+IEOtYJ0sKbWPGoLTiqpwPXy0v/JMm9lHasdP7ez0mWG3nsro7ntBldX7bqKLL+Uo9b1/BCaMQ==
-X-Received: by 2002:a05:6a20:43a7:b0:1e0:dcc5:164d with SMTP id adf61e73a8af0-1e16539f65amr10755080637.8.1733334911158;
-        Wed, 04 Dec 2024 09:55:11 -0800 (PST)
+        bh=N+Ej6xPFqCU399vWOIIr1CMedQCmL0CSW9xkukxEKGE=;
+        b=qbRcNFGPjISLMrBNfLQV1V7lx9UlTWoBRykoFUhhnVsGaZwUWA/rNzccKjtKbMggic
+         GK9gnHEtwxmEs94GZfTXHn5pK/JlvbIiPBa446ZoAyEh2zpme5rfzSUrxzH1J42EIWnB
+         imz3kJzB7nyh0LQbXECnfyikLSxQ6/Tscd8ZpR4C7KnD1ZuTxF9lK9Tr27VMTAZRnfKu
+         oYV6xx6goEboK/BD0KRpjQcPzvS5r73KBbzMAmFYVNejs0TM2r4dt616/jehJzUZRvlw
+         7eAuhOkSr3BUtdE3Vll5Kh/I0OC8YP6rRyAWgmc3RPtuQ62KVuQKn0CvqZnQaQyBEGaC
+         mKVQ==
+X-Gm-Message-State: AOJu0Yy3bGlGKW0m6FWFfBvkooElnYvmU58a/q2qKeyrR941P2qZK62S
+	238+iLs58YvWuJ/tQss4PmcxT0BepIsYneMjabNJUUH9X1TtQFPXPbdtNJd/+twkO7ZqSPBqlqi
+	M
+X-Gm-Gg: ASbGncs3giuZvoZMyiw1wdDNbQAmLcAODmkWkuXYVAwhtmLck6/y258tNCowiqOCIPa
+	q9n7N5zovqnFaAxmhT7O1JJ2vULvNgUQfKHH91wWta5j2KMpEwf5lVUQzPyTsSy5s6x6OSDrEl4
+	ICdfi2mdM5mBOi01rEAAL01VtAZ2MN3Yb8jO/R5EMp2RWZVJaOruXf9aKQeJB+o85Yb2mXZATcM
+	ICE6TPsCk3S2/JEexLM8HpZ5CXtmvuRNtHhmdQ=
+X-Google-Smtp-Source: AGHT+IEdLMfoLUQDvrf39uq7MBOcK/LosRSHJyp0Qtydkk20S4iFStQiBY+KcDqKZEEQOFHdmkkgOA==
+X-Received: by 2002:a05:6a21:3289:b0:1e0:eb49:b81b with SMTP id adf61e73a8af0-1e1653f6b69mr12369773637.31.1733334909642;
+        Wed, 04 Dec 2024 09:55:09 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.10
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.55.08
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:55:10 -0800 (PST)
+        Wed, 04 Dec 2024 09:55:09 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 32/38] oeqa/utils/gitarchive: Return tag name and improve exclude handling
-Date: Wed,  4 Dec 2024 09:53:59 -0800
-Message-Id: <2df9c2248ac4996ad1fd1fe9f492eb2d71b758cb.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 31/38] resulttool: Use single space indentation in json output
+Date: Wed,  4 Dec 2024 09:53:58 -0800
+Message-Id: <cae6106f152c8c44e2d85179ad7e6831b974ffd5.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,44 +66,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:55:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208315
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208314
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Tweak the gitarchive exclude handling not to error if excluded files
-don't match.
-
-Also return the tagname created so that other code can then use it.
+Using 4 space indentation in resulted in hundreds of megabytes of extra file size
+in general use. Reduce this to make filesizes more managable and reduce the processing
+cost. Some level of indentation and spacing does make the files more readable and allows
+use of git diff so we need to retain some of it.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 1adba3430faffdf6217b6a00533a3b48a9388abc)
+(cherry picked from commit a274cdcaf852cca9497f0358f44dda99c06aacbe)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/utils/gitarchive.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/core/runner.py              | 2 +-
+ scripts/lib/resulttool/manualexecution.py | 2 +-
+ scripts/lib/resulttool/report.py          | 2 +-
+ scripts/lib/resulttool/resultutils.py     | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/lib/oeqa/utils/gitarchive.py b/meta/lib/oeqa/utils/gitarchive.py
-index 6e8040eb5c..6db8c99147 100644
---- a/meta/lib/oeqa/utils/gitarchive.py
-+++ b/meta/lib/oeqa/utils/gitarchive.py
-@@ -67,7 +67,7 @@ def git_commit_data(repo, data_dir, branch, message, exclude, notes, log):
+diff --git a/meta/lib/oeqa/core/runner.py b/meta/lib/oeqa/core/runner.py
+index d50690ab37..a246c7d26b 100644
+--- a/meta/lib/oeqa/core/runner.py
++++ b/meta/lib/oeqa/core/runner.py
+@@ -347,7 +347,7 @@ class OETestResultJSONHelper(object):
+             os.makedirs(write_dir, exist_ok=True)
+         test_results = self._get_existing_testresults_if_available(write_dir)
+         test_results[result_id] = {'configuration': configuration, 'result': test_result}
+-        json_testresults = json.dumps(test_results, sort_keys=True, indent=4)
++        json_testresults = json.dumps(test_results, sort_keys=True, indent=1)
+         self._write_file(write_dir, self.testresult_filename, json_testresults)
+         if has_bb:
+             bb.utils.unlockfile(lf)
+diff --git a/scripts/lib/resulttool/manualexecution.py b/scripts/lib/resulttool/manualexecution.py
+index ecb27c5933..ae0861ac6b 100755
+--- a/scripts/lib/resulttool/manualexecution.py
++++ b/scripts/lib/resulttool/manualexecution.py
+@@ -22,7 +22,7 @@ def load_json_file(f):
+ def write_json_file(f, json_data):
+     os.makedirs(os.path.dirname(f), exist_ok=True)
+     with open(f, 'w') as filedata:
+-        filedata.write(json.dumps(json_data, sort_keys=True, indent=4))
++        filedata.write(json.dumps(json_data, sort_keys=True, indent=1))
  
-         # Remove files that are excluded
-         if exclude:
--            repo.run_cmd(['rm', '--cached'] + [f for f in exclude], env_update)
-+            repo.run_cmd(['rm', '--cached', '--ignore-unmatch'] + [f for f in exclude], env_update)
+ class ManualTestRunner(object):
  
-         tree = repo.run_cmd('write-tree', env_update)
- 
-@@ -166,6 +166,8 @@ def gitarchive(data_dir, git_dir, no_create, bare, commit_msg_subject, commit_ms
-         log.info("Pushing data to remote")
-         data_repo.run_cmd(cmd)
- 
-+    return tag_name
-+
- # Container class for tester revisions
- TestedRev = namedtuple('TestedRev', 'commit commit_number tags')
- 
+diff --git a/scripts/lib/resulttool/report.py b/scripts/lib/resulttool/report.py
+index a349510ab8..1c100b00ab 100644
+--- a/scripts/lib/resulttool/report.py
++++ b/scripts/lib/resulttool/report.py
+@@ -256,7 +256,7 @@ class ResultsTextReport(object):
+                 if selected_test_case_only:
+                     print_selected_testcase_result(raw_results, selected_test_case_only)
+                 else:
+-                    print(json.dumps(raw_results, sort_keys=True, indent=4))
++                    print(json.dumps(raw_results, sort_keys=True, indent=1))
+             else:
+                 print('Could not find raw test result for %s' % raw_test)
+             return 0
+diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
+index c5521d81bd..8fd4e0a9cf 100644
+--- a/scripts/lib/resulttool/resultutils.py
++++ b/scripts/lib/resulttool/resultutils.py
+@@ -169,7 +169,7 @@ def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, p
+         if not ptestjson:
+             resultsout = strip_ptestresults(results[res])
+         with open(dst, 'w') as f:
+-            f.write(json.dumps(resultsout, sort_keys=True, indent=4))
++            f.write(json.dumps(resultsout, sort_keys=True, indent=1))
+         for res2 in results[res]:
+             if ptestlogs and 'result' in results[res][res2]:
+                 seriesresults = results[res][res2]['result']
 -- 
 2.34.1
 
