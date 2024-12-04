@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C8E5E77172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A946E77175
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 17:54:35 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.21190.1733334868038645669
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+ by mx.groups.io with SMTP id smtpd.web10.21445.1733334870614155355
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 09:54:28 -0800
+ Wed, 04 Dec 2024 09:54:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=j6UZGuXq;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7253bc4d25eso84634b3a.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=sD0cVgM/;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.174, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-724e6c53fe2so71770b3a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:54:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334867; x=1733939667; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733334870; x=1733939670; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=RrTOn8FwCmX5Yk0CbH8PEsWZd3EMN1a+Y6vK69Tf3FQ=;
-        b=j6UZGuXqMtj5lMkCgmLim4zo4HxkCli1dqxgIwlYO4Zzgl8xivi6ii70gC1YeBRBwX
-         v9ACMPmn7B5Ij04VQX/n7G9dINfjLr47KhL097tSkW7H9kFe4cY9gzy6ByAVlKf7QK9h
-         beZqNg9ZKsddWPr+fRbAWdyxE934Tcnv0IBYPK/ym6EN2htCaBTr+IQGzkT86DVVmacz
-         IZ3z+WMfdb9K2MMfIdIUth8m3//YLuqMQwQJV8jwc5fpBzUTqqN/7iM89v/8spzp5cqu
-         JSHEY4ZU3NVtAxNbtLDxyEnINMMWg0gOjdANdIDFigkuSLlPYCzZy8mrdsrEx54ayGgu
-         6KwQ==
+        bh=DS0lPaOwy2cum74D5/0Yn12IvODsDLSCpPUYKLMeQRo=;
+        b=sD0cVgM/bMdVCiFuFj7XqwjmCGfAnWi8Ifi8wcY0rUxkefZJCw9r3QMIsENH61TOnP
+         M1xFXXZU3bjuSIVTL3OedKLkrlwZ6ejJWOTFWbZ+HghrVEI4WPor4ErDEpc0e1oCVgvC
+         0dIk1+1unKtEz8zJxjqLg0gk8EOx5zvKTqayNPV3V2Xw3okgG62m8RjI7yhAqLnwXivM
+         78SWsb2y1YK/PvCYvXqRVl9D/uoyaEDPfNa8k8cTags7IX9Yrvf52zliy++7XyAX2/Xm
+         ApWBFbV7ofMIZHxwU1DRjW8wmfcMMDsxrMTKL8I9R2s0+/F35Rhvsy1TbKEIRTnEbm8S
+         UP2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733334867; x=1733939667;
+        d=1e100.net; s=20230601; t=1733334870; x=1733939670;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=RrTOn8FwCmX5Yk0CbH8PEsWZd3EMN1a+Y6vK69Tf3FQ=;
-        b=AGArNr9fySpk2T/lOKBLQ6Hq6On22QGceVDNU9A+raz1X3duOjOp1OTzZcnPKNmm1g
-         g5a+QHpAZBSWa8Y/nsnyzQAXIleedVXI3OG69/kDGdwXnasBCnbCtyEL6JsyDU8Drlcq
-         rKA9I/FOdEQTcRlDEaTlDikFJue0JaHbFU5ZIF/ZOaZAIc5eCtmkhbDbptBP3KMAuayb
-         OWkhjV/1Zwd1JkLxGlcutdfl0b0Bsgi/xnbreM7rcOlJVcVP7GQingGaOsoN6V7d+e/Z
-         sAXb5T8YFcX4PWGcoJF25cKRrkSMWMOR5L8bUSBVd/K8Wtp+A8/8irj4Mciw2FtBGWSX
-         AWvA==
-X-Gm-Message-State: AOJu0YxwPbY3D32dNbk7fqBedNhClD6N0Wtm6qO92MsWfaXQubhRD27t
-	/fJIw41PYCHORlwn9Ja3PAonOkRHNWTtAVrt9TMqhJZsuDpbTzKfbXdzbvbz4UBQmpXb8+FfcQF
-	e
-X-Gm-Gg: ASbGnct2/OeCeyRg5vGYtuc98f2B9AJDkZ2v9D5oBulNEg16jLEkxbDROa/XkEBjUNB
-	tqofQfzVqtUh19n2WhLHhciBPmUtw971WYE3H/joSGQjqFzdeb65cuIsBoOtTuzIWPQanZw5f1b
-	YU+DNiQ/NG2syp96DYb8MTWQNaC9JRGhttTs8qxtgNtmtDtd9zIMQQQLt5iL9qYAo1Wtgq2QpdM
-	YBrlEhaZd/mtsZUO05LiqFYf2WoIkiJhY4YNsQ=
-X-Google-Smtp-Source: AGHT+IHxqi36UAEccGwquMVxio39WF/gibJkPRSjdMWB7Z4Uc+e/yiZ4AKdUwVS1ljsuRtxw4HOSUA==
-X-Received: by 2002:a05:6a00:2d11:b0:725:437f:9656 with SMTP id d2e1a72fcca58-7259d6620bamr482486b3a.11.1733334867030;
-        Wed, 04 Dec 2024 09:54:27 -0800 (PST)
+        bh=DS0lPaOwy2cum74D5/0Yn12IvODsDLSCpPUYKLMeQRo=;
+        b=W5uez4pGBc3VT/4SnrBS/wSJuJmD8RII8Acw6FarsFCXOKqaTMZRfDaQuJ5luYUX8Y
+         His0RLhR9FonPYYXnwC2lTtHU2YfIrzwhTbXE44fQD1XpUKTWNVxF2zxmn9f/US1Nanf
+         /q2sVmbi0Iaj2YQbdb9HkYBovhb99qarYGUkAd1ydc9YXnsGtPGQwD1fikyeeaDuKkeC
+         fUNmic8W5BJ1fqFCbUsncnJkeb5BN8A0AR/CUrylhfYlNm9pYGMPq+ISY/1TQ2sk0LxY
+         UtXGisMa2D94V8j/PIAdPLw7hfohc8tOlwjyaeG16A2xJN1PSp1MRKAv38Krdv4oN+s9
+         nNKg==
+X-Gm-Message-State: AOJu0YyfO4eU4iU1Ja2eFqtqurlMAPmEBBg+UgXi4mQUTQU8NlmnolPb
+	JgmBEkiCrsJWKdKH0i7beuIqtlUPdrTSihkEN/LfTxhc67kkRaguGPGk+dSS0CbYdN0yA744LN+
+	n
+X-Gm-Gg: ASbGnctXegqKj3fJYQqK+UC7Qb9NA1bd/agIxtP13LA3rOAik4nazp8uO5AqdIX9OLe
+	b0jdR8seUw9hkUUPjwjsG0XVjX52kIRHKnd7tI7yGy+lYGd8BcEjYqeDq/tfaef7z9759caXtvE
+	IP3VevHOVIjmvCIcI4bw/MrjCAPPbPTFlG9IeQelSsxFqhYPNSwN6YI2VvPkGAy3QANhNWjEWwG
+	aHCQdiabvfk2QGJT2H30ikBnUui7YAvw+MZMnQ=
+X-Google-Smtp-Source: AGHT+IE/tKBdVcRxVpthlDZp3CtQXocUpgPbQYpv/ngzyFXDE9fpb3nZGofCQBCmS30Pao9wmwiX7w==
+X-Received: by 2002:a17:902:dac8:b0:215:8550:a95d with SMTP id d9443c01a7336-215d00d3395mr61507235ad.52.1733334868940;
+        Wed, 04 Dec 2024 09:54:28 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.26
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-7fc9c2d5af1sm11727765a12.16.2024.12.04.09.54.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 09:54:26 -0800 (PST)
+        Wed, 04 Dec 2024 09:54:28 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][kirkstone 07/38] ovmf: Fix CVE-2023-45235
-Date: Wed,  4 Dec 2024 09:53:34 -0800
-Message-Id: <dd26902517c30f34cc661cf9f79fc589d0358412.1733334655.git.steve@sakoman.com>
+Subject: [OE-core][kirkstone 08/38] ovmf: Fix CVE-2023-45229
+Date: Wed,  4 Dec 2024 09:53:35 -0800
+Message-Id: <23a87c571ae4cdd285a96af0d458906aaf8c4571.1733334655.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733334655.git.steve@sakoman.com>
 References: <cover.1733334655.git.steve@sakoman.com>
@@ -66,85 +66,79 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 17:54:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208290
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208291
 
 From: Soumya Sambu <soumya.sambu@windriver.com>
 
-EDK2's Network Package is susceptible to a buffer overflow vulnerability
-when handling Server ID option from a DHCPv6 proxy Advertise message.
-This vulnerability can be exploited by an attacker to gain unauthorized
-access and potentially lead to a loss of Confidentiality, Integrity
-and/or Availability.
+EDK2's Network Package is susceptible to an out-of-bounds read
+vulnerability when processing the IA_NA or IA_TA option in a DHCPv6
+Advertise message. This vulnerability can be exploited by an attacker
+to gain unauthorized access and potentially lead to a loss of
+Confidentiality.
 
 References:
-https://nvd.nist.gov/vuln/detail/CVE-2023-45235
+https://nvd.nist.gov/vuln/detail/CVE-2023-45229
 
 Upstream-patches:
-https://github.com/tianocore/edk2/commit/fac297724e6cc343430cd0104e55cd7a96=
-d1151e
-https://github.com/tianocore/edk2/commit/ff2986358f75d8f58ef08a66fe673539c9=
-c48f41
+https://github.com/tianocore/edk2/commit/1dbb10cc52dc8ef49bb700daa1cefc76b2=
+6d52e0
+https://github.com/tianocore/edk2/commit/07362769ab7a7d74dbea1c7a7a3662c7b5=
+d1f097
+https://github.com/tianocore/edk2/commit/1c440a5eceedc64e892877eeac0f1a4938=
+f5abbb
+https://github.com/tianocore/edk2/commit/1d0b95f6457d225c5108302a9da74b4ed7=
+aa5a38
 
 Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 ---
- .../ovmf/ovmf/CVE-2023-45235-0001.patch       | 243 +++++++++++
- .../ovmf/ovmf/CVE-2023-45235-0002.patch       | 379 ++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
- 3 files changed, 624 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
- create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
+ .../ovmf/ovmf/CVE-2023-45229-0001.patch       | 604 ++++++++++++++++++
+ .../ovmf/ovmf/CVE-2023-45229-0002.patch       | 539 ++++++++++++++++
+ .../ovmf/ovmf/CVE-2023-45229-0003.patch       | 244 +++++++
+ .../ovmf/ovmf/CVE-2023-45229-0004.patch       | 157 +++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |   4 +
+ 5 files changed, 1548 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch
 new file mode 100644
-index 0000000000..264172f623
+index 0000000000..9d8549b27d
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0001.patch
-@@ -0,0 +1,243 @@
-+From fac297724e6cc343430cd0104e55cd7a96d1151e Mon Sep 17 00:00:00 2001
-+From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:55 +0800
-+Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45235 P=
-atch
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0001.patch
+@@ -0,0 +1,604 @@
++From 1dbb10cc52dc8ef49bb700daa1cefc76b26d52e0 Mon Sep 17 00:00:00 2001
++From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
++Date: Fri, 26 Jan 2024 05:54:46 +0800
++Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Patch
 +
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540
++REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534
 +
 +Bug Details:
-+PixieFail Bug #7
-+CVE-2023-45235
-+CVSS 8.3 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:L/A:H
-+CWE-119 Improper Restriction of Operations within the Bounds of
-+ a Memory Buffer
-+
-+Buffer overflow when handling Server ID option from a DHCPv6 proxy
-+Advertise message
++PixieFail Bug #1
++CVE-2023-45229
++CVSS 6.5 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
++CWE-125 Out-of-bounds Read
 +
 +Change Overview:
 +
-+Performs two checks
++Introduce Dhcp6SeekInnerOptionSafe which performs checks before seeking
++the Inner Option from a DHCP6 Option.
 +
-+1. Checks that the length of the duid is accurate
-+> + //
-+> + // Check that the minimum and maximum requirements are met
-+> + //
-+> + if ((OpLen < PXEBC_MIN_SIZE_OF_DUID) ||
-+(OpLen > PXEBC_MAX_SIZE_OF_DUID)) {
-+> +  Status =3D EFI_INVALID_PARAMETER;
-+> +  goto ON_ERROR;
-+> + }
++>
++> EFI_STATUS
++> Dhcp6SeekInnerOptionSafe (
++>  IN  UINT16  IaType,
++>  IN  UINT8   *Option,
++>  IN  UINT32  OptionLen,
++>  OUT UINT8   **IaInnerOpt,
++>  OUT UINT16  *IaInnerLen
++>  );
++>
 +
-+2. Ensures that the amount of data written to the buffer is tracked and
-+never exceeds that
-+> + //
-+> + // Check that the option length is valid.
-+> + //
-+> + if ((DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN)
-+ > DiscoverLenNeeded) {
-+> +     Status =3D EFI_OUT_OF_RESOURCES;
-+> +     goto ON_ERROR;
-+> + }
-+
-+Additional code clean up and fix for memory leak in case Option was NULL
++Lots of code cleanup to improve code readability.
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -152,247 +146,683 @@ atch
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45235
++CVE: CVE-2023-45229
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/fac297=
-724e6cc343430cd0104e55cd7a96d1151e]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1dbb10=
+cc52dc8ef49bb700daa1cefc76b26d52e0]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c | 77 ++++++++++++++++++++++------
-+ NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h | 17 ++++++
-+ 2 files changed, 78 insertions(+), 16 deletions(-)
++ NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h | 138 +++++++++++++++++++---
++ NetworkPkg/Dhcp6Dxe/Dhcp6Io.c   | 203 +++++++++++++++++++++-----------
++ 2 files changed, 256 insertions(+), 85 deletions(-)
 +
-+diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c b/NetworkPkg/UefiPxeBcDx=
-e/PxeBcDhcp6.c
-+index 2b2d372889..7fd1281c11 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
-++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c
-+@@ -887,6 +887,7 @@ PxeBcRequestBootService (
-+   EFI_STATUS                       Status;=0D
-+   EFI_DHCP6_PACKET                 *IndexOffer;=0D
-+   UINT8                            *Option;=0D
-++  UINTN                            DiscoverLenNeeded;=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h b/NetworkPkg/Dhcp6Dxe/Dhcp6Im=
+pl.h
++index f2422c2f28..220e7c68f1 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Impl.h
++@@ -45,6 +45,20 @@ typedef struct _DHCP6_INSTANCE  DHCP6_INSTANCE;
++ #define DHCP6_SERVICE_SIGNATURE   SIGNATURE_32 ('D', 'H', '6', 'S')=0D
++ #define DHCP6_INSTANCE_SIGNATURE  SIGNATURE_32 ('D', 'H', '6', 'I')=0D
 + =0D
-+   PxeBc      =3D &Private->PxeBc;=0D
-+   Request    =3D Private->Dhcp6Request;=0D
-+@@ -899,7 +900,8 @@ PxeBcRequestBootService (
-+     return EFI_DEVICE_ERROR;=0D
-+   }=0D
+++#define DHCP6_PACKET_ALL        0=0D
+++#define DHCP6_PACKET_STATEFUL   1=0D
+++#define DHCP6_PACKET_STATELESS  2=0D
+++=0D
+++#define DHCP6_BASE_PACKET_SIZE  1024=0D
+++=0D
+++#define DHCP6_PORT_CLIENT  546=0D
+++#define DHCP6_PORT_SERVER  547=0D
+++=0D
+++#define DHCP_CHECK_MEDIA_WAITING_TIME  EFI_TIMER_PERIOD_SECONDS(20)=0D
+++=0D
+++#define DHCP6_INSTANCE_FROM_THIS(Instance)  CR ((Instance), DHCP6_INSTANC=
+E, Dhcp6, DHCP6_INSTANCE_SIGNATURE)=0D
+++#define DHCP6_SERVICE_FROM_THIS(Service)    CR ((Service), DHCP6_SERVICE,=
+ ServiceBinding, DHCP6_SERVICE_SIGNATURE)=0D
+++=0D
++ //=0D
++ // For more information on DHCP options see RFC 8415, Section 21.1=0D
++ //=0D
++@@ -59,12 +73,10 @@ typedef struct _DHCP6_INSTANCE  DHCP6_INSTANCE;
++ //    |                      (option-len octets)                      |=0D
++ //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
++ //=0D
++-#define DHCP6_SIZE_OF_OPT_CODE  (sizeof(UINT16))=0D
++-#define DHCP6_SIZE_OF_OPT_LEN   (sizeof(UINT16))=0D
+++#define DHCP6_SIZE_OF_OPT_CODE  (sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->=
+OpCode))=0D
+++#define DHCP6_SIZE_OF_OPT_LEN   (sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->=
+OpLen))=0D
 + =0D
-+-  Discover =3D AllocateZeroPool (sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET)=
-);=0D
-++  DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
-++  Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
-+   if (Discover =3D=3D NULL) {=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
-+   }=0D
-+@@ -924,16 +926,34 @@ PxeBcRequestBootService (
-+                DHCP6_OPT_SERVER_ID=0D
-+                );=0D
-+     if (Option =3D=3D NULL) {=0D
-+-      return EFI_NOT_FOUND;=0D
-++      Status =3D EFI_NOT_FOUND;=0D
-++      goto ON_ERROR;=0D
++-//=0D
++ // Combined size of Code and Length=0D
++-//=0D
++ #define DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN  (DHCP6_SIZE_OF_OPT_CODE + \=
+=0D
++                                               DHCP6_SIZE_OF_OPT_LEN)=0D
++ =0D
++@@ -73,34 +85,122 @@ STATIC_ASSERT (
++   "Combined size of Code and Length must be 4 per RFC 8415"=0D
++   );=0D
++ =0D
++-//=0D
++ // Offset to the length is just past the code=0D
++-//=0D
++-#define DHCP6_OPT_LEN_OFFSET(a)  (a + DHCP6_SIZE_OF_OPT_CODE)=0D
+++#define DHCP6_OFFSET_OF_OPT_LEN(a)  (a + DHCP6_SIZE_OF_OPT_CODE)=0D
++ STATIC_ASSERT (=0D
++-  DHCP6_OPT_LEN_OFFSET (0) =3D=3D 2,=0D
+++  DHCP6_OFFSET_OF_OPT_LEN (0) =3D=3D 2,=0D
++   "Offset of length is + 2 past start of option"=0D
++   );=0D
++ =0D
++-#define DHCP6_OPT_DATA_OFFSET(a)  (a + DHCP6_SIZE_OF_COMBINED_CODE_AND_LE=
+N)=0D
+++#define DHCP6_OFFSET_OF_OPT_DATA(a)  (a + DHCP6_SIZE_OF_COMBINED_CODE_AND=
+_LEN)=0D
++ STATIC_ASSERT (=0D
++-  DHCP6_OPT_DATA_OFFSET (0) =3D=3D 4,=0D
+++  DHCP6_OFFSET_OF_OPT_DATA (0) =3D=3D 4,=0D
++   "Offset to option data should be +4 from start of option"=0D
++   );=0D
+++//=0D
+++// Identity Association options (both NA (Non-Temporary) and TA (Temporar=
+y Association))=0D
+++// are defined in RFC 8415 and are a deriviation of a TLV stucture=0D
+++// For more information on IA_NA see Section 21.4=0D
+++// For more information on IA_TA see Section 21.5=0D
+++//=0D
+++//=0D
+++//  The format of IA_NA and IA_TA option:=0D
+++//=0D
+++//     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |          OPTION_IA_NA         |          option-len           |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |                        IAID (4 octets)                        |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |                        T1 (only for IA_NA)                    |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |                        T2 (only for IA_NA)                    |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |                                                               |=0D
+++//    .                  IA_NA-options/IA_TA-options                  .=0D
+++//    .                                                               .=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//=0D
+++#define DHCP6_SIZE_OF_IAID           (sizeof(UINT32))=0D
+++#define DHCP6_SIZE_OF_TIME_INTERVAL  (sizeof(UINT32))=0D
++ =0D
++-#define DHCP6_PACKET_ALL        0=0D
++-#define DHCP6_PACKET_STATEFUL   1=0D
++-#define DHCP6_PACKET_STATELESS  2=0D
+++// Combined size of IAID, T1, and T2=0D
+++#define DHCP6_SIZE_OF_COMBINED_IAID_T1_T2  (DHCP6_SIZE_OF_IAID +  \=0D
+++                                            DHCP6_SIZE_OF_TIME_INTERVAL +=
+ \=0D
+++                                            DHCP6_SIZE_OF_TIME_INTERVAL)=
+=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_SIZE_OF_COMBINED_IAID_T1_T2 =3D=3D 12,=0D
+++  "Combined size of IAID, T1, T2 must be 12 per RFC 8415"=0D
+++  );=0D
++ =0D
++-#define DHCP6_BASE_PACKET_SIZE  1024=0D
+++// This is the size of IA_TA without options=0D
+++#define DHCP6_MIN_SIZE_OF_IA_TA  (DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN + \=
+=0D
+++                                  DHCP6_SIZE_OF_IAID)=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_MIN_SIZE_OF_IA_TA =3D=3D 8,=0D
+++  "Minimum combined size of IA_TA per RFC 8415"=0D
+++  );=0D
++ =0D
++-#define DHCP6_PORT_CLIENT  546=0D
++-#define DHCP6_PORT_SERVER  547=0D
+++// Offset to a IA_TA inner option=0D
+++#define DHCP6_OFFSET_OF_IA_TA_INNER_OPT(a)  (a + DHCP6_MIN_SIZE_OF_IA_TA)=
+=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_OFFSET_OF_IA_TA_INNER_OPT (0) =3D=3D 8,=0D
+++  "Offset of IA_TA Inner option is + 8 past start of option"=0D
+++  );=0D
++ =0D
++-#define DHCP_CHECK_MEDIA_WAITING_TIME  EFI_TIMER_PERIOD_SECONDS(20)=0D
+++// This is the size of IA_NA without options (16)=0D
+++#define DHCP6_MIN_SIZE_OF_IA_NA  DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN + \=
+=0D
+++                                 DHCP6_SIZE_OF_COMBINED_IAID_T1_T2=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_MIN_SIZE_OF_IA_NA =3D=3D 16,=0D
+++  "Minimum combined size of IA_TA per RFC 8415"=0D
+++  );=0D
++ =0D
++-#define DHCP6_INSTANCE_FROM_THIS(Instance)  CR ((Instance), DHCP6_INSTANC=
+E, Dhcp6, DHCP6_INSTANCE_SIGNATURE)=0D
++-#define DHCP6_SERVICE_FROM_THIS(Service)    CR ((Service), DHCP6_SERVICE,=
+ ServiceBinding, DHCP6_SERVICE_SIGNATURE)=0D
+++#define DHCP6_OFFSET_OF_IA_NA_INNER_OPT(a)  (a + DHCP6_MIN_SIZE_OF_IA_NA)=
+=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_OFFSET_OF_IA_NA_INNER_OPT (0) =3D=3D 16,=0D
+++  "Offset of IA_NA Inner option is + 16 past start of option"=0D
+++  );=0D
+++=0D
+++#define DHCP6_OFFSET_OF_IA_NA_T1(a)  (a + \=0D
+++                                   DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN + =
+\=0D
+++                                   DHCP6_SIZE_OF_IAID)=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_OFFSET_OF_IA_NA_T1 (0) =3D=3D 8,=0D
+++  "Offset of IA_NA Inner option is + 8 past start of option"=0D
+++  );=0D
+++=0D
+++#define DHCP6_OFFSET_OF_IA_NA_T2(a)  (a + \=0D
+++                                   DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN +\=
+=0D
+++                                   DHCP6_SIZE_OF_IAID + \=0D
+++                                   DHCP6_SIZE_OF_TIME_INTERVAL)=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_OFFSET_OF_IA_NA_T2 (0) =3D=3D 12,=0D
+++  "Offset of IA_NA Inner option is + 12 past start of option"=0D
+++  );=0D
+++=0D
+++//=0D
+++// For more information see RFC 8415 Section 21.13=0D
+++//=0D
+++// The format of the Status Code Option:=0D
+++//=0D
+++//     0                   1                   2                   3=0D
+++//     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |       OPTION_STATUS_CODE      |         option-len            |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//    |          status-code          |                               |=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+                               |=0D
+++//    .                                                               .=0D
+++//    .                        status-message                         .=0D
+++//    .                                                               .=0D
+++//    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=0D
+++//=0D
+++#define DHCP6_OFFSET_OF_STATUS_CODE(a)  (a + DHCP6_SIZE_OF_COMBINED_CODE_=
+AND_LEN)=0D
+++STATIC_ASSERT (=0D
+++  DHCP6_OFFSET_OF_STATUS_CODE (0) =3D=3D 4,=0D
+++  "Offset of status is + 4 past start of option"=0D
+++  );=0D
++ =0D
++ extern EFI_IPv6_ADDRESS    mAllDhcpRelayAndServersAddress;=0D
++ extern EFI_DHCP6_PROTOCOL  gDhcp6ProtocolTemplate;=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++index bf5aa7a769..89d16484a5 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++@@ -598,8 +598,8 @@ Dhcp6UpdateIaInfo (
++   // The inner options still start with 2 bytes option-code and 2 bytes o=
+ption-len.=0D
++   //=0D
++   if (Instance->Config->IaDescriptor.Type =3D=3D Dhcp6OptIana) {=0D
++-    T1 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(Option + 8)));=0D
++-    T2 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(Option + 12)));=0D
+++    T1 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T1 (O=
+ption))));=0D
+++    T2 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T2 (O=
+ption))));=0D
++     //=0D
++     // Refer to RFC3155 Chapter 22.4. If a client receives an IA_NA with =
+T1 greater than T2,=0D
++     // and both T1 and T2 are greater than 0, the client discards the IA_=
+NA option and processes=0D
++@@ -609,13 +609,14 @@ Dhcp6UpdateIaInfo (
++       return EFI_DEVICE_ERROR;=0D
 +     }=0D
 + =0D
-+     //=0D
-+     // Add Server ID Option.=0D
-+     //=0D
-+     OpLen =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)Option)->OpLen);=0D
-+-    CopyMem (DiscoverOpt, Option, OpLen + 4);=0D
-+-    DiscoverOpt +=3D (OpLen + 4);=0D
-+-    DiscoverLen +=3D (OpLen + 4);=0D
++-    IaInnerOpt =3D Option + 16;=0D
++-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 2=
+))) - 12);=0D
+++    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
+++    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
+ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_COMBINED_IAID_T1_T2);=0D
++   } else {=0D
++-    T1         =3D 0;=0D
++-    T2         =3D 0;=0D
++-    IaInnerOpt =3D Option + 8;=0D
++-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 2=
+))) - 4);=0D
+++    T1 =3D 0;=0D
+++    T2 =3D 0;=0D
 ++=0D
-++    //=0D
-++    // Check that the minimum and maximum requirements are met=0D
-++    //=0D
-++    if ((OpLen < PXEBC_MIN_SIZE_OF_DUID) || (OpLen > PXEBC_MAX_SIZE_OF_DU=
-ID)) {=0D
-++      Status =3D EFI_INVALID_PARAMETER;=0D
-++      goto ON_ERROR;=0D
-++    }=0D
-++=0D
-++    //=0D
-++    // Check that the option length is valid.=0D
-++    //=0D
-++    if ((DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN) >=
- DiscoverLenNeeded) {=0D
-++      Status =3D EFI_OUT_OF_RESOURCES;=0D
-++      goto ON_ERROR;=0D
-++    }=0D
-++=0D
-++    CopyMem (DiscoverOpt, Option, OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE=
-_AND_LEN);=0D
-++    DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-++    DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-+   }=0D
-+ =0D
-+   while (RequestLen < Request->Length) {=0D
-+@@ -944,16 +964,24 @@ PxeBcRequestBootService (
-+         (OpCode !=3D DHCP6_OPT_SERVER_ID)=0D
-+         )=0D
-+     {=0D
-++      //=0D
-++      // Check that the option length is valid.=0D
-++      //=0D
-++      if (DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN >=
- DiscoverLenNeeded) {=0D
-++        Status =3D EFI_OUT_OF_RESOURCES;=0D
-++        goto ON_ERROR;=0D
-++      }=0D
-++=0D
-+       //=0D
-+       // Copy all the options except IA option and Server ID=0D
-+       //=0D
-+-      CopyMem (DiscoverOpt, RequestOpt, OpLen + 4);=0D
-+-      DiscoverOpt +=3D (OpLen + 4);=0D
-+-      DiscoverLen +=3D (OpLen + 4);=0D
-++      CopyMem (DiscoverOpt, RequestOpt, OpLen + PXEBC_COMBINED_SIZE_OF_OP=
-T_CODE_AND_LEN);=0D
-++      DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
-=0D
-++      DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
-=0D
-+     }=0D
-+ =0D
-+-    RequestOpt +=3D (OpLen + 4);=0D
-+-    RequestLen +=3D (OpLen + 4);=0D
-++    RequestOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-++    RequestLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
+++    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
+++    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
+ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_IAID);=0D
 +   }=0D
 + =0D
 +   //=0D
-+@@ -2154,6 +2182,7 @@ PxeBcDhcp6Discover (
-+   UINT16                           OpLen;=0D
-+   UINT32                           Xid;=0D
-+   EFI_STATUS                       Status;=0D
-++  UINTN                            DiscoverLenNeeded;=0D
-+ =0D
-+   PxeBc    =3D &Private->PxeBc;=0D
-+   Mode     =3D PxeBc->Mode;=0D
-+@@ -2169,7 +2198,8 @@ PxeBcDhcp6Discover (
-+     return EFI_DEVICE_ERROR;=0D
-+   }=0D
-+ =0D
-+-  Discover =3D AllocateZeroPool (sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET)=
++@@ -641,7 +642,7 @@ Dhcp6UpdateIaInfo (
++   Option  =3D Dhcp6SeekOption (IaInnerOpt, IaInnerLen, Dhcp6OptStatusCode=
 );=0D
-++  DiscoverLenNeeded =3D sizeof (EFI_PXE_BASE_CODE_DHCPV6_PACKET);=0D
-++  Discover          =3D AllocateZeroPool (DiscoverLenNeeded);=0D
-+   if (Discover =3D=3D NULL) {=0D
-+     return EFI_OUT_OF_RESOURCES;=0D
-+   }=0D
-+@@ -2185,22 +2215,37 @@ PxeBcDhcp6Discover (
-+   DiscoverLen             =3D sizeof (EFI_DHCP6_HEADER);=0D
-+   RequestLen              =3D DiscoverLen;=0D
 + =0D
-++  //=0D
-++  // The request packet is generated by the UEFI network stack. In the DH=
-CP4 DORA and DHCP6 SARR sequence,=0D
-++  // the first (discover in DHCP4 and solicit in DHCP6) and third (reques=
-t in both DHCP4 and DHCP6) are=0D
-++  // generated by the DHCP client (the UEFI network stack in this case). =
-By the time this function executes,=0D
-++  // the DHCP sequence already has been executed once (see UEFI Specifica=
-tion Figures 24.2 and 24.3), with=0D
-++  // Private->Dhcp6Request being a cached copy of the DHCP6 request packe=
-t that UEFI network stack previously=0D
-++  // generated and sent.=0D
-++  //=0D
-++  // Therefore while this code looks like it could overflow, in practice =
-it's not possible.=0D
-++  //=0D
-+   while (RequestLen < Request->Length) {=0D
-+     OpCode =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)RequestOpt)->OpCode);=0D
-+     OpLen  =3D NTOHS (((EFI_DHCP6_PACKET_OPTION *)RequestOpt)->OpLen);=0D
-+     if ((OpCode !=3D EFI_DHCP6_IA_TYPE_NA) &&=0D
-+         (OpCode !=3D EFI_DHCP6_IA_TYPE_TA))=0D
-+     {=0D
-++      if (DiscoverLen + OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN >=
- DiscoverLenNeeded) {=0D
-++        Status =3D EFI_OUT_OF_RESOURCES;=0D
-++        goto ON_ERROR;=0D
-++      }=0D
++   if (Option !=3D NULL) {=0D
++-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 4)));=0D
+++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_OPT_LE=
+N (Option))));=0D
++     if (StsCode !=3D Dhcp6StsSuccess) {=0D
++       return EFI_DEVICE_ERROR;=0D
++     }=0D
++@@ -661,6 +662,87 @@ Dhcp6UpdateIaInfo (
++   return Status;=0D
++ }=0D
++ =0D
+++/**=0D
+++  Seeks the Inner Options from a DHCP6 Option=0D
 ++=0D
-+       //=0D
-+       // Copy all the options except IA option.=0D
-+       //=0D
-+-      CopyMem (DiscoverOpt, RequestOpt, OpLen + 4);=0D
-+-      DiscoverOpt +=3D (OpLen + 4);=0D
-+-      DiscoverLen +=3D (OpLen + 4);=0D
-++      CopyMem (DiscoverOpt, RequestOpt, OpLen + PXEBC_COMBINED_SIZE_OF_OP=
-T_CODE_AND_LEN);=0D
-++      DiscoverOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
+++  @param[in]  IaType          The type of the IA option.=0D
+++  @param[in]  Option          The pointer to the DHCP6 Option.=0D
+++  @param[in]  OptionLen       The length of the DHCP6 Option.=0D
+++  @param[out] IaInnerOpt      The pointer to the IA inner option.=0D
+++  @param[out] IaInnerLen      The length of the IA inner option.=0D
+++=0D
+++  @retval EFI_SUCCESS         Seek the inner option successfully.=0D
+++  @retval EFI_DEVICE_ERROR    The OptionLen is invalid. On Error,=0D
+++                              the pointers are not modified=0D
+++**/=0D
+++EFI_STATUS=0D
+++Dhcp6SeekInnerOptionSafe (=0D
+++  IN  UINT16  IaType,=0D
+++  IN  UINT8   *Option,=0D
+++  IN  UINT32  OptionLen,=0D
+++  OUT UINT8   **IaInnerOpt,=0D
+++  OUT UINT16  *IaInnerLen=0D
+++  )=0D
+++{=0D
+++  UINT16  IaInnerLenTmp;=0D
+++  UINT8   *IaInnerOptTmp;=0D
+++=0D
+++  if (Option =3D=3D NULL) {=0D
+++    ASSERT (Option !=3D NULL);=0D
+++    return EFI_DEVICE_ERROR;=0D
+++  }=0D
+++=0D
+++  if (IaInnerOpt =3D=3D NULL) {=0D
+++    ASSERT (IaInnerOpt !=3D NULL);=0D
+++    return EFI_DEVICE_ERROR;=0D
+++  }=0D
+++=0D
+++  if (IaInnerLen =3D=3D NULL) {=0D
+++    ASSERT (IaInnerLen !=3D NULL);=0D
+++    return EFI_DEVICE_ERROR;=0D
+++  }=0D
+++=0D
+++  if (IaType =3D=3D Dhcp6OptIana) {=0D
+++    // Verify we have a fully formed IA_NA=0D
+++    if (OptionLen < DHCP6_MIN_SIZE_OF_IA_NA) {=0D
+++      return EFI_DEVICE_ERROR;=0D
+++    }=0D
+++=0D
+++    //=0D
+++    IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
+++=0D
+++    // Verify the IaInnerLen is valid.=0D
+++    IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)DHCP6_OFF=
+SET_OF_OPT_LEN (Option)));=0D
+++    if (IaInnerLenTmp < DHCP6_SIZE_OF_COMBINED_IAID_T1_T2) {=0D
+++      return EFI_DEVICE_ERROR;=0D
+++    }=0D
+++=0D
+++    IaInnerLenTmp -=3D DHCP6_SIZE_OF_COMBINED_IAID_T1_T2;=0D
+++  } else if (IaType =3D=3D Dhcp6OptIata) {=0D
+++    // Verify the OptionLen is valid.=0D
+++    if (OptionLen < DHCP6_MIN_SIZE_OF_IA_TA) {=0D
+++      return EFI_DEVICE_ERROR;=0D
+++    }=0D
+++=0D
+++    IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
+++=0D
+++    // Verify the IaInnerLen is valid.=0D
+++    IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OF=
+FSET_OF_OPT_LEN (Option))));=0D
+++    if (IaInnerLenTmp < DHCP6_SIZE_OF_IAID) {=0D
+++      return EFI_DEVICE_ERROR;=0D
+++    }=0D
+++=0D
+++    IaInnerLenTmp -=3D DHCP6_SIZE_OF_IAID;=0D
+++  } else {=0D
+++    return EFI_DEVICE_ERROR;=0D
+++  }=0D
+++=0D
+++  *IaInnerOpt =3D IaInnerOptTmp;=0D
+++  *IaInnerLen =3D IaInnerLenTmp;=0D
+++=0D
+++  return EFI_SUCCESS;=0D
+++}=0D
+++=0D
++ /**=0D
++   Seek StatusCode Option in package. A Status Code option may appear in t=
+he=0D
++   options field of a DHCP message and/or in the options field of another =
+option.=0D
++@@ -684,6 +766,12 @@ Dhcp6SeekStsOption (
++   UINT8   *IaInnerOpt;=0D
++   UINT16  IaInnerLen;=0D
++   UINT16  StsCode;=0D
+++  UINT32  OptionLen;=0D
+++=0D
+++  // OptionLen is the length of the Options excluding the DHCP header.=0D
+++  // Length of the EFI_DHCP6_PACKET from the first byte of the Header fie=
+ld to the last=0D
+++  // byte of the Option[] field.=0D
+++  OptionLen =3D Packet->Length - sizeof (Packet->Dhcp6.Header);=0D
++ =0D
++   //=0D
++   // Seek StatusCode option directly in DHCP message body. That is, searc=
+h in=0D
++@@ -691,12 +779,12 @@ Dhcp6SeekStsOption (
++   //=0D
++   *Option =3D Dhcp6SeekOption (=0D
++               Packet->Dhcp6.Option,=0D
++-              Packet->Length - 4,=0D
+++              OptionLen,=0D
++               Dhcp6OptStatusCode=0D
++               );=0D
++ =0D
++   if (*Option !=3D NULL) {=0D
++-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + 4)));=0D
+++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_STATUS=
+_CODE (*Option))));=0D
++     if (StsCode !=3D Dhcp6StsSuccess) {=0D
++       return EFI_DEVICE_ERROR;=0D
++     }=0D
++@@ -707,7 +795,7 @@ Dhcp6SeekStsOption (
++   //=0D
++   *Option =3D Dhcp6SeekIaOption (=0D
++               Packet->Dhcp6.Option,=0D
++-              Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
+++              OptionLen,=0D
++               &Instance->Config->IaDescriptor=0D
++               );=0D
++   if (*Option =3D=3D NULL) {=0D
++@@ -715,52 +803,35 @@ Dhcp6SeekStsOption (
++   }=0D
++ =0D
++   //=0D
++-  // The format of the IA_NA option is:=0D
+++  // Calculate the distance from Packet->Dhcp6.Option to the IA option.=0D
++   //=0D
++-  //     0                   1                   2                   3=0D
++-  //     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=
 =0D
-++      DiscoverLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
 =0D
++-  //    |          OPTION_IA_NA         |          option-len           |=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++-  //    |                        IAID (4 octets)                        |=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++-  //    |                              T1                               |=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++-  //    |                              T2                               |=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++-  //    |                                                               |=
+=0D
++-  //    .                         IA_NA-options                         .=
+=0D
++-  //    .                                                               .=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
+++  // Packet->Size and Packet->Length are both UINT32 type, and Packet->Si=
+ze is=0D
+++  // the size of the whole packet, including the DHCP header, and Packet-=
+>Length=0D
+++  // is the length of the DHCP message body, excluding the DHCP header.=0D
++   //=0D
++-  // The format of the IA_TA option is:=0D
+++  // (*Option - Packet->Dhcp6.Option) is the number of bytes from the sta=
+rt of=0D
+++  // DHCP6 option area to the start of the IA option.=0D
++   //=0D
++-  //     0                   1                   2                   3=0D
++-  //     0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++-  //    |         OPTION_IA_TA          |          option-len           |=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++-  //    |                        IAID (4 octets)                        |=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
++-  //    |                                                               |=
+=0D
++-  //    .                         IA_TA-options                         .=
+=0D
++-  //    .                                                               .=
+=0D
++-  //    +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+=
+=0D
+++  // Dhcp6SeekInnerOptionSafe() is searching starting from the start of t=
+he=0D
+++  // IA option to the end of the DHCP6 option area, thus subtract the spa=
+ce=0D
+++  // up until this option=0D
++   //=0D
+++  OptionLen =3D OptionLen - (*Option - Packet->Dhcp6.Option);=0D
++ =0D
++   //=0D
++-  // sizeof (option-code + option-len + IaId)           =3D 8=0D
++-  // sizeof (option-code + option-len + IaId + T1)      =3D 12=0D
++-  // sizeof (option-code + option-len + IaId + T1 + T2) =3D 16=0D
++-  //=0D
++-  // The inner options still start with 2 bytes option-code and 2 bytes o=
+ption-len.=0D
+++  // Seek the inner option=0D
++   //=0D
++-  if (Instance->Config->IaDescriptor.Type =3D=3D Dhcp6OptIana) {=0D
++-    IaInnerOpt =3D *Option + 16;=0D
++-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + =
+2))) - 12);=0D
++-  } else {=0D
++-    IaInnerOpt =3D *Option + 8;=0D
++-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + =
+2))) - 4);=0D
+++  if (EFI_ERROR (=0D
+++        Dhcp6SeekInnerOptionSafe (=0D
+++          Instance->Config->IaDescriptor.Type,=0D
+++          *Option,=0D
+++          OptionLen,=0D
+++          &IaInnerOpt,=0D
+++          &IaInnerLen=0D
+++          )=0D
+++        ))=0D
+++  {=0D
+++    return EFI_DEVICE_ERROR;=0D
++   }=0D
++ =0D
++   //=0D
++@@ -784,7 +855,7 @@ Dhcp6SeekStsOption (
++   //=0D
++   *Option =3D Dhcp6SeekOption (IaInnerOpt, IaInnerLen, Dhcp6OptStatusCode=
+);=0D
++   if (*Option !=3D NULL) {=0D
++-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(*Option + 4)));=0D
+++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)((DHCP6_OFFSET_OF_STATU=
+S_CODE (*Option)))));=0D
++     if (StsCode !=3D Dhcp6StsSuccess) {=0D
++       return EFI_DEVICE_ERROR;=0D
++     }=0D
++@@ -1105,7 +1176,7 @@ Dhcp6SendRequestMsg (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              Instance->AdSelect->Dhcp6.Option,=0D
++-             Instance->AdSelect->Length - 4,=0D
+++             Instance->AdSelect->Length - sizeof (EFI_DHCP6_HEADER),=0D
++              Dhcp6OptServerId=0D
++              );=0D
++   if (Option =3D=3D NULL) {=0D
++@@ -1289,7 +1360,7 @@ Dhcp6SendDeclineMsg (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              LastReply->Dhcp6.Option,=0D
++-             LastReply->Length - 4,=0D
+++             LastReply->Length - sizeof (EFI_DHCP6_HEADER),=0D
++              Dhcp6OptServerId=0D
++              );=0D
++   if (Option =3D=3D NULL) {=0D
++@@ -1448,7 +1519,7 @@ Dhcp6SendReleaseMsg (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              LastReply->Dhcp6.Option,=0D
++-             LastReply->Length - 4,=0D
+++             LastReply->Length - sizeof (EFI_DHCP6_HEADER),=0D
++              Dhcp6OptServerId=0D
++              );=0D
++   if (Option =3D=3D NULL) {=0D
++@@ -1673,7 +1744,7 @@ Dhcp6SendRenewRebindMsg (
++ =0D
++     Option =3D Dhcp6SeekOption (=0D
++                LastReply->Dhcp6.Option,=0D
++-               LastReply->Length - 4,=0D
+++               LastReply->Length - sizeof (EFI_DHCP6_HEADER),=0D
++                Dhcp6OptServerId=0D
++                );=0D
++     if (Option =3D=3D NULL) {=0D
++@@ -2208,7 +2279,7 @@ Dhcp6HandleReplyMsg (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              Packet->Dhcp6.Option,=0D
++-             Packet->Length - 4,=0D
+++             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
++              Dhcp6OptRapidCommit=0D
++              );=0D
++ =0D
++@@ -2354,7 +2425,7 @@ Dhcp6HandleReplyMsg (
++     //=0D
++     // Any error status code option is found.=0D
++     //=0D
++-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(Option + 4)));=0D
+++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)((DHCP6_OFFSET_OF_STATU=
+S_CODE (Option)))));=0D
++     switch (StsCode) {=0D
++       case Dhcp6StsUnspecFail:=0D
++         //=0D
++@@ -2487,7 +2558,7 @@ Dhcp6SelectAdvertiseMsg (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              AdSelect->Dhcp6.Option,=0D
++-             AdSelect->Length - 4,=0D
+++             AdSelect->Length - sizeof (EFI_DHCP6_HEADER),=0D
++              Dhcp6OptServerUnicast=0D
++              );=0D
++ =0D
++@@ -2498,7 +2569,7 @@ Dhcp6SelectAdvertiseMsg (
++       return EFI_OUT_OF_RESOURCES;=0D
 +     }=0D
 + =0D
-+-    RequestOpt +=3D (OpLen + 4);=0D
-+-    RequestLen +=3D (OpLen + 4);=0D
-++    RequestOpt +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
-++    RequestLen +=3D (OpLen + PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN);=0D
++-    CopyMem (Instance->Unicast, Option + 4, sizeof (EFI_IPv6_ADDRESS));=0D
+++    CopyMem (Instance->Unicast, DHCP6_OFFSET_OF_OPT_DATA (Option), sizeof=
+ (EFI_IPv6_ADDRESS));=0D
 +   }=0D
 + =0D
-+   Status =3D PxeBc->UdpWrite (=0D
-+diff --git a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h b/NetworkPkg/UefiPxeBcDx=
-e/PxeBcDhcp6.h
-+index c86f6d391b..6357d27fae 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h
-++++ b/NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h
-+@@ -34,6 +34,23 @@
-+ #define PXEBC_ADDR_START_DELIMITER        '['=0D
-+ #define PXEBC_ADDR_END_DELIMITER          ']'=0D
++   //=0D
++@@ -2551,7 +2622,7 @@ Dhcp6HandleAdvertiseMsg (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              Packet->Dhcp6.Option,=0D
++-             Packet->Length - 4,=0D
+++             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
++              Dhcp6OptRapidCommit=0D
++              );=0D
 + =0D
-++//=0D
-++// A DUID consists of a 2-octet type code represented in network byte=0D
-++// order, followed by a variable number of octets that make up the=0D
-++// actual identifier.  The length of the DUID (not including the type=0D
-++// code) is at least 1 octet and at most 128 octets.=0D
-++//=0D
-++#define PXEBC_MIN_SIZE_OF_DUID  (sizeof(UINT16) + 1)=0D
-++#define PXEBC_MAX_SIZE_OF_DUID  (sizeof(UINT16) + 128)=0D
-++=0D
-++//=0D
-++// This define represents the combineds code and length field from=0D
-++// https://datatracker.ietf.org/doc/html/rfc3315#section-22.1=0D
-++//=0D
-++#define PXEBC_COMBINED_SIZE_OF_OPT_CODE_AND_LEN  \=0D
-++      (sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->OpCode) + \=0D
-++      sizeof (((EFI_DHCP6_PACKET_OPTION *)0)->OpLen))=0D
-++=0D
-+ #define GET_NEXT_DHCP6_OPTION(Opt) \=0D
-+   (EFI_DHCP6_PACKET_OPTION *) ((UINT8 *) (Opt) + \=0D
-+   sizeof (EFI_DHCP6_PACKET_OPTION) + (NTOHS ((Opt)->OpLen)) - 1)=0D
++@@ -2645,7 +2716,7 @@ Dhcp6HandleAdvertiseMsg (
++       CopyMem (Instance->AdSelect, Packet, Packet->Size);=0D
++ =0D
++       if (Option !=3D NULL) {=0D
++-        Instance->AdPref =3D *(Option + 4);=0D
+++        Instance->AdPref =3D *(DHCP6_OFFSET_OF_OPT_DATA (Option));=0D
++       }=0D
++     } else {=0D
++       //=0D
++@@ -2714,11 +2785,11 @@ Dhcp6HandleStateful (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              Packet->Dhcp6.Option,=0D
++-             Packet->Length - 4,=0D
+++             Packet->Length - DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN,=0D
++              Dhcp6OptClientId=0D
++              );=0D
++ =0D
++-  if ((Option =3D=3D NULL) || (CompareMem (Option + 4, ClientId->Duid, Cl=
+ientId->Length) !=3D 0)) {=0D
+++  if ((Option =3D=3D NULL) || (CompareMem (DHCP6_OFFSET_OF_OPT_DATA (Opti=
+on), ClientId->Duid, ClientId->Length) !=3D 0)) {=0D
++     goto ON_CONTINUE;=0D
++   }=0D
++ =0D
++@@ -2727,7 +2798,7 @@ Dhcp6HandleStateful (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              Packet->Dhcp6.Option,=0D
++-             Packet->Length - 4,=0D
+++             Packet->Length - DHCP6_SIZE_OF_COMBINED_CODE_AND_LEN,=0D
++              Dhcp6OptServerId=0D
++              );=0D
++ =0D
++@@ -2832,7 +2903,7 @@ Dhcp6HandleStateless (
++   //=0D
++   Option =3D Dhcp6SeekOption (=0D
++              Packet->Dhcp6.Option,=0D
++-             Packet->Length - 4,=0D
+++             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
++              Dhcp6OptServerId=0D
++              );=0D
++ =0D
 +--=20
 +2.40.0
 +
-diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch b/meta/r=
-ecipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch
 new file mode 100644
-index 0000000000..0e814a0212
+index 0000000000..7ce5c98789
 --- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45235-0002.patch
-@@ -0,0 +1,379 @@
-+From ff2986358f75d8f58ef08a66fe673539c9c48f41 Mon Sep 17 00:00:00 2001
-+From: Doug Flick <dougflick@microsoft.com>
-+Date: Fri, 26 Jan 2024 05:54:56 +0800
-+Subject: [PATCH] NetworkPkg: UefiPxeBcDxe: SECURITY PATCH CVE-2023-45235 U=
-nit=20
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0002.patch
+@@ -0,0 +1,539 @@
++From 07362769ab7a7d74dbea1c7a7a3662c7b5d1f097 Mon Sep 17 00:00:00 2001
++From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
++Date: Fri, 26 Jan 2024 05:54:47 +0800
++Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Unit=
+=20
 + Tests
 +
-+REF:https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540
++REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534
 +
-+Unit tests to confirm that the bug..
++These tests confirm that the report bug...
 +
-+Buffer overflow when handling Server ID option from a DHCPv6 proxy
-+Advertise message
++"Out-of-bounds read when processing IA_NA/IA_TA options in a
++DHCPv6 Advertise message"
 +
 +..has been patched.
 +
-+This patch contains unit tests for the following functions:
-+PxeBcRequestBootService
-+PxeBcDhcp6Discover
++The following functions are tested to confirm an out of bounds read is
++patched and that the correct statuses are returned:
++
++Dhcp6SeekInnerOptionSafe
++Dhcp6SeekStsOption
++
++TCBZ4534
++CVE-2023-45229
++CVSS 6.5 : CVSS:3.1/AV:A/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N
++CWE-125 Out-of-bounds Read
 +
 +Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
@@ -400,127 +830,144 @@ nit=20
 +Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
 +Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
 +
-+CVE: CVE-2023-45235
++CVE: CVE-2023-45229
 +
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/ff2986=
-358f75d8f58ef08a66fe673539c9c48f41]
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/073627=
+69ab7a7d74dbea1c7a7a3662c7b5d1f097]
 +
 +Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
 +---
-+ .../GoogleTest/PxeBcDhcp6GoogleTest.cpp       | 278 +++++++++++++++++-
-+ .../GoogleTest/PxeBcDhcp6GoogleTest.h         |  18 ++
-+ 2 files changed, 294 insertions(+), 2 deletions(-)
++ NetworkPkg/Dhcp6Dxe/Dhcp6Io.c                 |   2 +-
++ .../GoogleTest/Dhcp6DxeGoogleTest.inf         |   1 +
++ .../Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp | 365 +++++++++++++++++-
++ .../Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h   |  58 +++
++ 4 files changed, 423 insertions(+), 3 deletions(-)
++ create mode 100644 NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h
 +
-+diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp b=
-/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
-+index 8260eeee50..bd423ebadf 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
-++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.cpp
-+@@ -4,7 +4,9 @@
-+   Copyright (c) Microsoft Corporation=0D
-+   SPDX-License-Identifier: BSD-2-Clause-Patent=0D
-+ **/=0D
-+-#include <gtest/gtest.h>=0D
-++#include <Library/GoogleTestLib.h>=0D
-++#include <GoogleTest/Library/MockUefiLib.h>=0D
-++#include <GoogleTest/Library/MockUefiRuntimeServicesTableLib.h>=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++index 89d16484a5..3b8feb4a20 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++@@ -816,7 +816,7 @@ Dhcp6SeekStsOption (
++   // IA option to the end of the DHCP6 option area, thus subtract the spa=
+ce=0D
++   // up until this option=0D
++   //=0D
++-  OptionLen =3D OptionLen - (*Option - Packet->Dhcp6.Option);=0D
+++  OptionLen =3D OptionLen - (UINT32)(*Option - Packet->Dhcp6.Option);=0D
 + =0D
-+ extern "C" {=0D
-+   #include <Uefi.h>=0D
-+@@ -19,7 +21,8 @@ extern "C" {
-+ // Definitions=0D
-+ /////////////////////////////////////////////////////////////////////////=
-//////=0D
++   //=0D
++   // Seek the inner option=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf b/Netwo=
+rkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
++index 8e9119a371..12532ed30c 100644
++--- a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
+++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6DxeGoogleTest.inf
++@@ -18,6 +18,7 @@
++ [Sources]=0D
++   Dhcp6DxeGoogleTest.cpp=0D
++   Dhcp6IoGoogleTest.cpp=0D
+++  Dhcp6IoGoogleTest.h=0D
++   ../Dhcp6Io.c=0D
++   ../Dhcp6Utility.c=0D
 + =0D
-+-#define PACKET_SIZE  (1500)=0D
-++#define PACKET_SIZE            (1500)=0D
-++#define REQUEST_OPTION_LENGTH  (120)=0D
-+ =0D
-+ typedef struct {=0D
-+   UINT16    OptionCode;   // The option code for DHCP6_OPT_SERVER_ID (e.g=
-., 0x03)=0D
-+@@ -76,6 +79,26 @@ MockConfigure (
++diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp b/Networ=
+kPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
++index 7ee40e4af4..7db253a7b8 100644
++--- a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
+++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.cpp
++@@ -13,6 +13,7 @@ extern "C" {
++   #include <Library/BaseMemoryLib.h>=0D
++   #include "../Dhcp6Impl.h"=0D
++   #include "../Dhcp6Utility.h"=0D
+++  #include "Dhcp6IoGoogleTest.h"=0D
 + }=0D
 + =0D
-+ // Needed by PxeBcSupport=0D
-++EFI_STATUS=0D
-++PxeBcDns6 (=0D
-++  IN PXEBC_PRIVATE_DATA  *Private,=0D
-++  IN     CHAR16          *HostName,=0D
-++  OUT EFI_IPv6_ADDRESS   *IpAddress=0D
-++  )=0D
-++{=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-++UINT32=0D
-++PxeBcBuildDhcp6Options (=0D
-++  IN  PXEBC_PRIVATE_DATA       *Private,=0D
-++  OUT EFI_DHCP6_PACKET_OPTION  **OptList,=0D
-++  IN  UINT8                    *Buffer=0D
-++  )=0D
-++{=0D
-++  return EFI_SUCCESS;=0D
-++}=0D
-++=0D
-+ EFI_STATUS=0D
-+ EFIAPI=0D
-+ QueueDpc (=0D
-+@@ -159,6 +182,10 @@ TEST_F (PxeBcHandleDhcp6OfferTest, BasicUsageTest) {
-+   ASSERT_EQ (PxeBcHandleDhcp6Offer (&(PxeBcHandleDhcp6OfferTest::Private)=
-), EFI_DEVICE_ERROR);=0D
-+ }=0D
++ ////////////////////////////////////////////////////////////////////////=
+=0D
++@@ -21,7 +22,35 @@ extern "C" {
 + =0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++// PxeBcCacheDnsServerAddresses Tests=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
++ #define DHCP6_PACKET_MAX_LEN  1500=0D
++ =0D
+++// This definition is used by this test but is also required to compile=0D
+++// by Dhcp6Io.c=0D
+++#define DHCPV6_OPTION_IA_NA  3=0D
+++#define DHCPV6_OPTION_IA_TA  4=0D
 ++=0D
-+ class PxeBcCacheDnsServerAddressesTest : public ::testing::Test {=0D
-+ public:=0D
-+   PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
-+@@ -298,3 +325,250 @@ TEST_F (PxeBcCacheDnsServerAddressesTest, MultipleDn=
-sEntries) {
-+     FreePool (Private.DnsServer);=0D
-+   }=0D
+++#define SEARCH_PATTERN      0xDEADC0DE=0D
+++#define SEARCH_PATTERN_LEN  sizeof(SEARCH_PATTERN)=0D
+++=0D
++ ////////////////////////////////////////////////////////////////////////=
+=0D
+++// Test structures for IA_NA and IA_TA options=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++typedef struct {=0D
+++  UINT16    Code;=0D
+++  UINT16    Len;=0D
+++  UINT32    IAID;=0D
+++} DHCPv6_OPTION;=0D
+++=0D
+++typedef struct {=0D
+++  DHCPv6_OPTION    Header;=0D
+++  UINT32           T1;=0D
+++  UINT32           T2;=0D
+++  UINT8            InnerOptions[0];=0D
+++} DHCPv6_OPTION_IA_NA;=0D
+++=0D
+++typedef struct {=0D
+++  DHCPv6_OPTION    Header;=0D
+++  UINT8            InnerOptions[0];=0D
+++} DHCPv6_OPTION_IA_TA;=0D
+++=0D
++ ////////////////////////////////////////////////////////////////////////=
+=0D
++ // Symbol Definitions=0D
++ // These functions are not directly under test - but required to compile=
+=0D
++@@ -210,7 +239,7 @@ TEST_F (Dhcp6AppendETOptionTest, InvalidDataExpectBuff=
+erTooSmall) {
++   Status =3D Dhcp6AppendETOption (=0D
++              Dhcp6AppendETOptionTest::Packet,=0D
++              &Cursor,=0D
++-             &Instance, // Instance is not used in this function=0D
+++             &Instance,                    // Instance is not used in thi=
+s function=0D
++              &ElapsedTime=0D
++              );=0D
++ =0D
++@@ -240,7 +269,7 @@ TEST_F (Dhcp6AppendETOptionTest, ValidDataExpectSucces=
+s) {
++   Status =3D Dhcp6AppendETOption (=0D
++              Dhcp6AppendETOptionTest::Packet,=0D
++              &Cursor,=0D
++-             &Instance, // Instance is not used in this function=0D
+++             &Instance,                    // Instance is not used in thi=
+s function=0D
++              &ElapsedTime=0D
++              );=0D
++ =0D
++@@ -476,3 +505,335 @@ TEST_F (Dhcp6AppendIaOptionTest, IaTaValidDataExpect=
+Success) {
++   // verify that the status is EFI_SUCCESS=0D
++   ASSERT_EQ (Status, EFI_SUCCESS);=0D
 + }=0D
 ++=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++// PxeBcRequestBootServiceTest Test Cases=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++// Dhcp6SeekInnerOptionSafe Tests=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
 ++=0D
-++class PxeBcRequestBootServiceTest : public ::testing::Test {=0D
-++public:=0D
-++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
-++  EFI_UDP6_PROTOCOL Udp6Read;=0D
-++=0D
+++// Define a fixture for your tests if needed=0D
+++class Dhcp6SeekInnerOptionSafeTest : public ::testing::Test {=0D
 ++protected:=0D
 ++  // Add any setup code if needed=0D
 ++  virtual void=0D
 ++  SetUp (=0D
 ++    )=0D
 ++  {=0D
-++    Private.Dhcp6Request =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET=
-_SIZE);=0D
-++=0D
-++    // Need to setup the EFI_PXE_BASE_CODE_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  UdpWrite=0D
-++    //  UdpRead=0D
-++=0D
-++    Private.PxeBc.UdpWrite =3D (EFI_PXE_BASE_CODE_UDP_WRITE)MockUdpWrite;=
-=0D
-++    Private.PxeBc.UdpRead  =3D (EFI_PXE_BASE_CODE_UDP_READ)MockUdpRead;=0D
-++=0D
-++    // Need to setup EFI_UDP6_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  Configure=0D
-++=0D
-++    Udp6Read.Configure =3D (EFI_UDP6_CONFIGURE)MockConfigure;=0D
-++    Private.Udp6Read   =3D &Udp6Read;=0D
+++    // Initialize any resources or variables=0D
 ++  }=0D
 ++=0D
 ++  // Add any cleanup code if needed=0D
@@ -528,158 +975,245 @@ _SIZE);=0D
 ++  TearDown (=0D
 ++    )=0D
 ++  {=0D
-++    if (Private.Dhcp6Request !=3D NULL) {=0D
-++      FreePool (Private.Dhcp6Request);=0D
-++    }=0D
-++=0D
 ++    // Clean up any resources or variables=0D
 ++  }=0D
 ++};=0D
 ++=0D
-++TEST_F (PxeBcRequestBootServiceTest, ServerDiscoverBasicUsageTest) {=0D
-++  PxeBcRequestBootServiceTest::Private.OfferBuffer[0].Dhcp6.OfferType =3D=
- PxeOfferTypeProxyBinl;=0D
+++// Test Description:=0D
+++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
+hen the IANA option is found.=0D
+++TEST_F (Dhcp6SeekInnerOptionSafeTest, IANAValidOptionExpectSuccess) {=0D
+++  EFI_STATUS           Result;=0D
+++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_NA) + SEARCH_PATTE=
+RN_LEN] =3D { 0 };=0D
+++  UINT32               OptionLength                                      =
+        =3D sizeof (Option);=0D
+++  DHCPv6_OPTION_IA_NA  *OptionPtr                                        =
+        =3D (DHCPv6_OPTION_IA_NA *)Option;=0D
+++  UINT32               SearchPattern                                     =
+        =3D SEARCH_PATTERN;=0D
 ++=0D
-++  DHCP6_OPTION_SERVER_ID  Server =3D { 0 };=0D
+++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
+++  UINT8   *InnerOptionPtr     =3D NULL;=0D
+++  UINT16  InnerOptionLength   =3D 0;=0D
 ++=0D
-++  Server.OptionCode =3D  HTONS (DHCP6_OPT_SERVER_ID);=0D
-++  Server.OptionLen  =3D HTONS (16); // valid length=0D
-++  UINT8  Index =3D 0;=0D
+++  OptionPtr->Header.Code =3D Dhcp6OptIana;=0D
+++  OptionPtr->Header.Len  =3D HTONS (4 + 12); // Valid length has to be mo=
+re than 12=0D
+++  OptionPtr->Header.IAID =3D 0x12345678;=0D
+++  OptionPtr->T1          =3D 0x11111111;=0D
+++  OptionPtr->T2          =3D 0x22222222;=0D
+++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
+=0D
 ++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.OfferBuffer[=
-Index].Dhcp6.Packet.Offer;=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &Server, sizeof (Server));=0D
-++  Cursor +=3D sizeof (Server);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_SUCCESS);=0D
+++  Result =3D Dhcp6SeekInnerOptionSafe (=0D
+++             Dhcp6OptIana,=0D
+++             Option,=0D
+++             OptionLength,=0D
+++             &InnerOptionPtr,=0D
+++             &InnerOptionLength=0D
+++             );=0D
+++  ASSERT_EQ (Result, EFI_SUCCESS);=0D
+++  ASSERT_EQ (InnerOptionLength, 4);=0D
+++  ASSERT_EQ (CompareMem (InnerOptionPtr, &SearchPattern, SearchPatternLen=
+gth), 0);=0D
 ++}=0D
 ++=0D
-++TEST_F (PxeBcRequestBootServiceTest, AttemptDiscoverOverFlowExpectFailure=
-) {=0D
-++  PxeBcRequestBootServiceTest::Private.OfferBuffer[0].Dhcp6.OfferType =3D=
- PxeOfferTypeProxyBinl;=0D
+++// Test Description:=0D
+++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_DEIVCE_ER=
+ROR when the IANA option size is invalid.=0D
+++TEST_F (Dhcp6SeekInnerOptionSafeTest, IANAInvalidSizeExpectFail) {=0D
+++  // Lets add an inner option of bytes we expect to find=0D
+++  EFI_STATUS           Status;=0D
+++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_NA) + SEARCH_PATTE=
+RN_LEN] =3D { 0 };=0D
+++  UINT32               OptionLength                                      =
+        =3D sizeof (Option);=0D
+++  DHCPv6_OPTION_IA_NA  *OptionPtr                                        =
+        =3D (DHCPv6_OPTION_IA_NA *)Option;=0D
+++  UINT32               SearchPattern                                     =
+        =3D SEARCH_PATTERN;=0D
 ++=0D
-++  DHCP6_OPTION_SERVER_ID  Server =3D { 0 };=0D
+++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
+++  UINT8   *InnerOptionPtr     =3D NULL;=0D
+++  UINT16  InnerOptionLength   =3D 0;=0D
 ++=0D
-++  Server.OptionCode =3D  HTONS (DHCP6_OPT_SERVER_ID);=0D
-++  Server.OptionLen  =3D HTONS (1500); // This length would overflow witho=
-ut a check=0D
-++  UINT8  Index =3D 0;=0D
+++  OptionPtr->Header.Code =3D Dhcp6OptIana;=0D
+++  OptionPtr->Header.Len  =3D HTONS (4); // Set the length to lower than e=
+xpected (12)=0D
+++  OptionPtr->Header.IAID =3D 0x12345678;=0D
+++  OptionPtr->T1          =3D 0x11111111;=0D
+++  OptionPtr->T2          =3D 0x22222222;=0D
+++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
+=0D
 ++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.OfferBuffer[=
-Index].Dhcp6.Packet.Offer;=0D
+++  // Set the InnerOptionLength to be less than the size of the option=0D
+++  Status =3D Dhcp6SeekInnerOptionSafe (=0D
+++             Dhcp6OptIana,=0D
+++             Option,=0D
+++             OptionLength,=0D
+++             &InnerOptionPtr,=0D
+++             &InnerOptionLength=0D
+++             );=0D
+++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
 ++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &Server, sizeof (Server));=0D
-++  Cursor +=3D sizeof (Server);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  // This is going to be stopped by the duid overflow check=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_INVALID_PARAMETER);=0D
+++  // Now set the OptionLength to be less than the size of the option=0D
+++  OptionLength =3D sizeof (DHCPv6_OPTION_IA_NA) - 1;=0D
+++  Status       =3D Dhcp6SeekInnerOptionSafe (=0D
+++                   Dhcp6OptIana,=0D
+++                   Option,=0D
+++                   OptionLength,=0D
+++                   &InnerOptionPtr,=0D
+++                   &InnerOptionLength=0D
+++                   );=0D
+++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
 ++}=0D
 ++=0D
-++TEST_F (PxeBcRequestBootServiceTest, RequestBasicUsageTest) {=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
+++// Test Description:=0D
+++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
+hen the IATA option is found=0D
+++TEST_F (Dhcp6SeekInnerOptionSafeTest, IATAValidOptionExpectSuccess) {=0D
+++  // Lets add an inner option of bytes we expect to find=0D
+++  EFI_STATUS           Status;=0D
+++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_TA) + SEARCH_PATTE=
+RN_LEN] =3D { 0 };=0D
+++  UINT32               OptionLength                                      =
+        =3D sizeof (Option);=0D
+++  DHCPv6_OPTION_IA_TA  *OptionPtr                                        =
+        =3D (DHCPv6_OPTION_IA_TA *)Option;=0D
+++  UINT32               SearchPattern                                     =
+        =3D SEARCH_PATTERN;=0D
 ++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D 0; // valid length=0D
+++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
+++  UINT8   *InnerOptionPtr     =3D NULL;=0D
+++  UINT16  InnerOptionLength   =3D 0;=0D
 ++=0D
-++  UINT8  Index =3D 0;=0D
+++  OptionPtr->Header.Code =3D Dhcp6OptIata;=0D
+++  OptionPtr->Header.Len  =3D HTONS (4 + 4); // Valid length has to be mor=
+e than 4=0D
+++  OptionPtr->Header.IAID =3D 0x12345678;=0D
+++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
+=0D
 ++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.Dhcp6Request=
-[Index];=0D
-++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_SUCCESS);=0D
+++  Status =3D Dhcp6SeekInnerOptionSafe (=0D
+++             Dhcp6OptIata,=0D
+++             Option,=0D
+++             OptionLength,=0D
+++             &InnerOptionPtr,=0D
+++             &InnerOptionLength=0D
+++             );=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
+++  ASSERT_EQ (InnerOptionLength, 4);=0D
+++  ASSERT_EQ (CompareMem (InnerOptionPtr, &SearchPattern, SearchPatternLen=
+gth), 0);=0D
 ++}=0D
 ++=0D
-++TEST_F (PxeBcRequestBootServiceTest, AttemptRequestOverFlowExpectFailure)=
- {=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
+++// Test Description:=0D
+++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
+hen the IATA option size is invalid.=0D
+++TEST_F (Dhcp6SeekInnerOptionSafeTest, IATAInvalidSizeExpectFail) {=0D
+++  // Lets add an inner option of bytes we expect to find=0D
+++  EFI_STATUS           Status;=0D
+++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_TA) + SEARCH_PATTE=
+RN_LEN] =3D { 0 };=0D
+++  UINT32               OptionLength                                      =
+        =3D sizeof (Option);=0D
+++  DHCPv6_OPTION_IA_TA  *OptionPtr                                        =
+        =3D (DHCPv6_OPTION_IA_TA *)Option;=0D
+++  UINT32               SearchPattern                                     =
+        =3D SEARCH_PATTERN;=0D
 ++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D 1500; // this length would overflow without a che=
-ck=0D
+++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
+++  UINT8   *InnerOptionPtr     =3D NULL;=0D
+++  UINT16  InnerOptionLength   =3D 0;=0D
 ++=0D
-++  UINT8  Index =3D 0;=0D
+++  OptionPtr->Header.Code =3D Dhcp6OptIata;=0D
+++  OptionPtr->Header.Len  =3D HTONS (2); // Set the length to lower than e=
+xpected (4)=0D
+++  OptionPtr->Header.IAID =3D 0x12345678;=0D
+++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
+=0D
 ++=0D
-++  EFI_DHCP6_PACKET  *Packet =3D (EFI_DHCP6_PACKET *)&Private.Dhcp6Request=
-[Index];=0D
+++  Status =3D Dhcp6SeekInnerOptionSafe (=0D
+++             Dhcp6OptIata,=0D
+++             Option,=0D
+++             OptionLength,=0D
+++             &InnerOptionPtr,=0D
+++             &InnerOptionLength=0D
+++             );=0D
+++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
 ++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Packet->Dhcp6.Option);=0D
-++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
-++=0D
-++  // Update the packet length=0D
-++  Packet->Length =3D (UINT16)(Cursor - (UINT8 *)Packet);=0D
-++  Packet->Size   =3D PACKET_SIZE;=0D
-++=0D
-++  ASSERT_EQ (PxeBcRequestBootService (&(PxeBcRequestBootServiceTest::Priv=
-ate), Index), EFI_OUT_OF_RESOURCES);=0D
+++  // Now lets try modifying the OptionLength to be less than the size of =
+the option=0D
+++  OptionLength =3D sizeof (DHCPv6_OPTION_IA_TA) - 1;=0D
+++  Status       =3D Dhcp6SeekInnerOptionSafe (=0D
+++                   Dhcp6OptIata,=0D
+++                   Option,=0D
+++                   OptionLength,=0D
+++                   &InnerOptionPtr,=0D
+++                   &InnerOptionLength=0D
+++                   );=0D
+++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
 ++}=0D
 ++=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
-++// PxeBcDhcp6Discover Test=0D
-++/////////////////////////////////////////////////////////////////////////=
-//////=0D
+++// Test Description:=0D
+++// This test verifies that any other Option Type fails=0D
+++TEST_F (Dhcp6SeekInnerOptionSafeTest, InvalidOption) {=0D
+++  // Lets add an inner option of bytes we expect to find=0D
+++  EFI_STATUS           Result;=0D
+++  UINT8                Option[sizeof (DHCPv6_OPTION_IA_TA) + SEARCH_PATTE=
+RN_LEN] =3D { 0 };=0D
+++  UINT32               OptionLength                                      =
+        =3D sizeof (Option);=0D
+++  DHCPv6_OPTION_IA_TA  *OptionPtr                                        =
+        =3D (DHCPv6_OPTION_IA_TA *)Option;=0D
+++  UINT32               SearchPattern                                     =
+        =3D SEARCH_PATTERN;=0D
 ++=0D
-++class PxeBcDhcp6DiscoverTest : public ::testing::Test {=0D
+++  UINTN   SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
+++  UINT8   *InnerOptionPtr     =3D NULL;=0D
+++  UINT16  InnerOptionLength   =3D 0;=0D
+++=0D
+++  OptionPtr->Header.Code =3D 0xC0DE;=0D
+++  OptionPtr->Header.Len  =3D HTONS (2); // Set the length to lower than e=
+xpected (4)=0D
+++  OptionPtr->Header.IAID =3D 0x12345678;=0D
+++  CopyMem (OptionPtr->InnerOptions, &SearchPattern, SearchPatternLength);=
+=0D
+++=0D
+++  Result =3D Dhcp6SeekInnerOptionSafe (0xC0DE, Option, OptionLength, &Inn=
+erOptionPtr, &InnerOptionLength);=0D
+++  ASSERT_EQ (Result, EFI_DEVICE_ERROR);=0D
+++}=0D
+++=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++// Dhcp6SeekStsOption Tests=0D
+++////////////////////////////////////////////////////////////////////////=
+=0D
+++=0D
+++#define PACKET_SIZE  (1500)=0D
+++=0D
+++class Dhcp6SeekStsOptionTest : public ::testing::Test {=0D
 ++public:=0D
-++  PXEBC_PRIVATE_DATA Private =3D { 0 };=0D
-++  EFI_UDP6_PROTOCOL Udp6Read;=0D
+++  DHCP6_INSTANCE Instance      =3D { 0 };=0D
+++  EFI_DHCP6_PACKET *Packet     =3D NULL;=0D
+++  EFI_DHCP6_CONFIG_DATA Config =3D { 0 };=0D
 ++=0D
 ++protected:=0D
-++  MockUefiRuntimeServicesTableLib RtServicesMock;=0D
-++=0D
 ++  // Add any setup code if needed=0D
 ++  virtual void=0D
 ++  SetUp (=0D
 ++    )=0D
 ++  {=0D
-++    Private.Dhcp6Request =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET=
-_SIZE);=0D
+++    // Allocate a packet=0D
+++    Packet =3D (EFI_DHCP6_PACKET *)AllocateZeroPool (PACKET_SIZE);=0D
+++    ASSERT_NE (Packet, nullptr);=0D
 ++=0D
-++    // Need to setup the EFI_PXE_BASE_CODE_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  UdpWrite=0D
-++    //  UdpRead=0D
+++    // Initialize the packet=0D
+++    Packet->Size =3D PACKET_SIZE;=0D
 ++=0D
-++    Private.PxeBc.UdpWrite =3D (EFI_PXE_BASE_CODE_UDP_WRITE)MockUdpWrite;=
-=0D
-++    Private.PxeBc.UdpRead  =3D (EFI_PXE_BASE_CODE_UDP_READ)MockUdpRead;=0D
-++=0D
-++    // Need to setup EFI_UDP6_PROTOCOL=0D
-++    // The function under test really only needs the following:=0D
-++    //  Configure=0D
-++=0D
-++    Udp6Read.Configure =3D (EFI_UDP6_CONFIGURE)MockConfigure;=0D
-++    Private.Udp6Read   =3D &Udp6Read;=0D
+++    Instance.Config =3D &Config;=0D
 ++  }=0D
 ++=0D
 ++  // Add any cleanup code if needed=0D
@@ -687,126 +1221,665 @@ _SIZE);=0D
 ++  TearDown (=0D
 ++    )=0D
 ++  {=0D
-++    if (Private.Dhcp6Request !=3D NULL) {=0D
-++      FreePool (Private.Dhcp6Request);=0D
-++    }=0D
-++=0D
 ++    // Clean up any resources or variables=0D
+++    FreePool (Packet);=0D
 ++  }=0D
 ++};=0D
 ++=0D
-++// Test Description=0D
-++// This will cause an overflow by an untrusted packet during the option p=
-arsing=0D
-++TEST_F (PxeBcDhcp6DiscoverTest, BasicOverflowTest) {=0D
-++  EFI_IPv6_ADDRESS         DestIp     =3D { 0 };=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
+++// Test Description:=0D
+++// This test verifies that Dhcp6SeekStsOption returns EFI_DEVICE_ERROR wh=
+en the option is invalid=0D
+++// This verifies that the calling function is working as expected=0D
+++TEST_F (Dhcp6SeekStsOptionTest, SeekIATAOptionExpectFail) {=0D
+++  EFI_STATUS    Status;=0D
+++  UINT8         *Option             =3D NULL;=0D
+++  UINT32        SearchPattern       =3D SEARCH_PATTERN;=0D
+++  UINT16        SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
+++  UINT16        *Len                =3D NULL;=0D
+++  EFI_DHCP6_IA  Ia                  =3D { 0 };=0D
 ++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D HTONS (0xFFFF); // overflow=0D
+++  Ia.Descriptor.Type                =3D DHCPV6_OPTION_IA_TA;=0D
+++  Ia.IaAddressCount                 =3D 1;=0D
+++  Ia.IaAddress[0].PreferredLifetime =3D 0xDEADBEEF;=0D
+++  Ia.IaAddress[0].ValidLifetime     =3D 0xDEADAAAA;=0D
+++  Ia.IaAddress[0].IpAddress         =3D mAllDhcpRelayAndServersAddress;=0D
 ++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Private.Dhcp6Request->Dhcp6.Option);=0D
+++  Packet->Length =3D sizeof (EFI_DHCP6_HEADER);=0D
 ++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
+++  Option =3D Dhcp6SeekStsOptionTest::Packet->Dhcp6.Option;=0D
 ++=0D
-++  Private.Dhcp6Request->Length =3D (UINT16)(Cursor - (UINT8 *)Private.Dhc=
-p6Request);=0D
+++  // Let's append the option to the packet=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Dhcp6SeekStsOptionTest::Packet,=0D
+++             &Option,=0D
+++             Dhcp6OptStatusCode,=0D
+++             SearchPatternLength,=0D
+++             (UINT8 *)&SearchPattern=0D
+++             );=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
 ++=0D
-++  EXPECT_CALL (RtServicesMock, gRT_GetTime)=0D
-++    .WillOnce (::testing::Return (0));=0D
+++  // Inner option length - this will be overwritten later=0D
+++  Len =3D (UINT16 *)(Option + 2);=0D
 ++=0D
-++  ASSERT_EQ (=0D
-++    PxeBcDhcp6Discover (=0D
-++      &(PxeBcDhcp6DiscoverTest::Private),=0D
-++      0,=0D
-++      NULL,=0D
-++      FALSE,=0D
-++      (EFI_IP_ADDRESS *)&DestIp=0D
-++      ),=0D
-++    EFI_OUT_OF_RESOURCES=0D
-++    );=0D
+++  // Fill in the inner IA option=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Dhcp6SeekStsOptionTest::Packet,=0D
+++             &Option,=0D
+++             &Ia,=0D
+++             0x12345678,=0D
+++             0x11111111,=0D
+++             0x22222222=0D
+++             );=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
+++=0D
+++  // overwrite the len of inner Ia option=0D
+++  *Len =3D HTONS (3);=0D
+++=0D
+++  Dhcp6SeekStsOptionTest::Instance.Config->IaDescriptor.Type =3D DHCPV6_O=
+PTION_IA_TA;=0D
+++=0D
+++  Option =3D NULL;=0D
+++  Status =3D Dhcp6SeekStsOption (&(Dhcp6SeekStsOptionTest::Instance), Dhc=
+p6SeekStsOptionTest::Packet, &Option);=0D
+++=0D
+++  ASSERT_EQ (Status, EFI_DEVICE_ERROR);=0D
 ++}=0D
 ++=0D
-++// Test Description=0D
-++// This will test that we can handle a packet with a valid option length=
-=0D
-++TEST_F (PxeBcDhcp6DiscoverTest, BasicUsageTest) {=0D
-++  EFI_IPv6_ADDRESS         DestIp     =3D { 0 };=0D
-++  EFI_DHCP6_PACKET_OPTION  RequestOpt =3D { 0 }; // the data section does=
-n't really matter=0D
+++// Test Description:=0D
+++// This test verifies that Dhcp6SeekInnerOptionSafe returns EFI_SUCCESS w=
+hen the IATA option size is invalid.=0D
+++TEST_F (Dhcp6SeekStsOptionTest, SeekIANAOptionExpectSuccess) {=0D
+++  EFI_STATUS    Status              =3D EFI_NOT_FOUND;=0D
+++  UINT8         *Option             =3D NULL;=0D
+++  UINT32        SearchPattern       =3D SEARCH_PATTERN;=0D
+++  UINT16        SearchPatternLength =3D SEARCH_PATTERN_LEN;=0D
+++  EFI_DHCP6_IA  Ia                  =3D { 0 };=0D
 ++=0D
-++  RequestOpt.OpCode =3D HTONS (0x1337);=0D
-++  RequestOpt.OpLen  =3D HTONS (0x30);=0D
+++  Ia.Descriptor.Type                =3D DHCPV6_OPTION_IA_NA;=0D
+++  Ia.IaAddressCount                 =3D 1;=0D
+++  Ia.IaAddress[0].PreferredLifetime =3D 0x11111111;=0D
+++  Ia.IaAddress[0].ValidLifetime     =3D 0x22222222;=0D
+++  Ia.IaAddress[0].IpAddress         =3D mAllDhcpRelayAndServersAddress;=0D
+++  Packet->Length                    =3D sizeof (EFI_DHCP6_HEADER);=0D
 ++=0D
-++  UINT8  *Cursor =3D (UINT8 *)(Private.Dhcp6Request->Dhcp6.Option);=0D
+++  Option =3D Dhcp6SeekStsOptionTest::Packet->Dhcp6.Option;=0D
 ++=0D
-++  CopyMem (Cursor, &RequestOpt, sizeof (RequestOpt));=0D
-++  Cursor +=3D sizeof (RequestOpt);=0D
+++  Status =3D Dhcp6AppendOption (=0D
+++             Dhcp6SeekStsOptionTest::Packet,=0D
+++             &Option,=0D
+++             Dhcp6OptStatusCode,=0D
+++             SearchPatternLength,=0D
+++             (UINT8 *)&SearchPattern=0D
+++             );=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
 ++=0D
-++  Private.Dhcp6Request->Length =3D (UINT16)(Cursor - (UINT8 *)Private.Dhc=
-p6Request);=0D
+++  Status =3D Dhcp6AppendIaOption (=0D
+++             Dhcp6SeekStsOptionTest::Packet,=0D
+++             &Option,=0D
+++             &Ia,=0D
+++             0x12345678,=0D
+++             0x11111111,=0D
+++             0x22222222=0D
+++             );=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
 ++=0D
-++  EXPECT_CALL (RtServicesMock, gRT_GetTime)=0D
-++    .WillOnce (::testing::Return (0));=0D
+++  Dhcp6SeekStsOptionTest::Instance.Config->IaDescriptor.Type =3D DHCPV6_O=
+PTION_IA_NA;=0D
 ++=0D
-++  ASSERT_EQ (=0D
-++    PxeBcDhcp6Discover (=0D
-++      &(PxeBcDhcp6DiscoverTest::Private),=0D
-++      0,=0D
-++      NULL,=0D
-++      FALSE,=0D
-++      (EFI_IP_ADDRESS *)&DestIp=0D
-++      ),=0D
-++    EFI_SUCCESS=0D
-++    );=0D
+++  Option =3D NULL;=0D
+++  Status =3D Dhcp6SeekStsOption (&(Dhcp6SeekStsOptionTest::Instance), Dhc=
+p6SeekStsOptionTest::Packet, &Option);=0D
+++=0D
+++  ASSERT_EQ (Status, EFI_SUCCESS);=0D
 ++}=0D
-+diff --git a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h b/N=
-etworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
-+index b17c314791..0d825e4425 100644
-+--- a/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
-++++ b/NetworkPkg/UefiPxeBcDxe/GoogleTest/PxeBcDhcp6GoogleTest.h
-+@@ -47,4 +47,22 @@ PxeBcCacheDnsServerAddresses (
-+   IN PXEBC_DHCP6_PACKET_CACHE  *Cache6=0D
-+   );=0D
-+ =0D
++diff --git a/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h b/NetworkP=
+kg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h
++new file mode 100644
++index 0000000000..aed3b89082
++--- /dev/null
+++++ b/NetworkPkg/Dhcp6Dxe/GoogleTest/Dhcp6IoGoogleTest.h
++@@ -0,0 +1,58 @@
+++/** @file=0D
+++  Acts as header for private functions under test in Dhcp6Io.c=0D
+++=0D
+++  Copyright (c) Microsoft Corporation=0D
+++  SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++**/=0D
+++=0D
+++#ifndef DHCP6_IO_GOOGLE_TEST_H_=0D
+++#define DHCP6_IO_GOOGLE_TEST_H_=0D
+++=0D
+++/////////////////////////////////////////////////////////////////////////=
+///////=0D
+++// These are the functions that are being unit tested=0D
+++/////////////////////////////////////////////////////////////////////////=
+///////=0D
+++=0D
+++#include <Uefi.h>=0D
+++=0D
 ++/**=0D
-++  Build and send out the request packet for the bootfile, and parse the r=
-eply.=0D
+++  Seeks the Inner Options from a DHCP6 Option=0D
 ++=0D
-++  @param[in]  Private               The pointer to PxeBc private data.=0D
-++  @param[in]  Index                 PxeBc option boot item type.=0D
+++  @param[in]  IaType          The type of the IA option.=0D
+++  @param[in]  Option          The pointer to the DHCP6 Option.=0D
+++  @param[in]  OptionLen       The length of the DHCP6 Option.=0D
+++  @param[out] IaInnerOpt      The pointer to the IA inner option.=0D
+++  @param[out] IaInnerLen      The length of the IA inner option.=0D
 ++=0D
-++  @retval     EFI_SUCCESS           Successfully discovered the boot file=
-.=0D
-++  @retval     EFI_OUT_OF_RESOURCES  Failed to allocate resources.=0D
-++  @retval     EFI_NOT_FOUND         Can't get the PXE reply packet.=0D
-++  @retval     Others                Failed to discover the boot file.=0D
+++  @retval EFI_SUCCESS         Seek the inner option successfully.=0D
+++  @retval EFI_DEVICE_ERROR    The OptionLen is invalid.=0D
+++*/=0D
+++EFI_STATUS=0D
+++Dhcp6SeekInnerOptionSafe (=0D
+++  UINT16  IaType,=0D
+++  UINT8   *Option,=0D
+++  UINT32  OptionLen,=0D
+++  UINT8   **IaInnerOpt,=0D
+++  UINT16  *IaInnerLen=0D
+++  );=0D
+++=0D
+++/**=0D
+++  Seek StatusCode Option in package. A Status Code option may appear in t=
+he=0D
+++  options field of a DHCP message and/or in the options field of another =
+option.=0D
+++  See details in section 22.13, RFC3315.=0D
+++=0D
+++  @param[in]       Instance        The pointer to the Dhcp6 instance.=0D
+++  @param[in]       Packet          The pointer to reply messages.=0D
+++  @param[out]      Option          The pointer to status code option.=0D
+++=0D
+++  @retval EFI_SUCCESS              Seek status code option successfully.=
+=0D
+++  @retval EFI_DEVICE_ERROR         An unexpected error.=0D
 ++=0D
 ++**/=0D
 ++EFI_STATUS=0D
-++PxeBcRequestBootService (=0D
-++  IN  PXEBC_PRIVATE_DATA  *Private,=0D
-++  IN  UINT32              Index=0D
+++Dhcp6SeekStsOption (=0D
+++  IN     DHCP6_INSTANCE    *Instance,=0D
+++  IN     EFI_DHCP6_PACKET  *Packet,=0D
+++  OUT    UINT8             **Option=0D
 ++  );=0D
 ++=0D
-+ #endif // PXE_BC_DHCP6_GOOGLE_TEST_H_=0D
+++#endif // DHCP6_IO_GOOGLE_TEST_H=0D
++--=20
++2.40.0
++
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch
+new file mode 100644
+index 0000000000..bf4e8eda1f
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0003.patch
+@@ -0,0 +1,244 @@
++From 1c440a5eceedc64e892877eeac0f1a4938f5abbb Mon Sep 17 00:00:00 2001
++From: Doug Flick <dougflick@microsoft.com>
++Date: Tue, 13 Feb 2024 10:46:00 -0800
++Subject: [PATCH] NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Relat=
+ed=20
++ Patch
++
++REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4673
++REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534
++
++This was not part of the Quarkslab bugs however the same pattern
++as CVE-2023-45229 exists in Dhcp6UpdateIaInfo.
++
++This patch replaces the code in question with the safe function
++created to patch CVE-2023-45229
++
++>
++>   if (EFI_ERROR (
++>        Dhcp6SeekInnerOptionSafe (
++>          Instance->Config->IaDescriptor.Type,
++>          Option,
++>          OptionLen,
++>          &IaInnerOpt,
++>          &IaInnerLen
++>          )
++>        ))
++>  {
++>    return EFI_DEVICE_ERROR;
++>  }
++>
++
++Additionally corrects incorrect usage of macro to read the status
++
++> - StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)DHCP6_OFFSET_OF_OPT_LEN
++ (Option)));
++> + StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)
++DHCP6_OFFSET_OF_STATUS_CODE (Option));
++
++Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
++Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
++Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Reviewed-by: Leif Lindholm <quic_llindhol@quicinc.com>
++
++CVE: CVE-2023-45229
++
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1c440a=
+5eceedc64e892877eeac0f1a4938f5abbb]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ NetworkPkg/Dhcp6Dxe/Dhcp6Io.c | 70 ++++++++++++++++++++++++++---------
++ NetworkPkg/Dhcp6Dxe/Dhcp6Io.h | 22 +++++++++++
++ 2 files changed, 75 insertions(+), 17 deletions(-)
++
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++index 3b8feb4a20..a9bffae353 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.c
++@@ -528,13 +528,23 @@ Dhcp6UpdateIaInfo (
++ {=0D
++   EFI_STATUS  Status;=0D
++   UINT8       *Option;=0D
+++  UINT32      OptionLen;=0D
++   UINT8       *IaInnerOpt;=0D
++   UINT16      IaInnerLen;=0D
++   UINT16      StsCode;=0D
++   UINT32      T1;=0D
++   UINT32      T2;=0D
++ =0D
+++  T1 =3D 0;=0D
+++  T2 =3D 0;=0D
+++=0D
++   ASSERT (Instance->Config !=3D NULL);=0D
+++=0D
+++  // OptionLen is the length of the Options excluding the DHCP header.=0D
+++  // Length of the EFI_DHCP6_PACKET from the first byte of the Header fie=
+ld to the last=0D
+++  // byte of the Option[] field.=0D
+++  OptionLen =3D Packet->Length - sizeof (Packet->Dhcp6.Header);=0D
+++=0D
++   //=0D
++   // If the reply was received in response to a solicit with rapid commit=
+ option,=0D
++   // request, renew or rebind message, the client updates the information=
+ it has=0D
++@@ -549,13 +559,29 @@ Dhcp6UpdateIaInfo (
++   //=0D
++   Option =3D Dhcp6SeekIaOption (=0D
++              Packet->Dhcp6.Option,=0D
++-             Packet->Length - sizeof (EFI_DHCP6_HEADER),=0D
+++             OptionLen,=0D
++              &Instance->Config->IaDescriptor=0D
++              );=0D
++   if (Option =3D=3D NULL) {=0D
++     return EFI_DEVICE_ERROR;=0D
++   }=0D
++ =0D
+++  //=0D
+++  // Calculate the distance from Packet->Dhcp6.Option to the IA option.=0D
+++  //=0D
+++  // Packet->Size and Packet->Length are both UINT32 type, and Packet->Si=
+ze is=0D
+++  // the size of the whole packet, including the DHCP header, and Packet-=
+>Length=0D
+++  // is the length of the DHCP message body, excluding the DHCP header.=0D
+++  //=0D
+++  // (*Option - Packet->Dhcp6.Option) is the number of bytes from the sta=
+rt of=0D
+++  // DHCP6 option area to the start of the IA option.=0D
+++  //=0D
+++  // Dhcp6SeekInnerOptionSafe() is searching starting from the start of t=
+he=0D
+++  // IA option to the end of the DHCP6 option area, thus subtract the spa=
+ce=0D
+++  // up until this option=0D
+++  //=0D
+++  OptionLen =3D OptionLen - (UINT32)(Option - Packet->Dhcp6.Option);=0D
+++=0D
++   //=0D
++   // The format of the IA_NA option is:=0D
++   //=0D
++@@ -591,32 +617,32 @@ Dhcp6UpdateIaInfo (
++   //=0D
++ =0D
++   //=0D
++-  // sizeof (option-code + option-len + IaId)           =3D 8=0D
++-  // sizeof (option-code + option-len + IaId + T1)      =3D 12=0D
++-  // sizeof (option-code + option-len + IaId + T1 + T2) =3D 16=0D
++-  //=0D
++-  // The inner options still start with 2 bytes option-code and 2 bytes o=
+ption-len.=0D
+++  // Seek the inner option=0D
++   //=0D
+++  if (EFI_ERROR (=0D
+++        Dhcp6SeekInnerOptionSafe (=0D
+++          Instance->Config->IaDescriptor.Type,=0D
+++          Option,=0D
+++          OptionLen,=0D
+++          &IaInnerOpt,=0D
+++          &IaInnerLen=0D
+++          )=0D
+++        ))=0D
+++  {=0D
+++    return EFI_DEVICE_ERROR;=0D
+++  }=0D
+++=0D
++   if (Instance->Config->IaDescriptor.Type =3D=3D Dhcp6OptIana) {=0D
++     T1 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T1 (O=
+ption))));=0D
++     T2 =3D NTOHL (ReadUnaligned32 ((UINT32 *)(DHCP6_OFFSET_OF_IA_NA_T2 (O=
+ption))));=0D
++     //=0D
++     // Refer to RFC3155 Chapter 22.4. If a client receives an IA_NA with =
+T1 greater than T2,=0D
++     // and both T1 and T2 are greater than 0, the client discards the IA_=
+NA option and processes=0D
++-    // the remainder of the message as though the server had not  include=
+d the invalid IA_NA option.=0D
+++    // the remainder of the message as though the server had not included=
+ the invalid IA_NA option.=0D
++     //=0D
++     if ((T1 > T2) && (T2 > 0)) {=0D
++       return EFI_DEVICE_ERROR;=0D
++     }=0D
++-=0D
++-    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
++-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
+ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_COMBINED_IAID_T1_T2);=0D
++-  } else {=0D
++-    T1 =3D 0;=0D
++-    T2 =3D 0;=0D
++-=0D
++-    IaInnerOpt =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
++-    IaInnerLen =3D (UINT16)(NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFS=
+ET_OF_OPT_LEN (Option)))) - DHCP6_SIZE_OF_IAID);=0D
++   }=0D
++ =0D
++   //=0D
++@@ -642,7 +668,7 @@ Dhcp6UpdateIaInfo (
++   Option  =3D Dhcp6SeekOption (IaInnerOpt, IaInnerLen, Dhcp6OptStatusCode=
+);=0D
++ =0D
++   if (Option !=3D NULL) {=0D
++-    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_OPT_LE=
+N (Option))));=0D
+++    StsCode =3D NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OFFSET_OF_STATUS=
+_CODE (Option))));=0D
++     if (StsCode !=3D Dhcp6StsSuccess) {=0D
++       return EFI_DEVICE_ERROR;=0D
++     }=0D
++@@ -703,15 +729,21 @@ Dhcp6SeekInnerOptionSafe (
++   }=0D
++ =0D
++   if (IaType =3D=3D Dhcp6OptIana) {=0D
+++    //=0D
++     // Verify we have a fully formed IA_NA=0D
+++    //=0D
++     if (OptionLen < DHCP6_MIN_SIZE_OF_IA_NA) {=0D
++       return EFI_DEVICE_ERROR;=0D
++     }=0D
++ =0D
+++    //=0D
+++    // Get the IA Inner Option and Length=0D
++     //=0D
++     IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_NA_INNER_OPT (Option);=0D
++ =0D
+++    //=0D
++     // Verify the IaInnerLen is valid.=0D
+++    //=0D
++     IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)DHCP6_OFF=
+SET_OF_OPT_LEN (Option)));=0D
++     if (IaInnerLenTmp < DHCP6_SIZE_OF_COMBINED_IAID_T1_T2) {=0D
++       return EFI_DEVICE_ERROR;=0D
++@@ -719,14 +751,18 @@ Dhcp6SeekInnerOptionSafe (
++ =0D
++     IaInnerLenTmp -=3D DHCP6_SIZE_OF_COMBINED_IAID_T1_T2;=0D
++   } else if (IaType =3D=3D Dhcp6OptIata) {=0D
+++    //=0D
++     // Verify the OptionLen is valid.=0D
+++    //=0D
++     if (OptionLen < DHCP6_MIN_SIZE_OF_IA_TA) {=0D
++       return EFI_DEVICE_ERROR;=0D
++     }=0D
++ =0D
++     IaInnerOptTmp =3D DHCP6_OFFSET_OF_IA_TA_INNER_OPT (Option);=0D
++ =0D
+++    //=0D
++     // Verify the IaInnerLen is valid.=0D
+++    //=0D
++     IaInnerLenTmp =3D (UINT16)NTOHS (ReadUnaligned16 ((UINT16 *)(DHCP6_OF=
+FSET_OF_OPT_LEN (Option))));=0D
++     if (IaInnerLenTmp < DHCP6_SIZE_OF_IAID) {=0D
++       return EFI_DEVICE_ERROR;=0D
++diff --git a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h
++index 051a652f2b..ab0e1ac27f 100644
++--- a/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h
+++++ b/NetworkPkg/Dhcp6Dxe/Dhcp6Io.h
++@@ -217,4 +217,26 @@ Dhcp6OnTimerTick (
++   IN VOID       *Context=0D
++   );=0D
++ =0D
+++/**=0D
+++  Seeks the Inner Options from a DHCP6 Option=0D
+++=0D
+++  @param[in]  IaType          The type of the IA option.=0D
+++  @param[in]  Option          The pointer to the DHCP6 Option.=0D
+++  @param[in]  OptionLen       The length of the DHCP6 Option.=0D
+++  @param[out] IaInnerOpt      The pointer to the IA inner option.=0D
+++  @param[out] IaInnerLen      The length of the IA inner option.=0D
+++=0D
+++  @retval EFI_SUCCESS         Seek the inner option successfully.=0D
+++  @retval EFI_DEVICE_ERROR    The OptionLen is invalid. On Error,=0D
+++                              the pointers are not modified=0D
+++**/=0D
+++EFI_STATUS=0D
+++Dhcp6SeekInnerOptionSafe (=0D
+++  IN  UINT16  IaType,=0D
+++  IN  UINT8   *Option,=0D
+++  IN  UINT32  OptionLen,=0D
+++  OUT UINT8   **IaInnerOpt,=0D
+++  OUT UINT16  *IaInnerLen=0D
+++  );=0D
+++=0D
++ #endif=0D
++--=20
++2.40.0
++
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch b/meta/r=
+ecipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch
+new file mode 100644
+index 0000000000..85d204972d
+--- /dev/null
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2023-45229-0004.patch
+@@ -0,0 +1,157 @@
++From 1d0b95f6457d225c5108302a9da74b4ed7aa5a38 Mon Sep 17 00:00:00 2001
++From: "Doug Flick via groups.io" <dougflick=3Dmicrosoft.com@groups.io>
++Date: Fri, 26 Jan 2024 05:54:57 +0800
++Subject: [PATCH] NetworkPkg: : Adds a SecurityFix.yaml file
++
++This creates / adds a security file that tracks the security fixes
++found in this package and can be used to find the fixes that were
++applied.
++
++Cc: Saloni Kasbekar <saloni.kasbekar@intel.com>
++Cc: Zachary Clark-williams <zachary.clark-williams@intel.com>
++
++Signed-off-by: Doug Flick [MSFT] <doug.edk2@gmail.com>
++Reviewed-by: Saloni Kasbekar <saloni.kasbekar@intel.com>
++
++CVE: CVE_2023_45229
++
++Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/1d0b95=
+f6457d225c5108302a9da74b4ed7aa5a38]
++
++Signed-off-by: Soumya Sambu <soumya.sambu@windriver.com>
++---
++ NetworkPkg/SecurityFixes.yaml | 123 ++++++++++++++++++++++++++++++++++
++ 1 file changed, 123 insertions(+)
++ create mode 100644 NetworkPkg/SecurityFixes.yaml
++
++diff --git a/NetworkPkg/SecurityFixes.yaml b/NetworkPkg/SecurityFixes.yaml
++new file mode 100644
++index 0000000000..7e900483fe
++--- /dev/null
+++++ b/NetworkPkg/SecurityFixes.yaml
++@@ -0,0 +1,123 @@
+++## @file=0D
+++# Security Fixes for SecurityPkg=0D
+++#=0D
+++# Copyright (c) Microsoft Corporation=0D
+++# SPDX-License-Identifier: BSD-2-Clause-Patent=0D
+++##=0D
+++CVE_2023_45229:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Patch"=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45229 Unit Tests"=0D
+++  cve: CVE-2023-45229=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 01 - edk2/NetworkPkg: Out-of-bounds read when process=
+ing IA_NA/IA_TA options in a DHCPv6 Advertise message"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg\Dhcp6Dxe\Dhcp6Io.c=0D
+++    - NetworkPkg\Dhcp6Dxe\Dhcp6Impl.h=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4534=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45229=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45230:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45230 Patch"=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45230 Unit Tests"=0D
+++  cve: CVE-2023-45230=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 02 - edk2/NetworkPkg: Buffer overflow in the DHCPv6 c=
+lient via a long Server ID option"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg\Dhcp6Dxe\Dhcp6Io.c=0D
+++    - NetworkPkg\Dhcp6Dxe\Dhcp6Impl.h=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4535=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45230=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45231:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45231 Patch"=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45231 Unit Tests"=0D
+++  cve: CVE-2023-45231=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 03 - edk2/NetworkPkg: Out-of-bounds read when handlin=
+g a ND Redirect message with truncated options"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Option.c=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4536=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45231=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45232:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Patch"=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Unit Tests"=0D
+++  cve: CVE-2023-45232=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 04 - edk2/NetworkPkg: Infinite loop when parsing unkn=
+own options in the Destination Options header"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Option.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Option.h=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4537=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45232=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45233:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Patch"=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45232 Unit Tests"=0D
+++  cve: CVE-2023-45233=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 05 - edk2/NetworkPkg: Infinite loop when parsing a Pa=
+dN option in the Destination Options header "=0D
+++  note: This was fixed along with CVE-2023-45233=0D
+++  files_impacted:=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Option.c=0D
+++    - NetworkPkg/Ip6Dxe/Ip6Option.h=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4538=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45233=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45234:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45234 Patch"=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45234 Unit Tests"=0D
+++  cve: CVE-2023-45234=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 06 - edk2/NetworkPkg: Buffer overflow when processing=
+ DNS Servers option in a DHCPv6 Advertise message"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4539=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45234=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
+++CVE_2023_45235:=0D
+++  commit_titles:=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45235 Patch"=0D
+++    - "NetworkPkg: Dhcp6Dxe: SECURITY PATCH CVE-2023-45235 Unit Tests"=0D
+++  cve: CVE-2023-45235=0D
+++  date_reported: 2023-08-28 13:56 UTC=0D
+++  description: "Bug 07 - edk2/NetworkPkg: Buffer overflow when handling S=
+erver ID option from a DHCPv6 proxy Advertise message"=0D
+++  note:=0D
+++  files_impacted:=0D
+++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.c=0D
+++    - NetworkPkg/UefiPxeBcDxe/PxeBcDhcp6.h=0D
+++  links:=0D
+++    - https://bugzilla.tianocore.org/show_bug.cgi?id=3D4540=0D
+++    - https://nvd.nist.gov/vuln/detail/CVE-2023-45235=0D
+++    - http://www.openwall.com/lists/oss-security/2024/01/16/2=0D
+++    - http://packetstormsecurity.com/files/176574/PixieFail-Proof-Of-Conc=
+epts.html=0D
+++    - https://blog.quarkslab.com/pixiefail-nine-vulnerabilities-in-tianoc=
+ores-edk-ii-ipv6-network-stack.html=0D
 +--=20
 +2.40.0
 +
 diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
 mf_git.bb
-index ac6a0a40e7..ceebb53438 100644
+index ceebb53438..6ac72772d1 100644
 --- a/meta/recipes-core/ovmf/ovmf_git.bb
 +++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -41,6 +41,8 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://CVE-2023-45232-CVE-2023-45233-0002.patch \
-            file://CVE-2023-45234-0001.patch \
+@@ -43,6 +43,10 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branc=
+h=3Dmaster;protocol=3Dhttps \
             file://CVE-2023-45234-0002.patch \
-+           file://CVE-2023-45235-0001.patch \
-+           file://CVE-2023-45235-0002.patch \
+            file://CVE-2023-45235-0001.patch \
+            file://CVE-2023-45235-0002.patch \
++           file://CVE-2023-45229-0001.patch \
++           file://CVE-2023-45229-0002.patch \
++           file://CVE-2023-45229-0003.patch \
++           file://CVE-2023-45229-0004.patch \
             "
 =20
  PV =3D "edk2-stable202202"
