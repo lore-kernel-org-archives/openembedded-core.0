@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB974E77171
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC932E77175
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:36:46 +0000 (UTC)
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
- by mx.groups.io with SMTP id smtpd.web11.25148.1733344597381839791
+Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
+ by mx.groups.io with SMTP id smtpd.web10.25430.1733344606185868117
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 12:36:37 -0800
+ Wed, 04 Dec 2024 12:36:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uTVfccFJ;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.169, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-7fc2dbee20fso195605a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:37 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WuisVsSB;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.179, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-7f71f2b1370so135706a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344597; x=1733949397; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344605; x=1733949405; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=jkupBoN0is5h1NYhnz37MzEkL32H6dWUXiqWScCLk9M=;
-        b=uTVfccFJVTv2lvlzfr0xapWcaN/NHuFDUH8p7vi8gRvL8jR8ZApn0JRFCGPHQ4xBdJ
-         8OdCIWPgQRufEoWBZjwxgrGoHU+Y267MeLDlNxj3MjJzoN1GQ9Z5zrE6iWN0uGJRGuT9
-         VVd438km+WdQvo1wG748GmzDK/nzbUTehzbWgQpQFirHPTQbrzB9irFDXIB0LGwY5bpn
-         Cr99qJAWKee4Eo9kq8esrtFI31YgSAih/sRrc0gR47Kf45xRu/RqWABQbUhRKQfR52hI
-         3XKA+uahhAm9HSCwsHYCHYSjii29dciX0UJ+z5GoDLKiFyheUzII00t7eOMwLUf3SfhA
-         35Ew==
+        bh=eowyinHnsXUieJ+QuG81jJvYprYot7nGOT710bDte3M=;
+        b=WuisVsSBpA6crZOuvGbfe2CXI5yKMJ8UTJVxp6Dwb5bbVduTPXwhUWxEi0uLui0VWN
+         2Bc1FcBg3XFwoPE79MjQ+FAmCCFFcfWF27lP63lOaXqB501JwhPJtREddkGZQFv2+wkb
+         I/JYBFXdlpAbqMAi4KLq8QDM8tpAulIamUk6DuSb5sHIiN4rYXmciGrRvP87e3pZyrQ2
+         lV2nijKbyuRYKs1/XDU0cn7HfALTIEZkG0SEaqZquuU2E6g6ohdmzQ3JKp6SyTk6xqFe
+         0ke7Rj89xvZqIeh0LRYMy0mqS4ogl0GrNMhjz5irowj2QaRxOecB8Rll2YKYzSUyrN5k
+         guTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733344597; x=1733949397;
+        d=1e100.net; s=20230601; t=1733344605; x=1733949405;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jkupBoN0is5h1NYhnz37MzEkL32H6dWUXiqWScCLk9M=;
-        b=gV579czXAvJeoEt/pB39PnfugWLW2Gmmo+5IfEI3Dqlz3RPqP7cq/pWS0H+fhOFnNN
-         Ww0LRlxKu/N9vVKHQ+pDN7oZqYcdkUzmqoPXO7vIrteAx+vGynnxj1JRgrhDLNtbED1i
-         e3ggCkxy9uUl6rQadD79vVgCMJ8BdCYnF7StJmPRhxNrYAywt1r+d0T35ODxrH4oV+dG
-         3QcrD7imeLXgD7iFdoRmDLHsfh9QX3bf+SHeDEp7C7raevkhmpdUlTu6p/26xm7APoPc
-         qi3vwWmVZOQWD4emJbXFykTYOt6SyU1uga8uayLFOebPd90ehCaGCM7IdBtoyL9why7E
-         MTQQ==
-X-Gm-Message-State: AOJu0YytTbOPBkCx8tqLgNr8IoYB7Z2xO0LOFKQ6WiC7uT6OQ9ll9GfH
-	F2/EcRZ9j9uHCHepFYlmOZuQkdq/+bzlvMDQZYRyYk1XdnHFtKh0/0ST7u69bK5dgKnioXrVtXg
-	6
-X-Gm-Gg: ASbGncv1n/skIymyh179nJr6AivjKYw+9bGZFaBl5MauGyLKushFUeM7SJzQq+pd8dw
-	4G/aiWIM5G1HHtwxHMwORr7CTkiDDtXYIBdKncUIT7fC/DbmYqfPJeD+cfTkBmX4lKSbjhyRGnG
-	YGVKm3npJMRP7ND5l0mYTaKtI5LXyecQptXLDU+fADMs4Qg/Y+ltd1uyBWkHT8dmvlWYMg4z2nE
-	H9LPZWbq7rbJAZb1/i89pgyhWU5rsL2aTJA8jM=
-X-Google-Smtp-Source: AGHT+IEmOS6Sg5fhimaXKj0DmUUkzMCOE0rNaj7gv+de9/FGhWgKcFl4vyZyrsZtNbx8KsMEHJmdGQ==
-X-Received: by 2002:a05:6a20:9185:b0:1e0:c92a:c838 with SMTP id adf61e73a8af0-1e1653f23efmr11360186637.35.1733344596589;
-        Wed, 04 Dec 2024 12:36:36 -0800 (PST)
+        bh=eowyinHnsXUieJ+QuG81jJvYprYot7nGOT710bDte3M=;
+        b=v0dZ51GuYXlpZJqkX1V3yOa0PcY42e4t194ePphGISOH5KxSpFwC0l0yxImOllDyjo
+         Nyde2ElcMLtcRGfk5xs9zRuoTDflqp5JXXX9OWM0/MGtLelr5Dm3MhZ7bJyTYmLalcHx
+         AVxTBbhqfFHAV1Y2PiIS7lrbRR6/DE5pDbFVXaNbLB1JpV/9ISLp6p+/AQdOrztQm0A5
+         b9bq0cNW3RisRkoKfsk6WG3eeBgLDkwyse/TQ1WalvPSjR11E5h9O4/IbGP6GT5ZUzix
+         F01QvyZQEDTn3Dmhx9/TXV7PXLoKtdNAbSr93og1KvtfgOQyk3gyVE6jIDjaEZGEJIqS
+         glXg==
+X-Gm-Message-State: AOJu0Yy80IfcvBDn4PMMwQhj/GrFSYkQO0WzPSOW7Xs4Oe6J775Q3Pnz
+	uD4IwpHud9JRFcnOUQCdRvZiAUP7k19to7Zigl0yyQGlO0P5YmBazLQvr02Vs6J5cx9/VutLDFZ
+	y
+X-Gm-Gg: ASbGnctuYzcKBnwJiAkO3HV2bt7Hib28R75bKpeivyUr0qb/wlMKwxrlmKcmz2DUddR
+	fpUqUPMJ5tcmKN2cwl1DRJMJ72EP7GCZrfSVxx+AccATR47WkL5HlLCdvdIIblN32K1VMC1cSGs
+	sJ7D9+s7gHEZhG2cRYoSM66pFndYiPmFiH4Q1mg8OIrWRg2gLlyYwX8bOeWLI0n81GpB2PUT28o
+	gCw1Cz5T6dgdsPRljJotSHbMeZtJU5g/ik410A=
+X-Google-Smtp-Source: AGHT+IEdO738aA5QCo0W3hgo1OLot6HVZpVXGVCkRxPLek8BOUOy/t42+YCQJoToUKZIAj/EHDRpHg==
+X-Received: by 2002:a05:6a21:6d94:b0:1db:d8df:8c4e with SMTP id adf61e73a8af0-1e16bdf9bc5mr9991035637.12.1733344605474;
+        Wed, 04 Dec 2024 12:36:45 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.36
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 12:36:36 -0800 (PST)
+        Wed, 04 Dec 2024 12:36:45 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/15] selftest/reproducible: Drop rawlogs
-Date: Wed,  4 Dec 2024 12:36:12 -0800
-Message-Id: <296f64cbf83c40759b368526335502a6b130aa14.1733344462.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 11/15] resulttool: Add --logfile-archive option to store mode
+Date: Wed,  4 Dec 2024 12:36:18 -0800
+Message-Id: <3472833b50b5ec97ec19f510ba926ab6aa5429b3.1733344462.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733344462.git.steve@sakoman.com>
 References: <cover.1733344462.git.steve@sakoman.com>
@@ -66,50 +66,59 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:36:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208333
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208339
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The "rawlogs" data consists of a long string of results data which is
-already in a structured data format. I can't see this is adding much
-value in duplciating the data but it does create a huge string with a
-lot of long problematic pathnames and inflates the results data size.
-
-I suggest we drop this data as obsolete and not necessary.
+Storing the log files inside the testresults git repo isn't scaling and isn't
+really appropriate use of a git repository. Allow these to be optionally stored
+in a separate filesystem location so the git repo can remain managable.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 5b2c70fab2ffa409b861d83f048b65d458d03a90)
+(cherry picked from commit 1afc0f3d7e93fa8496be241e9622d3b9a6904bd5)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- meta/lib/oeqa/selftest/cases/reproducible.py | 6 ------
- 1 file changed, 6 deletions(-)
+ scripts/lib/resulttool/store.py | 19 +++++++++++++++++--
+ 1 file changed, 17 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/reproducible.py b/meta/lib/oeqa/selftest/cases/reproducible.py
-index 021e894012..139c43c7e0 100644
---- a/meta/lib/oeqa/selftest/cases/reproducible.py
-+++ b/meta/lib/oeqa/selftest/cases/reproducible.py
-@@ -177,12 +177,8 @@ class ReproducibleTests(OESelftestTestCase):
-             self.sstate_targets = bb_vars['OEQA_REPRODUCIBLE_TEST_SSTATE_TARGETS'].split()
+diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
+index 903e29627a..578910d234 100644
+--- a/scripts/lib/resulttool/store.py
++++ b/scripts/lib/resulttool/store.py
+@@ -74,12 +74,25 @@ def store(args, logger):
  
-         self.extraresults = {}
--        self.extraresults.setdefault('reproducible.rawlogs', {})['log'] = ''
-         self.extraresults.setdefault('reproducible', {}).setdefault('files', {})
+             logger.info('Storing test result into git repository %s' % args.git_dir)
  
--    def append_to_log(self, msg):
--        self.extraresults['reproducible.rawlogs']['log'] += msg
--
-     def compare_packages(self, reference_dir, test_dir, diffutils_sysroot):
-         result = PackageCompareResults(self.oeqa_reproducible_excluded_packages)
+-            gitarchive.gitarchive(tempdir, args.git_dir, False, False,
++            excludes = []
++            if args.logfile_archive:
++                excludes = ['*.log', "*.log.zst"]
++
++            tagname = gitarchive.gitarchive(tempdir, args.git_dir, False, False,
+                                   "Results of {branch}:{commit}", "branch: {branch}\ncommit: {commit}", "{branch}",
+                                   False, "{branch}/{commit_count}-g{commit}/{tag_number}",
+                                   'Test run #{tag_number} of {branch}:{commit}', '',
+-                                  [], [], False, keywords, logger)
++                                  excludes, [], False, keywords, logger)
  
-@@ -295,8 +291,6 @@ class ReproducibleTests(OESelftestTestCase):
++            if args.logfile_archive:
++                logdir = args.logfile_archive + "/" + tagname
++                shutil.copytree(tempdir, logdir)
++                for root, dirs,  files in os.walk(logdir):
++                    for name in files:
++                        if not name.endswith(".log"):
++                            continue
++                        f = os.path.join(root, name)
++                        subprocess.run(["zstd", f, "--rm"], check=True, capture_output=True)
+     finally:
+         subprocess.check_call(["rm", "-rf",  tempdir])
  
-                 self.logger.info('Reproducibility summary for %s: %s' % (c, result))
- 
--                self.append_to_log('\n'.join("%s: %s" % (r.status, r.test) for r in result.total))
--
-                 self.write_package_list(package_class, 'missing', result.missing)
-                 self.write_package_list(package_class, 'different', result.different)
-                 self.write_package_list(package_class, 'different_excluded', result.different_excluded)
+@@ -107,3 +120,5 @@ def register_commands(subparsers):
+                               help='add extra test environment data to each result file configuration')
+     parser_build.add_argument('-r', '--revision', default='',
+                               help='only store data for the specified revision')
++    parser_build.add_argument('-l', '--logfile-archive', default='',
++                              help='directory to separately archive log files along with a copy of the results')
 -- 
 2.34.1
 
