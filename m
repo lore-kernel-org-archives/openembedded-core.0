@@ -1,128 +1,141 @@
-Return-Path: <gudni.m.g@gmail.com>
+Return-Path: <JPEWhacker@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33BA5E7716D
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 19:09:36 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.web10.23303.1733339371394045527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C356E7716D
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 19:24:36 +0000 (UTC)
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+ by mx.groups.io with SMTP id smtpd.web10.23685.1733340267171089629
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 11:09:31 -0800
+ Wed, 04 Dec 2024 11:24:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=CHgNmoiW;
- spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-434acf1f9abso1258175e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 11:09:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=S2V8/WLd;
+ spf=pass (domain: gmail.com, ip: 209.85.167.46, mailfrom: jpewhacker@gmail.com)
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-53dd57589c8so1381153e87.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 11:24:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733339369; x=1733944169; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Xky5IqIhYik9MybWP7yNWoet8Lm1wRS8INF98hdtFWs=;
-        b=CHgNmoiWNBlCbYAmhVOC8wUF2KnFM5qZw9rwu3pKsIgdZPfg/9UTdjgz6WTq5fkD2F
-         dcrA96qebnx3QE5N3uQmXC6Q+DrFGjIMhTjem0mjg/KuZHarIZCG3w2259ujvDJhIPBE
-         SJ86IXUT9OB8ZZR28cNO7YYTPAFLasjaJm1ZexKjluekhqh1xIdzbCPVFMdpmJzo1PjF
-         SgnGAFLNPeyBPIb82Ffvy5Kee9nMEbJ9/gJe/90ielHp6vRjT+q+WDgsfqma+LnFUo4s
-         KJ8BsAa8M3rtMfUu5ixzftkq+uxpKqYnAF76mXj6rXOhwAeeNbW9e1Ya9jArPG4VyxGz
-         bkbg==
+        d=gmail.com; s=20230601; t=1733340265; x=1733945065; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9TVPw73I9m85MGcoaHrt5UdTQLNnxUwXpJGQ+VcFu2g=;
+        b=S2V8/WLdl4uwLUF0rSTOK8gdgknfBOpkS37JYQ2JhE1jwePX6g0yF1Ds7tiXYNuFxQ
+         YR5mcteHF5dmAS76vd51JKIIFbEWbQrQlGVvSFaKMlZ4xOrys0/RCcvzO8QNsID82elL
+         HbVwLLtF943tElztf4rLQhKao0g41UhD4x6VTRsYq0JkLclUJi78iOVSwLqDK2b28cnM
+         5HlQkqs5qHN/Pc2Yn8swJp6iIAbQmtoSAhSyP6/7t+9OcfF4SHRT4cDWDggi++0rtxWT
+         8uZsAXG5hgjsEizkNnCk5gZUW9ScG4vYlhhSp2Sd0qAK/Ii9jvKeVRMpw6vgHeVqMbyi
+         iuPw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733339369; x=1733944169;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Xky5IqIhYik9MybWP7yNWoet8Lm1wRS8INF98hdtFWs=;
-        b=iRJnGBwqm+33fdTCeQXCB3NqqUlw3LI+hnMjkluZhngMSEHnXuAc0AjdB5GzS6uOmZ
-         Ow6xVFQ8ZP8HH+SEjpQjcJKLZe4bKUeKsFqL6cRApyYzBjx0VMq/tcdpw0mt6Lg1ryMM
-         ep4WzkbfqAAHkBK2dyRaRPOzIoIsrCJ+X3QZnQM6/V2CDoxjNuN7EC3MRMO0Rn8bRG7T
-         kvU5nxtifT5AwR8mR7BeNR02MiiGAgHg8dizUZ4ze4fAqrN1datLQ3F0BGSpKceQ8zAt
-         ftet8YTw/935nl2gtx5kcfDSAElr4kJBkdUhBK2F/c0Mm6ZwSqs8c9W/X5yDUoiL1pEr
-         Giuw==
-X-Gm-Message-State: AOJu0YxNUqLc4Ci0utgEzDHrHqx5dVrCyag2H+HTPKoXjCSoNROWjJpV
-	29wf5Svr0y38YBIVFK4oySjWpO0OpyCF7X26c+vxjRt4KddJqQUkv6E+gg==
-X-Gm-Gg: ASbGncvdsiVuV2JaDouPD6Vp539K3cvqPeRhxGoLrMoqLWs3WhLaN3Ozd2+cBwxkiCa
-	MTx5gH5VAR6arpnvbM3sGK+wlMCiN2RFfWhmElo4Nr62L+2iIeeoQtiq/aVvIgNW51vcLV1RlJC
-	IlaaUpW4gH607RyKF4Czr+EeY86AKAl3KmOA90jw6IJabDakvT5DOpFOCwHVcfMMg7pIMpZIqYG
-	V1bC42WxQUbFJdDHZ0LP+y2WxKp++xy2kr8Khw/sJKeEIxfyLKIP0WUqa6ZMMGSWctHneSGwfs=
-X-Google-Smtp-Source: AGHT+IFN+1yepeFOqOB/yxWiMpjUwlcRRr+GF44vW1V9NSTwuQvXPLFngS5bBZVo3EvCPmenLgg3kQ==
-X-Received: by 2002:a05:600c:511f:b0:431:5632:448b with SMTP id 5b1f17b1804b1-434d0a07915mr63782625e9.25.1733339369147;
-        Wed, 04 Dec 2024 11:09:29 -0800 (PST)
-Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434d527f3eesm33422125e9.16.2024.12.04.11.09.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 11:09:28 -0800 (PST)
-From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
-Subject: [PATCH] python3-iniparse: remove recipe
-Date: Wed,  4 Dec 2024 19:09:09 +0000
-Message-ID: <20241204190909.3878-1-gudni.m.g@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1733340265; x=1733945065;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9TVPw73I9m85MGcoaHrt5UdTQLNnxUwXpJGQ+VcFu2g=;
+        b=CE8sJstlC0VMNVN5Oj0a8YT37ic5poa4liUokvtxbvVM2W/0FCpuERnO1XtI1sSe7N
+         ecF3HJEVVtC8/aK9hONFUoq4kEdtQOgiyJGzpMTATlYLDwsVM22W77u5Yswyx63gOr/h
+         32hXdQ3daYcxRuew2AE9dtiSjq5dI5zdV7N0t/YCxXI0tvHyY3qfaGmRCh1xfNsBKbXC
+         5o11ZY7CnU3DOn6OUeYJQFoPr0ET8fMOWDYi3HvGVSGPxiNdXVtT13vMlxFtPSadQCfR
+         Rh4vUP7bJbCYrPW/UMACJsQm+fz7a6hj0E+eyh+UzlHfj/V/otPlMvoFfyVLgCYMKzB8
+         Tfag==
+X-Gm-Message-State: AOJu0YzselTyECARHusa6F9Enl8svuWOyeAtSXhB75gYH/A3eN2vwnev
+	PLwiQv1vGtCFNYozeYTQmLY4mIGDsFjLv4LsNvz1zwvG/8LbfBhajyVs3aCLTnAEjVX1koc+Qv5
+	PAVtUk6N4WAltFOD/UY+QKW57ocDHOg==
+X-Gm-Gg: ASbGncuACAzDGo0DuVOA9+HLCOR5LqvK5xGrxjlbq7pinxUOou+OCVMnxiNdAzjgh/A
+	ZdQnhBf9MWoCnrYeJyPuIUWeXLrENPoOgkUelRHCOhcbgaA==
+X-Google-Smtp-Source: AGHT+IFn9pIJ56cmY5kxkDUxrnIxIfVMLnAawT0ppMlluxzAhwtZGEUtrrhHFirc/fFSdSkhSS4+aYHXpXrvBfAtfLc=
+X-Received: by 2002:a19:e00c:0:b0:53e:134f:e948 with SMTP id
+ 2adb3069b0e04-53e2190a8a9mr144279e87.25.1733340264950; Wed, 04 Dec 2024
+ 11:24:24 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20241125081500.4048680-1-hongxu.jia@windriver.com> <20241125081500.4048680-4-hongxu.jia@windriver.com>
+In-Reply-To: <20241125081500.4048680-4-hongxu.jia@windriver.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Wed, 4 Dec 2024 12:24:13 -0700
+Message-ID: <CAJdd5GanQHGooSz0V1jV-NuDfKkdqjt1Ms2ZypYqvz5peP1=mA@mail.gmail.com>
+Subject: Re: [oe-core][PATCH 3/3] oeqa/selftest: Add SPDX 3.0 include source
+ cases for core_image_minimal build
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 19:09:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208322
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 19:24:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208323
 
-There are no consumers of this recipe in openembedded-core or in meta-openembedded.
+Is there some advantage to this patch over the test_gcc_include_source test=
+?
 
-The last consumer was dnf:
-https://git.openembedded.org/openembedded-core/commit/?id=05220b4907ab654e829d97ab68d48f76330937dd
-
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
----
- meta/conf/distro/include/distro_alias.inc          |  1 -
- meta/conf/distro/include/maintainers.inc           |  1 -
- .../python/python3-iniparse_0.5.bb                 | 14 --------------
- 3 files changed, 16 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-iniparse_0.5.bb
-
-diff --git a/meta/conf/distro/include/distro_alias.inc b/meta/conf/distro/include/distro_alias.inc
-index 58163a9f7a..6d11c98dfe 100644
---- a/meta/conf/distro/include/distro_alias.inc
-+++ b/meta/conf/distro/include/distro_alias.inc
-@@ -272,7 +272,6 @@ DISTRO_PN_ALIAS:pn-ptest-runner = "OE-Core"
- DISTRO_PN_ALIAS:pn-pulseaudio-client-conf-sato = "OE-Core"
- DISTRO_PN_ALIAS:pn-puzzles = "Debian=sgt-puzzles Fedora=puzzles"
- DISTRO_PN_ALIAS:pn-python3 = "Fedora=python3 Debian=python3.2"
--DISTRO_PN_ALIAS:pn-python3-iniparse = "Fedora=python-iniparse Debian=python-iniparse"
- DISTRO_PN_ALIAS:pn-python3-pip = "OpenSuSE=python3-pip Debian=python3-pip"
- DISTRO_PN_ALIAS:pn-python3-pycurl = "Fedora=python-pycurl Debian=pycurl"
- DISTRO_PN_ALIAS:pn-python3-pygpgme = "Fedora=python-pygpgme Debian=pygpgme"
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4cac0647c2..052b989b62 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -643,7 +643,6 @@ RECIPE_MAINTAINER:pn-python3-hypothesis = "Trevor Gamblin <tgamblin@baylibre.com
- RECIPE_MAINTAINER:pn-python3-idna = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-python3-imagesize = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-iniconfig = "Tim Orling <tim.orling@konsulko.com>"
--RECIPE_MAINTAINER:pn-python3-iniparse = "Trevor Gamblin <tgamblin@baylibre.com>"
- RECIPE_MAINTAINER:pn-python3-iso8601 = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-python3-installer = "Ross Burton <ross.burton@arm.com>"
- RECIPE_MAINTAINER:pn-python3-jinja2 = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-diff --git a/meta/recipes-devtools/python/python3-iniparse_0.5.bb b/meta/recipes-devtools/python/python3-iniparse_0.5.bb
-deleted file mode 100644
-index c18949014b..0000000000
---- a/meta/recipes-devtools/python/python3-iniparse_0.5.bb
-+++ /dev/null
-@@ -1,14 +0,0 @@
--SUMMARY = "Accessing and Modifying INI files"
--HOMEPAGE = "https://pypi.org/project/iniparse/"
--LICENSE = "MIT & PSF-2.0"
--LIC_FILES_CHKSUM = "file://LICENSE-PSF;md5=1c78a5bb3584b353496d5f6f34edb4b2 \
--                    file://LICENSE;md5=52f28065af11d69382693b45b5a8eb54"
--
--SRC_URI[sha256sum] = "932e5239d526e7acb504017bb707be67019ac428a6932368e6851691093aa842"
--
--inherit pypi setuptools3
--
--RDEPENDS:${PN} += "python3-core python3-six"
--DEPENDS += "python3-six"
--
--BBCLASSEXTEND = "native nativesdk"
--- 
-2.43.0
-
+On Mon, Nov 25, 2024 at 1:15=E2=80=AFAM Hongxu Jia <hongxu.jia@windriver.co=
+m> wrote:
+>
+> $ oe-selftest -r spdx.SPDX30Check.test_core_image_minimal_include_source
+> 2024-11-09 09:17:54,600 - oe-selftest - INFO - Adding layer libraries:
+> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta/lib
+> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta-yocto-b=
+sp/lib
+> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/poky/meta-selftes=
+t/lib
+> 2024-11-09 09:17:54,601 - oe-selftest - INFO -  path-to/meta-openembedded=
+/meta-oe/lib
+> 2024-11-09 09:17:54,602 - oe-selftest - INFO - Checking base configuratio=
+n is valid/parsable
+> 2024-11-09 09:17:56,653 - oe-selftest - INFO - Adding: "include selftest.=
+inc" in path-to/build_spdx3-st/conf/local.conf
+> 2024-11-09 09:17:56,653 - oe-selftest - INFO - Adding: "include bblayers.=
+inc" in bblayers.conf
+> 2024-11-09 09:17:56,653 - oe-selftest - INFO - test_core_image_minimal_in=
+clude_source (spdx.SPDX30Check.test_core_image_minimal_include_source)
+> 2024-11-09 10:41:16,654 - oe-selftest - INFO - Keepalive message
+> 2024-11-09 11:37:53,091 - oe-selftest - INFO -  ... ok
+> 2024-11-09 11:55:18,638 - oe-selftest - INFO - --------------------------=
+--------------------------------------------
+> 2024-11-09 11:55:18,638 - oe-selftest - INFO - Ran 1 test in 9442.187s
+> 2024-11-09 11:55:18,638 - oe-selftest - INFO - OK
+> 2024-11-09 11:55:35,453 - oe-selftest - INFO - RESULTS:
+> 2024-11-09 11:55:35,453 - oe-selftest - INFO - RESULTS - spdx.SPDX30Check=
+.test_core_image_minimal_include_source: PASSED (8396.65s)
+> 2024-11-09 11:55:35,490 - oe-selftest - INFO - SUMMARY:
+> 2024-11-09 11:55:35,490 - oe-selftest - INFO - oe-selftest () - Ran 1 tes=
+t in 9442.187s
+> 2024-11-09 11:55:35,490 - oe-selftest - INFO - oe-selftest - OK - All req=
+uired tests passed (successes=3D1, skipped=3D0, failures=3D0, errors=3D0)
+>
+> Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+> ---
+>  meta/lib/oeqa/selftest/cases/spdx.py | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftes=
+t/cases/spdx.py
+> index 8384070219..c785f5445f 100644
+> --- a/meta/lib/oeqa/selftest/cases/spdx.py
+> +++ b/meta/lib/oeqa/selftest/cases/spdx.py
+> @@ -174,6 +174,20 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase=
+):
+>          # Document should be fully linked
+>          self.check_objset_missing_ids(objset)
+>
+> +    def test_core_image_minimal_include_source(self):
+> +        objset =3D self.check_recipe_spdx(
+> +            "core-image-minimal",
+> +            "{DEPLOY_DIR_IMAGE}/core-image-minimal-{MACHINE}.rootfs.spdx=
+.json",
+> +            extraconf=3Dtextwrap.dedent(
+> +                """\
+> +                SPDX_INCLUDE_SOURCES =3D "1"
+> +                """
+> +            ),
+> +        )
+> +
+> +        # Document should be fully linked
+> +        self.check_objset_missing_ids(objset)
+> +
+>      def test_core_image_minimal_sdk(self):
+>          objset =3D self.check_recipe_spdx(
+>              "core-image-minimal",
+> --
+> 2.25.1
+>
 
