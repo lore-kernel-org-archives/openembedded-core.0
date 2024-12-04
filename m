@@ -2,61 +2,61 @@ Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A836E77175
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1245FE77174
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 06:50:12 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.web11.8170.1733295002310098369
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.web10.8198.1733295006885468210
  for <openembedded-core@lists.openembedded.org>;
- Tue, 03 Dec 2024 22:50:02 -0800
+ Tue, 03 Dec 2024 22:50:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=cLMe40Rh;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-434a736518eso78228915e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 22:50:02 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=Dlra8Go4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-434a044dce2so78164485e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 03 Dec 2024 22:50:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733295001; x=1733899801; darn=lists.openembedded.org;
+        d=gmail.com; s=20230601; t=1733295005; x=1733899805; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=hT7nM9uqd7uOuuxKhStcnUAdVio7yBQmXk/M6hXitnE=;
-        b=cLMe40Rh45Qi8mImD/RXnbA2A0rKV3IX5MaUBRi7wRejfY1O+bplo9AyV9Ph1/Xkwk
-         v7XWeO+Cy9ATHDvLukeKmdH9JBX4ErhWK+eVRPR/UcjFXQIKeFk6ssjSzbKO01LjnzyS
-         xfwsUHXW4gPLXXZFwQ3bOmzXsvtfTyENmQev7CykZUdo6tDu/mg8wWRu/8A0GMKjUzGR
-         wrgQHLCDwmtzq2c82vQpBd7qxQXQYv4t4pXKp07SkGu8Q1SG4ofzDRiknbcBTSBxQh5K
-         LnYk7xEfDmg7oTLsW5CfcMIMWLeadAYohO7yZswWkjJCSkiA3YOL2DPBGPW6NFTdQDqA
-         SWMQ==
+        bh=bJc5csVPgL3Qd+e441doY4TfaacqOENboyYzBVbs//M=;
+        b=Dlra8Go4GO3TJ/PEjeZ5HvPiB5ArYRXySf94WT79ui1/MaNaI6+XK2bnPE/c6axYM+
+         82yTxJfCb8eFnCCuQZCcWcYnD3E7cQJ7Mrhh96CPp+KH5PjjHQAGdj2b/AZITBmupPuT
+         auKo6mRNbFPIXIIIytTeoqEPqKPaVp4sXi8PRXzRZcWfeRfRhfIum0BHRIgvcZclTyTH
+         PmUBOwAuJAJ8qHlUsC3LixErOzCyd72E/TtZFGrAl25ai97GKTTDNKAa//x0rwjhdYRI
+         GaZUZyHPLdA10V4iWuJPW7nfcHstqbolpiHLMqKiVp26scj5FidMRKdomK4uGmPyVBw6
+         x1qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733295001; x=1733899801;
+        d=1e100.net; s=20230601; t=1733295005; x=1733899805;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=hT7nM9uqd7uOuuxKhStcnUAdVio7yBQmXk/M6hXitnE=;
-        b=Q0qlXmvoDPu+RsB1QI3gakyfM8869e4HnnNCOxY3aGGftYGrcY/6bzxrUhWu5PM1VX
-         BuYRvA2bg9TtaSYkB/J4U46qiUKpu/pMpH35PLxq0p1TrqBfXdzvDQODIJ8xHc26fv+i
-         wPYIo1Y+R3L3fX3aD5vTtt4QzPicH4u46jJJNctiSc3kKEHb9HWJkczYRmheQrRBameP
-         AeLQhBW48vn4SWKbgVJnQNBRtZSVmljxITota/Ep7nDrmmR2gPt7CH1xwEz/WOl1VWqm
-         S9m1S4U7O+9pONzPpqqGdQkzP5i4Z0rZGHczx199Zl44cyWwpSWtHWoUlE9dR7RZOSLW
-         SFYQ==
-X-Gm-Message-State: AOJu0Yxdj1quLJenBLBRyNd3k+LpXke8RUlfMT3rJIbrxW8lEjkEEQlK
-	F7bO51S9WhYu+dy2OJ40fXRrJr/rpSAvEcTfJqIRIt9W93K60Vm2Vd1YOA==
-X-Gm-Gg: ASbGncvotG5tR9rNjtRymAGeFL1gSj3mNioPsd0YqkNCQ1u2hIZleQvuT+faKZh0iYU
-	+OspY19m7MbBbj29ykXO1vk/daKmW1hha+Vzm6Ja6A1QuBFs1gN7hFnhASTfVYc8SXQl6W5cxaF
-	KDBJPKFImw/Gmv/lSR/9COAceOZcF3BJL9XcQINyFGvL2wfikDY081T/qYb6q7Yq6Qjh4BNZgm/
-	G70EU/YcTGU+lzAoZXeoNuOKek7qx7ce3CueUxyuuI2cg3jP2rqApFJDzPdmsj3ILonX4L8PKKl
-	l5W4LQyGBao=
-X-Google-Smtp-Source: AGHT+IELFh3rhjz9s76ovxn5THYjRYur3nbPEFM/sPo03kGEHOnctvJGehoVW4IHVUXxBW+SLSz3bA==
-X-Received: by 2002:a05:6000:156c:b0:385:df4e:364b with SMTP id ffacd0b85a97d-385fd3cd9edmr4854372f8f.12.1733295000609;
-        Tue, 03 Dec 2024 22:50:00 -0800 (PST)
+        bh=bJc5csVPgL3Qd+e441doY4TfaacqOENboyYzBVbs//M=;
+        b=o73+Uz69nfZOClccpRw3vc1gNgmucjbBxqjSycUUofoO3MwJwW4i9GmOWDehGyHPbl
+         b4fcXfvAixaCdXOwBOUWGG+kUdCv9YGtDfXXLSy/UVka2llo5Fg3wpnM26B4sbu6fvqu
+         upWv26RJw9zZmf/cXT4Sfwk6E0UIaDEkOCoKT2kd92eaPeBe9syZRZRO+k2f1rR5mIIV
+         Y2ZeEadmzuHJkeaRveoxCNkyxDgBdWUzUWD90GIqLEyyAXX1MmLSlVZIJCTGn5hN9Z1f
+         4AjhX4O79KjP8TeSnwCqj/wVJDRhGpTiVrKtJyXjMYKsdueBIAztjd9WHPnLiBCAP3Xx
+         kxdg==
+X-Gm-Message-State: AOJu0YxtP6CUmoi99jOExBp+86WwroSuuvr7OF4nhO7D0AuhOGhhPdbQ
+	oDurWV2Y+TeUhW78ENK1zEGXITQnI97bnVdWC48drTIZUkKchUXMURKhfA==
+X-Gm-Gg: ASbGncuVbIX3gzj2oqZ/Gz+tUeVNST15GmtMEYz3oyL6r7HI4JRi1cBmFsW0nejxFdU
+	xhWa7IVG4M+s5PnYQuIIaAa2jdEjizCJRkwsyJ+u2m3T23FboJubErUqmq+vKjfMSQBZrCzBFYY
+	TQg02jkdj/i7Qgd8+D4aSxhPhT/kQc/WPxznDmIO164lmUlTr7IE4SHY0j4BI5PVs5+1iVgpMlS
+	YUyP0lXuTW5RWD96MBFJdFTx+hc+NmRO6EAePGNYjxuUosyDHEAiTKxd6UEtwk1eJlInkcTb6sQ
+	jrFbxnEe1cA=
+X-Google-Smtp-Source: AGHT+IFf9NOoQiTc+huiWICaMkuDxn0/dGEyfaGqOAcu/jRBB5D8MUH11OcwpSpZpuRFWkmEBUoPjQ==
+X-Received: by 2002:a05:600c:4f03:b0:434:a852:ba77 with SMTP id 5b1f17b1804b1-434d09d0432mr50411405e9.15.1733295005133;
+        Tue, 03 Dec 2024 22:50:05 -0800 (PST)
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f343f293sm7435757f8f.36.2024.12.03.22.50.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-385f343f293sm7435757f8f.36.2024.12.03.22.50.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 03 Dec 2024 22:50:00 -0800 (PST)
+        Tue, 03 Dec 2024 22:50:04 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 32/37] go-helloworld: update to latest revision
-Date: Wed,  4 Dec 2024 07:49:15 +0100
-Message-Id: <20241204064920.817016-32-alex.kanavin@gmail.com>
+Subject: [PATCH 37/37] rpm: replace use of rpm2cpio with rpm2archive
+Date: Wed,  4 Dec 2024 07:49:20 +0100
+Message-Id: <20241204064920.817016-37-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20241204064920.817016-1-alex.kanavin@gmail.com>
 References: <20241204064920.817016-1-alex.kanavin@gmail.com>
@@ -66,35 +66,113 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 06:50:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208261
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208266
 
 From: Alexander Kanavin <alex@linutronix.de>
 
+rpm2cpio has been deprecated upstream, so this prepares for its
+eventual removal.
+
+rpm2archive produces a tar archive which can be uncompressed
+with tar executable from the host.
+
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/recipes-extended/go-examples/go-helloworld_0.1.bb | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ meta/classes-recipe/testexport.bbclass      |  1 -
+ meta/classes-recipe/testimage.bbclass       |  1 -
+ meta/lib/oe/package_manager/rpm/__init__.py |  6 +++---
+ meta/lib/oeqa/utils/testexport.py           | 10 +++++-----
+ meta/recipes-devtools/rpm/rpm_4.20.0.bb     |  2 +-
+ 5 files changed, 9 insertions(+), 11 deletions(-)
 
-diff --git a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-index 8d4dd49ab67..1e911e16940 100644
---- a/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-+++ b/meta/recipes-extended/go-examples/go-helloworld_0.1.bb
-@@ -6,7 +6,7 @@ LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
+diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
+index 76db4c625fa..cc4088c71a1 100644
+--- a/meta/classes-recipe/testexport.bbclass
++++ b/meta/classes-recipe/testexport.bbclass
+@@ -29,7 +29,6 @@ require conf/testexport.conf
+ TEST_EXPORT_SDK_ENABLED ?= "0"
  
- SRC_URI = "git://go.googlesource.com/example;branch=master;protocol=https;destsuffix=${GO_SRCURI_DESTSUFFIX}"
--SRCREV = "39e772fc26705bb170db248e5372a81ed5ffd67f"
-+SRCREV = "d7b0ac1278591aea848a99258ccfdee8e4d454c1"
- UPSTREAM_CHECK_COMMITS = "1"
+ TEST_EXPORT_DEPENDS = ""
+-TEST_EXPORT_DEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
+ TEST_EXPORT_DEPENDS += "${@bb.utils.contains('TEST_EXPORT_SDK_ENABLED', '1', 'testexport-tarball:do_populate_sdk', '', d)}"
+ TEST_EXPORT_LOCK = "${TMPDIR}/testimage.lock"
  
- GO_IMPORT = "golang.org/x/example"
-@@ -20,3 +20,6 @@ inherit go
- do_install:append() {
-     mv ${D}${bindir}/hello ${D}${bindir}/${BPN}
- }
-+
-+# /usr/lib/go/src/golang.org/x/example/ragserver/tests/weaviate-show-all.sh is requiring bash
-+RDEPENDS:${PN}-dev += "bash"
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index c218372edb5..97ed4223c47 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -100,7 +100,6 @@ TESTIMAGE_BOOT_PATTERNS ?= ""
+ 
+ TESTIMAGEDEPENDS = ""
+ TESTIMAGEDEPENDS:append:qemuall = " qemu-native:do_populate_sysroot qemu-helper-native:do_populate_sysroot qemu-helper-native:do_addto_recipe_sysroot"
+-TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'cpio-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'dnf-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'rpm', 'createrepo-c-native:do_populate_sysroot', '', d)}"
+ TESTIMAGEDEPENDS += "${@bb.utils.contains('IMAGE_PKGTYPE', 'ipk', 'opkg-utils-native:do_populate_sysroot package-index:do_package_index', '', d)}"
+diff --git a/meta/lib/oe/package_manager/rpm/__init__.py b/meta/lib/oe/package_manager/rpm/__init__.py
+index f40c880af49..323ec5008fb 100644
+--- a/meta/lib/oe/package_manager/rpm/__init__.py
++++ b/meta/lib/oe/package_manager/rpm/__init__.py
+@@ -393,8 +393,8 @@ class RpmPM(PackageManager):
+         # Strip file: prefix
+         pkg_path = pkg_name[5:]
+ 
+-        cpio_cmd = bb.utils.which(os.getenv("PATH"), "cpio")
+-        rpm2cpio_cmd = bb.utils.which(os.getenv("PATH"), "rpm2cpio")
++        tar_cmd = bb.utils.which(os.getenv("PATH"), "tar")
++        rpm2archive_cmd = bb.utils.which(os.getenv("PATH"), "rpm2archive")
+ 
+         if not os.path.isfile(pkg_path):
+             bb.fatal("Unable to extract package for '%s'."
+@@ -405,7 +405,7 @@ class RpmPM(PackageManager):
+         os.chdir(tmp_dir)
+ 
+         try:
+-            cmd = "%s %s | %s -idmv" % (rpm2cpio_cmd, pkg_path, cpio_cmd)
++            cmd = "%s -n %s | %s xv" % (rpm2archive_cmd, pkg_path, tar_cmd)
+             output = subprocess.check_output(cmd, stderr=subprocess.STDOUT, shell=True)
+         except subprocess.CalledProcessError as e:
+             bb.utils.remove(tmp_dir, recurse=True)
+diff --git a/meta/lib/oeqa/utils/testexport.py b/meta/lib/oeqa/utils/testexport.py
+index e89d130a9c6..3ab024d9e99 100644
+--- a/meta/lib/oeqa/utils/testexport.py
++++ b/meta/lib/oeqa/utils/testexport.py
+@@ -60,17 +60,17 @@ def process_binaries(d, params):
+     export_env = d.getVar("TEST_EXPORT_ONLY")
+ 
+     def extract_binary(pth_to_pkg, dest_pth=None):
+-        cpio_command = runCmd("which cpio")
+-        rpm2cpio_command = runCmd("ls /usr/bin/rpm2cpio")
+-        if (cpio_command.status != 0) and (rpm2cpio_command.status != 0):
+-            bb.fatal("Either \"rpm2cpio\" or \"cpio\" tools are not available on your system."
++        tar_command = runCmd("which tar")
++        rpm2archive_command = runCmd("ls /usr/bin/rpm2archive")
++        if (tar_command.status != 0) and (rpm2archive_command.status != 0):
++            bb.fatal("Either \"rpm2archive\" or \"tar\" tools are not available on your system."
+                     "All binaries extraction processes will not be available, crashing all related tests."
+                     "Please install them according to your OS recommendations") # will exit here
+         if dest_pth:
+             os.chdir(dest_pth)
+         else:
+             os.chdir("%s" % os.sep)# this is for native package
+-        extract_bin_command = runCmd("%s %s | %s -idm" % (rpm2cpio_command.output, pth_to_pkg, cpio_command.output)) # semi-hardcoded because of a bug on poky's rpm2cpio
++        extract_bin_command = runCmd("%s -n %s | %s xv" % (rpm2archive_command.output, pth_to_pkg, tar_command.output)) # semi-hardcoded because of a bug on poky's rpm2cpio
+         return extract_bin_command
+ 
+     if determine_if_poky_env(): # machine with poky environment
+diff --git a/meta/recipes-devtools/rpm/rpm_4.20.0.bb b/meta/recipes-devtools/rpm/rpm_4.20.0.bb
+index ec4276d16ea..97483f7ddd5 100644
+--- a/meta/recipes-devtools/rpm/rpm_4.20.0.bb
++++ b/meta/recipes-devtools/rpm/rpm_4.20.0.bb
+@@ -61,7 +61,7 @@ OECMAKE_GENERATOR = "Unix Makefiles"
+ 
+ BBCLASSEXTEND = "native nativesdk"
+ 
+-PACKAGECONFIG ??= ""
++PACKAGECONFIG ??= "archive"
+ 
+ PACKAGECONFIG[plugins] = "-DENABLE_PLUGINS=ON,-DENABLE_PLUGINS=OFF"
+ PACKAGECONFIG[testsuite] = "-DENABLE_TESTSUITE=ON,-DENABLE_TESTSUITE=OFF"
 -- 
 2.39.5
 
