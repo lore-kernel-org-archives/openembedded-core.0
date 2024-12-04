@@ -2,179 +2,107 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4659E77172
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4724E77175
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:36:36 +0000 (UTC)
-Received: from mail-pg1-f175.google.com (mail-pg1-f175.google.com [209.85.215.175])
- by mx.groups.io with SMTP id smtpd.web11.25144.1733344592859592643
+Received: from mail-pf1-f178.google.com (mail-pf1-f178.google.com [209.85.210.178])
+ by mx.groups.io with SMTP id smtpd.web10.25423.1733344595933816319
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 12:36:32 -0800
+ Wed, 04 Dec 2024 12:36:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=FR+XgQGx;
- spf=softfail (domain: sakoman.com, ip: 209.85.215.175, mailfrom: steve@sakoman.com)
-Received: by mail-pg1-f175.google.com with SMTP id 41be03b00d2f7-7fc41b4c78bso141051a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:32 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=pNNmoGbl;
+ spf=softfail (domain: sakoman.com, ip: 209.85.210.178, mailfrom: steve@sakoman.com)
+Received: by mail-pf1-f178.google.com with SMTP id d2e1a72fcca58-7251331e756so247735b3a.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344592; x=1733949392; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344595; x=1733949395; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=YOQ36W8rmXlMScGBnZA1E61dv4T0j4EZod5jTs94SuE=;
-        b=FR+XgQGxXTSvQcJ+cj8DLvN+IJZgS8D8mqN9IJu5wes03wf8XJ/VPJnLCsQbtGwks6
-         qyLsbetY+UKgQTPfoDHFVsEcKIbjdV70M0ZVwmZYDOOw+pnW34Th7tIBNSOsRMRD/uEw
-         nQIxFpArneaCnYlg6szGcIVBQDWDK/ww7VQWQ69Zml6dE6uVOndD2PtI8pTX8IZJosPR
-         xaBJg0JUhbStrFlLqvXr7Fkbs6Yt6UP/UFTheOT2Ez/P8tNEKjb7PPqhdEL+YpC2mUxw
-         WL1RjK0N7BMgsk6uPchMUmsLNg3uAsBT3cCOtIDrfYU/AHf77RbpysaSJiuG1o2AD2r5
-         TU5g==
+        bh=VZkdE5bem606eL0OEJVTTByqvz8SgJKjhq8CXFOqRRQ=;
+        b=pNNmoGbljvhxazJMAeD1wvf+J64+mgNVvwtPij3bLAtcWsLBAZoVi5DMsmTSTJ9GOX
+         iLvMsXszfIIW0OUN/P//NMqVSL9Y8qDLKJKShWP2jKTqOh50dET5NdvsdDjkYJTtBmix
+         aVdis+psCSNOvqsTg6lvCcrJQONpKRDfSEnQqnXF8eylA6gPMe/w1G5zPhAVK15lW2Lz
+         WlFIifuawjnCvdXCxMC/v1Ab6I8ZeC7TH2/rj/XgExiKuNR1soMAy28fHmK2yELfj3eA
+         7varRo05OTJilLCacNJMpQcwlSi5DWuyvx2EIeppZcCs/O9NVi4LA98pQYcKqID/Y/+3
+         d0lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733344592; x=1733949392;
+        d=1e100.net; s=20230601; t=1733344595; x=1733949395;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=YOQ36W8rmXlMScGBnZA1E61dv4T0j4EZod5jTs94SuE=;
-        b=syTjFYDKABhUdU84Dot4DpabCeE64rNtZmEXEFGQ9g0lZmTlHm+YxmhfkxgvbcCRKr
-         tmKjbi4/5yuXAyqaZpKjKdfG+VyJGQlL+3oof/UmkWAD7BM+zv8yBYd4SwNIcyP794Dm
-         nR28R58aSmpMzvMlccBQ/BeynU5AXQVyI/NlIgfUq8ncTU8XGT3SwN1Ehmm8YrfwGuI0
-         e4bi+mDaF+2BxXZjinLdKFu2szIcKL0ygI7kikGlHyoEJu2I73ptWn7BJPeisPCxSj9u
-         /p5Q3F3zOxSqiWFECebXOLX2D1q+9OreYurmNT/eR7zkcZEwAycuR4y5zCtcJj6/sP9y
-         EqcQ==
-X-Gm-Message-State: AOJu0YysKq+Z0qPnHPeLGFfRIdzlly1ivJtUZ8bUkQFK9hiTzaJ6Z08r
-	4cGWVO7I+kJjpxnPvIIiSb7Mp6Pi6KB6rOKoAfb8PAjRpSJzmN6+m/SAElPU0udT4aum8dUZ56s
-	p
-X-Gm-Gg: ASbGncuat1QKLLkqXi5+AThCIPUY81JxPcTFJ85JS3M669qI4wvUfSMYueISU7Jjxxv
-	eDYtfWwJWwG/PMMp7fK93Xn7yjTF0Syd8G5H9GkOcQ2qRz9QDvmwAedfgSJLsIYHqp9a7dTbggG
-	46UqKuhpuA4Hap52NVnsPqNuHjragQ00H+3uqoOitHXPq8hWLEAt+CP46SxIPoJanYDjZ18EjuZ
-	avDjMTAbDwps2cFy8nCf+9CAae8EGZpxQ9/3aY=
-X-Google-Smtp-Source: AGHT+IFp+MdGzNXvDOo43CFUM9tYHVS/0fkJv0NwWCL5sUBehMwfhCVCIOsq1BtKgYWFXRCn2PNv5w==
-X-Received: by 2002:a05:6a20:7f83:b0:1db:e90a:6b24 with SMTP id adf61e73a8af0-1e1653d0286mr12968915637.25.1733344592083;
-        Wed, 04 Dec 2024 12:36:32 -0800 (PST)
+        bh=VZkdE5bem606eL0OEJVTTByqvz8SgJKjhq8CXFOqRRQ=;
+        b=VdP7YBb3kQ6t/EtgQs+DHK4hNqk5QGoVHnfLxQBoN8lToufKVbH10vmPUFe05uxS8p
+         GvGV3TFzpPo9ZIVjdVowiR78O+7x+myX0RskVgSHkYlEZAgOZp1j49wqdRYWF9HYWU5Q
+         U47lXhPi6AQ3XKyqKUrvPnUmxKUbLFDWBLhJGho/3cnZopsA7Uz7Rv3nm8hV6IugjCdp
+         O7fyd+A8qKygNFiw1gmgzqWqAUSj7sDWbch4IoU1rDVbwVNJVxyV3gZMhOLDEb7zylNX
+         8/bviiF/GpidivH3efCakmPX1oPmSz+wrf11waPA8c+pY39eQrVzvNKDE7I7+IWY1/F5
+         YijQ==
+X-Gm-Message-State: AOJu0Yxlzf3EIo50s7B0CNkW40mTnb6yqrX1w4dLRlihW43JwcQu5jee
+	BTa1Tg8tjdsQljbhhqARdPOoDB6VGzQtMgelxScL/seIgWHOXLxMWekZgLEh1JIOILr6Pe7TZJS
+	O
+X-Gm-Gg: ASbGncuISS8PDQLVbE42LI/WSPml6Nnzt7/LLDLoikAq7rqSYbhIQRCtGe5uNirkSPG
+	M4n+8Y5xTJJHQb1yh+NCSICOaypEXTH+NGHkmQ059pV40AmIr41jRO2qX/C5tab/2RJrO0Oagh7
+	BvVqsr8e/XubCcLSU00dZMG7hSMwWTtPuIJo5oGz8ShW2CDqW4Wo1jMd9uopyDnhUY62DLBMQ2L
+	vJYCjMz1Xx9LAGcsvg2Q6FK9WqpyY804rdN0/M=
+X-Google-Smtp-Source: AGHT+IGsWO/3VepSvIcsRp4m378XHmMQE3giEtdOPi3U3GM86wK+eAdMguCjXjLCXSOJObUzRiwCsQ==
+X-Received: by 2002:a17:90b:2e83:b0:2ee:c059:7de3 with SMTP id 98e67ed59e1d1-2ef012101eamr9641211a91.18.1733344595224;
+        Wed, 04 Dec 2024 12:36:35 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.31
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 12:36:31 -0800 (PST)
+        Wed, 04 Dec 2024 12:36:34 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 02/15] ovmf: fix CVE-2024-1298
-Date: Wed,  4 Dec 2024 12:36:09 -0800
-Message-Id: <2a6825a8ad6e5a600e458614ff7bb676ec9c5fac.1733344462.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 04/15] rxvt-unicode.inc: disable the terminfo installation by setting TIC to :
+Date: Wed,  4 Dec 2024 12:36:11 -0800
+Message-Id: <846071ec89d3dc5f392e9203c4e7e1e3ea27892c.1733344462.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733344462.git.steve@sakoman.com>
 References: <cover.1733344462.git.steve@sakoman.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:36:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208330
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208332
 
-From: Hongxu Jia <hongxu.jia@windriver.com>
+From: Changqing Li <changqing.li@windriver.com>
 
-Backport fix from upstream to resolve CVE-2024-1298
+Without this change, TIC is the native tic in recipe-sysroot-native.
+By default, native tic has set its default terminfo path to native path:
+${datadir}/terminfo; $HOME/.terminfo
 
-  https://github.com/tianocore/edk2/commit/284dbac43da752ee34825c8b3f6f9e82=
-81cb5a19
+When sstate cache is used, the cached native tic's terminfo path could
+be a path not exist on current host, then native tic will try to install
+terminfo to HOME dir, cause host contamination.
 
-Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
+Disable the terminfo installation by setting TIC to :
+
+Signed-off-by: Changqing Li <changqing.li@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit fe35ead2c3135a18c346e7baa31d34b15c3e2d95)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- ...ential-UINT32-overflow-in-S3-ResumeC.patch | 51 +++++++++++++++++++
- meta/recipes-core/ovmf/ovmf_git.bb            |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-core/ovmf/ovmf/0001-MdeModulePkg-Potential=
--UINT32-overflow-in-S3-ResumeC.patch
+ meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/ovmf/ovmf/0001-MdeModulePkg-Potential-UINT32=
--overflow-in-S3-ResumeC.patch b/meta/recipes-core/ovmf/ovmf/0001-MdeModuleP=
-kg-Potential-UINT32-overflow-in-S3-ResumeC.patch
-new file mode 100644
-index 0000000000..264820138f
---- /dev/null
-+++ b/meta/recipes-core/ovmf/ovmf/0001-MdeModulePkg-Potential-UINT32-overfl=
-ow-in-S3-ResumeC.patch
-@@ -0,0 +1,51 @@
-+From 150ea3ea4c821b133a782eeb33ef2a9c8fd8d7c3 Mon Sep 17 00:00:00 2001
-+From: Hongxu Jia <hongxu.jia@windriver.com>
-+Date: Fri, 22 Nov 2024 13:05:57 +0800
-+Subject: [PATCH] MdeModulePkg: Potential UINT32 overflow in S3 ResumeCount
-+
-+REF: https://bugzilla.tianocore.org/show_bug.cgi?id=3D4677
-+
-+Attacker able to modify physical memory and ResumeCount.
-+System will crash/DoS when ResumeCount reaches its MAX_UINT32.
-+
-+Cc: Zhiguang Liu <zhiguang.liu@intel.com>
-+Cc: Dandan Bi <dandan.bi@intel.com>
-+Cc: Liming Gao <gaoliming@byosoft.com.cn>
-+
-+Signed-off-by: Pakkirisamy ShanmugavelX <shanmugavelx.pakkirisamy@intel.co=
-m>
-+Reviewed-by: Liming Gao <gaoliming@byosoft.com.cn>
-+
-+CVE: CVE-2024-1298
-+Upstream-Status: Backport [https://github.com/tianocore/edk2/commit/284dba=
-c43da752ee34825c8b3f6f9e8281cb5a19]
-+Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-+---
-+ .../FirmwarePerformancePei.c                         | 12 ++++++++----
-+ 1 file changed, 8 insertions(+), 4 deletions(-)
-+
-+diff --git a/MdeModulePkg/Universal/Acpi/FirmwarePerformanceDataTablePei/F=
-irmwarePerformancePei.c b/MdeModulePkg/Universal/Acpi/FirmwarePerformanceDa=
-taTablePei/FirmwarePerformancePei.c
-+index 2f2b2a8..2ba9215 100644
-+--- a/MdeModulePkg/Universal/Acpi/FirmwarePerformanceDataTablePei/Firmware=
-PerformancePei.c
-++++ b/MdeModulePkg/Universal/Acpi/FirmwarePerformanceDataTablePei/Firmware=
-PerformancePei.c
-+@@ -112,11 +112,15 @@ FpdtStatusCodeListenerPei (
-+   //=0D
-+   S3ResumeTotal =3D MultU64x32 (AcpiS3ResumeRecord->AverageResume, AcpiS3=
-ResumeRecord->ResumeCount);=0D
-+   AcpiS3ResumeRecord->ResumeCount++;=0D
-+-  AcpiS3ResumeRecord->AverageResume =3D DivU64x32 (S3ResumeTotal + AcpiS3=
-ResumeRecord->FullResume, AcpiS3ResumeRecord->ResumeCount);=0D
-++  if (AcpiS3ResumeRecord->ResumeCount > 0) {=0D
-++    AcpiS3ResumeRecord->AverageResume =3D DivU64x32 (S3ResumeTotal + Acpi=
-S3ResumeRecord->FullResume, AcpiS3ResumeRecord->ResumeCount);=0D
-++    DEBUG ((DEBUG_INFO, "\nFPDT: S3 Resume Performance - AverageResume =
-=3D 0x%x\n", AcpiS3ResumeRecord->AverageResume));=0D
-++  } else {=0D
-++    DEBUG ((DEBUG_ERROR, "\nFPDT: S3 ResumeCount reaches the MAX_UINT32 v=
-alue. S3 ResumeCount record reset to Zero."));=0D
-++  }=0D
-+ =0D
-+-  DEBUG ((DEBUG_INFO, "FPDT: S3 Resume Performance - ResumeCount   =3D %d=
-\n", AcpiS3ResumeRecord->ResumeCount));=0D
-+-  DEBUG ((DEBUG_INFO, "FPDT: S3 Resume Performance - FullResume    =3D %l=
-d\n", AcpiS3ResumeRecord->FullResume));=0D
-+-  DEBUG ((DEBUG_INFO, "FPDT: S3 Resume Performance - AverageResume =3D %l=
-d\n", AcpiS3ResumeRecord->AverageResume));=0D
-++  DEBUG ((DEBUG_INFO, "FPDT: S3 Resume Performance - ResumeCount   =3D 0x=
-%x\n", AcpiS3ResumeRecord->ResumeCount));=0D
-++  DEBUG ((DEBUG_INFO, "FPDT: S3 Resume Performance - FullResume    =3D 0x=
-%x\n", AcpiS3ResumeRecord->FullResume));=0D
-+ =0D
-+   //=0D
-+   // Update S3 Suspend Performance Record.=0D
-+--=20
-+2.34.1
-+
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ov=
-mf_git.bb
-index cc2ac4268c..ada6ee72db 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -25,6 +25,7 @@ SRC_URI =3D "gitsm://github.com/tianocore/edk2.git;branch=
-=3Dmaster;protocol=3Dhttps \
-            file://0003-debug-prefix-map.patch \
-            file://0004-reproducible.patch \
-            file://0001-MdePkg-Fix-overflow-issue-in-BasePeCoffLib.patch \
-+           file://0001-MdeModulePkg-Potential-UINT32-overflow-in-S3-Resume=
-C.patch \
-            "
-=20
- PV =3D "edk2-stable202402"
---=20
+diff --git a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+index 016614b19c..aa6d908538 100644
+--- a/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
++++ b/meta/recipes-sato/rxvt-unicode/rxvt-unicode.inc
+@@ -28,7 +28,8 @@ EXTRA_OECONF = "--enable-xim \
+ 		--with-codesets=eu --enable-pointer-blank \
+ 		--enable-text-blink --enable-rxvt-scroll \
+ 		--enable-combining --disable-perl \
+-		--with-x=${STAGING_DIR_HOST}${prefix}"
++		--with-x=${STAGING_DIR_HOST}${prefix} \
++		ac_cv_path_TIC=:"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[startup] = "--enable-startup-notification,--disable-startup-notification,startup-notification,"
+-- 
 2.34.1
 
 
