@@ -2,61 +2,61 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC696E7716D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D443CE77171
 	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:36:56 +0000 (UTC)
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
- by mx.groups.io with SMTP id smtpd.web11.25161.1733344612498183070
+Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
+ by mx.groups.io with SMTP id smtpd.web10.25431.1733344607739146930
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 12:36:52 -0800
+ Wed, 04 Dec 2024 12:36:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=WP3ikZjm;
- spf=softfail (domain: sakoman.com, ip: 209.85.210.171, mailfrom: steve@sakoman.com)
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-7256a7a3d98so219024b3a.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:52 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=o7GuvWmI;
+ spf=softfail (domain: sakoman.com, ip: 209.85.215.182, mailfrom: steve@sakoman.com)
+Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-7fcfb7db9bfso140193a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:36:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344612; x=1733949412; darn=lists.openembedded.org;
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733344607; x=1733949407; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=Y+NwRdnPeGyLdeW8vUheYvwrmmGsNozJQ75TO2JAWes=;
-        b=WP3ikZjmIFbj+YJpbpctia6jQiwuhrknnVwPOfbhBMLi8ul8stIDbWLe9XdNtryoz0
-         QePyVjYd0J/uEvgiclRzHXSXo+i/mQgxIHveR8aEDzbPYcxWqtpDzB4MufnLqmr1o2mC
-         96R/yXtIFENzblz9WWosxUhFNHCCmrixZrbQxP2qZIiYXo5aL69FgFTePCPIdaKjeHCU
-         C6xobPHormoTVqm7tGnhv/xZZ3BRAMC5IzEeBSzB/OytRiIPU/7t+rMdeSM7oL62jRrk
-         SwNQqQD69UB10+La9gCa50EZtOQPWunKUkShHhOYt2sm1NjBnUCU3ScZzMjCTNGFELlW
-         ugwQ==
+        bh=NtuWPgKG1m/lXgBoTFH110ylMSID9Co7KmbKiVOkaz4=;
+        b=o7GuvWmIjN0xtcNLeC+a/qfDNqQwi9d7n3Pkbc5DA2NeiuLISqQ+2hsMWCt3eK4Lrg
+         F4CrnykOLQJ6Xd8W8ZfB6/AZUepKOOFu4lgUIzlDKD6S7Sqsli6NVH1cAQACXNbVLkJz
+         nWyk3PakShQ0KyKXxLOoNBCasOZLChDB2sfNVijhRLmM29e7mVUdv/kWGx0DMhxrQ5hC
+         CuylcTyE4rbJaiVcnL0a4mFcIs5howX/MeW3o6uZQloNnrHdhfmIdBwod9i07fXECY9T
+         iyposrhXovl3hSHBumpW3DgskoQPbrMWG5SXg+wNQlvLBMlyAQId/kMIK9wihnLp7V9n
+         b4lw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733344612; x=1733949412;
+        d=1e100.net; s=20230601; t=1733344607; x=1733949407;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y+NwRdnPeGyLdeW8vUheYvwrmmGsNozJQ75TO2JAWes=;
-        b=dMxOFzRRM4C7ZPz7kITFxg/Tqzyg3oP7GcfeErSamvv6aEapsbZFg7LWcBlLY/0I8Q
-         m0kFNzkefKQae6k+caQ8W9sNFf6r/PJ+qdQVojIkt1BgxCzr3fYj87IKe1RBnbGPCEZU
-         n5n7zU/DaY9/Yxp6n+wWrOEab6a+NJlstHAAFaq0DdifUwB74gaLvbgn/LEvnm3z0ccA
-         pSQq5AKGhT7jgKJppG3OLLLjajm2GYpMGfg+z1/rRQ8QEccrYMDwXg6C4/m2eK1srt9n
-         ULnf1O8vFajjz16xUlcfmn5tnld/IN3SxA/LV/QzRR7sxFnMbMZcnGDeXF7KMbrGIzH8
-         we6g==
-X-Gm-Message-State: AOJu0YxzxQb0p/MjUaOLhVUqnBKzn8X2+8aYIfDaDHhq+flC3biO0lzR
-	8n5Z1KSVEpbZcD1w94/VLxDOOnSHJ1z2Ni2lwgmC98ZBof9RUr5gio1dVTtvzPBkOKCdxnK/c7Y
-	t
-X-Gm-Gg: ASbGncuhL+W4eIK3bKNNvcAYZ+Bxv/CXAATPdKIMRoUOTwL5jr0QgsbulaKm4hneF2S
-	TX7WTQNteqJOhD9hZFCXHBZSo3wruAmlLXsvFNCTLQfx3YnoU/B4MMIZiraXvcdxHPuETocuOcf
-	RF3oRRBgHdTh6X1WeaeL16hSuvQB7A0ixjzigKWhQXaSfPJU2DpFu2N0s3GLueSeoBtQY8wyXy0
-	gvWkuaXrTlte1UDEUEfQ0SLMoyNOBBvnOFNqtM=
-X-Google-Smtp-Source: AGHT+IHMRhDbN7wkjuMuETjIQuQguX93YupkdGXScqRJB5kTW+pC5x8fhwtfn28oIsG0XJ5Tt3i+pQ==
-X-Received: by 2002:a05:6a00:2302:b0:725:9608:67c0 with SMTP id d2e1a72fcca58-72596086deamr3059745b3a.25.1733344611811;
-        Wed, 04 Dec 2024 12:36:51 -0800 (PST)
+        bh=NtuWPgKG1m/lXgBoTFH110ylMSID9Co7KmbKiVOkaz4=;
+        b=drS/71vl6Lzk0Ja0w5zrU/DGG5WqCoBQdFzNZ4W8JKyN+Lkp1DtxwiAkn50Lsv3mzB
+         rKgtG3XhqwqB+u/BIhOjI6Ck8l+7a0agisIpKFVcEhR2cu/LA03AwLr8/Jidy004FsiO
+         lwbXV9v4TfFrQDT1++LwIFkRQtriI4unzztBoHO9p9AD6Ij0nP3MRfbgCr/NvR8rl+hT
+         2+VJZKjNgJHT8C3rGaPiFfJauPNsq4h0QIuvPzrpRa/iM4ILsZ2o6ABiy2GSPzSu3oAp
+         c+Vt855/dryhSZ0d16JmUdsxWjCCyks/uwH5kdS5lmYPVq3JzC6fqMfUyNcDPvS9av06
+         qQOA==
+X-Gm-Message-State: AOJu0YymrlJMEUIPazDp35XICv+YQ6m818LuRCco/RhbFh7Iok8tORZz
+	4NGLHoqJ5QVILsI1GHbm5BcaH9Ohz3PjkxGfbbmlDBq+2Ywp3KkzadTzUuc7x69QMXApLOI9A/t
+	A
+X-Gm-Gg: ASbGnctAOyVFE7YQtyXyjFoVHUuWnGfU2kBKYk5dUsBiciPT/KrsvCRSq2ekvTpq2jn
+	fhvF6q61tTip2miV+wcUQ9iXL9K/PtVSEI16GHHSXzF3cndzJMaxSf49TMtnusPY+j0bbwU/lKb
+	pOGHu/VGj4GYTvNGFJtvKw+AKeQv5rjZmlBUbXAkQi+/LsOR0GlBiIeQtqFZYVYExSuA0mjFIo1
+	ez1ndV8TppXKjmHPe93PTZEZNooK8VxVfHp4+o=
+X-Google-Smtp-Source: AGHT+IGhgTwT5aqDQFNsa6oRY/tIWOwAEhCNfxM0SE6hVsFcZenDqM8bZvOgTSI/xlyxc/4fNaVqlw==
+X-Received: by 2002:a05:6a21:9989:b0:1e0:d663:1d12 with SMTP id adf61e73a8af0-1e1653f2f3amr10794712637.34.1733344606951;
+        Wed, 04 Dec 2024 12:36:46 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.50
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7254176f3d7sm12827805b3a.55.2024.12.04.12.36.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 12:36:51 -0800 (PST)
+        Wed, 04 Dec 2024 12:36:46 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/15] resulttool: Improve repo layout for oeselftest results
-Date: Wed,  4 Dec 2024 12:36:22 -0800
-Message-Id: <92cb4641ff4ec8c1f681bca21cfeaf2ba6923ab7.1733344462.git.steve@sakoman.com>
+Subject: [OE-core][scarthgap 12/15] resulttool: Handle ltp rawlogs as well as ptest
+Date: Wed,  4 Dec 2024 12:36:19 -0800
+Message-Id: <6b164f7fe556824c85873ce2ca4257b3a4956cdf.1733344462.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <cover.1733344462.git.steve@sakoman.com>
 References: <cover.1733344462.git.steve@sakoman.com>
@@ -66,36 +66,103 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:36:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208343
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208340
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Having all oe-selftest results on top of each other results in a large 640MB
-json file which is hard to use. Split the results out per machine and test type.
-
-This also stops the toolchain raw logs from overwriting each other meaning more
-than one MACHINE is preserved.
+Improve the rawlogs handling to include ltp logs as well as the ptest ones to
+reduce the size of the results git repos.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4b890f04bc7d147b4a11b824a84f3d2abd75ac54)
+(cherry picked from commit a0a1954d559609c2c1ca16936d0d68eb3c4c6b45)
 Signed-off-by: Steve Sakoman <steve@sakoman.com>
 ---
- scripts/lib/resulttool/resultutils.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/lib/resulttool/resultutils.py | 33 ++++++++++++++++-----------
+ 1 file changed, 20 insertions(+), 13 deletions(-)
 
 diff --git a/scripts/lib/resulttool/resultutils.py b/scripts/lib/resulttool/resultutils.py
-index 760e426de0..b8fc79a6ac 100644
+index 8fd4e0a9cf..b9b93afaa6 100644
 --- a/scripts/lib/resulttool/resultutils.py
 +++ b/scripts/lib/resulttool/resultutils.py
-@@ -34,7 +34,7 @@ regression_map = {
-     "manual": ['TEST_TYPE', 'TEST_MODULE', 'IMAGE_BASENAME', 'MACHINE']
+@@ -14,8 +14,11 @@ import scriptpath
+ import copy
+ import urllib.request
+ import posixpath
++import logging
+ scriptpath.add_oe_lib_path()
+ 
++logger = logging.getLogger('resulttool')
++
+ flatten_map = {
+     "oeselftest": [],
+     "runtime": [],
+@@ -38,6 +41,12 @@ store_map = {
+     "manual": ['TEST_TYPE', 'TEST_MODULE', 'MACHINE', 'IMAGE_BASENAME']
  }
- store_map = {
--    "oeselftest": ['TEST_TYPE'],
-+    "oeselftest": ['TEST_TYPE', 'TESTSERIES', 'MACHINE'],
-     "runtime": ['TEST_TYPE', 'DISTRO', 'MACHINE', 'IMAGE_BASENAME'],
-     "sdk": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
-     "sdkext": ['TEST_TYPE', 'MACHINE', 'SDKMACHINE', 'IMAGE_BASENAME'],
+ 
++rawlog_sections = {
++    "ptestresult.rawlogs": "ptest",
++    "ltpresult.rawlogs": "ltp",
++    "ltpposixresult.rawlogs": "ltpposix"
++}
++
+ def is_url(p):
+     """
+     Helper for determining if the given path is a URL
+@@ -108,15 +117,14 @@ def filter_resultsdata(results, resultid):
+                  newresults[r][i] = results[r][i]
+     return newresults
+ 
+-def strip_ptestresults(results):
++def strip_logs(results):
+     newresults = copy.deepcopy(results)
+-    #for a in newresults2:
+-    #  newresults = newresults2[a]
+     for res in newresults:
+         if 'result' not in newresults[res]:
+             continue
+-        if 'ptestresult.rawlogs' in newresults[res]['result']:
+-            del newresults[res]['result']['ptestresult.rawlogs']
++        for logtype in rawlog_sections:
++            if logtype in newresults[res]['result']:
++                del newresults[res]['result'][logtype]
+         if 'ptestresult.sections' in newresults[res]['result']:
+             for i in newresults[res]['result']['ptestresult.sections']:
+                 if 'log' in newresults[res]['result']['ptestresult.sections'][i]:
+@@ -155,9 +163,6 @@ def generic_get_rawlogs(sectname, results):
+         return None
+     return decode_log(results[sectname]['log'])
+ 
+-def ptestresult_get_rawlogs(results):
+-    return generic_get_rawlogs('ptestresult.rawlogs', results)
+-
+ def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, ptestlogs=False):
+     for res in results:
+         if res:
+@@ -167,16 +172,18 @@ def save_resultsdata(results, destdir, fn="testresults.json", ptestjson=False, p
+         os.makedirs(os.path.dirname(dst), exist_ok=True)
+         resultsout = results[res]
+         if not ptestjson:
+-            resultsout = strip_ptestresults(results[res])
++            resultsout = strip_logs(results[res])
+         with open(dst, 'w') as f:
+             f.write(json.dumps(resultsout, sort_keys=True, indent=1))
+         for res2 in results[res]:
+             if ptestlogs and 'result' in results[res][res2]:
+                 seriesresults = results[res][res2]['result']
+-                rawlogs = ptestresult_get_rawlogs(seriesresults)
+-                if rawlogs is not None:
+-                    with open(dst.replace(fn, "ptest-raw.log"), "w+") as f:
+-                        f.write(rawlogs)
++                for logtype in rawlog_sections:
++                    logdata = generic_get_rawlogs(logtype, seriesresults)
++                    if logdata is not None:
++                        logger.info("Extracting " + rawlog_sections[logtype] + "-raw.log")
++                        with open(dst.replace(fn, rawlog_sections[logtype] + "-raw.log"), "w+") as f:
++                            f.write(logdata)
+                 if 'ptestresult.sections' in seriesresults:
+                     for i in seriesresults['ptestresult.sections']:
+                         sectionlog = ptestresult_get_log(seriesresults, i)
 -- 
 2.34.1
 
