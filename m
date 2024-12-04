@@ -2,119 +2,97 @@ Return-Path: <steve@sakoman.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35EB5E77177
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:45:37 +0000 (UTC)
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
- by mx.groups.io with SMTP id smtpd.web10.25622.1733345127829384631
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29648E77170
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:45:47 +0000 (UTC)
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+ by mx.groups.io with SMTP id smtpd.web11.25348.1733345141066112831
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 12:45:27 -0800
+ Wed, 04 Dec 2024 12:45:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=uzYvvM1o;
- spf=softfail (domain: sakoman.com, ip: 209.85.214.175, mailfrom: steve@sakoman.com)
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-215bb7bb9f9so1340145ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:45:27 -0800 (PST)
+ dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=BBXcZLnT;
+ spf=softfail (domain: sakoman.com, ip: 209.85.214.174, mailfrom: steve@sakoman.com)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-21561af95c3so1175455ad.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:45:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733345127; x=1733949927; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to;
-        bh=8uJynsvXOdSkQbEcQszaKnWJqXNq/1enK1dM6jFULlg=;
-        b=uzYvvM1oFFM7oX9FRn1k6R7u907xpyZLLDGlS20rE39u9efcMj8rbddykGDfiaGOIk
-         alEwfAe6sFjMcNSzE1G/IKpu4slzTF9pQaqBp4v53wTYihZCGOUnmJ3GmacmUjroYfcQ
-         5Vi9WN5hEeL90kpiAIiHfzPMkYM0qqmcw2Fiy0e9QuUUuzgItXg0gB31CeNSXlvwZPqV
-         RGWE7jILt3LSexevyqaEinUwtXFFfqTXXLsKV0jh8J85jh1lWk3zVWRcB12N+v5x6D4z
-         FN/pYUff7EeV8Mm8X+GxOrVa3Vb/IdMoya26sjoCfUA7vZW34AXWNEIiKnEB2wIrr5SW
-         HLCQ==
+        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733345140; x=1733949940; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pS5Dzor0W9iUDuKafvxj246UrBt7NjTx4a4U1Q2s7K4=;
+        b=BBXcZLnTjJtpYKbc0azenjfouWejldmPgnNNph36CnKXlegTQHORTwUEKvtqO6L7lh
+         AQ4cL1sg+TUAZWrLutUyfPPZhvtvxXRblVUPiWkzCGJH9qQvyn2zC4DNrH6/5vZ+JK17
+         gEE6VifmrOoX8Ju7PKAkyBYn2fyugN4hYQIukMR7CSF2GmCN9YrAHr3whbZzbyNklWAW
+         zIfS7hHmT1aBObQwqJ7x9DXU+NGT4/uixT08irwgHFmydgJ60tYCHa1hc9hopojarGfV
+         3tnEVbzAn5+7+F0XbllhwP73OBVPQZGPDooBu1JoZULb5aLbEvwAbsw27vH//a4P3eus
+         TMbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733345127; x=1733949927;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8uJynsvXOdSkQbEcQszaKnWJqXNq/1enK1dM6jFULlg=;
-        b=weSvob4Xh9KPwYD9zUQemn5I6fRzXRBsZmRabfve3X56EpATXFF/D75IIU0rFkAr1A
-         QAlaMfhI6kBWGis+Dhw89hfvwA/wlMVgbzXPGP2AvsxjTY4ZuLtSuLPWJjFDWPDk2X9I
-         5OFjDhyMJHzFgdxSUTH9yK6vzjEbJMdQX6TvLMRPF9VNeapymBMbhLTdL4eMmdcbQzD7
-         cLkQ2r9k6YUIDB8pUpFuaJs8ukXnbntzlvBAvWLXAQ+SxPRmCDyBLfDeOti4lG9fdxJI
-         Zl9trtE1SD4tZueZnsweRPKDKN/xtV2Vb79/VvCdKOJcMYYtJ+kvGc/2M9eFpjIfTngc
-         gEgQ==
-X-Gm-Message-State: AOJu0YzYI5zoXp08YJCVb8ofIK/A3cfZKAEB7GJlluoARgbt2ZPQe7Or
-	E7EUjJT/miWeOpRcj8QxceGBtHaLSHU+xbXR0VR0qhE1bnZxRwS0VVHSD9mzo+6EItur9LA23i2
-	E
-X-Gm-Gg: ASbGncuyEcUEC4QU3xKbqKHt8HarUsOrHXmnAJ+wKv7gIBmD5hqcyc4owcGCpUrhDVg
-	tc7cwXgo9IHegcD2uJuxwQY/baa02/dhJTB9mH9gUph/Wt8Jyiz+WGk4Y2txokPzQT4C8fM+tsd
-	kv10MGozPdlOtLPo9bJbAThz62f4P8HOztDUn8j9wheNnpPCcPGWsVC4rj6dy7XT7j6A2ZEJTas
-	KTWsAztK0i66ni6Vw+TPGhOelFNqTFGLmqpUI8=
-X-Google-Smtp-Source: AGHT+IF0TPB4vAoCpOTL92JRXmHVGkpyyg7Sg3tfDCpKtjnsHlSqvyomKY67BywEzYVQYqvQvQHbMQ==
-X-Received: by 2002:a17:903:41c8:b0:215:4d90:4caf with SMTP id d9443c01a7336-215d003e7ecmr86654075ad.14.1733345126669;
-        Wed, 04 Dec 2024 12:45:26 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733345140; x=1733949940;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pS5Dzor0W9iUDuKafvxj246UrBt7NjTx4a4U1Q2s7K4=;
+        b=GnvriYRjBvu9eOFRKz3dHt8JiMeB3wDpO+VQ3nlUCPPt8GEI4Jsx85yaxXWK9m9stb
+         JzbwqLR6vSXhiSDgSg1ltBpjYozCjwJAupV7VhjeG2lbRApWAVWIobl5agSe39Qadup3
+         RViT1IO8sDbvAeNoH4uBFEEbsojygGjx1LKsI8UWG5Mg0s5TIBKozbp0WlxX9dhJ4zAH
+         KOxFAWMlCkblfbylaor6R3nkGvfww8Zh5rME8Kon/cnj0iqBBvPWL8J5gZKrfVbHNesK
+         dB8qGKIrL+RRZ+Cq7oS0dYpqLLz9b7Hkq+lGGE0Xyk0/WkSSFssikQ2fIBnl/0osB7+Y
+         4qtg==
+X-Gm-Message-State: AOJu0YypDDts5dhs/D7ojgU0w5/B0z8xBqAkHw4YNVYoafo6M9LXUGit
+	yiJyX69MFnWjGY0bQN3ZiaCCbMBfXLiURGnv+e7o/rulEGqwVjUOJlZpt2whpRv9SqrEFuTuxs/
+	F
+X-Gm-Gg: ASbGnctMMCgpl5V77+QLacpZoDmj6AP+1RDV71pECasHDQvdUV4n2iwpY3rVSGHSpUF
+	JlKmTZ2kO4GbMNxH3fPcu5JKIXDJAhkRKrUoPbWc2YhuJKYKoW0ejdxCsVB2F8PjcZgyUEQKfRD
+	PN86bfodrbK51QLoORpqUBpj2EPsRbZ75wiDaX6gokbgIide/+yZ/ape4uyYSu/dBWvcosxYp3r
+	C5Pp0wyYC/E2/hFupOkfVdo5DStSLOyYtj55fI=
+X-Google-Smtp-Source: AGHT+IHzlsta8rpvk/KArD1L3sij+WTZHKAFJ490PG+JZffp4dSKWXa3EJPNvMfkNb9wSywuZ0f0bg==
+X-Received: by 2002:a17:903:189:b0:211:6b21:5a88 with SMTP id d9443c01a7336-215bcfbe4f4mr94048845ad.20.1733345140361;
+        Wed, 04 Dec 2024 12:45:40 -0800 (PST)
 Received: from hexa.. ([98.142.47.158])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2154dae56e8sm91387575ad.19.2024.12.04.12.45.26
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2154dae56e8sm91387575ad.19.2024.12.04.12.45.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 04 Dec 2024 12:45:26 -0800 (PST)
+        Wed, 04 Dec 2024 12:45:40 -0800 (PST)
 From: Steve Sakoman <steve@sakoman.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead 00/14] Patch review
-Date: Wed,  4 Dec 2024 12:45:09 -0800
-Message-Id: <cover.1733345023.git.steve@sakoman.com>
+Subject: [OE-core][styhead 09/14] resulttool: Fix passthrough of --all files in store mode
+Date: Wed,  4 Dec 2024 12:45:18 -0800
+Message-Id: <ad850837d3a45fa7cc094e3eb9c059120664c8e2.1733345023.git.steve@sakoman.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <cover.1733345023.git.steve@sakoman.com>
+References: <cover.1733345023.git.steve@sakoman.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:45:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208344
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:45:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208353
 
-Please review this set of changes for styhead and have comments back by
-end of day Friday, December 6
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-Passed a-full on autobuilder:
+When using store mode, --all was broken as not all files were being preserved.
+Fix this by limiting the scope of the git rm command.
 
-https://valkyrie.yoctoproject.org/#/builders/29/builds/583
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 9604561d2022b6c76b1cb4186d40800d1affdd2b)
+Signed-off-by: Steve Sakoman <steve@sakoman.com>
+---
+ scripts/lib/resulttool/store.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit b511d0146a2e8f316f4aecc90c853215674013ea:
-
-  build-appliance-image: Update to styhead head revision (2024-11-30 05:43:10 -0800)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/styhead-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/styhead-nut
-
-Changqing Li (1):
-  rxvt-unicode.inc: disable the terminfo installation by setting TIC to
-    :
-
-Deepthi Hemraj (1):
-  glibc: stable 2.40 branch updates.
-
-Richard Purdie (12):
-  do_package/sstate/sstatesig: Change timestamp clamping to hash output
-    only
-  selftest/reproducible: Drop rawlogs
-  selftest/reproducible: Clean up pathnames
-  resulttool: Allow store to filter to specific revisions
-  resulttool: Use single space indentation in json output
-  oeqa/utils/gitarchive: Return tag name and improve exclude handling
-  resulttool: Fix passthrough of --all files in store mode
-  resulttool: Add --logfile-archive option to store mode
-  resulttool: Handle ltp rawlogs as well as ptest
-  resulttool: Clean up repoducible build logs
-  resulttool: Trim the precision of duration information
-  resulttool: Improve repo layout for oeselftest results
-
- meta/classes-global/sstate.bbclass            | 16 ----
- meta/lib/oe/sstatesig.py                      |  7 +-
- meta/lib/oeqa/core/runner.py                  |  2 +-
- meta/lib/oeqa/selftest/cases/reproducible.py  |  8 +-
- meta/lib/oeqa/utils/gitarchive.py             |  4 +-
- meta/recipes-core/glibc/glibc-version.inc     |  2 +-
- .../rxvt-unicode/rxvt-unicode.inc             |  3 +-
- scripts/lib/resulttool/manualexecution.py     |  2 +-
- scripts/lib/resulttool/report.py              |  2 +-
- scripts/lib/resulttool/resultutils.py         | 76 +++++++++++++++----
- scripts/lib/resulttool/store.py               | 26 ++++++-
- 11 files changed, 100 insertions(+), 48 deletions(-)
-
+diff --git a/scripts/lib/resulttool/store.py b/scripts/lib/resulttool/store.py
+index 430213bbfe..903e29627a 100644
+--- a/scripts/lib/resulttool/store.py
++++ b/scripts/lib/resulttool/store.py
+@@ -69,7 +69,7 @@ def store(args, logger):
+                 logger.info('skipping %s as non-matching' % r[0])
+                 continue
+             keywords = {'commit': r[0], 'branch': r[1], "commit_count": r[2]}
+-            subprocess.check_call(["find", tempdir, "!", "-path", "./.git/*", "-delete"])
++            subprocess.check_call(["find", tempdir, "-name", "testresults.json", "!", "-path", "./.git/*", "-delete"])
+             resultutils.save_resultsdata(results, tempdir, ptestlogs=True)
+ 
+             logger.info('Storing test result into git repository %s' % args.git_dir)
 -- 
 2.34.1
 
