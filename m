@@ -1,876 +1,529 @@
-Return-Path: <steve@sakoman.com>
+Return-Path: <randy.macleod@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 787C4E7716F
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 20:49:47 +0000 (UTC)
-Received: from mail-yb1-f178.google.com (mail-yb1-f178.google.com [209.85.219.178])
- by mx.groups.io with SMTP id smtpd.web11.25440.1733345379607978459
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 974D2E7716F
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 21:23:37 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.web11.26230.1733347407656686983
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 12:49:39 -0800
+ Wed, 04 Dec 2024 13:23:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@sakoman-com.20230601.gappssmtp.com header.s=20230601 header.b=suGjhuJV;
- spf=softfail (domain: sakoman.com, ip: 209.85.219.178, mailfrom: steve@sakoman.com)
-Received: by mail-yb1-f178.google.com with SMTP id 3f1490d57ef6-e3971be41d8so225133276.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 12:49:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=sakoman-com.20230601.gappssmtp.com; s=20230601; t=1733345379; x=1733950179; darn=lists.openembedded.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dfCEpFomAxd84A5kps5EYVEyHWTWgGcwPxJJGu4NCeI=;
-        b=suGjhuJV3apb6GToefIWsbSgtyW5dvU+yNctnmRl6IMUplKgDFxnXFZQup9L7kk7P5
-         +uCwn+7iKDCRBPXu1IQLAyjE/LsmsMkXEe/XpKnBiKPxebs4357f6sDNrbAMqzLgKsSa
-         Gt8XMVRbNKGn5chUTyysUN1H/+s3DV5/urrAmX6zJ+ebrfDAAdWZJV67PRRyqaZ0e+OX
-         497suFeV59X62fzcklSWXkLnWkweU9uZ1tjETW1LkK+jgoklLLMD7LwCoWamNbsFJmAu
-         jVeNbt5vzgN2soja3F/S7dGbcdfldrDjHAD+ry6EgzdSPxPC9wE2zb5Yt0yMLlaZC/0e
-         NXOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733345379; x=1733950179;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dfCEpFomAxd84A5kps5EYVEyHWTWgGcwPxJJGu4NCeI=;
-        b=tQB21qWHIDQnBjkm+GMzfjhmh7NETLwM1Q6AmYZF6Tn8BANzsi0r/jRDqBS/mBM+ng
-         gxlJtbRiwttoHTn457XOzXuyZzPOC1FpoLgd+lglXY72O8XWeXtaKvEdBZEsDirZJM1S
-         KHnIy0oCOblquqKOZ/3YD5y1EO6fxJGMtTOCjuN+mk1NeX529PIOzDrWWe4oZQyqhWma
-         5ZKI9fU0Vs/ffjbYrBjI8gK0Ff0d3qqQ88sR9dQ8ICTSxmuQzwsYpvK18tOAg946Wwi1
-         dtw2HlJuDJDvoUZmatuBPGgpkNeLMDa1vZkPhZyFNQlRjw3Njez9GpSqZyKonfEEQ2aI
-         Doyw==
-X-Forwarded-Encrypted: i=1; AJvYcCUCl7mnb2XJVIeTqLeNQ/JJ9AwYzixR+BUiuamJ6jf2eWTBvvCaVkRhFGsFbnxVl5MCJM9QlPzhIN4o6nvfjJ480Q==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yx/WDQx1GUpeKQWy2SD0aW7BsLjGBXuFjDt0scozbcQoswzSdet
-	kJZnjwl7u8cQu8leCS/ZnBxHyNpy7RzTZjNRfUzPsa9TUH2EvPrWuE2cTJzUY29nR5mNFzX9epA
-	T+8GAy3SFJAZ5xkEkBQuYRXB+AycvtYXJT/HMI2f1JElPX1KDkDo=
-X-Gm-Gg: ASbGncuRQzj4GJ00OdTIAtX3xkhU/O2bL1ZZciazD6XR7IB4o2/RHltUi53J+jHLkQZ
-	yVUCjWjZdBDQ3wtB7cqRTSqzdsLPDGfQ=
-X-Google-Smtp-Source: AGHT+IEMj00/2z009kj08NaEfphsW2SzRFwWMULAA+0JPgdi2+YzZdgF1AZ/r14YHo0Bp2VyI1WuAjht6djbSd3zSIg=
-X-Received: by 2002:a05:6902:1209:b0:e30:d158:988d with SMTP id
- 3f1490d57ef6-e39d39edae5mr6783192276.9.1733345378568; Wed, 04 Dec 2024
- 12:49:38 -0800 (PST)
+ dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=20682b3ba7=randy.macleod@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B4LJREh000574
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Dec 2024 13:23:27 -0800
+Received: from pps.reinject (localhost [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43833q4yf4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 13:23:26 -0800 (PST)
+Received: from m0250809.ppops.net (m0250809.ppops.net [127.0.0.1])
+	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 4B4LNQi2005787
+	for <openembedded-core@lists.openembedded.org>; Wed, 4 Dec 2024 13:23:26 -0800
+Received: from nam12-bn8-obe.outbound.protection.outlook.com (mail-bn8nam12lp2170.outbound.protection.outlook.com [104.47.55.170])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43833q4yf3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 04 Dec 2024 13:23:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=V8PJv0/H8BV8nbZeuTk82EshXbTFQDgYhgJ6xGMyVc2c1cEF9DMV77YYiL4UaS4EodmnxDaHqMDTXUeXpXEa9ZCNoQT2T+IrHiyoFTzFMVpaHhuR2x2SI92UnadJW+uGTp8jDq++D0MZ7MGdwpYEFLvxpzHy14y2bFCKGlwquNkOOOQEyE+asx1TPb5JcFRY6A9q2r9B2JbYLDRTAoPFX/a4Q8/AX6Fw0f+iJcxq2ikovvJFK2UuO4dJgMxVI1x9FkI6bzYZHqrKdu7E5kNG6Htdxadnv4t7d0LOu7G+WCpafTwo4bNhGbeTb2qoRFQ2MpaOEA2R9R2ghKXvO2NHTQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=3uMENxyiOeY7gqAZAenMRp2lkdmnVDLN+jrZ7CBB0zQ=;
+ b=CnwFUwuVwaUSkm2V28TJqfP8bYxDYf2E/J2KMCznKft/m3080xZzt9+bpAhLmX8rq8oo2lLA795Hz/kULlJ+LmDJ/Ampvehx/fY2gVCDxOianQY4WiRkXH7Ea7/gb5tDeDBPmaj4E0Nk409E7G3s01irRsDWwLN8rmmQaIOWaiVoujgjPzgznKnPgsXNkGfIWuqGErr7uKhieqoHPcxusA95j8yDn9eaK+S+X6rGhAx1eIjSoNJvGqkmKuyQ4zGYaDaZdAAitlb1ji4iZhCt9QVu0MU5BbsD2M3m/JaT7/1DBjtK6iEElnpwRALva5M6rr4ENLQN2Sxjt5vH8pNKAQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com (2603:10b6:610:1ba::22)
+ by IA1PR11MB7680.namprd11.prod.outlook.com (2603:10b6:208:3fb::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8207.18; Wed, 4 Dec
+ 2024 21:23:21 +0000
+Received: from CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552]) by CH3PR11MB8496.namprd11.prod.outlook.com
+ ([fe80::cdc3:a646:2a93:9552%3]) with mapi id 15.20.8207.017; Wed, 4 Dec 2024
+ 21:23:20 +0000
+Content-Type: multipart/alternative;
+ boundary="------------HPwkRKuJmT4eF4bUK0spDQuU"
+Message-ID: <1841fe4a-9c73-4205-8146-59c124d6ce61@windriver.com>
+Date: Wed, 4 Dec 2024 16:23:11 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core][scarthgap][PATCH 1/1] Revert "ruby: upgrade 3.2.2 ->
+ 3.3.5"
+To: Steve Sakoman <steve@sakoman.com>
+Cc: Yogita.Urade@windriver.com, openembedded-core@lists.openembedded.org,
+        "Yang, Liezhi" <Liezhi.Yang@windriver.com>,
+        "Jia, Hongxu" <Hongxu.Jia@windriver.com>
+References: <20241203101426.2227535-1-yogita.urade@windriver.com>
+ <5623da37-3663-4bc0-9b50-a5efa34d72ad@windriver.com>
+ <CAOSpxdbWAHY7H9QKsfP8xCLaeq_R1f9zhy7MsuO0T6h7PhBsPA@mail.gmail.com>
+Content-Language: en-CA
+From: Randy MacLeod <randy.macleod@windriver.com>
+In-Reply-To: <CAOSpxdbWAHY7H9QKsfP8xCLaeq_R1f9zhy7MsuO0T6h7PhBsPA@mail.gmail.com>
+X-ClientProxiedBy: BYAPR07CA0003.namprd07.prod.outlook.com
+ (2603:10b6:a02:bc::16) To CH3PR11MB8496.namprd11.prod.outlook.com
+ (2603:10b6:610:1ba::22)
 MIME-Version: 1.0
-References: <20241203101426.2227535-1-yogita.urade@windriver.com> <5623da37-3663-4bc0-9b50-a5efa34d72ad@windriver.com>
-In-Reply-To: <5623da37-3663-4bc0-9b50-a5efa34d72ad@windriver.com>
-From: Steve Sakoman <steve@sakoman.com>
-Date: Wed, 4 Dec 2024 12:49:27 -0800
-Message-ID: <CAOSpxdbWAHY7H9QKsfP8xCLaeq_R1f9zhy7MsuO0T6h7PhBsPA@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][PATCH 1/1] Revert "ruby: upgrade 3.2.2 -> 3.3.5"
-To: randy.macleod@windriver.com
-Cc: Yogita.Urade@windriver.com, openembedded-core@lists.openembedded.org, 
-	"Yang, Liezhi" <Liezhi.Yang@windriver.com>, "Jia, Hongxu" <Hongxu.Jia@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR11MB8496:EE_|IA1PR11MB7680:EE_
+X-MS-Office365-Filtering-Correlation-Id: a98eebca-faab-494a-347c-08dd14a9e097
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|366016|8096899003;
+X-Microsoft-Antispam-Message-Info: 
+	=?utf-8?B?enl5aHUvUTNvQnZOeDV5KzdyU24yQkM4UEQwWlJ1akZHVnVQdEZBNSs5bG1R?=
+ =?utf-8?B?NzVKMjRhWnMxcVMwZnViQUZtQmt2d1JKVy9TblVMQ2FuMWRYZ1dtMUhVM3Vq?=
+ =?utf-8?B?Vm8waSswQ2hrT0s3OE1SK053UThkWkJob3FKNm1GeGQ4OXYyMTdJbjlvMXpJ?=
+ =?utf-8?B?RUY1K0p2U2R6N0NrT0NBQmpjZGNFV2xpYWV1aC9JNlJxRWp1d1Y4UHppSWM1?=
+ =?utf-8?B?bVBiYXNHMnhkdDQ3dXBOZ0RZK0RMRCtVbXJZVU9NSDBhRHQvNDVRMjQybWZl?=
+ =?utf-8?B?bkpSUitWWTYxSytENWI2cUVoZlRYZTR0bS9vQ0hGSmJMSjdpelkrd0cyM0Z4?=
+ =?utf-8?B?alFBa0xDZk9mVVpaNmx2cWlWV3lQZjAxV0FESXNRdk53TXJkd25rNUhOR1k5?=
+ =?utf-8?B?a0tJZ0VFUkFUR1lkNWFqYXZvSVlPNkFEZDNrcjg4bFVOTjZ3MjZjWjYrWXVx?=
+ =?utf-8?B?UHBacU5hRGRkUDRsUW9BdmJ0eXBWSlZtaWRuelVlWXk4STlHSG9rVFpRNXA2?=
+ =?utf-8?B?YU5qNXRKelZnbzh6eDV6NnVqRGxvVlVLQ1l1dFdzUVh4QitRN2xhUmZnRXVu?=
+ =?utf-8?B?aUpxN2V6TlI3WmJtRkZKY09ndXYwVUlDMHJxb1JvVGZ1TkNoemdkUEQvTE5J?=
+ =?utf-8?B?Y2ZnSFFzWk5vbzZNYytReDZPM0tCMVhGdUtpdW54MEEvSlJ5T2lSaGtMYlk5?=
+ =?utf-8?B?b3ZHRng0S0VEVDdEVjJmbEdQZXdGOWdLRDlhYTg1UEhUWElRWWM0dnFsekN2?=
+ =?utf-8?B?cmVLSStNVW92ZG02WmhsZjRnTXZ5VngrYVVDRytsMWF1QnM5MFRhR1podDJN?=
+ =?utf-8?B?d1RJUlhkMG1kbUppUzJiRG8rNmhacE5vTnBkMnY2VnVLdXNYT3VBMkpxbXk2?=
+ =?utf-8?B?cUFwd3BBR0V5ZmJHcnVRSGluV2xLK0lGMlpweGp6emgra1NuOTY3RGNGaE1T?=
+ =?utf-8?B?UWlxS0I5aHQvcVlNYnBkR3BqSXVrcytmaEZuK1g4cGpnTlJEVU83T2xqbURV?=
+ =?utf-8?B?ZFNQeHUxbDZNUFdTRmxFeG54OGU5dlRYUEZSN0s4eFdPSytCaURlc2R5Q0Y0?=
+ =?utf-8?B?MVByKzk0a1NGbzhJZmxtbmFSZ1hubU5mUzVFejNCaGsrRFgxNk5kWWNpYWJK?=
+ =?utf-8?B?anZaRzl1R1hEWE83Z2g4Wlp4U3JFSEpsMWtmTFVyTGt1Nitwd0Q2L2RWOFFy?=
+ =?utf-8?B?THg5TWg3aW1aVlpvUTVQNVFuekp4SEwxVWtiM216YTRYNGxPeVo0eHR0QUwy?=
+ =?utf-8?B?TXE1ZENPdzRNRXg0UVM4RlAwUU1kRzlTYUJEUDNxODBTdVVjTWh2QU5UOGE2?=
+ =?utf-8?B?b2luUlBEeTJtaDVaQ25iT3B6dDh0K3lLUUhkc1FGRjRBOVc2REtTMGdabFdp?=
+ =?utf-8?B?OWFlNVlZcFVDNHpWTEdwa3FxdVFiOUJnV2M4eE9pNmNRR0NWYjV0MHI4cEha?=
+ =?utf-8?B?bUcwRXlOQmRxbW1mbzFWdktxeUdvZGx0WUZTUHE3cHRQTE9LaElKL2kzTjFq?=
+ =?utf-8?B?WEg1aURXOEkralFka2kyQlIxa0tkZVN5OTBoNWlGM3g5QWw0ZEVHdkdBN2s0?=
+ =?utf-8?B?RWdmdzhJWXZJMEx1ZlNjSFBhVnVzVnU2UmFBSXNRb204Lzk3di9sYnp1RC9J?=
+ =?utf-8?B?QmhaSExRMXV0N1U4MHZBcVhHd2NObzdVblZ0RGU1SVZrbjlnTnMza2ZnUnBS?=
+ =?utf-8?B?anlZZFRSYmIxVDlMdkNCa1E5YVRtZjhJZlhZNEM2NWlZSDg4eGxJSWE1R3JK?=
+ =?utf-8?Q?Kn7dRRDcKjPq5ojimQ=3D?=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR11MB8496.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(8096899003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?eFZKbHNMTVBoeG5zcHBFL1BLUVJyS2pkMGNRcHFQVTdrcW1DTzByUUxWUE5n?=
+ =?utf-8?B?UVhjZ3UzNWNHcEdUS21SbmNOV3NCYVlVcDBwRkcvYTNVemdxbWhndGR0dWJh?=
+ =?utf-8?B?UGVKbkt0ZmQ2RlZFSVVaN0IyMGcwb01XM2d0WjA3U01IYjMvME9ZaHlMdktq?=
+ =?utf-8?B?NVlpVks4V0RhcnBodlFQeldBSWVwUUJIWlY0V3NxMVJlcUE5SE1ZUi92eTBk?=
+ =?utf-8?B?c1FjbHRvaU8zYkdqY3ZhZEFuc0lSemZXdnUzNkErSEt4cFNkQnR0TWgxQzRE?=
+ =?utf-8?B?ZnlBU2E1SWp4YXdLTUZMMzFObTFVbmF2TzREaG5KVEliQTRKbGRlU1l6WkdB?=
+ =?utf-8?B?c1I4MDc3TnJVc0hxZ002cmVzeHJQQXdOVnQvQlVSQUo2MlJzWXAzVmJTSGVa?=
+ =?utf-8?B?ZlI1UW1VK3ZjSDFScUtnU0psN3JPM0N2czZMQWxrNUJlN25aSXpiaVc3cTBj?=
+ =?utf-8?B?RkhvNi9vd0VuZzJuMzRmY2VwLy9wRFh2T3RodVNMN0NIUkpGWEF3eFFXVmdr?=
+ =?utf-8?B?RUdKSWNPMEZkdW14WjBCTk8wc29vMk8vVjdHaGtGWHgwcDFRdXFIeXBYNjI0?=
+ =?utf-8?B?ZWhpdmdyMUhDVlZEQjJLRzkwdG1ib05JTnBxNWE4TDUzbk9YR0ZDSGxxVndO?=
+ =?utf-8?B?Z09ZUlhqcGUxZERCajU2SDVtVHRTMkZUaUNJNVBuOUJLY0ExUWlJRHBCa2Zv?=
+ =?utf-8?B?VW4yVGxwUGQyOWxtemwwakJwRHRxWnhDcW1VeWVucFBBZEg2S1hwL2xRbitY?=
+ =?utf-8?B?RmJFNkdFL1phdkxwNW4vWm1Ra2UxQ3M2aUhCSEg3VnozakFOVDZUMjdTY1JC?=
+ =?utf-8?B?NlE5NHZTK0R1L1lhMGtmeXZCUk8wc2YxNFU5VFVDZVAwK0hlZU4wU2w5YTkr?=
+ =?utf-8?B?RVdsbXlWR2E3cVd2NTJ6c0ZaTzEzR2cxdWhIdWtqTW1od014dVhVcW5YWXF6?=
+ =?utf-8?B?TkRxZG1XRi9uZDFITDBiVzRvNnBCTUs2Z0FTcGREWkNRRWpONnRSN3NQY1BT?=
+ =?utf-8?B?VXhhQTZlZEMwTTBray9pTmFUcUxQNUpoSlN6VnBzb05Jb1hxdGxTTHA4Rmlp?=
+ =?utf-8?B?VURRS1NZK1h5bW9rNVVWTmg0SUNIOTRzNzdzU1BrNDBQdVB0M0h6K25YSVdr?=
+ =?utf-8?B?ZWtuZ1pNbFh1QzJ0bk1EVEliU1JCeWRyQ09Yc1hiT3ZwRkI0Z0owK2xCWFQ1?=
+ =?utf-8?B?MjlJMzYxcnJoUWNmU0RFSElPazlkR0xxZlAySmphWm0wK2hDK2NwZDNrUFFO?=
+ =?utf-8?B?Y1JybDlTSXJGeFVxQ2tVc1hNSUZOZHc5Qk5aVWFPZDNkcVhDVlJwVzdxUy9u?=
+ =?utf-8?B?Ujd3eCtuWXp5RHRXM1ExNHJ4aDVnYkQ2MUlyaGxqYXFaU1JqdXBXVWYyZDVZ?=
+ =?utf-8?B?RXh2UlVDaHZmOHlIS3hCT0RzS2RxWUxxdm5uVkF4eWY2SWxCaEtoeldCUEZw?=
+ =?utf-8?B?dnJkVzhCV2p6TUllY24vWFVOMUJ3YXJrWEhYd1BIOEdjbytBL2xKUmlZOURW?=
+ =?utf-8?B?bEdmZS9IeldFTGxiWVJPR0F1Q3Y0UWV4MlpjQXNUZk5BSklEN0hXU05naVFo?=
+ =?utf-8?B?TU11WTUzTWhqUm5XeTJrS1R6eUhCVnFLMGVsdCttSW1FZjJGNCtFT2VkeHRI?=
+ =?utf-8?B?dGVPc0Q5NHU3ZVVyN0ZZb0ZzMWNab0xuaFp3RUtMYVdLS0pFaS9XMy9wRFBJ?=
+ =?utf-8?B?MG9HZmxLa3gxb1phK3BkclJnNURabFhzY3p4VW1NUkZZMG8rL000VDUwclpk?=
+ =?utf-8?B?QkJYdUJMSEZlcnQ2MDZaNjJLemN3SFBCWWFZYjhWeWUwWDJNR0NmUHdEZTZp?=
+ =?utf-8?B?MGNVejJZbk90ekozNmpyYkN0U1h3cDNBZXRRSEgxeHhlS2pzNGRDWTEyOU5Z?=
+ =?utf-8?B?eGc3SDRDbHZTVjdCY1YrcmpDU1BobG1LNkFNU0xiRFhFNEJ0Qk1VTjNyNU13?=
+ =?utf-8?B?Wk1JUWJ3czZoZjYrVG1ONVhLZjByWlVXVEQvNWEyWElYZm1rOTJFYzI1NzN3?=
+ =?utf-8?B?TDR0dTVDYXNUdUxmRURrM09scVl5eVpRWEpCZlBJUW5MREpkNXNwUFBiS3p4?=
+ =?utf-8?B?bjEyVmxsOXV3WkNZWTNXYkpYZkViV2dqQ2xEeWdzMEY3N0ZwV2d2YVV5OHQ0?=
+ =?utf-8?B?MnM0N05QbFNrZS9iUzBZRGZoSzk2anM3MmxsWWVTZS9DRlVaTkhoMS96RkZR?=
+ =?utf-8?B?VlE9PQ==?=
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a98eebca-faab-494a-347c-08dd14a9e097
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR11MB8496.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Dec 2024 21:23:20.8478
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vNzlbrI3PFD2SceFM2fL7dwy/cn0xe9z3uvDhfKCP8UIqkWNqZNj3EL9TZGP9ifcU8z1fUZnedXUCoE5V5jqRI2Xz2cEu/Ss8GG1l1pg+O4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB7680
+X-Proofpoint-ORIG-GUID: 3EBlF5Pp-TTPz7Bo603jKcS3o84NUSb7
+X-Authority-Analysis: v=2.4 cv=bqq2BFai c=1 sm=1 tr=0 ts=6750c84e cx=c_pps a=2bhcDDF4uZIgm5IDeBgkqw==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=RZcAm9yDv7YA:10 a=bRTqI5nwn0kA:10 a=2HyfR_PSAAAA:8
+ a=NEAV23lmAAAA:8 a=w2PP7KgtAAAA:8 a=Q4-j1AaZAAAA:8 a=t7CeM3EgAAAA:8 a=gJ9eChrh3aqeKNfEiVYA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=pGLkceISAAAA:8 a=PwNoGsqUTTabP48WBxUA:9 a=494bwCcBZ9kDMOEK:21 a=_W_S_7VecoQA:10 a=lqcHg5cX4UMA:10 a=0zSPmqmPh2d1CTP8umvz:22
+ a=CDB6uwv3NW-08_pL9N3q:22 a=9H3Qd4_ONW2Ztcrla5EB:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: GWaRm5Zzd-U3tuiNBP3Jv_70LyMFERIu
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2024-12-04_18,2024-12-04_02,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ mlxlogscore=999 lowpriorityscore=0 phishscore=0 adultscore=0
+ malwarescore=0 priorityscore=1501 mlxscore=0 bulkscore=0 spamscore=0
+ clxscore=1015 suspectscore=0 classifier=spam authscore=0 adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2411120000
+ definitions=main-2412040165
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 20:49:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208360
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 21:23:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208361
 
-Sigh, I'm sorry I didn't catch this :-(
+--------------HPwkRKuJmT4eF4bUK0spDQuU
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4B4LJREh000574
 
-I think my eyes saw ruby "upgrade 3.3.2 -> 3.3.5", I checked the link
+On 2024-12-04 3:49 p.m., Steve Sakoman wrote:
+> Sigh, I'm sorry I didn't catch this :-(
+>
+> I think my eyes saw ruby "upgrade 3.3.2 -> 3.3.5", I checked the link
+> in the commit message to verify that the changes were all bug/security
+> fixes and I merged it.
+>
+> We've already done a release with this update in it.  Perhaps we can
+> discuss it in the bug meeting tomorrow?
+>
+> Steve
+
+Yogita,
+
+Please note, that only PATCH level updates are allowed (almost all the=20
+time) on stable releases.
+See: https://semver.org/
+
+
+All,
+
+Yikes!
+
+Yes, we should discuss what to do in the bug meeting tomorrow and reply=20
+here to fill people in on the plans. If anyone has a strong opinion=20
+please let us know.
+
+
+I didn't even notice that the change was from 3.2.x to 3.3.y when=20
+reviewing it.
+It seems that I assumed that no one would do that!
+We're all so used to the rule of not changing MAJOR.MINOR that several=20
+people overlooked
+that MINOR was bumped by one.
+
+For the 3.2.2..3.2.5 update, we have:
+=E2=9D=AF git log v3_2_2..v3_2_5 --oneline=C2=A0 | wc -l
+242
+
+
+We could even take 3.2.6:
+
+=E2=9D=AF git log v3_2_5..v3_2_6 --oneline | rg -v "merge revision"=C2=A0=
+ | wc -l
+20
+
+https://github.com/ruby/ruby/commits/ruby_3_2/
+
+It might be worth having a version comparison check tool to run before=20
+release.
+
+Thanks,
+
+../Randy
+
+> On Wed, Dec 4, 2024 at 11:51=E2=80=AFAM Randy MacLeod via
+> lists.openembedded.org
+> <randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+>> Add Robert and Hongxu who working with Yogita on this, iirc.
+>>
+>> On 2024-12-03 5:14 a.m., Urade, Yogita via lists.openembedded.org wrot=
+e:
+>>
+>> From: Yogita Urade<yogita.urade@windriver.com>
+>>
+>> This reverts commit 0402f54b66438ec6e9f06f02652e148dce6480b3.
+>>
+>> This isn't a minor version upgrade.
+>> $git log v3_2_2..v3_3_5 --oneline  | wc -l
+>> 6924
+>>
+>> Do we have any ruby experts to comment on the stability of the 4.2 bra=
+nch
+>> and the update to 3.2.5?
+>>
+>> They claim to be following a semantic versioning scheme:
+>>    https://www.ruby-lang.org/en/news/2013/12/21/ruby-version-policy-ch=
+anges-with-2-1-0/
+>>
+>>
+>> Ruby is a fairly large code base:
+>> ----------------------------------------------------------------------=
+----------
+>>   Language             Files        Lines        Blank      Comment   =
+      Code
+>> ----------------------------------------------------------------------=
+----------
+>>   Ruby                  7914      1480730       202190        82299   =
+   1196241
+>> ...
+>> ----------------------------------------------------------------------=
+----------
+>>   Total                 9409      2188531       271762       197233   =
+   1719536
+>> ----------------------------------------------------------------------=
+----------
+>>
+>> The git repo does have a branch for each release which would indicate
+>> that they are at least familiar with the idea of stable releases.
+>>
+>> Other than the number of commits being large, do we have
+>> any data to support the idea that this is not a stable release update?
+>>
+>> Yogita,
+>>    What are the before, after and diff ptest results?
+>>
+>> ../Randy
+>>
+>>
+>>
+>>
+>> Signed-off-by: Yogita Urade<yogita.urade@windriver.com>
+>> ---
+>>   ...Alignof-to-define-ALIGN_OF-when-poss.patch | 51 ++++++++++
+>>   ...e.in-do-not-write-host-cross-cc-item.patch | 32 +++++++
+>>   ...Obey-LDFLAGS-for-the-link-of-libruby.patch | 25 +++++
+>>   ...-Makefile.in-filter-out-f-prefix-map.patch | 42 ++++++++
+>>   ...eproducible-change-fixing-784225-too.patch | 26 ++---
+>>   .../0006-Make-gemspecs-reproducible.patch     | 18 ++--
+>>   .../ruby/ruby/CVE-2023-36617_1.patch          | 55 +++++++++++
+>>   .../ruby/ruby/CVE-2023-36617_2.patch          | 51 ++++++++++
+>>   .../ruby/ruby/CVE-2024-27281.patch            | 96 +++++++++++++++++=
+++
+>>   .../ruby/ruby/CVE-2024-27282.patch            | 27 ++++++
+>>   .../ruby/ruby/remove_has_include_macros.patch | 35 +++++++
+>>   .../ruby/{ruby_3.3.5.bb =3D> ruby_3.2.2.bb}     | 13 ++-
+>>   12 files changed, 446 insertions(+), 25 deletions(-)
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C=
+11-_Alignof-to-define-ALIGN_OF-when-poss.patch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Mak=
+efile.in-do-not-write-host-cross-cc-item.patch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS=
+-for-the-link-of-libruby.patch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Mak=
+efile.in-filter-out-f-prefix-map.patch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.=
+patch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.=
+patch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27281.pa=
+tch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27282.pa=
+tch
+>>   create mode 100644 meta/recipes-devtools/ruby/ruby/remove_has_includ=
+e_macros.patch
+>>   rename meta/recipes-devtools/ruby/{ruby_3.3.5.bb =3D> ruby_3.2.2.bb}=
+ (88%)
+ >< snip >< snip ><
+
+
+--=20
+# Randy MacLeod
+# Wind River Linux
+
+--------------HPwkRKuJmT4eF4bUK0spDQuU
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 4B4LJREh000574
+
+<!DOCTYPE html><html><head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8">
+  </head>
+  <body>
+    <div class=3D"moz-cite-prefix">On 2024-12-04 3:49 p.m., Steve Sakoman
+      wrote:<br>
+    </div>
+    <blockquote type=3D"cite" cite=3D"mid:CAOSpxdbWAHY7H9QKsfP8xCLaeq_R1f=
+9zhy7MsuO0T6h7PhBsPA@mail.gmail.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">Sigh, I'm sorry I didn't cat=
+ch this :-(
+
+I think my eyes saw ruby &quot;upgrade 3.3.2 -&gt; 3.3.5&quot;, I checked=
+ the link
 in the commit message to verify that the changes were all bug/security
 fixes and I merged it.
 
 We've already done a release with this update in it.  Perhaps we can
 discuss it in the bug meeting tomorrow?
 
-Steve
-
-On Wed, Dec 4, 2024 at 11:51=E2=80=AFAM Randy MacLeod via
+Steve</pre>
+    </blockquote>
+    <p>Yogita, <br>
+    </p>
+    <p>
+      Please note, that only PATCH level updates are allowed (almost all
+      the time) on stable releases.<br>
+      See: <a class=3D"moz-txt-link-freetext" href=3D"https://semver.org/=
+">https://semver.org/</a></p>
+    <p><br>
+    </p>
+    <p>All,<br>
+    </p>
+    <p>Yikes!</p>
+    <p>Yes, we should discuss what to do <span style=3D"white-space: pre-=
+wrap">in the bug meeting tomorrow and
+reply here to fill people in on the plans. If anyone has a strong opinion=
+ please
+let us know.</span></p>
+    <p><span style=3D"white-space: pre-wrap"></span><br>
+      I didn't even notice that the change was from 3.2.x to 3.3.y when
+      reviewing it.<br>
+      It seems that I assumed that no one would do that! <br>
+      We're all so used to the rule of not changing MAJOR.MINOR that
+      several people overlooked<br>
+      that MINOR was bumped by one. <br>
+    </p>
+    <p>For the 3.2.2..3.2.5 update, we have:<br>
+      =E2=9D=AF git log v3_2_2..v3_2_5 --oneline&nbsp; | wc -l<br>
+      242</p>
+    <br>
+    <p>We could even take 3.2.6:<br>
+    </p>
+    <p>=E2=9D=AF git log v3_2_5..v3_2_6 --oneline | rg -v &quot;merge rev=
+ision&quot;&nbsp; | wc
+      -l<br>
+      20</p>
+    <p><span style=3D"white-space: pre-wrap"><a class=3D"moz-txt-link-fre=
+etext" href=3D"https://github.com/ruby/ruby/commits/ruby_3_2/">https://gi=
+thub.com/ruby/ruby/commits/ruby_3_2/</a></span></p>
+    <p><span style=3D"white-space: pre-wrap">
+</span></p>
+    <p><span style=3D"white-space: pre-wrap">It might be worth having a v=
+ersion comparison check tool to run before release.</span></p>
+    <p><span style=3D"white-space: pre-wrap">Thanks,
+</span></p>
+    <p><span style=3D"white-space: pre-wrap">../Randy</span></p>
+    <p><span style=3D"white-space: pre-wrap">
+</span></p>
+    <p><span style=3D"white-space: pre-wrap">
+</span></p>
+    <blockquote type=3D"cite" cite=3D"mid:CAOSpxdbWAHY7H9QKsfP8xCLaeq_R1f=
+9zhy7MsuO0T6h7PhBsPA@mail.gmail.com">
+      <pre wrap=3D"" class=3D"moz-quote-pre">On Wed, Dec 4, 2024 at 11:51=
+=E2=80=AFAM Randy MacLeod via
 lists.openembedded.org
-<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
->
-> Add Robert and Hongxu who working with Yogita on this, iirc.
->
-> On 2024-12-03 5:14 a.m., Urade, Yogita via lists.openembedded.org wrote:
->
-> From: Yogita Urade <yogita.urade@windriver.com>
->
-> This reverts commit 0402f54b66438ec6e9f06f02652e148dce6480b3.
->
-> This isn't a minor version upgrade.
-> $git log v3_2_2..v3_3_5 --oneline  | wc -l
-> 6924
->
-> Do we have any ruby experts to comment on the stability of the 4.2 branch
-> and the update to 3.2.5?
->
-> They claim to be following a semantic versioning scheme:
->   https://www.ruby-lang.org/en/news/2013/12/21/ruby-version-policy-change=
-s-with-2-1-0/
->
->
-> Ruby is a fairly large code base:
-> -------------------------------------------------------------------------=
+<a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:randy.macleod=3Dwindriv=
+er.com@lists.openembedded.org">&lt;randy.macleod=3Dwindriver.com@lists.op=
+enembedded.org&gt;</a> wrote:
+</pre>
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">Add Robert and Hongxu who =
+working with Yogita on this, iirc.
+
+On 2024-12-03 5:14 a.m., Urade, Yogita via lists.openembedded.org wrote:
+
+From: Yogita Urade <a class=3D"moz-txt-link-rfc2396E" href=3D"mailto:yogi=
+ta.urade@windriver.com">&lt;yogita.urade@windriver.com&gt;</a>
+
+This reverts commit 0402f54b66438ec6e9f06f02652e148dce6480b3.
+
+This isn't a minor version upgrade.
+$git log v3_2_2..v3_3_5 --oneline  | wc -l
+6924
+
+Do we have any ruby experts to comment on the stability of the 4.2 branch
+and the update to 3.2.5?
+
+They claim to be following a semantic versioning scheme:
+  <a class=3D"moz-txt-link-freetext" href=3D"https://www.ruby-lang.org/en=
+/news/2013/12/21/ruby-version-policy-changes-with-2-1-0/">https://www.rub=
+y-lang.org/en/news/2013/12/21/ruby-version-policy-changes-with-2-1-0/</a>
+
+
+Ruby is a fairly large code base:
+-------------------------------------------------------------------------=
 -------
->  Language             Files        Lines        Blank      Comment       =
+ Language             Files        Lines        Blank      Comment       =
   Code
-> -------------------------------------------------------------------------=
+-------------------------------------------------------------------------=
 -------
->  Ruby                  7914      1480730       202190        82299      1=
+ Ruby                  7914      1480730       202190        82299      1=
 196241
-> ...
-> -------------------------------------------------------------------------=
+...
+-------------------------------------------------------------------------=
 -------
->  Total                 9409      2188531       271762       197233      1=
+ Total                 9409      2188531       271762       197233      1=
 719536
-> -------------------------------------------------------------------------=
+-------------------------------------------------------------------------=
 -------
->
-> The git repo does have a branch for each release which would indicate
-> that they are at least familiar with the idea of stable releases.
->
-> Other than the number of commits being large, do we have
-> any data to support the idea that this is not a stable release update?
->
-> Yogita,
->   What are the before, after and diff ptest results?
->
-> ../Randy
->
->
->
->
-> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
-> ---
->  ...Alignof-to-define-ALIGN_OF-when-poss.patch | 51 ++++++++++
->  ...e.in-do-not-write-host-cross-cc-item.patch | 32 +++++++
->  ...Obey-LDFLAGS-for-the-link-of-libruby.patch | 25 +++++
->  ...-Makefile.in-filter-out-f-prefix-map.patch | 42 ++++++++
->  ...eproducible-change-fixing-784225-too.patch | 26 ++---
->  .../0006-Make-gemspecs-reproducible.patch     | 18 ++--
->  .../ruby/ruby/CVE-2023-36617_1.patch          | 55 +++++++++++
->  .../ruby/ruby/CVE-2023-36617_2.patch          | 51 ++++++++++
->  .../ruby/ruby/CVE-2024-27281.patch            | 96 +++++++++++++++++++
->  .../ruby/ruby/CVE-2024-27282.patch            | 27 ++++++
->  .../ruby/ruby/remove_has_include_macros.patch | 35 +++++++
->  .../ruby/{ruby_3.3.5.bb =3D> ruby_3.2.2.bb}     | 13 ++-
->  12 files changed, 446 insertions(+), 25 deletions(-)
->  create mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_=
+
+The git repo does have a branch for each release which would indicate
+that they are at least familiar with the idea of stable releases.
+
+Other than the number of commits being large, do we have
+any data to support the idea that this is not a stable release update?
+
+Yogita,
+  What are the before, after and diff ptest results?
+
+../Randy
+
+
+
+
+Signed-off-by: Yogita Urade <a class=3D"moz-txt-link-rfc2396E" href=3D"ma=
+ilto:yogita.urade@windriver.com">&lt;yogita.urade@windriver.com&gt;</a>
+---
+ ...Alignof-to-define-ALIGN_OF-when-poss.patch | 51 ++++++++++
+ ...e.in-do-not-write-host-cross-cc-item.patch | 32 +++++++
+ ...Obey-LDFLAGS-for-the-link-of-libruby.patch | 25 +++++
+ ...-Makefile.in-filter-out-f-prefix-map.patch | 42 ++++++++
+ ...eproducible-change-fixing-784225-too.patch | 26 ++---
+ .../0006-Make-gemspecs-reproducible.patch     | 18 ++--
+ .../ruby/ruby/CVE-2023-36617_1.patch          | 55 +++++++++++
+ .../ruby/ruby/CVE-2023-36617_2.patch          | 51 ++++++++++
+ .../ruby/ruby/CVE-2024-27281.patch            | 96 +++++++++++++++++++
+ .../ruby/ruby/CVE-2024-27282.patch            | 27 ++++++
+ .../ruby/ruby/remove_has_include_macros.patch | 35 +++++++
+ .../ruby/{ruby_3.3.5.bb =3D&gt; ruby_3.2.2.bb}     | 13 ++-
+ 12 files changed, 446 insertions(+), 25 deletions(-)
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_=
 Alignof-to-define-ALIGN_OF-when-poss.patch
->  create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefil=
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefil=
 e.in-do-not-write-host-cross-cc-item.patch
->  create mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for=
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for=
 -the-link-of-libruby.patch
->  create mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Makefil=
+ create mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Makefil=
 e.in-filter-out-f-prefix-map.patch
->  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patc=
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patc=
 h
->  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patc=
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patc=
 h
->  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
->  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
->  create mode 100644 meta/recipes-devtools/ruby/ruby/remove_has_include_ma=
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
+ create mode 100644 meta/recipes-devtools/ruby/ruby/remove_has_include_ma=
 cros.patch
->  rename meta/recipes-devtools/ruby/{ruby_3.3.5.bb =3D> ruby_3.2.2.bb} (88=
-%)
->
-> diff --git a/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof=
--to-define-ALIGN_OF-when-poss.patch b/meta/recipes-devtools/ruby/ruby/0001-=
-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-poss.patch
-> new file mode 100644
-> index 0000000000..ab7ae1eb23
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_Alignof-to-def=
-ine-ALIGN_OF-when-poss.patch
-> @@ -0,0 +1,51 @@
-> +From 6b3c202b46b9312c5bb0789145f13d8086e70948 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sun, 15 Jan 2023 02:34:17 -0800
-> +Subject: [PATCH] fiddle: Use C11 _Alignof to define ALIGN_OF when possib=
-le
-> +
-> +WG14 N2350 made very clear that it is an UB having type definitions
-> +within "offsetof" [1]. This patch enhances the implementation of macro
-> +ALIGN_OF to use builtin "_Alignof" to avoid undefined behavior
-> +when using std=3Dc11 or newer
-> +
-> +clang 16+ has started to flag this [2]
-> +
-> +Fixes build when using -std >=3D gnu11 and using clang16+
-> +
-> +Older compilers gcc < 4.9 or clang < 8 has buggy _Alignof even though it
-> +may support C11, exclude those compiler versions
-> +
-> +[1] https://www.open-std.org/jtc1/sc22/wg14/www/docs/n2350.htm
-> +[2] https://reviews.llvm.org/D133574
-> +
-> +Upstream-Status: Submitted [https://github.com/ruby/fiddle/pull/120]
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +---
-> + ext/fiddle/fiddle.h | 12 +++++++++++-
-> + 1 file changed, 11 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/ext/fiddle/fiddle.h b/ext/fiddle/fiddle.h
-> +index 10eb9ce..ffb395e 100644
-> +--- a/ext/fiddle/fiddle.h
-> ++++ b/ext/fiddle/fiddle.h
-> +@@ -196,7 +196,17 @@
-> + #endif
-> + #define TYPE_UINTPTR_T (-TYPE_INTPTR_T)
-> +
-> +-#define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, a=
-lign_x)
-> ++/* GCC releases before GCC 4.9 had a bug in _Alignof.  See GCC bug 5202=
-3
-> ++   <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D52023>.
-> ++   clang versions < 8.0.0 have the same bug.  */
-> ++#if (!defined __STDC_VERSION__ || __STDC_VERSION__ < 201112 \
-> ++     || (defined __GNUC__ && __GNUC__ < 4 + (__GNUC_MINOR__ < 9) \
-> ++         && !defined __clang__) \
-> ++     || (defined __clang__ && __clang_major__ < 8))
-> ++# define ALIGN_OF(type) offsetof(struct {char align_c; type align_x;}, =
-align_x)
-> ++#else
-> ++# define ALIGN_OF(type) _Alignof(type)
-> ++#endif
-> +
-> + #define ALIGN_VOIDP  ALIGN_OF(void*)
-> + #define ALIGN_CHAR   ALIGN_OF(char)
-> +--
-> +2.39.0
-> diff --git a/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do=
--not-write-host-cross-cc-item.patch b/meta/recipes-devtools/ruby/ruby/0001-=
-template-Makefile.in-do-not-write-host-cross-cc-item.patch
-> new file mode 100644
-> index 0000000000..e35a461f76
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/0001-template-Makefile.in-do-not-wr=
-ite-host-cross-cc-item.patch
-> @@ -0,0 +1,32 @@
-> +From 2368d07660a93a2c41d63f3ab6054ca4daeef820 Mon Sep 17 00:00:00 2001
-> +From: Alexander Kanavin <alex.kanavin@gmail.com>
-> +Date: Tue, 17 Nov 2020 18:31:40 +0000
-> +Subject: [PATCH] template/Makefile.in: do not write host cross-cc items =
-into
-> + target config
-> +
-> +This helps reproducibility.
-> +
-> +Upstream-Status: Inappropriate [oe-core specific]
-> +Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-> +---
-> + template/Makefile.in | 4 ++--
-> + 1 file changed, 2 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/template/Makefile.in b/template/Makefile.in
-> +index 10dc826..940ee07 100644
-> +--- a/template/Makefile.in
-> ++++ b/template/Makefile.in
-> +@@ -657,11 +657,11 @@ mjit_config.h:
-> + echo '#endif'; \
-> + quote MJIT_MIN_HEADER_NAME "$(MJIT_MIN_HEADER_NAME)"; \
-> + sep=3D,; \
-> +- quote "MJIT_CC_COMMON  " $(MJIT_CC); \
-> ++ quote "MJIT_CC_COMMON  " ; \
-> + quote "MJIT_CFLAGS      MJIT_ARCHFLAG" $(MJIT_CFLAGS); \
-> + quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
-> + quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
-> +- quote "MJIT_LDSHARED   " $(MJIT_LDSHARED); \
-> ++ quote "MJIT_LDSHARED   " ; \
-> + quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-> + quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
-> + quote 'PRELOADENV       "@PRELOADENV@"'; \
-> diff --git a/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-li=
-nk-of-libruby.patch b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for=
--the-link-of-libruby.patch
-> new file mode 100644
-> index 0000000000..96ae86263b
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for-the-link-of-l=
-ibruby.patch
-> @@ -0,0 +1,25 @@
-> +From 21d8e7700fa0a9c4bf569dd366134060ae858832 Mon Sep 17 00:00:00 2001
-> +From: Christopher Larson <chris_larson@mentor.com>
-> +Date: Thu, 5 May 2016 10:59:07 -0700
-> +Subject: [PATCH] Obey LDFLAGS for the link of libruby
-> +
-> +Signed-off-by: Christopher Larson <chris_larson@mentor.com>
-> +Upstream-Status: Pending
-> +
-> +---
-> + template/Makefile.in | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/template/Makefile.in b/template/Makefile.in
-> +index 1456313..15b98a4 100644
-> +--- a/template/Makefile.in
-> ++++ b/template/Makefile.in
-> +@@ -127,7 +127,7 @@ ENABLE_SHARED =3D @ENABLE_SHARED@
-> + LDSHARED =3D @LIBRUBY_LDSHARED@
-> + DLDSHARED =3D @DLDSHARED@
-> + XDLDFLAGS =3D @DLDFLAGS@
-> +-DLDFLAGS =3D @LIBRUBY_DLDFLAGS@ $(XLDFLAGS) $(ARCH_FLAG)
-> ++DLDFLAGS =3D @LIBRUBY_DLDFLAGS@ @LDFLAGS@ $(XLDFLAGS) $(ARCH_FLAG)
-> + SOLIBS =3D @SOLIBS@
-> + ENABLE_DEBUG_ENV =3D @ENABLE_DEBUG_ENV@
-> + MAINLIBS =3D $(YJIT_LIBS) @MAINLIBS@
-> diff --git a/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-fi=
-lter-out-f-prefix-map.patch b/meta/recipes-devtools/ruby/ruby/0002-template=
--Makefile.in-filter-out-f-prefix-map.patch
-> new file mode 100644
-> index 0000000000..b0d9a2e0ed
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/0002-template-Makefile.in-filter-ou=
-t-f-prefix-map.patch
-> @@ -0,0 +1,42 @@
-> +Subject: [PATCH] template/Makefile.in: filter out -f*prefix-map
-> +
-> +If we add DEBUG_PREFIX_MAP into LDFLAGS, ruby and ruby-dbg are no longer
-> +reproducible.  Fix this.
-> +
-> +Upstream-Status: Inappropriate [oe-core specific]
-> +Signed-off-by: Tony Battersby <tonyb@cybernetics.com>
-> +---
-> +--- a/tool/mjit_archflag.sh
-> ++++ b/tool/mjit_archflag.sh
-> +@@ -7,6 +7,20 @@ quote() {
-> +     echo
-> + }
-> +
-> ++quote_filtered() {
-> ++    printf "#${indent}define $1"
-> ++    while shift && [ "$#" -gt 0 ]; do
-> ++ case "$1" in
-> ++    -ffile-prefix-map=3D*|-fdebug-prefix-map=3D*|-fmacro-prefix-map=3D*=
-)
-> ++ ;;
-> ++    *)
-> ++ printf ' "%s"'$sep "$1"
-> ++ ;;
-> ++ esac
-> ++    done
-> ++    echo
-> ++}
-> ++
-> + archs=3D""
-> + arch_flag=3D""
-> +
-> +--- a/template/Makefile.in
-> ++++ b/template/Makefile.in
-> +@@ -666,7 +666,7 @@ mjit_config.h:
-> + quote "MJIT_OPTFLAGS   " $(MJIT_OPTFLAGS); \
-> + quote "MJIT_DEBUGFLAGS " $(MJIT_DEBUGFLAGS); \
-> + quote "MJIT_LDSHARED   " ; \
-> +- quote "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-> ++ quote_filtered "MJIT_DLDFLAGS    MJIT_ARCHFLAG" $(MJIT_DLDFLAGS); \
-> + quote "MJIT_LIBS       " $(LIBRUBYARG_SHARED); \
-> + quote 'PRELOADENV       "@PRELOADENV@"'; \
-> + indent=3D$${archs:+'  '}; \
-> diff --git a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducib=
-le-change-fixing-784225-too.patch b/meta/recipes-devtools/ruby/ruby/0005-Ma=
-rk-Gemspec-reproducible-change-fixing-784225-too.patch
-> index 0902a201ec..41f206523e 100644
-> --- a/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-chan=
-ge-fixing-784225-too.patch
-> +++ b/meta/recipes-devtools/ruby/ruby/0005-Mark-Gemspec-reproducible-chan=
-ge-fixing-784225-too.patch
-> @@ -12,20 +12,20 @@ Upstream-Status: Backport [debian]
->   1 file changed, 3 insertions(+), 1 deletion(-)
->
->  diff --git a/lib/rubygems/specification.rb b/lib/rubygems/specification.=
-rb
-> -index d6eac7f..4b2e95e 100644
-> +index 0d72cee..eb7bc25 100644
->  --- a/lib/rubygems/specification.rb
->  +++ b/lib/rubygems/specification.rb
-> -@@ -1707,7 +1707,9 @@ class Gem::Specification < Gem::BasicSpecification
-> -                 raise(Gem::InvalidSpecificationException,
-> -                       "invalid date format in specification: #{date.ins=
-pect}")
-> -               end
-> --            when Time, DateLike then
-> -+            when Time then
-> -+              Time.utc(date.utc.year, date.utc.month, date.utc.day)
-> -+            when DateLike then
-> -               Time.utc(date.year, date.month, date.day)
-> -             else
-> -               TODAY
-> +@@ -1691,7 +1691,9 @@ class Gem::Specification < Gem::BasicSpecification
-> +         raise(Gem::InvalidSpecificationException,
-> +               "invalid date format in specification: #{date.inspect}")
-> +       end
-> +-    when Time, DateLike then
-> ++    when Time then
-> ++      Time.utc(date.utc.year, date.utc.month, date.utc.day)
-> ++    when DateLike then
-> +       Time.utc(date.year, date.month, date.day)
-> +     else
-> +       TODAY
->  --
-> -2.40.0
-> +2.25.1
->
-> diff --git a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproduci=
-ble.patch b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible=
-.patch
-> index d32e209129..0a87cae17f 100644
-> --- a/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.pat=
-ch
-> +++ b/meta/recipes-devtools/ruby/ruby/0006-Make-gemspecs-reproducible.pat=
-ch
-> @@ -7,6 +7,7 @@ Without an explicit date, they will get the current date =
-and make the
->  build unreproducible
->
->  Upstream-Status: Backport [debian]
-> +
->  ---
->   ext/bigdecimal/bigdecimal.gemspec | 1 +
->   ext/fiddle/fiddle.gemspec         | 1 +
-> @@ -16,12 +17,12 @@ Upstream-Status: Backport [debian]
->   5 files changed, 5 insertions(+)
->
->  diff --git a/ext/bigdecimal/bigdecimal.gemspec b/ext/bigdecimal/bigdecim=
-al.gemspec
-> -index f9f3b45..b9a469d 100644
-> +index d215757..5148d56 100644
->  --- a/ext/bigdecimal/bigdecimal.gemspec
->  +++ b/ext/bigdecimal/bigdecimal.gemspec
-> -@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
-> -   s.name          =3D name
-> -   s.version       =3D source_version
-> +@@ -4,6 +4,7 @@ Gem::Specification.new do |s|
-> +   s.name          =3D "bigdecimal"
-> +   s.version       =3D "3.1.3"
->     s.authors       =3D ["Kenta Murata", "Zachary Scott", "Shigeo Kobayas=
-hi"]
->  +  s.date          =3D RUBY_RELEASE_DATE
->     s.email         =3D ["mrkn@mrkn.jp"]
-> @@ -40,10 +41,10 @@ index 8781093..efdca32 100644
->     spec.email         =3D ["aaron@tenderlovemaking.com", "hsbt@ruby-lang=
-.org"]
->
->  diff --git a/ext/io/console/io-console.gemspec b/ext/io/console/io-conso=
-le.gemspec
-> -index d4f5276..8f89611 100644
-> +index d26a757..cc88c55 100644
->  --- a/ext/io/console/io-console.gemspec
->  +++ b/ext/io/console/io-console.gemspec
-> -@@ -4,6 +4,7 @@ _VERSION =3D "0.7.1"
-> +@@ -4,6 +4,7 @@ _VERSION =3D "0.6.0"
->   Gem::Specification.new do |s|
->     s.name =3D "io-console"
->     s.version =3D _VERSION
-> @@ -64,7 +65,7 @@ index 1f4798e..48743cf 100644
->     spec.email         =3D ["knu@idaemons.org", "ume@mahoroba.org"]
->
->  diff --git a/lib/rdoc/rdoc.gemspec b/lib/rdoc/rdoc.gemspec
-> -index 93a281c..cc5c155 100644
-> +index 3c96f7d..fec0872 100644
->  --- a/lib/rdoc/rdoc.gemspec
->  +++ b/lib/rdoc/rdoc.gemspec
->  @@ -7,6 +7,7 @@ end
-> @@ -75,6 +76,3 @@ index 93a281c..cc5c155 100644
->     s.version =3D RDoc::VERSION
->
->     s.authors =3D [
-> ---
-> -2.40.0
-> -
-> diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch b/met=
-a/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
-> new file mode 100644
-> index 0000000000..0b1eb23801
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patch
-> @@ -0,0 +1,55 @@
-> +From 2ebb50d2dc302917a6f57c1239dc9e700dfe0e34 Mon Sep 17 00:00:00 2001
-> +From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-> +Date: Thu, 27 Jul 2023 15:53:01 +0800
-> +Subject: [PATCH] Fix quadratic backtracking on invalid relative URI
-> +
-> +https://hackerone.com/reports/1958260
-> +
-> +CVE: CVE-2023-36617
-> +
-> +Upstream-Status: Backport [https://github.com/ruby/uri/commit/9010ee2536=
-adda10a0555ae1ed6fe2f5808e6bf1]
-> +
-> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> +---
-> + lib/uri/rfc2396_parser.rb |  4 ++--
-> + test/uri/test_parser.rb   | 12 ++++++++++++
-> + 2 files changed, 14 insertions(+), 2 deletions(-)
-> +
-> +diff --git a/lib/uri/rfc2396_parser.rb b/lib/uri/rfc2396_parser.rb
-> +index 76a8f99..00c66cf 100644
-> +--- a/lib/uri/rfc2396_parser.rb
-> ++++ b/lib/uri/rfc2396_parser.rb
-> +@@ -497,8 +497,8 @@ module URI
-> +       ret =3D {}
-> +
-> +       # for URI::split
-> +-      ret[:ABS_URI] =3D Regexp.new('\A\s*' + pattern[:X_ABS_URI] + '\s*=
-\z', Regexp::EXTENDED)
-> +-      ret[:REL_URI] =3D Regexp.new('\A\s*' + pattern[:X_REL_URI] + '\s*=
-\z', Regexp::EXTENDED)
-> ++      ret[:ABS_URI] =3D Regexp.new('\A\s*+' + pattern[:X_ABS_URI] + '\s=
-*\z', Regexp::EXTENDED)
-> ++      ret[:REL_URI] =3D Regexp.new('\A\s*+' + pattern[:X_REL_URI] + '\s=
-*\z', Regexp::EXTENDED)
-> +
-> +       # for URI::extract
-> +       ret[:URI_REF]     =3D Regexp.new(pattern[:URI_REF])
-> +diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-> +index 72fb590..721e05e 100644
-> +--- a/test/uri/test_parser.rb
-> ++++ b/test/uri/test_parser.rb
-> +@@ -79,4 +79,16 @@ class URI::TestParser < Test::Unit::TestCase
-> +     assert_equal([nil, nil, "example.com", nil, nil, "", nil, nil, nil]=
-, URI.split("//example.com"))
-> +     assert_equal([nil, nil, "[0::0]", nil, nil, "", nil, nil, nil], URI=
-.split("//[0::0]"))
-> +   end
-> ++
-> ++  def test_rfc2822_parse_relative_uri
-> ++    pre =3D ->(length) {
-> ++      " " * length + "\0"
-> ++    }
-> ++    parser =3D URI::RFC2396_Parser.new
-> ++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |uri=
-|
-> ++      assert_raise(URI::InvalidURIError) do
-> ++        parser.split(uri)
-> ++      end
-> ++    end
-> ++  end
-> + end
-> +--
-> +2.25.1
-> diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch b/met=
-a/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-> new file mode 100644
-> index 0000000000..0ee295210e
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patch
-> @@ -0,0 +1,51 @@
-> +From eea5868120509c245216c4b5c2d4b5db1c593d0e Mon Sep 17 00:00:00 2001
-> +From: Nobuyoshi Nakada <nobu@ruby-lang.org>
-> +Date: Thu, 27 Jul 2023 16:16:30 +0800
-> +Subject: [PATCH] Fix quadratic backtracking on invalid port number
-> +
-> +https://hackerone.com/reports/1958260
-> +
-> +CVE: CVE-2023-36617
-> +
-> +Upstream-Status: Backport [https://github.com/ruby/uri/commit/9d7bcef1e6=
-ad23c9c6e4932f297fb737888144c8]
-> +
-> +Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
-> +---
-> + lib/uri/rfc3986_parser.rb |  2 +-
-> + test/uri/test_parser.rb   | 10 ++++++++++
-> + 2 files changed, 11 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/lib/uri/rfc3986_parser.rb b/lib/uri/rfc3986_parser.rb
-> +index dd24a40..9b1663d 100644
-> +--- a/lib/uri/rfc3986_parser.rb
-> ++++ b/lib/uri/rfc3986_parser.rb
-> +@@ -100,7 +100,7 @@ module URI
-> +         QUERY: /\A(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*\z/,
-> +         FRAGMENT: /\A(?:%\h\h|[!$&-.0-;=3D@-Z_a-z~\/?])*\z/,
-> +         OPAQUE: /\A(?:[^\/].*)?\z/,
-> +-        PORT: /\A[\x09\x0a\x0c\x0d ]*\d*[\x09\x0a\x0c\x0d ]*\z/,
-> ++        PORT: /\A[\x09\x0a\x0c\x0d ]*+\d*[\x09\x0a\x0c\x0d ]*\z/,
-> +       }
-> +     end
-> +
-> +diff --git a/test/uri/test_parser.rb b/test/uri/test_parser.rb
-> +index 721e05e..cee0acb 100644
-> +--- a/test/uri/test_parser.rb
-> ++++ b/test/uri/test_parser.rb
-> +@@ -91,4 +91,14 @@ class URI::TestParser < Test::Unit::TestCase
-> +       end
-> +     end
-> +   end
-> ++
-> ++  def test_rfc3986_port_check
-> ++    pre =3D ->(length) {"\t" * length + "a"}
-> ++    uri =3D URI.parse("http://my.example.com")
-> ++    assert_linear_performance((1..5).map {|i| 10**i}, pre: pre) do |por=
-t|
-> ++      assert_raise(URI::InvalidComponentError) do
-> ++        uri.port =3D port
-> ++      end
-> ++    end
-> ++  end
-> + end
-> +--
-> +2.25.1
-> diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch b/meta/=
-recipes-devtools/ruby/ruby/CVE-2024-27281.patch
-> new file mode 100644
-> index 0000000000..ab8e3f7c4c
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
-> @@ -0,0 +1,96 @@
-> +From da7a0c7553ef7250ca665a3fecdc01dbaacbb43d Mon Sep 17 00:00:00 2001
-> +From: Nobuyoshi Nakada <nobu@...>
-> +Date: Mon, 15 Apr 2024 11:40:00 +0000
-> +Subject: [PATCH] Filter marshaled objets
-> +
-> +CVE: CVE-2024-27281
-> +Upstream-Status: Backport [https://github.com/ruby/rdoc/commit/da7a0c755=
-3ef7250ca665a3fecdc01dbaacbb43d]
-> +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-> +---
-> + lib/rdoc/store.rb | 45 ++++++++++++++++++++++++++-------------------
-> + 1 file changed, 26 insertions(+), 19 deletions(-)
-> +
-> +diff --git a/lib/rdoc/store.rb b/lib/rdoc/store.rb
-> +index 9fc540d..5b663d7 100644
-> +--- a/lib/rdoc/store.rb
-> ++++ b/lib/rdoc/store.rb
-> +@@ -556,9 +556,7 @@ class RDoc::Store
-> +   def load_cache
-> +     #orig_enc =3D @encoding
-> +
-> +-    File.open cache_path, 'rb' do |io|
-> +-      @cache =3D Marshal.load io
-> +-    end
-> ++    @cache =3D marshal_load(cache_path)
-> +
-> +     load_enc =3D @cache[:encoding]
-> +
-> +@@ -615,9 +613,7 @@ class RDoc::Store
-> +   def load_class_data klass_name
-> +     file =3D class_file klass_name
-> +
-> +-    File.open file, 'rb' do |io|
-> +-      Marshal.load io
-> +-    end
-> ++    marshal_load(file)
-> +   rescue Errno::ENOENT =3D> e
-> +     error =3D MissingFileError.new(self, file, klass_name)
-> +     error.set_backtrace e.backtrace
-> +@@ -630,14 +626,10 @@ class RDoc::Store
-> +   def load_method klass_name, method_name
-> +     file =3D method_file klass_name, method_name
-> +
-> +-    File.open file, 'rb' do |io|
-> +-      obj =3D Marshal.load io
-> +-      obj.store =3D self
-> +-      obj.parent =3D
-> +-        find_class_or_module(klass_name) || load_class(klass_name) unle=
-ss
-> +-          obj.parent
-> +-      obj
-> +-    end
-> ++    obj =3D marshal_load(file)
-> ++    obj.store =3D self
-> ++    obj.parent ||=3D find_class_or_module(klass_name) || load_class(kla=
-ss_name)
-> ++    obj
-> +   rescue Errno::ENOENT =3D> e
-> +     error =3D MissingFileError.new(self, file, klass_name + method_name=
-)
-> +     error.set_backtrace e.backtrace
-> +@@ -650,11 +642,9 @@ class RDoc::Store
-> +   def load_page page_name
-> +     file =3D page_file page_name
-> +
-> +-    File.open file, 'rb' do |io|
-> +-      obj =3D Marshal.load io
-> +-      obj.store =3D self
-> +-      obj
-> +-    end
-> ++    obj =3D marshal_load(file)
-> ++    obj.store =3D self
-> ++    obj
-> +   rescue Errno::ENOENT =3D> e
-> +     error =3D MissingFileError.new(self, file, page_name)
-> +     error.set_backtrace e.backtrace
-> +@@ -976,4 +966,21 @@ class RDoc::Store
-> +     @unique_modules
-> +   end
-> +
-> ++  private
-> ++  def marshal_load(file)
-> ++    File.open(file, 'rb') {|io| Marshal.load(io, MarshalFilter)}
-> ++  end
-> ++
-> ++  MarshalFilter =3D proc do |obj|
-> ++    case obj
-> ++    when true, false, nil, Array, Class, Encoding, Hash, Integer, Strin=
-g, Symbol, RDoc::Text
-> ++    else
-> ++      unless obj.class.name.start_with("RDoc::")
-> ++        raise TypeError, "not permitted class: #{obj.class.name}"
-> ++      end
-> ++    end
-> ++    obj
-> ++  end
-> ++  private_constant :MarshalFilter
-> ++
-> + end
-> +--
-> +2.25.1
-> diff --git a/meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch b/meta/=
-recipes-devtools/ruby/ruby/CVE-2024-27282.patch
-> new file mode 100644
-> index 0000000000..0740ad81e9
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
-> @@ -0,0 +1,27 @@
-> +From 989a2355808a63fc45367785c82ffd46d18c900a Mon Sep 17 00:00:00 2001
-> +From: Hiroshi SHIBATA <hsbt@ruby-lang.org>
-> +Date: Fri, 12 Apr 2024 15:01:47 +1000
-> +Subject: [PATCH] Fix Use-After-Free issue for Regexp
-> +
-> +Co-authored-by: Isaac Peka <7493006+isaac-peka@users.noreply.github.com>
-> +
-> +Upstream-Status: Backport [https://github.com/ruby/ruby/commit/989a23558=
-08a63fc45367785c82ffd46d18c900a]
-> +CVE: CVE-2024-27282
-> +Signed-off-by: Ashish Sharma <asharma@mvista.com>
-> +
-> + regexec.c | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/regexec.c b/regexec.c
-> +index 73694ab14a0b0a..140691ad42489f 100644
-> +--- a/regexec.c
-> ++++ b/regexec.c
-> +@@ -3449,8 +3449,8 @@ match_at(regex_t* reg, const UChar* str, const UCh=
-ar* end,
-> +     CASE(OP_MEMORY_END_PUSH_REC)  MOP_IN(OP_MEMORY_END_PUSH_REC);
-> +       GET_MEMNUM_INC(mem, p);
-> +       STACK_GET_MEM_START(mem, stkp); /* should be before push mem-end.=
- */
-> +-      STACK_PUSH_MEM_END(mem, s);
-> +       mem_start_stk[mem] =3D GET_STACK_INDEX(stkp);
-> ++      STACK_PUSH_MEM_END(mem, s);
-> +       MOP_OUT;
-> +       JUMP;
-> diff --git a/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.pa=
-tch b/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
-> new file mode 100644
-> index 0000000000..1808a6384a
-> --- /dev/null
-> +++ b/meta/recipes-devtools/ruby/ruby/remove_has_include_macros.patch
-> @@ -0,0 +1,35 @@
-> +From e74b57febec9bd806e29025e6eeb8091e7021d75 Mon Sep 17 00:00:00 2001
-> +From: Khem Raj <raj.khem@gmail.com>
-> +Date: Sun, 26 Jan 2020 11:27:40 -0800
-> +Subject: [PATCH] Filter out __has_include* compiler defines
-> +
-> +They are internal to compiler and this header is later on includes in C
-> +files, but newer gcc >=3D 10 complains about it.
-> +
-> +error in initial header file:
-> +| In file included from /tmp/20200124-86625-14hiju4.c:1:
-> +| /tmp/20200124-86625-11y6l6i.h:13849:9: error: "__has_include" cannot b=
-e used as a macro name
-> +| 13849 | #define __has_include __has_include
-> +|       |         ^~~~~~~~~~~~~
-> +| compilation terminated due to -Wfatal-errors.
-> +
-> +Upstream-Status: Pending
-> +Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> +
-> +---
-> + common.mk | 2 ++
-> + 1 file changed, 2 insertions(+)
-> +
-> +diff --git a/common.mk b/common.mk
-> +index 664f750..3b8fbe6 100644
-> +--- a/common.mk
-> ++++ b/common.mk
-> +@@ -238,6 +238,8 @@ $(TIMESTAMPDIR)/$(MJIT_HEADER:.h=3D)$(MJIT_HEADER_SU=
-FFIX).time: probes.h vm.$(OBJE
-> + $(ECHO) building $(@F:.time=3D.h)
-> + $(Q)$(MINIRUBY) $(tooldir)/mjit_tabs.rb "$(MJIT_TABS)" \
-> + $(CPP) -DMJIT_HEADER $(MJIT_HEADER_FLAGS) $(CFLAGS) $(XCFLAGS) $(CPPFLA=
-GS) $(srcdir)/vm.c $(CPPOUTFLAG)$(@F:.time=3D.h).new
-> ++ $(Q)sed -i -e "/#define __has_include __has_include/d" $(@F:.time=3D.h=
-).new
-> ++ $(Q)sed -i -e "/#define __has_include_next __has_include_next/d" $(@F:=
-.time=3D.h).new
-> + $(Q) $(IFCHANGE) "--timestamp=3D$@" $(@F:.time=3D.h) $(@F:.time=3D.h).n=
-ew
-> +
-> + $(MJIT_HEADER:.h=3D)$(MJIT_HEADER_SUFFIX).h: $(TIMESTAMPDIR)/$(MJIT_HEA=
-DER:.h=3D)$(MJIT_HEADER_SUFFIX).time
-> diff --git a/meta/recipes-devtools/ruby/ruby_3.3.5.bb b/meta/recipes-devt=
-ools/ruby/ruby_3.2.2.bb
-> similarity index 88%
-> rename from meta/recipes-devtools/ruby/ruby_3.3.5.bb
-> rename to meta/recipes-devtools/ruby/ruby_3.2.2.bb
-> index fb0d711765..508154dad5 100644
-> --- a/meta/recipes-devtools/ruby/ruby_3.3.5.bb
-> +++ b/meta/recipes-devtools/ruby/ruby_3.2.2.bb
-> @@ -10,7 +10,7 @@ LICENSE =3D "Ruby | BSD-2-Clause | BSD-3-Clause | GPL-2=
-.0-only | ISC | MIT"
->  LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D5b8c87559868796979806100db3f3=
-805 \
->                      file://BSDL;md5=3D8b50bc6de8f586dc66790ba11d064d75 \
->                      file://GPL;md5=3Db234ee4d69f5fce4486a80fdaf4a4263 \
-> -                    file://LEGAL;md5=3D81e6a4d81533b9263da4c3485a0ad883 =
-\
-> +                    file://LEGAL;md5=3Dbcd74b47bbaf2051c5e49811a5faa97a =
-\
->                      "
->
->  DEPENDS =3D "zlib openssl libyaml gdbm readline libffi"
-> @@ -20,12 +20,21 @@ DEPENDS:append:class-nativesdk =3D " ruby-native"
->  SHRT_VER =3D "${@oe.utils.trim_version("${PV}", 2)}"
->  SRC_URI =3D "http://cache.ruby-lang.org/pub/ruby/${SHRT_VER}/ruby-${PV}.=
-tar.gz \
->             file://0001-extmk-fix-cross-compilation-of-external-gems.patc=
-h \
-> +           file://0002-Obey-LDFLAGS-for-the-link-of-libruby.patch \
-> +           file://remove_has_include_macros.patch \
->             file://run-ptest \
-> +           file://0001-template-Makefile.in-do-not-write-host-cross-cc-i=
-tem.patch \
-> +           file://0002-template-Makefile.in-filter-out-f-prefix-map.patc=
-h \
->             file://0003-rdoc-build-reproducible-documentation.patch \
->             file://0004-lib-mkmf.rb-sort-list-of-object-files-in-generate=
-d-M.patch \
->             file://0005-Mark-Gemspec-reproducible-change-fixing-784225-to=
-o.patch \
->             file://0006-Make-gemspecs-reproducible.patch \
->             file://0001-vm_dump.c-Define-REG_S1-and-REG_S2-for-musl-riscv=
-.patch \
-> +           file://0001-fiddle-Use-C11-_Alignof-to-define-ALIGN_OF-when-p=
-oss.patch \
-> +           file://CVE-2023-36617_1.patch \
-> +           file://CVE-2023-36617_2.patch \
-> +           file://CVE-2024-27281.patch \
-> +           file://CVE-2024-27282.patch \
->             "
->  UPSTREAM_CHECK_URI =3D "https://www.ruby-lang.org/en/downloads/"
->
-> @@ -46,7 +55,7 @@ do_configure:prepend() {
->
->  DEPENDS:append:libc-musl =3D " libucontext"
->
-> -SRC_URI[sha256sum] =3D "3781a3504222c2f26cb4b9eb9c1a12dbf4944d366ce24a9f=
-f8cf99ecbce75196"
-> +SRC_URI[sha256sum] =3D "96c57558871a6748de5bc9f274e93f4b5aad06cd8f37befa=
-0e8d94e7b8a423bc"
->
->  PACKAGECONFIG ??=3D ""
->  PACKAGECONFIG +=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
->
->
->
->
-> --
-> # Randy MacLeod
-> # Wind River Linux
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#208324): https://lists.openembedded.org/g/openembedde=
-d-core/message/208324
-> Mute This Topic: https://lists.openembedded.org/mt/109897713/3620601
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [st=
-eve@sakoman.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
+ rename meta/recipes-devtools/ruby/{ruby_3.3.5.bb =3D&gt; ruby_3.2.2.bb} =
+(88%)
+</pre>
+      </blockquote>
+    </blockquote>
+    &gt;&lt; snip &gt;&lt; snip &gt;&lt;<br>
+    <blockquote type=3D"cite" cite=3D"mid:CAOSpxdbWAHY7H9QKsfP8xCLaeq_R1f=
+9zhy7MsuO0T6h7PhBsPA@mail.gmail.com">
+      <blockquote type=3D"cite">
+        <pre wrap=3D"" class=3D"moz-quote-pre">
+</pre>
+      </blockquote>
+    </blockquote>
+    <p><br>
+    </p>
+    <pre class=3D"moz-signature" cols=3D"72">--=20
+# Randy MacLeod
+# Wind River Linux</pre>
+  </body>
+</html>
+
+--------------HPwkRKuJmT4eF4bUK0spDQuU--
 
