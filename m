@@ -1,89 +1,229 @@
-Return-Path: <liezhi.yang@windriver.com>
+Return-Path: <denis.osterland@diehl.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE93CE7716B
-	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 08:50:52 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.web11.9490.1733302247055156569
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D93CCE7716B
+	for <webhook@archiver.kernel.org>; Wed,  4 Dec 2024 09:06:12 +0000 (UTC)
+Received: from enterprise02.smtp.diehl.com (enterprise02.smtp.diehl.com [193.201.238.220])
+ by mx.groups.io with SMTP id smtpd.web10.9754.1733303166807072299
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 00:50:47 -0800
+ Wed, 04 Dec 2024 01:06:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=2068fa57db=liezhi.yang@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B45i3wc020603
-	for <openembedded-core@lists.openembedded.org>; Wed, 4 Dec 2024 00:50:46 -0800
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [147.11.82.254])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 43833q45ep-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 00:50:46 -0800 (PST)
-Received: from ala-exchng01.corp.ad.wrs.com (147.11.82.252) by
- ALA-EXCHNG02.corp.ad.wrs.com (147.11.82.254) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.43; Wed, 4 Dec 2024 00:50:44 -0800
-Received: from ala-lpggp7.wrs.com (147.11.136.210) by
- ala-exchng01.corp.ad.wrs.com (147.11.82.252) with Microsoft SMTP Server id
- 15.1.2507.43 via Frontend Transport; Wed, 4 Dec 2024 00:50:44 -0800
-From: <liezhi.yang@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/1] maintainers.inc: Update maintainer for pseudo and rpm
-Date: Wed, 4 Dec 2024 00:50:44 -0800
-Message-ID: <68ab1e8927b759eab6ced49bb16a8655b1cc811a.1733302188.git.liezhi.yang@windriver.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1733302188.git.liezhi.yang@windriver.com>
-References: <cover.1733302188.git.liezhi.yang@windriver.com>
+ dkim=pass header.i=@diehl.com header.s=default header.b=bVKvuZe/;
+ spf=pass (domain: diehl.com, ip: 193.201.238.220, mailfrom: prvs=0613ae4ec=denis.osterland@diehl.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=diehl.com; i=@diehl.com; q=dns/txt; s=default;
+  t=1733303167; x=1764839167;
+  h=from:to:cc:subject:date:message-id:mime-version;
+  bh=ooEZjBnFgBuQFA/6u+2SLmvWZOMmH3YG8yaOzfqcAzM=;
+  b=bVKvuZe/ndF6Ykexp6k03wZhVln08XzYtykre0kyBTL//RxpZ8N7mx+X
+   BGzTAm+Yxl8vA2crYNJC12lKyk15bh7mUUT7ssASNx2VZpUq4/J0APpR9
+   tFNyHUFEpzMqus4IPRak+hYMk61GqiiSctpDL0U4Vuas1X5EsHvLpXgFB
+   RmSh31l4xq8HqSrEpnbfWeOsp/s7yHfBth+OtQbNHS7tLrRhwFQyTWdjB
+   Nz5HVFSG3e8VlHvRnQLHpPa8F2NvMa/IJBAiaAAo63znrFTQv9JXGhQpJ
+   onzRuwUf8BtDvxeMTycS8HbREkZmyvH/YFWkJuM2UDD2zO/EjN5Ku4IX5
+   A==;
+X-CSE-ConnectionGUID: xfnOBE1URJSgCSwR4ZvTkQ==
+X-CSE-MsgGUID: naPlYDzfTPGz3r1nDSAhMQ==
+X-ThreatScanner-Verdict: Negative
+IronPort-Data: A9a23:UTYnLqoFKxqzqLkyKLOVGsbWCyVeBmLoZRIvgKrLsJaIsI4StFGz/
+ xJOGSnaY6zbJjuqJcY+dc3tpgkBpNWMmYgyDEcu+BmBJVpRrMvACJKBcVyY00i6JMHKQBs5s
+ 5lBZ9PMcJk5QnKA/UnxbOTs9ickhK2BTeDyWbGfanspHQU1RH4v1Uk4xuJnjoJj0YO3DVmG5
+ IL586UzVHeswyZwM2kd96OErlR3v//p53YDv1M4bOxWplK2e1w9VfrzconqfiOoKmUtIsa6W
+ /rbnvb+/W7I5FEhC96llvDwdUhNSaTWehSNz3phXe6pmBwazhDeqZ3XR8fwE28PzW3hovhx1
+ MlV59v3Sgo4JevAmekdV19TFCQ5NrdCv6PEZHiIt4qY1UmeLjitm51S4DoN0f4lFpxfWScWn
+ cEwKCwRdkLEwP2p3/S3S+RsgoIoK8ysJIAe/SkI8d2iNhpVfHy5a/2Mvbdl4QoNauBy8df2O
+ ZZEZGI1NUuQMxFGZV5KAphkxLijiymkfTRUognO/aNrujiCxwFPi7W8a9C9lv5m5yl2thvC+
+ jiWrzyR7jUyboH3Je+tqyr07gP3tXqlHtpUTPvgq6YCbGS7ngQ7EAcRWUawvc63g0u/X8M3A
+ 0EP80LCl4BrnKCQZoe7BkfQTEKs5EZGB4MKS7FisWlh94KPi+qnLjldJtJ+QIx+3CMGbWRC/
+ kOEmdrvGQtuvNW9IVqB9q2ZpC+FIiMcK2kPf0csFWPpNPG6/enfJjqWJjpSOPbdYu/dQFkc8
+ BjTxMQKvIj/uOZQv0mNEfIrtBr3znTBZlZdCgw6xQtJ5CshDGKuT9TABVQ2cZ+shWtWJ7WMl
+ CFspiSQ0AwBJYGDkgunbbwwJpOS6N2+LweAs0BTHKB0olxB+1b7FWxRyD17NkxmLZ5ePzTue
+ leVtQJc5JsVN3yvBUN1S9vpTZRwi/GwU42+DJg4bfIXCnR1XAOK+iB1I0mLw233lEEqnYkzO
+ JqbdYCnCnNy5aFPlWLuGrZCjed1rsw47WXafZTK4wap7YKxdiWPELEpC3KOS9lsuctopy2Qq
+ b6zLfCi0RJES6v0fzPL9og7JEoPa3M8APjes8FLe/TFIQhrHGUsEeTNzL89U4V1nr8TneDNl
+ lmnU00ey1rygFXILAyLbjZob7aHdZFnoHQ2OCYhMVql1z0oZpyixKMebIcsO74/+epuyPR5Q
+ /UId4OHGPsnYi7O5TU1dYPwsoV5Mhio7T9iJAL8OH5vJdg5F0qQoYWMkhbTyRTixxGf7aMWy
+ 4BMHCuCKXbfb2yO1PrrVc8=
+IronPort-HdrOrdr: A9a23:YdDv0qPVhLLgr8BcTuOjsMiBIKoaSvp037BL7TEWdfUxSKbo7v
+ xG885x6faZslossQgb6LK90fC7MBbhHP1OkO4s1NWZPTUO0VHARL2Ki7GM/9SKIUPDH4BmuJ
+ uJ6cNFebnNJGk/gfvzpDWjH81I+qjlzImYwevixzNmRQVyY6Fv6G5CajqmLg==
+X-Talos-CUID: =?us-ascii?q?9a23=3AuuPfS2gELejatopLXwwSxp4+9TJuYnPb6139enK?=
+ =?us-ascii?q?CK11mY4aKcwOi5p9nqp87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3ARxjzTA2H/NZJHax/x+4dE7bTVDUj5a2WDHEhg5s?=
+ =?us-ascii?q?6g+aWbjYpPRumpTSSe9py?=
+X-IronPort-AV: E=Sophos;i="6.12,207,1728943200"; 
+   d="p7s'346?scan'346,208,346";a="100597406"
+From: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
+To: Rasmus Villemoes <ravi@prevas.dk>, Khem Raj <raj.khem@gmail.com>
+Cc: "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>,
+	Ross Burton <Ross.Burton@arm.com>,
+	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Subject: RE: [EXT] Re: [OE-core] [PATCH v2] linux-yocto: add and use
+ GPL-2.0-with-syscall-note license
+Date: Wed, 4 Dec 2024 10:06:04 +0100 (CET)
+Message-ID: <bf5528fee82e4383ab659c8d944943fb@diehl.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-ORIG-GUID: _I3HAmGI0_EMaidfFeDtPaS1PoQaKums
-X-Authority-Analysis: v=2.4 cv=bqq2BFai c=1 sm=1 tr=0 ts=675017e6 cx=c_pps a=K4BcnWQioVPsTJd46EJO2w==:117 a=K4BcnWQioVPsTJd46EJO2w==:17 a=RZcAm9yDv7YA:10 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=ag1SF4gXAAAA:8 a=7CQSdrXTAAAA:8 a=iGHA9ds3AAAA:8 a=QyXUC8HyAAAA:8
- a=W1lfjoNHwFPTQBJtAVIA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-GUID: _I3HAmGI0_EMaidfFeDtPaS1PoQaKums
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-04_05,2024-12-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- mlxlogscore=866 lowpriorityscore=0 phishscore=0 adultscore=0
- malwarescore=0 priorityscore=1501 mlxscore=0 bulkscore=0 spamscore=0
- clxscore=1015 suspectscore=0 classifier=spam authscore=0 adjust=0
- reason=mlx scancount=1 engine=8.21.0-2411120000
- definitions=main-2412040068
+Content-Type: multipart/signed; protocol="application/x-pkcs7-signature"; micalg="sha-256"; boundary="----50E2800334DA3CFE97954433E8B75BDD"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 08:50:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208273
+ <openembedded-core@lists.openembedded.org>; Wed, 04 Dec 2024 09:06:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208274
 
-From: Robert Yang <liezhi.yang@windriver.com>
+This is an S/MIME signed message
 
-Signed-off-by: Robert Yang <liezhi.yang@windriver.com>
----
- meta/conf/distro/include/maintainers.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+------50E2800334DA3CFE97954433E8B75BDD
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 4cac0647c2..7105809860 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -596,7 +596,7 @@ RECIPE_MAINTAINER:pn-powertop = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-ppp = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-ppp-dialin = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-procps = "Alexander Kanavin <alex.kanavin@gmail.com>"
--RECIPE_MAINTAINER:pn-pseudo = "Richard Purdie <richard.purdie@linuxfoundation.org>"
-+RECIPE_MAINTAINER:pn-pseudo = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-psmisc = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-psplash = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-ptest-runner = "Ross Burton <ross.burton@arm.com>"
-@@ -745,7 +745,7 @@ RECIPE_MAINTAINER:pn-rgb = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-rpcbind = "Hongxu Jia <hongxu.jia@windriver.com>"
- RECIPE_MAINTAINER:pn-rng-tools = "Anuj Mittal <anuj.mittal@intel.com>"
- RECIPE_MAINTAINER:pn-rpcsvc-proto = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-rpm = "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-rpm = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-rsync = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-rt-tests = "Alexander Kanavin <alex.kanavin@gmail.com>"
- RECIPE_MAINTAINER:pn-ruby = "Ross Burton <ross.burton@arm.com>"
--- 
-2.25.1
+Hi,
+
+Currently I wonder if common-licenses is the right place for Linux-syscall-note,
+because this is a Linux specific licenses.
+
+I agree with Ross that SPDX syntax for the LICENSE field would be the best.
+
+First step:
+
+LICENSE = "GPL-2.0-only & Linux-syscall-note"
+NO_GENERIC_LICENSE[Linux-syscall-note] = "file://LICENSES/exceptions/Linux-syscall-note"
+
+
+And with SPDX syntax:
+
+LICENSE = "GPL-2.0-only WITH Linux-syscall-note"
+
+Maybe in the future we can even use https://github.com/spdx/license-list-data
+instead of maintaining common-licenses on our own.
+
+Regards, Denis
+
+-----Original Message-----
+From: Rasmus Villemoes <ravi@prevas.dk> 
+Sent: Tuesday, December 3, 2024 2:18 PM
+To: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [EXT] Re: [OE-core] [PATCH v2] linux-yocto: add and use GPL-2.0-with-syscall-note license
+
+> So since you're combining thbe GPL text and the syscall-note text, why
+> not take an exact copy of the COPYING file as it existed in the kernel
+> tree before the current split. That would also make word "below" actually make
+> sense. I.e.,
+> 
+>  git show b3358a116:COPYING
+> 
+> Rasmus
+
+
+-----Original Message-----
+From: Khem Raj <raj.khem@gmail.com> 
+Sent: Tuesday, December 3, 2024 6:38 PM
+To: Denis OSTERLAND-HEIM <denis.osterland@diehl.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [EXT] Re: [OE-core] [PATCH v2] linux-yocto: add and use GPL-2.0-with-syscall-note license
+
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/LICENSES/exceptions/Linux-syscall-note
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/LICENSES/preferred/GPL-2.0
+> 
+> I know we have combined the exceptions and create individual files but
+> I wonder if there is a better way to
+> express it with combinations of files. eg. see
+> meta/files/common-licenses/GPL-3.0-with-GCC-exception
+> at the top it says "insert GPL v3 text here" seems a bit iffy. Instead
+> it could be expressed with two files having
+> full license texts.
+
+------50E2800334DA3CFE97954433E8B75BDD
+Content-Type: application/x-pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+
+MIIPQAYJKoZIhvcNAQcCoIIPMTCCDy0CAQExDzANBglghkgBZQMEAgEFADALBgkq
+hkiG9w0BBwGgggxWMIIGUTCCBDmgAwIBAgICMAAwDQYJKoZIhvcNAQELBQAwgaMx
+ITAfBgNVBAMMGERpZWhsIEdyb3VwIE1haWwgUm9vdCBDQTELMAkGA1UEBhMCREUx
+EjAQBgNVBAcMCU51ZXJuYmVyZzEUMBIGA1UECgwLRGllaGwgR3JvdXAxFDASBgNV
+BAsMC0RpZWhsIEdyb3VwMQ8wDQYDVQQIDAZCYXllcm4xIDAeBgkqhkiG9w0BCQEW
+EXg1MDktY2FAZGllaGwuY29tMB4XDTE4MDUyOTEyMzIzNVoXDTI4MDUyNjEyMzIz
+NVowgZQxCzAJBgNVBAYTAkRFMQ8wDQYDVQQIDAZCYXllcm4xFDASBgNVBAoMC0Rp
+ZWhsIEdyb3VwMRswGQYDVQQLDBJEaWVobCBNZXRlcmluZyBUS0gxHzAdBgNVBAMM
+FkRpZWhsIE1ldGVyaW5nIE1haWwgQ0ExIDAeBgkqhkiG9w0BCQEWEXg1MDktY2FA
+ZGllaGwuY29tMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAtISPrKPL
+Zjjh//2n9b+GXgrhijJV2knQVC0+/FS3zGl4p2fboB+Vr4YHz1uilEvhsS1oG4FV
+f1u0dqdmLVxDHBPMO2K1NKKOJN/6LDDfyiZGNqDOJke6FzrmDyPXXTDtgzWZfdnD
+esx63XSxprre30oJ3BxDFS+/8UpuI628SPc1N4125rHeUXG4scKFSjqRPcIOAQ2X
+veGXU2dYHzq7B02NA8tssmtJNwXjyvMjOw6HGZ8SB87TrFQm6drEtM7QhI/mfpGe
+nTZ4nc84n0yKuMveav8IOspYbkOXzi4JapiOUpmccNLZdIiMg5WJQ0Xt9NSp5yD5
+CYKideGrWgX2wNEBpalgjZoPPQDImcWEJx88/yYZ4FwtRD3VueFqpBr4z/bxwVDr
+N2a/sEqnocY9Tm2EQyHFHDCJ9JyYEXB8W0LTFcUAx+uHijwPk/oIB5EeH8UygXlX
+qUqII+BUZ+q5m5sIc4eXQ10UpUEjG/ptIyO1Ee/E0kPOWzHp07pPgXCZohZb3y41
+Ha2pO6rXOsOmPBK2r2++fLWz3NFyfEJCmn6FcBNi003HUEVCup1D9/9yaPHPSieN
+27sjQcQ96GbOitC99p3xMnSlg4N11lGeuTXCZjIGXdZL5/dThQaxneVA+hr2X+i1
+KmqnesMaSBEuBEBDmbDbakEgJFVWtVeXuk8CAwEAAaOBmzCBmDASBgNVHRMBAf8E
+CDAGAQH/AgEAMAsGA1UdDwQEAwIBBjAdBgNVHQ4EFgQUn8t6NGPzWsF+oZYXxmfn
+p4Ok7rIwHwYDVR0jBBgwFoAUZrrYQMMD50v/OCDMgDN7y/GT2P8wNQYDVR0fBC4w
+LDAqoCigJoYkaHR0cDovL2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMA0G
+CSqGSIb3DQEBCwUAA4ICAQAl6hO6b6+GseZi3EAU+zPVhxNZP5Y+YsBnjf13jCGw
+nUVvPz6giwXiCd9KIC4eCqqrJLTHwZe8c/9hSk5CCd6A5XAd3YudrPDvmIwms5Ex
+OREMQkygZO6/qxfXO6IhfUO4HvYQtQexzHOLuxG/KdycVwWapA4acFzBurxFQ3aG
+jvPRgvWxe2Mt3K9wLrEhvGrDmS8yg4bYNyBZGgax6LRhfW4/ShInVUa0koG2Sj+H
+hKpppvqDK4FNgR2dKeCPoo28P9a+K9N3wkLKx4zxaxHegij0DsJOBAVbhk+vDWDO
+gedjtT09c9bsykaXFzykyQeQz7cwrTQ1gDacdcDgywMDQzZKim9O3JpyzvXnD7mb
+CvclM3xp9w6jIJbeaQE7HDlA9YIL/bSRIQq8mJcXArUevLK2MX/Mb+5m3UMU+zXc
+ZqmaneeZeR4bOWrmmhK6bMuce6H+i2YB1vG3BAcSfKQUzZ1m6aKSW1FvjI3SZXQD
+FzRzBwC5ql7i2ugtfOLNYjOO/fvAxNppIZb3IyWN1KBAI7YgS4nx0us/NIlWpTMW
+91WeUtNBCp2sgi3VTi/TUel3RZ9x3tggMUhrksGkFXz2NUL85AdPV6BqJXXXHggd
+121rnduE9ocMt0MFLuDPkMaHqKNzBAcKTcmFM8KYMJ5Z7NBqGtTAgHNVmEnU8gu3
+czCCBf0wggPloAMCAQICAgtcMA0GCSqGSIb3DQEBCwUAMIGUMQswCQYDVQQGEwJE
+RTEPMA0GA1UECAwGQmF5ZXJuMRQwEgYDVQQKDAtEaWVobCBHcm91cDEbMBkGA1UE
+CwwSRGllaGwgTWV0ZXJpbmcgVEtIMR8wHQYDVQQDDBZEaWVobCBNZXRlcmluZyBN
+YWlsIENBMSAwHgYJKoZIhvcNAQkBFhF4NTA5LWNhQGRpZWhsLmNvbTAeFw0yNDAx
+MDIwOTE5MzlaFw0yNjAxMDIwOTE5MzlaMIG8MSIwIAYDVQQDDBlkZW5pcy5vc3Rl
+cmxhbmRAZGllaGwuY29tMSgwJgYJKoZIhvcNAQkBFhlkZW5pcy5vc3RlcmxhbmRA
+ZGllaGwuY29tMQswCQYDVQQGEwJERTEPMA0GA1UECAwGQmF5ZXJuMRwwGgYDVQQK
+DBNEaWVobCBNZXRlcmluZyBUSy1IMRwwGgYDVQQLDBNEaWVobCBNZXRlcmluZyBU
+Sy1IMRIwEAYDVQQHDAlOdWVybmJlcmcwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
+ggEKAoIBAQDC4CfZJns8lrNXSkis30SmXgEPwIED4unjF8EoHzBRk5cQphMwuxVY
+uFrZmkB8+FJ7kNnazQ5ddAH+7uh/w7vxEbch92iEpJxYRT6z9U7Mgw0sqGjzWQjd
+sVzCSrWJrOdrHXc65BnAPOpjNDNe1dR8J9Z4a7OZU5NnQqJMT314j2gfGawGDakJ
+Vph7S6v4AVmty1Fi4iRbaIamu8KJFrHQb5E1UVD5drrxW6TS0z/3YkrMQ6qA1fBB
+Y271mRVq/1ByvJMgPJu7LtIyuGwGJw44RxF0JPLlqRWpsIa+z2cI48dkvwb8k0T1
+rNSIj9urOmUEJGF5O8LioUy0vwmxeWF7AgMBAAGjggEtMIIBKTAfBgNVHSMEGDAW
+gBSfy3o0Y/NawX6hlhfGZ+eng6TusjAJBgNVHRIEAjAAMCQGA1UdEQQdMBuBGWRl
+bmlzLm9zdGVybGFuZEBkaWVobC5jb20wNQYDVR0fBC4wLDAqoCigJoYkaHR0cDov
+L2tleXMuZGllaGwuY29tL2NybC90ay1oX24uY3JsMDUGCCsGAQUFBwEBBCkwJzAl
+BggrBgEFBQcwAoYZaHR0cDovL3d3dy5kaWVobC5jb20vcGtpLzAJBgNVHRMEAjAA
+MB0GA1UdDgQWBBQK9y4jVYoCDsL7lhhJKjEP5wv1nTALBgNVHQ8EBAMCBaAwHQYD
+VR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBEGCWCGSAGG+EIBAQQEAwIFoDAN
+BgkqhkiG9w0BAQsFAAOCAgEAB27J8TZvm6g0rtQpv4kqYwzkXOkCt27WHHWzl/JZ
+knFwWH4mvlRSrQtKkx8cPb5xqqx7k4qXC7TAef4W5YmnpWDtw7YHQAygAsCV1+i8
+uBhdnBVRYkLi0Brsqb/KaDVCFDAYn82kr8OlDaVl5GazIF5rTTUFVT7QEUewf5e7
+Ej4tkepIMP8DW0mM9VRdiSd+DFQQQsQR91nJZS+Gd0jT2tW6SVtZEGnsdgKi9VOw
++/u7TPynQA3m70zel9t0RySfc5bfZGqEBK/nqU2g5n/qaHKT9cMM8vTAJOmzMv4W
+p7j6RF851h+6c4kH0UsUR9LdbXsKS0KsKTmjPbmbuMAWSEafskq5lJdhIybBnGcp
+FwOkXw6yLHhvmBQ27hVolbrAgLprlLBm8qLq0G3dPHlLwgnNlD6RAcjaVLOcqH3Q
+HWHbKlVg310S75cll1rM+GAudWdsHWxOUbK7R0lwJf/E+FAXciAsExWzCQarpSFI
+AYJjvnsYTiSWas6b5L/rKtyeWIz5wJ3ovxFaMglCtGNGh3sqKwVgb0PeGJ/hfXkV
+Z3i06A/GFOMDvvZ4kI2OL2wwUftkvi8ID5g2nbX/WQh9y6zhlXtiOlA1IplU+PU3
+OHrFL4SBW0X7j1l+9Jl9kGy/ukAr+9nWZ55nUoV/L9C1GLrAO5KF/fDpO2b7lidQ
+mWUxggKuMIICqgIBATCBmzCBlDELMAkGA1UEBhMCREUxDzANBgNVBAgMBkJheWVy
+bjEUMBIGA1UECgwLRGllaGwgR3JvdXAxGzAZBgNVBAsMEkRpZWhsIE1ldGVyaW5n
+IFRLSDEfMB0GA1UEAwwWRGllaGwgTWV0ZXJpbmcgTWFpbCBDQTEgMB4GCSqGSIb3
+DQEJARYReDUwOS1jYUBkaWVobC5jb20CAgtcMA0GCWCGSAFlAwQCAQUAoIHkMBgG
+CSqGSIb3DQEJAzELBgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI0MTIwNDA5
+MDYwNFowLwYJKoZIhvcNAQkEMSIEIBq1pNMHhvFjplKYcybW0e7xLp3pYUpuEgAz
+cHvNHQutMHkGCSqGSIb3DQEJDzFsMGowCwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQB
+FjALBglghkgBZQMEAQIwCgYIKoZIhvcNAwcwDgYIKoZIhvcNAwICAgCAMA0GCCqG
+SIb3DQMCAgFAMAcGBSsOAwIHMA0GCCqGSIb3DQMCAgEoMA0GCSqGSIb3DQEBAQUA
+BIIBAD8UEbk3WlQ71czHuBzc8rhR7y9Rce4/oh5g/9FtQvgPaNkZWEWXSI9HAxxx
+o5lT+VSzMnOS8z8o1ZWDi08VFdGKzVSegHzuXXgJoaZlecs0dawNoF6AJuB2NYnb
+Hx/I+OGeX3bn0BwgMS7lIeoHZy52G8d5CRzm9yF7P44zZu76A+rpexAqN0ukPxsP
+ogiASDKYO6kGBdG3MSvMJMarbfJSMHnjwE4lzcr9DluKdzNDitIv1UjRC5vZkYpQ
+Bamtg4Xv6Uk0exS+p0NkRjeH0ObSg2crnzUaqYZeU1BleQeOCx9nawy6W9h9xlGR
+xzYA7OcZ9Sac0X5siI5/FF3g8VQ=
+
+------50E2800334DA3CFE97954433E8B75BDD--
 
 
