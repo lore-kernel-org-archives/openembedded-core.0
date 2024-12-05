@@ -2,107 +2,144 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56F11E7716E
-	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 23:29:36 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.web10.25783.1733441369022657610
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6130AE7716E
+	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 23:32:56 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.67.26])
+ by mx.groups.io with SMTP id smtpd.web10.25830.1733441566095753105
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Dec 2024 15:29:30 -0800
+ Thu, 05 Dec 2024 15:32:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=TH2/A7r9;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20241205232924e513a1799d496f392c-jdazip@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20241205232924e513a1799d496f392c
-        for <openembedded-core@lists.openembedded.org>;
-        Fri, 06 Dec 2024 00:29:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding;
- bh=cJANB1tiNicEDWHjAFFo62C+tIbdy1hNQX4b+CDDf4M=;
- b=TH2/A7r9kSvwwdniEDM7iFmczz6YojRtzcR04HRQcLltmoTrk0oN8p+1+GOQ2Sbnoaiaoj
- Gw1vxXqslD4AWdk6Vc1AcjCReT9BrwF+6OLzaa0B/B0JpL6avU/jTn2CDNlqaAvK2BMl+ZGx
- n2zRvdPHhdo3exy7DP0R4am44m65iFOR1Bv9z4E89+E1THfCj9II14q4GWutj6UOTFVr7XPZ
- RjpqtGI/AIT4F3O+XvAOEDCys3pPyHNKjsYQUcCQ06OhQBVQ5Aa+cZngSZ5nCtnAFaQw5r66
- h+IfcrYLWlm4HWVxLi6Kl48FgW/GIW1biVbM2oI5QaMZeabli1xzx1AQ==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][styhead][PATCH 1/7] ghostscript: upgrade 10.03.1 -> 10.04.0
-Date: Fri,  6 Dec 2024 00:28:38 +0100
-Message-Id: <20241205232838.256268-1-peter.marko@siemens.com>
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=dyi71EnQ;
+ spf=pass (domain: siemens.com, ip: 52.101.67.26, mailfrom: peter.marko@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=J3Dssxi9b8yu3ZiUecc4WH6QPJSGoPe7DKOmQsE7lUHAkDK+XR243Jx3zUmqwYOeiz2gGKRhqtHD9FQfcAafAkFpl4uB9Xo1/NQr8Q724Ms8wVnCn9c+tf4E+0Lz1KbKe0Uqj2z/IyiVFP27v+5mTjSSHmFITKc/vbK9ckVj/J6S5oPdIcSBkzO/+9MmFzU9ltUUZgDe9oERMJogx0PONitWgA0lpacCi3qDSyG0NR58HVeFGy/4g6Bc40Cv3e3pTfhQMxGefICzQz8xlVDuqZRHzv8gPEM0TUT8hIaws1l1NHov6UAED30BuuPtxhT27JA9ziENpPR39E6zLFU7FA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=SV5T30L4irI09vQoVdiMzM1vwLjEXc4vRwsAlr9vn2k=;
+ b=wKFFNJcWmOw3RR8CeA6mgDFH6ptIMlKNh8JnV4bgsew1wJl+3I4hihlXFRv86g0eEa2OEWKPSXJ7ED6e4wkeoJHo52jDozoESTHK8dOsHdipFKSSDmFcMFeOIcfehUacro0MCgeWZYONp+THeDrV6r1ytZ64BwOL/oRAAjnO/PUmRbFNxDJOAlC359KyXIRigg4jP0Jqd6FUYSaTKBHYIBGpXzF+OHXdpFf/lRWF3L/i9RXIZVHXAQIcabBj3YTdbMTlldJbsVZkOHJmCSeBNzvgrYQYzu3hGpvZj+H/Ibwl8KlHY0vLDUdoDBqR4mKV8x3U3j/HvYwKAfPF7LFAuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=SV5T30L4irI09vQoVdiMzM1vwLjEXc4vRwsAlr9vn2k=;
+ b=dyi71EnQPCsEFFnIYdEqXWvXtE6rbDstEGeyCfx1aWbSlg7CReGF717Szdbm5O4UIw7fN48XyhMoIDbgYKAxk2zzVWELKhRK0Jv9fder8ndEaAnUQaHXC/9HPkN1xRN2sRblP7g1cD8eVkGOaTTu+HNTe440DbbPYvX+pBbbpHGt2JA9bKVXm39q809tJMOJDZMEMnl3f4/HCnPC5x4jNXt21Crm6dCU0z2gTtjI1BDcdPy3mD3YfTdjy0V0QQkJF5KxGrX48bhhFOqsTfoTWLMiq8p0too7wKm9B/x3l4shREDY+o/k1SERlxfsa43Fp1tSdiahGoySpJHLPGznYA==
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:479::20)
+ by DB9PR10MB7266.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:461::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8251.9; Thu, 5 Dec
+ 2024 23:32:42 +0000
+Received: from AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2]) by AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::6c68:267b:6fd1:d3f2%3]) with mapi id 15.20.8230.007; Thu, 5 Dec 2024
+ 23:32:42 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core][styhead][PATCH 1/7] ghostscript: upgrade 10.03.1 ->
+ 10.04.0
+Thread-Topic: [OE-core][styhead][PATCH 1/7] ghostscript: upgrade 10.03.1 ->
+ 10.04.0
+Thread-Index: AQHbR22Snr4XACqANkK58E4HAzFPFbLYTOyA
+Date: Thu, 5 Dec 2024 23:32:42 +0000
+Message-ID: 
+ <AS1PR10MB569753D05556B9D9A6F3BF37FD302@AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM>
+References: <180E6BBDF894D49F.19074@lists.openembedded.org>
+In-Reply-To: <180E6BBDF894D49F.19074@lists.openembedded.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=232cfb69-8fb8-446e-8937-c5960f2bda13;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2024-12-05T23:32:03Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS1PR10MB5697:EE_|DB9PR10MB7266:EE_
+x-ms-office365-filtering-correlation-id: 52bc72f3-825f-4f33-6317-08dd15851d7c
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
+x-microsoft-antispam-message-info: 
+ =?us-ascii?Q?PcJ/Q7rYCcSryGe0YHfFqB8JdXyh406tOyHCfN4vf1ObAla3uWV7x6mqDPv8?=
+ =?us-ascii?Q?Ay5p6XbYU0k90J3wsjh+XX8PknBONKxFQ8HT9mTqAgdseyBQjOtXACgHVdZR?=
+ =?us-ascii?Q?XV/H0vRDlBRs8Le6sy/KSZ3RBjv15u4wqnRZueoimWkpAh/eW28cXErMVbh/?=
+ =?us-ascii?Q?MeK2ql+LUY1kIT3Mgbrp5jMzgIBlVO2OlMugpdhJA05d0faDqfh5oKn7xZXi?=
+ =?us-ascii?Q?ZlJhEBjww4KHMfq9/pkja27yOXVnmnusJRPTeaGjwsZ43aBKaknBNLKHXTF8?=
+ =?us-ascii?Q?q5OXe6g154VSkA9i3rApRqqpky5fS2rBklmRV1D4Vzinp6tdVq9X3CnqGp2m?=
+ =?us-ascii?Q?7jLFyJzY0+NcJQczyS4W740arXMWh8d1C02W64erFWJcDxqwhJlSyREy9eRw?=
+ =?us-ascii?Q?6l7ISKC3V16gCEnWbb64yQlPXNtawTeuyB8oIKrnXm8HABvzglTUAKs4Y879?=
+ =?us-ascii?Q?AK09PJh8JUceFpgourCc8GtsvhKrYGgJ1BPOZwoEa1WwwomGOhkyOoKJq93J?=
+ =?us-ascii?Q?DsSHgyjix8N3dbC+PRcVw1wr4Doo26OYjyZabvQqB3TlZsSoSK8QLcPA+gLv?=
+ =?us-ascii?Q?l1Jr3iqDhFgvOnfB51Tufi0BjNVpyOA0lYroA/0qB41wHXUXV4yjn7eD5G6Q?=
+ =?us-ascii?Q?WJ4fIYNbhY7pl5harUY6O8Mne5QM4VCXuFhaR3K7YXlrEH3tZLN+ZwG2QX13?=
+ =?us-ascii?Q?lzdisPUzfUmzKHTyvbB1KktmaYSLNx82MQXf0j5gkmGXzFLKWOhmdX1wTwOx?=
+ =?us-ascii?Q?NgUeInVuzWfG6gkV9NyMKY9K3yZY4ATZuEGnm1M/mKCn7fPUTRlXAkms64O8?=
+ =?us-ascii?Q?4sWToaXdKEp0yYQKziQTFIwFwHSj3NR1k0dVmxDSJjBJyJSbJg4rGFnzTRM0?=
+ =?us-ascii?Q?Yu9MVd5Nu9sWoqzMW+wu+TDEtOiTBL2ZXeKjSaoFQoXokaR3Uiwmi9V56q+q?=
+ =?us-ascii?Q?ExFaljdHR4x+I9d7/LIRY0N9G2l+jv7RWWaYhM7HZjh5sx/z5Z1uB7CcEFoX?=
+ =?us-ascii?Q?R2m6u2U0T4E36chfpTovKf94fv991OSAShgEzi0KRi90Jaf5GymY+2d1i3Fb?=
+ =?us-ascii?Q?KpWk+wIQUzQ8mnrzr+MLnQG1HThO93Atxj9k0WWEEP9NQ3GE3r9GSQAjKhZE?=
+ =?us-ascii?Q?VSiNqdyWrmEsXf8G9vh9Df/GVQodSLAKRb05sFWYjRD8NK/Yl+5H/Eg+U12j?=
+ =?us-ascii?Q?cM8orRZvr62JYn1JHNrXInpRDCgYLQ+6EHEshKrhxUaHGDbtBRuGjQBHNcCL?=
+ =?us-ascii?Q?WeRDdV64iCD9kXpwPIZS7pARZjapksgsLu7AFIFkqJ+2G44KAqjRQoTIMzN1?=
+ =?us-ascii?Q?y2E4VB8fI1aRtxqLDzLVTgxDVWvFdTOCb+foR74Qis9nUAaBUr1CGV5xeyDr?=
+ =?us-ascii?Q?OtU6bC+TcqI9cZFOkm9PDMAvDnfZplaZ8OM5/UqGztV2nqSUyQ=3D=3D?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?Q792B+hFHCu5vD/8JnlKfdkRKsO4adUcyjOCf4GC7rTHUmqkf7REEuPOEm+f?=
+ =?us-ascii?Q?S/w1ZuViYWThc5QsfsRUPFFL8M7x4yPFh3H9sLiZDETryJ+dwpqbOOgM+AB/?=
+ =?us-ascii?Q?lV+e3800CG+EhsuAacftjKP8XmIpa0SEO2UMCQ2JwIvWfKNDhBysakrWZqxi?=
+ =?us-ascii?Q?uSTkxhnKd25gTxuzASER7xAv+4kwUqcSOES0zAWg6NLuSaTr6ZEDCdTKHTWU?=
+ =?us-ascii?Q?TjFrYaeicxdib3Swh3NjrXXLVamvR8oiQPw9rXvPkKTqfL6Kggmv35p4jnvG?=
+ =?us-ascii?Q?nZtGzmgOgDk1YYbjeMtXltVnbnB5UfKc2jXx59MnSimlJt2CC9m6F/pfNDLr?=
+ =?us-ascii?Q?DaeYTNOgz2WP6Bw+xhvIUK9RuYibBSmLu8SBO4PTreWwiDvEP9Qu5E1jeUiT?=
+ =?us-ascii?Q?ALavyhlr5lgSLN2Nh6idUHZvcYc7+nubtmryocAzxgUgXUrttwxoHPMNo+hJ?=
+ =?us-ascii?Q?40m5iE8oyacQt4EJgJ69xZQzVITMv6MVHFAGEfrXkkQdiZdMtCFUcSFLv5dG?=
+ =?us-ascii?Q?F2nzfTApoxRasJxggrdPicWwwD6xv8GEdBx4sBsemk6NykeP/GOZTReWqVwl?=
+ =?us-ascii?Q?B2W1lSJvn+Ik+wlo/VnNDBOOciXuO97gQpUZtHoW5reAhwEQ9rXRYFuhQtW0?=
+ =?us-ascii?Q?xmdFbE161lBnrE+ahuia6o/vLhpJAjXATDaLzj5x+7F2iwzM/HnJcpc6I2Yt?=
+ =?us-ascii?Q?/XnCg1qNgl9OJfZY8/+9tpabKfWf9cxDbEtRuTGSUmbcEpz2IyA1JmzDRzZ1?=
+ =?us-ascii?Q?myOqvGDx5O0lAA2KmzPQixnwVhT1H8oVLtMS80y3yBQMmIVtfwpc41EJCyAf?=
+ =?us-ascii?Q?moGx8SV2rtC4MuTWXDrSNADoPMv8+qvm1zgC1KoIdVqS+YYxaJttz8KntAYE?=
+ =?us-ascii?Q?4RzT+bZ7Rs3ZYsZwdp8wMI12K/e+OJTElydo6ImG/+fb4x/DTAK529mjnoCg?=
+ =?us-ascii?Q?o/pCHGYyn83ScBnqtlqtUuC2jbCmZqJqiKZAKKx+E24BkHELPo2JfxE+YwCr?=
+ =?us-ascii?Q?EuskfAKAUdCaFgz53jCb3e3TJeqBN+sPbPQ2Ndd4AakoTrheIzQtcx/z8jDy?=
+ =?us-ascii?Q?H/wwCgbaCqkfN+ntJrBSROzCmylXsc3FT89/wDzBK2C7E+F7n2C6s20BJmih?=
+ =?us-ascii?Q?arIwIc1pbnaWb+D5oA8pjsPGbkS0rz/B3KhlIR1zcggrIa6MYx2AYX/JsjBK?=
+ =?us-ascii?Q?nfo4Ceuu0NZ9+jjYOXbt6hhD1hd1ZhePj5rfUAtg4OJVQju/p/h+WmSwI1Th?=
+ =?us-ascii?Q?8T8wxkMpt2J7WVlxQxTNGLvD6ZSR2fDCXV6WFAk2243S2ssxXoT1B/+EE3aL?=
+ =?us-ascii?Q?vdTigmCXTcf1VUBpBgxKKN0jtnwciG0OiEvNWBYFflSx2jfs9I5Gs76f8Dro?=
+ =?us-ascii?Q?IRoAjM+iTNMx5lPslhLGVd4BN86a2qMW9DppuI2Zn9swifG6FCTghI9PnyHc?=
+ =?us-ascii?Q?Q8RYUtkhZVHyueekgYJw/ARCMJEqNZnzQmlX9IgYbBdSLqMP6OdBDXDCDPij?=
+ =?us-ascii?Q?MjAbx9wsNbc3iq8DV1YpsuBd9Nw5nGxvZ1nGGfcf/vDT/pWI1V4JXPzPqYrh?=
+ =?us-ascii?Q?HKUJtFVAQcAtqxf1L7WkCHpWTFBpKeUHF6UxCXq9?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS1PR10MB5697.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52bc72f3-825f-4f33-6317-08dd15851d7c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Dec 2024 23:32:42.5784
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: aIFYQDDnIgH1uDPEP1/M1rzIMbm1vSteT+d7I8bIKYDeCcdxT/zFmllqDtWwPYnMEIe7y1ZqKOAiyrZY5RDv6Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR10MB7266
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 23:29:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208391
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 23:32:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208392
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
-
-avoid-host-contamination.patch
-refreshed for 10.04.0
-
-Changelog:
-===========
-- addresses CVEs: CVE-2024-46951, CVE-2024-46952, CVE-2024-46953, CVE-2024-46954, CVE-2024-46955, CVE-2024-46956
-- add protection for device selection from PostScript input.
-- efforts in code hygiene and maintainability continue.
-- The usual round of bug fixes, compatibility changes, and incremental improvements.
-- add the capability to build with the Tesseract OCR engine.
-
-(From OE-Core rev: a0c802e9b1d8400589aede20e52f40d10a344314)
-
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-Signed-off-by: Steve Sakoman <steve@sakoman.com>
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
----
- .../ghostscript/ghostscript/avoid-host-contamination.patch  | 6 +++---
- .../{ghostscript_10.03.1.bb => ghostscript_10.04.0.bb}      | 2 +-
- 2 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-extended/ghostscript/{ghostscript_10.03.1.bb => ghostscript_10.04.0.bb} (97%)
-
-diff --git a/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch b/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch
-index 67f14bd368..0546fdf8f0 100644
---- a/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch
-+++ b/meta/recipes-extended/ghostscript/ghostscript/avoid-host-contamination.patch
-@@ -1,4 +1,4 @@
--From b36713c8f1ba0e5755b78845a433354a63663b1a Mon Sep 17 00:00:00 2001
-+From 095bb1db8b2e68cac40e985f347a7039573e1e80 Mon Sep 17 00:00:00 2001
- From: Kai Kang <kai.kang@windriver.com>
- Date: Thu, 29 Mar 2018 16:02:05 +0800
- Subject: [PATCH] avoid host contamination
-@@ -15,10 +15,10 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/devices/devs.mak b/devices/devs.mak
--index 186f704..88ab8c9 100644
-+index a5dbc7a..27b55f2 100644
- --- a/devices/devs.mak
- +++ b/devices/devs.mak
--@@ -397,7 +397,7 @@ $(DEVOBJ)gdevxalt.$(OBJ) : $(DEVSRC)gdevxalt.c $(GDEVX) $(math__h) $(memory__h)\
-+@@ -403,7 +403,7 @@ $(DEVOBJ)gdevxalt.$(OBJ) : $(DEVSRC)gdevxalt.c $(GDEVX) $(math__h) $(memory__h)\
-  ### NON PORTABLE, ONLY UNIX WITH GCC SUPPORT
-  
-  $(DEVOBJ)X11.so : $(x11alt_) $(x11_) $(DEVS_MAK) $(MAKEDIRS)
-diff --git a/meta/recipes-extended/ghostscript/ghostscript_10.03.1.bb b/meta/recipes-extended/ghostscript/ghostscript_10.04.0.bb
-similarity index 97%
-rename from meta/recipes-extended/ghostscript/ghostscript_10.03.1.bb
-rename to meta/recipes-extended/ghostscript/ghostscript_10.04.0.bb
-index 0504f5244f..546d734333 100644
---- a/meta/recipes-extended/ghostscript/ghostscript_10.03.1.bb
-+++ b/meta/recipes-extended/ghostscript/ghostscript_10.04.0.bb
-@@ -27,7 +27,7 @@ SRC_URI = "https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/downlo
-            file://avoid-host-contamination.patch \
-            "
- 
--SRC_URI[sha256sum] = "31cd01682ad23a801cc3bbc222a55f07c4ea3e068bdfb447792d54db21a2e8ad"
-+SRC_URI[sha256sum] = "c764dfbb7b13fc71a7a05c634e014f9bb1fb83b899fe39efc0b6c3522a9998b1"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[gtk] = "--enable-gtk,--disable-gtk,gtk+3"
--- 
-2.30.2
-
+Please ignore this patch, it's only part of the series sent alone by mistak=
+e.
+Peter
 
