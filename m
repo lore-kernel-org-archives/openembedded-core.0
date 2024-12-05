@@ -2,62 +2,62 @@ Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CF5BE77173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CF27E77170
 	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 09:33:42 +0000 (UTC)
-Received: from mail-lj1-f175.google.com (mail-lj1-f175.google.com [209.85.208.175])
- by mx.groups.io with SMTP id smtpd.web10.6627.1733391219234103457
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
+ by mx.groups.io with SMTP id smtpd.web11.6553.1733391213733314222
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Dec 2024 01:33:39 -0800
+ Thu, 05 Dec 2024 01:33:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linaro.org header.s=google header.b=WRHrTKP7;
- spf=pass (domain: linaro.org, ip: 209.85.208.175, mailfrom: mikko.rapeli@linaro.org)
-Received: by mail-lj1-f175.google.com with SMTP id 38308e7fff4ca-2ffd6882dcbso5105841fa.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 01:33:38 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=f6PrR9KC;
+ spf=pass (domain: linaro.org, ip: 209.85.208.170, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-2ffc3f2b3a9so6057871fa.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 01:33:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1733391217; x=1733996017; darn=lists.openembedded.org;
+        d=linaro.org; s=google; t=1733391212; x=1733996012; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=cTQqy92CRK7huhHuuH3An1Ib8ji4pq5bMBxnDrzsUlw=;
-        b=WRHrTKP7JpIcefwIcicwHDr+A4N9/lWeDF62kbG1+GsttcyNVuvG/wSmaqCRQxPXqc
-         z+nAwC3UXk/9vmwVXyVFtd7ys5gFREgCODqnWgi96Y8ECItc3Yd77HqNPxifJLx8F4GX
-         uzh02IkcM1XoRbK1c9LC/QBEssiYWE+dm3Z/1xuv9AyWFX325RrhWP+u/9KIF8Hk8VVM
-         5O3SoUn3BAMsgwBuSoLJE7yqOwdCFENd2A3M+GnVc2ioSg2w6uhEC38jAJZTjJnqoy61
-         5ZyN3pRJIf0I4kb3UBnRk9CagBpGUsuHDuat1jPQByvXNkyomBN8AUMs7TlsuUVdkIWe
-         xu1A==
+        bh=mYuI1sjLO1UiypYkv5GHGWK1zKA9XBIznLe5yAqL0AQ=;
+        b=f6PrR9KCVV2guHEoyuunCSZRyoaZyJFYcrCCfYlKFY31lInu/bmopmTmTxmAthfcpn
+         BDh7EA3yrFHZhJErUCXosl93NzKwkFKFfh8AvHKsG0IDRh1MgPIuxn6PEY5/iiLRFgXw
+         MbZbbKbsnU1STPxeq3kXV2/VTmnyiLFgRE2TPVPcXkWq8rHhqP4r4C4XczLSmqa3z90R
+         3BVHavFiYHaJqi//0ah8K4CQ//1aGlQNodaxgZcZWeeuH2df729RFEK5zWCDDcDXQ1ZA
+         yi1CedHRUVG2dbMYYjIae99gMEAjVJqigKBNnYjxOK1SEZMkwb0pkT+P7mwwqeetMFN6
+         ZWDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733391217; x=1733996017;
+        d=1e100.net; s=20230601; t=1733391212; x=1733996012;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=cTQqy92CRK7huhHuuH3An1Ib8ji4pq5bMBxnDrzsUlw=;
-        b=aGZ+N8lSnMemRJxoLBEmjQbRKpZAu58t5d0MNI21EeHYCA3xP5+hoZGodm+DzcIowg
-         NGsSeoasV6ziq8bTx9nM/vTEToVD9cp4MlHxlvATlP+bhYv5x2Z8U3p3azn9rRoDhvr/
-         drZxj2bRZO/BBxuEfGYQYbo5n7McKJBqNQfN7C6/b64D5qk/EgTV7rtCiaclolSrWtz9
-         LhwTT15/mdlI+3RlZ0hW4IvqpKFES85265WVMqqZT1fpZObMPRl4OKUvCC6nFrrpwOQt
-         tCwRc0/xPyjV1TZJv0/TF67OkomPjB4M3OAA8nUlwZeZmdSlxfSRdvFUF/TgJCB0xrc7
-         RIog==
-X-Gm-Message-State: AOJu0Yyo0KBaHStCI9w3mBFWdWK/bFBLocKn0XuortiYSTyBT0f6/8B5
-	4o6crbuCfr4giosJ2WtxycYW9TzdV8wAtwIWY7uLfLhpq0Kj5OkToG/ngzJcw6rORZO2krHk90I
-	6
-X-Gm-Gg: ASbGncsUbkRokWkX4fT51elkaEsE6FsbItB4w+0j9VU/1y2PyCvsL6gCFpgPtmzWWMp
-	71XjzRbLq595vsfK1X8y/9EHCUDzqEGgXUrNm1UjFLaAMqHp2C3oYhx3Hdo4XpdiTbL9bnalFsp
-	CbsPs5gO20vsh1+HYtqV/6NML0NG7/bHtjK8qbhlJfA8dcO7SQyx4cMmquIR7m8YchcUkc6M2qX
-	vzQz2hfCQEMWDEMCA7Lru6GsnFcNy89edsNz7cizIamgvbS8gwtwGO6dK79+UUJlyuWmk5Qlyze
-	dlCCoseFN4bQmFRYMTuGc1I=
-X-Google-Smtp-Source: AGHT+IHomWQXv/a2OoXjZhGfjvjfC7RgZAhg/IgEZtYumeclaibT/S9ulVoNGvRry92CfzHcTvMOWQ==
-X-Received: by 2002:a2e:b88d:0:b0:2ff:a7c1:8c55 with SMTP id 38308e7fff4ca-30014eaaa5amr30839051fa.28.1733391216413;
-        Thu, 05 Dec 2024 01:33:36 -0800 (PST)
+        bh=mYuI1sjLO1UiypYkv5GHGWK1zKA9XBIznLe5yAqL0AQ=;
+        b=jG3Q4br0GHN0z6CPj8lLqB7bZCWyaDy/njeALDvGwhqAeYvFtKVxF3Z/1M9mcmpzaL
+         OoOHiR8Y5jvJdUedH5q8mXU7WgU4pxgpqieWROP9xpw+0xphG1fRBsZKPBLNoUEDnzk7
+         D9vRsjSdYY2vk48bRNfz1mMmppfrNOHoLWmtRC5l0tBqFI3jEzmTeez4y+zIGyNFTdt5
+         DQF1uh8j5xrwsVGzM324GXRC/vZ8Rfls9bqWxFw8KsugLINLYMiZTqkEgKPIEY4GbQ0N
+         RzndaFmAqRn5j2kJhsoOJtb7RHnNglQQT/OCdRnjU4gtGBXsvgTTBmy91zqHuEz+Sznr
+         T/1Q==
+X-Gm-Message-State: AOJu0Ywf6DvhFOTSYAggZAEbEntMrd4ZS02BKfa0OdqxwjjDfiOm+XHR
+	/eoYmxgzrYy+R8A9N/62sQ1m0dM5LQMFYq9gf8W7Hf7o3R1yDo6/2r+hy3Zpjny66V0GzdSZmxY
+	5
+X-Gm-Gg: ASbGncsRvASDNT+FySvsujnNKIavpgzgHe6AOq675RU+Xb7Qmaq0zI5vTG1HTq4EDE2
+	94GHCgPxoj27SULUdOUreYbHPhdwbnmpgtFLD31zuGC9Rj3Z4+jmwX+Ceg2NU6Io4KkXCr0wKoc
+	+TtQ9UO2Yb2k2vosUhxW6YtpnxcxA/HFacKT//Khn8nQqBzo6OJ6BkLKR1PJgb3qbrRpWBcUIcW
+	YWDZ6ZWexgOUqJGOyBDUyA7bsu5EXuY4MOagf60w4rr8xHgsRr5BQb0HlPrB9dEjT/wgf0D68Ti
+	4ROgXpx/7b/v4vKPZcMZ8RE=
+X-Google-Smtp-Source: AGHT+IGIIXKRKIRozE670cDGt1Q3lrRnD6ln5kisWsIj1XZOkSQKqMB6yc971Ijq/HqfeRPrsZW5MA==
+X-Received: by 2002:a05:651c:98f:b0:2ff:a3c0:a87a with SMTP id 38308e7fff4ca-30009ce0ba1mr88887581fa.28.1733391211782;
+        Thu, 05 Dec 2024 01:33:31 -0800 (PST)
 Received: from localhost.localdomain (2001-14ba-490-c700--133.rev.dnainternet.fi. [2001:14ba:490:c700::133])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30020e5750dsm1648961fa.101.2024.12.05.01.33.33
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30020e5750dsm1648961fa.101.2024.12.05.01.33.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 01:33:34 -0800 (PST)
+        Thu, 05 Dec 2024 01:33:29 -0800 (PST)
 From: Mikko Rapeli <mikko.rapeli@linaro.org>
 To: openembedded-core@lists.openembedded.org
 Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-Subject: [PATCH 3/3] dtc: update from 1.7.0 to 1.7.2
-Date: Thu,  5 Dec 2024 11:32:37 +0200
-Message-ID: <20241205093237.333818-4-mikko.rapeli@linaro.org>
+Subject: [PATCH 2/3] python3-dtc: update from 1.7.0 to 1.7.2
+Date: Thu,  5 Dec 2024 11:32:36 +0200
+Message-ID: <20241205093237.333818-3-mikko.rapeli@linaro.org>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20241205093237.333818-1-mikko.rapeli@linaro.org>
 References: <20241205093237.333818-1-mikko.rapeli@linaro.org>
@@ -67,9 +67,9 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 09:33:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208369
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208368
 
-To align with python3-dtc version. Changes:
+To fix compatibility with new swig version. Changes:
 
 https://github.com/dgibson/dtc/releases/tag/v1.7.2
 
@@ -109,115 +109,178 @@ Changes sinve v1.7.0 include:
    * Some additional testcases
    * Move to GitHub Actions based CI
 
-Drop patches which were upstreamed.
+Drop revert patch. Will align dtc version with separate commit.
 
 Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
 ---
- ...01-meson.build-bump-version-to-1.7.0.patch | 29 --------------
- ...n-allow-building-from-shallow-clones.patch | 38 -------------------
- .../dtc/{dtc_1.7.0.bb => dtc_1.7.2.bb}        |  4 +-
- 3 files changed, 1 insertion(+), 70 deletions(-)
- delete mode 100644 meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch
- delete mode 100644 meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch
- rename meta/recipes-kernel/dtc/{dtc_1.7.0.bb => dtc_1.7.2.bb} (86%)
+ ...erlay-make-overlay_get_target-public.patch | 132 ------------------
+ ...hon3-dtc_1.7.0.bb => python3-dtc_1.7.2.bb} |   5 +-
+ 2 files changed, 2 insertions(+), 135 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
+ rename meta/recipes-devtools/python/{python3-dtc_1.7.0.bb => python3-dtc_1.7.2.bb} (84%)
 
-diff --git a/meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch b/meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch
+diff --git a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch b/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
 deleted file mode 100644
-index 79a3b92b44..0000000000
---- a/meta/recipes-kernel/dtc/dtc/0001-meson.build-bump-version-to-1.7.0.patch
+index a2df482e3a..0000000000
+--- a/meta/recipes-devtools/python/python3-dtc/0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch
 +++ /dev/null
-@@ -1,29 +0,0 @@
--From 9153522103bd4ed7e3299c4d073f66bb37cb2d42 Mon Sep 17 00:00:00 2001
--From: Nikolay Letov <letov.nikolay@gmail.com>
--Date: Wed, 22 Feb 2023 13:36:07 +0300
--Subject: [PATCH 1/2] meson.build: bump version to 1.7.0
+@@ -1,132 +0,0 @@
+-From 4d4703e0199fb3556c37694e4d951785abca22fd Mon Sep 17 00:00:00 2001
+-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+-Date: Wed, 19 Jan 2022 12:46:42 -0500
+-Subject: [PATCH] Revert "libfdt: overlay: make overlay_get_target() public"
 -
--[This was botched in the actual 1.7.0 release :( - David Gibson]
+-This reverts commit 45f3d1a095dd3440578d5c6313eba555a791f3fb.
 -
--Upstream-Status: Backport [https://git.kernel.org/pub/scm/utils/dtc/dtc.git/commit/?id=64a907f08b9bedd89833c1eee674148cff2343c6]
+-Upstream-Status: Inappropriate [embedded specific]
 -
--Signed-off-by: Nikolay Letov <letov.nikolay@gmail.com>
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ----
-- meson.build | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
+- libfdt/fdt_overlay.c | 29 ++++++++++++++++++++++-------
+- libfdt/libfdt.h      | 18 ------------------
+- libfdt/version.lds   |  1 -
+- 3 files changed, 22 insertions(+), 26 deletions(-)
 -
--diff --git a/meson.build b/meson.build
--index 78251eb..d88cd9f 100644
----- a/meson.build
--+++ b/meson.build
--@@ -1,5 +1,5 @@
-- project('dtc', 'c',
---  version: '1.6.0',
--+  version: '1.7.0',
--   license: ['GPL2+', 'BSD-2'],
--   default_options: 'werror=true',
-- )
---- 
--2.30.2
--
-diff --git a/meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch b/meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch
-deleted file mode 100644
-index 0284905913..0000000000
---- a/meta/recipes-kernel/dtc/dtc/0002-meson-allow-building-from-shallow-clones.patch
-+++ /dev/null
-@@ -1,38 +0,0 @@
--From 4415b0baece3c4351a6d3637c2754abbefd4795d Mon Sep 17 00:00:00 2001
--From: Peter Marko <peter.marko@siemens.com>
--Date: Sat, 16 Dec 2023 18:58:31 +0100
--Subject: [PATCH 2/2] meson: allow building from shallow clones
--
--When building from shallow clone, tag is not available
--and version defaults to git hash.
--Problem is that some builds check DTC version and fail the comparison.
--Example is https://git.trustedfirmware.org/TF-A/trusted-firmware-a.git
--Which fails to build with following error:
--dtc version too old (039a994), you need at least version 1.4.4
--
--Drop --always from git describe command, see
--https://github.com/mesonbuild/meson/blob/1.3.0/mesonbuild/utils/universal.py#L773
--This will make it more closer to build via Makefile.
--
--Upstream-Status: Submitted [https://github.com/dgibson/dtc/pull/122]
--
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- meson.build | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/meson.build b/meson.build
--index 78251eb..fc0c92a 100644
----- a/meson.build
--+++ b/meson.build
--@@ -56,6 +56,7 @@ py = py.find_installation(required: get_option('python'))
-- swig = find_program('swig', required: get_option('python'))
+-diff --git a/libfdt/fdt_overlay.c b/libfdt/fdt_overlay.c
+-index 5c0c398..d217e79 100644
+---- a/libfdt/fdt_overlay.c
+-+++ b/libfdt/fdt_overlay.c
+-@@ -40,22 +40,37 @@ static uint32_t overlay_get_target_phandle(const void *fdto, int fragment)
+- 	return fdt32_to_cpu(*val);
+- }
 - 
-- version_gen_h = vcs_tag(
--+  command: ['git', 'describe', '--dirty=+'],
--   input: 'version_gen.h.in',
--   output: 'version_gen.h',
-- )
+--int fdt_overlay_target_offset(const void *fdt, const void *fdto,
+--			      int fragment_offset, char const **pathp)
+-+/**
+-+ * overlay_get_target - retrieves the offset of a fragment's target
+-+ * @fdt: Base device tree blob
+-+ * @fdto: Device tree overlay blob
+-+ * @fragment: node offset of the fragment in the overlay
+-+ * @pathp: pointer which receives the path of the target (or NULL)
+-+ *
+-+ * overlay_get_target() retrieves the target offset in the base
+-+ * device tree of a fragment, no matter how the actual targeting is
+-+ * done (through a phandle or a path)
+-+ *
+-+ * returns:
+-+ *      the targeted node offset in the base device tree
+-+ *      Negative error code on error
+-+ */
+-+static int overlay_get_target(const void *fdt, const void *fdto,
+-+			      int fragment, char const **pathp)
+- {
+- 	uint32_t phandle;
+- 	const char *path = NULL;
+- 	int path_len = 0, ret;
+- 
+- 	/* Try first to do a phandle based lookup */
+--	phandle = overlay_get_target_phandle(fdto, fragment_offset);
+-+	phandle = overlay_get_target_phandle(fdto, fragment);
+- 	if (phandle == (uint32_t)-1)
+- 		return -FDT_ERR_BADPHANDLE;
+- 
+- 	/* no phandle, try path */
+- 	if (!phandle) {
+- 		/* And then a path based lookup */
+--		path = fdt_getprop(fdto, fragment_offset, "target-path", &path_len);
+-+		path = fdt_getprop(fdto, fragment, "target-path", &path_len);
+- 		if (path)
+- 			ret = fdt_path_offset(fdt, path);
+- 		else
+-@@ -621,7 +636,7 @@ static int overlay_merge(void *fdt, void *fdto)
+- 		if (overlay < 0)
+- 			return overlay;
+- 
+--		target = fdt_overlay_target_offset(fdt, fdto, fragment, NULL);
+-+		target = overlay_get_target(fdt, fdto, fragment, NULL);
+- 		if (target < 0)
+- 			return target;
+- 
+-@@ -764,7 +779,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+- 			return -FDT_ERR_BADOVERLAY;
+- 
+- 		/* get the target of the fragment */
+--		ret = fdt_overlay_target_offset(fdt, fdto, fragment, &target_path);
+-+		ret = overlay_get_target(fdt, fdto, fragment, &target_path);
+- 		if (ret < 0)
+- 			return ret;
+- 		target = ret;
+-@@ -786,7 +801,7 @@ static int overlay_symbol_update(void *fdt, void *fdto)
+- 
+- 		if (!target_path) {
+- 			/* again in case setprop_placeholder changed it */
+--			ret = fdt_overlay_target_offset(fdt, fdto, fragment, &target_path);
+-+			ret = overlay_get_target(fdt, fdto, fragment, &target_path);
+- 			if (ret < 0)
+- 				return ret;
+- 			target = ret;
+-diff --git a/libfdt/libfdt.h b/libfdt/libfdt.h
+-index a7f432c..7f117e8 100644
+---- a/libfdt/libfdt.h
+-+++ b/libfdt/libfdt.h
+-@@ -2116,24 +2116,6 @@ int fdt_del_node(void *fdt, int nodeoffset);
+-  */
+- int fdt_overlay_apply(void *fdt, void *fdto);
+- 
+--/**
+-- * fdt_overlay_target_offset - retrieves the offset of a fragment's target
+-- * @fdt: Base device tree blob
+-- * @fdto: Device tree overlay blob
+-- * @fragment_offset: node offset of the fragment in the overlay
+-- * @pathp: pointer which receives the path of the target (or NULL)
+-- *
+-- * fdt_overlay_target_offset() retrieves the target offset in the base
+-- * device tree of a fragment, no matter how the actual targeting is
+-- * done (through a phandle or a path)
+-- *
+-- * returns:
+-- *      the targeted node offset in the base device tree
+-- *      Negative error code on error
+-- */
+--int fdt_overlay_target_offset(const void *fdt, const void *fdto,
+--			      int fragment_offset, char const **pathp);
+--
+- /**********************************************************************/
+- /* Debugging / informational functions                                */
+- /**********************************************************************/
+-diff --git a/libfdt/version.lds b/libfdt/version.lds
+-index cbce5d4..7ab85f1 100644
+---- a/libfdt/version.lds
+-+++ b/libfdt/version.lds
+-@@ -77,7 +77,6 @@ LIBFDT_1.2 {
+- 		fdt_appendprop_addrrange;
+- 		fdt_setprop_inplace_namelen_partial;
+- 		fdt_create_with_flags;
+--		fdt_overlay_target_offset;
+- 	local:
+- 		*;
+- };
 --- 
--2.30.2
+-2.19.1
 -
-diff --git a/meta/recipes-kernel/dtc/dtc_1.7.0.bb b/meta/recipes-kernel/dtc/dtc_1.7.2.bb
-similarity index 86%
-rename from meta/recipes-kernel/dtc/dtc_1.7.0.bb
-rename to meta/recipes-kernel/dtc/dtc_1.7.2.bb
-index 0702fc16df..93668e5544 100644
---- a/meta/recipes-kernel/dtc/dtc_1.7.0.bb
-+++ b/meta/recipes-kernel/dtc/dtc_1.7.2.bb
-@@ -10,10 +10,8 @@ LIC_FILES_CHKSUM = "file://GPL;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+diff --git a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb b/meta/recipes-devtools/python/python3-dtc_1.7.2.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-dtc_1.7.0.bb
+rename to meta/recipes-devtools/python/python3-dtc_1.7.2.bb
+index 85e48d4694..c301c9550f 100644
+--- a/meta/recipes-devtools/python/python3-dtc_1.7.0.bb
++++ b/meta/recipes-devtools/python/python3-dtc_1.7.2.bb
+@@ -6,15 +6,14 @@ LICENSE = "GPL-2.0-only | BSD-2-Clause"
  
- SRC_URI = " \
-     git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main;protocol=https \
--    file://0001-meson.build-bump-version-to-1.7.0.patch \
--    file://0002-meson-allow-building-from-shallow-clones.patch \
- "
+ DEPENDS = "flex-native bison-native swig-native python3-setuptools-scm-native libyaml dtc"
+ 
+-SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=master \
+-           file://0001-Revert-libfdt-overlay-make-overlay_get_target-public.patch \
++SRC_URI = "git://git.kernel.org/pub/scm/utils/dtc/dtc.git;branch=main \
+           "
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ 
+ LIC_FILES_CHKSUM = "file://pylibfdt/libfdt.i;beginline=1;endline=6;md5=afda088c974174a29108c8d80b5dce90"
+ 
 -SRCREV = "039a99414e778332d8f9c04cbd3072e1dcc62798"
 +SRCREV = "2d10aa2afe35527728db30b35ec491ecb6959e5c"
  
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
+ S = "${WORKDIR}/git"
  
 -- 
 2.43.0
