@@ -1,82 +1,99 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mikko.rapeli@linaro.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F0FFE7716C
-	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 10:06:42 +0000 (UTC)
-Received: from mail-qv1-f53.google.com (mail-qv1-f53.google.com [209.85.219.53])
- by mx.groups.io with SMTP id smtpd.web10.7270.1733393199212943470
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8411AE7716C
+	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 10:11:52 +0000 (UTC)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
+ by mx.groups.io with SMTP id smtpd.web10.7339.1733393502530878156
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Dec 2024 02:06:39 -0800
+ Thu, 05 Dec 2024 02:11:42 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=WgfG0bwX;
- spf=pass (domain: gmail.com, ip: 209.85.219.53, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f53.google.com with SMTP id 6a1803df08f44-6d8a3e99e32so6436006d6.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 02:06:39 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=rg+KaSJP;
+ spf=pass (domain: linaro.org, ip: 209.85.208.181, mailfrom: mikko.rapeli@linaro.org)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2ffd6882dcbso5383551fa.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 02:11:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733393198; x=1733997998; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=3/Y0mxuqD/ew/V5uSnB+6ju0IRfx6SZ9XdQ2xdwagSY=;
-        b=WgfG0bwXmJJx2RaSDDhpb3EvTtyzaHkqcbfh8ZBwk+z4ltF+YzwkwqoAeLLcvZUHDi
-         yEhHQqMR0mK19IbyzOetJw/htPj6FJfx8C0I9yVMMq0WvsR4wX/5h+C6FvUSdA45PkKS
-         VbQPvDhaSzZPZsf9VWYsIpB/vrRzWp3WxBpSPWDBHVhbTnRpKTg30q+jF+COvNn/ql2H
-         m5sd7NysIlAr30jw9Cx7u93mq0WWIM0Xy8kXeXQQQm8kTE06NOLfS4CyD/1T1W+EQ2Sh
-         skJkbaCAspcs5XCQ+4DXRzfIaRu95v9HTfTphBPOFFaBPRWQjTQtL+Nnnbpzqbq4Yqns
-         wTJQ==
+        d=linaro.org; s=google; t=1733393500; x=1733998300; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vqs+m3OrzER1eG25075YZ9pGKtDacpN4Pf0jl7G2zXA=;
+        b=rg+KaSJPpuoS8jzo9YaWK3G6sqcZ7rAqK3tU31eU9OUKRr//Ei3G0nas5Tm2WhVRqO
+         7PnLdscFRz+hVyviKQ2Z9HNgXwjQujhZSMgxkVnYvQCUiMttuNoUp0328y/R7f3vgUbi
+         KaXZvmeQ97fxflu1WulGMEr/J1TbBnoTzq5df28owc6DlQxQ4hdCY6LBM09jJSBVY5vV
+         hdhcUPuxR7iFJd6QAtIit6bnNz6feaZf3gnGzK0c1TWzzsiNZklZyRy4BTIIM1RaFHmq
+         /B1hrZUbHKbMqKoshYYubzjaJkkIDWcUVMWuajELJhVZjQYkdsSApY3Qv9N4iCRdlY/N
+         A7hQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733393198; x=1733997998;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3/Y0mxuqD/ew/V5uSnB+6ju0IRfx6SZ9XdQ2xdwagSY=;
-        b=p4UGXicHg9nPBDHlOAGgm7c1ATFJJTtbHHk5PG3KuQM3d41PVEjLNIDHIu5k1Hp4/q
-         gyBJxBvTXDYnNPe4zhzWqZiKkB/YeIUk5EaVdU9FqEm/mHLYLceLZ+QLvIWR+bIbkj94
-         9gD77ZwRMqZViesbNacZfNpbHkDDGljtQYhWCcFWBKInysoLN+WvlLRVuuy3FrZjHw3H
-         BhC7CKlhbNHHHO2swI2MSPteyhZ9CYYtwTtaQqQJB5zwHFHfY2gSVZPVaIf8HACRH8A8
-         ypPVuZI9bOca0+okULrIrQe6L8bK+IxVLz5/18Zdp8mm0x42lkVP2c/H8a9FC9NbxIUr
-         LuBA==
-X-Gm-Message-State: AOJu0YwZaSGGCIjxPHR6P4Xj/Jb4iXbLLPs9KDa7c5KyII5gMchHcFSG
-	nZ6IREV/W+9s5AbFDrONqCSRPhWoKVs7RPBfUbsXNlKrxBWo5IqO/N2TQ0n34hiJyFIWi9avGbZ
-	7WeOxr+rVrkPLYcXw4cgPZlRkYTs=
-X-Gm-Gg: ASbGnctdZx0n3JxGczp5oJnIdEMOQCWGJ+avYkTdjRobUc2W7ZpVlcDTE8+pEyDc3MQ
-	z5FJiC4Np7wPmfwzVlwuGoX4VSBqiiP/eHZp987lO7tcgAn51NGkuvHJFjFcXug6v1A==
-X-Google-Smtp-Source: AGHT+IG+VafiDAted9QzxfAOVezsTUPbZzL6FvMDQCPDXqjco1GDCrb8dA1oqo5pA5Z2ZuPXaMw2DMXYF7Lhe5LbOcQ=
-X-Received: by 2002:a05:6214:4106:b0:6d8:9832:75d0 with SMTP id
- 6a1803df08f44-6d8b737be0cmr163566576d6.17.1733393198262; Thu, 05 Dec 2024
- 02:06:38 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733393500; x=1733998300;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Vqs+m3OrzER1eG25075YZ9pGKtDacpN4Pf0jl7G2zXA=;
+        b=Il5G1sWG2tJ07QNHqEG5M1clTm+5y0tVYS7d//S/Whgt1KBCuDC+GhA+DQW9Zi9Dr9
+         EAJ8JvqAcpXOSdXMeZd6mAo4pXv4ltdJe3Kktp9gF38zropZbhFw6oM8Q9BgUEnBquNa
+         rq64BFxmT6t5aTbwCo8CkvPVHMu73eI5R8WsE9TGtPmMNeX4J52nNyLp7oIne01iz9E1
+         jeriWBJXTR3qbkjxLve0WBp+kZNRx3OkCkBQIfq5Dh2xyFVMew1jsf8bFV1POL7qvbGb
+         clUCImuQN1VHD4hmtTp9G8kOem2mxL9j1rFjNgdWcboPp9dZxY4at+xw0gSsBu3CoDs3
+         OyLQ==
+X-Gm-Message-State: AOJu0YzBFaxfvMZvf+uws/h5Qft529bNIpBj4Dvo4BUj8oOszBE8sDup
+	ko0FvDrGrMKnTPL1f1ZTmwNv5JW6R6lDuisP0OZU+8wkAVNkKeW8ALXmbSnJlfRoKKP49fM95BM
+	Z
+X-Gm-Gg: ASbGnctE/+f33HyYdtcQrvPXbMEfsn2ruW7qJjN/Ef8GMrV0BcVGYeCo3yzz2jPJhGv
+	MaVBnvCseNgwgyiaLgo5Os1B7AQn+H6GoD9hlcImeGPIV1cIp8XZtS3OAl6xbdIr+L70gzE9akH
+	nWfDZVxMIuyQ1M4HmrN6jqSA+MX0pTX0QjphK9YulSf62VX23WfleLaXaydwuRR3O0gSBPlgrvG
+	Zket6WyXn8z/I/ejUctrriZrF0DqVm3ZQ3Wr+aunaeFJBqMUWdSaC1Z2RU/4HWmoplxdBe7/htK
+	Gek=
+X-Google-Smtp-Source: AGHT+IH1SonMfipexz1sS34NEhtW3jjdZeU6P402MhHjtSfAYyjA9lGjSqGrFgLR6znyBTf0VMCRAw==
+X-Received: by 2002:a2e:a881:0:b0:300:264f:d002 with SMTP id 38308e7fff4ca-300264fd11amr4027571fa.27.1733393500533;
+        Thu, 05 Dec 2024 02:11:40 -0800 (PST)
+Received: from nuoska (2001-14ba-490-c700--133.rev.dnainternet.fi. [2001:14ba:490:c700::133])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-30020e205cfsm1738551fa.85.2024.12.05.02.11.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Dec 2024 02:11:38 -0800 (PST)
+Date: Thu, 5 Dec 2024 12:11:37 +0200
+From: Mikko Rapeli <mikko.rapeli@linaro.org>
+To: Martin Jansa <martin.jansa@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH 0/3] swig: update from 4.2.1 to 4.3.0
+Message-ID: <Z1F8WTH18m_fzyxQ@nuoska>
+References: <20241205093237.333818-1-mikko.rapeli@linaro.org>
+ <CA+chaQfkLvTfv5o30LZzuBHJ42Yo_q1MHkg55HJbcZTw+SdqDQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20241204120838.141829-1-alex.kanavin@gmail.com> <D63O0ZMCX6IJ.2V08S8OIMA8KS@bootlin.com>
-In-Reply-To: <D63O0ZMCX6IJ.2V08S8OIMA8KS@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 5 Dec 2024 11:06:27 +0100
-Message-ID: <CANNYZj_P=3e++=WSGrCEA_6C02H5M5fp2p=cQ4Mad_7a_xexNQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] librsvg: update 2.58.2 -> 2.59.2
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Alexander Kanavin <alex@linutronix.de>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CA+chaQfkLvTfv5o30LZzuBHJ42Yo_q1MHkg55HJbcZTw+SdqDQ@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 10:06:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208372
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 10:11:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208373
 
-On Thu, 5 Dec 2024 at 10:39, Mathieu Dubois-Briand
-<mathieu.dubois-briand@bootlin.com> wrote:
-> Sorry but we still have the same error. Looking at the patch, I believe
-> it did not change from the previous version. Maybe some issue while
-> sending the v2 ?
->
-> https://valkyrie.yoctoproject.org/#/builders/65/builds/595/steps/11/logs/stdio
+Hi,
 
-The difference is that one of the patches needs to be applied to a
-file in the source tree with CRLF line endings.
+On Thu, Dec 05, 2024 at 10:43:19AM +0100, Martin Jansa wrote:
+> Does this swig upgrade fix the issue with work around added in:
+> https://git.openembedded.org/meta-openembedded/commit/?id=f9158ce32fffa6f18eed4008c3295146c81d55ea
+> if yes, can you please send revert of this work around to meta-oe?
 
-v2 does this correctly in my build, but maybe somewhere on the way to
-you it still got corrupted. Can you cherry pick from
-akanavin/package-version-updates on poky-contrib please?
-(I just force pushed there so do a git fetch first)
+Unfortunately no. Without f9158ce32fffa6f18eed4008c3295146 in meta-openembedded
+python3-m2crypto fails:
 
-Alex
+| src/SWIG/_m2crypto_wrap.c: In function '_wrap_fd_set___fds_bits_set':
+| src/SWIG/_m2crypto_wrap.c:11826:88: error: 'fd_set' has no member named '__fds_bits'; did you mean 'fds_bits'?
+| 11826 |       for (; ii < (size_t)1024/(8*(int) sizeof(__fd_mask)); ++ii) *(__fd_mask *)&arg1->__fds_bits[ii] = *((__fd_mask
+ *)arg2 + ii);
+|       |                                                                                        ^~~~~~~~~~
+|       |                                                                                        fds_bits
+| src/SWIG/_m2crypto_wrap.c: In function '_wrap_fd_set___fds_bits_get':
+| src/SWIG/_m2crypto_wrap.c:11851:48: error: 'fd_set' has no member named '__fds_bits'; did you mean 'fds_bits'?
+| 11851 |   result = (__fd_mask *)(__fd_mask *) ((arg1)->__fds_bits);
+|       |                                                ^~~~~~~~~~
+|       |                                                fds_bits
+
+With workaround f9158ce32fffa6f18eed4008c3295146c build passes.
+
+Cheers,
+
+-Mikko
 
