@@ -1,88 +1,81 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E177E7716C
-	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 12:26:13 +0000 (UTC)
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
- by mx.groups.io with SMTP id smtpd.web11.9625.1733401562942295450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D0D19E7716C
+	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 14:21:03 +0000 (UTC)
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
+ by mx.groups.io with SMTP id smtpd.web10.12124.1733408454128593829
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Dec 2024 04:26:03 -0800
+ Thu, 05 Dec 2024 06:20:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=I2QrvDqb;
- spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4668486df76so6806011cf.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 04:26:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733401562; x=1734006362; darn=lists.openembedded.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=6hgBObg3BmtkkYENAwqoyajBa0Qs+zSDRswkmw/qPd0=;
-        b=I2QrvDqbEMBdRdiRhtK5IeRo5QApPsRfGrehKiI4/gCPtznqXnMc0b7Zk3AaTzCTgj
-         CwnmDQcbne/Un6unVC/cwm53G3YB8nK3rQOQcxMAi/ubziUI9/fznfAcOuUGZ7b8Jk7k
-         ngguSGXMJVIvO+AwTK3mMDKPNjA1+Ym8Ie5k03/A1gxVGpQ92uQ8F0jlMdUTy/gI3dDE
-         npw74EIkQ731yX5KsH006hrlq4rsCT+77H0z2xhwnY/7M2H4h8mk82KgVtJAts+c0MkT
-         pnT9eNhcOjC5sxSz0yjNBizTRUEgnhlL92LIrWDoVRIqJ8lsLxROtJNC2ZFymMtWpRhJ
-         jIRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733401562; x=1734006362;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6hgBObg3BmtkkYENAwqoyajBa0Qs+zSDRswkmw/qPd0=;
-        b=mM61b+63m7MLS1X7s5/FI8jgaCDle2cYjhx2TjPon7KIrWdCpJ+cukL44v6qxjM3+u
-         PovPV4azVmrZfCuQ4xwWXcDkx7gi1hALNOwutfTmgz80ByzrKFV7L27sHcdE5kioRxto
-         eIOFvsW6ls2cQ4F+ZfYINLYdR5FAY97LqGp5yM0eBuefZIIORtmjOD8KYLtAb0MFnkRO
-         9YjDrftc48CAyB9eiWmhRpSwczlvQenkdD1ks8HCizewWE9WgJMIdTdeLKFkuQO+CBWc
-         Mi/thQCR12LFtY17SgIbvYSKdI7sBPCQPBTOwF5FwFU4CRwJflI23uxfX2Oh2z4LkbIM
-         bzKA==
-X-Gm-Message-State: AOJu0YxsfUodo0n7OEHG81SUNbBh5R5VWPCCIPwS6PMqRI8iDinVfIkk
-	XL39tZ/9oNeR0WXvgYd8aKoW10NNKYMhXt7Bh5fz+oQHzjOA+ACxITMC+r57zAGBkLtmK79wEo3
-	kfI47DnqelgNZ6Hq2aR49g87OfMo=
-X-Gm-Gg: ASbGncsudas3+sTZuQO/3cKmPdVYAbAP772mzmCXkplMhYH5A380o/9u0vQe8OgMJZ8
-	Mbrx/4f+L9eC8E/CXzxWANVTmiBzyOsaWyqR0/lK3Ib7bPJuAeLbkLnJfXU2P81qghA==
-X-Google-Smtp-Source: AGHT+IHZi5wDnNDOUZq16sLAHaAex1PuUdpOYJr3N7QTBKwuKE7AdP5tS6EKRUa4YaUWD0Ibvv9NNEosQwRPMK0jCbI=
-X-Received: by 2002:ad4:4eaa:0:b0:6d8:a1fe:72a4 with SMTP id
- 6a1803df08f44-6d8c46db0a7mr104011416d6.46.1733401561971; Thu, 05 Dec 2024
- 04:26:01 -0800 (PST)
-MIME-Version: 1.0
-References: <20241204064920.817016-1-alex.kanavin@gmail.com>
- <20241204064920.817016-18-alex.kanavin@gmail.com> <f52d3c43d8ef2d786624ca5a50045dced51f1705.camel@linuxfoundation.org>
-In-Reply-To: <f52d3c43d8ef2d786624ca5a50045dced51f1705.camel@linuxfoundation.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 5 Dec 2024 13:25:51 +0100
-Message-ID: <CANNYZj8zRjotY-cT39pDbq9fhoKMx-NYba=Ks_jeiqa2-n+NOg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 18/37] libtool: update 2.5.2 -> 2.5.4
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=gm1 header.b=fzIG9pNE;
+ spf=pass (domain: bootlin.com, ip: 217.70.183.200, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id E05C520003;
+	Thu,  5 Dec 2024 14:20:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1733408452;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=k0542uYHn4jW/KPGZhzqTkeEiVzU7+rcZtL/jF4qx5Q=;
+	b=fzIG9pNEMsNau4bJ/RAE6YVj/Crn0H9hgLXixdE+oIRB367H15kZQahR02JWJ67cBObuj1
+	UtxgwIbqX7kSPNRUgYX7fXwtTa/6CxNEuNGJYIuvTuis6fqWYgNAXskpbjRoDq4itVsg/y
+	jigTVQljCsPfz/ceBs32O+yiRTPZisnXhh3kRSBKnY6hsw0sXEQfki5EimQGtjKiQoNj5W
+	ja46gYp+JefeQgELkDXJZGYaJ1dkXYN7GVTHd6sjXYl4b5FdooWh22qYL1qrrx3fTRJqXu
+	4WE2SMmpxr6PNr8R9D/owsYMX5CWWT3cJVIJgsPKhCVLgZ8CvRHscFnnCa2DYQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 05 Dec 2024 15:20:51 +0100
+Message-Id: <D63U0HCPA3YJ.3FKI2W07OQF0@bootlin.com>
+Subject: Re: [OE-core] [PATCH] librsvg: update 2.58.2 -> 2.59.2
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Alexander Kanavin" <alex.kanavin@gmail.com>
+Cc: <openembedded-core@lists.openembedded.org>, "Alexander Kanavin"
+ <alex@linutronix.de>
+X-Mailer: aerc 0.18.2-0-ge037c095a049
+References: <20241204120838.141829-1-alex.kanavin@gmail.com>
+ <D63O0ZMCX6IJ.2V08S8OIMA8KS@bootlin.com>
+ <CANNYZj_P=3e++=WSGrCEA_6C02H5M5fp2p=cQ4Mad_7a_xexNQ@mail.gmail.com>
+In-Reply-To: <CANNYZj_P=3e++=WSGrCEA_6C02H5M5fp2p=cQ4Mad_7a_xexNQ@mail.gmail.com>
+X-GND-Sasl: mathieu.dubois-briand@bootlin.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 12:26:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208378
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 14:21:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208379
 
-On Thu, 5 Dec 2024 at 13:17, Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
-> > 2.5.2 was a beta,
+On Thu Dec 5, 2024 at 11:06 AM CET, Alexander Kanavin wrote:
+> On Thu, 5 Dec 2024 at 10:39, Mathieu Dubois-Briand
+> <mathieu.dubois-briand@bootlin.com> wrote:
+> > Sorry but we still have the same error. Looking at the patch, I believe
+> > it did not change from the previous version. Maybe some issue while
+> > sending the v2 ?
+> >
+> > https://valkyrie.yoctoproject.org/#/builders/65/builds/595/steps/11/log=
+s/stdio
 >
-> We made a deliberate move to use a beta due to the amount of changes
-> merged upstream, and putting us in a good place to ensure future good
-> releases.
+> The difference is that one of the patches needs to be applied to a
+> file in the source tree with CRLF line endings.
+>
+> v2 does this correctly in my build, but maybe somewhere on the way to
+> you it still got corrupted. Can you cherry pick from
+> akanavin/package-version-updates on poky-contrib please?
+> (I just force pushed there so do a git fetch first)
+>
+> Alex
 
-There's the same issue with autoconf: 2.72e is a pre-release. Alas,
-upstream named the final release 2.72:
-https://git.savannah.gnu.org/cgit/autoconf.git/refs/
-so I'm reluctant to send an update that will cause
-version-going-backwards issues.
+Thanks, it looks like it works better now. I had a similar issue with
+the ovmf patch, also fixed. Let's see how this build ends, but I'm
+pretty confident now.
 
-> I agree the multilib one can be unconditional but the fixinstall one
-> potentially has side effects for native builds. It breaks the ability
-> to run files in the .libs directory which in the cross case we don't
-> care about but some natives did once used to do that. The risk is they
-> find host things instead. I'm therefore a little nervous of this bit.
+https://valkyrie.yoctoproject.org/#/builders/29/builds/590
 
-I don't have a strong opinion here. This can be tweaked to how it was.
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
-Alex
 
