@@ -1,196 +1,250 @@
-Return-Path: <Qi.Chen@windriver.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F82E77171
-	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 07:32:31 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.web10.5450.1733383943151117230
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 53196E7716C
+	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 09:16:22 +0000 (UTC)
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+ by mx.groups.io with SMTP id smtpd.web11.6280.1733390177802808375
  for <openembedded-core@lists.openembedded.org>;
- Wed, 04 Dec 2024 23:32:23 -0800
+ Thu, 05 Dec 2024 01:16:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=20692726c5=qi.chen@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 4B56evCh024231
-	for <openembedded-core@lists.openembedded.org>; Thu, 5 Dec 2024 07:32:22 GMT
-Received: from nam10-bn7-obe.outbound.protection.outlook.com (mail-bn7nam10lp2041.outbound.protection.outlook.com [104.47.70.41])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 437sp75rb6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 07:32:22 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wCZdlVYcjJkMpTjrR3kU7ZLeDcC3MUfTl4WnOgtMIO0c1bifTdWHWbn8Q9qUwXTWRhAa6pFaDWXEeC9UERvMB86pQzf2mHXu/tpWoBQcS8h6gOv2a5n3547DY5PHatpzkYvHkZgTOhV6+xFzVlzY4B8RUZciVQqAcC2Vx7QqOw1rnYO6S2MolHQnJGQeaYvbOovx53foMyOOoMXuJ1M8R7NTpCkqB60UHQZplbvlICX2iiWOZiiJ/1UfsGZCxI6/PrcvGLJCz1m/hJnoc+Gqia/AMZt1dX5hzFd2cNtj2vX/BVjcMa44U8bkk/lXfZtcDqmYSZSLeosCETL9I7QPZg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zdlFhirGEiLXd6SvlVNGM5r6iAPNQFdRBuYP1SaVpbE=;
- b=SW6WVEJkqY2nxED5bAUuAiIhDDK1ul8ZVX2FIR8HH52xNgEn1sVdZHteLbHBxTNKz7apy9mE4Wo/YxkedVNBqJpF/rfAb8rI6gc8z8NhmMlyCGWYb46zY6gzEsjJ9xg/4+ElcrTkh/dRzKFsRQjp2094Xq5OctUU1F1TfzLgNERXMUElOT1FrSu/dWdz6kgLMfplOX+EJ1Ip01wn7BeolOLjHPIIwfIcZoFUY+hMn+PUUux4uGedZ7o+ak8K548K61yhqES0YbML/S5Bv7fs7WIQmki1LqsJQAJ/5QmkAa2v3Ankkqgh286aHfqCwqCxz6kbUkpFJFKaLW2NckVWdg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com (2603:10b6:303:13a::5)
- by DM4PR11MB5230.namprd11.prod.outlook.com (2603:10b6:5:39a::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8230.11; Thu, 5 Dec
- 2024 07:32:19 +0000
-Received: from CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093]) by CO6PR11MB5602.namprd11.prod.outlook.com
- ([fe80::a7e3:721d:9cec:6093%4]) with mapi id 15.20.8207.017; Thu, 5 Dec 2024
- 07:32:18 +0000
-From: Qi.Chen@windriver.com
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] toolchain-shar-relocate.sh: fix the replacing commands
-Date: Wed,  4 Dec 2024 23:32:06 -0800
-Message-Id: <20241205073206.361519-1-Qi.Chen@windriver.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR16CA0011.namprd16.prod.outlook.com
- (2603:10b6:a03:1a0::24) To CO6PR11MB5602.namprd11.prod.outlook.com
- (2603:10b6:303:13a::5)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=kFjwEyAZ;
+ spf=pass (domain: gmail.com, ip: 209.85.160.177, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-46684744173so10933751cf.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 01:16:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733390177; x=1733994977; darn=lists.openembedded.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UA4nFygZZ/gvWRImZdm06PXc4aTftHFPczV2L94BzOs=;
+        b=kFjwEyAZ7AKLivTyUtnOL6dmfecCkzJGv+4zAbAXXWbSEpEp4mWA/+vXKRx7VDAMT3
+         sVq3czuIYRqz79kT2p1m/7c6zgm4/abjBUjb7AZvHkZymi/g/q6Ud2mG+9dGrXBhnfmj
+         s6xFFsMU1pEwpDgeBg9nke2W3lehsqnG82Ca8VULb7MdzRhjLDEeo+rL29i2zDLlyBfS
+         wEK+W9aBAu60p3+GbK7AKZ5by3fLW1PaHC25wUyhLhl4i+7zrI4KvpRC6EEwMsg8tq3S
+         jOWzMaoLbXbct7sJfjBWdugm7NE04X2iFheUjna8FdJH69JmZo1zPpt0fpfjfviyz8yh
+         V8kw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733390177; x=1733994977;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UA4nFygZZ/gvWRImZdm06PXc4aTftHFPczV2L94BzOs=;
+        b=nYOdPvJDhcjDblzcjlT0RyYE064BGkxW7YjLeiCoUBHohvcRyJWZv/3urXGTYepx4t
+         K0W8Limm1UnSoe9eCf5hDDbk+E9uJ3iAFpLuIG2d5UqhgwbNOZwFTjxxdW0HiUT0fT2R
+         K6hgrWcwztNFEsELryxSMWcKSUqEFoYTgHhmo24RSSfufsSUeW2mdIZ1gesbB1RR/Guf
+         WMw2giryGBkJ4eLJRO8P8NGaR9lq4rV0H58o9e50Q+N6qES6y/TkJ1BPgqxw9KDEoJsx
+         QBhu7e28SmjDOzIxjQ+C0YJagelRXUjVYz0ymcvVxJqlmHkvlYaUjzO+ALiOOCMohRIX
+         +ocg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ6XvNMmfJrKGiMA9gNHwz7mCGbNRJ64vE1iaOzzC4LdY8HqF6+ZgGlgSZbtSZR+Ui4xOB+XwYkAmHLN9Mib0O4Q==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YwirZO/897yEGEIpEw1K14aGe9F1ieJaz9n1h3d8vzPFXFN4WVY
+	IBfwR9Ne5xZdkX0UYpUZtoj0FmMKkf71oriHEQ8BB5mQxwrqcZx0yd4/9bBDiADwTtCP6va9uOR
+	b1wUFoJOFwJp5hfHVbeh4EeiOf0E=
+X-Gm-Gg: ASbGncsg6g4zkf1yA0Xu3GD2mafayh8BOcbD9lIPlKJV76PAolgWtf4ODLoKEWsVqA6
+	casYc4mWZTxaG3oR9CR5XfZybcq6fErQ6fSt8c2RYUiOjIB5s9jJSAiGTzmYt0tm97A==
+X-Google-Smtp-Source: AGHT+IHwnHGrLMfdV6o2NP36lwKuGkBrxndAyj8gSdhyxm9ZQ7BsoFEh+ZokaOT8NSfueaiR7F5uwE2mZ1YQUf8f2XU=
+X-Received: by 2002:a05:6214:c25:b0:6d8:9ef6:5b10 with SMTP id
+ 6a1803df08f44-6d8b73476e2mr150349826d6.23.1733390176750; Thu, 05 Dec 2024
+ 01:16:16 -0800 (PST)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO6PR11MB5602:EE_|DM4PR11MB5230:EE_
-X-MS-Office365-Filtering-Correlation-Id: 283754f3-96ae-4f31-b498-08dd14fef2b2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|38350700014;
-X-Microsoft-Antispam-Message-Info: 
-	=?us-ascii?Q?983iWxUAONd8f6PcCLPNMB6Fx8awIIcnbmj/cMaRL+GyFPO6Rd1tm+2GLYv6?=
- =?us-ascii?Q?6ek8vFMgjHCoB7ACjSqkZ6odFw3DtobL2gRoDa4hGIAcBpR5r209R/t7ZVIS?=
- =?us-ascii?Q?McupynnudMQI+dp1Z7GNq/KjX7xAZ6UID2dDjMhdbEPwwE9s8ksCN2HOf8H2?=
- =?us-ascii?Q?t49857tYFKbOCdVct4wHyQHKqUwusNSumwleWfxTJAbJx6E5KVZp9arVAFld?=
- =?us-ascii?Q?ShK23BjNwuyvfKbl9txYDF+Xd137urKgNO+TBEIpELn3KlL0TR4veTwYPcwv?=
- =?us-ascii?Q?E/iQB9ufnjxU67MbZPpDDnjrWOAPDVwx5FaTlWfkGR2FJodQLjPoypj7ilHd?=
- =?us-ascii?Q?IXhPncpe/yrlUcijQo0MBJCxHsleB75GxsP2KBdbRGFlIecyxGgGmG/uK1Lr?=
- =?us-ascii?Q?I6fr/29IiXkZfRiJ6Dii346fka3Wj5jfjuqzPlnJQb2yoPscYRP+273jphsH?=
- =?us-ascii?Q?UajvPa9nSjgivVg/HgTiwoeYTwnq+0u36wf9b/VAK6Vafgrpjva0NyYMtO2H?=
- =?us-ascii?Q?3T9eKdO8oQiRuLFrR0mB6QkZ0e/A6oUpvilIDJM4HQhF495kyLf1Aa+D0tza?=
- =?us-ascii?Q?JX3pVFJQG4L09IPYD3Z6ZUKwLPs7gSZxHC6Etnf4R5kpu8ymlA8cfVu/DyNf?=
- =?us-ascii?Q?h5gH2SdCYOD6m8MU22YNdfbVlu/+/fVD5L7X8/q0Yi300RNLJAPBi4aZrNd5?=
- =?us-ascii?Q?fHYDs/MKydA5cZIPBKqH7P1OrVArULuKHapbt4fMMpCyD4oExCP6f/4p787L?=
- =?us-ascii?Q?sOysdWyXAccA2CKux4GZJHiwU+sd3iHij9UC+dSfNSKS0h34z84OF72UKO8Z?=
- =?us-ascii?Q?p/vy8DFv70RCo2pBzxwUx9RHahu8+UdFTIFAtFGGK826Ej0TiQMB+Rt17pPN?=
- =?us-ascii?Q?EXHrr/ZnohkE1Ia3vGOjuEPd0E0rUh8dghxQghKNefJPPC5q8+kMfb+W/JVt?=
- =?us-ascii?Q?fuMeZF3lUhezBA4eLf8fToRaMoMpZjj60VmrdKuQPd2lENMGl8FkFXjwy+03?=
- =?us-ascii?Q?f7MixR3RvUfzZCBqN+fBhrGT3tM0gJmYtIgEiykCMSdhw83AfGQ5qk0/va5a?=
- =?us-ascii?Q?L7huHUZ9ZE9O81mp+d+E9rJsH3g2pOndO5a9ZZOybAmRWZibDK85og9UlnC3?=
- =?us-ascii?Q?DnVr4Zr2NCYyFdbiOKv86s6HrHabxmia+m00U/LJCG2v2MI59M82TR1yR+GJ?=
- =?us-ascii?Q?DtrgN+0H+AZ9AV7uU407+lCQOlPHLnHnI8C0JbvLj4cRGppNVtjaOh9ZjSTi?=
- =?us-ascii?Q?L8H9+T/FmHHLMstd5FGFWyMvM5f7x5vy98ba4RRyh0eqAl7kQA+xqNITTYsw?=
- =?us-ascii?Q?7jqwqYbhg2JBmg8dQ8uSnlqCyPAsT/QmKsBV5/6KowQbul16umRdl73tp5m2?=
- =?us-ascii?Q?iHJmon0LYbkZSSL1vR5NLC1jhjljUMdaFX/TMnUhqNOUoaOezA=3D=3D?=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO6PR11MB5602.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?n/7UTOBuNOUc2sd0wohySFzrdnXph2xc78xOMjh43QvsNHVaiDqEcErHpnyO?=
- =?us-ascii?Q?Hx2BYeBRVhfBmgqAxybX4UkcAGqIxzz685OUJTfvMsb91Uj9oGSMkrXYWL2q?=
- =?us-ascii?Q?NQS9F1JueV5UVLgL0FZHbcT+WI2ExrFqy9YBc4IMZK5EE3EGBlYs50im12bW?=
- =?us-ascii?Q?/psj9j9txcZoprb3GO8wWE804W5lQAT+1rQoKNN9WQOGaACxUT1jq30YQa50?=
- =?us-ascii?Q?ELhhDTK3F6UfRgrVLOndsnK7WYW4qLd8as68SbnA7WzxdNnea+K8AQAO7Gkk?=
- =?us-ascii?Q?HwD+6XVEUx+XXiDsT2PhlOTEW+K98Hkn0cSlwXLrkvD+H55hKfaxUXSVPl+b?=
- =?us-ascii?Q?vFRk5ElIbc5UDbuNxqloxN/2WttG0wz4RS/6ImIowi5LqAhXizaERI95u6q0?=
- =?us-ascii?Q?Wqzh7hgcWZa7nVRy/9BuCUQlIXW0AQWkE4Km+b+fcmfEGcdqSEVB8xbmIRu3?=
- =?us-ascii?Q?wSHpeiyb40XWiK+CLKJx+2r05wdM9NExrkw2PmdLOavXXTC0grHIV1UWDkG7?=
- =?us-ascii?Q?Cnfw9jp8+q1qBr9EZZ1NpPiJ3JZsMUS5/9c9u3D6zUZLgFu2vuY/mUd0N48x?=
- =?us-ascii?Q?JUNvzhfoH/ri2eGZ3e1DIjB5mSGXMc5UD1oQL4D9QHeR40yEPPAyNcdil6fW?=
- =?us-ascii?Q?UQjCE9WGBHHZRr/0a3UoLp0bne6kBjCcsjGKA1uO7K8Aw15+MctOmLD7QG7l?=
- =?us-ascii?Q?btBrrFenFPUaIbMYRS8Ij8j9whLW7yHN+iHvrzPFvEZIYUr7zPv07P26bKOr?=
- =?us-ascii?Q?07wO1uvfL9cbKBNJ6J3v6KB9ruKnNuA0CkpAi8MwZ4hwezMR25HKdYjdHeIz?=
- =?us-ascii?Q?AruPiU9tN/hSg9VLj5YEUVUd90Em8d1cJej6Mw6LdLEfxfJ//K/BeE4oeupg?=
- =?us-ascii?Q?Sj47MCdM+70EI45KPCWKg7yfOBm82eWQXKPd8dsvW59hk2h0e+uTS7F80e41?=
- =?us-ascii?Q?CVWTpUaPGT1E+z7JGMWi6AxEzeMlM/f1LH5V5qumj7Q3K728TwjPuK6GLyH+?=
- =?us-ascii?Q?3gobEbrlzuS1Umg0n3o1/v9Q7ANdCr5W08V2uaCZTcNjKujg1+kVaqIXWYor?=
- =?us-ascii?Q?v0xZojXYN/LBM+53kwsFGWIjjePQkKjQc3l+CtjYgrYc5h95Vvq9Tv0dDZuo?=
- =?us-ascii?Q?7WMa77siVIyNJrJ4KjRepPzkD7OuBOY8fj57x/KfsFoTi6eZLnBADLoubrUJ?=
- =?us-ascii?Q?kXev0FbSEeLIyPUbjk8whBILfmQoKj9VXSY7pmnu/wBHU82SPvkk9/yd5eyW?=
- =?us-ascii?Q?waeoRXYenIe5aR8iXHvuH7EgP7ByCJy7lVbLOVNH000szZntP2LGo2DHqgTE?=
- =?us-ascii?Q?1pJMYawm+Q3WDIuHJflm3dYozK6ckh5Tu0zc6rsNcLBVeNgWlZngueFcz+kb?=
- =?us-ascii?Q?6BAIlmvrM6wOjIje7V3flCoF6W1fiw6KylzW+FBiPM8H8p5Ga1bCx9yjgrb9?=
- =?us-ascii?Q?eiXGjH9VX6BvKiTU3vwq25n6qnag5+JIzPHYI126I0tTqYzlzmORjkBAH+7J?=
- =?us-ascii?Q?2xlxfRhA9BrERI36mTCim0E7VRqseAGSzE0tsAefD9Tk3jOEmEdPYfxysiA3?=
- =?us-ascii?Q?3+OgdwTNtBiOucEmJ4tCIJUFrDdE2kCznpdguMxwZtaLck8qkSiMErY4SVAh?=
- =?us-ascii?Q?Lg=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 283754f3-96ae-4f31-b498-08dd14fef2b2
-X-MS-Exchange-CrossTenant-AuthSource: CO6PR11MB5602.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2024 07:32:18.4251
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: y6N3IFUBH6jGVwhN/Xdzh8OZhWgKOdjANtTSgU5XKgyQha4P4e0KV2kRrFuoM0HS4B10MOu62/VYTk9q7oLVAw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB5230
-X-Authority-Analysis: v=2.4 cv=Qvqk3Uyd c=1 sm=1 tr=0 ts=67515706 cx=c_pps a=ybfeQeV9t1qutTZukg5VSg==:117 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=RZcAm9yDv7YA:10 a=bRTqI5nwn0kA:10 a=t7CeM3EgAAAA:8
- a=MJ8bsT3HE1sy4XJBgnwA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: L8S7bPvPnxo5GeRHw987hfNTaneoeVZA
-X-Proofpoint-GUID: L8S7bPvPnxo5GeRHw987hfNTaneoeVZA
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1057,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2024-12-05_04,2024-12-04_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 impostorscore=0
- lowpriorityscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 malwarescore=0
- bulkscore=0 priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0
- classifier=spam authscore=0 adjust=0 reason=mlx scancount=1
- engine=8.21.0-2411120000 definitions=main-2412050055
+References: <20241203101426.2227535-1-yogita.urade@windriver.com>
+ <5623da37-3663-4bc0-9b50-a5efa34d72ad@windriver.com> <CAOSpxdbWAHY7H9QKsfP8xCLaeq_R1f9zhy7MsuO0T6h7PhBsPA@mail.gmail.com>
+ <1841fe4a-9c73-4205-8146-59c124d6ce61@windriver.com>
+In-Reply-To: <1841fe4a-9c73-4205-8146-59c124d6ce61@windriver.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 5 Dec 2024 10:16:05 +0100
+Message-ID: <CANNYZj-uEZOjVtepHHWombR3Ahxr1HkBq8RFiU0=v0a8xAG=GQ@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCH 1/1] Revert "ruby: upgrade 3.2.2 -> 3.3.5"
+To: randy.macleod@windriver.com
+Cc: Steve Sakoman <steve@sakoman.com>, Yogita.Urade@windriver.com, 
+	openembedded-core@lists.openembedded.org, 
+	"Yang, Liezhi" <Liezhi.Yang@windriver.com>, "Jia, Hongxu" <Hongxu.Jia@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 07:32:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208364
+ <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 09:16:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208365
 
-From: Chen Qi <Qi.Chen@windriver.com>
+The use of ruby is marginal to non-existent in embedded space.
 
-There're two cases that the current replacing commands cannot handle well:
-1. Files with whitespace in their names
-2. Installation path with keyword such as 'script'
+In core it's only used in its native variant to build webkitgtk (they
+have some ruby scripts that run during build), and in meta-oe, there's
+openwsman that needs target ruby, and a couple other recipes that need
+native ruby. I think no one's going to notice if this is reverted. No
+one's going to notice the major version update being kept in
+scarthgap, either.
 
-This results in installation failure of a buildtools. We can use the following
-commands to reproduce the problem.
-1. bitbake buildtools-tarball
-2. ./tmp/deploy/sdk/x86_64-buildtools-nativesdk-standalone-5.1.sh -d dir-with-keyword-script -y
+Was this update prompted by some CVE needing to be fixed, and nothing else?
 
-The error message is like below:
+Alex
 
-  Setting it up...sed: can't read /PATH/TO/dir-with-keyword-script/sysroots/x86_64-wrlinuxsdk-linux
-    /usr/lib/python3.13/site-packages/setuptools/_vendor/jaraco/text/Lorem: No such file or directory
-  Failed to replace perl. Relocate script failed. Abort!
-
-The actual file name is /PATH/TO/dir-with-keyword-script/sysroots/x86_64-pokysdk-linux/usr/lib/python3.13
-/site-packages/setuptools/_vendor/jaraco/text/Lorem ipsum.txt
-
-Note that the file path matches "script.*text". In fact, if we install the SDK into
-some directory containing both 'script' and 'text', all files will be matched. This
-is not expected.
-
-This patch fixes the replacing commands by doing the following two things:
-1. Use '\n' as the field separator for xargs so that files with white spaces are not splitted.
-2. Use awk to match the second filed of the file command's output so that the file
-   path does not mess up with the matching process.
-
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
----
- meta/files/toolchain-shar-relocate.sh | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/meta/files/toolchain-shar-relocate.sh b/meta/files/toolchain-shar-relocate.sh
-index b017714df0..69ea063c8c 100644
---- a/meta/files/toolchain-shar-relocate.sh
-+++ b/meta/files/toolchain-shar-relocate.sh
-@@ -57,8 +57,8 @@ fi
- # replace the host perl with SDK perl.
- for replace in "$target_sdk_dir -maxdepth 1" "$native_sysroot"; do
- 	$SUDO_EXEC find $replace -type f
--done | xargs -n100 file | grep ":.*\(ASCII\|script\|source\).*text" | \
--    awk -F': ' '{printf "\"%s\"\n", $1}' | \
-+done | xargs -d '\n' -n100 file | \
-+    awk -F': ' '{if (match($2, ".*(ASCII|script|source).*text")) {printf "\"%s\"\n", $1}}' | \
-     grep -Fv -e "$target_sdk_dir/environment-setup-" \
-              -e "$target_sdk_dir/relocate_sdk" \
-              -e "$target_sdk_dir/post-relocate-setup" \
--- 
-2.25.1
-
+On Wed, 4 Dec 2024 at 22:23, Randy MacLeod via lists.openembedded.org
+<randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> On 2024-12-04 3:49 p.m., Steve Sakoman wrote:
+>
+> Sigh, I'm sorry I didn't catch this :-(
+>
+> I think my eyes saw ruby "upgrade 3.3.2 -> 3.3.5", I checked the link
+> in the commit message to verify that the changes were all bug/security
+> fixes and I merged it.
+>
+> We've already done a release with this update in it.  Perhaps we can
+> discuss it in the bug meeting tomorrow?
+>
+> Steve
+>
+> Yogita,
+>
+> Please note, that only PATCH level updates are allowed (almost all the ti=
+me) on stable releases.
+> See: https://semver.org/
+>
+>
+> All,
+>
+> Yikes!
+>
+> Yes, we should discuss what to do in the bug meeting tomorrow and reply h=
+ere to fill people in on the plans. If anyone has a strong opinion please l=
+et us know.
+>
+>
+> I didn't even notice that the change was from 3.2.x to 3.3.y when reviewi=
+ng it.
+> It seems that I assumed that no one would do that!
+> We're all so used to the rule of not changing MAJOR.MINOR that several pe=
+ople overlooked
+> that MINOR was bumped by one.
+>
+> For the 3.2.2..3.2.5 update, we have:
+> =E2=9D=AF git log v3_2_2..v3_2_5 --oneline  | wc -l
+> 242
+>
+>
+> We could even take 3.2.6:
+>
+> =E2=9D=AF git log v3_2_5..v3_2_6 --oneline | rg -v "merge revision"  | wc=
+ -l
+> 20
+>
+> https://github.com/ruby/ruby/commits/ruby_3_2/
+>
+> It might be worth having a version comparison check tool to run before re=
+lease.
+>
+> Thanks,
+>
+> ../Randy
+>
+> On Wed, Dec 4, 2024 at 11:51=E2=80=AFAM Randy MacLeod via
+> lists.openembedded.org
+> <randy.macleod=3Dwindriver.com@lists.openembedded.org> wrote:
+>
+> Add Robert and Hongxu who working with Yogita on this, iirc.
+>
+> On 2024-12-03 5:14 a.m., Urade, Yogita via lists.openembedded.org wrote:
+>
+> From: Yogita Urade <yogita.urade@windriver.com>
+>
+> This reverts commit 0402f54b66438ec6e9f06f02652e148dce6480b3.
+>
+> This isn't a minor version upgrade.
+> $git log v3_2_2..v3_3_5 --oneline  | wc -l
+> 6924
+>
+> Do we have any ruby experts to comment on the stability of the 4.2 branch
+> and the update to 3.2.5?
+>
+> They claim to be following a semantic versioning scheme:
+>   https://www.ruby-lang.org/en/news/2013/12/21/ruby-version-policy-change=
+s-with-2-1-0/
+>
+>
+> Ruby is a fairly large code base:
+> -------------------------------------------------------------------------=
+-------
+>  Language             Files        Lines        Blank      Comment       =
+  Code
+> -------------------------------------------------------------------------=
+-------
+>  Ruby                  7914      1480730       202190        82299      1=
+196241
+> ...
+> -------------------------------------------------------------------------=
+-------
+>  Total                 9409      2188531       271762       197233      1=
+719536
+> -------------------------------------------------------------------------=
+-------
+>
+> The git repo does have a branch for each release which would indicate
+> that they are at least familiar with the idea of stable releases.
+>
+> Other than the number of commits being large, do we have
+> any data to support the idea that this is not a stable release update?
+>
+> Yogita,
+>   What are the before, after and diff ptest results?
+>
+> ../Randy
+>
+>
+>
+>
+> Signed-off-by: Yogita Urade <yogita.urade@windriver.com>
+> ---
+>  ...Alignof-to-define-ALIGN_OF-when-poss.patch | 51 ++++++++++
+>  ...e.in-do-not-write-host-cross-cc-item.patch | 32 +++++++
+>  ...Obey-LDFLAGS-for-the-link-of-libruby.patch | 25 +++++
+>  ...-Makefile.in-filter-out-f-prefix-map.patch | 42 ++++++++
+>  ...eproducible-change-fixing-784225-too.patch | 26 ++---
+>  .../0006-Make-gemspecs-reproducible.patch     | 18 ++--
+>  .../ruby/ruby/CVE-2023-36617_1.patch          | 55 +++++++++++
+>  .../ruby/ruby/CVE-2023-36617_2.patch          | 51 ++++++++++
+>  .../ruby/ruby/CVE-2024-27281.patch            | 96 +++++++++++++++++++
+>  .../ruby/ruby/CVE-2024-27282.patch            | 27 ++++++
+>  .../ruby/ruby/remove_has_include_macros.patch | 35 +++++++
+>  .../ruby/{ruby_3.3.5.bb =3D> ruby_3.2.2.bb}     | 13 ++-
+>  12 files changed, 446 insertions(+), 25 deletions(-)
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/0001-fiddle-Use-C11-_=
+Alignof-to-define-ALIGN_OF-when-poss.patch
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/0001-template-Makefil=
+e.in-do-not-write-host-cross-cc-item.patch
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/0002-Obey-LDFLAGS-for=
+-the-link-of-libruby.patch
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/0002-template-Makefil=
+e.in-filter-out-f-prefix-map.patch
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_1.patc=
+h
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2023-36617_2.patc=
+h
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27281.patch
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/CVE-2024-27282.patch
+>  create mode 100644 meta/recipes-devtools/ruby/ruby/remove_has_include_ma=
+cros.patch
+>  rename meta/recipes-devtools/ruby/{ruby_3.3.5.bb =3D> ruby_3.2.2.bb} (88=
+%)
+>
+> >< snip >< snip ><
+>
+>
+> --
+> # Randy MacLeod
+> # Wind River Linux
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#208361): https://lists.openembedded.org/g/openembedde=
+d-core/message/208361
+> Mute This Topic: https://lists.openembedded.org/mt/109897713/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [al=
+ex.kanavin@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
