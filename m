@@ -1,100 +1,75 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F174E77173
-	for <webhook@archiver.kernel.org>; Fri,  6 Dec 2024 09:46:30 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.web11.33383.1733478380624724372
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EEC38E77173
+	for <webhook@archiver.kernel.org>; Fri,  6 Dec 2024 09:48:29 +0000 (UTC)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com [209.85.219.41])
+ by mx.groups.io with SMTP id smtpd.web10.33539.1733478501460809836
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Dec 2024 01:46:20 -0800
+ Fri, 06 Dec 2024 01:48:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx header.b=OOIjuFSW;
- dkim=pass header.i=@amazonses.com header.s=7v7vs6w47njt4pimodk5mmttbegzsi6n header.b=lQj6tk3s;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101939b5cf0a0-ff6477c6-6bcc-492e-9474-c864d5371f62-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=rnkzp2s7ci3kogmesvov2nwn7wcc2dgx; d=yoctoproject.org;
-	t=1733478379; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=P1UFEE0th00PEQHhd4ZzKPGDE99m+nNsPs1B+X5urbo=;
-	b=OOIjuFSW7yKIGn1E1gQQiyfrWo/+A4GD2Vjy1ELw3xXqZ7MXVKu5bXbTfhlPRtPV
-	bApd2pvrd4gY50rn9baJkRE34jOUgbVb9GWECAER2QAADJEb/EcTtaqAp/T+PWh+xvf
-	qkyZj+HlTyxRoljmR8KT004KEWVlDMmTbN8G/DKg=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=7v7vs6w47njt4pimodk5mmttbegzsi6n; d=amazonses.com; t=1733478379;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=P1UFEE0th00PEQHhd4ZzKPGDE99m+nNsPs1B+X5urbo=;
-	b=lQj6tk3sSAL+iVr8Di5qySIrv4OFwCe9yfkSyfFsII9zR5E4B7GM6nVbT2zLCWfC
-	OzrVuqXihIZZvRiGyfGk0AJLr9d2tA4JZTCOurdKEqzaaulsZDa1wVtqZh/8sZ5Bwm7
-	0XRsIixPbkVHMRJqe2YJTqkQ0sGmhaegX/QuB8KM=
-From: patchtest@automation.yoctoproject.org
-To: pratheekshasn <pratheeksha.s.n@ni.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] opkg-keyrings: mark IPK as allarch
-In-Reply-To: <20241206092740.1896316-1-pratheeksha.s.n@ni.com>
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=NCXz9BMQ;
+ spf=pass (domain: gmail.com, ip: 209.85.219.41, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-6d8c7349401so12512946d6.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 06 Dec 2024 01:48:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1733478500; x=1734083300; darn=lists.openembedded.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Wkl/9wBJ9vaCh3p/pHuon6n9OrAN9p+5ZuEXesruu0=;
+        b=NCXz9BMQiFHVJIVKdWTKKrSHy5o0wWxvtx/0ufX2CnpVlawV2uxw7+Qo56Ujr9Gw/n
+         CvfXtxvyl2O1/HcrI5NwQ6OQvazJIiTA2uWlCnVj2pBFFDtFULmgUSGKVXAXWTuL/RFb
+         2ChTaTbAZ3ERamNpoOO+5KsIslShWcyNCtbZDjVbK5q4e1OrsSdFWs7gJBZInZhdPLaE
+         PseWpIi3OXfw7OVIE8mA7DsbmdKRLWl1HyQBYIgEsfTK/m0e74k+U0U9S7iRmOr+N5Es
+         n0jHQiWXfBdzc8rBy9N918rc/qve0+uhT+qahCFI5I40VmfJAMKrD+uyH08LJ/W/a2bl
+         XATQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733478500; x=1734083300;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Wkl/9wBJ9vaCh3p/pHuon6n9OrAN9p+5ZuEXesruu0=;
+        b=W9wAs8oRox1MWOVxon+7SgE880hTmLOYu/aikLAcZI35cCZII49ykpvBtcWZaRfGWo
+         4VXREhuWRuQXp+V1630AlqmVgVLK4XYZw7pq/RqsbGJsXQ4VLvE0HGcd6MmKEpisJGnr
+         MhhTwR8ZMdBVoIRLiGr0bKPkUdk4s2C9ZKrP45Y9Y/fsN0boYVl3CkJyikWM1MOMTX1E
+         rKppd0TFA2YDB/Fhvf7fK6kf02rrkVJGy1+cu86mKytLVkhrOm6z5KoAt1+gJP7Atzwe
+         yF7krpCHRYGVsatLnNvrVAl0MAaO1TmP+gYOMBDH6c0zDHagtraN8mNwVby1jN2skmbX
+         W7fw==
+X-Gm-Message-State: AOJu0YxSx/If+KraoHfeqBM9OZ0CdyJwl7l9EikxQgQM2E6jBmkwdO0Y
+	GjirWXH9L9JQlXO0EpipVhQV+jEVMkZwYf0prIRhzMyJoHMwDbD7EeUFKGIH8+lkFVsESykJEjk
+	0XKaT8b95bN3NVLw0rqry4r5e27s=
+X-Gm-Gg: ASbGncs2MEpRPuSGbfFFcKQJRAzVfTvQnheolFu3GiukgN5n2j2uENA1IVlD4Owo8Xv
+	gqKKpUQaxJ0hxK6iTSQSNkAxmTYrCJ0C8VXjnAcDpA3QRhrmCwDA36PzeZBPY58mH/Q==
+X-Google-Smtp-Source: AGHT+IH1+5FIgm/jUEpehMfBMGR6kzutwiUUgy6gvq/fxZ7KJSpIe8XNgADhn+LOhciuYM6vcrs3V0saOqFrLea2alc=
+X-Received: by 2002:a05:6214:4003:b0:6d4:2806:1765 with SMTP id
+ 6a1803df08f44-6d8e73bf727mr26817336d6.34.1733478500451; Fri, 06 Dec 2024
+ 01:48:20 -0800 (PST)
+MIME-Version: 1.0
 References: <20241206092740.1896316-1-pratheeksha.s.n@ni.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101939b5cf0a0-ff6477c6-6bcc-492e-9474-c864d5371f62-000000@us-west-2.amazonses.com>
-Date: Fri, 6 Dec 2024 09:46:19 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2024.12.06-54.240.27.23
+In-Reply-To: <20241206092740.1896316-1-pratheeksha.s.n@ni.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 6 Dec 2024 10:48:09 +0100
+Message-ID: <CANNYZj_HuXE-hRcXgn_4F8fKDKw2jH8uwbgoq-BMEAYs6OGb9g@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] opkg-keyrings: mark IPK as allarch
+To: pratheeksha.s.n@ni.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Dec 2024 09:46:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208411
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Dec 2024 09:48:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208412
 
---NextPart
-Content-Type: text/plain
+On Fri, 6 Dec 2024 at 10:27, pratheekshasn via lists.openembedded.org
+<pratheeksha.s.n=ni.com@lists.openembedded.org> wrote:
+>
+> inherit allarch as package contains entirely cross-platform content.
+>
+> Signed-off by: Pratheeksha S N <pratheeksha.s.n@ni.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This is probably handwritten and lacks a hyphen. Use 'git commit -s'
+to have git insert it for you in the correct format.
 
----
-Testing patch /home/patchtest/share/mboxes/opkg-keyrings-mark-IPK-as-allarch.patch
-
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new CVE patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new CVE patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new CVE patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+Alex
 
