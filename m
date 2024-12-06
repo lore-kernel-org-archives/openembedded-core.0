@@ -1,236 +1,239 @@
-Return-Path: <adrian.freihofer@gmail.com>
+Return-Path: <dbaryshkov@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF328E7716E
-	for <webhook@archiver.kernel.org>; Thu,  5 Dec 2024 23:51:16 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.web11.26010.1733442669873856251
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC715E7716E
+	for <webhook@archiver.kernel.org>; Fri,  6 Dec 2024 00:13:06 +0000 (UTC)
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
+ by mx.groups.io with SMTP id smtpd.web11.26388.1733443970397786164
  for <openembedded-core@lists.openembedded.org>;
- Thu, 05 Dec 2024 15:51:10 -0800
+ Thu, 05 Dec 2024 16:12:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=QuO5XI8/;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: adrian.freihofer@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4349fd77b33so14582815e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 15:51:09 -0800 (PST)
+ dkim=pass header.i=@linaro.org header.s=google header.b=sM0VVJIf;
+ spf=pass (domain: linaro.org, ip: 209.85.167.49, mailfrom: dmitry.baryshkov@linaro.org)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-53dd668c5easo1716570e87.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 16:12:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733442668; x=1734047468; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=DvZmJsxYbmMAn3Nk1sgye/kOCCm9mL1n+yyCwLT2G6Q=;
-        b=QuO5XI8/qBZqVeqvMWZQeqGCfdgZW7SuSsdYT/vsBfWofrfxdOlbeFHemUJ79BavXW
-         aVhkzeBdyyaMHEZdoH+krKz3063J+N56MBbFkithlBiy6PPT2yThflNpF+940jHedwIn
-         VyUYE18q3qNi2gt5cMBwp83Kh2NnHrdrX5CxR5ZU64838ejp5x3Mgr7dJrSup+asRqXB
-         OVWnv5ZDYBwO2HGLfSd29FbjOybrhPgMw0CO1JTMRV63LT84ISBoZ/j+sLRQj9puEVya
-         f+8G+sZ83rbRseTlaLs24gIbQhcArfm9pjgbTza25duCrD+QjoAm3Z7oq8NIQh8tY+AQ
-         6Mmw==
+        d=linaro.org; s=google; t=1733443968; x=1734048768; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=l6FSApmLWCuS4575+7mdgfX+g+1ZoC1BYo3TN+Zhry0=;
+        b=sM0VVJIf9tX1RnKcMO8/D/VYbZPxizcQbsobqMs2wJ2VpFmxpCq4KfLKfm8/7eKcZ7
+         KvNsjMMB/yAMi/sle1L7z+syQgKTLn2kodcKsibXZoXDy6QPGVSIdRKvwLN2+sh9H+uD
+         jPMNFiR65Dee0CE0UMbkA4kPwcvLzPAn6hqlUtVLqDzt3VBg0w61CjilXBpw7Bn7d1TO
+         jNt9fpXJwew0ZkTPIsLD3Ps9n/VvKI3dvWdt6oGD2NJOWW1Rl+vtV7cQSAUituHyBK/7
+         Suhl+WGhzj2oLymmd5c0/tBsb4UXYqXjMuC0rK83vUde7uibT3M4AQaEpDSRJkT/JMhJ
+         tCyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733442668; x=1734047468;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=DvZmJsxYbmMAn3Nk1sgye/kOCCm9mL1n+yyCwLT2G6Q=;
-        b=jg+ix3oXz9vvpKTNeVm8IidhS/XcWiO7pK1WraWUjr43JaCHzVHpPTSrr7veiVI3SR
-         k3g+/ZodhgUAB5QVBI6BcINasSdVuPYRFDjtaHbwnLQb8ox0SIITM71tciJzxOREBcVJ
-         1jV4cySRtsFdNRoM3lgV7SoY/SuLScbJjNzdRee5rMPmPeVj2FjaIDC0qQ+4lKugqWGZ
-         G7gw+Pj/bM9Kc01ukkNnItIrPnOOG1MjoLPEhk9kQwunS8GQ5tyjxOK530Xk1Mtv1+9g
-         5o5e1EXX6vClAdrKJvgzjqLcUo4xuu1xtDGK+GbH8Tq5eLT2Ge4X27LSvDA1PNzBSqdz
-         yV5w==
-X-Gm-Message-State: AOJu0Yy7KhX5MBGtHvDZztviYNpLN3wPseNIzpju8PMrt3nVxaJTaIsk
-	3wMOm4vYCWaz0MAKIYfGJaDNY4In+IrOw0ZcA/8Q/6zN8FalA4GR
-X-Gm-Gg: ASbGncv5MNrMOXa86Nzb1A34DWgsLSEOIfYR4xPO0sFeuBohvnbZffzXmUcXgdawLNh
-	dQQY48Sy8LHCyUD8T1/B/LXu3NcjVP2ykJ7cwWrzVAE51FXbA2uk7Mul+ZhYx7R62+qxBUJUjBO
-	dC30cylrN1rl6SFnI6GkvUcMM+GminxTGORYLzWoW79y8iC5I320KEgJNHDQN3xtKP3O8X9Bjzs
-	ggLG/j5/9XpA8jj1FTTN1OyaIM4fhoW1RolbTWQJuR/jXOYpaTvN+ktSzawi4WGNATNPIzIuhn2
-	02K7N0oVA3EGFJ7BU5QQ0cQ=
-X-Google-Smtp-Source: AGHT+IHHGiIgD+DwFdU0Bfq+rStGYH6JQoioShpdt9JUZsKrmkFjApYH6VFD15Esa6b/LsV97k8daQ==
-X-Received: by 2002:a05:600c:4710:b0:431:93dd:8e77 with SMTP id 5b1f17b1804b1-434ddeddbe5mr9454085e9.31.1733442667609;
-        Thu, 05 Dec 2024 15:51:07 -0800 (PST)
-Received: from ?IPv6:2a02:169:59a6:0:55c4:f628:91f3:4287? ([2a02:169:59a6:0:55c4:f628:91f3:4287])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-434da0da461sm39533605e9.20.2024.12.05.15.51.06
+        d=1e100.net; s=20230601; t=1733443968; x=1734048768;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l6FSApmLWCuS4575+7mdgfX+g+1ZoC1BYo3TN+Zhry0=;
+        b=sex5wiKCeNvSIITDSRYTqkmA27ufvBPLtUgUPIzosJC5ItTz1M/WLwjq6iCB7+n27A
+         9MyCxntE5QDEbrw9yHqNbJ4Pet0SW35Czan/GCIwo8UAvonQGWx8UJYxx8b41/ombr7o
+         xRchmpjjiT1fABRxeq0EFOyKUQHTNSgkUhQf6XcXvA9esOoU4iT0e1xxSka5NYcpzI0k
+         p2P5cdw5aUXi9x4zCANdeyiHZLtFNvnycA91PVfUP3QcAvHtSv29gYLd/oNf9L50uRGs
+         nyVtrm1zeTjDnE+rz1Bio3IDnw5pEO4gCQr9Wzr8Cv0PIbqlByqvrwug6ScshnShhywd
+         alqA==
+X-Gm-Message-State: AOJu0Yw22K4nT0pGg3TgTmhC873WsfQylHcSjddc4w/cf+JNu4JJbB8O
+	jyGH8qw2RyZ5RZzh/FVpjC6Q8mE0lEP+dMJAoi7lZvu2C2xsU17QDkQ7z6jqPkc4SIoq/PqzrVz
+	J
+X-Gm-Gg: ASbGncsFY7lrUZDsn1ItlzIzKD+VVP6LWEKr5u66Ip1v2vGKqDfXHeRTvAoGipDiIRC
+	/qq/hu6N7Z7mwudLPSKdog1H5GKoEOJLYy+HzLbRNyM8ShMro4JyFHpc5yK6xhIJP9sKzJaVOD8
+	GLgGnkFMb+yvab7qeAtsy4cZ4lg/P1genZEktfI1bOlf7H0JuLKRrh+U9rFISXipPOVPSD3XRvx
+	999kJD2QpmRiA5v+zm4SjhzDcZZgEEqh/N1nhzRbo1iY1h6zGoDdYjMVkPGhaBKZQ==
+X-Google-Smtp-Source: AGHT+IEbZynoQ2X4JoawFdlpzqq5VWw4C35Q/Bi5n7A1pMwTGI7PzVubB6tiFclyHnz4BxjYYfAIpw==
+X-Received: by 2002:a05:6512:31ce:b0:53e:141f:4bcb with SMTP id 2adb3069b0e04-53e2b6ea02amr358574e87.14.1733443968037;
+        Thu, 05 Dec 2024 16:12:48 -0800 (PST)
+Received: from umbar.unikie.fi ([192.130.178.90])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-53e229c20b5sm362735e87.179.2024.12.05.16.12.46
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Dec 2024 15:51:07 -0800 (PST)
-Message-ID: <2cf9f5fe20b351481ef08b9e13eca31c5ee02a85.camel@gmail.com>
-Subject: Re: [OE-core] [PATCH v4 0/3] uboot-sign: support ATF and TFE ITS
- generation
-From: Adrian Freihofer <adrian.freihofer@gmail.com>
-To: ross.burton@arm.com, "jamin_lin@aspeedtech.com"
- <jamin_lin@aspeedtech.com>
-Cc: "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>, "troy_lee@aspeedtech.com"
-	 <troy_lee@aspeedtech.com>
-Date: Fri, 06 Dec 2024 00:51:05 +0100
-In-Reply-To: <1762D5D7-817A-4852-920F-C6B57DAFD599@arm.com>
-References: <20241118063233.698679-1-jamin_lin@aspeedtech.com>
-	 <1762D5D7-817A-4852-920F-C6B57DAFD599@arm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.54.1 (3.54.1-1.fc41app1) 
+        Thu, 05 Dec 2024 16:12:46 -0800 (PST)
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] piglit: update the patch to fix building the test without wayland
+Date: Fri,  6 Dec 2024 02:12:45 +0200
+Message-Id: <20241206001245.173254-1-dmitry.baryshkov@linaro.org>
+X-Mailer: git-send-email 2.39.5
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 05 Dec 2024 23:51:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208401
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Dec 2024 00:13:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208402
 
-Hi Jamin, hi Ross
+Fix the following error appearing if building on a pure-X11 distros:
 
-On Thu, 2024-11-28 at 13:51 +0000, Ross Burton via
-lists.openembedded.org wrote:
-> Hi Jamin,
->=20
-> Thanks for the patches.
->=20
-> However, I=E2=80=99m getting more convinced that as our FIT generation is
-> spread between uboot-sign and kernel-fitimage, maybe we should just
-> create a new class that is dedicated to creating a FIT image from
-> arbitrary inputs, so in this case you=E2=80=99d have dependencies on tf-
-> a/uboot/kernel and write a dts that describes the layout.=C2=A0 I=E2=80=
-=99m
-> unconvinced that the complexity of these classes is sustainable and a
-> truly generic class might be a more maintainable alternative.
+<PATH>/git/tests/egl/egl-wayland.c:29:10: fatal error: wayland-client.h: No such file or directory
+   29 | #include <wayland-client.h>
+      |          ^~~~~~~~~~~~~~~~~~
 
-I apologize for digressing a bit now. But the complexity which requires
-a redesign of the ftiImage generation code only becomes clear when you
-look at the kernel and u-boot fitImage handling together.
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+---
+ ...ake-egl_ext_surface_compression-cond.patch | 33 ------------
+ ...rface_compression-stop-using-egl_uti.patch | 50 +++++++++++++++++++
+ ...rface_compression-make-create-test-w.patch | 37 ++++++++++++++
+ meta/recipes-graphics/piglit/piglit_git.bb    |  3 +-
+ 4 files changed, 89 insertions(+), 34 deletions(-)
+ delete mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0001-tests-egl_ext_surface_compression-stop-using-egl_uti.patch
+ create mode 100644 meta/recipes-graphics/piglit/piglit/0002-tests-egl_ext_surface_compression-make-create-test-w.patch
 
-I think that the generation of its files, as done by kernel-
-fitimage.bbclass and uboot-sign.bbclass, is not generally wrong.
-Writing an its file is not something that a user can do quickly. It
-requires quite a lot of know-how, which is taken away from the user by
-the existing code. The code is also relatively well tested, which I
-can't imagine it can be achieved with handwritten its files.
-Standardizing how its files should be written looks helpful to me in
-general.
-
-Handling the task dependencies is not easy either. Many artifacts and
-keys must be provided by different recipes before the assembly of=20
-fitImages can take place. Simply leaving it up to the user certainly
-doesn't make it any easier.
-
-But I agree, it ended up at an unmaintainable state. The main issue is
-that the generator code in the kernel-fitimage.bbclass currently gets
-executed from the kernel build folder and from the u-boot build folder
-and that the u-boot and the kernel recipes have many inter task
-dependencies. It does not properly work with the sstate-cache. For
-example building with empty temp means rebuilding from scratch at least
-when also an initramfs is involved. I tried to solve this with this
-series here
-https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D27108.
-It is also possible to end up with circular task dependencies by
-setting the UBOOT_* variables to SIGNED images, for example, and
-packing a boot.txt file into the fitImage.
-
-The idea that seems most promising to me to solve these problems (
-sstate, maintainability, complexity, task dependencies) is to
-completely remove the fitimage code from the kernel and the u-boot
-recipes and create a linux-fitimage and an uboot-fitimage recipe that
-take the artifacts from the linux and the u-boot recipes and simply put
-them into a fit container. The fitimage_assemble and
-uboot_fitimage_assemble functions would be reusable. All the rest would
-probably be rewritten from scratch.
-Some use cases in which, for example, the kernel Makefile (which can
-run from the kernel build tree only not from a setscene folder
-structure) generates the fitImage should simply be omitted in favor of
-simplification.
-
-Having for example a linux-yocto recipe which does not support building
-fitImages at all and a second recipe linux-yocto-fitimage which depends
-on the linux-yocto recipe would allow several improvements:
-- The kernel artifacts can be forwarded via sysroots from linux-yocto
-to the linux-yocto-fitimage. Currently it goes via deploy.
-- The kernel-yocto-fitImage class could also provide a kernel package.
-Currently this kernel artifact is only available from the deploy
-folder.
-- Standard sstate tasks (sysroot and deploy) can be used for building
-the kernel and for building the fitImage. Doing all these steps in the
-contecxt of one recipe leads to unusual sstated tasks which causes some
-issues.
-- I hope the code would be much simpler. But I'm not set sure. I want
-to try this but did not find the time so far.
-
->=20
-> What=E2=80=99s your opinion on this?=C2=A0 The fact that you had to add c=
-ustom
-> hooks in 2/3 seems to indicate that a more inherently flexible class
-> would be the right approach.
-
-I think the two new functions uboot_fitimage_atf and uboot_fitimage_tee
-look reasonable and are in line with the existing code.
-
-But the uboot_fitimage_user_image hook looks a little unusual. What's
-the use case for that? Would it be possible to pass the its snippet as
-a variable? Or even support the use case with a standard snippet?
-
-All in all, I think these patches do not make it worse than it already
-is. Solving the issues with the fitImage is a different topic.
-
-Regards,
-Adrian
-
-
-
-
->=20
-> Cheers,
-> Ross
->=20
->=20
-> > On 18 Nov 2024, at 06:32, Jamin Lin via lists.openembedded.org
-> > <jamin_lin=3Daspeedtech.com@lists.openembedded.org> wrote:
-> >=20
-> > v0:
-> > =C2=A01. add variable to set load address and entrypoint.
-> > =C2=A02. Fix to install nonexistent dtb file.
-> > =C2=A03. support to verify signed FIT
-> > =C2=A04. support to load optee-os and TFA images
-> > v1:
-> > =C2=A0Fix patch for code review
-> > v2:
-> > =C2=A0created a series patch
-> > v3:
-> > =C2=A0add cover letter
-> > v4:
-> > =C2=A0Add oe-self testcases for reviewer suggestion
-> > =C2=A0Add documentation for reviewer suggestion.
-> > =C2=A0Link:
-> > https://patchwork.yoctoproject.org/project/docs/patch/20241118062113.26=
-9253-1-jamin_lin@aspeedtech.com/
-> >=20
-> > =C2=A0The following patches had been applied from v0 changes.
-> > =C2=A0a. Fix to install nonexistent dtb file
-> > =C2=A0b. support to verify signed FIT
-> > =C2=A0c. add variable to set load address and entrypoint.
-> >=20
-> > Jamin Lin (3):
-> > =C2=A0uboot-sign: support to create TEE and ATF image tree source
-> > =C2=A0uboot-sign: support to create users specific image tree source
-> > =C2=A0oe-selftest: fitimage: add testcases to test ATF and TEE
-> >=20
-> > meta/classes-recipe/uboot-sign.bbclass=C2=A0=C2=A0 | 100 +++++++-
-> > meta/lib/oeqa/selftest/cases/fitimage.py | 288
-> > +++++++++++++++++++++++
-> > 2 files changed, 387 insertions(+), 1 deletion(-)
-> >=20
-> > --=20
-> > 2.25.1
-> >=20
-> >=20
-> >=20
-> >=20
->=20
->=20
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#207991):
-> https://lists.openembedded.org/g/openembedded-core/message/207991
-> Mute This Topic: https://lists.openembedded.org/mt/109640118/4454582
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:
-> https://lists.openembedded.org/g/openembedded-core/unsub=C2=A0[
-> adrian.freihofer@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->=20
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
+deleted file mode 100644
+index 47f8b03961c6..000000000000
+--- a/meta/recipes-graphics/piglit/piglit/0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch
++++ /dev/null
+@@ -1,33 +0,0 @@
+-From 0c97d5eacae4f584313c9251e585bb0246cceffc Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Fri, 22 Nov 2024 22:52:31 +0100
+-Subject: [PATCH] tests/egl/spec: make egl_ext_surface_compression conditional
+- to X11
+-
+-Otherwise, this error occurs:
+-| In file included from /srv/storage/alex/yocto/build-64/workspace/sources/piglit/tests/egl/spec/egl_ext_surface_compression/create_surface.c:28:
+-| /srv/storage/alex/yocto/build-64/workspace/sources/piglit/tests/egl/spec/egl_ext_surface_compression/../../egl-util.h:12:10: fatal error: X11/Xlib.h: No such file or directory
+-|    12 | #include <X11/Xlib.h>
+-|       |          ^~~~~~~~~~~~
+-
+-Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/974]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- tests/egl/spec/CMakeLists.txt | 4 +++-
+- 1 file changed, 3 insertions(+), 1 deletion(-)
+-
+-diff --git a/tests/egl/spec/CMakeLists.txt b/tests/egl/spec/CMakeLists.txt
+-index 33c504978..1dea6d8fc 100644
+---- a/tests/egl/spec/CMakeLists.txt
+-+++ b/tests/egl/spec/CMakeLists.txt
+-@@ -7,7 +7,9 @@ add_subdirectory (egl_ext_device_drm)
+- add_subdirectory (egl_ext_platform_device)
+- add_subdirectory (egl_ext_image_dma_buf_import_modifiers)
+- add_subdirectory (egl_ext_protected_content)
+--add_subdirectory (egl_ext_surface_compression)
+-+if (PIGLIT_HAS_X11)
+-+	add_subdirectory (egl_ext_surface_compression)
+-+endif (PIGLIT_HAS_X11)
+- add_subdirectory (egl_khr_create_context)
+- add_subdirectory (egl_khr_display_reference)
+- add_subdirectory (egl_khr_get_all_proc_addresses)
+diff --git a/meta/recipes-graphics/piglit/piglit/0001-tests-egl_ext_surface_compression-stop-using-egl_uti.patch b/meta/recipes-graphics/piglit/piglit/0001-tests-egl_ext_surface_compression-stop-using-egl_uti.patch
+new file mode 100644
+index 000000000000..575477bc4ca7
+--- /dev/null
++++ b/meta/recipes-graphics/piglit/piglit/0001-tests-egl_ext_surface_compression-stop-using-egl_uti.patch
+@@ -0,0 +1,50 @@
++From ea48657a33015ad1f94c0d639fd9ee76e0e374c4 Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++Date: Fri, 6 Dec 2024 01:55:28 +0200
++Subject: [PATCH 1/2] tests/egl_ext_surface_compression: stop using egl_utils
++
++Otherwise, if X11 includes are not available, the build fails:
++| In file included from <PATH>/piglit/tests/egl/spec/egl_ext_surface_compression/create_surface.c:28:
++| <PATH>/piglit/tests/egl/spec/egl_ext_surface_compression/../../egl-util.h:12:10: fatal error: X11/Xlib.h: No such file or directory
++|    12 | #include <X11/Xlib.h>
++|       |          ^~~~~~~~~~~~
++
++Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/977]
++---
++ .../egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt | 4 ++--
++ tests/egl/spec/egl_ext_surface_compression/create_surface.c   | 1 -
++ 2 files changed, 2 insertions(+), 3 deletions(-)
++
++diff --git a/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt b/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
++index d9540bcfde27..2daf8167c81d 100644
++--- a/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
+++++ b/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
++@@ -2,10 +2,10 @@ link_libraries(
++ 	piglitutil_${piglit_target_api}
++ )
++ 
++-piglit_add_executable(egl_ext_surface_compression-create ../../egl-util.c
+++piglit_add_executable(egl_ext_surface_compression-create
++ 	../../egl-wayland.c create_surface.c)
++ 
++-piglit_add_executable(egl_ext_surface_compression-image ../../egl-util.c
+++piglit_add_executable(egl_ext_surface_compression-image
++ 	image_storage.c)
++ 
++ # vim: ft=cmake:
++diff --git a/tests/egl/spec/egl_ext_surface_compression/create_surface.c b/tests/egl/spec/egl_ext_surface_compression/create_surface.c
++index e3d55d4331fb..35f13fd007b4 100644
++--- a/tests/egl/spec/egl_ext_surface_compression/create_surface.c
+++++ b/tests/egl/spec/egl_ext_surface_compression/create_surface.c
++@@ -25,7 +25,6 @@
++ #include "piglit-util.h"
++ #include "piglit-util-egl.h"
++ #include "piglit-util-gl.h"
++-#include "../../egl-util.h"
++ #include "../../egl-wayland.h"
++ 
++ static enum piglit_result
++-- 
++2.39.5
++
+diff --git a/meta/recipes-graphics/piglit/piglit/0002-tests-egl_ext_surface_compression-make-create-test-w.patch b/meta/recipes-graphics/piglit/piglit/0002-tests-egl_ext_surface_compression-make-create-test-w.patch
+new file mode 100644
+index 000000000000..3de983afb73d
+--- /dev/null
++++ b/meta/recipes-graphics/piglit/piglit/0002-tests-egl_ext_surface_compression-make-create-test-w.patch
+@@ -0,0 +1,37 @@
++From 0a985979d68b181b9014e49c0eb1908dd51345e4 Mon Sep 17 00:00:00 2001
++From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++Date: Fri, 6 Dec 2024 01:57:18 +0200
++Subject: [PATCH 2/2] tests/egl_ext_surface_compression: make create test
++ wayland-only
++
++The egl_ext_surface_compression-create uses egl-wayland.c, it should not
++be enabled if Wayland is not available:
++
++<PATH>/tests/egl/egl-wayland.c:29:10: fatal error: wayland-client.h: No such file or directory
++   29 | #include <wayland-client.h>
++      |          ^~~~~~~~~~~~~~~~~~
++
++Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
++Upstream-Status: Submitted [https://gitlab.freedesktop.org/mesa/piglit/-/merge_requests/977]
++---
++ tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt b/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
++index 2daf8167c81d..01a70164f444 100644
++--- a/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
+++++ b/tests/egl/spec/egl_ext_surface_compression/CMakeLists.gles3.txt
++@@ -2,8 +2,10 @@ link_libraries(
++ 	piglitutil_${piglit_target_api}
++ )
++ 
+++if (PIGLIT_HAS_WAYLAND)
++ piglit_add_executable(egl_ext_surface_compression-create
++ 	../../egl-wayland.c create_surface.c)
+++endif (PIGLIT_HAS_WAYLAND)
++ 
++ piglit_add_executable(egl_ext_surface_compression-image
++ 	image_storage.c)
++-- 
++2.39.5
++
+diff --git a/meta/recipes-graphics/piglit/piglit_git.bb b/meta/recipes-graphics/piglit/piglit_git.bb
+index 3e950ff61c55..a5629476860f 100644
+--- a/meta/recipes-graphics/piglit/piglit_git.bb
++++ b/meta/recipes-graphics/piglit/piglit_git.bb
+@@ -11,7 +11,8 @@ SRC_URI = "git://gitlab.freedesktop.org/mesa/piglit.git;protocol=https;branch=ma
+            file://0003-tests-util-piglit-shader.c-do-not-hardcode-build-pat.patch \
+            file://0001-tests-Fix-narrowing-errors-seen-with-clang.patch \
+            file://0001-CMakeLists.txt-do-not-obtain-wayland-scanner-path-fr.patch \
+-           file://0001-tests-egl-spec-make-egl_ext_surface_compression-cond.patch \
++           file://0001-tests-egl_ext_surface_compression-stop-using-egl_uti.patch \
++           file://0002-tests-egl_ext_surface_compression-make-create-test-w.patch \
+            "
+ UPSTREAM_CHECK_COMMITS = "1"
+ 
+-- 
+2.39.5
 
 
