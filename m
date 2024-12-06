@@ -1,95 +1,85 @@
-Return-Path: <reatmon@ti.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5FD8E77173
-	for <webhook@archiver.kernel.org>; Fri,  6 Dec 2024 21:09:23 +0000 (UTC)
-Received: from lelv0142.ext.ti.com (lelv0142.ext.ti.com [198.47.23.249])
- by mx.groups.io with SMTP id smtpd.web10.48323.1733519359131461901
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4412FE77173
+	for <webhook@archiver.kernel.org>; Fri,  6 Dec 2024 23:02:34 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.web10.50602.1733526150405404353
  for <openembedded-core@lists.openembedded.org>;
- Fri, 06 Dec 2024 13:09:19 -0800
+ Fri, 06 Dec 2024 15:02:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ti.com header.s=ti-com-17Q1 header.b=mmBhtMoU;
- spf=pass (domain: ti.com, ip: 198.47.23.249, mailfrom: reatmon@ti.com)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by lelv0142.ext.ti.com (8.15.2/8.15.2) with ESMTP id 4B6L9I4F124867
-	for <openembedded-core@lists.openembedded.org>; Fri, 6 Dec 2024 15:09:18 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1733519358;
-	bh=4HQeCNGVAm8SiOQb4ej+8pd6SNX0+aSAzvr6r488fQM=;
-	h=From:To:Subject:Date;
-	b=mmBhtMoU/Wz1ux01tnC6Hy6CSRMSlef4+xpr1x0y89duhEC1TPBaBb+2X1LyXsqwA
-	 PFY56GjeZ4JB6E3cxdDfCy4Rt1pl+F85W05foO6l9YwOU9a/kDY6lj5l6TK+xrRIn0
-	 S4X0ffJkLqgskvRti0E6QT+stqqBRHm7Ww9QyxQg=
-Received: from DLEE107.ent.ti.com (dlee107.ent.ti.com [157.170.170.37])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 4B6L9IHY026164
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL)
-	for <openembedded-core@lists.openembedded.org>; Fri, 6 Dec 2024 15:09:18 -0600
-Received: from lewvowa02.ent.ti.com (10.180.75.80) by DLEE107.ent.ti.com
- (157.170.170.37) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 6
- Dec 2024 15:09:18 -0600
-Received: from DLEE111.ent.ti.com (157.170.170.22) by lewvowa02.ent.ti.com
- (10.180.75.80) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256) id 15.1.2507.34; Fri, 6 Dec
- 2024 15:09:18 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 6 Dec 2024 15:09:18 -0600
-Received: from uda0214219 (uda0214219.dhcp.ti.com [128.247.81.222])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 4B6L9IRr101161
-	for <openembedded-core@lists.openembedded.org>; Fri, 6 Dec 2024 15:09:18 -0600
-Received: from reatmon by uda0214219 with local (Exim 4.90_1)
-	(envelope-from <reatmon@ti.com>)
-	id 1tJfZd-00086g-TL
-	for openembedded-core@lists.openembedded.org; Fri, 06 Dec 2024 15:09:17 -0600
-From: Ryan Eatmon <reatmon@ti.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [OE-core][PATCH] Revert "uboot-sign: fix U-Boot binary with public key"
-Date: Fri, 6 Dec 2024 15:09:17 -0600
-Message-ID: <20241206210917.31123-1-reatmon@ti.com>
-X-Mailer: git-send-email 2.17.1
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=OOe8hPmQ;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202412062302278606636dd68ecb00cb-7rkojl@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202412062302278606636dd68ecb00cb
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 07 Dec 2024 00:02:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=zSLP0ly8K3IzBjkUrglOOaMn8P3VSdpBoNX2H4us4q4=;
+ b=OOe8hPmQZNS0yzOCiepBm7gCqUHeP0DZsldjHwzjURbreWeubtxarmocVXcrnTqe+YKGEh
+ BUCvVC8IQG+dOHOHcANJfuqFHg/sE4rDT3FfGEfX+BHZ8EAu48WjUE09lK1gA+RS6UaiaEYL
+ SYmdFjmLDo5SY82XfUy1iHDL4vfwUKZK3CASdr3B0g/TOQrJBDVQMoRKl5tJcbpFHqZVELta
+ nUhW8joDaORu7jDxtrPovBPGoLBiZzh1pMeuIhGLfvgiZtK0qjcApPU4GYuZhAJrmrsTrJpP
+ /Paa65BY56JRz89MK9QgHKudhw8Rhb1oPf6INWHS6DE8PT0dw73rJxbA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [OE-core][kirkstone][PATCH] libsdl2: ignore CVE-2020-14409 and CVE-2020-14410
+Date: Sat,  7 Dec 2024 00:01:40 +0100
+Message-Id: <20241206230140.302542-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 06 Dec 2024 21:09:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208441
+ <openembedded-core@lists.openembedded.org>; Fri, 06 Dec 2024 23:02:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208442
 
-This reverts commit 0d14e99aa18ee38293df63d585fafc270a4538be.
+From: Peter Marko <peter.marko@siemens.com>
 
-The patch removed logic required for correct handling of
-UBOOT_SUFFIX=img or UBOOT_SUFFIX=rom.  We need to find a better way to
-handle the fix for [YOCTO #15649].
+This was fixed in 2.0.14, but NVD DB lists > 2.0.20 causing
+false positives in CVE metrics.
 
-Signed-off-by:  Ryan Eatmon <reatmon@ti.com>
+NVD entries [1] and [2] list commit [3] which redirects to commit [4].
+Also Debian 10 uses this commit, while Debian 11 with 2.0.14 does not
+patch it and claims it's fixed.
+
+Trying to apply the patch shows it's already applied.
+
+Following shows git history of this commit wrt tags.
+SDL$ git describe a7ff6e96155f550a5597621ebeddd03c98aa9294 --tags
+release-2.0.12-305-ga7ff6e961
+SDL$ git describe release-2.0.14 --tags --match=release-2.0.12
+release-2.0.12-873-g4cd981609
+SDL$ git describe release-2.0.20 --tags --match=release-2.0.12
+release-2.0.12-3126-gb424665e0
+
+[1] https://nvd.nist.gov/vuln/detail/CVE-2020-14409
+[2] https://nvd.nist.gov/vuln/detail/CVE-2020-14410
+[3] https://hg.libsdl.org/SDL/rev/3f9b4e92c1d9
+[4] https://github.com/libsdl-org/SDL/commit/a7ff6e96155f550a5597621ebeddd03c98aa9294
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/classes-recipe/uboot-sign.bbclass | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe/uboot-sign.bbclass
-index 7ee73b872a..a17be745ce 100644
---- a/meta/classes-recipe/uboot-sign.bbclass
-+++ b/meta/classes-recipe/uboot-sign.bbclass
-@@ -122,7 +122,13 @@ concat_dtb() {
- 	# If we're not using a signed u-boot fit, concatenate SPL w/o DTB & U-Boot DTB
- 	# with public key (otherwise U-Boot will be packaged by uboot_fitimage_assemble)
- 	if [ "${SPL_SIGN_ENABLE}" != "1" ] ; then
--		if [ -e "${UBOOT_NODTB_BINARY}" -a -e "${UBOOT_DTB_BINARY}" ]; then
-+		if [ "x${UBOOT_SUFFIX}" = "ximg" -o "x${UBOOT_SUFFIX}" = "xrom" ] && \
-+			[ -e "${UBOOT_DTB_BINARY}" ]; then
-+			oe_runmake EXT_DTB="${UBOOT_DTB_SIGNED}" ${UBOOT_MAKE_TARGET}
-+			if [ -n "${binary}" ]; then
-+				cp ${binary} ${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
-+			fi
-+		elif [ -e "${UBOOT_NODTB_BINARY}" -a -e "${UBOOT_DTB_BINARY}" ]; then
- 			if [ -n "${binary}" ]; then
- 				cat ${UBOOT_NODTB_BINARY} ${UBOOT_DTB_SIGNED} | tee ${binary} > \
- 					${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
+diff --git a/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb b/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
+index abcf232e25..6d30d0baa8 100644
+--- a/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
++++ b/meta/recipes-graphics/libsdl2/libsdl2_2.0.20.bb
+@@ -82,3 +82,6 @@ PACKAGECONFIG[x11]        = "-DSDL_X11=ON,-DSDL_X11=OFF,virtual/libx11 libxext l
+ CFLAGS:append:class-native = " -DNO_SHARED_MEMORY"
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++# These are fixed since 2.0.14, NVD DB incorrectly lists > 20.0.20
++CVE_CHECK_IGNORE += "CVE-2020-14409 CVE-2020-14410"
 -- 
-2.17.1
+2.30.2
 
 
