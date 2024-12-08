@@ -2,64 +2,60 @@ Return-Path: <gudni.m.g@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2663BE7717F
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24000E77173
 	for <webhook@archiver.kernel.org>; Sun,  8 Dec 2024 13:15:55 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.web10.78560.1733663749155972890
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.web11.78237.1733663747323958043
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Dec 2024 05:15:49 -0800
+ Sun, 08 Dec 2024 05:15:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20230601 header.b=f9fH/Lqy;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: gudni.m.g@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-434f7f6179aso774145e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 08 Dec 2024 05:15:48 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20230601 header.b=FYaCOLID;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: gudni.m.g@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-385f06d0c8eso1606757f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Dec 2024 05:15:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1733663747; x=1734268547; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p0Hf3rJ1P06Vm5kqG6mv/vxe09fWWobHP8ZcOju95wk=;
-        b=f9fH/Lqy+nvg9U06NiWWfBZyH1aJZjeBMo1EqJr8pba5O/YdesmYVeMVxAo9UDV0YD
-         1v48f9uxuObMZKFLmIeAx2jRn/cMtIK5hMK4ZBM+Dj1XJImYK5cwS+iiVf+s6JdX1Y9s
-         kdzFrBuvWy5JuuAtc/Nt/Fb9IU+i/VGJJkEitZb5H0s2s4Co798F7TsGOWmfpYI0ddQ5
-         bDufUFpSctQkOt4eVEgXS7oC8+1bo532ZL7Wb1CoTZpSMdzXz8oqReDj8b4NSMhSZQLP
-         R/6pUCR2wHKusLcWPV+IvKEv7HQ3yp5zvTv2J5co2VS8h7lu9R2j1EoZ3bygByFVEHNf
-         2ubw==
+        d=gmail.com; s=20230601; t=1733663745; x=1734268545; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=IbqJvVC2xsgGFAM254LVb+YKPfeyHE+wt8l7kHqr06w=;
+        b=FYaCOLIDPP7Ngh2lCT/j0uI3PZJMbdeZvF80cInDp3c7iAyQ5N9EVH3RDWKCc2Rpda
+         2+X/Kv4we0UZPWrDUFuNOdgGkqVOC7AnK1knbyDR99ZWoHYZ3as1YTadl78n9bzUHLQ7
+         vMUkrOtH3vTUNq46wJexRFVNCBqZUzvujH16KLnvw4CgRduPTE02wqfrzR78v3Qqr9sH
+         EjBYPUoNwoW9eZ95nGQENSuHy2B4aBnN7KpIQzIGOl4LRmaOWvPH27kpqENpAGaM+gCD
+         mDzAO2WkRY2akftMpDbN33Cy6li4dgs8QEMEbuIRh3N9020fYu7r6PtKPyRDCqce5Jdz
+         RMQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1733663747; x=1734268547;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p0Hf3rJ1P06Vm5kqG6mv/vxe09fWWobHP8ZcOju95wk=;
-        b=tjxn+phrI8d6DczmZxcWMaWDv3Cb0YLdERSZZYH4GH6Fe582vNc6qui2LmyD2JMJBX
-         NZAJg+TPJi6vWuFi5QtChSJDkK4iol1YIKbDaLzLaVXEtn+QN4ECcyS/JqlSnSWqFyjM
-         XFDtuLVB1ENRueWUKYERzum/DkI9GSzWmpvs7EhApv27FGl9nHQOg/eGRHqkr3opp0Xc
-         HjIgjOMOqEaobZdv0GwtU5eBwNwL6kkm6/1Qy9NOyat/M0fwS1IHSS8wsKoiB/SP3Ghy
-         q2+61Xf1IWIzTZk9UrYKahVZOqr0eG+jYFyKFYP820zKvlqo0kvOeXNpKeYAgJlkkWFO
-         XOdg==
-X-Gm-Message-State: AOJu0Ywlpoqakx1aXM2GncnPcVXB7tloH1QB1+kRGfk/1Qe6QSD7CBDw
-	OnOJaSKU0dIZh+KPMfUp4xw/ufTRbsFLZ2DdQkU68yExli3QaNw6V+i2q2Az
-X-Gm-Gg: ASbGncvkKPNodkjQPwrrwLPqVx4MrSL4IfmyI2lwkd2aDXDSmgVrY5WRVKJcM14TZp6
-	n7AELOJ2KSOl/zOP+4Xpzh55VP389Kh7k7YXU/qBz0tlYpfoYW0dKskqgSA+4jkepr5jOSokiC8
-	xmzg6xGjBetBXmSposT548+PH2C34Z6aCOfbLAwuSMHrewGmn6Pg7pJUkNbnzMKKKcZZNh8PqA1
-	Dig0UqESZL6e8b2g1G1z8KwK+7LP0IZWMkiVDILaPhXC28y9vzahabVuAQDRd927pOawYNxA+w=
-X-Google-Smtp-Source: AGHT+IGncwUYa4+5cVLQAF/ZOt46ZyfXfdO2f10ep03Isuz2FY4128lY6hxQU2Q/BTzDbYJdDff1wA==
-X-Received: by 2002:a05:600c:c8a:b0:434:9c44:678b with SMTP id 5b1f17b1804b1-434ddebaabfmr72665895e9.19.1733663746908;
-        Sun, 08 Dec 2024 05:15:46 -0800 (PST)
+        d=1e100.net; s=20230601; t=1733663745; x=1734268545;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=IbqJvVC2xsgGFAM254LVb+YKPfeyHE+wt8l7kHqr06w=;
+        b=Jm6tARyFpTqF1k05au/XFiKKVzq5WSxgI2qnG6hxsI9uNhKNeToPcL0UVmywvh9Da7
+         +TcJTSovjuUPrX7JMcvYn8dvWt66yoimnxNiOGmTQyJb/Hi3Lhw08MK17cEKvMPYnC92
+         iiZdwmDC/OZXBY072V/oFhcJ/kkku2CjE5NknDJzRxnlhLHUJ5kMBqwbyajpGa8Uw6PN
+         5WsJ67B69tq+jODGAU29Do8y6js+i/lSl4kv34fHXPcWUw8WRgGklblSgbOS8yecccgJ
+         sqyW8wSokN92nWBcbBm2gnm7Ll31T6RjQjGOmP7rwDZnJriAEYDCKrdTKTtY0m6uRk0M
+         xdNA==
+X-Gm-Message-State: AOJu0YwhmjsMDYfzdpAfWE/zQcggd9RURJNeag3fT6NZjUaEiS9Vi9di
+	hw7VXSsnw4YJOKa6WLuyAdc8dXmTvB1cPyncR8DZVKVCZCho9Ghw+gSbjg==
+X-Gm-Gg: ASbGnct6iAPLu0LJwxCZapchz/4PrVwqiH7y/144pO16OPCCUP+/vihV8AuY76s3Vb8
+	n5dFldnuTIbHwh7pBmSkiC/LrXXk1F96Yh3o1UzdA81BL+IQwPtfG+Qe12ZcKVaPgP4I48scPso
+	Mi3Y4x997Ty+fdFo6TadYdmj9sQXKSN14zkw8rVc3PgATwOqFN4IgBe5F0jKRxTeq2II5QksErk
+	fHIbQ0iwDQ1hv9q7i9/h4dtBWgWW1uJQwmoU77I50wpdt7BeBIX8l/JcN4PDix0Uw0FPedPH9k=
+X-Google-Smtp-Source: AGHT+IFgOTLQ+3RlzLGz2bG8ZVCEovql4oydeuy20zguaDTXdexAYRTteXXifUUR6sxfQhstRBMFUA==
+X-Received: by 2002:a5d:5f8c:0:b0:386:1cd3:8a03 with SMTP id ffacd0b85a97d-3862b379d16mr7476420f8f.32.1733663744922;
+        Sun, 08 Dec 2024 05:15:44 -0800 (PST)
 Received: from localhost.localdomain ([81.15.100.92])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861f59cc26sm9807830f8f.38.2024.12.08.05.15.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3861f59cc26sm9807830f8f.38.2024.12.08.05.15.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 08 Dec 2024 05:15:46 -0800 (PST)
+        Sun, 08 Dec 2024 05:15:43 -0800 (PST)
 From: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [styhead][PATCH 1/4] systemd: drop intltool-native from DEPENDS
-Date: Sun,  8 Dec 2024 13:15:32 +0000
-Message-ID: <20241208131535.5397-2-gudni.m.g@gmail.com>
+Cc: =?UTF-8?q?Gu=C3=B0ni=20M=C3=A1r=20Gilbert?= <gudni.m.g@gmail.com>
+Subject: [styhead][PATCH 0/4] Backport a few dependency clean ups from master
+Date: Sun,  8 Dec 2024 13:15:31 +0000
+Message-ID: <20241208131535.5397-1-gudni.m.g@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20241208131535.5397-1-gudni.m.g@gmail.com>
-References: <20241208131535.5397-1-gudni.m.g@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -67,31 +63,21 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 08 Dec 2024 13:15:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208461
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208460
 
-intltool was dropped as a dependency in v236
-See commit for reference:
-https://github.com/systemd/systemd/pull/7313/commits/c81217920effddc93fb780cf8f9eb699d6fe1319
 
-Signed-off-by: Guðni Már Gilbert <gudni.m.g@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-core/systemd/systemd_256.5.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Guðni Már Gilbert (4):
+  systemd: drop intltool-native from DEPENDS
+  systemd-boot: drop intltool-native from DEPENDS
+  python3-poetry-core: drop python3-six from RDEPENDS
+  dnf: drop python3-iniparse from DEPENDS and RDEPENDS
 
-diff --git a/meta/recipes-core/systemd/systemd_256.5.bb b/meta/recipes-core/systemd/systemd_256.5.bb
-index af810c0fcd..ca164657bc 100644
---- a/meta/recipes-core/systemd/systemd_256.5.bb
-+++ b/meta/recipes-core/systemd/systemd_256.5.bb
-@@ -4,7 +4,7 @@ PROVIDES = "udev"
- 
- PE = "1"
- 
--DEPENDS = "intltool-native gperf-native libcap util-linux python3-jinja2-native"
-+DEPENDS = "gperf-native libcap util-linux python3-jinja2-native"
- 
- SECTION = "base/shell"
- 
+ meta/recipes-core/systemd/systemd-boot_256.5.bb           | 2 +-
+ meta/recipes-core/systemd/systemd_256.5.bb                | 2 +-
+ meta/recipes-devtools/dnf/dnf_4.21.1.bb                   | 3 +--
+ meta/recipes-devtools/python/python3-poetry-core_1.9.0.bb | 1 -
+ 4 files changed, 3 insertions(+), 5 deletions(-)
+
 -- 
 2.43.0
 
