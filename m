@@ -1,80 +1,120 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA07EE77173
-	for <webhook@archiver.kernel.org>; Sun,  8 Dec 2024 17:35:46 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.web11.82559.1733679339401381908
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 12C43E77173
+	for <webhook@archiver.kernel.org>; Sun,  8 Dec 2024 22:22:28 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.web10.87992.1733696547149692218
  for <openembedded-core@lists.openembedded.org>;
- Sun, 08 Dec 2024 09:35:40 -0800
+ Sun, 08 Dec 2024 14:22:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=kNH5yy5f;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20241208173535eab07640d0e802fe5c-9t0h3h@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20241208173535eab07640d0e802fe5c
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 08 Dec 2024 18:35:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=TqCXgbG0nq8qPst198orUkWj19MMAmQY6YEq9uCCtx0=;
- b=kNH5yy5fHXxspJHJlXz9moHhZDGGuSAY+x3OeoIHxBlFnWtpWepYDe1dzqbIGsybhJvpIg
- YjPcT9WUVCaoTsiTsVgRJJ6ro1QUjqRri+oy6Fsy1d6e6IecZwwlbqspN1re8HQ3RP2yRyhy
- 9WhouaSC8k3PT3XCUltxjD+nw5urAaREWxzXsb6Q0GkL6mhna6qZaKjl3Cie8I0oncZ9dZcY
- JwoGOet6KFFW8tel2oXu091tTZ/bksZEpQdXhbwPYjCtrge7wxFkaAa1houu+Gc1KpxFPIZ5
- Sww+gQjPZPXl5ag3hDED0nRB1rRTutyTxrjsnKd7u0DdQ9C3X9w3s80g==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][scarthgap][PATCH v2] qemu: set CVE-2024-6505 to fixed
-Date: Sun,  8 Dec 2024 18:34:47 +0100
-Message-Id: <20241208173447.9759-1-peter.marko@siemens.com>
-In-Reply-To: <20241208171504.9330-1-peter.marko@siemens.com>
-References: <20241208171504.9330-1-peter.marko@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K/gPIkug;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-385e06af753so1642264f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 08 Dec 2024 14:22:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1733696545; x=1734301345; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iAJa9uS1W/Ely1294QEQWtF5DYboZVmmCW9rki4GE3o=;
+        b=K/gPIkugWjZoGmSRruQOHjmjYAc9fQHXNUtE6n1X8Yf9Lt8lgx4aY1XeSwpPI3BqLB
+         xcOJzUB618yQPZ2sbelOaWKIBOdZ9HAxLLeoAB1xD9u79XYKgbQ89/8Kkn8tdujevYyL
+         wG3uxymzcgfmpWcrsTS926Ye3jjpiFIw/WF1Y=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1733696545; x=1734301345;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:to:from:subject:message-id:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=iAJa9uS1W/Ely1294QEQWtF5DYboZVmmCW9rki4GE3o=;
+        b=DallMhTz43DMKwtKf5de53rBodi1slGvYXt2dyz0hYMy4UJVYtdFeBiApvs7WTk4UI
+         JqiVuW7HfohR0kK7+XJwxgNqwreYfkJYNseDi8j6GpPpRTIJIADH3rSrakHGSjXq9oF+
+         SGR3ia3IhRBuFwovqNwboREwxobmcmexPbpIMj/4ifOfyDJb9y+NyV8c6/nn178eHo0w
+         WgT8N0/VD315oHLdCj6Hhrfmp954iWSA0larxUq0nNoj0t3SMjvfmLFLwvglbZlAzS0r
+         VBTmJqZowXp6FFN/y34PLUehbtifaEntSDhCULd/2ECs4aehUCOfVSOCiSre9cnqSy0g
+         dQJg==
+X-Forwarded-Encrypted: i=1; AJvYcCUeZ964JkX6IH6SeWtm5bDsEh1V6heVNGTcjt7hBhJUwXO+Fl7kjq/GYukaPAQcrsVT/OtqY1LHYgj1pOxHmAEX0g==@lists.openembedded.org
+X-Gm-Message-State: AOJu0YzutAJOX9hO+VR0KeEIQqwTQJPlXiPWWZWea3T1JIUB0oYmEj7d
+	BRbEChRElyzSM6NeuTIbXrzEMKKhd8MpLu7xASMZ5oW2CdYWwIyLCXPqOIXsa3c=
+X-Gm-Gg: ASbGncv5z5mf1HnQXUIICKqxnVP3CRBEz1P5Vb9r3Qhkc/JNmQXuoKB92ksGU6v6y5Y
+	b4nr0usMEzV6xlg7CGZ9O3yYXSvujDKEUQ7xkI4b5jB3NYUm8hRVjN/iSI6PdF4Zw7Ba5NPZYiu
+	NCfOB4rha9UBiZP/zDTyPO3d3Dl4PsLd8SCl3sODQJ4WAb4ee0q0ZQskGVcqZm/6ZyWU1C/qNl1
+	k4/PQRPjU0GwkRQoProCvV7/fioU1ZwYpRh/gQKlR94Iii+285i6qtwUxqQw7NEjTyo5G4cDlnI
+	0hqpfcb3qdozsCbx/7yz5Q2Io6B/PqK6LeVyQoA=
+X-Google-Smtp-Source: AGHT+IFmPmetw8NHp4QXhy/YYv6uEM3ZEnJhdPQSLVskBnC1lyK8IOER3g2E71dq6Lu2H+qLGdOnIQ==
+X-Received: by 2002:a5d:64a3:0:b0:385:f249:c336 with SMTP id ffacd0b85a97d-3862b3e60e9mr8251372f8f.45.1733696545543;
+        Sun, 08 Dec 2024 14:22:25 -0800 (PST)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c1d1:82c8:bc8d:a69c? ([2001:8b0:aba:5f3c:c1d1:82c8:bc8d:a69c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-386408549b9sm538012f8f.89.2024.12.08.14.22.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 08 Dec 2024 14:22:24 -0800 (PST)
+Message-ID: <f33814f998b09438feadedbab1ab04c536600496.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH] Revert "uboot-sign: fix U-Boot binary with
+ public key"
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: reatmon@ti.com, openembedded-core@lists.openembedded.org
+Date: Sun, 08 Dec 2024 22:22:22 +0000
+In-Reply-To: <20241206210917.31123-1-reatmon@ti.com>
+References: <20241206210917.31123-1-reatmon@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.0-1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from li982-79.members.linode.com [45.33.32.79] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 08 Dec 2024 17:35:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208468
+ <openembedded-core@lists.openembedded.org>; Sun, 08 Dec 2024 22:22:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/208469
 
-From: Peter Marko <peter.marko@siemens.com>
+On Fri, 2024-12-06 at 15:09 -0600, Ryan Eatmon via lists.openembedded.org w=
+rote:
+> This reverts commit 0d14e99aa18ee38293df63d585fafc270a4538be.
+>=20
+> The patch removed logic required for correct handling of
+> UBOOT_SUFFIX=3Dimg or UBOOT_SUFFIX=3Drom.=C2=A0 We need to find a better =
+way to
+> handle the fix for [YOCTO #15649].
+>=20
+> Signed-off-by:=C2=A0 Ryan Eatmon <reatmon@ti.com>
+> ---
+> =C2=A0meta/classes-recipe/uboot-sign.bbclass | 8 +++++++-
+> =C2=A01 file changed, 7 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/meta/classes-recipe/uboot-sign.bbclass b/meta/classes-recipe=
+/uboot-sign.bbclass
+> index 7ee73b872a..a17be745ce 100644
+> --- a/meta/classes-recipe/uboot-sign.bbclass
+> +++ b/meta/classes-recipe/uboot-sign.bbclass
+> @@ -122,7 +122,13 @@ concat_dtb() {
+> =C2=A0	# If we're not using a signed u-boot fit, concatenate SPL w/o DTB =
+& U-Boot DTB
+> =C2=A0	# with public key (otherwise U-Boot will be packaged by uboot_fiti=
+mage_assemble)
+> =C2=A0	if [ "${SPL_SIGN_ENABLE}" !=3D "1" ] ; then
+> -		if [ -e "${UBOOT_NODTB_BINARY}" -a -e "${UBOOT_DTB_BINARY}" ]; then
+> +		if [ "x${UBOOT_SUFFIX}" =3D "ximg" -o "x${UBOOT_SUFFIX}" =3D "xrom" ] =
+&& \
+> +			[ -e "${UBOOT_DTB_BINARY}" ]; then
+> +			oe_runmake EXT_DTB=3D"${UBOOT_DTB_SIGNED}" ${UBOOT_MAKE_TARGET}
+> +			if [ -n "${binary}" ]; then
+> +				cp ${binary} ${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
+> +			fi
+> +		elif [ -e "${UBOOT_NODTB_BINARY}" -a -e "${UBOOT_DTB_BINARY}" ]; then
+> =C2=A0			if [ -n "${binary}" ]; then
+> =C2=A0				cat ${UBOOT_NODTB_BINARY} ${UBOOT_DTB_SIGNED} | tee ${binary} >=
+ \
+> =C2=A0					${UBOOT_BINARYNAME}-${type}.${UBOOT_SUFFIX}
+>=20
 
-CVE patch was removed on last upgrade as fixing commit was backported to
-stable 8.2.x branch.
+I'm in two minds about whether to take this or not. The code is clearly
+needed for some platforms however the selftests don't cover it and I
+doubt it is documented either :/
 
-NVD DB has this CVE as version-less (with "-").
-So explicit status set is needed to mark it as fixed.
+If I take this, can we add in some better testing please?
 
-(From OE-Core rev: 64359ec3b60ae68d39c2e6444f903fd20e397cff)
+Cheers,
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/qemu/qemu.inc | 3 +++
- 1 file changed, 3 insertions(+)
-
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 40ee267a42..4dc6c104c7 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -78,6 +78,9 @@ CVE_STATUS[CVE-2023-6683] = "cpe-incorrect: Applies only against version 8.2.1 a
- 
- CVE_STATUS[CVE-2023-6693] = "cpe-incorrect: Applies only against version 8.2.0 and earlier"
- 
-+# NVD DB has this CVE as version-less (with "-")
-+CVE_STATUS[CVE-2024-6505] = "fixed-version: this CVE is fixed since 9.1.0"
-+
- COMPATIBLE_HOST:mipsarchn32 = "null"
- COMPATIBLE_HOST:mipsarchn64 = "null"
- COMPATIBLE_HOST:riscv32 = "null"
--- 
-2.30.2
+Richard
 
 
